@@ -125,7 +125,7 @@ class GreaterMediaTimedContent {
 			$exp_mn = isset( $_POST['hidden_exp_mn'] ) ? str_pad( intval( $_POST['hidden_exp_mn'] ), 2, '0', STR_PAD_LEFT ) : '';
 
 			$exp_str = "{$exp_mm} {$exp_jj} {$exp_aa} {$exp_hh} {$exp_mn}";
-			if ( '0 0 0 0 0' !== trim( $exp_str ) ) {
+			if ( '0 0 0 0 00' !== trim( $exp_str ) ) {
 				$exp_date      = DateTime::createFromFormat( 'n j Y G i', $exp_str );
 				$exp_timestamp = $exp_date->getTimestamp();
 			} else {
