@@ -23,13 +23,7 @@ get_header(); ?>
 
 							</header>
 
-							<div id="dialog-form">
-								<label for="age">Please enter your age:</label>
-								<br />
-								<input type="text" id="age" name="age"/>
-							</div>
-
-							<p>Please enter your age</p>
+							<p>Maximum number of entries for this contest is exceeded</p>
 
 						</article>
 

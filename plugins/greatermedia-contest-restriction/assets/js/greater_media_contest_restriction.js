@@ -15,23 +15,6 @@
 			$('.min_age').slideToggle();
 		});
 
-		$('#start_date').datepicker({
-			defaultDate: "+1w",
-			changeMonth: true,
-			numberOfMonths: 1,
-			onClose: function( selectedDate ) {
-				$( "#end_date" ).datepicker( "option", "minDate", selectedDate );
-			}
-		});
-
-		$('#end_date').datepicker({
-			defaultDate: "+1w",
-			changeMonth: true,
-			numberOfMonths: 1,
-			onClose: function( selectedDate ) {
-				$( "#start_date" ).datepicker( "option", "maxDate", selectedDate );
-			}
-		});
 	});
 
 })(jQuery);
