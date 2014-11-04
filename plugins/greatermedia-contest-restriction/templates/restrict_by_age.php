@@ -22,7 +22,9 @@ get_header(); ?>
 								<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
 							</header>
-
+							<?php
+							if( !isset( $_COOKIE["contest_res"]) ):
+							?>
 							<div id="dialog-form">
 								<label for="age">Please enter your age:</label>
 								<br />
@@ -30,7 +32,18 @@ get_header(); ?>
 							</div>
 
 							<p>Please enter your age</p>
-
+							<?php
+							endif;
+							global $post;
+							$min_age = get_post_meta( $post->ID, '_min_age', true );
+							if( isset( $_COOKIE["contest_res"]) && $_COOKIE["contest_res"]['age'] <  $min_age ):
+							?>
+								<p>
+									Your are not eligible for this contest.
+								</p>
+							<?php
+							endif;
+							?>
 						</article>
 
 					<?php endwhile;

@@ -22,6 +22,9 @@ class ContestRestriction {
 		$path = parse_url( $url );
 		if( isset($_POST['user_age']) ) {
 			$user_age = intval( $_POST['user_age'] );
+			if( isset( $_COOKIE["contest_res"]['age'] ) ) {
+				unset($_COOKIE["contest_res"]['age']);
+			}
 			setcookie( "contest_res[age]", intval($_POST['user_age']), strtotime( '+30 days' ), "/", "." .$path['host'] );
 		}
 	}
@@ -65,7 +68,6 @@ class ContestRestriction {
 			if( function_exists('is_gigya_user_logged_in') ) {
 				if ( $member_only == 'on' && ! is_gigya_user_logged_in() ) {
 					add_filter( "single_template", array( $this, 'member_only' ) );
-
 					return false;
 				}
 			}
@@ -75,9 +77,12 @@ class ContestRestriction {
 				}
 
 				if( $restrict_age == 'on' && !is_gigya_user_logged_in() ) {
-					if( isset($_COOKIE["contest_res"]) && $_COOKIE["contest_res"]['age'] < $min_age ) {
+					if( !isset( $_COOKIE["contest_res"]) ) {
 						add_filter( "single_template", array( $this, 'restrict_by_age' ) );
 						add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dialog_scripts' ) );
+						return false;
+					} elseif( $_COOKIE["contest_res"]['age'] < $min_age ) {
+						add_filter( "single_template", array( $this, 'restrict_by_age' ) );
 						return false;
 					}
 				} else {
@@ -98,7 +103,7 @@ class ContestRestriction {
 
 			if ( isset($_COOKIE["contest_res"]) )
 			{
-				if( $_COOKIE["contest_res"]['ip'] == $this->user_ip) {
+				if( isset($_COOKIE["contest_res"]['ip']) && $_COOKIE["contest_res"]['ip'] == $this->user_ip) {
 					add_filter( "single_template", array( $this, 'already_entered' ) );
 					return false;
 				}

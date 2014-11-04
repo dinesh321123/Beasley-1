@@ -7,6 +7,7 @@
 	'use strict';
 	var $ =jQuery;
 	$(function () {
+
 		$('#restrict_number').on('click', function() {
 			$('.max_entries').slideToggle();
 		});
