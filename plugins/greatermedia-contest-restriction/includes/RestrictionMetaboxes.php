@@ -24,7 +24,7 @@ class RestrictionMetaboxes {
 
 		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) && get_post_type() == $this->post_type ) {
 			wp_enqueue_script( 'restrict_meta_js', GMEDIA_CONTEST_RESTRICTION_URL . "assets/js/greater_media_contest_restriction{$postfix}.js", array( 'jquery' ), GMEDIA_CONTEST_RESTRICTION_VERSION, true );
-			wp_enqueue_script( 'jquery-ui-datepicker' );
+			//wp_enqueue_script( 'jquery-ui-datepicker' );
 
 			wp_enqueue_style( 'restrict_meta_css', GMEDIA_CONTEST_RESTRICTION_URL . "assets/css/greater_media_contest_restriction{$postfix}.css", array(), GMEDIA_CONTEST_RESTRICTION_VERSION );
 			wp_enqueue_style( 'restrict_meta_jquery_ui', GMEDIA_CONTEST_RESTRICTION_URL . "assets/css/jquery-ui.min.css", array(), '1.11.2' );
@@ -177,7 +177,7 @@ class RestrictionMetaboxes {
 
 
 		// Restrict duration
-		echo '<div class="meta_group">';
+/*		echo '<div class="meta_group">';
 			echo '<label for="restrict_age">';
 			_e( 'Duration:', 'greatermedia' );
 			echo '</label> ';
@@ -195,7 +195,7 @@ class RestrictionMetaboxes {
 				echo '</label> ';
 				echo '<input type="text" id="end_date" name="end_date" value="' . $end_date . '" size="25" />';
 			echo '</div>';
-		echo '</div>';
+		echo '</div>';*/
 
 	}
 }
