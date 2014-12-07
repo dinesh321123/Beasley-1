@@ -281,6 +281,52 @@ class MigrationPostTypes {
 			register_post_type( 'survey', $args );
 		}
 
+
+		if( !post_type_exists( 'question' )) {
+			$labels = array(
+				'name'                => __( 'Questions', 'gmiproto' ),
+				'singular_name'       => __( 'Question', 'gmiproto' ),
+				'add_new'             => _x( 'Add New Question', 'gmiproto', 'gmiproto' ),
+				'add_new_item'        => __( 'Add New Question', 'gmiproto' ),
+				'edit_item'           => __( 'Edit Question', 'gmiproto' ),
+				'new_item'            => __( 'New Question', 'gmiproto' ),
+				'view_item'           => __( 'View Question', 'gmiproto' ),
+				'search_items'        => __( 'Search Questions', 'gmiproto' ),
+				'not_found'           => __( 'No Contests found', 'gmiproto' ),
+				'not_found_in_trash'  => __( 'No Contests found in Trash', 'gmiproto' ),
+				'parent_item_colon'   => __( 'Parent Survey:', 'gmiproto' ),
+				'menu_name'           => __( 'Questions', 'gmiproto' ),
+			);
+
+			$args = array(
+				'labels'                   => $labels,
+				'hierarchical'        => true,
+				'description'         => 'description',
+				'taxonomies'          => array(),
+				'public'              => true,
+				'show_ui'             => true,
+				'show_in_menu'        => 'edit.php?post_type=survey',
+				'show_in_admin_bar'   => true,
+				'menu_position'       => null,
+				'menu_icon'           => null,
+				'show_in_nav_menus'   => true,
+				'publicly_queryable'  => true,
+				'exclude_from_search' => false,
+				'has_archive'         => true,
+				'query_var'           => true,
+				'can_export'          => true,
+				'rewrite'             => true,
+				'capability_type'     => 'post',
+				'supports'            => array(
+					'title', 'editor', 'author', 'thumbnail',
+					'excerpt','custom-fields', 'comments',
+					'revisions', 'page-attributes', 'post-formats'
+				)
+			);
+
+			register_post_type( 'question', $args );
+		}
+
 		if( !post_type_exists( 'response' )) {
 			$labels = array(
 				'name'                => __( 'Responses', 'gmiproto' ),
