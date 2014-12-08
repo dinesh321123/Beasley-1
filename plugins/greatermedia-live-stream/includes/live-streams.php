@@ -68,28 +68,36 @@ function gmr_streams_unpack_vars( $query_vars ) {
 		return $query_vars;
 	}
 
-	// get stream object
+	// fetch stream
+	$stream_id = false;
+	$stream_sign = $query_vars[GMR_LIVE_STREAM_CPT];
 	$query = new WP_Query( array(
 		'post_type'           => GMR_LIVE_STREAM_CPT,
 		'meta_key'            => 'call_sign',
-		'meta_value'          => $query_vars[GMR_LIVE_STREAM_CPT],
+		'meta_value'          => $stream_sign,
 		'posts_per_page'      => 1,
 		'ignore_sticky_posts' => 1,
 		'no_found_rows'       => true,
 		'fields'              => 'ids',
 	) );
 
-	// do nothing if a stream has not been found
-	if ( ! $query->have_posts() ) {
-		return $query_vars;
+	if ( ! $query->have_posts() && is_numeric( $stream_sign ) ) {
+		$stream = get_post( $stream_sign );
+		if ( $stream && GMR_LIVE_STREAM_CPT == $stream->post_type ) {
+			$stream_id = $stream->ID;
+		}
+	} else {
+		$stream_id = $query->next_post();
 	}
 
-	// unpack query vars
-	$query_vars['post_type'] = GMR_SONG_CPT;
-	$query_vars['post_parent'] = $query->next_post();
-	$query_vars['order'] = 'DESC';
-	$query_vars['orderby'] = 'date';
-	$query_vars['posts_per_page'] = 50;
+	// unpack query vars if stream has been found
+	if ( ! empty( $stream_id ) ) {
+		$query_vars['post_type'] = GMR_SONG_CPT;
+		$query_vars['post_parent'] = $stream_id;
+		$query_vars['order'] = 'DESC';
+		$query_vars['orderby'] = 'date';
+		$query_vars['posts_per_page'] = 50;
+	}
 
 	return $query_vars;
 }
