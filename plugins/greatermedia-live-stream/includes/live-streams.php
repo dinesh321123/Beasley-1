@@ -13,6 +13,8 @@ add_filter( 'gmr_live_player_streams', 'gmr_streams_get_public_streams' );
 add_filter( 'json_endpoints', 'gmr_streams_init_api_endpoint' );
 add_filter( 'determine_current_user', 'gmr_streams_json_basic_auth_handler', 20 );
 add_filter( 'json_authentication_errors', 'gmr_streams_json_basic_auth_error' );
+add_filter( 'post_type_link', 'gmr_streams_get_stream_permalink', 10, 2 );
+add_filter( 'request', 'gmr_streams_unpack_vars' );
 
 /**
  * Registers API endpoint.
@@ -30,14 +32,85 @@ function gmr_streams_init_api_endpoint( $routes ) {
 }
 
 /**
+ * Builds permalink for Live Stream object.
+ *
+ * @filter post_type_link 10 2
+ * @param string $post_link The initial permalink
+ * @param WP_Post $post The post object.
+ * @return string The live stream permalink.
+ */
+function gmr_streams_get_stream_permalink( $post_link, $post ) {
+	// do nothing if it is not a live stream post
+	if ( GMR_LIVE_STREAM_CPT != $post->post_type ) {
+		return $post_link;
+	}
+
+	// build permalink using call sign if available,
+	// if call sign is unavailable, then use post id to build a permalink
+	$call_sign = trim( get_post_meta( $post->ID, 'call_sign', true ) );
+	if ( empty( $call_sign ) ) {
+		$call_sign = $post->ID;
+	}
+
+	return home_url( "/stream/{$call_sign}/" );
+}
+
+/**
+ * Unpacks query vars for live stream page.
+ *
+ * @filter request
+ * @param array $query_vars The array of initial query vars.
+ * @return array The array of unpacked query vars.
+ */
+function gmr_streams_unpack_vars( $query_vars ) {
+	// do nothing if it is wrong page
+	if ( empty( $query_vars[GMR_LIVE_STREAM_CPT] ) ) {
+		return $query_vars;
+	}
+
+	// get stream object
+	$query = new WP_Query( array(
+		'post_type'           => GMR_LIVE_STREAM_CPT,
+		'meta_key'            => 'call_sign',
+		'meta_value'          => $query_vars[GMR_LIVE_STREAM_CPT],
+		'posts_per_page'      => 1,
+		'ignore_sticky_posts' => 1,
+		'no_found_rows'       => true,
+		'fields'              => 'ids',
+	) );
+
+	// do nothing if a stream has not been found
+	if ( ! $query->have_posts() ) {
+		return $query_vars;
+	}
+
+	// unpack query vars
+	$query_vars['post_type'] = GMR_SONG_CPT;
+	$query_vars['post_parent'] = $query->next_post();
+	$query_vars['order'] = 'DESC';
+	$query_vars['orderby'] = 'date';
+	$query_vars['posts_per_page'] = 50;
+
+	return $query_vars;
+}
+
+/**
  * Registers Live Stream post type.
  *
  * @action init
+ * @global WP_Rewrite $wp_rewrite The rewrite rules object.
+ * @global WP $wp The WP object.
  */
 function gmr_streams_register_post_type() {
+	global $wp_rewrite, $wp;
+
+	// register post type
 	register_post_type( GMR_LIVE_STREAM_CPT, array(
-		'public'               => false,
+		'public'               => true,
+		'exclude_from_search'  => true,
+		'publicly_queryable'   => false,
 		'show_ui'              => true,
+		'show_in_nav_menus'    => false,
 		'rewrite'              => false,
 		'query_var'            => false,
 		'can_export'           => false,
@@ -64,6 +137,16 @@ function gmr_streams_register_post_type() {
 			'not_found_in_trash' => 'No links found in Trash.',
 		),
 	) );
+
+	// register rewrite rule and add query var
+	$regex = '^stream/([^/]+)/?$';
+	$wp_rewrite->add_rule( $regex, 'index.php?' . GMR_LIVE_STREAM_CPT . '=$matches[1]', 'top' );
+
+	$wp->add_query_var( GMR_LIVE_STREAM_CPT );
+	$rules = $wp_rewrite->wp_rewrite_rules();
+	if ( ! isset( $rules[ $regex ] ) ) {
+		flush_rewrite_rules();
+	}
 }
 
 /**
