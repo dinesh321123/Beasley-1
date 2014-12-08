@@ -17,6 +17,7 @@ plugins/the-events-calendar/
 plugins/wp-crontrol/
 plugins/edit-flow/
 plugins/duplicate-post/
+plugins/json-rest-api/
 plugins/ooyala-video-browser/
 plugins/simple-page-ordering/
 plugins/tag-pages/
