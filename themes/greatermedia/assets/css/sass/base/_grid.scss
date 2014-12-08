@@ -81,6 +81,10 @@ img {
 		@include span-columns(10 of 12);
 		@include shift(1);
 	}
+	@include bp(x-large) {
+		@include span-columns(10 of 12);
+		@include shift(1);
+	}
 }
 
 .live-player{

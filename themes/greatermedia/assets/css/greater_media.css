@@ -637,6 +637,15 @@ img {
       margin-left: 8.5298%; }
       .content:last-child {
         margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .content {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 82.94039%;
+      margin-left: 8.5298%; }
+      .content:last-child {
+        margin-right: 0; } }
 
 .live-player {
   position: fixed;
@@ -1055,6 +1064,36 @@ blockquote p {
   font-weight: lighter;
   color: #929497; }
 
+.entry__thumbnail {
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-bottom: 34px; }
+  @media screen and (min-width: 768px) {
+    .entry__thumbnail {
+      width: 35%;
+      margin-bottom: 0; } }
+
+@media screen and (min-width: 768px) {
+  .promoted .entry__thumbnail {
+    width: 100%; } }
+
+.entry__meta {
+  position: relative;
+  float: left;
+  width: 100%;
+  text-align: center; }
+  @media screen and (min-width: 768px) {
+    .entry__meta {
+      width: 60%;
+      margin-right: 5%;
+      text-align: left; } }
+
+@media screen and (min-width: 768px) {
+  .promoted .entry__meta {
+    width: 100%;
+    margin-right: 0; } }
+
 .entry--video__thumbnail, .entry--gallery__thumbnail, .entry--link__thumbnail {
   position: relative;
   float: left;
@@ -1086,6 +1125,16 @@ blockquote p {
       width: 35.454545454545%;
       margin-bottom: 0; } }
 
+.entry__thumbnail {
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-bottom: 34px; }
+  @media screen and (min-width: 768px) {
+    .entry__thumbnail {
+      width: 35%;
+      margin-bottom: 0; } }
+
 .entry--standard__meta {
   position: relative;
   float: left;
@@ -1093,8 +1142,8 @@ blockquote p {
   text-align: center; }
   @media screen and (min-width: 768px) {
     .entry--standard__meta {
-      width: 60.909090909091%;
-      margin-right: 3.636363636364%;
+      width: 60%;
+      margin-right: 5%;
       text-align: left; } }
 
 .entry--audio__thumbnail {
@@ -3567,9 +3616,6 @@ category: Components - Article
   width: 100%;
   height: auto;
   margin-bottom: 1em; }
-
-.entry__date {
-  text-transform: uppercase; }
 
 .entry-title {
   margin: 0;
