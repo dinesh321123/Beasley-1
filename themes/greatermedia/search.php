@@ -26,7 +26,6 @@ get_header(); ?>
 					<h2 class="entry__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
 				</article>
-
 				<?php endwhile; ?>
 
 					<div class="posts-pagination">
