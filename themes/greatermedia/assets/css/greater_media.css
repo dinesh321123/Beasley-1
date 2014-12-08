@@ -54,11 +54,11 @@ category: Base
 ```
 
 */
-.featured__content--list, .footer__nav--list, .footer__social {
+.entry__event--details, .featured__content--list, .footer__nav--list, .footer__social {
   padding: 0;
   margin: 0; }
 
-.featured__content--item, .footer__nav--list .menu-item, .footer__social--item, .live-player__stream--item {
+.entry__event--item, .featured__content--item, .footer__nav--list .menu-item, .footer__social--item, .live-player__stream--item {
   list-style: none;
   padding: 0;
   margin: 0; }
@@ -468,7 +468,7 @@ category: Base - Typography
   src: url("../fonts/icon-font/gmr-icons.eot?#iefix-8leaj8") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?-8leaj8") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?-8leaj8") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?-8leaj8#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .header__social--facebook:before, .header__social--twitter:before, .header__social--google-plus:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .entry__thumbnail--video:before, .header__search--btn:before, .footer__social--facebook:before, .footer__social--twitter:before, .footer__social--google-plus:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before {
+[class^="icon-"], [class*=" icon-"], .header__social--facebook:before, .header__social--twitter:before, .header__social--google-plus:before, .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .footer__social--facebook:before, .footer__social--twitter:before, .footer__social--google-plus:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -1083,21 +1083,16 @@ blockquote p {
       width: 35%;
       margin-bottom: 0; } }
 
-.entry__thumbnail--events:before, .entry__thumbnail--audio:before {
+.entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before {
   position: absolute;
   top: 10px;
   right: 10px;
   width: 42px;
   height: 42px;
-  font-size: 2.625em; }
+  font-size: 2.625em;
+  color: #ffffff; }
 
 .entry__thumbnail--video:before {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 42px;
-  height: 42px;
-  font-size: 42px;
   content: "\e613"; }
 
 .entry__thumbnail--events:before {
@@ -1125,6 +1120,15 @@ blockquote p {
   .promoted .entry__meta {
     width: 100%;
     margin-right: 0; } }
+
+.entry__event--item {
+  list-style: none;
+  display: inline-block;
+  margin-right: 44px;
+  font-weight: bold; }
+
+.entry__event--item:last-child {
+  margin-right: 0; }
 
 .entry--video__thumbnail, .entry--gallery__thumbnail, .entry--link__thumbnail {
   position: relative;

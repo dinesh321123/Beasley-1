@@ -70,14 +70,21 @@ get_header();
 
 								<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
-								<?php echo tribe_get_start_time(); ?>
-								<?php echo tribe_get_venue(); ?>
-								<?php echo tribe_get_cost(); ?>
+								<div class="entry__excerpt">
+									<?php the_excerpt(); ?>
+								</div>
+
+								<ul class="entry__event--details">
+									<li class="entry__event--item"><?php echo tribe_get_start_time(); ?></li>
+									<li class="entry__event--item"><?php echo tribe_get_venue(); ?></li>
+									<li class="entry__event--item"><?php _e( '$', 'greatermedia' ); ?><?php echo tribe_get_cost(); ?></li>
+								</ul>
 
 							</section>
 
 							<section class="entry__thumbnail entry__thumbnail--events">
 
+								<a href="<?php the_permalink(); ?>">
 								<?php if ( has_post_thumbnail() ) {
 
 									the_post_thumbnail( 'gm-article-thumbnail' );
@@ -87,6 +94,7 @@ get_header();
 									<img src="http://placehold.it/600x400&text=image">
 
 								<?php } ?>
+								</a>
 
 							</section>
 
@@ -101,15 +109,17 @@ get_header();
 
 						<section class="entry__thumbnail <?php greatermedia_post_formats(); ?>">
 
-							<?php if ( has_post_thumbnail() ) {
+							<a href="<?php the_permalink(); ?>">
+								<?php if ( has_post_thumbnail() ) {
 
-								the_post_thumbnail( 'gm-article-thumbnail' );
+									the_post_thumbnail( 'gm-article-thumbnail' );
 
-							} else { ?>
+								} else { ?>
 
-								<img src="http://placehold.it/600x400&text=image">
+									<img src="http://placehold.it/600x400&text=image">
 
-							<?php } ?>
+								<?php } ?>
+							</a>
 
 						</section>
 
