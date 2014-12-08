@@ -84,7 +84,7 @@ function gmr_songs_register_post_type() {
 		'show_ui'              => true,
 		'show_in_menu'         => false,
 		'can_export'           => false,
-		'has_archive'          => false,
+		'has_archive'          => true,
 		'rewrite'              => false,
 		'register_meta_box_cb' => 'gmr_songs_register_meta_boxes',
 		'supports'             => array( 'title' ),
