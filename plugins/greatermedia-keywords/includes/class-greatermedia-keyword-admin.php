@@ -46,8 +46,6 @@ class GreaterMedia_Keyword_Admin {
 		add_action( 'admin_init', array( $this, 'save_settings' ) );
 
 		add_action( 'wp_ajax_delete_keyword', array( $this, 'delete_keyword' ) );
-		add_action( 'template_redirect', array( $this, 'alter_search_results' ) );
-
 	}
 
 	public function enqueue_admin_styles(){
@@ -213,35 +211,6 @@ class GreaterMedia_Keyword_Admin {
 
 		die( $success );
 	}
-
-	/**
-	 * Alter default search result if the query string match
-	 * any keyword then post will be prepended to results
-	 */
-	public function alter_search_results() {
-
-		$search = sanitize_text_field( get_query_var('s') );
-		$search = strtolower( $search );
-
-
-		if( is_search() && $search ) {
-			global $wp_query;
-
-			$options = self::get_keyword_options( $this::$plugin_slug . '_option_name' );
-			$options = self::array_map_r( 'sanitize_text_field', $options );
-
-			if( array_key_exists( $search, $options) ) {
-				$post = get_post( $options[$search]['post_id'] );
-				if( is_array( $wp_query->posts ) ) {
-					array_unshift( $wp_query->posts, $post );
-				} else {
-					$wp_query->posts = array( $post );
-					$wp_query->found_posts = 1;
-				}
-			}
-		}
-	}
-
 
 	/**
 	 * Helper function to sanitize multidimensional array
