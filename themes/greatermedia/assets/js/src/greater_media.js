@@ -21,6 +21,7 @@
 		upNext = document.getElementById( 'up-next'),
 		nowPlaying = document.getElementById( 'nowPlaying' ),
 		liveLinks = document.getElementById( 'live-links' ),
+		liveLink = document.querySelector( '.live-link__title'),
 		liveLinksWidget = document.querySelector( '.widget--live-player' ),
 		liveLinksWidgetHeight = liveLinksWidget.offsetHeight,
 		liveStream = document.getElementById( 'live-player' ),
@@ -28,9 +29,6 @@
 		windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 		windowWidth = this.innerWidth || this.document.documentElement.clientWidth || this.document.body.clientWidth || 0,
 		scrollObject = {};
-
-
-
 
 	/**
 	 * detects various positions of the screen on scroll to deliver states of the live player
@@ -194,10 +192,10 @@
 	function onAirClick() {
 		body.classList.toggle( 'live-player--open' );
 		if (body.classList.contains( 'live-player--open')) {
-			body.style.overflow = 'hidden';
+			document.body.style.overflow = 'hidden';
 			html.style.overflow = 'hidden';
 		} else {
-			body.style.overflow = 'auto';
+			document.body.style.overflow = 'auto';
 			html.style.overflow = 'auto';
 		}
 	}
@@ -221,6 +219,12 @@
 		} else {
 			body.style.overflow = 'hidden';
 			html.style.overflow = 'hidden';
+		}
+	}
+
+	function liveLinksClose() {
+		if (body.classList.contains( 'live-player--open')) {
+			body.classList.remove('live-player--open');
 		}
 	}
 
@@ -258,6 +262,7 @@
 					onAir.style.display = 'block';
 				});
 			}
+			liveLink.addEventListener( 'click', liveLinksClose(), false );
 		}
 		if ( window.innerWidth >= 768 ) {
 			window.addEventListener( 'load', livePlayerInit, false );
@@ -279,6 +284,7 @@
 		if(nowPlaying != null) {
 			nowPlaying.addEventListener( 'click', nowPlayingClick, false );
 		}
+		liveLink.addEventListener( 'click', liveLinksClose(), false );
 		window.addEventListener( 'resize', function() {
 			resizeDebounce();
 			resizeThrottle();
