@@ -204,17 +204,17 @@ function greatermedia_post_formats() {
 	$post_id = $post->ID;
 
 	if ( has_post_format( 'gallery', $post_id ) ) {
-		$format = 'gallery';
+		$format = 'entry__thumbnail--gallery';
 	} elseif ( has_post_format( 'link', $post_id ) ) {
-		$format = 'link';
+		$format = 'entry__thumbnail--link';
 	} elseif ( has_post_format( 'image', $post_id ) ) {
-		$format = 'image';
+		$format = 'entry__thumbnail--image';
 	} elseif ( has_post_format( 'video', $post_id ) ) {
-		$format = 'video';
+		$format = 'entry__thumbnail--video';
 	} elseif ( has_post_format( 'audio', $post_id ) ) {
-		$format = 'audio';
+		$format = 'entry__thumbnail--audio';
 	} else {
-		$format = 'standard';
+		$format = 'entry__thumbnail--standard';
 	}
 
 	echo $format;

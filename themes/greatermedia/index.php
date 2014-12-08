@@ -28,7 +28,7 @@ get_header();
 
 				$args = array(
 					'post_type' => array(
-						'post', 'episode'
+						'post', 'episode', 'tribe_events'
 					),
 				);
 
@@ -63,7 +63,35 @@ get_header();
 							} */
 
 						?>
-						<section class="entry__meta">
+						<?php if ( 'tribe_events' === get_post_type() ) {?>
+							<section class="entry__meta">
+
+								<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
+
+								<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+
+								<?php echo tribe_get_start_time(); ?>
+								<?php echo tribe_get_venue(); ?>
+								<?php echo tribe_get_cost(); ?>
+
+							</section>
+
+							<section class="entry__thumbnail entry__thumbnail--events">
+
+								<?php if ( has_post_thumbnail() ) {
+
+									the_post_thumbnail( 'gm-article-thumbnail' );
+
+								} else { ?>
+
+									<img src="http://placehold.it/600x400&text=image">
+
+								<?php } ?>
+
+							</section>
+
+						<?php } else { ?>
+				        <section class="entry__meta">
 
 							<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
 
@@ -71,7 +99,7 @@ get_header();
 
 						</section>
 
-						<section class="entry__thumbnail">
+						<section class="entry__thumbnail <?php greatermedia_post_formats(); ?>">
 
 							<?php if ( has_post_thumbnail() ) {
 
@@ -85,6 +113,8 @@ get_header();
 
 						</section>
 
+						<?php } ?>
+
 						<footer class="entry__footer">
 
 							<?php
@@ -97,7 +127,7 @@ get_header();
 
 						</footer>
 
-					</article>
+						</article>
 
 				<?php endwhile; ?>
 
