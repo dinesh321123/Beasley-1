@@ -38,47 +38,9 @@
 // Useful global constants
 define( 'GMLIVEPLAYER_VERSION', '0.1.0' );
 define( 'GMLIVEPLAYER_URL',     plugin_dir_url( __FILE__ ) );
-define( 'GMLIVEPLAYER_PATH',    dirname( __FILE__ ) . '/' );
-
-/**
- * Default initialization for the plugin:
- * - Registers the default textdomain.
- */
-function gmliveplayer_init() {
-	$locale = apply_filters( 'plugin_locale', get_locale(), 'gmliveplayer' );
-	load_textdomain( 'gmliveplayer', WP_LANG_DIR . '/gmliveplayer/gmliveplayer-' . $locale . '.mo' );
-	load_plugin_textdomain( 'gmliveplayer', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-}
+define( 'GMLIVEPLAYER_PATH',    dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 
 /**
  * Required Files
  */
-require_once( __DIR__ . '/includes/class-gmlp-options.php' );
 require_once( __DIR__ . '/includes/class-gmlp-player.php' );
-
-/**
- * Activate the plugin
- */
-function gmliveplayer_activate() {
-	// First load the init scripts in case any rewrite functionality is being loaded
-	gmliveplayer_init();
-
-	flush_rewrite_rules();
-}
-register_activation_hook( __FILE__, 'gmliveplayer_activate' );
-
-/**
- * Deactivate the plugin
- * Uninstall routines should be in uninstall.php
- */
-function gmliveplayer_deactivate() {
-
-}
-register_deactivation_hook( __FILE__, 'gmliveplayer_deactivate' );
-
-// Wireup actions
-add_action( 'init', 'gmliveplayer_init' );
-
-// Wireup filters
-
-// Wireup shortcodes

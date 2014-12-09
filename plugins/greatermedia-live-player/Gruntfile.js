@@ -7,12 +7,6 @@ module.exports = function( grunt ) {
 			options: {
 				stripBanners: true
 			},
-			greater_media_live_playeradmin: {
-				src: [
-					'assets/js/admin/greater_media_live_player_admin.js'
-				],
-				dest: 'assets/js/greater_media_live_player_admin.js'
-			},
 			greater_media_live_player: {
 				src: [
 					'assets/js/src/greater_media_live_player.js'
@@ -52,7 +46,6 @@ module.exports = function( grunt ) {
 		uglify: {
 			all: {
 				files: {
-					'assets/js/greater_media_live_player_admin.min.js': ['assets/js/greater_media_live_player_admin.js'],
 					'assets/js/greater_media_live_player.min.js': ['assets/js/greater_media_live_player.js'],
 					'assets/js/tdplayer.min.js': ['assets/js/tdplayer.js']
 				},
@@ -75,7 +68,6 @@ module.exports = function( grunt ) {
 			all: {
 				files: {
 					'assets/css/greater_media_live_player.css': 'assets/css/sass/greater_media_live_player.scss',
-					'assets/css/greater_media_live_player_admin.css': 'assets/css/sass/greater_media_live_player_admin.scss'
 				}
 			}
 		},
@@ -85,7 +77,7 @@ module.exports = function( grunt ) {
 				expand: true,
 				
 				cwd: 'assets/css/',				
-				src: ['greater_media_live_player.css','greater_media_live_player_admin.css'],
+				src: ['greater_media_live_player.css'],
 				
 				dest: 'assets/css/',
 				ext: '.min.css'
