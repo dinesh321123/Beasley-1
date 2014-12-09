@@ -13,6 +13,10 @@
 	color: $primary-link;
 }
 
+.footer .container {
+	background-color: $primary-bg;
+}
+
 .footer__content {
 	@include span-columns(4);
 	padding: 40px 5.5%;
