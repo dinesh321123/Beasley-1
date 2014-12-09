@@ -2,7 +2,7 @@
 	position: relative;
 	width: 100%;
 	padding: 0;
-	border-bottom: 3px solid $primary-border;
+	border-bottom: 1px solid $primary-border;
 	background-color: $cod-gray;
 	@include transition(all 200ms linear);
 }

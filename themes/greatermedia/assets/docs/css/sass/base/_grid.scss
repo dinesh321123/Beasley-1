@@ -12,7 +12,6 @@ $visual-grid-index: front !global;
 // max-width for the site
 $max-width: em(1150) !global;
 $max-site-width: 1400px;
-$live-player: em(250px);
 
 // simple css effect to make images responsive and fluid while also retaining proper aspect ratio
 img {
@@ -32,15 +31,19 @@ img {
 .page-wrap {
 	@include transform(translate(0, 0));
 	width: 100%;
+	padding-bottom: 58px;
 	@include transition(all 500ms ease-in-out);
 	overflow: hidden;
+	@include bp(medium) {
+		padding-bottom: 0;
+	}
 }
 
 .container, %container {
 	@include outer-container(92.08770257388%);
 	@include bp(medium) {
 		@include outer-container(100%);
-		padding-right: 15.8781%;
+		padding-right: 20em;
 	}
 	@include bp(large) {
 	}
@@ -77,6 +80,10 @@ img {
 		@include span-columns(10 of 12);
 		@include shift(1);
 	}
+	@include bp(x-large) {
+		@include span-columns(10 of 12);
+		@include shift(1);
+	}
 }
 
 .live-player{
@@ -94,14 +101,13 @@ img {
 		bottom: auto;
 		right: 0;
 		left: auto;
-		width: 15.878107457899%;
+		width: 20em;
 		height: 100%;
 		@include box-sizing(border-box);
 		cursor: default;
 	}
 	@include bp(x-large) {
 		@include calc(right, '50% - 700px');
-		width: $live-player;
 	}
 }
 

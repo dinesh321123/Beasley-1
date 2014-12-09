@@ -127,7 +127,7 @@ category: Components
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	height: 100px;
+	height: 40px;
 	background: -moz-linear-gradient(top,rgba(0,0,0,0) 0%,rgba(0,0,0,.7) 100%);
 	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(0,0,0,0)),color-stop(100%,rgba(0,0,0,.7)));
 	background: -webkit-linear-gradient(top,rgba(0,0,0,0) 0%,rgba(0,0,0,.7) 100%);
@@ -390,7 +390,9 @@ category: Components
 }
 
 .live-stream__login--actions {
-	padding-bottom: 23px;
+	@include bp(medium) {
+		padding-bottom: 23px;
+	}
 }
 
 .live-stream__btn--login  {
@@ -664,8 +666,13 @@ category: Components
 	display: block;
 	max-height: 48vh;
 	padding-top: 52px;
+	overflow: hidden;
+	overflow-y: scroll;
 	@include bp(small) {
 		max-height: 35vh;
+		overflow: hidden;
+		overflow-y: scroll;
+		-webkit-touch-overflow:scroll
 	}
 }
 
