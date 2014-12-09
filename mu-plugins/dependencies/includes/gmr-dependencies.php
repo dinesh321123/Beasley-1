@@ -115,6 +115,14 @@ class GmrDependencies {
 			true
 		);
 
+		wp_register_script(
+			'jquery-scrollwindowto',
+			GMRDEPENDENCIES_URL . "/jquery.scrollWindowTo.js",
+			array( 'jquery' ),
+			false,
+			true
+		);
+
 		// Register styles
 		wp_register_style(
 			'select2'
