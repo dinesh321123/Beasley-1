@@ -63,66 +63,61 @@ get_header();
 							} */
 
 						?>
-						<?php if ( 'tribe_events' === get_post_type() ) {?>
-							<section class="entry__meta">
+						<?php
+						if ( has_post_thumbnail() ) {
+							if ( 'tribe_events' === get_post_type() ) { ?>
+								<section class="entry__meta">
+
+									<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
+
+									<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+
+									<div class="entry__excerpt">
+										<?php the_excerpt(); ?>
+									</div>
+
+									<ul class="entry__event--details">
+										<li class="entry__event--item"><?php echo tribe_get_start_time(); ?></li>
+										<li class="entry__event--item"><?php echo tribe_get_venue(); ?></li>
+										<li class="entry__event--item"><?php _e( '$', 'greatermedia' ); ?><?php echo tribe_get_cost(); ?></li>
+									</ul>
+
+								</section>
+
+								<section class="entry__thumbnail entry__thumbnail--events">
+
+									<a href="<?php the_permalink(); ?>">
+										<?php the_post_thumbnail( 'gm-article-thumbnail' ); ?>
+									</a>
+
+								</section>
+
+							<?php } else { ?>
+								<section class="entry__meta">
+
+									<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
+
+									<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+
+								</section>
+
+								<section class="entry__thumbnail <?php greatermedia_post_formats(); ?>">
+
+									<a href="<?php the_permalink(); ?>">
+										<?php the_post_thumbnail( 'gm-article-thumbnail' ); ?>
+									</a>
+
+								</section>
+
+							<?php }
+						} else { ?>
+							<section class="entry__meta--fullwidth">
 
 								<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
 
 								<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
-								<div class="entry__excerpt">
-									<?php the_excerpt(); ?>
-								</div>
-
-								<ul class="entry__event--details">
-									<li class="entry__event--item"><?php echo tribe_get_start_time(); ?></li>
-									<li class="entry__event--item"><?php echo tribe_get_venue(); ?></li>
-									<li class="entry__event--item"><?php _e( '$', 'greatermedia' ); ?><?php echo tribe_get_cost(); ?></li>
-								</ul>
-
 							</section>
-
-							<section class="entry__thumbnail entry__thumbnail--events">
-
-								<a href="<?php the_permalink(); ?>">
-								<?php if ( has_post_thumbnail() ) {
-
-									the_post_thumbnail( 'gm-article-thumbnail' );
-
-								} else { ?>
-
-									<img src="http://placehold.it/600x400&text=image">
-
-								<?php } ?>
-								</a>
-
-							</section>
-
-						<?php } else { ?>
-				        <section class="entry__meta">
-
-							<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
-
-							<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-
-						</section>
-
-						<section class="entry__thumbnail <?php greatermedia_post_formats(); ?>">
-
-							<a href="<?php the_permalink(); ?>">
-								<?php if ( has_post_thumbnail() ) {
-
-									the_post_thumbnail( 'gm-article-thumbnail' );
-
-								} else { ?>
-
-									<img src="http://placehold.it/600x400&text=image">
-
-								<?php } ?>
-							</a>
-
-						</section>
-
 						<?php } ?>
 
 						<footer class="entry__footer">

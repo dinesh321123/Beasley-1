@@ -1116,6 +1116,12 @@ blockquote p {
       margin-right: 5%;
       text-align: left; } }
 
+.entry__meta--fullwidth {
+  position: relative;
+  float: left;
+  width: 100%;
+  text-align: left; }
+
 @media screen and (min-width: 768px) {
   .promoted .entry__meta {
     width: 100%;
