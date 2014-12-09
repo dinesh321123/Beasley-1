@@ -13,6 +13,7 @@ add_filter( 'gmr_live_player_streams', 'gmr_streams_get_public_streams' );
 add_filter( 'json_endpoints', 'gmr_streams_init_api_endpoint' );
 add_filter( 'determine_current_user', 'gmr_streams_json_basic_auth_handler', 20 );
 add_filter( 'json_authentication_errors', 'gmr_streams_json_basic_auth_error' );
+add_filter( 'gmr_shows_widget_transient_name', 'gmr_streams_update_shows_widget_transient_name' );
 add_filter( 'post_type_link', 'gmr_streams_get_stream_permalink', 10, 2 );
 add_filter( 'request', 'gmr_streams_unpack_vars' );
 
@@ -352,6 +353,59 @@ function gmr_streams_get_public_streams() {
 }
 
 /**
+ * Returns live stream based on its sign.
+ *
+ * @param string $sign The stream call sign.
+ * @return WP_Post The stream object on success, otherwise NULL.
+ */
+function gmr_streams_get_stream_by_sign( $sign ) {
+	static $streams = array();
+
+	if ( ! array_key_exists( $sign, $streams ) ) {
+		$query = new WP_Query( array(
+			'post_type'           => GMR_LIVE_STREAM_CPT,
+			'meta_key'            => 'call_sign',
+			'meta_value'          => $sign,
+			'posts_per_page'      => 1,
+			'ignore_sticky_posts' => 1,
+			'no_found_rows'       => true,
+		) );
+
+		$streams[ $sign ] = $query->have_posts()
+			? $query->next_post()
+			: null;
+	}
+
+	return $streams[ $sign ];
+}
+
+/**
+ * Returns primary stream.
+ *
+ * @return WP_Post The primary stream if exists, otherwise FALSE.
+ */
+function gmr_streams_get_primary_stream() {
+	static $stream = null;
+
+	if ( is_null( $stream ) ) {
+		$query = new WP_Query( array(
+			'post_type'           => GMR_LIVE_STREAM_CPT,
+			'order'               => 'DESC',
+			'orderby'             => 'menu_order',
+			'posts_per_page'      => 1,
+			'ignore_sticky_posts' => 1,
+			'no_found_rows'       => true,
+		) );
+
+		$stream = $query->have_posts()
+			? $query->next_post()
+			: false;
+	}
+
+	return $stream;
+}
+
+/**
  * Processes stream endpoing submission.
  *
  * @param string $sign The stream id.
@@ -375,16 +429,8 @@ function gmr_streams_process_endpoint( $sign, $data ) {
 		return new WP_Error( 'gmr_stream_wrong_aired_at', 'Timestamp is invalid.', array( 'status' => 400 ) );
 	}
 
-	$query = new WP_Query( array(
-		'post_type'           => GMR_LIVE_STREAM_CPT,
-		'meta_key'            => 'call_sign',
-		'meta_value'          => $sign,
-		'posts_per_page'      => 1,
-		'ignore_sticky_posts' => 1,
-		'no_found_rows'       => true,
-	) );
-
-	if ( ! $query->have_posts() ) {
+	$stream = gmr_streams_get_stream_by_sign( $sign );
+	if ( ! $stream ) {
 		return new WP_Error( 'gmr_stream_not_found', 'The stream was not found.', array( 'status' => 404 ) );
 	}
 
@@ -393,7 +439,7 @@ function gmr_streams_process_endpoint( $sign, $data ) {
 		'post_status'   => 'publish',
 		'post_date'     => date( DATE_ISO8601, $data['timestamp'] + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ),
 		'post_date_gmt' => date( DATE_ISO8601, $data['timestamp'] ),
-		'post_parent'   => $query->next_post()->ID,
+		'post_parent'   => $stream->ID,
 		'post_title'    => $data['title'],
 	);
 
@@ -473,4 +519,29 @@ function gmr_streams_json_basic_auth_error( $error ) {
 	global $wp_json_basic_auth_error;
 
 	return $wp_json_basic_auth_error;
+}
+
+/**
+ * Adjusts shows widget transient name to make unique transients per stream.
+ *
+ * @filter gmr_shows_widget_transient_name
+ * @param string $name The initial transient name.
+ * @return string Adjusted transient name.
+ */
+function gmr_streams_update_shows_widget_transient_name( $name ) {
+	$stream = null;
+	$sign = filter_input( INPUT_GET, 'stream' );
+	if ( ! empty( $sign ) ) {
+		$stream = gmr_streams_get_stream_by_sign( $sign );
+	}
+
+	if ( ! $stream ) {
+		$stream = gmr_streams_get_primary_stream();
+	}
+
+	if ( $stream ) {
+		$name .= '_' . get_post_meta( $stream->ID, 'call_sign', true );
+	}
+	
+	return $name;
 }

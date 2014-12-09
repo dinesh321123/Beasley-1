@@ -25,6 +25,7 @@ add_filter( 'manage_' . GMR_LIVE_LINK_CPT . '_posts_columns', 'gmr_ll_filter_col
 add_filter( 'post_row_actions', 'gmr_ll_add_post_action', 10, 2 );
 add_filter( 'page_row_actions', 'gmr_ll_add_post_action', 10, 2 );
 add_filter( 'gmr_show_widget_item_post_types', 'gmr_ll_add_show_widget_post_types' );
+add_filter( 'gmr_shows_widget_item_ids', 'gmr_ll_get_widget_item_ids' );
 add_filter( 'gmr_show_widget_item', 'gmr_ll_output_show_widget_live_link_item' );
 add_filter( 'posts_where', 'gmr_ll_suggestion_by_post_title', 10, 2 );
 
@@ -501,6 +502,27 @@ function gmr_ll_copy_post_to_live_link( $post_id ) {
 function gmr_ll_add_show_widget_post_types( $post_types ) {
 	$post_types[] = GMR_LIVE_LINK_CPT;
 	return $post_types;
+}
+
+/**
+ * Returns live link ids to include into shows widget.
+ *
+ * @filter gmr_shows_widget_item_ids
+ * @param array $posts The array post ids.
+ * @return array The extended array with live link ids.
+ */
+function gmr_ll_get_widget_item_ids( $posts ) {
+	$query = new WP_Query();
+
+	return array_merge( $posts, $query->query(  array(
+		'post_type'           => GMR_LIVE_LINK_CPT,
+		'orderby'             => 'date',
+		'order'               => 'DESC',
+		'ignore_sticky_posts' => true,
+		'no_found_rows'       => true,
+		'posts_per_page'      => 20,
+		'fields'              => 'ids',
+	) ) );
 }
 
 /**

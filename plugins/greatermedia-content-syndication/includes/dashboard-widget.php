@@ -37,19 +37,21 @@ Class SyndicationDashboardWidget {
 		if( !empty( $posts ) ) {
 			foreach ( $posts as $post_id ) {
 				$post = get_post( $post_id );
-				echo '<li>';
-				$post_link = '<a class="syndicated_post_title" title="';
-				$post_link .= esc_attr( $post->post_title ) . '" href="' . esc_attr( get_edit_post_link( $post_id ) ) . '">';
-				$post_link .= esc_html( $post->post_title );
-				$post_link .= '</a>';
-				echo $post_link;
+				if( !is_null( $post) ) {
+					echo '<li>';
+					$post_link = '<a class="syndicated_post_title" title="';
+					$post_link .= esc_attr( $post->post_title ) . '" href="' . esc_attr( get_edit_post_link( $post_id ) ) . '">';
+					$post_link .= esc_html( $post->post_title );
+					$post_link .= '</a>';
+					echo $post_link;
 
-				if( $count < 2 ) {
-					echo '<div class="syndicated_post_excerpt">';
-					echo esc_html( $this->custom_excerpt( $post ) );
-					echo '</div>';
+					if( $count < 2 ) {
+						echo '<div class="syndicated_post_excerpt">';
+						echo esc_html( $this->custom_excerpt( $post ) );
+						echo '</div>';
+					}
+					echo '</li>';
 				}
-				echo '</li>';
 				$count++;
 			}
 		} else {

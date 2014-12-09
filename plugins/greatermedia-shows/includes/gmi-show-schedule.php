@@ -537,5 +537,8 @@ function gmrs_get_widget_episode_item( $item ) {
 		$item = sprintf( '<a href="%s">%s</a>', get_permalink( $episode->post_parent ), $item );
 	}
 
-	return sprintf( '<div class="live-link__type--standard"><div class="live-link__title">%s</div></div>', $item );
+	$post_date = strtotime( $episode->post_date_gmt ) + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
+	$post_date = date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $post_date );
+
+	return sprintf( '<div class="live-link__type--standard"><div class="live-link__title" title="%s">%s</div></div>', esc_attr( $post_date ), $item );
 }

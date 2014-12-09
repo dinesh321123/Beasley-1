@@ -6,7 +6,12 @@
 
 class BlogData {
 
-	public static $taxonomies = array( 'post_tag', 'collection');
+	public static $taxonomies = array(
+		'category'      =>  'single',
+		'post_tag'      =>  'multiple',
+		'collection'    =>  'single',
+	);
+
 	public static $content_site_id = 1;
 
 	public static function init() {
@@ -96,6 +101,7 @@ class BlogData {
 				'column' => 'post_modified_gmt',
 				'after'  => $last_queried,
 			),
+			'tax_query' => array()
 		);
 
 		$enabled_taxonomy = get_post_meta( $subscription_id, 'subscription_enabled_filter', true );
@@ -108,13 +114,17 @@ class BlogData {
 		$subscription_filter = sanitize_text_field( $subscription_filter );
 
 		if( $subscription_filter != '' ) {
-			if( $enabled_taxonomy != 'collection' ) {
-				$subscription_filters = explode( ',', $subscription_filter );
+
+			if( self::$taxonomies[$enabled_taxonomy] == 'multiple' ) {
+				$subscription_filter = explode( ',', $subscription_filter );
 				$args['tax_query']['relation'] = 'AND';
 			}
+
 			$tax_query['taxonomy'] = $enabled_taxonomy;
 			$tax_query['field'] = 'name';
-			$tax_query['terms'] = $subscription_filters;
+			$tax_query['terms'] = $subscription_filter;
+			$tax_query['operator'] = 'AND';
+
 			array_push( $args['tax_query'], $tax_query );
 		}
 
@@ -123,7 +133,6 @@ class BlogData {
 
 		// get all postst matching filters
 		$wp_custom_query = new WP_Query( $args );
-		//$wp_custom_query = get_posts( $args );
 
 		// get all metas
 		foreach ( $wp_custom_query->posts as $single_result ) {
@@ -452,7 +461,7 @@ class BlogData {
 		$terms = array();
 		switch_to_blog( self::$content_site_id );
 
-		foreach( self::$taxonomies as $taxonomy ) {
+		foreach( self::$taxonomies as $taxonomy => $type ) {
 			if( taxonomy_exists( $taxonomy ) ) {
 				$args = array(
 					'get'        => 'all',
