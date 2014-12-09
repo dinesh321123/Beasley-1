@@ -38,31 +38,6 @@ get_header();
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-						<?php /*
-
-							if ( has_post_format( 'video' ) ) {
-
-								get_template_part( 'partials/post', 'video' );
-
-							} elseif ( has_post_format( 'audio') ) {
-
-								get_template_part( 'partials/post', 'audio' );
-
-							} elseif ( has_post_format( 'link') ) {
-
-								get_template_part( 'partials/post', 'link' );
-
-							} elseif ( has_post_format( 'gallery') ) {
-
-								get_template_part( 'partials/post', 'gallery' );
-
-							} else {
-
-								get_template_part( 'partials/post', 'standard' );
-
-							} */
-
-						?>
 						<?php
 						if ( has_post_thumbnail() ) {
 							if ( 'tribe_events' === get_post_type() ) { ?>
