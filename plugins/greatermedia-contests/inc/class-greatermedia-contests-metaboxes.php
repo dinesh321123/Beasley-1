@@ -42,15 +42,15 @@ class GreaterMediaContestsMetaboxes {
 		if ( $post && 'contest' === $post->post_type ) {
 
 			wp_enqueue_style( 'formbuilder' );
-			wp_enqueue_style( 'datetimepicker', trailingslashit( GREATER_MEDIA_CONTESTS_URL ) . 'bower_components/datetimepicker/jquery.datetimepicker.css' );
+			wp_enqueue_style( 'datetimepicker' );
 
 			wp_enqueue_script( 'ie8-node-enum' );
-			wp_enqueue_script( 'jquery-scrollwindowto');
+			wp_enqueue_script( 'jquery-scrollwindowto' );
 			wp_enqueue_script( 'underscore-mixin-deepextend' );
 			wp_enqueue_script( 'backbone-deep-model' );
-			wp_enqueue_script( 'datetimepicker', trailingslashit( GREATER_MEDIA_CONTESTS_URL ) . 'bower_components/datetimepicker/jquery.datetimepicker.js', array( 'jquery' ) );
+			wp_enqueue_script( 'datetimepicker' );
 
-			wp_enqueue_script('formbuilder');
+			wp_enqueue_script( 'formbuilder' );
 			wp_enqueue_script( 'rivets' );
 			wp_enqueue_style( 'font-awesome' );
 
