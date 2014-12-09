@@ -585,7 +585,7 @@ img {
       max-width: 100%;
       margin-left: auto;
       margin-right: auto;
-      padding-right: 15.8781%; }
+      padding-right: 20em; }
       .container:after {
         content: "";
         display: table;
@@ -672,7 +672,7 @@ img {
       bottom: auto;
       right: 0;
       left: auto;
-      width: 15.878107457899%;
+      width: 20em;
       height: 100%;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -681,8 +681,7 @@ img {
   @media screen and (min-width: 1400px) {
     .live-player {
       right: -webkit-calc(50% - 700px);
-      right: calc(50% - 700px);
-      width: 15.625em; } }
+      right: calc(50% - 700px); } }
 
 @media screen and (min-width: 782px) {
   .logged-in .live-player {
@@ -1652,7 +1651,7 @@ blockquote p {
   position: relative;
   width: 100%;
   padding: 0;
-  border-bottom: 3px solid #d0d2d3;
+  border-bottom: 1px solid #d0d2d3;
   background-color: #191919;
   -webkit-transition: all 200ms linear;
   -moz-transition: all 200ms linear;
