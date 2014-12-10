@@ -4,11 +4,12 @@ var QueryResultCollection = Backbone.Collection.extend({
 
 	initialize: function(models, options) {
 		this.activeConstraints = options.activeConstraints;
-		this.pollDelay         = 5; // seconds
+		this.pollDelay         = 1; // seconds
 		this.maxQueryTime      = 5 * 60; // seconds
 		this.maxRetries        = Math.floor( this.maxQueryTime / this.pollDelay );
 		this.retries           = 0;
 		this.fetchStatusProxy  = $.proxy(this.fetchStatus, this);
+		this.lastProgress      = 0;
 
 		Backbone.Collection.prototype.initialize(this, models, options);
 	},
@@ -69,7 +70,13 @@ var QueryResultCollection = Backbone.Collection.extend({
 				this.trigger('searchSuccess');
 				this.clear();
 			} else {
-				this.trigger('searchProgress', response.data.progress);
+				var progress = response.data.progress;
+				if (this.lastProgress !== progress) {
+					this.lastProgress = progress;
+					this.retries--;
+				}
+
+				this.trigger('searchProgress', progress);
 				this.startPolling();
 			}
 		} else {
@@ -106,7 +113,7 @@ var QueryResultCollection = Backbone.Collection.extend({
 	},
 
 	didClearSuccess: function(response) {
-		console.log('didClearSuccess', response);
+
 	},
 
 	didClearError: function(response) {

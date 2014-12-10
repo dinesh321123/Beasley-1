@@ -15,6 +15,8 @@ var PreviewView = Backbone.View.extend({
 		Backbone.View.prototype.initialize.call(this, options);
 		this.search();
 		this.previewEnabled = true;
+
+		this.stepper = new Stepper('didStep', this);
 	},
 
 	didPreviewClick: function(event) {
@@ -31,14 +33,21 @@ var PreviewView = Backbone.View.extend({
 	},
 
 	didSearchStart: function() {
+		this.stepper.start(0);
 		this.setPreviewEnabled(false);
 	},
 
 	didSearchProgress: function(progress) {
+		this.stepper.update(progress);
+	},
+
+	didStep: function(progress) {
 		this.setStatus('Searching, Please wait ... ' + progress + '%');
 	},
 
 	didSearchSuccess: function() {
+		this.stepper.stop();
+
 		var total    = this.collection.getTotalResults();
 		var message = total + ' records found';
 
@@ -53,10 +62,12 @@ var PreviewView = Backbone.View.extend({
 	},
 
 	didSearchError: function(message) {
+		this.stepper.stop();
 		this.setStatus("Error: " + message);
 	},
 
 	didSearchTimeout: function() {
+		this.stepper.stop();
 		this.setStatus('Error: Query timed out, please try again.');
 		this.setPreviewEnabled(true);
 	},
@@ -74,3 +85,55 @@ var PreviewView = Backbone.View.extend({
 	},
 
 });
+
+var Stepper = function(callback, scope) {
+	this.callback   = callback;
+	this.scope      = scope;
+	this.intervalID = -1;
+
+	var self = this;
+	this.stepFunc = function() {
+		self.step();
+	};
+};
+
+Stepper.prototype = {
+
+	start: function(value) {
+		this.value   = value;
+		this.current = 0;
+		this.startInterval();
+	},
+
+	update: function(value) {
+		this.value = value;
+
+		if (!this.isRunning()) {
+			this.startInterval();
+		}
+	},
+
+	startInterval: function() {
+		clearInterval(this.intervalID);
+		this.intervalID = setInterval(this.stepFunc, 100);
+	},
+
+	stop: function() {
+		clearInterval(this.intervalID);
+		this.intervalID = -1;
+	},
+
+	step: function() {
+		if (this.current < this.value) {
+			this.current++;
+			this.scope[this.callback](this.current);
+		} else {
+			this.stop();
+		}
+	},
+
+	isRunning: function() {
+		return this.intervalID !== -1;
+	}
+
+};
