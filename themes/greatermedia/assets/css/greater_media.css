@@ -468,7 +468,7 @@ category: Base - Typography
   src: url("../fonts/icon-font/gmr-icons.eot?#iefix-8leaj8") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?-8leaj8") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?-8leaj8") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?-8leaj8#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .header__social--facebook:before, .header__social--twitter:before, .header__social--google-plus:before, .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .footer__social--facebook:before, .footer__social--twitter:before, .footer__social--google-plus:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before {
+[class^="icon-"], [class*=" icon-"], .header__social--facebook:before, .header__social--twitter:before, .header__social--google-plus:before, .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .footer__social--facebook:before, .footer__social--twitter:before, .footer__social--google-plus:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .header__search--submit:before {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -1781,7 +1781,8 @@ blockquote p {
 
 .header__search {
   display: block;
-  color: #ffffff; }
+  color: #ffffff;
+  cursor: pointer; }
   @media screen and (min-width: 768px) {
     .header__search {
       position: relative;
@@ -3545,24 +3546,6 @@ category: Components - Ads
       float: right;
       margin: 0 0 1em 1em; } }
 
-.personality-attr--name {
-  position: absolute;
-  top: 50%;
-  height: 60px;
-  -webkit-transform: translate(0, -25%);
-  -moz-transform: translate(0, -25%);
-  -ms-transform: translate(0, -25%);
-  -o-transform: translate(0, -25%);
-  transform: translate(0, -25%);
-  display: inline-block; }
-
-.personality-attr--img {
-  height: 60px;
-  width: 60px;
-  margin-right: 0.5em;
-  display: inline-block;
-  background-color: #d0d2d3; }
-
 .show-attr--name {
   position: absolute;
   top: 50%;
@@ -3688,201 +3671,75 @@ name: gallery-widget
 category: Components - Gallery
 ---
 
-```none_example
-<div class="main cycle-slideshow" data-cycle-caption=".slide-paging-text"
-data-cycle-caption-template=
-"&lt;span class='highlight'&gt;Image {{slideNum}}&lt;/span&gt; of {{slideCount}}"
-data-cycle-center-horz="true" data-cycle-center-vert="true" data-cycle-fx=
-"scrollHorz" data-cycle-log="false" data-cycle-manual-fx="scrollHoriz"
-data-cycle-manual-speed="200" data-cycle-next=".next-img" data-cycle-prev=
-".prev-img" data-cycle-swipe="true" data-cycle-swipe-fx="scrollHorz"
-data-cycle-timeout="0" data-slides="&gt; .slide">
-	<div class="slide cycle-slide cycle-sentinel" data-cycle-hash=
-	"15018928618_774ef7d7b7_z" data-cycle-slide_shorturl=
-	"http://wef.ch/1ubeR9u" data-cycle-slide_title="15018928618_774ef7d7b7_z"
-	style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15018928618_774ef7d7b7_z.jpg&quot;); position: static; top: 0px; left: 0px; z-index: 71; visibility: hidden; display: block;">
-	</div><span class="prev-img slide-overlay-control-nohide"><span class=
-	"fa fa-angle-left"></span></span> <span class=
-	"next-img slide-overlay-control-nohide"><span class=
-	"fa fa-angle-right"></span></span>
-
-	<div class="slide cycle-slide" data-cycle-hash="15018928618_774ef7d7b7_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeR9u" data-cycle-slide_title=
-	"15018928618_774ef7d7b7_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15018928618_774ef7d7b7_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 71; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide cycle-slide-active" data-cycle-hash=
-	"wef-china-4" data-cycle-slide_shorturl="http://wef.ch/1ubeR9w"
-	data-cycle-slide_title="WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/1715_Opening-Plenary-28282-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 100; opacity: 1; display: block; visibility: visible; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15196744645_a420936bb3_b-4"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeThN" data-cycle-slide_title=
-	"15196744645_a420936bb3_b" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15196744645_a420936bb3_b3.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 99; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="robot-screen"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeR9C" data-cycle-slide_title=
-	"robot+screen" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/robot-screen-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 97; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15206147035_1db3f0fce7_z-2"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeR9G" data-cycle-slide_title=
-	"15206147035_1db3f0fce7_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15206147035_1db3f0fce7_z1.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 96; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026522837_aa0b94fda2_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRpW" data-cycle-slide_title=
-	"15026522837_aa0b94fda2_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026522837_aa0b94fda2_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 95; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15018896840_bb57349874_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRq0" data-cycle-slide_title=
-	"15018896840_bb57349874_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15018896840_bb57349874_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 94; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026596209_ca41d440d5_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRq3" data-cycle-slide_title=
-	"15026596209_ca41d440d5_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026596209_ca41d440d5_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 93; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15203274631_4e34500708_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRq9" data-cycle-slide_title=
-	"15203274631_4e34500708_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15203274631_4e34500708_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 92; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15183257056_8250561805_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRqb" data-cycle-slide_title=
-	"15183257056_8250561805_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15183257056_8250561805_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 91; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15019511878_825b79ba27_z-3"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeTyd" data-cycle-slide_title=
-	"15019511878_825b79ba27_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15019511878_825b79ba27_z2.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 90; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15204569862_b23801cbc0_k"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeTyj" data-cycle-slide_title=
-	"From+Confucius+to+C-Pop" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15204569862_b23801cbc0_k-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 89; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15018944788_3a7b5b48c5_z-2"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNIT7" data-cycle-slide_title=
-	"15018944788_3a7b5b48c5_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15018944788_3a7b5b48c5_z1.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 88; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-6"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJ9n" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/An-Insight-An-Idea-with-Yao-Ming-2594-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 87; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-11"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNGdW" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/girlrising.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 86; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-12"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJ9x" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/K8A0281-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 85; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-9"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRGI" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/All-new-Champions-2599-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 84; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-8"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeUC9" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/IMG_5875-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 83; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15185534962_a577d4cc86_k-3"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNM58" data-cycle-slide_title=
-	"15185534962_a577d4cc86_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15185534962_a577d4cc86_k2.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 82; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026809588_15769da77a_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNM5c" data-cycle-slide_title=
-	"15026809588_15769da77a_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026809588_15769da77a_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 81; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15192107871_f898556503_k-3"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeU5h" data-cycle-slide_title=
-	"15192107871_f898556503_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15192107871_f898556503_k2.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 80; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15000437440_4a3bf644f3_k-5"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJpZ" data-cycle-slide_title=
-	"15000437440_4a3bf644f3_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15000437440_4a3bf644f3_k4.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 79; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026443709_161d5e59aa_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeUCn" data-cycle-slide_title=
-	"15026443709_161d5e59aa_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026443709_161d5e59aa_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 78; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026620498_3d45106761_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJq6" data-cycle-slide_title=
-	"15026620498_3d45106761_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026620498_3d45106761_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 77; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15190156446_d55d600a7a_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeV9a" data-cycle-slide_title=
-	"15190156446_d55d600a7a_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15190156446_d55d600a7a_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 76; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15007532547_bfc7f48d43_k-3"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJGs" data-cycle-slide_title=
-	"15007532547_bfc7f48d43_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15007532547_bfc7f48d43_k2.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 75; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15019572757_cd2cc409c5_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNMC5" data-cycle-slide_title=
-	"15019572757_cd2cc409c5_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15019572757_cd2cc409c5_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 74; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15010783959_0914b824a9_k-2"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNMCc" data-cycle-slide_title=
-	"15010783959_0914b824a9_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15010783959_0914b824a9_k1.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 73; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15190647566_a946814cfb_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeV9n" data-cycle-slide_title=
-	"15190647566_a946814cfb_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15190647566_a946814cfb_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 72; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-</div>
-```
 */
+.header__search--form {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 132px;
+  padding: 16px 0;
+  background-color: #000000;
+  z-index: 10000;
+  -webkit-transition: opacity 1s ease-in 0s;
+  -moz-transition: opacity 1s ease-in 0s;
+  transition: opacity 1s ease-in 0s;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  -khtml-opacity: 0;
+  zoom: 1; }
+
+.header__search--open {
+  display: block;
+  -webkit-transition: opacity 1s ease-in 0s;
+  -moz-transition: opacity 1s ease-in 0s;
+  transition: opacity 1s ease-in 0s;
+  opacity: 1;
+  filter: alpha(opacity=100);
+  -moz-opacity: 1;
+  -khtml-opacity: 1;
+  zoom: 1; }
+
+.header__search--input {
+  width: 90%;
+  height: 100px;
+  background-color: #000000;
+  border: none;
+  outline: none;
+  font-size: ms(7);
+  color: #ffffff;
+  text-align: center; }
+  .header__search--input::-webkit-input-placeholder {
+    color: #c7c7c7; }
+  .header__search--input::-moz-placeholder {
+    color: #c7c7c7; }
+  .header__search--input:-moz-placeholder {
+    color: #c7c7c7; }
+  .header__search--input:-ms-input-placeholder {
+    color: #c7c7c7; }
+
+.header__search--submit {
+  position: relative;
+  width: 5%;
+  height: 100px;
+  border: none;
+  background-color: transparent;
+  color: #ffffff; }
+
+.header__search--submit:before {
+  font-size: ms(5);
+  content: "\e612"; }
+
+.page-wrap.search--active:before {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  content: ""; }
+
 /**
  * Single Page Styles
  */

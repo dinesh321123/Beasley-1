@@ -6,11 +6,12 @@
  */
 (function() {
 
-	var livePlayerFix, livePlayerInit,
+	var livePlayerFix, livePlayerInit, showSearch,
 
 		body = document.querySelector( 'body' ),
 		html = document.querySelector( 'html'),
 		mobileNavButton = document.querySelector( '.mobile-nav__toggle' ),
+		pageWrap = document.getElementById( 'page-wrap' ),
 		header = document.getElementById( 'header' ),
 		headerHeight = header.offsetHeight,
 		livePlayer = document.getElementById( 'live-player__sidebar' ),
@@ -30,7 +31,9 @@
 		liveStreamHeight = liveStream.offsetHeight,
 		windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 		windowWidth = this.innerWidth || this.document.documentElement.clientWidth || this.document.body.clientWidth || 0,
-		scrollObject = {};
+		scrollObject = {},
+		searchForm = document.getElementById( 'header__search--form'),
+		searchBtn = document.getElementById( 'header__search');
 
 	/**
 	 * detects various positions of the screen on scroll to deliver states of the live player
@@ -284,6 +287,13 @@
 			window.addEventListener( 'load', livePlayerInit, false );
 		}
 	}
+
+	showSearch = function() {
+		searchForm.classList.toggle( 'header__search--open' );
+		pageWrap.classList.toggle( 'search--active' );
+	};
+
+	searchBtn.addEventListener('click', showSearch, false);
 
 	var scrollDebounce = _.debounce(getScrollPosition, 50),
 		scrollThrottle = _.throttle(getScrollPosition, 50),

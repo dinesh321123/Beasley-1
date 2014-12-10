@@ -117,6 +117,7 @@
 .header__search {
 	display: block;
 	color: $color-text-white;
+	cursor: pointer;
 	@include bp(medium) {
 		position: relative;
 		display: block;
@@ -143,6 +144,7 @@
 	height: 82px;
 	padding: 34px 0 30px;
 }
+
 .header__search--btn:before {
 	@extend %gmr-icons;
 	font-size: ms(1);
