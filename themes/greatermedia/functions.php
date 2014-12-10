@@ -95,7 +95,7 @@ function greatermedia_scripts_styles() {
 		'greatermedia',
 		get_template_directory_uri() . "/assets/js/greater_media{$postfix}.js",
 		array(
-			'headroom'
+			'underscore'
 		),
 		GREATERMEDIA_VERSION,
 		true
