@@ -67,6 +67,8 @@ class Sentinel {
 			$parts[] = $this->get_task_progress( 'preview_results' );
 		}
 
+		error_log( print_r( $parts, true ) );
+
 		$total_parts    = count( $parts );
 		$total_progress = array_sum( $parts );
 		$total          = 100 * $total_parts;

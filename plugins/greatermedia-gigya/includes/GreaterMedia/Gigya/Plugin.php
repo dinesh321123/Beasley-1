@@ -136,6 +136,7 @@ class Plugin {
 	}
 
 	public function register_task_handlers() {
+		error_log( 'GMR_GIGYA_VERSION: ' . GMR_GIGYA_VERSION );
 		$launcher = new Sync\Launcher();
 		$launcher->register();
 	}
