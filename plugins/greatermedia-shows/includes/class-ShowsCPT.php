@@ -33,8 +33,8 @@ class ShowsCPT {
 			add_action( 'init', array( self::$_instance, 'register_post_type' ) );
 			add_action( 'init', array( self::$_instance, 'register_shadow_taxonomy' ) );
 
-			add_filter( 'gmr_show_widget_item_post_types', array( self::$_instance, 'add_episode_pt_to_shows_widget' ) );
-			add_filter( 'gmr_shows_widget_item_ids', array( self::$_instance, 'get_episodes_widget_item_ids' ) );
+			add_filter( 'gmr_blogroll_widget_item_post_types', array( self::$_instance, 'add_episode_pt_to_blogroll_widget' ) );
+			add_filter( 'gmr_blogroll_widget_item_ids', array( self::$_instance, 'get_episodes_blogroll_widget_item_ids' ) );
 		}
 
 		return self::$_instance;
@@ -146,25 +146,25 @@ class ShowsCPT {
 	}
 
 	/**
-	 * Registers show episode post type in the shows widget.
+	 * Registers show episode post type in the blogroll widget.
 	 *
-	 * @filter gmr_show_widget_item_post_types
+	 * @filter gmr_blogroll_widget_item_post_types
 	 * @param array $post_types The post types array.
 	 * @return array The post types array.
 	 */
-	public function add_episode_pt_to_shows_widget( $post_types ) {
+	public function add_episode_pt_to_blogroll_widget( $post_types ) {
 		$post_types[] = self::EPISODE_CPT;
 		return $post_types;
 	}
 
 	/**
-	 * Returns show episode ids to include into shows widget.
+	 * Returns show episode ids to include into blogroll widget.
 	 *
-	 * @filter gmr_shows_widget_item_ids
+	 * @filter gmr_blogroll_widget_item_ids
 	 * @param array $posts The array post ids.
 	 * @return array The extended array with show episodes ids.
 	 */
-	public function get_episodes_widget_item_ids( $posts ) {
+	public function get_episodes_blogroll_widget_item_ids( $posts ) {
 		$query = new WP_Query();
 
 		return array_merge( $posts, $query->query(  array(

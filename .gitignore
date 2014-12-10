@@ -38,3 +38,4 @@ mu-plugins/test-data-store.php
 /plugins/rewrite-rules-inspector
 /plugins/simple-local-avatars
 /plugins/wordpress-seo
+/plugins/greatermedia-live-stream/node_modules/

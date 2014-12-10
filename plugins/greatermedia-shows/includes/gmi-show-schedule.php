@@ -8,7 +8,7 @@ add_action( 'admin_action_gmr_delete_show_episode', 'gmrs_delete_show_episode' )
 add_action( 'future_to_publish', 'gmrs_prolong_show_episode' );
 
 // filter hooks
-add_filter( 'gmr_show_widget_item', 'gmrs_get_widget_episode_item' );
+add_filter( 'gmr_blogroll_widget_item', 'gmrs_get_blogroll_widget_episode_item' );
 
 /**
  * Creates new episode each time the current one is published.
@@ -520,13 +520,13 @@ function gmrs_get_current_show() {
 }
 
 /**
- * Returns show episode HTML for live link widget.
+ * Returns blogroll episode HTML for live link widget.
  *
- * @filter gmr_show_widget_item
+ * @filter gmr_blogroll_widget_item
  * @param string $item The initial HTML of a widget item.
  * @return string Show episode HTML if it is an episode post, otherwise initial HTML.
  */
-function gmrs_get_widget_episode_item( $item ) {
+function gmrs_get_blogroll_widget_episode_item( $item ) {
 	$episode = get_post();
 	if ( ! $episode || ShowsCPT::EPISODE_CPT != $episode->post_type ) {
 		return $item;
