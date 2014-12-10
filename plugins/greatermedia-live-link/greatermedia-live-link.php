@@ -24,9 +24,9 @@ add_action( 'deleted_post', 'gmr_ll_delete_post_live_links' );
 add_filter( 'manage_' . GMR_LIVE_LINK_CPT . '_posts_columns', 'gmr_ll_filter_columns_list' );
 add_filter( 'post_row_actions', 'gmr_ll_add_post_action', 10, 2 );
 add_filter( 'page_row_actions', 'gmr_ll_add_post_action', 10, 2 );
-add_filter( 'gmr_show_widget_item_post_types', 'gmr_ll_add_show_widget_post_types' );
-add_filter( 'gmr_shows_widget_item_ids', 'gmr_ll_get_widget_item_ids' );
-add_filter( 'gmr_show_widget_item', 'gmr_ll_output_show_widget_live_link_item' );
+add_filter( 'gmr_blogroll_widget_item_post_types', 'gmr_ll_add_blogroll_widget_post_types' );
+add_filter( 'gmr_blogroll_widget_item_ids', 'gmr_ll_get_widget_item_ids' );
+add_filter( 'gmr_blogroll_widget_item', 'gmr_ll_output_blogroll_widget_live_link_item' );
 add_filter( 'posts_where', 'gmr_ll_suggestion_by_post_title', 10, 2 );
 
 /**
@@ -493,21 +493,21 @@ function gmr_ll_copy_post_to_live_link( $post_id ) {
 }
 
 /**
- * Registers live link post type for shows widget.
+ * Registers live link post type for blogroll widget.
  *
- * @filter gmr_show_widget_item_post_types
+ * @filter gmr_blogroll_widget_item_post_types
  * @param array $post_types The post types array.
  * @return array The post types array.
  */
-function gmr_ll_add_show_widget_post_types( $post_types ) {
+function gmr_ll_add_blogroll_widget_post_types( $post_types ) {
 	$post_types[] = GMR_LIVE_LINK_CPT;
 	return $post_types;
 }
 
 /**
- * Returns live link ids to include into shows widget.
+ * Returns live link ids to include into blogroll widget.
  *
- * @filter gmr_shows_widget_item_ids
+ * @filter gmr_blogroll_widget_item_ids
  * @param array $posts The array post ids.
  * @return array The extended array with live link ids.
  */
@@ -526,12 +526,12 @@ function gmr_ll_get_widget_item_ids( $posts ) {
 }
 
 /**
- * Returns shows widget item output.
+ * Returns blogroll widget item output.
  * 
- * @filter gmr_show_widget_item
+ * @filter gmr_blogroll_widget_item
  * @return string The item html.
  */
-function gmr_ll_output_show_widget_live_link_item( $item ) {
+function gmr_ll_output_blogroll_widget_live_link_item( $item ) {
 	if ( GMR_LIVE_LINK_CPT != get_post_type() ) {
 		return $item;
 	}

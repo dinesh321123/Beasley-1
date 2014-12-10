@@ -40,19 +40,12 @@ module.exports = function( grunt ) {
 					'assets/js/liveplayer/liveplayer_test_auth.js'
 				],
 				dest: 'assets/js/liveplayer_test_auth.js'
-			},
-			greater_media_styleguide: {
-				src: [
-					'assets/js/styleguide/gm_styleguide.js'
-				],
-				dest: 'assets/js/gm_styleguide.js'
 			}
 		},
 		jshint: {
 			browser: {
 				all: [
 					'assets/js/src/**/*.js',
-					'assets/js/styleguide/**/*.js',
 					'assets/js/test/**/*.js'
 				],
 				options: {

@@ -26,7 +26,6 @@
 		liveLinks = document.getElementById( 'live-links' ),
 		liveLink = document.querySelector( '.live-link__title'),
 		liveLinksWidget = document.querySelector( '.widget--live-player' ),
-		liveLinksWidgetHeight = liveLinksWidget.offsetHeight,
 		liveStream = document.getElementById( 'live-player' ),
 		liveStreamHeight = liveStream.offsetHeight,
 		windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
@@ -111,6 +110,7 @@
 	}
 
 	function liveLinksAddHeight() {
+		var liveLinksWidgetHeight = liveLinksWidget.offsetHeight;
 		if ( body.classList.contains( 'logged-in' ) ) {
 			liveLinks.style.height = windowHeight - headerHeight - wpAdminHeight - livePlayerStreamSelectHeight - liveStreamHeight - 36 + 'px';
 		} else {
@@ -281,7 +281,9 @@
 					onAir.style.display = 'block';
 				});
 			}
-			liveLink.addEventListener( 'click', liveLinksClose(), false );
+			if(liveLinksWidget != null) {
+				liveLink.addEventListener('click', liveLinksClose(), false);
+			}
 		}
 		if ( window.innerWidth >= 768 ) {
 			window.addEventListener( 'load', livePlayerInit, false );
@@ -310,7 +312,9 @@
 		if(nowPlaying != null) {
 			nowPlaying.addEventListener( 'click', nowPlayingClick, false );
 		}
-		liveLink.addEventListener( 'click', liveLinksClose(), false );
+		if(liveLinksWidget != null) {
+			liveLink.addEventListener('click', liveLinksClose(), false);
+		}
 		window.addEventListener( 'resize', function() {
 			resizeDebounce();
 			resizeThrottle();
@@ -318,7 +322,9 @@
 	} else {
 		window.addEventListener( 'load', function() {
 			livePlayerInit();
-			liveLinksAddHeight();
+			if(liveLinksWidget != null) {
+				liveLinksAddHeight();
+			}
 		}, false );
 		window.addEventListener( 'scroll', function() {
 			scrollDebounce();

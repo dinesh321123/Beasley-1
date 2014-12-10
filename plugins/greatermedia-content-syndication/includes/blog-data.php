@@ -57,6 +57,7 @@ class BlogData {
 				$defaults[ $label ] = $terms;
 
 			}
+
 			$imported_post_ids = array();
 			foreach ( $result as $single_post ) {
 				array_push( $imported_post_ids,
@@ -79,18 +80,22 @@ class BlogData {
 	/**
 	 * Query content site and return full query result
 	 *
-	 * @param int    $subscription_id
-	 * @param string $post_type
+	 * @param int $subscription_id
+	 * @param string $start_date
 	 *
 	 * @return array WP_Post objects
 	 */
-	public static function QueryContentSite( $subscription_id ) {
+	public static function QueryContentSite( $subscription_id , $start_date = '' ) {
 		global $switched;
 
 		$result = array();
 
-		$last_queried = get_option( 'syndication_last_performed', 0);
-		$last_queried = date('Y-m-d H:i:s', $last_queried );
+		if( $start_date == '' ) {
+			$last_queried = get_option( 'syndication_last_performed', 0);
+			$last_queried = date( 'Y-m-d H:i:s', $last_queried );
+		} else {
+			$last_queried = $start_date;
+		}
 
 		$post_type = get_post_meta( $subscription_id, 'subscription_type', true );
 		$post_type = sanitize_text_field( $post_type );

@@ -10,7 +10,6 @@ add_action( 'admin_action_gmr_stream_make_primary', 'gmr_streams_make_primary' )
 // filter hooks
 add_filter( 'manage_' . GMR_LIVE_STREAM_CPT . '_posts_columns', 'gmr_streams_filter_columns_list' );
 add_filter( 'gmr_live_player_streams', 'gmr_streams_get_public_streams' );
-add_filter( 'gmr_shows_widget_transient_name', 'gmr_streams_update_shows_widget_transient_name' );
 add_filter( 'post_type_link', 'gmr_streams_get_stream_permalink', 10, 2 );
 add_filter( 'request', 'gmr_streams_unpack_vars' );
 
@@ -136,7 +135,7 @@ function gmr_streams_register_post_type() {
 	$wp->add_query_var( GMR_LIVE_STREAM_CPT );
 	$rules = $wp_rewrite->wp_rewrite_rules();
 	if ( ! isset( $rules[ $regex ] ) ) {
-		flush_rewrite_rules();
+		$wp_rewrite->flush_rules();
 	}
 }
 
@@ -385,29 +384,4 @@ function gmr_streams_get_primary_stream() {
 	}
 
 	return $stream;
-}
-
-/**
- * Adjusts shows widget transient name to make unique transients per stream.
- *
- * @filter gmr_shows_widget_transient_name
- * @param string $name The initial transient name.
- * @return string Adjusted transient name.
- */
-function gmr_streams_update_shows_widget_transient_name( $name ) {
-	$stream = null;
-	$sign = filter_input( INPUT_GET, 'stream' );
-	if ( ! empty( $sign ) ) {
-		$stream = gmr_streams_get_stream_by_sign( $sign );
-	}
-
-	if ( ! $stream ) {
-		$stream = gmr_streams_get_primary_stream();
-	}
-
-	if ( $stream ) {
-		$name .= '_' . get_post_meta( $stream->ID, 'call_sign', true );
-	}
-
-	return $name;
 }

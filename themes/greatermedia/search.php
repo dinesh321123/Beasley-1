@@ -16,14 +16,38 @@ get_header(); ?>
 
 			<section class="content">
 
-				<h2 class="page__title"><?php printf( __( 'Search Results for: %s', 'greatermedia' ), '<span class="search__term">' . get_search_query() . '</span>' ); ?></h2>
+				<?php
+					$search_count = new WP_Query( 's=' . $s . '&posts_per_page=-1' );
+					$key = wp_specialchars( $s, 1 );
+					$count = $search_count->post_count;
 
-				<?php do_action( 'keyword_search_result' ); ?>
+					echo '<h2 class="search__results--count">' . $count . ' ';
+					_e( 'Results Found', 'greatermedia' );
+					echo '</h2>';
 
-				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-				<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+					wp_reset_postdata();
+				?>
 
-					<h2 class="entry__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+				<h3 class="search__keyword"><?php printf( __( 'Keyword: %s', 'greatermedia' ), '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
+
+				<div class="keyword__search--results">
+
+					<?php do_action( 'keyword_search_result' ); ?>
+
+				</div>
+
+				<h2 class="search__title"><?php _e( 'Relevant Search Results', 'greatermedia' ); ?></h2>
+
+				<?php if ( have_posts() ) : while ( have_posts() ) : the_post();
+					$title = get_the_title();
+					$keys= explode(" ",$s);
+					$title = preg_replace('/('.implode('|', $keys) .')/iu', '<span class="search__result--term">\0</span>', $title);
+					?>
+				<article id="post-<?php the_ID(); ?>" <?php post_class( 'search__result' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+
+					<time datetime="<?php the_time( 'c' ); ?>" class="search__result--date"><?php the_time( 'M j, Y' ); ?></time>
+
+					<h3 class="search__result--title"><a href="<?php the_permalink(); ?>"><?php echo $title ?></a></h3>
 
 				</article>
 				<?php endwhile; ?>

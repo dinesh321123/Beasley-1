@@ -8,22 +8,20 @@
 ?>
 <section id="featured" class="featured">
 	<div class="container">
-		<div class="featured__artist">
-			<div class="featured__artist--image">
+		<div class="featured__article">
+			<div class="featured__article--image">
 				<img src="http://placehold.it/2800x1000&text=featured+image">
 			</div>
-			<div class="featured__artist--content">
-				<div class="featured__artist--heading">
-					<h2 class="featured__artist--title"><?php _e( 'Artist of the Month', 'greatermedia' ); ?></h2>
-					<h3 class="featured__artist--subtitle">Minshara</h3>
+			<div class="featured__article--content">
+				<div class="featured__article--heading">
+					<h2 class="featured__article--title"><?php _e( 'Artist of the Month', 'greatermedia' ); ?></h2>
+					<h3 class="featured__article--subtitle">Minshara</h3>
 				</div>
-				<div class="featured__artist--bio">
+				<div class="featured__article--bio">
 					Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
 		<div class="featured__content">
 			<div class="featured__content--block">
 				<div class="featured__content--image">

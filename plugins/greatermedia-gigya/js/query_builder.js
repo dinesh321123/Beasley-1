@@ -1409,11 +1409,12 @@ var QueryResultCollection = Backbone.Collection.extend({
 
 	initialize: function(models, options) {
 		this.activeConstraints = options.activeConstraints;
-		this.pollDelay         = 5; // seconds
+		this.pollDelay         = 3; // seconds
 		this.maxQueryTime      = 5 * 60; // seconds
 		this.maxRetries        = Math.floor( this.maxQueryTime / this.pollDelay );
 		this.retries           = 0;
 		this.fetchStatusProxy  = $.proxy(this.fetchStatus, this);
+		this.lastProgress      = 0;
 
 		Backbone.Collection.prototype.initialize(this, models, options);
 	},
@@ -1474,7 +1475,13 @@ var QueryResultCollection = Backbone.Collection.extend({
 				this.trigger('searchSuccess');
 				this.clear();
 			} else {
-				this.trigger('searchProgress', response.data.progress);
+				var progress = response.data.progress;
+				if (this.lastProgress !== progress) {
+					this.lastProgress = progress;
+					this.retries--;
+				}
+
+				this.trigger('searchProgress', progress);
 				this.startPolling();
 			}
 		} else {
@@ -1511,7 +1518,7 @@ var QueryResultCollection = Backbone.Collection.extend({
 	},
 
 	didClearSuccess: function(response) {
-		console.log('didClearSuccess', response);
+
 	},
 
 	didClearError: function(response) {
@@ -1973,6 +1980,8 @@ var PreviewView = Backbone.View.extend({
 		Backbone.View.prototype.initialize.call(this, options);
 		this.search();
 		this.previewEnabled = true;
+
+		this.stepper = new Stepper('didStep', this);
 	},
 
 	didPreviewClick: function(event) {
@@ -1989,14 +1998,21 @@ var PreviewView = Backbone.View.extend({
 	},
 
 	didSearchStart: function() {
+		this.stepper.start(0);
 		this.setPreviewEnabled(false);
 	},
 
 	didSearchProgress: function(progress) {
+		this.stepper.update(progress);
+	},
+
+	didStep: function(progress) {
 		this.setStatus('Searching, Please wait ... ' + progress + '%');
 	},
 
 	didSearchSuccess: function() {
+		this.stepper.stop();
+
 		var total    = this.collection.getTotalResults();
 		var message = total + ' records found';
 
@@ -2011,10 +2027,12 @@ var PreviewView = Backbone.View.extend({
 	},
 
 	didSearchError: function(message) {
+		this.stepper.stop();
 		this.setStatus("Error: " + message);
 	},
 
 	didSearchTimeout: function() {
+		this.stepper.stop();
 		this.setStatus('Error: Query timed out, please try again.');
 		this.setPreviewEnabled(true);
 	},
@@ -2032,6 +2050,58 @@ var PreviewView = Backbone.View.extend({
 	},
 
 });
+
+var Stepper = function(callback, scope) {
+	this.callback   = callback;
+	this.scope      = scope;
+	this.intervalID = -1;
+
+	var self = this;
+	this.stepFunc = function() {
+		self.step();
+	};
+};
+
+Stepper.prototype = {
+
+	start: function(value) {
+		this.value   = value;
+		this.current = 0;
+		this.startInterval();
+	},
+
+	update: function(value) {
+		this.value = value;
+
+		if (!this.isRunning()) {
+			this.startInterval();
+		}
+	},
+
+	startInterval: function() {
+		clearInterval(this.intervalID);
+		this.intervalID = setInterval(this.stepFunc, 100);
+	},
+
+	stop: function() {
+		clearInterval(this.intervalID);
+		this.intervalID = -1;
+	},
+
+	step: function() {
+		if (this.current < this.value) {
+			this.current++;
+			this.scope[this.callback](this.current);
+		} else {
+			this.stop();
+		}
+	},
+
+	isRunning: function() {
+		return this.intervalID !== -1;
+	}
+
+};
 
 var QueryResultItemView = Backbone.CollectionView.extend({
 

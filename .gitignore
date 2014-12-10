@@ -16,10 +16,6 @@ plugins/role-quick-changer/
 plugins/the-events-calendar/
 plugins/wp-crontrol/
 plugins/edit-flow/
-plugins/duplicate-post/
-plugins/ooyala-video-browser/
-plugins/simple-page-ordering/
-plugins/tag-pages/
 themes/index.php
 themes/twentyfourteen
 upgrade/
@@ -36,3 +32,9 @@ mu-plugins/test-data-store.php
 /plugins/json-rest-api/
 /plugins/duplicate-post
 /plugins/rewrite-rules-inspector
+/plugins/simple-local-avatars
+/plugins/wordpress-seo
+/plugins/greatermedia-live-stream/node_modules/
+plugins/ooyala-video-browser/
+plugins/simple-page-ordering/
+plugins/tag-pages/

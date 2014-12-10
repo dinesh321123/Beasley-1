@@ -1,33 +1,38 @@
 .featured {
 	position: relative;
 	@extend %main;
-	padding: 48px 0;
+}
+
+.featured .container {
+	padding-top: 48px;
+	padding-bottom: 48px;
 	background: url(../../images/featured-bg.png) repeat center center $abbey;
 	background-size: auto 40%;
 }
 
-.featured .container {
-	width: 87.5%;
+.featured__article, .featured__content {
+	@include span-columns(4);
+	padding-bottom: 34px;
 	@include bp(small) {
-		width: 88.333333333333%;
+		@include span-columns(6);
+	}
+	@include bp(medium) {
+		@include span-columns(6);
+		@include shift(1);
+		padding-right: 0;
+		padding-left: 0;
 	}
 	@include bp(large) {
-		width: 85.920577617329%;
+		@include span-columns(10);
+		@include shift(1);
 	}
 	@include bp(x-large) {
-		width: 92.08770257388%;
+		@include span-columns(10);
+		@include shift(1);
 	}
 }
 
-.featured__artist, .featured__content {
-	width: 100%;
-}
-
-.featured__artist {
-	padding-bottom: 34px;
-}
-
-.featured__artist--image {
+.featured__article--image {
 	width: 100%;
 	height: 100px;
 	overflow: hidden;
@@ -43,7 +48,7 @@
 	}
 }
 
-.featured__artist--content {
+.featured__article--content {
 	width: 100%;
 	padding: 15px 3.928571428572%;
 	overflow: auto;
@@ -60,7 +65,7 @@
 	}
 }
 
-.featured__artist--heading {
+.featured__article--heading {
 	float: left;
 	width: 100%;
 	@include bp(large) {
@@ -73,7 +78,7 @@
 	}
 }
 
-.featured__artist--title {
+.featured__article--title {
 	margin-top: 0;
 	margin-bottom: 10px;
 	line-height: 1;
@@ -82,14 +87,14 @@
 	font-weight: normal;
 }
 
-.featured__artist--subtitle {
+.featured__article--subtitle {
 	margin: 0;
 	line-height: 1;
 	font-size: ms(7);
 	color: $color-text-white;
 }
 
-.featured__artist--bio {
+.featured__article--bio {
 	display: none;
 	@include bp(large) {
 		display: block;

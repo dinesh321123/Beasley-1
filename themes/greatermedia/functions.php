@@ -91,81 +91,40 @@ function greatermedia_scripts_styles() {
 		array(),
 		'4.2'
 	);
-
-	if ( is_page( 'style-guide' ) ) {
-		wp_enqueue_script(
-			'gm-styleguide',
-			get_template_directory_uri() . "/assets/js/gm_styleguide{$postfix}.js",
-			array(
-				'jquery'
-			),
-			GREATERMEDIA_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'google-code-pretify',
-			get_template_directory_uri() .
-			'/assets/js/styleguide/prettify.js',
-			array(
-				'jquery'
-			),
-			GREATERMEDIA_VERSION,
-			true
-		);
-		wp_enqueue_style(
-			'gm-styleguide',
-			get_template_directory_uri() . "/assets/css/gm_styleguide{$postfix}.css",
-			array(
-				'open-sans',
-				'droid-sans',
-				'font-awesome'
-			),
-			GREATERMEDIA_VERSION
-		);
-	} else {
-		wp_enqueue_script(
-			'greatermedia',
-			get_template_directory_uri() . "/assets/js/greater_media{$postfix}.js",
-			array(
-				'underscore'
-			),
-			GREATERMEDIA_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'cycle2',
-			get_template_directory_uri() . "/assets/js/vendor/cycle2.min.js",
-			array(),
-			'2.1.6',
-			false
-		);
-		wp_enqueue_script(
-			'respond.js',
-			get_template_directory_uri() . '/assets/js/vendor/respond.min.js',
-			array(),
-			'1.4.2',
-			false
-		);
-		wp_enqueue_script(
-			'html5shiv',
-			get_template_directory_uri() . '/assets/js/vendor/html5shiv-printshiv.js',
-			array(),
-			'3.7.2',
-			false
-		);
-		wp_enqueue_style(
-			'greatermedia',
-			get_template_directory_uri() . "/assets/css/greater_media{$postfix}.css",
-			array(
-				'dashicons',
-				'open-sans',
-				'droid-sans',
-				'font-awesome'
-			),
-			GREATERMEDIA_VERSION
-		);
-	};
-
+	wp_enqueue_script(
+		'greatermedia',
+		get_template_directory_uri() . "/assets/js/greater_media{$postfix}.js",
+		array(
+			'underscore'
+		),
+		GREATERMEDIA_VERSION,
+		true
+	);
+	wp_enqueue_script(
+		'respond.js',
+		get_template_directory_uri() . '/assets/js/vendor/respond.min.js',
+		array(),
+		'1.4.2',
+		false
+	);
+	wp_enqueue_script(
+		'html5shiv',
+		get_template_directory_uri() . '/assets/js/vendor/html5shiv-printshiv.js',
+		array(),
+		'3.7.2',
+		false
+	);
+	wp_enqueue_style(
+		'greatermedia',
+		get_template_directory_uri() . "/assets/css/greater_media{$postfix}.css",
+		array(
+			'dashicons',
+			'open-sans',
+			'droid-sans',
+			'font-awesome'
+		),
+		GREATERMEDIA_VERSION
+	);
 }
 
 add_action( 'wp_enqueue_scripts', 'greatermedia_scripts_styles');
@@ -271,9 +230,16 @@ function get_results_for_keyword() {
 			global $post;
 			$post = get_post( $custom_post_id );
 			setup_postdata( $post );
+			$title = get_the_title();
+			$keys= explode(" ",$search_query_arg);
+			$title = preg_replace('/('.implode('|', $keys) .')/iu', '<span class="search__result--term">\0</span>', $title);
 			?>
-			<article id="post-<?php the_ID(); ?>" <?php echo post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-				<h2 class="entry__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+			<article id="post-<?php the_ID(); ?>" <?php post_class( 'search__result' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+
+				<time datetime="<?php the_time( 'c' ); ?>" class="search__result--date"><?php the_time( 'M j, Y' ); ?></time>
+
+				<h3 class="search__result--title"><a href="<?php the_permalink(); ?>"><?php echo $title ?></a></h3>
+
 			</article>
 			<?php
 			wp_reset_postdata();
