@@ -35,3 +35,4 @@ require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-live-links.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-schedule.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-quickpost.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-widget.php';
+require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-endpoints.php';

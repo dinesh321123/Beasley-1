@@ -8,6 +8,8 @@ class SyndicationCPT {
 
 	private $post_type = 'subscription';
 
+	private $supported_subscriptions = array( 'post', 'content-kit' );
+
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_syndication_cpt' ) );
 		add_action( 'init', array( $this, 'register_collections_taxonomy' ) );
@@ -80,7 +82,7 @@ class SyndicationCPT {
 			);
 		}
 
-		register_taxonomy( 'collection', array( 'post' ), $args );
+		register_taxonomy( 'collection', array( 'post', 'announcement', 'content-kit' ), $args );
 	}
 
 
@@ -329,6 +331,15 @@ class SyndicationCPT {
 		);
 
 		add_meta_box(
+			'subscription_type'
+			,__( 'Choose subscription type', 'greatermedia' )
+			,array( $this, 'render_subscription_type' )
+			,$this->post_type
+			,'advanced'
+			,'high'
+		);
+
+		add_meta_box(
 			'filter_metaboxes'
 			,__( 'Filters  - please choose one', 'greatermedia' )
 			,array( $this, 'render_filter_metabox' )
@@ -473,6 +484,39 @@ class SyndicationCPT {
 			update_post_meta( $post_id, 'subscription_enabled_filter', $enabled_taxonomy  );
 		}
 
+		if( isset( $_POST['subscription_type'] ) ) {
+			$subscription_type = sanitize_text_field( $_POST['subscription_type'] );
+			// Update the meta field.
+			update_post_meta( $post_id, 'subscription_type', $subscription_type  );
+		}
+	}
+
+
+	public function render_subscription_type( $post ) {
+
+		$subscription_type = get_post_meta( $post->ID, 'subscription_type', true );
+		$checked = '';
+
+		foreach( $this->supported_subscriptions as $type ) {
+			echo '<p>';
+
+			if( post_type_exists( $type ) ) {
+				$cpt_obj = get_post_type_object( $type );
+
+				if( $subscription_type != '' ) {
+					$checked = $subscription_type == $type ? 'checked' : '';
+				} elseif( $type == 'post') {
+					$checked = 'checked';
+				} else {
+					$checked = '';
+				}
+
+				echo '<input ' . esc_attr( $checked ) . ' type="radio" name="subscription_type" value="' . esc_attr( $type ) . '">';
+				echo '<label for"' . esc_attr( $type ) . '">' . esc_html( $cpt_obj->labels->name ) . '</label>';
+				echo '</p>';
+			}
+		}
+
 	}
 
 	/**
@@ -524,6 +568,7 @@ class SyndicationCPT {
 				echo '<span class="description">Create a filter using a single ' . $taxonomy .'</span>';
 			}
 		}
+
 		echo '<input type="hidden" id="enabled_filter_taxonomy" name="enabled_filter_taxonomy" value="' . $enabled_filter. '">';
 	}
 
