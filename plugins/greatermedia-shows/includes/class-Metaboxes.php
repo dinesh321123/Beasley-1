@@ -197,10 +197,13 @@ class GMR_Show_Metaboxes {
 			$term = get_term_by( 'id', $user_show, ShowsCPT::SHOW_TAXONOMY );
 			if ( false !== $term ) {
 				update_user_option( $user_id, 'show_tt_id', $term->term_taxonomy_id, false );
+				update_user_option( $user_id, 'show_tt_id_' . $term->term_taxonomy_id, true, false ); // Adds a version of the key with the show in the key, so that lookups are quicker
 			}
 		} else {
 			// Remove the show association
+			$old_tt_id = get_user_option( 'show_tt_id', $user_id );
 			delete_user_option( $user_id, 'show_tt_id', false );
+			delete_user_option( $user_id, 'show_tt_id_' . intval( $old_tt_id ) );
 		}
 	}
 

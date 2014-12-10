@@ -36,3 +36,5 @@ mu-plugins/test-data-store.php
 /plugins/json-rest-api/
 /plugins/duplicate-post
 /plugins/rewrite-rules-inspector
+/plugins/simple-local-avatars
+/plugins/wordpress-seo
