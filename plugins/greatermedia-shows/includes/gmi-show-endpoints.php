@@ -12,7 +12,7 @@ add_action( 'template_include', __NAMESPACE__ . '\filter_template' );
  * @return array
  */
 function get_sections() {
-	return array( 'about' );
+	return array( 'about', 'podcasts', 'albums', 'videos' );
 }
 
 /**
