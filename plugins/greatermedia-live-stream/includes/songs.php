@@ -192,16 +192,19 @@ function gmr_songs_remove_copy_to_live_link_action( $add_copy_action, WP_Post $p
  * @return string The song item HTML if it has song post type or initial HTML if it doesn't.
  */
 function gmr_songs_shows_widget_item( $item ) {
-	if ( get_post_type() != GMR_SONG_CPT ) {
+	$song = get_post();
+	if ( GMR_SONG_CPT != $song->post_type ) {
 		return $item;
 	}
 
 	$item = '<div class="live-link__song">';
 		$item .= '<div class="live-link__song--artist">';
-			$item .= get_post_meta( get_the_ID(), 'artist', true );
+			$item .= get_post_meta( $song->ID, 'artist', true );
 		$item .= '</div>';
 		$item .= '<div class="live-link__song--title">';
-			$item .= get_the_title();
+			$item .= '<a href="' . esc_url( get_permalink( $song->post_parent ) ) . '">';
+				$item .= get_the_title();
+			$item .= '</a>';
 		$item .= '</div>';
 	$item .= '</div>';
 
