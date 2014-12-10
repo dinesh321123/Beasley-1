@@ -1,22 +1,84 @@
-(function ($,window,undefined) {
-	"use strict";
+$(document).ready(function () {
+	configurePlatformIdButtons();
+	configureTechButtons();
+	configureSBMButtons();
+});
+//Change platformid buttons - Triton Digital QA usage only.
+var platformid = getUrlVars()['platformid'] || 'prod';
+var tech = getUrlVars()['tech'] || 'flash';
+var sbm = getUrlVars()['sbm'] == 'false' ? false : true;
+var aSyncCuePointFallback = getUrlVars()['aSyncCuePointFallback'] == 'false' ? false : true;
 
-	var tech = getUrlVars()['tech'];
-	var aSyncCuePointFallback = getUrlVars()['aSyncCuePointFallback'] == 'false' ? false : true;
+var player;
+/* TD player instance */
+var station = 'KOITFM';
+/* Default audio station */
+var stationVideo = 'CKOIFMFLASH1';
+/* Default video station */
 
-	var player; // player instance
-	var adPlaying; // boolean - ad break currently playing
-	var currentTrackCuePoint; // current track
-	var livePlaying; // boolean - live stream currently playing
-	var song; // song object that wrap NPE data
-	var currentStation = ''; // string - current station playing
+var currentTrackCuePoint;
+/* Current Track */
+var livePlaying;
+/* boolean - Live stream currently playing */
+var song;
+/* Song object that wraps NPE data */
+var currentStation = '';
+/* String - Current station played */
 
-	/**
-	 * @todo remove the console log before beta
-	 */
-	window.tdPlayerApiReady = function () {
-		console.log("--- TD Player API Loaded ---")
-		initPlayer();
+window.tdPlayerApiReady = function () {
+	console.log("--- TD Player API Loaded ---")
+	initPlayer();
+};
+
+function initPlayer() {
+	var techPriority;
+	switch (tech) {
+		case 'html5_flash' :
+			techPriority = ['Html5', 'Flash'];
+			break;
+		case 'flash' :
+			techPriority = ['Flash'];
+			break;
+		case 'html5' :
+			techPriority = ['Html5'];
+			break;
+		case 'flash_html5' :
+		default :
+			techPriority = ['Flash', 'Html5'];
+			break;
+
+	}
+
+	/* TD player configuration object used to create player instance */
+	var tdPlayerConfig = {
+		coreModules: [
+			{
+				id: 'MediaPlayer',
+				playerId: 'td_container',
+				platformId: platformid + '01', //prod01 by default.
+				isDebug: true,
+				techPriority: techPriority, /* (default behaviour) or ['Html5', 'Flash'] or ['Flash'] or ['Html5'] */
+				timeShift: {
+					/* The 'timeShift' configuration object is optional, by default the timeShifting is inactive and is Flash only, HTML5 to be tested in a future version of PlayerCore */
+					active: 0, /* 1 = active, 0 = inactive */
+					max_listening_time: 35 /* If max_listening_time is undefined, the default value will be 30 minutes */
+				},
+				sbm: {active: sbm, aSyncCuePointFallback: aSyncCuePointFallback},
+				geoTargeting: {desktop: {isActive: false}, iOS: {isActive: false}, android: {isActive: false}}
+			},
+			{id: 'UserRegistration', tenantId: 'see_1670', platformId: platformid + '01'},
+			{id: 'NowPlayingApi'},
+			{id: 'Npe'},
+			{id: 'PlayerWebAdmin'},
+			{id: 'SyncBanners',
+				elements: [{id: 'td_synced_bigbox', width: 300, height: 250}, {
+					id: 'td_synced_leaderboard',
+					width: 728,
+					height: 90
+				}]
+			},
+			{id: 'TargetSpot'}
+		]
 	};
 
 	function initPlayer() {
