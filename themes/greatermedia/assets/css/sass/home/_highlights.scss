@@ -1,6 +1,10 @@
 .highlights {
 	@extend %main;
-	padding: 33px 0;
+}
+
+.highlights .container {
+	padding-top: 33px;
+	padding-bottom: 33px;
 	background-color: $athens-gray;
 	@include bp(small) {
 		padding-top: 36px;
@@ -13,6 +17,27 @@
 	@include bp(x-large) {
 		padding-top: 35px;
 		padding-bottom: 35px;
+	}
+}
+
+.highlights__col {
+	@include span-columns(4);
+	@include bp(small) {
+		@include span-columns(6);
+	}
+	@include bp(medium) {
+		@include span-columns(6);
+		@include shift(1);
+		padding-right: 0;
+		padding-left: 0;
+	}
+	@include bp(large) {
+		@include span-columns(10);
+		@include shift(1);
+	}
+	@include bp(x-large) {
+		@include span-columns(10);
+		@include shift(1);
 	}
 }
 
