@@ -91,81 +91,40 @@ function greatermedia_scripts_styles() {
 		array(),
 		'4.2'
 	);
-
-	if ( is_page( 'style-guide' ) ) {
-		wp_enqueue_script(
-			'gm-styleguide',
-			get_template_directory_uri() . "/assets/js/gm_styleguide{$postfix}.js",
-			array(
-				'jquery'
-			),
-			GREATERMEDIA_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'google-code-pretify',
-			get_template_directory_uri() .
-			'/assets/js/styleguide/prettify.js',
-			array(
-				'jquery'
-			),
-			GREATERMEDIA_VERSION,
-			true
-		);
-		wp_enqueue_style(
-			'gm-styleguide',
-			get_template_directory_uri() . "/assets/css/gm_styleguide{$postfix}.css",
-			array(
-				'open-sans',
-				'droid-sans',
-				'font-awesome'
-			),
-			GREATERMEDIA_VERSION
-		);
-	} else {
-		wp_enqueue_script(
-			'greatermedia',
-			get_template_directory_uri() . "/assets/js/greater_media{$postfix}.js",
-			array(
-				'underscore'
-			),
-			GREATERMEDIA_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'cycle2',
-			get_template_directory_uri() . "/assets/js/vendor/cycle2.min.js",
-			array(),
-			'2.1.6',
-			false
-		);
-		wp_enqueue_script(
-			'respond.js',
-			get_template_directory_uri() . '/assets/js/vendor/respond.min.js',
-			array(),
-			'1.4.2',
-			false
-		);
-		wp_enqueue_script(
-			'html5shiv',
-			get_template_directory_uri() . '/assets/js/vendor/html5shiv-printshiv.js',
-			array(),
-			'3.7.2',
-			false
-		);
-		wp_enqueue_style(
-			'greatermedia',
-			get_template_directory_uri() . "/assets/css/greater_media{$postfix}.css",
-			array(
-				'dashicons',
-				'open-sans',
-				'droid-sans',
-				'font-awesome'
-			),
-			GREATERMEDIA_VERSION
-		);
-	};
-
+	wp_enqueue_script(
+		'greatermedia',
+		get_template_directory_uri() . "/assets/js/greater_media{$postfix}.js",
+		array(
+			'headroom'
+		),
+		GREATERMEDIA_VERSION,
+		true
+	);
+	wp_enqueue_script(
+		'respond.js',
+		get_template_directory_uri() . '/assets/js/vendor/respond.min.js',
+		array(),
+		'1.4.2',
+		false
+	);
+	wp_enqueue_script(
+		'html5shiv',
+		get_template_directory_uri() . '/assets/js/vendor/html5shiv-printshiv.js',
+		array(),
+		'3.7.2',
+		false
+	);
+	wp_enqueue_style(
+		'greatermedia',
+		get_template_directory_uri() . "/assets/css/greater_media{$postfix}.css",
+		array(
+			'dashicons',
+			'open-sans',
+			'droid-sans',
+			'font-awesome'
+		),
+		GREATERMEDIA_VERSION
+	);
 }
 
 add_action( 'wp_enqueue_scripts', 'greatermedia_scripts_styles');
