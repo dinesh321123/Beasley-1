@@ -43,10 +43,11 @@ class GMR_Show_Metaboxes {
 		// Add support for auto-selecting a user's show ONLY when creting a new post.
 		if ( in_array( get_post_type(), (array) $post_types ) && 'post-new.php' === $pagenow ) {
 			$term_ids = array();
-			$show_taxonomy_id = get_user_option( 'show_taxonomy_id', get_current_user_id() );
+			$show_tt_id = get_user_option( 'show_tt_id', get_current_user_id() );
+			$current_show_term = get_term_by( 'term_taxonomy_id', $show_tt_id, ShowsCPT::SHOW_TAXONOMY );
 
-			if ( false !== $show_taxonomy_id ) {
-				$term_ids[] = $show_taxonomy_id;
+			if ( false !== $current_show_term ) {
+				$term_ids[] = $current_show_term->term_id;
 			}
 
 			wp_register_script( 'admin_show_selector', GMEDIA_SHOWS_URL . "assets/js/admin_show_selector{$postfix}.js", array( 'jquery'), GMEDIA_SHOWS_VERSION, true );
@@ -147,7 +148,9 @@ class GMR_Show_Metaboxes {
 	 */
 	public function admin_user_meta_fields( $user ) {
 		$terms = get_terms( ShowsCPT::SHOW_TAXONOMY, array( 'hide_empty' => false ) );
-		$current_show = get_user_option( 'show_taxonomy_id', intval( $user->ID ) );
+		$current_show_tt_id = get_user_option( 'show_tt_id', intval( $user->ID ) );
+		$current_show_term = get_term_by( 'term_taxonomy_id', $current_show_tt_id, ShowsCPT::SHOW_TAXONOMY );
+		$current_show = $current_show_term ? $current_show_term->term_id : false;
 
 		?><h3><?php esc_html_e( 'Show Info', 'greatermedia' ); ?></h3>
 
@@ -193,11 +196,11 @@ class GMR_Show_Metaboxes {
 		if ( 0 < $user_show ) {
 			$term = get_term_by( 'id', $user_show, ShowsCPT::SHOW_TAXONOMY );
 			if ( false !== $term ) {
-				update_user_option( $user_id, 'show_taxonomy_id', $term->term_id, false );
+				update_user_option( $user_id, 'show_tt_id', $term->term_taxonomy_id, false );
 			}
 		} else {
 			// Remove the show association
-			delete_user_option( $user_id, 'show_taxonomy_id', false );
+			delete_user_option( $user_id, 'show_tt_id', false );
 		}
 	}
 
