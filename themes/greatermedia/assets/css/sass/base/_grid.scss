@@ -41,13 +41,13 @@ img {
 
 .container, %container {
 	@include outer-container(100%);
-		padding-right: 20em;
+	padding-right: 0;
+
 	@include bp(medium) {
 		@include outer-container(100%);
-		padding-right: 20em;
+		padding-right: 14em;
 	}
-	@include bp(large) {
-	}
+	
 	@include bp(x-large) {
 		@include outer-container(1400px);
 	}
@@ -101,7 +101,7 @@ img {
 		bottom: auto;
 		right: 0;
 		left: auto;
-		width: 20em;
+		width: 14em;
 		height: 100%;
 		@include box-sizing(border-box);
 		cursor: default;
