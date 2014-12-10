@@ -4,7 +4,7 @@ namespace GreaterMedia\Gigya\Sync;
 
 class QueryTask extends SyncTask {
 
-	public $page_size = 10;
+	public $page_size = 1000;
 	public $collector = null;
 	public $message_types = array(
 		'enqueue',
@@ -12,7 +12,6 @@ class QueryTask extends SyncTask {
 		'retry',
 		'abort',
 		'error',
-		'after',
 	);
 
 	function get_task_name() {

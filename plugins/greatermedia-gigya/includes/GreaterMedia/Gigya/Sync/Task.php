@@ -9,7 +9,7 @@ class Task {
 	public $aborted      = false;
 
 	// TODO: will default to disabled in production
-	public $log_disabled = false;
+	public $log_disabled = true;
 
 	public $message_types = array(
 		'error'
