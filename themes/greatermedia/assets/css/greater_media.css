@@ -3691,6 +3691,12 @@ category: Components - Gallery
   -khtml-opacity: 0;
   zoom: 1; }
 
+.logged-in .header__search--form {
+  top: 46px; }
+  @media screen and (min-width: 782px) {
+    .logged-in .header__search--form {
+      top: 32px; } }
+
 .header__search--open {
   display: block;
   -webkit-transition: opacity 1s ease-in 0s;

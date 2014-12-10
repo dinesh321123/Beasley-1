@@ -12,6 +12,13 @@
 	@include opacity(0);
 }
 
+.logged-in .header__search--form {
+	top: 46px;
+	@include media(782px) {
+		top: 32px;
+	}
+}
+
 .header__search--open {
 	display: block;
 	@include transition(opacity 1.0s ease-in 0s);
