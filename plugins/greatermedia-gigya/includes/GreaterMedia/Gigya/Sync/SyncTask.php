@@ -12,6 +12,7 @@ class SyncTask extends Task {
 		'retry',
 		'abort',
 		'error',
+		'after',
 	);
 
 	function get_task_name() {

@@ -55,6 +55,7 @@ class Task {
 		$this->log( 'execute' );
 
 		try {
+			$start_time = microtime(true);
 			$proceed = $this->before();
 
 			if ( $proceed ) {
@@ -62,6 +63,11 @@ class Task {
 
 				$result = $this->run();
 				$this->log( 'after', $result );
+
+				$stop_time = microtime(true);
+				$run_time  = $stop_time - $start_time;
+
+				$this->log( 'after', $run_time );
 				$this->after( $result );
 			} else {
 				$this->aborted = true;

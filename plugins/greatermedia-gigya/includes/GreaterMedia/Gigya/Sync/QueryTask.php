@@ -12,6 +12,7 @@ class QueryTask extends SyncTask {
 		'retry',
 		'abort',
 		'error',
+		'after',
 	);
 
 	function get_task_name() {
