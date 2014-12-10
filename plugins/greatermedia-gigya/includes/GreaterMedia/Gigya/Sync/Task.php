@@ -145,7 +145,9 @@ class Task {
 	}
 
 	function can_log( $type ) {
-		return in_array( $type, $this->message_types );
+		return
+			defined( 'DOING_ASYNC' ) && DOING_ASYNC &&
+			in_array( $type, $this->message_types );
 	}
 
 	function log() {
