@@ -576,7 +576,7 @@ img {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 3.125%; }
+  padding-right: 20em; }
   .container:after {
     content: "";
     display: table;
@@ -595,8 +595,7 @@ img {
     .container {
       max-width: 1400px;
       margin-left: auto;
-      margin-right: auto;
-      padding-right: 250px; }
+      margin-right: auto; }
       .container:after {
         content: "";
         display: table;
@@ -664,7 +663,7 @@ img {
   left: 0;
   width: 100%;
   background-color: #000000;
-  color: #6d6e70;
+  color: #ffffff;
   cursor: pointer; }
   @media screen and (min-width: 768px) {
     .live-player {
@@ -3703,9 +3702,9 @@ category: Components - Article
 
 ```html_example
 <img src="http://placehold.it/600x400&amp;text=image" alt="placeholder" class="entry__featured-image">
-<header class="entry-header">
+<header class="entry__header">
 	<time datetime="2014-11-10T20:11:28+00:00" class="entry__date">10 November</time>
-    <h2 class="entry-title"><a href="">Test Show Post</a></h2>
+    <h2 class="entry__title"><a href="">Test Show Post</a></h2>
 </header>
 <a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
 <a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
