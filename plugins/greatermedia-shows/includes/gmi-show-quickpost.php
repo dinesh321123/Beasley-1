@@ -57,9 +57,9 @@ function gmi_shows_filter_quickpost_data( $post ) {
  * @return array The extended array of shows.
  */
 function gmi_shows_set_quickpost_defaults( $terms ) {
-	$user_show = get_user_option( 'show_taxonomy_id' );
-	if ( $user_show ) {
-		$term = get_term_by( 'id', $user_show, ShowsCPT::SHOW_TAXONOMY );
+	$user_show_tt_id = get_user_option( 'show_tt_id' );
+	if ( $user_show_tt_id ) {
+		$term = get_term_by( 'term_taxonomy_id', $user_show_tt_id, ShowsCPT::SHOW_TAXONOMY );
 		if ( $term ) {
 			$terms[] = $term->term_id;
 		}
