@@ -6,15 +6,7 @@
  * @since   0.1.0
  */
 
-get_header();
-
-	/* we won't display this until we get some actual content
-	if ( is_front_page() || is_home() ) {
-		get_template_part( 'partials/frontpage', 'featured' );
-		get_template_part( 'partials/frontpage', 'highlights' );
-	} */
-
-	?>
+get_header(); ?>
 
 	<main class="main" role="main">
 
@@ -24,76 +16,23 @@ get_header();
 
 				<h2 class="content__heading">Latest from WMMR</h2>
 
-				<?php
-
-				$args = array(
-					'post_type' => array(
-						'post', 'episode', 'tribe_events'
-					),
-				);
-
-				$query = new WP_Query( $args );
-
-				if ( $query->have_posts() ) : while (  $query->have_posts() ) :  $query->the_post(); ?>
+				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-						<?php
-						if ( has_post_thumbnail() ) {
-							if ( 'tribe_events' === get_post_type() ) { ?>
-								<section class="entry__meta">
+						<header class="entry-header">
 
-									<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
+							<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
 
-									<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+							<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
-									<div class="entry__excerpt">
-										<?php the_excerpt(); ?>
-									</div>
+						</header>
 
-									<ul class="entry__event--details">
-										<li class="entry__event--item"><?php echo tribe_get_start_time(); ?></li>
-										<li class="entry__event--item"><?php echo tribe_get_venue(); ?></li>
-										<li class="entry__event--item"><?php _e( '$', 'greatermedia' ); ?><?php echo tribe_get_cost(); ?></li>
-									</ul>
+						<section class="entry__content" itemprop="articleBody">
 
-								</section>
+							<?php the_content(); ?>
 
-								<section class="entry__thumbnail entry__thumbnail--events">
-
-									<a href="<?php the_permalink(); ?>">
-										<?php the_post_thumbnail( 'gm-article-thumbnail' ); ?>
-									</a>
-
-								</section>
-
-							<?php } else { ?>
-								<section class="entry__meta">
-
-									<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
-
-									<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-
-								</section>
-
-								<section class="entry__thumbnail <?php greatermedia_post_formats(); ?>">
-
-									<a href="<?php the_permalink(); ?>">
-										<?php the_post_thumbnail( 'gm-article-thumbnail' ); ?>
-									</a>
-
-								</section>
-
-							<?php }
-						} else { ?>
-							<section class="entry__meta--fullwidth">
-
-								<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
-
-								<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-
-							</section>
-						<?php } ?>
+						</section>
 
 						<footer class="entry__footer">
 
@@ -107,7 +46,7 @@ get_header();
 
 						</footer>
 
-						</article>
+					</article>
 
 				<?php endwhile; ?>
 
@@ -122,13 +61,13 @@ get_header();
 
 					<article id="post-not-found" class="hentry cf">
 
-						<header class="article-header">
+						<header class="entry__header">
 
-							<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
+							<h2 class="entry__title"><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h2>
 
 						</header>
 
-						<section class="entry-content">
+						<section class="entry__content">
 
 							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
 
