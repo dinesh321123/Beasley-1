@@ -467,6 +467,19 @@ class GMedia_Migration extends WP_CLI_Command {
 	}
 
 
+	private function check_file( $file ) {
+		$file_headers = @get_headers($file);
+
+		if( $file_headers[0] == 'HTTP/1.1 404 Not Found' || $file_headers[0] == 'HTTP/1.1 301 Moved Permanently' ) {
+			$exists = false;
+		}
+		else {
+			$exists = true;
+		}
+
+		return $exists;
+	}
+
 	private function import_music_files( $post_id, $filepath ) {
 
 		$blog_id = get_current_blog_id();
@@ -487,9 +500,14 @@ class GMedia_Migration extends WP_CLI_Command {
 
 		$old_filename = $upload_dir . '/wp-content/uploads/' . $filename;
 
+		if( !$this->check_file( $old_filename ) ) {
+			if( $this->site_url == 'wmgk' ) {
+				$old_filename = 'http://media.wmgk.com/' . $filename;
+			}
+		}
 
 		$tmp = download_url( $old_filename );
-		preg_match( '/[^\?]+\.(mp3|MP3)/', $filename, $matches );
+		preg_match( '/[^\?]+\.(mp3|mp4|flv)/i', $filename, $matches );
 
 		// make sure we have a match.  This won't be set for PDFs and .docs
 		if ( $matches && isset( $matches[0] ) ) {
@@ -509,7 +527,7 @@ class GMedia_Migration extends WP_CLI_Command {
 			// If error storing permanently, unlink
 			if ( is_wp_error( $id ) ) {
 				@unlink( $file_array['tmp_name'] );
-				WP_CLI::log( "Error: ". $id->get_error_message() );
+				WP_CLI::log( "Error uploading music:". $id->get_error_message() );
 				WP_CLI::log( "Filename: $old_filename" );
 				$id = '';
 			}
@@ -1121,7 +1139,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 							wp_update_post( $updated_post );
 
-							update_post_meta( $wp_id, '_legacy_music_file', $media_url );
+							update_post_meta( $wp_id, '_legacy_blog_music_file', $media_url );
 						}
 					}
 
@@ -2473,6 +2491,8 @@ class GMedia_Migration extends WP_CLI_Command {
 					update_post_meta( $wp_id, '_legacy_DisplayPosition', (string) $single_channel['DisplayPosition'] );
 				}
 
+
+
 				$notify->tick();
 			}
 
@@ -2620,7 +2640,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 						foreach ( $survey_form as $single_response ) {
 							if ( $single_response->cid == (string) $answer['SubQuestionID'] ) {
-								$response_values[ 'form_field_' . $single_response->cid ] = (string) $answer['AnswerValue'];
+								$response_values[ 'c' . $single_response->cid ] = (string) $answer['AnswerValue'];
 							}
 						}
 					}
@@ -2871,7 +2891,7 @@ class GMedia_Migration extends WP_CLI_Command {
 		$notify = new \cli\progress\Bar( "Importing $total on air items", $total );
 
 		$count = 0;
-		
+
 		foreach ( $schedules->OnAirNowItem as $scheduled_item ) {
 			$scheduled_item_hash = trim( (string) $scheduled_item['TitleText'] ) . (string) $scheduled_item['DateModified'];
 			$scheduled_item_hash = md5( $scheduled_item_hash );
