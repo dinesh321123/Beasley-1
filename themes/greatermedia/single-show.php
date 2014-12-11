@@ -33,6 +33,34 @@
 
 				<section class="content">
 
+					<section class="show__features">
+						<div class="show__feature--primary">
+							<a href=""><div class="show__feature">
+								<img src="http://placehold.it/570x315&text=show-feature" alt="">
+								<div class="show__feature--desc">
+									<h3>The Title of the Featured Post on the Show Homepage</h3>
+									<span class="show__feature--date">23 SEP</span>
+								</div>
+							</div></a>
+						</div>
+						<div class="show__feature--secondary">
+							<a href=""><div class="show__feature">
+								<img src="http://placehold.it/570x315&text=show-feature" alt="">
+								<div class="show__feature--desc">
+									<h3>The Title of the Featured Post on the Show Homepage</h3>
+									<span class="show__feature--date">15 NOV</span>
+								</div>
+							</div></a>
+							<a href=""><div class="show__feature">
+								<img src="http://placehold.it/570x315&text=show-feature" alt="">
+								<div class="show__feature--desc">
+									<h3>The Title of the Featured Post on the Show Homepage</h3>
+									<span class="show__feature--date">02 DEC</span>
+								</div>
+							</div></a>
+						</div>
+					</section>
+
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
 						<header class="entry__header">

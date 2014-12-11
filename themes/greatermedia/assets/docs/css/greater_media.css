@@ -3592,7 +3592,7 @@ category: Components - Shows
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
-  padding: 5em;
+  padding: 2em;
   width: 100%;
   display: table;
   width: 100%;
@@ -3600,6 +3600,9 @@ category: Components - Shows
   color: #ffffff; }
   .show__header > div {
     vertical-align: middle; }
+  @media screen and (min-width: 768px) {
+    .show__header {
+      padding: 5em 2em; } }
 
 .show__cast {
   width: 100%;
@@ -3614,20 +3617,38 @@ category: Components - Shows
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     -border-radius: 50%;
-    border-radius: 50%; }
+    border-radius: 50%;
+    margin: 0 auto; }
 
 .show__nav {
-  width: 100%; }
-  @media screen and (min-width: 480px) {
+  width: 100%;
+  text-align: center; }
+  @media screen and (min-width: 768px) {
     .show__nav {
       padding-left: 4em;
+      text-align: left;
       display: table-cell;
       width: 50%; } }
   .show__nav ul {
     list-style-type: none;
-    padding-left: 0; }
+    padding-left: 0;
+    text-align: justify;
+    margin: 0; }
+  .show__nav ul:after {
+    content: "";
+    width: 100%;
+    display: inline-block;
+    height: 0; }
   .show__nav li {
-    display: inline-block; }
+    display: block;
+    text-align: center; }
+    .show__nav li a {
+      font-size: ms(4); }
+    @media screen and (min-width: 768px) {
+      .show__nav li {
+        display: inline-block; }
+        .show__nav li a {
+          font-size: ms(0); } }
   .show__nav a {
     color: #ffffff;
     text-transform: uppercase; }
@@ -3635,14 +3656,11 @@ category: Components - Shows
 .show__title {
   font-size: ms(10);
   font-family: "Droid Sans", sans-serif; }
-  .show__title a:link {
-    color: #ffffff; }
-    .show__title a:link:hover {
-      color: #404041; }
 
 .show__meta {
-  width: 100%; }
-  @media screen and (min-width: 480px) {
+  width: 100%;
+  text-align: center; }
+  @media screen and (min-width: 768px) {
     .show__meta {
       display: table-cell;
       width: 33.33333%;
@@ -3651,10 +3669,88 @@ category: Components - Shows
     display: block; }
   .show__meta .social-share-link {
     color: #ffffff;
-    border: 1px solid #ffffff; }
+    border: 1px solid #ffffff;
+    margin-top: 1em; }
 
-.show__featured-img {
-  position: absolute; }
+/*doc
+---
+title: Show Features
+name: show-features
+category: Components - Shows
+---
+
+
+```html_example
+<div class="show__features">
+	<div class="show__feature--primary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">23 SEP</span>
+			</div>
+		</div></a>
+	</div>
+	<div class="show__feature--secondary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">15 NOV</span>
+			</div>
+		</div></a>
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">02 DEC</span>
+			</div>
+		</div></a>
+	</div>
+</div>
+```
+
+*/
+.show__features {
+  display: block; }
+  .show__features:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.show__feature {
+  margin-bottom: 2em; }
+  .show__feature img {
+    width: 100%;
+    height: auto; }
+
+@media screen and (min-width: 768px) {
+  .show__feature--primary {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%; }
+    .show__feature--primary:last-child {
+      margin-right: 0; }
+    .show__feature--primary h3 {
+      font-size: ms(4); } }
+
+@media screen and (min-width: 768px) {
+  .show__feature--secondary {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    margin-right: 0; }
+    .show__feature--secondary:last-child {
+      margin-right: 0; }
+    .show__feature--secondary h3 {
+      font-size: ms(1); } }
+
+.show__feature--desc {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 1em 2em; }
 
 .widget--live-player {
   margin: 0 1em 1em; }

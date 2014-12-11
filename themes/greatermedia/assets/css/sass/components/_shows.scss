@@ -151,7 +151,88 @@ category: Components - Shows
 }
 
 .show__featured-img {
-	position: absolute;
+
+}
+
+/*doc
+---
+title: Show Features
+name: show-features
+category: Components - Shows
+---
+
+
+```html_example
+<div class="show__features">
+	<div class="show__feature--primary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">23 SEP</span>
+			</div>
+		</div></a>
+	</div>
+	<div class="show__feature--secondary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">15 NOV</span>
+			</div>
+		</div></a>
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">02 DEC</span>
+			</div>
+		</div></a>
+	</div>
+</div>
+```
+
+*/
+
+.show__features {
+	@include row();
+}
+
+.show__feature {
+	margin-bottom: 2em;
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.show__feature--primary {
+	@include bp(medium) {
+		@include span-columns(8 of 12);
+
+		h3 {
+			font-size: ms(4);
+		}
+	}
+}
+
+.show__feature--secondary {
+	@include bp(medium) {
+		@include span-columns(4 of 12);
+		@include omega;
+
+		h3 {
+			font-size: ms(1);
+		}
+	}
+
+}
+
+.show__feature--desc {
+	background-color: $secondary-bg;
+	color: $secondary-text;
+	padding: 1em 2em;
 }
 
 .show-attr--next_air_time {
