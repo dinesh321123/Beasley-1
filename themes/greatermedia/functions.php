@@ -18,7 +18,6 @@
  */
 define( 'GREATERMEDIA_VERSION', '0.1.0' );
 
-//require_once( __DIR__ . '/includes/liveplayer-test/class-gigya-login-test.php' );
 require_once( __DIR__ . '/includes/liveplayer/loader.php' );
 require_once( __DIR__ . '/includes/layout-chooser/class-choose-layout.php' );
 require_once( __DIR__ . '/includes/site-options/loader.php');
@@ -126,6 +125,7 @@ function greatermedia_scripts_styles() {
 		),
 		GREATERMEDIA_VERSION
 	);
+
 }
 
 add_action( 'wp_enqueue_scripts', 'greatermedia_scripts_styles');
