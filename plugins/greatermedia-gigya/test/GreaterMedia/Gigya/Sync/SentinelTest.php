@@ -252,4 +252,70 @@ class SentinelTest extends \WP_UnitTestCase {
 		$this->sentinel->get_preview_results();
 	}
 
+	function test_it_knows_if_query_does_not_have_errors() {
+		$this->assertFalse( $this->sentinel->has_errors() );
+	}
+
+	function test_it_knows_if_query_has_single_error() {
+		$this->sentinel->add_error( 'foo' );
+		$actual = $this->sentinel->has_errors();
+
+		$this->assertTrue( $actual );
+	}
+
+	function test_it_knows_if_query_has_multiple_errors() {
+		$this->sentinel->set_errors( array( 'a', 'b', 'c' ) );
+		$this->assertTrue( $this->sentinel->has_errors() );
+	}
+
+	function test_it_can_recall_stored_error_messages() {
+		$this->sentinel->set_errors( array( 'a', 'b', 'c' ) );
+		$actual = $this->sentinel->get_errors();
+
+		$this->assertEquals( array( 'a', 'b', 'c' ), $actual );
+	}
+
+	function test_it_returns_empty_list_of_errors_if_no_errors_are_present() {
+		$this->assertEmpty( $this->sentinel->get_errors() );
+	}
+
+	function test_it_knows_query_with_errors_has_completed() {
+		$this->sentinel->add_error( 'foo' );
+		$this->assertTrue( $this->sentinel->has_completed() );
+	}
+
+	function test_it_knows_query_with_errors_can_not_be_compiled() {
+		$this->sentinel->params['conjunction'] = 'any';
+		$this->sentinel->set_task_progress( 'profile', 100 );
+		$this->sentinel->set_task_progress( 'data_store', 100 );
+		$this->sentinel->set_task_progress( 'compile_results', 100 );
+		$this->sentinel->add_error( 'foo' );
+
+		$actual = $this->sentinel->can_compile_results();
+		$this->assertFalse( $this->sentinel->can_compile_results() );
+	}
+
+	function test_it_knows_it_can_not_export_query_with_errors() {
+		$this->sentinel->params['conjunction'] = 'any';
+		$this->sentinel->set_task_progress( 'profile', 100 );
+		$this->sentinel->set_task_progress( 'data_store', 100 );
+		$this->sentinel->set_task_progress( 'compile_results', 100 );
+		$this->sentinel->add_error( 'foo' );
+
+		$this->assertFalse( $this->sentinel->can_export_results() );
+	}
+
+	function test_it_can_clear_errors_on_reset() {
+		$this->sentinel->add_error( 'foo' );
+		$this->sentinel->reset();
+
+		$this->assertFalse( $this->sentinel->has_errors() );
+	}
+
+	function test_it_has_100_percent_progress_if_query_has_errors() {
+		$this->sentinel->add_error( 'foo' );
+		$actual = $this->sentinel->get_progress();
+		$this->assertEquals( 100, $actual );
+	}
+
 }

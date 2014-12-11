@@ -63,4 +63,9 @@ class SyncTask extends Task {
 		return $this->task_factory;
 	}
 
+	function fail( $error ) {
+		$sentinel = $this->get_sentinel();
+		$sentinel->add_error( $error->getMessage() );
+	}
+
 }

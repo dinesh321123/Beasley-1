@@ -249,7 +249,17 @@ class BaseTaskTest extends \WP_UnitTestCase {
 		$this->assertFalse( $this->task->can_log( 'foo' ) );
 	}
 
-	function test_it_knows_it_can_log_known_message_type() {
+	function test_it_knows_it_should_not_log_messages_if_not_doing_async() {
+		$this->task->message_types = array( 'foo' );
+		$this->assertFalse( $this->task->can_log( 'foo' ) );
+	}
+
+	function test_it_knows_it_should_not_log_messages_if_not_a_allowed_message_type() {
+		$this->assertFalse( $this->task->can_log( 'foo' ) );
+	}
+
+	function test_it_knows_it_should_log_message_if_async_and_allowed_message_type() {
+		define( 'DOING_ASYNC', true );
 		$this->task->message_types = array( 'foo' );
 		$this->assertTrue( $this->task->can_log( 'foo' ) );
 	}
@@ -279,7 +289,37 @@ class BaseTaskTest extends \WP_UnitTestCase {
 		$task->enqueue( $params );
 
 		$actual = $task->export_params();
-		$this->assertFalse( array_key_exists( 'retries', $actual ));
+		$this->assertFalse( array_key_exists( 'retries', $actual ) );
+	}
+
+	function test_it_knows_if_task_did_not_fail() {
+		$params = array( 'foo' => 'bar' );
+		$this->task->register();
+		$task_id = $this->task->enqueue( $params );
+
+		wp_async_task_run( $task_id );
+
+		$this->assertFalse( $this->task->did_fail() );
+	}
+
+	function test_it_knows_if_task_failed() {
+		$task = new ErrorTask();
+		$task->register();
+
+		wp_async_task_autorun();
+		$task->enqueue();
+
+		$this->assertTrue( $task->did_fail() );
+	}
+
+	function test_it_knows_reason_of_task_failure() {
+		$task = new ErrorTask();
+		$task->register();
+
+		wp_async_task_autorun();
+		$task->enqueue();
+
+		$this->assertEquals( 'FooException', $task->failure->getMessage() );
 	}
 
 }

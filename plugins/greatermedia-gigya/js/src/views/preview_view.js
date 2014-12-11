@@ -63,6 +63,7 @@ var PreviewView = Backbone.View.extend({
 
 	didSearchError: function(message) {
 		this.stepper.stop();
+		this.setPreviewEnabled(true);
 		this.setStatus("Error: " + message);
 	},
 
