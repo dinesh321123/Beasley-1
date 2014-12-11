@@ -1479,6 +1479,7 @@ var QueryResultCollection = Backbone.Collection.extend({
 				} else {
 					this.reset([]);
 					this.trigger('searchError', response.data.errors[0]);
+					this.clear();
 				}
 			} else {
 				var progress = response.data.progress;
