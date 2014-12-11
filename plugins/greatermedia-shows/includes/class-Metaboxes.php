@@ -86,7 +86,7 @@ class GMR_Show_Metaboxes {
 		wp_nonce_field( 'gmr_show', 'show_nonce', false );
 
 		$has_homepage = \GreaterMedia\Shows\supports_homepage( get_the_ID() );
-		$supports_albums = \GreaterMedia\Shows\supports_galleries( get_the_ID() );
+		$supports_galleries = \GreaterMedia\Shows\supports_galleries( get_the_ID() );
 		$supports_podcasts = \GreaterMedia\Shows\supports_podcasts( get_the_ID() );
 		$supports_videos = \GreaterMedia\Shows\supports_videos( get_the_ID() );
 
