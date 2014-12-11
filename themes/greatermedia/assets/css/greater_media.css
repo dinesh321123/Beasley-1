@@ -3804,6 +3804,8 @@ category: Components - Shows
 
 .show__feature {
   margin-bottom: 2em; }
+  .show__feature h3 {
+    margin-top: 0; }
   .show__feature img {
     width: 100%;
     height: auto; }
@@ -3817,7 +3819,7 @@ category: Components - Shows
     .show__feature--primary:last-child {
       margin-right: 0; }
     .show__feature--primary h3 {
-      font-size: ms(4); } }
+      font-size: 2em; } }
 
 @media screen and (min-width: 768px) {
   .show__feature--secondary {
@@ -3829,12 +3831,14 @@ category: Components - Shows
     .show__feature--secondary:last-child {
       margin-right: 0; }
     .show__feature--secondary h3 {
-      font-size: ms(1); } }
+      font-size: 1em; }
+    .show__feature--secondary span {
+      font-size: 0.8em; } }
 
 .show__feature--desc {
   background-color: #000000;
   color: #ffffff;
-  padding: 1em 2em; }
+  padding: 1em 2em 1em; }
 
 .widget--live-player {
   margin: 0 1em 1em; }
