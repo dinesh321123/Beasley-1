@@ -103,7 +103,7 @@ class AnnouncementsDashboardWidget {
 			echo '<li>' . esc_html( $title ) . ' - '
 			     .'<span class="rss-date">' . esc_html( $date ) .'</span>'
 			     .'<div class="rssSummary">'
-			     . esc_html( $content )
+			     . wp_kses_post( $content )
 			     . '</div></li>';
 		}
 
