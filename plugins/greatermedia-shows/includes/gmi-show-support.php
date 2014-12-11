@@ -88,3 +88,36 @@ function get_show_podcast_query() {
 
 	return $podcast_query;
 }
+
+/**
+ * Gets an instance of WP_Query that corresponds to the current page of the videos endpoints for shows
+ *
+ * @return \WP_Query
+ */
+function get_show_video_query() {
+	$show_term = \TDS\get_related_term( get_the_ID() );
+	$current_page = get_query_var( 'show_section_page' ) ?: 1;
+
+	$video_args = array(
+		'post_type' => 'post',
+		'post_format' => '',
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+				'field' => 'term_taxonomy_id',
+				'terms' => $show_term->term_taxonomy_id,
+			),
+			array(
+				'taxonomy' => 'post_format',
+				'field'    => 'slug',
+				'terms'    => array( 'post-format-video' ),
+			),
+		),
+		'paged' => $current_page,
+	);
+
+	$video_query = new \WP_Query( $video_args );
+
+	return $video_query;
+}
