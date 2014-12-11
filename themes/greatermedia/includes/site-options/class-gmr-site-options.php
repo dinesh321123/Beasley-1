@@ -57,7 +57,6 @@ class GreaterMediaSiteOptions {
 		?>
 		<form action="options.php" method="post" class="greatermedia-settings-form" style="max-width: 550px;">
 			<?php
-			settings_errors();
 			settings_fields( self::option_group );
 			do_settings_sections( $this->_settings_page_hook );
 

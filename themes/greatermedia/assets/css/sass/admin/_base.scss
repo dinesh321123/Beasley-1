@@ -13,11 +13,11 @@
 	display: none;
 }
 
-.gmr__option:last-of-type{
+.gmr__option:last-of-type {
 	border-bottom: none;
 }
 
-.gmr__option img{
+.gmr__option img {
 	max-width: 100%;
 	height: auto;
 }
@@ -27,14 +27,6 @@
 	width: auto;
 	max-width: 15%;
 	margin: 0 2% 0 0;
-}
-
-.wpsm-preview-object{
-	@include box-sizing(border-box);
-	@include box-shadow(0 0 5px 0 rgba(0,0,0,.1));
-	padding: 10px;
-	margin: 5px;
-	border: 1px solid $soft-gray;
 }
 
 .gmr__option--label {
@@ -60,10 +52,14 @@
 	margin: 1em 0;
 }
 
+.gmr-image-buttons {
+	clear: both;
+	padding-top: 1em;
+}
 
 #featured-footer-image-container img {
 
-	width:  100%;
+	width: 100%;
 	height: auto;
 
 }
