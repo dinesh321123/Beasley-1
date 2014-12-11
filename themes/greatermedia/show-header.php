@@ -7,7 +7,7 @@
 		<ul>
 			<?php \GreaterMedia\Shows\about_link_html( get_the_ID() ); ?>
 			<?php \GreaterMedia\Shows\podcasts_link_html( get_the_ID() ); ?>
-			<?php \GreaterMedia\Shows\albums_link_html( get_the_ID(), 'Galleries' ); ?>
+			<?php \GreaterMedia\Shows\galleries_link_html( get_the_ID() ); ?>
 		</ul>
 	</nav>
 	<div class="show__meta">

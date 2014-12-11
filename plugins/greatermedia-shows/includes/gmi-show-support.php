@@ -6,8 +6,8 @@ function supports_homepage( $show_id ) {
 	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage', true ), FILTER_VALIDATE_BOOLEAN );
 }
 
-function supports_albums( $show_id ) {
-	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage_albums', true ), FILTER_VALIDATE_BOOLEAN );
+function supports_galleries( $show_id ) {
+	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage_galleries', true ), FILTER_VALIDATE_BOOLEAN );
 }
 
 function supports_podcasts( $show_id ) {
@@ -23,10 +23,10 @@ function about_link_html( $show_id, $link_text = 'About' ) {
 	?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/about/"><?php echo esc_html( $link_text ); ?></a></li><?php
 }
 
-function albums_link_html( $show_id, $link_text = 'Albums' ) {
-	if ( supports_albums( $show_id ) ) {
-		$class = 'albums' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
-		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/albums/"><?php echo esc_html( $link_text ); ?></a></li><?php
+function galleries_link_html( $show_id, $link_text = 'Galleries' ) {
+	if ( supports_galleries( $show_id ) ) {
+		$class = 'galleries' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
+		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/galleries/"><?php echo esc_html( $link_text ); ?></a></li><?php
 	}
 }
 
@@ -122,11 +122,11 @@ function get_show_video_query() {
 }
 
 /**
- * Gets an instance of WP_Query that corresponds to the current page of the albums endpoints for shows
+ * Gets an instance of WP_Query that corresponds to the current page of the galleries endpoints for shows
  *
  * @return \WP_Query
  */
-function get_show_album_query() {
+function get_show_gallery_query() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 	$current_page = get_query_var( 'show_section_page' ) ?: 1;
 

@@ -10,10 +10,10 @@
 
 			<section class="content">
 
-				<div class="albums">
+				<div class="galleries">
 
 					<?php
-					$album_query = \GreaterMedia\Shows\get_show_album_query();
+					$album_query = \GreaterMedia\Shows\get_show_gallery_query();
 
 					while( $album_query->have_posts() ) : $album_query->the_post(); ?>
 						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article">
