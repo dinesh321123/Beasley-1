@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Components - Ads</title>
+    <title>Components - Shows</title>
 
     <!-- Styleguide CSS -->
     <link rel="stylesheet" href="./theme-build/css/vendors.css">
@@ -96,7 +96,7 @@
             
               
               
-                <li><a class="active" href="components_-_ads.html">Ads</a></li>
+                <li><a href="components_-_ads.html">Ads</a></li>
               
             
           
@@ -117,7 +117,7 @@
             
               
               
-                <li><a href="components_-_shows.html">Shows</a></li>
+                <li><a class="active" href="components_-_shows.html">Shows</a></li>
               
             
           
@@ -189,7 +189,7 @@
 
     <header class="cortana-header sb-slide">
       
-        <h1>Ads</h1>
+        <h1>Shows</h1>
       
       <div id="open-left" class="cortana-menu-btn">
         <span></span>
@@ -209,11 +209,11 @@
           <ul bs-scrollspy-list data-offset="-30">
             
               
-                <li><a href="#inline-ad">Inline Ad</a></li>
+                <li><a href="#show-features">Show Features</a></li>
               
             
               
-                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="#show-header">Show Header</a></li>
               
             
           </ul>
@@ -224,17 +224,105 @@
 
 
 
-<h1 id="inline-ad">Inline Ad</h1>
-</div><div class="codeExample"><div class="exampleOutput"><img class="ad__inline--right" src="http://placehold.it/300x250&amp;text=inline ad">
-</div><div class="codeBlock"><div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">class=</span><span class="s">"ad__inline--right"</span> <span class="na">src=</span><span class="s">"http://placehold.it/300x250&amp;amp;text=inline ad"</span><span class="nt">&gt;</span>
-</pre></div></div></div><div class="cortana-content">
-<h1 id="leaderboard">Leaderboard</h1>
-</div><div class="codeExample"><div class="exampleOutput"><div class="ad__leaderboard">
-    <img src="http://placehold.it/728x90&amp;text=leaderboard">
+<h1 id="show-features">Show Features</h1>
+</div><div class="codeExample"><div class="exampleOutput"><div class="show__features">
+    <div class="show__feature--primary">
+        <a href=""><div class="show__feature">
+            <img src="http://placehold.it/570x315&text=show-feature" alt="">
+            <div class="show__feature--desc">
+                <h3>The Title of the Featured Post on the Show Homepage</h3>
+                <span class="show__feature--date">23 SEP</span>
+            </div>
+        </div></a>
+    </div>
+    <div class="show__feature--secondary">
+        <a href=""><div class="show__feature">
+            <img src="http://placehold.it/570x315&text=show-feature" alt="">
+            <div class="show__feature--desc">
+                <h3>The Title of the Featured Post on the Show Homepage</h3>
+                <span class="show__feature--date">15 NOV</span>
+            </div>
+        </div></a>
+        <a href=""><div class="show__feature">
+            <img src="http://placehold.it/570x315&text=show-feature" alt="">
+            <div class="show__feature--desc">
+                <h3>The Title of the Featured Post on the Show Homepage</h3>
+                <span class="show__feature--date">02 DEC</span>
+            </div>
+        </div></a>
+    </div>
 </div>
-</div><div class="codeBlock"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"ad__leaderboard"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"http://placehold.it/728x90&amp;amp;text=leaderboard"</span><span class="nt">&gt;</span>
+</div><div class="codeBlock"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__features"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__feature--primary"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;&lt;div</span> <span class="na">class=</span><span class="s">"show__feature"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"http://placehold.it/570x315&amp;text=show-feature"</span> <span class="na">alt=</span><span class="s">""</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__feature--desc"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;h3&gt;</span>The Title of the Featured Post on the Show Homepage<span class="nt">&lt;/h3&gt;</span>
+                <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"show__feature--date"</span><span class="nt">&gt;</span>23 SEP<span class="nt">&lt;/span&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/div&gt;&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__feature--secondary"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;&lt;div</span> <span class="na">class=</span><span class="s">"show__feature"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"http://placehold.it/570x315&amp;text=show-feature"</span> <span class="na">alt=</span><span class="s">""</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__feature--desc"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;h3&gt;</span>The Title of the Featured Post on the Show Homepage<span class="nt">&lt;/h3&gt;</span>
+                <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"show__feature--date"</span><span class="nt">&gt;</span>15 NOV<span class="nt">&lt;/span&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/div&gt;&lt;/a&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;&lt;div</span> <span class="na">class=</span><span class="s">"show__feature"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"http://placehold.it/570x315&amp;text=show-feature"</span> <span class="na">alt=</span><span class="s">""</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__feature--desc"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;h3&gt;</span>The Title of the Featured Post on the Show Homepage<span class="nt">&lt;/h3&gt;</span>
+                <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"show__feature--date"</span><span class="nt">&gt;</span>02 DEC<span class="nt">&lt;/span&gt;</span>
+            <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;/div&gt;&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
+</pre></div></div></div><div class="cortana-content">
+<h1 id="show-header">Show Header</h1>
+</div><div class="codeExample"><div class="exampleOutput"><div class="show__header">
+    <div class="show__cast">
+        <img src="http://placehold.it/135x135&text=cast">
+    </div>
+    <nav class="show__nav">
+        <a href=""><h1 class="show__title">Show Title Here</h1></a>
+        <ul>
+            <li><a href="">about</a></li>
+            <li><a href="">podcasts</a></li>
+            <li><a href="">galleries</a></li>
+        </ul>
+    </nav>
+    <div class="show__meta">
+        <em>Weekdays (todo)</em>
+        <em>5:30am - 10:30am (todo)</em>
+        <a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
+        <a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
+        <a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
+    </div>
+</div>
+
+</div><div class="codeBlock"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__header"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__cast"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"http://placehold.it/135x135&amp;text=cast"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"show__nav"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;&lt;h1</span> <span class="na">class=</span><span class="s">"show__title"</span><span class="nt">&gt;</span>Show Title Here<span class="nt">&lt;/h1&gt;&lt;/a&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;</span>about<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;</span>podcasts<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;</span>galleries<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/nav&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__meta"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;em&gt;</span>Weekdays (todo)<span class="nt">&lt;/em&gt;</span>
+        <span class="nt">&lt;em&gt;</span>5:30am - 10:30am (todo)<span class="nt">&lt;/em&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.facebook.com/sharer/sharer.php?u=[URL]&amp;title=[TITLE]"</span> <span class="na">class=</span><span class="s">"icon-facebook social-share-link"</span><span class="nt">&gt;&lt;/a&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://twitter.com/home?status=[TITLE]+[URL]"</span> <span class="na">class=</span><span class="s">"icon-twitter social-share-link"</span><span class="nt">&gt;&lt;/a&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://plus.google.com/share?url=[URL]"</span> <span class="na">class=</span><span class="s">"icon-google-plus social-share-link"</span><span class="nt">&gt;&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
 </pre></div></div></div><div class="cortana-content">
         </div>
       </div>

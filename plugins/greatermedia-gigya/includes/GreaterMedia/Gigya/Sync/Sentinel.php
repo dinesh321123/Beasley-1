@@ -52,7 +52,37 @@ class Sentinel {
 		return $progress === 100;
 	}
 
+	function has_errors() {
+		$errors = $this->get_task_meta( 'errors' );
+		return $errors !== '';
+	}
+
+	function add_error( $message ) {
+		$errors = $this->get_errors();
+		$errors[] = $message;
+
+		$this->set_errors( $errors );
+	}
+
+	function set_errors( $messages ) {
+		$json = json_encode( $messages );
+		$this->set_task_meta( 'errors', $json );
+	}
+
+	function get_errors() {
+		if ( $this->has_errors() ) {
+			$json = $this->get_task_meta( 'errors' );
+			return json_decode( $json, true );
+		} else {
+			return [];
+		}
+	}
+
 	function get_progress() {
+		if ( $this->has_errors() ) {
+			return 100;
+		}
+
 		// TODO: If conjunction were known this could be dynamic
 		$parts = array(
 			$this->get_task_progress( 'profile' ),
@@ -76,6 +106,10 @@ class Sentinel {
 	}
 
 	function can_compile_results() {
+		if ( $this->has_errors() ) {
+			return false;
+		}
+
 		$conjunction = $this->get_conjunction();
 
 		if ( $conjunction === 'any' ) {
@@ -93,7 +127,11 @@ class Sentinel {
 	}
 
 	function has_completed() {
-		return $this->get_progress() === 100;
+		if ( ! $this->has_errors() ) {
+			return $this->get_progress() === 100;
+		} else {
+			return true;
+		}
 	}
 
 	function get_preview_results() {
@@ -122,6 +160,7 @@ class Sentinel {
 		$this->clear_task_meta( 'data_store_progress' );
 		$this->clear_task_meta( 'compile_results_progress' );
 		$this->clear_task_meta( 'export_results_progress' );
+		$this->clear_task_meta( 'errors' );
 	}
 
 	function get_param( $key ) {

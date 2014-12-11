@@ -16,6 +16,225 @@
 	background-color: $primary-border;
 }
 
+/*doc
+---
+title: Show Header
+name: show-header
+category: Components - Shows
+---
+
+```html_example
+<div class="show__header">
+	<div class="show__cast">
+		<img src="http://placehold.it/135x135&text=cast">
+	</div>
+	<nav class="show__nav">
+		<a href=""><h1 class="show__title">Show Title Here</h1></a>
+		<ul>
+			<li><a href="">about</a></li>
+			<li><a href="">podcasts</a></li>
+			<li><a href="">galleries</a></li>
+		</ul>
+	</nav>
+	<div class="show__meta">
+		<em>Weekdays (todo)</em>
+		<em>5:30am - 10:30am (todo)</em>
+		<a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
+		<a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
+		<a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
+	</div>
+</div>
+
+```
+*/
+
+.show__header {
+	background-color: rgb(86, 16, 21);
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+	padding: 2em;
+	@include fill-parent();
+	@include row(table);
+	color: $secondary-text;
+
+	> div {
+		vertical-align: middle;
+	}
+
+	@include bp(medium) {
+		padding: 5em 2em;
+	}
+}
+
+.show__cast {
+	@include fill-parent;
+	height: 100%;
+
+	@include bp(medium) {
+		@include span-columns(2 of 12);
+	}
+
+	img {
+		@include border-radius(50%);
+		margin: 0 auto;
+	}
+}
+
+.show__nav {
+	@include fill-parent;
+	text-align: center;
+
+	@include bp(medium) {
+		padding-left: 4em;
+		text-align: left;
+		@include span-columns(6 of 12);
+	}
+
+	ul {
+		list-style-type: none;
+		padding-left: 0;
+		text-align: justify;
+		margin: 0;
+	}
+
+	// this psuedo element makes the text-align: justify work on the <ul>. via: http://stackoverflow.com/a/16901348
+	ul:after {
+		content: "";
+		width: 100%;
+		display: inline-block;
+		height: 0;
+	}
+
+	li {
+		display: block;
+		text-align: center;
+
+		a { font-size: ms(4); }
+
+		@include bp(medium) {
+			display: inline-block;
+			
+			a { font-size: ms(0); }
+		}
+	}
+	a {
+		color: $secondary-text;
+		text-transform: uppercase;
+	}
+}
+
+.show__title {
+	font-size: ms(10);
+	font-family: $droid-sans;
+}
+
+.show__meta {
+	@include fill-parent;
+	text-align: center;
+
+	@include bp(medium) {
+
+		@include span-columns(4 of 12);
+		text-align: right;
+	}
+
+	em {
+		display: block;
+	}
+
+	.social-share-link {
+		color: $secondary-text;
+		border: 1px solid $secondary-text;
+		margin-top: 1em;
+	}
+}
+
+.show__featured-img {
+
+}
+
+/*doc
+---
+title: Show Features
+name: show-features
+category: Components - Shows
+---
+
+
+```html_example
+<div class="show__features">
+	<div class="show__feature--primary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">23 SEP</span>
+			</div>
+		</div></a>
+	</div>
+	<div class="show__feature--secondary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">15 NOV</span>
+			</div>
+		</div></a>
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">02 DEC</span>
+			</div>
+		</div></a>
+	</div>
+</div>
+```
+
+*/
+
+.show__features {
+	@include row();
+}
+
+.show__feature {
+	margin-bottom: 2em;
+
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.show__feature--primary {
+	@include bp(medium) {
+		@include span-columns(8 of 12);
+
+		h3 {
+			font-size: ms(4);
+		}
+	}
+}
+
+.show__feature--secondary {
+	@include bp(medium) {
+		@include span-columns(4 of 12);
+		@include omega;
+
+		h3 {
+			font-size: ms(1);
+		}
+	}
+
+}
+
+.show__feature--desc {
+	background-color: $secondary-bg;
+	color: $secondary-text;
+	padding: 1em 2em;
+}
+
 .show-attr--next_air_time {
 
 }

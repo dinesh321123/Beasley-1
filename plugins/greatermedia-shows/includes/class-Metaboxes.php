@@ -22,6 +22,7 @@ class GMR_Show_Metaboxes {
 
 		add_action( 'personal_options_update', array( $this, 'admin_save_user_meta_fields' ), 10, 1 );
 		add_action( 'edit_user_profile_update', array( $this, 'admin_save_user_meta_fields' ), 10, 1 );
+		add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
 	}
 
 	/**
@@ -84,7 +85,10 @@ class GMR_Show_Metaboxes {
 
 		wp_nonce_field( 'gmr_show', 'show_nonce', false );
 
-		$has_homepage = filter_var( get_post_meta( get_the_ID(), 'show_homepage', true ), FILTER_VALIDATE_BOOLEAN );
+		$has_homepage = \GreaterMedia\Shows\supports_homepage( get_the_ID() );
+		$supports_albums = \GreaterMedia\Shows\supports_albums( get_the_ID() );
+		$supports_podcasts = \GreaterMedia\Shows\supports_podcasts( get_the_ID() );
+		$supports_videos = \GreaterMedia\Shows\supports_videos( get_the_ID() );
 
 		?><div id="show-homepage" class="misc-pub-section misc-pub-gmr mis-pub-radio">
 			Has home page:
@@ -100,7 +104,56 @@ class GMR_Show_Metaboxes {
 					<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
 				</p>
 			</div>
-		</div><?php
+		</div>
+
+		<div id="show-homepage-supports-albums" class="misc-pub-section misc-pub-gmr mis-pub-radio">
+			Supports Albums:
+			<span class="post-pub-section-value radio-value"><?php echo $supports_albums ? 'Yes' : 'No'; ?></span>
+			<a href="#" class="edit-radio hide-if-no-js" style="display: inline;"><span aria-hidden="true">Edit</span></a>
+
+			<div class="radio-select hide-if-js">
+				<label for="show-homepage-supports-albums-no"><input type="radio" name="show_homepage_albums" id="show-homepage-supports-albums-no" value="0"<?php checked( $supports_albums, false ) ?>> No</label><br>
+				<label for="show-homepage-supports-albums-yes"><input type="radio" name="show_homepage_albums" id="show-homepage-supports-albums-yes" value="1"<?php checked( $supports_albums, true ) ?>> Yes</label><br>
+
+				<p>
+					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
+					<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
+				</p>
+			</div>
+		</div>
+
+		<div id="show-homepage-supports-podcasts" class="misc-pub-section misc-pub-gmr mis-pub-radio">
+			Supports Podcasts:
+			<span class="post-pub-section-value radio-value"><?php echo $supports_podcasts ? 'Yes' : 'No'; ?></span>
+			<a href="#" class="edit-radio hide-if-no-js" style="display: inline;"><span aria-hidden="true">Edit</span></a>
+
+			<div class="radio-select hide-if-js">
+				<label for="show-homepage-supports-podcasts-no"><input type="radio" name="show_homepage_podcasts" id="show-homepage-supports-podcasts-no" value="0"<?php checked( $supports_podcasts, false ) ?>> No</label><br>
+				<label for="show-homepage-supports-podcasts-yes"><input type="radio" name="show_homepage_podcasts" id="show-homepage-supports-podcasts-yes" value="1"<?php checked( $supports_podcasts, true ) ?>> Yes</label><br>
+
+				<p>
+					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
+					<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
+				</p>
+			</div>
+		</div>
+
+		<div id="show-homepage-supports-videos" class="misc-pub-section misc-pub-gmr mis-pub-radio">
+			Supports Videos:
+			<span class="post-pub-section-value radio-value"><?php echo $supports_videos ? 'Yes' : 'No'; ?></span>
+			<a href="#" class="edit-radio hide-if-no-js" style="display: inline;"><span aria-hidden="true">Edit</span></a>
+
+			<div class="radio-select hide-if-js">
+				<label for="show-homepage-supports-videos-no"><input type="radio" name="show_homepage_videos" id="show-homepage-supports-videos-no" value="0"<?php checked( $supports_videos, false ) ?>> No</label><br>
+				<label for="show-homepage-supports-videos-yes"><input type="radio" name="show_homepage_videos" id="show-homepage-supports-videos-yes" value="1"<?php checked( $supports_videos, true ) ?>> Yes</label><br>
+
+				<p>
+					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
+					<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
+				</p>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**
@@ -137,8 +190,58 @@ class GMR_Show_Metaboxes {
 			return;
 		}
 
-		update_post_meta( $post_id, 'show_homepage', filter_input( INPUT_POST, 'show_homepage', FILTER_VALIDATE_BOOLEAN ) );
+		$homepage_support = filter_input( INPUT_POST, 'show_homepage', FILTER_VALIDATE_BOOLEAN );
+		$album_support = filter_input( INPUT_POST, 'show_homepage_albums', FILTER_VALIDATE_BOOLEAN );
+		$podcast_support = filter_input( INPUT_POST, 'show_homepage_podcasts', FILTER_VALIDATE_BOOLEAN );
+		$video_support = filter_input( INPUT_POST, 'show_homepage_videos', FILTER_VALIDATE_BOOLEAN );
+
+		update_post_meta( $post_id, 'show_homepage', $homepage_support );
+
+		if ( $homepage_support ) {
+			update_post_meta( $post_id, 'show_homepage_albums', $album_support );
+			update_post_meta( $post_id, 'show_homepage_podcasts', $podcast_support );
+			update_post_meta( $post_id, 'show_homepage_videos', $video_support );
+		} else {
+			// Impossible to support these if homepage support is turned off
+			update_post_meta( $post_id, 'show_homepage_albums', false );
+			update_post_meta( $post_id, 'show_homepage_podcasts', false );
+			update_post_meta( $post_id, 'show_homepage_videos', false );
+
+			if ( $album_support || $podcast_support || $video_support ) {
+				add_filter( 'redirect_post_location', array( $this, 'add_homepage_validation_error' ), 99 );
+			}
+		}
+
 		update_post_meta( $post_id, 'logo_image', filter_input( INPUT_POST, 'logo_image', FILTER_VALIDATE_INT ) );
+	}
+
+	/**
+	 * Adds a query var that specifies that we had an error saving all the homepage support so we can trigger an admin notice
+	 *
+	 * Happens when we say there is no homepage support, but try to add support for albums, podcasts, or videos at the same time.
+	 *
+	 * @param $location
+	 *
+	 * @return string
+	 */
+	public function add_homepage_validation_error( $location ) {
+		remove_filter( 'redirect_post_location', array( $this, 'add_homepage_validation_error' ) );
+		return add_query_arg( array( 'gmi-show-message' => 1), $location );
+	}
+
+	/**
+	 * Renders the message that there was an error saving homepage support
+	 */
+	public function admin_notices() {
+		if ( ! isset( $_GET['gmi-show-message'] ) ) {
+			return;
+		}
+
+		?>
+		<div class="error">
+			<p>You must enable show homepage support to support Albums, Podcasts, or Videos.</p>
+		</div>
+		<?php
 	}
 
 	/**

@@ -31,6 +31,7 @@ if( is_readable( GMEDIA_SHOWS_PATH . 'includes/class-Metaboxes.php' ) ) {
 	include_once GMEDIA_SHOWS_PATH . 'includes/class-Metaboxes.php';
 }
 
+require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-support.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-live-links.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-schedule.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-quickpost.php';

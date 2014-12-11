@@ -4,12 +4,17 @@
 	var tech = getUrlVars()['tech'];
 	var aSyncCuePointFallback = getUrlVars()['aSyncCuePointFallback'] == 'false' ? false : true;
 
-	var player; // player instance
-	var adPlaying; // boolean - ad break currently playing
-	var currentTrackCuePoint; // current track
-	var livePlaying; // boolean - live stream currently playing
-	var song; // song object that wrap NPE data
-	var currentStation = ''; // string - current station playing
+	var player;
+	/* TD player instance */
+
+	var currentTrackCuePoint;
+	/* Current Track */
+	var livePlaying;
+	/* boolean - Live stream currently playing */
+	var song;
+	/* Song object that wraps NPE data */
+	var currentStation = '';
+	/* String - Current station played */
 
 	/**
 	 * @todo remove the console log before beta

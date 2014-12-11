@@ -554,7 +554,7 @@ img {
 #site-wrap {
   max-width: 100%;
   margin: 0 auto;
-  background-color: #ffffff; }
+  background-color: #000000; }
 
 .page-wrap {
   -webkit-transform: translate(0, 0);
@@ -573,9 +573,10 @@ img {
       padding-bottom: 0; } }
 
 .container {
-  max-width: 92.0877%;
+  max-width: 100%;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  padding-right: 0; }
   .container:after {
     content: "";
     display: table;
@@ -585,7 +586,7 @@ img {
       max-width: 100%;
       margin-left: auto;
       margin-right: auto;
-      padding-right: 20em; }
+      padding-right: 14em; }
       .container:after {
         content: "";
         display: table;
@@ -594,8 +595,7 @@ img {
     .container {
       max-width: 1400px;
       margin-left: auto;
-      margin-right: auto;
-      padding-right: 250px; }
+      margin-right: auto; }
       .container:after {
         content: "";
         display: table;
@@ -663,7 +663,7 @@ img {
   left: 0;
   width: 100%;
   background-color: #000000;
-  color: #6d6e70;
+  color: #ffffff;
   cursor: pointer; }
   @media screen and (min-width: 768px) {
     .live-player {
@@ -672,7 +672,7 @@ img {
       bottom: auto;
       right: 0;
       left: auto;
-      width: 20em;
+      width: 14em;
       height: 100%;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -691,13 +691,13 @@ html {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background: #000000; }
+  background-color: #000000; }
 
 body {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background: #ffffff; }
+  background-color: #000000; }
 
 * {
   -webkit-tap-highlight-color: transparent; }
@@ -1814,6 +1814,9 @@ blockquote p {
 
 .footer a:hover, .footer a:focus, .footer a:active {
   color: #d22228; }
+
+.footer .container {
+  background-color: #ffffff; }
 
 .footer__content {
   float: left;
@@ -3535,24 +3538,6 @@ category: Components - Ads
       float: right;
       margin: 0 0 1em 1em; } }
 
-.personality-attr--name {
-  position: absolute;
-  top: 50%;
-  height: 60px;
-  -webkit-transform: translate(0, -25%);
-  -moz-transform: translate(0, -25%);
-  -ms-transform: translate(0, -25%);
-  -o-transform: translate(0, -25%);
-  transform: translate(0, -25%);
-  display: inline-block; }
-
-.personality-attr--img {
-  height: 60px;
-  width: 60px;
-  margin-right: 0.5em;
-  display: inline-block;
-  background-color: #d0d2d3; }
-
 .show-attr--name {
   position: absolute;
   top: 50%;
@@ -3570,6 +3555,202 @@ category: Components - Ads
   margin-right: 0.5em;
   display: inline-block;
   background-color: #d0d2d3; }
+
+/*doc
+---
+title: Show Header
+name: show-header
+category: Components - Shows
+---
+
+```html_example
+<div class="show__header">
+	<div class="show__cast">
+		<img src="http://placehold.it/135x135&text=cast">
+	</div>
+	<nav class="show__nav">
+		<a href=""><h1 class="show__title">Show Title Here</h1></a>
+		<ul>
+			<li><a href="">about</a></li>
+			<li><a href="">podcasts</a></li>
+			<li><a href="">galleries</a></li>
+		</ul>
+	</nav>
+	<div class="show__meta">
+		<em>Weekdays (todo)</em>
+		<em>5:30am - 10:30am (todo)</em>
+		<a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
+		<a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
+		<a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
+	</div>
+</div>
+
+```
+*/
+.show__header {
+  background-color: #561015;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  padding: 2em;
+  width: 100%;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  color: #ffffff; }
+  .show__header > div {
+    vertical-align: middle; }
+  @media screen and (min-width: 768px) {
+    .show__header {
+      padding: 5em 2em; } }
+
+.show__cast {
+  width: 100%;
+  height: 100%; }
+  @media screen and (min-width: 768px) {
+    .show__cast {
+      display: table-cell;
+      width: 16.66667%; } }
+  .show__cast img {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -border-radius: 50%;
+    border-radius: 50%;
+    margin: 0 auto; }
+
+.show__nav {
+  width: 100%;
+  text-align: center; }
+  @media screen and (min-width: 768px) {
+    .show__nav {
+      padding-left: 4em;
+      text-align: left;
+      display: table-cell;
+      width: 50%; } }
+  .show__nav ul {
+    list-style-type: none;
+    padding-left: 0;
+    text-align: justify;
+    margin: 0; }
+  .show__nav ul:after {
+    content: "";
+    width: 100%;
+    display: inline-block;
+    height: 0; }
+  .show__nav li {
+    display: block;
+    text-align: center; }
+    .show__nav li a {
+      font-size: ms(4); }
+    @media screen and (min-width: 768px) {
+      .show__nav li {
+        display: inline-block; }
+        .show__nav li a {
+          font-size: ms(0); } }
+  .show__nav a {
+    color: #ffffff;
+    text-transform: uppercase; }
+
+.show__title {
+  font-size: ms(10);
+  font-family: "Droid Sans", sans-serif; }
+
+.show__meta {
+  width: 100%;
+  text-align: center; }
+  @media screen and (min-width: 768px) {
+    .show__meta {
+      display: table-cell;
+      width: 33.33333%;
+      text-align: right; } }
+  .show__meta em {
+    display: block; }
+  .show__meta .social-share-link {
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    margin-top: 1em; }
+
+/*doc
+---
+title: Show Features
+name: show-features
+category: Components - Shows
+---
+
+
+```html_example
+<div class="show__features">
+	<div class="show__feature--primary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">23 SEP</span>
+			</div>
+		</div></a>
+	</div>
+	<div class="show__feature--secondary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">15 NOV</span>
+			</div>
+		</div></a>
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">02 DEC</span>
+			</div>
+		</div></a>
+	</div>
+</div>
+```
+
+*/
+.show__features {
+  display: block; }
+  .show__features:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.show__feature {
+  margin-bottom: 2em; }
+  .show__feature img {
+    width: 100%;
+    height: auto; }
+
+@media screen and (min-width: 768px) {
+  .show__feature--primary {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%; }
+    .show__feature--primary:last-child {
+      margin-right: 0; }
+    .show__feature--primary h3 {
+      font-size: ms(4); } }
+
+@media screen and (min-width: 768px) {
+  .show__feature--secondary {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    margin-right: 0; }
+    .show__feature--secondary:last-child {
+      margin-right: 0; }
+    .show__feature--secondary h3 {
+      font-size: ms(1); } }
+
+.show__feature--desc {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 1em 2em; }
 
 .widget--live-player {
   margin: 0 1em 1em; }
@@ -3633,9 +3814,9 @@ category: Components - Article
 
 ```html_example
 <img src="http://placehold.it/600x400&amp;text=image" alt="placeholder" class="entry__featured-image">
-<header class="entry-header">
+<header class="entry__header">
 	<time datetime="2014-11-10T20:11:28+00:00" class="entry__date">10 November</time>
-    <h2 class="entry-title"><a href="">Test Show Post</a></h2>
+    <h2 class="entry__title"><a href="">Test Show Post</a></h2>
 </header>
 <a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
 <a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
@@ -3678,200 +3859,6 @@ name: gallery-widget
 category: Components - Gallery
 ---
 
-```none_example
-<div class="main cycle-slideshow" data-cycle-caption=".slide-paging-text"
-data-cycle-caption-template=
-"&lt;span class='highlight'&gt;Image {{slideNum}}&lt;/span&gt; of {{slideCount}}"
-data-cycle-center-horz="true" data-cycle-center-vert="true" data-cycle-fx=
-"scrollHorz" data-cycle-log="false" data-cycle-manual-fx="scrollHoriz"
-data-cycle-manual-speed="200" data-cycle-next=".next-img" data-cycle-prev=
-".prev-img" data-cycle-swipe="true" data-cycle-swipe-fx="scrollHorz"
-data-cycle-timeout="0" data-slides="&gt; .slide">
-	<div class="slide cycle-slide cycle-sentinel" data-cycle-hash=
-	"15018928618_774ef7d7b7_z" data-cycle-slide_shorturl=
-	"http://wef.ch/1ubeR9u" data-cycle-slide_title="15018928618_774ef7d7b7_z"
-	style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15018928618_774ef7d7b7_z.jpg&quot;); position: static; top: 0px; left: 0px; z-index: 71; visibility: hidden; display: block;">
-	</div><span class="prev-img slide-overlay-control-nohide"><span class=
-	"fa fa-angle-left"></span></span> <span class=
-	"next-img slide-overlay-control-nohide"><span class=
-	"fa fa-angle-right"></span></span>
-
-	<div class="slide cycle-slide" data-cycle-hash="15018928618_774ef7d7b7_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeR9u" data-cycle-slide_title=
-	"15018928618_774ef7d7b7_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15018928618_774ef7d7b7_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 71; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide cycle-slide-active" data-cycle-hash=
-	"wef-china-4" data-cycle-slide_shorturl="http://wef.ch/1ubeR9w"
-	data-cycle-slide_title="WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/1715_Opening-Plenary-28282-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 100; opacity: 1; display: block; visibility: visible; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15196744645_a420936bb3_b-4"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeThN" data-cycle-slide_title=
-	"15196744645_a420936bb3_b" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15196744645_a420936bb3_b3.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 99; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="robot-screen"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeR9C" data-cycle-slide_title=
-	"robot+screen" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/robot-screen-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 97; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15206147035_1db3f0fce7_z-2"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeR9G" data-cycle-slide_title=
-	"15206147035_1db3f0fce7_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15206147035_1db3f0fce7_z1.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 96; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026522837_aa0b94fda2_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRpW" data-cycle-slide_title=
-	"15026522837_aa0b94fda2_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026522837_aa0b94fda2_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 95; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15018896840_bb57349874_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRq0" data-cycle-slide_title=
-	"15018896840_bb57349874_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15018896840_bb57349874_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 94; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026596209_ca41d440d5_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRq3" data-cycle-slide_title=
-	"15026596209_ca41d440d5_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026596209_ca41d440d5_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 93; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15203274631_4e34500708_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRq9" data-cycle-slide_title=
-	"15203274631_4e34500708_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15203274631_4e34500708_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 92; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15183257056_8250561805_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRqb" data-cycle-slide_title=
-	"15183257056_8250561805_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15183257056_8250561805_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 91; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15019511878_825b79ba27_z-3"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeTyd" data-cycle-slide_title=
-	"15019511878_825b79ba27_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15019511878_825b79ba27_z2.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 90; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15204569862_b23801cbc0_k"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeTyj" data-cycle-slide_title=
-	"From+Confucius+to+C-Pop" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15204569862_b23801cbc0_k-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 89; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15018944788_3a7b5b48c5_z-2"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNIT7" data-cycle-slide_title=
-	"15018944788_3a7b5b48c5_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15018944788_3a7b5b48c5_z1.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 88; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-6"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJ9n" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/An-Insight-An-Idea-with-Yao-Ming-2594-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 87; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-11"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNGdW" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/girlrising.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 86; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-12"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJ9x" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/K8A0281-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 85; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-9"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeRGI" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/All-new-Champions-2599-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 84; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="wef-china-8"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeUC9" data-cycle-slide_title=
-	"WEF+China" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/IMG_5875-1400x933.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 83; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15185534962_a577d4cc86_k-3"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNM58" data-cycle-slide_title=
-	"15185534962_a577d4cc86_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15185534962_a577d4cc86_k2.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 82; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026809588_15769da77a_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNM5c" data-cycle-slide_title=
-	"15026809588_15769da77a_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026809588_15769da77a_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 81; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15192107871_f898556503_k-3"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeU5h" data-cycle-slide_title=
-	"15192107871_f898556503_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15192107871_f898556503_k2.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 80; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15000437440_4a3bf644f3_k-5"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJpZ" data-cycle-slide_title=
-	"15000437440_4a3bf644f3_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15000437440_4a3bf644f3_k4.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 79; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026443709_161d5e59aa_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeUCn" data-cycle-slide_title=
-	"15026443709_161d5e59aa_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026443709_161d5e59aa_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 78; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15026620498_3d45106761_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJq6" data-cycle-slide_title=
-	"15026620498_3d45106761_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15026620498_3d45106761_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 77; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15190156446_d55d600a7a_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeV9a" data-cycle-slide_title=
-	"15190156446_d55d600a7a_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15190156446_d55d600a7a_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 76; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15007532547_bfc7f48d43_k-3"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNJGs" data-cycle-slide_title=
-	"15007532547_bfc7f48d43_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15007532547_bfc7f48d43_k2.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 75; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15019572757_cd2cc409c5_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNMC5" data-cycle-slide_title=
-	"15019572757_cd2cc409c5_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15019572757_cd2cc409c5_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 74; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15010783959_0914b824a9_k-2"
-	data-cycle-slide_shorturl="http://wef.ch/1ulNMCc" data-cycle-slide_title=
-	"15010783959_0914b824a9_k" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15010783959_0914b824a9_k1.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 73; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-
-	<div class="slide cycle-slide" data-cycle-hash="15190647566_a946814cfb_z"
-	data-cycle-slide_shorturl="http://wef.ch/1ubeV9n" data-cycle-slide_title=
-	"15190647566_a946814cfb_z" style=
-	"background-image: url(&quot;https://forumblog.org/wp-content/uploads/15190647566_a946814cfb_z.jpg&quot;); position: absolute; top: 0px; left: 0px; z-index: 72; visibility: hidden; margin-left: 0px; margin-top: 0px;">
-	</div>
-</div>
-```
 */
 /**
  * Single Page Styles
