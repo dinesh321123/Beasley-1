@@ -22,7 +22,7 @@ jQuery(function () {
 			});
 
 			jQuery(this).find('textarea').each(function () {
-				form_data.append(this.name, this.innerText());
+				form_data.append(this.name, this.value);
 			});
 
 			// Submit the form via AJAX

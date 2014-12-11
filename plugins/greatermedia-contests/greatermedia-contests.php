@@ -24,7 +24,6 @@ if ( is_admin() ) {
 
 	include trailingslashit( __DIR__ ) . 'inc/class-greatermedia-contests-metaboxes.php';
 	include trailingslashit( __DIR__ ) . 'inc/class-greatermedia-contests-template-actions.php';
-	include trailingslashit( __DIR__ ) . 'inc/class-greatermedia-contest-entry-metaboxes.php';
 
 }
 

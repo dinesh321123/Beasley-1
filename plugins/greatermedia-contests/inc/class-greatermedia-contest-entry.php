@@ -55,7 +55,11 @@ class GreaterMediaContestEntry {
 	 */
 	public function save() {
 
-		$post_id = wp_update_post( $this->post, true );
+		if ( empty( $this->post->ID ) ) {
+			$post_id = wp_insert_post( $this->post, true );
+		} else {
+			$post_id = wp_update_post( $this->post, true );
+		}
 
 		update_post_meta( $post_id, 'entrant_name', $this->entrant_name );
 		update_post_meta( $post_id, 'entrant_reference', $this->entrant_reference );
@@ -95,7 +99,7 @@ class GreaterMediaContestEntry {
 			'label'               => __( 'contest_entry', 'greatermedia_contests' ),
 			'description'         => __( 'An entry in a Contest', 'greatermedia_contests' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', ),
+			'supports'            => array( 'title', 'custom-fields' ),
 			'taxonomies'          => array( 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
