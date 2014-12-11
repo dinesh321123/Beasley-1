@@ -150,7 +150,7 @@ class GreaterMediaSiteOptions {
 
 	public static function render_image_select( $label, $name, $image_id = 0 ) {
 		$image_src = wp_get_attachment_image_src( $image_id, 'thumbnail' );
-		$image_src = $image_id ? reset( $image_src ): '';
+		$image_src = is_array( $image_src ) ? reset( $image_src ): '';
 
 		?>
 		<div class="gmr__option image-select-parent">
