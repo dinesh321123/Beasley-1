@@ -23,7 +23,7 @@ img {
 #site-wrap {
 	max-width: 100%;
 	margin: 0 auto;
-	background-color: $primary-bg;
+	background-color: $secondary-bg;
 }
 
 // The `.page-wrap` class is being used in conjunction with the off-canvas mobile navigation. On click of the
@@ -40,16 +40,16 @@ img {
 }
 
 .container, %container {
-	@include outer-container(92.08770257388%);
+	@include outer-container(100%);
+	padding-right: 0;
+
 	@include bp(medium) {
 		@include outer-container(100%);
-		padding-right: 20em;
+		padding-right: 14em;
 	}
-	@include bp(large) {
-	}
+	
 	@include bp(x-large) {
 		@include outer-container(1400px);
-		padding-right: 250px;
 	}
 }
 
@@ -93,7 +93,7 @@ img {
 	left: 0;
 	width: 100%;
 	background-color: $secondary-bg;
-	color: $nevada;
+	color: $secondary-text;
 	cursor: pointer;
 	@include bp(medium){
 		position: absolute;
@@ -101,7 +101,7 @@ img {
 		bottom: auto;
 		right: 0;
 		left: auto;
-		width: 20em;
+		width: 14em;
 		height: 100%;
 		@include box-sizing(border-box);
 		cursor: default;

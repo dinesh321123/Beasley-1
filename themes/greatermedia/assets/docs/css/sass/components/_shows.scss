@@ -16,6 +16,120 @@
 	background-color: $primary-border;
 }
 
+/*doc
+---
+title: Show Header
+name: show-header
+category: Components - Shows
+---
+
+```html_example
+<div class="show__header">
+	<div class="show__cast">
+		<img src="http://placehold.it/135x135&text=cast">
+	</div>
+	<nav class="show__nav">
+		<a href=""><h1 class="show__title">Show Title Here</h1></a>
+		<ul>
+			<li><a href="">about</a></li>
+			<li><a href="">podcasts</a></li>
+			<li><a href="">galleries</a></li>
+		</ul>
+	</nav>
+	<div class="show__meta">
+		<em>Weekdays (todo)</em>
+		<em>5:30am - 10:30am (todo)</em>
+		<a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
+		<a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
+		<a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
+	</div>
+</div>
+
+```
+*/
+
+.show__header {
+	background-color: rgb(86, 16, 21);
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+	padding: 5em;
+	@include fill-parent();
+	@include row(table);
+	color: $secondary-text;
+
+	> div {
+		vertical-align: middle;
+	}
+}
+
+.show__cast {
+	@include fill-parent;
+	height: 100%;
+
+	@include bp(medium) {
+		@include span-columns(2 of 12);
+	}
+
+	img {
+		@include border-radius(50%);
+	}
+}
+
+.show__nav {
+	@include fill-parent;
+
+	@include bp(small) {
+		padding-left: 4em;
+		@include span-columns(6 of 12);
+	}
+
+	ul {
+		list-style-type: none;
+		padding-left: 0;
+	}
+	li { display: inline-block; }
+	a {
+		color: $secondary-text;
+		text-transform: uppercase;
+	}
+}
+
+.show__title {
+	font-size: ms(10);
+	font-family: $droid-sans;
+
+	a:link {
+		color: $secondary-text;
+
+		&:hover {
+			color: $primary-text;
+		}
+	}
+}
+
+.show__meta {
+	@include fill-parent;
+
+	@include bp(small) {
+		@include span-columns(4 of 12);
+		text-align: right;
+	}
+
+	em {
+		display: block;
+	}
+
+	.social-share-link {
+		color: $secondary-text;
+		border: 1px solid $secondary-text;
+	}
+}
+
+.show__featured-img {
+	position: absolute;
+}
+
 .show-attr--next_air_time {
 
 }

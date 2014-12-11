@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Components - Widgets</title>
+    <title>Components - Shows</title>
 
     <!-- Styleguide CSS -->
     <link rel="stylesheet" href="./theme-build/css/vendors.css">
@@ -103,7 +103,7 @@
             
               
               
-                <li><a class="active" href="components_-_widgets.html">Widgets</a></li>
+                <li><a href="components_-_widgets.html">Widgets</a></li>
               
             
           
@@ -117,7 +117,7 @@
             
               
               
-                <li><a href="components_-_shows.html">Shows</a></li>
+                <li><a class="active" href="components_-_shows.html">Shows</a></li>
               
             
           
@@ -189,7 +189,7 @@
 
     <header class="cortana-header sb-slide">
       
-        <h1>Widgets</h1>
+        <h1>Shows</h1>
       
       <div id="open-left" class="cortana-menu-btn">
         <span></span>
@@ -209,7 +209,7 @@
           <ul bs-scrollspy-list data-offset="-30">
             
               
-                <li><a href="#inline-audio">Inline Audio</a></li>
+                <li><a href="#show-header">Show Header</a></li>
               
             
           </ul>
@@ -220,70 +220,50 @@
 
 
 
-<h1 id="inline-audio">Inline Audio</h1>
-</div><div class="container-fluid"><div class="col-sm-12"><div class="mejs-container svg wp-audio-shortcode mejs-audio" id="mep_0"
-style="width: 100%; height: 30px;">
-    <div class="mejs-inner">
-        <div class="mejs-mediaelement">
-            <audio class="wp-audio-shortcode" id="audio-198-1" preload=
-            "none" src=
-            "http://traffic.libsyn.com/criptiques/nina_g.mp3?_=1" style=
-            "width: 100%; visibility: hidden;">
-            <source src=
-            "http://traffic.libsyn.com/criptiques/nina_g.mp3?_=1" type=
-            "audio/mpeg"><a href=
-            "http://traffic.libsyn.com/criptiques/nina_g.mp3">http://traffic.libsyn.com/criptiques/nina_g.mp3</a></audio>
-        </div>
-
-        <div class="mejs-layers">
-            <div class="mejs-poster mejs-layer" style=
-            "display: none; width: 100%; height: 30px;"></div>
-        </div>
-
-        <div class="mejs-controls">
-            <div class="mejs-button mejs-playpause-button mejs-play">
-                <button title="Play/Pause" type="button"></button>
-            </div>
-
-            <div class="mejs-time mejs-currenttime-container">
-                <span class="mejs-currenttime">00:00</span>
-            </div>
-
-            <div class="mejs-time-rail" style="width: 492px;">
-                <span class="mejs-time-total" style=
-                "width: 482px;"><span class="mejs-time-buffering" style=
-                "display: none;"></span><span class=
-                "mejs-time-loaded"></span><span class=
-                "mejs-time-current"></span><span class=
-                "mejs-time-handle"></span><span class="mejs-time-float"
-                style="display: none;"><span class=
-                "mejs-time-float-current">00:00</span><span class=
-                "mejs-time-float-corner"></span></span></span>
-            </div>
-
-            <div class="mejs-time mejs-duration-container">
-                <span class="mejs-duration">00:00</span>
-            </div>
-
-            <div class="mejs-button mejs-volume-button mejs-mute">
-                <button title="Mute Toggle" type="button"></button>
-            </div>
-
-            <div class="mejs-horizontal-volume-slider mejs-mute">
-                <div class="mejs-horizontal-volume-total"></div>
-
-                <div class="mejs-horizontal-volume-current" style=
-                "width: 40px;"></div>
-
-                <div class="mejs-horizontal-volume-handle" style=
-                "left: 27px;"></div>
-            </div>
-        </div>
-
-        <div class="mejs-clear"></div>
+<h1 id="show-header">Show Header</h1>
+</div><div class="codeExample"><div class="exampleOutput"><div class="show__header">
+    <div class="show__cast">
+        <img src="http://placehold.it/135x135&text=cast">
+    </div>
+    <nav class="show__nav">
+        <a href=""><h1 class="show__title">Show Title Here</h1></a>
+        <ul>
+            <li><a href="">about</a></li>
+            <li><a href="">podcasts</a></li>
+            <li><a href="">galleries</a></li>
+        </ul>
+    </nav>
+    <div class="show__meta">
+        <em>Weekdays (todo)</em>
+        <em>5:30am - 10:30am (todo)</em>
+        <a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
+        <a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
+        <a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
     </div>
 </div>
-</div></div><div class="cortana-content">
+
+</div><div class="codeBlock"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__header"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__cast"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"http://placehold.it/135x135&amp;text=cast"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"show__nav"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;&lt;h1</span> <span class="na">class=</span><span class="s">"show__title"</span><span class="nt">&gt;</span>Show Title Here<span class="nt">&lt;/h1&gt;&lt;/a&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;</span>about<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;</span>podcasts<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">""</span><span class="nt">&gt;</span>galleries<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/nav&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"show__meta"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;em&gt;</span>Weekdays (todo)<span class="nt">&lt;/em&gt;</span>
+        <span class="nt">&lt;em&gt;</span>5:30am - 10:30am (todo)<span class="nt">&lt;/em&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.facebook.com/sharer/sharer.php?u=[URL]&amp;title=[TITLE]"</span> <span class="na">class=</span><span class="s">"icon-facebook social-share-link"</span><span class="nt">&gt;&lt;/a&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://twitter.com/home?status=[TITLE]+[URL]"</span> <span class="na">class=</span><span class="s">"icon-twitter social-share-link"</span><span class="nt">&gt;&lt;/a&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://plus.google.com/share?url=[URL]"</span> <span class="na">class=</span><span class="s">"icon-google-plus social-share-link"</span><span class="nt">&gt;&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+</pre></div></div></div><div class="cortana-content">
         </div>
       </div>
     </div>

@@ -8,32 +8,39 @@
 
 		<div class="container">
 
-			<section class="content">
+			<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+				<div class="show__header">
+				    <div class="show__cast">
+				        <img src="http://placehold.it/135x135&text=cast">
+				    </div>
+				    <nav class="show__nav">
+				        <a href=""><h1 class="show__title">Show Title Here</h1></a>
+				        <ul>
+				            <li><a href="">about</a></li>
+				            <li><a href="">podcasts</a></li>
+				            <li><a href="">galleries</a></li>
+				        </ul>
+				    </nav>
+				    <div class="show__meta">
+				        <em>Weekdays</em>
+				        <em>5:30am - 10:30am</em>
+				        <a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
+				        <a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
+				        <a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
+				    </div>
+				</div>
+
+				<section class="content">
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-						<header class="entry-header">
+						<header class="entry__header">
 
-							<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+							<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
 						</header>
 
-						<div id="logo">
-							
-							<?php
-								global $post;
-								$logo_id = get_post_meta($post->ID, 'logo_image', true);
-								if( $logo_id ) {
-									$logo = get_post( $logo_id );
-									echo '<img src="' . $logo->guid . '" />';
-								} else {
-									echo '<div>No Logo Image</div>';
-								}
-							?>
-
-						</div>
 						<hr>
 						<div class="entry-content">
 							<div>
