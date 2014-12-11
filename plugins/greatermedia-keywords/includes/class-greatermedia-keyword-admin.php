@@ -94,13 +94,14 @@ class GreaterMedia_Keyword_Admin {
 		/**
 		 * Add a settings page for this plugin to the Tools menu.
 		 */
-		$this->_page_slug = add_submenu_page(
-			'tools.php',
+		$this->_page_slug = add_menu_page(
 			'On-Air Keywords',
-			'Manage Keywords',
+			'Keywords',
 			'manage_options',
 			$this::$plugin_slug,
-			array( $this, 'display_plugin_admin_page' )
+			array( $this, 'display_plugin_admin_page' ),
+			'dashicons-lightbulb',
+			3
 		);
 
 	}
