@@ -8,45 +8,33 @@
 
 				<?php the_post(); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+				<h2 class="content__heading"><?php the_title(); ?> Podcasts</h2>
 
-						<header class="entry-header">
+				<div class="podcasts">
 
-							<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?> Podcasts</a></h2>
+					<?php
+					$podcast_query = \GreaterMedia\Shows\get_show_podcast_query();
 
-						</header>
+					while( $podcast_query->have_posts() ) : $podcast_query->the_post(); ?>
+						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/OnDemandEvent">
 
-						<div class="entry-content">
-							single-show-podcasts.php
-						</div>
+							<header class="entry-header">
+								<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+							</header>
 
-					</article>
+							<div class="entry-content">
+								<?php the_excerpt(); ?>
+							</div>
 
-					<div class="podcasts">
+						</article>
+					<?php
+					endwhile;
+					wp_reset_query();
+					?>
 
-						<?php
-						$podcast_query = \GreaterMedia\Shows\get_show_podcast_query();
+					<div class="podcast-paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $podcast_query ); ?></div>
 
-						while( $podcast_query->have_posts() ) : $podcast_query->the_post(); ?>
-							<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/OnDemandEvent">
-
-								<header class="entry-header">
-									<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-								</header>
-
-								<div class="entry-content">
-									<?php the_excerpt(); ?>
-								</div>
-
-							</article>
-						<?php
-						endwhile;
-						wp_reset_query();
-						?>
-
-						<div class="podcast-paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $podcast_query ); ?></div>
-
-					</div>
+				</div>
 
 			</section>
 
