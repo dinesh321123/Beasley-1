@@ -2,17 +2,7 @@
 	$(document).ready(function () {
 		var hovered_show, original_color,
 			popup_tmpl = $('#schedule-remove-popup').html();
-
-		if ($.fn.datepicker) {
-			$('#start-from-date').datepicker({
-				dateFormat : 'M d, yy',
-				minDate: 'now',
-				maxDate: '+1w',
-				altField: '#start-from-date-value',
-				altFormat: 'yy-mm-dd'
-			});
-		}
-
+			
 		$('#schedule-table td > div').hover(function() {
 			var $this = $(this);
 

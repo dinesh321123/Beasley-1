@@ -6,10 +6,6 @@
 
 	@include clearfix;
 
-	#start-from-date {
-		width: 100px;
-	}
-
 	select,
 	input[type="text"],
 	input[type="submit"] {
@@ -96,7 +92,7 @@
 }
 
 .popup-wrapper {
-	position: absolute;
+	position: fixed;
 	left: 0;
 	top: 0;
 	right: 0;
