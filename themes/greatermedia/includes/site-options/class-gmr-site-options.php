@@ -84,7 +84,7 @@ class GreaterMediaSiteOptions {
 		register_setting( self::option_group, 'gmr_twitter_name', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_youtube_url', 'esc_url_raw' );
 		register_setting( self::option_group, 'gmr_instagram_name', 'sanitize_text_field' );
-		register_setting( self::option_group, 'gmr_site_logo', 'esc_url_raw' );
+		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -97,26 +97,11 @@ class GreaterMediaSiteOptions {
 		$twitter = get_option( 'gmr_twitter_name', '' );
 		$youtube = get_option( 'gmr_youtube_url', '' );
 		$instagram = get_option( 'gmr_instagram_name', '' );
-		$site_logo = get_option( 'gmr_site_logo', '' );
+		$site_logo_id = GreaterMediaSiteOptionsHelperFunctions::get_site_logo_id();
 
 		?>
 
-		<div class="gmr__option">
-			<label for="gmr_site_logo" class="gmr__option--label"><?php _e( 'Site Logo:', 'greatermedia' ); ?></label>
-			<input type="hidden" id="gmr_site_logo" name="gmr_site_logo" value="<?php if ( isset ( $site_logo ) ) echo esc_url_raw( $site_logo ); ?>" />
-			<div id="gmr_site_logo--preview" class="gmr__option--preview hidden">
-				<img src="<?php if ( isset ( $site_logo ) ) echo esc_url( $site_logo ); ?>" id="gmr_site_logo--img">
-			</div>
-			<div id="gmr_site_logo--location" class="hidden">
-				<input type="text" id="gmr_logo_location" name="gmr_logo_location" class="gmr__option--input" value="<?php if ( isset ( $site_logo ) ) echo esc_url_raw( $site_logo ); ?>" />
-			</div>
-			<div id="gmr_site_logo--upload" class="hide-if-no-js gmr__option--upload-btn">
-				<a title="Upload Logo" href="javascript:;" id="gmr_site_logo--upload-btn" class="button"><?php _e( 'Upload Logo', 'greatermedia' ); ?></a>
-			</div>
-			<div id="gmr_site_logo--remove" class="hidden gmr__option--upload-btn">
-				<a title="Remove Logo" href="javascript:;" id="gmr_site_logo-remove" class="button"><?php _e( 'Remove Logo', 'greatermedia' ); ?></a>
-			</div>
-		</div>
+		<?php self::render_image_select( 'Site Logo', 'gmr_site_logo', $site_logo_id ); ?>
 
 		<hr/>
 
@@ -161,6 +146,25 @@ class GreaterMediaSiteOptions {
 
 		wp_enqueue_script( 'gmr-options-admin', get_template_directory_uri() . "/assets/js/greater_media_admin{$postfix}.js", array( 'jquery' ), GREATERMEDIA_VERSION, 'all' );
 		wp_enqueue_style( 'gmr-options-admin', get_template_directory_uri() . "/assets/css/greater_media_admin{$postfix}.css", array(), GREATERMEDIA_VERSION );
+	}
+
+	public static function render_image_select( $label, $name, $image_id = 0 ) {
+		$image_src = wp_get_attachment_image_src( $image_id, 'thumbnail' );
+		$image_src = $image_id ? reset( $image_src ): '';
+
+		?>
+		<div class="gmr__option image-select-parent">
+			<label for="<?php echo esc_attr( $name ); ?>" class="gmr__option--label"><?php echo esc_html( $label ); ?></label>
+			<input class="image-id-input" type="hidden" name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $name ); ?>" value="<?php echo intval( $image_id ); ?>"/>
+			<div class="gmr-image-preview gmr__option--preview">
+				<img src="<?php echo esc_url( $image_src ); ?>"/>
+			</div>
+			<div class="gmr-image-buttons">
+				<div class="button select-image">Select Image</div>
+				<div class="button remove-image">Remove Image</div>
+			</div>
+		</div>
+	<?php
 	}
 
 }

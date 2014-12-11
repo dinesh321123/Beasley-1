@@ -3838,7 +3838,7 @@ category: Components - Shows
       margin-right: 0; }
     .show__feature--secondary h3 {
       font-size: 1em; }
-    .show__feature--secondary span {
+    .show__feature--secondary time {
       font-size: 0.8em; } }
 
 .show__feature--desc {
@@ -3846,6 +3846,14 @@ category: Components - Shows
   color: #ffffff;
   padding: 1em 2em 1em; }
 
+/*doc
+---
+title: Related Events
+name: related-events
+category: Components - Shows
+---
+
+*/
 .widget--live-player {
   margin: 0 1em 1em; }
 

@@ -225,7 +225,7 @@ category: Components - Shows
 		@include omega;
 
 		h3 { font-size: 1em; }
-		span { font-size: 0.8em; }
+		time { font-size: 0.8em; }
 	}
 
 }
@@ -235,6 +235,15 @@ category: Components - Shows
 	color: $secondary-text;
 	padding: 1em 2em 1em;
 }
+
+/*doc
+---
+title: Related Events
+name: related-events
+category: Components - Shows
+---
+
+*/
 
 .show-attr--next_air_time {
 

@@ -15,11 +15,20 @@ class GreaterMediaSiteOptionsHelperFunctions {
 		add_action( 'gmr_social', array( __CLASS__, 'social_links' ) );
 	}
 
+	public static function get_site_logo_id() {
+		$site_logo_id = get_option( 'gmr_site_logo', 0 );
+
+		return $site_logo_id;
+	}
+
 	public static function site_logo() {
-		$site_logo = get_option( 'gmr_site_logo', '' );
-
-		echo '<img src="' . esc_url( $site_logo ) . '" alt="' . get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) . '" class="header__logo--img">';
-
+		$site_logo_id = self::get_site_logo_id();
+		if ( $site_logo_id ) {
+			$site_logo = wp_get_attachment_image_src( $site_logo_id, 'full' );
+			if ( $site_logo ) {
+				echo '<img src="' . esc_url( $site_logo[0] ) . '" alt="' . get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) . '" class="header__logo--img">';
+			}
+		}
 	}
 
 	public static function facebook_link() {

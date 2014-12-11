@@ -1,104 +1,67 @@
-/**
- * Callback function for the 'click' event of the 'Logo Upload'
- * anchor in its meta box.
- *
- * Displays the media uploader for selecting an image.
- *
- * @param    object    $    A reference to the jQuery object
- * @since    0.1.0
- */
-function renderLogoUpload( $ ) {
-	'use strict';
+(function($){
+	var $body = $('body');
 
-	var file_frame, image_data, json;
+	// Media uploader
+	$body.on( 'click', '.select-image', function(e) {
+		var $this = $(this),
+			$parent = $this.parents('.image-select-parent').first(),
+			$image = $parent.find('img'),
+			$field = $parent.find('.image-id-input'),
+			frame;
 
-	if ( undefined !== file_frame ) {
+		e.preventDefault();
 
-		file_frame.open();
-		return;
+		// Create the media frame.
+		frame = wp.media.frames.chooseImage = wp.media({
+			// Set the title of the modal.
+			title: 'Choose an Image',
 
-	}
+			// Tell the modal to show only images.
+			library: {
+				type: 'image'
+			},
 
-	file_frame = wp.media.frames.file_frame = wp.media({
-		frame:    'post',
-		state:    'insert',
-		multiple: false
+			// Customize the submit button.
+			button: {
+				// Set the text of the button.
+				text: 'Select Image'
+			}
+		});
+
+		// When an image is selected, run a callback.
+		frame.on( 'select', function() {
+			// Grab the selected attachment.
+			var attachment = frame.state().get('selection').first(),
+				sizes = attachment.get('sizes'),
+				imageUrl = attachment.get('url');
+
+			// Use thumbnail size if abailable for preview
+			if ( "undefined" !== typeof sizes.thumbnail ) {
+				imageUrl = sizes.thumbnail.url;
+			}
+
+			// set the hidden input's value
+			$field.attr('value', attachment.id);
+
+			// Show the image in the placeholder
+			$image.attr('src', imageUrl);
+		});
+
+		frame.open();
 	});
 
-	file_frame.on( 'insert', function() {
+	$body.on( 'click', '.remove-image', function(e) {
+		var $this = $(this),
+			$parent = $this.parents('.image-select-parent').first(),
+			$image = $parent.find('img'),
+			$field = $parent.find('.image-id-input');
 
-		json = file_frame.state().get( 'selection' ).first().toJSON();
+		e.preventDefault();
 
-		if ( 0 > $.trim( json.url.length ) ) {
-			return;
-		}
-
-		$( '#gmr_site_logo--location' )
-			.show()
-			.removeClass( 'hidden' );
-
-		$( '#gmr_site_logo--preview')
-			.children( 'img' )
-				.attr( 'src', json.url )
-				.attr( 'alt', json.caption )
-				.attr( 'title', json.title )
-			.parent()
-			.show()
-			.removeClass( 'hidden' );
-
-		$( '#gmr_site_logo--upload' )
-			.hide();
-
-		// Display the anchor for the removing the featured image
-		$( '#gmr_site_logo--remove' )
-			.show()
-			.removeClass( 'hidden' );
-
-
-		$( '#gmr_site_logo' ).val( json.url );
-		$( '#gmr_logo_location' ).val( json.url );
-
+		$image.attr('src', '');
+		$field.attr('value', '');
 	});
-
-	file_frame.open();
-
-}
-
-/**
- * Callback function for the 'click' event of the 'Remove Logo'
- * anchor in its meta box.
- *
- * Resets the meta box by hiding the image and by hiding the 'Logo Upload'
- * container.
- *
- * @param    object    $    A reference to the jQuery object
- * @since    0.2.0
- */
-function resetLogoUpload( $ ) {
-	'use strict';
-
-	// We add the 'hidden' class back to this anchor's parent
-	$( '#gmr_site_logo--location' )
-		.hide()
-		.addClass( 'hidden' );
-
-	$( '#gmr_site_logo--preview')
-		.hide()
-		.addClass( 'hidden' );
-
-	$( '#gmr_site_logo--upload' )
-		.show()
-		.removeClass( 'hidden' );
-
-	$( '#gmr_site_logo--remove' )
-		.hide()
-		.addClass( 'hidden' );
-
-	// Finally, we reset the meta data input fields
-	$( '#gmr_site_logo' )
-		.val( '' );
-
-}
+})(jQuery);
 
 /**
  * Checks to see if the input field for the audio source has a value.

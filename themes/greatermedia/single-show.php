@@ -38,8 +38,8 @@
 							<a href=""><div class="show__feature">
 								<img src="http://placehold.it/570x315&text=show-feature" alt="">
 								<div class="show__feature--desc">
-									<h3>The Title of the Featured Post on the Show Homepage</h3>
-									<span class="show__feature--date">23 SEP</span>
+									<h3>The Title of the Primary Featured Post on the Show Homepage</h3>
+									<time class="show__feature--date" datetime="">23 SEP</time>
 								</div>
 							</div></a>
 						</div>
@@ -47,15 +47,15 @@
 							<a href=""><div class="show__feature">
 								<img src="http://placehold.it/570x315&text=show-feature" alt="">
 								<div class="show__feature--desc">
-									<h3>The Title of the Featured Post on the Show Homepage</h3>
-									<span class="show__feature--date">15 NOV</span>
+									<h3>The Title of a Secondary Featured Post on the Show Homepage</h3>
+									<time class="show__feature--date" datetime="">23 SEP</time>
 								</div>
 							</div></a>
 							<a href=""><div class="show__feature">
 								<img src="http://placehold.it/570x315&text=show-feature" alt="">
 								<div class="show__feature--desc">
-									<h3>The Title of the Featured Post on the Show Homepage</h3>
-									<span class="show__feature--date">02 DEC</span>
+									<h3>The Title of a Secondary Featured Post on the Show Homepage</h3>
+									<time class="show__feature--date" datetime="">23 SEP</time>
 								</div>
 							</div></a>
 						</div>
