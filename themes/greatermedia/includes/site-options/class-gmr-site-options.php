@@ -50,7 +50,7 @@ class GreaterMediaSiteOptions {
 	}
 
 	public function add_settings_page() {
-		$this->_settings_page_hook = add_menu_page( 'Site Settings', 'Site Settings', 'manage_options', 'greatermedia-settings', array( $this, 'render_settings_page' ), '', 3 );
+		$this->_settings_page_hook = add_options_page( 'Station Site', 'Station Site', 'manage_options', 'greatermedia-settings', array( $this, 'render_settings_page' ), '', 3 );
 	}
 
 	public function render_settings_page() {
@@ -77,7 +77,7 @@ class GreaterMediaSiteOptions {
 
 	public function register_settings() {
 		// Settings Section
-		add_settings_section( 'greatermedia_site_settings', 'Greater Media Site Settings', array( $this, 'render_site_settings_section' ), $this->_settings_page_hook );
+		add_settings_section( 'greatermedia_site_settings', 'Station Site', array( $this, 'render_site_settings_section' ), $this->_settings_page_hook );
 
 		// Social URLs
 		register_setting( self::option_group, 'gmr_facebook_url', 'esc_url_raw' );
