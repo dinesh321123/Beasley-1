@@ -3,7 +3,7 @@
 		<img src="http://placehold.it/135x135&text=cast">
 	</div>
 	<nav class="show__nav">
-		<a href=""><h1 class="show__title"><?php \GreaterMedia\Shows\show_page_title(); ?></h1></a>
+		<a href="<?php the_permalink(); ?>"><h1 class="show__title"><?php the_title(); ?></h1></a>
 		<ul>
 			<?php \GreaterMedia\Shows\about_link_html( get_the_ID() ); ?>
 			<?php \GreaterMedia\Shows\podcasts_link_html( get_the_ID() ); ?>
