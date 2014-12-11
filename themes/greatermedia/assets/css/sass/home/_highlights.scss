@@ -1,16 +1,14 @@
 /*doc
 ---
-parent: front-page
 title: Highlights
 name: highlights
+category: Components - Front Page
 ---
 
 Community Highlights and Events
 
 ```html_example
-	<section class="highlights">
-
-		<div class="container">
+	<section class="home__highlights">
 
 			<div class="highlights__col">
 
@@ -84,16 +82,11 @@ Community Highlights and Events
 
 			</div>
 
-		</div>
-
 	</section>
 ```
 */
-.highlights {
+.home__highlights {
 	@extend %main;
-}
-
-.highlights .container {
 	padding-top: 33px;
 	padding-bottom: 33px;
 	background-color: $athens-gray;

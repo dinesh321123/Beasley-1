@@ -468,7 +468,7 @@ category: Base - Typography
   src: url("../fonts/icon-font/gmr-icons.eot?#iefixawb6kj") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?awb6kj") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?awb6kj") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?awb6kj#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit:before {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -592,7 +592,7 @@ img {
       max-width: 100%;
       margin-left: auto;
       margin-right: auto;
-      padding-right: 14em; }
+      padding-right: 225px; }
       .container:after {
         content: "";
         display: table;
@@ -607,7 +607,7 @@ img {
         display: table;
         clear: both; } }
 
-.main, .featured, .highlights {
+.main, .home__featured, .home__highlights {
   float: left;
   width: 100%;
   margin: 0;
@@ -678,7 +678,7 @@ img {
       bottom: auto;
       right: 0;
       left: auto;
-      width: 14em;
+      width: 225px;
       height: 100%;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -1179,10 +1179,74 @@ blockquote p {
     .entry--audio__meta {
       width: 75.113636363636%; } }
 
-.featured {
-  position: relative; }
+/*doc
+---
+title: Featured Articles
+name: featured-articles
+category: Components - Front Page
+---
 
-.featured .container {
+Curated posts for Featured Articles
+
+```html_example
+<section id="featured" class="home__featured">
+		<div class="featured__article">
+			<div class="featured__article--image">
+				<img src="http://placehold.it/2800x1000&text=featured+image">
+			</div>
+			<div class="featured__article--content">
+				<div class="featured__article--heading">
+					<h2 class="featured__article--title">Artist of the Month</h2>
+					<h3 class="featured__article--subtitle">Minshara</h3>
+				</div>
+				<div class="featured__article--bio">
+					Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
+				</div>
+			</div>
+		</div>
+		<div class="featured__content">
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">MMR Rocks the Flyers</h2>
+					<ul class="featured__content--list">
+						<li class="featured__content--item">MMR Rocks the Flyers</li>
+						<li class="featured__content--item">Flyers All Access</li>
+					</ul>
+				</div>
+			</div>
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">Hitch a Ride with Pierre ...and Minerva</h2>
+					<div class="featured__content--link">
+						<a href="#" class="featured__content--btn">Enter To Win</a>
+					</div>
+				</div>
+			</div>
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">Preston and Steve</h2>
+					<ul class="featured__content--list">
+						<li class="featured__content--item">Daily Rush</li>
+						<li class="featured__content--item">Flyers All Access</li>
+						<li class="featured__content--item">Studio Guests</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+</section>
+```
+*/
+.home__featured {
+  position: relative;
   padding-top: 48px;
   padding-bottom: 48px;
   background: url(../../images/featured-bg.png) repeat center center #58595b;
@@ -1328,7 +1392,7 @@ blockquote p {
       height: 106px; } }
 
 .featured__content--block:last-of-type {
-  margin: 0; }
+  margin-right: 0; }
 
 .featured__content--image {
   float: left;
@@ -1439,20 +1503,107 @@ blockquote p {
   .featured__content--btn:last-of-type {
     margin-right: 0; }
 
-.highlights .container {
+/*doc
+---
+title: Highlights
+name: highlights
+category: Components - Front Page
+---
+
+Community Highlights and Events
+
+```html_example
+	<section class="home__highlights">
+
+			<div class="highlights__col">
+
+				<div class="highlights__community">
+
+					<h2 class="highlights__heading">93.3 WMMR Community Highlights<span class="highlights__heading--span">YouRock</span></h2>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title">title</h3>
+
+					</div>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title">title</h3>
+
+					</div>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title">title</h3>
+
+					</div>
+
+				</div>
+
+				<div class="highlights__events">
+
+					<h2 class="highlights__heading">Upcoming<span class="highlights__heading--span">Events</span></h2>
+
+					<div class="highlights__event--item">
+
+						<div class="highlights__event--thumb">
+							<img src="http://placehold.it/156x156&text=image">
+						</div>
+
+						<div class="highlights__event--meta">
+							<h3 class="highlights__event--title">Preston & Steve’s Camp Out For Hunger 2014</h3>
+							<time datetime="" class="highlights__event--date">Dec 1 - Dec 5</time>
+						</div>
+
+					</div>
+
+					<div class="highlights__event--item">
+
+						<div class="highlights__event--thumb">
+							<img src="http://placehold.it/156x156&text=image">
+						</div>
+
+						<div class="highlights__event--meta">
+							<h3 class="highlights__event--title">A.B.A.T.E. Motorcycle Toy Run For The Kids!</h3>
+							<time datetime="" class="highlights__event--date">Nov 2</time>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+	</section>
+```
+*/
+.home__highlights {
   padding-top: 33px;
   padding-bottom: 33px;
   background-color: #f1f1f2; }
   @media screen and (min-width: 480px) {
-    .highlights .container {
+    .home__highlights {
       padding-top: 36px;
       padding-bottom: 36px; } }
   @media screen and (min-width: 1024px) {
-    .highlights .container {
+    .home__highlights {
       padding-top: 45px;
       padding-bottom: 45px; } }
   @media screen and (min-width: 1400px) {
-    .highlights .container {
+    .home__highlights {
       padding-top: 35px;
       padding-bottom: 35px; } }
 
@@ -1870,8 +2021,7 @@ blockquote p {
 
 .header__search {
   display: block;
-  color: #ffffff;
-  cursor: pointer; }
+  color: #ffffff; }
   @media screen and (min-width: 768px) {
     .header__search {
       position: relative;
@@ -2033,7 +2183,7 @@ blockquote p {
 ---
 title: Standard Post
 name: standard-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Standard posts are mostly text based but can include images. They can also optionally have a featured image.
@@ -2058,7 +2208,7 @@ Standard posts are mostly text based but can include images. They can also optio
 ---
 title: Gallery Post
 name: gallery-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Gallery posts are mostly image based but can include some text. They can also optionally have a featured image.
@@ -2083,7 +2233,7 @@ Gallery posts are mostly image based but can include some text. They can also op
 ---
 title: Video Post
 name: video-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Video posts display a video and minimal text. They can also optionally have a featured image.
@@ -2108,7 +2258,7 @@ Video posts display a video and minimal text. They can also optionally have a fe
 ---
 title: Image Post
 name: image-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Standard posts are mostly text based but can include images. They can also optionally have a featured image.
@@ -2134,7 +2284,7 @@ Standard posts are mostly text based but can include images. They can also optio
 ---
 title: Link Post
 name: link-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Link posts contain a link to an external site. They can also optionally have a featured image.
@@ -3684,10 +3834,12 @@ category: Components - Shows
   position: relative;
   padding: 2em;
   width: 100%;
-  display: table;
-  width: 100%;
-  table-layout: fixed;
+  display: block;
   color: #ffffff; }
+  .show__header:after {
+    content: "";
+    display: table;
+    clear: both; }
   .show__header > div {
     vertical-align: middle; }
   @media screen and (min-width: 768px) {
@@ -3699,8 +3851,12 @@ category: Components - Shows
   height: 100%; }
   @media screen and (min-width: 768px) {
     .show__cast {
-      display: table-cell;
-      width: 16.66667%; } }
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 14.70196%; }
+      .show__cast:last-child {
+        margin-right: 0; } }
   .show__cast img {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -3717,8 +3873,12 @@ category: Components - Shows
     .show__nav {
       padding-left: 4em;
       text-align: left;
-      display: table-cell;
-      width: 50%; } }
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 48.82117%; }
+      .show__nav:last-child {
+        margin-right: 0; } }
   .show__nav ul {
     list-style-type: none;
     padding-left: 0;
@@ -3752,9 +3912,13 @@ category: Components - Shows
   text-align: center; }
   @media screen and (min-width: 768px) {
     .show__meta {
-      display: table-cell;
-      width: 33.33333%;
-      text-align: right; } }
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
+      text-align: right; }
+      .show__meta:last-child {
+        margin-right: 0; } }
   .show__meta em {
     display: block; }
   .show__meta .social-share-link {

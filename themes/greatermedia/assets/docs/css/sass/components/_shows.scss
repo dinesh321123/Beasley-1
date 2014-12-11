@@ -55,7 +55,8 @@ category: Components - Shows
 	position: relative;
 	padding: 2em;
 	@include fill-parent();
-	@include row(table);
+	@include row();
+	@include display-context(table);
 	color: $secondary-text;
 
 	> div {

@@ -1,26 +1,14 @@
 /*doc
 ---
-title: Post Excerpts
-name: front-page
-category: Components - Front Page
----
-
-Front Page Components
-
-*/
-
-/*doc
----
-parent: front-page
 title: Featured Articles
 name: featured-articles
+category: Components - Front Page
 ---
 
 Curated posts for Featured Articles
 
 ```html_example
-<section id="featured" class="featured">
-	<div class="container">
+<section id="featured" class="home__featured">
 		<div class="featured__article">
 			<div class="featured__article--image">
 				<img src="http://placehold.it/2800x1000&text=featured+image">
@@ -73,21 +61,20 @@ Curated posts for Featured Articles
 				</div>
 			</div>
 		</div>
-	</div>
 </section>
 ```
 */
 
-.featured {
+.home__featured {
 	position: relative;
 	@extend %main;
-}
-
-.featured .container {
 	padding-top: 48px;
 	padding-bottom: 48px;
 	background: url(../../images/featured-bg.png) repeat center center $abbey;
 	background-size: auto 40%;
+}
+
+.featured .container {
 }
 
 .featured__article, .featured__content {
@@ -213,7 +200,7 @@ Curated posts for Featured Articles
 }
 
 .featured__content--block:last-of-type {
-	margin: 0;
+	@include omega;
 }
 
 .featured__content--image {

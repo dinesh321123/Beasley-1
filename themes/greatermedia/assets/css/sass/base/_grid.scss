@@ -45,7 +45,7 @@ img {
 
 	@include bp(medium) {
 		@include outer-container(100%);
-		padding-right: 14em;
+		padding-right: 225px;
 	}
 	
 	@include bp(x-large) {
@@ -101,7 +101,7 @@ img {
 		bottom: auto;
 		right: 0;
 		left: auto;
-		width: 14em;
+		width: 225px;
 		height: 100%;
 		@include box-sizing(border-box);
 		cursor: default;
