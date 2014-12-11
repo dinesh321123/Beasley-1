@@ -18,6 +18,56 @@ function supports_videos( $show_id ) {
 	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage_videos', true ), FILTER_VALIDATE_BOOLEAN );
 }
 
+function show_page_title( $show_id = null ) {
+	if ( is_null( $show_id ) ) {
+		$show_id = get_the_ID();
+	}
+
+	$section = get_query_var( 'show_section' );
+	$base_title = get_the_title( $show_id );
+	switch( $section ) {
+		case 'about':
+			$title = "About " . $base_title;
+			break;
+		case 'podcasts':
+		case 'albums':
+		case 'videos':
+			$title = $base_title . " " . $section;
+			break;
+		default:
+			$title = $base_title;
+			break;
+	}
+
+	echo esc_html( $title );
+}
+
+function about_link_html( $show_id, $link_text = 'About' ) {
+	$class = 'about' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
+	?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/about/"><?php echo esc_html( $link_text ); ?></a></li><?php
+}
+
+function albums_link_html( $show_id, $link_text = 'Albums' ) {
+	if ( supports_albums( $show_id ) ) {
+		$class = 'albums' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
+		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/albums/"><?php echo esc_html( $link_text ); ?></a></li><?php
+	}
+}
+
+function podcasts_link_html( $show_id, $link_text = 'Podcasts' ) {
+	if ( supports_podcasts( $show_id ) ) {
+		$class = 'podcasts' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
+		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/podcasts/"><?php echo esc_html( $link_text ); ?></a></li><?php
+	}
+}
+
+function videos_link_html( $show_id, $link_text = 'Videos' ) {
+	if ( supports_videos( $show_id ) ) {
+		$class = 'videos' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
+		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/videos/"><?php echo esc_html( $link_text ); ?></a></li><?php
+	}
+}
+
 /**
  * Gets pagination links for a specific show endpoint query.
  *

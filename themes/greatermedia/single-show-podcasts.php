@@ -4,11 +4,11 @@
 
 		<div class="container">
 
+			<?php the_post(); ?>
+
+			<?php get_template_part( 'show-header' ); ?>
+
 			<section class="content">
-
-				<?php the_post(); ?>
-
-				<h2 class="content__heading"><?php the_title(); ?> Podcasts</h2>
 
 				<div class="podcasts">
 

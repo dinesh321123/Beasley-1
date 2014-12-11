@@ -8,28 +8,9 @@
 
 		<div class="container">
 
-			<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+			<?php the_post(); ?>
 
-				<div class="show__header">
-				    <div class="show__cast">
-				        <img src="http://placehold.it/135x135&text=cast">
-				    </div>
-				    <nav class="show__nav">
-				        <a href=""><h1 class="show__title">Show Title Here</h1></a>
-				        <ul>
-				            <li><a href="">about</a></li>
-				            <li><a href="">podcasts</a></li>
-				            <li><a href="">galleries</a></li>
-				        </ul>
-				    </nav>
-				    <div class="show__meta">
-				        <em>Weekdays</em>
-				        <em>5:30am - 10:30am</em>
-				        <a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
-				        <a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
-				        <a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
-				    </div>
-				</div>
+				<?php get_template_part( 'show-header' ); ?>
 
 				<section class="content">
 
@@ -99,28 +80,6 @@
 						</div>
 
 					</article>
-
-				<?php endwhile;
-
-				else : ?>
-
-					<article id="post-not-found" class="hentry cf">
-
-						<header class="article-header">
-
-							<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
-
-						</header>
-
-						<section class="entry-content">
-
-							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
-
-						</section>
-
-					</article>
-
-				<?php endif; ?>
 
 			</section>
 
