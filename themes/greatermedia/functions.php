@@ -25,7 +25,6 @@ require_once( __DIR__ . '/includes/site-options/loader.php');
 /**
  * Required files
  */
-require_once( __DIR__ . '/includes/class-post-styles.php' );
 require_once( __DIR__ . '/includes/gm-tinymce/loader.php');
 
 /**
