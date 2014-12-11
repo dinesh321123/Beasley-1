@@ -8,12 +8,12 @@ class GreaterMediaContestEntry {
 
 	const ENTRY_SOURCE_EMBEDDED_FORM = 'embedded_form';
 
-	protected $post;
+	public $post;
 
-	protected $entrant_name;
-	protected $entrant_reference; // Gigya ID
-	protected $entry_source; // How this entry was created (i.e. "gravity-forms"
-	protected $entry_reference; // Reference/link to the source of the entry (i.e. Gravity Forms submission ID)
+	public $entrant_name;
+	public $entrant_reference; // Gigya ID
+	public $entry_source; // How this entry was created (i.e. "gravity-forms"
+	public $entry_reference; // Reference/link to the source of the entry (i.e. Gravity Forms submission ID)
 
 	protected function __construct( WP_Post $post_obj = null, $contest_id = null ) {
 
