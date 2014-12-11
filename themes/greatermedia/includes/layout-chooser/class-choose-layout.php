@@ -113,12 +113,11 @@ class GreaterMediaChooseClass {
 		}
 
 		/* OK, its safe for us to save the data now. */
-		if ( $_POST['promoted'] == 'promoted' ) {
+		if ( isset( $_POST['promoted']) && $_POST['promoted'] == 'promoted' ) {
 			wp_set_object_terms( $post->ID, 'promoted', 'class-format', true );
 		} else {
 			wp_remove_object_terms( $post->ID, 'promoted', 'class-format' );
 		}
-
 	}
 
 	/**
