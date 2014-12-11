@@ -42,7 +42,6 @@
 	line-height: 1;
 	@include bp(medium) {
 		@include span-columns(1);
-		width: auto;
 	}
 }
 
@@ -61,9 +60,13 @@
 	display: none;
 	line-height: 1;
 	@include bp(medium) {
-		display: block;
-		float: left;
-		width: auto;
+		@include span-columns(5);
+	}
+	@include bp(large) {
+		@include span-columns(8);
+	}
+	@include bp(x-large) {
+		@include span-columns(8);
 	}
 }
 
@@ -77,13 +80,20 @@
 	text-align: right;
 	@include bp(medium) {
 		position: relative;
-		display: block;
-		float: right;
+		@include span-columns(2);
+		@include omega;
 		top: auto;
 		right: auto;
-		width: auto;
 		height: 82px;
 		@include transform(none);
+	}
+	@include bp(large) {
+		@include span-columns(3);
+		@include omega;
+	}
+	@include bp(x-large) {
+		@include span-columns(3);
+		@include omega;
 	}
 }
 
