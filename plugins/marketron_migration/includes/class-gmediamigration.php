@@ -129,11 +129,10 @@ class GMedia_Migration extends WP_CLI_Command {
 				case 'wmmr':
 					$this->site_url = 'wmmr';
 					break;
-				/*case 'cincinnati':
-				case 'cincy':
-					$this->site_url = 'cincinnatimagazine';
+				case 'wmgk':
+					$this->site_url = 'wmgk';
 					break;
-				case 'indianapolis':
+				/*case 'indianapolis':
 				case 'indy':
 					$this->site_url = 'indianapolismonthly';
 					break;
@@ -342,13 +341,20 @@ class GMedia_Migration extends WP_CLI_Command {
 				$count = 0;
 			}
 			$feed_article_title = strtolower( trim( (string) $article['Title'] ) );
+
+			if( isset( $article['PrimaryMediaReference'] ) ) {
+				$content =  trim( (string) $article['PrimaryMediaReference'] . '<br>' . (string) $article['ArticleText'] );
+			} else {
+				$content =  trim( (string) $article['ArticleText'] );
+			}
+
 			$post = array(
 				'post_type'     => 'post',
 				'post_status'   => 'publish',
 				'post_author'   => $user_id,
 				'post_name'     => trim( (string) $article['Slug'] ),
 				'post_title'    => ucwords( $feed_article_title ),
-				'post_content'  => trim( (string) $article['ArticleText'] ),
+				'post_content'  => $content,
 				'post_excerpt'  => trim( (string) $article['ExcerptText'] ),
 				'post_date'     => (string) $article['UTCStartDateTime'],
 				'post_date_gmt' => (string) $article['UTCStartDateTime'],
@@ -361,12 +367,20 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			$wp_id = wp_insert_post( $post );
 
-			// Download images found in post_content and update post_content with new images.
-			$updated_post                 = array( 'ID' => $wp_id );
-			$updated_post['post_content'] = $this->import_media( trim( (string) $article['ArticleText'] ), $wp_id );
-			wp_update_post( $updated_post );
 
 			update_post_meta( $wp_id, 'gmedia_import_id', $article_hash );
+
+			if( isset($article['FeaturedAudioFilepath']) && $wp_id ) {
+				$media_file_id = $this->import_music_files( $wp_id, $article['FeaturedAudioFilepath'] );
+				$media_url  = wp_get_attachment_url( $media_file_id );
+
+				$updated_post                 = array( 'ID' => $wp_id );
+				$updated_post['post_content'] = $content . '<br/>' . '[audio mp3="' . $media_url . '"][/audio]' ;
+
+				wp_update_post( $updated_post );
+
+				update_post_meta( $wp_id, '_legacy_music_file', $media_url );
+			}
 
 			// Process Blog Taxonomy Term
 			if ( isset( $article->Feeds->Feed ) ) {
@@ -377,6 +391,16 @@ class GMedia_Migration extends WP_CLI_Command {
 						wp_set_post_terms( $wp_id, array( $blog_id ), 'category', true );
 					}
 				}
+			}
+
+			$old_url = $this->site_url;
+			if ( isset( $article->Feeds->Feed->FeedSlugHistoryItems ) ) {
+				foreach ( $article->Feeds->Feed->FeedSlugHistoryItems->FeedSlugHistoryItem as $SlugHistoryitem ) {
+					$old_url = 'www.' . $this->site_url . '.com/' . trim( (string) $SlugHistoryitem['FeedHistoricalSlug'] )
+					           . '/' . trim( (string) $article['SlugDate'] ) . '/' . trim( (string) $article['Slug'] );
+				}
+				update_post_meta( $wp_id, '_legacy_FeedArticle_old_url', $old_url );
+				CMM_Legacy_Redirects::add_redirect( $old_url, $wp_id );
 			}
 
 			// Process Tags
@@ -440,6 +464,63 @@ class GMedia_Migration extends WP_CLI_Command {
 		}
 
 		$notify->finish();
+	}
+
+
+	private function import_music_files( $post_id, $filepath ) {
+
+		$blog_id = get_current_blog_id();
+		$upload_dir = get_site_url( $blog_id );
+
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+		$id = '';
+		$old_filename = '';
+
+		$filename = str_replace( '\\', '/', $filepath );
+		$filename = urldecode( $filename ); // for filenames with spaces
+		$filename = str_replace( ' ', '%20', $filename );
+		$filename = str_replace( '&amp;', '&', $filename );
+		$filename = str_replace( '&mdash;', '—', $filename );
+
+		$old_filename = $upload_dir . '/wp-content/uploads/' . $filename;
+
+
+		$tmp = download_url( $old_filename );
+		preg_match( '/[^\?]+\.(mp3|MP3)/', $filename, $matches );
+
+		// make sure we have a match.  This won't be set for PDFs and .docs
+		if ( $matches && isset( $matches[0] ) ) {
+			$name = str_replace( '%20', ' ', basename( $matches[0] ) );
+			$file_array['name'] = $name;
+			$file_array['tmp_name'] = $tmp;
+
+			// If error storing temporarily, unlink
+			if ( is_wp_error( $tmp ) ) {
+				@unlink( $file_array['tmp_name'] );
+				$file_array['tmp_name'] = '';
+			}
+
+			// do the validation and storage stuff
+			$id = media_handle_sideload( $file_array, 0 );
+
+			// If error storing permanently, unlink
+			if ( is_wp_error( $id ) ) {
+				@unlink( $file_array['tmp_name'] );
+				WP_CLI::log( "Error: ". $id->get_error_message() );
+				WP_CLI::log( "Filename: $old_filename" );
+				$id = '';
+			}
+
+		} else {
+			@unlink( $tmp );
+			WP_CLI::log( "Error: ". $filename . " not added." );
+		}
+
+		return $id;
+
 	}
 
 	/**
@@ -1026,12 +1107,31 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				$wp_id = wp_insert_post( $post );
 
-				// Download images found in post_content and update post_content with new images.
-				$updated_post                 = array( 'ID' => $wp_id );
-				$updated_post['post_content'] = $this->import_media( trim( (string) $entry->BlogEntryText ), $wp_id );
-				wp_update_post( $updated_post );
-
 				update_post_meta( $wp_id, 'gmedia_import_id', $entry_hash );
+
+				if( isset( $single_blog->BlogEntries->BlogEntry->BlogEntryAudio ) ) {
+					foreach ( $single_blog->BlogEntries->BlogEntry->BlogEntryAudio as $single_audio ) {
+						if( isset( $single_audio['AudioSrc'] ) ) {
+							$media_file_id = $this->import_music_files( $wp_id, $single_audio['AudioSrc'] );
+							$media_url  = wp_get_attachment_url( $media_file_id );
+
+							$updated_post                 = array( 'ID' => $wp_id );
+							$content = $this->import_media( trim( (string) $entry->BlogEntryText ), $wp_id );
+							$updated_post['post_content'] =  $content . '<br/>' . '[audio mp3="' . $media_url . '"][/audio]' ;
+
+							wp_update_post( $updated_post );
+
+							update_post_meta( $wp_id, '_legacy_music_file', $media_url );
+						}
+					}
+
+				} else {
+					// Download images found in post_content and update post_content with new images.
+					$updated_post                 = array( 'ID' => $wp_id );
+					$content = $this->import_media( trim( (string) $entry->BlogEntryText ), $wp_id );
+					$updated_post['post_content'] = $content;
+					wp_update_post( $updated_post );
+				}
 
 				// Process Blog Taxonomy Term
 				if ( isset( $blog ) ) {
@@ -2771,6 +2871,7 @@ class GMedia_Migration extends WP_CLI_Command {
 		$notify = new \cli\progress\Bar( "Importing $total on air items", $total );
 
 		$count = 0;
+		
 		foreach ( $schedules->OnAirNowItem as $scheduled_item ) {
 			$scheduled_item_hash = trim( (string) $scheduled_item['TitleText'] ) . (string) $scheduled_item['DateModified'];
 			$scheduled_item_hash = md5( $scheduled_item_hash );
@@ -2827,42 +2928,56 @@ class GMedia_Migration extends WP_CLI_Command {
 				if( post_type_exists( 'show-episode' ) ) {
 					$post_date_gmt = 0;
 					$interval = 0;
-					if( isset($schedule['StartTime'] ) ) {
-						$start_time = (string) $schedule['StartTime'];
-						if( $start_time >= 1000 ) {
-							$start_time = substr( $start_time, 0, 2) . ':' . substr( $start_time, 2, 2);
-						} elseif ( $start_time == 0 ) {
-							$start_time = "00:00";
-						} else {
-							$start_time = substr( $start_time, 0, 1) . ':' . substr( $start_time, 1, 2);
-						}
-						$next_weekday = strtotime( 'next ' . strtolower( (string) $schedule['WeekdayName'] ) );
-						$post_date_gmt = strtotime( date( 'Y-m-d', $next_weekday) . ' ' . $start_time );
-					}
-					if( isset($schedule['EndTime'] ) ) {
-						$end_time = (string) $schedule['EndTime'];
-						if( $end_time >= 1000 ) {
-							$end_time = substr( $end_time, 0, 2) . ':' . substr( $end_time, 2, 2);
-						} elseif ( $end_time == 0 ) {
-							$end_time = "00:00";
-						} else {
-							$end_time = substr( $end_time, 0, 1) . ':' . substr( $end_time, 1, 2);
-						}
-					}
-					$interval = strtotime( $end_time ) - strtotime( $start_time );
+					$weekdays = array( strtolower( (string) $schedule['WeekdayName'] ) );
 
-					$args = array(
-						'post_title'    => $show_title,
-						'post_type'     => ShowsCPT::EPISODE_CPT,
-						'post_status'   => 'future',
-						'post_date'     => date( DATE_ISO8601, $post_date_gmt ),
-						'post_date_gmt' => date( DATE_ISO8601, $post_date_gmt ),
-						'post_parent'   => $wp_id,
-						'ping_status'   => 1,
-						'menu_order'    => $interval,
-					);
+					if( $weekdays[0] == "weekdays" ) {
+						$weekdays = array(
+							'monday',
+							'tuesday',
+							'wednesday',
+							'thursday',
+							'Friday',
+						);
+					}
 
-					$episode_id = wp_insert_post( $args );
+					foreach ( $weekdays as $weekday ) {
+						if( isset($schedule['StartTime'] ) ) {
+							$start_time = (string) $schedule['StartTime'];
+							if( $start_time >= 1000 ) {
+								$start_time = substr( $start_time, 0, 2) . ':' . substr( $start_time, 2, 2);
+							} elseif ( $start_time == 0 ) {
+								$start_time = "00:00";
+							} else {
+								$start_time = substr( $start_time, 0, 1) . ':' . substr( $start_time, 1, 2);
+							}
+							$next_weekday = strtotime( "next $weekday" );
+							$post_date_gmt = strtotime( date( 'Y-m-d', $next_weekday) . ' ' . $start_time );
+						}
+						if( isset($schedule['EndTime'] ) ) {
+							$end_time = (string) $schedule['EndTime'];
+							if( $end_time >= 1000 ) {
+								$end_time = substr( $end_time, 0, 2) . ':' . substr( $end_time, 2, 2);
+							} elseif ( $end_time == 0 ) {
+								$end_time = "00:00";
+							} else {
+								$end_time = substr( $end_time, 0, 1) . ':' . substr( $end_time, 1, 2);
+							}
+						}
+						$interval = strtotime( $end_time ) - strtotime( $start_time );
+
+						$args = array(
+							'post_title'    => $show_title,
+							'post_type'     => ShowsCPT::EPISODE_CPT,
+							'post_status'   => 'future',
+							'post_date'     => date( DATE_ISO8601, $post_date_gmt ),
+							'post_date_gmt' => date( DATE_ISO8601, $post_date_gmt ),
+							'post_parent'   => $wp_id,
+							'ping_status'   => 1,
+							'menu_order'    => $interval,
+						);
+
+						$episode_id = wp_insert_post( $args );
+					}
 
 				}
 				/**if( isset($schedule['StartTime'] ) ) {
