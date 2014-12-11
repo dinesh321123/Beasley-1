@@ -92,7 +92,7 @@ class GreaterMedia_Keyword_Admin {
 	public function add_plugin_admin_menu() {
 
 		/**
-		 * Add a settings page for this plugin to the Tools menu.
+		 * Add a settings page for this plugin to a main level menu under the Dashboard menu link
 		 */
 		$this->_page_slug = add_menu_page(
 			'On-Air Keywords',
