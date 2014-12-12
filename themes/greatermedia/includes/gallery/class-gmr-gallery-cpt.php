@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GreaterMediaGalleryCPT {
 
-	const GALLERY_POST_TYPE = 'gallery';
+	const GALLERY_POST_TYPE = 'gmr_gallery';
 
 	/**
 	 * Hook into the appropriate actions when the class is initiated.
