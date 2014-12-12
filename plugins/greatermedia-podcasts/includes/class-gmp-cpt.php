@@ -16,21 +16,27 @@
  */
 class GMP_CPT {
 
-	const PODCAST_POST_TYPE = 'podcast';
+	const PODCAST_POST_TYPE = 'podcast'; // todo fix all instances where this is hard coded to use this constant, then NAMESPACE
+	const EPISODE_POST_TYPE = 'episode'; // todo fix all instances where this is hard coded to use this constant, then NAMESPACE
 
 	/**
 	 * Hook into the appropriate actions when the class is initiated.
 	 */
 	public static function init() {
-
 		add_action( 'init', array( __CLASS__, 'podcast_cpt' ), 0 );
 		add_action( 'init', array( __CLASS__, 'episode_cpt' ), 0 );
-		add_action( 'init', array( __CLASS__, 'register_shadow_taxonomy' ) );
-		add_action( 'save_post', array( __CLASS__, 'update_shadow_taxonomy' ) );
-		add_action( 'before_delete_post', array( __CLASS__, 'delete_shadow_tax_term' ) );
-
 		add_filter( 'gmr_live_link_suggestion_post_types', array( __CLASS__, 'extend_live_link_suggestion_post_types' ) );
+		self::add_save_post_actions();
+	}
 
+
+	public static function add_save_post_actions() {
+		add_action( 'save_post_' . self::EPISODE_POST_TYPE, array( __CLASS__, 'save_post' ), 10, 2 );
+	}
+
+	public static function remove_save_post_actions() {
+		// Removes actions that might cause infinite loops
+		remove_action( 'save_post_' . self::EPISODE_POST_TYPE, array( __CLASS__, 'save_post' ), 10, 2 );
 	}
 
 	/**
@@ -130,133 +136,61 @@ class GMP_CPT {
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
 			'capability_type'     => 'page',
+			'register_meta_box_cb' => array( __CLASS__, 'parent_metabox' ),
 		);
-		register_post_type( 'episode', $args );
+		register_post_type( self::EPISODE_POST_TYPE, $args );
 
 	}
 
-	/**
-	 * Register the Podcasts Shadow Taxononmy
-	 */
-	public static function register_shadow_taxonomy() {
-
-		$labels = array(
-			'name'              => 'Podcast',
-			'singular_name'     => 'Podcast',
-			'search_items'      => 'Search',
-			'all_items'         => 'All Podcasts',
-			'parent_item'       => 'Parent Podcast',
-			'parent_item_colon' => 'Parent Podcast: ',
-			'edit_item'         => 'Edit Podcast',
-			'update_item'       => 'Update Podcast',
-			'add_new_item'      => 'Add New Podcast',
-			'new_item_name'     => 'New Podcast',
-			'menu_name'         => 'Podcasts',
-		);
-
-		$args = array(
-			'labels'         => $labels,
-			'rewrite'       => false,
-			'show_ui'       => true,
-			'show_in_menu'  => true,
-			'show_admin_column' => true,
-			'show_tagcloud' => true,
-			'hierarchical'  => true,
-
-		);
-
-		register_taxonomy( '_podcast', array( 'episode' ), $args );
+	public static function parent_metabox( \WP_Post $post ) {
+		add_meta_box( 'episode-parent', 'Podcast', array( __CLASS__, 'render_parent_metabox' ), $post->post_type, 'side' );
 	}
 
-	/**
-	 * Update the shadow taxonomy when a podcasts has been published or updated. Also ensure that the new term is no duplicated
-	 *
-	 * @param $post_id
-	 */
-	public static function update_shadow_taxonomy( $post_id ) {
+	public static function render_parent_metabox( \WP_Post $post ) {
+		$podcast_args = array(
+			'post_type' => self::PODCAST_POST_TYPE,
+			'posts_per_page' => 100,
+			'paged' => 0,
+		);
 
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return;
-		}
+		wp_nonce_field( 'save_podcast_parent', 'podcast_parent_nonce' );
 
-		if ( 'podcast' !== get_post_type( $post_id ) ) {
-			return;
-		}
+		?>
+		<select name="podcast-episode-parent" id="podcast-episode-parent">
+		<option value="0">--Select a Podcast--</option>
+		<?php
 
-		$podcasts = get_post( $post_id );
-		if ( null === $podcasts ) {
-			return;
-		}
+			do {
+				$podcast_args['paged']++;
+				$podcast_query = new WP_Query( $podcast_args );
+				while( $podcast_query->have_posts() ) {
+					$podcast = $podcast_query->next_post();
 
-		// To make sure we don't get things like 'auto-draft'
-		if ( 'publish' != $podcasts->post_status ) {
-			return;
-		}
+					?><option value="<?php echo intval( $podcast->ID ); ?>" <?php selected( $podcast->ID, $post->post_parent ); ?>><?php echo esc_html( $podcast->post_title ); ?></option><?php
+				}
+			} while ( $podcast_args['paged'] < $podcast_query->max_num_pages );
 
-		if ( $podcasts->post_parent ) {
-			$parent_podcast = get_post( $podcasts->post_parent );
-			$parent_term = get_term_by( 'slug', $parent_podcast->post_name, '_podcast' );
-		} else {
-			$parent_term = false;
-		}
+		?></select><?php
 
-		$term = get_term_by( 'slug', $podcasts->post_name, '_podcast' );
-
-		if ( false === $term ) {
-			$args = array();
-
-			if ( $parent_term ) {
-				$args['parent'] = $parent_term->term_id;
-			}
-
-			// See if there is an existing post_tag with the same slug as the publication. We can't trust WordPress to do this in wp_insert_term() because it will think "Complete Book Of Guns" and "Complete Book of Guns" (small "of") are different tags.
-			$exising_term = get_term_by( 'slug', $podcasts->post_name, 'post_tag' );
-
-			if ( false === $exising_term) {
-				wp_insert_term( $podcasts->post_title, '_podcast', $args );
-			} else {
-				// If there is an existing term in post_tag, use its name instead of the publication's title. This bypasses any weird matching issues in wp_insert_term();
-				wp_insert_term( $exising_term->name, '_podcast', $args );
-			}
-		} else {
-			// We have the term. Make sure the term has the correct parent set (Could get out of sync if the issue was added without a parent, and changed later)
-
-			// If we should have a parent term, but the term doesn't have this set - Add the parent ID
-			if ( $parent_term && $parent_term->term_id != $term->parent ) {
-				wp_update_term( $term->term_id, '_podcast', array( 'parent' => $parent_term->term_id ) );
-			}
-
-			// If we shouldn't have a parent term, but the term DOES have a parent set - Clear the parent ID
-			if ( ! $parent_term && $term->parent != 0 ) {
-				wp_update_term( $term->term_id, '_podcast', array( 'parent' => 0 ) );
-			}
-		}
+		wp_dropdown_pages( array( 'post_type' => self::PODCAST_POST_TYPE ) );
 	}
 
-	/**
-	 * Delete a podcast term when the corresponding podcast has been deleted
-	 *
-	 * @param $post_id
-	 */
-	public static function delete_shadow_tax_term( $post_id ) {
-
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+	public static function save_post( $post_id, $post ) {
+		if ( ! isset( $_POST['podcast_parent_nonce'] ) || ! wp_verify_nonce( $_POST['podcast_parent_nonce'], 'save_podcast_parent' ) ) {
 			return;
 		}
 
-		if ( 'podcast' !== get_post_type( $post_id ) ) {
+		if ( ! isset( $_POST['podcast-episode-parent'] ) ) {
 			return;
 		}
 
-		$podcasts = get_post( $post_id );
-		if ( null === $podcasts ) {
-			return;
-		}
+		$parent_id = intval( $_POST['podcast-episode-parent'] );
 
-		$term = get_term_by( 'slug', $podcasts->post_name, '_podcast' );
-		if ( false !== $term ) {
-			wp_delete_term( $term->term_id, '_podcast' );
-		}
+		$post->post_parent = $parent_id;
+
+		self::remove_save_post_actions();
+		wp_update_post( $post );
+		self::add_save_post_actions();
 	}
 
 	/**
