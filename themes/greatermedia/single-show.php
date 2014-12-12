@@ -170,90 +170,31 @@
 
 				        <section class="show__blogroll inner-left-col">
 				        	<h2>Blog</h2>
-							<article class=
-							"post-1241 post type-post status-publish format-standard has-post-thumbnail sticky hentry category-uncategorized tag-sticky-2 tag-template cf"
-							id="post-1241">
-								<section class="entry__meta">
-									<time class="entry__date" datetime="2012-01-07T07:07:21+00:00">7
-									January</time>
 
-									<h2 class="entry__title"><a href=
-									"http://greatermedia.dev/template-sticky/">Template: Sticky</a>
-									</h2>
-								</section>
+					        <?php
+					        $main_query = \GreaterMedia\Shows\get_show_main_query();
+					        while( $main_query->have_posts() ): $main_query->the_post(); ?>
+						        <article <?php post_class( 'cf' ); ?>>
+							        <section class="entry__meta">
+								        <time class="entry__date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'd F' ); ?></time>
 
+								        <h2 class="entry__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+							        </section>
 
-								<section class="entry__thumbnail entry__thumbnail--standard">
-									<a href="http://greatermedia.dev/template-sticky/"><img alt=
-									"Horizontal Featured Image" class=
-									"attachment-gm-article-thumbnail wp-post-image" height="300" src=
-									"http://greatermedia.dev/wp-content/uploads/2013/03/featured-image-horizontal.jpg"
-									width="580"></a>
-								</section>
+							        <?php if ( has_post_thumbnail() ) : ?>
+							        <section class="entry__thumbnail entry__thumbnail--standard">
+								        <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 300, 580 ) ); // todo probably define an image size for this? ?></a>
+							        </section>
+							        <?php endif; ?>
 
+							        <footer class="entry__footer">
+								        <?php get_template_part( 'partials/category-list' ); ?>
+							        </footer>
+						        </article>
+					        <?php endwhile; ?>
+					        <?php wp_reset_query(); ?>
 
-								<footer class="entry__footer">
-									<a class="entry__footer--category" href=
-									"http://greatermedia.dev/category/uncategorized/">Uncategorized</a>
-								</footer>
-							</article>
-
-
-							<article class=
-							"post-1850 post type-post status-publish format-gallery hentry category-uncategorized cf"
-							id="post-1850">
-								<section class="entry__meta--fullwidth">
-									<time class="entry__date" datetime="2014-12-09T05:26:47+00:00">9
-									December</time>
-
-									<h2 class="entry__title"><a href=
-									"http://greatermedia.dev/gallery-test/">Gallery Test</a>
-									</h2>
-								</section>
-
-
-								<footer class="entry__footer">
-									<a class="entry__footer--category" href=
-									"http://greatermedia.dev/category/uncategorized/">Uncategorized</a>
-								</footer>
-							</article>
-
-
-							<article class="post-19 episode type-episode status-publish hentry cf" id=
-							"post-19">
-								<section class="entry__meta--fullwidth">
-									<time class="entry__date" datetime="2014-09-29T12:53:39+00:00">29
-									September</time>
-
-									<h2 class="entry__title"><a href=
-									"http://greatermedia.dev/episode/test-episode/">Test Episode</a>
-									</h2>
-								</section>
-
-
-								<footer class="entry__footer">
-								</footer>
-							</article>
-
-
-							<article class=
-							"post-1 post type-post status-publish format-standard hentry category-uncategorized cf"
-							id="post-1">
-								<section class="entry__meta--fullwidth">
-									<time class="entry__date" datetime="2014-09-18T13:24:09+00:00">18
-									September</time>
-
-									<h2 class="entry__title"><a href=
-									"http://greatermedia.dev/hello-world/">Hello world!</a>
-									</h2>
-								</section>
-
-
-								<footer class="entry__footer">
-									<a class="entry__footer--category" href=
-									"http://greatermedia.dev/category/uncategorized/">Uncategorized</a>
-								</footer>
-							</article>
+					        <div class="show-main-paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $main_query ); ?></div>
 				        </section>
 
 			        </div>

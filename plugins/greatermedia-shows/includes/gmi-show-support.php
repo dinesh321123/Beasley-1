@@ -148,3 +148,44 @@ function get_show_gallery_query() {
 
 	return $album_query;
 }
+
+function get_show_events() {
+	$show_term = \TDS\get_related_term( get_the_ID() );
+
+	$event_args = array(
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+				'field' => 'term_taxonomy_id',
+				'terms' => $show_term->term_taxonomy_id,
+			)
+		),
+	);
+
+	$events = \tribe_get_events( $event_args );
+
+	return $events;
+}
+
+function get_show_main_query() {
+	$show_term = \TDS\get_related_term( get_the_ID() );
+	$current_page = get_query_var( 'show_section_page' ) ?: 1;
+
+	$show_args = array(
+		'post_type' => 'post',
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+				'field' => 'term_taxonomy_id',
+				'terms' => $show_term->term_taxonomy_id,
+			)
+		),
+		'paged' => $current_page,
+	);
+
+	$show_query = new \WP_Query( $show_args );
+
+	return $show_query;
+}
