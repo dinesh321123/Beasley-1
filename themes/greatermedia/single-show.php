@@ -50,11 +50,11 @@
 							<div class="featured__content--block">
 								<?php if ( has_post_thumbnail() ) : ?>
 									<div class="featured__content--image">
-										<?php the_post_thumbnail( array( 400, 400 ) ); // todo custom size for this? ?>
+										<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 400, 400 ) ); // todo custom size for this? ?></a>
 									</div>
 								<?php endif; ?>
 								<div class="featured__content--meta">
-									<h3 class="featured__content--title"><?php the_title(); ?></h3>
+									<h3 class="featured__content--title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 								</div>
 							</div>
 						<?php endforeach; ?>

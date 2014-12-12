@@ -165,6 +165,10 @@ function get_show_events() {
 		'posts_per_page' => 3,
 	);
 
+	if ( ! function_exists( '\tribe_get_events' ) ) {
+		return array();
+	}
+
 	$events = \tribe_get_events( $event_args );
 
 	return $events;
