@@ -2449,7 +2449,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					// import images here
 					if( (string) $single_channel['Podcast_Image'] != "") {
 						$featured_image_attrs = array();
-						$featured_image_path  = (string) $single_channel['Podcast_Image'];
+						$featured_image_path  = '/' . (string) $single_channel['Podcast_Image'];
 						$this->import_featured_image( $featured_image_path, $wp_id, $featured_image_attrs );
 					}
 				}
@@ -2491,9 +2491,30 @@ class GMedia_Migration extends WP_CLI_Command {
 					update_post_meta( $wp_id, '_legacy_DisplayPosition', (string) $single_channel['DisplayPosition'] );
 				}
 
+				//gmp_audio_file_meta_key
+				foreach ( $podcasts->Channel->Item as $podcast_item ) {
+					$episode = array(
+						'post_type'     => 'episode',
+						'post_status'   => 'publish',
+						'post_title'    => trim( (string) $podcast_item['ItemTitle'] ),
+						'post_content'  => trim( (string) $podcast_item['ItemDescription'] ),
+						'post_date'     => (string) $single_channel['UTCDateCreated'],
+						'post_modified' => (string) $single_channel['UTCDateLastModified'],
+						'post_parent'   => $wp_id
+					);
+
+					$episode_id = wp_insert_post( $episode );
+
+					if( isset( $podcast_item['MediaFilename'] ) && $episode_id ) {
+						$audio_path = str_ireplace( '\Media\\', '', (string) $podcast_item['MediaFilename'] );
+						$media_file_id = $this->import_music_files( $wp_id, $audio_path );
+						$url = wp_get_attachment_url( $media_file_id );
+						update_post_meta( $episode_id, 'gmp_audio_file_meta_key', $url );
+					}
+				}
 
 
-				$notify->tick();
+			$notify->tick();
 			}
 
 		$notify->finish();
