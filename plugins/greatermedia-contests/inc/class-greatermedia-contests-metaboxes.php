@@ -293,16 +293,6 @@ class GreaterMediaContestsMetaboxes {
 			array()
 		);
 
-		add_meta_box(
-			'contest-entries',
-			'Contest Entries',
-			array( $this, 'contest_entries_meta_box' ),
-			'contest',
-			'advanced',
-			'default',
-			array()
-		);
-
 	}
 
 	/**
@@ -325,26 +315,6 @@ class GreaterMediaContestsMetaboxes {
 		wp_nonce_field( 'contest_form_meta_box', 'contest_form_meta_box' );
 		include trailingslashit( GREATER_MEDIA_CONTESTS_PATH ) . 'tpl/contest-form-meta-box.tpl.php';
 		do_settings_sections( 'greatermedia-contest-form' );
-
-	}
-
-	/**
-	 * Render a meta box for Contest entries
-	 */
-	public function contest_entries_meta_box() {
-
-		global $post;
-
-		$entries = get_children(
-			array(
-				'post_parent'    => $post->ID,
-				'post_type'      => 'contest_entry',
-				'posts_per_page' => - 1,
-				'post_status'    => array( 'pending', 'publish' )
-			)
-		);
-
-		include trailingslashit( GREATER_MEDIA_CONTESTS_PATH ) . 'tpl/contest-entries-meta-box.tpl.php';
 
 	}
 

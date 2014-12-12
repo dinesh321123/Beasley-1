@@ -61,6 +61,9 @@ class GreaterMediaContestEntry {
 			$post_id = wp_update_post( $this->post, true );
 		}
 
+		// Refresh the data
+		$this->post = get_post( $post_id );
+
 		update_post_meta( $post_id, 'entrant_name', $this->entrant_name );
 		update_post_meta( $post_id, 'entrant_reference', $this->entrant_reference );
 		update_post_meta( $post_id, 'entry_source', $this->entry_source );
@@ -192,6 +195,14 @@ class GreaterMediaContestEntry {
 
 	public function render_preview() {
 		return "This is a generic submission";
+	}
+
+	/**
+	 * Get the entry's Post ID
+	 * @return int post ID
+	 */
+	public function post_id() {
+		return $this->post->ID;
 	}
 
 }
