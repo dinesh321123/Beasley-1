@@ -89,10 +89,9 @@ class GreaterMediaUserGeneratedContent {
 	public function save() {
 
 		if ( empty( $this->post->ID ) ) {
-			$post_id = wp_insert_post( get_object_vars( $this->post ), true );
-			if ( is_wp_error( $post_id ) ) {
-				// @TODO error handling
-			}
+
+			$this->post->post_status = 'pending';
+			$post_id                 = wp_insert_post( get_object_vars( $this->post ), true );
 
 		} else {
 			$post_id = wp_update_post( get_object_vars( $this->post ) );
