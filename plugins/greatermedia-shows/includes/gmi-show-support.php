@@ -174,6 +174,32 @@ function get_show_events() {
 	return $events;
 }
 
+function get_show_featured_query() {
+	$curated_ids = explode( ',', get_post_meta( get_the_ID(), 'gmr_featured_post_ids', true ) );
+
+	$args = array(
+		'post__in' => $curated_ids,
+		'post_type' => 'any', // since we have IDs
+	);
+
+	$query = new \WP_Query( $args );
+
+	return $query;
+}
+
+function get_show_favorites_query() {
+	$curated_ids = explode( ',', get_post_meta( get_the_ID(), 'gmr_favorite_post_ids', true ) );
+
+	$args = array(
+		'post__in' => $curated_ids,
+		'post_type' => 'any', // since we have IDs
+	);
+
+	$query = new \WP_Query( $args );
+
+	return $query;
+}
+
 function get_show_main_query() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 	$current_page = get_query_var( 'show_section_page' ) ?: 1;
