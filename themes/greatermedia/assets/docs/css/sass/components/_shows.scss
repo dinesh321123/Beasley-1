@@ -126,7 +126,7 @@ category: Components - Shows
 }
 
 .show__title {
-	font-size: ms(10);
+	font-size: 2em;
 	font-family: $droid-sans;
 }
 
@@ -267,6 +267,20 @@ category: Components - Shows
 		@include span-columns(12 of 12);
 		margin-bottom: 1em;
 		background: none;
+	}
+}
+
+.show__toggle {
+	position: absolute;
+	bottom: -35px;
+	right: 0;
+	background: none repeat scroll 0 0 transparent;
+	border: none;
+	outline: none;
+	color: $primary-link;
+
+	&:hover {
+		color: $primary-link-hover;
 	}
 }
 

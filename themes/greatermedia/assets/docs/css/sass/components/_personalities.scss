@@ -19,3 +19,41 @@ category: Components - Shows
 
 */
 
+.show__personalities {
+	@include outer-container();
+}
+
+.personality {
+	margin: 4em 0;
+	position: relative;
+	@include row();
+	// @include box-shadow(0, -9px, -5, rgba(255, 255, 255, 0.75), inset);
+	// TODO - fix box-shadow mixin
+}
+
+.personality__avatar {
+	@include span-columns(4 of 12);
+
+	@include bp(medium) {
+		@include span-columns(3 of 12);
+	}
+
+	img {
+		width: 80%;
+		height: auto;
+		@include border-radius(50%);
+	}
+}
+
+.personality__meta {
+	overflow: hidden;
+	height: 8em;
+	@include span-columns(8 of 12);
+	@include omega;
+
+	@include bp(medium) {
+		height: 12em;
+		@include span-columns(9 of 12);
+		@include omega;
+	}
+}
