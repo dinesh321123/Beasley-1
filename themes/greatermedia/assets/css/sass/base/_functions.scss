@@ -44,3 +44,10 @@
 // @return {Modular Scale} - the value to be called from the $modular-scale array
 //
 // 
+@function ms($key) {
+	@if map-has-key($modular-scale, $key) {
+		@return map-get($modular-scale, $key);
+	}
+	@warn "Unknown `#{$key}` in $modular-scale.";
+	@return null;
+}
