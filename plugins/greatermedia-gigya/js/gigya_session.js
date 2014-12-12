@@ -89,8 +89,10 @@
 
 	};
 
-	var store   = new GigyaSessionStore();
-	var session = new GigyaSession(store);
+	var store       = new GigyaSessionStore();
+	var session     = new GigyaSession(store);
+	var sessionData = window.gigya_session_data.data;
+	var ajaxApi     = new WpAjaxApi( sessionData );
 
 	store.load();
 
@@ -104,6 +106,74 @@
 
 	window.get_gigya_user_field = function(field) {
 		return session.getUserField(field);
+	};
+
+	/* Action Helpers */
+	var didSaveAction = function(response) {
+		if (!response.success) {
+			didSaveActionError(response);
+		}
+	};
+
+	var didSaveActionError = function(response) {
+		//console.log('didSaveActionError', response);
+	};
+
+	var validationFailed = function(message) {
+		throw new Error('Action validation failed - ' + message);
+	};
+
+	var validateAction = function(action) {
+		if (!action) {
+			validationFailed('action must be specified');
+		}
+
+		if (!action.actionType) {
+			validationFailed('actionType must be specified');
+		}
+
+		if (!action.actionID) {
+			validationFailed('actionID must be specified');
+		}
+
+		if (!action.actionData) {
+			validationFailed('actionData must be specified');
+		}
+
+		var item;
+
+		for (var i = 0; i < action.actionData.length; i++) {
+			item = action.actionData[i];
+
+			if (!item.name) {
+				validationFailed('actionData item must have name');
+			}
+
+			if (!item.value) {
+				validationFailed('actionData item must have value');
+			}
+		}
+
+		return action;
+	};
+
+	window.save_gigya_action = function(action, user_id) {
+		if (!is_gigya_user_logged_in()) {
+			return false;
+		}
+
+		if (!user_id) {
+			user_id = 'logged_in_user';
+		}
+
+		var params = {
+			action: validateAction(action),
+			user_id: user_id
+		};
+
+		ajaxApi.request('save_gigya_action', params)
+			.then(didSaveAction)
+			.fail(didSaveActionError);
 	};
 
 }(jQuery));
