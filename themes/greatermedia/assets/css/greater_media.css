@@ -981,7 +981,7 @@ blockquote p {
   display: block;
   padding: 18px 1.25em;
   line-height: 1;
-  font-size: 1.26563em;
+  font-size: 2.2807em;
   color: #ffffff; }
 
 .mobile-nav__list a:hover, .mobile-nav__list a:focus, .mobile-nav__list a:active {
@@ -2041,6 +2041,7 @@ Community Highlights and Events
       display: block;
       float: right;
       height: 82px;
+      margin-right: 2.125em;
       font-size: 1em; } }
 
 .header__search {
@@ -2062,8 +2063,8 @@ Community Highlights and Events
       float: left;
       height: 82px;
       padding: 36px 0;
-      margin-left: .625em;
-      font-size: 0.79012em; } }
+      margin-right: .625em;
+      font-size: 0.88889em; } }
 
 .header__search--btn {
   display: block;
@@ -4076,6 +4077,17 @@ category: Components - Shows
   .show__favorites .featured__content--block:last-child {
     margin-right: 0; }
 
+.show__toggle {
+  position: absolute;
+  bottom: -35px;
+  right: 0;
+  background: none repeat scroll 0 0 transparent;
+  border: none;
+  outline: none;
+  color: #d22228; }
+  .show__toggle:hover {
+    color: #aa1c20; }
+
 .widget--live-player {
   margin: 0 1em 1em; }
 
@@ -4253,7 +4265,8 @@ category: Components - Shows
     clear: both; }
 
 .personality {
-  margin: 2em 0;
+  margin: 4em 0;
+  position: relative;
   display: block; }
   .personality:after {
     content: "";
@@ -4264,9 +4277,17 @@ category: Components - Shows
   float: left;
   display: block;
   margin-right: 2.35765%;
-  width: 23.23176%; }
+  width: 31.76157%; }
   .personality__avatar:last-child {
     margin-right: 0; }
+  @media screen and (min-width: 768px) {
+    .personality__avatar {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 23.23176%; }
+      .personality__avatar:last-child {
+        margin-right: 0; } }
   .personality__avatar img {
     width: 80%;
     height: auto;
@@ -4278,13 +4299,25 @@ category: Components - Shows
     border-radius: 50%; }
 
 .personality__meta {
+  overflow: hidden;
+  height: 8em;
   float: left;
   display: block;
   margin-right: 2.35765%;
-  width: 74.41059%;
+  width: 65.88078%;
   margin-right: 0; }
   .personality__meta:last-child {
     margin-right: 0; }
+  @media screen and (min-width: 768px) {
+    .personality__meta {
+      height: 12em;
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 74.41059%;
+      margin-right: 0; }
+      .personality__meta:last-child {
+        margin-right: 0; } }
 
 /**
  * Single Page Styles
