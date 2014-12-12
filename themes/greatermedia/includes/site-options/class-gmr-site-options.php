@@ -151,6 +151,10 @@ class GreaterMediaSiteOptions {
 		$image_src = wp_get_attachment_image_src( $image_id, 'thumbnail' );
 		$image_src = is_array( $image_src ) ? reset( $image_src ): '';
 
+		if ( empty( $image_src ) ) {
+			$image_src = get_template_directory_uri() . '/images/admin-no-logo.png';
+		}
+
 		?>
 		<div class="gmr__option image-select-parent">
 			<label for="<?php echo esc_attr( $name ); ?>" class="gmr__option--label"><?php echo esc_html( $label ); ?></label>

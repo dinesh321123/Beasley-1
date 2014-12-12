@@ -55,7 +55,8 @@ category: Components - Shows
 	position: relative;
 	padding: 2em;
 	@include fill-parent();
-	@include row(table);
+	@include row();
+	@include display-context(table);
 	color: $secondary-text;
 
 	> div {
@@ -244,6 +245,30 @@ category: Components - Shows
 ---
 
 */
+
+.show__blogroll {
+	@include bp(medium) {
+		@include span-columns(8 of 12);
+	}
+}
+
+.inner-right-col {
+	float: none;
+
+	@include bp(medium) {
+		@include span-columns(4 of 12);
+		@include omega;
+		float: right;
+	}
+}
+
+.show__favorites {
+	.featured__content--block {
+		@include span-columns(12 of 12);
+		margin-bottom: 1em;
+		background: none;
+	}
+}
 
 .show-attr--next_air_time {
 

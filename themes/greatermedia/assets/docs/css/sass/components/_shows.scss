@@ -55,7 +55,8 @@ category: Components - Shows
 	position: relative;
 	padding: 2em;
 	@include fill-parent();
-	@include row(table);
+	@include row();
+	@include display-context(table);
 	color: $secondary-text;
 
 	> div {
@@ -201,6 +202,10 @@ category: Components - Shows
 .show__feature {
 	margin-bottom: 2em;
 
+	h3 {
+		margin-top: 0;
+	}
+
 	img {
 		width: 100%;
 		height: auto;
@@ -211,9 +216,7 @@ category: Components - Shows
 	@include bp(medium) {
 		@include span-columns(8 of 12);
 
-		h3 {
-			font-size: ms(4);
-		}
+		h3 { font-size: 2em; }
 	}
 }
 
@@ -222,9 +225,8 @@ category: Components - Shows
 		@include span-columns(4 of 12);
 		@include omega;
 
-		h3 {
-			font-size: ms(1);
-		}
+		h3 { font-size: 1em; }
+		time { font-size: 0.8em; }
 	}
 
 }
@@ -232,7 +234,40 @@ category: Components - Shows
 .show__feature--desc {
 	background-color: $secondary-bg;
 	color: $secondary-text;
-	padding: 1em 2em;
+	padding: 1em 2em 1em;
+}
+
+/*doc
+---
+title: Related Events
+name: related-events
+category: Components - Shows
+---
+
+*/
+
+.show__blogroll {
+	@include bp(medium) {
+		@include span-columns(8 of 12);
+	}
+}
+
+.inner-right-col {
+	float: none;
+
+	@include bp(medium) {
+		@include span-columns(4 of 12);
+		@include omega;
+		float: right;
+	}
+}
+
+.show__favorites {
+	.featured__content--block {
+		@include span-columns(12 of 12);
+		margin-bottom: 1em;
+		background: none;
+	}
 }
 
 .show-attr--next_air_time {

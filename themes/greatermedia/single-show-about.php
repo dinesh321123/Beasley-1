@@ -18,7 +18,7 @@
 
 					</header>
 
-					<div id="logo">
+					<!-- <div id="logo">
 
 						<?php
 							$logo_id = get_post_meta( get_the_ID(), 'logo_image', true );
@@ -27,25 +27,23 @@
 							}
 						?>
 
-					</div>
-					<hr>
-					<div class="entry-content">
+					</div> -->
+						<?php the_content(); ?>
 
-						<div class="about-the-show">
-							<?php the_content(); ?>
-						</div>
 						<?php
 						$personalities = GreaterMedia\Shows\get_show_personalities( get_the_ID() );
 						if ( count( $personalities ) > 0 ): ?>
-							<hr>
-							<div class="show-personalities">
-								<h4>Personalities</h4>
+							<div class="show__personalities">
 								<?php foreach( $personalities as $personality ) : ?>
 									<div class="personality personality-<?php echo intval( $personality->ID ); ?>">
-										<?php echo get_avatar( $personality->ID ); ?>
-										<div class="personality-name"><?php echo esc_html( $personality->data->display_name ); ?></div>
-										<div class="personality-bio"><?php echo esc_html( get_the_author_meta( 'description', $personality->ID ) ); ?></div>
-										<?php
+										<div class="personality__avatar">
+											<?php echo get_avatar( $personality->ID ); ?>
+										</div>
+										<div class="personality__meta">
+											<span class="personality__name h1"><?php echo esc_html( $personality->data->display_name ); ?></span>
+											<p class="personality__bio"><?php echo esc_html( get_the_author_meta( 'description', $personality->ID ) ); ?></p>
+										</div>
+											<?php
 										$social = GreaterMedia\Shows\get_personality_social_ul( $personality );
 										?>
 									</div>
@@ -53,28 +51,8 @@
 							</div>
 						<?php endif; ?>
 
-						<hr>
 
-						<?php echo '<div>';
-						if ( get_post_meta( get_the_ID(), 'show_homepage', true ) ) {
-							$term = false; // To account for the (nearly impossible) case of function _not_ existing
-							if ( function_exists( 'TDS\get_related_term' ) ) {
-								$term = TDS\get_related_term( $post->ID );
-							}
-							if ( $term ) {
-								echo 'Related term is: ' . $term->name
-								. '<br/>Term ID: ' . $term->term_id
-								. '<br/>Term Slug: ' . $term->slug;
-
-							} else {
-								echo 'No related term found.
-								This is a bug, beacuse SHOW has marked to have homepage';
-							}
-						} else {
-							echo 'Show doesn\'t have home page';
-						}
-						echo '</div>';
-						?>
+						
 					</div>
 
 				</article>

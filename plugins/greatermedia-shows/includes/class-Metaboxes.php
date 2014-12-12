@@ -69,6 +69,9 @@ class GMR_Show_Metaboxes {
 	 */
 	public function add_meta_boxes() {
 		add_meta_box( 'show_logo', 'Logo', array( $this, 'render_logo_meta_box' ), ShowsCPT::SHOW_CPT, 'side' );
+
+		add_meta_box( 'show_featured', 'Featured', array( $this, 'render_featured_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced', 'high' );
+		add_meta_box( 'show_favorites', 'Favorites', array( $this, 'render_favorites_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced', 'high' );
 	}
 
 	/**
@@ -176,6 +179,49 @@ class GMR_Show_Metaboxes {
 		echo '</div>';
 	}
 
+	public function render_featured_meta_box( WP_Post $post ) {
+		if ( ! function_exists( 'pf_render' ) ) {
+			?><p>Please install the <a href="http://github.com/10up/post-finder">"post-finder"</a> plugin.</p><?php
+			return;
+		}
+		$featured_posts = get_post_meta( $post->ID, 'gmr_featured_post_ids', true );
+
+		$options = array(
+			'args' => array(
+				'post_type' => array( 'post', 'tribe_events' ),
+				'meta_key' => '_thumbnail_id',
+			),
+			'limit' => 3,
+		);
+
+		?>
+		<p>These items require featured images. If an item is not present, make sure a featured image is assigned.</p>
+		<?php
+		pf_render( 'gmr-featured-post-ids', $featured_posts, $options );
+	}
+
+	public function render_favorites_meta_box( WP_Post $post ) {
+		if ( ! function_exists( 'pf_render' ) ) {
+			?><p>Please install the <a href="http://github.com/10up/post-finder">"post-finder"</a> plugin.</p><?php
+			return;
+		}
+
+		$favorite_posts = get_post_meta( $post->ID, 'gmr_favorite_post_ids', true );
+
+		$options = array(
+			'args' => array(
+				'post_type' => array( 'post' ),
+				'meta_key' => '_thumbnail_id',
+			),
+			'limit' => 10,
+		);
+
+		?>
+		<p>These items require featured images. If an item is not present, make sure a featured image is assigned.</p>
+		<?php
+		pf_render( 'gmr-favorite-post-ids', $favorite_posts, $options );
+	}
+
 	/**
 	 * Saves the captured data.
 	 *
@@ -213,6 +259,16 @@ class GMR_Show_Metaboxes {
 		}
 
 		update_post_meta( $post_id, 'logo_image', filter_input( INPUT_POST, 'logo_image', FILTER_VALIDATE_INT ) );
+
+		if ( isset( $_POST['gmr-featured-post-ids'] ) ) {
+			$featured_ids = implode( ',', array_map( 'intval', explode( ',', $_POST['gmr-featured-post-ids'] ) ) );
+			update_post_meta( $post_id, 'gmr_featured_post_ids', $featured_ids );
+		}
+
+		if ( isset( $_POST['gmr-favorite-post-ids'] ) ) {
+			$favorite_ids = implode( ',', array_map( 'intval', explode( ',', $_POST['gmr-favorite-post-ids'] ) ) );
+			update_post_meta( $post_id, 'gmr_favorite_post_ids', $favorite_ids );
+		}
 	}
 
 	/**

@@ -148,3 +148,76 @@ function get_show_gallery_query() {
 
 	return $album_query;
 }
+
+function get_show_events() {
+	$show_term = \TDS\get_related_term( get_the_ID() );
+
+	$event_args = array(
+		'eventDisplay'=>'upcoming',
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+				'field' => 'term_taxonomy_id',
+				'terms' => $show_term->term_taxonomy_id,
+			)
+		),
+		'posts_per_page' => 3,
+	);
+
+	if ( ! function_exists( '\tribe_get_events' ) ) {
+		return array();
+	}
+
+	$events = \tribe_get_events( $event_args );
+
+	return $events;
+}
+
+function get_show_featured_query() {
+	$curated_ids = explode( ',', get_post_meta( get_the_ID(), 'gmr_featured_post_ids', true ) );
+
+	$args = array(
+		'post__in' => $curated_ids,
+		'post_type' => 'any', // since we have IDs
+	);
+
+	$query = new \WP_Query( $args );
+
+	return $query;
+}
+
+function get_show_favorites_query() {
+	$curated_ids = explode( ',', get_post_meta( get_the_ID(), 'gmr_favorite_post_ids', true ) );
+
+	$args = array(
+		'post__in' => $curated_ids,
+		'post_type' => 'any', // since we have IDs
+	);
+
+	$query = new \WP_Query( $args );
+
+	return $query;
+}
+
+function get_show_main_query() {
+	$show_term = \TDS\get_related_term( get_the_ID() );
+	$current_page = get_query_var( 'show_section_page' ) ?: 1;
+
+	$show_args = array(
+		'post_type' => 'post',
+		'tax_query' => array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+				'field' => 'term_taxonomy_id',
+				'terms' => $show_term->term_taxonomy_id,
+			)
+		),
+		'paged' => $current_page,
+	);
+
+	$show_query = new \WP_Query( $show_args );
+
+	return $show_query;
+}
