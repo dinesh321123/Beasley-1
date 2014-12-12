@@ -153,6 +153,7 @@ function get_show_events() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 
 	$event_args = array(
+		'eventDisplay'=>'upcoming',
 		'tax_query' => array(
 			'relation' => 'AND',
 			array(
@@ -161,6 +162,7 @@ function get_show_events() {
 				'terms' => $show_term->term_taxonomy_id,
 			)
 		),
+		'posts_per_page' => 3,
 	);
 
 	$events = \tribe_get_events( $event_args );

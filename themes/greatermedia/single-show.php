@@ -43,30 +43,22 @@
 					</section>
 
 					<div class="featured__content">
-			            <div class="featured__content--block">
-			                <div class="featured__content--image">
-			                    <img src="http://placehold.it/400x400&text=featured+image">
-			                </div>
-			                <div class="featured__content--meta">
-			                    <h3 class="featured__content--title">MMR Rocks the Flyers</h3>
-			                </div>
-			            </div>
-			            <div class="featured__content--block">
-			                <div class="featured__content--image">
-			                    <img src="http://placehold.it/400x400&text=featured+image">
-			                </div>
-			                <div class="featured__content--meta">
-			                    <h3 class="featured__content--title">Hitch a Ride with Pierre ...and Minerva</h3>
-			                </div>
-			            </div>
-			            <div class="featured__content--block">
-			                <div class="featured__content--image">
-			                    <img src="http://placehold.it/400x400&text=featured+image">
-			                </div>
-			                <div class="featured__content--meta">
-			                    <h3 class="featured__content--title">Preston and Steve</h3>
-			                </div>
-			            </div>
+						<?php
+						global $post;
+						$events = \GreaterMedia\Shows\get_show_events();
+						foreach( $events as $post ): setup_postdata( $post ); ?>
+							<div class="featured__content--block">
+								<?php if ( has_post_thumbnail() ) : ?>
+									<div class="featured__content--image">
+										<?php the_post_thumbnail( array( 400, 400 ) ); // todo custom size for this? ?>
+									</div>
+								<?php endif; ?>
+								<div class="featured__content--meta">
+									<h3 class="featured__content--title"><?php the_title(); ?></h3>
+								</div>
+							</div>
+						<?php endforeach; ?>
+						<?php wp_reset_query(); ?>
 			        </div>
 
 			        <div class="row">
