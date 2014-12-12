@@ -1040,7 +1040,8 @@ class GMedia_Migration extends WP_CLI_Command {
 		foreach ( $config_file as $config_string ) {
 			$marketron_taxonomy = html_entity_decode( $config_string[2], ENT_QUOTES | ENT_HTML5 );
 			$new_term = $config_string[4];
-			$taxonomy_map[ $marketron_taxonomy ] = $new_term;
+			$taxonomy_map[ $marketron_taxonomy ]['term'] = $new_term;
+			$taxonomy_map[ $marketron_taxonomy ]['taxonomy'] = $config_string[3];
 		}
 
 		$total = 0;
@@ -1153,12 +1154,12 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				// Process Blog Taxonomy Term
 				if ( isset( $blog ) ) {
-					$blog_info = array( 'Feed' => trim( $taxonomy_map[ $blog ] ), 'FeedDescription' => trim( $blog_desc ) );
+					$blog_info = array( 'Feed' => trim( $taxonomy_map[ $blog ][ 'term' ] ), 'FeedDescription' => trim( $blog_desc ) );
 
-					$blog_id = $this->process_term( $blog_info, '_shows', 'post' );
+					$blog_id = $this->process_term( $blog_info, $taxonomy_map[ $blog ][ 'taxonomy' ], 'post' );
 
 					if ( $blog_id ) {
-						wp_set_post_terms( $wp_id, array( $blog_id ), '_shows', true );
+						wp_set_post_terms( $wp_id, array( $blog_id ), $taxonomy_map[ $blog ][ 'taxonomy' ], true );
 					}
 				}
 
