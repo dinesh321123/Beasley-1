@@ -29,20 +29,6 @@
   max-width: 15%;
   margin: 0 2% 0 0; }
 
-.wpsm-preview-object {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  -ms-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  -o-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  -box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  margin: 5px;
-  border: 1px solid #eeeeee; }
-
 .gmr__option--label {
   display: block;
   margin: 0 0 .75em;
@@ -68,6 +54,10 @@
 
 .gmr__option--upload-btn {
   margin: 1em 0; }
+
+.gmr-image-buttons {
+  clear: both;
+  padding-top: 1em; }
 
 #featured-footer-image-container img {
   width: 100%;
