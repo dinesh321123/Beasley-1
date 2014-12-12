@@ -7,15 +7,55 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class GreaterMediaContests
  * @see  https://core.trac.wordpress.org/ticket/12668#comment:27
- * @TODO abstract GreaterMediaContestEntry into its own class?
  */
 class GreaterMediaContests {
+
+	const CPT_SLUG = 'contest';
 
 	function __construct() {
 
 		add_action( 'init', array( $this, 'register_contest_post_type' ) );
 		add_action( 'init', array( $this, 'register_contest_type_taxonomy' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		add_action( 'restrict_manage_posts', array( $this, 'admin_contest_type_filter' ) );
+		add_action( 'pre_get_posts', array( $this, 'admin_filter_contest_list' ) );
+		add_filter( 'gmr_live_link_suggestion_post_types', array( $this, 'extend_live_link_suggestion_post_types' ) );
+		add_action( 'edit_form_after_title', array( $this, 'myprefix_edit_form_after_title' ) );
+		add_action( 'edit_form_after_editor', array( $this, 'myprefix_edit_form_after_editor' ) );
+
+	}
+
+	/**
+	 * Render markup to enclose the post content/body field in a fake metabox (for visual consistency) with a headline.
+	 * Implements edit_form_after_title action.
+	 */
+	public function myprefix_edit_form_after_title() {
+
+		global $post;
+
+		if ( ! isset( $post ) || 'contest' !== $post->post_type ) {
+			return;
+		}
+
+		echo '<div id="contest_editor" class="postbox">';
+		echo '<h3>' . __( 'Introduction', 'greatermedia_contests' ) . '</h3>';
+		echo '<div class="inside">';
+
+	}
+
+	/**
+	 * Render markup to finish rendering the fake metabox around the post content/body field.
+	 * Implements edit_form_after_editor action.
+	 */
+	public function myprefix_edit_form_after_editor() {
+
+		global $post;
+
+		if ( ! isset( $post ) || 'contest' !== $post->post_type ) {
+			return;
+		}
+
+		echo '</div></div>';
 
 	}
 
@@ -44,7 +84,7 @@ class GreaterMediaContests {
 			'label'               => __( 'contest', 'greatermedia_contests' ),
 			'description'         => __( 'Contest', 'greatermedia_contests' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', ),
+			'supports'            => array( 'title', 'editor' ),
 			'taxonomies'          => array( 'contest_type' ),
 			'hierarchical'        => false,
 			'public'              => true,
@@ -54,13 +94,13 @@ class GreaterMediaContests {
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 5,
 			'can_export'          => true,
-			'has_archive'         => false,
+			'has_archive'         => true,
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'capability_type'     => 'post',
 		);
 
-		register_post_type( 'contest', $args );
+		register_post_type( self::CPT_SLUG, $args );
 		add_post_type_support( 'contest', 'timed-content' );
 
 	}
@@ -117,7 +157,7 @@ class GreaterMediaContests {
 
 		$seeded = get_option( 'contest_type_seeded', false );
 
-		if ( true === $seeded ) {
+		if ( $seeded ) {
 			return;
 		}
 
@@ -147,8 +187,88 @@ class GreaterMediaContests {
 	}
 
 	public function admin_enqueue_scripts() {
-		wp_enqueue_style( 'greatermedia-contests', trailingslashit( GREATER_MEDIA_CONTESTS_URL ) . 'css/greatermedia-contests.css' );
+		wp_enqueue_style( 'greatermedia-contests-admin', trailingslashit( GREATER_MEDIA_CONTESTS_URL ) . 'css/greatermedia-contests-admin.css' );
 	}
+
+	/**
+	 * Add a dropdown on the contest list page to filter by contest type.
+	 */
+	public function admin_contest_type_filter() {
+		global $typenow;
+		$contest_type_tax_id = 0;
+
+		if ( 'contest' !== $typenow || ! is_admin() ) {
+			return;
+		}
+
+		if ( isset( $_GET['type_filter'] ) ) {
+			// If user selected a term in the filter drop-down on the contest list page
+			$contest_type_tax_id = intval( $_GET['type_filter'] );
+		} else if ( isset( $_GET['contest_type'] ) ) {
+			// If user clicked on the post count next to the taxonomy term
+			$term = get_term_by( 'slug', $_GET['contest_type'], 'contest_type' );
+
+			if ( false !== $term ) {
+				$contest_type_tax_id = intval( $term->term_id );
+			}
+		}
+
+		$args = array(
+			'show_option_all' => __( 'All contest types', 'greatermedia_contests' ),
+			'hierarchical'    => true,
+			'name'            => 'type_filter',
+			'id'              => 'type-filter',
+			'class'           => 'postform',
+			'orderby'         => 'name',
+			'taxonomy'        => 'contest_type',
+			'hide_if_empty'   => true,
+			'selected'        => $contest_type_tax_id,
+		);
+
+		wp_dropdown_categories( $args );
+	}
+
+	/**
+	 * Handle the request to filter contests by type.
+	 *
+	 * @param  WP_Query $wp_query
+	 */
+	public function admin_filter_contest_list( $wp_query ) {
+		global $typenow;
+
+		$contest_type_tax_id = isset( $_GET['type_filter'] ) ? intval( $_GET['type_filter'] ) : 0;
+
+		if ( 'contest' !== $typenow || ! is_admin() || empty( $contest_type_tax_id ) ) {
+			return;
+		}
+
+		$args = array(
+			array(
+				'taxonomy' => 'contest_type',
+				'field'    => 'id',
+				'terms'    => $contest_type_tax_id,
+			),
+		);
+
+		$wp_query->set( 'tax_query', $args );
+	}
+
+	/**
+	 * Extends live link suggestion post types.
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @param array $post_types The array of already registered post types.
+	 *
+	 * @return array The array of extended post types.
+	 */
+	public function extend_live_link_suggestion_post_types( $post_types ) {
+		$post_types[] = 'contest';
+
+		return $post_types;
+	}
+
 }
 
 $GreaterMediaContests = new GreaterMediaContests();

@@ -31,34 +31,15 @@ class GMLP_Player {
 	public static function render_player() {
 
 		?>
-		<div class="gm-liveplayer">
-
-			<button class="gm-liveplayer--toggle"></button>
-
-			<div class="gm-liveplayer--container">
-
-				<div class="container">
-					<div id="gm-liveplayer--controls">
-						<div id="playButton" class="gm-liveplayer--btn play" data-station="<?php do_action( 'radio_callsign' ); ?>"></div>
-						<button id="pauseButton" class="gm-liveplayer--btn" data-station="<?php do_action( 'radio_callsign' ); ?>"><i class="fa fa-pause"></i></button>
-						<button id="resumeButton" class="gm-liveplayer--btn" data-station="<?php do_action( 'radio_callsign' ); ?>"><i class="fa fa-play-circle-o"></i></button>
-					</div>
-
-					<div id="gm-liveplayer--now_playing">
-						<div id="nowPlaying">
-							<div id="trackInfo">
-							</div>
-							<div id="npeInfo"></div>
-						</div>
-					</div>
-
-					<!-- Player placeholder -->
-					<div id="td_container"></div>
-
-				</div>
-
+		<div class="live-stream__player">
+			<div class="live-stream__controls">
+				<div id="playButton" class="live-stream__btn--play" data-station="<?php do_action( 'radio_callsign' ); ?>" data-action="play-live"></div>
+				<div id="pauseButton" class="live-stream__btn--pause" data-station="<?php do_action( 'radio_callsign' ); ?>"></div>
+				<div id="resumeButton" class="live-stream__btn--resume" data-station="<?php do_action( 'radio_callsign' ); ?>"></div>
 			</div>
 
+			<!-- Player placeholder -->
+			<div id="td_container" class="live-stream__player--container"></div>
 		</div>
 
 	<?php
@@ -71,15 +52,11 @@ class GMLP_Player {
 	public static function enqueue_scripts() {
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		wp_enqueue_script( 'pjax', GMLIVEPLAYER_URL . 'assets/js/vendor/pjax-standalone.min.js', array(), '0.1.3', false );
-		wp_enqueue_script( 'pjax-load', GMLIVEPLAYER_URL . 'assets/js/src/pjax-load.js', array( 'pjax' ), GMLIVEPLAYER_VERSION, false );
+		wp_register_script( 'load-jquery', GMLIVEPLAYER_URL . 'assets/js/src/jquery.load.js', array(), GMLIVEPLAYER_VERSION, true );
+		wp_enqueue_script( 'tdplayer', GMLIVEPLAYER_URL . "assets/js/tdplayer{$postfix}.js", array( 'load-jquery' ), '2.5', true );
+		wp_enqueue_script( 'jquery-ui-button');
 		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery' ), GMLIVEPLAYER_VERSION, true );
-		wp_enqueue_script( 'jquery-cookie', GMLIVEPLAYER_URL . 'assets/js/src/jquery.cookie.js', array(), GMLIVEPLAYER_VERSION, false );
-		wp_enqueue_script( 'load-jquery', GMLIVEPLAYER_URL . 'assets/js/src/jquery.load.js', array(), GMLIVEPLAYER_VERSION, true );
-		wp_enqueue_script( 'tdplayer', GMLIVEPLAYER_URL . 'assets/js/vendor/td-player/tdplayer.js', array( 'jquery' ), '2.5', true );
-		wp_enqueue_script( 'tdplayer-api', GMLIVEPLAYER_URL . 'assets/js/vendor/td-player/tdplayer-api.js', array(), '2.5', true );
-		wp_enqueue_style( 'gmlp-styles', GMLIVEPLAYER_URL . "assets/css/greater_media_live_player{$postfix}.css", array(), GMLIVEPLAYER_VERSION );
-
+		wp_localize_script( 'gmlp-js', 'gmlp', array( 'logged_in' => is_user_logged_in() ) );
 	}
 
 	/**

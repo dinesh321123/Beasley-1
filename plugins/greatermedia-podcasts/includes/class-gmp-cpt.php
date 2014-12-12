@@ -16,6 +16,8 @@
  */
 class GMP_CPT {
 
+	const PODCAST_POST_TYPE = 'podcast';
+
 	/**
 	 * Hook into the appropriate actions when the class is initiated.
 	 */
@@ -26,6 +28,8 @@ class GMP_CPT {
 		add_action( 'init', array( __CLASS__, 'register_shadow_taxonomy' ) );
 		add_action( 'save_post', array( __CLASS__, 'update_shadow_taxonomy' ) );
 		add_action( 'before_delete_post', array( __CLASS__, 'delete_shadow_tax_term' ) );
+
+		add_filter( 'gmr_live_link_suggestion_post_types', array( __CLASS__, 'extend_live_link_suggestion_post_types' ) );
 
 	}
 
@@ -76,7 +80,7 @@ class GMP_CPT {
 			'rewrite'             => $rewrite,
 			'capability_type'     => 'page',
 		);
-		register_post_type( 'podcast', $args );
+		register_post_type( self::PODCAST_POST_TYPE, $args );
 
 	}
 
@@ -253,6 +257,19 @@ class GMP_CPT {
 		if ( false !== $term ) {
 			wp_delete_term( $term->term_id, '_podcast' );
 		}
+	}
+
+	/**
+	 * Extends live link suggestion post types.
+	 *
+	 * @static
+	 * @access public
+	 * @param array $post_types The array of already registered post types.
+	 * @return array The array of extended post types.
+	 */
+	public static function extend_live_link_suggestion_post_types( $post_types ) {
+		$post_types[] = self::PODCAST_POST_TYPE;
+		return $post_types;
 	}
 
 }

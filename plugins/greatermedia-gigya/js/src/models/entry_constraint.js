@@ -41,14 +41,18 @@ var EntryConstraint = Constraint.extend({
 
 	didLoadEntryTypes: function(response) {
 		var entryTypes = this.entryTypes;
-		entryTypes.reset(response.data);
+		entryTypes.reset(response.data, {silent:true});
 
 		if (this.get('entryTypeID') === -1) {
 			// auto-select first entry
-			this.set('entryTypeID', entryTypes.at(0).get('value'));
-		} else {
-			this.didChangeEntryTypeID();
+			var first = entryTypes.at(0);
+			if (first !== undefined) {
+				this.set('entryTypeID', first.get('value'), {silent:true});
+			}
 		}
+
+		this.entryTypes.trigger('reset');
+		this.loadEntryFields();
 	},
 
 	didLoadEntryTypesError: function(response) {
@@ -68,12 +72,20 @@ var EntryConstraint = Constraint.extend({
 
 	didLoadEntryFields: function(response) {
 		var entryFields = this.getEntryFields();
-		entryFields.reset(response.data);
+		var first;
+
+		entryFields.reset(response.data, {silent:true});
 
 		if (this.get('entryFieldID') === -1) {
 			// auto-select first field
-			this.set('entryFieldID', entryFields.at(0).get('value'));
+			first = entryFields.at(0);
+			if (first !== undefined) {
+				this.set('entryFieldID', first.get('value'), {silent:true});
+			}
 		}
+
+		entryFields.trigger('reset');
+		this.trigger('change');
 	},
 
 	didLoadEntryFieldsError: function(response) {
@@ -88,10 +100,14 @@ var EntryConstraint = Constraint.extend({
 		return this.entryFields;
 	},
 
-	getEntryFieldChoices: function() {
+	getEntryFieldChoices: function(entryFieldID) {
+		if (!entryFieldID) {
+			entryFieldID = this.get('entryFieldID');
+		}
+
 		var fieldCollection = this.getEntryFields();
 		var field           = fieldCollection.findWhere({
-			value: this.get('entryFieldID')
+			value: entryFieldID
 		});
 
 		if (field) {
@@ -103,6 +119,28 @@ var EntryConstraint = Constraint.extend({
 			}
 		} else {
 			return [];
+		}
+	},
+
+	getEntryFieldOptions: function() {
+		var fieldCollection = this.getEntryFields();
+		var field           = fieldCollection.findWhere({
+			value: this.get('entryFieldID')
+		});
+
+		if (field) {
+			return field.get('fieldOptions');
+		} else {
+			return {};
+		}
+	},
+
+	getEntryFieldType: function() {
+		var fieldOptions = this.getEntryFieldOptions();
+		if (fieldOptions.fieldType) {
+			return fieldOptions.fieldType;
+		} else {
+			return 'text';
 		}
 	},
 

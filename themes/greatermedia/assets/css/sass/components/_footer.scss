@@ -1,3 +1,122 @@
-/**
- * Footer Styles
- */
+.footer {
+	width: 100%;
+	margin: 0 auto;
+	overflow: auto;
+	background-color: $secondary-bg;
+}
+
+.footer a:link, .footer a:visited {
+	color: $footer-text;
+}
+
+.footer a:hover, .footer a:focus, .footer a:active {
+	color: $primary-link;
+}
+
+.footer .container {
+	background-color: $primary-bg;
+}
+
+.footer__content {
+	@include span-columns(4);
+	padding: 40px 5.5%;
+	background-color: $primary-bg;
+	border-top: 1px solid $primary-border;
+	color: $footer-text;
+	@include bp(small) {
+		@include span-columns(6);
+	}
+	@include bp(medium) {
+		@include span-columns(8);
+	}
+	@include bp(large) {
+		@include span-columns(12);
+	}
+	@include bp(x-large) {
+		@include span-columns(12);
+	}
+}
+
+.footer__logo {
+	font-size: ms(4);
+	font-weight: lighter;
+	color: $nevada;
+	text-transform: uppercase;
+	@include bp(large) {
+		@include span-columns(2 of 12);
+	}
+}
+
+.footer__logo a:link, .footer__logo a:visited {
+	color: $nevada;
+}
+
+.footer__logo a:hover, .footer__logo a:focus, .footer__logo a:active {
+	color: $primary-link;
+}
+
+.footer__copyright {
+	padding: 13px 0;
+	font-size: ms(-3);
+	@include bp(large) {
+		@include span-columns(3 of 12);
+	}
+}
+
+.footer__copyright--span:first-of-type {
+	padding-right: 5px;
+}
+.footer__copyright--span:last-of-type {
+	padding-left: 5px;
+}
+
+.footer__menu {
+	@include bp(large) {
+		@include span-columns(7 of 12);
+	}
+}
+
+.footer__nav {
+	float: right;
+}
+
+.footer__nav--list {
+	@extend %unordered-list;
+	padding: 13px 0;
+	font-size: ms(-3);
+}
+
+.footer__nav--list .menu-item {
+	@extend %list-item;
+	display: inline-block;
+	margin-right: 2.5em;
+}
+
+.footer__social {
+	@extend %unordered-list;
+	float: right;
+	padding: 8px 0 7px;
+}
+
+.footer__social--item {
+	@extend %list-item;
+	display: inline-block;
+	height: 22px;
+	margin-left: 30px;
+	font-size: ms(2);
+}
+
+.footer__social--facebook:before {
+	@extend %gmr-icons;
+	content: "\e60f";
+}
+
+.footer__social--twitter:before {
+	@extend %gmr-icons;
+	content: "\e610";
+}
+
+.footer__social--google-plus:before {
+	@extend %gmr-icons;
+	content: "\e611";
+}

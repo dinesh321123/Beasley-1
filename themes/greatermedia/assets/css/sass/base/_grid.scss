@@ -1,6 +1,6 @@
 // global grid variables
-$column: golden-ratio(1em, 4) !global;
-$gutter: golden-ratio(1em, 2) !global;
+$column: golden-ratio(1em, 4) !default;
+$gutter: golden-ratio(1em, 1) !default;
 $grid-columns: 4 !global;
 // this will give us a mobile first approach
 
@@ -10,7 +10,8 @@ $visual-grid-color: #6e76ee !global;
 $visual-grid-index: front !global;
 
 // max-width for the site
-$max-width: 95% !global;
+$max-width: em(1150) !global;
+$max-site-width: 1400px;
 
 // simple css effect to make images responsive and fluid while also retaining proper aspect ratio
 img {
@@ -19,71 +20,92 @@ img {
 	@include size(null auto); // this will keep images from being stretched at lower resolutions
 }
 
-// The `.site-wrap` class is being used in conjunction with the off-canvas mobile navigation. On click of the
-// `.mobile-nav--toggle` button, the contents of `.site-wrap` will be pushed to the left by a particular value. This
+#site-wrap {
+	max-width: 100%;
+	margin: 0 auto;
+	background-color: $secondary-bg;
+}
+
+// The `.page-wrap` class is being used in conjunction with the off-canvas mobile navigation. On click of the
+// `.mobile-nav--toggle` button, the contents of `.page-wrap` will be pushed to the left by a particular value. This
 .page-wrap {
 	@include transform(translate(0, 0));
-	@include size(100% null);
+	width: 100%;
+	padding-bottom: 58px;
 	@include transition(all 500ms ease-in-out);
-	overflow-y: hidden;
+	overflow: hidden;
+	@include bp(medium) {
+		padding-bottom: 0;
+	}
 }
 
 .container, %container {
-	@include outer-container;
+	@include outer-container(100%);
+		padding-right: 14em;
+	@include bp(medium) {
+		@include outer-container(100%);
+	}
+	@include bp(x-large) {
+		@include outer-container(1400px);
+	}
 }
 
 .main, %main {
-	@include size(100% null);
+	float: left;
+	width: 100%;
+	margin: 0;
+	background-color: $secondary-bg;
+}
+
+.main .container {
+	background-color: $primary-bg;
 }
 
 .content, %content {
 	@include span-columns(4);
-	@include padding(2em null);
+	padding: 2em 7.0833333333335%;
 	@include bp(small) {
 		@include span-columns(6);
 	}
 	@include bp(medium) {
-		@include span-columns(8);
+		@include span-columns(4 of 6);
+		@include shift(1);
+		padding-right: 0;
+		padding-left: 0;
 	}
 	@include bp(large) {
-		@include span-columns(10);
-	}
-	@include bp(x-large) {
-		@include span-columns(10);
-		@include padding(null 0);
-	}
-}
-
-.sidebar, %sidebar {
-	@include span-columns(4);
-	@include padding(2em .5em);
-	@include bp(small) {
-		@include span-columns(6);
-	}
-	@include bp(medium) {
-		@include span-columns(2);
-		@include omega;
-	}
-	@include bp(large) {
-		@include span-columns(3);
-	}
-	@include bp(x-large) {
-		@include span-columns(3);
-		@include padding(null 0);
+		@include span-columns(10 of 12);
+		@include shift(1);
 	}
 }
 
 .live-player{
-	@include position(absolute, 117px 0 null null);
-	@include padding(2em null);
-	display: none;
-	background-color: palette(default, gray);
-	@include bp(large){
-		@include display(block);
-		@include span-columns(2);
-		@include size(null 100%);
-		@include omega;
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	width: 100%;
+	background-color: $secondary-bg;
+	color: $secondary-text;
+	cursor: pointer;
+	@include bp(medium){
+		position: absolute;
+		top: 238px;
+		bottom: auto;
+		right: 0;
+		left: auto;
+		width: 14em;
+		height: 100%;
 		@include box-sizing(border-box);
-		color: palette(default);
+		cursor: default;
+	}
+	@include bp(x-large) {
+		@include calc(right, '50% - 700px');
+	}
+}
+
+.logged-in .live-player {
+	@include media(min-width 782px) {
+		top: 270px;
 	}
 }

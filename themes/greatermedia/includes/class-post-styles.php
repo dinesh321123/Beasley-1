@@ -21,7 +21,6 @@ class GM_Post_Styles{
 		$strings['traffic-map'] = _x( 'Traffic Map', 'greatermedia' );
 		$strings['sports-calendar'] = _x( 'Sports Calendar', 'greatermedia' );
 		$strings['anonymous-poll'] = _x( 'Anonymous Poll', 'greatermedia' );
-		$strings['personality-profile'] = _x( 'On-air Personality Profile', 'greatermedia' );
 		$strings['weather'] = _x( 'Weather', 'greatermedia');
 		$strings['closings'] = _x( 'School &amp; Business Closings', 'greatermedia' );
 

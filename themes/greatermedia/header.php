@@ -53,7 +53,7 @@
 						'container'       => 'nav',
 						'container_class' => 'mobile-nav',
 						'container_id'    => 'mobile-nav',
-						'menu_class'      => 'mobile-nav--list',
+						'menu_class'      => 'mobile-nav__list',
 						'menu_id'         => '',
 						'echo'            => true,
 						'fallback_cb'     => 'wp_page_menu',
@@ -70,25 +70,30 @@
 
 				?>
 				<div id="page-wrap" class="page-wrap">
-					<?php do_action( 'show_breaking_news_banner' ); ?>
 					<header id="header" class="header" role="banner">
+						<?php do_action( 'show_breaking_news_banner' ); ?>
 						<div class="container">
-							<div class="mobile-nav--toggle">
-								<div class="mobile-nav--toggle--span"></div>
+							<div class="ad__leaderboard">
+								<img src="http://placehold.it/728x90&text=leaderboard">
 							</div>
-							<div class="header-logo">
-								<a href="<?php echo home_url(); ?>"><img src="<?php bloginfo( 'stylesheet_directory' ); ?>/images/wmmr-logo.png" alt="<?php bloginfo( 'name' ); ?> | <?php bloginfo( 'description' ); ?>" class="header-logo--img"></a>
-							</div>
-							<?php
-
+						</div>
+						<div class="header__main">
+							<div class="container">
+								<div class="mobile-nav__toggle">
+									<div class="mobile-nav__toggle--span"></div>
+								</div>
+								<div class="header__logo">
+									<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo get_stylesheet_directory_uri(); ?>/images/wmmr-logo.png" alt="<?php bloginfo( 'name' ); ?> | <?php bloginfo( 'description' ); ?>" class="header__logo--img"></a>
+								</div>
+								<?php
 								$main_nav = array(
 									'theme_location'  => 'main-nav',
 									'menu'            => '',
 									'container'       => 'nav',
-									'container_class' => 'header-nav--main',
+									'container_class' => 'header__nav',
 									'container_id'    => '',
-									'menu_class'      => 'header-nav--list',
-									'menu_id'         => 'header-nav--list',
+									'menu_class'      => 'header__nav--list',
+									'menu_id'         => 'header__nav--list',
 									'echo'            => true,
 									'fallback_cb'     => 'wp_page_menu',
 									'before'          => '',
@@ -99,29 +104,25 @@
 									'depth'           => 0,
 									'walker'          => ''
 								);
-
 								wp_nav_menu( $main_nav );
-
-							?>
-							<div class="header-secondary">
-
-								<nav class="header-secondary--nav">
-
-									<ul class="header-nav--list account">
-										<li><a id="register-button" href="" class="register" style="visibility:hidden">register</a></li>
-										<li><a id="login-button" href="" class="login" style="visibility:hidden">Login</a></li>
-									</ul>
-
-								</nav>
-								<div class="header-secondary--social">
-									<ul class="header-social--list">
-										<li class="header-social--item"><a href="#"><i class="fa fa-facebook"></i></a></li>
-										<li class="header-social--item"><a href="#"><i class="fa fa-twitter"></i></a></li>
-										<li class="header-social--item"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-									</ul>
-								</div>
-								<div class="header-secondary--search">
-									<i class="fa fa-search"></i>
+								?>
+								<div class="header__secondary">
+									<nav class="header__account">
+										<ul class="header__account--list account">
+											<li><a id="register-button" href="" class="register" style="visibility:hidden">register</a></li>
+											<li><a id="login-button" href="" class="login" style="visibility:hidden">Login</a></li>
+										</ul>
+									</nav>
+									<div class="header__social">
+										<ul class="header__social--list">
+											<li class="header__social--item"><a href="#"><i class="header__social--facebook"></i></a></li>
+											<li class="header__social--item"><a href="#"><i class="header__social--twitter"></i></a></li>
+											<li class="header__social--item"><a href="#"><i class="header__social--google-plus"></i></a></li>
+										</ul>
+									</div>
+									<div class="header__search">
+										<div class="header__search--span"><?php _e( 'Search', 'greatermedia' ); ?></div><i class="header__search--btn"></i>
+									</div>
 								</div>
 							</div>
 						</div>

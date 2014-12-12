@@ -3,7 +3,9 @@
 <input type="hidden" id="constraints" name="constraints" value="" />
 <input type="hidden" id="query" name="query" value="" />
 
-<div id="query_builder_metabox" class="query_builder_metabox">
+<div id="query_builder_metabox" class="query_builder_metabox loading">
+	<h3 class="loading-indicator">Loading ...</h3>
+
 	<ul id="query_builder_toolbar" class="query_builder_toolbar">
 	</ul>
 
@@ -11,14 +13,4 @@
 	</ul>
 </div>
 
-<div>
-	<ul class="constraints-menu">
-	</ul>
-</div> <!-- .inside -->
-
-<div>
-	<ul class="current-constraints">
-	</ul>
-	<div class="clear"></div>
-</div>
-
+<div class="clear"></div>

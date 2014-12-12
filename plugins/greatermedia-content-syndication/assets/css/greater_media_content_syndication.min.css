@@ -1,0 +1,5 @@
+/*! Greater Media Content Syndication - v0.0.1
+ * http://wordpress.org/plugins
+ * Copyright (c) 2014; * Licensed GPLv2+ */
+
+#filter_metaboxes label{float:left;width:10em;margin-right:1em}#filter_metaboxes .enabled_filter{margin-left:10px}#filter_metaboxes span.description{margin-left:21%}

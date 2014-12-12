@@ -5,24 +5,19 @@ module.exports = function( grunt ) {
 		pkg:    grunt.file.readJSON( 'package.json' ),
 		concat: {
 			options: {
-				stripBanners: true,
-				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
-					' * <%= pkg.homepage %>\n' +
-					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-					' * Licensed GPLv2+' +
-					' */\n'
-			},
-			greater_media_live_playeradmin: {
-				src: [
-					'assets/js/admin/greater_media_live_player_admin.js'
-				],
-				dest: 'assets/js/greater_media_live_player_admin.js'
+				stripBanners: true
 			},
 			greater_media_live_player: {
 				src: [
 					'assets/js/src/greater_media_live_player.js'
 				],
 				dest: 'assets/js/greater_media_live_player.js'
+			},
+			tdplayer: {
+				src: [
+					'assets/js/src/tdplayer.js'
+				],
+				dest: 'assets/js/tdplayer.js'
 			}
 		},
 		jshint: {
@@ -51,15 +46,10 @@ module.exports = function( grunt ) {
 		uglify: {
 			all: {
 				files: {
-					'assets/js/greater_media_live_player_admin.min.js': ['assets/js/greater_media_live_player_admin.js'],
-					'assets/js/greater_media_live_player.min.js': ['assets/js/greater_media_live_player.js']
+					'assets/js/greater_media_live_player.min.js': ['assets/js/greater_media_live_player.js'],
+					'assets/js/tdplayer.min.js': ['assets/js/tdplayer.js']
 				},
 				options: {
-					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
-						' * <%= pkg.homepage %>\n' +
-						' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-						' * Licensed GPLv2+' +
-						' */\n',
 					mangle: {
 						except: ['jQuery']
 					}
@@ -78,24 +68,16 @@ module.exports = function( grunt ) {
 			all: {
 				files: {
 					'assets/css/greater_media_live_player.css': 'assets/css/sass/greater_media_live_player.scss',
-					'assets/css/greater_media_live_player_admin.css': 'assets/css/sass/greater_media_live_player_admin.scss'
 				}
 			}
 		},
 		
 		cssmin: {
-			options: {
-				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
-					' * <%= pkg.homepage %>\n' +
-					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-					' * Licensed GPLv2+' +
-					' */\n'
-			},
 			minify: {
 				expand: true,
 				
 				cwd: 'assets/css/',				
-				src: ['greater_media_live_player.css','greater_media_live_player_admin.css'],
+				src: ['greater_media_live_player.css'],
 				
 				dest: 'assets/css/',
 				ext: '.min.css'

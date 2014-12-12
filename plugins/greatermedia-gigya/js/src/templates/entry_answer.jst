@@ -15,8 +15,9 @@
 		</option>
 		<% }) %>
 	</select>
-<% } else if (valueType === 'integer' || valueType === 'float') { %>
-	<input type="number" class="constraint-value constraint-value-text" value="<%- value %>" />
+<% } else if (fieldType === 'number' || fieldType === 'price') { %>
+	<input type="number" class="constraint-value constraint-value-text"
+	value="<%- value %>" min="<%- fieldOptions.min %>" max="<%- fieldOptions.max %>" />
 <% } else { %>
 	<input type="text" class="constraint-value constraint-value-text" value="<%- value %>" />
 <% } %>

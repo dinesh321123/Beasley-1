@@ -1,0 +1,10 @@
+/**
+ * GreaterMedia Contests Categorization
+ * http://wordpress.org/plugins
+ *
+ * Copyright (c) 2014 10up
+ * Licensed under the GPLv2+ license.
+ */
+table.meta_box td {
+  margin: 0;
+  padding: 0; }

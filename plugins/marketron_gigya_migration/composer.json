@@ -1,9 +1,0 @@
-{
-	"name": "10up/marketron_gigya_migration",
-	"description": "Marketron to Gigya converter",
-	"license": "Copyright 2014 10up",
-	"require": {
-		"php": ">=5.3.0",
-		"seld/jsonlint": "*"
-	}
-}

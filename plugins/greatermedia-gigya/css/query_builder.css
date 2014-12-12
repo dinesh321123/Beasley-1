@@ -3,11 +3,19 @@
 	margin: 0;
 }
 
+.loading-indicator {
+	margin-left: 1em;
+}
+
 .query_builder_toolbar {
 	width: 24%;
 	float: left;
 	margin-left: 1em;
 	border: 1px solid #e3e3e3;
+}
+
+.loading .query_builder_toolbar {
+	border: none;
 }
 
 .query_builder_toolbar li {
@@ -89,8 +97,7 @@
 }
 
 .constraint-value-text {
-	margin-left: 0.5em;
-	margin-right: 0.5em;
+	width: 45%;
 	height: 2em;
 	vertical-align: top;
 }

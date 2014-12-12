@@ -6,25 +6,7 @@
  * @since   0.1.0
  */
 ?>
-
-<section class="entry-standard--content">
-
-	<header class="entry-header">
-
-		<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-
-	</header>
-
-	<section class="entry-content" itemprop="articleBody">
-
-		<?php the_excerpt(); ?>
-
-	</section>
-
-</section>
-
-
-<section class="entry-standard--thumbnail">
+<section class="entry--standard__thumbnail">
 
 <?php if ( has_post_thumbnail() ) {
 
@@ -35,6 +17,14 @@
 		<img src="http://placehold.it/600x400&text=image">
 
 <?php } ?>
+
+</section>
+
+<section class="entry--standard__meta">
+
+	<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
+
+	<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
 </section>
 

@@ -41,6 +41,8 @@ class GreaterMediaUserGeneratedContent {
 		add_action( 'admin_menu', array( __CLASS__, 'admin_menu' ), 0 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'admin_enqueue_scripts' ) );
 
+		add_filter( 'gmr_live_link_add_copy_action', array( __CLASS__, 'remove_copy_to_live_link_action' ), 10, 2 );
+
 	}
 
 	/**
@@ -85,6 +87,20 @@ class GreaterMediaUserGeneratedContent {
 
 	}
 
+	/**
+	 * Checks whether or not to add "Copy Live Link" action to the listener submission posts.
+	 *
+	 * @static
+	 * @access public
+	 * @filter gmr_live_link_add_copy_action
+	 * @param boolean $add_copy_action Determines whether or not to add the action.
+	 * @param WP_Post $post The current post object.
+	 * @return boolean Initial flag if a post type is not a listener submission pt, otherwise FALSE.
+	 */
+	public static function remove_copy_to_live_link_action( $add_copy_action, WP_Post $post ) {
+		return 'listener_submissions' != $post->post_type ? $add_copy_action : false;
+	}
+	
 	/**
 	 * Add custom admin pages to the admin menu
 	 */

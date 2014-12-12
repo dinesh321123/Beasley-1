@@ -1,0 +1,26 @@
+/**
+ * GreaterMedia Keywords
+ * http://wordpress.org/plugins
+ *
+ * Copyright (c) 2014 10up
+ * Licensed under the GPLv2+ license.
+ */
+tr.delete {
+  background-color: #ed3939; }
+
+.keywords td {
+  width: 30%; }
+.keywords a.submitdelete {
+  color: #ed3939; }
+
+.keyword_meta label {
+  vertical-align: baseline; }
+.keyword_meta label:before {
+  color: #888;
+  content: '\f237';
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  font: normal 20px/1 'dashicons';
+  vertical-align: top; }
+.keyword_meta span.keyword {
+  font-weight: 600; }

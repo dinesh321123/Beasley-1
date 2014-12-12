@@ -3,6 +3,7 @@
 namespace GreaterMedia\Gigya\Ajax;
 
 use GreaterMedia\Gigya\AccountsSearcher;
+use GreaterMedia\Gigya\MemberQuery;
 
 /**
  * PreviewAjaxHandler is the ajax handler invoked by the client to
@@ -10,6 +11,8 @@ use GreaterMedia\Gigya\AccountsSearcher;
  *
  * It receives the client generated GQL query as a parameter. And
  * returns the corresponding user accounts using the Gigya API.
+ *
+ * DEPRECATED
  *
  * @namespace GreaterMedia\Gigya
  */
@@ -37,24 +40,21 @@ class PreviewAjaxHandler extends AjaxHandler {
 	 * @return array
 	 */
 	public function run( $params ) {
-		$query    = $params['query'];
-		$searcher = new AccountsSearcher();
-		$response = $searcher->search( $query, false, 5 );
-		$json     = json_decode( $response, true );
-		$accounts = array();
-		$i        = 0;
+		$constraints  = json_encode( $params['constraints'] );
+		$member_query = new MemberQuery( null, $constraints );
+		$query        = $member_query->to_gql();
 
-		foreach ( $json['results'] as $account ) {
-			$accounts[] = array( 'email' => $account['profile']['email'] );
-			if ( ++$i >= 5 ) {
-				break;
-			}
+		if ( $query === '' ) {
+			return array(
+				'accounts' => array(),
+				'total' => 0,
+			);
 		}
 
-		return array(
-			'accounts' => $accounts,
-			'total'    => $json['totalCount'],
-		);
+		$searcher = new AccountsSearcher();
+		$accounts = $searcher->search( $query, false, 5 );
+
+		return $accounts;
 	}
 
 }

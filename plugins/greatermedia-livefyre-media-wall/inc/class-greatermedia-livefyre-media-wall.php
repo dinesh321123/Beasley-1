@@ -14,8 +14,9 @@ class GreaterMediaLiveFyreMediaWall {
 
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
-		add_filter( 'the_content', array( $this, 'the_content' ) );
 
+		add_filter( 'gmr_live_link_suggestion_post_types', array( $this, 'extend_live_link_suggestion_post_types' ) );
+		
 	}
 
 	/**
@@ -105,19 +106,18 @@ class GreaterMediaLiveFyreMediaWall {
 	}
 
 	/**
-	 * Implements the_content filter
-	 * Adds a div to be filled with Media Wall content
+	 * Extends live link suggestion post types.
 	 *
-	 * @param string $content
-	 *
-	 * @return string
+	 * @static
+	 * @access public
+	 * @param array $post_types The array of already registered post types.
+	 * @return array The array of extended post types.
 	 */
-	public function the_content( $content ) {
-
-		return '<div id="wall"></div>' . $content;
-
+	public function extend_live_link_suggestion_post_types( $post_types ) {
+		$post_types[] = 'livefyre-media-wall';
+		return $post_types;
 	}
-
+	
 }
 
 $GreaterMediaLiveFyreMediaWall = new GreaterMediaLiveFyreMediaWall();

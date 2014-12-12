@@ -12,10 +12,18 @@ var ActiveConstraintsView = Backbone.CollectionView.extend({
 		var type = model.get('type');
 		var kind = ConstraintCollection.kindForType(type);
 
-		if (kind === 'record') {
-			return EntryConstraintView;
-		} else {
-			return ConstraintView;
+		switch (kind) {
+			case 'record':
+				return EntryConstraintView;
+
+			case 'likes':
+				return LikeConstraintView;
+
+			case 'favorites':
+				return FavoriteConstraintView;
+
+			default:
+				return ConstraintView;
 		}
 	},
 

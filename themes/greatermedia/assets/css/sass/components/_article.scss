@@ -1,0 +1,56 @@
+/*doc
+---
+title: Article Header
+name: article-header
+category: Components - Article
+---
+
+```html_example
+<img src="http://placehold.it/600x400&amp;text=image" alt="placeholder" class="entry__featured-image">
+<header class="entry__header">
+	<time datetime="2014-11-10T20:11:28+00:00" class="entry__date">10 November</time>
+    <h2 class="entry__title"><a href="">Test Show Post</a></h2>
+</header>
+<a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
+<a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
+<a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
+<a href="" class="icon-volume-up social-share-link"></a>
+```
+
+*/
+
+.entry__header {
+	margin-bottom: 2em;
+	
+}
+
+.entry__featured-image {
+	width: 100%;
+	height: auto;
+	margin-bottom: 1em;
+}
+
+.entry__title {
+	margin: 0;
+	margin-bottom: 1em;
+}
+
+/*doc
+---
+title: Article Footer
+name: article-footer
+category: Components - Article
+---
+
+```html_example
+<footer class="entry__tags">
+	<a href="">Category</a> / <a href="">tag one</a>,<a href="">tag two</a>,<a href="">tag three</a>
+</footer>
+```
+
+*/
+
+.entry__tags, .entry__tags a {
+	@extend %mute;
+
+}

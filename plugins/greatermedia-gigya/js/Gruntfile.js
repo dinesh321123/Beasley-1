@@ -12,6 +12,8 @@ module.exports = function(grunt) {
 					'src/models/constraint.js',
 					'src/models/profile_constraint.js',
 					'src/models/entry_constraint.js',
+					'src/models/like_constraint.js',
+					'src/models/favorite_constraint.js',
 					'src/models/available_constraints.js',
 					'src/models/query_result.js',
 
@@ -24,6 +26,8 @@ module.exports = function(grunt) {
 					'src/views/toolbar_view.js',
 					'src/views/constraint_view.js',
 					'src/views/entry_constraint_view.js',
+					'src/views/like_constraint_view.js',
+					'src/views/favorite_constraint_view.js',
 					'src/views/active_constraints_view.js',
 					'src/views/preview_view.js',
 					'src/views/query_result_item_view.js',
@@ -53,7 +57,11 @@ module.exports = function(grunt) {
 		uglify: {
 			dist: {
 				files: {
-					'query_builder.min.js': ['query_builder.js']
+					'query_builder.min.js' : ['query_builder.js'],
+					'gigya_profile.min.js' : ['gigya_profile.js'],
+					'gigya_session.min.js' : ['gigya_session.js'],
+					'wp_ajax_api.min.js'   : ['wp_ajax_api.js'],
+					'settings_page.min.js' : ['settings_page.js']
 				}
 			}
 		},

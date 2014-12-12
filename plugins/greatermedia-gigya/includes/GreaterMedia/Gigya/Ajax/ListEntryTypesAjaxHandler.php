@@ -9,21 +9,18 @@ class ListEntryTypesAjaxHandler extends AjaxHandler {
 	}
 
 	public function run( $params ) {
-		// TODO: This is a job for wpdb, currently in-memory ...
-		// The Tables are wp_posts, wp_postmeta, wp_rg_form
-		// +pagination
+		// TODO: Pagination
 		$contests_args = array( 'post_type' => 'contest', 'post_status' => 'publish' );
-		$query = new \WP_Query( $contests_args );
-		$contests = $query->get_posts();
+		$query      = new \WP_Query( $contests_args );
+		$contests   = $query->get_posts();
 		$entryTypes = [];
 
 		foreach ( $contests as $contest ) {
-			$contest_form_id = get_post_meta( $contest->ID, 'contest_form_id', true );
-			if ( $contest_form_id ) {
-				$form = \GFAPI::get_form( $contest_form_id );
+			$form = get_post_meta( $contest->ID, 'embedded_form', true );
+			if ( $form ) {
 				$entryTypes[] = array(
-					'label' => $form['title'],
-					'value' => $form['id'],
+					'label' => $contest->post_title,
+					'value' => $contest->ID,
 				);
 			}
 		}

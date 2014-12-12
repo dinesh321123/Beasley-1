@@ -1,0 +1,44 @@
+.contest-link a {
+	font-size: 1.6em;
+	line-height: 1;
+	width: auto;
+	text-decoration: none;
+}
+
+.contest-types li {
+	display: inline-block;
+	font-size: 1.2em;
+	line-height: 1;
+	width: auto;
+	text-decoration: none;
+}
+
+.contest-entry-ugc-preview {
+	padding: 1em 0;
+	border-top: 1px dotted #888;
+}
+
+.contest-entry-ugc-preview:first-child {
+	padding: 1em 0;
+	border-top: none;
+}
+
+.ugc-gallery-preview-thumb {
+	margin-right: 1em;
+	display: inline-block;
+}
+
+/**
+ * Override default styles from the formbuilder library
+ */
+.wp-admin .edit-response-field input[type=checkbox] {
+	height: 16px;
+}
+
+#contest_editor #wp-content-editor-tools {
+	background-color: transparent;
+}
+
+#contest_editor {
+	margin-top: 1em;
+}

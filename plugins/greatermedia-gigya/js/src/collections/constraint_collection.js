@@ -25,7 +25,17 @@ var ConstraintCollection = Backbone.Collection.extend({
 		var typeList = type.split(':');
 
 		if (typeList.length > 0) {
-			return typeList[0];
+			var subType = typeList[1];
+
+			// treats profile:likes and profile:favorites
+			// as a custom type
+			if (subType === 'likes') {
+				return 'likes';
+			} else if (subType === 'favorites') {
+				return 'favorites';
+			} else {
+				return typeList[0];
+			}
 		} else {
 			return type;
 		}
@@ -34,7 +44,9 @@ var ConstraintCollection = Backbone.Collection.extend({
 	typesMap: {
 		'system': Constraint,
 		'profile': ProfileConstraint,
-		'record': EntryConstraint
+		'record': EntryConstraint,
+		'likes': LikeConstraint,
+		'favorites': FavoriteConstraint
 	}
 
 });

@@ -10,6 +10,8 @@ namespace GreaterMedia\Gigya;
  */
 class AccountsSearcher {
 
+	public $totalCount;
+
 	/**
 	 * Searches for accounts using the Gigya SDK using the
 	 * accounts.search method.
@@ -21,11 +23,12 @@ class AccountsSearcher {
 	 */
 	public function search( $query, $count = false, $limit = null ) {
 		$query    = $this->prepare_query( $query, $count, $limit );
+		//error_log( $query );
 		$request  = $this->request_for( 'accounts.search', $query );
 		$response = $request->send();
 
 		if ( $response->getErrorCode() === 0 ) {
-			return $this->accounts_for_response( $response );
+			return $this->accounts_for_response( $response, $limit );
 		} else {
 			throw new \Exception( $response->getErrorMessage() );
 		}
@@ -34,10 +37,34 @@ class AccountsSearcher {
 	/**
 	 * Returns the accounts for response.
 	 *
-	 * TODO: iterate with GSSDK objects.
 	 */
-	public function accounts_for_response( $response ) {
-		return $response->getResponseText();
+	public function accounts_for_response( $response, $limit ) {
+		$json       = json_decode( $response->getResponseText(), true );
+		$totalCount = $json['totalCount'];
+
+		if ( $response->getErrorCode() === 0 ) {
+			$accounts = array();
+			$json     = json_decode( $response->getResponseText(), true );
+
+			foreach ( $json['results'] as $account ) {
+				$profile = $account['profile'];
+
+				if ( array_key_exists( 'email', $profile ) ) {
+					$email = $profile['email'];
+				} else {
+					$email = "Unknown Email ({$profile['firstName']} {$profile['lastName']})";
+				}
+
+				$accounts[] = array( 'email' => $email );
+			}
+
+			return array(
+				'accounts' => $accounts,
+				'total'    => $totalCount,
+			);
+		} else {
+			throw new \Exception( $response->getErrorMessage() );
+		}
 	}
 
 	/**
@@ -75,12 +102,7 @@ class AccountsSearcher {
 	 * @return GSRequest
 	 */
 	public function request_for( $method, $query ) {
-		$request = new \GSRequest(
-			GMR_GIGYA_API_KEY,
-			GMR_GIGYA_SECRET_KEY,
-			$method
-		);
-
+		$request = new GigyaRequest( null, null, $method );
 		$request->setParam( 'query',  $query );
 
 		return $request;

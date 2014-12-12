@@ -1,0 +1,81 @@
+/*doc
+---
+title: Related Post
+name: related-post
+category: Components - Article
+---
+
+```html_example
+<article class="related-post">
+	<div class="related-post__img">
+		<img src="http://placehold.it/267x200" alt="4:3" />
+	</div>
+	<div class="related-post__meta">
+		<p class="related-post__title">Lorem ipsum dolor sit amet, consectetur adipisicing elit Lorem ipsum dolor sit amet</p>
+		<time class="related-post__date" datetime="2014-01-15">15 JAN</time>
+	</div>
+</article>
+```
+
+*/
+
+.related-post {
+	max-width: 100%;
+	position: relative;
+	height: 125px;
+
+	@include bp(small) {
+		max-width: 267px;
+		height: auto;
+	}
+}
+
+.related-post__img {
+	width: 40%;
+	height: 100%;
+	float: left;
+	overflow: hidden;
+
+	@include bp(small) {
+		width: 100%;
+		float: none;
+	}
+
+	img {
+		width: auto;
+		height: 100%;
+		max-width: none;
+	}
+}
+
+.related-post__meta {
+	background: $gray-dark;
+	padding: 1em;
+	width: 60%;
+	display: inline-block;
+	float: left;
+	height: 100%;
+
+	@include bp(small) {
+		height: 200px;
+		width: 100%;
+		float: none;
+	}
+}
+
+.related-post__title {
+	color: $secondary-text;
+	font-size: ms(0);
+}
+
+.related-post__date {
+	display: none;
+
+	@include bp(small) {
+		color: $gray-med;
+		font-size: 0.875em;
+		position: absolute;
+		bottom: 1em;
+		display: inline;
+	}
+}

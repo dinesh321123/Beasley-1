@@ -16,28 +16,23 @@
 		body = document.querySelectorAll('body'),
 		$body = $(body),
 		toggleButton = document.querySelectorAll('.gmlp-nav-toggle'),
-		$toggleButton = $(toggleButton);
+		$toggleButton = $(toggleButton),
+		playButton = $('#playButton'),
+		pauseButton = $('#pauseButton');
 
-	// function to toggle a class when the player button is clicked
-	function togglePlayer(){
-		$toggleButton.click(function(){
-			$body.toggleClass('gmlp-open');
-		});
-	}
 
-	// audio player controls
-	function audioPlayer(){
-		$('audio').mediaelementplayer({
-			alwaysShowControls: true,
-			features: ['playpause'],
-			audioWidth: 60,
-			audioHeight: 60
-		});
-	}
+	playButton.on('click', function(event) {
+		event.preventDefault();
+		// add gif file for testing
+		// call pjax to update container
+		if( !gmlp.logged_in ) {
+			$(document).pjax('a:not(.ab-item)', 'section.content', {'fragment': 'section.content', 'maxCacheLength': 500, 'timeout' : 5000});
+		}
 
-	$document.ready(function($){
-		togglePlayer();
-		audioPlayer();
+	});
+
+	pauseButton.on('click', function(event) {
+		event.preventDefault();
 	});
 
 } )(jQuery,window);

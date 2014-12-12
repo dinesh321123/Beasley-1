@@ -11,6 +11,7 @@ get_header();
 	/* we won't display this until we get some actual content
 	if ( is_front_page() || is_home() ) {
 		get_template_part( 'partials/frontpage', 'featured' );
+		get_template_part( 'partials/frontpage', 'highlights' );
 	} */
 
 	?>
@@ -21,40 +22,11 @@ get_header();
 
 			<section class="content">
 
-				<h2>Latest from WMMR</h2>
+				<h2 class="content__heading">Latest from WMMR</h2>
 
 				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-
-						<?php /* <header class="entry-header">
-
-							<div class="entry-type">
-
-								<div class="entry-type--<?php greatermedia_post_formats(); ?>"><?php greatermedia_post_formats(); ?></div>
-
-							</div>
-
-							<div class="entry-author">
-								by
-								<span class="vcard entry-author"><span class="fn url"><?php the_author_posts_link(); ?></span></span>
-								<time datetime="<?php the_time( 'c' ); ?>" class="entry-date"> on <?php the_time( 'l, F jS' ); ?></time>
-								<a href="<?php the_permalink(); ?>/#comments" class="entry-comments--count"><?php comments_number( 'No Comments', '1 Comment', '% Comments' ); ?></a>
-							</div>
-
-							<div class="show entry-show">
-								<div class="show-attr--logo"></div>
-								<div class="show-attr--name">Show Name</div>
-							</div>
-
-							<div class="personality entry-personality">
-								<div class="personality-attr--img"></div>
-								<div class="personality-attr--name">Personality Name</div>
-							</div>
-
-							<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-
-						</header> */ ?>
 
 						<?php
 
@@ -82,33 +54,15 @@ get_header();
 
 						?>
 
-						<footer class="entry-footer">
+						<footer class="entry__footer">
 
-							<div class="entry-author">
-								<div class="entry-author--img">
-									<img src="http://placecreature.com/40/40">
-								</div>
-								<div class="entry-author--meta">
-									<div class="entry-author--name"><?php the_author_posts_link(); ?></div>
-									<time datetime="<?php the_time( 'c' ); ?>" class="entry-date"><?php the_time( 'M. j, Y' ); ?></time>
-								</div>
-							</div>
+							<?php
+								$category = get_the_category();
 
-							<div class="entry-type">
-
-								<div class="entry-type--<?php greatermedia_post_formats(); ?>"><?php greatermedia_post_formats(); ?></div>
-
-							</div>
-
-							<div class="entry-comments">
-
-								<div class="entry-comments--count">
-
-									<a href="<?php the_permalink(); ?>#comments"><?php comments_number( '0', '1', '%' ); ?></a>
-
-								</div>
-
-							</div>
+								if( isset( $category[0] ) ){
+									echo '<a href="' . esc_url( get_category_link($category[0]->term_id ) ) . '" class="entry__footer--category">' . esc_html( $category[0]->cat_name ) . '</a>';
+								}
+							?>
 
 						</footer>
 

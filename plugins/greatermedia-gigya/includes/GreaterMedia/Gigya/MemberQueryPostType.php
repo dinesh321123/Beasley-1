@@ -25,8 +25,14 @@ class MemberQueryPostType {
 	 * @return void
 	 */
 	public function register() {
+		$name = $this->get_post_type_name();
+
 		register_post_type(
-			$this->get_post_type_name(), $this->get_options()
+			$name, $this->get_options()
+		);
+
+		register_post_type(
+			"{$name}_preview", $this->get_preview_options()
 		);
 	}
 
@@ -152,6 +158,7 @@ class MemberQueryPostType {
 			'show_ui'            => true,
 			'show_in_menu'       => true,
 			'query_var'          => false,
+			'can_export'         => true,
 			'rewrite'            => false,
 			'capability_type'    => 'page',
 			'has_archive'        => false,
@@ -159,6 +166,15 @@ class MemberQueryPostType {
 		);
 	}
 
+	public function get_preview_options() {
+		return array(
+			'public'              => false,
+			'exclude_from_search' => true,
+			'publicly_queryable'  => false,
+			'show_ui'             => false,
+			'can_export'          => false,
+		);
+	}
 
 	/**
 	 * The `member_query` CPT only uses the title support. Rest of the

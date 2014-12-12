@@ -1,6 +1,3 @@
-/*! Greater Media Live Player - v0.1.0
- * http://wordpress.org/plugins
- * Copyright (c) 2014; * Licensed GPLv2+ */
 (function ($,window,undefined) {
 	"use strict";
 
@@ -12,33 +9,22 @@
 		$body = $(body),
 		toggleButton = document.querySelectorAll('.gmlp-nav-toggle'),
 		$toggleButton = $(toggleButton),
-		menuLinkSelector = $('#container a');
+		playButton = $('#playButton'),
+		pauseButton = $('#pauseButton');
 
-	// function to toggle a class when the player button is clicked
-	function togglePlayer(){
-		$toggleButton.click(function(){
-			$body.toggleClass('gmlp-open');
-		});
-	}
 
-	// audio player controls
-	function audioPlayer(){
-		$('audio').mediaelementplayer({
-			alwaysShowControls: true,
-			features: ['playpause'],
-			audioWidth: 60,
-			audioHeight: 60
-		});
-	}
+	playButton.on('click', function(event) {
+		event.preventDefault();
+		// add gif file for testing
+		// call pjax to update container
+		if( !gmlp.logged_in ) {
+			$(document).pjax('a:not(.ab-item)', 'section.content', {'fragment': 'section.content', 'maxCacheLength': 500, 'timeout' : 5000});
+		}
 
-	function addLinkClass() {
-		menuLinkSelector.addClass('pjaxer');
-	}
+	});
 
-	$document.ready(function($){
-		togglePlayer();
-		audioPlayer();
-		addLinkClass();
+	pauseButton.on('click', function(event) {
+		event.preventDefault();
 	});
 
 } )(jQuery,window);

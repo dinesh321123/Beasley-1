@@ -1,0 +1,49 @@
+/*doc
+---
+title: Leaderboard
+name: leaderboard
+category: Components - Ads
+---
+
+```html_example
+<div class="ad__leaderboard">
+	<img src="http://placehold.it/728x90&amp;text=leaderboard">
+</div>
+```
+
+*/
+
+.ad__leaderboard {
+	display: none;
+	position: relative;
+	padding: em(20px) 0;
+	@include bp(medium) {
+		display: block;
+		height: 132px;
+	}
+}
+
+.ad__leaderboard img {
+	margin: 0 auto;
+}
+
+/*doc
+---
+title: Inline Ad
+name: inline-ad
+category: Components - Ads
+---
+
+```html_example
+<img class="ad__inline--right" src="http://placehold.it/300x250&amp;text=inline ad">
+```
+*/
+.ad__inline--right {
+	float: none;
+	margin: 0 auto;
+
+	@include bp(medium) {
+		float: right;
+		margin: 0 0 1em 1em;
+	}
+}

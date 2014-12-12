@@ -51,44 +51,6 @@ if (typeof Object.create != 'function') {
 	})();
 }
 
-var WpAjaxApi = function(config) {
-	this.config = config;
-};
-
-WpAjaxApi.prototype = {
-
-	nonceFor: function(action) {
-		return this.config[action + '_nonce'];
-	},
-
-	urlFor: function(action) {
-		var queryParams = {};
-		queryParams[action + '_nonce'] = this.nonceFor(action);
-
-		var url = this.config.ajax_url;
-		url += url.indexOf('?') === -1 ? '?' : '&';
-		url += $.param(queryParams);
-
-		return url;
-	},
-
-	request: function(action, data) {
-		if (!data) {
-			data = {};
-		}
-
-		var url         = this.urlFor(action);
-		var requestData = {
-			'action': action,
-			'action_data': JSON.stringify(data)
-		};
-
-		return $.post(url, requestData);
-	},
-
-};
-
-
 this["JST"] = this["JST"] || {};
 
 this["JST"]["src/templates/constraint.jst"] = function(obj) {
@@ -99,7 +61,7 @@ with (obj) {
 __p += '<ul class="constraint-toolbar">\n\t<li>\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-admin-page copy-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Duplicate"\n\t\t/>\n\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-trash remove-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Remove"\n\t\t/>\n\t</li>\n</ul>\n\n<p class="constraint-title">\n\t' +
 __e( title ) +
 '\n</p>\n\n<select class="constraint-operator" style="width: 35%">\n\t';
- _.each(view.operatorsFor(valueType), function(operatorItem) { ;
+ _.each(view.operatorsFor(valueType, type), function(operatorItem) { ;
 __p += '\n\t<option value="' +
 __e( operatorItem ) +
 '" ' +
@@ -115,7 +77,7 @@ __p += '\n\t<select class="constraint-value" style="width: 45%">\n\t\t';
 __p += '\n\t\t<option value="' +
 __e( choiceItem.value ) +
 '" ' +
-((__t = ( choiceItem.value === value ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+((__t = ( choiceItem.value == value ? 'selected="selected"' : ''  )) == null ? '' : __t) +
 '">\n\t\t' +
 __e( choiceItem.label ) +
 '\n\t\t</option>\n\t\t';
@@ -229,9 +191,13 @@ __e( choiceItem.label ) +
 '\n\t\t</option>\n\t\t';
  }) ;
 __p += '\n\t</select>\n';
- } else if (valueType === 'integer' || valueType === 'float') { ;
-__p += '\n\t<input type="number" class="constraint-value constraint-value-text" value="' +
+ } else if (fieldType === 'number' || fieldType === 'price') { ;
+__p += '\n\t<input type="number" class="constraint-value constraint-value-text"\n\tvalue="' +
 __e( value ) +
+'" min="' +
+__e( fieldOptions.min ) +
+'" max="' +
+__e( fieldOptions.max ) +
 '" />\n';
  } else { ;
 __p += '\n\t<input type="text" class="constraint-value constraint-value-text" value="' +
@@ -276,12 +242,112 @@ with (obj) {
 __p += '\n\t<option value="' +
 __e( choice.value ) +
 '" ' +
-((__t = ( choice.value === currentChoice ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+((__t = ( choice.value == currentChoice ? 'selected="selected"' : ''  )) == null ? '' : __t) +
 '">\n\t' +
 __e( choice.label ) +
 '\n\t</option>\n';
  }); ;
 __p += '\n';
+
+}
+return __p
+};
+
+this["JST"]["src/templates/favorite_constraint.jst"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+with (obj) {
+__p += '<ul class="constraint-toolbar">\n\t<li>\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-admin-page copy-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Duplicate"\n\t\t/>\n\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-trash remove-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Remove"\n\t\t/>\n\t</li>\n</ul>\n\n<p class="constraint-title">\n\t' +
+__e( title ) +
+'\n</p>\n\n<div class="entry-select-group">\n\t<label><strong>Favorite Type: </strong></label>\n\t<select class="favorite-type" style="width: 100%">\n\t\t';
+ _.each(favoriteTypes, function(favoriteItem) { ;
+__p += '\n\t\t<option value="' +
+__e( favoriteItem.value ) +
+'" ' +
+((__t = ( favoriteItem.value == favoriteType ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t\t' +
+__e( favoriteItem.label ) +
+'\n\t\t</option>\n\t\t';
+ }) ;
+__p += '\n\t</select>\n</div>\n\n<div class="entry-select-group">\n\t<label><strong>Category: </strong></label>\n\t<select class="favorite-category" style="width: 100%">\n\t\t';
+ _.each(categories, function(categoryItem) { ;
+__p += '\n\t\t<option value="' +
+__e( categoryItem.value ) +
+'" ' +
+((__t = ( categoryItem.value == category ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t\t' +
+__e( categoryItem.label ) +
+'\n\t\t</option>\n\t\t';
+ }) ;
+__p += '\n\t</select>\n</div>\n\n<div class="entry-answer-group">\n\t<label><strong>Favorite: </strong></label>\n\n\t<select class="constraint-operator" style="width: 35%">\n\t\t';
+ _.each(view.operatorsFor(valueType), function(operatorItem) { ;
+__p += '\n\t\t<option value="' +
+__e( operatorItem ) +
+'" ' +
+((__t = ( operatorItem === operator ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t\t' +
+__e( operatorItem ) +
+'\n\t\t</option>\n\t\t';
+ }) ;
+__p += '\n\t</select>\n\n\t<input type="text" class="constraint-value constraint-value-text" value="' +
+__e( value ) +
+'" />\n\n\t<select class="constraint-conjunction" style="width: 15%">\n\t\t';
+ _.each(view.conjunctions, function(conjunctionItem) { ;
+__p += '\n\t\t<option value="' +
+__e( conjunctionItem ) +
+'" ' +
+((__t = ( conjunctionItem === conjunction ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t\t' +
+__e( conjunctionItem ) +
+'\n\t\t</option>\n\t\t';
+ }) ;
+__p += '\n\t</select>\n</div>\n\n';
+
+}
+return __p
+};
+
+this["JST"]["src/templates/like_constraint.jst"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+with (obj) {
+__p += '<ul class="constraint-toolbar">\n\t<li>\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-admin-page copy-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Duplicate"\n\t\t/>\n\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-trash remove-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Remove"\n\t\t/>\n\t</li>\n</ul>\n\n<p class="constraint-title">\n\t' +
+__e( title ) +
+'\n</p>\n\n<div class="entry-select-group">\n\t<label><strong>Category: </strong></label>\n\t<select class="like-category" style="width: 100%">\n\t\t';
+ _.each(categories, function(categoryItem) { ;
+__p += '\n\t\t<option value="' +
+__e( categoryItem.value ) +
+'" ' +
+((__t = ( categoryItem.value == category ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t\t' +
+__e( categoryItem.label ) +
+'\n\t\t</option>\n\t\t';
+ }) ;
+__p += '\n\t</select>\n</div>\n\n<div class="entry-answer-group">\n\t<label><strong>Like: </strong></label>\n\n\t<select class="constraint-operator" style="width: 35%">\n\t\t';
+ _.each(view.operatorsFor(valueType), function(operatorItem) { ;
+__p += '\n\t\t<option value="' +
+__e( operatorItem ) +
+'" ' +
+((__t = ( operatorItem === operator ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t\t' +
+__e( operatorItem ) +
+'\n\t\t</option>\n\t\t';
+ }) ;
+__p += '\n\t</select>\n\n\t<input type="text" class="constraint-value constraint-value-text" value="' +
+__e( value ) +
+'" />\n\n\t<select class="constraint-conjunction" style="width: 15%">\n\t\t';
+ _.each(view.conjunctions, function(conjunctionItem) { ;
+__p += '\n\t\t<option value="' +
+__e( conjunctionItem ) +
+'" ' +
+((__t = ( conjunctionItem === conjunction ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t\t' +
+__e( conjunctionItem ) +
+'\n\t\t</option>\n\t\t';
+ }) ;
+__p += '\n\t</select>\n</div>\n';
 
 }
 return __p
@@ -324,7 +390,8 @@ var EntryField = Backbone.Model.extend({
 		label: '',
 		value: '',
 		type: '',
-		choices: []
+		choices: [],
+		fieldOptions: {}
 	}
 });
 
@@ -421,14 +488,18 @@ var EntryConstraint = Constraint.extend({
 
 	didLoadEntryTypes: function(response) {
 		var entryTypes = this.entryTypes;
-		entryTypes.reset(response.data);
+		entryTypes.reset(response.data, {silent:true});
 
 		if (this.get('entryTypeID') === -1) {
 			// auto-select first entry
-			this.set('entryTypeID', entryTypes.at(0).get('value'));
-		} else {
-			this.didChangeEntryTypeID();
+			var first = entryTypes.at(0);
+			if (first !== undefined) {
+				this.set('entryTypeID', first.get('value'), {silent:true});
+			}
 		}
+
+		this.entryTypes.trigger('reset');
+		this.loadEntryFields();
 	},
 
 	didLoadEntryTypesError: function(response) {
@@ -448,12 +519,20 @@ var EntryConstraint = Constraint.extend({
 
 	didLoadEntryFields: function(response) {
 		var entryFields = this.getEntryFields();
-		entryFields.reset(response.data);
+		var first;
+
+		entryFields.reset(response.data, {silent:true});
 
 		if (this.get('entryFieldID') === -1) {
 			// auto-select first field
-			this.set('entryFieldID', entryFields.at(0).get('value'));
+			first = entryFields.at(0);
+			if (first !== undefined) {
+				this.set('entryFieldID', first.get('value'), {silent:true});
+			}
 		}
+
+		entryFields.trigger('reset');
+		this.trigger('change');
 	},
 
 	didLoadEntryFieldsError: function(response) {
@@ -468,10 +547,14 @@ var EntryConstraint = Constraint.extend({
 		return this.entryFields;
 	},
 
-	getEntryFieldChoices: function() {
+	getEntryFieldChoices: function(entryFieldID) {
+		if (!entryFieldID) {
+			entryFieldID = this.get('entryFieldID');
+		}
+
 		var fieldCollection = this.getEntryFields();
 		var field           = fieldCollection.findWhere({
-			value: this.get('entryFieldID')
+			value: entryFieldID
 		});
 
 		if (field) {
@@ -486,12 +569,253 @@ var EntryConstraint = Constraint.extend({
 		}
 	},
 
+	getEntryFieldOptions: function() {
+		var fieldCollection = this.getEntryFields();
+		var field           = fieldCollection.findWhere({
+			value: this.get('entryFieldID')
+		});
+
+		if (field) {
+			return field.get('fieldOptions');
+		} else {
+			return {};
+		}
+	},
+
+	getEntryFieldType: function() {
+		var fieldOptions = this.getEntryFieldOptions();
+		if (fieldOptions.fieldType) {
+			return fieldOptions.fieldType;
+		} else {
+			return 'text';
+		}
+	},
+
 	hasChoices: function() {
 		var choices = this.getEntryFieldChoices();
 		return choices.length > 0;
 	}
 
 });
+
+var LikeConstraint = Constraint.extend({
+
+	defaults        : {
+		type        : 'profile:likes',
+		operator    : 'equals',
+		conjunction : 'and',
+		valueType   : 'string',
+		value       : '',
+		category    : 'Any Category',
+	},
+
+	getCategories: function() {
+		return FACEBOOK_CATEGORIES;
+	}
+
+});
+
+FACEBOOK_CATEGORIES = [
+	{ label: 'Actor/Director' },
+	{ label: 'Movie' },
+	{ label: 'Producer' },
+	{ label: 'Writer' },
+	{ label: 'Studio' },
+	{ label: 'Movie Theater' },
+	{ label: 'TV/Movie Award' },
+	{ label: 'Fictional Character' },
+	{ label: 'Movie Character' },
+	{ label: 'Album' },
+	{ label: 'Song' },
+	{ label: 'Musician/Band' },
+	{ label: 'Music Video' },
+	{ label: 'Concert Tour' },
+	{ label: 'Concert Venue' },
+	{ label: 'Radio Station' },
+	{ label: 'Record Label' },
+	{ label: 'Music Award' },
+	{ label: 'Music Chart' },
+	{ label: 'Book' },
+	{ label: 'Author' },
+	{ label: 'Book Store' },
+	{ label: 'Library' },
+	{ label: 'Magazine' },
+	{ label: 'Book Series' },
+	{ label: 'TV Show' },
+	{ label: 'TV Network' },
+	{ label: 'TV Channel' },
+	{ label: 'Athlete' },
+	{ label: 'Artist' },
+	{ label: 'Public Figure' },
+	{ label: 'Journalist' },
+	{ label: 'News Personality' },
+	{ label: 'Chef' },
+	{ label: 'Lawyer' },
+	{ label: 'Doctor' },
+	{ label: 'Business Person' },
+	{ label: 'Comedian' },
+	{ label: 'Entertainer' },
+	{ label: 'Teacher' },
+	{ label: 'Dancer' },
+	{ label: 'Designer' },
+	{ label: 'Photographer' },
+	{ label: 'Entrepreneur' },
+	{ label: 'Politician' },
+	{ label: 'Government Official' },
+	{ label: 'Sports League' },
+	{ label: 'Professional Sports Team' },
+	{ label: 'Coach' },
+	{ label: 'Amateur Sports Team' },
+	{ label: 'School Sports Team' },
+	{ label: 'Restaurant/Cafe' },
+	{ label: 'Bar' },
+	{ label: 'Club' },
+	{ label: 'Company' },
+	{ label: 'Product/Service' },
+	{ label: 'Website' },
+	{ label: 'Cars' },
+	{ label: 'Bags/Luggage' },
+	{ label: 'Camera/Photo' },
+	{ label: 'Clothing' },
+	{ label: 'Computers' },
+	{ label: 'Software' },
+	{ label: 'Office Supplies' },
+	{ label: 'Electronics' },
+	{ label: 'Health/Beauty' },
+	{ label: 'Appliances' },
+	{ label: 'Building Materials' },
+	{ label: 'Commercial Equipment' },
+	{ label: 'Home Decor' },
+	{ label: 'Furniture' },
+	{ label: 'Household Supplies' },
+	{ label: 'Kitchen/Cooking' },
+	{ label: 'Patio/Garden' },
+	{ label: 'Tools/Equipment' },
+	{ label: 'Wine/Spirits' },
+	{ label: 'Jewelry/Watches' },
+	{ label: 'Pet Supplies' },
+	{ label: 'Outdoor Gear/Sporting Goods' },
+	{ label: 'Baby Goods/Kids Goods' },
+	{ label: 'Media/News/Publishing' },
+	{ label: 'Bank/Financial Institution' },
+	{ label: 'Non-Governmental Organization (NGO)' },
+	{ label: 'Insurance Company' },
+	{ label: 'Small Business' },
+	{ label: 'Energy/Utility' },
+	{ label: 'Retail and Consumer Merchandise' },
+	{ label: 'Automobiles and Parts' },
+	{ label: 'Industrials' },
+	{ label: 'Transport/Freight' },
+	{ label: 'Health/Medical/Pharmaceuticals' },
+	{ label: 'Aerospace/Defense' },
+	{ label: 'Mining/Materials' },
+	{ label: 'Farming/Agriculture' },
+	{ label: 'Chemicals' },
+	{ label: 'Consulting/Business Services' },
+	{ label: 'Legal/Law' },
+	{ label: 'Education' },
+	{ label: 'Engineering/Construction' },
+	{ label: 'Food/Beverages' },
+	{ label: 'Telecommunication' },
+	{ label: 'Biotechnology' },
+	{ label: 'Computers/Technology' },
+	{ label: 'Internet/Software' },
+	{ label: 'Travel/Leisure' },
+	{ label: 'Community Organization' },
+	{ label: 'Political Organization' },
+	{ label: 'Vitamins/Supplements' },
+	{ label: 'Drugs' },
+	{ label: 'Church/Religious Organization' },
+	{ label: 'Phone/Tablet' },
+	{ label: 'Games/Toys' },
+	{ label: 'App Page' },
+	{ label: 'Video Game' },
+	{ label: 'Board Game' },
+	{ label: 'Local Business' },
+	{ label: 'Hotel' },
+	{ label: 'Landmark' },
+	{ label: 'Airport' },
+	{ label: 'Sports Venue' },
+	{ label: 'Arts/Entertainment/Nightlife' },
+	{ label: 'Automotive' },
+	{ label: 'Spas/Beauty/Personal Care' },
+	{ label: 'Event Planning/Event Services' },
+	{ label: 'Bank/Financial Services' },
+	{ label: 'Food/Grocery' },
+	{ label: 'Health/Medical/Pharmacy' },
+	{ label: 'Home Improvement' },
+	{ label: 'Pet Services' },
+	{ label: 'Professional Services' },
+	{ label: 'Business Services' },
+	{ label: 'Community/Government' },
+	{ label: 'Real Estate' },
+	{ label: 'Shopping/Retail' },
+	{ label: 'Public Places' },
+	{ label: 'Attractions/Things to Do' },
+	{ label: 'Sports/Recreation/Activities' },
+	{ label: 'Tours/Sightseeing' },
+	{ label: 'Transportation' },
+	{ label: 'Hospital/Clinic' },
+	{ label: 'Museum/Art Gallery' },
+	{ label: 'Organization' },
+	{ label: 'School' },
+	{ label: 'University' },
+	{ label: 'Non-Profit Organization' },
+	{ label: 'Government Organization' },
+	{ label: 'Cause' },
+	{ label: 'Political Party' },
+	{ label: 'Pet' },
+	{ label: 'Middle School' },
+];
+
+(function() {
+	var i = 0;
+	var n = FACEBOOK_CATEGORIES.length;
+	var category;
+
+	for (i = 0; i < n; i++) {
+		category = FACEBOOK_CATEGORIES[i];
+		if (!category.value) {
+			category.value = category.label;
+		}
+	}
+
+	FACEBOOK_CATEGORIES = _.sortBy(FACEBOOK_CATEGORIES, 'label');
+	FACEBOOK_CATEGORIES.unshift({
+		label: 'Any Category', value: 'Any Category'
+	});
+
+}());
+
+var FavoriteConstraint = Constraint.extend({
+
+	defaults        : {
+		type        : 'profile:favorites',
+		operator    : 'equals',
+		conjunction : 'and',
+		valueType   : 'string',
+		value       : '',
+		favoriteType: 'music',
+		category    : 'Any Category',
+	},
+
+	getCategories: function() {
+		return FACEBOOK_CATEGORIES;
+	},
+
+	getFavoriteTypes: function() {
+		return FACEBOOK_FAVORITE_TYPES;
+	}
+
+});
+
+FACEBOOK_FAVORITE_TYPES = [
+	{ label: 'Interests'  , value: 'interests'  } ,
+	{ label: 'Music'      , value: 'music'      } ,
+	{ label: 'Television' , value: 'television' } ,
+	{ label: 'Activities' , value: 'activities' } ,
+	{ label: 'Books'      , value: 'books'      }
+];
 
 var AVAILABLE_CONSTRAINTS = [
 
@@ -502,42 +826,31 @@ var AVAILABLE_CONSTRAINTS = [
 		value: '01/01/2012'
 	},
 	{
-		type: 'system:isActive',
-		valueType: 'boolean',
-	},
-	{
-		type: 'system:isRegistered',
-		valueType: 'boolean',
-	},
-	{
 		type: 'system:lastLoginTimestamp',
 		valueType: 'date',
 		value: '01/01/2014'
 	},
 	{
-		type: 'system:verified',
+		type: 'system:isActive',
 		valueType: 'boolean',
+		value: true,
+	},
+	{
+		type: 'system:isRegistered',
+		valueType: 'boolean',
+		value: true,
+	},
+	{
+		type: 'system:isVerified',
+		valueType: 'boolean',
+		value: true,
 	},
 
 	/* Profile fields */
 	{
-		type: 'profile:birthYear',
-		valueType: 'integer',
-		value: 1990
-	},
-	{
-		type: 'profile:country',
-		valueType: 'string',
-		value: 'United States'
-	},
-	{
-		type: 'profile:zip',
-		valueType: 'string',
-		value: '01001'
-	},
-	{
 		type: 'profile:gender',
-		valueType: 'string'
+		valueType: 'string',
+		value: 'm'
 	},
 	{
 		type: 'profile:age',
@@ -552,7 +865,12 @@ var AVAILABLE_CONSTRAINTS = [
 	{
 		type: 'profile:birthMonth',
 		valueType: 'integer',
-		value: 2
+		value: 1
+	},
+	{
+		type: 'profile:birthYear',
+		valueType: 'integer',
+		value: 1990
 	},
 	{
 		type: 'profile:state',
@@ -564,8 +882,33 @@ var AVAILABLE_CONSTRAINTS = [
 		valueType: 'string'
 	},
 	{
+		type: 'profile:country',
+		valueType: 'string',
+		value: 'United States'
+	},
+	{
+		type: 'profile:zip',
+		valueType: 'string',
+		value: '01001'
+	},
+	{
 		type: 'profile:timezone',
-		valueType: 'string'
+		valueType: 'string',
+		value: 'America/New_York',
+	},
+
+	// Facebook
+	{
+		type: 'profile:likes',
+		valueType: 'string',
+		category: 'Any Category',
+		value: ''
+	},
+	{
+		type: 'profile:favorites',
+		valueType: 'string',
+		category: 'Any Category',
+		value: ''
 	},
 
 	/* Contests */
@@ -608,7 +951,7 @@ var AVAILABLE_CONSTRAINTS_META = [
 		title: 'Last Logged In'
 	},
 	{
-		type: 'system:verified',
+		type: 'system:isVerified',
 		title: 'Verified Status',
 		choices: [
 			{ label: 'Verified', value: true },
@@ -618,6 +961,14 @@ var AVAILABLE_CONSTRAINTS_META = [
 
 	/* Profile Fields */
 	{
+		type: 'profile:likes',
+		title: 'Facebook Likes'
+	},
+	{
+		type: 'profile:favorites',
+		title: 'Facebook Favorites'
+	},
+	{
 		type: 'profile:birthYear',
 		title: 'Birth Year'
 	},
@@ -625,213 +976,213 @@ var AVAILABLE_CONSTRAINTS_META = [
 		type: 'profile:country',
 		title: 'Country',
 		choices: [
-			{ label: 'Afghanistan', value: 'Afghanistan' },
-			{ label: 'Albania', value: 'Albania' },
-			{ label: 'Algeria', value: 'Algeria' },
-			{ label: 'American Samoa', value: 'Samoa' },
-			{ label: 'Andorra', value: 'Andorra' },
-			{ label: 'Angola', value: 'Angola' },
-			{ label: 'Antigua and Barbuda', value: 'Barbuda' },
-			{ label: 'Argentina', value: 'Argentina' },
-			{ label: 'Armenia', value: 'Armenia' },
-			{ label: 'Australia', value: 'Australia' },
-			{ label: 'Austria', value: 'Austria' },
-			{ label: 'Azerbaijan', value: 'Azerbaijan' },
-			{ label: 'Bahamas', value: 'Bahamas' },
-			{ label: 'Bahrain', value: 'Bahrain' },
-			{ label: 'Bangladesh', value: 'Bangladesh' },
-			{ label: 'Barbados', value: 'Barbados' },
-			{ label: 'Belarus', value: 'Belarus' },
-			{ label: 'Belgium', value: 'Belgium' },
-			{ label: 'Belize', value: 'Belize' },
-			{ label: 'Benin', value: 'Benin' },
-			{ label: 'Bermuda', value: 'Bermuda' },
-			{ label: 'Bhutan', value: 'Bhutan' },
-			{ label: 'Bolivia', value: 'Bolivia' },
-			{ label: 'Bosnia and Herzegovina', value: 'Herzegovina' },
-			{ label: 'Botswana', value: 'Botswana' },
-			{ label: 'Brazil', value: 'Brazil' },
-			{ label: 'Brunei', value: 'Brunei' },
-			{ label: 'Bulgaria', value: 'Bulgaria' },
-			{ label: 'Burkina Faso', value: 'Faso' },
-			{ label: 'Burundi', value: 'Burundi' },
-			{ label: 'Cambodia', value: 'Cambodia' },
-			{ label: 'Cameroon', value: 'Cameroon' },
-			{ label: 'Canada', value: 'Canada' },
-			{ label: 'Cape Verde', value: 'Verde' },
-			{ label: 'Cayman Islands', value: 'Islands' },
-			{ label: 'Central African Republic', value: 'Republic' },
-			{ label: 'Chad', value: 'Chad' },
-			{ label: 'Chile', value: 'Chile' },
-			{ label: 'China', value: 'China' },
-			{ label: 'Colombia', value: 'Colombia' },
-			{ label: 'Comoros', value: 'Comoros' },
-			{ label: 'Congo, Democratic Republic of the', value: 'the' },
-			{ label: 'Congo, Republic of the', value: 'the' },
-			{ label: 'Costa Rica', value: 'Rica' },
-			{ label: 'Croatia', value: 'Croatia' },
-			{ label: 'Cuba', value: 'Cuba' },
-			{ label: 'Cyprus', value: 'Cyprus' },
-			{ label: 'Czech Republic', value: 'Republic' },
-			{ label: 'Denmark', value: 'Denmark' },
-			{ label: 'Djibouti', value: 'Djibouti' },
-			{ label: 'Dominica', value: 'Dominica' },
-			{ label: 'Dominican Republic', value: 'Republic' },
-			{ label: 'East Timor', value: 'Timor' },
-			{ label: 'Ecuador', value: 'Ecuador' },
-			{ label: 'Egypt', value: 'Egypt' },
-			{ label: 'El Salvador', value: 'Salvador' },
-			{ label: 'Equatorial Guinea', value: 'Guinea' },
-			{ label: 'Eritrea', value: 'Eritrea' },
-			{ label: 'Estonia', value: 'Estonia' },
-			{ label: 'Ethiopia', value: 'Ethiopia' },
-			{ label: 'Fiji', value: 'Fiji' },
-			{ label: 'Finland', value: 'Finland' },
-			{ label: 'France', value: 'France' },
-			{ label: 'French Polynesia', value: 'Polynesia' },
-			{ label: 'Gabon', value: 'Gabon' },
-			{ label: 'Gambia', value: 'Gambia' },
-			{ label: 'Georgia', value: 'Georgia' },
-			{ label: 'Germany', value: 'Germany' },
-			{ label: 'Ghana', value: 'Ghana' },
-			{ label: 'Greece', value: 'Greece' },
-			{ label: 'Greenland', value: 'Greenland' },
-			{ label: 'Grenada', value: 'Grenada' },
-			{ label: 'Guam', value: 'Guam' },
-			{ label: 'Guatemala', value: 'Guatemala' },
-			{ label: 'Guinea', value: 'Guinea' },
-			{ label: 'Guinea-Bissau', value: 'Bissau' },
-			{ label: 'Guyana', value: 'Guyana' },
-			{ label: 'Haiti', value: 'Haiti' },
-			{ label: 'Honduras', value: 'Honduras' },
-			{ label: 'Hong Kong', value: 'Kong' },
-			{ label: 'Hungary', value: 'Hungary' },
-			{ label: 'Iceland', value: 'Iceland' },
-			{ label: 'India', value: 'India' },
-			{ label: 'Indonesia', value: 'Indonesia' },
-			{ label: 'Iran', value: 'Iran' },
-			{ label: 'Iraq', value: 'Iraq' },
-			{ label: 'Ireland', value: 'Ireland' },
-			{ label: 'Israel', value: 'Israel' },
-			{ label: 'Italy', value: 'Italy' },
-			{ label: 'Jamaica', value: 'Jamaica' },
-			{ label: 'Japan', value: 'Japan' },
-			{ label: 'Jordan', value: 'Jordan' },
-			{ label: 'Kazakhstan', value: 'Kazakhstan' },
-			{ label: 'Kenya', value: 'Kenya' },
-			{ label: 'Kiribati', value: 'Kiribati' },
-			{ label: 'North Korea', value: 'Korea' },
-			{ label: 'South Korea', value: 'Korea' },
-			{ label: 'Kosovo', value: 'Kosovo' },
-			{ label: 'Kuwait', value: 'Kuwait' },
-			{ label: 'Kyrgyzstan', value: 'Kyrgyzstan' },
-			{ label: 'Laos', value: 'Laos' },
-			{ label: 'Latvia', value: 'Latvia' },
-			{ label: 'Lebanon', value: 'Lebanon' },
-			{ label: 'Lesotho', value: 'Lesotho' },
-			{ label: 'Liberia', value: 'Liberia' },
-			{ label: 'Libya', value: 'Libya' },
-			{ label: 'Liechtenstein', value: 'Liechtenstein' },
-			{ label: 'Lithuania', value: 'Lithuania' },
-			{ label: 'Luxembourg', value: 'Luxembourg' },
-			{ label: 'Macedonia', value: 'Macedonia' },
-			{ label: 'Madagascar', value: 'Madagascar' },
-			{ label: 'Malawi', value: 'Malawi' },
-			{ label: 'Malaysia', value: 'Malaysia' },
-			{ label: 'Maldives', value: 'Maldives' },
-			{ label: 'Mali', value: 'Mali' },
-			{ label: 'Malta', value: 'Malta' },
-			{ label: 'Marshall Islands', value: 'Islands' },
-			{ label: 'Mauritania', value: 'Mauritania' },
-			{ label: 'Mauritius', value: 'Mauritius' },
-			{ label: 'Mexico', value: 'Mexico' },
-			{ label: 'Micronesia', value: 'Micronesia' },
-			{ label: 'Moldova', value: 'Moldova' },
-			{ label: 'Monaco', value: 'Monaco' },
-			{ label: 'Mongolia', value: 'Mongolia' },
-			{ label: 'Montenegro', value: 'Montenegro' },
-			{ label: 'Morocco', value: 'Morocco' },
-			{ label: 'Mozambique', value: 'Mozambique' },
-			{ label: 'Myanmar', value: 'Myanmar' },
-			{ label: 'Namibia', value: 'Namibia' },
-			{ label: 'Nauru', value: 'Nauru' },
-			{ label: 'Nepal', value: 'Nepal' },
-			{ label: 'Netherlands', value: 'Netherlands' },
-			{ label: 'New Zealand', value: 'Zealand' },
-			{ label: 'Nicaragua', value: 'Nicaragua' },
-			{ label: 'Niger', value: 'Niger' },
-			{ label: 'Nigeria', value: 'Nigeria' },
-			{ label: 'Norway', value: 'Norway' },
-			{ label: 'Northern Mariana Islands', value: 'Islands' },
-			{ label: 'Oman', value: 'Oman' },
-			{ label: 'Pakistan', value: 'Pakistan' },
-			{ label: 'Palau', value: 'Palau' },
-			{ label: 'Palestine', value: 'Palestine' },
-			{ label: 'Panama', value: 'Panama' },
-			{ label: 'Papua New Guinea', value: 'Guinea' },
-			{ label: 'Paraguay', value: 'Paraguay' },
-			{ label: 'Peru', value: 'Peru' },
-			{ label: 'Philippines', value: 'Philippines' },
-			{ label: 'Poland', value: 'Poland' },
-			{ label: 'Portugal', value: 'Portugal' },
-			{ label: 'Puerto Rico', value: 'Rico' },
-			{ label: 'Qatar', value: 'Qatar' },
-			{ label: 'Romania', value: 'Romania' },
-			{ label: 'Russia', value: 'Russia' },
-			{ label: 'Rwanda', value: 'Rwanda' },
-			{ label: 'Saint Kitts and Nevis', value: 'Nevis' },
-			{ label: 'Saint Lucia', value: 'Lucia' },
-			{ label: 'Saint Vincent and the Grenadines', value: 'Grenadines' },
-			{ label: 'Samoa', value: 'Samoa' },
-			{ label: 'San Marino', value: 'Marino' },
-			{ label: 'Sao Tome and Principe', value: 'Principe' },
-			{ label: 'Saudi Arabia', value: 'Arabia' },
-			{ label: 'Senegal', value: 'Senegal' },
-			{ label: 'Serbia and Montenegro', value: 'Montenegro' },
-			{ label: 'Seychelles', value: 'Seychelles' },
-			{ label: 'Sierra Leone', value: 'Leone' },
-			{ label: 'Singapore', value: 'Singapore' },
-			{ label: 'Slovakia', value: 'Slovakia' },
-			{ label: 'Slovenia', value: 'Slovenia' },
-			{ label: 'Solomon Islands', value: 'Islands' },
-			{ label: 'Somalia', value: 'Somalia' },
-			{ label: 'South Africa', value: 'South Africa' },
-			{ label: 'Spain', value: 'Spain' },
-			{ label: 'Sri Lanka', value: 'Lanka' },
-			{ label: 'Sudan', value: 'Sudan' },
-			{ label: 'Sudan, South', value: 'South' },
-			{ label: 'Suriname', value: 'Suriname' },
-			{ label: 'Swaziland', value: 'Swaziland' },
-			{ label: 'Sweden', value: 'Sweden' },
-			{ label: 'Switzerland', value: 'Switzerland' },
-			{ label: 'Syria', value: 'Syria' },
-			{ label: 'Taiwan', value: 'Taiwan' },
-			{ label: 'Tajikistan', value: 'Tajikistan' },
-			{ label: 'Tanzania', value: 'Tanzania' },
-			{ label: 'Thailand', value: 'Thailand' },
-			{ label: 'Togo', value: 'Togo' },
-			{ label: 'Tonga', value: 'Tonga' },
-			{ label: 'Trinidad and Tobago', value: 'Tobago' },
-			{ label: 'Tunisia', value: 'Tunisia' },
-			{ label: 'Turkey', value: 'Turkey' },
-			{ label: 'Turkmenistan', value: 'Turkmenistan' },
-			{ label: 'Tuvalu', value: 'Tuvalu' },
-			{ label: 'Uganda', value: 'Uganda' },
-			{ label: 'Ukraine', value: 'Ukraine' },
-			{ label: 'United Arab Emirates', value: 'Emirates' },
-			{ label: 'United Kingdom', value: 'Kingdom' },
-			{ label: 'United States', value: 'United States' },
-			{ label: 'Uruguay', value: 'Uruguay' },
-			{ label: 'Uzbekistan', value: 'Uzbekistan' },
-			{ label: 'Vanuatu', value: 'Vanuatu' },
-			{ label: 'Vatican City', value: 'City' },
-			{ label: 'Venezuela', value: 'Venezuela' },
-			{ label: 'Vietnam', value: 'Vietnam' },
-			{ label: 'Virgin Islands, British', value: 'British' },
-			{ label: 'Virgin Islands, U.S.', value: 'Virgin Islands, US' },
-			{ label: 'Yemen', value: 'Yemen' },
-			{ label: 'Zambia', value: 'Zambia' },
-			{ label: 'Zimbabwe', value: 'Zimbabwe' },
+			{ label: 'Afghanistan',                       value: 'Afghanistan'        } ,
+			{ label: 'Albania',                           value: 'Albania'            } ,
+			{ label: 'Algeria',                           value: 'Algeria'            } ,
+			{ label: 'American Samoa',                    value: 'Samoa'              } ,
+			{ label: 'Andorra',                           value: 'Andorra'            } ,
+			{ label: 'Angola',                            value: 'Angola'             } ,
+			{ label: 'Antigua and Barbuda',               value: 'Barbuda'            } ,
+			{ label: 'Argentina',                         value: 'Argentina'          } ,
+			{ label: 'Armenia',                           value: 'Armenia'            } ,
+			{ label: 'Australia',                         value: 'Australia'          } ,
+			{ label: 'Austria',                           value: 'Austria'            } ,
+			{ label: 'Azerbaijan',                        value: 'Azerbaijan'         } ,
+			{ label: 'Bahamas',                           value: 'Bahamas'            } ,
+			{ label: 'Bahrain',                           value: 'Bahrain'            } ,
+			{ label: 'Bangladesh',                        value: 'Bangladesh'         } ,
+			{ label: 'Barbados',                          value: 'Barbados'           } ,
+			{ label: 'Belarus',                           value: 'Belarus'            } ,
+			{ label: 'Belgium',                           value: 'Belgium'            } ,
+			{ label: 'Belize',                            value: 'Belize'             } ,
+			{ label: 'Benin',                             value: 'Benin'              } ,
+			{ label: 'Bermuda',                           value: 'Bermuda'            } ,
+			{ label: 'Bhutan',                            value: 'Bhutan'             } ,
+			{ label: 'Bolivia',                           value: 'Bolivia'            } ,
+			{ label: 'Bosnia and Herzegovina',            value: 'Herzegovina'        } ,
+			{ label: 'Botswana',                          value: 'Botswana'           } ,
+			{ label: 'Brazil',                            value: 'Brazil'             } ,
+			{ label: 'Brunei',                            value: 'Brunei'             } ,
+			{ label: 'Bulgaria',                          value: 'Bulgaria'           } ,
+			{ label: 'Burkina Faso',                      value: 'Faso'               } ,
+			{ label: 'Burundi',                           value: 'Burundi'            } ,
+			{ label: 'Cambodia',                          value: 'Cambodia'           } ,
+			{ label: 'Cameroon',                          value: 'Cameroon'           } ,
+			{ label: 'Canada',                            value: 'Canada'             } ,
+			{ label: 'Cape Verde',                        value: 'Verde'              } ,
+			{ label: 'Cayman Islands',                    value: 'Islands'            } ,
+			{ label: 'Central African Republic',          value: 'Republic'           } ,
+			{ label: 'Chad',                              value: 'Chad'               } ,
+			{ label: 'Chile',                             value: 'Chile'              } ,
+			{ label: 'China',                             value: 'China'              } ,
+			{ label: 'Colombia',                          value: 'Colombia'           } ,
+			{ label: 'Comoros',                           value: 'Comoros'            } ,
+			{ label: 'Congo, Democratic Republic of the', value: 'the'                } ,
+			{ label: 'Congo, Republic of the',            value: 'the'                } ,
+			{ label: 'Costa Rica',                        value: 'Rica'               } ,
+			{ label: 'Croatia',                           value: 'Croatia'            } ,
+			{ label: 'Cuba',                              value: 'Cuba'               } ,
+			{ label: 'Cyprus',                            value: 'Cyprus'             } ,
+			{ label: 'Czech Republic',                    value: 'Republic'           } ,
+			{ label: 'Denmark',                           value: 'Denmark'            } ,
+			{ label: 'Djibouti',                          value: 'Djibouti'           } ,
+			{ label: 'Dominica',                          value: 'Dominica'           } ,
+			{ label: 'Dominican Republic',                value: 'Republic'           } ,
+			{ label: 'East Timor',                        value: 'Timor'              } ,
+			{ label: 'Ecuador',                           value: 'Ecuador'            } ,
+			{ label: 'Egypt',                             value: 'Egypt'              } ,
+			{ label: 'El Salvador',                       value: 'Salvador'           } ,
+			{ label: 'Equatorial Guinea',                 value: 'Guinea'             } ,
+			{ label: 'Eritrea',                           value: 'Eritrea'            } ,
+			{ label: 'Estonia',                           value: 'Estonia'            } ,
+			{ label: 'Ethiopia',                          value: 'Ethiopia'           } ,
+			{ label: 'Fiji',                              value: 'Fiji'               } ,
+			{ label: 'Finland',                           value: 'Finland'            } ,
+			{ label: 'France',                            value: 'France'             } ,
+			{ label: 'French Polynesia',                  value: 'Polynesia'          } ,
+			{ label: 'Gabon',                             value: 'Gabon'              } ,
+			{ label: 'Gambia',                            value: 'Gambia'             } ,
+			{ label: 'Georgia',                           value: 'Georgia'            } ,
+			{ label: 'Germany',                           value: 'Germany'            } ,
+			{ label: 'Ghana',                             value: 'Ghana'              } ,
+			{ label: 'Greece',                            value: 'Greece'             } ,
+			{ label: 'Greenland',                         value: 'Greenland'          } ,
+			{ label: 'Grenada',                           value: 'Grenada'            } ,
+			{ label: 'Guam',                              value: 'Guam'               } ,
+			{ label: 'Guatemala',                         value: 'Guatemala'          } ,
+			{ label: 'Guinea',                            value: 'Guinea'             } ,
+			{ label: 'Guinea-Bissau',                     value: 'Bissau'             } ,
+			{ label: 'Guyana',                            value: 'Guyana'             } ,
+			{ label: 'Haiti',                             value: 'Haiti'              } ,
+			{ label: 'Honduras',                          value: 'Honduras'           } ,
+			{ label: 'Hong Kong',                         value: 'Kong'               } ,
+			{ label: 'Hungary',                           value: 'Hungary'            } ,
+			{ label: 'Iceland',                           value: 'Iceland'            } ,
+			{ label: 'India',                             value: 'India'              } ,
+			{ label: 'Indonesia',                         value: 'Indonesia'          } ,
+			{ label: 'Iran',                              value: 'Iran'               } ,
+			{ label: 'Iraq',                              value: 'Iraq'               } ,
+			{ label: 'Ireland',                           value: 'Ireland'            } ,
+			{ label: 'Israel',                            value: 'Israel'             } ,
+			{ label: 'Italy',                             value: 'Italy'              } ,
+			{ label: 'Jamaica',                           value: 'Jamaica'            } ,
+			{ label: 'Japan',                             value: 'Japan'              } ,
+			{ label: 'Jordan',                            value: 'Jordan'             } ,
+			{ label: 'Kazakhstan',                        value: 'Kazakhstan'         } ,
+			{ label: 'Kenya',                             value: 'Kenya'              } ,
+			{ label: 'Kiribati',                          value: 'Kiribati'           } ,
+			{ label: 'North Korea',                       value: 'Korea'              } ,
+			{ label: 'South Korea',                       value: 'Korea'              } ,
+			{ label: 'Kosovo',                            value: 'Kosovo'             } ,
+			{ label: 'Kuwait',                            value: 'Kuwait'             } ,
+			{ label: 'Kyrgyzstan',                        value: 'Kyrgyzstan'         } ,
+			{ label: 'Laos',                              value: 'Laos'               } ,
+			{ label: 'Latvia',                            value: 'Latvia'             } ,
+			{ label: 'Lebanon',                           value: 'Lebanon'            } ,
+			{ label: 'Lesotho',                           value: 'Lesotho'            } ,
+			{ label: 'Liberia',                           value: 'Liberia'            } ,
+			{ label: 'Libya',                             value: 'Libya'              } ,
+			{ label: 'Liechtenstein',                     value: 'Liechtenstein'      } ,
+			{ label: 'Lithuania',                         value: 'Lithuania'          } ,
+			{ label: 'Luxembourg',                        value: 'Luxembourg'         } ,
+			{ label: 'Macedonia',                         value: 'Macedonia'          } ,
+			{ label: 'Madagascar',                        value: 'Madagascar'         } ,
+			{ label: 'Malawi',                            value: 'Malawi'             } ,
+			{ label: 'Malaysia',                          value: 'Malaysia'           } ,
+			{ label: 'Maldives',                          value: 'Maldives'           } ,
+			{ label: 'Mali',                              value: 'Mali'               } ,
+			{ label: 'Malta',                             value: 'Malta'              } ,
+			{ label: 'Marshall Islands',                  value: 'Islands'            } ,
+			{ label: 'Mauritania',                        value: 'Mauritania'         } ,
+			{ label: 'Mauritius',                         value: 'Mauritius'          } ,
+			{ label: 'Mexico',                            value: 'Mexico'             } ,
+			{ label: 'Micronesia',                        value: 'Micronesia'         } ,
+			{ label: 'Moldova',                           value: 'Moldova'            } ,
+			{ label: 'Monaco',                            value: 'Monaco'             } ,
+			{ label: 'Mongolia',                          value: 'Mongolia'           } ,
+			{ label: 'Montenegro',                        value: 'Montenegro'         } ,
+			{ label: 'Morocco',                           value: 'Morocco'            } ,
+			{ label: 'Mozambique',                        value: 'Mozambique'         } ,
+			{ label: 'Myanmar',                           value: 'Myanmar'            } ,
+			{ label: 'Namibia',                           value: 'Namibia'            } ,
+			{ label: 'Nauru',                             value: 'Nauru'              } ,
+			{ label: 'Nepal',                             value: 'Nepal'              } ,
+			{ label: 'Netherlands',                       value: 'Netherlands'        } ,
+			{ label: 'New Zealand',                       value: 'Zealand'            } ,
+			{ label: 'Nicaragua',                         value: 'Nicaragua'          } ,
+			{ label: 'Niger',                             value: 'Niger'              } ,
+			{ label: 'Nigeria',                           value: 'Nigeria'            } ,
+			{ label: 'Norway',                            value: 'Norway'             } ,
+			{ label: 'Northern Mariana Islands',          value: 'Islands'            } ,
+			{ label: 'Oman',                              value: 'Oman'               } ,
+			{ label: 'Pakistan',                          value: 'Pakistan'           } ,
+			{ label: 'Palau',                             value: 'Palau'              } ,
+			{ label: 'Palestine',                         value: 'Palestine'          } ,
+			{ label: 'Panama',                            value: 'Panama'             } ,
+			{ label: 'Papua New Guinea',                  value: 'Guinea'             } ,
+			{ label: 'Paraguay',                          value: 'Paraguay'           } ,
+			{ label: 'Peru',                              value: 'Peru'               } ,
+			{ label: 'Philippines',                       value: 'Philippines'        } ,
+			{ label: 'Poland',                            value: 'Poland'             } ,
+			{ label: 'Portugal',                          value: 'Portugal'           } ,
+			{ label: 'Puerto Rico',                       value: 'Rico'               } ,
+			{ label: 'Qatar',                             value: 'Qatar'              } ,
+			{ label: 'Romania',                           value: 'Romania'            } ,
+			{ label: 'Russia',                            value: 'Russia'             } ,
+			{ label: 'Rwanda',                            value: 'Rwanda'             } ,
+			{ label: 'Saint Kitts and Nevis',             value: 'Nevis'              } ,
+			{ label: 'Saint Lucia',                       value: 'Lucia'              } ,
+			{ label: 'Saint Vincent and the Grenadines',  value: 'Grenadines'         } ,
+			{ label: 'Samoa',                             value: 'Samoa'              } ,
+			{ label: 'San Marino',                        value: 'Marino'             } ,
+			{ label: 'Sao Tome and Principe',             value: 'Principe'           } ,
+			{ label: 'Saudi Arabia',                      value: 'Arabia'             } ,
+			{ label: 'Senegal',                           value: 'Senegal'            } ,
+			{ label: 'Serbia and Montenegro',             value: 'Montenegro'         } ,
+			{ label: 'Seychelles',                        value: 'Seychelles'         } ,
+			{ label: 'Sierra Leone',                      value: 'Leone'              } ,
+			{ label: 'Singapore',                         value: 'Singapore'          } ,
+			{ label: 'Slovakia',                          value: 'Slovakia'           } ,
+			{ label: 'Slovenia',                          value: 'Slovenia'           } ,
+			{ label: 'Solomon Islands',                   value: 'Islands'            } ,
+			{ label: 'Somalia',                           value: 'Somalia'            } ,
+			{ label: 'South Africa',                      value: 'South Africa'       } ,
+			{ label: 'Spain',                             value: 'Spain'              } ,
+			{ label: 'Sri Lanka',                         value: 'Lanka'              } ,
+			{ label: 'Sudan',                             value: 'Sudan'              } ,
+			{ label: 'Sudan, South',                      value: 'South'              } ,
+			{ label: 'Suriname',                          value: 'Suriname'           } ,
+			{ label: 'Swaziland',                         value: 'Swaziland'          } ,
+			{ label: 'Sweden',                            value: 'Sweden'             } ,
+			{ label: 'Switzerland',                       value: 'Switzerland'        } ,
+			{ label: 'Syria',                             value: 'Syria'              } ,
+			{ label: 'Taiwan',                            value: 'Taiwan'             } ,
+			{ label: 'Tajikistan',                        value: 'Tajikistan'         } ,
+			{ label: 'Tanzania',                          value: 'Tanzania'           } ,
+			{ label: 'Thailand',                          value: 'Thailand'           } ,
+			{ label: 'Togo',                              value: 'Togo'               } ,
+			{ label: 'Tonga',                             value: 'Tonga'              } ,
+			{ label: 'Trinidad and Tobago',               value: 'Tobago'             } ,
+			{ label: 'Tunisia',                           value: 'Tunisia'            } ,
+			{ label: 'Turkey',                            value: 'Turkey'             } ,
+			{ label: 'Turkmenistan',                      value: 'Turkmenistan'       } ,
+			{ label: 'Tuvalu',                            value: 'Tuvalu'             } ,
+			{ label: 'Uganda',                            value: 'Uganda'             } ,
+			{ label: 'Ukraine',                           value: 'Ukraine'            } ,
+			{ label: 'United Arab Emirates',              value: 'Emirates'           } ,
+			{ label: 'United Kingdom',                    value: 'Kingdom'            } ,
+			{ label: 'United States',                     value: 'United States'      } ,
+			{ label: 'Uruguay',                           value: 'Uruguay'            } ,
+			{ label: 'Uzbekistan',                        value: 'Uzbekistan'         } ,
+			{ label: 'Vanuatu',                           value: 'Vanuatu'            } ,
+			{ label: 'Vatican City',                      value: 'City'               } ,
+			{ label: 'Venezuela',                         value: 'Venezuela'          } ,
+			{ label: 'Vietnam',                           value: 'Vietnam'            } ,
+			{ label: 'Virgin Islands, British',           value: 'British'            } ,
+			{ label: 'Virgin Islands, U.S.',              value: 'Virgin Islands, US' } ,
+			{ label: 'Yemen',                             value: 'Yemen'              } ,
+			{ label: 'Zambia',                            value: 'Zambia'             } ,
+			{ label: 'Zimbabwe',                          value: 'Zimbabwe'           } ,
 		]
 	},
 	{
@@ -842,8 +1193,9 @@ var AVAILABLE_CONSTRAINTS_META = [
 		type: 'profile:gender',
 		title: 'Gender',
 		choices: [
-			{ label: 'Male', value: 'male' },
-			{ label: 'Female', value: 'female' }
+			{ label: 'Male', value: 'm' },
+			{ label: 'Female', value: 'f' },
+			{ label: 'Unknown', value: 'u' }
 		]
 	},
 	{
@@ -876,60 +1228,60 @@ var AVAILABLE_CONSTRAINTS_META = [
 		type: 'profile:state',
 		title: 'State',
 		choices: [
-			{ label: 'Alabama'               , value: 'Alabama'               } ,
-			{ label: 'Alaska'                , value: 'Alaska'                } ,
-			{ label: 'Arizona'               , value: 'Arizona'               } ,
-			{ label: 'Arkansas'              , value: 'Arkansas'              } ,
-			{ label: 'California'            , value: 'California'            } ,
-			{ label: 'Colorado'              , value: 'Colorado'              } ,
-			{ label: 'Connecticut'           , value: 'Connecticut'           } ,
-			{ label: 'Delaware'              , value: 'Delaware'              } ,
-			{ label: 'District of Columbia'  , value: 'District of Columbia'  } ,
-			{ label: 'Florida'               , value: 'Florida'               } ,
-			{ label: 'Georgia'               , value: 'Georgia'               } ,
-			{ label: 'Hawaii'                , value: 'Hawaii'                } ,
-			{ label: 'Idaho'                 , value: 'Idaho'                 } ,
-			{ label: 'Illinois'              , value: 'Illinois'              } ,
-			{ label: 'Indiana'               , value: 'Indiana'               } ,
-			{ label: 'Iowa'                  , value: 'Iowa'                  } ,
-			{ label: 'Kansas'                , value: 'Kansas'                } ,
-			{ label: 'Kentucky'              , value: 'Kentucky'              } ,
-			{ label: 'Louisiana'             , value: 'Louisiana'             } ,
-			{ label: 'Maine'                 , value: 'Maine'                 } ,
-			{ label: 'Maryland'              , value: 'Maryland'              } ,
-			{ label: 'Massachusetts'         , value: 'Massachusetts'         } ,
-			{ label: 'Michigan'              , value: 'Michigan'              } ,
-			{ label: 'Minnesota'             , value: 'Minnesota'             } ,
-			{ label: 'Mississippi'           , value: 'Mississippi'           } ,
-			{ label: 'Missouri'              , value: 'Missouri'              } ,
-			{ label: 'Montana'               , value: 'Montana'               } ,
-			{ label: 'Nebraska'              , value: 'Nebraska'              } ,
-			{ label: 'Nevada'                , value: 'Nevada'                } ,
-			{ label: 'New Hampshire'         , value: 'New Hampshire'         } ,
-			{ label: 'New Jersey'            , value: 'New Jersey'            } ,
-			{ label: 'New Mexico'            , value: 'New Mexico'            } ,
-			{ label: 'New York'              , value: 'New York'              } ,
-			{ label: 'North Carolina'        , value: 'North Carolina'        } ,
-			{ label: 'North Dakota'          , value: 'North Dakota'          } ,
-			{ label: 'Ohio'                  , value: 'Ohio'                  } ,
-			{ label: 'Oklahoma'              , value: 'Oklahoma'              } ,
-			{ label: 'Oregon'                , value: 'Oregon'                } ,
-			{ label: 'Pennsylvania'          , value: 'Pennsylvania'          } ,
-			{ label: 'Rhode Island'          , value: 'Rhode Island'          } ,
-			{ label: 'South Carolina'        , value: 'South Carolina'        } ,
-			{ label: 'South Dakota'          , value: 'South Dakota'          } ,
-			{ label: 'Tennessee'             , value: 'Tennessee'             } ,
-			{ label: 'Texas'                 , value: 'Texas'                 } ,
-			{ label: 'Utah'                  , value: 'Utah'                  } ,
-			{ label: 'Vermont'               , value: 'Vermont'               } ,
-			{ label: 'Virginia'              , value: 'Virginia'              } ,
-			{ label: 'Washington'            , value: 'Washington'            } ,
-			{ label: 'West Virginia'         , value: 'Virginia'              } ,
-			{ label: 'Wisconsin'             , value: 'Wisconsin'             } ,
-			{ label: 'Wyoming'               , value: 'Wyoming'               } ,
-			{ label: 'Armed Forces Americas' , value: 'Armed Forces Americas' } ,
-			{ label: 'Armed Forces Europe'   , value: 'Armed Forces Europe'   } ,
-			{ label: 'Armed Forces Pacific'  , value: 'Armed Forces Pacific'  } ,
+			{ label: 'Alabama'               , value: 'AL' } ,
+			{ label: 'Alaska'                , value: 'AK' } ,
+			{ label: 'Arizona'               , value: 'AZ' } ,
+			{ label: 'Arkansas'              , value: 'AR' } ,
+			{ label: 'California'            , value: 'CA' } ,
+			{ label: 'Colorado'              , value: 'CO' } ,
+			{ label: 'Connecticut'           , value: 'CT' } ,
+			{ label: 'Delaware'              , value: 'DE' } ,
+			{ label: 'District of Columbia'  , value: 'DC' } ,
+			{ label: 'Florida'               , value: 'FL' } ,
+			{ label: 'Georgia'               , value: 'GA' } ,
+			{ label: 'Hawaii'                , value: 'HI' } ,
+			{ label: 'Idaho'                 , value: 'ID' } ,
+			{ label: 'Illinois'              , value: 'IL' } ,
+			{ label: 'Indiana'               , value: 'IN' } ,
+			{ label: 'Iowa'                  , value: 'IA' } ,
+			{ label: 'Kansas'                , value: 'KS' } ,
+			{ label: 'Kentucky'              , value: 'KY' } ,
+			{ label: 'Louisiana'             , value: 'LA' } ,
+			{ label: 'Maine'                 , value: 'ME' } ,
+			{ label: 'Maryland'              , value: 'MD' } ,
+			{ label: 'Massachusetts'         , value: 'MA' } ,
+			{ label: 'Michigan'              , value: 'MI' } ,
+			{ label: 'Minnesota'             , value: 'MN' } ,
+			{ label: 'Mississippi'           , value: 'MS' } ,
+			{ label: 'Missouri'              , value: 'MO' } ,
+			{ label: 'Montana'               , value: 'MT' } ,
+			{ label: 'Nebraska'              , value: 'NE' } ,
+			{ label: 'Nevada'                , value: 'NV' } ,
+			{ label: 'New Hampshire'         , value: 'NH' } ,
+			{ label: 'New Jersey'            , value: 'NJ' } ,
+			{ label: 'New Mexico'            , value: 'NM' } ,
+			{ label: 'New York'              , value: 'NY' } ,
+			{ label: 'North Carolina'        , value: 'NC' } ,
+			{ label: 'North Dakota'          , value: 'ND' } ,
+			{ label: 'Ohio'                  , value: 'OH' } ,
+			{ label: 'Oklahoma'              , value: 'OK' } ,
+			{ label: 'Oregon'                , value: 'OR' } ,
+			{ label: 'Pennsylvania'          , value: 'PA' } ,
+			{ label: 'Rhode Island'          , value: 'RI' } ,
+			{ label: 'South Carolina'        , value: 'SC' } ,
+			{ label: 'South Dakota'          , value: 'SD' } ,
+			{ label: 'Tennessee'             , value: 'TN' } ,
+			{ label: 'Texas'                 , value: 'TX' } ,
+			{ label: 'Utah'                  , value: 'UT' } ,
+			{ label: 'Vermont'               , value: 'VT' } ,
+			{ label: 'Virginia'              , value: 'VA' } ,
+			{ label: 'Washington'            , value: 'WA' } ,
+			{ label: 'West Virginia'         , value: 'WV' } ,
+			{ label: 'Wisconsin'             , value: 'WI' } ,
+			{ label: 'Wyoming'               , value: 'WY' } ,
+			{ label: 'Armed Forces Americas' , value: 'AA' } ,
+			{ label: 'Armed Forces Europe'   , value: 'AE' } ,
+			{ label: 'Armed Forces Pacific'  , value: 'AP' } ,
 		]
 	},
 	{
@@ -952,6 +1304,18 @@ var AVAILABLE_CONSTRAINTS_META = [
 var AVAILABLE_CONSTRAINTS_META_MAP = {};
 
 (function() {
+	var integerChoicesFor = function(start, end) {
+		var choices = [];
+		var i;
+
+		for (i = start; i <= end; i++) {
+			choice = { label: i, value: i };
+			choices.push(choice);
+		}
+
+		return choices;
+	};
+
 	var i;
 	var constraints = AVAILABLE_CONSTRAINTS_META;
 	var map         = AVAILABLE_CONSTRAINTS_META_MAP;
@@ -960,6 +1324,10 @@ var AVAILABLE_CONSTRAINTS_META_MAP = {};
 	for ( i = 0; i < n; i++ ) {
 		constraint = constraints[i];
 		map[constraint.type] = constraint;
+
+		if (constraint.type === 'profile:birthDay') {
+			constraint.choices = integerChoicesFor(1, 31);
+		}
 	}
 })();
 
@@ -1009,7 +1377,17 @@ var ConstraintCollection = Backbone.Collection.extend({
 		var typeList = type.split(':');
 
 		if (typeList.length > 0) {
-			return typeList[0];
+			var subType = typeList[1];
+
+			// treats profile:likes and profile:favorites
+			// as a custom type
+			if (subType === 'likes') {
+				return 'likes';
+			} else if (subType === 'favorites') {
+				return 'favorites';
+			} else {
+				return typeList[0];
+			}
 		} else {
 			return type;
 		}
@@ -1018,7 +1396,9 @@ var ConstraintCollection = Backbone.Collection.extend({
 	typesMap: {
 		'system': Constraint,
 		'profile': ProfileConstraint,
-		'record': EntryConstraint
+		'record': EntryConstraint,
+		'likes': LikeConstraint,
+		'favorites': FavoriteConstraint
 	}
 
 });
@@ -1029,39 +1409,120 @@ var QueryResultCollection = Backbone.Collection.extend({
 
 	initialize: function(models, options) {
 		this.activeConstraints = options.activeConstraints;
+		this.pollDelay         = 3; // seconds
+		this.maxQueryTime      = 5 * 60; // seconds
+		this.maxRetries        = Math.floor( this.maxQueryTime / this.pollDelay );
+		this.retries           = 0;
+		this.fetchStatusProxy  = $.proxy(this.fetchStatus, this);
+		this.lastProgress      = 0;
+
 		Backbone.Collection.prototype.initialize(this, models, options);
 	},
 
 	search: function() {
-		var constraints       = this.activeConstraints.toJSON();
-		var query             = 'select * from accounts'; // TEMPORARY, limits to 5
-		var data              = {
-			query: query,
-			constraints: constraints
+		this.start();
+	},
+
+	start: function() {
+		this.retries = 0;
+
+		var constraints = this.activeConstraints.toJSON();
+		var data        = {
+			constraints: constraints,
+			mode: 'start'
 		};
 
 		ajaxApi.request('preview_member_query', data)
-			.then($.proxy(this.didPreviewSuccess, this))
-			.fail($.proxy(this.didPreviewError, this));
+			.then($.proxy(this.didStartSuccess, this))
+			.fail($.proxy(this.didStartError, this));
 	},
 
-	didPreviewSuccess: function(response) {
-		if (!response.success) {
-			this.totalResults = 0;
-			this.didPreviewError(response);
+	didStartSuccess: function(response) {
+		if (response.success) {
+			this.memberQueryID = response.data.member_query_id;
+			this.trigger('searchStart', this.memberQueryID);
+			this.startPolling();
 		} else {
-			this.totalResults = response.data.total;
-			this.reset(response.data.accounts);
-			this.trigger('searchSuccess');
+			this.didStartError(response);
 		}
 	},
 
-	didPreviewError: function(response) {
+	didStartError: function(response) {
 		this.trigger('searchError', response.data);
+	},
+
+	onPoll: function() {
+		this.fetchStatus();
+	},
+
+	fetchStatus: function() {
+		var data = {
+			mode: 'status',
+			member_query_id: this.memberQueryID
+		};
+
+		this.retries++;
+		ajaxApi.request('preview_member_query', data)
+			.then($.proxy(this.didFetchStatusSuccess, this))
+			.fail($.proxy(this.didFetchStatusError, this));
+	},
+
+	didFetchStatusSuccess: function(response) {
+		if (response.success) {
+			if (response.data.complete) {
+				this.totalResults = response.data.total;
+				this.reset(response.data.users);
+				this.trigger('searchSuccess');
+				this.clear();
+			} else {
+				var progress = response.data.progress;
+				if (this.lastProgress !== progress) {
+					this.lastProgress = progress;
+					this.retries--;
+				}
+
+				this.trigger('searchProgress', progress);
+				this.startPolling();
+			}
+		} else {
+			this.didFetchStatusError(response);
+		}
+	},
+
+	didFetchStatusError: function(response) {
+		this.startPolling();
 	},
 
 	getTotalResults: function() {
 		return this.totalResults;
+	},
+
+	startPolling: function() {
+		if (this.retries < this.maxRetries) {
+			setTimeout(this.fetchStatusProxy, this.pollDelay * 1000);
+		} else {
+			this.trigger('searchTimeout');
+		}
+	},
+
+	clear: function() {
+		var data = {
+			mode: 'clear',
+			member_query_id: this.memberQueryID
+		};
+
+		this.retries++;
+		ajaxApi.request('preview_member_query', data)
+			.then($.proxy(this.didClearSuccess, this))
+			.fail($.proxy(this.didClearError, this));
+	},
+
+	didClearSuccess: function(response) {
+
+	},
+
+	didClearError: function(response) {
+		console.log('didClearError', response);
 	}
 });
 
@@ -1162,7 +1623,7 @@ var ConstraintView = Backbone.View.extend({
 	},
 
 	didChange: function(event) {
-		this.updateConstraint(this.model);
+		this.updateConstraint(this.model, event.target);
 	},
 
 	updateConstraint: function(constraint) {
@@ -1220,16 +1681,32 @@ var ConstraintView = Backbone.View.extend({
 		'not contains'
 	],
 
+	nonFullTextOperators: [
+		'equals',
+		'not equals',
+	],
+
 	booleanOperators: [
 		'equals',
 		'not equals',
 	],
 
-	operatorsFor: function(valueType) {
+	nonFullTextTypes: [
+		'profile:zip',
+		'profile:state',
+		'profile:country',
+		'profile:timezone'
+	],
+
+	operatorsFor: function(valueType, type) {
 		if (valueType === 'integer' || valueType === 'float') {
 			return this.numericOperators;
 		} else if (valueType === 'string') {
-			return this.stringOperators;
+			if (this.isNonFullTextType(type)) {
+				return this.nonFullTextOperators;
+			} else {
+				return this.stringOperators;
+			}
 		} else if (valueType === 'boolean') {
 			return this.booleanOperators;
 		} else {
@@ -1245,6 +1722,14 @@ var ConstraintView = Backbone.View.extend({
 
 	hasChoices: function() {
 		return this.model.hasMeta('choices');
+	},
+
+	isNonFullTextType: function(type) {
+		if (type === undefined) {
+			return false;
+		} else {
+			return _.indexOf(this.nonFullTextTypes, type) !== -1;
+		}
 	}
 
 });
@@ -1305,25 +1790,48 @@ var EntryConstraintView = ConstraintView.extend({
 		data.view          = this;
 		data.choices       = this.model.getEntryFieldChoices();
 		data.currentChoice = this.model.get('value');
+		data.fieldType     = this.model.getEntryFieldType();
+		data.fieldOptions  = this.model.getEntryFieldOptions();
 
 		var html = this.entryAnswerTemplate(data);
 		$entryAnswer.html(html);
+
+		var fieldType = this.model.getEntryFieldType();
+
+		if (fieldType === 'date') {
+			var $constraintField = $('.constraint-value', this.el);
+			$constraintField.datepicker({dateFormat: 'mm/dd/yy'});
+		}
 	},
 
-	updateConstraint: function(constraint) {
+	updateConstraint: function(constraint, source) {
 		var operator     = $('.constraint-operator', this.el).val();
 		var conjunction  = $('.constraint-conjunction', this.el).val();
 		var value        = $('.constraint-value', this.el).val();
 		var entryTypeID  = $('.entry-select-type', this.el).val();
 		var entryFieldID = $('.entry-select-field', this.el).val();
+		var $source      = $(source);
 		value            = this.parseValue(value, constraint.get('valueType'));
+
+		if ($source.hasClass('entry-select-type')) {
+			value = '';
+			entryFieldID = -1;
+		} else if ($source.hasClass('entry-select-field')) {
+			var fieldChoices = this.model.getEntryFieldChoices(entryFieldID);
+
+			if (fieldChoices.length > 0) {
+				value = fieldChoices[0].value;
+			} else {
+				value = '';
+			}
+		}
 
 		var changes     = {
 			operator: operator,
 			value: value,
 			conjunction: conjunction,
-			entryTypeID: this.parseValue(entryTypeID, 'integer'),
-			entryFieldID: this.parseValue(entryFieldID, 'integer')
+			entryTypeID: this.parseValue(entryTypeID, 'string'),
+			entryFieldID: this.parseValue(entryFieldID, 'string')
 		};
 
 		//console.log('updateConstraint', changes);
@@ -1334,6 +1842,82 @@ var EntryConstraintView = ConstraintView.extend({
 	hasChoices: function() {
 		return this.model.hasChoices();
 	}
+
+});
+
+var LikeConstraintView = ConstraintView.extend({
+
+	template: getTemplate('like_constraint'),
+
+	initialize: function(model, opts) {
+		ConstraintView.prototype.initialize.call(this, model, opts);
+	},
+
+	render: function() {
+		var data        = this.model.toViewJSON();
+		data.view       = this;
+		data.categories = this.model.getCategories();
+
+		var html = this.template(data);
+		this.$el.html(html);
+	},
+
+	updateConstraint: function(constraint) {
+		var operator    = $('.constraint-operator', this.el).val();
+		var conjunction = $('.constraint-conjunction', this.el).val();
+		var value       = $('.constraint-value', this.el).val();
+		var category    = $('.like-category', this.el).val();
+		value           = this.parseValue(value, constraint.get('valueType'));
+
+		var changes     = {
+			operator: operator,
+			value: value,
+			conjunction: conjunction,
+			category: category
+		};
+
+		constraint.set(changes);
+	},
+
+});
+
+var FavoriteConstraintView = ConstraintView.extend({
+
+	template: getTemplate('favorite_constraint'),
+
+	initialize: function(model, opts) {
+		ConstraintView.prototype.initialize.call(this, model, opts);
+	},
+
+	render: function() {
+		var data           = this.model.toViewJSON();
+		data.view          = this;
+		data.categories    = this.model.getCategories();
+		data.favoriteTypes = this.model.getFavoriteTypes();
+
+		var html = this.template(data);
+		this.$el.html(html);
+	},
+
+	updateConstraint: function(constraint) {
+		var operator     = $('.constraint-operator', this.el).val();
+		var conjunction  = $('.constraint-conjunction', this.el).val();
+		var value        = $('.constraint-value', this.el).val();
+		var category     = $('.favorite-category', this.el).val();
+		var favoriteType = $('.favorite-type', this.el).val();
+		value            = this.parseValue(value, constraint.get('valueType'));
+
+		var changes     = {
+			operator: operator,
+			value: value,
+			conjunction: conjunction,
+			category: category,
+			favoriteType: favoriteType
+		};
+
+		constraint.set(changes);
+	},
+
 
 });
 
@@ -1351,10 +1935,18 @@ var ActiveConstraintsView = Backbone.CollectionView.extend({
 		var type = model.get('type');
 		var kind = ConstraintCollection.kindForType(type);
 
-		if (kind === 'record') {
-			return EntryConstraintView;
-		} else {
-			return ConstraintView;
+		switch (kind) {
+			case 'record':
+				return EntryConstraintView;
+
+			case 'likes':
+				return LikeConstraintView;
+
+			case 'favorites':
+				return FavoriteConstraintView;
+
+			default:
+				return ConstraintView;
 		}
 	},
 
@@ -1380,14 +1972,23 @@ var PreviewView = Backbone.View.extend({
 	initialize: function(options) {
 		this.collection = options.collection;
 		this.listenTo(this.collection, 'searchError', this.didSearchError);
+		this.listenTo(this.collection, 'searchStart', this.didSearchStart);
+		this.listenTo(this.collection, 'searchProgress', this.didSearchProgress);
 		this.listenTo(this.collection, 'searchSuccess', this.didSearchSuccess);
+		this.listenTo(this.collection, 'searchTimeout', this.didSearchTimeout);
 
 		Backbone.View.prototype.initialize.call(this, options);
 		this.search();
+		this.previewEnabled = true;
+
+		this.stepper = new Stepper('didStep', this);
 	},
 
 	didPreviewClick: function(event) {
-		this.search();
+		if (this.previewEnabled) {
+			this.search();
+		}
+
 		return false;
 	},
 
@@ -1396,7 +1997,22 @@ var PreviewView = Backbone.View.extend({
 		this.collection.search();
 	},
 
+	didSearchStart: function() {
+		this.stepper.start(0);
+		this.setPreviewEnabled(false);
+	},
+
+	didSearchProgress: function(progress) {
+		this.stepper.update(progress);
+	},
+
+	didStep: function(progress) {
+		this.setStatus('Searching, Please wait ... ' + progress + '%');
+	},
+
 	didSearchSuccess: function() {
+		this.stepper.stop();
+
 		var total    = this.collection.getTotalResults();
 		var message = total + ' records found';
 
@@ -1407,18 +2023,85 @@ var PreviewView = Backbone.View.extend({
 		}
 
 		this.setStatus(message);
+		this.setPreviewEnabled(true);
 	},
 
 	didSearchError: function(message) {
+		this.stepper.stop();
 		this.setStatus("Error: " + message);
+	},
+
+	didSearchTimeout: function() {
+		this.stepper.stop();
+		this.setStatus('Error: Query timed out, please try again.');
+		this.setPreviewEnabled(true);
 	},
 
 	setStatus: function(message) {
 		var div = $('.count-status');
 		div.text(message);
-	}
+	},
+
+	setPreviewEnabled: function(enabled) {
+		var previewButton = $('.preview-member-query-button', this.el);
+		previewButton.toggleClass('disabled', !enabled);
+
+		this.previewEnabled = enabled;
+	},
 
 });
+
+var Stepper = function(callback, scope) {
+	this.callback   = callback;
+	this.scope      = scope;
+	this.intervalID = -1;
+
+	var self = this;
+	this.stepFunc = function() {
+		self.step();
+	};
+};
+
+Stepper.prototype = {
+
+	start: function(value) {
+		this.value   = value;
+		this.current = 0;
+		this.startInterval();
+	},
+
+	update: function(value) {
+		this.value = value;
+
+		if (!this.isRunning()) {
+			this.startInterval();
+		}
+	},
+
+	startInterval: function() {
+		clearInterval(this.intervalID);
+		this.intervalID = setInterval(this.stepFunc, 100);
+	},
+
+	stop: function() {
+		clearInterval(this.intervalID);
+		this.intervalID = -1;
+	},
+
+	step: function() {
+		if (this.current < this.value) {
+			this.current++;
+			this.scope[this.callback](this.current);
+		} else {
+			this.stop();
+		}
+	},
+
+	isRunning: function() {
+		return this.intervalID !== -1;
+	}
+
+};
 
 var QueryResultItemView = Backbone.CollectionView.extend({
 
@@ -1441,6 +2124,7 @@ var QueryBuilderApp = function() {
 	$(document).ready($.proxy(this.initialize, this));
 };
 
+QueryBuilderApp.version = '0.1.0';
 QueryBuilderApp.prototype = {
 
 	initialize: function() {
@@ -1472,10 +2156,15 @@ QueryBuilderApp.prototype = {
 			collection: queryResults
 		});
 
+		$('#query_builder_metabox').toggleClass('loading', false);
+		$('#query_builder_metabox .loading-indicator').remove();
+
 		toolbarView.render();
 		activeConstraintsView.render();
 		previewView.render();
 		queryResultsView.render();
+
+		activeConstraints.save();
 	},
 
 };

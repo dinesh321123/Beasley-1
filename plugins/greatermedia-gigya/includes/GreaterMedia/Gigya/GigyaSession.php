@@ -4,120 +4,108 @@ namespace GreaterMedia\Gigya;
 
 class GigyaSession {
 
-	public $cookie_name     = 'gigya_session';
-	public $cookie_data     = array();
-	public $loaded          = false;
-	public $session_timeout = 1800; // 30 minutes
+	public $cookie_value = array();
+	public $loaded       = false;
 
 	static public $instance = null;
 	static public function get_instance() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new GigyaSession();
+			self::$instance->load();
 		}
 
 		return self::$instance;
 	}
 
-	public function login( $user_id ) {
-		$this->load();
-
-		$this->cookie_data['user_id'] = $user_id;
-		$this->save();
-	}
-
-	public function logout() {
-		$this->load();
-		$this->clear();
-	}
 
 	public function is_logged_in() {
-		$this->load();
-
-		if ( array_key_exists( 'user_id', $this->cookie_data ) ) {
-			return ! empty($this->cookie_data['user_id']);
-		} else {
-			return false;
-		}
+		return ! is_null( $this->get( 'UID' ) );
 	}
 
 	public function get_user_id() {
-		return $this->get_key( 'user_id' );
+		return $this->get_user_field( 'UID' );
 	}
 
-	public function get_key( $name ) {
+	public function get_user_field( $field ) {
+		if ( $this->is_logged_in() ) {
+			return $this->get( $field );
+		} else {
+			return null;
+		}
+	}
+
+	public function get_user_profile() {
 		$this->load();
 
-		if ( array_key_exists( $name, $this->cookie_data ) ) {
-			return $this->cookie_data[ $name ];
+		if ( ! $this->is_logged_in() ) {
+			throw new \Exception( 'Cannot Fetch Gigya User Profile: not logged in' );
+		}
+
+		$user_id = $this->get_user_id();
+		$query   = "select profile from accounts where UID = '${user_id}'";
+		$request = new GigyaRequest( null, null, 'accounts.search' );
+		$request->setParam( 'query', $query );
+		$response = $request->send();
+
+		if ( $response->getErrorCode() === 0 ) {
+			$json = json_decode( $response->getResponseText(), true );
+			$total = $json['totalCount'];
+
+			if ( $total > 0 ) {
+				return $json['results'][0]['profile'];
+			} else {
+				throw new \Exception( "User Profile not found: {$user_id}" );
+			}
 		} else {
-			return '';
+			throw new \Exception(
+				"Failed to get Gigya User Profile: {$user_id} - " . $response->getErrorMessage()
+			);
 		}
 	}
 
-	/* helpers */
-	public function clear() {
-		if ( array_key_exists( $this->cookie_name, $_COOKIE ) ) {
-			unset( $_COOKIE[ $this->cookie_name ] );
-			$this->set_cookie( '', time() - (12 * 60 * 60) );
-			$this->cookie_data = array();
+	public function get( $key ) {
+		$this->load();
+
+		if ( array_key_exists( $key, $this->cookie_value ) ) {
+			return $this->cookie_value[ $key ];
+		} else {
+			return null;
 		}
 	}
 
-	public function save() {
-		$cookie_data = json_encode( $this->cookie_data );
-		$this->set_cookie( $cookie_data, time() + $this->session_timeout );
-	}
-
-	public function load( $cookie_data = null ) {
+	public function load() {
 		if ( $this->loaded ) {
 			return;
 		}
 
-		if ( is_null( $cookie_data ) ) {
-			$cookie_data = $this->load_cookie_data();
-		}
+		$cookie_name = $this->get_cookie_name();
 
-		$this->cookie_data = $this->parse( $cookie_data );
-		$this->loaded      = true;
-	}
-
-	public function load_cookie_data() {
-		if ( array_key_exists( $this->cookie_name, $_COOKIE ) ) {
-			$cookie_data = $_COOKIE[ $this->cookie_name ];
-			return wp_unslash( $cookie_data );
+		if ( array_key_exists( $cookie_name, $_COOKIE ) ) {
+			$cookie_text = wp_unslash( $_COOKIE[ $cookie_name ] );
 		} else {
-			return '{}';
-		}
-	}
-
-	public function parse( $cookie_data ) {
-		$cookie_data = json_decode( $cookie_data, true );
-		if ( ! is_array( $cookie_data ) ) {
-			$cookie_data = array();
+			$cookie_text = '{}';
 		}
 
-		return $cookie_data;
+		$this->cookie_value = $this->deserialize( $cookie_text );
+		$this->loaded       = true;
 	}
 
-	public function set_cookie( $data, $expiry ) {
-		if ( ! defined( 'PHPUNIT_RUNNER' ) ) {
-			setcookie(
-				$this->cookie_name,
-				$data,
-				$expiry,
-				'/',
-				$this->get_cookie_domain(),
-				is_ssl(),
-				true
-			);
-		} else {
-			$_COOKIE[ $this->cookie_name ] = $data;
+	public function get_cookie_name() {
+		return 'gigya_profile';
+	}
+
+	public function deserialize( $cookie_text ) {
+		if ( strpos( $cookie_text, '{'  ) !== 0 ) {
+			$cookie_text  = base64_decode( $cookie_text );
 		}
-	}
 
-	public function get_cookie_domain() {
-		$site_url = get_site_url();
-		return parse_url( $site_url, PHP_URL_HOST );
+		$cookie_value = json_decode( $cookie_text, true );
+
+		if ( ! is_array( $cookie_value ) ) {
+			$cookie_value = array();
+		}
+
+		return $cookie_value;
 	}
 
 }

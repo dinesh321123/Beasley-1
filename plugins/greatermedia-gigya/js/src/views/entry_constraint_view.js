@@ -54,25 +54,48 @@ var EntryConstraintView = ConstraintView.extend({
 		data.view          = this;
 		data.choices       = this.model.getEntryFieldChoices();
 		data.currentChoice = this.model.get('value');
+		data.fieldType     = this.model.getEntryFieldType();
+		data.fieldOptions  = this.model.getEntryFieldOptions();
 
 		var html = this.entryAnswerTemplate(data);
 		$entryAnswer.html(html);
+
+		var fieldType = this.model.getEntryFieldType();
+
+		if (fieldType === 'date') {
+			var $constraintField = $('.constraint-value', this.el);
+			$constraintField.datepicker({dateFormat: 'mm/dd/yy'});
+		}
 	},
 
-	updateConstraint: function(constraint) {
+	updateConstraint: function(constraint, source) {
 		var operator     = $('.constraint-operator', this.el).val();
 		var conjunction  = $('.constraint-conjunction', this.el).val();
 		var value        = $('.constraint-value', this.el).val();
 		var entryTypeID  = $('.entry-select-type', this.el).val();
 		var entryFieldID = $('.entry-select-field', this.el).val();
+		var $source      = $(source);
 		value            = this.parseValue(value, constraint.get('valueType'));
+
+		if ($source.hasClass('entry-select-type')) {
+			value = '';
+			entryFieldID = -1;
+		} else if ($source.hasClass('entry-select-field')) {
+			var fieldChoices = this.model.getEntryFieldChoices(entryFieldID);
+
+			if (fieldChoices.length > 0) {
+				value = fieldChoices[0].value;
+			} else {
+				value = '';
+			}
+		}
 
 		var changes     = {
 			operator: operator,
 			value: value,
 			conjunction: conjunction,
-			entryTypeID: this.parseValue(entryTypeID, 'integer'),
-			entryFieldID: this.parseValue(entryFieldID, 'integer')
+			entryTypeID: this.parseValue(entryTypeID, 'string'),
+			entryFieldID: this.parseValue(entryFieldID, 'string')
 		};
 
 		//console.log('updateConstraint', changes);

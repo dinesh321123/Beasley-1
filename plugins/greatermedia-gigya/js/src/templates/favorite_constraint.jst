@@ -1,0 +1,66 @@
+<ul class="constraint-toolbar">
+	<li>
+		<a
+			alt="f105"
+			class="dashicons dashicons-admin-page copy-constraint"
+			href="#"
+			title="Duplicate"
+		/>
+
+		<a
+			alt="f105"
+			class="dashicons dashicons-trash remove-constraint"
+			href="#"
+			title="Remove"
+		/>
+	</li>
+</ul>
+
+<p class="constraint-title">
+	<%- title %>
+</p>
+
+<div class="entry-select-group">
+	<label><strong>Favorite Type: </strong></label>
+	<select class="favorite-type" style="width: 100%">
+		<% _.each(favoriteTypes, function(favoriteItem) { %>
+		<option value="<%- favoriteItem.value %>" <%= favoriteItem.value == favoriteType ? 'selected="selected"' : ''  %>">
+		<%- favoriteItem.label %>
+		</option>
+		<% }) %>
+	</select>
+</div>
+
+<div class="entry-select-group">
+	<label><strong>Category: </strong></label>
+	<select class="favorite-category" style="width: 100%">
+		<% _.each(categories, function(categoryItem) { %>
+		<option value="<%- categoryItem.value %>" <%= categoryItem.value == category ? 'selected="selected"' : ''  %>">
+		<%- categoryItem.label %>
+		</option>
+		<% }) %>
+	</select>
+</div>
+
+<div class="entry-answer-group">
+	<label><strong>Favorite: </strong></label>
+
+	<select class="constraint-operator" style="width: 35%">
+		<% _.each(view.operatorsFor(valueType), function(operatorItem) { %>
+		<option value="<%- operatorItem %>" <%= operatorItem === operator ? 'selected="selected"' : ''  %>">
+		<%- operatorItem %>
+		</option>
+		<% }) %>
+	</select>
+
+	<input type="text" class="constraint-value constraint-value-text" value="<%- value %>" />
+
+	<select class="constraint-conjunction" style="width: 15%">
+		<% _.each(view.conjunctions, function(conjunctionItem) { %>
+		<option value="<%- conjunctionItem %>" <%= conjunctionItem === conjunction ? 'selected="selected"' : ''  %>">
+		<%- conjunctionItem %>
+		</option>
+		<% }) %>
+	</select>
+</div>
+

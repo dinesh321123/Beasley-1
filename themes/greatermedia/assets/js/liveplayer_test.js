@@ -1,6 +1,3 @@
-/*! Greater Media - v0.1.0 - 2014-10-31
- * http://greatermedia.com
- * Copyright (c) 2014; * Licensed GPLv2+ */
 var gigya = gigya || {};
 gigya.accounts = gigya.accounts || {};
 gigya.accounts.eventHandlers = gigya.accounts.eventHandlers || {};
@@ -84,12 +81,16 @@ gigya.accounts._callEventHandlers = gigya.accounts._callEventHandlers || functio
 
 jQuery(function () {
 
-	var livePlayerListen = jQuery('#live-player--listen_now'), // targets the `Listen Live` button
-		livePlayerTest = jQuery('.live-player--test'), // targets the div that contains the test toggle
-		livePlayerSwitch = jQuery('.live-player--test_audio'), // targets the actual toggle so we can bind a click to it
-		livePlayer = jQuery('.gm-liveplayer'), // targets the live player
-		register = jQuery('#register-button'), // targets the register link
-		logInBtn = jQuery('#login-button'); // targets the login link
+	var $window = jQuery(window),
+		livePlayerListen = jQuery('#live-stream__listen-now'), // targets the `Listen Live` button
+		livePlayerPlaying = jQuery('#live-stream__now-playing'),
+		livePlayerTest = jQuery('.live-stream__test'), // targets the div that contains the test toggle
+		livePlayerLabel = jQuery('.live-stream__test--label'),
+		livePlayerSwitch = jQuery('.live-stream__test--audio'), // targets the actual toggle so we can bind a click to it
+		livePlayer = jQuery('.live-stream__player'), // targets the live player
+		livePlayerVolume = jQuery('.live-player__volume'),
+		onAir = jQuery('.on-air'),
+		upNext = jQuery('.up-next');
 
 	function listenLive() {
 		/**
@@ -97,9 +98,11 @@ jQuery(function () {
 		 * change. In order to not change this function that we will need for live use, we will just target the div here
 		 * and change the state
 		 */
-		livePlayerListen.css('visibility', 'visible');
-		register.css('visibility', 'visible');
-		logInBtn.css('visibility', 'visible');
+		livePlayerListen.css('display', 'inline-block');
+		livePlayerPlaying.css('display', 'none');
+		livePlayerVolume.css('display', 'none');
+		upNext.css('display', 'none');
+		livePlayerLabel.css('color', '#ffffff');
 
 		/**
 		 * This statement will check if a the user has authenticated with Gigya.
@@ -115,20 +118,20 @@ jQuery(function () {
 		if (GreaterMediaGigyaAuth.is_gigya_user_logged_in()) {
 			livePlayerSwitch.prop('checked', 'checked');
 			livePlayer.css('display', 'block');
-			livePlayerListen.css('visibility', 'hidden');
-			livePlayerTest.css('visibility', 'visible');
-			register.css('visibility', 'hidden');
-			logInBtn.text('Logout');
-			logInBtn.addClass('logged-in');
-			logInBtn.removeClass('logged-out');
+			livePlayerListen.css('display', 'none');
+			livePlayerPlaying.css('display', 'inline-block');
+			livePlayerTest.css('display', 'block');
+			livePlayerVolume.css('display', 'block');
+			upNext.css('display', 'block');
+			onAir.css('display', 'none');
 		} else {
-			livePlayerListen.css('visibility', 'visible');
-			livePlayerTest.css('visibility', 'hidden');
+			livePlayerListen.css('display', 'inline-block');
+			livePlayerPlaying.css('display', 'none');
+			livePlayerTest.css('display', 'none');
 			livePlayer.css('display', 'none');
-			register.css('visibility', 'visible');
-			logInBtn.text('LogIn');
-			logInBtn.removeClass('logged-in');
-			logInBtn.addClass('logged-out');
+			livePlayerVolume.css('display', 'none');
+			upNext.css('display', 'none');
+			onAir.css('display', 'block');
 		}
 
 		/**
@@ -138,12 +141,12 @@ jQuery(function () {
 		 * will be hidden.
 		 */
 		livePlayerListen.click(function() {
-			if ( livePlayerTest.css('visibility') == 'visible') {
-				livePlayerTest.css('visibility', 'hidden');
-				livePlayerListen.css('visibility', 'visible');
+			if ( livePlayerTest.css('display') == 'block') {
+				livePlayerTest.css('display', 'none');
+				livePlayerListen.css('display', 'inline-block');
 			} else {
-				livePlayerTest.css('visibility', 'visible');
-				livePlayerListen.css('visibility', 'hidden');
+				livePlayerTest.css('display', 'block');
+				livePlayerListen.css('display', 'none');
 			}
 		});
 
@@ -164,20 +167,20 @@ jQuery(function () {
 
 			if (livePlayer.css('display') == 'none') {
 				livePlayer.css('display', 'block');
-				livePlayerListen.css('visibility', 'hidden');
-				livePlayerTest.css('visibility', 'visible');
-				logInBtn.text('Logout');
-				logInBtn.addClass('logged-in');
-				logInBtn.removeClass('logged-out');
-				register.css('visibility', 'hidden');
+				livePlayerListen.css('display', 'none');
+				livePlayerPlaying.css('display', 'inline-block');
+				livePlayerTest.css('display', 'block');
+				livePlayerVolume.css('display', 'block');
+				upNext.css('display', 'block');
+				onAir.css('display', 'none');
 			} else {
 				livePlayer.css('display', 'none');
-				livePlayerListen.css('visibility', 'visible');
-				livePlayerTest.css('visibility', 'hidden');
-				logInBtn.text('Login');
-				logInBtn.removeClass('logged-in');
-				logInBtn.addClass('logged-out');
-				register.css('visibility', 'visible');
+				livePlayerListen.css('display', 'inline-block');
+				livePlayerPlaying.css('display', 'none');
+				livePlayerTest.css('display', 'none');
+				livePlayerVolume.css('display', 'none');
+				upNext.css('display', 'none');
+				onAir.css('display', 'block');
 			}
 
 			if (livePlayerSwitch.is(':checked')) {
@@ -194,7 +197,5 @@ jQuery(function () {
 	}
 
 	listenLive();
-
-
 
 });

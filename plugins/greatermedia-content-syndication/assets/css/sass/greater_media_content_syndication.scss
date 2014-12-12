@@ -1,0 +1,21 @@
+/**
+ * Greater Media Content Syndication
+ * http://wordpress.org/plugins
+ *
+ * Copyright (c) 2014 10up
+ * Licensed under the GPLv2+ license.
+ */
+
+#filter_metaboxes {
+  label {
+	float: left;
+	width: 10em;
+	margin-right: 1em;
+  }
+  .enabled_filter {
+	margin-left: 10px;
+  }
+  span.description {
+	margin-left: 21%;
+  }
+}

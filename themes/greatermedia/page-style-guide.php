@@ -26,4 +26,6 @@ get_template_part( 'styleguide/discussions' );
 
 get_template_part( 'styleguide/layout' );
 
+get_template_part( 'styleguide/live-player' );
+
 get_footer();

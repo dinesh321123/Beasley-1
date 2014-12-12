@@ -89,6 +89,10 @@ if ( !class_exists( "Breaking_News" ) ) {
 		public function save_breaking_news_meta_option( $post_id ) {
 			global $post;
 
+			// Defaults
+			$is_breaking_news = 0;
+			$show_site_wide_notification = 0;
+
 			if ( ! isset( $_POST['breaking_news_nonce'] ) || ! wp_verify_nonce( $_POST['breaking_news_nonce' ], 'save_breaking_news_meta' ) ) {
 				return;
 			}
@@ -101,8 +105,13 @@ if ( !class_exists( "Breaking_News" ) ) {
 				return;
 			}
 
-			$is_breaking_news = $this->sanitize_boolean( $_POST['breaking_news_option'] );
-			$show_site_wide_notification = $this->sanitize_boolean( $_POST['site_wide_notification_option'] );
+			if ( isset( $_POST['breaking_news_option'] ) ) {
+				$is_breaking_news = $this->sanitize_boolean( $_POST['breaking_news_option'] );
+			}
+
+			if ( isset( $_POST['site_wide_notification_option'] ) ) {
+				$show_site_wide_notification = $this->sanitize_boolean( $_POST['site_wide_notification_option'] );
+			}
 
 			// If the post isn't breaking news, don't enable the site-wide notification either.
 			if ( 0 === $is_breaking_news ) {

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 pushd .
-cd plugins/greatermedia-contests 
+cd plugins/greatermedia-timed-content
 bower install
 popd
-

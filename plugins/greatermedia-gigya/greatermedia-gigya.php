@@ -7,19 +7,38 @@ Author: 10up
 
 define( 'GMR_GIGYA_URL', plugin_dir_url( __FILE__ ) );
 define( 'GMR_GIGYA_PATH', dirname( __FILE__ ) . '/' );
-define( 'GMR_GIGYA_VERSION', '0.1.0' );
-define( 'GMR_GIGYA_API_KEY', '3_e_T7jWO0Vjsd9y0WJcjnsN6KaFUBv6r3VxMKqbitvw-qKfmaUWysQKa1fra5MTb6' );
-define( 'GMR_GIGYA_SECRET_KEY', 'trS0ufXWUXZ0JBcpr/6umiRfgUiwT7YhJMQSDpUz/p8=' );
+define( 'GMR_GIGYA_PLUGIN_FILE', __FILE__ );
+define( 'GMR_GIGYA_VERSION', '0.1.3' );
 define( 'GMR_MAILCHIMP_API_KEY', 'd288a2356ce46a76c0afbc67b9f537ad-us9' );
+
+/* JOB DB details - behind an ifdef to allow wp-config to override in production */
+if ( ! defined( 'GMR_JOB_DB' ) ) {
+	define( 'GMR_JOB_DB', false );
+
+	/* if JOB_DB = true, the following constants MUST be provided */
+	/*
+	define( 'GMR_JOB_DB_USER', 'gmr_job_db_user' );
+	define( 'GMR_JOB_DB_PASSWORD', '1234' );
+	define( 'GMR_JOB_DB_NAME', 'gmr_job_db_test' );
+	define( 'GMR_JOB_DB_HOST', 'localhost' );
+	*/
+}
 
 function gmr_gigya_main() {
 	$plugin = new \GreaterMedia\Gigya\Plugin( __FILE__ );
 	$plugin->enable();
+
+	if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		$gigya_wp_cli_loader = new \GreaterMedia\Gigya\Commands\Loader();
+		$gigya_wp_cli_loader->load();
+	}
 }
 
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 	gmr_gigya_main();
 } else {
-	error_log( 'Error: Composer packages not found, Please run $ composer install.' );
+	error_log(
+		'Error: Composer packages not found, Please run $ composer install.'
+	);
 }

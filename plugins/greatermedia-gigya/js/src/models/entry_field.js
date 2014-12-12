@@ -3,6 +3,7 @@ var EntryField = Backbone.Model.extend({
 		label: '',
 		value: '',
 		type: '',
-		choices: []
+		choices: [],
+		fieldOptions: {}
 	}
 });

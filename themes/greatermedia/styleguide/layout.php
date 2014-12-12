@@ -11,61 +11,142 @@
 		<h2 class="sg-section-title"><?php _e( 'Layout', 'greatermedia' ); ?></h2>
 
 		<!-- Featured Content for the Front Page -->
+		<h3 class="sg-section-subtitle"><?php _e( 'Featured Content - Front Page', 'greatermedia' ); ?></h3>
 		<section id="featured" class="featured">
 			<div class="container">
-				<div class="featured-artist">
-					<div class="featured-artist--image">
+				<div class="featured__artist">
+					<div class="featured__artist--image">
 						<img src="http://placehold.it/2800x1000&text=featured+image">
 					</div>
-					<div class="featured-artist--content">
-						<div class="featured-artist--heading">
-							<h2 class="featured-artist--title">Arist of the Month</h2>
-							<h3 class="featured-artist--subtitle">Minshara</h3>
+					<div class="featured__artist--content">
+						<div class="featured__artist--heading">
+							<h2 class="featured__artist--title"><?php _e( 'Artist of the Month', 'greatermedia' ); ?></h2>
+							<h3 class="featured__artist--subtitle">Minshara</h3>
 						</div>
-						<div class="featured-artist--bio">
+						<div class="featured__artist--bio">
 							Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="container">
-				<div class="featured-content">
-					<div class="featured-content--block">
-						<div class="featured-content--image">
+				<div class="featured__content">
+					<div class="featured__content--block">
+						<div class="featured__content--image">
 							<img src="http://placehold.it/400x400&text=featured+image">
 						</div>
-						<div class="featured-content--meta">
-							<h2 class="featured-content--title">MMR Rocks the Flyers</h2>
-							<ul class="featured-content--list">
-								<li class="featured-content--item">MMR Rocks the Flyers</li>
-								<li class="featured-content--item">Flyers All Access</li>
+						<div class="featured__content--meta">
+							<h2 class="featured__content--title">MMR Rocks the Flyers</h2>
+							<ul class="featured__content--list">
+								<li class="featured__content--item">MMR Rocks the Flyers</li>
+								<li class="featured__content--item">Flyers All Access</li>
 							</ul>
 						</div>
 					</div>
-					<div class="featured-content--block">
-						<div class="featured-content--image">
+					<div class="featured__content--block">
+						<div class="featured__content--image">
 							<img src="http://placehold.it/400x400&text=featured+image">
 						</div>
-						<div class="featured-content--meta">
-							<h2 class="featured-content--title">Hitch a Ride with Pierre ...and Minerva</h2>
-							<a href="#" class="featured-content--btn">Enter To Win</a>
+						<div class="featured__content--meta">
+							<h2 class="featured__content--title">Hitch a Ride with Pierre ...and Minerva</h2>
+							<div class="featured__content--link">
+								<a href="#" class="featured__content--btn">Enter To Win</a>
+							</div>
 						</div>
 					</div>
-					<div class="featured-content--block">
-						<div class="featured-content--image">
+					<div class="featured__content--block">
+						<div class="featured__content--image">
 							<img src="http://placehold.it/400x400&text=featured+image">
 						</div>
-						<div class="featured-content--meta">
-							<h2 class="featured-content--title">Preston and Steve</h2>
-							<ul class="featured-content--list">
-								<li class="featured-content--item">Daily Rush</li>
-								<li class="featured-content--item">Flyers All Access</li>
-								<li class="featured-content--item">Studio Guests</li>
+						<div class="featured__content--meta">
+							<h2 class="featured__content--title">Preston and Steve</h2>
+							<ul class="featured__content--list">
+								<li class="featured__content--item">Daily Rush</li>
+								<li class="featured__content--item">Flyers All Access</li>
+								<li class="featured__content--item">Studio Guests</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
+		</section>
+
+		<!-- Highlighted Content for the Front Page -->
+		<h3 class="sg-section-subtitle"><?php _e( 'Featured Content - Front Page', 'greatermedia' ); ?></h3>
+		<section class="highlights">
+
+			<div class="container">
+
+				<div class="highlights__community">
+
+					<h2 class="highlights__heading"><?php bloginfo( 'name' ); ?><?php _e( ' Community Highlights', 'greatermedia' ); ?><span class="highlights__heading--span"><?php _e( 'YouRock', 'greatermedia' ); ?></span></h2>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title"><?php _e( 'title', 'greatermedia' ); ?></h3>
+
+					</div>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title"><?php _e( 'title', 'greatermedia' ); ?></h3>
+
+					</div>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title"><?php _e( 'title', 'greatermedia' ); ?></h3>
+
+					</div>
+
+				</div>
+
+				<div class="highlights__events">
+
+					<h2 class="highlights__heading"><?php _e( 'Upcoming', 'greatermedia' ); ?><span class="highlights__heading--span"><?php _e( 'Events', 'greatermedia' ); ?></span></h2>
+
+					<div class="highlights__event--item">
+
+						<div class="highlights__event--thumb">
+							<img src="http://placehold.it/156x156&text=image">
+						</div>
+
+						<div class="highlights__event--meta">
+							<h3 class="highlights__event--title">Preston & Steve’s Camp Out For Hunger 2014</h3>
+							<time datetime="<?php the_time( 'c' ); ?>" class="highlights__event--date">Dec 1 - Dec 5</time>
+						</div>
+
+					</div>
+
+					<div class="highlights__event--item">
+
+						<div class="highlights__event--thumb">
+							<img src="http://placehold.it/156x156&text=image">
+						</div>
+
+						<div class="highlights__event--meta">
+							<h3 class="highlights__event--title">A.B.A.T.E. Motorcycle Toy Run For The Kids!</h3>
+							<time datetime="<?php the_time( 'c' ); ?>" class="highlights__event--date">Nov 2</time>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
 		</section>
 
 		<!-- Video Post -->

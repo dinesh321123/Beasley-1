@@ -89,12 +89,7 @@ class RegisterAjaxHandler extends AjaxHandler {
 	}
 
 	public function request_for( $method, $UID ) {
-		$request = new \GSRequest(
-			GMR_GIGYA_API_KEY,
-			GMR_GIGYA_SECRET_KEY,
-			$method
-		);
-
+		$request = new GigyaRequest( null, null, $method );
 		$request->setParam( 'UID',  $UID );
 
 		return $request;

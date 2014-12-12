@@ -72,6 +72,7 @@
 						<li class="sg-nav--item"><a href="#navigations"><?php _e( 'Navigations', 'greatermedia' ); ?></a></li>
 						<li class="sg-nav--item"><a href="#discussions"><?php _e( 'Discussions', 'greatermedia' ); ?></a></li>
 						<li class="sg-nav--item"><a href="#layout"><?php _e( 'Layout', 'greatermedia' ); ?></a></li>
+						<li class="sg-nav--item"><a href="#live-player"><?php _e( 'Live Player', 'greatermedia' ); ?></a></li>
 					</ul>
 				</div>
 			</nav>

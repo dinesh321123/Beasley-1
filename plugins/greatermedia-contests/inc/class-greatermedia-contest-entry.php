@@ -6,23 +6,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GreaterMediaContestEntry {
 
-	const ENTRY_SOURCE_TWITTER = 'twitter';
-	const ENTRY_SOURCE_INSTAGRAM = 'instagram';
-	const ENTRY_SOURCE_GRAVITY_FORMS = 'gravity-forms';
+	const ENTRY_SOURCE_EMBEDDED_FORM = 'embedded_form';
 
-	private $post;
+	protected $post;
 
-	private $entrant_name;
-	private $entrant_reference; // Gigya ID
-	private $entry_source; // How this entry was created (i.e. "gravity-forms"
-	private $entry_reference; // Reference/link to the source of the entry (i.e. Gravity Forms submission ID)
+	protected $entrant_name;
+	protected $entrant_reference; // Gigya ID
+	protected $entry_source; // How this entry was created (i.e. "gravity-forms"
+	protected $entry_reference; // Reference/link to the source of the entry (i.e. Gravity Forms submission ID)
 
-	private function __construct( WP_Post $post_obj = null, $contest_id = null ) {
+	protected function __construct( WP_Post $post_obj = null, $contest_id = null ) {
 
 		if ( null !== $post_obj ) {
 
-			if(!($post_obj instanceof WP_Post)) {
-				throw new UnexpectedValueException('$post_obj must be a WP_Post');
+			if ( ! ( $post_obj instanceof WP_Post ) ) {
+				throw new UnexpectedValueException( '$post_obj must be a WP_Post' );
 			}
 
 			$this->post              = $post_obj;
@@ -31,7 +29,7 @@ class GreaterMediaContestEntry {
 			$this->entry_source      = get_post_meta( $this->post->ID, 'entry_source', true );
 			$this->entry_reference   = get_post_meta( $this->post->ID, 'entry_reference', true );
 		} else {
-			$this->post = new WP_Post( new stdClass() );
+			$this->post            = new WP_Post( new stdClass() );
 			$this->post->post_type = 'contest_entry';
 		}
 
@@ -57,11 +55,12 @@ class GreaterMediaContestEntry {
 	 */
 	public function save() {
 
-		wp_update_post( $this->post, true );
-		update_post_meta( $this->post->ID, 'entrant_name', $this->entrant_name );
-		update_post_meta( $this->post->ID, 'entrant_reference', $this->entrant_reference );
-		update_post_meta( $this->post->ID, 'entry_source', $this->entry_source );
-		update_post_meta( $this->post->ID, 'entry_reference', $this->entry_reference );
+		$post_id = wp_update_post( $this->post, true );
+
+		update_post_meta( $post_id, 'entrant_name', $this->entrant_name );
+		update_post_meta( $post_id, 'entrant_reference', $this->entrant_reference );
+		update_post_meta( $post_id, 'entry_source', $this->entry_source );
+		update_post_meta( $post_id, 'entry_reference', $this->entry_reference );
 
 	}
 
@@ -119,11 +118,11 @@ class GreaterMediaContestEntry {
 	/**
 	 * Factory method to create a new contest entry for a given set of data
 	 *
-	 * @param $contest_id        Post ID of the related contest
-	 * @param $entrant_name      Name of the entrant
-	 * @param $entrant_reference Gigya ID
-	 * @param $entry_source      Source of the entry (i.e. "gravity-forms")
-	 * @param $entry_reference   ID or link to the source of the entry
+	 * @param int    $contest_id        Post ID of the related contest
+	 * @param string $entrant_name      Name of the entrant
+	 * @param string $entrant_reference Gigya ID
+	 * @param string $entry_source      Source of the entry (i.e. "gravity-forms")
+	 * @param string $entry_reference   ID or link to the source of the entry
 	 *
 	 * @throws UnexpectedValueException
 	 * @return GreaterMediaContestEntry
@@ -134,8 +133,7 @@ class GreaterMediaContestEntry {
 		$possible_entry_subclass_name = 'GreaterMediaContestEntry' . $entry_source_camel_case;
 		if ( class_exists( $possible_entry_subclass_name ) ) {
 			$entry = new $possible_entry_subclass_name( null, $contest_id );
-		}
-		else {
+		} else {
 			$entry = new self( null, $contest_id );
 		}
 
@@ -177,7 +175,12 @@ class GreaterMediaContestEntry {
 			throw new UnexpectedValueException( 'Post ID passed does not reference a "Contest Entry" post' );
 		}
 
-		$entry = new self( $entry_post );
+		$entry_source = get_post_meta( $post_id, 'entry_source', true );
+		if ( self::ENTRY_SOURCE_EMBEDDED_FORM === $entry_source ) {
+			$entry = new GreaterMediaContestEntryEmbeddedForm( $entry_post );
+		} else {
+			$entry = new self( $entry_post );
+		}
 
 		return $entry;
 
