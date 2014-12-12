@@ -2645,13 +2645,13 @@ class GMedia_Migration extends WP_CLI_Command {
 			$form_encoded = json_encode( $form );
 			update_post_meta( $wp_id, 'survey_embedded_form', $form_encoded );
 
-			// register hidden post type for responses
-			if( is_array( $survey->Responses->Response ) ) {
-				foreach( $survey->Responses->Response as $response ) {
+			if( isset( $survey->Responses->Response ) ) {
+
+				foreach ( $survey->Responses->Response as $response ) {
 
 					$response_values = array();
 
-					foreach( $response->Answer as $answer ) {
+					foreach ( $response->Answer as $answer ) {
 
 						// get parent question id
 						$survey_form = get_post_meta( $wp_id, 'survey_embedded_form', true );
@@ -2668,29 +2668,29 @@ class GMedia_Migration extends WP_CLI_Command {
 					}
 
 					$response_args = array(
-						'post_status'           => 'publish',
-						'post_type'             => 'survey_response',
-						'post_parent'           => $wp_id,
-						'post_title'            => (string) $response['EmailAddress'],
+						'post_status' => 'publish',
+						'post_type'   => 'survey_response',
+						'post_parent' => $wp_id,
+						'post_title'  => (string) $response['EmailAddress'],
 					);
 
 					$user_survey_id = (string) $response['UserSurveyID'];
 
 					$response_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = 'gmedia_import_id' AND meta_value = '" . $user_survey_id . "'" );
 
-					if( !$force && $response_id ) {
+					if ( ! $force && $response_id ) {
 						continue;
 					}
 
 					$response_id = wp_insert_post( $response_args );
-					WP_CLI::log( "Imported response" );
-					if( $response_id ) {
+					
+					if ( $response_id ) {
 
-						if( isset($response['UTCCompletionDate']) ){
+						if ( isset( $response['UTCCompletionDate'] ) ) {
 							update_post_meta( $response_id, '_legacy_UTCCompletionDate', (string) $response['UTCCompletionDate'] );
 						}
 
-						if( !empty( $response_values ) ){
+						if ( ! empty( $response_values ) ) {
 							update_post_meta( $response_id, 'entry_reference', json_encode( $response_values ) );
 						}
 
@@ -2729,6 +2729,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			// grab the existing post ID (if it exists).
 			$wp_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = 'gmedia_import_id' AND meta_value = '" . $contest_hash . "'" );
+
 
 			// If we're not forcing import, skip existing posts.
 			if ( ! $force && $wp_id ) {
@@ -2769,10 +2770,10 @@ class GMedia_Migration extends WP_CLI_Command {
 			$wp_id = wp_insert_post( $contest_args );
 
 			// Download images found in post_content and update post_content with new images.
-			$updated_post = array( 'ID' => $wp_id );
+			//$updated_post = array( 'ID' => $wp_id );
 			/*$updated_post['post_content'] = $this->import_media( trim( (string) $contest->ContestText ), $wp_id );
 			*/
-			wp_update_post( $updated_post );
+			//wp_update_post( $updated_post );
 
 			update_post_meta( $wp_id, 'gmedia_import_id', $contest_hash );
 
@@ -2808,7 +2809,8 @@ class GMedia_Migration extends WP_CLI_Command {
 			}
 
 			// process terms
-			if( isset( $contest_title_matches ) && $contest_title_matches[1] ) {
+
+			if( !empty( $contest_title_matches ) && $contest_title_matches[1] ) {
 				$contest_term['name'] = $contest_title_matches[1];
 				$contest_term['desc'] = "";
 
@@ -2836,13 +2838,14 @@ class GMedia_Migration extends WP_CLI_Command {
 			if( isset( $contest['SurveyID'] ) ) {
 				$orig_survey_id = (int) $contest['SurveyID'];
 				$form_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = '_legacy_SurveyID' AND meta_value = '" . $orig_survey_id . "'" );
-				$form = get_post_meta( $form_id, 'survey_embedded_form', true );
-				update_post_meta( $form_id, 'gmedia_must_delete', 'true' );
-				update_post_meta( $wp_id, 'embedded_form', $form );
-
+				if( $form_id ) {
+					$form = get_post_meta( $form_id, 'survey_embedded_form', true );
+					update_post_meta( $form_id, 'gmedia_must_delete', 'true' );
+					update_post_meta( $wp_id, 'embedded_form', $form );
+				}
 			}
 
-			if( !empty( $contest->Entries ) ) {
+			if( isset( $contest->Entries->Entry ) && !empty( $contest->Entries->Entry ) ) {
 
 				foreach ( $contest->Entries->Entry as $entry ) {
 
@@ -2850,6 +2853,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					if( isset( $entry['MemberID'] ) ) {
 						$entry_name = (string) $entry['MemberID'];
 					}
+
 					$entry_args = array(
 						'post_status' => 'publish',
 						'post_type'   => 'contest_entry',
@@ -2871,20 +2875,21 @@ class GMedia_Migration extends WP_CLI_Command {
 							$submitted_values = get_post_meta( $response_id, 'entry_reference', true );
 						}
 
-						$contest_entry = GreaterMediaContestEntryEmbeddedForm::create_for_data(
+						/*$contest_entry = GreaterMediaContestEntryEmbeddedForm::create_for_data(
 							$wp_id,
 							$entry_name,
 							$entry_name,
 							GreaterMediaContestEntry::ENTRY_SOURCE_EMBEDDED_FORM,
 							$submitted_values
-						);
+						);*/
+
 
 						update_post_meta( $entry_id, 'entrant_name', $entry_name );
 						update_post_meta( $entry_id, 'entrant_reference', $entry_name );
 						update_post_meta( $entry_id, 'entry_source', GreaterMediaContestEntry::ENTRY_SOURCE_EMBEDDED_FORM );
 						update_post_meta( $entry_id, 'entry_reference', $submitted_values );
 
-						do_action( 'greatermedia_contest_entry_save', $contest_entry );
+						//do_action( 'greatermedia_contest_entry_save', $contest_entry );
 
 						if ( isset( $entry['isWinner'] ) ) {
 							update_post_meta( $entry_id, '_legacy_isWinner', (string) $entry['isWinner'] );
@@ -2893,7 +2898,9 @@ class GMedia_Migration extends WP_CLI_Command {
 						if ( isset( $entry['ContestEntryID'] ) ) {
 							update_post_meta( $entry_id, '_legacy_ContestEntryID', (string) $entry['ContestEntryID'] );
 						}
+
 					}
+
 
 					//$progress->tick();
 				}
