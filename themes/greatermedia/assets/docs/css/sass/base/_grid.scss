@@ -116,3 +116,7 @@ img {
 		top: 270px;
 	}
 }
+
+.row {
+	@include row();
+}

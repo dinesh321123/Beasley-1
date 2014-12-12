@@ -15,8 +15,8 @@ Curated posts for Featured Articles
 			</div>
 			<div class="featured__article--content">
 				<div class="featured__article--heading">
-					<h2 class="featured__article--title">Artist of the Month</h2>
-					<h3 class="featured__article--subtitle">Minshara</h3>
+					<h3 class="featured__article--subtitle">Artist of the Month</h3>
+					<h2 class="featured__article--title">Minshara</h2>
 				</div>
 				<div class="featured__article--bio">
 					Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
@@ -68,35 +68,14 @@ Curated posts for Featured Articles
 .home__featured {
 	position: relative;
 	@extend %main;
-	padding-top: 48px;
-	padding-bottom: 48px;
+	padding: 48px;
 	background: url(../../images/featured-bg.png) repeat center center $abbey;
 	background-size: auto 40%;
 }
 
-.featured .container {
-}
-
 .featured__article, .featured__content {
-	@include span-columns(4);
 	padding-bottom: 34px;
-	@include bp(small) {
-		@include span-columns(6);
-	}
-	@include bp(medium) {
-		@include span-columns(6);
-		@include shift(1);
-		padding-right: 0;
-		padding-left: 0;
-	}
-	@include bp(large) {
-		@include span-columns(10);
-		@include shift(1);
-	}
-	@include bp(x-large) {
-		@include span-columns(10);
-		@include shift(1);
-	}
+	@include row();
 }
 
 .featured__article--image {
@@ -119,8 +98,8 @@ Curated posts for Featured Articles
 	width: 100%;
 	padding: 15px 3.928571428572%;
 	overflow: auto;
-	background-color: $coffee-bean;
-	color: $iron;
+	background: $secondary-link;
+
 	@include bp(small) {
 		padding: 15px 4.941176470588%;
 	}
@@ -129,6 +108,11 @@ Curated posts for Featured Articles
 	}
 	@include bp(x-large) {
 		padding: 34px 2.898550724638%;
+	}
+
+	.home__featured & {
+		background-color: $coffee-bean;
+		color: $iron;
 	}
 }
 
@@ -181,21 +165,25 @@ Curated posts for Featured Articles
 	height: 90px;
 	margin-bottom: 27px;
 	overflow: hidden;
-	background-color: $coffee-bean;
+	background: $secondary-link;
 	@include bp(small) {
 		width: 100%;
 		height: 95px;
 		margin-bottom: 25px;
 	}
 	@include bp(large) {
-		width: 31.055900621118%;
-		height: 280px;
-		margin-right: 3.416149068323%;
+		@include span-columns(4 of 12);
+		height: 100px;
 		margin-bottom: 0;
 		overflow: visible;
 	}
 	@include bp(x-large) {
 		height: 106px;
+	}
+
+	.home__featured & {
+		background-color: $coffee-bean;
+		color: $iron;
 	}
 }
 
@@ -204,52 +192,27 @@ Curated posts for Featured Articles
 }
 
 .featured__content--image {
-	float: left;
-	width: 32.142857142857%;
-	height: 90px;
-	@include bp(small) {
-		width: 33.411764705882%;
-		height: 95px;
-	}
-	@include bp(large) {
-		width: 100%;
-		height: 138px;
-		overflow: hidden;
-	}
-	@include bp(x-large) {
-		width: 35.570469798658%;
-		height: 106px;
-	}
+	@include span-columns(4 of 12);
+	height: 100%;
+	overflow: hidden;
+	
 }
 
 .featured__content--image img {
-	width: 100%;
-	@include bp(x-large) {
-		max-width: 100%;
-	}
+	height: 100%;
+	width: auto;
+	max-width: none;
 }
 
 .featured__content--meta {
-	float: left;
-	width: 67.857142857143%;
-	padding: 14px 3.571428571429% 14px 5.357142857143%;
 	font-size: ms(-2);
 	font-weight: lighter;
-	color: $aluminium;
-	@include bp(small) {
-		width: 66.588235294118%;
-		padding: 15px 2.352941176471% 15px 4.941176470588%;
-		font-size: ms(-1);
-	}
-	@include bp(large) {
-		width: 100%;
-		height: 142px;
-		padding: 28px 10.280373831776% 15px 10.280373831776%;
-	}
-	@include bp(x-large) {
-		width: 64.429530201342%;
-		height: 100%;
-		padding: 13px 3.355704697987% 13px 10.06711409396%;
+	padding: 1em;
+	@include span-columns(8 of 12);
+	@include omega;
+	
+	.home__featured & {
+		color: $aluminium;
 	}
 }
 

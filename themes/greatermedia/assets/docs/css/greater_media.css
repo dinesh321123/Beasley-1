@@ -693,6 +693,13 @@ img {
   .logged-in .live-player {
     top: 270px; } }
 
+.row {
+  display: block; }
+  .row:after {
+    content: "";
+    display: table;
+    clear: both; }
+
 html {
   width: 100%;
   height: 100%;
@@ -1196,8 +1203,8 @@ Curated posts for Featured Articles
 			</div>
 			<div class="featured__article--content">
 				<div class="featured__article--heading">
-					<h2 class="featured__article--title">Artist of the Month</h2>
-					<h3 class="featured__article--subtitle">Minshara</h3>
+					<h3 class="featured__article--subtitle">Artist of the Month</h3>
+					<h2 class="featured__article--title">Minshara</h2>
 				</div>
 				<div class="featured__article--bio">
 					Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
@@ -1247,56 +1254,17 @@ Curated posts for Featured Articles
 */
 .home__featured {
   position: relative;
-  padding-top: 48px;
-  padding-bottom: 48px;
+  padding: 48px;
   background: url(../../images/featured-bg.png) repeat center center #58595b;
   background-size: auto 40%; }
 
 .featured__article, .featured__content {
-  float: left;
-  display: block;
-  margin-right: 7.42297%;
-  width: 100%;
-  padding-bottom: 34px; }
-  .featured__article:last-child, .featured__content:last-child {
-    margin-right: 0; }
-  @media screen and (min-width: 480px) {
-    .featured__article, .featured__content {
-      float: left;
-      display: block;
-      margin-right: 4.82916%;
-      width: 100%; }
-      .featured__article:last-child, .featured__content:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 768px) {
-    .featured__article, .featured__content {
-      float: left;
-      display: block;
-      margin-right: 3.57866%;
-      width: 74.10533%;
-      margin-left: 12.94733%;
-      padding-right: 0;
-      padding-left: 0; }
-      .featured__article:last-child, .featured__content:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1024px) {
-    .featured__article, .featured__content {
-      float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 82.94039%;
-      margin-left: 8.5298%; }
-      .featured__article:last-child, .featured__content:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1400px) {
-    .featured__article, .featured__content {
-      float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 82.94039%;
-      margin-left: 8.5298%; }
-      .featured__article:last-child, .featured__content:last-child {
-        margin-right: 0; } }
+  padding-bottom: 34px;
+  display: block; }
+  .featured__article:after, .featured__content:after {
+    content: "";
+    display: table;
+    clear: both; }
 
 .featured__article--image {
   width: 100%;
@@ -1317,8 +1285,7 @@ Curated posts for Featured Articles
   width: 100%;
   padding: 15px 3.928571428572%;
   overflow: auto;
-  background-color: #270e10;
-  color: #d0d2d3; }
+  background: #c7c7c7; }
   @media screen and (min-width: 480px) {
     .featured__article--content {
       padding: 15px 4.941176470588%; } }
@@ -1328,6 +1295,9 @@ Curated posts for Featured Articles
   @media screen and (min-width: 1400px) {
     .featured__article--content {
       padding: 34px 2.898550724638%; } }
+  .home__featured .featured__article--content {
+    background-color: #270e10;
+    color: #d0d2d3; }
 
 .featured__article--heading {
   float: left;
@@ -1374,7 +1344,7 @@ Curated posts for Featured Articles
   height: 90px;
   margin-bottom: 27px;
   overflow: hidden;
-  background-color: #270e10; }
+  background: #c7c7c7; }
   @media screen and (min-width: 480px) {
     .featured__content--block {
       width: 100%;
@@ -1382,64 +1352,53 @@ Curated posts for Featured Articles
       margin-bottom: 25px; } }
   @media screen and (min-width: 1024px) {
     .featured__content--block {
-      width: 31.055900621118%;
-      height: 280px;
-      margin-right: 3.416149068323%;
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
+      height: 100px;
       margin-bottom: 0;
-      overflow: visible; } }
+      overflow: visible; }
+      .featured__content--block:last-child {
+        margin-right: 0; } }
   @media screen and (min-width: 1400px) {
     .featured__content--block {
       height: 106px; } }
+  .home__featured .featured__content--block {
+    background-color: #270e10;
+    color: #d0d2d3; }
 
 .featured__content--block:last-of-type {
   margin-right: 0; }
 
 .featured__content--image {
   float: left;
-  width: 32.142857142857%;
-  height: 90px; }
-  @media screen and (min-width: 480px) {
-    .featured__content--image {
-      width: 33.411764705882%;
-      height: 95px; } }
-  @media screen and (min-width: 1024px) {
-    .featured__content--image {
-      width: 100%;
-      height: 138px;
-      overflow: hidden; } }
-  @media screen and (min-width: 1400px) {
-    .featured__content--image {
-      width: 35.570469798658%;
-      height: 106px; } }
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%;
+  height: 100%;
+  overflow: hidden; }
+  .featured__content--image:last-child {
+    margin-right: 0; }
 
 .featured__content--image img {
-  width: 100%; }
-  @media screen and (min-width: 1400px) {
-    .featured__content--image img {
-      max-width: 100%; } }
+  height: 100%;
+  width: auto;
+  max-width: none; }
 
 .featured__content--meta {
-  float: left;
-  width: 67.857142857143%;
-  padding: 14px 3.571428571429% 14px 5.357142857143%;
   font-size: ms(-2);
   font-weight: lighter;
-  color: #a6a8ab; }
-  @media screen and (min-width: 480px) {
-    .featured__content--meta {
-      width: 66.588235294118%;
-      padding: 15px 2.352941176471% 15px 4.941176470588%;
-      font-size: ms(-1); } }
-  @media screen and (min-width: 1024px) {
-    .featured__content--meta {
-      width: 100%;
-      height: 142px;
-      padding: 28px 10.280373831776% 15px 10.280373831776%; } }
-  @media screen and (min-width: 1400px) {
-    .featured__content--meta {
-      width: 64.429530201342%;
-      height: 100%;
-      padding: 13px 3.355704697987% 13px 10.06711409396%; } }
+  padding: 1em;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  margin-right: 0; }
+  .featured__content--meta:last-child {
+    margin-right: 0; }
+  .home__featured .featured__content--meta {
+    color: #a6a8ab; }
 
 .featured__content--title {
   margin-top: 0;
@@ -3668,7 +3627,8 @@ category: Components
   color: #d22228; }
 
 .live-link__type--audio, .live-link__type--gallery, .live-link__type--image, .live-link__type--link, .live-link__type--standard, .live-link__type--video {
-  display: block; }
+  display: block;
+  position: relative; }
 
 .live-link__song {
   display: block;
@@ -4018,6 +3978,38 @@ category: Components - Shows
 ---
 
 */
+@media screen and (min-width: 768px) {
+  .show__blogroll {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%; }
+    .show__blogroll:last-child {
+      margin-right: 0; } }
+
+.inner-right-col {
+  float: none; }
+  @media screen and (min-width: 768px) {
+    .inner-right-col {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
+      margin-right: 0;
+      float: right; }
+      .inner-right-col:last-child {
+        margin-right: 0; } }
+
+.show__favorites .featured__content--block {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  margin-bottom: 1em;
+  background: none; }
+  .show__favorites .featured__content--block:last-child {
+    margin-right: 0; }
+
 .widget--live-player {
   margin: 0 1em 1em; }
 

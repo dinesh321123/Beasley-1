@@ -685,6 +685,7 @@ category: Components
 
 .live-link__type--audio, .live-link__type--gallery, .live-link__type--image, .live-link__type--link, .live-link__type--standard, .live-link__type--video {
 	display: block;
+	position: relative;
 }
 
 .live-link__song {
