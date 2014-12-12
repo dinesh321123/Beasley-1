@@ -67,7 +67,7 @@ class MemberQuery {
 	 * @access public
 	 * @var string
 	 */
-	public $storeName = 'entries';
+	public $storeName = 'actions';
 
 	/**
 	 * Stores the post object corresponding to the member query and
@@ -467,23 +467,23 @@ class MemberQuery {
 		$entryFieldID = $constraint['entryFieldID'];
 		$query        = '';
 
-		$query .= $this->field_name_for( 'entryType' );
+		$query .= $this->field_name_for( 'actionType', 'none' );
 		$query .= ' ';
 		$query .= $this->operator_for( '=' );
 		$query .= ' ';
-		$query .= $this->value_for( $type );
+		$query .= $this->value_for( $this->get_action_type_name( $type ) );
 
 		$query .= ' and ';
 
-		$query .= $this->field_name_for( 'entryTypeID', 'integer' );
+		$query .= $this->field_name_for( 'actionID', 'none' );
 		$query .= ' ';
 		$query .= $this->operator_for( '=' );
 		$query .= ' ';
-		$query .= $this->value_for( $entryTypeID, 'integer' );
+		$query .= $this->value_for( $entryTypeID, 'string' );
 
 		$query .= ' and ';
 
-		$query .= $this->field_name_for( 'entryFieldID', 'string' );
+		$query .= $this->field_name_for( 'actionData.name', 'none' );
 		$query .= ' ';
 		$query .= $this->operator_for( '=' );
 		$query .= ' ';
@@ -491,7 +491,7 @@ class MemberQuery {
 
 		$query .= ' and ';
 
-		$query .= $this->field_name_for( 'entryValue', $valueType );
+		$query .= $this->field_name_for( 'actionData.value', $valueType );
 		$query .= ' ';
 		$query .= $this->operator_for( $operator );
 		$query .= ' ';
@@ -692,7 +692,9 @@ class MemberQuery {
 	 * @return string
 	 */
 	public function suffix_for( $valueType ) {
-		if ( array_key_exists( $valueType, self::$suffixes ) ) {
+		if ( $valueType === 'none' ) {
+			return '';
+		} else if ( array_key_exists( $valueType, self::$suffixes ) ) {
 			return '_' . self::$suffixes[ $valueType ];
 		} else {
 			return '_s';
@@ -714,6 +716,16 @@ class MemberQuery {
 			return 'actions';
 		} else {
 			throw new \Exception( "Unknown Gigya storage type name: {$type}" );
+		}
+	}
+
+	public function get_action_type_name( $old_type_name ) {
+		switch ( $old_type_name ) {
+			case 'record:contest':
+				return 'action:contest';
+
+			default:
+				return $old_type_name;
 		}
 	}
 

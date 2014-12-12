@@ -64,7 +64,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 
 	function test_it_knows_name_of_a_field() {
 		$actual = $this->query->field_name_for( 'entryType', 'string' );
-		$this->assertEquals( 'data.entries.entryType_s', $actual );
+		$this->assertEquals( 'data.actions.entryType_s', $actual );
 	}
 
 	function test_it_can_build_clause_for_constraint() {
@@ -93,7 +93,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 		);
 
 		$actual = $this->query->clause_for_constraint( $constraint );
-		$expected = "data.entries.entryType_s = 'record:contest' and data.entries.entryTypeID_i = 100 and data.entries.entryFieldID_s = '200' and data.entries.entryValue_s = 'New York'";
+		$expected = "data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'New York'";
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -194,7 +194,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 		);
 
 		$actual = $this->query->clause_for( $constraints );
-		$expected = "profile.city contains 'New York' and data.entries.entryType_s = 'record:contest' and data.entries.entryTypeID_i = 100 and data.entries.entryFieldID_s = '200' and data.entries.entryValue_s = 'New York'";
+		$expected = "profile.city contains 'New York' and data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'New York'";
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -220,7 +220,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 
 		$this->query = $this->query_for( json_encode( $constraints ) );
 		$actual = $this->query->to_gql();
-		$expected = "select * from accounts where profile.city contains 'New York' and data.entries.entryType_s = 'record:contest' and data.entries.entryTypeID_i = 100 and data.entries.entryFieldID_s = '200' and data.entries.entryValue_s = 'New York'";
+		$expected = "select * from accounts where profile.city contains 'New York' and data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'New York'";
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -396,22 +396,22 @@ class MemberQueryTest extends \WP_UnitTestCase {
 				'value'       => 'Los Angeles',
 			),
 			array(
-				'type'         => 'action:contest',
+				'type'         => 'record:contest',
 				'operator'     => 'equals',
 				'conjunction'  => 'or',
 				'valueType'    => 'string',
 				'value'        => 'foo',
-				'actionTypeID'  => 100,
-				'actionFieldID' => '200',
+				'entryTypeID'  => 100,
+				'entryFieldID' => '200',
 			),
 			array(
-				'type'         => 'action:contest',
+				'type'         => 'record:contest',
 				'operator'     => 'equals',
 				'conjunction'  => 'and',
 				'valueType'    => 'string',
 				'value'        => 'bar',
-				'actionTypeID'  => 101,
-				'actionFieldID' => '201',
+				'entryTypeID'  => 101,
+				'entryFieldID' => '201',
 			),
 		);
 
@@ -424,7 +424,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 		$this->assertEquals( 'profile', $actual[0]['store_type'] );
 		$this->assertEquals( $expected, $actual[0]['query'] );
 
-		$expected = "select * from actions where data.actions.actionType_s = 'action:contest' and data.actions.actionTypeID_i = 100 and data.actions.actionFieldID_s = '200' and data.actions.actionValue_s = 'foo' or data.actions.actionType_s = 'action:contest' and data.actions.actionTypeID_i = 101 and data.actions.actionFieldID_s = '201' and data.actions.actionValue_s = 'bar'";
+		$expected = "select * from actions where data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'foo' or data.actions.actionType = 'action:contest' and data.actions.actionID = '101' and data.actions.actionData.name = '201' and data.actions.actionData.value_s = 'bar'";
 		$this->assertEquals( 'data_store', $actual[1]['store_type'] );
 		$this->assertEquals( $expected, $actual[1]['query'] );
 	}
@@ -446,22 +446,22 @@ class MemberQueryTest extends \WP_UnitTestCase {
 				'value'       => 'Los Angeles',
 			),
 			array(
-				'type'         => 'action:contest',
+				'type'         => 'record:contest',
 				'operator'     => 'equals',
 				'conjunction'  => 'or',
 				'valueType'    => 'string',
 				'value'        => 'foo',
-				'actionTypeID'  => 100,
-				'actionFieldID' => '200',
+				'entryTypeID'  => 100,
+				'entryFieldID' => '200',
 			),
 			array(
-				'type'         => 'action:contest',
+				'type'         => 'record:contest',
 				'operator'     => 'equals',
 				'conjunction'  => 'and',
 				'valueType'    => 'string',
 				'value'        => 'bar',
-				'actionTypeID'  => 101,
-				'actionFieldID' => '201',
+				'entryTypeID'  => 101,
+				'entryFieldID' => '201',
 			),
 		);
 
@@ -488,22 +488,22 @@ class MemberQueryTest extends \WP_UnitTestCase {
 				'value'       => 'Los Angeles',
 			),
 			array(
-				'type'         => 'action:contest',
+				'type'         => 'record:contest',
 				'operator'     => 'equals',
 				'conjunction'  => 'or',
 				'valueType'    => 'string',
 				'value'        => 'foo',
-				'actionTypeID'  => 100,
-				'actionFieldID' => '200',
+				'entryTypeID'  => 100,
+				'entryFieldID' => '200',
 			),
 			array(
-				'type'         => 'action:contest',
+				'type'         => 'record:contest',
 				'operator'     => 'equals',
 				'conjunction'  => 'and',
 				'valueType'    => 'string',
 				'value'        => 'bar',
-				'actionTypeID'  => 101,
-				'actionFieldID' => '201',
+				'entryTypeID'  => 101,
+				'entryFieldID' => '201',
 			),
 		);
 
