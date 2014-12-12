@@ -1,6 +1,6 @@
 (function() {
 
-	var showSearch,
+	var livePlayerFix, livePlayerInit, showSearch,
 
 		body = document.querySelector( 'body' ),
 		html = document.querySelector( 'html'),
@@ -284,13 +284,12 @@
 		}
 	}
 
-	/*
 	showSearch = function() {
 		searchForm.classList.toggle( 'header__search--open' );
 		pageWrap.classList.toggle( 'search--active' );
 	};
 
-	searchBtn.addEventListener('click', showSearch, false);  */
+	searchBtn.addEventListener('click', showSearch, false);
 
 	var scrollDebounce = _.debounce(getScrollPosition, 50),
 		scrollThrottle = _.throttle(getScrollPosition, 50),
