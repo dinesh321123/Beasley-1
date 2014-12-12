@@ -65,7 +65,7 @@ category: Base
 
 .entry__categories, .entry__tags, .entry__tags a {
   color: #929497;
-  font-size: ms(1);
+  font-size: 1.125em;
   font-style: italic; }
 
 /**
@@ -764,23 +764,23 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     color: #aa1c20; }
 
 h1, .h1 {
-  font-size: ms(7); }
+  font-size: 2.2807em; }
 
 h2, .h2 {
-  font-size: ms(6); }
+  font-size: 2.02729em; }
 
 h3, .h3 {
-  font-size: ms(5); }
+  font-size: 1.80203em; }
 
 h4, .h4 {
-  font-size: ms(4); }
+  font-size: 1.60181em; }
 
 h5, .h5 {
-  font-size: ms(3);
+  font-size: 1.42383em;
   letter-spacing: 2px; }
 
 h6, .h6 {
-  font-size: ms(2);
+  font-size: 1.26563em;
   letter-spacing: 2px; }
 
 /*doc
@@ -1000,7 +1000,7 @@ blockquote p {
   display: block;
   padding: 18px 1.25em;
   line-height: 1;
-  font-size: ms(7);
+  font-size: 2.2807em;
   color: #ffffff; }
 
 .mobile-nav__list a:hover, .mobile-nav__list a:focus, .mobile-nav__list a:active {
@@ -1016,7 +1016,7 @@ blockquote p {
   margin: 0;
   list-style: none;
   display: inline-block;
-  font-size: ms(0); }
+  font-size: 1em; }
 
 .header__main a, .header__main a:visited {
   color: #ffffff; }
@@ -1048,7 +1048,7 @@ blockquote p {
 .content__heading {
   margin-top: 0;
   margin-bottom: 24px;
-  font-size: ms(1);
+  font-size: 1.125em;
   font-weight: lighter;
   color: #929497; }
 
@@ -1316,13 +1316,13 @@ Curated posts for Featured Articles
   margin-bottom: 10px;
   line-height: 1;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(1);
+  font-size: 1.125em;
   font-weight: normal; }
 
 .featured__article--subtitle {
   margin: 0;
   line-height: 1;
-  font-size: ms(7);
+  font-size: 2.2807em;
   color: #ffffff; }
 
 .featured__article--bio {
@@ -1332,7 +1332,7 @@ Curated posts for Featured Articles
       display: block;
       float: left;
       width: 68.693009118541%;
-      font-size: ms(-1);
+      font-size: 0.88889em;
       line-height: 1.5; } }
   @media screen and (min-width: 1400px) {
     .featured__article--bio {
@@ -1387,7 +1387,7 @@ Curated posts for Featured Articles
   max-width: none; }
 
 .featured__content--meta {
-  font-size: ms(-2);
+  font-size: 0.79012em;
   font-weight: lighter;
   padding: 1em;
   float: left;
@@ -1405,10 +1405,10 @@ Curated posts for Featured Articles
   margin-bottom: 8px;
   line-height: 1;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(0); }
+  font-size: 1em; }
   @media screen and (min-width: 480px) {
     .featured__content--title {
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
 
 .featured__content--list {
   line-height: 1; }
@@ -1417,13 +1417,13 @@ Curated posts for Featured Articles
   display: inline-block;
   width: 40%;
   margin-bottom: 4px;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   color: #f7ef7e; }
   @media screen and (min-width: 1024px) {
     .featured__content--item {
       display: block;
       width: 100%;
-      font-size: ms(-1); } }
+      font-size: 0.88889em; } }
 
 .featured__content--link {
   width: 100%;
@@ -1444,7 +1444,7 @@ Curated posts for Featured Articles
   background-color: #d22228;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -1615,32 +1615,32 @@ Community Highlights and Events
   margin-top: 0;
   margin-bottom: 17px;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(1);
+  font-size: 1.125em;
   font-weight: lighter;
   color: #929497; }
   @media screen and (min-width: 480px) {
     .highlights__heading {
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
   @media screen and (min-width: 1024px) {
     .highlights__heading {
       margin-bottom: 13px;
-      font-size: ms(0); } }
+      font-size: 1em; } }
   @media screen and (min-width: 1400px) {
     .highlights__heading {
       margin-bottom: 17px;
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
 
 .highlights__heading--span {
   margin-left: 16px;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   color: #d22228;
   text-transform: uppercase; }
   @media screen and (min-width: 1024px) {
     .highlights__heading--span {
-      font-size: ms(-2); } }
+      font-size: 0.79012em; } }
   @media screen and (min-width: 1400px) {
     .highlights__heading--span {
-      font-size: ms(-1); } }
+      font-size: 0.88889em; } }
 
 .highlights__community {
   float: left;
@@ -1709,7 +1709,7 @@ Community Highlights and Events
   left: 0;
   width: 100%;
   margin: 0;
-  font-size: ms(0);
+  font-size: 1em;
   font-weight: normal;
   color: #ffffff;
   text-align: center; }
@@ -1790,27 +1790,27 @@ Community Highlights and Events
   margin: 0;
   line-height: 1.2;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(0);
+  font-size: 1em;
   color: #6d6e70; }
   @media screen and (min-width: 480px) {
     .highlights__event--title {
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
   @media screen and (min-width: 1024px) {
     .highlights__event--title {
-      font-size: ms(-1); } }
+      font-size: 0.88889em; } }
   @media screen and (min-width: 1400px) {
     .highlights__event--title {
       position: relative;
       top: auto;
       transform: translate(0, 0);
-      font-size: ms(0); } }
+      font-size: 1em; } }
 
 .highlights__event--date {
   display: none; }
   @media screen and (min-width: 1400px) {
     .highlights__event--date {
       display: block;
-      font-size: ms(-2);
+      font-size: 0.79012em;
       color: #929497; } }
 
 .header {
@@ -1976,7 +1976,7 @@ Community Highlights and Events
       float: left;
       height: 82px;
       margin-right: 2.125em;
-      font-size: ms(0); } }
+      font-size: 1em; } }
 
 .header__search {
   display: block;
@@ -1998,7 +1998,7 @@ Community Highlights and Events
       height: 82px;
       padding: 36px 0;
       margin-right: .625em;
-      font-size: ms(-1); } }
+      font-size: 0.88889em; } }
 
 .header__search--btn {
   display: block;
@@ -2007,7 +2007,7 @@ Community Highlights and Events
   padding: 34px 0 30px; }
 
 .header__search--btn:before {
-  font-size: ms(1);
+  font-size: 1.125em;
   content: "\e612"; }
 
 .footer {
@@ -2070,7 +2070,7 @@ Community Highlights and Events
         margin-right: 0; } }
 
 .footer__logo {
-  font-size: ms(4);
+  font-size: 1.60181em;
   font-weight: lighter;
   color: #6d6e70;
   text-transform: uppercase; }
@@ -2091,7 +2091,7 @@ Community Highlights and Events
 
 .footer__copyright {
   padding: 13px 0;
-  font-size: ms(-3); }
+  font-size: 0.70233em; }
   @media screen and (min-width: 1024px) {
     .footer__copyright {
       float: left;
@@ -2121,7 +2121,7 @@ Community Highlights and Events
 
 .footer__nav--list {
   padding: 13px 0;
-  font-size: ms(-3); }
+  font-size: 0.70233em; }
 
 .footer__nav--list .menu-item {
   display: inline-block;
@@ -2134,7 +2134,7 @@ Community Highlights and Events
 .footer__menu .social__link {
   height: 22px;
   margin: 0 0 0 30px;
-  font-size: ms(2); }
+  font-size: 1.26563em; }
 
 .footer__menu .social__link:last-child {
   margin: 0 0 0 30px; }
@@ -2278,7 +2278,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-family: "Open Sans", sans-serif; }
 
 .entry__date {
-  font-size: ms(-2);
+  font-size: 0.79012em;
   font-weight: lighter;
   color: #929497;
   text-transform: uppercase; }
@@ -2293,7 +2293,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__title {
   margin: 0 0 20px;
-  font-size: ms(4); }
+  font-size: 1.60181em; }
 
 .entry__footer {
   float: left;
@@ -2334,7 +2334,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   line-height: 1;
   font-family: "Droid Sans", sans-serif;
   font-weight: bold;
-  font-size: ms(0);
+  font-size: 1em;
   color: #929497; }
 
 .entry__footer--category:hover, .entry__footer--category:focus, .entry__footer--category:active {
@@ -2378,7 +2378,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__type--gallery, .entry__type--link, .entry__type--image, .entry__type--video, .entry__type--audio, .entry__type--standard {
   position: relative;
   padding-left: 1.875em;
-  font-size: ms(-2); }
+  font-size: 0.79012em; }
 
 .entry__categories, .entry__tags {
   margin-bottom: 8px; }
@@ -2387,7 +2387,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   padding: 0;
   margin: 0;
   list-style: none;
-  font-size: ms(-2); }
+  font-size: 0.79012em; }
 
 .entry__list:before, .entry__list--categories:before, .entry__list--tags:before {
   margin-right: .25em;
@@ -2454,7 +2454,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   display: block;
   float: right;
   text-align: center;
-  font-size: ms(-3); }
+  font-size: 0.70233em; }
 
 .entry__comments--count a:link, .entry__comments--count a:visited {
   display: block;
@@ -2867,12 +2867,12 @@ Link posts contain a link to an external site. They can also optionally have a f
 .wp-caption p.wp-caption-text {
   padding: 16px 1.25em 20px;
   margin: 4px .5em;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   text-align: left; }
 
 .posts-pagination {
   width: 100%;
-  font-size: ms(-1); }
+  font-size: 0.88889em; }
 
 .posts-pagination--previous {
   float: left;
@@ -3069,7 +3069,7 @@ category: Components
   overflow: visible;
   background-color: #191919;
   line-height: 1;
-  font-size: ms(-1); }
+  font-size: 0.88889em; }
 
 .live-player__stream--current.open {
   display: block;
@@ -3084,7 +3084,7 @@ category: Components
   width: 0;
   height: 0;
   font-family: "gmr-icons";
-  font-size: ms(1);
+  font-size: 1.125em;
   content: "\e606";
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -3170,13 +3170,13 @@ category: Components
 .live-player__stream--name {
   float: left;
   width: 20%;
-  font-size: ms(-1); }
+  font-size: 0.88889em; }
 
 .live-player__stream--desc {
   float: left;
   width: 80%;
   line-height: 1.2;
-  font-size: ms(-3); }
+  font-size: 0.70233em; }
 
 .live-player__container {
   overflow: auto; }
@@ -3234,7 +3234,7 @@ category: Components
   background-color: #d22228;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -3261,7 +3261,7 @@ category: Components
   background-color: transparent;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   color: #d22228 !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -3294,7 +3294,7 @@ category: Components
   background-color: transparent;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   color: #d22228 !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -3421,7 +3421,7 @@ category: Components
   width: 50%;
   padding-top: 8px;
   line-height: 1;
-  font-size: ms(-4);
+  font-size: 0.6243em;
   text-align: left; }
 
 .live-stream--podcast__end {
@@ -3463,15 +3463,15 @@ category: Components
 
 .on-air__title, .up-next__title {
   margin-right: 1em;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   font-weight: lighter; }
   @media screen and (min-width: 768px) {
     .on-air__title, .up-next__title {
       margin-right: .25em;
-      font-size: ms(-3); } }
+      font-size: 0.70233em; } }
 
 .on-air__show, .up-next__show {
-  font-size: ms(-2); }
+  font-size: 0.79012em; }
 
 .now-playing {
   display: none;
@@ -3498,22 +3498,22 @@ category: Components
 .now-playing__title {
   margin: 0 0 4px;
   line-height: 1;
-  font-size: ms(0);
+  font-size: 1em;
   font-weight: lighter;
   color: #d22228; }
   @media screen and (min-width: 768px) {
     .now-playing__title {
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
 
 .now-playing__artist {
   margin: 0 0 4px;
   line-height: 1;
-  font-size: ms(-3);
+  font-size: 0.70233em;
   font-weight: lighter;
   color: #c7c7c7; }
   @media screen and (min-width: 768px) {
     .now-playing__artist {
-      font-size: ms(-2); } }
+      font-size: 0.79012em; } }
 
 .live-player__volume {
   display: none; }
@@ -3582,7 +3582,7 @@ category: Components
   border: 1px solid #d0d2d3;
   border-right: none;
   border-left: none;
-  font-size: ms(-2); }
+  font-size: 0.79012em; }
 
 .live-player--test {
   width: 100%;
@@ -3673,7 +3673,7 @@ category: Components
   padding-top: 6px;
   margin: 0;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   font-weight: normal; }
 
 .live-link__title a:link, .live-link__title a:visited {
@@ -3854,18 +3854,18 @@ category: Components - Shows
     display: block;
     text-align: center; }
     .show__nav li a {
-      font-size: ms(4); }
+      font-size: 1.60181em; }
     @media screen and (min-width: 768px) {
       .show__nav li {
         display: inline-block; }
         .show__nav li a {
-          font-size: ms(0); } }
+          font-size: 1em; } }
   .show__nav a {
     color: #ffffff;
     text-transform: uppercase; }
 
 .show__title {
-  font-size: ms(10);
+  font-size: 3.24732em;
   font-family: "Droid Sans", sans-serif; }
 
 .show__meta {
@@ -4021,7 +4021,7 @@ category: Components - Shows
       display: block;
       margin: 0 0 1em;
       font-family: "Open Sans", sans-serif;
-      font-size: ms(0);
+      font-size: 1em;
       font-weight: normal; } }
 
 .widget--live-player ul {
@@ -4074,7 +4074,7 @@ a.social-share-link {
   margin: 0 1.25em 0 0;
   list-style: none;
   display: inline-block;
-  font-size: ms(0); }
+  font-size: 1em; }
 
 .social__link:last-child {
   margin: 0; }
