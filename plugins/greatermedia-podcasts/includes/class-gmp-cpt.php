@@ -47,7 +47,7 @@ class GMP_CPT {
 		$labels = array(
 			'name'                => _x( 'Podcasts', 'Post Type General Name', 'gmpodcasts' ),
 			'singular_name'       => _x( 'Podcast', 'Post Type Singular Name', 'gmpodcasts' ),
-			'menu_name'           => __( 'Podcasts', 'gmpodcasts' ),
+			'menu_name'           => __( 'Podcast/Episode', 'gmpodcasts' ),
 			'parent_item_colon'   => __( 'Parent Item:', 'gmpodcasts' ),
 			'all_items'           => __( 'All Podcasts', 'gmpodcasts' ),
 			'view_item'           => __( 'View Podcast', 'gmpodcasts' ),
