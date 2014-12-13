@@ -33,18 +33,32 @@ class QueryTask extends SyncTask {
 			$this->save_users( $users );
 
 			return $matches;
-		} else {
-			return $this->run_fast_preview();
+		} else if ( $store_type === 'profile' ) {
+			return $this->run_fast_profile_preview();
+		} else if ( $store_type === 'data_store' ) {
+			return $this->run_fast_data_store_preview();
 		}
 	}
 
-	function run_fast_preview() {
-		$store_type = $this->get_store_type();
-		$paginator  = new QueryPaginator( $store_type, $this->preview_page_size );
+	function run_fast_profile_preview() {
+		$paginator  = new QueryPaginator( 'profile', $this->preview_page_size );
 		$query      = $this->get_query();
 		$query      = str_replace( 'select *', 'select profile.email, UID', $query );
 		$matches    = $paginator->fetch( $query, 0 );
 		$users      = $this->find_preview_users( $matches['results'] );
+
+		$this->save_preview_users( $users, $matches['total_results'] );
+
+		return $matches;
+	}
+
+	function run_fast_data_store_preview() {
+		$paginator = new QueryPaginator( 'data_store', $this->preview_page_size );
+		$query     = $this->get_query();
+		$matches   = $paginator->fetch( $query, 0 );
+		$user_ids  = $this->find_users( $matches['results'] );
+		$finder    = new GigyaUserFinder();
+		$users     = $finder->find( $user_ids );
 
 		$this->save_preview_users( $users, $matches['total_results'] );
 
