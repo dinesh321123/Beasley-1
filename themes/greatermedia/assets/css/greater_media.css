@@ -700,6 +700,41 @@ img {
     display: table;
     clear: both; }
 
+.col__inner--right {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%; }
+  .col__inner--right:last-child {
+    margin-right: 0; }
+  @media screen and (min-width: 1024px) {
+    .col__inner--right {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
+      margin-right: 0; }
+      .col__inner--right:last-child {
+        margin-right: 0; } }
+
+.col__inner--left {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%; }
+  .col__inner--left:last-child {
+    margin-right: 0; }
+  @media screen and (min-width: 1024px) {
+    .col__inner--left {
+      border-right: 1px solid #d0d2d3;
+      padding-right: 2em;
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 65.88078%; }
+      .col__inner--left:last-child {
+        margin-right: 0; } }
+
 html {
   width: 100%;
   height: 100%;
@@ -3804,6 +3839,9 @@ category: Components - Ads
       float: right;
       margin: 0 0 1em 1em; } }
 
+.single__featured-img--contest {
+  margin-bottom: 2em; }
+
 /*doc
 ---
 title: Podcast Excerpt
@@ -4389,228 +4427,336 @@ category: Components - Shows
       .personality__meta:last-child {
         margin-right: 0; } }
 
-.header__search--form {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 132px;
-  padding: 16px 0;
-  background-color: #000000;
-  z-index: 10000;
-  -webkit-transition: opacity 1s ease-in 0s;
-  -moz-transition: opacity 1s ease-in 0s;
-  transition: opacity 1s ease-in 0s;
-  opacity: 0;
-  filter: alpha(opacity=0);
-  -moz-opacity: 0;
-  -khtml-opacity: 0;
-  zoom: 1; }
+/*doc
+---
+title: Form Fields
+name: form-fields
+category: Components
+---
 
-.logged-in .header__search--form {
-  top: 46px; }
-  @media screen and (min-width: 782px) {
-    .logged-in .header__search--form {
-      top: 32px; } }
+```none_example
+<form>
+	<input name="action" type="hidden" value="enter_contest"><input name=
+	"contest_id" type="hidden" value="1862"><label for="form_field_c5">Your
+	Name</label><input id="form_field_c5" name="form_field_c5" required=
+	"required" size="10" style=
+	"background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-position: right center;"
+	type="text">
+</form>
 
-.header__search--open {
-  display: block;
-  -webkit-transition: opacity 1s ease-in 0s;
-  -moz-transition: opacity 1s ease-in 0s;
-  transition: opacity 1s ease-in 0s;
-  opacity: 1;
-  filter: alpha(opacity=100);
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
-  zoom: 1; }
 
-.header__search--input {
-  width: 90%;
-  height: 100px;
-  background-color: #000000;
+<fieldset>
+	<legend>Which are your favorites?</legend><input id="form_field_c9_0" name=
+	"form_field_c9[]" type="checkbox" value="0"><label for=
+	"form_field_c9_0">this one</label><input id="form_field_c9_1" name=
+	"form_field_c9[]" type="checkbox" value="1"><label for=
+	"form_field_c9_1">that one</label><input id="form_field_c9_2" name=
+	"form_field_c9[]" type="checkbox" value="2"><label for=
+	"form_field_c9_2">the other one</label>
+</fieldset>
+<label for="form_field_c13">Tell me a story</label>
+
+<textarea id="form_field_c13" name="form_field_c13" required="required" rows=
+"5">
+</textarea>
+
+<fieldset>
+	<legend>Please choose one</legend><input id="form_field_c21_0" name=
+	"form_field_c21[]" type="radio" value="0"><label for=
+	"form_field_c21_0">Red</label><input id="form_field_c21_1" name=
+	"form_field_c21[]" type="radio" value="1"><label for=
+	"form_field_c21_1">Blue</label>
+</fieldset>
+<label for="form_field_c25">What day is it today?</label>
+
+<form>
+	<input id="form_field_c25" name="form_field_c25" required="required" type=
+	"date"><label for="form_field_c29">Select something</label><select id=
+	"form_field_c29" name="form_field_c29" required="required">
+		<option value="no">
+			no
+		</option>
+
+		<option value="ok">
+			ok
+		</option>
+
+		<option value="never!">
+			never!
+		</option>
+	</select><label for="form_field_c33">What time is it?</label><input id=
+	"form_field_c33" name="form_field_c33" required="required" type=
+	"time"><label for="form_field_c37">How many fingers am I holding
+	up?</label><input id="form_field_c37" name="form_field_c37" required=
+	"required" type="number"><label for="form_field_c41">Know any cool blogs
+	bro?</label><input id="form_field_c41" name="form_field_c41" required=
+	"required" type="url"><label for="form_field_c45">send me ur email
+	dood</label><input id="form_field_c45" name="form_field_c45" required=
+	"required" type="email"><label for="form_field_c49">how
+	much?</label><input id="form_field_c49" name="form_field_c49" pattern=
+	"\d+(\.\d{2})?" required="required" step="0.01" type="text">
+</form>
+
+
+<fieldset>
+	<legend>where u at?</legend><label for=
+	"form_field_c53[address]">Address</label><input id=
+	"form_field_c53[address]" name="form_field_c53[address]" required=
+	"required" type="text"><label for=
+	"form_field_c53[city]">City</label><input id="form_field_c53[city]" name=
+	"form_field_c53[city]" required="required" type="text"><label for=
+	"form_field_c53[state]">State</label><select id="form_field_c53[state]"
+	name="form_field_c53[state]" required="required">
+		<option value="Alabama">
+			Alabama
+		</option>
+
+		<option value="Alaska">
+			Alaska
+		</option>
+
+		<option value="Arizona">
+			Arizona
+		</option>
+
+		<option value="Arkansas">
+			Arkansas
+		</option>
+
+		<option value="California">
+			California
+		</option>
+
+		<option value="Colorado">
+			Colorado
+		</option>
+
+		<option value="Connecticut">
+			Connecticut
+		</option>
+
+		<option value="Delaware">
+			Delaware
+		</option>
+
+		<option value="Florida">
+			Florida
+		</option>
+
+		<option value="Georgia">
+			Georgia
+		</option>
+
+		<option value="Hawaii">
+			Hawaii
+		</option>
+
+		<option value="Idaho">
+			Idaho
+		</option>
+
+		<option value="Illinois">
+			Illinois
+		</option>
+
+		<option value="Indiana">
+			Indiana
+		</option>
+
+		<option value="Iowa">
+			Iowa
+		</option>
+
+		<option value="Kansas">
+			Kansas
+		</option>
+
+		<option value="Kentucky">
+			Kentucky
+		</option>
+
+		<option value="Louisiana">
+			Louisiana
+		</option>
+
+		<option value="Maine">
+			Maine
+		</option>
+
+		<option value="Maryland">
+			Maryland
+		</option>
+
+		<option value="Massachusetts">
+			Massachusetts
+		</option>
+
+		<option value="Michigan">
+			Michigan
+		</option>
+
+		<option value="Minnesota">
+			Minnesota
+		</option>
+
+		<option value="Mississippi">
+			Mississippi
+		</option>
+
+		<option value="Missouri">
+			Missouri
+		</option>
+
+		<option value="Montana">
+			Montana
+		</option>
+
+		<option value="Nebraska">
+			Nebraska
+		</option>
+
+		<option value="Nevada">
+			Nevada
+		</option>
+
+		<option value="New Hampshire">
+			New Hampshire
+		</option>
+
+		<option value="New Jersey">
+			New Jersey
+		</option>
+
+		<option value="New Mexico">
+			New Mexico
+		</option>
+
+		<option value="New York">
+			New York
+		</option>
+
+		<option value="North Carolina">
+			North Carolina
+		</option>
+
+		<option value="North Dakota">
+			North Dakota
+		</option>
+
+		<option value="Ohio">
+			Ohio
+		</option>
+
+		<option value="Oklahoma">
+			Oklahoma
+		</option>
+
+		<option value="Oregon">
+			Oregon
+		</option>
+
+		<option value="Pennsylvania">
+			Pennsylvania
+		</option>
+
+		<option value="Rhode Island">
+			Rhode Island
+		</option>
+
+		<option value="South Carolina">
+			South Carolina
+		</option>
+
+		<option value="South Dakota">
+			South Dakota
+		</option>
+
+		<option value="Tennessee">
+			Tennessee
+		</option>
+
+		<option value="Texas">
+			Texas
+		</option>
+
+		<option value="Utah">
+			Utah
+		</option>
+
+		<option value="Vermont">
+			Vermont
+		</option>
+
+		<option value="Virginia">
+			Virginia
+		</option>
+
+		<option value="Washington">
+			Washington
+		</option>
+
+		<option value="West Virginia">
+			West Virginia
+		</option>
+
+		<option value="Wisconsin">
+			Wisconsin
+		</option>
+
+		<option value="Wyoming">
+			Wyoming
+		</option>
+	</select><label for="form_field_c53[postal_code]">Zip Code/Postal
+	Code</label><input id="form_field_c53[postal_code]" name=
+	"form_field_c53[postal_code]" pattern="^\d{5}(?:[-\s]\d{4})?$" required=
+	"required" type="number">
+</fieldset>
+<label for="form_field_c57">no viruses plz!</label>
+
+<form>
+	<input id="form_field_c57" name="form_field_c57" required="required" type=
+	"file">
+</form>
+
+
+<p class="submit"><input class="button" id="" name="" type="submit" value=
+"Enter">
+</p>
+```
+
+*/
+input[type=text], input[type=number], input[type=date], input[type=time], input[type=url], input[type=email], textarea, fieldset input[type=text], fieldset input[type=number] {
   border: none;
-  outline: none;
-  font-size: 2.2807em;
-  color: #ffffff;
-  text-align: center; }
-  .header__search--input::-webkit-input-placeholder {
-    color: #c7c7c7; }
-  .header__search--input::-moz-placeholder {
-    color: #c7c7c7; }
-  .header__search--input:-moz-placeholder {
-    color: #c7c7c7; }
-  .header__search--input:-ms-input-placeholder {
-    color: #c7c7c7; }
+  background: #929497;
+  margin-bottom: 1em;
+  display: block;
+  padding: 0.25em 0.5em; }
 
-.header__search--submit {
-  position: relative;
-  width: 5%;
-  height: 100px;
+label {
+  display: block; }
+
+input[type=text], input[type=number], input[type=date], input[type=time], input[type=url], input[type=email] {
+  width: 100%;
+  margin: 0; }
+
+textarea {
+  width: 100%; }
+
+fieldset {
   border: none;
-  background-color: transparent;
-  color: #ffffff; }
+  padding: 0; }
+  fieldset label {
+    display: inline-block;
+    margin: 0 0.5em; }
+  fieldset input[type=text], fieldset input[type=number] {
+    width: 100%; }
 
-.header__search--submit:before {
-  font-size: 1.80203em;
-  content: "\e612"; }
-
-.page-wrap.search--active:before {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  content: ""; }
-
-.search__results--count {
-  padding-bottom: 12px;
-  margin: 0;
-  line-height: 1;
-  border-bottom: 6px solid #404041;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.88889em;
-  font-weight: lighter;
-  color: #404041; }
-
-.search__keyword {
-  padding: 0;
-  margin-top: 26px;
-  margin-bottom: 0;
-  font-size: 1.125em;
-  color: #404041;
-  text-transform: uppercase; }
-
-.search__keyword--term {
-  color: #d22228; }
-
-.keyword__search--results {
-  margin-bottom: 26px; }
-
-.search__title {
-  padding-bottom: 12px;
-  margin: 0;
-  line-height: 1;
-  border-bottom: 6px solid #d0d2d3;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.88889em;
-  font-weight: lighter;
-  color: #404041; }
-
-.search__result {
-  width: 100%;
-  padding-top: 26px;
-  padding-bottom: 26px;
-  margin: 0;
-  overflow: auto;
-  border-bottom: 1px solid #d0d2d3; }
-
-.search__result:last-of-type {
-  padding-bottom: 0;
-  border-bottom: none; }
-
-.search__result--date {
-  float: left;
-  display: block;
-  margin-right: 7.42297%;
-  width: 19.43277%;
-  padding: 5px 0;
-  font-size: 0.88889em;
-  color: #929497; }
-  .search__result--date:last-child {
-    margin-right: 0; }
-  @media screen and (min-width: 480px) {
-    .search__result--date {
-      float: left;
-      display: block;
-      margin-right: 4.82916%;
-      width: 30.11389%; }
-      .search__result--date:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 768px) {
-    .search__result--date {
-      float: left;
-      display: block;
-      margin-right: 4.82916%;
-      width: 30.11389%; }
-      .search__result--date:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1024px) {
-    .search__result--date {
-      float: left;
-      display: block;
-      margin-right: 2.84259%;
-      width: 17.72593%; }
-      .search__result--date:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1400px) {
-    .search__result--date {
-      float: left;
-      display: block;
-      margin-right: 2.84259%;
-      width: 17.72593%; }
-      .search__result--date:last-child {
-        margin-right: 0; } }
-
-.search__result--title {
-  float: left;
-  display: block;
-  margin-right: 7.42297%;
-  width: 73.14426%;
-  margin-right: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.26563em;
-  font-weight: normal;
-  color: #d22228; }
-  .search__result--title:last-child {
-    margin-right: 0; }
-  @media screen and (min-width: 480px) {
-    .search__result--title {
-      float: left;
-      display: block;
-      margin-right: 4.82916%;
-      width: 65.05695%;
-      margin-right: 0; }
-      .search__result--title:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 768px) {
-    .search__result--title {
-      float: left;
-      display: block;
-      margin-right: 4.82916%;
-      width: 65.05695%;
-      margin-right: 0; }
-      .search__result--title:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1024px) {
-    .search__result--title {
-      float: left;
-      display: block;
-      margin-right: 2.84259%;
-      width: 79.43148%;
-      margin-right: 0; }
-      .search__result--title:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1400px) {
-    .search__result--title {
-      float: left;
-      display: block;
-      margin-right: 2.84259%;
-      width: 79.43148%;
-      margin-right: 0; }
-      .search__result--title:last-child {
-        margin-right: 0; } }
-
-.search__result--title a:link, .search__result--title a:visited {
-  color: #d22228; }
-
-.search__result--title a:hover, .search__result--title a:focus, .search__result--title a:active {
-  color: #000000; }
-
-.search__result--term {
-  font-weight: bold; }
+select {
+  -webkit-appeaerance: none;
+  border-radius: none;
+  background: #929497;
+  border: none;
+  width: 100%; }
 
 /**
  * Single Page Styles

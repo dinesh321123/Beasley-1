@@ -10,27 +10,49 @@ get_header(); ?>
 
 	<main class="main" role="main">
 
-		<div class="container">
+			<?php if ( defined( 'GREATER_MEDIA_GIGYA_TEST_UI' ) && GREATER_MEDIA_GIGYA_TEST_UI ) {
+				if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-			<section class="content">
-				<?php if ( defined( 'GREATER_MEDIA_GIGYA_TEST_UI' ) && GREATER_MEDIA_GIGYA_TEST_UI ) {
-					if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+			<div class="container">
+
+				<section class="content">
 
 						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-							<header class="entry-header">
+							<?php if ( has_post_thumbnail() ) {
 
-								<h2 class="entry-title" itemprop="headline">
-									<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+									the_post_thumbnail( 'full', array( 'class' => 'single__featured-img--contest' ) );
 
-							</header>
-
-							<?php
-
-							$form = get_post_meta( get_the_ID(), 'embedded_form', true );
-							GreaterMediaFormbuilderRender::render( get_the_ID(), $form );
-
+								}
 							?>
+			
+							<section class="col__inner--left">
+
+								<header class="entry__header">
+
+									<time class="entry__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j'); ?></time>
+									<h2 class="entry__title" itemprop="headline"><?php the_title(); ?></h2>
+									<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]"></a>
+									<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=[TITLE]+[URL]"></a>
+									<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=[URL]"></a>
+
+								</header>
+
+								<?php the_content(); ?>
+
+								other metabox content goes here
+
+							</section>
+
+
+							<section class="col__inner--right">
+								<?php
+
+								$form = get_post_meta( get_the_ID(), 'embedded_form', true );
+								GreaterMediaFormbuilderRender::render( get_the_ID(), $form );
+
+								?>
+							</section>
 
 						</article>
 
