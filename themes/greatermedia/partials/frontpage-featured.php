@@ -14,7 +14,7 @@
 		if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 			<div class="featured__article">
 				<div class="featured__article--image">
-					<?php the_post_thumbnail( array( 2800, 1000 ) ); // todo image size? ?>
+					<?php the_post_thumbnail( array( 2800, 1000 ) ); // todo Image Size: 2800x1000 ?>
 				</div>
 				<div class="featured__article--content">
 					<div class="featured__article--heading">
@@ -38,7 +38,7 @@
 						<div class="featured__content--meta">
 							<h2 class="featured__content--title"><?php the_title(); ?></h2>
 							<div class="featured__content--excerpt">
-								<?php \GreaterMedia\the_excerpt_length( 10 ); ?>
+								<?php \GreaterMedia\TemplateTags\the_excerpt_length( 10 ); ?>
 							</div>
 							<div class="featured__content--link">
 								<a href="<?php the_permalink(); ?>" class="featured__content--btn">Read More</a>

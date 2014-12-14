@@ -3,7 +3,7 @@
  * Template tags that are probably going to be needed in all the themes, in some way, so sharing them here
  */
 
-namespace GreaterMedia;
+namespace GreaterMedia\TemplateTags;
 
 /**
  * Generates and stores a function that just returns an arbitrary value.
