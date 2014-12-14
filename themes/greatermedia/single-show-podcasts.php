@@ -22,11 +22,11 @@
 
 							<div class="podcast__play">
 								<button class="podcast__btn--play"></button>
-								<span class="podcast__runtime">RUNTIME</span>
+								<span class="podcast__runtime">RUNTIME</span><?php // todo Podcasts: runtime ?>
 							</div>
 							<div class="podcast__meta">
-								<time datetime=""><?php the_date(); ?></time>
-								<button class="podcast__download">Download</button>
+								<time datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'd F' ); ?></time>
+								<button class="podcast__download">Download</button><?php // todo Podcasts: Download ?>
 								<h3><?php the_title(); ?></h3>
 								<?php the_excerpt(); ?>
 							</div>

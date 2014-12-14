@@ -72,7 +72,8 @@ function get_show_podcast_query() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 	$current_page = get_query_var( 'show_section_page' ) ?: 1;
 
-	$podcast_args = array(
+	// could possibly add some caching of these parent IDs (podcast-parent-ids-<term_slug>) and then nuke the key and regen whenever any parent podcast with the terms is edited/created/deleted
+	$show_podcasts_args = array(
 		'post_type' => \GMP_CPT::PODCAST_POST_TYPE,
 		'tax_query' => array(
 			array(
@@ -81,6 +82,16 @@ function get_show_podcast_query() {
 				'terms' => $show_term->term_taxonomy_id,
 			),
 		),
+		'posts_per_page' => 500,
+		'fields' => 'ids',
+	);
+	$show_podcasts = new \WP_Query( $show_podcasts_args );
+
+	$possible_parents = $show_podcasts->posts;
+
+	$podcast_args = array(
+		'post_type' => \GMP_CPT::EPISODE_POST_TYPE,
+		'post_parent__in' => $possible_parents,
 		'paged' => $current_page,
 	);
 
