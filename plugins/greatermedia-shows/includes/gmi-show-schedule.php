@@ -17,6 +17,10 @@ function gmrs_prolong_show_episode( $post ) {
 		return;
 	}
 
+	// disable Edit Flow custom statuse influence on post_date_gmt field
+	gmrs_disable_editflow_custom_status_influence();
+
+	// create new episode
 	$new_post = $post->to_array();
 	unset( $new_post['ID'] );
 
@@ -25,6 +29,9 @@ function gmrs_prolong_show_episode( $post ) {
 	$new_post['post_status'] = 'future';
 
 	wp_insert_post( $new_post );
+
+	// enable back Edit Flow influence
+	gmrs_enable_ediflow_custom_status_influence();
 }
 
 /**
@@ -99,11 +106,11 @@ function gmrs_add_show_episode() {
 			$iterations = 7;
 			break;
 		case 3:
-			$iterations = 5;
+			$iterations = 7;
 			$skip_daysofweek = array( 6, 7 );
 			break;
 		case 4:
-			$iterations = 2;
+			$iterations = 7;
 			$skip_daysofweek = array( 1, 2, 3, 4, 5 );
 			break;
 	}
@@ -118,14 +125,18 @@ function gmrs_add_show_episode() {
 		}
 	}
 
+	// disable Edit Flow custom statuse influence on post_date_gmt field
+	gmrs_disable_editflow_custom_status_influence();
+
+	// schedule episodes
 	$inserted = $iteration = 0;
 	while ( $iteration < $iterations ) {
-		if ( $iteration > 0 ) {
+		if ( $iteration++ > 0 ) {
 			$start_date += DAY_IN_SECONDS;
 			$start_date_gmt += DAY_IN_SECONDS;
 		}
 
-		if ( in_array( date( 'N', $start_date ), $skip_daysofweek ) ) {
+		if ( in_array( (int) date( 'N', $start_date ), $skip_daysofweek ) ) {
 			continue;
 		}
 
@@ -139,10 +150,12 @@ function gmrs_add_show_episode() {
 			'ping_status'   => $data['repeat'] ? 1 : -1,
 			'menu_order'    => $interval,
 		) );
-
-		$iteration++;
 	}
 
+	// enable back Edit Flow influence
+	gmrs_enable_ediflow_custom_status_influence();
+
+	// save submitted fields into cookie
 	$cookie_path = parse_url( admin_url( '/' ), PHP_URL_PATH );
 	setcookie( 'gmr_show_schedule', urlencode( serialize( array(
 		'show'       => $show->ID,
@@ -152,6 +165,7 @@ function gmrs_add_show_episode() {
 		'date'       => strtotime( $data['date'] ),
 	) ) ), 0, $cookie_path );
 
+	// redirect back to the scheduler page
 	$redirect = add_query_arg( array( 'created' => $inserted ? 1 : 0, 'deleted' => false ), wp_get_referer() );
 	wp_redirect( $redirect );
 	exit;
@@ -214,10 +228,11 @@ function gmrs_render_episode_schedule_page() {
 		'date'       => strtotime( 'tomorrow' ),
 		'repeat'     => 1,
 	) );
-	
+
+	$now = current_time( 'timestamp', 1 );
 	$active['date'] = $active['date'] >= time() 
-		? date( 'M j, Y', $active['date'] )
-		: date( 'M j, Y', time() );
+		? date( 'Y-m-d', $active['date'] )
+		: date( 'Y-m-d', $now );
 	
 	$episodes = gmrs_get_scheduled_episodes();
 	$precision = 0.5; // 1 - each hour, 0.5 - each 30 mins, 0.25 - each 15 mins
@@ -260,7 +275,6 @@ function gmrs_render_episode_schedule_page() {
 		<form id="schedule-form" action="admin.php" method="post">
 			<?php wp_nonce_field( 'gmr_add_show_episode' ); ?>
 			<input type="hidden" name="action" value="gmr_add_show_episode">
-			<input type="hidden" id="start-from-date-value" name="date" value="<?php echo $active['date']; ?>">
 
 			<input type="submit" class="button button-primary" value="Add to the schedule">
 
@@ -282,7 +296,14 @@ function gmrs_render_episode_schedule_page() {
 				<?php endforeach; ?>
 			</select>
 			and starts on
-			<input type="text" id="start-from-date" value="<?php echo $active['date']; ?>" required>
+			<select id="start-from-date" name="date" required>
+				<?php for ( $i = 0; $i <= 7; $i++, $now += DAY_IN_SECONDS ) : ?>
+					<?php $now_y_m_d = date( 'Y-m-d', $now ); ?>
+					<option value="<?php echo esc_attr( $now_y_m_d ); ?>"<?php selected( $now_y_m_d, $active['date'] ); ?>>
+						<?php echo date( 'D, M-j', $now ); ?>
+					</option>;
+				<?php endfor; ?>
+			</select>
 			at
 			<select name="start_time">
 				<?php for ( $i = 0, $count = 24 / $precision; $i < $count; $i++ ) : ?>
@@ -514,4 +535,34 @@ function gmrs_get_current_show() {
 	}
 
 	return null;
+}
+
+/**
+ * Disables Edit Flow custom status influence on post_date_gmt field.
+ * 
+ * @global edit_flow $edit_flow The Edit Flow plugin instance.
+ * @global boolean $gmrs_editflow_custom_status_disabled Determines whether or not this filter has been previously disabled.
+ */
+function gmrs_disable_editflow_custom_status_influence() {
+	global $edit_flow, $gmrs_editflow_custom_status_disabled;
+
+	if ( $edit_flow && ! empty( $edit_flow->custom_status ) && is_a( $edit_flow->custom_status, 'EF_Custom_Status' ) ) {
+		$gmrs_editflow_custom_status_disabled = true;
+		remove_filter( 'wp_insert_post_data', array( $edit_flow->custom_status, 'fix_custom_status_timestamp' ), 10, 2 );
+	}
+}
+
+/**
+ * Enables Edit Flow custom status influence on post_date_gmt field.
+ * 
+ * @global edit_flow $edit_flow The Edit Flow plugin instance.
+ * @global boolean $gmrs_editflow_custom_status_disabled Determines whether or not this filter has been previously disabled.
+ */
+function gmrs_enable_ediflow_custom_status_influence() {
+	global $edit_flow, $gmrs_editflow_custom_status_disabled;
+
+	if ( $gmrs_editflow_custom_status_disabled && $edit_flow && ! empty( $edit_flow->custom_status ) && is_a( $edit_flow->custom_status, 'EF_Custom_Status' ) ) {
+		$gmrs_editflow_custom_status_disabled = false;
+		add_filter( 'wp_insert_post_data', array( $edit_flow->custom_status, 'fix_custom_status_timestamp' ), 10, 2 );
+	}
 }

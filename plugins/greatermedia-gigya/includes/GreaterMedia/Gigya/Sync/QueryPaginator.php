@@ -105,9 +105,25 @@ class QueryPaginator {
 				);
 			}
 		} else {
+			$error_message = $this->error_message_for( $response );
 			throw new \Exception(
-				"QueryPaginator: Query Failed - {$query} - " . $response->getErrorMessage()
+				"QueryPaginator: Query Failed - {$query} - " . $error_message
 			);
+		}
+	}
+
+	function error_message_for( $response ) {
+		$response_text = $response->getResponseText();
+		$json          = json_decode( $response_text, true );
+
+		if ( json_last_error() === JSON_ERROR_NONE ) {
+			if ( array_key_exists( 'errorDetails', $json ) ) {
+				return $json['errorDetails'];
+			} else {
+				return $response->getErrorMessage();
+			}
+		} else {
+			return 'Gigya API returned invalid JSON - ' . $response_text;
 		}
 	}
 

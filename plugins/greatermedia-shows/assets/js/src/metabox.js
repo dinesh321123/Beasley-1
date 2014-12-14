@@ -27,7 +27,10 @@
 				return false;
 			});
 
-			$switchSelect.find('.save-radio').click(function() {
+			$switchSelect.find('.save-radio').click(function(e) {
+				// Don't return false, so we can still listen for this to happen elsewhere
+				e.preventDefault();
+
 				var selected = $switchSelect.find('input:radio:checked');
 
 				$switchSelect.slideUp('fast', function() {
@@ -36,8 +39,6 @@
 					origin_value = selected.val();
 					$this.find('.radio-value').text(selected.parent().text());
 				});
-
-				return false;
 			});
 		});
 	});

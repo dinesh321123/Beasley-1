@@ -264,7 +264,8 @@ class GreaterMediaFormbuilderRender {
 		}
 
 		if ( is_string( $form ) ) {
-			$form = json_decode( $form );
+			$clean_form = trim( $form, '"' );
+			$form       = json_decode( $clean_form );
 		}
 
 		if ( null === $form ) {

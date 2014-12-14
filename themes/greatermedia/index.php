@@ -6,15 +6,7 @@
  * @since   0.1.0
  */
 
-get_header();
-
-	/* we won't display this until we get some actual content
-	if ( is_front_page() || is_home() ) {
-		get_template_part( 'partials/frontpage', 'featured' );
-		get_template_part( 'partials/frontpage', 'highlights' );
-	} */
-
-	?>
+get_header(); ?>
 
 	<main class="main" role="main">
 
@@ -28,31 +20,19 @@ get_header();
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-						<?php
+						<header class="entry-header">
 
-							if ( has_post_format( 'video' ) ) {
+							<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
 
-								get_template_part( 'partials/post', 'video' );
+							<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
-							} elseif ( has_post_format( 'audio') ) {
+						</header>
 
-								get_template_part( 'partials/post', 'audio' );
+						<section class="entry__content" itemprop="articleBody">
 
-							} elseif ( has_post_format( 'link') ) {
+							<?php the_content(); ?>
 
-								get_template_part( 'partials/post', 'link' );
-
-							} elseif ( has_post_format( 'gallery') ) {
-
-								get_template_part( 'partials/post', 'gallery' );
-
-							} else {
-
-								get_template_part( 'partials/post', 'standard' );
-
-							}
-
-						?>
+						</section>
 
 						<footer class="entry__footer">
 
@@ -81,13 +61,13 @@ get_header();
 
 					<article id="post-not-found" class="hentry cf">
 
-						<header class="article-header">
+						<header class="entry__header">
 
-							<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
+							<h2 class="entry__title"><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h2>
 
 						</header>
 
-						<section class="entry-content">
+						<section class="entry__content">
 
 							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
 

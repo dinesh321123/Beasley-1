@@ -86,4 +86,30 @@ class PreviewResultsAjaxHandlerTest extends \WP_UnitTestCase {
 		$this->assertEquals( 100, $actual['progress'] );
 	}
 
+	function test_it_can_return_errors_for_failed_query() {
+		wp_async_task_autorun();
+
+		$launcher = new Launcher();
+		$launcher->register();
+
+		$params = array(
+			'constraints' => array(),
+			'mode' => 'start',
+		);
+
+		$result = $this->handler->run( $params );
+		$member_query_id = $result['member_query_id'];
+
+		$params['member_query_id'] = $member_query_id;
+		$params['mode'] = 'status';
+
+		$sentinel = $this->handler->sentinel_for( $member_query_id );
+		$sentinel->add_error( 'foo' );
+		$actual = $this->handler->run( $params );
+
+		$this->assertTrue( $actual['complete'] );
+		$this->assertEquals( 100, $actual['progress'] );
+		$this->assertEquals( array( 'foo' ), $actual['errors'] );
+	}
+
 }

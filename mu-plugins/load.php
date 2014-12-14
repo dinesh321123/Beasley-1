@@ -11,3 +11,8 @@
 include __DIR__ . '/term-data-store/term-data-store.php';
 include __DIR__ . '/visual-shortcode/visual-shortcode.php';
 include __DIR__ . '/dependencies/dependencies.php';
+include __DIR__ . '/post-finder/post-finder.php';
+
+// These are going to be activated no matter what to ensure that themes can always rely on the functionality
+include __DIR__ . '/gmr-template-tags/gmr-template-tags.php';
+include __DIR__ . '/gmr-homepage-curation/gmr-homepage-curation.php';

@@ -5,6 +5,7 @@ namespace GreaterMedia\Gigya\Commands;
 use GreaterMedia\Gigya\FakeProfiles\FakeGigyaUser;
 use GreaterMedia\Gigya\GigyaRequest;
 use GreaterMedia\Gigya\Schema\AccountSchema;
+use GreaterMedia\Gigya\Schema\ActionsSchema;
 use Faker\Factory;
 
 /**
@@ -106,6 +107,30 @@ class GigyaCommand extends \WP_CLI_Command {
 	public function get_account_schema( $args, $opts ) {
 		$schema  = new AccountSchema();
 		$request = new GigyaRequest( null, null, 'accounts.getSchema' );
+
+		try {
+			$schema_text = $schema->fetch( $request );
+			\WP_CLI::log( $schema_text );
+		} catch ( \Exception $err ) {
+			\WP_CLI::error( $err->getMessage() );
+		}
+	}
+
+	public function set_actions_schema( $args, $opts ) {
+		$schema  = new ActionsSchema();
+		$request = new GigyaRequest( null, null, 'ds.setSchema' );
+
+		try {
+			$schema->update( $request );
+			\WP_CLI::success( 'Updated Gigya Data Store Schema' );
+		} catch ( \Exception $err ) {
+			\WP_CLI::error( $err->getMessage() );
+		}
+	}
+
+	public function get_actions_schema( $args, $opts ) {
+		$schema  = new ActionsSchema();
+		$request = new GigyaRequest( null, null, 'ds.getSchema' );
 
 		try {
 			$schema_text = $schema->fetch( $request );

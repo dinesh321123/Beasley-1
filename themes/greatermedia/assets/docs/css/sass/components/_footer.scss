@@ -13,6 +13,10 @@
 	color: $primary-link;
 }
 
+.footer .container {
+	background-color: $primary-bg;
+}
+
 .footer__content {
 	@include span-columns(4);
 	padding: 40px 5.5%;
@@ -88,31 +92,17 @@
 	margin-right: 2.5em;
 }
 
-.footer__social {
-	@extend %unordered-list;
+.footer__menu .social__list {
 	float: right;
 	padding: 8px 0 7px;
 }
 
-.footer__social--item {
-	@extend %list-item;
-	display: inline-block;
+.footer__menu .social__link {
 	height: 22px;
-	margin-left: 30px;
+	margin: 0 0 0 30px;
 	font-size: ms(2);
 }
 
-.footer__social--facebook:before {
-	@extend %gmr-icons;
-	content: "\e60f";
-}
-
-.footer__social--twitter:before {
-	@extend %gmr-icons;
-	content: "\e610";
-}
-
-.footer__social--google-plus:before {
-	@extend %gmr-icons;
-	content: "\e611";
+.footer__menu .social__link:last-child {
+	margin: 0 0 0 30px;
 }

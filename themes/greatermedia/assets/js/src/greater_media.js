@@ -6,7 +6,7 @@
  */
 (function() {
 
-	var _now, headroom, livePlayerFix, livePlayerInit,
+	var livePlayerFix, livePlayerInit,
 
 		body = document.querySelector( 'body' ),
 		html = document.querySelector( 'html'),
@@ -21,104 +21,13 @@
 		upNext = document.getElementById( 'up-next'),
 		nowPlaying = document.getElementById( 'nowPlaying' ),
 		liveLinks = document.getElementById( 'live-links' ),
+		liveLink = document.querySelector( '.live-link__title'),
 		liveLinksWidget = document.querySelector( '.widget--live-player' ),
-		liveLinksWidgetHeight = liveLinksWidget.offsetHeight,
 		liveStream = document.getElementById( 'live-player' ),
 		liveStreamHeight = liveStream.offsetHeight,
 		windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 		windowWidth = this.innerWidth || this.document.documentElement.clientWidth || this.document.body.clientWidth || 0,
 		scrollObject = {};
-
-
-	/**
-	 * function from underscore.js that detects the current date
-	 *
-	 * @type {Function|Date.now}
-	 * @private
-	 */
-	_now = Date.now || function () {
-		return new Date().getTime();
-	};
-
-	/**
-	 * function from underscore.js for throttling events
-	 *
-	 * @param func
-	 * @param wait
-	 * @param options
-	 * @returns {Function}
-	 * @private
-	 */
-	function _throttle(func, wait, options) {
-		var context, args, result;
-		var timeout = null;
-		var previous = 0;
-		if (!options) options = {};
-		var later = function() {
-			previous = options.leading === false ? 0 : _now();
-			timeout = null;
-			result = func.apply(context, args);
-			if (!timeout) context = args = null;
-		};
-		return function() {
-			var now = _now();
-			if (!previous && options.leading === false) previous = now;
-			var remaining = wait - (now - previous);
-			context = this;
-			args = arguments;
-			if (remaining <= 0 || remaining > wait) {
-				clearTimeout(timeout);
-				timeout = null;
-				previous = now;
-				result = func.apply(context, args);
-				if (!timeout) context = args = null;
-			} else if (!timeout && options.trailing !== false) {
-				timeout = setTimeout(later, remaining);
-			}
-			return result;
-		};
-	}
-
-	/**
-	 * function from underscore.js for debouncing events
-	 *
-	 * @param func
-	 * @param wait
-	 * @param immediate
-	 * @returns {Function}
-	 * @private
-	 */
-	function _debounce(func, wait, immediate) {
-		var timeout, args, context, timestamp, result;
-
-		var later = function() {
-			var last = _now() - timestamp;
-
-			if (last < wait && last > 0) {
-				timeout = setTimeout(later, wait - last);
-			} else {
-				timeout = null;
-				if (!immediate) {
-					result = func.apply(context, args);
-					if (!timeout) context = args = null;
-				}
-			}
-		};
-
-		return function() {
-			context = this;
-			args = arguments;
-			timestamp = _now();
-			var callNow = immediate && !timeout;
-			if (!timeout) timeout = setTimeout(later, wait);
-			if (callNow) {
-				result = func.apply(context, args);
-				context = args = null;
-			}
-
-			return result;
-		};
-	}
 
 	/**
 	 * detects various positions of the screen on scroll to deliver states of the live player
@@ -196,6 +105,7 @@
 	}
 
 	function liveLinksAddHeight() {
+		var liveLinksWidgetHeight = liveLinksWidget.offsetHeight;
 		if ( body.classList.contains( 'logged-in' ) ) {
 			liveLinks.style.height = windowHeight - headerHeight - wpAdminHeight - livePlayerStreamSelectHeight - liveStreamHeight - 36 + 'px';
 		} else {
@@ -261,28 +171,6 @@
 	}
 	
 	/**
-	 * adds headroom.js functionality to the header
-	 *
-	 * @type {Window.Headroom}
-	 *
-	 * @todo remove this at a later point if headroom is not required for header interaction
-	 */
-	headroom = new Headroom( header, {
-		offset: headerHeight,
-		tolerance : 0,
-		classes: {
-			"pinned": "header--pinned",
-			"unpinned": "header--unpinned"
-		},
-		onTop : function() {
-			livePlayerInit();
-		},
-		onNotTop : function() {
-			livePlayerFix();
-		}
-	});
-
-	/**
 	 * Toggles a class to the body when the mobile nav button is clicked
 	 */
 	function toggleNavButton() {
@@ -304,10 +192,10 @@
 	function onAirClick() {
 		body.classList.toggle( 'live-player--open' );
 		if (body.classList.contains( 'live-player--open')) {
-			body.style.overflow = 'hidden';
+			document.body.style.overflow = 'hidden';
 			html.style.overflow = 'hidden';
 		} else {
-			body.style.overflow = 'auto';
+			document.body.style.overflow = 'auto';
 			html.style.overflow = 'auto';
 		}
 	}
@@ -331,6 +219,12 @@
 		} else {
 			body.style.overflow = 'hidden';
 			html.style.overflow = 'hidden';
+		}
+	}
+
+	function liveLinksClose() {
+		if (body.classList.contains( 'live-player--open')) {
+			body.classList.remove('live-player--open');
 		}
 	}
 
@@ -368,16 +262,19 @@
 					onAir.style.display = 'block';
 				});
 			}
+			if(liveLinksWidget != null) {
+				liveLink.addEventListener('click', liveLinksClose(), false);
+			}
 		}
 		if ( window.innerWidth >= 768 ) {
 			window.addEventListener( 'load', livePlayerInit, false );
 		}
 	}
 
-	var scrollDebounce = _debounce(getScrollPosition, 50);
-	var scrollThrottle = _throttle(getScrollPosition, 50);
-	var resizeDebounce = _debounce(resizeWindow, 50);
-	var resizeThrottle = _throttle(resizeWindow, 50);
+	var scrollDebounce = _.debounce(getScrollPosition, 50),
+		scrollThrottle = _.throttle(getScrollPosition, 50),
+		resizeDebounce = _.debounce(resizeWindow, 50),
+		resizeThrottle = _.throttle(resizeWindow, 50);
 
 	if( window.innerWidth <= 767 ) {
 		if(onAir != null) {
@@ -389,16 +286,19 @@
 		if(nowPlaying != null) {
 			nowPlaying.addEventListener( 'click', nowPlayingClick, false );
 		}
+		if(liveLinksWidget != null) {
+			liveLink.addEventListener('click', liveLinksClose(), false);
+		}
 		window.addEventListener( 'resize', function() {
 			resizeDebounce();
 			resizeThrottle();
 		}, false);
-	}
-
-	if ( window.innerWidth >= 768 ) {
+	} else {
 		window.addEventListener( 'load', function() {
 			livePlayerInit();
-			liveLinksAddHeight();
+			if(liveLinksWidget != null) {
+				liveLinksAddHeight();
+			}
 		}, false );
 		window.addEventListener( 'scroll', function() {
 			scrollDebounce();

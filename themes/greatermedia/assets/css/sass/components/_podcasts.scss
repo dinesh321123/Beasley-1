@@ -1,5 +1,70 @@
-.podcast {
+/*doc
+---
+title: Podcast Excerpt
+name: podcast-excerpt
+category: Components - Shows
+---
 
+```html_example
+<article class="podcast">
+	<div class="podcast__play">
+		<button class="podcast__btn--play"></button>
+		<span class="podcast__runtime">57:14</span>
+	</div>
+	<div class="podcast__meta">
+		<time datetime="">September 12</time>
+		<button class="podcast__download">Download</button>
+		<h3>Preston & Steve Daily Feed</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, ratione, molestias possimus eos in nobis vero aliquid optio deserunt ipsam.</p>
+	</div>
+</article>
+```
+
+*/
+
+.podcast {
+	@include row();
+}
+
+.podcast__play {
+	@include span-columns(2 of 12);
+}
+
+.podcast__btn--play {
+	position: relative;
+	@extend %live-stream__btn;
+}
+
+.podcast__btn--play, .podcast__runtime {
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.podcast__btn--play:before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	@include transform(translate(-50%, -50%));
+	font-family: $icon-font !important;
+	content: "\e606" !important;
+}
+
+.podcast__meta {
+	@include span-columns(10 of 12);
+
+	h3 {
+		margin: 0;
+		clear: both;
+	}
+
+	time {
+		float: left;
+	}
+}
+
+.podcast__download {
+	@extend .live-stream__listen-now--btn;
 }
 
 // For Podcasts Archive Lists

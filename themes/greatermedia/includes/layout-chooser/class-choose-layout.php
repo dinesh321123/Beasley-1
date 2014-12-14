@@ -32,6 +32,12 @@ class GreaterMediaChooseClass {
 
 		);
 
+		$rewrite = array(
+			'slug'                       => 'class-format',
+			'with_front'                 => true,
+			'hierarchical'               => false,
+		);
+
 		$args = array(
 
 			'hierarchical'      => false,
@@ -40,7 +46,7 @@ class GreaterMediaChooseClass {
 			'show_in_nav_menus' => false,
 			'show_admin_column' => false,
 			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'class-format' ),
+			'rewrite'           => $rewrite,
 
 		);
 
@@ -77,7 +83,7 @@ class GreaterMediaChooseClass {
 		?>
 
 		<div id="article-type" class="misc-pub-section">
-			<input type="checkbox" name="promoted" id="promoted" value="promoted" <?php checked( 1, $checked_term ); ?> /> <label for="cover-story"><?php _e( 'Promote this Post', 'publications' ); ?></label>
+			<input type="checkbox" name="promoted" id="promoted" value="promoted" <?php checked( 1, $checked_term ); ?> /> <label for="promoted"><?php _e( 'Promote this Post', 'publications' ); ?></label>
 		</div>
 
 	<?php
@@ -107,12 +113,11 @@ class GreaterMediaChooseClass {
 		}
 
 		/* OK, its safe for us to save the data now. */
-		if ( $_POST['promoted'] == 'promoted' ) {
+		if ( isset( $_POST['promoted']) && $_POST['promoted'] == 'promoted' ) {
 			wp_set_object_terms( $post->ID, 'promoted', 'class-format', true );
 		} else {
 			wp_remove_object_terms( $post->ID, 'promoted', 'class-format' );
 		}
-
 	}
 
 	/**

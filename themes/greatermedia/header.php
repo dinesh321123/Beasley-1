@@ -83,7 +83,7 @@
 									<div class="mobile-nav__toggle--span"></div>
 								</div>
 								<div class="header__logo">
-									<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php echo get_stylesheet_directory_uri(); ?>/images/wmmr-logo.png" alt="<?php bloginfo( 'name' ); ?> | <?php bloginfo( 'description' ); ?>" class="header__logo--img"></a>
+									<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php do_action( 'gmr_site_logo' ); ?></a>
 								</div>
 								<?php
 								$main_nav = array(
@@ -114,11 +114,7 @@
 										</ul>
 									</nav>
 									<div class="header__social">
-										<ul class="header__social--list">
-											<li class="header__social--item"><a href="#"><i class="header__social--facebook"></i></a></li>
-											<li class="header__social--item"><a href="#"><i class="header__social--twitter"></i></a></li>
-											<li class="header__social--item"><a href="#"><i class="header__social--google-plus"></i></a></li>
-										</ul>
+										<?php do_action( 'gmr_social' ); ?>
 									</div>
 									<div class="header__search">
 										<div class="header__search--span"><?php _e( 'Search', 'greatermedia' ); ?></div><i class="header__search--btn"></i>

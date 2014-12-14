@@ -148,15 +148,7 @@
 	$(document).ready(function () {
 		var hovered_show, original_color,
 			popup_tmpl = $('#schedule-remove-popup').html();
-		
-		$('#start-from-date').datepicker({
-			dateFormat : 'M d, yy',
-			minDate: 'now',
-			maxDate: '+1w',
-			altField: '#start-from-date-value',
-			altFormat: 'yy-mm-dd'
-		});
-
+			
 		$('#schedule-table td > div').hover(function() {
 			var $this = $(this);
 
@@ -212,7 +204,10 @@
 				return false;
 			});
 
-			$switchSelect.find('.save-radio').click(function() {
+			$switchSelect.find('.save-radio').click(function(e) {
+				// Don't return false, so we can still listen for this to happen elsewhere
+				e.preventDefault();
+
 				var selected = $switchSelect.find('input:radio:checked');
 
 				$switchSelect.slideUp('fast', function() {
@@ -221,9 +216,38 @@
 					origin_value = selected.val();
 					$this.find('.radio-value').text(selected.parent().text());
 				});
-
-				return false;
 			});
 		});
 	});
+})(jQuery);
+(function($){
+	var $homepageSelect = $( document.getElementById( 'show-homepage' )),
+		featuredMB = document.getElementById( 'show_featured' ),
+		favoritesMB = document.getElementById( 'show_favorites' );
+
+	var hideMetaboxes = function() {
+		featuredMB.style.display = 'none';
+		favoritesMB.style.display = 'none';
+	};
+
+	var showMetaboxes = function() {
+		featuredMB.style.display = 'block';
+		favoritesMB.style.display = 'block';
+	};
+
+	var checkMetaboxes = function() {
+		var $selected = $homepageSelect.find( 'input:checked').first();
+
+		if ( '1' === $selected.val() ) {
+			showMetaboxes();
+		} else {
+			hideMetaboxes();
+		}
+	};
+
+	// do this on page load
+	checkMetaboxes();
+
+	// Also do this when we change the state of the enabled/disabled radio, only once we click the OK button
+	$homepageSelect.on( 'click', '.save-radio', checkMetaboxes );
 })(jQuery);

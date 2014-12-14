@@ -14,8 +14,6 @@
     content: "";
     display: table;
     clear: both; }
-  #schedule-form #start-from-date {
-    width: 100px; }
   #schedule-form select,
   #schedule-form input[type="text"],
   #schedule-form input[type="submit"] {
@@ -76,7 +74,7 @@
     height: 1440px; }
 
 .popup-wrapper {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;

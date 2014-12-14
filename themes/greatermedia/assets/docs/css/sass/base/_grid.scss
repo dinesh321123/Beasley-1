@@ -12,7 +12,6 @@ $visual-grid-index: front !global;
 // max-width for the site
 $max-width: em(1150) !global;
 $max-site-width: 1400px;
-$live-player: em(250px);
 
 // simple css effect to make images responsive and fluid while also retaining proper aspect ratio
 img {
@@ -24,7 +23,7 @@ img {
 #site-wrap {
 	max-width: 100%;
 	margin: 0 auto;
-	background-color: $primary-bg;
+	background-color: $secondary-bg;
 }
 
 // The `.page-wrap` class is being used in conjunction with the off-canvas mobile navigation. On click of the
@@ -41,16 +40,16 @@ img {
 }
 
 .container, %container {
-	@include outer-container(92.08770257388%);
+	@include outer-container(100%);
+	padding-right: 0;
+
 	@include bp(medium) {
 		@include outer-container(100%);
-		padding-right: 15.8781%;
+		padding-right: 225px;
 	}
-	@include bp(large) {
-	}
+	
 	@include bp(x-large) {
 		@include outer-container(1400px);
-		padding-right: 250px;
 	}
 }
 
@@ -81,6 +80,10 @@ img {
 		@include span-columns(10 of 12);
 		@include shift(1);
 	}
+	@include bp(x-large) {
+		@include span-columns(10 of 12);
+		@include shift(1);
+	}
 }
 
 .live-player{
@@ -90,7 +93,7 @@ img {
 	left: 0;
 	width: 100%;
 	background-color: $secondary-bg;
-	color: $nevada;
+	color: $secondary-text;
 	cursor: pointer;
 	@include bp(medium){
 		position: absolute;
@@ -98,14 +101,13 @@ img {
 		bottom: auto;
 		right: 0;
 		left: auto;
-		width: 15.878107457899%;
+		width: 225px;
 		height: 100%;
 		@include box-sizing(border-box);
 		cursor: default;
 	}
 	@include bp(x-large) {
 		@include calc(right, '50% - 700px');
-		width: $live-player;
 	}
 }
 
@@ -113,4 +115,8 @@ img {
 	@include media(min-width 782px) {
 		top: 270px;
 	}
+}
+
+.row {
+	@include row();
 }

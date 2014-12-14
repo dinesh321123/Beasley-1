@@ -82,6 +82,9 @@ class Plugin {
 		$profile_page = new ProfilePage();
 		$profile_page->register();
 
+		$contest_entry_dispatcher = new Action\ContestEntryDispatcher();
+		$contest_entry_dispatcher->register();
+
 		if ( ! $profile_page->is_user_on_profile_page() && ! is_admin() ) {
 			$this->enqueue_script(
 				'gigya_session',
@@ -103,9 +106,6 @@ class Plugin {
 		add_action( 'add_meta_boxes_member_query', array( $this, 'initialize_member_query_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'did_save_post' ), 10, 2 );
 		add_action( 'admin_notices', array( $this, 'show_flash' ) );
-
-		$form_entry_publisher = new FormEntryPublisher();
-		$form_entry_publisher->enable();
 	}
 
 	public function initialize_admin_menu() {
@@ -138,6 +138,9 @@ class Plugin {
 	public function register_task_handlers() {
 		$launcher = new Sync\Launcher();
 		$launcher->register();
+
+		$actionPublisher = new Action\Publisher();
+		$actionPublisher->register();
 	}
 
 	/**

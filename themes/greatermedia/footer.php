@@ -16,11 +16,7 @@
 				<span class="footer__copyright--span"><?php _e( 'Copyright (c) ', 'greatermedia' ); ?><?php bloginfo( 'name' ); ?></span><?php _e( '-', 'greatermedia' ); ?><span class="footer__copyright--span"><a href="http://www.greatermedia.com/"><?php _e( 'Greater Media', 'greatermedia' ); ?></a></span>
 			</div>
 			<div class="footer__menu">
-				<ul class="footer__social">
-					<li class="footer__social--item"><a href="#"><i class="footer__social--facebook"></i></a></li>
-					<li class="footer__social--item"><a href="#"><i class="footer__social--twitter"></i></a></li>
-					<li class="footer__social--item"><a href="#"><i class="footer__social--google-plus"></i></a></li>
-				</ul>
+				<?php do_action( 'gmr_social' ); ?>
 				<?php
 					$footer_nav = array(
 						'theme_location'  => 'footer-nav',

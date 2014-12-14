@@ -4,9 +4,10 @@ namespace GreaterMedia\Gigya\Sync;
 
 class Task {
 
-	public $params       = array();
-	public $max_retries  = 3;
-	public $aborted      = false;
+	public $params      = array();
+	public $max_retries = 3;
+	public $aborted     = false;
+	public $failure     = null;
 
 	// TODO: will default to disabled in production
 	public $log_disabled = false;
@@ -91,19 +92,29 @@ class Task {
 
 	}
 
-	function recover( $err ) {
-		$this->retry();
+	function recover( $error ) {
+		if ( $this->can_retry() ) {
+			$this->retry();
+		} else {
+			$this->fail( $error );
+		}
+	}
+
+	function fail( $error ) {
+		$this->failure = $error;
+	}
+
+	function did_fail() {
+		return ! is_null( $this->failure );
 	}
 
 	function retry() {
-		if ( $this->can_retry() ) {
-			$this->log( 'retry' );
+		$this->log( 'retry' );
 
-			// WARNING: Should NOT export params here
-			// else internal retries will be lost
-			// resulting in infinite retries => stack overflow
-			$this->enqueue( $this->params );
-		}
+		// WARNING: Should NOT export params here
+		// else internal retries will be lost
+		// resulting in infinite retries => stack overflow
+		$this->enqueue( $this->params );
 	}
 
 	function can_retry() {

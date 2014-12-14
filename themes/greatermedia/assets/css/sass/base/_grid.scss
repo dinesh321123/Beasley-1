@@ -41,10 +41,13 @@ img {
 
 .container, %container {
 	@include outer-container(100%);
-		padding-right: 14em;
+	padding-right: 0;
+
 	@include bp(medium) {
 		@include outer-container(100%);
+		padding-right: 225px;
 	}
+	
 	@include bp(x-large) {
 		@include outer-container(1400px);
 	}
@@ -77,6 +80,10 @@ img {
 		@include span-columns(10 of 12);
 		@include shift(1);
 	}
+	@include bp(x-large) {
+		@include span-columns(10 of 12);
+		@include shift(1);
+	}
 }
 
 .live-player{
@@ -94,7 +101,7 @@ img {
 		bottom: auto;
 		right: 0;
 		left: auto;
-		width: 14em;
+		width: 225px;
 		height: 100%;
 		@include box-sizing(border-box);
 		cursor: default;
@@ -108,4 +115,8 @@ img {
 	@include media(min-width 782px) {
 		top: 270px;
 	}
+}
+
+.row {
+	@include row();
 }

@@ -8,84 +8,190 @@
 
 		<div class="container">
 
-			<section class="content">
+			<?php the_post(); ?>
 
-				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+				<?php get_template_part( 'show-header' ); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+				<section class="content">
 
-						<header class="entry-header">
-
-							<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-
-						</header>
-
-						<div id="logo">
-							
-							<?php
-								global $post;
-								$logo_id = get_post_meta($post->ID, 'logo_image', true);
-								if( $logo_id ) {
-									$logo = get_post( $logo_id );
-									echo '<img src="' . $logo->guid . '" />';
-								} else {
-									echo '<div>No Logo Image</div>';
-								}
-							?>
-
-						</div>
-						<hr>
-						<div class="entry-content">
-							<div>
-							<p>Show Content:</p>
-							<?php the_content(); ?>
+					<?php
+					$featured_query = \GreaterMedia\Shows\get_show_featured_query();
+					if ( $featured_query->have_posts() ): $featured_query->the_post(); ?>
+						<section class="show__features">
+							<div class="show__feature--primary">
+								<a href="<?php the_permalink(); ?>">
+									<div class="show__feature">
+										<?php if ( has_post_thumbnail() ) : ?>
+											<?php the_post_thumbnail( array( 570,315 ) ); ?>
+										<?php endif; ?>
+										<div class="show__feature--desc">
+											<h3><?php the_title(); ?></h3>
+											<time class="show__feature--date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'd M' ); ?></time>
+										</div>
+									</div>
+								</a>
 							</div>
-							<hr>
-							<?php
-							echo '<div>';
-							if( get_post_meta($post->ID, 'show_homepage', true) ) {
-								if( function_exists( 'TDS\get_related_term' ) ) {
-									$term = TDS\get_related_term( $post->ID );
-								}
-								if( $term ) {
-									echo 'Related term is: ' . $term->name
-									. '<br/>Term ID: ' . $term->term_id
-									. '<br/>Term Slug: ' . $term->slug;
-									
-								} else {
-									echo 'No related term found.
-									This is a bug, beacuse SHOW has marked to have homepage';
-								}
-							} else {
-								echo 'Show doesn\'t have home page';
-							}
-							echo '</div>';
-							?>
-						</div>
-
-					</article>
-
-				<?php endwhile;
-
-				else : ?>
-
-					<article id="post-not-found" class="hentry cf">
-
-						<header class="article-header">
-
-							<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
-
-						</header>
-
-						<section class="entry-content">
-
-							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
-
+							<?php if ( $featured_query->have_posts() ): ?>
+							<div class="show__feature--secondary">
+								<?php while( $featured_query->have_posts() ): $featured_query->the_post(); ?>
+									<a href="<?php the_permalink(); ?>">
+										<div class="show__feature">
+											<?php if ( has_post_thumbnail() ) : ?>
+												<?php the_post_thumbnail( array( 570,315 ) ); ?>
+											<?php endif; ?>
+											<div class="show__feature--desc">
+												<h3><?php the_title(); ?></h3>
+												<time class="show__feature--date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'd M' ); ?></time>
+											</div>
+										</div>
+									</a>
+								<?php endwhile; ?>
+							</div>
+							<?php endif; ?>
 						</section>
+						<?php wp_reset_query(); ?>
+					<?php endif; ?>
 
-					</article>
+					<div class="featured__content">
+						<?php
+						global $post;
+						$events = \GreaterMedia\Shows\get_show_events();
+						foreach( $events as $post ): setup_postdata( $post ); ?>
+							<div class="featured__content--block">
+								<?php if ( has_post_thumbnail() ) : ?>
+									<div class="featured__content--image">
+										<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 400, 400 ) ); // todo custom size for this? ?></a>
+									</div>
+								<?php endif; ?>
+								<div class="featured__content--meta">
+									<h3 class="featured__content--title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+								</div>
+							</div>
+						<?php endforeach; ?>
+						<?php wp_reset_query(); ?>
+			        </div>
 
-				<?php endif; ?>
+			        <div class="row">
+
+				        <aside class="inner-right-col">
+					        <section class="show__favorites">
+					        	<h2>Our Favorites</h2>
+						        <?php
+						        $fav_query = \GreaterMedia\Shows\get_show_favorites_query();
+								while( $fav_query->have_posts() ): $fav_query->the_post();
+						        ?>
+								<div class="featured__content--block">
+					                <?php if ( has_post_thumbnail() ): ?>
+						                <div class="featured__content--image">
+							                <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 400, 400 ) ); ?></a>
+						                </div>
+									<?php endif; ?>
+					                <div class="featured__content--meta">
+					                    <h3 class="featured__content--title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+					                </div>
+					            </div>
+								<?php endwhile; ?>
+						        <?php wp_reset_query(); ?>
+					        </section>
+
+						<section class="show__latest-crap">
+				        	<h2>Latest Crap</h2>
+							<ul>
+								<li class="live-link__type--standard">
+									<div class="live-link__title">
+										<a href=
+										"http://wmmr.greatermedia.10uplabs.com/scroll-test/">GMR-278
+										test</a>
+									</div>
+								</li>
+
+
+								<li class="live-link__type--standard">
+									<div class="live-link__title">
+										<a href=
+										"http://wmmr.greatermedia.10uplabs.com/contest/daves-contest/">Dave’s
+										Contest</a>
+									</div>
+								</li>
+
+								<li class="live-link__type--link">
+									<div class="live-link__title">
+										<a href=
+										"http://wmmr.greatermedia.10uplabs.com/timed-content-test/">test
+										test</a>
+									</div>
+								</li>
+
+
+								<li class="live-link__type--standard">
+									<div class="live-link__title">
+										<a href=
+										"http://wmmr.greatermedia.10uplabs.com/ontario-highway-401-wikipedia-the-free-encyclopedia/">
+										Ontario Highway 401 – Wikipedia, the free encyclopedia</a>
+									</div>
+								</li>
+
+
+								<li class="live-link__type--video">
+									<div class="live-link__title">
+										<a href=
+										"http://wmmr.greatermedia.10uplabs.com/?post_type=gmr-live-link&amp;p=633">
+										Gladys Knight &amp; The Pips “Midnight Train To Georgia”</a>
+									</div>
+								</li>
+
+
+								<li class="live-link__type--video">
+									<div class="live-link__title">
+										<a href=
+										"http://wmmr.greatermedia.10uplabs.com/gladys-knight-the-pips-midnight-train-to-georgia/">
+										Gladys Knight &amp; The Pips</a>
+									</div>
+								</li>
+
+
+								<li class="live-link__type--video">
+									<div class="live-link__title">
+										<a href=
+										"http://wmmr.greatermedia.10uplabs.com/?post_type=gmr-live-link&amp;p=538">
+										Hilarious Volleyball Triple Head Shot – YouTube</a>
+									</div>
+								</li>
+							</ul>
+				        </section>
+
+				        </aside>
+
+				        <section class="show__blogroll inner-left-col">
+				        	<h2>Blog</h2>
+
+					        <?php
+					        $main_query = \GreaterMedia\Shows\get_show_main_query();
+					        while( $main_query->have_posts() ): $main_query->the_post(); ?>
+						        <article <?php post_class( 'cf' ); ?>>
+							        <section class="entry__meta">
+								        <time class="entry__date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'd F' ); ?></time>
+
+								        <h2 class="entry__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+							        </section>
+
+							        <?php if ( has_post_thumbnail() ) : ?>
+							        <section class="entry__thumbnail entry__thumbnail--standard">
+								        <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 300, 580 ) ); // todo probably define an image size for this? ?></a>
+							        </section>
+							        <?php endif; ?>
+
+							        <footer class="entry__footer">
+								        <?php get_template_part( 'partials/category-list' ); ?>
+							        </footer>
+						        </article>
+					        <?php endwhile; ?>
+					        <?php wp_reset_query(); ?>
+
+					        <div class="show-main-paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $main_query ); ?></div>
+				        </section>
+
+			        </div>
 
 			</section>
 

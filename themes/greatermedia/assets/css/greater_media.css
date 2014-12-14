@@ -54,18 +54,18 @@ category: Base
 ```
 
 */
-.featured__content--list, .footer__nav--list, .footer__social {
+.entry__event--details, .featured__content--list, .footer__nav--list {
   padding: 0;
   margin: 0; }
 
-.featured__content--item, .footer__nav--list .menu-item, .footer__social--item, .live-player__stream--item {
+.entry__event--item, .featured__content--item, .footer__nav--list .menu-item, .live-player__stream--item {
   list-style: none;
   padding: 0;
   margin: 0; }
 
 .entry__categories, .entry__tags, .entry__tags a {
   color: #929497;
-  font-size: ms(1);
+  font-size: 1.125em;
   font-style: italic; }
 
 /**
@@ -464,11 +464,11 @@ category: Base - Typography
  */
 @font-face {
   font-family: 'gmr-icons';
-  src: url("../fonts/icon-font/gmr-icons.eot?ivfz3x");
-  src: url("../fonts/icon-font/gmr-icons.eot?#iefixivfz3x") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?ivfz3x") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?ivfz3x") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?ivfz3x#gmr-icons") format("svg");
+  src: url("../fonts/icon-font/gmr-icons.eot?awb6kj");
+  src: url("../fonts/icon-font/gmr-icons.eot?#iefixawb6kj") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?awb6kj") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?awb6kj") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?awb6kj#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .header__social--facebook:before, .header__social--twitter:before, .header__social--google-plus:before, .header__search--btn:before, .footer__social--facebook:before, .footer__social--twitter:before, .footer__social--google-plus:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -534,8 +534,23 @@ category: Base - Typography
 .icon-google-plus:before {
   content: "\e611"; }
 
+.icon-youtube:before {
+  content: "\e617"; }
+
+.icon-instagram:before {
+  content: "\e616"; }
+
 .icon-search:before {
   content: "\e612"; }
+
+.icon-post-format-video:before {
+  content: "\e613"; }
+
+.icon-post-format-events:before {
+  content: "\e614"; }
+
+.icon-post-format-audio:before {
+  content: "\e615"; }
 
 img {
   max-width: 100%;
@@ -567,7 +582,7 @@ img {
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-right: 14em; }
+  padding-right: 0; }
   .container:after {
     content: "";
     display: table;
@@ -576,7 +591,8 @@ img {
     .container {
       max-width: 100%;
       margin-left: auto;
-      margin-right: auto; }
+      margin-right: auto;
+      padding-right: 225px; }
       .container:after {
         content: "";
         display: table;
@@ -591,7 +607,7 @@ img {
         display: table;
         clear: both; } }
 
-.main, .featured, .highlights {
+.main, .home__featured, .home__highlights {
   float: left;
   width: 100%;
   margin: 0;
@@ -636,6 +652,15 @@ img {
       margin-left: 8.5298%; }
       .content:last-child {
         margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .content {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 82.94039%;
+      margin-left: 8.5298%; }
+      .content:last-child {
+        margin-right: 0; } }
 
 .live-player {
   position: fixed;
@@ -653,7 +678,7 @@ img {
       bottom: auto;
       right: 0;
       left: auto;
-      width: 14em;
+      width: 225px;
       height: 100%;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
@@ -667,6 +692,13 @@ img {
 @media screen and (min-width: 782px) {
   .logged-in .live-player {
     top: 270px; } }
+
+.row {
+  display: block; }
+  .row:after {
+    content: "";
+    display: table;
+    clear: both; }
 
 html {
   width: 100%;
@@ -732,23 +764,23 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
     color: #aa1c20; }
 
 h1, .h1 {
-  font-size: ms(7); }
+  font-size: 2.2807em; }
 
 h2, .h2 {
-  font-size: ms(6); }
+  font-size: 2.02729em; }
 
 h3, .h3 {
-  font-size: ms(5); }
+  font-size: 1.80203em; }
 
 h4, .h4 {
-  font-size: ms(4); }
+  font-size: 1.60181em; }
 
 h5, .h5 {
-  font-size: ms(3);
+  font-size: 1.42383em;
   letter-spacing: 2px; }
 
 h6, .h6 {
-  font-size: ms(2);
+  font-size: 1.26563em;
   letter-spacing: 2px; }
 
 /*doc
@@ -968,7 +1000,7 @@ blockquote p {
   display: block;
   padding: 18px 1.25em;
   line-height: 1;
-  font-size: ms(7);
+  font-size: 2.2807em;
   color: #ffffff; }
 
 .mobile-nav__list a:hover, .mobile-nav__list a:focus, .mobile-nav__list a:active {
@@ -984,7 +1016,7 @@ blockquote p {
   margin: 0;
   list-style: none;
   display: inline-block;
-  font-size: ms(0); }
+  font-size: 1em; }
 
 .header__main a, .header__main a:visited {
   color: #ffffff; }
@@ -1013,45 +1045,75 @@ blockquote p {
   border-top: 7px solid #d0d2d3;
   z-index: 9999; }
 
-.header__social--list {
-  padding: 33px 0;
-  margin: 0;
-  list-style: none; }
-
-.header__social--item {
-  padding: 0;
-  margin: 0 1.25em 0 0;
-  list-style: none;
-  display: inline-block;
-  font-size: ms(0); }
-
-.header__social--item:last-child {
-  margin: 0; }
-
-.header__social--item a, .header__social--item a:visited {
-  color: #929497; }
-
-.header__social--item a:hover, .header__social--item a:focus {
-  color: #d0d2d3; }
-
-.header__social--item a:active {
-  color: #ffffff; }
-
-.header__social--facebook:before {
-  content: "\e60f"; }
-
-.header__social--twitter:before {
-  content: "\e610"; }
-
-.header__social--google-plus:before {
-  content: "\e611"; }
-
 .content__heading {
   margin-top: 0;
   margin-bottom: 24px;
-  font-size: ms(1);
+  font-size: 1.125em;
   font-weight: lighter;
   color: #929497; }
+
+.entry__thumbnail {
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-bottom: 34px; }
+  @media screen and (min-width: 768px) {
+    .entry__thumbnail {
+      width: 35%;
+      margin-bottom: 0; } }
+
+.entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 42px;
+  height: 42px;
+  font-size: 2.625em;
+  color: #ffffff; }
+
+.entry__thumbnail--video:before {
+  content: "\e613"; }
+
+.entry__thumbnail--events:before {
+  content: "\e614"; }
+
+.entry__thumbnail--audio:before {
+  content: "\e615"; }
+
+@media screen and (min-width: 768px) {
+  .promoted .entry__thumbnail {
+    width: 100%; } }
+
+.entry__meta {
+  position: relative;
+  float: left;
+  width: 100%;
+  text-align: center; }
+  @media screen and (min-width: 768px) {
+    .entry__meta {
+      width: 60%;
+      margin-right: 5%;
+      text-align: left; } }
+
+.entry__meta--fullwidth {
+  position: relative;
+  float: left;
+  width: 100%;
+  text-align: left; }
+
+@media screen and (min-width: 768px) {
+  .promoted .entry__meta {
+    width: 100%;
+    margin-right: 0; } }
+
+.entry__event--item {
+  list-style: none;
+  display: inline-block;
+  margin-right: 44px;
+  font-weight: bold; }
+
+.entry__event--item:last-child {
+  margin-right: 0; }
 
 .entry--video__thumbnail, .entry--gallery__thumbnail, .entry--link__thumbnail {
   position: relative;
@@ -1084,6 +1146,16 @@ blockquote p {
       width: 35.454545454545%;
       margin-bottom: 0; } }
 
+.entry__thumbnail {
+  position: relative;
+  float: left;
+  width: 100%;
+  margin-bottom: 34px; }
+  @media screen and (min-width: 768px) {
+    .entry__thumbnail {
+      width: 35%;
+      margin-bottom: 0; } }
+
 .entry--standard__meta {
   position: relative;
   float: left;
@@ -1091,8 +1163,8 @@ blockquote p {
   text-align: center; }
   @media screen and (min-width: 768px) {
     .entry--standard__meta {
-      width: 60.909090909091%;
-      margin-right: 3.636363636364%;
+      width: 60%;
+      margin-right: 5%;
       text-align: left; } }
 
 .entry--audio__thumbnail {
@@ -1114,98 +1186,156 @@ blockquote p {
     .entry--audio__meta {
       width: 75.113636363636%; } }
 
-.featured {
+/*doc
+---
+title: Featured Articles
+name: featured-articles
+category: Components - Front Page
+---
+
+Curated posts for Featured Articles
+
+```html_example
+<section id="featured" class="home__featured">
+		<div class="featured__article">
+			<div class="featured__article--image">
+				<img src="http://placehold.it/2800x1000&text=featured+image">
+			</div>
+			<div class="featured__article--content">
+				<div class="featured__article--heading">
+					<h3 class="featured__article--subtitle">Artist of the Month</h3>
+					<h2 class="featured__article--title">Minshara</h2>
+				</div>
+				<div class="featured__article--bio">
+					Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
+				</div>
+			</div>
+		</div>
+		<div class="featured__content">
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">MMR Rocks the Flyers</h2>
+					<ul class="featured__content--list">
+						<li class="featured__content--item">MMR Rocks the Flyers</li>
+						<li class="featured__content--item">Flyers All Access</li>
+					</ul>
+				</div>
+			</div>
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">Hitch a Ride with Pierre ...and Minerva</h2>
+					<div class="featured__content--link">
+						<a href="#" class="featured__content--btn">Enter To Win</a>
+					</div>
+				</div>
+			</div>
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">Preston and Steve</h2>
+					<ul class="featured__content--list">
+						<li class="featured__content--item">Daily Rush</li>
+						<li class="featured__content--item">Flyers All Access</li>
+						<li class="featured__content--item">Studio Guests</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+</section>
+```
+*/
+.home__featured {
   position: relative;
-  padding: 48px 0;
+  padding: 48px;
   background: url(../../images/featured-bg.png) repeat center center #58595b;
   background-size: auto 40%; }
 
-.featured .container {
-  width: 87.5%; }
-  @media screen and (min-width: 480px) {
-    .featured .container {
-      width: 88.333333333333%; } }
-  @media screen and (min-width: 1024px) {
-    .featured .container {
-      width: 85.920577617329%; } }
-  @media screen and (min-width: 1400px) {
-    .featured .container {
-      width: 92.08770257388%; } }
+.featured__article, .featured__content {
+  padding-bottom: 34px;
+  display: block; }
+  .featured__article:after, .featured__content:after {
+    content: "";
+    display: table;
+    clear: both; }
 
-.featured__artist, .featured__content {
-  width: 100%; }
-
-.featured__artist {
-  padding-bottom: 34px; }
-
-.featured__artist--image {
+.featured__article--image {
   width: 100%;
   height: 100px;
   overflow: hidden;
   background-color: #58595b; }
   @media screen and (min-width: 480px) {
-    .featured__artist--image {
+    .featured__article--image {
       height: 150px; } }
   @media screen and (min-width: 1024px) {
-    .featured__artist--image {
+    .featured__article--image {
       height: 256px; } }
   @media screen and (min-width: 1400px) {
-    .featured__artist--image {
+    .featured__article--image {
       height: 343px; } }
 
-.featured__artist--content {
+.featured__article--content {
   width: 100%;
   padding: 15px 3.928571428572%;
   overflow: auto;
-  background-color: #270e10;
-  color: #d0d2d3; }
+  background: #c7c7c7; }
   @media screen and (min-width: 480px) {
-    .featured__artist--content {
+    .featured__article--content {
       padding: 15px 4.941176470588%; } }
   @media screen and (min-width: 1024px) {
-    .featured__artist--content {
+    .featured__article--content {
       padding: 34px 3.921568627451%; } }
   @media screen and (min-width: 1400px) {
-    .featured__artist--content {
+    .featured__article--content {
       padding: 34px 2.898550724638%; } }
+  .home__featured .featured__article--content {
+    background-color: #270e10;
+    color: #d0d2d3; }
 
-.featured__artist--heading {
+.featured__article--heading {
   float: left;
   width: 100%; }
   @media screen and (min-width: 1024px) {
-    .featured__artist--heading {
+    .featured__article--heading {
       width: 29.787234042553%;
       margin-right: 1.519756838906%; } }
   @media screen and (min-width: 1400px) {
-    .featured__artist--heading {
+    .featured__article--heading {
       width: 21.538461538462%;
       margin-right: 1.098901098901%; } }
 
-.featured__artist--title {
+.featured__article--title {
   margin-top: 0;
   margin-bottom: 10px;
   line-height: 1;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(1);
+  font-size: 1.125em;
   font-weight: normal; }
 
-.featured__artist--subtitle {
+.featured__article--subtitle {
   margin: 0;
   line-height: 1;
-  font-size: ms(7);
+  font-size: 2.2807em;
   color: #ffffff; }
 
-.featured__artist--bio {
+.featured__article--bio {
   display: none; }
   @media screen and (min-width: 1024px) {
-    .featured__artist--bio {
+    .featured__article--bio {
       display: block;
       float: left;
       width: 68.693009118541%;
-      font-size: ms(-1);
+      font-size: 0.88889em;
       line-height: 1.5; } }
   @media screen and (min-width: 1400px) {
-    .featured__artist--bio {
+    .featured__article--bio {
       width: 77.362637362637%; } }
 
 .featured__content--block {
@@ -1214,7 +1344,7 @@ blockquote p {
   height: 90px;
   margin-bottom: 27px;
   overflow: hidden;
-  background-color: #270e10; }
+  background: #c7c7c7; }
   @media screen and (min-width: 480px) {
     .featured__content--block {
       width: 100%;
@@ -1222,74 +1352,63 @@ blockquote p {
       margin-bottom: 25px; } }
   @media screen and (min-width: 1024px) {
     .featured__content--block {
-      width: 31.055900621118%;
-      height: 280px;
-      margin-right: 3.416149068323%;
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
+      height: 100px;
       margin-bottom: 0;
-      overflow: visible; } }
+      overflow: visible; }
+      .featured__content--block:last-child {
+        margin-right: 0; } }
   @media screen and (min-width: 1400px) {
     .featured__content--block {
       height: 106px; } }
+  .home__featured .featured__content--block {
+    background-color: #270e10;
+    color: #d0d2d3; }
 
 .featured__content--block:last-of-type {
-  margin: 0; }
+  margin-right: 0; }
 
 .featured__content--image {
   float: left;
-  width: 32.142857142857%;
-  height: 90px; }
-  @media screen and (min-width: 480px) {
-    .featured__content--image {
-      width: 33.411764705882%;
-      height: 95px; } }
-  @media screen and (min-width: 1024px) {
-    .featured__content--image {
-      width: 100%;
-      height: 138px;
-      overflow: hidden; } }
-  @media screen and (min-width: 1400px) {
-    .featured__content--image {
-      width: 35.570469798658%;
-      height: 106px; } }
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%;
+  height: 100%;
+  overflow: hidden; }
+  .featured__content--image:last-child {
+    margin-right: 0; }
 
 .featured__content--image img {
-  width: 100%; }
-  @media screen and (min-width: 1400px) {
-    .featured__content--image img {
-      max-width: 100%; } }
+  height: 100%;
+  width: auto;
+  max-width: none; }
 
 .featured__content--meta {
-  float: left;
-  width: 67.857142857143%;
-  padding: 14px 3.571428571429% 14px 5.357142857143%;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   font-weight: lighter;
-  color: #a6a8ab; }
-  @media screen and (min-width: 480px) {
-    .featured__content--meta {
-      width: 66.588235294118%;
-      padding: 15px 2.352941176471% 15px 4.941176470588%;
-      font-size: ms(-1); } }
-  @media screen and (min-width: 1024px) {
-    .featured__content--meta {
-      width: 100%;
-      height: 142px;
-      padding: 28px 10.280373831776% 15px 10.280373831776%; } }
-  @media screen and (min-width: 1400px) {
-    .featured__content--meta {
-      width: 64.429530201342%;
-      height: 100%;
-      padding: 13px 3.355704697987% 13px 10.06711409396%; } }
+  padding: 1em;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  margin-right: 0; }
+  .featured__content--meta:last-child {
+    margin-right: 0; }
+  .home__featured .featured__content--meta {
+    color: #a6a8ab; }
 
 .featured__content--title {
   margin-top: 0;
   margin-bottom: 8px;
   line-height: 1;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(0); }
+  font-size: 1em; }
   @media screen and (min-width: 480px) {
     .featured__content--title {
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
 
 .featured__content--list {
   line-height: 1; }
@@ -1298,13 +1417,13 @@ blockquote p {
   display: inline-block;
   width: 40%;
   margin-bottom: 4px;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   color: #f7ef7e; }
   @media screen and (min-width: 1024px) {
     .featured__content--item {
       display: block;
       width: 100%;
-      font-size: ms(-1); } }
+      font-size: 0.88889em; } }
 
 .featured__content--link {
   width: 100%;
@@ -1325,7 +1444,7 @@ blockquote p {
   background-color: #d22228;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -1343,52 +1462,185 @@ blockquote p {
   .featured__content--btn:last-of-type {
     margin-right: 0; }
 
-.highlights {
-  padding: 33px 0;
+/*doc
+---
+title: Highlights
+name: highlights
+category: Components - Front Page
+---
+
+Community Highlights and Events
+
+```html_example
+	<section class="home__highlights">
+
+			<div class="highlights__col">
+
+				<div class="highlights__community">
+
+					<h2 class="highlights__heading">93.3 WMMR Community Highlights<span class="highlights__heading--span">YouRock</span></h2>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title">title</h3>
+
+					</div>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title">title</h3>
+
+					</div>
+
+					<div class="highlights__community--item">
+
+						<div class="highlights__community--thumb">
+							<img src="http://placehold.it/356x356&text=image">
+						</div>
+
+						<h3 class="highlights__community--title">title</h3>
+
+					</div>
+
+				</div>
+
+				<div class="highlights__events">
+
+					<h2 class="highlights__heading">Upcoming<span class="highlights__heading--span">Events</span></h2>
+
+					<div class="highlights__event--item">
+
+						<div class="highlights__event--thumb">
+							<img src="http://placehold.it/156x156&text=image">
+						</div>
+
+						<div class="highlights__event--meta">
+							<h3 class="highlights__event--title">Preston & Steve’s Camp Out For Hunger 2014</h3>
+							<time datetime="" class="highlights__event--date">Dec 1 - Dec 5</time>
+						</div>
+
+					</div>
+
+					<div class="highlights__event--item">
+
+						<div class="highlights__event--thumb">
+							<img src="http://placehold.it/156x156&text=image">
+						</div>
+
+						<div class="highlights__event--meta">
+							<h3 class="highlights__event--title">A.B.A.T.E. Motorcycle Toy Run For The Kids!</h3>
+							<time datetime="" class="highlights__event--date">Nov 2</time>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+	</section>
+```
+*/
+.home__highlights {
+  padding-top: 33px;
+  padding-bottom: 33px;
   background-color: #f1f1f2; }
   @media screen and (min-width: 480px) {
-    .highlights {
+    .home__highlights {
       padding-top: 36px;
       padding-bottom: 36px; } }
   @media screen and (min-width: 1024px) {
-    .highlights {
+    .home__highlights {
       padding-top: 45px;
       padding-bottom: 45px; } }
   @media screen and (min-width: 1400px) {
-    .highlights {
+    .home__highlights {
       padding-top: 35px;
       padding-bottom: 35px; } }
+
+.highlights__col {
+  float: left;
+  display: block;
+  margin-right: 7.42297%;
+  width: 100%; }
+  .highlights__col:last-child {
+    margin-right: 0; }
+  @media screen and (min-width: 480px) {
+    .highlights__col {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 100%; }
+      .highlights__col:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 768px) {
+    .highlights__col {
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 74.10533%;
+      margin-left: 12.94733%;
+      padding-right: 0;
+      padding-left: 0; }
+      .highlights__col:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1024px) {
+    .highlights__col {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 82.94039%;
+      margin-left: 8.5298%; }
+      .highlights__col:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .highlights__col {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 82.94039%;
+      margin-left: 8.5298%; }
+      .highlights__col:last-child {
+        margin-right: 0; } }
 
 .highlights__heading {
   margin-top: 0;
   margin-bottom: 17px;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(1);
+  font-size: 1.125em;
   font-weight: lighter;
   color: #929497; }
   @media screen and (min-width: 480px) {
     .highlights__heading {
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
   @media screen and (min-width: 1024px) {
     .highlights__heading {
       margin-bottom: 13px;
-      font-size: ms(0); } }
+      font-size: 1em; } }
   @media screen and (min-width: 1400px) {
     .highlights__heading {
       margin-bottom: 17px;
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
 
 .highlights__heading--span {
   margin-left: 16px;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   color: #d22228;
   text-transform: uppercase; }
   @media screen and (min-width: 1024px) {
     .highlights__heading--span {
-      font-size: ms(-2); } }
+      font-size: 0.79012em; } }
   @media screen and (min-width: 1400px) {
     .highlights__heading--span {
-      font-size: ms(-1); } }
+      font-size: 0.88889em; } }
 
 .highlights__community {
   float: left;
@@ -1457,7 +1709,7 @@ blockquote p {
   left: 0;
   width: 100%;
   margin: 0;
-  font-size: ms(0);
+  font-size: 1em;
   font-weight: normal;
   color: #ffffff;
   text-align: center; }
@@ -1538,27 +1790,27 @@ blockquote p {
   margin: 0;
   line-height: 1.2;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(0);
+  font-size: 1em;
   color: #6d6e70; }
   @media screen and (min-width: 480px) {
     .highlights__event--title {
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
   @media screen and (min-width: 1024px) {
     .highlights__event--title {
-      font-size: ms(-1); } }
+      font-size: 0.88889em; } }
   @media screen and (min-width: 1400px) {
     .highlights__event--title {
       position: relative;
       top: auto;
       transform: translate(0, 0);
-      font-size: ms(0); } }
+      font-size: 1em; } }
 
 .highlights__event--date {
   display: none; }
   @media screen and (min-width: 1400px) {
     .highlights__event--date {
       display: block;
-      font-size: ms(-2);
+      font-size: 0.79012em;
       color: #929497; } }
 
 .header {
@@ -1617,8 +1869,7 @@ blockquote p {
       float: left;
       display: block;
       margin-right: 3.57866%;
-      width: 9.36867%;
-      width: auto; }
+      width: 9.36867%; }
       .header__logo:last-child {
         margin-right: 0; } }
 
@@ -1636,9 +1887,28 @@ blockquote p {
   line-height: 1; }
   @media screen and (min-width: 768px) {
     .header__nav {
-      display: block;
       float: left;
-      width: auto; } }
+      display: block;
+      margin-right: 3.57866%;
+      width: 61.158%; }
+      .header__nav:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1024px) {
+    .header__nav {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 65.88078%; }
+      .header__nav:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .header__nav {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 65.88078%; }
+      .header__nav:last-child {
+        margin-right: 0; } }
 
 .header__secondary {
   position: absolute;
@@ -1654,17 +1924,39 @@ blockquote p {
   @media screen and (min-width: 768px) {
     .header__secondary {
       position: relative;
+      float: left;
       display: block;
-      float: right;
+      margin-right: 3.57866%;
+      width: 22.316%;
+      margin-right: 0;
       top: auto;
       right: auto;
-      width: auto;
       height: 82px;
       -webkit-transform: none;
       -moz-transform: none;
       -ms-transform: none;
       -o-transform: none;
-      transform: none; } }
+      transform: none; }
+      .header__secondary:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1024px) {
+    .header__secondary {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 23.23176%;
+      margin-right: 0; }
+      .header__secondary:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .header__secondary {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 23.23176%;
+      margin-right: 0; }
+      .header__secondary:last-child {
+        margin-right: 0; } }
 
 .header__account {
   display: none; }
@@ -1684,7 +1976,7 @@ blockquote p {
       float: left;
       height: 82px;
       margin-right: 2.125em;
-      font-size: ms(0); } }
+      font-size: 1em; } }
 
 .header__search {
   display: block;
@@ -1705,7 +1997,7 @@ blockquote p {
       height: 82px;
       padding: 36px 0;
       margin-right: .625em;
-      font-size: ms(-1); } }
+      font-size: 0.88889em; } }
 
 .header__search--btn {
   display: block;
@@ -1714,7 +2006,7 @@ blockquote p {
   padding: 34px 0 30px; }
 
 .header__search--btn:before {
-  font-size: ms(1);
+  font-size: 1.125em;
   content: "\e612"; }
 
 .footer {
@@ -1777,7 +2069,7 @@ blockquote p {
         margin-right: 0; } }
 
 .footer__logo {
-  font-size: ms(4);
+  font-size: 1.60181em;
   font-weight: lighter;
   color: #6d6e70;
   text-transform: uppercase; }
@@ -1798,7 +2090,7 @@ blockquote p {
 
 .footer__copyright {
   padding: 13px 0;
-  font-size: ms(-3); }
+  font-size: 0.70233em; }
   @media screen and (min-width: 1024px) {
     .footer__copyright {
       float: left;
@@ -1828,36 +2120,29 @@ blockquote p {
 
 .footer__nav--list {
   padding: 13px 0;
-  font-size: ms(-3); }
+  font-size: 0.70233em; }
 
 .footer__nav--list .menu-item {
   display: inline-block;
   margin-right: 2.5em; }
 
-.footer__social {
+.footer__menu .social__list {
   float: right;
   padding: 8px 0 7px; }
 
-.footer__social--item {
-  display: inline-block;
+.footer__menu .social__link {
   height: 22px;
-  margin-left: 30px;
-  font-size: ms(2); }
+  margin: 0 0 0 30px;
+  font-size: 1.26563em; }
 
-.footer__social--facebook:before {
-  content: "\e60f"; }
-
-.footer__social--twitter:before {
-  content: "\e610"; }
-
-.footer__social--google-plus:before {
-  content: "\e611"; }
+.footer__menu .social__link:last-child {
+  margin: 0 0 0 30px; }
 
 /*doc
 ---
 title: Standard Post
 name: standard-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Standard posts are mostly text based but can include images. They can also optionally have a featured image.
@@ -1882,7 +2167,7 @@ Standard posts are mostly text based but can include images. They can also optio
 ---
 title: Gallery Post
 name: gallery-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Gallery posts are mostly image based but can include some text. They can also optionally have a featured image.
@@ -1907,7 +2192,7 @@ Gallery posts are mostly image based but can include some text. They can also op
 ---
 title: Video Post
 name: video-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Video posts display a video and minimal text. They can also optionally have a featured image.
@@ -1932,7 +2217,7 @@ Video posts display a video and minimal text. They can also optionally have a fe
 ---
 title: Image Post
 name: image-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Standard posts are mostly text based but can include images. They can also optionally have a featured image.
@@ -1958,7 +2243,7 @@ Standard posts are mostly text based but can include images. They can also optio
 ---
 title: Link Post
 name: link-post
-category: Componenets - Post Excerpts
+category: Components - Post Excerpts
 ---
 
 Link posts contain a link to an external site. They can also optionally have a featured image.
@@ -1992,7 +2277,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-family: "Open Sans", sans-serif; }
 
 .entry__date {
-  font-size: ms(-2);
+  font-size: 0.79012em;
   font-weight: lighter;
   color: #929497;
   text-transform: uppercase; }
@@ -2007,7 +2292,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__title {
   margin: 0 0 20px;
-  font-size: ms(4); }
+  font-size: 1.60181em; }
 
 .entry__footer {
   float: left;
@@ -2048,7 +2333,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   line-height: 1;
   font-family: "Droid Sans", sans-serif;
   font-weight: bold;
-  font-size: ms(0);
+  font-size: 1em;
   color: #929497; }
 
 .entry__footer--category:hover, .entry__footer--category:focus, .entry__footer--category:active {
@@ -2092,7 +2377,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__type--gallery, .entry__type--link, .entry__type--image, .entry__type--video, .entry__type--audio, .entry__type--standard {
   position: relative;
   padding-left: 1.875em;
-  font-size: ms(-2); }
+  font-size: 0.79012em; }
 
 .entry__categories, .entry__tags {
   margin-bottom: 8px; }
@@ -2101,7 +2386,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   padding: 0;
   margin: 0;
   list-style: none;
-  font-size: ms(-2); }
+  font-size: 0.79012em; }
 
 .entry__list:before, .entry__list--categories:before, .entry__list--tags:before {
   margin-right: .25em;
@@ -2168,7 +2453,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   display: block;
   float: right;
   text-align: center;
-  font-size: ms(-3); }
+  font-size: 0.70233em; }
 
 .entry__comments--count a:link, .entry__comments--count a:visited {
   display: block;
@@ -2581,12 +2866,12 @@ Link posts contain a link to an external site. They can also optionally have a f
 .wp-caption p.wp-caption-text {
   padding: 16px 1.25em 20px;
   margin: 4px .5em;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   text-align: left; }
 
 .posts-pagination {
   width: 100%;
-  font-size: ms(-1); }
+  font-size: 0.88889em; }
 
 .posts-pagination--previous {
   float: left;
@@ -2743,7 +3028,7 @@ category: Components
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 40px;
   background: -moz-linear-gradient(top, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent), color-stop(100%, rgba(0, 0, 0, 0.7)));
   background: -webkit-linear-gradient(top, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
@@ -2783,7 +3068,7 @@ category: Components
   overflow: visible;
   background-color: #191919;
   line-height: 1;
-  font-size: ms(-1); }
+  font-size: 0.88889em; }
 
 .live-player__stream--current.open {
   display: block;
@@ -2798,7 +3083,7 @@ category: Components
   width: 0;
   height: 0;
   font-family: "gmr-icons";
-  font-size: ms(1);
+  font-size: 1.125em;
   content: "\e606";
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -2884,13 +3169,13 @@ category: Components
 .live-player__stream--name {
   float: left;
   width: 20%;
-  font-size: ms(-1); }
+  font-size: 0.88889em; }
 
 .live-player__stream--desc {
   float: left;
   width: 80%;
   line-height: 1.2;
-  font-size: ms(-3); }
+  font-size: 0.70233em; }
 
 .live-player__container {
   overflow: auto; }
@@ -2939,7 +3224,7 @@ category: Components
       display: block;
       height: 23px; } }
 
-.live-stream__listen-now--btn {
+.live-stream__listen-now--btn, .podcast__download {
   display: inline-block;
   line-height: 1;
   padding: 0.25em 1em;
@@ -2948,7 +3233,7 @@ category: Components
   background-color: #d22228;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -2959,11 +3244,11 @@ category: Components
   -o-border-radius: 1em;
   -border-radius: 1em;
   border-radius: 1em; }
-  .live-stream__listen-now--btn:hover, .live-stream__listen-now--btn:focus {
+  .live-stream__listen-now--btn:hover, .podcast__download:hover, .live-stream__listen-now--btn:focus, .podcast__download:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
     color: #ffffff; }
-  .live-stream__listen-now--btn:last-of-type {
+  .live-stream__listen-now--btn:last-of-type, .podcast__download:last-of-type {
     margin-right: 0; }
 
 .live-stream__now-playing--btn {
@@ -2975,7 +3260,7 @@ category: Components
   background-color: transparent;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   color: #d22228 !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -3008,7 +3293,7 @@ category: Components
   background-color: transparent;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   color: #d22228 !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -3031,7 +3316,7 @@ category: Components
   font-family: "gmr-icons" !important;
   content: "\e606" !important; }
 
-.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause {
+.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .podcast__btn--play {
   width: 34px;
   height: 34px;
   margin: 0 auto;
@@ -3054,7 +3339,7 @@ category: Components
   color: #d22228;
   cursor: pointer; }
   @media screen and (min-width: 768px) {
-    .live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause {
+    .live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .podcast__btn--play {
       width: 54px;
       height: 54px; } }
 
@@ -3135,7 +3420,7 @@ category: Components
   width: 50%;
   padding-top: 8px;
   line-height: 1;
-  font-size: ms(-4);
+  font-size: 0.6243em;
   text-align: left; }
 
 .live-stream--podcast__end {
@@ -3177,15 +3462,15 @@ category: Components
 
 .on-air__title, .up-next__title {
   margin-right: 1em;
-  font-size: ms(-2);
+  font-size: 0.79012em;
   font-weight: lighter; }
   @media screen and (min-width: 768px) {
     .on-air__title, .up-next__title {
       margin-right: .25em;
-      font-size: ms(-3); } }
+      font-size: 0.70233em; } }
 
 .on-air__show, .up-next__show {
-  font-size: ms(-2); }
+  font-size: 0.79012em; }
 
 .now-playing {
   display: none;
@@ -3212,22 +3497,22 @@ category: Components
 .now-playing__title {
   margin: 0 0 4px;
   line-height: 1;
-  font-size: ms(0);
+  font-size: 1em;
   font-weight: lighter;
   color: #d22228; }
   @media screen and (min-width: 768px) {
     .now-playing__title {
-      font-size: ms(1); } }
+      font-size: 1.125em; } }
 
 .now-playing__artist {
   margin: 0 0 4px;
   line-height: 1;
-  font-size: ms(-3);
+  font-size: 0.70233em;
   font-weight: lighter;
   color: #c7c7c7; }
   @media screen and (min-width: 768px) {
     .now-playing__artist {
-      font-size: ms(-2); } }
+      font-size: 0.79012em; } }
 
 .live-player__volume {
   display: none; }
@@ -3296,7 +3581,7 @@ category: Components
   border: 1px solid #d0d2d3;
   border-right: none;
   border-left: none;
-  font-size: ms(-2); }
+  font-size: 0.79012em; }
 
 .live-player--test {
   width: 100%;
@@ -3342,7 +3627,8 @@ category: Components
   color: #d22228; }
 
 .live-link__type--audio, .live-link__type--gallery, .live-link__type--image, .live-link__type--link, .live-link__type--standard, .live-link__type--video {
-  display: block; }
+  display: block;
+  position: relative; }
 
 .live-link__song {
   display: block;
@@ -3386,7 +3672,7 @@ category: Components
   padding-top: 6px;
   margin: 0;
   font-family: "Open Sans", sans-serif;
-  font-size: ms(-1);
+  font-size: 0.88889em;
   font-weight: normal; }
 
 .live-link__title a:link, .live-link__title a:visited {
@@ -3452,6 +3738,77 @@ category: Components - Ads
       float: right;
       margin: 0 0 1em 1em; } }
 
+/*doc
+---
+title: Podcast Excerpt
+name: podcast-excerpt
+category: Components - Shows
+---
+
+```html_example
+<article class="podcast">
+	<div class="podcast__play">
+		<button class="podcast__btn--play"></button>
+		<span class="podcast__runtime">57:14</span>
+	</div>
+	<div class="podcast__meta">
+		<time datetime="">September 12</time>
+		<button class="podcast__download">Download</button>
+		<h3>Preston & Steve Daily Feed</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, ratione, molestias possimus eos in nobis vero aliquid optio deserunt ipsam.</p>
+	</div>
+</article>
+```
+
+*/
+.podcast {
+  display: block; }
+  .podcast:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.podcast__play {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 14.70196%; }
+  .podcast__play:last-child {
+    margin-right: 0; }
+
+.podcast__btn--play {
+  position: relative; }
+
+.podcast__btn--play, .podcast__runtime {
+  display: block;
+  margin: 0 auto;
+  text-align: center; }
+
+.podcast__btn--play:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-family: "gmr-icons" !important;
+  content: "\e606" !important; }
+
+.podcast__meta {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 82.94039%; }
+  .podcast__meta:last-child {
+    margin-right: 0; }
+  .podcast__meta h3 {
+    margin: 0;
+    clear: both; }
+  .podcast__meta time {
+    float: left; }
+
 .show-attr--name {
   position: absolute;
   top: 50%;
@@ -3470,6 +3827,271 @@ category: Components - Ads
   display: inline-block;
   background-color: #d0d2d3; }
 
+/*doc
+---
+title: Show Header
+name: show-header
+category: Components - Shows
+---
+
+```html_example
+<div class="show__header">
+	<div class="show__cast">
+		<img src="http://placehold.it/135x135&text=cast">
+	</div>
+	<nav class="show__nav">
+		<a href=""><h1 class="show__title">Show Title Here</h1></a>
+		<ul>
+			<li><a href="">about</a></li>
+			<li><a href="">podcasts</a></li>
+			<li><a href="">galleries</a></li>
+		</ul>
+	</nav>
+	<div class="show__meta">
+		<em>Weekdays (todo)</em>
+		<em>5:30am - 10:30am (todo)</em>
+		<a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
+		<a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
+		<a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
+	</div>
+</div>
+
+```
+*/
+.show__header {
+  background-color: #561015;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  padding: 2em;
+  width: 100%;
+  display: block;
+  color: #ffffff; }
+  .show__header:after {
+    content: "";
+    display: table;
+    clear: both; }
+  .show__header > div {
+    vertical-align: middle; }
+  @media screen and (min-width: 768px) {
+    .show__header {
+      padding: 5em 2em; } }
+
+.show__cast {
+  width: 100%;
+  height: 100%; }
+  @media screen and (min-width: 768px) {
+    .show__cast {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 14.70196%; }
+      .show__cast:last-child {
+        margin-right: 0; } }
+  .show__cast img {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -border-radius: 50%;
+    border-radius: 50%;
+    margin: 0 auto; }
+
+.show__nav {
+  width: 100%;
+  text-align: center; }
+  @media screen and (min-width: 768px) {
+    .show__nav {
+      padding-left: 4em;
+      text-align: left;
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 48.82117%; }
+      .show__nav:last-child {
+        margin-right: 0; } }
+  .show__nav ul {
+    list-style-type: none;
+    padding-left: 0;
+    text-align: justify;
+    margin: 0; }
+  .show__nav ul:after {
+    content: "";
+    width: 100%;
+    display: inline-block;
+    height: 0; }
+  .show__nav li {
+    display: block;
+    text-align: center; }
+    .show__nav li a {
+      font-size: 1.60181em; }
+    @media screen and (min-width: 768px) {
+      .show__nav li {
+        display: inline-block; }
+        .show__nav li a {
+          font-size: 1em; } }
+  .show__nav a {
+    color: #ffffff;
+    text-transform: uppercase; }
+
+.show__title {
+  font-size: 2em;
+  font-family: "Droid Sans", sans-serif; }
+
+.show__meta {
+  width: 100%;
+  text-align: center; }
+  @media screen and (min-width: 768px) {
+    .show__meta {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
+      text-align: right; }
+      .show__meta:last-child {
+        margin-right: 0; } }
+  .show__meta em {
+    display: block; }
+  .show__meta .social-share-link {
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    margin-top: 1em; }
+
+/*doc
+---
+title: Show Features
+name: show-features
+category: Components - Shows
+---
+
+
+```html_example
+<div class="show__features">
+	<div class="show__feature--primary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">23 SEP</span>
+			</div>
+		</div></a>
+	</div>
+	<div class="show__feature--secondary">
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">15 NOV</span>
+			</div>
+		</div></a>
+		<a href=""><div class="show__feature">
+			<img src="http://placehold.it/570x315&text=show-feature" alt="">
+			<div class="show__feature--desc">
+				<h3>The Title of the Featured Post on the Show Homepage</h3>
+				<span class="show__feature--date">02 DEC</span>
+			</div>
+		</div></a>
+	</div>
+</div>
+```
+
+*/
+.show__features {
+  display: block; }
+  .show__features:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.show__feature {
+  margin-bottom: 2em; }
+  .show__feature h3 {
+    margin-top: 0; }
+  .show__feature img {
+    width: 100%;
+    height: auto; }
+
+@media screen and (min-width: 768px) {
+  .show__feature--primary {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%; }
+    .show__feature--primary:last-child {
+      margin-right: 0; }
+    .show__feature--primary h3 {
+      font-size: 2em; } }
+
+@media screen and (min-width: 768px) {
+  .show__feature--secondary {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%;
+    margin-right: 0; }
+    .show__feature--secondary:last-child {
+      margin-right: 0; }
+    .show__feature--secondary h3 {
+      font-size: 1em; }
+    .show__feature--secondary time {
+      font-size: 0.8em; } }
+
+.show__feature--desc {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 1em 2em 1em; }
+
+/*doc
+---
+title: Related Events
+name: related-events
+category: Components - Shows
+---
+
+*/
+@media screen and (min-width: 768px) {
+  .show__blogroll {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%; }
+    .show__blogroll:last-child {
+      margin-right: 0; } }
+
+.inner-right-col {
+  float: none; }
+  @media screen and (min-width: 768px) {
+    .inner-right-col {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
+      margin-right: 0;
+      float: right; }
+      .inner-right-col:last-child {
+        margin-right: 0; } }
+
+.show__favorites .featured__content--block {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%;
+  margin-bottom: 1em;
+  background: none; }
+  .show__favorites .featured__content--block:last-child {
+    margin-right: 0; }
+
+.show__toggle {
+  position: absolute;
+  bottom: -35px;
+  right: 0;
+  background: none repeat scroll 0 0 transparent;
+  border: none;
+  outline: none;
+  color: #d22228; }
+  .show__toggle:hover {
+    color: #aa1c20; }
+
 .widget--live-player {
   margin: 0 1em 1em; }
 
@@ -3480,7 +4102,7 @@ category: Components - Ads
       display: block;
       margin: 0 0 1em;
       font-family: "Open Sans", sans-serif;
-      font-size: ms(0);
+      font-size: 1em;
       font-weight: normal; } }
 
 .widget--live-player ul {
@@ -3522,6 +4144,45 @@ a.social-share-link {
   padding: 9px; }
   a.social-share-link:hover {
     color: #561015; }
+
+.social__list {
+  padding: 33px 0;
+  margin: 0;
+  list-style: none; }
+
+.social__link {
+  padding: 0;
+  margin: 0 1.25em 0 0;
+  list-style: none;
+  display: inline-block;
+  font-size: 1em; }
+
+.social__link:last-child {
+  margin: 0; }
+
+.social__link a, .social__link a:visited {
+  color: #929497; }
+
+.social__link a:hover, .social__link a:focus {
+  color: #d0d2d3; }
+
+.social__link a:active {
+  color: #ffffff; }
+
+.social__link--facebook:before {
+  content: "\e60f"; }
+
+.social__link--twitter:before {
+  content: "\e610"; }
+
+.social__link--google-plus:before {
+  content: "\e611"; }
+
+.social__link--youtube:before {
+  content: "\e617"; }
+
+.social__link--instagram:before {
+  content: "\e616"; }
 
 /*doc
 ---
@@ -3578,6 +4239,90 @@ category: Components - Gallery
 ---
 
 */
+/*doc
+---
+title: Personalities
+name: personalities
+category: Components - Shows
+---
+
+```html_example
+<div class="personality">
+	<div class="personality__avatar">
+		<img alt="" src="http://0.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=96" class="avatar avatar-96 photo avatar-default" height="96" width="96">
+	</div>
+	<div class="personality__meta">
+		<span class="personality__name h1">Dan Blaker</span>
+		<div class="personality__bio"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio minus unde temporibus libero cupiditate sint quaerat. Rem minima, culpa odit, quis nesciunt cum, repellendus saepe laboriosam nihil totam debitis velit pariatur!</p><p>Libero quidem minima hic. Odio libero delectus placeat iure nam provident rem quaerat, sapiente corporis repudiandae praesentium, et commodi hic pariatur minus officia blanditiis accusamus fugiat quae! At, voluptatum!</p></div>
+	</div>
+</div>
+```
+
+*/
+.show__personalities {
+  max-width: 71.875em;
+  margin-left: auto;
+  margin-right: auto; }
+  .show__personalities:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.personality {
+  margin: 4em 0;
+  position: relative;
+  display: block; }
+  .personality:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.personality__avatar {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%; }
+  .personality__avatar:last-child {
+    margin-right: 0; }
+  @media screen and (min-width: 768px) {
+    .personality__avatar {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 23.23176%; }
+      .personality__avatar:last-child {
+        margin-right: 0; } }
+  .personality__avatar img {
+    width: 80%;
+    height: auto;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -border-radius: 50%;
+    border-radius: 50%; }
+
+.personality__meta {
+  overflow: hidden;
+  height: 8em;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%;
+  margin-right: 0; }
+  .personality__meta:last-child {
+    margin-right: 0; }
+  @media screen and (min-width: 768px) {
+    .personality__meta {
+      height: 12em;
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 74.41059%;
+      margin-right: 0; }
+      .personality__meta:last-child {
+        margin-right: 0; } }
+
 /**
  * Single Page Styles
  */

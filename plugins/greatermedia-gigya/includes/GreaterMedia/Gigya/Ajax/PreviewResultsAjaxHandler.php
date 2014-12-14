@@ -46,10 +46,15 @@ class PreviewResultsAjaxHandler extends AjaxHandler {
 		$result['complete'] = $sentinel->has_completed();
 
 		if ( $result['complete'] ) {
-			$preview_results    = $sentinel->get_preview_results();
-			$result['progress'] = $sentinel->get_progress();
-			$result['total']    = $preview_results['total'];
-			$result['users']    = $preview_results['users'];
+			if ( ! $sentinel->has_errors() ) {
+				$preview_results    = $sentinel->get_preview_results();
+				$result['progress'] = $sentinel->get_progress();
+				$result['total']    = $preview_results['total'];
+				$result['users']    = $preview_results['users'];
+			} else {
+				$result['progress'] = 100;
+				$result['errors']   = $sentinel->get_errors();
+			}
 		} else {
 			$result['progress'] = $sentinel->get_progress();
 		}

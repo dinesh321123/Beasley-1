@@ -1,33 +1,84 @@
-.featured {
+/*doc
+---
+title: Featured Articles
+name: featured-articles
+category: Components - Front Page
+---
+
+Curated posts for Featured Articles
+
+```html_example
+<section id="featured" class="home__featured">
+		<div class="featured__article">
+			<div class="featured__article--image">
+				<img src="http://placehold.it/2800x1000&text=featured+image">
+			</div>
+			<div class="featured__article--content">
+				<div class="featured__article--heading">
+					<h3 class="featured__article--subtitle">Artist of the Month</h3>
+					<h2 class="featured__article--title">Minshara</h2>
+				</div>
+				<div class="featured__article--bio">
+					Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
+				</div>
+			</div>
+		</div>
+		<div class="featured__content">
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">MMR Rocks the Flyers</h2>
+					<ul class="featured__content--list">
+						<li class="featured__content--item">MMR Rocks the Flyers</li>
+						<li class="featured__content--item">Flyers All Access</li>
+					</ul>
+				</div>
+			</div>
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">Hitch a Ride with Pierre ...and Minerva</h2>
+					<div class="featured__content--link">
+						<a href="#" class="featured__content--btn">Enter To Win</a>
+					</div>
+				</div>
+			</div>
+			<div class="featured__content--block">
+				<div class="featured__content--image">
+					<img src="http://placehold.it/400x400&text=featured+image">
+				</div>
+				<div class="featured__content--meta">
+					<h2 class="featured__content--title">Preston and Steve</h2>
+					<ul class="featured__content--list">
+						<li class="featured__content--item">Daily Rush</li>
+						<li class="featured__content--item">Flyers All Access</li>
+						<li class="featured__content--item">Studio Guests</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+</section>
+```
+*/
+
+.home__featured {
 	position: relative;
 	@extend %main;
-	padding: 48px 0;
+	padding: 48px;
 	background: url(../../images/featured-bg.png) repeat center center $abbey;
 	background-size: auto 40%;
 }
 
-.featured .container {
-	width: 87.5%;
-	@include bp(small) {
-		width: 88.333333333333%;
-	}
-	@include bp(large) {
-		width: 85.920577617329%;
-	}
-	@include bp(x-large) {
-		width: 92.08770257388%;
-	}
-}
-
-.featured__artist, .featured__content {
-	width: 100%;
-}
-
-.featured__artist {
+.featured__article, .featured__content {
 	padding-bottom: 34px;
+	@include row();
 }
 
-.featured__artist--image {
+.featured__article--image {
 	width: 100%;
 	height: 100px;
 	overflow: hidden;
@@ -43,12 +94,12 @@
 	}
 }
 
-.featured__artist--content {
+.featured__article--content {
 	width: 100%;
 	padding: 15px 3.928571428572%;
 	overflow: auto;
-	background-color: $coffee-bean;
-	color: $iron;
+	background: $secondary-link;
+
 	@include bp(small) {
 		padding: 15px 4.941176470588%;
 	}
@@ -58,9 +109,14 @@
 	@include bp(x-large) {
 		padding: 34px 2.898550724638%;
 	}
+
+	.home__featured & {
+		background-color: $coffee-bean;
+		color: $iron;
+	}
 }
 
-.featured__artist--heading {
+.featured__article--heading {
 	float: left;
 	width: 100%;
 	@include bp(large) {
@@ -73,7 +129,7 @@
 	}
 }
 
-.featured__artist--title {
+.featured__article--title {
 	margin-top: 0;
 	margin-bottom: 10px;
 	line-height: 1;
@@ -82,14 +138,14 @@
 	font-weight: normal;
 }
 
-.featured__artist--subtitle {
+.featured__article--subtitle {
 	margin: 0;
 	line-height: 1;
 	font-size: ms(7);
 	color: $color-text-white;
 }
 
-.featured__artist--bio {
+.featured__article--bio {
 	display: none;
 	@include bp(large) {
 		display: block;
@@ -109,75 +165,54 @@
 	height: 90px;
 	margin-bottom: 27px;
 	overflow: hidden;
-	background-color: $coffee-bean;
+	background: $secondary-link;
 	@include bp(small) {
 		width: 100%;
 		height: 95px;
 		margin-bottom: 25px;
 	}
 	@include bp(large) {
-		width: 31.055900621118%;
-		height: 280px;
-		margin-right: 3.416149068323%;
+		@include span-columns(4 of 12);
+		height: 100px;
 		margin-bottom: 0;
 		overflow: visible;
 	}
 	@include bp(x-large) {
 		height: 106px;
 	}
+
+	.home__featured & {
+		background-color: $coffee-bean;
+		color: $iron;
+	}
 }
 
 .featured__content--block:last-of-type {
-	margin: 0;
+	@include omega;
 }
 
 .featured__content--image {
-	float: left;
-	width: 32.142857142857%;
-	height: 90px;
-	@include bp(small) {
-		width: 33.411764705882%;
-		height: 95px;
-	}
-	@include bp(large) {
-		width: 100%;
-		height: 138px;
-		overflow: hidden;
-	}
-	@include bp(x-large) {
-		width: 35.570469798658%;
-		height: 106px;
-	}
+	@include span-columns(4 of 12);
+	height: 100%;
+	overflow: hidden;
+	
 }
 
 .featured__content--image img {
-	width: 100%;
-	@include bp(x-large) {
-		max-width: 100%;
-	}
+	height: 100%;
+	width: auto;
+	max-width: none;
 }
 
 .featured__content--meta {
-	float: left;
-	width: 67.857142857143%;
-	padding: 14px 3.571428571429% 14px 5.357142857143%;
 	font-size: ms(-2);
 	font-weight: lighter;
-	color: $aluminium;
-	@include bp(small) {
-		width: 66.588235294118%;
-		padding: 15px 2.352941176471% 15px 4.941176470588%;
-		font-size: ms(-1);
-	}
-	@include bp(large) {
-		width: 100%;
-		height: 142px;
-		padding: 28px 10.280373831776% 15px 10.280373831776%;
-	}
-	@include bp(x-large) {
-		width: 64.429530201342%;
-		height: 100%;
-		padding: 13px 3.355704697987% 13px 10.06711409396%;
+	padding: 1em;
+	@include span-columns(8 of 12);
+	@include omega;
+	
+	.home__featured & {
+		color: $aluminium;
 	}
 }
 
