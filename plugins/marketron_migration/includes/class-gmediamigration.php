@@ -1044,12 +1044,9 @@ class GMedia_Migration extends WP_CLI_Command {
 			$taxonomy_map[ $marketron_taxonomy ]['taxonomy'] = $config_string[3];
 		}
 
-		$total = 0;
-		foreach ( $blogs as $blog ) {
-			$total += count( $blog->BlogEntries->BlogEntry );
-		}
+		$total = count( $blogs );
 
-		$notify = new \cli\progress\Bar( "Importing $total articles", $total );
+		$notify = new \cli\progress\Bar( "Importing $total blogs", $total );
 		$skipper = 0;
 
 		foreach ( $blogs as $single_blog ) {
@@ -1209,10 +1206,9 @@ class GMedia_Migration extends WP_CLI_Command {
 					CMM_Legacy_Redirects::add_redirect( (string) $entry->BlogEntryURL, $wp_id );
 				}
 
-				$notify->tick();
 			}
+			$notify->tick();
 		}
-
 		$notify->finish();
 	}
 
@@ -1538,7 +1534,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 
 			$gallery_args = array(
-				'post_type'     => 'albums',
+				'post_type'     => 'gmr_gallery',
 				'post_status'   => 'publish',
 				'post_title'    => trim( (string) $album['AlbumName'] ),
 				'post_content'  => trim( (string) $album['Description'] ),
@@ -1565,16 +1561,17 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			// Process Gallery Category Terms
 			if ( isset( $album['Categories'] ) ) {
-				$gallery_cats = explode( ',', (string) $album['Categories'] );
-				foreach ( $gallery_cats as $gallery_cat ) {
+				//$gallery_cats = explode( ',', (string) $album['Categories'] );
+				update_post_meta($wp_id, '_legacy_Categories', (string) $album['Categories'] );
+				/*foreach ( $gallery_cats as $gallery_cat ) {
 					if ( '' !== trim( $gallery_cat ) ) {
-						$cat_id = $this->process_term( $gallery_cat, 'gallery-category', 'albums');
+						$cat_id = $this->process_term( $gallery_cat, 'gmr-gallery-category', 'gmr_gallery');
 
 						if ( $cat_id ) {
 							wp_set_post_terms( $wp_id, array( $cat_id ), 'gallery-category', true );
 						}
 					}
-				}
+				}*/
 			}
 
 			// Post Meta
@@ -1758,7 +1755,7 @@ class GMedia_Migration extends WP_CLI_Command {
 			}
 
 			$showcase_post = array(
-				'post_type'     => 'albums',
+				'post_type'     => 'gmr_gallery',
 				'post_status'   => 'publish',
 				'post_title'    => trim( (string) $showcase['ShowcaseName'] ),
 				'post_content'  => trim( (string) $showcase['ShowcaseDescription'] ),
@@ -1828,7 +1825,7 @@ class GMedia_Migration extends WP_CLI_Command {
 		}
 
 		$showcase_entry_post = array(
-			'post_type'     => 'album',
+			'post_type'     => 'gmr_gallery',
 			'post_status'   => 'publish',
 			'post_parent'   => $parent_id,
 			'post_title'    => trim( (string) $entry['ShowcaseEntryName'] ),
@@ -1846,7 +1843,7 @@ class GMedia_Migration extends WP_CLI_Command {
 		}
 
 		$wp_id = wp_insert_post( $showcase_entry_post );
-
+		WP_CLI::log( 'Added showcase entry' );
 		set_post_format( $wp_id, 'gallery' );
 		update_post_meta( $wp_id, 'gmedia_import_id', $entry_hash );
 		update_post_meta( $wp_id, '_gmedia_related_content', $parent_id );
@@ -1900,8 +1897,6 @@ class GMedia_Migration extends WP_CLI_Command {
 			update_post_meta( $wp_id, '_gmedia_gallery_images', $image_ids );
 			$image_ids = implode( ',', $image_ids );
 			$gallery = '[gallery ids="'. $image_ids .'"]';
-			WP_CLI::log( $gallery );
-			WP_CLI::log( $wp_id );
 			$updated_post = array( 'ID' => $wp_id, 'post_content' => $gallery );
 			wp_update_post( $updated_post );
 		}
@@ -2508,6 +2503,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 					if( isset( $podcast_item['MediaFilename'] ) && $episode_id ) {
 						$audio_path = str_ireplace( '\Media\\', '', (string) $podcast_item['MediaFilename'] );
+						WP_CLI::log( $audio_path );
 						$media_file_id = $this->import_music_files( $wp_id, $audio_path );
 						$url = wp_get_attachment_url( $media_file_id );
 						update_post_meta( $episode_id, 'gmp_audio_file_meta_key', $url );
@@ -2683,7 +2679,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					}
 
 					$response_id = wp_insert_post( $response_args );
-					
+
 					if ( $response_id ) {
 
 						if ( isset( $response['UTCCompletionDate'] ) ) {
@@ -2730,10 +2726,9 @@ class GMedia_Migration extends WP_CLI_Command {
 			// grab the existing post ID (if it exists).
 			$wp_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = 'gmedia_import_id' AND meta_value = '" . $contest_hash . "'" );
 
-
 			// If we're not forcing import, skip existing posts.
 			if ( ! $force && $wp_id ) {
-				$notify->tick();
+				//$notify->tick();
 				continue;
 			}
 
@@ -2749,10 +2744,10 @@ class GMedia_Migration extends WP_CLI_Command {
 			}
 
 			$contest_title = trim( (string) $contest['ContestName'] );
-			preg_match( '/\[\s*(\S+)\s*\](.*)/', $contest_title, $contest_title_matches );
+			preg_match( '/(\[\s*(\S+)\s*\])?(.*)/', $contest_title, $contest_title_matches );
 
 			if( !empty( $contest_title_matches ) ) {
-				$contest_title = $contest_title_matches[2];
+				$contest_title = $contest_title_matches[3];
 			}
 
 			$contest_args = array(
@@ -2811,7 +2806,7 @@ class GMedia_Migration extends WP_CLI_Command {
 			// process terms
 
 			if( !empty( $contest_title_matches ) && $contest_title_matches[1] ) {
-				$contest_term['name'] = $contest_title_matches[1];
+				$contest_term['name'] = $contest_title_matches[2];
 				$contest_term['desc'] = "";
 
 				$contest_cat_id = $this->process_term( $contest_term, 'contest_type', 'contest' );
@@ -2845,7 +2840,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				}
 			}
 
-			if( isset( $contest->Entries->Entry ) && !empty( $contest->Entries->Entry ) ) {
+			if( isset( $contest->Entries->Entry ) ) {
 
 				foreach ( $contest->Entries->Entry as $entry ) {
 
@@ -2901,16 +2896,15 @@ class GMedia_Migration extends WP_CLI_Command {
 
 					}
 
-
-					//$progress->tick();
 				}
-
 			}
+
 			//$progress->finish();
 			//$notify->tick();
 		}
 
 		//$notify->finish();
+		//$this->clean_up();
 	}
 
 	private function process_schedules( $schedules, $force ) {
@@ -3209,6 +3203,12 @@ class Post_Term extends \WP_CLI_Command{
 		} else {
 			WP_CLI::print_value( $terms, $assoc_args );
 		}
+	}
+
+	public function clean_up() {
+		global $wpdb;
+		$wp_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = 'gmedia_must_delete' AND meta_value = 'true'" );
+		WP_CLI::log( $wp_id );
 	}
 }
 WP_CLI::add_command( 'post-term', 'Post_Term' );
