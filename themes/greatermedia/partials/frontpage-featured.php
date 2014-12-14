@@ -8,57 +8,46 @@
 ?>
 <section id="featured" class="featured">
 	<div class="container">
-		<div class="featured__article">
-			<div class="featured__article--image">
-				<img src="http://placehold.it/2800x1000&text=featured+image">
-			</div>
-			<div class="featured__article--content">
-				<div class="featured__article--heading">
-					<h2 class="featured__article--title"><?php _e( 'Artist of the Month', 'greatermedia' ); ?></h2>
-					<h3 class="featured__article--subtitle">Minshara</h3>
+		<?php
+		$hp_featured_query = \GreaterMedia\HomepageCuration\get_featured_query();
+
+		if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
+			<div class="featured__article">
+				<div class="featured__article--image">
+					<?php the_post_thumbnail( array( 2800, 1000 ) ); // todo image size? ?>
 				</div>
-				<div class="featured__article--bio">
-					Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
-				</div>
-			</div>
-		</div>
-		<div class="featured__content">
-			<div class="featured__content--block">
-				<div class="featured__content--image">
-					<img src="http://placehold.it/400x400&text=featured+image">
-				</div>
-				<div class="featured__content--meta">
-					<h2 class="featured__content--title">MMR Rocks the Flyers</h2>
-					<ul class="featured__content--list">
-						<li class="featured__content--item">MMR Rocks the Flyers</li>
-						<li class="featured__content--item">Flyers All Access</li>
-					</ul>
-				</div>
-			</div>
-			<div class="featured__content--block">
-				<div class="featured__content--image">
-					<img src="http://placehold.it/400x400&text=featured+image">
-				</div>
-				<div class="featured__content--meta">
-					<h2 class="featured__content--title">Hitch a Ride with Pierre ...and Minerva</h2>
-					<div class="featured__content--link">
-						<a href="#" class="featured__content--btn">Enter To Win</a>
+				<div class="featured__article--content">
+					<div class="featured__article--heading">
+						<?php
+						// <h3 class="featured__article--subtitle">Minshara</h3> // todo Do we have/need subtitle support?
+						?>
+						<h2 class="featured__article--title"><?php the_title(); ?></h2>
 					</div>
+					<div class="featured__article--bio"><?php the_excerpt(); ?></div>
 				</div>
 			</div>
-			<div class="featured__content--block">
-				<div class="featured__content--image">
-					<img src="http://placehold.it/400x400&text=featured+image">
-				</div>
-				<div class="featured__content--meta">
-					<h2 class="featured__content--title">Preston and Steve</h2>
-					<ul class="featured__content--list">
-						<li class="featured__content--item">Daily Rush</li>
-						<li class="featured__content--item">Flyers All Access</li>
-						<li class="featured__content--item">Studio Guests</li>
-					</ul>
-				</div>
+		<?php endif; ?>
+		<?php // if we still have more posts (we almost always will), render the 3 below the main section ?>
+		<?php if ( $hp_featured_query->have_posts() ) : ?>
+			<div class="featured__content">
+				<?php while ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
+					<div class="featured__content--block">
+						<div class="featured__content--image">
+							<?php the_post_thumbnail( array( 400, 400 ) ); // todo Image Size: 400x400 ?>
+						</div>
+						<div class="featured__content--meta">
+							<h2 class="featured__content--title"><?php the_title(); ?></h2>
+							<div class="featured__content--excerpt">
+								<?php \GreaterMedia\the_excerpt_length( 10 ); ?>
+							</div>
+							<div class="featured__content--link">
+								<a href="<?php the_permalink(); ?>" class="featured__content--btn">Read More</a>
+							</div>
+						</div>
+					</div>
+				<?php endwhile; ?>
 			</div>
-		</div>
+		<?php endif; ?>
+		<?php wp_reset_query(); ?>
 	</div>
 </section>

@@ -21,6 +21,8 @@ function register_settings() {
 	// Add our section, so we can actually get these guys to render..
 	add_settings_section( get_settings_section(), 'Homepage Curation', '__return_null', get_settings_page_slug() );
 
+	// Can hook into this to add more post types
+	$homepage_curation_post_types = apply_filters( 'gmr-homepage-curation-post-types', array( 'post', 'tribe_events' ) );
 
 	// Homepage Featured
 	$option_name = 'gmr-homepage-featured';
@@ -28,7 +30,7 @@ function register_settings() {
 		'name' => $option_name,
 		'pf_options' => array(
 			'args' => array(
-				'post_type' => array( 'post', 'tribe_events' ),
+				'post_type' => $homepage_curation_post_types,
 				'meta_key' => '_thumbnail_id', // Forces the posts to have a featured image
 			),
 			'limit' => 4,
@@ -44,7 +46,7 @@ function register_settings() {
 		'name' => $option_name,
 		'pf_options' => array(
 			'args' => array(
-				'post_type' => array( 'post' ),
+				'post_type' => $homepage_curation_post_types,
 				'meta_key' => '_thumbnail_id', // Forces the posts to have a featured image
 			),
 			'limit' => 3,
