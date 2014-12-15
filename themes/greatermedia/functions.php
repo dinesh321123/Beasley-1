@@ -276,6 +276,11 @@ add_action( 'pre_get_posts', 'greatermedia_alter_search_query' );
  */
 function greatermedia_alter_front_page_query( $query ) {
 	if ( $query->is_main_query() && $query->is_front_page() ) {
+		// Need to really think about how to include events here, and if it really makes sense. By default,
+		// we would have all published events, in reverse cron - so like we'd have "posts" looking things dated for the future
+		// that would end up hiding the actual posts, potentially for pages before getting to any real content.
+		//
+		// ADDITIONALLY - There is a checkbox for this on the events setting page, so we don't need to do that here :)
 		$post_types = array( 'post', GMP_CPT::EPISODE_POST_TYPE );
 
 		$query->set( 'post_type', $post_types );
