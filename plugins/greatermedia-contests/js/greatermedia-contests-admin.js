@@ -7,10 +7,18 @@ document.addEventListener(
 
 		var args = {
 			selector: '#contest_embedded_form'
-		};
+		},
+
+		// Every contest form includes Name and Email address fields by default
+		default_form = '[{"label":"Name","field_type":"text","required":true,"field_options":{"size":"medium"},"cid":"c5"},{"label":"Email Address","field_type":"email","required":true,"field_options":{},"cid":"c9"}]';
 
 		if (GreaterMediaContestsForm.form) {
-			args.bootstrapData = JSON.parse(GreaterMediaContestsForm.form);
+			if(GreaterMediaContestsForm.form && '' !== GreaterMediaContestsForm.form) {
+				args.bootstrapData = JSON.parse(GreaterMediaContestsForm.form);
+			}
+			else {
+				args.bootstrapData = JSON.parse(default_form);
+			}
 		}
 
 		var formbuilder = new Formbuilder(args);
@@ -23,6 +31,9 @@ document.addEventListener(
 		// Default the hidden field with the form data loaded from the server
 		document.getElementById('contest_embedded_form_data').value = encodeURIComponent(JSON.stringify(GreaterMediaContestsForm.form));
 
+		// The default 'Name' and 'Email Address' fields can't be deleted
+		jQuery('#contest_embedded_form').find('input').filter('[data-fieldname="Name"]').first().siblings('.actions-wrapper').find('.js-clear').remove();
+		jQuery('#contest_embedded_form').find('input').filter('[data-fieldname="Email Address"]').first().siblings('.actions-wrapper').find('.js-clear').remove();
 	},
 	false
 );
