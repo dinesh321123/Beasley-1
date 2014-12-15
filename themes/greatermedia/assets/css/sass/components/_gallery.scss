@@ -24,11 +24,15 @@ category: Components - Gallery
 
 .gallery__slide--images {
 	@include span-columns(4);
+	height: 214px;
+	margin-bottom: 15px;
 	@include bp(small) {
 		@include span-columns(6);
+		height: 320px;
 	}
 	@include bp(medium) {
 		@include span-columns(6);
+		height: 513px;
 	}
 	@include bp(large) {
 		@include span-columns(8);
@@ -46,7 +50,7 @@ category: Components - Gallery
 
 .gallery__slide--image {
 	width: 100%;
-	height: 516px;
+	height: 214px;
 	@include opacity(0);
 	@include transition(opacity 200ms linear);
 	top: 50% !important;
@@ -54,6 +58,18 @@ category: Components - Gallery
 	transform: translate(-50%, -50%);
 	background-repeat: no-repeat;
 	background-position: center center;
+	@include bp(small) {
+		height: 320px;
+	}
+	@include bp(medium) {
+		height: 513px;
+	}
+	@include bp(large) {
+		height: 516px;
+	}
+	@include bp(x-large) {
+		height: 516px;
+	}
 }
 
 .gallery__slide--image.cycle-slide-active {
@@ -61,16 +77,11 @@ category: Components - Gallery
 	@include transition(opacity 200ms linear);
 }
 
-.gallery__progress {
-	width: 100%;
-	height: 80px;
-}
-
 .gallery__meta {
 	position: relative;
 	@include span-columns(4);
-	padding: 0 4%;
-	overflow: auto;
+	padding: 0 4.375%;
+	margin: 16px 0 30px;
 	color: $gallery-text;
 	text-align: center;
 	@include bp(small) {
@@ -78,6 +89,7 @@ category: Components - Gallery
 	}
 	@include bp(medium) {
 		@include span-columns(8);
+		padding: 0 4%;
 	}
 	@include bp(large) {
 		@include span-columns(12);
@@ -87,84 +99,12 @@ category: Components - Gallery
 	}
 }
 
-%gallery__progress--btn {
-	position: relative;
-	width: 144px;
-	height: 64px;
-	border: 1px solid $light-gray;
-	background-color: transparent;
-	@include border-radius(32px);
-	font-family: $open-sans;
-	font-size: ms(1);
-	font-weight: lighter;
-	color: $color-text-white;
-	text-transform: uppercase;
-}
-
-%gallery__progress--btn:hover, %gallery__progress--btn:focus {
-	border-color: $btn-bg;
-	color: $color-text-red;
-}
-
-%gallery__progress--btn:active {
-	border-color: $gallery-border;
-	color: $gallery-border;
-}
-
-.gallery__prev {
-	position: absolute;
-	bottom: 0;
-	left: 4%;
-	width: 144px;
-	height: 64px;
-}
-
-.gallery__prev--btn {
-	@extend %gallery__progress--btn;
-}
-
-.gallery__prev--span {
-	margin-left: 38px;
-}
-
-.gallery__prev--btn:before {
-	@extend %gmr-icons;
-	position: absolute;
-	left: 30px;
-	font-size: ms(3);
-	content: "\e619";
-}
-
-.gallery__next {
-	position: absolute;
-	bottom: 0;
-	right: 4%;
-	width: 144px;
-	height: 64px;
-}
-
-.gallery__next--btn {
-	@extend %gallery__progress--btn;
-}
-
-.gallery__next--span {
-	margin-right: 38px;
-}
-
-.gallery__next--btn:after {
-	@extend %gmr-icons;
-	position: absolute;
-	right: 30px;
-	font-size: ms(3);
-	content: "\e618";
-}
-
 .gallery__content {
-	@include span-columns(2);
-	@include shift(1);
+	@include span-columns(4);
+	@include omega;
 	@include bp(small) {
-		@include span-columns(4);
-		@include shift(1);
+		@include span-columns(6);
+		@include omega;
 	}
 	@include bp(medium) {
 		@include span-columns(6);
@@ -183,20 +123,27 @@ category: Components - Gallery
 }
 
 .gallery__slide--content {
-	@include span-columns(2 of 2);
+	@include span-columns(4 of 4);
+	@include omega;
+	height: auto;
+	margin-bottom: 42px;
 	@include opacity(0);
 	@include transition(opacity 200ms linear);
 	@include bp(small) {
-		@include span-columns(4 of 4);
+		@include span-columns(6 of 6);
+		@include omega;
 	}
 	@include bp(medium) {
 		@include span-columns(6 of 6);
+		@include omega;
 	}
 	@include bp(large) {
 		@include span-columns(8 of 8);
+		@include omega;
 	}
 	@include bp(x-large) {
 		@include span-columns(8 of 8);
+		@include omega;
 	}
 }
 
@@ -243,28 +190,127 @@ category: Components - Gallery
 	color: $gallery-border;
 }
 
+.gallery__progress {
+	@include span-columns(4);
+	padding: 0 4.375%;
+	margin-bottom: 30px;
+	overflow: auto;
+}
+
+%gallery__progress--btn {
+	position: relative;
+	width: 94px;
+	height: 36px;
+	border: 1px solid $light-gray;
+	background-color: transparent;
+	@include border-radius(32px);
+	font-family: $open-sans;
+	font-size: ms(1);
+	font-weight: lighter;
+	color: $color-text-white;
+	text-transform: uppercase;
+	@include bp(large) {
+		width: 144px;
+		height: 64px;
+	}
+}
+
+%gallery__progress--btn:hover, %gallery__progress--btn:focus {
+	border-color: $btn-bg;
+	color: $color-text-red;
+}
+
+%gallery__progress--btn:active {
+	border-color: $gallery-border;
+	color: $gallery-border;
+}
+
+.gallery__prev {
+	position: relative;
+	float: left;
+	display: block;
+	width: 32%;
+	height: 36px;
+	@include bp(large) {
+		width: 20%;
+		height: 64px;
+	}
+}
+
+.gallery__prev--btn {
+	@extend %gallery__progress--btn;
+}
+
+.gallery__prev--span {
+	margin-left: 16px;
+	@include bp(large) {
+		margin-left: 38px;
+	}
+}
+
+.gallery__prev--btn:before {
+	@extend %gmr-icons;
+	position: absolute;
+	top: 9px;
+	left: 14px;
+	font-size: ms(1);
+	content: "\e619";
+	@include bp(large) {
+		top: auto;
+		left: 30px;
+		font-size: ms(3);
+	}
+}
+
+.gallery__next {
+	position: relative;
+	float: left;
+	display: block;
+	width: 32%;
+	height: 36px;
+	@include bp(large) {
+		width: 20%;
+		height: 64px;
+	}
+}
+
+.gallery__next--btn {
+	@extend %gallery__progress--btn;
+	float: right;
+}
+
+.gallery__next--span {
+	margin-right: 16px;
+	@include bp(large) {
+		margin-right: 38px;
+	}
+}
+
+.gallery__next--btn:after {
+	@extend %gmr-icons;
+	position: absolute;
+	top: 9px;
+	right: 14px;
+	font-size: ms(1);
+	content: "\e618";
+	@include bp(large) {
+		top: auto;
+		right: 30px;
+		font-size: ms(3);
+	}
+}
+
 .gallery__count {
-	@include span-columns(2);
-	@include shift(1);
+	position: relative;
+	float: left;
+	display: block;
+	width: 36%;
+	height: 36px;
 	font-size: ms(0);
 	font-weight: lighter;
-	@include bp(small) {
-		@include span-columns(4);
-		@include shift(1);
-	}
-	@include bp(medium) {
-		@include span-columns(6);
-		@include shift(1);
-	}
 	@include bp(large) {
-		@include span-columns(8);
-		@include shift(2);
-		margin-top: 18px;
-	}
-	@include bp(x-large) {
-		@include span-columns(8);
-		@include shift(2);
-		margin-top: 18px;
+		width: 60%;
+		height: 64px;
 	}
 }
 
@@ -293,7 +339,6 @@ category: Components - Gallery
 
 .gallery__previews {
 	width: 100%;
-	overflow: auto;
 	@include bp(small) {
 		width: 100%;
 	}
@@ -326,6 +371,14 @@ category: Components - Gallery
 	border: none;
 	font-size: ms(6);
 	color: $color-text-gray;
+}
+
+%gallery__paging--btn:hover {
+	color: $color-text-white;
+}
+
+%gallery__paging--btn:active {
+	color: $color-text-red;
 }
 
 .gallery__paging--left {

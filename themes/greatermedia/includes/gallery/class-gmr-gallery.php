@@ -104,7 +104,7 @@ class GreaterMediaGallery {
 						     data-cycle-prev=".gallery__prev--btn"
 						     data-cycle-next=".gallery__next--btn"
 						     data-cycle-timeout="0"
-						     data-cycle-caption=".gallery__count"
+						     data-cycle-caption="#gallery__count"
 						     data-cycle-caption-template="<?php echo esc_attr( $image_count_text ); ?>"
 						     data-cycle-center-horz="true"
 						     data-cycle-center-vert="true"
@@ -143,17 +143,14 @@ class GreaterMediaGallery {
 						</div>
 					</div>
 					<div class="gallery__meta">
-						<div class="gallery__prev">
-							<button type="button" class="gallery__prev--btn slide-overlay-control-nohide"><span class="gallery__prev--span"><?php _e( 'Prev', 'greatermedia'); ?></span></button>
-						</div>
 						<div class="gallery__content cycle-slideshow"
 						     data-cycle-log="false"
 						     data-cycle-slides="> div"
 						     data-cycle-prev=".gallery__prev--btn"
 						     data-cycle-next=".gallery__next--btn"
 						     data-cycle-timeout="0"
-						     data-cycle-auto-height="false"
-						     data-cycle-manual-speed="1">
+						     data-cycle-manual-speed="1"
+						     data-cycle-auto-height=container>
 							<?php
 							while ( $gallery->have_posts() ){
 								global $post;
@@ -175,7 +172,12 @@ class GreaterMediaGallery {
 							$gallery->rewind_posts();
 							?>
 						</div>
-						<div class="gallery__count">
+					</div>
+					<div class="gallery__progress">
+						<div class="gallery__prev">
+							<button type="button" class="gallery__prev--btn slide-overlay-control-nohide"><span class="gallery__prev--span"><?php _e( 'Prev', 'greatermedia'); ?></span></button>
+						</div>
+						<div id="gallery__count" class="gallery__count">
 						</div>
 						<div class="gallery__next">
 							<button type="button" class="gallery__next--btn slide-overlay-control-nohide"><span class="gallery__next--span"><?php _e( 'Next', 'greatermedia'); ?></span></button>
