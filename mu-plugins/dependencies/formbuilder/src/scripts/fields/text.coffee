@@ -3,7 +3,7 @@ Formbuilder.registerField 'text',
   order: 0
 
   view: """
-    <input type='text' data-fieldname='<%= rf.get(Formbuilder.options.mappings.LABEL) %>' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />
+    <input type='text' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />
   """
 
   edit: """
