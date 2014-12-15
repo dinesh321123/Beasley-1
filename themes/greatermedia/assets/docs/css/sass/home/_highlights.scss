@@ -89,7 +89,7 @@ Community Highlights and Events
 	@extend %main;
 	padding-top: 33px;
 	padding-bottom: 33px;
-	background-color: $athens-gray;
+	background-color: $highlights-bg;
 	@include bp(small) {
 		padding-top: 36px;
 		padding-bottom: 36px;
@@ -319,7 +319,7 @@ Community Highlights and Events
 	line-height: 1.2;
 	font-family: $open-sans;
 	font-size: ms(0);
-	color: $nevada;
+	color: $highlights-heading;
 	@include bp(small) {
 		font-size: ms(1);
 	}
@@ -339,6 +339,6 @@ Community Highlights and Events
 	@include bp(x-large) {
 		display: block;
 		font-size: ms(-2);
-		color: $oslo-gray
+		color: $gray
 	}
 }

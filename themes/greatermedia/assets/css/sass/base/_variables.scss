@@ -1,75 +1,3 @@
-// Color Map
-// By default, these colors can be called using `map-get($palette, tone)`. To avoid continually calling `map-get`, a
-// function has been written. Reference the `palette` function located in `_functions.scss`.
-//
-// @author Allen Moore
-// @since 0.1.0
-//
-// @type String
-//
-$palettes: (
-	base: (
-		body-bg: #000000,
-		primary-bg: #ffffff,
-		primary-text: #000000,
-		primary-link: #d22228,
-		primary-link-hover: #d0d2d3,
-		primary-heading: #58595b,
-		primary-border: #d0d2d3,
-		secondary-bg: #000000,
-		secondary-text: #6D6E70,
-		secondary-link: #ffffff,
-		secondary-link-hover: #d22228,
-		secondary-link-alt: #919395,
-		secondary-heading: #d22228,
-		secondary-border: #282827,
-		secondary-drop: #1e1e1e,
-		tertiary-bg: #561015,
-		tertiary-border: #404041,
-		tertiary-link: #c7c7c7,
-		tertiary-heading: #929497,
-		player-controls: #606060,
-		transparent: transparent,
-	),
-	header: (
-		primary-bg: #191919,
-		primary-text: #ffffff,
-		primary-hover: #d0d2d3,
-		primary-border: #303030,
-		secondary-bg: #000000,
-		secondary-text: #929497,
-		tertiary-bg: #ffffff,
-		tertiary-text: #000000,
-		tertiary-border: #d0d2d3,
-	),
-	ads: (
-		lead-bg: #191919,
-		lead-border: #303030,
-	),
-	live-links: (
-		primary-text: #c7c7c7,
-		primary-link: #d22228,
-	),
-	btn: (
-		primary-bg: #d22228,
-		primary-border: #d22228,
-		primary-text: #ffffff,
-		secondary-bg: transparent,
-		secondary-border: #f5ed7f,
-		secondary-text: #d22228,
-	),
-	home: (
-		featured-bg: #58595b,
-		featured-heading: #ffffff,
-		featured-heading-bg: #270e10,
-		featured-text: #a6a8ab,
-		featured-list: #f7ef7e,
-		highlight-bg: #f1f1f2,
-		highlight-heading: #ffffff,
-		event-bg: #ffffff,
-	)
-);
-
 // color variables
 //
 // @author Allen Moore
@@ -80,20 +8,12 @@ $white: #ffffff;
 $cardinal: #d22228;
 $heath: #561015;
 $coffee-bean: #270e10;
-$athens-gray: #f1f1f2;
-$iron: #d0d2d3;
-$silver: #c7c7c7;
-$aluminium: #a6a8ab;
-$oslo-gray: #929497;
-$nevada: #6d6e70;
-$scorpion: #606060;
-$abbey: #58595b;
-$ship-gray: #404041;
-$mine-shaft: #303030;
-$tuatara: #282827;
-$cod-gray: #191919;
-$sahara-sand: #f5ed7f;
-$sweet-corn: #f7ef7e;
+$light-gray: #d0d2d3;
+$gray: #929497;
+$medium-gray: #404041;
+$dark-gray: #282827;
+$darker-gray: #191919;
+$yellow: #f5ed7f;
 
 // Hologram Styleguide Swatches
 .hologram-color-swatch {
@@ -117,19 +37,12 @@ category: Base
 <span class="hologram-color-swatch" style="background: #d22228;">$cardinal</span>
 <span class="hologram-color-swatch" style="background: #561015;">$heath</span>
 <span class="hologram-color-swatch" style="background: #270e10;">$coffee-bean</span>
-<span class="hologram-color-swatch" style="background: #d0d2d3;">$iron</span>
-<span class="hologram-color-swatch" style="background: #c7c7c7;">$silver</span>
-<span class="hologram-color-swatch" style="background: #a6a8ab;">$aluminium</span>
-<span class="hologram-color-swatch" style="background: #929497;">$oslo-gray</span>
-<span class="hologram-color-swatch" style="background: #6d6e70;">$nevada</span>
-<span class="hologram-color-swatch" style="background: #606060;">$scorpion</span>
-<span class="hologram-color-swatch" style="background: #58595b;">$abbey</span>
-<span class="hologram-color-swatch" style="background: #404041;">$ship-gray</span>
-<span class="hologram-color-swatch" style="background: #303030;">$mine-shaft</span>
-<span class="hologram-color-swatch" style="background: #282827;">$tuatara</span>
-<span class="hologram-color-swatch" style="background: #191919;">$cod-gray</span>
-<span class="hologram-color-swatch" style="background: #f5ed7f;">$sahara-sand</span>
-<span class="hologram-color-swatch" style="background: #f7ef7e;">$sweet-corn</span>
+<span class="hologram-color-swatch" style="background: #d0d2d3;">$light-gray</span>
+<span class="hologram-color-swatch" style="background: #929497;">$gray</span>
+<span class="hologram-color-swatch" style="background: #404041;">$medium-gray</span>
+<span class="hologram-color-swatch" style="background: #282827;">$dark-gray</span>
+<span class="hologram-color-swatch" style="background: #191919;">$darker-gray</span>
+<span class="hologram-color-swatch" style="background: #f5ed7f;">$yellow</span>
 ```
 
 */
@@ -141,24 +54,42 @@ category: Base
 //
 $color-text-black: $black;
 $color-text-white: $white;
-$color-text-gray: $ship-gray;
+$color-text-gray: $medium-gray;
 $color-text-red: $cardinal;
+$color-text-yellow: $yellow;
 
 $primary-bg: $white;
 $primary-text: $color-text-gray;
 $primary-heading: $color-text-gray;
 $primary-link: $color-text-red;
 $primary-link-hover: darken($color-text-red, 9%);
-$primary-border: $iron;
+$primary-border: $light-gray;
 
 $secondary-bg: $black;
 $secondary-text: $color-text-white;
-$secondary-heading: $oslo-gray;
-$secondary-link: $silver;
+$secondary-heading: $gray;
+$secondary-link: $light-gray;
 $secondary-link-hover: darken($color-text-red, 9%);
-$secondary-border: $tuatara;
+$secondary-border: $dark-gray;
 
-$footer-text: $oslo-gray;
+// Section Variables
+$header-bg: $darker-gray;
+$header-border: $dark-gray;
+$header-nav-bg: $cardinal;
+
+$liveplayer-bg: $darker-gray;
+
+$featured-bg: $coffee-bean;
+
+$highlights-bg: $light-gray;
+$highlights-text: $gray;
+$highlights-heading: $medium-gray;
+
+$footer-text: $gray;
+
+$btn-bg: $cardinal;
+
+$social-hover: $heath;
 
 // Base Variables
 $em-base: 16px;

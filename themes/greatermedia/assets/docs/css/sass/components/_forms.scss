@@ -297,17 +297,48 @@ category: Components
 
 */
 
-form {
+%form-field {
+	border: none;
+	background: $secondary-heading;
+	margin-bottom: 1em;
+	display: block;
+	padding: 0.25em 0.5em;
+}
 
-	label, legend {
-		display: block;
+label {
+	display: block;
+}
+
+input[type=text], input[type=number], input[type=date], input[type=time], input[type=url], input[type=email] {
+	@extend %form-field;
+	width: 100%;
+	margin: 0;
+}
+
+textarea {
+	@extend %form-field;
+	width: 100%;
+}
+
+fieldset {
+	border: none;
+	padding: 0;
+
+	label {
+		display: inline-block;
+		margin: 0 0.5em;
 	}
 
-	input, fieldset, textarea {
-		border: none;
-		background: $secondary-heading;
+	input[type=text], input[type=number] {
+		@extend %form-field;
 		width: 100%;
-		margin: 0;
 	}
+}
 
+select {
+	-webkit-appeaerance: none;
+	border-radius: none;
+	background: $secondary-heading;
+	border: none;
+	width: 100%;
 }

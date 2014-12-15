@@ -115,7 +115,7 @@
 .mobile-nav__list .menu-item {
 	padding: 0;
 	margin: 0;
-	border-bottom: 1px solid $mine-shaft;
+	border-bottom: 1px solid $header-border;
 }
 
 .mobile-nav__list a:link, .mobile-nav__list a:visited {
@@ -174,7 +174,7 @@
 }
 
 .header__nav ul li a:hover, .header__nav ul li a:focus, .header__nav ul li a:active {
-	background-color: $cardinal;
+	background-color: $header-nav-bg;
 	color: $secondary-heading;
 }
 
