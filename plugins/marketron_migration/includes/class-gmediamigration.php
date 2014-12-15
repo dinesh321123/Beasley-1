@@ -446,7 +446,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				WP_CLI::log( "Error: No Featured Image Found!" );
 			}
 
-			// Comments
+			/*// Comments
 			if ( isset( $article->Comments ) ) {
 				foreach ( $article->Comments->Comment as $comment ) {
 					$comment_id = $this->add_comment( $comment, $wp_id, $force );
@@ -458,7 +458,7 @@ class GMedia_Migration extends WP_CLI_Command {
 						}
 					}
 				}
-			}
+			}*/
 
 			$notify->tick();
 		}
@@ -1180,14 +1180,17 @@ class GMedia_Migration extends WP_CLI_Command {
 				// Images
 				if ( isset( $entry->BlogEntryImage ) ) {
 					foreach ( $entry->BlogEntryImage as $image ) {
-						// import images here
-						$featured_image_attrs = array();
-						$featured_image_path  = '/Pics/' . (string) $image['MainImageSrc'];
-						$this->import_featured_image( $featured_image_path, $wp_id, $featured_image_attrs );
+						$width = (string) $image['MainImageWidth'];
+						if( $width >= 300 ) {
+							// import images here
+							$featured_image_attrs = array();
+							$featured_image_path  = '/Pics/' . (string) $image['MainImageSrc'];
+							$this->import_featured_image( $featured_image_path, $wp_id, $featured_image_attrs );
+						}
 					}
 				}
 
-				if ( isset( $entry->Comments ) ) {
+				/*if ( isset( $entry->Comments ) ) {
 					foreach ( $entry->Comments->Comment as $comment ) {
 						$comment_id = $this->add_comment( $comment, $wp_id, $force );
 
@@ -1198,7 +1201,7 @@ class GMedia_Migration extends WP_CLI_Command {
 							}
 						}
 					}
-				}
+				}*/
 
 				// add redirect
 				if ( isset( $entry->BlogEntryURL ) ) {
@@ -1310,7 +1313,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				}
 
 				// Comments
-				if ( isset( $story->Comments ) ) {
+				/*if ( isset( $story->Comments ) ) {
 					foreach ( $story->Comments->Comment as $comment ) {
 						$comment_id = $this->add_comment( $comment, $wp_id, $force );
 
@@ -1321,7 +1324,7 @@ class GMedia_Migration extends WP_CLI_Command {
 							}
 						}
 					}
-				}
+				}*/
 			}
 
 			$notify->tick();
@@ -2240,8 +2243,14 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				//update_post_meta( $wp_id, '_EventAllDay', 'yes' );
 
-				$start_date     = isset($event['UTCDisplayDateStart']) ? date( 'Y-m-d', strtotime( (string) $event['UTCDisplayDateStart'] ) ) : date( 'Y-m-d', strtotime( (string) $event['DateCreated'] ) );
-				$end_date     = isset($event['UTCDisplayDateEnd']) ? date( 'Y-m-d', strtotime( (string) $event['UTCDisplayDateEnd'] ) ) : date( 'Y-m-d', strtotime( (string) $event['DateToExpire'] ) );;
+				$start_date     = isset($event['ConcertDate']) ? (string) $event['ConcertDate']  : (string) $event['DateToRelease'];
+				$end_date     = isset($event['ConcertDate']) ? (string) $event['ConcertDate']  : (string) $event['DateToExpire'] ;
+
+				$start_date = explode( 'T', $start_date );
+				$end_date = explode( 'T', $end_date );
+
+				$start_date = date( "Y-m-d H:i:s", strtotime( $start_date[0] . ' ' . $start_date[1] ) );
+				$end_date = date( "Y-m-d H:i:s", strtotime( $end_date[0] . ' ' . $end_date[1] ) );
 
 				update_post_meta( $wp_id, '_EventStartDate', $start_date );
 				update_post_meta( $wp_id, '_EventEndDate', $end_date );
