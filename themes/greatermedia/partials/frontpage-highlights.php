@@ -7,15 +7,13 @@
  */
 ?>
 
-<section class="highlights">
-
-	<div class="container">
+<section class="home__highlights">
 
 		<div class="highlights__col">
 
 			<div class="highlights__community">
 
-				<h2 class="highlights__heading"><?php bloginfo( 'name' ); ?><?php _e( ' Community Highlights', 'greatermedia' ); ?><span class="highlights__heading--span"><?php _e( 'YouRock', 'greatermedia' ); ?></span></h2>
+				<h2 class="highlights__heading"><?php bloginfo( 'name' ); ?><?php _e( ' Community Highlights', 'greatermedia' ); ?></h2>
 
 				<?php
 				$hp_comm_query = \GreaterMedia\HomepageCuration\get_community_query();
@@ -35,7 +33,7 @@
 
 			<div class="highlights__events">
 
-				<h2 class="highlights__heading"><?php _e( 'Upcoming', 'greatermedia' ); ?><span class="highlights__heading--span"><?php _e( 'Events', 'greatermedia' ); ?></span></h2>
+				<h2 class="highlights__heading"><?php _e( 'Upcoming Events', 'greatermedia' ); ?></h2>
 
 				<?php
 				$events_query = \GreaterMedia\HomepageCuration\get_events_query();
@@ -73,7 +71,5 @@
 			</div>
 
 		</div>
-
-	</div>
 
 </section>

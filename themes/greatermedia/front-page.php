@@ -8,13 +8,16 @@
 
 get_header();
 
-get_template_part( 'partials/frontpage', 'featured' );
-get_template_part( 'partials/frontpage', 'highlights' );
 ?>
 
 	<main class="main" role="main">
 
 		<div class="container">
+
+		<?php
+			get_template_part( 'partials/frontpage', 'featured' );
+			get_template_part( 'partials/frontpage', 'highlights' );
+		?>
 
 			<section class="content">
 
