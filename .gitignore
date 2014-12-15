@@ -34,9 +34,9 @@ mu-plugins/test-data-store.php
 /plugins/rewrite-rules-inspector
 /plugins/simple-local-avatars
 /plugins/wordpress-seo
-/plugins/greatermedia-live-stream/node_modules/
 plugins/ooyala-video-browser/
 plugins/simple-page-ordering/
 plugins/tag-pages/
 plugins/yet-another-related-posts-plugin
+/plugins/greatermedia-live-stream/node_modules/
 plugins/jetpack/
