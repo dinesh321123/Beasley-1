@@ -287,3 +287,16 @@ function greatermedia_alter_front_page_query( $query ) {
 	}
 }
 add_action( 'pre_get_posts', 'greatermedia_alter_front_page_query' );
+
+/**
+ * This will keep Jetpack Sharing from auto adding to the end of a post.
+ * We want to add this manually to the proper theme locations
+ *
+ * Hooked into loop_end
+ */
+function greatermedia_remove_jetpack_share() {
+	remove_filter( 'the_content', 'sharing_display', 19 );
+	remove_filter( 'the_excerpt', 'sharing_display', 19 );
+}
+
+add_action( 'wp_head', 'greatermedia_remove_jetpack_share' );

@@ -8,3 +8,377 @@ category: Components - Gallery
 ---
 
 */
+
+.gallery {
+	width: 100%;
+	overflow: auto;
+}
+
+.gallery .container {
+	background-color: $gallery-bg;
+}
+
+.gallery__slides {
+	@include row();
+}
+
+.gallery__slide--images {
+	@include span-columns(4);
+	@include bp(small) {
+		@include span-columns(6);
+	}
+	@include bp(medium) {
+		@include span-columns(6);
+	}
+	@include bp(large) {
+		@include span-columns(8);
+		@include shift(2);
+		height: 486px;
+		margin-top: 64px;
+		margin-bottom: 30px;
+		overflow: hidden;
+	}
+	@include bp(x-large) {
+		@include span-columns(8);
+		@include shift(2);
+	}
+}
+
+.gallery__slide--image {
+	width: 100%;
+	height: 486px;
+	@include opacity(0);
+	@include transition(opacity 200ms linear);
+}
+
+.gallery__slide--image.cycle-slide-active {
+	@include opacity(1);
+	@include transition(opacity 200ms linear);
+}
+
+.gallery__progress {
+	width: 100%;
+	height: 80px;
+}
+
+.gallery__meta {
+	position: relative;
+	@include span-columns(4);
+	padding: 0 4%;
+	overflow: auto;
+	color: $gallery-text;
+	text-align: center;
+	@include bp(small) {
+		@include span-columns(6);
+	}
+	@include bp(medium) {
+		@include span-columns(8);
+	}
+	@include bp(large) {
+		@include span-columns(12);
+	}
+	@include bp(x-large) {
+		@include span-columns(12);
+	}
+}
+
+%gallery__progress--btn {
+	position: relative;
+	width: 144px;
+	height: 64px;
+	border: 1px solid $light-gray;
+	background-color: transparent;
+	@include border-radius(32px);
+	font-family: $open-sans;
+	font-size: ms(1);
+	font-weight: lighter;
+	color: $color-text-white;
+	text-transform: uppercase;
+}
+
+%gallery__progress--btn:hover, %gallery__progress--btn:focus {
+	border-color: $btn-bg;
+	color: $color-text-red;
+}
+
+%gallery__progress--btn:active {
+	border-color: $gallery-border;
+	color: $gallery-border;
+}
+
+.gallery__prev {
+	position: absolute;
+	bottom: 0;
+	left: 4%;
+	width: 144px;
+	height: 64px;
+}
+
+.gallery__prev--btn {
+	@extend %gallery__progress--btn;
+}
+
+.gallery__prev--span {
+	margin-left: 38px;
+}
+
+.gallery__prev--btn:before {
+	@extend %gmr-icons;
+	position: absolute;
+	left: 30px;
+	font-size: ms(3);
+	content: "\e619";
+}
+
+.gallery__next {
+	position: absolute;
+	bottom: 0;
+	right: 4%;
+	width: 144px;
+	height: 64px;
+}
+
+.gallery__next--btn {
+	@extend %gallery__progress--btn;
+}
+
+.gallery__next--span {
+	margin-right: 38px;
+}
+
+.gallery__next--btn:after {
+	@extend %gmr-icons;
+	position: absolute;
+	right: 30px;
+	font-size: ms(3);
+	content: "\e618";
+}
+
+.gallery__content {
+	@include span-columns(2);
+	@include shift(1);
+	@include bp(small) {
+		@include span-columns(4);
+		@include shift(1);
+	}
+	@include bp(medium) {
+		@include span-columns(6);
+		@include shift(1);
+	}
+	@include bp(large) {
+		@include span-columns(8);
+		@include shift(2);
+		height: 90px;
+	}
+	@include bp(x-large) {
+		@include span-columns(8);
+		@include shift(2);
+		height: 92px;
+	}
+}
+
+.gallery__slide--content {
+	@include span-columns(2 of 2);
+	@include opacity(0);
+	@include transition(opacity 200ms linear);
+	@include bp(small) {
+		@include span-columns(4 of 4);
+	}
+	@include bp(medium) {
+		@include span-columns(6 of 6);
+	}
+	@include bp(large) {
+		@include span-columns(8 of 8);
+	}
+	@include bp(x-large) {
+		@include span-columns(8 of 8);
+	}
+}
+
+.gallery__slide--content.cycle-slide-active {
+	@include opacity(1);
+	@include transition(opacity 200ms linear);
+}
+
+.gallery__slide--title {
+	display: block;
+	width: 100%;
+	margin: 0 0 24px;
+	line-height: 1;
+	font-family: $open-sans;
+	font-size: ms(4);
+	font-weight: lighter;
+}
+
+.gallery__social {
+	width: 100%;
+	height: 40px;
+}
+
+.gallery__social a.social-share-link {
+	margin-right: 8px;
+}
+
+.gallery__social a.social-share-link:last-of-type {
+	margin-right: 0;
+}
+
+.gallery__social a.social-share-link:link, .gallery__social a.social-share-link:visited {
+	border-color: $gallery-text;
+	color: $gallery-text;
+}
+
+.gallery__social a.social-share-link:hover, .gallery__social a.social-share-link:focus {
+	border-color: $btn-bg;
+	color: $color-text-red;
+}
+
+.gallery__social a.social-share-link:active {
+	border-color: $gallery-border;
+	color: $gallery-border;
+}
+
+.gallery__count {
+	@include span-columns(2);
+	@include shift(1);
+	font-size: ms(0);
+	font-weight: lighter;
+	@include bp(small) {
+		@include span-columns(4);
+		@include shift(1);
+	}
+	@include bp(medium) {
+		@include span-columns(6);
+		@include shift(1);
+	}
+	@include bp(large) {
+		@include span-columns(8);
+		@include shift(2);
+		margin-top: 18px;
+	}
+	@include bp(x-large) {
+		@include span-columns(8);
+		@include shift(2);
+		margin-top: 18px;
+	}
+}
+
+.gallery__thumbnails {
+	position: relative;
+	@include span-columns(4);
+	overflow: auto;
+	border-top: 1px solid $gallery-border;
+	background-color: $gallery-thumbs-bg;
+	@include bp(small) {
+		@include span-columns(6);
+	}
+	@include bp(medium) {
+		@include span-columns(8);
+	}
+	@include bp(large) {
+		@include span-columns(12);
+		height: 145px;
+		padding: 20px 0;
+		margin-top: 44px;
+	}
+	@include bp(x-large) {
+		@include span-columns(12);
+	}
+}
+
+.gallery__previews {
+	width: 100%;
+	overflow: auto;
+	@include bp(small) {
+		width: 100%;
+	}
+	@include bp(medium) {
+		width: 72%;
+		margin: 0 14%;
+	}
+	@include bp(large) {
+		width: 73%;
+		margin: 0 14%;
+	}
+	@include bp(x-large) {
+		width: 72%;
+		margin: 0 14%;
+	}
+}
+
+%gallery__paging--thumbs {
+	position: absolute;
+	top: 22px;
+	width: 14%;
+}
+
+%gallery__paging--btn {
+	position: relative;
+	@extend %gmr-icons;
+	width: 100%;
+	height: 100px;
+	background-color: transparent;
+	border: none;
+	font-size: ms(6);
+	color: $color-text-gray;
+}
+
+.gallery__paging--left {
+	@extend %gallery__paging--thumbs;
+	left: 0;
+}
+
+.gallery__paging--right {
+	@extend %gallery__paging--thumbs;
+	right: 0;
+}
+
+.gallery__paging--prev, .gallery__paging--next {
+	@extend %gallery__paging--btn;
+}
+
+%gallery__paging--prev_before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	@include transform(translate(-50%, -50%));
+}
+
+.gallery__paging--prev:before {
+	@extend %gallery__paging--prev_before;
+	content: "\e619";
+}
+
+.gallery__paging--next:before {
+	@extend %gallery__paging--prev_before;
+	content: "\e618";
+}
+
+.slide-previews-group {
+	width: 100;
+	height: 100px;
+}
+
+.gallery__slide--preview {
+	float: left;
+	width: 100px;
+	height: 100px;
+	margin-right: 5px;
+	@include opacity(.5);
+	@include transition(opacity 200ms linear);
+	cursor: pointer;
+}
+
+.gallery__slide--preview:hover {
+	@include opacity(1);
+	@include transition(opacity 200ms linear);
+}
+
+.gallery__slide--preview:last-child {
+	margin-right: 0;
+}
+
+.gallery__slide--active {
+	@include opacity(1);
+	border: 1px solid $primary-border;
+}
