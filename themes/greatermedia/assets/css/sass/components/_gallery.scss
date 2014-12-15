@@ -33,7 +33,7 @@ category: Components - Gallery
 	@include bp(large) {
 		@include span-columns(8);
 		@include shift(2);
-		height: 486px;
+		height: 516px;
 		margin-top: 64px;
 		margin-bottom: 30px;
 		overflow: hidden;
@@ -46,9 +46,14 @@ category: Components - Gallery
 
 .gallery__slide--image {
 	width: 100%;
-	height: 486px;
+	height: 516px;
 	@include opacity(0);
 	@include transition(opacity 200ms linear);
+	top: 50% !important;
+	left: 50% !important;
+	transform: translate(-50%, -50%);
+	background-repeat: no-repeat;
+	background-position: center center;
 }
 
 .gallery__slide--image.cycle-slide-active {

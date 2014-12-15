@@ -52,6 +52,8 @@ function greatermedia_setup() {
 	 */
 	add_theme_support( 'post-thumbnails' );
 	add_image_size( 'gm-article-thumbnail', 1580, 9999, false ); // thumbnails used for articles
+	add_image_size( 'gmr-gallery',               800,  534, true );
+	add_image_size( 'gmr-gallery-thumbnail',     100,  100 );
 
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
