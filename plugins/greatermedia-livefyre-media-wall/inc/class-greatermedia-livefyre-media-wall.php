@@ -87,20 +87,25 @@ class GreaterMediaLiveFyreMediaWall {
 
 		$settings = array(
 			// One wall per page now, but trying to build in flexibility just in case
-			'walls' => array(
-				array(
-					'element_id' => 'wall',
-					'network'    => get_option( 'livefyre_media_walls_network', '' ),
-					'site'       => get_option( 'livefyre_media_walls_site', '' ),
-					'id'         => esc_attr( $media_wall_id ),
-					'initial'    => absint( $media_wall_initial ),
-					'modal'      => $media_wall_modal,
-					'style' => $media_wall_responsive,
-					'min-width' => absint( $media_wall_min_width),
-					'columns'    => absint( $media_wall_columns ),
-				)
-			)
+			'walls' => array()
 		);
+
+		if ( ! empty( $media_wall_id ) ) {
+
+			$settings['walls'][] = array(
+				'element_id' => 'wall',
+				'network'    => get_option( 'livefyre_media_walls_network', '' ),
+				'site'       => get_option( 'livefyre_media_walls_site', '' ),
+				'id'         => esc_attr( $media_wall_id ),
+				'initial'    => absint( $media_wall_initial ),
+				'modal'      => $media_wall_modal,
+				'style'      => $media_wall_responsive,
+				'min-width'  => absint( $media_wall_min_width ),
+				'columns'    => absint( $media_wall_columns ),
+			);
+
+		}
+
 		wp_localize_script( 'livefyre-media-wall', 'LiveFyreMediaWall', $settings );
 
 	}
