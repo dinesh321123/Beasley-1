@@ -399,8 +399,6 @@ function gmr_streams_get_primary_stream() {
 
 	return $stream;
 }
-<<<<<<< HEAD
-=======
 
 function gmr_streams_get_primary_stream_callsign() {
 	static $callsign = null;
@@ -425,4 +423,3 @@ function gmr_streams_get_primary_stream_vast_url() {
 
 	return $vast_url;
 }
->>>>>>> feature/gmr-376
