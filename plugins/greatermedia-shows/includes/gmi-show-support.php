@@ -191,6 +191,7 @@ function get_show_featured_query() {
 	$args = array(
 		'post__in' => $curated_ids,
 		'post_type' => 'any', // since we have IDs
+		'orderby' => 'post__in',
 	);
 
 	$query = new \WP_Query( $args );
@@ -204,6 +205,7 @@ function get_show_favorites_query() {
 	$args = array(
 		'post__in' => $curated_ids,
 		'post_type' => 'any', // since we have IDs
+		'orderby' => 'post__in',
 	);
 
 	$query = new \WP_Query( $args );
