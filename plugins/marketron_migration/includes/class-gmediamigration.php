@@ -1537,7 +1537,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 
 			$gallery_args = array(
-				'post_type'     => 'gmr_album',
+				'post_type'     => 'gmr_gallery',
 				'post_status'   => 'publish',
 				'post_title'    => trim( (string) $album['AlbumName'] ),
 				'post_content'  => trim( (string) $album['Description'] ),
@@ -1563,7 +1563,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					if ( '' !== trim( $gallery_cat ) ) {
 						$term_title = $gallery_cat;
 						$album_term = array( 'Feed' => $term_title, 'FeedDescription' => '' );
-						$cat_id = $this->process_term( $album_term, 'category', 'gmr_album');
+						$cat_id = $this->process_term( $album_term, 'category', 'gmr_gallery');
 
 						if ( $cat_id ) {
 							wp_set_post_terms( $wp_id, array( $cat_id ), 'category', true );
@@ -1614,23 +1614,10 @@ class GMedia_Migration extends WP_CLI_Command {
 						$image_ids = implode( ',', $image_ids );
 						$gallery = '[gallery ids="'. $image_ids .'"]';
 
-						$updated_post = array(
-							'post_type'     => 'gmr_gallery',
-							'post_status'   => 'publish',
-							'post_title'    => 'Gallery of: ' . trim( (string) $album['AlbumName'] ),
-							'post_parent'   => $wp_id,
-							'post_date'     => (string) $album['UTCDateCreated'],
-							'post_date_gmt' => (string) $album['UTCDateCreated'],
-							'post_modified' => (string) $album['UTCDateModified'],
-						);
+						$updated_post['post_content'] = trim( (string) $album['Description'] ) . $gallery;
+						$updated_post['ID'] = $wp_id;
 
-						$updated_post['post_content'] = $gallery;
-
-						$gallery_id = wp_insert_post( $updated_post );
-
-						if( $gallery_id ) {
-							set_post_format( $gallery_id, 'gallery' );
-						}
+						wp_update_post( $updated_post );
 					}
 				}
 			}
