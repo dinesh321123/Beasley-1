@@ -6,9 +6,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GreaterMediaGallery {
 
+	public static $strip_shortcodes = false;
+
 	public static function init() {
-		add_shortcode( 'gallery', '__return_false' );
-		add_action( 'gmr_gallery', array( __CLASS__, 'render_gallery' ) );
+		// Override the core gallery shortcode with our own handler
+		remove_shortcode( 'gallery' );
+		add_shortcode( 'gallery', array( __CLASS__, 'render_shortcode' ) );
+
+		// If we need to manually render somewhere, like on the top of a single-gallery template
+		add_action( 'gmr_gallery', array( __CLASS__, 'do_gallery_action' ) );
+
+		// Remove gallery shortcodes from content, since we have these at the top of single-page
+		add_filter( 'the_content', array( __CLASS__, 'strip_for_single_gallery' ) );
+	}
+
+	/**
+	 * Strips gallery shortcodes for content, on pages where we know we've run the action instead
+	 *
+	 * @param string $content
+	 *
+	 * @return string Final content with galleries removed
+	 */
+	public static function strip_for_single_gallery( $content ) {
+		if ( self::$strip_shortcodes ) {
+			$content = preg_replace( '/\[gallery.*?\]/', '', $content );
+		}
+
+		return $content;
 	}
 
 	/**
@@ -50,27 +74,20 @@ class GreaterMediaGallery {
 	}
 
 	/**
-	 * Gets a WP_Query for the attachments in the gallery
-	 * @param $post
+	 * Returns a WP_Query that corresponds to the IDs provided
+	 *
+	 * @param array $ids Array of image IDs
+	 *
 	 * @return WP_Query
 	 */
-	public static function get_gallery_loop( $post ) {
-		preg_match_all( '/\[gallery.*ids=.(.*).\]/', $post->post_content, $ids );
-
-		$array_ids = array();
-		foreach ( $ids[1] as $match ) {
-			$array_id = explode( ',', $match );
-			$array_id = array_map( 'intval', $array_id );
-			$array_ids = array_merge( $array_ids, $array_id );
-		}
-
+	public static function get_query_for_ids( $ids ) {
 		$photos = new WP_Query(
 			array(
 				'ignore_sticky_posts' => true,
-				'post__in'            => $array_ids,
+				'post__in'            => $ids,
 				'post_status'         => 'inherit',
 				'post_type'           => 'attachment',
-				'posts_per_page'      => - 1,
+				'posts_per_page'      => count( $ids ),
 				'orderby'             => 'post__in',
 			)
 		);
@@ -78,8 +95,69 @@ class GreaterMediaGallery {
 		return $photos;
 	}
 
-	public static function render_gallery() {
-		$gallery = self::get_gallery_loop( get_queried_object() );
+	/**
+	 * Gets a WP_Query for the attachments in the gallery
+	 * @param $post
+	 * @return WP_Query
+	 */
+	public static function get_query_for_post( $post ) {
+		preg_match_all( '/\[gallery.*ids=.(.*).\]/', $post->post_content, $ids );
+
+		$array_ids = array();
+		foreach( $ids[1] as $match ) {
+			$array_id = explode( ',', $match );
+			$array_id = array_map( 'intval', $array_id );
+
+			$array_ids = array_merge( $array_ids, $array_id );
+		}
+
+		$query = self::get_query_for_ids( $array_ids );
+
+		return $query;
+	}
+
+	/**
+	 * Renders a gallery for a post when do_action( 'gmr_gallery' ) is called
+	 */
+	public static function do_gallery_action( $strip_shortcodes ) {
+		// So that we remove the gallery from content, since we're rendering it now
+		self::$strip_shortcodes = true;
+
+		$gallery_query = self::get_query_for_post( get_queried_object() );
+
+		echo self::render_gallery_from_query( $gallery_query );
+	}
+
+	/**
+	 * Renders the gallery shortcode
+	 *
+	 * @param $args
+	 */
+	public static function render_shortcode( $args ) {
+		$defaults = array(
+			'ids' => '',
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		$ids = array_map( 'intval', explode( ',', $args['ids'] ) );
+
+		$query = self::get_query_for_ids( $ids );
+
+		return self::render_gallery_from_query( $query );
+	}
+
+	/**
+	 * Renders the gallery html when given a WP_Query that corresponds to the images we need to use.
+	 *
+	 * Abstracted, so we can share with the shortcode rendering
+	 *
+	 * @param WP_Query $gallery
+	 *
+	 * @return string Rendered HTML for the gallery
+	 */
+	public static function render_gallery_from_query( \WP_Query $gallery ) {
+		ob_start();
 		if ( $gallery->have_posts() ):
 			wp_enqueue_script( 'cycle', get_template_directory_uri() . '/assets/js/vendor/cycle2/jquery.cycle2.min.js', array( 'jquery' ), '2.1.6', true );
 			wp_enqueue_script( 'cycle-center', get_template_directory_uri() . '/assets/js/vendor/cycle2/jquery.cycle2.center.min.js', array( 'cycle' ), '20141007', true );
@@ -89,8 +167,6 @@ class GreaterMediaGallery {
 			wp_enqueue_script( 'gmr-gallery' );
 
 			$main_post_id         = get_queried_object_id();
-			$main_post_title      = get_the_title( $main_post_id );
-			$main_post_short_link = wp_get_shortlink( $main_post_id );
 
 			$thumbnails_per_page = 8;
 			$image_count_text = sprintf( __( '%s of %s', 'greatermedia' ), '{{slideNum}}', '{{slideCount}}' );
@@ -236,6 +312,8 @@ class GreaterMediaGallery {
 			</div><!-- / gallery -->
 		<?php
 		endif;
+
+		return ob_get_clean();
 	}
 
 }
