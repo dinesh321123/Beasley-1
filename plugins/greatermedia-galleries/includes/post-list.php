@@ -30,7 +30,10 @@ class GreaterMediaGalleriesPostList {
 		}
 	}
 
-	public static function add_album_dropdown( $arg ) {
+	public static function add_album_dropdown() {
+		if ( GreaterMediaGalleryCPT::GALLERY_POST_TYPE !== get_post_type() ) {
+			return;
+		}
 		$album_args = array(
 			'post_type' => GreaterMediaGalleryCPT::ALBUM_POST_TYPE,
 			'posts_per_page' => 100,
