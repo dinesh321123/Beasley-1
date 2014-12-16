@@ -37,10 +37,11 @@ class GreaterMediaGalleriesPostList {
 			'paged' => 0,
 		);
 
+		$get_parent = isset( $_GET['post_parent'] ) ? intval( $_GET['post_parent'] ) : '';
 		?>
 		<select name="post_parent" id="post_parent">
 		<option value="-1">All Albums</option>
-		<option value="0" <?php selected( '0', $_GET['post_parent'] ); ?>>No Album</option>
+		<option value="0" <?php selected( '0', $get_parent ); ?>>No Album</option>
 		<?php
 
 		do {
@@ -49,7 +50,7 @@ class GreaterMediaGalleriesPostList {
 			while( $album_query->have_posts() ) {
 				$album = $album_query->next_post();
 
-				?><option value="<?php echo intval( $album->ID ); ?>" <?php selected( $album->ID, $_GET['post_parent'] ); ?>><?php echo esc_html( $album->post_title ); ?></option><?php
+				?><option value="<?php echo intval( $album->ID ); ?>" <?php selected( $album->ID, $get_parent ); ?>><?php echo esc_html( $album->post_title ); ?></option><?php
 			}
 		} while ( $album_args['paged'] < $album_query->max_num_pages );
 
