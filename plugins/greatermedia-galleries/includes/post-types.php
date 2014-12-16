@@ -46,7 +46,7 @@ class GreaterMediaGalleryCPT {
 			'not_found_in_trash'  => __( 'Not found in Trash', 'greatermedia' ),
 		);
 		$rewrite = array(
-			'slug'                => self::GALLERY_POST_TYPE,
+			'slug'                => 'gallery',
 			'with_front'          => true,
 			'pages'               => true,
 			'feeds'               => true,
