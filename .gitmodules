@@ -1,4 +1,0 @@
-[submodule "plugins/drop-caps"]
-	path = plugins/drop-caps
-	url = git@10up.git.beanstalkapp.com:/10up/dropcap.git
-	auto-update = yes
