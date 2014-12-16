@@ -17,5 +17,6 @@ define( 'GREATER_MEDIA_GALLERIES_PATH', dirname( __FILE__ ) );
 
 include __DIR__ . '/includes/post-types.php';
 include __DIR__ . '/includes/rendering.php';
-include __DIR__ . '/includes/metaboxes.php';
+include __DIR__ . '/includes/gallery-metaboxes.php';
+include __DIR__ . '/includes/album-metaboxes.php';
 include __DIR__ . '/includes/post-list.php';

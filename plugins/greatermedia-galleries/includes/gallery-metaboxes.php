@@ -15,11 +15,11 @@ class GreaterMediaGalleryMetaboxes {
 	}
 
 	public static function add_save_post_actions() {
-		add_action( 'save_post', array( __CLASS__, 'save_meta_box' ), 10, 2 );
+		add_action( 'save_post_' . GreaterMediaGalleryCPT::GALLERY_POST_TYPE, array( __CLASS__, 'save_meta_box' ), 10, 2 );
 	}
 
 	public static function remove_save_post_actions() {
-		remove_action( 'save_post', array( __CLASS__, 'save_meta_box' ), 10 );
+		remove_action( 'save_post_' . GreaterMediaGalleryCPT::GALLERY_POST_TYPE, array( __CLASS__, 'save_meta_box' ), 10 );
 	}
 
 	/**
