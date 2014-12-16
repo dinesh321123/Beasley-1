@@ -1537,7 +1537,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 
 			$gallery_args = array(
-				'post_type'     => 'gmr_gallery',
+				'post_type'     => 'gmr_album',
 				'post_status'   => 'publish',
 				'post_title'    => trim( (string) $album['AlbumName'] ),
 				'post_content'  => trim( (string) $album['Description'] ),
@@ -1546,17 +1546,11 @@ class GMedia_Migration extends WP_CLI_Command {
 				'post_modified' => (string) $album['UTCDateModified'],
 			);
 
-
 			if ( $wp_id ) {
 				$gallery_args['ID'] = $wp_id;
 			}
 
 			$wp_id = wp_insert_post( $gallery_args );
-
-			// Download images found in post_content and update post_content with new images.
-			$updated_post = array( 'ID' => $wp_id );
-			$updated_post['post_content'] = $this->import_media( trim( (string) $album['Description'] ), $wp_id );
-			wp_update_post( $updated_post );
 
 			set_post_format($wp_id, 'gallery' ); //sets the given post to the 'gallery' format
 
@@ -1564,17 +1558,18 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			// Process Gallery Category Terms
 			if ( isset( $album['Categories'] ) ) {
-				//$gallery_cats = explode( ',', (string) $album['Categories'] );
-				update_post_meta($wp_id, '_legacy_Categories', (string) $album['Categories'] );
-				/*foreach ( $gallery_cats as $gallery_cat ) {
+				$gallery_cats = explode( ',', (string) $album['Categories'] );
+				foreach ( $gallery_cats as $gallery_cat ) {
 					if ( '' !== trim( $gallery_cat ) ) {
-						$cat_id = $this->process_term( $gallery_cat, 'gmr-gallery-category', 'gmr_gallery');
+						$term_title = $gallery_cat;
+						$album_term = array( 'Feed' => $term_title, 'FeedDescription' => '' );
+						$cat_id = $this->process_term( $album_term, 'category', 'gmr_album');
 
 						if ( $cat_id ) {
-							wp_set_post_terms( $wp_id, array( $cat_id ), 'gallery-category', true );
+							wp_set_post_terms( $wp_id, array( $cat_id ), 'category', true );
 						}
 					}
-				}*/
+				}
 			}
 
 			// Post Meta
@@ -1604,6 +1599,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					$draft_gallery = array( 'ID' => $wp_id, 'post_status' => 'draft' );
 					wp_update_post( $draft_gallery );
 				} else {
+
 					foreach ( $album->Photo as $photo ) {
 						$photo_info = array(
 							'caption'     => $photo['PhotoCaption'],
@@ -1617,10 +1613,24 @@ class GMedia_Migration extends WP_CLI_Command {
 						update_post_meta( $wp_id, '_gmedia_gallery_images', $image_ids );
 						$image_ids = implode( ',', $image_ids );
 						$gallery = '[gallery ids="'. $image_ids .'"]';
-						$updated_post['post_content'] = $updated_post['post_content'] . $gallery;
-						$updated_post['ID'] = $wp_id;
 
-						wp_update_post( $updated_post );
+						$updated_post = array(
+							'post_type'     => 'gmr_gallery',
+							'post_status'   => 'publish',
+							'post_title'    => 'Gallery of: ' . trim( (string) $album['AlbumName'] ),
+							'post_parent'   => $wp_id,
+							'post_date'     => (string) $album['UTCDateCreated'],
+							'post_date_gmt' => (string) $album['UTCDateCreated'],
+							'post_modified' => (string) $album['UTCDateModified'],
+						);
+
+						$updated_post['post_content'] = $gallery;
+
+						$gallery_id = wp_insert_post( $updated_post );
+
+						if( $gallery_id ) {
+							set_post_format( $gallery_id, 'gallery' );
+						}
 					}
 				}
 			}
@@ -1758,7 +1768,7 @@ class GMedia_Migration extends WP_CLI_Command {
 			}
 
 			$showcase_post = array(
-				'post_type'     => 'gmr_gallery',
+				'post_type'     => 'gmr_album',
 				'post_status'   => 'publish',
 				'post_title'    => trim( (string) $showcase['ShowcaseName'] ),
 				'post_content'  => trim( (string) $showcase['ShowcaseDescription'] ),
@@ -1795,8 +1805,10 @@ class GMedia_Migration extends WP_CLI_Command {
 			update_post_meta( $wp_id, '_legacy_labels', $questions );
 
 			$gallery_ids = array();
+			$menu_order = 1;
 			foreach ( $showcase as $entry ) {
-				$gallery_ids[] = $this->process_showcase_entry( $entry, $wp_id, $force );
+				$gallery_ids[] = $this->process_showcase_entry( $entry, $wp_id, $force, $menu_order );
+				$menu_order++;
 			}
 
 			if ( ! empty( $gallery_ids ) ) {
@@ -1813,7 +1825,7 @@ class GMedia_Migration extends WP_CLI_Command {
 	 * @var bool $force Whether to force import or not.
 	 * @return void
 	 */
-	private function process_showcase_entry( $entry, $parent_id, $force ) {
+	private function process_showcase_entry( $entry, $parent_id, $force, $menu_order ) {
 		global $wpdb;
 
 		$entry_hash = trim( (string) $entry['ShowcaseEntryName'] ) . (string) $entry['DateCreated'];
@@ -1834,7 +1846,8 @@ class GMedia_Migration extends WP_CLI_Command {
 			'post_title'    => trim( (string) $entry['ShowcaseEntryName'] ),
 			'post_date'     => (string) $entry['DateCreated'],
 			'post_date_gmt'     => (string) $entry['DateCreated'],
-			'post_modified' => (string) $entry['DateModified']
+			'post_modified' => (string) $entry['DateModified'],
+			'menu_order'    => $menu_order
 		);
 
 		if ( ! $entry['IsApproved'] ) {
