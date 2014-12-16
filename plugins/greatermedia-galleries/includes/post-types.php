@@ -14,6 +14,15 @@ class GreaterMediaGalleryCPT {
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'gallery_cpt' ), 0 );
 		add_action( 'init', array( __CLASS__, 'album_cpt' ), 0 );
+		self::add_save_actions();
+	}
+
+	public static function add_save_actions() {
+		add_action( 'save_post_' . self::GALLERY_POST_TYPE, array( __CLASS__, 'save_gallery' ), 10, 2 );
+	}
+
+	public static function remove_save_actions() {
+		remove_action( 'save_post_' . self::GALLERY_POST_TYPE, array( __CLASS__, 'save_gallery' ), 10 );
 	}
 
 	/**
@@ -111,6 +120,10 @@ class GreaterMediaGalleryCPT {
 			'capability_type'     => 'post',
 		);
 		register_post_type( self::ALBUM_POST_TYPE, $args );
+
+	}
+
+	public static function save_gallery( $post_id, $post ) {
 
 	}
 
