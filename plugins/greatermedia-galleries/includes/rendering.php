@@ -159,12 +159,24 @@ class GreaterMediaGallery {
 	public static function render_gallery_from_query( \WP_Query $gallery ) {
 		ob_start();
 		if ( $gallery->have_posts() ):
-			wp_enqueue_script( 'cycle', get_template_directory_uri() . '/assets/js/vendor/cycle2/jquery.cycle2.min.js', array( 'jquery' ), '2.1.6', true );
-			wp_enqueue_script( 'cycle-center', get_template_directory_uri() . '/assets/js/vendor/cycle2/jquery.cycle2.center.min.js', array( 'cycle' ), '20141007', true );
-			wp_enqueue_script( 'cycle-swipe', get_template_directory_uri() . '/assets/js/vendor/cycle2/jquery.cycle2.swipe.min.js', array( 'cycle' ), '20141007', true );
-			wp_enqueue_script( 'cycle-carousel', get_template_directory_uri() . '/assets/js/vendor/cycle2/jquery.cycle2.carousel.min.js', array( 'cycle' ), '20141007', true );
-			wp_register_script( 'gmr-gallery', get_template_directory_uri() . '/assets/js/src/greater_media_gallery.js', array( 'jquery' ), GREATERMEDIA_VERSION, true );
-			wp_enqueue_script( 'gmr-gallery' );
+			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
+			/* all js files are being concatenated into a single js file.
+			 * This include all js files for cycle2, located in `assets/js/vendor/cycle2/`
+			 * and `gmr_gallery.js`, located in `assets/js/src/`
+			 */
+			wp_register_script(
+				'gmr-gallery',
+				GREATER_MEDIA_GALLERIES_URL . "assets/js/gmr_gallery{$postfix}.js",
+				array(
+					'jquery'
+				),
+				GREATER_MEDIA_GALLERIES_VERSION,
+				true
+			);
+			wp_enqueue_script(
+				'gmr-gallery'
+			);
 
 			$main_post_id         = get_queried_object_id();
 
