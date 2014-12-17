@@ -6,7 +6,7 @@
 
 			<section class="content">
 
-				<h2>Settings</h2>
+				<h3>Account</h3>
 
 			</section>
 

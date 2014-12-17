@@ -262,12 +262,12 @@
 			return this.pageToScreenSet(pageName);
 		},
 
-		screenSets: {
-			'register'        : 'gigya-register-screen',
+		screenSets            : {
+			'join'            : 'gigya-register-screen',
 			'login'           : 'gigya-login-screen',
 			'logout'          : 'gigya-logout-screen',
 			'forgot-password' : 'gigya-forgot-password-screen',
-			'settings'        : 'gigya-update-profile-screen'
+			'account'         : 'gigya-update-profile-screen'
 		},
 
 		pageToScreenSet: function(pageName) {
@@ -314,14 +314,14 @@
 
 				this.screenSetView.render();
 			} else if (currentPage !== 'cookies-required') {
-				this.controller.redirect('/profile/cookies-required');
+				this.controller.redirect('/members/cookies-required');
 			}
 		},
 
 		/* must be logged in to access these pages */
 		loggedInPages: [
 			'logout',
-			'settings'
+			'account'
 		],
 
 		isLoggedInPage: function(pageName) {
@@ -334,7 +334,7 @@
 
 		getCurrentScreenSet: function() {
 			switch (this.getCurrentPage()) {
-				case 'settings':
+				case 'account':
 					return 'GMR-ProfileUpdate';
 
 				default:

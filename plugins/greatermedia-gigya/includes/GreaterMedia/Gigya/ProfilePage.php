@@ -5,11 +5,11 @@ namespace GreaterMedia\Gigya;
 class ProfilePage {
 
 	public $allowed_pages = array(
-		'register',
-		'forgot-password',
+		'join',
 		'login',
 		'logout',
-		'settings',
+		'account',
+		'forgot-password',
 		'cookies-required',
 	);
 
@@ -19,7 +19,7 @@ class ProfilePage {
 		);
 
 		add_action(
-			'wp_title', array( $this, 'change_page_title' ), 10
+			'wp_title', array( $this, 'change_page_title' ), 99
 		);
 	}
 
@@ -117,7 +117,8 @@ class ProfilePage {
 	}
 
 	public function is_profile_page( $path ) {
-		return strpos( $path, '/profile/' ) === 0;
+		$endpoint = $this->get_profile_endpoint();
+		return strpos( $path, "/{$endpoint}/" ) === 0;
 	}
 
 	public function get_profile_page_name( $page_path ) {
@@ -132,6 +133,7 @@ class ProfilePage {
 
 	public function get_profile_page_template( $page_name ) {
 		if ( in_array( $page_name, $this->allowed_pages ) ) {
+			$endpoint = $this->get_profile_endpoint();
 			return get_stylesheet_directory() . "/profile/{$page_name}.php";
 		} else {
 			return null;
@@ -151,6 +153,10 @@ class ProfilePage {
 		} else {
 			return '';
 		}
+	}
+
+	public function get_profile_endpoint() {
+		return ProfilePath::get_instance()->endpoint;
 	}
 
 }
