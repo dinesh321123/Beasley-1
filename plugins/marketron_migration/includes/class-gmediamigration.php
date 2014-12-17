@@ -392,17 +392,20 @@ class GMedia_Migration extends WP_CLI_Command {
 			if ( isset( $article->Feeds->Feed->FeedCategories->FeedCategory ) ) {
 				$feed_cats = array();
 				foreach ( $article->Feeds->Feed->FeedCategories->FeedCategory as $feed_category ) {
-					array_push( $feed_cats, (string) $feed_category['Category'] );
+					if( $feed_category['Category'] ) {
+						$cat_info = array( 'Feed' => $feed_category['Category'], 'FeedDescription' => '' );
+						$feed_id = $this->process_term( $cat_info , 'category', 'post' );
 
-				}
-				if( !empty( $feed_cats ) ) {
-					$feed_cats = implode( ',', $feed_cats);
-					update_post_meta( $wp_id, '_legacy_Feed_Categories', $feed_cats );
+						if ( $feed_id ) {
+							wp_set_post_terms( $wp_id, array( $feed_id ), 'category', true );
+						}
+					}
 				}
 			}
 
 			if ( isset( $article->Feeds->Feed['Feed'] ) ) {
 				$marketron_term = trim( (string)  $article->Feeds->Feed['Feed'] );
+
 				$new_term = $taxonomy_mapping[$marketron_term]['term'];
 				$new_tax = $taxonomy_mapping[$marketron_term]['taxonomy'];
 
