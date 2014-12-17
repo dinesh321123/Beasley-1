@@ -178,9 +178,7 @@
 			console.log("--- Log In with Gigya ---");
 		} else {
 			console.log("--- You are logged in, so now enjoy some music ---");
-			if( !gmr.wpLoggedIn ) {
-				$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
-			}
+			$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
 			streamVastAd();
 			player.addEventListener('ad-playback-complete', function() {
 				console.log("--- add complete ---");
