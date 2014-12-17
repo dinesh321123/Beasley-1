@@ -186,7 +186,7 @@ category: Components - Gallery Archive
 		height: 320px;
 	}
 	@include bp(medium) {
-		@include span-columns(6);
+		@include span-columns(8);
 		height: 513px;
 	}
 	@include bp(large) {
@@ -494,6 +494,7 @@ category: Components - Gallery Archive
 	}
 	@include bp(medium) {
 		@include span-columns(8);
+		height: 115px;
 	}
 	@include bp(large) {
 		@include span-columns(12);
@@ -547,6 +548,12 @@ category: Components - Gallery Archive
 	border: none;
 	font-size: ms(6);
 	color: $color-text-gray;
+	@include bp(medium) {
+		height: 75px;
+	}
+	@include bp(large) {
+		height: 100px;
+	}
 }
 
 %gallery__paging--btn:hover {
@@ -594,6 +601,10 @@ category: Components - Gallery Archive
 	left: 5px !important;
 	@include bp(medium) {
 		left: 0 !important;
+		height: 75px;
+	}
+	@include bp(large) {
+		height: 100px;
 	}
 }
 
@@ -607,7 +618,13 @@ category: Components - Gallery Archive
 	@include transition(opacity 200ms linear);
 	cursor: pointer;
 	@include bp(medium) {
+		width: 19%;
+		max-height: 75px;
+		margin-right: 1%;
+	}
+	@include bp(large) {
 		width: 11.5%;
+		max-height: 100px;
 		margin-right: .875%;
 	}
 }

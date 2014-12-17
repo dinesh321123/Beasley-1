@@ -92,6 +92,10 @@
 		return $gallery.hasClass( 'ismobile' );
 	}
 
+	function isTablet() {
+		return $gallery.hasClass( 'istablet' );
+	}
+
 	/**
 	 * Regroup the thumbnails in mobile to fit the screen
 	 */
@@ -110,7 +114,7 @@
 		}
 
 		// If we're on a small screen but ismobile is not set, shift things around
-		if ( $window.width() < 768 && ! isMobile() ) {
+		if ( $window.width() < 480 && ! isMobile() ) {
 			$gallery.addClass( 'ismobile' );
 			regroup_thumbnails( get_thumbs_per_page() );
 			update_thumbnails( $main.data( "cycle.opts" ).currSlide );
@@ -125,6 +129,13 @@
 			thumb_height = $single_thumbnail.width();
 			$( '.gallery__previews, .gallery__previews--group' ).css( 'height', thumb_height + 'px' );
 		}
+
+		if ( $window.width() > 480 && $window.width() < 769 && ! isTablet() ) {
+			$gallery.addClass( 'istablet' );
+			regroup_thumbnails( get_thumbs_per_page() );
+			update_thumbnails( $main.data( "cycle.opts" ).currSlide );
+		}
+
 	}
 
 	/**
@@ -175,6 +186,9 @@
 		var slides_per_page = 8;
 		if ( isMobile() ) {
 			slides_per_page = 3;
+		}
+		if ( isTablet() ) {
+			slides_per_page = 5;
 		}
 		return slides_per_page;
 	}
