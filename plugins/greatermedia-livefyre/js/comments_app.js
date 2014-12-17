@@ -42,25 +42,32 @@
 			if (is_gigya_user_logged_in()) {
 				callback(null, this.getAuthParams());
 			} else {
-				this.redirect('/profile/login?dest=' + this.config.getOption('article_path'));
+				this.redirect('login', {
+					dest: this.config.getOption('article_path'),
+					anchor: 'livefyre-comments'
+				});
 			}
 		},
 
 		logout: function(callback) {
 			callback(null);
-			this.redirect('/profile/logout?dest=' + this.config.getOption('article_path'));
+			this.redirect('logout', {
+				dest: this.config.getOption('article_path'),
+				anchor: 'livefyre-comments'
+			});
 		},
 
 		editProfile: function() {
-			this.redirect('/profile/settings'); // TODO
+			this.redirect('account', { mode: 'edit' });
 		},
 
 		viewProfile: function() {
-			this.redirect('/profile/settings'); // TODO
+			this.redirect('account', { mode: 'view' });
 		},
 
-		redirect: function(path) {
-			location.href = path;
+		redirect: function(actionName, params) {
+			var profilePath = gigya_profile_path(actionName, params);
+			location.href = profilePath;
 		},
 
 		getAuthParams: function() {
