@@ -12,20 +12,29 @@ get_header(); ?>
 
 			<section class="content">
 
-				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+				<?php if ( have_posts() ) :
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+					while ( have_posts() ) : the_post(); ?>
 
-						<div class="entry-content">
+						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-							<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>
-							<h4 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+							<div class="entry-content">
 
-						</div>
+								<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>
+								<h4 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
 
-					</article>
+							</div>
 
-				<?php endwhile; ?>
+						</article>
+
+					<?php endwhile; ?>
+
+					<div class="posts-pagination">
+
+						<div class="posts-pagination--previous"><?php next_posts_link( '<i class="fa fa-angle-double-left"></i>Previous' ); ?></div>
+						<div class="posts-pagination--next"><?php previous_posts_link( 'Next<i class="fa fa-angle-double-right"></i>' ); ?></div>
+
+					</div>
 
 				<?php else : ?>
 

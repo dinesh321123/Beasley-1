@@ -18,12 +18,13 @@ class GreaterMediaGalleryEndpoints {
 
 	public static function add_rewrite_tag() {
 		add_rewrite_tag( '%photos_category%', '([^&]+)' );
+		add_rewrite_tag( '%photos_category_page%', '([0-9]+)' );
 	}
 
 	public static function add_rewrites() {
 		// Supports the /photos/<category> endpoint
-		$rule = sprintf( '%1$s/([^/]+)/?$', 'photos' );
-		\add_rewrite_rule( $rule, 'index.php?photos_category=$matches[1]', 'top' );
+		$rule = sprintf( '%1$s/([^/]+)(/page/([0-9]+))?/?$', 'photos' );
+		\add_rewrite_rule( $rule, 'index.php?photos_category=$matches[1]&photos_category_page=$matches[3]', 'top' );
 	}
 
 	/**
@@ -63,6 +64,10 @@ class GreaterMediaGalleryEndpoints {
 					'terms' => $query->get( 'photos_category' ),
 				),
 			) );
+
+			$current_page = $query->get( 'photos_category_page' ) ?: 1;
+			$query->set( 'paged', $current_page );
+
 			$query->is_home = false; // For whatever reason, this was true
 		}
 	}
