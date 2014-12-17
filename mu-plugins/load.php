@@ -16,3 +16,4 @@ include __DIR__ . '/post-finder/post-finder.php';
 // These are going to be activated no matter what to ensure that themes can always rely on the functionality
 include __DIR__ . '/gmr-template-tags/gmr-template-tags.php';
 include __DIR__ . '/gmr-homepage-curation/gmr-homepage-curation.php';
+include __DIR__ . '/acm-additions/acm-additions.php';

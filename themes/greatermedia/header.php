@@ -79,7 +79,7 @@
 						<?php do_action( 'show_breaking_news_banner' ); ?>
 						<div class="container">
 							<div class="ad__leaderboard">
-								<img src="http://placehold.it/728x90&text=leaderboard">
+								<?php do_action( 'acm_tag', 'leaderboard-top-of-site' ); ?>
 							</div>
 						</div>
 						<div class="header__main">
