@@ -33,13 +33,14 @@ class GMLP_Player {
 		?>
 		<div class="live-stream__player">
 			<div class="live-stream__controls">
-				<div id="playButton" class="live-stream__btn--play" data-station="<?php do_action( 'radio_callsign' ); ?>" data-action="play-live"></div>
-				<div id="pauseButton" class="live-stream__btn--pause" data-station="<?php do_action( 'radio_callsign' ); ?>"></div>
-				<div id="resumeButton" class="live-stream__btn--resume" data-station="<?php do_action( 'radio_callsign' ); ?>"></div>
+				<div id="playButton" class="live-stream__btn--play" data-action="play-live"></div>
+				<div id="pauseButton" class="live-stream__btn--pause"></div>
+				<div id="resumeButton" class="live-stream__btn--resume"></div>
 			</div>
 
 			<!-- Player placeholder -->
 			<div id="td_container" class="live-stream__player--container"></div>
+			<input type="hidden" id="vastAdUrl" value="http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2&VPl=MP4" />
 		</div>
 
 	<?php
@@ -52,8 +53,13 @@ class GMLP_Player {
 	public static function enqueue_scripts() {
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
+		$callsign = gmr_streams_get_primary_stream_callsign();
+		$vast_url = gmr_streams_get_primary_stream_vast_url();
+
 		wp_register_script( 'load-jquery', GMLIVEPLAYER_URL . 'assets/js/src/jquery.load.js', array(), GMLIVEPLAYER_VERSION, true );
 		wp_enqueue_script( 'tdplayer', GMLIVEPLAYER_URL . "assets/js/tdplayer{$postfix}.js", array( 'load-jquery' ), '2.5', true );
+		wp_localize_script( 'tdplayer', 'gmr', array( 'logged_in' => is_gigya_user_logged_in(), 'callsign' => $callsign, 'streamUrl' => $vast_url ) );
 		wp_enqueue_script( 'jquery-ui-button');
 		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery' ), GMLIVEPLAYER_VERSION, true );
 		wp_localize_script( 'gmlp-js', 'gmlp', array( 'logged_in' => is_user_logged_in() ) );

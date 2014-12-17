@@ -3190,12 +3190,13 @@ category: Components
 
 .live-player__stream--name {
   float: left;
-  width: 20%;
+  width: 30%;
+  margin-right: 5%;
   font-size: 0.88889em; }
 
 .live-player__stream--desc {
   float: left;
-  width: 80%;
+  width: 65%;
   line-height: 1.2;
   font-size: 0.70233em; }
 
@@ -3259,7 +3260,6 @@ category: Components
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  margin: 0 .5em;
   -webkit-border-radius: 1em;
   -moz-border-radius: 1em;
   -ms-border-radius: 1em;
@@ -3287,7 +3287,6 @@ category: Components
   text-transform: uppercase;
   cursor: pointer;
   display: none;
-  margin: 0 .5em;
   -webkit-border-radius: 1em;
   -moz-border-radius: 1em;
   -ms-border-radius: 1em;
@@ -3407,7 +3406,14 @@ category: Components
   content: "\e60b" !important; }
 
 .live-stream__player--container {
-  height: 0; }
+  width: 100%;
+  height: 171px;
+  padding: 10px; }
+
+.live-stream__player--container.stream__active {
+  width: 0;
+  height: 0;
+  padding: 0; }
 
 .live-stream--podcast__progress {
   width: 85%;

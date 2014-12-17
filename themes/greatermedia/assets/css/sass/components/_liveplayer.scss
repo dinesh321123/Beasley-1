@@ -263,13 +263,14 @@ category: Components
 
 .live-player__stream--name {
 	float: left;
-	width: 20%;
+	width: 30%;
+	margin-right: 5%;
 	font-size: ms(-1);
 }
 
 .live-player__stream--desc {
 	float: left;
-	width: 80%;
+	width: 65%;
 	line-height: 1.2;
 	font-size: ms(-3);
 }
@@ -331,14 +332,12 @@ category: Components
 
 .live-stream__listen-now--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1em, ms(-1));
-	margin: 0 .5em;
 	@include border-radius(1em);
 }
 
 .live-stream__now-playing--btn {
 	@include btn(transparent, $color-text-red, $btn-bg, .25em, 1em, ms(-1));
 	display: none;
-	margin: 0 .5em;
 	@include border-radius(1em);
 }
 
@@ -425,7 +424,15 @@ category: Components
 }
 
 .live-stream__player--container {
+	width: 100%;
+	height: 171px;
+	padding: 10px;
+}
+
+.live-stream__player--container.stream__active {
+	width: 0;
 	height: 0;
+	padding: 0;
 }
 
 .live-stream--podcast__progress {

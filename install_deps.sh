@@ -12,11 +12,11 @@ popd
 
 pushd .
 cd plugins/greatermedia-gigya
-composer update --no-dev --optimize-autoloader --no-interaction
+composer install --no-dev --optimize-autoloader --no-interaction
 popd
 
 pushd .
 cd plugins/greatermedia-livefyre
-composer update --no-dev --optimize-autoloader --no-interaction
+composer install --no-dev --optimize-autoloader --no-interaction
 popd
 
