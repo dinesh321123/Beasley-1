@@ -49,7 +49,13 @@ function get_events_query() {
 			'posts_per_page' => 2,
 		);
 
-		$query = \tribe_get_events( $event_args, true );
+		if ( function_exists( '\tribe_get_events' ) ) {
+			$query = \tribe_get_events( $event_args, true );
+		} else {
+			// Return a query that results in nothing
+			$query = new WP_Query( array( 'post__in' => array( 0 ) ) );
+		}
+
 	}
 
 	return $query;
