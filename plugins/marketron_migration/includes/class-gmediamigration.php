@@ -284,6 +284,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 		$count = 0;
 		foreach ( $articles->Article as $article ) {
+
 			if ( isset( $article->Authors->Author ) ) {
 				foreach ( $article->Authors->Author as $author ) {
 					if ( isset( $author['Author'] ) && '' !== trim( (string) $author['Author'] ) ) {
@@ -295,29 +296,30 @@ class GMedia_Migration extends WP_CLI_Command {
 					} else {
 						$exists = false;
 					}
-
-					if ( $exists ) {
-						$user_id = $exists;
-						if ( ! get_user_meta( $user_id, 'simple_local_avatar' ) ) {
-							$image_id = $this->import_author_images( $author['ImageFilepath'] );
-							if ( $image_id ) {
-								$meta_value = array();
-								$meta_value['media_id'] = $image_id;
-								$url = wp_get_attachment_url( $image_id );
-								$meta_value['full'] = $url;
-								update_user_meta( $user_id, 'simple_local_avatar', $meta_value );
+					if( isset( $author['ImageFilepath'] ) && $author['ImageFilepath'] != '' ) {
+						if ( $exists ) {
+							$user_id = $exists;
+							if ( ! get_user_meta( $user_id, 'simple_local_avatar' ) ) {
+								$image_id = $this->import_author_images( $author['ImageFilepath'] );
+								if ( $image_id ) {
+									$meta_value = array();
+									$meta_value['media_id'] = $image_id;
+									$url = wp_get_attachment_url( $image_id );
+									$meta_value['full'] = $url;
+									update_user_meta( $user_id, 'simple_local_avatar', $meta_value );
+								}
 							}
-						}
-					} else {
-						$user_id = $this->create_user( $author );
-						if ( ! get_user_meta( $user_id, 'simple_local_avatar' ) ) {
-							$image_id = $this->import_author_images( $author['ImageFilepath'] );
-							if ( $image_id ) {
-								$meta_value = array();
-								$meta_value['media_id'] = $image_id;
-								$url = wp_get_attachment_url( $image_id );
-								$meta_value['full'] = $url;
-								update_user_meta( $user_id, 'simple_local_avatar', $meta_value );
+						} else {
+							$user_id = $this->create_user( $author );
+							if ( ! get_user_meta( $user_id, 'simple_local_avatar' ) ) {
+								$image_id = $this->import_author_images( $author['ImageFilepath'] );
+								if ( $image_id ) {
+									$meta_value = array();
+									$meta_value['media_id'] = $image_id;
+									$url = wp_get_attachment_url( $image_id );
+									$meta_value['full'] = $url;
+									update_user_meta( $user_id, 'simple_local_avatar', $meta_value );
+								}
 							}
 						}
 					}
@@ -334,7 +336,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			// If we're not forcing import, skip existing posts.
 			if ( ! $force && $wp_id ) {
-				$notify->tick();
+				//$notify->tick();
 				continue;
 			}
 
@@ -1255,7 +1257,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					continue;
 				}
 
-				$story_hash = trim( (string) $story['Headline'] ) . (string) $story['StoryDate'];
+				$story_hash = trim( (string) $story['Headline'] ) . (string) $story['StoryDate'] . (string) $story['StoryID'];
 				$story_hash = md5( $story_hash );
 
 				// grab the existing post ID (if it exists).
@@ -3106,6 +3108,7 @@ class GMedia_Migration extends WP_CLI_Command {
 			$config_file[] = $data;
 		}
 		fclose($config_file_handle);
+
 		foreach ( $config_file as $config_string ) {
 			$marketron_taxonomy = html_entity_decode( $config_string[2], ENT_QUOTES | ENT_HTML5 );
 			$new_term = $config_string[4];
