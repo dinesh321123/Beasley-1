@@ -71,8 +71,14 @@ class Publisher extends Task {
 			$field_name = $this->field_name_for( 'value', $item['value'] );
 
 			$action['actionData'][ $i ][ $field_name ] = $item['value'];
-			unset( $action['actionData'][ $i ][ 'value' ] );
+			unset( $action['actionData'][ $i ]['value'] );
 		}
+
+		// each action gets a timestamp
+		$action['actionData'][] = array(
+			'name'    => 'timestamp',
+			'value_i' => time()
+		);
 
 		$data = array( 'actions' => array( $action ) );
 		$json = json_encode( $data );
