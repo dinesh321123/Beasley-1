@@ -108,7 +108,7 @@ class GreaterMediaGalleryCPT {
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => 'edit.php?post_type=' . SELF::GALLERY_POST_TYPE,
+			'show_in_menu'        => 'edit.php?post_type=' . self::GALLERY_POST_TYPE,
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
 			'menu_icon'           => 'dashicons-format-gallery',
