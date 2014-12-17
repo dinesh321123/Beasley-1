@@ -12,11 +12,17 @@ module.exports = function( grunt ) {
 					' * Licensed GPLv2+' +
 					' */\n'
 			},
-			greater_media_contest_restriction: {
+			greatermedia_contest_restriction: {
 				src: [
-					'assets/js/src/greater_media_contest_restriction.js'
+					'assets/js/src/greatermedia_contest_restriction.js'
 				],
-				dest: 'assets/js/greater_media_contest_restriction.js'
+				dest: 'assets/js/greatermedia_contest_restriction.js'
+			},
+			greatermedia_contest_restriction_admin: {
+				src: [
+					'assets/js/src/greatermedia_contest_restriction_admin.js'
+				],
+				dest: 'assets/js/greatermedia_contest_restriction_admin.js'
 			}
 		},
 		jshint: {
@@ -38,14 +44,16 @@ module.exports = function( grunt ) {
 				eqnull:  true,
 				globals: {
 					exports: true,
-					module:  false
+					module:  false,
+					$:false, jQuery:false, alert:false, is_gigya_user_logged_in:false, console:false, get_gigya_user_field:false, restrict_data:false
 				}
 			}		
 		},
 		uglify: {
 			all: {
 				files: {
-					'assets/js/greater_media_contest_restriction.min.js': ['assets/js/greater_media_contest_restriction.js']
+					'assets/js/greatermedia_contest_restriction.min.js': ['assets/js/greatermedia_contest_restriction.js'],
+					'assets/js/greatermedia_contest_restriction_admin.min.js': ['assets/js/greatermedia_contest_restriction_admin.js']
 				},
 				options: {
 					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
@@ -66,7 +74,7 @@ module.exports = function( grunt ) {
 		sass:   {
 			all: {
 				files: {
-					'assets/css/greater_media_contest_restriction.css': 'assets/css/sass/greater_media_contest_restriction.scss'
+					'assets/css/greatermedia_contest_restriction.css': 'assets/css/sass/greatermedia_contest_restriction.scss'
 				}
 			}
 		},
@@ -83,7 +91,7 @@ module.exports = function( grunt ) {
 				expand: true,
 				
 				cwd: 'assets/css/',				
-				src: ['greater_media_contest_restriction.css'],
+				src: ['greatermedia_contest_restriction.css'],
 				
 				dest: 'assets/css/',
 				ext: '.min.css'
@@ -134,12 +142,12 @@ module.exports = function( grunt ) {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './release/greater_media_contest_restriction.<%= pkg.version %>.zip'
+					archive: './release/greatermedia_contest_restriction.<%= pkg.version %>.zip'
 				},
 				expand: true,
 				cwd: 'release/<%= pkg.version %>/',
 				src: ['**/*'],
-				dest: 'greater_media_contest_restriction/'
+				dest: 'greatermedia_contest_restriction/'
 			}		
 		}
 	} );

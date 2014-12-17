@@ -11,7 +11,7 @@ class RestrictionMetaboxes {
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_box' ) );
-		add_action( 'save_post',  array( $this, 'save_box' ), 20);
+		add_action( 'save_post',  array( $this, 'save_box' ) );
 	}
 
 	/**
@@ -23,12 +23,8 @@ class RestrictionMetaboxes {
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) && get_post_type() == $this->post_type ) {
-			wp_enqueue_script( 'restrict_meta_js', GMEDIA_CONTEST_RESTRICTION_URL . "assets/js/greater_media_contest_restriction{$postfix}.js", array( 'jquery' ), GMEDIA_CONTEST_RESTRICTION_VERSION, true );
-			//wp_enqueue_script( 'jquery-ui-datepicker' );
-
-			wp_enqueue_style( 'restrict_meta_css', GMEDIA_CONTEST_RESTRICTION_URL . "assets/css/greater_media_contest_restriction{$postfix}.css", array(), GMEDIA_CONTEST_RESTRICTION_VERSION );
-			wp_enqueue_style( 'restrict_meta_jquery_ui', GMEDIA_CONTEST_RESTRICTION_URL . "assets/css/jquery-ui.min.css", array(), '1.11.2' );
-
+			wp_enqueue_script( 'restrict_contest_admin', GMEDIA_CONTEST_RESTRICTION_URL . "assets/js/greatermedia_contest_restriction_admin{$postfix}.js", array( 'jquery' ), GMEDIA_CONTEST_RESTRICTION_VERSION, true );
+			wp_enqueue_style( 'restrict_contest_admin_css', GMEDIA_CONTEST_RESTRICTION_URL . "assets/css/greatermedia_contest_restriction_admin{$postfix}.css", array(), GMEDIA_CONTEST_RESTRICTION_VERSION );
 		}
 	}
 
@@ -85,22 +81,41 @@ class RestrictionMetaboxes {
 		}
 
 		// Sanitize the user input.
-		$member_only = sanitize_text_field( $_POST['member_only'] );
-		$restrict_number =  sanitize_text_field( $_POST['restrict_number'] );
-		$max_entries =  intval( $_POST['max_entries'] );
-		$restrict_age =  sanitize_text_field( $_POST['restrict_age'] );
-		$min_age =  intval( $_POST['min_age'] );
-		$start_date  = sanitize_text_field( $_POST['start_date'] );
-		$end_date   = sanitize_text_field( $_POST['end_date'] );
+		if( isset($_POST['member_only']) ) {
+			$member_only = sanitize_text_field( $_POST['member_only'] );
+			// Update the meta field.
+			update_post_meta( $post_id, '_member_only', $member_only );
+		} else {
+			update_post_meta( $post_id, '_member_only', '' );
+		}
 
-		// Update the meta field.
-		update_post_meta( $post_id, '_member_only', $member_only );
-		update_post_meta( $post_id, '_restrict_number', $restrict_number );
-		update_post_meta( $post_id, '_max_entries', $max_entries );
-		update_post_meta( $post_id, '_restrict_age', $restrict_age );
-		update_post_meta( $post_id, '_min_age', $min_age );
-		update_post_meta( $post_id, '_start_date', $start_date );
-		update_post_meta( $post_id, '_end_date', $end_date );
+		if( isset($_POST['restrict_age']) ) {
+			$restrict_age = sanitize_text_field( $_POST['restrict_age'] );
+			// Update the meta field.
+			update_post_meta( $post_id, '_restrict_age', $restrict_age );
+		} else {
+			update_post_meta( $post_id, '_restrict_age', '' );
+		}
+
+		if( isset($_POST['min_age']) ) {
+			$min_age = intval( $_POST['min_age'] );
+			// Update the meta field.
+			update_post_meta( $post_id, '_min_age', $min_age );
+		}
+
+		if( isset($_POST['restrict_number']) ) {
+			$restrict_number = sanitize_text_field( $_POST['restrict_number'] );
+			// Update the meta field.
+			update_post_meta( $post_id, '_restrict_number', $restrict_number );
+		} else {
+			update_post_meta( $post_id, '_restrict_number', '' );
+		}
+
+		if( isset($_POST['max_entries']) ) {
+			$max_entries = intval( $_POST['max_entries'] );
+			// Update the meta field.
+			update_post_meta( $post_id, '_max_entries', $max_entries );
+		}
 
 	}
 
@@ -128,75 +143,46 @@ class RestrictionMetaboxes {
 		//$end_date = get_post_meta( $post->ID, '_contest_end_date', true );
 
 		// Metabox for members only.
-		echo '<div class="meta_group">';
+		echo '<div class="restriction_meta_group">';
 			echo '<label for="member_only">';
 			_e( 'Member Only:', 'greatermedia' );
 			echo '</label> ';
 			echo '<input type="checkbox" id="member_only" name="member_only" ' . checked( 'on', $member_only, false ) . ' />';
 		echo '</div>';
 
-		echo '<br/>';
-
 		// Restrict by max entires
-		echo '<div class="meta_group">';
+		echo '<div class="restriction_meta_group">';
 			echo '<label for="restrict_number">';
 			_e( 'Restrict number of entries:', 'greatermedia' );
 			echo '</label> ';
 			echo '<input type="checkbox" id="restrict_number" name="restrict_number" ' . checked( 'on', $restrict_number, false ) . ' />';
 
 			echo '<br/>';
-			$hidden = $restrict_number ? '' : 'hidden';
-			echo '<div class="' . $hidden . ' max_entries">';
+			$disabled = $restrict_number == 'on' ? '' : 'disabled';
+			echo '<div class="max_entries">';
 				echo '<label for="max_entries">';
 				_e( 'Max entries', 'greatermedia' );
 				echo '</label> ';
-				echo '<input type="text" id="max_entries" name="max_entries" value="' . $max_entries . '" size="25" />';
+				echo '<input ' . $disabled . ' type="text" id="max_entries" name="max_entries" value="' . $max_entries . '" size="25" />';
 			echo '</div>';
 		echo '</div>';
 
-		echo '<br/>';
-
 		// Restrict by age
-		echo '<div class="meta_group">';
+		echo '<div class="restriction_meta_group">';
 			echo '<label for="restrict_age">';
 			_e( 'Restrict by age:', 'greatermedia' );
 			echo '</label> ';
 			echo '<input type="checkbox" id="restrict_age" name="restrict_age" ' . checked( 'on', $restrict_age , false ) . ' />';
 
 			echo '<br/>';
-			$hidden = $restrict_number ? '' : 'hidden';
-			echo '<div class="' . $hidden . ' min_age">';
+			$disabled = $restrict_age == 'on' ? '' : 'disabled';
+			echo '<div class="min_age">';
 				echo '<label for="min_age">';
 				_e( 'Min age', 'greatermedia' );
 				echo '</label> ';
-				echo '<input type="text" id="min_age" name="min_age" value="' . $min_age . '" size="25" />';
+				echo '<input ' . $disabled . ' type="text" id="min_age" name="min_age" value="' . $min_age . '" size="25" />';
 			echo '</div>';
 		echo '</div>';
-
-		echo '<br/>';
-
-
-		// Restrict duration
-/*		echo '<div class="meta_group">';
-			echo '<label for="restrict_age">';
-			_e( 'Duration:', 'greatermedia' );
-			echo '</label> ';
-
-			echo '<br/>';
-
-			echo '<div class="duration">';
-				echo '<label for="start_date">';
-				_e( 'Start', 'greatermedia' );
-				echo '</label> ';
-				echo '<input type="text" id="start_date" name="start_date" value="' . $start_date . '" size="25" />';
-				echo '<br/>';
-				echo '<label for="end_date">';
-				_e( 'End', 'greatermedia' );
-				echo '</label> ';
-				echo '<input type="text" id="end_date" name="end_date" value="' . $end_date . '" size="25" />';
-			echo '</div>';
-		echo '</div>';*/
-
 	}
 }
 
