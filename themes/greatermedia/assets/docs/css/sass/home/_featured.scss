@@ -68,9 +68,13 @@ Curated posts for Featured Articles
 .home__featured {
 	position: relative;
 	@extend %main;
-	padding: 48px;
+	padding: 1em;
 	background: url(../../images/featured-bg.png) repeat center center $featured-bg;
 	background-size: auto 40%;
+
+	@include bp(medium) {
+		padding: 48px;
+	}
 }
 
 .featured__article, .featured__content {
@@ -83,10 +87,7 @@ Curated posts for Featured Articles
 	height: 100px;
 	overflow: hidden;
 	background-color: $featured-bg;
-	@include bp(small) {
-		height: 150px;
-	}
-	@include bp(large) {
+	@include bp(medium) {
 		height: 256px;
 	}
 	@include bp(x-large) {

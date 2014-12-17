@@ -7,6 +7,7 @@
 .mobile-nav__toggle {
 	position: absolute;
 	top: 50%;
+	left: 20px;
 	@include transform(translate(0, -50%));
 	width: 32px;
 	height: 32px;
@@ -27,9 +28,8 @@
 	display: block;
 	width: 32px;
 	height: 4px;
-	@include border-radius(4px);
 	@include transition(all 500ms ease-in-out);
-	background: $primary-border;
+	background: $color-text-white;
 	content: "";
 }
 
@@ -39,9 +39,8 @@
 	display: block;
 	width: 32px;
 	height: 4px;
-	@include border-radius(4px);
 	@include transition(all 500ms ease-in-out);
-	background: $primary-border;
+	background: $color-text-white;
 	content: "";
 }
 
@@ -51,20 +50,20 @@
 	display: block;
 	width: 32px;
 	height: 4px;
-	@include border-radius(4px);
 	@include transition(all 500ms ease-in-out);
-	background: $primary-border;
+	background: $color-text-white;
 	content: "";
 }
 
 .mobile-nav {
 	position: fixed;
 	top: 0;
-	width: 74%;
+	width: 78%;
 	height: 100%;
 	@include transform(translate(-100%, 0));
 	@include transition(all 500ms ease-in-out);
 	background-color: $secondary-bg;
+	border-right: 1px solid $primary-border;
 	z-index: 1;
 	@include bp(medium) {
 		display: none;
@@ -94,7 +93,7 @@
 }
 
 .mobile-nav--open .page-wrap {
-	@include transform(translate(74%, 0));
+	@include transform(translate(78%, 0));
 	width: 100%;
 	@include transition(all 500ms ease-in-out);
 }
@@ -119,20 +118,31 @@
 	border-bottom: 1px solid $header-border;
 }
 
-.mobile-nav__list .menu-item:last-child {
-	border-bottom: none;
-}
-
 .mobile-nav__list a:link, .mobile-nav__list a:visited {
 	display: block;
 	padding: 18px 1.25em;
 	line-height: 1;
-	font-size: ms(7);
+	font-size: ms(2);
 	color: $color-text-white;
 }
 
 .mobile-nav__list a:hover, .mobile-nav__list a:focus, .mobile-nav__list a:active {
-	background-color: $color-text-white;
+	background-color: $color-text-red;
+}
+
+.mobile-nav .social__list {
+	position: absolute;
+	bottom: 0;
+	padding: 18px 0;
+}
+
+.mobile-nav .social__link {
+	margin: 0 0 0 1.25em;
+	font-size: ms(3);
+}
+
+.mobile-nav .social__link:last-child {
+	margin: 0 0 0 1.25em;
 }
 
 // main header navigation

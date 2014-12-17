@@ -47,11 +47,11 @@ category: Base
 ```
 
 */
-.entry__event--details, .featured__content--list, .footer__nav--list {
+.entry__event--details, .featured__content--list, .footer__nav--list, .gallery-grid__pagination--list {
   padding: 0;
   margin: 0; }
 
-.entry__event--item, .featured__content--item, .footer__nav--list .menu-item, .live-player__stream--item {
+.entry__event--item, .featured__content--item, .footer__nav--list .menu-item, .live-player__stream--item, .gallery-grid__pagination--item {
   list-style: none;
   padding: 0;
   margin: 0; }
@@ -4260,6 +4260,160 @@ category: Components - Gallery
 ---
 
 */
+/*doc
+---
+title: Gallery Archive
+name: gallery-archive
+category: Components - Gallery Archive
+---
+
+```html_example
+<section class="gallery-grid">
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+</section>
+
+<section class="gallery-grid__pagination">
+
+	<ul class="gallery-grid__pagination--list">
+		<li class="gallery-grid__pagination--item gallery-grid__pagination--current"><a href="#">1</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">2</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">3</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">...</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">4</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">5</a></li>
+	</ul>
+</section>
+```
+
+*/
 .gallery {
   width: 100%;
   overflow: auto; }
@@ -4414,7 +4568,8 @@ category: Components - Gallery
   display: block;
   margin-right: 7.42297%;
   width: 100%;
-  margin-right: 0; }
+  margin-right: 0;
+  margin-bottom: 40px; }
   .gallery__content:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
@@ -4442,7 +4597,8 @@ category: Components - Gallery
       margin-right: 2.35765%;
       width: 65.88078%;
       margin-left: 17.05961%;
-      height: 90px; }
+      height: 90px;
+      margin-bottom: 64px; }
       .gallery__content:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1400px) {
@@ -4553,15 +4709,15 @@ category: Components - Gallery
   color: #404041; }
 
 .gallery__progress {
-  float: left;
-  display: block;
-  margin-right: 7.42297%;
+  position: relative;
   width: 100%;
   padding: 0 4.375%;
-  margin-bottom: 30px;
   overflow: auto; }
-  .gallery__progress:last-child {
-    margin-right: 0; }
+  @media screen and (min-width: 1024px) {
+    .gallery__progress {
+      position: absolute;
+      bottom: 0;
+      left: 0; } }
 
 .gallery__prev--btn, .gallery__next--btn {
   position: relative;
@@ -4660,12 +4816,17 @@ category: Components - Gallery
   display: block;
   width: 36%;
   height: 36px;
+  padding-top: 12px;
+  line-height: 1;
   font-size: 1em;
-  font-weight: lighter; }
+  font-weight: lighter;
+  color: #d0d2d3;
+  text-align: center; }
   @media screen and (min-width: 1024px) {
     .gallery__count {
       width: 60%;
-      height: 64px; } }
+      height: 64px;
+      padding-top: 44px; } }
 
 .gallery__thumbnails {
   position: relative;
@@ -4673,6 +4834,8 @@ category: Components - Gallery
   display: block;
   margin-right: 7.42297%;
   width: 100%;
+  height: 145px;
+  padding: 20px 0;
   overflow: auto;
   border-top: 1px solid #404041;
   background-color: #282827; }
@@ -4732,6 +4895,12 @@ category: Components - Gallery
       width: 72%;
       margin: 0 14%; } }
 
+.gallery__paging {
+  display: none; }
+  @media screen and (min-width: 768px) {
+    .gallery__paging {
+      display: block; } }
+
 .gallery__paging--left, .gallery__paging--right {
   position: absolute;
   top: 22px;
@@ -4774,14 +4943,19 @@ category: Components - Gallery
 .gallery__paging--next:before {
   content: "\e618"; }
 
-.slide-previews-group {
-  width: 100;
-  height: 100px; }
+.gallery__previews--group {
+  width: 100%;
+  height: 100px;
+  left: 5px !important; }
+  @media screen and (min-width: 768px) {
+    .gallery__previews--group {
+      left: 0 !important; } }
 
 .gallery__slide--preview {
   float: left;
   width: 100px;
-  height: 100px;
+  height: 100%;
+  max-height: 100px;
   margin-right: 5px;
   opacity: 0.5;
   filter: alpha(opacity=50);
@@ -4792,6 +4966,10 @@ category: Components - Gallery
   -moz-transition: opacity 200ms linear;
   transition: opacity 200ms linear;
   cursor: pointer; }
+  @media screen and (min-width: 768px) {
+    .gallery__slide--preview {
+      width: 11.5%;
+      margin-right: .875%; } }
 
 .gallery__slide--preview:hover {
   opacity: 1;
@@ -4813,6 +4991,78 @@ category: Components - Gallery
   -khtml-opacity: 1;
   zoom: 1;
   border: 1px solid #d0d2d3; }
+
+.gallery-grid {
+  width: 100%;
+  overflow: auto; }
+
+.gallery-grid__column {
+  float: left;
+  width: 23.5%;
+  margin-right: 2%;
+  overflow: auto; }
+
+.gallery-grid__column:nth-of-type(4n+4) {
+  margin-right: 0%; }
+
+.gallery-grid__thumbnail {
+  margin-bottom: 30px; }
+
+.gallery-grid__meta {
+  height: 100px; }
+
+.gallery-grid__title {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.125em;
+  font-weight: lighter;
+  color: #404041; }
+
+.gallery-grid__pagination {
+  width: 100%;
+  overflow: auto;
+  text-align: center; }
+
+.gallery-grid__pagination--item {
+  list-style: none;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  margin-right: 1em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #929497;
+  text-align: center; }
+
+.gallery-grid__pagination--item a, .gallery-grid__pagination--item a:visited {
+  display: block;
+  width: 26px;
+  height: 26px;
+  color: #929497; }
+
+.gallery-grid__pagination--item a:hover, .gallery-grid__pagination--item a:focus {
+  color: #d22228; }
+
+.gallery-grid__pagination--item a:active {
+  color: #404041; }
+
+.gallery-grid__pagination--current {
+  border: 1px solid #929497;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  -border-radius: 50%;
+  border-radius: 50%; }
+
+.gallery-grid__pagination--current:hover, .gallery-grid__pagination--current:focus {
+  border-color: #d22228;
+  color: #d22228; }
+
+.gallery-grid__pagination--current:active {
+  border-color: #404041;
+  color: #404041; }
 
 /*doc
 ---

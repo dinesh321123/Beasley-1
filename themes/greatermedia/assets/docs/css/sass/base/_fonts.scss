@@ -39,11 +39,11 @@ $icon-font:     'gmr-icons';
 
 @font-face {
 	font-family: 'gmr-icons';
-	src:url('../fonts/icon-font/gmr-icons.eot?awb6kj');
-	src:url('../fonts/icon-font/gmr-icons.eot?#iefixawb6kj') format('embedded-opentype'),
-	url('../fonts/icon-font/gmr-icons.woff?awb6kj') format('woff'),
-	url('../fonts/icon-font/gmr-icons.ttf?awb6kj') format('truetype'),
-	url('../fonts/icon-font/gmr-icons.svg?awb6kj#gmr-icons') format('svg');
+	src:url('../fonts/icon-font/gmr-icons.eot?3neww');
+	src:url('../fonts/icon-font/gmr-icons.eot?#iefix3neww') format('embedded-opentype'),
+	url('../fonts/icon-font/gmr-icons.woff?3neww') format('woff'),
+	url('../fonts/icon-font/gmr-icons.ttf?3neww') format('truetype'),
+	url('../fonts/icon-font/gmr-icons.svg?3neww#gmr-icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -92,11 +92,11 @@ $icon-font:     'gmr-icons';
 .icon-post:before {
 	content: "\e608";
 }
-.icon-radio:before {
-	content: "\e609";
-}
 .icon-user:before {
 	content: "\e60a";
+}
+.icon-radio:before {
+	content: "\e609";
 }
 .icon-volume:before {
 	content: "\e60c";
@@ -133,4 +133,10 @@ $icon-font:     'gmr-icons';
 }
 .icon-post-format-audio:before {
 	content: "\e615";
+}
+.icon-arrow-next:before {
+	content: "\e618";
+}
+.icon-arrow-prev:before {
+	content: "\e619";
 }

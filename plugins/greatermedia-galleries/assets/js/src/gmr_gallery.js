@@ -10,7 +10,7 @@
 		$gallery = $( gallery ),
 		$main = $( main ),
 		$main_wrapper = $( '.gallery__slides' ),
-		$caption = $( '.caption' ),
+		$caption = $( '.gallery__content' ),
 		$sidebar = $( '.gallery__thumbnails' ),
 		$slide_paging = $( '.gallery__paging' ),
 		$slide_paging_previews = $( '.gallery__previews' ),
@@ -35,16 +35,6 @@
 		 */
 		slideshow.on( 'cycle-update-view', function( event, optionHash ) {
 			update_thumbnails( optionHash.currSlide );
-		} );
-
-		/**
-		 * Update slide sharing URL and title (hidden values) when slide changes,
-		 * then update sharing links
-		 */
-		slideshow.on( 'cycle-update-view', function( event, optionHash, slideOptionsHash, currentSlideEl ) {
-			$( 'input.slide-url' ).val( slideOptionsHash.slide_shorturl );
-			$( 'input.slide-title' ).val( slideOptionsHash.slide_title );
-			update_share_urls( slideOptionsHash.slide_shorturl, slideOptionsHash.slide_title );
 		} );
 
 		/**
@@ -122,7 +112,6 @@
 		// If we're on a small screen but ismobile is not set, shift things around
 		if ( $window.width() < 768 && ! isMobile() ) {
 			$gallery.addClass( 'ismobile' );
-			$sidebar.prepend( $caption );
 			regroup_thumbnails( get_thumbs_per_page() );
 			update_thumbnails( $main.data( "cycle.opts" ).currSlide );
 		}

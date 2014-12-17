@@ -200,7 +200,8 @@ class GreaterMediaGallery {
 						     data-cycle-swipe="true"
 						     data-cycle-fx="scrollHorz"
 						     data-cycle-swipe-fx="scrollHorz"
-						     data-cycle-manual-fx="scrollHoriz">
+						     data-cycle-manual-fx="scrollHoriz"
+						     data-cycle-auto-height=container>
 							<?php
 							while ( $gallery->have_posts() ) {
 								$gallery->the_post();
@@ -260,15 +261,15 @@ class GreaterMediaGallery {
 							$gallery->rewind_posts();
 							?>
 						</div>
-					</div>
-					<div class="gallery__progress">
-						<div class="gallery__prev">
-							<button type="button" class="gallery__prev--btn slide-overlay-control-nohide"><span class="gallery__prev--span"><?php _e( 'Prev', 'greatermedia'); ?></span></button>
-						</div>
-						<div id="gallery__count" class="gallery__count">
-						</div>
-						<div class="gallery__next">
-							<button type="button" class="gallery__next--btn slide-overlay-control-nohide"><span class="gallery__next--span"><?php _e( 'Next', 'greatermedia'); ?></span></button>
+						<div class="gallery__progress">
+							<div class="gallery__prev">
+								<button type="button" class="gallery__prev--btn slide-overlay-control-nohide"><span class="gallery__prev--span"><?php _e( 'Prev', 'greatermedia'); ?></span></button>
+							</div>
+							<div id="gallery__count" class="gallery__count">
+							</div>
+							<div class="gallery__next">
+								<button type="button" class="gallery__next--btn slide-overlay-control-nohide"><span class="gallery__next--span"><?php _e( 'Next', 'greatermedia'); ?></span></button>
+							</div>
 						</div>
 					</div>
 					<div class="gallery__thumbnails">
