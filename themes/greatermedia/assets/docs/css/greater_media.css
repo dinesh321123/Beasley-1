@@ -457,11 +457,11 @@ category: Base - Typography
  */
 @font-face {
   font-family: 'gmr-icons';
-  src: url("../fonts/icon-font/gmr-icons.eot?3neww");
-  src: url("../fonts/icon-font/gmr-icons.eot?#iefix3neww") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?3neww") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?3neww") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?3neww#gmr-icons") format("svg");
+  src: url("../fonts/icon-font/gmr-icons.eot?c8o1sf");
+  src: url("../fonts/icon-font/gmr-icons.eot?#iefixc8o1sf") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?c8o1sf") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?c8o1sf") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?c8o1sf#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__account--btn:before, .header__search--btn:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__account--btn:before, .header__search--btn:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery-grid__album {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -550,6 +550,9 @@ category: Base - Typography
 
 .icon-arrow-prev:before {
   content: "\e619"; }
+
+.icon-album:before {
+  content: "\e61a"; }
 
 img {
   max-width: 100%;
@@ -4324,6 +4327,7 @@ category: Components - Gallery Archive
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
+			<div class="gallery-grid__album"></div>
 		</div>
 
 		<div class="gallery-grid__meta">
@@ -4451,7 +4455,7 @@ category: Components - Gallery Archive
       float: left;
       display: block;
       margin-right: 3.57866%;
-      width: 74.10533%;
+      width: 100%;
       height: 513px; }
       .gallery__slide--images:last-child {
         margin-right: 0; } }
@@ -4854,7 +4858,8 @@ category: Components - Gallery Archive
       float: left;
       display: block;
       margin-right: 3.57866%;
-      width: 100%; }
+      width: 100%;
+      height: 115px; }
       .gallery__thumbnails:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1024px) {
@@ -4914,6 +4919,12 @@ category: Components - Gallery Archive
   border: none;
   font-size: 2.02729em;
   color: #404041; }
+  @media screen and (min-width: 768px) {
+    .gallery__paging--prev, .gallery__paging--next {
+      height: 75px; } }
+  @media screen and (min-width: 1024px) {
+    .gallery__paging--prev, .gallery__paging--next {
+      height: 100px; } }
 
 .gallery__paging--prev:hover, .gallery__paging--next:hover {
   color: #ffffff; }
@@ -4949,7 +4960,11 @@ category: Components - Gallery Archive
   left: 5px !important; }
   @media screen and (min-width: 768px) {
     .gallery__previews--group {
-      left: 0 !important; } }
+      left: 0 !important;
+      height: 75px; } }
+  @media screen and (min-width: 1024px) {
+    .gallery__previews--group {
+      height: 100px; } }
 
 .gallery__slide--preview {
   float: left;
@@ -4968,7 +4983,13 @@ category: Components - Gallery Archive
   cursor: pointer; }
   @media screen and (min-width: 768px) {
     .gallery__slide--preview {
+      width: 19%;
+      max-height: 75px;
+      margin-right: 1%; } }
+  @media screen and (min-width: 1024px) {
+    .gallery__slide--preview {
       width: 11.5%;
+      max-height: 100px;
       margin-right: .875%; } }
 
 .gallery__slide--preview:hover {
@@ -5006,7 +5027,20 @@ category: Components - Gallery Archive
   margin-right: 0%; }
 
 .gallery-grid__thumbnail {
+  position: relative;
   margin-bottom: 30px; }
+
+.gallery-grid__album {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 3.24732em;
+  color: #ffffff; }
+
+.gallery-grid__album:before {
+  width: 0;
+  height: 0;
+  content: "\e61a"; }
 
 .gallery-grid__meta {
   height: 100px; }

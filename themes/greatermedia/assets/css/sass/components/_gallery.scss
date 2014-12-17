@@ -73,6 +73,7 @@ category: Components - Gallery Archive
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
+			<div class="gallery-grid__album"></div>
 		</div>
 
 		<div class="gallery-grid__meta">
@@ -660,7 +661,23 @@ category: Components - Gallery Archive
 }
 
 .gallery-grid__thumbnail {
+	position: relative;
 	margin-bottom: 30px;
+}
+
+.gallery-grid__album {
+	position: absolute;
+	top: 24px;
+	right: 24px;
+	@extend %gmr-icons;
+	font-size: ms(10);
+	color: $color-text-white;
+}
+
+.gallery-grid__album:before {
+	width: 0;
+	height: 0;
+	content: "\e61a";
 }
 
 .gallery-grid__meta {

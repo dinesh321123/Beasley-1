@@ -39,11 +39,11 @@ $icon-font:     'gmr-icons';
 
 @font-face {
 	font-family: 'gmr-icons';
-	src:url('../fonts/icon-font/gmr-icons.eot?3neww');
-	src:url('../fonts/icon-font/gmr-icons.eot?#iefix3neww') format('embedded-opentype'),
-	url('../fonts/icon-font/gmr-icons.woff?3neww') format('woff'),
-	url('../fonts/icon-font/gmr-icons.ttf?3neww') format('truetype'),
-	url('../fonts/icon-font/gmr-icons.svg?3neww#gmr-icons') format('svg');
+	src:url('../fonts/icon-font/gmr-icons.eot?c8o1sf');
+	src:url('../fonts/icon-font/gmr-icons.eot?#iefixc8o1sf') format('embedded-opentype'),
+	url('../fonts/icon-font/gmr-icons.woff?c8o1sf') format('woff'),
+	url('../fonts/icon-font/gmr-icons.ttf?c8o1sf') format('truetype'),
+	url('../fonts/icon-font/gmr-icons.svg?c8o1sf#gmr-icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -139,4 +139,7 @@ $icon-font:     'gmr-icons';
 }
 .icon-arrow-prev:before {
 	content: "\e619";
+}
+.icon-album:before {
+	content: "\e61a";
 }
