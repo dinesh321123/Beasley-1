@@ -119,10 +119,11 @@ class CommentsApp {
 
 	function options_for_post( $post ) {
 		$options = array(
-			'network_name' => $this->get_livefyre_option( 'network_name' ),
-			'site_id'      => $this->get_livefyre_option( 'site_id' ),
-			'article_id'   => strval( $post->ID ),
-			'article_path' => $this->url_to_path( get_permalink( $post->ID ) ),
+			'network_name'  => $this->get_livefyre_option( 'network_name' ),
+			'site_id'       => $this->get_livefyre_option( 'site_id' ),
+			'article_id'    => strval( $post->ID ),
+			'article_path'  => $this->url_to_path( get_permalink( $post->ID ) ),
+			'article_title' => get_the_title( $post->ID ),
 		);
 
 		return $options;

@@ -119,12 +119,34 @@
 		},
 
 		buildConv: function(Conv) {
+			var self = this;
+
 			return new Conv(
 				this.config.getNetworkConfig(),
 				this.config.getConvConfig(),
-				function() {} // TODO
+				function(widget) {
+					widget.on('commentPosted', function(data) {
+						self.didPostComment(data);
+					});
+				}
 			);
 		},
+
+		didPostComment: function(data) {
+			var title = this.config.getOption('article_title');
+			var url   = location.href;
+
+			var action = {
+				actionType: 'action:comment',
+				actionID: this.config.getOption('article_id'),
+				actionData: [
+					{ name: 'title', value: title },
+					{ name: 'url', value: url }
+				]
+			};
+
+			save_gigya_action(action);
+		}
 
 	};
 
