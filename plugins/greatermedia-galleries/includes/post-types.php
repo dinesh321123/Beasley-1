@@ -103,7 +103,7 @@ class GreaterMediaGalleryCPT {
 			'label'               => __( 'album', 'greatermedia' ),
 			'description'         => __( 'A post type for Albums', 'greatermedia' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'author', 'thumbnail', ),
+			'supports'            => array( 'title', 'editor', 'author', 'thumbnail', ),
 			'taxonomies'          => array( 'post_tag', 'category' ),
 			'hierarchical'        => false,
 			'public'              => true,
