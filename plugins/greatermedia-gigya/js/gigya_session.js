@@ -192,10 +192,6 @@
 		for (var key in params) {
 			if (params.hasOwnProperty(key)) {
 				value = params[key];
-				if (key === 'anchor') {
-					anchor = params[key];
-					continue;
-				}
 				value = escapeValue(value);
 				key   = escapeValue(key);
 
@@ -203,12 +199,7 @@
 			}
 		}
 
-		var outputString = output.join('&');
-		if (anchor) {
-			outputString += '#' + anchor;
-		}
-
-		return outputString;
+		return output.join('&');
 	};
 
 	var endpoint = 'members';

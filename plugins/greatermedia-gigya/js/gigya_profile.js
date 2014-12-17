@@ -213,9 +213,14 @@
 
 		getRedirectUrl: function(defaultDest) {
 			var dest = this.getQueryParam('dest');
+			var anchor = this.getQueryParam('anchor');
 
 			if (dest.indexOf('/') === 0) {
-				return dest;
+				if (anchor !== '') {
+					return dest + '#' + anchor;
+				} else {
+					return dest;
+				}
 			} else {
 				return defaultDest;
 			}

@@ -90,9 +90,7 @@ class ProfilePathTest extends \WP_UnitTestCase {
 
 		parse_str( $query, $actual_params );
 
-		unset( $params['anchor'] );
 		$this->assertEquals( $params, $actual_params );
-		$this->assertEquals( 'comments', $parts['fragment'] );
 	}
 
 	function test_it_has_a_singleton_instance() {
@@ -118,8 +116,6 @@ class ProfilePathTest extends \WP_UnitTestCase {
 
 		parse_str( $query, $actual_params );
 
-		unset( $params['anchor'] );
 		$this->assertEquals( $params, $actual_params );
-		$this->assertEquals( 'comments', $parts['fragment'] );
 	}
 }

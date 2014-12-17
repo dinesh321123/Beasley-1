@@ -21,14 +21,7 @@ class ProfilePath {
 		if ( is_null( $params ) ) {
 			return $path;
 		} else {
-			if ( array_key_exists( 'anchor', $params ) ) {
-				$anchor = $params['anchor'];
-				unset( $params['anchor'] );
-
-				return $path . '?' . http_build_query( $params ) . "#{$anchor}";
-			} else {
-				return $path . '?' . http_build_query( $params );
-			}
+			return $path . '?' . http_build_query( $params );
 		}
 	}
 
