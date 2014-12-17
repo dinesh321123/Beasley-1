@@ -1,0 +1,69 @@
+<?php
+/**
+ * Created by Eduard
+ *
+ */
+
+class ContestRestriction {
+
+	private static $post_type = 'contest';
+	private $gigya_session;
+	private $user_age = 0;
+	private $user_ip;
+
+	public function __construct() {
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+	}
+
+	public function enqueue_scripts() {
+		global $post;
+		$post_id = $post->ID;
+		$min_age = get_post_meta( $post_id, '_min_age', true );
+		$max_entries = get_post_meta( $post_id, '_max_entries', true );
+		wp_enqueue_script( 'restrict_contest', GMEDIA_CONTEST_RESTRICTION_URL . "assets/js/greatermedia_contest_restriction.js", array( 'jquery' ), '1.0.0' );
+		wp_localize_script( 'restrict_contest', 'restrict_data', array( 'min_age' => $min_age ) );
+
+	}
+
+	public static function restrict_contest( $post_id ) {
+		$post = get_post( $post_id );
+		$post_type = $post->post_type;
+
+		if( $post->post_type == self::$post_type ) {
+			$return = '';
+
+			$member_only = get_post_meta( $post_id, '_member_only', true );
+			$restrict_age = get_post_meta( $post_id, '_restrict_age', true );
+			$restrict_number = get_post_meta( $post_id, '_restrict_number', true );
+			$contestants = count( get_posts( array( 'post_type'=> 'contest_entry', 'post_parent' => $post_id ) ) );
+			$max_entries = get_post_meta( $post_id, '_max_entries', true );
+
+			if ( $member_only == 'on' ) {
+				$return .= ' member_only';
+			}
+
+			if( $restrict_age == 'on' ) {
+				$return .= ' restrict_age';
+			}
+
+			if( $restrict_number == 'on' && $contestants >= $max_entries ) {
+				$return .= ' max_entries';
+			}
+
+			return $return;
+
+
+			// get user IP
+			/*if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+				$this->user_ip = $_SERVER['HTTP_CLIENT_IP'];
+			} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+				$this->user_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			} else {
+				$this->user_ip = $_SERVER['REMOTE_ADDR'];
+			}*/
+		}
+	}
+
+}
+
+$ContestRestriction = new ContestRestriction();
