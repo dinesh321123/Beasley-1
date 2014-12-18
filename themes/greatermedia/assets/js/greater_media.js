@@ -285,10 +285,10 @@
 	function showSearch(e) {
 		e = e || window.event;
 		if (searchForm !== null) {
-			searchForm.classList.add('header__search--open');
+			searchForm.classList.toggle('header__search--open');
 		}
 		if (pageWrap !== null) {
-			pageWrap.classList.add('search--active');
+			pageWrap.classList.toggle('search--active');
 		}
 		e.cancelBubble = true;
 		if (e.stopPropagation)
@@ -298,10 +298,14 @@
 	function closeSearch(e) {
 		e = e || window.event;
 		if (searchForm !== null && searchForm.classList.contains('header__search--open')) {
+			searchForm.addEventListener('click', function(e) {
+				e.stopPropagation();
+			});
 			searchForm.classList.remove('header__search--open');
 		}
 		if (pageWrap !== null && pageWrap.classList.contains('search--active')) {
 			pageWrap.classList.remove('search--active');
+
 		}
 		e.cancelBubble = true;
 		if (e.stopPropagation)
@@ -310,7 +314,7 @@
 
 	if (searchBtn !== null) {
 		searchBtn.addEventListener('click', showSearch, false);
-		pageWrap.onclick = closeSearch;
+		document.addEventListener('click', closeSearch);
 	}
 
 	var scrollDebounce = _.debounce(getScrollPosition, 50),
