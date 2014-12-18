@@ -22,6 +22,10 @@ class HasParticipatedAjaxHandler extends AjaxHandler {
 			return $this->has_user_entered_contest( $contest_id, $user_id );
 		} else if ( array_key_exists( 'email', $params ) ) {
 			$email = $params['email'];
+
+			if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) === false ) {
+				return false;
+			}
 			return $this->has_email_entered_contest( $contest_id, $email );
 		} else {
 			return false;

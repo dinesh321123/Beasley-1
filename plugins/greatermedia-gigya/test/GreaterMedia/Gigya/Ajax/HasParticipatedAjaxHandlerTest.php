@@ -125,12 +125,16 @@ class HasParticipatedAjaxHandlerTest extends \WP_UnitTestCase {
 
 	function test_it_has_api_helper_that_knows_if_email_has_not_entered_contest() {
 		$this->init_gigya_keys();
-		$this->assertFalse( has_user_entered_contest( '000', 'me@foo.com' ) );
+		$this->assertFalse( has_email_entered_contest( '000', 'me@foo.com' ) );
 	}
 
 	function test_it_has_api_helper_that_knows_if_email_has_entered_contest() {
 		$this->init_gigya_keys();
-		$this->assertFalse( has_user_entered_contest( '2500000', 'me@foo.com' ) );
+		$this->assertTrue( has_email_entered_contest( '2500000', 'me@foo.com' ) );
+	}
+
+	function test_it_knows_invalid_email_has_not_entered_contest() {
+		$this->assertFalse( has_email_entered_contest( '2500000', 'foo' ) );
 	}
 
 }
