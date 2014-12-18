@@ -123,13 +123,14 @@ class Plugin {
 	public function register_ajax_handlers() {
 		$handlers   = array();
 
-		$handlers[] = new Ajax\GigyaLoginAjaxHandler();
-		$handlers[] = new Ajax\GigyaLogoutAjaxHandler();
+		//$handlers[] = new Ajax\GigyaLoginAjaxHandler();
+		//$handlers[] = new Ajax\GigyaLogoutAjaxHandler();
 		$handlers[] = new Ajax\PreviewResultsAjaxHandler();
 		$handlers[] = new Ajax\RegisterAjaxHandler();
 		$handlers[] = new Ajax\ListEntryTypesAjaxHandler();
 		$handlers[] = new Ajax\ListEntryFieldsAjaxHandler();
 		$handlers[] = new Ajax\ChangeGigyaSettingsAjaxHandler();
+		$handlers[] = new Ajax\HasParticipatedAjaxHandler();
 
 		if ( is_gigya_user_logged_in() ) {
 			$handlers[] = new Ajax\SaveGigyaActionAjaxHandler();
