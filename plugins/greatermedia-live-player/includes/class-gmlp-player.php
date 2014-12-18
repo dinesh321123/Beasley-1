@@ -9,6 +9,7 @@ class GMLP_Player {
 	public static function init() {
 
 		add_action( 'wp_footer', array( __CLASS__, 'load_js' ), 50 );
+		add_action( 'wp_footer', array( __CLASS__, 'render_player_container' ), 50 );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 50 );
 		add_action( 'gm_live_player', array( __CLASS__, 'render_player' ) );
 		add_action( 'radio_callsign', array( __CLASS__, 'get_radio_callsign' ) );
@@ -37,13 +38,21 @@ class GMLP_Player {
 				<div id="pauseButton" class="live-stream__btn--pause"></div>
 				<div id="resumeButton" class="live-stream__btn--resume"></div>
 			</div>
-
-			<!-- Player placeholder -->
-			<div id="td_container" class="live-stream__player--container"></div>
-			<input type="hidden" id="vastAdUrl" value="http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2&VPl=MP4" />
 		</div>
 
 	<?php
+
+	}
+
+	/**
+	 * The player container is where pre-roll videos and such show. Moving this outside of the player itself and calling
+	 * this in wp_footer will allow the pre-roll to be a overlay while playing.
+	 */
+	public static function render_player_container() {
+
+		echo '<div id="live-stream__container" class="live-stream__container">';
+		echo '<div id="td_container" class="live-stream__container--player"></div>';
+		echo '</div>';
 
 	}
 

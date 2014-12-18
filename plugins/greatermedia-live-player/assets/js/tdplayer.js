@@ -179,8 +179,10 @@
 		} else {
 			console.log("--- You are logged in, so now enjoy some music ---");
 			$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
+			preVastAd();
 			streamVastAd();
 			player.addEventListener('ad-playback-complete', function() {
+				postVastAd();
 				console.log("--- add complete ---");
 				var tdContainer = document.getElementById('td_container');
 				var playButton = document.getElementById('playButton');
@@ -205,6 +207,22 @@
 				listenNow.style.display = 'none';
 				nowPlaying.style.display = 'inline-block';
 			});
+		}
+	}
+
+	function preVastAd() {
+		var preRoll = document.getElementById('live-stream__container');
+
+		if(preRoll != null) {
+			preRoll.classList.add('vast__pre-roll');
+		}
+	}
+
+	function postVastAd() {
+		var preRoll = document.getElementById('live-stream__container');
+
+		if(preRoll != null) {
+			preRoll.classList.remove('vast__pre-roll');
 		}
 	}
 

@@ -423,13 +423,32 @@ category: Components
 	content: "\e60b" !important;
 }
 
-.live-stream__player--container {
+.live-stream__container {
 	width: 100%;
 	height: 171px;
 	padding: 10px;
+	@include transition(background 500ms ease-in-out);
 }
 
-.live-stream__player--container.stream__active {
+.live-stream__container.vast__pre-roll {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.75);
+}
+
+.live-stream__container.vast__pre-roll .live-stream__container--player {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 640px;
+	height: 480px;
+	@include transform(translate(-50%, -50%));
+}
+
+.live-stream__container--player.stream__active {
 	width: 0;
 	height: 0;
 	padding: 0;
