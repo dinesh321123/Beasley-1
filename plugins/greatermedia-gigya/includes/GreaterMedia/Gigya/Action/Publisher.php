@@ -18,6 +18,10 @@ class Publisher extends Task {
 		'error',
 	);
 
+	public $counter_actions = array(
+		'comment'
+	);
+
 	function get_task_name() {
 		return 'action_publisher';
 	}
@@ -50,6 +54,20 @@ class Publisher extends Task {
 			$json = json_decode( $response_text, true );
 
 			if ( is_array( $json ) ) {
+				$subtype = $this->action_subtype_for( $action['actionType'] );
+
+				if ( $this->is_counter_action( $subtype ) ) {
+					$counter_name = $subtype . '_count';
+
+					try {
+						$this->increment_counter( $uid, $counter_name );
+					} catch ( \Exception $e ) {
+						// probably don't need to retry counter increments,
+						// TODO: confirm
+						error_log( "Failed to increment counter: $counter_name " . $e->getMessage() );
+					}
+				}
+
 				return $json;
 			} else {
 				throw new \Exception(
@@ -62,6 +80,73 @@ class Publisher extends Task {
 				"ActionPublisher: Store Failed - {$data} - " . $error_message
 			);
 		}
+
+	}
+
+	function increment_counter( $uid, $counter_name ) {
+		$data    = $this->get_new_account_data( $uid, $counter_name );
+		$request = new GigyaRequest( null, null, 'accounts.setAccountInfo' );
+		$request->setParam( 'UID', $uid );
+		$request->setParam( 'data', json_encode( $data ) );
+		$response = $request->send();
+
+		if ( $response->getErrorCode() === 0 ) {
+			$response_text = $response->getResponseText();
+			$json          = json_decode( $response_text, true );
+
+			if ( is_array( $json ) ) {
+				return $json;
+			} else {
+				throw new \Exception( 'Invalid Gigya JSON: ' . $response_text );
+			}
+		} else {
+			throw new \Exception( "Failed to update counter for: {$uid} - {$response_text}" );
+		}
+	}
+
+	function get_new_account_data( $uid, $counter_name ) {
+		$account_info = $this->get_account_info( $uid );
+		$data         = $account_info['data'];
+
+		if ( array_key_exists( $counter_name, $data ) ) {
+			$count = intval( $data[ $counter_name ] );
+			$data[ $counter_name ] = $count + 1;
+		} else {
+			$data[ $counter_name ] = 1;
+		}
+
+		return $data;
+	}
+
+	function get_account_info( $uid ) {
+		$request = new GigyaRequest( null, null, 'accounts.getAccountInfo' );
+		$request->setParam( 'UID', $uid );
+
+		$response      = $request->send();
+		$response_text = $response->getResponseText();
+
+		if ( $response->getErrorCode() === 0 ) {
+			$json          = json_decode( $response_text, true );
+
+			if ( is_array( $json ) ) {
+				return $json;
+			} else {
+				throw new \Exception( 'Invalid Gigya JSON: ' . $response_text );
+			}
+		} else {
+			throw new \Exception( "Failed to get account info for: {$uid} - $response_text" );
+		}
+	}
+
+	function is_counter_action( $counter_name ) {
+		return in_array( $counter_name, $this->counter_actions );
+	}
+
+	function action_subtype_for( $action_type ) {
+		$parts   = explode( ':', $action_type );
+		$subtype = $parts[1];
+
+		return $subtype;
 	}
 
 	function prepare_action_for_storage( $action ) {

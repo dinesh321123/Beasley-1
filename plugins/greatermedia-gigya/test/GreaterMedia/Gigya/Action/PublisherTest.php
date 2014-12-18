@@ -210,4 +210,50 @@ class ActionPublisherTest extends \WP_UnitTestCase {
 		$this->publisher->run();
 	}
 
+
+	function test_it_can_get_account_info_for_uid() {
+		$this->init_gigya_keys();
+
+		$uid = 'a3b4d6d7f8d24f069c66d580c2cb9fdc';
+		$actual = $this->publisher->get_account_info( $uid );
+
+		$this->assertEquals( $actual['UID'], $uid );
+	}
+
+	function test_it_knows_comment_action_has_counter() {
+		$this->assertTrue( $this->publisher->is_counter_action( 'comment' ) );
+	}
+
+	function test_it_knows_unknown_action_does_not_have_counter() {
+		$this->assertFalse( $this->publisher->is_counter_action( 'foo' ) );
+	}
+
+	function test_it_knows_action_subtype_for_action() {
+		$actual = $this->publisher->action_subtype_for( 'action:comment' );
+		$this->assertEquals( 'comment', $actual );
+	}
+
+	function test_it_can_return_new_account_data_with_initial_counter() {
+		$this->init_gigya_keys();
+		$uid = 'a3b4d6d7f8d24f069c66d580c2cb9fdc';
+
+		$actual = $this->publisher->get_new_account_data( $uid, 'fooaaa_count' );
+		$this->assertEquals( 1, $actual['fooaaa_count'] );
+	}
+
+	function test_it_can_increment_counter_on_profile() {
+		$this->init_gigya_keys();
+		$uid = 'a3b4d6d7f8d24f069c66d580c2cb9fdc';
+
+		$counter_name = 'foo' . time();
+
+		$this->publisher->increment_counter( $uid, $counter_name );
+		$this->publisher->increment_counter( $uid, $counter_name );
+
+		$actual = $this->publisher->get_account_info( $uid );
+		$this->assertEquals( 2, $actual['data'][ $counter_name ] );
+
+	}
+
+
 }
