@@ -215,7 +215,7 @@ class GreaterMediaUserGeneratedContent {
 			'can_export'          => true,
 			'has_archive'         => false,
 			'exclude_from_search' => true,
-			'publicly_queryable'  => false,
+			'publicly_queryable'  => true,
 			'capability_type'     => 'page',
 		);
 		register_post_type( 'listener_submissions', $args );
