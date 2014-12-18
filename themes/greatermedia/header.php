@@ -123,4 +123,7 @@
 								</div>
 							</div>
 						</div>
+						<div id="header__search--form" class="header__search--form">
+							<?php get_template_part( 'searchform', 'header' ); ?>
+						</div>
 					</header>
