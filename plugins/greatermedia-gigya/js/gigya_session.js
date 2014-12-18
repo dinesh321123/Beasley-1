@@ -158,12 +158,8 @@
 	};
 
 	window.save_gigya_action = function(action, user_id) {
-		if (!is_gigya_user_logged_in()) {
-			return false;
-		}
-
 		if (!user_id) {
-			user_id = 'logged_in_user';
+			user_id = is_gigya_user_logged_in() ? 'logged_in_user' : 'guest';
 		}
 
 		var params = {
@@ -174,6 +170,23 @@
 		ajaxApi.request('save_gigya_action', params)
 			.then(didSaveAction)
 			.fail(didSaveActionError);
+	};
+
+	window.has_user_entered_contest = function(contest_id) {
+		var params = {
+			contest_id: contest_id
+		};
+
+		return ajaxApi.request('has_participated', params);
+	};
+
+	window.has_email_entered_contest = function(contest_id, email) {
+		var params = {
+			contest_id: contest_id,
+			email: email
+		};
+
+		return ajaxApi.request('has_participated', params);
 	};
 
 	var escapeValue = function(value) {

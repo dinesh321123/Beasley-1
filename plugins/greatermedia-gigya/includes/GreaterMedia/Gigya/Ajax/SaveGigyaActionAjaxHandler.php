@@ -4,6 +4,12 @@ namespace GreaterMedia\Gigya\Ajax;
 
 class SaveGigyaActionAjaxHandler extends AjaxHandler {
 
+	// only whitelisted actions are allowed
+	public $allowed_actions = array(
+		'action:contest',
+		'action:comment',
+	);
+
 	function get_action() {
 		return 'save_gigya_action';
 	}
@@ -16,20 +22,23 @@ class SaveGigyaActionAjaxHandler extends AjaxHandler {
 		$action  = $params['action'];
 		$user_id = $params['user_id'];
 
-		// don't allow direct user_ids - ie:- A user can only save
-		// actions as themselves or as a guest, and not under someone
-		// else's user_id.
-		if ( $user_id !== 'guest' && $user_id != 'logged_in_user' ) {
+		if ( ! $this->is_allowed_action( $action['actionType'] ) ) {
+			return false;
+		}
+
+		if ( is_gigya_user_logged_in() ) {
+			$user_id = 'logged_in_user';
+		} else {
 			$user_id = 'guest';
 		}
 
-		// if want to use against logged in user and not logged in - abort
-		if ( $user_id === 'logged_in_user' && ! is_gigya_user_logged_in() ) {
-			return false;
-		} else {
-			save_gigya_action( $action, $user_id );
-			return true;
-		}
+		save_gigya_action( $action, $user_id );
+
+		return true;
+	}
+
+	function is_allowed_action( $action_type ) {
+		return in_array( $action_type, $this->allowed_actions );
 	}
 
 }

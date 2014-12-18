@@ -81,6 +81,68 @@ class MemberQueryTest extends \WP_UnitTestCase {
 		$this->assertEquals( $expected, $actual );
 	}
 
+	function test_it_can_build_clause_for_data_constraint() {
+		$constraint = array(
+			'type'        => 'data:comment_count',
+			'operator'    => 'equals',
+			'conjunction' => 'and',
+			'valueType'   => 'integer',
+			'value'       => 100,
+		);
+
+		$actual = $this->query->clause_for_constraint( $constraint );
+		$expected = "data.comment_count = 100";
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_can_build_clause_for_true_comment_status_constraint() {
+		$constraint = array(
+			'type'        => 'data:comment_status',
+			'operator'    => 'equals',
+			'conjunction' => 'and',
+			'valueType'   => 'boolean',
+			'value'       => true,
+		);
+
+		$actual = $this->query->clause_for_constraint( $constraint );
+		$expected = 'data.comment_count > 0';
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_can_build_clause_for_false_comment_status_constraint() {
+		$constraint = array(
+			'type'        => 'data:comment_status',
+			'operator'    => 'equals',
+			'conjunction' => 'and',
+			'valueType'   => 'boolean',
+			'value'       => false,
+		);
+
+		$actual = $this->query->clause_for_constraint( $constraint );
+		$expected = 'data.comment_count = 0 or data.comment_count is null';
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_can_build_clause_for_comment_date_constraint() {
+		$constraint = array(
+			'type'         => 'action:comment_date',
+			'operator'     => 'greater than',
+			'conjunction'  => 'or',
+			'valueType'    => 'string',
+			'value'        => '01/01/2014',
+		);
+
+		$date = \DateTime::createFromFormat(
+			'm/d/Y', $constraint['value'], new \DateTimeZone( 'UTC' )
+		);
+
+		$timestamp = $date->getTimestamp();
+
+		$actual = $this->query->clause_for_constraint( $constraint );
+		$expected = "data.actions.actionType = 'action:comment' and data.actions.actionData.name = 'timestamp' and data.actions.actionData.value_i > {$timestamp}";
+		$this->assertEquals( $expected, $actual );
+	}
+
 	function test_it_can_build_clause_for_record_constraint() {
 		$constraint = array(
 			'type'         => 'record:contest',
