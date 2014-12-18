@@ -436,6 +436,7 @@ category: Components
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0,0,0,.75);
+	z-index: 20000;
 }
 
 .live-stream__container.vast__pre-roll .live-stream__container--player {
