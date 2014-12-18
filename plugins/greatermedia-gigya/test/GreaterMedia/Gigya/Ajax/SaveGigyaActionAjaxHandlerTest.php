@@ -33,9 +33,9 @@ class SaveGigyaActionAjaxHandlerTest extends \WP_UnitTestCase {
 		$this->assertFalse( $this->handler->is_public() );
 	}
 
-	function test_it_will_not_save_action_if_not_logged_in_and_saving_as_logged_in_user() {
+	function test_it_will_not_save_action_if_not_allowed() {
 		$params = array(
-			'action' => array(),
+			'action' => array( 'actionType' => 'action:foo' ),
 			'user_id' => 'logged_in_user',
 		);
 
@@ -59,7 +59,7 @@ class SaveGigyaActionAjaxHandlerTest extends \WP_UnitTestCase {
 		$this->init_cookie( array( 'UID' => $user_id, 'age' => 25 ) );
 		$params = array(
 			'action' => array(
-				'actionType' => 'lorem',
+				'actionType' => 'action:contest',
 				'actionID' => 'foo',
 				'actionData' => array(
 					array( 'name' => 'a1', 'value' => 'v1' ),
