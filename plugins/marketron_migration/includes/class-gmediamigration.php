@@ -284,6 +284,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 		$count = 0;
 		foreach ( $articles->Article as $article ) {
+			$user_id = get_current_user_id();
 
 			if ( isset( $article->Authors->Author ) ) {
 				foreach ( $article->Authors->Author as $author ) {
@@ -324,8 +325,6 @@ class GMedia_Migration extends WP_CLI_Command {
 						}
 					}
 				}
-			} else {
-				$user_id = get_current_user_id();
 			}
 
 			$article_hash = trim( (string) $article['Title'] ) . (string) $article['UTCStartDateTime'];
@@ -336,7 +335,6 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			// If we're not forcing import, skip existing posts.
 			if ( ! $force && $wp_id ) {
-				//$notify->tick();
 				continue;
 			}
 
@@ -376,7 +374,6 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			$wp_id = wp_insert_post( $post );
 
-
 			update_post_meta( $wp_id, 'gmedia_import_id', $article_hash );
 
 			if( isset($article['FeaturedAudioFilepath']) && $wp_id ) {
@@ -399,9 +396,12 @@ class GMedia_Migration extends WP_CLI_Command {
 						$feed_id = $this->process_term( $cat_info , 'category', 'post' );
 
 						if ( $feed_id ) {
-							wp_set_post_terms( $wp_id, array( $feed_id ), 'category', true );
+							array_push( $feed_cats, $feed_id );
 						}
 					}
+				}
+				if( !empty( $feed_cats ) ) {
+					wp_set_post_terms( $wp_id, $feed_cats, 'category', true );
 				}
 			}
 
@@ -414,7 +414,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				$feed_id = $this->process_term( $new_term, $new_tax, 'post' );
 
 				if ( $feed_id ) {
-					wp_set_post_terms( $wp_id, array( $feed_id ), $new_tax, true );
+					wp_set_post_terms( $wp_id, array( $feed_id ), $new_tax, false );
 				}
 			}
 
@@ -484,11 +484,9 @@ class GMedia_Migration extends WP_CLI_Command {
 					}
 				}
 			}*/
-
-			//$notify->tick();
 		}
 
-		//$notify->finish();
+		$notify->finish();
 	}
 
 
@@ -1169,7 +1167,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					$blog_id = $this->process_term( $blog_info, $taxonomy_map[ $blog ][ 'taxonomy' ], 'post' );
 
 					if ( $blog_id ) {
-						wp_set_post_terms( $wp_id, array( $blog_id ), $taxonomy_map[ $blog ][ 'taxonomy' ], true );
+						wp_set_post_terms( $wp_id, array( $blog_id ), $taxonomy_map[ $blog ][ 'taxonomy' ], false );
 					}
 				}
 
@@ -1265,6 +1263,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				// If we're not forcing import, skip existing posts.
 				if ( ! $force && $wp_id ) {
+					WP_CLI::log( 'Already exists ' . trim( (string) $story['Headline'] ) );
 					continue;
 				}
 
@@ -1302,7 +1301,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				// Process Blog Taxonomy Term
 				if ( $blog_id ) {
-					wp_set_post_terms( $wp_id, array( $blog_id ), 'category', true );
+					wp_set_post_terms( $wp_id, array( $blog_id ), 'category', false );
 				}
 
 				// Post Meta
@@ -1339,10 +1338,9 @@ class GMedia_Migration extends WP_CLI_Command {
 					}
 				}*/
 			}
-
-			$notify->tick();
+			WP_CLI::log( 'Imported channel ' . (string) $channel['ChannelTitle'] );
+			//$notify->tick();
 		}
-
 		$notify->finish();
 	}
 
