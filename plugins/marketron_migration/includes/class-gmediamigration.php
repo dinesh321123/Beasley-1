@@ -70,6 +70,7 @@ class GMedia_Migration extends WP_CLI_Command {
 	public $skip = 0;
 
 	public $config_file = '';
+	public $type = '';
 
 	/**
 	 * Reset the DB
@@ -106,6 +107,7 @@ class GMedia_Migration extends WP_CLI_Command {
 	public function import( $args = array(), $assoc_args = array() ) {
 		if ( isset( $assoc_args['type'] ) ) {
 			$type = $assoc_args['type'];
+			$this->type = $type;
 		} else {
 			WP_CLI::error( 'Please specify the content type.' );
 		}
@@ -152,6 +154,14 @@ class GMedia_Migration extends WP_CLI_Command {
 			WP_CLI::error( 'Please specify the site.' );
 		}
 
+		if( isset( $assoc_args['config_file'] ) ) {
+			$this->config_file = $assoc_args['config_file'];
+			if( !file_exists( $this->config_file ) ) {
+				WP_CLI::error( "$this->config_file doesn't exist\n" );
+			}
+		} elseif( $type == 'blog' || $type == 'blogs' ) {
+			WP_CLI::error( "Type is set to blog. Please provide config file!" );
+		}
 		$file  = $args[0];
 		$force = isset( $assoc_args['force'] );
 
@@ -200,6 +210,8 @@ class GMedia_Migration extends WP_CLI_Command {
 					break;
 				case 'channel':
 				case 'channels':
+				case 'factory_channel':
+				case 'factory_channels':
 					$channels = $xml;
 					$this->process_channels( $channels, $force );
 					break;
@@ -392,7 +404,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				$feed_cats = array();
 				foreach ( $article->Feeds->Feed->FeedCategories->FeedCategory as $feed_category ) {
 					if( $feed_category['Category'] ) {
-						$cat_info = array( 'Feed' => $feed_category['Category'], 'FeedDescription' => '' );
+						$cat_info['name'] = $feed_category['Category'];
 						$feed_id = $this->process_term( $cat_info , 'category', 'post' );
 
 						if ( $feed_id ) {
@@ -401,14 +413,14 @@ class GMedia_Migration extends WP_CLI_Command {
 					}
 				}
 				if( !empty( $feed_cats ) ) {
-					wp_set_post_terms( $wp_id, $feed_cats, 'category', true );
+					wp_set_post_terms( $wp_id, $feed_cats, 'category', false );
 				}
 			}
 
 			if ( isset( $article->Feeds->Feed['Feed'] ) ) {
 				$marketron_term = trim( (string)  $article->Feeds->Feed['Feed'] );
 
-				$new_term = $taxonomy_mapping[$marketron_term]['term'];
+				$new_term['name'] = $taxonomy_mapping[$marketron_term]['term'];
 				$new_tax = $taxonomy_mapping[$marketron_term]['taxonomy'];
 
 				$feed_id = $this->process_term( $new_term, $new_tax, 'post' );
@@ -430,12 +442,16 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			// Process Tags
 			if ( isset( $article->Tags->Tag ) ) {
+				$tag_ids = array();
 				foreach ( $article->Tags->Tag as $tag ) {
-					$tag_id = $this->process_term( $tag, 'post_tag', 'post');
-
-					if ( $tag_id ) {
-						wp_set_post_terms( $wp_id, array( $tag_id ), 'post_tag', true );
+					$tag_details['name'] = $tag['Tag'];
+					$tag_id = $this->process_term( $tag_details, 'post_tag', 'post');
+					if( $tag_id ) {
+						array_push( $tag_ids, $tag_id );
 					}
+				}
+				if ( !empty( $tag_ids ) ) {
+					wp_set_post_terms( $wp_id, $tag_ids, 'post_tag', false );
 				}
 			}
 
@@ -443,6 +459,11 @@ class GMedia_Migration extends WP_CLI_Command {
 			if ( isset( $article['Subtitle'] ) ) {
 				$subtitle = (string) $article['Subtitle'];
 				update_post_meta( $wp_id, '_gmedia_subtitle', apply_filters( 'the_title', $subtitle ) );
+			}
+
+			if ( isset( $article['ArticleViews'] ) ) {
+				$ArticleViews = (string) $article['ArticleViews'];
+				update_post_meta( $wp_id, '_legacy_ArticleViews', $ArticleViews );
 			}
 
 			// Featured Image
@@ -803,52 +824,9 @@ class GMedia_Migration extends WP_CLI_Command {
 		$desc = '';
 		$parent = '';
 
-		switch ( $taxonomy ) {
-			case 'article-category':
-				$term_name = (string) $term['CategoryName'];
-				$slug = (string) $term['Slug'];
-				$taxonomy = 'category';
-				break;
-			case 'business-category':
-				$term_name = (string) $term['Category'];
-				$parent = (string) $term['ParentCategory'];
-				break;
-			/*case 'category':
-				$term_name = (string) $term['Category'];
-				$slug = (string) $term['Slug'];
-				break;
-				*/
-			case 'category':
-				$term_name = (string) $term['Feed'];
-				$slug = isset( $term['Slug'] ) ? (string) $term['Slug'] : '';
-				$desc = isset( $term['FeedDescription'] ) ? (string) $term['FeedDescription'] : '';
-				break;
-			case 'gallery-category':
-				$term_name = $term;
-				break;
-			case 'post_tag':
-				$term_name = (string) $term['Tag'];
-				$slug = isset( $term['Slug'] ) ? (string) $term['Slug'] : '';
-				break;
-			case '_shows':
-				$term_name = (string) $term['Feed'];
-				$slug = isset( $term['Slug'] ) ? (string) $term['Slug'] : '';
-				$desc = isset( $term['FeedDescription'] ) ? (string) $term['FeedDescription'] : '';
-				break;
-			case 'channels':
-				$term_name = (string) $term['Feed'];
-				$slug = isset( $term['Slug'] ) ? (string) $term['Slug'] : '';
-				$desc = isset( $term['FeedDescription'] ) ? (string) $term['FeedDescription'] : '';
-				break;
-			case 'tribe_events_cat':
-				$term_name = (string) $term['name'];
-				$desc = (string) $term['desc'];
-				break;
-			case 'collection':
-				$term_name = $term;
-				$desc = '';
-				break;
-		}
+		$term_name = (string) $term['name'];
+		$slug = isset( $term['slug'] ) ? (string) $term['slug'] : '';
+		$desc = isset( $term['desc'] ) ? (string) $term['desc'] : '';
 
 		$term_name = sanitize_term_field( 'name', $term_name, 0, $taxonomy, 'db' );
 
@@ -1162,7 +1140,8 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				// Process Blog Taxonomy Term
 				if ( isset( $blog ) ) {
-					$blog_info = array( 'Feed' => trim( $taxonomy_map[ $blog ][ 'term' ] ), 'FeedDescription' => trim( $blog_desc ) );
+					$blog_info['name'] = trim( $taxonomy_map[ $blog ][ 'term' ] );
+					$blog_info['desc'] = trim( $blog_desc );
 
 					$blog_id = $this->process_term( $blog_info, $taxonomy_map[ $blog ][ 'taxonomy' ], 'post' );
 
@@ -1177,7 +1156,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					$tags = explode( ',', $tags );
 					foreach ( $tags as $tag ) {
 						if ( $tag != "" ) {
-							$tag    = array( 'Tag' => trim( $tag ) );
+							$tag['name']    = trim( $tag );
 							$tag_id = $this->process_term( $tag, 'post_tag', 'post' );
 
 							if ( $tag_id ) {
@@ -1241,12 +1220,17 @@ class GMedia_Migration extends WP_CLI_Command {
 
 		$count = 0;
 		$skipper = 0;
+		$taxonomy = 'category';
+		if( $this->type == 'factory_channel' || $this->type == 'factory_channels' ) {
+			$taxonomy = 'collection';
+		}
 		foreach ( $channels->Channel as $channel ) {
 
 			$channel_title = (string) $channel['ChannelTitle'];
 			$channel_desc  = (string) $channel['ChannelDescription'];
-			$blog_info     = array( 'Feed' => trim( $channel_title ), 'FeedDescription' => trim( $channel_desc ) );
-			$blog_id       = $this->process_term( $blog_info, 'category', 'post' );
+			$blog_info['name']     = trim( $channel_title );
+			$blog_info['desc']     = trim( $channel_desc );
+			$blog_id       = $this->process_term( $blog_info, $taxonomy, 'post' );
 
 			foreach ( $channel->Story as $story ) {
 
@@ -1301,7 +1285,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				// Process Blog Taxonomy Term
 				if ( $blog_id ) {
-					wp_set_post_terms( $wp_id, array( $blog_id ), 'category', false );
+					wp_set_post_terms( $wp_id, array( $blog_id ), $taxonomy, false );
 				}
 
 				// Post Meta
@@ -1414,7 +1398,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				$cat_id = $this->process_term( $event_cat, 'tribe_events_cat', 'tribe_events');
 
 				if ( $cat_id ) {
-					wp_set_post_terms( $wp_id, array( $cat_id ), 'tribe_events_cat', true );
+					wp_set_post_terms( $wp_id, array( $cat_id ), 'tribe_events_cat', false );
 				}
 
 
@@ -1570,16 +1554,19 @@ class GMedia_Migration extends WP_CLI_Command {
 			// Process Gallery Category Terms
 			if ( isset( $album['Categories'] ) ) {
 				$gallery_cats = explode( ',', (string) $album['Categories'] );
+				$cat_ids = array();
 				foreach ( $gallery_cats as $gallery_cat ) {
 					if ( '' !== trim( $gallery_cat ) ) {
 						$term_title = $gallery_cat;
-						$album_term = array( 'Feed' => $term_title, 'FeedDescription' => '' );
+						$album_term['name'] = $term_title;
 						$cat_id = $this->process_term( $album_term, 'category', 'gmr_gallery');
-
-						if ( $cat_id ) {
-							wp_set_post_terms( $wp_id, array( $cat_id ), 'category', true );
+						if( $cat_id ) {
+							array_push( $cat_ids, $cat_id );
 						}
 					}
+				}
+				if ( !empty( $cat_ids ) ) {
+					wp_set_post_terms( $wp_id, $cat_ids, 'category', false );
 				}
 			}
 
@@ -1750,7 +1737,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 			// If we're not forcing import, skip existing posts.
 			if ( ! $force && $wp_id ) {
-				$notify->tick();
+				//$notify->tick();
 				continue;
 			}
 
@@ -1940,7 +1927,8 @@ class GMedia_Migration extends WP_CLI_Command {
 		foreach ( $videos->VideoChannel as $channel ) {
 			$channel_title = (string) $channel['VideoChannelName'];
 			$channel_desc = (string) $channel['VideoChannelDescription'];
-			$blog_info = array( 'Feed' => trim( $channel_title ), 'FeedDescription' => trim( $channel_desc ) );
+			$blog_info['name'] = trim( $channel_title );
+			$blog_info['desc'] = trim( $channel_desc );
 			$blog_id = $this->process_term( $blog_info, 'category' , 'post');
 
 			foreach ( $channel->VideoPost as $post ) {
@@ -2016,7 +2004,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				// Process Blog Taxonomy Term
 				if ( $blog_id ) {
-					wp_set_post_terms( $wp_id, array( $blog_id ), 'category', true );
+					wp_set_post_terms( $wp_id, array( $blog_id ), 'category', false );
 				}
 
 				// Post Meta
@@ -2418,7 +2406,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				// If we're not forcing import, skip existing posts.
 				if ( ! $force && $wp_id ) {
-					$progress->tick();
+					//$progress->tick();
 					continue;
 				}
 
@@ -2530,10 +2518,10 @@ class GMedia_Migration extends WP_CLI_Command {
 				}
 
 
-			$notify->tick();
+			//$notify->tick();
 			}
 
-		$notify->finish();
+		//$notify->finish();
 	}
 
 	private function process_surveys( $surveys, $force ) {
@@ -2677,7 +2665,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 						foreach ( $survey_form as $single_response ) {
 							if ( $single_response->cid == (string) $answer['SubQuestionID'] ) {
-								$response_values[ 'c' . $single_response->cid ] = (string) $answer['AnswerValue'];
+								$response_values[ 'form_field_' . $single_response->cid ] = (string) $answer['AnswerValue'];
 							}
 						}
 					}
@@ -2831,7 +2819,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				$contest_cat_id = $this->process_term( $contest_term, 'contest_type', 'contest' );
 
 				if ( $contest_cat_id ) {
-					wp_set_post_terms( $wp_id, array( $contest_cat_id ), 'contest_type', true );
+					wp_set_post_terms( $wp_id, array( $contest_cat_id ), 'contest_type', false );
 				}
 			}
 
