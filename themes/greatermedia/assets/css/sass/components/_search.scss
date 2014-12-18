@@ -7,9 +7,9 @@
 	height: 132px;
 	padding: 16px 2.5%;
 	background-color: $secondary-bg;
-	z-index: 10000;
 	@include transition(opacity 1.0s ease-in 0s);
 	@include opacity(0);
+	z-index: 28000;
 }
 
 .header__search--open {
