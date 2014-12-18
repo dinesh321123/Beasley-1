@@ -28,24 +28,22 @@ function ooyala_responsive_init() {
 
 function ooyala_responsive_shortcode( $atts ) {
 
-//	$instance = Ooyala_Video::init();
-//	$rendered_player = $instance->shortcode($atts);
-//	$rendered_player = str_replace("width='500'", "width='100%'", $rendered_player);
-//	$rendered_player = str_replace('width=500', 'width=960', $rendered_player);
-//	print esc_html($rendered_player);
-//	return $rendered_player;
+	static $player_shortcode_index;
+	if(!isset($player_shortcode_index)) {
+		$player_shortcode_index = 1;
+	}
 
 	$options = get_option( 'ooyala' );
 	extract( shortcode_atts( apply_filters( 'ooyala_default_query_args', array(
-			'width'         => '',
-			'code'          => '',
-			'autoplay'      => '',
-			'callback'      => 'recieveOoyalaEvent',
-			'wmode'         => 'opaque',
-			'player_id'     => $options['player_id'],
-			'platform'      => 'html5-fallback',
-			'wrapper_class' => 'ooyala-video-wrapper',
-		) ), $atts
+		'width'         => '',
+		'code'          => '',
+		'autoplay'      => '',
+		'callback'      => 'recieveOoyalaEvent',
+		'wmode'         => 'opaque',
+		'player_id'     => $options['player_id'],
+		'platform'      => 'html5-fallback',
+		'wrapper_class' => 'ooyala-video-wrapper',
+	) ), $atts
 	) );
 	if ( empty( $width ) ) {
 		$width = $options['video_width'];
@@ -91,36 +89,36 @@ function ooyala_responsive_shortcode( $atts ) {
 		return '<!--Error: Ooyala shortcode attribute contains illegal characters -->';
 	}
 
-	// @TODO defaulting to the Ooyala sales video & it's associated playerBrandingId
+	// If there isn't a valid player ID, return nothing
 	if ( empty( $player_id ) || 'null' === $player_id ) {
-		$player_id = 'dcb79e2098c94889a1b9f2af6280b45d';
+		return '<!--Error: Ooyala options are missing the player ID -->';
 	}
 
 	$output = '';
 	$output .= '<script src="http://player.ooyala.com/v3/' . esc_attr( $player_id ) . '?platform=' . $platform . '"></script>';
 	$output .= <<<HTML
-
-<div id='playerwrapper1' class="ooyala-player-wrapper" style='max-width:800px;max-height:600px;' data-ooyala-video="{$code}"></div>
-
-<script>
-jQuery(function() {
-	window.ooyalaResponsiveVideoPlayers = [];
-	jQuery('.ooyala-player-wrapper').each(function() {
-		ooyalaResponsiveVideoPlayers.push(OO.Player.create(this.id, this.dataset.ooyalaVideo,
-		{
-		}));
-
-	});
-	// Autoplay
-//	for(var video_index in ooyalaResponsiveVideoPlayers) {
-//		if(ooyalaResponsiveVideoPlayers.hasOwnProperty(video_index)) {
-//			ooyalaResponsiveVideoPlayers[video_index].play();
-//		}
-//	}
-});
-</script>
+<div id='playerwrapper{$player_shortcode_index}' class="ooyala-player-wrapper" style='max-width:800px;max-height:600px;' data-ooyala-video="{$code}"></div>
 HTML;
-	echo esc_html( $output );
+
+	$player_shortcode_index += 1;
 
 	return $output;
+
+}
+
+add_action( 'wp_print_footer_scripts', 'ooyala_print_footer_scripts', 20 );
+function ooyala_print_footer_scripts() {
+	echo <<<SCRIPT
+	<script>
+	jQuery(function() {
+		window.ooyalaResponsiveVideoPlayers = [];
+		jQuery('.ooyala-player-wrapper').each(function() {
+			ooyalaResponsiveVideoPlayers.push(OO.Player.create(this.id, this.dataset.ooyalaVideo,
+			{
+			}));
+		});
+	});
+	</script>
+SCRIPT;
+
 }
