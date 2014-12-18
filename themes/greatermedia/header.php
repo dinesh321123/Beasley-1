@@ -71,9 +71,6 @@
 
 					do_action( 'gmr_social' ); ?>
 				</nav>
-				<div id="header__search--form" class="header__search--form">
-					<?php get_template_part( 'searchform', 'header' ); ?>
-				</div>
 				<div id="page-wrap" class="page-wrap">
 					<header id="header" class="header" role="banner">
 						<?php do_action( 'show_breaking_news_banner' ); ?>
