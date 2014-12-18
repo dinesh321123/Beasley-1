@@ -38,5 +38,10 @@ plugins/ooyala-video-browser/
 plugins/simple-page-ordering/
 plugins/tag-pages/
 plugins/yet-another-related-posts-plugin
+<<<<<<< HEAD
 /plugins/greatermedia-live-stream/node_modules/
 plugins/jetpack/
+=======
+plugins/jetpack/
+/plugins/greatermedia-live-stream/node_modules/
+>>>>>>> feature/theme/search-results
