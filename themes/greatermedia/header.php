@@ -117,7 +117,7 @@
 										<div class="header__account--links">
 										</div>
 									</div>
-									<div class="header__search">
+									<div id="header__search" class="header__search">
 										<i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div>
 									</div>
 								</div>
