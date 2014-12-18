@@ -10,6 +10,8 @@ define( 'OOYALA_RESPONSIVE_VERSION', '0.0.1' );
 define( 'OOYALA_RESPONSIVE_URL', plugin_dir_url( __FILE__ ) );
 define( 'OOYALA_RESPONSIVE_PATH', dirname( __FILE__ ) . '/' );
 
+$ooyala_players = array();
+
 add_action( 'admin_enqueue_scripts', 'ooyala_responsive_admin_enqueue_scripts' );
 function ooyala_responsive_admin_enqueue_scripts() {
 	wp_enqueue_script(
@@ -95,12 +97,15 @@ function ooyala_responsive_shortcode( $atts ) {
 	}
 
 	$output = '';
-	$output .= '<script src="http://player.ooyala.com/v3/' . esc_attr( $player_id ) . '?platform=' . $platform . '"></script>';
 	$output .= <<<HTML
 <div id='playerwrapper{$player_shortcode_index}' class="ooyala-player-wrapper" style='max-width:800px;max-height:600px;' data-ooyala-video="{$code}"></div>
 HTML;
 
 	$player_shortcode_index += 1;
+	$GLOBALS['ooyala_players'][] = array(
+		'player_id' => $player_id,
+		'platform' => $platform,
+	);
 
 	return $output;
 
@@ -108,6 +113,13 @@ HTML;
 
 add_action( 'wp_print_footer_scripts', 'ooyala_print_footer_scripts', 20 );
 function ooyala_print_footer_scripts() {
+
+	foreach($GLOBALS['ooyala_players'] as $ooyala_player) {
+		$player_id = isset($ooyala_player['player_id']) ? $ooyala_player['player_id'] : '';
+		$platform = isset($ooyala_player['platform']) ? $ooyala_player['platform'] : '';
+		echo '<script src="http://player.ooyala.com/v3/' . esc_attr( $player_id ) . '?platform=' . esc_attr($platform) . '"></script>';
+	}
+
 	echo <<<SCRIPT
 	<script>
 	jQuery(function() {
