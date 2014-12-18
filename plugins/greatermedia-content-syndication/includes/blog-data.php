@@ -40,8 +40,8 @@ class BlogData {
 		die();
 	}
 
-	public static function run( $syndication_id ) {
-			$result = self::QueryContentSite( $syndication_id );
+	public static function run( $syndication_id, $offset = 0 ) {
+			$result = self::QueryContentSite( $syndication_id, $offset );
 
 			$taxonomy_names = get_object_taxonomies( 'post', 'objects' );
 			$defaults = array(
@@ -59,6 +59,7 @@ class BlogData {
 			}
 
 			$imported_post_ids = array();
+
 			foreach ( $result as $single_post ) {
 				array_push( $imported_post_ids,
 					self::ImportPosts(
@@ -71,10 +72,16 @@ class BlogData {
 					)
 				);
 			}
+
 			$imported_post_ids = implode( ',', $imported_post_ids );
 
 		self::add_or_update( 'syndication_imported_posts', $imported_post_ids );
 		set_transient( 'syndication_imported_posts', $imported_post_ids, WEEK_IN_SECONDS * 4 );
+
+		$offset += 1;
+		if( $result['max_pages'] > $offset )  {
+			self::run( $syndication_id, $offset );
+		}
 	}
 
 	/**
@@ -85,7 +92,7 @@ class BlogData {
 	 *
 	 * @return array WP_Post objects
 	 */
-	public static function QueryContentSite( $subscription_id , $start_date = '' ) {
+	public static function QueryContentSite( $subscription_id , $start_date = '', $offset = 0 ) {
 		global $switched;
 
 		$result = array();
@@ -105,6 +112,7 @@ class BlogData {
 			'post_type'     =>  $post_type,
 			'post_status'   =>  'publish',
 			'posts_per_page' => 500,
+			'offset'    => $offset * 500,
 			'date_query'    => array(
 				'column' => 'post_modified_gmt',
 				'after'  => $last_queried,
@@ -145,18 +153,7 @@ class BlogData {
 			$result[] = self::PostDataExtractor( $post_type, $single_result );
 		}
 
-		$page = 1;
-
-		if( $wp_custom_query->max_num_pages > 1 ){
-			while( $page < $wp_custom_query->max_num_pages ) {
-				$args['offset'] = $page * 500;
-				$wp_custom_query = new WP_Query( $args );
-				foreach ( $wp_custom_query->posts as $single_result ) {
-					$result[] = self::PostDataExtractor( $post_type, $single_result );
-				}
-				$page++;
-			}
-		}
+		$result['max_pages'] = $wp_custom_query->max_num_pages;
 
 		restore_current_blog();
 
@@ -164,7 +161,6 @@ class BlogData {
 	}
 
 	// Rgister setting to store last syndication timestamp
-
 	public static function PostDataExtractor( $post_type, $single_result ) {
 
 			$metas	= get_metadata( $post_type, $single_result->ID, true );
