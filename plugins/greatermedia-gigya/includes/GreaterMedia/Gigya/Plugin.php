@@ -94,6 +94,7 @@ class Plugin {
 				'data'                        => array(
 					'ajax_url'                => admin_url( 'admin-ajax.php' ),
 					'save_gigya_action_nonce' => wp_create_nonce( 'save_gigya_action' ),
+					'has_participated_nonce'  => wp_create_nonce( 'has_participated' )
 				)
 			);
 
