@@ -288,17 +288,35 @@
 		}
 	}
 
-	function showSearch() {
+	function showSearch(e) {
+		e = e || window.event;
 		if (searchForm !== null) {
-			searchForm.classList.toggle('header__search--open');
+			searchForm.classList.add('header__search--open');
 		}
 		if (pageWrap !== null) {
-			pageWrap.classList.toggle('search--active');
+			pageWrap.classList.add('search--active');
 		}
+		e.cancelBubble = true;
+		if (e.stopPropagation)
+			e.stopPropagation();
+	}
+
+	function closeSearch(e) {
+		e = e || window.event;
+		if (searchForm !== null && searchForm.classList.contains('header__search--open')) {
+			searchForm.classList.remove('header__search--open');
+		}
+		if (pageWrap !== null && pageWrap.classList.contains('search--active')) {
+			pageWrap.classList.remove('search--active');
+		}
+		e.cancelBubble = true;
+		if (e.stopPropagation)
+			e.stopPropagation();
 	}
 
 	if (searchBtn !== null) {
 		searchBtn.addEventListener('click', showSearch, false);
+		pageWrap.onclick = closeSearch;
 	}
 
 	var scrollDebounce = _.debounce(getScrollPosition, 50),
