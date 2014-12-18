@@ -158,19 +158,6 @@
 	playLp = new lpAction(playBtn, lpListenNow, lpNowPlaying);
 	pauseLp = new lpAction(pauseBtn, lpNowPlaying, lpListenNow);
 	resumeLp = new lpAction(resumeBtn, lpListenNow, lpNowPlaying);
-
-	/**
-	 * Call the actions
-	 */
-	if ( playBtn != null ) {
-		playLp.playAction();
-	}
-	if ( pauseBtn != null ) {
-		pauseLp.playAction();
-	}
-	if ( resumeBtn != null ) {
-		resumeLp.playAction();
-	}
 	
 	/**
 	 * Toggles a class to the body when the mobile nav button is clicked
