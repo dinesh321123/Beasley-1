@@ -315,9 +315,6 @@
 		if (searchForm !== null) {
 			searchForm.classList.toggle('header__search--open');
 		}
-		if (pageWrap !== null) {
-			pageWrap.classList.toggle('search--active');
-		}
 		e.cancelBubble = true;
 		if (e.stopPropagation)
 			e.stopPropagation();
@@ -332,10 +329,6 @@
 		e = e || window.event;
 		if (searchForm !== null && searchForm.classList.contains('header__search--open')) {
 			searchForm.classList.remove('header__search--open');
-		}
-		if (pageWrap !== null && pageWrap.classList.contains('search--active')) {
-			pageWrap.classList.remove('search--active');
-
 		}
 		e.cancelBubble = true;
 		if (e.stopPropagation)
