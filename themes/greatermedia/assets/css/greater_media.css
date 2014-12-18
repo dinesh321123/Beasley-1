@@ -2004,7 +2004,8 @@ Community Highlights and Events
 
 .header__search {
   display: none;
-  color: #d0d2d3; }
+  color: #d0d2d3;
+  cursor: pointer; }
   @media screen and (min-width: 768px) {
     .header__search {
       position: relative;
