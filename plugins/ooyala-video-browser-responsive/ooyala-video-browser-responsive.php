@@ -37,6 +37,13 @@ function ooyala_responsive_wp_enqueue_styles() {
 
 }
 
+add_action( 'wp_enqueue_scripts', 'ooyala_responsive_wp_enqueue_scripts' );
+function ooyala_responsive_wp_enqueue_scripts() {
+
+	wp_enqueue_script('underscore');
+
+}
+
 add_action( 'init', 'ooyala_responsive_init', 20 );
 function ooyala_responsive_init() {
 	add_shortcode( 'ooyala', 'ooyala_responsive_shortcode' );
