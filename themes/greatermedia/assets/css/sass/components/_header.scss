@@ -2,9 +2,11 @@
 	position: relative;
 	width: 100%;
 	padding: 0;
-	border-bottom: 1px solid $primary-border;
 	background-color: $header-bg;
 	@include transition(all 200ms linear);
+	@include bp(medium) {
+		border-bottom: 1px solid $primary-border;
+	}
 }
 
 .header--pinned {
@@ -24,9 +26,10 @@
 	height: 70px;
 	padding: 0;
 	background-color: $secondary-bg;
-	border-top: 1px solid $header-border;
+	border-bottom: 1px solid $header-border;
 	@include bp(medium) {
 		height: 82px;
+		border-top: 1px solid $header-border;
 	}
 }
 
@@ -72,7 +75,7 @@
 	display: none;
 	line-height: 1;
 	@include bp(medium) {
-		@include span-columns(5);
+		@include span-columns(4);
 	}
 	@include bp(large) {
 		@include span-columns(8);
@@ -85,14 +88,13 @@
 // container for secondary navigation -- gigya registration, social links, search
 .header__secondary {
 	position: absolute;
-	top: 50%;
+	top: 25px;
 	right: 20px;
-	@include transform(translate(0, -50%));
 	line-height: 1;
 	text-align: right;
 	@include bp(medium) {
 		position: relative;
-		@include span-columns(2);
+		@include span-columns(3);
 		@include omega;
 		top: auto;
 		right: auto;
@@ -114,7 +116,6 @@
 	position: relative;
 	display: block;
 	float: right;
-	height: 70px;
 	margin: 0 auto;
 	color: $color-text-white;
 	text-align: center;
@@ -135,8 +136,6 @@
 
 .header__account--btn {
 	display: block;
-	height: 70px;
-	padding: 26px 0;
 	margin: 0 auto;
 	@include bp(medium) {
 		height: 82px;
@@ -197,6 +196,7 @@
 .header__search {
 	display: none;
 	color: $primary-border;
+	cursor: pointer;
 	@include bp(medium) {
 		position: relative;
 		display: block;

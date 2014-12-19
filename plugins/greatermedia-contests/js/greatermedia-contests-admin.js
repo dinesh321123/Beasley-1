@@ -7,10 +7,16 @@ document.addEventListener(
 
 		var args = {
 			selector: '#contest_embedded_form'
-		};
+		},
+
+		// Every contest form includes Name and Email address fields by default
+		default_form = '[{"label":"Name","field_type":"text","required":true,"sticky":"true","field_options":{"size":"medium"},"cid":"c5"},{"label":"Email Address","field_type":"email","required":true,"sticky":"true","field_options":{"sticky":true},"cid":"c9"}]';
 
 		if (GreaterMediaContestsForm.form) {
 			args.bootstrapData = JSON.parse(GreaterMediaContestsForm.form);
+		}
+		else {
+			args.bootstrapData = JSON.parse(default_form);
 		}
 
 		var formbuilder = new Formbuilder(args);

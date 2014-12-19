@@ -145,6 +145,7 @@ function gmr_streams_register_post_type() {
 function gmr_streams_register_meta_boxes() {
 	add_meta_box( 'call-sign', 'Call Sign', 'gmr_streams_render_call_sign_meta_box', GMR_LIVE_STREAM_CPT, 'normal', 'high' );
 	add_meta_box( 'description', 'Description', 'gmr_streams_render_description_meta_box', GMR_LIVE_STREAM_CPT, 'normal' );
+	add_meta_box( 'vast-ad', 'Vast Ad URL', 'gmr_streams_render_vast_url_meta_box', GMR_LIVE_STREAM_CPT, 'normal' );
 }
 
 /**
@@ -170,6 +171,16 @@ function gmr_streams_render_description_meta_box( WP_Post $post ) {
 }
 
 /**
+ * Renders Vast URL meta box.
+ *
+ * @param WP_Post $post The stream post object.
+ */
+function gmr_streams_render_vast_url_meta_box( WP_Post $post ) {
+	echo '<input type="text" name="stream_vast_url" class="widefat" value="', esc_attr( get_post_meta( $post->ID, 'vast_url', true ) ), '">';
+	echo '<p class="vast_url">Enter the Vast Ad URL for the stream, for instance <em>', esc_html( 'http://ad3.liverail.com/?LR_PUBLISHER_ID=1331&LR_CAMPAIGN_ID=229&LR_SCHEMA=vast2' ), '</em>.</p>';
+}
+
+/**
  * Saves Live Stream meta box data.
  *
  * @action save_post
@@ -191,6 +202,9 @@ function gmr_streams_save_meta_box_data( $post_id ) {
 	// save description
 	$description = sanitize_text_field( filter_input( INPUT_POST, 'stream_description' ) );
 	update_post_meta( $post_id, 'description', $description );
+
+	$vast_url = esc_url_raw( filter_input( INPUT_POST, 'stream_vast_url' ) );
+	update_post_meta( $post_id, 'vast_url', $vast_url );
 }
 
 /**
@@ -384,4 +398,28 @@ function gmr_streams_get_primary_stream() {
 	}
 
 	return $stream;
+}
+
+function gmr_streams_get_primary_stream_callsign() {
+	static $callsign = null;
+
+	if ( is_null( $callsign) ) {
+		$stream = gmr_streams_get_primary_stream();
+
+		$callsign = get_post_meta( $stream->ID, 'call_sign', true );
+	}
+
+	return $callsign;
+}
+
+function gmr_streams_get_primary_stream_vast_url() {
+	static $vast_url = null;
+
+	if ( is_null( $vast_url) ) {
+		$stream = gmr_streams_get_primary_stream();
+
+		$vast_url = get_post_meta( $stream->ID, 'vast_url', true );
+	}
+
+	return $vast_url;
 }

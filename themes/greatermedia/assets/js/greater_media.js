@@ -1,10 +1,14 @@
 (function() {
 
-	var livePlayerFix, livePlayerInit,
-
-		body = document.querySelector( 'body' ),
+	/**
+	 * global variables
+	 *
+	 * @type {HTMLElement}
+	 */
+	var body = document.querySelector( 'body' ),
 		html = document.querySelector( 'html'),
 		mobileNavButton = document.querySelector( '.mobile-nav__toggle' ),
+		pageWrap = document.getElementById( 'page-wrap' ),
 		header = document.getElementById( 'header' ),
 		headerHeight = header.offsetHeight,
 		livePlayer = document.getElementById( 'live-player__sidebar' ),
@@ -23,7 +27,9 @@
 		liveStreamHeight = liveStream.offsetHeight,
 		windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 		windowWidth = this.innerWidth || this.document.documentElement.clientWidth || this.document.body.clientWidth || 0,
-		scrollObject = {};
+		scrollObject = {},
+		searchForm = document.getElementById( 'header__search--form'),
+		searchBtn = document.getElementById( 'header__search');
 
 	/**
 	 * detects various positions of the screen on scroll to deliver states of the live player
@@ -152,19 +158,6 @@
 	playLp = new lpAction(playBtn, lpListenNow, lpNowPlaying);
 	pauseLp = new lpAction(pauseBtn, lpNowPlaying, lpListenNow);
 	resumeLp = new lpAction(resumeBtn, lpListenNow, lpNowPlaying);
-
-	/**
-	 * Call the actions
-	 */
-	if ( playBtn != null ) {
-		playLp.playAction();
-	}
-	if ( pauseBtn != null ) {
-		pauseLp.playAction();
-	}
-	if ( resumeBtn != null ) {
-		resumeLp.playAction();
-	}
 	
 	/**
 	 * Toggles a class to the body when the mobile nav button is clicked
@@ -190,14 +183,14 @@
 
 		livePlayerCurrentName.textContent = selected_stream;
 		document.dispatchEvent( new CustomEvent( 'live-player-stream-changed', { 'detail': selected_stream } ) );
-	};
+	}
 
 	for ( var i = 0; i < livePlayerStreams.length; i++ ) {
 		livePlayerStreams[i].addEventListener( 'click', selectStream, false );
 	}
 
 	/**
-	 * Toggles a class to the live links when the live player is clicked clicked on smaller screens
+	 * Toggles a class to the live links when the live player `On Air` is clicked on smaller screens
 	 */
 	function onAirClick() {
 		body.classList.toggle( 'live-player--open' );
@@ -210,6 +203,9 @@
 		}
 	}
 
+	/**
+	 * Toggles a class to the live links when the live player `Up Next` is clicked on smaller screens
+	 */
 	function upNextClick() {
 		body.classList.toggle( 'live-player--open' );
 		if (body.classList.contains( 'live-player--open')) {
@@ -221,6 +217,9 @@
 		}
 	}
 
+	/**
+	 * Toggles a class to the live links when the live player `Now Playing` is clicked on smaller screens
+	 */
 	function nowPlayingClick() {
 		body.classList.toggle( 'live-player--open' );
 		if (body.classList.contains( 'live-player--open')) {
@@ -232,12 +231,18 @@
 		}
 	}
 
+	/**
+	 * Closes the live links
+	 */
 	function liveLinksClose() {
 		if (body.classList.contains( 'live-player--open')) {
 			body.classList.remove('live-player--open');
 		}
 	}
 
+	/**
+	 * Resize Window function for when a user scales down their browser window below 767px
+	 */
 	function resizeWindow() {
 		if( window.innerWidth <= 767 ) {
 			if(onAir != null) {
@@ -281,11 +286,63 @@
 		}
 	}
 
+	/**
+	 * A function to show the header search when an event is targeted.
+	 *
+	 * @param e
+	 */
+	function showSearch(e) {
+		e = e || window.event;
+		if (searchForm !== null) {
+			searchForm.classList.toggle('header__search--open');
+		}
+		e.cancelBubble = true;
+		if (e.stopPropagation)
+			e.stopPropagation();
+	}
+
+	/**
+	 * A function to hide the header search when an event is targeted.
+	 *
+	 * @param e
+	 */
+	function closeSearch(e) {
+		e = e || window.event;
+		if (searchForm !== null && searchForm.classList.contains('header__search--open')) {
+			searchForm.classList.remove('header__search--open');
+		}
+		e.cancelBubble = true;
+		if (e.stopPropagation)
+			e.stopPropagation();
+	}
+
+	/**
+	 * Event listeners to run on click to show and close the search.
+	 */
+	if (searchBtn !== null) {
+		searchBtn.addEventListener('click', showSearch, false);
+		pageWrap.addEventListener('click', closeSearch, false);
+		/**
+		 * An event listener is also in place for the header search form so that when a user clicks inside of it, it will
+		 * not hide. This is key because the header search for sits within the element that the click event that closes the
+		 * search. If this is event listener is not in place and a user clicks within the search area, it will close.
+		 */
+		searchForm.addEventListener('click', function(e) {
+			e.stopPropagation();
+		});
+	}
+
+	/**
+	 * variables that define debounce and throttling for window resizing and scrolling
+	 */
 	var scrollDebounce = _.debounce(getScrollPosition, 50),
 		scrollThrottle = _.throttle(getScrollPosition, 50),
 		resizeDebounce = _.debounce(resizeWindow, 50),
 		resizeThrottle = _.throttle(resizeWindow, 50);
 
+	/**
+	 * functions being run at specific window widths.
+	 */
 	if( window.innerWidth <= 767 ) {
 		if(onAir != null) {
 			onAir.addEventListener( 'click', onAirClick, false );

@@ -2,7 +2,9 @@
 
 class GreaterMediaUserGeneratedImage extends GreaterMediaUserGeneratedContent {
 
-	function __construct( $post_id ) {
+	const POST_FORMAT = 'image';
+
+	function __construct( $post_id = null ) {
 
 		parent::__construct( $post_id );
 
@@ -70,3 +72,5 @@ class GreaterMediaUserGeneratedImage extends GreaterMediaUserGeneratedContent {
 	}
 
 }
+
+GreaterMediaUserGeneratedContent::register_subclass( 'image', 'GreaterMediaUserGeneratedImage' );

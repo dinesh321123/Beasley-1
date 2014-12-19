@@ -44,7 +44,7 @@
 		</head>
 
 		<body <?php body_class(); ?>>
-			<div id="site-wrap">
+			<div id="site-wrap" class="site-wrap">
 				<nav id="mobile-nav" class="mobile-nav">
 					<?php
 
@@ -119,5 +119,8 @@
 									</div>
 								</div>
 							</div>
+						</div>
+						<div id="header__search--form" class="header__search--form">
+							<?php get_template_part( 'searchform', 'header' ); ?>
 						</div>
 					</header>

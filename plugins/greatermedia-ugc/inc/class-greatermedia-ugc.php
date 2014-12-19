@@ -15,18 +15,153 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GreaterMediaUserGeneratedContent {
 
-	protected $post_id;
-	protected $post;
+	public $post_id;
+	public $post;
+
+	protected static $subclasses;
+
+	const POST_FORMAT = '';
 
 	/**
 	 * Constructor is protected so it's only called from the factory method for_post_id() or a child class
 	 *
 	 * @param int $post_id
 	 */
-	protected function __construct( $post_id ) {
+	protected function __construct( $post_id = null ) {
 
-		$this->post_id = $post_id;
-		$this->post    = get_post( $post_id );
+		if ( null === $post_id ) {
+
+			// New post
+			$this->post_id = null;
+			$this->post    = new stdClass();
+
+			// Defaults
+			$this->post->post_title   = self::getGUID();
+			$this->post->post_content = '';
+			$this->post->post_excerpt = '';
+			$this->post->post_type    = 'listener_submissions';
+
+		} else {
+
+			// Verify
+			if ( ! is_numeric( $post_id ) ) {
+				throw new InvalidArgumentException( 'Post ID must be numeric' );
+			}
+
+			// Existing post
+			$this->post_id = intval( $post_id );
+			$this->post    = get_post( $this->post_id );
+
+		}
+
+	}
+
+	/**
+	 * Generate a 32-character ID
+	 * @return string GUID
+	 * @see http://guid.us/GUID/PHP
+	 */
+	protected function getGUID() {
+
+		if ( function_exists( 'com_create_guid' ) ) {
+
+			return com_create_guid();
+
+		} else {
+
+			$charid = strtoupper( md5( uniqid( rand(), true ) ) );
+			$uuid   = substr( $charid, 0, 8 ) . '-'
+			          . substr( $charid, 8, 4 ) . '-'
+			          . substr( $charid, 12, 4 ) . '-'
+			          . substr( $charid, 16, 4 ) . '-'
+			          . substr( $charid, 20, 12 );
+
+			return $uuid;
+
+		}
+
+	}
+
+	/**
+	 * Save this UGC (creates or updates the underlying post)
+	 * @return integer post ID
+	 */
+	public function save() {
+
+		if ( empty( $this->post->ID ) ) {
+
+			$this->post->post_status = 'pending';
+			$post_id                 = wp_insert_post( get_object_vars( $this->post ), true );
+
+		} else {
+			$post_id = wp_update_post( get_object_vars( $this->post ) );
+		}
+
+		// Set the post format. Done with a taxonomy term, so this needs to happen after the post is saved.
+		if ( '' !== static::POST_FORMAT ) {
+			set_post_format( $this->post, static::POST_FORMAT );
+		}
+
+		// Refresh the local copies of the data
+		$this->post_id = intval( $post_id );
+		$this->post    = get_post( $this->post_id );
+
+		return $this->post_id;
+
+	}
+
+	/**
+	 * Register subclasses to facilitate a factory method without hard-coding subclasses in this class
+	 *
+	 * @param string $type_name  a short description of the type like 'image' or 'gallery'
+	 * @param string $class_name The subclass's name
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	public static function register_subclass( $type_name, $class_name ) {
+
+		if ( ! is_string( $type_name ) ) {
+			throw new InvalidArgumentException( 'Subclass type name must be a string' );
+		}
+
+		if ( ! is_string( $class_name ) && ! class_exists( $class_name ) ) {
+			throw new InvalidArgumentException( 'Subclass does not exist' );
+		}
+
+		if ( ! isset( self::$subclasses ) ) {
+			self::$subclasses = array();
+		}
+
+		self::$subclasses[ $type_name ] = $class_name;
+
+	}
+
+	/**
+	 * Factory method to instantiate a child class based on a data type
+	 *
+	 * @param string $type_name
+	 *
+	 * @return GreaterMediaUserGeneratedContent
+	 * @throws InvalidArgumentException
+	 * @throws UnexpectedValueException
+	 */
+	public static function for_data_type( $type_name ) {
+
+		if ( ! is_string( $type_name ) ) {
+			throw new InvalidArgumentException( 'Type name must be a string' );
+		}
+
+		if ( isset( self::$subclasses[ $type_name ] ) ) {
+
+			$class_name = self::$subclasses[ $type_name ];
+
+			return new $class_name;
+
+		} else {
+
+			throw new UnexpectedValueException( 'Unknown data type name' );
+
+		}
 
 	}
 
@@ -93,22 +228,24 @@ class GreaterMediaUserGeneratedContent {
 	 * @static
 	 * @access public
 	 * @filter gmr_live_link_add_copy_action
+	 *
 	 * @param boolean $add_copy_action Determines whether or not to add the action.
-	 * @param WP_Post $post The current post object.
+	 * @param WP_Post $post            The current post object.
+	 *
 	 * @return boolean Initial flag if a post type is not a listener submission pt, otherwise FALSE.
 	 */
 	public static function remove_copy_to_live_link_action( $add_copy_action, WP_Post $post ) {
 		return 'listener_submissions' != $post->post_type ? $add_copy_action : false;
 	}
-	
+
 	/**
 	 * Add custom admin pages to the admin menu
 	 */
 	public static function admin_menu() {
 		add_submenu_page( 'edit.php?post_type=listener_submissions', 'Listener Submission Moderation', 'Listener Submission Moderation', 'delete_posts', GreaterMediaUserGeneratedContentModerationTable::PAGE_NAME, array(
-				__CLASS__,
-				'moderation_ui'
-			) );
+			__CLASS__,
+			'moderation_ui'
+		) );
 	}
 
 	public static function admin_enqueue_scripts() {
