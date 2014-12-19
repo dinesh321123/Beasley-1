@@ -54,8 +54,12 @@ class GMLP_Player {
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-		$callsign = gmr_streams_get_primary_stream_callsign();
-		$vast_url = gmr_streams_get_primary_stream_vast_url();
+		if ( function_exists( 'gmr_streams_get_primary_stream_callsign') ) {
+			$callsign = gmr_streams_get_primary_stream_callsign();
+		}
+		if ( function_exists( 'gmr_streams_get_primary_stream_vast_url') ) {
+			$vast_url = gmr_streams_get_primary_stream_vast_url();
+		}
 
 		wp_register_script( 'load-jquery', GMLIVEPLAYER_URL . 'assets/js/src/jquery.load.js', array(), GMLIVEPLAYER_VERSION, true );
 		wp_enqueue_script( 'tdplayer', GMLIVEPLAYER_URL . "assets/js/tdplayer{$postfix}.js", array( 'load-jquery' ), '2.5', true );
