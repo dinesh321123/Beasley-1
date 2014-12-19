@@ -1154,10 +1154,14 @@ class GMedia_Migration extends WP_CLI_Command {
 				if ( isset( $entry['Tags'] ) ) {
 					$tags = trim( (string) $entry['Tags'] );
 					$tags = explode( ',', $tags );
+					if( count( $tags ) == 1 ) {
+						$tags = explode( ' ', trim( (string) $entry['Tags'] ) );
+					}
+
 					foreach ( $tags as $tag ) {
 						if ( $tag != "" ) {
-							$tag['name']    = trim( $tag );
-							$tag_id = $this->process_term( $tag, 'post_tag', 'post' );
+							$tag_term['name'] = $tag;
+							$tag_id = $this->process_term( $tag_term, 'post_tag', 'post' );
 
 							if ( $tag_id ) {
 								wp_set_post_terms( $wp_id, array( $tag_id ), 'post_tag', true );
