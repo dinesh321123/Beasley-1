@@ -18,16 +18,23 @@ get_header(); ?>
 
 				<?php
 					$search_count = new WP_Query( 's=' . $s . '&posts_per_page=-1' );
-					$key = wp_specialchars( $s, 1 );
+					$key = esc_html( $s, 1 );
 					$count = $search_count->post_count;
+					
+					$search_query = sanitize_text_field( get_search_query() );
+					$keyword_post_id = intval( get_post_with_keyword( $search_query ) );
+					if( $count == 0 && $keyword_post_id != 0 ) {
+						$count = 1;
+					}
 
 					echo '<h2 class="search__results--count">' . $count . ' ';
 					_e( 'Results Found', 'greatermedia' );
 					echo '</h2>';
 
 					wp_reset_postdata();
-				?>
 
+				?>
+				<?php if( $keyword_post_id != 0 ): ?>
 				<h3 class="search__keyword"><?php printf( __( 'Keyword: %s', 'greatermedia' ), '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
 
 				<div class="keyword__search--results">
@@ -36,7 +43,11 @@ get_header(); ?>
 
 				</div>
 
+				<?php endif; ?>
+				
+				<?php if( $count != 1 || $keyword_post_id == 0 ): ?>
 				<h2 class="search__title"><?php _e( 'Relevant Search Results', 'greatermedia' ); ?></h2>
+				<?php endif; ?>
 
 				<?php if ( have_posts() ) : while ( have_posts() ) : the_post();
 					$title = get_the_title();
@@ -60,7 +71,7 @@ get_header(); ?>
 					</div>
 
 				<?php else : ?>
-
+					<?php if( $keyword_post_id == 0 ): ?>
 					<article id="post-not-found" class="hentry cf">
 
 						<header class="article-header">
@@ -76,6 +87,7 @@ get_header(); ?>
 						</section>
 
 					</article>
+					<?php endif; ?>
 
 				<?php endif; ?>
 
