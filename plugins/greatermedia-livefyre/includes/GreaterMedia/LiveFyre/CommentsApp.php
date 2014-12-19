@@ -10,7 +10,7 @@ class CommentsApp {
 
 	function register() {
 		add_filter(
-			'comments_template', array( $this, 'change_comments_template' )
+			'comments_template', array( $this, 'change_comments_template' ), 99
 		);
 	}
 
