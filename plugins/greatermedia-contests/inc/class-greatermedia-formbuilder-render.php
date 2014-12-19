@@ -321,7 +321,13 @@ class GreaterMediaFormbuilderRender {
 
 			}
 
-			$html .= self::get_submit_button( 'Enter', null, null, true );
+			$submit_text = get_post_meta( $post_id, 'form-submitbutton', true );
+			if ( empty( $submit_text ) ) {
+				// If you change this string, be sure to get all the places it's used in this class
+				$submit_text = __( 'Submit', 'greatermedia_contests' );
+			}
+
+			$html .= self::get_submit_button( $submit_text, null, null, true );
 
 			$html .= '</form>';
 

@@ -16,6 +16,9 @@ class Plugin {
 	function initialize() {
 		$comments_app = new CommentsApp();
 		$comments_app->register();
+
+		$shortcode = new MediaWallShortCode();
+		$shortcode->register();
 	}
 
 	function initialize_admin_menu() {

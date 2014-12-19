@@ -6,7 +6,7 @@ use Livefyre\Livefyre;
 
 class CommentsApp {
 
-	public $livefyre_options;
+	public $livefyre_options = null;
 
 	function register() {
 		add_filter(
