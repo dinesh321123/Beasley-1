@@ -3341,7 +3341,8 @@ category: Components
   font-family: "gmr-icons" !important;
   content: "\e606" !important; }
 
-.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .podcast__btn--play {
+.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .podcast__btn--play,
+.podcast__btn--pause {
   width: 34px;
   height: 34px;
   margin: 0 auto;
@@ -3364,7 +3365,8 @@ category: Components
   color: #d22228;
   cursor: pointer; }
   @media screen and (min-width: 768px) {
-    .live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .podcast__btn--play {
+    .live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .podcast__btn--play,
+    .podcast__btn--pause {
       width: 54px;
       height: 54px; } }
 
@@ -3797,6 +3799,7 @@ category: Components - Shows
 <article class="podcast">
 	<div class="podcast__play">
 		<button class="podcast__btn--play"></button>
+		<button class="podcast__btn--pause"></button>
 		<span class="podcast__runtime">57:14</span>
 	</div>
 	<div class="podcast__meta">
@@ -3824,15 +3827,17 @@ category: Components - Shows
   .podcast__play:last-child {
     margin-right: 0; }
 
-.podcast__btn--play {
+.podcast__btn--play,
+.podcast__btn--pause {
   position: relative; }
 
-.podcast__btn--play, .podcast__runtime {
+.podcast__btn--play, .podcast__btn--pause, .podcast__runtime {
   display: block;
   margin: 0 auto;
   text-align: center; }
 
-.podcast__btn--play:before {
+.podcast__btn--play:before,
+.podcast__btn--pause:before {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3841,8 +3846,19 @@ category: Components - Shows
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-family: "gmr-icons" !important;
+  font-family: "gmr-icons" !important; }
+
+.podcast__btn--play:before {
   content: "\e606" !important; }
+.podcast__btn--play.playing {
+  display: none; }
+
+.podcast__btn--pause {
+  display: none; }
+  .podcast__btn--pause:before {
+    content: "\e60b" !important; }
+  .podcast__btn--pause.playing {
+    display: block; }
 
 .podcast__meta {
   float: left;

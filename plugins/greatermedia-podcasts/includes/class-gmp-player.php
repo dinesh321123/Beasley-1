@@ -98,9 +98,9 @@ class GMP_Player{
 	public static function enqueue_scripts() {
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		wp_register_script( 'gmpodcasts-js', GMPODCASTS_URL . "assets/js/gmp{$postfix}.js", array( 'jquery' ), GMPODCASTS_VERSION, true );
+//		wp_register_script( 'gmpodcasts-js', GMPODCASTS_URL . "assets/js/gmp{$postfix}.js", array( 'jquery' ), GMPODCASTS_VERSION, true );
 
-		wp_enqueue_script( 'gmpodcasts-js' );
+//		wp_enqueue_script( 'gmpodcasts-js' );
 
 		wp_enqueue_style( 'gmpodcasts-css', GMPODCASTS_URL . "assets/css/gmp{$postfix}.css", array(), GMPODCASTS_VERSION );
 
