@@ -16,8 +16,10 @@
 	var tdContainer = document.getElementById('td_container');
 	var playButton = document.getElementById('playButton');
 	var pauseButton = document.getElementById('pauseButton');
+	var resumeButton = document.getElementById('resumeButton');
 	var listenNow = document.getElementById('live-stream__listen-now');
 	var nowPlaying = document.getElementById('live-stream__now-playing');
+	var gigyaLogin = gmr.homeUrl + "members/login";
 
 	/**
 	 * @todo remove the console log before beta
@@ -103,7 +105,7 @@
 			podcastButton = $('.mejs-play');
 
 		if (playBtn != null) {
-			playBtn.addEventListener('click', playLiveStream);
+			playBtn.addEventListener('click', playLiveStreamWithPreRoll);
 		}
 
 		if (pauseBtn != null) {
@@ -111,7 +113,7 @@
 		}
 
 		if (resumeBtn != null) {
-			resumeBtn.addEventListener('click', seekLive);
+			resumeBtn.addEventListener('click', resumeStream);
 		}
 
 		if (clearDebug != null) {
@@ -126,13 +128,13 @@
 
 	}
 
+	$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
+
 	function loggedInGigyaUser() {
-		var station = gmr.callsign;
 		if (!gmr.logged_in) {
 			console.log("--- Log In with Gigya ---");
-		} else {
-			console.log("--- You are logged in, so now enjoy some music ---");
-			$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
+		} else if (document.referrer == gigyaLogin) {
+			console.log("--- You are just logged in, so now enjoy some music ---");
 			preVastAd();
 			streamVastAd();
 			player.addEventListener('ad-playback-complete', function() {
@@ -140,6 +142,9 @@
 				console.log("--- ad complete ---");
 				playLiveStream();
 			});
+		} else {
+			console.log("--- You are logged in, so now enjoy some music ---");
+			playButton.addEventListener('click', playLiveStreamWithPreRoll);
 		}
 	}
 
@@ -202,6 +207,33 @@
 		nowPlaying.style.display = 'inline-block';
 	}
 
+	function playLiveStreamWithPreRoll() {
+		var station = gmr.callsign;
+		if (station == '') {
+			alert('Please enter a Station');
+			return;
+		}
+
+		debug('playLiveStream - station=' + station);
+
+		preVastAd();
+		streamVastAd();
+		player.addEventListener('ad-playback-complete', function() {
+			postVastAd();
+			console.log("--- ad complete ---");
+
+			if (livePlaying)
+				player.stop();
+
+			player.play({station: station, timeShift: true});
+			tdContainer.classList.add('stream__active');
+			playButton.style.display = 'none';
+			pauseButton.style.display = 'block';
+			listenNow.style.display = 'none';
+			nowPlaying.style.display = 'inline-block';
+		});
+	}
+
 	function stopStream() {
 		player.stop();
 
@@ -216,8 +248,9 @@
 		player.pause();
 
 		tdContainer.classList.remove('stream__active');
-		playButton.style.display = 'block';
+		playButton.style.display = 'none';
 		pauseButton.style.display = 'none';
+		resumeButton.style.display = 'block';
 		listenNow.style.display = 'inline-block';
 		nowPlaying.style.display = 'none';
 	}
@@ -230,6 +263,7 @@
 		}
 		tdContainer.classList.add('stream__active');
 		playButton.style.display = 'none';
+		resumeButton.style.display = 'none';
 		pauseButton.style.display = 'block';
 		listenNow.style.display = 'none';
 		nowPlaying.style.display = 'inline-block';
