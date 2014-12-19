@@ -44,7 +44,7 @@
 		</head>
 
 		<body <?php body_class(); ?>>
-			<div id="site-wrap">
+			<div id="site-wrap" class="site-wrap">
 				<nav id="mobile-nav" class="mobile-nav">
 					<?php
 
