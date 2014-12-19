@@ -197,6 +197,7 @@
 .header__search {
 	display: none;
 	color: $primary-border;
+	cursor: pointer;
 	@include bp(medium) {
 		position: relative;
 		display: block;

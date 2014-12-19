@@ -20,6 +20,30 @@ category: Components - Shows
 	</div>
 </article>
 ```
+*/
+
+/*doc
+---
+title: Podcast Playing
+name: podcast-playing
+category: Components - Shows
+---
+
+```html_example
+<article class="podcast">
+	<div class="podcast__play">
+		<button class="podcast__btn--play playing"></button>
+		<button class="podcast__btn--pause playing"></button>
+		<span class="podcast__runtime">57:14</span>
+	</div>
+	<div class="podcast__meta">
+		<time datetime="">September 12</time>
+		<button class="podcast__download">Download</button>
+		<h3>Preston & Steve Daily Feed</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, ratione, molestias possimus eos in nobis vero aliquid optio deserunt ipsam.</p>
+	</div>
+</article>
+```
 
 */
 

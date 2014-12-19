@@ -9,6 +9,31 @@ category: Components - Shows
 <article class="podcast">
 	<div class="podcast__play">
 		<button class="podcast__btn--play"></button>
+		<button class="podcast__btn--pause"></button>
+		<span class="podcast__runtime">57:14</span>
+	</div>
+	<div class="podcast__meta">
+		<time datetime="">September 12</time>
+		<button class="podcast__download">Download</button>
+		<h3>Preston & Steve Daily Feed</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, ratione, molestias possimus eos in nobis vero aliquid optio deserunt ipsam.</p>
+	</div>
+</article>
+```
+*/
+
+/*doc
+---
+title: Podcast Playing
+name: podcast-playing
+category: Components - Shows
+---
+
+```html_example
+<article class="podcast">
+	<div class="podcast__play">
+		<button class="podcast__btn--play playing"></button>
+		<button class="podcast__btn--pause playing"></button>
 		<span class="podcast__runtime">57:14</span>
 	</div>
 	<div class="podcast__meta">
@@ -30,24 +55,46 @@ category: Components - Shows
 	@include span-columns(2 of 12);
 }
 
-.podcast__btn--play {
+.podcast__btn--play,
+.podcast__btn--pause{
 	position: relative;
 	@extend %live-stream__btn;
 }
 
-.podcast__btn--play, .podcast__runtime {
+.podcast__btn--play, .podcast__btn--pause, .podcast__runtime {
 	display: block;
 	margin: 0 auto;
 	text-align: center;
 }
 
-.podcast__btn--play:before {
+.podcast__btn--play:before,
+.podcast__btn--pause:before {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	@include transform(translate(-50%, -50%));
 	font-family: $icon-font !important;
-	content: "\e606" !important;
+}
+.podcast__btn--play {
+	&:before {
+		content: "\e606" !important;
+	}
+
+	&.playing {
+		display: none;
+	}
+}
+
+.podcast__btn--pause {
+	&:before {
+	 content: "\e60b" !important;
+	}
+
+	display: none; // Will be shown w/ JS when necessary
+
+	&.playing {
+		display: block;
+	}
 }
 
 .podcast__meta {
@@ -69,7 +116,7 @@ category: Components - Shows
 
 // For Podcasts Archive Lists
 .podcast-archive--list {
-	
+
 }
 
 .podcast-archive--list_tags {
@@ -91,39 +138,39 @@ category: Components - Shows
 
 // Individual Podcast Page
 .podcast-page--name {
-	
+
 }
 
 .podcast-page--content {
-	
+
 }
 
 .podcast-page--tags {
-	
+
 }
 
 .podcast-page--itunes {
-	
+
 }
 
 .podcast-page--latest {
-	
+
 }
 
 .podcast-episode--title {
-	
+
 }
 
 .podcast-episode--date {
-	
+
 }
 
 .podcast-episode--runtime {
-	
+
 }
 
 .podcast-episode--excerpt {
-	
+
 }
 
 .podcast-episode--content {
