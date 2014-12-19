@@ -58,6 +58,16 @@
 			disable_with_error( 'This contest has reached maximum number of entries!' );
 		}
 
+		if( contest_form.hasClass('single_entry') ) {
+			if( is_gigya_user_logged_in() ) {
+				has_user_entered_contest( restrict_data.post_id).then(function(response) {
+					if( response.success && response.data ) {
+						disable_with_error( 'You have already entered this contest!' );
+					}
+				});
+			}
+		}
+
 	});
 
 } )( this );

@@ -45,7 +45,14 @@ module.exports = function( grunt ) {
 				globals: {
 					exports: true,
 					module:  false,
-					$:false, jQuery:false, alert:false, is_gigya_user_logged_in:false, console:false, get_gigya_user_field:false, restrict_data:false
+					$:false,
+					jQuery:false,
+					alert:false,
+					is_gigya_user_logged_in:false,
+					console:false,
+					get_gigya_user_field:false,
+					restrict_data:false,
+					has_user_entered_contest:false
 				}
 			}		
 		},
