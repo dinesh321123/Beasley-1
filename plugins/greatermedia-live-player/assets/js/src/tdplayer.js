@@ -137,7 +137,7 @@
 		var podcastButton = $('.mejs-play');
 
 		if (playBtn != null) {
-			addEventHandler(playBtn,elemClick,playLiveStreamWithPreRoll);
+			addEventHandler(playBtn,elemClick,playLiveStream);
 		}
 
 		if (pauseBtn != null) {
@@ -205,7 +205,7 @@
 	}
 
 	function loggedInGigyaUser() {
-		if (is_gigya_user_logged_in()) {
+		if (is_gigya_user_logged_in() ) {
 			playLiveStream();
 			/*)
 			 console.log("--- You are logged in, so now enjoy some music ---");
@@ -223,7 +223,7 @@
 			 playLiveStream();
 			 });
 			 } */
-		} /* else if (document.referrer == gigyaLogin) {
+		} /* else if (document.referrer == gigyaLogin && is_gigya_user_logged_in()) {
 			console.log("--- You are just logged in, so now enjoy some music ---");
 			preVastAd();
 			streamVastAd();
