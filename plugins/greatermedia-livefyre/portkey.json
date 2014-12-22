@@ -1,0 +1,10 @@
+{
+	"includes/GreaterMedia/LiveFyre/*.php": {
+		"type": "plugin",
+		"test": "test/GreaterMedia/LiveFyre/%sTest.php"
+	},
+	"test/GreaterMedia/LiveFyre/*Test.php": {
+		"type": "test",
+		"alternate": "includes/GreaterMedia/LiveFyre/%s.php"
+	}
+}

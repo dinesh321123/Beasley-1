@@ -21,6 +21,7 @@ class QueryTaskTest extends \WP_UnitTestCase {
 			'query'           => 'select UID from accounts where profile.age = 93',
 			'store_type'      => 'profile',
 			'conjunction'     => 'and',
+			'subquery_count'  => 2,
 		);
 
 		$this->task->get_sentinel()->set_checksum( 'foo-checksum' );

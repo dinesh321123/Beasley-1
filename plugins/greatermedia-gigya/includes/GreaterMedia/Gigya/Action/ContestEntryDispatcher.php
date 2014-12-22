@@ -30,6 +30,10 @@ class ContestEntryDispatcher {
 	}
 
 	function action_data_for_entry_reference( $entry_reference ) {
+		if ( is_string( $entry_reference ) ) {
+			$entry_reference = json_decode( $entry_reference, true );
+		}
+
 		$actionData = array();
 
 		foreach ( $entry_reference as $key => $value ) {

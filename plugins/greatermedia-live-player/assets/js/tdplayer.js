@@ -1,20 +1,25 @@
-(function ($,window,undefined) {
+(function ($, window, undefined) {
 	"use strict";
 
 	var tech = getUrlVars()['tech'];
 	var aSyncCuePointFallback = getUrlVars()['aSyncCuePointFallback'] == 'false' ? false : true;
 
-	var player;
-	/* TD player instance */
+	var player; /* TD player instance */
 
-	var currentTrackCuePoint;
-	/* Current Track */
-	var livePlaying;
-	/* boolean - Live stream currently playing */
-	var song;
-	/* Song object that wraps NPE data */
-	var currentStation = '';
-	/* String - Current station played */
+	var adPlaying; /* boolean - Ad break currently playing */
+	var currentTrackCuePoint; /* Current Track */
+	var livePlaying; /* boolean - Live stream currently playing */
+	var song; /* Song object that wraps NPE data */
+	var companions; /* VAST companion banner object */
+	var currentStation = ''; /* String - Current station played */
+
+	var tdContainer = document.getElementById('td_container');
+	var playButton = document.getElementById('playButton');
+	var pauseButton = document.getElementById('pauseButton');
+	var resumeButton = document.getElementById('resumeButton');
+	var listenNow = document.getElementById('live-stream__listen-now');
+	var nowPlaying = document.getElementById('live-stream__now-playing');
+	var gigyaLogin = gmr.homeUrl + "members/login";
 
 	/**
 	 * @todo remove the console log before beta
@@ -56,11 +61,13 @@
 						max_listening_time: 35 /* If max_listening_time is undefined, the default value will be 30 minutes */
 					},
 					// set geoTargeting to false on devices in order to remove the daily geoTargeting in browser
-					geoTargeting: {desktop: {isActive: false}, iOS: {isActive: false}, android: {isActive: false}}
+					geoTargeting: {desktop: {isActive: false}, iOS: {isActive: false}, android: {isActive: false}},
+					plugins: [ {id:"vastAd"} ]
 				},
 				{id: 'NowPlayingApi'},
 				{id: 'Npe'},
 				{id: 'PlayerWebAdmin'},
+				{id: 'SyncBanners', elements:[{id:'td_synced_bigbox', width:300, height:250}] },
 				{id: 'TargetSpot'}
 			]
 		};
@@ -89,54 +96,29 @@
 
 
 	function initControlsUi() {
-		//$(document).on('click', 'input[data-action="play-live"]', playLiveAudioStream);
 
 		// custom call to use button instead of input for styling purposes
-		var playButton, pauseButton, resumeButton, podcastButton;
-		playButton = $('#playButton');
-		pauseButton = $('#pauseButton');
-		resumeButton = $('#resumeButton');
-		podcastButton = $('.mejs-play');
+		var playBtn = document.getElementById('playButton'),
+			pauseBtn = document.getElementById('pauseButton'),
+			resumeBtn = document.getElementById('resumeButton'),
+			clearDebug = document.getElementById('clearDebug'),
+			podcastButton = $('.mejs-play');
 
-		$(document).on('click', '#playButton', playLiveAudioStream);
+		if (playBtn != null) {
+			playBtn.addEventListener('click', playLiveStreamWithPreRoll);
+		}
 
-		playButton.click(function () {
-			playButton.hide();
-			pauseButton.show();
-		});
+		if (pauseBtn != null) {
+			pauseBtn.addEventListener('click', pauseStream);
+		}
 
-		$("#clearDebug").click(function () {
-			clearDebugInfo();
-		});
+		if (resumeBtn != null) {
+			resumeBtn.addEventListener('click', resumeStream);
+		}
 
-		$("#playStreamByUserStationButton").click(function () {
-			playStreamByUserStation();
-		});
-
-		$("#playUrlButton").click(function () {
-			if ($("#streamUrlUser").val() == '') {
-				alert('Please enter an url');
-				return;
-			}
-
-			if (adPlaying)
-				player.skipAd();
-
-			if (livePlaying)
-				player.stop();
-
-			player.MediaPlayer.tech.playStream({url: $("#streamUrlUser").val(), aSyncCuePoint: {active: false}});
-		});
-
-		$(".stop-live").click(function () {
-			stopStream();
-		});
-
-		pauseButton.click(function () {
-			pauseButton.hide();
-			resumeButton.show();
-			pauseStream();
-		});
+		if (clearDebug != null) {
+			clearDebug.addEventListener('click', clearDebugInfo);
+		}
 
 		podcastButton.click(function () {
 			pauseButton.hide();
@@ -144,92 +126,156 @@
 			pauseStream();
 		});
 
-		resumeButton.click(function () {
-			resumeButton.hide();
-			pauseButton.show();
-			seekLive();
-		});
-
-		$("#seekLiveButton").click(function () {
-			seekLive();
-		});
-
-		$("#muteButton").click(function () {
-			mute();
-		});
-
-		$("#unMuteButton").click(function () {
-			unMute();
-		});
-
-		$("#setVolume50Button").click(function () {
-			setVolume50();
-		});
-
-		$("#getArtistButton").click(function () {
-			getArtistData();
-		});
-
-
 	}
 
-	function playLiveAudioStream(event) {
-		event.preventDefault();
+	$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
 
-		var station = $(event.target).data('station');
-
-		if (station == '') {
-			alert('Please enter a Station');
-			return;
+	function loggedInGigyaUser() {
+		if (!gmr.logged_in) {
+			console.log("--- Log In with Gigya ---");
+		} else if (document.referrer == gigyaLogin) {
+			console.log("--- You are just logged in, so now enjoy some music ---");
+			preVastAd();
+			streamVastAd();
+			player.addEventListener('ad-playback-complete', function() {
+				postVastAd();
+				console.log("--- ad complete ---");
+				playLiveStream();
+			});
+		} else {
+			console.log("--- You are logged in, so now enjoy some music ---");
+			playButton.addEventListener('click', playLiveStreamWithPreRoll);
 		}
+	}
 
-		debug('playLiveAudioStream - station=' + station);
+	function preVastAd() {
+		var preRoll = document.getElementById('live-stream__container');
 
-		$('#stationUser').val('');
+		if(preRoll != null) {
+			preRoll.classList.add('vast__pre-roll');
+		}
+	}
+
+	function postVastAd() {
+		var preRoll = document.getElementById('live-stream__container');
+
+		if(preRoll != null) {
+			preRoll.classList.remove('vast__pre-roll');
+		}
+	}
+
+	function streamVastAd() {
+		var vastUrl = gmr.streamUrl;
+
+		detachAdListeners();
+		attachAdListeners();
+
+		player.stop();
+		player.skipAd();
+		player.playAd('vastAd', {url: vastUrl});
+	}
+
+	var currentStream = $('.live-player__stream--current-name');
+
+	currentStream.bind("DOMSubtreeModified",function(){
+		console.log("--- new stream select ---");
+		var station = currentStream.text();
 
 		if (livePlaying)
 			player.stop();
 
 		player.play({station: station, timeShift: true});
-	}
+	});
 
-	function playStreamByUserStation() {
-		if ($("#stationUser").val() == '') {
+	function playLiveStream() {
+		var station = gmr.callsign;
+		if (station == '') {
 			alert('Please enter a Station');
 			return;
 		}
 
-		if (adPlaying)
-			player.skipAd();
+		debug('playLiveStream - station=' + station);
 
 		if (livePlaying)
 			player.stop();
 
-		player.play({station: $("#stationUser").val(), timeShift: true});
+		player.play({station: station, timeShift: true});
+		tdContainer.classList.add('stream__active');
+		playButton.style.display = 'none';
+		pauseButton.style.display = 'block';
+		listenNow.style.display = 'none';
+		nowPlaying.style.display = 'inline-block';
+	}
 
-		if (currentStation != $("#stationUser").val()) {
-			currentStation = $("#stationUser").val();
-			loadIdSync(currentStation);
+	function playLiveStreamWithPreRoll() {
+		var station = gmr.callsign;
+		if (station == '') {
+			alert('Please enter a Station');
+			return;
 		}
+
+		debug('playLiveStream - station=' + station);
+
+		preVastAd();
+		streamVastAd();
+		player.addEventListener('ad-playback-complete', function() {
+			postVastAd();
+			console.log("--- ad complete ---");
+
+			if (livePlaying)
+				player.stop();
+
+			player.play({station: station, timeShift: true});
+			tdContainer.classList.add('stream__active');
+			playButton.style.display = 'none';
+			pauseButton.style.display = 'block';
+			listenNow.style.display = 'none';
+			nowPlaying.style.display = 'inline-block';
+		});
 	}
 
 	function stopStream() {
 		player.stop();
+
+		tdContainer.classList.remove('stream__active');
+		playButton.style.display = 'block';
+		pauseButton.style.display = 'none';
+		listenNow.style.display = 'inline-block';
+		nowPlaying.style.display = 'none';
 	}
 
 	function pauseStream() {
 		player.pause();
+
+		tdContainer.classList.remove('stream__active');
+		playButton.style.display = 'none';
+		pauseButton.style.display = 'none';
+		resumeButton.style.display = 'block';
+		listenNow.style.display = 'inline-block';
+		nowPlaying.style.display = 'none';
 	}
 
 	function resumeStream() {
-		if (livePlaying)
+		if (livePlaying) {
 			player.resume();
-		else
+		} else {
 			player.play();
+		}
+		tdContainer.classList.add('stream__active');
+		playButton.style.display = 'none';
+		resumeButton.style.display = 'none';
+		pauseButton.style.display = 'block';
+		listenNow.style.display = 'none';
+		nowPlaying.style.display = 'inline-block';
 	}
 
 	function seekLive() {
 		player.seekLive();
+		tdContainer.classList.add('stream__active');
+		playButton.style.display = 'none';
+		pauseButton.style.display = 'block';
+		listenNow.style.display = 'none';
+		nowPlaying.style.display = 'inline-block';
 	}
 
 	function loadNpApi() {
@@ -268,10 +314,13 @@
 		//Listen on companion-load-error event
 		//companions.addEventListener("companion-load-error", onCompanionLoadError);
 
+		loggedInGigyaUser();
 		initControlsUi();
 
 		player.addEventListener('track-cue-point', onTrackCuePoint);
-		player.addEventListener( 'ad-break-cue-point', onAdBreak );
+		player.addEventListener('ad-break-cue-point', onAdBreak);
+		player.addEventListener( 'stream-track-change', onTrackChange );
+		player.addEventListener( 'hls-cue-point', onHlsCuePoint );
 
 		player.addEventListener('stream-status', onStatus);
 		player.addEventListener('stream-geo-blocked', onGeoBlocked);
@@ -304,20 +353,66 @@
 		});
 	}
 
-	function onAdPlaybackStart( e ) {
+	/**
+	 * Event fired in case the loading of the companion ad returned an error.
+	 * @param e
+	 */
+	function onCompanionLoadError(e)
+	{
+		debug( 'tdplayer::onCompanionLoadError - containerId=' + e.containerId + ', adSpotUrl=' + e.adSpotUrl, true );
+	}
+
+	function onAdPlaybackStart(e) {
 		adPlaying = true;
-		setStatus( 'Advertising... Type=' + e.data.type );
+		setStatus('Advertising... Type=' + e.data.type);
 	}
 
-	function onAdPlaybackComplete( e ) {
+	function onAdPlaybackComplete(e) {
 		adPlaying = false;
-		$( "#td_adserver_bigbox" ).empty();
-		$( "#td_adserver_leaderboard" ).empty();
-		setStatus( 'Ready' );
+		$("#td_adserver_bigbox").empty();
+		$("#td_adserver_leaderboard").empty();
+		setStatus('Ready');
 	}
 
-	function onAdCountdown( e ) {
-		debug( 'Ad countdown : ' + e.data.countDown + ' second(s)');
+	function onAdCountdown(e) {
+		debug('Ad countdown : ' + e.data.countDown + ' second(s)');
+	}
+
+	function onVastProcessComplete(e) {
+		debug('Vast Process complete');
+
+		var vastCompanions = e.data.companions;
+
+		//Load Vast Ad companion (bigbox & leaderbaord ads)
+		displayVastCompanionAds(vastCompanions);
+	}
+
+	function onVpaidAdCompanions(e) {
+		debug('Vpaid Ad Companions');
+
+		//Load Vast Ad companion (bigbox & leaderbaord ads)
+		displayVastCompanionAds(e.companions);
+	}
+
+	function displayVastCompanionAds(vastCompanions) {
+		if (vastCompanions && vastCompanions.length > 0) {
+			var bigboxIndex = -1;
+			var leaderboardIndex = -1;
+
+			$.each(vastCompanions, function (i, val) {
+				if (parseInt(val.width) == 300 && parseInt(val.height) == 250) {
+					bigboxIndex = i;
+				} else if (parseInt(val.width) == 728 && parseInt(val.height) == 90) {
+					leaderboardIndex = i;
+				}
+			});
+
+			if (bigboxIndex > -1)
+				companions.loadVASTCompanionAd('td_adserver_bigbox', vastCompanions[bigboxIndex]);
+
+			if (leaderboardIndex > -1)
+				companions.loadVASTCompanionAd('td_adserver_leaderboard', vastCompanions[leaderboardIndex]);
+		}
 	}
 
 	function onStreamStarted() {
@@ -363,8 +458,22 @@
 
 	}
 
-	function onAdBreak( e ) {
-		setStatus( 'Commercial break...' );
+	function onTrackChange( e )
+	{
+		debug( 'Stream Track has changed' );
+		debug( 'Codec:'+ e.data.cuePoint.audioTrack.codec() + ' - Bitrate:'+ e.data.cuePoint.audioTrack.bitRate());
+	}
+
+	function onHlsCuePoint( e )
+	{
+		debug( 'New HLS cuepoint received' );
+		debug( 'Track Id:'+e.data.cuePoint.hlsTrackId+' SegmentId:'+e.data.cuePoint.hlsSegmentId );
+		console.log( e );
+	}
+
+
+	function onAdBreak(e) {
+		setStatus('Commercial break...');
 		console.log(e);
 	}
 
@@ -486,7 +595,85 @@
 		$("#asyncData").html("<div>" + tableContent + "</div>");
 	}
 
+	function playRunSpotAd() {
+		detachAdListeners();
+		attachAdListeners();
+
+		player.stop();
+		player.skipAd();
+		player.playAd('vastAd', {sid: 8441});
+	}
+
+	function playRunSpotAdById() {
+		if ($("#runSpotId").val() == '') return;
+
+		detachAdListeners();
+		attachAdListeners();
+
+		player.stop();
+		player.skipAd();
+		player.playAd('vastAd', {sid: $("#runSpotId").val()});
+	}
+
+	function playVastAd() {
+		detachAdListeners();
+		attachAdListeners();
+
+		player.stop();
+		player.skipAd();
+		player.playAd('vastAd', {url: 'http://runspot4.tritondigital.com/RunSpotV4.svc/GetVASTAd?&StationID=8441&MediaFormat=21&RecordImpressionOnCall=false&AdMinimumDuration=0&AdMaximumDuration=900&AdLevelPlacement=1&AdCategory=1'});
+	}
+
+	function playVastAdByUrl() {
+		if ($("#vastAdUrl").val() == '') return;
+
+		detachAdListeners();
+		attachAdListeners();
+
+		player.stop();
+		player.skipAd();
+		player.playAd('vastAd', {url: $("#vastAdUrl").val()});
+	}
+
+	function playBloomAd() {
+		detachAdListeners();
+		attachAdListeners();
+
+		player.stop();
+		player.skipAd();
+		player.playAd('bloom', {id: 4974});
+	}
+
+	function playMediaAd() {
+		detachAdListeners();
+		attachAdListeners();
+
+		player.stop();
+		player.skipAd();
+		//player.playAd( 'mediaAd', { mediaUrl: 'http://cdnp.tremormedia.com/video/acudeo/Carrot_400x300_500kb.flv', linkUrl:'http://www.google.fr/' } );
+		player.playAd('mediaAd', {mediaUrl: 'http://vjs.zencdn.net/v/oceans.mp4', linkUrl: 'http://www.google.fr/'});
+	}
+
+	function attachAdListeners() {
+		player.addEventListener('ad-playback-start', onAdPlaybackStart);
+		player.addEventListener('ad-playback-error', onAdPlaybackComplete);
+		player.addEventListener('ad-playback-complete', onAdPlaybackComplete);
+		player.addEventListener('ad-countdown', onAdCountdown);
+		player.addEventListener('vast-process-complete', onVastProcessComplete);
+		player.addEventListener('vpaid-ad-companions', onVpaidAdCompanions);
+	}
+
+	function detachAdListeners() {
+		player.removeEventListener('ad-playback-start', onAdPlaybackStart);
+		player.removeEventListener('ad-playback-error', onAdPlaybackComplete);
+		player.removeEventListener('ad-playback-complete', onAdPlaybackComplete);
+		player.removeEventListener('ad-countdown', onAdCountdown);
+		player.removeEventListener('vast-process-complete', onVastProcessComplete);
+		player.removeEventListener('vpaid-ad-companions', onVpaidAdCompanions);
+	}
+
 	var artist;
+
 	function onNPESong(e) {
 		console.log('tdplayer::onNPESong');
 		console.log(e);
@@ -500,6 +687,7 @@
 
 		displayNpeInfo(songData, false);
 	}
+
 	function displayNpeInfo(songData, asyncData) {
 		$("#asyncData").empty();
 
@@ -527,6 +715,7 @@
 
 		displayNpeInfo(songData, true);
 	}
+
 	function onArtistPictureComplete(pictures) {
 		console.log('tdplayer::onArtistPictureComplete');
 		console.log(pictures);
@@ -620,8 +809,9 @@
 		$('#debugInformation').append(info);
 		$('#debugInformation').append('\n');
 	}
+
 	function clearDebugInfo() {
 		$('#debugInformation').html('');
 	}
 
-} )(jQuery,window);
+})(jQuery, window);

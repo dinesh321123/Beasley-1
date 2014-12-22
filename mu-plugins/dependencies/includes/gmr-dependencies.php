@@ -15,6 +15,10 @@ class GmrDependencies {
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
+		// Enqueue modernizr, so we can use feature detection for things
+		// Using the modernizr version (2.8.3) plus an extra .1, so we can bust cache if we need to add additional things later
+		wp_enqueue_script( 'modernizr', GMRDEPENDENCIES_URL . '/modernizr/modernizr.min.js', array(), '2.8.3.1', false );
+
 		// Register scripts
 		wp_register_script(
 			'select2'
@@ -166,13 +170,17 @@ class GmrDependencies {
 			false
 		);
 
-		wp_enqueue_script(
-			'mediaelement-js',
-			GMRDEPENDENCIES_URL  . "mediaelement-js/mediaelement-and-player{$postfix}.js",
-			array( 'jquery' ),
-			'2.16.2',
-			true
-		);
+		// Old versions have a bug with MP3s
+		if ( ! is_admin() ) {
+			wp_deregister_script( 'wp-mediaelement' );
+			wp_register_script(
+				'wp-mediaelement',
+				GMRDEPENDENCIES_URL  . "mediaelement-js/mediaelement-and-player{$postfix}.js",
+				array( 'jquery' ),
+				'2.16.3',
+				true
+			);
+		}
 
 		wp_register_style( 'jquery-ui', GMRDEPENDENCIES_URL . '/jquery-ui-theme/jquery-ui.min.css' );
 		wp_register_style( 'jquery-ui-accordion', GMRDEPENDENCIES_URL . '/jquery-ui-theme/jquery.ui.accordion.min.css', array( 'jquery-ui' ) );

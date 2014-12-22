@@ -6,8 +6,7 @@
  * @since   0.1.0
  */
 ?>
-<section id="featured" class="featured">
-	<div class="container">
+<section id="featured" class="home__featured">
 		<?php
 		$hp_featured_query = \GreaterMedia\HomepageCuration\get_featured_query();
 
@@ -49,5 +48,4 @@
 			</div>
 		<?php endif; ?>
 		<?php wp_reset_query(); ?>
-	</div>
 </section>

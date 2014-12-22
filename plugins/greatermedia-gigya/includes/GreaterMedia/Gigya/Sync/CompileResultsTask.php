@@ -4,12 +4,41 @@ namespace GreaterMedia\Gigya\Sync;
 
 class CompileResultsTask extends SyncTask {
 
+	public $page_size = 5000;
+
 	function get_task_name() {
 		return 'compile_results';
 	}
 
 	function run() {
-		$query = $this->get_compilation_query();
+		$select_query = $this->get_select_query();
+		$count        = $this->count( $select_query );
+		$query        = $this->get_compilation_query();
+
+		if ( $count > 0 ) {
+			$has_next = true;
+			$cursor   = 0;
+			$page     = 1;
+			$pages    = ceil( $count / $this->page_size );
+
+			while ( $has_next ) {
+				$next_cursor = $cursor + $this->page_size;
+				$progress    = ceil( ( $page ) / $pages * 100 );
+
+				$this->insert_page( $cursor, $query );
+				$this->get_sentinel()->set_task_progress(
+					'compile_results', $progress
+				);
+
+				$page++;
+				$cursor  += $this->page_size;
+				$has_next = $cursor < $count;
+			}
+		}
+	}
+
+	function insert_page( $cursor, $query ) {
+		$query = "$query LIMIT {$cursor}, {$this->page_size}";
 		$db    = $this->get_job_db();
 
 		$db->query( $query );
@@ -27,7 +56,7 @@ class CompileResultsTask extends SyncTask {
 		}
 	}
 
-	function get_compilation_query() {
+	function get_compilation_query( $cursor = 0 ) {
 		$select_query = $this->get_select_query();
 		$query = <<<SQL
 INSERT INTO member_query_results
@@ -66,7 +95,9 @@ WHERE
 	site_id = %d AND
 	member_query_id = %d
 GROUP BY
-	user_id;
+	user_id
+ORDER BY
+	user_id
 SQL;
 
 		return $query;
@@ -92,10 +123,22 @@ WHERE
 GROUP BY
 	user_id
 HAVING
-	count(a.user_id) >= 2;
+	count(a.user_id) >= 2
+ORDER BY
+	user_id
 SQL;
 
 		return $query;
+	}
+
+	function count( $subquery ) {
+		$db    = $this->get_job_db();
+		$query = <<<SQL
+SELECT COUNT(*) AS total
+FROM ( $subquery ) AS temp_table;
+SQL;
+
+		return $db->get_var( $query );
 	}
 
 	function template_for_any_conjunction() {

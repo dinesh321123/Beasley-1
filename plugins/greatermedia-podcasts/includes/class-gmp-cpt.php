@@ -171,8 +171,6 @@ class GMP_CPT {
 			} while ( $podcast_args['paged'] < $podcast_query->max_num_pages );
 
 		?></select><?php
-
-		wp_dropdown_pages( array( 'post_type' => self::PODCAST_POST_TYPE ) );
 	}
 
 	public static function save_post( $post_id, $post ) {

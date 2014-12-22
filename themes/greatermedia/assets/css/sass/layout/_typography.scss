@@ -131,12 +131,12 @@ blockquote {
 	margin: 24px .625em;
 	border-left: 10px solid $primary-border;
 	quotes: "\201C""\201D""\2018""\2019";
-	color: $nevada;
+	color: $medium-gray;
 	font-style: italic;
 }
 
 blockquote p {
 	display: inline;
 	font-style: italic;
-	color: $nevada;
+	color: $medium-gray;
 }

@@ -8,3 +8,739 @@ category: Components - Gallery
 ---
 
 */
+
+/*doc
+---
+title: Gallery Archive
+name: gallery-archive
+category: Components - Gallery Archive
+---
+
+```html_example
+<section class="gallery-grid">
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+			<div class="gallery-grid__album"></div>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+	<div class="gallery-grid__column">
+
+		<div class="gallery-grid__thumbnail">
+			<a href="#">
+				<img src="http://placehold.it/254x186">
+			</a>
+		</div>
+
+		<div class="gallery-grid__meta">
+			<h3 class="gallery-grid__title">
+				<a href="#">Title Goes Here</a>
+			</h3>
+		</div>
+
+	</div>
+
+</section>
+
+<section class="gallery-grid__pagination">
+
+	<ul class="gallery-grid__pagination--list">
+		<li class="gallery-grid__pagination--item gallery-grid__pagination--current"><a href="#">1</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">2</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">3</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">...</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">4</a></li>
+		<li class="gallery-grid__pagination--item"><a href="#">5</a></li>
+	</ul>
+</section>
+```
+
+*/
+
+.gallery {
+	width: 100%;
+	overflow: auto;
+}
+
+.gallery .container {
+	background-color: $gallery-bg;
+}
+
+.gallery__slides {
+	@include row();
+}
+
+.gallery__slide--images {
+	@include span-columns(4);
+	height: 214px;
+	margin-bottom: 15px;
+	@include bp(small) {
+		@include span-columns(6);
+		height: 320px;
+	}
+	@include bp(medium) {
+		@include span-columns(8);
+		height: 513px;
+	}
+	@include bp(large) {
+		@include span-columns(8);
+		@include shift(2);
+		height: 516px;
+		margin-top: 64px;
+		margin-bottom: 30px;
+		overflow: hidden;
+	}
+	@include bp(x-large) {
+		@include span-columns(8);
+		@include shift(2);
+	}
+}
+
+.gallery__slide--image {
+	width: 100%;
+	height: 214px;
+	@include opacity(0);
+	@include transition(opacity 200ms linear);
+	top: 50% !important;
+	left: 50% !important;
+	transform: translate(-50%, -50%);
+	background-repeat: no-repeat;
+	background-position: center center;
+	@include bp(small) {
+		height: 320px;
+	}
+	@include bp(medium) {
+		height: 513px;
+	}
+	@include bp(large) {
+		height: 516px;
+	}
+	@include bp(x-large) {
+		height: 516px;
+	}
+}
+
+.gallery__slide--image.cycle-slide-active {
+	@include opacity(1);
+	@include transition(opacity 200ms linear);
+}
+
+.gallery__meta {
+	position: relative;
+	@include span-columns(4);
+	padding: 0 4.375%;
+	margin: 16px 0 30px;
+	color: $gallery-text;
+	text-align: center;
+	@include bp(small) {
+		@include span-columns(6);
+	}
+	@include bp(medium) {
+		@include span-columns(8);
+		padding: 0 4%;
+	}
+	@include bp(large) {
+		@include span-columns(12);
+	}
+	@include bp(x-large) {
+		@include span-columns(12);
+	}
+}
+
+.gallery__content {
+	@include span-columns(4);
+	@include omega;
+	margin-bottom: 40px;
+	@include bp(small) {
+		@include span-columns(6);
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(6);
+		@include shift(1);
+	}
+	@include bp(large) {
+		@include span-columns(8);
+		@include shift(2);
+		height: 90px;
+		margin-bottom: 64px;
+	}
+	@include bp(x-large) {
+		@include span-columns(8);
+		@include shift(2);
+		height: 92px;
+	}
+}
+
+.gallery__slide--content {
+	@include span-columns(4 of 4);
+	@include omega;
+	height: auto;
+	margin-bottom: 42px;
+	@include opacity(0);
+	@include transition(opacity 200ms linear);
+	@include bp(small) {
+		@include span-columns(6 of 6);
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(6 of 6);
+		@include omega;
+	}
+	@include bp(large) {
+		@include span-columns(8 of 8);
+		@include omega;
+	}
+	@include bp(x-large) {
+		@include span-columns(8 of 8);
+		@include omega;
+	}
+}
+
+.gallery__slide--content.cycle-slide-active {
+	@include opacity(1);
+	@include transition(opacity 200ms linear);
+}
+
+.gallery__slide--title {
+	display: block;
+	width: 100%;
+	margin: 0 0 24px;
+	line-height: 1;
+	font-family: $open-sans;
+	font-size: ms(4);
+	font-weight: lighter;
+}
+
+.gallery__social {
+	width: 100%;
+	height: 40px;
+}
+
+.gallery__social a.social-share-link {
+	margin-right: 8px;
+}
+
+.gallery__social a.social-share-link:last-of-type {
+	margin-right: 0;
+}
+
+.gallery__social a.social-share-link:link, .gallery__social a.social-share-link:visited {
+	border-color: $gallery-text;
+	color: $gallery-text;
+}
+
+.gallery__social a.social-share-link:hover, .gallery__social a.social-share-link:focus {
+	border-color: $btn-bg;
+	color: $color-text-red;
+}
+
+.gallery__social a.social-share-link:active {
+	border-color: $gallery-border;
+	color: $gallery-border;
+}
+
+.gallery__progress {
+	position: relative;
+	width: 100%;
+	padding: 0 4.375%;
+	overflow: auto;
+	@include bp(large) {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+	}
+}
+
+%gallery__progress--btn {
+	position: relative;
+	width: 94px;
+	height: 36px;
+	border: 1px solid $light-gray;
+	background-color: transparent;
+	@include border-radius(32px);
+	font-family: $open-sans;
+	font-size: ms(1);
+	font-weight: lighter;
+	color: $color-text-white;
+	text-transform: uppercase;
+	@include bp(large) {
+		width: 144px;
+		height: 64px;
+	}
+}
+
+%gallery__progress--btn:hover, %gallery__progress--btn:focus {
+	border-color: $btn-bg;
+	color: $color-text-red;
+}
+
+%gallery__progress--btn:active {
+	border-color: $gallery-border;
+	color: $gallery-border;
+}
+
+.gallery__prev {
+	position: relative;
+	float: left;
+	display: block;
+	width: 32%;
+	height: 36px;
+	@include bp(large) {
+		width: 20%;
+		height: 64px;
+	}
+}
+
+.gallery__prev--btn {
+	@extend %gallery__progress--btn;
+}
+
+.gallery__prev--span {
+	margin-left: 16px;
+	@include bp(large) {
+		margin-left: 38px;
+	}
+}
+
+.gallery__prev--btn:before {
+	@extend %gmr-icons;
+	position: absolute;
+	top: 9px;
+	left: 14px;
+	font-size: ms(1);
+	content: "\e619";
+	@include bp(large) {
+		top: auto;
+		left: 30px;
+		font-size: ms(3);
+	}
+}
+
+.gallery__next {
+	position: relative;
+	float: left;
+	display: block;
+	width: 32%;
+	height: 36px;
+	@include bp(large) {
+		width: 20%;
+		height: 64px;
+	}
+}
+
+.gallery__next--btn {
+	@extend %gallery__progress--btn;
+	float: right;
+}
+
+.gallery__next--span {
+	margin-right: 16px;
+	@include bp(large) {
+		margin-right: 38px;
+	}
+}
+
+.gallery__next--btn:after {
+	@extend %gmr-icons;
+	position: absolute;
+	top: 9px;
+	right: 14px;
+	font-size: ms(1);
+	content: "\e618";
+	@include bp(large) {
+		top: auto;
+		right: 30px;
+		font-size: ms(3);
+	}
+}
+
+.gallery__count {
+	position: relative;
+	float: left;
+	display: block;
+	width: 36%;
+	height: 36px;
+	padding-top: 12px;
+	line-height: 1;
+	font-size: ms(0);
+	font-weight: lighter;
+	color: $gallery-text;
+	text-align: center;
+	@include bp(large) {
+		width: 60%;
+		height: 64px;
+		padding-top: 44px;
+	}
+}
+
+.gallery__thumbnails {
+	position: relative;
+	@include span-columns(4);
+	height: 145px;
+	padding: 20px 0;
+	overflow: auto;
+	border-top: 1px solid $gallery-border;
+	background-color: $gallery-thumbs-bg;
+	@include bp(small) {
+		@include span-columns(6);
+	}
+	@include bp(medium) {
+		@include span-columns(8);
+		height: 115px;
+	}
+	@include bp(large) {
+		@include span-columns(12);
+		height: 145px;
+		padding: 20px 0;
+		margin-top: 44px;
+	}
+	@include bp(x-large) {
+		@include span-columns(12);
+	}
+}
+
+.gallery__previews {
+	width: 100%;
+	@include bp(small) {
+		width: 100%;
+	}
+	@include bp(medium) {
+		width: 72%;
+		margin: 0 14%;
+	}
+	@include bp(large) {
+		width: 73%;
+		margin: 0 14%;
+	}
+	@include bp(x-large) {
+		width: 72%;
+		margin: 0 14%;
+	}
+}
+
+.gallery__paging {
+	display: none;
+	@include bp(medium) {
+		display: block;
+	}
+}
+
+%gallery__paging--thumbs {
+	position: absolute;
+	top: 22px;
+	width: 14%;
+}
+
+%gallery__paging--btn {
+	position: relative;
+	@extend %gmr-icons;
+	width: 100%;
+	height: 100px;
+	background-color: transparent;
+	border: none;
+	font-size: ms(6);
+	color: $color-text-gray;
+	@include bp(medium) {
+		height: 75px;
+	}
+	@include bp(large) {
+		height: 100px;
+	}
+}
+
+%gallery__paging--btn:hover {
+	color: $color-text-white;
+}
+
+%gallery__paging--btn:active {
+	color: $color-text-red;
+}
+
+.gallery__paging--left {
+	@extend %gallery__paging--thumbs;
+	left: 0;
+}
+
+.gallery__paging--right {
+	@extend %gallery__paging--thumbs;
+	right: 0;
+}
+
+.gallery__paging--prev, .gallery__paging--next {
+	@extend %gallery__paging--btn;
+}
+
+%gallery__paging--prev_before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	@include transform(translate(-50%, -50%));
+}
+
+.gallery__paging--prev:before {
+	@extend %gallery__paging--prev_before;
+	content: "\e619";
+}
+
+.gallery__paging--next:before {
+	@extend %gallery__paging--prev_before;
+	content: "\e618";
+}
+
+.gallery__previews--group {
+	width: 100%;
+	height: 100px;
+	left: 5px !important;
+	@include bp(medium) {
+		left: 0 !important;
+		height: 75px;
+	}
+	@include bp(large) {
+		height: 100px;
+	}
+}
+
+.gallery__slide--preview {
+	float: left;
+	width: 100px;
+	height: 100%;
+	max-height: 100px;
+	margin-right: 5px;
+	@include opacity(.5);
+	@include transition(opacity 200ms linear);
+	cursor: pointer;
+	@include bp(medium) {
+		width: 19%;
+		max-height: 75px;
+		margin-right: 1%;
+	}
+	@include bp(large) {
+		width: 11.5%;
+		max-height: 100px;
+		margin-right: .875%;
+	}
+}
+
+.gallery__slide--preview:hover {
+	@include opacity(1);
+	@include transition(opacity 200ms linear);
+}
+
+.gallery__slide--preview:last-child {
+	margin-right: 0;
+}
+
+.gallery__slide--active {
+	@include opacity(1);
+	border: 1px solid $primary-border;
+}
+
+.gallery-grid {
+	width: 100%;
+	overflow: auto;
+}
+
+.gallery-grid__column {
+	float: left;
+	width: 23.5%;
+	margin-right: 2%;
+	overflow: auto;
+}
+
+.gallery-grid__column:nth-of-type(4n+4) {
+	margin-right: 0%;
+}
+
+.gallery-grid__thumbnail {
+	position: relative;
+	margin-bottom: 30px;
+}
+
+.gallery-grid__album {
+	position: absolute;
+	top: 24px;
+	right: 24px;
+	@extend %gmr-icons;
+	font-size: ms(10);
+	color: $color-text-white;
+}
+
+.gallery-grid__album:before {
+	width: 0;
+	height: 0;
+	content: "\e61a";
+}
+
+.gallery-grid__meta {
+	height: 100px;
+}
+
+.gallery-grid__title {
+	margin: 0;
+	font-family: $open-sans;
+	font-size: ms(1);
+	font-weight: lighter;
+	color: $primary-heading;
+}
+
+.gallery-grid__pagination {
+	width: 100%;
+	overflow: auto;
+	text-align: center;
+}
+
+.gallery-grid__pagination--list {
+	@extend %unordered-list;
+}
+
+.gallery-grid__pagination--item {
+	list-style: none;
+	display: inline-block;
+	@extend %list-item;
+	width: 28px;
+	height: 28px;
+	margin-right: 1em;
+	@include box-sizing(border-box);
+	color: $gallery-grid-text;
+	text-align: center;
+}
+
+
+.gallery-grid__pagination--item a,.gallery-grid__pagination--item a:visited {
+	display: block;
+	width: 26px;
+	height: 26px;
+	color: $gallery-grid-text;
+}
+
+.gallery-grid__pagination--item a:hover,.gallery-grid__pagination--item a:focus {
+	color: $primary-link;
+}
+
+.gallery-grid__pagination--item a:active {
+	color: $primary-text;
+}
+
+.gallery-grid__pagination--current {
+	border: 1px solid $gallery-grid-border;
+	@include border-radius(50%);
+}
+
+.gallery-grid__pagination--current:hover, .gallery-grid__pagination--current:focus {
+	border-color: $primary-link;
+	color: $primary-link;
+}
+
+.gallery-grid__pagination--current:active {
+	border-color: $primary-text;
+	color: $primary-text;
+}

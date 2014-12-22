@@ -77,7 +77,7 @@ class InitializerTaskTest extends \WP_UnitTestCase {
 		$profile_task = new StubProfileQueryTask();
 		$profile_task->register();
 
-		$this->task->enqueue_subquery( $subquery );
+		$this->task->enqueue_subquery( $subquery, 1 );
 
 		$queue_task = wp_async_task_last_added();
 
@@ -127,7 +127,7 @@ class InitializerTaskTest extends \WP_UnitTestCase {
 		$this->assertEquals( 'profile', $actual[0]['store_type'] );
 		$this->assertEquals( $expected, $actual[0]['query'] );
 
-		$expected = "select * from actions where data.entries.entryType_s = 'record:contest' and data.entries.entryTypeID_i = 100 and data.entries.entryFieldID_s = '200' and data.entries.entryValue_s = 'foo'";
+		$expected = "select * from actions where data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'foo'";
 		$this->assertEquals( 'data_store', $actual[1]['store_type'] );
 		$this->assertEquals( $expected, $actual[1]['query'] );
 	}

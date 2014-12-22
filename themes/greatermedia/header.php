@@ -44,15 +44,16 @@
 		</head>
 
 		<body <?php body_class(); ?>>
-			<div id="site-wrap">
-				<?php
+			<div id="site-wrap" class="site-wrap">
+				<nav id="mobile-nav" class="mobile-nav">
+					<?php
 
 					$mobile_nav = array(
 						'theme_location'  => 'main-nav',
 						'menu'            => '',
-						'container'       => 'nav',
-						'container_class' => 'mobile-nav',
-						'container_id'    => 'mobile-nav',
+						'container'       => '',
+						'container_class' => '',
+						'container_id'    => '',
 						'menu_class'      => 'mobile-nav__list',
 						'menu_id'         => '',
 						'echo'            => true,
@@ -68,13 +69,14 @@
 
 					wp_nav_menu( $mobile_nav );
 
-				?>
+					do_action( 'gmr_social' ); ?>
+				</nav>
 				<div id="page-wrap" class="page-wrap">
 					<header id="header" class="header" role="banner">
 						<?php do_action( 'show_breaking_news_banner' ); ?>
 						<div class="container">
 							<div class="ad__leaderboard">
-								<img src="http://placehold.it/728x90&text=leaderboard">
+								<?php do_action( 'acm_tag', 'leaderboard-top-of-site' ); ?>
 							</div>
 						</div>
 						<div class="header__main">
@@ -107,19 +109,18 @@
 								wp_nav_menu( $main_nav );
 								?>
 								<div class="header__secondary">
-									<nav class="header__account">
-										<ul class="header__account--list account">
-											<li><a id="register-button" href="" class="register" style="visibility:hidden">register</a></li>
-											<li><a id="login-button" href="" class="login" style="visibility:hidden">Login</a></li>
-										</ul>
-									</nav>
-									<div class="header__social">
-										<?php do_action( 'gmr_social' ); ?>
+									<div class="header__account">
+										<i class="header__account--btn"></i>
+										<div class="header__account--links">
+										</div>
 									</div>
-									<div class="header__search">
-										<div class="header__search--span"><?php _e( 'Search', 'greatermedia' ); ?></div><i class="header__search--btn"></i>
+									<div id="header__search" class="header__search">
+										<i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div>
 									</div>
 								</div>
 							</div>
+						</div>
+						<div id="header__search--form" class="header__search--form">
+							<?php get_template_part( 'searchform', 'header' ); ?>
 						</div>
 					</header>

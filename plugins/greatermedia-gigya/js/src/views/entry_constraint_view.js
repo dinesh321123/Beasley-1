@@ -105,6 +105,10 @@ var EntryConstraintView = ConstraintView.extend({
 
 	hasChoices: function() {
 		return this.model.hasChoices();
-	}
+	},
+
+	conjunctions: [
+		'or'
+	]
 
 });

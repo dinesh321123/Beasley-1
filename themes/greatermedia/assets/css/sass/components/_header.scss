@@ -2,9 +2,11 @@
 	position: relative;
 	width: 100%;
 	padding: 0;
-	border-bottom: 1px solid $primary-border;
-	background-color: $cod-gray;
+	background-color: $header-bg;
 	@include transition(all 200ms linear);
+	@include bp(medium) {
+		border-bottom: 1px solid $primary-border;
+	}
 }
 
 .header--pinned {
@@ -21,10 +23,14 @@
 
 .header__main {
 	width: 100%;
-	height: 82px;
+	height: 70px;
 	padding: 0;
 	background-color: $secondary-bg;
-	border-top: 1px solid $mine-shaft;
+	border-bottom: 1px solid $header-border;
+	@include bp(medium) {
+		height: 82px;
+		border-top: 1px solid $header-border;
+	}
 }
 
 #breaking-news-banner {
@@ -37,19 +43,28 @@
 .header__logo{
 	@include span-columns(4);
 	@include omega;
-	height: 82px;
-	padding: 12px 0 13px;
+	height: 70px;
+	padding: 10px 0;
 	line-height: 1;
 	@include bp(medium) {
+		@include span-columns(1);
+		height: 82px;
+		padding: 12px 0 13px;
+	}
+	@include bp(large) {
+		@include span-columns(1);
+	}
+	@include bp(x-large) {
 		@include span-columns(1);
 	}
 }
 
 .header__logo--img{
 	margin: 0 auto;
-	max-height: 57px;
+	max-height: 50px;
 	text-align: center;
 	@include bp(large){
+		max-height: 57px;
 		text-align: left;
 	}
 }
@@ -60,7 +75,7 @@
 	display: none;
 	line-height: 1;
 	@include bp(medium) {
-		@include span-columns(5);
+		@include span-columns(4);
 	}
 	@include bp(large) {
 		@include span-columns(8);
@@ -73,14 +88,13 @@
 // container for secondary navigation -- gigya registration, social links, search
 .header__secondary {
 	position: absolute;
-	top: 50%;
-	right: 1em;
-	@include transform(translate(0, -50%));
+	top: 25px;
+	right: 20px;
 	line-height: 1;
 	text-align: right;
 	@include bp(medium) {
 		position: relative;
-		@include span-columns(2);
+		@include span-columns(3);
 		@include omega;
 		top: auto;
 		right: auto;
@@ -99,11 +113,67 @@
 
 // container for account links
 .header__account {
+	position: relative;
+	display: block;
+	float: right;
+	margin: 0 auto;
+	color: $color-text-white;
+	text-align: center;
+	cursor: pointer;
+	@include bp(medium) {
+		width: 64px;
+		height: 82px;
+		color: $secondary-heading;
+	}
+}
+
+.header__account:hover {
+	@include bp(medium) {
+		background-color: $color-text-red;
+		color: $color-text-white;
+	}
+}
+
+.header__account--btn {
+	display: block;
+	margin: 0 auto;
+	@include bp(medium) {
+		height: 82px;
+		width: 64px;
+		padding: 32px 0;
+	}
+}
+
+.header__account--btn:before {
+	@extend %gmr-icons;
+	font-size: ms(3);
+	content: "\e60a";
+	@include bp(medium) {
+		font-size: ms(1);
+	}
+}
+
+.header__account--links {
+	display: none;
+}
+
+.header__account:hover .header__account--links {
 	display: none;
 	@include bp(medium) {
+		position: absolute;
 		display: block;
-		float: left;
+		top: 82px;
+		right: 0;
+		width: 250px;
+		height: 118px;
+		border-top: 7px solid $color-text-red;
+		background-color: $primary-bg;
+		z-index: 99999;
 	}
+}
+
+.header__account--open {
+	display: block;
 }
 
 // gigya dependencies
@@ -116,22 +186,23 @@
 	display: none;
 	@include bp(medium) {
 		display: block;
-		float: left;
+		float: right;
 		height: 82px;
-		margin-right: 2.125em;
 		font-size: ms(0);
 	}
 }
 
 // container for search button
 .header__search {
-	display: block;
-	color: $color-text-white;
+	display: none;
+	color: $primary-border;
+	cursor: pointer;
 	@include bp(medium) {
 		position: relative;
 		display: block;
-		float: left;
+		float: right;
 		height: 82px;
+		margin-right: 46px;
 	}
 }
 
@@ -142,8 +213,8 @@
 		float: left;
 		height: 82px;
 		padding: 36px 0;
-		margin-right: .625em;
-		font-size: ms(-1);
+		margin-left: .625em;
+		font-size: ms(-2);
 	}
 }
 

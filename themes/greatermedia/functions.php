@@ -51,6 +51,8 @@ function greatermedia_setup() {
 	 */
 	add_theme_support( 'post-thumbnails' );
 	add_image_size( 'gm-article-thumbnail', 1580, 9999, false ); // thumbnails used for articles
+	add_image_size( 'gmr-gallery',               800,  534, true );
+	add_image_size( 'gmr-gallery-thumbnail',     100,  100 );
 
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
@@ -232,9 +234,16 @@ function get_results_for_keyword() {
 			global $post;
 			$post = get_post( $custom_post_id );
 			setup_postdata( $post );
+			$title = get_the_title();
+			$keys= explode(" ",$search_query_arg);
+			$title = preg_replace('/('.implode('|', $keys) .')/iu', '<span class="search__result--term">\0</span>', $title);
 			?>
-			<article id="post-<?php the_ID(); ?>" <?php echo post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-				<h2 class="entry__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+			<article id="post-<?php the_ID(); ?>" <?php post_class( 'search__result' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+
+				<time datetime="<?php the_time( 'c' ); ?>" class="search__result--date"><?php the_time( 'M j, Y' ); ?></time>
+
+				<h3 class="search__result--title"><a href="<?php the_permalink(); ?>"><?php echo $title ?></a></h3>
+
 			</article>
 			<?php
 			wp_reset_postdata();
@@ -248,10 +257,9 @@ add_action( 'keyword_search_result', 'get_results_for_keyword' );
 /**
  * Alter search results on search page
  * 
- * @param  [type] $query [description]
- * @return [type]        [description]
+ * @param  WP_Query $query [description]
  */
-function alter_search_query( $query ) {
+function greatermedia_alter_search_query( $query ) {
 	if( $query->is_search && $query->is_main_query() ) {
 		$search_query_arg = sanitize_text_field( $query->query_vars['s'] );
 		$custom_post_id = intval( get_post_with_keyword( $search_query_arg ) );
@@ -260,5 +268,39 @@ function alter_search_query( $query ) {
 		}
 	}
 }
-add_action( 'pre_get_posts', 'alter_search_query' );
+add_action( 'pre_get_posts', 'greatermedia_alter_search_query' );
 
+/**
+ * Alters the main query on the front page to include additional post types
+ *
+ * @param WP_Query $query
+ */
+function greatermedia_alter_front_page_query( $query ) {
+	if ( $query->is_main_query() && $query->is_front_page() ) {
+		// Need to really think about how to include events here, and if it really makes sense. By default,
+		// we would have all published events, in reverse cron - so like we'd have "posts" looking things dated for the future
+		// that would end up hiding the actual posts, potentially for pages before getting to any real content.
+		//
+		// ADDITIONALLY - There is a checkbox for this on the events setting page, so we don't need to do that here :)
+		$post_types = array( 'post' );
+		if ( class_exists( 'GMP_CPT' ) ) {
+			$post_types[] = GMP_CPT::EPISODE_POST_TYPE;
+		}
+
+		$query->set( 'post_type', $post_types );
+	}
+}
+add_action( 'pre_get_posts', 'greatermedia_alter_front_page_query' );
+
+/**
+ * This will keep Jetpack Sharing from auto adding to the end of a post.
+ * We want to add this manually to the proper theme locations
+ *
+ * Hooked into loop_end
+ */
+function greatermedia_remove_jetpack_share() {
+	remove_filter( 'the_content', 'sharing_display', 19 );
+	remove_filter( 'the_excerpt', 'sharing_display', 19 );
+}
+
+add_action( 'wp_head', 'greatermedia_remove_jetpack_share' );

@@ -116,6 +116,13 @@ var ConstraintView = Backbone.View.extend({
 		'not equals',
 	],
 
+	dateOperators: [
+		'greater than',
+		'greater than or equal to',
+		'less than',
+		'less than or equal to'
+	],
+
 	nonFullTextTypes: [
 		'profile:zip',
 		'profile:state',
@@ -134,6 +141,8 @@ var ConstraintView = Backbone.View.extend({
 			}
 		} else if (valueType === 'boolean') {
 			return this.booleanOperators;
+		} else if (valueType === 'date') {
+			return this.dateOperators;
 		} else {
 			return this.allOperators;
 		}

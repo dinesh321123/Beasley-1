@@ -1,15 +1,18 @@
 var AVAILABLE_CONSTRAINTS = [
 
+
 	/* System Fields */
 	{
 		type: 'system:createdTimestamp',
 		valueType: 'date',
-		value: '01/01/2012'
+		value: '01/01/2012',
+		operator: 'greater than',
 	},
 	{
 		type: 'system:lastLoginTimestamp',
 		valueType: 'date',
-		value: '01/01/2014'
+		value: '01/01/2014',
+		operator: 'greater than',
 	},
 	{
 		type: 'system:isActive',
@@ -72,11 +75,14 @@ var AVAILABLE_CONSTRAINTS = [
 		valueType: 'string',
 		value: '01001'
 	},
+
+	/*
 	{
 		type: 'profile:timezone',
 		valueType: 'string',
 		value: 'America/New_York',
 	},
+	*/
 
 	// Facebook
 	{
@@ -98,8 +104,24 @@ var AVAILABLE_CONSTRAINTS = [
 		valueType: 'string',
 		entryTypeID: -1,
 		entryFieldID: -1
-	}
+	},
 
+	{
+		type: 'data:comment_count',
+		valueType: 'integer',
+		value: 0,
+	},
+	{
+		type: 'data:comment_status',
+		valueType: 'boolean',
+		value: true,
+	},
+	{
+		type: 'action:comment_date',
+		valueType: 'date',
+		value: '01/01/2014',
+		operator: 'greater than',
+	},
 ];
 
 /* Constraint Meta */
@@ -478,6 +500,23 @@ var AVAILABLE_CONSTRAINTS_META = [
 	{
 		type: 'record:contest',
 		title: 'Contest Entry'
+	},
+
+	{
+		type: 'data:comment_count',
+		title: 'Comment Count'
+	},
+	{
+		type: 'data:comment_status',
+		title: 'Comment Status',
+		choices: [
+			{ label: 'Has Commented', value: true },
+			{ label: 'Has Not Commented', value: false }
+		]
+	},
+	{
+		type: 'action:comment_date',
+		title: 'Comment Date'
 	}
 
 ];

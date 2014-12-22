@@ -73,6 +73,10 @@ class GigyaSession {
 		}
 	}
 
+	public function get_key( $key ) {
+		return $this->get( $key );
+	}
+
 	public function load() {
 		if ( $this->loaded ) {
 			return;

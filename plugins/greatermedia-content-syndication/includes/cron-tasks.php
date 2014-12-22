@@ -29,7 +29,7 @@ class CronTasks {
 			BlogData::run( $active_subscription->ID );
 		}
 
-		update_option( 'syndication_last_performed', current_time( 'timestamp' ) );
+		update_option( 'syndication_last_performed', current_time( 'timestamp', 1 ) );
 	}
 
 	/**

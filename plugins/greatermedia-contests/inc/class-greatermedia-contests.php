@@ -84,7 +84,7 @@ class GreaterMediaContests {
 			'label'               => __( 'contest', 'greatermedia_contests' ),
 			'description'         => __( 'Contest', 'greatermedia_contests' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor' ),
+			'supports'            => array( 'title', 'editor', 'thumbnail' ),
 			'taxonomies'          => array( 'contest_type' ),
 			'hierarchical'        => false,
 			'public'              => true,

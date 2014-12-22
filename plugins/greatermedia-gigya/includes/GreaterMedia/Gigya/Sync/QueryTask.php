@@ -4,9 +4,10 @@ namespace GreaterMedia\Gigya\Sync;
 
 class QueryTask extends SyncTask {
 
-	public $page_size = 1000;
-	public $collector = null;
-	public $message_types = array(
+	public $page_size         = 1000;
+	public $preview_page_size = 5;
+	public $collector         = null;
+	public $message_types     = array(
 		'enqueue',
 		'execute',
 		'retry',
@@ -19,15 +20,47 @@ class QueryTask extends SyncTask {
 	}
 
 	function run() {
+		$query          = $this->get_query();
+		$cursor         = $this->get_cursor();
+		$store_type     = $this->get_store_type();
+		$subquery_count = $this->get_subquery_count();
+
+		if ( ! $this->is_fast_preview() ) {
+			$paginator = new QueryPaginator( $store_type, $this->page_size );
+			$matches   = $paginator->fetch( $query, $cursor );
+			$users     = $this->find_users( $matches['results'] );
+
+			$this->save_users( $users );
+
+			return $matches;
+		} else if ( $store_type === 'profile' ) {
+			return $this->run_fast_profile_preview();
+		} else if ( $store_type === 'data_store' ) {
+			return $this->run_fast_data_store_preview();
+		}
+	}
+
+	function run_fast_profile_preview() {
+		$paginator  = new QueryPaginator( 'profile', $this->preview_page_size );
 		$query      = $this->get_query();
-		$cursor     = $this->get_cursor();
-		$store_type = $this->get_store_type();
+		$query      = str_replace( 'select *', 'select profile.email, UID', $query );
+		$matches    = $paginator->fetch( $query, 0 );
+		$users      = $this->find_preview_users( $matches['results'] );
 
-		$paginator = new QueryPaginator( $store_type, $this->page_size );
-		$matches   = $paginator->fetch( $query, $cursor );
+		$this->save_preview_users( $users, $matches['total_results'] );
 
-		$users = $this->find_users( $matches['results'] );
-		$this->save_users( $users );
+		return $matches;
+	}
+
+	function run_fast_data_store_preview() {
+		$paginator = new QueryPaginator( 'data_store', $this->preview_page_size );
+		$query     = $this->get_query();
+		$matches   = $paginator->fetch( $query, 0 );
+		$user_ids  = $this->find_users( $matches['results'] );
+		$finder    = new GigyaUserFinder();
+		$users     = $finder->find( $user_ids );
+
+		$this->save_preview_users( $users, $matches['total_results'] );
 
 		return $matches;
 	}
@@ -46,14 +79,45 @@ class QueryTask extends SyncTask {
 		}
 	}
 
+	function find_preview_users( $results ) {
+		$finder = new GigyaUserFinder();
+		return $finder->results_to_users( $results );
+	}
+
 	function save_users( $users ) {
 		$collector = $this->get_collector();
 		$collector->collect( $users, $this->get_store_type() );
 	}
 
+	// KLUDGE - Duplication
+	function save_preview_users( $users, $count ) {
+		$results = array(
+			'total' => $count,
+			'users' => $users,
+		);
+
+		$json = json_encode( $results );
+
+		update_post_meta(
+			$this->get_member_query_id(),
+			'member_query_preview_results',
+			$json
+		);
+	}
+
 	function after( $matches ) {
+		$sentinel = $this->get_sentinel();
+
+		if ( $this->is_fast_preview() ) {
+			$sentinel->set_task_progress( 'profile', 100 );
+			$sentinel->set_task_progress( 'data_store', 100 );
+			$sentinel->set_task_progress( 'compile_results', 100 );
+			$sentinel->set_task_progress( 'preview_results', 100 );
+			return;
+		}
+
 		if ( array_key_exists( 'progress', $matches ) ) {
-			$this->get_sentinel()->set_task_progress(
+			$sentinel->set_task_progress(
 				$this->get_store_type(),
 				$matches['progress']
 			);
@@ -96,6 +160,15 @@ class QueryTask extends SyncTask {
 		}
 
 		return $this->collector;
+	}
+
+	function get_subquery_count() {
+		return $this->get_param( 'subquery_count' );
+	}
+
+	function is_fast_preview() {
+		return $this->get_mode() === 'preview' &&
+			$this->get_subquery_count() === 1;
 	}
 
 }

@@ -67,7 +67,7 @@ class MemberQuery {
 	 * @access public
 	 * @var string
 	 */
-	public $storeName = 'entries';
+	public $storeName = 'actions';
 
 	/**
 	 * Stores the post object corresponding to the member query and
@@ -294,6 +294,7 @@ class MemberQuery {
 				return 'profile';
 
 			case 'profile':
+			case 'data':
 				return 'profile';
 
 			case 'record':
@@ -379,7 +380,13 @@ class MemberQuery {
 				return $this->clause_for_record_constraint( $constraint );
 
 			case 'action':
-				return $this->clause_for_action_constraint( $constraint );
+				$subType = $typeList[1];
+
+				if ( $subType === 'comment_date' ) {
+					return $this->clause_for_comment_date_constraint( $constraint );
+				} else {
+					return $this->clause_for_action_constraint( $constraint );
+				}
 
 			case 'profile':
 				$subType = $typeList[1];
@@ -390,6 +397,15 @@ class MemberQuery {
 					return $this->clause_for_favorites_constraint( $constraint );
 				} else {
 					return $this->clause_for_profile_constraint( $constraint );
+				}
+
+			case 'data':
+				$subType = $typeList[1];
+
+				if ( $subType === 'comment_status' ) {
+					return $this->clause_for_comment_status_constraint( $constraint );
+				} else {
+					return $this->clause_for_data_constraint( $constraint );
 				}
 
 			case 'system':
@@ -467,23 +483,23 @@ class MemberQuery {
 		$entryFieldID = $constraint['entryFieldID'];
 		$query        = '';
 
-		$query .= $this->field_name_for( 'entryType' );
+		$query .= $this->field_name_for( 'actionType', 'none' );
 		$query .= ' ';
 		$query .= $this->operator_for( '=' );
 		$query .= ' ';
-		$query .= $this->value_for( $type );
+		$query .= $this->value_for( $this->get_action_type_name( $type ) );
 
 		$query .= ' and ';
 
-		$query .= $this->field_name_for( 'entryTypeID', 'integer' );
+		$query .= $this->field_name_for( 'actionID', 'none' );
 		$query .= ' ';
 		$query .= $this->operator_for( '=' );
 		$query .= ' ';
-		$query .= $this->value_for( $entryTypeID, 'integer' );
+		$query .= $this->value_for( $entryTypeID, 'string' );
 
 		$query .= ' and ';
 
-		$query .= $this->field_name_for( 'entryFieldID', 'string' );
+		$query .= $this->field_name_for( 'actionData.name', 'none' );
 		$query .= ' ';
 		$query .= $this->operator_for( '=' );
 		$query .= ' ';
@@ -491,7 +507,7 @@ class MemberQuery {
 
 		$query .= ' and ';
 
-		$query .= $this->field_name_for( 'entryValue', $valueType );
+		$query .= $this->field_name_for( 'actionData.value', $valueType );
 		$query .= ' ';
 		$query .= $this->operator_for( $operator );
 		$query .= ' ';
@@ -524,6 +540,70 @@ class MemberQuery {
 		return $query;
 	}
 
+	public function clause_for_data_constraint( $constraint ) {
+		$type      = $constraint['type'];
+		$typeParts = explode( ':', $type );
+		$value     = $constraint['value'];
+		$valueType = $constraint['valueType'];
+		$operator  = $constraint['operator'];
+		$query     = '';
+
+		$query .= 'data.' . $typeParts[1];
+		$query .= ' ';
+		$query .= $this->operator_for( $operator );
+		$query .= ' ';
+		$query .= $this->value_for( $value, $valueType );
+
+		return $query;
+	}
+
+	public function clause_for_comment_status_constraint( $constraint ) {
+		$type      = $constraint['type'];
+		$typeParts = explode( ':', $type );
+		$value     = $constraint['value'];
+		$valueType = $constraint['valueType'];
+		$operator  = $constraint['operator'];
+
+		if ( $operator === 'equals' && $value ) {
+			$query = 'data.comment_count > 0';
+		} else {
+			$query = 'data.comment_count = 0 or data.comment_count is null';
+		}
+
+		return $query;
+	}
+
+	public function clause_for_comment_date_constraint( $constraint ) {
+		$type          = $constraint['type'];
+		$value         = $constraint['value'];
+		$valueType     = $constraint['valueType'];
+		$operator      = $constraint['operator'];
+		$query         = '';
+
+		$query .= $this->data_store_field_name_for( 'actionType', 'none' );
+		$query .= ' ';
+		$query .= $this->operator_for( '=' );
+		$query .= ' ';
+		$query .= $this->value_for( 'action:comment' );
+
+		$query .= ' and ';
+
+		$query .= $this->data_store_field_name_for( 'actionData.name', 'none' );
+		$query .= ' ';
+		$query .= $this->operator_for( 'equals' );
+		$query .= ' ';
+		$query .= $this->value_for( 'timestamp', 'string' );
+
+		$query .= ' and ';
+
+		$query .= $this->data_store_field_name_for( 'actionData.value', 'integer' );
+		$query .= ' ';
+		$query .= $this->operator_for( $operator );
+		$query .= ' ';
+		$query .= $this->value_for( $value, 'epoch' );
+
+		return $query;
+	}
 	/**
 	 * Generates the GQL clause for a likes constraint specified.
 	 *
@@ -629,6 +709,12 @@ class MemberQuery {
 			);
 
 			return $date->getTimestamp() * 1000;
+		} elseif ( $valueType === 'epoch' ) {
+			$date = \DateTime::createFromFormat(
+				'm/d/Y', $value, new \DateTimeZone( 'UTC' )
+			);
+
+			return $date->getTimestamp();
 		} else {
 			return $value;
 		}
@@ -692,7 +778,9 @@ class MemberQuery {
 	 * @return string
 	 */
 	public function suffix_for( $valueType ) {
-		if ( array_key_exists( $valueType, self::$suffixes ) ) {
+		if ( $valueType === 'none' ) {
+			return '';
+		} else if ( array_key_exists( $valueType, self::$suffixes ) ) {
 			return '_' . self::$suffixes[ $valueType ];
 		} else {
 			return '_s';
@@ -714,6 +802,16 @@ class MemberQuery {
 			return 'actions';
 		} else {
 			throw new \Exception( "Unknown Gigya storage type name: {$type}" );
+		}
+	}
+
+	public function get_action_type_name( $old_type_name ) {
+		switch ( $old_type_name ) {
+			case 'record:contest':
+				return 'action:contest';
+
+			default:
+				return $old_type_name;
 		}
 	}
 

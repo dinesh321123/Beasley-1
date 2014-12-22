@@ -32,6 +32,9 @@ class ShowsCPT {
 
 			add_action( 'init', array( self::$_instance, 'register_post_type' ) );
 			add_action( 'init', array( self::$_instance, 'register_shadow_taxonomy' ) );
+
+			add_filter( 'gmr_blogroll_widget_item_post_types', array( self::$_instance, 'add_episode_pt_to_blogroll_widget' ) );
+			add_filter( 'gmr_blogroll_widget_item_ids', array( self::$_instance, 'get_episodes_blogroll_widget_item_ids' ) );
 		}
 
 		return self::$_instance;
@@ -140,6 +143,40 @@ class ShowsCPT {
 		);
 
 		return $post_types;
+	}
+
+	/**
+	 * Registers show episode post type in the blogroll widget.
+	 *
+	 * @filter gmr_blogroll_widget_item_post_types
+	 * @param array $post_types The post types array.
+	 * @return array The post types array.
+	 */
+	public function add_episode_pt_to_blogroll_widget( $post_types ) {
+		$post_types[] = self::EPISODE_CPT;
+		return $post_types;
+	}
+
+	/**
+	 * Returns show episode ids to include into blogroll widget.
+	 *
+	 * @filter gmr_blogroll_widget_item_ids
+	 * @param array $posts The array post ids.
+	 * @return array The extended array with show episodes ids.
+	 */
+	public function get_episodes_blogroll_widget_item_ids( $posts ) {
+		$query = new WP_Query();
+
+		return array_merge( $posts, $query->query(  array(
+			'post_type'           => self::EPISODE_CPT,
+			'post_status'         => 'publish',
+			'orderby'             => 'date',
+			'order'               => 'DESC',
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+			'posts_per_page'      => 20,
+			'fields'              => 'ids',
+		) ) );
 	}
 
 }

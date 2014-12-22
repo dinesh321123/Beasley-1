@@ -68,9 +68,13 @@ Curated posts for Featured Articles
 .home__featured {
 	position: relative;
 	@extend %main;
-	padding: 48px;
-	background: url(../../images/featured-bg.png) repeat center center $abbey;
+	padding: 1em;
+	background: url(../../images/featured-bg.png) repeat center center $featured-bg;
 	background-size: auto 40%;
+
+	@include bp(medium) {
+		padding: 48px;
+	}
 }
 
 .featured__article, .featured__content {
@@ -82,11 +86,8 @@ Curated posts for Featured Articles
 	width: 100%;
 	height: 100px;
 	overflow: hidden;
-	background-color: $abbey;
-	@include bp(small) {
-		height: 150px;
-	}
-	@include bp(large) {
+	background-color: $featured-bg;
+	@include bp(medium) {
 		height: 256px;
 	}
 	@include bp(x-large) {
@@ -111,8 +112,8 @@ Curated posts for Featured Articles
 	}
 
 	.home__featured & {
-		background-color: $coffee-bean;
-		color: $iron;
+		background-color: $featured-bg;
+		color: $secondary-link;
 	}
 }
 
@@ -182,8 +183,8 @@ Curated posts for Featured Articles
 	}
 
 	.home__featured & {
-		background-color: $coffee-bean;
-		color: $iron;
+		background-color: $featured-bg;
+		color: $secondary-link;
 	}
 }
 
@@ -212,7 +213,7 @@ Curated posts for Featured Articles
 	@include omega;
 	
 	.home__featured & {
-		color: $aluminium;
+		color: $highlights-text;
 	}
 }
 
@@ -238,7 +239,7 @@ Curated posts for Featured Articles
 	width: 40%;
 	margin-bottom: 4px;
 	font-size: ms(-2);
-	color: $sweet-corn;
+	color: $color-text-yellow;
 	@include bp(large) {
 		display: block;
 		width: 100%;
@@ -258,7 +259,7 @@ Curated posts for Featured Articles
 }
 
 .featured__content--btn {
-	@include btn($cardinal, $color-text-white, $cardinal, .25em, 1.5em, ms(-2));
+	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1.5em, ms(-2));
 	@include border-radius(1.5em);
 	text-transform: uppercase;
 }

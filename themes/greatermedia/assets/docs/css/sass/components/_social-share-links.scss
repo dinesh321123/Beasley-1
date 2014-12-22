@@ -27,7 +27,7 @@ a.social-share-link {
 	padding: 9px;
 
 	&:hover {
-		color: $heath;
+		color: $social-hover;
 	}
 }
 
@@ -54,7 +54,7 @@ a.social-share-link {
 }
 
 .social__link a:hover, .social__link a:focus {
-	color: $iron;
+	color: $secondary-link;
 }
 
 .social__link a:active {

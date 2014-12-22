@@ -59,16 +59,6 @@ class Plugin {
 		$this->member_query_post_type = new MemberQueryPostType();
 		$this->member_query_post_type->register();
 
-		$session_data = array(
-			'data' => array(
-				'ajax_url'               => admin_url( 'admin-ajax.php' ),
-				'register_account_nonce' => wp_create_nonce( 'register_account' ),
-				'gigya_login_nonce'      => wp_create_nonce( 'gigya_login' ),
-				'gigya_logout_nonce'     => wp_create_nonce( 'gigya_logout' ),
-				'cid'                    => get_gigya_user_id(),
-			)
-		);
-
 		/* Lazy register ajax handlers only if this is an ajax request */
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			$this->register_ajax_handlers();
@@ -85,14 +75,6 @@ class Plugin {
 		$contest_entry_dispatcher = new Action\ContestEntryDispatcher();
 		$contest_entry_dispatcher->register();
 
-		if ( ! $profile_page->is_user_on_profile_page() && ! is_admin() ) {
-			$this->enqueue_script(
-				'gigya_session',
-				'js/gigya_session.js',
-				array( 'jquery', 'cookies-js' )
-			);
-		}
-
 		wp_register_script(
 			'wp_ajax_api',
 			$this->postfix( plugins_url( 'js/wp_ajax_api.js', $this->plugin_file ), '.js' ),
@@ -100,6 +82,26 @@ class Plugin {
 			GMR_GIGYA_VERSION,
 			true
 		);
+
+		if ( ! $profile_page->is_user_on_profile_page() && ! is_admin() ) {
+			$this->enqueue_script(
+				'gigya_session',
+				'js/gigya_session.js',
+				array( 'jquery', 'cookies-js', 'wp_ajax_api' )
+			);
+
+			$session_data = array(
+				'data'                        => array(
+					'ajax_url'                => admin_url( 'admin-ajax.php' ),
+					'save_gigya_action_nonce' => wp_create_nonce( 'save_gigya_action' ),
+					'has_participated_nonce'  => wp_create_nonce( 'has_participated' )
+				)
+			);
+
+			wp_localize_script(
+				'gigya_session', 'gigya_session_data', $session_data
+			);
+		}
 	}
 
 	public function initialize_admin() {
@@ -122,13 +124,18 @@ class Plugin {
 	public function register_ajax_handlers() {
 		$handlers   = array();
 
-		$handlers[] = new Ajax\GigyaLoginAjaxHandler();
-		$handlers[] = new Ajax\GigyaLogoutAjaxHandler();
+		//$handlers[] = new Ajax\GigyaLoginAjaxHandler();
+		//$handlers[] = new Ajax\GigyaLogoutAjaxHandler();
 		$handlers[] = new Ajax\PreviewResultsAjaxHandler();
 		$handlers[] = new Ajax\RegisterAjaxHandler();
 		$handlers[] = new Ajax\ListEntryTypesAjaxHandler();
 		$handlers[] = new Ajax\ListEntryFieldsAjaxHandler();
 		$handlers[] = new Ajax\ChangeGigyaSettingsAjaxHandler();
+		$handlers[] = new Ajax\HasParticipatedAjaxHandler();
+
+		if ( is_gigya_user_logged_in() ) {
+			$handlers[] = new Ajax\SaveGigyaActionAjaxHandler();
+		}
 
 		foreach ( $handlers as $handler ) {
 			$handler->register();

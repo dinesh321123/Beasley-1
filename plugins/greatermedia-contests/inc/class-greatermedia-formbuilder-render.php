@@ -101,16 +101,29 @@ class GreaterMediaFormbuilderRender {
 			}
 
 			$submitted_values = array();
+			$submitted_files  = array(
+				'images' => array(),
+				'other'  => array(),
+			);
 			foreach ( $form as $field ) {
 
 				$post_array_key = 'form_field_' . $field->cid;
 
-				if ( isset( $_POST[ $post_array_key ] ) ) {
+				if ( 'file' === $field->field_type ) {
+
+					if ( isset( $_FILES[ $post_array_key ] ) ) {
+						$file_type_index                                        = self::file_type_index( $_FILES[ $post_array_key ]['tmp_name'] );
+						$submitted_files[ $file_type_index ][ $post_array_key ] = $_FILES[ $post_array_key ];
+					}
+
+				} else if ( isset( $_POST[ $post_array_key ] ) ) {
+
 					if ( is_scalar( $_POST[ $post_array_key ] ) ) {
 						$submitted_values[ $field->cid ] = sanitize_text_field( $_POST[ $post_array_key ] );
 					} else if ( is_array( $_POST[ $post_array_key ] ) ) {
 						$submitted_values[ $field->cid ] = array_map( 'sanitize_text_field', $_POST[ $post_array_key ] );
 					}
+
 				}
 
 			}
@@ -124,6 +137,8 @@ class GreaterMediaFormbuilderRender {
 			);
 
 			$entry->save();
+
+			self::handle_submitted_files( $submitted_files, $entry );
 
 			do_action( 'greatermedia_contest_entry_save', $entry );
 
@@ -192,6 +207,7 @@ class GreaterMediaFormbuilderRender {
 				'form'        => 1,
 				'checked'     => 1,
 				'required'    => 1,
+				'accept'      => 1,
 			);
 
 			$tags['textarea'] = array(
@@ -305,7 +321,13 @@ class GreaterMediaFormbuilderRender {
 
 			}
 
-			$html .= self::get_submit_button( 'Enter', null, null, true );
+			$submit_text = get_post_meta( $post_id, 'form-submitbutton', true );
+			if ( empty( $submit_text ) ) {
+				// If you change this string, be sure to get all the places it's used in this class
+				$submit_text = __( 'Submit', 'greatermedia_contests' );
+			}
+
+			$html .= self::get_submit_button( $submit_text, null, null, true );
 
 			$html .= '</form>';
 
@@ -712,8 +734,22 @@ class GreaterMediaFormbuilderRender {
 
 	}
 
+	/**
+	 * Render a file upload field
+	 *
+	 * @param integer  $post_id
+	 * @param stdClass $field
+	 *
+	 * @return string html
+	 */
 	protected static function render_file( $post_id, stdClass $field ) {
-		return self::render_input_tag( 'file', $post_id, $field );
+
+		$special_attributes = array(
+			'accept' => "image/*",
+		);
+
+		return self::render_input_tag( 'file', $post_id, $field, $special_attributes );
+
 	}
 
 	/**
@@ -1167,7 +1203,88 @@ class GreaterMediaFormbuilderRender {
 		}
 
 		return $textarea_tag_attributes;
-		
+
+	}
+
+	/**
+	 * Identify what type of file an upload is so it can be handled appropriately
+	 *
+	 * @param $filename path to filename
+	 *
+	 * @return string 'images'|'other'
+	 */
+	protected static function file_type_index( $filename ) {
+
+		if ( file_is_valid_image( $filename ) ) {
+			return 'images';
+		} else {
+			return 'other';
+		}
+
+	}
+
+	/**
+	 * @param array                    $submitted_files
+	 * @param GreaterMediaContestEntry $entry
+	 *
+	 * @return GreaterMediaUserGeneratedContent|null
+	 */
+	protected static function handle_submitted_files( array $submitted_files, GreaterMediaContestEntry $entry ) {
+
+		/**
+		 * Ignoring the "other" files per GMR-343
+		 * "There's no reason for Contest or Survey upload fields to allow any filetypes other than images. Aside
+		 * from security considerations, it also becomes much more complex to manage user generated content if it's
+		 * anything beside photos."
+		 */
+		if ( empty( $submitted_files['images'] ) ) {
+
+			// No need to create UGC
+			return null;
+
+		} elseif ( 1 === count( $submitted_files['images'] ) ) {
+
+			// Single image. Create a GreaterMediaUserGeneratedImage.
+			$ugc                    = GreaterMediaUserGeneratedContent::for_data_type( 'image' );
+			$ugc->post->post_parent = $entry->post_id();
+			$ugc_post_id            = $ugc->save();
+
+			$upload_field = array_keys( $submitted_files['images'] )[0];
+			$upload_data  = array_values( $submitted_files['images'] )[0];
+
+			$attachment_id = media_handle_upload(
+				$upload_field,
+				$ugc_post_id
+			);
+
+			$ugc->post->post_content = wp_get_attachment_image( $attachment_id, 'full' );
+
+			$ugc->save();
+
+		} else {
+
+			// Multiple images. Create a GreaterMediaUserGeneratedGallery.
+			$ugc                    = GreaterMediaUserGeneratedContent::for_data_type( 'gallery' );
+			$ugc->post->post_parent = $entry->post_id();
+			$ugc_post_id            = $ugc->save();
+
+			$attachment_ids = array();
+			foreach($submitted_files['images'] as $upload_field => $upload_data) {
+
+				$attachment_ids[] = media_handle_upload(
+					$upload_field,
+					$ugc_post_id
+				);
+			}
+
+			$ugc->post->post_content = '[gallery ids="' . implode( ',', $attachment_ids ) . '"]';
+
+			$ugc->save();
+
+		}
+
+		return $ugc;
+
 	}
 
 }

@@ -188,4 +188,58 @@ class CompileResultsTaskTest extends \WP_UnitTestCase {
 		$actual = wp_async_task_last_added();
 		$this->assertEquals( 'export_results_async_job', $actual['action'] );
 	}
+
+	function test_it_can_count_results_in_query() {
+		$this->insert_user_ids(
+			array( 'a', 'b', 'd', 'e' ), 'data_store'
+		);
+
+		$query = 'SELECT user_id FROM member_query_users';
+		$actual = $this->task->count( $query );
+
+		$this->assertEquals( 4, $actual );
+	}
+
+	function test_it_can_count_results_in_or_conjunction_select_query() {
+		$this->insert_user_ids(
+			range( 'a', 'z' ), 'data_store'
+		);
+
+		$this->task->params['conjunction'] = 'or';
+		$query  = $this->task->get_select_query();
+		$actual = $this->task->count( $query );
+
+		$this->assertEquals( 26, $actual );
+	}
+
+	function test_it_can_count_results_in_and_conjunction_select_query() {
+		$this->insert_user_ids(
+			range( 'a', 'z' ), 'data_store'
+		);
+
+		$this->insert_user_ids(
+			range( 'a', 'e' ), 'profile'
+		);
+
+		$this->task->params['conjunction'] = 'and';
+		$query  = $this->task->get_select_query();
+		$actual = $this->task->count( $query );
+
+		$this->assertEquals( 5, $actual );
+	}
+
+	function test_it_can_run_inserts_in_batches() {
+		$this->insert_user_ids(
+			range( 'a', 'z' ), 'profile'
+		);
+
+		$this->task->params['conjunction'] = 'or';
+		$this->task->page_size = 10;
+		$actual = $this->task->run();
+
+		$actual = $this->find_results_for( 10, 11 );
+		$expected = range( 'a', 'z' );
+		$this->assertEquals( $expected, $actual );
+	}
+
 }

@@ -1,0 +1,19 @@
+{
+	"name": "greatermedia-live-streams",
+	"title": "GreaterMedia Live Streams",
+	"description": "GreaterMedia Live Streams PLugin",
+	"version": "1.0.0",
+	"homepage": "http://wordpress.org/plugins",
+	"author": {
+		"name": "10up",
+		"url": "http://10up.com/"
+	},
+	"devDependencies": {
+		"grunt": "^0.4.5",
+		"grunt-contrib-concat": "^0.5.0",
+		"grunt-contrib-jshint": "^0.10.0",
+		"grunt-contrib-uglify": "^0.6.0",
+		"grunt-contrib-watch": "^0.6.1"
+	},
+	"keywords": []
+}

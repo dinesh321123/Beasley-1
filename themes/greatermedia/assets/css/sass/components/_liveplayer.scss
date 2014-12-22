@@ -170,14 +170,14 @@ category: Components
 	padding: 0;
 	margin: 0;
 	overflow: visible;
-	background-color: $cod-gray;
+	background-color: $liveplayer-bg;
 	line-height: 1;
 	font-size: ms(-1);
 }
 
 .live-player__stream--current.open {
 	display: block;
-	background-color: $cod-gray;
+	background-color: $liveplayer-bg;
 	color: $color-text-white;
 	z-index: 10;
 }
@@ -254,7 +254,7 @@ category: Components
 	@extend %list-item;
 	overflow:auto;
 	padding: .5em 1em;
-	background-color: $cod-gray;
+	background-color: $liveplayer-bg;
 }
 
 .live-player__stream--item:hover {
@@ -263,13 +263,14 @@ category: Components
 
 .live-player__stream--name {
 	float: left;
-	width: 20%;
+	width: 30%;
+	margin-right: 5%;
 	font-size: ms(-1);
 }
 
 .live-player__stream--desc {
 	float: left;
-	width: 80%;
+	width: 65%;
 	line-height: 1.2;
 	font-size: ms(-3);
 }
@@ -330,15 +331,13 @@ category: Components
 }
 
 .live-stream__listen-now--btn {
-	@include btn($cardinal, $color-text-white, $cardinal, .25em, 1em, ms(-1));
-	margin: 0 .5em;
+	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1em, ms(-1));
 	@include border-radius(1em);
 }
 
 .live-stream__now-playing--btn {
-	@include btn(transparent, $color-text-red, $cardinal, .25em, 1em, ms(-1));
+	@include btn(transparent, $color-text-red, $btn-bg, .25em, 1em, ms(-1));
 	display: none;
-	margin: 0 .5em;
 	@include border-radius(1em);
 }
 
@@ -349,7 +348,7 @@ category: Components
 }
 
 .live-stream__resume--btn {
-	@include btn(transparent, $color-text-red, $cardinal, .25em, 1em, ms(-1));
+	@include btn(transparent, $color-text-red, $btn-bg, .25em, 1em, ms(-1));
 	margin: 0 .5em;
 	@include border-radius(1em);
 }
@@ -366,7 +365,7 @@ category: Components
 	margin: 0 auto;
 	@include border-radius(50%);
 	background-color: transparent;
-	border: 2px solid $cardinal;
+	border: 2px solid $btn-bg;
 	outline: none;
 	font-size: 1.25em;
 	font-style: normal;
@@ -424,8 +423,35 @@ category: Components
 	content: "\e60b" !important;
 }
 
-.live-stream__player--container {
+.live-stream__container {
+	width: 0;
 	height: 0;
+	@include transition(background 500ms ease-in-out);
+}
+
+.live-stream__container.vast__pre-roll {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.75);
+	z-index: 20000;
+}
+
+.live-stream__container.vast__pre-roll .live-stream__container--player {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 640px;
+	height: 480px;
+	@include transform(translate(-50%, -50%));
+}
+
+.live-stream__container--player.stream__active {
+	width: 0;
+	height: 0;
+	padding: 0;
 }
 
 .live-stream--podcast__progress {
@@ -433,7 +459,7 @@ category: Components
 	height: 3px;
 	margin: 0 auto;
 	@include border-radius(1px);
-	background-color: $ship-gray;
+	background-color: $medium-gray;
 }
 
 .live-stream--podcast__progress-current {
@@ -441,7 +467,7 @@ category: Components
 	width: 80%;
 	height: 3px;
 	@include border-radius(1px);
-	background-color: $cardinal;
+	background-color: $btn-bg;
 }
 
 .live-stream--podcast__time {
@@ -631,18 +657,6 @@ category: Components
 	border-right: none;
 	border-left: none;
 	font-size: ms(-2);
-}
-
-.live-player--test {
-	width: 100%;
-	padding: .25em .5em;
-	color: $nevada;
-}
-
-.live-player--test_label {
-	display: inline-block;
-	margin-left: 4px;
-	cursor: pointer;
 }
 
 // live links
