@@ -165,3 +165,11 @@
 #major-publishing-actions .export-button {
 	margin-right: 0.5em;
 }
+
+.wrap {
+	display: none;
+}
+
+.wrap.wrap-preloader {
+	display: block;
+}

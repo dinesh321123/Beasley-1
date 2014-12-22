@@ -163,6 +163,12 @@ class Plugin {
 
 		$this->initialize_member_query_scripts( $member_query );
 		$this->initialize_member_query_styles( $member_query );
+
+		add_action( 'admin_notices', array( $this, 'render_preloader' ) );
+	}
+
+	function render_preloader() {
+		include GMR_GIGYA_PATH . '/templates/preloader.php';
 	}
 
 	function initialize_member_query_scripts( $member_query ) {
