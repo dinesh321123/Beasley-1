@@ -6,24 +6,52 @@
 
 	MediaWallConfig.prototype = {
 
-		getCollectionConfig: function() {
-			return {
+		getCollectionConfig: function(wallID) {
+			var collectionConfig = {
 				network     : this.config.network_name,
 				siteId      : this.config.site_id,
 				articleId   : this.config.article_id,
 				environment : this.config.environment
 			};
+
+			//Hardcoded params from the Media Wall CPT
+			//collectionConfig.network     = 'gmphiladelphia.fyre.co';
+			//collectionConfig.siteId      = '363887';
+			//collectionConfig.articleId   = 'custom-1412878981291';
+			//collectionConfig.environment = 'livefyre.com';
+
+			this.loadWallParams(wallID, collectionConfig);
+
+			return collectionConfig;
 		},
 
 		getConfigFor: function(wallID) {
-			return {
+			var wallConfig = {
 				el: $('#media-wall-' + wallID)[0],
-				collectionConfig: this.getCollectionConfig()
+				collectionConfig: this.getCollectionConfig(wallID)
 			};
+
+			this.loadWallParams(wallID, wallConfig);
+
+			return wallConfig;
 		},
 
-		getWalls: function() {
-			return this.config.walls;
+		getWall: function() {
+			return this.config.wall;
+		},
+
+		getWallParams: function(wallID) {
+			var params = window['livefyre_media_wall_' + wallID];
+			return params.data;
+		},
+
+		loadWallParams: function(wallID, target) {
+			var wallParams = this.getWallParams(wallID);
+			for (var param in wallParams) {
+				if (wallParams.hasOwnProperty(param)) {
+					target[param] = wallParams[param];
+				}
+			}
 		}
 
 	};
@@ -38,15 +66,8 @@
 	MediaWallLoader.prototype = {
 
 		load: function() {
-			var walls = this.config.getWalls();
-			var n = walls.length;
-			var i;
-			var wallID;
-
-			for (i = 0; i < n; i++) {
-				wallID = walls[i];
-				this.loadWall(wallID);
-			}
+			var wallID = this.config.getWall();
+			this.loadWall(wallID);
 		},
 
 		loadWall: function(wallID) {
@@ -79,10 +100,7 @@
 		},
 
 		run: function(LiveMediaWall, SDK) {
-			this.loader = new MediaWallLoader(
-				this.config, LiveMediaWall, SDK
-			);
-
+			this.loader = new MediaWallLoader( this.config, LiveMediaWall, SDK );
 			this.loader.load();
 		},
 
@@ -95,9 +113,6 @@
 
 	};
 
-	//$(document).ready(function() {
-		//console.log('doc ready');
-	//});
 	var app = new MediaWallApp();
 	app.load();
 

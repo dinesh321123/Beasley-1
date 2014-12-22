@@ -6,11 +6,32 @@ class MediaWallShortCode {
 
 	public $livefyre_options = null;
 	public $counter = 0;
-	public $rendered_walls = array();
+	public $rendered_wall;
+
+	public $livefyre_params = array(
+		'bodyFontSize',
+		'bodyLineHeight',
+		'buttonBorderColor',
+		'buttonTextColor',
+		'cardBackgroundColor',
+		'displayNameColor',
+		'fontFamily',
+		'footerTextColor',
+		'linkAttachmentBackgroundColor',
+		'linkColor',
+		'textColor',
+		'titleFontSize',
+		'titleLineHeight',
+		'sourceLogoColor',
+		'usernameColor',
+		'network',
+		'siteId',
+		'articleId',
+	);
 
 	public $defaults   = array(
-		'initial' => 10,
-		'columns' => 2,
+		'initial' => 9,
+		'columns' => 3,
 	);
 
 	function register() {
@@ -36,12 +57,10 @@ class MediaWallShortCode {
 		$params  = $this->parse( $params );
 		$container = "<div id='media-wall-{$wall_id}'></div>";
 
-		$this->rendered_walls = array( $wall_id );
+		$this->rendered_wall = $wall_id;
 
 		$wall_key = 'livefyre_media_wall_' . $wall_id;
 		$wall_data = array( 'data' => $params );
-
-		$this->renderer_walls[] = $wall_id;
 
 		wp_localize_script(
 			'livefyre_media_wall_app', $wall_key, $wall_data
@@ -51,11 +70,30 @@ class MediaWallShortCode {
 	}
 
 	function parse( $params ) {
-		$params = shortcode_atts( $this->defaults, $params );
-		$params['initial'] = intval( $params['initial'] );
-		$params['columns'] = intval( $params['columns'] );
+		if ( ! is_array( $params ) ) {
+			$params = array();
+		}
 
-		return $params;
+		$output_params = shortcode_atts( $this->defaults, $params );
+
+		// allows pass-through parameters
+		foreach ( $params as $name => $value ) {
+			if ( $name === 'initial' || $name === 'columns' ) {
+				$value = intval( $value );
+			}
+
+			$output_params[ $name ] = $value;
+		}
+
+		foreach ( $this->livefyre_params as $livefyre_param ) {
+			$lower_name = strtolower( $livefyre_param );
+
+			if ( array_key_exists( $lower_name, $output_params ) && $livefyre_param !== $lower_name ) {
+				$output_params[ $livefyre_param ] = $output_params[ $lower_name ];
+			}
+		}
+
+		return $output_params;
 	}
 
 	function on_footer() {
@@ -77,7 +115,7 @@ class MediaWallShortCode {
 	}
 
 	function did_render() {
-		return count( $this->rendered_walls ) > 0;
+		return ! is_null( $this->rendered_wall );
 	}
 
 	function get_media_wall_options() {
@@ -89,7 +127,7 @@ class MediaWallShortCode {
 				'site_id'      => $this->get_livefyre_option( 'site_id' ),
 				'article_id'   => strval( $post->ID ),
 				'environment'  => $this->get_environment(),
-				'walls'        => $this->rendered_walls,
+				'wall'         => $this->rendered_wall,
 			)
 		);
 	}

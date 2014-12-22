@@ -40,6 +40,7 @@
 							// style is an invalid value or one that hasn't been implemented here yet
 						}
 
+						console.log(args);
 						var wall = window.wall = new LiveMediaWall(args);
 
 					}
@@ -49,5 +50,5 @@
 		}
 
 	});
-	
+
 })(window, document));
