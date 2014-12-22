@@ -34,9 +34,10 @@ get_header(); ?>
 					wp_reset_postdata();
 
 				?>
-				<?php if( $keyword_post_id != 0 ): ?>
-				<h3 class="search__keyword"><?php printf( __( 'Keyword: %s', 'greatermedia' ), '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
 
+				<h3 class="search__keyword"><?php printf( __( 'Search term: %s', 'greatermedia' ), '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
+
+				<?php if( $keyword_post_id != 0 ): ?>
 				<div class="keyword__search--results">
 
 					<?php do_action( 'keyword_search_result' ); ?>
@@ -44,10 +45,8 @@ get_header(); ?>
 				</div>
 
 				<?php endif; ?>
-				
-				<?php if( $count != 1 || $keyword_post_id == 0 ): ?>
+
 				<h2 class="search__title"><?php _e( 'Relevant Search Results', 'greatermedia' ); ?></h2>
-				<?php endif; ?>
 
 				<?php if ( have_posts() ) : while ( have_posts() ) : the_post();
 					$title = get_the_title();
