@@ -72,7 +72,6 @@ function render_tag( $output_html, $tag_id ) {
 		<?php } else { ?>
 			var minWidthOk = true;
 		<?php } ?>
-		console.log( "GMRAds:minWidthOk: " + minWidthOk);
 
 		<?php if ( $max_width ) { ?>
 			var maxWidthOk = ( parseInt( "<?php echo esc_js( $max_width ); ?>", 10 ) >= parseInt( GMRAds.width, 10 ) ) ? true : false;
