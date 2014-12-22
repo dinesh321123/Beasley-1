@@ -63,7 +63,7 @@ class ContestRestriction {
 				$return .= ' early';
 			}
 
-			if( current_time('timestamp') > $contest_start ) {
+			if( current_time('timestamp') > $contest_end ) {
 				$return .= ' late';
 			}
 
