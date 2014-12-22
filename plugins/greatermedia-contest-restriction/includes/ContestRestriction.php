@@ -6,7 +6,6 @@
 
 class ContestRestriction {
 
-	private static $post_type = 'contest';
 	private $gigya_session;
 	private $user_age = 0;
 	private $user_ip;
@@ -17,20 +16,22 @@ class ContestRestriction {
 
 	public function enqueue_scripts() {
 		global $post;
-		$post_id = $post->ID;
-		$min_age = get_post_meta( $post_id, '_min_age', true );
-		$max_entries = get_post_meta( $post_id, '_max_entries', true );
-		$login_url = esc_url_raw( home_url( '/members/login/' ) );
-		wp_enqueue_script( 'cookies-js' );
-		wp_enqueue_script( 'restrict_contest', GMEDIA_CONTEST_RESTRICTION_URL . "assets/js/greatermedia_contest_restriction.js", array( 'jquery', 'cookies-js' ), '1.0.0' );
-		wp_localize_script( 'restrict_contest', 'restrict_data', array( 'min_age' => $min_age, 'post_id' => $post_id, 'login_url' => $login_url ) );
+		if( isset( $post->ID ) && $post->post_type == GreaterMediaContests::CPT_SLUG ) {
+			$post_id = $post->ID;
+			$min_age = get_post_meta( $post_id, '_min_age', true );
+			$max_entries = get_post_meta( $post_id, '_max_entries', true );
+			$login_url = esc_url_raw( home_url( '/members/login/' ) );
+			wp_enqueue_script( 'cookies-js' );
+			wp_enqueue_script( 'restrict_contest', GMEDIA_CONTEST_RESTRICTION_URL . "assets/js/greatermedia_contest_restriction.js", array( 'jquery', 'cookies-js' ), '1.0.0' );
+			wp_localize_script( 'restrict_contest', 'restrict_data', array( 'min_age' => $min_age, 'post_id' => $post_id, 'login_url' => $login_url ) );
+		}
 	}
 
 	public static function restrict_contest( $post_id ) {
 		$post = get_post( $post_id );
 		$post_type = $post->post_type;
 
-		if( $post->post_type == self::$post_type ) {
+		if( $post->post_type == GreaterMediaContests::CPT_SLUG ) {
 			$return = '';
 
 			$member_only = get_post_meta( $post_id, '_member_only', true );
