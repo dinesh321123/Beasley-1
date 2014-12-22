@@ -98,7 +98,8 @@ function greatermedia_scripts_styles() {
 		'greatermedia',
 		get_template_directory_uri() . "/assets/js/greater_media{$postfix}.js",
 		array(
-			'underscore'
+			'underscore',
+			'classlist-polyfill'
 		),
 		GREATERMEDIA_VERSION,
 		true

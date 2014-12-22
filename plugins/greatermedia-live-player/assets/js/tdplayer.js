@@ -18,13 +18,38 @@
 	var currentStation = ''; /* String - Current station played */
 
 	var tdContainer = document.getElementById('td_container');
-	var playButton = document.getElementById('playButton');
-	var pauseButton = document.getElementById('pauseButton');
-	var resumeButton = document.getElementById('resumeButton');
+	var playBtn = document.getElementById('playButton');
+	var pauseBtn = document.getElementById('pauseButton');
+	var resumeBtn= document.getElementById('resumeButton');
 	var listenNow = document.getElementById('live-stream__listen-now');
 	var nowPlaying = document.getElementById('live-stream__now-playing');
 	var $trackInfo = $(document.getElementById('trackInfo'));
-	var gigyaLogin = gmr.homeUrl + "members/login";
+	var gigyaLogin = gmr.homeUrl + "members/login"
+	var clearDebug = document.getElementById('clearDebug');
+
+	/**
+	 * global variables for event types to use in conjunction with `addEventHandler` function
+	 * @type {string}
+	 */
+	var elemClick = 'click',
+		elemLoad = 'load',
+		elemScroll = 'scroll',
+		elemResize = 'resize';
+
+	/**
+	 * function to detect if the current browser can use `addEventListener`, if not, use `attachEvent`
+	 * this is a specific fix for IE8
+	 *
+	 * @param elem
+	 * @param eventType
+	 * @param handler
+	 */
+	function addEventHandler(elem,eventType,handler) {
+		if (elem.addEventListener)
+			elem.addEventListener (eventType,handler,false);
+		else if (elem.attachEvent)
+			elem.attachEvent ('on'+eventType,handler);
+	}
 
 	/**
 	 * @todo remove the console log before beta
@@ -83,9 +108,15 @@
 		);
 
 		player = new TdPlayerApi(tdPlayerConfig);
-		player.addEventListener('player-ready', onPlayerReady);
-		player.addEventListener('configuration-error', onConfigurationError);
-		player.addEventListener('module-error', onModuleError);
+		if (player.addEventListener) {
+			player.addEventListener('player-ready', onPlayerReady);
+			player.addEventListener('configuration-error', onConfigurationError);
+			player.addEventListener('module-error', onModuleError);
+		} else if (player.attachEvent) {
+			player.attachEvent('player-ready', onPlayerReady);
+			player.attachEvent('configuration-error', onConfigurationError);
+			player.attachEvent('module-error', onModuleError);
+		}
 		player.loadModules();
 	}
 
@@ -103,37 +134,36 @@
 	function initControlsUi() {
 
 		// custom call to use button instead of input for styling purposes
-		var playBtn = document.getElementById('playButton'),
-			pauseBtn = document.getElementById('pauseButton'),
-			resumeBtn = document.getElementById('resumeButton'),
-			clearDebug = document.getElementById('clearDebug'),
-			podcastButton = $('.mejs-play');
+		var podcastButton = $('.mejs-play');
 
 		if (playBtn != null) {
-			playBtn.addEventListener('click', playLiveStreamWithPreRoll);
+			addEventHandler(playBtn,elemClick,playLiveStreamWithPreRoll);
 		}
 
 		if (pauseBtn != null) {
-			pauseBtn.addEventListener('click', pauseStream);
+			addEventHandler(pauseBtn,elemClick,pauseStream);
 		}
 
 		if (resumeBtn != null) {
-			resumeBtn.addEventListener('click', resumeStream);
+			addEventHandler(resumeBtn,elemClick,resumeStream);
 		}
 
 		if (clearDebug != null) {
-			clearDebug.addEventListener('click', clearDebugInfo);
+			addEventHandler(clearDebug,elemClick,clearDebugInfo);
 		}
 
 		podcastButton.click(function () {
-			pauseButton.hide();
-			resumeButton.show();
+			pauseBtn.hide();
+			resumeBtn.show();
 			pauseStream();
 		});
 
 	}
 
-	$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
+
+	if (gmr.logged_in) {
+		$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
+	}
 
 	function setPlayingStyles() {
 		if ( null === tdContainer ) {
@@ -142,9 +172,9 @@
 		}
 
 		tdContainer.classList.add('stream__active');
-		playButton.style.display = 'none';
-		resumeButton.style.display = 'none';
-		pauseButton.style.display = 'block';
+		playBtn.style.display = 'none';
+		resumeBtn.style.display = 'none';
+		pauseBtn.style.display = 'block';
 		listenNow.style.display = 'none';
 		nowPlaying.style.display = 'inline-block';
 	}
@@ -155,8 +185,8 @@
 			return;
 		}
 
-		playButton.style.display = 'block';
-		pauseButton.style.display = 'none';
+		playBtn.style.display = 'block';
+		pauseBtn.style.display = 'none';
 		listenNow.style.display = 'inline-block';
 		nowPlaying.style.display = 'none';
 	}
@@ -167,11 +197,11 @@
 			return;
 		}
 
-		playButton.style.display = 'none';
-		pauseButton.style.display = 'none';
+		playBtn.style.display = 'none';
+		pauseBtn.style.display = 'none';
 		listenNow.style.display = 'inline-block';
 		nowPlaying.style.display = 'none';
-		resumeButton.style.display = 'block';
+		resumeBtn.style.display = 'block';
 	}
 
 	function loggedInGigyaUser() {
@@ -181,14 +211,35 @@
 			console.log("--- You are just logged in, so now enjoy some music ---");
 			preVastAd();
 			streamVastAd();
-			player.addEventListener('ad-playback-complete', function() {
-				postVastAd();
-				console.log("--- ad complete ---");
-				playLiveStream();
-			});
+			if (player.addEventListener) {
+				player.addEventListener('ad-playback-complete', function() {
+					postVastAd();
+					console.log("--- ad complete ---");
+					playLiveStream();
+				});
+			} else if (player.attachEvent) {
+				player.attachEvent('ad-playback-complete', function() {
+					postVastAd();
+					console.log("--- ad complete ---");
+					playLiveStream();
+				});
+			}
 		} else {
 			console.log("--- You are logged in, so now enjoy some music ---");
-			playButton.addEventListener('click', playLiveStreamWithPreRoll);
+			addEventHandler(playBtn,elemClick,playLiveStreamWithPreRoll);
+			if (player.addEventListener) {
+				player.addEventListener('ad-playback-complete', function() {
+					postVastAd();
+					console.log("--- ad complete ---");
+					playLiveStream();
+				});
+			} else if (player.attachEvent) {
+				player.attachEvent('ad-playback-complete', function() {
+					postVastAd();
+					console.log("--- ad complete ---");
+					playLiveStream();
+				});
+			}
 		}
 	}
 
@@ -274,17 +325,31 @@
 
 			preVastAd();
 			streamVastAd();
-			player.addEventListener('ad-playback-complete', function() {
-				postVastAd();
-				console.log("--- ad complete ---");
+			if (player.addEventListener) {
+				player.addEventListener('ad-playback-complete', function () {
+					postVastAd();
+					console.log("--- ad complete ---");
 
-				if ( livePlaying ) {
-					player.stop();
-				}
+					if (livePlaying) {
+						player.stop();
+					}
 
-				player.play({station: station, timeShift: true});
-				setPlayingStyles();
-			});
+					player.play({station: station, timeShift: true});
+					setPlayingStyles();
+				});
+			} else if (player.attachEvent) {
+				player.attachEvent('ad-playback-complete', function () {
+					postVastAd();
+					console.log("--- ad complete ---");
+
+					if (livePlaying) {
+						player.stop();
+					}
+
+					player.play({station: station, timeShift: true});
+					setPlayingStyles();
+				});
+			}
 		}
 	}
 
@@ -366,36 +431,64 @@
 		loggedInGigyaUser();
 		initControlsUi();
 
-		player.addEventListener('track-cue-point', onTrackCuePoint);
-		player.addEventListener('ad-break-cue-point', onAdBreak);
-		player.addEventListener( 'stream-track-change', onTrackChange );
-		player.addEventListener( 'hls-cue-point', onHlsCuePoint );
+		if (player.addEventListener) {
+			player.addEventListener('track-cue-point', onTrackCuePoint);
+			player.addEventListener('ad-break-cue-point', onAdBreak);
+			player.addEventListener( 'stream-track-change', onTrackChange );
+			player.addEventListener( 'hls-cue-point', onHlsCuePoint );
 
-		player.addEventListener('stream-status', onStatus);
-		player.addEventListener('stream-geo-blocked', onGeoBlocked);
-		player.addEventListener('timeout-alert', onTimeOutAlert);
-		player.addEventListener('timeout-reach', onTimeOutReach);
-		player.addEventListener('npe-song', onNPESong);
+			player.addEventListener('stream-status', onStatus);
+			player.addEventListener('stream-geo-blocked', onGeoBlocked);
+			player.addEventListener('timeout-alert', onTimeOutAlert);
+			player.addEventListener('timeout-reach', onTimeOutReach);
+			player.addEventListener('npe-song', onNPESong);
 
-		player.addEventListener('stream-select', onStreamSelect);
+			player.addEventListener('stream-select', onStreamSelect);
 
-		player.addEventListener('stream-start', onStreamStarted);
-		player.addEventListener('stream-stop', onStreamStopped);
+			player.addEventListener('stream-start', onStreamStarted);
+			player.addEventListener('stream-stop', onStreamStopped);
+		} else if (player.attachEvent) {
+			player.attachEvent('track-cue-point', onTrackCuePoint);
+			player.attachEvent('ad-break-cue-point', onAdBreak);
+			player.attachEvent( 'stream-track-change', onTrackChange );
+			player.attachEvent( 'hls-cue-point', onHlsCuePoint );
+
+			player.attachEvent('stream-status', onStatus);
+			player.attachEvent('stream-geo-blocked', onGeoBlocked);
+			player.attachEvent('timeout-alert', onTimeOutAlert);
+			player.attachEvent('timeout-reach', onTimeOutReach);
+			player.attachEvent('npe-song', onNPESong);
+
+			player.attachEvent('stream-select', onStreamSelect);
+
+			player.attachEvent('stream-start', onStreamStarted);
+			player.attachEvent('stream-stop', onStreamStopped);
+		}
 
 		player.setVolume(1); //Set volume to 100%
 
 		setStatus('Api Ready');
 		setTech(player.MediaPlayer.tech.type);
 
-		player.addEventListener('list-loaded', onListLoaded);
-		player.addEventListener('list-empty', onListEmpty);
-		player.addEventListener('nowplaying-api-error', onNowPlayingApiError);
+		if (player.addEventListener) {
+			player.addEventListener('list-loaded', onListLoaded);
+			player.addEventListener('list-empty', onListEmpty);
+			player.addEventListener('nowplaying-api-error', onNowPlayingApiError);
+		} else if (player.attachEvent) {
+			player.attachEvent('list-loaded', onListLoaded);
+			player.attachEvent('list-empty', onListEmpty);
+			player.attachEvent('nowplaying-api-error', onNowPlayingApiError);
+		}
 
 		$("#fetchSongHistoryByUserCallsignButton").click(function () {
 			loadNpApi();
 		});
 
-		player.addEventListener('pwa-data-loaded', onPwaDataLoaded);
+		if (player.addEventListener) {
+			player.addEventListener('pwa-data-loaded', onPwaDataLoaded);
+		} else if (player.attachEvent) {
+			player.attachEvent('pwa-data-loaded', onPwaDataLoaded);
+		}
 
 		$("#pwaButton").click(function () {
 			loadPwaData();
@@ -704,21 +797,39 @@
 	}
 
 	function attachAdListeners() {
-		player.addEventListener('ad-playback-start', onAdPlaybackStart);
-		player.addEventListener('ad-playback-error', onAdPlaybackComplete);
-		player.addEventListener('ad-playback-complete', onAdPlaybackComplete);
-		player.addEventListener('ad-countdown', onAdCountdown);
-		player.addEventListener('vast-process-complete', onVastProcessComplete);
-		player.addEventListener('vpaid-ad-companions', onVpaidAdCompanions);
+		if (player.addEventListener){
+			player.addEventListener('ad-playback-start', onAdPlaybackStart);
+			player.addEventListener('ad-playback-error', onAdPlaybackComplete);
+			player.addEventListener('ad-playback-complete', onAdPlaybackComplete);
+			player.addEventListener('ad-countdown', onAdCountdown);
+			player.addEventListener('vast-process-complete', onVastProcessComplete);
+			player.addEventListener('vpaid-ad-companions', onVpaidAdCompanions);
+		} else if (player.attachEvent) {
+			player.attachEvent('ad-playback-start', onAdPlaybackStart);
+			player.attachEvent('ad-playback-error', onAdPlaybackComplete);
+			player.attachEvent('ad-playback-complete', onAdPlaybackComplete);
+			player.attachEvent('ad-countdown', onAdCountdown);
+			player.attachEvent('vast-process-complete', onVastProcessComplete);
+			player.attachEvent('vpaid-ad-companions', onVpaidAdCompanions);
+		}
 	}
 
 	function detachAdListeners() {
-		player.removeEventListener('ad-playback-start', onAdPlaybackStart);
-		player.removeEventListener('ad-playback-error', onAdPlaybackComplete);
-		player.removeEventListener('ad-playback-complete', onAdPlaybackComplete);
-		player.removeEventListener('ad-countdown', onAdCountdown);
-		player.removeEventListener('vast-process-complete', onVastProcessComplete);
-		player.removeEventListener('vpaid-ad-companions', onVpaidAdCompanions);
+		if (player.removeEventListener){
+			player.removeEventListener('ad-playback-start', onAdPlaybackStart);
+			player.removeEventListener('ad-playback-error', onAdPlaybackComplete);
+			player.removeEventListener('ad-playback-complete', onAdPlaybackComplete);
+			player.removeEventListener('ad-countdown', onAdCountdown);
+			player.removeEventListener('vast-process-complete', onVastProcessComplete);
+			player.removeEventListener('vpaid-ad-companions', onVpaidAdCompanions);
+		} else if (player.detachEvent) {
+			player.detachEvent('ad-playback-start', onAdPlaybackStart);
+			player.detachEvent('ad-playback-error', onAdPlaybackComplete);
+			player.detachEvent('ad-playback-complete', onAdPlaybackComplete);
+			player.detachEvent('ad-countdown', onAdCountdown);
+			player.detachEvent('vast-process-complete', onVastProcessComplete);
+			player.detachEvent('vpaid-ad-companions', onVpaidAdCompanions);
+		}
 	}
 
 	var artist;
@@ -730,7 +841,11 @@
 		song = e.data.song;
 
 		artist = song.artist();
-		artist.addEventListener('artist-complete', onArtistComplete);
+		if (artist.addEventListener) {
+			artist.addEventListener('artist-complete', onArtistComplete);
+		} else if (artist.attachEvent) {
+			artist.attachEvent('artist-complete', onArtistComplete);
+		}
 
 		var songData = getNPEData();
 
@@ -750,7 +865,11 @@
 	}
 
 	function onArtistComplete(e) {
-		artist.addEventListener('picture-complete', onArtistPictureComplete);
+		if (artist.addEventListener) {
+			artist.addEventListener('picture-complete', onArtistPictureComplete);
+		} else if (artist.attachEvent) {
+			artist.attachEvent('picture-complete', onArtistPictureComplete);
+		}
 
 		var pictures = artist.getPictures();
 		var picturesIds = [];
@@ -962,10 +1081,18 @@
 			customAudio = new Audio();
 
 			// Revert the button states back to play once the file is done playing
-			customAudio.addEventListener( 'ended', function() {
-				resetInlineAudioStates();
-				setPausedStyles();
-			} );
+			if (customAudio.addEventListener) {
+				customAudio.addEventListener( 'ended', function() {
+					resetInlineAudioStates();
+					setPausedStyles();
+				} );
+			} else if (customAudio.attachEvent) {
+				customAudio.attachEvent( 'ended', function() {
+					resetInlineAudioStates();
+					setPausedStyles();
+				} );
+			}
+
 		}
 	};
 

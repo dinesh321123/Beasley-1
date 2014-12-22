@@ -127,6 +127,14 @@ class GmrDependencies {
 			true
 		);
 
+		wp_register_script(
+			'classlist-polyfill',
+			GMRDEPENDENCIES_URL . 'polyfills/classList.js',
+			array(),
+			false,
+			true
+		);
+
 		// Register styles
 		wp_register_style(
 			'select2'
