@@ -9,19 +9,22 @@
 		var confirm = false;
 		var contest_form = $('.contest_entry_form');
 		var contest_form_inputs = $(".contest_entry_form input");
+		var cookieValue = Cookies.get("contest_res");
 
 		function disable_with_error( error_message ) {
 			contest_form_inputs.prop("disabled", true);
 			contest_form.prepend( '<div class="error">' + error_message + '</div>' );
 		}
 
-		// TODO: add link to login
+		if( cookieValue ) {
+			disable_with_error( 'You have already entered this contest!' );
+			return false;
+		}
+
 		if( contest_form.hasClass('member_only') ) {
 			if ( typeof is_gigya_user_logged_in !== 'undefined' && $.isFunction(is_gigya_user_logged_in)) {
 				if( !is_gigya_user_logged_in() ) {
-					disable_with_error( 'You must be logged in to enter the contest!' );
-				} else {
-					contest_form.removeClass('member_only');
+					disable_with_error( 'You must be logged in to enter the contest!' + '<a href="' + restrict_data.login_url + '">Sign in here</a>' );
 				}
 			} else {
 				disable_with_error( 'You must be logged in to enter the contest!' );
@@ -52,6 +55,35 @@
 		if( contest_form.hasClass('max_entries') ) {
 			disable_with_error( 'This contest has reached maximum number of entries!' );
 		}
+
+		if( contest_form.hasClass('single_entry') ) {
+			if( is_gigya_user_logged_in() ) {
+				has_user_entered_contest( restrict_data.post_id).then(function(response) {
+					if( response.success && response.data ) {
+						disable_with_error( 'You have already entered this contest!' );
+					}
+				});
+			}
+		}
+
+		$('.single_entry').submit( function( e ) {
+			if( !is_gigya_user_logged_in() ) {
+				e.preventDefault();
+				var email = $(this).find('input[type=email]').val();
+				has_email_entered_contest( email ).then(function(response) {
+					if( response.success && response.data ) {
+						disable_with_error( 'You have already entered this contest!' );
+						Cookies.set( "contest_res", "Fuck" );
+						return false;
+					} else {
+						Cookies.set( "contest_res", 1 );
+						return true;
+					}
+				});
+			} else {
+				Cookies.set( "contest_res", 1 );
+			}
+		});
 
 	});
 
