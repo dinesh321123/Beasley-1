@@ -12,22 +12,29 @@ get_header(); ?>
 
 			<section class="content">
 
-				<?php if ( have_posts() ) :
+				<?php if ( have_posts() ) : ?>
 
-					while ( have_posts() ) : the_post(); ?>
+					<div class="gallery-grid">
 
-						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+						<?php while ( have_posts() ) : the_post(); ?>
 
-							<div class="entry-content">
+							<div id="post-<?php the_ID(); ?>" class="gallery-grid__column" >
 
-								<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'thumbnail' ); ?></a>
-								<h4 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+								<div class="gallery-grid__thumbnail">
+									<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 254, 186 ) ); // todo Image Size 254x186 ?></a>
+								</div>
+
+								<div class="gallery-grid__meta">
+									<h3 class="gallery-grid__title">
+										<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+									</h3>
+								</div>
 
 							</div>
 
-						</article>
+						<?php endwhile; ?>
 
-					<?php endwhile; ?>
+					</div>
 
 					<div class="posts-pagination">
 
