@@ -205,8 +205,24 @@
 	}
 
 	function loggedInGigyaUser() {
-		if (!is_gigya_user_logged_in) {
-			console.log("--- Log In with Gigya ---");
+		if (is_gigya_user_logged_in()) {
+			playLiveStream();
+			/*)
+			 console.log("--- You are logged in, so now enjoy some music ---");
+			 addEventHandler(playBtn,elemClick,playLiveStreamWithPreRoll);
+			 if (player.addEventListener) {
+			 player.addEventListener('ad-playback-complete', function() {
+			 postVastAd();
+			 console.log("--- ad complete ---");
+			 playLiveStream();
+			 });
+			 } else if (player.attachEvent) {
+			 player.attachEvent('ad-playback-complete', function() {
+			 postVastAd();
+			 console.log("--- ad complete ---");
+			 playLiveStream();
+			 });
+			 } */
 		} /* else if (document.referrer == gigyaLogin) {
 			console.log("--- You are just logged in, so now enjoy some music ---");
 			preVastAd();
@@ -225,23 +241,7 @@
 				});
 			}
 		} */ else {
-			playLiveStream();
-			/*)
-			console.log("--- You are logged in, so now enjoy some music ---");
-			addEventHandler(playBtn,elemClick,playLiveStreamWithPreRoll);
-			if (player.addEventListener) {
-				player.addEventListener('ad-playback-complete', function() {
-					postVastAd();
-					console.log("--- ad complete ---");
-					playLiveStream();
-				});
-			} else if (player.attachEvent) {
-				player.attachEvent('ad-playback-complete', function() {
-					postVastAd();
-					console.log("--- ad complete ---");
-					playLiveStream();
-				});
-			} */
+			console.log("--- Log In with Gigya ---");
 		}
 	}
 
