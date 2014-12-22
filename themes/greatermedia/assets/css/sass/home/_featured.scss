@@ -18,7 +18,7 @@ Curated posts for Featured Articles
 					<h3 class="featured__article--subtitle">Artist of the Month</h3>
 					<h2 class="featured__article--title">Minshara</h2>
 				</div>
-				<div class="featured__article--bio">
+				<div class="featured__article--excerpt">
 					Min•sha•ra (min SHä rə) 1. adj. the classification for a planet capable of supporting humanoid life; 2. n. electronic pop rock band from Harrisburg / Philadelphia, Pennsylvania From The Viper Room in LA to Webster Hall in NYC, Minshara has been spreading infectious pop melodies, dance grooves, and rock
 				</div>
 			</div>
@@ -67,13 +67,27 @@ Curated posts for Featured Articles
 
 .home__featured {
 	position: relative;
-	@extend %main;
+	@include span-columns(4);
+	@include omega;
 	padding: 1em;
 	background: url(../../images/featured-bg.png) repeat center center $featured-bg;
 	background-size: auto 40%;
-
+	@include bp(small) {
+		@include span-columns(6);
+		@include omega;
+	}
 	@include bp(medium) {
+		@include span-columns(8);
+		@include omega;
 		padding: 48px;
+	}
+	@include bp(large) {
+		@include span-columns(12);
+		@include omega;
+	}
+	@include bp(x-large) {
+		@include span-columns(12);
+		@include omega;
 	}
 }
 
@@ -83,31 +97,54 @@ Curated posts for Featured Articles
 }
 
 .featured__article--image {
-	width: 100%;
+	@include span-columns(4 of 4);
+	@include omega;
 	height: 100px;
 	overflow: hidden;
 	background-color: $featured-bg;
+	@include bp(small) {
+		@include span-columns(6 of 6);
+		@include omega;
+	}
 	@include bp(medium) {
+		@include span-columns(8 of 8);
+		@include omega;
 		height: 256px;
 	}
+	@include bp(large) {
+		@include span-columns(12 of 12);
+		@include omega;
+	}
 	@include bp(x-large) {
+		@include span-columns(12 of 12);
+		@include omega;
 		height: 343px;
 	}
 }
 
 .featured__article--content {
-	width: 100%;
+	@include span-columns(4 of 4);
+	@include omega;
 	padding: 15px 3.928571428572%;
 	overflow: auto;
 	background: $secondary-link;
-
 	@include bp(small) {
+		@include span-columns(6 of 6);
+		@include omega;
 		padding: 15px 4.941176470588%;
 	}
+	@include bp(medium) {
+		@include span-columns(8 of 8);
+		@include omega;
+	}
 	@include bp(large) {
+		@include span-columns(12 of 12);
+		@include omega;
 		padding: 34px 3.921568627451%;
 	}
 	@include bp(x-large) {
+		@include span-columns(12 of 12);
+		@include omega;
 		padding: 34px 2.898550724638%;
 	}
 
@@ -118,59 +155,72 @@ Curated posts for Featured Articles
 }
 
 .featured__article--heading {
-	float: left;
-	width: 100%;
-	@include bp(large) {
-		width: 29.787234042553%;
-		margin-right: 1.519756838906%;
-	}
-	@include bp(x-large) {
-		width: 21.538461538462%; // 196px
-		margin-right: 1.098901098901%; // 10px
-	}
-}
-
-.featured__article--title {
+	@include span-columns(4 of 4);
+	@include omega;
 	margin-top: 0;
 	margin-bottom: 10px;
-	line-height: 1;
 	font-family: $open-sans;
 	font-size: ms(1);
 	font-weight: normal;
+	@include bp(small) {
+		@include span-columns(6 of 6);
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(8 of 8);
+		@include omega;
+	}
+	@include bp(large) {
+		@include span-columns(4 of 12);
+	}
+	@include bp(x-large) {
+		@include span-columns(4 of 12);
+	}
 }
 
-.featured__article--subtitle {
-	margin: 0;
-	line-height: 1;
-	font-size: ms(7);
+.featured__article--heading a, .featured__article--heading a:visited {
 	color: $color-text-white;
 }
 
-.featured__article--bio {
+.featured__article--heading a:hover, .featured__article--heading a:focus {
+	color: $color-text-yellow;
+}
+
+.featured__article--heading a:active{
+	color: darken($color-text-yellow, 9%);
+}
+
+.featured__article--excerpt {
 	display: none;
 	@include bp(large) {
-		display: block;
-		float: left;
-		width: 68.693009118541%;
+		@include span-columns(8 of 12);
+		@include omega;
 		font-size: ms(-1);
 		line-height: 1.5;
 	}
 	@include bp(x-large) {
-		width: 77.362637362637%;
+		@include span-columns(8 of 12);
+		@include omega;
 	}
 }
 
 .featured__content--block {
-	float: left;
-	width: 100%;
+	@include span-columns(4 of 4);
+	@include omega;
 	height: 90px;
 	margin-bottom: 27px;
 	overflow: hidden;
 	background: $secondary-link;
 	@include bp(small) {
-		width: 100%;
+		@include span-columns(4 of 4);
+		@include omega;
 		height: 95px;
 		margin-bottom: 25px;
+	}
+	@include bp(medium) {
+		@include span-columns(4 of 4);
+		@include omega;
+		height: 100%;
 	}
 	@include bp(large) {
 		@include span-columns(4 of 12);
@@ -179,6 +229,7 @@ Curated posts for Featured Articles
 		overflow: visible;
 	}
 	@include bp(x-large) {
+		@include span-columns(4 of 12);
 		height: 106px;
 	}
 
@@ -196,7 +247,19 @@ Curated posts for Featured Articles
 	@include span-columns(4 of 12);
 	height: 100%;
 	overflow: hidden;
-	
+	@include bp(small) {
+		@include span-columns(4 of 12);
+	}
+	@include bp(medium) {
+		@include span-columns(4 of 4);
+		@include omega;
+	}
+	@include bp(large) {
+		@include span-columns(4 of 12);
+	}
+	@include bp(x-large) {
+		@include span-columns(4 of 12);
+	}
 }
 
 .featured__content--image img {
@@ -211,6 +274,22 @@ Curated posts for Featured Articles
 	padding: 1em;
 	@include span-columns(8 of 12);
 	@include omega;
+	@include bp(small) {
+		@include span-columns(8 of 12);
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(4 of 4);
+		@include omega;
+	}
+	@include bp(large) {
+		@include span-columns(8 of 12);
+		@include omega;
+	}
+	@include bp(x-large) {
+		@include span-columns(8 of 12);
+		@include omega;
+	}
 	
 	.home__featured & {
 		color: $highlights-text;
@@ -220,12 +299,24 @@ Curated posts for Featured Articles
 .featured__content--title {
 	margin-top: 0;
 	margin-bottom: 8px;
-	line-height: 1;
+	line-height: 1.25;
 	font-family: $open-sans;
 	font-size: ms(0);
 	@include bp(small) {
 		font-size: ms(1);
 	}
+}
+
+.featured__content--title a:link, .featured__content--title a:visited {
+	color: $color-text-white;
+}
+
+.featured__content--title a:hover, .featured__content--title a:focus {
+	color: $color-text-yellow;
+}
+
+.featured__content--title a:active{
+	color: darken($color-text-yellow, 9%);
 }
 
 .featured__content--list {
@@ -262,4 +353,12 @@ Curated posts for Featured Articles
 	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1.5em, ms(-2));
 	@include border-radius(1.5em);
 	text-transform: uppercase;
+}
+
+.featured__content--btn:hover {
+	@include btn($btn-hover, $color-text-black, $btn-hover, .25em, 1.5em, ms(-2));
+}
+
+.featured__content--btn:active {
+	@include btn($btn-active, $color-text-white, $btn-active, .25em, 1.5em, ms(-2));
 }
