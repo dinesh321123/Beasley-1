@@ -9,9 +9,11 @@ class GreaterMediaGallery {
 	public static $strip_shortcodes = false;
 
 	public static function init() {
-		// Override the core gallery shortcode with our own handler
-		remove_shortcode( 'gallery' );
-		add_shortcode( 'gallery', array( __CLASS__, 'render_shortcode' ) );
+		if ( ! is_admin() ) {
+			// Override the core gallery shortcode with our own handler, only on the front end
+			remove_shortcode( 'gallery' );
+			add_shortcode( 'gallery', array( __CLASS__, 'render_shortcode' ) );
+		}
 
 		// If we need to manually render somewhere, like on the top of a single-gallery template
 		add_action( 'gmr_gallery', array( __CLASS__, 'do_gallery_action' ) );
