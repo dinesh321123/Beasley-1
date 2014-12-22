@@ -35,6 +35,14 @@ QueryBuilderApp.prototype = {
 			collection: queryResults
 		});
 
+		var exportView = new ExportView({
+			el: $('#submitdiv #minor-publishing')
+		});
+
+		var exportMenuView = new ExportMenuView({
+			el: $('#submitdiv #major-publishing-actions')
+		})
+
 		$('#query_builder_metabox').toggleClass('loading', false);
 		$('#query_builder_metabox .loading-indicator').remove();
 
@@ -42,6 +50,8 @@ QueryBuilderApp.prototype = {
 		activeConstraintsView.render();
 		previewView.render();
 		queryResultsView.render();
+		exportView.render();
+		exportMenuView.render();
 
 		activeConstraints.save();
 	},

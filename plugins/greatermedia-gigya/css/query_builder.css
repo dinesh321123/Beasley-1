@@ -158,3 +158,10 @@
 	float: right;
 }
 
+#submitdiv #minor-publishing {
+	visibility: hidden;
+}
+
+#major-publishing-actions .export-button {
+	margin-right: 0.5em;
+}
