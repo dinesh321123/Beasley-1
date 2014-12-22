@@ -32,6 +32,8 @@ module.exports = function(grunt) {
 					'src/views/preview_view.js',
 					'src/views/query_result_item_view.js',
 					'src/views/query_results_view.js',
+					'src/views/export_view.js',
+					'src/views/export_menu_view.js',
 
 					'src/app.js',
 				],

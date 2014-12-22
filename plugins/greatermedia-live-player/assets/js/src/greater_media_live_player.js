@@ -21,12 +21,16 @@
 		pauseButton = $('#pauseButton');
 
 
+	var enablePjax = function() {
+		$(document).pjax('a:not(.ab-item)', 'section.content', {'fragment': 'section.content', 'maxCacheLength': 500, 'timeout' : 5000});
+	};
+
 	playButton.on('click', function(event) {
 		event.preventDefault();
 		// add gif file for testing
 		// call pjax to update container
 		if( !gmlp.logged_in ) {
-			$(document).pjax('a:not(.ab-item)', 'section.content', {'fragment': 'section.content', 'maxCacheLength': 500, 'timeout' : 5000});
+			enablePjax();
 		}
 
 	});

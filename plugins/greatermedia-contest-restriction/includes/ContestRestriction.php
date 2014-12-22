@@ -20,9 +20,10 @@ class ContestRestriction {
 		$post_id = $post->ID;
 		$min_age = get_post_meta( $post_id, '_min_age', true );
 		$max_entries = get_post_meta( $post_id, '_max_entries', true );
-		wp_enqueue_script( 'restrict_contest', GMEDIA_CONTEST_RESTRICTION_URL . "assets/js/greatermedia_contest_restriction.js", array( 'jquery' ), '1.0.0' );
-		wp_localize_script( 'restrict_contest', 'restrict_data', array( 'min_age' => $min_age ) );
-
+		$login_url = esc_url_raw( home_url( '/members/login/' ) );
+		wp_enqueue_script( 'cookies-js' );
+		wp_enqueue_script( 'restrict_contest', GMEDIA_CONTEST_RESTRICTION_URL . "assets/js/greatermedia_contest_restriction.js", array( 'jquery', 'cookies-js' ), '1.0.0' );
+		wp_localize_script( 'restrict_contest', 'restrict_data', array( 'min_age' => $min_age, 'post_id' => $post_id, 'login_url' => $login_url ) );
 	}
 
 	public static function restrict_contest( $post_id ) {
@@ -37,6 +38,9 @@ class ContestRestriction {
 			$restrict_number = get_post_meta( $post_id, '_restrict_number', true );
 			$contestants = count( get_posts( array( 'post_type'=> 'contest_entry', 'post_parent' => $post_id ) ) );
 			$max_entries = get_post_meta( $post_id, '_max_entries', true );
+			$single_entry = get_post_meta( $post->ID, '_single_entry', true );
+			$contest_start = get_post_meta( $post->ID, 'contest-start', true );
+			$contest_end = get_post_meta( $post->ID, 'contest-end', true );
 
 			if ( $member_only == 'on' ) {
 				$return .= ' member_only';
@@ -50,17 +54,19 @@ class ContestRestriction {
 				$return .= ' max_entries';
 			}
 
+			if( $single_entry == 'on' ) {
+				$return .= ' single_entry';
+			}
+
+			if( current_time('timestamp') < $contest_start ) {
+				$return .= ' early';
+			}
+
+			if( current_time('timestamp') > $contest_start ) {
+				$return .= ' late';
+			}
+
 			return $return;
-
-
-			// get user IP
-			/*if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-				$this->user_ip = $_SERVER['HTTP_CLIENT_IP'];
-			} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-				$this->user_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			} else {
-				$this->user_ip = $_SERVER['REMOTE_ADDR'];
-			}*/
 		}
 	}
 

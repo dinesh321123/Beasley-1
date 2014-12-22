@@ -253,6 +253,16 @@ __p += '\n';
 return __p
 };
 
+this["JST"]["src/templates/export.jst"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape;
+with (obj) {
+__p += '<div id="misc-publishing-actions" style="margin-bottom: 0.5em;">\n\n\t<div class="misc-pub-section misc-pub-post-status">\n\t\t<label for="post_status">Status:</label>\n\t\t<span id="post-status-display">57% complete ...</span>\n\t</div>\n\n\t<div class="misc-pub-section curtime misc-pub-curtime">\n\t  <span id="visibility"> View MyEmma Segment: <a href="#"><b>#51353</b></a></span>\n\t</div>\n\n\t<div class="misc-pub-section curtime misc-pub-curtime" style="padding-bottom: 1em;">\n\t\t<span id="timestamp"> Last Export: <b>Dec 17, 2014 @ 22:04</b></span>\n\t</div>\n\n</div>\n';
+
+}
+return __p
+};
+
 this["JST"]["src/templates/favorite_constraint.jst"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
@@ -2179,6 +2189,54 @@ var QueryResultsView = Backbone.CollectionView.extend({
 	modelView: QueryResultItemView
 });
 
+var ExportView = Backbone.View.extend({
+
+	template: getTemplate('export'),
+
+	initialize: function(options) {
+		Backbone.View.prototype.initialize.call(this, options);
+	},
+
+	render: function() {
+		var data = {};
+		var html = this.template(data);
+
+		this.$el.html(html);
+		this.$el.css('visibility', 'visible');
+	},
+
+});
+
+var ExportMenuView = Backbone.View.extend({
+
+	events: {
+		'click .export-button': 'didClickExport'
+	},
+
+	initialize: function(options) {
+		Backbone.View.prototype.initialize.call(this, options);
+	},
+
+	render: function() {
+		var $submitButton = this.getSubmitButton();
+		$submitButton.val('Save');
+		$submitButton.toggleClass('button-primary', false);
+
+		var $exportButton = $('<input name="export" type="button" class="button button-primary button-large export-button" id="export-button" value="Export">');
+		$exportButton.insertBefore($submitButton);
+	},
+
+	getSubmitButton: function() {
+		return $('#publish', this.$el);
+	},
+
+	didClickExport: function(event) {
+		console.log('didClickExport');
+		return false;
+	}
+
+});
+
 var $ = jQuery;
 var QueryBuilderApp = function() {
 	$(document).ready($.proxy(this.initialize, this));
@@ -2216,6 +2274,14 @@ QueryBuilderApp.prototype = {
 			collection: queryResults
 		});
 
+		var exportView = new ExportView({
+			el: $('#submitdiv #minor-publishing')
+		});
+
+		var exportMenuView = new ExportMenuView({
+			el: $('#submitdiv #major-publishing-actions')
+		})
+
 		$('#query_builder_metabox').toggleClass('loading', false);
 		$('#query_builder_metabox .loading-indicator').remove();
 
@@ -2223,6 +2289,8 @@ QueryBuilderApp.prototype = {
 		activeConstraintsView.render();
 		previewView.render();
 		queryResultsView.render();
+		exportView.render();
+		exportMenuView.render();
 
 		activeConstraints.save();
 	},

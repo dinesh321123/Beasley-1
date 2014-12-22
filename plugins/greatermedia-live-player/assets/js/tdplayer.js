@@ -6,6 +6,10 @@
 
 	var player; /* TD player instance */
 
+	var playingCustomAudio = false; /* This will be true if we're playing a custom audio file vs. live stream */
+	var customAudio = false; /* Will be an HTML5 Audio object, if we support it */
+	var customArtist, customTrack, customHash; // So we can re-add these when resuming via live-player
+
 	var adPlaying; /* boolean - Ad break currently playing */
 	var currentTrackCuePoint; /* Current Track */
 	var livePlaying; /* boolean - Live stream currently playing */
@@ -19,6 +23,7 @@
 	var resumeButton = document.getElementById('resumeButton');
 	var listenNow = document.getElementById('live-stream__listen-now');
 	var nowPlaying = document.getElementById('live-stream__now-playing');
+	var $trackInfo = $(document.getElementById('trackInfo'));
 	var gigyaLogin = gmr.homeUrl + "members/login";
 
 	/**
@@ -130,6 +135,45 @@
 
 	$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
 
+	function setPlayingStyles() {
+		if ( null === tdContainer ) {
+			// gigya user is logged out, so everythign is different ಠ_ಠ - Should we force login for inline audio as well??
+			return;
+		}
+
+		tdContainer.classList.add('stream__active');
+		playButton.style.display = 'none';
+		resumeButton.style.display = 'none';
+		pauseButton.style.display = 'block';
+		listenNow.style.display = 'none';
+		nowPlaying.style.display = 'inline-block';
+	}
+
+	function setStoppedStyles() {
+		if ( null === tdContainer ) {
+			// gigya user is logged out, so everythign is different ಠ_ಠ - Should we force login for inline audio as well??
+			return;
+		}
+
+		playButton.style.display = 'block';
+		pauseButton.style.display = 'none';
+		listenNow.style.display = 'inline-block';
+		nowPlaying.style.display = 'none';
+	}
+
+	function setPausedStyles() {
+		if ( null === tdContainer ) {
+			// gigya user is logged out, so everythign is different ಠ_ಠ - Should we force login for inline audio as well??
+			return;
+		}
+
+		playButton.style.display = 'none';
+		pauseButton.style.display = 'none';
+		listenNow.style.display = 'inline-block';
+		nowPlaying.style.display = 'none';
+		resumeButton.style.display = 'block';
+	}
+
 	function loggedInGigyaUser() {
 		if (!gmr.logged_in) {
 			console.log("--- Log In with Gigya ---");
@@ -184,98 +228,103 @@
 		if (livePlaying)
 			player.stop();
 
+		if ( true === playingCustomAudio ) {
+			stopCustomInlineAudio();
+		}
+
 		player.play({station: station, timeShift: true});
+
+		setPlayingStyles();
 	});
 
 	function playLiveStream() {
-		var station = gmr.callsign;
-		if (station == '') {
-			alert('Please enter a Station');
-			return;
-		}
+		if ( true === playingCustomAudio ) {
+			resumeCustomInlineAudio();
+		} else {
+			var station = gmr.callsign;
+			if (station == '') {
+				alert('Please enter a Station');
+				return;
+			}
 
-		debug('playLiveStream - station=' + station);
-
-		if (livePlaying)
-			player.stop();
-
-		player.play({station: station, timeShift: true});
-		tdContainer.classList.add('stream__active');
-		playButton.style.display = 'none';
-		pauseButton.style.display = 'block';
-		listenNow.style.display = 'none';
-		nowPlaying.style.display = 'inline-block';
-	}
-
-	function playLiveStreamWithPreRoll() {
-		var station = gmr.callsign;
-		if (station == '') {
-			alert('Please enter a Station');
-			return;
-		}
-
-		debug('playLiveStream - station=' + station);
-
-		preVastAd();
-		streamVastAd();
-		player.addEventListener('ad-playback-complete', function() {
-			postVastAd();
-			console.log("--- ad complete ---");
+			debug('playLiveStream - station=' + station);
 
 			if (livePlaying)
 				player.stop();
 
 			player.play({station: station, timeShift: true});
-			tdContainer.classList.add('stream__active');
-			playButton.style.display = 'none';
-			pauseButton.style.display = 'block';
-			listenNow.style.display = 'none';
-			nowPlaying.style.display = 'inline-block';
-		});
+		}
+
+		setPlayingStyles();
+	}
+
+	function playLiveStreamWithPreRoll() {
+		if ( true === playingCustomAudio ) {
+			resumeCustomInlineAudio();
+
+			setPlayingStyles();
+		} else {
+			var station = gmr.callsign;
+			if (station == '') {
+				alert('Please enter a Station');
+				return;
+			}
+
+			debug('playLiveStream - station=' + station);
+
+			preVastAd();
+			streamVastAd();
+			player.addEventListener('ad-playback-complete', function() {
+				postVastAd();
+				console.log("--- ad complete ---");
+
+				if ( livePlaying ) {
+					player.stop();
+				}
+
+				player.play({station: station, timeShift: true});
+				setPlayingStyles();
+			});
+		}
 	}
 
 	function stopStream() {
-		player.stop();
+		if ( true === playingCustomAudio ) {
+			stopCustomInlineAudio();
+		} else {
+			player.stop();
+		}
 
-		tdContainer.classList.remove('stream__active');
-		playButton.style.display = 'block';
-		pauseButton.style.display = 'none';
-		listenNow.style.display = 'inline-block';
-		nowPlaying.style.display = 'none';
+		setStoppedStyles();
 	}
 
 	function pauseStream() {
-		player.pause();
+		if ( true === playingCustomAudio ) {
+			pauseCustomInlineAudio();
+		} else {
+			player.pause();
+		}
 
-		tdContainer.classList.remove('stream__active');
-		playButton.style.display = 'none';
-		pauseButton.style.display = 'none';
-		resumeButton.style.display = 'block';
-		listenNow.style.display = 'inline-block';
-		nowPlaying.style.display = 'none';
+		setPausedStyles();
 	}
 
 	function resumeStream() {
-		if (livePlaying) {
-			player.resume();
+		if ( true === playingCustomAudio ) {
+			resumeCustomInlineAudio();
 		} else {
-			player.play();
+			if (livePlaying) {
+				player.resume();
+			} else {
+				player.play();
+			}
 		}
-		tdContainer.classList.add('stream__active');
-		playButton.style.display = 'none';
-		resumeButton.style.display = 'none';
-		pauseButton.style.display = 'block';
-		listenNow.style.display = 'none';
-		nowPlaying.style.display = 'inline-block';
+
+		setPlayingStyles();
 	}
 
 	function seekLive() {
 		player.seekLive();
-		tdContainer.classList.add('stream__active');
-		playButton.style.display = 'none';
-		pauseButton.style.display = 'block';
-		listenNow.style.display = 'none';
-		nowPlaying.style.display = 'inline-block';
+		setPlayingStyles();
 	}
 
 	function loadNpApi() {
@@ -813,5 +862,144 @@
 	function clearDebugInfo() {
 		$('#debugInformation').html('');
 	}
+
+
+
+
+
+	/* Inline Audio Support */
+	var stopLiveStreamIfPlaying = function() {
+		if ( "undefined" !== typeof player && "undefined" !== typeof player.stop ) {
+			player.stop();
+		}
+	};
+
+	var resetInlineAudioStates = function() {
+		$('.podcast__btn--play.playing').removeClass('playing');
+		$('.podcast__btn--pause.playing').removeClass('playing');
+	};
+
+	/*
+	 * Finds any inline audio players with a matching hash of the current custom audio file, and sets the playing state appropriately
+	 */
+	var setInlineAudioStates = function() {
+		var className = '.mp3-' + customHash;
+
+		$( className + ' .podcast__btn--play').addClass('playing');
+		$( className + ' .podcast__btn--pause').addClass('playing');
+	};
+
+	var setInlineAudioSrc = function( src ) {
+		customAudio.src = src;
+	};
+
+	var resumeCustomInlineAudio = function() {
+		playingCustomAudio = true;
+		stopLiveStreamIfPlaying();
+		customAudio.play();
+		setPlayerTrackName();
+		setPlayerArtist();
+		setPlayingStyles();
+		resetInlineAudioStates();
+		setInlineAudioStates();
+	};
+
+	var playCustomInlineAudio = function( src ) {
+		setInlineAudioSrc( src );
+		resumeCustomInlineAudio();
+	};
+
+	var pauseCustomInlineAudio = function() {
+		customAudio.pause();
+		resetInlineAudioStates();
+		setPausedStyles();
+	};
+
+	/*
+	Same as pausing, but sets the "Playing" state to false, to allow resuming live player audio
+	 */
+	var stopCustomInlineAudio = function() {
+		customAudio.pause();
+		resetInlineAudioStates();
+		playingCustomAudio = false;
+		setStoppedStyles();
+	};
+
+	var setPlayerTrackName = function() {
+		var template = _.template('<div class="now-playing__title"><%- title %></div>'),
+			$trackTitleDiv = $('.now-playing__title');
+
+		if ( $trackTitleDiv.length > 0 ) {
+			$trackTitleDiv.text( customTrack );
+		} else {
+			$trackInfo.prepend( template({ title: customTrack }) );
+		}
+	};
+
+	var setPlayerArtist = function() {
+		var template = _.template('<div class="now-playing__artist"><%- artist %></div>'),
+			$trackArtistDiv = $('.now-playing__artist');
+
+		if ( $trackArtistDiv.length > 0 ) {
+			$trackArtistDiv.text( customArtist );
+		} else {
+			$trackInfo.append( template({ artist: customArtist }) );
+		}
+	};
+
+	var setCustomAudioMetadata = function( track, artist, hash ) {
+		customTrack = track;
+		customArtist = artist;
+		customHash = hash;
+
+		setPlayerTrackName();
+		setPlayerArtist();
+		setInlineAudioStates();
+	};
+
+	var initCustomAudioPlayer = function() {
+		if ( "undefined" !== typeof Modernizr && Modernizr.audio ) {
+			customAudio = new Audio();
+
+			// Revert the button states back to play once the file is done playing
+			customAudio.addEventListener( 'ended', function() {
+				resetInlineAudioStates();
+				setPausedStyles();
+			} );
+		}
+	};
+
+	function initInlineAudioUI() {
+		if ( "undefined" !== typeof Modernizr && Modernizr.audio ) {
+			var content = document.querySelectorAll( '.content'),
+				$content = $(content); // Because getElementsByClassName is not supported in IE8 ಠ_ಠ
+
+			$content.on('click', '.podcast__btn--play', function(e) {
+				var $play = $(e.currentTarget);
+
+				playCustomInlineAudio( $play.attr( 'data-mp3-src' ) );
+
+				resetInlineAudioStates();
+
+				setCustomAudioMetadata( $play.attr( 'data-mp3-title' ), $play.attr( 'data-mp3-artist' ), $play.attr('data-mp3-hash') );
+			});
+
+			$content.on('click', '.podcast__btn--pause', pauseCustomInlineAudio );
+		} else {
+			var $meFallbacks = $('.gmr-mediaelement-fallback audio'),
+				$customInterfaces = $('.podcast__play');
+
+			$meFallbacks.mediaelementplayer();
+			$customInterfaces.hide();
+		}
+	}
+
+	initCustomAudioPlayer();
+	initInlineAudioUI();
+	// Ensures our listeners work even after a PJAX load
+	$(document).on( 'pjax:end', function() {
+		initInlineAudioUI();
+		setInlineAudioStates();
+	});
 
 })(jQuery, window);

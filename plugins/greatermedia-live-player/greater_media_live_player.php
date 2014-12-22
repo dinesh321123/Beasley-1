@@ -44,3 +44,4 @@ define( 'GMLIVEPLAYER_PATH',    dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
  * Required Files
  */
 require_once( __DIR__ . '/includes/class-gmlp-player.php' );
+require_once( __DIR__ . '/includes/audio-shortcodes.php' );

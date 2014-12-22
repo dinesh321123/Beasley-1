@@ -50,6 +50,8 @@ class RestrictionMetaboxes {
 	 * Save the meta when the post is saved.
 	 *
 	 * @param int $post_id The ID of the post being saved.
+	 *
+	 * @return int
 	 */
 	public function save_box( $post_id ) {
 
@@ -117,6 +119,13 @@ class RestrictionMetaboxes {
 			update_post_meta( $post_id, '_max_entries', $max_entries );
 		}
 
+		if( isset($_POST['single_entry']) ) {
+			$single_entry = sanitize_text_field( $_POST['single_entry'] );
+			// Update the meta field.
+			update_post_meta( $post_id, '_single_entry', $single_entry );
+		} else {
+			update_post_meta( $post_id, '_single_entry', '' );
+		}
 	}
 
 
@@ -136,52 +145,56 @@ class RestrictionMetaboxes {
 		$max_entries        = get_post_meta( $post->ID, '_max_entries', true );
 		$restrict_age       = get_post_meta( $post->ID, '_restrict_age', true );
 		$min_age            = get_post_meta( $post->ID, '_min_age', true );
-		$start_date         = get_post_meta( $post->ID, '_start_date', true );
-		$end_date           = get_post_meta( $post->ID, '_end_date', true );
-
-		//$start_date = get_post_meta( $post->ID, '_contest_start_date', true );
-		//$end_date = get_post_meta( $post->ID, '_contest_end_date', true );
+		$single_entry       = get_post_meta( $post->ID, '_single_entry', true );
 
 		// Metabox for members only.
 		echo '<div class="restriction_meta_group">';
-			echo '<label for="member_only">';
-			_e( 'Member Only:', 'greatermedia' );
-			echo '</label> ';
-			echo '<input type="checkbox" id="member_only" name="member_only" ' . checked( 'on', $member_only, false ) . ' />';
+		echo '<label for="member_only">';
+		_e( 'Member Only:', 'greatermedia' );
+		echo '</label> ';
+		echo '<input type="checkbox" id="member_only" name="member_only" ' . checked( 'on', $member_only, false ) . ' />';
+		echo '</div>';
+
+		// Metabox for members only.
+		echo '<div class="restriction_meta_group">';
+		echo '<label for="single_entry">';
+		_e( 'Single Entry:', 'greatermedia' );
+		echo '</label> ';
+		echo '<input type="checkbox" id="single_entry" name="single_entry" ' . checked( 'on', $single_entry, false ) . ' />';
 		echo '</div>';
 
 		// Restrict by max entires
 		echo '<div class="restriction_meta_group">';
-			echo '<label for="restrict_number">';
-			_e( 'Restrict number of entries:', 'greatermedia' );
-			echo '</label> ';
-			echo '<input type="checkbox" id="restrict_number" name="restrict_number" ' . checked( 'on', $restrict_number, false ) . ' />';
+		echo '<label for="restrict_number">';
+		_e( 'Restrict number of entries:', 'greatermedia' );
+		echo '</label> ';
+		echo '<input type="checkbox" id="restrict_number" name="restrict_number" ' . checked( 'on', $restrict_number, false ) . ' />';
 
-			echo '<br/>';
-			$disabled = $restrict_number == 'on' ? '' : 'disabled';
-			echo '<div class="max_entries">';
-				echo '<label for="max_entries">';
-				_e( 'Max entries', 'greatermedia' );
-				echo '</label> ';
-				echo '<input ' . $disabled . ' type="text" id="max_entries" name="max_entries" value="' . $max_entries . '" size="25" />';
-			echo '</div>';
+		echo '<br/>';
+		$disabled = $restrict_number == 'on' ? '' : 'disabled';
+		echo '<div class="max_entries">';
+		echo '<label for="max_entries">';
+		_e( 'Max entries', 'greatermedia' );
+		echo '</label> ';
+		echo '<input ' . $disabled . ' type="text" id="max_entries" name="max_entries" value="' . $max_entries . '" size="25" />';
+		echo '</div>';
 		echo '</div>';
 
 		// Restrict by age
 		echo '<div class="restriction_meta_group">';
-			echo '<label for="restrict_age">';
-			_e( 'Restrict by age:', 'greatermedia' );
-			echo '</label> ';
-			echo '<input type="checkbox" id="restrict_age" name="restrict_age" ' . checked( 'on', $restrict_age , false ) . ' />';
+		echo '<label for="restrict_age">';
+		_e( 'Restrict by age:', 'greatermedia' );
+		echo '</label> ';
+		echo '<input type="checkbox" id="restrict_age" name="restrict_age" ' . checked( 'on', $restrict_age , false ) . ' />';
 
-			echo '<br/>';
-			$disabled = $restrict_age == 'on' ? '' : 'disabled';
-			echo '<div class="min_age">';
-				echo '<label for="min_age">';
-				_e( 'Min age', 'greatermedia' );
-				echo '</label> ';
-				echo '<input ' . $disabled . ' type="text" id="min_age" name="min_age" value="' . $min_age . '" size="25" />';
-			echo '</div>';
+		echo '<br/>';
+		$disabled = $restrict_age == 'on' ? '' : 'disabled';
+		echo '<div class="min_age">';
+		echo '<label for="min_age">';
+		_e( 'Min age', 'greatermedia' );
+		echo '</label> ';
+		echo '<input ' . $disabled . ' type="text" id="min_age" name="min_age" value="' . $min_age . '" size="25" />';
+		echo '</div>';
 		echo '</div>';
 	}
 }
