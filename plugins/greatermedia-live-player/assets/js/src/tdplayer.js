@@ -1,7 +1,7 @@
 (function ($, window, undefined) {
 	"use strict";
 
-	var tech = getUrlVars()['tech'];
+	var tech = getUrlVars()['tech'] || 'html5_flash';
 	var aSyncCuePointFallback = getUrlVars()['aSyncCuePointFallback'] == 'false' ? false : true;
 
 	var player; /* TD player instance */
@@ -24,7 +24,7 @@
 	var listenNow = document.getElementById('live-stream__listen-now');
 	var nowPlaying = document.getElementById('live-stream__now-playing');
 	var $trackInfo = $(document.getElementById('trackInfo'));
-	var gigyaLogin = gmr.homeUrl + "members/login"
+	var gigyaLogin = gmr.homeUrl + "members/login";
 	var clearDebug = document.getElementById('clearDebug');
 
 	/**
@@ -85,7 +85,7 @@
 					id: 'MediaPlayer',
 					playerId: 'td_container',
 					isDebug: true,
-					techPriority: techPriority,
+					techPriority:['Html5', 'Flash'],
 					timeShift: { // timeShifting is currently available on Flash only. Leaving for HTML5 future
 						active: 0, /* 1 = active, 0 = inactive */
 						max_listening_time: 35 /* If max_listening_time is undefined, the default value will be 30 minutes */
@@ -205,9 +205,9 @@
 	}
 
 	function loggedInGigyaUser() {
-		if (!gmr.logged_in) {
+		if (!is_gigya_user_logged_in) {
 			console.log("--- Log In with Gigya ---");
-		} else if (document.referrer == gigyaLogin) {
+		} /* else if (document.referrer == gigyaLogin) {
 			console.log("--- You are just logged in, so now enjoy some music ---");
 			preVastAd();
 			streamVastAd();
@@ -224,7 +224,9 @@
 					playLiveStream();
 				});
 			}
-		} else {
+		} */ else {
+			playLiveStream();
+			/*)
 			console.log("--- You are logged in, so now enjoy some music ---");
 			addEventHandler(playBtn,elemClick,playLiveStreamWithPreRoll);
 			if (player.addEventListener) {
@@ -239,7 +241,7 @@
 					console.log("--- ad complete ---");
 					playLiveStream();
 				});
-			}
+			} */
 		}
 	}
 

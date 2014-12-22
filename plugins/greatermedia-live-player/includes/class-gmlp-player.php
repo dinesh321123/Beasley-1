@@ -78,6 +78,9 @@ class GMLP_Player {
 	 *       but causes `data-dojo-config` to load after the src, which then causes the script to fail and the TD Player API will not fully load
 	 */
 	public static function load_js() {
+		echo '<script>
+            var tdApiBaseUrl = \'http://playercore.preprod01.streamtheworld.net/tdplayerapi/2.5/\';
+        </script>';
 
 		echo '<script data-dojo-config="onReady:window.tdPlayerApiReady, async: 1, tlmSiblingOfDojo: 0, deps:[\'tdapi/run\']" src="//api.listenlive.co/tdplayerapi/2.5/dojo/dojo.js"></script>';
 
