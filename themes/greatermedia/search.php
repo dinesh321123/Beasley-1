@@ -31,11 +31,12 @@ get_header(); ?>
 					_e( 'Results Found', 'greatermedia' );
 					echo '</h2>';
 
+					$term_label = $keyword_post_id ? 'Keyword:' : 'Search term:';
 					wp_reset_postdata();
 
 				?>
 
-				<h3 class="search__keyword"><?php printf( __( 'Search term: %s', 'greatermedia' ), '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
+				<h3 class="search__keyword"><?php printf( __( '%s %s', 'greatermedia' ), $term_label, '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
 
 				<?php if( $keyword_post_id != 0 ): ?>
 				<div class="keyword__search--results">
