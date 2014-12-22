@@ -406,6 +406,10 @@ function gmr_streams_get_primary_stream_callsign() {
 	if ( is_null( $callsign) ) {
 		$stream = gmr_streams_get_primary_stream();
 
+		if ( ! isset( $stream->ID ) ) {
+			return '';
+		}
+
 		$callsign = get_post_meta( $stream->ID, 'call_sign', true );
 	}
 
@@ -417,6 +421,10 @@ function gmr_streams_get_primary_stream_vast_url() {
 
 	if ( is_null( $vast_url) ) {
 		$stream = gmr_streams_get_primary_stream();
+
+		if ( ! isset( $stream->ID ) ) {
+			return '';
+		}
 
 		$vast_url = get_post_meta( $stream->ID, 'vast_url', true );
 	}
