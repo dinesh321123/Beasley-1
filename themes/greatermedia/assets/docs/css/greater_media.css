@@ -880,13 +880,8 @@ blockquote p {
  */
 .mobile-nav__toggle {
   position: absolute;
-  top: 50%;
+  top: 20px;
   left: 20px;
-  -webkit-transform: translate(0, -50%);
-  -moz-transform: translate(0, -50%);
-  -ms-transform: translate(0, -50%);
-  -o-transform: translate(0, -50%);
-  transform: translate(0, -50%);
   width: 32px;
   height: 32px;
   box-sizing: border-box;
@@ -1769,11 +1764,13 @@ Community Highlights and Events
   position: relative;
   width: 100%;
   padding: 0;
-  border-bottom: 1px solid #d0d2d3;
   background-color: #191919;
   -webkit-transition: all 200ms linear;
   -moz-transition: all 200ms linear;
   transition: all 200ms linear; }
+  @media screen and (min-width: 768px) {
+    .header {
+      border-bottom: 1px solid #d0d2d3; } }
 
 .header--pinned {
   -webkit-transform: translateY(0%);
@@ -1797,10 +1794,11 @@ Community Highlights and Events
   height: 70px;
   padding: 0;
   background-color: #000000;
-  border-top: 1px solid #282827; }
+  border-bottom: 1px solid #282827; }
   @media screen and (min-width: 768px) {
     .header__main {
-      height: 82px; } }
+      height: 82px;
+      border-top: 1px solid #282827; } }
 
 #breaking-news-banner {
   display: none; }
@@ -1864,7 +1862,7 @@ Community Highlights and Events
       float: left;
       display: block;
       margin-right: 3.57866%;
-      width: 61.158%; }
+      width: 48.21067%; }
       .header__nav:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1024px) {
@@ -1886,13 +1884,8 @@ Community Highlights and Events
 
 .header__secondary {
   position: absolute;
-  top: 50%;
+  top: 25px;
   right: 20px;
-  -webkit-transform: translate(0, -50%);
-  -moz-transform: translate(0, -50%);
-  -ms-transform: translate(0, -50%);
-  -o-transform: translate(0, -50%);
-  transform: translate(0, -50%);
   line-height: 1;
   text-align: right; }
   @media screen and (min-width: 768px) {
@@ -1901,7 +1894,7 @@ Community Highlights and Events
       float: left;
       display: block;
       margin-right: 3.57866%;
-      width: 22.316%;
+      width: 35.26334%;
       margin-right: 0;
       top: auto;
       right: auto;
@@ -1936,7 +1929,6 @@ Community Highlights and Events
   position: relative;
   display: block;
   float: right;
-  height: 70px;
   margin: 0 auto;
   color: #ffffff;
   text-align: center;
@@ -1954,8 +1946,6 @@ Community Highlights and Events
 
 .header__account--btn {
   display: block;
-  height: 70px;
-  padding: 26px 0;
   margin: 0 auto; }
   @media screen and (min-width: 768px) {
     .header__account--btn {
@@ -5577,66 +5567,98 @@ select {
   width: 100%; }
 
 .header__search--form {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: block;
+  position: relative;
   width: 100%;
-  height: 132px;
-  padding: 16px 2.5%;
-  background-color: #ffffff;
-  -webkit-transition: opacity 1s ease-in 0s;
-  -moz-transition: opacity 1s ease-in 0s;
-  transition: opacity 1s ease-in 0s;
-  opacity: 0;
-  filter: alpha(opacity=0);
-  -moz-opacity: 0;
-  -khtml-opacity: 0;
-  zoom: 1;
-  z-index: 28000; }
+  height: 40px;
+  padding: 0 20px;
+  border-top: 1px solid #000000;
+  background-color: transparent; }
+  @media screen and (min-width: 768px) {
+    .header__search--form {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 132px;
+      padding: 16px 2.5%;
+      background-color: #ffffff;
+      border-top: none;
+      -webkit-transition: all 0.5s ease-in-out;
+      -moz-transition: all 0.5s ease-in-out;
+      transition: all 0.5s ease-in-out;
+      -webkit-transform: translate(0, -100%);
+      -moz-transform: translate(0, -100%);
+      -ms-transform: translate(0, -100%);
+      -o-transform: translate(0, -100%);
+      transform: translate(0, -100%);
+      z-index: 28000; } }
 
 .header__search--open {
-  display: block;
-  -webkit-transition: opacity 1s ease-in 0s;
-  -moz-transition: opacity 1s ease-in 0s;
-  transition: opacity 1s ease-in 0s;
-  opacity: 1;
-  filter: alpha(opacity=100);
-  -moz-opacity: 1;
-  -khtml-opacity: 1;
-  zoom: 1; }
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-transform: translate(0, 0);
+  -moz-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0); }
 
 .header__search--input {
   float: left;
   width: 90% !important;
-  height: 100px;
-  background-color: #ffffff !important;
+  height: 40px;
+  padding: 0 !important;
+  background-color: transparent !important;
   border: none !important;
   outline: none;
-  font-size: 2.2807em;
-  color: #000000;
-  text-align: center; }
+  font-size: 1em;
+  color: #929497; }
   .header__search--input::-webkit-input-placeholder {
-    color: #d0d2d3; }
+    color: #929497; }
   .header__search--input::-moz-placeholder {
-    color: #d0d2d3; }
+    color: #929497; }
   .header__search--input:-moz-placeholder {
-    color: #d0d2d3; }
+    color: #929497; }
   .header__search--input:-ms-input-placeholder {
-    color: #d0d2d3; }
+    color: #929497; }
+  @media screen and (min-width: 768px) {
+    .header__search--input {
+      height: 100px;
+      background-color: #ffffff !important;
+      outline: none;
+      font-size: 2.2807em;
+      color: #000000;
+      text-align: center; }
+      .header__search--input::-webkit-input-placeholder {
+        color: #d0d2d3; }
+      .header__search--input::-moz-placeholder {
+        color: #d0d2d3; }
+      .header__search--input:-moz-placeholder {
+        color: #d0d2d3; }
+      .header__search--input:-ms-input-placeholder {
+        color: #d0d2d3; } }
 
 .header__search--submit {
   position: relative;
   float: right;
-  width: 10%;
-  height: 100px;
+  width: 14px;
+  height: 40px;
   border: none;
   background-color: transparent;
-  color: #000000; }
+  color: #929497; }
+  @media screen and (min-width: 768px) {
+    .header__search--submit {
+      width: 10%;
+      height: 100px;
+      color: #000000; } }
 
 .header__search--submit:before {
-  font-size: 1.80203em;
+  font-size: 1.125em;
   content: "\e612"; }
+  @media screen and (min-width: 768px) {
+    .header__search--submit:before {
+      font-size: 1.80203em; } }
 
 .search__results--count {
   padding-bottom: 12px;
