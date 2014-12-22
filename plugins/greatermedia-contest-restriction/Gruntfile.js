@@ -52,7 +52,9 @@ module.exports = function( grunt ) {
 					console:false,
 					get_gigya_user_field:false,
 					restrict_data:false,
-					has_user_entered_contest:false
+					has_user_entered_contest:false,
+					has_email_entered_contest:false,
+					Cookies:false
 				}
 			}		
 		},
@@ -81,7 +83,8 @@ module.exports = function( grunt ) {
 		sass:   {
 			all: {
 				files: {
-					'assets/css/greatermedia_contest_restriction.css': 'assets/css/sass/greatermedia_contest_restriction.scss'
+					'assets/css/greatermedia_contest_restriction.css': 'assets/css/sass/greatermedia_contest_restriction.scss',
+					'assets/css/greatermedia_contest_restriction_admin.css': 'assets/css/sass/greatermedia_contest_restriction_admin.scss'
 				}
 			}
 		},
@@ -98,7 +101,7 @@ module.exports = function( grunt ) {
 				expand: true,
 				
 				cwd: 'assets/css/',				
-				src: ['greatermedia_contest_restriction.css'],
+				src: ['greatermedia_contest_restriction.css', 'greatermedia_contest_restriction_admin.css'],
 				
 				dest: 'assets/css/',
 				ext: '.min.css'

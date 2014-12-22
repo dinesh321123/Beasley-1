@@ -50,6 +50,8 @@ class RestrictionMetaboxes {
 	 * Save the meta when the post is saved.
 	 *
 	 * @param int $post_id The ID of the post being saved.
+	 *
+	 * @return int
 	 */
 	public function save_box( $post_id ) {
 
