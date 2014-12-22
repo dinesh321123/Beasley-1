@@ -22,7 +22,7 @@
 		}
 
 		if( contest_form.hasClass('late') ) {
-			disable_with_error( 'Sorry this contest is already ended!' );
+			disable_with_error( 'Sorry this contest has already ended!' );
 			return false;
 		}
 
