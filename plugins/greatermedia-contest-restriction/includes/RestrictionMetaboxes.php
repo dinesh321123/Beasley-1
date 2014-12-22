@@ -146,8 +146,6 @@ class RestrictionMetaboxes {
 		$restrict_age       = get_post_meta( $post->ID, '_restrict_age', true );
 		$min_age            = get_post_meta( $post->ID, '_min_age', true );
 		$single_entry       = get_post_meta( $post->ID, '_single_entry', true );
-		$start_date = get_post_meta( $post->ID, 'contest-start', true );
-		$end_date = get_post_meta( $post->ID, 'contest-end', true );
 
 		// Metabox for members only.
 		echo '<div class="restriction_meta_group">';
