@@ -37,7 +37,7 @@
 				var cookieValue;
 
 				try {
-					if (atob) {
+					if (window.atob) {
 						cookieText = atob(cookieText);
 					}
 					cookieValue = JSON.parse(cookieText);

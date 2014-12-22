@@ -15,7 +15,8 @@
 		},
 
 		get: function(key) {
-			return this.cookieValue[key];
+			var value = this.cookieValue[key];
+			return value;
 		},
 
 		save: function(persistent) {
@@ -77,7 +78,7 @@
 
 		serialize: function(cookieValue) {
 			var cookieText = JSON.stringify(cookieValue);
-			if (btoa) {
+			if (window.btoa) {
 				return btoa(cookieText);
 			} else {
 				return cookieText;
@@ -89,7 +90,7 @@
 				var cookieValue;
 
 				try {
-					if (atob) {
+					if (window.atob) {
 						cookieText = atob(cookieText);
 					}
 					cookieValue = JSON.parse(cookieText);

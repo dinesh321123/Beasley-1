@@ -117,7 +117,11 @@
 			auth.delegate(this.authDelegate);
 
 			if (is_gigya_user_logged_in()) {
-				auth.authenticate(this.authDelegate.getAuthParams());
+				try {
+					auth.authenticate(this.authDelegate.getAuthParams());
+				} catch (e) {
+					console.log('Failed to login to Livefyre: ' + e.message);
+				}
 			} else {
 				// TODO: Check with livefyre
 				auth.emit('logout');
