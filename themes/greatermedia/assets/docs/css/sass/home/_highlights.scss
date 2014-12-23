@@ -119,7 +119,7 @@ Community Highlights and Events
 	font-family: $open-sans;
 	font-size: ms(1);
 	font-weight: lighter;
-	color: $secondary-heading;
+	color: $primary-text;
 	@include bp(small) {
 		font-size: ms(1);
 	}
@@ -147,35 +147,73 @@ Community Highlights and Events
 // }
 
 .highlights__community {
-	float: left;
-	width: 100%;
+	@include span-columns(4);
+	@include omega;
+	@inclue bp(small) {
+		@include span-columns(6);
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(8);
+		@include omega;
+	}
 	@include bp(large) {
-		@include span-columns(8 of 12);
+		@include span-columns(7);
+	}
+	@include bp(x-large) {
+		@include span-columns(7);
 	}
 }
 
 .highlights__community--item {
 	position: relative;
-	float: left;
+	@include span-columns(2);
 	overflow: auto;
-	width: 140px;
-	margin-right: 1em;
-	margin-bottom: 1em;
-
+  	margin-bottom: 1em;
 	&:nth-of-type(2n) {
-		margin-right: 0;
+		@include omega;
 	}
-
 	&:nth-of-type(3) {
 		display: none;
 	}
-
-	@include bp(large) {
+	@include bp(small) {
+		@include span-columns(3);
 		&:nth-of-type(2n) {
-			margin-right: 1em;
+			@include omega;
+		}
+
+		&:nth-of-type(3) {
+			display: none;
+		}
+	}
+	@include bp(medium) {
+		@include span-columns(4);
+		&:nth-of-type(2n) {
+			@include omega;
+		}
+
+		&:nth-of-type(3) {
+			display: none;
+		}
+	}
+	@include bp(large) {
+		@include span-columns(4);
+		&:nth-of-type(2n) {
+			@include span-columns(4);
 		}
 		&:nth-of-type(3) {
 			display: block;
+			@include omega;
+		}
+	}
+	@include bp(x-large) {
+		@include span-columns(4);
+		&:nth-of-type(2n) {
+			@include span-columns(4);
+		}
+		&:nth-of-type(3) {
+			display: block;
+			@include omega;
 		}
 	}
 }
@@ -197,15 +235,13 @@ Community Highlights and Events
 
 .highlights__community--thumb {
 	position: relative;
-	width: 140px;
-	height: 140px;
+	width: 100%;
+	height: 100%;
 	overflow: hidden;
+}
 
-	img {
-		max-width: none;
-		width: auto;
-		height: 100%;
-	}
+.highlights__community--thumb a {
+	display: block;
 }
 
 .highlights__community--thumb:after {
@@ -215,21 +251,22 @@ Community Highlights and Events
 	transform: translate(-50%, 0);
 	width: 100%;
 	height: 50%;
-	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, .4)));
-	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%);
-	background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%);
-	background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%);
-	background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .4) 100%);
+	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .65) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, .65)));
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .65) 100%);
+	background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .65) 100%);
+	background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .65) 100%);
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .65) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#000000', GradientType=0);
 	content: "";
 }
 
 .highlights__community--title {
 	position: absolute;
-	bottom: 10px;
+	bottom: 0;
 	left: 0;
 	width: 100%;
+	padding: 10px;
 	margin: 0;
 	font-size: ms(0);
 	font-weight: normal;
@@ -238,26 +275,45 @@ Community Highlights and Events
 }
 
 .highlights__events {
-
+	@include span-columns(4);
+	@include omega;
+	@inclue bp(small) {
+		@include span-columns(6);
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(8);
+		@include omega;
+	}
 	@include bp(large) {
-		@include span-columns(4 of 12);
-		@include omega;	
+		@include span-columns(5);
+		@include omega;
+	}
+	@include bp(x-large) {
+		@include span-columns(5);
+		@include omega;
 	}
 }
 
 .highlights__event--item {
 	width: 100%;
-	height: 91px;
+	height: 57px;
 	margin-bottom: 24px;
 	background-color: $primary-bg;
 	overflow: hidden;
+	@include bp(small) {
+		height: 91px;
+	}
+	@include bp(medium) {
+		height: 100px;
+	}
 	@include bp(large) {
-		height: 66px;
-		margin-bottom: 17px;
+		height: 56px;
+		margin-bottom: 16px;
 	}
 	@include bp(x-large) {
-		height: 78px;
-		margin-bottom: 17px;
+		height: 88px;
+		margin-bottom: 21px;
 	}
 }
 
@@ -266,40 +322,49 @@ Community Highlights and Events
 }
 
 .highlights__event--thumb {
-	float: left;
-	width: 34.600760456274%; // 91px
-	margin-right: 7.604562737643%; // 20px
+	@include span-columns(1);
 	@include bp(small) {
-		width: 22.141119221411%; // 91px
-		margin-right: 4.866180048662%; // 20px
+		@include span-columns(2);
+	}
+	@include bp(medium) {
+		@include span-columns(3);
 	}
 	@include bp(large) {
-		width: 28.82096069869%; // 66px
-		margin-right: 4.366812227074%; // 10px
+		@include span-columns(4);
 	}
 	@include bp(x-large) {
-		width: 21.311475409836%; // 78px
-		margin-right: 4.918032786885%; // 18px
+		@include span-columns(4);
 	}
+}
+.highlights__event--thumb img {
+
 }
 
 .highlights__event--meta {
 	position: relative;
-	float: left;
-	width: 57.794676806083%;
-	height: 91px;
+	@include span-columns(3);
+	height: 57px;
 	padding: 10px 2.71186440678% 10px 0;
+	@include omega;
 	@include bp(small) {
-		width: 72.992700729927%;
+		@include span-columns(4);
 		height: 91px;
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(5);
+		height: 100px;
+		@include omega;
 	}
 	@include bp(large) {
-		width: 66.812227074236%;
-		height: 66px;
+		@include span-columns(8);
+		height: 56px;
+		@include omega;
 	}
 	@include bp(x-large) {
-		width: 73.770491803279%;
-		height: 78px;
+		@include span-columns(8);
+		height: 88px;
+		@include omega;
 	}
 }
 
