@@ -48,8 +48,21 @@ function render_tag( $output_html, $tag_id ) {
 		return '';
 	}
 
-	$min_width = isset( $tag_meta['min_width'] ) ? $tag_meta['min_width'] : false;
-	$max_width = isset( $tag_meta['max_width'] ) ? $tag_meta['max_width'] : false;
+	$variant = trim( ad_variant() );
+	if ( ! empty( $variant ) ) {
+		// We know this exists, because otherwise render_variant would not have set this value
+		$variant_meta = $tag_meta['variants'][ $variant ];
+
+		$variant_id = '_' . $variant;
+
+		$min_width = isset( $variant_meta['min_width'] ) ? $variant_meta['min_width'] : false;
+		$max_width = isset( $variant_meta['max_width'] ) ? $variant_meta['max_width'] : false;
+	} else {
+		$variant_id = '';
+
+		$min_width = isset( $tag_meta['min_width'] ) ? $tag_meta['min_width'] : false;
+		$max_width = isset( $tag_meta['max_width'] ) ? $tag_meta['max_width'] : false;
+	}
 
 	if ( is_null( $random_number ) ) {
 		$random_number =  str_pad( rand( 0, 999999999999999 ), 15, rand( 0, 9 ), STR_PAD_LEFT );
@@ -57,7 +70,7 @@ function render_tag( $output_html, $tag_id ) {
 	ob_start();
 
 	?>
-	<div id="%openx_id%_%tag%">
+	<div id="%openx_id%_%tag%<?php echo esc_attr( $variant_id ); ?>">
 		<noscript>
 			<iframe id="9ee0446165" name="9ee0446165" src="//ox-d.greatermedia.com/w/1.0/afr?auid=%openx_id%&cb=<?php echo intval( $random_number ) ?>" frameborder="0" scrolling="no">
 				<a href="http://ox-d.greatermedia.com/w/1.0/rc?cs=9ee0446165&cb=<?php echo intval( $random_number ); ?>" >
@@ -82,7 +95,7 @@ function render_tag( $output_html, $tag_id ) {
 		if ( maxWidthOk && minWidthOk ) {
 			var OX_ads = OX_ads || [];
 			OX_ads.push({
-				slot_id: "%openx_id%_%tag%",
+				slot_id: "%openx_id%_%tag%<?php echo esc_js( $variant_id ); ?>",
 				auid: "%openx_id%"
 			});
 		}
@@ -94,3 +107,26 @@ function render_tag( $output_html, $tag_id ) {
 
 	return $output;
 }
+
+function render_variant( $tag_id, $variant ) {
+	$tag_meta = get_ad_tag_meta( $tag_id );
+
+	if ( false === $tag_meta ) {
+		return;
+	}
+
+	if ( ! isset( $tag_meta['variants'] ) || ! isset( $tag_meta['variants'][ $variant ] ) ) {
+		error_log( "Ad Render Error: Trying to render {$tag_id} with undefined variant {$variant}" );
+		return;
+	}
+
+	// Set our current variant
+	ad_variant( $variant );
+
+	// Do the ad slot
+	do_action( 'acm_tag', $tag_id );
+
+	// Clear the current variant
+	ad_variant( '' );
+}
+add_action( 'acm_tag_gmr_variant', __NAMESPACE__ . '\render_variant', 10, 2 );

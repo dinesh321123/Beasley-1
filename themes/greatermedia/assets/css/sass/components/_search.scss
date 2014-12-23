@@ -17,7 +17,7 @@
 		border-top: none;
 		@include transition(all .5s ease-in-out);
 		@include transform(translate(0, -100%));
-		z-index: 28000;
+		z-index: 1000;
 	}
 }
 

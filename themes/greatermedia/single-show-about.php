@@ -46,7 +46,7 @@
 											<?php
 										$social = GreaterMedia\Shows\get_personality_social_ul( $personality );
 										?>
-										<button class="show__toggle">more</button>
+										<button class="show__toggle more-btn">more</button>
 									</div>
 								<?php endforeach; ?>
 							</div>

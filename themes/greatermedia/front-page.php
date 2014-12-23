@@ -65,7 +65,11 @@ get_header();
 
 									<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
-								</section>
+									<div class="entry__excerpt">
+										<?php the_excerpt(); ?>
+									</div>
+
+							</section>
 
 								<section class="entry__thumbnail <?php greatermedia_post_formats(); ?>">
 
@@ -82,6 +86,10 @@ get_header();
 								<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
 
 								<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+
+								<div class="entry__excerpt">
+									<?php the_excerpt(); ?>
+								</div>
 
 							</section>
 						<?php } ?>

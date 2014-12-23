@@ -118,6 +118,10 @@ category: Components - Shows
 			
 			a { font-size: ms(0); }
 		}
+
+		&:hover, &.current-menu-item {
+			text-decoration: underline;
+		}
 	}
 	a {
 		color: $secondary-text;
@@ -232,7 +236,7 @@ category: Components - Shows
 }
 
 .show__feature--desc {
-	background-color: $secondary-bg;
+	background-color: $header-bg;
 	color: $secondary-text;
 	padding: 1em 2em 1em;
 }
@@ -270,17 +274,56 @@ category: Components - Shows
 	}
 }
 
-.show__toggle {
+.show__latest-crap {
+	position: relative;
+
+	ul {
+		margin-top: 0;
+		padding-left: 2em;
+	}
+
+	li[class^="live-link__type"] {
+		margin-bottom: 1em;
+
+		&:before {
+			position: absolute;
+			left: -30px;
+			top: 8px;
+		}
+
+		a {
+			color: $primary-text;
+
+			&:hover {
+				color: $primary-link-hover;
+			}
+		}
+	}
+
+	.more-btn {
+		left: 40%;
+		right: auto;
+		top: 0;
+		bottom: auto;
+		color: $primary-text;
+	}
+}
+
+.more-btn {
 	position: absolute;
 	bottom: -35px;
 	right: 0;
 	background: none repeat scroll 0 0 transparent;
-	border: none;
+	border: 1px solid $primary-text;
+	border-radius: 1em;
 	outline: none;
-	color: $primary-link;
+	color: $primary-text;
+	padding: 0.25em 0.5em;
+	font-size: 0.75em;
 
 	&:hover {
 		color: $primary-link-hover;
+		border: 1px solid $primary-link-hover;
 	}
 }
 
