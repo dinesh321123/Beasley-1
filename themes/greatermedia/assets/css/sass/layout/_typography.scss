@@ -49,14 +49,14 @@ h1, .h1, %h1, h2, .h2, %h2, h3, .h3, %h3, h4, .h4, %h4, h5, .h5, %h5, h6, .h6, %
 		color: $primary-heading;
 	}
 
-	&.featured__content--title, &.featured__article--title, &.highlights__community--title {
-		a:link, a:visited {
-			color: $secondary-text;
-		}
+	a:hover, a:focus, a:active {
+		color: $primary-link-hover;
+	}
+}
 
-		a:hover, a:focus, a:active {
-			color: $primary-link-hover;
-		}
+.featured__content--title, .featured__article--title, .highlights__community--title {
+	a:link, a:visited {
+		color: $secondary-text;
 	}
 
 	a:hover, a:focus, a:active {
