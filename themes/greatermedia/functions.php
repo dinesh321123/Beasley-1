@@ -50,9 +50,11 @@ function greatermedia_setup() {
 	 * Add theme support for post thumbnails
 	 */
 	add_theme_support( 'post-thumbnails' );
-	add_image_size( 'gm-article-thumbnail', 1580, 9999, false ); // thumbnails used for articles
-	add_image_size( 'gmr-gallery',               800,  534, true );
-	add_image_size( 'gmr-gallery-thumbnail',     100,  100 );
+	add_image_size( 'gm-article-thumbnail',     1580,   9999,   false   ); // thumbnails used for articles
+	add_image_size( 'gmr-gallery',              800,    534,    true    ); // large images for the gallery
+	add_image_size( 'gmr-gallery-thumbnail',    100,    100             ); // thumbnails for the gallery
+	add_image_size( 'gmr-featured-primary',     2800,   1000,   true    ); // image for primary featured post on front page
+	add_image_size( 'gmr-featured-secondary',   400,    400,    true    ); // thumbnails for secondary featured posts on front page
 
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
@@ -305,3 +307,15 @@ function greatermedia_remove_jetpack_share() {
 }
 
 add_action( 'wp_head', 'greatermedia_remove_jetpack_share' );
+
+/**
+ * Removes the `[...]` from the excerpt.
+ *
+ * @param $more
+ *
+ * @return string
+ */
+function greatermedia_excerpt_more( $more ) {
+	return '';
+}
+add_filter( 'excerpt_more', 'greatermedia_excerpt_more' );

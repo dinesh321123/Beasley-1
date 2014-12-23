@@ -69,7 +69,7 @@ Curated posts for Featured Articles
 	position: relative;
 	@include span-columns(4);
 	@include omega;
-	padding: 1em;
+	padding: 40px 20px;
 	background: url(../../images/featured-bg.png) repeat center center $featured-bg;
 	background-size: auto 40%;
 	@include bp(small) {
@@ -79,7 +79,7 @@ Curated posts for Featured Articles
 	@include bp(medium) {
 		@include span-columns(8);
 		@include omega;
-		padding: 48px;
+		padding: 55px 48px;
 	}
 	@include bp(large) {
 		@include span-columns(12);
@@ -88,37 +88,49 @@ Curated posts for Featured Articles
 	@include bp(x-large) {
 		@include span-columns(12);
 		@include omega;
+		padding: 40px;
 	}
 }
 
-.featured__article, .featured__content {
+.featured__article{
 	padding-bottom: 34px;
 	@include row();
+}
+
+.featured__content {
+	padding-bottom: 34px;
+	@include row();
+	@include bp(large) {
+		padding-bottom: 0;
+	}
 }
 
 .featured__article--image {
 	@include span-columns(4 of 4);
 	@include omega;
-	height: 100px;
+	height: 100%;
+	max-height: 100px;
 	overflow: hidden;
 	background-color: $featured-bg;
 	@include bp(small) {
 		@include span-columns(6 of 6);
 		@include omega;
+		max-height: 200px;
 	}
 	@include bp(medium) {
 		@include span-columns(8 of 8);
 		@include omega;
-		height: 256px;
+		max-height: 256px;
 	}
 	@include bp(large) {
 		@include span-columns(12 of 12);
 		@include omega;
+		max-height: 300px;
 	}
 	@include bp(x-large) {
 		@include span-columns(12 of 12);
 		@include omega;
-		height: 343px;
+		max-height: 343px;
 	}
 }
 
@@ -140,12 +152,12 @@ Curated posts for Featured Articles
 	@include bp(large) {
 		@include span-columns(12 of 12);
 		@include omega;
-		padding: 34px 3.921568627451%;
+		padding: 33px 3.921568627451%;
 	}
 	@include bp(x-large) {
 		@include span-columns(12 of 12);
 		@include omega;
-		padding: 34px 2.898550724638%;
+		padding: 36px 2.898550724638%;
 	}
 
 	.home__featured & {
@@ -204,6 +216,10 @@ Curated posts for Featured Articles
 	}
 }
 
+.featured__article--excerpt p {
+	margin-bottom: 0;
+}
+
 .featured__content--block {
 	@include span-columns(4 of 4);
 	@include omega;
@@ -253,9 +269,11 @@ Curated posts for Featured Articles
 	@include bp(medium) {
 		@include span-columns(4 of 4);
 		@include omega;
+		height: 138px;
 	}
 	@include bp(large) {
 		@include span-columns(4 of 12);
+		height: 100%;
 	}
 	@include bp(x-large) {
 		@include span-columns(4 of 12);
@@ -266,14 +284,24 @@ Curated posts for Featured Articles
 	height: 100%;
 	width: auto;
 	max-width: none;
+	@include bp(medium) {
+		height: auto;
+		width: 100%;
+		max-width: 100%;
+	}
+	@include bp(large) {
+		height: 100%;
+		width: auto;
+		max-width: none;
+	}
 }
 
 .featured__content--meta {
-	font-size: ms(-2);
-	font-weight: lighter;
-	padding: 1em;
 	@include span-columns(8 of 12);
 	@include omega;
+	padding: 10px;
+	font-size: ms(-2);
+	font-weight: lighter;
 	@include bp(small) {
 		@include span-columns(8 of 12);
 		@include omega;
@@ -297,13 +325,27 @@ Curated posts for Featured Articles
 }
 
 .featured__content--title {
+	height: 43px;
 	margin-top: 0;
 	margin-bottom: 8px;
 	line-height: 1.25;
+	overflow: hidden;
 	font-family: $open-sans;
 	font-size: ms(0);
 	@include bp(small) {
+		height: 48px;
 		font-size: ms(1);
+	}
+	@include bp(medium) {
+		height: 100%;
+		overflow: auto;
+	}
+	@include bp(large) {
+		height: 53px;
+		overflow: hidden;
+	}
+	@include bp(x-large) {
+		height: 59px;
 	}
 }
 
@@ -319,27 +361,9 @@ Curated posts for Featured Articles
 	color: darken($color-text-yellow, 9%);
 }
 
-.featured__content--list {
-	@extend %unordered-list;
-	line-height: 1;
-}
-
-.featured__content--item {
-	@extend %list-item;
-	display: inline-block;
-	width: 40%;
-	margin-bottom: 4px;
-	font-size: ms(-2);
-	color: $color-text-yellow;
-	@include bp(large) {
-		display: block;
-		width: 100%;
-		font-size: ms(-1);
-	}
-}
-
 .featured__content--link {
 	width: 100%;
+	height: 19px;
 	text-align: center;
 	@include bp(small) {
 		text-align: right;
@@ -350,15 +374,15 @@ Curated posts for Featured Articles
 }
 
 .featured__content--btn {
-	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1.5em, ms(-2));
+	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1.5em, ms(-1));
 	@include border-radius(1.5em);
 	text-transform: uppercase;
 }
 
 .featured__content--btn:hover {
-	@include btn($btn-hover, $color-text-black, $btn-hover, .25em, 1.5em, ms(-2));
+	@include btn($btn-hover, $color-text-black, $btn-hover, .25em, 1.5em, ms(-1));
 }
 
 .featured__content--btn:active {
-	@include btn($btn-active, $color-text-white, $btn-active, .25em, 1.5em, ms(-2));
+	@include btn($btn-active, $color-text-white, $btn-active, .25em, 1.5em, ms(-1));
 }

@@ -22,7 +22,7 @@
 
 						<div class="highlights__community--thumb">
 							<a href="<?php the_permalink(); ?>">
-								<?php the_post_thumbnail( array( 356, 356 ) ); // todo Image Size: 356x356 ?>
+								<?php the_post_thumbnail( 'gmr-featured-secondary' ); ?>
 							</a>
 						</div>
 
@@ -48,7 +48,7 @@
 
 						<?php if ( has_post_thumbnail() ) : ?>
 							<div class="highlights__event--thumb">
-								<?php the_post_thumbnail( array( 156, 156 ) ); // todo Image Size 156x156 ?>
+								<?php the_post_thumbnail( 'gmr-featured-secondary' ); ?>
 							</div>
 						<?php endif; ?>
 
