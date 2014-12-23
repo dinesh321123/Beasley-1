@@ -70,8 +70,7 @@ Curated posts for Featured Articles
 	@include span-columns(4);
 	@include omega;
 	padding: 40px 20px;
-	background: url(../../images/featured-bg.png) repeat center center $featured-bg;
-	background-size: auto 40%;
+	background-color: $featured-primary-bg;
 	@include bp(small) {
 		@include span-columns(6);
 		@include omega;
@@ -84,6 +83,8 @@ Curated posts for Featured Articles
 	@include bp(large) {
 		@include span-columns(12);
 		@include omega;
+		background: url(../../images/featured-bg.png) repeat center center $featured-primary-bg;
+		background-size: auto 40%;
 	}
 	@include bp(x-large) {
 		@include span-columns(12);
@@ -111,7 +112,7 @@ Curated posts for Featured Articles
 	height: 100%;
 	max-height: 100px;
 	overflow: hidden;
-	background-color: $featured-bg;
+	background-color: $featured-secondary-bg;
 	@include bp(small) {
 		@include span-columns(6 of 6);
 		@include omega;
@@ -161,7 +162,7 @@ Curated posts for Featured Articles
 	}
 
 	.home__featured & {
-		background-color: $featured-bg;
+		background-color: $featured-secondary-bg;
 		color: $secondary-link;
 	}
 }
@@ -258,7 +259,7 @@ Curated posts for Featured Articles
 	}
 
 	.home__featured & {
-		background-color: $featured-bg;
+		background-color: $featured-secondary-bg;
 		color: $secondary-link;
 	}
 }

@@ -1299,8 +1299,7 @@ Curated posts for Featured Articles
   width: 100%;
   margin-right: 0;
   padding: 40px 20px;
-  background: url(../../images/featured-bg.png) repeat center center #270e10;
-  background-size: auto 40%; }
+  background-color: #561015; }
   .home__featured:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
@@ -1328,7 +1327,9 @@ Curated posts for Featured Articles
       display: block;
       margin-right: 2.35765%;
       width: 100%;
-      margin-right: 0; }
+      margin-right: 0;
+      background: url(../../images/featured-bg.png) repeat center center #561015;
+      background-size: auto 40%; }
       .home__featured:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1400px) {
