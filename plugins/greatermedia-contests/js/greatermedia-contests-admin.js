@@ -19,6 +19,8 @@ document.addEventListener(
 			args.bootstrapData = JSON.parse(default_form);
 		}
 
+		args.controls = [];
+
 		var formbuilder = new Formbuilder(args);
 
 		formbuilder.on('save', function (payload) {
