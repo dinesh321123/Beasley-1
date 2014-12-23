@@ -4493,8 +4493,10 @@ category: Components - Shows
         color: #aa1c20; }
   .show__latest-crap .more-btn {
     left: 40%;
+    right: auto;
     top: 0;
-    bottom: auto; }
+    bottom: auto;
+    color: #404041; }
 
 .more-btn {
   position: absolute;
@@ -4505,7 +4507,8 @@ category: Components - Shows
   border-radius: 1em;
   outline: none;
   color: #404041;
-  padding: 0.25em 0.5em; }
+  padding: 0.25em 0.5em;
+  font-size: 0.75em; }
   .more-btn:hover {
     color: #aa1c20;
     border: 1px solid #aa1c20; }

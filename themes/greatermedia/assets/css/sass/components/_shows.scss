@@ -302,8 +302,10 @@ category: Components - Shows
 
 	.more-btn {
 		left: 40%;
+		right: auto;
 		top: 0;
 		bottom: auto;
+		color: $primary-text;
 	}
 }
 
@@ -317,6 +319,7 @@ category: Components - Shows
 	outline: none;
 	color: $primary-text;
 	padding: 0.25em 0.5em;
+	font-size: 0.75em;
 
 	&:hover {
 		color: $primary-link-hover;
