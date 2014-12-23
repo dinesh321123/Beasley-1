@@ -16,6 +16,7 @@ category: Components - Ads
 .ad__leaderboard {
 	position: relative;
 	padding: em(20px) 0;
+	text-align: center;
 
 	&.desktop { display: none; }
 	&.mobile { display: block; }

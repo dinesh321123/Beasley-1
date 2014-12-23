@@ -21,10 +21,16 @@
 					<div class="highlights__community--item">
 
 						<div class="highlights__community--thumb">
-							<?php the_post_thumbnail( array( 356, 356 ) ); // todo Image Size: 356x356 ?>
+							<a href="<?php the_permalink(); ?>">
+								<?php the_post_thumbnail( array( 356, 356 ) ); // todo Image Size: 356x356 ?>
+							</a>
 						</div>
 
-						<h3 class="highlights__community--title"><?php the_title(); ?></h3>
+						<h3 class="highlights__community--title">
+							<a href="<?php the_permalink(); ?>">
+								<?php the_title(); ?>
+							</a>
+						</h3>
 
 					</div>
 				<?php endwhile; ?>
