@@ -52,54 +52,54 @@ category: Base
 // @author Allen Moore
 // @since 0.1.0
 //
-$color-text-black: $black;
-$color-text-white: $white;
-$color-text-gray: $medium-gray;
-$color-text-red: $cardinal;
-$color-text-yellow: $yellow;
+$color-text-black: $black !default;
+$color-text-white: $white !default;
+$color-text-gray: $medium-gray !default;
+$color-text-red: $cardinal !default;
+$color-text-yellow: $yellow !default;
 
-$primary-bg: $white;
-$primary-text: $color-text-gray;
-$primary-heading: $color-text-gray;
-$primary-link: $color-text-red;
-$primary-link-hover: darken($color-text-red, 9%);
-$primary-border: $light-gray;
+$primary-bg: $white !default;
+$primary-text: $color-text-gray !default;
+$primary-heading: $color-text-gray !default;
+$primary-link: $color-text-red !default;
+$primary-link-hover: darken($color-text-red, 9%) !default;
+$primary-border: $light-gray !default;
 
-$secondary-bg: $black;
-$secondary-text: $color-text-white;
-$secondary-heading: $gray;
-$secondary-link: $light-gray;
-$secondary-link-hover: darken($color-text-red, 9%);
-$secondary-border: $dark-gray;
+$secondary-bg: $black !default;
+$secondary-text: $color-text-white !default;
+$secondary-heading: $gray !default;
+$secondary-link: $light-gray !default;
+$secondary-link-hover: darken($color-text-red, 9%) !default;
+$secondary-border: $dark-gray !default;
 
 // Section Variables
-$header-bg: $darker-gray;
-$header-border: $dark-gray;
-$header-nav-bg: $cardinal;
+$header-bg: $darker-gray !default;
+$header-border: $dark-gray !default;
+$header-nav-bg: $cardinal !default;
 
-$liveplayer-bg: $darker-gray;
+$liveplayer-bg: $darker-gray !default;
 
-$featured-primary-bg: $heath;
-$featured-secondary-bg: $coffee-bean;
+$featured-primary-bg: $heath !default;
+$featured-secondary-bg: $coffee-bean !default;
 
-$highlights-bg: $light-gray;
-$highlights-text: $gray;
-$highlights-heading: $medium-gray;
+$highlights-bg: $light-gray !default;
+$highlights-text: $gray !default;
+$highlights-heading: $medium-gray !default;
 
-$gallery-bg: $darker-gray;
-$gallery-text: $light-gray;
-$gallery-thumbs-bg: $dark-gray;
-$gallery-border: $medium-gray;
-$gallery-grid-border: $gray;
-$gallery-grid-text: $gray;
+$gallery-bg: $darker-gray !default;
+$gallery-text: $light-gray !default;
+$gallery-thumbs-bg: $dark-gray !default;
+$gallery-border: $medium-gray !default;
+$gallery-grid-border: $gray !default;
+$gallery-grid-text: $gray !default;
 
-$footer-text: $gray;
+$footer-text: $gray !default;
 
-$btn-bg: $cardinal;
-$btn-hover: $yellow;
-$btn-active: $black;
+$btn-bg: $cardinal !default;
+$btn-hover: $yellow !default;
+$btn-active: $black !default;
 
-$social-hover: $heath;
+$social-hover: $heath !default;
 
 // Base Variables
 $em-base: 16px;
