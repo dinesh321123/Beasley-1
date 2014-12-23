@@ -9,11 +9,13 @@ class ExportResultsTask extends SyncTask {
 	}
 
 	function run() {
-
+		$sentinel = $this->get_sentinel();
+		$sentinel->set_email_segment_id( '2086163' );
 	}
 
 	function after( $result ) {
-
+		$sentinel = $this->get_sentinel();
+		$sentinel->set_task_progress( 'export_results', 100 );
 	}
 
 }

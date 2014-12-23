@@ -21,9 +21,25 @@ var ExportMenuView = Backbone.View.extend({
 		return $('#publish', this.$el);
 	},
 
+	getPublishForm: function() {
+		return this.getSubmitButton().parents('form:first');
+	},
+
 	didClickExport: function(event) {
-		console.log('didClickExport');
+		var exportField = $('<input>').attr({
+			type: 'hidden',
+			name: 'export_member_query',
+			value: '1'
+		});
+
+		var form = this.getPublishForm();
+		exportField.appendTo(form);
+
+		var button = this.getSubmitButton();
+		button.trigger('click');
+
 		return false;
-	}
+	},
+
 
 });

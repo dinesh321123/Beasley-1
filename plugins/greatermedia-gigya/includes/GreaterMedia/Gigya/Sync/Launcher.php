@@ -52,6 +52,9 @@ class Launcher {
 		$sentinel     = new Sentinel( $params['member_query_id'], $params );
 
 		$sentinel->set_checksum( $checksum );
+		$sentinel->set_start_time( time() );
+		$sentinel->set_status_code( 'running' );
+
 		$initializer->enqueue( $params );
 	}
 

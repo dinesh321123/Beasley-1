@@ -13,6 +13,7 @@ QueryBuilderApp.prototype = {
 		var availableConstraints = new ConstraintCollection(AVAILABLE_CONSTRAINTS);
 		var activeConstraints    = new ConstraintCollection(loadedConstraints);
 		var queryResults         = new QueryResultCollection([], { activeConstraints: activeConstraints });
+		var memberQueryStatus    = new MemberQueryStatus(member_query_meta.status_meta);
 
 		var toolbarView = new ToolbarView({
 			el: $('#query_builder_toolbar'),
@@ -36,11 +37,13 @@ QueryBuilderApp.prototype = {
 		});
 
 		var exportView = new ExportView({
-			el: $('#submitdiv #minor-publishing')
+			el: $('#submitdiv #minor-publishing'),
+			model: memberQueryStatus
 		});
 
 		var exportMenuView = new ExportMenuView({
-			el: $('#submitdiv #major-publishing-actions')
+			el: $('#submitdiv #major-publishing-actions'),
+			model: memberQueryStatus
 		});
 
 		$('#query_builder_metabox').toggleClass('loading', false);

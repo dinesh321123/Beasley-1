@@ -15,7 +15,9 @@ class InitializerTask extends SyncTask {
 	}
 
 	function run() {
-		$this->get_sentinel()->reset();
+		$sentinel = $this->get_sentinel();
+		$sentinel->reset();
+
 		$this->enqueue_subqueries();
 	}
 

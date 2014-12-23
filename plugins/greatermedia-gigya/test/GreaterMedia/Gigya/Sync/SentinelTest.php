@@ -318,4 +318,176 @@ class SentinelTest extends \WP_UnitTestCase {
 		$this->assertEquals( 100, $actual );
 	}
 
+	function test_it_can_store_status_codes() {
+		$this->sentinel->set_status_code( 'running' );
+		$actual = $this->sentinel->get_status_code();
+		$this->assertEquals( 'running', $actual );
+	}
+
+	function test_it_has_pending_status_code_initially() {
+		$actual = $this->sentinel->get_status_code();
+		$this->assertEquals( 'pending', $actual );
+	}
+
+	function test_it_can_store_start_time() {
+		$time = time();
+		$this->sentinel->set_start_time( $time );
+		$actual = $this->sentinel->get_start_time();
+		$this->assertEquals( $time, $actual );
+	}
+
+	function test_it_has_zero_start_time_if_absent() {
+		$actual = $this->sentinel->get_start_time();
+		$this->assertEquals( 0, $actual );
+	}
+
+	function test_it_can_store_end_time() {
+		$time = time();
+		$this->sentinel->set_end_time( $time );
+		$actual = $this->sentinel->get_end_time();
+		$this->assertEquals( $time, $actual );
+	}
+
+	function test_it_has_current_time_as_end_time_if_absent() {
+		$this->sentinel->set_status_code( 'completed' );
+		$actual = $this->sentinel->get_end_time();
+		$this->assertEquals( time(), $actual );
+	}
+
+	function test_it_knows_duration_of_completed_queries() {
+		$start_time = time() - 60;
+
+		$this->sentinel->set_start_time( $start_time );
+		$this->sentinel->set_status_code( 'completed' );
+
+		$actual = $this->sentinel->get_duration();
+		$this->assertEquals( 60, $actual );
+	}
+
+	function test_it_knows_duration_of_running_queries() {
+		$start_time = time() - 120;
+
+		$this->sentinel->set_start_time( $start_time );
+		$this->sentinel->set_status_code( 'running' );
+
+		$actual = $this->sentinel->get_duration();
+		$this->assertEquals( 120, $actual );
+	}
+
+	function test_it_knows_if_query_has_not_expired() {
+		$start_time = time() - 120;
+
+		$this->sentinel->set_start_time( $start_time );
+		$this->sentinel->set_status_code( 'running' );
+
+		$this->assertFalse( $this->sentinel->has_expired() );
+	}
+
+	function test_it_knows_if_query_has_expired() {
+		$start_time = time() - 601;
+
+		$this->sentinel->set_start_time( $start_time );
+		$this->sentinel->set_status_code( 'running' );
+
+		$this->assertTrue( $this->sentinel->has_expired() );
+	}
+
+	function test_it_knows_when_it_was_last_exported() {
+		$start_time = time() - 60;
+
+		$this->sentinel->set_start_time( $start_time );
+		$this->sentinel->set_status_code( 'completed' );
+
+		$actual = $this->sentinel->get_last_export();
+		$this->assertEquals( time(), $actual );
+	}
+
+	function test_it_is_not_running_if_errors_occured() {
+		$this->sentinel->add_error( 'foo' );
+		$actual = $this->sentinel->is_running();
+		$this->assertFalse( $actual );
+	}
+
+	function test_it_is_considered_complete_on_100_percent_progress() {
+		$this->sentinel->params['mode'] = 'preview';
+		$this->sentinel->set_task_progress( 'profile', 100 );
+		$this->sentinel->set_task_progress( 'data_store', 100 );
+		$this->sentinel->set_task_progress( 'compile_results',  100 );
+		$this->sentinel->set_task_progress( 'preview_results',  100 );
+
+		$progress = $this->sentinel->get_progress();
+		$actual = $this->sentinel->get_status_code();
+		$this->assertEquals( 'completed', $actual );
+	}
+
+	function test_it_has_valid_status_meta_when_pending() {
+		$this->sentinel->set_status_code( 'pending' );
+		$actual = $this->sentinel->get_status_meta();
+
+		$expected = array(
+			'statusCode'     => 'pending',
+			'emailSegmentID' => '',
+			'memberQueryID'  => 1,
+			'progress'       => 0,
+		);
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_has_valid_status_meta_when_running() {
+		$this->sentinel->set_status_code( 'running' );
+		$this->sentinel->set_task_progress( 'data_store', 100 );
+		$this->sentinel->set_task_progress( 'profile', 50 );
+
+		$actual = $this->sentinel->get_status_meta();
+
+		$expected = array(
+			'statusCode'     => 'running',
+			'emailSegmentID' => '',
+			'memberQueryID'  => 1,
+			'progress'       => 37,
+		);
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_has_valid_status_meta_if_errored() {
+		$this->sentinel->set_status_code( 'running' );
+		$this->sentinel->set_task_progress( 'data_store', 100 );
+		$this->sentinel->set_task_progress( 'profile', 50 );
+		$this->sentinel->add_error( 'foo' );
+
+		$actual = $this->sentinel->get_status_meta();
+
+		$expected = array(
+			'statusCode'     => 'completed',
+			'emailSegmentID' => '',
+			'memberQueryID'  => 1,
+			'progress'       => 100,
+			'errors' => array( 'foo' )
+		);
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_has_valid_status_meta_after_completion() {
+		$this->sentinel->set_status_code( 'running' );
+		$this->sentinel->set_task_progress( 'profile', 100 );
+		$this->sentinel->set_task_progress( 'data_store', 100 );
+		$this->sentinel->set_task_progress( 'compile_results',  100 );
+		$this->sentinel->set_task_progress( 'preview_results',  100 );
+		$progress = $this->sentinel->get_progress();
+
+		$actual = $this->sentinel->get_status_meta();
+
+		$expected = array(
+			'statusCode'     => 'completed',
+			'emailSegmentID' => '',
+			'memberQueryID'  => 1,
+			'progress'       => 100,
+		);
+
+		$this->assertEquals( $expected, $actual );
+	}
+
 }

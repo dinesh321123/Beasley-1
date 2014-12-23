@@ -13,7 +13,7 @@ var PreviewView = Backbone.View.extend({
 		this.listenTo(this.collection, 'searchTimeout', this.didSearchTimeout);
 
 		Backbone.View.prototype.initialize.call(this, options);
-		this.search();
+		//this.search();
 		this.previewEnabled = true;
 
 		this.stepper = new Stepper('didStep', this);
