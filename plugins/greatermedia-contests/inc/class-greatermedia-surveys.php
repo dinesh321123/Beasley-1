@@ -62,18 +62,18 @@ class GreaterMediaSurveys {
 	public function register_survey_cpt() {
 
 		$labels = array(
-			'name'                => __( 'Surveys', 'greatermedia' ),
-			'singular_name'       => __( 'Survey', 'greatermedia' ),
-			'add_new'             => _x( 'Add New Survey', 'greatermedia', 'greatermedia' ),
-			'add_new_item'        => __( 'Add New Survey', 'greatermedia' ),
-			'edit_item'           => __( 'Edit Survey', 'greatermedia' ),
-			'new_item'            => __( 'New Survey', 'greatermedia' ),
-			'view_item'           => __( 'View Survey', 'greatermedia' ),
-			'search_items'        => __( 'Search Surveys', 'greatermedia' ),
-			'not_found'           => __( 'No Surveys found', 'greatermedia' ),
-			'not_found_in_trash'  => __( 'No Surveys found in Trash', 'greatermedia' ),
-			'parent_item_colon'   => __( 'Parent Survey:', 'greatermedia' ),
-			'menu_name'           => __( 'Surveys', 'greatermedia' ),
+			'name'                => __( 'Member Surveys', 'greatermedia' ),
+			'singular_name'       => __( 'Member Survey', 'greatermedia' ),
+			'add_new'             => _x( 'Add New Member Survey', 'greatermedia', 'greatermedia' ),
+			'add_new_item'        => __( 'Add New Member Survey', 'greatermedia' ),
+			'edit_item'           => __( 'Edit Member Survey', 'greatermedia' ),
+			'new_item'            => __( 'New Member Survey', 'greatermedia' ),
+			'view_item'           => __( 'View Member Survey', 'greatermedia' ),
+			'search_items'        => __( 'Search Member Surveys', 'greatermedia' ),
+			'not_found'           => __( 'No Member Surveys found', 'greatermedia' ),
+			'not_found_in_trash'  => __( 'No Member Surveys found in Trash', 'greatermedia' ),
+			'parent_item_colon'   => __( 'Parent Member Survey:', 'greatermedia' ),
+			'menu_name'           => __( 'Member Surveys', 'greatermedia' ),
 		);
 
 		$args = array(
