@@ -1045,7 +1045,7 @@ with (obj) {
 __p += '<div class=\'fb-tab-pane active\' id=\'addField\'>\n  <div class=\'fb-add-field-types\'>\n    <div class=\'section\'>\n      ';
  _.each(_.sortBy(Formbuilder.inputFields, 'order'), function(f){ ;
 __p += '\n      ';
- if (0 == Formbuilder.arguments[0].controls.length || -1 != Formbuilder.arguments[0].controls.indexOf(f.field_type)) { ;
+ if (!Formbuilder.arguments[0].controls || (0 == Formbuilder.arguments[0].controls.length || -1 != Formbuilder.arguments[0].controls.indexOf(f.field_type))) { ;
 __p += '\n          <a data-field-type="' +
 ((__t = ( f.field_type )) == null ? '' : __t) +
 '" class="' +
