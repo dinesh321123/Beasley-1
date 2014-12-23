@@ -74,8 +74,8 @@
 			        <div class="row">
 
 				        <aside class="inner-right-col">
-					        <section class="show__favorites">
-					        	<h2>Our Favorites</h2>
+					        <section class="show__favorites cf">
+					        	<h2 class="section-header">Our Favorites</h2>
 						        <?php
 						        $fav_query = \GreaterMedia\Shows\get_show_favorites_query();
 								while( $fav_query->have_posts() ): $fav_query->the_post();
@@ -94,76 +94,77 @@
 						        <?php wp_reset_query(); ?>
 					        </section>
 
-						<section class="show__latest-crap">
-				        	<h2>Latest Crap</h2>
-							<ul>
-								<li class="live-link__type--standard">
-									<div class="live-link__title">
-										<a href=
-										"http://wmmr.greatermedia.10uplabs.com/scroll-test/">GMR-278
-										test</a>
-									</div>
-								</li>
+							<section class="show__latest-crap cf">
+					        	<h2 class="section-header">Latest Crap</h2>
+								<ul>
+									<li class="live-link__type--standard">
+										<div class="live-link__title">
+											<a href=
+											"http://wmmr.greatermedia.10uplabs.com/scroll-test/">GMR-278
+											test</a>
+										</div>
+									</li>
 
 
-								<li class="live-link__type--standard">
-									<div class="live-link__title">
-										<a href=
-										"http://wmmr.greatermedia.10uplabs.com/contest/daves-contest/">Dave’s
-										Contest</a>
-									</div>
-								</li>
+									<li class="live-link__type--standard">
+										<div class="live-link__title">
+											<a href=
+											"http://wmmr.greatermedia.10uplabs.com/contest/daves-contest/">Dave’s
+											Contest</a>
+										</div>
+									</li>
 
-								<li class="live-link__type--link">
-									<div class="live-link__title">
-										<a href=
-										"http://wmmr.greatermedia.10uplabs.com/timed-content-test/">test
-										test</a>
-									</div>
-								</li>
-
-
-								<li class="live-link__type--standard">
-									<div class="live-link__title">
-										<a href=
-										"http://wmmr.greatermedia.10uplabs.com/ontario-highway-401-wikipedia-the-free-encyclopedia/">
-										Ontario Highway 401 – Wikipedia, the free encyclopedia</a>
-									</div>
-								</li>
+									<li class="live-link__type--link">
+										<div class="live-link__title">
+											<a href=
+											"http://wmmr.greatermedia.10uplabs.com/timed-content-test/">test
+											test</a>
+										</div>
+									</li>
 
 
-								<li class="live-link__type--video">
-									<div class="live-link__title">
-										<a href=
-										"http://wmmr.greatermedia.10uplabs.com/?post_type=gmr-live-link&amp;p=633">
-										Gladys Knight &amp; The Pips “Midnight Train To Georgia”</a>
-									</div>
-								</li>
+									<li class="live-link__type--standard">
+										<div class="live-link__title">
+											<a href=
+											"http://wmmr.greatermedia.10uplabs.com/ontario-highway-401-wikipedia-the-free-encyclopedia/">
+											Ontario Highway 401 – Wikipedia, the free encyclopedia</a>
+										</div>
+									</li>
 
 
-								<li class="live-link__type--video">
-									<div class="live-link__title">
-										<a href=
-										"http://wmmr.greatermedia.10uplabs.com/gladys-knight-the-pips-midnight-train-to-georgia/">
-										Gladys Knight &amp; The Pips</a>
-									</div>
-								</li>
+									<li class="live-link__type--video">
+										<div class="live-link__title">
+											<a href=
+											"http://wmmr.greatermedia.10uplabs.com/?post_type=gmr-live-link&amp;p=633">
+											Gladys Knight &amp; The Pips “Midnight Train To Georgia”</a>
+										</div>
+									</li>
 
 
-								<li class="live-link__type--video">
-									<div class="live-link__title">
-										<a href=
-										"http://wmmr.greatermedia.10uplabs.com/?post_type=gmr-live-link&amp;p=538">
-										Hilarious Volleyball Triple Head Shot – YouTube</a>
-									</div>
-								</li>
-							</ul>
-				        </section>
+									<li class="live-link__type--video">
+										<div class="live-link__title">
+											<a href=
+											"http://wmmr.greatermedia.10uplabs.com/gladys-knight-the-pips-midnight-train-to-georgia/">
+											Gladys Knight &amp; The Pips</a>
+										</div>
+									</li>
+
+
+									<li class="live-link__type--video">
+										<div class="live-link__title">
+											<a href=
+											"http://wmmr.greatermedia.10uplabs.com/?post_type=gmr-live-link&amp;p=538">
+											Hilarious Volleyball Triple Head Shot – YouTube</a>
+										</div>
+									</li>
+								</ul>
+								<a class="more-btn" href="">more</a>
+					        </section>
 
 				        </aside>
 
 				        <section class="show__blogroll inner-left-col">
-				        	<h2>Blog</h2>
+				        	<h2 class="section-header">Blog</h2>
 
 					        <?php
 					        $main_query = \GreaterMedia\Shows\get_show_main_query();

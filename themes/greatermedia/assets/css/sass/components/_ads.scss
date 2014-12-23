@@ -14,12 +14,17 @@ category: Components - Ads
 */
 
 .ad__leaderboard {
-	display: none;
 	position: relative;
 	padding: em(20px) 0;
+
+	&.desktop { display: none; }
+	&.mobile { display: block; }
+
 	@include bp(medium) {
-		display: block;
 		height: 132px;
+
+		&.desktop { display: block; }
+		&.mobile { display: none; }
 	}
 }
 

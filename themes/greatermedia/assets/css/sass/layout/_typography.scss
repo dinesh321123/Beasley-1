@@ -80,6 +80,12 @@ h6, .h6, %h6 {
 	letter-spacing: 2px;
 }
 
+.section-header {
+	font-family: $open-sans;
+	font-size: ms(0);
+	font-weight: 200;
+}
+
 /*doc
 ---
 title: Links
