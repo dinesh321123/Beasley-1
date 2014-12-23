@@ -1204,9 +1204,9 @@ class GMedia_Migration extends WP_CLI_Command {
 				}
 
 			}
-			$notify->tick();
+			//$notify->tick();
 		}
-		$notify->finish();
+		//$notify->finish();
 	}
 
 	/**
