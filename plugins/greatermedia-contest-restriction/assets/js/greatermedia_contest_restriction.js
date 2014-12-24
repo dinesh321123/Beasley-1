@@ -16,16 +16,6 @@
 			contest_form.prepend( '<div class="error">' + error_message + '</div>' );
 		}
 
-		if( contest_form.hasClass('early') ) {
-			disable_with_error( 'Sorry this contest hasn\'t stated yet!' );
-			return false;
-		}
-
-		if( contest_form.hasClass('late') ) {
-			disable_with_error( 'Sorry this contest has already ended!' );
-			return false;
-		}
-
 		if( cookieValue ) {
 			disable_with_error( 'You have already entered this contest!' );
 			return false;

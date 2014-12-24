@@ -40,8 +40,6 @@ class ContestRestriction {
 			$contestants = count( get_posts( array( 'post_type'=> 'contest_entry', 'post_parent' => $post_id ) ) );
 			$max_entries = get_post_meta( $post_id, '_max_entries', true );
 			$single_entry = get_post_meta( $post->ID, '_single_entry', true );
-			$contest_start = get_post_meta( $post->ID, 'contest-start', true );
-			$contest_end = get_post_meta( $post->ID, 'contest-end', true );
 
 			if ( $member_only == 'on' ) {
 				$return .= ' member_only';
@@ -57,14 +55,6 @@ class ContestRestriction {
 
 			if( $single_entry == 'on' ) {
 				$return .= ' single_entry';
-			}
-
-			if( current_time('timestamp') < $contest_start ) {
-				$return .= ' early';
-			}
-
-			if( current_time('timestamp') > $contest_end ) {
-				$return .= ' late';
 			}
 
 			return $return;
