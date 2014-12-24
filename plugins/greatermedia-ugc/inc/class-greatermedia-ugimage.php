@@ -12,17 +12,21 @@ class GreaterMediaUserGeneratedImage extends GreaterMediaUserGeneratedContent {
 
 	public static function first_image( $post_content ) {
 
-		$matches = array();
-		$output  = preg_match_all( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post_content, $matches );
-		if ( isset( $matches[1][0] ) ) {
-			$first_img = $matches[1][0];
+		$first_img = get_post_thumbnail_id();
+		if ( $first_img ) {
+			$first_img = wp_get_attachment_image_src( $first_img );
+			if ( ! empty( $first_img ) ) {
+				return current( $first_img );
+			}
 		}
 
-		if ( empty( $first_img ) ) {
-			return '';
+		$first_img = '';
+		if ( preg_match( '/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $post_content, $matches ) ) {
+			$first_img = $matches[1];
 		}
 
 		return $first_img;
+		
 	}
 
 	/**
@@ -46,6 +50,22 @@ class GreaterMediaUserGeneratedImage extends GreaterMediaUserGeneratedContent {
 
 		return $html;
 
+	}
+
+	/**
+	 * Approves this ugc entry.
+	 */
+	public function approve() {
+		parent::approve();
+
+		$attachment_id = get_post_thumbnail_id( $this->post_id );
+		if ( $attachment_id ) {
+			$attachment = get_post( $attachment_id );
+			if ( $attachment ) {
+				$attachment->post_status = 'inherit';
+				wp_update_post( $attachment->to_array() );
+			}
+		}
 	}
 
 	/**

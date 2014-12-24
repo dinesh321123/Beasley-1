@@ -4,12 +4,6 @@ class GreaterMediaUserGeneratedGallery extends GreaterMediaUserGeneratedContent 
 
 	const POST_FORMAT = 'gallery';
 
-	function __construct( $post_id = null ) {
-
-		parent::__construct( $post_id );
-
-	}
-
 	/**
 	 * Get gallery attachments for this post
 	 *
@@ -18,17 +12,33 @@ class GreaterMediaUserGeneratedGallery extends GreaterMediaUserGeneratedContent 
 	protected function get_attachments() {
 
 		$attachment_data = get_post_gallery( $this->post_id, false );
-		$attachment_ids  = explode( ',', $attachment_data['ids'] );
+		$attachment_ids = explode( ',', $attachment_data['ids'] );
 
 		$attachments = array();
-		foreach ( $attachment_ids as $attachment_index => $attachment_id ) {
-			if ( ! empty( $attachment_id ) && ! empty( $attachment_data['src'][$attachment_index] ) ) {
-				$attachments[$attachment_id] = $attachment_data['src'][$attachment_index];
+		foreach ( $attachment_ids as $attachment_id ) {
+			$attachment_data = wp_get_attachment_image_src( $attachment_id );
+			if ( ! empty( $attachment_data[0] ) && filter_var( $attachment_data[0], FILTER_VALIDATE_URL ) ) {
+				$attachments[ $attachment_id ] = $attachment_data[0];
 			}
 		}
 
 		return $attachments;
+		
+	}
 
+	/**
+	 * Approves ugc entry.
+	 */
+	public function approve() {
+		parent::approve();
+
+		foreach ( array_keys( $this->get_attachments() ) as $attachment_id ) {
+			$attachment = get_post( $attachment_id );
+			if ( $attachment ) {
+				$attachment->post_status = 'inherit';
+				wp_update_post( $attachment->to_array() );
+			}
+		}
 	}
 
 	/**

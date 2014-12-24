@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GreaterMediaContestsMetaboxes {
 
-	function __construct() {
+	public function __construct() {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_settings_fields' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -294,25 +294,26 @@ class GreaterMediaContestsMetaboxes {
 	 */
 	public function add_meta_boxes() {
 
-		add_meta_box(
-			'rules',
-			'Contest Rules',
-			array( $this, 'rules_meta_box' ),
-			'contest',
-			'normal',
-			'default',
-			array()
-		);
+		add_meta_box( 'rules', 'Contest Rules', array( $this, 'rules_meta_box' ), GreaterMediaContests::CPT_SLUG, 'normal', 'default', array() );
+		add_meta_box( 'form', 'Form', array( $this, 'contest_embedded_form' ), GreaterMediaContests::CPT_SLUG, 'advanced', 'default', array() );
+		add_meta_box( 'gallery', 'Gallery', array( $this, 'gallery_meta_box' ), GreaterMediaContests::CPT_SLUG, 'side' );
 
-		add_meta_box(
-			'form',
-			'Form',
-			array( $this, 'contest_embedded_form' ),
-			'contest',
-			'advanced',
-			'default',
-			array()
-		);
+	}
+
+	public function gallery_meta_box( WP_Post $post ) {
+		
+		$images = get_children( array(
+			'numberposts'    => 500, // do we need more?
+			'post_parent'    => $post->ID,
+			'post_type'      => 'attachment',
+			'post_mime_type' => 'image',
+			'post_status'    => 'inherit',
+		) );
+
+		?><input type="text" class="widefat" readonly disabled value="<?php echo esc_attr( '[gallery ids="' . implode( ',', array_keys( $images ) ) . '"]' ); ?>">
+		<span class="description">
+			To create a standalone gallery of the entries, copy the content of this field, create a new Gallery post, then paste it in the content for that Gallery.
+		</span><?php
 
 	}
 

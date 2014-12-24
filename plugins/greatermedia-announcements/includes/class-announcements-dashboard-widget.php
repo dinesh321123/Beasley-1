@@ -6,13 +6,13 @@
 
 class AnnouncementsDashboardWidget {
 
-	private $content_site = 1;
+	private $content_site_id = 1;
 
 	private $taxonomies = array( 'collection' );
 
 	public function __construct()
 	{
-		$this->content_site_id = defined( 'GMR_CONTENT_SITE_ID' ) ? GMR_CONTENT_SITE_ID : $this->$content_site_id;
+		$this->content_site_id = defined( 'GMR_CONTENT_SITE_ID' ) ? GMR_CONTENT_SITE_ID : $this->content_site_id;
 		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
 	}
 

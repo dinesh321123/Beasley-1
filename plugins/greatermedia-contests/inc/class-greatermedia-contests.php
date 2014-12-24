@@ -19,12 +19,43 @@ class GreaterMediaContests {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'restrict_manage_posts', array( $this, 'admin_contest_type_filter' ) );
 		add_action( 'pre_get_posts', array( $this, 'admin_filter_contest_list' ) );
-		add_filter( 'gmr_live_link_suggestion_post_types', array( $this, 'extend_live_link_suggestion_post_types' ) );
 		add_action( 'edit_form_after_title', array( $this, 'myprefix_edit_form_after_title' ) );
 		add_action( 'edit_form_after_editor', array( $this, 'myprefix_edit_form_after_editor' ) );
+		add_action( 'admin_menu', array( $this, 'update_admin_menu' ) );
+		add_action( 'dbx_post_advanced', array( $this, 'adjust_current_admin_menu' ) );
 
+		add_filter( 'gmr_live_link_suggestion_post_types', array( $this, 'extend_live_link_suggestion_post_types' ) );
+		
 	}
 
+	/**
+	 * Removes "Add New" sub menu item from "Contests" group.
+	 * 
+	 * @action admin_menu
+	 * @access public
+	 */
+	public function update_admin_menu() {
+		remove_submenu_page( 'edit.php?post_type=' . self::CPT_SLUG, 'post-new.php?post_type=' . self::CPT_SLUG );
+	}
+
+	/**
+	 * Selects proper admin menu items for contests and submission pages.
+	 *
+	 * @action dbx_post_advanced
+	 * @global string $parent_file The current parent menu page.
+	 * @global string $submenu_file The current submenu page.
+	 * @global string $typenow The current post type.
+	 * @global string $pagenow The current admin page.
+	 */
+	public function adjust_current_admin_menu() {
+		global $parent_file, $submenu_file, $typenow, $pagenow;
+
+		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) && in_array( $typenow, array( self::CPT_SLUG, 'listener_submissions' ) ) ) {
+			$parent_file = 'edit.php?post_type=' . self::CPT_SLUG;
+			$submenu_file = 'edit.php?post_type=' . $typenow;
+		}
+	}
+	
 	/**
 	 * Render markup to enclose the post content/body field in a fake metabox (for visual consistency) with a headline.
 	 * Implements edit_form_after_title action.
@@ -93,6 +124,7 @@ class GreaterMediaContests {
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 5,
+			'menu_icon'           => 'dashicons-forms',
 			'can_export'          => true,
 			'has_archive'         => true,
 			'exclude_from_search' => false,

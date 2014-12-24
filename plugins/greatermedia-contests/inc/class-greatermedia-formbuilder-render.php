@@ -1254,49 +1254,46 @@ class GreaterMediaFormbuilderRender {
 			// No need to create UGC
 			return null;
 
-		} elseif ( 1 === count( $submitted_files['images'] ) ) {
+		}
+
+		if ( 1 === count( $submitted_files['images'] ) ) {
 
 			// Single image. Create a GreaterMediaUserGeneratedImage.
-			$ugc                    = GreaterMediaUserGeneratedContent::for_data_type( 'image' );
+			$ugc = GreaterMediaUserGeneratedContent::for_data_type( 'image' );
 			$ugc->post->post_parent = $entry->post_id();
-			$ugc_post_id            = $ugc->save();
+			$ugc->save();
 
-			$upload_field = array_keys( $submitted_files['images'] )[0];
-			$upload_data  = array_values( $submitted_files['images'] )[0];
+			reset( $submitted_files );
+			$upload_field = key( $submitted_files['images'] );
 
-			$attachment_id = media_handle_upload(
-				$upload_field,
-				$ugc_post_id
-			);
+			$attachment_id = media_handle_upload( $upload_field, $entry->post->post_parent, array( 'post_status' => 'private' ) );
 
 			$ugc->post->post_content = wp_get_attachment_image( $attachment_id, 'full' );
-
 			$ugc->save();
+
+			set_post_thumbnail( $ugc->post->ID, $attachment_id );
 
 		} else {
 
 			// Multiple images. Create a GreaterMediaUserGeneratedGallery.
-			$ugc                    = GreaterMediaUserGeneratedContent::for_data_type( 'gallery' );
+			$ugc = GreaterMediaUserGeneratedContent::for_data_type( 'gallery' );
 			$ugc->post->post_parent = $entry->post_id();
-			$ugc_post_id            = $ugc->save();
+			$ugc->save();
 
 			$attachment_ids = array();
-			foreach($submitted_files['images'] as $upload_field => $upload_data) {
-
-				$attachment_ids[] = media_handle_upload(
-					$upload_field,
-					$ugc_post_id
-				);
+			foreach ( array_keys( $submitted_files['images'] ) as $upload_field ) {
+				$attachment_ids[] = media_handle_upload( $upload_field, $entry->post->post_parent, array( 'post_status' => 'private' ) );
 			}
 
 			$ugc->post->post_content = '[gallery ids="' . implode( ',', $attachment_ids ) . '"]';
-
 			$ugc->save();
+
+			set_post_thumbnail( $ugc->post->ID, $attachment_ids[0] );
 
 		}
 
 		return $ugc;
-
+		
 	}
 
 }

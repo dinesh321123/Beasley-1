@@ -200,6 +200,7 @@ class GreaterMediaUserGeneratedContent {
 			'not_found'          => __( 'Not found', 'greatermedia_ugc' ),
 			'not_found_in_trash' => __( 'Not found in Trash', 'greatermedia_ugc' ),
 		);
+
 		$args   = array(
 			'label'               => __( 'user_generated_content', 'greatermedia_ugc' ),
 			'description'         => __( 'Listener Submissions', 'greatermedia_ugc' ),
@@ -208,16 +209,16 @@ class GreaterMediaUserGeneratedContent {
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => true,
+			'show_in_menu'        => false,
 			'show_in_nav_menus'   => false,
 			'show_in_admin_bar'   => false,
-			'menu_position'       => 5,
 			'can_export'          => true,
 			'has_archive'         => false,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => true,
 			'capability_type'     => 'page',
 		);
+
 		register_post_type( 'listener_submissions', $args );
 
 	}
@@ -242,10 +243,8 @@ class GreaterMediaUserGeneratedContent {
 	 * Add custom admin pages to the admin menu
 	 */
 	public static function admin_menu() {
-		add_submenu_page( 'edit.php?post_type=listener_submissions', 'Listener Submission Moderation', 'Listener Submission Moderation', 'delete_posts', GreaterMediaUserGeneratedContentModerationTable::PAGE_NAME, array(
-			__CLASS__,
-			'moderation_ui'
-		) );
+		add_submenu_page( 'edit.php?post_type=contest', 'Submissions', 'Submissions', 'delete_posts', 'edit.php?post_type=listener_submissions' );
+		add_submenu_page( 'edit.php?post_type=contest', 'Moderation', 'Moderation', 'delete_posts', GreaterMediaUserGeneratedContentModerationTable::PAGE_NAME, array( __CLASS__, 'moderation_ui' ) );
 	}
 
 	public static function admin_enqueue_scripts() {
@@ -541,16 +540,13 @@ class GreaterMediaUserGeneratedContent {
 	 */
 	public function contest() {
 
-		$contest_id = get_post_meta( $this->post_id, '_ugc_contest', true );
-
-		if ( ! empty( $contest_id ) ) {
-			$contest = get_post( $contest_id );
-
-			return $contest;
+		$contest_entry = get_post( $this->post->post_parent );
+		if ( $contest_entry && ! empty( $contest_entry->post_parent ) ) {
+			return get_post( $contest_entry->post_parent );
 		}
 
 		return null;
-
+		
 	}
 
 	public function listener_gigya_id() {
