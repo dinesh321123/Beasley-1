@@ -22,7 +22,7 @@ class GreaterMediaUserGeneratedGallery extends GreaterMediaUserGeneratedContent 
 
 		$attachments = array();
 		foreach ( $attachment_ids as $attachment_index => $attachment_id ) {
-			if ( ! empty( $attachment_id ) ) {
+			if ( ! empty( $attachment_id ) && ! empty( $attachment_data['src'][$attachment_index] ) ) {
 				$attachments[$attachment_id] = $attachment_data['src'][$attachment_index];
 			}
 		}

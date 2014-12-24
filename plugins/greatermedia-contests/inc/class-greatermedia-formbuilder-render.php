@@ -275,8 +275,19 @@ class GreaterMediaFormbuilderRender {
 
 		$html = '';
 
+		$now = current_time( 'timestamp', 1 );
+		$contest_start = (int) get_post_meta( $post_id, 'contest-start', true );
+		if ( $contest_start > 0 && $contest_start > $now ) {
+			return new WP_Error( 'contest_form_builder', 'The contest is not started yet.' );
+		}
+
+		$contest_end = (int) get_post_meta( $post_id, 'contest-end', true );
+		if ( $contest_end > 0 && $now > $contest_end ) {
+			return new WP_Error( 'contest_form_builder', 'The contest is already finished.' );
+		}
+
 		if ( ! is_numeric( $post_id ) ) {
-			throw new InvalidArgumentException( '$post_id must be an integer post ID' );
+			return new WP_Error( 'contest_form_builder', '$post_id must be an integer post ID' );
 		}
 
 		if ( is_string( $form ) ) {
@@ -284,12 +295,12 @@ class GreaterMediaFormbuilderRender {
 			$form       = json_decode( $clean_form );
 		}
 
-		if ( null === $form ) {
-			throw new InvalidArgumentException( '$form parameter is invalid' );
+		if ( is_null( $form ) ) {
+			return new WP_Error( 'contest_form_builder', '$form parameter is invalid' );
 		}
 
 		if ( ! is_array( $form ) ) {
-			throw new InvalidArgumentException( '$form should be a JSON string or an Object' );
+			return new WP_Error( 'contest_form_builder', '$form should be a JSON string or an Object' );
 		}
 
 		if ( defined( 'CONTEST_' . $post_id . '_SUCCESS' ) && 'CONTEST_' . $post_id . '_SUCCESS' ) {
@@ -315,7 +326,7 @@ class GreaterMediaFormbuilderRender {
 
 				// Make sure the field type has been implemented/is valid
 				if ( ! method_exists( __CLASS__, $renderer_method ) ) {
-					throw new InvalidArgumentException( sprintf( 'Form field %s has unimplemented field type %s', wp_kses_data( $field->cid ), wp_kses_data( $field->field_type ) ) );
+					return new WP_Error( 'contest_form_builder', sprintf( 'Form field %s has unimplemented field type %s', wp_kses_data( $field->cid ), wp_kses_data( $field->field_type ) ) );
 				}
 
 				$html .= wp_kses( self::$renderer_method( $post_id, $field ), self::allowed_tags() );

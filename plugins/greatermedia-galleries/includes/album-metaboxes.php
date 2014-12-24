@@ -19,7 +19,7 @@ class GreaterMediaGalleryAlbumMetaboxes {
 	}
 
 	public static function remove_save_post_actions() {
-		remove_action( 'save_post_' . GreaterMediaGalleryCPT::ALBUM_POST_TYPE, array( __CLASS__, 'save_meta_box' ), 10 );
+		remove_action( 'save_post_' . GreaterMediaGalleryCPT::ALBUM_POST_TYPE, array( __CLASS__, 'save_meta_box' ), 10, 2 );
 	}
 
 	/**
@@ -73,6 +73,9 @@ class GreaterMediaGalleryAlbumMetaboxes {
 		if ( ! isset( $_POST['gmr_album_galleries'] ) ) {
 			return;
 		}
+
+		// Deactivate this method to escape infinite loop
+		self::remove_save_post_actions();
 
 		$old_gallery_ids = self::get_child_gallery_ids( $post_id );
 		$gallery_ids = array_map( 'intval', explode( ',', $_POST['gmr_album_galleries'] ) );
