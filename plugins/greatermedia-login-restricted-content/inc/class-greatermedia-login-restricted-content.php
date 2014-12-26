@@ -22,6 +22,13 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 		add_action( 'save_post', array( $this, 'save_post' ) );
 		add_filter( 'the_content', array( $this, 'the_content' ) );
 
+		/**
+		 * wpautop usually runs before shortcode processing, meaning the shortcodes'
+		 * output isn't properly wrapped in paragraphs. This forces it to run later
+		 * and catch unwrapped shortcode output, like this plugin's.
+		 */
+		add_filter( 'the_content', 'wpautop', 20 );
+		
 	}
 
 	/**
