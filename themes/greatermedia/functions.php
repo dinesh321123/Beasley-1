@@ -59,6 +59,7 @@ function greatermedia_setup() {
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
 	add_post_type_support( 'post', 'login-restricted-content' );
+	add_post_type_support( 'post', 'age-restricted-content' );
 
 	/**
 	 * Add theme support for post-formats

@@ -83,24 +83,12 @@ class GreaterMediaTimedContent extends VisualShortcode {
 			wp_enqueue_style( 'datetimepicker');
 			wp_enqueue_script( 'datetimepicker');
 
-			// Enqueue JavaScript
-			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-
-				wp_enqueue_script( 'date-format', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'bower_components/date.format/date.format.js', array(), null, true );
-				wp_enqueue_script( 'date-toisostring', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'js/vendor/date-toisostring.js', array(), null, true );
-				wp_enqueue_script( 'greatermedia-tc-admin-js', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'js/greatermedia-timed-content-admin.js', array(
-					'jquery',
-					'date-format'
-				), false, true );
-
-			} else {
-
-				wp_enqueue_script( 'greatermedia-tc-admin-js', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'js/dist/greatermedia-timed-content.min.js', array(
-					'jquery',
-					'date-format'
-				), false, true );
-
-			}
+			wp_enqueue_script( 'date-format' );
+			wp_enqueue_script( 'date-toisostring' );
+			wp_enqueue_script( 'greatermedia-tc-admin-js', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'js/greatermedia-timed-content-admin.js', array(
+				'jquery',
+				'date-format'
+			), false, true );
 
 			$expiration_timestamp = get_post_meta( $post->ID, '_post_expiration', true );
 
@@ -317,13 +305,7 @@ class GreaterMediaTimedContent extends VisualShortcode {
 
 		$now_gmt = intval( gmdate( 'U' ) );
 		if ( ( $now_gmt > $show ) && ( $hide > $now_gmt ) ) {
-
-			// Render the template which wraps $content in a span so JavaScript can hide/show cached content
-			ob_start();
-			include trailingslashit( GREATER_MEDIA_TIMED_CONTENT_PATH ) . 'tpl/timed-content-render.tpl.php';
-
-			return ob_get_clean();
-
+			return $content;
 		} else {
 			return '';
 		}

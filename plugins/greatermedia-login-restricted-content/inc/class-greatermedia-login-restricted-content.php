@@ -189,7 +189,7 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 	}
 
 	/**
-	 * Process the time-restricted shortcode
+	 * Process the login-restricted shortcode
 	 *
 	 * @param      array  $attributes
 	 * @param string|null $content optional content to display
