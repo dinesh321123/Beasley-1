@@ -301,7 +301,7 @@ class GreaterMediaTimedContent extends VisualShortcode {
 	 *
 	 * @return null|string output to display
 	 */
-	function process_shortcode( $attributes, $content = null ) {
+	function process_shortcode( array $attributes, $content = null ) {
 
 		if ( isset( $attributes['show'] ) ) {
 			$show = strtotime( $attributes['show'] );
