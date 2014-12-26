@@ -12,6 +12,7 @@ class GigyaSessionTest extends \WP_UnitTestCase {
 		unset( $_COOKIE['gigya_profile'] );
 		GigyaSession::$instance = null;
 		$this->session = new GigyaSession();
+		$this->uid = '37F5E08F-74D3-40FC-8F4B-296AD29DACBB';
 	}
 
 	function init_gigya_keys() {
@@ -151,6 +152,97 @@ class GigyaSessionTest extends \WP_UnitTestCase {
 
 		$profile = $this->session->get_user_profile();
 		$this->assertNotEmpty( $profile['country'] );
+	}
+
+	/* vary_cache_on_function helpers */
+	function get_cache_variant() {
+		/*
+		 * When making changes to the batcache variant algorithm use
+		 * dev = true, then copy-paste and switch dev to false
+		 */
+		$dev = false;
+
+		if ( $dev ) {
+			return $this->session->get_cache_variant();
+		} else {
+			return $this->get_batcache_variant();
+		}
+	}
+
+	/**
+	 * Creates the cache variant anonymous function, executes it and
+	 * returns it's result.
+	 *
+	 */
+	function get_batcache_variant() {
+		$func = create_function( '', $this->session->get_cache_variant_func() );
+		return $func();
+	}
+
+	/* vary_cache_on_function tests */
+	function test_it_knows_variant_for_guest_user_with_cookie() {
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'no', $actual );
+	}
+
+	function test_it_knows_variant_for_invalid_session_cookie() {
+		$_COOKIE['gigya_profile'] = 'foo';
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'no', $actual );
+	}
+
+	function test_it_knows_variant_for_invalid_json_inside_session_cookie() {
+		$_COOKIE['gigya_profile'] = '{"foo":"}';
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'no', $actual );
+	}
+
+	function test_it_knows_variant_for_session_cookie_without_gigya_user_id() {
+		$_COOKIE['gigya_profile'] = '{"stuff":123}';
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'no', $actual );
+	}
+
+	function test_it_knows_variant_for_valid_session_cookie_without_age() {
+		$this->init_cookie( array( 'UID' => $this->uid ) );
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'yes_0', $actual );
+	}
+
+	function test_it_knows_variant_for_valid_session_cookie_with_0_age() {
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 0 ) );
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'yes_0', $actual );
+	}
+
+	function test_it_knows_variant_for_valid_session_cookie_with_age_less_than_18() {
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 15 ) );
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'yes_0', $actual );
+	}
+
+	function test_it_knows_variant_for_valid_session_cookie_with_age_equal_to_18() {
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 18 ) );
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'yes_18', $actual );
+	}
+
+	function test_it_knows_variant_for_valid_session_cookie_with_age_between_18_and_21() {
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 20 ) );
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'yes_18', $actual );
+	}
+
+	function test_it_knows_variant_for_valid_session_cookie_with_age_equal_to_21() {
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 21 ) );
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'yes_21', $actual );
+	}
+
+	function test_it_knows_variant_for_valid_session_cookie_with_age_greater_than_21() {
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		$actual = $this->get_cache_variant();
+		$this->assertEquals( 'yes_21', $actual );
 	}
 
 }
