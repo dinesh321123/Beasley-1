@@ -17,10 +17,10 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 		);
 
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ), 30, 0 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 20, 0 );
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
+		add_filter( 'the_content', array( $this, 'the_content' ) );
 
 	}
 
@@ -41,7 +41,7 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 		if ( ! post_type_supports( $post->post_type, 'login-restricted-content' ) ) {
 			return;
 		}
-		
+
 		$login_restriction      = self::sanitize_login_restriction( get_post_meta( $post->ID, '_post_login_restriction', true ) );
 		$login_restriction_desc = self::login_restriction_description( $login_restriction );
 
@@ -99,19 +99,6 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 	}
 
 	/**
-	 * Enqueue JavaScript and CSS for public-facing functionality
-	 */
-	public function wp_enqueue_scripts() {
-
-		// Public-facing page
-		wp_enqueue_script( 'greatermedia-lc', trailingslashit( GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_URL ) . 'js/greatermedia-login-restricted-content.js', array(
-			'jquery',
-			'underscore'
-		), false, true );
-
-	}
-
-	/**
 	 * On admin UI post save, update the expiration date postmeta
 	 *
 	 * @param int $post_id Post ID
@@ -130,7 +117,7 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 				if ( '' !== $login_restriction ) {
 					add_post_meta( $post_id, '_post_login_restriction', $login_restriction );
 				}
-				
+
 			}
 
 		} else {
@@ -197,24 +184,27 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 	/**
 	 * Process the time-restricted shortcode
 	 *
-	 * @param      array  $atts
+	 * @param      array  $attributes
 	 * @param string|null $content optional content to display
 	 *
 	 * @return null|string output to display
 	 */
-	public function process_shortcode( $atts, $content = null ) {
+	public function process_shortcode( array $attributes, $content = null ) {
 
-		if ( isset( $atts['status'] ) ) {
-			$status = self::sanitize_login_restriction( $atts['status'] );
+		if ( isset( $attributes['status'] ) ) {
+			$login_restriction = self::sanitize_login_restriction( $attributes['status'] );
 		} else {
-			$status = '';
+			$login_restriction = '';
 		}
 
-		// Render the template which wraps $content in a span so JavaScript can hide/show cached content
-		ob_start();
-		include trailingslashit( GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH ) . 'tpl/login-restricted-render.tpl.php';
+		if ( ( 'logged-in' === $login_restriction ) && ! is_gigya_user_logged_in() ) {
+			return '';
+		} elseif ( ( 'logged-out' === $login_restriction ) && is_gigya_user_logged_in() ) {
+			return '';
+		}
 
-		return ob_get_clean();
+		// Fall-through, return content as-is
+		return $content;
 
 	}
 
@@ -262,6 +252,30 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 		} else {
 			return __( 'No restriction', 'greatermedia-login-restricted-content' );
 		}
+
+	}
+
+	public function the_content( $content ) {
+
+		global $post, $wp;
+
+		$login_restriction = self::sanitize_login_restriction( get_post_meta( $post->ID, '_post_login_restriction', true ) );
+		$current_url       = home_url( add_query_arg( array(), $wp->request ) );
+
+		if ( ( 'logged-in' === $login_restriction ) && ! is_gigya_user_logged_in() ) {
+			$login_url = gigya_profile_path( 'login', array( 'dest' => $current_url ) );
+			include GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH . '/tpl/login-restricted-post-render.tpl.php';
+
+			return;
+		} elseif ( ( 'logged-out' === $login_restriction ) && is_gigya_user_logged_in() ) {
+			$logout_url = gigya_profile_path( 'logout', array( 'dest' => $current_url ) );
+			include GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH . '/tpl/logout-restricted-post-render.tpl.php';
+
+			return;
+		}
+
+		// Fall-through, return content as-is
+		return $content;
 
 	}
 

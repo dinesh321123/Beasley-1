@@ -296,21 +296,21 @@ class GreaterMediaTimedContent extends VisualShortcode {
 	/**
 	 * Process the time-restricted shortcode
 	 *
-	 * @param      array  $atts
+	 * @param      array  $attributes
 	 * @param string|null $content optional content to display
 	 *
 	 * @return null|string output to display
 	 */
-	function process_shortcode( $atts, $content = null ) {
+	function process_shortcode( $attributes, $content = null ) {
 
-		if ( isset( $atts['show'] ) ) {
-			$show = strtotime( $atts['show'] );
+		if ( isset( $attributes['show'] ) ) {
+			$show = strtotime( $attributes['show'] );
 		} else {
 			$show = 0;
 		}
 
-		if ( isset( $atts['hide'] ) ) {
-			$hide = strtotime( $atts['hide'] );
+		if ( isset( $attributes['hide'] ) ) {
+			$hide = strtotime( $attributes['hide'] );
 		} else {
 			$hide = PHP_INT_MAX;
 		}

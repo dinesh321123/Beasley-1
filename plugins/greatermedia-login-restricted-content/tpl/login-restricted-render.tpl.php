@@ -1,1 +1,0 @@
-<span class="login-restricted-content" data-status="<?php echo esc_attr( $status ); ?>"><?php echo do_shortcode( wp_kses_data( $content ) ); ?></span>
