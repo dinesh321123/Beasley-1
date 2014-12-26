@@ -89,7 +89,7 @@ class ExportResultsTask extends SyncTask {
 		$api    = $this->get_emma_api();
 		$params = array(
 			'members'   => $members,
-			'group_ids' => array( $segment_id )
+			'group_ids' => array( intval( $segment_id ) )
 		);
 
 		$response = $api->membersBatchAdd( $params );
@@ -156,6 +156,8 @@ class ExportResultsTask extends SyncTask {
 		$segment_id = $this->get_sentinel()->get_email_segment_id();
 		if ( is_numeric( $segment_id ) ) {
 			return intval( $segment_id );
+		} else {
+			return $segment_id;
 		}
 	}
 
