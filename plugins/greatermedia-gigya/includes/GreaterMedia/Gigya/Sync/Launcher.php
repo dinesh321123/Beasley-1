@@ -29,15 +29,6 @@ class Launcher {
 		foreach ( $this->get_tasks() as $task ) {
 			$task->register();
 		}
-
-		if ( ! defined( 'PHPUNIT_RUNNER' ) ) {
-			set_error_handler( array( $this, 'did_system_error' ) );
-		}
-	}
-
-	function did_system_error() {
-		$args = func_get_args();
-		error_log( 'System Error: ' . implode( "\n", $args ) );
 	}
 
 	function get_task( $task_id ) {

@@ -4,10 +4,11 @@ namespace GreaterMedia\Gigya\Sync;
 
 class Task {
 
-	public $params      = array();
-	public $max_retries = 3;
-	public $aborted     = false;
-	public $failure     = null;
+	public $params           = array();
+	public $max_retries      = 3;
+	public $aborted          = false;
+	public $failure          = null;
+	public $did_system_error = false;
 
 	// TODO: will default to disabled in production
 	public $log_disabled = false;
@@ -56,8 +57,9 @@ class Task {
 		$this->log( 'execute' );
 
 		try {
-			$start_time = microtime(true);
-			$proceed = $this->before();
+			$this->set_error_trap();
+			$start_time = microtime( true );
+			$proceed    = $this->before();
 
 			if ( $proceed ) {
 				$this->log_attempt();
@@ -65,7 +67,7 @@ class Task {
 				$result = $this->run();
 				$this->log( 'after', $result );
 
-				$stop_time = microtime(true);
+				$stop_time = microtime( true );
 				$run_time  = $stop_time - $start_time;
 
 				$this->log( 'after', $run_time );
@@ -77,6 +79,8 @@ class Task {
 		} catch (\Exception $err) {
 			$this->log( 'error', $err->getMessage() );
 			$this->recover( $err );
+		} finally {
+			$this->clear_error_trap();
 		}
 	}
 
@@ -193,6 +197,22 @@ class Task {
 		unset( $params['retries'] );
 
 		return $params;
+	}
+
+	function set_error_trap() {
+		if ( ! defined( 'PHPUNIT_RUNNER' ) ) {
+			set_error_handler( array( $this, 'on_system_error' ) );
+		}
+	}
+
+	function clear_error_trap() {
+		restore_error_handler();
+	}
+
+	function on_system_error() {
+		$args = func_get_args();
+		error_log( 'System Error: ' . implode( "\n", $args ) );
+		$this->did_system_error = true;
 	}
 
 }
