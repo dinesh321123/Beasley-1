@@ -203,16 +203,18 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 			$age_restriction = '';
 		}
 
-		$current_url     = home_url( add_query_arg( array(), $wp->request ) );
-		$login_url = gigya_profile_path( 'login', array( 'dest' => $current_url ) );
+		$current_url = '/' . trim( $wp->request, '/' );
+		$login_url   = gigya_profile_path( 'login', array( 'dest' => $current_url ) );
 
-		if ( ( '18plus' === $age_restriction ) && ( !is_gigya_user_logged_in() || 18 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+		if ( ( '18plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 18 > absint( get_gigya_user_field( 'age' ) ) ) ) {
 			ob_start();
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-shortcode-render.tpl.php';
+
 			return ob_get_clean();
-		} elseif ( ( '21plus' === $age_restriction ) && ( !is_gigya_user_logged_in() || 21 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+		} elseif ( ( '21plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 21 > absint( get_gigya_user_field( 'age' ) ) ) ) {
 			ob_start();
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-shortcode-render.tpl.php';
+
 			return ob_get_clean();
 		}
 
@@ -276,11 +278,11 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 		$age_restriction = self::sanitize_age_restriction( get_post_meta( $post->ID, 'post_age_restriction', true ) );
 		$current_url     = home_url( add_query_arg( array(), $wp->request ) );
 
-		if ( ( '18plus' === $age_restriction ) && ( !is_gigya_user_logged_in() || 18 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+		if ( ( '18plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 18 > absint( get_gigya_user_field( 'age' ) ) ) ) {
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-post-render.tpl.php';
 
 			return;
-		} elseif ( ( '21plus' === $age_restriction ) && ( !is_gigya_user_logged_in() || 21 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+		} elseif ( ( '21plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 21 > absint( get_gigya_user_field( 'age' ) ) ) ) {
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-post-render.tpl.php';
 
 			return;
