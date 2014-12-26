@@ -106,10 +106,14 @@ class Sentinel {
 		return $duration;
 	}
 
+	function set_last_export( $last_export ) {
+		$this->set_task_meta( 'last_export', strval( $last_export ) );
+	}
+
 	function get_last_export() {
-		$end_time = $this->get_task_meta( 'end_time' );
-		if ( $end_time !== '' ) {
-			return $this->get_end_time();
+		$last_export = $this->get_task_meta( 'last_export' );
+		if ( $last_export !== '' ) {
+			return intval( $last_export );
 		} else {
 			return 0;
 		}

@@ -70,6 +70,7 @@ class ExportResultsTask extends SyncTask {
 
 			$this->enqueue( $params );
 		} else {
+			$sentinel->set_last_export( time() );
 			$sentinel->set_status_code( 'completed' );
 
 			$cleanup_task = new CleanupTask();
