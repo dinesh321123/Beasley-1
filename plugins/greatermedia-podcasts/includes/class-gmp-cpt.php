@@ -69,7 +69,7 @@ class GMP_CPT {
 			'label'               => __( 'podcast', 'gmpodcasts' ),
 			'description'         => __( 'A post type for Podcasts', 'gmpodcasts' ),
 			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', ),
+			'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments' ),
 			'taxonomies'          => array( 'post_tag' ),
 			'hierarchical'        => false,
 			'public'              => true,
