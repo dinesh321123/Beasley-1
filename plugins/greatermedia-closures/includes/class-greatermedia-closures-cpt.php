@@ -20,6 +20,14 @@ class GreaterMediaClosuresCPT {
 		add_action( 'init', array( __CLASS__, 'gmedia_closures_type' ) );
 		add_action( 'init', array( __CLASS__, 'gmedia_closures_entity_type' ) );
 		add_action( 'admin_menu', array( __CLASS__, 'gmedia_closures_remove_metaboxes' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'gmedia_enqueue_scripts' ) );
+	}
+
+	public static function gmedia_enqueue_scripts() {
+		if( is_post_type_archive( self::CLOSURE_CPT_SLUG ) ) {
+			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+			wp_enqueue_style( 'gmedia_closures_styles', GMCLOSURES_URL . 'assets/css/greater_media_closures' . $postfix  . '.css' );
+		}
 	}
 
 	/**

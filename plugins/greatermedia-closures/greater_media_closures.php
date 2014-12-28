@@ -15,10 +15,10 @@
  */
 
 // Useful global constants
-define( 'GMCLOSURRES_VERSION', '0.0.1' );
-define( 'GMCLOSURRES_URL',     plugin_dir_url( __FILE__ ) );
-define( 'GMCLOSURRES_PATH',    dirname( __FILE__ ) . '/' );
+define( 'GMCLOSURES_VERSION', '0.0.1' );
+define( 'GMCLOSURES_URL',     plugin_dir_url( __FILE__ ) );
+define( 'GMCLOSURES_PATH',    dirname( __FILE__ ) . '/' );
 
 
-require GMCLOSURRES_PATH . 'includes/class-greatermedia-closures-cpt.php';
-require GMCLOSURRES_PATH . 'includes/class-greatermedia-closures-metaboxes.php';
+require GMCLOSURES_PATH . 'includes/class-greatermedia-closures-cpt.php';
+require GMCLOSURES_PATH . 'includes/class-greatermedia-closures-metaboxes.php';
