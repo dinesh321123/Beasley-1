@@ -5113,6 +5113,7 @@ category: Components - Ads
       margin-right: 3.57866%;
       width: 48.21067%;
       padding-bottom: 0;
+      margin-right: 0 !important;
       margin-bottom: 0;
       border-bottom: none; }
       .tribe-events-event-meta .tribe-events-meta-group-venue:last-child {
