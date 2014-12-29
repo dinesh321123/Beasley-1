@@ -3069,15 +3069,16 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__list--item:last-of-type {
   padding: 0; }
 
-.entry__list--item a, .entry__list--item a:visited {
+.entry__list--item a, .entry__list--item a:visited, .entry__list--show a, .entry__list--show a:visited {
   color: #929497; }
 
-.entry__list--item a:hover, .entry__list--item a:focus, .entry__list--item a:active {
+.entry__list--item a:hover, .entry__list--item a:focus, .entry__list--item a:active, .entry__list--show a:hover, .entry__list--show a:focus, .entry__list--show a:active {
   color: #aa1c20; }
 
 .entry__list--title {
   display: inline-block;
-  float: left; }
+  float: left;
+  font-weight: 800; }
 
 .entry__list--title:after {
   margin: 0 14px 0 18px;

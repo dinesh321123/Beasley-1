@@ -82,7 +82,7 @@ function greatermedia_scripts_styles() {
 
 	wp_register_style(
 		'open-sans',
-		'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700',
+		'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,700,800',
 		array(),
 		GREATERMEDIA_VERSION
 	);

@@ -73,7 +73,7 @@ get_header(); ?>
 								 */
 								?>
 								<div class="contest__sponsors">
-									<h3 class="contest__sponsors--heading"><?php _e( 'Sponsors', 'greatermedia' ); ?></h3>
+									<h3 class="contest__sponsors--heading"><?php _e( 'Sponsored', 'greatermedia' ); ?></h3>
 									<ul class="contest__sponsors--list">
 										<li class="contest__sponsor"><a href="#"><img src="http://lorempixel.com/150/100/"></a></li>
 										<li class="contest__sponsor"><a href="#"><img src="http://lorempixel.com/130/100/"></a></li>
