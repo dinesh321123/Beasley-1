@@ -13,23 +13,32 @@ get_header(); ?>
 		<section class="content">
 			<h1 itemprop="headline">CLOSURES</h1>
 			<?php
-				$first = 0;
+				$args = array(
+					'numberposts' => 1,
+					'offset' => 0,
+					'category' => 0,
+					'orderby' => 'post_date',
+					'order' => 'DESC',
+					'post_type' => GreaterMediaClosuresCPT::CLOSURE_CPT_SLUG,
+					'post_status' => 'publish'
+				);
+				$recent_posts = wp_get_recent_posts( $args, ARRAY_A );
+				$last_updated = strtotime( $recent_posts[0]['post_modified'] );
 				$published_posts = wp_count_posts( GreaterMediaClosuresCPT::CLOSURE_CPT_SLUG );
 				if( isset( $published_posts->publish ) ) {
 					?>
-					<p class="closure-entry-title" ><?php echo $published_posts->publish . ' reported closures'; ?></p>
+					<div class="closure-entry-title" ><?php echo intval( $published_posts->publish ) . ' reported closures'; ?></div>
+					<div class="closure-attr--date">
+						<p>Last updated: <?php echo date('m/d/Y \a\t G:i', $last_updated); ?></p>
+					</div>
 					<?php
 				}
 				?>
 			<?php if ( have_posts() ) : while ( have_posts() ) : the_post();
-				$closure_type = sanitize_text_field( get_post_meta( get_the_ID(), 'gmedia_closure_type', true ) );
-				$closure_entity_type = sanitize_text_field( get_post_meta( get_the_ID(), 'gmedia_closure_entity_type', true ) );
-				$closure_general_location = sanitize_text_field( get_post_meta( get_the_ID(), 'gmedia_closure_general_location', true ) );
-			if( $first === 0 ): ?>
-				<div class="closure-attr--date">
-					<p>Last updated: <?php the_time('m/d/Y \a\t G:i'); ?></p>
-				</div>
-			<?php $first = 1; endif; ?>
+				$closure_type = get_post_meta( get_the_ID(), 'gmedia_closure_type', true );
+				$closure_entity_type = get_post_meta( get_the_ID(), 'gmedia_closure_entity_type', true );
+				$closure_general_location = get_post_meta( get_the_ID(), 'gmedia_closure_general_location', true );
+			?>
 				<div class="closure cf">
 					<div class="closure-attr--entity">
 						<p><?php the_title(); ?></p>

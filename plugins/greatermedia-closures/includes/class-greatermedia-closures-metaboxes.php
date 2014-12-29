@@ -86,11 +86,11 @@ class GreaterMediaClosuresMetaboxes {
 
 
 		// get old data
-		$closure_type = sanitize_text_field( get_post_meta( $post->ID, 'gmedia_closure_type', true ) );
+		$closure_type = get_post_meta( $post->ID, 'gmedia_closure_type', true );
 		$closure_type_obj = get_term_by( 'name', esc_attr( $closure_type ), GreaterMediaClosuresCPT::CLOSURE_TYPE_SLUG );
-		$closure_entity_type = sanitize_text_field( get_post_meta( $post->ID, 'gmedia_closure_entity_type', true ) );
+		$closure_entity_type = get_post_meta( $post->ID, 'gmedia_closure_entity_type', true );
 		$closure_entity_type_obj = get_term_by( 'name', esc_attr( $closure_entity_type ), GreaterMediaClosuresCPT::CLOSURE_ENTITY_TYPE_SLUG );
-		$closure_general_location = sanitize_text_field( get_post_meta( $post->ID, 'gmedia_closure_general_location', true ) );
+		$closure_general_location = get_post_meta( $post->ID, 'gmedia_closure_general_location', true );
 
 		// general location metabox
 		echo '<table>';

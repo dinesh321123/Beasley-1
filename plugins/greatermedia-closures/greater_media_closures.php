@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Greater Media Closures
  * Plugin URI:  http://10up.com
- * Description: Scholl & Buisness Closures
+ * Description: School & Buisness Closures
  * Version:     0.0.1
  * Author:      10up
  */

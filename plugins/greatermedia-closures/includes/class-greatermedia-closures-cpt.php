@@ -11,9 +11,9 @@ if ( ! defined( 'WPINC' ) ) {
 
 class GreaterMediaClosuresCPT {
 
-	const CLOSURE_CPT_SLUG = 'closure';
-	const CLOSURE_TYPE_SLUG = 'closures_types';
-	const CLOSURE_ENTITY_TYPE_SLUG = 'closures_entity_types';
+	const CLOSURE_CPT_SLUG = 'gmr_closure';
+	const CLOSURE_TYPE_SLUG = 'gmr_closures_types';
+	const CLOSURE_ENTITY_TYPE_SLUG = 'gmr_closures_entity_types';
 
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'gmedia_closures_cpt' ) );
