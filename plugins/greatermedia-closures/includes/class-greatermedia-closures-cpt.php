@@ -21,6 +21,8 @@ class GreaterMediaClosuresCPT {
 		add_action( 'init', array( __CLASS__, 'gmedia_closures_entity_type' ) );
 		add_action( 'admin_menu', array( __CLASS__, 'gmedia_closures_remove_metaboxes' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'gmedia_enqueue_scripts' ) );
+
+		add_filter( 'enter_title_here', array( __CLASS__, 'gmedia_closures_change_title_text' ) );
 	}
 
 	public static function gmedia_enqueue_scripts() {
@@ -160,6 +162,20 @@ class GreaterMediaClosuresCPT {
 	public static function gmedia_closures_remove_metaboxes() {
 		remove_meta_box( 'tagsdiv-' . self::CLOSURE_ENTITY_TYPE_SLUG, self::CLOSURE_CPT_SLUG, 'normal' );
 		remove_meta_box( 'tagsdiv-' . self::CLOSURE_TYPE_SLUG, self::CLOSURE_CPT_SLUG, 'normal' );
+	}
+
+	/**
+	 * Change the title placeholder text for closures
+	 * @return string
+	 */
+	public static function gmedia_closures_change_title_text( $title ) {
+		$screen = get_current_screen();
+
+		if  ( self::CLOSURE_CPT_SLUG == $screen->post_type ) {
+			$title = 'Business or School Name Here';
+		}
+
+		return $title;
 	}
 }
 
