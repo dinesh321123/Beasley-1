@@ -183,8 +183,6 @@ function gmr_contests_process_action() {
 	}
 
 	if ( ! empty( $submission_paged ) && DOING_AJAX ) {
-		gmr_contests_cache_headers( 10 * MINUTE_IN_SECONDS );
-		
 		$query = gmr_contests_submissions_query( get_the_ID() );
 		if ( ! $query->have_posts() ) {
 			exit;
