@@ -202,34 +202,25 @@ class GigyaSession {
 	function get_cache_variant_func() {
 		$cache_variant_func = <<<'FUNC'
 		if ( array_key_exists( 'gigya_profile', $_COOKIE ) ) {
-			/* Has gigya session cookie */
 			$cookie_text = $_COOKIE['gigya_profile'];
 
 			if ( strpos( $cookie_text, '{' ) !== 0 ) {
-				/* Cookie text is base64 encoded */
 				$cookie_text = base64_decode( $cookie_text );
 			};
 
-			/* if wp_unslash, json may be slashed */
 			if ( function_exists( 'wp_unslash' ) ) {
 				$cookie_text = wp_unslash( $cookie_text );
 			}
 
-			/* Decode cookie json */
 			$cookie_value = json_decode( $cookie_text, true );
 
-			/* Is cookie json valid? */
 			if ( ! is_array( $cookie_value ) ) {
 				$cookie_value = array();
 			};
 
-			/* Cookie json is valid if Gigya UID exists */
 			if ( array_key_exists( 'UID', $cookie_value ) ) {
-				/* Valid gigya cookie, hence logged in */
-				/* If age exists use it, else use 0 */
 				$age = array_key_exists( 'age', $cookie_value ) ? intval( $cookie_value['age'] ) : 0;
 
-				/* Convert age to age bracket */
 				if ( $age >= 21 ) {
 					$age_bracket = '21';
 				} else if ( $age < 21 && $age >= 18 ) {
@@ -238,15 +229,11 @@ class GigyaSession {
 					$age_bracket = '0';
 				};
 
-				/* Return composite cache variant based on logged in
-				 * status and age bracket */
 				return 'yes_' . $age_bracket;
 			} else {
-				/* invalid gigya cookie, not logged in */
 				return 'no';
 			};
 		} else {
-			/* Gigya session cookie not found */
 			return 'no';
 		};
 FUNC;
