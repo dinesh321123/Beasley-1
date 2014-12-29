@@ -7,7 +7,7 @@ class GreaterMediaLivePlayer {
 	}
 
 	public static function render_live_player() {
-		if ( !is_page( 'style-guide' ) && is_page_template( 'template-iframe.php' ) ) {
+		if ( !is_page( 'style-guide' ) && apply_filters( 'load_greatermedia_livepress_sidebar', true ) ) {
 			include __DIR__ . '/tpl.live-player.php';
 		}
 	}

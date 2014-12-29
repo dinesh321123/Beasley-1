@@ -339,6 +339,7 @@ function greatermedia_iframe_template_redirect() {
 		return;
 	}
 	// include custom template
+	add_filter( 'load_greatermedia_livepress_sidebar', '__return_false' );
 	locate_template( 'template-iframe.php', true );
 	exit;
 }
