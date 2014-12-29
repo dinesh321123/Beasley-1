@@ -24,7 +24,13 @@
 		if( !gmlp.logged_in ) {
 			enablePjax();
 		}
+	});
 
+	$('.live-stream').on( 'click', function(event) {
+		/* Act on the event */
+		if( !is_gigya_user_logged_in() ) {
+			Cookies.set( "gmlp_play_button_pushed", 1 );
+		}
 	});
 
 	pauseButton.on('click', function(event) {
