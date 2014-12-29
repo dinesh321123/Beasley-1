@@ -106,7 +106,7 @@ jQuery(function () {
 						return '21plus';
 					}
 					else {
-						return '';
+						return '18plus';
 					}
 
 				}
@@ -119,7 +119,7 @@ jQuery(function () {
 						return '21plus';
 					}
 					else {
-						return '';
+						return '18plus';
 					}
 
 				}
