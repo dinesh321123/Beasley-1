@@ -10,34 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GreaterMediaContests {
 
-	const CPT_SLUG = 'contest';
+	public function __construct() {
 
-	function __construct() {
-
-		add_action( 'init', array( $this, 'register_contest_post_type' ) );
 		add_action( 'init', array( $this, 'register_contest_type_taxonomy' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'restrict_manage_posts', array( $this, 'admin_contest_type_filter' ) );
 		add_action( 'pre_get_posts', array( $this, 'admin_filter_contest_list' ) );
-		add_action( 'edit_form_after_title', array( $this, 'myprefix_edit_form_after_title' ) );
-		add_action( 'edit_form_after_editor', array( $this, 'myprefix_edit_form_after_editor' ) );
-		add_action( 'admin_menu', array( $this, 'update_admin_menu' ) );
 		add_action( 'dbx_post_advanced', array( $this, 'adjust_current_admin_menu' ) );
 
 		add_filter( 'gmr_live_link_suggestion_post_types', array( $this, 'extend_live_link_suggestion_post_types' ) );
 		
 	}
-
-	/**
-	 * Removes "Add New" sub menu item from "Contests" group.
-	 * 
-	 * @action admin_menu
-	 * @access public
-	 */
-	public function update_admin_menu() {
-		remove_submenu_page( 'edit.php?post_type=' . self::CPT_SLUG, 'post-new.php?post_type=' . self::CPT_SLUG );
-	}
-
+	
 	/**
 	 * Selects proper admin menu items for contests and submission pages.
 	 *
@@ -50,91 +34,10 @@ class GreaterMediaContests {
 	public function adjust_current_admin_menu() {
 		global $parent_file, $submenu_file, $typenow, $pagenow;
 
-		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) && in_array( $typenow, array( self::CPT_SLUG, 'listener_submissions' ) ) ) {
-			$parent_file = 'edit.php?post_type=' . self::CPT_SLUG;
+		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) && in_array( $typenow, array( GMR_SUBMISSIONS_CPT ) ) ) {
+			$parent_file = 'edit.php?post_type=' . GMR_CONTEST_CPT;
 			$submenu_file = 'edit.php?post_type=' . $typenow;
 		}
-	}
-	
-	/**
-	 * Render markup to enclose the post content/body field in a fake metabox (for visual consistency) with a headline.
-	 * Implements edit_form_after_title action.
-	 */
-	public function myprefix_edit_form_after_title() {
-
-		global $post;
-
-		if ( ! isset( $post ) || 'contest' !== $post->post_type ) {
-			return;
-		}
-
-		echo '<div id="contest_editor" class="postbox">';
-		echo '<h3>' . __( 'Introduction', 'greatermedia_contests' ) . '</h3>';
-		echo '<div class="inside">';
-
-	}
-
-	/**
-	 * Render markup to finish rendering the fake metabox around the post content/body field.
-	 * Implements edit_form_after_editor action.
-	 */
-	public function myprefix_edit_form_after_editor() {
-
-		global $post;
-
-		if ( ! isset( $post ) || 'contest' !== $post->post_type ) {
-			return;
-		}
-
-		echo '</div></div>';
-
-	}
-
-	/**
-	 * Register a Custom Post Type representing a contest
-	 * @uses register_post_type
-	 */
-	public function register_contest_post_type() {
-
-		$labels = array(
-			'name'               => _x( 'Contests', 'Post Type General Name', 'greatermedia_contests' ),
-			'singular_name'      => _x( 'Contest', 'Post Type Singular Name', 'greatermedia_contests' ),
-			'menu_name'          => __( 'Contests', 'greatermedia_contests' ),
-			'parent_item_colon'  => __( 'Parent Contest:', 'greatermedia_contests' ),
-			'all_items'          => __( 'All Contests', 'greatermedia_contests' ),
-			'view_item'          => __( 'View Contest', 'greatermedia_contests' ),
-			'add_new_item'       => __( 'Add New Contest', 'greatermedia_contests' ),
-			'add_new'            => __( 'Add New', 'greatermedia_contests' ),
-			'edit_item'          => __( 'Edit Contest', 'greatermedia_contests' ),
-			'update_item'        => __( 'Update Contest', 'greatermedia_contests' ),
-			'search_items'       => __( 'Search Contests', 'greatermedia_contests' ),
-			'not_found'          => __( 'Not found', 'greatermedia_contests' ),
-			'not_found_in_trash' => __( 'Not found in Trash', 'greatermedia_contests' ),
-		);
-		$args   = array(
-			'label'               => __( 'contest', 'greatermedia_contests' ),
-			'description'         => __( 'Contest', 'greatermedia_contests' ),
-			'labels'              => $labels,
-			'supports'            => array( 'title', 'editor', 'thumbnail' ),
-			'taxonomies'          => array( 'contest_type' ),
-			'hierarchical'        => false,
-			'public'              => true,
-			'show_ui'             => true,
-			'show_in_menu'        => true,
-			'show_in_nav_menus'   => true,
-			'show_in_admin_bar'   => true,
-			'menu_position'       => 5,
-			'menu_icon'           => 'dashicons-forms',
-			'can_export'          => true,
-			'has_archive'         => true,
-			'exclude_from_search' => false,
-			'publicly_queryable'  => true,
-			'capability_type'     => 'post',
-		);
-
-		register_post_type( self::CPT_SLUG, $args );
-		add_post_type_support( 'contest', 'timed-content' );
-
 	}
 
 	/**
@@ -172,7 +75,7 @@ class GreaterMediaContests {
 			'show_tagcloud'     => false,
 		);
 
-		register_taxonomy( 'contest_type', array( 'contest' ), $args );
+		register_taxonomy( 'contest_type', array( GMR_CONTEST_CPT ), $args );
 
 		$this->maybe_seed_contest_type_taxonomy();
 
@@ -229,7 +132,7 @@ class GreaterMediaContests {
 		global $typenow;
 		$contest_type_tax_id = 0;
 
-		if ( 'contest' !== $typenow || ! is_admin() ) {
+		if ( GMR_CONTEST_CPT !== $typenow || ! is_admin() ) {
 			return;
 		}
 
@@ -270,7 +173,7 @@ class GreaterMediaContests {
 
 		$contest_type_tax_id = isset( $_GET['type_filter'] ) ? intval( $_GET['type_filter'] ) : 0;
 
-		if ( 'contest' !== $typenow || ! is_admin() || empty( $contest_type_tax_id ) ) {
+		if ( GMR_CONTEST_CPT !== $typenow || ! is_admin() || empty( $contest_type_tax_id ) ) {
 			return;
 		}
 
@@ -296,8 +199,7 @@ class GreaterMediaContests {
 	 * @return array The array of extended post types.
 	 */
 	public function extend_live_link_suggestion_post_types( $post_types ) {
-		$post_types[] = 'contest';
-
+		$post_types[] = GMR_CONTEST_CPT;
 		return $post_types;
 	}
 

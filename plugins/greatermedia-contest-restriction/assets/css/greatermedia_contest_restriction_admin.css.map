@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": ";;;;;;;AAQA,uBAAwB;EACtB,UAAU,EAAE,IAAI;EAChB,cAAc,EAAE,GAAG;EACnB,aAAa,EAAE,cAAc;EAC7B,6BAAM;IACP,WAAW,EAAE,IAAI;IACjB,OAAO,EAAE,KAAK;IACd,KAAK,EAAE,KAAK;IACZ,KAAK,EAAE,IAAI;EAGX,0CAAM;IACJ,MAAM,EAAE,CAAC;EAKX,sCAAM;IACJ,MAAM,EAAE,CAAC",
-"sources": ["sass/greatermedia_contest_restriction_admin.scss"],
-"names": [],
-"file": "greatermedia_contest_restriction_admin.css"
-}

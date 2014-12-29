@@ -1,8 +1,7 @@
-module.exports = function( grunt ) {
-
+module.exports = function (grunt) {
 	// Project configuration
-	grunt.initConfig( {
-		pkg:    grunt.file.readJSON( 'package.json' ),
+	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
 		concat: {
 			options: {
 				stripBanners: true
@@ -25,21 +24,25 @@ module.exports = function( grunt ) {
 				'assets/js/test/**/*.js'
 			],
 			options: {
-				curly:   true,
-				eqeqeq:  true,
-				immed:   true,
+				curly: true,
+				eqeqeq: true,
+				immed: true,
 				latedef: true,
-				newcap:  true,
-				noarg:   true,
-				sub:     true,
-				undef:   true,
-				boss:    true,
-				eqnull:  true,
+				newcap: true,
+				noarg: true,
+				sub: true,
+				undef: true,
+				boss: true,
+				eqnull: true,
 				globals: {
 					exports: true,
-					module:  false
+					module: false,
+					jQuery: false,
+					window: false,
+					document: false,
+					console: false
 				}
-			}		
+			}
 		},
 		uglify: {
 			all: {
@@ -53,11 +56,7 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
-		test:   {
-			files: ['assets/js/test/**/*.js']
-		},
-		
-		sass:   {
+		sass: {
 			all: {
 				files: {
 					'assets/css/gmr_gallery.css': 'assets/css/sass/gmr_gallery.scss',
@@ -65,92 +64,45 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
-		
 		cssmin: {
 			minify: {
 				expand: true,
-				
-				cwd: 'assets/css/',				
-				src: ['gmr_gallery.css','gmr_gallery_admin.css'],
-				
+				cwd: 'assets/css/',
+				src: ['gmr_gallery.css', 'gmr_gallery_admin.css'],
 				dest: 'assets/css/',
 				ext: '.min.css'
 			}
 		},
-		watch:  {
-			
+		watch: {
 			sass: {
 				files: ['assets/css/sass/**/*.scss'],
-				tasks: ['sass', 'cssmin'],
+				tasks: ['css'],
 				options: {
 					debounceDelay: 500
 				}
 			},
-			
 			scripts: {
 				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
-				tasks: ['jshint', 'concat', 'uglify'],
+				tasks: ['js'],
 				options: {
 					debounceDelay: 500
 				}
 			}
-		},
-		clean: {
-			main: ['release/<%= pkg.version %>']
-		},
-		copy: {
-			// Copy the plugin to a versioned release directory
-			main: {
-				src:  [
-					'**',
-					'!node_modules/**',
-					'!release/**',
-					'!.git/**',
-					'!.sass-cache/**',
-					'!css/src/**',
-					'!js/src/**',
-					'!img/src/**',
-					'!Gruntfile.js',
-					'!package.json',
-					'!.gitignore',
-					'!.gitmodules'
-				],
-				dest: 'release/<%= pkg.version %>/'
-			}		
-		},
-		compress: {
-			main: {
-				options: {
-					mode: 'zip',
-					archive: './release/greatermedia-galleries.<%= pkg.version %>.zip'
-				},
-				expand: true,
-				cwd: 'release/<%= pkg.version %>/',
-				src: ['**/*'],
-				dest: 'greatermedia-galleries/'
-			}		
 		}
-	} );
-	
+	});
+
 	// Load other tasks
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	
 	grunt.loadNpmTasks('grunt-contrib-sass');
-	
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks( 'grunt-contrib-clean' );
-	grunt.loadNpmTasks( 'grunt-contrib-copy' );
-	grunt.loadNpmTasks( 'grunt-contrib-compress' );
-	
-	// Default task.
-	
-	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify', 'sass', 'cssmin'] );
-	
-	
-	grunt.registerTask( 'build', ['default', 'clean', 'copy', 'compress'] );
+
+	// Default tasks
+	grunt.registerTask('js', ['jshint', 'concat', 'uglify']);
+	grunt.registerTask('css', ['sass', 'cssmin']);
+	grunt.registerTask('default', ['js', 'css']);
 
 	grunt.util.linefeed = '\n';
 };

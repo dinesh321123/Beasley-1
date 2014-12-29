@@ -612,12 +612,14 @@ category: Components - Gallery Archive
 .gallery__slide--preview {
 	float: left;
 	width: 100px;
+	min-width: 100px;
 	height: 100%;
 	max-height: 100px;
 	margin-right: 5px;
 	@include opacity(.5);
 	@include transition(opacity 200ms linear);
 	cursor: pointer;
+	background-size: cover;
 	@include bp(medium) {
 		width: 19%;
 		max-height: 75px;

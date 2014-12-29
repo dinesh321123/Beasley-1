@@ -34,33 +34,40 @@ class GigyaSession {
 		}
 	}
 
-	public function get_user_profile() {
+	public function get_user_profile( $user_id = null ) {
 		$this->load();
 
-		if ( ! $this->is_logged_in() ) {
-			throw new \Exception( 'Cannot Fetch Gigya User Profile: not logged in' );
-		}
-
-		$user_id = $this->get_user_id();
-		$query   = "select profile from accounts where UID = '${user_id}'";
-		$request = new GigyaRequest( null, null, 'accounts.search' );
-		$request->setParam( 'query', $query );
-		$response = $request->send();
-
-		if ( $response->getErrorCode() === 0 ) {
-			$json = json_decode( $response->getResponseText(), true );
-			$total = $json['totalCount'];
-
-			if ( $total > 0 ) {
-				return $json['results'][0]['profile'];
-			} else {
-				throw new \Exception( "User Profile not found: {$user_id}" );
+		if ( is_null( $user_id ) ) {
+			if ( ! $this->is_logged_in() ) {
+				throw new \Exception( 'Cannot Fetch Gigya User Profile: not logged in' );
 			}
-		} else {
-			throw new \Exception(
-				"Failed to get Gigya User Profile: {$user_id} - " . $response->getErrorMessage()
-			);
+			$user_id = $this->get_user_id();
 		}
+
+		$transient = 'gigya_user_profile_' . $user_id;
+		$profile = get_transient( $transient );
+		if ( false === $profile ) {
+			$query   = "select profile from accounts where UID = '${user_id}'";
+			$request = new GigyaRequest( null, null, 'accounts.search' );
+			$request->setParam( 'query', $query );
+			$response = $request->send();
+
+			if ( $response->getErrorCode() === 0 ) {
+				$json = json_decode( $response->getResponseText(), true );
+				if ( $json['totalCount'] > 0 ) {
+					$profile = $json['results'][0]['profile'];
+					set_transient( $transient, $profile, HOUR_IN_SECONDS );
+				} else {
+					throw new \Exception( "User Profile not found: {$user_id}" );
+				}
+			} else {
+				throw new \Exception(
+					"Failed to get Gigya User Profile: {$user_id} - " . $response->getErrorMessage()
+				);
+			}
+		}
+
+		return $profile;
 	}
 
 	public function get( $key ) {
