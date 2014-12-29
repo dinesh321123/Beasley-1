@@ -2,8 +2,11 @@
 
 	var saveGigyaSettings = function(ajaxApi) {
 		var data = {
-			gigya_api_key: $('#gigya_api_key').val(),
-			gigya_secret_key: $('#gigya_secret_key').val()
+			gigya_api_key    : $('#gigya_api_key').val(),
+			gigya_secret_key : $('#gigya_secret_key').val(),
+			emma_account_id  : $('#emma_account_id').val(),
+			emma_public_key  : $('#emma_public_key').val(),
+			emma_private_key : $('#emma_private_key').val(),
 		};
 
 		changeStatus('updated', 'Verifying Settings ...');
