@@ -29,6 +29,7 @@ class GreaterMediaFormbuilderRender {
 
 			$tags['fieldset'] = array();
 			$tags['hr']       = array();
+			$tags['abbr']     = array( 'title' => 1 );
 
 			// Add form tags
 			$tags['input'] = array(
@@ -198,7 +199,7 @@ class GreaterMediaFormbuilderRender {
 			'class' => 'contest__form--label'
 		);
 
-		$label = ( isset( $field->label ) ) ? $field->label : '';
+		$label = ( isset( $field->label ) ) ? esc_html( $field->label ) : '';
 
 		// Give the theme a chance to alter the attributes for the input field
 		$label_tag_attributes = apply_filters( 'gm_form_text_label_attrs', $label_tag_attributes );
@@ -208,13 +209,17 @@ class GreaterMediaFormbuilderRender {
 
 		if ( ! empty( $label ) ) {
 
+			if ( ! empty( $field->required ) ) {
+				$label .= ' <abbr title="required">*</abbr>';
+			}
+			
 			$html .= '<label ';
 
 			foreach ( $label_tag_attributes as $attribute => $value ) {
 				$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
 			}
 
-			$html .= '>' . wp_kses_data( $label ) . '</label>';
+			$html .= '>' . $label . '</label>';
 
 		}
 

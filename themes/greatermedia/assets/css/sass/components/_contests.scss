@@ -111,6 +111,12 @@
 	display: block;
 	width: 100%;
 	margin-bottom: 10px;
+
+	abbr {
+		text-decoration: none;
+		border-bottom: 0;
+		color: $cardinal;
+	}
 }
 
 .contest__form fieldset label {

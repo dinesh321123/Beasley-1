@@ -4636,6 +4636,10 @@ category: Components - Ads
   display: block;
   width: 100%;
   margin-bottom: 10px; }
+  .contest__form--label abbr {
+    text-decoration: none;
+    border-bottom: 0;
+    color: #d22228; }
 
 .contest__form fieldset label {
   display: block;
