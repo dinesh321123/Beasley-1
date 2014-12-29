@@ -57,7 +57,7 @@ class GreaterMediaTimedContent extends VisualShortcode {
 			return;
 		}
 
-		$expiration_timestamp = get_post_meta( $post->ID, '_post_expiration', true );
+		$expiration_timestamp = get_post_meta( $post->ID, 'post_expiration', true );
 
 		if ( false !== $expiration_timestamp && '' !== $expiration_timestamp && ! empty( $expiration_timestamp ) ) {
 			$rendered_expiration_timestamp = date_i18n( __( 'M j, Y @ G:i' ), $expiration_timestamp );
@@ -90,7 +90,7 @@ class GreaterMediaTimedContent extends VisualShortcode {
 				'date-format'
 			), false, true );
 
-			$expiration_timestamp = get_post_meta( $post->ID, '_post_expiration', true );
+			$expiration_timestamp = get_post_meta( $post->ID, 'post_expiration', true );
 
 			// Settings & translation strings used by the JavaScript code
 			$settings = array(
@@ -157,9 +157,9 @@ class GreaterMediaTimedContent extends VisualShortcode {
 
 			$local_to_gmt_time_offset = get_option( 'gmt_offset' ) * - 1 * 3600;
 			$exp_timestamp_gmt        = $exp_timestamp + $local_to_gmt_time_offset;
-			delete_post_meta( $post_id, '_post_expiration' );
+			delete_post_meta( $post_id, 'post_expiration' );
 			if ( '' !== $exp_timestamp ) {
-				add_post_meta( $post_id, '_post_expiration', $exp_timestamp );
+				add_post_meta( $post_id, 'post_expiration', $exp_timestamp );
 			}
 
 			// If the expiration date is in the future, set a cron to expire the post
@@ -171,7 +171,7 @@ class GreaterMediaTimedContent extends VisualShortcode {
 		} else {
 
 			// Clean up any post expiration data that might already exist, in case the post support changed
-			delete_post_meta( $post_id, '_post_expiration' );
+			delete_post_meta( $post_id, 'post_expiration' );
 			wp_clear_scheduled_hook( 'greatermedia_expire_post', array( $post_id ) );
 
 		}
