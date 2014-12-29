@@ -1,5 +1,25 @@
+.contest__thumbnail {
+	@include span-columns(4 of 4);
+	background-color: lighten($primary-border, 9%);
+	margin: 0 auto 2em;
+	text-align: center;
+
+	@include bp(small) {
+		@include span-columns(6 of 6);
+	}
+	@include bp(medium) {
+		@include span-columns(8 of 8);
+	}
+	@include bp(large) {
+		@include span-columns(8 of 8);
+	}
+	@include bp(x-large) {
+		@include span-columns(8 of 8);
+	}
+}
+
 .single__featured-img--contest {
-	margin-bottom: 2em;
+	margin: 0 auto;
 }
 
 .contest__description  {
@@ -30,8 +50,9 @@
 .contest-attr--rules {
 	padding: 2em;
 	margin: 0 0 1.5em;
-	border: 1px solid #ddd;
-	background-color: whitesmoke;
+	border: 1px solid $primary-border;
+	border-right: none;
+	border-left: none;
 	font-size: ms(-1);
 
 	p {
@@ -44,12 +65,46 @@
 }
 
 .contest-attr--rules-toggler {
-	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-2));
+	@include btn($btn-muted, $color-text-white, $btn-muted, 0.5em, 1em, ms(-2));
 	@include border-radius(1em);
+}
+
+.contest-attr--rules-toggler:hover {
+	@include btn($btn-muted-hover, $color-text-white, $btn-muted-hover, 0.5em, 1em, ms(-2));
+}
+
+.contest-attr--rules-toggler:active {
+	@include btn($btn-muted-active, $color-text-white, $btn-muted-active, 0.5em, 1em, ms(-2));
 }
 
 .contest-attr--excerpt {
 
+}
+
+.contest__sponsors {
+	display: block;
+	width: 100%;
+	margin-bottom: 3.75em;
+	overflow: auto;
+}
+
+.contest__sponsors--heading {
+	margin: 0 0 1.4em;
+	font-family: $open-sans;
+	font-size: ms(-1);
+	font-weight: normal;
+	text-transform: uppercase;
+	color: $secondary-heading;
+}
+
+.contest__sponsors--list {
+	@extend %unordered-list;
+}
+
+.contest__sponsor {
+	@extend %list-item;
+	display: inline-block;
+	margin-right: 50px;
 }
 
 .contest__form--label {

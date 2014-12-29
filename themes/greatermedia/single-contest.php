@@ -20,7 +20,9 @@ get_header(); ?>
 						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
 							<?php if ( has_post_thumbnail() ) : ?>
-								<?php the_post_thumbnail( 'full', array( 'class' => 'single__featured-img--contest' ) ); ?>
+								<div class="contest__thumbnail">
+									<?php the_post_thumbnail( 'gmr-contest-thumbnail', array( 'class' => 'single__featured-img--contest' ) ); ?>
+								</div>
 							<?php endif; ?>
 
 							<section class="col__inner--left">
@@ -65,6 +67,20 @@ get_header(); ?>
 
 								<?php the_content(); ?>
 
+								<?php
+								/**
+								 * @todo replace content in `.contest__sponsors` with dynamic content
+								 */
+								?>
+								<div class="contest__sponsors">
+									<h3 class="contest__sponsors--heading"><?php _e( 'Sponsors', 'greatermedia' ); ?></h3>
+									<ul class="contest__sponsors--list">
+										<li class="contest__sponsor"><a href="#"><img src="http://lorempixel.com/150/100/"></a></li>
+										<li class="contest__sponsor"><a href="#"><img src="http://lorempixel.com/130/100/"></a></li>
+
+									</ul>
+								</div>
+
 								<footer class="entry__footer">
 
 									<div class="entry__categories">
@@ -81,10 +97,16 @@ get_header(); ?>
 										</ul>
 									</div>
 
+									<?php
+									/**
+									 * @todo replace content in `.entry__shows` with dynamic content
+									 */
+									?>
 									<div class="entry__shows">
 										<div class="entry__list--title"><?php _e( 'Shows', 'greatermedia' ); ?></div>
 										<ul class="entry__list--shows">
-											<?php echo get_the_term_list( $post->ID, '_shows', '<li class="entry__list--item">', ',</li><li class="entry__list--item">', '</li>' ); ?>
+											<li class="entry__list--show"><div class="entry__show--logo"><img src="http://lorempixel.com/100/100/people/"></div><div class="entry__show--name"><a href="#"><?php _e( 'Test Show', 'greatermedia' ); ?></a></div></li>
+											<li class="entry__list--show"><div class="entry__show--logo"><img src="http://lorempixel.com/100/100/people/"></div><div class="entry__show--name"><a href="#"><?php _e( 'Test Show', 'greatermedia' ); ?></a></div></li>
 										</ul>
 									</div>
 

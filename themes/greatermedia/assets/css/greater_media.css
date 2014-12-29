@@ -47,11 +47,11 @@ category: Base
 ```
 
 */
-.entry__event--details, .footer__nav--list, .gallery-grid__pagination--list {
+.entry__event--details, .footer__nav--list, .contest__sponsors--list, .gallery-grid__pagination--list {
   padding: 0;
   margin: 0; }
 
-.entry__event--item, .footer__nav--list .menu-item, .live-player__stream--item, .gallery-grid__pagination--item {
+.entry__event--item, .footer__nav--list .menu-item, .live-player__stream--item, .contest__sponsor, .gallery-grid__pagination--item {
   list-style: none;
   padding: 0;
   margin: 0; }
@@ -719,11 +719,36 @@ img {
 .col__inner--right {
   float: left;
   display: block;
-  margin-right: 2.35765%;
+  margin-right: 7.42297%;
   width: 100%; }
   .col__inner--right:last-child {
     margin-right: 0; }
+  @media screen and (min-width: 480px) {
+    .col__inner--right {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 100%; }
+      .col__inner--right:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 768px) {
+    .col__inner--right {
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 100%; }
+      .col__inner--right:last-child {
+        margin-right: 0; } }
   @media screen and (min-width: 1024px) {
+    .col__inner--right {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
+      margin-right: 0; }
+      .col__inner--right:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
     .col__inner--right {
       float: left;
       display: block;
@@ -736,18 +761,49 @@ img {
 .col__inner--left {
   float: left;
   display: block;
-  margin-right: 2.35765%;
-  width: 100%; }
+  margin-right: 7.42297%;
+  width: 100%;
+  border-bottom: 1px solid #d0d2d3;
+  padding-bottom: 30px;
+  margin-bottom: 30px; }
   .col__inner--left:last-child {
     margin-right: 0; }
+  @media screen and (min-width: 480px) {
+    .col__inner--left {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 100%; }
+      .col__inner--left:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 768px) {
+    .col__inner--left {
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 100%; }
+      .col__inner--left:last-child {
+        margin-right: 0; } }
   @media screen and (min-width: 1024px) {
     .col__inner--left {
       border-right: 1px solid #d0d2d3;
+      border-bottom: none;
       padding-right: 2em;
+      padding-bottom: 0;
+      margin-bottom: 0;
       float: left;
       display: block;
       margin-right: 2.35765%;
       width: 65.88078%; }
+      .col__inner--left:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .col__inner--left {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 65.88078%;
+      margin-right: 0; }
       .col__inner--left:last-child {
         margin-right: 0; } }
 
@@ -2989,11 +3045,13 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-size: 0.79012em; }
 
 .entry__categories, .entry__tags, .entry__shows {
-  margin-bottom: 8px;
+  overflow: auto;
+  clear: both;
+  margin-bottom: 28px;
   font-size: 0.88889em;
   color: #929497; }
 
-.entry__list, .entry__list--categories, .entry__list--tags, .entry__list--shows {
+.entry__list, .entry__list--categories, .entry__list--tags, .entry__list--shows, .entry__list--show {
   display: inline-block;
   padding: 0;
   margin: 0;
@@ -3018,11 +3076,48 @@ Link posts contain a link to an external site. They can also optionally have a f
   color: #aa1c20; }
 
 .entry__list--title {
-  display: inline-block; }
+  display: inline-block;
+  float: left; }
 
 .entry__list--title:after {
   margin: 0 14px 0 18px;
   content: "/"; }
+
+.entry__list--categories, .entry__list--tags, .entry__list--shows {
+  float: left; }
+
+.entry__list--show {
+  float: left;
+  margin-right: 30px; }
+
+.entry__list--show:last-of-type {
+  margin-right: 0; }
+
+.entry__show--logo {
+  display: inline-block;
+  float: left;
+  width: 24px;
+  height: 24px;
+  margin: 0 14px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  -border-radius: 50%;
+  border-radius: 50%;
+  background-color: #282827; }
+
+.entry__show--logo img {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  -border-radius: 50%;
+  border-radius: 50%; }
+
+.entry__show--name {
+  display: inline-block;
+  padding: 3px 0; }
 
 .entry__comments {
   float: left;
@@ -4375,8 +4470,51 @@ category: Components - Ads
       float: right;
       margin: 0 0 1em 1em; } }
 
+.contest__thumbnail {
+  float: left;
+  display: block;
+  margin-right: 7.42297%;
+  width: 100%;
+  background-color: #e8e9e9;
+  margin: 0 auto 2em;
+  text-align: center; }
+  .contest__thumbnail:last-child {
+    margin-right: 0; }
+  @media screen and (min-width: 480px) {
+    .contest__thumbnail {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 100%; }
+      .contest__thumbnail:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 768px) {
+    .contest__thumbnail {
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 100%; }
+      .contest__thumbnail:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1024px) {
+    .contest__thumbnail {
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 100%; }
+      .contest__thumbnail:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .contest__thumbnail {
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 100%; }
+      .contest__thumbnail:last-child {
+        margin-right: 0; } }
+
 .single__featured-img--contest {
-  margin-bottom: 2em; }
+  margin: 0 auto; }
 
 .contest__description {
   margin-bottom: 40px; }
@@ -4401,8 +4539,9 @@ category: Components - Ads
 .contest-attr--rules {
   padding: 2em;
   margin: 0 0 1.5em;
-  border: 1px solid #ddd;
-  background-color: whitesmoke;
+  border: 1px solid #d0d2d3;
+  border-right: none;
+  border-left: none;
   font-size: 0.88889em; }
   .contest-attr--rules p {
     margin-bottom: 0.75em; }
@@ -4415,8 +4554,8 @@ category: Components - Ads
   padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
-  background-color: #d22228;
-  border: 1px solid #d22228;
+  background-color: #929497;
+  border: 1px solid #929497;
   font-family: "Open Sans", sans-serif;
   font-size: 0.79012em;
   color: #ffffff !important;
@@ -4429,11 +4568,69 @@ category: Components - Ads
   -border-radius: 1em;
   border-radius: 1em; }
   .contest-attr--rules-toggler:hover, .contest-attr--rules-toggler:focus {
-    background-color: #aa1c20;
-    border-color: #aa1c20;
+    background-color: #7b7d80;
+    border-color: #7b7d80;
     color: #ffffff; }
   .contest-attr--rules-toggler:last-of-type {
     margin-right: 0; }
+
+.contest-attr--rules-toggler:hover {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.79012em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .contest-attr--rules-toggler:hover:hover, .contest-attr--rules-toggler:hover:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  .contest-attr--rules-toggler:hover:last-of-type {
+    margin-right: 0; }
+
+.contest-attr--rules-toggler:active {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #000000;
+  border: 1px solid #000000;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.79012em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .contest-attr--rules-toggler:active:hover, .contest-attr--rules-toggler:active:focus {
+    background-color: black;
+    border-color: black;
+    color: #ffffff; }
+  .contest-attr--rules-toggler:active:last-of-type {
+    margin-right: 0; }
+
+.contest__sponsors {
+  display: block;
+  width: 100%;
+  margin-bottom: 3.75em;
+  overflow: auto; }
+
+.contest__sponsors--heading {
+  margin: 0 0 1.4em;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  font-weight: normal;
+  text-transform: uppercase;
+  color: #929497; }
+
+.contest__sponsor {
+  display: inline-block;
+  margin-right: 50px; }
 
 .contest__form--label {
   display: block;

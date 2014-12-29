@@ -240,7 +240,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 }
 
 .entry__categories, .entry__tags, .entry__shows {
-	margin-bottom: 8px;
+	overflow: auto;
+	clear: both;
+	margin-bottom: 28px;
 	font-size: ms(-1);
 	color: $gray;
 }
@@ -277,6 +279,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__list--title {
 	display: inline-block;
+	float: left;
 }
 
 .entry__list--title:after {
@@ -286,6 +289,37 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__list--categories, .entry__list--tags, .entry__list--shows {
 	@extend %entry__list;
+	float: left;
+}
+
+
+.entry__list--show {
+	@extend %entry__list;
+	float: left;
+	margin-right: 30px;
+}
+
+.entry__list--show:last-of-type {
+	margin-right: 0;
+}
+
+.entry__show--logo {
+	display: inline-block;
+	float: left;
+	width: 24px;
+	height: 24px;
+	margin: 0 14px;
+	@include border-radius(50%);
+	background-color: $secondary-border;
+}
+
+.entry__show--logo img {
+	@include border-radius(50%);
+}
+
+.entry__show--name {
+	display: inline-block;
+	padding: 3px 0;
 }
 
 // Comments
