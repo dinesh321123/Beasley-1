@@ -24,7 +24,7 @@ get_header(); ?>
 						$count += 1;
 					}
 
-					echo '<h2 class="search__results--count">' . $count . ' ';
+					echo '<h2 class="search__results--count">' . intval( $count ) . ' ';
 					_e( 'Results Found', 'greatermedia' );
 					echo '</h2>';
 

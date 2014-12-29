@@ -151,7 +151,8 @@
 	list-style: none;
 }
 
-.header__nav ul li, .header__account ul li {
+.header__nav > ul > li,
+.header__account > ul > li {
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -179,15 +180,4 @@
 // main header navigation mega-menu dropdowns
 .header__nav ul li ul {
 	display: none;
-}
-
-.header__nav ul li:hover ul {
-	display: block;
-	position: absolute;
-	left: 0;
-	width: $max-site-width;
-	height: 292px;
-	background-color: $primary-bg;
-	border-top: 7px solid $primary-border;
-	z-index: 9999;
 }

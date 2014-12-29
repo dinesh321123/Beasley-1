@@ -114,7 +114,7 @@
 								<div class="header__secondary">
 									<div class="header__account">
 										<i class="header__account--btn"></i>
-										<div class="header__account--links">
+										<div class="header__account--links sub-menu">
 										</div>
 									</div>
 									<div id="header__search" class="header__search">

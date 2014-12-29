@@ -1,0 +1,5 @@
+/*! Greater Media Closures - v0.0.1
+ * http://10up.com
+ * Copyright (c) 2014; * Licensed GPLv2+ */
+
+.closure{border:1px solid gray;padding:10px}.closure p{margin:0}.closure:nth-of-type(2){border-top-left-radius:5px;border-top-right-radius:5px}.closure-entry-title{margin:0;font-style:italic}.closure-attr--entity{float:left;width:45%;font-weight:900}.closure-attr--entity_name{font-size:14px;font-weight:400}.closure-attr--entity_location{float:left;width:45%}.closure-attr--type{float:left;width:10%;background-color:#f08d3c;text-align:center;border-radius:4px;color:#eee}.closure-attr--date{font-style:italic}

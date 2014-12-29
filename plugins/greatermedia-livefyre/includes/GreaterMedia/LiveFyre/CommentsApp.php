@@ -15,6 +15,10 @@ class CommentsApp {
 	}
 
 	function change_comments_template( $template_path ) {
+		if ( ! $this->is_livefyre_configured() ) {
+			return $template_path;
+		}
+
 		$comments_data = array(
 			'data' => $this->get_comments_data()
 		);
@@ -56,10 +60,22 @@ class CommentsApp {
 		return GMR_LIVEFYRE_PATH . '/templates/comments.php';
 	}
 
+	function is_livefyre_configured() {
+		$options = $this->get_livefyre_options();
+
+		return
+			$options !== false &&
+			is_array( $options ) &&
+			array_key_exists( 'network_name', $options ) &&
+			array_key_exists( 'site_id', $options );
+	}
+
 	function get_livefyre_options() {
 		if ( is_null( $this->livefyre_options ) ) {
 			$options = get_option( 'livefyre_settings' );
-			$options = json_decode( $options, true );
+			if ( $options !== false ) {
+				$options = json_decode( $options, true );
+			}
 
 			$this->livefyre_options = $options;
 		}

@@ -239,4 +239,27 @@ class GigyaCommand extends \WP_CLI_Command {
 	public function reset_users( $args, $opts ) {
 	}
 
+	public function query( $args, $opts ) {
+		$query = $args[0];
+
+		if ( strstr( $query, 'from accounts' ) !== false ) {
+			$endpoint = 'accounts.search';
+		} else {
+			$endpoint = 'ds.search';
+		}
+
+		$request = new GigyaRequest( null, null, $endpoint );
+		$request->setParam( 'query', $query );
+		$response      = $request->send();
+		$response_text = $response->getResponseText();
+
+		if ( $response->getErrorCode() === 0 ) {
+			\WP_CLI::success( 'Query Executed Successfully' );
+			\WP_CLI::log( $response_text );
+		} else {
+			\WP_CLI::success( 'Query Failed' );
+			\WP_CLI::log( $response_text );
+		}
+	}
+
 }

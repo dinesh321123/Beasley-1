@@ -121,7 +121,7 @@ class GreaterMediaSurveys {
 		global $post;
 		$post_id = $post->ID;
 		$thankyou = sanitize_text_field( get_post_meta( $post_id, 'form-thankyou', true ) );
-		$thankyou = $thankyou ? $thankyou : "Thank's for your submission";
+		$thankyou = $thankyou ? $thankyou : "Thanks for your response";
 		wp_nonce_field( 'survey_form_meta_box', 'survey_form_meta_box' );
 		echo '<div id="survey_embedded_form"></div>';
 		echo '<input type="hidden" id="survey_embedded_form_data" name="survey_embedded_form" value="" />';

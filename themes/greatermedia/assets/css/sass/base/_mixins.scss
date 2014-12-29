@@ -157,14 +157,9 @@
 	zoom: 1;
 }
 
-@mixin border-radius($radius...) {
-	// defining prefixes so we can use them in mixins below
-	$prefixes:      ("-webkit", "-moz", "-ms", "-o",  "");
-	@each $prefix in $prefixes {
-		#{$prefix}-border-radius: $radius;
-	}
-
-	border-radius: $radius;
+@mixin box-sizing($sizing) {
+	-moz-box-sizing: $sizing;
+	box-sizing: $sizing;
 }
 
 // Mixin to create a css gradient
@@ -195,7 +190,24 @@
 //
 //
 @mixin box-shadow($top, $left, $blur, $color, $inset:"") {
-  -webkit-box-shadow:$top $left $blur $color #{$inset};
-  -moz-box-shadow:$top $left $blur $color #{$inset};
-  box-shadow:$top $left $blur $color #{$inset};
+	-webkit-box-shadow:$top $left $blur $color #{$inset};
+	-moz-box-shadow:$top $left $blur $color #{$inset};
+	box-shadow:$top $left $blur $color #{$inset};
+}
+
+// Mixin to add clearfix behavior to an element
+//
+// @example scss - CSS clearfix
+// @include clearfix();
+//
+@mixin clearfix() {
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
 }

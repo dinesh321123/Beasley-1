@@ -29,7 +29,8 @@
 		windowWidth = this.innerWidth || this.document.documentElement.clientWidth || this.document.body.clientWidth || 0,
 		scrollObject = {},
 		searchForm = document.getElementById( 'header__search--form'),
-		searchBtn = document.getElementById( 'header__search');
+		searchBtn = document.getElementById( 'header__search'),
+		collapseToggle = document.querySelector('*[data-toggle="collapse"]');
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -190,6 +191,25 @@
 		body.classList.toggle( 'mobile-nav--open' );
 	}
 	addEventHandler(mobileNavButton,elemClick,toggleNavButton);
+
+	/**
+	 * Toggles a target element.
+	 * 
+	 * @param {MouseEvent} e
+	 */
+	function toggleCollapsedElement(e) {
+		var target = document.querySelector(this.getAttribute('data-target')),
+			currentText = this.innerText,
+			newText = this.getAttribute('data-alt-text');
+
+		e.preventDefault();
+
+		target.style.display = target.style.display != 'none' ? 'none' : 'block';
+
+		this.innerText = newText;
+		this.setAttribute('data-alt-text', currentText);
+	}
+	addEventHandler(collapseToggle, elemClick, toggleCollapsedElement);
 	
 	/**
 	 * Toggles a class to the Live Play Stream Select box when the box is clicked
