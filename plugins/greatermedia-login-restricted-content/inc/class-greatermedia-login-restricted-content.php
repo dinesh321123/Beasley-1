@@ -42,7 +42,7 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 			return;
 		}
 
-		$login_restriction      = self::sanitize_login_restriction( get_post_meta( $post->ID, '_post_login_restriction', true ) );
+		$login_restriction      = self::sanitize_login_restriction( get_post_meta( $post->ID, 'post_login_restriction', true ) );
 		$login_restriction_desc = self::login_restriction_description( $login_restriction );
 
 		include trailingslashit( GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH ) . 'tpl/post-submitbox-misc-actions.tpl.php';
@@ -66,7 +66,7 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 				'jquery',
 			), false, true );
 
-			$login_restriction = get_post_meta( $post->ID, '_post_login_restriction', true );
+			$login_restriction = get_post_meta( $post->ID, 'post_login_restriction', true );
 
 			// Settings & translation strings used by the JavaScript code
 			$settings = array(
@@ -109,13 +109,13 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 
 		if ( post_type_supports( $post->post_type, 'login-restricted-content' ) ) {
 
-			delete_post_meta( $post_id, '_post_login_restriction' );
+			delete_post_meta( $post_id, 'post_login_restriction' );
 
 			if ( isset( $_POST['lr_status'] ) ) {
 
 				$login_restriction = self::sanitize_login_restriction( $_POST['lr_status'] );
 				if ( '' !== $login_restriction ) {
-					add_post_meta( $post_id, '_post_login_restriction', $login_restriction );
+					add_post_meta( $post_id, 'post_login_restriction', $login_restriction );
 				}
 
 			}
@@ -123,7 +123,7 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 		} else {
 
 			// Clean up any post expiration data that might already exist, in case the post support changed
-			delete_post_meta( $post_id, '_post_login_restriction' );
+			delete_post_meta( $post_id, 'post_login_restriction' );
 
 			return;
 
@@ -262,7 +262,7 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 
 		global $post, $wp;
 
-		$login_restriction = self::sanitize_login_restriction( get_post_meta( $post->ID, '_post_login_restriction', true ) );
+		$login_restriction = self::sanitize_login_restriction( get_post_meta( $post->ID, 'post_login_restriction', true ) );
 		$current_url = '/' . trim( $wp->request, '/' );
 
 		if ( ( 'logged-in' === $login_restriction ) && ! is_gigya_user_logged_in() ) {

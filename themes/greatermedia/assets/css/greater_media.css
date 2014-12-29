@@ -1149,21 +1149,20 @@ blockquote p {
   width: 40px;
   height: 40px; }
 
-.header__nav ul li:hover .sub-menu, .header__nav ul li:hover .sub-menu--full-width {
+.header__nav ul li:hover .sub-menu, .header__nav ul li:hover .format-fw > ul {
   display: block; }
 
-.sub-menu, .sub-menu--full-width {
+.sub-menu, .format-fw > ul {
   position: absolute;
   border-top: 7px solid #d22228;
   background-color: #ffffff;
   color: #000000;
-  padding: 1em;
   min-width: 300px;
   z-index: 5000000;
   /* IAB z-index standard for drop nav is 5000000 - 5999999 */ }
-  .sub-menu li, .sub-menu--full-width li {
+  .sub-menu li, .format-fw > ul li {
     display: block; }
-  .sub-menu a, .sub-menu--full-width a {
+  .sub-menu a, .format-fw > ul a {
     color: #000000;
     /*
      * Important used here to override a declaration on .header__nav ul li a
@@ -1171,16 +1170,28 @@ blockquote p {
      * to keep this as a component (e.g. context independent). - TD
      */
     padding: 1em !important; }
-    .sub-menu a:hover, .sub-menu--full-width a:hover {
-      color: #ffffff; }
-    .sub-menu a:visited, .sub-menu--full-width a:visited {
+    .sub-menu a:visited, .format-fw > ul a:visited {
       color: #000000; }
+    .sub-menu a:hover, .format-fw > ul a:hover {
+      color: #ffffff; }
 
-.sub-menu--full-width {
-  width: 1400px; }
+/**
+ * Full-width
+ */
+.format-fw > ul {
+  width: 1400px;
+  left: 0;
+  padding: 1em; }
 
-.sub-menu--full-width li {
-  width: 32%; }
+.format-fw > ul > li {
+  width: 32.666%;
+  /* 100% - 2% (for margins, below) / 3 (3 columns) */
+  float: left; }
+
+.format-fw > ul > li:not(:nth-child(3n+1)) {
+  border-left: 1px solid #d0d2d3;
+  padding-left: 1%;
+  margin-left: 1%; }
 
 .content__heading {
   margin-top: 0;

@@ -18,7 +18,6 @@
 	border-top: 7px solid $color-text-red;
 	background-color: $primary-bg;
 	color: $color-text-black;
-	padding: 1em;
 	min-width: 300px;
 	z-index: 5000000; /* IAB z-index standard for drop nav is 5000000 - 5999999 */
 
@@ -36,22 +35,35 @@
 		 */
 		padding: 1em !important;
 
+		&:visited {
+			color: $color-text-black;
+		}
+
 		&:hover {
 			color: $color-text-white;
 		}
 
-		&:visited {
-			color: $color-text-black;
-		}
 	}
 
 }
 
-.sub-menu--full-width {
+/**
+ * Full-width
+ */
+.format-fw > ul {
 	@extend .sub-menu;
 	width: $max-site-width;
+	left: 0;
+	padding: 1em;
 }
 
-.sub-menu--full-width li {
-	width: 32%;
+.format-fw > ul > li {
+	width: 32.666%; /* 100% - 2% (for margins, below) / 3 (3 columns) */
+	float: left;
+}
+
+.format-fw > ul > li:not(:nth-child(3n+1)) {
+	border-left: 1px solid $primary-border;
+	padding-left: 1%;
+	margin-left: 1%;
 }
