@@ -345,7 +345,7 @@ class GreaterMediaGallery {
 		<?php
 		endif;
 
-		return ob_get_clean();
+		return str_replace( PHP_EOL, ' ', ob_get_clean() );
 	}
 
 }
