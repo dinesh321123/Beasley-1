@@ -1,4 +1,4 @@
-<span class="login-restricted-shield" id="login-restricted-shield-<?php echo esc_attr( $post->ID ); ?>">
+<span class="age-restricted-shield" id="age-restricted-shield-<?php echo esc_attr( $post->ID ); ?>">
 	<p>You must be at least
 		<?php if ( '18plus' === $age_restriction ) : ?>
 			18
