@@ -111,10 +111,48 @@
 								);
 								wp_nav_menu( $main_nav );
 								?>
+								<!-- here, in the branch only, for testing markup before writing a walker.
+								<nav class="header__nav">
+									<ul class="header__nav--list" id="header__nav--list">
+										<li><a href="#">Music</a>
+											<div>
+												<ul class="header__nav-submenu--list">
+													<li><a href="#">Music Features</a></li>
+													<li><a href="#">Podcasts</a></li>
+													<li><a href="#">Little Steven’s Underground Garage</a></li>
+													<li><a href="#">Classic Rock Video Of The Day</a></li>
+													<li><a href="#">Work Release – WMGK House Band</a></li>
+												</ul>
+												<ul class="header__nav-submenu--features">
+													<li>
+														<img src="http://placehold.it/200x100">
+														<p>U2 Scheduled for Week-long stint on something or other</p>
+													</li>
+													<li>
+														<img src="http://placehold.it/200x100">
+														<p>U2 Scheduled for Week-long stint on something or other</p>
+													</li>
+													<li>
+														<img src="http://placehold.it/200x100">
+														<p>U2 Scheduled for Week-long stint on something or other</p>
+													</li>
+													<li>
+														<img src="http://placehold.it/200x100">
+														<p>U2 Scheduled for Week-long stint on something or other</p>
+													</li>
+												</ul>
+											</div>
+										</li>
+										<li><a href="#">Contests</a></li>
+										<li><a href="#">Shows</a></li>
+										<li><a href="#">Events</a></li>
+										<li><a href="#">About</a></li>
+									</ul>
+								</nav>-->
 								<div class="header__secondary">
 									<div class="header__account">
 										<i class="header__account--btn"></i>
-										<div class="header__account--links">
+										<div class="header__account--links sub-menu">
 										</div>
 									</div>
 									<div id="header__search" class="header__search">

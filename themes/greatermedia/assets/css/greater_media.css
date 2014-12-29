@@ -1062,7 +1062,8 @@ blockquote p {
   margin: 0;
   list-style: none; }
 
-.header__nav ul li, .header__account ul li {
+.header__nav > ul > li,
+.header__account > ul > li {
   padding: 0;
   margin: 0;
   list-style: none;
@@ -1085,15 +1086,48 @@ blockquote p {
 .header__nav ul li ul {
   display: none; }
 
-.header__nav ul li:hover ul {
+.header__nav > ul > li:hover:after {
+  content: ' ';
   display: block;
+  position: relative;
+  bottom: 40px;
+  right: -40px;
+  float: right;
+  width: 40px;
+  height: 40px; }
+
+.header__nav ul li:hover .sub-menu, .header__nav ul li:hover .sub-menu--full-width {
+  display: block; }
+
+.sub-menu, .sub-menu--full-width {
   position: absolute;
-  left: 0;
-  width: 1400px;
-  height: 292px;
+  border-top: 7px solid #d22228;
   background-color: #ffffff;
-  border-top: 7px solid #d0d2d3;
-  z-index: 9999; }
+  color: #000000;
+  padding: 1em;
+  min-width: 300px;
+  z-index: 5000000;
+  /* IAB z-index standard for drop nav is 5000000 - 5999999 */ }
+  .sub-menu li, .sub-menu--full-width li {
+    display: block; }
+  .sub-menu a, .sub-menu--full-width a {
+    color: #000000;
+    /*
+     * Important used here to override a declaration on .header__nav ul li a
+     * We could make the selector more specific here, but I felt it was important
+     * to keep this as a component (e.g. context independent). - TD
+     */
+    padding: 1em !important; }
+    .sub-menu a:hover, .sub-menu--full-width a:hover {
+      color: #ffffff; }
+    .sub-menu a:visited, .sub-menu--full-width a:visited {
+      color: #000000; }
+
+.sub-menu--full-width {
+  width: 1400px; }
+
+.sub-menu--full-width li {
+  width: 32%; }
 
 .content__heading {
   margin-top: 0;
@@ -2532,10 +2566,7 @@ Community Highlights and Events
       top: 82px;
       right: 0;
       width: 250px;
-      height: 118px;
-      border-top: 7px solid #d22228;
-      background-color: #ffffff;
-      z-index: 99999; } }
+      height: 118px; } }
 
 .header__account--open {
   display: block; }
