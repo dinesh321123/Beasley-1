@@ -7,7 +7,7 @@ use GreaterMedia\MyEmma\EmmaAPI;
 class ExportResultsTask extends SyncTask {
 
 	public $emma_api    = null;
-	public $page_size   = 1000;
+	public $page_size   = 500;
 	public $max_retries = 0;
 
 	function get_task_name() {
