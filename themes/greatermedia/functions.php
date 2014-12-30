@@ -22,7 +22,9 @@ add_theme_support( 'homepage-curation' );
 
 require_once( __DIR__ . '/includes/liveplayer/loader.php' );
 require_once( __DIR__ . '/includes/layout-chooser/class-choose-layout.php' );
-require_once( __DIR__ . '/includes/site-options/loader.php');
+require_once( __DIR__ . '/includes/site-options/loader.php' );
+require_once( __DIR__ . '/includes/mega-menu/mega-menu-admin.php' );
+require_once( __DIR__ . '/includes/mega-menu/mega-menu-walker.php' );
 
 /**
  * Required files
@@ -59,6 +61,7 @@ function greatermedia_setup() {
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
 	add_post_type_support( 'post', 'login-restricted-content' );
+	add_post_type_support( 'post', 'age-restricted-content' );
 
 	/**
 	 * Add theme support for post-formats
@@ -322,3 +325,29 @@ function greatermedia_excerpt_more( $more ) {
 	return '';
 }
 add_filter( 'excerpt_more', 'greatermedia_excerpt_more' );
+
+/**
+ * register a "iframe" endpoint to be applied to single posts and pages
+ */
+function greatermedia_add_iframe_endpoint() {
+	add_rewrite_endpoint( 'iframe', EP_PERMALINK | EP_PAGES );
+}
+
+add_action( 'init', 'greatermedia_add_iframe_endpoint' );
+
+/**
+ * Load naked tempalate if iframe query var is set
+ */
+function greatermedia_iframe_template_redirect() {
+	global $wp_query;
+
+	if ( !isset( $wp_query->query_vars[ 'iframe' ] ) || !is_singular() ) {
+		return;
+	}
+	// include custom template
+	add_filter( 'load_greatermedia_livepress_sidebar', '__return_false' );
+	locate_template( 'template-iframe.php', true );
+	exit;
+}
+
+add_action( 'template_redirect', 'greatermedia_iframe_template_redirect' );

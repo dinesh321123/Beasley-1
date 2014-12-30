@@ -1,0 +1,69 @@
+.header__nav > ul > li:hover:after {
+	content: ' ';
+	display: block;
+	position: relative;
+	bottom: 40px;
+	right: -40px;
+	float: right;
+	width: 40px;
+	height: 40px;
+}
+
+.header__nav ul li:hover .sub-menu {
+	display: block;
+}
+
+.sub-menu {
+	position: absolute;
+	border-top: 7px solid $color-text-red;
+	background-color: $primary-bg;
+	color: $color-text-black;
+	min-width: 300px;
+	z-index: 5000000; /* IAB z-index standard for drop nav is 5000000 - 5999999 */
+
+	li {
+		display: block;
+	}
+
+	a {
+		color: $color-text-black;
+
+		/*
+		 * Important used here to override a declaration on .header__nav ul li a
+		 * We could make the selector more specific here, but I felt it was important
+		 * to keep this as a component (e.g. context independent). - TD
+		 */
+		padding: 1em !important;
+
+		&:visited {
+			color: $color-text-black;
+		}
+
+		&:hover {
+			color: $color-text-white;
+		}
+
+	}
+
+}
+
+/**
+ * Full-width
+ */
+.format-fw > ul {
+	@extend .sub-menu;
+	width: $max-site-width;
+	left: 0;
+	padding: 1em;
+}
+
+.format-fw > ul > li {
+	width: 32.666%; /* 100% - 2% (for margins, below) / 3 (3 columns) */
+	float: left;
+}
+
+.format-fw > ul > li:not(:nth-child(3n+1)) {
+	border-left: 1px solid $primary-border;
+	padding-left: 1%;
+	margin-left: 1%;
+}

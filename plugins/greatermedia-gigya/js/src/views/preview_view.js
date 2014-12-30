@@ -52,7 +52,8 @@ var PreviewView = Backbone.View.extend({
 		var message = total + ' records found';
 
 		if (total > 0) {
-			message += ', showing the first 5';
+			var range = Math.min(5, total);
+			message += ', showing the first ' + range;
 		} else {
 			message += '.';
 		}

@@ -16,6 +16,10 @@ plugins/role-quick-changer/
 plugins/the-events-calendar/
 plugins/wp-crontrol/
 plugins/edit-flow/
+plugins/duplicate-post/
+plugins/ooyala-video-browser/
+plugins/simple-page-ordering/
+plugins/tag-pages/
 themes/index.php
 themes/twentyfourteen
 upgrade/
@@ -38,6 +42,7 @@ plugins/ooyala-video-browser/
 plugins/simple-page-ordering/
 plugins/tag-pages/
 plugins/yet-another-related-posts-plugin
-/plugins/greatermedia-live-stream/node_modules/
 plugins/jetpack/
+/plugins/greatermedia-live-stream/node_modules/
 plugins/ubermenu/
+plugins/cpt-archives-in-nav-menus

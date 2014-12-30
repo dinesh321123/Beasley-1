@@ -29,32 +29,46 @@ get_header(); ?>
 							<section class="col__inner--left">
 
 								<header class="entry__header">
-									<?php $encoded_permalink = urlencode( get_permalink() ); ?>
-									<?php $encoded_title = urlencode( get_the_title() ); ?>
 
 									<time class="entry__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j'); ?></time>
-									<h2 class="entry__title" itemprop="headline"><?php the_title(); ?></h2>
-									<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=<?php echo $encoded_permalink; ?>&title=<?php echo $encoded_title; ?>"></a>
-									<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=<?php echo $encoded_title; ?>+<?php echo $encoded_permalink; ?>"></a>
-									<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=<?php echo $encoded_permalink; ?>"></a>
+									<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+									<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]"></a>
+									<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=[TITLE]+[URL]"></a>
+									<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=[URL]"></a>
 
 								</header>
 
 								<?php the_content(); ?>
 
-								other metabox content goes here
+								<?php
+								$prizes = get_post_meta( get_the_ID(), 'prizes-desc', true );
+								$enter = get_post_meta( get_the_ID(), 'how-to-enter-desc', true );
+								$rules = get_post_meta( get_the_ID(), 'rules-desc', true );
+
+								echo '<div class="contest__description">';
+								echo '<h3 class="contest__prize--title">What you win:</h3>';
+								echo esc_html( $prizes );
+								echo '</div>';
+								echo '<div class="contest__description">';
+								echo esc_html( $enter );
+								echo '</div>';
+								echo '<div class="contest__description">';
+								echo esc_html( $rules );
+								echo '</div>';
+								?>
+
+								<?php get_template_part( 'partials/post', 'footer' ); ?>
 
 							</section>
 
 
-							<section class="col__inner--right">
+							<section class="col__inner--right contest__form">
+
+								<h3 class="contest__form--heading"><?php _e( 'Enter Here to Win', 'greatermedia' ); ?></h3>
 								<?php
 
 								$form = get_post_meta( get_the_ID(), 'embedded_form', true );
-								$error = GreaterMediaFormbuilderRender::render( get_the_ID(), $form );
-								if ( is_wp_error( $error ) ) :
-									echo '<p>', $error->get_error_message(), '</p>';
-								endif;
+								GreaterMediaFormbuilderRender::render( get_the_ID(), $form );
 
 								?>
 							</section>

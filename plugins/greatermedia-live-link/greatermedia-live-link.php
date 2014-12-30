@@ -157,7 +157,7 @@ function gmr_ll_suggestion_by_post_title( $where, $wp_query ) {
  * @return array The array of post types.
  */
 function gmr_ll_get_suggestion_post_types() {
-	return apply_filters( 'gmr_live_link_suggestion_post_types', array( 'post', 'page' ) );
+	return apply_filters( 'gmr_live_link_suggestion_post_types', array( 'post', 'page', 'tribe_events' ) );
 }
 
 /**

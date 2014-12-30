@@ -129,7 +129,6 @@ Link posts contain a link to an external site. They can also optionally have a f
 // Reusable Post Classes
 .hentry {
 	margin-bottom: 58px;
-	overflow: auto;
 	@include bp(medium) {
 		margin-bottom: 90px;
 	}
@@ -185,6 +184,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 	}
 	@include bp(large) {
 		@include span-columns(12);
+		padding-top: 40px;
 	}
 }
 
@@ -236,16 +236,19 @@ Link posts contain a link to an external site. They can also optionally have a f
 	@extend %entry__type;
 }
 
-.entry__categories, .entry__tags {
-	margin-bottom: 8px;
-	@extend %mute;
+.entry__categories, .entry__tags, .entry__shows {
+	overflow: auto;
+	clear: both;
+	margin-bottom: 28px;
+	font-size: ms(-1);
+	color: $gray;
 }
 
 .entry__list, %entry__list {
+	display: inline-block;
 	padding: 0;
 	margin: 0;
 	list-style: none;
-	font-size: ms(-2);
 }
 
 .entry__list:before, %entry__list--before {
@@ -254,34 +257,67 @@ Link posts contain a link to an external site. They can also optionally have a f
 }
 
 .entry__list--item, %entry__list--item {
-	padding: 0;
-	margin-right: 1em;
+	padding: 0 2px 0 0;
 	list-style: none;
 	display: inline-block;
 }
 
-.entry__list--item:last-of-type, %entry__list--item--last {
-	margin: 0;
+.entry__list--item:last-of-type{
+	padding: 0;
 }
 
-.entry__list--item:after, %entry__list--item--after {
-	margin-left: 1em;
-	content: "|";
+.entry__list--item a, .entry__list--item a:visited, .entry__list--show a, .entry__list--show a:visited {
+	color: $gray;
 }
 
-.entry__list--item:last-of-type:after{
-	margin: 0;
-	content: "";
+.entry__list--item a:hover, .entry__list--item a:focus, .entry__list--item a:active, .entry__list--show a:hover, .entry__list--show a:focus, .entry__list--show a:active {
+	color: $primary-link-hover;
 }
 
-.entry__list--categories:before {
-	@extend %entry__list--before;
-	content: "Categories:";
+.entry__list--title {
+	display: inline-block;
+	float: left;
+	font-weight: 800;
 }
 
-.entry__list--tags:before {
-	@extend %entry__list--before;
-	content: "Tags:";
+.entry__list--title:after {
+	margin: 0 14px 0 18px;
+	content: "/";
+}
+
+.entry__list--categories, .entry__list--tags, .entry__list--shows {
+	@extend %entry__list;
+	float: left;
+}
+
+
+.entry__list--show {
+	@extend %entry__list;
+	float: left;
+	margin-right: 30px;
+}
+
+.entry__list--show:last-of-type {
+	margin-right: 0;
+}
+
+.entry__show--logo {
+	display: inline-block;
+	float: left;
+	width: 24px;
+	height: 24px;
+	margin: 0 14px;
+	@include border-radius(50%);
+	background-color: $secondary-border;
+}
+
+.entry__show--logo img {
+	@include border-radius(50%);
+}
+
+.entry__show--name {
+	display: inline-block;
+	padding: 3px 0;
 }
 
 // Comments

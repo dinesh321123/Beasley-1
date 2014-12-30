@@ -34,6 +34,9 @@ class SettingsPage {
 		$options          = $this->get_options();
 		$gigya_api_key    = $options['gigya_api_key'];
 		$gigya_secret_key = $options['gigya_secret_key'];
+		$emma_account_id  = $options['emma_account_id'];
+		$emma_public_key  = $options['emma_public_key'];
+		$emma_private_key = $options['emma_private_key'];
 
 		include( $this->get_template_path() );
 	}
@@ -44,8 +47,11 @@ class SettingsPage {
 
 	function get_options() {
 		$defaults = array(
-			'gigya_api_key' => '',
+			'gigya_api_key'    => '',
 			'gigya_secret_key' => '',
+			'emma_account_id'  => '',
+			'emma_public_key'  => '',
+			'emma_private_key' => '',
 		);
 
 		$options = get_option( 'member_query_settings', json_encode( $defaults ) );

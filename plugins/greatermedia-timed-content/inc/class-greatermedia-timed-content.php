@@ -57,7 +57,7 @@ class GreaterMediaTimedContent extends VisualShortcode {
 			return;
 		}
 
-		$expiration_timestamp = get_post_meta( $post->ID, '_post_expiration', true );
+		$expiration_timestamp = get_post_meta( $post->ID, 'post_expiration', true );
 
 		if ( false !== $expiration_timestamp && '' !== $expiration_timestamp && ! empty( $expiration_timestamp ) ) {
 			$rendered_expiration_timestamp = date_i18n( __( 'M j, Y @ G:i' ), $expiration_timestamp );
@@ -83,26 +83,14 @@ class GreaterMediaTimedContent extends VisualShortcode {
 			wp_enqueue_style( 'datetimepicker');
 			wp_enqueue_script( 'datetimepicker');
 
-			// Enqueue JavaScript
-			if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			wp_enqueue_script( 'date-format' );
+			wp_enqueue_script( 'date-toisostring' );
+			wp_enqueue_script( 'greatermedia-tc-admin-js', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'js/greatermedia-timed-content-admin.js', array(
+				'jquery',
+				'date-format'
+			), false, true );
 
-				wp_enqueue_script( 'date-format', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'bower_components/date.format/date.format.js', array(), null, true );
-				wp_enqueue_script( 'date-toisostring', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'js/vendor/date-toisostring.js', array(), null, true );
-				wp_enqueue_script( 'greatermedia-tc-admin-js', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'js/greatermedia-timed-content-admin.js', array(
-					'jquery',
-					'date-format'
-				), false, true );
-
-			} else {
-
-				wp_enqueue_script( 'greatermedia-tc-admin-js', trailingslashit( GREATER_MEDIA_TIMED_CONTENT_URL ) . 'js/dist/greatermedia-timed-content.min.js', array(
-					'jquery',
-					'date-format'
-				), false, true );
-
-			}
-
-			$expiration_timestamp = get_post_meta( $post->ID, '_post_expiration', true );
+			$expiration_timestamp = get_post_meta( $post->ID, 'post_expiration', true );
 
 			// Settings & translation strings used by the JavaScript code
 			$settings = array(
@@ -153,37 +141,41 @@ class GreaterMediaTimedContent extends VisualShortcode {
 
 		if ( post_type_supports( $post->post_type, 'timed-content' ) ) {
 
-			$exp_mm = isset( $_POST['hidden_exp_mm'] ) ? intval( $_POST['hidden_exp_mm'] ) : '0';
-			$exp_jj = isset( $_POST['hidden_exp_jj'] ) ? intval( $_POST['hidden_exp_jj'] ) : '0';
-			$exp_aa = isset( $_POST['hidden_exp_aa'] ) ? intval( $_POST['hidden_exp_aa'] ) : '0';
-			$exp_hh = isset( $_POST['hidden_exp_hh'] ) ? intval( $_POST['hidden_exp_hh'] ) : '0';
-			$exp_mn = isset( $_POST['hidden_exp_mn'] ) ? str_pad( intval( $_POST['hidden_exp_mn'] ), 2, '0', STR_PAD_LEFT ) : '00';
+			if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === $_SERVER['REQUEST_METHOD'] && isset( $_POST['hidden_exp_mm'] ) ) {
 
-			$exp_str = "{$exp_mm} {$exp_jj} {$exp_aa} {$exp_hh} {$exp_mn}";
-			if ( '0 0 0 0 00' !== trim( $exp_str ) ) {
-				$exp_date      = DateTime::createFromFormat( 'n j Y G i', $exp_str );
-				$exp_timestamp = $exp_date->getTimestamp();
-			} else {
-				$exp_timestamp = '';
-			}
+				$exp_mm = isset( $_POST['hidden_exp_mm'] ) ? intval( $_POST['hidden_exp_mm'] ) : '0';
+				$exp_jj = isset( $_POST['hidden_exp_jj'] ) ? intval( $_POST['hidden_exp_jj'] ) : '0';
+				$exp_aa = isset( $_POST['hidden_exp_aa'] ) ? intval( $_POST['hidden_exp_aa'] ) : '0';
+				$exp_hh = isset( $_POST['hidden_exp_hh'] ) ? intval( $_POST['hidden_exp_hh'] ) : '0';
+				$exp_mn = isset( $_POST['hidden_exp_mn'] ) ? str_pad( intval( $_POST['hidden_exp_mn'] ), 2, '0', STR_PAD_LEFT ) : '00';
 
-			$local_to_gmt_time_offset = get_option( 'gmt_offset' ) * - 1 * 3600;
-			$exp_timestamp_gmt        = $exp_timestamp + $local_to_gmt_time_offset;
-			delete_post_meta( $post_id, '_post_expiration' );
-			if ( '' !== $exp_timestamp ) {
-				add_post_meta( $post_id, '_post_expiration', $exp_timestamp );
-			}
+				$exp_str = "{$exp_mm} {$exp_jj} {$exp_aa} {$exp_hh} {$exp_mn}";
+				if ( '0 0 0 0 00' !== trim( $exp_str ) ) {
+					$exp_date      = DateTime::createFromFormat( 'n j Y G i', $exp_str );
+					$exp_timestamp = $exp_date->getTimestamp();
+				} else {
+					$exp_timestamp = '';
+				}
 
-			// If the expiration date is in the future, set a cron to expire the post
-			if ( $exp_timestamp_gmt > gmdate( 'U' ) ) {
-				wp_clear_scheduled_hook( 'greatermedia_expire_post', array( $post_id ) ); // clear anything else in the system
-				wp_schedule_single_event( $exp_timestamp_gmt, 'greatermedia_expire_post', array( $post_id ) );
+				$local_to_gmt_time_offset = get_option( 'gmt_offset' ) * - 1 * 3600;
+				$exp_timestamp_gmt        = $exp_timestamp + $local_to_gmt_time_offset;
+				delete_post_meta( $post_id, 'post_expiration' );
+				if ( '' !== $exp_timestamp ) {
+					add_post_meta( $post_id, 'post_expiration', $exp_timestamp );
+				}
+
+				// If the expiration date is in the future, set a cron to expire the post
+				if ( $exp_timestamp_gmt > gmdate( 'U' ) ) {
+					wp_clear_scheduled_hook( 'greatermedia_expire_post', array( $post_id ) ); // clear anything else in the system
+					wp_schedule_single_event( $exp_timestamp_gmt, 'greatermedia_expire_post', array( $post_id ) );
+				}
+
 			}
 
 		} else {
 
 			// Clean up any post expiration data that might already exist, in case the post support changed
-			delete_post_meta( $post_id, '_post_expiration' );
+			delete_post_meta( $post_id, 'post_expiration' );
 			wp_clear_scheduled_hook( 'greatermedia_expire_post', array( $post_id ) );
 
 		}
@@ -296,34 +288,28 @@ class GreaterMediaTimedContent extends VisualShortcode {
 	/**
 	 * Process the time-restricted shortcode
 	 *
-	 * @param      array  $atts
+	 * @param      array  $attributes
 	 * @param string|null $content optional content to display
 	 *
 	 * @return null|string output to display
 	 */
-	function process_shortcode( $atts, $content = null ) {
+	function process_shortcode( array $attributes, $content = null ) {
 
-		if ( isset( $atts['show'] ) ) {
-			$show = strtotime( $atts['show'] );
+		if ( isset( $attributes['show'] ) ) {
+			$show = strtotime( $attributes['show'] );
 		} else {
 			$show = 0;
 		}
 
-		if ( isset( $atts['hide'] ) ) {
-			$hide = strtotime( $atts['hide'] );
+		if ( isset( $attributes['hide'] ) ) {
+			$hide = strtotime( $attributes['hide'] );
 		} else {
 			$hide = PHP_INT_MAX;
 		}
 
 		$now_gmt = intval( gmdate( 'U' ) );
 		if ( ( $now_gmt > $show ) && ( $hide > $now_gmt ) ) {
-
-			// Render the template which wraps $content in a span so JavaScript can hide/show cached content
-			ob_start();
-			include trailingslashit( GREATER_MEDIA_TIMED_CONTENT_PATH ) . 'tpl/timed-content-render.tpl.php';
-
-			return ob_get_clean();
-
+			return $content;
 		} else {
 			return '';
 		}

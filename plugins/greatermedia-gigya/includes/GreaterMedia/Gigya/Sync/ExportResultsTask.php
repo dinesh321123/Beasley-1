@@ -7,7 +7,7 @@ use GreaterMedia\MyEmma\EmmaAPI;
 class ExportResultsTask extends SyncTask {
 
 	public $emma_api    = null;
-	public $page_size   = 1000;
+	public $page_size   = 500;
 	public $max_retries = 0;
 
 	function get_task_name() {
@@ -45,7 +45,8 @@ class ExportResultsTask extends SyncTask {
 			);
 		}
 
-		$this->add_members_to_segment( $users, $segment_id );
+		$import_id = $this->add_members_to_segment( $users, $segment_id );
+		$stats     = $this->get_member_import_stats( $import_id );
 
 		$results_in_page = count( $users );
 		$total_results   = $count;
@@ -96,18 +97,26 @@ class ExportResultsTask extends SyncTask {
 		$response = $api->membersBatchAdd( $params );
 		$json     = json_decode( $response, true );
 
-		return is_array( $json );
+		return $json['import_id'];
+	}
+
+	function get_member_import_stats( $import_id ) {
+		$api      = $this->get_emma_api();
+		$response = $api->membersImportStats( $import_id );
+		$json     = json_decode( $response, true );
+
+		return $json;
 	}
 
 	function remove_all_members_in_segment( $segment_id ) {
-		$api      = $this->get_emma_api();
+		$api = $this->get_emma_api();
 		$api->groupsRemoveAllMembers( $segment_id );
 
 		return true;
 	}
 
 	function create_or_update_email_segment() {
-		if ( ! $this->has_email_segment() ) {
+		if ( ! $this->has_email_segment() || ! $this->has_remote_email_segment() ) {
 			$segment_id = $this->create_email_segment();
 			$this->get_sentinel()->set_email_segment_id( $segment_id );
 		} else {
@@ -165,6 +174,18 @@ class ExportResultsTask extends SyncTask {
 	function has_email_segment() {
 		$segment_id = $this->get_email_segment_id();
 		return $segment_id !== '';
+	}
+
+	function has_remote_email_segment() {
+		$segment_id = $this->get_email_segment_id();
+		$api        = $this->get_emma_api();
+
+		try {
+			$response = $api->groupsGetById( $segment_id );
+			return true;
+		} catch ( \Exception $e ) {
+			return false;
+		}
 	}
 
 	function get_emma_api() {

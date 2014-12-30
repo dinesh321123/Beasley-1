@@ -106,7 +106,7 @@ jQuery(function () {
 						return 'logged-out';
 					}
 					else {
-						return '';
+						return 'logged-in';
 					}
 
 				}
@@ -119,7 +119,7 @@ jQuery(function () {
 						return 'logged-out';
 					}
 					else {
-						return '';
+						return 'logged-in';
 					}
 
 				}

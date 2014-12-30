@@ -7,7 +7,7 @@
 	border-top: 1px solid $secondary-bg;
 	background-color: transparent;
 	@include bp(medium) {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -15,14 +15,22 @@
 		padding: 16px 2.5%;
 		background-color: $primary-bg;
 		border-top: none;
-		@include transition(all .5s ease-in-out);
+		@include transition(all 200ms ease-in-out);
 		@include transform(translate(0, -100%));
 		z-index: 1000;
 	}
+
+	.logged-in & {
+		top: 32px;
+	}
+}
+
+.header__search--label {
+	cursor: pointer;
 }
 
 .header__search--open {
-	@include transition(all .5s ease-in-out);
+	@include transition(all 200ms ease-in-out);
 	@include transform(translate(0, 0));
 }
 
