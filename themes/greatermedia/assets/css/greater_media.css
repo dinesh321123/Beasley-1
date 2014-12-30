@@ -5759,22 +5759,22 @@ category: Components - Shows
   .show__favorites .featured__content--block:last-child {
     margin-right: 0; }
 
-.show__latest-crap {
+.show__live-links {
   position: relative; }
-  .show__latest-crap ul {
+  .show__live-links ul {
     margin-top: 0;
     padding-left: 2em; }
-  .show__latest-crap li[class^="live-link__type"] {
+  .show__live-links li[class^="live-link__type"] {
     margin-bottom: 1em; }
-    .show__latest-crap li[class^="live-link__type"]:before {
+    .show__live-links li[class^="live-link__type"]:before {
       position: absolute;
       left: -30px;
       top: 8px; }
-    .show__latest-crap li[class^="live-link__type"] a {
+    .show__live-links li[class^="live-link__type"] a {
       color: #404041; }
-      .show__latest-crap li[class^="live-link__type"] a:hover {
+      .show__live-links li[class^="live-link__type"] a:hover {
         color: #aa1c20; }
-  .show__latest-crap .more-btn {
+  .show__live-links .more-btn {
     left: 40%;
     right: auto;
     top: 0;
