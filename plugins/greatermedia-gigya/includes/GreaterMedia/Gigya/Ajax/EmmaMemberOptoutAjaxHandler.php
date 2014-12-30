@@ -3,7 +3,7 @@
 namespace GreaterMedia\Gigya\Ajax;
 
 use GreaterMedia\Gigya\GigyaRequest;
-use GreaterMedia\Emma\EmmaAPI;
+use GreaterMedia\MyEmma\EmmaAPI;
 
 class EmmaMemberOptoutAjaxHandler extends AjaxHandler {
 
