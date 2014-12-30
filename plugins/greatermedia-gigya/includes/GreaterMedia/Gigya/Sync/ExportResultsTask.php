@@ -45,7 +45,8 @@ class ExportResultsTask extends SyncTask {
 			);
 		}
 
-		$this->add_members_to_segment( $users, $segment_id );
+		$import_id = $this->add_members_to_segment( $users, $segment_id );
+		$stats     = $this->get_member_import_stats( $import_id );
 
 		$results_in_page = count( $users );
 		$total_results   = $count;
@@ -90,49 +91,32 @@ class ExportResultsTask extends SyncTask {
 		$api    = $this->get_emma_api();
 		$params = array(
 			'members'   => $members,
+			'group_ids' => array( intval( $segment_id ) )
 		);
-			//'group_ids' => array( intval( $segment_id ) )
 
-		/*
 		$response = $api->membersBatchAdd( $params );
-		*/
-		$response = $this->members_batch_add( $params );
 		$json     = json_decode( $response, true );
 
-		return is_array( $json );
+		return $json['import_id'];
 	}
 
-	function members_batch_add( $params ) {
-		$account_id = '1745171';
-		$url        = "https://api.e2ma.net/{$account_id}/members";
-		$pub_key    = 'bb784afb4e46477af27a';
-		$priv_key   = '89f30ef0b55cdd12b41c';
-		$post_data  = $params;
+	function get_member_import_stats( $import_id ) {
+		$api      = $this->get_emma_api();
+		$response = $api->membersImportStats( $import_id );
+		$json     = json_decode( $response, true );
 
-		$ch = curl_init( $url );
-		curl_setopt( $ch, CURLOPT_USERPWD, "{$pub_key}:{$priv_key}" );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-		curl_setopt( $ch, CURLOPT_POST, true );
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $post_data ) );
-
-		$data = curl_exec( $ch );
-		$info = curl_getinfo( $ch );
-
-		curl_close( $ch );
-
-		return $data;
+		return $json;
 	}
 
 	function remove_all_members_in_segment( $segment_id ) {
-		$api      = $this->get_emma_api();
+		$api = $this->get_emma_api();
 		$api->groupsRemoveAllMembers( $segment_id );
 
 		return true;
 	}
 
 	function create_or_update_email_segment() {
-		if ( ! $this->has_email_segment() ) {
+		if ( ! $this->has_email_segment() || ! $this->has_remote_email_segment() ) {
 			$segment_id = $this->create_email_segment();
 			$this->get_sentinel()->set_email_segment_id( $segment_id );
 		} else {
@@ -190,6 +174,18 @@ class ExportResultsTask extends SyncTask {
 	function has_email_segment() {
 		$segment_id = $this->get_email_segment_id();
 		return $segment_id !== '';
+	}
+
+	function has_remote_email_segment() {
+		$segment_id = $this->get_email_segment_id();
+		$api        = $this->get_emma_api();
+
+		try {
+			$response = $api->groupsGetById( $segment_id );
+			return true;
+		} catch ( \Exception $e ) {
+			return false;
+		}
 	}
 
 	function get_emma_api() {
