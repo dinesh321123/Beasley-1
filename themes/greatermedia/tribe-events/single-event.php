@@ -18,13 +18,6 @@ $event_id = get_the_ID();
 
 ?>
 
-<?php if ( has_post_thumbnail() ) {
-
-	the_post_thumbnail( 'full', array( 'class' => 'single__featured-img' ) );
-
-}
-?>
-
 <div id="tribe-events-content" class="tribe-events-single vevent hentry">
 
 	<div class="tribe-events-back">
@@ -51,6 +44,12 @@ $event_id = get_the_ID();
 	<?php while ( have_posts() ) :  the_post(); ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
+			<?php echo tribe_event_featured_image( $event_id, 'full', false ); ?>
+
+			<h2 class="entry__title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+
+			<?php do_action( 'tribe_events_single_event_after_the_content' ) ?>
+
 			<?php if ( has_post_thumbnail() ) { ?>
 
 				<div class="event__thumbnail">
@@ -60,19 +59,12 @@ $event_id = get_the_ID();
 			}
 			?>
 
-			<?php echo tribe_event_featured_image( $event_id, 'full', false ); ?>
-
-			<h2 class="entry__title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?></a></h2>
-			<!-- Event featured image, but exclude link -->
-			<?php echo tribe_event_featured_image( $event_id, 'full', false ); ?>
-
 			<!-- Event content -->
 			<?php do_action( 'tribe_events_single_event_before_the_content' ) ?>
 			<div class="tribe-events-single-event-description tribe-events-content entry-content description">
 				<?php the_content(); ?>
 			</div>
 			<!-- .tribe-events-single-event-description -->
-			<?php do_action( 'tribe_events_single_event_after_the_content' ) ?>
 
 			<!-- Event meta -->
 			<?php do_action( 'tribe_events_single_event_before_the_meta' ) ?>
@@ -99,10 +91,6 @@ $event_id = get_the_ID();
 		<!-- Navigation -->
 		<!-- Navigation -->
 		<h3 class="tribe-events-visuallyhidden"><?php _e( 'Event Navigation', 'tribe-events-calendar' ) ?></h3>
-		<ul class="tribe-events-sub-nav">
-			<li class="tribe-events-nav-previous"><?php tribe_the_prev_event_link( '<span>&laquo;</span> %title%' ) ?></li>
-			<li class="tribe-events-nav-next"><?php tribe_the_next_event_link( '%title% <span>&raquo;</span>' ) ?></li>
-		</ul>
 		<!-- .tribe-events-sub-nav -->
 	</div>
 	<!-- #tribe-events-footer -->

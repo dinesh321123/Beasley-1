@@ -5120,10 +5120,11 @@ category: Components - Ads
   color: #ffffff !important; }
 
 .single-tribe_events .tribe-events-event-meta {
-  border: 1px solid #d0d2d3;
-  border-right: none;
-  border-left: none;
+  border: none;
   background-color: transparent; }
+
+.tribe-events-event-meta .tribe-events-meta-group {
+  padding: 0; }
 
 .tribe-events-event-meta .tribe-events-meta-group-details {
   float: left;
@@ -5131,6 +5132,8 @@ category: Components - Ads
   margin-right: 7.42297%;
   width: 100%;
   margin-right: 0;
+  padding-right: 0;
+  padding-left: 0;
   padding-bottom: 10px;
   margin-bottom: 10px;
   border-bottom: 1px solid #d0d2d3; }
@@ -5179,8 +5182,7 @@ category: Components - Ads
   margin-right: 7.42297%;
   width: 100%;
   padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #d0d2d3; }
+  margin-bottom: 10px; }
   .tribe-events-event-meta .tribe-events-meta-group-venue:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
@@ -5200,8 +5202,7 @@ category: Components - Ads
       width: 48.21067%;
       padding-bottom: 0;
       margin-right: 0 !important;
-      margin-bottom: 0;
-      border-bottom: none; }
+      margin-bottom: 0; }
       .tribe-events-event-meta .tribe-events-meta-group-venue:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1024px) {
@@ -5228,7 +5229,8 @@ category: Components - Ads
   display: block;
   margin-right: 7.42297%;
   width: 100%;
-  margin-right: 0; }
+  margin-right: 0;
+  margin-bottom: 0; }
   .tribe-events-event-meta .tribe-events-meta-group-gmap:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
