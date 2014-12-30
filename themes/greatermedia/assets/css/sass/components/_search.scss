@@ -15,7 +15,7 @@
 		padding: 16px 2.5%;
 		background-color: $primary-bg;
 		border-top: none;
-		@include transition(all .5s ease-in-out);
+		@include transition(all 200ms ease-in-out);
 		@include transform(translate(0, -100%));
 		z-index: 1000;
 	}
@@ -30,7 +30,7 @@
 }
 
 .header__search--open {
-	@include transition(all .5s ease-in-out);
+	@include transition(all 200ms ease-in-out);
 	@include transform(translate(0, 0));
 }
 
