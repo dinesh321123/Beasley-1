@@ -7275,6 +7275,9 @@ select {
   .logged-in .header__search--form {
     top: 32px; }
 
+.header__search--label {
+  cursor: pointer; }
+
 .header__search--open {
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;

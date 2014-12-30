@@ -121,7 +121,7 @@
 										</div>
 									</div>
 									<div id="header__search" class="header__search">
-										<label for="header-search"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div></label>
+										<label for="s" class="header__search--label"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div></label>
 									</div>
 								</div>
 							</div>

@@ -25,6 +25,10 @@
 	}
 }
 
+.header__search--label {
+	cursor: pointer;
+}
+
 .header__search--open {
 	@include transition(all .5s ease-in-out);
 	@include transform(translate(0, 0));
