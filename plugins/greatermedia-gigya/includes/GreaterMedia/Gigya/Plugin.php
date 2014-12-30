@@ -47,6 +47,8 @@ class Plugin {
 	public function migrate() {
 		$migrator = new Sync\TempSchemaMigrator();
 		$migrator->migrate();
+
+		flush_rewrite_rules();
 	}
 
 	/**
