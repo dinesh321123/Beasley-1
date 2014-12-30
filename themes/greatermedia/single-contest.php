@@ -71,20 +71,6 @@ get_header(); ?>
 
 								<?php the_content(); ?>
 
-								<?php
-								/**
-								 * @todo replace content in `.contest__sponsors` with dynamic content
-								 */
-								?>
-								<div class="contest__sponsors">
-									<h3 class="contest__sponsors--heading"><?php _e( 'Sponsored', 'greatermedia' ); ?></h3>
-									<ul class="contest__sponsors--list">
-										<li class="contest__sponsor"><a href="#"><img src="http://lorempixel.com/150/100/"></a></li>
-										<li class="contest__sponsor"><a href="#"><img src="http://lorempixel.com/130/100/"></a></li>
-
-									</ul>
-								</div>
-
 								<?php get_template_part( 'partials/post', 'footer' ); ?>
 
 							</section>
