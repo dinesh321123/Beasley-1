@@ -22,7 +22,9 @@ add_theme_support( 'homepage-curation' );
 
 require_once( __DIR__ . '/includes/liveplayer/loader.php' );
 require_once( __DIR__ . '/includes/layout-chooser/class-choose-layout.php' );
-require_once( __DIR__ . '/includes/site-options/loader.php');
+require_once( __DIR__ . '/includes/site-options/loader.php' );
+require_once( __DIR__ . '/includes/mega-menu/mega-menu-admin.php' );
+require_once( __DIR__ . '/includes/mega-menu/mega-menu-walker.php' );
 
 /**
  * Required files
@@ -55,10 +57,13 @@ function greatermedia_setup() {
 	add_image_size( 'gmr-gallery-thumbnail',    100,    100             ); // thumbnails for the gallery
 	add_image_size( 'gmr-featured-primary',     2800,   1000,   true    ); // image for primary featured post on front page
 	add_image_size( 'gmr-featured-secondary',   400,    400,    true    ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gmr-contest-thumbnail',    2800,   9999            ); // thumbnail for contest featured image
+	add_image_size( 'gmr-event-thumbnail',      2800,   1000,   true    ); // thumbnails for single events
 
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
 	add_post_type_support( 'post', 'login-restricted-content' );
+	add_post_type_support( 'post', 'age-restricted-content' );
 
 	/**
 	 * Add theme support for post-formats
@@ -80,7 +85,7 @@ function greatermedia_scripts_styles() {
 
 	wp_register_style(
 		'open-sans',
-		'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700',
+		'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,700,800',
 		array(),
 		GREATERMEDIA_VERSION
 	);

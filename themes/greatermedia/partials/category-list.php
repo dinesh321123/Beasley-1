@@ -1,4 +1,4 @@
-<?php
+d<?php
 $categories = get_the_category();
 $cat_count = 0;
 

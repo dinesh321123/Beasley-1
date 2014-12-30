@@ -171,7 +171,15 @@ category: Components - Gallery Archive
 }
 
 .gallery .container {
-	background-color: $gallery-bg;
+	background-color: $primary-bg;
+	@include bp(medium) {
+		padding-right: 0;
+	}
+
+	.single-gmr_gallery & {
+		background-color: $gallery-bg;
+		@extend %container;
+	}
 }
 
 .gallery__slides {
@@ -191,16 +199,32 @@ category: Components - Gallery Archive
 		height: 513px;
 	}
 	@include bp(large) {
-		@include span-columns(8);
-		@include shift(2);
+		@include span-columns(12);
 		height: 516px;
 		margin-top: 64px;
 		margin-bottom: 30px;
 		overflow: hidden;
 	}
 	@include bp(x-large) {
-		@include span-columns(8);
-		@include shift(2);
+		@include span-columns(12);
+	}
+
+	.single-gmr_gallery & {
+		@include span-columns(4);
+		@include bp(small) {
+			@include span-columns(6);
+		}
+		@include bp(medium) {
+			@include span-columns(8);
+		}
+		@include bp(large) {
+			@include span-columns(8);
+			@include shift(2);
+		}
+		@include bp(x-large) {
+			@include span-columns(8);
+			@include shift(2);
+		}
 	}
 }
 
@@ -236,9 +260,9 @@ category: Components - Gallery Archive
 .gallery__meta {
 	position: relative;
 	@include span-columns(4);
-	padding: 0 4.375%;
+	padding: 0;
 	margin: 16px 0 30px;
-	color: $gallery-text;
+	color: $primary-text;
 	text-align: center;
 	@include bp(small) {
 		@include span-columns(6);
@@ -252,6 +276,11 @@ category: Components - Gallery Archive
 	}
 	@include bp(x-large) {
 		@include span-columns(12);
+	}
+
+	.single-gmr_gallery & {
+		color: $gallery-text;
+		padding: 0 4.375%;
 	}
 }
 
@@ -318,6 +347,7 @@ category: Components - Gallery Archive
 	font-family: $open-sans;
 	font-size: ms(4);
 	font-weight: lighter;
+	word-break: break-all;
 }
 
 .gallery__social {
@@ -334,29 +364,49 @@ category: Components - Gallery Archive
 }
 
 .gallery__social a.social-share-link:link, .gallery__social a.social-share-link:visited {
-	border-color: $gallery-text;
-	color: $gallery-text;
+	border-color: $primary-text;
+	color: $primary-text;
+
+	.single-gmr_gallery & {
+		border-color: $gallery-text;
+		color: $gallery-text;
+	}
 }
 
 .gallery__social a.social-share-link:hover, .gallery__social a.social-share-link:focus {
 	border-color: $btn-bg;
 	color: $color-text-red;
+
+	.single-gmr_gallery & {
+		border-color: $btn-bg;
+		color: $color-text-red;
+	}
 }
 
 .gallery__social a.social-share-link:active {
 	border-color: $gallery-border;
 	color: $gallery-border;
+
+	.single-gmr_gallery & {
+		border-color: $gallery-border;
+		color: $gallery-border;
+	}
 }
 
 .gallery__progress {
 	position: relative;
 	width: 100%;
-	padding: 0 4.375%;
+	padding: 0;
 	overflow: auto;
 	@include bp(large) {
 		position: absolute;
 		bottom: 0;
 		left: 0;
+		padding: 0 4.375%;
+	}
+
+	.single-gmr_gallery & {
+		padding: 0 4.375%;
 	}
 }
 
@@ -364,17 +414,22 @@ category: Components - Gallery Archive
 	position: relative;
 	width: 94px;
 	height: 36px;
-	border: 1px solid $light-gray;
+	border: 1px solid $primary-text;
 	background-color: transparent;
 	@include border-radius(32px);
 	font-family: $open-sans;
 	font-size: ms(1);
 	font-weight: lighter;
-	color: $color-text-white;
+	color: $primary-text;
 	text-transform: uppercase;
 	@include bp(large) {
 		width: 144px;
 		height: 64px;
+	}
+
+	.single-gmr_gallery & {
+		border-color: $light-gray;
+		color: $color-text-white;
 	}
 }
 
@@ -402,6 +457,7 @@ category: Components - Gallery Archive
 
 .gallery__prev--btn {
 	@extend %gallery__progress--btn;
+	outline: none;
 }
 
 .gallery__prev--span {
@@ -440,6 +496,7 @@ category: Components - Gallery Archive
 .gallery__next--btn {
 	@extend %gallery__progress--btn;
 	float: right;
+	outline: none;
 }
 
 .gallery__next--span {
@@ -473,38 +530,61 @@ category: Components - Gallery Archive
 	line-height: 1;
 	font-size: ms(0);
 	font-weight: lighter;
-	color: $gallery-text;
+	color: $primary-text;
 	text-align: center;
 	@include bp(large) {
 		width: 60%;
 		height: 64px;
 		padding-top: 44px;
 	}
+
+	.single-gmr_gallery & {
+		color: $gallery-text;
+	}
 }
 
 .gallery__thumbnails {
 	position: relative;
 	@include span-columns(4);
-	height: 145px;
+	height: 130px;
 	padding: 20px 0;
 	overflow: auto;
-	border-top: 1px solid $gallery-border;
-	background-color: $gallery-thumbs-bg;
+	border-top: 1px solid $primary-text;
+	background-color: $light-gray;
+
+	.single-gmr_gallery & {
+		height: 145px;
+		border-color: $gallery-border;
+		background-color: $gallery-thumbs-bg;
+	}
+
 	@include bp(small) {
 		@include span-columns(6);
 	}
 	@include bp(medium) {
 		@include span-columns(8);
-		height: 115px;
+		height: 90px;
+		.single-gmr_gallery & {
+			height: 115px;
+		}
 	}
 	@include bp(large) {
 		@include span-columns(12);
-		height: 145px;
+		height: 106px;
 		padding: 20px 0;
 		margin-top: 44px;
+		.single-gmr_gallery & {
+			height: 111px;
+		}
 	}
 	@include bp(x-large) {
 		@include span-columns(12);
+		height: 126px;
+		padding: 20px 0;
+		margin-top: 44px;
+		.single-gmr_gallery & {
+			height: 145px;
+		}
 	}
 }
 
@@ -548,21 +628,48 @@ category: Components - Gallery Archive
 	background-color: transparent;
 	border: none;
 	font-size: ms(6);
-	color: $color-text-gray;
+	color: $primary-text;
+	.single-gmr_gallery & {
+		height: 100px;
+	}
 	@include bp(medium) {
-		height: 75px;
+		height: 50px;
+		.single-gmr_gallery & {
+			height: 75px;
+		}
 	}
 	@include bp(large) {
-		height: 100px;
+		height: 65px;
+		.single-gmr_gallery & {
+			height: 70px;
+		}
+	}
+	@include bp(x-large) {
+		height: 85px;
+		.single-gmr_gallery & {
+			height: 100px;
+		}
+	}
+
+	.single-gmr_gallery & {
+		color: $color-text-gray;
 	}
 }
 
 %gallery__paging--btn:hover {
-	color: $color-text-white;
+	color: $color-text-red;
+
+	.single-gmr_gallery & {
+		color: $color-text-white;
+	}
 }
 
 %gallery__paging--btn:active {
-	color: $color-text-red;
+	color: $color-text-black;
+
+	.single-gmr_gallery & {
+		color: $color-text-red;
+	}
 }
 
 .gallery__paging--left {
@@ -577,6 +684,7 @@ category: Components - Gallery Archive
 
 .gallery__paging--prev, .gallery__paging--next {
 	@extend %gallery__paging--btn;
+	outline: none;
 }
 
 %gallery__paging--prev_before {
@@ -598,35 +706,77 @@ category: Components - Gallery Archive
 
 .gallery__previews--group {
 	width: 100%;
-	height: 100px;
+	height: 85px;
 	left: 5px !important;
+	.single-gmr_gallery & {
+		height: 100px;
+	}
 	@include bp(medium) {
 		left: 0 !important;
-		height: 75px;
+		height: 50px;
+		.single-gmr_gallery & {
+			height: 75px;
+		}
 	}
 	@include bp(large) {
-		height: 100px;
+		height: 65px;
+		.single-gmr_gallery & {
+			height: 70px;
+		}
+	}
+	@include bp(x-large) {
+		height: 85px;
+		.single-gmr_gallery & {
+			height: 100px;
+		}
 	}
 }
 
 .gallery__slide--preview {
 	float: left;
-	width: 100px;
+	width: 85px;
 	height: 100%;
 	max-height: 100px;
 	margin-right: 5px;
 	@include opacity(.5);
 	@include transition(opacity 200ms linear);
+	background-size: cover;
 	cursor: pointer;
+	.single-gmr_gallery & {
+		width: 100px;
+	}
+	@include bp(small) {
+		width: 75px;
+		.single-gmr_gallery & {
+			width: 90px;
+		}
+	}
 	@include bp(medium) {
 		width: 19%;
-		max-height: 75px;
+		max-height: 50px;
 		margin-right: 1%;
+		.single-gmr_gallery & {
+			width: 19%;
+			max-height: 75px;
+		}
 	}
 	@include bp(large) {
 		width: 11.5%;
-		max-height: 100px;
+		max-height: 65px;
 		margin-right: .875%;
+		.single-gmr_gallery & {
+			width: 11.5%;
+			max-height: 70px;
+		}
+	}
+	@include bp(x-large) {
+		width: 11.5%;
+		max-height: 85px;
+		margin-right: .875%;
+		.single-gmr_gallery & {
+			width: 11.5%;
+			max-height: 100px;
+		}
 	}
 }
 
@@ -641,7 +791,11 @@ category: Components - Gallery Archive
 
 .gallery__slide--active {
 	@include opacity(1);
-	border: 1px solid $primary-border;
+	border: 1px solid $primary-text;
+
+	.single-gmr_gallery & {
+		border-color: $primary-border;
+	}
 }
 
 .gallery-grid {

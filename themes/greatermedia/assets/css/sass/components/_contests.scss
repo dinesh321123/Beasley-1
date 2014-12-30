@@ -1,35 +1,483 @@
+.contest__thumbnail {
+	@include span-columns(4 of 4);
+	background-color: lighten($primary-border, 9%);
+	margin: 0 auto 2em;
+	text-align: center;
+
+	@include bp(small) {
+		@include span-columns(6 of 6);
+	}
+	@include bp(medium) {
+		@include span-columns(8 of 8);
+	}
+	@include bp(large) {
+		@include span-columns(8 of 8);
+	}
+	@include bp(x-large) {
+		@include span-columns(8 of 8);
+	}
+}
+
 .single__featured-img--contest {
+	margin: 0 auto;
+}
+
+.contest__entry--link {
+	display: block;
 	margin-bottom: 2em;
+	@include bp(large) {
+		display: none;
+	}
 }
 
-.contest {
-
+.contest__entry--btn {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(1));
+	width: 100%;
+	@include border-radius(17px);
+	text-transform: uppercase;
+	text-align: center;
 }
 
-.contest-attr--title {
-
+.contest__entry--btn:hover {
+	@include btn($btn-hover, $color-text-black, $btn-hover, .5em, 1em, ms(1));
 }
 
-.contest-attr--img {
-
+.contest__entry--btn:active {
+	@include btn($btn-active, $color-text-white, $btn-active, .5em, 1em, ms(1));
 }
 
-.contest-attr--content {
+.contest__description  {
+	margin-bottom: 40px;
+}
 
+.contest__description:last-of-type  {
+	margin-bottom: 0;
+}
+
+.contest__prize--title {
+	margin: 0 0 18px;
+	font-family: $droid-sans;
+	font-size: ms(4);
+	color: $color-text-red;
+}
+
+.contest__form--heading {
+	margin: 0 0 30px;
+	font-family: $droid-sans;
+	font-size: ms(4);
+}
+
+.contest__form--row {
+	margin-bottom: 30px;
+}
+
+.contest-attr--rules {
+	padding: 2em;
+	margin: 0 0 1.5em;
+	border: 1px solid $primary-border;
+	border-right: none;
+	border-left: none;
+	font-size: ms(-1);
+
+	p {
+		margin-bottom: 0.75em;
+		
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.contest-attr--rules-toggler {
+	@include btn($btn-muted, $color-text-white, $btn-muted, 0.5em, 1em, ms(-2));
+	@include border-radius(1em);
+}
+
+.contest-attr--rules-toggler:hover {
+	@include btn($btn-muted-hover, $color-text-white, $btn-muted-hover, 0.5em, 1em, ms(-2));
+}
+
+.contest-attr--rules-toggler:active {
+	@include btn($btn-muted-active, $color-text-white, $btn-muted-active, 0.5em, 1em, ms(-2));
 }
 
 .contest-attr--excerpt {
 
 }
 
-.contest-attr--enter {
+.contest__sponsors {
+	display: block;
+	width: 100%;
+	margin-bottom: 3.75em;
+	overflow: auto;
+}
+
+.contest__sponsors--heading {
+	margin: 0 0 1.4em;
+	font-family: $open-sans;
+	font-size: ms(-1);
+	font-weight: normal;
+	text-transform: uppercase;
+	color: $secondary-heading;
+}
+
+.contest__sponsors--list {
+	@extend %unordered-list;
+}
+
+.contest__sponsor {
+	@extend %list-item;
+	display: inline-block;
+	margin-right: 50px;
+}
+
+.contest__form--label {
+	display: block;
+	width: 100%;
+	margin-bottom: 10px;
+
+	abbr {
+		text-decoration: none;
+		border-bottom: 0;
+		color: $color-text-red;
+	}
+}
+
+.contest__form fieldset label {
+	display: block;
+	width: 100%;
+	margin-left: 0;
+	margin-bottom: 10px;
+}
+
+.contest__form input[type="text"], .contest__form input[type="url"], .contest__form input[type="email"], .contest__form input[type="number"], .contest__form textarea {
+	width: 100%;
+	padding: 18px 20px;
+	@include box-sizing(border-box);
+	border: none;
+	outline: none;
+	background-color: $form-bg;
+	font-family: $open-sans;
+	color: $dark-gray;
+}
+
+.contest__form input[type="submit"] {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(4));
+	width: 100%;
+	@include border-radius(28px);
+	text-transform: uppercase;
+}
+
+.contest__form input[type="submit"]:hover {
+	@include btn($btn-hover, $color-text-black, $btn-hover, .625em, 1em, ms(4));
+}
+
+.contest__form input[type="submit"]:active {
+	@include btn($btn-active, $color-text-white, $btn-active, .625em, 1em, ms(4));
+}
+
+.contest__form select {
+	width: 174px;
+	padding: 18px 20px;
+	@include border-radius(0);
+	border: none;
+	outline: none;
+	background-color: $form-bg;
+	background-image: url(../../images/select-arrow.png);
+	background-repeat: no-repeat;
+	background-position: 90% center;
+	background-size: auto 10px;
+	font-family: $open-sans;
+	color: $dark-gray;
+	display: inline-block;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none;
+	cursor:pointer;
+}
+
+.contest-submissions {
+	clear: both;
+	position: relative;
+}
+
+.contest-submissions--title {
 
 }
 
-.contest-attr--tags {
-
+.contest-submissions--list {
+	margin: 0;
+	padding: 0;
+	@include clearfix;
 }
 
-.contest-attr--categories {
+.contest-submissions--load-more {
+	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
+	@include border-radius(1em);
+	clear: both;
+	margin: 1em auto 0;
+	display: block;
 
+	&:last-of-type{
+		margin-right: auto;
+	}
+
+	.fa {
+		display: none;
+		margin-right: 0.5em;
+	}
+
+	&.loading {
+		.fa {
+			display: inline-block;
+		}
+	}
+}
+
+.contest-submission {
+	width: 100%;
+	margin: 0;
+	padding: 0 0.25em 1em;
+	@include box-sizing(border-box);
+	list-style: none;
+	vertical-align: top;
+
+	.contest-submission--link {
+		border: none;
+		outline: none;
+		display: block;
+		position: relative;
+
+		.contest-submission--thumbnail {
+			height: 156px;
+			background-position: center center;
+			background-repeat: no-repeat;
+			-webkit-background-size: cover;
+			background-size: cover;
+		}
+
+		.contest-submission--date,
+		.contest-submission--author {
+			text-align: center;
+			line-height: 1.5em;
+			display: block;
+		}
+
+		.contest-submission--author {
+			color: $dark-gray;
+			font-size: ms(-1);
+		}
+
+		.contest-submission--date {
+			color: $gray;
+			font-size: ms(-2);
+		}
+	}
+
+	&.expanded {
+		.contest-submission--link:after {
+			top: auto;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-bottom-color: #ddd;
+			border-width: 1em;
+			left: 50%;
+			margin: -0.75em 0 0 -15px;
+		}
+	}
+
+	.contest-submission--entries {
+		@include clearfix;
+
+		dl {
+			margin-top: 0;
+		}
+
+		dt,
+		dd {
+			float: left;
+		}
+		
+		dt {
+			clear: both;
+			display: inline-block;
+			margin-right: 0.5em;
+			font-weight: bold;
+
+			&::after {
+				content: ': ';
+			}
+		}
+
+		dd {
+			margin: 0;
+		}
+	}
+
+	.preview {
+		position: absolute;
+		background: #ddd;
+		top: auto;
+		left: 0;
+		width: 100%;
+		margin-top: 1em;
+		text-align: left;
+		height: 0;
+		overflow: hidden;
+		z-index: 10;
+
+		.preview-inner {
+			padding: 30px;
+			height: 100%;
+		}
+
+		.preview-close {
+			position: absolute;
+			width: 40px;
+			height: 40px;
+			top: 10px;
+			right: 10px;
+			cursor: pointer;
+
+			&:before,
+			&:after {
+				content: '';
+				position: absolute;
+				width: 100%;
+				top: 50%;
+				height: 1px;
+				background: #888;
+				transform: rotate(45deg);
+			}
+
+			&::after {
+				transform: rotate(-45deg);
+			}
+
+			&:hover::before,
+			&:hover::after {
+				background: #333;
+			}
+		}
+
+		.gallery {
+			.container {
+				padding: 0;
+				margin: 0;
+
+				.gallery__meta {
+					display: none;
+				}
+
+				.gallery__thumbnails {
+					margin-top: 0;
+					padding: 10px 0;
+					height: 125px;
+
+					.gallery__paging--left,
+					.gallery__paging--right {
+						top: 12px;
+					}
+				}
+
+				.gallery__slide--images {
+					margin-top: 0;
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}
+
+@include bp(small) {
+	.contest-submission {
+		width: 50%;
+		float: left;
+		
+		&:nth-child(2n+1) {
+			clear: both;
+		}
+
+		.contest-submission--thumbnail {
+			height: 118px;
+		}
+	}
+}
+
+@include bp(medium) {
+	.contest-submission {
+		width: 33.333333333333336%;
+		float: left;
+
+		&:nth-child(2n+1) {
+			clear: none;
+		}
+
+		&:nth-child(3n+1) {
+			clear: both;
+		}
+
+		.contest-submission--thumbnail {
+			height: 129px;
+		}
+
+		&.expanded {
+			.contest-submission--link:after {
+				margin-top: -1em;
+			}
+		}
+
+		.preview {
+			margin-top: 0.75em;
+		}
+	}
+}
+
+@include bp(large) {
+	.contest-submission {
+		width: 25%;
+		float: left;
+
+		&:nth-child(2n+1),
+		&:nth-child(3n+1) {
+			clear: none;
+		}
+
+		&:nth-child(4n+1) {
+			clear: both;
+		}
+
+		.contest-submission--thumbnail {
+			height: 145px;
+		}
+
+		.preview {
+			margin-top: 1em;
+		}
+	}
+}
+
+@include bp(x-large) {
+	.contest-submission {
+		width: 20%;
+		float: left;
+
+		&:nth-child(2n+1),
+		&:nth-child(3n+1),
+		&:nth-child(4n+1) {
+			clear: none;
+		}
+
+		&:nth-child(5n+1) {
+			clear: both;
+		}
+
+		.contest-submission--thumbnail {
+			height: 117px;
+		}
+	}
 }

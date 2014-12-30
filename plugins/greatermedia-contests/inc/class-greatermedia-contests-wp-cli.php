@@ -31,7 +31,7 @@ class GreaterMediaContestsWPCLI extends WP_CLI_Command {
 		$num_entries = intval( $assoc_args['n'] );
 
 		$contest = get_post( $contest_id, OBJECT );
-		if ( 'contest' !== $contest->post_type ) {
+		if ( GMR_CONTEST_CPT !== $contest->post_type ) {
 			WP_CLI::error( sprintf( 'Post %d is not a Contest', $contest_id ) );
 		}
 
@@ -136,7 +136,7 @@ class GreaterMediaContestsWPCLI extends WP_CLI_Command {
 		foreach ( $unique_contests as $contest_id => $contest_data ) {
 
 			$contest_obj              = new stdClass();
-			$contest_obj->post_type   = 'contest';
+			$contest_obj->post_type   = GMR_CONTEST_CPT;
 			$contest_obj->post_title  = $contest_data['name'];
 			$contest_obj->post_status = 'publish';
 
@@ -162,8 +162,8 @@ class GreaterMediaContestsWPCLI extends WP_CLI_Command {
 	public function erase_contests( $args, $assoc_args ) {
 
 		$query = new WP_Query( array(
-			'post_type'      => 'contest',
-			'posts_per_page' => - 1,
+			'post_type'      => GMR_CONTEST_CPT,
+			'posts_per_page' => -1,
 			'fields'         => 'ids',
 			'post_status'    => 'any',
 		) );

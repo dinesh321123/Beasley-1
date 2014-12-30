@@ -206,7 +206,10 @@
 
 	function loggedInGigyaUser() {
 		if (is_gigya_user_logged_in() ) {
-			playLiveStream();
+			if( Cookies.get( "gmlp_play_button_pushed" ) == 1 ) {
+				playLiveStream();
+				Cookies.set( "gmlp_play_button_pushed", 0 );
+			}
 			/*)
 			 console.log("--- You are logged in, so now enjoy some music ---");
 			 addEventHandler(playBtn,elemClick,playLiveStreamWithPreRoll);

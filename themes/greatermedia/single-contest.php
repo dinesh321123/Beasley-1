@@ -19,40 +19,68 @@ get_header(); ?>
 
 						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-							<?php if ( has_post_thumbnail() ) {
+							<?php if ( has_post_thumbnail() ) : ?>
+								<div class="contest__thumbnail">
+									<?php the_post_thumbnail( 'gmr-contest-thumbnail', array( 'class' => 'single__featured-img--contest' ) ); ?>
+								</div>
+							<?php endif; ?>
 
-									the_post_thumbnail( 'full', array( 'class' => 'single__featured-img--contest' ) );
-
-								}
-							?>
-			
 							<section class="col__inner--left">
 
 								<header class="entry__header">
+									<?php $encoded_permalink = urlencode( get_permalink() ); ?>
+									<?php $encoded_title = urlencode( get_the_title() ); ?>
 
-									<time class="entry__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j'); ?></time>
-									<h2 class="entry__title" itemprop="headline"><?php the_title(); ?></h2>
-									<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]"></a>
-									<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=[TITLE]+[URL]"></a>
-									<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=[URL]"></a>
+									<time class="entry__date" datetime="<?php echo get_the_time(); ?>"><?php the_date( 'F j' ); ?></time>
+									<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+
+									<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=<?php echo $encoded_permalink; ?>&title=<?php echo $encoded_title; ?>"></a>
+									<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=<?php echo $encoded_title; ?>+<?php echo $encoded_permalink; ?>"></a>
+									<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=<?php echo $encoded_permalink; ?>"></a>
 
 								</header>
 
+								<div class="contest__entry--link">
+									<a href="#contest-form" class="contest__entry--btn">Enter Contest</a>
+								</div>
+
+								<?php if ( ( $contest_prize = trim( get_post_meta( get_the_ID(), 'prizes-desc', true ) ) ) ) : ?>
+									<div class="contest__description">
+										<h3 class="contest__prize--title"><?php _e( 'What you win:', 'greatermedia' ); ?></h3>
+										<?php echo wpautop( $contest_prize ); ?>
+									</div>
+								<?php endif; ?>
+
+								<?php if ( ( $enter = trim( get_post_meta( get_the_ID(), 'how-to-enter-desc', true ) ) ) ) : ?>
+									<div class="contest__description">
+										<?php echo wpautop( $enter ); ?>
+									</div>
+								<?php endif; ?>
+
+								<?php if ( ( $contest_rules = trim( get_post_meta( get_the_ID(), 'rules-desc', true ) ) ) ) : ?>
+								<div class="contest__description">
+									<p>
+										<a class="contest-attr--rules-toggler" href="#" data-toggle="collapse" data-target="#contest-rules" data-alt-text="Hide Contest Rules">
+											<?php _e( 'Show Contest Rules', 'greatermedia' ); ?>
+										</a>
+									</p>
+									
+									<div id="contest-rules" class="contest-attr--rules" style="display:none;"><?php echo wpautop( $contest_rules ); ?></div>
+								</div>
+								<?php endif; ?>
+
 								<?php the_content(); ?>
 
-								other metabox content goes here
+								<?php get_template_part( 'partials/post', 'footer' ); ?>
 
 							</section>
 
 
-							<section class="col__inner--right">
-								<?php
-
-								$form = get_post_meta( get_the_ID(), 'embedded_form', true );
-								GreaterMediaFormbuilderRender::render( get_the_ID(), $form );
-
-								?>
+							<section id="contest-form" class="col__inner--right contest__form">
+								LOADING... <?php //TODO: replace with a spinner ?>
 							</section>
+
+							<?php get_template_part( 'partials/submission', 'tiles' ); ?>
 
 						</article>
 

@@ -41,6 +41,9 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 	function bind_events() {
 		var hashChange = false;
 
+		slideshow = $( '.gallery__slide--images.cycle-slideshow' );
+		$slide_paging_previews = $( '.gallery__previews' );
+
 		/**
 		 * Make sure thumbnails are updated before the slideshow cycles.
 		 */
@@ -149,7 +152,7 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 			$( '.gallery__previews, .gallery__previews--group' ).css( 'height', thumb_height + 'px' );
 		}
 
-		if ( $window.width() > 480 && $window.width() < 769 && ! isTablet() ) {
+		if ( $window.width() >= 480 && $window.width() < 769 && ! isTablet() ) {
 			$gallery.addClass( 'istablet' );
 			regroup_thumbnails( get_thumbs_per_page() );
 			update_thumbnails( $main.data( "cycle.opts" ).currSlide );
@@ -173,7 +176,7 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 		$thumbnails_group.remove();
 		$( '.gallery__previews div' ).each( function() {
 			var $this = $( this );
-			if ( undefined == $this.attr( 'id' ) ) {
+			if ( undefined === $this.attr( 'id' ) ) {
 				$this.remove();
 			}
 		} );
@@ -226,6 +229,7 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 		}
 		var url_twitter  = 'http://twitter.com/home?status=' + share_url + '%20-%20' + share_title;
 		var url_facebook = 'http://www.facebook.com/sharer.php?u=' + share_url + '&amp;t=' + share_title;
+		var url_linkedin = '#';
 
 		$( '.gallery-toolbar .fa-twitter' ).attr( 'href', url_twitter );
 		$( '.gallery-toolbar .fa-facebook' ).attr( 'href', url_facebook );
@@ -235,15 +239,8 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 
 	bind_events();
 
-	// Some galleries are set to be in widescreen by default
-	if ( isWidescreen() ) {
-		expand_wide();
-	}
-
 	window.GMR_Gallery = {
-		isFullscreen: isFullscreen,
-		expand      : expand_full,
-		collapse    : collapse_full
+		bindEvents  : bind_events
 	};
 
 })( jQuery, window );

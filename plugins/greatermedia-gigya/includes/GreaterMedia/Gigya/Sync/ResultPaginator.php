@@ -65,7 +65,6 @@ SQL;
 		);
 
 		return $db->prepare( $query, $params );
-
 	}
 
 	function get_job_db() {

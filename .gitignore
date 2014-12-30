@@ -39,5 +39,7 @@ plugins/simple-page-ordering/
 plugins/tag-pages/
 plugins/yet-another-related-posts-plugin
 /plugins/greatermedia-live-stream/node_modules/
-plugins/jetpack/
 plugins/ubermenu/
+/mu-plugins/dependencies/formbuilder/bower_components/
+plugins/jetpack/
+plugins/cpt-archives-in-nav-menus

@@ -6,6 +6,7 @@
  * @since 0.1.0
  */
 ?>
+</div> <!-- / page-wrap -->
 <footer class="footer" role="contentinfo">
 	<div class="container">
 		<div class="footer__content">
@@ -42,7 +43,7 @@
 		</div>
 	</div>
 </footer>
-</div>
+</div> <!-- / site-wrap -->
 <?php wp_footer(); ?>
 </body>
 </html>

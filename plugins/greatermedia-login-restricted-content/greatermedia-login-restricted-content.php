@@ -6,7 +6,7 @@ Description: Login Restricted Content Plugin
 Version: 1.0
 Author: 10up
 Author URI: http://10up.com
-Text Domain: greatermedia-login-restricted-content-content
+Text Domain: greatermedia-login-restricted-content
 */
 
 if ( ! defined( 'ABSPATH' ) ) {

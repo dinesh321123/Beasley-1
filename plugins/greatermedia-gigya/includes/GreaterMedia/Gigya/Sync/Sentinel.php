@@ -106,8 +106,17 @@ class Sentinel {
 		return $duration;
 	}
 
+	function set_last_export( $last_export ) {
+		$this->set_task_meta( 'last_export', strval( $last_export ) );
+	}
+
 	function get_last_export() {
-		return $this->get_end_time();
+		$last_export = $this->get_task_meta( 'last_export' );
+		if ( $last_export !== '' ) {
+			return intval( $last_export );
+		} else {
+			return 0;
+		}
 	}
 
 	function is_running() {
@@ -156,6 +165,11 @@ class Sentinel {
 			return 100;
 		}
 
+		$status_code = $this->get_status_code();
+		if ( $status_code === 'completed' ) {
+			return 100;
+		}
+
 		// TODO: If conjunction were known this could be dynamic
 		$parts = array(
 			$this->get_task_progress( 'profile' ),
@@ -175,10 +189,6 @@ class Sentinel {
 		$total          = 100 * $total_parts;
 		$progress       = $total_progress / $total * 100;
 		$progress       = (int)$progress;
-
-		if ( $progress === 100 && $this->get_status_code() !== 'completed' ) {
-			$this->set_status_code( 'completed' );
-		}
 
 		return $progress;
 	}
@@ -275,6 +285,10 @@ class Sentinel {
 
 		if ( $this->has_errors() ) {
 			$meta['errors'] = $this->get_errors();
+		}
+
+		if ( $meta['statusCode'] === 'completed' ) {
+			$meta['duration'] = $this->get_duration();
 		}
 
 		return $meta;

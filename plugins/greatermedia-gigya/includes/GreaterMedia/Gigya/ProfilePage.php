@@ -14,6 +14,8 @@ class ProfilePage {
 	);
 
 	public function register() {
+		add_rewrite_rule( '^members/([^/]*)$', 'index.php?profile_page=$matches[1]', 'top' );
+		add_rewrite_tag( '%profile_page%', '([^&]+)' );
 		add_action(
 			'template_include', array( $this, 'render_if_profile_page' ), 99
 		);
@@ -24,21 +26,22 @@ class ProfilePage {
 	}
 
 	public function change_page_title( $title ) {
-		$page_path = $this->get_current_page_path();
+		$profile_page = get_query_var( 'profile_page' );
 
-		if ( is_404() && $this->is_profile_page( $page_path ) ) {
-			$page_name = $this->get_profile_page_name( $page_path );
-
-			return "Profile - $page_name" ;
+		if ( $profile_page !== '' ) {
+			return "Members - $profile_page" ;
 		} else {
 			return $title;
 		}
 	}
 
 	public function render_if_profile_page( $template ) {
-		$page_path = $this->get_current_page_path();
+		$profile_page = get_query_var( 'profile_page' );
 
-		if ( $this->is_profile_page( $page_path ) ) {
+		if ( $profile_page !== '' ) {
+			$endpoint  = $this->get_profile_endpoint();
+			$page_path = "/{$endpoint}/{$profile_page}";
+
 			return $this->render( $page_path, $template );
 		}
 

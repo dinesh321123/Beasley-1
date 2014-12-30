@@ -1,10 +1,2 @@
-/**
- * @file override some default styles in the jQuery UI datepicker so it looks less broken
- */
-.ui-datepicker {
-	background-color: #fff;
-}
-
-.ui-datepicker .ui-datepicker-next {
-	right: 1em;
-}
+.ui-datepicker{background-color:#fff}.ui-datepicker .ui-datepicker-next{right:1em}
+/*# sourceMappingURL=greatermedia-contests.css.map */

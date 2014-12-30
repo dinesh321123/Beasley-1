@@ -98,8 +98,14 @@ $footer-text: $gray !default;
 $btn-bg: $cardinal !default;
 $btn-hover: $yellow !default;
 $btn-active: $black !default;
+$btn-muted: $gray !default;
+$btn-muted-hover: $cardinal !default;
+$btn-muted-active: $black !default;
 
 $social-hover: $heath !default;
+
+$form-bg: $light-gray;
+$form-text: $dark-gray;
 
 // Base Variables
 $em-base: 16px;

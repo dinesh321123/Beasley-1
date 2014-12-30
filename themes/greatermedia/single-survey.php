@@ -80,7 +80,7 @@ get_header(); ?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 					<section class="col__inner--left">
 
-						<h3>You must be singed in to take this survey!</h3>
+						<h3>You must be signed in to take this survey</h3>
 						<a href="<?php echo home_url('members/login'); ?>">Sign in</a>
 
 					</section>

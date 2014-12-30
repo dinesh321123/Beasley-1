@@ -40,7 +40,7 @@ class GreaterMediaContestEntry {
 			}
 
 			$contest = get_post( $contest_id );
-			if ( 'contest' !== $contest->post_type ) {
+			if ( GMR_CONTEST_CPT !== $contest->post_type ) {
 				throw new UnexpectedValueException( 'Contest ID passed as Parent does not reference a "Contest" post' );
 			}
 
@@ -83,42 +83,16 @@ class GreaterMediaContestEntry {
 	 */
 	public static function contest_entry() {
 
-		$labels = array(
-			'name'               => _x( 'Contest Entry', 'Post Type General Name', 'greatermedia_contests' ),
-			'singular_name'      => _x( 'Contest Entry', 'Post Type Singular Name', 'greatermedia_contests' ),
-			'menu_name'          => __( 'Contest Entry', 'greatermedia_contests' ),
-			'parent_item_colon'  => __( 'Parent Contest:', 'greatermedia_contests' ),
-			'all_items'          => __( 'All Entries', 'greatermedia_contests' ),
-			'view_item'          => __( 'View Entry', 'greatermedia_contests' ),
-			'add_new_item'       => __( 'Add New Entry', 'greatermedia_contests' ),
-			'add_new'            => __( 'Add New', 'greatermedia_contests' ),
-			'edit_item'          => __( 'Edit Entry', 'greatermedia_contests' ),
-			'update_item'        => __( 'Update Entry', 'greatermedia_contests' ),
-			'search_items'       => __( 'Search Entry', 'greatermedia_contests' ),
-			'not_found'          => __( 'Not found', 'greatermedia_contests' ),
-			'not_found_in_trash' => __( 'Not found in Trash', 'greatermedia_contests' ),
-		);
-		$args   = array(
+		register_post_type( 'contest_entry', array(
 			'label'               => __( 'contest_entry', 'greatermedia_contests' ),
 			'description'         => __( 'An entry in a Contest', 'greatermedia_contests' ),
-			'labels'              => $labels,
 			'supports'            => array( 'title', 'custom-fields' ),
 			'taxonomies'          => array( 'category' ),
 			'hierarchical'        => false,
-			'public'              => true,
-			'show_ui'             => true,
-			'show_in_menu'        => true,
-			'show_in_nav_menus'   => false,
-			'show_in_admin_bar'   => false,
-			'menu_position'       => 5,
+			'public'              => false,
 			'can_export'          => true,
 			'has_archive'         => false,
-			'exclude_from_search' => true,
-			'publicly_queryable'  => true,
-			'capability_type'     => 'page',
-		);
-
-		register_post_type( 'contest_entry', $args );
+		) );
 
 	}
 
