@@ -613,6 +613,9 @@ img {
       .container:after, .single-gmr_gallery .gallery .container:after {
         clear: both; } }
 
+#gmr-iframe-main .container, #gmr-iframe-main .single-gmr_gallery .gallery .container, .single-gmr_gallery .gallery #gmr-iframe-main .container {
+  padding-right: 0px; }
+
 .main, .home__highlights {
   float: left;
   width: 100%;
