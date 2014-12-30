@@ -30,7 +30,8 @@
 		scrollObject = {},
 		searchForm = document.getElementById( 'header__search--form'),
 		searchBtn = document.getElementById( 'header__search'),
-		collapseToggle = document.querySelector('*[data-toggle="collapse"]');
+		collapseToggle = document.querySelector('*[data-toggle="collapse"]'),
+		searchInput = document.getElementById( 'header-search');
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -338,6 +339,7 @@
 		e = e || window.event;
 		if (searchForm !== null) {
 			searchForm.classList.toggle('header__search--open');
+			searchInput.focus();
 		}
 		e.cancelBubble = true;
 		if (e.stopPropagation)

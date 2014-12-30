@@ -71,6 +71,9 @@
 
 					do_action( 'gmr_social' ); ?>
 				</nav>
+				<div id="header__search--form" class="header__search--form">
+					<?php get_template_part( 'searchform', 'header' ); ?>
+				</div>
 				<div id="page-wrap" class="page-wrap">
 					<header id="header" class="header" role="banner">
 						<?php do_action( 'show_breaking_news_banner' ); ?>
@@ -118,12 +121,9 @@
 										</div>
 									</div>
 									<div id="header__search" class="header__search">
-										<i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div>
+										<label for="header-search"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div></label>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div id="header__search--form" class="header__search--form">
-							<?php get_template_part( 'searchform', 'header' ); ?>
 						</div>
 					</header>
