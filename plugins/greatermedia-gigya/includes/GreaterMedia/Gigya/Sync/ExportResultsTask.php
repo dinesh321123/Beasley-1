@@ -93,10 +93,35 @@ class ExportResultsTask extends SyncTask {
 			'group_ids' => array( intval( $segment_id ) )
 		);
 
+		/*
 		$response = $api->membersBatchAdd( $params );
+		*/
+		$response = $this->members_batch_add( $params );
 		$json     = json_decode( $response, true );
 
 		return is_array( $json );
+	}
+
+	function members_batch_add( $params ) {
+		$account_id = '1745171';
+		$url        = "https://api.e2ma.net/{$account_id}/members";
+		$pub_key    = 'bb784afb4e46477af27a';
+		$priv_key   = '89f30ef0b55cdd12b41c';
+		$post_data  = $params;
+
+		$ch = curl_init( $url );
+		curl_setopt( $ch, CURLOPT_USERPWD, "{$pub_key}:{$priv_key}" );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+		curl_setopt( $ch, CURLOPT_POST, true );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $post_data ) );
+
+		$data = curl_exec( $ch );
+		$info = curl_getinfo( $ch );
+
+		curl_close( $ch );
+
+		return $data;
 	}
 
 	function remove_all_members_in_segment( $segment_id ) {
