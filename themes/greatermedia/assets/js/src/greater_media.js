@@ -383,6 +383,12 @@
 		});
 	}
 
+	window.onkeydown = function(e){
+		if(e.keyCode === 27){
+			closeSearch();
+		}
+	};
+
 	/**
 	 * variables that define debounce and throttling for window resizing and scrolling
 	 */
