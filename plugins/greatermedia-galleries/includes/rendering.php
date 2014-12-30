@@ -20,6 +20,34 @@ class GreaterMediaGallery {
 
 		// Remove gallery shortcodes from content, since we have these at the top of single-page
 		add_filter( 'the_content', array( __CLASS__, 'strip_for_single_gallery' ) );
+
+		// Register scripts
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ) );
+	}
+
+	/**
+	 * Registers gallery scripts to use on the front end.
+	 *
+	 * @static
+	 * @access public
+	 * @action wp_enqueue_scripts
+	 */
+	public static function register_scripts() {
+		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
+		/* all js files are being concatenated into a single js file.
+		 * This include all js files for cycle2, located in `assets/js/vendor/cycle2/`
+		 * and `gmr_gallery.js`, located in `assets/js/src/`
+		 */
+		wp_register_script(
+			'gmr-gallery',
+			GREATER_MEDIA_GALLERIES_URL . "assets/js/gmr_gallery{$postfix}.js",
+			array(
+				'jquery'
+			),
+			GREATER_MEDIA_GALLERIES_VERSION,
+			true
+		);
 	}
 
 	/**
@@ -161,27 +189,9 @@ class GreaterMediaGallery {
 	public static function render_gallery_from_query( \WP_Query $gallery ) {
 		ob_start();
 		if ( $gallery->have_posts() ):
-			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+			wp_enqueue_script( 'gmr-gallery' );
 
-			/* all js files are being concatenated into a single js file.
-			 * This include all js files for cycle2, located in `assets/js/vendor/cycle2/`
-			 * and `gmr_gallery.js`, located in `assets/js/src/`
-			 */
-			wp_register_script(
-				'gmr-gallery',
-				GREATER_MEDIA_GALLERIES_URL . "assets/js/gmr_gallery{$postfix}.js",
-				array(
-					'jquery'
-				),
-				GREATER_MEDIA_GALLERIES_VERSION,
-				true
-			);
-			wp_enqueue_script(
-				'gmr-gallery'
-			);
-
-			$main_post_id         = get_queried_object_id();
-
+			$main_post_id = get_queried_object_id();
 			$thumbnails_per_page = 8;
 			$image_count_text = sprintf( __( '%s of %s', 'greatermedia' ), '{{slideNum}}', '{{slideCount}}' );
 			?>
@@ -211,10 +221,15 @@ class GreaterMediaGallery {
 								$slide_link = get_permalink( $main_post_id ) . '#' . $slide_hash;
 
 								$attr = array(
-									'data-cycle-hash'           => get_post_field( 'post_name', get_the_ID() ),
 									'data-cycle-slide_shorturl' => $slide_link,
 									'data-cycle-slide_title'    => urlencode( get_the_title() ),
 								);
+
+								$use_hash = apply_filters( 'gmr_gallery_use_hash', true );
+								if ( $use_hash ) {
+									$attr['data-cycle-hash'] = get_post_field( 'post_name', get_the_ID() );
+								}
+
 								$image = wp_get_attachment_image_src( get_the_ID(), array( 775, 516 ), false );
 								$image_url = $image[0];
 								?>
@@ -249,15 +264,13 @@ class GreaterMediaGallery {
 								$slide_hash = get_post_field( 'post_name', get_the_ID() );
 								$slide_link = get_permalink( $main_post_id ) . '#' . $slide_hash;
 								$image_title = get_the_title( $post ); // title of the gallery image
-								echo '<div class="gallery__slide--content" data-cycle-hash="' . $slide_hash . '">';
-								echo '<h2 class="gallery__slide--title">';
-								echo $image_title;
-								echo '</h2>';
-								echo '<div class="gallery__social">';
-								echo '<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=' . esc_url( $slide_link ) . '&title=' . esc_attr( $image_title ) . '"></a>';
-								echo '<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=' . esc_attr( $image_title ) . '+' . esc_url( $slide_link ) . '"></a>';
-								echo '<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=' . esc_url( $slide_link ) . '"></a>';
-								echo '</div>';
+								echo '<div class="gallery__slide--content"', $use_hash ? ' data-cycle-hash="' . $slide_hash . '"' : '', '>';
+									echo '<h2 class="gallery__slide--title">', $image_title, '</h2>';
+									echo '<div class="gallery__social">';
+										echo '<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=' . esc_url( $slide_link ) . '&title=' . esc_attr( $image_title ) . '"></a>';
+										echo '<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=' . esc_attr( $image_title ) . '+' . esc_url( $slide_link ) . '"></a>';
+										echo '<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=' . esc_url( $slide_link ) . '"></a>';
+									echo '</div>';
 								echo '</div>';
 							}
 							$gallery->rewind_posts();
@@ -303,7 +316,11 @@ class GreaterMediaGallery {
 										echo '</div><div class="gallery__previews--group">';
 									}
 
-									echo '<div id="preview-' . $image_count . '" class="gallery__slide--preview" style="background-image: url(' . esc_url( $thumb_url[0] ) . ');" data-cycle-hash="' . get_post_field( 'post_name', get_the_ID() ) . '" data-cycle-index="' . esc_attr( $image_count ) . '"></div>';
+									echo '<div id="preview-', $image_count, '" class="gallery__slide--preview" style="background-image: url(', esc_url( $thumb_url[0] ), ');"';
+									if ( $use_hash ) {
+										echo ' data-cycle-hash="', get_post_field( 'post_name', get_the_ID() ), '"';
+									}
+									echo ' data-cycle-index="', esc_attr( $image_count ), '"></div>';
 									$image_count++;
 								}
 								$gallery->rewind_posts();

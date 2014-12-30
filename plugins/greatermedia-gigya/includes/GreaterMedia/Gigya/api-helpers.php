@@ -17,8 +17,8 @@ function get_gigya_user_field( $field ) {
 	return get_gigya_session()->get_user_field( $field );
 }
 
-function get_gigya_user_profile() {
-	return get_gigya_session()->get_user_profile();
+function get_gigya_user_profile( $user_id = null ) {
+	return get_gigya_session()->get_user_profile( $user_id );
 }
 
 /* Action Helpers */

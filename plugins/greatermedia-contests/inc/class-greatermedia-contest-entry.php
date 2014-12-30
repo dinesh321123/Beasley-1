@@ -40,7 +40,7 @@ class GreaterMediaContestEntry {
 			}
 
 			$contest = get_post( $contest_id );
-			if ( 'contest' !== $contest->post_type ) {
+			if ( GMR_CONTEST_CPT !== $contest->post_type ) {
 				throw new UnexpectedValueException( 'Contest ID passed as Parent does not reference a "Contest" post' );
 			}
 

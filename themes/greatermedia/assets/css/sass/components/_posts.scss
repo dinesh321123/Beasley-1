@@ -188,12 +188,15 @@ Link posts contain a link to an external site. They can also optionally have a f
 	}
 }
 
+.contest .entry__footer {
+	border-bottom: none;
+}
+
 .entry__footer--category:link, .entry__footer--category:visited {
 	float: right;
 	line-height: 1;
 	font-family: $droid-sans;
 	font-weight: bold;
-	font-size: ms(0);
 	color: $secondary-heading;
 }
 
