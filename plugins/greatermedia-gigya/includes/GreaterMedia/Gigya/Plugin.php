@@ -135,6 +135,7 @@ class Plugin {
 		$handlers[] = new Ajax\ChangeGigyaSettingsAjaxHandler();
 		$handlers[] = new Ajax\HasParticipatedAjaxHandler();
 		$handlers[] = new Ajax\MemberQueryStatusAjaxHandler();
+		$handlers[] = new Ajax\EmmaMemberOptoutAjaxHandler();
 
 		if ( is_gigya_user_logged_in() ) {
 			$handlers[] = new Ajax\SaveGigyaActionAjaxHandler();
