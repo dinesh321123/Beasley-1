@@ -45,7 +45,7 @@ class EmmaMemberOptoutAjaxHandler extends AjaxHandler {
 		$data               = $params['data'];
 		$member_id          = $data['member_id'];
 		$email              = $this->get_emma_member_email( $member_id );
-		$gigya_profile      = $this->get_gigya_profile( $email );
+		$gigya_profile      = $this->get_gigya_profile_data( $email );
 		$gigya_user_id      = $gigya_profile['UID'];
 		$gigya_profile_data = $gigya_profile['data'];
 
