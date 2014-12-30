@@ -70,7 +70,7 @@ class EmmaMemberOptoutAjaxHandler extends AjaxHandler {
 		$request->setParam( 'query', $query );
 		$response = $request->send();
 
-		if ( $response->getErrorCode() !== 0 ) {
+		if ( $response->getErrorCode() === 0 ) {
 			$json = json_decode( $response->getResponseText(), true );
 			return $json['results'][0];
 		} else {
@@ -85,7 +85,7 @@ class EmmaMemberOptoutAjaxHandler extends AjaxHandler {
 		$request->setParam( 'data', json_encode( $data ) );
 		$response = $request->send();
 
-		if ( $response->getErrorCode() !== 0 ) {
+		if ( $response->getErrorCode() === 0 ) {
 			return true;
 		} else {
 			error_log(
