@@ -66,7 +66,7 @@ class EmmaMemberOptoutAjaxHandler extends AjaxHandler {
 
 	function get_gigya_profile_data( $email ) {
 		$query   = "select UID, data from accounts where profile.email = '$email' limit 1";
-		$request = new GigyaRequest( null, null, 'accounts.getAccountInfo' );
+		$request = new GigyaRequest( null, null, 'accounts.search' );
 		$request->setParam( 'query', $query );
 		$response = $request->send();
 
