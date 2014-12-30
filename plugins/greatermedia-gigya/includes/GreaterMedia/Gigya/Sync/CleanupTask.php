@@ -10,12 +10,13 @@ class CleanupTask extends SyncTask {
 
 	function run() {
 		$sentinel = $this->get_sentinel();
-		$sentinel->reset();
+		$mode     = $this->get_mode();
 
 		$this->clear_users();
 		$this->clear_results();
 
-		if ( $this->get_mode() === 'preview' ) {
+		if ( $mode === 'preview' ) {
+			$sentinel->reset();
 			wp_delete_post( $this->get_member_query_id(), true );
 		}
 	}

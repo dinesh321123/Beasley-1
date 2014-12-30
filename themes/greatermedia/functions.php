@@ -22,7 +22,9 @@ add_theme_support( 'homepage-curation' );
 
 require_once( __DIR__ . '/includes/liveplayer/loader.php' );
 require_once( __DIR__ . '/includes/layout-chooser/class-choose-layout.php' );
-require_once( __DIR__ . '/includes/site-options/loader.php');
+require_once( __DIR__ . '/includes/site-options/loader.php' );
+require_once( __DIR__ . '/includes/mega-menu/mega-menu-admin.php' );
+require_once( __DIR__ . '/includes/mega-menu/mega-menu-walker.php' );
 
 /**
  * Required files
@@ -59,6 +61,7 @@ function greatermedia_setup() {
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
 	add_post_type_support( 'post', 'login-restricted-content' );
+	add_post_type_support( 'post', 'age-restricted-content' );
 
 	/**
 	 * Add theme support for post-formats

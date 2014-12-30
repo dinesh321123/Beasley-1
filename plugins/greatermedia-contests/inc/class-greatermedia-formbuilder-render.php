@@ -317,7 +317,9 @@ class GreaterMediaFormbuilderRender {
 					throw new InvalidArgumentException( sprintf( 'Form field %s has unimplemented field type %s', wp_kses_data( $field->cid ), wp_kses_data( $field->field_type ) ) );
 				}
 
+				$html .= '<div class="contest__form--row">';
 				$html .= wp_kses( self::$renderer_method( $post_id, $field ), self::allowed_tags() );
+				$html .= '</div>';
 
 			}
 
@@ -352,6 +354,7 @@ class GreaterMediaFormbuilderRender {
 
 		$label_tag_attributes = array(
 			'for' => $field_id,
+			'class' => 'contest__form--label'
 		);
 
 		$label = ( isset( $field->label ) ) ? $field->label : '';

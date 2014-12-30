@@ -404,6 +404,8 @@ class MemberQuery {
 
 				if ( $subType === 'comment_status' ) {
 					return $this->clause_for_comment_status_constraint( $constraint );
+				} else if ( $subType === 'optout' ) {
+					return $this->clause_for_optout_constraint( $constraint );
 				} else {
 					return $this->clause_for_data_constraint( $constraint );
 				}
@@ -568,6 +570,22 @@ class MemberQuery {
 			$query = 'data.comment_count > 0';
 		} else {
 			$query = 'data.comment_count = 0 or data.comment_count is null';
+		}
+
+		return $query;
+	}
+
+	public function clause_for_optout_constraint( $constraint ) {
+		$type      = $constraint['type'];
+		$typeParts = explode( ':', $type );
+		$value     = $constraint['value'];
+		$valueType = $constraint['valueType'];
+		$operator  = $constraint['operator'];
+
+		if ( $operator === 'equals' && $value ) {
+			$query = 'data.optout = true';
+		} else {
+			$query = 'data.optout != true or data.optout is null';
 		}
 
 		return $query;

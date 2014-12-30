@@ -47,12 +47,15 @@ class CompileResultsTask extends SyncTask {
 	function after( $result ) {
 		$this->get_sentinel()->set_task_progress( 'compile_results', 100 );
 
+		$params = $this->export_params();
+		$params['cursor'] = 0;
+
 		if ( $this->get_mode() === 'preview' ) {
 			$preview_task = new PreviewResultsTask();
-			$preview_task->enqueue( $this->export_params() );
+			$preview_task->enqueue( $params );
 		} else {
 			$export_task = new ExportResultsTask();
-			$export_task->enqueue( $this->export_params() );
+			$export_task->enqueue( $params );
 		}
 	}
 

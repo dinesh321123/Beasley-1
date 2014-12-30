@@ -182,9 +182,7 @@
 							        </section>
 							        <?php endif; ?>
 
-							        <footer class="entry__footer">
-								        <?php get_template_part( 'partials/category-list' ); ?>
-							        </footer>
+							        <?php get_template_part( 'partials/post', 'footer' ); ?>
 						        </article>
 					        <?php endwhile; ?>
 					        <?php wp_reset_query(); ?>

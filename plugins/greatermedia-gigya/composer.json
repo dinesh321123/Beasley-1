@@ -12,6 +12,7 @@
 	},
 	"files": [
 		"includes/Gigya/GSSDK.php",
+		"includes/MyEmma/Emma.php",
 		"includes/GreaterMedia/Gigya/api-helpers.php"
 	]
   }
