@@ -184,6 +184,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 	}
 	@include bp(large) {
 		@include span-columns(12);
+		padding-top: 40px;
 	}
 }
 

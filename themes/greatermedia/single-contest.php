@@ -85,36 +85,7 @@ get_header(); ?>
 									</ul>
 								</div>
 
-								<footer class="entry__footer">
-
-									<div class="entry__categories">
-										<div class="entry__list--title"><?php _e( 'Category', 'greatermedia' ); ?></div>
-										<ul class="entry__list--categories">
-											<?php echo get_the_term_list( $post->ID, 'category', '<li class="entry__list--item">', ',</li><li class="entry__list--item">', '</li>' ); ?>
-										</ul>
-									</div>
-
-									<div class="entry__tags">
-										<div class="entry__list--title"><?php _e( 'Tags', 'greatermedia' ); ?></div>
-										<ul class="entry__list--tags">
-											<?php echo get_the_term_list( $post->ID, 'post_tag', '<li class="entry__list--item">', ',</li><li class="entry__list--item">', '</li>' ); ?>
-										</ul>
-									</div>
-
-									<?php
-									/**
-									 * @todo replace content in `.entry__shows` with dynamic content
-									 */
-									?>
-									<div class="entry__shows">
-										<div class="entry__list--title"><?php _e( 'Shows', 'greatermedia' ); ?></div>
-										<ul class="entry__list--shows">
-											<li class="entry__list--show"><div class="entry__show--logo"><img src="http://lorempixel.com/100/100/people/"></div><div class="entry__show--name"><a href="#"><?php _e( 'Test Show', 'greatermedia' ); ?></a></div></li>
-											<li class="entry__list--show"><div class="entry__show--logo"><img src="http://lorempixel.com/100/100/people/"></div><div class="entry__show--name"><a href="#"><?php _e( 'Test Show', 'greatermedia' ); ?></a></div></li>
-										</ul>
-									</div>
-
-								</footer>
+								<?php get_template_part( 'partials/post', 'footer' ); ?>
 
 							</section>
 
