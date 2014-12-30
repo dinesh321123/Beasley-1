@@ -358,3 +358,11 @@ add_action( 'template_redirect', 'greatermedia_iframe_template_redirect' );
 function greatermedia_dequeue_iframe_scripts_styles(){
 	wp_dequeue_script( 'greatermedia' );
 }
+
+/**
+ * Hide live player sidebar
+ */
+add_action( 'gmlp_player_popup_template', 'greatermedia_popup_payer_hide_livesidebar' );
+function greatermedia_popup_payer_hide_livesidebar(){
+	add_filter( 'load_greatermedia_livepress_sidebar', '__return_false' );
+}

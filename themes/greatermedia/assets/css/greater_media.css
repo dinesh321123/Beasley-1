@@ -3769,6 +3769,11 @@ category: Components
       display: block;
       top: auto; } }
 
+#popup-player-livestream .live-player__stream {
+  position: relative;
+  display: block;
+  top: auto; }
+
 .live-player--open .live-player__stream {
   display: block; }
 
@@ -3903,6 +3908,10 @@ category: Components
       margin: 1em 0 0;
       overflow: visible; } }
 
+#popup-player-livestream .live-player__container {
+  margin: 1em 0 0;
+  overflow: visible; }
+
 .live-stream {
   float: right;
   width: 14.375%;
@@ -3919,6 +3928,12 @@ category: Components
       padding: 23px 0 1em;
       text-align: center; } }
 
+#popup-player-livestream .live-stream {
+  float: none;
+  width: auto;
+  padding: 23px 0 1em;
+  text-align: center; }
+
 .live-player--active .live-stream {
   width: 100%;
   padding: 12px 3.75%; }
@@ -3928,6 +3943,9 @@ category: Components
   @media screen and (min-width: 768px) {
     .live-stream__player {
       padding-bottom: 23px; } }
+
+#popup-player-livestream .live-stream__player {
+  padding-bottom: 23px; }
 
 .live-player--active .live-stream__player {
   float: right;
@@ -3942,6 +3960,10 @@ category: Components
     .live-stream__status {
       display: block;
       height: 23px; } }
+
+#popup-player-livestream .live-stream__status {
+  display: block;
+  height: 23px; }
 
 .live-stream__listen-now--btn, .podcast__download {
   display: inline-block;
@@ -4062,6 +4084,11 @@ category: Components
       width: 54px;
       height: 54px; } }
 
+#popup-player-livestream .live-stream__btn--login, #popup-player-livestream .live-stream__btn--play, #popup-player-livestream .live-stream__btn--resume, #popup-player-livestream .live-stream__btn--pause, #popup-player-livestream .podcast__btn--play,
+#popup-player-livestream .podcast__btn--pause {
+  width: 54px;
+  height: 54px; }
+
 .live-stream__btn--label {
   position: absolute !important;
   clip: rect(1px 1px 1px 1px);
@@ -4071,6 +4098,9 @@ category: Components
 @media screen and (min-width: 768px) {
   .live-stream__login--actions {
     padding-bottom: 23px; } }
+
+#popup-player-livestream .live-stream__login--actions {
+  padding-bottom: 23px; }
 
 .live-stream__btn--login {
   position: relative;
@@ -4206,6 +4236,14 @@ category: Components
       margin: 0;
       text-align: center; } }
 
+#popup-player-livestream .on-air, #popup-player-livestream .up-next {
+  float: none;
+  width: 100%;
+  height: 48px;
+  padding: 0 1em;
+  margin: 0;
+  text-align: center; }
+
 .live-player--open .on-air, .live-player--open .up-next {
   display: block; }
 
@@ -4217,6 +4255,10 @@ category: Components
     .on-air__title, .up-next__title {
       margin-right: .25em;
       font-size: 0.70233em; } }
+
+#popup-player-livestream .on-air__title, #popup-player-livestream .up-next__title {
+  margin-right: .25em;
+  font-size: 0.70233em; }
 
 .on-air__show, .up-next__show {
   font-size: 0.79012em; }
@@ -4239,6 +4281,15 @@ category: Components
       margin: 1em 0 0;
       text-align: center; } }
 
+#popup-player-livestream .now-playing {
+  display: block;
+  float: none;
+  width: 100%;
+  height: auto;
+  padding: 0 1em;
+  margin: 1em 0 0;
+  text-align: center; }
+
 .live-player--active .now-playing {
   width: 80%;
   padding-right: 0; }
@@ -4253,6 +4304,9 @@ category: Components
     .now-playing__title {
       font-size: 1.125em; } }
 
+#popup-player-livestream .now-playing__title {
+  font-size: 1.125em; }
+
 .now-playing__artist {
   margin: 0 0 4px;
   line-height: 1;
@@ -4263,6 +4317,9 @@ category: Components
     .now-playing__artist {
       font-size: 0.79012em; } }
 
+#popup-player-livestream .now-playing__artist {
+  font-size: 0.79012em; }
+
 .live-player__volume {
   display: none; }
   @media screen and (min-width: 768px) {
@@ -4270,6 +4327,11 @@ category: Components
       display: block;
       width: 95%;
       margin: 0 2.5%; } }
+
+#popup-player-livestream .live-player__volume {
+  display: block;
+  width: 95%;
+  margin: 0 2.5%; }
 
 .live-player__volume--btn {
   display: inline-block;
@@ -4347,6 +4409,15 @@ category: Components
       overflow: hidden;
       overflow-y: scroll; } }
 
+#popup-player-livestream .live-links {
+  display: block;
+  height: 100%;
+  padding-right: 1em;
+  padding-left: 1em;
+  margin: 16px 0 0;
+  overflow: hidden;
+  overflow-y: scroll; }
+
 .live-player--open .live-links {
   display: block;
   max-height: 48vh;
@@ -4359,6 +4430,12 @@ category: Components
       overflow: hidden;
       overflow-y: scroll;
       -webkit-touch-overflow: scroll; } }
+
+#popup-player-livestream .live-player--open .live-links {
+  max-height: 35vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  -webkit-touch-overflow: scroll; }
 
 .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before {
   width: 0;
@@ -4419,6 +4496,11 @@ category: Components
 
 .live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
   color: #d22228; }
+
+#popup-player-livestream .live-player {
+  position: inherit;
+  width: auto;
+  right: auto; }
 
 .live-stream__test {
   height: 0;

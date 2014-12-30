@@ -5,13 +5,60 @@
  * Class GMLP_Player
  */
 class GMLP_Player {
-
+	/**
+	 * Popup endpoint name for player.
+	 * If you change the name then also rename the template file in theme
+	 * template-{$endpoint_slug}.php
+	 * @var string
+	 */
+	public static $endpoint_slug ='listen-live';
+	public static $is_loading_popup = false;
 	public static function init() {
 
 		add_action( 'wp_footer', array( __CLASS__, 'load_js' ), 50 );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 50 );
 		add_action( 'gm_live_player', array( __CLASS__, 'render_player' ) );
 		add_action( 'radio_callsign', array( __CLASS__, 'get_radio_callsign' ) );
+
+		//EP_ROOT
+		add_action( 'init', array( __CLASS__, 'add_endpoint' ) );
+		add_action( 'template_redirect', array( __CLASS__, 'template_redirect' ) );
+	}
+
+	public static function add_endpoint() {
+		add_rewrite_endpoint( self::$endpoint_slug , EP_ROOT );
+	}
+
+	public static function template_redirect() {
+		global $wp_query;
+
+		// if this is not a request for json or it's not a singular object then bail
+		if ( !isset( $wp_query->query_vars[ self::$endpoint_slug ] ) )
+			return;
+		//Load live stream popup player
+		if ( '' !== locate_template( 'template-' . self::$endpoint_slug . '.php' ) ) {
+			// yep, load the page template
+			do_action( 'gmlp_player_popup_template' );
+			self::$is_loading_popup = true;
+			locate_template( 'template-' . self::$endpoint_slug . '.php', true );
+			exit;
+		} else {
+			/**
+			 * @todo/@fixme add default template to load
+			 */
+		}
+	}
+
+	function deactivate() {
+		// flush rules on deactivate as well so they're not left hanging around uselessly
+		flush_rewrite_rules();
+	}
+
+	function activate() {
+		// ensure our endpoint is added before flushing rewrite rules
+		self::add_endpoint();
+		// flush rewrite rules - only do this on activation as anything more frequent is bad!
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -67,8 +114,8 @@ class GMLP_Player {
 		wp_enqueue_script( 'tdplayer', GMLIVEPLAYER_URL . "assets/js/tdplayer{$postfix}.js", array( 'load-jquery', 'wp-mediaelement', 'underscore', 'pjax', 'classlist-polyfill' ), '2.5.1', true );
 		wp_localize_script( 'tdplayer', 'gmr', array( 'logged_in' => is_gigya_user_logged_in(), 'callsign' => $callsign, 'streamUrl' => $vast_url, 'wpLoggedIn' => is_user_logged_in(), 'homeUrl' => $home_url ) );
 		wp_enqueue_script( 'jquery-ui-button');
-		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery', 'wp-mediaelement', 'cookies-js' ), GMLIVEPLAYER_VERSION, true );
-		wp_localize_script( 'gmlp-js', 'gmlp', array( 'logged_in' => is_user_logged_in() ) );
+		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery', 'wp-mediaelement', 'cookies-js','tdplayer' ), GMLIVEPLAYER_VERSION, true );
+		wp_localize_script( 'tdplayer', 'gmlp', array( 'logged_in' => is_user_logged_in(), 'popup_url' => home_url( self::$endpoint_slug ), 'is_popup' => self::$is_loading_popup ) );
 	}
 
 	/**
