@@ -61,7 +61,7 @@ class GigyaUserFinder {
 
 	function query_for( $user_ids ) {
 		$ids   = "'" . implode( "', '", $user_ids ) . "'";
-		$query = "select profile.email, profile.firstName, profile.lastName, UID from accounts where UID in ($ids) limit 10000";
+		$query = "select profile.email, profile.firstName, profile.lastName, UID from accounts where UID in ($ids) and data.optout != true limit 10000";
 
 		return $query;
 	}

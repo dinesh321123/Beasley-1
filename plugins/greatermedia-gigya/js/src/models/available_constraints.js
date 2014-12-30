@@ -29,6 +29,11 @@ var AVAILABLE_CONSTRAINTS = [
 		valueType: 'boolean',
 		value: true,
 	},
+	{
+		type: 'data:optout',
+		valueType: 'boolean',
+		value: true,
+	},
 
 	/* Profile fields */
 	{
@@ -517,8 +522,15 @@ var AVAILABLE_CONSTRAINTS_META = [
 	{
 		type: 'action:comment_date',
 		title: 'Comment Date'
-	}
-
+	},
+	{
+		type: 'data:optout',
+		title: 'Optout Status',
+		choices: [
+			{ label: 'Yes', value: true },
+			{ label: 'No', value: false }
+		]
+	},
 ];
 
 var AVAILABLE_CONSTRAINTS_META_MAP = {};
