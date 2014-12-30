@@ -22,6 +22,30 @@
 	margin: 0 auto;
 }
 
+.contest__entry--link {
+	display: block;
+	margin-bottom: 2em;
+	@include bp(large) {
+		display: none;
+	}
+}
+
+.contest__entry--btn {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(1));
+	width: 100%;
+	@include border-radius(17px);
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.contest__entry--btn:hover {
+	@include btn($btn-hover, $color-text-black, $btn-hover, .5em, 1em, ms(1));
+}
+
+.contest__entry--btn:active {
+	@include btn($btn-active, $color-text-white, $btn-active, .5em, 1em, ms(1));
+}
+
 .contest__description  {
 	margin-bottom: 40px;
 }
@@ -115,7 +139,7 @@
 	abbr {
 		text-decoration: none;
 		border-bottom: 0;
-		color: $cardinal;
+		color: $color-text-red;
 	}
 }
 

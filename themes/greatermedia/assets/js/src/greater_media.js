@@ -215,8 +215,11 @@
 		this.innerText = newText;
 		this.setAttribute('data-alt-text', currentText);
 	}
-	addEventHandler(collapseToggle, elemClick, toggleCollapsedElement);
-	
+	if (collapseToggle != null) {
+		addEventHandler(collapseToggle, elemClick, toggleCollapsedElement);
+	}
+
+
 	/**
 	 * Toggles a class to the Live Play Stream Select box when the box is clicked
 	 */

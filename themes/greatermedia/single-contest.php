@@ -40,6 +40,10 @@ get_header(); ?>
 
 								</header>
 
+								<div class="contest__entry--link">
+									<a href="#contest-form" class="contest__entry--btn">Enter Contest</a>
+								</div>
+
 								<?php if ( ( $contest_prize = trim( get_post_meta( get_the_ID(), 'prizes-desc', true ) ) ) ) : ?>
 									<div class="contest__description">
 										<h3 class="contest__prize--title"><?php _e( 'What you win:', 'greatermedia' ); ?></h3>

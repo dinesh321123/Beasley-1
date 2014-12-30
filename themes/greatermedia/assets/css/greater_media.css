@@ -4526,6 +4526,82 @@ category: Components - Ads
 .single__featured-img--contest {
   margin: 0 auto; }
 
+.contest__entry--link {
+  display: block;
+  margin-bottom: 2em; }
+  @media screen and (min-width: 1024px) {
+    .contest__entry--link {
+      display: none; } }
+
+.contest__entry--btn {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.125em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  -webkit-border-radius: 17px;
+  -moz-border-radius: 17px;
+  -ms-border-radius: 17px;
+  -o-border-radius: 17px;
+  -border-radius: 17px;
+  border-radius: 17px;
+  text-transform: uppercase;
+  text-align: center; }
+  .contest__entry--btn:hover, .contest__entry--btn:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  .contest__entry--btn:last-of-type {
+    margin-right: 0; }
+
+.contest__entry--btn:hover {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #f5ed7f;
+  border: 1px solid #f5ed7f;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.125em;
+  color: #000000 !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .contest__entry--btn:hover:hover, .contest__entry--btn:hover:focus {
+    background-color: #f2e754;
+    border-color: #f2e754;
+    color: #000000; }
+  .contest__entry--btn:hover:last-of-type {
+    margin-right: 0; }
+
+.contest__entry--btn:active {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #000000;
+  border: 1px solid #000000;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.125em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .contest__entry--btn:active:hover, .contest__entry--btn:active:focus {
+    background-color: black;
+    border-color: black;
+    color: #ffffff; }
+  .contest__entry--btn:active:last-of-type {
+    margin-right: 0; }
+
 .contest__description {
   margin-bottom: 40px; }
 
