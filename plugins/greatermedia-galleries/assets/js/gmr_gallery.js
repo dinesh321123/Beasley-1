@@ -152,7 +152,7 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 			$( '.gallery__previews, .gallery__previews--group' ).css( 'height', thumb_height + 'px' );
 		}
 
-		if ( $window.width() > 480 && $window.width() < 769 && ! isTablet() ) {
+		if ( $window.width() >= 480 && $window.width() < 769 && ! isTablet() ) {
 			$gallery.addClass( 'istablet' );
 			regroup_thumbnails( get_thumbs_per_page() );
 			update_thumbnails( $main.data( "cycle.opts" ).currSlide );

@@ -65,7 +65,7 @@ class GreaterMediaMegaMenuAdmin {
 		?>
 		<p class="description description-wide">
 			<label>Format:<br>
-				<select name="nav-menu-format[<?php echo $item_id; ?>]" id="nav-menu-format-<?php echo intval( $item_id ); ?>">
+				<select name="nav-menu-format[<?php echo intval( $item_id ); ?>]" id="nav-menu-format-<?php echo intval( $item_id ); ?>">
 					<?php
 					foreach ( self::$options as $value => $text ) {
 						?>

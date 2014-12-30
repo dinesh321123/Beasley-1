@@ -42,4 +42,4 @@ plugins/yet-another-related-posts-plugin
 plugins/ubermenu/
 /mu-plugins/dependencies/formbuilder/bower_components/
 plugins/jetpack/
-plugins/ubermenu/
+plugins/cpt-archives-in-nav-menus

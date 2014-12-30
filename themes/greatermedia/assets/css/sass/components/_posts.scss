@@ -129,7 +129,6 @@ Link posts contain a link to an external site. They can also optionally have a f
 // Reusable Post Classes
 .hentry {
 	margin-bottom: 58px;
-	/*overflow: auto;*/
 	@include bp(medium) {
 		margin-bottom: 90px;
 	}
