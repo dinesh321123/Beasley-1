@@ -2719,7 +2719,7 @@ Community Highlights and Events
   /* set explicitly to visually match menu open/close on mobile */
   position: relative;
   top: -2px;
-  /* optical alignment with baseline of mobile open/close */ }
+  /* alignment with baseline of mobile open/close */ }
   @media screen and (min-width: 768px) {
     .header__account--btn:before {
       font-size: 1.125em;
