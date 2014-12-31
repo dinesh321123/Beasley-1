@@ -69,7 +69,7 @@ class GreaterMediaClosuresCPT {
 			'has_archive'         => true,
 			'query_var'           => true,
 			'can_export'          => true,
-			'rewrite'             => true,
+			'rewrite'             => array( 'slug' => 'closures' ),
 			'capability_type'     => 'post',
 			'supports'            => array(
 				'title'
@@ -117,7 +117,7 @@ class GreaterMediaClosuresCPT {
 
 		register_taxonomy( self::CLOSURE_TYPE_SLUG, array( self::CLOSURE_CPT_SLUG ), $args );
 	}
-	
+
 	/**
 	 * Create a taxonomy for closure entity types
 	 */
