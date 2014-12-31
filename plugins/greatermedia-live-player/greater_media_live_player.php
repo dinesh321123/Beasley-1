@@ -45,3 +45,6 @@ define( 'GMLIVEPLAYER_PATH',    dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
  */
 require_once( __DIR__ . '/includes/class-gmlp-player.php' );
 require_once( __DIR__ . '/includes/audio-shortcodes.php' );
+
+register_activation_hook( __FILE__, array( 'GMLP_Player', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'GMLP_Player', 'deactivate' ) );

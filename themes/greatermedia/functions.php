@@ -327,3 +327,42 @@ function greatermedia_excerpt_more( $more ) {
 	return '';
 }
 add_filter( 'excerpt_more', 'greatermedia_excerpt_more' );
+
+/**
+ * register a "iframe" endpoint to be applied to single posts and pages
+ */
+function greatermedia_add_iframe_endpoint() {
+	add_rewrite_endpoint( 'iframe', EP_PERMALINK | EP_PAGES );
+}
+
+add_action( 'init', 'greatermedia_add_iframe_endpoint' );
+
+/**
+ * Load naked tempalate if iframe query var is set
+ */
+function greatermedia_iframe_template_redirect() {
+	global $wp_query;
+
+	if ( !isset( $wp_query->query_vars[ 'iframe' ] ) || !is_singular() ) {
+		return;
+	}
+	// include custom template
+	add_filter( 'load_greatermedia_livepress_sidebar', '__return_false' );
+	add_action( 'wp_enqueue_scripts', 'greatermedia_dequeue_iframe_scripts_styles', 11 );
+	locate_template( 'template-iframe.php', true );
+	exit;
+}
+
+add_action( 'template_redirect', 'greatermedia_iframe_template_redirect' );
+
+function greatermedia_dequeue_iframe_scripts_styles(){
+	wp_dequeue_script( 'greatermedia' );
+}
+
+/**
+ * Hide live player sidebar
+ */
+add_action( 'gmlp_player_popup_template', 'greatermedia_popup_payer_hide_livesidebar' );
+function greatermedia_popup_payer_hide_livesidebar(){
+	add_filter( 'load_greatermedia_livepress_sidebar', '__return_false' );
+}
