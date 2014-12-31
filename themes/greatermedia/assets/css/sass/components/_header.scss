@@ -92,11 +92,10 @@
 	line-height: 1;
 	text-align: right;
 	@include bp(medium) {
-		position: relative;
+		//position: relative;
 		@include span-columns(3);
 		@include omega;
 		top: auto;
-		right: auto;
 		height: 82px;
 		@include transform(none);
 	}
@@ -112,7 +111,6 @@
 
 // container for account links
 .header__account {
-	position: relative;
 	display: block;
 	float: right;
 	margin: 0 auto;
@@ -144,11 +142,16 @@
 }
 
 .header__account--btn:before {
-	@extend %gmr-icons;
-	font-size: ms(3);
 	content: "\e60a";
+	@extend %gmr-icons;
+	font-size: 28px; /* set explicitly to visually match menu open/close on mobile */
+	position: relative;
+	top: -2px; /* alignment with baseline of mobile open/close */
+
 	@include bp(medium) {
 		font-size: ms(1);
+		position: static;
+		top: 0;
 	}
 }
 

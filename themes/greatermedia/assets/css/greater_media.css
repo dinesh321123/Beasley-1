@@ -590,6 +590,7 @@ img {
   background-color: #000000; }
   @media screen and (min-width: 768px) {
     .page-wrap {
+      transform: none;
       padding-bottom: 0; } }
 
 .container, .single-gmr_gallery .gallery .container {
@@ -2652,14 +2653,12 @@ Community Highlights and Events
   text-align: right; }
   @media screen and (min-width: 768px) {
     .header__secondary {
-      position: relative;
       float: left;
       display: block;
       margin-right: 3.57866%;
       width: 35.26334%;
       margin-right: 0;
       top: auto;
-      right: auto;
       height: 82px;
       -webkit-transform: none;
       -moz-transform: none;
@@ -2688,7 +2687,6 @@ Community Highlights and Events
         margin-right: 0; } }
 
 .header__account {
-  position: relative;
   display: block;
   float: right;
   margin: 0 auto;
@@ -2716,11 +2714,17 @@ Community Highlights and Events
       padding: 32px 0; } }
 
 .header__account--btn:before {
-  font-size: 1.42383em;
-  content: "\e60a"; }
+  content: "\e60a";
+  font-size: 28px;
+  /* set explicitly to visually match menu open/close on mobile */
+  position: relative;
+  top: -2px;
+  /* optical alignment with baseline of mobile open/close */ }
   @media screen and (min-width: 768px) {
     .header__account--btn:before {
-      font-size: 1.125em; } }
+      font-size: 1.125em;
+      position: static;
+      top: 0; } }
 
 .header__account--links {
   display: none; }
