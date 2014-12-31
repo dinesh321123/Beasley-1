@@ -40,7 +40,7 @@ get_header(); ?>
 					<?php do_action( 'keyword_search_result' ); ?>
 
 				</div>
-å
+
 				<?php endif; ?>
 
 <!-- 				<h2 class="search__title"><?php _e( 'Relevant Search Results', 'greatermedia' ); ?></h2>
