@@ -19,7 +19,10 @@ category: Components - Ads
 	text-align: center;
 
 	&.desktop { display: none; }
-	&.mobile { display: block; }
+	&.mobile {
+		display: block;
+		padding: 0
+	}
 
 	@include bp(medium) {
 		height: 132px;

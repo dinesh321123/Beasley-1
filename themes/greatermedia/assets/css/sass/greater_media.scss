@@ -24,7 +24,8 @@
 // Main layout components: menu, typography, etc.
 @import "layout/typography";
 @import "layout/menus";
-@import "layout/sub-menus";
+@import "layout/sub-menus/sub-menus";
+@import "layout/sub-menus/format-full-width";
 
 // Home
 @import "home/blog-roll";

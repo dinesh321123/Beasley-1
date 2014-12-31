@@ -60,13 +60,19 @@
 	width: 78%;
 	height: 100%;
 	@include transform(translate(-100%, 0));
-	@include transition(all 500ms ease-in-out);
+	@include transition(all 100ms ease-out);
 	background-color: $secondary-bg;
 	border-right: 1px solid $primary-border;
 	z-index: 1;
+	overflow-y: auto;
 	@include bp(medium) {
 		display: none;
 	}
+}
+
+.admin-bar .mobile-nav {
+	top: 46px;
+	height: calc( 100% - 46px ); /* doesn't work in IE8, but probably ok. Just don't edit the site and expect the front-end to be bug-free in IE8 */
 }
 
 .mobile-nav--open {
@@ -94,7 +100,7 @@
 .mobile-nav--open .page-wrap {
 	@include transform(translate(78%, 0));
 	width: 100%;
-	@include transition(all 500ms ease-in-out);
+	@include transition(all 100ms ease-out);
 }
 
 .mobile-nav--open .page-wrap:before {
@@ -115,6 +121,7 @@
 	padding: 0;
 	margin: 0;
 	border-bottom: 1px solid $header-border;
+	line-height: 0; /* the anchor inside the <li> provides all the box model sizing */
 }
 
 .mobile-nav__list a:link, .mobile-nav__list a:visited {
@@ -130,9 +137,8 @@
 }
 
 .mobile-nav .social__list {
-	position: absolute;
-	bottom: 0;
 	padding: 18px 0;
+	width: 100%;
 }
 
 .mobile-nav .social__link {
@@ -173,7 +179,10 @@
 	padding: 33px 1.125em 32px;
 }
 
-.header__nav ul li a:hover, .header__nav ul li a:focus, .header__nav ul li a:active {
+.header__nav ul li a:hover,
+.header__nav ul li a:focus,
+.header__nav ul li a:active,
+.header__nav ul li:hover {
 	background-color: $header-nav-bg;
 }
 

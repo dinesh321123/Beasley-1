@@ -12,7 +12,7 @@
 	height: 32px;
 	box-sizing: border-box;
 	padding: 0;
-	@include transition(all 500ms ease-in-out);
+	@include transition(all 200ms ease-in-out);
 	background-color: $secondary-bg;
 	cursor: pointer;
 	z-index: 2;
@@ -28,7 +28,7 @@
 	width: 32px;
 	height: 4px;
 	@include border-radius(4px);
-	@include transition(all 500ms ease-in-out);
+	@include transition(all 200ms ease-in-out);
 	background: $primary-border;
 	content: "";
 }
@@ -40,7 +40,7 @@
 	width: 32px;
 	height: 4px;
 	@include border-radius(4px);
-	@include transition(all 500ms ease-in-out);
+	@include transition(all 200ms ease-in-out);
 	background: $primary-border;
 	content: "";
 }
@@ -52,7 +52,7 @@
 	width: 32px;
 	height: 4px;
 	@include border-radius(4px);
-	@include transition(all 500ms ease-in-out);
+	@include transition(all 200ms ease-in-out);
 	background: $primary-border;
 	content: "";
 }
@@ -63,7 +63,7 @@
 	width: 74%;
 	height: 100%;
 	@include transform(translate(-100%, 0));
-	@include transition(all 500ms ease-in-out);
+	@include transition(all 200ms ease-in-out);
 	background-color: $secondary-bg;
 	z-index: 1;
 	@include bp(medium) {
@@ -96,7 +96,7 @@
 .mobile-nav--open .page-wrap {
 	@include transform(translate(74%, 0));
 	width: 100%;
-	@include transition(all 500ms ease-in-out);
+	@include transition(all 200ms ease-in-out);
 }
 
 .mobile-nav--open .page-wrap:before {
@@ -123,7 +123,8 @@
 	border-bottom: none;
 }
 
-.mobile-nav__list a:link, .mobile-nav__list a:visited {
+.mobile-nav__list a:link,
+.mobile-nav__list a:visited {
 	display: block;
 	padding: 18px 1.25em;
 	line-height: 1;

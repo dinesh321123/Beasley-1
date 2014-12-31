@@ -54,7 +54,7 @@
 						'container'       => '',
 						'container_class' => '',
 						'container_id'    => '',
-						'menu_class'      => 'mobile-nav__list',
+						'menu_class'      => 'mobile-nav__list js-mobile-sub-menus',
 						'menu_id'         => '',
 						'echo'            => true,
 						'fallback_cb'     => 'wp_page_menu',
@@ -64,7 +64,7 @@
 						'link_after'      => '',
 						'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
 						'depth'           => 0,
-						'walker'          => ''
+						'walker'          => new GreaterMediaMobileNavWalker()
 					);
 
 					wp_nav_menu( $mobile_nav );
