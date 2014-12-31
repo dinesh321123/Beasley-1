@@ -1,4 +1,5 @@
-.header__nav > ul > li:hover:after {
+/* Psuedo element helps with selection by preventing the menu from collapsing on just a bit of a mouse-out */
+.header__nav .menu-item-has-children:hover:after {
 	content: ' ';
 	display: block;
 	position: relative;
