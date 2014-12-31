@@ -272,6 +272,16 @@ category: Components - Shows
 		margin-bottom: 1em;
 		background: none;
 	}
+
+	.featured__content--title {
+		& a:link, & a:visited {
+			color: $primary-text;
+		}
+
+		& a:hover, & a:active {
+			color: $primary-link-hover;
+		}
+	}
 }
 
 .show__live-links {

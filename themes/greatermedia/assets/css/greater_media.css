@@ -3095,7 +3095,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   color: #929497; }
 
 .entry__footer--category:hover, .entry__footer--category:focus, .entry__footer--category:active {
-  color: palette(base, secondary-link-hover); }
+  color: #aa1c20; }
 
 .entry__type {
   float: left;
@@ -5860,6 +5860,10 @@ category: Components - Shows
   background: none; }
   .show__favorites .featured__content--block:last-child {
     margin-right: 0; }
+.show__favorites .featured__content--title a:link, .show__favorites .featured__content--title a:visited {
+  color: #404041; }
+.show__favorites .featured__content--title a:hover, .show__favorites .featured__content--title a:active {
+  color: #aa1c20; }
 
 .show__live-links {
   position: relative; }

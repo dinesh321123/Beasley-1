@@ -201,7 +201,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 }
 
 .entry__footer--category:hover, .entry__footer--category:focus, .entry__footer--category:active {
-	color: palette(base, secondary-link-hover);
+	color: $secondary-link-hover;
 }
 
 // Post Formats
