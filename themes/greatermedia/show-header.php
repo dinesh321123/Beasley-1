@@ -1,6 +1,6 @@
 <div class="show__header">
 	<div class="show__cast">
-		<img src="http://placehold.it/135x135&text=cast">
+		<?php the_post_thumbnail('thumbnail'); ?>
 	</div>
 	<nav class="show__nav">
 		<a href="<?php the_permalink(); ?>"><h1 class="show__title"><?php the_title(); ?></h1></a>

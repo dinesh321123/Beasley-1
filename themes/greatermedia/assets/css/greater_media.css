@@ -5735,6 +5735,8 @@ category: Components - Shows
     color: #ffffff;
     border: 1px solid #ffffff;
     margin-top: 1em; }
+    .show__meta .social-share-link:hover, .show__meta .social-share-link:active {
+      background: #ffffff; }
 
 /*doc
 ---
@@ -5933,7 +5935,7 @@ name: social-share-buttons
 category: Components
 ---
 
-These are examples of Social Share Links for single articles. (TODO: replace with working social icons from icomoon)
+These are examples of Social Share Links for single articles.
 
 ```html_example
 <a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
@@ -5941,7 +5943,6 @@ These are examples of Social Share Links for single articles. (TODO: replace wit
 <a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
 <a href="" class="icon-volume-up social-share-link"></a>
 ```
-
 */
 a.social-share-link {
   color: #000000;

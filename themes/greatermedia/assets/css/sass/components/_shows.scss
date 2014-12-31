@@ -152,6 +152,10 @@ category: Components - Shows
 		color: $secondary-text;
 		border: 1px solid $secondary-text;
 		margin-top: 1em;
+
+		&:hover, &:active {
+			background: $secondary-text;
+		}
 	}
 }
 
