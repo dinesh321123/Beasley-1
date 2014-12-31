@@ -78,11 +78,12 @@ Curated posts for Featured Articles
 	@include bp(medium) {
 		@include span-columns(8);
 		@include omega;
-		padding: 55px 48px;
+		padding: 55px 48px 0;
 	}
 	@include bp(large) {
 		@include span-columns(12);
 		@include omega;
+		padding-bottom: 55px;
 		background: url(../../images/featured-bg.png) repeat center center $featured-primary-bg;
 		background-size: auto 40%;
 	}
@@ -113,6 +114,9 @@ Curated posts for Featured Articles
 	max-height: 100px;
 	overflow: hidden;
 	background-color: $featured-secondary-bg;
+	img {
+		width: 100%;
+	}
 	@include bp(small) {
 		@include span-columns(6 of 6);
 		@include omega;
@@ -243,8 +247,7 @@ Curated posts for Featured Articles
 		margin-bottom: 25px;
 	}
 	@include bp(medium) {
-		@include span-columns(4 of 4);
-		@include omega;
+		@include span-columns(4 of 12);
 		height: 100%;
 	}
 	@include bp(large) {
@@ -290,8 +293,7 @@ Curated posts for Featured Articles
 }
 
 .featured__content--image img {
-	height: 100%;
-	width: auto;
+	width: 100%;
 	max-width: none;
 	@include bp(medium) {
 		height: auto;
@@ -346,16 +348,16 @@ Curated posts for Featured Articles
 	-webkit-box-orient: vertical;
 	text-overflow: ellipsis;
 	font-family: $open-sans;
-	font-size: ms(0);
+	font-size: ms(2);
 	@include bp(small) {
 		height: 48px;
 		margin-bottom: 5px;
-		font-size: ms(1);
+		font-size: ms(2);
 	}
 	@include bp(medium) {
-		height: 100%;
-		margin-bottom: 8px;
 		overflow: auto;
+		margin-bottom: 0;
+		font-size: ms(1);
 	}
 	@include bp(large) {
 		height: 52px;
@@ -387,7 +389,7 @@ Curated posts for Featured Articles
 	@include bp(small) {
 		text-align: right;
 	}
-	@include bp(large) {
+	@include bp(medium) {
 		text-align: center;
 	}
 }
