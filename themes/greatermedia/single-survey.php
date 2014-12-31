@@ -23,7 +23,7 @@ get_header(); ?>
 
 								}
 							?>
-			
+
 							<section class="col__inner--left">
 
 								<header class="entry__header">
@@ -81,7 +81,13 @@ get_header(); ?>
 					<section class="col__inner--left">
 
 						<h3>You must be signed in to take this survey</h3>
-						<a href="<?php echo home_url('members/login'); ?>">Sign in</a>
+						<?php
+
+						global $wp;
+						$dest = '/' . trim( $wp->request, '/' );
+
+						?>
+						<a href="<?php echo gigya_profile_path( 'login', array( 'dest' => $dest ) ); ?>">Sign in</a>
 
 					</section>
 
