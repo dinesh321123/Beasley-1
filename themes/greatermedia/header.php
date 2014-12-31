@@ -116,9 +116,63 @@
 								?>
 								<div class="header__secondary">
 									<div class="header__account">
-										<i class="header__account--btn"></i>
-										<div class="header__account--links sub-menu">
-										</div>
+										<?php if ( is_gigya_user_logged_in() ) {
+
+											$url     = gigya_profile_path( 'settings' );
+											$class   = '';
+											$profile = get_gigya_user_profile();
+
+											if ( isset( $profile['thumbnailURL'] ) && ! empty( $profile['thumbnailURL'] ) ) {
+												$img = $profile['thumbnailURL'];
+											}
+
+											if ( isset( $profile['firstName'] ) && ! empty ( $profile['firstName'] ) ) {
+												$title = 'Thanks for listening, ' . $profile['firstName'] . '!';
+											} else {
+												$title = 'Thanks for listening!';
+											}
+
+										} else {
+											$url   = gigya_profile_path( 'login' );
+											$class = '';
+											$text  = '';
+											$title = '';
+										}
+										?>
+
+										<a href="<?php echo esc_url( $url ); ?>"
+										   class="header__account--btn <?php echo esc_attr( $class ); ?>">
+											<?php
+											if ( isset( $img ) && ! empty( $img ) ) {
+												echo '<img src="' . esc_url( $img ) . '" title="' . esc_attr( $title ) . '">';
+											} else {
+												echo '<span class="icon-user"></span>';
+											}
+											?>
+										   </a>
+
+
+										<ul class="header__account--links sub-menu">
+
+											<?php if ( is_gigya_user_logged_in() ): ?>
+												<li>
+													<a href="<?php echo esc_url( gigya_profile_path( 'settings' ) ); ?>">
+														Edit Account
+													</a>
+												</li>
+												<li>
+													<a href="<?php echo esc_url( gigya_profile_path( 'logout' ) ); ?>">
+														Logout
+													</a>
+												</li>
+											<?php else: ?>
+												<li>
+													<a href="<?php echo gigya_profile_path( 'login' ); ?>">
+														Login/Register
+													</a>
+												</li>
+											<?php endif; ?>
+										</ul>
 									</div>
 									<div id="header__search" class="header__search">
 										<label for="s" class="header__search--label"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div></label>

@@ -174,7 +174,12 @@
 	color: $color-text-white;
 }
 
-.header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
+.header__nav ul li a,
+.header__nav ul li a:link,
+.header__nav ul li a:visited,
+.header__account ul li a,
+.header__account ul li a:link,
+.header__account ul li a:visited, {
 	display: block;
 	padding: 33px 1.125em 32px;
 }
@@ -182,7 +187,11 @@
 .header__nav ul li a:hover,
 .header__nav ul li a:focus,
 .header__nav ul li a:active,
-.header__nav ul li:hover {
+.header__nav ul li:hover,
+.header__account ul li a:hover,
+.header__account ul li a:focus,
+.header__account ul li a:active,
+.header__account ul li:hover {
 	background-color: $header-nav-bg;
 }
 
