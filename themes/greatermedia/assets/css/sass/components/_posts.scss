@@ -551,6 +551,38 @@ Link posts contain a link to an external site. They can also optionally have a f
 	line-height: 1;
 }
 
+// Tighter spacing for home page 
+.page-template-front-page-php {
+	.hentry {
+		margin-bottom: 30px;
+	}
+	.entry__title {
+		margin-bottom: 0.5em;
+	}
+	.entry__thumbnail {
+		text-align: center;
+		margin-bottom: 0;
+		padding-bottom: 0;
+		
+		img {
+			display: inline-block; 
+		}
+	}
+	
+	@include bp(medium) {
+		.entry__title {
+			margin-bottom: 0.4em;
+		}
+		.entry__thumbnail {
+			padding-top: 0.5em; 
+			padding-bottom: 0;
+		}
+		.entry__excerpt p {
+			margin: 0;
+		}
+	}
+}
+
 // WordPress Styles
 .alignleft, img.alignleft {
 	display: block;

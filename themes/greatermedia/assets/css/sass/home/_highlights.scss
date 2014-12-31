@@ -321,6 +321,11 @@ Community Highlights and Events
 	}
 }
 
+// At the large breakpoint we need the height of the event items to line up with
+// the height of the community items to the left. We can set the height of the
+// elements using padding since relative padding is always based on the width 
+// of the element. This makes things a little more complicated because we need 
+// to use absolute positioning for all the stuff in the item. 
 .highlights__event--item {
 	width: 100%;
 	height: 57px;
@@ -334,12 +339,10 @@ Community Highlights and Events
 		height: 100px;
 	}
 	@include bp(large) {
-		height: 56px;
-		margin-bottom: 16px;
-	}
-	@include bp(x-large) {
-		height: 88px;
-		margin-bottom: 21px;
+		position: relative; 
+		height: 0;
+		padding-top: 20%;
+		margin-bottom: 5%;
 	}
 }
 
@@ -356,10 +359,10 @@ Community Highlights and Events
 		@include span-columns(3);
 	}
 	@include bp(large) {
-		@include span-columns(4);
-	}
-	@include bp(x-large) {
-		@include span-columns(4);
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 20%; 
 	}
 }
 .highlights__event--thumb img {
@@ -383,14 +386,13 @@ Community Highlights and Events
 		@include omega;
 	}
 	@include bp(large) {
-		@include span-columns(8);
-		height: 56px;
-		@include omega;
-	}
-	@include bp(x-large) {
-		@include span-columns(8);
-		height: 88px;
-		@include omega;
+		float: none; 
+		height: auto;
+		position: absolute; 
+		left: 24%;
+		top: 36%;
+		width: 72%;
+		padding: 0;
 	}
 }
 
@@ -407,21 +409,22 @@ Community Highlights and Events
 		font-size: ms(1);
 	}
 	@include bp(large) {
-		font-size: ms(-1);
-	}
-	@include bp(x-large) {
-		position: relative;
-		top: auto;
-		transform: translate(0, 0);
-		font-size: ms(0);
+		position: static;
+		font-size: ms(0);		
+		a {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 }
 
 .highlights__event--date {
 	display: none;
-	@include bp(x-large) {
+	@include bp(large) {
 		display: block;
 		font-size: ms(-2);
-		color: $gray
+		color: $gray;
+		margin-top: -0.5em
 	}
 }

@@ -13,7 +13,7 @@
 
 			<div class="highlights__community">
 
-				<h2 class="highlights__heading"><?php bloginfo( 'name' ); ?><?php _e( ' Community Highlights', 'greatermedia' ); ?></h2>
+				<h2 class="highlights__heading"><?php //bloginfo( 'name' ); ?><?php _e( ' Community Highlights', 'greatermedia' ); ?></h2>
 
 				<?php
 				$hp_comm_query = \GreaterMedia\HomepageCuration\get_community_query();
