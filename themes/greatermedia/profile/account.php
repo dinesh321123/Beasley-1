@@ -6,7 +6,8 @@
 
 			<section class="content">
 
-				<h3>Account</h3>
+				<div id="profile-content">
+				</div>
 
 			</section>
 
