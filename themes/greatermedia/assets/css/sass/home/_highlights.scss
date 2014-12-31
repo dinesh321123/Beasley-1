@@ -267,7 +267,7 @@ Community Highlights and Events
 
 .highlights__community--title {
 	@include css-gradient(rgba(0,0,0,0), rgba(0,0,0,1));
-	background-color: none; // Override the background color set by css-gradient().
+	background-color: transparent; // Override the background color set by css-gradient().
 	position: absolute;	
 	bottom: 0;
 	left: 0;

@@ -2230,7 +2230,7 @@ Community Highlights and Events
   background-image: -moz-linear-gradient(top, transparent, black);
   background-image: -o-linear-gradient(top, transparent, black);
   background-image: linear-gradient(to bottom, transparent, black);
-  background-color: none;
+  background-color: transparent;
   position: absolute;
   bottom: 0;
   left: 0;
