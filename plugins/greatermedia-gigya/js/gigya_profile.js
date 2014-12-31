@@ -310,6 +310,11 @@
 						this.controller.redirect('/');
 						return;
 					}
+				} else {
+					if (currentPage === 'account') {
+						this.controller.redirect('/members/login');
+						return;
+					}
 				}
 
 				this.screenSetView = new GigyaScreenSetView(
