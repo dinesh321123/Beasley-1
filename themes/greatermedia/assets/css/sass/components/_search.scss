@@ -16,7 +16,7 @@
 		background-color: $primary-bg;
 		border-top: none;
 		@include transition(all 200ms ease-in-out);
-		@include transform(translate(0, -100%));
+		@include transform(translate(0, -200%)); /* 200% ensures it's out of the way of the .wp-admin bar */
 		z-index: 5000000; /* IAB z-index standards for nav drop downs. Prevents an ad from being over top unless it's a full-screen ad */
 	}
 
