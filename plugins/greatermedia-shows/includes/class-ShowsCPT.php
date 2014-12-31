@@ -99,7 +99,7 @@ class ShowsCPT {
 			'new_item_name'         => __( 'New Show Name', 'greatermedia' ),
 			'add_or_remove_items'   => __( 'Add or remove Show', 'greatermedia' ),
 			'choose_from_most_used' => __( 'Choose from most used greatermedia', 'greatermedia' ),
-			'menu_name'             => __( 'Show', 'greatermedia' ),
+			'menu_name'             => __( 'Shows', 'greatermedia' ),
 		);
 
 		$args = array(
