@@ -189,7 +189,7 @@ category: Components - Gallery Archive
 .gallery__slide--images {
 	@include span-columns(4);
 	height: 214px;
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	@include bp(small) {
 		@include span-columns(6);
 		height: 320px;
@@ -202,7 +202,6 @@ category: Components - Gallery Archive
 		@include span-columns(12);
 		height: 516px;
 		margin-top: 64px;
-		margin-bottom: 30px;
 		overflow: hidden;
 	}
 	@include bp(x-large) {
@@ -262,7 +261,7 @@ category: Components - Gallery Archive
 	position: relative;
 	@include span-columns(4);
 	padding: 0;
-	margin: 16px 0 30px;
+	margin-bottom: 20px;
 	color: $primary-text;
 	text-align: center;
 	@include bp(small) {
@@ -286,53 +285,12 @@ category: Components - Gallery Archive
 }
 
 .gallery__content {
-	@include span-columns(4);
-	@include omega;
-	margin-bottom: 40px;
-	@include bp(small) {
-		@include span-columns(6);
-		@include omega;
-	}
-	@include bp(medium) {
-		@include span-columns(6);
-		@include shift(1);
-	}
-	@include bp(large) {
-		@include span-columns(8);
-		@include shift(2);
-		height: 90px;
-		margin-bottom: 64px;
-	}
-	@include bp(x-large) {
-		@include span-columns(8);
-		@include shift(2);
-		height: 92px;
-	}
+	position: relative;
 }
 
 .gallery__slide--content {
-	@include span-columns(4 of 4);
-	@include omega;
-	height: auto;
-	margin-bottom: 42px;
-	@include opacity(0);
-	@include transition(opacity 200ms linear);
-	@include bp(small) {
-		@include span-columns(6 of 6);
-		@include omega;
-	}
-	@include bp(medium) {
-		@include span-columns(6 of 6);
-		@include omega;
-	}
-	@include bp(large) {
-		@include span-columns(8 of 8);
-		@include omega;
-	}
-	@include bp(x-large) {
-		@include span-columns(8 of 8);
-		@include omega;
-	}
+	position: absolute; /* prevents a flash of all the slides displayed in flow order */
+	width: 100%;
 }
 
 .gallery__slide--content.cycle-slide-active {
@@ -343,7 +301,7 @@ category: Components - Gallery Archive
 .gallery__slide--title {
 	display: block;
 	width: 100%;
-	margin: 0 0 24px;
+	margin: 0 0 20px;
 	line-height: 1;
 	font-family: $open-sans;
 	font-size: ms(4);
@@ -351,9 +309,45 @@ category: Components - Gallery Archive
 	word-break: break-all;
 }
 
-.gallery__social {
+/**
+ * At mobile breakpoints, we display the social buttons under the navigation
+ * At desktop breakpoints, there's enough room to display social inline with nav.
+ */
+
+.gallery__social-and-count {
+	float: left;
+	width: 20%;
+	@include bp(small) {
+		width: 50%;
+	}
+}
+
+.gallery__prev,
+.gallery__next {
+	float: left;
+	width: 40%;
+	margin-bottom: 10px;
+	@include bp(small) {
+		width: 25%;
+	}
+}
+
+.gallery__social-and-count .gallery__social {
+	display: none;
 	width: 100%;
-	height: 40px;
+	margin-bottom: 10px;
+
+	@include bp(small) {
+		display: block;
+	}
+}
+
+.gallery__social--mobile {
+	@extend .gallery__social;
+	clear: both;
+	@include bp(small) {
+		display: none;
+	}
 }
 
 .gallery__social a.social-share-link {
@@ -445,15 +439,7 @@ category: Components - Gallery Archive
 }
 
 .gallery__prev {
-	position: relative;
-	float: left;
-	display: block;
-	width: 32%;
-	height: 36px;
-	@include bp(large) {
-		width: 20%;
-		height: 64px;
-	}
+	text-align: left;
 }
 
 .gallery__prev--btn {
@@ -483,61 +469,29 @@ category: Components - Gallery Archive
 }
 
 .gallery__next {
-	position: relative;
-	float: left;
-	display: block;
-	width: 32%;
-	height: 36px;
-	@include bp(large) {
-		width: 20%;
-		height: 64px;
-	}
+	text-align: right;
 }
 
 .gallery__next--btn {
 	@extend %gallery__progress--btn;
-	float: right;
 	outline: none;
 }
 
-.gallery__next--span {
-	margin-right: 16px;
-	@include bp(large) {
-		margin-right: 38px;
-	}
-}
 
 .gallery__next--btn:after {
 	@extend %gmr-icons;
-	position: absolute;
-	top: 9px;
-	right: 14px;
 	font-size: ms(1);
 	content: "\e618";
 	@include bp(large) {
-		top: auto;
-		right: 30px;
 		font-size: ms(3);
 	}
 }
 
 .gallery__count {
-	position: relative;
-	float: left;
-	display: block;
-	width: 36%;
-	height: 36px;
-	padding-top: 12px;
 	line-height: 1;
 	font-size: ms(0);
 	font-weight: lighter;
 	color: $primary-text;
-	text-align: center;
-	@include bp(large) {
-		width: 60%;
-		height: 64px;
-		padding-top: 44px;
-	}
 
 	.single-gmr_gallery & {
 		color: $gallery-text;
@@ -550,8 +504,7 @@ category: Components - Gallery Archive
 	height: 130px;
 	padding: 20px 0;
 	overflow: auto;
-	border-top: 1px solid $primary-text;
-	background-color: $light-gray;
+	border-top: 1px solid $primary-border;
 
 	.single-gmr_gallery & {
 		height: 145px;
@@ -573,7 +526,6 @@ category: Components - Gallery Archive
 		@include span-columns(12);
 		height: 106px;
 		padding: 20px 0;
-		margin-top: 44px;
 		.single-gmr_gallery & {
 			height: 111px;
 		}
@@ -709,6 +661,9 @@ category: Components - Gallery Archive
 	width: 100%;
 	height: 85px;
 	left: 5px !important;
+	text-align: center;
+	overflow: hidden; /* don't show the 2nd row */
+
 	.single-gmr_gallery & {
 		height: 100px;
 	}
@@ -734,7 +689,7 @@ category: Components - Gallery Archive
 }
 
 .gallery__slide--preview {
-	float: left;
+	display: inline-block;
 	width: 85px;
 	height: 100%;
 	max-height: 100px;

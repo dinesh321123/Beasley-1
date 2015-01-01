@@ -24,16 +24,17 @@ module.exports = function (grunt) {
 				'assets/js/test/**/*.js'
 			],
 			options: {
-				curly: true,
-				eqeqeq: true,
-				immed: true,
+				browser: true,
+				curly:   true,
+				eqeqeq:  true,
+				immed:   true,
 				latedef: true,
-				newcap: true,
-				noarg: true,
-				sub: true,
-				undef: true,
-				boss: true,
-				eqnull: true,
+				newcap:  true,
+				noarg:   true,
+				sub:     true,
+				undef:   true,
+				boss:    true,
+				eqnull:  true,
 				globals: {
 					exports: true,
 					module: false,
@@ -76,14 +77,14 @@ module.exports = function (grunt) {
 		watch: {
 			sass: {
 				files: ['assets/css/sass/**/*.scss'],
-				tasks: ['css'],
+				tasks: ['sass', 'cssmin'],
 				options: {
 					debounceDelay: 500
 				}
 			},
 			scripts: {
 				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
-				tasks: ['js'],
+				tasks: ['jshint', 'concat', 'uglify'],
 				options: {
 					debounceDelay: 500
 				}

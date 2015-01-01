@@ -24,6 +24,7 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 		$document = $( document ),
 		$window = $( window ),
 		slideshow = $( '.gallery__slide--images.cycle-slideshow' ),
+		metaSlideshow = $('.gallery__content.cycle-slideshow'),
 		gallery = document.querySelectorAll( '.gallery' ),
 		main = document.querySelector( '.gallery__slide--images' ),
 		$gallery = $( gallery ),
@@ -41,15 +42,12 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 	function bind_events() {
 		var hashChange = false;
 
-		slideshow = $( '.gallery__slide--images.cycle-slideshow' );
-		$slide_paging_previews = $( '.gallery__previews' );
-
 		/**
 		 * Make sure thumbnails are updated before the slideshow cycles.
 		 */
 		slideshow.on( 'cycle-before', function ( event, optionHash ) {
-			update_thumbnails( optionHash.nextSlide );
-			$caption.cycle( 'goto', optionHash.nextSlide );
+			update_thumbnails(optionHash.nextSlide); // nextSlide = incoming slide. could be backward
+			//$caption.cycle( 'goto', optionHash.nextSlide );
 		} );
 
 		/**
@@ -74,6 +72,7 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 				index = $this.data( 'cycle-index' );
 
 			slideshow.cycle( 'goto', index );
+			metaSlideshow.cycle( 'goto', index );
 		} );
 
 		// Make sure we disable other hashchange events that attempt to capture manual hash changes.
@@ -229,18 +228,12 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 		}
 		var url_twitter  = 'http://twitter.com/home?status=' + share_url + '%20-%20' + share_title;
 		var url_facebook = 'http://www.facebook.com/sharer.php?u=' + share_url + '&amp;t=' + share_title;
-		var url_linkedin = '#';
 
 		$( '.gallery-toolbar .fa-twitter' ).attr( 'href', url_twitter );
 		$( '.gallery-toolbar .fa-facebook' ).attr( 'href', url_facebook );
-		$( '.gallery-toolbar .fa-linkedin' ).attr( 'href', url_linkedin );
 		$( '.gallery-toolbar .short-url' ).html( '<a href="' + share_url + '">' + share_url + '</a>' );
 	}
 
 	bind_events();
-
-	window.GMR_Gallery = {
-		bindEvents  : bind_events
-	};
 
 })( jQuery, window );

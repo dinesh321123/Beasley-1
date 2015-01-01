@@ -258,25 +258,83 @@ class GreaterMediaGallery {
 						     data-cycle-manual-speed="1"
 						     data-cycle-auto-height=container>
 							<?php
-							while ( $gallery->have_posts() ){
+							while ( $gallery->have_posts() ):
 								global $post;
 								$gallery->the_post();
 								$slide_hash = get_post_field( 'post_name', get_the_ID() );
 								$slide_link = get_permalink( $main_post_id ) . '#' . $slide_hash;
 								$image_title = get_the_title( $post ); // title of the gallery image
-								echo '<div class="gallery__slide--content"', $use_hash ? ' data-cycle-hash="' . $slide_hash . '"' : '', '>';
-									echo '<h2 class="gallery__slide--title">', $image_title, '</h2>';
-									echo '<div class="gallery__social">';
-										echo '<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=' . esc_url( $slide_link ) . '&title=' . esc_attr( $image_title ) . '"></a>';
-										echo '<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=' . esc_attr( $image_title ) . '+' . esc_url( $slide_link ) . '"></a>';
-										echo '<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=' . esc_url( $slide_link ) . '"></a>';
-									echo '</div>';
-								echo '</div>';
-							}
+
+								$share_fb_url = add_query_arg( array(
+									'u' => $slide_link,
+									'title' => get_the_title()
+								), 'http://facebook.com/sharer/sharer.php' );
+
+								$share_twitter_url = add_query_arg( array (
+									'status' => get_the_title() . ' ' . $slide_link
+								), 'http://twitter.com/home' );
+
+								$share_google_url = add_query_arg( array (
+									'url' => $slide_link
+								), 'https://plus.google.com/share' );
+								?>
+								<div class="gallery__slide--content" data-cycle-hash="<?php echo esc_attr( $slide_hash ); ?>">
+									<h2 class="gallery__slide--title"><?php the_title(); ?></h2>
+
+									<div class="gallery__prev">
+										<button type="button" class="gallery__prev--btn slide-overlay-control-nohide">
+											<span class="gallery__prev--span"><?php _e( 'Prev', 'greatermedia' ); ?></span>
+										</button>
+									</div>
+
+									<div class="gallery__social-and-count">
+										<div class="gallery__social">
+											<a class="icon-facebook social-share-link"
+											   href="<?php echo esc_url( $share_fb_url ); ?>"></a>
+											<a class="icon-twitter social-share-link"
+											   href="<?php echo esc_url( $share_twitter_url ); ?>"></a>
+											<a class="icon-google-plus social-share-link"
+											   href="<?php echo esc_url( $share_google_url ); ?>"></a>
+										</div>
+										<div class="gallery_count">
+											<?php echo absint( $gallery->current_post + 1 ); ?>
+											of
+											<?php echo absint( $gallery->found_posts ); ?>
+										</div>
+									</div>
+
+									<div class="gallery__next">
+										<button type="button" class="gallery__next--btn slide-overlay-control-nohide">
+											<span class="gallery__next--span"><?php _e( 'Next', 'greatermedia' ); ?></span>
+										</button>
+									</div>
+
+									<div class="gallery__social--mobile">
+										<a class="icon-facebook social-share-link"
+										   href="<?php echo esc_url( $share_fb_url ); ?>"></a>
+										<a class="icon-twitter social-share-link"
+										   href="<?php echo esc_url( $share_twitter_url ); ?>"></a>
+										<a class="icon-google-plus social-share-link"
+										   href="<?php echo esc_url( $share_google_url ); ?>"></a>
+									</div>
+								</div>
+
+								<?php
+//								echo '<div class="gallery__slide--content" data-cycle-hash="' . $slide_hash . '">';
+//								echo '<h2 class="gallery__slide--title">';
+//								echo $image_title;
+//								echo '</h2>';
+//								echo '<div class="gallery__social">';
+//								echo '<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=' . esc_url( $slide_link ) . '&title=' . esc_attr( $image_title ) . '"></a>';
+//								echo '<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=' . esc_attr( $image_title ) . '+' . esc_url( $slide_link ) . '"></a>';
+//								echo '<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=' . esc_url( $slide_link ) . '"></a>';
+//								echo '</div>';
+//								echo '</div>';
+							endwhile;
 							$gallery->rewind_posts();
 							?>
 						</div>
-						<div class="gallery__progress">
+						<div class="gallery__progress" style="display: none">
 							<div class="gallery__prev">
 								<button type="button" class="gallery__prev--btn slide-overlay-control-nohide"><span class="gallery__prev--span"><?php _e( 'Prev', 'greatermedia'); ?></span></button>
 							</div>
