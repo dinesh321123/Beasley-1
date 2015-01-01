@@ -1661,6 +1661,9 @@ var QueryResultCollection = Backbone.Collection.extend({
 			if (response.data.complete) {
 				if ( ! response.data.errors ) {
 					this.totalResults = response.data.total;
+					if (this.totalResults < 5 && response.data.users.length < this.totalResults) {
+						this.totalResults = response.data.users.length;
+					}
 					this.reset(response.data.users);
 					this.trigger('searchSuccess');
 					this.clear();

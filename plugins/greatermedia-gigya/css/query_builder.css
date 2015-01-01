@@ -173,3 +173,7 @@
 .wrap.wrap-preloader {
 	display: block;
 }
+
+.widefat th, .widefat td {
+	max-width: 18em;
+}

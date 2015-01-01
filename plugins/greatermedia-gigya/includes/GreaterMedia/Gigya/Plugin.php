@@ -192,7 +192,13 @@ class Plugin {
 			'query_builder', 'member_query_data', $member_query->properties
 		);
 
-		$sentinel    = new Sync\Sentinel( $member_query->post_id, array( 'mode' => 'export' ) );
+		$sentinel = new Sync\Sentinel( $member_query->post_id, array( 'mode' => 'export' ) );
+
+		if ( $sentinel->get_status_code() === 'running' && $sentinel->has_expired() ) {
+			$sentinel->set_status_code( 'completed' );
+			$sentinel->add_error( 'Error: The query timed out' );
+		}
+
 		$status_meta = $sentinel->get_status_meta();
 
 		$meta = array(
