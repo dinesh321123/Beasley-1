@@ -946,6 +946,11 @@ var AVAILABLE_CONSTRAINTS = [
 		category: 'Any Category',
 		value: ''
 	},
+	{
+		type: 'data:listeningFrequency',
+		valueType: 'string',
+		value: '0',
+	},
 
 	/* Contests */
 	{
@@ -1373,6 +1378,15 @@ var AVAILABLE_CONSTRAINTS_META = [
 		choices: [
 			{ label: 'Yes', value: true },
 			{ label: 'No', value: false }
+		]
+	},
+	{
+		type: 'data:listeningFrequency',
+		title: 'Listening Frequency',
+		choices: [
+			{ label: 'Less than 1 hour', value: '0' },
+			{ label: '1 to 3 hours', value: '1' },
+			{ label: 'more than 3 hours', value: '2' }
 		]
 	},
 ];
