@@ -35,7 +35,7 @@ class GreaterMediaClosuresCPT {
 	}
 
 	public static function change_closures_archive_order( $query ) {
-		if ( is_post_type_archive( self::CLOSURE_CPT_SLUG ) ) {
+		if ( is_post_type_archive( self::CLOSURE_CPT_SLUG ) && $query->is_main_query() ) {
 			$query->set( 'orderby', 'post_title' );
 			$query->set( 'order', 'ASC' );
 		}
