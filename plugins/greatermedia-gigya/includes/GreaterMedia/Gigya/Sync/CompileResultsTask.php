@@ -4,7 +4,7 @@ namespace GreaterMedia\Gigya\Sync;
 
 class CompileResultsTask extends SyncTask {
 
-	public $page_size = 5000;
+	public $page_size = 1000;
 
 	function get_task_name() {
 		return 'compile_results';
