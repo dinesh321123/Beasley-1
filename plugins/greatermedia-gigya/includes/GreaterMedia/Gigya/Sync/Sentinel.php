@@ -7,7 +7,7 @@ class Sentinel {
 	public $member_query_id;
 	public $meta_prefix = 'mqsm'; // member_query_sync_meta
 	public $params;
-	public $timeout = 600; // 10 minutes
+	public $timeout = 900; // 15 minutes
 
 	function __construct( $member_query_id, $params = array() ) {
 		$this->member_query_id = $member_query_id;

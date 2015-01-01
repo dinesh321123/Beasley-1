@@ -52,7 +52,19 @@ class SyncTask extends Task {
 	}
 
 	function before() {
-		return $this->verify_checksum();
+		if ( $this->verify_checksum() ) {
+			$sentinel = $this->get_sentinel();
+			if ( $sentinel->get_status_code() === 'running' && $sentinel->has_expired() ) {
+				$sentinel->set_status_code( 'completed' );
+				$sentinel->add_error( 'Error: The query timed out' );
+
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	function get_task_factory() {
