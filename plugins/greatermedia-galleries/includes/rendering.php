@@ -320,29 +320,9 @@ class GreaterMediaGallery {
 								</div>
 
 								<?php
-//								echo '<div class="gallery__slide--content" data-cycle-hash="' . $slide_hash . '">';
-//								echo '<h2 class="gallery__slide--title">';
-//								echo $image_title;
-//								echo '</h2>';
-//								echo '<div class="gallery__social">';
-//								echo '<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=' . esc_url( $slide_link ) . '&title=' . esc_attr( $image_title ) . '"></a>';
-//								echo '<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=' . esc_attr( $image_title ) . '+' . esc_url( $slide_link ) . '"></a>';
-//								echo '<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=' . esc_url( $slide_link ) . '"></a>';
-//								echo '</div>';
-//								echo '</div>';
 							endwhile;
 							$gallery->rewind_posts();
 							?>
-						</div>
-						<div class="gallery__progress" style="display: none">
-							<div class="gallery__prev">
-								<button type="button" class="gallery__prev--btn slide-overlay-control-nohide"><span class="gallery__prev--span"><?php _e( 'Prev', 'greatermedia'); ?></span></button>
-							</div>
-							<div id="gallery__count" class="gallery__count">
-							</div>
-							<div class="gallery__next">
-								<button type="button" class="gallery__next--btn slide-overlay-control-nohide"><span class="gallery__next--span"><?php _e( 'Next', 'greatermedia'); ?></span></button>
-							</div>
 						</div>
 					</div>
 					<div class="gallery__thumbnails">
