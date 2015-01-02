@@ -4957,8 +4957,11 @@ category: Components - Ads
   width: 100%;
   margin-left: 0;
   margin-bottom: 10px; }
-
-.contest__form input[type="text"], .contest__form input[type="url"], .contest__form input[type="email"], .contest__form input[type="number"], .contest__form textarea {
+.contest__form input[type="text"],
+.contest__form input[type="url"],
+.contest__form input[type="email"],
+.contest__form input[type="number"],
+.contest__form textarea {
   width: 100%;
   padding: 18px 20px;
   -moz-box-sizing: border-box;
@@ -4968,7 +4971,7 @@ category: Components - Ads
   background-color: #d0d2d3;
   font-family: "Open Sans", sans-serif;
   color: #282827; }
-
+.contest__form button[type="submit"],
 .contest__form input[type="submit"] {
   display: inline-block;
   line-height: 1;
@@ -4978,7 +4981,7 @@ category: Components - Ads
   background-color: #d22228;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
-  font-size: 1.60181em;
+  font-size: 1.42383em;
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
@@ -4990,53 +4993,64 @@ category: Components - Ads
   -border-radius: 28px;
   border-radius: 28px;
   text-transform: uppercase; }
-  .contest__form input[type="submit"]:hover, .contest__form input[type="submit"]:focus {
+  .contest__form button[type="submit"]:hover, .contest__form button[type="submit"]:focus,
+  .contest__form input[type="submit"]:hover,
+  .contest__form input[type="submit"]:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
     color: #ffffff; }
+  .contest__form button[type="submit"]:last-of-type,
   .contest__form input[type="submit"]:last-of-type {
     margin-right: 0; }
-
-.contest__form input[type="submit"]:hover {
-  display: inline-block;
-  line-height: 1;
-  padding: 0.625em 1em;
-  margin-right: .5em;
-  outline: none;
-  background-color: #f5ed7f;
-  border: 1px solid #f5ed7f;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.60181em;
-  color: #000000 !important;
-  text-transform: uppercase;
-  cursor: pointer; }
-  .contest__form input[type="submit"]:hover:hover, .contest__form input[type="submit"]:hover:focus {
-    background-color: #f2e754;
-    border-color: #f2e754;
-    color: #000000; }
-  .contest__form input[type="submit"]:hover:last-of-type {
-    margin-right: 0; }
-
-.contest__form input[type="submit"]:active {
-  display: inline-block;
-  line-height: 1;
-  padding: 0.625em 1em;
-  margin-right: .5em;
-  outline: none;
-  background-color: #000000;
-  border: 1px solid #000000;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.60181em;
-  color: #ffffff !important;
-  text-transform: uppercase;
-  cursor: pointer; }
-  .contest__form input[type="submit"]:active:hover, .contest__form input[type="submit"]:active:focus {
-    background-color: black;
-    border-color: black;
-    color: #ffffff; }
-  .contest__form input[type="submit"]:active:last-of-type {
-    margin-right: 0; }
-
+  .contest__form button[type="submit"]:hover,
+  .contest__form input[type="submit"]:hover {
+    display: inline-block;
+    line-height: 1;
+    padding: 0.625em 1em;
+    margin-right: .5em;
+    outline: none;
+    background-color: #f5ed7f;
+    border: 1px solid #f5ed7f;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.42383em;
+    color: #000000 !important;
+    text-transform: uppercase;
+    cursor: pointer; }
+    .contest__form button[type="submit"]:hover:hover, .contest__form button[type="submit"]:hover:focus,
+    .contest__form input[type="submit"]:hover:hover,
+    .contest__form input[type="submit"]:hover:focus {
+      background-color: #f2e754;
+      border-color: #f2e754;
+      color: #000000; }
+    .contest__form button[type="submit"]:hover:last-of-type,
+    .contest__form input[type="submit"]:hover:last-of-type {
+      margin-right: 0; }
+  .contest__form button[type="submit"]:active,
+  .contest__form input[type="submit"]:active {
+    display: inline-block;
+    line-height: 1;
+    padding: 0.625em 1em;
+    margin-right: .5em;
+    outline: none;
+    background-color: #000000;
+    border: 1px solid #000000;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1.42383em;
+    color: #ffffff !important;
+    text-transform: uppercase;
+    cursor: pointer; }
+    .contest__form button[type="submit"]:active:hover, .contest__form button[type="submit"]:active:focus,
+    .contest__form input[type="submit"]:active:hover,
+    .contest__form input[type="submit"]:active:focus {
+      background-color: black;
+      border-color: black;
+      color: #ffffff; }
+    .contest__form button[type="submit"]:active:last-of-type,
+    .contest__form input[type="submit"]:active:last-of-type {
+      margin-right: 0; }
+  .contest__form button[type="submit"] i.fa,
+  .contest__form input[type="submit"] i.fa {
+    display: none; }
 .contest__form select {
   width: 174px;
   padding: 18px 20px;

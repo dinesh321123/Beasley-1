@@ -1,6 +1,6 @@
 /*! Greater Media Contests - v1.0.0
  * http://10up.com/
- * Copyright (c) 2014; * Licensed GPLv2+ */
+ * Copyright (c) 2015; * Licensed GPLv2+ */
 jQuery(function () {
 
 	function do_scroll() {

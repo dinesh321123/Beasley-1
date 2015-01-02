@@ -143,57 +143,70 @@
 	}
 }
 
-.contest__form fieldset label {
-	display: block;
-	width: 100%;
-	margin-left: 0;
-	margin-bottom: 10px;
-}
+.contest__form {
+	fieldset {
+		label {
+			display: block;
+			width: 100%;
+			margin-left: 0;
+			margin-bottom: 10px;
+		}
+	}
 
-.contest__form input[type="text"], .contest__form input[type="url"], .contest__form input[type="email"], .contest__form input[type="number"], .contest__form textarea {
-	width: 100%;
-	padding: 18px 20px;
-	@include box-sizing(border-box);
-	border: none;
-	outline: none;
-	background-color: $form-bg;
-	font-family: $open-sans;
-	color: $dark-gray;
-}
+	input[type="text"],
+	input[type="url"],
+	input[type="email"],
+	input[type="number"],
+	textarea {
+		width: 100%;
+		padding: 18px 20px;
+		@include box-sizing(border-box);
+		border: none;
+		outline: none;
+		background-color: $form-bg;
+		font-family: $open-sans;
+		color: $dark-gray;
+	}
 
-.contest__form input[type="submit"] {
-	@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(4));
-	width: 100%;
-	@include border-radius(28px);
-	text-transform: uppercase;
-}
+	button[type="submit"],
+	input[type="submit"] {
+		@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(3));
+		width: 100%;
+		@include border-radius(28px);
+		text-transform: uppercase;
 
-.contest__form input[type="submit"]:hover {
-	@include btn($btn-hover, $color-text-black, $btn-hover, .625em, 1em, ms(4));
-}
+		&:hover {
+			@include btn($btn-hover, $color-text-black, $btn-hover, .625em, 1em, ms(3));
+		}
 
-.contest__form input[type="submit"]:active {
-	@include btn($btn-active, $color-text-white, $btn-active, .625em, 1em, ms(4));
-}
+		&:active {
+			@include btn($btn-active, $color-text-white, $btn-active, .625em, 1em, ms(3));
+		}
 
-.contest__form select {
-	width: 174px;
-	padding: 18px 20px;
-	@include border-radius(0);
-	border: none;
-	outline: none;
-	background-color: $form-bg;
-	background-image: url(../../images/select-arrow.png);
-	background-repeat: no-repeat;
-	background-position: 90% center;
-	background-size: auto 10px;
-	font-family: $open-sans;
-	color: $dark-gray;
-	display: inline-block;
-	-webkit-appearance:none;
-	-moz-appearance:none;
-	appearance:none;
-	cursor:pointer;
+		i.fa {
+			display: none;
+		}
+	}
+
+	select {
+		width: 174px;
+		padding: 18px 20px;
+		@include border-radius(0);
+		border: none;
+		outline: none;
+		background-color: $form-bg;
+		background-image: url(../../images/select-arrow.png);
+		background-repeat: no-repeat;
+		background-position: 90% center;
+		background-size: auto 10px;
+		font-family: $open-sans;
+		color: $dark-gray;
+		display: inline-block;
+		-webkit-appearance:none;
+		-moz-appearance:none;
+		appearance:none;
+		cursor:pointer;
+	}
 }
 
 .contest-submissions {

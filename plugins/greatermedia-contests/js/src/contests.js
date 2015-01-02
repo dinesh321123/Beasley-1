@@ -11,12 +11,12 @@
 				
 				form.find('input').each(function() {
 					var input = this;
+
 					if ('file' === input.type) {
 						$(this.files).each(function(key, value) {
 							form_data.append(input.name, value);
 						});
-					}
-					else {
+					} else {
 						form_data.append(input.name, input.value);
 					}
 				});
@@ -24,6 +24,9 @@
 				form.find('textarea, select').each(function() {
 					form_data.append(this.name, this.value);
 				});
+
+				form.find('input, textarea, select, button').attr('disabled', 'disabled');
+				form.find('i.fa').show();
 
 				$.ajax({
 					url: gmr.endpoints.submit,

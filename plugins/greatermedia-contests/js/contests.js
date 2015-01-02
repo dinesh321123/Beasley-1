@@ -1,6 +1,6 @@
 /*! Greater Media Contests - v1.0.0
  * http://10up.com/
- * Copyright (c) 2014; * Licensed GPLv2+ */
+ * Copyright (c) 2015; * Licensed GPLv2+ */
 /*!
 jQuery Waypoints - v2.0.2
 Copyright (c) 2011-2013 Caleb Troughton
@@ -812,12 +812,12 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				
 				form.find('input').each(function() {
 					var input = this;
+
 					if ('file' === input.type) {
 						$(this.files).each(function(key, value) {
 							form_data.append(input.name, value);
 						});
-					}
-					else {
+					} else {
 						form_data.append(input.name, input.value);
 					}
 				});
@@ -825,6 +825,9 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				form.find('textarea, select').each(function() {
 					form_data.append(this.name, this.value);
 				});
+
+				form.find('input, textarea, select, button').attr('disabled', 'disabled');
+				form.find('i.fa').show();
 
 				$.ajax({
 					url: gmr.endpoints.submit,
