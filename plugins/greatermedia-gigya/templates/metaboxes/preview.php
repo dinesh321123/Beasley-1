@@ -9,7 +9,7 @@
 
 <div id="major-publishing-actions" class="preview-member-query">
 	<div id="publishing-action">
-		<span class="spinner"></span>
+		<span class="spinner preview-spinner"></span>
 		<input name="preview_member_query" type="button" class="button button-primary button-large preview-member-query-button" value="Preview">
 	</div>
 	<div class="clear"></div>

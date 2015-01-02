@@ -83,6 +83,9 @@ var PreviewView = Backbone.View.extend({
 		var previewButton = $('.preview-member-query-button', this.el);
 		previewButton.toggleClass('disabled', !enabled);
 
+		var previewSpinner = $('.preview-spinner', this.el);
+		previewSpinner.css('display', enabled ? 'none' : 'inline');
+
 		this.previewEnabled = enabled;
 	},
 
