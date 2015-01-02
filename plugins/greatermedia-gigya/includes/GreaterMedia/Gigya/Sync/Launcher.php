@@ -15,7 +15,7 @@ class Launcher {
 				'initializer'     => new InitializerTask(),
 				'profile'         => new ProfileQueryTask(),
 				'data_store'      => new DataStoreQueryTask(),
-				'compile_results' => new CompileResultsTask(),
+				'compile_results' => new InMemoryCompileResultsTask(),
 				'preview_results' => new PreviewResultsTask(),
 				'export_results'  => new ExportResultsTask(),
 				'cleanup'         => new CleanupTask(),

@@ -48,7 +48,7 @@ class InitializerTask extends SyncTask {
 			$sentinel->set_task_progress( 'profile', 100 );
 			$sentinel->set_task_progress( 'data_store', 100 );
 
-			$compile_results_task = new CompileResultsTask();
+			$compile_results_task = new InMemoryCompileResultsTask();
 			$compile_results_task->enqueue( $this->export_params() );
 		} else {
 			if ( ! $has_profile_query ) {
