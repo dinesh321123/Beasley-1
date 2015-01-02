@@ -21,7 +21,9 @@
 >
 	<div class="show__header-content">
 		<div class="show__cast">
-			<?php the_post_thumbnail('thumbnail'); ?>
+			<?php if ( get_post_meta( get_the_ID(), 'logo_image', true ) ) : ?>
+		        <img src="<?php echo get_post_meta( get_the_ID(), 'logo_image', true ); ?>" alt="<?php the_title(); ?>" />
+			<?php endif; ?>
 		</div>
 		<nav class="show__nav">
 			<a href="<?php the_permalink(); ?>"><h1 class="show__title"><?php the_title(); ?></h1></a>
