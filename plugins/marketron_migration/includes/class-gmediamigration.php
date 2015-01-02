@@ -2502,6 +2502,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				//gmp_audio_file_meta_key
 				foreach ( $podcasts->Channel->Item as $podcast_item ) {
 					$episode_title = trim( (string) $podcast_item['ItemTitle'] );
+					$episode_title = strtolower( $episode_title );
 					$episode = array(
 						'post_type'     => 'episode',
 						'post_status'   => 'publish',
