@@ -31,12 +31,14 @@ class SettingsPage {
 			'member_query_settings', 'member_query_settings', $meta
 		);
 
-		$options          = $this->get_options();
-		$gigya_api_key    = $options['gigya_api_key'];
-		$gigya_secret_key = $options['gigya_secret_key'];
-		$emma_account_id  = $options['emma_account_id'];
-		$emma_public_key  = $options['emma_public_key'];
-		$emma_private_key = $options['emma_private_key'];
+		$options                 = $this->get_options();
+		$gigya_api_key           = $options['gigya_api_key'];
+		$gigya_secret_key        = $options['gigya_secret_key'];
+		$gigya_auth_screenset    = $options['gigya_auth_screenset'];
+		$gigya_account_screenset = $options['gigya_account_screenset'];
+		$emma_account_id         = $options['emma_account_id'];
+		$emma_public_key         = $options['emma_public_key'];
+		$emma_private_key        = $options['emma_private_key'];
 
 		include( $this->get_template_path() );
 	}
@@ -47,11 +49,13 @@ class SettingsPage {
 
 	function get_options() {
 		$defaults = array(
-			'gigya_api_key'    => '',
-			'gigya_secret_key' => '',
-			'emma_account_id'  => '',
-			'emma_public_key'  => '',
-			'emma_private_key' => '',
+			'gigya_api_key'           => '',
+			'gigya_secret_key'        => '',
+			'emma_account_id'         => '',
+			'emma_public_key'         => '',
+			'emma_private_key'        => '',
+			'gigya_auth_screenset'    => '',
+			'gigya_account_screenset' => '',
 		);
 
 		$options = get_option( 'member_query_settings', json_encode( $defaults ) );

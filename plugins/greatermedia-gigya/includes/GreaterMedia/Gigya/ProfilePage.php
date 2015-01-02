@@ -65,7 +65,10 @@ class ProfilePage {
 	}
 
 	public function load_scripts( $page_name ) {
-		$api_key = $this->get_gigya_api_key();
+		$api_key                 = $this->get_gigya_api_key();
+		$settings                = $this->get_member_query_settings();
+		$gigya_auth_screenset    = $settings['gigya_auth_screenset'];
+		$gigya_account_screenset = $settings['gigya_account_screenset'];
 
 		if ( $api_key === '' ) {
 			error_log( 'Fatal Error: Gigya API Key not found.' );
@@ -89,8 +92,10 @@ class ProfilePage {
 		);
 
 		$meta = array(
-			'ajax_url'     => admin_url( 'admin-ajax.php' ),
-			'current_page' => $page_name,
+			'ajax_url'                => admin_url( 'admin-ajax.php' ),
+			'current_page'            => $page_name,
+			'gigya_auth_screenset'    => $gigya_auth_screenset,
+			'gigya_account_screenset' => $gigya_account_screenset,
 		);
 
 		wp_localize_script(
@@ -143,16 +148,21 @@ class ProfilePage {
 		}
 	}
 
-	public function get_gigya_api_key() {
+	public function get_member_query_settings() {
 		$settings = get_option( 'member_query_settings' );
 
 		if ( $settings !== false ) {
-			$settings = json_decode( $settings, true );
-			if ( array_key_exists( 'gigya_api_key', $settings ) ) {
-				return $settings['gigya_api_key'];
-			} else {
-				return '';
-			}
+			return json_decode( $settings, true );
+		} else {
+			return array();
+		}
+	}
+
+	public function get_gigya_api_key() {
+		$settings = $this->get_member_query_settings();
+
+		if ( array_key_exists( 'gigya_api_key', $settings ) ) {
+			return $settings['gigya_api_key'];
 		} else {
 			return '';
 		}

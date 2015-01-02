@@ -35,6 +35,34 @@
 		</tbody>
 	</table>
 
+	<h3 class="title">Gigya ScreenSets</h3>
+	<table class="form-table">
+		<tbody>
+			<tr>
+				<th scope="row"><label for="gigya_auth_screenset">Gigya Registration/Login ScreenSet</label></th>
+				<td>
+					<input
+						name="gigya_auth_screenset"
+						type="text" id="gigya_auth_screenset"
+						value="<?php echo esc_attr( $gigya_auth_screenset ); ?>"
+						class="regular-text"
+						style="width:40em">
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="gigya_account_screenset">Gigya Profile Update ScreenSet</label></th>
+				<td>
+					<input
+						name="gigya_account_screenset"
+						type="text" id="gigya_account_screenset"
+						value="<?php echo esc_attr( $gigya_account_screenset ); ?>"
+						class="regular-text"
+						style="width:40em">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
 	<h3 class="title">MyEmma Settings</h3>
 	<table class="form-table">
 		<tbody>
