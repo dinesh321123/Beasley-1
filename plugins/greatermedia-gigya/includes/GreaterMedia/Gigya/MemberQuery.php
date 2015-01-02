@@ -406,6 +406,8 @@ class MemberQuery {
 					return $this->clause_for_comment_status_constraint( $constraint );
 				} else if ( $subType === 'optout' ) {
 					return $this->clause_for_optout_constraint( $constraint );
+				} else if ( $subType === 'subscribedToList' ) {
+					return $this->clause_for_subscribed_to_list_constraint( $constraint );
 				} else {
 					return $this->clause_for_data_constraint( $constraint );
 				}
@@ -587,6 +589,23 @@ class MemberQuery {
 		} else {
 			$query = 'data.optout != true or data.optout is null';
 		}
+
+		return $query;
+	}
+
+	public function clause_for_subscribed_to_list_constraint( $constraint ) {
+		$type      = $constraint['type'];
+		$typeParts = explode( ':', $type );
+		$value     = $constraint['value'];
+		$valueType = $constraint['valueType'];
+		$operator  = $constraint['operator'];
+		$query     = '';
+
+		$query .= 'data.' . $typeParts[1];
+		$query .= ' ';
+		$query .= $this->operator_for( $operator );
+		$query .= ' ';
+		$query .= $this->value_for( $value, $valueType );
 
 		return $query;
 	}

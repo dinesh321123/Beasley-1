@@ -260,17 +260,17 @@ function print() { __p += __j.call(arguments, '') }
 with (obj) {
 __p += '<div id="misc-publishing-actions" style="margin-bottom: 0.5em;">\n\n\t<div class="misc-pub-section misc-pub-post-status">\n\t\t<label for="post_status">Status:</label>\n\t\t<span id="post-status-display">' +
 __e( statusText ) +
-'</span>\n\t</div>\n\n\t<div class="misc-pub-section curtime misc-pub-curtime">\n\t\t<span id="visibility"> View MyEmma Group:\n\t\t\t';
+'</span>\n\t</div>\n\n\t<div class="misc-pub-section curtime misc-pub-curtime">\n\t\t<span id="visibility"> MyEmma Group:\n\t\t\t';
  if (emailSegmentID) { ;
 __p += '\n\t\t\t\t<a href="' +
 __e( emailSegmentURL ) +
-'" target="_blank">\n\t\t\t\t\t<b>' +
+'" target="_blank" class=\'email-segment-url\'>\n\t\t\t\t\t<b>' +
 __e( emailSegmentID ) +
 '</b>\n\t\t\t\t</a>\n\t\t\t';
  } else { ;
 __p += '\n\t\t\t\t\t<b>N/A</b>\n\t\t\t';
  } ;
-__p += '\n\t\t</span>\n\t</div>\n\n\t<div class="misc-pub-section curtime misc-pub-curtime" style="padding-bottom: 1em;">\n\t\t<span id="timestamp"> Last Export: <b>' +
+__p += '\n\t\t\t<a href="#" class="edit-segment-id-button">Edit</a>\n\t\t\t<div class="edit-segment-id" style="display:none">\n\t\t\t\t<p>\n\t\t\t\t\t<input type="text" name="segment_id" value="" id="email-segment-id" />\n\t\t\t\t</p>\n\t\t\t\t<p>\n\t\t\t\t\t<a href="#" class="button change-segment-id-button">OK</a>\n\t\t\t\t\t<a href="#" class="button-cancel cancel-segment-id-button">Cancel</a>\n\t\t\t\t\t<span class="spinner"></span>\n\t\t\t\t\t<span class="error-message"></span>\n\t\t\t\t</p>\n\t\t\t</div>\n\t\t</span>\n\t</div>\n\n\t<div class="misc-pub-section curtime misc-pub-curtime" style="padding-bottom: 1em;">\n\t\t<span id="timestamp"> Last Export: <b>' +
 __e( lastExport ) +
 '</b></span>\n\t</div>\n\n</div>\n';
 
@@ -878,6 +878,11 @@ var AVAILABLE_CONSTRAINTS = [
 		valueType: 'boolean',
 		value: true,
 	},
+	{
+		type: 'data:subscribedToList',
+		valueType: 'enum',
+		operator: 'contains',
+	},
 
 	/* Profile fields */
 	{
@@ -1386,6 +1391,15 @@ var AVAILABLE_CONSTRAINTS_META = [
 		]
 	},
 	{
+		type: 'data:subscribedToList',
+		title: 'Subscribed To List',
+		choices: [
+			{ label: 'VIP Newsletter', value: '2129171' },
+			{ label: 'Birthday Greetings', value: '2131219' },
+			{ label: "MMR's VIP Big Friggin' Deal", value: '2130195' },
+		]
+	},
+	{
 		type: 'data:listeningFrequency',
 		title: 'Listening Frequency',
 		choices: [
@@ -1524,6 +1538,31 @@ var MemberQueryStatus = Backbone.Model.extend({
 
 	poll: function() {
 		this.refresh();
+	},
+
+	changeEmailSegmentID: function(segmentID) {
+		var params = {
+			member_query_id: this.getMemberQueryID(),
+			email_segment_id: segmentID
+		};
+
+		this.trigger('changeSegmentStart');
+		ajaxApi.request('change_member_query_segment', params)
+			.then($.proxy(this.didChangeSegment, this))
+			.fail($.proxy(this.didChangeSegmentError, this));
+	},
+
+	didChangeSegment: function(response) {
+		if (response.success) {
+			this.set({'emailSegmentID': response.data});
+			this.trigger('changeSegmentSuccess');
+		} else {
+			this.didChangeSegmentError(response);
+		}
+	},
+
+	didChangeSegmentError: function(response) {
+		this.trigger('changeSegmentError', response.data);
 	}
 
 });
@@ -1903,6 +1942,11 @@ var ConstraintView = Backbone.View.extend({
 		'profile:timezone'
 	],
 
+	enumOperators: [
+		'contains',
+		'not contains',
+	],
+
 	operatorsFor: function(valueType, type) {
 		if (valueType === 'integer' || valueType === 'float') {
 			return this.numericOperators;
@@ -1916,6 +1960,8 @@ var ConstraintView = Backbone.View.extend({
 			return this.booleanOperators;
 		} else if (valueType === 'date') {
 			return this.dateOperators;
+		} else if (valueType === 'enum') {
+			return this.enumOperators;
 		} else {
 			return this.allOperators;
 		}
@@ -2339,9 +2385,20 @@ var ExportView = Backbone.View.extend({
 
 	template: getTemplate('export'),
 
+	events: {
+		'click .edit-segment-id-button': 'didEditSegmentClick',
+		'click .change-segment-id-button': 'didChangeSegmentClick',
+		'click .cancel-segment-id-button': 'didCancelSegmentClick',
+	},
+
 	initialize: function(options) {
 		Backbone.View.prototype.initialize.call(this, options);
 		this.listenTo(this.model, 'change', this.render);
+		this.listenTo(this.model, 'changeSegmentStart', this.didChangeSegmentStart);
+		this.listenTo(this.model, 'changeSegmentSuccess', this.didChangeSegmentSuccess);
+		this.listenTo(this.model, 'changeSegmentError', this.didChangeSegmentError);
+		this.listenTo(this.model, 'refreshSuccess', this.updateEditEnabled);
+		this.listenTo(this.model, 'refreshError', this.updateEditEnabled);
 	},
 
 	render: function() {
@@ -2412,16 +2469,84 @@ var ExportView = Backbone.View.extend({
 		return output;
 	},
 
-	getStatusText: function() {
-		return 'statusText';
+	showChangeSegment: function() {
+		var self = this;
+		$editSegmentID = $('.edit-segment-id', this.$el);
+		$editSegmentID.show( 'fast', function() {
+			var emailSegmentID  = self.model.getEmailSegmentID() || '';
+			var $emailSegmentID = $('#email-segment-id');
+			var currentValue = $emailSegmentID.val();
+
+			if (currentValue === '' && emailSegmentID !== '') {
+				$emailSegmentID.val(emailSegmentID);
+			}
+
+			$emailSegmentID.focus();
+		});
+
+		this.setErrorMessage('');
 	},
 
-	getEmailSegmentID: function() {
-		return 'segment123';
+	hideChangeSegment: function() {
+		$editSegmentID = $('.edit-segment-id', this.$el);
+		$editSegmentID.hide( 'fast' );
 	},
 
-	getLastExport: function() {
-		return '1 minute ago';
+	didEditSegmentClick: function(event) {
+		$editButton = $('.edit-segment-id-button', this.$el);
+		var enabled = this.model.getStatusCode() !== 'running';
+
+		if (enabled) {
+			this.showChangeSegment();
+			return false;
+		}
+	},
+
+	didChangeSegmentClick: function(event) {
+		var $emailSegmentID = $('#email-segment-id');
+		var segmentID = $emailSegmentID.val();
+		if (segmentID !== '') {
+			this.model.changeEmailSegmentID(segmentID);
+		} else {
+			this.setErrorMessage('Invalid Segment ID');
+			$emailSegmentID.focus();
+		}
+		return false;
+	},
+
+	didCancelSegmentClick: function(event) {
+		this.hideChangeSegment();
+	},
+
+	setErrorMessage: function(message) {
+		var $message = $('.error-message', this.$el);
+		$message.text(message);
+	},
+
+	setSpinnerEnabled: function(enabled) {
+		var $spinner = $('.spinner', this.$el);
+		$spinner.css('display', enabled ? 'inline' : 'none');
+	},
+
+	didChangeSegmentStart: function() {
+		this.setSpinnerEnabled(true);
+		this.setErrorMessage('');
+	},
+
+	didChangeSegmentSuccess: function() {
+		this.hideChangeSegment();
+		this.setSpinnerEnabled(false);
+	},
+
+	didChangeSegmentError: function(message) {
+		this.setErrorMessage(message);
+		this.setSpinnerEnabled(false);
+	},
+
+	updateEditEnabled: function() {
+		$editButton = $('.edit-segment-id-button', this.$el);
+		var enabled = this.model.getStatusCode() !== 'running';
+		$editButton.toggleClass('disabled', !enabled);
 	}
 
 });

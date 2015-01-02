@@ -70,6 +70,31 @@ var MemberQueryStatus = Backbone.Model.extend({
 
 	poll: function() {
 		this.refresh();
+	},
+
+	changeEmailSegmentID: function(segmentID) {
+		var params = {
+			member_query_id: this.getMemberQueryID(),
+			email_segment_id: segmentID
+		};
+
+		this.trigger('changeSegmentStart');
+		ajaxApi.request('change_member_query_segment', params)
+			.then($.proxy(this.didChangeSegment, this))
+			.fail($.proxy(this.didChangeSegmentError, this));
+	},
+
+	didChangeSegment: function(response) {
+		if (response.success) {
+			this.set({'emailSegmentID': response.data});
+			this.trigger('changeSegmentSuccess');
+		} else {
+			this.didChangeSegmentError(response);
+		}
+	},
+
+	didChangeSegmentError: function(response) {
+		this.trigger('changeSegmentError', response.data);
 	}
 
 });

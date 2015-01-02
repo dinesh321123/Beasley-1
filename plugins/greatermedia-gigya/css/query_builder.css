@@ -177,3 +177,15 @@
 .widefat th, .widefat td {
 	max-width: 18em;
 }
+
+.edit-segment-id input {
+	width: 100%;
+}
+
+.edit-segment-id-button.disabled, .edit-segment-id-button.disabled:hover {
+	color: #808080;
+}
+
+.email-segment-url {
+	text-decoration: none;
+}

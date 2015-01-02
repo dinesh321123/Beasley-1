@@ -130,6 +130,11 @@ var ConstraintView = Backbone.View.extend({
 		'profile:timezone'
 	],
 
+	enumOperators: [
+		'contains',
+		'not contains',
+	],
+
 	operatorsFor: function(valueType, type) {
 		if (valueType === 'integer' || valueType === 'float') {
 			return this.numericOperators;
@@ -143,6 +148,8 @@ var ConstraintView = Backbone.View.extend({
 			return this.booleanOperators;
 		} else if (valueType === 'date') {
 			return this.dateOperators;
+		} else if (valueType === 'enum') {
+			return this.enumOperators;
 		} else {
 			return this.allOperators;
 		}

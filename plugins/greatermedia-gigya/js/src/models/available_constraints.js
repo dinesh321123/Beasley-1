@@ -34,6 +34,11 @@ var AVAILABLE_CONSTRAINTS = [
 		valueType: 'boolean',
 		value: true,
 	},
+	{
+		type: 'data:subscribedToList',
+		valueType: 'enum',
+		operator: 'contains',
+	},
 
 	/* Profile fields */
 	{
@@ -539,6 +544,15 @@ var AVAILABLE_CONSTRAINTS_META = [
 		choices: [
 			{ label: 'Yes', value: true },
 			{ label: 'No', value: false }
+		]
+	},
+	{
+		type: 'data:subscribedToList',
+		title: 'Subscribed To List',
+		choices: [
+			{ label: 'VIP Newsletter', value: '2129171' },
+			{ label: 'Birthday Greetings', value: '2131219' },
+			{ label: "MMR's VIP Big Friggin' Deal", value: '2130195' },
 		]
 	},
 	{

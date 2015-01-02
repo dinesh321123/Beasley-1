@@ -6,14 +6,26 @@
 	</div>
 
 	<div class="misc-pub-section curtime misc-pub-curtime">
-		<span id="visibility"> View MyEmma Group:
+		<span id="visibility"> MyEmma Group:
 			<% if (emailSegmentID) { %>
-				<a href="<%- emailSegmentURL %>" target="_blank">
+				<a href="<%- emailSegmentURL %>" target="_blank" class='email-segment-url'>
 					<b><%- emailSegmentID %></b>
 				</a>
 			<% } else { %>
 					<b>N/A</b>
 			<% } %>
+			<a href="#" class="edit-segment-id-button">Edit</a>
+			<div class="edit-segment-id" style="display:none">
+				<p>
+					<input type="text" name="segment_id" value="" id="email-segment-id" />
+				</p>
+				<p>
+					<a href="#" class="button change-segment-id-button">OK</a>
+					<a href="#" class="button-cancel cancel-segment-id-button">Cancel</a>
+					<span class="spinner"></span>
+					<span class="error-message"></span>
+				</p>
+			</div>
 		</span>
 	</div>
 
