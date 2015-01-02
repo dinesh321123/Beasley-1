@@ -1065,7 +1065,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				if( $skipper != $this->skip ) {
 					$skipper++;
-					$notify->tick();
+					//$notify->tick();
 					continue;
 				}
 
@@ -1077,7 +1077,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				// If we're not forcing import, skip existing posts.
 				if ( ! $force && $wp_id ) {
-					$notify->tick();
+					//$notify->tick();
 					WP_CLI::log( "Already exists $wp_id" );
 					continue;
 				}
@@ -2501,10 +2501,11 @@ class GMedia_Migration extends WP_CLI_Command {
 
 				//gmp_audio_file_meta_key
 				foreach ( $podcasts->Channel->Item as $podcast_item ) {
+					$episode_title = trim( (string) $podcast_item['ItemTitle'] );
 					$episode = array(
 						'post_type'     => 'episode',
 						'post_status'   => 'publish',
-						'post_title'    => trim( (string) $podcast_item['ItemTitle'] ),
+						'post_title'    => ucwords( $episode_title ),
 						'post_content'  => trim( (string) $podcast_item['ItemDescription'] ),
 						'post_date'     => (string) $single_channel['UTCDateCreated'],
 						'post_modified' => (string) $single_channel['UTCDateLastModified'],
