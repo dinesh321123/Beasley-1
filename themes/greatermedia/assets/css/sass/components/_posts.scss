@@ -299,10 +299,18 @@ Link posts contain a link to an external site. They can also optionally have a f
 	@extend %entry__list;
 	float: left;
 	margin-right: 30px;
+
+	&::after {
+		content: ',';
+	}
 }
 
 .entry__list--show:last-of-type {
 	margin-right: 0;
+
+	&::after {
+		content: '';
+	}
 }
 
 .entry__show--logo {

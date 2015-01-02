@@ -3234,9 +3234,13 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__list--show {
   float: left;
   margin-right: 30px; }
+  .entry__list--show::after {
+    content: ','; }
 
 .entry__list--show:last-of-type {
   margin-right: 0; }
+  .entry__list--show:last-of-type::after {
+    content: ''; }
 
 .entry__show--logo {
   display: inline-block;
