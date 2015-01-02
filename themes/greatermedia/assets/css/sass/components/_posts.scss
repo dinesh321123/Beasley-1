@@ -262,6 +262,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__list--item, %entry__list--item {
 	padding: 0 2px 0 0;
+	margin-right: 1em;
 	list-style: none;
 	display: inline-block;
 }
@@ -298,7 +299,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__list--show {
 	@extend %entry__list;
 	float: left;
-	margin-right: 30px;
+	margin-right: 1em;
 
 	&::after {
 		content: ',';
@@ -318,7 +319,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 	float: left;
 	width: 24px;
 	height: 24px;
-	margin: 0 14px;
+	margin: 0 0.5em 0 0;
 	@include border-radius(50%);
 	background-color: $secondary-border;
 }

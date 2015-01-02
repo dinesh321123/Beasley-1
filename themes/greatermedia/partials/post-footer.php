@@ -43,7 +43,9 @@ $post_taxonomies = get_post_taxonomies();
 							<?php endif; ?>
 									
 							<?php if ( ( $image_id = intval( get_post_meta( $show->ID, 'logo_image', true ) ) ) ) : ?>
-								<?php echo wp_get_attachment_image( $image_id, 'thumbnail', false, array( 'class' => 'entry__show--logo' ) ); ?>
+								<span class="entry__show--logo">
+									<?php echo wp_get_attachment_image( $image_id ); ?>
+								</span>
 							<?php endif; ?>
 
 							<?php echo esc_html( get_the_title( $show ) ); ?>
