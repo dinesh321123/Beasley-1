@@ -21,9 +21,10 @@
 >
 	<div class="show__header-content">
 		<div class="show__cast">
-			<?php if ( get_post_meta( get_the_ID(), 'logo_image', true ) ) : ?>
-		        <img src="<?php echo get_post_meta( get_the_ID(), 'logo_image', true ); ?>" alt="<?php the_title(); ?>" />
-			<?php endif; ?>
+			<?php if ( get_post_meta( $post->ID, 'logo_image', true ) ) {
+		        $src = get_post_meta( $post->ID, 'logo_image', true );
+		        echo wp_get_attachment_image( $src );
+			} ?>
 		</div>
 		<nav class="show__nav">
 			<a href="<?php the_permalink(); ?>"><h1 class="show__title"><?php the_title(); ?></h1></a>
