@@ -17,6 +17,12 @@ module.exports = function( grunt ) {
 					'assets/js/src/greatermedia_keywords.js'
 				],
 				dest: 'assets/js/greatermedia_keywords.js'
+			},
+			greatermedia_keywords_autocomplete: {
+				src: [
+					'assets/js/src/greatermedia_keywords_autocomplete.js'
+				],
+				dest: 'assets/js/greatermedia_keywords_autocomplete.js'
 			}
 		},
 		jshint: {
@@ -44,14 +50,16 @@ module.exports = function( grunt ) {
 					wp:false,
 					console:false,
 					alert:false,
-					ajax_data:false
+					ajax_data:false,
+					GMRKeywords:false
 				}
 			}		
 		},
 		uglify: {
 			all: {
 				files: {
-					'assets/js/greatermedia_keywords.min.js': ['assets/js/greatermedia_keywords.js']
+					'assets/js/greatermedia_keywords.min.js': ['assets/js/greatermedia_keywords.js'],
+					'assets/js/greatermedia_keywords_autocomplete.min.js': ['assets/js/greatermedia_keywords_autocomplete.js']
 				},
 				options: {
 					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
