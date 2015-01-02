@@ -6,7 +6,7 @@
 		container.on('submit', gmr.selectors.form, function() {
 			var form = $(this);
 
-			if (!form.parsley || form.parsley().isValid()) {
+			if ((!form.parsley || form.parsley().isValid()) && confirm("After submission, you won't be able to edit it. Do you want to proceed?")) {
 				var form_data = new FormData();
 				
 				form.find('input').each(function() {
