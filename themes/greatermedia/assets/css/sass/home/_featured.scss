@@ -83,8 +83,10 @@ Curated posts for Featured Articles
 	@include bp(large) {
 		@include span-columns(12);
 		@include omega;
-		padding-bottom: 55px;
-		background: url(../../images/featured-bg.png) repeat center center $featured-primary-bg;
+		background-image: url(../../images/featured-bg.png);
+		background-repeat: repeat;
+		background-position: center center;
+		background-color: $featured-primary-bg;
 		background-size: auto 40%;
 	}
 	@include bp(x-large) {
@@ -239,7 +241,7 @@ Curated posts for Featured Articles
 	height: 90px;
 	margin-bottom: 27px;
 	overflow: hidden;
-	background: $secondary-link;
+	background: $highlights-bg;
 	@include bp(small) {
 		@include span-columns(4 of 4);
 		@include omega;
@@ -369,18 +371,33 @@ Curated posts for Featured Articles
 	}
 }
 
-
 .featured__content--title a:link, .featured__content--title a:visited {
-	color: $color-text-white;
+	color: $highlights-link;
 }
 
 .featured__content--title a:hover, .featured__content--title a:focus {
-	color: $color-text-yellow;
+	color: $secondary-link-hover;
 }
 
 .featured__content--title a:active{
-	color: darken($color-text-yellow, 9%);
+	color: darken($secondary-link-hover, 9%);
 }
+
+
+.home__featured {
+	.featured__content--title a:link, .featured__content--title a:visited {
+		color: $color-text-white;
+	}
+
+	.featured__content--title a:hover, .featured__content--title a:focus {
+		color: $color-text-yellow;
+	}
+
+	.featured__content--title a:active{
+		color: darken($color-text-yellow, 9%);
+	}	
+}
+
 
 .featured__content--link {
 	width: 100%;

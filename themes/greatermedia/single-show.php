@@ -22,7 +22,7 @@
 								<a href="<?php the_permalink(); ?>">
 									<div class="show__feature">
 										<?php if ( has_post_thumbnail() ) : ?>
-											<?php the_post_thumbnail( array( 570,315 ) ); ?>
+											<?php the_post_thumbnail( 'gmr-show-featured-primary' ); ?>
 										<?php endif; ?>
 										<div class="show__feature--desc">
 											<h3><?php the_title(); ?></h3>
@@ -37,7 +37,7 @@
 									<a href="<?php the_permalink(); ?>">
 										<div class="show__feature">
 											<?php if ( has_post_thumbnail() ) : ?>
-												<?php the_post_thumbnail( array( 570,315 ) ); ?>
+												<?php the_post_thumbnail( 'gmr-show-featured-secondary' ); ?>
 											<?php endif; ?>
 											<div class="show__feature--desc">
 												<h3><?php the_title(); ?></h3>
@@ -94,8 +94,10 @@
 						        <?php wp_reset_query(); ?>
 					        </section>
 
+					        <?php do_action( 'acm_tag', 'mrec-lists' ); ?>
+
 							<section class="show__live-links cf">
-					        	<h2 class="section-header">Latest Crap</h2>
+					        	<h2 class="section-header">Live Links</h2>
 								<ul>
 									<li class="live-link__type--standard">
 										<div class="live-link__title">
