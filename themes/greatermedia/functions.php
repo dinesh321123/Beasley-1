@@ -49,26 +49,23 @@ function greatermedia_setup() {
 	 */
 	load_theme_textdomain( 'greatermedia', get_template_directory() . '/languages' );
 
-	/**
-	 * Add theme support for post thumbnails
-	 */
+	// Add theme support for post thumbnails
 	add_theme_support( 'post-thumbnails' );
-	add_image_size( 'gm-article-thumbnail',     		1580,   9999,   false   ); // thumbnails used for articles
-	add_image_size( 'gmr-gallery',              		800,    534,    true    ); // large images for the gallery
-	add_image_size( 'gmr-gallery-thumbnail',    		100,    100             ); // thumbnails for the gallery
-	add_image_size( 'gmr-featured-primary',     		2800,   1000,   true    ); // image for primary featured post on front page
-	add_image_size( 'gmr-featured-secondary',   		400,    400,    true    ); // thumbnails for secondary featured posts on front page
-	add_image_size( 'gmr-show-featured-primary',   		570,    313,    true    ); // thumbnails for secondary featured posts on front page
-	add_image_size( 'gmr-show-featured-secondary',   	270,    118,    true    ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gm-article-thumbnail',        1580, 9999, false ); // thumbnails used for articles
+	add_image_size( 'gmr-gallery',                 800,  534,  true  ); // large images for the gallery
+	add_image_size( 'gmr-gallery-thumbnail',       100,  100         ); // thumbnails for the gallery
+	add_image_size( 'gmr-featured-primary',        2800, 1000, true  ); // image for primary featured post on front page
+	add_image_size( 'gmr-featured-secondary',      400,  400,  true  ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gmr-show-featured-primary',   570,  313,  true  ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gmr-show-featured-secondary', 270,  118,  true  ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gmr-contest-thumbnail',       2800, 9999        ); // thumbnail for contest featured image
 
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
 	add_post_type_support( 'post', 'login-restricted-content' );
 	add_post_type_support( 'post', 'age-restricted-content' );
 
-	/**
-	 * Add theme support for post-formats
-	 */
+	// Add theme support for post-formats
 	$formats = array( 'gallery', 'link', 'image', 'video', 'audio' );
 	add_theme_support( 'post-formats', $formats );
 

@@ -323,6 +323,8 @@ function gmr_contests_process_form_submission() {
 		return;
 	}
 
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+
 	$submitted_values = array();
 	$submitted_files  = array( 'images' => array(), 'other'  => array() );
 	
@@ -478,7 +480,7 @@ function gmr_contests_submissions_query( $contest_id = null ) {
 	return new WP_Query( array(
 		'post_type'      => GMR_SUBMISSIONS_CPT,
 		'post_parent'    => $contest_id,
-		'posts_per_page' => 5,
+		'posts_per_page' => 20,
 		'paged'          => $submission_paged,
 	) );
 }

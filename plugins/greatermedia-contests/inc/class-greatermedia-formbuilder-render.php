@@ -617,7 +617,7 @@ class GreaterMediaFormbuilderRender {
 	 *
 	 * @return string html
 	 */
-	public static function render_input_tag( $type = 'text', $post_id, stdClass $field, Array $special_attributes = null ) {
+	public static function render_input_tag( $type, $post_id, $field, $special_attributes = null ) {
 
 		if ( null === $special_attributes ) {
 			$special_attributes = array();
@@ -839,17 +839,19 @@ class GreaterMediaFormbuilderRender {
 
 		$html .= '<div>';
 
-		$html .= '<input ';
-		foreach ( $input_tag_attributes as $attribute => $value ) {
-			$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
-		}
-		$html .= ' />';
-
 		$html .= '<label ';
 		foreach ( $label_tag_attributes as $attribute => $value ) {
 			$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
 		}
-		$html .= '>' . $label . '</label>';
+		$html .= '>';
+
+		$html .= '<input ';
+		foreach ( $input_tag_attributes as $attribute => $value ) {
+			$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
+		}
+		$html .= '> ';
+
+		$html .= $label . '</label>';
 
 		if ( isset( $field_option_data->other ) && $field_option_data->other ) {
 

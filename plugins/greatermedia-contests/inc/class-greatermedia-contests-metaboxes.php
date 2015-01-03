@@ -282,7 +282,7 @@ class GreaterMediaContestsMetaboxes {
 			</tr>
 
 			<tr>
-				<th scope="row"><label for="greatermedia_contest_members_only">Who can apply</label></th>
+				<th scope="row"><label for="greatermedia_contest_members_only">Who can enter</label></th>
 				<td>
 					<select id="greatermedia_contest_members_only" name="greatermedia_contest_members_only">
 						<option value="0">Members and guests</option>
@@ -292,24 +292,24 @@ class GreaterMediaContestsMetaboxes {
 			</tr>
 
 			<tr>
-				<th scope="row"><label for="greatermedia_contest_single_entry">How many times can user apply</label></th>
+				<th scope="row"><label for="greatermedia_contest_single_entry">Entries per person</label></th>
 				<td>
 					<select id="greatermedia_contest_single_entry" name="greatermedia_contest_single_entry">
-						<option value="1">Only once</option>
-						<option value="0"<?php selected( get_post_meta( $post->ID, 'contest-single-entry', true ), false ); ?>>Multiple times</option>
+						<option value="1">One Entry Per Person</option>
+						<option value="0"<?php selected( get_post_meta( $post->ID, 'contest-single-entry', true ), false ); ?>>No Limit</option>
 					</select>
 				</td>
 			</tr>
 
 			<tr>
-				<th scope="row"><label for="greatermedia_contest_max_entries">How many entries allowed in total</label></th>
+				<th scope="row"><label for="greatermedia_contest_max_entries">Total entries for the contest</label></th>
 				<td>
 					<input type="text" id="greatermedia_contest_max_entries" name="greatermedia_contest_max_entries" value="<?php echo esc_attr( get_post_meta( $post->ID, 'contest-max-entries', true ) ); ?>">
 				</td>
 			</tr>
 
 			<tr>
-				<th scope="row"><label for="greatermedia_contest_min_age">Minimum age to apply</label></th>
+				<th scope="row"><label for="greatermedia_contest_min_age">Minimum age to enter</label></th>
 				<td>
 					<input type="text" id="greatermedia_contest_min_age" name="greatermedia_contest_min_age" value="<?php echo esc_attr( get_post_meta( $post->ID, 'contest-min-age', true ) ); ?>">
 				</td>

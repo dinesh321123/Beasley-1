@@ -4963,6 +4963,7 @@ category: Components - Ads
     border-bottom: 0;
     color: #d22228; }
 
+.contest__form fieldset legend,
 .contest__form fieldset label {
   display: block;
   width: 100%;
