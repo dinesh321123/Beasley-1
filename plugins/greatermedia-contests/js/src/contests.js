@@ -6,7 +6,7 @@
 		container.on('submit', gmr.selectors.form, function() {
 			var form = $(this);
 
-			if ((!form.parsley || form.parsley().isValid()) && confirm("After submission, you won't be able to edit it. Do you want to proceed?")) {
+			if (!form.parsley || form.parsley().isValid()) {
 				var form_data = new FormData();
 				
 				form.find('input').each(function() {
@@ -16,6 +16,10 @@
 						$(this.files).each(function(key, value) {
 							form_data.append(input.name, value);
 						});
+					} else if ('radio' === input.type || 'checkbox' === input.type) {
+						if (input.checked) {
+							form_data.append(input.name, input.value);
+						}
 					} else {
 						form_data.append(input.name, input.value);
 					}

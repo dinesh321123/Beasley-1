@@ -227,7 +227,7 @@ class GreaterMediaGallery {
 
 								$use_hash = apply_filters( 'gmr_gallery_use_hash', true );
 								if ( $use_hash ) {
-									$attr['data-cycle-hash'] = get_post_field( 'post_name', get_the_ID() );
+									$attr['data-cycle-hash'] = $slide_hash;
 								}
 
 								$image = wp_get_attachment_image_src( get_the_ID(), array( 775, 516 ), false );

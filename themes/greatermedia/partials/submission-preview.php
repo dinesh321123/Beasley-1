@@ -7,9 +7,9 @@
 		$fields = GreaterMediaFormbuilderRender::parse_entry( get_post()->post_parent, $contest_entry_id );
 		if ( ! empty( $fields ) ) :
 			?><dl class="contest-submission--entries"><?php
-				foreach ( $fields as $label => $value ) :
-					?><dt><?php echo esc_html( $label ); ?></dt>
-					<dd><?php echo esc_html( $value ); ?></dd><?php
+				foreach ( $fields as $field ) :
+					?><dt><?php echo esc_html( $field['label'] ); ?></dt>
+					<dd><?php echo esc_html( $field['value'] ); ?></dd><?php
 				endforeach;
 			?></dl>
 

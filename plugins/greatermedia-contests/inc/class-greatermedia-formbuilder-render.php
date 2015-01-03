@@ -127,7 +127,19 @@ class GreaterMediaFormbuilderRender {
 		$contest_entry = @json_decode( $contest_entry, true );
 		foreach ( $form as $field ) {
 			if ( isset( $contest_entry[ $field->cid ] ) ) {
-				$results[ $field->label ] = $contest_entry[ $field->cid ];
+				if ( $field->field_type != 'radio' ) {
+					$results[ $field->cid ] = array(
+						'label' => $field->label,
+						'value' => $contest_entry[ $field->cid ],
+					);
+				} else {
+					$results[ $field->cid ] = array(
+						'label' => $field->label,
+						'value' => ! empty( $field->field_options->options[ $contest_entry[ $field->cid ] ] )
+							? $field->field_options->options[ $contest_entry[ $field->cid ] ]->label
+							: ""
+					);
+				}
 			}
 		}
 
@@ -446,15 +458,13 @@ class GreaterMediaFormbuilderRender {
 		$html .= self::render_legend( $field );
 
 		if ( isset( $field->field_options->options ) && is_array( $field->field_options->options ) ) {
+			$multiple_choices = $input_type == 'checkbox' && count( $field->field_options->options ) > 1;
 			foreach ( $field->field_options->options as $field_option_index => $field_option_data ) {
-
-				$html .= self::render_single_checkbox( $field->cid, $field_option_index, $field_option_data, $input_type );
-
+				$html .= self::render_single_checkbox( $field->cid, $field_option_index, $field_option_data, $input_type, $multiple_choices );
 			}
 		}
 
 		if ( isset( $field->field_options->include_other_option ) && true == $field->field_options->include_other_option ) {
-
 			$other_option_data = new stdClass();
 
 			$other_option_data->label   = __( 'Other', 'greatermedia_contests' );
@@ -462,7 +472,6 @@ class GreaterMediaFormbuilderRender {
 			$other_option_data->other   = true;
 
 			$html .= self::render_single_checkbox( $field->cid, 'other', $other_option_data, $input_type );
-
 		}
 
 		$html .= self::render_description( $field );
@@ -801,11 +810,7 @@ class GreaterMediaFormbuilderRender {
 	 *
 	 * @return string
 	 */
-	public static function render_single_checkbox( $cid, $field_option_index, stdClass $field_option_data, $input_type ) {
-
-		if ( 'checkbox' !== $input_type && 'radio' !== $input_type ) {
-			throw new InvalidArgumentException( 'Input type must be checkbox or radio' );
-		}
+	public static function render_single_checkbox( $cid, $field_option_index, stdClass $field_option_data, $input_type, $multiple_choices = false ) {
 
 		$html = '';
 
@@ -813,7 +818,7 @@ class GreaterMediaFormbuilderRender {
 
 		$input_tag_attributes = array(
 			'id'    => $field_id,
-			'name'  => 'form_field_' . $cid . '[]',
+			'name'  => 'form_field_' . $cid . ( $multiple_choices ? '[]' : '' ),
 			'type'  => $input_type,
 			'value' => $field_option_index,
 		);
