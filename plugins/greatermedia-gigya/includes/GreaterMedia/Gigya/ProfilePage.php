@@ -106,7 +106,7 @@ class ProfilePage {
 	public function load_styles() {
 		wp_enqueue_style(
 			'gigya_profile',
-			get_stylesheet_directory_uri() . '/profile/profile.css',
+			get_template_directory_uri() . '/profile/profile.css',
 			array(),
 			GMR_GIGYA_VERSION,
 			'all'
@@ -141,8 +141,7 @@ class ProfilePage {
 
 	public function get_profile_page_template( $page_name ) {
 		if ( in_array( $page_name, $this->allowed_pages ) ) {
-			$endpoint = $this->get_profile_endpoint();
-			return get_stylesheet_directory() . "/profile/{$page_name}.php";
+			return locate_template( "profile/{$page_name}.php" ); // $page_name is whitelisted
 		} else {
 			return null;
 		}
