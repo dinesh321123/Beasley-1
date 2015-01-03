@@ -118,7 +118,7 @@
 									<div class="header__account">
 										<?php if ( is_gigya_user_logged_in() ) {
 
-											$url     = gigya_profile_path( 'settings' );
+											$url     = gigya_profile_path( 'account' );
 											$class   = '';
 											$profile = get_gigya_user_profile();
 
@@ -156,7 +156,7 @@
 
 											<?php if ( is_gigya_user_logged_in() ): ?>
 												<li>
-													<a href="<?php echo esc_url( gigya_profile_path( 'settings' ) ); ?>">
+													<a href="<?php echo esc_url( gigya_profile_path( 'account' ) ); ?>">
 														Edit Account
 													</a>
 												</li>
