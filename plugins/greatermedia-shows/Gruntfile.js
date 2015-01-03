@@ -22,10 +22,12 @@ module.exports = function (grunt) {
 				dest: 'assets/js/greatermedia_shows.js'
 			},
 			admin_show_selector: {
-				src: [
-					'assets/js/src/admin_show_selector.js'
-				],
+				src: ['assets/js/src/admin_show_selector.js'],
 				dest: 'assets/js/admin_show_selector.js'
+			},
+			frontend: {
+				src: ['assets/js/src/live-links.js'],
+				dest: 'assets/js/show.js'
 			}
 		},
 		jshint: {
@@ -54,6 +56,7 @@ module.exports = function (grunt) {
 		uglify: {
 			all: {
 				files: {
+					'assets/js/show.min.js': ['assets/js/show.js'],
 					'assets/js/greatermedia_shows.min.js': ['assets/js/greatermedia_shows.js'],
 					'assets/js/admin_show_selector.min.js': ['assets/js/admin_show_selector.js']
 				},

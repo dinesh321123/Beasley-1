@@ -28,6 +28,7 @@ add_filter( 'gmr_blogroll_widget_item_post_types', 'gmr_ll_add_blogroll_widget_p
 add_filter( 'gmr_blogroll_widget_item_ids', 'gmr_ll_get_widget_item_ids' );
 add_filter( 'gmr_blogroll_widget_item', 'gmr_ll_output_blogroll_widget_live_link_item' );
 add_filter( 'posts_where', 'gmr_ll_suggestion_by_post_title', 10, 2 );
+add_filter( 'post_type_link', 'gmr_ll_get_link_permalink', 10, 2 );
 
 /**
  * Updates live link post title when a parent post title has been changed.
@@ -389,6 +390,20 @@ function gmr_ll_get_redirect_link( $live_link_id ) {
 	}
 
 	return false;
+}
+
+/**
+ * Builds permalink for Live Link object.
+ *
+ * @filter post_type_link 10 2
+ * @param string $post_link The initial permalink
+ * @param WP_Post $post The post object.
+ * @return string The live link permalink.
+ */
+function gmr_ll_get_link_permalink( $post_link, $post ) {
+	return GMR_LIVE_LINK_CPT != $post->post_type
+		? $post_link
+		: gmr_ll_get_redirect_link( $post->ID );
 }
 
 /**

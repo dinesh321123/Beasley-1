@@ -1,6 +1,6 @@
 /*! GreaterMedia Shows - v1.0.0
  * http://wordpress.org/plugins
- * Copyright (c) 2014; * Licensed GPLv2+ */
+ * Copyright (c) 2015; * Licensed GPLv2+ */
 /**
  * Callback function for the 'click' event of the 'Set Footer Image'
  * anchor in its meta box.

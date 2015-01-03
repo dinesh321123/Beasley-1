@@ -32,6 +32,10 @@ class ShowsCPT {
 
 			add_action( 'init', array( self::$_instance, 'register_post_type' ) );
 			add_action( 'init', array( self::$_instance, 'register_shadow_taxonomy' ) );
+			add_action( 'wp_enqueue_scripts', array( self::$_instance, 'enqueue_scripts' ) );
+
+			add_action( 'wp_ajax_gmr_show_load_live_links', array( self::$_instance, 'load_more_links' ) );
+			add_action( 'wp_ajax_nopriv_gmr_show_load_live_links', array( self::$_instance, 'load_more_links' ) );
 
 			add_filter( 'gmr_blogroll_widget_item_post_types', array( self::$_instance, 'add_episode_pt_to_blogroll_widget' ) );
 			add_filter( 'gmr_blogroll_widget_item_ids', array( self::$_instance, 'get_episodes_blogroll_widget_item_ids' ) );
@@ -177,6 +181,58 @@ class ShowsCPT {
 			'posts_per_page'      => 20,
 			'fields'              => 'ids',
 		) ) );
+	}
+
+	/**
+	 * Enqueues front end scripts.
+	 *
+	 * @access public
+	 */
+	public function enqueue_scripts() {
+		if ( is_singular( self::SHOW_CPT ) ) {
+			$show_id = get_queried_object_id();
+			$postfix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+			wp_enqueue_script( 'greatermedia-show', GMEDIA_SHOWS_URL . 'assets/js/show' . $postfix . '.js', array( 'jquery' ), GMEDIA_SHOWS_VERSION, true );
+			wp_localize_script( 'greatermedia-show', 'gmr_show', array(
+				'ajaxurl' => add_query_arg( array(
+					'action' => 'gmr_show_load_live_links', 
+					'show'   => $show_id,
+					'nonce'  => wp_create_nonce( 'show_load_more_links_' . $show_id ),
+				), admin_url( 'admin-ajax.php' ) ),
+			) );
+		}
+	}
+
+	/**
+	 * Loads more live links for a show homepage.
+	 *
+	 * @access public
+	 */
+	public function load_more_links() {
+		$show = filter_input( INPUT_GET, 'show', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
+		$nonce = wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'show_load_more_links_' . $show );
+		if ( ! $show || ! $nonce ) {
+			status_header( 404 );
+			exit;
+		}
+
+		$paged = filter_input( INPUT_GET, 'page', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'default' => 1 ) ) );
+		$query = \GreaterMedia\Shows\get_show_live_links_query( $show, $paged );
+		if ( ! $query->have_posts() ) {
+			exit;
+		}
+
+		while ( $query->have_posts() ) {
+			$query->the_post();
+
+			?><li class="live-link__type--<?php echo ( $format = get_post_format() ) ? $format : 'standard'; ?>">
+				<div class="live-link__title">
+					<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+				</div>
+			</li><?php
+		}
+		exit;
 	}
 
 }

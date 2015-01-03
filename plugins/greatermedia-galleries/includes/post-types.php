@@ -14,6 +14,9 @@ class GreaterMediaGalleryCPT {
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'gallery_cpt' ), 0 );
 		add_action( 'init', array( __CLASS__, 'album_cpt' ), 0 );
+
+		add_filter( 'gmr_live_link_suggestion_post_types', array( __CLASS__, 'extend_live_link_suggestion_post_types' ) );
+
 		self::add_save_actions();
 	}
 

@@ -213,6 +213,39 @@ function get_show_favorites_query() {
 	return $query;
 }
 
+function get_show_live_links_query( $show = null, $page = 1 ) {
+	$show = get_post( $show );
+	$episode = \gmrs_get_current_show_episode();
+	
+	$taxonomy = get_taxonomy( \ShowsCPT::SHOW_TAXONOMY );
+	$term = \TDS\get_related_term( $show );
+
+	$args = array(
+		'post_type'           => $taxonomy->object_type,
+		'paged'               => $page,
+		'posts_per_page'      => 10,
+		'ignore_sticky_posts' => true,
+		'no_found_rows'       => true,
+		'tax_query'           => array(
+			array(
+				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+				'terms'    => $term->term_id,
+			),
+		),
+	);
+
+	if ( $episode && $show->ID == $episode->post_parent && \gmrs_is_episode_onair( $episode ) ) {
+		$args['date_query'] = array(
+			array(
+				'before' => $episode->post_date_gmt,
+				'column' => 'post_date_gmt',
+			),
+		);
+	}
+
+	return new \WP_Query( $args );
+}
+
 function get_show_main_query() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 	$current_page = get_query_var( 'show_section_page' ) ?: 1;

@@ -96,72 +96,29 @@
 
 					        <?php do_action( 'acm_tag', 'mrec-lists' ); ?>
 
+							<?php
+							$live_links_query = \GreaterMedia\Shows\get_show_live_links_query();
+							if ( $live_links_query->have_posts() ) :
+							?>
 							<section class="show__live-links cf">
 					        	<h2 class="section-header">Live Links</h2>
 								<ul>
-									<li class="live-link__type--standard">
-										<div class="live-link__title">
-											<a href=
-											"http://wmmr.greatermedia.10uplabs.com/scroll-test/">GMR-278
-											test</a>
-										</div>
-									</li>
-
-
-									<li class="live-link__type--standard">
-										<div class="live-link__title">
-											<a href=
-											"http://wmmr.greatermedia.10uplabs.com/contest/daves-contest/">Dave’s
-											Contest</a>
-										</div>
-									</li>
-
-									<li class="live-link__type--link">
-										<div class="live-link__title">
-											<a href=
-											"http://wmmr.greatermedia.10uplabs.com/timed-content-test/">test
-											test</a>
-										</div>
-									</li>
-
-
-									<li class="live-link__type--standard">
-										<div class="live-link__title">
-											<a href=
-											"http://wmmr.greatermedia.10uplabs.com/ontario-highway-401-wikipedia-the-free-encyclopedia/">
-											Ontario Highway 401 – Wikipedia, the free encyclopedia</a>
-										</div>
-									</li>
-
-
-									<li class="live-link__type--video">
-										<div class="live-link__title">
-											<a href=
-											"http://wmmr.greatermedia.10uplabs.com/?post_type=gmr-live-link&amp;p=633">
-											Gladys Knight &amp; The Pips “Midnight Train To Georgia”</a>
-										</div>
-									</li>
-
-
-									<li class="live-link__type--video">
-										<div class="live-link__title">
-											<a href=
-											"http://wmmr.greatermedia.10uplabs.com/gladys-knight-the-pips-midnight-train-to-georgia/">
-											Gladys Knight &amp; The Pips</a>
-										</div>
-									</li>
-
-
-									<li class="live-link__type--video">
-										<div class="live-link__title">
-											<a href=
-											"http://wmmr.greatermedia.10uplabs.com/?post_type=gmr-live-link&amp;p=538">
-											Hilarious Volleyball Triple Head Shot – YouTube</a>
-										</div>
-									</li>
+									<?php while ( $live_links_query->have_posts() ) : ?>
+										<?php $live_links_query->the_post(); ?>
+										<li class="live-link__type--<?php echo ( $format = get_post_format() ) ? $format : 'standard'; ?>">
+											<div class="live-link__title">
+												<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+											</div>
+										</li>
+									<?php endwhile; ?>
+									<?php wp_reset_query(); ?>
 								</ul>
-								<a class="more-btn" href="">more</a>
+								
+								<a id="show__live-links--more" class="more-btn" href="#">
+									<i class="fa fa-spinner fa-spin" style="display:none"></i> more
+								</a>
 					        </section>
+							<?php endif; ?>
 
 				        </aside>
 
