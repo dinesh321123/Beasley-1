@@ -99,8 +99,8 @@ img {
 	right: 0;
 	left: 0;
 	width: 100%;
-	background-color: $secondary-bg;
-	color: $secondary-text;
+	background-color: $liveplayer-bg;
+	color: $liveplayer-color;
 	cursor: pointer;
 	@include bp(medium){
 		position: absolute;
@@ -124,7 +124,7 @@ img {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: $secondary-bg;
+	//background-color: $secondary-bg;
 	content: "";
 	z-index: 10;
 }

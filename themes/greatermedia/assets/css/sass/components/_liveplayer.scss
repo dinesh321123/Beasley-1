@@ -183,7 +183,8 @@ category: Components
 .live-player__stream--current.open {
 	display: block;
 	background-color: $liveplayer-bg;
-	color: $color-text-white;
+	color: $liveplayer-color;
+	//color: $color-text-white;
 	z-index: 10;
 }
 

@@ -1,3 +1,8 @@
+/**
+ * Path from processed styles to /assets
+ */
+$asset_root: "../" !default;
+
 // color variables
 //
 // @author Allen Moore
@@ -79,6 +84,7 @@ $header-border: $dark-gray !default;
 $header-nav-bg: $cardinal !default;
 
 $liveplayer-bg: $darker-gray !default;
+$liveplayer-color: $color-text-white !default;
 
 $featured-primary-bg: $heath !default;
 $featured-secondary-bg: $coffee-bean !default;

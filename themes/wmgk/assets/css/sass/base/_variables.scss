@@ -1,6 +1,35 @@
+/**
+ * Root of the parent theme's asset folder
+ */
+$asset_root: "../../../../themes/greatermedia/assets/";
+
+// Color from parent theme
+$cardinal: #d22228;
+$light-gray: #d0d2d3;
+$gray: #929497;
+$medium-gray: #404041;
+$dark-gray: #282827;
+
 // child theme specific colors to use
 //
 // @author Allen Moore
 // @since 0.1.0
 //
-$primary-bg: #ffffff;
+
+// MGK Colors:
+$color-gray-light: #f2f2f2;
+$color-gray-medium-light: $medium-gray;
+$color-gray-medium-dark: #303030;
+
+$primary-bg: #fff;
+$liveplayer-bg: $color-gray-light;
+$liveplayer-color: #404041;
+$secondary-bg: $color-gray-medium-dark;
+$header-bg: $color-gray-medium-light;
+
+$gallery-bg: $color-gray-medium-light;
+//$gallery-text: $medium-gray;
+$gallery-thumbs-bg: $color-gray-medium-dark;
+$gallery-border: #58595b;
+$gallery-grid-border: $gray !default;
+$gallery-grid-text: $gray !default;
