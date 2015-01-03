@@ -78,7 +78,10 @@ class Ad_Code_Manager {
 	 * which holds all necessary configuration properties
 	 */
 	function action_load_providers() {
-		$module_dirs = array_diff( scandir( AD_CODE_MANAGER_ROOT . '/providers/' ), array( '..', '.' ) );
+		$module_dirs = is_dir( AD_CODE_MANAGER_ROOT . '/providers/' ) 
+			? array_diff( scandir( AD_CODE_MANAGER_ROOT . '/providers/' ), array( '..', '.' ) )
+			: array();
+		
 		foreach ( $module_dirs as $module_dir ) {
 			$module_dir = str_replace( '.php', '', $module_dir );
 			if ( file_exists( AD_CODE_MANAGER_ROOT . "/providers/$module_dir.php" ) ) {
