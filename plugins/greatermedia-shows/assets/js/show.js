@@ -2,7 +2,7 @@
  * http://wordpress.org/plugins
  * Copyright (c) 2015; * Licensed GPLv2+ */
 (function ($, gmr) {
-	$(document).ready(function () {
+	var __ready = function() {
 		var paged = 1,
 			sync = false;
 		
@@ -29,5 +29,7 @@
 			
 			return false;
 		});
-	});
+	};
+
+	$(document).bind('pjax:end', __ready).ready(__ready);
 })(jQuery, gmr_show);

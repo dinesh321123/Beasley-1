@@ -1,6 +1,6 @@
 /* globals gmr_show:false */
 (function ($, gmr) {
-	$(document).ready(function () {
+	var __ready = function() {
 		var paged = 1,
 			sync = false;
 		
@@ -27,5 +27,7 @@
 			
 			return false;
 		});
-	});
+	};
+
+	$(document).bind('pjax:end', __ready).ready(__ready);
 })(jQuery, gmr_show);
