@@ -575,6 +575,9 @@ class GreaterMediaFormbuilderRender {
 		$state_field->cid .= '[state]';
 		$state_field->label = 'State';
 		unset( $state_field->field_options->description );
+		if ( ! $state_field->field_options ) {
+			$state_field->field_options = new stdClass();
+		}
 		$state_field->field_options->options = self::get_us_states();
 		$html .= self::render_dropdown( $post_id, $state_field );
 
