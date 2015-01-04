@@ -654,45 +654,46 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				},
 				
 				update: function ($item) {
-					var $previewInner, $itemEl, content;
-					
+					var $previewInner, $itemEl, content, self;
+
+					self = this;
 					if ($item) {
-						this.$item = $item;
+						self.$item = $item;
 					}
 
 					// if already expanded remove class "og-expanded" from current item and add it to new item
 					if (current !== -1) {
 						var $currentItem = $items.eq(current);
 						$currentItem.removeClass('expanded');
-						this.$item.addClass('expanded');
+						self.$item.addClass('expanded');
 						// position the preview correctly
-						this.positionPreview();
+						self.positionPreview();
 					}
 
 					// update current value
-					current = this.$item.index();
+					current = self.$item.index();
 
 					// reset preview inner element
-					$previewInner = this.$previewInner;
-					$previewInner.html(this.$closePreview);
+					$previewInner = self.$previewInner;
+					$previewInner.html(self.$closePreview);
 
 					// update preview's content
-					$itemEl = this.$item.children('a');
+					$itemEl = self.$item.children('a');
 					content = $itemEl.data('content');
 					if (!content) {
-						$.get($itemEl.attr('href'), function(response) {
+						$.get($itemEl.attr('href'), {ajax: 'true'}, function(response) {
 							$itemEl.data('content', response);
 							$previewInner.append(response);
 
 							if ($.isFunction(settings.previewLoaded)) {
-								settings.previewLoaded($previewInner);
+								settings.previewLoaded(self);
 							}
 						});
 					} else {
 						$previewInner.append(content);
 
 						if ($.isFunction(settings.previewLoaded)) {
-							settings.previewLoaded($previewInner);
+							settings.previewLoaded(self);
 						}
 					}
 				},
@@ -860,12 +861,15 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 		container.load(gmr.endpoints.load);
 
-		$('.contest-submissions--list').grid({
-			loadMore: '.contest-submissions--load-more',
-			previewLoaded: function() {
+		$('.contest__submissions--list').grid({
+			loadMore: '.contest__submissions--load-more',
+			previewLoaded: function(submission) {
+				var $previewInner = submission.$previewInner,
+					sync_vote = false;
+
 				// init new gallery
 				if ($.fn.cycle) {
-					$('.cycle-slideshow').cycle({
+					$previewInner.find('.cycle-slideshow').cycle({
 						next: '.gallery__next--btn'
 					});
 				}
@@ -874,6 +878,46 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				if (GMR_Gallery) {
 					GMR_Gallery.bindEvents();
 				}
+
+				// bind vote click event
+				$previewInner.find('.contest__submission--vote').click(function() {
+					var $this = $(this),
+						$icon = $this.find('i.fa'),
+						classes = $icon.attr('class');
+
+					if (!sync_vote) {
+						sync_vote = true;
+						$icon.attr('class', 'fa fa-spinner fa-spin');
+						
+						$.post(gmr.endpoints.vote, {}, function(response) {
+							sync_vote = false;
+							$icon.attr('class', classes);
+							submission.$item.addClass('voted');
+						});
+					}
+
+					return false;
+				});
+
+				// bind unvote click event
+				$previewInner.find('.contest__submission--unvote').click(function() {
+					var $this = $(this),
+						$icon = $this.find('i.fa'),
+						classes = $icon.attr('class');
+
+					if (!sync_vote) {
+						sync_vote = true;
+						$icon.attr('class', 'fa fa-spinner fa-spin');
+
+						$.post(gmr.endpoints.vote, {}, function(response) {
+							sync_vote = false;
+							$icon.attr('class', classes);
+							submission.$item.removeClass('voted');
+						});
+					}
+
+					return false;
+				});
 			},
 			loadMoreUrl: function(page) {
 				return gmr.endpoints.infinite + (page + 1) + '/';

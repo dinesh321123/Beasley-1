@@ -257,45 +257,46 @@
 				},
 				
 				update: function ($item) {
-					var $previewInner, $itemEl, content;
-					
+					var $previewInner, $itemEl, content, self;
+
+					self = this;
 					if ($item) {
-						this.$item = $item;
+						self.$item = $item;
 					}
 
 					// if already expanded remove class "og-expanded" from current item and add it to new item
 					if (current !== -1) {
 						var $currentItem = $items.eq(current);
 						$currentItem.removeClass('expanded');
-						this.$item.addClass('expanded');
+						self.$item.addClass('expanded');
 						// position the preview correctly
-						this.positionPreview();
+						self.positionPreview();
 					}
 
 					// update current value
-					current = this.$item.index();
+					current = self.$item.index();
 
 					// reset preview inner element
-					$previewInner = this.$previewInner;
-					$previewInner.html(this.$closePreview);
+					$previewInner = self.$previewInner;
+					$previewInner.html(self.$closePreview);
 
 					// update preview's content
-					$itemEl = this.$item.children('a');
+					$itemEl = self.$item.children('a');
 					content = $itemEl.data('content');
 					if (!content) {
-						$.get($itemEl.attr('href'), function(response) {
+						$.get($itemEl.attr('href'), {ajax: 'true'}, function(response) {
 							$itemEl.data('content', response);
 							$previewInner.append(response);
 
 							if ($.isFunction(settings.previewLoaded)) {
-								settings.previewLoaded($previewInner);
+								settings.previewLoaded(self);
 							}
 						});
 					} else {
 						$previewInner.append(content);
 
 						if ($.isFunction(settings.previewLoaded)) {
-							settings.previewLoaded($previewInner);
+							settings.previewLoaded(self);
 						}
 					}
 				},
