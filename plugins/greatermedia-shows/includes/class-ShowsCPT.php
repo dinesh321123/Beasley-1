@@ -144,6 +144,8 @@ class ShowsCPT {
 			'tribe_events',
 			'survey',
 			'livefyre-media-wall',
+			'gmr_gallery',
+			'gmr_album',
 		);
 
 		return $post_types;

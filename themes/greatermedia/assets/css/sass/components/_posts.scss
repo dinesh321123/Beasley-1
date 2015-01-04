@@ -132,12 +132,22 @@ Link posts contain a link to an external site. They can also optionally have a f
 	@include bp(medium) {
 		margin-bottom: 90px;
 	}
+
+	.single-gmr_album & {
+		margin-bottom: 0;
+	}
 }
 
 // Thumbnail
 .entry__thumbnail {
 	position: relative;
 	padding-bottom: 32px;
+
+	.single-gmr_album & {
+		width: 100%;
+		padding-top: 2em;
+		padding-bottom: 3.625em;
+	}
 }
 
 // Content
@@ -185,6 +195,10 @@ Link posts contain a link to an external site. They can also optionally have a f
 	@include bp(large) {
 		@include span-columns(12);
 		padding-top: 40px;
+	}
+
+	.single-gmr_album & {
+		border-bottom: none;
 	}
 }
 

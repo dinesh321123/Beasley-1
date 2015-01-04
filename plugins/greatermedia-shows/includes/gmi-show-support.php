@@ -20,27 +20,27 @@ function supports_videos( $show_id ) {
 
 function about_link_html( $show_id, $link_text = 'About' ) {
 	$class = 'about' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
-	?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/about/"><?php echo esc_html( $link_text ); ?></a></li><?php
+	?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>about/"><?php echo esc_html( $link_text ); ?></a></li><?php
 }
 
 function galleries_link_html( $show_id, $link_text = 'Galleries' ) {
 	if ( supports_galleries( $show_id ) ) {
 		$class = 'galleries' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
-		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/galleries/"><?php echo esc_html( $link_text ); ?></a></li><?php
+		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>galleries/"><?php echo esc_html( $link_text ); ?></a></li><?php
 	}
 }
 
 function podcasts_link_html( $show_id, $link_text = 'Podcasts' ) {
 	if ( supports_podcasts( $show_id ) ) {
 		$class = 'podcasts' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
-		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/podcasts/"><?php echo esc_html( $link_text ); ?></a></li><?php
+		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>podcasts/"><?php echo esc_html( $link_text ); ?></a></li><?php
 	}
 }
 
 function videos_link_html( $show_id, $link_text = 'Videos' ) {
 	if ( supports_videos( $show_id ) ) {
 		$class = 'videos' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
-		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>/videos/"><?php echo esc_html( $link_text ); ?></a></li><?php
+		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo get_the_permalink( $show_id ); ?>videos/"><?php echo esc_html( $link_text ); ?></a></li><?php
 	}
 }
 

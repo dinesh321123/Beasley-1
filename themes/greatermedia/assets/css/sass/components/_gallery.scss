@@ -17,131 +17,131 @@ category: Components - Gallery Archive
 ---
 
 ```html_example
-<section class="gallery-grid">
+<section class="gallery__grid">
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
-			<div class="gallery-grid__album"></div>
+			<div class="gallery__grid__album"></div>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
@@ -150,15 +150,15 @@ category: Components - Gallery Archive
 
 </section>
 
-<section class="gallery-grid__pagination">
+<section class="gallery__grid__pagination">
 
-	<ul class="gallery-grid__pagination--list">
-		<li class="gallery-grid__pagination--item gallery-grid__pagination--current"><a href="#">1</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">2</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">3</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">...</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">4</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">5</a></li>
+	<ul class="gallery__grid__pagination--list">
+		<li class="gallery__grid__pagination--item gallery__grid__pagination--current"><a href="#">1</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">2</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">3</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">...</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">4</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">5</a></li>
 	</ul>
 </section>
 ```
@@ -765,28 +765,173 @@ category: Components - Gallery Archive
 	}
 }
 
-.gallery-grid {
-	width: 100%;
-	overflow: auto;
+.gallery__archive {
+	@extend %content;
+	padding-top: 3.625em;
+	padding-bottom: 3.625em;
+
+	.single-gmr_album & {
+		padding-top: 1.625em;
+	}
 }
 
-.gallery-grid__column {
+.gallery__featured, .gallery__grid {
+	@include span-columns(4 of 4);
+	@include omega;
+	@include bp(small) {
+		@include span-columns(6 of 6);
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(4 of 4);
+		@include omega;
+	}
+	@include bp(large) {
+		@include span-columns(10 of 10);
+		@include omega;
+	}
+	@include bp(x-large) {
+		@include span-columns(10 of 10);
+		@include omega;
+	}
+}
+
+.gallery__featured {
+	padding-bottom: 48px;
+}
+
+.gallery__featured--primary {
 	float: left;
-	width: 23.5%;
-	margin-right: 2%;
+	width: 100%;
+
+	@include bp(medium) {
+		width: 66%;
+		margin-right: 4%;
+	}
+
+}
+
+.gallery__featured--secondary {
+	float: left;
+	width: 100%;
+
+	@include bp(medium) {
+		width: 30%;
+	}
+}
+
+.gallery__featured--item {
+	margin-bottom: 20px;
+
+	@include bp(medium) {
+		margin-bottom: 0;
+	}
+	.gallery__featured--secondary & {
+		margin-bottom: 20px;
+		@include bp(medium) {
+			margin-bottom: 14px;
+		}
+		@include bp(large) {
+			margin-bottom: 36px;
+		}
+		@include bp(x-large) {
+			margin-bottom: 39px;
+		}
+	}
+}
+
+.gallery__featured--item:last-of-type {
+	.gallery__featured--secondary & {
+		margin-bottom: 0;
+	}
+}
+
+.gallery__featured--thumbnail {
+	width: 100%;
+}
+
+.gallery__featured--thumbnail a {
+	display: block;
+}
+
+.gallery__featured--caption {
+	width: 100%;
+	height: 60px;
+	padding: 10px;
+	background-color: $gallery-featured-bg;
+
+	@include bp(large) {
+		height: 96px;
+		padding: 20px;
+	}
+	.gallery__featured--secondary & {
+		height: 43px;
+		@include bp(large) {
+			height: 81px;
+		}
+		@include bp(x-large) {
+			height: 86px;
+		}
+	}
+}
+
+.gallery__featured--title {
+	margin: 0;
+	line-height: 1;
+	font-family: $open-sans;
+	font-weight: lighter;
+	font-size: ms(4);
+
+	.gallery__featured--secondary & {
+		font-size: ms(4);
+		@include bp(medium) {
+			font-size: ms(1);
+		}
+	}
+}
+
+.gallery__grid--column {
+	@include span-columns(4);
+	margin-bottom: 0;
 	overflow: auto;
+
+	@include bp(small) {
+		@include span-columns(6);
+	}
+
+	@include bp(medium) {
+		@include span-columns(4);
+	}
+
+
+	@include bp(large) {
+		@include span-columns(3);
+	}
+
+	@include bp(x-large) {
+		@include span-columns(3);
+	}
+
 }
 
-.gallery-grid__column:nth-of-type(4n+4) {
-	margin-right: 0%;
+.gallery__grid--column:nth-of-type(2n+2) {
+	@media screen and (min-width: 768px) and (max-width: 1023px) {
+		margin-right: 0;
+	}
 }
 
-.gallery-grid__thumbnail {
+.gallery__grid--column:nth-of-type(4n+4) {
+	@include bp(large) {
+		margin-right: 0;
+	}
+}
+
+.gallery__grid--thumbnail {
 	position: relative;
 	margin-bottom: 30px;
 }
 
-.gallery-grid__album {
+.gallery__grid--album {
 	position: absolute;
 	top: 24px;
 	right: 24px;
@@ -795,17 +940,21 @@ category: Components - Gallery Archive
 	color: $color-text-white;
 }
 
-.gallery-grid__album:before {
+.gallery__grid--album:before {
 	width: 0;
 	height: 0;
 	content: "\e61a";
 }
 
-.gallery-grid__meta {
-	height: 100px;
+.gallery__grid--meta {
+	padding-bottom: 30px;
+	@include bp(medium) {
+		height: 100px;
+		padding-bottom: 0;
+	}
 }
 
-.gallery-grid__title {
+.gallery__grid--title {
 	margin: 0;
 	font-family: $open-sans;
 	font-size: ms(1);
@@ -813,55 +962,63 @@ category: Components - Gallery Archive
 	color: $primary-heading;
 }
 
-.gallery-grid__pagination {
+.gallery__grid--pagination {
 	width: 100%;
 	overflow: auto;
 	text-align: center;
 }
 
-.gallery-grid__pagination--list {
+.gallery__grid--pagination-list {
 	@extend %unordered-list;
 }
 
-.gallery-grid__pagination--item {
+.gallery__grid--pagination-list li {
 	list-style: none;
 	display: inline-block;
 	@extend %list-item;
-	width: 28px;
 	height: 28px;
-	margin-right: 1em;
+	margin-right: 1.45em;
 	@include box-sizing(border-box);
+	font-size: ms(-1);
 	color: $gallery-grid-text;
 	text-align: center;
 }
 
 
-.gallery-grid__pagination--item a,.gallery-grid__pagination--item a:visited {
+.gallery__grid--pagination-list li a,.gallery__grid--pagination-list li a:visited {
 	display: block;
-	width: 26px;
 	height: 26px;
+	padding: 6px 0;
+	line-height: 1;
 	color: $gallery-grid-text;
 }
 
-.gallery-grid__pagination--item a:hover,.gallery-grid__pagination--item a:focus {
+.gallery__grid--pagination-list li a:hover,.gallery__grid--pagination-list li a:focus {
 	color: $primary-link;
 }
 
-.gallery-grid__pagination--item a:active {
+.gallery__grid--pagination-list li a:active {
 	color: $primary-text;
 }
 
-.gallery-grid__pagination--current {
+.gallery__grid--pagination-current {
 	border: 1px solid $gallery-grid-border;
 	@include border-radius(50%);
 }
 
-.gallery-grid__pagination--current:hover, .gallery-grid__pagination--current:focus {
+.gallery__grid--pagination-current:hover, .gallery__grid--pagination-current:focus {
 	border-color: $primary-link;
 	color: $primary-link;
 }
 
-.gallery-grid__pagination--current:active {
+.gallery__grid--pagination-current:active {
 	border-color: $primary-text;
 	color: $primary-text;
+}
+
+.gallery__grid--pagination-current a,.gallery__grid--pagination-current a:visited {
+	display: block;
+	width: 26px;
+	padding: 6px 0;
+	line-height: 1;
 }

@@ -50,11 +50,11 @@ category: Base
 ```
 
 */
-.entry__event--details, .footer__nav--list, .contest__sponsors--list, .gallery-grid__pagination--list {
+.entry__event--details, .footer__nav--list, .contest__sponsors--list, .gallery__grid--pagination-list {
   padding: 0;
   margin: 0; }
 
-.entry__event--item, .footer__nav--list .menu-item, .live-player__stream--item, .contest__sponsor, .gallery-grid__pagination--item {
+.entry__event--item, .footer__nav--list .menu-item, .live-player__stream--item, .contest__sponsor, .gallery__grid--pagination-list li {
   list-style: none;
   padding: 0;
   margin: 0; }
@@ -486,7 +486,7 @@ category: Base - Typography
   src: url("../fonts/icon-font/gmr-icons.eot?#iefixjmqkgs") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?jmqkgs") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?jmqkgs") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery-grid__album, .header__search--submit:before {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .header__search--submit:before {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -664,24 +664,24 @@ img {
 .main .container {
   background-color: #ffffff; }
 
-.content {
+.content, .gallery__archive {
   float: left;
   display: block;
   margin-right: 7.42297%;
   width: 100%;
   padding: 2em 7.0833333333335%; }
-  .content:last-child {
+  .content:last-child, .gallery__archive:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
-    .content {
+    .content, .gallery__archive {
       float: left;
       display: block;
       margin-right: 4.82916%;
       width: 100%; }
-      .content:last-child {
+      .content:last-child, .gallery__archive:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 768px) {
-    .content {
+    .content, .gallery__archive {
       float: left;
       display: block;
       margin-right: 4.82916%;
@@ -689,25 +689,25 @@ img {
       margin-left: 17.47153%;
       padding-right: 0;
       padding-left: 0; }
-      .content:last-child {
+      .content:last-child, .gallery__archive:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1024px) {
-    .content {
+    .content, .gallery__archive {
       float: left;
       display: block;
       margin-right: 2.35765%;
       width: 82.94039%;
       margin-left: 8.5298%; }
-      .content:last-child {
+      .content:last-child, .gallery__archive:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1400px) {
-    .content {
+    .content, .gallery__archive {
       float: left;
       display: block;
       margin-right: 2.35765%;
       width: 82.94039%;
       margin-left: 8.5298%; }
-      .content:last-child {
+      .content:last-child, .gallery__archive:last-child {
         margin-right: 0; } }
 
 .live-player {
@@ -1465,7 +1465,7 @@ blockquote p {
 .page-template-front-page-php .entry__date,
 .page-template-front-page-php .entry__excerpt {
   display: none; }
-.page-template-front-page-php .entry__title {
+.page-template-front-page-php .entry__title, .page-template-front-page-php .page__title {
   margin-bottom: 0.5em;
   text-align: center; }
 .page-template-front-page-php .entry__thumbnail {
@@ -1480,12 +1480,12 @@ blockquote p {
   .page-template-front-page-php .entry__date,
   .page-template-front-page-php .entry__excerpt {
     display: block; }
-  .page-template-front-page-php .entry__title {
+  .page-template-front-page-php .entry__title, .page-template-front-page-php .page__title {
     text-align: left; }
   .page-template-front-page-php .entry__footer {
     text-align: right; } }
 @media screen and (min-width: 768px) {
-  .page-template-front-page-php .entry__title {
+  .page-template-front-page-php .entry__title, .page-template-front-page-php .page__title {
     margin-bottom: 0.4em; }
   .page-template-front-page-php .entry__thumbnail {
     padding-top: 0.5em;
@@ -2834,10 +2834,16 @@ Link posts contain a link to an external site. They can also optionally have a f
   @media screen and (min-width: 768px) {
     .hentry {
       margin-bottom: 90px; } }
+  .single-gmr_album .hentry {
+    margin-bottom: 0; }
 
 .entry__thumbnail {
   position: relative;
   padding-bottom: 32px; }
+  .single-gmr_album .entry__thumbnail {
+    width: 100%;
+    padding-top: 2em;
+    padding-bottom: 3.625em; }
 
 .entry__content {
   padding: 1.5em 0;
@@ -2857,7 +2863,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   position: relative;
   margin-bottom: 8px; }
 
-.entry__title {
+.entry__title, .page__title {
   margin: 0 0 20px;
   font-size: 1.60181em; }
 
@@ -2895,6 +2901,8 @@ Link posts contain a link to an external site. They can also optionally have a f
       padding-top: 40px; }
       .entry__footer:last-child {
         margin-right: 0; } }
+  .single-gmr_album .entry__footer {
+    border-bottom: none; }
 
 .contest .entry__footer {
   border-bottom: none; }
@@ -3362,7 +3370,7 @@ Link posts contain a link to an external site. They can also optionally have a f
       .entry__concert--content:last-child {
         margin-right: 0; } }
 
-.entry__concert--content .entry__title {
+.entry__concert--content .entry__title, .entry__concert--content .page__title {
   margin-top: 0;
   line-height: 1; }
 
@@ -3443,7 +3451,7 @@ Link posts contain a link to an external site. They can also optionally have a f
       .entry__cdrelease--content:last-child {
         margin-right: 0; } }
 
-.entry__cdrelease--content .entry__title {
+.entry__cdrelease--content .entry__title, .entry__cdrelease--content .page__title {
   margin-top: 0;
   line-height: 1; }
 
@@ -5868,7 +5876,7 @@ category: Components - Article
   height: auto;
   margin-bottom: 1em; }
 
-.entry__title {
+.entry__title, .page__title {
   margin: 0;
   margin-bottom: 1em; }
 
@@ -5903,131 +5911,131 @@ category: Components - Gallery Archive
 ---
 
 ```html_example
-<section class="gallery-grid">
+<section class="gallery__grid">
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
-			<div class="gallery-grid__album"></div>
+			<div class="gallery__grid__album"></div>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
@@ -6036,15 +6044,15 @@ category: Components - Gallery Archive
 
 </section>
 
-<section class="gallery-grid__pagination">
+<section class="gallery__grid__pagination">
 
-	<ul class="gallery-grid__pagination--list">
-		<li class="gallery-grid__pagination--item gallery-grid__pagination--current"><a href="#">1</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">2</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">3</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">...</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">4</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">5</a></li>
+	<ul class="gallery__grid__pagination--list">
+		<li class="gallery__grid__pagination--item gallery__grid__pagination--current"><a href="#">1</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">2</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">3</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">...</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">4</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">5</a></li>
 	</ul>
 </section>
 ```
@@ -6694,74 +6702,241 @@ category: Components - Gallery Archive
   .single-gmr_gallery .gallery__slide--active {
     border-color: #d0d2d3; }
 
-.gallery-grid {
-  width: 100%;
-  overflow: auto; }
+.gallery__archive {
+  padding-top: 3.625em;
+  padding-bottom: 3.625em; }
+  .single-gmr_album .gallery__archive {
+    padding-top: 1.625em; }
 
-.gallery-grid__column {
+.gallery__featured, .gallery__grid {
   float: left;
-  width: 23.5%;
-  margin-right: 2%;
+  display: block;
+  margin-right: 7.42297%;
+  width: 100%;
+  margin-right: 0; }
+  .gallery__featured:last-child, .gallery__grid:last-child {
+    margin-right: 0; }
+  @media screen and (min-width: 480px) {
+    .gallery__featured, .gallery__grid {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 100%;
+      margin-right: 0; }
+      .gallery__featured:last-child, .gallery__grid:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 768px) {
+    .gallery__featured, .gallery__grid {
+      float: left;
+      display: block;
+      margin-right: 7.42297%;
+      width: 100%;
+      margin-right: 0; }
+      .gallery__featured:last-child, .gallery__grid:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1024px) {
+    .gallery__featured, .gallery__grid {
+      float: left;
+      display: block;
+      margin-right: 2.84259%;
+      width: 100%;
+      margin-right: 0; }
+      .gallery__featured:last-child, .gallery__grid:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .gallery__featured, .gallery__grid {
+      float: left;
+      display: block;
+      margin-right: 2.84259%;
+      width: 100%;
+      margin-right: 0; }
+      .gallery__featured:last-child, .gallery__grid:last-child {
+        margin-right: 0; } }
+
+.gallery__featured {
+  padding-bottom: 48px; }
+
+.gallery__featured--primary {
+  float: left;
+  width: 100%; }
+  @media screen and (min-width: 768px) {
+    .gallery__featured--primary {
+      width: 66%;
+      margin-right: 4%; } }
+
+.gallery__featured--secondary {
+  float: left;
+  width: 100%; }
+  @media screen and (min-width: 768px) {
+    .gallery__featured--secondary {
+      width: 30%; } }
+
+.gallery__featured--item {
+  margin-bottom: 20px; }
+  @media screen and (min-width: 768px) {
+    .gallery__featured--item {
+      margin-bottom: 0; } }
+  .gallery__featured--secondary .gallery__featured--item {
+    margin-bottom: 20px; }
+    @media screen and (min-width: 768px) {
+      .gallery__featured--secondary .gallery__featured--item {
+        margin-bottom: 14px; } }
+    @media screen and (min-width: 1024px) {
+      .gallery__featured--secondary .gallery__featured--item {
+        margin-bottom: 36px; } }
+    @media screen and (min-width: 1400px) {
+      .gallery__featured--secondary .gallery__featured--item {
+        margin-bottom: 39px; } }
+
+.gallery__featured--secondary .gallery__featured--item:last-of-type {
+  margin-bottom: 0; }
+
+.gallery__featured--thumbnail {
+  width: 100%; }
+
+.gallery__featured--thumbnail a {
+  display: block; }
+
+.gallery__featured--caption {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  background-color: #f2f2f2; }
+  @media screen and (min-width: 1024px) {
+    .gallery__featured--caption {
+      height: 96px;
+      padding: 20px; } }
+  .gallery__featured--secondary .gallery__featured--caption {
+    height: 43px; }
+    @media screen and (min-width: 1024px) {
+      .gallery__featured--secondary .gallery__featured--caption {
+        height: 81px; } }
+    @media screen and (min-width: 1400px) {
+      .gallery__featured--secondary .gallery__featured--caption {
+        height: 86px; } }
+
+.gallery__featured--title {
+  margin: 0;
+  line-height: 1;
+  font-family: "Open Sans", sans-serif;
+  font-weight: lighter;
+  font-size: 1.60181em; }
+  .gallery__featured--secondary .gallery__featured--title {
+    font-size: 1.60181em; }
+    @media screen and (min-width: 768px) {
+      .gallery__featured--secondary .gallery__featured--title {
+        font-size: 1.125em; } }
+
+.gallery__grid--column {
+  float: left;
+  display: block;
+  margin-right: 7.42297%;
+  width: 100%;
+  margin-bottom: 0;
   overflow: auto; }
+  .gallery__grid--column:last-child {
+    margin-right: 0; }
+  @media screen and (min-width: 480px) {
+    .gallery__grid--column {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 100%; }
+      .gallery__grid--column:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 768px) {
+    .gallery__grid--column {
+      float: left;
+      display: block;
+      margin-right: 3.57866%;
+      width: 48.21067%; }
+      .gallery__grid--column:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1024px) {
+    .gallery__grid--column {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 23.23176%; }
+      .gallery__grid--column:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .gallery__grid--column {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 23.23176%; }
+      .gallery__grid--column:last-child {
+        margin-right: 0; } }
 
-.gallery-grid__column:nth-of-type(4n+4) {
-  margin-right: 0%; }
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .gallery__grid--column:nth-of-type(2n+2) {
+    margin-right: 0; } }
 
-.gallery-grid__thumbnail {
+@media screen and (min-width: 1024px) {
+  .gallery__grid--column:nth-of-type(4n+4) {
+    margin-right: 0; } }
+
+.gallery__grid--thumbnail {
   position: relative;
   margin-bottom: 30px; }
 
-.gallery-grid__album {
+.gallery__grid--album {
   position: absolute;
   top: 24px;
   right: 24px;
   font-size: 3.24732em;
   color: #ffffff; }
 
-.gallery-grid__album:before {
+.gallery__grid--album:before {
   width: 0;
   height: 0;
   content: "\e61a"; }
 
-.gallery-grid__meta {
-  height: 100px; }
+.gallery__grid--meta {
+  padding-bottom: 30px; }
+  @media screen and (min-width: 768px) {
+    .gallery__grid--meta {
+      height: 100px;
+      padding-bottom: 0; } }
 
-.gallery-grid__title {
+.gallery__grid--title {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 1.125em;
   font-weight: lighter;
   color: #404041; }
 
-.gallery-grid__pagination {
+.gallery__grid--pagination {
   width: 100%;
   overflow: auto;
   text-align: center; }
 
-.gallery-grid__pagination--item {
+.gallery__grid--pagination-list li {
   list-style: none;
   display: inline-block;
-  width: 28px;
   height: 28px;
-  margin-right: 1em;
+  margin-right: 1.45em;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  font-size: 0.88889em;
   color: #929497;
   text-align: center; }
 
-.gallery-grid__pagination--item a, .gallery-grid__pagination--item a:visited {
+.gallery__grid--pagination-list li a, .gallery__grid--pagination-list li a:visited {
   display: block;
-  width: 26px;
   height: 26px;
+  padding: 6px 0;
+  line-height: 1;
   color: #929497; }
 
-.gallery-grid__pagination--item a:hover, .gallery-grid__pagination--item a:focus {
+.gallery__grid--pagination-list li a:hover, .gallery__grid--pagination-list li a:focus {
   color: #d22228; }
 
-.gallery-grid__pagination--item a:active {
+.gallery__grid--pagination-list li a:active {
   color: #404041; }
 
-.gallery-grid__pagination--current {
+.gallery__grid--pagination-current {
   border: 1px solid #929497;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -6770,13 +6945,19 @@ category: Components - Gallery Archive
   -border-radius: 50%;
   border-radius: 50%; }
 
-.gallery-grid__pagination--current:hover, .gallery-grid__pagination--current:focus {
+.gallery__grid--pagination-current:hover, .gallery__grid--pagination-current:focus {
   border-color: #d22228;
   color: #d22228; }
 
-.gallery-grid__pagination--current:active {
+.gallery__grid--pagination-current:active {
   border-color: #404041;
   color: #404041; }
+
+.gallery__grid--pagination-current a, .gallery__grid--pagination-current a:visited {
+  display: block;
+  width: 26px;
+  padding: 6px 0;
+  line-height: 1; }
 
 /*doc
 ---
@@ -7451,5 +7632,8 @@ select {
   max-width: 100%;
   height: auto;
   margin: 0 auto; }
+
+.page__title {
+  text-transform: uppercase; }
 
 /*# sourceMappingURL=greater_media.css.map */

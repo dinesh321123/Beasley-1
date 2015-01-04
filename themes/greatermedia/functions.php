@@ -51,14 +51,18 @@ function greatermedia_setup() {
 
 	// Add theme support for post thumbnails
 	add_theme_support( 'post-thumbnails' );
-	add_image_size( 'gm-article-thumbnail',        1580, 9999, false ); // thumbnails used for articles
-	add_image_size( 'gmr-gallery',                 800,  534,  true  ); // large images for the gallery
-	add_image_size( 'gmr-gallery-thumbnail',       100,  100         ); // thumbnails for the gallery
-	add_image_size( 'gmr-featured-primary',        2800, 1000, true  ); // image for primary featured post on front page
-	add_image_size( 'gmr-featured-secondary',      400,  400,  true  ); // thumbnails for secondary featured posts on front page
-	add_image_size( 'gmr-show-featured-primary',   570,  313,  true  ); // thumbnails for secondary featured posts on front page
-	add_image_size( 'gmr-show-featured-secondary', 270,  118,  true  ); // thumbnails for secondary featured posts on front page
-	add_image_size( 'gmr-contest-thumbnail',       2800, 9999        ); // thumbnail for contest featured image
+	add_image_size( 'gm-article-thumbnail',             1580,   9999,   false   ); // thumbnails used for articles
+	add_image_size( 'gmr-gallery',                      800,    534,    true    ); // large images for the gallery
+	add_image_size( 'gmr-gallery-thumbnail',            100,    100             ); // thumbnails for the gallery
+	add_image_size( 'gmr-featured-primary',             2800,   1000,   true    ); // image for primary featured post on front page
+	add_image_size( 'gmr-featured-secondary',           400,    400,    true    ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gmr-gallery-grid-featured',        1200,   800,    true    );
+	add_image_size( 'gmr-gallery-grid-secondary',       560,    300,    true    );
+	add_image_size( 'gmr-gallery-grid-thumb',           500,    368,    true    ); // thumbnail for gallery grid areas
+	add_image_size( 'gmr-album-thumbnail',              1876,   576,    true    ); // thumbnail for albums
+	add_image_size( 'gmr-show-featured-primary',   		570,    313,    true    ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gmr-show-featured-secondary',   	270,    118,    true    ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gmr-contest-thumbnail',            2800,   9999            ); // thumbnail for contest featured image
 
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
@@ -364,3 +368,106 @@ add_action( 'gmlp_player_popup_template', 'greatermedia_popup_payer_hide_livesid
 function greatermedia_popup_payer_hide_livesidebar(){
 	add_filter( 'load_greatermedia_livepress_sidebar', '__return_false' );
 }
+/**
+ * Add's a numbered pagination when called. This also allows total control of classes being used.
+ */
+/* function greatermedia_gallery_album_nav() {
+
+	if( is_singular() )
+		return;
+
+	global $wp_query;
+
+	// Stop execution if there's only 1 page
+	if( $wp_query->max_num_pages <= 1 )
+		return;
+
+	$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+	$max   = intval( $wp_query->max_num_pages );
+
+	// Add current page to the array
+	if ( $paged >= 1 )
+		$links[] = $paged;
+
+	// Add the pages around the current page to the array
+	if ( $paged >= 3 ) {
+		$links[] = $paged - 1;
+		$links[] = $paged - 2;
+	}
+
+	if ( ( $paged + 2 ) <= $max ) {
+		$links[] = $paged + 2;
+		$links[] = $paged + 1;
+	}
+
+	echo '<nav class="gallery__grid--pagination"><ul class="gallery__grid--pagination-list">' . "\n";
+
+	// Link to first page, plus ellipses if necessary
+	if ( ! in_array( 1, $links ) ) {
+		$class = 1 == $paged ? ' class="gallery__grid--pagination-current"' : '';
+
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
+
+		if ( ! in_array( 2, $links ) )
+			echo '<li class="gallery__grid--pagination-item">…</li>';
+	}
+
+	// Link to current page, plus 2 pages in either direction if necessary
+	sort( $links );
+	foreach ( (array) $links as $link ) {
+		$class = $paged == $link ? ' class="gallery__grid--pagination-current"' : '';
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $link ) ), $link );
+	}
+
+	// Link to last page, plus ellipses if necessary
+	if ( ! in_array( $max, $links ) ) {
+		if ( ! in_array( $max - 1, $links ) )
+			echo '<li>…</li>' . "\n";
+
+		$class = $paged == $max ? ' class="gallery__grid--pagination-current"' : '';
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
+	}
+
+	echo '</ul></nav>' . "\n";
+
+} */
+
+function greatermedia_gallery_album_nav() {
+	global $wp_query;
+	$bignum = 999999999;
+	if ( $wp_query->max_num_pages <= 1 )
+		return;
+	echo '<nav class="pagination">';
+	echo paginate_links( array(
+		'base'      => str_replace( $bignum, '%#%', esc_url( get_pagenum_link( $bignum ) ) ),
+		'format'    => '',
+		'current'   => max( 1, get_query_var( 'paged' ) ),
+		'total'     => $wp_query->max_num_pages,
+		'prev_text' => '<i class="fa fa-caret-left"></i>',
+		'next_text' => '<i class="fa fa-caret-right"></i>',
+		'type'      => 'list',
+		'end_size'  => 2,
+		'mid_size'  => 1
+	) );
+	echo '</nav>';
+}
+
+/**
+ * By default, when trying to navigate through galleries of an album, pagination will not work. This function disables
+ * canonical redirection for single posts for the specified content types. In this instance, we are forcing that
+ * redirection be disabled for the `gmr_album` content type.
+ *
+ * @since 0.1.0
+ *
+ * @link https://gist.github.com/madebydaniel/ca63450fb9a0e08b747a
+ *
+ * @param $redirect_url
+ *
+ * @return bool
+ */
+function greatermedia_disable_redirect_canonical( $redirect_url ){
+	if ( is_singular('gmr_album') ) $redirect_url = false;
+	return $redirect_url;
+}
+
+add_filter( 'redirect_canonical','greatermedia_disable_redirect_canonical' );
