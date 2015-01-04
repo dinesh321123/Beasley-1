@@ -333,6 +333,10 @@
 		if ( window.innerWidth >= 768 ) {
 			addEventHandler(window,elemLoad,livePlayerInit);
 		}
+		
+		if(liveLinksWidget != null) {
+			liveLinksAddHeight();
+		}
 	}
 
 	/**
@@ -412,10 +416,6 @@
 		if(liveLinksWidget != null) {
 			addEventHandler(liveLinksWidget,elemClick,liveLinksClose);
 		}
-		addEventHandler(window,elemResize,function() {
-			resizeDebounce();
-			resizeThrottle();
-		});
 	} else {
 		addEventHandler(window,elemLoad,function() {
 			livePlayerInit();
@@ -428,5 +428,11 @@
 			scrollThrottle();
 		});
 	}
+	addEventHandler(window,elemResize,function() {
+		resizeDebounce();
+		resizeThrottle();
+	});
+	
+	window.resizeWindow = resizeWindow; 
 
 })();
