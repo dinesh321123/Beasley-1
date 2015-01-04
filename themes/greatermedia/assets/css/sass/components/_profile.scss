@@ -1,0 +1,51 @@
+.profile-page {
+
+	.profile-page__container {
+		@extend .cf;
+
+		@include bp('large') {
+			display: table;
+			width: 100%;
+			min-height: 800px;
+		}
+	}
+
+	.profile-page__sidebar,
+	.profile-page__content {
+
+		padding: 1em 7.0833333333335%;
+
+		@include bp('large') {
+			display: table-cell;
+			vertical-align: middle;
+			width: 50%;
+			padding: 2em 7.0833333333335%;
+		}
+
+	}
+
+	.profile-page__sidebar {
+		background-color: $featured-primary-bg;
+		color: $color-text-white;
+		text-align: center;
+		@include bp('large') {
+			text-align: left;
+		}
+	}
+
+	.profile-page__sidebar h1 {
+		text-transform: uppercase;
+
+	}
+
+	/**
+	 * Hide happy text on mobile
+	 */
+	.profile-page__sidebar p {
+		display: none;
+		@include bp('medium') {
+			display: block;
+		}
+	}
+
+}

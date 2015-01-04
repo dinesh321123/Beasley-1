@@ -19,7 +19,7 @@ class ProfilePage {
 		add_action(
 			'template_include', array( $this, 'render_if_profile_page' ), 99
 		);
-
+		add_filter( 'body_class', array( $this, 'add_profile_page_to_body_class' ), null, 2 );
 		add_action(
 			'wp_title', array( $this, 'change_page_title' ), 99
 		);
@@ -46,6 +46,28 @@ class ProfilePage {
 		}
 
 		return $template;
+	}
+
+	/**
+	 * Add classes to <body> to make profile pages easier to style.
+	 *
+	 * Adds a generic 'profile-page' class.
+	 * Adds a class specific for the type of profile page that is being viewed.
+	 *
+	 * @param $classes array of classes to add to <body>
+	 * @param $class
+	 * @return array
+	 */
+	public function add_profile_page_to_body_class( $classes, $class ) {
+
+		$profile_page = get_query_var( 'profile_page' );
+
+		if ( isset( $profile_page ) && ! empty( $profile_page ) ) {
+			$classes[] = 'profile-page';
+			$classes[] = sanitize_html_class( 'profile-page-' . $profile_page );
+		}
+
+		return $classes;
 	}
 
 	public function render( $page_path, $template ) {
@@ -141,7 +163,11 @@ class ProfilePage {
 
 	public function get_profile_page_template( $page_name ) {
 		if ( in_array( $page_name, $this->allowed_pages ) ) {
-			return locate_template( "profile/{$page_name}.php" ); // $page_name is whitelisted
+			$template =  locate_template( array(
+				"profile/{$page_name}.php", // $page_name is whitelisted
+				"profile/profile.php" // generic template for profile pages
+			) );
+			return $template;
 		} else {
 			return null;
 		}
