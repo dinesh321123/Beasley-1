@@ -433,6 +433,4 @@
 		resizeThrottle();
 	});
 	
-	window.resizeWindow = resizeWindow; 
-
 })();
