@@ -19,19 +19,17 @@
 				$hp_comm_query = \GreaterMedia\HomepageCuration\get_community_query();
 				while( $hp_comm_query->have_posts() ) : $hp_comm_query->the_post(); ?>
 					<div class="highlights__community--item">
+						<a href="<?php the_permalink(); ?>">
 
-						<div class="highlights__community--thumb">
-							<a href="<?php the_permalink(); ?>">
+							<div class="highlights__community--thumb">
 								<?php the_post_thumbnail( 'gmr-featured-secondary' ); ?>
-							</a>
-						</div>
-
-						<h3 class="highlights__community--title">
-							<a href="<?php the_permalink(); ?>">
+							</div>
+	
+							<h3 class="highlights__community--title">
 								<?php the_title(); ?>
-							</a>
-						</h3>
+							</h3>
 
+						</a>
 					</div>
 				<?php endwhile; ?>
 				<?php wp_reset_query(); ?>

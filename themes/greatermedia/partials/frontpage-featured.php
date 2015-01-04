@@ -21,7 +21,6 @@
 					<div class="featured__article--heading">
 						<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 					</div>
-					<div class="featured__article--excerpt"><?php the_excerpt(); ?></div>
 				</div>
 			</div>
 		<?php endif; ?>
