@@ -278,7 +278,7 @@ class GreaterMediaGallery {
 									'url' => $slide_link
 								), 'https://plus.google.com/share' );
 								?>
-								<div class="gallery__slide--content" 
+								<div class="gallery__slide--content"
 									 <?php if ( $use_hash ) : ?>
 									 data-cycle-hash="<?php echo esc_attr( $slide_hash ); ?>"
 									 <?php endif; ?>
