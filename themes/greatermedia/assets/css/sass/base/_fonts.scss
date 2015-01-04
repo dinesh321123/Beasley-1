@@ -50,11 +50,11 @@ $icon-font:     'gmr-icons';
 
 @font-face {
 	font-family: 'gmr-icons';
-	src:url('../fonts/icon-font/gmr-icons.eot?jmqkgs');
-	src:url('../fonts/icon-font/gmr-icons.eot?#iefixjmqkgs') format('embedded-opentype'),
-	url('../fonts/icon-font/gmr-icons.woff?jmqkgs') format('woff'),
-	url('../fonts/icon-font/gmr-icons.ttf?jmqkgs') format('truetype'),
-	url('../fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons') format('svg');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?jmqkgs');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?#iefixjmqkgs') format('embedded-opentype'),
+	url('#{$asset-root}fonts/icon-font/gmr-icons.woff?jmqkgs') format('woff'),
+	url('#{$asset-root}fonts/icon-font/gmr-icons.ttf?jmqkgs') format('truetype'),
+	url('#{$asset-root}fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }

@@ -492,8 +492,8 @@ category: Base - Typography
  */
 @font-face {
   font-family: 'gmr-icons';
-  src: url("../fonts/icon-font/gmr-icons.eot?jmqkgs");
-  src: url("../fonts/icon-font/gmr-icons.eot?#iefixjmqkgs") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?jmqkgs") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?jmqkgs") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons") format("svg");
+  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?jmqkgs");
+  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?#iefixjmqkgs") format("embedded-opentype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.woff?jmqkgs") format("woff"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.ttf?jmqkgs") format("truetype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
 [class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery-grid__album, .header__search--submit:before {
