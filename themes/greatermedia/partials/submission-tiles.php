@@ -18,17 +18,17 @@ wp_enqueue_script( 'gmr-gallery' );
 // render submissions layout
 ?>
 
-<section class="contest-submissions">
-	<h4 class="contest-submissions--title">All Entries</h4>
+<section class="contest__submissions">
+	<h4 class="contest__submissions--title">All Entries</h4>
 
-	<ul class="contest-submissions--list">
+	<ul class="contest__submissions--list">
 		<?php while ( $submissions_query->have_posts() ) : ?>
 			<?php $submissions_query->the_post(); ?>
 			<?php get_template_part( 'partials/submission', 'tile' ); ?>
 		<?php endwhile; ?>
 	</ul>
 
-	<button type="button" class="contest-submissions--load-more"><i class="fa fa-refresh fa-spin"></i> Load More</button>
+	<button type="button" class="contest__submissions--load-more"><i class="fa fa-refresh fa-spin"></i> Load More</button>
 </section>
 
 <?php wp_reset_postdata(); ?>

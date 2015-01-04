@@ -16,7 +16,7 @@
 /**
  *
  */
-define( 'GREATERMEDIA_VERSION', '0.1.0' );
+define( 'GREATERMEDIA_VERSION', '0.1.1' );
 
 add_theme_support( 'homepage-curation' );
 

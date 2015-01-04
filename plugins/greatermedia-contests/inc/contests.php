@@ -113,6 +113,8 @@ function gmr_contests_enqueue_front_scripts() {
 				'submit'      => "{$permalink}/action/submit/",
 				'confirm_age' => "{$permalink}/action/confirm-age/",
 				'reject_age'  => "{$permalink}/action/reject-age/",
+				'vote'        => "{$permalink}/action/vote/",
+				'unvote'      => "{$permalink}/action/unvote/",
 				'infinite'    => "{$permalink}/page/",
 			),
 		) );
@@ -148,8 +150,8 @@ function gmr_contests_process_submission_action() {
 	}
 
 	// define doing AJAX if it was not defined yet
-	if( ! defined( 'DOING_AJAX' ) && ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
-		define( 'DOING_AJAX', true );
+	if( ! defined( 'DOING_AJAX' ) ) {
+		define( 'DOING_AJAX', ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' );
 	}
 
 	if ( DOING_AJAX ) {
@@ -265,7 +267,7 @@ function gmr_contests_render_form( $skip_age = false ) {
 	$gigya_logged_in_exists = function_exists( 'is_gigya_user_logged_in' );
 	$members_only = get_post_meta( $contest_id, 'contest-members-only', true );
 	if ( $members_only && $gigya_logged_in_exists && ! is_gigya_user_logged_in() ) {
-		echo '<p>You must be logged in to enter the contest! <a href="', esc_url( gmr_contests_get_login_url() ), '">Sign in here</a></p>';
+		echo '<p>You must be logged in to enter the contest! <a href="', esc_url( gmr_contests_get_login_url() ), '">Sign in here</a>.</p>';
 		return;
 	}
 
@@ -301,16 +303,17 @@ function gmr_contests_render_form( $skip_age = false ) {
 /**
  * Returns login URL for a contest page.
  *
+ * @param string $redirect The redirect URL.
  * @return string The login page URL.
  */
-function gmr_contests_get_login_url() {
-	$login_url = '#';
-	if ( function_exists( 'gigya_profile_path' ) ) {
-		$login_url = parse_url( get_permalink(), PHP_URL_PATH );
-		$login_url = gigya_profile_path( 'login', array( 'dest' => $login_url ) );
+function gmr_contests_get_login_url( $redirect = null ) {
+	if ( is_null( $redirect ) ) {
+		$redirect = parse_url( get_permalink(), PHP_URL_PATH );
 	}
 
-	return $login_url;
+	return function_exists( 'gigya_profile_path' )
+		? gigya_profile_path( 'login', array( 'dest' => $redirect ) )
+		: '#';
 }
 
 /**
@@ -375,6 +378,8 @@ function gmr_contests_handle_submitted_files( array $submitted_files, GreaterMed
 	if ( empty( $submitted_files['images'] ) ) {
 		return;
 	}
+
+	require_once ABSPATH . 'wp-admin/includes/media.php';
 
 	$thumbnail = null;
 	$data_type = count( $submitted_files['images'] ) == 1 ? 'image' : 'gallery';
@@ -570,7 +575,7 @@ function gmr_contests_post_thumbnail_html( $html, $post_id, $post_thumbnail_id, 
 		return $html;
 	}
 
-	return sprintf( '<div class="contest-submission--thumbnail" style="background-image:url(%s)"></div>', $image[0] );
+	return sprintf( '<div class="contest__submission--thumbnail" style="background-image:url(%s)"></div>', $image[0] );
 }
 
 /**
