@@ -270,6 +270,11 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 
 		global $post, $wp;
 
+		// do nothing if the $post variable is not set
+		if ( empty( $post ) ) {
+			return $content;
+		}
+
 		$age_restriction = self::sanitize_age_restriction( get_post_meta( $post->ID, 'post_age_restriction', true ) );
 		$current_url = '/' . trim( $wp->request, '/' );
 		$login_url   = gigya_profile_path( 'login', array( 'dest' => $current_url ) );

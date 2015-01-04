@@ -262,6 +262,11 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 
 		global $post, $wp;
 
+		// do nothing if the $post variable is not set
+		if ( empty( $post ) ) {
+			return $content;
+		}
+
 		$login_restriction = self::sanitize_login_restriction( get_post_meta( $post->ID, 'post_login_restriction', true ) );
 		$current_url = '/' . trim( $wp->request, '/' );
 
