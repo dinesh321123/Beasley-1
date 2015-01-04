@@ -5597,8 +5597,9 @@ category: Components - Shows
         height: 0; } }
 
 .show__nav--mobile {
-  display: block;
-  padding-left: 0; }
+  display: block; }
+  .show__nav--mobile ul {
+    padding-left: 0; }
   .show__nav--mobile li {
     display: block;
     text-align: center; }
