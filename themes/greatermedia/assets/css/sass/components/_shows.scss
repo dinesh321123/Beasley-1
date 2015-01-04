@@ -50,14 +50,18 @@ category: Components - Shows
 
 .show__header {
 	background-color: rgb(86, 16, 21);
-	// background-position: center;
-	// background-repeat: no-repeat;
 	position: relative;
 	padding: 2em;
 	@include fill-parent();
 	@include row();
 	@include display-context(table);
 	color: $secondary-text;
+
+	&.has-thumbnail {
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+	}
 
 	> div {
 		vertical-align: middle;
@@ -74,10 +78,6 @@ category: Components - Shows
 		background-color: $featured-primary-bg;
 		background-size: auto 65%;
 
-		&.has-thumbnail {
-			background-repeat: no-repeat;
-			background-size: cover;
-		}
 	}
 }
 
@@ -86,6 +86,10 @@ category: Components - Shows
 	height: 100%;
 
 	@include bp(medium) {
+		@include span-columns(4 of 12);
+	}
+
+	@include bp(large) {
 		@include span-columns(2 of 12);
 	}
 
@@ -99,30 +103,18 @@ category: Components - Shows
 	@include fill-parent;
 	text-align: center;
 
-	@include bp(medium) {
-		padding-left: 4em;
-		text-align: left;
-		@include span-columns(6 of 12);
-
-		h1 {
-			margin-top: 0;
-			margin-bottom: 0.6em;
-		}
+	h1 a {
+		color: $secondary-text;
+		text-transform: uppercase;
 	}
 
 	ul {
-		list-style-type: none;
-		padding-left: 0;
-		text-align: justify;
-		margin: 0;
-	}
-
-	// this psuedo element makes the text-align: justify work on the <ul>. via: http://stackoverflow.com/a/16901348
-	ul:after {
-		content: "";
+		position: absolute;
 		width: 100%;
-		display: inline-block;
-		height: 0;
+		text-align: center;
+		left: 0;
+		top: 100%;
+		display: none;
 	}
 
 	li {
@@ -135,6 +127,7 @@ category: Components - Shows
 			padding: 9px;
 			border-radius: 20px;
 			display: inline-block;
+			text-transform: uppercase;
 
 			&:hover  {
 				background-color: $secondary-text;
@@ -148,6 +141,7 @@ category: Components - Shows
 			
 			a {
 				font-size: ms(0);
+				color: $secondary-text;
 			}
 		}
 
@@ -157,9 +151,73 @@ category: Components - Shows
 		}
 
 	}
-	a {
-		color: $secondary-text;
-		text-transform: uppercase;
+
+	@include bp(medium) {
+		padding-left: 4em;
+		text-align: left;
+		@include span-columns(8 of 12);
+		@include omega;
+
+		h1 {
+			margin-top: 0;
+			margin-bottom: 0.6em;
+		}
+
+		ul {
+			top: auto;
+			display: inline-block;
+		}
+	}
+
+
+	@include bp(large) {
+		@include span-columns(6 of 12);
+
+		ul {
+			list-style-type: none;
+			padding-left: 0;
+			text-align: justify;
+			margin: 0;
+			position: relative;
+			width: auto;
+		}
+
+		// this psuedo element makes the text-align: justify work on the <ul>. via: http://stackoverflow.com/a/16901348
+		ul:after {
+			content: "";
+			width: 100%;
+			display: inline-block;
+			height: 0;
+		}
+	}
+}
+
+.show__nav--mobile {
+	display: block;
+	padding-left: 0;
+
+	li {
+		display: block;
+		text-align: center;
+
+		a {
+			font-size: ms(4);
+			font-weight: bold;
+			padding: 9px;
+			border-radius: 20px;
+			display: inline-block;
+			text-transform: uppercase;
+
+			&:hover  {
+				background-color: $secondary-text;
+				color: $secondary-link-hover;
+			}
+
+		}
+	}
+
+	@include bp(medium) {
+		display: none;
 	}
 }
 
@@ -174,9 +232,15 @@ category: Components - Shows
 	text-align: center;
 
 	@include bp(medium) {
+		@include span-columns(12 of 12);
+		text-align: center;
+		margin-top: 6em;
+	}
 
+	@include bp(large) {
 		@include span-columns(4 of 12);
 		text-align: right;
+		margin-top: 0;
 	}
 
 	em {

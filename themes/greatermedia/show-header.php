@@ -27,7 +27,7 @@
 			} ?>
 		</div>
 		<nav class="show__nav">
-			<a href="<?php the_permalink(); ?>"><h1 class="show__title"><?php the_title(); ?></h1></a>
+			<h1 class="show__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
 			<ul>
 				<?php \GreaterMedia\Shows\about_link_html( get_the_ID() ); ?>
 				<?php \GreaterMedia\Shows\podcasts_link_html( get_the_ID() ); ?>
@@ -44,3 +44,12 @@
 		</div>
 	</div>
 </div>
+
+<nav class="show__nav--mobile">
+	<ul>
+		<?php \GreaterMedia\Shows\about_link_html( get_the_ID() ); ?>
+		<?php \GreaterMedia\Shows\podcasts_link_html( get_the_ID() ); ?>
+		<?php \GreaterMedia\Shows\galleries_link_html( get_the_ID() ); ?>
+		<?php \GreaterMedia\Shows\videos_link_html( get_the_ID() ); ?>
+	</ul>
+</nav>
