@@ -477,13 +477,24 @@ category: Components - Gallery Archive
 	outline: none;
 }
 
-
 .gallery__next--btn:after {
 	@extend %gmr-icons;
+	position: absolute;
+	top: 9px;
+	right: 14px;
 	font-size: ms(1);
 	content: "\e618";
 	@include bp(large) {
+		top: auto;
+		right: 30px;
 		font-size: ms(3);
+	}
+}
+
+.gallery__next--span {
+	margin-right: 16px;
+	@include bp(large) {
+		margin-right: 38px;
 	}
 }
 
