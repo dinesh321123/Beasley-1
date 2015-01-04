@@ -371,7 +371,7 @@ function greatermedia_popup_payer_hide_livesidebar(){
 /**
  * Add's a numbered pagination when called. This also allows total control of classes being used.
  */
-/* function greatermedia_gallery_album_nav() {
+function greatermedia_gallery_album_nav() {
 
 	if( is_singular() )
 		return;
@@ -430,26 +430,6 @@ function greatermedia_popup_payer_hide_livesidebar(){
 
 	echo '</ul></nav>' . "\n";
 
-} */
-
-function greatermedia_gallery_album_nav() {
-	global $wp_query;
-	$bignum = 999999999;
-	if ( $wp_query->max_num_pages <= 1 )
-		return;
-	echo '<nav class="pagination">';
-	echo paginate_links( array(
-		'base'      => str_replace( $bignum, '%#%', esc_url( get_pagenum_link( $bignum ) ) ),
-		'format'    => '',
-		'current'   => max( 1, get_query_var( 'paged' ) ),
-		'total'     => $wp_query->max_num_pages,
-		'prev_text' => '<i class="fa fa-caret-left"></i>',
-		'next_text' => '<i class="fa fa-caret-right"></i>',
-		'type'      => 'list',
-		'end_size'  => 2,
-		'mid_size'  => 1
-	) );
-	echo '</nav>';
 }
 
 /**

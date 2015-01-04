@@ -1,3 +1,4 @@
+<h2 class="page__title" itemprop="headline"><?php _e( 'Photos', 'greatermedia' ); ?></h2>
 <?php
 
 if ( 'show' == get_post_type() ) {
@@ -13,6 +14,7 @@ if ( 'show' == get_post_type() ) {
 } else {
 	$gallery_content_types = array(
 		'gmr_gallery',
+		'gmr_album'
 	);
 }
 

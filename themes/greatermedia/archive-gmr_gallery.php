@@ -16,8 +16,6 @@ get_header(); ?>
 
 			<section class="gallery__archive">
 
-				<h2 class="page__title" itemprop="headline"><?php _e( 'Galleries', 'greatermedia' ); ?></h2>
-
 				<?php get_template_part( 'partials/gallery-archive' ); ?>
 
 			</section>
