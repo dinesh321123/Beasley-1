@@ -814,8 +814,9 @@ category: Components - Gallery Archive
 
 .gallery__archive {
 	@extend %content;
+	overflow: auto;
 	padding-top: 3.625em;
-	padding-bottom: 3.625em;
+	padding-bottom: 7em;
 
 	.single-gmr_album & {
 		padding-top: 1.625em;
@@ -876,13 +877,13 @@ category: Components - Gallery Archive
 	.gallery__featured--secondary & {
 		margin-bottom: 20px;
 		@include bp(medium) {
-			margin-bottom: 14px;
+			margin-bottom: 19px;
 		}
 		@include bp(large) {
-			margin-bottom: 36px;
+			margin-bottom: 29px;
 		}
 		@include bp(x-large) {
-			margin-bottom: 39px;
+			margin-bottom: 44px;
 		}
 	}
 }
@@ -909,25 +910,25 @@ category: Components - Gallery Archive
 
 	@include bp(large) {
 		height: 96px;
-		padding: 20px;
+		padding: 16px 20px 20px;
 	}
 	.gallery__featured--secondary & {
-		height: 43px;
+		height: 49px;
 		@include bp(large) {
-			height: 81px;
+			height: 77px;
 		}
 		@include bp(x-large) {
-			height: 86px;
+			height: 92px;
 		}
 	}
 }
 
 .gallery__featured--title {
 	margin: 0;
-	line-height: 1;
+	line-height: 1.4;
 	font-family: $open-sans;
 	font-weight: lighter;
-	font-size: ms(4);
+	font-size: ms(3);
 
 	.gallery__featured--secondary & {
 		font-size: ms(4);
@@ -939,7 +940,7 @@ category: Components - Gallery Archive
 
 .gallery__grid--column {
 	@include span-columns(4);
-	margin-bottom: 0;
+	margin-bottom: 22px;
 	overflow: auto;
 
 	@include bp(small) {
@@ -980,8 +981,8 @@ category: Components - Gallery Archive
 
 .gallery__grid--album {
 	position: absolute;
-	top: 24px;
-	right: 24px;
+	top: 10px;
+	right: 10px;
 	@extend %gmr-icons;
 	font-size: ms(10);
 	color: $color-text-white;
@@ -994,10 +995,8 @@ category: Components - Gallery Archive
 }
 
 .gallery__grid--meta {
-	padding-bottom: 30px;
 	@include bp(medium) {
-		height: 100px;
-		padding-bottom: 0;
+		height: 78px;
 	}
 }
 

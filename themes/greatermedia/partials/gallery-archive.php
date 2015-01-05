@@ -60,7 +60,7 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 
 			<?php if ($primary_query->have_posts() ) : while ( $primary_query->have_posts() ): $primary_query->the_post();
 
-				get_template_part( 'partials/gallery-featured' );
+				get_template_part( 'partials/gallery-featured', 'primary' );
 
 				$excluded_primary[] = get_the_ID();
 
@@ -83,13 +83,13 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 			$secondary_args = array(
 				'post_type'         => $gallery_content_types, // The assumes the post types match
 				'post__in'          => $post_ids,
-				'post__not_in'      => $excluded_primary,
 				'taxonomy'          => '_shows',
 				'term'              => $terms[0]->slug,
 				'posts_per_page'    => 2,
 				'orderby'           => 'date',
 				'order'             => 'DESC',
 				'post_parent'       => '0',
+				'offset'            => 1
 			);
 
 		} else {
@@ -113,7 +113,7 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 
 			<?php if ($secondary_query->have_posts() ) : while ( $secondary_query->have_posts() ): $secondary_query->the_post();
 
-				get_template_part( 'partials/gallery-featured' );
+				get_template_part( 'partials/gallery-featured', 'secondary' );
 
 				$excluded_secondary[] = get_the_ID();
 
@@ -153,7 +153,6 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 		$grid_args = array(
 			'post_type'         => $gallery_content_types, // The assumes the post types match
 			'post__in'          => $post_ids,
-			'post__not_in'      => $excluded,
 			'taxonomy'          => '_shows',
 			'term'              => $terms[0]->slug,
 			'posts_per_page'    => 16,
@@ -161,6 +160,7 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 			'orderby'           => 'date',
 			'order'             => 'DESC',
 			'post_parent'       => '0',
+			'offset'            => 3
 		);
 
 	} else {
