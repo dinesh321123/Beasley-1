@@ -1,5 +1,21 @@
-.show {
+.single-show {
+	.highlights__events {
+		@include fill-parent;
 
+		@include bp(large) {
+			border-top: 1px solid $primary-border;
+			border-bottom: 1px solid $primary-border;
+			padding: 1em 0 2em;
+		}
+	}
+
+	.highlights__event--item {
+		background-color: $highlights-bg;
+
+		@include bp(large) {
+			@include span-columns(4 of 12);
+		}
+	}
 }
 
 .show-attr--name {
@@ -429,7 +445,7 @@ category: Components - Shows
 			@include bp(medium) {
 				left: -30px;
 				top: 8px;
-				font-size: inherit;
+				font-size: ms(-1);
 			}
 
 		}
@@ -458,7 +474,7 @@ category: Components - Shows
 			right: auto;
 			top: 0;
 			bottom: auto;
-			font-size: inherit;
+			font-size: 0.75em;
 		}
 	}
 }

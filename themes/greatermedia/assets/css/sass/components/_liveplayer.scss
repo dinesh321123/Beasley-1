@@ -845,7 +845,7 @@ category: Components
 		font-size: 1.25em;
 
 		@include bp(medium) {
-			font-size: inherit;
+			font-size: ms(-1);
 		}
 	}
 }

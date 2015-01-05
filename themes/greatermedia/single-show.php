@@ -52,11 +52,14 @@
 						<?php wp_reset_query(); ?>
 					<?php endif; ?>
 
-					<div class="highlights__events">
-						<?php
-						global $post;
-						$events = \GreaterMedia\Shows\get_show_events();
-						foreach( $events as $post ): setup_postdata( $post ); ?>
+				
+					<?php
+					global $post;
+					$events = \GreaterMedia\Shows\get_show_events();
+					if ( $events ) { ?>
+						<div class="highlights__events">
+							<h2 class="section-header">Upcoming Events</h2>
+							<?php foreach( $events as $post ): setup_postdata( $post ); ?>
 							<div class="highlights__event--item">
 								<a href="<?php the_permalink(); ?>">
 								<?php if ( has_post_thumbnail() ) : ?>
@@ -72,7 +75,9 @@
 							</div>
 						<?php endforeach; ?>
 						<?php wp_reset_query(); ?>
-			        </div>
+			        	</div>
+		        	<?php } ?>
+				    
 
 			        <div class="row">
 
