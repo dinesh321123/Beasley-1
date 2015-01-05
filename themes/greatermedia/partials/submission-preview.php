@@ -10,10 +10,14 @@
 		if ( ! empty( $fields ) ) : ?>
 			<dl class="contest__submission--entries">
 				<?php foreach ( $fields as $field ) : ?>
-					<dt><?php echo esc_html( $field['label'] ); ?></dt>
-					<dd>
-						<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
-					</dd>
+					<?php if ( 'file' != $field['type'] ) : ?>
+						<dt>
+							<?php echo esc_html( $field['label'] ); ?>
+						</dt>
+						<dd>
+							<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
+						</dd>
+					<?php endif; ?>
 				<?php endforeach; ?>
 			</dl>
 		<?php endif; ?>

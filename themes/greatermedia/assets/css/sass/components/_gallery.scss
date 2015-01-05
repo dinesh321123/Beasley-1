@@ -563,6 +563,7 @@ category: Components - Gallery Archive
 	}
 
 	.single-contest & {
+		height: 93px;
 		margin-top: 0px;
 	}
 
@@ -744,6 +745,10 @@ category: Components - Gallery Archive
 			height: 100px;
 		}
 	}
+
+	.single-contest & {
+		height: 52px;
+	}
 }
 
 .gallery__slide--preview {
@@ -791,6 +796,10 @@ category: Components - Gallery Archive
 			width: 11.5%;
 			max-height: 100px;
 		}
+	}
+
+	.single-contest & {
+		max-height: 52px;
 	}
 }
 

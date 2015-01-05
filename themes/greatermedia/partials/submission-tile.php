@@ -1,5 +1,7 @@
-<li class="contest__submission<?php echo gmr_contests_is_user_voted_for_submission() ? ' voted' : ''; ?>">
+<li class="<?php echo gmr_contests_submission_class( 'contest__submission' ); ?>">
 	<a class="contest__submission--link" href="<?php the_permalink(); ?>">
+		<span class="contest__submission--winner"><i class="fa fa-trophy"></i></span>
+
 		<span class="contest__submission--rating">
 			<i class="fa fa-thumbs-o-up"></i>
 			<b><?php echo number_format( get_post_field( 'menu_order', null ), 0 ); ?></b>
