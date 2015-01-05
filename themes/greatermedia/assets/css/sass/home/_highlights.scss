@@ -125,7 +125,7 @@ Community Highlights and Events
 .highlights__community {
 	padding-top: $base-line-height;
 	@include bp(large) {
-		@include span-columns(8 of 12);
+		@include span-columns(9 of 15);
 		padding-top: $base-line-height * 1.5;
 	}
 }
@@ -149,6 +149,9 @@ Community Highlights and Events
 		&:nth-of-type(3) {
 			display: block;
 		}
+	}
+	@include bp(large) {
+		@include span-columns(3 of 9);
 	}
 }
 
@@ -218,7 +221,7 @@ Community Highlights and Events
 	clear: both; 
 	@include bp(large) {
 		padding-top: $base-line-height * 1.5;
-		@include span-columns(4 of 12);
+		@include span-columns(6 of 15);
 		clear: none; 
 	}
 }
@@ -239,14 +242,14 @@ Community Highlights and Events
 	}
 	
 	@include bp(medium) {
-		font-size: ms(1);
+		font-size: ms(0);
 	}
 	
 	@include bp(large) {
-		@include span-columns(4 of 4);
+		@include span-columns(6 of 6);
 		// Force a specific height relative to the grid 
 		height: 0;
-		padding-bottom: 30.4%;
+		padding-bottom: 21.5%;
 		margin: 0 0 5%;
 	}
 }
@@ -287,6 +290,8 @@ Community Highlights and Events
 	}
 	
 	@include bp(large) {
+		@include span-columns(2 of 6);
+		width: 21.5%;
 		position: absolute;
 		left: 0;
 		top: 0; 
@@ -299,16 +304,16 @@ Community Highlights and Events
 	padding: 6% $gutter 0 0; 
 	
 	@include bp(large) {
-		position: absolute;
-		left: 34.94306%;
-		top: 0;
+		width: auto;
+		margin-left: 26.32916%;
+		padding-top: 4%;
 	}
 }
 
 .highlights__event--title {
 	font-size: ms(0);
 	color: $highlights-heading;
-	margin: 0 0 .15em;
+	margin: 0 0 .3em;
 	
 	// Never show more than two lines of text (layout will break).
 	overflow: hidden;
@@ -316,7 +321,19 @@ Community Highlights and Events
 	max-height: 2.5em;
 	
 	@include bp(large) {
+		// One line of text at this breakpoint because we need to fit the date.
+		max-height: 1.25em;
 		font-weight: normal;
+	}
+	
+	@media(min-width: 1250px) {
+		// Back to two lines. 
+		max-height: 2.5em;
+	}
+	
+	// Highlight on hover
+	.highlights__event--item:hover & {
+		color: $primary-link-hover;
 	}
 }
 
@@ -327,11 +344,7 @@ Community Highlights and Events
 	font-size: ms(-2);
 	color: $gray;
 	
-	@include bp(large) {
-		display: none; 
-		font-size: ms(-3);
-	}	
 	@media(min-width: 1200px) {
-		display: block;
+		
 	}
 }
