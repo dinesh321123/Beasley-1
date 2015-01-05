@@ -930,9 +930,11 @@ category: Components - Gallery Archive
 	.gallery__featured--secondary & {
 		height: 48px;
 		@include bp(large) {
+			padding: 10px;
 			height: 75px;
 		}
 		@include bp(x-large) {
+			padding: 16px 20px 20px;
 			height: 91px;
 		}
 	}
@@ -948,6 +950,12 @@ category: Components - Gallery Archive
 	.gallery__featured--secondary & {
 		font-size: ms(4);
 		@include bp(medium) {
+			font-size: ms(-1);
+		}
+		@include bp(large) {
+			font-size: ms(0);
+		}
+		@include bp(x-large) {
 			font-size: ms(1);
 		}
 	}

@@ -411,7 +411,7 @@ function greatermedia_gallery_album_nav() {
 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
 
 		if ( ! in_array( 2, $links ) )
-			echo '<li class="gallery__grid--pagination-item">…</li>';
+			echo '<li class="gallery__grid--pagination-item">ï¿½</li>';
 	}
 
 	// Link to current page, plus 2 pages in either direction if necessary
@@ -424,7 +424,7 @@ function greatermedia_gallery_album_nav() {
 	// Link to last page, plus ellipses if necessary
 	if ( ! in_array( $max, $links ) ) {
 		if ( ! in_array( $max - 1, $links ) )
-			echo '<li>…</li>' . "\n";
+			echo '<li>ï¿½</li>' . "\n";
 
 		$class = $paged == $max ? ' class="gallery__grid--pagination-current"' : '';
 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
