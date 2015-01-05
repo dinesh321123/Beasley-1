@@ -7202,13 +7202,13 @@ category: Components - Gallery Archive
     margin-bottom: 20px; }
     @media screen and (min-width: 768px) {
       .gallery__featured--secondary .gallery__featured--item {
-        margin-bottom: 19px; } }
+        margin-bottom: 18px; } }
     @media screen and (min-width: 1024px) {
       .gallery__featured--secondary .gallery__featured--item {
-        margin-bottom: 29px; } }
+        margin-bottom: 28px; } }
     @media screen and (min-width: 1400px) {
       .gallery__featured--secondary .gallery__featured--item {
-        margin-bottom: 44px; } }
+        margin-bottom: 42px; } }
 
 .gallery__featured--secondary .gallery__featured--item:last-of-type {
   margin-bottom: 0; }
@@ -7229,13 +7229,13 @@ category: Components - Gallery Archive
       height: 96px;
       padding: 16px 20px 20px; } }
   .gallery__featured--secondary .gallery__featured--caption {
-    height: 49px; }
+    height: 48px; }
     @media screen and (min-width: 1024px) {
       .gallery__featured--secondary .gallery__featured--caption {
-        height: 77px; } }
+        height: 75px; } }
     @media screen and (min-width: 1400px) {
       .gallery__featured--secondary .gallery__featured--caption {
-        height: 92px; } }
+        height: 91px; } }
 
 .gallery__featured--title {
   margin: 0;

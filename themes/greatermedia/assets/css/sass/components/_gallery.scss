@@ -882,13 +882,13 @@ category: Components - Gallery Archive
 	.gallery__featured--secondary & {
 		margin-bottom: 20px;
 		@include bp(medium) {
-			margin-bottom: 19px;
+			margin-bottom: 18px;
 		}
 		@include bp(large) {
-			margin-bottom: 29px;
+			margin-bottom: 28px;
 		}
 		@include bp(x-large) {
-			margin-bottom: 44px;
+			margin-bottom: 42px;
 		}
 	}
 }
@@ -918,12 +918,12 @@ category: Components - Gallery Archive
 		padding: 16px 20px 20px;
 	}
 	.gallery__featured--secondary & {
-		height: 49px;
+		height: 48px;
 		@include bp(large) {
-			height: 77px;
+			height: 75px;
 		}
 		@include bp(x-large) {
-			height: 92px;
+			height: 91px;
 		}
 	}
 }
