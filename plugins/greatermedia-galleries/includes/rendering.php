@@ -369,16 +369,18 @@ class GreaterMediaGallery {
 								?>
 							</div>
 						</div>
-						<div class="gallery__paging gallery__paging--left">
-							<div class="slide-paging-arrows carousel-controls">
-								<button type="button" class="gallery__paging--prev"></button>
+						<?php if ($image_count >= 9) { ?>
+							<div class="gallery__paging gallery__paging--left">
+								<div class="slide-paging-arrows carousel-controls">
+									<button type="button" class="gallery__paging--prev"></button>
+								</div>
 							</div>
-						</div>
-						<div class="gallery__paging gallery__paging--right">
-							<div class="slide-paging-arrows carousel-controls">
-								<button type="button" class="gallery__paging--next"></button>
+							<div class="gallery__paging gallery__paging--right">
+								<div class="slide-paging-arrows carousel-controls">
+									<button type="button" class="gallery__paging--next"></button>
+								</div>
 							</div>
-						</div>
+						<?php } ?>
 					</div> <!-- / gallery sidebar -->
 
 					<?php wp_reset_postdata(); ?>
