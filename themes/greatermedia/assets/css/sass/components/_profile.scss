@@ -27,6 +27,8 @@
 	.profile-page__sidebar {
 		background-color: $featured-primary-bg;
 		color: $color-text-white;
+		background-image: url( '../../images/default-texture.png' );
+
 		text-align: center;
 		@include bp('large') {
 			text-align: left;
