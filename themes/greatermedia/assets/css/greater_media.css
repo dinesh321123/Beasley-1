@@ -7204,6 +7204,7 @@ category: Components - Gallery Archive
   margin-bottom: 0; }
 
 .gallery__featured--thumbnail {
+  position: relative;
   width: 100%; }
 
 .gallery__featured--thumbnail a {
