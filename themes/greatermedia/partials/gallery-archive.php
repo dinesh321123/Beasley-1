@@ -139,13 +139,6 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 
 	$excluded = false;
 
-	if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) {
-		$excluded = array_merge(
-			$excluded_primary,
-			$excluded_secondary
-		);
-	}
-
 	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 
 	if ( 'show' == get_post_type() ) {
@@ -164,6 +157,13 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 		);
 
 	} else {
+
+		if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) {
+			$excluded = array_merge(
+				$excluded_primary,
+				$excluded_secondary
+			);
+		}
 
 		$grid_args = array(
 			'post_type'         => $gallery_content_types,
