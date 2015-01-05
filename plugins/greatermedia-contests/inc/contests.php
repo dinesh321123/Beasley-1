@@ -126,23 +126,6 @@ function gmr_contests_enqueue_front_scripts() {
 }
 
 /**
- * Sets cache headers.
- *
- * @param int $max_age Max age for cache.
- */
-function gmr_contests_cache_headers( $max_age = 3600 ) {
-	$now = current_time( 'timestamp', 1 );
-	$actual_date = gmdate( DATE_COOKIE, $now );
-	$expire_date = gmdate( DATE_COOKIE, $now + $max_age );
-
-	header( "Date: {$actual_date}" );
-	header( "Expires: {$expire_date}" );
-	header( "Pragma: cache" );
-	header( "Cache-Control: max-age={$max_age}" );
-	header( "User-Cache-Control: max-age={$max_age}" );
-}
-
-/**
  * Processes contest submission page request via AJAX.
  *
  * @action template_redirect
@@ -154,12 +137,13 @@ function gmr_contests_process_submission_action() {
 	}
 
 	// define doing AJAX if it was not defined yet
-	if( ! defined( 'DOING_AJAX' ) ) {
+	if ( ! defined( 'DOING_AJAX' ) ) {
 		define( 'DOING_AJAX', ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' );
 	}
 
 	if ( DOING_AJAX ) {
-		gmr_contests_cache_headers( YEAR_IN_SECONDS );
+		// disble HTTP cache
+		nocache_headers();
 
 		add_filter( 'gmr_gallery_use_hash', '__return_false' );
 		
