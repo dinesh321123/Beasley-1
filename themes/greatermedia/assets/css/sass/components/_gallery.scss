@@ -327,9 +327,18 @@ category: Components - Gallery Archive
 	float: left;
 	width: 40%;
 	margin-bottom: 10px;
+
 	@include bp(small) {
 		width: 25%;
 	}
+}
+
+.single-contest .gallery__prev {
+	padding-left: 10px;
+}
+
+.single-contest .gallery__next {
+	padding-right: 10px;
 }
 
 .gallery__social-and-count .gallery__social {
@@ -417,6 +426,12 @@ category: Components - Gallery Archive
 	font-weight: lighter;
 	color: $primary-text;
 	text-transform: uppercase;
+
+	.single-contest & {
+		width: 94px;
+		height: 36px;
+	}
+
 	@include bp(large) {
 		width: 144px;
 		height: 64px;
@@ -449,6 +464,11 @@ category: Components - Gallery Archive
 
 .gallery__prev--span {
 	margin-left: 16px;
+
+	.single-contest & {
+		margin-left: 16px;
+	}
+
 	@include bp(large) {
 		margin-left: 38px;
 	}
@@ -457,10 +477,17 @@ category: Components - Gallery Archive
 .gallery__prev--btn:before {
 	@extend %gmr-icons;
 	position: absolute;
-	top: 9px;
+	top: 8px;
 	left: 14px;
 	font-size: ms(1);
 	content: "\e619";
+
+	.single-contest & {
+		top: 8px;
+		left: 14px;
+		font-size: ms(1);
+	}
+
 	@include bp(large) {
 		top: auto;
 		left: 30px;
@@ -480,10 +507,17 @@ category: Components - Gallery Archive
 .gallery__next--btn:after {
 	@extend %gmr-icons;
 	position: absolute;
-	top: 9px;
+	top: 8px;
 	right: 14px;
 	font-size: ms(1);
 	content: "\e618";
+
+	.single-contest & {
+		top: 8px;
+		right: 14px;
+		font-size: ms(1);
+	}
+
 	@include bp(large) {
 		top: auto;
 		right: 30px;
@@ -493,6 +527,11 @@ category: Components - Gallery Archive
 
 .gallery__next--span {
 	margin-right: 16px;
+
+	.single-contest & {
+		margin-right: 16px;
+	}
+
 	@include bp(large) {
 		margin-right: 38px;
 	}
@@ -521,6 +560,10 @@ category: Components - Gallery Archive
 		height: 145px;
 		border-color: $gallery-border;
 		background-color: $gallery-thumbs-bg;
+	}
+
+	.single-contest & {
+		margin-top: 0px;
 	}
 
 	@include bp(small) {
@@ -617,6 +660,10 @@ category: Components - Gallery Archive
 
 	.single-gmr_gallery & {
 		color: $color-text-gray;
+	}
+
+	.single-contest & {
+		color: $light-gray;
 	}
 }
 

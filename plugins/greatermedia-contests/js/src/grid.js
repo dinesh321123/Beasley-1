@@ -17,8 +17,8 @@
 		var $grids = $(this),
 			adminBarHeight = $('#wpadminbar').height() || 0,
 			settings = {
-				minHeight: 500,
-				speed: 350,
+				minHeight: 816,
+				speed: 200,
 				easing: 'ease',
 				loadMore: null,
 				loadMoreWaypointOffset: '150%',
