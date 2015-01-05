@@ -3487,13 +3487,14 @@ Link posts contain a link to an external site. They can also optionally have a f
     margin-right: 0; }
   @media screen and (min-width: 768px) {
     .entries {
-      padding: 3em 3.236em; } }
+      padding: 1.5em 3.236em; } }
 
 .entry2 {
   float: left;
   display: block;
-  margin-right: 7.42297%;
+  margin-right: 4.82916%;
   width: 100%;
+  margin-right: 0;
   margin-bottom: 2.25em; }
   .entry2:last-child {
     margin-right: 0; }
@@ -3665,6 +3666,48 @@ Link posts contain a link to an external site. They can also optionally have a f
 .type-tribe_events .entry2__thumbnail--month-and-day {
   font-size: 2.5em;
   margin-top: .15em; }
+
+.entry2-ad-wrap {
+  clear: both;
+  position: relative; }
+  @media screen and (min-width: 480px) {
+    .entry2-ad-wrap .entry2__thumbnail {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 30.11389%; }
+      .entry2-ad-wrap .entry2__thumbnail:last-child {
+        margin-right: 0; } }
+  .entry2-ad-wrap .entry2__meta {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 30.11389%; }
+    .entry2-ad-wrap .entry2__meta:last-child {
+      margin-right: 0; }
+  .entry2-ad-wrap .entry2-ad-wrap__ad {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 30.11389%;
+    margin-right: 0;
+    position: absolute;
+    right: 0;
+    top: 0; }
+    .entry2-ad-wrap .entry2-ad-wrap__ad:last-child {
+      margin-right: 0; }
+    .entry2-ad-wrap .entry2-ad-wrap__ad.desktop {
+      display: none; }
+    @media screen and (min-width: 1024px) {
+      .entry2-ad-wrap .entry2-ad-wrap__ad.mobile {
+        display: none; }
+      .entry2-ad-wrap .entry2-ad-wrap__ad.desktop {
+        display: block; } }
+
+@media screen and (min-width: 480px) {
+  .entry2-ad-wrap .entry2.format-standard .entry2__thumbnail {
+    float: left;
+    margin-right: 3.236em; } }
 
 .ad-unit--300--250 {
   position: relative;

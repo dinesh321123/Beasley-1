@@ -4,12 +4,13 @@
 	padding: $base-line-height $gutter / 2;
 	
 	@include bp(medium) {
-		padding: $base-line-height * 2 $gutter * 2;
+		padding: $base-line-height $gutter * 2;
 	}
 }
 
 .entry2 {
-	@include span-columns(4);
+	@include span-columns(6 of 6);
+	@include omega; 
 	margin-bottom: $base-line-height * 1.5;
 }
  
@@ -139,7 +140,7 @@
 	@include bp(small) {
 		.entry2__thumbnail {
 			float: right;
-			@include omega;
+			margin-right: 0;
 		}
 	}	
 }
@@ -230,4 +231,52 @@
 		font-size: 2.5em;
 		margin-top: .15em;
 	}
+}
+
+// Special handling for ad-wrapped items
+.entry2-ad-wrap {
+	clear: both; 
+	position: relative;
+	
+	.entry2__thumbnail {
+		@include bp(small) {
+			@include span-columns(2 of 6)
+		}
+	}
+	
+	.entry2__meta {
+		@include span-columns(2 of 6);
+	}
+	
+	// Move the ad logic bits to _ads.scss
+	.entry2-ad-wrap__ad {
+		@include span-columns(2 of 6);
+		@include omega; 
+		position: absolute; 
+		right: 0;
+		top: 0;
+		
+		&.desktop {
+			display: none; 
+		}
+		
+		@include bp(large) {
+			&.mobile {
+				display: none; 
+			}
+			&.desktop {
+				display: block;	
+			}
+		}
+	}
+}
+
+// Special handling for ad-wrapped standard post
+.entry2-ad-wrap .entry2.format-standard {
+	@include bp(small) {
+		.entry2__thumbnail {
+			float: left;
+			margin-right: $gutter * 2;
+		}
+	}	
 }
