@@ -5674,8 +5674,6 @@ category: Components - Shows
   width: 100%; }
   @media screen and (min-width: 1024px) {
     .single-show .highlights__events {
-      border-top: 1px solid #d0d2d3;
-      border-bottom: 1px solid #d0d2d3;
       padding: 1em 0 2em; } }
 .single-show .highlights__event--item {
   background-color: #f1f1f3; }
@@ -6072,7 +6070,13 @@ category: Components - Shows
   color: #aa1c20; }
 
 .show__live-links {
-  position: relative; }
+  position: relative;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 100%; }
+  .show__live-links:last-child {
+    margin-right: 0; }
   .show__live-links ul {
     margin-top: 0;
     padding-left: 2em; }

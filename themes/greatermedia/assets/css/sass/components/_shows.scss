@@ -3,8 +3,6 @@
 		@include fill-parent;
 
 		@include bp(large) {
-			border-top: 1px solid $primary-border;
-			border-bottom: 1px solid $primary-border;
 			padding: 1em 0 2em;
 		}
 	}
@@ -427,6 +425,7 @@ category: Components - Shows
 
 .show__live-links {
 	position: relative;
+	@include span-columns(12 of 12);
 
 	ul {
 		margin-top: 0;

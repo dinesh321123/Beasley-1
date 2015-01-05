@@ -37,7 +37,7 @@
 									<a href="<?php the_permalink(); ?>">
 										<div class="show__feature">
 											<?php if ( has_post_thumbnail() ) : ?>
-												<?php the_post_thumbnail( 'gmr-show-featured-primary' ); ?>
+												<?php the_post_thumbnail( 'gmr-show-featured-secondary' ); ?>
 											<?php endif; ?>
 											<div class="show__feature--desc">
 												<h3><?php the_title(); ?></h3>
@@ -82,24 +82,29 @@
 			        <div class="row">
 
 				        <aside class="inner-right-col">
+
+					        <?php
+					        $fav_query = \GreaterMedia\Shows\get_show_favorites_query();
+					        if ( $fav_query->have_posts() ) :
+				        	?>
+
 					        <section class="show__favorites cf">
 					        	<h2 class="section-header">Our Favorites</h2>
-						        <?php
-						        $fav_query = \GreaterMedia\Shows\get_show_favorites_query();
-								while( $fav_query->have_posts() ): $fav_query->the_post();
-						        ?>
-								<div class="featured__content--block">
-					                <?php if ( has_post_thumbnail() ): ?>
-						                <div class="featured__content--image">
-							                <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 400, 400 ) ); ?></a>
-						                </div>
-									<?php endif; ?>
-					                <div class="featured__content--meta">
-					                    <h3 class="featured__content--title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+
+							<?php while( $fav_query->have_posts() ): $fav_query->the_post();
+					        ?>
+							<div class="featured__content--block">
+				                <?php if ( has_post_thumbnail() ): ?>
+					                <div class="featured__content--image">
+						                <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 400, 400 ) ); ?></a>
 					                </div>
-					            </div>
-								<?php endwhile; ?>
-						        <?php wp_reset_query(); ?>
+								<?php endif; ?>
+				                <div class="featured__content--meta">
+				                    <h3 class="featured__content--title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+				                </div>
+				            </div>
+							<?php endwhile; endif; ?>
+					        <?php wp_reset_query(); ?>
 					        </section>
 
 					        <?php do_action( 'acm_tag', 'mrec-lists' ); ?>
