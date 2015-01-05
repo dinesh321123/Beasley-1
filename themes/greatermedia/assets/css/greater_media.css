@@ -7094,6 +7094,32 @@ category: Components - Gallery Archive
   .single-gmr_album .gallery__archive {
     padding-top: 1.625em; }
 
+.gallery__back--btn {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1.5em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  -border-radius: 1em;
+  border-radius: 1em; }
+  .gallery__back--btn:hover, .gallery__back--btn:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  .gallery__back--btn:last-of-type {
+    margin-right: 0; }
+
 .gallery__featured, .gallery__grid {
   float: left;
   display: block;

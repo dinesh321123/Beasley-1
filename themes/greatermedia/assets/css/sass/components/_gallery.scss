@@ -823,6 +823,11 @@ category: Components - Gallery Archive
 	}
 }
 
+.gallery__back--btn {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1.5em, ms(0));
+	@include border-radius(1em);
+}
+
 .gallery__featured, .gallery__grid {
 	@include span-columns(4 of 4);
 	@include omega;

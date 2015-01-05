@@ -193,11 +193,17 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 
 		<article id="post-not-found" class="hentry cf">
 			<header class="article-header">
-				<h1><?php _e( 'Oops, Post Not Found!', 'antenna_theme' ); ?></h1>
+				<?php if ( 'show' == get_post_type() ) { ?>
+					<h2 class="entry__title"><?php the_title(); ?><?php _e( ' does not have galleries...yet!', 'greatermedia' ); ?></h2>
+				<?php } else { ?>
+					<h2 class="entry__title"><?php _e( 'There are currently no galleries', 'greatermedia' ); ?></h2>
+				<?php } ?>
 			</header>
-			<section class="entry-content">
-				<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'antenna_theme' ); ?></p>
-			</section>
+			<?php if ( 'show' == get_post_type() ) { ?>
+				<section class="entry__content">
+					<a href="<?php the_permalink(); ?>" class="gallery__back--btn">Back</a>
+				</section>
+			<?php } ?>
 		</article>
 
 	<?php endif; ?>
