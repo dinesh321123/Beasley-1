@@ -103,8 +103,9 @@
 				                    <h3 class="featured__content--title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 				                </div>
 				            </div>
+							<?php endwhile; ?>
 							</section>
-							<?php endwhile; endif; ?>
+							<?php endif; ?>
 					        <?php wp_reset_query(); ?>
 					        
 
