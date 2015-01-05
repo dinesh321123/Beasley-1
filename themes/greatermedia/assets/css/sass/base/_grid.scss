@@ -74,10 +74,11 @@ img {
 .content, %content {
 	@include fill-parent;
 	@include omega;
-	padding: 2em;
+	padding: $base-line-height $gutter / 2;
 
-	// @include bp(medium) {
-	// }
+	@include bp(medium) {
+		padding: $base-line-height * 2 $gutter * 2;
+	}
 	// @include bp(large) {
 	// }
 	// @include bp(x-large) {

@@ -51,7 +51,7 @@ category: Components - Shows
 .show__header {
 	background-color: rgb(86, 16, 21);
 	position: relative;
-	padding: 2em;
+	padding: $base-line-height $gutter / 2;
 	@include fill-parent();
 	@include row();
 	@include display-context(table);
@@ -68,7 +68,7 @@ category: Components - Shows
 	}
 
 	@include bp(medium) {
-		padding: 5em 2em;
+		padding: $gutter * 4 $gutter * 2;
 	}
 
 	@include bp(large) {
@@ -158,13 +158,13 @@ category: Components - Shows
 		@include span-columns(8 of 12);
 		@include omega;
 
-		h1 {
+		.show__title {
 			margin-top: 0;
 			margin-bottom: 0.6em;
 		}
 
 		ul {
-			top: auto;
+			top: 47%;
 			display: inline-block;
 		}
 	}
@@ -178,6 +178,7 @@ category: Components - Shows
 			padding-left: 0;
 			text-align: justify;
 			margin: 0;
+			margin-left: -9px;
 			position: relative;
 			width: auto;
 		}
@@ -194,6 +195,8 @@ category: Components - Shows
 
 .show__nav--mobile {
 	display: block;
+	border-bottom: 4px solid $secondary-border;
+	padding: 10px 0;
 
 	ul {
 		padding-left: 0;
@@ -206,13 +209,11 @@ category: Components - Shows
 		a {
 			font-size: ms(4);
 			font-weight: bold;
-			padding: 9px;
-			border-radius: 20px;
 			display: inline-block;
 			text-transform: uppercase;
+			color: $secondary-border;
 
 			&:hover  {
-				background-color: $secondary-text;
 				color: $secondary-link-hover;
 			}
 
@@ -249,6 +250,7 @@ category: Components - Shows
 	em {
 		display: block;
 		line-height: 1.5;
+		font-weight: 200;
 	}
 
 	.social-share-link {
@@ -319,16 +321,23 @@ category: Components - Shows
 
 	h3 {
 		margin-top: 0;
+		margin-bottom: 0.5em;
+		font-size: 1.5em;
+
 	}
 
 	img {
 		width: 100%;
 		height: auto;
 	}
+
+	time {
+		font-size: 1.25em;
+	}
 }
 
 .show__feature--primary {
-	@include bp(medium) {
+	@include bp(large) {
 		@include span-columns(8 of 12);
 
 		h3 { font-size: 2em; }
@@ -336,7 +345,7 @@ category: Components - Shows
 }
 
 .show__feature--secondary {
-	@include bp(medium) {
+	@include bp(large) {
 		@include span-columns(4 of 12);
 		@include omega;
 
@@ -367,7 +376,7 @@ category: Components - Shows
 */
 
 .show__blogroll {
-	@include bp(medium) {
+	@include bp(large) {
 		@include span-columns(8 of 12);
 	}
 }
@@ -375,7 +384,7 @@ category: Components - Shows
 .inner-right-col {
 	float: none;
 
-	@include bp(medium) {
+	@include bp(large) {
 		@include span-columns(4 of 12);
 		@include omega;
 		float: right;
@@ -413,8 +422,16 @@ category: Components - Shows
 
 		&:before {
 			position: absolute;
-			left: -30px;
-			top: 8px;
+			left: -24px;
+			top: 14px;
+			font-size: 1.25em;
+
+			@include bp(medium) {
+				left: -30px;
+				top: 8px;
+				font-size: inherit;
+			}
+
 		}
 
 		a {
@@ -427,11 +444,22 @@ category: Components - Shows
 	}
 
 	.more-btn {
+		position: relative;
 		left: 40%;
 		right: auto;
 		top: 0;
 		bottom: auto;
+		font-size: 1em;
 		color: $primary-text;
+
+		@include bp(medium) {
+			position: absolute;
+			left: 40%;
+			right: auto;
+			top: 0;
+			bottom: auto;
+			font-size: inherit;
+		}
 	}
 }
 

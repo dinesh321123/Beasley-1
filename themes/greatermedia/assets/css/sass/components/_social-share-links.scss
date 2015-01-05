@@ -25,6 +25,11 @@ a.social-share-link {
 	border: 1px solid $black;
 	border-radius: 50%;
 	padding: 9px;
+	margin-right: 0.25em;
+
+	&:last-of-type {
+		margin-right: 0;
+	}
 
 	&:hover {
 		color: $social-hover;

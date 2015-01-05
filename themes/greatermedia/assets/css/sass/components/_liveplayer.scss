@@ -840,6 +840,14 @@ category: Components
 	font-family: $open-sans;
 	font-size: ms(-1);
 	font-weight: normal;
+
+	.content & {
+		font-size: 1.25em;
+
+		@include bp(medium) {
+			font-size: inherit;
+		}
+	}
 }
 
 .live-link__title a:link, .live-link__title a:visited {

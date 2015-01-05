@@ -37,7 +37,7 @@
 									<a href="<?php the_permalink(); ?>">
 										<div class="show__feature">
 											<?php if ( has_post_thumbnail() ) : ?>
-												<?php the_post_thumbnail( 'gmr-show-featured-secondary' ); ?>
+												<?php the_post_thumbnail( 'gmr-show-featured-primary' ); ?>
 											<?php endif; ?>
 											<div class="show__feature--desc">
 												<h3><?php the_title(); ?></h3>
@@ -52,20 +52,23 @@
 						<?php wp_reset_query(); ?>
 					<?php endif; ?>
 
-					<div class="featured__content">
+					<div class="highlights__events">
 						<?php
 						global $post;
 						$events = \GreaterMedia\Shows\get_show_events();
 						foreach( $events as $post ): setup_postdata( $post ); ?>
-							<div class="featured__content--block">
+							<div class="highlights__event--item">
+								<a href="<?php the_permalink(); ?>">
 								<?php if ( has_post_thumbnail() ) : ?>
-									<div class="featured__content--image">
-										<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 400, 400 ) ); // todo custom size for this? ?></a>
+									<div class="highlights__event--thumb">
+										<?php the_post_thumbnail( 'thumbnail' ); ?>
 									</div>
 								<?php endif; ?>
-								<div class="featured__content--meta">
-									<h3 class="featured__content--title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+								<div class="highlights__event--meta">
+									<h3 class="highlights__event--title"><?php the_title(); ?></h3>
+									<span class="highlights__event--date"><time datetime="2014-12-28T08:00:00+00:00">Dec 28</time></span> <!-- TODO add dynamic time -->
 								</div>
+								</a>
 							</div>
 						<?php endforeach; ?>
 						<?php wp_reset_query(); ?>
