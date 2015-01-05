@@ -1813,8 +1813,16 @@ Curated posts for Featured Articles
     .featured__content--image {
       float: left;
       display: block;
-      margin-right: 7.42297%;
-      width: 100%;
+      margin-right: 2.35765%;
+      width: 31.76157%; }
+      .featured__content--image:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 768px) {
+    .featured__content--image {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 31.76157%;
       margin-right: 0;
       padding-top: 66.6%; }
       .featured__content--image:last-child {
@@ -1859,8 +1867,23 @@ Curated posts for Featured Articles
         margin-right: 0; } }
   @media screen and (min-width: 768px) {
     .featured__content--meta {
-      font-size: 1.125em; } }
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 65.88078%;
+      margin-right: 0; }
+      .featured__content--meta:last-child {
+        margin-right: 0; } }
   @media screen and (min-width: 1024px) {
+    .featured__content--meta {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 65.88078%;
+      margin-right: 0; }
+      .featured__content--meta:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
     .featured__content--meta {
       float: left;
       display: block;
@@ -5670,21 +5693,18 @@ category: Components - Shows
     float: left;
     margin-right: 1em; }
 
-.single-show .highlights__events {
-  width: 100%; }
-  @media screen and (min-width: 1024px) {
-    .single-show .highlights__events {
-      padding: 1em 0 2em; } }
-.single-show .highlights__event--item {
-  background-color: #f1f1f3; }
-  @media screen and (min-width: 1024px) {
-    .single-show .highlights__event--item {
-      float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 31.76157%; }
-      .single-show .highlights__event--item:last-child {
-        margin-right: 0; } }
+.single-show .featured__content--block {
+  margin-top: 1em;
+  margin-bottom: 1em; }
+  .single-show .featured__content--block .highlights__event--date {
+    text-transform: uppercase;
+    font-size: 1em; }
+.single-show .featured__content {
+  margin: 2em 0; }
+  .single-show .featured__content:hover .featured__content--title {
+    color: #aa1c20; }
+.single-show .featured__content--title {
+  color: #282827; }
 
 .show-attr--name {
   position: absolute;
@@ -6100,7 +6120,7 @@ category: Components - Shows
     position: relative;
     left: 40%;
     right: auto;
-    top: 0;
+    top: 14px;
     bottom: auto;
     font-size: 1em;
     color: #404041; }
@@ -6109,7 +6129,7 @@ category: Components - Shows
         position: absolute;
         left: 40%;
         right: auto;
-        top: 0;
+        top: 14px;
         bottom: auto;
         font-size: 0.75em; } }
 

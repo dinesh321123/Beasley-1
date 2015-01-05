@@ -1,18 +1,26 @@
 .single-show {
-	.highlights__events {
-		@include fill-parent;
+	.featured__content--block {
+		margin-top: 1em;
+		margin-bottom: 1em;
 
-		@include bp(large) {
-			padding: 1em 0 2em;
+		.highlights__event--date {
+			text-transform: uppercase;
+			font-size: 1em;
 		}
 	}
 
-	.highlights__event--item {
-		background-color: $highlights-bg;
+	.featured__content {
+		margin: 2em 0;
 
-		@include bp(large) {
-			@include span-columns(4 of 12);
+		&:hover {
+			.featured__content--title {
+				color: $secondary-link-hover;
+			}
 		}
+	}
+
+	.featured__content--title {
+		color: $secondary-border;
 	}
 }
 
@@ -462,7 +470,7 @@ category: Components - Shows
 		position: relative;
 		left: 40%;
 		right: auto;
-		top: 0;
+		top: 14px;
 		bottom: auto;
 		font-size: 1em;
 		color: $primary-text;
@@ -471,7 +479,7 @@ category: Components - Shows
 			position: absolute;
 			left: 40%;
 			right: auto;
-			top: 0;
+			top: 14px;
 			bottom: auto;
 			font-size: 0.75em;
 		}

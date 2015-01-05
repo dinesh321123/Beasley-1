@@ -260,8 +260,8 @@ Curated posts for Featured Articles
 			max-height: none;
 		}
 	}
-	@include bp(small) {
-		@include span-columns(4 of 4);
+	@include bp(medium) {
+		@include span-columns(4 of 12);
 		@include omega;
 		padding-top: 66.6%;
 	}
@@ -285,7 +285,8 @@ Curated posts for Featured Articles
 		min-height: 6.8em 
 	}
 	@include bp(medium) {
-		font-size: ms(1); 
+		@include span-columns(8 of 12);
+		@include omega;
 	}
 	@include bp(large) {
 		@include span-columns(8 of 12);
