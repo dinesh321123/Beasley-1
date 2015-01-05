@@ -3596,7 +3596,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   line-height: 1.2; }
 
 .entry2__excerpt {
-  margin: 1.5em 0 0;
+  margin: .75em 0 0;
   display: none;
   text-align: left; }
   .entry2__excerpt p {
