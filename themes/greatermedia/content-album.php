@@ -66,9 +66,9 @@
 					'paged'             => get_query_var('paged')
 				);
 
-				query_posts( $child_galleries );
+				$gallery_query = new WP_Query( $child_galleries );
 
-				while (have_posts()) : the_post();
+				while ($gallery_query->have_posts()) : $gallery_query->the_post();
 
 					get_template_part( 'partials/gallery-grid' );
 
