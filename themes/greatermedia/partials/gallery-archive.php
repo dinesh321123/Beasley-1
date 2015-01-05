@@ -184,9 +184,7 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 		get_template_part( 'partials/gallery-grid' );
 
 	endwhile;
-
-		greatermedia_gallery_album_nav();
-
+		
 		wp_reset_postdata();
 
 	else : ?>
