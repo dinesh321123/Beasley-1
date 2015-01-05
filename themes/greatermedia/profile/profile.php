@@ -51,8 +51,6 @@ if ( 'cookies-required' === $profile_page ) {
 	);
 }
 
-	if ( '' )
-
 $page_heading = get_option( "gmr_{$option_key}_page_heading" );
 $page_message = get_option( "gmr_{$option_key}_page_message" );
 
@@ -66,6 +64,36 @@ if ( empty( $page_message ) ) {
 
 
 ?>
+
+
+	<div class="gigya-screen-set" id="GMR-RegistrationLogin" style="display:none">
+		<div class="gigya-screen cf" id="gigya-login-screen" data-responsive="true">
+			<h2>Login to Your Account</h1>
+			<h3>Login with your social network</h3>
+			<div class="gigya-social-login">
+				<param name="buttonsStyle" value="standard" />
+				<param name="enabledProviders" value="facebook,twitter,google" />
+				<param name="showTermsLink" value="false" />
+				<param name="hideGigyaLink" value="true" />
+				<param name="width" value="280" />
+				<param name="useHTML" value="true" />
+				<param name="buttonSize" value="40px" />
+			</div>
+
+			<h3>Or, login with email</h3>
+
+			<form class="gigya-login-form">
+				<span class="gigya-error-msg" data-bound-to="loginID" ></span>
+				<input type="text" name="loginID" placeholder="Email" />
+
+				<span class="gigya-error-msg" data-bound-to="password" ></span>
+				<input type="password" name="password" placeholder="Password" />
+
+				<span class="gigya-error-msg" data-bound-to="gigya-login-form"></span>
+				<input type="submit" name="submit" value="Login" />
+			</form>
+		</div>
+	</div>
 
 	<main class="main" role="main">
 
