@@ -57,18 +57,18 @@
 					global $post;
 					$events = \GreaterMedia\Shows\get_show_events();
 					if ( $events ) { ?>
-						<div class="highlights__events">
+						<div class="featured__content">
 							<h2 class="section-header">Upcoming Events</h2>
 							<?php foreach( $events as $post ): setup_postdata( $post ); ?>
-							<div class="highlights__event--item">
+							<div class="featured__content--block">
 								<a href="<?php the_permalink(); ?>">
 								<?php if ( has_post_thumbnail() ) : ?>
-									<div class="highlights__event--thumb">
+									<div class="featured__content--image">
 										<?php the_post_thumbnail( 'thumbnail' ); ?>
 									</div>
 								<?php endif; ?>
-								<div class="highlights__event--meta">
-									<h3 class="highlights__event--title"><?php the_title(); ?></h3>
+								<div class="featured__content--meta">
+									<h3 class="featured__content--title"><?php the_title(); ?></h3>
 									<span class="highlights__event--date"><time datetime="2014-12-28T08:00:00+00:00">Dec 28</time></span> <!-- TODO add dynamic time -->
 								</div>
 								</a>
@@ -103,9 +103,10 @@
 				                    <h3 class="featured__content--title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 				                </div>
 				            </div>
+							</section>
 							<?php endwhile; endif; ?>
 					        <?php wp_reset_query(); ?>
-					        </section>
+					        
 
 					        <?php do_action( 'acm_tag', 'mrec-lists' ); ?>
 
