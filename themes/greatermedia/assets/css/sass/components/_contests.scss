@@ -290,7 +290,7 @@
 		.contest__submission--rating {
 			position: absolute;
 			top: 0;
-			right: 0px;
+			right: 0;
 			color: $white;
 			background-color: $dark-gray;
 			padding: 5px 10px;
@@ -301,6 +301,19 @@
 			b {
 				font-weight: normal;
 			}
+		}
+
+		.contest__submission--winner {
+			position: absolute;
+			top: 0;
+			left: 0;
+			color: gold;
+			background-color: crimson;
+			padding: 5px 10px;
+			line-height: 1em;
+			border-bottom-right-radius: 0.5em;
+			font-size: ms(-2);
+			display: none;
 		}
 	}
 
@@ -385,6 +398,12 @@
 
 		.contest__submission--rating {
 			background-color: $cardinal;
+		}
+	}
+
+	&.winner {
+		.contest__submission--winner {
+			display: block;
 		}
 	}
 

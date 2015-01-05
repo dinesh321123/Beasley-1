@@ -5138,7 +5138,7 @@ category: Components - Ads
     .contest__submission .contest__submission--link .contest__submission--rating {
       position: absolute;
       top: 0;
-      right: 0px;
+      right: 0;
       color: #ffffff;
       background-color: #282827;
       padding: 5px 10px;
@@ -5147,6 +5147,17 @@ category: Components - Ads
       font-size: 0.79012em; }
       .contest__submission .contest__submission--link .contest__submission--rating b {
         font-weight: normal; }
+    .contest__submission .contest__submission--link .contest__submission--winner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: gold;
+      background-color: crimson;
+      padding: 5px 10px;
+      line-height: 1em;
+      border-bottom-right-radius: 0.5em;
+      font-size: 0.79012em;
+      display: none; }
   .contest__submission.expanded .contest__submission--link:after {
     top: auto;
     border: solid transparent;
@@ -5221,6 +5232,8 @@ category: Components - Ads
     display: inline-block; }
   .contest__submission.voted .contest__submission--rating {
     background-color: #d22228; }
+  .contest__submission.winner .contest__submission--winner {
+    display: block; }
   .contest__submission .preview {
     position: absolute;
     background: #ddd;
@@ -6860,6 +6873,7 @@ category: Components - Gallery Archive
     border-color: #58595b;
     background-color: #303030; }
   .single-contest .gallery__thumbnails {
+    height: 93px;
     margin-top: 0px; }
   @media screen and (min-width: 480px) {
     .gallery__thumbnails {
@@ -7025,6 +7039,8 @@ category: Components - Gallery Archive
       height: 85px; }
       .single-gmr_gallery .gallery__previews--group {
         height: 100px; } }
+  .single-contest .gallery__previews--group {
+    height: 52px; }
 
 .gallery__slide--preview {
   display: inline-block;

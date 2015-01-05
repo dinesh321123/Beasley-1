@@ -9,14 +9,14 @@
  * theme's file, so the child theme functions would be used.
  *
  * @package Greater Media
- * @since   0.1.2
+ * @since   0.1.3
  */
 
 // Useful global constants
 /**
  *
  */
-define( 'GREATERMEDIA_VERSION', '0.1.2' );
+define( 'GREATERMEDIA_VERSION', '0.1.3' );
 
 add_theme_support( 'homepage-curation' );
 

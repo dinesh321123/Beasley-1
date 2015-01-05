@@ -19,6 +19,7 @@ add_filter( 'gmr_contest_submissions_query', 'gmr_contests_submissions_query' );
 add_filter( 'post_type_link', 'gmr_contests_get_submission_permalink', 10, 2 );
 add_filter( 'request', 'gmr_contests_unpack_vars' );
 add_filter( 'post_thumbnail_html', 'gmr_contests_post_thumbnail_html', 10, 4 );
+add_filter( 'post_row_actions', 'gmr_contests_add_table_row_actions', 10, 2 );
 
 /**
  * Registers custom post types related to contests area.
@@ -436,18 +437,19 @@ function gmr_contests_process_form_submission() {
 	}
 
 	require_once ABSPATH . 'wp-admin/includes/image.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+	require_once ABSPATH . 'wp-admin/includes/file.php';
 
-	$submitted_values = array();
-	$submitted_files  = array( 'images' => array(), 'other'  => array() );
+	$submitted_values = $submitted_files  = array();
 	
 	$contest_id = get_the_ID();
 	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
 	foreach ( $form as $field ) {
 		$post_array_key = 'form_field_' . $field->cid;
 		if ( 'file' === $field->field_type ) {
-			if ( isset( $_FILES[ $post_array_key ] ) ) {
-				$file_type_index = file_is_valid_image( $_FILES[ $post_array_key ]['tmp_name'] ) ? 'images' : 'other';
-				$submitted_files[ $file_type_index ][ $post_array_key ] = $_FILES[ $post_array_key ];
+			if ( isset( $_FILES[ $post_array_key ] ) && file_is_valid_image( $_FILES[ $post_array_key ]['tmp_name'] ) ) {
+				$file_id = media_handle_upload( $post_array_key, $contest_id, array( 'post_status' => 'private' ) );
+				$submitted_files[ $field->cid ] = $submitted_values[ $field->cid ] = $file_id;
 			}
 		} else if ( isset( $_POST[ $post_array_key ] ) ) {
 			if ( is_scalar( $_POST[ $post_array_key ] ) ) {
@@ -478,42 +480,25 @@ function gmr_contests_process_form_submission() {
  * @param GreaterMediaContestEntry $entry
  */
 function gmr_contests_handle_submitted_files( array $submitted_files, GreaterMediaContestEntry $entry ) {
-	/**
-	 * Ignoring the "other" files per GMR-343
-	 * "There's no reason for Contest or Survey upload fields to allow any filetypes other than images. Aside
-	 * from security considerations, it also becomes much more complex to manage user generated content if it's
-	 * anything beside photos."
-	 */
-	if ( empty( $submitted_files['images'] ) ) {
+	if ( empty( $submitted_files ) ) {
 		return;
 	}
 
-	require_once ABSPATH . 'wp-admin/includes/media.php';
-	require_once ABSPATH . 'wp-admin/includes/file.php';
-
 	$thumbnail = null;
-	$data_type = count( $submitted_files['images'] ) == 1 ? 'image' : 'gallery';
+	$data_type = count( $submitted_files ) == 1 ? 'image' : 'gallery';
 
 	$ugc = GreaterMediaUserGeneratedContent::for_data_type( $data_type );
 	$ugc->post->post_parent = $entry->post->post_parent;
 	
+	reset( $submitted_files );
+	$thumbnail = current( $submitted_files );
+	
 	switch ( $data_type ) {
 		case 'image':
-			reset( $submitted_files );
-			$upload_field = key( $submitted_files['images'] );
-			$thumbnail = media_handle_upload( $upload_field, $entry->post->post_parent, array( 'post_status' => 'private' ) );
-
-			$ugc->post->post_content = wp_get_attachment_image( $thumbnail, 'full' );
+			$ugc->post->post_content = wp_get_attachment_image( current( $submitted_files ), 'full' );
 			break;
-
 		case 'gallery':
-			$attachment_ids = array();
-			foreach ( array_keys( $submitted_files['images'] ) as $upload_field ) {
-				$attachment_ids[] = media_handle_upload( $upload_field, $entry->post->post_parent, array( 'post_status' => 'private' ) );
-			}
-			$thumbnail = $attachment_ids[0];
-
-			$ugc->post->post_content = '[gallery ids="' . implode( ',', $attachment_ids ) . '"]';
+			$ugc->post->post_content = '[gallery ids="' . implode( ',', $submitted_files ) . '"]';
 			break;
 	}
 
@@ -559,7 +544,7 @@ function gmr_contests_get_entries_count( $contest_id ) {
 	$contest_entries_count = get_transient( $transient );
 	if ( false === $contest_entries_count ) {
 		$query = new WP_Query( array(
-			'post_type'      => 'contest_entry',
+			'post_type'      => GMR_CONTEST_ENTRY_CPT,
 			'post_status'    => 'any',
 			'post_parent'    => $contest_id,
 			'posts_per_page' => 1,
@@ -713,4 +698,75 @@ function gmr_contest_submission_get_author( $submission_id = null ) {
 	}
 
 	return $author;
+}
+
+/**
+ * Adds table row actions to contest records.
+ *
+ * @filter post_row_actions
+ * @param array $actions The initial array of post actions.
+ * @param WP_Post $post The post object.
+ * @return array The array of post actions.
+ */
+function gmr_contests_add_table_row_actions( $actions, WP_Post $post ) {
+	// do nothing if it is not a contest object
+	if ( GMR_CONTEST_CPT != $post->post_type ) {
+		return $actions;
+	}
+
+	// add contest winners action
+	$link = admin_url( 'edit.php?post_type=contest_entry&contest_id=' . $post->ID );
+	$actions['gmr-contest-winner'] = '<a href="' . esc_url( $link ) . '">Entries</a>';
+
+	return $actions;
+}
+
+/**
+ * Returns classes string for a submission.
+ *
+ * @param string|array $class The default class for a submission block.
+ * @return string The submission classes.
+ */
+function gmr_contests_submission_class( $class ) {
+	$classes = array();
+	$post = get_post();
+
+	if ( gmr_contests_is_user_voted_for_submission( $post ) ) {
+		$classes[] = 'voted';
+	}
+
+	if ( gmr_contests_is_submission_winner( $post ) ) {
+		$classes[] = 'winner';
+	}
+	
+	if ( ! empty( $class ) ) {
+		$classes = array_merge( $classes, ! is_array( $class ) ? $class = preg_split( '#\s+#', $class ) : $class );
+	}
+
+	return implode( ' ', array_unique( $classes ) );
+}
+
+/**
+ * Determines whether submission has been selected as a winner.
+ *
+ * @param WP_Post|int $submission The submission object or id.
+ * @return boolean TRUE if submission has been selected as a winner, otherwise FALSE.
+ */
+function gmr_contests_is_submission_winner( $submission = null ) {
+	$submission = get_post( $submission );
+	if ( ! $submission || GMR_SUBMISSIONS_CPT != $submission->post_type ) {
+		return false;
+	}
+
+	$entry_id = get_post_meta( $submission->ID, 'contest_entry_id', true );
+	if ( ! $entry_id ) {
+		return false;
+	}
+
+	$gigya_id = trim( get_post_meta( $entry_id, 'entrant_reference', true ) );
+	if ( empty( $gigya_id ) ) {
+		return false;
+	}
+
+	return in_array( "{$entry_id}:{$gigya_id}", get_post_meta( $submission->post_parent, 'winner' ) );
 }

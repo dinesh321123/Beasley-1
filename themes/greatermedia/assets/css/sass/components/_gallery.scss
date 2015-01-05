@@ -563,6 +563,7 @@ category: Components - Gallery Archive
 	}
 
 	.single-contest & {
+		height: 93px;
 		margin-top: 0px;
 	}
 
@@ -743,6 +744,10 @@ category: Components - Gallery Archive
 		.single-gmr_gallery & {
 			height: 100px;
 		}
+	}
+
+	.single-contest & {
+		height: 52px;
 	}
 }
 

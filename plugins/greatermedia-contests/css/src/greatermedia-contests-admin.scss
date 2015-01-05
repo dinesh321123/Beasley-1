@@ -108,3 +108,26 @@
 		}
 	}
 }
+
+.post-type-contest_entry {
+	.wrap {
+		.add-new-h2,
+		.view-switch,
+		.search-box,
+		> .subsubsub {
+			display: none;
+		}
+	}
+
+	.column-gigya {
+		width: 175px;
+
+		.dashicons-awards {
+			color: green;
+		}
+
+		.unmark-winner a {
+			color: red;
+		}
+	}
+}
