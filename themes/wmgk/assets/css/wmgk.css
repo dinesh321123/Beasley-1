@@ -1609,19 +1609,12 @@ Curated posts for Featured Articles
   overflow: hidden;
   background-color: #270e10;
   position: relative;
-  padding-top: 35.71%; }
+  padding-top: 35.71%;
+  background-size: 100%;
+  background-size: cover;
+  background-position: center center; }
   .featured__article--image:last-child {
     margin-right: 0; }
-  .featured__article--image img {
-    width: 100%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
 
 .featured__article--content {
   float: left;
@@ -1787,31 +1780,12 @@ Curated posts for Featured Articles
   width: 31.76157%;
   overflow: hidden;
   position: relative;
-  height: 100%; }
+  height: 100%;
+  background-size: 100%;
+  background-size: cover;
+  background-position: center center; }
   .featured__content--image:last-child {
     margin-right: 0; }
-  .featured__content--image img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 100%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
-    @media (max-width: 350px) {
-      .featured__content--image img {
-        width: auto;
-        height: 100%;
-        max-width: none;
-        max-height: none; } }
-    @media screen and (min-width: 1024px) {
-      .featured__content--image img {
-        width: auto;
-        height: 100%;
-        max-width: none;
-        max-height: none; } }
   @media screen and (min-width: 480px) {
     .featured__content--image {
       float: left;
@@ -2127,17 +2101,10 @@ Community Highlights and Events
   position: relative;
   width: 100%;
   overflow: hidden;
-  padding-top: 100%; }
-  .highlights__community--thumb img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 100%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
+  padding-top: 100%;
+  background-size: 100%;
+  background-size: cover;
+  background-position: center center; }
 
 .highlights__community--thumb:after {
   position: absolute;
@@ -2247,31 +2214,12 @@ Community Highlights and Events
   width: 30.11389%;
   position: relative;
   height: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  background-size: 100%;
+  background-size: cover;
+  background-position: center center; }
   .highlights__event--thumb:last-child {
     margin-right: 0; }
-  .highlights__event--thumb img {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 100%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
-    @media (max-width: 350px) {
-      .highlights__event--thumb img {
-        width: auto;
-        height: 100%;
-        max-width: none;
-        max-height: none; } }
-    @media screen and (min-width: 480px) {
-      .highlights__event--thumb img {
-        width: auto;
-        height: 100%;
-        max-width: none;
-        max-height: none; } }
   @media screen and (min-width: 1024px) {
     .highlights__event--thumb {
       float: left;
@@ -3552,7 +3500,10 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry2__thumbnail {
   margin-bottom: 1.125em;
-  position: relative; }
+  position: relative;
+  background-size: 100%;
+  background-size: cover;
+  background-position: center center; }
   @media screen and (min-width: 480px) {
     .entry2__thumbnail {
       float: left;
@@ -3576,16 +3527,6 @@ Link posts contain a link to an external site. They can also optionally have a f
     padding-top: 66.666%; }
   .has-excerpt .entry2__thumbnail:after {
     padding-top: 75%; }
-  .entry2__thumbnail img {
-    position: absolute;
-    width: 100%;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    -o-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
 
 .entry2__meta {
   text-align: center; }

@@ -13,9 +13,7 @@
 		if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 			<div class="featured__article">
 				<a href="<?php the_permalink(); ?>">
-					<div class="featured__article--image">
-						<?php the_post_thumbnail( 'gmr-featured-primary' ); ?>
-					</div>
+					<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary' ) ?>)'></div>
 					<div class="featured__article--content">
 						<div class="featured__article--heading">
 							<?php the_title(); ?>
@@ -30,9 +28,7 @@
 				<?php while ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 					<div class="featured__content--block">
 						<a href="<?php the_permalink(); ?>">
-							<div class="featured__content--image">
-								<?php the_post_thumbnail( 'gmr-featured-secondary' ); ?>
-							</div>
+							<div class="featured__content--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary' ) ?>)'></div>
 							<div class="featured__content--meta">
 								<h2 class="featured__content--title"><?php the_title(); ?></h2>
 								<div class="featured__content--link">

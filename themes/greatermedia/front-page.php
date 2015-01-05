@@ -36,18 +36,16 @@ get_header();
 				?>
 
 					<article id="post-<?php the_ID(); ?>" <?php post_class( $post_classes ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-						
-						<?php if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) : ?>
-							<section class="entry2__thumbnail <?php // greatermedia_post_formats(); ?>">
+						<?php 
+						if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) : 
+							if ( has_post_format( 'audio' ) ) {
+								$thumbnail_size = 'gm-entry-thumbnail-1-1';
+							} else {
+								$thumbnail_size = 'gm-entry-thumbnail-4-3';
+							}
+						?>
+							<section class="entry2__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size ); ?>)'>
 								<a href="<?php the_permalink(); ?>">
-									<?php 
-									if ( has_post_format( 'audio' ) ) {
-										the_post_thumbnail( 'gm-entry-thumbnail-1-1' );
-									} else {
-										the_post_thumbnail( 'gm-entry-thumbnail-4-3' );
-									}
-									?>
-									
 									<?php if ( 'tribe_events' == $post->post_type): ?>
 										<div class='entry2__thumbnail--event-date'>
 											<div class='entry2__thumbnail--day-of-week'><?php echo tribe_get_start_date( get_the_ID(), false, 'l' ); ?></div>

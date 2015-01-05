@@ -238,6 +238,43 @@ function get_post_with_keyword( $query_arg ) {
 }
 
 /**
+ * Get the URL of a post's thumbnail.  
+ * 
+ * @param string|array Thumbnail size.
+ * @param int Post ID. Defaults to current post. 
+ */
+function gm_get_post_thumbnail_url( $size = 'thumbnail', $post_id = null ) {
+	$thumbnail_id = get_post_thumbnail_id( $post_id );
+
+	if ( $thumbnail_id ) {
+		return gm_get_thumbnail_url( $thumbnail_id, $size );
+	}
+}
+
+/**
+ * Output the escaped URL of a post's thumbnail.  
+ * 
+ * @param string|array Thumbnail size.
+ * @param int Post ID. Defaults to current post. 
+ */
+function gm_post_thumbnail_url( $size = 'thumbnail', $post_id = null ) {
+	echo esc_url( gm_get_post_thumbnail_url( $size, $post_id ) );
+}
+
+/**
+ * Get the URL of an attachment thumbnail. 
+ * 
+ * @param id $attachment_id
+ * @return null|string URL if found, null otherwise. 
+ */
+function gm_get_thumbnail_url( $attachment_id, $size ) {
+	$src = wp_get_attachment_image_src( $attachment_id, $size );
+	if ( $src ) {
+		return $src[0]; 
+	}	
+}
+
+/**
  * Custom action to add keyword search results
  */
 function get_results_for_keyword() {

@@ -111,13 +111,9 @@ Curated posts for Featured Articles
 	background-color: $featured-secondary-bg;
 	position: relative;  
 	padding-top: 35.71%;	
-	img {
-		width: 100%;
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		@include transform(translate(-50%, -50%));
-	}
+	background-size: 100%;
+	background-size: cover;
+	background-position: center center; 
 	}
 
 .featured__article--content {
@@ -243,29 +239,9 @@ Curated posts for Featured Articles
 	overflow: hidden;
 	position: relative; 
 	height: 100%;
-	img {
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		width: 100%;
-		@include transform(translate(-50%, -50%));
-		
-		// Special hack to just stretch images vertically at really small sizes 
-		// where the container is likely to be taller than wider. 
-		@media ( max-width: 350px ) {
-			width: auto;
-			height: 100%;
-			max-width: none;
-			max-height: none;
-		}
-		
-		@include bp(large) {
-			width: auto;
-			height: 100%;
-			max-width: none;
-			max-height: none;
-		}
-	}
+	background-size: 100%;
+	background-size: cover; 
+	background-position: center center; 
 	@include bp(small) {
 		@include span-columns(4 of 4);
 		@include omega;
