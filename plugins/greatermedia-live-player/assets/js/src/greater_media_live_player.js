@@ -30,7 +30,7 @@
 		// add gif file for testing
 		// call pjax to update container
 		if( !gmlp.logged_in ) {
-			enablePjax();
+			//enablePjax();
 		}
 	});
 

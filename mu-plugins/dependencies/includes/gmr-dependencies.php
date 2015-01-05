@@ -180,7 +180,7 @@ class GmrDependencies {
 		wp_enqueue_script(
 			'pjax',
 			GMRDEPENDENCIES_URL  . 'pjax/jquery.pjax.js',
-			array(),
+			array('jquery'),
 			'1.9.2',
 			false
 		);
