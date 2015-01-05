@@ -7073,6 +7073,8 @@ category: Components - Gallery Archive
       .single-gmr_gallery .gallery__slide--preview {
         width: 11.5%;
         max-height: 100px; } }
+  .single-contest .gallery__slide--preview {
+    max-height: 52px; }
 
 .gallery__slide--preview:hover {
   opacity: 1;

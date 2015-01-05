@@ -792,6 +792,10 @@ category: Components - Gallery Archive
 			max-height: 100px;
 		}
 	}
+
+	.single-contest & {
+		max-height: 52px;
+	}
 }
 
 .gallery__slide--preview:hover {
