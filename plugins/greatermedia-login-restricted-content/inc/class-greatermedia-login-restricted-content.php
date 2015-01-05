@@ -271,15 +271,15 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 		$current_url = '/' . trim( $wp->request, '/' );
 
 		if ( ( 'logged-in' === $login_restriction ) && ! is_gigya_user_logged_in() ) {
+			ob_start();
 			$login_url   = gigya_profile_path( 'login', array( 'dest' => $current_url ) );
 			include GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH . '/tpl/login-restricted-post-render.tpl.php';
-
-			return;
+			return ob_get_clean();
 		} elseif ( ( 'logged-out' === $login_restriction ) && is_gigya_user_logged_in() ) {
+			ob_start();
 			$logout_url   = gigya_profile_path( 'logout', array( 'dest' => $current_url ) );
 			include GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH . '/tpl/logout-restricted-post-render.tpl.php';
-
-			return;
+			return ob_get_clean();
 		}
 
 		// Fall-through, return content as-is

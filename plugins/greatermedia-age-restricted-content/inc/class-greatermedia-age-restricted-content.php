@@ -280,13 +280,13 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 		$login_url   = gigya_profile_path( 'login', array( 'dest' => $current_url ) );
 
 		if ( ( '18plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 18 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+			ob_start();
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-post-render.tpl.php';
-
-			return;
+			return ob_get_clean();
 		} elseif ( ( '21plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 21 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+			ob_start();
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-post-render.tpl.php';
-
-			return;
+			return ob_get_clean();
 		}
 
 		// Fall-through, return content as-is
