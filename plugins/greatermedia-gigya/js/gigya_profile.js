@@ -312,7 +312,7 @@
 					}
 				} else {
 					if (currentPage === 'account') {
-						this.controller.redirect('/members/login');
+						this.controller.redirect('/members/login?dest=%2Fmembers%2Faccount');
 						return;
 					}
 				}
