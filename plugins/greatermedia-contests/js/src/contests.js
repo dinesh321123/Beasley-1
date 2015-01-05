@@ -1,6 +1,92 @@
 /* globals GMR_Gallery:false */
 (function($, gmr) {
-	var __ready = function() {
+	var __ready, gridPreviewLoaded, gridLoadMoreUrl, gridUpdateRating;
+
+	gridUpdateRating = function($item, delta) {
+		var rating = parseInt($item.text().replace(/\D+/g, ''));
+
+		if (isNaN(rating)) {
+			rating = 0;
+		}
+
+		rating += delta;
+		rating = rating.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').replace(/\..*/g, '');
+
+		$item.text(rating);
+	};
+
+	gridPreviewLoaded = function(submission) {
+		var $previewInner = submission.$previewInner,
+			$item = submission.$item,
+			$rating = $item.find('.contest__submission--rating b'),
+			sync_vote = false;
+
+		// init new gallery
+		if ($.fn.cycle) {
+			$previewInner.find('.cycle-slideshow').cycle({
+				next: '.gallery__next--btn'
+			});
+		}
+
+		// bind gallery events
+		if (GMR_Gallery) {
+			GMR_Gallery.bindEvents();
+		}
+
+		// bind vote click event
+		$previewInner.find('.contest__submission--vote').click(function() {
+			var $this = $(this),
+				$icon = $this.find('i.fa'),
+				classes = $icon.attr('class');
+
+			if (!sync_vote) {
+				sync_vote = true;
+				$icon.attr('class', 'fa fa-spinner fa-spin');
+
+				$.post(gmr.endpoints.vote, {ugc: $this.data('id')}, function(response) {
+					sync_vote = false;
+					$icon.attr('class', classes);
+
+					if (response.success) {
+						$item.addClass('voted');
+						gridUpdateRating($rating, 1);
+					}
+				});
+			}
+
+			return false;
+		});
+
+		// bind unvote click event
+		$previewInner.find('.contest__submission--unvote').click(function() {
+			var $this = $(this),
+				$icon = $this.find('i.fa'),
+				classes = $icon.attr('class');
+
+			if (!sync_vote) {
+				sync_vote = true;
+				$icon.attr('class', 'fa fa-spinner fa-spin');
+
+				$.post(gmr.endpoints.unvote, {ugc: $this.data('id')}, function(response) {
+					sync_vote = false;
+					$icon.attr('class', classes);
+					
+					if (response.success) {
+						$item.removeClass('voted');
+						gridUpdateRating($rating, -1);
+					}
+				});
+			}
+
+			return false;
+		});
+	};
+
+	gridLoadMoreUrl = function(page) {
+		return gmr.endpoints.infinite + (page + 1) + '/';
+	};
+
+	__ready = function() {
 		var container = $(gmr.selectors.container);
 
 		container.on('submit', gmr.selectors.form, function() {
@@ -61,65 +147,8 @@
 
 		$('.contest__submissions--list').grid({
 			loadMore: '.contest__submissions--load-more',
-			previewLoaded: function(submission) {
-				var $previewInner = submission.$previewInner,
-					sync_vote = false;
-
-				// init new gallery
-				if ($.fn.cycle) {
-					$previewInner.find('.cycle-slideshow').cycle({
-						next: '.gallery__next--btn'
-					});
-				}
-
-				// bind gallery events
-				if (GMR_Gallery) {
-					GMR_Gallery.bindEvents();
-				}
-
-				// bind vote click event
-				$previewInner.find('.contest__submission--vote').click(function() {
-					var $this = $(this),
-						$icon = $this.find('i.fa'),
-						classes = $icon.attr('class');
-
-					if (!sync_vote) {
-						sync_vote = true;
-						$icon.attr('class', 'fa fa-spinner fa-spin');
-						
-						$.post(gmr.endpoints.vote, {}, function(response) {
-							sync_vote = false;
-							$icon.attr('class', classes);
-							submission.$item.addClass('voted');
-						});
-					}
-
-					return false;
-				});
-
-				// bind unvote click event
-				$previewInner.find('.contest__submission--unvote').click(function() {
-					var $this = $(this),
-						$icon = $this.find('i.fa'),
-						classes = $icon.attr('class');
-
-					if (!sync_vote) {
-						sync_vote = true;
-						$icon.attr('class', 'fa fa-spinner fa-spin');
-
-						$.post(gmr.endpoints.vote, {}, function(response) {
-							sync_vote = false;
-							$icon.attr('class', classes);
-							submission.$item.removeClass('voted');
-						});
-					}
-
-					return false;
-				});
-			},
-			loadMoreUrl: function(page) {
-				return gmr.endpoints.infinite + (page + 1) + '/';
-			}
+			previewLoaded: gridPreviewLoaded,
+			loadMoreUrl: gridLoadMoreUrl
 		});
 	};
 

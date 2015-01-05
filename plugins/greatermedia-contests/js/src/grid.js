@@ -262,6 +262,7 @@
 					self = this;
 					if ($item) {
 						self.$item = $item;
+						self.getEl().appendTo($item);
 					}
 
 					// if already expanded remove class "og-expanded" from current item and add it to new item

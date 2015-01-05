@@ -297,6 +297,10 @@
 			line-height: 1em;
 			border-bottom-left-radius: 0.5em;
 			font-size: ms(-2);
+
+			b {
+				font-weight: normal;
+			}
 		}
 	}
 
@@ -373,6 +377,10 @@
 
 		.contest__submission--unvote {
 			display: inline-block;
+		}
+
+		.contest__submission--rating {
+			background-color: $cardinal;
 		}
 	}
 

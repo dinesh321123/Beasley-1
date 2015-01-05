@@ -26,12 +26,12 @@
 	<?php if ( function_exists( 'is_gigya_user_logged_in' ) ) : ?>
 		<?php if ( is_gigya_user_logged_in() ) : ?>
 			<div>
-				<a class="contest__submission--vote" href="#">
-					<i class="fa fa-thumbs-o-up"></i> Vote
+				<a class="contest__submission--vote" href="#" data-id="<?php echo esc_attr( get_post_field( 'post_name', null ) ); ?>">
+					<i class="fa fa-thumbs-o-up"></i> Upvote
 				</a>
 
-				<a class="contest__submission--unvote" href="#">
-					<i class="fa fa-thumbs-o-down"></i> Unvote
+				<a class="contest__submission--unvote" href="#" data-id="<?php echo esc_attr( get_post_field( 'post_name', null ) ); ?>">
+					<i class="fa fa-thumbs-o-down"></i> Downvote
 				</a>
 			</div>
 		<?php else : ?>

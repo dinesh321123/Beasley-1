@@ -1,7 +1,8 @@
-<li class="contest__submission">
+<li class="contest__submission<?php echo gmr_contests_is_user_voted_for_submission() ? ' voted' : ''; ?>">
 	<a class="contest__submission--link" href="<?php the_permalink(); ?>">
 		<span class="contest__submission--rating">
-			<i class="fa fa-thumbs-o-up"></i> <?php echo number_format( get_post_field( 'menu_order', null ), 0 ); ?>
+			<i class="fa fa-thumbs-o-up"></i>
+			<b><?php echo number_format( get_post_field( 'menu_order', null ), 0 ); ?></b>
 		</span>
 
 		<?php the_post_thumbnail( 'gmr-featured-secondary' ); ?>

@@ -11,6 +11,8 @@ add_action( 'gmr_contest_load', 'gmr_contests_render_form' );
 add_action( 'gmr_contest_submit', 'gmr_contests_process_form_submission' );
 add_action( 'gmr_contest_confirm-age', 'gmr_contests_confirm_user_age' );
 add_action( 'gmr_contest_reject-age', 'gmr_contests_reject_user_age' );
+add_action( 'gmr_contest_vote', 'gmr_contests_vote_for_submission' );
+add_action( 'gmr_contest_unvote', 'gmr_contests_unvote_for_submission' );
 
 // filter hooks
 add_filter( 'gmr_contest_submissions_query', 'gmr_contests_submissions_query' );
@@ -96,7 +98,9 @@ function gmr_contests_enqueue_front_scripts() {
 	if ( is_singular( GMR_CONTEST_CPT ) ) {
 		$base_path = trailingslashit( GREATER_MEDIA_CONTESTS_URL );
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+		
 		$permalink = untrailingslashit( get_permalink() );
+		$permalink_action = "{$permalink}/action";
 			
 		wp_enqueue_style( 'greatermedia-contests', "{$base_path}css/greatermedia-contests.css", array( 'datetimepicker', 'parsleyjs' ), GREATER_MEDIA_CONTESTS_VERSION );
 		
@@ -109,12 +113,12 @@ function gmr_contests_enqueue_front_scripts() {
 				'no_age'    => '.min-age-no',
 			),
 			'endpoints' => array(
-				'load'        => "{$permalink}/action/load/",
-				'submit'      => "{$permalink}/action/submit/",
-				'confirm_age' => "{$permalink}/action/confirm-age/",
-				'reject_age'  => "{$permalink}/action/reject-age/",
-				'vote'        => "{$permalink}/action/vote/",
-				'unvote'      => "{$permalink}/action/unvote/",
+				'load'        => "{$permalink_action}/load/",
+				'submit'      => "{$permalink_action}/submit/",
+				'confirm_age' => "{$permalink_action}/confirm-age/",
+				'reject_age'  => "{$permalink_action}/reject-age/",
+				'vote'        => "{$permalink_action}/vote/",
+				'unvote'      => "{$permalink_action}/unvote/",
 				'infinite'    => "{$permalink}/page/",
 			),
 		) );
@@ -180,8 +184,8 @@ function gmr_contests_process_action() {
 	}
 
 	// define doing AJAX if it was not defined yet
-	if( ! defined( 'DOING_AJAX' ) && ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
-		define( 'DOING_AJAX', true );
+	if ( ! defined( 'DOING_AJAX' ) ) {
+		define( 'DOING_AJAX', ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' );
 	}
 
 	if ( ! empty( $submission_paged ) && DOING_AJAX ) {
@@ -230,6 +234,127 @@ function gmr_contests_confirm_user_age() {
 function gmr_contests_reject_user_age() {
 	$min_age = (int) get_post_meta( get_the_ID(), 'contest-min-age', true );
 	echo '<p>Sorry, you must be at least ', $min_age, ' years old to enter the contest!</p>';
+}
+
+/**
+ * Returns a submission if for a voting action. Sends json error if a submission has not been found.
+ *
+ * @return WP_Post The submission object.
+ */
+function _gmr_contests_get_submission_for_voting_actions() {
+	nocache_headers();
+
+	// do nothing if a submission slug is empty
+	$submission_slug = filter_input( INPUT_POST, 'ugc' );
+	if ( empty( $submission_slug ) ) {
+		wp_send_json_error();
+	}
+
+	// do nothing if an user is not logged in
+	if ( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() ) {
+		wp_send_json_error();
+	}
+
+	$query = new WP_Query();
+	$submissions = $query->query( array(
+		'posts_per_page'      => 1,
+		'ignore_sticky_posts' => true,
+		'no_found_rows'       => true,
+		'post_type'           => GMR_SUBMISSIONS_CPT,
+		'fields'              => 'ids',
+		'name'                => $submission_slug,
+	) );
+
+	// do nothing if a submission has not been found
+	if ( empty( $submissions ) ) {
+		wp_send_json_error();
+	}
+
+	return get_post( current( $submissions ) );
+}
+
+/**
+ * Returns voting key.
+ *
+ * @return string The voting key.
+ */
+function _gmr_contests_get_vote_key() {
+	return function_exists( 'get_gigya_user_id' ) 
+		? 'vote_' . get_gigya_user_id()
+		: false;
+}
+
+/**
+ * Determines whether an user voted for a submission or not.
+ *
+ * @param int|WP_Post $submission The submission id or object to check against.
+ * @return boolean TRUE if current gigya user voted for a submission, otherwise FALSE.
+ */
+function gmr_contests_is_user_voted_for_submission( $submission = null ) {
+	if ( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() ) {
+		return false;
+	}
+
+	$vote_key = _gmr_contests_get_vote_key();
+	if ( empty( $vote_key ) ) {
+		return false;
+	}
+	
+	$submission = get_post( $submission );
+	$voted = get_post_meta( $submission->ID, $vote_key, true );
+
+	return ! empty( $voted );
+}
+
+/**
+ * Records user vote action for a submission.
+ *
+ * @action gmr_contest_vote
+ */
+function gmr_contests_vote_for_submission() {
+	// grab submission object
+	$submission = _gmr_contests_get_submission_for_voting_actions();
+
+	// do nothing if an user has already voted for this submission
+	$vote_key = _gmr_contests_get_vote_key();
+	$voted = get_post_meta( $submission->ID, $vote_key, true );
+	if ( ! empty( $voted ) ) {
+		wp_send_json_error();
+	}
+
+	// increment votes count and record current vote
+	add_post_meta( $submission->ID, $vote_key, current_time( 'timestamp', 1 ) );
+	$submission->menu_order += 1;
+	wp_update_post( $submission->to_array() );
+
+	wp_send_json_success();
+}
+
+/**
+ * Records user unvote action for a submission.
+ *
+ * @action gmr_contest_unvote
+ */
+function gmr_contests_unvote_for_submission() {
+	// grab submission object
+	$submission = _gmr_contests_get_submission_for_voting_actions();
+
+	// do nothing if an user has not voted for this submission yet
+	$vote_key = _gmr_contests_get_vote_key();
+	$voted = get_post_meta( $submission->ID, $vote_key, true );
+	if ( empty( $voted ) ) {
+		wp_send_json_error();
+	}
+
+	// decrement votes count and delete current vote
+	delete_post_meta( $submission->ID, $vote_key );
+	$submission->menu_order -= 1;
+	if ( $submission->menu_order < 0 ) {
+		$submission->menu_order = 0;
+	}
+	wp_update_post( $submission->to_array() );
+
+	wp_send_json_success();
 }
 
 /**

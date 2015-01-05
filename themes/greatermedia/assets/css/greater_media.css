@@ -4910,6 +4910,8 @@ category: Components - Ads
       line-height: 1em;
       border-bottom-left-radius: 0.5em;
       font-size: 0.79012em; }
+      .contest__submission .contest__submission--link .contest__submission--rating b {
+        font-weight: normal; }
   .contest__submission.expanded .contest__submission--link:after {
     top: auto;
     border: solid transparent;
@@ -4982,6 +4984,8 @@ category: Components - Ads
     display: none; }
   .contest__submission.voted .contest__submission--unvote {
     display: inline-block; }
+  .contest__submission.voted .contest__submission--rating {
+    background-color: #d22228; }
   .contest__submission .preview {
     position: absolute;
     background: #ddd;
