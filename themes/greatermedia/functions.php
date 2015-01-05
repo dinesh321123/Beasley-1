@@ -52,10 +52,12 @@ function greatermedia_setup() {
 	// Add theme support for post thumbnails
 	add_theme_support( 'post-thumbnails' );
 	add_image_size( 'gm-article-thumbnail',             1580,   9999,   false   ); // thumbnails used for articles
+	add_image_size( 'gm-entry-thumbnail-1-1' ,          500,    500,    true    );
+	add_image_size( 'gm-entry-thumbnail-4-3' ,          500,    375,    true    );
 	add_image_size( 'gmr-gallery',                      800,    534,    true    ); // large images for the gallery
 	add_image_size( 'gmr-gallery-thumbnail',            100,    100             ); // thumbnails for the gallery
-	add_image_size( 'gmr-featured-primary',             2800,   1000,   true    ); // image for primary featured post on front page
-	add_image_size( 'gmr-featured-secondary',           400,    400,    true    ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gmr-featured-primary',     		1600,   572,    true    ); // image for primary featured post on front page
+	add_image_size( 'gmr-featured-secondary',   		336,    224,    true    ); // thumbnails for secondary featured posts on front page
 	add_image_size( 'gmr-gallery-grid-featured',        1200,   800,    true    );
 	add_image_size( 'gmr-gallery-grid-secondary',       560,    300,    true    );
 	add_image_size( 'gmr-gallery-grid-thumb',           500,    368,    true    ); // thumbnail for gallery grid areas
@@ -409,7 +411,7 @@ function greatermedia_gallery_album_nav() {
 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
 
 		if ( ! in_array( 2, $links ) )
-			echo '<li class="gallery__grid--pagination-item">â€¦</li>';
+			echo '<li class="gallery__grid--pagination-item">…</li>';
 	}
 
 	// Link to current page, plus 2 pages in either direction if necessary
@@ -422,7 +424,7 @@ function greatermedia_gallery_album_nav() {
 	// Link to last page, plus ellipses if necessary
 	if ( ! in_array( $max, $links ) ) {
 		if ( ! in_array( $max - 1, $links ) )
-			echo '<li>â€¦</li>' . "\n";
+			echo '<li>…</li>' . "\n";
 
 		$class = $paged == $max ? ' class="gallery__grid--pagination-current"' : '';
 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
