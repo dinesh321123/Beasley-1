@@ -1050,9 +1050,15 @@ blockquote p {
       display: none; } }
 
 .admin-bar .mobile-nav {
-  top: 46px;
-  height: calc( 100% - 46px );
-  /* doesn't work in IE8, but probably ok. Just don't edit the site and expect the front-end to be bug-free in IE8 */ }
+  top: 32px;
+  height: calc( 100% - 32px );
+  /* doesn't work in IE8, but probably ok. Just don't edit the site and expect the front-end to be bug-free in IE8 */
+  /* Matches, exactly, the media query for the admin bar, so when it changes height, the menu also does */ }
+  @media screen and (max-width: 782px) {
+    .admin-bar .mobile-nav {
+      top: 46px;
+      height: calc(100% - 46px);
+      /* doesn't work in IE8, but probably ok. Just don't edit the site and expect the front-end to be bug-free in IE8 */ } }
 
 .mobile-nav--open {
   overflow: hidden; }
@@ -1259,7 +1265,7 @@ blockquote p {
   width: 33%;
   padding: 0;
   color: #fff; }
-  .mobile-nav a.mobile-menu-submenu-back-link:before {
+  .mobile-nav a.mobile-menu-submenu-back-link .icon-arrow-prev:before {
     position: relative;
     bottom: -0.09em;
     /* optical, vertical, centering next to "Back" */ }
