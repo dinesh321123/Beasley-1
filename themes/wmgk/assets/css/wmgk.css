@@ -5064,46 +5064,73 @@ category: Components - Shows
   margin-bottom: 2em; }
   .show__feature h3 {
     margin-top: 0;
-    margin-bottom: 0.5em;
+    margin-bottom: 0;
     font-size: 1.5em; }
   .show__feature img {
     width: 100%;
     height: auto; }
   .show__feature time {
-    font-size: 1.25em; }
+    font-size: 0.8em; }
 
-@media screen and (min-width: 1024px) {
-  .show__feature--primary {
-    float: left;
-    display: block;
-    margin-right: 2.35765%;
-    width: 65.88078%; }
-    .show__feature--primary:last-child {
-      margin-right: 0; }
-    .show__feature--primary h3 {
-      font-size: 2em; } }
+.show__feature--primary {
+  float: left;
+  width: 100%; }
+  .show__feature--primary .show__feature--thumbnail {
+    max-height: 389px; }
+  @media screen and (min-width: 1024px) {
+    .show__feature--primary {
+      width: 66%;
+      margin-right: 4%; }
+      .show__feature--primary h3 {
+        font-size: 1.75em; } }
 
-@media screen and (min-width: 1024px) {
-  .show__feature--secondary {
-    float: left;
-    display: block;
-    margin-right: 2.35765%;
-    width: 31.76157%;
-    margin-right: 0; }
-    .show__feature--secondary:last-child {
-      margin-right: 0; }
+.show__feature--secondary {
+  float: left;
+  width: 100%; }
+  .show__feature--secondary .show__feature--thumbnail {
+    max-height: 200px; }
+    @media screen and (min-width: 1024px) {
+      .show__feature--secondary .show__feature--thumbnail {
+        max-height: 141px; } }
+  @media screen and (min-width: 1024px) {
+    .show__feature--secondary {
+      width: 30%; } }
+  @media screen and (min-width: 1024px) {
     .show__feature--secondary h3 {
-      font-size: 1em; }
-    .show__feature--secondary time {
-      font-size: 0.8em; } }
+      font-size: 1em; } }
+
+.show__feature--thumbnail {
+  width: 100%;
+  overflow: hidden; }
 
 .show__feature--desc {
   background-color: #404041;
   color: #ffffff;
-  padding: 1em 2em 1em; }
+  padding: 1em 2em 1em;
+  width: 100%;
+  height: auto; }
   .show__feature--desc time {
     text-transform: uppercase;
     color: #929497; }
+  @media screen and (min-width: 768px) {
+    .show__feature--desc {
+      height: 75px; }
+      .show__feature--desc h3 {
+        font-size: 1.25em; } }
+  @media screen and (min-width: 1024px) {
+    .show__feature--desc {
+      height: 107px;
+      padding: 16px 20px 20px; } }
+  @media screen and (min-width: 1024px) {
+    .show__feature--secondary .show__feature--desc {
+      padding: 10px;
+      height: 90px; }
+      .show__feature--secondary .show__feature--desc h3 {
+        font-size: 1em; } }
+  @media screen and (min-width: 1400px) {
+    .show__feature--secondary .show__feature--desc {
+      padding: 16px 20px 20px;
+      height: 91px; } }
 
 /*doc
 ---
