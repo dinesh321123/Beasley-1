@@ -486,7 +486,7 @@ category: Base - Typography
   src: url("../fonts/icon-font/gmr-icons.eot?#iefixjmqkgs") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?jmqkgs") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?jmqkgs") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .format-audio .entry2__thumbnail a, .format-gallery .entry2__thumbnail a, .format-video .entry2__thumbnail a, .type-tribe_events .entry2__thumbnail a, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery-grid__album {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .format-audio .entry2__thumbnail a, .format-gallery .entry2__thumbnail a, .format-video .entry2__thumbnail a, .type-tribe_events .entry2__thumbnail a, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .header__search--submit:before {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -1425,7 +1425,7 @@ blockquote p {
 .page-template-front-page-php .entry__date,
 .page-template-front-page-php .entry__excerpt {
   display: none; }
-.page-template-front-page-php .entry__title {
+.page-template-front-page-php .entry__title, .page-template-front-page-php .page__title {
   margin-bottom: 0.5em;
   text-align: center; }
 .page-template-front-page-php .entry__thumbnail {
@@ -1440,12 +1440,12 @@ blockquote p {
   .page-template-front-page-php .entry__date,
   .page-template-front-page-php .entry__excerpt {
     display: block; }
-  .page-template-front-page-php .entry__title {
+  .page-template-front-page-php .entry__title, .page-template-front-page-php .page__title {
     text-align: left; }
   .page-template-front-page-php .entry__footer {
     text-align: right; } }
 @media screen and (min-width: 768px) {
-  .page-template-front-page-php .entry__title {
+  .page-template-front-page-php .entry__title, .page-template-front-page-php .page__title {
     margin-bottom: 0.4em; }
   .page-template-front-page-php .entry__thumbnail {
     padding-top: 0.5em;
