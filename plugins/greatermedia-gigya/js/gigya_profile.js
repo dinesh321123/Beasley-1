@@ -238,25 +238,40 @@
 	};
 
 	var GigyaScreenSetView = function(config, screenSet, session) {
-		this.config    = config;
-		this.screenSet = screenSet;
-		this.session   = session;
+		this.config         = config;
+		this.screenSet      = screenSet;
+		this.session        = session;
+		this.activeScreenID = '';
+
+		this.didBeforeScreenHandler = $.proxy(this.didBeforeScreen, this);
+		this.didAfterScreenHandler  = $.proxy(this.didAfterScreen, this);
+		this.didErrorHandler        = $.proxy(this.didError, this);
 	};
 
 	GigyaScreenSetView.prototype = {
 
 		render: function() {
 			this.show(this.getCurrentScreen());
+
+			var $message = $('.profile-page__sidebar .profile-header-link');
+			$message.on('click', $.proxy(this.didProfileHeaderClick, this));
 		},
 
 		show: function(name) {
-			if (name !== 'gigya-logout-screen') {
-				gigya.accounts.showScreenSet({
-					screenSet: this.screenSet,
-					startScreen: name,
-					containerID: 'profile-content'
-				});
-			} else {
+			this.activeScreenID = name;
+
+			gigya.accounts.showScreenSet({
+				screenSet: this.screenSet,
+				startScreen: name,
+				containerID: 'profile-content',
+				onBeforeScreenLoad: this.didBeforeScreenHandler,
+				onAfterScreenLoad: this.didAfterScreenHandler,
+				onError: this.didErrorHandler,
+				onBeforeSubmit: this.didBeforeSubmitHandler,
+				onFieldChanged: this.didBeforeSubmitHandler,
+			});
+
+			if (name === 'gigya-logout-screen') {
 				gigya.accounts.logout({
 					cid: this.session.getUserID(),
 				});
@@ -268,12 +283,57 @@
 			return this.pageToScreenSet(pageName);
 		},
 
+		getPageForScreenID: function(screenID) {
+			switch (screenID) {
+				case 'gigya-login-screen':
+				case 'gigya-logout-screen':
+				case 'gigya-login-success-screen':
+					return 'login';
+
+				case 'gigya-register-screen':
+				case 'gigya-register-complete-screen':
+					return 'join';
+
+				case 'gigya-update-profile-screen':
+					return 'account';
+
+				case 'gigya-forgot-password-screen':
+					return 'forgot-password';
+
+				default:
+					throw new Error( 'Unknown activeScreenID: ' + this.activeScreenID );
+			}
+		},
+
 		screenSets            : {
 			'join'            : 'gigya-register-screen',
 			'login'           : 'gigya-login-screen',
 			'logout'          : 'gigya-logout-screen',
 			'forgot-password' : 'gigya-forgot-password-screen',
 			'account'         : 'gigya-update-profile-screen'
+		},
+
+		screenLabels: {
+			join: {
+				header: 'Register',
+				message: 'Membership gives you access to all areas of the site, including full membership-only contests and the ability to submit content to share with the site and other members.',
+			},
+			login: {
+				header: 'Login',
+				message: 'Please enter your login details to access full membership-only contests and the ability to submit content to share with the site and other members.',
+			},
+			account: {
+				header: 'Manage Your Account',
+				message: 'Help us get to know you better, manage your communication preferences, or change your password.'
+			},
+			'forgot-password': {
+				header: 'Password Reset',
+				message: 'Forgot your password? No worries, it happens. We\'ll send you a password reset email.'
+			},
+			'cookies-required': {
+				header: 'Cookies Required',
+				message: 'It doesn\'t look like your browser is letting us set a cookie. These small bits of information are stored in your browser and allow us to ensure you stay logged in. They are required to use the site and can generally be authorized in your browser\'s preferences or settings screen.'
+			}
 		},
 
 		pageToScreenSet: function(pageName) {
@@ -284,6 +344,69 @@
 			} else {
 				return 'gigya-login-screen';
 			}
+		},
+
+		didBeforeScreen: function(event) {
+			var screenID = event.nextScreen;
+			this.updateSidebar(this.getPageForScreenID(screenID));
+		},
+
+		didAfterScreen: function(event) {
+			this.scrollToTop();
+		},
+
+		didError: function(event) {
+			console.log('didError', event);
+		},
+
+		scrollToTop: function() {
+			var root   = $('html, body');
+			var target = $('#profile-content');
+			var params = {
+				scrollTop: target.offset().top
+			};
+
+			//console.log('animate', params);
+			root.animate(params, 500);
+		},
+
+		updateSidebar: function(screenName) {
+			var $header  = $('.profile-page__sidebar .profile-header-text');
+			var $message = $('.profile-page__sidebar .profile-message');
+			var $sep     = $('.profile-page__sidebar .profile-header-sep');
+			var $link    = $('.profile-page__sidebar .profile-header-link');
+			var labels   = this.screenLabels[screenName];
+
+			if (screenName === 'login') {
+				$link.text(this.screenLabels.join.header);
+				$link.css('display', 'inline');
+				$sep.css('display', 'inline');
+			} else if (screenName === 'join') {
+				$link.text(this.screenLabels.login.header);
+				$link.css('display', 'inline');
+				$sep.css('display', 'inline');
+			} else {
+				$link.css('display', 'none');
+				$sep.css('display', 'none');
+			}
+
+			$header.text(labels.header);
+			$message.text(labels.message);
+		},
+
+		didProfileHeaderClick: function(event) {
+			var $link = $('.profile-page__sidebar .profile-header-link');
+			var text = $link.text().toLowerCase(); // KLUDGE, WIP
+
+			if (text === 'login') {
+				//this.controller.redirect('/members/login');
+				this.show('gigya-login-screen');
+			} else if (text === 'register') {
+				//this.controller.redirect('/members/join');
+				this.show('gigya-register-screen');
+			}
+
+			return false;
 		}
 
 	};
@@ -311,7 +434,7 @@
 						return;
 					}
 				} else {
-					if (currentPage === 'account') {
+					if (currentPage === 'account' || currentPage === 'logout') {
 						this.controller.redirect('/members/login?dest=%2Fmembers%2Faccount');
 						return;
 					}
@@ -323,6 +446,7 @@
 					this.session
 				);
 
+				this.screenSetView.controller = this.controller; // KLUDGE
 				this.screenSetView.render();
 			} else if (currentPage !== 'cookies-required') {
 				this.controller.redirect('/members/cookies-required');
@@ -344,6 +468,7 @@
 		},
 
 		getCurrentScreenSet: function() {
+			return 'GMR-CustomScreenSet';
 			switch (this.getCurrentPage()) {
 				case 'account':
 					return this.config.gigya_account_screenset;

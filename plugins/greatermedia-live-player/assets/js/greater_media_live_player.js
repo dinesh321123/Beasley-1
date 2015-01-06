@@ -32,6 +32,12 @@
 	 * `maxCacheLength` is the maximum cache size for the previous container contents.
 	 * `timeout` is the ajax timeout in milliseconds after which a full refresh is forced.
 	 *
+	 * If a user is logged into WordPress, pjax will not work. To resolve this, we run a check that is part of the `else
+	 * if` statement that runs a localized variable from the PHP Class `GMLP_Player` in the Greater Media Live player
+	 * plugin folder>includes>class-gmlp-player.php. This variable is `gmlp.logged_in` and checks if a user is logged
+	 * in with WordPress. If a user is logged in with WordPress, we change the element that pjax is targeting to
+	 * `.page-wrap`.
+	 *
 	 * @summary Detects if a user is authenticated with Gigya, then runs pjax against `a` links in `.page-wrap`
 	 *
 	 * @event click

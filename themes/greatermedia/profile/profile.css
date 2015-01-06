@@ -1,32 +1,33 @@
+/* TODO move to SASS */
+.profile-page__sidebar, .profile-page__content {
+	vertical-align: top !important;
+}
+
 .gigya-screen-set {
 }
 
-#gigya-login-screen {
+#profile-content .gigya-screen {
 	font-family: "Open Sans", sans-serif;
-	/*border: 1px solid red;*/
 	width: 100%;
 }
 
-/* TODO: Figure out why this hack is needed */
-@-moz-document url-prefix() {
-  #gigya-login-screen {
-	margin-left: -2.5em;
-  }
-}
-
-#gigya-login-screen h2 {
+#profile-content .gigya-screen h2 {
 	color: #202020;
 	font-size: 2em;
 	font-weight: lighter;
 }
 
-#gigya-login-screen h3 {
+#profile-content .gigya-screen h3 {
 	color: #ACACAC;
 	font-size: 1.2em;
 	font-weight: lighter;
 }
 
-#gigya-login-screen input {
+#profile-content label {
+	color: #676767;
+}
+
+#profile-content .gigya-screen input, #profile-content .gigya-screen select {
 	border: none;
 	border-bottom: 1px solid #e9e9e9;
 	background: #fff;
@@ -37,12 +38,12 @@
 	width: 100%;
 }
 
-#gigya-login-screen input:focus {
+#profile-content .gigya-screen input:focus {
 	outline: none;
 	border-bottom-color: #ACACAC;
 }
 
-#gigya-login-screen input[type="submit"] {
+#profile-content .gigya-screen input[type="submit"] {
 	float: right;
 	width: 6em;
 	background-color: #D2232A;
@@ -53,28 +54,84 @@
 	padding: 0.6em 1.5em;
 }
 
-#gigya-login-screen input[type="submit"]:hover {
+#profile-content #gigya-update-profile-screen input[type="submit"] {
+	width: 11em;
+}
+
+#profile-content #gigya-register-screen input[type="submit"] {
+	width: 8em;
+}
+
+#profile-content #gigya-register-complete-screen input[type="submit"] {
+	width: 10em;
+}
+
+#profile-content .gigya-screen input[type="submit"]:hover {
 	opacity: 0.9;
 }
 
-#gigya-login-screen .gigya-error-display {
+#profile-content .gigya-screen .gigya-error-display {
 	color: red;
 }
 
-#gigya-login-screen .gigya-error-msg-active {
-	clear:left;
-	float: left;
+#profile-content .gigya-screen .gigya-error-msg-active {
 	font-size: 1em;
 }
 
-@media screen and (max-width : 1024px) {
-	#profile-content_content[style] {
-		width: 100% !important;
-	}
+.login-error-msg {
+	margin-bottom: 1em;
+}
 
-	@-moz-document url-prefix() {
-	  #gigya-login-screen {
-		margin-left: 0;
-	  }
-	}
+/* Gigya Overrides */
+#profile-content_content[style] {
+	width: 100% !important;
+}
+
+#profile-content div[gigid=showScreenSet_showLoginUI_v1][style] {
+	width: 100% !important;
+}
+
+#profile-content div[gigid=showScreenSet_showLoginUI_v1] > table[style] {
+	width: 100% !important;
+}
+
+div[gigid=facebook] div, div[gigid=twitter] div, div[gigid=googleplus] div {
+	border-radius: 20px;
+	outline: none !important;
+}
+
+div[gigid=facebook] div:active, div[gigid=twitter] div:active, div[gigid=googleplus] div:active {
+	outline: none !important;
+}
+
+div[gigid=facebook][style], div[gigid=twitter][style], div[gigid=googleplus][style] {
+	margin-bottom: 0.4em;
+	outline: none;
+}
+
+.member-groups-list {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.label-email-list {
+	display: inline;
+}
+
+#profile-content .gigya-screen input[type=checkbox] {
+	display: inline;
+	width: auto;
+}
+
+.profile-page__sidebar .profile-header-link {
+	color: #A85858
+}
+
+.profile-page__sidebar .profile-header-link:hover {
+	color: #D2232A;
+}
+
+.profile-page__sidebar .profile-header-sep {
+	opacity: 0.1;
 }
