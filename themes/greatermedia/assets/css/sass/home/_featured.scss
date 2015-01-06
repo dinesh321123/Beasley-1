@@ -167,6 +167,7 @@ Curated posts for Featured Articles
 	@include bp(medium) {
 		font-size: ms(4);
 	}
+}
 
 .featured__article--heading a, .featured__article--heading a:visited {
 	color: $color-text-white;
