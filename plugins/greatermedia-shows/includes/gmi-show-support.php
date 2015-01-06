@@ -164,19 +164,19 @@ function get_show_events() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 
 	$event_args = array(
-		'eventDisplay'=>'upcoming',
-		'tax_query' => array(
-			'relation' => 'AND',
+		'posts_per_page' => 3,
+		'eventDisplay'   => 'list',
+		'tax_query'      => array(
+			'relation'   => 'AND',
 			array(
 				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
-				'field' => 'term_taxonomy_id',
-				'terms' => $show_term->term_taxonomy_id,
+				'field'    => 'term_taxonomy_id',
+				'terms'    => $show_term->term_taxonomy_id,
 			)
 		),
-		'posts_per_page' => 3,
 	);
 
-	if ( ! function_exists( '\tribe_get_events' ) ) {
+	if ( !function_exists( '\tribe_get_events' ) ) {
 		return array();
 	}
 
