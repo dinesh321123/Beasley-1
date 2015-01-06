@@ -18,8 +18,8 @@
 		$toggleButton = $(toggleButton),
 		playButton = $('#playButton'),
 		pauseButton = $('#pauseButton'),
+		resumeButton = $('#resumeButton'),
 		podcastPlay = $('.podcast__btn--play');
-
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
 	 * @type {string}
