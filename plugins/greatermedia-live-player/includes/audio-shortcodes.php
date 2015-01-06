@@ -52,16 +52,28 @@ class GMR_Audio_Shortcodes {
 		ob_start();
 
 		$hash = md5( $mp3_src );
-		?>
-		<div class="podcast__play mp3-<?php echo esc_attr( $hash ); // Hash is used to ensure the inline audio can always match state of live player, even when the player is the buttons that are clicked ?>">
-			<button class="podcast__btn--play" data-mp3-src="<?php echo esc_attr( $mp3_src );?>" data-mp3-title="<?php echo esc_attr( $metadata['title'] ); ?>" data-mp3-artist="<?php echo esc_attr( $metadata['artist'] ); ?>" data-mp3-hash="<?php echo esc_attr( $hash ); ?>"></button>
-			<button class="podcast__btn--pause"></button>
-			<span class="podcast__runtime"><?php echo esc_html( $metadata['length_formatted'] ); ?></span>
-		</div>
-		<div class="gmr-mediaelement-fallback"><?php echo $html; ?></div>
+		$downloadable = get_post_meta( $post_id, 'gmp_audio_downloadable', true );
+		$new_html = '';
 
-		<?php
-		$new_html = ob_get_clean();
+		$new_html .= '<div class="podcast__play mp3-' . esc_attr( $hash ) . '">'; // Hash is used to ensure the inline audio can always match state of live player, even when the player is the buttons that are clicked
+		$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . esc_attr( $metadata['title'] ) . '" data-mp3-artist="' . esc_attr( $metadata['artist'] ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+		$new_html .= '<button class="podcast__btn--pause"></button>';
+		$new_html .= '<span class="podcast__runtime">' . esc_html( $metadata['length_formatted'] ) . '</span>';
+		$new_html .= '</div>';
+		$new_html .= '<div class="podcast__meta">';
+		$new_html .= '<time datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'd F' ) . '</time>';
+		if( $downloadable == 'on' || $downloadable == '' ) {
+			$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download" download>Download</a>';
+		}
+		$new_html .= '<h3>' . get_the_title() . '</h3>';
+		$new_html .= '<p>' . get_the_excerpt() . '</p>' ;
+		$new_html .= '</div>';
+		$new_html .= '<div class="gmr-mediaelement-fallback">' . $html . '</div>';
+
+		update_post_meta( $post_id, 'enclosure', esc_attr( $mp3_src ) );
+		update_post_meta( $post_id, 'duration', esc_html( $metadata['length_formatted'] ) );
+
+		//$new_html .= ob_get_clean();
 		return $new_html;
 	}
 

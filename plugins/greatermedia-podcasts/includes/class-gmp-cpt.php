@@ -23,12 +23,14 @@ class GMP_CPT {
 	 * Hook into the appropriate actions when the class is initiated.
 	 */
 	public static function init() {
-		add_action( 'init', array( __CLASS__, 'podcast_cpt' ), 0 );
+		add_action( 'init', array( __CLASS__, 'podcast_cpt' ), 100 );
 		add_action( 'init', array( __CLASS__, 'episode_cpt' ), 0 );
 		add_filter( 'gmr_live_link_suggestion_post_types', array( __CLASS__, 'extend_live_link_suggestion_post_types' ) );
 		self::add_save_post_actions();
+		add_filter( 'ss_podcasting_episode_fields', array( __CLASS__, 'remove_audio_imputs' ) );
+		add_filter( 'manage_edit-' . self::PODCAST_POST_TYPE . '_columns', array( __CLASS__, 'show_feed_url_as_column' ), 10, 1 );
+		add_action( 'manage_posts_custom_column' , array( __CLASS__ , 'add_feed_url_column' ) , 1 , 2 );
 	}
-
 
 	public static function add_save_post_actions() {
 		add_action( 'save_post_' . self::EPISODE_POST_TYPE, array( __CLASS__, 'save_post' ), 10, 2 );
@@ -74,7 +76,7 @@ class GMP_CPT {
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => 'edit.php?post_type=' . self::EPISODE_POST_TYPE,
+			'show_in_menu'        => true,
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 5,
@@ -88,6 +90,11 @@ class GMP_CPT {
 		);
 		register_post_type( self::PODCAST_POST_TYPE, $args );
 
+		register_taxonomy( 'keywords', array( self::EPISODE_POST_TYPE ), array( 'hierarchical' => false , 'label' => 'Keywords' , 'singular_label' => 'Keyword' , 'rewrite' => true) );
+
+		if( taxonomy_exists( 'series' ) ) {
+			TDS\add_relationship( self::PODCAST_POST_TYPE, 'series' );
+		}
 	}
 
 	/**
@@ -125,7 +132,7 @@ class GMP_CPT {
 			'hierarchical'        => false,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => true,
+			'show_in_menu'        => 'edit.php?post_type=' . self::PODCAST_POST_TYPE,
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 5,
@@ -183,6 +190,11 @@ class GMP_CPT {
 		}
 
 		$parent_id = intval( $_POST['podcast-episode-parent'] );
+		$parent_post = get_post( $parent_id );
+		$parent_post_term = get_term_by('slug', $parent_post->post_name, 'series');
+
+
+		wp_set_post_terms( $post_id, array( $parent_post_term->term_id ), 'series', false );
 
 		$post->post_parent = $parent_id;
 
@@ -203,6 +215,90 @@ class GMP_CPT {
 		$post_types[] = self::PODCAST_POST_TYPE;
 		return $post_types;
 	}
+
+	public static function remove_audio_imputs() {
+		$fields = array();
+		$fields['explicit'] = array(
+		    'name' => __( 'Explicit:' , 'greatermedia' ),
+		    'description' => __( 'Mark this episode as explicit.' , 'greatermedia' ),
+		    'type' => 'checkbox',
+		    'default' => '',
+		    'section' => 'info'
+		);
+
+		$fields['block'] = array(
+		    'name' => __( 'Block from iTunes:' , 'greatermedia' ),
+		    'description' => __( 'Block this episode from appearing in iTunes.' , 'greatermedia' ),
+		    'type' => 'checkbox',
+		    'default' => '',
+		    'section' => 'info'
+		);
+
+		$fields['gmp_audio_downloadable'] = array(
+		    'name' => __( 'Downloadable:' , 'greatermedia' ),
+		    'description' => __( 'Make audio file downloadable from web site.' , 'greatermedia' ),
+		    'type' => 'checkbox',
+		    'default' => 'on',
+		    'section' => 'info'
+		);
+
+		return $fields;
+	}
+
+	public static function show_feed_url_as_column($columns) {
+
+        unset( $columns['description'] );
+        unset( $columns['posts'] );
+
+        $columns['series_feed_url'] = __( 'Podcast feed URL' , 'ss-podcasting' );
+        $columns['episodes'] = __( 'Episodes' , 'ss-podcasting' );
+
+        return $columns;
+	}
+
+
+	public static function add_feed_url_column( $column, $post_id ) {
+
+        switch ( $column ) {
+            case 'series_feed_url':
+            	$series = get_post( $post_id );
+            	$series_slug = $series->post_name;
+            	$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $series_slug;
+                echo '<a href="' . $feed_url . '" target="_blank">' . $feed_url . '</a>';
+            break;
+            case 'episodes':
+            	$count = self::get_podcast_episodes( $post_id );
+            	echo intval( $count );
+            break;
+        }
+    }
+
+    public static function get_podcast_episodes( $post_id=null, $offset = 0, $count = 0 ) {
+    	if( $post_id === null ) {
+    		return $count;
+    	}
+
+    	if( !is_int( $post_id) ) {
+    		return $count;
+    	}
+
+    	$args = array(
+    		'post_type' => GMP_CPT::EPISODE_POST_TYPE,
+    		'posts_per_page' => 500,
+    		'post_status' => 'publish',
+    		'post_parent' => intval( $post_id )
+    		);
+
+    	$wp_custom_query = new WP_Query( $args );
+    	$count += $wp_custom_query->found_posts;
+    	
+    	$offset += 1;
+		if( $wp_custom_query->max_num_pages > $offset )  {
+			self::get_podcast_episodes( $post_id, $offset, $count );
+		}
+
+		return $count;
+    }
 
 }
 

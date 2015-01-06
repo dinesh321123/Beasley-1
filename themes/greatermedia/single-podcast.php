@@ -15,24 +15,21 @@ get_header(); ?>
 			<section class="content">
 
 				<?php
-				if ( is_gigya_user_logged_in() ) {
-
 					if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-
+						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+							<?php global $post;
+							$itunes_url = esc_url_raw( get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true ) );
+							?>
 							<header class="entry-header">
-
 								<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-
+								<?php echo '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe</a>'; ?>
 							</header>
-
-							<?php GMP_Player::render_podcasts(); ?>
+							<?php $podcast_obj = GMP_Player::render_podcasts(); ?>
 
 						</article>
 
 					<?php endwhile;
-
 					else : ?>
 
 						<article id="post-not-found" class="hentry cf">
@@ -52,11 +49,9 @@ get_header(); ?>
 						</article>
 
 					<?php endif;
-				} else {
-
-					echo '<article><h3>Please login</h3></article>';
-
-				} ?>
+					echo GMP_Player::custom_pagination( $podcast_obj );
+					wp_reset_query();
+					?>
 
 			</section>
 

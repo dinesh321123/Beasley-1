@@ -13,7 +13,7 @@ class GMP_Meta {
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'save_meta_box' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
+		//add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
 
 	}
 
@@ -24,12 +24,12 @@ class GMP_Meta {
 	 */
 	public function add_meta_box( $post_type ) {
 
-		$post_types = array( 'episode' );
+		$post_types = array( GMP_CPT::PODCAST_POST_TYPE );
 
 		if ( in_array( $post_type, $post_types ) ) {
 			add_meta_box(
 				'gmp_episodes_meta_box'
-				, __( 'Podcast Episode Audio', 'gmpodcasts' )
+				, __( 'Podcast Episode Details', 'gmpodcasts' )
 				, array( $this, 'render_meta_box_content' )
 				, $post_type
 				, 'side'
@@ -62,9 +62,10 @@ class GMP_Meta {
 		}
 
 		/* OK, its safe for us to save the data now. */
+		$itunes_url = esc_url_raw( $_POST[ 'gmp_podcast_itunes_url' ] );
 
 		// Sanitize and save the user input.
-		update_post_meta( $post_id, 'gmp_audio_file_meta_key', esc_url_raw( $_POST[ 'gmp_audio_file' ] ) );
+		update_post_meta( $post_id, 'gmp_podcast_itunes_url', esc_url( $itunes_url ) );
 	}
 
 	/**
@@ -78,22 +79,15 @@ class GMP_Meta {
 		wp_nonce_field( 'gmp_episodes_meta_box', 'gmp_episodes_meta_box_nonce' );
 
 		// Use get_post_meta to retrieve an existing value from the database.
-		$gmp_file = get_post_meta( $post->ID, 'gmp_audio_file_meta_key', true );
+		$itunes_url = esc_url_raw( get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true ) );
 
 		?>
 
 		<div class="gmp-meta-row">
 			<div class="gmp-meta-row-content gmp-upload">
-				<label for="gmp_audio_file" class="gmp-meta-row-label"><?php _e( 'Audio URL:', 'gmpodcasts' ); ?></label>
-				<input type="hidden" id="gmp_audio_file" name="gmp_audio_file" value="<?php if ( isset ( $gmp_file) ) echo esc_url_raw( $gmp_file ); ?>" />
-				<div id="gmp-audio-location" class="hidden">
-					<input type="text" id="gmp_audio_file_location" name="gmp_audio_file_location" value="<?php if ( isset ( $gmp_file ) ) echo esc_url_raw( $gmp_file ); ?>" />
-				</div>
-				<div id="gmp-audio-upload-button" class="hide-if-no-js gmp-upload-button">
-					<a title="Remove Footer Image" href="javascript:;" id="gmp_audio_file_button" class="button"><?php _e( 'Upload Audio', 'gmpodcasts' ); ?></a>
-				</div>
-				<div id="gmp-audio-remove-button" class="hidden gmp-upload-button">
-					<a title="Remove Footer Image" href="javascript:;" id="gmp_audio_file_remove" class="button"><?php _e( 'Remove featured image', 'gmpodcasts' ); ?></a>
+				<div id="gmp-audio-location">
+					<label for="gmp_podcast_itunes_url" class="gmp-meta-row-label"><?php _e( 'iTunes Feed URL:', 'gmpodcasts' ); ?></label>
+					<input type="text" id="gmp_podcast_itunes_url" name="gmp_podcast_itunes_url" value="<?php echo esc_url( $itunes_url ); ?>"/>
 				</div>
 			</div>
 		</div>
@@ -109,12 +103,11 @@ class GMP_Meta {
 
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-		wp_enqueue_media();
-		wp_enqueue_script( 'gmp-admin-js', GMPODCASTS_URL . "/assets/js/gmp_admin{$postfix}.js", array( 'jquery' ), GMPODCASTS_VERSION, true );
+		/*wp_enqueue_media();
+		wp_enqueue_script( 'gmp-admin-js', GMPODCASTS_URL . "/assets/js/gmp_admin{$postfix}.js", array( 'jquery' ), GMPODCASTS_VERSION, true );*/
 		wp_enqueue_style( 'gmp-admin-style', GMPODCASTS_URL . "/assets/css/gmp_admin{$postfix}.css", array(), GMPODCASTS_VERSION );
-
 	}
 
 }
 
-new GMP_Meta();
+$GMP_Meta = new GMP_Meta();
