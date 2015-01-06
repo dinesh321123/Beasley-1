@@ -3465,11 +3465,13 @@ Link posts contain a link to an external site. They can also optionally have a f
   width: 100%;
   font-size: 0.88889em;
   float: left;
-  margin-top: 3em; }
+  margin-top: 3em;
+  text-align: center; }
 
 .posts-pagination--previous {
   float: left;
-  width: 50%; }
+  width: 50%;
+  text-align: left; }
 
 .posts-pagination--previous .fa {
   margin-right: .5em; }
@@ -3481,6 +3483,68 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .posts-pagination--next .fa {
   margin-left: .5em; }
+
+.posts-pagination--load-more {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  -border-radius: 1em;
+  border-radius: 1em;
+  display: none; }
+  .posts-pagination--load-more:hover, .posts-pagination--load-more:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  .posts-pagination--load-more:last-of-type {
+    margin-right: 0; }
+  .posts-pagination--load-more .fa {
+    display: none; }
+  .posts-pagination--load-more.loading .fa {
+    display: inline; }
+  .posts-pagination--load-more:disabled {
+    display: inline-block;
+    line-height: 1;
+    padding: 0.5em 1em;
+    margin-right: .5em;
+    outline: none;
+    background-color: #929497;
+    border: 1px solid #929497;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.88889em;
+    color: #ffffff !important;
+    text-transform: uppercase;
+    cursor: pointer; }
+    .posts-pagination--load-more:disabled:hover, .posts-pagination--load-more:disabled:focus {
+      background-color: #7b7d80;
+      border-color: #7b7d80;
+      color: #ffffff; }
+    .posts-pagination--load-more:disabled:last-of-type {
+      margin-right: 0; }
+
+.posts-pagination.front-pagination .posts-pagination--previous,
+.posts-pagination.front-pagination .posts-pagination--next {
+  display: none; }
+.posts-pagination.front-pagination .posts-pagination--load-more {
+  display: inline; }
+
+.no-js .front-pagination .posts-pagination--previous,
+.no-js .front-pagination .posts-pagination--next {
+  display: inline-block; }
+.no-js .front-pagination .posts-pagination--load-more {
+  display: none; }
 
 .entries {
   float: left;

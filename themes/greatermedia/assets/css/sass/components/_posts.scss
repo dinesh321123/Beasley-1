@@ -627,11 +627,13 @@ Link posts contain a link to an external site. They can also optionally have a f
 	font-size: ms(-1);
 	float: left;
 	margin-top: 3em;
+	text-align: center;
 }
 
 .posts-pagination--previous {
 	float: left;
 	width: 50%;
+	text-align: left;
 }
 
 .posts-pagination--previous .fa {
@@ -646,4 +648,48 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .posts-pagination--next .fa {
 	margin-left: .5em;
+}
+
+.posts-pagination--load-more {
+	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
+	@include border-radius(1em);
+	display: none;
+
+	.fa {
+		display: none;
+	}
+
+	&.loading {
+		.fa {
+			display: inline;
+		}
+	}
+
+	&:disabled {
+		@include btn($gray, $color-text-white, $gray, 0.5em, 1em, ms(-1));
+	}
+}
+
+.posts-pagination.front-pagination {
+	.posts-pagination--previous,
+	.posts-pagination--next {
+		display: none;
+	}
+
+	.posts-pagination--load-more {
+		display: inline;
+	}
+}
+
+.no-js {
+	.front-pagination {
+		.posts-pagination--previous,
+		.posts-pagination--next {
+			display: inline-block;
+		}
+
+		.posts-pagination--load-more {
+			display: none;
+		}
+	}
 }
