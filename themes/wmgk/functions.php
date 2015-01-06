@@ -45,7 +45,7 @@ function wmgk_scripts_styles() {
 
 	wp_enqueue_script(
 		'wmgk',
-		get_template_directory_uri() . "/assets/js/wmgk{$postfix}.js",
+		get_stylesheet_directory_uri() . "/assets/js/wmgk{$postfix}.js",
 		array(),
 		WMGK_VERSION,
 		true
