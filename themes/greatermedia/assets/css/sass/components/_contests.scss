@@ -343,34 +343,6 @@
 		}
 	}
 
-	.contest__submission--entries {
-		@include clearfix;
-
-		dl {
-			margin-top: 0;
-		}
-
-		dt,
-		dd {
-			float: left;
-		}
-		
-		dt {
-			clear: both;
-			display: inline-block;
-			margin-right: 0.5em;
-			font-weight: bold;
-
-			&::after {
-				content: ': ';
-			}
-		}
-
-		dd {
-			margin: 0;
-		}
-	}
-
 	.contest__submission--author {
 		font-size: ms(-1);
 		font-style: italic;
@@ -480,6 +452,38 @@
 				}
 			}
 		}
+	}
+}
+
+.contest__submission--entries-title {
+	margin-bottom: 0;
+}
+
+.contest__submission--entries {
+	@include clearfix;
+
+	dl {
+		margin-top: 0;
+	}
+
+	dt,
+	dd {
+		float: left;
+	}
+
+	dt {
+		clear: both;
+		display: inline-block;
+		margin-right: 0.5em;
+		font-weight: bold;
+
+		&::after {
+			content: ': ';
+		}
+	}
+
+	dd {
+		margin: 0;
 	}
 }
 

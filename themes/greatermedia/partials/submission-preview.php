@@ -10,12 +10,21 @@
 		if ( ! empty( $fields ) ) : ?>
 			<dl class="contest__submission--entries">
 				<?php foreach ( $fields as $field ) : ?>
-					<?php if ( 'file' != $field['type'] ) : ?>
+					<?php if ( 'file' != $field['type'] && 'email' != $field['type'] ) : ?>
 						<dt>
 							<?php echo esc_html( $field['label'] ); ?>
 						</dt>
 						<dd>
-							<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
+							<?php 
+							
+							$value = is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'];
+							if ( strlen( $value ) > 200 ) {
+								$value = substr( $value, 0, 200 ) . '&hellip;';
+							}
+							
+							echo esc_html( $value );
+
+							?>
 						</dd>
 					<?php endif; ?>
 				<?php endforeach; ?>

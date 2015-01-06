@@ -462,6 +462,23 @@ function gmr_contests_process_form_submission() {
 	delete_transient( 'contest_entries_' . $contest_id );
 
 	echo wpautop( get_post_meta( $contest_id, 'form-thankyou', true ) );
+
+	$fields = GreaterMediaFormbuilderRender::parse_entry( $contest_id, $entry->post_id() );
+	if ( ! empty( $fields ) ) :
+		?><h4 class="contest__submission--entries-title">Here is your submission:</h4>
+		<dl class="contest__submission--entries">
+			<?php foreach ( $fields as $field ) : ?>
+				<?php if ( 'file' != $field['type'] ) : ?>
+					<dt>
+						<?php echo esc_html( $field['label'] ); ?>
+					</dt>
+					<dd>
+						<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
+					</dd>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		</dl><?php
+	endif;
 }
 
 /**
