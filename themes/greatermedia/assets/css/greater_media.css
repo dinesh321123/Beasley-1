@@ -5240,8 +5240,16 @@ category: Components - Ads
         top: 50%;
         height: 1px;
         background: #888;
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
         transform: rotate(45deg); }
       .contest__submission .preview .preview-close::after {
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
         transform: rotate(-45deg); }
       .contest__submission .preview .preview-close:hover::before, .contest__submission .preview .preview-close:hover::after {
         background: #333; }
