@@ -4440,7 +4440,7 @@ category: Components
   font-weight: normal; }
   .content .live-link__title {
     font-size: 1.25em; }
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 1024px) {
       .content .live-link__title {
         font-size: 0.88889em; } }
 
@@ -4927,25 +4927,34 @@ category: Components - Shows
     .show__nav li.current-menu-item a {
       background-color: #ffffff;
       color: #aa1c20; }
+  @media screen and (min-width: 768px) {
+    .show__nav {
+      margin-bottom: 1em; }
+      .show__nav .show__title {
+        margin-bottom: 0; }
+      .show__nav ul {
+        display: inline-block;
+        padding-left: 0;
+        text-align: center;
+        position: relative;
+        margin: 0;
+        width: 100%;
+        list-style-type: none; } }
   @media screen and (min-width: 1024px) {
     .show__nav {
       width: 55%;
       float: left;
       margin-top: 1.5em;
+      margin-bottom: 0;
       text-align: left;
       padding-left: 2em; }
       .show__nav .show__title {
         margin-top: 0;
         margin-bottom: 0.6em; }
       .show__nav ul {
-        list-style-type: none;
-        padding-left: 0;
         text-align: justify;
-        margin: 0;
         margin-left: -9px;
-        position: relative;
-        width: auto;
-        display: inline-block; }
+        width: auto; }
       .show__nav ul:after {
         content: "";
         width: 100%;
@@ -5138,7 +5147,9 @@ category: Components - Shows
 @media screen and (min-width: 768px) {
   .show__favorites .featured__content--image img {
     height: 100%;
-    width: auto;
+    width: auto; } }
+@media screen and (min-width: 1024px) {
+  .show__favorites .featured__content--image img {
     max-width: none; } }
 .show__favorites .featured__content--title a:link, .show__favorites .featured__content--title a:visited {
   color: #404041; }

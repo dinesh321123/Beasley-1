@@ -844,7 +844,7 @@ category: Components
 	.content & {
 		font-size: 1.25em;
 
-		@include bp(medium) {
+		@include bp(large) {
 			font-size: ms(-1);
 		}
 	}

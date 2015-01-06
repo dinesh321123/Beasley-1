@@ -197,10 +197,29 @@ category: Components - Shows
 
 	}
 
+	@include bp(medium) {
+		margin-bottom: 1em;
+
+		.show__title {
+			margin-bottom: 0;
+		}
+
+		ul {
+			display: inline-block;
+			padding-left: 0;
+			text-align: center;
+			position: relative;
+			margin: 0;
+			width: 100%;
+			list-style-type: none;
+		}
+	}
+
 	@include bp(large) {
 		width: 55%;
 		float: left;
 		margin-top: 1.5em;
+		margin-bottom: 0;
 		text-align: left;
 		padding-left: 2em;
 
@@ -211,14 +230,9 @@ category: Components - Shows
 
 
 		ul {
-			list-style-type: none;
-			padding-left: 0;
 			text-align: justify;
-			margin: 0;
 			margin-left: -9px;
-			position: relative;
 			width: auto;
-			display: inline-block;
 		}
 
 		// this psuedo element makes the text-align: justify work on the <ul>. via: http://stackoverflow.com/a/16901348
@@ -436,6 +450,9 @@ category: Components - Shows
 		@include bp(medium) {
 			height: 100%;
 			width: auto;
+		}
+
+		@include bp(large) {
 			max-width: none;
 		}
 	}
