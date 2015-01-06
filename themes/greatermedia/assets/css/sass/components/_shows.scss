@@ -1,6 +1,6 @@
 .single-show {
 	.featured__content {
-		margin: 0.75em 0 1em;
+		margin: 2em 0;
 	}
 
 	.featured__content--block {
@@ -29,12 +29,6 @@
 	}
 
 	.featured__content--image {
-		img {
-			width: auto;
-			height: 100%;
-			max-width: none;
-		}
-
 		@include bp(small) {
 			@include span-columns(4 of 12);
 			padding-top: 0;

@@ -21,14 +21,19 @@
 							<div class="show__feature--primary">
 								<a href="<?php the_permalink(); ?>">
 									<div class="show__feature">
-										<?php if ( has_post_thumbnail() ) : ?>
-											<div class="show__feature--thumbnail">
-												<?php the_post_thumbnail( 'gmr-show-featured-primary' ); ?>
+										<div class='show-feature__thumbnail'>
+											<?php if ( has_post_thumbnail() ) : ?>
+												<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary' ); ?>)'></div>
+											<?php else: ?>
+												<div class='thumbnail thumbnail-placeholder' style=''></div>
 											</div>
-										<?php endif; ?>
+											<?php endif; ?>
+										</div>
 										<div class="show__feature--desc">
-											<h3><?php the_title(); ?></h3>
-											<time class="show__feature--date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'd M' ); ?></time>
+											<div class='inner-wrap'>
+												<h3><?php the_title(); ?></h3>
+												<time class="show__feature--date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'M j' ); ?></time>
+											</div>
 										</div>
 									</div>
 								</a>
@@ -38,14 +43,19 @@
 								<?php while( $featured_query->have_posts() ): $featured_query->the_post(); ?>
 									<a href="<?php the_permalink(); ?>">
 										<div class="show__feature">
-											<?php if ( has_post_thumbnail() ) : ?>
-												<div class="show__feature--thumbnail">
-													<?php the_post_thumbnail( 'gmr-show-featured-secondary' ); ?>
+											<div class='show-feature__thumbnail'>
+												<?php if ( has_post_thumbnail() ) : ?>
+													<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary' ); ?>)'></div>
+												<?php else: ?>
+													<div class='thumbnail thumbnail-placeholder' style=''></div>
 												</div>
-											<?php endif; ?>
+												<?php endif; ?>
+											</div>
 											<div class="show__feature--desc">
-												<h3><?php the_title(); ?></h3>
-												<time class="show__feature--date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'd M' ); ?></time>
+												<div class='inner-wrap'>
+													<h3><?php the_title(); ?></h3>
+												<time class="show__feature--date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'M j' ); ?></time>
+												</div>
 											</div>
 										</div>
 									</a>

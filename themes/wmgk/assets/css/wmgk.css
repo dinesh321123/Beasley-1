@@ -5801,7 +5801,7 @@ category: Components - Shows
   text-transform: none; }
 
 .single-show .featured__content {
-  margin: 0.75em 0 1em; }
+  margin: 2em 0; }
 .single-show .featured__content--block {
   width: 100%;
   margin-top: 1em;
@@ -5821,10 +5821,6 @@ category: Components - Shows
     text-transform: uppercase; }
   .single-show .featured__content--block:hover .featured__content--title {
     color: #aa1c20; }
-.single-show .featured__content--image img {
-  width: auto;
-  height: 100%;
-  max-width: none; }
 @media screen and (min-width: 480px) {
   .single-show .featured__content--image {
     float: left;
