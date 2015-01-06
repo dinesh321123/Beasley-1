@@ -25,8 +25,8 @@
 				$.get(url.replace('{{page}}', ++pagenums[url]), {ajax: 1}).done(function(response) {
 					sync = false;
 					$self.removeClass('loading');
-					
-					$($('<div>' + $.trim(response) + '</div>').html()).insertAfter($(document).find('*[role="article"]:last'));
+
+					$($('<div>' + $.trim(response) + '</div>').html()).insertBefore($button.parents('.posts-pagination'));
 				}).fail(function() {
 					$self.attr('disabled', 'disabled').text($self.data('not-found'));
 				});
