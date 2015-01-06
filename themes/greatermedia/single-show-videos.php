@@ -12,7 +12,7 @@
 
 				<header class="entry-header">
 
-					<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>">Videos from <?php the_title(); ?></a></h2>
+					<h2 class="entry-title" itemprop="headline">Videos from <?php the_title(); ?></h2>
 
 				</header>
 
