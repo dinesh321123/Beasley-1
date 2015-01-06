@@ -3664,7 +3664,7 @@ Link posts contain a link to an external site. They can also optionally have a f
       font-size: 3em; } }
 
 .type-tribe_events .entry2__thumbnail {
-  background: #d22228; }
+  background-color: #d22228; }
   .type-tribe_events .entry2__thumbnail:after {
     background-color: rgba(210, 34, 40, 0.6); }
 .type-tribe_events .entry2__thumbnail--event-date {

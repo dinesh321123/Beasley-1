@@ -215,7 +215,7 @@
 // Special handling for date information in event thumbnail
 .type-tribe_events {
 	.entry2__thumbnail {
-		background: $btn-bg;
+		background-color: $btn-bg;
 		
 		&:after {
 			background-color: rgba($btn-bg, .6);
