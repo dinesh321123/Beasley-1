@@ -6116,10 +6116,14 @@ category: Components - Shows
   margin-right: 2.35765%;
   width: 100%;
   margin-bottom: 1em;
+  margin-top: 0;
   background: none;
   padding-top: 0; }
   .show__favorites .featured__content--block:last-child {
     margin-right: 0; }
+  @media screen and (min-width: 1024px) {
+    .show__favorites .featured__content--block {
+      margin-top: 1em; } }
 @media screen and (min-width: 768px) {
   .show__favorites .featured__content--image img {
     height: auto;

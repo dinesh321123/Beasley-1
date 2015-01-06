@@ -503,8 +503,13 @@ category: Components - Shows
 	.featured__content--block {
 		@include span-columns(12 of 12);
 		margin-bottom: 1em;
+		margin-top: 0;
 		background: none;
 		padding-top: 0;
+
+		@include bp(large) {
+			margin-top: 1em;
+		}
 	}
 
 	.featured__content--image img {
