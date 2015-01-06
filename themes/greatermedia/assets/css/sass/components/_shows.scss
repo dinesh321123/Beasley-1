@@ -388,7 +388,7 @@ category: Components - Shows
 	width: 100%;
 
 	.show__feature--thumbnail {
-		max-height: 389px;
+		padding-bottom: 54%;
 	}
 
 	@include bp(large) {
@@ -407,11 +407,7 @@ category: Components - Shows
 	width: 100%;
 
 	.show__feature--thumbnail {
-		max-height: 200px;
-
-		@include bp(large) {
-			max-height: 141px;
-		}
+		padding-bottom: 43%;
 	}
 
 	@include bp(large) {
@@ -426,6 +422,7 @@ category: Components - Shows
 .show__feature--thumbnail {
 	width: 100%;
 	overflow: hidden;
+	height: 0;
 }
 
 .show__feature--desc {

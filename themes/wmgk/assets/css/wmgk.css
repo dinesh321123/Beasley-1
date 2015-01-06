@@ -5076,7 +5076,7 @@ category: Components - Shows
   float: left;
   width: 100%; }
   .show__feature--primary .show__feature--thumbnail {
-    max-height: 389px; }
+    padding-bottom: 54%; }
   @media screen and (min-width: 1024px) {
     .show__feature--primary {
       width: 66%;
@@ -5088,10 +5088,7 @@ category: Components - Shows
   float: left;
   width: 100%; }
   .show__feature--secondary .show__feature--thumbnail {
-    max-height: 200px; }
-    @media screen and (min-width: 1024px) {
-      .show__feature--secondary .show__feature--thumbnail {
-        max-height: 141px; } }
+    padding-bottom: 43%; }
   @media screen and (min-width: 1024px) {
     .show__feature--secondary {
       width: 30%; } }
@@ -5101,7 +5098,8 @@ category: Components - Shows
 
 .show__feature--thumbnail {
   width: 100%;
-  overflow: hidden; }
+  overflow: hidden;
+  height: 0; }
 
 .show__feature--desc {
   background-color: #404041;
