@@ -12,7 +12,6 @@
 		});
 
 		formbuilder.on('showEditView', function($el, model) {
-			console.log(model);
 			if (model.cid === 'c5' || model.cid === 'c6') {
 				$el.find('input[data-rv-checked="model.required"]')
 				   .prop('checked', true)
@@ -22,11 +21,11 @@
 
 		formbuilder.on('save', function (payload) {
 			// payload is a JSON string representation of the form
-			$('#contest_embedded_form_data').val(encodeURIComponent(JSON.stringify(JSON.parse(payload).fields)));
+			$('#contest_embedded_form_data').val(encodeURIComponent(JSON.stringify(JSON.parse(payload).fields)).replace(/'/g, "%27"));
 		});
 
 		// Default the hidden field with the form data loaded from the server
-		$('#contest_embedded_form_data').val(encodeURIComponent(JSON.stringify(GreaterMediaContestsForm.form)));
+		$('#contest_embedded_form_data').val(encodeURIComponent(JSON.stringify(GreaterMediaContestsForm.form)).replace(/'/g, "%27"));
 
 		$('#contest-settings ul.tabs a').click(function() {
 			$('#contest-settings ul.tabs li.active').removeClass('active');

@@ -156,7 +156,7 @@ class GreaterMediaSurveys {
 
 		// time to save the form
 		if( isset( $_POST['survey_embedded_form'] ) ) {
-			$form = json_encode( json_decode( urldecode( $_POST['survey_embedded_form'] ) ) );
+			$form = addslashes( json_encode( json_decode( urldecode( $_POST['survey_embedded_form'] ) ) ) );
 			update_post_meta( $post_id, 'survey_embedded_form', $form );
 		}
 
