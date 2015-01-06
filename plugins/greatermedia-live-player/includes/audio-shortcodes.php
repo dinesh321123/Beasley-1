@@ -69,13 +69,13 @@ class GMR_Audio_Shortcodes {
 		$new_html .= '<span class="podcast__runtime">' . esc_html( $metadata['length_formatted'] ) . '</span>';
 		$new_html .= '</div>';
 		$new_html .= '<div class="podcast__meta">';
-		$new_html .= '<time datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'd F' ) . '</time>';
+		$new_html .= '<time datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'd F' ) . '</time><br/>';
+		$new_html .= '<h3>' . get_the_title() . '</h3>';
 		if( $downloadable == 'on' || $downloadable == '' ) {
 			$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download" download>Download</a>';
 		}
-		$new_html .= '<h3>' . get_the_title() . '</h3>';
 		$new_html .= '<p>' . get_the_excerpt() . '</p>' ;
-		if( $parent_podcast_id ) {
+		if( $parent_podcast_id && is_singular( ShowsCPT::SHOW_CPT ) ) {
 			$new_html .= '<a href="' . get_permalink( $parent_podcast_id ) . '" target="_blank">'. $parent_podcast->post_title .'</a>';
 			$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe</a>';
 		}

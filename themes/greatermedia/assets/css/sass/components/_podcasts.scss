@@ -103,6 +103,7 @@ category: Components - Shows
 	h3 {
 		margin: 0;
 		clear: both;
+		display: inline-block;
 	}
 
 	time {
@@ -117,6 +118,7 @@ category: Components - Shows
 	border: 1px solid grey;
 	color: grey !important;
 	text-transform: none;
+	margin-left: 10px;
 }
 
 .podcast__subscribe {
