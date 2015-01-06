@@ -113,6 +113,15 @@ category: Components - Shows
 
 .podcast__download {
 	@extend .live-stream__listen-now--btn;
+	background-color: #fff;
+	border: 1px solid grey;
+	color: grey !important;
+	text-transform: none;
+}
+
+.podcast__subscribe {
+	@extend .live-stream__listen-now--btn;
+	text-transform: none;
 }
 
 // For Podcasts Archive Lists
