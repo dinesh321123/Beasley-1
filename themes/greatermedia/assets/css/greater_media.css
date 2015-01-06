@@ -5687,6 +5687,7 @@ category: Components - Shows
   text-transform: none; }
 
 .podcast__subscribe {
+  margin-left: 5px;
   text-transform: none; }
       width: 100%; } }
   @media screen and (min-width: 1024px) {

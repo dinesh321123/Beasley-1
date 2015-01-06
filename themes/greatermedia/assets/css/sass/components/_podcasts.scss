@@ -121,6 +121,7 @@ category: Components - Shows
 
 .podcast__subscribe {
 	@extend .live-stream__listen-now--btn;
+	margin-left: 5px;
 	text-transform: none;
 }
 
