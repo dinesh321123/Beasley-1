@@ -137,12 +137,7 @@ function gmr_contests_process_submission_action() {
 		return;
 	}
 
-	// define doing AJAX if it was not defined yet
-	if ( ! defined( 'DOING_AJAX' ) ) {
-		define( 'DOING_AJAX', ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' );
-	}
-
-	if ( DOING_AJAX ) {
+	if ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
 		// disble HTTP cache
 		nocache_headers();
 
@@ -168,12 +163,8 @@ function gmr_contests_process_action() {
 		return;
 	}
 
-	// define doing AJAX if it was not defined yet
-	if ( ! defined( 'DOING_AJAX' ) ) {
-		define( 'DOING_AJAX', ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' );
-	}
-
-	if ( ! empty( $submission_paged ) && DOING_AJAX ) {
+	$doing_ajax = ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest';
+	if ( ! empty( $submission_paged ) && $doing_ajax ) {
 		$query = gmr_contests_submissions_query( get_the_ID() );
 		if ( ! $query->have_posts() ) {
 			exit;
