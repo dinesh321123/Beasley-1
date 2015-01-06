@@ -152,6 +152,11 @@
 			addEventHandler(clearDebug,elemClick,clearDebugInfo);
 		}
 
+		// this addresses the need to be able to resume live audio when inline audio is playing
+		if (listenNow != null) {
+			addEventHandler(listenNow,elemClick,resumeStream);
+		}
+
 		podcastButton.click(function () {
 			pauseBtn.hide();
 			resumeBtn.show();
