@@ -5718,7 +5718,9 @@ category: Components - Shows
   .single-show .featured__content--block:hover .featured__content--title {
     color: #aa1c20; }
 .single-show .featured__content--image img {
-  width: 100%; }
+  width: auto;
+  height: 100%;
+  max-width: none; }
 @media screen and (min-width: 480px) {
   .single-show .featured__content--image {
     float: left;
@@ -6113,11 +6115,7 @@ category: Components - Shows
     margin-right: 0; }
   @media screen and (min-width: 1024px) {
     .show__favorites .featured__content--block {
-      margin-top: 1em; } }
-@media screen and (min-width: 768px) {
-  .show__favorites .featured__content--image img {
-    height: auto;
-    width: 100%; } }
+      margin-top: 0em; } }
 @media screen and (min-width: 1024px) {
   .show__favorites .featured__content--image img {
     max-width: none; } }

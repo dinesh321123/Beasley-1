@@ -30,7 +30,9 @@
 
 	.featured__content--image {
 		img {
-			width: 100%;
+			width: auto;
+			height: 100%;
+			max-width: none;
 		}
 
 		@include bp(small) {
@@ -508,15 +510,15 @@ category: Components - Shows
 		padding-top: 0;
 
 		@include bp(large) {
-			margin-top: 1em;
+			margin-top: 0em;
 		}
 	}
 
 	.featured__content--image img {
-		@include bp(medium) {
-			height: auto;
-			width: 100%;
-		}
+		// @include bp(medium) {
+		// 	height: auto;
+		// 	width: 100%;
+		// }
 
 		@include bp(large) {
 			max-width: none;
