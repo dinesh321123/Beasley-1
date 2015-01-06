@@ -5179,25 +5179,6 @@ category: Components - Ads
     margin: -0.75em 0 0 -15px; }
   .contest__submission .col__inner--right *:first-child {
     margin-top: 0; }
-  .contest__submission .contest__submission--entries:before, .contest__submission .contest__submission--entries:after {
-    content: " ";
-    display: table; }
-  .contest__submission .contest__submission--entries:after {
-    clear: both; }
-  .contest__submission .contest__submission--entries dl {
-    margin-top: 0; }
-  .contest__submission .contest__submission--entries dt,
-  .contest__submission .contest__submission--entries dd {
-    float: left; }
-  .contest__submission .contest__submission--entries dt {
-    clear: both;
-    display: inline-block;
-    margin-right: 0.5em;
-    font-weight: bold; }
-    .contest__submission .contest__submission--entries dt::after {
-      content: ': '; }
-  .contest__submission .contest__submission--entries dd {
-    margin: 0; }
   .contest__submission .contest__submission--author {
     font-size: 0.88889em;
     font-style: italic;
@@ -5287,6 +5268,29 @@ category: Components - Ads
       .contest__submission .preview .gallery .container .gallery__slide--images {
         margin-top: 0;
         margin-bottom: 0; }
+
+.contest__submission--entries-title {
+  margin-bottom: 0; }
+
+.contest__submission--entries:before, .contest__submission--entries:after {
+  content: " ";
+  display: table; }
+.contest__submission--entries:after {
+  clear: both; }
+.contest__submission--entries dl {
+  margin-top: 0; }
+.contest__submission--entries dt,
+.contest__submission--entries dd {
+  float: left; }
+.contest__submission--entries dt {
+  clear: both;
+  display: inline-block;
+  margin-right: 0.5em;
+  font-weight: bold; }
+  .contest__submission--entries dt::after {
+    content: ': '; }
+.contest__submission--entries dd {
+  margin: 0; }
 
 @media screen and (min-width: 480px) {
   .contest__submission {
@@ -5723,6 +5727,8 @@ category: Components - Shows
     text-transform: uppercase; }
   .single-show .featured__content--block:hover .featured__content--title {
     color: #aa1c20; }
+.single-show .featured__content--image img {
+  width: 100%; }
 @media screen and (min-width: 480px) {
   .single-show .featured__content--image {
     float: left;
@@ -6110,7 +6116,8 @@ category: Components - Shows
   margin-right: 2.35765%;
   width: 100%;
   margin-bottom: 1em;
-  background: none; }
+  background: none;
+  padding-top: 0; }
   .show__favorites .featured__content--block:last-child {
     margin-right: 0; }
 @media screen and (min-width: 768px) {
