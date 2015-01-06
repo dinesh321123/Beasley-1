@@ -52,6 +52,14 @@ class GMR_Audio_Shortcodes {
 		ob_start();
 
 		$hash = md5( $mp3_src );
+		$parent_podcast_id = wp_get_post_parent_id( $post_id );
+		if( $parent_podcast_id ) {
+			$parent_podcast = get_post( $parent_podcast_id );
+			$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
+		} else {
+			$parent_podcast = false;
+		}
+
 		$downloadable = get_post_meta( $post_id, 'gmp_audio_downloadable', true );
 		$new_html = '';
 
@@ -67,6 +75,10 @@ class GMR_Audio_Shortcodes {
 		}
 		$new_html .= '<h3>' . get_the_title() . '</h3>';
 		$new_html .= '<p>' . get_the_excerpt() . '</p>' ;
+		if( $parent_podcast_id ) {
+			$new_html .= '<a href="' . get_permalink( $parent_podcast_id ) . '" target="_blank">'. $parent_podcast->post_title .'</a>';
+			$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe</a>';
+		}
 		$new_html .= '</div>';
 		$new_html .= '<div class="gmr-mediaelement-fallback">' . $html . '</div>';
 

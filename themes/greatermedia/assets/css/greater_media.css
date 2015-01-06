@@ -5680,14 +5680,14 @@ category: Components - Shows
     float: left;
     margin-right: 1em; }
 
-.single-show .featured__content {
-  margin: 0.75em 0 1em; }
-.single-show .featured__content--block {
-  width: 100%;
-  margin-top: 1em;
-  margin-bottom: 1em; }
-  @media screen and (min-width: 480px) {
-    .single-show .featured__content--block {
+.podcast__download {
+  background-color: #fff;
+  border: 1px solid grey;
+  color: grey !important;
+  text-transform: none; }
+
+.podcast__subscribe {
+  text-transform: none; }
       width: 100%; } }
   @media screen and (min-width: 1024px) {
     .single-show .featured__content--block {
