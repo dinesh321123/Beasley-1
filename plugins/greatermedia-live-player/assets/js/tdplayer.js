@@ -163,17 +163,7 @@
 
 	if (is_gigya_user_logged_in()) {
 		if ($.support.pjax) {
-			$('.page-wrap a').click(function (e) {
-				e.preventDefault();
-				$.pjax({
-					url: $(this).attr('href'),
-					container: 'div.page-wrap',
-					'maxCacheLength': 1000,
-					'fragment': 'div.page-wrap',
-					timeout: 8000,
-				});
-				e.preventDefault();
-			});
+			$(document).pjax('a:not(.ab-item)', 'div.page-wrap', {'fragment': 'div.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
 		}
 	}
 
