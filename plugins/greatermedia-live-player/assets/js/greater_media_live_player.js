@@ -43,6 +43,10 @@
 		if ($.support.pjax) {
 			$(document).pjax('a:not(.ab-item)', '.main', {'fragment': '.main', 'maxCacheLength': 500, 'timeout' : 5000});
 		}
+	} else if (gmlp.logged_in) {
+		if ($.support.pjax) {
+			$(document).pjax('a:not(.ab-item)', '.page-wrap', {'fragment': '.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
+		}
 	}
 
 	playButton.on('click', function(event) {
