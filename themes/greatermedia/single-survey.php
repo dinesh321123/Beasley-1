@@ -12,38 +12,43 @@ get_header(); ?>
 		<div class="container">
 
 			<section class="content">
-			<?php if ( is_gigya_user_logged_in() ) {
-				if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+				
+				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-							<?php if ( has_post_thumbnail() ) {
+						<?php if ( is_gigya_user_logged_in() ) : ?>
 
-									the_post_thumbnail( 'full', array( 'class' => 'single__featured-img--survey' ) );
-
-								}
-							?>
+							<?php if ( has_post_thumbnail() ) : ?>
+								<div class="contest__thumbnail">
+									<?php the_post_thumbnail( 'gmr-contest-thumbnail', array( 'class' => 'single__featured-img--contest' ) ); ?>
+								</div>
+							<?php endif; ?>
 
 							<section class="col__inner--left">
 
 								<header class="entry__header">
 
-									<time class="entry__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j'); ?></time>
-									<h2 class="entry__title" itemprop="headline"><?php the_title(); ?></h2>
-									<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]"></a>
-									<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=[TITLE]+[URL]"></a>
-									<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=[URL]"></a>
+									<?php $encoded_permalink = urlencode( get_permalink() ); ?>
+									<?php $encoded_title = urlencode( get_the_title() ); ?>
+
+									<time class="entry__date" datetime="<?php echo get_the_time(); ?>"><?php the_date( 'F j' ); ?></time>
+									<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+
+									<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=<?php echo $encoded_permalink; ?>&title=<?php echo $encoded_title; ?>"></a>
+									<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=<?php echo $encoded_title; ?>+<?php echo $encoded_permalink; ?>"></a>
+									<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=<?php echo $encoded_permalink; ?>"></a>
 
 								</header>
 
 								<?php the_content(); ?>
 
-								other metabox content goes here
-
+								<?php get_template_part( 'partials/post', 'footer' ); ?>
+								
 							</section>
 
 
-							<section class="col__inner--right">
+							<section class="col__inner--right contest__form">
 								<?php
 
 								$form = get_post_meta( get_the_ID(), 'survey_embedded_form', true );
@@ -52,48 +57,48 @@ get_header(); ?>
 								?>
 							</section>
 
-						</article>
-
-					<?php endwhile;
-
-					else : ?>
-
-						<article id="post-not-found" class="hentry cf">
+						<?php else : ?>
 
 							<header class="article-header">
 
-								<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
+								<h1><?php _e( 'You must be signed in to take this survey!', 'greatermedia' ); ?></h1>
 
 							</header>
 
 							<section class="entry-content">
 
-								<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
+								<p><?php
+									printf(
+										__( 'Please, sign in <a href="%s">here</a> to proceed.', 'greatermedia' ),
+										gigya_profile_path( 'login', array( 'dest' => parse_url( get_permalink(), PHP_URL_PATH ) ) )
+									);
+								?></p>
 
 							</section>
 
-						</article>
+						<?php endif; ?>
 
-					<?php endif;
-				} else {
-						?>
-				<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-					<section class="col__inner--left">
+					</article>
 
-						<h3>You must be signed in to take this survey</h3>
-						<?php
+				<?php endwhile; else : ?>
 
-						global $wp;
-						$dest = '/' . trim( $wp->request, '/' );
+					<article id="post-not-found" class="hentry cf">
 
-						?>
-						<a href="<?php echo gigya_profile_path( 'login', array( 'dest' => $dest ) ); ?>">Sign in</a>
+						<header class="article-header">
 
-					</section>
+							<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
 
-				</article>
-						<?php
-				} ?>
+						</header>
+
+						<section class="entry-content">
+
+							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
+
+						</section>
+
+					</article>
+
+				<?php endif; ?>
 
 			</section>
 

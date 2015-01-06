@@ -15,9 +15,11 @@ define( 'GREATER_MEDIA_CONTESTS_URL', plugin_dir_url( __FILE__ ) );
 define( 'GREATER_MEDIA_CONTESTS_PATH', dirname( __FILE__ ) );
 define( 'GREATER_MEDIA_CONTESTS_VERSION', '1.0.2' );
 
-define( 'GMR_CONTEST_CPT', 'contest' );
-define( 'GMR_CONTEST_ENTRY_CPT', 'contest_entry' );
-define( 'GMR_SUBMISSIONS_CPT', 'listener_submissions' );
+define( 'GMR_CONTEST_CPT',         'contest' );
+define( 'GMR_CONTEST_ENTRY_CPT',   'contest_entry' );
+define( 'GMR_SUBMISSIONS_CPT',     'listener_submissions' );
+define( 'GMR_SURVEY_CPT',          'survey' );
+define( 'GMR_SURVEY_RESPONSE_CPT', 'survey_response' );
 
 define( 'EP_GMR_CONTEST', EP_PAGES << 1 );
 

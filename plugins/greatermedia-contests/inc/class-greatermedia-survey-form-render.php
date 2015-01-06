@@ -14,8 +14,8 @@ class GreaterMediaSurveyFormRender {
 	const FORM_CLASS = 'survey_entry_form';
 
 	public static function init() {
-		self::$post            = new WP_Post( new stdClass() );
-		self::$post            = 'survey_response';
+		self::$post = new WP_Post( new stdClass() );
+		self::$post->post_type = GMR_SURVEY_RESPONSE_CPT;
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			// Register AJAX handlers
 			add_action( 'wp_ajax_enter_survey', array( __CLASS__, 'process_form_submission' ) );
@@ -29,61 +29,53 @@ class GreaterMediaSurveyFormRender {
 	}
 
 	public static function wp_enqueue_scripts() {
-		wp_enqueue_script( 'greatermedia-surveys', trailingslashit( GREATER_MEDIA_CONTESTS_URL ) . 'js/greater_media_surveys.js', array( 'jquery' ), false, true );
-		$settings = array(
-			'form_class' => self::FORM_CLASS,
-			'ajax_url'   => admin_url( 'admin-ajax.php' ),
-		);
-		wp_localize_script( 'greatermedia-surveys', 'GreaterMediaSurveys', $settings );
+		$base_path = trailingslashit( GREATER_MEDIA_CONTESTS_URL );
+		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
+		wp_register_script( 'greatermedia-surveys', "{$base_path}js/surveys{$postfix}.js", array( 'jquery' ), GREATER_MEDIA_CONTESTS_VERSION, true );
 	}
 
 	public static function render( $post_id, $form ) {
 
 		$html = '';
 
-		if ( ! is_numeric( $post_id ) ) {
-			throw new InvalidArgumentException( '$post_id must be an integer post ID' );
-		}
-
 		if ( is_string( $form ) ) {
 			$clean_form = trim( $form, '"' );
-			$form       = json_decode( $clean_form );
+			$form = json_decode( $clean_form );
 		}
 
-		if ( null === $form ) {
-			throw new InvalidArgumentException( '$form parameter is invalid' );
+		if ( null === $form || ! is_array( $form ) ) {
+			return;
 		}
 
-		if ( ! is_array( $form ) ) {
-			throw new InvalidArgumentException( '$form should be a JSON string or an Object' );
-		}
-
+		wp_enqueue_script( 'greatermedia-surveys' );
+		wp_localize_script( 'greatermedia-surveys', 'GreaterMediaSurveys', array(
+			'form_class' => self::FORM_CLASS,
+			'ajax_url'   => wp_nonce_url( admin_url( 'admin-ajax.php?action=enter_survey&survey_id=' . $post_id ), 'gmr_enter_survey', 'nonce' ),
+		) );
+		
 		if ( defined( 'SURVEY_' . $post_id . '_SUCCESS' ) && 'SURVEY_' . $post_id . '_SUCCESS' ) {
 
 			/**
 			 * Fallback to rendering the thank-you message on the server side.
 			 * This should be OK since a POST won't be cached.
 			 */
-			$html .= '<p>' .
-			         get_post_meta( $post_id, 'form-thankyou', true ) .
-			         '</p>';
+			$html .= '<p>' . get_post_meta( $post_id, 'form-thankyou', true ) . '</p>';
 
 		} else {
 
-			$html .= '<form action="" method="post" enctype="multipart/form-data" data-parsley-validate class="' . esc_attr( self::FORM_CLASS ) . '">'
-			         . '<input type="hidden" name="action" value="enter_survey" />'
-			         . '<input type="hidden" name="survey_id" value="' . absint( $post_id ) . '" />';
+			$html .= '<form action="" method="post" enctype="multipart/form-data" data-parsley-validate class="' . esc_attr( self::FORM_CLASS ) . '">';
 
 			foreach ( $form as $field ) {
 
 				$renderer_method = 'render_' . $field->field_type;
 
 				// Make sure the field type has been implemented/is valid
-				if ( ! method_exists( 'GreaterMediaFormbuilderRender', $renderer_method ) ) {
-					throw new InvalidArgumentException( sprintf( 'Form field %s has unimplemented field type %s', wp_kses_data( $field->cid ), wp_kses_data( $field->field_type ) ) );
+				if ( method_exists( 'GreaterMediaFormbuilderRender', $renderer_method ) ) {
+					$html .= '<div class="contest__form--row">';
+					$html .= wp_kses( GreaterMediaFormbuilderRender::$renderer_method( $post_id, $field ), GreaterMediaFormbuilderRender::allowed_tags() );
+					$html .= '</div>';
 				}
-
-				$html .= wp_kses( GreaterMediaFormbuilderRender::$renderer_method( $post_id, $field ), GreaterMediaFormbuilderRender::allowed_tags() );
 
 			}
 
@@ -104,15 +96,15 @@ class GreaterMediaSurveyFormRender {
 
 		try {
 
+			if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'gmr_enter_survey' ) ) {
+				throw new InvalidArgumentException( 'Your submission has been rejected.' );
+			}
+
 			if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 				throw new InvalidArgumentException( 'Request should be a POST' );
 			}
 
-			if ( !isset( $_POST['survey_id'] ) ) {
-				throw new InvalidArgumentException( 'Missing survey_id' );
-			}
-
-			$survey_id = absint( $_POST['survey_id'] );
+			$survey_id = absint( $_REQUEST['survey_id'] );
 			if ( empty( $survey_id ) ) {
 				throw new InvalidArgumentException( 'Invalid survey_id' );
 			}
@@ -122,17 +114,15 @@ class GreaterMediaSurveyFormRender {
 				throw new InvalidArgumentException( 'No survey found with given ID' );
 			}
 
-			if ( 'survey' !== $survey->post_type ) {
-				throw new InvalidArgumentException( 'survey_id does not reference a contest' );
+			if ( GMR_SURVEY_CPT !== $survey->post_type ) {
+				throw new InvalidArgumentException( 'survey_id does not reference a survey' );
 			}
-
-			list( $entrant_reference, $entrant_name ) = GreaterMediaFormbuilderRender::entrant_id_and_name();
 
 			// Pretty sure this is our form submission at this point
 			$form = json_decode( get_post_meta( $survey_id, 'survey_embedded_form', true ) );
-
+			
 			if ( empty( $form ) ) {
-				throw new InvalidArgumentException( 'Survey is missing an embedded form');
+				throw new InvalidArgumentException( 'Survey is missing an embedded form' );
 			}
 
 			$submitted_values = array();
@@ -159,6 +149,8 @@ class GreaterMediaSurveyFormRender {
 				}
 
 			}
+
+			list( $entrant_reference, $entrant_name ) = gmr_contests_get_gigya_entrant_id_and_name();
 
 			$entry = GreaterMediaSurveyEntry::create_for_data(
 				$survey_id,
@@ -203,47 +195,6 @@ class GreaterMediaSurveyFormRender {
 
 	}
 
-	/*public static function save( $entry ) {
-
-		$post_id = wp_update_post( self::$post, true );
-
-		update_post_meta( $post_id, 'entrant_name', $entry->entrant_name );
-		update_post_meta( $post_id, 'entrant_reference', $entry->entrant_reference );
-		update_post_meta( $post_id, 'entry_source', $entry->entry_source );
-		update_post_meta( $post_id, 'entry_reference', $entry->entry_reference );
-	}
-
-	public static function create_for_data( $contest_id, $entrant_name, $entrant_reference, $entry_source, $entry_reference ) {
-
-		$entry_source_camel_case      = str_replace( ' ', '', ucwords( str_replace( '-', ' ', $entry_source ) ) );
-		$possible_entry_subclass_name = 'GreaterMediaContestEntry' . $entry_source_camel_case;
-		if ( class_exists( $possible_entry_subclass_name ) ) {
-			$entry = new $possible_entry_subclass_name( null, $contest_id );
-		} else {
-			$entry = new self( null, $contest_id );
-		}
-
-
-		if ( ! is_scalar( $entrant_name ) ) {
-			throw new UnexpectedValueException( 'Entrant Name must be a scalar value' );
-		}
-
-		if ( ! is_scalar( $entry_source ) ) {
-			throw new UnexpectedValueException( 'Entry Source must be a scalar value' );
-		}
-
-		// This is an assumption. We can always get rid of this check.
-		if ( ! is_scalar( $entry_reference ) ) {
-			throw new UnexpectedValueException( 'Entry Reference must be a scalar value' );
-		}
-
-		$entry->entrant_name      = $entrant_name;
-		$entry->entrant_reference = $entrant_reference;
-		$entry->entry_source      = $entry_source;
-		$entry->entry_reference   = $entry_reference;
-
-		return $entry;
-	}*/
 }
 
 GreaterMediaSurveyFormRender::init();

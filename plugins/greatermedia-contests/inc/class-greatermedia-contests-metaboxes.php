@@ -35,6 +35,9 @@ class GreaterMediaContestsMetaboxes {
 		}
 
 		if ( $post && GMR_CONTEST_CPT === $post->post_type ) {
+			$base_path = trailingslashit( GREATER_MEDIA_CONTESTS_URL );
+			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
 			wp_enqueue_style( 'formbuilder' );
 			wp_enqueue_style( 'datetimepicker' );
 			wp_enqueue_style( 'font-awesome' );
@@ -70,7 +73,7 @@ class GreaterMediaContestsMetaboxes {
 				);
 			}
 
-			wp_enqueue_script( 'greatermedia-contests-admin', trailingslashit( GREATER_MEDIA_CONTESTS_URL ) . 'js/contests-admin.js', array( 'formbuilder' ), false, true );
+			wp_enqueue_script( 'greatermedia-contests-admin', "{$base_path}js/contests-admin{$postfix}.js", array( 'formbuilder' ), false, true );
 			wp_localize_script( 'greatermedia-contests-admin', 'GreaterMediaContestsForm', array(
 				'form' => $form,
 			) );

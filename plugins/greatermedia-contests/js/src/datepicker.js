@@ -1,69 +1,33 @@
-/*! Greater Media Contests - v1.0.3
- * http://10up.com/
- * Copyright (c) 2015;
- * Licensed GPLv2+
- */
-(function ($) {
-	$(document).ready(function () {
-		var formbuilder = new Formbuilder({
-			selector: '#contest_embedded_form',
-			bootstrapData: GreaterMediaContestsForm.form,
-			controls: []
-		});
-
-		formbuilder.on('showEditView', function($el, model) {
-			console.log(model);
-			if (model.cid === 'c5' || model.cid === 'c6') {
-				$el.find('input[data-rv-checked="model.required"]')
-				   .prop('checked', true)
-				   .attr('disabled', 'disabled');
-			}
-		});
-
-		formbuilder.on('save', function (payload) {
-			// payload is a JSON string representation of the form
-			$('#contest_embedded_form_data').val(encodeURIComponent(JSON.stringify(JSON.parse(payload).fields)));
-		});
-
-		// Default the hidden field with the form data loaded from the server
-		$('#contest_embedded_form_data').val(encodeURIComponent(JSON.stringify(GreaterMediaContestsForm.form)));
-
-		$('#contest-settings ul.tabs a').click(function() {
-			$('#contest-settings ul.tabs li.active').removeClass('active');
-			$(this).parent().addClass('active');
-			
-			$('#contest-settings div.tab.active').removeClass('active');
-			$('#contest-settings').find($(this).attr('href')).addClass('active');
-			return false;
-		});
-	});
-})(jQuery);
-
 /**
  * Set up date pickers for browsers without a native control
  */
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 	/**
 	 * Generate a list of supported input types (text, date, range, etc.).
 	 * Adapted from Modernizr, which is MIT licensed
 	 * @see http://modernizr.com/
 	 */
-	function check_supported_input_types() {
+	function get_supported_input_types() {
+
 		var inputElem = document.createElement('input'),
 			docElement = document.documentElement,
 			inputs = {},
 			smile = ':)';
 
 		return (function (props) {
+
 			for (var i = 0, bool, inputElemType, defaultView, len = props.length; i < len; i++) {
+
 				inputElem.setAttribute('type', inputElemType = props[i]);
 				bool = inputElem.type !== 'text';
 
 				if (bool) {
+
 					inputElem.value = smile;
 					inputElem.style.cssText = 'position:absolute;visibility:hidden;';
 
 					if (/^range$/.test(inputElemType) && inputElem.style.WebkitAppearance !== undefined) {
+
 						docElement.appendChild(inputElem);
 						defaultView = document.defaultView;
 
@@ -72,9 +36,11 @@ document.addEventListener("DOMContentLoaded", function() {
 						(inputElem.offsetHeight !== 0);
 
 						docElement.removeChild(inputElem);
+
 					} else if (/^(search|tel)$/.test(inputElemType)) {
 					} else if (/^(url|email)$/.test(inputElemType)) {
 						bool = inputElem.checkValidity && inputElem.checkValidity() === false;
+
 					} else {
 						bool = inputElem.value !== smile;
 					}
@@ -84,15 +50,53 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 
 			return inputs;
+
 		})('search tel url email datetime date month week time datetime-local number range color'.split(' '));
 	}
 
 	// Add datepickers for start & end dates if not supported natively
-	var supported_input_types = check_supported_input_types();
+	var supported_input_types = get_supported_input_types();
 	if (!supported_input_types.hasOwnProperty('date') || false === supported_input_types.date) {
-		jQuery('#greatermedia_contest_start').add('#greatermedia_contest_end').datetimepicker({
-			format: 'm/d/Y',
-			timepicker: false
-		});
+		jQuery('input[type=date]').datetimepicker(
+			{
+				timepicker: false,
+				format    : 'm/d/Y'
+			}
+		);
+
+		jQuery('input[type=time]').datetimepicker(
+			{
+				datepicker: false,
+				format    : 'g:i A',
+				formatTime: 'g:i A',
+				allowTimes: [
+					'12:00 AM', '12:30 AM',
+					'1:00 AM', '1:30 AM',
+					'2:00 AM', '2:30 AM',
+					'3:00 AM', '3:30 AM',
+					'4:00 AM', '4:30 AM',
+					'5:00 AM', '5:30 AM',
+					'6:00 AM', '6:30 AM',
+					'7:00 AM', '7:30 AM',
+					'8:00 AM', '8:30 AM',
+					'9:00 AM', '9:30 AM',
+					'10:00 AM', '10:30 AM',
+					'11:00 AM', '11:30 AM',
+					'12:00 PM', '12:30 PM',
+					'1:00 PM', '1:30 PM',
+					'2:00 PM', '2:30 PM',
+					'3:00 PM', '3:30 PM',
+					'4:00 PM', '4:30 PM',
+					'5:00 PM', '5:30 PM',
+					'6:00 PM', '6:30 PM',
+					'7:00 PM', '7:30 PM',
+					'8:00 PM', '8:30 PM',
+					'9:00 PM', '9:30 PM',
+					'10:00 PM', '10:30 PM',
+					'11:00 PM', '11:30 PM'
+				]
+			}
+		);
 	}
+
 }, false );

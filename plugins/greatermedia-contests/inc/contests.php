@@ -377,7 +377,7 @@ function gmr_contests_render_form( $skip_age = false ) {
 	$gigya_logged_in_exists = function_exists( 'is_gigya_user_logged_in' );
 	$members_only = get_post_meta( $contest_id, 'contest-members-only', true );
 	if ( $members_only && $gigya_logged_in_exists && ! is_gigya_user_logged_in() ) {
-		echo '<p>You must be logged in to enter the contest! <a href="', esc_url( gmr_contests_get_login_url() ), '">Sign in here</a>.</p>';
+		echo '<p>You must be signed in to enter the contest! <a href="', esc_url( gmr_contests_get_login_url() ), '">Sign in here</a>.</p>';
 		return;
 	}
 
