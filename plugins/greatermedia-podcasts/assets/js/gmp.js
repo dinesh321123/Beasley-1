@@ -3,4 +3,8 @@
  * Copyright (c) 2015; * Licensed GPLv2+ */
 (function ($) {
 
+	$(function() {
+
+	});
+
 } )();
