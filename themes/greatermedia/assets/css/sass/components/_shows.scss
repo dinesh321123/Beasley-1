@@ -104,7 +104,7 @@ category: Components - Shows
 .show__header {
 	background-color: rgb(86, 16, 21);
 	position: relative;
-	padding: $base-line-height $gutter / 2;
+	padding: 4em 1em;
 	@include fill-parent();
 	@include row();
 	@include display-context(table);
@@ -221,7 +221,7 @@ category: Components - Shows
 		margin-top: 1.5em;
 		margin-bottom: 0;
 		text-align: left;
-		padding-left: 2em;
+		padding-left: 3em;
 
 		.show__title {
 			margin-top: 0;
@@ -380,6 +380,10 @@ category: Components - Shows
 
 	time {
 		font-size: 0.8em;
+	}
+
+	&:hover h3 {
+		color: $secondary-link-hover;
 	}
 }
 

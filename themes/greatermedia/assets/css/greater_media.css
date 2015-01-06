@@ -4821,7 +4821,7 @@ category: Components - Shows
 .show__header {
   background-color: #561015;
   position: relative;
-  padding: 2em;
+  padding: 4em 1em;
   width: 100%;
   display: block;
   color: #ffffff; }
@@ -4929,11 +4929,13 @@ category: Components - Shows
   @media screen and (min-width: 1024px) {
     .show__nav {
       float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 48.82117%; }
-      .show__nav:last-child {
-        margin-right: 0; }
+      margin-top: 1.5em;
+      margin-bottom: 0;
+      text-align: left;
+      padding-left: 3em; }
+      .show__nav .show__title {
+        margin-top: 0;
+        margin-bottom: 0.6em; }
       .show__nav ul {
         list-style-type: none;
         padding-left: 0;
@@ -5066,6 +5068,10 @@ category: Components - Shows
   .show__feature img {
     width: 100%;
     height: auto; }
+  .show__feature time {
+    font-size: 0.8em; }
+  .show__feature:hover h3 {
+    color: #aa1c20; }
 
 @media screen and (min-width: 768px) {
   .show__feature--primary {
