@@ -5723,6 +5723,8 @@ category: Components - Shows
     text-transform: uppercase; }
   .single-show .featured__content--block:hover .featured__content--title {
     color: #aa1c20; }
+.single-show .featured__content--image img {
+  width: 100%; }
 @media screen and (min-width: 480px) {
   .single-show .featured__content--image {
     float: left;
@@ -6110,7 +6112,8 @@ category: Components - Shows
   margin-right: 2.35765%;
   width: 100%;
   margin-bottom: 1em;
-  background: none; }
+  background: none;
+  padding-top: 0; }
   .show__favorites .featured__content--block:last-child {
     margin-right: 0; }
 @media screen and (min-width: 768px) {

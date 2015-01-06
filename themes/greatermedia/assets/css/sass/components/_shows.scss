@@ -29,6 +29,10 @@
 	}
 
 	.featured__content--image {
+		img {
+			width: 100%;
+		}
+
 		@include bp(small) {
 			@include span-columns(4 of 12);
 			padding-top: 0;
@@ -500,7 +504,7 @@ category: Components - Shows
 		@include span-columns(12 of 12);
 		margin-bottom: 1em;
 		background: none;
-
+		padding-top: 0;
 	}
 
 	.featured__content--image img {
