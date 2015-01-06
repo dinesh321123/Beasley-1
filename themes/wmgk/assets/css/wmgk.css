@@ -2261,15 +2261,14 @@ Community Highlights and Events
 
 .highlights__event--title {
   font-size: 1em;
-  color: #404041;
+  color: #6d6e70;
   margin: 0 0 .3em;
   overflow: hidden;
   line-height: 1.25;
   max-height: 2.5em; }
   @media screen and (min-width: 1024px) {
     .highlights__event--title {
-      max-height: 1.25em;
-      font-weight: normal; } }
+      max-height: 1.25em; } }
   @media (min-width: 1250px) {
     .highlights__event--title {
       max-height: 2.5em; } }
@@ -3553,11 +3552,19 @@ Link posts contain a link to an external site. They can also optionally have a f
       float: left;
       display: block;
       margin-right: 4.82916%;
-      width: 65.05695%;
+      width: 100%;
       margin-right: 0;
       text-align: left; }
       .entry2__meta:last-child {
-        margin-right: 0; } }
+        margin-right: 0; }
+      .has-thumbnail .entry2__meta {
+        float: left;
+        display: block;
+        margin-right: 4.82916%;
+        width: 65.05695%;
+        margin-right: 0; }
+        .has-thumbnail .entry2__meta:last-child {
+          margin-right: 0; } }
 
 .entry2__date {
   font-size: 1em;
@@ -3630,22 +3637,22 @@ Link posts contain a link to an external site. They can also optionally have a f
     margin-right: 0; } }
 
 @media screen and (min-width: 480px) {
-  .entry2.format-audio .entry2__thumbnail {
+  .entry2.format-audio.has-thumbnail .entry2__thumbnail {
     float: left;
     display: block;
     margin-right: 3.16844%;
     width: 19.75788%; }
-    .entry2.format-audio .entry2__thumbnail:last-child {
+    .entry2.format-audio.has-thumbnail .entry2__thumbnail:last-child {
       margin-right: 0; }
-    .entry2.format-audio .entry2__thumbnail:after {
+    .entry2.format-audio.has-thumbnail .entry2__thumbnail:after {
       padding-top: 100%; }
-  .entry2.format-audio .entry2__meta {
+  .entry2.format-audio.has-thumbnail .entry2__meta {
     float: left;
     display: block;
     margin-right: 3.16844%;
     width: 77.07368%;
     margin-right: 0; }
-    .entry2.format-audio .entry2__meta:last-child {
+    .entry2.format-audio.has-thumbnail .entry2__meta:last-child {
       margin-right: 0; } }
 
 .format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
@@ -3668,6 +3675,8 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .type-tribe_events .entry2__thumbnail {
   background: #d22228; }
+  .type-tribe_events .entry2__thumbnail:after {
+    background-color: rgba(210, 34, 40, 0.6); }
 .type-tribe_events .entry2__thumbnail--event-date {
   font-size: 1em;
   line-height: 1;
@@ -3699,8 +3708,15 @@ Link posts contain a link to an external site. They can also optionally have a f
     float: left;
     display: block;
     margin-right: 4.82916%;
-    width: 30.11389%; }
+    width: 65.05695%; }
     .entry2-ad-wrap .entry2__meta:last-child {
+      margin-right: 0; }
+  .entry2-ad-wrap .entry2.has-thumbnail .entry2__meta {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 30.11389%; }
+    .entry2-ad-wrap .entry2.has-thumbnail .entry2__meta:last-child {
       margin-right: 0; }
   .entry2-ad-wrap .entry2-ad-wrap__ad {
     float: left;

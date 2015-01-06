@@ -287,7 +287,7 @@ Community Highlights and Events
 
 .highlights__event--title {
 	font-size: ms(0);
-	color: $highlights-heading;
+	color: $medium-dark-gray;
 	margin: 0 0 .3em;
 	
 	// Never show more than two lines of text (layout will break).
@@ -298,7 +298,6 @@ Community Highlights and Events
 	@include bp(large) {
 		// One line of text at this breakpoint because we need to fit the date.
 		max-height: 1.25em;
-		font-weight: normal;
 	}
 	
 	@media(min-width: 1250px) {
