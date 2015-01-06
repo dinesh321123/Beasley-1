@@ -1,6 +1,6 @@
 .single-show {
 	.featured__content {
-		margin: 2em 0;
+		margin: 0.75em 0 1em;
 	}
 
 	.featured__content--block {
@@ -29,6 +29,12 @@
 	}
 
 	.featured__content--image {
+		img {
+			width: auto;
+			height: 100%;
+			max-width: none;
+		}
+
 		@include bp(small) {
 			@include span-columns(4 of 12);
 			padding-top: 0;
@@ -359,116 +365,102 @@ category: Components - Shows
 
 */
 
+// Layout
+
 .show__features {
 	@include row();
 }
 
-.show__feature {
-	margin-bottom: 2em;
-
-	h3 {
-		margin-top: 0;
-		margin-bottom: 0;
-		font-size: 1.5em;
-
-	}
-
-	img {
-		width: 100%;
-		height: auto;
-	}
-
-	time {
-		font-size: 0.8em;
-	}
-
-	&:hover h3 {
-		color: $secondary-link-hover;
-	}
-}
-
 .show__feature--primary {
-	float: left;
-	width: 100%;
-
-	.show__feature--thumbnail {
-		padding-bottom: 54%;
-	}
-
 	@include bp(large) {
-		width: 66%;
-		margin-right: 4%;
-
-		h3 {
-			font-size: 1.75em;
-		}
-
+		@include span-columns(8 of 12);
 	}
+	
 }
 
 .show__feature--secondary {
-	float: left;
-	width: 100%;
-
-	.show__feature--thumbnail {
-		padding-bottom: 43%;
-	}
-
 	@include bp(large) {
-		width: 30%;
+		@include span-columns(4 of 12);
+		@include omega;
 	}
-	@include bp(large) {
-		h3 { font-size: 1em; }
-	}
-
 }
 
-.show__feature--thumbnail {
-	width: 100%;
-	overflow: hidden;
-	height: 0;
+.show__feature {
+	margin-bottom: 5.5%;
+	
+ 	.thumbnail {
+		background-color: $dark-gray;
+		padding-bottom: 66%;
+		background-position: center center; 
+		background-size: 100%; 
+		background-size: cover;
+				 
+		.inner-wrap {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	}
+	
+	@include bp(large) {
+		padding-bottom: 75%;
+		position: relative;
+		
+		.thumbnail {
+			position: absolute;
+			width: 100%;
+			left: 0; 
+			top: 0;
+		}
+	}
 }
 
 .show__feature--desc {
 	background-color: $header-bg;
 	color: $secondary-text;
-	padding: 1em 2em 1em;
-	width: 100%;
-	height: auto;
 
+	h3 {
+		margin: 0;
+		font-size: ms(3);
+		line-height: 1.2;
+	}
+
+	.show__feature--primary & h3 {
+		font-size: ms(5);
+	}
+	
 	time {
+		font-size: ms(0);
 		text-transform: uppercase;
 		color: $secondary-heading;
+	}			
+	
+	.inner-wrap {
+		padding: $base-line-height $gutter; 
 	}
-
-
-	@include bp(medium) {
-		height: 75px;
+	
+	@include bp( large ) {
+		// padding-bottom: 22%; // 3/10 the height of our 4:3 unit.
+		position: absolute;
+		width: 100%;
+		left: 0;
+		bottom: 0;
 		
 		h3 {
-			font-size: 1.25em;
+			font-size: ms(1);
+		}
+		
+		.show__feature--primary & h3 {
+			font-size: ms(6);
+		}
+		
+		time {
+			font-size: ms(-1);
 		}
 	}
+} 	
 
-	@include bp(large) {
-		height: 107px;
-		padding: 16px 20px 20px;
-	}
-	.show__feature--secondary & {
-		@include bp(large) {
-			h3 {
-				font-size: 1em;
-			}
 
-			padding: 10px;
-			height: 90px;
-		}
-		@include bp(x-large) {
-			padding: 16px 20px 20px;
-			height: 91px;
-		}
-	}
-}
 
 /*doc
 ---
@@ -505,7 +497,7 @@ category: Components - Shows
 
 		@include bp(large) {
 			margin-top: 0em;
-		}
+	}
 	}
 
 	.featured__content--image img {

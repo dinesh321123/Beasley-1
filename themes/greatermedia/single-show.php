@@ -26,7 +26,6 @@
 												<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary' ); ?>)'></div>
 											<?php else: ?>
 												<div class='thumbnail thumbnail-placeholder' style=''></div>
-											</div>
 											<?php endif; ?>
 										</div>
 										<div class="show__feature--desc">
@@ -48,7 +47,6 @@
 													<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary' ); ?>)'></div>
 												<?php else: ?>
 													<div class='thumbnail thumbnail-placeholder' style=''></div>
-												</div>
 												<?php endif; ?>
 											</div>
 											<div class="show__feature--desc">
