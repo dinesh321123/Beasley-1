@@ -90,9 +90,11 @@
 								<div class="mobile-nav__toggle">
 									<div class="mobile-nav__toggle--span"></div>
 								</div>
-								<div class="header__logo">
-									<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php do_action( 'gmr_site_logo' ); ?></a>
-								</div>
+
+								<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__logo">
+									<?php do_action( 'gmr_site_logo' ); ?>
+								</a>
+
 								<?php
 								$main_nav = array(
 									'theme_location'  => 'main-nav',

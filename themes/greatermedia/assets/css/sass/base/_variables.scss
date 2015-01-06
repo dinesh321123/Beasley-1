@@ -21,6 +21,16 @@ $dark-gray: #282827;
 $darker-gray: #191919;
 $yellow: #f5ed7f;
 
+/**
+ * Padding to th left, top, and bottom of the header logo
+ * Can be adjusted if needed for a better look
+ * e.g. for a square logo or one that needs to be just a touch larger
+ * any more specific adjustments will need to adjust the padding on .header__logo
+ *
+ * @type length
+ */
+$header-logo-padding: 18px !default;
+
 // Hologram Styleguide Swatches
 .hologram-color-swatch {
 	width: 200px;

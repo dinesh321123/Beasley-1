@@ -17,6 +17,9 @@
 	cursor: pointer;
 	z-index: 2;
 	@include bp(medium) {
+		top: 25px;
+	}
+	@include bp(large) {
 		display: none;
 	}
 }
@@ -65,7 +68,7 @@
 	border-right: 1px solid $primary-border;
 	z-index: 1;
 	overflow-y: auto;
-	@include bp(medium) {
+	@include bp(large) {
 		display: none;
 	}
 }
