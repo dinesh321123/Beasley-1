@@ -1,6 +1,6 @@
 .single-show {
 	.featured__content {
-		margin: 2em 0;
+		margin: 0.75em 0 1em;
 	}
 
 	.featured__content--block {
@@ -501,8 +501,8 @@ category: Components - Shows
 
 	.featured__content--image img {
 		@include bp(medium) {
-			height: 100%;
-			width: auto;
+			height: auto;
+			width: 100%;
 		}
 
 		@include bp(large) {

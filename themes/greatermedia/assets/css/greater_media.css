@@ -5664,7 +5664,7 @@ category: Components - Shows
     margin-right: 1em; }
 
 .single-show .featured__content {
-  margin: 2em 0; }
+  margin: 0.75em 0 1em; }
 .single-show .featured__content--block {
   width: 100%;
   margin-top: 1em;
@@ -6074,8 +6074,8 @@ category: Components - Shows
     margin-right: 0; }
 @media screen and (min-width: 768px) {
   .show__favorites .featured__content--image img {
-    height: 100%;
-    width: auto; } }
+    height: auto;
+    width: 100%; } }
 @media screen and (min-width: 1024px) {
   .show__favorites .featured__content--image img {
     max-width: none; } }
