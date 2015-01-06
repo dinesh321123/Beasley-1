@@ -7,14 +7,10 @@
  * covers them all. 
  */
 
-if ( 0 == ++$post_count % 5 ): 
-?>
-	<div class='entry2-ad-wrap'>
-<?php endif; ?>
-
-<?php 
+global $post;
 $post_classes = array( 'entry2' );
-if ( ! empty( trim( $post->post_excerpt ) ) ) {
+$trimmed_excerpt = trim( $post->post_excerpt );
+if ( ! empty( $trimmed_excerpt ) ) {
 	$post_classes[] = 'has-excerpt'; 
 } 
 if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) {
@@ -23,7 +19,7 @@ if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) {
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( $post_classes ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-	<?php 
+	<?php
 	if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) : 
 		if ( has_post_format( 'audio' ) ) {
 			$thumbnail_size = 'gm-entry-thumbnail-1-1';
@@ -49,7 +45,7 @@ if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) {
 		<?php endif; ?>
 		<h2 class="entry2__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 		
-		<?php if ( ! empty( trim( $post->post_excerpt ) ) ): ?>
+		<?php if ( ! empty( $trimmed_excerpt ) ): ?>
 			<div class="entry2__excerpt">
 				<?php the_excerpt(); ?>
 			</div>
@@ -74,13 +70,3 @@ if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) {
 		?>
 	</footer>
 </article>
-
-<?php if ( 0 == $post_count % 5 ):	?>
-		<div class='entry2-ad-wrap__ad mobile'>
-			<img src='http://placehold.it/180x150'>
-		</div>						
-		<div class='entry2-ad-wrap__ad desktop'>
-			<img src='http://placehold.it/300x250'>
-		</div>						
-	</div>
-<?php endif; ?>
