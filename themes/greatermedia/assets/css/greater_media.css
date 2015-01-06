@@ -5790,7 +5790,7 @@ category: Components - Shows
 .show__header {
   background-color: #561015;
   position: relative;
-  padding: 1.5em 0.809em;
+  padding: 4em 1em;
   width: 100%;
   display: block;
   color: #ffffff; }
@@ -5882,7 +5882,7 @@ category: Components - Shows
       margin-top: 1.5em;
       margin-bottom: 0;
       text-align: left;
-      padding-left: 2em; }
+      padding-left: 3em; }
       .show__nav .show__title {
         margin-top: 0;
         margin-bottom: 0.6em; }
@@ -6007,6 +6007,8 @@ category: Components - Shows
     height: auto; }
   .show__feature time {
     font-size: 0.8em; }
+  .show__feature:hover h3 {
+    color: #aa1c20; }
 
 .show__feature--primary {
   float: left;

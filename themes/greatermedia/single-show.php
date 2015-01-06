@@ -153,7 +153,10 @@
 					        <?php endwhile; ?>
 					        <?php wp_reset_query(); ?>
 
-					        <div class="show-main-paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $main_query ); ?></div>
+<!-- 					        <div class="show-main-paging">
+					        <?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $main_query ); ?>
+					        </div>
+ -->					        
 				        </section>
 
 			        </div>

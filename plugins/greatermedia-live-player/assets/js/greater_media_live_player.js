@@ -20,11 +20,14 @@
 	/**
 	 *
 	 * Pjax is running against the DOM. By default pjax detects a click event, and this case, we are targeting all `a`
-	 * links in the `.page-wrap` element. This will run pjax against the first link clicked. After the initial link is
+	 * links in the `.main` element. This will run pjax against the first link clicked. After the initial link is
 	 * clicked, pjax will stop.
 	 *
+	 * It is important to call pjax against the `.main` element. Initially we used `.page-wrap` but this caused elements
+	 * that had click events attached to them to not function.
+	 *
 	 * To prevent pjax from stopping, we introduce some pjax `options`.
-	 * The `fragment` allows for pjax to continue to detect clicks within the same element, in this case `.page-wrap`,
+	 * The `fragment` allows for pjax to continue to detect clicks within the same element, in this case `.main`,
 	 * that we initially are calling pjax against. This ensures that pjax continues to run.
 	 * `maxCacheLength` is the maximum cache size for the previous container contents.
 	 * `timeout` is the ajax timeout in milliseconds after which a full refresh is forced.
@@ -38,7 +41,7 @@
 	 */
 	if (is_gigya_user_logged_in()) {
 		if ($.support.pjax) {
-			$(document).pjax('a:not(.ab-item)', '.page-wrap', {'fragment': '.page-wrap', 'maxCacheLength': 500, 'timeout' : 5000});
+			$(document).pjax('a:not(.ab-item)', '.main', {'fragment': '.main', 'maxCacheLength': 500, 'timeout' : 5000});
 		}
 	}
 
