@@ -1,6 +1,8 @@
 /*! Greater Media Contests - v1.0.3
  * http://10up.com/
- * Copyright (c) 2015; * Licensed GPLv2+ */
+ * Copyright (c) 2015;
+ * Licensed GPLv2+
+ */
 /*!
 jQuery Waypoints - v2.0.2
 Copyright (c) 2011-2013 Caleb Troughton
@@ -13,7 +15,7 @@ https://github.com/imakewebthings/jquery-waypoints/blob/master/licenses.txt
 
 
 
-window.Modernizr = (function( window, document, undefined ) {
+window.gridModernizr = (function( window, document, undefined ) {
 
     var version = '2.8.3',
 
@@ -801,7 +803,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 		return $grids;
 	};
-})(jQuery, Modernizr);
+})(jQuery, gridModernizr);
 (function($, gmr) {
 	var __ready, gridPreviewLoaded, gridLoadMoreUrl, gridUpdateRating;
 
@@ -957,10 +959,6 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 	$(document).bind('pjax:end', __ready).ready(__ready);
 })(jQuery, GreaterMediaContests);
-
-/**
- * Set up date pickers for browsers without a native control
- */
 document.addEventListener("DOMContentLoaded", function () {
 	/**
 	 * Generate a list of supported input types (text, date, range, etc.).

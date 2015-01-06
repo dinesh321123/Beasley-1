@@ -10,8 +10,6 @@ if ( ! defined( 'WPINC' ) ) {
 
 class GreaterMediaSurveys {
 
-	public static $survey_slug = 'survey';
-
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_survey_cpt' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'survey_enqueue_scripts' ) );
@@ -23,13 +21,17 @@ class GreaterMediaSurveys {
 
 		global $post;
 
-		if( $post && $post->post_type === self::$survey_slug ) {
+		if( $post && $post->post_type == GMR_SURVEY_CPT ) {
+			$base_path = trailingslashit( GREATER_MEDIA_CONTESTS_URL );
+			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 			wp_enqueue_style( 'formbuilder' );
+			wp_enqueue_style( 'datetimepicker' );
+			wp_enqueue_style( 'font-awesome' );
 
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-draggable' );
-			wp_enqueue_script( 'jquery-scrollwindowto', trailingslashit( GREATER_MEDIA_CONTESTS_URL ) . 'bower_components/jquery.scrollWindowTo/index.js', array( 'jquery' ) );
+			wp_enqueue_script( 'jquery-scrollwindowto', "{$base_path}bower_components/jquery.scrollWindowTo/index.js", array( 'jquery' ) );
 			wp_enqueue_script( 'underscore' );
 			wp_enqueue_script( 'underscore-mixin-deepextend' );
 			wp_enqueue_script( 'backbone' );
@@ -39,19 +41,12 @@ class GreaterMediaSurveys {
 
 
 			wp_enqueue_script( 'formbuilder' );
-				wp_enqueue_script(
-					'greatermedia-surveys-admin'
-					, GREATER_MEDIA_CONTESTS_URL . "/js/greater_media_surveys_admin.js"
-					, array( 'formbuilder' )
-					, false
-					, true );
+			wp_enqueue_script( 'greatermedia-surveys-admin', "{$base_path}/js/surveys_admin{$postfix}.js", array( 'formbuilder' ), false, true );
 
-				$embedded_form = get_post_meta( $post->ID, 'survey_embedded_form', true );
-				$settings      = array(
-					'form' => trim( $embedded_form, '"' ),
-				);
-
-				wp_localize_script( 'greatermedia-surveys-admin', 'GreaterMediaContestsForm', $settings );
+			$embedded_form = get_post_meta( $post->ID, 'survey_embedded_form', true );
+			wp_localize_script( 'greatermedia-surveys-admin', 'GreaterMediaContestsForm', array(
+				'form' => json_decode( trim( $embedded_form, '"' ), true ),
+			) );
 		}
 
 	}
@@ -62,22 +57,22 @@ class GreaterMediaSurveys {
 	public function register_survey_cpt() {
 
 		$labels = array(
-			'name'                => __( 'Member Surveys', 'greatermedia' ),
-			'singular_name'       => __( 'Member Survey', 'greatermedia' ),
-			'add_new'             => _x( 'Add New Member Survey', 'greatermedia', 'greatermedia' ),
-			'add_new_item'        => __( 'Add New Member Survey', 'greatermedia' ),
-			'edit_item'           => __( 'Edit Member Survey', 'greatermedia' ),
-			'new_item'            => __( 'New Member Survey', 'greatermedia' ),
-			'view_item'           => __( 'View Member Survey', 'greatermedia' ),
-			'search_items'        => __( 'Search Member Surveys', 'greatermedia' ),
-			'not_found'           => __( 'No Member Surveys found', 'greatermedia' ),
-			'not_found_in_trash'  => __( 'No Member Surveys found in Trash', 'greatermedia' ),
-			'parent_item_colon'   => __( 'Parent Member Survey:', 'greatermedia' ),
-			'menu_name'           => __( 'Member Surveys', 'greatermedia' ),
+			'name'                => 'Surveys',
+			'singular_name'       => 'Survey',
+			'add_new'             => 'Add New Survey',
+			'add_new_item'        => 'Add New Survey',
+			'edit_item'           => 'Edit Survey',
+			'new_item'            => 'New Survey',
+			'view_item'           => 'View Survey',
+			'search_items'        => 'Search Surveys',
+			'not_found'           => 'No surveys found',
+			'not_found_in_trash'  => 'No surveys found in Trash',
+			'parent_item_colon'   => 'Parent Survey:',
+			'menu_name'           => 'Surveys',
 		);
 
 		$args = array(
-			'labels'                   => $labels,
+			'labels'              => $labels,
 			'hierarchical'        => false,
 			'description'         => 'description',
 			'taxonomies'          => array(),
@@ -95,26 +90,14 @@ class GreaterMediaSurveys {
 			'can_export'          => true,
 			'rewrite'             => true,
 			'capability_type'     => 'post',
-			'supports'            => array(
-				'title', 'editor'
-			)
+			'supports'            => array( 'title', 'editor', 'thumbnail' ),
 		);
 
-		register_post_type( self::$survey_slug, $args );
+		register_post_type( GMR_SURVEY_CPT, $args );
 	}
 
 	public function add_meta_boxes() {
-
-		add_meta_box(
-			'form',
-			'Form',
-			array( $this, 'survey_form_builder' ),
-			'survey',
-			'advanced',
-			'high',
-			array()
-		);
-
+		add_meta_box( 'form', 'Form', array( $this, 'survey_form_builder' ), 'survey', 'normal' );
 	}
 
 	public function survey_form_builder() {

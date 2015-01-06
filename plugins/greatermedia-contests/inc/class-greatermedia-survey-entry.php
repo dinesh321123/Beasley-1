@@ -32,7 +32,7 @@ class GreaterMediaSurveyEntry {
 			$this->entry_reference   = get_post_meta( $this->post->ID, 'entry_reference', true );
 		} else {
 			$this->post            = new WP_Post( new stdClass() );
-			$this->post->post_type = 'survey_response';
+			$this->post->post_type = GMR_SURVEY_RESPONSE_CPT;
 		}
 
 		if ( null !== $survey_id ) {
@@ -61,18 +61,18 @@ class GreaterMediaSurveyEntry {
 	public static function register_survey_response_cpt() {
 
 		$labels = array(
-			'name'                => __( 'Survey responses', 'greatermedia' ),
-			'singular_name'       => __( 'Survey response', 'greatermedia' ),
-			'add_new'             => _x( 'Add New Survey response', 'greatermedia', 'greatermedia' ),
-			'add_new_item'        => __( 'Add New Survey response', 'greatermedia' ),
-			'edit_item'           => __( 'Edit Survey response', 'greatermedia' ),
-			'new_item'            => __( 'New Survey response', 'greatermedia' ),
-			'view_item'           => __( 'View Survey response', 'greatermedia' ),
-			'search_items'        => __( 'Search Survey responses', 'greatermedia' ),
-			'not_found'           => __( 'No survey responses found', 'greatermedia' ),
-			'not_found_in_trash'  => __( 'No Survey responses found in Trash', 'greatermedia' ),
-			'parent_item_colon'   => __( 'Parent Survey:', 'greatermedia' ),
-			'menu_name'           => __( 'Survey responses', 'greatermedia' ),
+			'name'               => 'Survey Responses',
+			'singular_name'      => 'Survey Response',
+			'add_new'            => 'Add New Survey Response',
+			'add_new_item'       => 'Add New Survey Response',
+			'edit_item'          => 'Edit Survey Response',
+			'new_item'           => 'New Survey Response',
+			'view_item'          => 'View Survey Response',
+			'search_items'       => 'Search Survey Responses',
+			'not_found'          => 'No responses found',
+			'not_found_in_trash' => 'No responses found in Trash',
+			'parent_item_colon'  => 'Parent Survey:',
+			'menu_name'          => 'Responses',
 		);
 
 		$args = array(
@@ -82,7 +82,7 @@ class GreaterMediaSurveyEntry {
 			'taxonomies'          => array(),
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => 'edit.php?post_type=' . GreaterMediaSurveys::$survey_slug,
+			'show_in_menu'        => 'edit.php?post_type=' . GMR_SURVEY_CPT,
 			'show_in_admin_bar'   => false,
 			'menu_position'       => null,
 			'menu_icon'           => null,
@@ -94,12 +94,10 @@ class GreaterMediaSurveyEntry {
 			'can_export'          => true,
 			'rewrite'             => true,
 			'capability_type'     => 'post',
-			'supports'            => array(
-				'title', 'custom-fields'
-			)
+			'supports'            => array( 'title', 'custom-fields' ),
 		);
 
-		register_post_type( 'survey_response', $args );
+		register_post_type( GMR_SURVEY_RESPONSE_CPT, $args );
 	}
 
 	/**
