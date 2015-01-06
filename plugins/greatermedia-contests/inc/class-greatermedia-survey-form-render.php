@@ -32,7 +32,11 @@ class GreaterMediaSurveyFormRender {
 		$base_path = trailingslashit( GREATER_MEDIA_CONTESTS_URL );
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-		wp_register_script( 'greatermedia-surveys', "{$base_path}js/surveys{$postfix}.js", array( 'jquery' ), GREATER_MEDIA_CONTESTS_VERSION, true );
+		wp_enqueue_script( 'greatermedia-surveys', "{$base_path}js/surveys{$postfix}.js", array( 'jquery' ), GREATER_MEDIA_CONTESTS_VERSION, true );
+		wp_localize_script( 'greatermedia-surveys', 'GreaterMediaSurveys', array(
+			'form_class' => self::FORM_CLASS,
+			'ajax_url'   => admin_url( 'admin-ajax.php' ),
+		) );
 	}
 
 	public static function render( $post_id, $form ) {
@@ -47,12 +51,6 @@ class GreaterMediaSurveyFormRender {
 		if ( null === $form || ! is_array( $form ) ) {
 			return;
 		}
-
-		wp_enqueue_script( 'greatermedia-surveys' );
-		wp_localize_script( 'greatermedia-surveys', 'GreaterMediaSurveys', array(
-			'form_class' => self::FORM_CLASS,
-			'ajax_url'   => wp_nonce_url( admin_url( 'admin-ajax.php?action=enter_survey&survey_id=' . $post_id ), 'gmr_enter_survey', 'nonce' ),
-		) );
 		
 		if ( defined( 'SURVEY_' . $post_id . '_SUCCESS' ) && 'SURVEY_' . $post_id . '_SUCCESS' ) {
 
@@ -64,7 +62,10 @@ class GreaterMediaSurveyFormRender {
 
 		} else {
 
-			$html .= '<form action="" method="post" enctype="multipart/form-data" data-parsley-validate class="' . esc_attr( self::FORM_CLASS ) . '">';
+			$html .= '<form method="post" enctype="multipart/form-data" data-parsley-validate class="' . esc_attr( self::FORM_CLASS ) . '">';
+				$html .= '<input type="hidden" name="action" value="enter_survey">';
+				$html .= '<input type="hidden" name="survey_id" value="' . esc_attr( $post_id ) . '">';
+				$html .= '<input type="hidden" name="nonce" value="' . wp_create_nonce( 'gmr_enter_survey' ) . '">';
 
 			foreach ( $form as $field ) {
 
@@ -96,7 +97,7 @@ class GreaterMediaSurveyFormRender {
 
 		try {
 
-			if ( ! wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'gmr_enter_survey' ) ) {
+			if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce' ), 'gmr_enter_survey' ) ) {
 				throw new InvalidArgumentException( 'Your submission has been rejected.' );
 			}
 

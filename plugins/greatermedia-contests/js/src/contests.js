@@ -1,6 +1,6 @@
 /* globals GMR_Gallery:false */
 (function($, gmr) {
-	var __ready, gridPreviewLoaded, gridLoadMoreUrl, gridUpdateRating;
+	var __ready, gridPreviewLoaded, gridLoadMoreUrl, gridUpdateRating, container, gridContainer;
 
 	gridUpdateRating = function($item, delta) {
 		var rating = parseInt($item.text().replace(/\D+/g, ''));
@@ -29,7 +29,7 @@
 		}
 
 		// bind gallery events
-		if (GMR_Gallery) {
+		if (typeof GMR_Gallery !== 'undefined') {
 			GMR_Gallery.bindEvents();
 		}
 
@@ -43,7 +43,7 @@
 				sync_vote = true;
 				$icon.attr('class', 'fa fa-spinner fa-spin');
 
-				$.post(gmr.endpoints.vote, {ugc: $this.data('id')}, function(response) {
+				$.post(container.data('vote'), {ugc: $this.data('id')}, function(response) {
 					sync_vote = false;
 					$icon.attr('class', classes);
 
@@ -67,7 +67,7 @@
 				sync_vote = true;
 				$icon.attr('class', 'fa fa-spinner fa-spin');
 
-				$.post(gmr.endpoints.unvote, {ugc: $this.data('id')}, function(response) {
+				$.post(container.data('unvote'), {ugc: $this.data('id')}, function(response) {
 					sync_vote = false;
 					$icon.attr('class', classes);
 					
@@ -83,11 +83,12 @@
 	};
 
 	gridLoadMoreUrl = function(page) {
-		return gmr.endpoints.infinite + (page + 1) + '/';
+		return container.data('infinite') + (page + 1) + '/';
 	};
 
 	__ready = function() {
-		var container = $(gmr.selectors.container);
+		container = $(gmr.selectors.container);
+		gridContainer = $(gmr.selectors.grid);
 
 		container.on('submit', gmr.selectors.form, function() {
 			var form = $(this);
@@ -119,7 +120,7 @@
 				form.find('i.fa').show();
 
 				$.ajax({
-					url: gmr.endpoints.submit,
+					url: container.data('submit'),
 					type: 'post',
 					data: form_data,
 					processData: false, // Don't process the files
@@ -134,22 +135,26 @@
 		});
 
 		container.on('click', gmr.selectors.yes_age, function() {
-			container.load(gmr.endpoints.confirm_age);
+			container.load(container.data('confirm-age'));
 			return false;
 		});
 		
 		container.on('click', gmr.selectors.no_age, function() {
-			container.load(gmr.endpoints.reject_age);
+			container.load(container.data('reject-age'));
 			return false;
 		});
 
-		container.load(gmr.endpoints.load);
+		if (container.length > 0) {
+			container.load(container.data('load'));
+		}
 
-		$('.contest__submissions--list').grid({
-			loadMore: '.contest__submissions--load-more',
-			previewLoaded: gridPreviewLoaded,
-			loadMoreUrl: gridLoadMoreUrl
-		});
+		if (gridContainer.length > 0) {
+			gridContainer.grid({
+				loadMore: gmr.selectors.grid_more,
+				previewLoaded: gridPreviewLoaded,
+				loadMoreUrl: gridLoadMoreUrl
+			});
+		}
 	};
 
 	$(document).bind('pjax:end', __ready).ready(__ready);

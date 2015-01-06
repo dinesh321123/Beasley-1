@@ -68,7 +68,7 @@ class GreaterMediaSurveys {
 			'not_found'           => 'No surveys found',
 			'not_found_in_trash'  => 'No surveys found in Trash',
 			'parent_item_colon'   => 'Parent Survey:',
-			'menu_name'           => 'Surveys',
+			'menu_name'           => 'All Surveys',
 		);
 
 		$args = array(

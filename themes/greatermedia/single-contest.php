@@ -77,7 +77,7 @@ get_header(); ?>
 						</section>
 
 
-						<section id="contest-form" class="col__inner--right contest__form">
+						<section id="contest-form" class="col__inner--right contest__form"<?php gmr_contest_container_attributes(); ?>>
 							LOADING... <?php //TODO: replace with a spinner ?>
 						</section>
 

@@ -3,7 +3,7 @@
 // action hooks
 add_action( 'init', 'gmr_contests_register_post_type' );
 add_action( 'init', 'gmr_contests_register_rewrites_and_endpoints' );
-add_action( 'wp_enqueue_scripts', 'gmr_contests_enqueue_front_scripts' );
+add_action( 'wp_enqueue_scripts', 'gmr_contests_enqueue_front_scripts', 100 );
 add_action( 'template_redirect', 'gmr_contests_process_action' );
 add_action( 'template_redirect', 'gmr_contests_process_submission_action' );
 
@@ -93,36 +93,54 @@ function gmr_contests_register_rewrites_and_endpoints() {
 /**
  * Registers contests related scripts.
  *
- * @action wp_enqueue_scripts
+ * @action wp_enqueue_scripts 100
  */
 function gmr_contests_enqueue_front_scripts() {
-	if ( is_singular( GMR_CONTEST_CPT ) ) {
-		$base_path = trailingslashit( GREATER_MEDIA_CONTESTS_URL );
-		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		
-		$permalink = untrailingslashit( get_permalink() );
-		$permalink_action = "{$permalink}/action";
-			
-		wp_enqueue_style( 'greatermedia-contests', "{$base_path}css/greatermedia-contests.css", array( 'datetimepicker', 'parsleyjs' ), GREATER_MEDIA_CONTESTS_VERSION );
-		
-		wp_enqueue_script( 'greatermedia-contests', "{$base_path}js/contests{$postfix}.js", array( 'jquery', 'datetimepicker', 'parsleyjs', 'parsleyjs-words' ), GREATER_MEDIA_CONTESTS_VERSION, true );
-		wp_localize_script( 'greatermedia-contests', 'GreaterMediaContests', array(
-			'selectors' => array(
-				'container' => '#contest-form',
-				'form'      => '.' . GreaterMediaFormbuilderRender::FORM_CLASS,
-				'yes_age'   => '.min-age-yes',
-				'no_age'    => '.min-age-no',
-			),
-			'endpoints' => array(
-				'load'        => "{$permalink_action}/load/",
-				'submit'      => "{$permalink_action}/submit/",
-				'confirm_age' => "{$permalink_action}/confirm-age/",
-				'reject_age'  => "{$permalink_action}/reject-age/",
-				'vote'        => "{$permalink_action}/vote/",
-				'unvote'      => "{$permalink_action}/unvote/",
-				'infinite'    => "{$permalink}/page/",
-			),
-		) );
+	// @NOTE: we have to always load frontend script, because we would have troubles when pjax is enabled
+	$base_path = trailingslashit( GREATER_MEDIA_CONTESTS_URL );
+	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
+	wp_enqueue_style( 'greatermedia-contests', "{$base_path}css/greatermedia-contests.css", array( 'datetimepicker', 'parsleyjs' ), GREATER_MEDIA_CONTESTS_VERSION );
+
+	wp_enqueue_script( 'greatermedia-contests', "{$base_path}js/contests{$postfix}.js", array( 'jquery', 'datetimepicker', 'parsleyjs', 'parsleyjs-words', 'gmr-gallery' ), GREATER_MEDIA_CONTESTS_VERSION, true );
+	wp_localize_script( 'greatermedia-contests', 'GreaterMediaContests', array(
+		'selectors' => array(
+			'container' => '#contest-form',
+			'form'      => '.' . GreaterMediaFormbuilderRender::FORM_CLASS,
+			'yes_age'   => '.min-age-yes',
+			'no_age'    => '.min-age-no',
+			'grid'      => '.contest__submissions--list',
+			'grid_more' => '.contest__submissions--load-more',
+		),
+	) );
+}
+
+/**
+ * Displays contest container attributes required for proper work of contest JS.
+ *
+ * @param WP_Post|int $post The contest id or object.
+ */
+function gmr_contest_container_attributes( $post = null ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return;
+	}
+
+	$permalink = untrailingslashit( get_permalink( $post->ID ) );
+	$permalink_action = "{$permalink}/action";
+
+	$endpoints = array(
+		'load'        => "{$permalink_action}/load/",
+		'submit'      => "{$permalink_action}/submit/",
+		'confirm-age' => "{$permalink_action}/confirm-age/",
+		'reject-age'  => "{$permalink_action}/reject-age/",
+		'vote'        => "{$permalink_action}/vote/",
+		'unvote'      => "{$permalink_action}/unvote/",
+		'infinite'    => "{$permalink}/page/",
+	);
+
+	foreach ( $endpoints as $attribute => $value ) {
+		echo sprintf( ' data-%s="%s"', $attribute, esc_url( $value ) );
 	}
 }
 
