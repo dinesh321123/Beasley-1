@@ -19,7 +19,7 @@ if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) {
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class( $post_classes ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-	<?php
+	<?php 
 	if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) : 
 		if ( has_post_format( 'audio' ) ) {
 			$thumbnail_size = 'gm-entry-thumbnail-1-1';

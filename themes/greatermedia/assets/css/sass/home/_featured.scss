@@ -102,19 +102,19 @@ Curated posts for Featured Articles
 .featured__content {
 	padding-bottom: 0;
 	@include row();
-	}
+}
 
 .featured__article--image {
 	@include span-columns(4 of 4);
 	@include omega;
 	overflow: hidden;
-	background-color: $featured-secondary-bg;
+	background-color: $featured-secondary-bg;	
 	position: relative;  
-	padding-top: 35.71%;	
+	padding-top: 35.71%;
 	background-size: 100%;
 	background-size: cover;
 	background-position: center center; 
-	}
+}
 
 .featured__article--content {
 	@include span-columns(4 of 4);
@@ -166,7 +166,6 @@ Curated posts for Featured Articles
 	}
 	@include bp(medium) {
 		font-size: ms(4);
-	}
 	}
 
 .featured__article--heading a, .featured__article--heading a:visited {
@@ -287,7 +286,7 @@ Curated posts for Featured Articles
 	// Never show more than two lines of text (layout will break).
 	line-height: 1.25;
 	max-height: 2.5em;
-	overflow: hidden;
+	overflow: hidden; 
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
 	text-overflow: ellipsis;
@@ -313,22 +312,22 @@ Curated posts for Featured Articles
 
 
 .home__featured {
-	.featured__content--title a:link, .featured__content--title a:visited {
-		color: $color-text-white;
-	}
+.featured__content--title a:link, .featured__content--title a:visited {
+	color: $color-text-white;
+}
 
-	.featured__content--title a:hover, .featured__content--title a:focus {
-		color: $color-text-yellow;
-	}
+.featured__content--title a:hover, .featured__content--title a:focus {
+	color: $color-text-yellow;
+}
 
-	.featured__content--title a:active{
-		color: darken($color-text-yellow, 9%);
-	}	
+.featured__content--title a:active{
+	color: darken($color-text-yellow, 9%);
+}
 }
 
 
 .featured__content--link {
-	}
+}
 
 .featured__content--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1.2em, .7em);

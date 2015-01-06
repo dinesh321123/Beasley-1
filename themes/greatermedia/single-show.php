@@ -143,34 +143,9 @@
 					        <?php
 					        $main_query = \GreaterMedia\Shows\get_show_main_query();
 					        while( $main_query->have_posts() ): $main_query->the_post(); ?>
-						        <article <?php post_class( 'cf' ); ?>>
-							        <section class="entry__meta<?php if ( !has_post_thumbnail() ) echo '--fullwidth'; ?>">
-								        <time class="entry__date" datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'd F' ); ?></time>
+						        
+								<?php get_template_part('partials/entry'); ?>
 
-								        <h2 class="entry__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-							        
-										<?php the_excerpt(); ?>
-
-							        </section>
-
-							        <?php if ( has_post_thumbnail() ) : ?>
-							        <section class="entry__thumbnail entry__thumbnail--standard">
-								        <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( array( 300, 580 ) ); // todo probably define an image size for this? ?></a>
-							        </section>
-							        <?php endif; ?>
-
-									<footer class="entry__footer">
-
-										<?php
-										$category = get_the_category();
-
-										if( isset( $category[0] ) ){
-											echo '<a href="' . esc_url( get_category_link($category[0]->term_id ) ) . '" class="entry__footer--category">' . esc_html( $category[0]->cat_name ) . '</a>';
-										}
-										?>
-
-									</footer>
-						        </article>
 					        <?php endwhile; ?>
 					        <?php wp_reset_query(); ?>
 
