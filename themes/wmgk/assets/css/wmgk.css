@@ -5930,7 +5930,7 @@ category: Components - Shows
   background-color: #fff; }
 .single-show .highlights__community--item:hover .highlights__community--title {
   color: #f5ed7f; }
-.single-show .entry2__thumbnail {
+.single-show .entry2.format-standard .entry2__thumbnail {
   margin-top: 1.5em; }
 @media screen and (min-width: 1024px) {
   .single-show .inner-left-col {
@@ -6225,6 +6225,8 @@ category: Components - Shows
       position: absolute;
       left: 0;
       top: 0; }
+  .show__feature:hover h3 {
+    color: #aa1c20; }
   @media screen and (min-width: 1024px) {
     .show__feature {
       padding-bottom: 75%;
@@ -6316,6 +6318,7 @@ category: Components - Shows
   color: #aa1c20; }
 
 .show__live-links {
+  margin-top: 20px;
   position: relative;
   float: left;
   display: block;
@@ -6364,7 +6367,7 @@ category: Components - Shows
   border-radius: 1em;
   outline: none;
   color: #404041;
-  padding: 0.25em 0.5em;
+  padding: 0.25em 0.85em;
   font-size: 12px;
   text-transform: capitalize; }
   .more-btn:hover {
