@@ -490,8 +490,8 @@ category: Base - Typography
  */
 @font-face {
   font-family: 'gmr-icons';
-  src: url("../fonts/icon-font/gmr-icons.eot?jmqkgs");
-  src: url("../fonts/icon-font/gmr-icons.eot?#iefixjmqkgs") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?jmqkgs") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?jmqkgs") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons") format("svg");
+  src: url("../fonts/icon-font/gmr-icons.eot?-7cndw");
+  src: url("../fonts/icon-font/gmr-icons.eot?#iefix-7cndw") format("embedded-opentype"), url("../fonts/icon-font/gmr-icons.woff?-7cndw") format("woff"), url("../fonts/icon-font/gmr-icons.ttf?-7cndw") format("truetype"), url("../fonts/icon-font/gmr-icons.svg?-7cndw#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
 [class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .format-audio .entry2__thumbnail a, .format-gallery .entry2__thumbnail a, .format-video .entry2__thumbnail a, .type-tribe_events .entry2__thumbnail a, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .header__search--submit:before {
@@ -595,6 +595,12 @@ category: Base - Typography
 
 .icon-post-format-image:before {
   content: "\e61d"; }
+
+.icon-download-arrow:before {
+  content: "\e61e"; }
+
+.icon-pause:before {
+  content: "\e61f"; }
 
 img {
   max-width: 100%;
@@ -5777,7 +5783,7 @@ category: Components - Shows
 .podcast__btn--pause {
   display: none; }
   .podcast__btn--pause:before {
-    content: "\e60b" !important; }
+    content: "\e61f" !important; }
   .podcast__btn--pause.playing {
     display: block; }
 
@@ -5805,15 +5811,74 @@ category: Components - Shows
   font-size: 0.79012em;
   color: #929497; }
 
-.podcast__rss {
-  display: inline-block;
-  margin-left: 10px; }
-
 a.podcast__rss:link, a.podcast__rss:visited {
-  color: #d22228; }
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: transparent;
+  border: 1px solid #929497;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #929497 !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  -border-radius: 1em;
+  border-radius: 1em;
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: normal; }
+  a.podcast__rss:link:hover, a.podcast__rss:link:focus, a.podcast__rss:visited:hover, a.podcast__rss:visited:focus {
+    background-color: transparent;
+    border-color: #7b7d80;
+    color: #929497; }
+  a.podcast__rss:link:last-of-type, a.podcast__rss:visited:last-of-type {
+    margin-right: 0; }
 
-a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
-  color: #000000; }
+a.podcast__rss:hover, a.podcast__rss:focus {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  a.podcast__rss:hover:hover, a.podcast__rss:hover:focus, a.podcast__rss:focus:hover, a.podcast__rss:focus:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  a.podcast__rss:hover:last-of-type, a.podcast__rss:focus:last-of-type {
+    margin-right: 0; }
+
+a.podcast__rss:active {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #000000;
+  border: 1px solid #000000;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  a.podcast__rss:active:hover, a.podcast__rss:active:focus {
+    background-color: black;
+    border-color: black;
+    color: #ffffff; }
+  a.podcast__rss:active:last-of-type {
+    margin-right: 0; }
 
 .podcast__desc {
   font-size: 0.88889em; }
@@ -5827,7 +5892,7 @@ a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
 .podcast__download--btn {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: transparent;
@@ -5853,7 +5918,7 @@ a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
 .podcast__download--btn:hover {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: #d22228;
@@ -5873,7 +5938,7 @@ a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
 .podcast__download--btn:active {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: #000000;

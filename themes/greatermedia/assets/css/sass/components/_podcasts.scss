@@ -102,7 +102,7 @@ category: Components - Shows
 
 .podcast__btn--pause {
 	&:before {
-	 content: "\e60b" !important;
+	 content: "\e61f" !important;
 	}
 
 	display: none; // Will be shown w/ JS when necessary
@@ -136,17 +136,20 @@ category: Components - Shows
 	color: $color-gray;
 }
 
-.podcast__rss {
+a.podcast__rss:link, a.podcast__rss:visited {
+	@include btn(transparent, $gray, $gray, .5em, 1em, ms(-1));
+	@include border-radius(1em);
 	display: inline-block;
 	margin-left: 10px;
+	font-weight: normal;
 }
 
-a.podcast__rss:link, a.podcast__rss:visited {
-	color: $color-text-red;
+a.podcast__rss:hover, a.podcast__rss:focus {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
 }
 
-a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
-	color: $color-text-black;
+a.podcast__rss:active {
+	@include btn($btn-active, $color-text-white, $btn-active, .5em, 1em, ms(-1));
 }
 
 .podcast__desc {
@@ -161,16 +164,16 @@ a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
 }
 
 .podcast__download--btn {
-	@include btn(transparent, $gray, $gray, .25em, 1em, ms(-1));
+	@include btn(transparent, $gray, $gray, .5em, 1em, ms(-1));
 	@include border-radius(1em);
 }
 
 .podcast__download--btn:hover {
-	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1em, ms(-1));
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
 }
 
 .podcast__download--btn:active {
-	@include btn($btn-active, $color-text-white, $btn-active, .25em, 1em, ms(-1));
+	@include btn($btn-active, $color-text-white, $btn-active, .5em, 1em, ms(-1));
 }
 
 .podcast__subscribe {
