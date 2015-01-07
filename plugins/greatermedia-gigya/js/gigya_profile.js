@@ -247,6 +247,8 @@
 		this.didAfterScreenHandler  = $.proxy(this.didAfterScreen, this);
 		this.didErrorHandler        = $.proxy(this.didError, this);
 		this.didLogoutClickHandler  = $.proxy(this.didLogoutClick, this);
+
+		this.loadLabels();
 	};
 
 	GigyaScreenSetView.prototype = {
@@ -256,6 +258,26 @@
 
 			var $message = $('.profile-page__sidebar .profile-header-link');
 			$message.on('click', $.proxy(this.didProfileHeaderClick, this));
+		},
+
+		loadLabels: function() {
+			var labels = ['join', 'login', 'logout', 'forgot-password', 'account'];
+			for (var i = 0; i < labels.length; i++) {
+				this.loadLabel(labels[i]);
+			}
+		},
+
+		loadLabel: function(name) {
+			var labelKey  = name;
+			var configKey = name;
+
+			if (this.config[configKey + '_header']) {
+				this.screenLabels[labelKey].header  = this.config[configKey + '_header'];
+			}
+
+			if (this.config[configKey + '_message']) {
+				this.screenLabels[labelKey].message = this.config[configKey + '_message'];
+			}
 		},
 
 		show: function(name) {
@@ -284,6 +306,10 @@
 			return this.pageToScreenSet(pageName);
 		},
 
+		getActiveScreen: function() {
+			return this.getPageForScreenID(this.activeScreenID);
+		},
+
 		getPageForScreenID: function(screenID) {
 			switch (screenID) {
 				case 'gigya-login-screen':
@@ -293,12 +319,17 @@
 
 				case 'gigya-register-screen':
 				case 'gigya-register-complete-screen':
+				case 'gigya-register-success-screen':
 					return 'join';
 
 				case 'gigya-update-profile-screen':
+				case 'gigya-update-profile-success-screen':
+				case 'gigya-change-password-screen':
+				case 'gigya-change-password-success-screen':
 					return 'account';
 
 				case 'gigya-forgot-password-screen':
+				case 'gigya-forgot-password-sent-screen':
 					return 'forgot-password';
 
 				default:
@@ -353,6 +384,8 @@
 		},
 
 		didAfterScreen: function(event) {
+			this.activeScreenID = event.currentScreen;
+
 			this.scrollToTop();
 			if (event.currentScreen === 'gigya-update-profile-screen') {
 				this.registerLogoutButton();
@@ -407,19 +440,17 @@
 			}
 
 			$header.text(labels.header);
-			$message.text(labels.message);
+			$message.html(labels.message);
 		},
 
 		didProfileHeaderClick: function(event) {
 			var $link = $('.profile-page__sidebar .profile-header-link');
-			var text = $link.text().toLowerCase(); // KLUDGE, WIP
+			var screen = this.getActiveScreen();
 
-			if (text === 'login') {
-				//this.controller.redirect('/members/login');
-				this.show('gigya-login-screen');
-			} else if (text === 'register') {
-				//this.controller.redirect('/members/join');
+			if (screen === 'login') {
 				this.show('gigya-register-screen');
+			} else if (screen === 'join') {
+				this.show('gigya-login-screen');
 			}
 
 			return false;
