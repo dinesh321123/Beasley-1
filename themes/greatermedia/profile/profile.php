@@ -78,11 +78,11 @@ $page_message = 'Membership gives you access to all areas of the site, including
 				<span class="gigya-error-msg" data-bound-to="email" ></span>
 				<input type="text" name="email" placeholder="Email" />
 
-				<span class="gigya-error-msg" data-bound-to="firstName" ></span>
-				<input type="text" name="firstName" placeholder="First Name" />
+				<span class="gigya-error-msg" data-bound-to="profile.firstName" ></span>
+				<input type="text" name="profile.firstName" placeholder="First Name" />
 
-				<span class="gigya-error-msg" data-bound-to="lastName" ></span>
-				<input type="text" name="lastName" placeholder="Last Name" />
+				<span class="gigya-error-msg" data-bound-to="profile.lastName" ></span>
+				<input type="text" name="profile.lastName" placeholder="Last Name" />
 
 				<span class="gigya-error-msg" data-bound-to="password" ></span>
 				<input type="password" name="password" placeholder="Password" />
@@ -100,29 +100,29 @@ $page_message = 'Membership gives you access to all areas of the site, including
 			<form class="gigya-profile-form" id="gigya-profile-form" data-on-success-screen="gigya-register-success-screen">
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-profile-form"></span>
 
-				<span class="gigya-error-msg" data-bound-to="email" ></span>
-				<input type="text" name="email" placeholder="Email" />
+				<span class="gigya-error-msg" data-bound-to="profile.email" ></span>
+				<input type="text" name="profile.email" placeholder="Email" />
 
-				<span class="gigya-error-msg" data-bound-to="firstName" ></span>
-				<input type="text" name="firstName" placeholder="First Name"/>
+				<span class="gigya-error-msg" data-bound-to="profile.firstName" ></span>
+				<input type="text" name="profile.firstName" placeholder="First Name"/>
 
-				<span class="gigya-error-msg" data-bound-to="lastName" ></span>
-				<input type="text" name="lastName" placeholder="Last Name" />
+				<span class="gigya-error-msg" data-bound-to="profile.lastName" ></span>
+				<input type="text" name="profile.lastName" placeholder="Last Name" />
 
-				<span class="gigya-error-msg" data-bound-to="birthYear" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.birthYear" ></span>
 				<label>Year of Birth:</label>
-				<select name="birthYear">
+				<select name="profile.birthYear">
 					<?php foreach ( range( 1920, date( 'Y' ) ) as $year ) { ?>
 						<option value="<?php echo esc_attr( $year ); ?>"><?php echo esc_html( $year ); ?></option>
 					<?php } ?>
 				</select>
 
-				<span class="gigya-error-msg" data-bound-to="zip" ></span>
-				<input type="text" name="zip" placeholder="Postcode" />
+				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
+				<input type="text" name="profile.zip" placeholder="Postcode" />
 
-				<span class="gigya-error-msg" data-bound-to="gender" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label>Gender:</label>
-				<select name="gender">
+				<select name="profile.gender">
 					<option value="m">Male</option>
 					<option value="f">Female</option>
 					<option value="u">Unknown</option>
@@ -174,34 +174,34 @@ $page_message = 'Membership gives you access to all areas of the site, including
 
 			<form class="gigya-profile-form" id="gigya-profile-form">
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-profile-form"></span>
-				<span class="gigya-error-msg" data-bound-to="email" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.email" ></span>
 
 				<label>Email:</label>
-				<input type="text" name="email" />
+				<input type="text" name="profile.email" />
 
-				<span class="gigya-error-msg" data-bound-to="firstName" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.firstName" ></span>
 				<label>First Name:</label>
-				<input type="text" name="firstName" />
+				<input type="text" name="profile.firstName" />
 
-				<span class="gigya-error-msg" data-bound-to="lastName" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.lastName" ></span>
 				<label>Last Name:</label>
-				<input type="text" name="lastName" />
+				<input type="text" name="profile.lastName" />
 
-				<span class="gigya-error-msg" data-bound-to="lastName" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.lastName" ></span>
 				<label>Year of Birth:</label>
-				<select name="birthYear">
+				<select name="profile.birthYear">
 					<?php foreach ( range( 1920, date( 'Y' ) ) as $year ) { ?>
 						<option value="<?php echo esc_attr( $year ); ?>"><?php echo esc_html( $year ); ?></option>
 					<?php } ?>
 				</select>
 
-				<span class="gigya-error-msg" data-bound-to="zip" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
 				<label>Postcode:</label>
-				<input type="text" name="zip" />
+				<input type="text" name="profile.zip" />
 
-				<span class="gigya-error-msg" data-bound-to="gender" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label>Gender:</label>
-				<select name="gender">
+				<select name="profile.gender">
 					<option value="m">Male</option>
 					<option value="f">Female</option>
 					<option value="u">Unknown</option>
