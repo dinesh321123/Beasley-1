@@ -76,6 +76,7 @@
 							<?php
 							$live_links_query = \GreaterMedia\Shows\get_show_live_links_query();
 							if ( $live_links_query->have_posts() ) :
+								// $live_link_archive = \GreaterMedia\Shows\get_link_links_permalink( get_the_ID() );
 							?>
 							<section class="show__live-links cf">
 					        	<h2 class="section-header">Live Links</h2>
@@ -94,7 +95,7 @@
 					        </section>
 					        
 					        <div class="show__live-links--more">
-								<a class="more-btn" href="">more</a>
+								<a class="more-btn" href="<?php //echo $live_link_archive; ?>">more</a>
 					        </div>
 
 							<?php endif; ?>
