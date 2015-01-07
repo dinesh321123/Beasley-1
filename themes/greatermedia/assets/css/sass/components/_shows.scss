@@ -59,6 +59,39 @@
 		color: $secondary-border;
 		margin-bottom: 0.5em;
 	}
+
+	.home__highlights {
+		background-color: transparent;
+		border-bottom: none;
+		padding: 0;
+		margin-bottom: 3em;
+	}
+
+	@include bp(large) {
+		.highlights__community, .highlights__events {
+			padding-top: 0;
+		}
+	}
+
+	.highlights__event--item {
+		background-color: $highlights-bg;
+	}
+
+	.highlights__community--item:hover {
+		.highlights__community--title {
+			color: $btn-hover;
+		}
+	}
+
+	.entry2__thumbnail {
+		margin-top: 1.5em;
+	}
+
+	.inner-left-col {
+		@include bp(large) {
+			padding-right: 25px;
+		}
+	}
 }
 
 .show-attr--name {
@@ -110,7 +143,7 @@ category: Components - Shows
 .show__header {
 	background-color: rgb(86, 16, 21);
 	position: relative;
-	padding: 4em 1em;
+	padding: 38px 1em;
 	@include fill-parent();
 	@include row();
 	@include display-context(table);
@@ -416,8 +449,8 @@ category: Components - Shows
 }
 
 .show__feature--desc {
-	background-color: $header-bg;
-	color: $secondary-text;
+	background-color: $highlights-bg;
+	color: $highlights-heading;
 
 	h3 {
 		margin: 0;
@@ -432,7 +465,7 @@ category: Components - Shows
 	time {
 		font-size: ms(0);
 		text-transform: uppercase;
-		color: $secondary-heading;
+		color: $highlights-heading;
 	}			
 	
 	.inner-wrap {
@@ -528,6 +561,7 @@ category: Components - Shows
 
 	ul {
 		margin-top: 0;
+		margin-bottom: 0;
 		padding-left: 2em;
 	}
 
@@ -556,24 +590,19 @@ category: Components - Shows
 			}
 		}
 	}
+}
+
+.show__live-links--more {
+	text-align: center;
+	position: relative;
+	float: left;
+	width: 100%;
+	padding: 15px 0;
 
 	.more-btn {
 		position: relative;
-		left: 40%;
-		right: auto;
-		top: 14px;
-		bottom: auto;
-		font-size: 1em;
 		color: $primary-text;
-
-		@include bp(large) {
-			position: absolute;
-			left: 40%;
-			right: auto;
-			top: 14px;
-			bottom: auto;
-			font-size: 0.75em;
-		}
+		bottom: auto;
 	}
 }
 
@@ -587,7 +616,8 @@ category: Components - Shows
 	outline: none;
 	color: $primary-text;
 	padding: 0.25em 0.5em;
-	font-size: 0.75em;
+	font-size: 12px;
+	text-transform: capitalize;
 
 	&:hover {
 		color: $primary-link-hover;

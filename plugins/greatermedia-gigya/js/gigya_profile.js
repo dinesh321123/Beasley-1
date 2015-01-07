@@ -480,9 +480,42 @@
 
 	};
 
+	var app = new GigyaProfileApp();
+
 	$(document).ready(function() {
-		var app = new GigyaProfileApp();
 		app.run();
+	});
+
+	// TODO: the helpers probably need to be separate
+	window.is_gigya_user_logged_in = function() {
+		return app.session.isEnabled() && app.session.isLoggedIn();
+	};
+
+	window.get_gigya_user_id = function() {
+		return app.session.getUserID();
+	};
+
+	window.get_gigya_user_field = function(field) {
+		return app.session.getUserField(field);
+	};
+
+	// KLUDGE: Duplication
+	$(document).on('pjax:beforeSend', function(event, xhr, settings) {
+		var url = settings.url;
+		var a = document.createElement('a');
+		a.href = url;
+
+		var search   = a.search.replace('_pjax=.page-wrap', '');
+		search       = search.replace('_pjax=.main', '');
+		var pathname = a.pathname + search;
+
+		if (pathname.indexOf('/members/') === 0) {
+			location.href = pathname;
+			return false;
+		} else {
+			return true;
+		}
+
 	});
 
 }(jQuery));

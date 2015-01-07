@@ -918,7 +918,10 @@ h6, .h6 {
 .section-header {
   font-family: "Open Sans", sans-serif;
   font-weight: 200;
-  font-size: 1.25em; }
+  font-size: 1.25em;
+  color: #929497;
+  margin-top: 0;
+  margin-bottom: 20px; }
   @media screen and (min-width: 768px) {
     .section-header {
       font-size: 1em; } }
@@ -3646,7 +3649,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-size: 1em;
   font-weight: lighter;
   color: #929497;
-  text-transform: uppercase; }
+  text-transform: capitalize; }
   @media screen and (min-width: 480px) {
     .entry2__date {
       font-size: 0.88889em; } }
@@ -5851,6 +5854,23 @@ category: Components - Shows
 .single-show .featured__content--title {
   color: #282827;
   margin-bottom: 0.5em; }
+.single-show .home__highlights {
+  background-color: transparent;
+  border-bottom: none;
+  padding: 0;
+  margin-bottom: 3em; }
+@media screen and (min-width: 1024px) {
+  .single-show .highlights__community, .single-show .highlights__events {
+    padding-top: 0; } }
+.single-show .highlights__event--item {
+  background-color: #fff; }
+.single-show .highlights__community--item:hover .highlights__community--title {
+  color: #f5ed7f; }
+.single-show .entry2__thumbnail {
+  margin-top: 1.5em; }
+@media screen and (min-width: 1024px) {
+  .single-show .inner-left-col {
+    padding-right: 25px; } }
 
 .show-attr--name {
   position: absolute;
@@ -5904,7 +5924,7 @@ category: Components - Shows
 .show__header {
   background-color: #561015;
   position: relative;
-  padding: 4em 1em;
+  padding: 38px 1em;
   width: 100%;
   display: block;
   color: #ffffff; }
@@ -6152,8 +6172,8 @@ category: Components - Shows
         top: 0; } }
 
 .show__feature--desc {
-  background-color: #404041;
-  color: #ffffff; }
+  background-color: #fff;
+  color: #404041; }
   .show__feature--desc h3 {
     margin: 0;
     font-size: 1.42383em;
@@ -6163,7 +6183,7 @@ category: Components - Shows
   .show__feature--desc time {
     font-size: 1em;
     text-transform: uppercase;
-    color: #929497; }
+    color: #404041; }
   .show__feature--desc .inner-wrap {
     padding: 1.5em 1.618em; }
   @media screen and (min-width: 1024px) {
@@ -6241,6 +6261,7 @@ category: Components - Shows
     margin-right: 0; }
   .show__live-links ul {
     margin-top: 0;
+    margin-bottom: 0;
     padding-left: 2em; }
   .show__live-links li[class^="live-link__type"] {
     margin-bottom: 1em; }
@@ -6258,22 +6279,17 @@ category: Components - Shows
       color: #404041; }
       .show__live-links li[class^="live-link__type"] a:hover {
         color: #aa1c20; }
-  .show__live-links .more-btn {
+
+.show__live-links--more {
+  text-align: center;
+  position: relative;
+  float: left;
+  width: 100%;
+  padding: 15px 0; }
+  .show__live-links--more .more-btn {
     position: relative;
-    left: 40%;
-    right: auto;
-    top: 14px;
-    bottom: auto;
-    font-size: 1em;
-    color: #404041; }
-    @media screen and (min-width: 1024px) {
-      .show__live-links .more-btn {
-        position: absolute;
-        left: 40%;
-        right: auto;
-        top: 14px;
-        bottom: auto;
-        font-size: 0.75em; } }
+    color: #404041;
+    bottom: auto; }
 
 .more-btn {
   position: absolute;
@@ -6285,7 +6301,8 @@ category: Components - Shows
   outline: none;
   color: #404041;
   padding: 0.25em 0.5em;
-  font-size: 0.75em; }
+  font-size: 12px;
+  text-transform: capitalize; }
   .more-btn:hover {
     color: #aa1c20;
     border: 1px solid #aa1c20; }

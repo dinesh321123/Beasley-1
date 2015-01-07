@@ -94,6 +94,9 @@ h6, .h6, %h6 {
 	font-family: $open-sans;
 	font-weight: 200;
 	font-size: 1.25em;
+	color: $secondary-heading;
+	margin-top: 0;
+	margin-bottom: 20px;
 
 	@include bp(medium) {
 		font-size: ms(0);
