@@ -39,11 +39,12 @@ class GreaterMediaGallery {
 		 * This include all js files for cycle2, located in `assets/js/vendor/cycle2/`
 		 * and `gmr_gallery.js`, located in `assets/js/src/`
 		 */
-		wp_register_script(
+		wp_enqueue_script(
 			'gmr-gallery',
 			GREATER_MEDIA_GALLERIES_URL . "assets/js/gmr_gallery{$postfix}.js",
 			array(
-				'jquery'
+				'jquery',
+				'pjax'
 			),
 			GREATER_MEDIA_GALLERIES_VERSION,
 			true
@@ -189,7 +190,6 @@ class GreaterMediaGallery {
 	public static function render_gallery_from_query( \WP_Query $gallery ) {
 		ob_start();
 		if ( $gallery->have_posts() ):
-			wp_enqueue_script( 'gmr-gallery' );
 
 			$main_post_id = get_queried_object_id();
 			$thumbnails_per_page = 8;

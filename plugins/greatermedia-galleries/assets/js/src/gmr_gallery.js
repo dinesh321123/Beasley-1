@@ -220,4 +220,14 @@
 		bindEvents  : bind_events
 	};
 
+	function loadGalleryPjax() {
+		$(document).on('pjax:end', function() {
+			console.log('-- pjax end --');
+			bind_events();
+			$('.cycle-slideshow').cycle();
+		});
+	}
+
+	setTimeout(loadGalleryPjax, 2000);
+
 })( jQuery, window );

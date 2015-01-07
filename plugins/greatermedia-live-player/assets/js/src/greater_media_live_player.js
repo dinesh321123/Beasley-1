@@ -80,6 +80,7 @@
 		if (is_gigya_user_logged_in()) {
 			if ($.support.pjax) {
 				$(document).pjax('a:not(.ab-item)', '.main', {
+					url: $(this).attr('href'),
 					'fragment': '.main',
 					'maxCacheLength': 500,
 					'timeout': 5000
@@ -88,6 +89,7 @@
 		} else if (gmlp.logged_in) {
 			if ($.support.pjax) {
 				$(document).pjax('a:not(.ab-item)', '.page-wrap', {
+					url: $(this).attr('href'),
 					'fragment': '.page-wrap',
 					'maxCacheLength': 500,
 					'timeout': 5000
