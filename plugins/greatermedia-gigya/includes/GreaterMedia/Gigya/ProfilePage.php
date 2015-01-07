@@ -118,6 +118,21 @@ class ProfilePage {
 			'current_page'            => $page_name,
 			'gigya_auth_screenset'    => $gigya_auth_screenset,
 			'gigya_account_screenset' => $gigya_account_screenset,
+
+			'join_header' => get_option( 'gmr_join_page_heading', '' ),
+			'join_message' => get_option( 'gmr_join_page_message', '' ),
+
+			'login_header' => get_option( 'gmr_login_page_heading', '' ),
+			'login_message' => get_option( 'gmr_login_page_message', '' ),
+
+			'forgot-password_header' => get_option( 'gmr_password_page_heading', '' ),
+			'forgot-password_message' => get_option( 'gmr_password_page_message', '' ),
+
+			'account_header' => get_option( 'gmr_account_page_heading', '' ),
+			'account_message' => get_option( 'gmr_account_page_message', '' ),
+
+			'cookies-required_header' => get_option( 'gmr_cookies_page_heading', '' ),
+			'cookies-required_message' => get_option( 'gmr_cookies_page_message', '' ),
 		);
 
 		wp_localize_script(
