@@ -3630,13 +3630,13 @@ Link posts contain a link to an external site. They can also optionally have a f
       text-align: left; }
       .entry2__meta:last-child {
         margin-right: 0; }
-      .has-thumbnail .entry2__meta {
+      .has-post-thumbnail .entry2__meta, .type-tribe_events .entry2__meta {
         float: left;
         display: block;
         margin-right: 4.82916%;
         width: 65.05695%;
         margin-right: 0; }
-        .has-thumbnail .entry2__meta:last-child {
+        .has-post-thumbnail .entry2__meta:last-child, .type-tribe_events .entry2__meta:last-child {
           margin-right: 0; } }
 
 .entry2__date {
@@ -3712,22 +3712,22 @@ Link posts contain a link to an external site. They can also optionally have a f
     margin-right: 0; } }
 
 @media screen and (min-width: 480px) {
-  .entry2.format-audio.has-thumbnail .entry2__thumbnail {
+  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail {
     float: left;
     display: block;
     margin-right: 3.16844%;
     width: 19.75788%; }
-    .entry2.format-audio.has-thumbnail .entry2__thumbnail:last-child {
+    .entry2.format-audio.has-post-thumbnail .entry2__thumbnail:last-child {
       margin-right: 0; }
-    .entry2.format-audio.has-thumbnail .entry2__thumbnail:after {
+    .entry2.format-audio.has-post-thumbnail .entry2__thumbnail:after {
       padding-top: 100%; }
-  .entry2.format-audio.has-thumbnail .entry2__meta {
+  .entry2.format-audio.has-post-thumbnail .entry2__meta {
     float: left;
     display: block;
     margin-right: 3.16844%;
     width: 77.07368%;
     margin-right: 0; }
-    .entry2.format-audio.has-thumbnail .entry2__meta:last-child {
+    .entry2.format-audio.has-post-thumbnail .entry2__meta:last-child {
       margin-right: 0; } }
 
 .format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
@@ -3783,8 +3783,17 @@ Link posts contain a link to an external site. They can also optionally have a f
     float: left;
     display: block;
     margin-right: 4.82916%;
-    width: 30.11389%; }
+    width: 65.05695%; }
     .entry2-ad-wrap .entry2__meta:last-child {
+      margin-right: 0; }
+  .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta,
+  .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 30.11389%; }
+    .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta:last-child,
+    .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta:last-child {
       margin-right: 0; }
   .entry2-ad-wrap .entry2-ad-wrap__ad {
     float: left;

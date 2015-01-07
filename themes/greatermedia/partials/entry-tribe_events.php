@@ -1,13 +1,3 @@
-<?php 
-/**
- * Entry partial
- * 
- * This is a work-in-progress and will eventually be broken into multiple 
- * partials for the individual formats and post types. But for now this one 
- * covers them all. 
- */
-?>
-
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'entry2' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 	<?php 
 	if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) : 
@@ -18,18 +8,24 @@
 		}
 	?>
 		<section class="entry2__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size ); ?>)'>
-			<a href="<?php the_permalink(); ?>"></a>								
+			<a href="<?php the_permalink(); ?>">
+				<div class='entry2__thumbnail--event-date'>
+					<div class='entry2__thumbnail--day-of-week'><?php echo tribe_get_start_date( get_the_ID(), false, 'l' ); ?></div>
+					<div class='entry2__thumbnail--month-and-day'><?php echo tribe_get_start_date( get_the_ID(), false, 'M j' ); ?></div>										
+				</div>
+			</a>								
 		</section>
 	<?php endif; ?>
 
 	<section class="entry2__meta">
-		<time datetime="<?php the_time( 'c' ); ?>" class="entry2__date"><?php the_time( 'F j' ); ?></time>
-		
 		<h2 class="entry2__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-		
-		<div class="entry2__excerpt">
-			<?php the_excerpt(); ?>
-		</div>		
+				
+		<div class="entry2__event--details">
+			<?php
+			// Put start time, venue, and cost on one line, separated by commas.  
+			echo esc_html( implode(', ', array_filter( array( tribe_get_start_time(), tribe_get_venue(), tribe_get_cost() ) ) ) );
+			?>
+		</div>
 	</section>
 
 	<footer class="entry2__footer">
