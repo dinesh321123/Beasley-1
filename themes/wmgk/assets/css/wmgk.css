@@ -500,8 +500,8 @@ category: Base - Typography
  */
 @font-face {
   font-family: 'gmr-icons';
-  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?jmqkgs");
-  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?#iefixjmqkgs") format("embedded-opentype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.woff?jmqkgs") format("woff"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.ttf?jmqkgs") format("truetype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons") format("svg");
+  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?-7cndw");
+  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?#iefix-7cndw") format("embedded-opentype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.woff?-7cndw") format("woff"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.ttf?-7cndw") format("truetype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.svg?-7cndw#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
 [class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .format-audio .entry2__thumbnail a, .format-gallery .entry2__thumbnail a, .format-video .entry2__thumbnail a, .type-tribe_events .entry2__thumbnail a, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook:before, .social__link--twitter:before, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .header__search--submit:before {
@@ -605,6 +605,12 @@ category: Base - Typography
 
 .icon-post-format-image:before {
   content: "\e61d"; }
+
+.icon-download-arrow:before {
+  content: "\e61e"; }
+
+.icon-pause:before {
+  content: "\e61f"; }
 
 img {
   max-width: 100%;
@@ -3490,7 +3496,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   width: 100%;
   font-size: 0.88889em;
   float: left;
-  margin-top: 3em;
+  margin: 0 0 1.5em;
   text-align: center; }
 
 .posts-pagination--previous {
@@ -3536,9 +3542,9 @@ Link posts contain a link to an external site. They can also optionally have a f
   .posts-pagination--load-more:last-of-type {
     margin-right: 0; }
   .posts-pagination--load-more .fa {
+    margin-right: 0.4em; }
+  .posts-pagination--load-more.is-loaded .fa {
     display: none; }
-  .posts-pagination--load-more.loading .fa {
-    display: inline; }
   .posts-pagination--load-more:disabled {
     display: inline-block;
     line-height: 1;
@@ -3558,18 +3564,6 @@ Link posts contain a link to an external site. They can also optionally have a f
       color: #ffffff; }
     .posts-pagination--load-more:disabled:last-of-type {
       margin-right: 0; }
-
-.posts-pagination.front-pagination .posts-pagination--previous,
-.posts-pagination.front-pagination .posts-pagination--next {
-  display: none; }
-.posts-pagination.front-pagination .posts-pagination--load-more {
-  display: inline; }
-
-.no-js .front-pagination .posts-pagination--previous,
-.no-js .front-pagination .posts-pagination--next {
-  display: inline-block; }
-.no-js .front-pagination .posts-pagination--load-more {
-  display: none; }
 
 .entries {
   float: left;
@@ -3636,13 +3630,13 @@ Link posts contain a link to an external site. They can also optionally have a f
       text-align: left; }
       .entry2__meta:last-child {
         margin-right: 0; }
-      .has-thumbnail .entry2__meta {
+      .has-post-thumbnail .entry2__meta, .type-tribe_events .entry2__meta {
         float: left;
         display: block;
         margin-right: 4.82916%;
         width: 65.05695%;
         margin-right: 0; }
-        .has-thumbnail .entry2__meta:last-child {
+        .has-post-thumbnail .entry2__meta:last-child, .type-tribe_events .entry2__meta:last-child {
           margin-right: 0; } }
 
 .entry2__date {
@@ -3718,22 +3712,22 @@ Link posts contain a link to an external site. They can also optionally have a f
     margin-right: 0; } }
 
 @media screen and (min-width: 480px) {
-  .entry2.format-audio.has-thumbnail .entry2__thumbnail {
+  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail {
     float: left;
     display: block;
     margin-right: 3.16844%;
     width: 19.75788%; }
-    .entry2.format-audio.has-thumbnail .entry2__thumbnail:last-child {
+    .entry2.format-audio.has-post-thumbnail .entry2__thumbnail:last-child {
       margin-right: 0; }
-    .entry2.format-audio.has-thumbnail .entry2__thumbnail:after {
+    .entry2.format-audio.has-post-thumbnail .entry2__thumbnail:after {
       padding-top: 100%; }
-  .entry2.format-audio.has-thumbnail .entry2__meta {
+  .entry2.format-audio.has-post-thumbnail .entry2__meta {
     float: left;
     display: block;
     margin-right: 3.16844%;
     width: 77.07368%;
     margin-right: 0; }
-    .entry2.format-audio.has-thumbnail .entry2__meta:last-child {
+    .entry2.format-audio.has-post-thumbnail .entry2__meta:last-child {
       margin-right: 0; } }
 
 .format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
@@ -3789,8 +3783,17 @@ Link posts contain a link to an external site. They can also optionally have a f
     float: left;
     display: block;
     margin-right: 4.82916%;
-    width: 30.11389%; }
+    width: 65.05695%; }
     .entry2-ad-wrap .entry2__meta:last-child {
+      margin-right: 0; }
+  .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta,
+  .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 30.11389%; }
+    .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta:last-child,
+    .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta:last-child {
       margin-right: 0; }
   .entry2-ad-wrap .entry2-ad-wrap__ad {
     float: left;
@@ -3998,7 +4001,10 @@ category: Components
   height: auto; }
 
 .live-player--open .live-player__stream {
-  display: block; }
+  width: 90%;
+  display: block;
+  margin: 10px 5%;
+  z-index: 100; }
 
 .live-player__stream--list {
   padding: 0;
@@ -4114,7 +4120,7 @@ category: Components
   color: #929497; }
 
 .live-player__container {
-  overflow: auto; }
+  overflow: hidden; }
   @media screen and (min-width: 768px) {
     .live-player__container {
       padding: 20px 0 0;
@@ -4463,16 +4469,22 @@ category: Components
   display: block; }
 
 .on-air__title, .up-next__title {
-  margin-bottom: 10px;
-  font-size: 0.88889em; }
+  display: inline-block; }
+  @media screen and (min-width: 768px) {
+    .on-air__title, .up-next__title {
+      margin-bottom: 10px;
+      font-size: 0.88889em; } }
 
 #popup-player-livestream .on-air__title, #popup-player-livestream .up-next__title {
   margin-right: .25em;
   font-size: 0.70233em; }
 
 .on-air__show, .up-next__show {
-  font-size: 0.88889em;
-  text-transform: uppercase; }
+  display: inline-block; }
+  @media screen and (min-width: 768px) {
+    .on-air__show, .up-next__show {
+      font-size: 0.88889em;
+      text-transform: uppercase; } }
 
 .now-playing {
   display: none;
@@ -4701,7 +4713,8 @@ category: Components
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 0.88889em;
-  font-weight: normal; }
+  font-weight: normal;
+  color: #f2f2f2; }
   .content .live-link__title {
     font-size: 1.25em; }
     @media screen and (min-width: 1024px) {
@@ -5789,7 +5802,7 @@ category: Components - Shows
 .podcast__btn--pause {
   display: none; }
   .podcast__btn--pause:before {
-    content: "\e60b" !important; }
+    content: "\e61f" !important; }
   .podcast__btn--pause.playing {
     display: block; }
 
@@ -5817,15 +5830,74 @@ category: Components - Shows
   font-size: 0.79012em;
   color: #929497; }
 
-.podcast__rss {
-  display: inline-block;
-  margin-left: 10px; }
-
 a.podcast__rss:link, a.podcast__rss:visited {
-  color: #d22228; }
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: transparent;
+  border: 1px solid #929497;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #929497 !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  -border-radius: 1em;
+  border-radius: 1em;
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: normal; }
+  a.podcast__rss:link:hover, a.podcast__rss:link:focus, a.podcast__rss:visited:hover, a.podcast__rss:visited:focus {
+    background-color: transparent;
+    border-color: #7b7d80;
+    color: #929497; }
+  a.podcast__rss:link:last-of-type, a.podcast__rss:visited:last-of-type {
+    margin-right: 0; }
 
-a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
-  color: #000000; }
+a.podcast__rss:hover, a.podcast__rss:focus {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  a.podcast__rss:hover:hover, a.podcast__rss:hover:focus, a.podcast__rss:focus:hover, a.podcast__rss:focus:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  a.podcast__rss:hover:last-of-type, a.podcast__rss:focus:last-of-type {
+    margin-right: 0; }
+
+a.podcast__rss:active {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #000000;
+  border: 1px solid #000000;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  a.podcast__rss:active:hover, a.podcast__rss:active:focus {
+    background-color: black;
+    border-color: black;
+    color: #ffffff; }
+  a.podcast__rss:active:last-of-type {
+    margin-right: 0; }
 
 .podcast__desc {
   font-size: 0.88889em; }
@@ -5839,7 +5911,7 @@ a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
 .podcast__download--btn {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: transparent;
@@ -5865,7 +5937,7 @@ a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
 .podcast__download--btn:hover {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: #d22228;
@@ -5885,7 +5957,7 @@ a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
 .podcast__download--btn:active {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: #000000;
@@ -8383,6 +8455,35 @@ select {
     @media screen and (min-width: 768px) {
       .profile-page .profile-page__sidebar p {
         display: block; } }
+
+.ui-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+.ui-menu .ui-menu-item {
+  position: relative;
+  cursor: pointer;
+  min-height: 0; }
+
+.ui-autocomplete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: default; }
+
+.header__search--form .ui-autocomplete {
+  background-color: #fff;
+  width: 100%;
+  top: 100%;
+  left: 0; }
+
+.ui-menu-item {
+  color: #000000;
+  padding: 1em; }
+
+.ui-state-focus {
+  color: #ffffff; }
 
 .show__live-links .live-links-group {
   display: block; }

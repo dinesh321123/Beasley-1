@@ -168,7 +168,10 @@ category: Components
 }
 
 .live-player--open .live-player__stream {
+	width: 90%;
 	display: block;
+	margin: 10px 5%;
+	z-index: 100;
 }
 
 .live-player__stream--list {
@@ -276,7 +279,7 @@ category: Components
 
 // live player area
 .live-player__container {
-	overflow: auto;
+	overflow: hidden;
 	@include bp(medium) {
 		padding: 20px 0 0;
 		overflow: visible;
@@ -561,8 +564,11 @@ category: Components
 }
 
 .on-air__title, .up-next__title {
-	margin-bottom: 10px;
-	font-size: ms(-1);
+	display: inline-block;
+	@include bp(medium) {
+		margin-bottom: 10px;
+		font-size: ms(-1);
+	}
 }
 #popup-player-livestream{
   .on-air__title, .up-next__title {
@@ -572,8 +578,11 @@ category: Components
 }
 
 .on-air__show, .up-next__show {
-	font-size: ms(-1);
-	text-transform: uppercase;
+	display: inline-block;
+	@include bp(medium) {
+		font-size: ms(-1);
+		text-transform: uppercase;
+	}
 }
 
 .now-playing {
@@ -833,6 +842,7 @@ category: Components
 	font-family: $open-sans;
 	font-size: ms(-1);
 	font-weight: normal;
+	color: $color-gray-light;
 
 	.content & {
 		font-size: 1.25em;

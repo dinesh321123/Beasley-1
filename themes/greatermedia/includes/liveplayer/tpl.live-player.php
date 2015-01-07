@@ -23,12 +23,12 @@ if ( empty( $active_stream ) ) {
 		<ul class="live-player__stream--list">
 			<li class="live-player__stream--current">
 				<div class="live-player__stream--title"><?php _e( 'Stream:', 'greatermedia' ); ?></div>
-				<div class="live-player__stream--current-name"><?php echo esc_html( $active_stream ); ?></div>
+				<div class="live-player__stream--current-name"><?php echo esc_html_e( $active_stream ); ?></div>
 				<ul class="live-player__stream--available">
 					<?php foreach ( $streams as $stream => $description ) : ?>
 					<li class="live-player__stream--item">
-						<div class="live-player__stream--name"><?php echo esc_html( $stream ); ?></div>
-						<div class="live-player__stream--desc"><?php echo esc_html( $description ); ?></div>
+						<div class="live-player__stream--name"><?php echo esc_html_e( $stream ); ?></div>
+						<div class="live-player__stream--desc"><?php echo esc_html_e( $description ); ?></div>
 					</li>
 					<?php endforeach; ?>
 				</ul>

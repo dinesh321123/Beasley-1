@@ -18,58 +18,10 @@ get_header(); ?>
 
 				<h2 class="content__heading">Latest from WMMR</h2>
 
-				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+				<?php if ( have_posts() ) : ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-
-						<?php
-
-							if ( has_post_format( 'video' ) ) {
-
-								get_template_part( 'partials/post', 'video' );
-
-							} elseif ( has_post_format( 'audio') ) {
-
-								get_template_part( 'partials/post', 'audio' );
-
-							} elseif ( has_post_format( 'link') ) {
-
-								get_template_part( 'partials/post', 'link' );
-
-							} elseif ( has_post_format( 'gallery') ) {
-
-								get_template_part( 'partials/post', 'gallery' );
-
-							} else {
-
-								get_template_part( 'partials/post', 'standard' );
-
-							}
-
-						?>
-
-						<footer class="entry__footer">
-
-							<?php
-								$category = get_the_category();
-
-								if( isset( $category[0] ) ){
-									echo '<a href="' . esc_url( get_category_link($category[0]->term_id ) ) . '" class="entry__footer--category">' . esc_html( $category[0]->cat_name ) . '</a>';
-								}
-							?>
-
-						</footer>
-
-					</article>
-
-				<?php endwhile; ?>
-
-					<div class="posts-pagination">
-
-						<div class="posts-pagination--previous"><?php next_posts_link( '<i class="fa fa-angle-double-left"></i>Previous' ); ?></div>
-						<div class="posts-pagination--next"><?php previous_posts_link( 'Next<i class="fa fa-angle-double-right"></i>' ); ?></div>
-
-					</div>
+					<?php get_template_part( 'partials/loop' ); ?>
+					<?php get_template_part( 'partials/pagination' ); ?>
 
 				<?php else : ?>
 

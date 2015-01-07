@@ -50,11 +50,11 @@ $icon-font:     'gmr-icons';
 
 @font-face {
 	font-family: 'gmr-icons';
-	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?jmqkgs');
-	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?#iefixjmqkgs') format('embedded-opentype'),
-	url('#{$asset-root}fonts/icon-font/gmr-icons.woff?jmqkgs') format('woff'),
-	url('#{$asset-root}fonts/icon-font/gmr-icons.ttf?jmqkgs') format('truetype'),
-	url('#{$asset-root}fonts/icon-font/gmr-icons.svg?jmqkgs#gmr-icons') format('svg');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?-7cndw');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?#iefix-7cndw') format('embedded-opentype'),
+	url('#{$asset-root}fonts/icon-font/gmr-icons.woff?-7cndw') format('woff'),
+	url('#{$asset-root}fonts/icon-font/gmr-icons.ttf?-7cndw') format('truetype'),
+	url('#{$asset-root}fonts/icon-font/gmr-icons.svg?-7cndw#gmr-icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -191,4 +191,12 @@ $icon-font:     'gmr-icons';
 
 .icon-post-format-image:before {
 	content: "\e61d";
+}
+
+.icon-download-arrow:before {
+	content: "\e61e";
+}
+
+.icon-pause:before {
+	content: "\e61f";
 }
