@@ -566,6 +566,7 @@ category: Components - Shows
 }
 
 .show__live-links {
+	margin-top: 20px;
 	position: relative;
 	@include span-columns(12 of 12);
 	
