@@ -32,9 +32,11 @@ class TokenBuilder {
 			'checksum'        => $collection->buildChecksum(),
 		);
 
+		$user_id = md5( get_gigya_user_id() );
+
 		if ( is_gigya_user_logged_in() ) {
 			$tokens['auth'] = $network->buildUserAuthToken(
-				get_gigya_user_id(),
+				$user_id,
 				get_gigya_user_field( 'firstName' ) . ' ' . get_gigya_user_field( 'lastName' ),
 				$this->expires
 			);
