@@ -4107,7 +4107,7 @@ category: Components
   color: #929497; }
 
 .live-player__container {
-  overflow: auto; }
+  overflow: hidden; }
   @media screen and (min-width: 768px) {
     .live-player__container {
       padding: 20px 0 0;

@@ -279,7 +279,7 @@ category: Components
 
 // live player area
 .live-player__container {
-	overflow: auto;
+	overflow: hidden;
 	@include bp(medium) {
 		padding: 20px 0 0;
 		overflow: visible;
