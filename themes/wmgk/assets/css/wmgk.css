@@ -5592,6 +5592,8 @@ category: Components - Shows
     padding-top: 0; } }
 .single-show .highlights__event--item {
   background-color: #f1f1f3; }
+.single-show .highlights__community--item:hover .highlights__community--title {
+  color: #f5ed7f; }
 .single-show .entry2__thumbnail {
   margin-top: 1.5em; }
 @media screen and (min-width: 1024px) {
@@ -5650,7 +5652,7 @@ category: Components - Shows
 .show__header {
   background-color: #561015;
   position: relative;
-  padding: 4em 1em;
+  padding: 38px 1em;
   width: 100%;
   display: block;
   color: #ffffff; }
@@ -5898,8 +5900,8 @@ category: Components - Shows
         top: 0; } }
 
 .show__feature--desc {
-  background-color: #404041;
-  color: #ffffff; }
+  background-color: #f1f1f3;
+  color: #404041; }
   .show__feature--desc h3 {
     margin: 0;
     font-size: 1.42383em;
@@ -5909,7 +5911,7 @@ category: Components - Shows
   .show__feature--desc time {
     font-size: 1em;
     text-transform: uppercase;
-    color: #929497; }
+    color: #404041; }
   .show__feature--desc .inner-wrap {
     padding: 1.5em 1.618em; }
   @media screen and (min-width: 1024px) {
@@ -5982,8 +5984,7 @@ category: Components - Shows
   float: left;
   display: block;
   margin-right: 2.35765%;
-  width: 100%;
-  border-bottom: 1px solid #d0d2d3; }
+  width: 100%; }
   .show__live-links:last-child {
     margin-right: 0; }
   .show__live-links ul {
@@ -6012,7 +6013,7 @@ category: Components - Shows
   position: relative;
   float: left;
   width: 100%;
-  padding: 30px 0; }
+  padding: 15px 0; }
   .show__live-links--more .more-btn {
     position: relative;
     color: #404041;

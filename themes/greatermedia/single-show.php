@@ -76,7 +76,7 @@
 							<?php
 							$live_links_query = \GreaterMedia\Shows\get_show_live_links_query();
 							if ( $live_links_query->have_posts() ) :
-								// $live_link_archive = \GreaterMedia\Shows\get_link_links_permalink( get_the_ID() );
+								$live_link_archive = \GreaterMedia\Shows\get_live_links_permalink( get_the_ID() );
 							?>
 							<section class="show__live-links cf">
 					        	<h2 class="section-header">Live Links</h2>
@@ -95,7 +95,7 @@
 					        </section>
 					        
 					        <div class="show__live-links--more">
-								<a class="more-btn" href="<?php //echo $live_link_archive; ?>">more</a>
+								<a class="more-btn" href="<?php echo $live_link_archive; ?>">more</a>
 					        </div>
 
 							<?php endif; ?>
@@ -114,10 +114,6 @@
 					        <?php endwhile; ?>
 					        <?php wp_reset_query(); ?>
 
-<!-- 					        <div class="show-main-paging">
-					        <?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $main_query ); ?>
-					        </div>
- -->					        
 				        </section>
 
 			        </div>
