@@ -1175,7 +1175,8 @@ blockquote p {
 .header__account ul li a:hover,
 .header__account ul li a:focus,
 .header__account ul li a:active,
-.header__account ul li:hover {
+.header__account ul li:hover,
+.ui-menu .ui-state-focus {
   background-color: #d22228; }
 
 .header__nav ul li ul {
@@ -1197,7 +1198,8 @@ blockquote p {
 
 .header__nav .sub-menu, .header__nav .format-fw > ul,
 .header__account--links.sub-menu,
-.header__nav .format-fw > ul.header__account--links {
+.header__nav .format-fw > ul.header__account--links,
+.ui-menu {
   position: absolute;
   border-top: 7px solid #d22228;
   background-color: #ffffff;
@@ -1207,11 +1209,13 @@ blockquote p {
   /* IAB z-index standard for drop nav is 5000000 - 5999999 */ }
   .header__nav .sub-menu li, .header__nav .format-fw > ul li,
   .header__account--links.sub-menu li,
-  .header__nav .format-fw > ul.header__account--links li {
+  .header__nav .format-fw > ul.header__account--links li,
+  .ui-menu li {
     display: block; }
   .header__nav .sub-menu a, .header__nav .format-fw > ul a,
   .header__account--links.sub-menu a,
-  .header__nav .format-fw > ul.header__account--links a {
+  .header__nav .format-fw > ul.header__account--links a,
+  .ui-menu a {
     color: #000000;
     /*
      * Important used here to override a declaration on .header__nav ul li a
@@ -1221,11 +1225,13 @@ blockquote p {
     padding: 1em !important; }
     .header__nav .sub-menu a:visited, .header__nav .format-fw > ul a:visited,
     .header__account--links.sub-menu a:visited,
-    .header__nav .format-fw > ul.header__account--links a:visited {
+    .header__nav .format-fw > ul.header__account--links a:visited,
+    .ui-menu a:visited {
       color: #000000; }
     .header__nav .sub-menu a:hover, .header__nav .format-fw > ul a:hover,
     .header__account--links.sub-menu a:hover,
-    .header__nav .format-fw > ul.header__account--links a:hover {
+    .header__nav .format-fw > ul.header__account--links a:hover,
+    .ui-menu a:hover {
       color: #ffffff; }
 
 .mobile-nav .sub-menu, .mobile-nav .header__nav .format-fw > ul, .header__nav .mobile-nav .format-fw > ul {
@@ -7988,9 +7994,9 @@ select {
       transform: translate(0, -200%);
       /* 200% ensures it's out of the way of the .wp-admin bar */
       z-index: 5000000;
-      /* IAB z-index standards for nav drop downs. Prevents an ad from being over top unless it's a full-screen ad */ } }
-  .logged-in .header__search--form {
-    top: 32px; }
+      /* IAB z-index standards for nav drop downs. Prevents an ad from being over top unless it's a full-screen ad */ }
+      .logged-in .header__search--form {
+        top: 32px; } }
 
 .header__search--label {
   cursor: pointer; }
@@ -8242,6 +8248,35 @@ select {
     @media screen and (min-width: 768px) {
       .profile-page .profile-page__sidebar p {
         display: block; } }
+
+.ui-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+.ui-menu .ui-menu-item {
+  position: relative;
+  cursor: pointer;
+  min-height: 0; }
+
+.ui-autocomplete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: default; }
+
+.header__search--form .ui-autocomplete {
+  background-color: #ffffff;
+  width: 100%;
+  top: 100%;
+  left: 0; }
+
+.ui-menu-item {
+  color: #000000;
+  padding: 1em; }
+
+.ui-state-focus {
+  color: #ffffff; }
 
 /**
  * Single Page Styles
