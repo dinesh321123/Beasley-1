@@ -31,5 +31,13 @@
 }
 
 .podcast__meta {
-	width: 79.94039%;
+	.dashicons-rss {
+		color: #929497 !important;
+		height: 15px;
+		width: 15px;
+		font-size: 15px;
+	}
+	.dashicons, .dashicons-before:before {
+		vertical-align: bottom;
+	}
 }

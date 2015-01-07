@@ -11,7 +11,7 @@ class GMP_Player{
 	 */
 	public static function init() {
 
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 100 );
 		add_action( 'gmp_display_podcasts', array( __CLASS__, 'render_podcasts' ) );
 		add_action( 'gmp_audio', array( __CLASS__, 'podcast_audio_file' ) );
 
@@ -113,14 +113,8 @@ class GMP_Player{
 	 * Enqueue scripts and styles
 	 */
 	public static function enqueue_scripts() {
-
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-//		wp_register_script( 'gmpodcasts-js', GMPODCASTS_URL . "assets/js/gmp{$postfix}.js", array( 'jquery' ), GMPODCASTS_VERSION, true );
-
-//		wp_enqueue_script( 'gmpodcasts-js' );
-
 		wp_enqueue_style( 'gmpodcasts-css', GMPODCASTS_URL . "assets/css/gmp{$postfix}.css", array(), GMPODCASTS_VERSION );
-
 	}
 
 	public static function custom_pagination( $query ) {

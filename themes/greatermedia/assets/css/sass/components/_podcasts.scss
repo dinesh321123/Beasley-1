@@ -103,7 +103,6 @@ category: Components - Shows
 	h3 {
 		margin: 0;
 		clear: both;
-		display: inline-block;
 	}
 
 	time {
@@ -113,12 +112,23 @@ category: Components - Shows
 }
 
 .podcast__download {
-	@extend .live-stream__listen-now--btn;
-	background-color: #fff;
-	border: 1px solid grey;
-	color: grey !important;
-	text-transform: none;
-	margin-left: 10px;
+	@include fill-parent;
+	padding-top: 1em;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.podcast__download--btn {
+	@include btn(transparent, $gray, $gray, .25em, 1em, ms(-1));
+	@include border-radius(1em);
+}
+
+.podcast__download--btn:hover {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1em, ms(-1));
+}
+
+.podcast__download--btn:active {
+	@include btn($btn-active, $color-text-white, $btn-active, .25em, 1em, ms(-1));
 }
 
 .podcast__subscribe {

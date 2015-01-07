@@ -33,7 +33,12 @@
   border: 1px solid gray;
   border-radius: 12px; }
 
-.podcast__meta {
-  width: 79.94039%; }
+.podcast__meta .dashicons-rss {
+  color: #929497 !important;
+  height: 15px;
+  width: 15px;
+  font-size: 15px; }
+.podcast__meta .dashicons, .podcast__meta .dashicons-before:before {
+  vertical-align: bottom; }
 
 /*# sourceMappingURL=gmp.css.map */

@@ -84,13 +84,14 @@ class GMP_CPT {
 			'can_export'          => true,
 			'has_archive'         => true,
 			'exclude_from_search' => false,
-			'publicly_queryable'  => true,
+			'publicly_queryable'  => false,
 			'rewrite'             => $rewrite,
 			'capability_type'     => 'page',
 		);
 		register_post_type( self::PODCAST_POST_TYPE, $args );
 
 		register_taxonomy( 'keywords', array( self::EPISODE_POST_TYPE ), array( 'hierarchical' => false , 'label' => 'Keywords' , 'singular_label' => 'Keyword' , 'rewrite' => true) );
+		register_taxonomy( 'series', array( self::EPISODE_POST_TYPE ), array( 'hierarchical' => true , 'label' => 'Series' , 'singular_label' => 'Series' , 'rewrite' => true, 'show_ui' => false ) );
 
 		if( taxonomy_exists( 'series' ) ) {
 			TDS\add_relationship( self::PODCAST_POST_TYPE, 'series' );
