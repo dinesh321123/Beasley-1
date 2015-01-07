@@ -440,16 +440,26 @@ if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 		if ( ! filter_input( INPUT_GET, 'ajax', FILTER_VALIDATE_BOOLEAN ) || ! is_paged() ) {
 			return;
 		}
-
-		if ( is_archive() ) {
-			get_template_part( 'partials/loop/archive', get_queried_object()->name );
-			exit;
+		
+		$loop_partial = sanitize_text_field( $_REQUEST['loop_partial'] ); 
+		if ( ! $loop_partial ) {
+			$loop_partial = 'partials/loop/archive'; 
 		}
-
-		if ( is_front_page() ) {
-			get_template_part( 'partials/loop/front-page' );
-			exit;
-		}
+		
+		get_template_part( $loop_partial ); 
+		exit;
 	}
+	
 endif;
 add_action( 'template_redirect', 'greatermedia_load_more_template' );
+
+function greatermedia_set_ajax_loop_partial( $loop_partial ) {
+	$GLOBALS['greatermedia_load_more_loop_partial'] = $loop_partial; 
+}
+
+add_action( 'wp_enqueue_scripts', function () {
+	wp_localize_script( 'greatermedia-load-more', 'greatermedia_load_more', array( 
+		'loop_partial' => isset( $GLOBALS['greatermedia_load_more_loop_partial'] ) ? $GLOBALS['greatermedia_load_more_loop_partial'] : '',
+	) );
+}, 100 );
+
