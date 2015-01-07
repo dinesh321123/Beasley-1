@@ -38,7 +38,22 @@ $page_message = 'Membership gives you access to all areas of the site, including
 				<span class="gigya-error-msg" data-bound-to="password" ></span>
 				<input type="password" name="password" placeholder="Password" />
 
+				<a href="#" class="link-button" data-switch-screen="gigya-forgot-password-screen">Forgot Password?</a>
 				<input type="submit" name="submit" value="Login" />
+			</form>
+		</div>
+
+		<div class="gigya-screen" id="gigya-forgot-password-screen" data-responsive="true">
+			<h2>Password Reset</h2>
+			<h3>Please enter your email address to reset your password.</h3>
+
+			<form class="gigya-reset-password-form" id="gigya-reset-password-form" data-on-success-screen="gigya-forgot-password-sent-screen">
+				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-reset-password-form"></span>
+				<span class="gigya-error-msg" data-bound-to="loginID" ></span>
+				<input type="text" name="loginID" placeholder="Email" />
+
+				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back</a>
+				<input type="submit" name="submit" value="Submit" />
 			</form>
 		</div>
 
@@ -48,6 +63,13 @@ $page_message = 'Membership gives you access to all areas of the site, including
 
 		<div class="gigya-screen" id="gigya-login-success-screen" data-responsive="true">
 			<h2>Login successful.</h2>
+		</div>
+
+		<div class="gigya-screen" id="gigya-forgot-password-sent-screen" data-responsive="true">
+			<h2>Password Reset</h2>
+			<h3>An email regarding your password change has been sent to your email address.</h3>
+
+			<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back to Login</a>
 		</div>
 
 		<div class="gigya-screen" id="gigya-register-screen" data-responsive="true">
@@ -90,6 +112,7 @@ $page_message = 'Membership gives you access to all areas of the site, including
 				<span class="gigya-error-msg" data-bound-to="passwordRetype" ></span>
 				<input type="password" name="passwordRetype" placeholder="Re-Enter Password" />
 
+				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Login</a>
 				<input type="submit" name="submit" value="Register" />
 			</form>
 		</div>
@@ -172,7 +195,7 @@ $page_message = 'Membership gives you access to all areas of the site, including
 		<div class="gigya-screen" id="gigya-update-profile-screen" data-responsive="true">
 			<h2>Your Profile</h2>
 
-			<form class="gigya-profile-form" id="gigya-profile-form">
+			<form class="gigya-profile-form" id="gigya-profile-form" data-on-success-screen="gigya-update-profile-success-screen">
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-profile-form"></span>
 				<span class="gigya-error-msg" data-bound-to="profile.email" ></span>
 
@@ -207,6 +230,9 @@ $page_message = 'Membership gives you access to all areas of the site, including
 					<option value="u">Unknown</option>
 				</select>
 
+				<h2>Password</h2>
+				<a href="#" data-switch-screen="gigya-change-password-screen">Change your password.</a>
+
 				<h2>Email Subscriptions</h2>
 
 				<ul class="member-groups-list">
@@ -224,8 +250,44 @@ $page_message = 'Membership gives you access to all areas of the site, including
 					</li>
 				</ul>
 
+				<a href="/members/logout" class="link-button">&laquo; Logout</a>
 				<input type="submit" name="submit" value="Update Profile" />
 			</form>
+		</div>
+
+		<div class="gigya-screen" id="gigya-change-password-screen" data-responsive="true">
+			<h2>Change Your Password</h2>
+
+			<form class="gigya-profile-form" id="gigya-profile-form" data-on-success-screen="gigya-change-password-success-screen">
+				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-profile-form"></span>
+
+				<span class="gigya-error-msg" data-bound-to="password" ></span>
+				<label>Enter your current password:</label>
+				<input type="password" name="password" />
+
+				<span class="gigya-error-msg" data-bound-to="newPassword" ></span>
+				<label>Choose a new password:</label>
+				<input type="password" name="newPassword" />
+
+				<span class="gigya-error-msg" data-bound-to="passwordRetype" ></span>
+				<label>Choose a new password:</label>
+				<input type="password" name="passwordRetype" />
+
+				<a href="#" class="link-button" data-switch-screen="gigya-update-profile-screen">&laquo; Back</a>
+				<input type="submit" name="submit" value="Update" />
+			</form>
+		</div>
+
+		<div class="gigya-screen" id="gigya-update-profile-success-screen" data-responsive="true">
+			<h2>Profile Updated Successfully.</h2>
+
+			<a href="#" class="link-button" data-switch-screen="gigya-update-profile-screen">&laquo; Back</a>
+		</div>
+
+		<div class="gigya-screen" id="gigya-change-password-success-screen" data-responsive="true">
+			<h2>Password Changed Successfully.</h2>
+
+			<a href="#" class="link-button" data-switch-screen="gigya-update-profile-screen">&laquo; Back</a>
 		</div>
 
 	</div><!-- end screenset --!>

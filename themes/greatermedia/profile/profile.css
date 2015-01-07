@@ -45,7 +45,7 @@
 
 #profile-content .gigya-screen input[type="submit"] {
 	float: right;
-	width: 6em;
+	width: 7em;
 	background-color: #D2232A;
 	color: #fff;
 	text-transform: uppercase;
@@ -66,6 +66,10 @@
 	width: 10em;
 }
 
+#profile-content #gigya-change-password-screen input[type="submit"] {
+	width: 7em;
+}
+
 #profile-content .gigya-screen input[type="submit"]:hover {
 	opacity: 0.9;
 }
@@ -78,8 +82,13 @@
 	font-size: 1em;
 }
 
-.login-error-msg {
+#profile-content .login-error-msg {
 	margin-bottom: 1em;
+}
+
+#profile-content .link-button {
+	padding-top: 0.4em;
+	display: inline-block;
 }
 
 /* Gigya Overrides */
