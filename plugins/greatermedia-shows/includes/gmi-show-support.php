@@ -174,6 +174,7 @@ function get_show_events() {
 				'terms'    => $show_term->term_taxonomy_id,
 			)
 		),
+		'posts_per_page' => 2,
 	);
 
 	if ( !function_exists( '\tribe_get_events' ) ) {
