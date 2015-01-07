@@ -257,11 +257,8 @@
 	}
 	
 	.entry2__meta {
-		@include span-columns(4 of 6);
+		@include span-columns(2 of 6);
 	}
-		.entry2.has-thumbnail .entry2__meta {
-			@include span-columns(2 of 6);
-		}
 	
 	// Move the ad logic bits to _ads.scss
 	.entry2-ad-wrap__ad {

@@ -244,7 +244,7 @@ function get_show_live_links_query( $show = null, $page = 1 ) {
 	$term = \TDS\get_related_term( $show );
 
 	$args = array(
-		'post_type'           => $taxonomy->object_type,
+		'post_type'			  => GMR_LIVE_LINK_CPT,
 		'paged'               => $page,
 		'posts_per_page'      => 10,
 		'ignore_sticky_posts' => true,

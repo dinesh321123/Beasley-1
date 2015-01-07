@@ -833,6 +833,7 @@ category: Components
 	font-family: $open-sans;
 	font-size: ms(-1);
 	font-weight: normal;
+
 	.content & {
 		font-size: 1.25em;
 
@@ -840,7 +841,6 @@ category: Components
 			font-size: ms(-1);
 		}
 	}
-	color: $color-gray-light;
 }
 
 .live-link__title a:link, .live-link__title a:visited {
