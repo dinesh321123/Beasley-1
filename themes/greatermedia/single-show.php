@@ -90,11 +90,13 @@
 									<?php endwhile; ?>
 									<?php wp_reset_query(); ?>
 								</ul>
-								
-								<a id="show__live-links--more" class="more-btn" href="#">
-									<i class="fa fa-spinner fa-spin" style="display:none"></i> more
-								</a>
+
 					        </section>
+					        
+					        <div class="show__live-links--more">
+								<a class="more-btn" href="">more</a>
+					        </div>
+
 							<?php endif; ?>
 
 				        </aside>

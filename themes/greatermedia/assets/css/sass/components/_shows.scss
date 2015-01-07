@@ -59,6 +59,27 @@
 		color: $secondary-border;
 		margin-bottom: 0.5em;
 	}
+
+	.home__highlights {
+		background-color: transparent;
+		border-bottom: none;
+		padding: 0;
+		margin-bottom: 1em;
+	}
+
+	@include bp(large) {
+		.highlights__community, .highlights__events {
+			padding-top: 0;
+		}
+	}
+
+	.highlights__event--item {
+		background-color: $highlights-bg;
+	}
+
+	.entry2__thumbnail {
+		margin-top: 1.5em;
+	}
 }
 
 .show-attr--name {
@@ -525,9 +546,11 @@ category: Components - Shows
 .show__live-links {
 	position: relative;
 	@include span-columns(12 of 12);
+	border-bottom: 1px solid $primary-border;
 
 	ul {
 		margin-top: 0;
+		margin-bottom: 0;
 		padding-left: 2em;
 	}
 
@@ -556,24 +579,19 @@ category: Components - Shows
 			}
 		}
 	}
+}
+
+.show__live-links--more {
+	text-align: center;
+	position: relative;
+	float: left;
+	width: 100%;
+	padding: 1em 0;
 
 	.more-btn {
 		position: relative;
-		left: 40%;
-		right: auto;
-		top: 14px;
-		bottom: auto;
-		font-size: 1em;
 		color: $primary-text;
-
-		@include bp(large) {
-			position: absolute;
-			left: 40%;
-			right: auto;
-			top: 14px;
-			bottom: auto;
-			font-size: 0.75em;
-		}
+		bottom: auto;
 	}
 }
 
@@ -587,7 +605,8 @@ category: Components - Shows
 	outline: none;
 	color: $primary-text;
 	padding: 0.25em 0.5em;
-	font-size: 0.75em;
+	font-size: 12px;
+	text-transform: capitalize;
 
 	&:hover {
 		color: $primary-link-hover;
