@@ -25,37 +25,11 @@ get_header();
 
 				<h2 class="content__heading">Latest from WMGK</h2>
 
-				<?php $post_count = 0; ?>
-				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+				<?php if ( have_posts() ) : ?>
 				
-					<?php 
-					if ( 0 == ++$post_count % 5 ): 
-					?>
-						<div class='entry2-ad-wrap'>
-					<?php endif; ?>
-				
-					<?php get_template_part( 'partials/entry' ); ?>
-					
-					<?php if ( 0 == $post_count % 5 ):	?>
-							<div class='entry2-ad-wrap__ad mobile'>
-								<img src='http://placehold.it/180x150'>
-							</div>						
-							<div class='entry2-ad-wrap__ad desktop'>
-								<img src='http://placehold.it/300x250'>
-							</div>						
-						</div>
-					<?php endif; ?>
-
-				<?php endwhile; ?>
-
-					<div class="posts-pagination">
-
-						<div class="posts-pagination--previous"><?php next_posts_link( '<i class="fa fa-angle-double-left"></i>Previous' ); ?></div>
-						<div class="posts-pagination--next"><?php previous_posts_link( 'Next<i class="fa fa-angle-double-right"></i>' ); ?></div>
-
 					<?php get_template_part( 'partials/loop/front-page' ); ?>
 					<?php get_template_part( 'partials/pagination' ); ?>
-
+				
 				<?php else : ?>
 
 					<article id="post-not-found" class="hentry cf">
