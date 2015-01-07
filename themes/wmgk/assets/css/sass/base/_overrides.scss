@@ -29,6 +29,7 @@
 	border: 1px solid lighten($color-gray-medium-dark,50%);
 	color: lighten($color-gray-medium-dark,50%);
 	@include border-radius(1em);
+	background-color: transparent;
 
 	li {
 		background-color: transparent;
@@ -55,7 +56,11 @@
 			background: transparent;
 		}
 
-		li:hover {
+		.live-player__stream--item, .live-player__stream--desc {
+			color: $dark-gray;
+		}
+
+		.live-player__stream--item:hover, .live-player__stream--name:hover, .live-player__stream--desc:hover {
 			color: $light-gray;
 		}
 
@@ -64,6 +69,14 @@
 		}
 	}
 
+}
+
+.now-playing__artist {
+	color: $color-gray-medium-dark;
+}
+
+.live-link__title, .live-link__title a:link, .live-link__title a:visited {
+	color: $color-gray-medium;
 }
 
 .header__logo {
