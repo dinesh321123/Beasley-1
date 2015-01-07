@@ -233,6 +233,7 @@
 		a.href = url;
 
 		var search   = a.search.replace('_pjax=.page-wrap', '');
+		search       = search.replace('_pjax=.main', '');
 		var pathname = a.pathname + search;
 
 		if (pathname.indexOf('/members/') === 0) {
