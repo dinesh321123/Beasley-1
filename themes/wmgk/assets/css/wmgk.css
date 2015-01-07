@@ -3649,7 +3649,9 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-size: 1em;
   font-weight: lighter;
   color: #929497;
-  text-transform: capitalize; }
+  text-transform: uppercase;
+  display: block;
+  margin: -0.3em 0 0.5em; }
   @media screen and (min-width: 480px) {
     .entry2__date {
       font-size: 0.88889em; } }
@@ -5968,12 +5970,12 @@ a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
 @media screen and (min-width: 1024px) {
   .single-show .highlights__community, .single-show .highlights__events {
     padding-top: 0; } }
+.single-show .highlights__heading {
+  font-size: 1.125em; }
 .single-show .highlights__event--item {
   background-color: #fff; }
 .single-show .highlights__community--item:hover .highlights__community--title {
   color: #f5ed7f; }
-.single-show .entry2.format-standard .entry2__thumbnail {
-  margin-top: 1.5em; }
 @media screen and (min-width: 1024px) {
   .single-show .inner-left-col {
     padding-right: 25px; } }
@@ -6315,6 +6317,8 @@ category: Components - Shows
 ---
 
 */
+.show__blogroll .section-header {
+  font-size: 1.125em; }
 @media screen and (min-width: 1024px) {
   .show__blogroll {
     float: left;
@@ -6360,7 +6364,6 @@ category: Components - Shows
   color: #aa1c20; }
 
 .show__live-links {
-  margin-top: 20px;
   position: relative;
   float: left;
   display: block;
@@ -6368,6 +6371,9 @@ category: Components - Shows
   width: 100%; }
   .show__live-links:last-child {
     margin-right: 0; }
+  .show__live-links .section-header {
+    font-size: 1.125em;
+    margin-bottom: 0.6em; }
   .show__live-links ul {
     margin-top: 0;
     margin-bottom: 0;

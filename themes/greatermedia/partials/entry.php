@@ -9,10 +9,7 @@
 
 global $post;
 $post_classes = array( 'entry2' );
-$trimmed_excerpt = trim( $post->post_excerpt );
-if ( ! empty( $trimmed_excerpt ) ) {
-	$post_classes[] = 'has-excerpt'; 
-} 
+
 if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) {
 	$post_classes[] = 'has-thumbnail';
 }
@@ -44,13 +41,7 @@ if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) {
 			<time datetime="<?php the_time( 'c' ); ?>" class="entry2__date"><?php the_time( 'F j' ); ?></time>
 		<?php endif; ?>
 		<h2 class="entry2__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-		
-		<?php if ( ! empty( $trimmed_excerpt ) ): ?>
-			<div class="entry2__excerpt">
-				<?php the_excerpt(); ?>
-			</div>
-		<?php endif; ?>
-		
+				
 		<?php if ( 'tribe_events' == $post->post_type ): ?>
 			<ul class="entry2__event--details">
 				<?php 
@@ -59,7 +50,12 @@ if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) {
 				echo esc_html( implode(', ', array_filter( array( tribe_get_start_time(), tribe_get_venue(), tribe_get_cost() ) ) ) );
 				?>
 			</ul>
+		<?php else: ?>
+			<div class="entry2__excerpt">
+				<?php the_excerpt(); ?>
+			</div>
 		<?php endif; ?>
+		
 	</section>
 
 	<footer class="entry2__footer">

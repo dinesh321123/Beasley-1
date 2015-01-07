@@ -69,7 +69,9 @@
 		font-size: ms(0);
 		font-weight: lighter;
 		color: $secondary-heading;
-		text-transform: capitalize;
+		text-transform: uppercase;
+		display: block; 
+		margin: -0.3em 0 0.5em;
 		
 		@include bp(small) {
 			font-size: ms(-1);

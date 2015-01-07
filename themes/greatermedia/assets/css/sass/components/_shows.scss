@@ -72,6 +72,10 @@
 			padding-top: 0;
 		}
 	}
+	
+	.highlights__heading {
+		font-size: ms(1);
+	}
 
 	.highlights__event--item {
 		background-color: $highlights-bg;
@@ -81,10 +85,6 @@
 		.highlights__community--title {
 			color: $btn-hover;
 		}
-	}
-
-	.entry2.format-standard .entry2__thumbnail {
-		margin-top: 1.5em;
 	}
 
 	.inner-left-col {
@@ -511,6 +511,10 @@ category: Components - Shows
 */
 
 .show__blogroll {
+	.section-header {
+		font-size: ms(1);
+	}
+	
 	@include bp(large) {
 		@include span-columns(8 of 12);
 	}
@@ -562,9 +566,13 @@ category: Components - Shows
 }
 
 .show__live-links {
-	margin-top: 20px;
 	position: relative;
 	@include span-columns(12 of 12);
+	
+	.section-header {
+		font-size: ms(1);
+		margin-bottom: 0.6em;
+	}
 
 	ul {
 		margin-top: 0;
