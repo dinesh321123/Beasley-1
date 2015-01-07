@@ -45,6 +45,8 @@ get_header(); ?>
 								<a href="#contest-form" class="contest__entry--btn">Enter Contest</a>
 							</div>
 
+							<?php the_content(); ?>
+
 							<?php if ( ( $contest_prize = trim( get_post_meta( get_the_ID(), 'prizes-desc', true ) ) ) ) : ?>
 								<div class="contest__description">
 									<h3 class="contest__prize--title"><?php _e( 'What you win:', 'greatermedia' ); ?></h3>
@@ -69,8 +71,6 @@ get_header(); ?>
 								<div id="contest-rules" class="contest-attr--rules" style="display:none;"><?php echo wpautop( $contest_rules ); ?></div>
 							</div>
 							<?php endif; ?>
-
-							<?php the_content(); ?>
 
 							<?php get_template_part( 'partials/post', 'footer' ); ?>
 
