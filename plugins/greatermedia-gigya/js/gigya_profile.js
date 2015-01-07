@@ -246,6 +246,7 @@
 		this.didBeforeScreenHandler = $.proxy(this.didBeforeScreen, this);
 		this.didAfterScreenHandler  = $.proxy(this.didAfterScreen, this);
 		this.didErrorHandler        = $.proxy(this.didError, this);
+		this.didLogoutClickHandler  = $.proxy(this.didLogoutClick, this);
 	};
 
 	GigyaScreenSetView.prototype = {
@@ -353,10 +354,26 @@
 
 		didAfterScreen: function(event) {
 			this.scrollToTop();
+			if (event.currentScreen === 'gigya-update-profile-screen') {
+				this.registerLogoutButton();
+			}
+		},
+
+		registerLogoutButton: function() {
+			var $logout = $('#gigya-update-profile-screen .logout-button');
+			$logout.one('click', this.didLogoutClickHandler);
+		},
+
+		didLogoutClick: function(event) {
+			this.show('gigya-logout-screen');
+			gigya.accounts.logout();
+			return false;
 		},
 
 		didError: function(event) {
-			console.log('didError', event);
+			if (console && console.log) {
+				console.log('didError', event);
+			}
 		},
 
 		scrollToTop: function() {
@@ -366,7 +383,6 @@
 				scrollTop: target.offset().top
 			};
 
-			//console.log('animate', params);
 			root.animate(params, 500);
 		},
 
@@ -469,13 +485,6 @@
 
 		getCurrentScreenSet: function() {
 			return 'GMR-CustomScreenSet';
-			switch (this.getCurrentPage()) {
-				case 'account':
-					return this.config.gigya_account_screenset;
-
-				default:
-					return this.config.gigya_auth_screenset;
-			}
 		}
 
 	};

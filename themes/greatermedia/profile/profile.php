@@ -250,7 +250,7 @@ $page_message = 'Membership gives you access to all areas of the site, including
 					</li>
 				</ul>
 
-				<a href="/members/logout" class="link-button">&laquo; Logout</a>
+				<a href="#" class="link-button logout-button">&laquo; Logout</a>
 				<input type="submit" name="submit" value="Update Profile" />
 			</form>
 		</div>
