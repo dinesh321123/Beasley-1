@@ -201,7 +201,8 @@
 .header__account ul li a:hover,
 .header__account ul li a:focus,
 .header__account ul li a:active,
-.header__account ul li:hover {
+.header__account ul li:hover,
+.ui-menu .ui-state-focus {
 	background-color: $header-nav-bg;
 }
 
