@@ -5594,6 +5594,9 @@ category: Components - Shows
   background-color: #f1f1f3; }
 .single-show .entry2__thumbnail {
   margin-top: 1.5em; }
+@media screen and (min-width: 1024px) {
+  .single-show .inner-left-col {
+    padding-right: 25px; } }
 
 .show-attr--name {
   position: absolute;

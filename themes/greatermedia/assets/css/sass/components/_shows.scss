@@ -80,6 +80,12 @@
 	.entry2__thumbnail {
 		margin-top: 1.5em;
 	}
+
+	.inner-left-col {
+		@include bp(large) {
+			padding-right: 25px;
+		}
+	}
 }
 
 .show-attr--name {
