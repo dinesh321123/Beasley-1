@@ -6238,7 +6238,7 @@ category: Components - Shows
         top: 0; } }
 
 .show__feature--desc {
-  background-color: #fff;
+  background-color: #F1F1F3;
   color: #404041; }
   .show__feature--desc h3 {
     margin: 0;
