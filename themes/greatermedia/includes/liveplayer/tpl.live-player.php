@@ -22,7 +22,7 @@ if ( empty( $active_stream ) ) {
 	<nav class="live-player__stream">
 		<ul class="live-player__stream--list">
 			<li class="live-player__stream--current">
-				<div class="live-player__stream--title">Stream</div>
+				<div class="live-player__stream--title"><?php _e( 'Stream:', 'greatermedia' ); ?></div>
 				<div class="live-player__stream--current-name"><?php echo esc_html( $active_stream ); ?></div>
 				<ul class="live-player__stream--available">
 					<?php foreach ( $streams as $stream => $description ) : ?>
@@ -39,7 +39,8 @@ if ( empty( $active_stream ) ) {
 	<div id="live-player" class="live-player__container">
 		<?php if ( is_gigya_user_logged_in() ) { ?>
 			<div id="up-next" class="up-next">
-				<span class="up-next__title">Up Next:</span><span class="up-next__show">Pierre Robert</span>
+				<div class="up-next__title">Up Next:</div>
+				<div class="up-next__show">Pierre Robert</div>
 			</div>
 			<div class="live-stream">
 				<?php do_action( 'gm_live_player' ); ?>
@@ -54,7 +55,8 @@ if ( empty( $active_stream ) ) {
 			</div>
 		<?php } else { ?>
 			<div id="on-air" class="on-air">
-				<span class="on-air__title">On Air:</span><span class="on-air__show">Preston and Steve Show</span>
+				<div class="on-air__title">On Air:</div>
+				<div class="on-air__show">Preston and Steve Show</div>
 			</div>
 			<div class="live-stream">
 				<div class="live-stream__login--actions">

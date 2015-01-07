@@ -686,8 +686,8 @@ img {
   right: 0;
   left: 0;
   width: 100%;
-  background-color: #191919;
-  color: #ffffff;
+  background-color: #000000;
+  color: #737374;
   cursor: pointer; }
   @media screen and (min-width: 768px) {
     .live-player {
@@ -3966,7 +3966,17 @@ category: Components
   position: absolute;
   display: none;
   top: 58px;
-  width: 100%;
+  width: auto;
+  margin: 10px;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  -border-radius: 1em;
+  border-radius: 1em;
+  border: 1px solid #404041;
+  background-color: #191919;
+  color: #737374;
   cursor: pointer; }
   @media screen and (min-width: 768px) {
     .live-player__stream {
@@ -3979,6 +3989,9 @@ category: Components
   display: block;
   top: auto; }
 
+.live-player__stream li {
+  height: auto; }
+
 .live-player--open .live-player__stream {
   display: block; }
 
@@ -3990,28 +4003,25 @@ category: Components
   position: relative;
   display: block;
   list-style: none;
-  height: 36px;
   padding: 0;
   margin: 0;
   overflow: visible;
-  background-color: #191919;
   line-height: 1;
   font-size: 0.88889em; }
 
 .live-player__stream--current.open {
   display: block;
-  background-color: #191919;
-  color: #ffffff;
+  color: #737374;
   z-index: 10; }
 
 .live-player__stream--current:after {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 7px;
+  right: 15px;
   width: 0;
   height: 0;
   font-family: "gmr-icons";
-  font-size: 1.125em;
+  font-size: 0.79012em;
   content: "\e606";
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -4020,7 +4030,7 @@ category: Components
   transform: rotate(90deg); }
 
 .live-player__stream--current.open:after {
-  top: 25px;
+  top: 16px;
   right: 25px;
   -webkit-transform: rotate(270deg);
   -moz-transform: rotate(270deg);
@@ -4030,13 +4040,13 @@ category: Components
 
 .live-player__stream--title {
   display: inline-block;
-  padding: 0.6875em; }
+  padding: 5px 2px 5px 15px; }
 
 .live-player__stream--current-name {
   display: inline-block; }
 
 .live-player__stream--available {
-  visibility: hidden;
+  display: none;
   opacity: 0;
   filter: alpha(opacity=0);
   -moz-opacity: 0;
@@ -4051,14 +4061,13 @@ category: Components
   color: #929497; }
 
 .live-player__stream--current.open .live-player__stream--available {
-  position: absolute;
-  visibility: visible;
+  position: relative;
+  display: block;
   opacity: 1;
   filter: alpha(opacity=100);
   -moz-opacity: 1;
   -khtml-opacity: 1;
   zoom: 1;
-  top: 36px;
   z-index: 10;
   -webkit-transition-delay: 0s;
   -moz-transition-delay: 0s;
@@ -4069,48 +4078,41 @@ category: Components
   -moz-transition: all 200ms linear;
   transition: all 200ms linear; }
 
-.live-player__stream--available:after {
-  position: absolute;
-  bottom: -30px;
-  left: 0;
-  width: 100%;
-  height: 30px;
-  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0.7)), color-stop(100%, transparent));
-  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
-  background: -o-linear-gradient(top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
-  background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#000000', GradientType=0);
-  content: " ";
-  z-index: 100; }
-
 .live-player__stream--item {
   display: block;
   overflow: auto;
   padding: .5em 1em;
-  background-color: #191919; }
+  color: #d0d2d3; }
+
+.live-player__stream--item:last-of-type {
+  -webkit-border-radius: 0 0 1em 1em;
+  -moz-border-radius: 0 0 1em 1em;
+  -ms-border-radius: 0 0 1em 1em;
+  -o-border-radius: 0 0 1em 1em;
+  -border-radius: 0 0 1em 1em;
+  border-radius: 0 0 1em 1em; }
 
 .live-player__stream--item:hover {
   background-color: #000000; }
 
 .live-player__stream--name {
   float: left;
-  width: 30%;
+  width: 35%;
   margin-right: 5%;
   font-size: 0.88889em; }
 
 .live-player__stream--desc {
   float: left;
-  width: 65%;
+  width: 60%;
   line-height: 1.2;
-  font-size: 0.70233em; }
+  font-size: 0.79012em;
+  color: #929497; }
 
 .live-player__container {
   overflow: auto; }
   @media screen and (min-width: 768px) {
     .live-player__container {
-      margin: 1em 0 0;
+      padding: 20px 0 0;
       overflow: visible; } }
 
 #popup-player-livestream .live-player__container {
@@ -4130,7 +4132,7 @@ category: Components
     .live-stream {
       float: none;
       width: auto;
-      padding: 23px 0 1em;
+      padding: 23px 0 0;
       text-align: center; } }
 
 #popup-player-livestream .live-stream {
@@ -4164,7 +4166,7 @@ category: Components
   @media screen and (min-width: 768px) {
     .live-stream__status {
       display: block;
-      height: 23px; } }
+      padding-bottom: 26px; } }
 
 #popup-player-livestream .live-stream__status {
   display: block;
@@ -4173,7 +4175,7 @@ category: Components
 .live-stream__listen-now--btn, .podcast__subscribe {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: #d22228;
@@ -4188,7 +4190,8 @@ category: Components
   -ms-border-radius: 1em;
   -o-border-radius: 1em;
   -border-radius: 1em;
-  border-radius: 1em; }
+  border-radius: 1em;
+  font-weight: 700; }
   .live-stream__listen-now--btn:hover, .podcast__subscribe:hover, .live-stream__listen-now--btn:focus, .podcast__subscribe:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
@@ -4199,7 +4202,7 @@ category: Components
 .live-stream__now-playing--btn {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: transparent;
@@ -4215,7 +4218,8 @@ category: Components
   -ms-border-radius: 1em;
   -o-border-radius: 1em;
   -border-radius: 1em;
-  border-radius: 1em; }
+  border-radius: 1em;
+  font-weight: 700; }
   .live-stream__now-playing--btn:hover, .live-stream__now-playing--btn:focus {
     background-color: transparent;
     border-color: #aa1c20;
@@ -4231,7 +4235,7 @@ category: Components
 .live-stream__resume--btn {
   display: inline-block;
   line-height: 1;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
   background-color: transparent;
@@ -4247,7 +4251,8 @@ category: Components
   -ms-border-radius: 1em;
   -o-border-radius: 1em;
   -border-radius: 1em;
-  border-radius: 1em; }
+  border-radius: 1em;
+  font-weight: 700; }
   .live-stream__resume--btn:hover, .live-stream__resume--btn:focus {
     background-color: transparent;
     border-color: #aa1c20;
@@ -4286,8 +4291,8 @@ category: Components
   @media screen and (min-width: 768px) {
     .live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .podcast__btn--play,
     .podcast__btn--pause {
-      width: 54px;
-      height: 54px; } }
+      width: 56px;
+      height: 56px; } }
 
 #popup-player-livestream .live-stream__btn--login, #popup-player-livestream .live-stream__btn--play, #popup-player-livestream .live-stream__btn--resume, #popup-player-livestream .live-stream__btn--pause, #popup-player-livestream .podcast__btn--play,
 #popup-player-livestream .podcast__btn--pause {
@@ -4302,7 +4307,7 @@ category: Components
 
 @media screen and (min-width: 768px) {
   .live-stream__login--actions {
-    padding-bottom: 23px; } }
+    padding-bottom: 22px; } }
 
 #popup-player-livestream .live-stream__login--actions {
   padding-bottom: 23px; }
@@ -4324,6 +4329,7 @@ category: Components
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   font-family: "gmr-icons" !important;
+  font-size: 1.26563em;
   content: "\e606" !important; }
 
 .live-stream__btn--pause:before {
@@ -4425,8 +4431,7 @@ category: Components
   width: 78.125%;
   padding: 23px 0 22px 3.75%;
   margin-right: 3.75%;
-  line-height: 1;
-  text-transform: uppercase; }
+  line-height: 1; }
   @media screen and (min-width: 480px) {
     .on-air, .up-next {
       width: 85.416666666667%;
@@ -4453,20 +4458,16 @@ category: Components
   display: block; }
 
 .on-air__title, .up-next__title {
-  margin-right: 1em;
-  font-size: 0.79012em;
-  font-weight: lighter; }
-  @media screen and (min-width: 768px) {
-    .on-air__title, .up-next__title {
-      margin-right: .25em;
-      font-size: 0.70233em; } }
+  margin-bottom: 10px;
+  font-size: 0.88889em; }
 
 #popup-player-livestream .on-air__title, #popup-player-livestream .up-next__title {
   margin-right: .25em;
   font-size: 0.70233em; }
 
 .on-air__show, .up-next__show {
-  font-size: 0.79012em; }
+  font-size: 0.88889em;
+  text-transform: uppercase; }
 
 .now-playing {
   display: none;
@@ -4483,7 +4484,6 @@ category: Components
       width: 100%;
       height: auto;
       padding: 0 1em;
-      margin: 1em 0 0;
       text-align: center; } }
 
 #popup-player-livestream .now-playing {
@@ -4507,6 +4507,7 @@ category: Components
   color: #d22228; }
   @media screen and (min-width: 768px) {
     .now-playing__title {
+      margin-bottom: 10px;
       font-size: 1.125em; } }
 
 #popup-player-livestream .now-playing__title {
@@ -4517,9 +4518,10 @@ category: Components
   line-height: 1;
   font-size: 0.70233em;
   font-weight: lighter;
-  color: #d0d2d3; }
+  color: #f1f1f3; }
   @media screen and (min-width: 768px) {
     .now-playing__artist {
+      padding-bottom: 30px;
       font-size: 0.79012em; } }
 
 #popup-player-livestream .now-playing__artist {
@@ -4610,7 +4612,7 @@ category: Components
       height: 100%;
       padding-right: 1em;
       padding-left: 1em;
-      margin: 16px 0 0;
+      margin: 0;
       overflow: hidden;
       overflow-y: scroll; } }
 
@@ -4694,7 +4696,8 @@ category: Components
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 0.88889em;
-  font-weight: normal; }
+  font-weight: normal;
+  color: #d0d2d3; }
   .content .live-link__title {
     font-size: 1.25em; }
     @media screen and (min-width: 1024px) {
@@ -6385,7 +6388,7 @@ category: Components - Shows
   list-style: none;
   display: block;
   padding: 0;
-  margin: 0 0 1em;
+  margin: 0 0 26px;
   line-height: 1; }
 
 /*doc

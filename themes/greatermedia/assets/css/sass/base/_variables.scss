@@ -75,6 +75,12 @@ $color-text-gray: $medium-gray !default;
 $color-text-red: $cardinal !default;
 $color-text-yellow: $yellow !default;
 
+$color-gray: $gray !default;
+$color-gray-extra-light: $extra-light-gray !default;
+$color-gray-light: $light-gray !default;
+$color-gray-medium: $medium-gray !default;
+$color-gray-darker: $darker-gray !default;
+
 $primary-bg: $white !default;
 $primary-text: $color-text-gray !default;
 $primary-heading: $color-text-gray !default;
@@ -94,8 +100,8 @@ $header-bg: $darker-gray !default;
 $header-border: $dark-gray !default;
 $header-nav-bg: $cardinal !default;
 
-$liveplayer-bg: $darker-gray !default;
-$liveplayer-color: $color-text-white !default;
+$liveplayer-bg: $black !default;
+$liveplayer-color: lighten($color-gray-medium, 20%) !default;
 
 $featured-primary-bg: $heath !default;
 $featured-secondary-bg: $coffee-bean !default;
