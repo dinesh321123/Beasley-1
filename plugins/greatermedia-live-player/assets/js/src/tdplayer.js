@@ -294,6 +294,7 @@
 	});
 
 	function playLiveStream() {
+		pjaxInit();
 		if ( true === playingCustomAudio ) {
 			resumeCustomInlineAudio();
 		} else {
