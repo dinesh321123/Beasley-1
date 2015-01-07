@@ -49,6 +49,7 @@ category: Components - Shows
 
 .podcast {
 	@include row();
+	margin-bottom: 68px;
 }
 
 .podcast__play {
@@ -59,6 +60,19 @@ category: Components - Shows
 .podcast__btn--pause{
 	position: relative;
 	@extend %live-stream__btn;
+	width: 82px;
+	height: 82px;
+	border-width: 3px;
+}
+
+.podcast__btn--play:hover, .podcast__btn--pause:focus {
+	border-color: darken($btn-bg, 9%);
+	color: darken($btn-bg, 9%);
+}
+
+.podcast__btn--play:active {
+	border-color: $btn-active;
+	color: $btn-active;
 }
 
 .podcast__btn--play, .podcast__btn--pause, .podcast__runtime {
@@ -74,6 +88,7 @@ category: Components - Shows
 	left: 50%;
 	@include transform(translate(-50%, -50%));
 	font-family: $icon-font !important;
+	font-size: ms(5);
 }
 .podcast__btn--play {
 	&:before {
@@ -99,16 +114,43 @@ category: Components - Shows
 
 .podcast__meta {
 	@include span-columns(9 of 12);
+}
 
-	h3 {
-		margin: 0;
-		clear: both;
-	}
+.podcast__title {
+	margin: 20px 0 26px;
+	line-height: 1;
+	font-size: ms(5);
+}
 
-	time {
-		float: left;
-		margin-right: 1em;
-	}
+.podcast__parent {
+	margin-bottom: 10px;
+}
+
+.podcast__parent--title {
+	display: inline-block;
+	font-weight: bold;
+}
+
+.podcast__date {
+	font-size: ms(-2);
+	color: $color-gray;
+}
+
+.podcast__rss {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+a.podcast__rss:link, a.podcast__rss:visited {
+	color: $color-text-red;
+}
+
+a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
+	color: $color-text-black;
+}
+
+.podcast__desc {
+	font-size: ms(-1);
 }
 
 .podcast__download {
@@ -133,8 +175,12 @@ category: Components - Shows
 
 .podcast__subscribe {
 	@extend .live-stream__listen-now--btn;
-	margin-left: 5px;
+	margin: 0 0 0 10px;
 	text-transform: none;
+}
+
+.gmr-mediaelement-fallback {
+	max-height: 100px;
 }
 
 // For Podcasts Archive Lists

@@ -5728,7 +5728,8 @@ category: Components - Shows
 
 */
 .podcast {
-  display: block; }
+  display: block;
+  margin-bottom: 68px; }
   .podcast:before, .podcast:after {
     content: " ";
     display: table; }
@@ -5745,7 +5746,18 @@ category: Components - Shows
 
 .podcast__btn--play,
 .podcast__btn--pause {
-  position: relative; }
+  position: relative;
+  width: 82px;
+  height: 82px;
+  border-width: 3px; }
+
+.podcast__btn--play:hover, .podcast__btn--pause:focus {
+  border-color: #aa1c20;
+  color: #aa1c20; }
+
+.podcast__btn--play:active {
+  border-color: #000000;
+  color: #000000; }
 
 .podcast__btn--play, .podcast__btn--pause, .podcast__runtime {
   display: block;
@@ -5762,7 +5774,8 @@ category: Components - Shows
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-family: "gmr-icons" !important; }
+  font-family: "gmr-icons" !important;
+  font-size: 1.80203em; }
 
 .podcast__btn--play:before {
   content: "\e606" !important; }
@@ -5783,12 +5796,35 @@ category: Components - Shows
   width: 74.41059%; }
   .podcast__meta:last-child {
     margin-right: 0; }
-  .podcast__meta h3 {
-    margin: 0;
-    clear: both; }
-  .podcast__meta time {
-    float: left;
-    margin-right: 1em; }
+
+.podcast__title {
+  margin: 20px 0 26px;
+  line-height: 1;
+  font-size: 1.80203em; }
+
+.podcast__parent {
+  margin-bottom: 10px; }
+
+.podcast__parent--title {
+  display: inline-block;
+  font-weight: bold; }
+
+.podcast__date {
+  font-size: 0.79012em;
+  color: #929497; }
+
+.podcast__rss {
+  display: inline-block;
+  margin-left: 10px; }
+
+a.podcast__rss:link, a.podcast__rss:visited {
+  color: #d22228; }
+
+a.podcast__rss:hover, a.podcast__rss:focus, a.podcast__rss:active {
+  color: #000000; }
+
+.podcast__desc {
+  font-size: 0.88889em; }
 
 .podcast__download {
   width: 100%;
@@ -5863,8 +5899,11 @@ category: Components - Shows
     margin-right: 0; }
 
 .podcast__subscribe {
-  margin-left: 5px;
+  margin: 0 0 0 10px;
   text-transform: none; }
+
+.gmr-mediaelement-fallback {
+  max-height: 100px; }
 
 .single-show .featured__content {
   margin: 0.75em 0 1em; }

@@ -2,4 +2,4 @@
  * http://wordpress.org/plugins
  * Copyright (c) 2015; * Licensed GPLv2+ */
 
-.pagination{clear:both;position:relative;font-size:11px;line-height:13px}.pagination a,.pagination span{display:block;float:left;margin:2px 2px 2px 0;padding:6px 9px 5px;text-decoration:none;width:auto;color:#000}.pagination a:hover{color:#000}.pagination .current{padding:6px 9px 5px;color:#000;border:1px solid gray;border-radius:12px}.podcast__meta .dashicons-rss{color:#929497!important;height:15px;width:15px;font-size:15px}.podcast__meta .dashicons,.podcast__meta .dashicons-before:before{vertical-align:bottom}
+.pagination{clear:both;position:relative;font-size:11px;line-height:13px}.pagination a,.pagination span{display:block;float:left;margin:2px 2px 2px 0;padding:6px 9px 5px;text-decoration:none;width:auto;color:#000}.pagination a:hover{color:#000}.pagination .current{padding:6px 9px 5px;color:#000;border:1px solid gray;border-radius:12px}
