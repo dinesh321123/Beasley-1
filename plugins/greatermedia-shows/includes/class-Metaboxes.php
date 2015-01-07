@@ -15,7 +15,7 @@ class GMR_Show_Metaboxes {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ) );
-		add_action( 'save_post', array( $this, 'save_box' ), 20 );
+		add_action( 'save_post', array( $this, 'save_box' ) );
 
 		add_action( 'show_user_profile', array( $this, 'admin_user_meta_fields' ), 10, 1 );
 		add_action( 'edit_user_profile', array( $this, 'admin_user_meta_fields' ), 10, 1 );
