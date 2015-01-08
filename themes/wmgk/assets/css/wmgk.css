@@ -8620,11 +8620,25 @@ select {
   .profile-page .profile-page__sidebar {
     background-color: #561015;
     color: #ffffff;
-    background-image: url("../../../../themes/greatermedia/assets/../images/default-texture.png");
+    background: url("../../../../themes/greatermedia/assets/../images/profile_bg.jpg");
     text-align: center; }
+    @media screen and (min-width: 320px) {
+      .profile-page .profile-page__sidebar {
+        background-size: cover; } }
+    @media screen and (min-width: 480px) {
+      .profile-page .profile-page__sidebar {
+        background-size: cover; } }
+    @media screen and (min-width: 768px) {
+      .profile-page .profile-page__sidebar {
+        background-size: cover; } }
     @media screen and (min-width: 1024px) {
       .profile-page .profile-page__sidebar {
-        text-align: left; } }
+        text-align: left;
+        background-position: 50% 50%; } }
+    @media screen and (min-width: 1400px) {
+      .profile-page .profile-page__sidebar {
+        text-align: left;
+        background-position: 50% 50%; } }
   .profile-page .profile-page__sidebar h1 {
     text-transform: uppercase; }
   .profile-page .profile-page__sidebar p {

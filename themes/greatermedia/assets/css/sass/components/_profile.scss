@@ -27,11 +27,29 @@
 	.profile-page__sidebar {
 		background-color: $featured-primary-bg;
 		color: $color-text-white;
-		background-image: url( $asset-root + '../images/default-texture.png' );
-
+		background: url( $asset-root + '../images/profile_bg.jpg' );
 		text-align: center;
+
+		@include bp('x-small') {
+			background-size: cover;
+		}
+
+		@include bp('small') {
+			background-size: cover;
+		}
+
+		@include bp('medium') {
+			background-size: cover;
+		}
+
 		@include bp('large') {
 			text-align: left;
+			background-position: 50% 50%;
+		}
+
+		@include bp('x-large') {
+			text-align: left;
+			background-position: 50% 50%;
 		}
 	}
 
