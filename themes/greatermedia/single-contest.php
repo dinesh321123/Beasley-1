@@ -73,6 +73,8 @@ get_header(); ?>
 								<div class="contest__restriction--signin">
 									<p>
 										You must be signed in to enter the contest!
+									</p>
+									<p>
 										<a href="<?php echo esc_url( gmr_contests_get_login_url() ); ?>">Sign in here</a>
 									</p>
 								</div>

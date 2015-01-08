@@ -118,13 +118,14 @@
 		font-weight: bold;
 	}
 
-	.contest__restriction--signin p {
-		font-weight: bold;
+	.contest__restriction--signin {
+		p:first-child {
+			font-weight: bold;
+		}
 
 		a {
 			@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
 			@include border-radius(3px);
-			font-weight: normal;
 		}
 	}
 

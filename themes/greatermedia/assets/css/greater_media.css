@@ -5334,34 +5334,33 @@ category: Components - Ads
     margin-right: 0; }
 .contest__restrictions .contest__restriction--age p:first-child {
   font-weight: bold; }
-.contest__restrictions .contest__restriction--signin p {
+.contest__restrictions .contest__restriction--signin p:first-child {
   font-weight: bold; }
-  .contest__restrictions .contest__restriction--signin p a {
-    display: inline-block;
-    line-height: 1;
-    padding: 0.5em 1em;
-    margin-right: .5em;
-    outline: none;
-    background-color: #d22228;
-    border: 1px solid #d22228;
-    font-family: "Open Sans", sans-serif;
-    font-size: 0.88889em;
-    color: #ffffff !important;
-    text-transform: uppercase;
-    cursor: pointer;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -o-border-radius: 3px;
-    -border-radius: 3px;
-    border-radius: 3px;
-    font-weight: normal; }
-    .contest__restrictions .contest__restriction--signin p a:hover, .contest__restrictions .contest__restriction--signin p a:focus {
-      background-color: #aa1c20;
-      border-color: #aa1c20;
-      color: #ffffff; }
-    .contest__restrictions .contest__restriction--signin p a:last-of-type {
-      margin-right: 0; }
+.contest__restrictions .contest__restriction--signin a {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  -border-radius: 3px;
+  border-radius: 3px; }
+  .contest__restrictions .contest__restriction--signin a:hover, .contest__restrictions .contest__restriction--signin a:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  .contest__restrictions .contest__restriction--signin a:last-of-type {
+    margin-right: 0; }
 .contest__restrictions.age .contest__restriction--age {
   display: block; }
 .contest__restrictions.age-fails .contest__restriction--age-fails {
