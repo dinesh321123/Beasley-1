@@ -42,7 +42,7 @@ class GMR_Audio_Shortcodes {
 
 		if ( function_exists( 'wp_read_audio_metadata' ) ) {
 			$fileinfo = parse_url( $mp3_src );
-			$file_path = ABSPAOTH . $fileinfo['path'];
+			$file_path = ABSPATH . $fileinfo['path'];
 			$metadata = wp_read_audio_metadata( $file_path );
 			$metadata = wp_parse_args( $metadata, $metadata_defaults );
 		} else {
