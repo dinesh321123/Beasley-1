@@ -218,8 +218,8 @@
 
 	function loggedInGigyaUser() {
 		if (is_gigya_user_logged_in() ) {
+			setStoppedStyles();
 			if( Cookies.get( "gmlp_play_button_pushed" ) == 1 ) {
-				setStoppedStyles();
 				playLiveStreamWithPreRoll();
 				Cookies.set( "gmlp_play_button_pushed", 0 );
 			}
