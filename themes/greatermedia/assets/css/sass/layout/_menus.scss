@@ -110,9 +110,36 @@
 .mobile-nav--open .page-wrap {
 	@include transform(translate(78%, 0));
 	width: 100%;
-	@include transition(all 100ms ease-out);
+	@include transition(transform 100ms ease-out);
+	position: fixed;
 }
 
+.mobile-nav--open .header__search--open {
+	@include transform(translate(78%, 0));
+}
+
+.mobile-nav--open .header__search--form {
+	position: fixed;
+	@include transform(translate(78%));
+	@include bp('medium') {
+		@include transform(translate(78%, -200%));
+	}
+}
+
+.mobile-nav--open .footer {
+	display: none;
+}
+
+.mobile-nav--open .page-wrap {
+	top: 40px;
+
+}
+
+
+/**
+ * Provides an overlay mask to help focus attention on the menu
+ * z-index is 2 so that it sits under the close button, but above most content
+ */
 .mobile-nav--open .page-wrap:before {
 	position: absolute;
 	top: 0;
@@ -120,6 +147,7 @@
 	height: 100%;
 	background-color: rgba(0,0,0,.4);
 	content: " ";
+	z-index: 2;
 }
 
 .mobile-nav__list {

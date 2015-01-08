@@ -480,11 +480,9 @@
 
 		$menu.on('mouseover', '.menu-item-has-children', function (e) {
 			$overlay.addClass('is-visible');
-			window.console.log('is visible');
 		});
 		$menu.on('mouseout', '.menu-item-has-children', function (e) {
 			$overlay.removeClass('is-visible');
-			window.console.log('is not visible');
 		});
 	}
 
