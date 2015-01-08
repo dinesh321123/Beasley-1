@@ -109,7 +109,7 @@ class GreaterMediaFormbuilderRender {
 		return $tags;
 	}
 
-	public static function parse_entry( $contest_id, $entry_id ) {
+	public static function parse_entry( $contest_id, $entry_id, $form = null ) {
 		if ( isset( self::$_entries[ $contest_id ][ $entry_id ] ) ) {
 			return self::$_entries[ $contest_id ][ $entry_id ];
 		}
@@ -118,14 +118,16 @@ class GreaterMediaFormbuilderRender {
 			self::$_entries[ $contest_id ] = array();
 		}
 
-		$form = get_post_meta( $contest_id, 'embedded_form', true );
-		if ( empty( $form ) ) {
-			return array();
-		}
+		if ( ! $form ) {
+			$form = get_post_meta( $contest_id, 'embedded_form', true );
+			if ( empty( $form ) ) {
+				return array();
+			}
 
-		if ( is_string( $form ) ) {
-			$clean_form = trim( $form, '"' );
-			$form = json_decode( $clean_form );
+			if ( is_string( $form ) ) {
+				$clean_form = trim( $form, '"' );
+				$form = json_decode( $clean_form );
+			}
 		}
 
 		$contest_entry = get_post_meta( $entry_id, 'entry_reference', true );
@@ -196,7 +198,7 @@ class GreaterMediaFormbuilderRender {
 		}
 
 		$html = '<h3 class="contest__form--heading">' . esc_html( $title ) . '</h3>';
-		$html .= '<form method="post" enctype="multipart/form-data" class="' . esc_attr( self::FORM_CLASS ) . '" data-parsley-validate>';
+		$html .= '<form method="post" enctype="multipart/form-data" data-parsley-validate>';
 
 		foreach ( $form as $field ) {
 
@@ -221,7 +223,7 @@ class GreaterMediaFormbuilderRender {
 
 		$html .= '</form>';
 
-		echo $html;
+		return $html;
 
 	}
 

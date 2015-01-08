@@ -22,6 +22,29 @@
 	margin: 0 auto;
 }
 
+.type-contest,
+.type-survey {
+	.col__inner--left {
+		border-right-width: 0;
+	}
+
+	&.collapsed {
+		.col__inner--left {
+			width: 100%;
+			margin-right: 0;
+			padding-right: 0;
+		}
+		
+		.col__inner--right {
+			display: none;
+		}
+
+		.contest__entry--link {
+			display: none;
+		}
+	}
+}
+
 .contest__entry--link {
 	display: block;
 	margin-bottom: 2em;
@@ -69,6 +92,87 @@
 
 .contest__form--row {
 	margin-bottom: 30px;
+}
+
+.contest__restrictions {
+	.contest__restriction--age,
+	.contest__restriction--age-fails,
+	.contest__restriction--finished,
+	.contest__restriction--max-entries,
+	.contest__restriction--not-started,
+	.contest__restriction--one-entry,
+	.contest__restriction--signin {
+		display: none;
+	}
+
+	.contest__restriction--finished p,
+	.contest__restriction--max-entries p,
+	.contest__restriction--not-started p,
+	.contest__restriction--age-fails p,
+	.contest__restriction--one-entry p {
+		@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
+		@include border-radius(3px);
+	}
+
+	.contest__restriction--age p:first-child {
+		font-weight: bold;
+	}
+
+	.contest__restriction--signin p {
+		font-weight: bold;
+
+		a {
+			@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
+			@include border-radius(3px);
+			font-weight: normal;
+		}
+	}
+
+	&.age .contest__restriction--age {
+		display: block;
+	}
+
+	&.age-fails .contest__restriction--age-fails {
+		display: block;
+	}
+
+	&.finished .contest__restriction--finished {
+		display: block;
+	}
+
+	&.max-entries .contest__restriction--max-entries {
+		display: block;
+	}
+
+	&.not-started .contest__restriction--not-started {
+		display: block;
+	}
+
+	&.one-entry .contest__restriction--one-entry {
+		display: block;
+	}
+
+	&.signin .contest__restriction--signin {
+		display: block;
+	}
+}
+
+.contest__restriction--min-age-yes,
+.contest__restriction--min-age-no {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(-1));
+	@include border-radius(3px);
+
+	&:hover {
+		@include btn($btn-hover, $color-text-black, $btn-hover, .625em, 1em, ms(-1));
+	}
+
+	&:active {
+		@include btn($btn-active, $color-text-white, $btn-active, .625em, 1em, ms(-1));
+	}
+
+	&:last-of-type {
+		margin-right: 0;
+	}
 }
 
 .contest-attr--rules {

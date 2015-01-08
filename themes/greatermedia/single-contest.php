@@ -17,8 +17,9 @@ get_header(); ?>
 			<?php  if ( have_posts() ) : ?>
 
 				<?php while ( have_posts() ) : the_post(); ?>
+					<?php $contest_id = get_the_ID(); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf collapsed' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
 						<?php if ( has_post_thumbnail() ) : ?>
 							<div class="contest__thumbnail">
@@ -38,8 +39,48 @@ get_header(); ?>
 								<a class="icon-facebook social-share-link" href="http://www.facebook.com/sharer/sharer.php?u=<?php echo $encoded_permalink; ?>&title=<?php echo $encoded_title; ?>"></a>
 								<a class="icon-twitter social-share-link" href="http://twitter.com/home?status=<?php echo $encoded_title; ?>+<?php echo $encoded_permalink; ?>"></a>
 								<a class="icon-google-plus social-share-link" href="https://plus.google.com/share?url=<?php echo $encoded_permalink; ?>"></a>
-
 							</header>
+
+							<div class="contest__restrictions">
+
+								<div class="contest__restriction--not-started">
+									<p>The contest is not started yet.</p>
+								</div>
+
+								<div class="contest__restriction--finished">
+									<p>The contest is already finished.</p>
+								</div>
+
+								<div class="contest__restriction--max-entries">
+									<p>This contest has reached maximum number of entries!</p>
+								</div>
+
+								<div class="contest__restriction--age">
+									<p>
+										Please, <a href="<?php echo esc_url( gmr_contests_get_login_url() ); ?>">sign in</a>
+										or confirm that you are at least <?php echo absint( get_post_meta( $contest_id, 'contest-min-age', true ) ); ?> years old.
+									</p>
+									<p>
+										<a class="contest__restriction--min-age-yes" href="#">Yes, I am</a>
+										<a class="contest__restriction--min-age-no" href="#">No, I am not</a>
+									</p>
+								</div>
+
+								<div class="contest__restriction--age-fails">
+									<p>You must be at least <?php echo absint( get_post_meta( $contest_id, 'contest-min-age', true ) ); ?> years old to enter the contest!</p>
+								</div>
+
+								<div class="contest__restriction--signin">
+									<p>
+										You must be signed in to enter the contest!
+										<a href="<?php echo esc_url( gmr_contests_get_login_url() ); ?>">Sign in here</a>
+									</p>
+								</div>
+
+								<div class="contest__restriction--one-entry">
+									<p>You have already entered this contest!</p>
+								</div>
+							</div>
 
 							<div class="contest__entry--link">
 								<a href="#contest-form" class="contest__entry--btn">Enter Contest</a>
@@ -77,9 +118,7 @@ get_header(); ?>
 						</section>
 
 
-						<section id="contest-form" class="col__inner--right contest__form"<?php gmr_contest_container_attributes(); ?>>
-							LOADING... <?php //TODO: replace with a spinner ?>
-						</section>
+						<section id="contest-form" class="col__inner--right contest__form"<?php gmr_contest_container_attributes(); ?>></section>
 
 						<?php get_template_part( 'partials/submission', 'tiles' ); ?>
 

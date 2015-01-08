@@ -96,6 +96,8 @@ class GreaterMediaSurveyEntry {
 
 		$post_id = wp_insert_post( $this->post, true );
 
+		$this->post = get_post( $post_id );
+
 		update_post_meta( $post_id, 'entrant_name', $this->entrant_name );
 		update_post_meta( $post_id, 'entrant_reference', $this->entrant_reference );
 		update_post_meta( $post_id, 'entry_source', $this->entry_source );

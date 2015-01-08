@@ -2,7 +2,7 @@
 
 // action hooks
 add_action( 'init', 'gmr_contests_register_post_type' );
-add_action( 'init', 'gmr_contests_register_rewrites_and_endpoints' );
+add_action( 'init', 'gmr_contests_register_rewrites_and_endpoints', 100 );
 add_action( 'wp_enqueue_scripts', 'gmr_contests_enqueue_front_scripts', 100 );
 add_action( 'template_redirect', 'gmr_contests_process_action' );
 add_action( 'template_redirect', 'gmr_contests_process_submission_action' );
@@ -10,7 +10,6 @@ add_action( 'template_redirect', 'gmr_contests_process_submission_action' );
 add_action( 'gmr_contest_load', 'gmr_contests_render_form' );
 add_action( 'gmr_contest_submit', 'gmr_contests_process_form_submission' );
 add_action( 'gmr_contest_confirm-age', 'gmr_contests_confirm_user_age' );
-add_action( 'gmr_contest_reject-age', 'gmr_contests_reject_user_age' );
 add_action( 'gmr_contest_vote', 'gmr_contests_vote_for_submission' );
 add_action( 'gmr_contest_unvote', 'gmr_contests_unvote_for_submission' );
 
@@ -63,7 +62,7 @@ function gmr_contests_register_post_type() {
 /**
  * Registers rewrites and endpoints for contests related tasks.
  *
- * @action init
+ * @action init 100
  * @global WP_Rewrite $wp_rewrite The rewrite API object.
  */
 function gmr_contests_register_rewrites_and_endpoints() {
@@ -79,8 +78,8 @@ function gmr_contests_register_rewrites_and_endpoints() {
 	}
 
 	// add endpoints
-	add_rewrite_endpoint( 'action', EP_GMR_CONTEST );
-	add_rewrite_endpoint( 'submission', EP_GMR_CONTEST );
+	add_rewrite_endpoint( 'action', EP_GMR_CONTEST | EP_GMR_SURVEY );
+	add_rewrite_endpoint( 'submission', EP_GMR_CONTEST | EP_GMR_SURVEY );
 
 	// flush rewrite rules only if our rules is not registered
 	$all_registered_rules = $wp_rewrite->wp_rewrite_rules();
@@ -103,16 +102,6 @@ function gmr_contests_enqueue_front_scripts() {
 	wp_enqueue_style( 'greatermedia-contests', "{$base_path}css/greatermedia-contests.css", array( 'datetimepicker', 'parsleyjs' ), GREATER_MEDIA_CONTESTS_VERSION );
 
 	wp_enqueue_script( 'greatermedia-contests', "{$base_path}js/contests{$postfix}.js", array( 'jquery', 'datetimepicker', 'parsleyjs', 'parsleyjs-words', 'gmr-gallery' ), GREATER_MEDIA_CONTESTS_VERSION, true );
-	wp_localize_script( 'greatermedia-contests', 'GreaterMediaContests', array(
-		'selectors' => array(
-			'container' => '#contest-form',
-			'form'      => '.' . GreaterMediaFormbuilderRender::FORM_CLASS,
-			'yes_age'   => '.min-age-yes',
-			'no_age'    => '.min-age-no',
-			'grid'      => '.contest__submissions--list',
-			'grid_more' => '.contest__submissions--load-more',
-		),
-	) );
 }
 
 /**
@@ -133,7 +122,6 @@ function gmr_contest_container_attributes( $post = null ) {
 		'load'        => "{$permalink_action}/load/",
 		'submit'      => "{$permalink_action}/submit/",
 		'confirm-age' => "{$permalink_action}/confirm-age/",
-		'reject-age'  => "{$permalink_action}/reject-age/",
 		'vote'        => "{$permalink_action}/vote/",
 		'unvote'      => "{$permalink_action}/unvote/",
 		'infinite'    => "{$permalink}/page/",
@@ -218,16 +206,6 @@ function gmr_contests_process_action() {
  */
 function gmr_contests_confirm_user_age() {
 	gmr_contests_render_form( true );
-}
-
-/**
- * Rejects contest applying to an user which doesn't meet age requirements.
- *
- * @action gmr_contest_reject-age
- */
-function gmr_contests_reject_user_age() {
-	$min_age = (int) get_post_meta( get_the_ID(), 'contest-min-age', true );
-	echo '<p>Sorry, you must be at least ', $min_age, ' years old to enter the contest!</p>';
 }
 
 /**
@@ -351,6 +329,47 @@ function gmr_contests_unvote_for_submission() {
 	wp_send_json_success();
 }
 
+function gmr_contest_is_not_started( $contest_id = null ) {
+	if ( ! $contest_id ) {
+		$contest_id = get_the_ID();
+	}
+
+	$now = current_time( 'timestamp', 1 );
+	$start = (int) get_post_meta( $contest_id, 'contest-start', true );
+
+	return $start > 0 && $start > $now;
+}
+
+function gmr_contest_is_finished( $contest_id = null ) {
+	if ( ! $contest_id ) {
+		$contest_id = get_the_ID();
+	}
+
+	$now = current_time( 'timestamp', 1 );
+	$end = (int) get_post_meta( $contest_id, 'contest-end', true );
+
+	return $end > 0 && $now > $end;
+}
+
+function gmr_contest_has_max_entries( $contest_id = null ) {
+	if ( ! $contest_id ) {
+		$contest_id = get_the_ID();
+	}
+
+	$max_entries = get_post_meta( $contest_id, 'contest-max-entries', true );
+	$current_entries = gmr_contests_get_entries_count( $contest_id );
+	
+	return $max_entries > 0 && $current_entries >= $max_entries;
+}
+
+function gmr_contest_allows_members_only( $contest_id = null ) {
+	if ( ! $contest_id ) {
+		$contest_id = get_the_ID();
+	}
+
+	return filter_var( get_post_meta( $contest_id, 'contest-members-only', true ), FILTER_VALIDATE_BOOLEAN );
+}
+
 /**
  * Renders contest form.
  *
@@ -361,40 +380,30 @@ function gmr_contests_render_form( $skip_age = false ) {
 	$contest_id = get_the_ID();
 
 	// check start date
-	$now = current_time( 'timestamp', 1 );
-	$start = (int) get_post_meta( $contest_id, 'contest-start', true );
-	if ( $start > 0 && $start > $now ) {
-		echo '<p>The contest is not started yet.</p>';
-		return;
+	if ( gmr_contest_is_not_started( $contest_id ) ) {
+		wp_send_json_error( array( 'restriction' => 'not-started' ) );
 	}
 
 	// check end date
-	$end = (int) get_post_meta( $contest_id, 'contest-end', true );
-	if ( $end > 0 && $now > $end ) {
-		echo '<p>The contest is already finished.</p>';
-		return;
+	if ( gmr_contest_is_finished( $contest_id ) ) {
+		wp_send_json_error( array( 'restriction' => 'finished' ) );
 	}
 
 	// check the max entries limit
-	$max_entries = get_post_meta( $contest_id, 'contest-max-entries', true );
-	if ( $max_entries > 0 && gmr_contests_get_entries_count( $contest_id ) >= $max_entries ) {
-		echo '<p>This contest has reached maximum number of entries!</p>';
-		return;
+	if ( gmr_contest_has_max_entries( $contest_id ) ) {
+		wp_send_json_error( array( 'restriction' => 'max-entries' ) );
 	}
 
 	// check if user has to be logged in
 	$gigya_logged_in_exists = function_exists( 'is_gigya_user_logged_in' );
-	$members_only = get_post_meta( $contest_id, 'contest-members-only', true );
-	if ( $members_only && $gigya_logged_in_exists && ! is_gigya_user_logged_in() ) {
-		echo '<p>You must be signed in to enter the contest! <a href="', esc_url( gmr_contests_get_login_url() ), '">Sign in here</a>.</p>';
-		return;
+	if ( gmr_contest_allows_members_only( $contest_id ) && $gigya_logged_in_exists && ! is_gigya_user_logged_in() ) {
+		wp_send_json_error( array( 'restriction' => 'signin' ) );
 	}
 
 	// check if user can submit multiple entries
 	$single_entry = get_post_meta( $contest_id, 'contest-single-entry', true );
 	if ( $single_entry && function_exists( 'has_user_entered_contest' ) && has_user_entered_contest( $contest_id ) ) {
-		echo '<p>You have already entered this contest!</p>';
-		return;
+		wp_send_json_error( array( 'restriction' => 'one-entry' ) );
 	}
 
 	// check min age restriction
@@ -404,19 +413,18 @@ function gmr_contests_render_form( $skip_age = false ) {
 			if ( $gigya_logged_in_exists && is_gigya_user_logged_in() ) {
 				$current_age = get_gigya_user_field( 'age' );
 				if ( $current_age < $min_age ) {
-					echo '<p>You must be at least ', $min_age, ' years old to enter the contest!</p>';
-					return;
+					wp_send_json_error( array( 'restriction' => 'age-fails' ) );
 				}
 			} else {
-				echo '<p>Please, <a href="', esc_url( gmr_contests_get_login_url() ), '">sign in</a> or confirm that you are at least ', $min_age, ' years old.</p>';
-				echo '<p><a class="min-age-yes" href="#">Yes, I am</a> &#8212; <a class="min-age-no" href="#">No, I am not</a></p>';
-				return;
+				wp_send_json_error( array( 'restriction' => 'age' ) );
 			}
 		}
 	}
 
 	// render the form
-	GreaterMediaFormbuilderRender::render( $contest_id );
+	wp_send_json_success( array(
+		'html' => GreaterMediaFormbuilderRender::render( $contest_id ),
+	) );
 }
 
 /**
