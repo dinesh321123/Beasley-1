@@ -24,7 +24,7 @@ if( $protection && $protection == 'on' ) {
 		$message = $message_option;
 	}
 
-	$no_access_message = '<div style="text-align:center;font-family:sans-serif;border:1px solid red;background:pink;padding:20px 0;color:red;">' . $message . '</div>';
+	$no_access_message = '<div style="text-align:center;font-family:sans-serif;border:1px solid red;background:pink;padding:20px 0;color:red;">' . esc_html( $message ) . '</div>';
 
 	// Request password and give access if correct
 	if ( ! isset( $_SERVER['PHP_AUTH_USER'] ) && ! isset( $_SERVER['PHP_AUTH_PW'] ) ) {
@@ -201,10 +201,10 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 	$args = array(
 		'post_type' => 'episode',
 		'post_status' => 'publish',
-		'posts_per_page' => -1
+		'posts_per_page' => 500
 	);
 	if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) {
-		$args['series'] = esc_attr( $_GET['podcast_series'] );
+		$args['series'] = sanitize_text_field( $_GET['podcast_series'] );
 	}
 	$qry = new WP_Query( $args );
 
@@ -285,14 +285,12 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		$content = get_the_content_feed( 'rss2' );
 
 		// iTunes summary does not allow any HTML and must be shorter than 4000 characters
-		$itunes_summary = strip_tags( get_the_content() );
-		$itunes_summary = str_replace( array( '&', '>', '<', '\'', '"', '`' ), array( 'and', '', '', '', '', '' ), $itunes_summary );
+		$itunes_summary = wp_strip_all_tags( get_the_content() );
 		$itunes_summary = substr( $itunes_summary, 0, 3950 );
 		$itunes_summary = strip_shortcodes( $itunes_summary );
 
-				// iTunes short description does not allow any HTML and must be shorter than 4000 characters
-		$itunes_excerpt = strip_tags( get_the_excerpt() );
-		$itunes_excerpt = str_replace( array( '&', '>', '<', '\'', '"', '`', '[andhellip;]', '[&hellip;]' ), array( 'and', '', '', '', '', '', '', '' ), $itunes_excerpt );
+		// iTunes short description does not allow any HTML and must be shorter than 4000 characters
+		$itunes_excerpt = wp_strip_all_tags( get_the_excerpt() );
 		$itunes_excerpt = substr( $itunes_excerpt, 0, 3950 );
 
 	?>
@@ -300,17 +298,17 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		<title><?php esc_html( the_title_rss() ); ?></title>
 		<link><?php esc_url( the_permalink_rss() ); ?></link>
 		<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', true ), false ) ); ?></pubDate>
-		<dc:creator><?php echo $author; ?></dc:creator>
+		<dc:creator><?php echo esc_html( $author ); ?></dc:creator>
 		<guid isPermaLink="false"><?php esc_html( the_guid() ); ?></guid>
 		<description><![CDATA[<?php the_excerpt_rss(); ?>]]></description>
-		<itunes:subtitle><?php echo $itunes_excerpt; ?></itunes:subtitle>
-		<content:encoded><![CDATA[<?php echo $content; ?>]]></content:encoded>
-		<itunes:summary><?php echo $itunes_summary; ?></itunes:summary>
+		<itunes:subtitle><?php echo esc_html( $itunes_excerpt ); ?></itunes:subtitle>
+		<content:encoded><![CDATA[<?php echo esc_html( $content ); ?>]]></content:encoded>
+		<itunes:summary><?php echo esc_html( $itunes_summary ); ?></itunes:summary>
 		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $size ); ?>" type="<?php echo esc_attr( $mime_type ); ?>"></enclosure>
 		<itunes:explicit><?php echo esc_html( $explicit_flag ); ?></itunes:explicit>
 		<itunes:block><?php echo esc_html( $block_flag ); ?></itunes:block>
 		<itunes:duration><?php echo esc_html( $duration ); ?></itunes:duration>
-		<itunes:author><?php echo $author; ?></itunes:author><?php if( $keywords ) { ?>
+		<itunes:author><?php echo esc_html( $author ); ?></itunes:author><?php if( $keywords ) { ?>
 		<itunes:keywords><?php echo esc_html( $keywords ); ?></itunes:keywords><?php } ?>
 	</item><?php endwhile; endif; ?>
 </channel>
