@@ -5981,7 +5981,8 @@ category: Components - Shows
 
 .podcast__date {
   font-size: 0.79012em;
-  color: #929497; }
+  color: #929497;
+  text-transform: uppercase; }
 
 a.podcast__rss:link, a.podcast__rss:visited {
   display: inline-block;
@@ -6004,7 +6005,8 @@ a.podcast__rss:link, a.podcast__rss:visited {
   border-radius: 1em;
   display: inline-block;
   margin-left: 10px;
-  font-weight: normal; }
+  font-weight: normal;
+  text-transform: none; }
   a.podcast__rss:link:hover, a.podcast__rss:link:focus, a.podcast__rss:visited:hover, a.podcast__rss:visited:focus {
     background-color: transparent;
     border-color: #7b7d80;
@@ -6024,7 +6026,8 @@ a.podcast__rss:hover, a.podcast__rss:focus {
   font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  text-transform: none; }
   a.podcast__rss:hover:hover, a.podcast__rss:hover:focus, a.podcast__rss:focus:hover, a.podcast__rss:focus:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
@@ -6044,7 +6047,8 @@ a.podcast__rss:active {
   font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  text-transform: none; }
   a.podcast__rss:active:hover, a.podcast__rss:active:focus {
     background-color: black;
     border-color: black;
@@ -6079,7 +6083,8 @@ a.podcast__rss:active {
   -ms-border-radius: 1em;
   -o-border-radius: 1em;
   -border-radius: 1em;
-  border-radius: 1em; }
+  border-radius: 1em;
+  text-transform: none; }
   .podcast__download--btn:hover, .podcast__download--btn:focus {
     background-color: transparent;
     border-color: #7b7d80;
@@ -6099,7 +6104,8 @@ a.podcast__rss:active {
   font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  text-transform: none; }
   .podcast__download--btn:hover:hover, .podcast__download--btn:hover:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
@@ -6119,7 +6125,8 @@ a.podcast__rss:active {
   font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  text-transform: none; }
   .podcast__download--btn:active:hover, .podcast__download--btn:active:focus {
     background-color: black;
     border-color: black;
@@ -8582,7 +8589,14 @@ select {
 .ui-menu .ui-menu-item {
   position: relative;
   cursor: pointer;
-  min-height: 0; }
+  min-height: 0;
+  color: #000000;
+  padding: 1em; }
+
+.ui-menu .ui-menu-item.ui-state-focus {
+  color: #ffffff;
+  background: #d22228;
+  border: none; }
 
 .ui-autocomplete {
   position: absolute;
@@ -8595,13 +8609,6 @@ select {
   width: 100%;
   top: 100%;
   left: 0; }
-
-.ui-menu-item {
-  color: #000000;
-  padding: 1em; }
-
-.ui-state-focus {
-  color: #ffffff; }
 
 .profile-page {
   /**

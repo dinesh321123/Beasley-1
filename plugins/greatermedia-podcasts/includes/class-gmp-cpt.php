@@ -141,7 +141,7 @@ class GMP_CPT {
 			'can_export'          => true,
 			'has_archive'         => true,
 			'exclude_from_search' => false,
-			'publicly_queryable'  => true,
+			'publicly_queryable'  => false,
 			'rewrite'             => $rewrite,
 			'capability_type'     => 'page',
 			'register_meta_box_cb' => array( __CLASS__, 'parent_metabox' ),
@@ -265,7 +265,7 @@ class GMP_CPT {
             	$series = get_post( $post_id );
             	$series_slug = $series->post_name;
             	$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $series_slug;
-                echo '<a href="' . $feed_url . '" target="_blank">' . $feed_url . '</a>';
+                echo '<a href="' . esc_url( $feed_url ) . '" target="_blank">' . esc_url( $feed_url ) . '</a>';
             break;
             case 'episodes':
             	$count = self::get_podcast_episodes( $post_id );

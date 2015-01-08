@@ -65,7 +65,7 @@ class GMP_Meta {
 		$itunes_url = esc_url_raw( $_POST[ 'gmp_podcast_itunes_url' ] );
 
 		// Sanitize and save the user input.
-		update_post_meta( $post_id, 'gmp_podcast_itunes_url', esc_url( $itunes_url ) );
+		update_post_meta( $post_id, 'gmp_podcast_itunes_url', esc_url_raw( $itunes_url ) );
 	}
 
 	/**
@@ -79,7 +79,7 @@ class GMP_Meta {
 		wp_nonce_field( 'gmp_episodes_meta_box', 'gmp_episodes_meta_box_nonce' );
 
 		// Use get_post_meta to retrieve an existing value from the database.
-		$itunes_url = esc_url_raw( get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true ) );
+		$itunes_url = esc_url( get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true ) );
 
 		?>
 

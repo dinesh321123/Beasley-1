@@ -19,7 +19,7 @@ get_header(); ?>
 
 						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 							<?php global $post;
-							$itunes_url = esc_url_raw( get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true ) );
+							$itunes_url = get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true );
 							?>
 							<header class="entry-header">
 								<h2 class="entry-title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>

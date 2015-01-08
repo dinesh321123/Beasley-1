@@ -64,8 +64,7 @@ if( $redirect && $redirect == 'on' ) {
 		$current_date = time();
 
 		if( $current_date > $redirect_date ) {
-			header ( 'HTTP/1.1 301 Moved Permanently' );
-			header ( 'Location: ' . $new_feed_url );
+			wp_redirect( $new_feed_url, 301 );
 			exit;
 		}
 	}

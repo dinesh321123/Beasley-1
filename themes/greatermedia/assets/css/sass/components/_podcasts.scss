@@ -118,7 +118,7 @@ category: Components - Shows
 	@include span-columns(9 of 12);
 
 	h3 {
-		margin: 15px 0 15px;
+		margin: 10px 0 15px;
 	}
 }
 
@@ -140,6 +140,7 @@ category: Components - Shows
 .podcast__date {
 	font-size: ms(-2);
 	color: $color-gray;
+	text-transform: uppercase;
 }
 
 a.podcast__rss:link, a.podcast__rss:visited {
@@ -148,14 +149,17 @@ a.podcast__rss:link, a.podcast__rss:visited {
 	display: inline-block;
 	margin-left: 10px;
 	font-weight: normal;
+	text-transform: none;
 }
 
 a.podcast__rss:hover, a.podcast__rss:focus {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
+	text-transform: none;
 }
 
 a.podcast__rss:active {
 	@include btn($btn-active, $color-text-white, $btn-active, .5em, 1em, ms(-1));
+	text-transform: none;
 }
 
 .podcast__desc {
@@ -172,14 +176,17 @@ a.podcast__rss:active {
 .podcast__download--btn {
 	@include btn(transparent, $gray, $gray, .5em, 1em, ms(-1));
 	@include border-radius(1em);
+	text-transform: none;
 }
 
 .podcast__download--btn:hover {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
+	text-transform: none;
 }
 
 .podcast__download--btn:active {
 	@include btn($btn-active, $color-text-white, $btn-active, .5em, 1em, ms(-1));
+	text-transform: none;
 }
 
 .podcast__subscribe {
