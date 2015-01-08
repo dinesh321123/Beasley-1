@@ -8,8 +8,6 @@
  * @todo this template file still needs to be layed out according to the design
  */
 
-greatermedia_set_ajax_loop_partial( 'partials/loop/archive' ); 
-
 get_header(); ?>
 
 	<main class="main" role="main">
@@ -23,6 +21,7 @@ get_header(); ?>
 				<?php if ( have_posts() ) :  ?>
 
 					<?php get_template_part( 'partials/loop' ); ?>
+					<?php greatermedia_load_more_button( 'partials/loop' ); ?>
 					<?php get_template_part( 'partials/pagination' ); ?>
 
 				<?php else : ?>
