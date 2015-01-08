@@ -155,6 +155,13 @@
 			return this.store.get('UID');
 		},
 
+		getUserField: function(field) {
+			if (this.isLoggedIn()) {
+				return this.store.get(field);
+			} else {
+				return null;
+			}
+		}
 	};
 
 	var GigyaSessionController = function(session, willRegister) {
@@ -200,6 +207,10 @@
 				age       : response.profile.age,
 				zip       : response.zip
 			};
+
+			if (response.profile.thumbnailURL) {
+				profile.thumbnailURL = response.profile.thumbnailURL;
+			}
 
 			return profile;
 		},
@@ -537,6 +548,45 @@
 
 	window.get_gigya_user_field = function(field) {
 		return app.session.getUserField(field);
+	};
+
+	// KLUDGE: Lots of duplication here
+	var escapeValue = function(value) {
+		value = '' + value;
+		value = value.replace(/[!'()*]/g, escape);
+		value = encodeURIComponent(value);
+
+		return value;
+	};
+
+	var build_query = function(params) {
+		var value;
+		var output = [];
+		var anchor;
+
+		for (var key in params) {
+			if (params.hasOwnProperty(key)) {
+				value = params[key];
+				value = escapeValue(value);
+				key   = escapeValue(key);
+
+				output.push(key + '=' + value);
+			}
+		}
+
+		return output.join('&');
+	};
+
+	var endpoint = 'members';
+
+	window.gigya_profile_path = function(action, params) {
+		var path = '/' + endpoint + '/' + action;
+
+		if (params) {
+			return path + '?' + build_query(params);
+		} else {
+			return path;
+		}
 	};
 
 	// KLUDGE: Duplication

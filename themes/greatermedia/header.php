@@ -115,6 +115,9 @@
 							?>
 							<div class="header__secondary">
 								<div class="header__account">
+
+<?php
+							/*
 									<?php if ( is_gigya_user_logged_in() ) {
 
 										$url     = gigya_profile_path( 'account' );
@@ -138,7 +141,29 @@
 										$title = '';
 									}
 									?>
+*/
 
+?>
+
+									<a href="#" class="header__account--btn">
+										<span class="icon-user"></span>
+									</a>
+
+<div class="header__account--container">
+<!--
+									<ul class="header__account--links sub-menu">
+										<li>
+											<a href="/members/login">aLogin/Register</a>
+										</li>
+										<li>
+											<a href="/members/logout">aLogout</a>
+										</li>
+									</ul>
+-->
+</div>
+
+<?php
+							/*
 									<a href="<?php echo esc_url( $url ); ?>"
 									   class="header__account--btn <?php echo esc_attr( $class ); ?>">
 										<?php
@@ -149,8 +174,12 @@
 										}
 										?>
 									   </a>
+							 */
+?>
 
 
+<?php
+							/*
 									<ul class="header__account--links sub-menu">
 
 										<?php if ( is_gigya_user_logged_in() ): ?>
@@ -171,6 +200,9 @@
 												</a>
 											</li>
 										<?php endif; ?>
+							 */
+							?>
+
 									</ul>
 								</div>
 								<div id="header__search" class="header__search">
