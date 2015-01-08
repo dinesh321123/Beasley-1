@@ -828,14 +828,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 		// init new gallery
 		if ($.fn.cycle) {
-			$previewInner.find('.cycle-slideshow').cycle({
-				next: '.gallery__next--btn'
-			});
-		}
-
-		// bind gallery events
-		if (typeof GMR_Gallery !== 'undefined') {
-			GMR_Gallery.bindEvents();
+			$previewInner.find('.cycle-slideshow').cycle();
 		}
 
 		// bind vote click event
@@ -885,6 +878,8 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 			return false;
 		});
+
+		$(document).trigger('contest:preview-loaded');
 	};
 
 	gridLoadMoreUrl = function(page) {
@@ -976,6 +971,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 	$(document).bind('pjax:end', __ready).ready(__ready);
 })(jQuery, GreaterMediaContests);
+
 document.addEventListener("DOMContentLoaded", function () {
 	/**
 	 * Generate a list of supported input types (text, date, range, etc.).
