@@ -9938,6 +9938,75 @@ category: Components - Article
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); }
 
+.adblock--detected__close {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  -border-radius: 1em;
+  border-radius: 1em; }
+  .adblock--detected__close:hover, .adblock--detected__close:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  .adblock--detected__close:last-of-type {
+    margin-right: 0; }
+
+.adblock--detected__close:hover {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #f5ed7f;
+  border: 1px solid #f5ed7f;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .adblock--detected__close:hover:hover, .adblock--detected__close:hover:focus {
+    background-color: #f2e754;
+    border-color: #f2e754;
+    color: #ffffff; }
+  .adblock--detected__close:hover:last-of-type {
+    margin-right: 0; }
+
+.adblock--detected__close:active {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #000000;
+  border: 1px solid #000000;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer; }
+  .adblock--detected__close:active:hover, .adblock--detected__close:active:focus {
+    background-color: black;
+    border-color: black;
+    color: #ffffff; }
+  .adblock--detected__close:active:last-of-type {
+    margin-right: 0; }
+
 /**
  * Single Page Styles
  */

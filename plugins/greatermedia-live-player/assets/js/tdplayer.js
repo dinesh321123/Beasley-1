@@ -1,7 +1,7 @@
 (function ($, window, undefined) {
 	"use strict";
 
-	var tech = getUrlVars()['tech'] || 'html5_flash';
+	var tech = getUrlVars()['tech'] || 'flash_html5';
 	var aSyncCuePointFallback = getUrlVars()['aSyncCuePointFallback'] == 'false' ? false : true;
 
 	var player; /* TD player instance */
@@ -27,6 +27,7 @@
 	var gigyaLogin = gmr.homeUrl + "members/login";
 	var clearDebug = document.getElementById('clearDebug');
 	var adBlockCheck = document.getElementById('ad-check');
+	var adBlockClose = document.getElementById('close-adblock');
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -62,7 +63,7 @@
 
 	function initPlayer() {
 		var techPriority;
-		switch (tech) {
+		switch ( tech ) {
 			case 'html5_flash' :
 				techPriority = ['Html5', 'Flash'];
 				break;
@@ -86,7 +87,7 @@
 					id: 'MediaPlayer',
 					playerId: 'td_container',
 					isDebug: true,
-					techPriority:['Html5', 'Flash'],
+					techPriority: ['Flash', 'Html5'],
 					timeShift: { // timeShifting is currently available on Flash only. Leaving for HTML5 future
 						active: 0, /* 1 = active, 0 = inactive */
 						max_listening_time: 35 /* If max_listening_time is undefined, the default value will be 30 minutes */
@@ -284,8 +285,7 @@
 		var preRoll = document.querySelector('.vast__pre-roll');
 
 		if(preRoll != null) {
-			console.log('-- adblock detected --');
-			preRoll.innerHTML = '<div class="adblock--detected">We\'ve detected that you\'re using <strong>AdBlock Plus</strong> or some other adblocking software. In order to have the best viewing experience, please diasable AdBlock.</div>';
+			preRoll.innerHTML = '<div class="adblock--detected"><div class="adblock--detected__notice>"We\'ve detected that you\'re using <strong>AdBlock Plus</strong> or some other adblocking software. In order to have the best viewing experience, please diasable AdBlock.</div></div>';
 		}
 
 	}
@@ -312,6 +312,11 @@
 		pjaxInit();
 		if ( true === playingCustomAudio ) {
 			resumeCustomInlineAudio();
+			setPlayingStyles();
+		} else if (adBlockCheck == undefined) {
+			preVastAd();
+			showAdBlockDetect();
+			setTimeout(postVastAd, 15000);
 		} else {
 			var station = gmr.callsign;
 			if (station == '') {
@@ -321,13 +326,13 @@
 
 			debug('playLiveStream - station=' + station);
 
-			if (livePlaying)
+			if (livePlaying) {
 				player.stop();
+			}
 
 			player.play({station: station, timeShift: true});
+			setPlayingStyles();
 		}
-
-		setPlayingStyles();
 	}
 
 	function playLiveStreamWithPreRoll() {
@@ -363,6 +368,7 @@
 
 					player.play({station: station, timeShift: true});
 					setPlayingStyles();
+
 				});
 			} else if (player.attachEvent) {
 				player.attachEvent('ad-playback-complete', function () {
