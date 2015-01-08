@@ -6377,14 +6377,6 @@ a.podcast__rss:active {
 @media screen and (min-width: 1024px) {
   .single-show .inner-left-col {
     padding-right: 25px; } }
-.single-show .entry2__meta {
-  float: none;
-  width: auto; }
-.single-show .entry2__thumbnail {
-  margin-bottom: 0.5em; }
-.single-show .format-standard .entry2__thumbnail {
-  margin-top: 1.75em;
-  margin-left: 0.75em; }
 
 .show-attr--name {
   position: absolute;

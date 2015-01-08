@@ -222,42 +222,9 @@
 			if( Cookies.get( "gmlp_play_button_pushed" ) == 1 ) {
 				playLiveStreamWithPreRoll();
 				Cookies.set( "gmlp_play_button_pushed", 0 );
+			} else {
+				console.log("--- Log In with Gigya ---");
 			}
-			/*)
-			 console.log("--- You are logged in, so now enjoy some music ---");
-			 addEventHandler(playBtn,elemClick,playLiveStreamWithPreRoll);
-			 if (player.addEventListener) {
-			 player.addEventListener('ad-playback-complete', function() {
-			 postVastAd();
-			 console.log("--- ad complete ---");
-			 playLiveStream();
-			 });
-			 } else if (player.attachEvent) {
-			 player.attachEvent('ad-playback-complete', function() {
-			 postVastAd();
-			 console.log("--- ad complete ---");
-			 playLiveStream();
-			 });
-			 } */
-		} /* else if (document.referrer == gigyaLogin && is_gigya_user_logged_in()) {
-			console.log("--- You are just logged in, so now enjoy some music ---");
-			preVastAd();
-			streamVastAd();
-			if (player.addEventListener) {
-				player.addEventListener('ad-playback-complete', function() {
-					postVastAd();
-					console.log("--- ad complete ---");
-					playLiveStream();
-				});
-			} else if (player.attachEvent) {
-				player.attachEvent('ad-playback-complete', function() {
-					postVastAd();
-					console.log("--- ad complete ---");
-					playLiveStream();
-				});
-			}
-		} */ else {
-			console.log("--- Log In with Gigya ---");
 		}
 	}
 
@@ -286,14 +253,27 @@
 		player.playAd('vastAd', {url: vastUrl});
 	}
 
+	/**
+	 * @todo add a close option for the ad block detection modal
+	 */
 	function showAdBlockDetect() {
 		var preRoll = document.querySelector('.vast__pre-roll');
 
 		if(preRoll != null) {
-			preRoll.innerHTML = '<div class="adblock--detected"><div class="adblock--detected__notice>"We\'ve detected that you\'re using <strong>AdBlock Plus</strong> or some other adblocking software. In order to have the best viewing experience, please diasable AdBlock.</div></div>';
+			preRoll.innerHTML = '<div class="adblock--detected"><div class="adblock--detected__notice">We\'ve detected that you\'re using <strong>AdBlock Plus</strong> or some other adblocking software. In order to have the best viewing experience, please diasable AdBlock.</div></div>';
 		}
-
 	}
+
+	function closeAdBlockDetect() {
+		var preRoll = document.getElementById('live-stream__container');
+
+		while (preRoll.hasChildNodes()) {
+			preRoll.removeChild(preRoll.firstChild);
+		}
+		preRoll.classList.remove('vast__pre-roll')
+	}
+
+	addEventHandler(adBlockClose, elemClick, closeAdBlockDetect);
 
 	var currentStream = $('.live-player__stream--current-name');
 
