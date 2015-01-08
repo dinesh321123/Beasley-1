@@ -7565,133 +7565,128 @@ category: Components - Gallery Archive
   .gallery__back--btn:last-of-type {
     margin-right: 0; }
 
-.gallery__featured, .gallery__grid {
+.gallery__grid {
   float: left;
   display: block;
   margin-right: 7.42297%;
   width: 100%;
   margin-right: 0; }
-  .gallery__featured:last-child, .gallery__grid:last-child {
+  .gallery__grid:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
-    .gallery__featured, .gallery__grid {
+    .gallery__grid {
       float: left;
       display: block;
       margin-right: 4.82916%;
       width: 100%;
       margin-right: 0; }
-      .gallery__featured:last-child, .gallery__grid:last-child {
+      .gallery__grid:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 768px) {
-    .gallery__featured, .gallery__grid {
+    .gallery__grid {
       float: left;
       display: block;
       margin-right: 7.42297%;
       width: 100%;
       margin-right: 0; }
-      .gallery__featured:last-child, .gallery__grid:last-child {
+      .gallery__grid:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1024px) {
-    .gallery__featured, .gallery__grid {
+    .gallery__grid {
       float: left;
       display: block;
       margin-right: 2.84259%;
       width: 100%;
       margin-right: 0; }
-      .gallery__featured:last-child, .gallery__grid:last-child {
+      .gallery__grid:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1400px) {
-    .gallery__featured, .gallery__grid {
+    .gallery__grid {
       float: left;
       display: block;
       margin-right: 2.84259%;
       width: 100%;
       margin-right: 0; }
-      .gallery__featured:last-child, .gallery__grid:last-child {
+      .gallery__grid:last-child {
         margin-right: 0; } }
 
 .gallery__featured {
-  padding-bottom: 48px; }
-
-.gallery__featured--primary {
-  float: left;
-  width: 100%; }
-  @media screen and (min-width: 768px) {
-    .gallery__featured--primary {
-      width: 66%;
-      margin-right: 4%; } }
-
-.gallery__featured--secondary {
-  float: left;
-  width: 100%; }
-  @media screen and (min-width: 768px) {
-    .gallery__featured--secondary {
-      width: 30%; } }
-
-.gallery__featured--item {
-  margin-bottom: 20px; }
-  @media screen and (min-width: 768px) {
-    .gallery__featured--item {
-      margin-bottom: 0; } }
-  .gallery__featured--secondary .gallery__featured--item {
-    margin-bottom: 20px; }
-    @media screen and (min-width: 768px) {
-      .gallery__featured--secondary .gallery__featured--item {
-        margin-bottom: 18px; } }
-    @media screen and (min-width: 1024px) {
-      .gallery__featured--secondary .gallery__featured--item {
-        margin-bottom: 28px; } }
-    @media screen and (min-width: 1400px) {
-      .gallery__featured--secondary .gallery__featured--item {
-        margin-bottom: 42px; } }
-
-.gallery__featured--secondary .gallery__featured--item:last-of-type {
-  margin-bottom: 0; }
-
-.gallery__featured--thumbnail {
-  position: relative;
-  width: 100%; }
-
-.gallery__featured--thumbnail a {
   display: block; }
+  .gallery__featured:before, .gallery__featured:after {
+    content: " ";
+    display: table; }
+  .gallery__featured:after {
+    clear: both; }
+
+@media screen and (min-width: 1024px) {
+  .gallery__featured--primary {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 65.88078%; }
+    .gallery__featured--primary:last-child {
+      margin-right: 0; } }
+
+@media screen and (min-width: 1024px) {
+  .gallery__featured--secondary {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 31.76157%; }
+    .gallery__featured--secondary:last-child {
+      margin-right: 0; } }
+
+.gallery__feature {
+  margin-bottom: 5.6%; }
+  .gallery__feature .thumbnail {
+    background-color: #282827;
+    padding-bottom: 66%;
+    background-position: center center;
+    background-size: 100%;
+    background-size: cover; }
+    .gallery__feature .thumbnail .inner-wrap {
+      position: absolute;
+      left: 0;
+      top: 0; }
+  .gallery__feature:hover h3 {
+    color: #aa1c20; }
+  @media screen and (min-width: 1024px) {
+    .gallery__feature {
+      padding-bottom: 75%;
+      position: relative; }
+      .gallery__feature .thumbnail {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0; } }
 
 .gallery__featured--caption {
-  width: 100%;
-  height: 60px;
-  padding: 10px;
-  background-color: #f2f2f2; }
+  background-color: #F1F1F3;
+  color: #404041; }
+  .gallery__featured--caption h3 {
+    margin: 0;
+    font-size: 1.42383em;
+    line-height: 1.2; }
+  .show__feature--primary .gallery__featured--caption h3 {
+    font-size: 1.80203em; }
+  .gallery__featured--caption time {
+    font-size: 1em;
+    text-transform: uppercase;
+    color: #404041; }
+  .gallery__featured--caption .inner-wrap {
+    padding: 1.5em 1.618em; }
   @media screen and (min-width: 1024px) {
     .gallery__featured--caption {
-      height: 96px;
-      padding: 16px 20px 20px; } }
-  .gallery__featured--secondary .gallery__featured--caption {
-    height: 48px; }
-    @media screen and (min-width: 1024px) {
-      .gallery__featured--secondary .gallery__featured--caption {
-        padding: 10px;
-        height: 75px; } }
-    @media screen and (min-width: 1400px) {
-      .gallery__featured--secondary .gallery__featured--caption {
-        padding: 16px 20px 20px;
-        height: 91px; } }
-
-.gallery__featured--title {
-  margin: 0;
-  line-height: 1.4;
-  font-family: "Open Sans", sans-serif;
-  font-weight: lighter;
-  font-size: 1.42383em; }
-  .gallery__featured--secondary .gallery__featured--title {
-    font-size: 1.60181em; }
-    @media screen and (min-width: 768px) {
-      .gallery__featured--secondary .gallery__featured--title {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 0; }
+      .gallery__featured--caption h3 {
+        font-size: 1.125em; }
+      .show__feature--primary .gallery__featured--caption h3 {
+        font-size: 2.02729em; }
+      .gallery__featured--caption time {
         font-size: 0.88889em; } }
-    @media screen and (min-width: 1024px) {
-      .gallery__featured--secondary .gallery__featured--title {
-        font-size: 1em; } }
-    @media screen and (min-width: 1400px) {
-      .gallery__featured--secondary .gallery__featured--title {
-        font-size: 1.125em; } }
 
 .gallery__grid--column {
   float: left;
