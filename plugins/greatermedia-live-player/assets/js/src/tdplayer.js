@@ -206,8 +206,8 @@
 					window.location.href = gigyaLogin;
 				});
 			}
-			if (loginListen != null) {
-				addEventHandler(loginListen, 'click', function () {
+			if (listenNow != null) {
+				addEventHandler(listenNow, 'click', function () {
 					window.location.href = gigyaLogin;
 				});
 			}

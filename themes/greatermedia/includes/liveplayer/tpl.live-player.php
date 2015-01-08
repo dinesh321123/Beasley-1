@@ -44,7 +44,7 @@ if ( empty( $active_stream ) ) {
 		<div class="live-stream">
 			<?php do_action( 'gm_live_player' ); ?>
 			<div class="live-stream__status">
-				<div id="live-stream__login" class="live-stream__login--btn"><div class="live-stream__login--span"><?php _e( 'Log In To', 'greatermedia' ); ?></div><?php _e( 'Listen Live', 'greatermedia' ); ?></div>
+				<div id="live-stream__login" class="live-stream__login"><?php _e( 'Log In To', 'greatermedia' ); ?></div>
 				<div id="live-stream__now-playing" class="live-stream__now-playing--btn"><?php _e( 'Now Playing', 'greatermedia' ); ?></div>
 				<div id="live-stream__listen-now" class="live-stream__listen-now--btn"><?php _e( 'Listen Live', 'greatermedia' ); ?></div>
 			</div>

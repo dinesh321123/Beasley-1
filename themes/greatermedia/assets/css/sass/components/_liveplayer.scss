@@ -360,7 +360,6 @@ category: Components
 .live-stream__listen-now--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
 	@include border-radius(1em);
-	display: none;
 	margin-right: 0;
 	font-weight: 700;
 	z-index: 1;
@@ -373,17 +372,12 @@ category: Components
 	font-weight: 700;
 }
 
-.live-stream__login--btn {
-	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
-	@include border-radius(1.75em);
+.live-stream__login {
+	padding-bottom: 3px;
 	margin-right: 0;
 	font-weight: 700;
-	z-index: 1;
-}
-
-.live-stream__login--span {
-	padding-bottom: 3px;
-	font-size: ms(-3);
+	font-size: ms(-2);
+	color: $color-text-red;
 }
 
 .live-stream__resume {
