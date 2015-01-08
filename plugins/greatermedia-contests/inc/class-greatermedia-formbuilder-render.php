@@ -190,7 +190,7 @@ class GreaterMediaFormbuilderRender {
 			$form = json_decode( $clean_form );
 		}
 
-		$html = '<h3 class="contest__form--heading">Enter Here to Win</h3>';
+		$html = '<h3 class="contest__form--heading">' . get_post_meta( $post_id, 'form-title', true ) . '</h3>';
 		$html .= '<form method="post" enctype="multipart/form-data" class="' . esc_attr( self::FORM_CLASS ) . '" data-parsley-validate>';
 
 		foreach ( $form as $field ) {
