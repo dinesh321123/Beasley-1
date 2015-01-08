@@ -145,8 +145,8 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 	.single-gmr_album & {
 		width: 100%;
-		padding-top: 2em;
-		padding-bottom: 3.625em;
+		// padding-top: 2em;
+		// padding-bottom: 3.625em;
 	}
 }
 
@@ -200,6 +200,10 @@ Link posts contain a link to an external site. They can also optionally have a f
 	.single-gmr_album & {
 		border-bottom: none;
 	}
+}
+
+.contest .entry__footer {
+	border-bottom: none;
 }
 
 .contest .entry__footer {

@@ -85,7 +85,8 @@ category: Components
 
 // classes that correlate to headroom.js
 .live-player--fixed {
-	@include position(fixed, 0 null null null);
+	position: fixed;
+	top: 0;
 }
 
 .logged-in .live-player--fixed {
@@ -93,6 +94,10 @@ category: Components
 	@include media(min-width 782px) {
 		top: 32px;
 	}
+}
+
+.live-player--init {
+	position: absolute;
 }
 
 // for when the live player is opened on mobile

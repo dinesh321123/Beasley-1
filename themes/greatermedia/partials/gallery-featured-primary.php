@@ -2,11 +2,11 @@
 
 	<div class="gallery__featured--thumbnail">
 		<a href="<?php the_permalink(); ?>">
+			<?php if ( 'gmr_album' == get_post_type() ) { ?>
+				<div class="gallery__grid--album"></div>
+			<?php } ?>
 			<?php the_post_thumbnail( 'gmr-gallery-grid-featured' ); ?>
 		</a>
-		<?php if ( 'gmr_album' == get_post_type() ) { ?>
-			<div class="gallery__grid--album"></div>
-		<?php } ?>
 	</div>
 
 	<div class="gallery__featured--caption">
