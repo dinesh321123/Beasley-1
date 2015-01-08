@@ -45,6 +45,9 @@ get_header(); ?>
 					<?php
 						$current_gallery = get_post();
 						$parent_album = $post->post_parent;
+
+						$parent_post = get_post( $parent_album );
+
 						if ( $parent_album > 0 ) {
 							$args = array(
 									'post_type'		=> 'gmr_gallery',
@@ -57,7 +60,7 @@ get_header(); ?>
 
 								<section class="entry__related-posts">
 								
-									<h2 class="section-header">More Galleries in this Album</h2>
+									<h2 class="section-header">More Galleries in <?php echo $parent_post->post_title; ?></h2>
 
 									<?php while ( $siblings->have_posts() ) : $siblings->the_post(); ?>
 
