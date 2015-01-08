@@ -26,6 +26,7 @@
 	var $trackInfo = $(document.getElementById('trackInfo'));
 	var gigyaLogin = gmr.homeUrl + "members/login";
 	var clearDebug = document.getElementById('clearDebug');
+	var adBlockCheck = document.getElementById('ad-check');
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -279,6 +280,15 @@
 		player.playAd('vastAd', {url: vastUrl});
 	}
 
+	function showAdBlockDetect() {
+		var preRoll = document.querySelector('.vast__pre-roll');
+
+		if(preRoll != null) {
+			preRoll.innerHTML = '<div class="adblock--detected">We\'ve detected that you\'re using <strong>AdBlock Plus</strong> or some other adblocking software. In order to have the best viewing experience, please diasable AdBlock.</div>';
+		}
+
+	}
+
 	var currentStream = $('.live-player__stream--current-name');
 
 	currentStream.bind("DOMSubtreeModified",function(){
@@ -335,7 +345,12 @@
 			debug('playLiveStream - station=' + station);
 
 			preVastAd();
-			streamVastAd();
+			if (adBlockCheck == undefined) {
+				showAdBlockDetect();
+				setTimeout(postVastAd, 15000);
+			} else {
+				streamVastAd();
+			}
 			if (player.addEventListener) {
 				player.addEventListener('ad-playback-complete', function () {
 					postVastAd();

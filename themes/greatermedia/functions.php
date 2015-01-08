@@ -434,4 +434,3 @@ add_action( 'wp_enqueue_scripts', function () {
 	
 	wp_localize_script( 'greatermedia-load-more', 'greatermedia_load_more_partial', $greatermedia_load_more_partial );
 }, 100 );
-

@@ -1,0 +1,18 @@
+.adblock--detected {
+	display: none;
+	@include transition(background 500ms ease-in-out);
+}
+
+.live-stream__container.vast__pre-roll .adblock--detected {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 640px;
+	height: 250px;
+	padding: 20px;
+	background-color: $primary-bg;
+	font-size: ms(2);
+	color: $primary-text;
+	@include transform(translate(-50%, -50%));
+}
