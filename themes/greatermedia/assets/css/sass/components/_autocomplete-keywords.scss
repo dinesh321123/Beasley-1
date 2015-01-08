@@ -8,6 +8,12 @@
 	position: relative;
 	cursor: pointer;
 	min-height: 0;
+	color: $color-text-black;
+	padding: 1em;
+}
+
+.ui-menu .ui-menu-item.ui-state-focus {
+	color: $color-text-white;
 }
 
 .ui-autocomplete {
@@ -24,13 +30,4 @@
 		top: 100%;
 		left: 0;
 	}
-}
-
-.ui-menu-item {
-	color: $color-text-black;
-	padding: 1em;
-}
-
-.ui-state-focus {
-	color: $color-text-white;
 }
