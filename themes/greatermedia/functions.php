@@ -147,6 +147,26 @@ function greatermedia_scripts_styles() {
 		'greatermedia'
 	);
 
+	/**
+	 * this is a fix to resolve conflicts with styles and javascript for The Events Calendar plugin that will not
+	 * load once pjax has been activated. We are checking to see if the `Tribe_Template_Factory` class exists and if
+	 * the function `asset_package` exists within `Tribe_Template_Factory`. If the class and function exists, we then
+	 * call the javascript and css necessary on the front end.
+	 *
+	 * @see `wp_content/plugins/the-events-calendar/lib/the-events-calendar.class.php` lines 2235 - 2244
+	 */
+	if ( class_exists( 'Tribe_Template_Factory' ) && method_exists( 'Tribe_Template_Factory', 'asset_package' ) ) {
+		// jquery-resize
+		Tribe_Template_Factory::asset_package( 'jquery-resize' );
+
+		// smoothness
+		Tribe_Template_Factory::asset_package( 'smoothness' );
+
+		// Tribe Calendar JS
+		Tribe_Template_Factory::asset_package( 'calendar-script' );
+
+		Tribe_Template_Factory::asset_package( 'events-css' );
+	}
 }
 
 add_action( 'wp_enqueue_scripts', 'greatermedia_scripts_styles');

@@ -37,23 +37,22 @@ if ( empty( $active_stream ) ) {
 	</nav>
 
 	<div id="live-player" class="live-player__container">
-		<?php if ( is_gigya_user_logged_in() ) { ?>
-			<div id="up-next" class="up-next">
-				<div class="up-next__title">Up Next:</div>
-				<div class="up-next__show">Pierre Robert</div>
+		<div id="up-next" class="up-next">
+			<div class="up-next__title">Up Next:</div>
+			<div class="up-next__show">Pierre Robert</div>
+		</div>
+		<div class="live-stream">
+			<?php do_action( 'gm_live_player' ); ?>
+			<div class="live-stream__status">
+				<div id="live-stream__listen-now" class="live-stream__listen-now--btn"><?php _e( 'Listen Live', 'greatermedia' ); ?></div>
+				<div id="live-stream__now-playing" class="live-stream__now-playing--btn"><?php _e( 'Now Playing', 'greatermedia' ); ?></div>
 			</div>
-			<div class="live-stream">
-				<?php do_action( 'gm_live_player' ); ?>
-				<div class="live-stream__status">
-					<div id="live-stream__listen-now" class="live-stream__listen-now--btn"><?php _e( 'Listen Live', 'greatermedia' ); ?></div>
-					<div id="live-stream__now-playing" class="live-stream__now-playing--btn">Now Playing</div>
-				</div>
-				<div id="nowPlaying" class="now-playing">
-					<div id="trackInfo" class="now-playing__info"></div>
-					<div id="npeInfo"></div>
-				</div>
+			<div id="nowPlaying" class="now-playing">
+				<div id="trackInfo" class="now-playing__info"></div>
+				<div id="npeInfo"></div>
 			</div>
-		<?php } else { ?>
+		</div>
+		<?php /*
 			<div id="on-air" class="on-air">
 				<div class="on-air__title">On Air:</div>
 				<div class="on-air__show">Preston and Steve Show</div>
@@ -66,7 +65,7 @@ if ( empty( $active_stream ) ) {
 					<a href="<?php echo esc_url( home_url( '/members/login' ) ); ?>" id="live-stream__listen-now" class="live-stream__listen-now--btn"><?php _e( 'Listen Live', 'greatermedia' ); ?></a>
 				</div>
 			</div>
-		<?php } ?>
+		*/ ?>
 
 	</div>
 

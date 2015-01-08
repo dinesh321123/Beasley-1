@@ -63,7 +63,7 @@ get_header(); ?>
 							<?php if ( ( $contest_rules = trim( get_post_meta( get_the_ID(), 'rules-desc', true ) ) ) ) : ?>
 							<div class="contest__description">
 								<p>
-									<a class="contest-attr--rules-toggler" href="#" data-toggle="collapse" data-target="#contest-rules" data-alt-text="Hide Contest Rules">
+									<a class="contest-attr--rules-toggler pjax-exclude" href="#" data-toggle="collapse" data-target="#contest-rules" data-alt-text="Hide Contest Rules">
 										<?php _e( 'Show Contest Rules', 'greatermedia' ); ?>
 									</a>
 								</p>

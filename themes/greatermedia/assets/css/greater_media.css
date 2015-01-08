@@ -4588,7 +4588,7 @@ category: Components
 
 .now-playing__title {
   margin: 0 0 4px;
-  line-height: 1;
+  line-height: 1.4;
   font-size: 1em;
   font-weight: lighter;
   color: #d22228; }

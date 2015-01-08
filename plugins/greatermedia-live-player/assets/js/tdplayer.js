@@ -133,13 +133,6 @@
 
 	function initControlsUi() {
 
-		// custom call to use button instead of input for styling purposes
-		var podcastButton = $('.mejs-play');
-
-		if (playBtn != null) {
-			addEventHandler(playBtn,elemClick,playLiveStream);
-		}
-
 		if (pauseBtn != null) {
 			addEventHandler(pauseBtn,elemClick,pauseStream);
 		}
@@ -152,22 +145,11 @@
 			addEventHandler(clearDebug,elemClick,clearDebugInfo);
 		}
 
-		// this addresses the need to be able to resume live audio when inline audio is playing
-		if (listenNow != null) {
-			addEventHandler(listenNow,elemClick,resumeStream);
-		}
-
-		podcastButton.click(function () {
-			pauseBtn.hide();
-			resumeBtn.show();
-			pauseStream();
-		});
-
 	}
 
 	function setPlayingStyles() {
 		if ( null === tdContainer ) {
-			// gigya user is logged out, so everythign is different ಠ_ಠ - Should we force login for inline audio as well??
+			// gigya user is logged out, so everything is different ಠ_ಠ - Should we force login for inline audio as well??
 			return;
 		}
 
@@ -181,7 +163,7 @@
 
 	function setStoppedStyles() {
 		if ( null === tdContainer ) {
-			// gigya user is logged out, so everythign is different ಠ_ಠ - Should we force login for inline audio as well??
+			// gigya user is logged out, so everything is different ಠ_ಠ - Should we force login for inline audio as well??
 			return;
 		}
 
@@ -193,7 +175,7 @@
 
 	function setPausedStyles() {
 		if ( null === tdContainer ) {
-			// gigya user is logged out, so everythign is different ಠ_ಠ - Should we force login for inline audio as well??
+			// gigya user is logged out, so everything is different ಠ_ಠ - Should we force login for inline audio as well??
 			return;
 		}
 
@@ -204,10 +186,34 @@
 		resumeBtn.style.display = 'block';
 	}
 
+	function changePlayerState() {
+		if (is_gigya_user_logged_in()) {
+			if (playBtn != null) {
+				addEventHandler(playBtn, 'click', playLiveStreamWithPreRoll());
+			}
+			if (listenNow != null) {
+				addEventHandler(listenNow, 'click', playLiveStreamWithPreRoll());
+			}
+		} else {
+			if (playBtn != null) {
+				addEventHandler(playBtn, 'click', function () {
+					window.location.href = gigyaLogin;
+				});
+			}
+			if (listenNow != null) {
+				addEventHandler(listenNow, 'click', function () {
+					window.location.href = gigyaLogin;
+				});
+			}
+		}
+	}
+
+	changePlayerState();
+
 	function loggedInGigyaUser() {
 		if (is_gigya_user_logged_in() ) {
 			if( Cookies.get( "gmlp_play_button_pushed" ) == 1 ) {
-				playLiveStream();
+				playLiveStreamWithPreRoll();
 				Cookies.set( "gmlp_play_button_pushed", 0 );
 			}
 			/*)
@@ -269,9 +275,7 @@
 
 		detachAdListeners();
 		attachAdListeners();
-
 		player.stop();
-		player.skipAd();
 		player.playAd('vastAd', {url: vastUrl});
 	}
 
@@ -322,6 +326,7 @@
 			setPlayingStyles();
 		} else {
 			var station = gmr.callsign;
+			var vastUrl = gmr.streamUrl;
 			if (station == '') {
 				alert('Please enter a Station');
 				return;
@@ -381,7 +386,7 @@
 
 	function resumeStream() {
 		if ( true === playingCustomAudio ) {
-			resumeCustomInlineAudio();
+			resumeInlineAudio();
 		} else {
 			if (livePlaying) {
 				player.resume();
@@ -396,6 +401,11 @@
 	function seekLive() {
 		player.seekLive();
 		setPlayingStyles();
+	}
+
+	function skipAd()
+	{
+		player.skipAd();
 	}
 
 	function loadNpApi() {
@@ -1022,6 +1032,17 @@
 		playingCustomAudio = true;
 		stopLiveStreamIfPlaying();
 		customAudio.play();
+		setPlayerTrackName();
+		setPlayerArtist();
+		setPlayingStyles();
+		resetInlineAudioStates();
+		setInlineAudioStates();
+	};
+
+	var resumeInlineAudio = function() {
+		playingCustomAudio = true;
+		stopLiveStreamIfPlaying();
+		customAudio.resume();
 		setPlayerTrackName();
 		setPlayerArtist();
 		setPlayingStyles();
