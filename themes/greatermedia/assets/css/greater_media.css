@@ -4312,8 +4312,10 @@ category: Components
   -o-border-radius: 1em;
   -border-radius: 1em;
   border-radius: 1em;
+  display: none;
   margin-right: 0;
-  font-weight: 700; }
+  font-weight: 700;
+  z-index: 1; }
   .live-stream__listen-now--btn:hover, .podcast__subscribe:hover, .live-stream__listen-now--btn:focus, .podcast__subscribe:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
@@ -4348,6 +4350,39 @@ category: Components
     color: #d22228; }
   .live-stream__now-playing--btn:last-of-type {
     margin-right: 0; }
+
+.live-stream__login--btn {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-border-radius: 1.75em;
+  -moz-border-radius: 1.75em;
+  -ms-border-radius: 1.75em;
+  -o-border-radius: 1.75em;
+  -border-radius: 1.75em;
+  border-radius: 1.75em;
+  margin-right: 0;
+  font-weight: 700;
+  z-index: 1; }
+  .live-stream__login--btn:hover, .live-stream__login--btn:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  .live-stream__login--btn:last-of-type {
+    margin-right: 0; }
+
+.live-stream__login--span {
+  padding-bottom: 3px;
+  font-size: 0.70233em; }
 
 .live-stream__resume {
   height: 48px;
@@ -4481,6 +4516,9 @@ category: Components
   height: 100%;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 20000; }
+
+.live-stream__container--player {
+  height: 0; }
 
 .live-stream__container.vast__pre-roll .live-stream__container--player {
   position: absolute;

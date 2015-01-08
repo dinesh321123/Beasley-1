@@ -1,7 +1,7 @@
 (function ($, window, undefined) {
 	"use strict";
 
-	var tech = getUrlVars()['tech'] || 'flash_html5';
+	var tech = getUrlVars()['tech'] || 'html5_flash';
 	var aSyncCuePointFallback = getUrlVars()['aSyncCuePointFallback'] == 'false' ? false : true;
 
 	var player; /* TD player instance */
@@ -28,6 +28,7 @@
 	var clearDebug = document.getElementById('clearDebug');
 	var adBlockCheck = document.getElementById('ad-check');
 	var adBlockClose = document.getElementById('close-adblock');
+	var loginListen = document.getElementById('live-stream__login');
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -160,6 +161,7 @@
 		resumeBtn.style.display = 'none';
 		pauseBtn.style.display = 'block';
 		listenNow.style.display = 'none';
+		loginListen.style.display = 'none';
 		nowPlaying.style.display = 'inline-block';
 	}
 
@@ -172,6 +174,7 @@
 		playBtn.style.display = 'block';
 		pauseBtn.style.display = 'none';
 		listenNow.style.display = 'inline-block';
+		loginListen.style.display = 'none';
 		nowPlaying.style.display = 'none';
 	}
 
@@ -184,6 +187,7 @@
 		playBtn.style.display = 'none';
 		pauseBtn.style.display = 'none';
 		listenNow.style.display = 'inline-block';
+		loginListen.style.display = 'none';
 		nowPlaying.style.display = 'none';
 		resumeBtn.style.display = 'block';
 	}
@@ -202,8 +206,8 @@
 					window.location.href = gigyaLogin;
 				});
 			}
-			if (listenNow != null) {
-				addEventHandler(listenNow, 'click', function () {
+			if (loginListen != null) {
+				addEventHandler(loginListen, 'click', function () {
 					window.location.href = gigyaLogin;
 				});
 			}
@@ -214,6 +218,7 @@
 
 	function loggedInGigyaUser() {
 		if (is_gigya_user_logged_in() ) {
+			setStoppedStyles();
 			if( Cookies.get( "gmlp_play_button_pushed" ) == 1 ) {
 				playLiveStreamWithPreRoll();
 				Cookies.set( "gmlp_play_button_pushed", 0 );
