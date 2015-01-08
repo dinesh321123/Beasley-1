@@ -4,6 +4,20 @@
 
 $page_heading = 'Login';
 $page_message = 'Membership gives you access to all areas of the site, including full membership-only contests and the ability to submit content to share with the site and other members.';
+$months = array(
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December',
+);
 
 ?>
 
@@ -140,27 +154,44 @@ $page_message = 'Membership gives you access to all areas of the site, including
 					<?php } ?>
 				</select>
 
+				<span class="gigya-error-msg" data-bound-to="profile.birthMonth" ></span>
+				<label>Month of Birth:</label>
+				<select name="profile.birthMonth">
+					<?php foreach ( $months as $month_num => $month_name ) { ?>
+						<option value="<?php echo esc_attr( $month_num + 1 ); ?>">
+						<?php echo esc_html( $month_name ); ?>
+						</option>
+					<?php } ?>
+				</select>
+
+				<span class="gigya-error-msg" data-bound-to="profile.birthDay" ></span>
+				<label>Day of Birth:</label>
+				<select name="profile.birthDay">
+					<?php foreach ( range( 1, 31 ) as $day_num ) { ?>
+						<option value="<?php echo esc_attr( $day_num ); ?>">
+						<?php echo esc_html( $day_num ); ?>
+						</option>
+					<?php } ?>
+				</select>
+
 				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
-				<input type="text" name="profile.zip" placeholder="Postcode" />
+				<input type="text" name="profile.zip" placeholder="ZIP Code" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label>Gender:</label>
-				<select name="profile.gender">
-					<option value="m">Male</option>
-					<option value="f">Female</option>
-					<option value="u">Unknown</option>
-				</select>
+				<label class="inline-label"><input type="radio" name="profile.gender" value="m" />Male</label>
+				<label class="inline-label"><input type="radio" name="profile.gender" value="f" />Female</label>
 
 				<h2>Email Subscriptions</h2>
 
 				<ul class="member-groups-list">
 					<li>
 						<input type="checkbox" name="data.vipGroup" checked="checked" />
-						<label class="label-email-list">VIP Newsletter</label>
+						<label class="label-email-list">@Work Network Newsletter</label>
 					</li>
 					<li>
 						<input type="checkbox" name="data.bigFrigginDealGroup" checked="checked">
-						<label class="label-email-list">Big Friggin' Deal</label>
+						<label class="label-email-list">MGK's Discount Deal</label>
 					</li>
 					<li>
 						<input type="checkbox" name="data.birthdayGreetingsGroup" checked="checked">
@@ -177,7 +208,7 @@ $page_message = 'Membership gives you access to all areas of the site, including
 					<option value="2">more than 3 hours</option>
 				</select>
 
-				<label>When you're listening to the radio, about what percentage of time do you spend listening to 93.3 WMMR?</label>
+				<label>When you're listening to the radio, about what percentage of time do you spend listening to 102.9 WMGK?</label>
 				<select name="data.listeningLoyalty">
 					<?php foreach ( range( 0, 100, 10 ) as $percent ) { ?>
 						<option value="<?php echo esc_attr( $percent ); ?>"><?php echo esc_html( $percent . '%' ); ?></option>
@@ -210,7 +241,7 @@ $page_message = 'Membership gives you access to all areas of the site, including
 				<label>Last Name:</label>
 				<input type="text" name="profile.lastName" />
 
-				<span class="gigya-error-msg" data-bound-to="profile.lastName" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.birthYear" ></span>
 				<label>Year of Birth:</label>
 				<select name="profile.birthYear">
 					<?php foreach ( range( 1920, date( 'Y' ) ) as $year ) { ?>
@@ -218,17 +249,34 @@ $page_message = 'Membership gives you access to all areas of the site, including
 					<?php } ?>
 				</select>
 
+				<span class="gigya-error-msg" data-bound-to="profile.birthMonth" ></span>
+				<label>Month of Birth:</label>
+				<select name="profile.birthMonth">
+					<?php foreach ( $months as $month_num => $month_name ) { ?>
+						<option value="<?php echo esc_attr( $month_num + 1 ); ?>">
+						<?php echo esc_html( $month_name ); ?>
+						</option>
+					<?php } ?>
+				</select>
+
+				<span class="gigya-error-msg" data-bound-to="profile.birthDay" ></span>
+				<label>Day of Birth:</label>
+				<select name="profile.birthDay">
+					<?php foreach ( range( 1, 31 ) as $day_num ) { ?>
+						<option value="<?php echo esc_attr( $day_num ); ?>">
+						<?php echo esc_html( $day_num ); ?>
+						</option>
+					<?php } ?>
+				</select>
+
 				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
-				<label>Postcode:</label>
+				<label>ZIP Code:</label>
 				<input type="text" name="profile.zip" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label>Gender:</label>
-				<select name="profile.gender">
-					<option value="m">Male</option>
-					<option value="f">Female</option>
-					<option value="u">Unknown</option>
-				</select>
+				<label class="inline-label"><input type="radio" name="profile.gender" value="m" />Male</label>
+				<label class="inline-label"><input type="radio" name="profile.gender" value="f" />Female</label>
 
 				<h2>Password</h2>
 				<a href="#" data-switch-screen="gigya-change-password-screen">Change your password.</a>
@@ -237,15 +285,15 @@ $page_message = 'Membership gives you access to all areas of the site, including
 
 				<ul class="member-groups-list">
 					<li>
-						<input type="checkbox" name="data.vipGroup" />
-						<label class="label-email-list">VIP Newsletter</label>
+						<input type="checkbox" name="data.vipGroup" checked="checked" />
+						<label class="label-email-list">@Work Network Newsletter</label>
 					</li>
 					<li>
-						<input type="checkbox" name="data.bigFrigginDealGroup">
-						<label class="label-email-list">Big Friggin' Deal</label>
+						<input type="checkbox" name="data.bigFrigginDealGroup" checked="checked">
+						<label class="label-email-list">MGK's Discount Deal</label>
 					</li>
 					<li>
-						<input type="checkbox" name="data.birthdayGreetingsGroup">
+						<input type="checkbox" name="data.birthdayGreetingsGroup" checked="checked">
 						<label class="label-email-list">Birthday Greetings</label>
 					</li>
 				</ul>

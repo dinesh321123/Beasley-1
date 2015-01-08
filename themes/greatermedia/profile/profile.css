@@ -27,6 +27,11 @@
 	color: #676767;
 }
 
+#profile-content .inline-label {
+	display: inline;
+	margin-right: 1em;
+}
+
 #profile-content .gigya-screen input, #profile-content .gigya-screen select {
 	border: none;
 	border-bottom: 1px solid #e9e9e9;
@@ -52,6 +57,12 @@
 	border: none;
 	border-radius: 20px;
 	padding: 0.6em 1.5em;
+}
+
+#profile-content .gigya-screen input[type="radio"] {
+	width: auto;
+	display: inline;
+	margin-right: 0.3em;
 }
 
 #profile-content #gigya-update-profile-screen input[type="submit"] {
