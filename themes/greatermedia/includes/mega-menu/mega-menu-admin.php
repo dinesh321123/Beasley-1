@@ -23,6 +23,7 @@ class GreaterMediaMegaMenuAdmin {
 	public static $options = array(
 		''      => 'Standard',
 		'fw' => 'Full-width, four column',
+		'sp' => 'Small Previews'
 	);
 
 	/**
@@ -126,7 +127,7 @@ class GreaterMediaMegaMenuAdmin {
 		$format = get_post_meta( $nav_item_id, self::$meta_key, true );
 
 		// check against whitelist
-		if ( array_key_exists( $format, self::$options ) && ! empty( $format ) ) {
+		if ( ! empty( $format ) && array_key_exists( $format, self::$options ) ) {
 			return $format;
 		} else {
 			return false;

@@ -42,7 +42,8 @@
 }
 
 .header__logo{
-	@include span-columns(4);
+	@include span-columns(2);
+	@include shift(1);
 	@include omega;
 	height: 70px;
 	padding: $header-logo-padding 0;
@@ -50,6 +51,7 @@
 	position: relative;
 	
 	@include bp(medium) {
+		@include shift(0);
 		max-width: 200px;
 		height: 82px;
 	}
@@ -144,7 +146,7 @@
 	display: block;
 	margin: 0 auto;
 	text-align: center;
-	font-size: 25px;
+	font-size: 30px;
 
 	@include bp(medium) {
 		height: 82px;

@@ -104,7 +104,7 @@ Media Queries
   width: 100%;
   padding: 1em 0;
   overflow: auto;
-  border-bottom: 1px solid whitesmoke; }
+  border-bottom: 1px solid #f5f5f5; }
   .gmp-meta-row:last-of-type {
     border-bottom: none; }
   .gmp-meta-row .gmp-meta-row-content {
@@ -133,3 +133,5 @@ Media Queries
         color: #dddddd; }
     .gmp-meta-row .gmp-meta-row-content .gmp-upload-button {
       margin: 1em 0; }
+
+/*# sourceMappingURL=gmp_admin.css.map */

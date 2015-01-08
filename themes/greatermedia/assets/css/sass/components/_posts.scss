@@ -185,7 +185,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__footer {
 	@include span-columns(4);
 	padding: 16px 0;
-	border-bottom: 1px solid $primary-border;
+	// border-bottom: 1px solid $primary-border;
 	@include bp(small) {
 		@include span-columns(6);
 	}
@@ -221,6 +221,11 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__footer--category:hover, .entry__footer--category:focus, .entry__footer--category:active {
 	color: $secondary-link-hover;
+}
+
+.entry__related-posts {
+	width: 100%;
+	float: left;
 }
 
 // Post Formats

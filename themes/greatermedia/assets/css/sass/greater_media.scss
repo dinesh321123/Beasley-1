@@ -26,6 +26,7 @@
 @import "layout/menus";
 @import "layout/sub-menus/sub-menus";
 @import "layout/sub-menus/format-full-width";
+@import "layout/sub-menus/format-small-previews";
 
 // Home
 @import "home/blog-roll";
@@ -52,12 +53,14 @@
 @import "components/widgets";
 @import "components/social-share-links";
 @import "components/article";
-@import "components/search";
 @import "components/gallery";
 @import "components/personalities";
 @import "components/forms";
+@import "components/search";
+@import "components/autocomplete-keywords";
 @import "components/profile";
 @import "components/shows-live-links";
+@import "components/livefyre-comments";
 @import "components/adblock";
 
 // Custom styles only used on single pages

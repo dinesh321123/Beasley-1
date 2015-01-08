@@ -18,7 +18,7 @@
 		header = document.getElementById( 'header' ),
 		headerHeight = header.offsetHeight,
 		livePlayer = document.getElementById( 'live-player__sidebar' ),
-		livePlayerStream = document.querySelector('.live-player__stream');
+		livePlayerStream = document.querySelector('.live-player__stream'),
 		livePlayerStreamSelect = document.querySelector( '.live-player__stream--current' ),
 		livePlayerStreamSelectHeight = livePlayerStreamSelect.offsetHeight,
 		livePlayerCurrentName = livePlayerStreamSelect.querySelector( '.live-player__stream--current-name' ),
@@ -63,6 +63,34 @@
 		else if (elem.attachEvent)
 			elem.attachEvent ('on'+eventType,handler);
 	}
+
+    /**
+     * Toggles a class to the Live Play Stream Select box when the box is clicked
+     */
+    function toggleStreamSelect() {
+        livePlayerStreamSelect.classList.toggle( 'open' );
+    }
+    addEventHandler(livePlayerStreamSelect,elemClick,toggleStreamSelect);
+
+    /**
+     * Selects a Live Player Stream
+     */
+    function selectStream() {
+        var selected_stream = this.querySelector( '.live-player__stream--name' ).textContent;
+
+        livePlayerCurrentName.textContent = selected_stream;
+        document.dispatchEvent( new CustomEvent( 'live-player-stream-changed', { 'detail': selected_stream } ) );
+    }
+
+    for ( var i = 0; i < livePlayerStreams.length; i++ ) {
+        addEventHandler(livePlayerStreams[i],elemClick,selectStream);
+    }
+    /**
+     * from Js Window resize script is not neccessary on popupPlayer window
+     */
+    if( document.getElementById( 'popup-player-livestream' ) ){
+        return;
+    }
 
 	/**
 	 * detects various positions of the screen on scroll to deliver states of the live player
@@ -209,6 +237,27 @@
 	};
 
 	/**
+	 * Toggles a target element.
+	 *
+	 * @param {MouseEvent} e
+	 */
+	function toggleCollapsedElement(e) {
+		var target = document.querySelector(this.getAttribute('data-target')),
+				currentText = this.innerText,
+				newText = this.getAttribute('data-alt-text');
+
+		e.preventDefault();
+
+		target.style.display = target.style.display != 'none' ? 'none' : 'block';
+
+		this.innerText = newText;
+		this.setAttribute('data-alt-text', currentText);
+	}
+	if (collapseToggle != null) {
+		addEventHandler(collapseToggle, elemClick, toggleCollapsedElement);
+	}
+
+	/**
 	 * variables used for button interactions on the live player
 	 */
 	var playLp, pauseLp, resumeLp, playBtn, pauseBtn, resumeBtn, lpListenNow, lpNowPlaying;
@@ -226,7 +275,7 @@
 	playLp = new lpAction(playBtn, lpListenNow, lpNowPlaying);
 	pauseLp = new lpAction(pauseBtn, lpNowPlaying, lpListenNow);
 	resumeLp = new lpAction(resumeBtn, lpListenNow, lpNowPlaying);
-	
+
 	/**
 	 * Toggles a class to the body when the mobile nav button is clicked
 	 */
@@ -469,5 +518,19 @@
 			scrollThrottle();
 		});
 	}
+
+	function init_menu_overlay() {
+		var $menu = jQuery(document.querySelector('.header__nav--list')),
+				$overlay = jQuery(document.querySelector('.overlay-mask'));
+
+		$menu.on('mouseover', '.menu-item-has-children', function (e) {
+			$overlay.addClass('is-visible');
+		});
+		$menu.on('mouseout', '.menu-item-has-children', function (e) {
+			$overlay.removeClass('is-visible');
+		});
+	}
+
+	init_menu_overlay();
 
 })();

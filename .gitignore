@@ -43,8 +43,10 @@ plugins/ooyala-video-browser/
 plugins/simple-page-ordering/
 plugins/tag-pages/
 plugins/yet-another-related-posts-plugin
-plugins/jetpack/
 /plugins/greatermedia-live-stream/node_modules/
 plugins/ubermenu/
+/mu-plugins/dependencies/formbuilder/bower_components/
+plugins/jetpack/
 plugins/cpt-archives-in-nav-menus
 /mu-plugins/dependencies/formbuilder/bower_components/
+plugins/seriously-simple-podcasting/

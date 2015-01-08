@@ -120,4 +120,4 @@ class GMP_Settings {
 
 }
 
-GMP_Settings::instance();
+//GMP_Settings::instance();

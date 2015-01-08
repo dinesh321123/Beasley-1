@@ -20,6 +20,8 @@ module.exports = function (grunt) {
 			greater_media: {
 				src: [
 					'assets/js/src/mobile-sub-menus.js',
+					'assets/js/src/greater_media_pjax.js',
+					'assets/js/src/profile.js',
 					'assets/js/src/greater_media.js'
 				],
 				dest: 'assets/js/greater_media.js'
@@ -64,7 +66,11 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-		sass: {
+		test:   {
+			files: ['assets/js/test/**/*.js']
+		},
+
+		sass:   {
 			options: {
 				require: 'sass-globbing'
 			},
@@ -77,11 +83,14 @@ module.exports = function (grunt) {
 				}
 			}
 		},
+
 		cssmin: {
 			minify: {
 				expand: true,
+
 				cwd: 'assets/css/',
-				src: ['greater_media.css', 'greater_media_admin.css', 'gm_admin.css', 'gm_tinymce.css'],
+				src: ['greater_media.css', 'greater_media_admin.css', 'gm_admin.css','gm_tinymce.css'],
+
 				dest: 'assets/css/',
 				ext: '.min.css'
 			}
@@ -97,25 +106,26 @@ module.exports = function (grunt) {
 
 			sass: {
 				files: ['assets/css/sass/**/*.scss'],
-				tasks: ['css'],
+				tasks: ['sass', 'cssmin'],
 				options: {
 					debounceDelay: 500
 				}
 			},
+
 			scripts: {
 				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
-				tasks: ['js'],
+				tasks: ['jshint', 'concat', 'uglify'],
 				options: {
 					debounceDelay: 500
 				}
 			}
 		}
-	});
+	} );
 
-	// Default tasks
-	grunt.registerTask('css', ['sass', 'cssmin']);
-	grunt.registerTask('js', ['jshint', 'concat', 'uglify']);
-	grunt.registerTask('default', ['js', 'css']);
+	// Default task.
+
+	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify', 'sass', 'cssmin'] );
+
 
 	grunt.util.linefeed = '\n';
 };

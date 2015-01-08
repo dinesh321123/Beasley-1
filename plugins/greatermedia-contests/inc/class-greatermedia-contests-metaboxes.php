@@ -87,13 +87,7 @@ class GreaterMediaContestsMetaboxes {
 	public function register_settings_fields() {
 
 		// Make sure this is an admin screen
-		if ( ! is_admin() ) {
-			return;
-		}
-
-		// Make sure this is the post editor
-		$current_screen = get_current_screen();
-		if ( 'post' !== $current_screen->base ) {
+		if ( ! is_admin() || 'post' !== get_current_screen()->base ) {
 			return;
 		}
 
@@ -104,61 +98,34 @@ class GreaterMediaContestsMetaboxes {
 
 		$post_id = absint( $GLOBALS['post']->ID );
 
-		add_settings_section(
-			'greatermedia-contest-rules',
-			null,
-			'__return_false',
-			'greatermedia-contest-rules'
-		);
+		add_settings_section( 'greatermedia-contest-form', null, '__return_false', 'greatermedia-contest-form' );
 
-		add_settings_section(
-			'greatermedia-contest-form',
-			null,
-			'__return_false',
-			'greatermedia-contest-form'
-		);
+		$form_title = get_post_meta( $post_id, 'form-title', true );
+		add_settings_field( 'form-title', 'Form Title Text', array( $this, 'render_input' ), 'greatermedia-contest-form', 'greatermedia-contest-form', array(
+			'post_id' => $post_id,
+			'id'      => 'greatermedia_contest_form_title',
+			'name'    => 'greatermedia_contest_form_title',
+			'size'    => 50,
+			'value'   => ! empty( $form_title ) ? $form_title : 'Enter Here to Win',
+		) );
 
 		$submit_text = get_post_meta( $post_id, 'form-submitbutton', true );
-		if ( empty( $submit_text ) ) {
-			// If you change this string, be sure to get all the places it's used in this class
-			$submit_text = __( 'Submit', 'greatermedia_contests' );
-		}
-
-		add_settings_field(
-			'form-submitbutton',
-			'Submit Button Text',
-			array( $this, 'render_input' ),
-			'greatermedia-contest-form',
-			'greatermedia-contest-form',
-			array(
-				'post_id' => $post_id,
-				'id'      => 'greatermedia_contest_form_submit',
-				'name'    => 'greatermedia_contest_form_submit',
-				'size'    => 50,
-				'value'   => $submit_text
-			)
-		);
+		add_settings_field( 'form-submitbutton', 'Submit Button Text', array( $this, 'render_input' ), 'greatermedia-contest-form', 'greatermedia-contest-form', array(
+			'post_id' => $post_id,
+			'id'      => 'greatermedia_contest_form_submit',
+			'name'    => 'greatermedia_contest_form_submit',
+			'size'    => 50,
+			'value'   => ! empty( $submit_text ) ? $submit_text : 'Submit',
+		) );
 
 		$thank_you = get_post_meta( $post_id, 'form-thankyou', true );
-		if ( empty( $thank_you ) ) {
-			// If you change this string, be sure to get all the places it's used in this class
-			$thank_you = __( 'Thanks for entering!', 'greatermedia_contests' );
-		}
-
-		add_settings_field(
-			'form-thankyou',
-			'"Thank You" Message',
-			array( $this, 'render_input' ),
-			'greatermedia-contest-form',
-			'greatermedia-contest-form',
-			array(
-				'post_id' => $post_id,
-				'id'      => 'greatermedia_contest_form_thankyou',
-				'name'    => 'greatermedia_contest_form_thankyou',
-				'size'    => 50,
-				'value'   => $thank_you
-			)
-		);
+		add_settings_field( 'form-thankyou', '"Thank You" Message', array( $this, 'render_input' ), 'greatermedia-contest-form', 'greatermedia-contest-form', array(
+			'post_id' => $post_id,
+			'id'      => 'greatermedia_contest_form_thankyou',
+			'name'    => 'greatermedia_contest_form_thankyou',
+			'size'    => 50,
+			'value'   => ! empty( $thank_you ) ? $thank_you : 'Thanks for entering!',
+		) );
 
 	}
 
@@ -371,24 +338,29 @@ class GreaterMediaContestsMetaboxes {
 		 * The form JSON has slashes in it which need to be stripped out.
 		 * json_decode() and json_encode() are used here to sanitize the JSON & keep out invalid values
 		 */
-		$form = json_encode( json_decode( urldecode( $_POST['contest_embedded_form'] ) ) );
+		$form = addslashes( json_encode( json_decode( urldecode( $_POST['contest_embedded_form'] ) ) ) );
 		// PHP's json_encode() may add quotes around the encoded string. Remove them.
 		$form = trim( $form, '"' );
 		update_post_meta( $post_id, 'embedded_form', $form );
 
 		// Update the form's "submit button" text
+		$form_title = isset( $_POST['greatermedia_contest_form_title'] ) ? $_POST['greatermedia_contest_form_title'] : '';
+		if ( empty( $form_title ) ) {
+			$form_title = 'Enter Here to Win';
+		}
+		update_post_meta( $post_id, 'form-title', sanitize_text_field( $form_title ) );
+
+		// Update the form's "submit button" text
 		$submit_text = isset( $_POST['greatermedia_contest_form_submit'] ) ? $_POST['greatermedia_contest_form_submit'] : '';
 		if ( empty( $submit_text ) ) {
-			// If you change this string, be sure to get all the places it's used in this class
-			$submit_button = __( 'Submit', 'greatermedia_contests' );
+			$submit_text = 'Submit';
 		}
 		update_post_meta( $post_id, 'form-submitbutton', sanitize_text_field( $submit_text ) );
 
 		// Update the form's "thank you" message
 		$thank_you = isset( $_POST['greatermedia_contest_form_thankyou'] ) ? $_POST['greatermedia_contest_form_thankyou'] : '';
 		if ( empty( $thank_you ) ) {
-			// If you change this string, be sure to get all the places it's used in this class
-			$thank_you = __( 'Thanks for entering!', 'greatermedia_contests' );
+			$thank_you = 'Thanks for entering!';
 		}
 		update_post_meta( $post_id, 'form-thankyou', sanitize_text_field( $thank_you ) );
 

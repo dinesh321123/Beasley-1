@@ -17,236 +17,234 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 !function(a){"use strict";a.extend(a.fn.cycle.defaults,{centerHorz:!1,centerVert:!1}),a(document).on("cycle-pre-initialize",function(b,c){function d(){clearTimeout(i),i=setTimeout(g,50)}function e(){clearTimeout(i),clearTimeout(j),a(window).off("resize orientationchange",d)}function f(){c.slides.each(h)}function g(){h.apply(c.container.find("."+c.slideActiveClass)),clearTimeout(j),j=setTimeout(f,50)}function h(){var b=a(this),d=c.container.width(),e=c.container.height(),f=b.outerWidth(),g=b.outerHeight();f&&(c.centerHorz&&d>=f&&b.css("marginLeft",(d-f)/2),c.centerVert&&e>=g&&b.css("marginTop",(e-g)/2))}if(c.centerHorz||c.centerVert){var i,j;a(window).on("resize orientationchange load",d),c.container.on("cycle-destroyed",e),c.container.on("cycle-initialized cycle-slide-added cycle-slide-removed",function(){d()}),g()}})}(jQuery);
 !function(a){"use strict";a.event.special.swipe=a.event.special.swipe||{scrollSupressionThreshold:10,durationThreshold:1e3,horizontalDistanceThreshold:30,verticalDistanceThreshold:75,setup:function(){var b=a(this);b.bind("touchstart",function(c){function d(b){if(g){var c=b.originalEvent.touches?b.originalEvent.touches[0]:b;e={time:(new Date).getTime(),coords:[c.pageX,c.pageY]},Math.abs(g.coords[0]-e.coords[0])>a.event.special.swipe.scrollSupressionThreshold&&b.preventDefault()}}var e,f=c.originalEvent.touches?c.originalEvent.touches[0]:c,g={time:(new Date).getTime(),coords:[f.pageX,f.pageY],origin:a(c.target)};b.bind("touchmove",d).one("touchend",function(){b.unbind("touchmove",d),g&&e&&e.time-g.time<a.event.special.swipe.durationThreshold&&Math.abs(g.coords[0]-e.coords[0])>a.event.special.swipe.horizontalDistanceThreshold&&Math.abs(g.coords[1]-e.coords[1])<a.event.special.swipe.verticalDistanceThreshold&&g.origin.trigger("swipe").trigger(g.coords[0]>e.coords[0]?"swipeleft":"swiperight"),g=e=void 0})})}},a.event.special.swipeleft=a.event.special.swipeleft||{setup:function(){a(this).bind("swipe",a.noop)}},a.event.special.swiperight=a.event.special.swiperight||a.event.special.swipeleft}(jQuery);
 !function(a){"use strict";a(document).on("cycle-bootstrap",function(a,b,c){"carousel"===b.fx&&(c.getSlideIndex=function(a){var b=this.opts()._carouselWrap.children(),c=b.index(a);return c%b.length},c.next=function(){var a=b.reverse?-1:1;b.allowWrap===!1&&b.currSlide+a>b.slideCount-b.carouselVisible||(b.API.advanceSlide(a),b.API.trigger("cycle-next",[b]).log("cycle-next"))})}),a.fn.cycle.transitions.carousel={preInit:function(b){b.hideNonActive=!1,b.container.on("cycle-destroyed",a.proxy(this.onDestroy,b.API)),b.API.stopTransition=this.stopTransition;for(var c=0;c<b.startingSlide;c++)b.container.append(b.slides[0])},postInit:function(b){var c,d,e,f,g=b.carouselVertical;b.carouselVisible&&b.carouselVisible>b.slideCount&&(b.carouselVisible=b.slideCount-1);var h=b.carouselVisible||b.slides.length,i={display:g?"block":"inline-block",position:"static"};if(b.container.css({position:"relative",overflow:"hidden"}),b.slides.css(i),b._currSlide=b.currSlide,f=a('<div class="cycle-carousel-wrap"></div>').prependTo(b.container).css({margin:0,padding:0,top:0,left:0,position:"absolute"}).append(b.slides),b._carouselWrap=f,g||f.css("white-space","nowrap"),b.allowWrap!==!1){for(d=0;d<(void 0===b.carouselVisible?2:1);d++){for(c=0;c<b.slideCount;c++)f.append(b.slides[c].cloneNode(!0));for(c=b.slideCount;c--;)f.prepend(b.slides[c].cloneNode(!0))}f.find(".cycle-slide-active").removeClass("cycle-slide-active"),b.slides.eq(b.startingSlide).addClass("cycle-slide-active")}b.pager&&b.allowWrap===!1&&(e=b.slideCount-h,a(b.pager).children().filter(":gt("+e+")").hide()),b._nextBoundry=b.slideCount-b.carouselVisible,this.prepareDimensions(b)},prepareDimensions:function(b){var c,d,e,f,g=b.carouselVertical,h=b.carouselVisible||b.slides.length;if(b.carouselFluid&&b.carouselVisible?b._carouselResizeThrottle||this.fluidSlides(b):b.carouselVisible&&b.carouselSlideDimension?(c=h*b.carouselSlideDimension,b.container[g?"height":"width"](c)):b.carouselVisible&&(c=h*a(b.slides[0])[g?"outerHeight":"outerWidth"](!0),b.container[g?"height":"width"](c)),d=b.carouselOffset||0,b.allowWrap!==!1)if(b.carouselSlideDimension)d-=(b.slideCount+b.currSlide)*b.carouselSlideDimension;else for(e=b._carouselWrap.children(),f=0;f<b.slideCount+b.currSlide;f++)d-=a(e[f])[g?"outerHeight":"outerWidth"](!0);b._carouselWrap.css(g?"top":"left",d)},fluidSlides:function(b){function c(){clearTimeout(e),e=setTimeout(d,20)}function d(){b._carouselWrap.stop(!1,!0);var a=b.container.width()/b.carouselVisible;a=Math.ceil(a-g),b._carouselWrap.children().width(a),b._sentinel&&b._sentinel.width(a),h(b)}var e,f=b.slides.eq(0),g=f.outerWidth()-f.width(),h=this.prepareDimensions;a(window).on("resize",c),b._carouselResizeThrottle=c,d()},transition:function(b,c,d,e,f){var g,h={},i=b.nextSlide-b.currSlide,j=b.carouselVertical,k=b.speed;if(b.allowWrap===!1){e=i>0;var l=b._currSlide,m=b.slideCount-b.carouselVisible;i>0&&b.nextSlide>m&&l==m?i=0:i>0&&b.nextSlide>m?i=b.nextSlide-l-(b.nextSlide-m):0>i&&b.currSlide>m&&b.nextSlide>m?i=0:0>i&&b.currSlide>m?i+=b.currSlide-m:l=b.currSlide,g=this.getScroll(b,j,l,i),b.API.opts()._currSlide=b.nextSlide>m?m:b.nextSlide}else e&&0===b.nextSlide?(g=this.getDim(b,b.currSlide,j),f=this.genCallback(b,e,j,f)):e||b.nextSlide!=b.slideCount-1?g=this.getScroll(b,j,b.currSlide,i):(g=this.getDim(b,b.currSlide,j),f=this.genCallback(b,e,j,f));h[j?"top":"left"]=e?"-="+g:"+="+g,b.throttleSpeed&&(k=g/a(b.slides[0])[j?"height":"width"]()*b.speed),b._carouselWrap.animate(h,k,b.easing,f)},getDim:function(b,c,d){var e=a(b.slides[c]);return e[d?"outerHeight":"outerWidth"](!0)},getScroll:function(a,b,c,d){var e,f=0;if(d>0)for(e=c;c+d>e;e++)f+=this.getDim(a,e,b);else for(e=c;e>c+d;e--)f+=this.getDim(a,e,b);return f},genCallback:function(b,c,d,e){return function(){var c=a(b.slides[b.nextSlide]).position(),f=0-c[d?"top":"left"]+(b.carouselOffset||0);b._carouselWrap.css(b.carouselVertical?"top":"left",f),e()}},stopTransition:function(){var a=this.opts();a.slides.stop(!1,!0),a._carouselWrap.stop(!1,!0)},onDestroy:function(){var b=this.opts();b._carouselResizeThrottle&&a(window).off("resize",b._carouselResizeThrottle),b.slides.prependTo(b.container),b._carouselWrap.remove()}}}(jQuery);
-(function ( $, window, undefined ) {
+(function ($, window, undefined) {
 	"use strict";
 
 	var document = window.document,
-		$document = $( document ),
-		$window = $( window ),
-		slideshow = $( '.gallery__slide--images.cycle-slideshow' ),
-		gallery = document.querySelectorAll( '.gallery' ),
-		main = document.querySelector( '.gallery__slide--images' ),
-		$gallery = $( gallery ),
-		$main = $( main ),
-		$main_wrapper = $( '.gallery__slides' ),
-		$caption = $( '.gallery__content' ),
-		$sidebar = $( '.gallery__thumbnails' ),
-		$slide_paging = $( '.gallery__paging' ),
-		$slide_paging_previews = $( '.gallery__previews' ),
-		$single_thumbnail = $( '.gallery__previews div div' );
+		$document = $(document),
+		$window = $(window),
+		__ready;
 
-	/**
-	 * Bind the gallery full screen toggle
-	 */
-	function bind_events() {
-		var hashChange = false;
+	__ready = function() {
+		var slideshow = $( '.gallery__slide--images.cycle-slideshow' ),
+			gallery = document.querySelectorAll( '.gallery' ),
+			main = document.querySelector( '.gallery__slide--images' ),
+			$gallery = $( gallery ),
+			$main = $( main ),
+			$main_wrapper = $( '.gallery__slides' ),
+			$caption = $( '.gallery__content' ),
+			$sidebar = $( '.gallery__thumbnails' ),
+			$slide_paging = $( '.gallery__paging' ),
+			$slide_paging_previews = $( '.gallery__previews' ),
+			$single_thumbnail = $( '.gallery__previews div div' );
 
 		/**
-		 * Make sure thumbnails are updated before the slideshow cycles.
+		 * Bind the gallery full screen toggle
 		 */
-		slideshow.on( 'cycle-before', function ( event, optionHash ) {
-			update_thumbnails(optionHash.nextSlide); // nextSlide = incoming slide. could be backward
-			//$caption.cycle( 'goto', optionHash.nextSlide );
-		} );
+		function bind_events() {
+			var hashChange = false;
+
+			/**
+			 * Make sure thumbnails are updated before the slideshow cycles.
+			 */
+			slideshow.on( 'cycle-before', function ( event, optionHash ) {
+				update_thumbnails(optionHash.nextSlide); // nextSlide = incoming slide. could be backward
+				//$caption.cycle( 'goto', optionHash.nextSlide );
+			} );
+
+			/**
+			 * Wire up additional events after the slideshow has fully initialized.
+			 */
+			slideshow.on( 'cycle-update-view', function( event, optionHash ) {
+				update_thumbnails( optionHash.currSlide );
+			} );
+
+			/**
+			 * On mobile, regroup thumbnails on page load
+			 */
+			slideshow.on( 'cycle-initialized', function( e, opts ) {
+				responsive_thumbnails();
+			} );
+
+			/**
+			 * Make sure the preview buttons transition the slideshow.
+			 */
+			$slide_paging_previews.on( 'click', '.cycle-slide div', function () {
+				var $this = $( this ),
+					index = $this.data( 'cycle-index' );
+
+				slideshow.cycle( 'goto', index );
+				$caption.cycle( 'goto', index );
+			} );
+
+			// Make sure we disable other hashchange events that attempt to capture manual hash changes.
+			$document.on( 'cycle-pre-initialize', function( e, opts ) {
+				$( window ).off( 'hashchange', opts._onHashChange);
+			});
+
+			// Rebind Captions - Code taken directly from jquery2.cycle.caption.js (with certain code standard updates)
+			$document.on( 'cycle-update-view', function ( e, opts, slideOpts, currSlide ) {
+				if ( opts.captionModule !== 'caption' ) {
+					return;
+				}
+
+				var el;
+				$.each( ['caption', 'overlay'], function () {
+					var name = this,
+						template = slideOpts[name + 'Template'],
+						el = opts.API.getComponent( name );
+
+					if ( el.length && template ) {
+						el.html( opts.API.tmpl( template, slideOpts, opts, currSlide ) );
+						el.show();
+					}
+					else {
+						el.hide();
+					}
+				} );
+			} );
+
+			$window.resize( responsive_thumbnails );
+		}
 
 		/**
-		 * Wire up additional events after the slideshow has fully initialized.
+		 * Are we on a mobile browser (or anything smaller than 768px)?
+		 * @returns bool
 		 */
-		slideshow.on( 'cycle-update-view', function( event, optionHash ) {
-			update_thumbnails( optionHash.currSlide );
-		} );
+		function isMobile() {
+			return $gallery.hasClass( 'ismobile' );
+		}
+
+		function isTablet() {
+			return $gallery.hasClass( 'istablet' );
+		}
 
 		/**
-		 * On mobile, regroup thumbnails on page load
+		 * Regroup the thumbnails in mobile to fit the screen
 		 */
-		slideshow.on( 'cycle-initialized', function( e, opts ) {
-			responsive_thumbnails();
-		} );
+		function responsive_thumbnails() {
+			// If we're moving from mobile to normal, shift things around
+			if ( $window.width() >= 768 && isMobile() ) {
+				$gallery.removeClass( 'ismobile' );
+				$sidebar.append( $caption );
+				regroup_thumbnails( get_thumbs_per_page() );
+				update_thumbnails( $main.data( "cycle.opts" ).currSlide );
 
-		/**
-		 * Make sure the preview buttons transition the slideshow.
-		 */
-		$slide_paging_previews.on( 'click', '.cycle-slide div', function () {
-			var $this = $( this ),
-				index = $this.data( 'cycle-index' );
-
-			slideshow.cycle( 'goto', index );
-			$caption.cycle( 'goto', index );
-		} );
-
-		// Make sure we disable other hashchange events that attempt to capture manual hash changes.
-		$document.on( 'cycle-pre-initialize', function( e, opts ) {
-			$( window ).off( 'hashchange', opts._onHashChange);
-		});
-
-		// Rebind Captions - Code taken directly from jquery2.cycle.caption.js (with certain code standard updates)
-		$document.on( 'cycle-update-view', function ( e, opts, slideOpts, currSlide ) {
-			if ( opts.captionModule !== 'caption' ) {
+				$main.css( 'height', '' );
+				$main_wrapper.css( 'height', '' );
+				$( '.gallery__previews, .gallery__previews--group' ).css( 'height', '' );
 				return;
 			}
 
-			var el;
-			$.each( ['caption', 'overlay'], function () {
-				var name = this,
-					template = slideOpts[name + 'Template'],
-					el = opts.API.getComponent( name );
+			// If we're on a small screen but ismobile is not set, shift things around
+			if ( $window.width() < 480 && ! isMobile() ) {
+				$gallery.addClass( 'ismobile' );
+				regroup_thumbnails( get_thumbs_per_page() );
+				update_thumbnails( $main.data( "cycle.opts" ).currSlide );
+			}
 
-				if ( el.length && template ) {
-					el.html( opts.API.tmpl( template, slideOpts, opts, currSlide ) );
-					el.show();
-				}
-				else {
-					el.hide();
+			// If the window is being resized, adjust the thumbnail and main image height
+			if ( isMobile() ) {
+				var main_height, thumb_height;
+				$main.css( 'height', ( main_height - 20 ) + 'px' );
+				$main_wrapper.css( 'height', main_height );
+
+				thumb_height = $single_thumbnail.width();
+				$( '.gallery__previews, .gallery__previews--group' ).css( 'height', thumb_height + 'px' );
+			}
+
+			if ( $window.width() >= 480 && $window.width() < 769 && ! isTablet() ) {
+				$gallery.addClass( 'istablet' );
+				regroup_thumbnails( get_thumbs_per_page() );
+				update_thumbnails( $main.data( "cycle.opts" ).currSlide );
+			}
+
+		}
+
+		/**
+		 * Regroup the thumbnails in paged divs
+		 *
+		 * This is used when going between widescreen and other views, because the
+		 * widescreen view can only hold 8 thumbnails per page while the other views
+		 * can hold 15 per page.
+		 *
+		 * @param number_in_group
+		 */
+		function regroup_thumbnails( number_in_group ) {
+			var $thumbnails_group = $( '.gallery__previews--group' );
+
+			$thumbnails_group.children( 'div' ).appendTo( '.gallery__previews' );
+			$thumbnails_group.remove();
+			$( '.gallery__previews div' ).each( function() {
+				var $this = $( this );
+				if ( undefined === $this.attr( 'id' ) ) {
+					$this.remove();
 				}
 			} );
-		} );
-
-		$window.resize( responsive_thumbnails );
-	}
-
-	/**
-	 * Are we on a mobile browser (or anything smaller than 768px)?
-	 * @returns bool
-	 */
-	function isMobile() {
-		return $gallery.hasClass( 'ismobile' );
-	}
-
-	function isTablet() {
-		return $gallery.hasClass( 'istablet' );
-	}
-
-	/**
-	 * Regroup the thumbnails in mobile to fit the screen
-	 */
-	function responsive_thumbnails() {
-		// If we're moving from mobile to normal, shift things around
-		if ( $window.width() >= 768 && isMobile() ) {
-			$gallery.removeClass( 'ismobile' );
-			$sidebar.append( $caption );
-			regroup_thumbnails( get_thumbs_per_page() );
-			update_thumbnails( $main.data( "cycle.opts" ).currSlide );
-
-			$main.css( 'height', '' );
-			$main_wrapper.css( 'height', '' );
-			$( '.gallery__previews, .gallery__previews--group' ).css( 'height', '' );
-			return;
+			$slide_paging_previews
+				.each( function () {
+					var divs = $( 'div', this );
+					for ( var i = 0; i < divs.length; i += number_in_group ) {
+						divs.slice( i, i + number_in_group ).wrapAll( '<div class="gallery__previews--group"></div>' );
+					}
+				} )
+				.cycle( 'reinit' );
 		}
 
-		// If we're on a small screen but ismobile is not set, shift things around
-		if ( $window.width() < 480 && ! isMobile() ) {
-			$gallery.addClass( 'ismobile' );
-			regroup_thumbnails( get_thumbs_per_page() );
-			update_thumbnails( $main.data( "cycle.opts" ).currSlide );
+		/**
+		 * Update the slide thumbnails to we're viewing the correct group.
+		 *
+		 * @param {Number} selected_slide
+		 */
+		function update_thumbnails( selected_slide ) {
+			var slides_per_page = get_thumbs_per_page();
+
+			$( '.gallery__slide--active' ).removeClass( 'gallery__slide--active' );
+			$( '#preview-' + selected_slide ).addClass( 'gallery__slide--active' );
+			var selected_slide_group = Math.floor( selected_slide / slides_per_page );
+			$slide_paging_previews.cycle( 'goto', selected_slide_group );
 		}
 
-		// If the window is being resized, adjust the thumbnail and main image height
-		if ( isMobile() ) {
-			var main_height, thumb_height;
-			$main.css( 'height', ( main_height - 20 ) + 'px' );
-			$main_wrapper.css( 'height', main_height );
-
-			thumb_height = $single_thumbnail.width();
-			$( '.gallery__previews, .gallery__previews--group' ).css( 'height', thumb_height + 'px' );
-		}
-
-		if ( $window.width() >= 480 && $window.width() < 769 && ! isTablet() ) {
-			$gallery.addClass( 'istablet' );
-			regroup_thumbnails( get_thumbs_per_page() );
-			update_thumbnails( $main.data( "cycle.opts" ).currSlide );
-		}
-
-	}
-
-	/**
-	 * Regroup the thumbnails in paged divs
-	 *
-	 * This is used when going between widescreen and other views, because the
-	 * widescreen view can only hold 8 thumbnails per page while the other views
-	 * can hold 15 per page.
-	 *
-	 * @param number_in_group
-	 */
-	function regroup_thumbnails( number_in_group ) {
-		var $thumbnails_group = $( '.gallery__previews--group' );
-
-		$thumbnails_group.children( 'div' ).appendTo( '.gallery__previews' );
-		$thumbnails_group.remove();
-		$( '.gallery__previews div' ).each( function() {
-			var $this = $( this );
-			if ( undefined === $this.attr( 'id' ) ) {
-				$this.remove();
+		function get_thumbs_per_page() {
+			var slides_per_page = 8;
+			if ( isMobile() ) {
+				slides_per_page = 3;
 			}
-		} );
-		$slide_paging_previews
-			.each( function () {
-				var divs = $( 'div', this );
-				for ( var i = 0; i < divs.length; i += number_in_group ) {
-					divs.slice( i, i + number_in_group ).wrapAll( '<div class="gallery__previews--group"></div>' );
-				}
-			} )
-			.cycle( 'reinit' );
-	}
-
-	/**
-	 * Update the slide thumbnails to we're viewing the correct group.
-	 *
-	 * @param {Number} selected_slide
-	 */
-	function update_thumbnails( selected_slide ) {
-		var slides_per_page = get_thumbs_per_page();
-
-		$( '.gallery__slide--active' ).removeClass( 'gallery__slide--active' );
-		$( '#preview-' + selected_slide ).addClass( 'gallery__slide--active' );
-		var selected_slide_group = Math.floor( selected_slide / slides_per_page );
-		$slide_paging_previews.cycle( 'goto', selected_slide_group );
-	}
-
-	function get_thumbs_per_page() {
-		var slides_per_page = 8;
-		if ( isMobile() ) {
-			slides_per_page = 3;
+			if ( isTablet() ) {
+				slides_per_page = 5;
+			}
+			return slides_per_page;
 		}
-		if ( isTablet() ) {
-			slides_per_page = 5;
+
+		/**
+		 * Update sharing links and short URL in sharing overlay
+		 */
+		function update_share_urls() {
+			var share_url, share_title;
+			if ( $( '#share-image' ).is( ':checked' ) ) {
+				share_url   = $( 'input.slide-url' ).val();
+				share_title = $( 'input.slide-title' ).val();
+			} else {
+				share_url   = $( 'input.gallery-url' ).val();
+				share_title = $( 'input.gallery-title' ).val();
+			}
+			var url_twitter  = 'http://twitter.com/home?status=' + share_url + '%20-%20' + share_title;
+			var url_facebook = 'http://www.facebook.com/sharer.php?u=' + share_url + '&amp;t=' + share_title;
+
+			$( '.gallery-toolbar .fa-twitter' ).attr( 'href', url_twitter );
+			$( '.gallery-toolbar .fa-facebook' ).attr( 'href', url_facebook );
+			$( '.gallery-toolbar .short-url' ).html( '<a href="' + share_url + '">' + share_url + '</a>' );
 		}
-		return slides_per_page;
-	}
 
-	/**
-	 * Update sharing links and short URL in sharing overlay
-	 */
-	function update_share_urls() {
-		var share_url, share_title;
-		if ( $( '#share-image' ).is( ':checked' ) ) {
-			share_url   = $( 'input.slide-url' ).val();
-			share_title = $( 'input.slide-title' ).val();
-		} else {
-			share_url   = $( 'input.gallery-url' ).val();
-			share_title = $( 'input.gallery-title' ).val();
-		}
-		var url_twitter  = 'http://twitter.com/home?status=' + share_url + '%20-%20' + share_title;
-		var url_facebook = 'http://www.facebook.com/sharer.php?u=' + share_url + '&amp;t=' + share_title;
-
-		$( '.gallery-toolbar .fa-twitter' ).attr( 'href', url_twitter );
-		$( '.gallery-toolbar .fa-facebook' ).attr( 'href', url_facebook );
-		$( '.gallery-toolbar .short-url' ).html( '<a href="' + share_url + '">' + share_url + '</a>' );
-	}
-
-	bind_events();
-
-	window.GMR_Gallery = {
-		bindEvents  : bind_events
+		bind_events();
 	};
 
-	function loadGalleryPjax() {
-		$(document).on('pjax:end', function() {
-			console.log('-- pjax end --');
-			bind_events();
-			$('.cycle-slideshow').cycle();
-		});
-	}
+	$document.bind('pjax:end', function() {
+		$document.find('.cycle-slideshow').cycle();
+		__ready();
+	});
 
-	setTimeout(loadGalleryPjax, 2000);
-
-})( jQuery, window );
+	$document.bind('contest:preview-loaded', __ready);
+	
+	$document.ready(__ready);
+})(jQuery, window);

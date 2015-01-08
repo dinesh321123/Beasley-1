@@ -1,3 +1,13 @@
+/**
+ * Z-indexes
+ *
+ * IAB standards for z-indexes set the baseline, with drop nav occupying a range between 5000000 and 5999999
+ * Within that range, we're stepping by 100s.
+ * The overlay mask sits at the bottom of the range: 5000000
+ * Above the top level menu item is the sub-menu and top level menu item (only while hovered) at 5000100
+ *
+ */
+
 /* Psuedo element helps with selection by preventing the menu from collapsing on just a bit of a mouse-out */
 .header__nav .menu-item-has-children:hover:after {
 	content: ' ';
@@ -10,18 +20,52 @@
 	height: 40px;
 }
 
+.overlay-mask {
+	visibility: hidden;
+	background-color: rgba(0, 0, 0, .333);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 5000000; /* IAB z-index standard for drop nav is 5000000 - 5999999 */
+	opacity: 0;
+	@include transition(visibility 0s linear, opacity 100ms ease-out);
+
+	&.is-visible {
+		visibility: visible;
+		opacity: 1;
+		@include transition(visibility 0s linear, opacity 100ms ease-out);
+	}
+}
+
+/**
+ * This is not ideal, we should be doing this on the top level <li>
+ * Unfortunately, doing so means that the full-width menus, aren't. They are 100% the width of the <li>
+ * Which is no good. So here we are.
+ */
+.header__main {
+	position: relative;
+
+	&:hover {
+		z-index: 5000100; /* IAB z-index standard for drop nav is 5000000 - 5999999 */
+	}
+}
+
+
 .header__nav ul li:hover .sub-menu {
 	display: block;
 }
 
 .header__nav .sub-menu,
-.header__account--links.sub-menu {
+.header__account--links.sub-menu,
+.ui-menu {
 	position: absolute;
 	border-top: 7px solid $color-text-red;
 	background-color: $primary-bg;
 	color: $color-text-black;
 	min-width: 300px;
-	z-index: 5000000; /* IAB z-index standard for drop nav is 5000000 - 5999999 */
+	z-index: 5000100; /* IAB z-index standard for drop nav is 5000000 - 5999999 */
 
 	li {
 		display: block;
@@ -51,7 +95,6 @@
 
 
 .mobile-nav {
-	//position: relative;
 
 	.sub-menu {
 		@include transition(left 100ms ease-out);
@@ -122,3 +165,4 @@
 		color: #fff;
 	}
 }
+

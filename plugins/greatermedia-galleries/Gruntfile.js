@@ -78,14 +78,14 @@ module.exports = function (grunt) {
 		watch: {
 			sass: {
 				files: ['assets/css/sass/**/*.scss'],
-				tasks: ['css'],
+				tasks: ['sass', 'cssmin'],
 				options: {
 					debounceDelay: 500
 				}
 			},
 			scripts: {
 				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
-				tasks: ['js'],
+				tasks: ['jshint', 'concat', 'uglify'],
 				options: {
 					debounceDelay: 500
 				}

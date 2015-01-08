@@ -52,16 +52,50 @@ class GMR_Audio_Shortcodes {
 		ob_start();
 
 		$hash = md5( $mp3_src );
-		?>
-		<div class="podcast__play mp3-<?php echo esc_attr( $hash ); // Hash is used to ensure the inline audio can always match state of live player, even when the player is the buttons that are clicked ?>">
-			<button class="podcast__btn--play" data-mp3-src="<?php echo esc_attr( $mp3_src );?>" data-mp3-title="<?php echo esc_attr( $metadata['title'] ); ?>" data-mp3-artist="<?php echo esc_attr( $metadata['artist'] ); ?>" data-mp3-hash="<?php echo esc_attr( $hash ); ?>"></button>
-			<button class="podcast__btn--pause"></button>
-			<span class="podcast__runtime"><?php echo esc_html( $metadata['length_formatted'] ); ?></span>
-		</div>
-		<div class="gmr-mediaelement-fallback"><?php echo $html; ?></div>
+		$parent_podcast_id = wp_get_post_parent_id( $post_id );
+		if( $parent_podcast_id ) {
+			$parent_podcast = get_post( $parent_podcast_id );
+			$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
+		} else {
+			$parent_podcast = false;
+		}
 
-		<?php
-		$new_html = ob_get_clean();
+		$series = get_post( $parent_podcast_id );
+		$series_slug = $series->post_name;
+		$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $series_slug;
+
+		$downloadable = get_post_meta( $post_id, 'gmp_audio_downloadable', true );
+		$new_html = '';
+
+		$new_html .= '<div class="podcast__play mp3-' . esc_attr( $hash ) . '">'; // Hash is used to ensure the inline audio can always match state of live player, even when the player is the buttons that are clicked
+		$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . esc_attr( $metadata['title'] ) . '" data-mp3-artist="' . esc_attr( $metadata['artist'] ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+		$new_html .= '<button class="podcast__btn--pause"></button>';
+		$new_html .= '<span class="podcast__runtime">' . esc_html( $metadata['length_formatted'] ) . '</span>';
+		if( $downloadable == 'on' || $downloadable == '' ) {
+			$new_html .= '<div class="podcast__download">';
+			$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download--btn" download>Download</a>';
+			$new_html .= '</div>';
+		}
+		$new_html .= '</div>';
+		$new_html .= '<div class="podcast__meta">';
+		$new_html .= '<time class="podcast__date" datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'F d' ) . '</time>';
+		$new_html .= '<h3 class="podcast__title">' . get_the_title() . '</h3>';
+		if( $parent_podcast_id && is_singular( ShowsCPT::SHOW_CPT ) ) {
+			$new_html .= '<div class="podcast__parent"><div class="podcast__parent--title">'. esc_html( $parent_podcast->post_title ) . '</div>';
+			if( $itunes_url != '' ) {
+				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
+			}
+			$new_html .= '<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast RSS Feed</a>';
+			$new_html .= '</div>';
+		}
+		$new_html .= '<div class="podcast__desc">' . get_the_excerpt() . '</div>' ;
+		$new_html .= '</div>';
+		$new_html .= '<div class="gmr-mediaelement-fallback">' . $html . '</div>';
+
+		update_post_meta( $post_id, 'enclosure', esc_attr( $mp3_src ) );
+		update_post_meta( $post_id, 'duration', esc_html( $metadata['length_formatted'] ) );
+
+		//$new_html .= ob_get_clean();
 		return $new_html;
 	}
 

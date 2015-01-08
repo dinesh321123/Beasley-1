@@ -93,8 +93,10 @@ class GigyaCommand extends \WP_CLI_Command {
 	}
 
 	public function set_account_schema( $args, $opts ) {
-		$schema  = new AccountSchema();
-		$request = new GigyaRequest( null, null, 'accounts.setSchema' );
+		$api_key    = $args[0];
+		$secret_key = $args[1];
+		$schema     = new AccountSchema();
+		$request    = new GigyaRequest( $api_key, $secret_key, 'accounts.setSchema' );
 
 		try {
 			$schema->update( $request );
@@ -105,8 +107,10 @@ class GigyaCommand extends \WP_CLI_Command {
 	}
 
 	public function get_account_schema( $args, $opts ) {
+		$api_key    = $args[0];
+		$secret_key = $args[1];
 		$schema  = new AccountSchema();
-		$request = new GigyaRequest( null, null, 'accounts.getSchema' );
+		$request = new GigyaRequest( $api_key, $secret_key, 'accounts.getSchema' );
 
 		try {
 			$schema_text = $schema->fetch( $request );

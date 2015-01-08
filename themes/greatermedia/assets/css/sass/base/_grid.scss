@@ -54,6 +54,11 @@ img {
 		@include outer-container(1400px);
 	}
 }
+#gmr-iframe-main{
+  .container, %container{
+    padding-right: 0px;
+  }
+}
 
 .main, %main {
 	float: left;

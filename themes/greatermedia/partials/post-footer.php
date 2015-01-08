@@ -41,7 +41,7 @@ $post_taxonomies = get_post_taxonomies();
 							<?php if ( \GreaterMedia\Shows\supports_homepage( $show->ID ) ) : ?>
 								<a href="<?php echo esc_url( get_permalink( $show ) ); ?>" rel="tag">
 							<?php endif; ?>
-									
+
 							<?php if ( ( $image_id = intval( get_post_meta( $show->ID, 'logo_image', true ) ) ) ) : ?>
 								<span class="entry__show--logo">
 									<?php echo wp_get_attachment_image( $image_id ); ?>
@@ -60,8 +60,8 @@ $post_taxonomies = get_post_taxonomies();
 		</div>
 	<?php endif; ?>
 
-	<?php if ( post_type_supports( get_post_type(), 'comments' ) && ( comments_open() || get_comments_number() ) ) : // If comments are open or we have at least one comment, load up the comment template. ?>
+	<?php if ( post_type_supports( get_post_type(), 'comments' ) ) { // If comments are open or we have at least one comment, load up the comment template. ?>
 		<?php comments_template(); ?>
-	<?php endif; ?>
-	
+	<?php } ?>
+
 </footer>

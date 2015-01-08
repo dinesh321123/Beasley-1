@@ -1120,3 +1120,10 @@ category: Components - Gallery Archive
 	border-color: $primary-text;
 	color: $primary-text;
 }
+
+.gallery__grid--pagination-current a,.gallery__grid--pagination-current a:visited {
+	display: block;
+	width: 26px;
+	padding: 6px 0;
+	line-height: 1;
+}

@@ -211,3 +211,9 @@
 		clear: both;
 	}
 }
+
+// Mixin to reset the omega option in Bourbon
+@mixin omega-reset($nth) {
+	&:nth-child(#{$nth}) { margin-right: flex-gutter(); }
+	&:nth-child(#{$nth}+1) { clear: none }
+}

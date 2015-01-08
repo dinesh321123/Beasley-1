@@ -59,7 +59,6 @@ class GreaterMediaSurveyEntry {
 	 * Registers survey response cpt
 	 */
 	public static function register_survey_response_cpt() {
-
 		$labels = array(
 			'name'               => 'Survey Responses',
 			'singular_name'      => 'Survey Response',
@@ -77,23 +76,13 @@ class GreaterMediaSurveyEntry {
 
 		$args = array(
 			'labels'              => $labels,
-			'hierarchical'        => true,
-			'description'         => 'description',
-			'taxonomies'          => array(),
-			'public'              => true,
+			'public'              => false,
 			'show_ui'             => true,
 			'show_in_menu'        => 'edit.php?post_type=' . GMR_SURVEY_CPT,
 			'show_in_admin_bar'   => false,
-			'menu_position'       => null,
-			'menu_icon'           => null,
-			'show_in_nav_menus'   => true,
-			'publicly_queryable'  => true,
-			'exclude_from_search' => false,
-			'has_archive'         => true,
-			'query_var'           => true,
-			'can_export'          => true,
-			'rewrite'             => true,
-			'capability_type'     => 'post',
+			'query_var'           => false,
+			'can_export'          => false,
+			'rewrite'             => false,
 			'supports'            => array( 'title', 'custom-fields' ),
 		);
 

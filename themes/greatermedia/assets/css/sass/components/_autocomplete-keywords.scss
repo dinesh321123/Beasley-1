@@ -1,0 +1,36 @@
+.ui-menu {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.ui-menu .ui-menu-item {
+	position: relative;
+	cursor: pointer;
+	min-height: 0;
+}
+
+.ui-autocomplete {
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: default;
+}
+
+.header__search--form {
+	.ui-autocomplete {
+		background-color: $primary-bg;
+		width: 100%;
+		top: 100%;
+		left: 0;
+	}
+}
+
+.ui-menu-item {
+	color: $color-text-black;
+	padding: 1em;
+}
+
+.ui-state-focus {
+	color: $color-text-white;
+}

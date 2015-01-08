@@ -23,3 +23,4 @@ define( 'GMKEYWORDS_PATH',    dirname( __FILE__ ) . '/' );
 
 require_once( GMKEYWORDS_PATH . 'includes/class-greatermedia-keyword-admin.php' );
 require_once( GMKEYWORDS_PATH . 'includes/class-greatermedia-keyword-metabox.php' );
+require_once( GMKEYWORDS_PATH . 'includes/class-greatermedia-keyword-autocomplete.php' );
