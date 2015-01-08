@@ -17,7 +17,6 @@ class GreaterMedia_Keyword_Admin {
 		'podcast',
 		'episode',
 		'contest',
-		'personality',
 		'show',
 		'albums',
 		'tribe_events',
