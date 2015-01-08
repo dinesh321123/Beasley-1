@@ -39,7 +39,12 @@
 	}
 }
 
-.header__nav .menu-item-has-children {
+/**
+ * This is not ideal, we should be doing this on the top level <li>
+ * Unfortunately, doing so means that the full-width menus, aren't. They are 100% the width of the <li>
+ * Which is no good. So here we are.
+ */
+.header__main {
 	position: relative;
 
 	&:hover {
