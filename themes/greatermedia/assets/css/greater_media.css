@@ -1374,7 +1374,8 @@ blockquote p {
 
 .header__nav .format-fw > ul, .header__nav .format-sp > ul {
   left: 0;
-  padding: 1em; }
+  padding: 1em;
+  width: 100%; }
 .header__nav .format-fw > ul > li, .header__nav .format-sp > ul > li {
   width: 32.666%;
   /* 100% - 2% (for margins, below) / 3 (3 columns) */
