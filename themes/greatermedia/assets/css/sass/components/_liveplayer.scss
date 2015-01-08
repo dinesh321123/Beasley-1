@@ -360,6 +360,7 @@ category: Components
 .live-stream__listen-now--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
 	@include border-radius(1em);
+	margin-right: 0;
 	font-weight: 700;
 }
 
@@ -627,7 +628,7 @@ category: Components
 
 .now-playing__title {
 	margin: 0 0 4px;
-	line-height: 1;
+	line-height: 1.4;
 	font-size: ms(0);
 	font-weight: lighter;
 	color: $color-text-red;
