@@ -86,8 +86,8 @@ class GreaterMediaSiteMemberText {
 		register_setting( self::option_group, 'gmr_login_page_heading', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_login_page_message', 'wp_kses_post' );
 
-		//register_setting( self::option_group, 'gmr_logout_page_heading', 'sanitize_text_field' );
-		//register_setting( self::option_group, 'gmr_logout_page_message', 'wp_kses_post' );
+		register_setting( self::option_group, 'gmr_logout_page_heading', 'sanitize_text_field' );
+		register_setting( self::option_group, 'gmr_logout_page_message', 'wp_kses_post' );
 
 		register_setting( self::option_group, 'gmr_account_page_heading', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_account_page_message', 'wp_kses_post' );
@@ -112,8 +112,8 @@ class GreaterMediaSiteMemberText {
 		$login_page_heading = get_option( 'gmr_login_page_heading', '' );
 		$login_page_message = get_option( 'gmr_login_page_message', '' );
 
-		//$logout_page_heading = get_option( 'gmr_logout_page_heading', '' );
-		//$logout_page_message = get_option( 'gmr_logout_page_message', '' );
+		$logout_page_heading = get_option( 'gmr_logout_page_heading', '' );
+		$logout_page_message = get_option( 'gmr_logout_page_message', '' );
 
 		$account_page_heading = get_option( 'gmr_account_page_heading', '' );
 		$account_page_message = get_option( 'gmr_account_page_message', '' );
@@ -150,8 +150,6 @@ class GreaterMediaSiteMemberText {
 			<?php wp_editor( $login_page_message, 'gmr_login_page_message', $settings = array() ); ?>
 		</div>
 
-		<?php
-		/*
 		<h3>Logout Page</h3>
 
 		<div class="gmr__option">
@@ -163,8 +161,6 @@ class GreaterMediaSiteMemberText {
 			<label for="gmr_logout_page_message" class="gmr__option--label"><?php _e( 'Message', 'greatermedia' ); ?></label>
 			<?php wp_editor( $logout_page_message, 'gmr_logout_page_message', $settings = array() ); ?>
 		</div>
-		 */
-		?>
 
 		<h3>Account Page</h3>
 

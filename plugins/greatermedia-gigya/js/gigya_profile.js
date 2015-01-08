@@ -282,6 +282,10 @@
 			var labelKey  = name;
 			var configKey = name;
 
+			if (!this.screenLabels[labelKey]) {
+				this.screenLabels[labelKey] = { header: '', message: '' };
+			}
+
 			if (this.config[configKey + '_header']) {
 				this.screenLabels[labelKey].header  = this.config[configKey + '_header'];
 			}
@@ -324,9 +328,11 @@
 		getPageForScreenID: function(screenID) {
 			switch (screenID) {
 				case 'gigya-login-screen':
-				case 'gigya-logout-screen':
 				case 'gigya-login-success-screen':
 					return 'login';
+
+				case 'gigya-logout-screen':
+					return 'logout';
 
 				case 'gigya-register-screen':
 				case 'gigya-register-complete-screen':
@@ -492,7 +498,7 @@
 						return;
 					}
 				} else {
-					if (currentPage === 'account' || currentPage === 'logout') {
+					if (currentPage === 'account') {
 						this.controller.redirect('/members/login?dest=%2Fmembers%2Faccount');
 						return;
 					}

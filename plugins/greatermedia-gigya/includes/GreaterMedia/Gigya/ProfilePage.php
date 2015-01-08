@@ -125,6 +125,9 @@ class ProfilePage {
 			'login_header' => get_option( 'gmr_login_page_heading', '' ),
 			'login_message' => get_option( 'gmr_login_page_message', '' ),
 
+			'logout_header' => get_option( 'gmr_logout_page_heading', '' ),
+			'logout_message' => get_option( 'gmr_logout_page_message', '' ),
+
 			'forgot-password_header' => get_option( 'gmr_password_page_heading', '' ),
 			'forgot-password_message' => get_option( 'gmr_password_page_message', '' ),
 
