@@ -59,15 +59,17 @@ get_header(); ?>
 								
 									<h2 class="section-header">More Galleries in this Album</h2>
 
-								<?php while ( $siblings->have_posts() ) : $siblings->the_post(); ?>
+									<?php while ( $siblings->have_posts() ) : $siblings->the_post(); ?>
 
-									<?php get_template_part( 'partials/gallery-grid' ); ?>
+										<?php get_template_part( 'partials/gallery-grid' ); ?>
+
+									<?php endwhile; ?>
 
 								</section>
 
-							<?php endwhile; endif;
-						}
-					?>
+							<?php endif; ?>
+							
+						<?php } ?>
 
 				</article>
 
