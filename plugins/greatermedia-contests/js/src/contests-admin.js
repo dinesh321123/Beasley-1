@@ -7,7 +7,6 @@
 		});
 
 		formbuilder.on('showEditView', function($el, model) {
-			console.log(model);
 			if (model.cid === 'c5' || model.cid === 'c6') {
 				$el.find('input[data-rv-checked="model.required"]')
 				   .prop('checked', true)

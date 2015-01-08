@@ -805,7 +805,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 	};
 })(jQuery, gridModernizr);
 (function($, gmr) {
-	var __ready, gridPreviewLoaded, gridLoadMoreUrl, gridUpdateRating, container, gridContainer;
+	var __ready, gridPreviewLoaded, gridLoadMoreUrl, gridUpdateRating, container, gridContainer, fillForm;
 
 	gridUpdateRating = function($item, delta) {
 		var rating = parseInt($item.text().replace(/\D+/g, ''));
@@ -828,14 +828,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 		// init new gallery
 		if ($.fn.cycle) {
-			$previewInner.find('.cycle-slideshow').cycle({
-				next: '.gallery__next--btn'
-			});
-		}
-
-		// bind gallery events
-		if (typeof GMR_Gallery !== 'undefined') {
-			GMR_Gallery.bindEvents();
+			$previewInner.find('.cycle-slideshow').cycle();
 		}
 
 		// bind vote click event
@@ -885,10 +878,24 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 			return false;
 		});
+
+		$(document).trigger('contest:preview-loaded');
 	};
 
 	gridLoadMoreUrl = function(page) {
 		return container.data('infinite') + (page + 1) + '/';
+	};
+
+	fillForm = function() {
+		if ($.isFunction(is_gigya_user_logged_in) && $.isFunction(get_gigya_user_field) && is_gigya_user_logged_in()) {
+			container.find(gmr.selectors.form).each(function() {
+				var $form = $(this),
+					firstName = get_gigya_user_field('firstName'),
+					lastName = get_gigya_user_field('lastName');
+
+				$form.find('input[type="text"]:first').val(firstName + ' ' + lastName);
+			});
+		}
 	};
 
 	__ready = function() {
@@ -940,7 +947,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		});
 
 		container.on('click', gmr.selectors.yes_age, function() {
-			container.load(container.data('confirm-age'));
+			container.load(container.data('confirm-age'), fillForm);
 			return false;
 		});
 		
@@ -950,7 +957,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		});
 
 		if (container.length > 0) {
-			container.load(container.data('load'));
+			container.load(container.data('load'), fillForm);
 		}
 
 		if (gridContainer.length > 0) {
@@ -964,6 +971,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 	$(document).bind('pjax:end', __ready).ready(__ready);
 })(jQuery, GreaterMediaContests);
+
 document.addEventListener("DOMContentLoaded", function () {
 	/**
 	 * Generate a list of supported input types (text, date, range, etc.).
