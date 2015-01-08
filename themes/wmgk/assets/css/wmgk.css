@@ -3074,12 +3074,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__categories, .entry__tags, .entry__shows {
   overflow: auto;
   clear: both;
-  margin-bottom: 1.25em;
-  font-size: 1.125em;
+  margin-bottom: 28px;
+  font-size: 0.88889em;
   color: #929497; }
-  @media screen and (min-width: 768px) {
-    .entry__categories, .entry__tags, .entry__shows {
-      font-size: 0.88889em; } }
 
 .entry__list, .entry__list--categories, .entry__list--tags, .entry__list--shows, .entry__list--show {
   display: inline-block;
@@ -3112,7 +3109,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-weight: 800; }
 
 .entry__list--title:after {
-  margin: 0 1.5em;
+  margin: 0 14px 0 18px;
   content: "/"; }
 
 .entry__list--categories, .entry__list--tags, .entry__list--shows {
@@ -3120,7 +3117,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__list--show {
   float: left;
-  margin-right: 1.5em; }
+  margin-right: 1em; }
+  .entry__list--show::after {
+    content: ','; }
 
 .entry__list--show:last-of-type {
   margin-right: 0; }
@@ -3132,7 +3131,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   float: left;
   width: 24px;
   height: 24px;
-  margin: 0 .75em 0 0;
+  margin: 0 0.5em 0 0;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
@@ -6654,20 +6653,19 @@ These are examples of Social Share Links for single articles.
 ```
 */
 a.social-share-link {
-  color: #404041;
+  color: #000000;
   display: inline-block;
   width: 40px;
   height: 40px;
   font-size: 20px;
-  border: 1px solid #404041;
+  border: 1px solid #000000;
   border-radius: 50%;
   padding: 9px;
   margin-right: 0.25em; }
   a.social-share-link:last-of-type {
     margin-right: 0; }
   a.social-share-link:hover {
-    color: #d22228;
-    border-color: #d22228; }
+    color: #561015; }
 
 .social__list {
   padding: 33px 0;
@@ -6700,9 +6698,7 @@ a.social-share-link {
   content: "\e610"; }
 
 .social__link--google-plus:before {
-  content: "\e611";
-  position: relative;
-  top: 1px; }
+  content: "\e611"; }
 
 .social__link--youtube:before {
   content: "\e617"; }
@@ -6738,32 +6734,9 @@ category: Components - Article
   height: auto;
   margin-bottom: 1em; }
 
-.entry__date {
-  display: block;
-  margin-bottom: 0.75em;
-  font-size: 1em; }
-  @media screen and (min-width: 768px) {
-    .entry__date {
-      font-size: 0.88889em; } }
-
 .entry__title, .page__title {
-  font-size: 2.88651em;
-  line-height: 1.2;
   margin: 0;
-  margin-bottom: 0.65em; }
-  @media screen and (min-width: 768px) {
-    .entry__title, .page__title {
-      font-size: 2.2807em; } }
-
-.entry-content {
-  font-size: 1.125em; }
-
-.entry_footer {
-  padding: 0;
-  margin-top: 3em; }
-
-#comments {
-  margin-top: 4em; }
+  margin-bottom: 1em; }
 
 /*doc
 ---
@@ -9969,11 +9942,9 @@ category: Components - Article
  * Single Page Styles
  */
 .single__featured-img {
-  width: 100%;
-  padding-bottom: 66%;
-  background-size: 100%;
-  background-size: cover;
-  background-position: center center; }
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto; }
 
 .page__title {
   text-transform: uppercase; }

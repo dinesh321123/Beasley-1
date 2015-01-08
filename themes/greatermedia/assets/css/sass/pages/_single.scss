@@ -3,11 +3,9 @@
  */
 
  .single__featured-img {
- 	width: 100%;
- 	padding-bottom: 66%;
- 	background-size: 100%;
- 	background-size: cover; 
- 	background-position: center center;
+ 	max-width: 100%;
+ 	height: auto;
+ 	margin: 0 auto;
  }
 
 .page__title {
