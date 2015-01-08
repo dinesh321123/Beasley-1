@@ -138,6 +138,22 @@ Link posts contain a link to an external site. They can also optionally have a f
 	}
 }
 
+.entry__header {
+	margin-bottom: 2em;
+	
+}
+
+.entry__featured-image {
+	width: 100%;
+	height: auto;
+	margin-bottom: 1em;
+}
+
+.entry__title {
+	margin: 0;
+	margin-bottom: 1em;
+}
+
 // Thumbnail
 .entry__thumbnail {
 	position: relative;
@@ -266,13 +282,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__categories, .entry__tags, .entry__shows {
 	overflow: auto;
 	clear: both;
-	margin-bottom: 1.25em;
-	font-size: ms(1);
+	margin-bottom: 28px;
+	font-size: ms(-1);
 	color: $gray;
-	
-	@include bp(medium) {
-		font-size: ms(-1); 
-	}
 }
 
 .entry__list, %entry__list {
@@ -313,7 +325,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 }
 
 .entry__list--title:after {
-	margin: 0 1.5em;
+	margin: 0 14px 0 18px;
 	content: "/";
 }
 
@@ -326,7 +338,11 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__list--show {
 	@extend %entry__list;
 	float: left;
-	margin-right: 1.5em;
+	margin-right: 1em;
+
+	&::after {
+		content: ',';
+	}
 }
 
 .entry__list--show:last-of-type {
@@ -342,7 +358,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 	float: left;
 	width: 24px;
 	height: 24px;
-	margin: 0 .75em 0 0;
+	margin: 0 0.5em 0 0;
 	@include border-radius(50%);
 	background-color: $secondary-border;
 }
@@ -585,49 +601,52 @@ Link posts contain a link to an external site. They can also optionally have a f
 }
 
 // WordPress Styles
-.alignleft, img.alignleft {
-	display: block;
-	margin: 0 1em 16px;
-	float: left;
-}
+.entry-content {
 
-.alignright, img.alignright {
-	display: block;
-	margin: 0 0 16px 1em;
-	float: right;
-}
-
-.aligncenter, img.aligncenter {
-	margin: 0 auto 1em;
-}
-
-.size-auto,
-.size-full,
-.size-large,
-.size-medium,
-.size-thumbnail {
-	max-width: 100%;
-	height: auto;
-}
-
-.wp-caption {
-	max-width: 100%;
-	padding: 0;
-	margin: 0 0 16px;
-	background: $primary-border;
-}
-
-.wp-caption img {
-	width: 100%;
-	margin-bottom: 0;
-	max-width: 100%;
-}
-
-.wp-caption p.wp-caption-text {
-	padding: 16px 1.25em 20px;
-	margin: 4px .5em;
-	font-size: ms(-2);
-	text-align: left;
+	.alignleft, img.alignleft {
+		display: block;
+		margin: 0 1em 16px;
+		float: left;
+	}
+	
+	.alignright, img.alignright {
+		display: block;
+		margin: 0 0 16px 1em;
+		float: right;
+	}
+	
+	.aligncenter, img.aligncenter {
+		margin: 0 auto 1em;
+	}
+	
+	.size-auto,
+	.size-full,
+	.size-large,
+	.size-medium,
+	.size-thumbnail {
+		max-width: 100%;
+		height: auto;
+	}
+	
+	.wp-caption {
+		max-width: 100%;
+		padding: 0;
+		margin: 0 0 16px;
+		background: $primary-border;
+	}
+	
+	.wp-caption img {
+		width: 100%;
+		margin-bottom: 0;
+		max-width: 100%;
+	}
+	
+	.wp-caption p.wp-caption-text {
+		padding: 16px 1.25em 20px;
+		margin: 4px .5em;
+		font-size: ms(-2);
+		text-align: left;
+	}
 }
 
 // Pagination

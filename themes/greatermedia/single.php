@@ -10,7 +10,7 @@ get_header(); ?>
 
 	<main class="main" role="main">
 
-		<?php get_template_part( 'content', get_post_format() ); ?>
+		<?php get_template_part( 'partials/article', get_post_format() ); ?>
 
 	</main>
 

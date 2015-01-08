@@ -48,7 +48,7 @@ a.social-share-link {
 	margin: 0 1.25em 0 0;
 	list-style: none;
 	display: inline-block;
-	font-size: ms(0);
+	font-size: 18px;
 }
 
 .social__link:last-child {
@@ -67,29 +67,14 @@ a.social-share-link {
 	color: $color-text-white;
 }
 
-.social__link--facebook:before {
-	@extend %gmr-icons;
-	content: "\e60f";
-}
-
-.social__link--twitter:before {
-	@extend %gmr-icons;
-	content: "\e610";
-}
-
-.social__link--google-plus:before {
-	@extend %gmr-icons;
-	content: "\e611";
-	position: relative;
-	top: 1px; // Needs a bit of futzing. 
-}
-
-.social__link--youtube:before {
-	@extend %gmr-icons;
-	content: "\e617";
-}
-
-.social__link--instagram:before {
-	@extend %gmr-icons;
-	content: "\e616";
+.social-share-link {
+	&:before {
+		position: relative;
+		top: 1px; 
+	}
+	
+	&.icon-google-plus:before {
+		left: 1px;
+		top: 2px;
+	}
 }
