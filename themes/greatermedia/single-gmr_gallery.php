@@ -42,16 +42,33 @@ get_header(); ?>
 
 					<?php get_template_part( 'partials/post', 'footer' ); ?>
 
+					<?php
+						$current_gallery = get_post();
+						$parent_album = $post->post_parent;
+						if ( $parent_album > 0 ) {
+							$args = array(
+									'post_type'		=> 'gmr_gallery',
+									'post_parent'	=> $parent_album,
+									'post__not_in'	=> array( $post->ID )
+								);
+							$siblings = new WP_Query( $args );
+							
+							if ( $siblings->have_posts() ) : while ( $siblings->have_posts() ) : $siblings->the_post(); ?>
+
+								<section class="entry__related-posts">
+									<h2 class="section-header">More Galleries in this Album</h2>
+
+									<?php get_template_part( 'partials/gallery-grid' ); ?>
+
+								</section>
+
+							<?php endwhile; endif;
+						}
+					?>
+
 				</article>
 
 				<?php endwhile; ?>
-
-					<div class="posts-pagination">
-
-						<div class="posts-pagination--previous"><?php next_posts_link( '<i class="fa fa-angle-double-left"></i>Previous' ); ?></div>
-						<div class="posts-pagination--next"><?php previous_posts_link( 'Next<i class="fa fa-angle-double-right"></i>' ); ?></div>
-
-					</div>
 
 				<?php else : ?>
 

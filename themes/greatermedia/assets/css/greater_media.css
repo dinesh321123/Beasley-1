@@ -2931,8 +2931,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   display: block;
   margin-right: 7.42297%;
   width: 100%;
-  padding: 16px 0;
-  border-bottom: 1px solid #d0d2d3; }
+  padding: 16px 0; }
   .entry__footer:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
@@ -2979,6 +2978,10 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__footer--category:hover, .entry__footer--category:focus, .entry__footer--category:active {
   color: #aa1c20; }
+
+.entry__related-posts {
+  width: 100%;
+  float: left; }
 
 .entry__type {
   float: left;
