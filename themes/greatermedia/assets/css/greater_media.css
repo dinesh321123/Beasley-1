@@ -6378,8 +6378,8 @@ a.podcast__rss:active {
   .single-show .inner-left-col {
     padding-right: 25px; } }
 .single-show .entry2__meta {
-  float: none;
-  width: auto; }
+  float: none !important;
+  width: auto !important; }
 .single-show .entry2__thumbnail {
   margin-bottom: 0.5em; }
 .single-show .format-standard .entry2__thumbnail {
