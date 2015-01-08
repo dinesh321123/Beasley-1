@@ -273,8 +273,6 @@
 		preRoll.classList.remove('vast__pre-roll')
 	}
 
-	addEventHandler(adBlockClose, elemClick, closeAdBlockDetect);
-
 	var currentStream = $('.live-player__stream--current-name');
 
 	currentStream.bind("DOMSubtreeModified",function(){
