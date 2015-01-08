@@ -1272,12 +1272,13 @@ blockquote p {
     z-index: 5000100;
     /* IAB z-index standard for drop nav is 5000000 - 5999999 */ }
 
-.header__nav ul li:hover .sub-menu, .header__nav ul li:hover .format-fw > ul {
+.header__nav ul li:hover .sub-menu, .header__nav ul li:hover .format-fw > ul, .header__nav ul li:hover .format-sp > ul {
   display: block; }
 
-.header__nav .sub-menu, .header__nav .format-fw > ul,
+.header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul,
 .header__account--links.sub-menu,
 .header__nav .format-fw > ul.header__account--links,
+.header__nav .format-sp > ul.header__account--links,
 .ui-menu {
   position: absolute;
   border-top: 7px solid #d22228;
@@ -1286,14 +1287,16 @@ blockquote p {
   min-width: 300px;
   z-index: 5000100;
   /* IAB z-index standard for drop nav is 5000000 - 5999999 */ }
-  .header__nav .sub-menu li, .header__nav .format-fw > ul li,
+  .header__nav .sub-menu li, .header__nav .format-fw > ul li, .header__nav .format-sp > ul li,
   .header__account--links.sub-menu li,
   .header__nav .format-fw > ul.header__account--links li,
+  .header__nav .format-sp > ul.header__account--links li,
   .ui-menu li {
     display: block; }
-  .header__nav .sub-menu a, .header__nav .format-fw > ul a,
+  .header__nav .sub-menu a, .header__nav .format-fw > ul a, .header__nav .format-sp > ul a,
   .header__account--links.sub-menu a,
   .header__nav .format-fw > ul.header__account--links a,
+  .header__nav .format-sp > ul.header__account--links a,
   .ui-menu a {
     color: #000000;
     /*
@@ -1302,18 +1305,20 @@ blockquote p {
      * to keep this as a component (e.g. context independent). - TD
      */
     padding: 1em !important; }
-    .header__nav .sub-menu a:visited, .header__nav .format-fw > ul a:visited,
+    .header__nav .sub-menu a:visited, .header__nav .format-fw > ul a:visited, .header__nav .format-sp > ul a:visited,
     .header__account--links.sub-menu a:visited,
     .header__nav .format-fw > ul.header__account--links a:visited,
+    .header__nav .format-sp > ul.header__account--links a:visited,
     .ui-menu a:visited {
       color: #000000; }
-    .header__nav .sub-menu a:hover, .header__nav .format-fw > ul a:hover,
+    .header__nav .sub-menu a:hover, .header__nav .format-fw > ul a:hover, .header__nav .format-sp > ul a:hover,
     .header__account--links.sub-menu a:hover,
     .header__nav .format-fw > ul.header__account--links a:hover,
+    .header__nav .format-sp > ul.header__account--links a:hover,
     .ui-menu a:hover {
       color: #ffffff; }
 
-.mobile-nav .sub-menu, .mobile-nav .header__nav .format-fw > ul, .header__nav .mobile-nav .format-fw > ul {
+.mobile-nav .sub-menu, .mobile-nav .header__nav .format-fw > ul, .header__nav .mobile-nav .format-fw > ul, .mobile-nav .header__nav .format-sp > ul, .header__nav .mobile-nav .format-sp > ul {
   -webkit-transition: left 100ms ease-out;
   -moz-transition: left 100ms ease-out;
   transition: left 100ms ease-out;
@@ -1325,12 +1330,12 @@ blockquote p {
   bottom: 0;
   background-color: #fff;
   padding: 0; }
-  .mobile-nav .sub-menu li, .mobile-nav .header__nav .format-fw > ul li, .header__nav .mobile-nav .format-fw > ul li {
+  .mobile-nav .sub-menu li, .mobile-nav .header__nav .format-fw > ul li, .header__nav .mobile-nav .format-fw > ul li, .mobile-nav .header__nav .format-sp > ul li, .header__nav .mobile-nav .format-sp > ul li {
     list-style-type: none;
     border: none; }
-  .mobile-nav .sub-menu a, .mobile-nav .header__nav .format-fw > ul a, .header__nav .mobile-nav .format-fw > ul a {
+  .mobile-nav .sub-menu a, .mobile-nav .header__nav .format-fw > ul a, .header__nav .mobile-nav .format-fw > ul a, .mobile-nav .header__nav .format-sp > ul a, .header__nav .mobile-nav .format-sp > ul a {
     color: #000; }
-.mobile-nav .sub-menu.is-visible, .mobile-nav .header__nav .format-fw > ul.is-visible, .header__nav .mobile-nav .format-fw > ul.is-visible {
+.mobile-nav .sub-menu.is-visible, .mobile-nav .header__nav .format-fw > ul.is-visible, .header__nav .mobile-nav .format-fw > ul.is-visible, .mobile-nav .header__nav .format-sp > ul.is-visible, .header__nav .mobile-nav .format-sp > ul.is-visible {
   display: block;
   left: 0; }
 .mobile-nav .menu-item-has-children > a:first-child {
@@ -1362,18 +1367,45 @@ blockquote p {
   font-size: 1.60181em;
   color: #fff; }
 
-.header__nav .format-fw > ul {
-  width: 1400px;
+.header__nav .format-fw > ul, .header__nav .format-sp > ul {
   left: 0;
   padding: 1em; }
-.header__nav .format-fw > ul > li {
+.header__nav .format-fw > ul > li, .header__nav .format-sp > ul > li {
   width: 32.666%;
   /* 100% - 2% (for margins, below) / 3 (3 columns) */
   float: left; }
-.header__nav .format-fw > ul > li:not(:nth-child(3n+1)) {
+.header__nav .format-fw > ul > li:not(:nth-child(3n+1)), .header__nav .format-sp > ul > li:not(:nth-child(3n+1)) {
   border-left: 1px solid #d0d2d3;
   padding-left: 1%;
   margin-left: 1%; }
+
+.format-sp a:hover {
+  color: #ffffff; }
+  .format-sp a:hover .meta-text {
+    color: #ffffff; }
+.format-sp .meta-text {
+  display: block;
+  font-size: 0.79012em;
+  color: #404041;
+  margin-top: .5em; }
+  .format-sp .meta-text .times {
+    display: inline-block;
+    margin-left: .75em; }
+.format-sp li .group {
+  display: inline-block;
+  vertical-align: middle; }
+.format-sp li a {
+  min-height: 71px;
+  /* the 40px img (below) + the padding, so that all the containers are the same height and flow */ }
+.format-sp .mobile-menu-submenu-header a {
+  min-height: 0; }
+.format-sp li img {
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 50%;
+  margin-right: 1em;
+  max-height: 40px;
+  width: auto; }
 
 .content__heading {
   margin-top: 0;
