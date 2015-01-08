@@ -1041,7 +1041,11 @@
 
 	var playCustomInlineAudio = function( src ) {
 		pjaxInit();
-		setInlineAudioSrc( src );
+
+		// Only set the src if its different than what is already there, so we can resume the audio with the inline buttons
+		if ( src !== customAudio.src ) {
+			setInlineAudioSrc( src );
+		}
 		resumeCustomInlineAudio();
 	};
 
