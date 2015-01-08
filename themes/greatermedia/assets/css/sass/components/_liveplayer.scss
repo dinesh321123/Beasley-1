@@ -412,21 +412,31 @@ category: Components
 
 .live-stream__btn--play:before, .live-stream__btn--resume:before, .live-stream__btn--login:before {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	@include transform(translate(-50%, -50%));
+	top: 8px;
+	left: 9px;
 	font-family: $icon-font !important;
-	font-size: ms(2);
+	font-size: .875em;
 	content: "\e606" !important;
+	@include bp(medium) {
+		top: 13px;
+		left: 15px;
+		font-size: 1.375em;
+	}
 }
 
 .live-stream__btn--pause:before {
 	position: absolute;
-	top: 50%;
-	left: 50%;
-	@include transform(translate(-50%, -50%));
+	top: 9px;
+	left: 9px;
 	font-family: $icon-font !important;
+	font-size: .75em;
 	content: "\e60b" !important;
+	@include bp(medium) {
+		top: 50%;
+		left: 50%;
+		@include transform(translate(-50%, -50%));
+		font-size: 1em;
+	}
 }
 
 .live-stream__container {
