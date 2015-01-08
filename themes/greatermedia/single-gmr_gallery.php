@@ -53,10 +53,13 @@ get_header(); ?>
 								);
 							$siblings = new WP_Query( $args );
 							
-							if ( $siblings->have_posts() ) : while ( $siblings->have_posts() ) : $siblings->the_post(); ?>
+							if ( $siblings->have_posts() ) : ?>
 
 								<section class="entry__related-posts">
+								
 									<h2 class="section-header">More Galleries in this Album</h2>
+
+								<?php while ( $siblings->have_posts() ) : $siblings->the_post(); ?>
 
 									<?php get_template_part( 'partials/gallery-grid' ); ?>
 
