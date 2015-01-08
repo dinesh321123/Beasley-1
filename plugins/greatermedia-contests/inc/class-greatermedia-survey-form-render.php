@@ -168,6 +168,9 @@ class GreaterMediaSurveyFormRender {
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 				$response          = new stdClass();
 				$response->message = get_post_meta( $survey_id, 'form-thankyou', true );
+				if ( empty( $response->message ) ) {
+					$response->message = 'Thanks for your response';
+				}
 				wp_send_json_success( $response );
 				exit();
 			} else {
