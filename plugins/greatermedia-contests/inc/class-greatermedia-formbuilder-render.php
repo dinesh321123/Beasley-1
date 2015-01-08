@@ -137,19 +137,32 @@ class GreaterMediaFormbuilderRender {
 		$contest_entry = @json_decode( $contest_entry, true );
 		foreach ( $form as $field ) {
 			if ( isset( $contest_entry[ $field->cid ] ) ) {
-				if ( $field->field_type != 'radio' ) {
-					$results[ $field->cid ] = array(
-						'type'  => $field->field_type,
-						'label' => $field->label,
-						'value' => $contest_entry[ $field->cid ],
-					);
-				} else {
+				if ( 'radio' == $field->field_type ) {
 					$results[ $field->cid ] = array(
 						'type'  => $field->field_type,
 						'label' => $field->label,
 						'value' => ! empty( $field->field_options->options[ $contest_entry[ $field->cid ] ] )
 							? $field->field_options->options[ $contest_entry[ $field->cid ] ]->label
-							: "",
+							: $contest_entry[ $field->cid ],
+					);
+				} elseif ( 'checkboxes' == $field->field_type && is_array( $contest_entry[ $field->cid ] ) ) {
+					$values = array();
+					foreach ( $contest_entry[ $field->cid ] as $value ) {
+						$values[] = ! empty( $field->field_options->options[ $value ] )
+							? $field->field_options->options[ $value ]->label
+							: $value;
+					}
+
+					$results[ $field->cid ] = array(
+						'type'  => $field->field_type,
+						'label' => $field->label,
+						'value' => $values,
+					);
+				} else {
+					$results[ $field->cid ] = array(
+						'type'  => $field->field_type,
+						'label' => $field->label,
+						'value' => $contest_entry[ $field->cid ],
 					);
 				}
 			}
@@ -235,7 +248,7 @@ class GreaterMediaFormbuilderRender {
 
 		if ( ! empty( $label ) ) {
 
-			if ( ! empty( $field->required ) ) {
+			if ( ! empty( $field->required ) && 'section_break' != $field->field_type ) {
 				$label .= ' <abbr title="required">*</abbr>';
 			}
 			
@@ -393,9 +406,7 @@ class GreaterMediaFormbuilderRender {
 		foreach ( $textarea_tag_attributes as $attribute => $value ) {
 			$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
 		}
-		$html .= ' >';
-		$html .= esc_textarea( get_gigya_user_contest_data( $field->cid ) );
-		$html .= '</textarea>';
+		$html .= '></textarea>';
 
 		$html .= self::render_description( $field );
 
@@ -416,7 +427,6 @@ class GreaterMediaFormbuilderRender {
 		$html = '';
 
 		$field_id = 'form_field_' . $field->cid;
-		$field_value = get_gigya_user_contest_data( $field->cid, null );
 
 		$select_tag_attributes = array(
 			'id'   => $field_id,
@@ -443,11 +453,8 @@ class GreaterMediaFormbuilderRender {
 			$html .= '<option value=""></option>';
 		}
 
-		foreach ( $field->field_options->options as $option_index => $option_data ) {
-			$selected = is_null( $field_value )
-				? selected( $option_data->checked, 1, false )
-				: selected( $option_data->label, $field_value, false );
-			
+		foreach ( $field->field_options->options as $option_data ) {
+			$selected = selected( $option_data->checked, 1, false );
 			$html .= '<option value="' . esc_attr( $option_data->label ) . '"' . $selected . '>' . wp_kses_data( $option_data->label ) . '</option>';
 		}
 
@@ -485,7 +492,7 @@ class GreaterMediaFormbuilderRender {
 			$other_option_data->checked = false;
 			$other_option_data->other   = true;
 
-			$html .= self::render_single_checkbox( $field->cid, 'other', $other_option_data, $input_type );
+			$html .= self::render_single_checkbox( $field->cid, 'other', $other_option_data, $input_type, $multiple_choices );
 		}
 
 		$html .= self::render_description( $field );
@@ -659,7 +666,6 @@ class GreaterMediaFormbuilderRender {
 			'id'    => $field_id,
 			'name'  => $field_id,
 			'type'  => $type,
-			'value' => get_gigya_user_contest_data( $field->cid ),
 		) );
 
 		if ( isset( $field->required ) && $field->required ) {

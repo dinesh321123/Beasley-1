@@ -805,7 +805,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 	};
 })(jQuery, gridModernizr);
 (function($, gmr) {
-	var __ready, gridPreviewLoaded, gridLoadMoreUrl, gridUpdateRating, container, gridContainer;
+	var __ready, gridPreviewLoaded, gridLoadMoreUrl, gridUpdateRating, container, gridContainer, fillForm;
 
 	gridUpdateRating = function($item, delta) {
 		var rating = parseInt($item.text().replace(/\D+/g, ''));
@@ -891,6 +891,18 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		return container.data('infinite') + (page + 1) + '/';
 	};
 
+	fillForm = function() {
+		if ($.isFunction(is_gigya_user_logged_in) && $.isFunction(get_gigya_user_field) && is_gigya_user_logged_in()) {
+			container.find(gmr.selectors.form).each(function() {
+				var $form = $(this),
+					firstName = get_gigya_user_field('firstName'),
+					lastName = get_gigya_user_field('lastName');
+
+				$form.find('input[type="text"]:first').val(firstName + ' ' + lastName);
+			});
+		}
+	};
+
 	__ready = function() {
 		container = $(gmr.selectors.container);
 		gridContainer = $(gmr.selectors.grid);
@@ -940,7 +952,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		});
 
 		container.on('click', gmr.selectors.yes_age, function() {
-			container.load(container.data('confirm-age'));
+			container.load(container.data('confirm-age'), fillForm);
 			return false;
 		});
 		
@@ -950,7 +962,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		});
 
 		if (container.length > 0) {
-			container.load(container.data('load'));
+			container.load(container.data('load'), fillForm);
 		}
 
 		if (gridContainer.length > 0) {

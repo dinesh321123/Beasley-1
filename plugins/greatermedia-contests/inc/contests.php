@@ -454,17 +454,46 @@ function gmr_contests_process_form_submission() {
 	$contest_id = get_the_ID();
 	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
 	foreach ( $form as $field ) {
-		$post_array_key = 'form_field_' . $field->cid;
+		$field_key = 'form_field_' . $field->cid;
 		if ( 'file' === $field->field_type ) {
-			if ( isset( $_FILES[ $post_array_key ] ) && file_is_valid_image( $_FILES[ $post_array_key ]['tmp_name'] ) ) {
-				$file_id = media_handle_upload( $post_array_key, $contest_id, array( 'post_status' => 'private' ) );
+
+			if ( isset( $_FILES[ $field_key ] ) && file_is_valid_image( $_FILES[ $field_key ]['tmp_name'] ) ) {
+				$file_id = media_handle_upload( $field_key, $contest_id, array( 'post_status' => 'private' ) );
 				$submitted_files[ $field->cid ] = $submitted_values[ $field->cid ] = $file_id;
 			}
-		} else if ( isset( $_POST[ $post_array_key ] ) ) {
-			if ( is_scalar( $_POST[ $post_array_key ] ) ) {
-				$submitted_values[ $field->cid ] = sanitize_text_field( $_POST[ $post_array_key ] );
-			} else if ( is_array( $_POST[ $post_array_key ] ) ) {
-				$submitted_values[ $field->cid ] = array_map( 'sanitize_text_field', $_POST[ $post_array_key ] );
+
+		} else if ( isset( $_POST[ $field_key ] ) ) {
+
+			if ( is_scalar( $_POST[ $field_key ] ) ) {
+
+				$value = $_POST[ $field_key ];
+				if ( 'radio' == $field->field_type && 'other' == $value ) {
+					if ( empty( $_POST[ "{$field_key}_other_value" ] ) ) {
+						continue;
+					}
+					
+					$value = $_POST[ "{$field_key}_other_value" ];
+				}
+
+				$submitted_values[ $field->cid ] = sanitize_text_field( $value );
+
+			} else if ( is_array( $_POST[ $field_key ] ) ) {
+
+				$array_data = array();
+				foreach ( $_POST[ $field_key ] as $value ) {
+					if ( 'checkboxes' == $field->field_type && 'other' == $value ) {
+						if ( empty( $_POST[ "{$field_key}_other_value" ] ) ) {
+							continue;
+						}
+
+						$value = $_POST[ "{$field_key}_other_value" ];
+					}
+
+					$array_data[] = sanitize_text_field( $value );
+				}
+				
+				$submitted_values[ $field->cid ] = $array_data;
+
 			}
 		}
 	}
