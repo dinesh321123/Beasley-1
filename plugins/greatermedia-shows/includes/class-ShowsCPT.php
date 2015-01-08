@@ -140,7 +140,6 @@ class ShowsCPT {
 			'albums',
 			'contest',
 			'podcast',
-			'personality',
 			'tribe_events',
 			'survey',
 			'livefyre-media-wall',
