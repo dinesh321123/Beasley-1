@@ -30,9 +30,38 @@ category: Components - Article
 	margin-bottom: 1em;
 }
 
+.entry__date {
+	display: block;
+	margin-bottom: 0.75em; 
+	font-size: ms(0); 
+	
+	@include bp(medium) {
+		font-size: ms(-1); 
+	}
+}
+
 .entry__title {
+	font-size: ms(9);
+	line-height: 1.2;
 	margin: 0;
-	margin-bottom: 1em;
+	margin-bottom: 0.65em;
+	
+	@include bp(medium) {
+		font-size: ms(7);
+	}
+}
+
+.entry-content {
+	font-size: ms(1);
+}
+
+.entry_footer {
+	padding: 0;
+	margin-top: 3em;
+}
+
+#comments {
+	margin-top: 4em; 	
 }
 
 /*doc
