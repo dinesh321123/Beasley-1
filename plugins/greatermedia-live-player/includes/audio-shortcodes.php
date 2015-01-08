@@ -49,8 +49,6 @@ class GMR_Audio_Shortcodes {
 			$metadata = $metadata_defaults;
 		}
 
-		ob_start();
-
 		$hash = md5( $mp3_src );
 		$parent_podcast_id = wp_get_post_parent_id( $post_id );
 		if( $parent_podcast_id ) {
@@ -59,6 +57,9 @@ class GMR_Audio_Shortcodes {
 		} else {
 			$parent_podcast = false;
 		}
+
+		//get podcast featured image
+		$featured_image = wp_get_attachment_url( get_post_thumbnail_id( $parent_podcast_id ) );
 
 		$series = get_post( $parent_podcast_id );
 		$series_slug = $series->post_name;
@@ -76,16 +77,19 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download--btn" download>Download</a>';
 			$new_html .= '</div>';
 		}
+		if( $featured_image ) {
+			$new_html .= '<img src="' . $featured_image . '" class="podcast__img">';	
+		}
 		$new_html .= '</div>';
 		$new_html .= '<div class="podcast__meta">';
-		$new_html .= '<time class="podcast__date" datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'F d' ) . '</time>';
+		$new_html .= '<time class="podcast__date" datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'F j' ) . '</time>';
 		$new_html .= '<h3 class="podcast__title">' . get_the_title() . '</h3>';
 		if( $parent_podcast_id && is_singular( ShowsCPT::SHOW_CPT ) ) {
 			$new_html .= '<div class="podcast__parent"><div class="podcast__parent--title">'. esc_html( $parent_podcast->post_title ) . '</div>';
 			if( $itunes_url != '' ) {
 				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 			}
-			$new_html .= '<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast RSS Feed</a>';
+			$new_html .= '<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>';
 			$new_html .= '</div>';
 		}
 		$new_html .= '<div class="podcast__desc">' . get_the_excerpt() . '</div>' ;
@@ -95,7 +99,6 @@ class GMR_Audio_Shortcodes {
 		update_post_meta( $post_id, 'enclosure', esc_attr( $mp3_src ) );
 		update_post_meta( $post_id, 'duration', esc_html( $metadata['length_formatted'] ) );
 
-		//$new_html .= ob_get_clean();
 		return $new_html;
 	}
 
