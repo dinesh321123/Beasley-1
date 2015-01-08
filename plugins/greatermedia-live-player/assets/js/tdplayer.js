@@ -189,10 +189,10 @@
 	function changePlayerState() {
 		if (is_gigya_user_logged_in()) {
 			if (playBtn != null) {
-				addEventHandler(playBtn, 'click', playLiveStreamWithPreRoll());
+				addEventHandler(playBtn, elemClick, playLiveStream);
 			}
 			if (listenNow != null) {
-				addEventHandler(listenNow, 'click', playLiveStreamWithPreRoll());
+				addEventHandler(listenNow, elemClick, playLiveStream);
 			}
 		} else {
 			if (playBtn != null) {
@@ -386,7 +386,7 @@
 
 	function resumeStream() {
 		if ( true === playingCustomAudio ) {
-			resumeInlineAudio();
+			resumeCustomInlineAudio();
 		} else {
 			if (livePlaying) {
 				player.resume();
@@ -1032,17 +1032,6 @@
 		playingCustomAudio = true;
 		stopLiveStreamIfPlaying();
 		customAudio.play();
-		setPlayerTrackName();
-		setPlayerArtist();
-		setPlayingStyles();
-		resetInlineAudioStates();
-		setInlineAudioStates();
-	};
-
-	var resumeInlineAudio = function() {
-		playingCustomAudio = true;
-		stopLiveStreamIfPlaying();
-		customAudio.resume();
 		setPlayerTrackName();
 		setPlayerArtist();
 		setPlayingStyles();
