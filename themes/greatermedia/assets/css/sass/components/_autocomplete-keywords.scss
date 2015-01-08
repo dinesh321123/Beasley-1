@@ -14,6 +14,8 @@
 
 .ui-menu .ui-menu-item.ui-state-focus {
 	color: $color-text-white;
+	background: $header-nav-bg;
+	border: none;
 }
 
 .ui-autocomplete {
