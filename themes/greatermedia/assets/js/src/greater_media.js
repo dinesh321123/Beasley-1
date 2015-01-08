@@ -216,7 +216,7 @@
 			that.elemDisplay.style.display = 'inline-block';
 		});
 	};
-	
+
 	/**
 	 * Toggles a target element.
 	 *
@@ -450,5 +450,21 @@
 		resizeDebounce();
 		resizeThrottle();
 	});
+
+	function init_menu_overlay() {
+		var $menu = jQuery(document.querySelector('.header__nav--list')),
+				$overlay = jQuery(document.querySelector('.overlay-mask'));
+
+		$menu.on('mouseover', '.menu-item-has-children', function (e) {
+			$overlay.addClass('is-visible');
+			window.console.log('is visible');
+		});
+		$menu.on('mouseout', '.menu-item-has-children', function (e) {
+			$overlay.removeClass('is-visible');
+			window.console.log('is not visible');
+		});
+	}
+
+	init_menu_overlay();
 
 })();
