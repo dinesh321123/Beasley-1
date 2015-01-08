@@ -5965,7 +5965,7 @@ category: Components - Shows
   .podcast__meta:last-child {
     margin-right: 0; }
   .podcast__meta h3 {
-    margin: 15px 0 15px; }
+    margin: 10px 0 15px; }
 
 .podcast__title {
   margin: 20px 0 26px;
