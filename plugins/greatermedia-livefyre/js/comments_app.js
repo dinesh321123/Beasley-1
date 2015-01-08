@@ -18,7 +18,8 @@
 				articleId      : this.config.livefyre_options.article_id,
 				el             : 'livefyre-comments',
 				collectionMeta : this.config.tokens.collection_meta,
-				checksum       : this.config.tokens.checksum
+				checksum       : this.config.tokens.checksum,
+				readOnly       : this.config.livefyre_options.read_only
 			}];
 		},
 
