@@ -279,7 +279,7 @@ function get_show_live_links_archive_query() {
 	$args = array(
 		'post_type' => GMR_LIVE_LINK_CPT,
 		'paged' => $current_page,
-		'posts_per_page' => 30,
+		'posts_per_page' => 20,
 		'ignore_sticky_posts' => true,
 		'tax_query' => array(
 			array(
