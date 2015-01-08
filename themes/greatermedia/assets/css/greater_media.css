@@ -8586,6 +8586,11 @@ select {
   color: #000000;
   padding: 1em; }
 
+.ui-menu .ui-menu-item.ui-state-focus {
+  color: #ffffff;
+  background: #d22228;
+  border: none; }
+
 .ui-autocomplete {
   position: absolute;
   top: 0;
@@ -8597,9 +8602,6 @@ select {
   width: 100%;
   top: 100%;
   left: 0; }
-
-.ui-state-focus {
-  color: #ffffff; }
 
 .profile-page {
   /**
