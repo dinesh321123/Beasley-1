@@ -57,13 +57,29 @@ category: Components - Shows
 	margin-top: 4px;
 }
 
+.podcast__cover {
+	@include fill-parent;
+	height: 0;
+	padding-bottom: 100%;
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-size: auto 100%;
+	position: relative;
+
+}
+
 .podcast__btn--play,
 .podcast__btn--pause{
-	position: relative;
+	position: absolute;
 	@extend %live-stream__btn;
-	width: 82px;
-	height: 82px;
+	width: 45%;
+	margin: 0px;
+	position: absolute;
+	top: 28%;
+	left: 28%;
+	height: 45%;
 	border-width: 3px;
+	background-color: rgba($primary-bg, 0.5);
 }
 
 .podcast__btn--play:hover, .podcast__btn--pause:focus {
@@ -91,6 +107,9 @@ category: Components - Shows
 	@include transform(translate(-50%, -50%));
 	font-family: $icon-font !important;
 	font-size: ms(5);
+}
+.podcast__btn--play:before {
+	left: 55%;
 }
 .podcast__btn--play {
 	&:before {

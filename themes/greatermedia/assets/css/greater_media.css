@@ -4636,6 +4636,9 @@ category: Components
       left: 15px;
       font-size: 1.375em; } }
 
+.live-stream__btn--play:before {
+  left: 55%; }
+
 .live-stream__btn--pause:before {
   position: absolute;
   top: 9px;
@@ -6251,12 +6254,26 @@ category: Components - Shows
   .podcast__play:last-child {
     margin-right: 0; }
 
+.podcast__cover {
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: auto 100%;
+  position: relative; }
+
 .podcast__btn--play,
 .podcast__btn--pause {
-  position: relative;
-  width: 82px;
-  height: 82px;
-  border-width: 3px; }
+  position: absolute;
+  width: 45%;
+  margin: 0px;
+  position: absolute;
+  top: 28%;
+  left: 28%;
+  height: 45%;
+  border-width: 3px;
+  background-color: rgba(255, 255, 255, 0.5); }
 
 .podcast__btn--play:hover, .podcast__btn--pause:focus {
   border-color: #aa1c20;
@@ -6284,6 +6301,9 @@ category: Components - Shows
   transform: translate(-50%, -50%);
   font-family: "gmr-icons" !important;
   font-size: 1.80203em; }
+
+.podcast__btn--play:before {
+  left: 55%; }
 
 .podcast__btn--play:before {
   content: "\e606" !important; }

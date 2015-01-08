@@ -464,6 +464,9 @@ category: Components
 		font-size: 1.375em;
 	}
 }
+.live-stream__btn--play:before {
+	left: 55%;
+}
 
 .live-stream__btn--pause:before {
 	position: absolute;
