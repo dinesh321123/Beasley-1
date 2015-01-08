@@ -1,13 +1,8 @@
 <?php while ( have_posts() ) : the_post(); ?>
 
 	<div class="container">
-
-		<?php if ( has_post_thumbnail() ) {
-
-				the_post_thumbnail( 'full', array( 'class' => 'single__featured-img' ) );
-
-			}
-		?>
+	
+		<div class="single__featured-img" style='background-image: url(<?php gm_post_thumbnail_url( 'full' ); ?>)'></div>
 
 		<section class="content">
 

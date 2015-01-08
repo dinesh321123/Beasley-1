@@ -2,19 +2,21 @@
 
 	<?php if (have_posts()) : while ( have_posts() ) : the_post(); ?>
 
+		<?php if ( has_post_thumbnail() ) { ?>
+
+			<div class="entry__thumbnail">
+
+				<?php the_post_thumbnail( 'gmr-album-thumbnail', array( 'class' => 'single__featured-img' ) ); ?>
+
+			</div>
+
+		<?php } ?>
+		
 		<section class="content">
 
 			<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-				<?php if ( has_post_thumbnail() ) { ?>
-
-					<div class="entry__thumbnail">
-
-						<?php the_post_thumbnail( 'gmr-album-thumbnail', array( 'class' => 'single__featured-img' ) ); ?>
-
-					</div>
-
-				<?php } ?>
+				
 
 				<div class="ad__inline--right">
 					<?php do_action( 'acm_tag', 'mrec-body' ); ?>
