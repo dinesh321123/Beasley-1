@@ -1115,17 +1115,51 @@ blockquote p {
   -o-transform: translate(78%, 0);
   transform: translate(78%, 0);
   width: 100%;
-  -webkit-transition: all 100ms ease-out;
-  -moz-transition: all 100ms ease-out;
-  transition: all 100ms ease-out; }
+  -webkit-transition: -webkit-transform 100ms ease-out;
+  -moz-transition: -moz-transform 100ms ease-out;
+  transition: transform 100ms ease-out;
+  position: fixed; }
 
+.mobile-nav--open .header__search--open {
+  -webkit-transform: translate(78%, 0);
+  -moz-transform: translate(78%, 0);
+  -ms-transform: translate(78%, 0);
+  -o-transform: translate(78%, 0);
+  transform: translate(78%, 0); }
+
+.mobile-nav--open .header__search--form {
+  position: fixed;
+  -webkit-transform: translate(78%);
+  -moz-transform: translate(78%);
+  -ms-transform: translate(78%);
+  -o-transform: translate(78%);
+  transform: translate(78%); }
+  @media screen and (min-width: 768px) {
+    .mobile-nav--open .header__search--form {
+      -webkit-transform: translate(78%, -200%);
+      -moz-transform: translate(78%, -200%);
+      -ms-transform: translate(78%, -200%);
+      -o-transform: translate(78%, -200%);
+      transform: translate(78%, -200%); } }
+
+.mobile-nav--open .footer {
+  display: none; }
+
+.mobile-nav--open .page-wrap {
+  top: 40px; }
+
+/**
+ * Provides an overlay mask to help focus attention on the menu
+ * z-index is 2 so that it sits under the close button, but above most content
+ */
 .mobile-nav--open .page-wrap:before {
   position: absolute;
   top: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  content: " "; }
+  content: " ";
+  z-index: 2; }
 
 .mobile-nav__list {
   padding: 0;
@@ -1224,7 +1258,7 @@ blockquote p {
 .overlay-mask {
   visibility: hidden;
   background-color: rgba(0, 0, 0, 0.333);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -1232,15 +1266,15 @@ blockquote p {
   z-index: 5000000;
   /* IAB z-index standard for drop nav is 5000000 - 5999999 */
   opacity: 0;
-  -webkit-transition: visibility 0s linear, opacity 150ms ease-out;
-  -moz-transition: visibility 0s linear, opacity 150ms ease-out;
-  transition: visibility 0s linear, opacity 150ms ease-out; }
+  -webkit-transition: visibility 0s linear, opacity 100ms ease-out;
+  -moz-transition: visibility 0s linear, opacity 100ms ease-out;
+  transition: visibility 0s linear, opacity 100ms ease-out; }
   .overlay-mask.is-visible {
     visibility: visible;
     opacity: 1;
-    -webkit-transition: visibility 0s linear, opacity 150ms ease-out;
-    -moz-transition: visibility 0s linear, opacity 150ms ease-out;
-    transition: visibility 0s linear, opacity 150ms ease-out; }
+    -webkit-transition: visibility 0s linear, opacity 100ms ease-out;
+    -moz-transition: visibility 0s linear, opacity 100ms ease-out;
+    transition: visibility 0s linear, opacity 100ms ease-out; }
 
 .header__nav .menu-item-has-children {
   position: relative; }
@@ -2390,7 +2424,8 @@ Community Highlights and Events
   float: left;
   display: block;
   margin-right: 7.42297%;
-  width: 100%;
+  width: 46.28851%;
+  margin-left: 26.85574%;
   margin-right: 0;
   height: 70px;
   padding: 18px 0;
@@ -2400,6 +2435,7 @@ Community Highlights and Events
     margin-right: 0; }
   @media screen and (min-width: 768px) {
     .header__logo {
+      margin-left: 0%;
       max-width: 200px;
       height: 82px; } }
   @media screen and (min-width: 1024px) {
@@ -4734,7 +4770,7 @@ category: Components
   content: "\e604"; }
 
 .live-link__type--gallery:before {
-  content: "\e602"; }
+  content: "\e61a"; }
 
 .live-link__type--image:before {
   content: "\e600"; }
@@ -4746,7 +4782,7 @@ category: Components
   content: "\e608"; }
 
 .live-link__type--video:before {
-  content: "\e604"; }
+  content: "\e613"; }
 
 .live-link__title {
   display: block;
@@ -8319,6 +8355,7 @@ select {
   float: right;
   height: 40px;
   border: none;
+  width: 14px;
   background-color: transparent;
   color: #929497; }
   @media screen and (min-width: 768px) {

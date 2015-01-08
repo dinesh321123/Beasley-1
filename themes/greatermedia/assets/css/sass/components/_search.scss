@@ -65,6 +65,7 @@
 	float: right;
 	height: 40px;
 	border: none;
+	width: 14px;
 	background-color: transparent;
 	color: $secondary-heading;
 	@include bp(medium) {
