@@ -266,13 +266,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__categories, .entry__tags, .entry__shows {
 	overflow: auto;
 	clear: both;
-	margin-bottom: 1.25em;
-	font-size: ms(1);
+	margin-bottom: 28px;
+	font-size: ms(-1);
 	color: $gray;
-	
-	@include bp(medium) {
-		font-size: ms(-1); 
-	}
 }
 
 .entry__list, %entry__list {
@@ -313,7 +309,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 }
 
 .entry__list--title:after {
-	margin: 0 1.5em;
+	margin: 0 14px 0 18px;
 	content: "/";
 }
 
@@ -326,7 +322,11 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__list--show {
 	@extend %entry__list;
 	float: left;
-	margin-right: 1.5em;
+	margin-right: 1em;
+
+	&::after {
+		content: ',';
+	}
 }
 
 .entry__list--show:last-of-type {
@@ -342,7 +342,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 	float: left;
 	width: 24px;
 	height: 24px;
-	margin: 0 .75em 0 0;
+	margin: 0 0.5em 0 0;
 	@include border-radius(50%);
 	background-color: $secondary-border;
 }

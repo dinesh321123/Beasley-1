@@ -18,7 +18,7 @@
 		header = document.getElementById( 'header' ),
 		headerHeight = header.offsetHeight,
 		livePlayer = document.getElementById( 'live-player__sidebar' ),
-		livePlayerStream = document.querySelector('.live-player__stream');
+		livePlayerStream = document.querySelector('.live-player__stream'),
 		livePlayerStreamSelect = document.querySelector( '.live-player__stream--current' ),
 		livePlayerStreamSelectHeight = livePlayerStreamSelect.offsetHeight,
 		livePlayerCurrentName = livePlayerStreamSelect.querySelector( '.live-player__stream--current-name' ),

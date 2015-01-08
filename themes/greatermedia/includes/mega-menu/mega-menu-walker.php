@@ -9,6 +9,41 @@
  */
 class GreaterMediaNavWalker extends Walker_Nav_Menu {
 
+	public static function format_small_previews_link( $item ) {
+
+		$return = '';
+		// Try to find an image to use.
+		$src = get_post_meta( $item->object_id, 'logo_image', true );
+		if ( ! empty( $src ) && $src ) {
+			$return .= wp_get_attachment_image( absint( $src ) );
+		} else if ( has_post_thumbnail( $item->object_id ) ) {
+			$return .= get_the_post_thumbnail( $item->object_id, 'thumbnail' );
+		}
+
+		$return .= '<div class="group">';
+		$return .= apply_filters( 'the_title', $item->title, $item->ID );
+
+		// Try to find some meta text to use
+		if ( 'show' === $item->object ) {
+			$days = get_post_meta( $item->object_id, 'show_days', true );
+			$times = get_post_meta( $item->object_id, 'show_times', true );
+
+			if ( ! empty( $days ) || ! empty( $times ) ) {
+				$return .= '<div class="meta-text">';
+				$return .= '<span class="days">' . esc_html( $days ) . '</span>';
+				$return .= '<span class="times">' . esc_html( $times ) . '</span>';
+				$return .= '</div>';
+			}
+
+		} else if ( 'tribe_events' === $item->object && function_exists( 'tribe_get_start_date' ) ) {
+			$return .= '<span class="meta-text">' . tribe_get_start_date( $item->object_id ) . '</span>';
+		}
+
+		$return .= '</div>';
+
+		return $return;
+
+	}
 
 	/**
 	 * Start the element output.
@@ -30,6 +65,7 @@ class GreaterMediaNavWalker extends Walker_Nav_Menu {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		$format = GreaterMediaMegaMenuAdmin::get_nav_menu_format( $item->ID );
+		$parent_format = GreaterMediaMegaMenuAdmin::get_nav_menu_format( $item->menu_item_parent );
 
 		if ( $format ) {
 			$classes[] = 'format-' . esc_attr( $format );
@@ -102,8 +138,18 @@ class GreaterMediaNavWalker extends Walker_Nav_Menu {
 
 		$item_output = $args->before;
 		$item_output .= '<a' . $attributes . '>';
-		/** This filter is documented in wp-includes/post-template.php */
-		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+
+		/**
+		 * Format: Small Previews
+		 * @todo check performance here, may want to query all the object_ids at once so they are cached.
+		 */
+		if ( 'sp' === $parent_format ) {
+			$item_output .= self::format_small_previews_link( $item );
+		} else {
+			/** This filter is documented in wp-includes/post-template.php */
+			$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+		}
+
 		$item_output .= '</a>';
 		$item_output .= $args->after;
 

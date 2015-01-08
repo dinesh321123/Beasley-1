@@ -360,8 +360,10 @@ category: Components
 .live-stream__listen-now--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
 	@include border-radius(1em);
+	display: none;
 	margin-right: 0;
 	font-weight: 700;
+	z-index: 1;
 }
 
 .live-stream__now-playing--btn {
@@ -369,6 +371,19 @@ category: Components
 	display: none;
 	@include border-radius(1em);
 	font-weight: 700;
+}
+
+.live-stream__login--btn {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
+	@include border-radius(1.75em);
+	margin-right: 0;
+	font-weight: 700;
+	z-index: 1;
+}
+
+.live-stream__login--span {
+	padding-bottom: 3px;
+	font-size: ms(-3);
 }
 
 .live-stream__resume {
@@ -475,6 +490,10 @@ category: Components
 	height: 100%;
 	background-color: rgba(0,0,0,.75);
 	z-index: 20000;
+}
+
+.live-stream__container--player {
+	height: 0;
 }
 
 .live-stream__container.vast__pre-roll .live-stream__container--player {

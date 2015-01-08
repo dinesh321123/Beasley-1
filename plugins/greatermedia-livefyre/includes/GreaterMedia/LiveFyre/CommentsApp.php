@@ -23,32 +23,26 @@ class CommentsApp {
 			'data' => $this->get_comments_data()
 		);
 
-		$livefyre_enabled = $comments_data['data']['livefyre_enabled'];
+		wp_enqueue_script(
+			'livefyre_loader',
+			$this->get_livefyre_loader(),
+			array()
+		);
 
-		if ( $livefyre_enabled ) {
-			wp_enqueue_script(
-				'livefyre_loader',
-				$this->get_livefyre_loader(),
-				array()
-			);
+		wp_enqueue_script(
+			'livefyre_comments',
+			plugins_url( 'js/comments_app.js', GMR_LIVEFYRE_PLUGIN_FILE ),
+			array( 'livefyre_loader', 'jquery', 'wp_ajax_api' ),
+			GMR_LIVEFYRE_VERSION
+		);
 
-			wp_enqueue_script(
-				'livefyre_comments',
-				plugins_url( 'js/comments_app.js', GMR_LIVEFYRE_PLUGIN_FILE ),
-				array( 'livefyre_loader', 'jquery', 'wp_ajax_api' ),
-				GMR_LIVEFYRE_VERSION
-			);
+		wp_localize_script(
+			'livefyre_comments',
+			'livefyre_comments_data',
+			$comments_data
+		);
 
-			wp_localize_script(
-				'livefyre_comments',
-				'livefyre_comments_data',
-				$comments_data
-			);
-
-			return $this->get_comments_template_path();
-		} else {
-			return $template_path;
-		}
+		return $this->get_comments_template_path();
 	}
 
 	function get_livefyre_loader() {
@@ -123,7 +117,7 @@ class CommentsApp {
 	}
 
 	function has_comments( $post ) {
-		return ! is_null( $post ) && $post->comment_status !== 'closed';
+		return ! is_null( $post );
 	}
 
 	function tokens_for_post( $post ) {
@@ -140,6 +134,7 @@ class CommentsApp {
 			'article_id'    => strval( $post->ID ),
 			'article_path'  => $this->url_to_path( get_permalink( $post->ID ) ),
 			'article_title' => get_the_title( $post->ID ),
+			'read_only'     => ! comments_open( $post->ID )
 		);
 
 		return $options;

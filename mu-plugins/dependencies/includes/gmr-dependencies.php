@@ -197,6 +197,14 @@ class GmrDependencies {
 			);
 		}
 
+		wp_register_script(
+			'adblock-detect',
+			GMRDEPENDENCIES_URL . 'adblock-detect/advert.js',
+			array(),
+			false,
+			true
+		);
+
 		wp_register_style( 'jquery-ui', GMRDEPENDENCIES_URL . '/jquery-ui-theme/jquery-ui.min.css' );
 		wp_register_style( 'jquery-ui-accordion', GMRDEPENDENCIES_URL . '/jquery-ui-theme/jquery.ui.accordion.min.css', array( 'jquery-ui' ) );
 		wp_register_style( 'jquery-ui-autocomplete', GMRDEPENDENCIES_URL . '/jquery-ui-theme/jquery.ui.autocomplete.min.css', array( 'jquery-ui' ) );

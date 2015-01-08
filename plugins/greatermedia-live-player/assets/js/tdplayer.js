@@ -26,6 +26,9 @@
 	var $trackInfo = $(document.getElementById('trackInfo'));
 	var gigyaLogin = gmr.homeUrl + "members/login";
 	var clearDebug = document.getElementById('clearDebug');
+	var adBlockCheck = document.getElementById('ad-check');
+	var adBlockClose = document.getElementById('close-adblock');
+	var loginListen = document.getElementById('live-stream__login');
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -61,7 +64,7 @@
 
 	function initPlayer() {
 		var techPriority;
-		switch (tech) {
+		switch ( tech ) {
 			case 'html5_flash' :
 				techPriority = ['Html5', 'Flash'];
 				break;
@@ -85,7 +88,7 @@
 					id: 'MediaPlayer',
 					playerId: 'td_container',
 					isDebug: true,
-					techPriority:['Html5', 'Flash'],
+					techPriority: ['Flash', 'Html5'],
 					timeShift: { // timeShifting is currently available on Flash only. Leaving for HTML5 future
 						active: 0, /* 1 = active, 0 = inactive */
 						max_listening_time: 35 /* If max_listening_time is undefined, the default value will be 30 minutes */
@@ -158,6 +161,7 @@
 		resumeBtn.style.display = 'none';
 		pauseBtn.style.display = 'block';
 		listenNow.style.display = 'none';
+		loginListen.style.display = 'none';
 		nowPlaying.style.display = 'inline-block';
 	}
 
@@ -170,6 +174,7 @@
 		playBtn.style.display = 'block';
 		pauseBtn.style.display = 'none';
 		listenNow.style.display = 'inline-block';
+		loginListen.style.display = 'none';
 		nowPlaying.style.display = 'none';
 	}
 
@@ -182,6 +187,7 @@
 		playBtn.style.display = 'none';
 		pauseBtn.style.display = 'none';
 		listenNow.style.display = 'inline-block';
+		loginListen.style.display = 'none';
 		nowPlaying.style.display = 'none';
 		resumeBtn.style.display = 'block';
 	}
@@ -200,8 +206,8 @@
 					window.location.href = gigyaLogin;
 				});
 			}
-			if (listenNow != null) {
-				addEventHandler(listenNow, 'click', function () {
+			if (loginListen != null) {
+				addEventHandler(loginListen, 'click', function () {
 					window.location.href = gigyaLogin;
 				});
 			}
@@ -212,6 +218,7 @@
 
 	function loggedInGigyaUser() {
 		if (is_gigya_user_logged_in() ) {
+			setStoppedStyles();
 			if( Cookies.get( "gmlp_play_button_pushed" ) == 1 ) {
 				playLiveStreamWithPreRoll();
 				Cookies.set( "gmlp_play_button_pushed", 0 );
@@ -279,6 +286,15 @@
 		player.playAd('vastAd', {url: vastUrl});
 	}
 
+	function showAdBlockDetect() {
+		var preRoll = document.querySelector('.vast__pre-roll');
+
+		if(preRoll != null) {
+			preRoll.innerHTML = '<div class="adblock--detected"><div class="adblock--detected__notice>"We\'ve detected that you\'re using <strong>AdBlock Plus</strong> or some other adblocking software. In order to have the best viewing experience, please diasable AdBlock.</div></div>';
+		}
+
+	}
+
 	var currentStream = $('.live-player__stream--current-name');
 
 	currentStream.bind("DOMSubtreeModified",function(){
@@ -301,6 +317,11 @@
 		pjaxInit();
 		if ( true === playingCustomAudio ) {
 			resumeCustomInlineAudio();
+			setPlayingStyles();
+		} else if (adBlockCheck == undefined) {
+			preVastAd();
+			showAdBlockDetect();
+			setTimeout(postVastAd, 15000);
 		} else {
 			var station = gmr.callsign;
 			if (station == '') {
@@ -310,13 +331,13 @@
 
 			debug('playLiveStream - station=' + station);
 
-			if (livePlaying)
+			if (livePlaying) {
 				player.stop();
+			}
 
 			player.play({station: station, timeShift: true});
+			setPlayingStyles();
 		}
-
-		setPlayingStyles();
 	}
 
 	function playLiveStreamWithPreRoll() {
@@ -335,7 +356,12 @@
 			debug('playLiveStream - station=' + station);
 
 			preVastAd();
-			streamVastAd();
+			if (adBlockCheck == undefined) {
+				showAdBlockDetect();
+				setTimeout(postVastAd, 15000);
+			} else {
+				streamVastAd();
+			}
 			if (player.addEventListener) {
 				player.addEventListener('ad-playback-complete', function () {
 					postVastAd();
@@ -347,6 +373,7 @@
 
 					player.play({station: station, timeShift: true});
 					setPlayingStyles();
+
 				});
 			} else if (player.attachEvent) {
 				player.attachEvent('ad-playback-complete', function () {

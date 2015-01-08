@@ -54,6 +54,7 @@ category: Components - Shows
 
 .podcast__play {
 	@include span-columns(2 of 12);
+	margin-top: 4px;
 }
 
 .podcast__btn--play,
@@ -79,6 +80,7 @@ category: Components - Shows
 	display: block;
 	margin: 0 auto;
 	text-align: center;
+	padding-top: 1em;
 }
 
 .podcast__btn--play:before,
@@ -102,7 +104,7 @@ category: Components - Shows
 
 .podcast__btn--pause {
 	&:before {
-	 content: "\e61f" !important;
+		content: "\e61f" !important;
 	}
 
 	display: none; // Will be shown w/ JS when necessary
@@ -114,6 +116,10 @@ category: Components - Shows
 
 .podcast__meta {
 	@include span-columns(9 of 12);
+
+	h3 {
+		margin: 15px 0 15px;
+	}
 }
 
 .podcast__title {

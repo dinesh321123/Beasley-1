@@ -190,6 +190,34 @@ class AccountSchema {
 					'writeAccess' => 'clientModify',
 					'required' => false,
 				),
+				'vipGroup' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+				),
+				'bigFrigginDealGroup' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+				),
+				'birthdayGreetingsGroup' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+				),
+				'optout' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+				),
+				'comment_count' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+				),
+				'listeningFrequency' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+				),
+				'listeningLoyalty' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+				),
 				'actions' => array(
 					'writeAccess' => 'clientModify',
 					'required' => false,

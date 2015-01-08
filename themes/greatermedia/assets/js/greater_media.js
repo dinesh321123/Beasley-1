@@ -26,6 +26,121 @@
 	init();
 
 })(jQuery, window);
+(function($, location) {
+	var $document = $(document),
+		classes = {},
+		last_url = null,
+		current_url = location.href,
+		normalize_url;
+
+	normalize_url = function(url) {
+		return url.replace(/[\?\#].*$/g, '');
+	};
+
+	$document.bind('pjax:popstate', function() {
+		last_url = normalize_url(current_url);
+	});
+
+	$document.bind('pjax:beforeSend', function() {
+		last_url = normalize_url(location.href);
+	});
+
+	$document.bind('pjax:end', function(e, xhr, options) {
+		var $body = $('body'),
+			body_classes = false,
+			pattern = new RegExp('\<body.*?class=\"(.*?)\"', 'im');
+
+		classes[last_url] = $body.attr('class');
+
+		if (xhr) {
+			body_classes = pattern.exec(xhr.responseText);
+			if (body_classes && body_classes.length >= 2) {
+				$body.attr('class', body_classes[1]);
+			}
+		} else {
+			$body.attr('class', classes[normalize_url(options.url)]);
+		}
+
+		current_url = location.href;
+	});
+})(jQuery, location);
+(function($) {
+
+	var ProfileMenuApp = function() {
+
+	};
+
+	ProfileMenuApp.prototype = {
+
+		run: function() {
+			var $container = $('.header__account--container');
+			$container.append(this.getMenu());
+
+			var $avatar = $('.header__account--btn');
+			$avatar.attr('href', this.getAvatarLink());
+
+			var thumbnailURL = this.getThumbnailURL();
+			if (thumbnailURL) {
+				var $img = $('<img />', { src: thumbnailURL });
+				$avatar.html($img);
+			}
+		},
+
+		getAvatarLink: function() {
+			var endpoint = is_gigya_user_logged_in() ? 'account' : 'login';
+			return gigya_profile_path(endpoint);
+		},
+
+		getThumbnailURL: function() {
+			return get_gigya_user_field('thumbnailURL');
+		},
+
+		getMenu: function() {
+			var menu  = this.getMenuLabels();
+			var n     = menu.length;
+			var $menu = $('<ul class="header__account--links sub-menu"></ul>');
+			var $li, $a, item;
+
+			for ( var i = 0; i < n; i++ ) {
+				item = menu[i];
+				$li = $('<li></li>');
+
+				$a = $('<a></a>', { href: gigya_profile_path(item.endpoint) });
+				$a.text(item.label);
+				$li.append($a);
+
+				$menu.append($li);
+			}
+
+			return $menu;
+		},
+
+		getMenuLabels: function() {
+			var menu;
+
+			if (is_gigya_user_logged_in()) {
+				menu = [
+					{ label: 'Edit Account' , endpoint: 'account' } ,
+					{ label: 'Logout'       , endpoint: 'logout' }
+				];
+			} else {
+				menu = [
+					{ label: 'Login/Register', endpoint: 'login' }
+				];
+			}
+
+			return menu;
+		}
+
+	};
+
+	$(document).ready(function() {
+		var app = new ProfileMenuApp();
+		app.run();
+	});
+
+}(jQuery));
+
 (function() {
 
 	/**
@@ -40,7 +155,7 @@
 		header = document.getElementById( 'header' ),
 		headerHeight = header.offsetHeight,
 		livePlayer = document.getElementById( 'live-player__sidebar' ),
-		livePlayerStream = document.querySelector('.live-player__stream');
+		livePlayerStream = document.querySelector('.live-player__stream'),
 		livePlayerStreamSelect = document.querySelector( '.live-player__stream--current' ),
 		livePlayerStreamSelectHeight = livePlayerStreamSelect.offsetHeight,
 		livePlayerCurrentName = livePlayerStreamSelect.querySelector( '.live-player__stream--current-name' ),

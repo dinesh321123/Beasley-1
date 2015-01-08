@@ -1,19 +1,24 @@
-.header__nav {
-	.format-fw > ul {
+%format-fw {
+	& > ul {
 		@extend .sub-menu;
-		width: $max-site-width;
 		left: 0;
 		padding: 1em;
+		width: 100%;
 	}
 
-	.format-fw > ul > li {
+	& > ul > li {
 		width: 32.666%; /* 100% - 2% (for margins, below) / 3 (3 columns) */
 		float: left;
 	}
 
-	.format-fw > ul > li:not(:nth-child(3n+1)) {
+	& > ul > li:not(:nth-child(3n+1)) {
 		border-left: 1px solid $primary-border;
 		padding-left: 1%;
 		margin-left: 1%;
 	}
+
+}
+
+.header__nav .format-fw {
+	@extend %format-fw;
 }

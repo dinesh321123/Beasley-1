@@ -21,15 +21,13 @@
 							<div class="show__feature--primary">
 								<a href="<?php the_permalink(); ?>">
 									<div class="show__feature">
-										
-										<?php if ( has_post_thumbnail() ) : ?>
-											<div class='show-feature__thumbnail'>
+										<div class='show-feature__thumbnail'>
+											<?php if ( has_post_thumbnail() ) : ?>
 												<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary' ); ?>)'></div>
 											<?php else: ?>
 												<div class='thumbnail thumbnail-placeholder' style=''></div>
-											</div>
-										<?php endif; ?>
-										
+											<?php endif; ?>
+										</div>
 										<div class="show__feature--desc">
 											<div class='inner-wrap'>
 												<h3><?php the_title(); ?></h3>
@@ -115,8 +113,9 @@
 
 					        <?php endwhile; ?>
 					        <?php wp_reset_query(); ?>
-
-				        </section>
+	
+							<?php greatermedia_load_more_button( '', '', home_url( '_shows/' . get_post()->post_name . '/page/%d/' ) );	?>
+						</section>
 
 			        </div>
 

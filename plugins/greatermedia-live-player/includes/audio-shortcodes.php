@@ -83,7 +83,7 @@ class GMR_Audio_Shortcodes {
 		if( $parent_podcast_id && is_singular( ShowsCPT::SHOW_CPT ) ) {
 			$new_html .= '<div class="podcast__parent"><div class="podcast__parent--title">'. esc_html( $parent_podcast->post_title ) . '</div>';
 			if( $itunes_url != '' ) {
-				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe</a>';
+				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 			}
 			$new_html .= '<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast RSS Feed</a>';
 			$new_html .= '</div>';
