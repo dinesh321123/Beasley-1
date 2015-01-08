@@ -40,23 +40,23 @@ get_header(); ?>
 				<?php get_template_part( 'partials/loop', 'gmr_closure' ); ?>
 				<?php get_template_part( 'partials/pagination' ); ?>
 
-	<?php else : ?>
+			<?php else : ?>
 
-	<article id="post-not-found" class="hentry cf">
+				<article id="post-not-found" class="hentry cf">
 
-		<header class="article-header">
+					<header class="article-header">
 
-			<h1><?php _e( 'No Closures Found!', 'greatermedia' ); ?></h1>
+						<h1><?php _e( 'No Closures Found!', 'greatermedia' ); ?></h1>
 
-		</header>
+					</header>
 
-	</article>
+				</article>
 
-<?php endif; ?>
+			<?php endif; ?>
 
-</section>
+		</section>
 
-</div>
+	</div>
 
 </main>
 

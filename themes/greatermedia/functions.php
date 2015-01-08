@@ -372,65 +372,6 @@ function greatermedia_excerpt_more( $more ) {
 }
 add_filter( 'excerpt_more', 'greatermedia_excerpt_more' );
 
-/**
- * register a "iframe" endpoint to be applied to single posts and pages
- */
-function greatermedia_add_iframe_endpoint() {
-	add_rewrite_endpoint( 'iframe', EP_PERMALINK | EP_PAGES );
-}
-
-add_action( 'init', 'greatermedia_add_iframe_endpoint' );
-
-/**
- * Load naked tempalate if iframe query var is set
- */
-function greatermedia_iframe_template_redirect() {
-	global $wp_query;
-
-	if ( !isset( $wp_query->query_vars[ 'iframe' ] ) || !is_singular() ) {
-		return;
-	}
-	// include custom template
-	add_filter( 'load_greatermedia_livepress_sidebar', '__return_false' );
-	add_action( 'wp_enqueue_scripts', 'greatermedia_dequeue_iframe_scripts_styles', 11 );
-	locate_template( 'template-iframe.php', true );
-	exit;
-}
-
-add_action( 'template_redirect', 'greatermedia_iframe_template_redirect' );
-
-function greatermedia_dequeue_iframe_scripts_styles(){
-	wp_dequeue_script( 'greatermedia' );
-}
-
-/**
- * Hide live player sidebar
- */
-add_action( 'gmlp_player_popup_template', 'greatermedia_popup_payer_hide_livesidebar' );
-function greatermedia_popup_payer_hide_livesidebar(){
-	add_filter( 'load_greatermedia_livepress_sidebar', '__return_false' );
-}
-
-/**
- * By default, when trying to navigate through galleries of an album, pagination will not work. This function disables
- * canonical redirection for single posts for the specified content types. In this instance, we are forcing that
- * redirection be disabled for the `gmr_album` content type.
- *
- * @since 0.1.0
- *
- * @link https://gist.github.com/madebydaniel/ca63450fb9a0e08b747a
- *
- * @param $redirect_url
- *
- * @return bool
- */
-function greatermedia_disable_redirect_canonical( $redirect_url ){
-	if ( is_singular('gmr_album') ) $redirect_url = false;
-	return $redirect_url;
-}
-
-add_filter( 'redirect_canonical','greatermedia_disable_redirect_canonical' );
-
 if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 	/**
 	 * Processes load more requrests.
@@ -473,3 +414,4 @@ add_action( 'wp_enqueue_scripts', function () {
 	
 	wp_localize_script( 'greatermedia-load-more', 'greatermedia_load_more_partial', $greatermedia_load_more_partial );
 }, 100 );
+

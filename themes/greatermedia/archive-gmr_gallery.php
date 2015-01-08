@@ -18,9 +18,9 @@ get_header(); ?>
 
 				<?php get_template_part( 'partials/gallery-archive' ); ?>
 
-			</section>
+						</section>
 
-		</div>
+					</div>
 
 	</main>
 

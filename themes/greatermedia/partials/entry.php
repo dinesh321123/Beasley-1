@@ -26,22 +26,6 @@
 		<time datetime="<?php the_time( 'c' ); ?>" class="entry2__date"><?php the_time( 'F j' ); ?></time>
 		
 		<h2 class="entry2__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-<<<<<<< HEAD
-=======
-				
-		<?php if ( 'tribe_events' == $post->post_type ): ?>
-			<ul class="entry2__event--details">
-				<?php
-				// Put start time, venue, and cost on one line, separated by commas.  
-				echo esc_html( implode(', ', array_filter( array( tribe_get_start_time(), tribe_get_venue(), tribe_get_cost() ) ) ) );
-				?>
-			</ul>
-		<?php else: ?>
-			<div class="entry2__excerpt">
-				<?php the_excerpt(); ?>
-			</div>
-		<?php endif; ?>
->>>>>>> feature/podcasts
 		
 		<div class="entry2__excerpt">
 			<?php the_excerpt(); ?>
