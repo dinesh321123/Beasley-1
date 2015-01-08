@@ -1276,9 +1276,14 @@ blockquote p {
     -moz-transition: visibility 0s linear, opacity 100ms ease-out;
     transition: visibility 0s linear, opacity 100ms ease-out; }
 
-.header__nav .menu-item-has-children {
+/**
+ * This is not ideal, we should be doing this on the top level <li>
+ * Unfortunately, doing so means that the full-width menus, aren't. They are 100% the width of the <li>
+ * Which is no good. So here we are.
+ */
+.header__main {
   position: relative; }
-  .header__nav .menu-item-has-children:hover {
+  .header__main:hover {
     z-index: 5000100;
     /* IAB z-index standard for drop nav is 5000000 - 5999999 */ }
 
