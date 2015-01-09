@@ -397,7 +397,7 @@ add_action( 'wp_head', 'greatermedia_remove_jetpack_share' );
  * @return string
  */
 function greatermedia_excerpt_more( $more ) {
-	return '';
+	return '&hellip;';
 }
 add_filter( 'excerpt_more', 'greatermedia_excerpt_more' );
 
