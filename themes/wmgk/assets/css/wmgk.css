@@ -4330,6 +4330,14 @@ category: Components
       display: block;
       top: auto; } }
 
+#popup-player-livestream .live-player__stream {
+  position: relative;
+  display: block;
+  top: auto; }
+
+.live-player__stream li {
+  height: auto; }
+
 .live-player__stream li {
   height: auto; }
 
@@ -4459,6 +4467,10 @@ category: Components
       padding: 20px 0 0;
       overflow: visible; } }
 
+#popup-player-livestream .live-player__container {
+  margin: 1em 0 0;
+  overflow: visible; }
+
 .live-stream {
   float: right;
   width: 14.375%;
@@ -4475,6 +4487,12 @@ category: Components
       padding: 23px 0 0;
       text-align: center; } }
 
+#popup-player-livestream .live-stream {
+  float: none;
+  width: auto;
+  padding: 23px 0 1em;
+  text-align: center; }
+
 .live-player--active .live-stream {
   width: 100%;
   padding: 12px 3.75%; }
@@ -4484,6 +4502,9 @@ category: Components
   @media screen and (min-width: 768px) {
     .live-stream__player {
       padding-bottom: 23px; } }
+
+#popup-player-livestream .live-stream__player {
+  padding-bottom: 23px; }
 
 .live-player--active .live-stream__player {
   float: right;
@@ -4499,6 +4520,10 @@ category: Components
       display: block;
       padding-bottom: 26px; } }
 
+#popup-player-livestream .live-stream__status {
+  display: block;
+  height: 23px; }
+
 .live-stream__listen-now--btn, .podcast__subscribe {
   display: inline-block;
   line-height: 1;
@@ -4512,12 +4537,6 @@ category: Components
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
   margin-right: 0;
   font-weight: 700;
   z-index: 1; }
@@ -4542,12 +4561,6 @@ category: Components
   text-transform: uppercase;
   cursor: pointer;
   display: none;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
   font-weight: 700; }
   .live-stream__now-playing--btn:hover, .live-stream__now-playing--btn:focus {
     background-color: transparent;
@@ -4582,12 +4595,6 @@ category: Components
   text-transform: uppercase;
   cursor: pointer;
   margin: 0 .5em;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
   font-weight: 700; }
   .live-stream__resume--btn:hover, .live-stream__resume--btn:focus {
     background-color: transparent;
@@ -4630,6 +4637,11 @@ category: Components
       width: 56px;
       height: 56px; } }
 
+#popup-player-livestream .live-stream__btn--login, #popup-player-livestream .live-stream__btn--play, #popup-player-livestream .live-stream__btn--resume, #popup-player-livestream .live-stream__btn--pause, #popup-player-livestream .podcast__btn--play,
+#popup-player-livestream .podcast__btn--pause {
+  width: 54px;
+  height: 54px; }
+
 .live-stream__btn--label {
   position: absolute !important;
   clip: rect(1px 1px 1px 1px);
@@ -4640,6 +4652,9 @@ category: Components
   .live-stream__login--actions {
     padding-bottom: 22px; } }
 
+#popup-player-livestream .live-stream__login--actions {
+  padding-bottom: 23px; }
+
 .live-stream__btn--login {
   position: relative;
   display: block; }
@@ -4649,28 +4664,34 @@ category: Components
 
 .live-stream__btn--play:before, .live-stream__btn--resume:before, .live-stream__btn--login:before {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  top: 8px;
+  left: 9px;
   font-family: "gmr-icons" !important;
-  font-size: 1.26563em;
+  font-size: .875em;
   content: "\e606" !important; }
+  @media screen and (min-width: 768px) {
+    .live-stream__btn--play:before, .live-stream__btn--resume:before, .live-stream__btn--login:before {
+      top: 13px;
+      left: 15px;
+      font-size: 1.375em; } }
 
 .live-stream__btn--pause:before {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  top: 9px;
+  left: 9px;
   font-family: "gmr-icons" !important;
+  font-size: .75em;
   content: "\e60b" !important; }
+  @media screen and (min-width: 768px) {
+    .live-stream__btn--pause:before {
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      -o-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      font-size: 1em; } }
 
 .live-stream__container {
   width: 0;
@@ -4760,7 +4781,7 @@ category: Components
 .on-air, .up-next {
   float: left;
   width: 78.125%;
-  padding: 14px 0 13px 3.75%;
+  padding: 23px 0 22px 3.75%;
   margin-right: 3.75%;
   line-height: 1; }
   @media screen and (min-width: 480px) {
@@ -4777,23 +4798,34 @@ category: Components
       margin: 0;
       text-align: center; } }
 
+#popup-player-livestream .on-air, #popup-player-livestream .up-next {
+  float: none;
+  width: 100%;
+  height: 48px;
+  padding: 0 1em;
+  margin: 0;
+  text-align: center; }
+
 .live-player--open .on-air, .live-player--open .up-next {
   display: block; }
 
 .on-air__title, .up-next__title {
-  display: block;
-  margin-bottom: 5px; }
+  display: inline-block; }
   @media screen and (min-width: 768px) {
     .on-air__title, .up-next__title {
-      display: inline-block;
+      display: block;
       margin-bottom: 10px;
       font-size: 0.88889em; } }
 
+#popup-player-livestream .on-air__title, #popup-player-livestream .up-next__title {
+  margin-right: .25em;
+  font-size: 0.70233em; }
+
 .on-air__show, .up-next__show {
-  display: block; }
+  display: inline-block; }
   @media screen and (min-width: 768px) {
     .on-air__show, .up-next__show {
-      display: inline-block;
+      display: block;
       font-size: 0.88889em;
       text-transform: uppercase; } }
 
@@ -4814,6 +4846,15 @@ category: Components
       padding: 0 1em;
       text-align: center; } }
 
+#popup-player-livestream .now-playing {
+  display: block;
+  float: none;
+  width: 100%;
+  height: auto;
+  padding: 0 1em;
+  margin: 1em 0 0;
+  text-align: center; }
+
 .live-player--active .now-playing {
   width: 80%;
   padding-right: 0; }
@@ -4829,6 +4870,9 @@ category: Components
       margin-bottom: 10px;
       font-size: 1.125em; } }
 
+#popup-player-livestream .now-playing__title {
+  font-size: 1.125em; }
+
 .now-playing__artist {
   margin: 0 0 4px;
   line-height: 1;
@@ -4840,6 +4884,9 @@ category: Components
       padding-bottom: 30px;
       font-size: 0.79012em; } }
 
+#popup-player-livestream .now-playing__artist {
+  font-size: 0.79012em; }
+
 .live-player__volume {
   display: none; }
   @media screen and (min-width: 768px) {
@@ -4847,6 +4894,11 @@ category: Components
       display: block;
       width: 95%;
       margin: 0 2.5%; } }
+
+#popup-player-livestream .live-player__volume {
+  display: block;
+  width: 95%;
+  margin: 0 2.5%; }
 
 .live-player__volume--btn {
   display: inline-block;
@@ -4924,6 +4976,15 @@ category: Components
       overflow: hidden;
       overflow-y: scroll; } }
 
+#popup-player-livestream .live-links {
+  display: block;
+  height: 100%;
+  padding-right: 1em;
+  padding-left: 1em;
+  margin: 16px 0 0;
+  overflow: hidden;
+  overflow-y: scroll; }
+
 .live-player--open .live-links {
   display: block;
   max-height: 48vh;
@@ -4936,6 +4997,12 @@ category: Components
       overflow: hidden;
       overflow-y: scroll;
       -webkit-touch-overflow: scroll; } }
+
+#popup-player-livestream .live-player--open .live-links {
+  max-height: 35vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  -webkit-touch-overflow: scroll; }
 
 .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before {
   width: 0;
@@ -5002,6 +5069,11 @@ category: Components
 
 .live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
   color: #d22228; }
+
+#popup-player-livestream .live-player {
+  position: inherit;
+  width: auto;
+  right: auto; }
 
 .live-stream__test {
   height: 0;
