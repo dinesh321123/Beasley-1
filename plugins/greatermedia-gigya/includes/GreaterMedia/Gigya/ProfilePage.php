@@ -98,9 +98,17 @@ class ProfilePage {
 		}
 
 		wp_enqueue_script(
+			'gigya_config',
+			plugins_url( 'js/gigya_config.js', GMR_GIGYA_PLUGIN_FILE ),
+			array(),
+			GMR_GIGYA_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
 			'gigya_socialize',
 			"http://cdn.gigya.com/JS/gigya.js?apiKey={$api_key}",
-			array( 'jquery', 'cookies-js', 'underscore' ),
+			array( 'jquery', 'cookies-js', 'underscore', 'gigya_config' ),
 			GMR_GIGYA_VERSION,
 			true
 		);

@@ -20,10 +20,12 @@
 		},
 
 		save: function(persistent) {
+			var options = this.getCookieOptions(persistent);
+
 			Cookies.set(
 				this.getCookieName(),
 				this.serialize(this.cookieValue),
-				this.getCookieOptions(persistent)
+				options
 			);
 		},
 
@@ -32,7 +34,7 @@
 				return;
 			}
 
-			var cookieText  = Cookies.get(this.getCookieName());
+			var cookieText   = Cookies.get(this.getCookieName());
 			this.cookieValue = this.deserialize(cookieText);
 		},
 
@@ -144,7 +146,7 @@
 				}
 			}
 
-			this.store.save();
+			this.store.save(true);
 		},
 
 		logout: function() {
