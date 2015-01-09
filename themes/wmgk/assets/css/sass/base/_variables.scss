@@ -9,7 +9,8 @@ $light-gray: #d0d2d3;
 $gray: #929497;
 $medium-gray: #404041;
 $dark-gray: #282827;
-$highlights-bg: #fff;
+$highlights-bg: #5a5a5a;
+$highlights-heading: #ffffff;
 
 // child theme specific colors to use
 //
@@ -35,3 +36,5 @@ $gallery-thumbs-bg: $color-gray-medium-dark;
 $gallery-border: #58595b;
 $gallery-grid-border: $gray !default;
 $gallery-grid-text: $gray !default;
+
+$highlights-event-bg: #8c8c8c;

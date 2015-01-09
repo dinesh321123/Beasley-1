@@ -87,3 +87,15 @@
 .home__highlights {
 	border-bottom-color: $primary-border;
 }
+
+.highlights__event--item {
+	background-color: $highlights-event-bg;
+}
+
+.highlights__event--title, .highlights__event--date {
+	color: $color-text-white;
+}
+
+.highlights__heading {
+	color: $highlights-heading;
+}
