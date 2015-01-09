@@ -27,6 +27,11 @@
 	li .group {
 		display: inline-block;
 		vertical-align: middle;
+		width: 70%;
+
+		@include bp(large) {
+			width: 80%;
+		}
 	}
 
 	li a {

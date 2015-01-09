@@ -36,18 +36,8 @@
 			</ul>
 		</nav>
 		<div class="show__meta">
-			<?php
-			$days  = get_post_meta( get_the_ID(), 'show_days', true );
-			$times = get_post_meta( get_the_ID(), 'show_times', true );
-
-			if ( ! empty( $days ) ) {
-				echo '<em>' . esc_html( $days ) . '</em>';
-			}
-
-			if ( ! empty( $times ) ) {
-				echo '<em>' . esc_html( $times ) . '</em>';
-			}
-			?>
+			<em>Weekdays</em>
+			<em>5:30am - 10:30am</em> <!-- TODO dynamic -->
 			<a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
 			<a href="http://twitter.com/home?status=[TITLE]+[URL]" class="icon-twitter social-share-link"></a>
 			<a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
