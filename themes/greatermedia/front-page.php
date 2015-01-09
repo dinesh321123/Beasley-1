@@ -23,7 +23,7 @@ get_header();
 					<?php // do_action( 'acm_tag', 'leaderboard-body' ); ?>
 				</div>
 
-				<h2 class="content__heading">Latest from WMGK</h2>
+				<h2 class="content__heading">Latest from <?php bloginfo( 'name' ); ?></h2>
 
 				<?php if ( have_posts() ) : ?>
 

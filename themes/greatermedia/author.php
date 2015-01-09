@@ -16,7 +16,7 @@ get_header(); ?>
 
 			<section class="content">
 
-				<h2 class="content__heading">Latest from WMMR</h2>
+				<h2 class="content__heading">Latest from <?php bloginfo( 'name' ); ?></h2>
 
 				<?php if ( have_posts() ) : ?>
 
