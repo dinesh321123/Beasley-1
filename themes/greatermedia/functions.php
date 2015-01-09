@@ -60,6 +60,7 @@ function greatermedia_setup() {
 	add_image_size( 'gmr-featured-secondary',   		336,    224,    true    ); // thumbnails for secondary featured posts on front page
 	add_image_size( 'gmr-show-featured-primary',   		708,    389,    true    ); // thumbnails for secondary featured posts on front page
 	add_image_size( 'gmr-show-featured-secondary',   	322,    141,    true    ); // thumbnails for secondary featured posts on front page
+	add_image_size( 'gm-related-post',   				300,    200,    true    );
 
 	// Update this as appropriate content types are created and we want this functionality
 	add_post_type_support( 'post', 'timed-content' );
@@ -146,7 +147,7 @@ function greatermedia_scripts_styles() {
 	wp_enqueue_style(
 		'greatermedia'
 	);
-
+	
 	/**
 	 * this is a fix to resolve conflicts with styles and javascript for The Events Calendar plugin that will not
 	 * load once pjax has been activated. We are checking to see if the `Tribe_Template_Factory` class exists and if
@@ -170,6 +171,14 @@ function greatermedia_scripts_styles() {
 }
 
 add_action( 'wp_enqueue_scripts', 'greatermedia_scripts_styles');
+
+/**
+ * Unload YARPP stylesheets.  
+ */
+add_action( 'get_footer', function () {
+ 	wp_dequeue_style( 'yarppRelatedCss' );
+ 	wp_dequeue_style( 'yarpp-thumbnails-yarpp-thumbnail' );
+} );
 
 /**
  * Add humans.txt to the <head> element.

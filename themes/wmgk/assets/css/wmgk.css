@@ -504,7 +504,7 @@ category: Base - Typography
   src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?#iefix-7cndw") format("embedded-opentype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.woff?-7cndw") format("woff"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.ttf?-7cndw") format("truetype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.svg?-7cndw#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .format-audio .entry2__thumbnail a, .format-gallery .entry2__thumbnail a, .format-video .entry2__thumbnail a, .type-contest .entry2__thumbnail a, .type-tribe_events .entry2__thumbnail a, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .header__search--submit:before {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .format-audio .entry2__thumbnail a, .format-gallery .entry2__thumbnail a, .format-video .entry2__thumbnail a, .type-contest .entry2__thumbnail a, .type-tribe_events .entry2__thumbnail a, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .header__search--submit:before {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -561,13 +561,13 @@ category: Base - Typography
 .icon-volume-up:before {
   content: "\e60e"; }
 
-.icon-facebook:before {
+.icon-facebook:before, .social__link--facebook:before {
   content: "\e60f"; }
 
-.icon-twitter:before {
+.icon-twitter:before, .social__link--twitter:before {
   content: "\e610"; }
 
-.icon-google-plus:before {
+.icon-google-plus:before, .social__link--google-plus:before {
   content: "\e611"; }
 
 .icon-search:before {
@@ -582,10 +582,10 @@ category: Base - Typography
 .icon-post-format-audio:before, .format-audio .entry2__thumbnail a:before {
   content: "\e615"; }
 
-.icon-instagram:before {
+.icon-instagram:before, .social__link--instagram:before {
   content: "\e616"; }
 
-.icon-youtube:before {
+.icon-youtube:before, .social__link--youtube:before {
   content: "\e617"; }
 
 .icon-arrow-next:before {
@@ -2803,24 +2803,14 @@ Community Highlights and Events
   float: right;
   padding: 4px 0 7px; }
 
-.footer__menu .social__link {
-  margin: 0 0 0 30px; }
-  .footer__menu .social__link a {
-    box-sizing: content-box;
-    display: inline-block;
-    padding: 5px 4px 3px;
-    width: 22px;
-    height: 22px;
-    line-height: 22px;
-    font-size: 1.26563em;
-    border: 1px solid #929497;
-    border-radius: 100px;
-    text-align: center; }
-    .footer__menu .social__link a:hover {
-      border-color: #d22228;
-      color: #d22228; }
-  .footer__menu .social__link:last-child {
-    margin: 0 0 0 30px; }
+.footer__menu a.social__link {
+  border-color: #929497;
+  color: #929497;
+  margin-right: 0;
+  margin-left: 6px; }
+  .footer__menu a.social__link:hover {
+    border-color: #d22228;
+    color: #d22228; }
 
 /*doc
 ---
@@ -7096,7 +7086,21 @@ These are examples of Social Share Links for single articles.
 <a href="" class="icon-volume-up social-share-link"></a>
 ```
 */
-a.social-share-link {
+.social__list {
+  padding: 33px 0;
+  margin: 0;
+  list-style: none; }
+  .social__list li {
+    display: inline-block;
+    margin: 0;
+    padding: 0; }
+
+a.social__link {
+  padding: 0;
+  margin: 0 1.25em 0 0;
+  list-style: none;
+  display: inline-block;
+  font-size: 18px;
   color: #404041;
   display: inline-block;
   width: 40px;
@@ -7105,24 +7109,12 @@ a.social-share-link {
   border: 1px solid #404041;
   border-radius: 50%;
   padding: 9px;
-  margin-right: 0.25em; }
-  a.social-share-link:last-of-type {
+  margin-right: 6px; }
+  a.social__link:last-of-type {
     margin-right: 0; }
-  a.social-share-link:hover {
+  a.social__link:hover {
     color: #d22228;
     border-color: #d22228; }
-
-.social__list {
-  padding: 33px 0;
-  margin: 0;
-  list-style: none; }
-
-.social__link {
-  padding: 0;
-  margin: 0 1.25em 0 0;
-  list-style: none;
-  display: inline-block;
-  font-size: 18px; }
 
 .social__link:last-child {
   margin: 0; }
@@ -7136,10 +7128,10 @@ a.social-share-link {
 .social__link a:active {
   color: #ffffff; }
 
-.social-share-link:before {
+.social__link:before {
   position: relative;
   top: 1px; }
-.social-share-link.icon-google-plus:before {
+.social__link.icon-google-plus:before, .social__link.social__link--google-plus:before {
   left: 1px;
   top: 2px; }
 
@@ -10565,6 +10557,115 @@ category: Components - Article
     color: #ffffff; }
   .adblock--detected__close:active:last-of-type {
     margin-right: 0; }
+
+/*doc
+---
+title: Related Post
+name: related-post
+category: Components - Article
+---
+
+```html_example
+<article class="related-post">
+	<div class="related-post__img">
+		<img src="http://placehold.it/267x200" alt="4:3" />
+	</div>
+	<div class="related-post__meta">
+		<p class="related-post__title">Lorem ipsum dolor sit amet, consectetur adipisicing elit Lorem ipsum dolor sit amet</p>
+		<time class="related-post__date" datetime="2014-01-15">15 JAN</time>
+	</div>
+</article>
+```
+
+*/
+@media screen and (min-width: 480px) {
+  .related-posts {
+    margin-right: -2%; } }
+.related-posts .related-post:nth-child(n+0) {
+  display: none; }
+.related-posts .related-post:nth-child(-n+4) {
+  display: block; }
+@media screen and (min-width: 480px) {
+  .related-posts .related-post {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 47.58542%;
+    width: 48%;
+    margin-right: 2%; }
+    .related-posts .related-post:last-child {
+      margin-right: 0; }
+    .related-posts .related-post:nth-child(-n+4) {
+      display: block; } }
+@media screen and (min-width: 768px) {
+  .related-posts .related-post {
+    float: left;
+    display: block;
+    margin-right: 3.16844%;
+    width: 31.22104%;
+    width: 31.3333%;
+    margin-right: 2%; }
+    .related-posts .related-post:last-child {
+      margin-right: 0; }
+    .related-posts .related-post:nth-child(-n+6) {
+      display: block; } }
+@media screen and (min-width: 1024px) {
+  .related-posts .related-post {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 23.23176%;
+    width: 23%;
+    margin-right: 2%; }
+    .related-posts .related-post:last-child {
+      margin-right: 0; }
+    .related-posts .related-post:nth-child(-n+8) {
+      display: block; } }
+
+.related-posts__title {
+  color: #929497;
+  font-family: "Open Sans", sans-serif;
+  font-weight: lighter; }
+
+.related-post {
+  display: block;
+  background: #282827;
+  color: #ffffff;
+  margin-bottom: 1.5em; }
+
+.related-post__img .thumbnail {
+  background-position: center center;
+  background-size: 100%;
+  background-size: cover;
+  padding-bottom: 66.666%; }
+
+.related-post__meta {
+  padding: 1.5em 1.618em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: lighter; }
+
+.related-post__title {
+  font-size: 22px;
+  line-height: 1.5;
+  height: 4.5em;
+  overflow: hidden;
+  color: #ffffff; }
+  @media screen and (min-width: 480px) {
+    .related-post__title {
+      font-size: 16px;
+      line-height: 1.4;
+      height: 4.2em; } }
+
+.related-post__date {
+  display: block;
+  font-size: 14px;
+  margin-top: 1.5em;
+  color: #929497;
+  text-transform: uppercase; }
+
+.related-post:hover .related-post__title,
+.related-post:hover .related-post__date {
+  color: #f5ed7f; }
 
 /**
  * Single Page Styles

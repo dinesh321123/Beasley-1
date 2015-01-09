@@ -15,8 +15,25 @@ These are examples of Social Share Links for single articles.
 ```
 */
 
+.social__list {
+	padding: 33px 0;
+	margin: 0;
+	list-style: none;
+	
+	li {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+	}
+}
 
-a.social-share-link {
+a.social__link {
+	padding: 0;
+	margin: 0 1.25em 0 0;
+	list-style: none;
+	display: inline-block;
+	font-size: 18px;
+	
 	color: $social-color;
 	display: inline-block;
 	width: 40px;
@@ -25,7 +42,7 @@ a.social-share-link {
 	border: 1px solid $social-color;
 	border-radius: 50%;
 	padding: 9px;
-	margin-right: 0.25em;
+	margin-right: 6px;
 
 	&:last-of-type {
 		margin-right: 0;
@@ -34,21 +51,7 @@ a.social-share-link {
 	&:hover {	
 		color: $social-hover;
 		border-color: $social-hover; 
-	}
-}
-
-.social__list {
-	padding: 33px 0;
-	margin: 0;
-	list-style: none;
-}
-
-.social__link {
-	padding: 0;
-	margin: 0 1.25em 0 0;
-	list-style: none;
-	display: inline-block;
-	font-size: 18px;
+	}	
 }
 
 .social__link:last-child {
@@ -67,7 +70,27 @@ a.social-share-link {
 	color: $color-text-white;
 }
 
-.social-share-link {
+.social__link--facebook {
+	@extend %gmr-icons, .icon-facebook;
+}
+
+.social__link--twitter {
+	@extend %gmr-icons, .icon-twitter; 
+}
+
+.social__link--google-plus:before {
+	@extend %gmr-icons, .icon-google-plus; 
+}
+
+.social__link--youtube:before {
+	@extend %gmr-icons, .icon-youtube;
+}
+
+.social__link--instagram:before {
+	@extend %gmr-icons, .icon-instagram;
+}
+
+.social__link {
 	&:before {
 		position: relative;
 		top: 1px; 
