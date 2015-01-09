@@ -110,14 +110,6 @@
 	.contest__restriction--age-fails p,
 	.contest__restriction--one-entry p {
 		font-weight: bold; 
-		cursor: default;
-
-		&:hover,
-		&:focus {
-			background-color: $btn-bg;
-			border-color: $btn-bg;
-			color: $color-text-white;
-		}
 	}
 
 	.contest__restriction--age p:first-child {

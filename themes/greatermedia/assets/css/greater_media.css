@@ -5308,20 +5308,7 @@ category: Components - Ads
 .contest__restrictions .contest__restriction--not-started p,
 .contest__restrictions .contest__restriction--age-fails p,
 .contest__restrictions .contest__restriction--one-entry p {
-  font-weight: bold;
-  cursor: default; }
-  .contest__restrictions .contest__restriction--finished p:hover, .contest__restrictions .contest__restriction--finished p:focus,
-  .contest__restrictions .contest__restriction--max-entries p:hover,
-  .contest__restrictions .contest__restriction--max-entries p:focus,
-  .contest__restrictions .contest__restriction--not-started p:hover,
-  .contest__restrictions .contest__restriction--not-started p:focus,
-  .contest__restrictions .contest__restriction--age-fails p:hover,
-  .contest__restrictions .contest__restriction--age-fails p:focus,
-  .contest__restrictions .contest__restriction--one-entry p:hover,
-  .contest__restrictions .contest__restriction--one-entry p:focus {
-    background-color: #d22228;
-    border-color: #d22228;
-    color: #ffffff; }
+  font-weight: bold; }
 .contest__restrictions .contest__restriction--age p:first-child {
   font-weight: bold; }
 .contest__restrictions .contest__restriction--signin p:first-child {
