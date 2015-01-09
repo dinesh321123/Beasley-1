@@ -211,7 +211,7 @@
 				addEventHandler(playBtn, elemClick, playLiveStream);
 			}
 			if (listenNow != null) {
-				addEventHandler(listenNow, elemClick, playLiveStream);
+				addEventHandler(listenNow, elemClick, resumeLiveStream);
 			}
 		} else {
 			if (playBtn != null) {
@@ -309,6 +309,43 @@
 		if ( true === playingCustomAudio ) {
 			resumeCustomInlineAudio();
 			setPlayingStyles();
+		} else if (adBlockCheck == undefined) {
+			preVastAd();
+			showAdBlockDetect();
+			setTimeout(postVastAd, 15000);
+		} else {
+			var station = gmr.callsign;
+			if (station == '') {
+				alert('Please enter a Station');
+				return;
+			}
+
+			debug('playLiveStream - station=' + station);
+
+			if (livePlaying) {
+				player.stop();
+			}
+
+			player.play({station: station, timeShift: true});
+			setPlayingStyles();
+		}
+	}
+
+	function resumeLiveStream() {
+		pjaxInit();
+		if ( true === playingCustomAudio ) {
+			var station = currentStream.text();
+
+			if (livePlaying) {
+				player.stop();
+			}
+
+			stopCustomInlineAudio();
+
+			player.play({station: station, timeShift: true});
+
+			setPlayingStyles();
+
 		} else if (adBlockCheck == undefined) {
 			preVastAd();
 			showAdBlockDetect();
