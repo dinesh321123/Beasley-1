@@ -70,7 +70,11 @@ class GMR_Audio_Shortcodes {
 
 		$new_html .= '<div class="podcast__play mp3-' . esc_attr( $hash ) . '">'; // Hash is used to ensure the inline audio can always match state of live player, even when the player is the buttons that are clicked
 		$new_html .= '<div class="podcast__cover"  style="background-image: url(' . $featured_image . ');">';
-		$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . esc_attr( $metadata['title'] ) . '" data-mp3-artist="' . esc_attr( $metadata['artist'] ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+		if ( is_singular( ShowsCPT::SHOW_CPT ) ) {
+			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . get_the_title() . '" data-mp3-artist="' . esc_attr( $metadata['artist'] ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+		} else {
+			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . esc_attr( $metadata['title'] ) . '" data-mp3-artist="' . esc_attr( $metadata['artist'] ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+		}
 		$new_html .= '<button class="podcast__btn--pause"></button>';
 		$new_html .= '</div>';
 		$new_html .= '<span class="podcast__runtime">' . esc_html( $metadata['length_formatted'] ) . '</span>';
