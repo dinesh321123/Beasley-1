@@ -13,6 +13,7 @@ class GreaterMediaSiteOptionsHelperFunctions {
 		add_action( 'gmr_social_youtube', array( __CLASS__, 'youtube_link' ) );
 		add_action( 'gmr_social_instagram', array( __CLASS__, 'instagram_link' ) );
 		add_action( 'gmr_social', array( __CLASS__, 'social_links' ) );
+		add_action( 'wp_head', array( __CLASS__, 'site_favicon' ) );
 	}
 
 	public static function get_site_logo_id() {
@@ -28,6 +29,31 @@ class GreaterMediaSiteOptionsHelperFunctions {
 			if ( $site_logo ) {
 				echo '<img src="' . esc_url( $site_logo[0] ) . '" alt="' . get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) . '" class="header__logo--img">';
 			}
+		}
+	}
+
+	public static function get_site_favicon_id() {
+		$site_favicon_id = get_option( 'gmr_site_favicon', 0 );
+
+		return $site_favicon_id;
+	}
+
+	public static function site_favicon() {
+		$site_favicon_id = self::get_site_favicon_id();
+		if ( $site_favicon_id ) {
+			$site_favicon = wp_get_attachment_image_src( $site_favicon_id, 'full' );
+			if ( $site_favicon ) { ?>
+
+				<link rel="apple-touch-icon" href="<?php echo esc_url( $site_favicon[0] ); ?>" />
+				<link rel="apple-touch-icon" href="<?php echo esc_url( $site_favicon[0] ); ?>" sizes="76x76" />
+				<link rel="apple-touch-icon" href="<?php echo esc_url( $site_favicon[0] ); ?>" sizes="120x120" />
+				<link rel="apple-touch-icon" href="<?php echo esc_url( $site_favicon[0] ); ?>" sizes="152x152" />
+				<link rel="icon" href="<?php echo esc_url( $site_favicon[0] ); ?>" />
+				<!--[if IE]>
+				<link rel="shortcut icon" href="<?php echo esc_url( $site_favicon[0] ); ?>" />
+				<![endif]-->
+
+			<?php }
 		}
 	}
 

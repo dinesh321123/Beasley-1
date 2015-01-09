@@ -84,6 +84,7 @@ class GreaterMediaSiteOptions {
 		register_setting( self::option_group, 'gmr_youtube_url', 'esc_url_raw' );
 		register_setting( self::option_group, 'gmr_instagram_name', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
+		register_setting( self::option_group, 'gmr_site_favicon', 'intval' );
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -97,10 +98,15 @@ class GreaterMediaSiteOptions {
 		$youtube = get_option( 'gmr_youtube_url', '' );
 		$instagram = get_option( 'gmr_instagram_name', '' );
 		$site_logo_id = GreaterMediaSiteOptionsHelperFunctions::get_site_logo_id();
+		$site_favicon_id = GreaterMediaSiteOptionsHelperFunctions::get_site_favicon_id();
 
 		?>
 
 		<?php self::render_image_select( 'Site Logo', 'gmr_site_logo', $site_logo_id ); ?>
+
+		<hr/>
+
+		<?php self::render_image_select( 'Site Fav Icon', 'gmr_site_favicon', $site_favicon_id ); ?>
 
 		<hr/>
 
