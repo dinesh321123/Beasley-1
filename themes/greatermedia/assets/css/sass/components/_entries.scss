@@ -269,18 +269,19 @@
 		text-transform: uppercase;
 		color: #fff;
 		position: absolute;
-		bottom: 0;
 		padding: 4% 6%;
 		z-index: 20;
 	}
 
 	.entry2__thumbnail--end-date {
 		right: 0;
+		bottom: 0;
 		text-align: right;
 	}
 	
 	.entry2__thumbnail--start-date {
 		left: 0;
+		top: 0;
 	}
 
 	.entry2__thumbnail--day-of-week {

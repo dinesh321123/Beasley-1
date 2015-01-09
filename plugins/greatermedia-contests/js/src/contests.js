@@ -1,4 +1,4 @@
-/* globals GMR_Gallery:false, is_gigya_user_logged_in:false, get_gigya_user_field:false */
+/* globals is_gigya_user_logged_in:false, get_gigya_user_field:false */
 (function($) {
 	var $document = $(document), container, gridContainer;
 
@@ -74,7 +74,7 @@
 			return false;
 		});
 
-		$(document).trigger('contest:preview-loaded');
+		$document.trigger('contest:preview-loaded');
 	};
 
 	var gridLoadMoreUrl = function(page) {
@@ -155,6 +155,7 @@
 				var restriction = null;
 				
 				if (response.success) {
+					fillForm();
 					container.html(response.data.html);
 					fillForm();
 					$('.type-contest.collapsed').removeClass('collapsed');

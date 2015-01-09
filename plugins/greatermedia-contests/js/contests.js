@@ -879,7 +879,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 			return false;
 		});
 
-		$(document).trigger('contest:preview-loaded');
+		$document.trigger('contest:preview-loaded');
 	};
 
 	var gridLoadMoreUrl = function(page) {
@@ -960,6 +960,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				var restriction = null;
 				
 				if (response.success) {
+					fillForm();
 					container.html(response.data.html);
 					fillForm();
 					$('.type-contest.collapsed').removeClass('collapsed');
