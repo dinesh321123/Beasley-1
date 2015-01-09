@@ -45,6 +45,7 @@
 			};
 
 			Cookies.expire(this.getCookieName(), options);
+			Cookies.expire('livefyre_token', options);
 			this.cookieValue = {};
 		},
 
