@@ -1304,7 +1304,8 @@ ul.sub-menu li:hover, .header__nav .format-fw > ul li:hover, .header__nav .forma
 .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul,
 .header__account--links.sub-menu,
 .header__nav .format-fw > ul.header__account--links,
-.header__nav .format-sp > ul.header__account--links {
+.header__nav .format-sp > ul.header__account--links,
+.ui-menu {
   position: absolute;
   border-top: 7px solid #d22228;
   background-color: #fff;
@@ -1321,7 +1322,8 @@ ul.sub-menu li:hover, .header__nav .format-fw > ul li:hover, .header__nav .forma
   .header__nav .sub-menu a, .header__nav .format-fw > ul a, .header__nav .format-sp > ul a,
   .header__account--links.sub-menu a,
   .header__nav .format-fw > ul.header__account--links a,
-  .header__nav .format-sp > ul.header__account--links a {
+  .header__nav .format-sp > ul.header__account--links a,
+  .ui-menu a {
     color: #000000;
     /*
      * Important used here to override a declaration on .header__nav ul li a
@@ -7217,39 +7219,8 @@ a.social__link {
   list-style: none;
   margin-right: .5em; }
 
-*/
-.header__search--form {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 40px;
-  padding: 0 20px;
-  border-top: 1px solid #303030;
-  background-color: transparent; }
-  @media screen and (min-width: 768px) {
-    .header__search--form {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 132px;
-      padding: 16px 2.5%;
-      background-color: #fff;
-      border-top: none;
-      border-bottom: 1px solid #303030;
-      -webkit-transition: all 200ms ease-in-out;
-      -moz-transition: all 200ms ease-in-out;
-      transition: all 200ms ease-in-out;
-      -webkit-transform: translate(0, -200%);
-      -moz-transform: translate(0, -200%);
-      -ms-transform: translate(0, -200%);
-      -o-transform: translate(0, -200%);
-      transform: translate(0, -200%);
-      /* 200% ensures it's out of the way of the .wp-admin bar */
-      z-index: 5000000;
-      /* IAB z-index standards for nav drop downs. Prevents an ad from being over top unless it's a full-screen ad */ }
-      .logged-in .header__search--form {
-        top: 32px; } }
+.article__list--item a, .article__list--item a:visited, .article__list--show a, .article__list--show a:visited {
+  color: #929497; }
 
 .article__list--item a:hover, .article__list--item a:focus, .article__list--item a:active, .article__list--show a:hover, .article__list--show a:focus, .article__list--show a:active {
   color: #aa1c20; }
@@ -7258,78 +7229,9 @@ a.social__link {
   display: inline-block;
   font-weight: 800; }
 
-.header__search--input {
-  float: left;
-  width: 90% !important;
-  height: 40px;
-  padding: 0 !important;
-  background-color: transparent !important;
-  border: none !important;
-  outline: none;
-  font-size: 1em;
-  color: #929497; }
-  .header__search--input::-webkit-input-placeholder {
-    color: #929497; }
-  .header__search--input::-moz-placeholder {
-    color: #929497; }
-  .header__search--input:-moz-placeholder {
-    color: #929497; }
-  .header__search--input:-ms-input-placeholder {
-    color: #929497; }
-  @media screen and (min-width: 768px) {
-    .header__search--input {
-      height: 100px;
-      background-color: #fff !important;
-      outline: none;
-      font-size: 2.2807em;
-      color: #000000; }
-      .header__search--input::-webkit-input-placeholder {
-        color: #d0d2d3; }
-      .header__search--input::-moz-placeholder {
-        color: #d0d2d3; }
-      .header__search--input:-moz-placeholder {
-        color: #d0d2d3; }
-      .header__search--input:-ms-input-placeholder {
-        color: #d0d2d3; } }
-
-.header__search--submit {
-  position: relative;
-  float: right;
-  height: 40px;
-  border: none;
-  width: 14px;
-  background-color: transparent;
-  color: #929497; }
-  @media screen and (min-width: 768px) {
-    .header__search--submit {
-      width: 10%;
-      height: 100px;
-      color: #000000; } }
-
-.header__search--submit:before {
-  font-size: 1.125em;
-  content: "\e612"; }
-  @media screen and (min-width: 768px) {
-    .header__search--submit:before {
-      font-size: 1.80203em; } }
-
-.search__results--count {
-  padding-bottom: 12px;
-  margin: 0;
-  line-height: 1;
-  border-bottom: 6px solid #404041;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.88889em;
-  font-weight: lighter;
-  color: #404041; }
-
-.search__keyword {
-  padding: 0;
-  margin-top: 26px;
-  margin-bottom: 0;
-  font-size: 1.26563em;
-  color: #404041;
-  text-transform: uppercase; }
+.article__list--title:after {
+  content: "/";
+  margin: 0 .25em 0 .5em; }
 
 .article__list--show {
   margin-right: .5em;
@@ -9317,98 +9219,6 @@ select {
     margin-top: 36px; }
     .show__live-links .ll-archive-list:last-child {
       margin-right: 0; } }
-
-.adblock--detected {
-  display: none;
-  -webkit-transition: background 500ms ease-in-out;
-  -moz-transition: background 500ms ease-in-out;
-  transition: background 500ms ease-in-out; }
-
-.live-stream__container.vast__pre-roll .adblock--detected {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 640px;
-  height: 250px;
-  padding: 20px;
-  background-color: #fff;
-  font-size: 1.26563em;
-  color: #404041;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%); }
-
-.adblock--detected__close {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: inline-block;
-  line-height: 1;
-  padding: 0.5em 1em;
-  margin-right: .5em;
-  outline: none;
-  background-color: #d22228;
-  border: 1px solid #d22228;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.88889em;
-  color: #ffffff !important;
-  text-transform: uppercase;
-  cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em; }
-  .adblock--detected__close:hover, .adblock--detected__close:focus {
-    background-color: #aa1c20;
-    border-color: #aa1c20;
-    color: #ffffff; }
-  .adblock--detected__close:last-of-type {
-    margin-right: 0; }
-
-.adblock--detected__close:hover {
-  display: inline-block;
-  line-height: 1;
-  padding: 0.5em 1em;
-  margin-right: .5em;
-  outline: none;
-  background-color: #f5ed7f;
-  border: 1px solid #f5ed7f;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.88889em;
-  color: #ffffff !important;
-  text-transform: uppercase;
-  cursor: pointer; }
-  .adblock--detected__close:hover:hover, .adblock--detected__close:hover:focus {
-    background-color: #f2e754;
-    border-color: #f2e754;
-    color: #ffffff; }
-  .adblock--detected__close:hover:last-of-type {
-    margin-right: 0; }
-
-.adblock--detected__close:active {
-  display: inline-block;
-  line-height: 1;
-  padding: 0.5em 1em;
-  margin-right: .5em;
-  outline: none;
-  background-color: #000000;
-  border: 1px solid #000000;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.88889em;
-  color: #ffffff !important;
-  text-transform: uppercase;
-  cursor: pointer; }
-  .adblock--detected__close:active:hover, .adblock--detected__close:active:focus {
-    background-color: black;
-    border-color: black;
-    color: #ffffff; }
-  .adblock--detected__close:active:last-of-type {
-    margin-right: 0; }
 
 /*doc
 ---
