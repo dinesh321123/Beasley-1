@@ -62,8 +62,20 @@
 		initPlayer();
 	};
 
+	function calcTechPriority() {
+		if (bowser.firefox) {
+			return ['Flash'];
+		} else if (bowser.safari) {
+			return ['Html5'];
+		} else {
+			return ['Html5', 'Flash'];
+		}
+	}
+
 	function initPlayer() {
-		var techPriority;
+		var techPriority = calcTechPriority();
+		console.log('+++ initPlayer - techPriority = ', techPriority);
+		/*
 		switch ( tech ) {
 			case 'html5_flash' :
 				techPriority = ['Html5', 'Flash'];
@@ -80,6 +92,7 @@
 				break;
 
 		}
+		*/
 
 		/* TD player configuration object used to create player instance */
 		var tdPlayerConfig = {
