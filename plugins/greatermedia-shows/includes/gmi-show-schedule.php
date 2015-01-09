@@ -318,7 +318,7 @@ function gmrs_render_episode_schedule_page() {
 			</select>
 			till
 			<select name="end_time">
-				<?php for ( $i = 1; $i < $count; $i++ ) : ?>
+				<?php for ( $i = 1; $i <= $count; $i++ ) : ?>
 					<?php $time = HOUR_IN_SECONDS * $precision * $i; ?>
 					<option value="<?php echo $time; ?>"<?php selected( $time, $active['end_time'] ); ?>>
 						<?php echo date( 'h:i A', $time ); ?>
