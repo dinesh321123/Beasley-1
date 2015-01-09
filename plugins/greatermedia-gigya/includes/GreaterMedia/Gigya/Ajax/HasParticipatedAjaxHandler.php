@@ -14,30 +14,30 @@ class HasParticipatedAjaxHandler extends AjaxHandler {
 		return true;
 	}
 
-	function run( $params ) {
+	function run( $params, $type = 'contest' ) {
 		$contest_id = $params['contest_id'];
 
 		if ( is_gigya_user_logged_in() ) {
 			$user_id = get_gigya_user_id();
-			return $this->has_user_entered_contest( $contest_id, $user_id );
+			return $this->has_user_entered_contest( $contest_id, $user_id, $type );
 		} else if ( array_key_exists( 'email', $params ) ) {
 			$email = $params['email'];
 
 			if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) === false ) {
 				return false;
 			}
-			return $this->has_email_entered_contest( $contest_id, $email );
+			return $this->has_email_entered_contest( $contest_id, $email, $type );
 		} else {
 			return false;
 		}
 	}
 
-	function has_user_entered_contest( $contest_id, $user_id ) {
+	function has_user_entered_contest( $contest_id, $user_id, $type = 'contest' ) {
 		$query   = <<<GQL
 select UID
 from actions
 where
-	data.actions.actionType = 'action:contest' and
+	data.actions.actionType = 'action:{$type}' and
 	data.actions.actionID = '{$contest_id}'    and
 	UID = '{$user_id}'
 GQL;
@@ -51,12 +51,12 @@ GQL;
 	// email corresponds to an email field
 	// And hence don't need to figure out the field name that stores
 	// emails
-	function has_email_entered_contest( $contest_id, $email ) {
+	function has_email_entered_contest( $contest_id, $email, $type = 'contest' ) {
 		$query = <<<GQL
 select UID
 from actions
 where
-	data.actions.actionType = 'action:contest'   and
+	data.actions.actionType = 'action:{$type}'   and
 	data.actions.actionID = '{$contest_id}'      and
 	data.actions.actionData.value_s = '{$email}'
 GQL;

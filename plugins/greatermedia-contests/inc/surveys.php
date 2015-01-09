@@ -68,6 +68,11 @@ function gmr_surveys_render_form() {
 		wp_send_json_error( array( 'restriction' => 'signin' ) );
 	}
 
+	// check if user already submitted survey response
+	if ( function_exists( 'has_user_entered_survey' ) && has_user_entered_survey( get_the_ID() ) ) {
+		wp_send_json_error( array( 'restriction' => 'one-entry' ) );
+	}
+
 	// render the form
 	wp_send_json_success( array(
 		'html' => GreaterMediaSurveyFormRender::render( get_the_ID() ),
@@ -105,14 +110,7 @@ function gmr_surveys_process_form_submission() {
 
 	list( $entrant_reference, $entrant_name ) = gmr_contests_get_gigya_entrant_id_and_name();
 
-	$entry = GreaterMediaSurveyEntry::create_for_data(
-		$survey_id,
-		$entrant_name,
-		$entrant_reference,
-		GreaterMediaContestEntry::ENTRY_SOURCE_EMBEDDED_FORM,
-		json_encode( $submitted_values )
-	);
-
+	$entry = GreaterMediaSurveyEntry::create_for_data( $survey_id, $entrant_name, $entrant_reference, GreaterMediaContestEntry::ENTRY_SOURCE_EMBEDDED_FORM, json_encode( $submitted_values ) );
 	$entry->save();
 
 	do_action( 'greatermedia_survey_entry_save', $entry );
