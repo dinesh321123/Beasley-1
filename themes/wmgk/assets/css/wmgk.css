@@ -4018,11 +4018,14 @@ Link posts contain a link to an external site. They can also optionally have a f
       font-size: 2.2807em; } }
 
 .article__thumbnail {
-  width: 100%;
-  padding-bottom: 66%;
+  position: relative;
+  background-position: center center;
   background-size: 100%;
-  background-size: cover;
-  background-position: center center; }
+  background-size: cover; }
+  .article__thumbnail:after {
+    content: '';
+    display: block;
+    padding-top: 66%; }
 
 .article__content {
   margin-bottom: 1.5em;
@@ -5154,47 +5157,15 @@ category: Components - Ads
       margin: 0 0 1em 1em; } }
 
 .contest__thumbnail {
-  float: left;
-  display: block;
-  margin-right: 7.42297%;
-  width: 100%;
-  background-color: #e8e9e9;
-  margin: 0 auto 2em;
-  text-align: center; }
-  .contest__thumbnail:last-child {
-    margin-right: 0; }
-  @media screen and (min-width: 480px) {
-    .contest__thumbnail {
-      float: left;
-      display: block;
-      margin-right: 4.82916%;
-      width: 100%; }
-      .contest__thumbnail:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 768px) {
-    .contest__thumbnail {
-      float: left;
-      display: block;
-      margin-right: 3.57866%;
-      width: 100%; }
-      .contest__thumbnail:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1024px) {
-    .contest__thumbnail {
-      float: left;
-      display: block;
-      margin-right: 3.57866%;
-      width: 100%; }
-      .contest__thumbnail:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1400px) {
-    .contest__thumbnail {
-      float: left;
-      display: block;
-      margin-right: 3.57866%;
-      width: 100%; }
-      .contest__thumbnail:last-child {
-        margin-right: 0; } }
+  position: relative;
+  background-position: center center;
+  background-size: 100%;
+  background-size: cover;
+  margin: 0 auto 2em; }
+  .contest__thumbnail:after {
+    content: '';
+    display: block;
+    padding-top: 66%; }
 
 .single__featured-img--contest {
   margin: 0 auto; }
@@ -7196,11 +7167,14 @@ a.social-share-link {
       font-size: 2.2807em; } }
 
 .article__thumbnail {
-  width: 100%;
-  padding-bottom: 66%;
+  position: relative;
+  background-position: center center;
   background-size: 100%;
-  background-size: cover;
-  background-position: center center; }
+  background-size: cover; }
+  .article__thumbnail:after {
+    content: '';
+    display: block;
+    padding-top: 66%; }
 
 .article__content {
   margin-bottom: 1.5em;

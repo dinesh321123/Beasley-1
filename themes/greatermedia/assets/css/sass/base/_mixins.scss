@@ -218,3 +218,20 @@
 	&:nth-child(#{$nth}) { margin-right: flex-gutter(); }
 	&:nth-child(#{$nth}+1) { clear: none }
 }
+
+// Mixin to create a thumbnail that's locked to a specific aspect ratio. 
+//
+// @example scss - Proportional thumbnail, 3:2 aspect ratio
+// @include proportional-thumb( 66.6% ); 
+//
+@mixin proportional-thumbnail( $height-as-percentage ) {
+	position: relative; 
+	background-position: center center;
+	background-size: 100%;
+	background-size: cover; 
+	&:after {
+		content: ''; 
+		display: block;
+		padding-top: $height-as-percentage; 
+	}
+}

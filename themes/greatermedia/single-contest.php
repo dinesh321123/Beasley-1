@@ -22,9 +22,7 @@ get_header(); ?>
 					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf collapsed' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
 						<?php if ( has_post_thumbnail() ) : ?>
-							<div class="contest__thumbnail">
-								<?php the_post_thumbnail( 'gmr-contest-thumbnail', array( 'class' => 'single__featured-img--contest' ) ); ?>
-							</div>
+							<div class="contest__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-contest-thumbnail' ); ?>)'></div>
 						<?php endif; ?>
 
 						<section class="col__inner--left">

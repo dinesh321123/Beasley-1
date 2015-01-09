@@ -1,21 +1,6 @@
 .contest__thumbnail {
-	@include span-columns(4 of 4);
-	background-color: lighten($primary-border, 9%);
+	@include proportional-thumbnail( 66% );
 	margin: 0 auto 2em;
-	text-align: center;
-
-	@include bp(small) {
-		@include span-columns(6 of 6);
-	}
-	@include bp(medium) {
-		@include span-columns(8 of 8);
-	}
-	@include bp(large) {
-		@include span-columns(8 of 8);
-	}
-	@include bp(x-large) {
-		@include span-columns(8 of 8);
-	}
 }
 
 .single__featured-img--contest {
