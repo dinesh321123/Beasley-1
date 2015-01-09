@@ -45,7 +45,7 @@ function get_events_query() {
 		$query = new WP_Query( $args );
 	} else {
 		$event_args = array(
-			'eventDisplay '=> 'list',
+			'eventDisplay '=> 'upcoming',
 			'posts_per_page' => 2,
 		);
 
