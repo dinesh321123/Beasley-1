@@ -29,6 +29,7 @@ class Plugin {
 	function register_ajax_handlers() {
 		$handlers   = array();
 		$handlers[] = new Ajax\ChangeLiveFyreSettings();
+		$handlers[] = new Ajax\GetLiveFyreAuthToken();
 
 		foreach ( $handlers as $handler ) {
 			$handler->register();

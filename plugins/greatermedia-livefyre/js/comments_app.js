@@ -71,14 +71,6 @@
 			location.href = profilePath;
 		},
 
-		getAuthParams: function() {
-			var params = {
-				livefyre: this.config.getToken('auth')
-			};
-
-			return params;
-		}
-
 	};
 
 	var CommentsApp = function() {
@@ -86,18 +78,88 @@
 			window.livefyre_comments_data.data
 		);
 
+		this.ajaxApi   = new WpAjaxApi(window.livefyre_comments_data);
+		this.authToken = this.loadAuthToken();
+
 		if (this.canLoadComments()) {
-			this.load();
+			this.authorize();
 		} else {
 			var self = this;
 
 			$(document).ready(function() {
-				self.load();
+				self.authorize();
 			});
 		}
 	};
 
 	CommentsApp.prototype = {
+
+		authorize: function() {
+			if (is_gigya_user_logged_in()) {
+				this.ajaxApi.request('get_livefyre_auth_token', {})
+					.then($.proxy(this.didAuthorize, this))
+					.fail($.proxy(this.didAuthorizeError, this));
+			} else {
+				this.load();
+			}
+		},
+
+		loadAuthToken: function() {
+			if (is_gigya_user_logged_in()) {
+				var value = Cookies.get('livefyre_token');
+
+				if (value) {
+					return value;
+				} else {
+					return '';
+				}
+			} else {
+				Cookies.expire('livefyre_token');
+				return '';
+			}
+		},
+
+		saveAuthToken: function(value) {
+			Cookies.set('livefyre_token', value, this.getCookieOptions(true));
+		},
+
+		getCookieOptions: function(persistent) {
+			return {
+				path    : '/',
+				domain  : location.hostname,
+				secure  : location.protocol === 'https:',
+				expires : this.getCookieTimeout(persistent)
+			};
+		},
+
+		getCookieTimeout: function(persistent) {
+			if (persistent) {
+				return 365 * 24 * 60 * 60; // 1 year
+			} else {
+				return 30 * 60; // 30 minutes
+			}
+		},
+
+		didAuthorize: function(response) {
+			if (response.success) {
+				if (response.data !== '') {
+					this.authToken = response.data;
+					this.saveAuthToken(this.authToken);
+				}
+			} else {
+				this.didAuthorizeError(response);
+			}
+
+			this.load();
+		},
+
+		didAuthorizeError: function(response) {
+			this.authToken = '';
+		},
+
+		getAuthParams: function() {
+			return { livefyre: this.authToken };
+		},
 
 		load: function() {
 			var self    = this;
@@ -119,9 +181,9 @@
 
 			if (is_gigya_user_logged_in()) {
 				try {
-					auth.authenticate(this.authDelegate.getAuthParams());
+					auth.authenticate(this.getAuthParams());
 				} catch (e) {
-					console.log('Failed to login to Livefyre: ' + e.message);
+					//console.log('Failed to login to Livefyre: ' + e.message);
 				}
 			} else {
 				// TODO: Check with livefyre

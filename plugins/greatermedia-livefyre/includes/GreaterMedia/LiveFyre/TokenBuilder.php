@@ -7,7 +7,7 @@ use Livefyre\Livefyre;
 class TokenBuilder {
 
 	public $options;
-	public $expires = 1800; // 30 minutes
+	public $expires = 31536000; // 1 year
 
 	function __construct( $options ) {
 		$this->options = $options;
@@ -32,18 +32,19 @@ class TokenBuilder {
 			'checksum'        => $collection->buildChecksum(),
 		);
 
-		$user_id = md5( get_gigya_user_id() );
-
-		if ( is_gigya_user_logged_in() ) {
-			$tokens['auth'] = $network->buildUserAuthToken(
-				$user_id,
-				get_gigya_user_field( 'firstName' ) . ' ' . get_gigya_user_field( 'lastName' ),
-				$this->expires
-			);
-		}
-
 		return $tokens;
+	}
 
+	function get_auth_token() {
+		$network_name = $this->get_option( 'network_name' );
+		$network_key  = $this->get_option( 'network_key' );
+		$network      = Livefyre::getNetwork( $network_name, $network_key );
+
+		return $network->buildUserAuthToken(
+			md5( get_gigya_user_id() ),
+			get_gigya_user_field( 'firstName' ) . ' ' . get_gigya_user_field( 'lastName' ),
+			$this->expires
+		);
 	}
 
 	function get_option( $name ) {
