@@ -107,9 +107,10 @@
 		background-color: #fff;
 		padding: 0;
 
-		& li {
+		& li:not(.mobile-menu-submenu-header) {
 			list-style-type: none;
 			border: none;
+			background-color: $primary-bg;
 		}
 
 		a {
@@ -120,6 +121,7 @@
 	.sub-menu.is-visible {
 		display: block;
 		left: 0;
+		z-index: 1;
 	}
 
 	.menu-item-has-children {
