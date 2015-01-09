@@ -1,19 +1,15 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'entry2' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 	<section class="entry2__thumbnail" style="background-image: url('<?php echo has_post_thumbnail() ? esc_url( gm_get_post_thumbnail_url( 'gm-entry-thumbnail-4-3' ) ) : ''; ?>')">
 		<a href="<?php the_permalink(); ?>">
-			<div class="entry2__thumbnail--start-date">
-				<?php $start_date = get_post_meta( get_the_ID(), 'contest-start', true ); ?>
-				<?php if ( ! empty( $start_date ) ) : ?>
-					<div class="entry2__thumbnail--day-of-week"><?php echo date( 'l', $start_date ); ?></div>
-					<div class="entry2__thumbnail--month-and-day"><?php echo date( 'M j', $start_date ); ?></div>
-				<?php endif; ?>
-			</div>
-
 			<div class="entry2__thumbnail--end-date">
-				<?php $start_date = get_post_meta( get_the_ID(), 'contest-end', true ); ?>
-				<?php if ( ! empty( $start_date ) ) : ?>
-					<div class="entry2__thumbnail--day-of-week"><?php echo date( 'l', $start_date ); ?></div>
-					<div class="entry2__thumbnail--month-and-day"><?php echo date( 'M j', $start_date ); ?></div>
+				<?php $end_date = get_post_meta( get_the_ID(), 'contest-end', true ); ?>
+				<?php if ( ! empty( $end_date ) ) : ?>
+					<?php if ( $end_date > current_time( 'timestamp', 1 ) ) : ?>
+						<div class="entry2__thumbnail--day-of-week">Ends <?php echo date( 'l', $end_date ); ?></div>
+						<div class="entry2__thumbnail--month-and-day"><?php echo date( 'M j', $end_date ); ?></div>
+					<?php else : ?>
+						<div class="entry2__thumbnail--month-and-day">Ended</div>
+					<?php endif; ?>
 				<?php endif; ?>
 			</div>
 		</a>
