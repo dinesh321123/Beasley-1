@@ -2314,8 +2314,8 @@ Community Highlights and Events
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
-  .highlights__community--item:hover .highlights__community--title {
-    color: #aa1c20; }
+  a:hover .highlights__community--title {
+    color: #f5ed7f; }
 
 .highlights__events {
   padding-top: 1.5em;
@@ -2367,6 +2367,12 @@ Community Highlights and Events
       margin: 0 0 5%; }
       .highlights__event--item:last-child {
         margin-right: 0; } }
+  .highlights__event--item a {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
 
 .highlights__event--item:last-of-type {
   margin-bottom: 0; }
@@ -2425,7 +2431,7 @@ Community Highlights and Events
   @media (min-width: 1250px) {
     .highlights__event--title {
       max-height: 2.5em; } }
-  .highlights__event--item:hover .highlights__event--title {
+  a:hover .highlights__event--title {
     color: #aa1c20; }
 
 .highlights__event--date {
@@ -3721,8 +3727,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   width: 100%;
   margin-right: 0;
   margin-bottom: 2.25em;
-  border-bottom: 1px solid #d0d2d3;
-  text-align: center; }
+  border-bottom: 1px solid #d0d2d3; }
   .entry2:last-child {
     margin-right: 0; }
   .entry2:last-of-type {
@@ -3758,26 +3763,23 @@ Link posts contain a link to an external site. They can also optionally have a f
   .has-excerpt .entry2__thumbnail:after {
     padding-top: 75%; }
 
-.entry2__meta {
-  text-align: center; }
-  @media screen and (min-width: 480px) {
-    .entry2__meta {
+@media screen and (min-width: 480px) {
+  .entry2__meta {
+    float: left;
+    display: block;
+    margin-right: 4.82916%;
+    width: 100%;
+    margin-right: 0; }
+    .entry2__meta:last-child {
+      margin-right: 0; }
+    .has-post-thumbnail .entry2__meta, .type-contest .entry2__meta, .type-tribe_events .entry2__meta {
       float: left;
       display: block;
       margin-right: 4.82916%;
-      width: 100%;
-      margin-right: 0;
-      text-align: left; }
-      .entry2__meta:last-child {
-        margin-right: 0; }
-      .has-post-thumbnail .entry2__meta, .type-contest .entry2__meta, .type-tribe_events .entry2__meta {
-        float: left;
-        display: block;
-        margin-right: 4.82916%;
-        width: 65.05695%;
-        margin-right: 0; }
-        .has-post-thumbnail .entry2__meta:last-child, .type-contest .entry2__meta:last-child, .type-tribe_events .entry2__meta:last-child {
-          margin-right: 0; } }
+      width: 65.05695%;
+      margin-right: 0; }
+      .has-post-thumbnail .entry2__meta:last-child, .type-contest .entry2__meta:last-child, .type-tribe_events .entry2__meta:last-child {
+        margin-right: 0; } }
 
 .entry2__date {
   font-size: 1em;
@@ -3799,9 +3801,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   line-height: 1.2; }
 
 .entry2__excerpt {
-  margin: .75em 0 0;
-  display: none;
-  text-align: left; }
+  margin: .75em 0 0; }
   .entry2__excerpt p {
     margin: 0; }
   @media screen and (min-width: 768px) {
@@ -3817,15 +3817,11 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry2__footer {
   margin-top: 2.25em;
   padding: 0 0 0.75em;
-  text-align: center;
   margin-right: 0;
   float: left;
   display: block;
   margin-right: 7.42297%;
   width: 100%; }
-  @media screen and (min-width: 480px) {
-    .entry2__footer {
-      text-align: left; } }
   .entry2__footer:last-child {
     margin-right: 0; }
 

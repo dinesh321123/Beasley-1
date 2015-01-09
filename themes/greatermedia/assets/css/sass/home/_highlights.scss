@@ -206,9 +206,8 @@ Community Highlights and Events
 	overflow: hidden;
 	text-overflow: ellipsis;
 	
-	
-	.highlights__community--item:hover & {
-		color: $primary-link-hover;	
+	a:hover & {
+		color: $yellow;	
 	}
 }
 
@@ -248,6 +247,20 @@ Community Highlights and Events
 		padding-bottom: 21.5%;
 		margin: 0 0 5%;
 	}
+	
+	// Ugly hack to make sure the <a> tag covers the entire block. The better 
+	// fix would be to put the <a> tag around the entire block, instead of just
+	// around the block's content, but the lousy grid causes problems here 
+	// because it adds a :last-child to every grid block to remove margin from
+	// the last item in a row. Of course, when the grid block is inside a 
+	// wrapper it is _always_ the last child, so the margins get removed.  
+	a { 
+		position: absolute; 
+		top: 0;	
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}	
 }
 
 .highlights__event--item:last-of-type {
@@ -306,7 +319,7 @@ Community Highlights and Events
 	}
 	
 	// Highlight on hover
-	.highlights__event--item:hover & {
+	a:hover & {
 		color: $primary-link-hover;
 	}
 }

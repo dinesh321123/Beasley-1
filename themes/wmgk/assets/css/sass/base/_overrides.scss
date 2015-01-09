@@ -89,11 +89,16 @@
 }
 
 .highlights__event--item {
-	background-color: $color-gray-light;
+	background-color: #8c8c8c;
+	color: $white; 
 }
 
 .highlights__event--title, .highlights__event--date {
-	color: $medium-gray;
+	color: $white;
+	
+	a:hover & {
+		color: $yellow; 
+	}
 }
 
 .highlights__heading {

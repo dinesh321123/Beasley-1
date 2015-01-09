@@ -13,7 +13,6 @@
 	@include omega; 
 	margin-bottom: $base-line-height * 1.5;
 	border-bottom: 1px solid $primary-border;
-	text-align: center;
 
 	&:last-of-type {
 		border-bottom: none;
@@ -57,8 +56,6 @@
 }
 
 .entry2__meta {
-	text-align: center;
-	
 	@include bp(small) {
 		@include span-columns(6 of 6);
 		@include omega;
@@ -69,8 +66,6 @@
 			@include span-columns(4 of 6);
 			@include omega; 
 		}
-		
-		text-align: left; 
 	}
 }
 	.entry2__date {
@@ -97,10 +92,7 @@
 	}
 	
 	.entry2__excerpt {
-		// Hide by default
 		margin: .75em 0 0;
-		display: none; 
-		text-align: left;
 		
 		p {
 			margin: 0;
@@ -121,12 +113,8 @@
 .entry2__footer {
 	margin-top: $base-line-height * 1.5;
 	padding: 0 0 $base-line-height / 2;
-	text-align: center;
 	
 	@include omega; 
-	@include bp(small) {
-		text-align: left;
-	}
 	@include span-columns(4);
 }
 	.entry2__footer--category:link, .entry2__footer--category:visited {
