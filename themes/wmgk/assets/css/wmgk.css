@@ -4794,7 +4794,7 @@ category: Components
 .on-air, .up-next {
   float: left;
   width: 78.125%;
-  padding: 23px 0 22px 3.75%;
+  padding: 14px 0 13px 3.75%;
   margin-right: 3.75%;
   line-height: 1; }
   @media screen and (min-width: 480px) {
@@ -4823,9 +4823,11 @@ category: Components
   display: block; }
 
 .on-air__title, .up-next__title {
-  display: inline-block; }
+  display: block;
+  margin-bottom: 5px; }
   @media screen and (min-width: 768px) {
     .on-air__title, .up-next__title {
+      display: inline-block;
       margin-bottom: 10px;
       font-size: 0.88889em; } }
 
@@ -4834,9 +4836,10 @@ category: Components
   font-size: 0.70233em; }
 
 .on-air__show, .up-next__show {
-  display: inline-block; }
+  display: block; }
   @media screen and (min-width: 768px) {
     .on-air__show, .up-next__show {
+      display: inline-block;
       font-size: 0.88889em;
       text-transform: uppercase; } }
 
@@ -8521,6 +8524,19 @@ category: Components - Shows
     -o-border-radius: 50%;
     -border-radius: 50%;
     border-radius: 50%; }
+
+.personality__meta {
+  float: none;
+  width: auto; }
+  @media screen and (min-width: 768px) {
+    .personality__meta {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 74.41059%;
+      margin-right: 0; }
+      .personality__meta:last-child {
+        margin-right: 0; } }
 
 /*doc
 ---
