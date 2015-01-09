@@ -38,8 +38,8 @@ if ( empty( $active_stream ) ) {
 
 	<div id="live-player" class="live-player__container">
 		<div id="up-next" class="up-next">
-			<div class="up-next__title">Up Next:</div>
-			<div class="up-next__show">Pierre Robert</div>
+			<div class="up-next__title"></div>
+			<div class="up-next__show"></div>
 		</div>
 		<div class="live-stream">
 			<?php do_action( 'gm_live_player' ); ?>
