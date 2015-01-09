@@ -97,7 +97,7 @@
 		container = $('#contest-form');
 		gridContainer = $('.contest__submissions--list');
 
-		$('#contest-form form').submit(function() {
+		$document.on('submit', '#contest-form form', function() {
 			var form = $(this);
 
 			if (!form.parsley || form.parsley().isValid()) {
