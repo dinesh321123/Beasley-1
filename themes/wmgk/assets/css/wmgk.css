@@ -2071,12 +2071,7 @@ Curated posts for Featured Articles
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1.5em;
-  -moz-border-radius: 1.5em;
-  -ms-border-radius: 1.5em;
-  -o-border-radius: 1.5em;
-  -border-radius: 1.5em;
-  border-radius: 1.5em;
+  border-radius: 100em;
   text-transform: uppercase;
   white-space: nowrap; }
   .featured__content--btn:hover, .featured__content--btn:focus {
@@ -2098,7 +2093,8 @@ Curated posts for Featured Articles
   font-size: 0.7em;
   color: #000000 !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100em; }
   .featured__content--block:hover .featured__content--btn:hover, .featured__content--block:hover .featured__content--btn:focus {
     background-color: #f2e754;
     border-color: #f2e754;
@@ -2118,7 +2114,8 @@ Curated posts for Featured Articles
   font-size: 0.7em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100em; }
   .featured__content--block:active .featured__content--btn:hover, .featured__content--block:active .featured__content--btn:focus {
     background-color: black;
     border-color: black;
@@ -3675,6 +3672,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   -webkit-border-radius: 1em;
   -moz-border-radius: 1em;
   -ms-border-radius: 1em;
@@ -3704,7 +3702,8 @@ Link posts contain a link to an external site. They can also optionally have a f
     font-size: 0.88889em;
     color: #ffffff !important;
     text-transform: uppercase;
-    cursor: pointer; }
+    cursor: pointer;
+    border-radius: 100em; }
     .posts-pagination--load-more:disabled:hover, .posts-pagination--load-more:disabled:focus {
       background-color: #7b7d80;
       border-color: #7b7d80;
@@ -4548,12 +4547,7 @@ category: Components
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
+  border-radius: 100em;
   margin-right: 0;
   font-weight: 700;
   z-index: 1; }
@@ -4577,13 +4571,8 @@ category: Components
   color: #d22228 !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   display: none;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
   font-weight: 700; }
   .live-stream__now-playing--btn:hover, .live-stream__now-playing--btn:focus {
     background-color: transparent;
@@ -4617,13 +4606,8 @@ category: Components
   color: #d22228 !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   margin: 0 .5em;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
   font-weight: 700; }
   .live-stream__resume--btn:hover, .live-stream__resume--btn:focus {
     background-color: transparent;
@@ -5248,13 +5232,8 @@ category: Components - Ads
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   width: 100%;
-  -webkit-border-radius: 17px;
-  -moz-border-radius: 17px;
-  -ms-border-radius: 17px;
-  -o-border-radius: 17px;
-  -border-radius: 17px;
-  border-radius: 17px;
   text-transform: uppercase;
   text-align: center; }
   .contest__entry--btn:hover, .contest__entry--btn:focus {
@@ -5276,7 +5255,8 @@ category: Components - Ads
   font-size: 1.125em;
   color: #000000 !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100em; }
   .contest__entry--btn:hover:hover, .contest__entry--btn:hover:focus {
     background-color: #f2e754;
     border-color: #f2e754;
@@ -5296,7 +5276,8 @@ category: Components - Ads
   font-size: 1.125em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100em; }
   .contest__entry--btn:active:hover, .contest__entry--btn:active:focus {
     background-color: black;
     border-color: black;
@@ -5337,43 +5318,8 @@ category: Components - Ads
 .contest__restrictions .contest__restriction--not-started p,
 .contest__restrictions .contest__restriction--age-fails p,
 .contest__restrictions .contest__restriction--one-entry p {
-  display: inline-block;
-  line-height: 1;
-  padding: 0.5em 1em;
-  margin-right: .5em;
-  outline: none;
-  background-color: #d22228;
-  border: 1px solid #d22228;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.88889em;
-  color: #ffffff !important;
-  text-transform: uppercase;
-  cursor: pointer;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
-  border-radius: 3px;
+  font-weight: bold;
   cursor: default; }
-  .contest__restrictions .contest__restriction--finished p:hover, .contest__restrictions .contest__restriction--finished p:focus,
-  .contest__restrictions .contest__restriction--max-entries p:hover,
-  .contest__restrictions .contest__restriction--max-entries p:focus,
-  .contest__restrictions .contest__restriction--not-started p:hover,
-  .contest__restrictions .contest__restriction--not-started p:focus,
-  .contest__restrictions .contest__restriction--age-fails p:hover,
-  .contest__restrictions .contest__restriction--age-fails p:focus,
-  .contest__restrictions .contest__restriction--one-entry p:hover,
-  .contest__restrictions .contest__restriction--one-entry p:focus {
-    background-color: #aa1c20;
-    border-color: #aa1c20;
-    color: #ffffff; }
-  .contest__restrictions .contest__restriction--finished p:last-of-type,
-  .contest__restrictions .contest__restriction--max-entries p:last-of-type,
-  .contest__restrictions .contest__restriction--not-started p:last-of-type,
-  .contest__restrictions .contest__restriction--age-fails p:last-of-type,
-  .contest__restrictions .contest__restriction--one-entry p:last-of-type {
-    margin-right: 0; }
   .contest__restrictions .contest__restriction--finished p:hover, .contest__restrictions .contest__restriction--finished p:focus,
   .contest__restrictions .contest__restriction--max-entries p:hover,
   .contest__restrictions .contest__restriction--max-entries p:focus,
@@ -5403,12 +5349,7 @@ category: Components - Ads
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
-  border-radius: 3px; }
+  border-radius: 100em; }
   .contest__restrictions .contest__restriction--signin a:hover, .contest__restrictions .contest__restriction--signin a:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
@@ -5444,12 +5385,7 @@ category: Components - Ads
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  -border-radius: 3px;
-  border-radius: 3px; }
+  border-radius: 100em; }
   .contest__restriction--min-age-yes:hover, .contest__restriction--min-age-yes:focus,
   .contest__restriction--min-age-no:hover,
   .contest__restriction--min-age-no:focus {
@@ -5472,7 +5408,8 @@ category: Components - Ads
     font-size: 0.88889em;
     color: #000000 !important;
     text-transform: uppercase;
-    cursor: pointer; }
+    cursor: pointer;
+    border-radius: 100em; }
     .contest__restriction--min-age-yes:hover:hover, .contest__restriction--min-age-yes:hover:focus,
     .contest__restriction--min-age-no:hover:hover,
     .contest__restriction--min-age-no:hover:focus {
@@ -5495,7 +5432,8 @@ category: Components - Ads
     font-size: 0.88889em;
     color: #ffffff !important;
     text-transform: uppercase;
-    cursor: pointer; }
+    cursor: pointer;
+    border-radius: 100em; }
     .contest__restriction--min-age-yes:active:hover, .contest__restriction--min-age-yes:active:focus,
     .contest__restriction--min-age-no:active:hover,
     .contest__restriction--min-age-no:active:focus {
@@ -5534,12 +5472,7 @@ category: Components - Ads
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em; }
+  border-radius: 100em; }
   .contest-attr--rules-toggler:hover, .contest-attr--rules-toggler:focus {
     background-color: #7b7d80;
     border-color: #7b7d80;
@@ -5559,7 +5492,8 @@ category: Components - Ads
   font-size: 0.79012em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100em; }
   .contest-attr--rules-toggler:hover:hover, .contest-attr--rules-toggler:hover:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
@@ -5579,7 +5513,8 @@ category: Components - Ads
   font-size: 0.79012em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100em; }
   .contest-attr--rules-toggler:active:hover, .contest-attr--rules-toggler:active:focus {
     background-color: black;
     border-color: black;
@@ -5648,13 +5583,8 @@ category: Components - Ads
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   width: 100%;
-  -webkit-border-radius: 28px;
-  -moz-border-radius: 28px;
-  -ms-border-radius: 28px;
-  -o-border-radius: 28px;
-  -border-radius: 28px;
-  border-radius: 28px;
   text-transform: uppercase; }
   .contest__form button[type="submit"]:hover, .contest__form button[type="submit"]:focus,
   .contest__form input[type="submit"]:hover,
@@ -5678,7 +5608,8 @@ category: Components - Ads
     font-size: 1.42383em;
     color: #000000 !important;
     text-transform: uppercase;
-    cursor: pointer; }
+    cursor: pointer;
+    border-radius: 100em; }
     .contest__form button[type="submit"]:hover:hover, .contest__form button[type="submit"]:hover:focus,
     .contest__form input[type="submit"]:hover:hover,
     .contest__form input[type="submit"]:hover:focus {
@@ -5701,7 +5632,8 @@ category: Components - Ads
     font-size: 1.42383em;
     color: #ffffff !important;
     text-transform: uppercase;
-    cursor: pointer; }
+    cursor: pointer;
+    border-radius: 100em; }
     .contest__form button[type="submit"]:active:hover, .contest__form button[type="submit"]:active:focus,
     .contest__form input[type="submit"]:active:hover,
     .contest__form input[type="submit"]:active:focus {
@@ -5764,12 +5696,7 @@ category: Components - Ads
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
+  border-radius: 100em;
   clear: both;
   margin: 1em auto 0;
   display: block; }
@@ -5872,12 +5799,7 @@ category: Components - Ads
     color: #ffffff !important;
     text-transform: uppercase;
     cursor: pointer;
-    -webkit-border-radius: 1em;
-    -moz-border-radius: 1em;
-    -ms-border-radius: 1em;
-    -o-border-radius: 1em;
-    -border-radius: 1em;
-    border-radius: 1em; }
+    border-radius: 100em; }
     .contest__submission .contest__submission--vote:hover, .contest__submission .contest__submission--vote:focus,
     .contest__submission .contest__submission--unvote:hover,
     .contest__submission .contest__submission--unvote:focus {
@@ -6435,12 +6357,7 @@ a.podcast__rss:link, a.podcast__rss:visited {
   color: #929497 !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
+  border-radius: 100em;
   display: inline-block;
   margin-left: 10px;
   font-weight: normal;
@@ -6465,6 +6382,7 @@ a.podcast__rss:hover, a.podcast__rss:focus {
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   text-transform: none; }
   a.podcast__rss:hover:hover, a.podcast__rss:hover:focus, a.podcast__rss:focus:hover, a.podcast__rss:focus:focus {
     background-color: #aa1c20;
@@ -6486,6 +6404,7 @@ a.podcast__rss:active {
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   text-transform: none; }
   a.podcast__rss:active:hover, a.podcast__rss:active:focus {
     background-color: black;
@@ -6516,6 +6435,7 @@ a.podcast__rss:active {
   color: #929497 !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   -webkit-border-radius: 1em;
   -moz-border-radius: 1em;
   -ms-border-radius: 1em;
@@ -6543,6 +6463,7 @@ a.podcast__rss:active {
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   text-transform: none; }
   .podcast__download--btn:hover:hover, .podcast__download--btn:hover:focus {
     background-color: #aa1c20;
@@ -6564,6 +6485,7 @@ a.podcast__rss:active {
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 100em;
   text-transform: none; }
   .podcast__download--btn:active:hover, .podcast__download--btn:active:focus {
     background-color: black;
@@ -8288,12 +8210,7 @@ category: Components - Gallery Archive
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em; }
+  border-radius: 100em; }
   .gallery__back--btn:hover, .gallery__back--btn:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
@@ -10607,12 +10524,7 @@ category: Components - Article
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em; }
+  border-radius: 100em; }
   .adblock--detected__close:hover, .adblock--detected__close:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
@@ -10632,7 +10544,8 @@ category: Components - Article
   font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100em; }
   .adblock--detected__close:hover:hover, .adblock--detected__close:hover:focus {
     background-color: #f2e754;
     border-color: #f2e754;
@@ -10652,7 +10565,8 @@ category: Components - Article
   font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
-  cursor: pointer; }
+  cursor: pointer;
+  border-radius: 100em; }
   .adblock--detected__close:active:hover, .adblock--detected__close:active:focus {
     background-color: black;
     border-color: black;

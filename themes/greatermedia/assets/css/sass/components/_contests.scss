@@ -56,7 +56,6 @@
 .contest__entry--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(1));
 	width: 100%;
-	@include border-radius(17px);
 	text-transform: uppercase;
 	text-align: center;
 }
@@ -110,8 +109,7 @@
 	.contest__restriction--not-started p,
 	.contest__restriction--age-fails p,
 	.contest__restriction--one-entry p {
-		@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-		@include border-radius(3px);
+		font-weight: bold; 
 		cursor: default;
 
 		&:hover,
@@ -133,7 +131,6 @@
 
 		a {
 			@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-			@include border-radius(3px);
 		}
 	}
 
@@ -169,7 +166,6 @@
 .contest__restriction--min-age-yes,
 .contest__restriction--min-age-no {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(-1));
-	@include border-radius(3px);
 
 	&:hover {
 		@include btn($btn-hover, $color-text-black, $btn-hover, .625em, 1em, ms(-1));
@@ -203,7 +199,6 @@
 
 .contest-attr--rules-toggler {
 	@include btn($btn-muted, $color-text-white, $btn-muted, 0.5em, 1em, ms(-2));
-	@include border-radius(1em);
 }
 
 .contest-attr--rules-toggler:hover {
@@ -286,7 +281,6 @@
 	input[type="submit"] {
 		@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(3));
 		width: 100%;
-		@include border-radius(28px);
 		text-transform: uppercase;
 
 		&:hover {
@@ -340,7 +334,6 @@
 
 .contest__submissions--load-more {
 	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-	@include border-radius(1em);
 	clear: both;
 	margin: 1em auto 0;
 	display: block;
@@ -465,7 +458,6 @@
 	.contest__submission--vote,
 	.contest__submission--unvote {
 		@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-		@include border-radius(1em);
 	}
 
 	.contest__submission--unvote {

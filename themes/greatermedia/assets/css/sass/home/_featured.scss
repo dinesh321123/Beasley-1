@@ -332,7 +332,6 @@ Curated posts for Featured Articles
 
 .featured__content--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1.2em, .7em);
-	@include border-radius(1.5em);
 	text-transform: uppercase;
 	white-space: nowrap;
 }

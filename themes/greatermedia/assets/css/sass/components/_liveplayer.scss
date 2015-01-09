@@ -359,7 +359,6 @@ category: Components
 }
 .live-stream__listen-now--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
-	@include border-radius(1em);
 	margin-right: 0;
 	font-weight: 700;
 	z-index: 1;
@@ -368,7 +367,6 @@ category: Components
 .live-stream__now-playing--btn {
 	@include btn(transparent, $color-text-red, $btn-bg, .5em, 1em, ms(-1));
 	display: none;
-	@include border-radius(1em);
 	font-weight: 700;
 }
 
@@ -389,7 +387,6 @@ category: Components
 .live-stream__resume--btn {
 	@include btn(transparent, $color-text-red, $btn-bg, .5em, 1em, ms(-1));
 	margin: 0 .5em;
-	@include border-radius(1em);
 	font-weight: 700;
 }
 

@@ -164,7 +164,6 @@ category: Components - Shows
 
 a.podcast__rss:link, a.podcast__rss:visited {
 	@include btn(transparent, $gray, $gray, .5em, 1em, ms(-1));
-	@include border-radius(1em);
 	display: inline-block;
 	margin-left: 10px;
 	font-weight: normal;
