@@ -11,7 +11,6 @@ if ( ! defined( 'WPINC' ) ) {
 class GreaterMediaSurveyFormRender {
 
 	public static $post;
-	const FORM_CLASS = 'survey_entry_form';
 
 	public static function init() {
 		self::$post = new WP_Post( new stdClass() );
@@ -25,17 +24,9 @@ class GreaterMediaSurveyFormRender {
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 		wp_enqueue_script( 'greatermedia-surveys', "{$base_path}js/surveys{$postfix}.js", array( 'jquery' ), GREATER_MEDIA_CONTESTS_VERSION, true );
-		wp_localize_script( 'greatermedia-surveys', 'GreaterMediaSurveys', array(
-			'selectors' => array(
-				'container' => '#survey-form',
-				'form'      => '.' . self::FORM_CLASS,
-			),
-		) );
 	}
 
 	public static function render( $post_id ) {
-
-		$html = '';
 
 		$form = get_post_meta( $post_id, 'survey_embedded_form', true );
 		if ( is_string( $form ) ) {
@@ -46,39 +37,34 @@ class GreaterMediaSurveyFormRender {
 		if ( null === $form || ! is_array( $form ) ) {
 			return;
 		}
+
+		$html = '';
+
+		$title = get_post_meta( $post_id, 'form-title', true );
+		if ( ! empty( $title ) ) {
+			$html .= '<h3 class="contest__form--heading">' . esc_html( $title ) . '</h3>';
+		}
 		
-		if ( defined( 'SURVEY_' . $post_id . '_SUCCESS' ) && 'SURVEY_' . $post_id . '_SUCCESS' ) {
+		$html .= '<form method="post" enctype="multipart/form-data" data-parsley-validate>';
 
-			/**
-			 * Fallback to rendering the thank-you message on the server side.
-			 * This should be OK since a POST won't be cached.
-			 */
-			$html .= '<p>' . get_post_meta( $post_id, 'form-thankyou', true ) . '</p>';
+		foreach ( $form as $field ) {
 
-		} else {
+			$renderer_method = 'render_' . $field->field_type;
 
-			$html .= '<form method="post" enctype="multipart/form-data" data-parsley-validate class="' . esc_attr( self::FORM_CLASS ) . '">';
-
-			foreach ( $form as $field ) {
-
-				$renderer_method = 'render_' . $field->field_type;
-
-				// Make sure the field type has been implemented/is valid
-				if ( method_exists( 'GreaterMediaFormbuilderRender', $renderer_method ) ) {
-					$html .= '<div class="contest__form--row">';
-					$html .= wp_kses( GreaterMediaFormbuilderRender::$renderer_method( $post_id, $field ), GreaterMediaFormbuilderRender::allowed_tags() );
-					$html .= '</div>';
-				}
-
+			// Make sure the field type has been implemented/is valid
+			if ( method_exists( 'GreaterMediaFormbuilderRender', $renderer_method ) ) {
+				$html .= '<div class="contest__form--row">';
+				$html .= wp_kses( GreaterMediaFormbuilderRender::$renderer_method( $post_id, $field ), GreaterMediaFormbuilderRender::allowed_tags() );
+				$html .= '</div>';
 			}
-
-			$html .= GreaterMediaFormbuilderRender::get_submit_button( 'Enter', null, null, true );
-
-			$html .= '</form>';
 
 		}
 
-		echo $html;
+		$html .= GreaterMediaFormbuilderRender::get_submit_button( 'Enter', null, null, true );
+
+		$html .= '</form>';
+
+		return $html;
 	}
 
 }

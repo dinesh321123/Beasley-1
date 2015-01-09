@@ -65,12 +65,13 @@ function gmr_survey_container_attributes( $post = null ) {
 function gmr_surveys_render_form() {
 	// check if user has to be logged in
 	if ( function_exists( 'is_gigya_user_logged_in' ) && ! is_gigya_user_logged_in() ) {
-		echo '<p>You must be signed in to take this survey! <a href="', esc_url( gmr_contests_get_login_url() ), '">Sign in here</a>.</p>';
-		return;
+		wp_send_json_error( array( 'restriction' => 'signin' ) );
 	}
 
 	// render the form
-	GreaterMediaSurveyFormRender::render( get_the_ID() );
+	wp_send_json_success( array(
+		'html' => GreaterMediaSurveyFormRender::render( get_the_ID() ),
+	) );
 }
 
 /**

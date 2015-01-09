@@ -71,7 +71,6 @@ module.exports = function (grunt) {
 					confirm: false,
 					GreaterMediaContestsForm: false,
 					GreaterMediaAdminNotifier: false,
-					GreaterMediaSurveys: false,
 					GreaterMediaUGC: false,
 					Formbuilder: false,
 					FormData: false

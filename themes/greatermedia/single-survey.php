@@ -15,7 +15,7 @@ get_header(); ?>
 				
 				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+					<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf collapsed' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
 						<?php if ( has_post_thumbnail() ) : ?>
 							<div class="contest__thumbnail">
@@ -39,6 +39,24 @@ get_header(); ?>
 
 							</header>
 
+
+							<div class="contest__restrictions">
+
+								<div class="contest__restriction--signin">
+									<p>
+										You must be signed in to enter the contest!
+									</p>
+									<p>
+										<a href="<?php echo esc_url( gmr_contests_get_login_url() ); ?>">Sign in here</a>
+									</p>
+								</div>
+
+								<div class="contest__restriction--one-entry">
+									<p>You have already taken this survey!</p>
+								</div>
+								
+							</div>
+
 							<?php the_content(); ?>
 
 							<?php get_template_part( 'partials/post', 'footer' ); ?>
@@ -46,7 +64,6 @@ get_header(); ?>
 						</section>
 
 						<section id="survey-form" class="col__inner--right contest__form"<?php gmr_survey_container_attributes(); ?>>
-							LOADING...
 						</section>
 
 					</article>

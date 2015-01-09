@@ -103,21 +103,35 @@ class GreaterMediaSurveys {
 	public function survey_form_builder() {
 		global $post;
 		$post_id = $post->ID;
-		$thankyou = sanitize_text_field( get_post_meta( $post_id, 'form-thankyou', true ) );
+
+		$title = get_post_meta( $post_id, 'form-title', true );
+
+		$thankyou = get_post_meta( $post_id, 'form-thankyou', true );
 		$thankyou = $thankyou ? $thankyou : "Thanks for your response";
+
 		wp_nonce_field( 'survey_form_meta_box', 'survey_form_meta_box' );
+
 		echo '<div id="survey_embedded_form"></div>';
-		echo '<input type="hidden" id="survey_embedded_form_data" name="survey_embedded_form" value="" />';
+		echo '<input type="hidden" id="survey_embedded_form_data" name="survey_embedded_form">';
+
 		echo '<table class="form-table"><tbody>';
-		echo '<tr>';
-		echo '<th scope="row">';
-		echo '"Thank you" message:';
-		echo '</th>';
-		echo '<td>';
-		echo '<input size="50" type="text" id="form-thankyou" name="form-thankyou" value="' . esc_html($thankyou) . '" />';
-		echo '</td>';
-		echo '</tr>';
-		echo '</table></tbody>';
+			echo '<tr>';
+				echo '<th scope="row">';
+					echo 'Form Title Text:';
+				echo '</th>';
+				echo '<td>';
+					echo '<input size="50" type="text" id="form-title" name="form-title" value="', esc_attr( $title ), '">';
+				echo '</td>';
+			echo '</tr>';
+			echo '<tr>';
+				echo '<th scope="row">';
+					echo '"Thank you" message:';
+				echo '</th>';
+				echo '<td>';
+					echo '<input size="50" type="text" id="form-thankyou" name="form-thankyou" value="', esc_attr( $thankyou ), '">';
+				echo '</td>';
+			echo '</tr>';
+		echo '</tbody></table>';
 	}
 
 	public function save_form( $post_id ) {
@@ -155,12 +169,17 @@ class GreaterMediaSurveys {
 		}
 
 		// time to save the form
-		if( isset( $_POST['survey_embedded_form'] ) ) {
+		if ( isset( $_POST['survey_embedded_form'] ) ) {
 			$form = addslashes( json_encode( json_decode( urldecode( $_POST['survey_embedded_form'] ) ) ) );
 			update_post_meta( $post_id, 'survey_embedded_form', $form );
 		}
 
-		if( isset( $_POST['form-thankyou'] ) ) {
+		if ( isset( $_POST['form-title'] ) ) {
+		    $thank_you = sanitize_text_field( $_POST['form-title'] );
+			update_post_meta( $post_id, 'form-title', $thank_you );
+		}
+
+		if ( isset( $_POST['form-thankyou'] ) ) {
 		    $thank_you = sanitize_text_field( $_POST['form-thankyou'] );
 			update_post_meta( $post_id, 'form-thankyou', $thank_you );
 		}

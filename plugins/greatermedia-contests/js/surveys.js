@@ -3,11 +3,35 @@
  * Copyright (c) 2015;
  * Licensed GPLv2+
  */
-(function ($, gmr) {
+(function ($) {
 	var __ready = function () {
-		var container = $(gmr.selectors.container);
+		var container = $('#survey-form');
 
-		container.on('submit', gmr.selectors.form, function() {
+		var showRestriction = function(restriction) {
+			var $restrictions = $('.contest__restrictions');
+
+			$restrictions.attr('class', 'contest__restrictions');
+			if (restriction) {
+				$restrictions.addClass(restriction);
+			}
+		};
+		
+		var loadContainerState = function(url) {
+			$.get(url, function(response) {
+				var restriction = null;
+
+				if (response.success) {
+					container.html(response.data.html);
+					$('.type-survey.collapsed').removeClass('collapsed');
+				} else {
+					restriction = response.data.restriction;
+				}
+
+				showRestriction(restriction);
+			});
+		};
+		
+		container.on('submit', 'form', function() {
 			var form = $(this);
 
 			if (!form.parsley || form.parsley().isValid()) {
@@ -52,12 +76,12 @@
 		});
 		
 		if (container.length > 0) {
-			container.load(container.data('load'));
+			loadContainerState(container.data('load'));
 		}
 	};
 
 	$(document).bind('pjax:end', __ready).ready(__ready);
-})(jQuery, GreaterMediaSurveys);
+})(jQuery);
 document.addEventListener("DOMContentLoaded", function () {
 	/**
 	 * Generate a list of supported input types (text, date, range, etc.).
