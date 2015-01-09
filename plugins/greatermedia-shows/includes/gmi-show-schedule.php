@@ -519,8 +519,12 @@ function gmrs_get_current_show_episode( $time = false ) {
 	if ( empty( $episodes ) ) {
 		return null;
 	}
+	
+	$episode = current( $episodes );
+	$started = strtotime( $episode->post_date_gmt );
+	$finished = $started + $episode->menu_order;
 
-	return current( $episodes );
+	return $started < $time && $time < $finished ? $episode : null;
 }
 
 /**

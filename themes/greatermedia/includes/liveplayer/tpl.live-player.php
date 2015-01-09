@@ -37,10 +37,21 @@ if ( empty( $active_stream ) ) {
 	</nav>
 
 	<div id="live-player" class="live-player__container">
+
+		<?php /*
 		<div id="up-next" class="up-next">
 			<div class="up-next__title"></div>
 			<div class="up-next__show"></div>
 		</div>
+		*/ ?>
+
+		<?php if ( ( $show = gmrs_get_current_show() ) ) : ?>
+		<div id="on-air" class="on-air">
+			<div class="on-air__title">On Air:</div>
+			<div class="on-air__show"><?php echo esc_html( $show->post_title ); ?></div>
+		</div>
+		<?php endif; ?>
+		
 		<div class="live-stream">
 			<?php do_action( 'gm_live_player' ); ?>
 			<div class="live-stream__status">
@@ -53,11 +64,8 @@ if ( empty( $active_stream ) ) {
 				<div id="npeInfo"></div>
 			</div>
 		</div>
+
 		<?php /*
-			<div id="on-air" class="on-air">
-				<div class="on-air__title">On Air:</div>
-				<div class="on-air__show">Preston and Steve Show</div>
-			</div>
 			<div class="live-stream">
 				<div class="live-stream__login--actions">
 					<a href="<?php echo esc_url( home_url( '/members/login' ) ); ?>" class="live-stream__btn--login"><span class="live-stream__btn--label"><?php _e( 'Login to Listen Live', 'greatermedia' ); ?></span></a>
