@@ -1,9 +1,22 @@
+// Make sure the bloglist lines up with the Featured and Highlights areas since
+// they don't necessarily line up with the grid.
+
 .content__heading {
 	margin-top: 0;
-	margin-bottom: 24px;
-	font-size: ms(1);
+	margin-bottom: $base-line-height;
+	font-family: $open-sans;
+	font-size: ms(6);
 	font-weight: lighter;
+	text-align: center;
 	color: $secondary-heading;
+	
+	@include bp(small) {
+		text-align: left;
+	}
+	
+	@include bp(medium) {
+		font-size: ms(2);
+	}
 }
 
 .entry__thumbnail {

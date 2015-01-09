@@ -85,7 +85,8 @@ category: Components
 
 // classes that correlate to headroom.js
 .live-player--fixed {
-	@include position(fixed, 0 null null null);
+	position: fixed;
+	top: 0;
 }
 
 .logged-in .live-player--fixed {
@@ -93,6 +94,10 @@ category: Components
 	@include media(min-width 782px) {
 		top: 32px;
 	}
+}
+
+.live-player--init {
+	position: absolute;
 }
 
 // for when the live player is opened on mobile
@@ -144,7 +149,12 @@ category: Components
 	position: absolute;
 	display: none;
 	top: 58px;
-	width: 100%;
+	width: auto;
+	margin: 10px;
+	@include border-radius(1em);
+	border: 1px solid $color-gray-medium;
+	background-color: $color-gray-darker;
+	color: $liveplayer-color;
 	cursor: pointer;
 	@include bp(medium) {
 		position: relative;
@@ -153,8 +163,15 @@ category: Components
 	}
 }
 
+.live-player__stream li {
+	height: auto;
+}
+
 .live-player--open .live-player__stream {
+	width: 90%;
 	display: block;
+	margin: 10px 5%;
+	z-index: 100;
 }
 
 .live-player__stream--list {
@@ -166,43 +183,41 @@ category: Components
 	position: relative;
 	display: block;
 	list-style: none;
-	height: 36px;
 	padding: 0;
 	margin: 0;
 	overflow: visible;
-	background-color: $liveplayer-bg;
 	line-height: 1;
 	font-size: ms(-1);
 }
 
 .live-player__stream--current.open {
 	display: block;
-	background-color: $liveplayer-bg;
-	color: $color-text-white;
+	color: $liveplayer-color;
+	//color: $color-text-white;
 	z-index: 10;
 }
 
 .live-player__stream--current:after {
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 7px;
+	right: 15px;
 	width: 0;
 	height: 0;
 	font-family: $icon-font;
-	font-size: ms(1);
+	font-size: ms(-2);
 	content: "\e606";
 	@include transform(rotate(90deg));
 }
 
 .live-player__stream--current.open:after {
-	top: 25px;
+	top: 16px;
 	right: 25px;
 	@include transform(rotate(270deg));
 }
 
 .live-player__stream--title {
 	display: inline-block;
-	padding: em(11px);
+	padding: 5px 2px 5px 15px;
 }
 
 .live-player__stream--current-name {
@@ -210,7 +225,7 @@ category: Components
 }
 
 .live-player__stream--available {
-	visibility: hidden;
+	display: none;
 	@include opacity(0);
 	width: 100%;
 	padding: 0;
@@ -220,10 +235,9 @@ category: Components
 }
 
 .live-player__stream--current.open .live-player__stream--available {
-	position: absolute;
-	visibility: visible;
+	position: relative;
+	display: block;
 	@include opacity(1);
-	top: 36px;
 	z-index: 10;
 	@include transition-delay(0s);
 }
@@ -232,29 +246,16 @@ category: Components
 	@include transition(all 200ms linear);
 }
 
-.live-player__stream--available:after {
-	position: absolute;
-	bottom: -30px;
-	left: 0;
-	width: 100%;
-	height: 30px;
-	background: -moz-linear-gradient(top,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 100%);
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(0,0,0,.7)),color-stop(100%,rgba(0,0,0,0)));
-	background: -webkit-linear-gradient(top,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 100%);
-	background: -o-linear-gradient(top,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 100%);
-	background: -ms-linear-gradient(top,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 100%);
-	background: linear-gradient(to bottom,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#000000', GradientType=0);
-	content: " ";
-	z-index: 100;
-}
-
 .live-player__stream--item {
 	display: block;
 	@extend %list-item;
-	overflow:auto;
+	overflow: auto;
 	padding: .5em 1em;
-	background-color: $liveplayer-bg;
+	color: $color-gray-light;
+}
+
+.live-player__stream--item:last-of-type {
+	@include border-radius(0 0 1em 1em);
 }
 
 .live-player__stream--item:hover {
@@ -263,23 +264,24 @@ category: Components
 
 .live-player__stream--name {
 	float: left;
-	width: 30%;
+	width: 35%;
 	margin-right: 5%;
 	font-size: ms(-1);
 }
 
 .live-player__stream--desc {
 	float: left;
-	width: 65%;
+	width: 60%;
 	line-height: 1.2;
-	font-size: ms(-3);
+	font-size: ms(-2);
+	color: $color-gray;
 }
 
 // live player area
 .live-player__container {
-	overflow: auto;
+	overflow: hidden;
 	@include bp(medium) {
-		margin: 1em 0 0;
+		padding: 20px 0 0;
 		overflow: visible;
 	}
 }
@@ -296,7 +298,7 @@ category: Components
 	@include bp(medium) {
 		float: none;
 		width: auto;
-		padding: 23px 0 1em;
+		padding: 23px 0 0;
 		text-align: center;
 	}
 }
@@ -326,19 +328,31 @@ category: Components
 	display: none;
 	@include bp(medium) {
 		display: block;
-		height: 23px;
+		padding-bottom: 26px;
 	}
 }
 
 .live-stream__listen-now--btn {
-	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1em, ms(-1));
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
 	@include border-radius(1em);
+	margin-right: 0;
+	font-weight: 700;
+	z-index: 1;
 }
 
 .live-stream__now-playing--btn {
-	@include btn(transparent, $color-text-red, $btn-bg, .25em, 1em, ms(-1));
+	@include btn(transparent, $color-text-red, $btn-bg, .5em, 1em, ms(-1));
 	display: none;
 	@include border-radius(1em);
+	font-weight: 700;
+}
+
+.live-stream__login {
+	padding-bottom: 3px;
+	margin-right: 0;
+	font-weight: 700;
+	font-size: ms(-2);
+	color: $color-text-red;
 }
 
 .live-stream__resume {
@@ -348,9 +362,10 @@ category: Components
 }
 
 .live-stream__resume--btn {
-	@include btn(transparent, $color-text-red, $btn-bg, .25em, 1em, ms(-1));
+	@include btn(transparent, $color-text-red, $btn-bg, .5em, 1em, ms(-1));
 	margin: 0 .5em;
 	@include border-radius(1em);
+	font-weight: 700;
 }
 
 .live-stream__resume--btn:before {
@@ -377,8 +392,8 @@ category: Components
 	color: $color-text-red;
 	cursor: pointer;
 	@include bp(medium) {
-		width: 54px;
-		height: 54px;
+		width: 56px;
+		height: 56px;
 	}
 }
 
@@ -390,7 +405,7 @@ category: Components
 
 .live-stream__login--actions {
 	@include bp(medium) {
-		padding-bottom: 23px;
+		padding-bottom: 22px;
 	}
 }
 
@@ -411,6 +426,7 @@ category: Components
 	left: 50%;
 	@include transform(translate(-50%, -50%));
 	font-family: $icon-font !important;
+	font-size: ms(2);
 	content: "\e606" !important;
 }
 
@@ -437,6 +453,10 @@ category: Components
 	height: 100%;
 	background-color: rgba(0,0,0,.75);
 	z-index: 20000;
+}
+
+.live-stream__container--player {
+	height: 0;
 }
 
 .live-stream__container.vast__pre-roll .live-stream__container--player {
@@ -507,7 +527,6 @@ category: Components
 	padding: 23px 0 22px 3.75%; // 12px
 	margin-right: 3.75%; // 12px
 	line-height: 1;
-	text-transform: uppercase;
 	@include bp(small) {
 		width: 85.416666666667%; // 410px
 		padding-left: 2.5%; // 12px
@@ -528,17 +547,19 @@ category: Components
 }
 
 .on-air__title, .up-next__title {
-	margin-right: 1em;
-	font-size: ms(-2);
-	font-weight: lighter;
+	display: inline-block;
 	@include bp(medium) {
-		margin-right: .25em;
-		font-size: ms(-3);
+		margin-bottom: 10px;
+		font-size: ms(-1);
 	}
 }
 
 .on-air__show, .up-next__show {
-	font-size: ms(-2);
+	display: inline-block;
+	@include bp(medium) {
+		font-size: ms(-1);
+		text-transform: uppercase;
+	}
 }
 
 .now-playing {
@@ -555,7 +576,6 @@ category: Components
 		width: 100%;
 		height: auto;
 		padding: 0 1em;
-		margin: 1em 0 0;
 		text-align: center;
 	}
 }
@@ -567,11 +587,12 @@ category: Components
 
 .now-playing__title {
 	margin: 0 0 4px;
-	line-height: 1;
+	line-height: 1.4;
 	font-size: ms(0);
 	font-weight: lighter;
 	color: $color-text-red;
 	@include bp(medium) {
+		margin-bottom: 10px;
 		font-size: ms(1);
 	}
 }
@@ -581,8 +602,9 @@ category: Components
 	line-height: 1;
 	font-size: ms(-3);
 	font-weight: lighter;
-	color: $secondary-link;
+	color: $color-gray-extra-light;
 	@include bp(medium) {
+		padding-bottom: 30px;
 		font-size: ms(-2);
 	}
 }
@@ -670,7 +692,7 @@ category: Components
 		height: 100%;
 		padding-right: 1em;
 		padding-left: 1em;
-		margin: 16px 0 0;
+		margin: 0;
 		overflow: hidden;
 		overflow-y: scroll;
 	}
@@ -733,7 +755,7 @@ category: Components
 
 .live-link__type--gallery:before {
 	@extend %live-link__icon;
-	content: "\e602";
+	content: "\e61a";
 }
 
 .live-link__type--image:before {
@@ -753,7 +775,7 @@ category: Components
 
 .live-link__type--video:before {
 	@extend %live-link__icon;
-	content: "\e604";
+	content: "\e613";
 }
 
 .live-link__title {
@@ -763,10 +785,19 @@ category: Components
 	font-family: $open-sans;
 	font-size: ms(-1);
 	font-weight: normal;
+	color: $color-gray-light;
+
+	.content & {
+		font-size: 1.25em;
+
+		@include bp(large) {
+			font-size: ms(-1);
+		}
+	}
 }
 
 .live-link__title a:link, .live-link__title a:visited {
-	color: $secondary-link;
+	color: $color-gray-light;
 }
 
 .live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {

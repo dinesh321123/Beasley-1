@@ -36,6 +36,12 @@ category: Base - Typography
 <span class="icon-post-format-link"></span>
 <span class="icon-post-format-video2"></span>
 <span class="icon-post-format-image"></span>
+<span class="icon-video-camera"></span>
+<span class="icon-gallery"></span>
+<span class="icon-ticket"></span>
+<span class="icon-contest"></span>
+<span class="icon-pause"></span>
+<span class="icon-download-arrow"></span>
 ```
 
 */
@@ -50,11 +56,11 @@ $icon-font:     'gmr-icons';
 
 @font-face {
 	font-family: 'gmr-icons';
-	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?-7cndw');
-	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?#iefix-7cndw') format('embedded-opentype'),
-	url('#{$asset-root}fonts/icon-font/gmr-icons.woff?-7cndw') format('woff'),
-	url('#{$asset-root}fonts/icon-font/gmr-icons.ttf?-7cndw') format('truetype'),
-	url('#{$asset-root}fonts/icon-font/gmr-icons.svg?-7cndw#gmr-icons') format('svg');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?-myn1wz');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?#iefix-myn1wz') format('embedded-opentype'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.woff?-myn1wz') format('woff'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.ttf?-myn1wz') format('truetype'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.svg?-myn1wz#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -199,4 +205,20 @@ $icon-font:     'gmr-icons';
 
 .icon-pause:before {
 	content: "\e61f";
+}
+
+.icon-video-camera:before {
+	content: "\e620";
+}
+
+.icon-gallery:before {
+	content: "\e621";
+}
+
+.icon-ticket:before {
+	content: "\e622";
+}
+
+.icon-contest:before {
+	content: "\e623";
 }

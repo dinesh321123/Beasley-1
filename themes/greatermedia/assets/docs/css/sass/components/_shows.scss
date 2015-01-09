@@ -1,5 +1,97 @@
-.show {
+.single-show {
+	.featured__content {
+		margin: 0.75em 0 1em;
+	}
 
+	.featured__content--block {
+		@include fill-parent;
+		margin-top: 1em;
+		margin-bottom: 1em;
+
+		@include bp(small) {
+			@include fill-parent;
+		}
+
+		@include bp(large) {
+			@include span-columns(4 of 12);
+		}
+
+		.highlights__event--date {
+			text-transform: uppercase;
+		}
+
+		&:hover {
+			.featured__content--title {
+				color: $secondary-link-hover;
+			}
+		}
+
+	}
+
+	.featured__content--image {
+		img {
+			width: auto;
+			height: 100%;
+			max-width: none;
+		}
+
+		@include bp(small) {
+			@include span-columns(4 of 12);
+			padding-top: 0;
+		}
+
+		// @include bp(large) {
+		// 	@include span-columns(4 of 12);
+		// 	padding-top: 0;
+		// }
+	}
+
+	.featured__content--meta {
+		@include bp(small) {
+			@include span-columns(8 of 12);
+		}
+		// @include bp(large) {
+		// 	@include span-columns(8 of 12);
+		// }
+	}
+
+	.featured__content--title {
+		color: $secondary-border;
+		margin-bottom: 0.5em;
+	}
+
+	.home__highlights {
+		background-color: transparent;
+		border-bottom: none;
+		padding: 0;
+		margin-bottom: 3em;
+	}
+
+	@include bp(large) {
+		.highlights__community, .highlights__events {
+			padding-top: 0;
+		}
+	}
+	
+	.highlights__heading {
+		font-size: ms(1);
+	}
+
+	.highlights__event--item {
+		background-color: $highlights-bg;
+	}
+
+	.highlights__community--item:hover {
+		.highlights__community--title {
+			color: $btn-hover;
+		}
+	}
+
+	.inner-left-col {
+		@include bp(large) {
+			padding-right: 25px;
+		}
+	}
 }
 
 .show-attr--name {
@@ -50,21 +142,34 @@ category: Components - Shows
 
 .show__header {
 	background-color: rgb(86, 16, 21);
-	background-position: center;
-	background-repeat: no-repeat;
 	position: relative;
-	padding: 2em;
+	padding: 38px 1em;
 	@include fill-parent();
 	@include row();
 	@include display-context(table);
 	color: $secondary-text;
+
+	&.has-thumbnail {
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+	}
 
 	> div {
 		vertical-align: middle;
 	}
 
 	@include bp(medium) {
-		padding: 5em 2em;
+		padding: $gutter * 4 $gutter * 2;
+	}
+
+	@include bp(large) {
+		background-image: url(../../images/featured-bg.png);
+		background-repeat: repeat;
+		background-position: center center;
+		background-color: $featured-primary-bg;
+		background-size: auto 65%;
+
 	}
 }
 
@@ -72,8 +177,9 @@ category: Components - Shows
 	@include fill-parent;
 	height: 100%;
 
-	@include bp(medium) {
-		@include span-columns(2 of 12);
+	@include bp(large) {
+		width: 150px;
+		float: left;
 	}
 
 	img {
@@ -86,46 +192,127 @@ category: Components - Shows
 	@include fill-parent;
 	text-align: center;
 
-	@include bp(medium) {
-		padding-left: 4em;
-		text-align: left;
-		@include span-columns(6 of 12);
+	h1 a {
+		color: $secondary-text;
+		text-transform: uppercase;
 	}
 
 	ul {
-		list-style-type: none;
-		padding-left: 0;
-		text-align: justify;
-		margin: 0;
-	}
-
-	// this psuedo element makes the text-align: justify work on the <ul>. via: http://stackoverflow.com/a/16901348
-	ul:after {
-		content: "";
-		width: 100%;
-		display: inline-block;
-		height: 0;
+		display: none;
 	}
 
 	li {
 		display: block;
 		text-align: center;
 
-		a { font-size: ms(4); }
+		a {
+			font-size: ms(4);
+			font-weight: bold;
+			padding: 9px;
+			border-radius: 20px;
+			display: inline-block;
+			text-transform: uppercase;
+
+			&:hover  {
+				background-color: $secondary-text;
+				color: $secondary-link-hover;
+			}
+
+		}
 
 		@include bp(medium) {
 			display: inline-block;
 			
-			a { font-size: ms(0); }
+			a {
+				font-size: ms(0);
+				color: $secondary-text;
+			}
 		}
 
-		&:hover, &.current-menu-item {
-			text-decoration: underline;
+		&.current-menu-item a {
+			background-color: $secondary-text;
+			color: $secondary-link-hover;
+		}
+
+	}
+
+	@include bp(medium) {
+		margin-bottom: 1em;
+
+		.show__title {
+			margin-bottom: 0;
+		}
+
+		ul {
+			display: inline-block;
+			padding-left: 0;
+			text-align: center;
+			position: relative;
+			margin: 0;
+			width: 100%;
+			list-style-type: none;
 		}
 	}
-	a {
-		color: $secondary-text;
-		text-transform: uppercase;
+
+	@include bp(large) {
+		width: 55%;
+		float: left;
+		margin-top: 1.5em;
+		margin-bottom: 0;
+		text-align: left;
+		padding-left: 3em;
+
+		.show__title {
+			margin-top: 0;
+			margin-bottom: 0.6em;
+		}
+
+
+		ul {
+			text-align: justify;
+			margin-left: -9px;
+			width: auto;
+		}
+
+		// this psuedo element makes the text-align: justify work on the <ul>. via: http://stackoverflow.com/a/16901348
+		ul:after {
+			content: "";
+			width: 100%;
+			display: inline-block;
+			height: 0;
+		}
+	}
+}
+
+.show__nav--mobile {
+	display: block;
+	border-bottom: 4px solid $secondary-border;
+	padding: 10px 0;
+
+	ul {
+		padding-left: 0;
+	}
+
+	li {
+		display: block;
+		text-align: center;
+
+		a {
+			font-size: ms(4);
+			font-weight: bold;
+			display: inline-block;
+			text-transform: uppercase;
+			color: $secondary-border;
+
+			&:hover  {
+				color: $secondary-link-hover;
+			}
+
+		}
+	}
+
+	@include bp(medium) {
+		display: none;
 	}
 }
 
@@ -137,26 +324,38 @@ category: Components - Shows
 .show__meta {
 	@include fill-parent;
 	text-align: center;
+	float: none;
 
-	@include bp(medium) {
-
-		@include span-columns(4 of 12);
+	@include bp(large) {
+		width: 20%;
+		float: right;
 		text-align: right;
+		margin-top: 1.5em;
 	}
 
 	em {
 		display: block;
+		line-height: 1.5;
+		font-weight: 200;
 	}
 
 	.social-share-link {
 		color: $secondary-text;
 		border: 1px solid $secondary-text;
 		margin-top: 1em;
+
+		&:hover, &:active {
+			background: $secondary-text;
+		}
 	}
 }
 
 .show__featured-img {
-
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
 }
 
 /*doc
@@ -199,47 +398,108 @@ category: Components - Shows
 
 */
 
+// Layout
+
 .show__features {
 	@include row();
 }
 
-.show__feature {
-	margin-bottom: 2em;
-
-	h3 {
-		margin-top: 0;
-	}
-
-	img {
-		width: 100%;
-		height: auto;
-	}
-}
-
 .show__feature--primary {
-	@include bp(medium) {
+	@include bp(large) {
 		@include span-columns(8 of 12);
-
-		h3 { font-size: 2em; }
 	}
+	
 }
 
 .show__feature--secondary {
-	@include bp(medium) {
+	@include bp(large) {
 		@include span-columns(4 of 12);
 		@include omega;
+	}
+}
 
-		h3 { font-size: 1em; }
-		time { font-size: 0.8em; }
+.show__feature {
+	margin-bottom: 5.6%;
+	
+ 	.thumbnail {
+		background-color: $dark-gray;
+		padding-bottom: 66%;
+		background-position: center center; 
+		background-size: 100%; 
+		background-size: cover;
+				 
+		.inner-wrap {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
 	}
 
+	&:hover {
+		h3 {
+			color: $primary-link-hover;
+		}
+	}
+	
+	@include bp(large) {
+		padding-bottom: 75%;
+		position: relative;
+		
+		.thumbnail {
+			position: absolute;
+			width: 100%;
+			left: 0; 
+			top: 0;
+		}
+	}
 }
 
 .show__feature--desc {
-	background-color: $header-bg;
-	color: $secondary-text;
-	padding: 1em 2em 1em;
-}
+	background-color: #F1F1F3;
+	color: $highlights-heading;
+
+	h3 {
+		margin: 0;
+		font-size: ms(3);
+		line-height: 1.2;
+	}
+
+	.show__feature--primary & h3 {
+		font-size: ms(5);
+	}
+	
+	time {
+		font-size: ms(0);
+		text-transform: uppercase;
+		color: $highlights-heading;
+	}			
+	
+	.inner-wrap {
+		padding: $base-line-height $gutter; 
+	}
+	
+	@include bp( large ) {
+		// padding-bottom: 22%; // 3/10 the height of our 4:3 unit.
+		position: absolute;
+		width: 100%;
+		left: 0;
+		bottom: 0;
+		
+		h3 {
+			font-size: ms(1);
+		}
+		
+		.show__feature--primary & h3 {
+			font-size: ms(6);
+		}
+		
+		time {
+			font-size: ms(-1);
+		}
+	}
+} 	
+
+
 
 /*doc
 ---
@@ -251,7 +511,11 @@ category: Components - Shows
 */
 
 .show__blogroll {
-	@include bp(medium) {
+	.section-header {
+		font-size: ms(1);
+	}
+	
+	@include bp(large) {
 		@include span-columns(8 of 12);
 	}
 }
@@ -259,7 +523,7 @@ category: Components - Shows
 .inner-right-col {
 	float: none;
 
-	@include bp(medium) {
+	@include bp(large) {
 		@include span-columns(4 of 12);
 		@include omega;
 		float: right;
@@ -270,15 +534,50 @@ category: Components - Shows
 	.featured__content--block {
 		@include span-columns(12 of 12);
 		margin-bottom: 1em;
+		margin-top: 0;
 		background: none;
+		padding-top: 0;
+
+		@include bp(large) {
+			margin-top: 0em;
+	}
+	}
+
+	.featured__content--image img {
+		// @include bp(medium) {
+		// 	height: auto;
+		// 	width: 100%;
+		// }
+
+		@include bp(large) {
+			max-width: none;
+		}
+	}
+
+	.featured__content--title {
+		& a:link, & a:visited {
+			color: $primary-text;
+		}
+
+		& a:hover, & a:active {
+			color: $primary-link-hover;
+		}
 	}
 }
 
-.show__latest-crap {
+.show__live-links {
+	margin-top: 20px;
 	position: relative;
+	@include span-columns(12 of 12);
+	
+	.section-header {
+		font-size: ms(1);
+		margin-bottom: 0.6em;
+	}
 
 	ul {
 		margin-top: 0;
+		margin-bottom: 0;
 		padding-left: 2em;
 	}
 
@@ -287,8 +586,16 @@ category: Components - Shows
 
 		&:before {
 			position: absolute;
-			left: -30px;
-			top: 8px;
+			left: -24px;
+			top: 14px;
+			font-size: 1.25em;
+
+			@include bp(large) {
+				left: -30px;
+				top: 8px;
+				font-size: ms(-1);
+			}
+
 		}
 
 		a {
@@ -299,13 +606,19 @@ category: Components - Shows
 			}
 		}
 	}
+}
+
+.show__live-links--more {
+	text-align: center;
+	position: relative;
+	float: left;
+	width: 100%;
+	padding: 15px 0;
 
 	.more-btn {
-		left: 40%;
-		right: auto;
-		top: 0;
-		bottom: auto;
+		position: relative;
 		color: $primary-text;
+		bottom: auto;
 	}
 }
 
@@ -318,8 +631,9 @@ category: Components - Shows
 	border-radius: 1em;
 	outline: none;
 	color: $primary-text;
-	padding: 0.25em 0.5em;
-	font-size: 0.75em;
+	padding: 0.25em 0.85em;
+	font-size: 12px;
+	text-transform: capitalize;
 
 	&:hover {
 		color: $primary-link-hover;

@@ -37,29 +37,13 @@
 	}
 }
 
-.footer__logo {
-	font-size: ms(4);
-	font-weight: lighter;
-	color: $footer-text;
-	text-transform: uppercase;
-	@include bp(large) {
-		@include span-columns(2 of 12);
-	}
-}
 
-.footer__logo a:link, .footer__logo a:visited {
-	color: $footer-text;
-}
-
-.footer__logo a:hover, .footer__logo a:focus, .footer__logo a:active {
-	color: $primary-link;
-}
 
 .footer__copyright {
 	padding: 13px 0;
 	font-size: ms(-3);
 	@include bp(large) {
-		@include span-columns(3 of 12);
+		@include span-columns(5 of 12);
 	}
 }
 
@@ -68,6 +52,28 @@
 }
 .footer__copyright--span:last-of-type {
 	padding-left: 5px;
+}
+
+.footer__copyright--logo {
+	// Sorry, I don't understand this function so I have to use an em for now.
+	// font-size: ms(4);
+	font-size: 2.3em;
+	line-height: 1.2;
+	margin-bottom: .25em; 
+	font-weight: lighter;
+	color: $footer-text;
+	text-transform: uppercase;
+	
+	a:link, 
+	a:visited {
+		color: $footer-text;
+	}
+	
+	a:hover, 
+	a:focus, 
+	a:active {
+		color: $primary-link;
+	}
 }
 
 .footer__menu {
@@ -94,15 +100,31 @@
 
 .footer__menu .social__list {
 	float: right;
-	padding: 8px 0 7px;
+	padding: 4px 0 7px;
 }
 
 .footer__menu .social__link {
-	height: 22px;
 	margin: 0 0 0 30px;
-	font-size: ms(2);
-}
-
-.footer__menu .social__link:last-child {
-	margin: 0 0 0 30px;
+	
+	a {
+		box-sizing: content-box;
+		display: inline-block; 
+		padding: 5px 4px 3px;
+		width: 22px; 
+		height: 22px;
+		line-height: 22px; 
+		font-size: ms(2);
+		border: 1px solid $footer-text; 
+		border-radius: 100px;
+		text-align: center; 
+		
+		&:hover {
+			border-color: $primary-link;
+			color: $primary-link;
+		}
+	}
+	
+	&:last-child {
+		margin: 0 0 0 30px;
+	}
 }

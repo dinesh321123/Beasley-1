@@ -7,7 +7,7 @@
 	border-top: 1px solid $secondary-bg;
 	background-color: transparent;
 	@include bp(medium) {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -15,14 +15,23 @@
 		padding: 16px 2.5%;
 		background-color: $primary-bg;
 		border-top: none;
-		@include transition(all .5s ease-in-out);
-		@include transform(translate(0, -100%));
-		z-index: 1000;
+		border-bottom: 1px solid $secondary-bg;
+		@include transition(all 200ms ease-in-out);
+		@include transform(translate(0, -200%)); /* 200% ensures it's out of the way of the .wp-admin bar */
+		z-index: 5000000; /* IAB z-index standards for nav drop downs. Prevents an ad from being over top unless it's a full-screen ad */
+
+		.logged-in & {
+			top: 32px
+		}
 	}
 }
 
+.header__search--label {
+	cursor: pointer;
+}
+
 .header__search--open {
-	@include transition(all .5s ease-in-out);
+	@include transition(all 200ms ease-in-out);
 	@include transform(translate(0, 0));
 }
 
@@ -45,7 +54,6 @@
 		outline: none;
 		font-size: ms(7);
 		color: $color-text-black;
-		text-align: center;
 		@include placeholder {
 			color: $secondary-link;
 		}
@@ -55,9 +63,9 @@
 .header__search--submit {
 	position: relative;
 	float: right;
-	width: 14px;
 	height: 40px;
 	border: none;
+	width: 14px;
 	background-color: transparent;
 	color: $secondary-heading;
 	@include bp(medium) {
@@ -91,7 +99,7 @@
 	padding: 0;
 	margin-top: 26px;
 	margin-bottom: 0;
-	font-size: ms(1);
+	font-size: ms(2);
 	color: $color-text-gray;
 	text-transform: uppercase;
 }
@@ -101,7 +109,7 @@
 }
 
 .keyword__search--results {
-	margin-bottom: 26px;
+	margin-bottom: 4em;
 }
 
 .search__title {

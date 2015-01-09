@@ -87,11 +87,12 @@ Community Highlights and Events
 */
 .home__highlights {
 	@extend %main;
-	padding: 1em;
+	padding: 0 $gutter / 2 $base-line-height;
 	background-color: $highlights-bg;
+	border-bottom: 1px solid darken( $highlights-bg, 3% );
 	
 	@include bp(medium) {
-		padding: 48px;
+		padding: 0 $gutter * 2 $base-line-height * 2;
 	}
 }
 
@@ -114,141 +115,64 @@ Community Highlights and Events
 // }
 
 .highlights__heading {
-	margin-top: 0;
-	margin-bottom: 17px;
+	margin: 0 0 $base-line-height / 2;
 	font-family: $open-sans;
-	font-size: ms(1);
+	font-size: ms(2);
 	font-weight: lighter;
-	color: $primary-text;
-	@include bp(small) {
-		font-size: ms(1);
-	}
-	@include bp(large) {
-		margin-bottom: 13px;
-		font-size: ms(0);
-	}
-	@include bp(x-large) {
-		margin-bottom: 17px;
-		font-size: ms(1);
-	}
+	color: $secondary-heading;
 }
 
-// .highlights__heading--span {
-// 	margin-left: 16px;
-// 	font-size: ms(-1);
-// 	color: $color-text-red;
-// 	text-transform: uppercase;
-// 	@include bp(large) {
-// 		font-size: ms(-2);
-// 	}
-// 	@include bp(x-large) {
-// 		font-size: ms(-1);
-// 	}
-// }
-
 .highlights__community {
-	@include span-columns(4);
-	@include omega;
-	@inclue bp(small) {
-		@include span-columns(6);
-		@include omega;
-	}
-	@include bp(medium) {
-		@include span-columns(8);
-		@include omega;
-	}
+	padding-top: $base-line-height;
 	@include bp(large) {
-		@include span-columns(7);
-	}
-	@include bp(x-large) {
-		@include span-columns(7);
+		@include span-columns(9 of 15);
+		padding-top: $base-line-height * 1.5;
 	}
 }
 
 .highlights__community--item {
 	position: relative;
-	@include span-columns(2);
-	overflow: auto;
-  	margin-bottom: 1em;
+	@include span-columns(6 of 12);
+	@include omega;
+	
 	&:nth-of-type(2n) {
-		@include omega;
+		margin-left: 2.35765%;
 	}
 	&:nth-of-type(3) {
 		display: none;
 	}
-	@include bp(small) {
-		@include span-columns(3);
+ 	@include bp(small) {
+		@include span-columns(4 of 12);
 		&:nth-of-type(2n) {
-			@include omega;
-		}
-
+			margin-left: 0;
+ 		}
 		&:nth-of-type(3) {
-			display: none;
-		}
-	}
-	@include bp(medium) {
-		@include span-columns(4);
-		&:nth-of-type(2n) {
-			@include omega;
-		}
-
-		&:nth-of-type(3) {
-			display: none;
+			display: block;
 		}
 	}
 	@include bp(large) {
-		@include span-columns(4);
-		&:nth-of-type(2n) {
-			@include span-columns(4);
-		}
-		&:nth-of-type(3) {
-			display: block;
-			@include omega;
-		}
-	}
-	@include bp(x-large) {
-		@include span-columns(4);
-		&:nth-of-type(2n) {
-			@include span-columns(4);
-		}
-		&:nth-of-type(3) {
-			display: block;
-			@include omega;
-		}
+		@include span-columns(3 of 9);
 	}
 }
-
-// .highlights__community--item:nth-of-type(3) {
-// 	display: none;
-// 	@include bp(large) {
-// 		display: block;
-// 		margin-right: 0;
-// 	}
-// }
-
-// .highlights__community--item:nth-of-type(2) {
-// 	margin-right: 0;
-// 	@include bp(large) {
-// 		margin-right: 3.806228373702%; // 22px
-// 	}
-// }
 
 .highlights__community--thumb {
 	position: relative;
 	width: 100%;
-	height: 100%;
 	overflow: hidden;
-}
-
-.highlights__community--thumb a {
-	display: block;
+	
+	// Force aspect ratio.
+	padding-top: 100%;
+	
+	background-size: 100%;
+	background-size: cover; 
+	background-position: center center;
 }
 
 .highlights__community--thumb:after {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, 0);
+	@include transform(translate(-50%, 0));
 	width: 100%;
 	height: 50%;
 	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .65) 100%);
@@ -262,58 +186,67 @@ Community Highlights and Events
 }
 
 .highlights__community--title {
-	position: absolute;
+	@include css-gradient(rgba(0,0,0,0), $darker-gray);
+	background-color: transparent; // Override the background color set by css-gradient().
+	position: absolute;	
 	bottom: 0;
 	left: 0;
-	width: 100%;
-	padding: 10px;
+	right: 0;
+	padding: $base-line-height * 1.5 $gutter / 2 $base-line-height / 2;
 	margin: 0;
 	font-size: ms(0);
 	font-weight: normal;
 	color: $color-text-white;
 	text-align: center;
+
+	box-sizing: content-box; // So we can set the height relative to line height.
+	line-height: 1.5;	
+	max-height: 1.5em; // Exactly one line high. 
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
+	
+	.highlights__community--item:hover & {
+		color: $primary-link-hover;	
+	}
 }
 
 .highlights__events {
-	@include span-columns(4);
-	@include omega;
-	@inclue bp(small) {
-		@include span-columns(6);
-		@include omega;
-	}
-	@include bp(medium) {
-		@include span-columns(8);
-		@include omega;
-	}
+	padding-top: $base-line-height;
+	clear: both; 
 	@include bp(large) {
-		@include span-columns(5);
-		@include omega;
-	}
-	@include bp(x-large) {
-		@include span-columns(5);
-		@include omega;
+		padding-top: $base-line-height * 1.5;
+		@include span-columns(6 of 15);
+		clear: none; 
 	}
 }
 
 .highlights__event--item {
-	width: 100%;
-	height: 57px;
-	margin-bottom: 24px;
+	@include span-columns(4);
 	background-color: $primary-bg;
-	overflow: hidden;
+	color: $primary-text;
+	margin: 0 0 $base-line-height;
+	position: relative; 
+	
+	font-size: ms(2); 
+	height: 100px;
+	
 	@include bp(small) {
-		height: 91px;
+		@include span-columns(6 of 12);
+		margin-bottom: 0;
 	}
+	
 	@include bp(medium) {
-		height: 100px;
+		font-size: ms(0);
 	}
+	
 	@include bp(large) {
-		height: 56px;
-		margin-bottom: 16px;
-	}
-	@include bp(x-large) {
-		height: 88px;
-		margin-bottom: 21px;
+		@include span-columns(6 of 6);
+		// Force a specific height relative to the grid 
+		height: 0;
+		padding-bottom: 21.5%;
+		margin: 0 0 5%;
 	}
 }
 
@@ -322,80 +255,70 @@ Community Highlights and Events
 }
 
 .highlights__event--thumb {
-	@include span-columns(1);
-	@include bp(small) {
-		@include span-columns(2);
-	}
-	@include bp(medium) {
-		@include span-columns(3);
-	}
+	@include span-columns(2 of 6);
+	
+	position: relative; 
+	height: 100%;
+	overflow: hidden; 
+	background-size: 100%;
+	background-size: cover;
+	background-position: center center;
+	
 	@include bp(large) {
-		@include span-columns(4);
+		@include span-columns(2 of 6);
+		width: 21.5%;
+		position: absolute;
+		left: 0;
+		top: 0; 
 	}
-	@include bp(x-large) {
-		@include span-columns(4);
-	}
-}
-.highlights__event--thumb img {
-
 }
 
 .highlights__event--meta {
-	position: relative;
-	@include span-columns(3);
-	height: 57px;
-	padding: 10px 2.71186440678% 10px 0;
-	@include omega;
-	@include bp(small) {
-		@include span-columns(4);
-		height: 91px;
-		@include omega;
-	}
-	@include bp(medium) {
-		@include span-columns(5);
-		height: 100px;
-		@include omega;
-	}
+	@include span-columns(4 of 6);
+	font-size: ms(0);
+	padding: 6% $gutter 0 0; 
+	
 	@include bp(large) {
-		@include span-columns(8);
-		height: 56px;
-		@include omega;
-	}
-	@include bp(x-large) {
-		@include span-columns(8);
-		height: 88px;
-		@include omega;
+		width: auto;
+		margin-left: 26.32916%;
+		padding-top: 4%;
 	}
 }
 
 .highlights__event--title {
-	position: absolute;
-	top: 50%;
-	transform: translate(0, -50%);
-	margin: 0;
-	line-height: 1.2;
-	font-family: $open-sans;
 	font-size: ms(0);
-	color: $highlights-heading;
-	@include bp(small) {
-		font-size: ms(1);
-	}
+	color: $medium-dark-gray;
+	margin: 0 0 .3em;
+	
+	// Never show more than two lines of text (layout will break).
+	overflow: hidden;
+	line-height: 1.25;
+	max-height: 2.5em;
+	
 	@include bp(large) {
-		font-size: ms(-1);
+		// One line of text at this breakpoint because we need to fit the date.
+		max-height: 1.25em;
 	}
-	@include bp(x-large) {
-		position: relative;
-		top: auto;
-		transform: translate(0, 0);
-		font-size: ms(0);
+	
+	@media(min-width: 1250px) {
+		// Back to two lines. 
+		max-height: 2.5em;
+	}
+	
+	// Highlight on hover
+	.highlights__event--item:hover & {
+		color: $primary-link-hover;
 	}
 }
 
 .highlights__event--date {
-	display: none;
-	@include bp(x-large) {
-		display: block;
-		font-size: ms(-2);
-		color: $gray
+	display: block; 
+	text-transform: uppercase; 
+	margin-top: -0.3em;
+	font-size: ms(-2);
+	color: $gray;
+	
+	@media(min-width: 1200px) {
+		
 	}
 }

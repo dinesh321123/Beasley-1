@@ -129,9 +129,12 @@ Link posts contain a link to an external site. They can also optionally have a f
 // Reusable Post Classes
 .hentry {
 	margin-bottom: 58px;
-	overflow: auto;
 	@include bp(medium) {
 		margin-bottom: 90px;
+	}
+
+	.single-gmr_album & {
+		margin-bottom: 0;
 	}
 }
 
@@ -139,6 +142,12 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__thumbnail {
 	position: relative;
 	padding-bottom: 32px;
+
+	.single-gmr_album & {
+		width: 100%;
+		// padding-top: 2em;
+		// padding-bottom: 3.625em;
+	}
 }
 
 // Content
@@ -176,7 +185,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__footer {
 	@include span-columns(4);
 	padding: 16px 0;
-	border-bottom: 1px solid $primary-border;
+	// border-bottom: 1px solid $primary-border;
 	@include bp(small) {
 		@include span-columns(6);
 	}
@@ -185,20 +194,38 @@ Link posts contain a link to an external site. They can also optionally have a f
 	}
 	@include bp(large) {
 		@include span-columns(12);
+		padding-top: 40px;
+	}
+
+	.single-gmr_album & {
+		border-bottom: none;
 	}
 }
 
+.contest .entry__footer {
+	border-bottom: none;
+}
+
+.contest .entry__footer {
+	border-bottom: none;
+}
+
 .entry__footer--category:link, .entry__footer--category:visited {
-	float: right;
+	text-align: right;
+	display: inline-block; 
 	line-height: 1;
 	font-family: $droid-sans;
 	font-weight: bold;
-	font-size: ms(0);
 	color: $secondary-heading;
 }
 
 .entry__footer--category:hover, .entry__footer--category:focus, .entry__footer--category:active {
-	color: palette(base, secondary-link-hover);
+	color: $secondary-link-hover;
+}
+
+.entry__related-posts {
+	width: 100%;
+	float: left;
 }
 
 // Post Formats
@@ -236,16 +263,19 @@ Link posts contain a link to an external site. They can also optionally have a f
 	@extend %entry__type;
 }
 
-.entry__categories, .entry__tags {
-	margin-bottom: 8px;
-	@extend %mute;
+.entry__categories, .entry__tags, .entry__shows {
+	overflow: auto;
+	clear: both;
+	margin-bottom: 28px;
+	font-size: ms(-1);
+	color: $gray;
 }
 
 .entry__list, %entry__list {
+	display: inline-block;
 	padding: 0;
 	margin: 0;
 	list-style: none;
-	font-size: ms(-2);
 }
 
 .entry__list:before, %entry__list--before {
@@ -254,34 +284,76 @@ Link posts contain a link to an external site. They can also optionally have a f
 }
 
 .entry__list--item, %entry__list--item {
-	padding: 0;
+	padding: 0 2px 0 0;
 	margin-right: 1em;
 	list-style: none;
 	display: inline-block;
 }
 
-.entry__list--item:last-of-type, %entry__list--item--last {
-	margin: 0;
+.entry__list--item:last-of-type{
+	padding: 0;
 }
 
-.entry__list--item:after, %entry__list--item--after {
-	margin-left: 1em;
-	content: "|";
+.entry__list--item a, .entry__list--item a:visited, .entry__list--show a, .entry__list--show a:visited {
+	color: $gray;
 }
 
-.entry__list--item:last-of-type:after{
-	margin: 0;
-	content: "";
+.entry__list--item a:hover, .entry__list--item a:focus, .entry__list--item a:active, .entry__list--show a:hover, .entry__list--show a:focus, .entry__list--show a:active {
+	color: $primary-link-hover;
 }
 
-.entry__list--categories:before {
-	@extend %entry__list--before;
-	content: "Categories:";
+.entry__list--title {
+	display: inline-block;
+	float: left;
+	font-weight: 800;
 }
 
-.entry__list--tags:before {
-	@extend %entry__list--before;
-	content: "Tags:";
+.entry__list--title:after {
+	margin: 0 14px 0 18px;
+	content: "/";
+}
+
+.entry__list--categories, .entry__list--tags, .entry__list--shows {
+	@extend %entry__list;
+	float: left;
+}
+
+
+.entry__list--show {
+	@extend %entry__list;
+	float: left;
+	margin-right: 1em;
+
+	&::after {
+		content: ',';
+	}
+}
+
+.entry__list--show:last-of-type {
+	margin-right: 0;
+
+	&::after {
+		content: '';
+	}
+}
+
+.entry__show--logo {
+	display: inline-block;
+	float: left;
+	width: 24px;
+	height: 24px;
+	margin: 0 0.5em 0 0;
+	@include border-radius(50%);
+	background-color: $secondary-border;
+}
+
+.entry__show--logo img {
+	@include border-radius(50%);
+}
+
+.entry__show--name {
+	display: inline-block;
+	padding: 3px 0;
 }
 
 // Comments
@@ -562,11 +634,15 @@ Link posts contain a link to an external site. They can also optionally have a f
 .posts-pagination {
 	width: 100%;
 	font-size: ms(-1);
+	float: left;
+	margin: 0 0 $base-line-height; 
+	text-align: center;
 }
 
 .posts-pagination--previous {
 	float: left;
 	width: 50%;
+	text-align: left;
 }
 
 .posts-pagination--previous .fa {
@@ -582,3 +658,27 @@ Link posts contain a link to an external site. They can also optionally have a f
 .posts-pagination--next .fa {
 	margin-left: .5em;
 }
+
+.posts-pagination--load-more {
+	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
+	@include border-radius(1em);
+	display: none;
+	
+	.fa {
+		margin-right: 0.4em;
+	}
+
+	// Animations don't work on elements that are initially not visible, so we
+	// make it visible by default but use the .is-loaded flag to signal that 
+	// loading is done and the icon can go away.
+	&.is-loaded {
+		.fa {
+			display: none;  
+		}
+	}
+
+	&:disabled {
+		@include btn($gray, $color-text-white, $gray, 0.5em, 1em, ms(-1));
+	}
+}
+

@@ -17,131 +17,131 @@ category: Components - Gallery Archive
 ---
 
 ```html_example
-<section class="gallery-grid">
+<section class="gallery__grid">
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
-			<div class="gallery-grid__album"></div>
+			<div class="gallery__grid__album"></div>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
 
 	</div>
 
-	<div class="gallery-grid__column">
+	<div class="gallery__grid__column">
 
-		<div class="gallery-grid__thumbnail">
+		<div class="gallery__grid__thumbnail">
 			<a href="#">
 				<img src="http://placehold.it/254x186">
 			</a>
 		</div>
 
-		<div class="gallery-grid__meta">
-			<h3 class="gallery-grid__title">
+		<div class="gallery__grid__meta">
+			<h3 class="gallery__grid__title">
 				<a href="#">Title Goes Here</a>
 			</h3>
 		</div>
@@ -150,15 +150,15 @@ category: Components - Gallery Archive
 
 </section>
 
-<section class="gallery-grid__pagination">
+<section class="gallery__grid__pagination">
 
-	<ul class="gallery-grid__pagination--list">
-		<li class="gallery-grid__pagination--item gallery-grid__pagination--current"><a href="#">1</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">2</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">3</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">...</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">4</a></li>
-		<li class="gallery-grid__pagination--item"><a href="#">5</a></li>
+	<ul class="gallery__grid__pagination--list">
+		<li class="gallery__grid__pagination--item gallery__grid__pagination--current"><a href="#">1</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">2</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">3</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">...</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">4</a></li>
+		<li class="gallery__grid__pagination--item"><a href="#">5</a></li>
 	</ul>
 </section>
 ```
@@ -171,7 +171,15 @@ category: Components - Gallery Archive
 }
 
 .gallery .container {
-	background-color: $gallery-bg;
+	background-color: $primary-bg;
+	@include bp(medium) {
+		padding-right: 0;
+	}
+
+	.single-gmr_gallery & {
+		background-color: $gallery-bg;
+		@extend %container;
+	}
 }
 
 .gallery__slides {
@@ -181,7 +189,7 @@ category: Components - Gallery Archive
 .gallery__slide--images {
 	@include span-columns(4);
 	height: 214px;
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	@include bp(small) {
 		@include span-columns(6);
 		height: 320px;
@@ -191,16 +199,31 @@ category: Components - Gallery Archive
 		height: 513px;
 	}
 	@include bp(large) {
-		@include span-columns(8);
-		@include shift(2);
+		@include span-columns(12);
 		height: 516px;
 		margin-top: 64px;
-		margin-bottom: 30px;
 		overflow: hidden;
 	}
 	@include bp(x-large) {
-		@include span-columns(8);
-		@include shift(2);
+		@include span-columns(12);
+	}
+
+	.single-gmr_gallery & {
+		@include span-columns(4);
+		@include bp(small) {
+			@include span-columns(6);
+		}
+		@include bp(medium) {
+			@include span-columns(8);
+		}
+		@include bp(large) {
+			@include span-columns(8);
+			@include shift(2);
+		}
+		@include bp(x-large) {
+			@include span-columns(8);
+			@include shift(2);
+		}
 	}
 }
 
@@ -211,9 +234,10 @@ category: Components - Gallery Archive
 	@include transition(opacity 200ms linear);
 	top: 50% !important;
 	left: 50% !important;
-	transform: translate(-50%, -50%);
+	@include transform(translate(-50%, -50%));
 	background-repeat: no-repeat;
 	background-position: center center;
+	background-size: cover;
 	@include bp(small) {
 		height: 320px;
 	}
@@ -236,9 +260,9 @@ category: Components - Gallery Archive
 .gallery__meta {
 	position: relative;
 	@include span-columns(4);
-	padding: 0 4.375%;
-	margin: 16px 0 30px;
-	color: $gallery-text;
+	padding: 0;
+	margin-bottom: 20px;
+	color: $primary-text;
 	text-align: center;
 	@include bp(small) {
 		@include span-columns(6);
@@ -253,56 +277,20 @@ category: Components - Gallery Archive
 	@include bp(x-large) {
 		@include span-columns(12);
 	}
+
+	.single-gmr_gallery & {
+		color: $gallery-text;
+		padding: 0 4.375%;
+	}
 }
 
 .gallery__content {
-	@include span-columns(4);
-	@include omega;
-	margin-bottom: 40px;
-	@include bp(small) {
-		@include span-columns(6);
-		@include omega;
-	}
-	@include bp(medium) {
-		@include span-columns(6);
-		@include shift(1);
-	}
-	@include bp(large) {
-		@include span-columns(8);
-		@include shift(2);
-		height: 90px;
-		margin-bottom: 64px;
-	}
-	@include bp(x-large) {
-		@include span-columns(8);
-		@include shift(2);
-		height: 92px;
-	}
+	position: relative;
 }
 
 .gallery__slide--content {
-	@include span-columns(4 of 4);
-	@include omega;
-	height: auto;
-	margin-bottom: 42px;
-	@include opacity(0);
-	@include transition(opacity 200ms linear);
-	@include bp(small) {
-		@include span-columns(6 of 6);
-		@include omega;
-	}
-	@include bp(medium) {
-		@include span-columns(6 of 6);
-		@include omega;
-	}
-	@include bp(large) {
-		@include span-columns(8 of 8);
-		@include omega;
-	}
-	@include bp(x-large) {
-		@include span-columns(8 of 8);
-		@include omega;
-	}
+	position: absolute; /* prevents a flash of all the slides displayed in flow order */
+	width: 100%;
 }
 
 .gallery__slide--content.cycle-slide-active {
@@ -313,16 +301,62 @@ category: Components - Gallery Archive
 .gallery__slide--title {
 	display: block;
 	width: 100%;
-	margin: 0 0 24px;
+	margin: 0 0 20px;
 	line-height: 1;
 	font-family: $open-sans;
 	font-size: ms(4);
 	font-weight: lighter;
+	word-break: break-all;
 }
 
-.gallery__social {
+/**
+ * At mobile breakpoints, we display the social buttons under the navigation
+ * At desktop breakpoints, there's enough room to display social inline with nav.
+ */
+
+.gallery__social-and-count {
+	float: left;
+	width: 20%;
+	@include bp(small) {
+		width: 50%;
+	}
+}
+
+.gallery__prev,
+.gallery__next {
+	float: left;
+	width: 40%;
+	margin-bottom: 10px;
+
+	@include bp(small) {
+		width: 25%;
+	}
+}
+
+.single-contest .gallery__prev {
+	padding-left: 10px;
+}
+
+.single-contest .gallery__next {
+	padding-right: 10px;
+}
+
+.gallery__social-and-count .gallery__social {
+	display: none;
 	width: 100%;
-	height: 40px;
+	margin-bottom: 10px;
+
+	@include bp(small) {
+		display: block;
+	}
+}
+
+.gallery__social--mobile {
+	@extend .gallery__social;
+	clear: both;
+	@include bp(small) {
+		display: none;
+	}
 }
 
 .gallery__social a.social-share-link {
@@ -334,29 +368,49 @@ category: Components - Gallery Archive
 }
 
 .gallery__social a.social-share-link:link, .gallery__social a.social-share-link:visited {
-	border-color: $gallery-text;
-	color: $gallery-text;
+	border-color: $primary-text;
+	color: $primary-text;
+
+	.single-gmr_gallery & {
+		border-color: $gallery-text;
+		color: $gallery-text;
+	}
 }
 
 .gallery__social a.social-share-link:hover, .gallery__social a.social-share-link:focus {
 	border-color: $btn-bg;
 	color: $color-text-red;
+
+	.single-gmr_gallery & {
+		border-color: $btn-bg;
+		color: $color-text-red;
+	}
 }
 
 .gallery__social a.social-share-link:active {
 	border-color: $gallery-border;
 	color: $gallery-border;
+
+	.single-gmr_gallery & {
+		border-color: $gallery-border;
+		color: $gallery-border;
+	}
 }
 
 .gallery__progress {
 	position: relative;
 	width: 100%;
-	padding: 0 4.375%;
+	padding: 0;
 	overflow: auto;
 	@include bp(large) {
 		position: absolute;
 		bottom: 0;
 		left: 0;
+		padding: 0 4.375%;
+	}
+
+	.single-gmr_gallery & {
+		padding: 0 4.375%;
 	}
 }
 
@@ -364,17 +418,28 @@ category: Components - Gallery Archive
 	position: relative;
 	width: 94px;
 	height: 36px;
-	border: 1px solid $light-gray;
+	border: 1px solid $primary-text;
 	background-color: transparent;
 	@include border-radius(32px);
 	font-family: $open-sans;
 	font-size: ms(1);
 	font-weight: lighter;
-	color: $color-text-white;
+	color: $primary-text;
 	text-transform: uppercase;
+
+	.single-contest & {
+		width: 94px;
+		height: 36px;
+	}
+
 	@include bp(large) {
 		width: 144px;
 		height: 64px;
+	}
+
+	.single-gmr_gallery & {
+		border-color: $light-gray;
+		color: $color-text-white;
 	}
 }
 
@@ -389,23 +454,21 @@ category: Components - Gallery Archive
 }
 
 .gallery__prev {
-	position: relative;
-	float: left;
-	display: block;
-	width: 32%;
-	height: 36px;
-	@include bp(large) {
-		width: 20%;
-		height: 64px;
-	}
+	text-align: left;
 }
 
 .gallery__prev--btn {
 	@extend %gallery__progress--btn;
+	outline: none;
 }
 
 .gallery__prev--span {
 	margin-left: 16px;
+
+	.single-contest & {
+		margin-left: 16px;
+	}
+
 	@include bp(large) {
 		margin-left: 38px;
 	}
@@ -414,10 +477,17 @@ category: Components - Gallery Archive
 .gallery__prev--btn:before {
 	@extend %gmr-icons;
 	position: absolute;
-	top: 9px;
+	top: 8px;
 	left: 14px;
 	font-size: ms(1);
 	content: "\e619";
+
+	.single-contest & {
+		top: 8px;
+		left: 14px;
+		font-size: ms(1);
+	}
+
 	@include bp(large) {
 		top: auto;
 		left: 30px;
@@ -426,36 +496,28 @@ category: Components - Gallery Archive
 }
 
 .gallery__next {
-	position: relative;
-	float: left;
-	display: block;
-	width: 32%;
-	height: 36px;
-	@include bp(large) {
-		width: 20%;
-		height: 64px;
-	}
+	text-align: right;
 }
 
 .gallery__next--btn {
 	@extend %gallery__progress--btn;
-	float: right;
-}
-
-.gallery__next--span {
-	margin-right: 16px;
-	@include bp(large) {
-		margin-right: 38px;
-	}
+	outline: none;
 }
 
 .gallery__next--btn:after {
 	@extend %gmr-icons;
 	position: absolute;
-	top: 9px;
+	top: 8px;
 	right: 14px;
 	font-size: ms(1);
 	content: "\e618";
+
+	.single-contest & {
+		top: 8px;
+		right: 14px;
+		font-size: ms(1);
+	}
+
 	@include bp(large) {
 		top: auto;
 		right: 30px;
@@ -463,48 +525,74 @@ category: Components - Gallery Archive
 	}
 }
 
+.gallery__next--span {
+	margin-right: 16px;
+
+	.single-contest & {
+		margin-right: 16px;
+	}
+
+	@include bp(large) {
+		margin-right: 38px;
+	}
+}
+
 .gallery__count {
-	position: relative;
-	float: left;
-	display: block;
-	width: 36%;
-	height: 36px;
-	padding-top: 12px;
 	line-height: 1;
 	font-size: ms(0);
 	font-weight: lighter;
-	color: $gallery-text;
-	text-align: center;
-	@include bp(large) {
-		width: 60%;
-		height: 64px;
-		padding-top: 44px;
+	color: $primary-text;
+
+	.single-gmr_gallery & {
+		color: $gallery-text;
 	}
 }
 
 .gallery__thumbnails {
 	position: relative;
 	@include span-columns(4);
-	height: 145px;
+	height: 130px;
 	padding: 20px 0;
 	overflow: auto;
-	border-top: 1px solid $gallery-border;
-	background-color: $gallery-thumbs-bg;
+	border-top: 1px solid $primary-border;
+
+	.single-gmr_gallery & {
+		height: 145px;
+		border-color: $gallery-border;
+		background-color: $gallery-thumbs-bg;
+	}
+
+	.single-contest & {
+		height: 93px;
+		margin-top: 0px;
+	}
+
 	@include bp(small) {
 		@include span-columns(6);
 	}
 	@include bp(medium) {
 		@include span-columns(8);
-		height: 115px;
+		height: 90px;
+		.single-gmr_gallery & {
+			height: 115px;
+		}
 	}
 	@include bp(large) {
 		@include span-columns(12);
-		height: 145px;
+		height: 106px;
 		padding: 20px 0;
-		margin-top: 44px;
+		.single-gmr_gallery & {
+			height: 111px;
+		}
 	}
 	@include bp(x-large) {
 		@include span-columns(12);
+		height: 126px;
+		padding: 20px 0;
+		margin-top: 44px;
+		.single-gmr_gallery & {
+			height: 145px;
+		}
 	}
 }
 
@@ -548,21 +636,52 @@ category: Components - Gallery Archive
 	background-color: transparent;
 	border: none;
 	font-size: ms(6);
-	color: $color-text-gray;
+	color: $primary-text;
+	.single-gmr_gallery & {
+		height: 100px;
+	}
 	@include bp(medium) {
-		height: 75px;
+		height: 50px;
+		.single-gmr_gallery & {
+			height: 75px;
+		}
 	}
 	@include bp(large) {
-		height: 100px;
+		height: 65px;
+		.single-gmr_gallery & {
+			height: 70px;
+		}
+	}
+	@include bp(x-large) {
+		height: 85px;
+		.single-gmr_gallery & {
+			height: 100px;
+		}
+	}
+
+	.single-gmr_gallery & {
+		color: $color-text-gray;
+	}
+
+	.single-contest & {
+		color: $light-gray;
 	}
 }
 
 %gallery__paging--btn:hover {
-	color: $color-text-white;
+	color: $color-text-red;
+
+	.single-gmr_gallery & {
+		color: $color-text-white;
+	}
 }
 
 %gallery__paging--btn:active {
-	color: $color-text-red;
+	color: $color-text-black;
+
+	.single-gmr_gallery & {
+		color: $color-text-red;
+	}
 }
 
 .gallery__paging--left {
@@ -577,6 +696,7 @@ category: Components - Gallery Archive
 
 .gallery__paging--prev, .gallery__paging--next {
 	@extend %gallery__paging--btn;
+	outline: none;
 }
 
 %gallery__paging--prev_before {
@@ -598,35 +718,88 @@ category: Components - Gallery Archive
 
 .gallery__previews--group {
 	width: 100%;
-	height: 100px;
+	height: 85px;
 	left: 5px !important;
+	text-align: center;
+	overflow: hidden; /* don't show the 2nd row */
+
+	.single-gmr_gallery & {
+		height: 100px;
+	}
 	@include bp(medium) {
 		left: 0 !important;
-		height: 75px;
+		height: 50px;
+		.single-gmr_gallery & {
+			height: 75px;
+		}
 	}
 	@include bp(large) {
-		height: 100px;
+		height: 65px;
+		.single-gmr_gallery & {
+			height: 70px;
+		}
+	}
+	@include bp(x-large) {
+		height: 85px;
+		.single-gmr_gallery & {
+			height: 100px;
+		}
+	}
+
+	.single-contest & {
+		height: 52px;
 	}
 }
 
 .gallery__slide--preview {
-	float: left;
-	width: 100px;
+	display: inline-block;
+	width: 85px;
 	height: 100%;
 	max-height: 100px;
 	margin-right: 5px;
 	@include opacity(.5);
 	@include transition(opacity 200ms linear);
+	background-size: cover;
 	cursor: pointer;
+	.single-gmr_gallery & {
+		width: 100px;
+	}
+	@include bp(small) {
+		width: 75px;
+		.single-gmr_gallery & {
+			width: 90px;
+		}
+	}
 	@include bp(medium) {
 		width: 19%;
-		max-height: 75px;
+		max-height: 50px;
 		margin-right: 1%;
+		.single-gmr_gallery & {
+			width: 19%;
+			max-height: 75px;
+		}
 	}
 	@include bp(large) {
 		width: 11.5%;
-		max-height: 100px;
+		max-height: 65px;
 		margin-right: .875%;
+		.single-gmr_gallery & {
+			width: 11.5%;
+			max-height: 70px;
+		}
+	}
+	@include bp(x-large) {
+		width: 11.5%;
+		max-height: 85px;
+		margin-right: .875%;
+		.single-gmr_gallery & {
+			width: 11.5%;
+			max-height: 100px;
+		}
+	}
+
+	.single-contest & {
+		max-height: 52px;
 	}
 }
 
@@ -641,50 +814,252 @@ category: Components - Gallery Archive
 
 .gallery__slide--active {
 	@include opacity(1);
-	border: 1px solid $primary-border;
+	border: 1px solid $primary-text;
+
+	.single-gmr_gallery & {
+		border-color: $primary-border;
+	}
 }
 
-.gallery-grid {
-	width: 100%;
+.gallery__archive {
+	@extend %content;
 	overflow: auto;
+	padding-top: 3.625em;
+	padding-bottom: 7em;
+
+	.single-gmr_album & {
+		padding-top: 1.625em;
+	}
 }
 
-.gallery-grid__column {
-	float: left;
-	width: 23.5%;
-	margin-right: 2%;
+.gallery__back--btn {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1.5em, ms(0));
+	@include border-radius(1em);
+}
+
+.gallery__grid {
+	@include span-columns(4 of 4);
+	@include omega;
+	@include bp(small) {
+		@include span-columns(6 of 6);
+		@include omega;
+	}
+	@include bp(medium) {
+		@include span-columns(4 of 4);
+		@include omega;
+	}
+	@include bp(large) {
+		@include span-columns(10 of 10);
+		@include omega;
+	}
+	@include bp(x-large) {
+		@include span-columns(10 of 10);
+		@include omega;
+	}
+}
+
+.gallery__featured {
+	@include row();
+}
+
+.gallery__featured--primary {
+	@include bp(large) {
+		@include span-columns(8 of 12);
+	}
+
+}
+
+.gallery__featured--secondary {
+	@include bp(large) {
+		@include span-columns(4 of 12);
+	}
+}
+
+.gallery__featured--thumbnail {
+	position: relative;
+}
+
+.gallery__feature {
+	margin-bottom: 5.6%;
+	
+ 	.thumbnail {
+		background-color: $dark-gray;
+		padding-bottom: 66%;
+		background-position: center center; 
+		background-size: 100%; 
+		background-size: cover;
+				 
+		.inner-wrap {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	}
+
+	&:hover {
+		h3 {
+			color: $primary-link-hover;
+		}
+	}
+	
+	@include bp(large) {
+		padding-bottom: 75%;
+		position: relative;
+		
+		.thumbnail {
+			position: absolute;
+			width: 100%;
+			left: 0; 
+			top: 0;
+		}
+	}
+}
+
+// .gallery__featured--item:last-of-type {
+// 	.gallery__featured--secondary & {
+// 		margin-bottom: 0;
+// 	}
+// }
+
+// .gallery__featured--thumbnail {
+// 	position: relative;
+// 	width: 100%;
+// }
+
+// .gallery__featured--thumbnail a {
+// 	display: block;
+// }
+
+.gallery__featured--caption {
+	background-color: #F1F1F3;
+	color: $highlights-heading;
+
+	h3 {
+		margin: 0;
+		font-size: ms(3);
+		line-height: 1.2;
+	}
+
+	.show__feature--primary & h3 {
+		font-size: ms(5);
+	}
+	
+	time {
+		font-size: ms(0);
+		text-transform: uppercase;
+		color: $highlights-heading;
+	}			
+	
+	.inner-wrap {
+		padding: $base-line-height $gutter; 
+	}
+	
+	@include bp( large ) {
+		// padding-bottom: 22%; // 3/10 the height of our 4:3 unit.
+		position: absolute;
+		width: 100%;
+		left: 0;
+		bottom: 0;
+		
+		h3 {
+			font-size: ms(1);
+		}
+		
+		.show__feature--primary & h3 {
+			font-size: ms(6);
+		}
+		
+		time {
+			font-size: ms(-1);
+		}
+	}
+}
+
+// .gallery__featured--title {
+// 	margin: 0;
+// 	line-height: 1.4;
+// 	font-family: $open-sans;
+// 	font-weight: lighter;
+// 	font-size: ms(3);
+
+// 	.gallery__featured--secondary & {
+// 		font-size: ms(4);
+// 		@include bp(medium) {
+// 			font-size: ms(-1);
+// 		}
+// 		@include bp(large) {
+// 			font-size: ms(0);
+// 		}
+// 		@include bp(x-large) {
+// 			font-size: ms(1);
+// 		}
+// 	}
+// }
+
+.gallery__grid--column {
+	@include span-columns(4);
+	margin-bottom: 22px;
 	overflow: auto;
+
+	@include bp(small) {
+		@include span-columns(6);
+	}
+
+	@include bp(medium) {
+		@include span-columns(4);
+	}
+
+
+	@include bp(large) {
+		@include span-columns(3);
+	}
+
+	@include bp(x-large) {
+		@include span-columns(3);
+	}
+
 }
 
-.gallery-grid__column:nth-of-type(4n+4) {
-	margin-right: 0%;
+.gallery__grid--column:nth-of-type(2n+2) {
+	@media screen and (min-width: 768px) and (max-width: 1023px) {
+		margin-right: 0;
+	}
 }
 
-.gallery-grid__thumbnail {
+.gallery__grid--column:nth-of-type(4n+4) {
+	@include bp(large) {
+		margin-right: 0;
+	}
+}
+
+.gallery__grid--thumbnail {
 	position: relative;
 	margin-bottom: 30px;
 }
 
-.gallery-grid__album {
+.gallery__grid--album {
 	position: absolute;
-	top: 24px;
-	right: 24px;
+	top: 10px;
+	right: 10px;
 	@extend %gmr-icons;
 	font-size: ms(10);
 	color: $color-text-white;
+	z-index: 1;
 }
 
-.gallery-grid__album:before {
+.gallery__grid--album:before {
 	width: 0;
 	height: 0;
 	content: "\e61a";
 }
 
-.gallery-grid__meta {
-	height: 100px;
+.gallery__grid--meta {
+	@include bp(medium) {
+		height: 78px;
+	}
 }
 
-.gallery-grid__title {
+.gallery__grid--title {
 	margin: 0;
 	font-family: $open-sans;
 	font-size: ms(1);
@@ -692,55 +1067,56 @@ category: Components - Gallery Archive
 	color: $primary-heading;
 }
 
-.gallery-grid__pagination {
+.gallery__grid--pagination {
 	width: 100%;
 	overflow: auto;
 	text-align: center;
 }
 
-.gallery-grid__pagination--list {
+.gallery__grid--pagination-list {
 	@extend %unordered-list;
 }
 
-.gallery-grid__pagination--item {
+.gallery__grid--pagination-list li {
 	list-style: none;
 	display: inline-block;
 	@extend %list-item;
-	width: 28px;
 	height: 28px;
-	margin-right: 1em;
+	margin-right: 1.45em;
 	@include box-sizing(border-box);
+	font-size: ms(-1);
 	color: $gallery-grid-text;
 	text-align: center;
 }
 
 
-.gallery-grid__pagination--item a,.gallery-grid__pagination--item a:visited {
+.gallery__grid--pagination-list li a,.gallery__grid--pagination-list li a:visited {
 	display: block;
-	width: 26px;
 	height: 26px;
+	padding: 6px 0;
+	line-height: 1;
 	color: $gallery-grid-text;
 }
 
-.gallery-grid__pagination--item a:hover,.gallery-grid__pagination--item a:focus {
+.gallery__grid--pagination-list li a:hover,.gallery__grid--pagination-list li a:focus {
 	color: $primary-link;
 }
 
-.gallery-grid__pagination--item a:active {
+.gallery__grid--pagination-list li a:active {
 	color: $primary-text;
 }
 
-.gallery-grid__pagination--current {
+.gallery__grid--pagination-current {
 	border: 1px solid $gallery-grid-border;
 	@include border-radius(50%);
 }
 
-.gallery-grid__pagination--current:hover, .gallery-grid__pagination--current:focus {
+.gallery__grid--pagination-current:hover, .gallery__grid--pagination-current:focus {
 	border-color: $primary-link;
 	color: $primary-link;
 }
 
-.gallery-grid__pagination--current:active {
+.gallery__grid--pagination-current:active {
 	border-color: $primary-text;
 	color: $primary-text;
 }

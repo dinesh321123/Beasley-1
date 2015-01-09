@@ -13,11 +13,11 @@ category: Base - Typography
 <span class="icon-music"></span>
 <span class="icon-play-circle"></span>
 <span class="icon-play"></span>
-<span class="icon-stop"></span>
 <span class="icon-plus"></span>
 <span class="icon-post"></span>
 <span class="icon-radio"></span>
 <span class="icon-user"></span>
+<span class="icon-stop"></span>
 <span class="icon-volume"></span>
 <span class="icon-volume-mute"></span>
 <span class="icon-volume-up"></span>
@@ -25,6 +25,23 @@ category: Base - Typography
 <span class="icon-twitter"></span>
 <span class="icon-google-plus"></span>
 <span class="icon-search"></span>
+<span class="icon-post-format-video"></span>
+<span class="icon-post-format-events"></span>
+<span class="icon-post-format-audio"></span>
+<span class="icon-instagram"></span>
+<span class="icon-youtube"></span>
+<span class="icon-arrow-next"></span>
+<span class="icon-arrow-prev"></span>
+<span class="icon-post-format-gallery"></span>
+<span class="icon-post-format-link"></span>
+<span class="icon-post-format-video2"></span>
+<span class="icon-post-format-image"></span>
+<span class="icon-video-camera"></span>
+<span class="icon-gallery"></span>
+<span class="icon-ticket"></span>
+<span class="icon-contest"></span>
+<span class="icon-pause"></span>
+<span class="icon-download-arrow"></span>
 ```
 
 */
@@ -39,11 +56,11 @@ $icon-font:     'gmr-icons';
 
 @font-face {
 	font-family: 'gmr-icons';
-	src:url('../fonts/icon-font/gmr-icons.eot?c8o1sf');
-	src:url('../fonts/icon-font/gmr-icons.eot?#iefixc8o1sf') format('embedded-opentype'),
-	url('../fonts/icon-font/gmr-icons.woff?c8o1sf') format('woff'),
-	url('../fonts/icon-font/gmr-icons.ttf?c8o1sf') format('truetype'),
-	url('../fonts/icon-font/gmr-icons.svg?c8o1sf#gmr-icons') format('svg');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?-myn1wz');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?#iefix-myn1wz') format('embedded-opentype'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.woff?-myn1wz') format('woff'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.ttf?-myn1wz') format('truetype'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.svg?-myn1wz#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -65,81 +82,107 @@ $icon-font:     'gmr-icons';
 .icon-camera:before {
 	content: "\e600";
 }
+
 .icon-clipboard:before {
 	content: "\e601";
 }
+
 .icon-link:before {
 	content: "\e602";
 }
+
 .icon-minus:before {
 	content: "\e603";
 }
+
 .icon-music:before {
 	content: "\e604";
 }
+
 .icon-play-circle:before {
 	content: "\e605";
 }
+
 .icon-play:before {
 	content: "\e606";
 }
-.icon-stop:before {
-	content: "\e60b";
-}
+
 .icon-plus:before {
 	content: "\e607";
 }
+
 .icon-post:before {
 	content: "\e608";
 }
-.icon-user:before {
-	content: "\e60a";
-}
+
 .icon-radio:before {
 	content: "\e609";
 }
+
+.icon-user:before {
+	content: "\e60a";
+}
+
+.icon-stop:before {
+	content: "\e60b";
+}
+
 .icon-volume:before {
 	content: "\e60c";
 }
+
 .icon-volume-mute:before {
 	content: "\e60d";
 }
+
 .icon-volume-up:before {
 	content: "\e60e";
 }
+
 .icon-facebook:before {
 	content: "\e60f";
 }
+
 .icon-twitter:before {
 	content: "\e610";
 }
+
 .icon-google-plus:before {
 	content: "\e611";
 }
-.icon-youtube:before {
-	content: "\e617";
-}
-.icon-instagram:before {
-	content: "\e616";
-}
+
 .icon-search:before {
 	content: "\e612";
 }
+
 .icon-post-format-video:before {
 	content: "\e613";
 }
+
 .icon-post-format-events:before {
 	content: "\e614";
 }
+
 .icon-post-format-audio:before {
 	content: "\e615";
 }
+
+.icon-instagram:before {
+	content: "\e616";
+}
+
+.icon-youtube:before {
+	content: "\e617";
+}
+
 .icon-arrow-next:before {
 	content: "\e618";
 }
+
 .icon-arrow-prev:before {
 	content: "\e619";
 }
-.icon-album:before {
+
+.icon-post-format-gallery:before {
 	content: "\e61a";
 }

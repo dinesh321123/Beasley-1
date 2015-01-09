@@ -92,8 +92,15 @@ h6, .h6, %h6 {
 
 .section-header {
 	font-family: $open-sans;
-	font-size: ms(0);
 	font-weight: 200;
+	font-size: 1.25em;
+	color: $secondary-heading;
+	margin-top: 0;
+	margin-bottom: 20px;
+
+	@include bp(medium) {
+		font-size: ms(0);
+	}
 }
 
 /*doc

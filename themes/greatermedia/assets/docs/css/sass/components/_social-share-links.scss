@@ -5,7 +5,7 @@ name: social-share-buttons
 category: Components
 ---
 
-These are examples of Social Share Links for single articles. (TODO: replace with working social icons from icomoon)
+These are examples of Social Share Links for single articles.
 
 ```html_example
 <a href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]" class="icon-facebook social-share-link"></a>
@@ -13,8 +13,8 @@ These are examples of Social Share Links for single articles. (TODO: replace wit
 <a href="https://plus.google.com/share?url=[URL]" class="icon-google-plus social-share-link"></a>
 <a href="" class="icon-volume-up social-share-link"></a>
 ```
-
 */
+
 
 a.social-share-link {
 	color: $black;
@@ -25,6 +25,11 @@ a.social-share-link {
 	border: 1px solid $black;
 	border-radius: 50%;
 	padding: 9px;
+	margin-right: 0.25em;
+
+	&:last-of-type {
+		margin-right: 0;
+	}
 
 	&:hover {
 		color: $social-hover;
