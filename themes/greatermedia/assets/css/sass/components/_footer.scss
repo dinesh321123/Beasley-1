@@ -1,8 +1,11 @@
 .footer {
 	width: 100%;
-	margin: 0 auto;
+	margin: 0 auto 58px;
 	overflow: auto;
 	background-color: $secondary-bg;
+	@include bp(medium) {
+		margin-bottom: 0;
+	}
 }
 
 .footer a:link, .footer a:visited {
@@ -23,11 +26,13 @@
 	background-color: $primary-bg;
 	border-top: 1px solid $primary-border;
 	color: $footer-text;
+	text-align: center;
 	@include bp(small) {
 		@include span-columns(6);
 	}
 	@include bp(medium) {
 		@include span-columns(8);
+		text-align: initial;
 	}
 	@include bp(large) {
 		@include span-columns(12);
@@ -36,8 +41,6 @@
 		@include span-columns(12);
 	}
 }
-
-
 
 .footer__copyright {
 	padding: 13px 0;
@@ -77,19 +80,28 @@
 }
 
 .footer__menu {
+	@include bp(medium) {
+		padding: 26px 0 13px;
+	}
 	@include bp(large) {
 		@include span-columns(7 of 12);
 	}
 }
 
 .footer__nav {
-	float: right;
+	@include bp(medium){
+		float: right;
+		padding-top: 24px;
+	}
 }
 
 .footer__nav--list {
 	@extend %unordered-list;
 	padding: 13px 0;
 	font-size: ms(-3);
+	@include bp(medium) {
+		padding: 0;
+	}
 }
 
 .footer__nav--list .menu-item {
@@ -98,9 +110,18 @@
 	margin-right: 2.5em;
 }
 
+.footer__nav--list .menu-item:last-of-type {
+	margin-right: 0;
+	@include bp(medium) {
+		margin-right: 2.5em;
+	}
+}
+
 .footer__menu .social__list {
-	float: right;
-	padding: 4px 0 7px;
+	@include bp(medium) {
+		float: right;
+		padding: 0;
+	}
 }
 
 .footer__menu a.social__link {
@@ -112,5 +133,13 @@
 	&:hover {
 		border-color: $primary-link;
 		color: $primary-link;
+	}
+}
+
+.footer__menu li:first-of-type a.social__link {
+	margin-left: 0;
+
+	@include bp(medium) {
+		margin-left: 6px;
 	}
 }

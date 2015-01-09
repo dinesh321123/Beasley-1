@@ -2712,9 +2712,12 @@ Community Highlights and Events
 
 .footer {
   width: 100%;
-  margin: 0 auto;
+  margin: 0 auto 58px;
   overflow: auto;
   background-color: #000000; }
+  @media screen and (min-width: 768px) {
+    .footer {
+      margin-bottom: 0; } }
 
 .footer a:link, .footer a:visited {
   color: #929497; }
@@ -2733,7 +2736,8 @@ Community Highlights and Events
   padding: 40px 5.5%;
   background-color: #ffffff;
   border-top: 1px solid #d0d2d3;
-  color: #929497; }
+  color: #929497;
+  text-align: center; }
   .footer__content:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
@@ -2749,7 +2753,8 @@ Community Highlights and Events
       float: left;
       display: block;
       margin-right: 3.57866%;
-      width: 100%; }
+      width: 100%;
+      text-align: initial; }
       .footer__content:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1024px) {
@@ -2802,6 +2807,9 @@ Community Highlights and Events
   .footer__copyright--logo a:active {
     color: #d22228; }
 
+@media screen and (min-width: 768px) {
+  .footer__menu {
+    padding: 26px 0 13px; } }
 @media screen and (min-width: 1024px) {
   .footer__menu {
     float: left;
@@ -2811,20 +2819,32 @@ Community Highlights and Events
     .footer__menu:last-child {
       margin-right: 0; } }
 
-.footer__nav {
-  float: right; }
+@media screen and (min-width: 768px) {
+  .footer__nav {
+    float: right;
+    padding-top: 24px; } }
 
 .footer__nav--list {
   padding: 13px 0;
   font-size: 0.70233em; }
+  @media screen and (min-width: 768px) {
+    .footer__nav--list {
+      padding: 0; } }
 
 .footer__nav--list .menu-item {
   display: inline-block;
   margin-right: 2.5em; }
 
-.footer__menu .social__list {
-  float: right;
-  padding: 4px 0 7px; }
+.footer__nav--list .menu-item:last-of-type {
+  margin-right: 0; }
+  @media screen and (min-width: 768px) {
+    .footer__nav--list .menu-item:last-of-type {
+      margin-right: 2.5em; } }
+
+@media screen and (min-width: 768px) {
+  .footer__menu .social__list {
+    float: right;
+    padding: 0; } }
 
 .footer__menu a.social__link {
   border-color: #929497;
@@ -2834,6 +2854,12 @@ Community Highlights and Events
   .footer__menu a.social__link:hover {
     border-color: #d22228;
     color: #d22228; }
+
+.footer__menu li:first-of-type a.social__link {
+  margin-left: 0; }
+  @media screen and (min-width: 768px) {
+    .footer__menu li:first-of-type a.social__link {
+      margin-left: 6px; } }
 
 /*doc
 ---
