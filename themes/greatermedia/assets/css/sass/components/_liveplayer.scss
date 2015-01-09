@@ -562,7 +562,7 @@ category: Components
 .on-air, .up-next {
 	float: left;
 	width: 78.125%; // 250px
-	padding: 14px 0 13px 3.75%; // 12px
+	padding: 23px 0 22px 3.75%; // 12px
 	margin-right: 3.75%; // 12px
 	line-height: 1;
 	@include bp(small) {
@@ -594,10 +594,9 @@ category: Components
 }
 
 .on-air__title, .up-next__title {
-	display: block;
-	margin-bottom: 5px;
+	display: inline-block;
 	@include bp(medium) {
-		display: inline-block;
+		display: block;
 		margin-bottom: 10px;
 		font-size: ms(-1);
 	}
@@ -610,9 +609,9 @@ category: Components
 }
 
 .on-air__show, .up-next__show {
-	display: block;
+	display: inline-block;
 	@include bp(medium) {
-		display: inline-block;
+		display: block;
 		font-size: ms(-1);
 		text-transform: uppercase;
 	}
