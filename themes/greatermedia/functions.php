@@ -153,7 +153,7 @@ function greatermedia_scripts_styles() {
 	wp_enqueue_style(
 		'greatermedia'
 	);
-	
+
 	/**
 	 * this is a fix to resolve conflicts with styles and javascript for The Events Calendar plugin that will not
 	 * load once pjax has been activated. We are checking to see if the `Tribe_Template_Factory` class exists and if
@@ -179,7 +179,7 @@ function greatermedia_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'greatermedia_scripts_styles');
 
 /**
- * Unload YARPP stylesheets.  
+ * Unload YARPP stylesheets.
  */
 add_action( 'get_footer', function () {
  	wp_dequeue_style( 'yarppRelatedCss' );
@@ -276,10 +276,10 @@ function get_post_with_keyword( $query_arg ) {
 }
 
 /**
- * Get the URL of a post's thumbnail.  
- * 
+ * Get the URL of a post's thumbnail.
+ *
  * @param string|array Thumbnail size.
- * @param int Post ID. Defaults to current post. 
+ * @param int Post ID. Defaults to current post.
  */
 function gm_get_post_thumbnail_url( $size = 'thumbnail', $post_id = null ) {
 	$thumbnail_id = get_post_thumbnail_id( $post_id );
@@ -290,26 +290,26 @@ function gm_get_post_thumbnail_url( $size = 'thumbnail', $post_id = null ) {
 }
 
 /**
- * Output the escaped URL of a post's thumbnail.  
- * 
+ * Output the escaped URL of a post's thumbnail.
+ *
  * @param string|array Thumbnail size.
- * @param int Post ID. Defaults to current post. 
+ * @param int Post ID. Defaults to current post.
  */
 function gm_post_thumbnail_url( $size = 'thumbnail', $post_id = null ) {
 	echo esc_url( gm_get_post_thumbnail_url( $size, $post_id ) );
 }
 
 /**
- * Get the URL of an attachment thumbnail. 
- * 
+ * Get the URL of an attachment thumbnail.
+ *
  * @param id $attachment_id
- * @return null|string URL if found, null otherwise. 
+ * @return null|string URL if found, null otherwise.
  */
 function gm_get_thumbnail_url( $attachment_id, $size ) {
 	$src = wp_get_attachment_image_src( $attachment_id, $size );
 	if ( $src ) {
-		return $src[0]; 
-	}	
+		return $src[0];
+	}
 }
 
 /**
@@ -346,7 +346,7 @@ add_action( 'keyword_search_result', 'get_results_for_keyword' );
 
 /**
  * Alter search results on search page
- * 
+ *
  * @param  WP_Query $query [description]
  */
 function greatermedia_alter_search_query( $query ) {
@@ -434,7 +434,7 @@ add_action( 'template_redirect', 'greatermedia_load_more_template' );
 
 function greatermedia_load_more_button( $partial_slug = null, $partial_name = null, $query_or_page_link_template = null, $next_page = null ) {
 
-	global $wp_query; 
+	global $wp_query;
 
 	if ( ! $query_or_page_link_template ) {
 		$query_or_page_link_template = $wp_query;
@@ -449,7 +449,7 @@ function greatermedia_load_more_button( $partial_slug = null, $partial_name = nu
 		if ( ! $next_page ) {
 			$next_page = max( 2, $wp_query->query_vars['paged'] + 1);
 	}
-	
+
 		$wp_query = $temp_wp_query;
 	} else {
 		$page_link_template = (string) $query_or_page_link_template;
@@ -475,8 +475,8 @@ function greatermedia_load_more_button( $partial_slug = null, $partial_name = nu
 			data-partial-name='<?php echo esc_attr( $partial_name ); ?>'
 			data-not-found="All content shown"
 			>
-				<i class="fa fa-spin fa-refresh"></i> Load More
-			</a>
-		</div>
-	<?php 
+			<i class="fa fa-spin fa-refresh"></i> Load More
+		</a>
+	</div>
+	<?php
 }

@@ -230,7 +230,7 @@ category: Components - Shows
 
 			&:hover  {
 				background-color: $secondary-text;
-				color: $secondary-link-hover;
+				color: $heath;
 			}
 
 		}
@@ -360,7 +360,9 @@ category: Components - Shows
 		margin-top: 1em;
 
 		&:hover, &:active {
+			color: $heath;
 			background: $secondary-text;
+			border-color: $secondary-text;
 		}
 	}
 }

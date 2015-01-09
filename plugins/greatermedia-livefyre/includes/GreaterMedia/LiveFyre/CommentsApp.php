@@ -117,7 +117,7 @@ class CommentsApp {
 	}
 
 	function has_comments( $post ) {
-		return ! is_null( $post );
+		return ! is_null( $post ) && ! is_preview();
 	}
 
 	function tokens_for_post( $post ) {

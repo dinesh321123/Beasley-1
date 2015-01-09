@@ -27,7 +27,8 @@ These are examples of Social Share Links for single articles.
 	}
 }
 
-a.social__link {
+a.social__link,
+a.social-share-link {
 	padding: 0;
 	margin: 0 1.25em 0 0;
 	list-style: none;
@@ -54,7 +55,8 @@ a.social__link {
 	}	
 }
 
-.social__link:last-child {
+.social__link:last-child,
+.social-sharing-link {
 	margin: 0;
 }
 
@@ -90,7 +92,8 @@ a.social__link {
 	@extend %gmr-icons, .icon-instagram;
 }
 
-.social__link {
+.social__link,
+.social-sharing-link {
 	&:before {
 		position: relative;
 		top: 1px; 

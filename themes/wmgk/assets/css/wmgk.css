@@ -6822,7 +6822,7 @@ category: Components - Shows
       text-transform: uppercase; }
       .show__nav li a:hover {
         background-color: #ffffff;
-        color: #aa1c20; }
+        color: #561015; }
     @media screen and (min-width: 768px) {
       .show__nav li {
         display: inline-block; }
@@ -6910,7 +6910,9 @@ category: Components - Shows
     border: 1px solid #ffffff;
     margin-top: 1em; }
     .show__meta .social-share-link:hover, .show__meta .social-share-link:active {
-      background: #ffffff; }
+      color: #561015;
+      background: #ffffff;
+      border-color: #ffffff; }
 
 .show__featured-img {
   position: absolute;
@@ -7200,7 +7202,8 @@ These are examples of Social Share Links for single articles.
     margin: 0;
     padding: 0; }
 
-a.social__link {
+a.social__link,
+a.social-share-link {
   padding: 0;
   margin: 0 1.25em 0 0;
   list-style: none;
@@ -7215,13 +7218,16 @@ a.social__link {
   border-radius: 50%;
   padding: 9px;
   margin-right: 6px; }
-  a.social__link:last-of-type {
+  a.social__link:last-of-type,
+  a.social-share-link:last-of-type {
     margin-right: 0; }
-  a.social__link:hover {
+  a.social__link:hover,
+  a.social-share-link:hover {
     color: #d22228;
     border-color: #d22228; }
 
-.social__link:last-child {
+.social__link:last-child,
+.social-sharing-link {
   margin: 0; }
 
 .social__link a, .social__link a:visited {
@@ -7233,10 +7239,13 @@ a.social__link {
 .social__link a:active {
   color: #ffffff; }
 
-.social__link:before {
+.social__link:before,
+.social-sharing-link:before {
   position: relative;
   top: 1px; }
-.social__link.icon-google-plus:before, .social__link.social__link--google-plus:before {
+.social__link.icon-google-plus:before, .social__link.social__link--google-plus:before,
+.social-sharing-link.icon-google-plus:before,
+.social-sharing-link.social__link--google-plus:before {
   left: 1px;
   top: 2px; }
 
