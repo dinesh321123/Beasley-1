@@ -29,13 +29,7 @@
 
 					</div> -->
 						<?php the_content(); ?>
-
-						
-
-
-						
-					</div>
-
+				
 				</article>
 
 			</section>
@@ -51,12 +45,12 @@
 							</div>
 							<div class="personality__meta">
 								<span class="personality__name h1"><?php echo esc_html( $personality->data->display_name ); ?></span>
-								<p class="personality__bio"><?php echo apply_filters('the_content', esc_html( get_the_author_meta( 'description', $personality->ID ) ) ); ?></p>
+								<div class="personality__bio"><?php echo apply_filters('the_content', esc_html( get_the_author_meta( 'description', $personality->ID ) ) ); ?></div>
 							</div>
 								<?php
 							$social = GreaterMedia\Shows\get_personality_social_ul( $personality );
 							?>
-							<button class="show__toggle more-btn">more</button>
+							<button class="person-toggle more-btn">more</button>
 						</div>
 					<?php endforeach; ?>
 				</div>

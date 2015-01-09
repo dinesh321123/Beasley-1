@@ -8475,17 +8475,11 @@ category: Components - Shows
 
 */
 .show__personalities {
-  max-width: 71.875em;
-  margin-left: auto;
-  margin-right: auto; }
-  .show__personalities:before, .show__personalities:after {
-    content: " ";
-    display: table; }
-  .show__personalities:after {
-    clear: both; }
+  background-color: #ffffff;
+  margin-top: -8em; }
 
 .personality {
-  margin: 4em 0;
+  padding: 4em 3em;
   position: relative;
   display: block; }
   .personality:before, .personality:after {
@@ -8493,6 +8487,8 @@ category: Components - Shows
     display: table; }
   .personality:after {
     clear: both; }
+  .personality .more-btn {
+    display: none; }
 
 .personality__avatar {
   float: left;
@@ -8520,18 +8516,16 @@ category: Components - Shows
     border-radius: 50%; }
 
 .personality__meta {
-  overflow: hidden;
-  height: 8em;
   float: left;
   display: block;
   margin-right: 2.35765%;
   width: 65.88078%;
-  margin-right: 0; }
+  margin-right: 0;
+  transition: height 0.2s; }
   .personality__meta:last-child {
     margin-right: 0; }
   @media screen and (min-width: 768px) {
     .personality__meta {
-      height: 12em;
       float: left;
       display: block;
       margin-right: 2.35765%;

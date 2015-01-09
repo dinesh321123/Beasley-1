@@ -20,15 +20,21 @@ category: Components - Shows
 */
 
 .show__personalities {
-	@include outer-container();
+	// @include row();
+	background-color: $primary-bg;
+	margin-top: -8em;
 }
 
 .personality {
-	margin: 4em 0;
+	padding: 4em 3em;
 	position: relative;
 	@include row();
-	// @include box-shadow(0, -9px, -5, rgba(255, 255, 255, 0.75), inset);
-	// TODO - fix box-shadow mixin
+
+	.more-btn {
+		// right: 40%;
+		// bottom: 40px;
+		display: none;
+	}
 }
 
 .personality__avatar {
@@ -46,13 +52,14 @@ category: Components - Shows
 }
 
 .personality__meta {
-	overflow: hidden;
-	height: 8em;
+	// overflow: hidden;
+	// height: 8em;
 	@include span-columns(8 of 12);
 	@include omega;
+	 transition: height 0.2s;
 
 	@include bp(medium) {
-		height: 12em;
+		// height: 12em;
 		@include span-columns(9 of 12);
 		@include omega;
 	}
