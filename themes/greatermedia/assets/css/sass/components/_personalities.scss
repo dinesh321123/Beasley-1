@@ -52,15 +52,6 @@ category: Components - Shows
 }
 
 .personality__meta {
-	// overflow: hidden;
-	// height: 8em;
-	@include span-columns(8 of 12);
-	@include omega;
-	 transition: height 0.2s;
-
-	@include bp(medium) {
-		// height: 12em;
-		@include span-columns(9 of 12);
-		@include omega;
-	}
+	// float: none;
+	// width: auto;
 }
