@@ -27,6 +27,11 @@
 				this.serialize(this.cookieValue),
 				options
 			);
+
+			// if you've just logged in, assuming that the previous
+			// livefyre token is now invalid, it will auto-refresh the
+			// next time you visit a page that supports comments
+			Cookies.expire('livefyre_token', options);
 		},
 
 		load: function() {
