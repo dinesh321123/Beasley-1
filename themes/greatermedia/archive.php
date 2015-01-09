@@ -16,7 +16,10 @@ get_header(); ?>
 
 			<section class="content">
 
-				<h2 class="content__heading">Latest from WMMR</h2>
+				<h2 class="content__heading">
+					<?php $object = get_queried_object(); ?>
+					Latest <?php echo ! empty( $object->labels->name ) ? esc_html( strtolower( $object->labels->name ) ) : ''; ?> from <?php bloginfo( 'name' ); ?>
+				</h2>
 
 				<?php if ( have_posts() ) :  ?>
 

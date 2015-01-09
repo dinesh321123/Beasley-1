@@ -58,6 +58,7 @@
 		@include omega;
 		 
 		.has-post-thumbnail &,
+		.type-contest &,
 		.type-tribe_events & {
 			@include span-columns(4 of 6);
 			@include omega; 
@@ -177,6 +178,7 @@
 	.format-audio &,
 	.format-gallery &,
 	.format-video &,
+	.type-contest &,
 	.type-tribe_events & {
 		@extend %gmr-icons;
 		
@@ -209,6 +211,9 @@
 	}
 	.format-video & {
 		@extend .icon-post-format-video;
+	}
+	.type-contest & {
+		@extend .icon-post-format-events;
 	}
 	.type-tribe_events & {
 		@extend .icon-post-format-events;
@@ -246,6 +251,48 @@
 	}
 }
 
+// Special handling for date information in contest thumbnail
+.type-contest {
+	.entry2__thumbnail {
+		background-color: rgba($btn-bg, .8);
+
+		&:after {
+			background-color: rgba($btn-bg, .5);
+		}
+	}
+
+	.entry2__thumbnail--end-date,
+	.entry2__thumbnail--start-date {
+		@extend .h1;
+		font-size: ms(0);
+		line-height: 1;
+		text-transform: uppercase;
+		color: #fff;
+		position: absolute;
+		bottom: 0;
+		padding: 4% 6%;
+		z-index: 20;
+	}
+
+	.entry2__thumbnail--end-date {
+		right: 0;
+		text-align: right;
+	}
+	
+	.entry2__thumbnail--start-date {
+		left: 0;
+	}
+
+	.entry2__thumbnail--day-of-week {
+		font-weight: normal;
+	}
+
+	.entry2__thumbnail--month-and-day {
+		font-size: 2em;
+		margin-top: .15em;
+	}
+}
+
 // Special handling for ad-wrapped items
 .entry2-ad-wrap {
 	clear: both; 
@@ -261,6 +308,7 @@
 		@include span-columns(4 of 6);
 	}
 		.entry2.has-post-thumbnail .entry2__meta, 
+		.entry2.type-contest .entry2__meta,
 		.entry2.type-tribe_events .entry2__meta {
 			@include span-columns(2 of 6);
 		}

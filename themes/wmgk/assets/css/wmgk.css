@@ -504,7 +504,7 @@ category: Base - Typography
   src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?#iefix-7cndw") format("embedded-opentype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.woff?-7cndw") format("woff"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.ttf?-7cndw") format("truetype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.svg?-7cndw#gmr-icons") format("svg");
   font-weight: normal;
   font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .format-audio .entry2__thumbnail a, .format-gallery .entry2__thumbnail a, .format-video .entry2__thumbnail a, .type-tribe_events .entry2__thumbnail a, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .header__search--submit:before {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__search--btn:before, .format-audio .entry2__thumbnail a, .format-gallery .entry2__thumbnail a, .format-video .entry2__thumbnail a, .type-contest .entry2__thumbnail a, .type-tribe_events .entry2__thumbnail a, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .header__search--submit:before {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -576,7 +576,7 @@ category: Base - Typography
 .icon-post-format-video:before, .format-video .entry2__thumbnail a:before {
   content: "\e613"; }
 
-.icon-post-format-events:before, .type-tribe_events .entry2__thumbnail a:before {
+.icon-post-format-events:before, .type-contest .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
   content: "\e614"; }
 
 .icon-post-format-audio:before, .format-audio .entry2__thumbnail a:before {
@@ -886,14 +886,20 @@ category: Base - Typography
 <h6>H6. Nworb Kciuq eht</h6>
 ```
 */
-h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry2__thumbnail--end-date,
+.type-contest .entry2__thumbnail--start-date, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   line-height: 1.5;
   font-family: "Droid Sans", sans-serif;
   text-rendering: optimizelegibility;
   font-weight: bold; }
-  h1 a:link, h1 a:visited, .h1 a:link, .type-tribe_events .entry2__thumbnail--event-date a:link, .h1 a:visited, .type-tribe_events .entry2__thumbnail--event-date a:visited, h2 a:link, h2 a:visited, .h2 a:link, .h2 a:visited, h3 a:link, h3 a:visited, .h3 a:link, .h3 a:visited, h4 a:link, h4 a:visited, .h4 a:link, .h4 a:visited, h5 a:link, h5 a:visited, .h5 a:link, .h5 a:visited, h6 a:link, h6 a:visited, .h6 a:link, .h6 a:visited {
+  h1 a:link, h1 a:visited, .h1 a:link, .type-tribe_events .entry2__thumbnail--event-date a:link, .type-contest .entry2__thumbnail--end-date a:link,
+  .type-contest .entry2__thumbnail--start-date a:link, .h1 a:visited, .type-tribe_events .entry2__thumbnail--event-date a:visited, .type-contest .entry2__thumbnail--end-date a:visited,
+  .type-contest .entry2__thumbnail--start-date a:visited, h2 a:link, h2 a:visited, .h2 a:link, .h2 a:visited, h3 a:link, h3 a:visited, .h3 a:link, .h3 a:visited, h4 a:link, h4 a:visited, .h4 a:link, .h4 a:visited, h5 a:link, h5 a:visited, .h5 a:link, .h5 a:visited, h6 a:link, h6 a:visited, .h6 a:link, .h6 a:visited {
     color: #404041; }
-  h1 a:hover, h1 a:focus, h1 a:active, .h1 a:hover, .type-tribe_events .entry2__thumbnail--event-date a:hover, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, h2 a:hover, h2 a:focus, h2 a:active, .h2 a:hover, .h2 a:focus, .h2 a:active, h3 a:hover, h3 a:focus, h3 a:active, .h3 a:hover, .h3 a:focus, .h3 a:active, h4 a:hover, h4 a:focus, h4 a:active, .h4 a:hover, .h4 a:focus, .h4 a:active, h5 a:hover, h5 a:focus, h5 a:active, .h5 a:hover, .h5 a:focus, .h5 a:active, h6 a:hover, h6 a:focus, h6 a:active, .h6 a:hover, .h6 a:focus, .h6 a:active {
+  h1 a:hover, h1 a:focus, h1 a:active, .h1 a:hover, .type-tribe_events .entry2__thumbnail--event-date a:hover, .type-contest .entry2__thumbnail--end-date a:hover,
+  .type-contest .entry2__thumbnail--start-date a:hover, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-contest .entry2__thumbnail--end-date a:focus,
+  .type-contest .entry2__thumbnail--start-date a:focus, .h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-contest .entry2__thumbnail--end-date a:active,
+  .type-contest .entry2__thumbnail--start-date a:active, h2 a:hover, h2 a:focus, h2 a:active, .h2 a:hover, .h2 a:focus, .h2 a:active, h3 a:hover, h3 a:focus, h3 a:active, .h3 a:hover, .h3 a:focus, .h3 a:active, h4 a:hover, h4 a:focus, h4 a:active, .h4 a:hover, .h4 a:focus, .h4 a:active, h5 a:hover, h5 a:focus, h5 a:active, .h5 a:hover, .h5 a:focus, .h5 a:active, h6 a:hover, h6 a:focus, h6 a:active, .h6 a:hover, .h6 a:focus, .h6 a:active {
     color: #aa1c20; }
 
 .featured__content--title a:link, .featured__content--title a:visited, .featured__article--title a:link, .featured__article--title a:visited, .highlights__community--title a:link, .highlights__community--title a:visited {
@@ -901,7 +907,8 @@ h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, h2, .h2, h3, .h3, h4
 .featured__content--title a:hover, .featured__content--title a:focus, .featured__content--title a:active, .featured__article--title a:hover, .featured__article--title a:focus, .featured__article--title a:active, .highlights__community--title a:hover, .highlights__community--title a:focus, .highlights__community--title a:active {
   color: #aa1c20; }
 
-h1, .h1, .type-tribe_events .entry2__thumbnail--event-date {
+h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry2__thumbnail--end-date,
+.type-contest .entry2__thumbnail--start-date {
   font-size: 2.2807em; }
 
 h2, .h2 {
@@ -3750,13 +3757,13 @@ Link posts contain a link to an external site. They can also optionally have a f
       text-align: left; }
       .entry2__meta:last-child {
         margin-right: 0; }
-      .has-post-thumbnail .entry2__meta, .type-tribe_events .entry2__meta {
+      .has-post-thumbnail .entry2__meta, .type-contest .entry2__meta, .type-tribe_events .entry2__meta {
         float: left;
         display: block;
         margin-right: 4.82916%;
         width: 65.05695%;
         margin-right: 0; }
-        .has-post-thumbnail .entry2__meta:last-child, .type-tribe_events .entry2__meta:last-child {
+        .has-post-thumbnail .entry2__meta:last-child, .type-contest .entry2__meta:last-child, .type-tribe_events .entry2__meta:last-child {
           margin-right: 0; } }
 
 .entry2__date {
@@ -3850,7 +3857,7 @@ Link posts contain a link to an external site. They can also optionally have a f
     .entry2.format-audio.has-post-thumbnail .entry2__meta:last-child {
       margin-right: 0; } }
 
-.format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
+.format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-contest .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
   position: absolute;
   left: 0;
   top: 0;
@@ -3862,10 +3869,10 @@ Link posts contain a link to an external site. They can also optionally have a f
   z-index: 30;
   font-size: 4em; }
   @media screen and (min-width: 480px) {
-    .format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
+    .format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-contest .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
       font-size: 2.5em; } }
   @media screen and (min-width: 1024px) {
-    .format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
+    .format-audio .entry2__thumbnail a:before, .format-gallery .entry2__thumbnail a:before, .format-video .entry2__thumbnail a:before, .type-contest .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
       font-size: 3em; } }
 
 .type-tribe_events .entry2__thumbnail {
@@ -3888,6 +3895,31 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-size: 2.5em;
   margin-top: .15em; }
 
+.type-contest .entry2__thumbnail {
+  background-color: rgba(210, 34, 40, 0.8); }
+  .type-contest .entry2__thumbnail:after {
+    background-color: rgba(210, 34, 40, 0.5); }
+.type-contest .entry2__thumbnail--end-date,
+.type-contest .entry2__thumbnail--start-date {
+  font-size: 1em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  padding: 4% 6%;
+  z-index: 20; }
+.type-contest .entry2__thumbnail--end-date {
+  right: 0;
+  text-align: right; }
+.type-contest .entry2__thumbnail--start-date {
+  left: 0; }
+.type-contest .entry2__thumbnail--day-of-week {
+  font-weight: normal; }
+.type-contest .entry2__thumbnail--month-and-day {
+  font-size: 2em;
+  margin-top: .15em; }
+
 .entry2-ad-wrap {
   clear: both;
   position: relative; }
@@ -3907,12 +3939,14 @@ Link posts contain a link to an external site. They can also optionally have a f
     .entry2-ad-wrap .entry2__meta:last-child {
       margin-right: 0; }
   .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta,
+  .entry2-ad-wrap .entry2.type-contest .entry2__meta,
   .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta {
     float: left;
     display: block;
     margin-right: 4.82916%;
     width: 30.11389%; }
     .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta:last-child,
+    .entry2-ad-wrap .entry2.type-contest .entry2__meta:last-child,
     .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta:last-child {
       margin-right: 0; }
   .entry2-ad-wrap .entry2-ad-wrap__ad {
