@@ -234,7 +234,7 @@
 	background-color: $header-nav-bg;
 }
 
-ul.sub-menu li:hover {
+ul.sub-menu li:not(.mobile-menu-submenu-header):hover {
 	background-color: transparent;
 }
 

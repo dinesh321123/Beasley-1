@@ -1240,7 +1240,7 @@ blockquote p {
 .ui-menu .ui-state-focus {
   background-color: #d22228; }
 
-ul.sub-menu li:hover, .header__nav .format-fw > ul li:hover, .header__nav .format-sp > ul li:hover {
+ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw > ul li:not(.mobile-menu-submenu-header):hover, .header__nav .format-sp > ul li:not(.mobile-menu-submenu-header):hover {
   background-color: transparent; }
 
 .header__nav ul li ul {
@@ -1439,9 +1439,6 @@ ul.sub-menu li:hover, .header__nav .format-fw > ul li:hover, .header__nav .forma
   margin-right: 1em;
   max-height: 40px;
   width: auto; }
-
-.sub-menu li, .header__nav .format-fw > ul li, .header__nav .format-sp > ul li {
-  height: 80px; }
 
 .content__heading {
   margin-top: 0;
