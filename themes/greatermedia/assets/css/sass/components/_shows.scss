@@ -78,7 +78,7 @@
 	}
 
 	.highlights__event--item {
-		background-color: $highlights-bg;
+		background-color: #F1F1F3;
 	}
 
 	.highlights__community--item:hover {
@@ -471,7 +471,7 @@ category: Components - Shows
 
 .show__feature--desc {
 	background-color: #F1F1F3;
-	color: $highlights-heading;
+	color: $primary-heading;
 
 	h3 {
 		margin: 0;
@@ -486,7 +486,7 @@ category: Components - Shows
 	time {
 		font-size: ms(0);
 		text-transform: uppercase;
-		color: $highlights-heading;
+		color: $primary-heading;
 	}			
 	
 	.inner-wrap {
