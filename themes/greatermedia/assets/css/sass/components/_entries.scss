@@ -12,6 +12,12 @@
 	@include span-columns(6 of 6);
 	@include omega; 
 	margin-bottom: $base-line-height * 1.5;
+	border-bottom: 1px solid $primary-border;
+	text-align: center;
+
+	&:last-of-type {
+		border-bottom: none;
+	}
 }
  
 .entry2__thumbnail {	
@@ -47,7 +53,7 @@
 	
 	background-size: 100%;
 	background-size: cover;
-	background-position: center center; 
+	background-position: center center;
 }
 
 .entry2__meta {
@@ -115,8 +121,7 @@
 .entry2__footer {
 	margin-top: $base-line-height * 1.5;
 	padding: 0 0 $base-line-height / 2;
-	border-bottom: 1px solid $primary-border;
-	text-align: center; 
+	text-align: center;
 	
 	@include omega; 
 	@include bp(small) {

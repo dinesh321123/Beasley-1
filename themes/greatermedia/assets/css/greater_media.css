@@ -3721,9 +3721,13 @@ Link posts contain a link to an external site. They can also optionally have a f
   margin-right: 4.82916%;
   width: 100%;
   margin-right: 0;
-  margin-bottom: 2.25em; }
+  margin-bottom: 2.25em;
+  border-bottom: 1px solid #d0d2d3;
+  text-align: center; }
   .entry2:last-child {
     margin-right: 0; }
+  .entry2:last-of-type {
+    border-bottom: none; }
 
 .entry2__thumbnail {
   margin-bottom: 1.125em;
@@ -3814,7 +3818,6 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry2__footer {
   margin-top: 2.25em;
   padding: 0 0 0.75em;
-  border-bottom: 1px solid #d0d2d3;
   text-align: center;
   margin-right: 0;
   float: left;
