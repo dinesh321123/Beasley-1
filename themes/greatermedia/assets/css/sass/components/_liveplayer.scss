@@ -845,7 +845,7 @@ category: Components
 
 .live-link__type--gallery:before {
 	@extend %live-link__icon;
-	content: "\e61a";
+	content: "\e621";
 }
 
 .live-link__type--image:before {
@@ -865,7 +865,7 @@ category: Components
 
 .live-link__type--video:before {
 	@extend %live-link__icon;
-	content: "\e613";
+	content: "\e620";
 }
 
 .live-link__title {

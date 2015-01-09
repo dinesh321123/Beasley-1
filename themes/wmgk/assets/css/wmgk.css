@@ -582,7 +582,7 @@ category: Base - Typography
 .icon-post-format-video:before, .format-video .entry2__thumbnail a:before {
   content: "\e613"; }
 
-.icon-post-format-events:before, .type-contest .entry2__thumbnail a:before, .type-tribe_events .entry2__thumbnail a:before {
+.icon-post-format-events:before, .type-tribe_events .entry2__thumbnail a:before {
   content: "\e614"; }
 
 .icon-post-format-audio:before, .format-audio .entry2__thumbnail a:before {
@@ -627,7 +627,7 @@ category: Base - Typography
 .icon-ticket:before {
   content: "\e622"; }
 
-.icon-contest:before {
+.icon-contest:before, .type-contest .entry2__thumbnail a:before {
   content: "\e623"; }
 
 img {
@@ -5063,7 +5063,7 @@ category: Components
   content: "\e604"; }
 
 .live-link__type--gallery:before {
-  content: "\e61a"; }
+  content: "\e621"; }
 
 .live-link__type--image:before {
   content: "\e600"; }
@@ -5075,7 +5075,7 @@ category: Components
   content: "\e608"; }
 
 .live-link__type--video:before {
-  content: "\e613"; }
+  content: "\e620"; }
 
 .live-link__title {
   display: block;
