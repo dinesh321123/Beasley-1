@@ -898,21 +898,9 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		}
 	};
 
-	fillForm = function() {
-		if ($.isFunction(is_gigya_user_logged_in) && $.isFunction(get_gigya_user_field) && is_gigya_user_logged_in()) {
-			container.find(gmr.selectors.form).each(function() {
-				var $form = $(this),
-					firstName = get_gigya_user_field('firstName'),
-					lastName = get_gigya_user_field('lastName');
-
-				$form.find('input[type="text"]:first').val(firstName + ' ' + lastName);
-			});
-		}
-	};
-
-	__ready = function() {
-		container = $(gmr.selectors.container);
-		gridContainer = $(gmr.selectors.grid);
+	var __ready = function() {
+		container = $('#contest-form');
+		gridContainer = $('.contest__submissions--list');
 
 		$('#contest-form form').submit(function() {
 			var form = $(this);
@@ -972,7 +960,6 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				var restriction = null;
 				
 				if (response.success) {
-					fillForm();
 					container.html(response.data.html);
 					fillForm();
 					$('.type-contest.collapsed').removeClass('collapsed');

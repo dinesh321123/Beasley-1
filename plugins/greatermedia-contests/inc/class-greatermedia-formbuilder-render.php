@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GreaterMediaFormbuilderRender {
 
-	const FORM_CLASS = 'contest_entry_form';
-
 	const INPUT_SIZE_SMALL = '10';
 	const INPUT_SIZE_MEDIUM = '25';
 	const INPUT_SIZE_LARGE = '40';
