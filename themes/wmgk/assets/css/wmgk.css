@@ -1440,6 +1440,9 @@ ul.sub-menu li:hover, .header__nav .format-fw > ul li:hover, .header__nav .forma
   max-height: 40px;
   width: auto; }
 
+.sub-menu li, .header__nav .format-fw > ul li, .header__nav .format-sp > ul li {
+  height: 80px; }
+
 .content__heading {
   margin-top: 0;
   margin-bottom: 1.5em;
