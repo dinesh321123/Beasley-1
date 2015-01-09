@@ -1734,7 +1734,7 @@ Curated posts for Featured Articles
       width: 100%;
       margin-right: 0;
       padding: 3em 3.236em;
-      background-image: url(../../images/featured-bg.png);
+      background-image: url("../../../../themes/greatermedia/assets/../images/featured-bg.png");
       background-repeat: repeat;
       background-position: center center;
       background-color: #561015;
@@ -3705,12 +3705,6 @@ Link posts contain a link to an external site. They can also optionally have a f
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 100em;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
   display: none; }
   .posts-pagination--load-more:hover, .posts-pagination--load-more:focus {
     background-color: #aa1c20;
@@ -4180,9 +4174,10 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-size: 0.79012em;
   text-align: left; }
 .article__content blockquote {
-  background: url(../../images/article__blockquote-icon.svg) no-repeat 0 0.35em;
+  background: url("../../../../themes/greatermedia/assets/../images/article__blockquote-icon.svg") no-repeat 0 0.35em;
   border: none;
-  padding: 0 0 0 4em; }
+  padding: 0 0 0 4em;
+  min-height: 6.4em; }
   .article__content blockquote, .article__content blockquote p {
     color: #6d6e70; }
 
@@ -5640,7 +5635,7 @@ category: Components - Ads
   border: none;
   outline: none;
   background-color: #d0d2d3;
-  background-image: url(../../images/select-arrow.png);
+  background-image: url("../../../../themes/greatermedia/assets/../images/select-arrow.png");
   background-repeat: no-repeat;
   background-position: 90% center;
   background-size: auto 10px;
@@ -6698,7 +6693,7 @@ category: Components - Shows
       padding: 6.472em 3.236em; } }
   @media screen and (min-width: 1024px) {
     .show__header {
-      background-image: url(../../images/featured-bg.png);
+      background-image: url("../../../../themes/greatermedia/assets/../images/featured-bg.png");
       background-repeat: repeat;
       background-position: center center;
       background-color: #561015;
@@ -7329,9 +7324,10 @@ a.social-share-link {
   font-size: 0.79012em;
   text-align: left; }
 .article__content blockquote {
-  background: url(../../images/article__blockquote-icon.svg) no-repeat 0 0.35em;
+  background: url("../../../../themes/greatermedia/assets/../images/article__blockquote-icon.svg") no-repeat 0 0.35em;
   border: none;
-  padding: 0 0 0 4em; }
+  padding: 0 0 0 4em;
+  min-height: 6.4em; }
   .article__content blockquote, .article__content blockquote p {
     color: #6d6e70; }
 

@@ -680,7 +680,6 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .posts-pagination--load-more {
 	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-	@include border-radius(1em);
 	display: none;
 	
 	.fa {

@@ -280,7 +280,7 @@
 		border: none;
 		outline: none;
 		background-color: $form-bg;
-		background-image: url(../../images/select-arrow.png);
+		background-image: url($asset-root + '../images/select-arrow.png');
 		background-repeat: no-repeat;
 		background-position: 90% center;
 		background-size: auto 10px;
