@@ -51,6 +51,11 @@ get_header(); ?>
 									<?php if ( ! empty( $episodes[ $day ] ) ) : ?>
 										<?php for ( $j = 0, $len = count( $episodes[ $day ] ); $j < $len; $j++ ) :
 											$episode = $episodes[ $day ][ $j ];
+											$show = get_post( $episode->post_parent );
+											if ( ! $show || ShowsCPT::SHOW_CPT != $show->post_type ) :
+												continue;
+											endif;
+											
 											$styles = array(
 												'top:' . ( ( strtotime( $episode->post_date ) % DAY_IN_SECONDS ) * 60 / HOUR_IN_SECONDS ) . 'px',
 												'height:' . ( $episode->menu_order * 60 / HOUR_IN_SECONDS ) . 'px',
@@ -60,13 +65,15 @@ get_header(); ?>
 												 style="<?php echo implode( ';', $styles ) ?>"
 												 data-hover-color="<?php echo gmrs_show_color( $episode->post_parent, 0.4 ) ?>">
 
-												<div class="shows__schedule--episode-title">
-													<?php if ( \GreaterMedia\Shows\supports_homepage( $episode->post_parent ) ) : ?>
-														<a href="<?php echo esc_url( get_permalink( $episode->post_parent ) ); ?>">
-															<?php echo esc_html( $episode->post_title ); ?>
+												<div class="shows__schedule--episode-title" title="<?php echo esc_attr( $show->post_title ); ?>">
+													<?php if ( \GreaterMedia\Shows\supports_homepage( $show->ID ) ) : ?>
+														<a href="<?php echo esc_url( get_permalink( $show->ID ) ); ?>">
+															<?php echo esc_html( $show->post_title ); ?>
 														</a>
 													<?php else : ?>
-														<?php echo esc_html( $episode->post_title ); ?>
+														<a href="javascript:void(0);" class="not-link">
+															<?php echo esc_html( $show->post_title ); ?>
+														</a>
 													<?php endif; ?>
 												</div>
 

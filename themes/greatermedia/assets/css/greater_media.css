@@ -7061,7 +7061,6 @@ category: Components - Shows
   overflow: hidden;
   height: 1499px;
   border-left: 1px solid #d0d2d3;
-  border-top: 1px solid #d0d2d3;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
   .shows__schedule--days:before, .shows__schedule--days:after {
@@ -7084,120 +7083,211 @@ category: Components - Shows
   user-select: none; }
   .shows__schedule--day:nth-child(1) {
     left: 0%; }
+    .shows__schedule--day:nth-child(1).fixed .shows__schedule--dayofweek {
+      display: block; }
   .shows__schedule--day:nth-child(2) {
     left: 100%; }
+    .shows__schedule--day:nth-child(2).fixed .shows__schedule--dayofweek {
+      display: none; }
   .shows__schedule--day:nth-child(3) {
     left: 200%; }
+    .shows__schedule--day:nth-child(3).fixed .shows__schedule--dayofweek {
+      display: none; }
   .shows__schedule--day:nth-child(4) {
     left: 300%; }
+    .shows__schedule--day:nth-child(4).fixed .shows__schedule--dayofweek {
+      display: none; }
   .shows__schedule--day:nth-child(5) {
     left: 400%; }
+    .shows__schedule--day:nth-child(5).fixed .shows__schedule--dayofweek {
+      display: none; }
   .shows__schedule--day:nth-child(6) {
     left: 500%; }
+    .shows__schedule--day:nth-child(6).fixed .shows__schedule--dayofweek {
+      display: none; }
   .shows__schedule--day:nth-child(7) {
     left: 600%; }
+    .shows__schedule--day:nth-child(7).fixed .shows__schedule--dayofweek {
+      display: none; }
 
 @media screen and (min-width: 480px) {
   .shows__schedule--day {
     width: 50%; }
     .shows__schedule--day:nth-child(1) {
       left: 0%; }
+      .shows__schedule--day:nth-child(1).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(2) {
       left: 50%; }
+      .shows__schedule--day:nth-child(2).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(3) {
       left: 100%; }
+      .shows__schedule--day:nth-child(3).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(4) {
       left: 150%; }
+      .shows__schedule--day:nth-child(4).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(5) {
       left: 200%; }
+      .shows__schedule--day:nth-child(5).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(6) {
       left: 250%; }
+      .shows__schedule--day:nth-child(6).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(7) {
-      left: 300%; } }
+      left: 300%; }
+      .shows__schedule--day:nth-child(7).fixed .shows__schedule--dayofweek {
+        display: none; } }
 @media screen and (min-width: 768px) {
   .shows__schedule--day {
     width: 33.33333%; }
     .shows__schedule--day:nth-child(1) {
       left: 0%; }
+      .shows__schedule--day:nth-child(1).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(2) {
       left: 33.33333%; }
+      .shows__schedule--day:nth-child(2).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(3) {
       left: 66.66667%; }
+      .shows__schedule--day:nth-child(3).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(4) {
       left: 100%; }
+      .shows__schedule--day:nth-child(4).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(5) {
       left: 133.33333%; }
+      .shows__schedule--day:nth-child(5).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(6) {
       left: 166.66667%; }
+      .shows__schedule--day:nth-child(6).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(7) {
-      left: 200%; } }
+      left: 200%; }
+      .shows__schedule--day:nth-child(7).fixed .shows__schedule--dayofweek {
+        display: none; } }
 @media screen and (min-width: 1024px) {
   .shows__schedule--day {
     width: 25%; }
     .shows__schedule--day:nth-child(1) {
       left: 0%; }
+      .shows__schedule--day:nth-child(1).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(2) {
       left: 25%; }
+      .shows__schedule--day:nth-child(2).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(3) {
       left: 50%; }
+      .shows__schedule--day:nth-child(3).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(4) {
       left: 75%; }
+      .shows__schedule--day:nth-child(4).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(5) {
       left: 100%; }
+      .shows__schedule--day:nth-child(5).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(6) {
       left: 125%; }
+      .shows__schedule--day:nth-child(6).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(7) {
-      left: 150%; } }
+      left: 150%; }
+      .shows__schedule--day:nth-child(7).fixed .shows__schedule--dayofweek {
+        display: none; } }
 @media screen and (min-width: 1400px) {
   .shows__schedule--day {
     width: 20%; }
     .shows__schedule--day:nth-child(1) {
       left: 0%; }
+      .shows__schedule--day:nth-child(1).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(2) {
       left: 20%; }
+      .shows__schedule--day:nth-child(2).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(3) {
       left: 40%; }
+      .shows__schedule--day:nth-child(3).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(4) {
       left: 60%; }
+      .shows__schedule--day:nth-child(4).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(5) {
       left: 80%; }
+      .shows__schedule--day:nth-child(5).fixed .shows__schedule--dayofweek {
+        display: block; }
     .shows__schedule--day:nth-child(6) {
       left: 100%; }
+      .shows__schedule--day:nth-child(6).fixed .shows__schedule--dayofweek {
+        display: none; }
     .shows__schedule--day:nth-child(7) {
-      left: 120%; } }
+      left: 120%; }
+      .shows__schedule--day:nth-child(7).fixed .shows__schedule--dayofweek {
+        display: none; } }
 .shows__schedule--dayofweek {
+  background: #ffffff;
+  border-top: 1px solid #d0d2d3;
   border-bottom: 2px solid #000000;
   text-align: center;
-  padding: 1em 0;
-  margin-right: -1px; }
+  padding: 15px 0;
+  height: 54px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: 99999;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0; }
+
+.shows__schedule--day.fixed .shows__schedule--dayofweek {
+  position: fixed; }
 
 .shows__schedule--episodes {
   position: relative;
-  height: 1440px; }
+  height: 1440px;
+  margin-top: 54px; }
 
 .shows__schedule--episode {
   position: absolute;
   left: 0;
   right: 0;
   border-bottom: 1px solid #d0d2d3;
-  padding: 1em; }
+  padding: 0.5em 1em; }
   .shows__schedule--episode:hover {
     background-color: #f1f1f3; }
 
-.shows__schedule--episode-title {
+.shows__schedule--episode-title a {
+  display: block;
   font-weight: bold;
-  font-size: 0.79012em; }
+  font-size: 0.79012em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; }
+  .shows__schedule--episode-title a.not-link {
+    color: #000000;
+    cursor: default; }
 
 .shows__schedule--episode-time {
-  font-size: 0.70233em; }
+  font-size: 0.70233em;
+  cursor: default; }
 
 .shows__schedule--now {
   position: absolute;
   left: 0;
   right: 0;
-  z-index: 9999999;
+  z-index: 9999;
   border: 1px solid #d22228;
-  margin-right: -1px; }
+  margin: 0 -1px; }
 
 .widget--live-player {
   margin: 0 1em 1em; }
