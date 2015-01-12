@@ -7060,7 +7060,6 @@ category: Components - Shows
   position: relative;
   overflow: hidden;
   height: 1499px;
-  border-left: 1px solid #d0d2d3;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
   .shows__schedule--days:before, .shows__schedule--days:after {
@@ -7073,7 +7072,8 @@ category: Components - Shows
   top: 0;
   left: 0;
   position: absolute;
-  border-right: 1px solid #d0d2d3;
+  border: 1px solid #d0d2d3;
+  border-left-width: 0;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   width: 100%;
@@ -7109,6 +7109,10 @@ category: Components - Shows
     left: 600%; }
     .shows__schedule--day:nth-child(7).fixed .shows__schedule--dayofweek {
       display: none; }
+  .shows__schedule--day:first-child {
+    border-left-width: 1px; }
+    .shows__schedule--day:first-child.fixed .shows__schedule--dayofweek {
+      border-left: 1px solid #d0d2d3; }
 
 @media screen and (min-width: 480px) {
   .shows__schedule--day {
@@ -7236,7 +7240,6 @@ category: Components - Shows
         display: none; } }
 .shows__schedule--dayofweek {
   background: #ffffff;
-  border-top: 1px solid #d0d2d3;
   border-bottom: 2px solid #000000;
   text-align: center;
   padding: 15px 0;
@@ -7250,7 +7253,8 @@ category: Components - Shows
   top: 0; }
 
 .shows__schedule--day.fixed .shows__schedule--dayofweek {
-  position: fixed; }
+  position: fixed;
+  border-top: 1px solid #d0d2d3; }
 
 .shows__schedule--episodes {
   position: relative;

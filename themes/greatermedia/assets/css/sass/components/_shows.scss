@@ -710,7 +710,6 @@ category: Components - Shows
 	position: relative;
 	overflow: hidden;
 	height: 1499px;
-	border-left: 1px solid $light-gray;
 	@include box-sizing(border-box);
 }
 
@@ -718,10 +717,21 @@ category: Components - Shows
 	top: 0;
 	left: 0;
 	position: absolute;
-	border-right: 1px solid $light-gray;
+	border: 1px solid $light-gray;
+	border-left-width: 0;
 	@include box-sizing(border-box);
 	@include show-schedule-columns(1);
 	@include user-select(none);
+
+	&:first-child {
+		border-left-width: 1px;
+
+		&.fixed {
+			.shows__schedule--dayofweek {
+				border-left: 1px solid $light-gray;
+			}
+		}
+	}
 }
 
 @include bp(small) {
@@ -750,7 +760,6 @@ category: Components - Shows
 
 .shows__schedule--dayofweek {
 	background: $primary-bg;
-	border-top: 1px solid $primary-border;
 	border-bottom: 2px solid $black;
 	text-align: center;
 	padding: 15px 0;
@@ -765,6 +774,7 @@ category: Components - Shows
 
 .shows__schedule--day.fixed .shows__schedule--dayofweek {
 	position: fixed;
+	border-top: 1px solid $primary-border;
 }
 
 .shows__schedule--episodes {
