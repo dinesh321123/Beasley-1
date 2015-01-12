@@ -2492,12 +2492,6 @@ Community Highlights and Events
       height: 82px;
       border-top: 1px solid #282827; } }
 
-#breaking-news-banner {
-  display: none; }
-  @media screen and (min-width: 768px) {
-    #breaking-news-banner {
-      display: block; } }
-
 .header__logo {
   float: left;
   display: block;
@@ -5116,9 +5110,27 @@ category: Components
       height: auto;
       overflow: auto; } }
 
-.breaking-news {
+#breaking-news-banner {
   width: 100%;
-  overflow: auto; }
+  padding: .4em 20px;
+  font-size: 16px; }
+  #breaking-news-banner .breaking-news-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: block; }
+    #breaking-news-banner .breaking-news-item .title {
+      color: #f5ed7f;
+      text-transform: uppercase;
+      font-size: .9em; }
+    #breaking-news-banner .breaking-news-item .excerpt {
+      font-size: 1em; }
+    #breaking-news-banner .breaking-news-item * {
+      display: inline; }
+    #breaking-news-banner .breaking-news-item a:hover {
+      color: #f5ed7f; }
 
 /*doc
 ---

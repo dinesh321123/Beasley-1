@@ -1,36 +1,33 @@
-.breaking-news {
+#breaking-news-banner {
 	width: 100%;
-	overflow: auto;
-}
-
-.breakingnews {
-
-}
-
-.breakingnews-attr--title {
-
-}
-
-.breakingnews-attr--img {
-
-}
-
-.breakingnews-attr--content {
-
-}
-
-.breakingnews-attr--excerpt {
-
-}
-
-.breakingnews-attr--additional {
-
-}
-
-.breakingnews-attr--tags {
-
-}
-
-.breakingnews-attr--categories {
-
+	padding: .4em 20px; 	
+	font-size: 16px;
+	
+	.breaking-news-item {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 1400px; 
+		margin: 0 auto; 
+		display: block;
+		
+		.title {
+			color: $color-text-yellow; 
+			text-transform: uppercase; 
+			font-size: .9em; 
+		}
+		
+		.excerpt {
+			font-size: 1em; 
+		}
+		
+		* {
+			// All child elements must be inline for text-overflow to work. 
+			display: inline; 
+		}
+		
+		a:hover {
+			color: $color-text-yellow; 
+		}
+	}
 }

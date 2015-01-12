@@ -34,13 +34,6 @@
 	}
 }
 
-#breaking-news-banner {
-	display: none;
-	@include bp(medium) {
-		display: block;
-	}
-}
-
 .header__logo{
 	@include span-columns(2);
 	@include shift(1);
