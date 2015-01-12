@@ -327,3 +327,22 @@ function get_show_main_query() {
 
 	return $show_query;
 }
+
+function get_show_days( $object_id ) {
+
+	$days = get_post_meta( $object_id, 'show_days', true );
+
+	if ( $days ) {
+		return $days;
+	}
+
+}
+
+function get_show_times( $object_id ) {
+	$times = get_post_meta( $object_id, 'show_times', true );
+
+	if ( $times ) {
+		return $times;
+	}
+
+}
