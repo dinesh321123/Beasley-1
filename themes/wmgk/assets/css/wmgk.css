@@ -3664,12 +3664,6 @@ Link posts contain a link to an external site. They can also optionally have a f
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
-  -webkit-border-radius: 1em;
-  -moz-border-radius: 1em;
-  -ms-border-radius: 1em;
-  -o-border-radius: 1em;
-  -border-radius: 1em;
-  border-radius: 1em;
   display: none; }
   .posts-pagination--load-more:hover, .posts-pagination--load-more:focus {
     background-color: #aa1c20;
@@ -8642,6 +8636,10 @@ category: Components - Gallery Archive
   font-size: 1.125em;
   font-weight: lighter;
   color: #404041; }
+  @media screen and (min-width: 768px) {
+    .gallery__grid--title {
+      height: 78px;
+      overflow: hidden; } }
 
 .gallery__grid--pagination {
   width: 100%;
