@@ -31,11 +31,6 @@
 .article__content {
 	margin-bottom: 1.5em;
 	
-	// Using pixel-based size for now rather than fighting with the theme's
-	// relative sizing (where I will have to add sizes for all breakpoints). 	
-	font-size: 16px;
-	line-height: 1.6;
-	
 	@include bp(large) {
 		margin-bottom: 4.5em;
 	}
@@ -140,6 +135,16 @@
 
 
 .article__content {
+	
+	// Using pixel-based size for now rather than fighting with the theme's
+	// relative sizing (where I will have to add sizes for all breakpoints).
+	$font-size: 16px;
+	$line-height: 1.6;  	
+	$line-height-computed: $font-size * $line-height;
+	
+	font-size: $font-size;
+	line-height: $line-height;	
+		
 	.alignleft, img.alignleft {
 		display: block;
 		margin: 0 1em 16px;
@@ -188,6 +193,11 @@
 		&, p {
 			color: $medium-dark-gray;
 		}
+	}
+	
+	// Tighten up spacing on headings.
+	h1, h2, h3, h4, h5, h6 {
+		margin: $line-height-computed 0; 
 	}
 }
 
