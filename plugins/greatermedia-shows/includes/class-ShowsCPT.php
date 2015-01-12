@@ -54,7 +54,7 @@ class ShowsCPT {
 			'public'              => true,
 			'menu_position'       => 5,
 			'menu_icon'           => 'dashicons-megaphone',
-			'has_archive'         => true,
+			'has_archive'         => 'shows',
 			'supports'            => array( 'title', 'editor', 'author', 'thumbnail', 'comments', 'revisions' ),
 			'labels'              => array(
 				'name'               => __( 'Shows', 'greatermedia' ),

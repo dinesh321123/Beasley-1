@@ -6,9 +6,42 @@ add_action( 'admin_enqueue_scripts', 'gmrs_enqueue_episode_scripts' );
 add_action( 'admin_action_gmr_add_show_episode', 'gmrs_add_show_episode' );
 add_action( 'admin_action_gmr_delete_show_episode', 'gmrs_delete_show_episode' );
 add_action( 'future_to_publish', 'gmrs_prolong_show_episode' );
+add_action( 'admin_bar_menu', 'gmrs_add_admin_bar_items', 100 );
 
 // filter hooks
 add_filter( 'gmr_blogroll_widget_item', 'gmrs_get_blogroll_widget_episode_item' );
+
+/**
+ * Adds view/edit show schedule links to the admin bar menu.
+ *
+ * @action admin_bar_menu 100
+ * @param WP_Admin_Bar $admin_bar The admin bar object.
+ */
+function gmrs_add_admin_bar_items( WP_Admin_Bar $admin_bar ) {
+	if ( is_admin() ) {
+		if ( isset( $_REQUEST['page'] ) && 'episode-schedule' == $_REQUEST['page'] ) {
+			$admin_bar->add_menu( array(
+				'id' => 'view-show-schedule',
+				'title' => 'View Show Schedule',
+				'href' => get_post_type_archive_link( ShowsCPT::SHOW_CPT ),
+				'meta' => array(
+					'title' => 'View Show Schedule',
+				),
+			) );
+		}
+	} else {
+		if ( is_post_type_archive( ShowsCPT::SHOW_CPT ) ) {
+			$admin_bar->add_menu( array(
+				'id' => 'edit-show-schedule',
+				'title' => 'Edit Show Schedule',
+				'href' => admin_url( '/edit.php?page=episode-schedule&post_type=' . ShowsCPT::SHOW_CPT ),
+				'meta' => array(
+					'title' => 'Edit Show Schedule',
+				),
+			) );
+		}
+	}
+}
 
 /**
  * Creates new episode each time the current one is published.
@@ -92,9 +125,11 @@ function gmrs_add_show_episode() {
 	}
 
 	$offset = get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
+	$now = current_time( 'timestamp', 1 );
+	$today_gmt = $now - $now % DAY_IN_SECONDS - $offset;
 	$start_date = $date + $data['start_time'];
 	$start_date_gmt = $start_date - $offset;
-	if ( $start_date_gmt < time() ) {
+	if ( $start_date_gmt < $today_gmt ) {
 		wp_die( 'Please, select a date in the future.', '', array( 'back_link' => true ) );
 	}
 	
@@ -263,6 +298,7 @@ function gmrs_render_episode_schedule_page() {
 	);
 
 	?><div id="show-schedule" class="wrap">
+		<small class="code" style="float:right">(current time: <?php echo date( get_option( 'time_format' ), current_time( 'timestamp' ) ); ?>)</small>
 		<h2>Show Schedule</h2>
 
 		<?php foreach ( array( 'created', 'deleted' ) as $action ) : ?>
@@ -402,11 +438,20 @@ function gmrs_render_episode_schedule_page() {
 /**
  * Returns scheduled episodes.
  *
- * @param int $show_id The show id.
+ * @param string $from The "from" date in GMT.
+ * @param string $to The "to" date in GMT.
  * @return array The array of scheduled episodes.
  */
-function gmrs_get_scheduled_episodes() {
+function gmrs_get_scheduled_episodes( $from = null, $to = null) {
 	$query = new WP_Query();
+
+	if ( empty( $from ) ) {
+		$from = date( DATE_ISO8601, time() );
+	}
+
+	if ( empty( $to ) ) {
+		$to = date( 'Y-m-d 23:59:59', strtotime( '+1 week' ) );
+	}
 	
 	$posts = $query->query( array(
 		'post_type'           => ShowsCPT::EPISODE_CPT,
@@ -418,8 +463,8 @@ function gmrs_get_scheduled_episodes() {
 		'order'               => 'ASC',
 		'date_query'          => array(
 			array(
-				'after'     => date( DATE_ISO8601, time() ),
-				'before'    => date( 'Y-m-d 23:59:59', strtotime( '+1 week' ) ),
+				'after'     => $from,
+				'before'    => $to,
 				'inclusive' => true,
 				'column'    => 'post_date_gmt'
 			),
