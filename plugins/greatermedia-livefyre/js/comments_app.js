@@ -81,15 +81,19 @@
 		this.ajaxApi   = new WpAjaxApi(window.livefyre_comments_data);
 		this.authToken = this.loadAuthToken();
 
+		var self = this;
+
 		if (this.canLoadComments()) {
 			this.authorize();
 		} else {
-			var self = this;
-
 			$(document).ready(function() {
 				self.authorize();
 			});
 		}
+
+		$(document).on('pjax:end', function() {
+			self.load();
+		});
 	};
 
 	CommentsApp.prototype = {

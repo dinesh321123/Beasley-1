@@ -26,6 +26,7 @@ require_once( __DIR__ . '/includes/site-options/loader.php' );
 require_once( __DIR__ . '/includes/mega-menu/mega-menu-admin.php' );
 require_once( __DIR__ . '/includes/mega-menu/mega-menu-walker.php' );
 require_once( __DIR__ . '/includes/mega-menu/mega-menu-mobile-walker.php' );
+require_once( __DIR__ . '/includes/gallery-post-thumbnails/loader.php' );
 
 /**
  * Required files
