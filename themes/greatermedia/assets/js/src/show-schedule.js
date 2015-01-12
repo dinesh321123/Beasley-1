@@ -3,7 +3,6 @@
 
 	var __ready = function() {
 		var $days = $('.shows__schedule--day'),
-			days_offset = $days.offset().top,
 			header_bottom = $('#wpadminbar').outerHeight(),
 			on_scroll;
 
@@ -13,12 +12,13 @@
 			$days.each(function() {
 				var $day = $(this),
 					$weekday = $day.find('.shows__schedule--dayofweek'),
+					day_top = $day.offset().top,
 					day_left = $day.offset().left,
 					day_bottom = $day.height() + $day.offset().top,
 					own_height = $weekday.height(),
 					top;
 
-				if (scroll_top + header_bottom >= days_offset) {
+				if (scroll_top + header_bottom >= day_top) {
 					$day.addClass('fixed');
 
 					top = scroll_top + header_bottom + own_height >= day_bottom
