@@ -6,34 +6,20 @@
 
 class AnnouncementsDashboardWidget {
 
-	private $content_site_id;
+	public static $content_site_id;
 
 	private $taxonomies = array( 'collection' );
 
 	public function __construct()
 	{
 		if( defined( 'GMR_CONTENT_SITE_ID' ) ) {
-			$this->content_site_id = GMR_CONTENT_SITE_ID;
+			self::$content_site_id = GMR_CONTENT_SITE_ID;
 		} elseif ( is_multisite() ) {
-			$this->content_site_id = get_current_site()->blog_id;
-			add_action( 'admin_notices', array( $this, 'add_notice_for_undefined' ) );
+			self::$content_site_id = get_current_site()->blog_id;
 		} else {
-			$this->content_site_id = get_current_blog_id();
+			self::$content_site_id = get_current_blog_id();
 		}
 		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widgets' ) );
-	}
-
-	public function add_notice_for_undefined() {
-		?>
-		<div class="error">
-			<p>
-				No Content Factory site ID is defined!
-				Using default ID <?php echo $this->content_site_id; ?>!
-				Please define GMR_CONTENT_SITE_ID in config
-			</p>
-
-		</div>
-		<?php
 	}
 
 	public function GetCollections() {
@@ -42,7 +28,7 @@ class AnnouncementsDashboardWidget {
 		$terms = array();
 		$data = array();
 
-		switch_to_blog( $this->content_site_id );
+		switch_to_blog( self::$content_site_id );
 
 		foreach ( $this->taxonomies as $taxonomy ) {
 			if( taxonomy_exists( $taxonomy ) ) {

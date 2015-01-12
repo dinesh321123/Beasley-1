@@ -62,8 +62,12 @@ class AnnouncementsCPT {
 				)
 		);
 
-		if( get_current_blog_id() == BlogData::$content_site_id ) {
+		if( class_exists( 'BlogData' ) && get_current_blog_id() == AnnouncementsDashboardWidget::$content_site_id ) {
 			register_post_type( 'announcement', $args );
+		} else {
+			if( defined( 'GMR_CONTENT_SITE_ID' ) && get_current_blog_id() == GMR_CONTENT_SITE_ID ) {
+				register_post_type( 'announcement', $args );
+			}
 		}
 	}
 }
