@@ -6,6 +6,9 @@ add_action( 'init', 'gmr_contests_register_rewrites_and_endpoints', 100 );
 add_action( 'wp_enqueue_scripts', 'gmr_contests_enqueue_front_scripts', 100 );
 add_action( 'template_redirect', 'gmr_contests_process_action' );
 add_action( 'template_redirect', 'gmr_contests_process_submission_action' );
+add_action( 'before_delete_post', 'gmr_contests_prevent_hard_delete' );
+add_action( 'wp_trash_post', 'gmr_contests_prevent_hard_delete' );
+add_action( 'transition_post_status', 'gmr_contests_prevent_trash_transition', 10, 3 );
 
 add_action( 'gmr_contest_load', 'gmr_contests_render_form' );
 add_action( 'gmr_contest_submit', 'gmr_contests_process_form_submission' );
@@ -14,11 +17,103 @@ add_action( 'gmr_contest_vote', 'gmr_contests_vote_for_submission' );
 add_action( 'gmr_contest_unvote', 'gmr_contests_unvote_for_submission' );
 
 // filter hooks
+add_filter( 'map_meta_cap', 'gmr_contests_map_meta_cap', 10, 4 );
 add_filter( 'gmr_contest_submissions_query', 'gmr_contests_submissions_query' );
 add_filter( 'post_type_link', 'gmr_contests_get_submission_permalink', 10, 2 );
 add_filter( 'request', 'gmr_contests_unpack_vars' );
 add_filter( 'post_thumbnail_html', 'gmr_contests_post_thumbnail_html', 10, 4 );
 add_filter( 'post_row_actions', 'gmr_contests_add_table_row_actions', 10, 2 );
+
+/**
+ * Removes delete_post(s) capabilities for public contests or contest entries.
+ *
+ * @filter map_meta_cap
+ * @global string $pagenow The current page.
+ * @global string $typenow The current type.
+ * @param array $caps The array of user capabilities.
+ * @param string $cap The current capability to check against.
+ * @param int $user_id The current user id.
+ * @param array $args Additional parameters.
+ * @return array The array of allowed capabilities.
+ */
+function gmr_contests_map_meta_cap( $caps, $cap, $user_id, $args ) {
+	global $pagenow, $typenow;
+
+	if ( ! in_array( $typenow, array( GMR_CONTEST_CPT, GMR_CONTEST_ENTRY_CPT ) ) ) {
+		return $caps;
+	}
+
+	if ( ! in_array( $pagenow, array( 'edit.php', 'post.php' ) ) ) {
+		return $caps;
+	}
+
+	if ( in_array( $cap, array( 'delete_post', 'delete_posts' ) ) ) {
+		if ( is_array( $args ) && ! empty( $args ) ) {
+			// let's allow removal for non public contests
+			$post = get_post( current( $args ) );
+			if ( $post && GMR_CONTEST_CPT == $post->post_type ) {
+				$status = get_post_status_object( $post->post_status );
+				if ( $status && ! $status->public ) {
+					return $caps;
+				}
+			}
+		}
+
+		$caps[] = 'do_not_allow';
+		
+		unset( $caps[ array_search( 'delete_post', $caps ) ] );
+		unset( $caps[ array_search( 'delete_posts', $caps ) ] );
+	}
+	
+	return $caps;
+}
+
+/**
+ * Prevents started contest or contest entry deletion.
+ *
+ * @action before_delete_post
+ * @param int $post The post id, which will be deleted.
+ * @param string $post_status The actuall post status before removal.
+ */
+function gmr_contests_prevent_hard_delete( $post, $post_status = null ) {
+	// do nothing if a post doesn't exist
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return;
+	}
+
+	// check contest
+	if ( GMR_CONTEST_CPT == $post->post_type ) {
+		if ( empty( $post_status ) ) {
+			$post_status = $post->post_status;
+		}
+
+		$status = get_post_status_object( $post_status );
+		if ( $status && $status->public ) {
+			wp_die( 'You can not delete or trash already started contest.', '', array( 'back_link' => true ) );
+		}
+		return;
+	}
+
+	// check entry
+	if ( GMR_CONTEST_ENTRY_CPT == $post->post_type ) {
+		wp_die( 'You can not delete or trash contest entry.', '', array( 'back_link' => true ) );
+	}
+}
+
+/**
+ * Prevent started contests or contest entries transition to trash.
+ *
+ * @action transition_post_status 10 3
+ * @param string $new_status The new status.
+ * @param string $old_status The old status.
+ * @param WP_Post $post The post object.
+ */
+function gmr_contests_prevent_trash_transition( $new_status, $old_status, $post ) {
+	if ( 'trash' == $new_status ) {
+		gmr_contests_prevent_hard_delete( $post, $old_status );
+	}
+}
 
 /**
  * Registers custom post types related to contests area.
@@ -227,8 +322,7 @@ function _gmr_contests_get_submission_for_voting_actions() {
 		wp_send_json_error();
 	}
 
-	$query = new WP_Query();
-	$submissions = $query->query( array(
+	$query = new WP_Query();$submissions = $query->query( array(
 		'posts_per_page'      => 1,
 		'ignore_sticky_posts' => true,
 		'no_found_rows'       => true,
