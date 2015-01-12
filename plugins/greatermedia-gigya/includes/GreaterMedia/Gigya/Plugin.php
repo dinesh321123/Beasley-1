@@ -115,6 +115,9 @@ class Plugin {
 	public function initialize_admin_menu() {
 		$settings_page = new SettingsPage();
 		$settings_page->register();
+
+		$emma_settings_page = new \GreaterMedia\MyEmma\SettingsPage();
+		$emma_settings_page->register();
 	}
 
 	/**
@@ -138,6 +141,15 @@ class Plugin {
 		$handlers[] = new Ajax\EmmaMemberOptoutAjaxHandler();
 		$handlers[] = new Ajax\ChangeMemberQuerySegmentAjaxHandler();
 
+		// MyEmma
+		$handlers[] = new \GreaterMedia\MyEmma\Ajax\ChangeMyEmmaSettings();
+		$handlers[] = new \GreaterMedia\MyEmma\Ajax\ListMyEmmaWebhooks();
+		$handlers[] = new \GreaterMedia\MyEmma\Ajax\UpdateMyEmmaWebhooks();
+		$handlers[] = new \GreaterMedia\MyEmma\Ajax\AddMyEmmaGroup();
+
+		// TODO: Verify that this is OK? This conditional is a
+		// basic security measure, else we have an open endpoint that
+		// anyone can hit and use to add actions to DS.Store
 		if ( is_gigya_user_logged_in() ) {
 			$handlers[] = new Ajax\SaveGigyaActionAjaxHandler();
 		}
