@@ -10,6 +10,9 @@
 	</div>
 
 	<div class="gallery__grid--meta">
+		<div class="gallery__grid--meta_container">
+
+		</div>
 		<h3 class="gallery__grid--title">
 			<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 		</h3>

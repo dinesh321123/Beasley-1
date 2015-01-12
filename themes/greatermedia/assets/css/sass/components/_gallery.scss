@@ -1058,12 +1058,19 @@ category: Components - Gallery Archive
 	}
 }
 
+
+// @todo find a good ellipsis solution that works
 .gallery__grid--title {
 	margin: 0;
 	font-family: $open-sans;
 	font-size: ms(1);
 	font-weight: lighter;
 	color: $primary-heading;
+
+	@include bp(medium) {
+		height: 78px;
+		overflow: hidden;
+	}
 }
 
 .gallery__grid--pagination {

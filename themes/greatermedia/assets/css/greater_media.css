@@ -8630,6 +8630,10 @@ category: Components - Gallery Archive
   font-size: 1.125em;
   font-weight: lighter;
   color: #404041; }
+  @media screen and (min-width: 768px) {
+    .gallery__grid--title {
+      height: 78px;
+      overflow: hidden; } }
 
 .gallery__grid--pagination {
   width: 100%;
