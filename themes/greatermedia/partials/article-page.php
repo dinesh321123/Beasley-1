@@ -12,9 +12,9 @@
 
 			<header class="article__header">
 				<h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
-				<a class="icon-facebook social__link" href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]"></a>
-				<a class="icon-twitter social__link" href="http://twitter.com/home?status=[TITLE]+[URL]"></a>
-				<a class="icon-google-plus social__link" href="https://plus.google.com/share?url=[URL]"></a>
+				<a class="icon-facebook social__link popup" href="http://www.facebook.com/sharer/sharer.php?u=[URL]&title=[TITLE]"></a>
+				<a class="icon-twitter social__link popup" href="http://twitter.com/home?status=[TITLE]+[URL]"></a>
+				<a class="icon-google-plus social__link popup" href="https://plus.google.com/share?url=[URL]"></a>
 			</header>
 
 			<section class="article__content" itemprop="articleBody">

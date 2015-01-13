@@ -82,16 +82,16 @@ class GreaterMediaSiteOptionsHelperFunctions {
 
 		echo '<ul class="social__list">';
 		if( $facebook ) {
-			echo '<li><a class="social__link icon-facebook" href="' . esc_url( $facebook ) . '"></a></li>';
+			echo '<li><a class="social__link icon-facebook" target="_blank" href="' . esc_url( $facebook ) . '"></a></li>';
 		}
 		if( $twitter ) {
-			echo '<li><a class="social__link icon-twitter" href="https://twitter.com/' . esc_html( $twitter ) . '"></a></li>';
+			echo '<li><a class="social__link icon-twitter" target="_blank" href="https://twitter.com/' . esc_html( $twitter ) . '"></a></li>';
 		}
 		if( $youtube ) {
-			echo '<li><a class="social__link icon-youtube" href="' . esc_url( $youtube ) . '"></a></li>';
+			echo '<li><a class="social__link icon-youtube" target="_blank" href="' . esc_url( $youtube ) . '"></a></li>';
 		}
 		if( $instagram ) {
-			echo '<li><a class="social__link icon-instagram" href="http://instagram.com/' . esc_url( $instagram ) . '"></a></li>';
+			echo '<li><a class="social__link icon-instagram" target="_blank" href="http://instagram.com/' . esc_url( $instagram ) . '"></a></li>';
 		}
 		echo '</ul>';
 
