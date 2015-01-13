@@ -102,9 +102,11 @@ class ProfilePage {
 			true
 		);
 
+		$protocol = is_ssl() ? 'https' : 'http';
+
 		wp_enqueue_script(
 			'gigya_socialize',
-			"http://cdn.gigya.com/JS/gigya.js?apiKey={$api_key}",
+			"{$protocol}://cdn.gigya.com/JS/gigya.js?apiKey={$api_key}",
 			array( 'jquery', 'cookies-js', 'underscore', 'gigya_config' ),
 			GMR_GIGYA_VERSION,
 			true
