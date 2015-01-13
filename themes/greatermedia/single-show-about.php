@@ -46,13 +46,11 @@
 							<div class="personality__meta">
 								<span class="personality__name h1"><?php echo esc_html( $personality->data->display_name ); ?></span>
 								<div class="personality__bio"><?php echo apply_filters('the_content', esc_html( get_the_author_meta( 'description', $personality->ID ) ) ); ?></div>
+								<button class="person-toggle more-btn">more</button>
 							</div>
 								<?php
 							$social = GreaterMedia\Shows\get_personality_social_ul( $personality );
 							?>
-							<div class="personality__btn">
-								<button class="person-toggle more-btn">more</button>
-							</div>
 						</article>
 					<?php endforeach; ?>
 				</section>

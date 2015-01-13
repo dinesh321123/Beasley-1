@@ -8912,7 +8912,7 @@ category: Components - Shows
     clear: both; }
 
 .personality {
-  padding: 1.5em 3em;
+  padding: 1.5em;
   margin-bottom: 2em;
   position: relative;
   display: block; }
@@ -8923,6 +8923,9 @@ category: Components - Shows
     clear: both; }
   .personality.open {
     background-color: #d0d2d3; }
+  @media screen and (min-width: 768px) {
+    .personality {
+      padding: 1.5em 3em; } }
 
 .personality__avatar {
   float: left;
@@ -8954,20 +8957,23 @@ category: Components - Shows
 .personality__meta {
   float: none;
   width: auto;
-  height: 10em;
-  overflow: hidden;
   transition: all 100ms ease-out 0s; }
-  .personality.open .personality__meta {
-    overflow: visible;
-    height: auto; }
+  .personality__meta p + p {
+    display: none; }
+    .personality.open .personality__meta p + p {
+      display: block; }
+  .personality__meta .more-btn {
+    right: auto;
+    bottom: auto;
+    position: relative;
+    left: 0; }
   @media screen and (min-width: 768px) {
     .personality__meta {
       float: left;
       display: block;
       margin-right: 2.35765%;
       width: 74.41059%;
-      margin-right: 0;
-      height: 12em; }
+      margin-right: 0; }
       .personality__meta:last-child {
         margin-right: 0; } }
 
@@ -8976,10 +8982,6 @@ category: Components - Shows
   width: 100%;
   text-align: center;
   padding-top: 1em; }
-  .personality__btn .more-btn {
-    right: auto;
-    bottom: auto;
-    position: relative; }
 
 /*doc
 ---
