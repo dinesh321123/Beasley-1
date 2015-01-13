@@ -19,6 +19,9 @@ $months = array(
 	'December',
 );
 
+$emma_groups = get_option( 'emma_groups' );
+$emma_groups = json_decode( $emma_groups, true );
+
 ?>
 
 	<div class="gigya-screen-set" id="GMR-CustomScreenSet" style="display:none" data-on-pending-registration-screen="gigya-register-complete-screen">
@@ -54,7 +57,12 @@ $months = array(
 
 				<a href="#" class="link-button" data-switch-screen="gigya-forgot-password-screen">Forgot Password?</a>
 				<input type="submit" name="submit" value="Login" />
+
 			</form>
+
+			<h3 class="new-account-msg">Don't have an account?
+			<a href="#" class="link-button" data-switch-screen="gigya-register-screen">Register here.</a>
+			</h3>
 		</div>
 
 		<div class="gigya-screen" id="gigya-forgot-password-screen" data-responsive="true">
@@ -185,18 +193,17 @@ $months = array(
 				<h2>Email Subscriptions</h2>
 
 				<ul class="member-groups-list">
-					<li>
-						<input type="checkbox" name="data.vipGroup" checked="checked" />
-						<label class="label-email-list">@Work Network Newsletter</label>
-					</li>
-					<li>
-						<input type="checkbox" name="data.bigFrigginDealGroup" checked="checked">
-						<label class="label-email-list">MGK's Discount Deal</label>
-					</li>
-					<li>
-						<input type="checkbox" name="data.birthdayGreetingsGroup" checked="checked">
-						<label class="label-email-list">Birthday Greetings</label>
-					</li>
+					<?php foreach ( $emma_groups as $emma_group ) { ?>
+						<li>
+							<input
+								type="checkbox"
+								name="data.<?php echo esc_attr( $emma_group['field_key'] ) ?>"
+								checked="checked" />
+							<label class="label-email-list">
+								<?php echo esc_html( $emma_group['group_name'] ) ?>
+							</label>
+						</li>
+					<?php } ?>
 				</ul>
 
 				<h2>Radio Listening Questions:</h2>
@@ -284,18 +291,16 @@ $months = array(
 				<h2>Email Subscriptions</h2>
 
 				<ul class="member-groups-list">
-					<li>
-						<input type="checkbox" name="data.vipGroup" checked="checked" />
-						<label class="label-email-list">@Work Network Newsletter</label>
-					</li>
-					<li>
-						<input type="checkbox" name="data.bigFrigginDealGroup" checked="checked">
-						<label class="label-email-list">MGK's Discount Deal</label>
-					</li>
-					<li>
-						<input type="checkbox" name="data.birthdayGreetingsGroup" checked="checked">
-						<label class="label-email-list">Birthday Greetings</label>
-					</li>
+					<?php foreach ( $emma_groups as $emma_group ) { ?>
+						<li>
+							<input
+								type="checkbox"
+								name="data.<?php echo esc_attr( $emma_group['field_key'] ) ?>" />
+							<label class="label-email-list">
+								<?php echo esc_html( $emma_group['group_name'] ) ?>
+							</label>
+						</li>
+					<?php } ?>
 				</ul>
 
 				<a href="#" class="link-button logout-button">&laquo; Logout</a>

@@ -87,10 +87,7 @@ class ProfilePage {
 	}
 
 	public function load_scripts( $page_name ) {
-		$api_key                 = $this->get_gigya_api_key();
-		$settings                = $this->get_member_query_settings();
-		$gigya_auth_screenset    = $settings['gigya_auth_screenset'];
-		$gigya_account_screenset = $settings['gigya_account_screenset'];
+		$api_key = $this->get_gigya_api_key();
 
 		if ( $api_key === '' ) {
 			error_log( 'Fatal Error: Gigya API Key not found.' );
@@ -116,16 +113,16 @@ class ProfilePage {
 		wp_enqueue_script(
 			'gigya_profile',
 			plugins_url( 'js/gigya_profile.js', GMR_GIGYA_PLUGIN_FILE ),
-			array( 'gigya_socialize' ),
+			array( 'gigya_socialize', 'wp_ajax_api' ),
 			GMR_GIGYA_VERSION,
 			true
 		);
 
 		$meta = array(
-			'ajax_url'                => admin_url( 'admin-ajax.php' ),
-			'current_page'            => $page_name,
-			'gigya_auth_screenset'    => $gigya_auth_screenset,
-			'gigya_account_screenset' => $gigya_account_screenset,
+			'ajax_url'               => admin_url( 'admin-ajax.php' ),
+			'register_account_nonce' => wp_create_nonce( 'register_account' ),
+			'update_account_nonce'   => wp_create_nonce( 'update_account' ),
+			'current_page'           => $page_name,
 
 			'join_header' => get_option( 'gmr_join_page_heading', '' ),
 			'join_message' => get_option( 'gmr_join_page_message', '' ),

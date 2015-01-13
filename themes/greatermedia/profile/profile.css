@@ -102,6 +102,15 @@
 	display: inline-block;
 }
 
+#profile-content .gigya-screen .new-account-msg {
+	margin-top: 2em;
+}
+
+#profile-content .gigya-screen .new-account-msg a {
+	color: #d22228;
+	display: inline;
+}
+
 /* Gigya Overrides */
 #profile-content_content[style] {
 	width: 100% !important;
