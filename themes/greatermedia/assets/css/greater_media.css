@@ -5215,27 +5215,28 @@ category: Components
       height: auto;
       overflow: auto; } }
 
-#breaking-news-banner {
-  width: 100%;
-  padding: .4em 20px;
-  font-size: 16px; }
-  #breaking-news-banner .breaking-news-item {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 1400px;
-    margin: 0 auto;
-    display: block; }
-    #breaking-news-banner .breaking-news-item .title {
-      color: #f5ed7f;
-      text-transform: uppercase;
-      font-size: .9em; }
-    #breaking-news-banner .breaking-news-item .excerpt {
-      font-size: 1em; }
-    #breaking-news-banner .breaking-news-item * {
-      display: inline; }
-    #breaking-news-banner .breaking-news-item a:hover {
-      color: #f5ed7f; }
+.breaking-news-banner {
+  padding: 0; }
+
+.breaking-news-banner__inner {
+  padding: .5em 20px;
+  margin: 0 auto;
+  max-width: 1400px;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+  @media screen and (min-width: 1024px) {
+    .breaking-news-banner__inner {
+      padding: 0.5em 1.618em; } }
+
+.breaking-news-banner__title {
+  color: #f5ed7f;
+  text-transform: uppercase;
+  font-size: .9em; }
+
+a:hover .breaking-news-banner {
+  color: #f5ed7f; }
 
 /*doc
 ---

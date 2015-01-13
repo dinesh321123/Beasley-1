@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";;;;;;;AAQA,qBAAsB;EACrB,KAAK,EAAE,IAAI;EACX,UAAU,EAAE,OAAO;EACnB,OAAO,EAAE,SAAS;EAClB,KAAK,EAAE,IAAI;EAEX,uBAAE;IACD,OAAO,EAAE,KAAK;IACd,OAAO,EAAE,cAAc;EAGxB;;;+BAGQ;IACP,KAAK,EAAE,IAAI;IACX,eAAe,EAAE,IAAI;;AAGtB,4BAA6B;EAC5B,WAAW,EAAE,IAAI;EACjB,aAAa,EAAE,KAAK",
+"sources": ["sass/breaking-news.scss"],
+"names": [],
+"file": "breaking-news.css"
+}

@@ -142,13 +142,14 @@ if ( !class_exists( "Breaking_News" ) ) {
 				if ( 1 === $show_banner ) {
 					setup_postdata( $post );
 			?>
-					<div id="breaking-news-banner">
-						<div class="breaking-news-item">
-							<a href="<?php the_permalink(); ?>">
-								<span class="title"><?php the_title(); ?>:</span> <span class="excerpt"><?php echo wp_kses_post( $this->get_post_excerpt( $post, 25 ) ); ?></span>
-							</a>
+				<a href="<?php the_permalink(); ?>">
+					<div id="breaking-news-banner" class="breaking-news-banner">
+						<div class='breaking-news-banner__inner'>
+							<span class="breaking-news-banner__title"><?php the_title(); ?>:</span> 
+							<span class="breaking-news-banner__excerpt"><?php echo wp_kses_post( $this->get_post_excerpt( $post, 25 ) ); ?></span>
 						</div>
 					</div>
+				</a>
 			<?php
 					wp_reset_postdata();
 				}
@@ -171,12 +172,14 @@ if ( !class_exists( "Breaking_News" ) ) {
 				if ( ! empty( $post ) ) {
 					setup_postdata( $post );
 				?>
-					<div id="latest-breaking-news-item">
-						<div class="breaking-news-item">
-							<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-							<p><?php echo wp_kses_post( $this->get_post_excerpt( $post, 50 ) ); ?></p>
+					<a href="<?php the_permalink(); ?>">
+						<div id="breaking-news-banner" class="breaking-news-banner">
+							<div class='breaking-news-banner__inner'>
+								<span class="breaking-news-banner__title"><?php the_title(); ?>:</span> 
+								<span class="breaking-news-banner__excerpt"><?php echo wp_kses_post( $this->get_post_excerpt( $post, 25 ) ); ?></span>
+							</div>						
 						</div>
-					</div>
+					</a>
 				<?php
 					wp_reset_postdata();
 				}

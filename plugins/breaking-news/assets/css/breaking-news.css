@@ -5,26 +5,23 @@
  * Copyright (c) 2014 10up
  * Licensed under the GPLv2+ license.
  */
-#breaking-news-banner {
+.breaking-news-banner {
   width: 100%;
   background: #D23026;
-  padding: 0.3em 1em 0.5em 1em;
+  padding: 0.5em 1em;
   color: #fff; }
-  #breaking-news-banner a {
-    display: block; }
-  #breaking-news-banner a,
-  #breaking-news-banner a:link,
-  #breaking-news-banner a:visited,
-  #breaking-news-banner a:hover {
+  .breaking-news-banner a {
+    display: block;
+    outline: 1px solid blue; }
+  .breaking-news-banner a,
+  .breaking-news-banner a:link,
+  .breaking-news-banner a:visited,
+  .breaking-news-banner a:hover {
     color: #fff;
     text-decoration: none; }
-  #breaking-news-banner .title {
-    font-weight: bold;
-    padding-right: 0.5em; }
-  #breaking-news-banner .excerpt {
-    font-size: 0.9em; }
 
-#latest-breaking-news-item {
-  border: 3px solid #D23026;
-  padding: 1em;
-  margin: 1em 0; }
+.breaking-news-banner__title {
+  font-weight: bold;
+  padding-right: 0.5em; }
+
+/*# sourceMappingURL=breaking-news.css.map */

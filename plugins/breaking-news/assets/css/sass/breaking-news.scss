@@ -6,14 +6,15 @@
  * Licensed under the GPLv2+ license.
  */
 
-#breaking-news-banner {
+.breaking-news-banner {
 	width: 100%;
 	background: #D23026;
-	padding: 0.3em 1em 0.5em 1em;
+	padding: 0.5em 1em;
 	color: #fff;
 
 	a {
 		display: block;
+		outline: 1px solid blue;
 	}
 
 	a,
@@ -23,19 +24,8 @@
 		color: #fff;
 		text-decoration: none;
 	}
-
-	.title {
+}
+	.breaking-news-banner__title {
 		font-weight: bold;
 		padding-right: 0.5em;
 	}
-
-	.excerpt {
-		font-size: 0.9em;
-	}
-}
-
-#latest-breaking-news-item {
-	border: 3px solid #D23026;
-	padding: 1em;
-	margin: 1em 0;
-}
