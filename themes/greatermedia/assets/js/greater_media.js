@@ -418,14 +418,13 @@
 		if (livePlayer.classList.contains('live-player--mobile')) {
 			livePlayer.classList.remove('live-player--mobile');
 		}
-		livePlayer.classList.add('live-player--init');
 		liveLinksMobileState();
+		setTimeout(getScrollPosition, 1000);
 		if( window.innerWidth >= 1385 || this.document.documentElement.clientWidth >= 1385 || this.document.body.clientWidth >= 1385 ) {
 			livePlayer.style.right = 'calc(50% - 700px)';
 		} else {
 			livePlayer.style.right = '0';
 		}
-		getScrollPosition();
 	}
 
 	/**
@@ -606,7 +605,6 @@
 		if ( window.innerWidth >= 768 ) {
 			if(livePlayer != null) {
 				livePlayerDesktopReset();
-				lpPosBase();
 				addEventHandler(window,elemScroll,function() {
 					scrollDebounce();
 					scrollThrottle();
