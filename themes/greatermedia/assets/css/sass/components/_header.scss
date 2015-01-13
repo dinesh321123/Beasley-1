@@ -109,7 +109,7 @@
 		@include omega;
 	}
 	@include bp(x-large) {
-		@include span-columns(3);
+		@include span-columns(5);
 		@include omega;
 	}
 }
@@ -121,10 +121,45 @@
 	margin: 0 auto;
 	color: $color-text-white;
 	cursor: pointer;
+	font-family: $open-sans;
 	@include bp(medium) {
 		width: 64px;
 		height: 82px;
 		color: $secondary-heading;
+	}
+
+	@include bp(x-large) {
+		width: auto;
+
+
+	}
+}
+
+.header__account--mobile {
+	display: block;
+
+	@include bp(medium) {
+		display: none;
+	}
+}
+
+.header__account--small {
+	display: none;
+
+	@include bp(medium) {
+		display: block;
+	}
+
+	@include bp(x-large) {
+		display: none;
+	}
+}
+
+.header__account--large {
+	display: none;
+
+	@include bp(x-large) {
+		display: block;
 	}
 }
 
@@ -150,6 +185,26 @@
 
 	@include bp(large) {
 		font-size: ms(1);
+	}
+
+	@include bp(x-large) {
+		width: auto;
+		padding: 32px 16px;
+
+		> span {
+			display: table-cell;
+			vertical-align: middle;
+		}
+	}
+}
+
+.header__account--span {
+	font-family: $open-sans;
+	color: $light-gray;
+
+	@include bp(x-large) {
+		font-size: 12.65px;
+		padding-left: 12px;
 	}
 }
 

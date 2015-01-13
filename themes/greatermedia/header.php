@@ -114,96 +114,29 @@
 							wp_nav_menu( $main_nav );
 							?>
 							<div class="header__secondary">
-								<div class="header__account">
-
-<?php
-							/*
-									<?php if ( is_gigya_user_logged_in() ) {
-
-										$url     = gigya_profile_path( 'account' );
-										$class   = '';
-										$profile = get_gigya_user_profile();
-
-										if ( isset( $profile['thumbnailURL'] ) && ! empty( $profile['thumbnailURL'] ) ) {
-											$img = $profile['thumbnailURL'];
-										}
-
-										if ( isset( $profile['firstName'] ) && ! empty ( $profile['firstName'] ) ) {
-											$title = 'Thanks for listening, ' . $profile['firstName'] . '!';
-										} else {
-											$title = 'Thanks for listening!';
-										}
-
-									} else {
-										$url   = gigya_profile_path( 'login' );
-										$class = '';
-										$text  = '';
-										$title = '';
-									}
-									?>
-*/
-
-?>
-
+								<div class="header__account header__account--mobile">
 									<a href="#" class="header__account--btn">
 										<span class="icon-user"></span>
 									</a>
 
-<div class="header__account--container">
-<!--
-									<ul class="header__account--links sub-menu">
-										<li>
-											<a href="/members/login">aLogin/Register</a>
-										</li>
-										<li>
-											<a href="/members/logout">aLogout</a>
-										</li>
-									</ul>
--->
-</div>
+									<div class="header__account--container">
 
-<?php
-							/*
-									<a href="<?php echo esc_url( $url ); ?>"
-									   class="header__account--btn <?php echo esc_attr( $class ); ?>">
-										<?php
-										if ( isset( $img ) && ! empty( $img ) ) {
-											echo '<img src="' . esc_url( $img ) . '" title="' . esc_attr( $title ) . '">';
-										} else {
-											echo '<span class="icon-user"></span>';
-										}
-										?>
-									   </a>
-							 */
-?>
+									</div>
+								</div>
+								<div class="header__account header__account--small">
+									<a href="#" class="header__account--btn">
+										<span class="icon-user"></span>
+									</a>
 
+									<div class="header__account--container">
 
-<?php
-							/*
-									<ul class="header__account--links sub-menu">
-
-										<?php if ( is_gigya_user_logged_in() ): ?>
-											<li>
-												<a href="<?php echo esc_url( gigya_profile_path( 'account' ) ); ?>">
-													Edit Account
-												</a>
-											</li>
-											<li>
-												<a href="<?php echo esc_url( gigya_profile_path( 'logout' ) ); ?>">
-													Logout
-												</a>
-											</li>
-										<?php else: ?>
-											<li>
-												<a href="<?php echo gigya_profile_path( 'login' ); ?>">
-													Login/Register
-												</a>
-											</li>
-										<?php endif; ?>
-							 */
-							?>
-
-									</ul>
+									</div>
+								</div>
+								<div class="header__account header__account--large">
+									<a href="#" class="header__account--btn">
+										<span class="icon-user"></span>
+										<span class="header__account--span">Login or Register</span>
+									</a>
 								</div>
 								<div id="header__search" class="header__search">
 									<label for="s" class="header__search--label"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div></label>
