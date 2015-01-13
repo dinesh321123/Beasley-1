@@ -247,8 +247,8 @@ class GreaterMediaUserGeneratedContent {
 	 * Add custom admin pages to the admin menu
 	 */
 	public static function admin_menu() {
-		add_submenu_page( 'edit.php?post_type=contest', 'Submissions', 'Submissions', 'delete_posts', 'edit.php?post_type=listener_submissions' );
-		add_submenu_page( 'edit.php?post_type=contest', 'Moderation', 'Moderation', 'delete_posts', GreaterMediaUserGeneratedContentModerationTable::PAGE_NAME, array( __CLASS__, 'moderation_ui' ) );
+		add_submenu_page( 'edit.php?post_type=contest', 'Submissions', 'Submissions', 'manage_options', 'edit.php?post_type=listener_submissions' );
+		add_submenu_page( 'edit.php?post_type=contest', 'Moderation', 'Moderation', 'manage_options', GreaterMediaUserGeneratedContentModerationTable::PAGE_NAME, array( __CLASS__, 'moderation_ui' ) );
 	}
 
 	public static function admin_enqueue_scripts() {
