@@ -37,9 +37,9 @@
 			<?php
 			$personalities = GreaterMedia\Shows\get_show_personalities( get_the_ID() );
 			if ( count( $personalities ) > 0 ): ?>
-				<div class="show__personalities">
+				<section class="show__personalities">
 					<?php foreach( $personalities as $personality ) : ?>
-						<div class="personality personality-<?php echo intval( $personality->ID ); ?>">
+						<article class="personality personality-<?php echo intval( $personality->ID ); ?>">
 							<div class="personality__avatar">
 								<?php echo get_avatar( $personality->ID ); ?>
 							</div>
@@ -50,10 +50,12 @@
 								<?php
 							$social = GreaterMedia\Shows\get_personality_social_ul( $personality );
 							?>
-							<button class="person-toggle more-btn">more</button>
-						</div>
+							<div class="personality__btn">
+								<button class="person-toggle more-btn">more</button>
+							</div>
+						</article>
 					<?php endforeach; ?>
-				</div>
+				</section>
 			<?php endif; ?>
 
 		</div>

@@ -637,7 +637,7 @@ img {
   -o-transform: translate(0, 0);
   transform: translate(0, 0);
   width: 100%;
-  padding-bottom: 58px;
+  padding-bottom: 0;
   -webkit-transition: all 100ms ease-out;
   -moz-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
@@ -649,8 +649,7 @@ img {
       -moz-transform: none;
       -ms-transform: none;
       -o-transform: none;
-      transform: none;
-      padding-bottom: 0; } }
+      transform: none; } }
 
 .container, .single-gmr_gallery .gallery .container {
   max-width: 100%;
@@ -8823,11 +8822,19 @@ category: Components - Shows
 
 */
 .show__personalities {
+  display: block;
   background-color: #ffffff;
-  margin-top: -8em; }
+  margin-top: -4em;
+  margin-bottom: 10%; }
+  .show__personalities:before, .show__personalities:after {
+    content: " ";
+    display: table; }
+  .show__personalities:after {
+    clear: both; }
 
 .personality {
-  padding: 4em 3em;
+  padding: 1.5em 3em;
+  margin-bottom: 2em;
   position: relative;
   display: block; }
   .personality:before, .personality:after {
@@ -8835,46 +8842,65 @@ category: Components - Shows
     display: table; }
   .personality:after {
     clear: both; }
-  .personality .more-btn {
-    display: none; }
+  .personality.open {
+    background-color: #d0d2d3; }
 
 .personality__avatar {
   float: left;
   display: block;
   margin-right: 2.35765%;
-  width: 31.76157%; }
+  width: 31.76157%;
+  margin-bottom: 2.35765%; }
   .personality__avatar:last-child {
     margin-right: 0; }
-  @media screen and (min-width: 768px) {
-    .personality__avatar {
-      float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 23.23176%; }
-      .personality__avatar:last-child {
-        margin-right: 0; } }
   .personality__avatar img {
-    width: 80%;
-    height: auto;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     -border-radius: 50%;
-    border-radius: 50%; }
+    border-radius: 50%;
+    width: 80%;
+    height: auto; }
+  @media screen and (min-width: 768px) {
+    .personality__avatar {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 23.23176%;
+      margin-bottom: 0; }
+      .personality__avatar:last-child {
+        margin-right: 0; } }
 
 .personality__meta {
   float: none;
-  width: auto; }
+  width: auto;
+  height: 10em;
+  overflow: hidden;
+  transition: all 100ms ease-out 0s; }
+  .personality.open .personality__meta {
+    overflow: visible;
+    height: auto; }
   @media screen and (min-width: 768px) {
     .personality__meta {
       float: left;
       display: block;
       margin-right: 2.35765%;
       width: 74.41059%;
-      margin-right: 0; }
+      margin-right: 0;
+      height: 12em; }
       .personality__meta:last-child {
         margin-right: 0; } }
+
+.personality__btn {
+  float: left;
+  width: 100%;
+  text-align: center;
+  padding-top: 1em; }
+  .personality__btn .more-btn {
+    right: auto;
+    bottom: auto;
+    position: relative; }
 
 /*doc
 ---
