@@ -11295,4 +11295,8 @@ category: Components - Article
 .highlights__heading {
   color: #ffffff; }
 
+.type-contest .entry__title--tag {
+  background-color: #d0d2d3;
+  border-color: #d0d2d3; }
+
 /*# sourceMappingURL=wmgk.css.map */
