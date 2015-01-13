@@ -1,0 +1,23 @@
+.error__background {
+	background: url($asset-root + '../images/404.jpg') center top no-repeat $secondary-bg;
+	@include proportional-thumbnail(30%);
+}
+
+.error {
+	margin: .125em 0 4.5em;
+}
+
+.error__title {
+	margin: 0;
+	line-height: 1;
+	font-size: ms(4);
+}
+
+.error__title--span {
+	color: $color-text-red;
+}
+
+.error__content {
+	margin-top: 1.33em;
+	font-size: ms(1);
+}

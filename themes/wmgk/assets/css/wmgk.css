@@ -11140,6 +11140,32 @@ category: Components - Article
 .related-post:hover .related-post__date {
   color: #f5ed7f; }
 
+.error__background {
+  background: url("../../../../themes/greatermedia/assets/../images/404.jpg") center top no-repeat #303030;
+  position: relative;
+  background-position: center center;
+  background-size: 100%;
+  background-size: cover; }
+  .error__background:after {
+    content: '';
+    display: block;
+    padding-top: 30%; }
+
+.error {
+  margin: .125em 0 4.5em; }
+
+.error__title {
+  margin: 0;
+  line-height: 1;
+  font-size: 1.60181em; }
+
+.error__title--span {
+  color: #d22228; }
+
+.error__content {
+  margin-top: 1.33em;
+  font-size: 1.125em; }
+
 /**
  * Single Page Styles
  */

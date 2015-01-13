@@ -21,6 +21,5 @@ define( 'GMEDIA_PATH',    dirname( __FILE__ ) . '/' );
 
 if ( defined( 'WP_CLI' ) and WP_CLI  ) {
 	include_once GMEDIA_PATH . 'includes/class-gmediamigration.php';
-	include_once GMEDIA_PATH . 'includes/class-CMM_Legacy_Redirects.php';
 	include_once GMEDIA_PATH . 'includes/class-MTM_Migration_Utils.php';
 }

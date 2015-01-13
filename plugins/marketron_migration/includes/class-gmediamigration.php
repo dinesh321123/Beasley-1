@@ -154,14 +154,6 @@ class GMedia_Migration extends WP_CLI_Command {
 			WP_CLI::error( 'Please specify the site.' );
 		}
 
-		if( isset( $assoc_args['config_file'] ) ) {
-			$this->config_file = $assoc_args['config_file'];
-			if( !file_exists( $this->config_file ) ) {
-				WP_CLI::error( "$this->config_file doesn't exist\n" );
-			}
-		} elseif( $type == 'blog' || $type == 'blogs' ) {
-			WP_CLI::error( "Type is set to blog. Please provide config file!" );
-		}
 		$file  = $args[0];
 		$force = isset( $assoc_args['force'] );
 
@@ -1006,7 +998,7 @@ class GMedia_Migration extends WP_CLI_Command {
 	private function add_parent_comment( $comment_id, $parent_comment_id ) {
 		global $wpdb;
 
-		$comment_parent_id = $wpdb->get_var( $sql = "SELECT comment_id from {$wpdb->commentmeta} WHERE meta_key = '_gmedia_old_comment_id' AND meta_value = '". $parent_comment_id ."'" );
+		$comment_parent_id = $wpdb->get_var( $sql = $wpdb->prepare( "SELECT comment_id from {$wpdb->commentmeta} WHERE meta_key = '_gmedia_old_comment_id' AND meta_value = %d", $parent_comment_id ) );
 
 		if ( $parent_comment_id ) {
 			$updated = wp_update_comment( array( 'comment_ID' => $comment_id, 'comment_parent' => $comment_parent_id ) );
@@ -1596,7 +1588,7 @@ class GMedia_Migration extends WP_CLI_Command {
 				}
 
 				// Find businesses that have galleries and set the associated gallery to draft
-				$business_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = '_gmedia_album_id' AND meta_value = '". $gallery_id ."'" );
+				$business_id = $wpdb->get_var( $sql = $wpdb->prepare( "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = '_gmedia_album_id' AND meta_value = %d", $gallery_id ) );
 				if ( $business_id ) {
 					$draft_gallery = array( 'ID' => $wp_id, 'post_status' => 'draft' );
 					wp_update_post( $draft_gallery );
@@ -2503,13 +2495,18 @@ class GMedia_Migration extends WP_CLI_Command {
 				foreach ( $podcasts->Channel->Item as $podcast_item ) {
 					$episode_title = trim( (string) $podcast_item['ItemTitle'] );
 					$episode_title = strtolower( $episode_title );
+
+					$episode_date = (string) $podcast_item['UTCDateCreated'];
+					$episode_date_mod = (string) $podcast_item['UTCDateModified'];
+
+
 					$episode = array(
 						'post_type'     => 'episode',
 						'post_status'   => 'publish',
 						'post_title'    => ucwords( $episode_title ),
 						'post_content'  => trim( (string) $podcast_item['ItemDescription'] ),
-						'post_date'     => (string) $single_channel['UTCDateCreated'],
-						'post_modified' => (string) $single_channel['UTCDateLastModified'],
+						'post_date'     => $episode_date,
+						'post_modified' => $episode_date_mod,
 						'post_parent'   => $wp_id
 					);
 
@@ -2558,7 +2555,7 @@ class GMedia_Migration extends WP_CLI_Command {
 			$total  = count( $survey->Responses->Response );
 
 			// grab the existing post ID (if it exists).
-			$wp_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = 'gmedia_import_id' AND meta_value = '" . $survey_id . "'" );
+			$wp_id = $wpdb->get_var( $sql = $wpdb->prepare( "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = 'gmedia_import_id' AND meta_value = %d", $survey_id ) );
 
 			// If we're not forcing import, skip existing posts.
 			if ( ! $force && $wp_id ) {
@@ -2624,7 +2621,7 @@ class GMedia_Migration extends WP_CLI_Command {
 					$question_form['label'] = sanitize_text_field( (string) $question['FieldLabel'] );
 					if( isset($question['QuestionText']) ) {
 						//update_post_meta( $question_id, '_legacy_QuestionText', esc_html( (string) $question['QuestionText'] ) );
-						$question_form['field_options']['description'] = esc_html( (string) $question['QuestionText'] );
+						$question_form['field_options']['description'] = sanitize_text_field( (string) $question['QuestionText'] );
 					}
 				} elseif( isset($question['QuestionText']) ) {
 					$question_form['label'] = esc_html( (string) $question['QuestionText'] );
@@ -2690,7 +2687,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 					$user_survey_id = (string) $response['UserSurveyID'];
 
-					$response_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = 'gmedia_import_id' AND meta_value = '" . $user_survey_id . "'" );
+					$response_id = $wpdb->get_var( $sql = $wpdb->prepare( "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = 'gmedia_import_id' AND meta_value = %d" , $user_survey_id ) );
 
 					if ( ! $force && $response_id ) {
 						continue;
@@ -2879,7 +2876,7 @@ class GMedia_Migration extends WP_CLI_Command {
 
 					if ( $entry_id ) {
 
-						$response_id = $wpdb->get_var( $sql = "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = '_legacy_survey_MemberID' AND meta_value = '" . $entry_name . "'" );
+						$response_id = $wpdb->get_var( $sql = $wpdb->prepare( "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = '_legacy_survey_MemberID' AND meta_value = %s" ), $entry_name  );
 
 						$submitted_values = array();
 
@@ -3101,7 +3098,7 @@ class GMedia_Migration extends WP_CLI_Command {
 	private function parse_taxonomy_mapping() {
 
 		$config_file_handle = fopen( $this->config_file, "r");
-		while ( ( $data = fgetcsv( $config_file_handle, 1000, ",")) !== FALSE) {
+		while ( ( $data = fgetcsv( $config_file_handle, 1000, ",")) !== false ) {
 			$config_file[] = $data;
 		}
 		fclose($config_file_handle);
@@ -3146,8 +3143,8 @@ class Post_Term extends \WP_CLI_Command{
 		// if replace is set, then append is false
 		$append = !! empty( $assoc_args['replace'] );
 		$set_term = \wp_set_object_terms( $post_id, $term, $taxonomy, $append );
-		if ( \is_wp_error($success) ) {
-			WP_CLI::warning( $success->get_error_mesage() );
+		if ( \is_wp_error($set_term) ) {
+			WP_CLI::warning( $set_term->get_error_mesage() );
 		} else {
 			WP_CLI::success("$taxonomy $term successfully added to post ID $post_id");
 		}
