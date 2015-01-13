@@ -47,10 +47,10 @@
 	 * @returns {number}
 	 */
 	function elemHeight(elem) {
-		return elem.offsetHeight;
-
-		if (elem == header && breakingNewsBanner != null && breakingNewsBanner.parentNode != elem ) {
-			elem += breakingNewsBanner.offsetHeight;
+		if (elem == header && breakingNewsBanner != null && breakingNewsBanner.parentNode != header ) {
+			return elem.offsetHeight + breakingNewsBanner.offsetHeight;
+		} else {
+			return elem.offsetHeight;
 		}
 	}
 
