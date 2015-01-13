@@ -96,6 +96,13 @@
 	border-bottom-color: $primary-border;
 }
 
+.highlights__events--more-btn {
+	&:hover {
+		color: $yellow !important;
+		border-color: $yellow;
+	} 
+}
+
 .highlights__event--item {
 	background-color: #8c8c8c;
 	color: $white; 

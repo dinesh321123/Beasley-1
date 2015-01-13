@@ -11225,6 +11225,10 @@ category: Components - Article
 .home__highlights {
   border-bottom-color: #d0d2d3; }
 
+.highlights__events--more-btn:hover {
+  color: #f5ed7f !important;
+  border-color: #f5ed7f; }
+
 .highlights__event--item {
   background-color: #8c8c8c;
   color: #ffffff; }
