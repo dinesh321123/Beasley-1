@@ -5,12 +5,11 @@ namespace GreaterMedia\Gigya;
 class SettingsPage {
 
 	function register() {
-		$page_id = add_submenu_page(
-			'edit.php?post_type=member_query',
-			__( 'Member Query Settings', 'gmr_gigya' ),
-			__( 'Settings', 'gmr_gigya' ),
+		$page_id = add_options_page(
+			'Gigya',
+			'Gigya',
 			'manage_options',
-			'member_query_settings',
+			'gigya-settings',
 			array( $this, 'render' )
 		);
 	}
