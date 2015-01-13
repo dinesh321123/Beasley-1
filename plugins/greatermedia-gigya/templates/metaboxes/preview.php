@@ -3,8 +3,16 @@
 <div class="preview-member-query-results">
 	<p class='count-status'></p>
 
-	<table class="widefat member-query-results">
-	</table>
+	<ul class="member-query-results">
+		<li>
+			<span class="preview-result-name">
+				Darshan Sawardekar
+			</span>
+			<span class="preview-result-email">
+				darshan@10up.com
+			</span>
+		</li>
+	</ul>
 </div>
 
 <div id="major-publishing-actions" class="preview-member-query">

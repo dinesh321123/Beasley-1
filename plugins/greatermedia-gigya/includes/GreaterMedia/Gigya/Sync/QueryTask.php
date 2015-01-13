@@ -43,7 +43,7 @@ class QueryTask extends SyncTask {
 	function run_fast_profile_preview() {
 		$paginator  = new QueryPaginator( 'profile', $this->preview_page_size );
 		$query      = $this->get_query();
-		$query      = str_replace( 'select *', 'select profile.email, UID', $query );
+		$query      = str_replace( 'select *', 'select profile.email, profile.firstName, profile.lastName, UID', $query );
 		$matches    = $paginator->fetch( $query, 0 );
 		$users      = $this->find_preview_users( $matches['results'] );
 

@@ -1,11 +1,10 @@
 <div class="wrap">
-<h2>Member Query Settings</h2>
+<h2>Gigya Settings</h2>
 <div class="updated" style="display:none" id="member-query-status-message">
 	<p></p>
 </div>
 
 <form name="form" action="options.php" method="post" onsubmit="return false;">
-	<h3 class="title">Gigya Settings</h3>
 	<?php wp_nonce_field( 'change_gigya_settings', 'change_gigya_settings_nonce', false, true ) ?>
 
 	<table class="form-table">

@@ -1,6 +1,6 @@
-<tr>
-	<td>
-		<a href="#" class="open-member-page-text"><%- email %></a>
-		<a href="#" alt="f105" class="dashicons dashicons-external open-member-page"></a>
-	</td>
-</tr>
+<span class="preview-result-name">
+	<%- fields.first_name %> <%- fields.last_name %>
+</span>
+<span class="preview-result-email">
+	<a href="mailto:<%- email %>"><%- view.domainFor(email) %></a>
+</span>

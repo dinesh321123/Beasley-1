@@ -127,6 +127,6 @@ var QueryResultCollection = Backbone.Collection.extend({
 	},
 
 	didClearError: function(response) {
-		console.log('didClearError', response);
+		//console.log('didClearError', response);
 	}
 });

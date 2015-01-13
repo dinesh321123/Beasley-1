@@ -69,6 +69,18 @@ module.exports = function(grunt) {
 			}
 		},
 
+		cssmin: {
+			dist: {
+				files: [{
+					expand: true,
+					cwd: '../css',
+					src: ['*.css', '!*.min.css'],
+					dest: '../css/',
+					ext: '.min.css'
+				}]
+			}
+		},
+
 		clean: {
 			src: ["templates.js"]
 		}
@@ -79,9 +91,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jst');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 	grunt.registerTask('build_templates', ['clean', 'jst']);
 	grunt.registerTask('build', ['build_templates', 'concat']);
-	grunt.registerTask('dist', ['build', 'uglify']);
+	grunt.registerTask('dist', ['build', 'uglify', 'cssmin']);
 	grunt.registerTask('default', ['build']);
 };

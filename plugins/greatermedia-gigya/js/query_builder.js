@@ -382,9 +382,15 @@ this["JST"]["src/templates/query_result_item.jst"] = function(obj) {
 obj || (obj = {});
 var __t, __p = '', __e = _.escape;
 with (obj) {
-__p += '<tr>\n\t<td>\n\t\t<a href="#" class="open-member-page-text">' +
+__p += '<span class="preview-result-name">\n\t' +
+__e( fields.first_name ) +
+' ' +
+__e( fields.last_name ) +
+'\n</span>\n<span class="preview-result-email">\n\t<a href="mailto:' +
 __e( email ) +
-'</a>\n\t\t<a href="#" alt="f105" class="dashicons dashicons-external open-member-page"></a>\n\t</td>\n</tr>\n';
+'">' +
+__e( view.domainFor(email) ) +
+'</a>\n</span>\n';
 
 }
 return __p
@@ -1461,7 +1467,8 @@ var AVAILABLE_CONSTRAINTS_META_MAP = {};
 var QueryResult = Backbone.Model.extend({
 
 	defaults: {
-		email: ''
+		email: '',
+		fields: {}
 	}
 
 });
@@ -1759,7 +1766,7 @@ var QueryResultCollection = Backbone.Collection.extend({
 	},
 
 	didClearError: function(response) {
-		console.log('didClearError', response);
+		//console.log('didClearError', response);
 	}
 });
 
@@ -2371,9 +2378,15 @@ var QueryResultItemView = Backbone.CollectionView.extend({
 
 	render: function() {
 		var data = this.model.toJSON();
+		data.view = this;
 		var html = this.template(data);
 
 		this.$el.html(html);
+	},
+
+	domainFor: function(email) {
+		var atIndex = email.indexOf('@');
+		return email.substring(atIndex);
 	}
 });
 
