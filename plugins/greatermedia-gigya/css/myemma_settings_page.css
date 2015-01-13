@@ -70,6 +70,14 @@
 	margin: 2em 0;
 }
 
+.emma-nav-content .dashicons {
+	color: grey;
+}
+
+.emma-nav-content .back-button {
+	margin: 1em 0;
+}
+
 @media all and (max-width: 640px) {
 	.emma-nav-content input {
 		width: 100%;

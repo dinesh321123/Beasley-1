@@ -23,7 +23,7 @@
 		<tbody>
 			<% _.each(webhooks, function(webhookItem, index) { %>
 				<tr>
-					<td><%- webhookItem.webhook_id %></th>
+					<td><%- webhookItem.webhook_id %></td>
 					<td><%- webhookItem.event %></td>
 				</tr>
 			<% }); %>
@@ -38,14 +38,25 @@
 				<th class="row-title">MyEmma Group ID</th>
 				<th class="row-title">MyEmma Group Name</th>
 				<th class="row-title">Gigya Field Key</th>
+				<th class="row-title">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			<% _.each(groups, function(groupItem, index) { %>
 				<tr>
-					<td><%- groupItem.group_id %></th>
+					<td>
+						<a target="_blank" href="<%- view.toEmmaGroupURL( groupItem.group_id ) %>">
+							<%- groupItem.group_id %>
+						</a>
+					</td>
 					<td><%- groupItem.group_name %></td>
 					<td><%- groupItem.field_key %></td>
+					<td>
+						<% if (groupItem.group_id) { %>
+						<a data-group="<%- groupItem.group_id %>" title="Edit Group" href="#" class="edit-group-link"><i alt="f119" class="dashicons dashicons-welcome-write-blog"></i></a>
+						<a data-group="<%- groupItem.group_id %>" title="Remove Group" href="#" class="remove-group-link"><i alt="f153" class="dashicons dashicons-no"></i></a>
+						<% } %>
+					</td>
 				</tr>
 			<% }); %>
 		</tbody>
@@ -60,9 +71,11 @@
 
 	<ul class="emma-nav-content" style="display:none">
 		<li data-index="0">
-			<h3>MyEmma Groups</h3>
-
 			<div class="emma-groups">
+				<h3>MyEmma Groups</h3>
+				<div class="status">
+					<p></p>
+				</div>
 				<table class="widefat">
 					<thead>
 						<tr>
@@ -72,12 +85,13 @@
 						</tr>
 					</thead>
 				</table>
+
+				<input type="button" value="Add Group" class="button button-primary add-group-button" />
 			</div>
 
-			<hr />
-
 			<div class="new-group-content">
-				<h3>New MyEmma Group</h3>
+				<input type="button" value="Back" class="button button-secondary back-button" />
+				<h3 class="editor-title">New MyEmma Group</h3>
 				<div class="status">
 					<p></p>
 				</div>
@@ -85,15 +99,16 @@
 				<label for="emma_group_name">MyEmma Group Name</label>
 				<input type="text" name="emma_group_name" value="" id="emma_group_name" />
 
-				<label for="emma_group_id">MyEmma Group ID (For mapping existing Groups, leave blank to create new group)</label>
+				<label for="emma_group_id">MyEmma Group ID (Leave blank to create a new group)</label>
 				<input type="text" name="emma_group_id" value="" id="emma_group_id" />
 
 				<label for="gigya_field_key">Gigya Field Key</label>
 				<input type="text" name="gigya_field_key" value="" id="gigya_field_key" />
 
-				<input type="submit" value="Create" class="button button-primary add-group-button" />
+				<input type="submit" value="Create" class="button button-primary create-group-button" />
 				<span class="spinner"></span>
 			</div>
+
 		</li>
 		<li data-index="1">
 			<h3>Web Hooks</h3>

@@ -167,6 +167,63 @@
 				.fail($.proxy(this.didAddError, this));
 		},
 
+		removeGroup: function(group_id) {
+			var params = {
+				group_id: group_id
+			};
+
+			this.trigger('didRemoveStart');
+			ajaxApi.request('remove_myemma_group', params)
+				.then($.proxy(this.didRemove, this))
+				.fail($.proxy(this.didRemoveError, this));
+		},
+
+		updateGroup: function(opts, group_id) {
+			var params = {
+				emma_group_id: opts.group_id,
+				emma_group_name: opts.group_name,
+				gigya_field_key: opts.field_key,
+				group_to_update: group_id
+			};
+
+			this.trigger('didUpdateStart');
+			ajaxApi.request('update_myemma_group', params)
+				.then($.proxy(this.didUpdate, this))
+				.fail($.proxy(this.didUpdateError, this));
+		},
+
+		didUpdate: function(response) {
+			if (response.success) {
+				var model = this.findWhere({ group_id: response.data.group_to_update });
+				model.set({
+					group_id: response.data.emma_group_id,
+					group_name: response.data.emma_group_name,
+					field_key: response.data.gigya_field_key
+				});
+				this.trigger('didUpdateSuccess');
+			} else {
+				this.didUpdateError(response);
+			}
+		},
+
+		didUpdateError: function(response) {
+			this.trigger('didUpdateError', response.data);
+		},
+
+		didRemove: function(response) {
+			if (response.success) {
+				var model = this.findWhere({ group_id: response.data });
+				this.remove(model);
+				this.trigger('didRemoveSuccess');
+			} else {
+				this.didRemoveError(response);
+			}
+		},
+
+		didRemoveError: function(response) {
+			this.trigger('didRemoveError', response.data);
+		},
+
 		didAdd: function(response) {
 			if (response.success) {
 				this.add([response.data]);
@@ -250,38 +307,114 @@
 	var GroupsScreenView = ScreenView.extend({
 		template: getTemplate('groups'),
 		events: {
-			'click .add-group-button': 'didAddClick'
+			'click .create-group-button': 'didCreateClick',
+			'click .add-group-button': 'didAddClick',
+			'click .back-button': 'didBackClick',
+			'click .remove-group-link': 'didRemoveClick',
+			'click .edit-group-link': 'didEditClick',
 		},
 
 		initialize: function(opts) {
 			ScreenView.prototype.initialize.call(this, opts);
 
 			this.collection = this.model.get('collection');
-			this.listenTo(this.collection, 'change', this.render);
+			//this.listenTo(this.collection, 'change', this.render);
 			this.listenTo(this.collection, 'didAddStart', this.didAddStart);
 			this.listenTo(this.collection, 'didAddSuccess', this.didAddSuccess);
 			this.listenTo(this.collection, 'didAddError', this.didAddError);
+
+			this.listenTo(this.collection, 'didRemoveStart', this.didRemoveStart);
+			this.listenTo(this.collection, 'didRemoveSuccess', this.didRemoveSuccess);
+			this.listenTo(this.collection, 'didRemoveError', this.didRemoveError);
+
+			this.listenTo(this.collection, 'didUpdateStart', this.didUpdateStart);
+			this.listenTo(this.collection, 'didUpdateSuccess', this.didUpdateSuccess);
+			this.listenTo(this.collection, 'didUpdateError', this.didUpdateError);
 		},
 
 		render: function() {
+			this.renderGroups();
+		},
+
+		renderGroups: function() {
 			var data = {
-				groups: this.collection.toJSON()
+				groups: this.collection.toJSON(),
+				view: this
 			};
+
+			if (data.groups.length === 0) {
+				data.groups = [
+					{ group_id: '', group_name: 'No groups found.', field_key: ''  }
+				];
+			}
 
 			var html = this.template(data);
 
-			$groups = $('.emma-groups', this.$el);
+			$('.emma-groups', this.$el).css('display', 'block');
+
+			$groups = $('.emma-groups table', this.$el);
 			$groups.html(html);
+
+			$newGroupContent = $('.new-group-content', this.$el);
+			$newGroupContent.css('display', 'none');
 		},
 
-		didAddClick: function() {
+		renderEditor: function() {
+			$title = $('.editor-title', this.$el);
+			$submitButton = $('.create-group-button', this.$el);
+
+			if (this.editMode) {
+				$title.text('Edit MyEmma Group');
+				$submitButton.val('Update');
+
+				var group = this.collection.findWhere({group_id: this.groupToEdit});
+
+				$('#emma_group_id').val(group.get('group_id'));
+				$('#emma_group_name').val(group.get('group_name'));
+				$('#gigya_field_key').val(group.get('field_key'));
+			} else {
+				$title.text('New MyEmma Group');
+				$submitButton.val('Create');
+
+				this.clear();
+			}
+
+			$groups = $('.emma-groups', this.$el);
+			$groups.css('display', 'none');
+
+			$newGroupContent = $('.new-group-content', this.$el);
+			$newGroupContent.css('display', 'block');
+		},
+
+		toEmmaGroupURL: function(groupID) {
+			return 'https://app.e2ma.net/app2/audience/list/active/' + groupID + '/';
+		},
+
+		didAddClick: function(event) {
+			this.editMode = false;
+			this.renderEditor();
+			this.setStatus('');
+			return false;
+		},
+
+		didCreateClick: function(event) {
 			var params = {
 				group_id: $('#emma_group_id').val(),
 				group_name: $('#emma_group_name').val(),
 				field_key: $('#gigya_field_key').val()
 			};
 
-			this.collection.addGroup(params);
+			if (this.editMode) {
+				this.collection.updateGroup(params, this.groupToEdit);
+			} else {
+				this.collection.addGroup(params);
+			}
+			return false;
+		},
+
+		didBackClick: function(event) {
+			this.renderGroups();
+			return false;
 		},
 
 		didAddStart: function() {
@@ -289,7 +422,6 @@
 		},
 
 		didAddSuccess: function() {
-			this.render();
 			this.setStatus('updated', 'Group added successfully.');
 			this.clear();
 		},
@@ -298,10 +430,57 @@
 			this.setStatus('error', message);
 		},
 
+		didUpdateStart: function() {
+			this.setStatus('progress', 'Updating Group ...');
+		},
+
+		didUpdateSuccess: function() {
+			this.setStatus('updated', 'Group updated successfully.');
+		},
+
+		didUpdateError: function(message) {
+			this.setStatus('error', message);
+		},
+
 		clear: function() {
 			$('#emma_group_id').val('');
 			$('#emma_group_name').val('');
 			$('#gigya_field_key').val('');
+		},
+
+		didRemoveClick: function(event) {
+			var group_id  = $(event.currentTarget).data('group');
+			var confirmed = confirm('Confirm: Delete MyEmma Group - ' + group_id + '?');
+
+			if (confirmed) {
+				this.collection.removeGroup(group_id);
+			}
+
+			return false;
+		},
+
+		didRemoveStart: function() {
+			this.setStatus('progress', 'Removing Group ...');
+		},
+
+		didRemoveSuccess: function() {
+			this.setStatus('updated', 'Group removed successfully');
+			this.renderGroups();
+		},
+
+		didRemoveError: function(message) {
+			this.setStatus('error', message);
+		},
+
+		didEditClick: function(event) {
+			this.setStatus('');
+
+			var group_id     = $(event.currentTarget).data('group');
+			this.editMode    = true;
+			this.groupToEdit = group_id.toString();
+
+			this.renderEditor();
+			return false;
 		}
 	});
 

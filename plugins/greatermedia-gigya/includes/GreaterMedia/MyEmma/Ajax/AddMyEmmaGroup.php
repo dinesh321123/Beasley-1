@@ -3,6 +3,7 @@
 namespace GreaterMedia\MyEmma\Ajax;
 
 use GreaterMedia\Gigya\Ajax\AjaxHandler;
+use GreaterMedia\Gigya\GigyaRequest;
 use GreaterMedia\MyEmma\EmmaAPI;
 
 class AddMyEmmaGroup extends AjaxHandler {
@@ -12,20 +13,31 @@ class AddMyEmmaGroup extends AjaxHandler {
 	}
 
 	function run( $params ) {
-		// TODO: Validation
-		$group_id   = $params['emma_group_id'];
-		$group_name = $params['emma_group_name'];
-		$field_key  = $params['gigya_field_key'];
+		$group_id   = sanitize_text_field( $params['emma_group_id'] );
+		$group_name = sanitize_text_field( $params['emma_group_name'] );
+		$field_key  = sanitize_text_field( $params['gigya_field_key'] );
+
+		if ( empty( $group_name ) ) {
+			throw new \Exception( 'Error: Emma Group name must not be empty' );
+		}
+
+		if ( empty( $field_key ) || ! ctype_alnum( $field_key ) ) {
+			throw new \Exception( 'Error: Gigya Field key must be alphanumeric' );
+		} else {
+			$this->update_schema( $field_key );
+		}
+
+		if ( empty( $group_id ) ) {
+			$group_id = $this->create_group( $group_name );
+		} else if ( ! $this->group_exists( $group_id ) ) {
+			throw new \Exception( "Error: Emma Group not found - {$group_id}" );
+		}
 
 		$group = array(
 			'group_id' => $group_id,
 			'group_name' => $group_name,
 			'field_key' => $field_key,
 		);
-
-		if ( $group_id === '' ) {
-			$group['group_id'] = $this->create_group( $group_name );
-		}
 
 		$groups = get_option( 'emma_groups' );
 		if ( $groups !== false ) {
@@ -36,7 +48,7 @@ class AddMyEmmaGroup extends AjaxHandler {
 		}
 
 		$groups[] = $group;
-		update_option( 'emma_groups', json_encode( $groups ) );
+		update_option( 'emma_groups', json_encode( array_values( $groups ) ) );
 
 		return $group;
 	}
@@ -46,7 +58,7 @@ class AddMyEmmaGroup extends AjaxHandler {
 		$groups = array(
 			'groups' => array(
 				array(
-					'group_name' => $group_name
+					'group_name' => $group_name,
 				),
 			)
 		);
@@ -59,6 +71,46 @@ class AddMyEmmaGroup extends AjaxHandler {
 		} else {
 			return '';
 		}
+	}
+
+	function group_exists( $group_id ) {
+		$api = new EmmaAPI();
+
+		try {
+			$response = $api->groupsGetById( intval( $group_id ) );
+			return true;
+		} catch ( \Exception $e ) {
+			return false;
+		}
+	}
+
+	function update_schema( $field_key ) {
+		$schema  = $this->get_schema_for_custom_field( $field_key );
+		$request = new GigyaRequest( null, null, 'accounts.setSchema' );
+		$request->setParam( 'dataSchema', json_encode( $schema ) );
+		$response = $request->send();
+
+		if ( $response->getErrorCode() === 0 ) {
+			return true;
+		} else {
+			throw new \Exception(
+				'Error: Failed to update schema - ' . $response->getErrorMessage()
+			);
+		}
+	}
+
+	function get_schema_for_custom_field( $field_key ) {
+		$schema = array(
+			'fields' => array(),
+			'dynamicSchema' => true,
+		);
+
+		$schema['fields'][ $field_key ] = array(
+			'writeAccess' => 'clientModify',
+			'required' => false,
+		);
+
+		return $schema;
 	}
 
 }

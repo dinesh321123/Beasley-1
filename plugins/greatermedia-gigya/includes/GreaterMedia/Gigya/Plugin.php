@@ -146,6 +146,8 @@ class Plugin {
 		$handlers[] = new \GreaterMedia\MyEmma\Ajax\ListMyEmmaWebhooks();
 		$handlers[] = new \GreaterMedia\MyEmma\Ajax\UpdateMyEmmaWebhooks();
 		$handlers[] = new \GreaterMedia\MyEmma\Ajax\AddMyEmmaGroup();
+		$handlers[] = new \GreaterMedia\MyEmma\Ajax\RemoveMyEmmaGroup();
+		$handlers[] = new \GreaterMedia\MyEmma\Ajax\UpdateMyEmmaGroup();
 
 		// TODO: Verify that this is OK? This conditional is a
 		// basic security measure, else we have an open endpoint that

@@ -44,6 +44,8 @@ class SettingsPage {
 				'list_myemma_webhooks_nonce'   => wp_create_nonce( 'list_myemma_webhooks' ),
 				'update_myemma_webhooks_nonce' => wp_create_nonce( 'update_myemma_webhooks' ),
 				'add_myemma_group_nonce'       => wp_create_nonce( 'add_myemma_group' ),
+				'remove_myemma_group_nonce'    => wp_create_nonce( 'remove_myemma_group' ),
+				'update_myemma_group_nonce'    => wp_create_nonce( 'update_myemma_group' ),
 			)
 		);
 
@@ -76,7 +78,7 @@ class SettingsPage {
 		wp_enqueue_style(
 			'myemma_settings_styles',
 			plugins_url( 'css/myemma_settings_page.css', GMR_GIGYA_PLUGIN_FILE ),
-			array(),
+			array( 'dashicons' ),
 			GMR_GIGYA_VERSION
 		);
 	}
