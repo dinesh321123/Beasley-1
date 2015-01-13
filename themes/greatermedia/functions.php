@@ -146,9 +146,16 @@ function greatermedia_scripts_styles() {
 		false
 	);
 	wp_enqueue_script(
+		'jquery-waypoints',
+		"{$baseurl}/assets/js/vendor/waypoints/lib/jquery.waypoints{$postfix}.js",
+		array( 'jquery' ),
+		GREATERMEDIA_VERSION,
+		true
+	);
+	wp_enqueue_script(
 		'greatermedia-load-more',
 		"{$baseurl}/assets/js/greater_media_load_more{$postfix}.js",
-		array( 'jquery' ),
+		array( 'jquery', 'jquery-waypoints' ),
 		GREATERMEDIA_VERSION,
 		true
 	);
@@ -420,12 +427,8 @@ if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 			return;
 		}
 
-		$partial_slug = sanitize_text_field( $_REQUEST['partial_slug'] );
-		if ( ! $partial_slug ) {
-			$partial_slug = 'partials/loop';
-		}
-
-		$partial_name = sanitize_text_field( $_REQUEST['partial_name'] );
+		$partial_slug = isset( $_REQUEST['partial_slug'] ) ? sanitize_text_field( $_REQUEST['partial_slug'] ) : 'partials/loop';
+		$partial_name = isset( $_REQUEST['partial_name'] ) ? sanitize_text_field( $_REQUEST['partial_name'] ) : '';
 
 		get_template_part( $partial_slug, $partial_name );
 		exit;
@@ -434,47 +437,52 @@ if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 endif;
 add_action( 'template_redirect', 'greatermedia_load_more_template' );
 
-function greatermedia_load_more_button( $partial_slug = null, $partial_name = null, $query_or_page_link_template = null, $next_page = null ) {
+function greatermedia_load_more_button( $args = array() ) {
 
 	global $wp_query;
+	
+	// $partial_slug = null, $partial_name = null, $query_or_page_link_template = null, $next_page = null
+	$args = wp_parse_args( $args, array(
+		'partial_slug' => '',
+		'partial_name' => '',
+		'query' => null,
+		'page_link_template' => null,
+		'next_page' => null,
+		'auto_load' => false,
+	) ); 
 
-	if ( ! $query_or_page_link_template ) {
-		$query_or_page_link_template = $wp_query;
+	if ( ! $args['query'] && ! $args['page_link_template'] ) {
+		$args['query'] = $wp_query;
 	}
 
-	if ( $query_or_page_link_template instanceof WP_Query ) {
+	if ( $args['query'] && $args['query'] instanceof WP_Query ) {
 		$temp_wp_query = $wp_query;
 
-		$wp_query = $query_or_page_link_template;
-		$page_link_template = str_replace( PHP_INT_MAX, '%d', get_pagenum_link( PHP_INT_MAX ) );
+		$wp_query = $args['query'];
+		$args['page_link_template'] = str_replace( PHP_INT_MAX, '%d', get_pagenum_link( PHP_INT_MAX ) );
 
-		if ( ! $next_page ) {
-			$next_page = max( 2, $wp_query->query_vars['paged'] + 1);
+		if ( ! $args['next_page'] ) {
+			$args['next_page'] = max( 2, $wp_query->query_vars['paged'] + 1);
 	}
 
 		$wp_query = $temp_wp_query;
-	} else {
-		$page_link_template = (string) $query_or_page_link_template;
+	} 
+	
+	if ( ! $args['next_page'] ) {
+		$args['next_page'] = 2;
 	}
 
-	if ( ! $next_page ) {
-		$next_page = 2;
-	}
-
-	$default_page_link = sprintf( $page_link_template, $next_page );
-
-	$partial_name = (string) $partial_name;
-	$partial_slug = (string) $partial_slug;
-
+	$default_page_link = sprintf( $args['page_link_template'], $args['next_page'] );
 	?>
 	<div class='posts-pagination'>
 		<a
 			class="button posts-pagination--load-more is-loaded"
 			href='<?php echo esc_url( $default_page_link ); ?>'
-			data-page-link-template="<?php echo esc_url( $page_link_template ); ?>"
-			data-page="<?php echo esc_attr( $next_page ); ?>"
-			data-partial-slug='<?php echo esc_attr( $partial_slug ); ?>'
-			data-partial-name='<?php echo esc_attr( $partial_name ); ?>'
+			data-page-link-template="<?php echo esc_url( $args['page_link_template'] ); ?>"
+			data-page="<?php echo esc_attr( $args['next_page'] ); ?>"
+			data-partial-slug='<?php echo esc_attr( $args['partial_slug'] ); ?>'
+			data-partial-name='<?php echo esc_attr( $args['partial_name'] ); ?>'
+			data-auto-load='<?php echo intval( $args['auto_load'] ); ?>'
 			data-not-found="All content shown"
 			>
 			<i class="fa fa-spin fa-refresh"></i> Load More

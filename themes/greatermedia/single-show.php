@@ -116,7 +116,7 @@
 					        <?php endwhile; ?>
 					        <?php wp_reset_query(); ?>
 	
-							<?php greatermedia_load_more_button( '', '', home_url( '_shows/' . get_post()->post_name . '/page/%d/' ) );	?>
+							<?php greatermedia_load_more_button( array( 'page_link_template' => home_url( '_shows/' . get_post()->post_name . '/page/%d/' ) ) );	?>
 						</section>
 
 			        </div>
