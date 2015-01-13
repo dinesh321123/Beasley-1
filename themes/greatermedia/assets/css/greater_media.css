@@ -2213,7 +2213,8 @@ Community Highlights and Events
   font-family: "Open Sans", sans-serif;
   font-size: 1.26563em;
   font-weight: lighter;
-  color: #929497; }
+  color: #929497;
+  vertical-align: top; }
 
 .highlights__community {
   padding-top: 1.5em; }
@@ -2330,6 +2331,43 @@ Community Highlights and Events
       clear: none; }
       .highlights__events:last-child {
         margin-right: 0; } }
+
+.highlights__events .highlights__heading {
+  display: inline-block; }
+
+.highlights__events--more-btn {
+  display: inline-block;
+  line-height: 1;
+  padding: 0 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: transparent;
+  border: 1px solid #acaeb0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1em;
+  color: #acaeb0 !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 100em;
+  display: inline-block;
+  margin-left: .5em;
+  margin-top: 0;
+  line-height: 2;
+  text-transform: none;
+  vertical-align: top; }
+  .highlights__events--more-btn:hover, .highlights__events--more-btn:focus {
+    background-color: transparent;
+    border-color: #959799;
+    color: #acaeb0; }
+  .highlights__events--more-btn:last-of-type {
+    margin-right: 0; }
+  @media screen and (min-width: 1024px) {
+    .highlights__events--more-btn {
+      margin-top: 0.05em;
+      font-size: 0.85em; } }
+  .highlights__events--more-btn:hover {
+    color: #aa1c20 !important;
+    border-color: #aa1c20; }
 
 .highlights__event--item {
   float: left;

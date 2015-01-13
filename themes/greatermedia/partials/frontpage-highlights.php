@@ -35,7 +35,11 @@
 
 			<div class="highlights__events">
 
-				<h2 class="highlights__heading"><?php _e( 'Upcoming Events', 'greatermedia' ); ?></h2>
+				<div>
+					<h2 class="highlights__heading"><?php _e( 'Upcoming Events', 'greatermedia' ); ?></h2>
+					
+					<a class='highlights__events--more-btn' href='<?php echo esc_url( home_url( '/events/' ) ); ?>'>More</a>
+				</div>
 
 				<?php
 				$events_query = \GreaterMedia\HomepageCuration\get_events_query();

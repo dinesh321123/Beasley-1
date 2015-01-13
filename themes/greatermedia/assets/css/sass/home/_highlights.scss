@@ -120,6 +120,7 @@ Community Highlights and Events
 	font-size: ms(2);
 	font-weight: lighter;
 	color: $secondary-heading;
+	vertical-align: top;
 }
 
 .highlights__community {
@@ -220,6 +221,28 @@ Community Highlights and Events
 		clear: none; 
 	}
 }
+	.highlights__events .highlights__heading {
+		display: inline-block;
+	}
+	.highlights__events--more-btn {
+		@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), 0, 1em, 1em);
+		display: inline-block;
+		margin-left: .5em;
+		margin-top: 0;
+		line-height: 2;
+		text-transform: none;
+		vertical-align: top;
+		
+		@include bp(large) {
+			margin-top: 0.05em;
+			font-size: 0.85em;
+		}
+		
+		&:hover {
+			color: $primary-link-hover !important;
+			border-color: $primary-link-hover;
+		} 
+	}
 
 .highlights__event--item {
 	@include span-columns(4);
