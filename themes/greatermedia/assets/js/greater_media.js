@@ -730,6 +730,15 @@
 
 	init_menu_overlay();
 
+	jQuery( function( $ ) {
+		$('.popup').on( 'click', function(ev) {
+			ev.preventDefault();
+			var x = screen.width/2 - 700/2;
+			var y = screen.height/2 - 450/2;
+			window.open( $(this).attr('href'), $(this).attr('href'), 'height=485,width=700,scrollbars=yes, resizable=yes,left='+x+ ',top='+y);
+		});
+	});
+
 	function personality_toggle() {
 		var $button = jQuery('.person-toggle');
 			start = jQuery('.personality__meta').first().height(); // get the height of the meta before we start, basically tells us whether we're using the mobile or desktop height
