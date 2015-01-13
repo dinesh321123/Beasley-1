@@ -81,10 +81,10 @@ function gmr_songs_register_post_type() {
 	$args = array(
 		'label'                => 'Songs',
 		'labels'               => $labels,
-		'public'               => false,
+		'public'               => true,
 		'show_ui'              => true,
 		'show_in_menu'         => false,
-		'can_export'           => false,
+		'can_export'           => true,
 		'has_archive'          => true,
 		'rewrite'              => false,
 		'register_meta_box_cb' => 'gmr_songs_register_meta_boxes',
@@ -104,7 +104,7 @@ function gmr_songs_register_admin_menu() {
 
 	$parent_slug = 'edit.php?post_type=' . GMR_LIVE_STREAM_CPT;
 	$submenu_slug = 'edit.php?post_type=' . $pt->name;
-	
+
 	add_submenu_page( $parent_slug, $pt->labels->all_items, $pt->labels->name, $pt->cap->create_posts, $submenu_slug );
 }
 
