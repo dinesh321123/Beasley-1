@@ -1,5 +1,12 @@
 <h2 class="page__title" itemprop="headline"><?php _e( 'Photos', 'greatermedia' ); ?></h2>
 <?php
+/*
+ * Will have post IDs of posts we've rendered on the page, to avoid duplication. There is a rare case that can pop
+ * up that seems to be from using have_posts() multiple times, where rewind_posts() gets called right as we start
+ * the final query. Tracking IDs allows us to be sure we don't accidentally render the bottom section as a duplicate
+ * of the top section for these rare cases.
+ */
+$rendered_posts = array();
 
 /*
  * Posts per page is 16, for the main section.
@@ -57,6 +64,8 @@ if ( $query->have_posts() ) :
 
 				<?php if ($query->have_posts() ) : $query->the_post();
 
+					$rendered_posts[ get_the_ID() ] = get_the_ID();
+
 					get_template_part( 'partials/gallery-featured', 'primary' );
 
 				endif;
@@ -72,6 +81,12 @@ if ( $query->have_posts() ) :
 				if ( $query->have_posts() ) :
 
 					while ( $query->have_posts() && $secondary_count < 2 ): $query->the_post();
+
+						if ( in_array( get_the_ID(), $rendered_posts ) ) {
+							continue;
+						}
+
+						$rendered_posts[ get_the_ID() ] = get_the_ID();
 
 						$secondary_count++;
 
@@ -96,6 +111,12 @@ if ( $query->have_posts() ) :
 		if ( $query->have_posts() ) :
 
 			while ( $query->have_posts() ) : $query->the_post();
+
+				if ( in_array( get_the_ID(), $rendered_posts ) ) {
+					continue;
+				}
+
+				$rendered_posts[ get_the_ID() ] = get_the_ID();
 
 				get_template_part( 'partials/gallery-grid' );
 
