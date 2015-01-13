@@ -4249,7 +4249,23 @@ Link posts contain a link to an external site. They can also optionally have a f
     .article__content blockquote, .article__content blockquote p {
       color: #6d6e70; }
   .article__content h1, .article__content h2, .article__content h3, .article__content h4, .article__content h5, .article__content h6 {
-    margin: 25.6px 0; }
+    margin: 25.6px 0;
+    line-height: 1.5;
+    letter-spacing: normal; }
+  .article__content h1 {
+    font-size: 1.80203em; }
+  .article__content h2 {
+    font-size: 1.60181em; }
+  .article__content h3 {
+    font-size: 1.42383em;
+    letter-spacing: 2px; }
+  .article__content h4 {
+    font-size: 1.26563em;
+    letter-spacing: 2px; }
+  .article__content h5, .article__content h6 {
+    font-weight: bold;
+    font-size: 1em;
+    line-height: 1.6; }
 
 .article__comments {
   margin: 3em 0; }
@@ -7717,7 +7733,23 @@ a.social-share-link {
     .article__content blockquote, .article__content blockquote p {
       color: #6d6e70; }
   .article__content h1, .article__content h2, .article__content h3, .article__content h4, .article__content h5, .article__content h6 {
-    margin: 25.6px 0; }
+    margin: 25.6px 0;
+    line-height: 1.5;
+    letter-spacing: normal; }
+  .article__content h1 {
+    font-size: 1.80203em; }
+  .article__content h2 {
+    font-size: 1.60181em; }
+  .article__content h3 {
+    font-size: 1.42383em;
+    letter-spacing: 2px; }
+  .article__content h4 {
+    font-size: 1.26563em;
+    letter-spacing: 2px; }
+  .article__content h5, .article__content h6 {
+    font-weight: bold;
+    font-size: 1em;
+    line-height: 1.6; }
 
 .article__comments {
   margin: 3em 0; }

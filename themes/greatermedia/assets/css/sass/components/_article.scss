@@ -195,9 +195,37 @@
 		}
 	}
 	
-	// Tighten up spacing on headings.
 	h1, h2, h3, h4, h5, h6 {
+		// Tighten up spacing on headings.
 		margin: $line-height-computed 0; 
+		
+		// Reset base styles.
+		line-height: 1.5;
+		letter-spacing: normal; 
+	}
+	
+	h1 {
+		font-size: ms(5);
+	}
+	
+	h2 {
+		font-size: ms(4);
+	}
+	
+	h3 {
+		font-size: ms(3);
+		letter-spacing: 2px;
+	}
+	
+	h4 {
+		font-size: ms(2);
+		letter-spacing: 2px;
+	}
+	
+	h5, h6 {
+		font-weight: bold; 
+		font-size: 1em; 
+		line-height: $line-height;
 	}
 }
 
