@@ -6,46 +6,9 @@
  * @subpackage SeriouslySimplePodcasting
  */
 
-global $ss_podcasting;
-
+$parent_podcast_id = 0;
 // Hide all errors
-error_reporting( 0 );
-
-// Check if feed is password protected
-$protection = get_option('ss_podcasting_protect_feed');
-
-if( $protection && $protection == 'on' ) {
-
-	$give_access = false;
-
-	$message_option = get_option('ss_podcasting_protection_no_access_message');
-	$message = __( 'You are not permitted to view this podcast feed.' , 'ss-podcasting' );
-	if( $message_option && strlen( $message_option ) > 0 && $message_option != '' ) {
-		$message = $message_option;
-	}
-
-	$no_access_message = '<div style="text-align:center;font-family:sans-serif;border:1px solid red;background:pink;padding:20px 0;color:red;">' . esc_html( $message ) . '</div>';
-
-	// Request password and give access if correct
-	if ( ! isset( $_SERVER['PHP_AUTH_USER'] ) && ! isset( $_SERVER['PHP_AUTH_PW'] ) ) {
-	    $give_access = false;
-	} else {
-		$username = get_option('ss_podcasting_protection_username');
-		$password = get_option('ss_podcasting_protection_password');
-
-		if( $_SERVER['PHP_AUTH_USER'] == $username ) {
-			if( md5( $_SERVER['PHP_AUTH_PW'] ) == $password ) {
-				$give_access = true;
-			}
-		}
-	}
-
-	if( ! $give_access ) {
-		header('WWW-Authenticate: Basic realm="Podcast Feed"');
-	    header('HTTP/1.0 401 Unauthorized');
-		die( $no_access_message );
-	}
-}
+error_reporting( 1 );
 
 // Action hook for plugins/themes to intercept template
 // Any add_action( 'do_feed_podcast' ) calls must be made before the 'template_redirect' hook
@@ -119,10 +82,6 @@ if( $explicit && $explicit == 'on' ) {
 	$explicit = 'No';
 }
 
-/*$image = get_option( 'ss_podcasting_data_image' );
-if( ! $image || strlen( $image ) == 0 || $image == '' ) {
-	$image = false;
-}*/
 if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) {
 	$args = array(
 		'post_type' => 'podcast',
@@ -132,6 +91,7 @@ if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) 
 	);
 	$podcast = get_posts( $args );
 	if( $podcast ) {
+		$parent_podcast_id = $podcast[0]->ID;
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $podcast[0]->ID ), 'full' );
 		if( is_array( $image ) ) {
 			$image = $image[0];
@@ -201,18 +161,17 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 	$args = array(
 		'post_type' => 'episode',
 		'post_status' => 'publish',
-		'posts_per_page' => 500
+		'posts_per_page' => 500,
+		'post_parent' => $parent_podcast_id
 	);
-	if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) {
-		$args['series'] = sanitize_text_field( $_GET['podcast_series'] );
-	}
+
 	$qry = new WP_Query( $args );
 
 	if( $qry->have_posts() ) :
 		while( $qry->have_posts()) : $qry->the_post();
 
 		// Enclosure (audio file)
-		$enclosure = $ss_podcasting->get_enclosure( get_the_ID() );
+		$enclosure = get_post_meta( get_the_ID(), 'enclosure', true );
 
 		// Episode duration
 		$duration = get_post_meta( get_the_ID() , 'duration' , true );
@@ -223,7 +182,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		// File size
 		$size = get_post_meta( get_the_ID() , 'filesize_raw' , true );
 		if( ! $size || strlen( $size ) == 0 || $size == '' ) {
-			$size = $ss_podcasting->get_file_size( $enclosure );
+			$size = GMPFeed::get_file_size( $enclosure );
 			$size = esc_html( $size['raw'] );
 		}
 
@@ -232,7 +191,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		}
 
 		// File MIME type (default to MP3 to ensure that there is always a value for this)
-		$mime_type = $ss_podcasting->get_attachment_mimetype( $enclosure );
+		$mime_type = GMPFeed::get_attachment_mimetype( $enclosure );
 		if( ! $mime_type || strlen( $mime_type ) == 0 || $mime_type == '' ) {
 			$mime_type = 'audio/mpeg';
 		}
