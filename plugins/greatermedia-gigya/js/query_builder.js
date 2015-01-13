@@ -386,11 +386,9 @@ __p += '<span class="preview-result-name">\n\t' +
 __e( fields.first_name ) +
 ' ' +
 __e( fields.last_name ) +
-'\n</span>\n<span class="preview-result-email">\n\t<a href="mailto:' +
-__e( email ) +
-'">' +
+'\n</span>\n<span class="preview-result-email">\n\t' +
 __e( view.domainFor(email) ) +
-'</a>\n</span>\n';
+'\n</span>\n';
 
 }
 return __p
