@@ -188,7 +188,7 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 		wp_reset_postdata();
 
 	else : ?>
-
+		<?php if( !$primary_query || !$secondary_query ) { ?>
 		<article id="post-not-found" class="hentry cf">
 			<header class="article-header">
 				<?php if ( 'show' == get_post_type() ) { ?>
@@ -203,6 +203,7 @@ if ( ! get_query_var( 'paged' ) || get_query_var( 'paged' ) < 2 ) { ?>
 				</section>
 			<?php } ?>
 		</article>
+		<?php } ?>
 
 	<?php endif; ?>
 
