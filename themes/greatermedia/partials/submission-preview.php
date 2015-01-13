@@ -3,15 +3,22 @@
 </section>
 
 <section class="col__inner--right">
-	<?php
-	$contest_entry_id = get_post_meta( get_the_ID(), 'contest_entry_id', true );
-	if ( $contest_entry_id ) :
-		$fields = GreaterMediaFormbuilderRender::parse_entry( get_post()->post_parent, $contest_entry_id );
-		if ( ! empty( $fields ) ) : ?>
-			<dl class="contest__submission--entries">
-				<?php foreach ( $fields as $field ) : ?>
-					<?php if ( 'file' != $field['type'] && 'email' != $field['type'] ) : ?>
-						<dt>
+	<dl class="contest__submission--entries">
+		<dt>Submitted By</dt>
+		<dd><?php echo esc_html( gmr_contest_submission_get_author() ); ?></dd>
+
+		<dt>Submitted On</dt>
+		<dd><?php echo get_the_date( '' ); ?></dd>
+		
+		<?php
+		
+		$contest_entry_id = get_post_meta( get_the_ID(), 'contest_entry_id', true );
+		if ( $contest_entry_id ) :
+			$fields = GreaterMediaFormbuilderRender::parse_entry( get_post()->post_parent, $contest_entry_id );
+			if ( ! empty( $fields ) ) :
+				foreach ( $fields as $field ) :
+					if ( 'file' != $field['type'] && 'email' != $field['type'] ) :
+						?><dt>
 							<?php echo esc_html( $field['label'] ); ?>
 						</dt>
 						<dd>
@@ -25,16 +32,14 @@
 							echo esc_html( $value );
 
 							?>
-						</dd>
-					<?php endif; ?>
-				<?php endforeach; ?>
-			</dl>
-		<?php endif; ?>
-	<?php endif; ?>
+						</dd><?php
+					endif;
+				endforeach;
+			endif;
+		endif;
 
-	<p class="contest__submission--author">
-		Submitted by <?php echo esc_html( gmr_contest_submission_get_author() ); ?> On <?php echo get_the_date( '', $contest_entry_id ); ?>
-	</p>
+		?>
+	</dl>
 
 	<?php if ( function_exists( 'is_gigya_user_logged_in' ) ) : ?>
 		<?php if ( is_gigya_user_logged_in() ) : ?>

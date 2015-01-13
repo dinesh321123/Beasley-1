@@ -131,3 +131,72 @@
 		}
 	}
 }
+
+#winners-query-form {
+	margin: 0 0 1em;
+	padding: 1em 0.5em 0.5em 1em;
+	border: 1px solid #ccc;
+	background-color: white;
+
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	select,
+	input[type="text"],
+	input[type="submit"] {
+		margin-top: -3px;
+		text-align: center;
+	}
+
+	select,
+	input[type="text"] {
+		box-shadow: none;
+		border: 0;
+		border-bottom: 1px dashed #ccc;
+		font-weight: bold;
+	}
+
+	input[type="submit"] {
+		float: right;
+	}
+}
+
+#contest-winner-selection {
+	.tablenav {
+		display: none;
+	}
+
+	.column-gender {
+		width: 75px;
+	}
+
+	.column-submitted {
+		width: 100px;
+	}
+
+	.column-email a {
+		display: block;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.unmark-winner a,
+	.unpromote-winner a,
+	.disqualify a {
+		color: red;
+	}
+
+	.wp-list-table.contest-winners {
+		tfoot {
+			display: none;
+		}
+	}
+
+	h3 {
+		margin: 2em 0 0.75em;
+	}
+}

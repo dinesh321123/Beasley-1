@@ -6,6 +6,7 @@ add_action( 'init', 'gmr_contests_register_rewrites_and_endpoints', 100 );
 add_action( 'wp_enqueue_scripts', 'gmr_contests_enqueue_front_scripts', 100 );
 add_action( 'template_redirect', 'gmr_contests_process_action' );
 add_action( 'template_redirect', 'gmr_contests_process_submission_action' );
+add_action( 'manage_' . GMR_CONTEST_CPT . '_posts_custom_column', 'gmr_contests_render_contest_column', 10, 2 );
 add_action( 'before_delete_post', 'gmr_contests_prevent_hard_delete' );
 add_action( 'wp_trash_post', 'gmr_contests_prevent_hard_delete' );
 add_action( 'transition_post_status', 'gmr_contests_prevent_trash_transition', 10, 3 );
@@ -22,7 +23,8 @@ add_filter( 'gmr_contest_submissions_query', 'gmr_contests_submissions_query' );
 add_filter( 'post_type_link', 'gmr_contests_get_submission_permalink', 10, 2 );
 add_filter( 'request', 'gmr_contests_unpack_vars' );
 add_filter( 'post_thumbnail_html', 'gmr_contests_post_thumbnail_html', 10, 4 );
-add_filter( 'post_row_actions', 'gmr_contests_add_table_row_actions', 10, 2 );
+add_filter( 'manage_' . GMR_CONTEST_CPT . '_posts_columns', 'gmr_contests_filter_contest_columns_list' );
+add_filter( 'post_row_actions', 'gmr_contests_filter_contest_actions', PHP_INT_MAX, 2 );
 
 /**
  * Removes delete_post(s) capabilities for public contests or contest entries.
@@ -96,7 +98,7 @@ function gmr_contests_prevent_hard_delete( $post, $post_status = null ) {
 	}
 
 	// check entry
-	if ( GMR_CONTEST_ENTRY_CPT == $post->post_type ) {
+	if ( GMR_CONTEST_ENTRY_CPT == $post->post_type && apply_filters( 'gmr_prevent_contest_entry_removal', true ) ) {
 		wp_die( 'You can not delete or trash contest entry.', '', array( 'back_link' => true ) );
 	}
 }
@@ -322,7 +324,8 @@ function _gmr_contests_get_submission_for_voting_actions() {
 		wp_send_json_error();
 	}
 
-	$query = new WP_Query();$submissions = $query->query( array(
+	$query = new WP_Query();
+	$submissions = $query->query( array(
 		'posts_per_page'      => 1,
 		'ignore_sticky_posts' => true,
 		'no_found_rows'       => true,
@@ -624,9 +627,7 @@ function gmr_contests_process_form_submission() {
 		}
 	}
 
-	list( $entrant_reference, $entrant_name ) = gmr_contests_get_gigya_entrant_id_and_name();
-
-	$entry = GreaterMediaContestEntryEmbeddedForm::create_for_data( $contest_id, $entrant_name, $entrant_reference, GreaterMediaContestEntry::ENTRY_SOURCE_EMBEDDED_FORM, json_encode( $submitted_values ) );
+	$entry = ContestEntryEmbeddedForm::create_for_data( $contest_id, json_encode( $submitted_values ) );
 	$entry->save();
 
 	gmr_contests_handle_submitted_files( $submitted_files, $entry );
@@ -687,10 +688,12 @@ function gmr_contests_handle_submitted_files( array $submitted_files, GreaterMed
 
 	set_post_thumbnail( $ugc->post->ID, $thumbnail );
 	
-	add_post_meta( $ugc->post->ID, 'contest_entry_id', $entry->post_id() );
+	add_post_meta( $ugc->post->ID, 'contest_entry_id', $entry->post->ID );
 	if ( function_exists( 'get_gigya_user_id' ) ) {
 		add_post_meta( $ugc->post->ID, 'gigya_user_id', get_gigya_user_id() );
 	}
+	
+	update_post_meta( $entry->post->ID, 'submission_id', $ugc->post->ID );
 }
 
 /**
@@ -857,49 +860,61 @@ function gmr_contests_post_thumbnail_html( $html, $post_id, $post_thumbnail_id, 
 /**
  * Return contest submission author.
  *
- * @param int $submission_id The contest submission id.
+ * @param int|WP_Post $submission The contest submission id or object.
  * @return string The author name if available.
  */
-function gmr_contest_submission_get_author( $submission_id = null ) {
-	if ( empty( $submission_id ) ) {
-		$submission_id = get_the_ID();
-	}
-	
-	$author = 'guest';
-	if ( function_exists( 'get_gigya_user_profile' ) && ( $gigya_uid = get_post_meta( get_the_ID(), 'gigya_user_id', true ) ) ) {
-		$profile = get_gigya_user_profile( $gigya_uid );
-		if ( ! empty( $profile ) ) {
-			$profile = filter_var_array( $profile, array(
-				'firstName' => FILTER_DEFAULT,
-				'lastName'  => FILTER_DEFAULT,
-			) );
-
-			$author = "{$profile['firstName']} {$profile['lastName']}";
+function gmr_contest_submission_get_author( $submission = null ) {
+	$submission = get_post( $submission );
+	if ( $submission ) {
+		$entry = get_post_meta( $submission->ID, 'contest_entry_id', true );
+		if ( $entry ) {
+			return gmr_contest_get_entry_author( $entry );
 		}
 	}
 
-	return $author;
+	return 'guest';
 }
 
 /**
- * Adds table row actions to contest records.
+ * Return contest entry author name.
  *
- * @filter post_row_actions
- * @param array $actions The initial array of post actions.
- * @param WP_Post $post The post object.
- * @return array The array of post actions.
+ * @param int $entry_id The contest entry id.
+ * @return string The author name.
  */
-function gmr_contests_add_table_row_actions( $actions, WP_Post $post ) {
-	// do nothing if it is not a contest object
-	if ( GMR_CONTEST_CPT != $post->post_type ) {
-		return $actions;
+function gmr_contest_get_entry_author( $entry_id ) {
+	if ( function_exists( 'get_gigya_user_profile' ) ) {
+		try {
+			$gigya_id = get_post_meta( $entry_id, 'entrant_reference', true );
+			if ( $gigya_id && ( $profile = get_gigya_user_profile( $gigya_id ) ) ) {
+				return trim( sprintf(
+					'%s %s',
+					isset( $profile['firstName'] ) ? $profile['firstName'] : '',
+					isset( $profile['lastName'] ) ? $profile['lastName'] : ''
+				) );
+			}
+		} catch( Exception $e ) {}
 	}
 
-	// add contest winners action
-	$link = admin_url( 'edit.php?post_type=contest_entry&contest_id=' . $post->ID );
-	$actions['gmr-contest-winner'] = '<a href="' . esc_url( $link ) . '">Entries</a>';
+	$username = trim( get_post_meta( $entry_id, 'entrant_name', true ) );
+	if ( $username ) {
+		return $username;
+	}
 
-	return $actions;
+	return 'guest';
+}
+
+function gmr_contest_get_entry_author_email( $entry_id ) {
+	$email = get_post_meta( $entry_id, 'entrant_email', true );
+	if ( function_exists( 'get_gigya_user_profile' ) ) {
+		try {
+			$gigya_id = get_post_meta( $entry_id, 'entrant_reference', true );
+			if ( $gigya_id && ( $profile = get_gigya_user_profile( $gigya_id ) ) && isset( $profile['email'] ) ) {
+				$email = $profile['email'];
+			}
+		} catch( Exception $e ) {}
+	}
+
+	return $email;
 }
 
 /**
@@ -950,4 +965,74 @@ function gmr_contests_is_submission_winner( $submission = null ) {
 	}
 
 	return in_array( "{$entry_id}:{$gigya_id}", get_post_meta( $submission->post_parent, 'winner' ) );
+}
+
+/**
+ * Adds columns to the contests table.
+ *
+ * @filter manage_contest_posts_columns
+ * @param array $columns Initial array of columns.
+ * @return array The array of columns.
+ */
+function gmr_contests_filter_contest_columns_list( $columns ) {
+	// put just after the title column
+	$cut_mark = array_search( 'title', array_keys( $columns ) ) + 1;
+
+	$columns = array_merge(
+		array_slice( $columns, 0, $cut_mark ),
+		array(
+			'start_date'  => 'Start Date',
+			'finish_date' => 'Finish Date',
+		),
+		array_slice( $columns, $cut_mark )
+	);
+
+	$columns['date'] = 'Created Date';
+
+	return $columns;
+}
+
+/**
+ * Renders custom columns for the contests table.
+ *
+ * @param string $column_name The column name which is gonna be rendered.
+ * @param int $post_id The post id.
+ */
+function gmr_contests_render_contest_column( $column_name, $post_id ) {
+	if ( 'start_date' == $column_name ) {
+		$timestamp = (int) get_post_meta( $post_id, 'contest-start', true );
+		echo ! empty( $timestamp ) ? date( get_option( 'date_format' ), $timestamp ) : '&#8212;';
+	} elseif ( 'finish_date' == $column_name ) {
+		$timestamp = (int) get_post_meta( $post_id, 'contest-end', true );
+		echo ! empty( $timestamp ) ? date( get_option( 'date_format' ), $timestamp ) : '&#8212;';
+	}
+}
+
+/**
+ * Filters contest actions at the contests table.
+ *
+ * @filter post_row_actions PHP_INT_MAX 2
+ * @param array $actions The initial array of actions.
+ * @param WP_Post $post The actual contest object.
+ * @return array Filtered array of actions.
+ */
+function gmr_contests_filter_contest_actions( $actions, WP_Post $post ) {
+	// do nothing if it is not a contest post
+	if ( GMR_CONTEST_CPT != $post->post_type ) {
+		return $actions;
+	}
+
+	// unset redundant actions
+	unset( $actions['inline hide-if-no-js'], $actions['edit_as_new_draft'], $actions['clone'] );
+
+	// move trash/delete link to the end of actions list if it exists
+	foreach ( array( 'trash', 'delete' ) as $key ) {
+		if ( isset( $actions[ $key ] ) ) {
+			$link = $actions[ $key ];
+			unset( $actions[ $key ] );
+			$actions[ $key ] = $link;
+		}
+	}
+
+	return $actions;
 }

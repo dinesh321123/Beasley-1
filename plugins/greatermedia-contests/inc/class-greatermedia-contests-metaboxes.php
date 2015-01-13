@@ -53,30 +53,16 @@ class GreaterMediaContestsMetaboxes {
 
 			$form = @json_decode( get_post_meta( $post->ID, 'embedded_form', true ), true );
 			if ( empty( $form ) ) {
-				$form = array(
-					array(
-						'cid'           => 'c5',
-						'label'         => 'Name',
-						'field_type'    => 'text',
-						'required'      => true,
-						'sticky'        => true,
-						'field_options' => array( 'size' => 'medium' ),
-					),
-					array(
-						'cid'           => 'c6',
-						'label'         => 'Email Address',
-						'field_type'    => 'email',
-						'required'      => true,
-						'sticky'        => true,
-						'field_options' => array( 'sticky' => true ),
-					),
-				);
+				$form = array();
+			} else {
+				// backward compatibility: we need to be able to delete any fields
+				foreach ( $form as &$sticky ) {
+					unset( $sticky['sticky'] );
+				}
 			}
 
 			wp_enqueue_script( 'greatermedia-contests-admin', "{$base_path}js/contests-admin{$postfix}.js", array( 'formbuilder' ), false, true );
-			wp_localize_script( 'greatermedia-contests-admin', 'GreaterMediaContestsForm', array(
-				'form' => $form,
-			) );
+			wp_localize_script( 'greatermedia-contests-admin', 'GreaterMediaContestsForm', array( 'form' => $form ) );
 		};
 	}
 

@@ -8,15 +8,7 @@
 		var formbuilder = new Formbuilder({
 			selector: '#contest_embedded_form',
 			bootstrapData: GreaterMediaContestsForm.form,
-			controls: []
-		});
-
-		formbuilder.on('showEditView', function($el, model) {
-			if (model.cid === 'c5' || model.cid === 'c6') {
-				$el.find('input[data-rv-checked="model.required"]')
-				   .prop('checked', true)
-				   .attr('disabled', 'disabled');
-			}
+			controls: ['address', 'checkboxes', 'date', 'dropdown', 'email', 'paragraph', 'radio', 'section_break', 'text', 'website']
 		});
 
 		formbuilder.on('save', function (payload) {

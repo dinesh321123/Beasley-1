@@ -81,18 +81,6 @@
 		return container.data('infinite') + (page + 1) + '/';
 	};
 
-	var fillForm = function() {
-		if ($.isFunction(is_gigya_user_logged_in) && $.isFunction(get_gigya_user_field) && is_gigya_user_logged_in()) {
-			container.find('form').each(function() {
-				var $form = $(this),
-					firstName = get_gigya_user_field('firstName'),
-					lastName = get_gigya_user_field('lastName');
-
-				$form.find('input[type="text"]:first').val(firstName + ' ' + lastName);
-			});
-		}
-	};
-
 	var __ready = function() {
 		container = $('#contest-form');
 		gridContainer = $('.contest__submissions--list');
@@ -156,7 +144,6 @@
 				
 				if (response.success) {
 					container.html(response.data.html);
-					fillForm();
 					$('.type-contest.collapsed').removeClass('collapsed');
 				} else {
 					restriction = response.data.restriction;

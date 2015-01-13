@@ -108,51 +108,6 @@ class GreaterMediaContestEntry {
 	}
 
 	/**
-	 * Factory method to create a new contest entry for a given set of data
-	 *
-	 * @param int    $contest_id        Post ID of the related contest
-	 * @param string $entrant_name      Name of the entrant
-	 * @param string $entrant_reference Gigya ID
-	 * @param string $entry_source      Source of the entry (i.e. "gravity-forms")
-	 * @param string $entry_reference   ID or link to the source of the entry
-	 *
-	 * @throws UnexpectedValueException
-	 * @return GreaterMediaContestEntry
-	 */
-	public static function create_for_data( $contest_id, $entrant_name, $entrant_reference, $entry_source, $entry_reference ) {
-
-		$entry_source_camel_case      = str_replace( ' ', '', ucwords( str_replace( '-', ' ', $entry_source ) ) );
-		$possible_entry_subclass_name = 'GreaterMediaContestEntry' . $entry_source_camel_case;
-		if ( class_exists( $possible_entry_subclass_name ) ) {
-			$entry = new $possible_entry_subclass_name( null, $contest_id );
-		} else {
-			$entry = new self( null, $contest_id );
-		}
-
-
-		if ( ! is_scalar( $entrant_name ) ) {
-			throw new UnexpectedValueException( 'Entrant Name must be a scalar value' );
-		}
-
-		if ( ! is_scalar( $entry_source ) ) {
-			throw new UnexpectedValueException( 'Entry Source must be a scalar value' );
-		}
-
-		// This is an assumption. We can always get rid of this check.
-		if ( ! is_scalar( $entry_reference ) ) {
-			throw new UnexpectedValueException( 'Entry Reference must be a scalar value' );
-		}
-
-		$entry->entrant_name      = $entrant_name;
-		$entry->entrant_reference = $entrant_reference;
-		$entry->entry_source      = $entry_source;
-		$entry->entry_reference   = $entry_reference;
-
-		return $entry;
-
-	}
-
-	/**
 	 * Factory method to retrieve a GreaterMediaContestEntry object for a given post ID
 	 *
 	 * @param int $post_id
@@ -168,7 +123,7 @@ class GreaterMediaContestEntry {
 
 		$entry_source = get_post_meta( $post_id, 'entry_source', true );
 		if ( self::ENTRY_SOURCE_EMBEDDED_FORM === $entry_source ) {
-			$entry = new GreaterMediaContestEntryEmbeddedForm( $entry_post );
+			$entry = new ContestEntryEmbeddedForm( $entry_post );
 		} else {
 			$entry = new self( $entry_post );
 		}

@@ -15,6 +15,7 @@ class GreaterMediaFormbuilderRender {
 	const TEXTAREA_SIZE_LARGE = '10';
 
 	private static $_entries = array();
+	private static $_profile = null;
 
 	/**
 	 * Retrieve a custom list of HTML tags & attributes we're allowing in a rendered form
@@ -173,6 +174,46 @@ class GreaterMediaFormbuilderRender {
 		return self::$_entries[ $contest_id ][ $entry_id ];
 	}
 
+	private static function _get_user_field( $field, $default = null ) {
+		if ( is_null( self::$_profile ) ) {
+			self::$_profile = get_gigya_user_profile();
+		}
+
+		return ! empty( self::$_profile[ $field ] ) ? self::$_profile[ $field ] : $default;
+	}
+
+	private static function _get_default_fields() {
+		$submitted_by = new stdClass();
+		$submitted_by->cid = 'submitted_by';
+		$submitted_by->name = 'userinfo_submitted_by';
+		$submitted_by->label = 'Submitted By';
+		$submitted_by->field_type = 'text';
+		$submitted_by->required = true;
+
+		$email_address = new stdClass();
+		$email_address->cid = 'email';
+		$email_address->name = 'userinfo_email';
+		$email_address->label = 'Email Address';
+		$email_address->field_type = 'email';
+		$email_address->required = true;
+
+		$date_of_birth = new stdClass();
+		$date_of_birth->cid = 'dob';
+		$date_of_birth->name = 'userinfo_dob';
+		$date_of_birth->label = 'Date of Birth';
+		$date_of_birth->field_type = 'date';
+		$date_of_birth->required = true;
+
+		$zip = new stdClass();
+		$zip->cid = 'zip';
+		$zip->name = 'userinfo_zip';
+		$zip->label = 'Zip';
+		$zip->field_type = 'text';
+		$zip->required = true;
+
+		return array( $submitted_by, $email_address, $date_of_birth, $zip );
+	}
+
 	/**
 	 * Render a form attached to a given post
 	 *
@@ -198,17 +239,39 @@ class GreaterMediaFormbuilderRender {
 		$html = '<h3 class="contest__form--heading">' . esc_html( $title ) . '</h3>';
 		$html .= '<form method="post" enctype="multipart/form-data" data-parsley-validate>';
 
+		$html .= '<div class="contest__form--user-info">';
+		if ( function_exists( 'is_gigya_user_logged_in' ) && is_gigya_user_logged_in() ) {
+			$html .= '<a href="' . esc_url( trailingslashit( gigya_profile_path( 'account' ) ) ) . '">Edit Your Profile</a>';
+			$html .= '<dl>';
+				$html .= '<dt>Submitted By:</dt>';
+				$html .= sprintf( '<dd>%s %s</dd>', self::_get_user_field( 'firstName' ), self::_get_user_field( 'lastName' ) );
+				$html .= '<dt>Email Address:</dt>';
+				$html .= '<dd>' . self::_get_user_field( 'email' ) . '</dd>';
+				$html .= '<dt>Date of Birth:</dt>';
+				$html .= sprintf( '<dd>%s/%s/%s</dd>', self::_get_user_field( 'birthMonth', '01' ), self::_get_user_field( 'birthDay', '01' ), self::_get_user_field( 'birthYear' ) );
+				$html .= '<dt>Zip:</dt>';
+				$html .= '<dd>' . self::_get_user_field( 'zip' ) . '</dd>';
+			$html .= '</dl>';
+		} else {
+			$html .= '<i>Enter this contest as guest</i> <a href="' . esc_url( gmr_contests_get_login_url() ) . '">Login or Register</a>';
+			foreach ( self::_get_default_fields() as $field ) {
+				$renderer_method = 'render_' . $field->field_type;
+				if ( method_exists( __CLASS__, $renderer_method ) ) {
+					$html .= '<div class="contest__form--row">';
+					$html .= wp_kses( self::$renderer_method( $post_id, $field ), self::allowed_tags() );
+					$html .= '</div>';
+				}
+			}
+		}
+		$html .= '</div>';
+
 		foreach ( $form as $field ) {
-
 			$renderer_method = 'render_' . $field->field_type;
-
-			// Make sure the field type has been implemented/is valid
 			if ( method_exists( __CLASS__, $renderer_method ) ) {
 				$html .= '<div class="contest__form--row">';
 				$html .= wp_kses( self::$renderer_method( $post_id, $field ), self::allowed_tags() );
 				$html .= '</div>';
 			}
-
 		}
 
 		$submit_text = get_post_meta( $post_id, 'form-submitbutton', true );
@@ -669,7 +732,7 @@ class GreaterMediaFormbuilderRender {
 
 		$input_tag_attributes = array_merge( $special_attributes, array(
 			'id'    => $field_id,
-			'name'  => $field_id,
+			'name'  => ! empty( $field->name ) ? $field->name : $field_id,
 			'type'  => $type,
 		) );
 
