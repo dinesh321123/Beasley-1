@@ -42,7 +42,6 @@ include 'inc/class-greatermedia-survey-entry.php';
 
 if ( is_admin() ) {
 	include 'inc/class-greatermedia-contests-metaboxes.php';
-	include 'inc/class-greatermedia-contests-template-actions.php';
 }
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {

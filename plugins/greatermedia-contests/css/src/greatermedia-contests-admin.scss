@@ -200,3 +200,33 @@
 		margin: 2em 0 0.75em;
 	}
 }
+
+.misc-pub-gmr-contest {
+	&::before {
+		font: 400 20px/1 dashicons;
+		speak: none;
+		display: inline-block;
+		padding: 0 2px 0 0;
+		top: 0;
+		left: -1px;
+		position: relative;
+		vertical-align: top;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-decoration: none !important;
+		color: #888;
+	}
+
+	.post-pub-section-value {
+		font-weight: 600;
+	}
+
+	.radio-select,
+	.checkbox-select {
+		margin-top: 1em;
+	}
+}
+
+#contest-type::before {
+	content: "\f314";
+}

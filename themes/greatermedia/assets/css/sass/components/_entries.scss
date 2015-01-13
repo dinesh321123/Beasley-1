@@ -255,7 +255,7 @@
 	}
 
 	.entry2__thumbnail--end-date,
-	.entry2__thumbnail--start-date {
+	.entry2__thumbnail--contest-type {
 		@extend .h1;
 		font-size: ms(0);
 		line-height: 1;
@@ -272,7 +272,8 @@
 		text-align: right;
 	}
 	
-	.entry2__thumbnail--start-date {
+	.entry2__thumbnail--contest-type {
+		font-weight: normal;
 		left: 0;
 		top: 0;
 	}

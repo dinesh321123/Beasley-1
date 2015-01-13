@@ -894,19 +894,19 @@ category: Base - Typography
 ```
 */
 h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry2__thumbnail--end-date,
-.type-contest .entry2__thumbnail--start-date, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+.type-contest .entry2__thumbnail--contest-type, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   line-height: 1.5;
   font-family: "Droid Sans", sans-serif;
   text-rendering: optimizelegibility;
   font-weight: bold; }
   h1 a:link, h1 a:visited, .h1 a:link, .type-tribe_events .entry2__thumbnail--event-date a:link, .type-contest .entry2__thumbnail--end-date a:link,
-  .type-contest .entry2__thumbnail--start-date a:link, .h1 a:visited, .type-tribe_events .entry2__thumbnail--event-date a:visited, .type-contest .entry2__thumbnail--end-date a:visited,
-  .type-contest .entry2__thumbnail--start-date a:visited, h2 a:link, h2 a:visited, .h2 a:link, .h2 a:visited, h3 a:link, h3 a:visited, .h3 a:link, .h3 a:visited, h4 a:link, h4 a:visited, .h4 a:link, .h4 a:visited, h5 a:link, h5 a:visited, .h5 a:link, .h5 a:visited, h6 a:link, h6 a:visited, .h6 a:link, .h6 a:visited {
+  .type-contest .entry2__thumbnail--contest-type a:link, .h1 a:visited, .type-tribe_events .entry2__thumbnail--event-date a:visited, .type-contest .entry2__thumbnail--end-date a:visited,
+  .type-contest .entry2__thumbnail--contest-type a:visited, h2 a:link, h2 a:visited, .h2 a:link, .h2 a:visited, h3 a:link, h3 a:visited, .h3 a:link, .h3 a:visited, h4 a:link, h4 a:visited, .h4 a:link, .h4 a:visited, h5 a:link, h5 a:visited, .h5 a:link, .h5 a:visited, h6 a:link, h6 a:visited, .h6 a:link, .h6 a:visited {
     color: #404041; }
   h1 a:hover, h1 a:focus, h1 a:active, .h1 a:hover, .type-tribe_events .entry2__thumbnail--event-date a:hover, .type-contest .entry2__thumbnail--end-date a:hover,
-  .type-contest .entry2__thumbnail--start-date a:hover, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-contest .entry2__thumbnail--end-date a:focus,
-  .type-contest .entry2__thumbnail--start-date a:focus, .h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-contest .entry2__thumbnail--end-date a:active,
-  .type-contest .entry2__thumbnail--start-date a:active, h2 a:hover, h2 a:focus, h2 a:active, .h2 a:hover, .h2 a:focus, .h2 a:active, h3 a:hover, h3 a:focus, h3 a:active, .h3 a:hover, .h3 a:focus, .h3 a:active, h4 a:hover, h4 a:focus, h4 a:active, .h4 a:hover, .h4 a:focus, .h4 a:active, h5 a:hover, h5 a:focus, h5 a:active, .h5 a:hover, .h5 a:focus, .h5 a:active, h6 a:hover, h6 a:focus, h6 a:active, .h6 a:hover, .h6 a:focus, .h6 a:active {
+  .type-contest .entry2__thumbnail--contest-type a:hover, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-contest .entry2__thumbnail--end-date a:focus,
+  .type-contest .entry2__thumbnail--contest-type a:focus, .h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-contest .entry2__thumbnail--end-date a:active,
+  .type-contest .entry2__thumbnail--contest-type a:active, h2 a:hover, h2 a:focus, h2 a:active, .h2 a:hover, .h2 a:focus, .h2 a:active, h3 a:hover, h3 a:focus, h3 a:active, .h3 a:hover, .h3 a:focus, .h3 a:active, h4 a:hover, h4 a:focus, h4 a:active, .h4 a:hover, .h4 a:focus, .h4 a:active, h5 a:hover, h5 a:focus, h5 a:active, .h5 a:hover, .h5 a:focus, .h5 a:active, h6 a:hover, h6 a:focus, h6 a:active, .h6 a:hover, .h6 a:focus, .h6 a:active {
     color: #aa1c20; }
 
 .featured__content--title a:link, .featured__content--title a:visited, .featured__article--title a:link, .featured__article--title a:visited, .highlights__community--title a:link, .highlights__community--title a:visited {
@@ -915,7 +915,7 @@ h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry
   color: #aa1c20; }
 
 h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry2__thumbnail--end-date,
-.type-contest .entry2__thumbnail--start-date {
+.type-contest .entry2__thumbnail--contest-type {
   font-size: 2.2807em; }
 
 h2, .h2 {
@@ -4005,7 +4005,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   .type-contest .entry2__thumbnail:after {
     background-color: rgba(210, 34, 40, 0.5); }
 .type-contest .entry2__thumbnail--end-date,
-.type-contest .entry2__thumbnail--start-date {
+.type-contest .entry2__thumbnail--contest-type {
   font-size: 1em;
   line-height: 1;
   text-transform: uppercase;
@@ -4017,7 +4017,8 @@ Link posts contain a link to an external site. They can also optionally have a f
   right: 0;
   bottom: 0;
   text-align: right; }
-.type-contest .entry2__thumbnail--start-date {
+.type-contest .entry2__thumbnail--contest-type {
+  font-weight: normal;
   left: 0;
   top: 0; }
 .type-contest .entry2__thumbnail--day-of-week {
@@ -5305,6 +5306,33 @@ category: Components - Ads
 .single__featured-img--contest {
   margin: 0 auto; }
 
+.type-contest .entry__title--tag,
+.type-survey .entry__title--tag {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.25em 0.45em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d0d2d3;
+  border: 1px solid #d0d2d3;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.6243em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 100em;
+  font-size: 50%;
+  font-weight: normal;
+  padding-bottom: 0.15em; }
+  .type-contest .entry__title--tag:hover, .type-contest .entry__title--tag:focus,
+  .type-survey .entry__title--tag:hover,
+  .type-survey .entry__title--tag:focus {
+    background-color: #b8bbbd;
+    border-color: #b8bbbd;
+    color: #ffffff; }
+  .type-contest .entry__title--tag:last-of-type,
+  .type-survey .entry__title--tag:last-of-type {
+    margin-right: 0; }
 .type-contest .col__inner--left,
 .type-survey .col__inner--left {
   border-right-width: 0; }
