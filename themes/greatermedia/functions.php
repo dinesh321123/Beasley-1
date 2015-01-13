@@ -481,3 +481,24 @@ function greatermedia_load_more_button( $partial_slug = null, $partial_name = nu
 	</div>
 	<?php
 }
+
+/**
+ * function to globally remove post type support for custom fields for all post types
+ */
+function greatermedia_remove_custom_fields() {
+
+	// return a list of all post types
+	$post_types = get_post_types();
+
+	/**
+	 * go through each post type, check if the post type supports custom fields, if the post types does support
+	 * custom fields, remove support
+	 */
+	foreach ( $post_types as $post_type ) {
+		if (post_type_supports( $post_type, 'custom-fields' ) ) {
+			remove_post_type_support( $post_type, 'custom-fields' );
+		}
+	}
+
+}
+add_action( 'init' , 'greatermedia_remove_custom_fields', 10 );
