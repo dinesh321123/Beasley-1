@@ -1406,16 +1406,22 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
 
 .header__nav .format-fw > ul, .header__nav .format-sp > ul {
   left: 0;
-  padding: 1em;
+  padding: 1%;
   width: 100%; }
 .header__nav .format-fw > ul > li, .header__nav .format-sp > ul > li {
-  width: 32.666%;
-  /* 100% - 2% (for margins, below) / 3 (3 columns) */
-  float: left; }
+  width: 32%;
+  float: none;
+  display: inline-block;
+  vertical-align: top; }
+  .header__nav .format-fw > ul > li > a, .header__nav .format-sp > ul > li > a {
+    float: left;
+    width: 100%; }
 .header__nav .format-fw > ul > li:not(:nth-child(3n+1)), .header__nav .format-sp > ul > li:not(:nth-child(3n+1)) {
   border-left: 1px solid #d0d2d3;
   padding-left: 1%;
   margin-left: 1%; }
+.header__nav .format-fw > ul > li:nth-child(3n+1), .header__nav .format-sp > ul > li:nth-child(3n+1) {
+  clear: left; }
 
 .format-sp a:hover {
   color: #ffffff; }
@@ -2633,7 +2639,7 @@ Community Highlights and Events
       float: left;
       display: block;
       margin-right: 2.35765%;
-      width: 23.23176%;
+      width: 40.29137%;
       margin-right: 0; }
       .header__secondary:last-child {
         margin-right: 0; } }
@@ -2643,12 +2649,37 @@ Community Highlights and Events
   float: right;
   margin: 0 auto;
   color: #ffffff;
-  cursor: pointer; }
+  cursor: pointer;
+  font-family: "Open Sans", sans-serif; }
   @media screen and (min-width: 768px) {
     .header__account {
       width: 64px;
       height: 82px;
       color: #929497; } }
+  @media screen and (min-width: 1400px) {
+    .header__account {
+      width: auto; } }
+
+.header__account--mobile {
+  display: block; }
+  @media screen and (min-width: 768px) {
+    .header__account--mobile {
+      display: none; } }
+
+.header__account--small {
+  display: none; }
+  @media screen and (min-width: 768px) {
+    .header__account--small {
+      display: block; } }
+  @media screen and (min-width: 1400px) {
+    .header__account--small {
+      display: none; } }
+
+.header__account--large {
+  display: none; }
+  @media screen and (min-width: 1400px) {
+    .header__account--large {
+      display: block; } }
 
 @media screen and (min-width: 768px) {
   .header__account:hover {
@@ -2669,6 +2700,21 @@ Community Highlights and Events
   @media screen and (min-width: 1024px) {
     .header__account--btn {
       font-size: 1.125em; } }
+  @media screen and (min-width: 1400px) {
+    .header__account--btn {
+      width: auto;
+      padding: 32px 16px; }
+      .header__account--btn > span {
+        display: table-cell;
+        vertical-align: middle; } }
+
+.header__account--span {
+  font-family: "Open Sans", sans-serif;
+  color: #d0d2d3; }
+  @media screen and (min-width: 1400px) {
+    .header__account--span {
+      font-size: 12.65px;
+      padding-left: 12px; } }
 
 /** An image is shown if the current user is logged in and Gigya gives us a thumbnail URL **/
 .header__account--btn img {

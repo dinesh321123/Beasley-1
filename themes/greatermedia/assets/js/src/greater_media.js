@@ -472,13 +472,25 @@
 
 	function init_menu_overlay() {
 		var $menu = jQuery(document.querySelector('.header__nav--list')),
-				$overlay = jQuery(document.querySelector('.overlay-mask'));
+			$secondary = jQuery(document.querySelector('.header__secondary')),
+			$overlay = jQuery(document.querySelector('.overlay-mask'));
 
-		$menu.on('mouseover', '.menu-item-has-children', function (e) {
+		$menu.on('mouseover', '.menu-item-has-children, .header__account--small', function (e) {
 			$overlay.addClass('is-visible');
+			console.log('is-visible');
 		});
-		$menu.on('mouseout', '.menu-item-has-children', function (e) {
+		$menu.on('mouseout', '.menu-item-has-children, .header__account--small', function (e) {
 			$overlay.removeClass('is-visible');
+			console.log('not-visible');
+		});
+
+		$secondary.on('mouseover', '.header__account--small', function (e) {
+			$overlay.addClass('is-visible');
+			console.log('is-visible');
+		});
+		$secondary.on('mouseout', '.header__account--small', function (e) {
+			$overlay.removeClass('is-visible');
+			console.log('not-visible');
 		});
 	}
 
