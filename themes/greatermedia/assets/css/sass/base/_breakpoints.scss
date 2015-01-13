@@ -12,5 +12,6 @@ $breakpoints: (
 	small: new-breakpoint(min-width 480px 6),
 	medium: new-breakpoint(min-width 768px 8),
 	large: new-breakpoint(min-width 1024px 12),
+	larger: new-breakpoint(min-width 1200px 12),
 	x-large: new-breakpoint(min-width 1400px 12),
 );

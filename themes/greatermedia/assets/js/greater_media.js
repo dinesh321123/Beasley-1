@@ -35,6 +35,9 @@
 	ProfileMenuApp.prototype = {
 
 		run: function() {
+			var $largeLink = $('.header__account--large');
+			$largeLink.toggleClass('logged-in', is_gigya_user_logged_in());
+
 			var $container = $('.header__account--container');
 			$container.append(this.getMenu());
 
@@ -725,10 +728,10 @@
 			$overlay.removeClass('is-visible');
 		});
 
-		$secondary.on('mouseover', '.header__account--small', function (e) {
+		$secondary.on('mouseover', '.header__account--small, .header__account--large.logged-in', function (e) {
 			$overlay.addClass('is-visible');
 		});
-		$secondary.on('mouseout', '.header__account--small', function (e) {
+		$secondary.on('mouseout', '.header__account--small, .header__account--large.logged-in', function (e) {
 			$overlay.removeClass('is-visible');
 		});
 	}

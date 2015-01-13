@@ -8,6 +8,9 @@
 	ProfileMenuApp.prototype = {
 
 		run: function() {
+			var $largeLink = $('.header__account--large');
+			$largeLink.toggleClass('logged-in', is_gigya_user_logged_in());
+
 			var $container = $('.header__account--container');
 			$container.append(this.getMenu());
 

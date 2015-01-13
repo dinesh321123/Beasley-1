@@ -137,6 +137,9 @@
 										<span class="icon-user"></span>
 										<span class="header__account--span">Login or Register</span>
 									</a>
+									<div class="header__account--container">
+
+									</div>
 								</div>
 								<div id="header__search" class="header__search">
 									<label for="s" class="header__search--label"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div></label>

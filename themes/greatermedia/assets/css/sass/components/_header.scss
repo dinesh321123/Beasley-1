@@ -82,10 +82,9 @@
 	line-height: 1;
 
 	@include bp(large) {
-		@include span-columns(7);
-	}
-	@include bp(x-large) {
-		@include span-columns(7);
+		display: block;
+		float: left;
+		width: auto;
 	}
 }
 
@@ -98,20 +97,21 @@
 	text-align: right;
 	@include bp(medium) {
 		right: 0;
-		@include span-columns(3);
-		@include omega;
 		top: auto;
 		height: 82px;
+		float: right;
+		width: auto;
+		position: relative;
 		@include transform(none);
 	}
-	@include bp(large) {
-		@include span-columns(3);
-		@include omega;
-	}
-	@include bp(x-large) {
-		@include span-columns(5);
-		@include omega;
-	}
+	// @include bp(large) {
+	// 	@include span-columns(3);
+	// 	@include omega;
+	// }
+	// @include bp(larger) {
+	// 	@include span-columns(4);
+	// 	@include omega;
+	// }
 }
 
 // container for account links
@@ -128,7 +128,7 @@
 		color: $secondary-heading;
 	}
 
-	@include bp(x-large) {
+	@include bp(larger) {
 		width: auto;
 
 
@@ -150,7 +150,7 @@
 		display: block;
 	}
 
-	@include bp(x-large) {
+	@include bp(larger) { // Bourbon Neat mixin for media queries
 		display: none;
 	}
 }
@@ -158,8 +158,18 @@
 .header__account--large {
 	display: none;
 
-	@include bp(x-large) {
+	@include bp(larger) {
 		display: block;
+
+		.header__account--container {
+			display: none;
+		}
+
+		&.logged-in {
+			.header__account--container {
+				display: block;
+			}
+		}
 	}
 }
 
@@ -187,7 +197,7 @@
 		font-size: ms(1);
 	}
 
-	@include bp(x-large) {
+	@include bp(larger) {
 		width: auto;
 		padding: 32px 16px;
 
@@ -202,7 +212,7 @@
 	font-family: $open-sans;
 	color: $light-gray;
 
-	@include bp(x-large) {
+	@include bp(larger) {
 		font-size: 12.65px;
 		padding-left: 12px;
 	}
@@ -265,7 +275,7 @@
 		display: block;
 		float: right;
 		height: 82px;
-		margin-right: 2em;
+		margin-right: 1em;
 	}
 }
 

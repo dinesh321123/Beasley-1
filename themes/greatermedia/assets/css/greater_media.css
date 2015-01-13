@@ -2581,20 +2581,9 @@ Community Highlights and Events
   line-height: 1; }
   @media screen and (min-width: 1024px) {
     .header__nav {
-      float: left;
       display: block;
-      margin-right: 2.35765%;
-      width: 57.35098%; }
-      .header__nav:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1400px) {
-    .header__nav {
       float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 57.35098%; }
-      .header__nav:last-child {
-        margin-right: 0; } }
+      width: auto; } }
 
 .header__secondary {
   position: absolute;
@@ -2605,38 +2594,16 @@ Community Highlights and Events
   @media screen and (min-width: 768px) {
     .header__secondary {
       right: 0;
-      float: left;
-      display: block;
-      margin-right: 3.57866%;
-      width: 35.26334%;
-      margin-right: 0;
       top: auto;
       height: 82px;
+      float: right;
+      width: auto;
+      position: relative;
       -webkit-transform: none;
       -moz-transform: none;
       -ms-transform: none;
       -o-transform: none;
-      transform: none; }
-      .header__secondary:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1024px) {
-    .header__secondary {
-      float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 23.23176%;
-      margin-right: 0; }
-      .header__secondary:last-child {
-        margin-right: 0; } }
-  @media screen and (min-width: 1400px) {
-    .header__secondary {
-      float: left;
-      display: block;
-      margin-right: 2.35765%;
-      width: 40.29137%;
-      margin-right: 0; }
-      .header__secondary:last-child {
-        margin-right: 0; } }
+      transform: none; } }
 
 .header__account {
   display: block;
@@ -2650,7 +2617,7 @@ Community Highlights and Events
       width: 64px;
       height: 82px;
       color: #929497; } }
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: 1200px) {
     .header__account {
       width: auto; } }
 
@@ -2665,15 +2632,19 @@ Community Highlights and Events
   @media screen and (min-width: 768px) {
     .header__account--small {
       display: block; } }
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: 1200px) {
     .header__account--small {
       display: none; } }
 
 .header__account--large {
   display: none; }
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: 1200px) {
     .header__account--large {
-      display: block; } }
+      display: block; }
+      .header__account--large .header__account--container {
+        display: none; }
+      .header__account--large.logged-in .header__account--container {
+        display: block; } }
 
 @media screen and (min-width: 768px) {
   .header__account:hover {
@@ -2694,7 +2665,7 @@ Community Highlights and Events
   @media screen and (min-width: 1024px) {
     .header__account--btn {
       font-size: 1.125em; } }
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: 1200px) {
     .header__account--btn {
       width: auto;
       padding: 32px 16px; }
@@ -2705,7 +2676,7 @@ Community Highlights and Events
 .header__account--span {
   font-family: "Open Sans", sans-serif;
   color: #d0d2d3; }
-  @media screen and (min-width: 1400px) {
+  @media screen and (min-width: 1200px) {
     .header__account--span {
       font-size: 12.65px;
       padding-left: 12px; } }
@@ -2758,7 +2729,7 @@ Community Highlights and Events
       display: block;
       float: right;
       height: 82px;
-      margin-right: 2em; } }
+      margin-right: 1em; } }
 
 .header__search--span {
   display: none; }

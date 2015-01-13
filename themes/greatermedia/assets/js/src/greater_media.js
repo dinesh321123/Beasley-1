@@ -539,10 +539,10 @@
 			$overlay.removeClass('is-visible');
 		});
 
-		$secondary.on('mouseover', '.header__account--small', function (e) {
+		$secondary.on('mouseover', '.header__account--small, .header__account--large.logged-in', function (e) {
 			$overlay.addClass('is-visible');
 		});
-		$secondary.on('mouseout', '.header__account--small', function (e) {
+		$secondary.on('mouseout', '.header__account--small, .header__account--large.logged-in', function (e) {
 			$overlay.removeClass('is-visible');
 		});
 	}
