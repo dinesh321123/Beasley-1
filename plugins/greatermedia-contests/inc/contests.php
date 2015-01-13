@@ -856,28 +856,67 @@ function gmr_contests_post_thumbnail_html( $html, $post_id, $post_thumbnail_id, 
 /**
  * Return contest submission author.
  *
- * @param int $submission_id The contest submission id.
+ * @param int|WP_Post $submission The contest submission id or object.
  * @return string The author name if available.
  */
-function gmr_contest_submission_get_author( $submission_id = null ) {
-	if ( empty( $submission_id ) ) {
-		$submission_id = get_the_ID();
-	}
-	
-	$author = 'guest';
-	if ( function_exists( 'get_gigya_user_profile' ) && ( $gigya_uid = get_post_meta( get_the_ID(), 'gigya_user_id', true ) ) ) {
-		$profile = get_gigya_user_profile( $gigya_uid );
-		if ( ! empty( $profile ) ) {
-			$profile = filter_var_array( $profile, array(
-				'firstName' => FILTER_DEFAULT,
-				'lastName'  => FILTER_DEFAULT,
-			) );
-
-			$author = "{$profile['firstName']} {$profile['lastName']}";
+function gmr_contest_submission_get_author( $submission = null ) {
+	$submission = get_post( $submission );
+	if ( $submission ) {
+		$entry = get_post_meta( $submission->ID, 'contest_entry_id', true );
+		if ( $entry ) {
+			return gmr_contest_get_entry_author( $entry );
 		}
 	}
 
-	return $author;
+	return 'guest';
+}
+
+/**
+ * Return contest entry author name.
+ *
+ * @param int $entry_id The contest entry id.
+ * @return string The author name.
+ */
+function gmr_contest_get_entry_author( $entry_id ) {
+	if ( function_exists( 'get_gigya_user_profile' ) ) {
+		try {
+			$gigya_id = get_post_meta( $entry_id, 'entrant_reference', true );
+			if ( $gigya_id && ( $profile = get_gigya_user_profile( $gigya_id ) ) ) {
+				return trim( sprintf(
+					'%s %s',
+					isset( $profile['firstName'] ) ? $profile['firstName'] : '',
+					isset( $profile['lastName'] ) ? $profile['lastName'] : ''
+				) );
+			}
+		} catch( Exception $e ) {}
+	}
+
+	$username = trim( get_post_meta( $entry_id, 'entrant_name', true ) );
+	if ( $username ) {
+		return $username;
+	}
+
+	return 'guest';
+}
+
+/**
+ * Returns gigya user email.
+ *
+ * @param int|WP_Post $entry_id Contest post object or id.
+ * @return string The email address.
+ */
+function gmr_contest_get_entry_author_email( $entry_id ) {
+	$email = get_post_meta( $entry_id, 'entrant_email', true );
+	if ( function_exists( 'get_gigya_user_profile' ) ) {
+		try {
+			$gigya_id = get_post_meta( $entry_id, 'entrant_reference', true );
+			if ( $gigya_id && ( $profile = get_gigya_user_profile( $gigya_id ) ) && isset( $profile['email'] ) ) {
+				$email = $profile['email'];
+			}
+		} catch( Exception $e ) {}
+	}
+
+	return $email;
 }
 
 /**
