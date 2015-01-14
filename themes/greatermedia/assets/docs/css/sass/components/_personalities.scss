@@ -20,40 +20,78 @@ category: Components - Shows
 */
 
 .show__personalities {
-	@include outer-container();
+	@include row();
+	background-color: $primary-bg;
+	margin-top: -4em;
+	margin-bottom: 10%;
 }
 
 .personality {
-	margin: 4em 0;
+	padding: 1.5em 3em;
+	margin-bottom: 2em;
 	position: relative;
 	@include row();
-	// @include box-shadow(0, -9px, -5, rgba(255, 255, 255, 0.75), inset);
-	// TODO - fix box-shadow mixin
+
+	&.open {
+		background-color: $primary-border;
+	}
 }
 
 .personality__avatar {
 	@include span-columns(4 of 12);
+	margin-bottom: 2.35765%;
+
+	img {
+		@include border-radius(50%);
+		width: 80%;
+		height: auto;
+	}
 
 	@include bp(medium) {
 		@include span-columns(3 of 12);
+		margin-bottom: 0;
 	}
 
-	img {
-		width: 80%;
-		height: auto;
-		@include border-radius(50%);
-	}
 }
 
 .personality__meta {
+	float: none;
+	width: auto;
+	height: 10em;
 	overflow: hidden;
-	height: 8em;
-	@include span-columns(8 of 12);
-	@include omega;
+	transition: all 100ms ease-out 0s;
+
+	.personality.open & {
+		overflow: visible;
+		height: auto;
+	}
 
 	@include bp(medium) {
-		height: 12em;
 		@include span-columns(9 of 12);
 		@include omega;
+		height: 12em;
 	}
 }
+
+.personality__btn {
+	float: left;
+	width: 100%;
+	text-align: center;
+	padding-top: 1em;
+
+	.more-btn {
+		right: auto;
+		bottom: auto;
+		position: relative;
+	}
+}
+
+// .personality__mask {
+// 	position: absolute;
+// 	top: 0;
+// 	bottom: 0;
+// 	left: 0;
+// 	right: 0;
+// 	transition: opacity 1s;
+// 	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 90%, rgba(255,255,255,1) 100%); 
+// }

@@ -47,14 +47,19 @@ category: Components - Shows
 
 */
 
+// SEE _mobile-podcasts.scss FOR ADDITIONAL MOBILE-SPECIFIC STYLES
+
 .podcast {
 	@include row();
 	margin-bottom: 68px;
 }
 
 .podcast__play {
-	@include span-columns(2 of 12);
-	margin-top: 4px;
+	@include span-columns(4 of 12);
+
+	@include bp(large) {
+		@include span-columns(2 of 12);
+	}
 }
 
 .podcast__cover {
@@ -133,18 +138,32 @@ category: Components - Shows
 	}
 }
 
-.podcast__meta {
-	@include span-columns(9 of 12);
+.podcast__runtime {
+	padding-top: 0;
+}
 
-	h3 {
-		margin: 10px 0 15px;
+.podcast__meta {
+	@include span-columns(8 of 12);
+	@include omega;
+	padding-left: 1em;
+
+	@include bp(large) {
+		@include span-columns(10 of 12);
+		@include omega;
 	}
 }
 
 .podcast__title {
-	margin: 20px 0 26px;
-	line-height: 1;
-	font-size: ms(5);
+	font-size: ms(2);
+	line-height: 1.25;
+	margin: 0;
+	clear: left;
+
+	@include bp(large) {
+		margin: 20px 0 26px;
+		line-height: 1;
+		font-size: ms(5);
+	}
 }
 
 .podcast__parent {
@@ -158,6 +177,9 @@ category: Components - Shows
 
 .podcast__date {
 	font-size: ms(-2);
+	line-height: 1;
+	float: left;
+	margin-bottom: 10px;
 	color: $color-gray;
 	text-transform: uppercase;
 }
@@ -186,9 +208,18 @@ a.podcast__rss:active {
 
 .podcast__download {
 	@include fill-parent;
-	padding-top: 1em;
+	padding-top: 0;
 	margin: 0 auto;
 	text-align: center;
+
+	@include bp(large) {
+		padding-top: 1em;
+	}
+
+	a {
+		width: 100% !important;
+		margin: 0 0 10px !important;
+	}
 }
 
 .podcast__download--btn {

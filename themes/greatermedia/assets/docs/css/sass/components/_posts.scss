@@ -138,6 +138,22 @@ Link posts contain a link to an external site. They can also optionally have a f
 	}
 }
 
+.entry__header {
+	margin-bottom: 2em;
+	
+}
+
+.entry__featured-image {
+	width: 100%;
+	height: auto;
+	margin-bottom: 1em;
+}
+
+.entry__title {
+	margin: 0;
+	margin-bottom: 1em;
+}
+
 // Thumbnail
 .entry__thumbnail {
 	position: relative;
@@ -202,7 +218,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 	}
 }
 
-.contest .entry__footer {
+.survey .entry__footer {
 	border-bottom: none;
 }
 
@@ -585,49 +601,52 @@ Link posts contain a link to an external site. They can also optionally have a f
 }
 
 // WordPress Styles
-.alignleft, img.alignleft {
-	display: block;
-	margin: 0 1em 16px;
-	float: left;
-}
+.entry-content {
 
-.alignright, img.alignright {
-	display: block;
-	margin: 0 0 16px 1em;
-	float: right;
-}
-
-.aligncenter, img.aligncenter {
-	margin: 0 auto 1em;
-}
-
-.size-auto,
-.size-full,
-.size-large,
-.size-medium,
-.size-thumbnail {
-	max-width: 100%;
-	height: auto;
-}
-
-.wp-caption {
-	max-width: 100%;
-	padding: 0;
-	margin: 0 0 16px;
-	background: $primary-border;
-}
-
-.wp-caption img {
-	width: 100%;
-	margin-bottom: 0;
-	max-width: 100%;
-}
-
-.wp-caption p.wp-caption-text {
-	padding: 16px 1.25em 20px;
-	margin: 4px .5em;
-	font-size: ms(-2);
-	text-align: left;
+	.alignleft, img.alignleft {
+		display: block;
+		margin: 0 1em 16px;
+		float: left;
+	}
+	
+	.alignright, img.alignright {
+		display: block;
+		margin: 0 0 16px 1em;
+		float: right;
+	}
+	
+	.aligncenter, img.aligncenter {
+		margin: 0 auto 1em;
+	}
+	
+	.size-auto,
+	.size-full,
+	.size-large,
+	.size-medium,
+	.size-thumbnail {
+		max-width: 100%;
+		height: auto;
+	}
+	
+	.wp-caption {
+		max-width: 100%;
+		padding: 0;
+		margin: 0 0 16px;
+		background: $primary-border;
+	}
+	
+	.wp-caption img {
+		width: 100%;
+		margin-bottom: 0;
+		max-width: 100%;
+	}
+	
+	.wp-caption p.wp-caption-text {
+		padding: 16px 1.25em 20px;
+		margin: 4px .5em;
+		font-size: ms(-2);
+		text-align: left;
+	}
 }
 
 // Pagination
@@ -661,7 +680,6 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .posts-pagination--load-more {
 	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-	@include border-radius(1em);
 	display: none;
 	
 	.fa {

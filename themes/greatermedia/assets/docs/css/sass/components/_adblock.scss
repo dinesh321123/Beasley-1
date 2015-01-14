@@ -22,7 +22,6 @@
 	bottom: 20px;
 	right: 20px;
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
-	@include border-radius(1em);
 }
 
 .adblock--detected__close:hover {

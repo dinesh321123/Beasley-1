@@ -6400,10 +6400,17 @@ category: Components - Shows
   float: left;
   display: block;
   margin-right: 2.35765%;
-  width: 14.70196%;
-  margin-top: 4px; }
+  width: 31.76157%; }
   .podcast__play:last-child {
     margin-right: 0; }
+  @media screen and (min-width: 1024px) {
+    .podcast__play {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 14.70196%; }
+      .podcast__play:last-child {
+        margin-right: 0; } }
 
 .podcast__cover {
   width: 100%;
@@ -6468,20 +6475,38 @@ category: Components - Shows
   .podcast__btn--pause.playing {
     display: block; }
 
+.podcast__runtime {
+  padding-top: 0; }
+
 .podcast__meta {
   float: left;
   display: block;
   margin-right: 2.35765%;
-  width: 74.41059%; }
+  width: 65.88078%;
+  margin-right: 0;
+  padding-left: 1em; }
   .podcast__meta:last-child {
     margin-right: 0; }
-  .podcast__meta h3 {
-    margin: 10px 0 15px; }
+  @media screen and (min-width: 1024px) {
+    .podcast__meta {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 82.94039%;
+      margin-right: 0; }
+      .podcast__meta:last-child {
+        margin-right: 0; } }
 
 .podcast__title {
-  margin: 20px 0 26px;
-  line-height: 1;
-  font-size: 1.80203em; }
+  font-size: 1.26563em;
+  line-height: 1.25;
+  margin: 0;
+  clear: left; }
+  @media screen and (min-width: 1024px) {
+    .podcast__title {
+      margin: 20px 0 26px;
+      line-height: 1;
+      font-size: 1.80203em; } }
 
 .podcast__parent {
   margin-bottom: 10px; }
@@ -6492,6 +6517,9 @@ category: Components - Shows
 
 .podcast__date {
   font-size: 0.79012em;
+  line-height: 1;
+  float: left;
+  margin-bottom: 10px;
   color: #929497;
   text-transform: uppercase; }
 
@@ -6569,9 +6597,15 @@ a.podcast__rss:active {
 
 .podcast__download {
   width: 100%;
-  padding-top: 1em;
+  padding-top: 0;
   margin: 0 auto;
   text-align: center; }
+  @media screen and (min-width: 1024px) {
+    .podcast__download {
+      padding-top: 1em; } }
+  .podcast__download a {
+    width: 100% !important;
+    margin: 0 0 10px !important; }
 
 .podcast__download--btn {
   display: inline-block;
