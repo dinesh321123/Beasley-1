@@ -78,6 +78,12 @@ category: Components - Shows
 		left: 0;
 	}
 
+	&.not-has-hidden {
+		.more-btn {
+			display: none;
+		}
+	}
+
 	@include bp(medium) {
 		@include span-columns(9 of 12);
 		@include omega;

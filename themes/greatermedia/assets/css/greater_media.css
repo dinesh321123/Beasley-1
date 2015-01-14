@@ -8967,6 +8967,8 @@ category: Components - Shows
     bottom: auto;
     position: relative;
     left: 0; }
+  .personality__meta.not-has-hidden .more-btn {
+    display: none; }
   @media screen and (min-width: 768px) {
     .personality__meta {
       float: left;

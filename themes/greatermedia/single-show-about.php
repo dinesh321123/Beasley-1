@@ -43,9 +43,14 @@
 							<div class="personality__avatar">
 								<?php echo get_avatar( $personality->ID ); ?>
 							</div>
-							<div class="personality__meta">
+							<?php
+								$content = apply_filters('the_content', esc_html( get_the_author_meta( 'description', $personality->ID ) ) );
+								$c = explode("</p>", $content);
+								$n = count($c) - 1;
+							?>
+							<div class="personality__meta<?php if ($n <= 1) echo ' not-has-hidden';?>">
 								<span class="personality__name h1"><?php echo esc_html( $personality->data->display_name ); ?></span>
-								<div class="personality__bio"><?php echo apply_filters('the_content', esc_html( get_the_author_meta( 'description', $personality->ID ) ) ); ?></div>
+								<div class="personality__bio"><?php echo $content; ?></div>
 								<button class="person-toggle more-btn">more</button>
 							</div>
 								<?php
