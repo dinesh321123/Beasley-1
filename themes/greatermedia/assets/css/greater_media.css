@@ -5210,13 +5210,13 @@ category: Components
   margin: 0 auto;
   max-width: 1400px;
   font-size: 14px;
-  line-height: 20px; }
+  line-height: 22px; }
   @media screen and (min-width: 480px) {
     .breaking-news-banner__inner {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      height: 20px; } }
+      height: 22px; } }
   @media screen and (min-width: 768px) {
     .breaking-news-banner__inner {
       font-size: 15px; } }
@@ -5234,7 +5234,7 @@ category: Components
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  height: 20px; }
+  height: 22px; }
   @media screen and (min-width: 480px) {
     .breaking-news-banner__excerpt {
       display: inline;
