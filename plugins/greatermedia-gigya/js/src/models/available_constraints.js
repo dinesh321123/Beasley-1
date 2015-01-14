@@ -1,3 +1,21 @@
+var getSubscribedToListChoices = function() {
+	var emmaGroups = window.member_query_meta.emma_groups;
+	var n          = emmaGroups.length;
+	var choices    = [];
+
+	for (var i = 0; i < n; i++) {
+		group = emmaGroups[i];
+		choice = {
+			label: group.group_name,
+			value: group.group_id
+		};
+
+		choices.push(choice);
+	}
+
+	return choices;
+};
+
 var AVAILABLE_CONSTRAINTS = [
 
 
@@ -549,11 +567,7 @@ var AVAILABLE_CONSTRAINTS_META = [
 	{
 		type: 'data:subscribedToList',
 		title: 'Subscribed To List',
-		choices: [
-			{ label: 'VIP Newsletter', value: '2129171' },
-			{ label: 'Birthday Greetings', value: '2131219' },
-			{ label: "MMR's VIP Big Friggin' Deal", value: '2130195' },
-		]
+		choices: getSubscribedToListChoices(),
 	},
 	{
 		type: 'data:listeningFrequency',
