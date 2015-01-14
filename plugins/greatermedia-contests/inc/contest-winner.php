@@ -11,10 +11,22 @@ add_action( 'admin_action_gmr_unpromote_entry', 'gmr_contest_unpromote_entry' );
 add_action( 'admin_action_gmr_disqualify_entry', 'gmr_contest_disqualify_entry' );
 add_action( 'admin_action_gmr_mark_winner', 'gmr_contest_mark_as_winner' );
 add_action( 'admin_action_gmr_unmark_winner', 'gmr_contest_unmark_as_winner' );
+add_action( 'post_submitbox_start', 'gmr_contest_view_entries_link' );
 
 // filter hooks
 add_filter( 'post_row_actions', 'gmr_contests_add_table_row_actions', 10, 2 );
 add_filter( 'parent_file', 'gmr_contests_adjust_winners_page_admin_menu' );
+
+/**
+ * Renders link to access contest entries.
+ */
+function gmr_contest_view_entries_link() {
+	$post = get_post();
+	
+	echo '<div id="contest-entries">';
+		echo '<a href="', admin_url( 'admin.php?page=gmr-contest-winner&contest_id=' . $post->ID ), '">View Entries</a>';
+	echo '</div>';
+}
 
 /**
  * Adds table row actions to contest records.
