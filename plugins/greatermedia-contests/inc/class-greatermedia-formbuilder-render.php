@@ -108,7 +108,7 @@ class GreaterMediaFormbuilderRender {
 		return $tags;
 	}
 
-	public static function parse_entry( $contest_id, $entry_id, $form = null ) {
+	public static function parse_entry( $contest_id, $entry_id, $form = null, $strip_files = false ) {
 		if ( isset( self::$_entries[ $contest_id ][ $entry_id ] ) ) {
 			return self::$_entries[ $contest_id ][ $entry_id ];
 		}
@@ -159,7 +159,7 @@ class GreaterMediaFormbuilderRender {
 						'label' => $field->label,
 						'value' => $values,
 					);
-				} else {
+				} elseif ( 'file' != $field->field_type || ! $strip_files ) {
 					$results[ $field->cid ] = array(
 						'type'  => $field->field_type,
 						'label' => $field->label,

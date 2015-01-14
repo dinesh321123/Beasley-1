@@ -108,7 +108,7 @@ function gmr_surveys_process_form_submission() {
 		}
 	}
 
-	list( $entrant_reference, $entrant_name ) = gmr_contests_get_gigya_entrant_id_and_name();
+	list( $entrant_reference, $entrant_name ) = gmr_surveys_get_gigya_entrant_id_and_name();
 
 	$entry = GreaterMediaSurveyEntry::create_for_data( $survey_id, $entrant_name, $entrant_reference, GreaterMediaContestEntry::ENTRY_SOURCE_EMBEDDED_FORM, json_encode( $submitted_values ) );
 	$entry->save();
@@ -135,4 +135,25 @@ function gmr_surveys_process_form_submission() {
 			<?php endforeach; ?>
 		</dl><?php
 	endif;
+}
+
+/**
+ * Get Gigya ID and build name, from Gigya session data if available
+ *
+ * @return array
+ */
+function gmr_surveys_get_gigya_entrant_id_and_name() {
+	$entrant_name = 'Anonymous Listener';
+	$entrant_reference = null;
+
+	if ( class_exists( '\GreaterMedia\Gigya\GigyaSession' ) ) {
+		$gigya_session = \GreaterMedia\Gigya\GigyaSession::get_instance();
+		$gigya_id = $gigya_session->get_user_id();
+		if ( ! empty( $gigya_id ) ) {
+			$entrant_reference = $gigya_id;
+			$entrant_name      = $gigya_session->get_key( 'firstName' ) . ' ' . $gigya_session->get_key( 'lastName' );
+		}
+	}
+
+	return array( $entrant_reference, $entrant_name );
 }
