@@ -1008,6 +1008,22 @@ var AVAILABLE_CONSTRAINTS = [
 		value: '01/01/2014',
 		operator: 'greater than',
 	},
+	{
+		type: 'data:social_share_count',
+		valueType: 'integer',
+		value: 0,
+	},
+	{
+		type: 'data:social_share_status',
+		valueType: 'boolean',
+		value: true,
+	},
+	{
+		type: 'action:social_share',
+		valueType: 'string',
+		value: '',
+		operator: 'contains',
+	},
 ];
 
 /* Constraint Meta */
@@ -1442,6 +1458,22 @@ var AVAILABLE_CONSTRAINTS_META = [
 			{ label: '90%', value: '90' },
 			{ label: '100%', value: '100' },
 		]
+	},
+	{
+		type: 'data:social_share_count',
+		title: 'Social Share Count'
+	},
+	{
+		type: 'data:social_share_status',
+		title: 'Social Share Status',
+		choices: [
+			{ label: 'Has Shared', value: true },
+			{ label: 'Has Not Shared', value: false }
+		]
+	},
+	{
+		type: 'action:social_share',
+		title: 'Social Share URL'
 	},
 ];
 
@@ -1958,7 +1990,8 @@ var ConstraintView = Backbone.View.extend({
 		'profile:zip',
 		'profile:state',
 		'profile:country',
-		'profile:timezone'
+		'profile:timezone',
+		'action:social_share',
 	],
 
 	enumOperators: [
@@ -2226,6 +2259,11 @@ var ActiveConstraintsView = Backbone.CollectionView.extend({
 		}
 	},
 
+	initialize: function(options) {
+		Backbone.CollectionView.prototype.initialize.call(this, options);
+		this.listenTo(this.collection, 'add', this.didAdd);
+	},
+
 	copyConstraint: function(event, constraint) {
 		var newConstraint = constraint.clone();
 		var index         = this.collection.indexOf(constraint);
@@ -2235,7 +2273,25 @@ var ActiveConstraintsView = Backbone.CollectionView.extend({
 
 	removeConstraint: function(event, constraint) {
 		this.collection.remove(constraint);
-	}
+	},
+
+	render: function() {
+		Backbone.CollectionView.prototype.render.call(this);
+	},
+
+	didAdd: function(model) {
+		var view = this.viewManager.findByModel(model);
+		this.scrollTo(view.$el);
+	},
+
+	scrollTo: function($target) {
+		var root   = $('html, body');
+		var params = {
+			scrollTop: $target.offset().top - 60 // admin bar offset
+		};
+
+		root.animate(params, 500);
+	},
 
 });
 

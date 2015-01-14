@@ -384,6 +384,8 @@ class MemberQuery {
 
 				if ( $subType === 'comment_date' ) {
 					return $this->clause_for_comment_date_constraint( $constraint );
+				} else if ( $subType === 'social_share' ) {
+					return $this->clause_for_social_share_constraint( $constraint );
 				} else {
 					return $this->clause_for_action_constraint( $constraint );
 				}
@@ -404,6 +406,8 @@ class MemberQuery {
 
 				if ( $subType === 'comment_status' ) {
 					return $this->clause_for_comment_status_constraint( $constraint );
+				} else if ( $subType === 'social_share_status' ) {
+					return $this->clause_for_social_share_status_constraint( $constraint );
 				} else if ( $subType === 'optout' ) {
 					return $this->clause_for_optout_constraint( $constraint );
 				} else if ( $subType === 'subscribedToList' ) {
@@ -577,6 +581,22 @@ class MemberQuery {
 		return $query;
 	}
 
+	public function clause_for_social_share_status_constraint( $constraint ) {
+		$type      = $constraint['type'];
+		$typeParts = explode( ':', $type );
+		$value     = $constraint['value'];
+		$valueType = $constraint['valueType'];
+		$operator  = $constraint['operator'];
+
+		if ( $operator === 'equals' && $value ) {
+			$query = 'data.social_share_count > 0';
+		} else {
+			$query = 'data.social_share_count = 0 or data.social_share_count is null';
+		}
+
+		return $query;
+	}
+
 	public function clause_for_optout_constraint( $constraint ) {
 		$type      = $constraint['type'];
 		$typeParts = explode( ':', $type );
@@ -638,6 +658,38 @@ class MemberQuery {
 		$query .= $this->operator_for( $operator );
 		$query .= ' ';
 		$query .= $this->value_for( $value, 'epoch' );
+
+		return $query;
+	}
+
+	public function clause_for_social_share_constraint( $constraint ) {
+		$type      = $constraint['type'];
+		$value     = $constraint['value'];
+		$valueType = $constraint['valueType'];
+		$operator  = $constraint['operator'];
+		$query     = '';
+
+		$query .= $this->data_store_field_name_for( 'actionType', 'none' );
+		$query .= ' ';
+		$query .= $this->operator_for( '=' );
+		$query .= ' ';
+		$query .= $this->value_for( 'action:social_share' );
+
+		$query .= ' and ';
+
+		$query .= $this->data_store_field_name_for( 'actionData.name', 'none' );
+		$query .= ' ';
+		$query .= $this->operator_for( 'equals' );
+		$query .= ' ';
+		$query .= $this->value_for( 'url', 'string' );
+
+		$query .= ' and ';
+
+		$query .= $this->data_store_field_name_for( 'actionData.value', 'string' );
+		$query .= ' ';
+		$query .= $this->operator_for( $operator );
+		$query .= ' ';
+		$query .= $this->value_for( $value, 'string' );
 
 		return $query;
 	}

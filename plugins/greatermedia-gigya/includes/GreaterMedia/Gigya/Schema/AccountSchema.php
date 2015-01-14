@@ -210,6 +210,10 @@ class AccountSchema {
 					'writeAccess' => 'clientModify',
 					'required' => false,
 				),
+				'social_share_count' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+				),
 				'listeningFrequency' => array(
 					'writeAccess' => 'clientModify',
 					'required' => false,
