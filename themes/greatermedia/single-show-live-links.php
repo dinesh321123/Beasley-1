@@ -60,7 +60,7 @@
 
 				</section>
 
-				<div class="live-link-paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $live_links_query ); ?></div>
+				<div class="show__paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $live_links_query ); ?></div>
 
 			</section>
 

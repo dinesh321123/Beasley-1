@@ -14,7 +14,7 @@
 
 					<?php get_template_part( 'partials/gallery-archive' ); ?>
 
-					<div class="video-paging"><?php /* echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $album_query ); */ ?></div>
+					<div class="show__paging"><?php /* echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $album_query ); */ ?></div>
 
 				</div>
 				

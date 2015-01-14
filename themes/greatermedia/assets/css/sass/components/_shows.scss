@@ -822,3 +822,32 @@ category: Components - Shows
 	border: 1px solid $cardinal;
 	margin: 0 -1px;
 }
+
+.show__paging {
+	clear: both; 
+	width: 100%;
+	font-size: ms(-1);
+	margin: 0 0 $base-line-height; 
+	text-align: center;
+	
+	.page-numbers {
+		display: none;
+		
+		&.next, 
+		&.prev {
+			display: inline;
+		} 
+	}
+	
+	.prev {
+		float: left;
+		width: 50%;
+		text-align: left;
+	}
+	
+	.next {
+		float: right;
+		width: 50%;
+		text-align: right;
+	}
+}

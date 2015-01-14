@@ -30,7 +30,7 @@
 					wp_reset_query();
 					?>
 
-					<div class="video-paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $video_query ); ?></div>
+					<div class="show__paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $video_query ); ?></div>
 
 				</div>
 				

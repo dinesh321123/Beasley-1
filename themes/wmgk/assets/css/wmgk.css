@@ -7477,6 +7477,25 @@ category: Components - Shows
   border: 1px solid #d22228;
   margin: 0 -1px; }
 
+.show__paging {
+  clear: both;
+  width: 100%;
+  font-size: 0.88889em;
+  margin: 0 0 1.5em;
+  text-align: center; }
+  .show__paging .page-numbers {
+    display: none; }
+    .show__paging .page-numbers.next, .show__paging .page-numbers.prev {
+      display: inline; }
+  .show__paging .prev {
+    float: left;
+    width: 50%;
+    text-align: left; }
+  .show__paging .next {
+    float: right;
+    width: 50%;
+    text-align: right; }
+
 .widget--live-player {
   margin: 0 1em 1em; }
 
