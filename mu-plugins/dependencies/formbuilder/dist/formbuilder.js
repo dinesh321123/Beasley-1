@@ -298,17 +298,10 @@
       this.saveFormButton = this.$el.find(".js-save-form");
       this.saveFormButton.attr('disabled', true).text(Formbuilder.options.dict.ALL_CHANGES_SAVED);
       if (!!Formbuilder.options.AUTOSAVE) {
-        setInterval(function() {
+        return setInterval(function() {
           return _this.saveForm.call(_this);
         }, 5000);
       }
-      return jQuery(window).bind('beforeunload', function() {
-        if (_this.formSaved) {
-          return void 0;
-        } else {
-          return Formbuilder.options.dict.UNSAVED_CHANGES;
-        }
-      });
     };
 
     BuilderView.prototype.reset = function() {
@@ -388,6 +381,9 @@
       }
       this.$responseFields.sortable({
         forcePlaceholderSize: true,
+        delay: 150,
+        distance: 10,
+        axis: "y",
         placeholder: 'sortable-placeholder',
         stop: function(e, ui) {
           var rf;
@@ -412,6 +408,7 @@
     BuilderView.prototype.setDraggable = function() {
       var $addFieldButtons,
         _this = this;
+      return;
       $addFieldButtons = this.$el.find("[data-field-type]");
       return $addFieldButtons.draggable({
         connectToSortable: this.$responseFields,
@@ -484,6 +481,7 @@
 
     BuilderView.prototype.scrollLeftWrapper = function($responseFieldEl) {
       var _this = this;
+      return;
       this.unlockLeftWrapper();
       if (!$responseFieldEl[0]) {
         return;
@@ -571,7 +569,7 @@
     };
 
     Formbuilder.options = {
-      BUTTON_CLASS: 'fb-button',
+      BUTTON_CLASS: 'button',
       HTTP_ENDPOINT: '',
       HTTP_METHOD: 'POST',
       AUTOSAVE: true,
@@ -749,7 +747,7 @@
   Formbuilder.registerField('paragraph', {
     order: 5,
     view: "<textarea class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>'></textarea>",
-    edit: "<%= Formbuilder.templates['edit/size']() %>\n<%= Formbuilder.templates['edit/min_max_length']() %>",
+    edit: "",
     addButton: "<span class=\"symbol\">&#182;</span> Paragraph",
     defaultAttributes: function(attrs) {
       attrs.field_options.size = 'small';
@@ -796,7 +794,7 @@
     order: 0,
     type: 'non_input',
     view: "<label class='section-name'><%= rf.get(Formbuilder.options.mappings.LABEL) %></label>\n<p><%= rf.get(Formbuilder.options.mappings.DESCRIPTION) %></p>",
-    edit: "<div class='fb-edit-section-header'>Label</div>\n<input type='text' data-rv-input='model.<%= Formbuilder.options.mappings.LABEL %>' />\n<textarea data-rv-input='model.<%= Formbuilder.options.mappings.DESCRIPTION %>'\n  placeholder='Add a longer description to this field'></textarea>",
+    edit: "<div class='fb-edit-section-header'>Label</div>\n<input type='text' data-rv-input='model.<%= Formbuilder.options.mappings.LABEL %>' />",
     addButton: "<span class='symbol'><span class='fa fa-minus'></span></span> Section Break"
   });
 
@@ -806,7 +804,7 @@
   Formbuilder.registerField('text', {
     order: 0,
     view: "<input type='text' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />",
-    edit: "<%= Formbuilder.templates['edit/size']() %>\n<%= Formbuilder.templates['edit/min_max_length']() %>",
+    edit: "",
     addButton: "<span class='symbol'><span class='fa fa-font'></span></span> Text",
     defaultAttributes: function(attrs) {
       attrs.field_options.size = 'small';

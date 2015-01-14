@@ -90,7 +90,6 @@ class GmrDependencies {
 				'jquery',
 				'jquery-ui-core',
 				'jquery-ui-draggable',
-				'jquery-scrollwindowto',
 				'underscore',
 				'underscore-mixin-deepextend',
 				'backbone',
