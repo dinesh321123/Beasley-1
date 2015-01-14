@@ -14,8 +14,6 @@ module.exports = function (grunt) {
 			},
 			frontend_contest: {
 				src: [
-					'js/vendor/waypoint.js',
-					'js/vendor/modernizr.js',
 					'js/vendor/debouncedresize.js',
 					'js/vendor/imagesloaded.js',
 					'js/src/grid.js',

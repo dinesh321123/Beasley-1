@@ -204,6 +204,21 @@ class GmrDependencies {
 			false,
 			true
 		);
+		
+		wp_register_script(
+			'waypoints',
+			GMRDEPENDENCIES_URL . "waypoints/lib/noframework.waypoints{$postfix}.js",
+			array(),
+			false,
+			true
+		);
+		wp_register_script(
+			'jquery-waypoints',
+			GMRDEPENDENCIES_URL . "waypoints/lib/jquery.waypoints{$postfix}.js",
+			array( 'jquery' ),
+			false,
+			true
+		);
 
 		wp_register_style( 'jquery-ui', GMRDEPENDENCIES_URL . '/jquery-ui-theme/jquery-ui.min.css' );
 		wp_register_style( 'jquery-ui-accordion', GMRDEPENDENCIES_URL . '/jquery-ui-theme/jquery.ui.accordion.min.css', array( 'jquery-ui' ) );
