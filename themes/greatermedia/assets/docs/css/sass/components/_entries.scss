@@ -12,6 +12,11 @@
 	@include span-columns(6 of 6);
 	@include omega; 
 	margin-bottom: $base-line-height * 1.5;
+	border-bottom: 1px solid $primary-border;
+
+	&:last-of-type {
+		border-bottom: none;
+	}
 }
  
 .entry2__thumbnail {	
@@ -47,23 +52,20 @@
 	
 	background-size: 100%;
 	background-size: cover;
-	background-position: center center; 
+	background-position: center center;
 }
 
 .entry2__meta {
-	text-align: center;
-	
 	@include bp(small) {
 		@include span-columns(6 of 6);
 		@include omega;
 		 
 		.has-post-thumbnail &,
+		.type-contest &,
 		.type-tribe_events & {
 			@include span-columns(4 of 6);
 			@include omega; 
 		}
-		
-		text-align: left; 
 	}
 }
 	.entry2__date {
@@ -90,10 +92,7 @@
 	}
 	
 	.entry2__excerpt {
-		// Hide by default
 		margin: .75em 0 0;
-		display: none; 
-		text-align: left;
 		
 		p {
 			margin: 0;
@@ -114,13 +113,8 @@
 .entry2__footer {
 	margin-top: $base-line-height * 1.5;
 	padding: 0 0 $base-line-height / 2;
-	border-bottom: 1px solid $primary-border;
-	text-align: center; 
 	
 	@include omega; 
-	@include bp(small) {
-		text-align: left;
-	}
 	@include span-columns(4);
 }
 	.entry2__footer--category:link, .entry2__footer--category:visited {
@@ -177,6 +171,7 @@
 	.format-audio &,
 	.format-gallery &,
 	.format-video &,
+	.type-contest &,
 	.type-tribe_events & {
 		@extend %gmr-icons;
 		
@@ -209,6 +204,9 @@
 	}
 	.format-video & {
 		@extend .icon-post-format-video;
+	}
+	.type-contest & {
+		@extend .icon-contest;
 	}
 	.type-tribe_events & {
 		@extend .icon-post-format-events;
@@ -246,6 +244,49 @@
 	}
 }
 
+// Special handling for date information in contest thumbnail
+.type-contest {
+	.entry2__thumbnail {
+		background-color: rgba($btn-bg, .8);
+
+		&:after {
+			background-color: rgba($btn-bg, .5);
+		}
+	}
+
+	.entry2__thumbnail--end-date,
+	.entry2__thumbnail--start-date {
+		@extend .h1;
+		font-size: ms(0);
+		line-height: 1;
+		text-transform: uppercase;
+		color: #fff;
+		position: absolute;
+		padding: 4% 6%;
+		z-index: 20;
+	}
+
+	.entry2__thumbnail--end-date {
+		right: 0;
+		bottom: 0;
+		text-align: right;
+	}
+	
+	.entry2__thumbnail--start-date {
+		left: 0;
+		top: 0;
+	}
+
+	.entry2__thumbnail--day-of-week {
+		font-weight: normal;
+	}
+
+	.entry2__thumbnail--month-and-day {
+		font-size: 2em;
+		margin-top: .15em;
+	}
+}
+
 // Special handling for ad-wrapped items
 .entry2-ad-wrap {
 	clear: both; 
@@ -261,6 +302,7 @@
 		@include span-columns(4 of 6);
 	}
 		.entry2.has-post-thumbnail .entry2__meta, 
+		.entry2.type-contest .entry2__meta,
 		.entry2.type-tribe_events .entry2__meta {
 			@include span-columns(2 of 6);
 		}

@@ -127,7 +127,8 @@ var ConstraintView = Backbone.View.extend({
 		'profile:zip',
 		'profile:state',
 		'profile:country',
-		'profile:timezone'
+		'profile:timezone',
+		'action:social_share',
 	],
 
 	enumOperators: [

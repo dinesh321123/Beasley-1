@@ -6,123 +6,16 @@
  * @subpackage SeriouslySimplePodcasting
  */
 
-global $ss_podcasting;
-
+$podcast;
+$parent_podcast_id = 0;
 // Hide all errors
-error_reporting( 0 );
-
-// Check if feed is password protected
-$protection = get_option('ss_podcasting_protect_feed');
-
-if( $protection && $protection == 'on' ) {
-
-	$give_access = false;
-
-	$message_option = get_option('ss_podcasting_protection_no_access_message');
-	$message = __( 'You are not permitted to view this podcast feed.' , 'ss-podcasting' );
-	if( $message_option && strlen( $message_option ) > 0 && $message_option != '' ) {
-		$message = $message_option;
-	}
-
-	$no_access_message = '<div style="text-align:center;font-family:sans-serif;border:1px solid red;background:pink;padding:20px 0;color:red;">' . esc_html( $message ) . '</div>';
-
-	// Request password and give access if correct
-	if ( ! isset( $_SERVER['PHP_AUTH_USER'] ) && ! isset( $_SERVER['PHP_AUTH_PW'] ) ) {
-	    $give_access = false;
-	} else {
-		$username = get_option('ss_podcasting_protection_username');
-		$password = get_option('ss_podcasting_protection_password');
-
-		if( $_SERVER['PHP_AUTH_USER'] == $username ) {
-			if( md5( $_SERVER['PHP_AUTH_PW'] ) == $password ) {
-				$give_access = true;
-			}
-		}
-	}
-
-	if( ! $give_access ) {
-		header('WWW-Authenticate: Basic realm="Podcast Feed"');
-	    header('HTTP/1.0 401 Unauthorized');
-		die( $no_access_message );
-	}
-}
+error_reporting( 1 );
 
 // Action hook for plugins/themes to intercept template
 // Any add_action( 'do_feed_podcast' ) calls must be made before the 'template_redirect' hook
 // If you are still going to load this template after using this hook then you must not output any data
 do_action( 'do_feed_podcast' );
 
-// If redirect is on, get new feed URL and redirect if setting was changed more than 48 hours ago
-$redirect = get_option( 'ss_podcasting_redirect_feed' );
-if( $redirect && $redirect == 'on' ) {
-
-	$new_feed_url = get_option( 'ss_podcasting_new_feed_url' );
-	$update_date = get_option( 'ss_podcasting_redirect_feed_date' );
-
-	if( ( $update_date && strlen( $update_date ) > 0 && $update_date != '' ) && ( $new_feed_url && strlen( $new_feed_url ) > 0 && $new_feed_url != '' ) ) {
-		$redirect_date = strtotime( '+2 days' , $update_date );
-		$current_date = time();
-
-		if( $current_date > $redirect_date ) {
-			wp_redirect( $new_feed_url, 301 );
-			exit;
-		}
-	}
-}
-
-// Get podcast data
-$title = get_option( 'ss_podcasting_data_title' );
-if( ! $title || strlen( $title ) == 0 || $title == '' ) {
-	$title = get_bloginfo( 'name' );
-}
-
-$description = get_option( 'ss_podcasting_data_description' );
-if( ! $description || strlen( $description ) == 0 || $description == '' ) {
-	$description = get_bloginfo( 'description' );
-}
-$itunes_description = strip_tags( $description );
-
-$language = get_option( 'ss_podcasting_data_language' );
-if( ! $language || strlen( $language ) == 0 || $language == '' ) {
-	$language = get_bloginfo( 'language' );
-}
-
-$copyright = get_option( 'ss_podcasting_data_copyright' );
-if( ! $copyright || strlen( $copyright ) == 0 || $copyright == '' ) {
-	$copyright = '&#xA9; ' . date( 'Y' ) . ' ' . get_bloginfo( 'name' );
-}
-
-$subtitle = get_option( 'ss_podcasting_data_subtitle' );
-if( ! $subtitle || strlen( $subtitle ) == 0 || $subtitle == '' ) {
-	$subtitle = get_bloginfo( 'description' );
-}
-
-$author = get_option( 'ss_podcasting_data_author' );
-if( ! $author || strlen( $author ) == 0 || $author == '' ) {
-	$author = get_bloginfo( 'name' );
-}
-
-$owner_name = get_option( 'ss_podcasting_data_owner_name' );
-if( ! $owner_name || strlen( $owner_name ) == 0 || $owner_name == '' ) {
-	$owner_name = get_bloginfo( 'name' );
-}
-
-$owner_email = get_option( 'ss_podcasting_data_owner_email' );
-if( ! $owner_email || strlen( $owner_email ) == 0 || $owner_email == '' ) {
-	$owner_email = get_bloginfo( 'admin_email' );
-}
-
-$explicit = get_option( 'ss_podcasting_data_explicit' );
-if( $explicit && $explicit == 'on' ) {
-	$explicit = 'Yes';
-} else {
-	$explicit = 'No';
-}
-
-/*$image = get_option( 'ss_podcasting_data_image' );
-if( ! $image || strlen( $image ) == 0 || $image == '' ) {
-	$image = false;
-}*/
 if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) {
 	$args = array(
 		'post_type' => 'podcast',
@@ -132,6 +25,7 @@ if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) 
 	);
 	$podcast = get_posts( $args );
 	if( $podcast ) {
+		$parent_podcast_id = $podcast[0]->ID;
 		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $podcast[0]->ID ), 'full' );
 		if( is_array( $image ) ) {
 			$image = $image[0];
@@ -142,14 +36,54 @@ if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) 
 	$image = false;
 }
 
-$category = get_option( 'ss_podcasting_data_category' );
+$category = sanitize_text_field( get_post_meta( $parent_podcast_id, 'gmp_category', true ) );
 if( ! $category || strlen( $category ) == 0 || $category == '' ) {
-	$category = false;
+	$category = Music;
 } else {
-	$subcategory = get_option( 'ss_podcasting_data_subcategory' );
+	$subcategory = sanitize_text_field( get_post_meta( $parent_podcast_id, 'gmp_sub_category', true ) );
 	if( ! $subcategory || strlen( $subcategory ) == 0 || $subcategory == '' ) {
 		$subcategory = false;
 	}
+}
+
+// Get podcast data
+$title = $podcast[0]->post_title;
+if( ! $title || strlen( $title ) == 0 || $title == '' ) {
+	$title = get_bloginfo( 'name' );
+}
+
+$description = $podcast[0]->post_content;
+if( ! $description || strlen( $description ) == 0 || $description == '' ) {
+	$description = get_bloginfo( 'description' );
+}
+
+$itunes_description = strip_tags( $description );
+$language = get_bloginfo( 'language' );
+$copyright = '&#xA9; ' . date( 'Y' ) . ' ' . get_bloginfo( 'name' );
+
+$subtitle = sanitize_text_field( get_post_meta( $parent_podcast_id, 'gmp_subtitle', true ) );
+if( ! $subtitle || strlen( $subtitle ) == 0 || $subtitle == '' ) {
+	$subtitle = get_bloginfo( 'description' );
+}
+
+$author = sanitize_text_field( get_post_meta( $parent_podcast_id, 'gmp_author', true ) );
+if( ! $author || strlen( $author ) == 0 || $author == '' ) {
+	$author_id = $podcast[0]->post_author;
+	$author = get_user_by( 'id', $author_id );
+	$author = $author->first_name;
+	if( ! $author || strlen( $author ) == 0 || $author == '' ) {
+		$author = get_bloginfo( 'name' );
+	}
+}
+
+$owner_name = get_bloginfo( 'name' );
+$owner_email = get_bloginfo( 'admin_email' );
+
+$explicit = sanitize_text_field( get_post_meta( $post->ID, 'gmp_explicit', true ) );
+if( $explicit && $explicit == 'on' ) {
+	$explicit = 'Yes';
+} else {
+	$explicit = 'No';
 }
 
 header( 'Content-Type: ' . feed_content_type( 'rss-http' ) . '; charset=' . get_option( 'blog_charset' ), true );
@@ -201,18 +135,17 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 	$args = array(
 		'post_type' => 'episode',
 		'post_status' => 'publish',
-		'posts_per_page' => 500
+		'posts_per_page' => 500,
+		'post_parent' => $parent_podcast_id
 	);
-	if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) {
-		$args['series'] = sanitize_text_field( $_GET['podcast_series'] );
-	}
+
 	$qry = new WP_Query( $args );
 
 	if( $qry->have_posts() ) :
 		while( $qry->have_posts()) : $qry->the_post();
 
 		// Enclosure (audio file)
-		$enclosure = $ss_podcasting->get_enclosure( get_the_ID() );
+		$enclosure = get_post_meta( get_the_ID(), 'enclosure', true );
 
 		// Episode duration
 		$duration = get_post_meta( get_the_ID() , 'duration' , true );
@@ -223,7 +156,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		// File size
 		$size = get_post_meta( get_the_ID() , 'filesize_raw' , true );
 		if( ! $size || strlen( $size ) == 0 || $size == '' ) {
-			$size = $ss_podcasting->get_file_size( $enclosure );
+			$size = GMPFeed::get_file_size( $enclosure );
 			$size = esc_html( $size['raw'] );
 		}
 
@@ -232,13 +165,13 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		}
 
 		// File MIME type (default to MP3 to ensure that there is always a value for this)
-		$mime_type = $ss_podcasting->get_attachment_mimetype( $enclosure );
+		$mime_type = GMPFeed::get_attachment_mimetype( $enclosure );
 		if( ! $mime_type || strlen( $mime_type ) == 0 || $mime_type == '' ) {
 			$mime_type = 'audio/mpeg';
 		}
 
 		// Episode explicit flag
-		$ep_explicit = get_post_meta( get_the_ID() , 'explicit' , true );
+		$ep_explicit = get_post_meta( get_the_ID() , 'gmp_episode_explicit' , true );
 		if( $ep_explicit && $ep_explicit == 'on' ) {
 			$explicit_flag = 'Yes';
 		} else {
@@ -246,21 +179,11 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		}
 
 		// Episode block flag
-		$ep_block = get_post_meta( get_the_ID() , 'block' , true );
+		$ep_block = get_post_meta( get_the_ID() , 'gmp_block' , true );
 		if( $ep_block && $ep_block == 'on' ) {
 			$block_flag = 'Yes';
 		} else {
 			$block_flag = 'No';
-		}
-
-		// Episode series name
-		$series_list = wp_get_post_terms( get_the_ID() , 'series' );
-		$series = false;
-		if( $series_list && count( $series_list ) > 0 ) {
-			foreach( $series_list as $s ) {
-				$series = esc_html( $s->name );
-				break;
-			}
 		}
 
 		// Episode keywords
@@ -277,9 +200,6 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 				}
 			}
 		}
-
-		// Episode author
-		$author = esc_html( get_the_author() );
 
 		// Episode content
 		$content = get_the_content_feed( 'rss2' );

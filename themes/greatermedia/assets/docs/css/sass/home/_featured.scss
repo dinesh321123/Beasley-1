@@ -79,7 +79,7 @@ Curated posts for Featured Articles
 		@include span-columns(8);
 		@include omega;
 		padding: $base-line-height * 2 $gutter * 2;
-		background-image: url(../../images/featured-bg.png);
+		background-image: url($asset-root + '../images/featured-bg.png');
 		background-repeat: repeat;
 		background-position: center center;
 		background-color: $featured-primary-bg;
@@ -332,7 +332,6 @@ Curated posts for Featured Articles
 
 .featured__content--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .25em, 1.2em, .7em);
-	@include border-radius(1.5em);
 	text-transform: uppercase;
 	white-space: nowrap;
 }

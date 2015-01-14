@@ -227,12 +227,24 @@ class Plugin {
 			'list_entry_fields_nonce'           => wp_create_nonce( 'list_entry_fields' ),
 			'member_query_status_nonce'         => wp_create_nonce( 'member_query_status' ),
 			'change_member_query_segment_nonce' => wp_create_nonce( 'change_member_query_segment' ),
-			'status_meta'                       => $sentinel->get_status_meta()
+			'status_meta'                       => $sentinel->get_status_meta(),
+			'emma_groups'                       => $this->get_emma_groups(),
 		);
 
 		wp_localize_script(
 			'query_builder', 'member_query_meta', $meta
 		);
+	}
+
+	function get_emma_groups() {
+		$emma_groups = get_option( 'emma_groups' );
+		$emma_groups = json_decode( $emma_groups, true );
+
+		if ( ! is_array( $emma_groups ) ) {
+			$emma_groups = array();
+		}
+
+		return $emma_groups;
 	}
 
 	function initialize_member_query_styles( $member_query ) {

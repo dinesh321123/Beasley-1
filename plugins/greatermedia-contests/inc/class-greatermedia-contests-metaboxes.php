@@ -88,7 +88,6 @@ class GreaterMediaContestsMetaboxes {
 			wp_enqueue_style( 'font-awesome' );
 
 			wp_enqueue_script( 'ie8-node-enum' );
-			wp_enqueue_script( 'jquery-scrollwindowto' );
 			wp_enqueue_script( 'underscore-mixin-deepextend' );
 			wp_enqueue_script( 'backbone-deep-model' );
 			wp_enqueue_script( 'datetimepicker' );
@@ -222,6 +221,7 @@ class GreaterMediaContestsMetaboxes {
 
 	public function contest_settings_metabox( WP_Post $post ) {
 		$post_id = $post->ID;
+		$post_status = get_post_status_object( $post->post_status );
 
 		wp_nonce_field( 'contest_meta_boxes', '__contest_nonce' );
 
@@ -252,8 +252,12 @@ class GreaterMediaContestsMetaboxes {
 
 		<?php if ( ! $is_onair ) : ?>
 		<div id="contest-form" class="tab">
-			<div id="contest_embedded_form"></div>
-			<input type="hidden" id="contest_embedded_form_data" name="contest_embedded_form">
+			<?php if ( ! $post_status->public ) : ?>
+				<div id="contest_embedded_form"></div>
+				<input type="hidden" id="contest_embedded_form_data" name="contest_embedded_form">
+			<?php else : ?>
+				<b>Contest form builder is locked.</b>
+			<?php endif; ?>
 			<?php do_settings_sections( 'greatermedia-contest-form' ); ?>
 		</div>
 		<?php endif; ?>
@@ -265,6 +269,9 @@ class GreaterMediaContestsMetaboxes {
 
 	private function _restrictions_settings( WP_Post $post ) {
 		$post_status = get_post_status_object( $post->post_status );
+
+		$started = get_post_meta( $post->ID, 'contest-start', true );
+		$ended = get_post_meta( $post->ID, 'contest-end', true );
 		
 		?><table class="form-table">
 			<tr>
@@ -278,7 +285,7 @@ class GreaterMediaContestsMetaboxes {
 							'value'   => get_post_meta( $post->ID, 'contest-start', true )
 						) ); ?>
 					<?php else : ?>
-						<b><?php echo date( get_option( 'date_format' ), get_post_meta( $post->ID, 'contest-start', true ) ); ?></b>
+						<b><?php echo ! empty( $started ) ? date( get_option( 'date_format' ), get_post_meta( $post->ID, 'contest-start', true ) ) : '&#8212;'; ?></b>
 					<?php endif; ?>
 				</td>
 			</tr>
@@ -294,7 +301,7 @@ class GreaterMediaContestsMetaboxes {
 							'value'   => get_post_meta( $post->ID, 'contest-end', true ),
 						) ); ?>
 					<?php else : ?>
-						<b><?php echo date( get_option( 'date_format' ), get_post_meta( $post->ID, 'contest-end', true ) ); ?></b>
+						<b><?php echo ! empty( $ended ) ? date( get_option( 'date_format' ), get_post_meta( $post->ID, 'contest-end', true ) ) : '&#8212;'; ?></b>
 					<?php endif; ?>
 				</td>
 			</tr>

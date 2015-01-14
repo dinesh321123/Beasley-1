@@ -75,10 +75,11 @@
 	
 	.highlights__heading {
 		font-size: ms(1);
+		color: $secondary-heading;
 	}
 
 	.highlights__event--item {
-		background-color: $highlights-bg;
+		background-color: #F1F1F3;
 	}
 
 	.highlights__community--item:hover {
@@ -91,6 +92,21 @@
 		@include bp(large) {
 			padding-right: 25px;
 		}
+	}
+
+	.entry2__meta {
+		float: none !important;
+		width: auto !important;
+	}
+
+	.entry2__thumbnail {
+		margin-bottom: 0.5em;
+
+	}
+	
+	.format-standard .entry2__thumbnail {
+		margin-top: 1.75em;
+		margin-left: 0.75em;
 	}
 }
 
@@ -164,7 +180,7 @@ category: Components - Shows
 	}
 
 	@include bp(large) {
-		background-image: url(../../images/featured-bg.png);
+		background-image: url($asset-root + '../images/featured-bg.png');
 		background-repeat: repeat;
 		background-position: center center;
 		background-color: $featured-primary-bg;
@@ -215,7 +231,7 @@ category: Components - Shows
 
 			&:hover  {
 				background-color: $secondary-text;
-				color: $secondary-link-hover;
+				color: $heath;
 			}
 
 		}
@@ -345,7 +361,9 @@ category: Components - Shows
 		margin-top: 1em;
 
 		&:hover, &:active {
+			color: $heath;
 			background: $secondary-text;
+			border-color: $secondary-text;
 		}
 	}
 }
@@ -456,7 +474,7 @@ category: Components - Shows
 
 .show__feature--desc {
 	background-color: #F1F1F3;
-	color: $highlights-heading;
+	color: $primary-heading;
 
 	h3 {
 		margin: 0;
@@ -471,7 +489,7 @@ category: Components - Shows
 	time {
 		font-size: ms(0);
 		text-transform: uppercase;
-		color: $highlights-heading;
+		color: $primary-heading;
 	}			
 	
 	.inner-wrap {

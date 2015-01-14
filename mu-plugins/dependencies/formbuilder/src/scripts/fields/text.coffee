@@ -6,10 +6,7 @@ Formbuilder.registerField 'text',
     <input type='text' class='rf-size-<%= rf.get(Formbuilder.options.mappings.SIZE) %>' />
   """
 
-  edit: """
-    <%= Formbuilder.templates['edit/size']() %>
-    <%= Formbuilder.templates['edit/min_max_length']() %>
-  """
+  edit: ""
 
   addButton: """
     <span class='symbol'><span class='fa fa-font'></span></span> Text

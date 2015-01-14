@@ -19,7 +19,8 @@ class Publisher extends Task {
 	);
 
 	public $counter_actions = array(
-		'comment'
+		'comment',
+		'social_share',
 	);
 
 	function get_task_name() {

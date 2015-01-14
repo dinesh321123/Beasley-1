@@ -195,7 +195,7 @@ function gmr_contests_enqueue_front_scripts() {
 
 	wp_enqueue_style( 'greatermedia-contests', "{$base_path}css/greatermedia-contests.css", array( 'datetimepicker', 'parsleyjs' ), GREATER_MEDIA_CONTESTS_VERSION );
 
-	wp_enqueue_script( 'greatermedia-contests', "{$base_path}js/contests{$postfix}.js", array( 'modernizr', 'jquery-waypoints', 'jquery', 'datetimepicker', 'parsleyjs', 'parsleyjs-words', 'gmr-gallery' ), GREATER_MEDIA_CONTESTS_VERSION, true );
+	wp_enqueue_script( 'greatermedia-contests', "{$base_path}js/contests{$postfix}.js", array( 'jquery', 'datetimepicker', 'parsleyjs', 'parsleyjs-words', 'gmr-gallery', 'jquery-waypoints', 'modernizr' ), GREATER_MEDIA_CONTESTS_VERSION, true );
 }
 
 /**

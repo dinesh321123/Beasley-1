@@ -165,7 +165,7 @@
 }
 
 .member-query-results .preview-result-email {
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 /*.member-query-results a {*/
@@ -221,4 +221,12 @@
 
 .preview-result-name {
 
+}
+
+#post-body #visibility:before {
+	content: '\f465' !important;
+}
+
+#post-body #timestamp:before {
+	content: '\f504' !important;
 }

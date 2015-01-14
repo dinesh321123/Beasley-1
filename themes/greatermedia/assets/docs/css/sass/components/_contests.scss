@@ -1,25 +1,33 @@
 .contest__thumbnail {
-	@include span-columns(4 of 4);
-	background-color: lighten($primary-border, 9%);
+	@include proportional-thumbnail( 66% );
 	margin: 0 auto 2em;
-	text-align: center;
-
-	@include bp(small) {
-		@include span-columns(6 of 6);
-	}
-	@include bp(medium) {
-		@include span-columns(8 of 8);
-	}
-	@include bp(large) {
-		@include span-columns(8 of 8);
-	}
-	@include bp(x-large) {
-		@include span-columns(8 of 8);
-	}
 }
 
 .single__featured-img--contest {
 	margin: 0 auto;
+}
+
+.type-contest,
+.type-survey {
+	.col__inner--left {
+		border-right-width: 0;
+	}
+
+	&.collapsed {
+		.col__inner--left {
+			width: 100%;
+			margin-right: 0;
+			padding-right: 0;
+		}
+		
+		.col__inner--right {
+			display: none;
+		}
+
+		.contest__entry--link {
+			display: none;
+		}
+	}
 }
 
 .contest__entry--link {
@@ -33,7 +41,6 @@
 .contest__entry--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(1));
 	width: 100%;
-	@include border-radius(17px);
 	text-transform: uppercase;
 	text-align: center;
 }
@@ -71,6 +78,85 @@
 	margin-bottom: 30px;
 }
 
+.contest__restrictions {
+	.contest__restriction--age,
+	.contest__restriction--age-fails,
+	.contest__restriction--finished,
+	.contest__restriction--max-entries,
+	.contest__restriction--not-started,
+	.contest__restriction--one-entry,
+	.contest__restriction--signin {
+		display: none;
+	}
+
+	.contest__restriction--finished p,
+	.contest__restriction--max-entries p,
+	.contest__restriction--not-started p,
+	.contest__restriction--age-fails p,
+	.contest__restriction--one-entry p {
+		font-weight: bold; 
+	}
+
+	.contest__restriction--age p:first-child {
+		font-weight: bold;
+	}
+
+	.contest__restriction--signin {
+		p:first-child {
+			font-weight: bold;
+		}
+
+		a {
+			@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
+		}
+	}
+
+	&.age .contest__restriction--age {
+		display: block;
+	}
+
+	&.age-fails .contest__restriction--age-fails {
+		display: block;
+	}
+
+	&.finished .contest__restriction--finished {
+		display: block;
+	}
+
+	&.max-entries .contest__restriction--max-entries {
+		display: block;
+	}
+
+	&.not-started .contest__restriction--not-started {
+		display: block;
+	}
+
+	&.one-entry .contest__restriction--one-entry {
+		display: block;
+	}
+
+	&.signin .contest__restriction--signin {
+		display: block;
+	}
+}
+
+.contest__restriction--min-age-yes,
+.contest__restriction--min-age-no {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(-1));
+
+	&:hover {
+		@include btn($btn-hover, $color-text-black, $btn-hover, .625em, 1em, ms(-1));
+	}
+
+	&:active {
+		@include btn($btn-active, $color-text-white, $btn-active, .625em, 1em, ms(-1));
+	}
+
+	&:last-of-type {
+		margin-right: 0;
+	}
+}
+
 .contest-attr--rules {
 	padding: 2em;
 	margin: 0 0 1.5em;
@@ -90,7 +176,6 @@
 
 .contest-attr--rules-toggler {
 	@include btn($btn-muted, $color-text-white, $btn-muted, 0.5em, 1em, ms(-2));
-	@include border-radius(1em);
 }
 
 .contest-attr--rules-toggler:hover {
@@ -173,7 +258,6 @@
 	input[type="submit"] {
 		@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(3));
 		width: 100%;
-		@include border-radius(28px);
 		text-transform: uppercase;
 
 		&:hover {
@@ -196,7 +280,7 @@
 		border: none;
 		outline: none;
 		background-color: $form-bg;
-		background-image: url(../../images/select-arrow.png);
+		background-image: url($asset-root + '../images/select-arrow.png');
 		background-repeat: no-repeat;
 		background-position: 90% center;
 		background-size: auto 10px;
@@ -227,7 +311,6 @@
 
 .contest__submissions--load-more {
 	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-	@include border-radius(1em);
 	clear: both;
 	margin: 1em auto 0;
 	display: block;
@@ -352,7 +435,6 @@
 	.contest__submission--vote,
 	.contest__submission--unvote {
 		@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-		@include border-radius(1em);
 	}
 
 	.contest__submission--unvote {

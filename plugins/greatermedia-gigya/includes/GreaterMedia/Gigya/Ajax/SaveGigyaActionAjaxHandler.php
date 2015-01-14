@@ -8,6 +8,7 @@ class SaveGigyaActionAjaxHandler extends AjaxHandler {
 	public $allowed_actions = array(
 		'action:contest',
 		'action:comment',
+		'action:social_share',
 	);
 
 	function get_action() {

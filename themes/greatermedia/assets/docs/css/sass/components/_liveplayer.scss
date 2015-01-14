@@ -334,7 +334,6 @@ category: Components
 
 .live-stream__listen-now--btn {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
-	@include border-radius(1em);
 	margin-right: 0;
 	font-weight: 700;
 	z-index: 1;
@@ -343,7 +342,6 @@ category: Components
 .live-stream__now-playing--btn {
 	@include btn(transparent, $color-text-red, $btn-bg, .5em, 1em, ms(-1));
 	display: none;
-	@include border-radius(1em);
 	font-weight: 700;
 }
 
@@ -364,7 +362,6 @@ category: Components
 .live-stream__resume--btn {
 	@include btn(transparent, $color-text-red, $btn-bg, .5em, 1em, ms(-1));
 	margin: 0 .5em;
-	@include border-radius(1em);
 	font-weight: 700;
 }
 
@@ -549,6 +546,7 @@ category: Components
 .on-air__title, .up-next__title {
 	display: inline-block;
 	@include bp(medium) {
+		display: block;
 		margin-bottom: 10px;
 		font-size: ms(-1);
 	}
@@ -557,6 +555,7 @@ category: Components
 .on-air__show, .up-next__show {
 	display: inline-block;
 	@include bp(medium) {
+		display: block;
 		font-size: ms(-1);
 		text-transform: uppercase;
 	}
@@ -755,7 +754,7 @@ category: Components
 
 .live-link__type--gallery:before {
 	@extend %live-link__icon;
-	content: "\e61a";
+	content: "\e621";
 }
 
 .live-link__type--image:before {
@@ -775,7 +774,7 @@ category: Components
 
 .live-link__type--video:before {
 	@extend %live-link__icon;
-	content: "\e613";
+	content: "\e620";
 }
 
 .live-link__title {
