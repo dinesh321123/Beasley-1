@@ -6419,7 +6419,8 @@ category: Components - Shows
   background-repeat: no-repeat;
   background-position: center top;
   background-size: auto 100%;
-  position: relative; }
+  position: relative;
+  margin-bottom: 1em; }
 
 .podcast__btn--play,
 .podcast__btn--pause {
@@ -6476,7 +6477,8 @@ category: Components - Shows
     display: block; }
 
 .podcast__runtime {
-  padding-top: 0; }
+  padding-top: 0;
+  padding-bottom: 1em; }
 
 .podcast__meta {
   float: left;
@@ -6498,7 +6500,7 @@ category: Components - Shows
         margin-right: 0; } }
 
 .podcast__title {
-  font-size: 1.26563em;
+  font-size: 1.42383em;
   line-height: 1.25;
   margin: 0;
   clear: left; }
@@ -6600,9 +6602,6 @@ a.podcast__rss:active {
   padding-top: 0;
   margin: 0 auto;
   text-align: center; }
-  @media screen and (min-width: 1024px) {
-    .podcast__download {
-      padding-top: 1em; } }
   .podcast__download a {
     width: 100% !important;
     margin: 0 0 10px !important; }
