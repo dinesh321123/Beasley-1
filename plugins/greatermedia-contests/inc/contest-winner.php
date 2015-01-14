@@ -77,12 +77,23 @@ function gmr_contests_render_winner_page() {
 	$wp_list_table = new GMR_Contest_Entries_Table( array( 'screen' => GMR_CONTEST_ENTRY_CPT, 'plural' => 'entry_id' ) );
 	$wp_list_table->prepare_items();
 
+	// winners table
+	$winners = new GMR_Contest_Winners_Table( array( 'contest_id' => $contest->ID ) );
+	$winners->prepare_items();
+
 	?><div id="contest-winner-selection" class="wrap">
 		<h2>
 			Entries:
 			<a href="<?php echo get_edit_post_link( $contest->ID ); ?>"><?php echo esc_html( $contest->post_title ); ?></a>
 			<a class="add-new-h2" href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . GMR_CONTEST_CPT ) ); ?>">All Contests</a>
 		</h2>
+
+		<?php if ( $winners->has_items() ) : ?>
+			<h3>Selected Winners</h3>
+			<?php $winners->display(); ?>
+
+			<h3>All Entries</h3>
+		<?php endif; ?>
 
 		<form id="posts-filter">
 			<?php wp_nonce_field( 'gmr_contest_entries' ) ?>
@@ -174,4 +185,98 @@ class GMR_Contest_Entries_Table extends WP_Posts_List_Table {
 		endif;
 	}
 	
+}
+
+/**
+ * Contest entries table.
+ */
+class GMR_Contest_Winners_Table extends WP_List_Table {
+
+	public function prepare_items() {
+		$sortable = $this->get_sortable_columns();
+		$this->_column_headers = array( $this->get_columns(), array(), $sortable );
+
+		$winners = get_post_meta( $this->_args['contest_id'], 'winner' );
+		if ( empty( $winners ) ) {
+			$this->items = array();
+			return;
+		}
+
+		$entries = array();
+		foreach ( $winners as $winner ) {
+			$entries[] = current( explode( ':', $winner, 2 ) );
+		}
+
+		$args = array(
+			'post_type'           => GMR_CONTEST_ENTRY_CPT,
+			'post_status'         => 'any',
+			'post_parent'         => $this->_args['contest_id'],
+			'post__in'            => $entries,
+			'posts_per_page'      => 100,
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+		);
+
+		$query = new WP_Query();
+		$this->items = $query->query( $args );
+	}
+
+	public function column__gmr_username( WP_Post $entry ) {
+		$unmark = admin_url( 'admin.php?action=gmr_contest_entry_unmark_winner&entry=' . $entry->ID );
+		$unmark = wp_nonce_url( $unmark, 'contest_entry_unmark_winner' );
+
+		return '<b>' . gmr_contest_get_entry_author( $entry->ID ) . '</b>' . $this->row_actions( array(
+			'unmark-winner' => '<a href="' . esc_url( $unmark ) . '">Unmark Winner</a>',
+		) );
+	}
+
+	public function column__gmr_thumbmail( WP_Post $entry ) {
+		$thumbnail = false;
+		$submission = get_contest_entry_submission( $entry->ID );
+		if ( $submission ) {
+			$thumbnail = get_post_thumbnail_id( $submission->ID ) ;
+		}
+
+		if ( $thumbnail ) {
+			return wp_get_attachment_image( $thumbnail, array( 75, 75 ) );
+		}
+
+		return '<img width="75" src="http://placehold.it/75&text=noimage" class="attachment-75x75">';
+	}
+
+	public function column__gmr_email( WP_Post $entry ) {
+		$email = gmr_contest_get_entry_author_email( $entry->ID );
+		if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+			return '&#8212;';
+		}
+
+		return sprintf( '<a href="mailto:%1$s" title="%1$s">%1$s</a>', $email );
+	}
+
+	public function column__gmr_submitted( WP_Post $entry ) {
+		return sprintf(
+			'<span title="%s">%s ago</span>',
+			mysql2date( 'M j, Y H:i', $entry->post_date ),
+			human_time_diff( strtotime( $entry->post_date ), current_time( 'timestamp' ) )
+		);
+	}
+
+	public function get_columns() {
+		return array(
+			'_gmr_thumbmail' => 'Thumbnail',
+			'_gmr_username'  => 'Name',
+			'_gmr_email'     => 'Email',
+			'_gmr_submitted' => 'Submitted',
+		);
+	}
+
+	protected function view_switcher( $current_mode ) {
+	}
+
+	protected function extra_tablenav( $which ) {
+	}
+
+	protected function display_tablenav( $which ) {
+	}
+
 }
