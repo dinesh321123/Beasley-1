@@ -484,6 +484,17 @@ function greatermedia_load_more_button( $args = array() ) {
 	<?php
 }
 
+add_action( 'current_screen', 'hide_seo_columns' );
+function hide_seo_columns() {
+
+    $currentScreen = get_current_screen();
+    $current_user = wp_get_current_user();
+    
+    $hidden = array( 'wpseo-score',  'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
+    update_user_meta( $current_user->ID, 'manage' . $currentScreen->id . 'columnshidden', $hidden );
+}
+}
+
 /**
  * function to globally remove post type support for custom fields for all post types
  */
