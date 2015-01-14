@@ -99,7 +99,7 @@
 							if (newItems.length >= itemsCountOnPage) {
 								loadMoreLocked = false;
 								$loadMore.removeClass('loading');
-								$.waypoints('refresh');
+								Waypoint.refreshAll();
 
 								if ($.isFunction(settings.loadedMore)) {
 									settings.loadedMore(newItems);
@@ -163,7 +163,7 @@
 						}
 					});
 
-					$.waypoints('refresh');
+					Waypoint.refreshAll();
 				}
 			}
 
@@ -404,4 +404,4 @@
 
 		return $grids;
 	};
-})(jQuery, gridModernizr);
+})(jQuery, Modernizr);
