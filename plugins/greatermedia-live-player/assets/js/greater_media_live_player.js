@@ -116,15 +116,15 @@
 	playButton.on( 'click', function() {
 		if( !is_gigya_user_logged_in() ) {
 			Cookies('gmlp_play_button_pushed', 1);
+			Cookies('gmr_play_live_audio', 0);
 		}
-		Cookies('gmr_play_live_audio', 0);
 	});
 
 	listenNow.on( 'click', function() {
 		if( !is_gigya_user_logged_in() ) {
 			Cookies('gmlp_play_button_pushed', 1);
+			Cookies('gmr_play_live_audio', 0);
 		}
-		Cookies('gmr_play_live_audio', 0);
 	});
 
 
