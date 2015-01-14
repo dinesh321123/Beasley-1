@@ -9,7 +9,6 @@ define( 'GMR_GIGYA_URL', plugin_dir_url( __FILE__ ) );
 define( 'GMR_GIGYA_PATH', dirname( __FILE__ ) . '/' );
 define( 'GMR_GIGYA_PLUGIN_FILE', __FILE__ );
 define( 'GMR_GIGYA_VERSION', '0.7.0' );
-define( 'GMR_MAILCHIMP_API_KEY', 'd288a2356ce46a76c0afbc67b9f537ad-us9' );
 
 /* JOB DB details - behind an ifdef to allow wp-config to override in production */
 if ( ! defined( 'GMR_JOB_DB' ) ) {
