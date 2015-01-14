@@ -69,7 +69,6 @@ class GreaterMediaContests {
 					$query->set( 'post__not_in', $entries );
 				}
 
-
 				$query->set( 'post_parent', $contest->ID );
 			}
 		}
@@ -99,7 +98,10 @@ class GreaterMediaContests {
 
 		unset( $columns['title'], $columns['date'] );
 
-		$columns['_gmr_thumbmail'] = 'Thumbnail';
+		if ( gmr_contest_has_files( $contest->ID ) ) {
+			$columns['_gmr_thumbmail'] = 'Thumbnail';
+		}
+		
 		$columns['_gmr_username'] = 'Submitted by';
 		$columns['_gmr_email'] = 'Email';
 //		foreach ( $form as $field ) {

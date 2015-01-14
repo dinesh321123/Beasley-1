@@ -1061,3 +1061,34 @@ function gmr_contests_filter_contest_actions( $actions, WP_Post $post ) {
 
 	return $actions;
 }
+
+/**
+ * Determines whether a contest has file fields or not.
+ *
+ * @param WP_Post|int $contest The contest object or id.
+ * @return boolean TRUE if a contest has file fields, otherwise FALSE.
+ */
+function gmr_contest_has_files( $contest ) {
+	$contest = get_post( $contest );
+	if ( ! $contest || GMR_CONTEST_CPT != $contest->post_type ) {
+		return false;
+	}
+
+	$form = get_post_meta( $contest->ID, 'embedded_form', true );
+	if ( empty( $form ) ) {
+		return array();
+	}
+
+	if ( is_string( $form ) ) {
+		$clean_form = trim( $form, '"' );
+		$form = json_decode( $clean_form );
+	}
+
+	foreach ( $form as $field ) {
+		if ( 'file' == $field->field_type ) {
+			return true;
+		}
+	}
+
+	return false;
+}

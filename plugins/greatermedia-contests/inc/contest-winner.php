@@ -262,12 +262,17 @@ class GMR_Contest_Winners_Table extends WP_List_Table {
 	}
 
 	public function get_columns() {
-		return array(
-			'_gmr_thumbmail' => 'Thumbnail',
-			'_gmr_username'  => 'Name',
-			'_gmr_email'     => 'Email',
-			'_gmr_submitted' => 'Submitted',
-		);
+		$actions = array();
+
+		if ( gmr_contest_has_files( $this->_args['contest_id'] ) ) {
+			$actions['_gmr_thumbmail'] = 'Thumbnail';
+		}
+		
+		$actions['_gmr_username'] = 'Name';
+		$actions['_gmr_email'] = 'Email';
+		$actions['_gmr_submitted'] = 'Submitted';
+
+		return $actions;
 	}
 
 	protected function view_switcher( $current_mode ) {
