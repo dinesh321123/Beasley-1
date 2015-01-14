@@ -87,13 +87,13 @@ class GMR_Audio_Shortcodes {
 		$new_html .= '<span class="podcast__runtime">' . esc_html( $metadata['length_formatted'] ) . '</span>';
 		if( $is_podcast && ( $downloadable == 'on' || $downloadable == '' ) ) {
 			$new_html .= '<div class="podcast__download">';
-			$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download--btn" download>Download</a>';
 			if( $parent_podcast_id && $is_podcast ) {
 				if( $itunes_url != '' ) {
 					$new_html .= '<a class="podcast__subscribe show-mobile" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 				}
 				$new_html .= '<a class="podcast__rss show-mobile" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>';
 			}
+			$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download--btn" download>Download</a>';
 			$new_html .= '</div>';
 		}
 		// if( $featured_image ) {

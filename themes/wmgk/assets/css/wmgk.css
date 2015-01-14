@@ -6606,6 +6606,10 @@ a.podcast__rss:active {
   .podcast__download a {
     width: 100% !important;
     margin: 0 0 10px !important; }
+    @media screen and (min-width: 1024px) {
+      .podcast__download a {
+        width: auto !important;
+        margin: 10px 0 !important; } }
 
 .podcast__download--btn {
   display: inline-block;

@@ -70,7 +70,7 @@ category: Components - Shows
 	background-position: center top;
 	background-size: auto 100%;
 	position: relative;
-
+	margin-bottom: 1em;
 }
 
 .podcast__btn--play,
@@ -140,6 +140,7 @@ category: Components - Shows
 
 .podcast__runtime {
 	padding-top: 0;
+	padding-bottom: 1em;
 }
 
 .podcast__meta {
@@ -154,7 +155,7 @@ category: Components - Shows
 }
 
 .podcast__title {
-	font-size: ms(2);
+	font-size: ms(3);
 	line-height: 1.25;
 	margin: 0;
 	clear: left;
@@ -212,13 +213,14 @@ a.podcast__rss:active {
 	margin: 0 auto;
 	text-align: center;
 
-	@include bp(large) {
-		padding-top: 1em;
-	}
-
 	a {
 		width: 100% !important;
 		margin: 0 0 10px !important;
+
+		@include bp(large) {
+			width: auto !important;
+			margin: 10px 0 !important;
+		}
 	}
 }
 
