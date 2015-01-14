@@ -4256,12 +4256,16 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .image__attribution {
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   right: 10px;
   padding: .5em 1em;
   background-color: #000000;
   font-size: 0.88889em;
   color: #ffffff; }
+  @media screen and (min-width: 768px) {
+    .image__attribution {
+      top: auto;
+      bottom: 10px; } }
 
 .ad-unit--300--250 {
   position: relative;
@@ -7863,12 +7867,16 @@ a.social-share-link {
 
 .image__attribution {
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   right: 10px;
   padding: .5em 1em;
   background-color: #000000;
   font-size: 0.88889em;
   color: #ffffff; }
+  @media screen and (min-width: 768px) {
+    .image__attribution {
+      top: auto;
+      bottom: 10px; } }
 
 /* Styles for the Gallery page and widget */
 /*doc
