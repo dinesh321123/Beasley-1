@@ -207,11 +207,15 @@
 
 	function changePlayerState() {
 		if (is_gigya_user_logged_in()) {
-			if (playBtn != null) {
+			if (playBtn != null && Cookies.get('gmr_play_live_audio') == 1) {
 				addEventHandler(playBtn, elemClick, playLiveStream);
+			} else if (playBtn != null) {
+				addEventHandler(playBtn, elemClick, playLiveStreamWithPreRoll);
 			}
-			if (listenNow != null) {
-				addEventHandler(listenNow, elemClick, resumeLiveStream);
+			if (listenNow != null && Cookies.get('gmr_play_live_audio') == 1) {
+				addEventHandler(listenNow, elemClick, playLiveStream);
+			} else if (listenNow != null) {
+				addEventHandler(listenNow, elemClick, playLiveStreamWithPreRoll);
 			}
 		} else {
 			if (playBtn != null) {
@@ -252,9 +256,11 @@
 	function postVastAd() {
 		var preRoll = document.getElementById('live-stream__container');
 
-		if(preRoll != null) {
+		if (preRoll != null) {
 			preRoll.classList.remove('vast__pre-roll');
 		}
+		Cookies('gmr_play_live_audio', undefined);
+		Cookies('gmr_play_live_audio', 1, {expires: 86400});
 	}
 
 	function streamVastAd() {
