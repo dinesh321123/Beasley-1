@@ -70,6 +70,12 @@ class GreaterMediaContests {
 				}
 
 				$query->set( 'post_parent', $contest->ID );
+
+				$random = filter_input( INPUT_GET, 'random', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
+				if ( $random ) {
+					$query->set( 'orderby', 'rand' );
+					$query->set( 'posts_per_page', 3 );
+				}
 			}
 		}
 	}

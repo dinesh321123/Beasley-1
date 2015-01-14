@@ -176,6 +176,16 @@ class GMR_Contest_Entries_Table extends WP_Posts_List_Table {
 	 * @param string $which The area where to render extra navigation.
 	 */
 	protected function extra_tablenav( $which ) {
+		$random = filter_input( INPUT_GET, 'random', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
+		
+		if ( $which == 'top' ) :
+			?><div class="alignleft actions">
+				<a class="button button-primary" href="<?php echo esc_url( add_query_arg( 'random', 3 ) ); ?>">Load 3 Random Entries</a>
+				<?php if ( $random ) : ?>
+					<a class="button" href="<?php echo esc_url( add_query_arg( 'random', false ) ); ?>">See All Entries</a>
+				<?php endif; ?>
+			</div><?php
+		endif;
 	}
 
 	/**
