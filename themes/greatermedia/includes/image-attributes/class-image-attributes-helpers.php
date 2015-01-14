@@ -12,7 +12,7 @@ function get_image_attribution( $post_id ) {
 	$image_attribution = get_post_meta( $post_id, 'gmr_image_attribution', true );
 
 	if ( ! empty( $image_attribution ) ) {
-		return $image_attribution;
+		return esc_attr( $image_attribution );
 	}
 
 }
