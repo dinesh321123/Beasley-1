@@ -59,6 +59,17 @@ class GreaterMediaContests {
 		if ( GMR_CONTEST_ENTRY_CPT == $typenow && 'gmr-contest-winner' == filter_input( INPUT_GET, 'page' ) && $query->is_main_query() ) {
 			$contest = filter_input( INPUT_GET, 'contest_id', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
 			if ( $contest && ( $contest = get_post( $contest ) ) && GMR_CONTEST_CPT == $contest->post_type ) {
+				$winners = get_post_meta( $contest->ID, 'winner' );
+				if ( ! empty( $winners ) ) {
+					$entries = array();
+					foreach ( $winners as $winner ) {
+						$entries[] = current( explode( ':', $winner, 2 ) );
+					}
+
+					$query->set( 'post__not_in', $entries );
+				}
+
+
 				$query->set( 'post_parent', $contest->ID );
 			}
 		}
