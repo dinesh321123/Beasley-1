@@ -165,7 +165,7 @@
 }
 
 .member-query-results .preview-result-email {
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 /*.member-query-results a {*/

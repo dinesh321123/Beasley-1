@@ -5,12 +5,6 @@
 
 	<ul class="member-query-results">
 		<li>
-			<span class="preview-result-name">
-				Darshan Sawardekar
-			</span>
-			<span class="preview-result-email">
-				darshan@10up.com
-			</span>
 		</li>
 	</ul>
 </div>
