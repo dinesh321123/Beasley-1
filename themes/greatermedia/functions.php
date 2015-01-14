@@ -493,7 +493,6 @@ function hide_seo_columns() {
     $hidden = array( 'wpseo-score',  'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
     update_user_meta( $current_user->ID, 'manage' . $currentScreen->id . 'columnshidden', $hidden );
 }
-}
 
 /**
  * function to globally remove post type support for custom fields for all post types
