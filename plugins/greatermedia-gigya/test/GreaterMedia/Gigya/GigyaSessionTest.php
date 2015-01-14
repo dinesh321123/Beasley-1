@@ -12,7 +12,7 @@ class GigyaSessionTest extends \WP_UnitTestCase {
 		unset( $_COOKIE['gigya_profile'] );
 		GigyaSession::$instance = null;
 		$this->session = new GigyaSession();
-		$this->uid = '37F5E08F-74D3-40FC-8F4B-296AD29DACBB';
+		$this->uid = '34dc27adf622457abfa161c906f32fb4';
 	}
 
 	function init_gigya_keys() {
@@ -245,4 +245,131 @@ class GigyaSessionTest extends \WP_UnitTestCase {
 		$this->assertEquals( 'yes_21', $actual );
 	}
 
+	/* profile data storage tests */
+
+	function test_it_can_find_full_user_data_profile() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+
+		$actual = $this->session->get_user_profile_data( $this->uid );
+		$this->assertContains( 'listeningLoyalty', $actual );
+	}
+
+	function test_it_can_find_single_user_data_field() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		$actual = $this->session->get_user_data_field( $this->uid, 'listeningLoyalty' );
+
+		$this->assertEquals( '0', $actual );
+	}
+
+	function test_it_can_find_single_unknown_user_data_field() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		$actual = $this->session->get_user_data_field( $this->uid, 'unknown' );
+
+		$this->assertNull( $actual );
+	}
+
+	function test_it_can_change_user_data_field() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		$this->session->set_user_data_field( $this->uid, 'test1', ['a', 'b', 'c'] );
+		$actual = $this->session->get_user_data_field( $this->uid, 'test1' );
+
+		$this->assertEquals( array( 'a', 'b', 'c' ), $actual );
+	}
+
+	function test_it_can_store_array_of_integers() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		$contests = array( time(), time(), time() );
+		$this->session->set_user_data_field( $this->uid, 'test2', $contests );
+		$actual = $this->session->get_user_data_field( $this->uid, 'test2' );
+
+		$this->assertEquals( $contests, $actual );
+	}
+
+	/* profile data api helpers */
+	function test_it_has_api_helper_to_find_full_user_data_profile_not_logged_in() {
+		$this->init_gigya_keys();
+
+		$actual = get_gigya_user_profile_data( $this->uid );
+		$this->assertContains( 'listeningLoyalty', $actual );
+	}
+
+	function test_it_has_api_helper_to_find_single_user_data_field_not_logged_in() {
+		$this->init_gigya_keys();
+		$actual = get_gigya_user_data_field( $this->uid, 'listeningLoyalty' );
+
+		$this->assertEquals( '0', $actual );
+	}
+
+	function test_it_has_api_helper_to_find_single_unknown_user_data_field_not_logged_in() {
+		$this->init_gigya_keys();
+		$actual = get_gigya_user_data_field( $this->uid, 'unknown' );
+
+		$this->assertNull( $actual );
+	}
+
+	function test_it_has_api_helper_to_change_user_data_field_not_logged_in() {
+		$this->init_gigya_keys();
+		set_gigya_user_data_field( $this->uid, 'test1', ['a', 'b', 'c'] );
+		$actual = get_gigya_user_data_field( $this->uid, 'test1' );
+
+		$this->assertEquals( array( 'a', 'b', 'c' ), $actual );
+	}
+
+	function test_it_has_api_helper_to_store_array_of_integers_not_logged_in() {
+		$this->init_gigya_keys();
+		$contests = array( time(), time(), time() );
+		set_gigya_user_data_field( $this->uid, 'test2', $contests );
+		$actual = get_gigya_user_data_field( $this->uid, 'test2' );
+
+		$this->assertEquals( $contests, $actual );
+	}
+
+	/* logged in api helpers */
+	function test_it_has_api_helper_to_find_full_user_data_profile() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+
+		$actual = get_gigya_user_profile_data( $this->uid );
+		$this->assertContains( 'listeningLoyalty', $actual );
+	}
+
+	function test_it_has_api_helper_to_find_single_user_data_field() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		$actual = get_gigya_user_data_field( $this->uid, 'listeningLoyalty' );
+
+		$this->assertEquals( '0', $actual );
+	}
+
+	function test_it_has_api_helper_to_find_single_unknown_user_data_field() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		$actual = get_gigya_user_data_field( $this->uid, 'unknown' );
+
+		$this->assertNull( $actual );
+	}
+
+	function test_it_has_api_helper_to_change_user_data_field() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		set_gigya_user_data_field( $this->uid, 'test1', ['a', 'b', 'c'] );
+		$actual = get_gigya_user_data_field( $this->uid, 'test1' );
+
+		$this->assertEquals( array( 'a', 'b', 'c' ), $actual );
+	}
+
+	function test_it_has_api_helper_to_store_array_of_integers() {
+		$this->init_gigya_keys();
+		$this->init_cookie( array( 'UID' => $this->uid, 'age' => 50 ) );
+		$contests = array( time(), time(), time() );
+		set_gigya_user_data_field( $this->uid, 'test2', $contests );
+		$actual = get_gigya_user_data_field( $this->uid, 'test2' );
+
+		$this->assertEquals( $contests, $actual );
+	}
 }

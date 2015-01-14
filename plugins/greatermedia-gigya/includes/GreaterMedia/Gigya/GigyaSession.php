@@ -45,29 +45,102 @@ class GigyaSession {
 		}
 
 		$transient = 'gigya_user_profile_' . $user_id;
-		$profile = get_transient( $transient );
-		if ( false === $profile ) {
-			$query   = "select profile from accounts where UID = '${user_id}'";
-			$request = new GigyaRequest( null, null, 'accounts.search' );
-			$request->setParam( 'query', $query );
-			$response = $request->send();
+		$profile   = get_transient( $transient );
 
-			if ( $response->getErrorCode() === 0 ) {
-				$json = json_decode( $response->getResponseText(), true );
-				if ( $json['totalCount'] > 0 ) {
-					$profile = $json['results'][0]['profile'];
-					set_transient( $transient, $profile, HOUR_IN_SECONDS );
-				} else {
-					throw new \Exception( "User Profile not found: {$user_id}" );
-				}
-			} else {
-				throw new \Exception(
-					"Failed to get Gigya User Profile: {$user_id} - " . $response->getErrorMessage()
-				);
-			}
+		if ( false === $profile ) {
+			$query   = "select profile from accounts where UID    = '${user_id}'";
+			$json    = $this->query_for_user( $user_id, $query );
+			$profile = $json['results'][0]['profile'];
+
+			set_transient( $transient, $profile, HOUR_IN_SECONDS );
 		}
 
 		return $profile;
+	}
+
+	// TODO: Transients
+	public function authorize( $user_id = null ) {
+		$this->load();
+
+		if ( is_null( $user_id ) ) {
+			if ( $this->is_logged_in() ) {
+				return $this->get_user_id();
+			} else {
+				throw new \Exception( 'Must specify a user id or be logged In' );
+			}
+		} else {
+			return $user_id;
+		}
+	}
+
+	public function get_user_profile_data( $user_id = null ) {
+		$user_id = $this->authorize( $user_id );
+		$request = new GigyaRequest( null, null, 'accounts.getAccountInfo' );
+		$request->setParam( 'UID', $user_id );
+		$request->setParam( 'include', 'data' );
+		$response = $request->send();
+		$response_text = $response->getResponseText();
+
+		if ( $response->getErrorCode() === 0 ) {
+			$account = json_decode( $response_text, true );
+			return $account['data'];
+		} else {
+			throw new \Exception( "Failed to get user data profile - $user_id" );
+		}
+	}
+
+	public function set_user_data_profile( $user_id = null, $data ) {
+		$user_id = $this->authorize( $user_id );
+		$request = new GigyaRequest( null, null, 'accounts.setAccountInfo' );
+		$request->setParam( 'UID', $user_id );
+		$request->setParam( 'data', json_encode( $data ) );
+		$response = $request->send();
+		$response_text = $response->getResponseText();
+
+		if ( $response->getErrorCode() === 0 ) {
+			return true;
+		} else {
+			throw new \Exception( 'Failed to set user data profile' );
+		}
+	}
+
+	public function get_user_data_field( $user_id = null, $field ) {
+		$user_id   = $this->authorize( $user_id );
+		$user_data = $this->get_user_profile_data( $user_id );
+
+		if ( array_key_exists( $field, $user_data ) ) {
+			return $user_data[ $field ];
+		} else {
+			return null;
+		}
+	}
+
+	public function set_user_data_field( $user_id = null, $field, $value ) {
+		$user_id   = $this->authorize( $user_id );
+		$user_data = $this->get_user_profile_data( $user_id );
+		$user_data[ $field ] = $value;
+
+		return $this->set_user_data_profile( $user_id, $user_data );
+	}
+
+	public function query_for_user( $user_id, $query ) {
+		$request = new GigyaRequest( null, null, 'accounts.search' );
+		$request->setParam( 'query', $query );
+		$response = $request->send();
+
+		if ( $response->getErrorCode() === 0 ) {
+			$json = json_decode( $response->getResponseText(), true );
+			if ( $json['totalCount'] > 0 ) {
+				return $json;
+			} else {
+				throw new EmptyResultSetException( "User Profile not found: {$user_id}" );
+			}
+		} else {
+			error_log( $response->getResponseText() );
+			throw new \Exception(
+				"Failed to get Gigya User Profile: {$user_id} - " . $response->getErrorMessage()
+			);
+		}
 	}
 
 	public function get( $key ) {
@@ -262,5 +335,9 @@ FUNC;
 
 		return $cookie_value;
 	}
+
+}
+
+class EmptyResultSetException extends \Exception {
 
 }

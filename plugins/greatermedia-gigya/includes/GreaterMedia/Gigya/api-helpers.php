@@ -69,3 +69,20 @@ function has_email_entered_contest( $contest_id, $email ) {
 
 	return $handler->run( $params );
 }
+
+/* Profile Data helpers ( ie:- account.data not DS.Store ) */
+function get_gigya_user_data_field( $user_id, $field ) {
+	return get_gigya_session()->get_user_data_field( $user_id, $field );
+}
+
+function set_gigya_user_data_field( $user_id, $field, $value ) {
+	return get_gigya_session()->set_user_data_field( $user_id, $field, $value );
+}
+
+function get_gigya_user_profile_data( $user_id ) {
+	return get_gigya_session()->get_user_profile_data( $user_id );
+}
+
+function set_gigya_user_profile_data( $user_id, $data ) {
+	return get_gigya_session()->set_user_profile_data( $user_id, $data );
+}

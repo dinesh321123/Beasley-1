@@ -226,6 +226,16 @@ class AccountSchema {
 					'writeAccess' => 'clientModify',
 					'required' => false,
 					'arrayOp' => 'push',
+				),
+				'subscribedToList' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+					'arrayOp' => 'push',
+				),
+				'contestsWon' => array(
+					'writeAccess' => 'clientModify',
+					'required' => false,
+					'arrayOp' => 'push',
 				)
 			),
 			'dynamicSchema' => true,
