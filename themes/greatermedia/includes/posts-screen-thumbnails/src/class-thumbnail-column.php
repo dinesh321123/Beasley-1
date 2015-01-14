@@ -22,7 +22,7 @@ class Thumbnail_Column {
 	 * @param string|array $post_types Post type, array of post types, or "all"
 	 * @param array|string $thumbnail_size
 	 */
-	public function __construct( $post_types = 'all', $thumbnail_size = 'greater_media/thumbnail_column' )
+	public function __construct( $post_types = 'all', $thumbnail_size = 'thumbnail' )
 	{
 		if ( 'all' == $post_types ) {
 			$this->_post_types = $post_types; 
@@ -92,22 +92,12 @@ class Thumbnail_Column {
 	 */
 	public function admin_head() 
 	{
-		global $_wp_additional_image_sizes; 
-		
-		if ( is_array( $this->_thumbnail_size ) ) {
-			$width = $this->_thumbnail_size[0];
-			$height = $this->_thumbnail_size[1];
-		} elseif ( isset( $_wp_additional_image_sizes[ $this->_thumbnail_size ] ) ) {
-			$width = $_wp_additional_image_sizes[ $this->_thumbnail_size ]['width']; 
-			$height = $_wp_additional_image_sizes[ $this->_thumbnail_size ]['height']; 
-		} else {
-			return; 
-		}
+		$width = 100;
 		
 		?>
 		<style type='text/css'>
 			.column-<?php echo sanitize_html_class( $this->_column_name ); ?> { width: <?php echo (int) $width; ?>px; }
-			.column-<?php echo sanitize_html_class( $this->_column_name ); ?> img { width: <?php echo (int) $width; ?>px; height: <?php echo (int) $height; ?>px; }
+			.column-<?php echo sanitize_html_class( $this->_column_name ); ?> img { width: <?php echo (int) $width; ?>px; }
 		</style>
 		<?php 
 	}
