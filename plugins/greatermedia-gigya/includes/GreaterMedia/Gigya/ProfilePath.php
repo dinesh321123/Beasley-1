@@ -15,10 +15,15 @@ class ProfilePath {
 
 	public $endpoint = 'members';
 
-	function path_for( $action_name, $params = null ) {
+	function path_for( $action_name, $params = array() ) {
 		$path  = "/{$this->endpoint}/{$action_name}";
 
-		if ( is_null( $params ) ) {
+		if ( ( $action_name === 'login' || $action_name === 'register' ) && ! array_key_exists( 'dest', $params ) ) {
+			global $wp;
+			$params['dest'] = '/' . trim( $wp->request, '/' );
+		}
+
+		if ( empty( $params ) ) {
 			return $path;
 		} else {
 			return $path . '?' . http_build_query( $params );

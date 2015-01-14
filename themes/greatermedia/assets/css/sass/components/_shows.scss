@@ -77,6 +77,10 @@
 		margin-bottom: 3em;
 	}
 
+	.highlights__events .highlights__heading {
+		display: block;
+	}
+
 	@include bp(large) {
 		.highlights__community, .highlights__events {
 			padding-top: 0;
@@ -90,6 +94,14 @@
 
 	.highlights__event--item {
 		background-color: #F1F1F3;
+
+		.highlights__event--title, .highlights__event--date {
+			color: $primary-heading;
+		}
+		
+		.highlights__event--title:hover {
+			color: $primary-link-hover;
+		}
 	}
 
 	.highlights__community--item:hover {
@@ -537,7 +549,7 @@ category: Components - Shows
 		font-size: ms(1);
 	}
 
-	@include bp(medium) {
+	@include bp(large) {
 		width: 100%;
 		padding-right: 330px;
 	}

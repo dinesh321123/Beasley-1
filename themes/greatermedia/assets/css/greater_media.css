@@ -5237,8 +5237,7 @@ category: Components
   height: 22px; }
   @media screen and (min-width: 480px) {
     .breaking-news-banner__excerpt {
-      display: inline;
-      white-space: normal; } }
+      display: inline; } }
 
 a:hover .breaking-news-banner {
   color: #f5ed7f; }
@@ -6839,6 +6838,8 @@ a.podcast__rss:active {
   border-bottom: none;
   padding: 0;
   margin-bottom: 3em; }
+.single-show .highlights__events .highlights__heading {
+  display: block; }
 @media screen and (min-width: 1024px) {
   .single-show .highlights__community, .single-show .highlights__events {
     padding-top: 0; } }
@@ -6847,6 +6848,10 @@ a.podcast__rss:active {
   color: #929497; }
 .single-show .highlights__event--item {
   background-color: #F1F1F3; }
+  .single-show .highlights__event--item .highlights__event--title, .single-show .highlights__event--item .highlights__event--date {
+    color: #404041; }
+  .single-show .highlights__event--item .highlights__event--title:hover {
+    color: #aa1c20; }
 .single-show .highlights__community--item:hover .highlights__community--title {
   color: #f5ed7f; }
 .single-show .entry2__meta {
@@ -7199,7 +7204,7 @@ category: Components - Shows
 */
 .show__blogroll .section-header {
   font-size: 1.125em; }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
   .show__blogroll {
     width: 100%;
     padding-right: 330px; } }

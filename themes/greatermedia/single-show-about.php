@@ -44,7 +44,7 @@
 								<?php echo get_avatar( $personality->ID ); ?>
 							</div>
 							<?php
-								$content = apply_filters('the_content', esc_html( get_the_author_meta( 'description', $personality->ID ) ) );
+								$content = apply_filters('the_content', get_the_author_meta( 'description', $personality->ID ) );
 								$c = explode("</p>", $content);
 								$n = count($c) - 1;
 							?>

@@ -13,7 +13,8 @@
 		pauseButton = $('#pauseButton'),
 		resumeButton = $('#resumeButton'),
 		podcastPlay = $('.podcast__btn--play'),
-		listenNow = $('#live-stream__listen-now');
+		listenNow = $('#live-stream__listen-now'),
+		accountLogin = $('.header__account--btn');
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
 	 * @type {string}
@@ -123,6 +124,12 @@
 	listenNow.on( 'click', function() {
 		if( !is_gigya_user_logged_in() ) {
 			Cookies('gmlp_play_button_pushed', 1);
+			Cookies('gmr_play_live_audio', 0);
+		}
+	});
+
+	accountLogin.on( 'click', function() {
+		if( !is_gigya_user_logged_in() ) {
 			Cookies('gmr_play_live_audio', 0);
 		}
 	});

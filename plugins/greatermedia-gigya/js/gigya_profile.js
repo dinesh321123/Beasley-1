@@ -596,7 +596,7 @@
 		var anchor;
 
 		for (var key in params) {
-			if (params.hasOwnProperty(key)) {
+			if (params.hasOwnProperty(key) && params[key]) {
 				value = params[key];
 				value = escapeValue(value);
 				key   = escapeValue(key);
@@ -608,12 +608,41 @@
 		return output.join('&');
 	};
 
-	var endpoint = 'members';
+	var endpoint       = 'members';
+	var actionFromPath = function(path) {
+		var a = document.createElement('a');
+		a.href = path;
+
+		var pathname = a.pathname;
+		var parts    = pathname.split('/');
+		var total    = parts.length;
+
+		if (parts[total-1] === '') {
+			return parts[total-2];
+		} else {
+			return parts[total-1];
+		}
+	};
 
 	window.gigya_profile_path = function(action, params) {
-		var path = '/' + endpoint + '/' + action;
+		if (!params) {
+			params = {};
+		}
 
-		if (params) {
+		if (!params.dest && action === 'login') {
+			params.dest = location.pathname;
+		}
+
+		var path       = '/' + endpoint + '/' + action;
+		var destAction = actionFromPath(params.dest);
+
+		if (action === destAction) {
+			params.dest = undefined;
+		}
+
+		var query = build_query(params);
+
+		if (query !== '') {
 			return path + '?' + build_query(params);
 		} else {
 			return path;
