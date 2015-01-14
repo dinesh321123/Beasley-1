@@ -8,6 +8,16 @@
 
 				<?php the_post_thumbnail( 'gmr-album-thumbnail', array( 'class' => 'single__featured-img' ) ); ?>
 
+				<?php
+
+					$image_attr = image_attribution();
+
+					if ( ! empty( $image_attr ) ) {
+						echo $image_attr;
+					}
+
+				?>
+
 			</div>
 
 		<?php } ?>

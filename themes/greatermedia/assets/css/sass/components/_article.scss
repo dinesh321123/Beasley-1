@@ -232,3 +232,13 @@
 .article__comments {
 	margin: 3em 0; 	
 }
+
+.image__attribution {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	padding: .5em 1em;
+	background-color: $color-text-black;
+	font-size: ms(-1);
+	color: $color-text-white;
+}

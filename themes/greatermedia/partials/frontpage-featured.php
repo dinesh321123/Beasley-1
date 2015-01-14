@@ -13,7 +13,17 @@
 		if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 			<div class="featured__article">
 				<a href="<?php the_permalink(); ?>">
-					<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary' ) ?>)'></div>
+					<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary' ) ?>)'>
+						<?php
+
+							$image_attr = image_attribution();
+
+							if ( ! empty( $image_attr ) ) {
+								echo $image_attr;
+							}
+
+						?>
+					</div>
 					<div class="featured__article--content">
 						<div class="featured__article--heading">
 							<?php the_title(); ?>

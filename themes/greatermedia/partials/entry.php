@@ -18,7 +18,16 @@
 		}
 	?>
 		<section class="entry2__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size ); ?>)'>
-			<a href="<?php the_permalink(); ?>"></a>								
+			<a href="<?php the_permalink(); ?>"></a>
+			<?php
+
+				$image_attr = image_attribution();
+
+				if ( ! empty( $image_attr ) ) {
+					echo $image_attr;
+				}
+
+			?>
 		</section>
 	<?php endif; ?>
 

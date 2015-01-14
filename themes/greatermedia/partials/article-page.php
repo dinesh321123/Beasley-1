@@ -3,7 +3,17 @@
 <div class="container">
 
 	<?php if ( has_post_thumbnail() ): ?>
-		<div class="article__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( 'full' ); ?>)'></div>
+		<div class="article__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( 'full' ); ?>)'>
+			<?php
+
+				$image_attr = image_attribution();
+
+				if ( ! empty( $image_attr ) ) {
+					echo $image_attr;
+				}
+
+			?>
+		</div>
 	<?php endif; ?>
 
 	<section class="content">

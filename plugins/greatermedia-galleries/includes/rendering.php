@@ -226,6 +226,7 @@ class GreaterMediaGallery {
 
 								$image = wp_get_attachment_image_src( get_the_ID(), array( 775, 516 ), false );
 								$image_url = $image[0];
+								$image_attribution = get_post_meta( get_the_ID(), 'gmr_image_attribution', true );
 								?>
 								<div class="gallery__slide--image"
 									<?php
@@ -234,6 +235,15 @@ class GreaterMediaGallery {
 									}
 									?>
 									 style="background-image: url(<?php echo esc_url( $image_url ); ?>);">
+									<?php
+
+										if ( ! empty( $image_attribution ) ) {
+											echo '<div class="image__attribution">';
+											echo wp_kses_post( $image_attribution );
+											echo '</div>';
+										}
+
+									?>
 								</div>
 							<?php
 
