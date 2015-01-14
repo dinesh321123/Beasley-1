@@ -13,6 +13,9 @@ class GMP_Meta {
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'save_meta_box' ) );
+
+		add_action( 'add_meta_boxes', array( $this, 'add_episode_meta_box' ) );
+		add_action( 'save_post', array( $this, 'save_episode_meta_box' ) );
 		//add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
 
 	}
@@ -37,15 +40,21 @@ class GMP_Meta {
 			);
 		}
 
-		add_meta_box(
+	}
+
+	public function add_episode_meta_box( $post_type ) {
+		$post_types = array( GMP_CPT::EPISODE_POST_TYPE );
+
+		if ( in_array( $post_type, $post_types ) ) {
+			add_meta_box(
 				'gmp_episodes_meta_box'
 				, __( 'Episode Details', 'gmpodcasts' )
 				, array( $this, 'render_episode_meta_box_content' )
-				, GMP_CPT::EPISODE_POST_TYPE
-				, 'normal'
+				, $post_type
+				, 'side'
 				, 'high'
 			);
-
+		}
 	}
 
 	/**
@@ -56,7 +65,7 @@ class GMP_Meta {
 	public function save_meta_box( $post_id ) {
 
 		// Check if our nonce is set and that it validates it. Also serves as a post type check, because this is only created in the post-type specific meta box
-		if ( ! isset( $_POST['gmp_episodes_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['gmp_episodes_meta_box_nonce' ], 'gmp_episodes_meta_box' ) ) {
+		if ( ! isset( $_POST['gmp_podcast_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['gmp_podcast_meta_box_nonce' ], 'gmp_podcast_meta_box' ) ) {
 			return;
 		}
 
@@ -77,26 +86,47 @@ class GMP_Meta {
 		update_post_meta( $post_id, 'gmp_podcast_itunes_url', esc_url_raw( $itunes_url ) );
 
 
-		if ( isset( $_POST['gmp_subtitle'] ) ) {
-			$gmp_subtitle =  sanitize_text_field( $_POST['gmp_subtitle'] );
-			update_post_meta( $post_id, 'gmp_subtitle', esc_html( $gmp_subtitle ) );
+		$gmp_subtitle =  sanitize_text_field( $_POST['gmp_subtitle'] );
+		update_post_meta( $post_id, 'gmp_subtitle', esc_html( $gmp_subtitle ) );
+
+		$gmp_subtitle =  sanitize_text_field( $_POST['gmp_explicit'] );
+		update_post_meta( $post_id, 'gmp_explicit', esc_html( $gmp_subtitle ) );
+
+		$gmp_category =  sanitize_text_field( $_POST['gmp_category'] );
+		update_post_meta( $post_id, 'gmp_category', esc_html( $gmp_category ) );
+		
+		$gmp_sub_category =  sanitize_text_field( $_POST['gmp_sub_category'] );
+		update_post_meta( $post_id, 'gmp_sub_category', esc_html( $gmp_sub_category ) );
+
+		$gmp_author =  sanitize_text_field( $_POST['gmp_author'] );
+		update_post_meta( $post_id, 'gmp_author', esc_html( $gmp_author ) );
+	
+	}
+
+
+	public function save_episode_meta_box( $post_id ) {
+
+		// Check if our nonce is set and that it validates it. Also serves as a post type check, because this is only created in the post-type specific meta box
+		if ( ! isset( $_POST['gmp_episodes_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['gmp_episodes_meta_box_nonce' ], 'gmp_episodes_meta_box' ) ) {
+			return;
 		}
 
-		if ( isset( $_POST['gmp_explicit'] ) ) {
-			$gmp_subtitle =  sanitize_text_field( $_POST['gmp_explicit'] );
-			update_post_meta( $post_id, 'gmp_explicit', esc_html( $gmp_subtitle ) );
+		// If this is an autosave, our form has not been submitted we don't want to do anything
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
 		}
 
-		if ( isset( $_POST['gmp_category'] ) ) {
-			$gmp_category =  sanitize_text_field( $_POST['gmp_category'] );
-			update_post_meta( $post_id, 'gmp_category', esc_html( $gmp_category ) );
+		// Check the user's permissions.
+		if ( ! current_user_can( 'edit_page', $post_id ) ) {
+			return;
 		}
-		
-		if ( isset( $_POST['gmp_sub_category'] ) ) {
-			$gmp_sub_category =  sanitize_text_field( $_POST['gmp_sub_category'] );
-			update_post_meta( $post_id, 'gmp_sub_category', esc_html( $gmp_sub_category ) );
-		}
-		
+
+		/* OK, its safe for us to save the data now. */
+		$gmp_episode_explicit =  sanitize_text_field( $_POST['gmp_episode_explicit'] );
+		update_post_meta( $post_id, 'gmp_episode_explicit', esc_html( $gmp_episode_explicit ) );
+
+		$gmp_block =  sanitize_text_field( $_POST['gmp_block'] );
+		update_post_meta( $post_id, 'gmp_block', esc_html( $gmp_block ) );
 	}
 
 	/**
@@ -107,7 +137,7 @@ class GMP_Meta {
 	public function render_meta_box_content( $post ) {
 
 		// Add an nonce field so we can check for it later.
-		wp_nonce_field( 'gmp_episodes_meta_box', 'gmp_episodes_meta_box_nonce' );
+		wp_nonce_field( 'gmp_podcast_meta_box', 'gmp_podcast_meta_box_nonce' );
 
 		// Use get_post_meta to retrieve an existing value from the database.
 		$itunes_url = esc_url( get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true ) );
@@ -115,7 +145,7 @@ class GMP_Meta {
 		$gmp_explicit = sanitize_text_field( get_post_meta( $post->ID, 'gmp_explicit', true ) );
 		$gmp_category = sanitize_text_field( get_post_meta( $post->ID, 'gmp_category', true ) );
 		$gmp_sub_category = sanitize_text_field( get_post_meta( $post->ID, 'gmp_sub_category', true ) );
-
+		$gmp_author = sanitize_text_field( get_post_meta( $post->ID, 'gmp_author', true ) );
 		?>
 
 		<div class="gmp-meta-row">
@@ -131,6 +161,15 @@ class GMP_Meta {
 			<div class="gmp-meta-row-content gmp-upload">
 				<label for="gmp_subtitle" class="gmp-meta-row-label"><?php _e( 'Podcast Subtitle:', 'gmpodcasts' ); ?></label>
 				<input type="text" id="gmp_subtitle" name="gmp_subtitle" value="<?php echo esc_attr( $gmp_subtitle ); ?>"/>
+			</div>
+		</div>
+		<br>
+		<div class="gmp-meta-row">
+			<div class="gmp-meta-row-content gmp-upload">
+				<label for="gmp_author" class="gmp-meta-row-label"><?php _e( 'Podcast Author:', 'gmpodcasts' ); ?></label>
+				<input type="text" id="gmp_author" name="gmp_author" value="<?php echo esc_attr( $gmp_author ); ?>"/>
+				<br>
+				<span class="description">Specify custom podcast author. Post author will be used by default.</span>
 			</div>
 		</div>
 		<br>
@@ -180,8 +219,8 @@ class GMP_Meta {
 		?>
 		<div class="gmp-meta-row">
 			<div class="gmp-meta-row-content gmp-upload">
-				<label for="gmp_explicit" class="gmp-meta-row-label"><?php _e( 'Explicit:', 'gmpodcasts' ); ?></label>
-				<input type="checkbox" id="gmp_explicit" name="gmp_explicit" <?php checked( 'on', $gmp_explicit, true ); ?>/>
+				<label for="gmp_episode_explicit" class="gmp-meta-row-label"><?php _e( 'Explicit:', 'gmpodcasts' ); ?></label>
+				<input type="checkbox" id="gmp_episode_explicit" name="gmp_episode_explicit" <?php checked( 'on', $gmp_explicit, true ); ?>/>
 			</div>
 		</div>
 		<br>

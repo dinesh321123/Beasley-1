@@ -66,11 +66,14 @@ if( ! $subtitle || strlen( $subtitle ) == 0 || $subtitle == '' ) {
 	$subtitle = get_bloginfo( 'description' );
 }
 
-$author_id = $podcast[0]->post_author;
-$author = get_user_by( 'id', $author_id );
-$author = $author->first_name;
+$author = sanitize_text_field( get_post_meta( $parent_podcast_id, 'gmp_author', true ) );
 if( ! $author || strlen( $author ) == 0 || $author == '' ) {
-	$author = get_bloginfo( 'name' );
+	$author_id = $podcast[0]->post_author;
+	$author = get_user_by( 'id', $author_id );
+	$author = $author->first_name;
+	if( ! $author || strlen( $author ) == 0 || $author == '' ) {
+		$author = get_bloginfo( 'name' );
+	}
 }
 
 $owner_name = get_bloginfo( 'name' );
@@ -168,7 +171,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		}
 
 		// Episode explicit flag
-		$ep_explicit = get_post_meta( get_the_ID() , 'gmp_explicit' , true );
+		$ep_explicit = get_post_meta( get_the_ID() , 'gmp_episode_explicit' , true );
 		if( $ep_explicit && $ep_explicit == 'on' ) {
 			$explicit_flag = 'Yes';
 		} else {
