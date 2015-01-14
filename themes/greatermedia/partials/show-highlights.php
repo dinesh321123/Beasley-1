@@ -11,27 +11,35 @@
 
 		<div class="highlights__col">
 
+
+			<?php
+			$hp_comm_query = \GreaterMedia\Shows\get_show_favorites_query();
+			if ( $hp_comm_query->have_posts() ) { ?>
 			<div class="highlights__community">
 
 				<h2 class="highlights__heading"><?php //bloginfo( 'name' ); ?><?php _e( ' Our Favorites', 'greatermedia' ); ?></h2>
 
-				<?php
-				$hp_comm_query = \GreaterMedia\Shows\get_show_favorites_query();
-				while( $hp_comm_query->have_posts() ) : $hp_comm_query->the_post(); ?>
-					<div class="highlights__community--item">
-						<a href="<?php the_permalink(); ?>">
+				<?php while( $hp_comm_query->have_posts() ) : $hp_comm_query->the_post(); ?>
 
-							<div class="highlights__community--thumb" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary' ) ?>)'></div>
-	
-							<h3 class="highlights__community--title">
-								<?php the_title(); ?>
-							</h3>
+				<div class="highlights__community--item">
 
-						</a>
-					</div>
+					<a href="<?php the_permalink(); ?>">
+
+						<div class="highlights__community--thumb" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary' ) ?>)'></div>
+
+						<h3 class="highlights__community--title">
+							<?php the_title(); ?>
+						</h3>
+
+					</a>
+
+				</div>
+
 				<?php endwhile; ?>
+
 				<?php wp_reset_query(); ?>
 			</div>
+			<?php } ?>
 
 
 			<?php

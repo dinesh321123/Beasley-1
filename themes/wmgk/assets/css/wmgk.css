@@ -6723,6 +6723,12 @@ a.podcast__rss:active {
     .podcast-player--compact .podcast-player {
       max-width: 60%; } }
 
+@media screen and (min-width: 768px) {
+  .single-show .content {
+    padding: 1.5em 0.809em; } }
+@media screen and (min-width: 1200px) {
+  .single-show .content {
+    padding: 3em 3.236em; } }
 .single-show .featured__content {
   margin: 0.75em 0 1em; }
 .single-show .featured__content--block {
@@ -6783,9 +6789,6 @@ a.podcast__rss:active {
   background-color: #F1F1F3; }
 .single-show .highlights__community--item:hover .highlights__community--title {
   color: #f5ed7f; }
-@media screen and (min-width: 1024px) {
-  .single-show .inner-left-col {
-    padding-right: 25px; } }
 .single-show .entry2__meta {
   float: none !important;
   width: auto !important; }
@@ -7136,18 +7139,27 @@ category: Components - Shows
 */
 .show__blogroll .section-header {
   font-size: 1.125em; }
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
+  .show__blogroll {
+    width: 100%;
+    padding-right: 330px; } }
+@media screen and (min-width: 1200px) {
   .show__blogroll {
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 65.88078%; }
+    width: 65.88078%;
+    padding-right: 25px; }
     .show__blogroll:last-child {
       margin-right: 0; } }
 
 .inner-right-col {
   float: none; }
   @media screen and (min-width: 1024px) {
+    .inner-right-col {
+      float: right;
+      width: 300px; } }
+  @media screen and (min-width: 1200px) {
     .inner-right-col {
       float: left;
       display: block;

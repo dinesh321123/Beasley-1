@@ -1,4 +1,14 @@
 .single-show {
+	.content {
+		@include bp(medium) {
+			padding: $base-line-height $gutter / 2;
+		}
+
+		@include bp(larger) {
+			padding: $base-line-height * 2 $gutter * 2;
+		}
+	}
+
 	.featured__content {
 		margin: 0.75em 0 1em;
 	}
@@ -85,12 +95,6 @@
 	.highlights__community--item:hover {
 		.highlights__community--title {
 			color: $btn-hover;
-		}
-	}
-
-	.inner-left-col {
-		@include bp(large) {
-			padding-right: 25px;
 		}
 	}
 
@@ -532,9 +536,15 @@ category: Components - Shows
 	.section-header {
 		font-size: ms(1);
 	}
+
+	@include bp(medium) {
+		width: 100%;
+		padding-right: 330px;
+	}
 	
-	@include bp(large) {
+	@include bp(larger) {
 		@include span-columns(8 of 12);
+		padding-right: 25px;
 	}
 }
 
@@ -542,6 +552,11 @@ category: Components - Shows
 	float: none;
 
 	@include bp(large) {
+		float: right;
+		width: 300px;
+	}
+
+	@include bp(larger) {
 		@include span-columns(4 of 12);
 		@include omega;
 		float: right;
