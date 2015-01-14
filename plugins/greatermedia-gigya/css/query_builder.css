@@ -222,3 +222,11 @@
 .preview-result-name {
 
 }
+
+#post-body #visibility:before {
+	content: '\f465' !important;
+}
+
+#post-body #timestamp:before {
+	content: '\f504' !important;
+}
