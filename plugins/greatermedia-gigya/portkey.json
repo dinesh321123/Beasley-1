@@ -6,5 +6,13 @@
 	"test/GreaterMedia/Gigya/*Test.php": {
 		"type": "test",
 		"alternate": "includes/GreaterMedia/Gigya/%s.php"
+	},
+	"includes/GreaterMedia/MyEmma/*.php": {
+		"type": "plugin",
+		"test": "test/GreaterMedia/MyEmma/%sTest.php"
+	},
+	"test/GreaterMedia/MyEmma/*Test.php": {
+		"type": "test",
+		"alternate": "includes/GreaterMedia/MyEmma/%s.php"
 	}
 }

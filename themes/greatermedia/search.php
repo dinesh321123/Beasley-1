@@ -10,75 +10,48 @@
 
 get_header(); ?>
 
-	<main class="main" role="main">
+<main class="main" role="main">
 
-		<div class="container">
+	<div class="container">
 
-			<section class="content">
+		<section class="content">
 
-				<?php
-					$count = $wp_query->found_posts;
-					$search_query = sanitize_text_field( get_search_query() );
-					$keyword_post_id = intval( get_post_with_keyword( $search_query ) );
-					if( $keyword_post_id != 0 ) {
-						$count += 1;
-					}
+			<?php
+				$count = $wp_query->found_posts;
+				$search_query = sanitize_text_field( get_search_query() );
+				$keyword_post_id = intval( get_post_with_keyword( $search_query ) );
+				if( $keyword_post_id != 0 ) {
+					$count += 1;
+				}
 
-					// echo '<h2 class="search__results--count">' . intval( $count ) . ' ';
-					// _e( 'Results Found', 'greatermedia' );
-					// echo '</h2>';
+				// echo '<h2 class="search__results--count">' . intval( $count ) . ' ';
+				// _e( 'Results Found', 'greatermedia' );
+				// echo '</h2>';
 
-					$term_label = 'Keyword:';
-				?>
+				$term_label = 'Keyword:';
+			?>
 
 
-				<?php if( $keyword_post_id != 0 ): ?>
+			<?php if( $keyword_post_id != 0 ): ?>
 				<h3 class="search__keyword"><?php printf( __( '%s %s', 'greatermedia' ), $term_label, '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
 
 				<div class="keyword__search--results">
-
 					<?php do_action( 'keyword_search_result' ); ?>
-
 				</div>
+			<?php endif; ?>
 
-				<?php endif; ?>
+			<?php if ( have_posts() ) :
 
-<!-- 				<h2 class="search__title"><?php _e( 'Relevant Search Results', 'greatermedia' ); ?></h2>
- -->
-				<?php if ( have_posts() ) :
+				$term_label = intval($count) . ' Search Results for:'; ?>
 
-					$term_label = intval($count) . ' Search Results for:'; ?>
+				<h3 class="search__keyword"><?php printf( __( '%s %s', 'greatermedia' ), $term_label, '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
 
-					<h3 class="search__keyword"><?php printf( __( '%s %s', 'greatermedia' ), $term_label, '<span class="search__keyword--term">' . get_search_query() . '</span>' ); ?></h3>
+				<?php get_template_part( 'partials/loop', 'search' ); ?>
+				<?php greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop-search', 'auto_load' => true ) ); ?>
+				<?php get_template_part( 'partials/pagination' ); ?>
 
-				<?php
-					while ( have_posts() ) : the_post();
-				?>
-
-
-				<?php
-					$title = get_the_title();
-					$keys= explode(" ",$s);
-					$title = preg_replace('/('.implode('|', $keys) .')/iu', '<span class="search__result--term">\0</span>', $title);
-					?>
-				<article id="post-<?php the_ID(); ?>" <?php post_class( 'search__result' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-
-					<time datetime="<?php the_time( 'c' ); ?>" class="search__result--date"><?php the_time( 'M j, Y' ); ?></time>
-
-					<h3 class="search__result--title"><a href="<?php the_permalink(); ?>"><?php echo $title ?></a></h3>
-
-				</article>
-				<?php endwhile; ?>
-
-					<div class="posts-pagination">
-
-						<div class="posts-pagination--previous"><?php previous_posts_link( '<i class="fa fa-angle-double-left"></i>Previous' ); ?></div>
-						<div class="posts-pagination--next"><?php next_posts_link( 'Next<i class="fa fa-angle-double-right"></i>' ); ?></div>
-
-					</div>
-
-				<?php else : ?>
-					<?php if( $keyword_post_id == 0 ): ?>
+			<?php else : ?>
+				<?php if( $keyword_post_id == 0 ): ?>
 					<article id="post-not-found" class="hentry cf">
 
 						<header class="article-header">
@@ -94,14 +67,14 @@ get_header(); ?>
 						</section>
 
 					</article>
-					<?php endif; ?>
-
 				<?php endif; ?>
 
-			</section>
+			<?php endif; ?>
 
-		</div>
+		</section>
 
-	</main>
+	</div>
+
+</main>
 
 <?php get_footer();

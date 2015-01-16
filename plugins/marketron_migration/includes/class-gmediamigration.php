@@ -381,14 +381,16 @@ class GMedia_Migration extends WP_CLI_Command {
 			update_post_meta( $wp_id, 'gmedia_import_id', $article_hash );
 
 			if( isset($article['FeaturedAudioFilepath']) && $wp_id ) {
-				$media_file_id = $this->import_music_files( $wp_id, $article['FeaturedAudioFilepath'] );
-				$media_url  = wp_get_attachment_url( $media_file_id );
-				$updated_post                 = array( 'ID' => $wp_id );
-				$updated_post['post_content'] = $content . '<br/>' . '[audio mp3="' . $media_url . '"][/audio]' ;
+				$media_url = $this->import_music_files( $wp_id, $article['FeaturedAudioFilepath'] );
 
-				wp_update_post( $updated_post );
+				if( $media_url ) {
+					$updated_post                 = array( 'ID' => $wp_id );
+					$updated_post['post_content'] = $content . '<br/>' . '[audio mp3="' . $media_url . '"][/audio]' ;
 
-				update_post_meta( $wp_id, '_legacy_music_file', $media_url );
+					wp_update_post( $updated_post );
+
+					update_post_meta( $wp_id, '_legacy_music_file', $media_url );
+				}
 			}
 
 			// Process Feed Taxonomy Term
@@ -516,6 +518,15 @@ class GMedia_Migration extends WP_CLI_Command {
 		return $exists;
 	}
 
+	private function is_html( $file, $count = FALSE){
+		$str = file_get_contents( $file );
+		if( strpos( $str, 'html' )  !== false ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private function import_music_files( $post_id, $filepath ) {
 
 		$blog_id = get_current_blog_id();
@@ -534,14 +545,19 @@ class GMedia_Migration extends WP_CLI_Command {
 		$filename = str_replace( '&amp;', '&', $filename );
 		$filename = str_replace( '&mdash;', '—', $filename );
 
-		$old_filename = $upload_dir . '/wp-content/uploads/' . $filename;
-
-		if( !$this->check_file( $old_filename ) ) {
-			if( strpos( $this->site_url,'wmgk' ) ) {
+		//$old_filename = $upload_dir . '/wp-content/uploads/' . $filename;
+		if( !file_exists( get_home_path() . '/wp-content/uploads/' . $filename ) ) {
+			if( strpos( $this->site_url,'wmgk' ) !== false ) {
 				$old_filename = 'http://media.wmgk.com/' . $filename;
 			} else {
 				$old_filename = trailingslashit( $this->site_url ) . $filename;
 			}
+		} else {
+			$old_filename = $upload_dir . '/wp-content/uploads/' . $filename;
+		}
+
+		if( !$this->check_file( $old_filename ) ) {
+			return false;
 		}
 
 		$tmp = download_url( $old_filename );
@@ -565,18 +581,29 @@ class GMedia_Migration extends WP_CLI_Command {
 			// If error storing permanently, unlink
 			if ( is_wp_error( $id ) ) {
 				@unlink( $file_array['tmp_name'] );
-				WP_CLI::log( "Error uploading music:". $id->get_error_message() );
-				WP_CLI::log( "Filename: $old_filename" );
+				WP_CLI::warning( "Error uploading music:". $id->get_error_message() );
+				WP_CLI::warning( "Filename: $old_filename" );
 				$id = '';
 			}
 
 		} else {
 			@unlink( $tmp );
-			WP_CLI::log( "Error: ". $filename . " not added." );
+			WP_CLI::warning( "Error: ". $filename . " not added." );
 		}
 
-		return $id;
+		if( $id ) {
+			$media_url  = wp_get_attachment_url( $id );
+			if( !$this->is_html( $media_url ) ) {
+				return $media_url;
+			} else {
+				WP_CLI::warning(  "$media_url contains HTML"  );
+				WP_CLI::warning( "Original file is $old_filename"  );
+				WP_CLI::warning( "Post id:  $post_id"  );
+				return false;
+			}
+		}
 
+		return false;
 	}
 
 	/**
@@ -1109,16 +1136,17 @@ class GMedia_Migration extends WP_CLI_Command {
 				if( isset( $single_blog->BlogEntries->BlogEntry->BlogEntryAudio ) ) {
 					foreach ( $single_blog->BlogEntries->BlogEntry->BlogEntryAudio as $single_audio ) {
 						if( isset( $single_audio['AudioSrc'] ) ) {
-							$media_file_id = $this->import_music_files( $wp_id, $single_audio['AudioSrc'] );
-							$media_url  = wp_get_attachment_url( $media_file_id );
+							$media_url = $this->import_music_files( $wp_id, $single_audio['AudioSrc'] );
 
-							$updated_post                 = array( 'ID' => $wp_id );
-							$content = $this->import_media( trim( (string) $entry->BlogEntryText ), $wp_id );
-							$updated_post['post_content'] =  $content . '<br/>' . '[audio mp3="' . $media_url . '"][/audio]' ;
+							if( $media_url ) {
+								$updated_post                 = array( 'ID' => $wp_id );
+								$content = $this->import_media( trim( (string) $entry->BlogEntryText ), $wp_id );
+								$updated_post['post_content'] =  $content . '<br/>' . '[audio mp3="' . $media_url . '"][/audio]' ;
 
-							wp_update_post( $updated_post );
+								wp_update_post( $updated_post );
 
-							update_post_meta( $wp_id, '_legacy_blog_music_file', $media_url );
+								update_post_meta( $wp_id, '_legacy_blog_music_file', $media_url );
+							}
 						}
 					}
 
@@ -2514,14 +2542,16 @@ class GMedia_Migration extends WP_CLI_Command {
 
 					if( isset( $podcast_item['MediaFilename'] ) && $episode_id ) {
 						$audio_path = str_ireplace( '\Media\\', '', (string) $podcast_item['MediaFilename'] );
-						$media_file_id = $this->import_music_files( $wp_id, $audio_path );
-						$url = wp_get_attachment_url( $media_file_id );
-						$shortcode = '[audio mp3="' . $url . '"]';
-						$episode = array(
-							'post_content'  => $shortcode . '<br/>' . trim( (string) $podcast_item['ItemDescription'] ),
-							'ID'            => $episode_id
-						);
-						wp_update_post( $episode );
+						$url = $this->import_music_files( $episode_id, $audio_path );
+
+						if( $url ) {
+							$shortcode = '[audio mp3="' . $url . '"]';
+							$episode = array(
+								'post_content'  => $shortcode . '<br/>' . trim( (string) $podcast_item['ItemDescription'] ),
+								'ID'            => $episode_id
+							);
+							wp_update_post( $episode );
+						}
 					}
 				}
 

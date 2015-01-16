@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 
-	function __construct() {
+	public function __construct() {
 
 		parent::__construct(
 			'login-restricted',
@@ -18,17 +18,22 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ), 30, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 20, 0 );
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
+		
 		add_filter( 'the_content', array( $this, 'the_content' ) );
+		add_filter( 'wp_trim_words', array( $this, 'untrim_restricted_markup' ), 10, 4 );
 		
 	}
 
-	/**
-	 * Set up the textdomain, even thought we don't really use it
-	 */
-	public function plugins_loaded() {
-		load_plugin_textdomain( 'greatermedia-login-restricted-content', false, GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH );
+	public function untrim_restricted_markup( $text, $num_words, $more, $original_text ) {
+		$anchors = array( 'login-restricted-shield-', 'logout-restricted-shield-' );
+		foreach ( $anchors as $anchor ) {
+			if ( mb_stripos( $original_text, $anchor ) !== false ) {
+				return str_replace( PHP_EOL, '', $original_text );
+			}
+		}
+
+		return $text;
 	}
 
 	/**
@@ -272,12 +277,10 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 
 		if ( ( 'logged-in' === $login_restriction ) && ! is_gigya_user_logged_in() ) {
 			ob_start();
-			$login_url   = gigya_profile_path( 'login', array( 'dest' => $current_url ) );
 			include GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH . '/tpl/login-restricted-post-render.tpl.php';
 			return ob_get_clean();
 		} elseif ( ( 'logged-out' === $login_restriction ) && is_gigya_user_logged_in() ) {
 			ob_start();
-			$logout_url   = gigya_profile_path( 'logout', array( 'dest' => $current_url ) );
 			include GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH . '/tpl/logout-restricted-post-render.tpl.php';
 			return ob_get_clean();
 		}

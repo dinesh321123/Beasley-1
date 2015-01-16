@@ -235,6 +235,16 @@
 	}
 }
 
+.contest__form--description {
+	display: block;
+	width: 100%;
+	margin: 5px 0 0;
+	line-height: 1em;
+	font-size: ms(-2);
+	font-style: italic;
+	color: $color-text-gray;
+}
+
 .contest__form {
 	fieldset {
 		legend,
@@ -255,7 +265,7 @@
 		width: 100%;
 		padding: 18px 20px;
 		@include box-sizing(border-box);
-		border: none;
+		border: 1px solid transparent;
 		outline: none;
 		background-color: $form-bg;
 		font-family: $open-sans;
@@ -299,6 +309,34 @@
 		-moz-appearance:none;
 		appearance:none;
 		cursor:pointer;
+	}
+
+	input,
+	select,
+	textarea {
+		&.parsley-error {
+			border-color: rgba(255, 0, 0, 0.5);
+			background-color: rgba(255, 0, 0, 0.15);
+			color: $cardinal;
+		}
+	}
+
+	.parsley-errors-list {
+		margin: 0.5em 0;
+		padding: 0;
+		list-style-type: none;
+		font-size: ms(-1);
+		line-height: 1em;
+		@include opacity(0);
+		@include transition(all .3s ease-in);
+
+		&.filled {
+			@include opacity(1);
+		}
+
+		li {
+			color: $cardinal;
+		}
 	}
 
 	.contest__submission--entries,
@@ -354,7 +392,6 @@
 			font-size: ms(-1);
 		}
 	}
-
 }
 
 .contest__submissions {

@@ -264,7 +264,10 @@ class GMP_CPT {
             case 'series_feed_url':
             	$series = get_post( $post_id );
             	$series_slug = $series->post_name;
-            	$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $series_slug;
+				$feed_url = esc_url_raw( get_post_meta( $post_id, 'gmp_podcast_feed', true ) );
+	            if( !$feed_url || $feed_url == '' || strlen( $feed_url ) == 0 ) {
+		            $feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $series_slug;
+	            }
                 echo '<a href="' . esc_url( $feed_url ) . '" target="_blank">' . esc_url( $feed_url ) . '</a>';
             break;
             case 'episodes':

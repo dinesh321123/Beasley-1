@@ -4,6 +4,7 @@ namespace GreaterMedia\MyEmma\Ajax;
 
 use GreaterMedia\Gigya\Ajax\AjaxHandler;
 use GreaterMedia\MyEmma\EmmaAPI;
+use GreaterMedia\MyEmma\EmmaFieldsUpdater;
 
 class ChangeMyEmmaSettings extends AjaxHandler {
 
@@ -18,11 +19,15 @@ class ChangeMyEmmaSettings extends AjaxHandler {
 
 		try {
 			$this->check_emma_credentials( $emma_account_id, $emma_public_key, $emma_private_key );
-		} catch( \Exception $e ) {
+		} catch( \Emma_Invalid_Response_Exception $e ) {
+			//error_log( 'MyEmma Error: ' . $e->getHttpBody() );
 			throw new \Exception(
 				'Invalid MyEmma Credentials: Please check the entered keys.'
 			);
 		}
+
+		$emma_fields_updater = new EmmaFieldsUpdater();
+		$emma_fields_updater->update();
 
 		// TODO: breakout emma settings into new option
 		$settings = get_option( 'member_query_settings', '{}' );

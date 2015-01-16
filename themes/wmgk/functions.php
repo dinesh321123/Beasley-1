@@ -13,7 +13,16 @@
  */
 
 // Useful global constants
-define( 'WMGK_VERSION', '0.1.1' );
+/*
+ * Add this constant to wp-config and set value to "dev" to trigger time() as the cache buster on css/js that use this,
+ * instead of the version - useful for dev, especially when cloudflare or other cdn's are involved
+ */
+if ( defined( 'GMR_WMGK_ENV' ) && 'dev' == GMR_WMGK_ENV ) {
+	// So that things like cloudflare don't hold on to our css during dev
+	define( 'WMGK_VERSION', time() );
+} else {
+	define( 'WMGK_VERSION', '0.1.1' );
+}
 
 /**
  * Set up theme defaults and register supported WordPress features.

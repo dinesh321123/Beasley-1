@@ -12,13 +12,49 @@ class CommentsApp {
 		add_filter(
 			'comments_template', array( $this, 'change_comments_template' ), 99
 		);
+
+		add_filter(
+			'the_content', array( $this, 'render_collection_config' )
+		);
+
+		if ( ! is_admin() ) {
+			$this->initialize_livefyre();
+		}
 	}
 
 	function change_comments_template( $template_path ) {
 		if ( ! $this->is_livefyre_configured() ) {
 			return $template_path;
+		} else {
+			return $this->get_comments_template_path();
 		}
+	}
 
+	function needs_collection_config() {
+		if ( $this->is_livefyre_configured() && is_single() ) {
+			$post = $this->get_current_post();
+			return ! is_null( $post ) && post_type_supports( $post->post_type, 'comments' );
+		} else {
+			return false;
+		}
+	}
+
+	function render_collection_config( $content ) {
+		if ( $this->needs_collection_config() ) {
+			$collection_data = $this->get_collection_data();
+			$json            = json_encode( $collection_data );
+
+			$script_body = "var livefyre_collection_data = $json;";
+			$script      = "<script type='text/javascript'>$script_body</script>";
+			$content     = $script . $content;
+
+			return $content;
+		} else {
+			return $content;
+		}
+	}
+
+	function initialize_livefyre() {
 		$comments_data = array(
 			'ajax_url'                      => admin_url( 'admin-ajax.php' ),
 			'get_livefyre_auth_token_nonce' => wp_create_nonce( 'get_livefyre_auth_token' ),
@@ -43,8 +79,6 @@ class CommentsApp {
 			'livefyre_comments_data',
 			$comments_data
 		);
-
-		return $this->get_comments_template_path();
 	}
 
 	function get_livefyre_loader() {
@@ -82,7 +116,7 @@ class CommentsApp {
 	function get_livefyre_option( $name ) {
 		$options = $this->get_livefyre_options();
 
-		if ( array_key_exists( $name, $options ) ) {
+		if ( $options !== false && array_key_exists( $name, $options ) ) {
 			return $options[ $name ];
 		} else {
 			return '';
@@ -99,11 +133,21 @@ class CommentsApp {
 
 		if ( $this->has_comments( $current_post ) ) {
 			$data['livefyre_enabled'] = true;
-			$data['livefyre_options'] = $this->options_for_post( $current_post );
-			$data['tokens']           = $this->tokens_for_post( $current_post );
+			$data['network_name']     = $this->get_livefyre_option( 'network_name' );
+			$data['site_id']          = $this->get_livefyre_option( 'site_id' );
 		} else {
 			$data['livefyre_enabled'] = false;
 		}
+
+		return $data;
+	}
+
+	function get_collection_data() {
+		$current_post = $this->get_current_post();
+		$data = array(
+			'post_meta' => $this->options_for_post( $current_post ),
+			'tokens'    => $this->tokens_for_post( $current_post )
+		);
 
 		return $data;
 	}
@@ -119,7 +163,7 @@ class CommentsApp {
 	}
 
 	function has_comments( $post ) {
-		return ! is_null( $post ) && ! is_preview();
+		return ! is_preview();
 	}
 
 	function tokens_for_post( $post ) {
@@ -131,8 +175,6 @@ class CommentsApp {
 
 	function options_for_post( $post ) {
 		$options = array(
-			'network_name'  => $this->get_livefyre_option( 'network_name' ),
-			'site_id'       => $this->get_livefyre_option( 'site_id' ),
 			'article_id'    => strval( $post->ID ),
 			'article_path'  => $this->url_to_path( get_permalink( $post->ID ) ),
 			'article_title' => get_the_title( $post->ID ),

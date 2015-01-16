@@ -3,6 +3,9 @@
 namespace GreaterMedia\Gigya\Ajax;
 
 use GreaterMedia\MyEmma\EmmaAPI;
+use GreaterMedia\Gigya\Schema\AccountSchema;
+use GreaterMedia\Gigya\Schema\ActionsSchema;
+use GreaterMedia\Gigya\GigyaRequest;
 
 class ChangeGigyaSettingsAjaxHandler extends AjaxHandler {
 
@@ -20,12 +23,21 @@ class ChangeGigyaSettingsAjaxHandler extends AjaxHandler {
 			throw new \Exception( 'Invalid Gigya Credentials: Please check the entered keys.' );
 		}
 
+		$schema  = new AccountSchema();
+		$request = new GigyaRequest( $gigya_api_key, $gigya_secret_key, 'accounts.setSchema' );
+		$schema->update( $request );
+
+		$schema  = new ActionsSchema();
+		$request = new GigyaRequest( $gigya_api_key, $gigya_secret_key, 'ds.setSchema' );
+		$schema->update( $request );
+
 		$settings                     = get_option( 'member_query_settings', '{}' );
 		$settings                     = json_decode( $settings, true );
 		$settings['gigya_api_key']    = $gigya_api_key;
 		$settings['gigya_secret_key'] = $gigya_secret_key;
 
 		update_option( 'member_query_settings', json_encode( $settings ) );
+
 	}
 
 	public function check_gigya_credentials( $api_key, $secret_key ) {

@@ -46,7 +46,7 @@ class ExportResultsTask extends SyncTask {
 		}
 
 		$import_id = $this->add_members_to_segment( $users, $segment_id );
-		$stats     = $this->get_member_import_stats( $import_id );
+		//$stats     = $this->get_member_import_stats( $import_id );
 
 		$results_in_page = count( $users );
 		$total_results   = $count;
@@ -103,6 +103,7 @@ class ExportResultsTask extends SyncTask {
 	function get_member_import_stats( $import_id ) {
 		$api      = $this->get_emma_api();
 		$response = $api->membersImportStats( $import_id );
+		//error_log( print_r( $response, true ) );
 		$json     = json_decode( $response, true );
 
 		return $json;

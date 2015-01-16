@@ -629,7 +629,7 @@
 			params = {};
 		}
 
-		if (!params.dest && action === 'login') {
+		if (!params.dest && (action === 'login' || action === 'logout')) {
 			params.dest = location.pathname;
 		}
 

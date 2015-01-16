@@ -18,7 +18,7 @@ class ProfilePath {
 	function path_for( $action_name, $params = array() ) {
 		$path  = "/{$this->endpoint}/{$action_name}";
 
-		if ( ( $action_name === 'login' || $action_name === 'register' ) && ! array_key_exists( 'dest', $params ) ) {
+		if ( ( $action_name === 'login' || $action_name === 'logout' ) && ! array_key_exists( 'dest', $params ) ) {
 			global $wp;
 			$params['dest'] = '/' . trim( $wp->request, '/' );
 		}

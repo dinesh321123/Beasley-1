@@ -55,6 +55,17 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 					update_thumbnails(optionHash.nextSlide); // nextSlide = incoming slide. could be backward
 					//$caption.cycle( 'goto', optionHash.nextSlide );
 				} );
+
+				// Record page view
+				slideshow.on('cycle-after', function () {
+					// track page views
+					if ("function" === typeof(ga)) {
+						ga('send', 'pageview');
+					} else if ("object" === typeof(_gaq) ) {
+						// Older google analytics
+						_gaq.push(['_trackPageview']);
+					}
+				});
 		
 				/**
 				 * Wire up additional events after the slideshow has fully initialized.
@@ -154,7 +165,7 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 					$main_wrapper.css( 'height', main_height );
 		
 					thumb_height = $single_thumbnail.width();
-						$gallery.find( '.gallery__previews, .gallery__previews--group' ).css( 'height', thumb_height + 'px' );
+					$gallery.find( '.gallery__previews, .gallery__previews--group' ).css( 'height', thumb_height + 'px' );
 				}
 		
 				if ( $window.width() >= 480 && $window.width() < 769 && ! isTablet() ) {
@@ -225,12 +236,12 @@ function(a){"use strict";a.extend(a.fn.cycle.defaults,{tmplRegex:"{{((.)?.*?)}}"
 			 */
 			function update_share_urls() {
 				var share_url, share_title;
-					if ( $gallery.find( '#share-image' ).is( ':checked' ) ) {
-						share_url   = $gallery.find( 'input.slide-url' ).val();
-						share_title = $gallery.find( 'input.slide-title' ).val();
+				if ( $gallery.find( '#share-image' ).is( ':checked' ) ) {
+					share_url   = $gallery.find( 'input.slide-url' ).val();
+					share_title = $gallery.find( 'input.slide-title' ).val();
 				} else {
-						share_url   = $gallery.find( 'input.gallery-url' ).val();
-						share_title = $gallery.find( 'input.gallery-title' ).val();
+					share_url   = $gallery.find( 'input.gallery-url' ).val();
+					share_title = $gallery.find( 'input.gallery-title' ).val();
 				}
 				var url_twitter  = 'http://twitter.com/home?status=' + share_url + '%20-%20' + share_title;
 				var url_facebook = 'http://www.facebook.com/sharer.php?u=' + share_url + '&amp;t=' + share_title;

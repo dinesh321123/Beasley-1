@@ -36,6 +36,17 @@
 					update_thumbnails(optionHash.nextSlide); // nextSlide = incoming slide. could be backward
 					//$caption.cycle( 'goto', optionHash.nextSlide );
 				} );
+
+				// Record page view
+				slideshow.on('cycle-after', function () {
+					// track page views
+					if ("function" === typeof(ga)) {
+						ga('send', 'pageview');
+					} else if ("object" === typeof(_gaq) ) {
+						// Older google analytics
+						_gaq.push(['_trackPageview']);
+					}
+				});
 		
 				/**
 				 * Wire up additional events after the slideshow has fully initialized.

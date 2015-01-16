@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 
-	function __construct() {
+	public function __construct() {
 
 		parent::__construct(
 			'age-restricted',
@@ -18,17 +18,19 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ), 30, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 20, 0 );
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
+		
 		add_filter( 'the_content', array( $this, 'the_content' ) );
+		add_filter( 'wp_trim_words', array( $this, 'untrim_restricted_markup' ), 10, 4 );
 
 	}
 
-	/**
-	 * Set up the textdomain, even thought we don't really use it
-	 */
-	public function plugins_loaded() {
-		load_plugin_textdomain( 'greatermedia-age-restricted-content', false, GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH );
+	public function untrim_restricted_markup( $text, $num_words, $more, $original_text ) {
+		if ( mb_stripos( $original_text, 'age-restricted-shield-' ) !== false ) {
+			return str_replace( PHP_EOL, '', $original_text );
+		}
+
+		return $text;
 	}
 
 	/**
@@ -276,17 +278,23 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 		}
 
 		$age_restriction = self::sanitize_age_restriction( get_post_meta( $post->ID, 'post_age_restriction', true ) );
-		$current_url = '/' . trim( $wp->request, '/' );
-		$login_url   = gigya_profile_path( 'login', array( 'dest' => $current_url ) );
 
 		if ( ( '18plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 18 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+			
+			$age_restriction = '18+';
+
 			ob_start();
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-post-render.tpl.php';
 			return ob_get_clean();
+			
 		} elseif ( ( '21plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 21 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+
+			$age_restriction = '21+';
+
 			ob_start();
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-post-render.tpl.php';
 			return ob_get_clean();
+			
 		}
 
 		// Fall-through, return content as-is

@@ -19,6 +19,7 @@
 define( 'GMKEYWORDS_VERSION', '0.0.1' );
 define( 'GMKEYWORDS_URL',     plugin_dir_url( __FILE__ ) );
 define( 'GMKEYWORDS_PATH',    dirname( __FILE__ ) . '/' );
+define( 'GMKEYWORDS_LIST_CACHE_TTL', 60 * 60 ); // One hour
 
 
 require_once( GMKEYWORDS_PATH . 'includes/class-greatermedia-keyword-admin.php' );

@@ -160,7 +160,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 	};
 
 })(jQuery);
-(function ($, Modernizr) {
+(function ($, Modernizr, Waypoint) {
 	var $window = $(window),
 		winsize,
 		$body = $('html, body'),
@@ -566,7 +566,8 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 		return $grids;
 	};
-})(jQuery, Modernizr);
+})(jQuery, Modernizr, Waypoint);
+
 (function($) {
 	var $document = $(document), container, gridContainer;
 
@@ -712,6 +713,9 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				
 				if (response.success) {
 					container.html(response.data.html);
+
+					$('#contest-form form').parsley();
+					
 					$('.type-contest.collapsed').removeClass('collapsed');
 				} else {
 					restriction = response.data.restriction;

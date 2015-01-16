@@ -237,7 +237,7 @@ class GreaterMediaFormbuilderRender {
 		}
 
 		$html = '<h3 class="contest__form--heading">' . esc_html( $title ) . '</h3>';
-		$html .= '<form method="post" enctype="multipart/form-data" data-parsley-validate>';
+		$html .= '<form novalidate method="post" enctype="multipart/form-data">';
 
 		$html .= '<div class="contest__form--user-info">';
 		if ( function_exists( 'is_gigya_user_logged_in' ) && is_gigya_user_logged_in() ) {
@@ -258,7 +258,7 @@ class GreaterMediaFormbuilderRender {
 				$renderer_method = 'render_' . $field->field_type;
 				if ( method_exists( __CLASS__, $renderer_method ) ) {
 					$html .= '<div class="contest__form--row">';
-					$html .= wp_kses( self::$renderer_method( $post_id, $field ), self::allowed_tags() );
+					$html .= self::$renderer_method( $post_id, $field );
 					$html .= '</div>';
 				}
 			}
@@ -269,7 +269,7 @@ class GreaterMediaFormbuilderRender {
 			$renderer_method = 'render_' . $field->field_type;
 			if ( method_exists( __CLASS__, $renderer_method ) ) {
 				$html .= '<div class="contest__form--row">';
-				$html .= wp_kses( self::$renderer_method( $post_id, $field ), self::allowed_tags() );
+				$html .= self::$renderer_method( $post_id, $field );
 				$html .= '</div>';
 			}
 		}
@@ -301,16 +301,16 @@ class GreaterMediaFormbuilderRender {
 
 		$field_id = 'form_field_' . $field->cid;
 
-		$label_tag_attributes = array(
-			'for' => $field_id,
-			'class' => 'contest__form--label'
+		$attributes = array(
+			'for'   => $field_id,
+			'class' => 'contest__form--label',
 		);
 
 		$label = ( isset( $field->label ) ) ? esc_html( $field->label ) : '';
 
 		// Give the theme a chance to alter the attributes for the input field
-		$label_tag_attributes = apply_filters( 'gm_form_text_label_attrs', $label_tag_attributes );
-		$label_tag_attributes = apply_filters( 'gm_form_label_attrs', $label_tag_attributes );
+		$attributes = apply_filters( 'gm_form_text_label_attrs', $attributes );
+		$attributes = apply_filters( 'gm_form_label_attrs', $attributes );
 		$label                = apply_filters( 'gm_form_text_label_text', $label );
 		$label                = apply_filters( 'gm_form_label_text', $label );
 
@@ -322,7 +322,7 @@ class GreaterMediaFormbuilderRender {
 			
 			$html .= '<label ';
 
-			foreach ( $label_tag_attributes as $attribute => $value ) {
+			foreach ( $attributes as $attribute => $value ) {
 				$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
 			}
 
@@ -341,62 +341,57 @@ class GreaterMediaFormbuilderRender {
 	 * @return string html
 	 */
 	public static function render_legend( stdClass $field ) {
-
-		$html = '';
-
-		$legend_tag_attributes = array();
-
 		$label = ( isset( $field->label ) ) ? $field->label : '';
+		$attributes = array(
+			'class' => 'contest__form--label',
+		);
 
 		// Give the theme a chance to alter the attributes for the input field
-		$legend_tag_attributes = apply_filters( 'gm_form_text_label_attrs', $legend_tag_attributes );
-		$legend_tag_attributes = apply_filters( 'gm_form_label_attrs', $legend_tag_attributes );
-		$label                 = apply_filters( 'gm_form_text_label_text', $label );
-		$label                 = apply_filters( 'gm_form_label_text', $label );
+		$attributes = apply_filters( 'gm_form_text_label_attrs', $attributes );
+		$attributes = apply_filters( 'gm_form_label_attrs', $attributes );
+		$label = apply_filters( 'gm_form_text_label_text', $label );
+		$label = apply_filters( 'gm_form_label_text', $label );
+		$label = esc_html( $label );
 
+		$html = '';
 		if ( ! empty( $label ) ) {
-
-			$html .= '<legend ';
-
-			foreach ( $legend_tag_attributes as $attribute => $value ) {
-				$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
+			if ( ! empty( $field->required ) && 'section_break' != $field->field_type ) {
+				$label .= ' <abbr title="required">*</abbr>';
 			}
-
-			$html .= '>' . wp_kses_data( $label ) . '</legend>';
-
+			
+			$html .= '<legend ';
+			foreach ( $attributes as $attribute => $value ) {
+				$html .= $attribute . '="' . esc_attr( $value ) . '" ';
+			}
+			$html .= '>' . $label . '</legend>';
 		}
 
 		return $html;
-
 	}
 
 	public static function render_description( stdClass $field ) {
+		$description = isset( $field->field_options->description ) ? $field->field_options->description : '';
 
-		$html = '';
-
-		$description = ( isset( $field->field_options->description ) ) ? $field->field_options->description : '';
-
-		$description_tag_attributes = array();
+		$attributes = array(
+			'class' => 'contest__form--description',
+		);
 
 		// Give the theme a chance to alter the attributes for the description
-		$description_tag_attributes = apply_filters( 'gm_form_text_description_attrs', $description_tag_attributes );
-		$description_tag_attributes = apply_filters( 'gm_form_input_description_attrs', $description_tag_attributes );
-		$description                = apply_filters( 'gm_form_text_description_text', $description );
-		$description                = apply_filters( 'gm_form_description_text', $description );
+		$attributes = apply_filters( 'gm_form_text_description_attrs', $attributes );
+		$attributes = apply_filters( 'gm_form_input_description_attrs', $attributes );
+		$description = apply_filters( 'gm_form_text_description_text', $description );
+		$description = apply_filters( 'gm_form_description_text', $description );
 
+		$html = '';
 		if ( ! empty( $description ) ) {
-
 			$html .= '<p ';
-
-			foreach ( $description_tag_attributes as $attribute => $value ) {
-				$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
+			foreach ( $attributes as $attribute => $value ) {
+				$html .= $attribute . '="' . esc_attr( $value ) . '" ';
 			}
-
-			$html .= ' >' . wp_kses_data( $description ) . '</p>';
+			$html .= ' >' . esc_html( $description ) . '</p>';
 		}
 
 		return $html;
-
 	}
 
 	/**
@@ -548,8 +543,9 @@ class GreaterMediaFormbuilderRender {
 
 		if ( isset( $field->field_options->options ) && is_array( $field->field_options->options ) ) {
 			$multiple_choices = $input_type == 'checkbox' && count( $field->field_options->options ) > 1;
-			foreach ( $field->field_options->options as $field_option_index => $field_option_data ) {
-				$html .= self::render_single_checkbox( $field->cid, $field_option_index, $field_option_data, $input_type, $multiple_choices );
+			foreach ( $field->field_options->options as $option_index => $option_data ) {
+				$option_data->required = $field->required;
+				$html .= self::render_single_checkbox( $field->cid, $option_index, $option_data, $input_type, $multiple_choices );
 			}
 		}
 
@@ -719,46 +715,38 @@ class GreaterMediaFormbuilderRender {
 	 * @return string html
 	 */
 	public static function render_input_tag( $type, $post_id, $field, $special_attributes = null ) {
-
 		if ( null === $special_attributes ) {
 			$special_attributes = array();
 		}
 
-		$html = '';
-
-		$html .= self::render_label( $field );
-
 		$field_id = 'form_field_' . $field->cid;
 
-		$input_tag_attributes = array_merge( $special_attributes, array(
-			'id'    => $field_id,
-			'name'  => ! empty( $field->name ) ? $field->name : $field_id,
-			'type'  => $type,
+		$attributes = array_merge( $special_attributes, array(
+			'id'                      => $field_id,
+			'name'                    => ! empty( $field->name ) ? $field->name : $field_id,
+			'type'                    => $type,
+			'data-parsley-trim-value' => 'true',
 		) );
 
 		if ( isset( $field->required ) && $field->required ) {
-			$input_tag_attributes['required'] = 'required';
+			$attributes['required'] = 'required';
 		}
 
 		// Give the theme a chance to alter the attributes for the input field
-		$input_tag_attributes = apply_filters( 'gm_form_' . $type . '_input_attrs', $input_tag_attributes );
-		$input_tag_attributes = apply_filters( 'gm_form_input_attrs', $input_tag_attributes );
+		$attributes = apply_filters( 'gm_form_' . $type . '_input_attrs', $attributes );
+		$attributes = apply_filters( 'gm_form_input_attrs', $attributes );
 
-		$input_tag_html = '<input ';
-		foreach ( $input_tag_attributes as $attribute => $value ) {
-			$input_tag_html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
+		$tag = '<input ';
+		foreach ( $attributes as $attribute => $value ) {
+			$tag .= $attribute . '="' . esc_attr( $value ) . '" ';
 		}
-		$input_tag_html .= ' />';
+		$tag .= '>';
 
 		// Call filters in case certain input types need extra markup (like 'units' following a number field)
-		$input_tag_html = apply_filters( 'gm_form_' . $type . '_input_tag', $input_tag_html, $post_id, $field );
-		$input_tag_html = apply_filters( 'gm_form_input_tag', $input_tag_html, $post_id, $field );
-		$html .= $input_tag_html;
+		$tag = apply_filters( 'gm_form_' . $type . '_input_tag', $tag, $post_id, $field );
+		$tag = apply_filters( 'gm_form_input_tag', $tag, $post_id, $field );
 
-		$html .= self::render_description( $field );
-
-		return $html;
-
+		return self::render_label( $field ) . $tag . self::render_description( $field );
 	}
 
 	/**
@@ -895,38 +883,42 @@ class GreaterMediaFormbuilderRender {
 
 	/**
 	 * @param string     $cid
-	 * @param int|string $field_option_index
-	 * @param stdClass   $field_option_data
+	 * @param int|string $option_index
+	 * @param stdClass   $option_data
 	 * @param string     $input_type 'checkbox' or 'radio'
 	 *
 	 * @return string
 	 */
-	public static function render_single_checkbox( $cid, $field_option_index, stdClass $field_option_data, $input_type, $multiple_choices = false ) {
+	public static function render_single_checkbox( $cid, $option_index, stdClass $option_data, $input_type, $multiple_choices = false ) {
 
 		$html = '';
 
-		$field_id = 'form_field_' . $cid . '_' . $field_option_index;
+		$field_id = 'form_field_' . $cid . '_' . $option_index;
 
-		$input_tag_attributes = array(
+		$attributes = array(
 			'id'    => $field_id,
 			'name'  => 'form_field_' . $cid . ( $multiple_choices ? '[]' : '' ),
 			'type'  => $input_type,
-			'value' => $field_option_index,
+			'value' => $option_index,
 		);
+
+		if ( isset( $option_data->required ) && $option_data->required ) {
+			$attributes['required'] = 'required';
+		}
 
 		$label_tag_attributes = array(
 			'for' => $field_id,
 		);
 
-		$label = ! empty( $field_option_data->label ) ? $field_option_data->label : '';
+		$label = ! empty( $option_data->label ) ? $option_data->label : '';
 
-		if ( isset( $field_option_data->checked ) && $field_option_data->checked ) {
-			$input_tag_attributes['checked'] = 'checked';
+		if ( isset( $option_data->checked ) && $option_data->checked ) {
+			$attributes['checked'] = 'checked';
 		}
 
 		// Give the theme a chance to alter the attributes for the input field
-		$input_tag_attributes = apply_filters( 'gm_form_checkbox_input_attrs', $input_tag_attributes );
-		$input_tag_attributes = apply_filters( 'gm_form_input_attrs', $input_tag_attributes );
+		$attributes = apply_filters( 'gm_form_checkbox_input_attrs', $attributes );
+		$attributes = apply_filters( 'gm_form_input_attrs', $attributes );
 
 		$label_tag_attributes = apply_filters( 'gm_form_text_label_attrs', $label_tag_attributes );
 		$label_tag_attributes = apply_filters( 'gm_form_label_attrs', $label_tag_attributes );
@@ -942,14 +934,14 @@ class GreaterMediaFormbuilderRender {
 		$html .= '>';
 
 		$html .= '<input ';
-		foreach ( $input_tag_attributes as $attribute => $value ) {
+		foreach ( $attributes as $attribute => $value ) {
 			$html .= wp_kses_data( $attribute ) . '="' . esc_attr( $value ) . '" ';
 		}
 		$html .= '> ';
 
 		$html .= $label . '</label>';
 
-		if ( isset( $field_option_data->other ) && $field_option_data->other ) {
+		if ( isset( $option_data->other ) && $option_data->other ) {
 
 			$other_input_tag_attributes = array(
 				'id'   => $field_id . '_value',

@@ -8,7 +8,7 @@ Author: 10up
 define( 'GMR_LIVEFYRE_PATH', dirname( __FILE__ ) );
 define( 'GMR_LIVEFYRE_URL', plugin_dir_url( __FILE__ ) );
 define( 'GMR_LIVEFYRE_PLUGIN_FILE', __FILE__ );
-define( 'GMR_LIVEFYRE_VERSION', '0.1.0' );
+define( 'GMR_LIVEFYRE_VERSION', '0.2.0' );
 
 function gmr_livefyre_main_real() {
 	require_once __DIR__ . '/vendor/autoload.php';

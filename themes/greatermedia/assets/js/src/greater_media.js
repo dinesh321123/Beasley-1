@@ -11,6 +11,8 @@
 	 *
 	 * @type {HTMLElement}
 	 */
+	var $ = jQuery;
+
 	var body = document.querySelector( 'body' ),
 		html = document.querySelector( 'html'),
 		mobileNavButton = document.querySelector( '.mobile-nav__toggle' ),
@@ -37,7 +39,8 @@
 		searchBtn = document.getElementById( 'header__search'),
 		searchInput = document.getElementById( 'header-search'),
 		collapseToggle = document.querySelector('*[data-toggle="collapse"]'),
-		breakingNewsBanner = document.getElementById('breaking-news-banner');
+		breakingNewsBanner = document.getElementById('breaking-news-banner'),
+		$overlay = $('.overlay-mask');
 
 
 	/**
@@ -441,7 +444,9 @@
 		if (searchForm !== null) {
 			e.preventDefault();
 			searchForm.classList.toggle('header__search--open');
+			$overlay.addClass('is-visible');
 			searchInput.focus();
+			$(searchInput).select();
 		}
 	}
 
@@ -454,6 +459,7 @@
 		if (searchForm !== null && searchForm.classList.contains('header__search--open')) {
 			e.preventDefault();
 			searchForm.classList.remove('header__search--open');
+			$overlay.removeClass('is-visible');
 		}
 	}
 
@@ -472,11 +478,21 @@
 		});
 	}
 
-	window.onkeydown = function(e){
-		if(e.keyCode === 27){
-			closeSearch();
+	/**
+	 * Close the search box when user presses escape.
+	 */
+	$(window).keydown(function (e) {
+		if (e.keyCode === 27){
+			closeSearch(e);
 		}
-	};
+	});
+
+	/**
+	 * Close the search box (if open) if the user clicks on the overlay.
+	 */
+	$overlay.click(function (e) {
+		closeSearch(e);
+	});
 
 	/**
 	 * variables that define debounce and throttling for window resizing and scrolling

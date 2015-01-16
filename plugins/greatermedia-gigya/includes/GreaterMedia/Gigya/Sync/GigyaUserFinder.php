@@ -40,6 +40,7 @@ class GigyaUserFinder {
 
 	function result_to_user( $result ) {
 		$user = array();
+		$user['fields'] = array();
 
 		if ( array_key_exists( 'profile', $result ) ) {
 			$profile = $result['profile'];
@@ -48,20 +49,47 @@ class GigyaUserFinder {
 				$user['email'] = $profile['email'];
 			}
 
-			if ( array_key_exists( 'firstName', $profile ) && array_key_exists( 'lastName', $profile ) ) {
-				$user['fields'] = array(
-					'first_name' => $profile['firstName'],
-					'last_name'  => $profile['lastName'],
-				);
+			if ( array_key_exists( 'firstName', $profile ) ) {
+				$user['fields']['first_name'] = $profile['firstName'];
+			}
+
+			if ( array_key_exists( 'firstName', $profile ) ) {
+				$user['fields']['last_name']  = $profile['lastName'];
+			}
+
+			if ( $this->has_birth_day( $profile ) ) {
+				$user['fields']['birthday'] = $this->get_birth_day( $profile );
 			}
 		}
 
 		return $user;
 	}
 
+	function has_birth_day( $profile ) {
+		return
+			array_key_exists( 'birthYear', $profile ) &&
+			array_key_exists( 'birthMonth', $profile ) &&
+			array_key_exists( 'birthDay', $profile );
+	}
+
+	function get_birth_day( $profile ) {
+		return $profile['birthMonth'] . '/' . $profile['birthDay'] . '/' . $profile['birthYear'];
+	}
+
 	function query_for( $user_ids ) {
 		$ids   = "'" . implode( "', '", $user_ids ) . "'";
-		$query = "select profile.email, profile.firstName, profile.lastName, UID from accounts where UID in ($ids) and data.optout != true limit 10000";
+		$query = <<<GQL
+select
+	profile.email,
+	profile.firstName,
+	profile.lastName,
+	profile.birthYear, profile.birthMonth, profile.birthDay,
+	UID
+from accounts
+	where UID in ($ids) and
+	data.optout != true
+limit 10000;
+GQL;
 
 		return $query;
 	}

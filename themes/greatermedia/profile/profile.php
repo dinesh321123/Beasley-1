@@ -186,7 +186,7 @@ $emma_groups = json_decode( $emma_groups, true );
 				<input type="text" name="profile.zip" placeholder="ZIP Code" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
-				<label>Gender:</label>
+				<label class="gender-label">Gender:</label>
 				<label class="inline-label"><input type="radio" name="profile.gender" value="m" />Male</label>
 				<label class="inline-label"><input type="radio" name="profile.gender" value="f" />Female</label>
 
@@ -281,7 +281,7 @@ $emma_groups = json_decode( $emma_groups, true );
 				<input type="text" name="profile.zip" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
-				<label>Gender:</label>
+				<label class="gender-label">Gender:</label>
 				<label class="inline-label"><input type="radio" name="profile.gender" value="m" />Male</label>
 				<label class="inline-label"><input type="radio" name="profile.gender" value="f" />Female</label>
 

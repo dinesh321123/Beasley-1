@@ -625,7 +625,7 @@ class MemberQuery {
 		$query .= ' ';
 		$query .= $this->operator_for( $operator );
 		$query .= ' ';
-		$query .= $this->value_for( $value, $valueType );
+		$query .= $this->value_for( $value, 'string' );
 
 		return $query;
 	}

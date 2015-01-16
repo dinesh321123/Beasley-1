@@ -45,15 +45,23 @@ class AccountSchema {
 				),
 				'gender' => array(
 					'writeAccess' => 'clientModify',
-					'required' => false,
+					'required' => true,
+				),
+				'birthYear' => array(
+					'writeAccess' => 'clientModify',
+					'required' => true,
 				),
 				'birthDay' => array(
 					'writeAccess' => 'clientModify',
-					'required' => false,
+					'required' => true,
 				),
 				'birthMonth' => array(
 					'writeAccess' => 'clientModify',
-					'required' => false,
+					'required' => true,
+				),
+				'zip' => array(
+					'writeAccess' => 'clientModify',
+					'required' => true,
 				),
 				'state' => array(
 					'writeAccess' => 'clientModify',
@@ -221,11 +229,6 @@ class AccountSchema {
 				'listeningLoyalty' => array(
 					'writeAccess' => 'clientModify',
 					'required' => false,
-				),
-				'actions' => array(
-					'writeAccess' => 'clientModify',
-					'required' => false,
-					'arrayOp' => 'push',
 				),
 				'subscribedToList' => array(
 					'writeAccess' => 'clientModify',

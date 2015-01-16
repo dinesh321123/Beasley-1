@@ -42,7 +42,9 @@ module.exports = function (grunt) {
 					jQuery: false,
 					window: false,
 					document: false,
-					console: false
+					console: false,
+					ga: false,
+					_gaq: false
 				}
 			}
 		},

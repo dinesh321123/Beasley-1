@@ -253,6 +253,8 @@ class GreaterMediaContestsMetaboxes {
 		<?php if ( ! $is_onair ) : ?>
 		<div id="contest-form" class="tab">
 			<?php if ( ! $post_status->public ) : ?>
+				<div class="contest-form-info">Name, Email Address, Date of Birth and Zipcode fields will be added automatically to every contest.</div>
+				
 				<div id="contest_embedded_form"></div>
 				<input type="hidden" id="contest_embedded_form_data" name="contest_embedded_form">
 			<?php else : ?>

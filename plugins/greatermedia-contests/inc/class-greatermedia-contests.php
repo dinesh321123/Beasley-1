@@ -74,7 +74,7 @@ class GreaterMediaContests {
 				$random = filter_input( INPUT_GET, 'random', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
 				if ( $random ) {
 					$query->set( 'orderby', 'rand' );
-					$query->set( 'posts_per_page', 3 );
+					$query->set( 'posts_per_page', $random );
 				}
 			}
 		}
@@ -92,16 +92,6 @@ class GreaterMediaContests {
 			return $columns;
 		}
 
-		$form = get_post_meta( $contest->ID, 'embedded_form', true );
-		if ( empty( $form ) ) {
-			return $columns;
-		}
-
-		if ( is_string( $form ) ) {
-			$clean_form = trim( $form, '"' );
-			$form = json_decode( $clean_form );
-		}
-
 		unset( $columns['title'], $columns['date'] );
 
 		if ( gmr_contest_has_files( $contest->ID ) ) {
@@ -110,9 +100,6 @@ class GreaterMediaContests {
 		
 		$columns['_gmr_username'] = 'Submitted by';
 		$columns['_gmr_email'] = 'Email';
-//		foreach ( $form as $field ) {
-//			$columns[ "_gmr_form_{$field->cid}" ] = $field->label;
-//		}
 		$columns['_gmr_submitted'] = 'Submitted on';
 
 		return $columns;
@@ -142,7 +129,7 @@ class GreaterMediaContests {
 
 		$this->_add_entry_to_winners( $entry );
 		
-		wp_redirect( wp_get_referer() );
+		wp_redirect( add_query_arg( 'random', false, wp_get_referer() ) );
 		exit;
 	}
 
@@ -162,7 +149,7 @@ class GreaterMediaContests {
 			$this->_add_entry_to_winners( $entry );
 		}
 
-		wp_redirect( wp_get_referer() );
+		wp_redirect( add_query_arg( 'random', false, wp_get_referer() ) );
 		exit;
 	}
 
@@ -180,7 +167,7 @@ class GreaterMediaContests {
 		$gigya_id = get_post_meta( $entry->ID, 'entrant_reference', true );
 		delete_post_meta( $entry->post_parent, 'winner', "{$entry->ID}:{$gigya_id}" );
 		
-		wp_redirect( wp_get_referer() );
+		wp_redirect( add_query_arg( 'random', false, wp_get_referer() ) );
 		exit;
 	}
 

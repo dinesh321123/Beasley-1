@@ -76,6 +76,7 @@ img {
 	padding: $base-line-height $gutter / 2;
 
 	@include bp(medium) {
+		min-height: 800px;
 		padding: $base-line-height * 2 $gutter * 2;
 	}
 	// @include bp(large) {

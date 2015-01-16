@@ -1,4 +1,4 @@
-(function ($, Modernizr) {
+(function ($, Modernizr, Waypoint) {
 	var $window = $(window),
 		winsize,
 		$body = $('html, body'),
@@ -404,4 +404,4 @@
 
 		return $grids;
 	};
-})(jQuery, Modernizr);
+})(jQuery, Modernizr, Waypoint);

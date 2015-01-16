@@ -38,7 +38,7 @@ if( isset( $_GET['podcast_series'] ) && strlen( $_GET['podcast_series'] ) > 0 ) 
 
 $category = sanitize_text_field( get_post_meta( $parent_podcast_id, 'gmp_category', true ) );
 if( ! $category || strlen( $category ) == 0 || $category == '' ) {
-	$category = Music;
+	$category = 'Music';
 } else {
 	$subcategory = sanitize_text_field( get_post_meta( $parent_podcast_id, 'gmp_sub_category', true ) );
 	if( ! $subcategory || strlen( $subcategory ) == 0 || $subcategory == '' ) {

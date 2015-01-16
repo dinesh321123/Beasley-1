@@ -1,34 +1,62 @@
 (function($) {
 
-	var CommentsConfig = function(config) {
-		this.config = config;
+	var CommentsConfig = function() {
+		this.collectionCache = {};
 	};
 
 	CommentsConfig.prototype = {
 
+		getConfig: function() {
+			return window.livefyre_comments_data.data;
+		},
+
+		hasCachedCollectionConfig: function() {
+			return !!this.collectionCache[location.href];
+		},
+
+		getCachedCollectionConfig: function() {
+			return this.collectionCache[location.href];
+		},
+
+		getCollectionConfig: function() {
+			if (!this.hasCachedCollectionConfig()) {
+				var data = JSON.parse(JSON.stringify(window.livefyre_collection_data));
+				this.collectionCache[location.href] = window.livefyre_collection_data;
+			}
+
+			return this.getCachedCollectionConfig();
+		},
+
 		getNetworkConfig: function() {
+			var config = this.getConfig();
+
 			return {
-				network: this.config.livefyre_options.network_name
+				network: config.network_name
 			};
 		},
 
 		getConvConfig: function() {
+			var config = this.getConfig();
+			var collectionConfig = this.getCollectionConfig();
+
 			return [{
-				siteId         : this.config.livefyre_options.site_id,
-				articleId      : this.config.livefyre_options.article_id,
+				siteId         : config.site_id,
+				articleId      : collectionConfig.post_meta.article_id,
 				el             : 'livefyre-comments',
-				collectionMeta : this.config.tokens.collection_meta,
-				checksum       : this.config.tokens.checksum,
-				readOnly       : this.config.livefyre_options.read_only
+				collectionMeta : collectionConfig.tokens.collection_meta,
+				checksum       : collectionConfig.tokens.checksum,
+				readOnly       : collectionConfig.post_meta.read_only
 			}];
 		},
 
 		getToken: function(name) {
-			return this.config.tokens[name];
+			var config = this.getConfig();
+			return config.tokens[name];
 		},
 
 		getOption: function(name) {
-			return this.config.livefyre_options[name];
+			var config = this.getCollectionConfig();
+			return config.post_meta[name];
 		}
 
 	};
@@ -59,11 +87,11 @@
 		},
 
 		editProfile: function() {
-			this.redirect('account', { mode: 'edit' });
+			this.redirect('account');
 		},
 
 		viewProfile: function() {
-			this.redirect('account', { mode: 'view' });
+			this.redirect('account');
 		},
 
 		redirect: function(actionName, params) {
@@ -73,33 +101,33 @@
 
 	};
 
-	var CommentsApp = function() {
-		this.config = new CommentsConfig(
-			window.livefyre_comments_data.data
-		);
-
+	var CommentsApp    = function() {
+		this.config    = new CommentsConfig();
 		this.ajaxApi   = new WpAjaxApi(window.livefyre_comments_data);
 		this.authToken = this.loadAuthToken();
 
 		var self = this;
 
-		if (this.canLoadComments()) {
-			this.authorize();
-		} else {
-			$(document).ready(function() {
-				self.authorize();
-			});
-		}
-
 		$(document).on('pjax:end', function() {
-			self.load();
+			console.log('pjax:end fired');
+			self.start();
+		});
+
+		$(document).on('pjax:popstate', function() {
+			console.log('popstate fired');
 		});
 	};
 
 	CommentsApp.prototype = {
 
+		start: function() {
+			if (this.canLoadComments()) {
+				this.authorize();
+			}
+		},
+
 		authorize: function() {
-			if (is_gigya_user_logged_in()) {
+			if (is_gigya_user_logged_in() && this.authToken === '') {
 				this.ajaxApi.request('get_livefyre_auth_token', {})
 					.then($.proxy(this.didAuthorize, this))
 					.fail($.proxy(this.didAuthorizeError, this));
@@ -238,6 +266,9 @@
 
 	};
 
-	var app = new CommentsApp();
+	$(document).ready(function() {
+		var app = new CommentsApp();
+		app.start();
+	});
 
 }(jQuery));

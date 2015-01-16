@@ -63,7 +63,10 @@ class GMR_Audio_Shortcodes {
 
 		$series = get_post( $parent_podcast_id );
 		$series_slug = $series->post_name;
-		$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $series_slug;
+		$feed_url = esc_url_raw( get_post_meta( $parent_podcast_id, 'gmp_podcast_feed', true ) );
+		if( !$feed_url || $feed_url == '' || strlen( $feed_url ) == 0 ) {
+			$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $series_slug;
+		}
 
 		$downloadable = get_post_meta( $post_id, 'gmp_audio_downloadable', true );
 		$new_html = '';

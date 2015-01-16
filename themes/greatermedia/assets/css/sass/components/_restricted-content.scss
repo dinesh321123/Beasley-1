@@ -1,0 +1,13 @@
+.login-restricted-login-btn,
+.logout-restricted-login-btn,
+.age-restricted-login-btn {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .45em, 1em, ms(-1));
+}
+
+.entry2__excerpt {
+	.login-restricted-login-btn,
+	.logout-restricted-login-btn,
+	.age-restricted-login-btn {
+		margin: 1em 0;
+	}
+}

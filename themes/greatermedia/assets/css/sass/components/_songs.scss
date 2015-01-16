@@ -1,0 +1,27 @@
+.song__archive {
+
+	list-style: none;
+
+	li {
+		position: relative;
+		margin-bottom: 1em;
+	}
+
+	.icon-music:before {
+		position: absolute;
+		left: -30px;
+	}
+
+	.song__title, .song__artist {
+		display: block;
+		margin: 0px;
+		font-family: "Open Sans",sans-serif;
+		font-size: 0.88889em;
+	}
+
+	.song__title {
+		margin-bottom: 6px;
+		font-size: ms(0);
+		font-weight: bold;
+	}
+}
