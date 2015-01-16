@@ -2,7 +2,7 @@
  * http://wordpress.org/plugins
  * Copyright (c) 2015; * Licensed GPLv2+ */
 // Silence jslint warning about _ being undefined.
-/*global _ */
+/*global _, document */
 
 jQuery( function ( $ ) {
 	'use strict';
@@ -99,7 +99,7 @@ jQuery( function ( $ ) {
 				if ( self.position_change_callback ) {
 					self.position_change_callback( self.position );
 				}
-			} else if ( 27 === e.which ) { // Escape key
+			} else if ( 27 === e.which && self.is_navigating ) { // Escape key
 				self.$items.removeClass( 'is-navigating' )
 					.addClass( 'is-hoverable' );
 				self.cancel();
@@ -183,7 +183,7 @@ jQuery( function ( $ ) {
 		$search_field.val( search.last_search );
 	}
 
-	var key_nav = new Arrow_Key_Navigator( $item_list, $search_field, handle_nav_update, handle_nav_cancel );
+	var key_nav = new Arrow_Key_Navigator( $item_list, $( document ), handle_nav_update, handle_nav_cancel );
 
 	// Hook up the search field handler.
 	$search_field.on( 'keyup', function () {

@@ -15,7 +15,6 @@
 		padding: 16px 2.5%;
 		background-color: $primary-bg;
 		border-top: none;
-		border-bottom: 1px solid $secondary-bg;
 		@include transition(all 200ms ease-in-out);
 		@include transform(translate(0, -200%)); /* 200% ensures it's out of the way of the .wp-admin bar */
 		z-index: 5000000; /* IAB z-index standards for nav drop downs. Prevents an ad from being over top unless it's a full-screen ad */
@@ -204,65 +203,3 @@
 body.search-results .posts-pagination {
 	margin-top: $base-line-height * 2;
 }
-
-.keyword-search {
-	clear: both; 
-	line-height: 1.5;
-	margin: 0 -20px;
-	padding: 1.5em 20px; 
-	background: $primary-bg;
-	border-top: 1px solid $light-gray; 
-	
-	@include bp(medium) {
-		margin: 0 -2.5%;
-		padding: 1.5em 2.5% .5em;	
-	}
-}
-	.keyword-search__header {
-		font-weight: bold; 
-		border-bottom: 5px solid $light-gray;
-		padding-bottom: 1em;
-	}
-		
-	.keyword-search-item {
-		border-bottom: 1px solid $extra-light-gray; 
-		padding: 1em 0;
-		color: $color-text-black;
-	}
-		.keyword-search-item__article {
-			color: $primary-link;
-		}
-
-		// Hover states
-		.is-hoverable a:hover,
-		.is-hoverable a:focus,
-		.is-highlighted {
-			.keyword-search-item {
-				background: $cardinal;
-			}
-			.keyword-search-item__keyword,
-			.keyword-search-item__article {
-				color: $white;
-			}
-		}
-
-		// at larger breakpoints
-		@include bp(medium) {
-			.keyword-search-item__keyword {
-				display: inline-block; 
-				min-width: 12em; 
-			}
-			.keyword-search-item__article {
-				display: inline-block; 
-			}
-		}
-		
-	.keyword-search__btn {
-		@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
-		text-transform: none; 
-	}
-	
-	.keyword-search__footer {
-		margin-top: 1.5em; 
-		text-align: center;		
-	}

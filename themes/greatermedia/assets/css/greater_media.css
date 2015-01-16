@@ -7958,6 +7958,81 @@ a.social-share-link {
       top: auto;
       bottom: 10px; } }
 
+.keyword-search {
+  clear: both;
+  line-height: 1.5;
+  margin: 0 -20px;
+  padding: 1.5em 20px;
+  background: #ffffff;
+  border-top: 1px solid #d0d2d3; }
+  @media screen and (min-width: 768px) {
+    .keyword-search {
+      margin: 0 -2.5%;
+      padding: 1.5em 2.5% .5em; } }
+
+.keyword-search__header {
+  font-weight: bold;
+  border-bottom: 5px solid #d0d2d3;
+  margin: 0 -.5em;
+  padding: 0 .5em 1em; }
+
+.keyword-search__items > a {
+  display: block; }
+
+.keyword-search-item {
+  border-bottom: 1px solid #f1f1f3;
+  margin: 0 -.5em;
+  padding: 1em .5em;
+  color: #000000; }
+
+.keyword-search-item__article {
+  color: #d22228; }
+
+.is-hoverable a:hover .keyword-search-item,
+.is-hoverable a:focus .keyword-search-item,
+.is-highlighted .keyword-search-item {
+  background: #d22228; }
+.is-hoverable a:hover .keyword-search-item__keyword,
+.is-hoverable a:hover .keyword-search-item__article,
+.is-hoverable a:focus .keyword-search-item__keyword,
+.is-hoverable a:focus .keyword-search-item__article,
+.is-highlighted .keyword-search-item__keyword,
+.is-highlighted .keyword-search-item__article {
+  color: #ffffff; }
+
+@media screen and (min-width: 768px) {
+  .keyword-search-item__keyword {
+    display: inline-block;
+    min-width: 12em; }
+
+  .keyword-search-item__article {
+    display: inline-block; } }
+.keyword-search__btn {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #d22228;
+  border: 1px solid #d22228;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 100em;
+  text-transform: none; }
+  .keyword-search__btn:hover, .keyword-search__btn:focus {
+    background-color: #aa1c20;
+    border-color: #aa1c20;
+    color: #ffffff; }
+  .keyword-search__btn:last-of-type {
+    margin-right: 0; }
+
+.keyword-search__footer {
+  margin-top: 1.5em;
+  text-align: center; }
+
 /* Styles for the Gallery page and widget */
 /*doc
 ---
@@ -9538,7 +9613,6 @@ select {
       padding: 16px 2.5%;
       background-color: #ffffff;
       border-top: none;
-      border-bottom: 1px solid #000000;
       -webkit-transition: all 200ms ease-in-out;
       -moz-transition: all 200ms ease-in-out;
       transition: all 200ms ease-in-out;
@@ -9775,76 +9849,6 @@ select {
 
 body.search-results .posts-pagination {
   margin-top: 3em; }
-
-.keyword-search {
-  clear: both;
-  line-height: 1.5;
-  margin: 0 -20px;
-  padding: 1.5em 20px;
-  background: #ffffff;
-  border-top: 1px solid #d0d2d3; }
-  @media screen and (min-width: 768px) {
-    .keyword-search {
-      margin: 0 -2.5%;
-      padding: 1.5em 2.5% .5em; } }
-
-.keyword-search__header {
-  font-weight: bold;
-  border-bottom: 5px solid #d0d2d3;
-  padding-bottom: 1em; }
-
-.keyword-search-item {
-  border-bottom: 1px solid #f1f1f3;
-  padding: 1em 0;
-  color: #000000; }
-
-.keyword-search-item__article {
-  color: #d22228; }
-
-.is-hoverable a:hover .keyword-search-item,
-.is-hoverable a:focus .keyword-search-item,
-.is-highlighted .keyword-search-item {
-  background: #d22228; }
-.is-hoverable a:hover .keyword-search-item__keyword,
-.is-hoverable a:hover .keyword-search-item__article,
-.is-hoverable a:focus .keyword-search-item__keyword,
-.is-hoverable a:focus .keyword-search-item__article,
-.is-highlighted .keyword-search-item__keyword,
-.is-highlighted .keyword-search-item__article {
-  color: #ffffff; }
-
-@media screen and (min-width: 768px) {
-  .keyword-search-item__keyword {
-    display: inline-block;
-    min-width: 12em; }
-
-  .keyword-search-item__article {
-    display: inline-block; } }
-.keyword-search__btn {
-  display: inline-block;
-  line-height: 1;
-  padding: 0.5em 1em;
-  margin-right: .5em;
-  outline: none;
-  background-color: #d22228;
-  border: 1px solid #d22228;
-  font-family: "Open Sans", sans-serif;
-  font-size: 0.88889em;
-  color: #ffffff !important;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-radius: 100em;
-  text-transform: none; }
-  .keyword-search__btn:hover, .keyword-search__btn:focus {
-    background-color: #aa1c20;
-    border-color: #aa1c20;
-    color: #ffffff; }
-  .keyword-search__btn:last-of-type {
-    margin-right: 0; }
-
-.keyword-search__footer {
-  margin-top: 1.5em;
-  text-align: center; }
 
 .ui-menu {
   list-style-type: none;
