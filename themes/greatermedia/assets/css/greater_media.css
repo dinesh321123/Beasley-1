@@ -1604,6 +1604,8 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
     .entry--audio__meta {
       width: 75.113636363636%; } }
 
+.page-template-front-page-php .ad__in-loop {
+  margin: 1.5em 0; }
 .page-template-front-page-php .entry__date,
 .page-template-front-page-php .entry__excerpt {
   display: none; }
@@ -5295,6 +5297,18 @@ category: Components - Ads
       float: right;
       margin: 0 0 1em 1em; } }
 
+.ad__in-loop {
+  text-align: center; }
+
+.ad__in-loop--desktop {
+  display: none; }
+
+@media (min-width: 1051px) {
+  .ad__in-loop--mobile {
+    display: none; }
+
+  .ad__in-loop--desktop {
+    display: block; } }
 .contest__thumbnail {
   position: relative;
   background-position: center center;

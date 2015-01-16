@@ -56,3 +56,21 @@ category: Components - Ads
 		margin: 0 0 1em 1em;
 	}
 }
+
+.ad__in-loop {
+	text-align: center;
+}
+	.ad__in-loop--mobile {}
+	.ad__in-loop--desktop {
+		display: none;
+	}
+
+	@media ( min-width: 1051px ) {
+		.ad__in-loop--mobile {
+			display: none;
+		}
+		.ad__in-loop--desktop {
+			display: block;
+		}
+	}
+

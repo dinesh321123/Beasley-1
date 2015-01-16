@@ -23,7 +23,14 @@ function filter_ad_tags() {
 			'tag' => 'leaderboard-body',
 			'url_vars' => array(),
 			'enable_ui_mapping' => true,
-			'min_width' => 728,
+			'variants' => array(
+				'desktop' => array(
+					'min_width' => 1051,
+				),
+				'mobile' => array(
+					'max_width' => 1050,
+				),
+			),
 		),
 		'live-links-rectangle' => array(
 			'tag' => 'live-links-rectangle',
@@ -47,6 +54,17 @@ function filter_ad_tags() {
 			'tag' => 'mrec-lists',
 			'url_vars' => array(),
 			'enable_ui_mapping' => true,
+
+			// These variants are a temporary hack so we can use this ad on the
+			// home page for the Jan. 16 demo.
+			'variants' => array(
+				'desktop' => array(
+					'min_width' => 1051,
+				),
+				'mobile' => array(
+					'max_width' => 1050,
+				),
+			),
 		),
 		'smartphone-wide-banner' => array(
 			'tag' => 'smartphone-wide-banner',
