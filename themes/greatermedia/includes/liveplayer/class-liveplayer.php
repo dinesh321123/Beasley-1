@@ -6,7 +6,7 @@ class GreaterMediaLivePlayer {
 		add_action( 'init', array( __CLASS__, 'register_endpoint' ) );
 		add_action( 'template_redirect', array( __CLASS__, 'process_onair_request' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'render_live_player' ) );
-		add_action( 'gmr_live_audio_link', array( __CLASS__, 'ie8_audio_link' ) );
+		add_action( 'gmr_live_audio_link', array( __CLASS__, 'live_audio_link' ) );
 	}
 
 	public static function render_live_player() {
@@ -91,23 +91,49 @@ class GreaterMediaLivePlayer {
 		exit;
 	}
 
+	public static function return_live_url() {
+
+		$active_stream = gmr_streams_get_primary_stream_callsign();
+
+		$stream_xml = wp_cache_get( 'gmr_live_audio', 'mount' );
+
+		if ( false === $stream_xml ) {
+
+			$url = "http://playerservices.streamtheworld.com/api/livestream?version=1.8&station={$active_stream}";
+
+			$response = wp_remote_get( $url );
+
+			if ( is_wp_error( $response ) ) {
+				return;
+			}
+
+			$data = wp_remote_retrieve_body( $response );
+
+			if ( is_wp_error( $data ) ) {
+				return;
+			}
+
+			wp_cache_set( 'gmr_live_audio', $data, 'mount', 30 * MINUTE_IN_SECONDS );
+
+		}
+
+		return $stream_xml;
+
+	}
+
 	/**
 	 * Parses the live player endpoint for a server that will render a direct link to use for ie8
 	 *
 	 * @static
 	 * @access public
 	 */
-	public static function ie8_audio_link() {
+	public static function live_audio_link() {
 
-		$active_stream = gmr_streams_get_primary_stream_callsign();
+		$stream_xml = self::return_live_url();
 
-		$xmlstr = "http://playerservices.streamtheworld.com/api/livestream?version=1.8&station={$active_stream}";
+		$ip = (string) $stream_xml->mountpoints[0]->mountpoint[0]->servers->server->ip;
 
-		$live_stream_config = simplexml_load_file($xmlstr);
-
-		$ip = $live_stream_config->mountpoints[0]->mountpoint[0]->servers->server->ip;
-
-		$mount = $live_stream_config->mountpoints[0]->mountpoint[0]->mount;
+		$mount = (string) $stream_xml->mountpoints[0]->mountpoint[0]->mount;
 
 		echo '<div class="live-audio">';
 
