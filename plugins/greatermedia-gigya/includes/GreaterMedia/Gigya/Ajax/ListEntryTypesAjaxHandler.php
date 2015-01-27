@@ -9,23 +9,8 @@ class ListEntryTypesAjaxHandler extends AjaxHandler {
 	}
 
 	public function run( $params ) {
-		// TODO: Pagination
-		$contests_args = array( 'post_type' => 'contest', 'post_status' => 'publish' );
-		$query      = new \WP_Query( $contests_args );
-		$contests   = $query->get_posts();
-		$entryTypes = [];
-
-		foreach ( $contests as $contest ) {
-			$form = get_post_meta( $contest->ID, 'embedded_form', true );
-			if ( $form ) {
-				$entryTypes[] = array(
-					'label' => $contest->post_title,
-					'value' => $contest->ID,
-				);
-			}
-		}
-
-		return $entryTypes;
+		$handler = new GetChoicesForConstraintType();
+		return $handler->run( $params );
 	}
 
 }

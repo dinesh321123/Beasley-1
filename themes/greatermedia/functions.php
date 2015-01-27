@@ -458,9 +458,13 @@ if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 			return;
 		}
 
-		$partial_slug = isset( $_REQUEST['partial_slug'] ) ? sanitize_text_field( $_REQUEST['partial_slug'] ) : 'partials/loop';
+		$partial_slug = isset( $_REQUEST['partial_slug'] ) ? sanitize_text_field( $_REQUEST['partial_slug'] ) : '';
 		$partial_name = isset( $_REQUEST['partial_name'] ) ? sanitize_text_field( $_REQUEST['partial_name'] ) : '';
 
+		if ( ! $partial_slug ) {
+			$partial_slug = 'partials/loop';
+		}
+		
 		global $wp_query; 
 		
 		ob_start(); 

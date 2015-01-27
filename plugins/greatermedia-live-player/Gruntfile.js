@@ -25,19 +25,20 @@ module.exports = function( grunt ) {
 				'Gruntfile.js',
 				'assets/js/src/**/*.js',
 				'assets/js/test/**/*.js',
-				'!assets/js/src/tdplayer.js'
 			],
 			options: {
 				curly:   true,
-				eqeqeq:  true,
+				eqeqeq:  false,
 				immed:   true,
-				latedef: true,
+				latedef: false,
 				newcap:  true,
 				noarg:   true,
 				sub:     true,
 				undef:   true,
-				boss:    true,
+				boss:    false,
 				eqnull:  true,
+				devel:   true,
+				browser: true,
 				globals: {
 					exports: true,
 					module:  false,
@@ -47,7 +48,12 @@ module.exports = function( grunt ) {
 					'gmlp': true,
 					'jQuery': true,
 					'$': true,
-					'window': true
+					'window': true,
+					'bowser': true,
+					'require': true,
+					'TdPlayerApi': true,
+					'_': false,
+					'Modernizr': true
 				}
 			}		
 		},

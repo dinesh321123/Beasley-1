@@ -994,6 +994,9 @@ class MemberQuery {
 			case 'record:contest':
 				return 'action:contest';
 
+			case 'record:survey':
+				return 'action:survey';
+
 			default:
 				return $old_type_name;
 		}

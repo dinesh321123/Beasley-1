@@ -17,17 +17,23 @@
 			$thumbnail_size = 'gm-entry-thumbnail-4-3';
 		}
 	?>
-		<section class="entry2__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size ); ?>)'>
-			<a href="<?php the_permalink(); ?>"></a>
-			<?php
-
-				$image_attr = image_attribution();
-
-				if ( ! empty( $image_attr ) ) {
-					echo $image_attr;
-				}
-
-			?>
+		<section class="entry2__thumbnail">			
+			<a href="<?php the_permalink(); ?>">
+				<div class="entry2__thumbnail__image" style='background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size ); ?>)'></div>
+				<div class="entry2__thumbnail__icon"></div>
+			</a>
+			
+			<div class="entry2__thumbnail__attribution">
+				<?php
+	
+					$image_attr = image_attribution();
+	
+					if ( ! empty( $image_attr ) ) {
+						echo $image_attr;
+					}
+	
+				?>				
+			</div>
 		</section>
 	<?php endif; ?>
 

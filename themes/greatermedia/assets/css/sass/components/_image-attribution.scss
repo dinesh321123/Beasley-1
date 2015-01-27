@@ -1,0 +1,24 @@
+.image__attribution {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	margin-left: 10px;
+	padding: .5em 1em;
+	background-color: $color-text-black;
+	font-size: ms(-1);
+	color: $color-text-white;
+	
+	@include bp(medium) {
+		top: auto;
+		bottom: 10px;
+	}
+	
+	a, a:visited {
+		color: $secondary-link;
+		text-decoration: underline;
+	}
+	
+	a:hover, a:active, a:focus {
+		color: $secondary-link-hover;
+	}
+}

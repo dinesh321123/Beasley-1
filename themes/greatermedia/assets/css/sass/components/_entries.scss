@@ -27,34 +27,28 @@
 		margin-bottom: 0; 
 	}
 	
-	a:not(.image__attribution--link) {
-		position: absolute;
-		width: 100%;
-		left: 0;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		z-index: 20;
-	}
-	
-	// Force aspect ratio 
-	position: relative;
-	
-	&:after {
-		content: '';
-		display: block;
-		padding-top: 66.666%;
-	}
-	
 	.has-excerpt &:after {
 		padding-top: 75%;
 	}
 	
-	background-size: 100%;
-	background-size: cover;
-	background-position: center center;
-	background-repeat: no-repeat;
+	position: relative;
 }
+	.entry2__thumbnail__image {
+		// Force aspect ratio 
+		position: relative;
+		
+		&:after {
+			content: '';
+			display: block;
+			padding-top: 66.666%;
+		}
+		
+		background-size: 100%;
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background: red;
+	}
 
 	.entry2__thumbnail__overlay {
 		background-color: $btn-bg;
@@ -65,6 +59,42 @@
 		bottom: 0;
 		left: 0;		
 	}
+	
+	.entry2__thumbnail__icon {
+		// Post type icons
+		position: absolute;
+		top: .2em;
+		right: .2em;
+		color: #fff;
+		z-index: 30;
+		font-size: 4em;
+		
+		@include bp(small) {
+			font-size: 2.5em;
+		}
+		@include bp(large) {
+			font-size: 3em;
+		}
+
+		@extend %gmr-icons;
+		
+		.format-audio & {
+			@extend .icon-post-format-audio;
+		}
+		.format-gallery & {
+			@extend .icon-post-format-gallery;
+		}
+		.format-video & {
+			@extend .icon-post-format-video;
+		}
+		.type-contest & {
+			@extend .icon-contest;
+		}
+		.type-tribe_events & {
+			@extend .icon-post-format-events;
+		}
+	}
+
 
 .entry2__meta {
 	@include bp(small) {
@@ -165,10 +195,12 @@
 		.entry2__thumbnail {
 			@include span-columns(2 of 9);
 			
-			&:after {
-				padding-top: 100%;
-			}
 		}
+			.entry2__thumbnail__image {
+				&:after {
+					padding-top: 100%;
+				}			
+			}
 		.entry2__meta {
 			@include span-columns(7 of 9);
 			@include omega; 
@@ -176,53 +208,6 @@
 	}	
 }
 
-
-// Post type icons
-.entry2__thumbnail a {
-	.format-audio &,
-	.format-gallery &,
-	.format-video &,
-	.type-contest &,
-	.type-tribe_events & {
-		@extend %gmr-icons;
-		
-		&:before {
-			position: absolute; 
-			left: 0;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			padding: 3%;
-			text-align: right;	
-			color: #fff;	
-			z-index: 30;
-			font-size: 4em;
-			
-			@include bp(small) {
-				font-size: 2.5em;
-			}
-			@include bp(large) {
-				font-size: 3em;
-			}
-		}
-	}
-	
-	.format-audio & {
-		@extend .icon-post-format-audio;
-	}
-	.format-gallery & {
-		@extend .icon-post-format-gallery;
-	}
-	.format-video & {
-		@extend .icon-post-format-video;
-	}
-	.type-contest & {
-		@extend .icon-contest;
-	}
-	.type-tribe_events & {
-		@extend .icon-post-format-events;
-	}
-}
 
 // Special handling for date information in event thumbnail
 .type-tribe_events {

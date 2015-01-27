@@ -5,9 +5,11 @@
 			? 'gm-entry-thumbnail-1-1'
 			: 'gm-entry-thumbnail-4-3';
 	?>
-		<section class="entry2__thumbnail" style="background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size, null, true ); ?>)">
-			<div class="entry2__thumbnail__overlay"></div>
+		<section class="entry2__thumbnail">
 			<a href="<?php the_permalink(); ?>">
+				<div class="entry2__thumbnail__image" style="background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size, null, true ); ?>)"></div>
+				<div class="entry2__thumbnail__overlay"></div>
+				<div class="entry2__thumbnail__icon"></div>
 				<div class="entry2__thumbnail--event-date">
 					<div class="entry2__thumbnail--day-of-week"><?php echo tribe_get_start_date( get_the_ID(), false, 'l' ); ?></div>
 					<div class="entry2__thumbnail--month-and-day"><?php echo tribe_get_start_date( get_the_ID(), false, 'M j' ); ?></div>

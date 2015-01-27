@@ -5,6 +5,69 @@
  * Copyright (c) 2014 10up
  * Licensed under the GPLv2+ license.
  */
+.gmr-manage-gallery-container .wp-media-buttons {
+  float: none; }
+
+.gallery-preview:before, .gallery-preview:after {
+  content: " ";
+  display: table; }
+.gallery-preview:after {
+  clear: both; }
+.gallery-preview .remove-gallery-item {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  padding: 4px 7px;
+  font-size: 14px;
+  line-height: 1em;
+  border-bottom-left-radius: 5px;
+  display: none;
+  outline: none; }
+  .gallery-preview .remove-gallery-item span {
+    font-size: inherit;
+    line-height: 1em;
+    height: 1em; }
+.gallery-preview .add-gallery-item {
+  display: block;
+  width: 100%;
+  height: 95px;
+  padding-top: 55px;
+  text-decoration: none;
+  text-align: center;
+  outline: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none; }
+  .gallery-preview .add-gallery-item:focus {
+    box-shadow: none; }
+  .gallery-preview .add-gallery-item span {
+    display: block;
+    text-align: center;
+    width: 100%; }
+.gallery-preview .gallery-item {
+  width: 150px;
+  height: 150px;
+  margin: 0 8px 8px 0;
+  float: left;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  border: 2px dashed black;
+  cursor: pointer; }
+  .gallery-preview .gallery-item:hover .remove-gallery-item {
+    display: block; }
+  .gallery-preview .gallery-item.ui-sortable-helper .remove-gallery-item {
+    display: none; }
+  .gallery-preview .gallery-item.gallery-image {
+    border-style: solid; }
+  .gallery-preview .gallery-item.gallery-item-placeholder {
+    border-style: dotted;
+    display: block; }
+
 .gmr__option {
   width: 100%;
   padding: 1em 0;

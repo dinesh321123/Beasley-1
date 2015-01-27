@@ -340,7 +340,9 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<ul class="constraint-toolbar">\n\t<li>\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-admin-page copy-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Duplicate"\n\t\t/>\n\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-trash remove-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Remove"\n\t\t/>\n\t</li>\n</ul>\n\n<p class="constraint-title">\n\t' +
 __e( title ) +
-'\n</p>\n\n<div class="entry-select-group">\n\t<label><strong>Select Contest: </strong></label>\n\t<select class="entry-select-choice entry-select-type">\n\t</select>\n</div>\n\n<div class="entry-select-group">\n\t<label><strong>Select Question: </strong></label>\n\t<select class="entry-select-choice entry-select-field">\n\t</select>\n</div>\n\n<div class="entry-answer-group">\n\t<label><strong>Loading ... </strong></label>\n\t<p>&nbsp;</p>\n</div>\n\n<div class="conjunction-guide">\n\t<p><span class="arrow-down"></span>OR any of the following conditions</p>\n</div>\n';
+'\n</p>\n\n<div class="entry-select-group">\n\t<label><strong>Select ' +
+__e( entryTypeName ) +
+': </strong></label>\n\t<select class="entry-select-choice entry-select-type">\n\t</select>\n</div>\n\n<div class="entry-select-group">\n\t<label><strong>Select Question: </strong></label>\n\t<select class="entry-select-choice entry-select-field">\n\t</select>\n</div>\n\n<div class="entry-answer-group">\n\t<label><strong>Loading ... </strong></label>\n\t<p>&nbsp;</p>\n</div>\n\n<div class="conjunction-guide">\n\t<p><span class="arrow-down"></span>OR any of the following conditions</p>\n</div>\n';
 
 }
 return __p
@@ -686,11 +688,10 @@ var EntryConstraint = Constraint.extend({
 	},
 
 	loadEntryTypes: function() {
-		var params = { entryType: this.getEntryType() };
+		var params = { type: this.getEntryType() };
 		ajaxApi.request('list_entry_types', params)
 			.then($.proxy(this.didLoadEntryTypes, this))
 			.fail($.proxy(this.didLoadEntryTypesError, this));
-
 	},
 
 	didLoadEntryTypes: function(response) {
@@ -801,6 +802,17 @@ var EntryConstraint = Constraint.extend({
 	hasChoices: function() {
 		var choices = this.getEntryFieldChoices();
 		return choices.length > 0;
+	},
+
+	toViewJSON: function() {
+		var json = Constraint.prototype.toViewJSON.call(this);
+		json.entryTypeName = this.getEntryTypeName(this.getEntryType());
+
+		return json;
+	},
+
+	getEntryTypeName: function(type) {
+		return type.charAt(0).toUpperCase() + type.substring(1).toLowerCase();
 	}
 
 });
@@ -1014,6 +1026,7 @@ var ListConstraint = Constraint.extend({
 		var parts   = type.split(':');
 		var subType = parts[1];
 
+		console.log('getListTypeName', type, parts, subType);
 		return subType.replace('_list', '');
 	},
 
@@ -1028,6 +1041,7 @@ var ListConstraint = Constraint.extend({
 
 	loadList: function() {
 		var type   = this.getListTypeName();
+		console.log('loadList: type', type);
 		var params = { 'type': type };
 
 		this.trigger('loadListStart');
@@ -1347,6 +1361,19 @@ var AVAILABLE_CONSTRAINTS = [
 		value: ''
 	},
 
+	/* Surveys */
+	{
+		type: 'record:survey',
+		valueType: 'string',
+		entryTypeID: -1,
+		entryFieldID: -1,
+		conjunction: 'or',
+	},
+	{
+		type: 'data:survey_list',
+		valueType: 'enum',
+		value: ''
+	},
 
 	{
 		type: 'data:comment_count',
@@ -1843,6 +1870,16 @@ var AVAILABLE_CONSTRAINTS_META = [
 	{
 		type: 'data:contest_list',
 		title: 'Contest Participation',
+		choices: [
+		]
+	},
+	{
+		type: 'record:survey',
+		title: 'Survey Entry'
+	},
+	{
+		type: 'data:survey_list',
+		title: 'Survey Participation',
 		choices: [
 		]
 	},

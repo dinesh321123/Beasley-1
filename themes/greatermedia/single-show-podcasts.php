@@ -10,35 +10,51 @@
 
 			<section class="content">
 				<div class="podcasts">
-
 					<h2>Podcasts</h2>
 
-					<?php
+					<?php 
+
+					$episodes = 0;
 					$podcast_query = \GreaterMedia\Shows\get_show_podcast_query();
-					if( $podcast_query->have_posts() ):
-					while( $podcast_query->have_posts() ) : $podcast_query->the_post(); ?>
-						<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast' ); ?> role="article" itemscope itemtype="http://schema.org/OnDemandEvent">
-							<?php GMP_Player::render_podcast_episode(); ?>
-						</article>
+					if ( $podcast_query->have_posts() ) :
+						$pattern = get_shortcode_regex();
 						
-					<?php
-					endwhile;
-					else:?>
-						<article id="post-not-found" class="hentry cf">
+						while ( $podcast_query->have_posts() ) :
+							$podcast_query->the_post();
 
-							<header class="article-header">
+							if ( preg_match_all( '/'. $pattern .'/s', get_the_content(), $matches )
+								&& array_key_exists( 2, $matches )
+								&& in_array( 'audio', $matches[2] ) ) :
 
-								<h1><?php _e( 'Oops, Not Episodes Here!', 'greatermedia' ); ?></h1>
+								$episodes++;
 
-							</header>
-
-						</article>
-					<?php
+								?><article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast' ); ?> role="article" itemscope itemtype="http://schema.org/OnDemandEvent"><?php
+									echo do_shortcode( $matches[0][0] );
+								?></article><?php
+							endif;
+						endwhile;
+						
+						wp_reset_query();
 					endif;
-					echo GMP_Player::custom_pagination( $podcast_query );
-					wp_reset_query();
-					?>
+					
+					if ( ! $episodes ) :
 
+						?><article id="post-not-found" class="hentry cf">
+							<header class="article-header">
+								<h1><?php _e( 'Oops, No Episodes Here!', 'greatermedia' ); ?></h1>
+							</header>
+						</article><?php
+
+					else :
+						greatermedia_load_more_button( array(
+							'page_link_template' => trailingslashit( get_permalink() ) . 'podcasts/page/%d/',
+							'partial_slug'       => 'partials/loop-gmr_podcast',
+							'auto_load'          => false,
+							'query'              => $podcast_query,
+						) );
+					endif;
+
+					?>
 				</div>
 			</section>
 

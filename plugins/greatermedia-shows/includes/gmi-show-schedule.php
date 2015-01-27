@@ -330,7 +330,6 @@ function gmrs_render_episode_schedule_page() {
 					</option>
 				<?php endwhile; ?>
 			</select>
-			show, which occurs
 			<select name="repeat">
 				<?php foreach ( $repeats as $index => $label ) : ?>
 				<option value="<?php echo esc_attr( $index ); ?>"<?php selected( $index, $active['repeat'] ); ?>>
@@ -338,7 +337,7 @@ function gmrs_render_episode_schedule_page() {
 				</option>
 				<?php endforeach; ?>
 			</select>
-			and starts on
+			starting
 			<select id="start-from-date" name="date" required>
 				<?php for ( $i = 0; $i <= 7; $i++, $now += DAY_IN_SECONDS ) : ?>
 					<?php $now_y_m_d = date( 'Y-m-d', $now ); ?>
@@ -347,7 +346,7 @@ function gmrs_render_episode_schedule_page() {
 					</option>;
 				<?php endfor; ?>
 			</select>
-			at
+			from
 			<select name="start_time">
 				<?php for ( $i = 0, $count = 24 / $precision; $i < $count; $i++ ) : ?>
 					<?php $time = HOUR_IN_SECONDS * $precision * $i; ?>
@@ -356,7 +355,7 @@ function gmrs_render_episode_schedule_page() {
 					</option>
 				<?php endfor; ?>
 			</select>
-			till
+			untill
 			<select name="end_time">
 				<?php for ( $i = 1; $i <= $count; $i++ ) : ?>
 					<?php $time = HOUR_IN_SECONDS * $precision * $i; ?>

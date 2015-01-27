@@ -18,10 +18,6 @@
   #schedule-form input[type="text"],
   #schedule-form input[type="submit"] {
     margin-top: -3px; }
-  #schedule-form select,
-  #schedule-form input[type="text"] {
-    box-shadow: none;
-    border: none; }
   #schedule-form input[type="submit"] {
     float: right; }
 

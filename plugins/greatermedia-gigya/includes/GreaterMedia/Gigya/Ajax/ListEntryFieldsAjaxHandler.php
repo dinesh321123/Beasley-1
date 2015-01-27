@@ -4,6 +4,11 @@ namespace GreaterMedia\Gigya\Ajax;
 
 class ListEntryFieldsAjaxHandler extends AjaxHandler {
 
+	public $fields_to_exclude = array(
+		'file',
+		'section_break',
+	);
+
 	public function get_action() {
 		return 'list_entry_fields';
 	}
@@ -15,15 +20,32 @@ class ListEntryFieldsAjaxHandler extends AjaxHandler {
 
 		if ( is_array( $form_fields ) ) {
 			foreach ( $form_fields as $id => $form_field ) {
-				$entry_fields[] = $this->entry_field_for( $form_field, $id );
+				if ( $this->is_allowed_field( $form_field ) ) {
+					$entry_fields[] = $this->entry_field_for( $form_field, $id );
+				}
 			}
 		}
 
 		return $entry_fields;
 	}
 
+	public function is_allowed_field( $form_field ) {
+		return ! in_array( $form_field['field_type'], $this->fields_to_exclude );
+	}
+
+	function form_data_key_for( $form_id ) {
+		$post_type = get_post_type( $form_id );
+
+		if ( $post_type === 'survey' ) {
+			return 'survey_embedded_form';
+		} else {
+			return 'embedded_form';
+		}
+	}
+
 	public function form_fields_for( $form_id ) {
-		$form_data = get_post_meta( $form_id, 'embedded_form', true );
+		$data_key  = $this->form_data_key_for( $form_id );
+		$form_data = get_post_meta( $form_id, $data_key, true );
 		$form_json = json_decode( $form_data, true );
 
 		// TODO: figure out why double decoding is needed here
@@ -72,7 +94,9 @@ class ListEntryFieldsAjaxHandler extends AjaxHandler {
 		foreach ( $form_choices as $index => $form_choice ) {
 			$choices[] = array(
 				'label' => $form_choice['label'],
-				'value' => $index,
+				// KLUDGE: The form entry is stored as the value not
+				// the selection index, so using the label as the value
+				'value' => $form_choice['label'],
 			);
 		}
 

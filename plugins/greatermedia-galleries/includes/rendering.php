@@ -123,19 +123,20 @@ class GreaterMediaGallery {
 	 * @return WP_Query
 	 */
 	public static function get_query_for_post( $post ) {
-		preg_match_all( '/\[gallery.*ids=.(.*).\]/', $post->post_content, $ids );
+		$array_ids = get_post_meta( $post->ID, 'gallery-image' );
 
-		$array_ids = array();
-		foreach( $ids[1] as $match ) {
-			$array_id = explode( ',', $match );
-			$array_id = array_map( 'intval', $array_id );
+		if ( empty( $array_ids ) && preg_match_all( '/\[gallery.*ids=.(.*).\]/', $post->post_content, $ids ) ) {
+			foreach( $ids[1] as $match ) {
+				$array_id = explode( ',', $match );
+				$array_id = array_map( 'intval', $array_id );
 
-			$array_ids = array_merge( $array_ids, $array_id );
+				$array_ids = array_merge( $array_ids, $array_id );
+			}
 		}
 
-		$query = self::get_query_for_ids( $array_ids );
-
-		return $query;
+		return ! empty( $array_ids ) 
+			? self::get_query_for_ids( $array_ids )
+			: null;
 	}
 
 	/**
@@ -146,8 +147,9 @@ class GreaterMediaGallery {
 		self::$strip_shortcodes = true;
 
 		$gallery_query = self::get_query_for_post( get_queried_object() );
-
-		echo self::render_gallery_from_query( $gallery_query );
+		if ( $gallery_query ) {
+			echo self::render_gallery_from_query( $gallery_query );
+		}
 	}
 
 	/**

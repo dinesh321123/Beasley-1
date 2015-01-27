@@ -307,14 +307,18 @@ function get_gigya_verify_email_message() {
 				<h2>Radio Listening Questions:</h2>
 
 				<label>On a typical day, about how much time would you say that you spend listening to the radio?</label>
+				<span class="gigya-error-msg" data-bound-to="data.listeningFrequency" ></span>
 				<select name="data.listeningFrequency">
+					<option disabled selected value>Select One</option>
 					<option value="0">less than 1 hour</option>
 					<option value="1">1 to 3 hours</option>
 					<option value="2">more than 3 hours</option>
 				</select>
 
 				<label>When you're listening to the radio, about what percentage of time do you spend listening to 102.9 WMGK?</label>
+				<span class="gigya-error-msg" data-bound-to="data.listeningLoyalty" ></span>
 				<select name="data.listeningLoyalty">
+					<option disabled selected value>Select One</option>
 					<?php foreach ( range( 0, 100, 10 ) as $percent ) { ?>
 						<option value="<?php echo esc_attr( $percent ); ?>"><?php echo esc_html( $percent . '%' ); ?></option>
 					<?php } ?>

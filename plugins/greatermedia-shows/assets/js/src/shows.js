@@ -77,7 +77,7 @@
 
 			$parent.siblings('.meta_box_upload_image').val('');
 			$parent.siblings('.meta_box_preview_image').attr('src', '');
-			
+			$(this).hide();
 			return false;
 		});
 		

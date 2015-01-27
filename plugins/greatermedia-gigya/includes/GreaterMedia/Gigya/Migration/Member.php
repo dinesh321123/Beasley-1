@@ -113,6 +113,11 @@ class Member {
 		}
 	}
 
+	function is_active() {
+		return $this->marketron_status === 'Active';
+		//return $this->marketron_status !== 'Bouncedback - Terminated';
+	}
+
 	function export() {
 		$account = array();
 		$account['UID'] = $this->member_id;
@@ -154,11 +159,8 @@ class Member {
 		$this->export_field( $user_info, 'zip_code', 'zip' );
 		$this->export_phone_number( $user_info );
 
-		$this->export_created_on( $user_info );
-		$this->export_modified_on( $user_info );
-
 		if ( ! is_null( $this->facebook_member ) ) {
-			$this->export_facebook_likes( $user_info );
+			//$this->export_facebook_likes( $user_info );
 		}
 
 		return $user_info;
@@ -186,6 +188,9 @@ class Member {
 		$this->export_field( $data, 'marketron_source_detail', 'marketronSourceDetail' );
 		$this->export_field( $data, 'member_id', 'marketronMemberID' );
 		$this->export_member_groups( $data );
+
+		$this->export_created_on( $data );
+		$this->export_modified_on( $data );
 
 		return $data;
 	}

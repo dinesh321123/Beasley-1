@@ -75,6 +75,7 @@ class GMR_Show_Metaboxes {
 		add_meta_box( 'show_featured', 'Featured', array( $this, 'render_featured_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced', 'high' );
 		add_meta_box( 'show_favorites', 'Favorites', array( $this, 'render_favorites_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced', 'high' );
 		add_meta_box( 'show_time', 'Show Times', array( $this, 'render_show_times_meta_box' ), ShowsCPT::SHOW_CPT, 'side' );
+		add_meta_box( 'show_social_pages', 'Social Pages', array( $this, 'render_social_pages_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced' );
 	}
 
 	/**
@@ -178,7 +179,9 @@ class GMR_Show_Metaboxes {
 		echo '<img src="', esc_attr( $image ), '" class="meta_box_preview_image">';
 		echo '<div style="text-align:center">';
 			echo '<a href="#" class="meta_box_upload_image_button button button-primary" rel="', $post->ID, '">Choose Image</a> ';
-			echo '<a href="#" class="meta_box_clear_image_button button">Remove Image</a>';
+			if ( $image_id ) {
+				echo '<a href="#" class="meta_box_clear_image_button button">Remove Image</a>'; 
+			}
 		echo '</div>';
 	}
 
@@ -282,6 +285,44 @@ class GMR_Show_Metaboxes {
 		</p>
 		<?php
 	}
+	
+	/**
+	 * Render a meta box to enter a social page links.
+	 * @param $post WP_Post
+	 */
+	public function render_social_pages_meta_box( $post ) {				
+		$facebook = get_post_meta( $post->ID, 'show/social_pages/facebook', true ); 
+		$twitter = get_post_meta( $post->ID, 'show/social_pages/twitter', true );
+		$instagram = get_post_meta( $post->ID, 'show/social_pages/instagram', true );
+		$google = get_post_meta( $post->ID, 'show/social_pages/google', true );
+		
+		?>
+		<table class="form-table">
+			<tr>
+				<td><label>Facebook URL</label></td>
+				<td>
+					<input type="text" name="show/social_pages/facebook" class="widefat" value="<?php echo esc_attr( $facebook ); ?>">
+				</td>
+			</tr>
+				<td><label>Twitter URL</label></td>
+				<td>
+					<input type="text" name="show/social_pages/twitter" class="widefat" value="<?php echo esc_attr( $twitter ); ?>">
+				</td>
+			</tr>
+				<td><label>Instagram URL</label></td>
+				<td>
+					<input type="text" name="show/social_pages/instagram" class="widefat" value="<?php echo esc_attr( $instagram ); ?>">
+				</td>
+			</tr>
+			</tr>
+				<td><label>Google+ URL</label></td>
+				<td>
+					<input type="text" name="show/social_pages/google" class="widefat" value="<?php echo esc_attr( $google ); ?>">
+				</td>
+			</tr>
+		</table>
+		<?php
+	}
 
 	/**
 	 * Saves the captured data.
@@ -342,7 +383,13 @@ class GMR_Show_Metaboxes {
 		} else {
 			delete_post_meta( $post_id, 'show_days' );
 		}
-
+		
+		
+		// Save social pages
+		update_post_meta( $post_id, 'show/social_pages/facebook', filter_input( INPUT_POST, 'show/social_pages/facebook', FILTER_SANITIZE_URL ) );
+		update_post_meta( $post_id, 'show/social_pages/twitter', filter_input( INPUT_POST, 'show/social_pages/twitter', FILTER_SANITIZE_URL ) );
+		update_post_meta( $post_id, 'show/social_pages/instagram', filter_input( INPUT_POST, 'show/social_pages/instagram', FILTER_SANITIZE_URL ) );
+		update_post_meta( $post_id, 'show/social_pages/google', filter_input( INPUT_POST, 'show/social_pages/google', FILTER_SANITIZE_URL ) );
 	}
 
 	/**

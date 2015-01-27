@@ -32,11 +32,10 @@ var EntryConstraint = Constraint.extend({
 	},
 
 	loadEntryTypes: function() {
-		var params = { entryType: this.getEntryType() };
+		var params = { type: this.getEntryType() };
 		ajaxApi.request('list_entry_types', params)
 			.then($.proxy(this.didLoadEntryTypes, this))
 			.fail($.proxy(this.didLoadEntryTypesError, this));
-
 	},
 
 	didLoadEntryTypes: function(response) {
@@ -147,6 +146,17 @@ var EntryConstraint = Constraint.extend({
 	hasChoices: function() {
 		var choices = this.getEntryFieldChoices();
 		return choices.length > 0;
+	},
+
+	toViewJSON: function() {
+		var json = Constraint.prototype.toViewJSON.call(this);
+		json.entryTypeName = this.getEntryTypeName(this.getEntryType());
+
+		return json;
+	},
+
+	getEntryTypeName: function(type) {
+		return type.charAt(0).toUpperCase() + type.substring(1).toLowerCase();
 	}
 
 });

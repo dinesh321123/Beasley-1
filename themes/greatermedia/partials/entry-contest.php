@@ -1,11 +1,13 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'entry2' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
-	<section class="entry2__thumbnail" style="background-image: url('<?php gm_post_thumbnail_url( 'gm-entry-thumbnail-4-3', null, true ); ?>')">
-		<div class="entry2__thumbnail__overlay"></div>
+	<section class="entry2__thumbnail">
 		<a href="<?php the_permalink(); ?>">
+			<div class="entry2__thumbnail__image" style="background-image: url('<?php gm_post_thumbnail_url( 'gm-entry-thumbnail-4-3', null, true ); ?>')"></div>
+			<div class="entry2__thumbnail__overlay"></div>
+			<div class="entry2__thumbnail__icon"></div>
+		
 			<div class="entry2__thumbnail--contest-type">
 				<?php echo esc_html( gmr_contest_get_type_label() ); ?>
 			</div>
-
 			<div class="entry2__thumbnail--end-date">
 				<?php $end_date = get_post_meta( get_the_ID(), 'contest-end', true ); ?>
 				<?php if ( ! empty( $end_date ) ) : ?>

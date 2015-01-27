@@ -88,7 +88,7 @@ class GMLP_Player {
 	 */
 	public static function load_js() {
 		echo '<script>
-            var tdApiBaseUrl = \'http://playercore.preprod01.streamtheworld.net/tdplayerapi/2.5/\';
+            var tdApiBaseUrl = \'http://api.listenlive.co/tdplayerapi/2.5/\';
         </script>';
 
 		echo '<script data-dojo-config="onReady:window.tdPlayerApiReady, async: 1, tlmSiblingOfDojo: 0, deps:[\'tdapi/run\']" src="//api.listenlive.co/tdplayerapi/2.5/dojo/dojo.js"></script>';

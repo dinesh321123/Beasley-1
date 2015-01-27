@@ -15,6 +15,9 @@ class GetChoicesForConstraintType extends AjaxHandler {
 			case 'contest':
 				return $this->get_contest_choices();
 
+			case 'survey':
+				return $this->get_survey_choices();
+
 			case 'email_engagement':
 				return $this->get_email_group_choices();
 
@@ -62,6 +65,12 @@ class GetChoicesForConstraintType extends AjaxHandler {
 	function get_contest_choices() {
 		return $this->get_choices_for_post_type(
 			'contest', 'publish', 'embedded_form'
+		);
+	}
+
+	function get_survey_choices() {
+		return $this->get_choices_for_post_type(
+			'survey', 'publish', 'survey_embedded_form'
 		);
 	}
 

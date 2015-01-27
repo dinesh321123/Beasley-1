@@ -10,9 +10,9 @@ class AffinityClub {
 	public $members;
 
 	public $member_group_ids = array(
-		'@Work Network Newsletter' => '2168083',
-		"MGK's Discount Deal"      => '2169107',
-		'Birthday Greetings'       => '2170131',
+		'@Work Network Newsletter' => '2196755',
+		"MGK's Discount Deal"      => '2197779',
+		'Birthday Greetings'       => '2198803',
 		'Listener Appreciation'    => '',
 		'Hidden Group'             => '',
 	);
@@ -83,12 +83,14 @@ class AffinityClub {
 				$member = new Member( $this );
 				$member->parse( $child_node );
 
-				$members[] = $member;
-				$real_count++;
+				if ( $member->is_active() ) {
+					$members[] = $member;
+					$real_count++;
 
-				// WARNING: For debugging only
-				if ( $real_count > 1000 ) {
-					//break;
+					// WARNING: For debugging only
+					if ( $real_count > 1000 ) {
+						//break;
+					}
 				}
 			}
 

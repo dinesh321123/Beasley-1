@@ -224,11 +224,11 @@ class AccountSchema {
 				),
 				'listeningFrequency' => array(
 					'writeAccess' => 'clientModify',
-					'required' => false,
+					'required' => true,
 				),
 				'listeningLoyalty' => array(
 					'writeAccess' => 'clientModify',
-					'required' => false,
+					'required' => true,
 				),
 				'subscribedToList' => array(
 					'writeAccess' => 'clientModify',

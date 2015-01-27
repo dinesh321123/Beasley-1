@@ -21,6 +21,7 @@ class Publisher extends Task {
 	public $counter_actions = array(
 		'comment',
 		'contest',
+		'survey',
 		'social_share',
 
 		'email_message_open',
@@ -29,6 +30,7 @@ class Publisher extends Task {
 
 	public $list_actions = array(
 		'contest',
+		'survey',
 		'social_share',
 
 		'email_message_open',

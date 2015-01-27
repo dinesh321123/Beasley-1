@@ -154,6 +154,19 @@ var AVAILABLE_CONSTRAINTS = [
 		value: ''
 	},
 
+	/* Surveys */
+	{
+		type: 'record:survey',
+		valueType: 'string',
+		entryTypeID: -1,
+		entryFieldID: -1,
+		conjunction: 'or',
+	},
+	{
+		type: 'data:survey_list',
+		valueType: 'enum',
+		value: ''
+	},
 
 	{
 		type: 'data:comment_count',
@@ -650,6 +663,16 @@ var AVAILABLE_CONSTRAINTS_META = [
 	{
 		type: 'data:contest_list',
 		title: 'Contest Participation',
+		choices: [
+		]
+	},
+	{
+		type: 'record:survey',
+		title: 'Survey Entry'
+	},
+	{
+		type: 'data:survey_list',
+		title: 'Survey Participation',
 		choices: [
 		]
 	},
