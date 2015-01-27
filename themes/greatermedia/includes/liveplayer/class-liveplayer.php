@@ -95,7 +95,7 @@ class GreaterMediaLivePlayer {
 
 		$active_stream = gmr_streams_get_primary_stream_callsign();
 
-		$stream_xml = wp_cache_get( 'gmr_live_audio', 'mount' );
+		$stream_xml = wp_cache_get( 'gmr_station_stream', 'liveplayer' );
 
 		if ( false === $stream_xml ) {
 
@@ -104,7 +104,7 @@ class GreaterMediaLivePlayer {
 			$response = wp_remote_get( $url );
 
 			if ( is_wp_error( $response ) ) {
-				return;
+				wp_cache_set( 'gmr_station_stream_fallback', '', 'liveplayer', 30 * MINUTE_IN_SECONDS );
 			}
 
 			$data = wp_remote_retrieve_body( $response );
@@ -113,7 +113,7 @@ class GreaterMediaLivePlayer {
 				return;
 			}
 
-			wp_cache_set( 'gmr_live_audio', $data, 'mount', 30 * MINUTE_IN_SECONDS );
+			wp_cache_set( 'gmr_station_stream', $data, 'liveplayer', 30 * MINUTE_IN_SECONDS );
 
 		}
 
@@ -129,15 +129,15 @@ class GreaterMediaLivePlayer {
 	 */
 	public static function live_audio_link() {
 
-		$stream_xml = self::return_live_url();
+		$stream_xml = wp_cache_get( 'gmr_station_stream', 'liveplayer' );
 
-		$ip = (string) $stream_xml->mountpoints[0]->mountpoint[0]->servers->server->ip;
+		//$ip = (string) $stream_xml->mountpoints[0]->mountpoint[0]->servers->server->ip;
 
-		$mount = (string) $stream_xml->mountpoints[0]->mountpoint[0]->mount;
+		//$mount = (string) $stream_xml->mountpoints[0]->mountpoint[0]->mount;
 
 		echo '<div class="live-audio">';
 
-		echo '<a href="http://' . $ip . '/' . $mount .'.mp3?pname=TdPlayerApi&pversion=2.5" class="live-audio__link">Listen Live</a>';
+		echo $stream_xml;
 
 		echo '</div>';
 

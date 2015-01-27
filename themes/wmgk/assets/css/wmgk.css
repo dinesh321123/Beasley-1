@@ -5727,7 +5727,7 @@ category: Components
   display: inline-block; }
 
 .live-audio {
-  display: none;
+  display: block;
   padding: 2em 0;
   margin: 0 auto;
   overflow: auto;
