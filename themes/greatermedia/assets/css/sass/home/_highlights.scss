@@ -226,17 +226,14 @@ Community Highlights and Events
 		display: inline-block;
 	}
 	.highlights__events--more-btn {
-		@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), 0, 1em, 1em);
-		display: inline-block;
+		@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, 1em);
 		margin-left: .5em;
 		margin-top: 0;
-		line-height: 2;
 		text-transform: none;
-		vertical-align: top;
-		
+
 		@include bp(large) {
-			margin-top: 0.05em;
-			font-size: 0.85em;
+			margin-top: .05em;
+			font-size: .8em;
 		}
 		
 		&:hover {
