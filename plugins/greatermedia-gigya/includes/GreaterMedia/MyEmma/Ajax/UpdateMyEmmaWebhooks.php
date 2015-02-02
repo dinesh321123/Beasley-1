@@ -58,6 +58,7 @@ class UpdateMyEmmaWebhooks extends AjaxHandler {
 	function get_webhooks() {
 		$webhooks = array(
 			new MemberOptout(),
+			new MemberSignup(),
 			new MessageOpen(),
 			new MessageClick(),
 		);

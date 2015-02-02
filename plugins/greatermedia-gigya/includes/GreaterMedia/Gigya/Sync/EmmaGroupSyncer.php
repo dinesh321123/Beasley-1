@@ -37,10 +37,7 @@ class EmmaGroupSyncer {
 	}
 
 	function get_emma_api() {
-		if ( is_null( $this->emma_api ) ) {
-			$this->emma_api = new EmmaAPI();
-		}
-
+		$this->emma_api = new EmmaAPI();
 		return $this->emma_api;
 	}
 
@@ -240,22 +237,48 @@ class EmmaGroupSyncer {
 		$emma_user_id = intval( $emma_user_id );
 		$gigya_account = $this->get_gigya_account();
 		$member = array(
-			'email'          => $gigya_account['profile']['email'],
-			'fields'         => array(
-				'first_name' => $gigya_account['profile']['firstName'],
-				'last_name'  => $gigya_account['profile']['lastName'],
+			'email'             => $gigya_account['profile']['email'],
+			'fields'            => array(
+				'first_name'    => $gigya_account['profile']['firstName'],
+				'last_name'     => $gigya_account['profile']['lastName'],
+				'birthday'      => $this->get_birth_day( $gigya_account['profile'] ),
+				'gigya_user_id' => $gigya_account['UID'],
 			)
 		);
 
-		$params = array(
-			'members' => array(
-				$member
+		$group_ids = $this->to_int_ids( $group_ids );
+
+		if ( $gigya_account['data']['optout'] === true ) {
+			// if optout, signup has to happen via Emma Signup email
+			$this->signup( $gigya_account, $group_ids );
+		} else {
+			// user only changed their subscriptions
+			$params = array(
+				'members'   => array( $member ),
+				'group_ids' => $group_ids,
+			);
+
+			$api      = $this->get_emma_api();
+			$response = $api->membersBatchAdd( $params );
+		}
+
+		return true;
+	}
+
+	function signup( $gigya_account, $group_ids ) {
+		$member = array(
+			'email'             => $gigya_account['profile']['email'],
+			'fields'            => array(
+				'first_name'    => $gigya_account['profile']['firstName'],
+				'last_name'     => $gigya_account['profile']['lastName'],
+				'birthday'      => $this->get_birth_day( $gigya_account['profile'] ),
+				'gigya_user_id' => $gigya_account['UID'],
 			),
-			'group_ids'  => $this->to_int_ids( $group_ids )
+			'group_ids' => $group_ids,
 		);
 
 		$api      = $this->get_emma_api();
-		$response = $api->membersBatchAdd( $params );
+		$response = $api->membersSignup( $member );
 
 		return true;
 	}

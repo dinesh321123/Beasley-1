@@ -161,6 +161,7 @@ class Plugin {
 
 		// Webhooks
 		$handlers[] = new \GreaterMedia\MyEmma\Webhooks\MemberOptout();
+		$handlers[] = new \GreaterMedia\MyEmma\Webhooks\MemberSignup();
 		$handlers[] = new \GreaterMedia\MyEmma\Webhooks\MessageOpen();
 		$handlers[] = new \GreaterMedia\MyEmma\Webhooks\MessageClick();
 
