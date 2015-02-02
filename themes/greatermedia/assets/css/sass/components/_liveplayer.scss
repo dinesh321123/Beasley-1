@@ -150,9 +150,12 @@ category: Components
 	}
 
 	&.live-stream--fixed {
-		position: fixed;
-		top: 0;
-		z-index: 20;
+
+		@include bp(medium) {
+			position: fixed;
+			top: 0;
+			z-index: 20;
+		}
 
 		.logged-in & {
 			top: 32px;

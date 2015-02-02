@@ -4577,12 +4577,13 @@ category: Components
   @media screen and (min-width: 768px) {
     .live-stream {
       width: 225px; } }
-  .live-stream.live-stream--fixed {
-    position: fixed;
-    top: 0;
-    z-index: 20; }
-    .logged-in .live-stream.live-stream--fixed {
-      top: 32px; }
+  @media screen and (min-width: 768px) {
+    .live-stream.live-stream--fixed {
+      position: fixed;
+      top: 0;
+      z-index: 20; } }
+  .logged-in .live-stream.live-stream--fixed {
+    top: 32px; }
 
 .live-player__stream {
   position: absolute;
