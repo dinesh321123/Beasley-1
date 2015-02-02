@@ -29,6 +29,15 @@ category: Components - Article
 	}
 	
 	.related-post {
+		@include span-columns(3 of 6);
+		width: 48%;
+		margin-right: 2%;
+
+		// Select first four.
+		&:nth-child(-n+4) {
+			display: block;
+		}
+
 		// Select all, but in a way that they won't get selected if nth-child doesn't work anyway. 
 		&:nth-child(n+0) {
 			display: none;
@@ -37,17 +46,6 @@ category: Components - Article
 		// Select first four. 
 		&:nth-child(-n+4) {
 			display: block;
-		}
-		
-		@include bp(small) {
-			@include span-columns(3 of 6);
-			width: 48%;
-			margin-right: 2%;
-			
-			// Select first four.
-			&:nth-child(-n+4) {
-				display: block; 
-			}
 		}
 		
 		@include bp(medium) {
@@ -82,8 +80,7 @@ category: Components - Article
 
 .related-post {
 	display: block; 
-	background: $dark-gray;
-	color: $color-text-white; 
+	color: $color-text-white;
 	margin-bottom: 1em;
 
 	@include bp(medium) {
@@ -91,7 +88,14 @@ category: Components - Article
 	}
 }
 
+.related-post__item {
+	position: relative;
+	display: block;
+	margin-bottom: 0;
+}
+
 	.related-post__img {
+		position: relative;
 		.thumbnail {
 			background-position: center center;
 			background-size: 100%;
@@ -102,28 +106,23 @@ category: Components - Article
 	}
 
 	.related-post__meta {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
 		padding: 1em;
+		background-color: rgba($dark-gray, .8);
 		font-family: $open-sans;
 		font-weight: lighter;
-
-		@include bp(medium) {
-			padding: 1.5em $gutter;
-		}
 	}
 
 	.related-post__title {
-		font-size: 22px;
-		line-height: 1.5;
+		font-size: 14px;
+		line-height: 1.4;
 		overflow: hidden;
 		color: $color-text-white;
-		
-		@include bp(small) {
-			font-size: 16px;
-			line-height: 1.4;
-		}
 
 		@include bp(medium) {
-			height: 4.2em; // Three lines
+			font-size: 16px;
 		}
 	}
 

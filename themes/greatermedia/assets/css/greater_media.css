@@ -12397,46 +12397,45 @@ category: Components - Article
 @media screen and (min-width: 480px) {
   .related-posts {
     margin-right: -2%; } }
-.related-posts .related-post:nth-child(n+0) {
-  display: none; }
-.related-posts .related-post:nth-child(-n+4) {
-  display: block; }
-@media screen and (min-width: 480px) {
-  .related-posts .related-post {
-    float: left;
-    display: block;
-    margin-right: 4.82916%;
-    width: 47.58542%;
-    width: 48%;
-    margin-right: 2%; }
-    .related-posts .related-post:last-child {
-      margin-right: 0; }
-    .related-posts .related-post:nth-child(-n+4) {
-      display: block; } }
-@media screen and (min-width: 768px) {
-  .related-posts .related-post {
-    float: left;
-    display: block;
-    margin-right: 3.16844%;
-    width: 31.22104%;
-    width: 31.3333%;
-    margin-right: 2%; }
-    .related-posts .related-post:last-child {
-      margin-right: 0; }
-    .related-posts .related-post:nth-child(-n+6) {
-      display: block; } }
-@media screen and (min-width: 1024px) {
-  .related-posts .related-post {
-    float: left;
-    display: block;
-    margin-right: 2.35765%;
-    width: 23.23176%;
-    width: 23%;
-    margin-right: 2%; }
-    .related-posts .related-post:last-child {
-      margin-right: 0; }
-    .related-posts .related-post:nth-child(-n+8) {
-      display: block; } }
+.related-posts .related-post {
+  float: left;
+  display: block;
+  margin-right: 4.82916%;
+  width: 47.58542%;
+  width: 48%;
+  margin-right: 2%; }
+  .related-posts .related-post:last-child {
+    margin-right: 0; }
+  .related-posts .related-post:nth-child(-n+4) {
+    display: block; }
+  .related-posts .related-post:nth-child(n+0) {
+    display: none; }
+  .related-posts .related-post:nth-child(-n+4) {
+    display: block; }
+  @media screen and (min-width: 768px) {
+    .related-posts .related-post {
+      float: left;
+      display: block;
+      margin-right: 3.16844%;
+      width: 31.22104%;
+      width: 31.3333%;
+      margin-right: 2%; }
+      .related-posts .related-post:last-child {
+        margin-right: 0; }
+      .related-posts .related-post:nth-child(-n+6) {
+        display: block; } }
+  @media screen and (min-width: 1024px) {
+    .related-posts .related-post {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 23.23176%;
+      width: 23%;
+      margin-right: 2%; }
+      .related-posts .related-post:last-child {
+        margin-right: 0; }
+      .related-posts .related-post:nth-child(-n+8) {
+        display: block; } }
 
 .related-posts__title {
   color: #929497;
@@ -12445,40 +12444,43 @@ category: Components - Article
 
 .related-post {
   display: block;
-  background: #282827;
   color: #ffffff;
   margin-bottom: 1em; }
   @media screen and (min-width: 768px) {
     .related-post {
       margin-bottom: 1.5em; } }
 
-.related-post__img .thumbnail {
-  background-position: center center;
-  background-size: 100%;
-  background-size: cover;
-  padding-bottom: 66.666%;
-  background-repeat: no-repeat; }
+.related-post__item {
+  position: relative;
+  display: block;
+  margin-bottom: 0; }
+
+.related-post__img {
+  position: relative; }
+  .related-post__img .thumbnail {
+    background-position: center center;
+    background-size: 100%;
+    background-size: cover;
+    padding-bottom: 66.666%;
+    background-repeat: no-repeat; }
 
 .related-post__meta {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   padding: 1em;
+  background-color: rgba(40, 40, 39, 0.8);
   font-family: "Open Sans", sans-serif;
   font-weight: lighter; }
-  @media screen and (min-width: 768px) {
-    .related-post__meta {
-      padding: 1.5em 1.618em; } }
 
 .related-post__title {
-  font-size: 22px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.4;
   overflow: hidden;
   color: #ffffff; }
-  @media screen and (min-width: 480px) {
-    .related-post__title {
-      font-size: 16px;
-      line-height: 1.4; } }
   @media screen and (min-width: 768px) {
     .related-post__title {
-      height: 4.2em; } }
+      font-size: 16px; } }
 
 .related-post__date {
   display: block;
