@@ -5635,6 +5635,7 @@ category: Components
       display: block;
       height: 100%;
       margin: 0;
+      overflow: hidden;
       border-top: 1px solid #282827; } }
   .live-player--open .live-links {
     visibility: visible;

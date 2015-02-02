@@ -1201,11 +1201,13 @@ category: Components
 	text-align: center;
 	overflow: hidden;
 	overflow-y: auto;
+
 	@include bp(medium) {
 		visibility: visible;
 		display: block;
 		height: 100%;
 		margin: 0;
+		overflow: hidden;
 		border-top: 1px solid $secondary-border;
 	}
 
