@@ -7444,7 +7444,7 @@ category: Components - Ads
   margin-right: 7.42297%;
   width: 100%;
   margin-right: 0;
-  margin-bottom: 0; }
+  margin-bottom: 20px; }
   .tribe-events-event-meta .tribe-events-meta-group-gmap:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
@@ -7462,7 +7462,8 @@ category: Components - Ads
       display: block;
       margin-right: 3.57866%;
       width: 100%;
-      margin-right: 0; }
+      margin-right: 0;
+      margin-bottom: 0; }
       .tribe-events-event-meta .tribe-events-meta-group-gmap:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1024px) {

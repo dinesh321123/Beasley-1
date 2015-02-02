@@ -173,7 +173,7 @@
 .tribe-events-event-meta .tribe-events-meta-group-gmap {
 	@include span-columns(4 of 4);
 	@include omega;
-	margin-bottom: 0;
+	margin-bottom: 20px;
 
 	@include bp(small) {
 		@include span-columns(6 of 6);
@@ -182,6 +182,7 @@
 	@include bp(medium) {
 		@include span-columns(8 of 8);
 		@include omega;
+		margin-bottom: 0;
 	}
 	@include bp(large) {
 		@include span-columns(8 of 8);
