@@ -2634,6 +2634,11 @@ Community Highlights and Events
   padding: 0 .714285714286%;
   position: relative;
   min-height: 0; }
+  .header .container.container__leaderboard {
+    padding: 0; }
+    @media screen and (min-width: 768px) {
+      .header .container.container__leaderboard {
+        padding: 0 .714285714286%; } }
 
 .header__main {
   width: 100%;
@@ -6303,8 +6308,8 @@ category: Components - Ads
     display: none; }
   .ad__leaderboard.mobile {
     display: block;
-    height: 60px;
-    padding: 5px 0; }
+    height: 50px;
+    padding: 0; }
   @media screen and (min-width: 768px) {
     .ad__leaderboard {
       height: 132px; }

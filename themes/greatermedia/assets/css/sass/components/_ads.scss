@@ -21,8 +21,8 @@ category: Components - Ads
 	&.desktop { display: none; }
 	&.mobile {
 		display: block;
-		height: 60px;
-		padding: 5px 0;
+		height: 50px;
+		padding: 0;
 	}
 
 	@include bp(medium) {

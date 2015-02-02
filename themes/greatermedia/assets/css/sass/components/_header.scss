@@ -21,6 +21,14 @@
 	padding: 0 .714285714286%;
 	position: relative;
 	min-height: 0;
+
+	&.container__leaderboard {
+		padding: 0;
+
+		@include bp(medium) {
+			padding: 0 .714285714286%;
+		}
+	}
 }
 
 .header__main {

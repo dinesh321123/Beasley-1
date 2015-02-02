@@ -74,7 +74,7 @@
 
 			<div id="page-wrap" class="page-wrap">
 				<header id="header" class="header" role="banner">
-					<div class="container">
+					<div class="container container__leaderboard">
 						<div class="ad__leaderboard desktop">
 							<?php do_action( 'acm_tag', 'leaderboard-top-of-site' ); ?>
 						</div>
