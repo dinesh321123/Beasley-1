@@ -87,11 +87,11 @@
 
 	function calcTechPriority() {
 		if (bowser.firefox) {
-			return ['Flash'];
+			return ['Flash', 'Html5'];
 		} else if (bowser.safari) {
-			return ['Html5'];
+			return ['Html5', 'Flash'];
 		} else if (bowser.chrome) {
-			return ['Flash'];
+			return ['Flash', 'Html5'];
 		} else {
 			return ['Html5', 'Flash'];
 		}
@@ -525,27 +525,7 @@
 	function playLiveStreamMobile() {
 		var station = gmr.callsign;
 
-		if (Cookies.get('gmr_play_live_audio') == 1) {
-			if (station === '') {
-				alert('Please enter a Station');
-				return;
-			}
-
-			debug('playLiveStream - station=' + station);
-
-			if (livePlaying) {
-				player.stop();
-			}
-
-			if ( true === playingCustomAudio ) {
-				listenLiveStopCustomInlineAudio();
-			}
-
-			livePlayer.classList.add('live-player--active');
-			player.play({station: station, timeShift: true});
-			setPlayingStyles();
-			setTimeout(replaceNPInfo, 2000);
-		} else if (Cookies.get('gmr_play_live_audio') === 0) {
+		if (Cookies.get('gmr_play_live_audio') != 1) {
 			if (station === '') {
 				alert('Please enter a Station');
 				return;
@@ -593,6 +573,26 @@
 					setTimeout(replaceNPInfo, 2000);
 				});
 			}
+		} else {
+			if (station === '') {
+				alert('Please enter a Station');
+				return;
+			}
+
+			debug('playLiveStream - station=' + station);
+
+			if (livePlaying) {
+				player.stop();
+			}
+
+			if ( true === playingCustomAudio ) {
+				listenLiveStopCustomInlineAudio();
+			}
+
+			livePlayer.classList.add('live-player--active');
+			player.play({station: station, timeShift: true});
+			setPlayingStyles();
+			setTimeout(replaceNPInfo, 2000);
 		}
 
 	}
