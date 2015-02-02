@@ -122,7 +122,10 @@
 	
 	.format-standard .entry2__thumbnail {
 		margin-top: 1.75em;
-		margin-left: 0.75em;
+
+		@include bp(medium) {
+			margin-left: 0.75em;
+		}
 	}
 }
 
