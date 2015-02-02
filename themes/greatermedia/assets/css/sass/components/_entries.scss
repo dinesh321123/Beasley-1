@@ -156,6 +156,10 @@
 	
 	@include omega; 
 	@include span-columns(4);
+
+	.events-archive & {
+		display: none;
+	}
 }
 	.entry2__footer--category:link, .entry2__footer--category:visited {
 		float: left;

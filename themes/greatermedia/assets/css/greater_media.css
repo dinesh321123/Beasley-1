@@ -4048,6 +4048,8 @@ Link posts contain a link to an external site. They can also optionally have a f
   width: 100%; }
   .entry2__footer:last-child {
     margin-right: 0; }
+  .events-archive .entry2__footer {
+    display: none; }
 
 .entry2__footer--category:link, .entry2__footer--category:visited {
   float: left;
@@ -7502,6 +7504,11 @@ category: Components - Ads
 
 .site-wrap.pjax--active #tribe-events-bar {
   display: none; }
+
+.tribe-events-list .type-tribe_events {
+  padding: 0 0 2.25em; }
+  .tribe-events-list .type-tribe_events .entry2__meta p {
+    margin: 0; }
 
 /*doc
 ---
