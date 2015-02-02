@@ -87,12 +87,12 @@ Community Highlights and Events
 */
 .home__highlights {
 	@extend %main;
-	padding: 0 $gutter / 2 $base-line-height;
+	padding: $base-line-height $gutter / 2;
 	background-color: $highlights-bg;
 	border-bottom: 1px solid darken( $highlights-bg, 3% );
 	
 	@include bp(medium) {
-		padding: 0 $gutter * 2 $base-line-height * 2;
+		padding: $base-line-height * 2 $gutter * 2;
 	}
 }
 
@@ -116,6 +116,7 @@ Community Highlights and Events
 
 .highlights__heading {
 	margin: 0 0 $base-line-height / 2;
+	line-height: 1;
 	font-family: $open-sans;
 	font-size: ms(2);
 	font-weight: lighter;
@@ -124,10 +125,8 @@ Community Highlights and Events
 }
 
 .highlights__community {
-	padding-top: $base-line-height;
 	@include bp(large) {
 		@include span-columns(9 of 15);
-		padding-top: $base-line-height * 1.5;
 	}
 }
 
@@ -214,12 +213,12 @@ Community Highlights and Events
 }
 
 .highlights__events {
-	padding-top: $base-line-height;
-	clear: both; 
+	clear: both;
+	padding-top: 1.5em;
 	@include bp(large) {
-		padding-top: $base-line-height * 1.5;
 		@include span-columns(6 of 15);
-		clear: none; 
+		clear: none;
+		padding-top: 0;
 	}
 }
 	.highlights__events .highlights__heading {
