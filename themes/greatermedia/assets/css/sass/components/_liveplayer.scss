@@ -158,7 +158,9 @@ category: Components
 		}
 
 		.logged-in & {
-			top: 32px;
+			@include bp(medium) {
+				top: 32px;
+			}
 		}
 	}
 }
