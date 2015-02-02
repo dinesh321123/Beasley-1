@@ -1219,7 +1219,6 @@ category: Components
 		margin-top: 43px;
 		@include bp(small) {
 			max-height: 35vh;
-			overflow: hidden;
 		}
 	}
 }

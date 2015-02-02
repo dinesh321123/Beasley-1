@@ -5635,8 +5635,7 @@ category: Components
     margin-top: 43px; }
     @media screen and (min-width: 480px) {
       .live-player--open .live-links {
-        max-height: 35vh;
-        overflow: hidden; } }
+        max-height: 35vh; } }
 
 #popup-player-livestream .live-links {
   display: block;
