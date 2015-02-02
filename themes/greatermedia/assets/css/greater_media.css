@@ -5173,7 +5173,9 @@ category: Components
   float: left;
   -webkit-transition: all 500ms ease-in-out 500ms;
   -moz-transition: all 500ms ease-in-out 500ms;
-  transition: all 500ms ease-in-out 500ms; }
+  transition: all 500ms ease-in-out 500ms;
+  background: #d22228;
+  color: #000000; }
   @media screen and (min-width: 768px) {
     .live-stream__btn--pause {
       float: none; } }
