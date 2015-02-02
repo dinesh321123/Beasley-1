@@ -6231,6 +6231,20 @@ a.live-audio__link {
   -o-animation: heartbeat-pulse 3000ms ease-out 0ms infinite normal;
   animation: heartbeat-pulse 3000ms ease-out 0ms infinite normal; }
 
+a.podcast__download--fallback, a.podcast__download--fallback:visited {
+  display: none;
+  width: 150px;
+  height: 40px;
+  margin-top: 6px;
+  padding-top: 6px;
+  background-color: #d22228;
+  font-size: 14px;
+  color: white;
+  text-align: center; }
+
+a.podcast__download--fallback:hover, a.podcast__download--fallback:active {
+  background-color: #aa1c20; }
+
 .breaking-news-banner {
   padding: 10px 0; }
 

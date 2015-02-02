@@ -46,3 +46,11 @@
 .wp-audio-shortcode {
 	max-width: 130px;
 }
+
+.gmr-mediaelement-fallback {
+	display: none;
+}
+
+a.podcast__download--fallback {
+	display: block;
+}
