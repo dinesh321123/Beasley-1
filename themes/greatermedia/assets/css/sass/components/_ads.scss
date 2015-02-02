@@ -51,6 +51,7 @@ category: Components - Ads
 .ad__inline--right {
 	float: none;
 	margin: 0 auto;
+	text-align: center;
 
 	@include bp(medium) {
 		float: right;

@@ -56,10 +56,11 @@
 	}
 	.ad__inline--right.mobile {
 		display: block;
-		float: left;
+		margin-top: 20px;
 
 		@include bp(large) {
 			display: none;
+			margin-top: 0;
 		}
 	}
 }

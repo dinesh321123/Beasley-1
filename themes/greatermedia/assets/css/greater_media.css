@@ -6333,7 +6333,8 @@ category: Components - Ads
 */
 .ad__inline--right {
   float: none;
-  margin: 0 auto; }
+  margin: 0 auto;
+  text-align: center; }
   @media screen and (min-width: 768px) {
     .ad__inline--right {
       float: right;
@@ -7278,10 +7279,11 @@ category: Components - Ads
       display: block; } }
 .tribe-events-single .ad__inline--right.mobile {
   display: block;
-  float: left; }
+  margin-top: 20px; }
   @media screen and (min-width: 1024px) {
     .tribe-events-single .ad__inline--right.mobile {
-      display: none; } }
+      display: none;
+      margin-top: 0; } }
 
 .tribe-events-button {
   display: block !important;
