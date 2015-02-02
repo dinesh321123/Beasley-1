@@ -5,6 +5,7 @@ namespace GreaterMedia\MyEmma\Ajax;
 use GreaterMedia\Gigya\Ajax\AjaxHandler;
 use GreaterMedia\MyEmma\EmmaAPI;
 use GreaterMedia\MyEmma\Webhooks\MemberOptout;
+use GreaterMedia\MyEmma\Webhooks\MemberSignup;
 use GreaterMedia\MyEmma\Webhooks\MessageOpen;
 use GreaterMedia\MyEmma\Webhooks\MessageClick;
 

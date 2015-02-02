@@ -17,6 +17,7 @@
 .nav .selected {
 	/*text-decoration: underline;*/
 	font-weight: bold;
+	background-color: transparent;
 }
 
 .emma-nav-content {
