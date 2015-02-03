@@ -1162,8 +1162,7 @@ blockquote p {
   width: 100%;
   -webkit-transition: -webkit-transform 100ms ease-out;
   -moz-transition: -moz-transform 100ms ease-out;
-  transition: transform 100ms ease-out;
-  position: fixed; }
+  transition: transform 100ms ease-out; }
 
 .mobile-nav--open .header__search--open {
   -webkit-transform: translate(78%, 0);
@@ -1173,7 +1172,6 @@ blockquote p {
   transform: translate(78%, 0); }
 
 .mobile-nav--open .header__search--form {
-  position: fixed;
   -webkit-transform: translate(78%);
   -moz-transform: translate(78%);
   -ms-transform: translate(78%);
@@ -1190,6 +1188,16 @@ blockquote p {
 .mobile-nav--open .footer {
   display: none; }
 
+.mobile-nav--open .live-player {
+  -webkit-transform: translate(78%);
+  -moz-transform: translate(78%);
+  -ms-transform: translate(78%);
+  -o-transform: translate(78%);
+  transform: translate(78%); }
+  @media screen and (min-width: 768px) {
+    .mobile-nav--open .live-player {
+      right: 78% !important; } }
+
 .mobile-nav--open .page-wrap {
   top: 40px; }
 
@@ -1198,6 +1206,15 @@ blockquote p {
  * z-index is 2 so that it sits under the close button, but above most content
  */
 .mobile-nav--open .page-wrap:before {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  content: " ";
+  z-index: 2; }
+
+.mobile-nav--open .live-player:before {
   position: absolute;
   top: 0;
   width: 100%;

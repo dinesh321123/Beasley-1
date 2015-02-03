@@ -109,7 +109,6 @@
 	@include transform(translate(78%, 0));
 	width: 100%;
 	@include transition(transform 100ms ease-out);
-	position: fixed;
 }
 
 .mobile-nav--open .header__search--open {
@@ -117,7 +116,6 @@
 }
 
 .mobile-nav--open .header__search--form {
-	position: fixed;
 	@include transform(translate(78%));
 	@include bp('medium') {
 		@include transform(translate(78%, -200%));
@@ -126,6 +124,13 @@
 
 .mobile-nav--open .footer {
 	display: none;
+}
+
+.mobile-nav--open .live-player {
+	@include transform(translate(78%));
+	@include bp(medium) {
+		right: 78% !important;
+	}
 }
 
 .mobile-nav--open .page-wrap {
@@ -139,6 +144,16 @@
  * z-index is 2 so that it sits under the close button, but above most content
  */
 .mobile-nav--open .page-wrap:before {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,.4);
+	content: " ";
+	z-index: 2;
+}
+
+.mobile-nav--open .live-player:before {
 	position: absolute;
 	top: 0;
 	width: 100%;
