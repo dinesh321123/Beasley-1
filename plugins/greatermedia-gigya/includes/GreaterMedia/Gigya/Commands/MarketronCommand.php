@@ -10,11 +10,12 @@ use GreaterMedia\Gigya\Migration\AffinityClubParser;
 class MarketronCommand extends \WP_CLI_Command {
 
 	function import_profiles( $args, $opts ) {
-		$source = $args[0];
-		$dest   = $args[1];
+		$source        = $args[0];
+		$filter_source = $args[1];
+		$dest          = $args[2];
 
 		$parser = new AffinityClubParser();
-		$count  = $parser->parse( $source, $dest );
+		$count  = $parser->parse( $source, $filter_source, $dest );
 
 		\WP_CLI::success( "$count profiles were written to $dest" );
 	}

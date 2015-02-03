@@ -118,25 +118,30 @@ class AffinityClub {
 		return $members;
 	}
 
-	function export() {
+	function export( $member_ids ) {
 		$gigya_export = array(
 			'settings' => $this->export_settings(),
-			'accounts' => $this->export_accounts()
+			'accounts' => $this->export_accounts( $member_ids )
 		);
+
+		$gigya_export['settings']['totalRecords'] = count( $gigya_export['accounts'] );
 
 		$result = array(
 			'data' => $gigya_export,
-			'errors' => $this->errors
+			'errors' => $this->errors,
 		);
 
 		return $result;
 	}
 
-	function export_accounts() {
+	function export_accounts( $member_ids ) {
 		$accounts = array();
+		$keys     = array_flip( $member_ids );
 
 		foreach ( $this->members as $member ) {
-			$accounts[] = $member->export();
+			if ( array_key_exists( $member->member_id, $keys ) ) {
+				$accounts[] = $member->export();
+			}
 		}
 
 		return $accounts;

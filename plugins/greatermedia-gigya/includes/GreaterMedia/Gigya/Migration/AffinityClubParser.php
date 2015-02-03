@@ -4,8 +4,9 @@ namespace GreaterMedia\Gigya\Migration;
 
 class AffinityClubParser {
 
-	function parse( $source, $dest ) {
-		$errors_dest = str_replace( '.json', '.errors.log', $dest );
+	function parse( $source, $filter_source, $dest ) {
+		$errors_dest    = str_replace( '.json', '.errors.log', $dest );
+		$filter_members = $this->load_member_ids( $filter_source );
 
 		$doc                     = new \DOMDocument();
 		$doc->preserveWhitespace = false;
@@ -15,7 +16,7 @@ class AffinityClubParser {
 		$affinity_club = new AffinityClub();
 		$affinity_club->parse( $doc->documentElement );
 
-		$result = $affinity_club->export();
+		$result = $affinity_club->export( $filter_members );
 		$json   = json_encode( $result['data'], JSON_PRETTY_PRINT );
 
 		file_put_contents( $dest, $json );
@@ -34,6 +35,23 @@ class AffinityClubParser {
 		}
 
 		return $result['data']['settings']['totalRecords'];
+	}
+
+	function load_member_ids( $path ) {
+		$file       = fopen( $path, 'r' );
+		$member_ids = array();
+		$line       = fgets( $file );
+
+		while ( $line !== false ) {
+			$line = trim( $line );
+			if ( is_numeric( $line ) ) {
+				$member_ids[] = $line;
+			}
+
+			$line = fgets( $file );
+		}
+
+		return $member_ids;
 	}
 
 }
