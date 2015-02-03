@@ -546,7 +546,11 @@
 		liveLinks = document.getElementById( 'live-links' ),
 		liveLink = document.querySelector( '.live-link__title'),
 		liveLinksWidget = document.querySelector( '.widget--live-player' ),
+		liveLinksWidgetTitle = document.querySelector('.widget--live-player__title'),
 		liveLinksMore = document.querySelector('.live-links--more'),
+		liveStream = document.getElementById( 'live-player' ),
+		windowWidth = this.innerWidth || this.document.documentElement.clientWidth || this.document.body.clientWidth || 0,
+		windowHeight = this.innerHeight|| this.document.documentElement.clientHeight || this.document.body.clientHeight || 0,
 		scrollObject = {},
 		collapseToggle = document.querySelector('*[data-toggle="collapse"]'),
 		breakingNewsBanner = document.getElementById('breaking-news-banner'),
@@ -568,8 +572,26 @@
 		}
 	}
 
+	function elemTopOffset(elem) {
+		if (elem != null) {
+			return elem.offsetTop;
+		}
+	}
+
+	function elemHeightOffset(elem) {
+		if (elem != null) {
+			return elemHeight(elem) - elemTopOffset(elem);
+		}
+	}
+
 	function windowHeight(elem) {
 		return Math.max(document.documentElement.clientHeight, elem.innerHeight || 0);
+	}
+
+	function documentHeight() {
+		var html = document.documentElement;
+
+		return Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 	}
 
 	function elementInViewport(elem) {
@@ -655,8 +677,7 @@
 			}
 		}
 	});
-
-
+	
 	function liveLinksReadMore() {
 		if (liveLinksWidget != null && elemHeight(liveLinksWidget) >= windowHeight) {
 			liveLinksMore.classList.add('show-more');
@@ -664,6 +685,42 @@
 			liveLinksOut();
 		}
 	}
+
+	function liveLinksScroll() {
+		var start = liveLinks.scrollTop,
+			to = windowHeight - elemHeight(header) - elemHeight(liveStreamContainer),
+			change = to - start,
+			currentTime = 0,
+			increment = 20,
+			duration = 500;
+
+		var animateScroll = function(){
+			currentTime += increment;
+			var val = Math.easeInOutQuad(currentTime, start, change, duration);
+			liveLinks.scrollTop = val;
+			if(currentTime < duration) {
+				setTimeout(animateScroll, increment);
+			}
+		};
+		animateScroll();
+	}
+
+	/**
+	 * Ease in and Out animation
+	 *
+	 * @param t = current time
+	 * @param b = start value
+	 * @param c = change in value
+	 * @param d = duration
+	 * @returns {*}
+	 */
+	Math.easeInOutQuad = function (t, b, c, d) {
+		t /= d/2;
+		if (t < 1) return c/2*t*t + b;
+		t--;
+		return -c/2 * (t*(t-2) - 1) + b;
+	};
+
 
 	/**
      * Toggles a class to the Live Play Stream Select box when the box is clicked
@@ -775,6 +832,47 @@
 			livePlayer.style.right = '0';
 		}
 	}
+
+	/**
+	 * creates a re-usable variable that will call a button name, element to hide, and element to display
+	 *
+	 * @param btn
+	 * @param elemHide
+	 * @param elemDisplay
+	 */
+	var lpAction = function (btn, elemHide, elemDisplay) {
+		this.btn = btn;
+		this.elemHide = elemHide;
+		this.elemDisplay = elemDisplay;
+	};
+
+	/**
+	 * this function will create a re-usable function to hide and display elements based on lpAction
+	 */
+	lpAction.prototype.playAction = function () {
+		var that = this; // `this`, when registering an event handler, won't ref the method's parent object, so a var it is
+		addEventHandler(that.btn, elemClick, function () {
+			that.elemHide.style.display = 'none';
+			that.elemDisplay.style.display = 'inline-block';
+		});
+	};
+
+	/**
+	 * variables used for button interactions on the live player
+	 */
+	var playLp, pauseLp, resumeLp, playBtn, pauseBtn, resumeBtn, lpListenNow, lpNowPlaying;
+	playBtn = document.getElementById('playButton');
+	pauseBtn = document.getElementById('pauseButton');
+	resumeBtn = document.getElementById('resumeButton');
+	lpListenNow = document.getElementById('live-stream__listen-now');
+	lpNowPlaying = document.getElementById('live-stream__now-playing');
+
+	/**
+	 * creates new method of lpAction with custom btn, element to hide, and element to display
+	 *
+	 * @type {lpAction}
+	 */
+	resumeLp = new lpAction(resumeBtn, lpListenNow, lpNowPlaying);
 
 	/**
 	 * Toggles a class to the body when the mobile nav button is clicked
