@@ -67,6 +67,14 @@
     border-style: dashed;
     display: block; }
 
+#gmp_galleries_meta_box .inside {
+  margin-top: 1em; }
+#gmp_galleries_meta_box .list {
+  float: none;
+  width: auto; }
+#gmp_galleries_meta_box .list input[type=text] {
+  display: none; }
+
 .gmr__option {
   width: 100%;
   padding: 1em 0;

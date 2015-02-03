@@ -120,7 +120,7 @@ class GreaterMediaGalleryMetaboxes {
 
 	/**
 	 * Renders gallery builder section.
-	 * 
+	 *
 	 * @action edit_form_after_title
 	 * @param \WP_Post $post The current post object.
 	 */
@@ -149,7 +149,7 @@ class GreaterMediaGalleryMetaboxes {
 					</a>
 				</li>
 			</script>
-			
+
 			<ul class="gallery-preview">
 				<?php foreach ( $images as $image ) : ?>
 					<li class="gallery-item gallery-image" style="background-image:url(<?php echo esc_url( $image['image'] ); ?>)">

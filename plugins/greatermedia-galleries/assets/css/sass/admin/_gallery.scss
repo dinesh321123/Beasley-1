@@ -90,3 +90,18 @@
 		}
 	}
 }
+
+#gmp_galleries_meta_box {
+	.inside {
+		margin-top: 1em;
+	}
+
+	.list {
+		float: none;
+		width: auto;
+	}
+
+	.list input[type=text] {
+		display: none;
+	}
+}

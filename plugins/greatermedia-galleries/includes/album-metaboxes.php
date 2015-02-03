@@ -45,6 +45,10 @@ class GreaterMediaGalleryAlbumMetaboxes {
 	public static function render_gallery_metabox( \WP_Post $post ) {
 		wp_nonce_field( 'save_album_galleries', 'album_gallery_nonce' );
 
+		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+		wp_enqueue_style( 'gmr-gallery-admin', GREATER_MEDIA_GALLERIES_URL . "assets/css/gmr_gallery_admin{$postfix}.css", null, GREATER_MEDIA_GALLERIES_VERSION );
+		wp_enqueue_script( 'gmr-gallery-admin', GREATER_MEDIA_GALLERIES_URL . "assets/js/gmr_admin{$postfix}.js", array( 'jquery', 'jquery-ui-sortable' ), GREATER_MEDIA_GALLERIES_VERSION, true );
+
 		$limit = 1000; // Arbitrary high limit, since we need something here
 
 		$options = array(
