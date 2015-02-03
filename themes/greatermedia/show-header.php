@@ -47,11 +47,11 @@
 					echo '<em>' . $times . '</em>';
 				}
 			?>
-			
+
 			<?php if ( $facebook_url = get_post_meta( get_the_ID(), 'show/social_pages/facebook', true ) ): ?>
 				<a href="<?php echo esc_url( $facebook_url ); ?>" class="icon-facebook social-share-link" target="_blank"></a>
 			<?php endif; ?>
-			
+
 			<?php if ( $twitter_url = get_post_meta( get_the_ID(), 'show/social_pages/twitter', true ) ): ?>
 				<a href="<?php echo esc_url( $twitter_url ); ?>" class="icon-twitter social-share-link" target="_blank"></a>
 			<?php endif; ?>
@@ -59,7 +59,7 @@
 			<?php if ( $instagram_url = get_post_meta( get_the_ID(), 'show/social_pages/instagram', true ) ): ?>
 				<a href="<?php echo esc_url( $instagram_url ); ?>" class="icon-instagram social-share-link" target="_blank"></a>
 			<?php endif; ?>
-			
+
 			<?php if ( $google_url = get_post_meta( get_the_ID(), 'show/social_pages/google', true ) ): ?>
 				<a href="<?php echo esc_url( $google_url ); ?>" class="icon-google-plus social-share-link" target="_blank"></a>
 			<?php endif; ?>
@@ -67,6 +67,7 @@
 	</div>
 </div>
 
+<!--
 <nav class="show__nav--mobile">
 	<ul>
 		<?php \GreaterMedia\Shows\about_link_html( get_the_ID() ); ?>
@@ -75,3 +76,4 @@
 		<?php \GreaterMedia\Shows\videos_link_html( get_the_ID() ); ?>
 	</ul>
 </nav>
+-->
