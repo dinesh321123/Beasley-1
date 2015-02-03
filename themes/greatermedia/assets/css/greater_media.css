@@ -6340,6 +6340,14 @@ category: Components - Ads
   text-align: center; }
   @media screen and (min-width: 768px) {
     .ad__inline--right {
+      float: none;
+      margin: 0 0 1em 1em; } }
+  @media screen and (min-width: 1024px) {
+    .ad__inline--right {
+      float: right;
+      margin: 0 0 1em 1em; } }
+  @media screen and (min-width: 1400px) {
+    .ad__inline--right {
       float: right;
       margin: 0 0 1em 1em; } }
 
