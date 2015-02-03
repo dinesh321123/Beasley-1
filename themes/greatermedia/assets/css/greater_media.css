@@ -2473,13 +2473,14 @@ Community Highlights and Events
   background-color: transparent;
   border: 1px solid #acaeb0;
   font-family: "Open Sans", sans-serif;
-  font-size: 1em;
+  font-size: 0.8em;
   color: #acaeb0 !important;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 100em;
   margin-left: .5em;
   margin-top: 0;
+  vertical-align: top;
   text-transform: none; }
   .highlights__events--more-btn:hover, .highlights__events--more-btn:focus {
     background-color: transparent;
@@ -2489,8 +2490,7 @@ Community Highlights and Events
     margin-right: 0; }
   @media screen and (min-width: 1024px) {
     .highlights__events--more-btn {
-      margin-top: .05em;
-      font-size: .8em; } }
+      margin-top: .05em; } }
   .highlights__events--more-btn:hover {
     color: #aa1c20 !important;
     border-color: #aa1c20; }
