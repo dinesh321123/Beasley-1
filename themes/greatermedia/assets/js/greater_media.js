@@ -1032,7 +1032,7 @@
 	function openLivePlayer() {
 		if (window.innerWidth <= 767) {
 			body.classList.toggle('live-player--open');
-			liveLinksMobileState();
+			//liveLinksMobileState();
 		}
 	}
 
@@ -1044,7 +1044,7 @@
 			if (body.classList.contains('live-player--open')) {
 				body.classList.remove('live-player--open');
 			}
-			liveLinksMobileState();
+			//liveLinksMobileState();
 		}
 	}
 
