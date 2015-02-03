@@ -12444,18 +12444,6 @@ category: Components - Article
     display: none; }
   .related-posts .related-post:nth-child(-n+4) {
     display: block; }
-  @media screen and (min-width: 768px) {
-    .related-posts .related-post {
-      float: left;
-      display: block;
-      margin-right: 3.16844%;
-      width: 31.22104%;
-      width: 31.3333%;
-      margin-right: 2%; }
-      .related-posts .related-post:last-child {
-        margin-right: 0; }
-      .related-posts .related-post:nth-child(-n+6) {
-        display: block; } }
   @media screen and (min-width: 1024px) {
     .related-posts .related-post {
       float: left;
@@ -12506,6 +12494,7 @@ category: Components - Article
   font-weight: lighter; }
 
 .related-post__title {
+  max-height: 4em;
   font-size: 14px;
   line-height: 1.4;
   overflow: hidden;
@@ -12513,6 +12502,9 @@ category: Components - Article
   @media screen and (min-width: 768px) {
     .related-post__title {
       font-size: 16px; } }
+  @media screen and (min-width: 1024px) {
+    .related-post__title {
+      max-height: 4.4em; } }
 
 .related-post__date {
   display: block;

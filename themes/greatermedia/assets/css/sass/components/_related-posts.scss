@@ -48,17 +48,6 @@ category: Components - Article
 			display: block;
 		}
 		
-		@include bp(medium) {
-			@include span-columns(3 of 9);
-			width: 31.3333%;
-			margin-right: 2%; 
-					
-			// Select first six.
-			&:nth-child(-n+6) {
-				display: block; 
-			}
-		}
-		
 		@include bp(large) {
 			@include span-columns(3 of 12);
 			width: 23%; 
@@ -116,6 +105,7 @@ category: Components - Article
 	}
 
 	.related-post__title {
+		max-height: 4em;
 		font-size: 14px;
 		line-height: 1.4;
 		overflow: hidden;
@@ -123,6 +113,10 @@ category: Components - Article
 
 		@include bp(medium) {
 			font-size: 16px;
+		}
+
+		@include bp(large) {
+			max-height: 4.4em;
 		}
 	}
 
