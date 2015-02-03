@@ -259,7 +259,7 @@ class GreaterMediaFormbuilderRender {
 					$html .= '<dd>' . self::_get_user_field( 'zip' ) . '</dd>';
 				$html .= '</dl>';
 			} else {
-				$html .= '<i>Enter this contest as guest</i> <a href="' . esc_url( gmr_contests_get_login_url() ) . '">Login or Register</a>';
+				$html .= '<i>Enter this contest as a guest</i> <a href="' . esc_url( gmr_contests_get_login_url() ) . '">Login or Register</a>';
 				foreach ( self::_get_default_fields() as $field ) {
 					$renderer_method = 'render_' . $field->field_type;
 					if ( method_exists( __CLASS__, $renderer_method ) ) {

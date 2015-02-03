@@ -92,7 +92,7 @@
 
 	<section class="col__inner--right">
 		<section id="contest-form" class="contest__form"<?php gmr_contest_container_attributes(); ?>></section>
-		<div class="ad__inline--right desktop">
+		<div class="desktop">
 			<?php do_action( 'acm_tag', 'mrec-lists' ); ?>
 		</div>
 	</section>
