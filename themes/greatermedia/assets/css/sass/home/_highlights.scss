@@ -91,10 +91,6 @@ Community Highlights and Events
 	background-color: $highlights-bg;
 	border-bottom: 1px solid darken( $highlights-bg, 3% );
 
-	@include bp(x-small) {
-		padding-bottom: 1em;
-	}
-
 	@include bp(medium) {
 		padding: $base-line-height * 2 $gutter * 2;
 	}
@@ -230,14 +226,14 @@ Community Highlights and Events
 		display: inline-block;
 	}
 	.highlights__events--more-btn {
-		@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, 1em);
+		@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, .8em);
 		margin-left: .5em;
 		margin-top: 0;
+		vertical-align: top;
 		text-transform: none;
 
 		@include bp(large) {
 			margin-top: .05em;
-			font-size: .8em;
 		}
 
 		&:hover {
@@ -259,7 +255,7 @@ Community Highlights and Events
 	height: 100px;
 
 	@include bp(x-small) {
-		margin-bottom: 0.8em;
+		margin-bottom: .65em;
 	}
 
 	@include bp(small) {
@@ -331,6 +327,7 @@ Community Highlights and Events
 }
 
 .highlights__event--title {
+	font-family: $open-sans;
 	font-size: ms(0);
 	color: $medium-dark-gray;
 	margin: 0 0 .3em;

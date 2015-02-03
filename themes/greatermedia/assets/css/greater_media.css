@@ -2334,9 +2334,6 @@ Community Highlights and Events
   padding: 1.5em 0.809em;
   background-color: #f1f1f3;
   border-bottom: 1px solid #e9e9ec; }
-  @media screen and (min-width: 320px) {
-    .home__highlights {
-      padding-bottom: 1em; } }
   @media screen and (min-width: 768px) {
     .home__highlights {
       padding: 3em 3.236em; } }
@@ -2476,13 +2473,14 @@ Community Highlights and Events
   background-color: transparent;
   border: 1px solid #acaeb0;
   font-family: "Open Sans", sans-serif;
-  font-size: 1em;
+  font-size: 0.8em;
   color: #acaeb0 !important;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 100em;
   margin-left: .5em;
   margin-top: 0;
+  vertical-align: top;
   text-transform: none; }
   .highlights__events--more-btn:hover, .highlights__events--more-btn:focus {
     background-color: transparent;
@@ -2492,8 +2490,7 @@ Community Highlights and Events
     margin-right: 0; }
   @media screen and (min-width: 1024px) {
     .highlights__events--more-btn {
-      margin-top: .05em;
-      font-size: .8em; } }
+      margin-top: .05em; } }
   .highlights__events--more-btn:hover {
     color: #aa1c20 !important;
     border-color: #aa1c20; }
@@ -2515,7 +2512,7 @@ Community Highlights and Events
     margin-right: 0; }
   @media screen and (min-width: 320px) {
     .highlights__event--item {
-      margin-bottom: 0.8em; } }
+      margin-bottom: .65em; } }
   @media screen and (min-width: 480px) {
     .highlights__event--item {
       float: left;
@@ -2592,6 +2589,7 @@ Community Highlights and Events
       padding-top: 4%; } }
 
 .highlights__event--title {
+  font-family: "Open Sans", sans-serif;
   font-size: 1em;
   color: #6d6e70;
   margin: 0 0 .3em;
