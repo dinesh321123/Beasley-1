@@ -481,11 +481,12 @@ category: Components
 }
 
 .live-stream__now-playing--btn {
-	@include btn(transparent, $color-text-red, $btn-bg, .5em, 1em, ms(-1));
+	@include btn(transparent, $color-text-red, transparent, .5em, 1em, ms(-1));
 	display: none;
 	margin-right: 0;
 	font-weight: 700;
 	@include transition(background 200ms ease-in-out);
+	cursor: default;
 }
 
 .live-stream__login {

@@ -186,10 +186,6 @@
 			addEventHandler(clearDebug,elemClick,clearDebugInfo);
 		}
 
-		if (nowPlaying != null) {
-			addEventHandler(nowPlaying,elemClick,stopStream);
-		}
-
 	}
 
 	function setPlayingStyles() {

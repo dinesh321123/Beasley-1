@@ -4927,7 +4927,7 @@ category: Components
   margin-right: .5em;
   outline: none;
   background-color: transparent;
-  border: 1px solid #d22228;
+  border: 1px solid transparent;
   font-family: "Open Sans", sans-serif;
   font-size: 0.88889em;
   color: #d22228 !important;
@@ -4939,10 +4939,11 @@ category: Components
   font-weight: 700;
   -webkit-transition: background 200ms ease-in-out;
   -moz-transition: background 200ms ease-in-out;
-  transition: background 200ms ease-in-out; }
+  transition: background 200ms ease-in-out;
+  cursor: default; }
   .live-stream__now-playing--btn:hover, .live-stream__now-playing--btn:focus {
     background-color: transparent;
-    border-color: #aa1c20;
+    border-color: transparent;
     color: #d22228; }
   .live-stream__now-playing--btn:last-of-type {
     margin-right: 0; }
