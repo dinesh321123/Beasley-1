@@ -27,6 +27,7 @@
 		livePlayerStreams = livePlayerStreamSelect.querySelectorAll('.live-player__stream--item'),
 		liveLinksMoreBtn = document.querySelector('.live-links--more__btn'),
 		liveLinksEnd = document.getElementById('live-links__widget--end'),
+		wpAdminBar = document.getElementById('wpadminbar'),
 		wpAdminHeight = 32,
 		onAir = document.getElementById( 'on-air' ),
 		upNext = document.getElementById( 'up-next'),
@@ -134,14 +135,14 @@
 	function lpPosBase() {
 		if (body.classList.contains('logged-in')) {
 			if (livePlayer != null ) {
-				livePlayer.style.top = wpAdminHeight + elemHeight(header) + 'px';
-				livePlayer.style.height = windowHeight(window) - wpAdminHeight - elemHeight(header) + 'px';
+				livePlayer.style.top = elemHeight(wpAdminBar) + elemHeight(header) + 'px';
+				livePlayer.style.height = windowHeight(window) - elemHeight(wpAdminBar) - elemHeight(header) + 'px';
 			}
 			if (liveLinks != null ) {
-				liveLinks.style.height = windowHeight(window) - wpAdminHeight - elemHeight(header) - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) + 'px';
+				liveLinks.style.height = windowHeight(window) - elemHeight(wpAdminBar) - elemHeight(header) - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) + 'px';
 			}
 			if (liveLinksWidget != null ) {
-				liveLinksWidget.style.maxHeight = windowHeight(window) - wpAdminHeight - elemHeight(header) - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) - elemHeight(liveLinksWidgetTitle) - elemHeight(nowPlaying) + 'px';
+				liveLinksWidget.style.maxHeight = windowHeight(window) - elemHeight(wpAdminBar) - elemHeight(header) - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) - elemHeight(liveLinksWidgetTitle) - elemHeight(nowPlaying) + 'px';
 			}
 		} else {
 			if (livePlayer != null ) {
@@ -167,8 +168,8 @@
 	function lpPosScrollInit() {
 		if (body.classList.contains('logged-in')) {
 			if (livePlayer != null ) {
-				livePlayer.style.top = wpAdminHeight + elemHeight(header) + 'px';
-				livePlayer.style.height = windowHeight(window) - wpAdminHeight + 'px';
+				livePlayer.style.top = elemHeight(wpAdminBar) + elemHeight(header) + 'px';
+				livePlayer.style.height = windowHeight(window) - elemHeight(wpAdminBar) + 'px';
 			}
 			if (liveLinks != null ) {
 				liveLinks.style.height = windowHeight(window) - elemTopOffset(header) - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) + 'px';
@@ -179,7 +180,7 @@
 		} else {
 			if (livePlayer != null ) {
 				livePlayer.style.top = elemHeight(header) + 'px';
-				livePlayer.style.height = windowHeight(window) - wpAdminHeight - elemHeight(header) + 'px';
+				livePlayer.style.height = windowHeight(window) - elemHeight(wpAdminBar) - elemHeight(header) + 'px';
 			}
 			if (liveLinks != null ) {
 				liveLinks.style.height = windowHeight(window) - elemHeightOffset(header) - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) + 'px';
@@ -200,14 +201,14 @@
 	function lpPosNoHeader() {
 		if (body.classList.contains('logged-in')) {
 			if (livePlayer != null ) {
-				livePlayer.style.top = wpAdminHeight + 'px';
-				livePlayer.style.height = windowHeight(window) - wpAdminHeight + 'px';
+				livePlayer.style.top = elemHeight(wpAdminBar) + 'px';
+				livePlayer.style.height = windowHeight(window) - elemHeight(wpAdminBar) + 'px';
 			}
 			if (liveLinks != null ) {
-				liveLinks.style.height = windowHeight(window) - wpAdminHeight - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) + 'px';
+				liveLinks.style.height = windowHeight(window) - elemHeight(wpAdminBar) - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) + 'px';
 			}
 			if (liveLinksWidget != null ) {
-				liveLinksWidget.style.maxHeight = windowHeight(window) - wpAdminHeight - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) - elemHeight(liveLinksWidgetTitle) - elemHeight(nowPlaying) + 'px';
+				liveLinksWidget.style.maxHeight = windowHeight(window) - elemHeight(wpAdminBar) - elemHeight(livePlayerStreamSelect) - elemHeight(liveStream) - elemHeight(liveLinksWidgetTitle) - elemHeight(nowPlaying) + 'px';
 			}
 		} else {
 			if (livePlayer != null ) {
@@ -233,7 +234,7 @@
 	function lpPosDefault() {
 		if (livePlayer != null) {
 			if (body.classList.contains('logged-in')) {
-				livePlayer.style.top = wpAdminHeight + elemHeight(header) + 'px';
+				livePlayer.style.top = elemHeight(wpAdminBar) + elemHeight(header) + 'px';
 			} else {
 				livePlayer.style.top = elemHeight(header) + 'px';
 			}
@@ -254,7 +255,7 @@
 	}
 
 	function liveLinksReadMore() {
-		if (liveLinksWidget != null && elemHeight(liveLinksWidget) >= windowHeight && ! elementInViewport(liveLinksEnd)) {
+		if (liveLinksWidget != null && elemHeight(liveLinksWidget) >= windowHeight && ! elementInViewport(liveLinksEnd) ) {
 			liveLinksMore.classList.add('show-more');
 		} else if (elementInViewport(liveLinksEnd) && liveLinksMore.classList.contains('show-more')) {
 			liveLinksMore.classList.remove('show-more');

@@ -159,6 +159,9 @@ category: Components
 
 		.logged-in & {
 			@include bp(medium) {
+				top: 46px;
+			}
+			@include media(min-width 783px) {
 				top: 32px;
 			}
 		}
