@@ -86,7 +86,7 @@
 			padding-top: 0;
 		}
 	}
-	
+
 	.highlights__heading {
 		font-size: ms(1);
 		color: $secondary-heading;
@@ -98,7 +98,7 @@
 		.highlights__event--title, .highlights__event--date {
 			color: $primary-heading;
 		}
-		
+
 		.highlights__event--title:hover {
 			color: $primary-link-hover;
 		}
@@ -119,7 +119,7 @@
 		margin-bottom: 0.5em;
 
 	}
-	
+
 	.format-standard .entry2__thumbnail {
 		margin-top: 1.75em;
 
@@ -212,8 +212,8 @@ category: Components - Shows
 .show__header-content {
 	@include bp(large) {
 		display: table;
-		table-layout: fixed; 
-		width: 100%;		
+		table-layout: fixed;
+		width: 100%;
 	}
 }
 
@@ -223,8 +223,8 @@ category: Components - Shows
 
 	@include bp(large) {
 		width: 150px;
-		display: table-cell; 
-		vertical-align: middle; 
+		display: table-cell;
+		vertical-align: middle;
 	}
 
 	img {
@@ -236,9 +236,45 @@ category: Components - Shows
 .show__nav {
 	@include fill-parent;
 	text-align: center;
-	
+
 	.show__title {
 		line-height: 1.3;
+	}
+
+	ul {
+		display: inline;
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		display: inline;
+		margin: 0;
+	}
+
+	li a {
+		padding: 0.3em 0.45em;
+		display: inline;
+		font-size: 1em;
+		color: #fff;
+
+		font-weight: bold;
+		border-radius: 20px;
+		text-transform: uppercase;
+
+		&:hover  {
+			background-color: $secondary-text;
+			color: $heath;
+		}
+
+		&.current-menu-item a {
+			background-color: $secondary-text;
+			color: $secondary-link-hover;
+		}
+	}
+
+	.show__title {
+		margin-bottom: 0.8em;
 	}
 
 	h1 a {
@@ -246,43 +282,15 @@ category: Components - Shows
 		text-transform: uppercase;
 	}
 
-	ul {
-		display: none;
-	}
-
 	li {
-		display: block;
-		text-align: center;
-
-		a {
-			font-size: ms(4);
-			font-weight: bold;
-			padding: 9px;
-			border-radius: 20px;
-			display: inline-block;
-			text-transform: uppercase;
-
-			&:hover  {
-				background-color: $secondary-text;
-				color: $heath;
-			}
-
-		}
-
 		@include bp(medium) {
 			display: inline-block;
-			
+
 			a {
 				font-size: ms(0);
 				color: $secondary-text;
 			}
 		}
-
-		&.current-menu-item a {
-			background-color: $secondary-text;
-			color: $secondary-link-hover;
-		}
-
 	}
 
 	@include bp(medium) {
@@ -290,7 +298,7 @@ category: Components - Shows
 
 		.show__title {
 			margin-bottom: 0;
-			
+
 		}
 
 		ul {
@@ -305,13 +313,42 @@ category: Components - Shows
 	}
 
 	@include bp(large) {
-		width: auto;  
-		display: table-cell;
-		vertical-align: middle;
+		width: 53%;
+		float: left;
+		margin-top: 1.5em;
+		margin-bottom: 0;
 		text-align: left;
 		padding-left: 3em;
-		padding-right: 3em; 
-		position: relative; 
+
+		.show__title {
+			margin-top: 0;
+			margin-bottom: 0.6em;
+		}
+
+		ul {
+			text-align: justify;
+			margin-left: -9px;
+			width: auto;
+		}
+
+		// this psuedo element makes the text-align: justify work on the <ul>. via: http://stackoverflow.com/a/16901348
+		ul:after {
+			content: "";
+			width: 100%;
+			display: inline-block;
+			height: 0;
+		}
+	}
+
+	@media screen and (min-width: 1043px) {
+		width: 53%;
+		float: left;
+		margin-top: 1.5em;
+		margin-bottom: 0;
+		text-align: left;
+		padding-left: 3em;
+		padding-right: 3em;
+		position: relative;
 
 		.show__title {
 			margin-top: 0;
@@ -370,11 +407,21 @@ category: Components - Shows
 	text-align: center;
 	float: none;
 
-	@include bp(large) {
-		width: 180px;
-		white-space: nowrap;
-		display: table-cell;
-		vertical-align: middle; 
+	@include bp(small) {
+		text-align: center;
+	}
+
+	@include bp(medium) {
+		width: 50%;
+		float: none;
+		margin: 0 auto;
+		text-align: left;
+		padding-left: 1.2em;
+	}
+
+	@media screen and (min-width: 1043px) {
+		width: 25%;
+		float: right;
 		text-align: right;
 	}
 
@@ -463,7 +510,7 @@ category: Components - Shows
 	@include bp(large) {
 		@include span-columns(8 of 12);
 	}
-	
+
 }
 
 .show__feature--secondary {
@@ -475,15 +522,15 @@ category: Components - Shows
 
 .show__feature {
 	margin-bottom: 5.6%;
-	
+
  	.thumbnail {
 		background-color: $dark-gray;
 		padding-bottom: 66%;
-		background-position: center center; 
-		background-size: 100%; 
+		background-position: center center;
+		background-size: 100%;
 		background-size: cover;
-        background-repeat: no-repeat; 
-				 
+        background-repeat: no-repeat;
+
 		.inner-wrap {
 			position: absolute;
 			left: 0;
@@ -496,15 +543,15 @@ category: Components - Shows
 			color: $primary-link-hover;
 		}
 	}
-	
+
 	@include bp(large) {
 		padding-bottom: 75%;
 		position: relative;
-		
+
 		.thumbnail {
 			position: absolute;
 			width: 100%;
-			left: 0; 
+			left: 0;
 			top: 0;
 		}
 	}
@@ -523,13 +570,13 @@ category: Components - Shows
 	.show__feature--primary & h3 {
 		font-size: ms(5);
 	}
-	
+
 	time {
 		font-size: ms(0);
 		text-transform: uppercase;
 		color: $primary-heading;
-	}			
-	
+	}
+
 	.inner-wrap {
 		padding: $base-line-height $gutter;
 
@@ -537,27 +584,27 @@ category: Components - Shows
 			padding: 1em;
 		}
 	}
-	
+
 	@include bp( large ) {
 		// padding-bottom: 22%; // 3/10 the height of our 4:3 unit.
 		position: absolute;
 		width: 100%;
 		left: 0;
 		bottom: 0;
-		
+
 		h3 {
 			font-size: ms(1);
 		}
-		
+
 		.show__feature--primary & h3 {
 			font-size: ms(6);
 		}
-		
+
 		time {
 			font-size: ms(-1);
 		}
 	}
-} 	
+}
 
 
 
@@ -579,7 +626,7 @@ category: Components - Shows
 		width: 100%;
 		padding-right: 330px;
 	}
-	
+
 	@include bp(larger) {
 		@include span-columns(8 of 12);
 		padding-right: 25px;
@@ -654,7 +701,7 @@ category: Components - Shows
 	@include span-columns(12 of 12);
 	@include omega();
 
-	
+
 	.section-header {
 		font-size: ms(1);
 		margin-bottom: 0.6em;
@@ -747,27 +794,27 @@ category: Components - Shows
 }
 
 .show__paging {
-	clear: both; 
+	clear: both;
 	width: 100%;
 	font-size: ms(-1);
-	margin: 0 0 $base-line-height; 
+	margin: 0 0 $base-line-height;
 	text-align: center;
-	
+
 	.page-numbers {
 		display: none;
-		
-		&.next, 
+
+		&.next,
 		&.prev {
 			display: inline;
-		} 
+		}
 	}
-	
+
 	.prev {
 		float: left;
 		width: 50%;
 		text-align: left;
 	}
-	
+
 	.next {
 		float: right;
 		width: 50%;
