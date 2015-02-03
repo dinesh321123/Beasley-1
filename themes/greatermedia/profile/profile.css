@@ -1,4 +1,8 @@
 /* TODO move to SASS */
+.profile-page__sidebar {
+	padding-bottom: 2em !important;
+}
+
 .profile-page__sidebar, .profile-page__content {
 	vertical-align: top !important;
 }
