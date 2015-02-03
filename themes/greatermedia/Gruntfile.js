@@ -44,7 +44,7 @@ module.exports = function (grunt) {
 					'assets/js/test/**/*.js'
 				],
 				options: {
-					jshintrc: '.jshintrc'
+					jshintrc: '.jshintrc',
 				}
 			},
 			grunt: {
