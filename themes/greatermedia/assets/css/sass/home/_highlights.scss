@@ -90,10 +90,15 @@ Community Highlights and Events
 	padding: $base-line-height $gutter / 2;
 	background-color: $highlights-bg;
 	border-bottom: 1px solid darken( $highlights-bg, 3% );
-	
+
+	@include bp(x-small) {
+		padding-bottom: 1em;
+	}
+
 	@include bp(medium) {
 		padding: $base-line-height * 2 $gutter * 2;
 	}
+
 }
 
 // .highlights__col {
@@ -134,7 +139,7 @@ Community Highlights and Events
 	position: relative;
 	@include span-columns(6 of 12);
 	@include omega;
-	
+
 	&:nth-of-type(2n) {
 		margin-left: 2.35765%;
 	}
@@ -159,14 +164,14 @@ Community Highlights and Events
 	position: relative;
 	width: 100%;
 	overflow: hidden;
-	
+
 	// Force aspect ratio.
 	padding-top: 100%;
-	
+
 	background-size: 100%;
-	background-size: cover; 
+	background-size: cover;
 	background-position: center center;
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat;
 }
 
 .highlights__community--thumb:after {
@@ -189,7 +194,7 @@ Community Highlights and Events
 .highlights__community--title {
 	@include css-gradient(rgba(0,0,0,0), $darker-gray);
 	background-color: transparent; // Override the background color set by css-gradient().
-	position: absolute;	
+	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
@@ -201,14 +206,14 @@ Community Highlights and Events
 	text-align: center;
 
 	box-sizing: content-box; // So we can set the height relative to line height.
-	line-height: 1.5;	
-	max-height: 1.5em; // Exactly one line high. 
+	line-height: 1.5;
+	max-height: 1.5em; // Exactly one line high.
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	
+
 	a:hover & {
-		color: $yellow;	
+		color: $yellow;
 	}
 }
 
@@ -234,11 +239,11 @@ Community Highlights and Events
 			margin-top: .05em;
 			font-size: .8em;
 		}
-		
+
 		&:hover {
 			color: $primary-link-hover !important;
 			border-color: $primary-link-hover;
-		} 
+		}
 	}
 
 .highlights__event--item {
@@ -246,41 +251,47 @@ Community Highlights and Events
 	background-color: $primary-bg;
 	color: $primary-text;
 	margin: 0 0 .75em;
-	position: relative; 
-	
-	font-size: ms(2); 
+	position: relative;
+
+	font-size: ms(2);
+	margin: 0 0 $base-line-height;
+	position: relative;
 	height: 100px;
-	
+
+	@include bp(x-small) {
+		margin-bottom: 0.8em;
+	}
+
 	@include bp(small) {
 		@include span-columns(6 of 12);
 		margin-bottom: 0;
 	}
-	
+
 	@include bp(medium) {
 		font-size: ms(0);
 	}
-	
+
 	@include bp(large) {
 		@include span-columns(6 of 6);
-		// Force a specific height relative to the grid 
+		// Force a specific height relative to the grid
 		height: 0;
 		padding-bottom: 21.5%;
 		margin: 0 0 5%;
 	}
-	
-	// Ugly hack to make sure the <a> tag covers the entire block. The better 
+
+	// Ugly hack to make sure the <a> tag covers the entire block. The better
 	// fix would be to put the <a> tag around the entire block, instead of just
-	// around the block's content, but the lousy grid causes problems here 
+	// around the block's content, but the lousy grid causes problems here
 	// because it adds a :last-child to every grid block to remove margin from
-	// the last item in a row. Of course, when the grid block is inside a 
-	// wrapper it is _always_ the last child, so the margins get removed.  
-	a { 
-		position: absolute; 
-		top: 0;	
+	// the last item in a row. Of course, when the grid block is inside a
+	// wrapper it is _always_ the last child, so the margins get removed.
+	a {
+		position: absolute;
+		top: 0;
 		right: 0;
 		bottom: 0;
 		left: 0;
-	}	
+	}
 }
 
 .highlights__event--item:last-of-type {
@@ -289,29 +300,29 @@ Community Highlights and Events
 
 .highlights__event--thumb {
 	@include span-columns(2 of 6);
-	
-	position: relative; 
+
+	position: relative;
 	height: 100%;
-	overflow: hidden; 
+	overflow: hidden;
 	background-size: 100%;
 	background-size: cover;
 	background-position: center center;
-    background-repeat: no-repeat; 
-	
+    background-repeat: no-repeat;
+
 	@include bp(large) {
 		@include span-columns(2 of 6);
 		width: 21.5%;
 		position: absolute;
 		left: 0;
-		top: 0; 
+		top: 0;
 	}
 }
 
 .highlights__event--meta {
 	@include span-columns(4 of 6);
 	font-size: ms(0);
-	padding: 6% $gutter 0 0; 
-	
+	padding: 6% $gutter 0 0;
+
 	@include bp(large) {
 		width: auto;
 		margin-left: 26.32916%;
@@ -323,22 +334,22 @@ Community Highlights and Events
 	font-size: ms(0);
 	color: $medium-dark-gray;
 	margin: 0 0 .3em;
-	
+
 	// Never show more than two lines of text (layout will break).
 	overflow: hidden;
 	line-height: 1.25;
 	max-height: 2.5em;
-	
+
 	@include bp(large) {
 		// One line of text at this breakpoint because we need to fit the date.
 		max-height: 1.25em;
 	}
-	
+
 	@media(min-width: 1250px) {
-		// Back to two lines. 
+		// Back to two lines.
 		max-height: 2.5em;
 	}
-	
+
 	// Highlight on hover
 	a:hover & {
 		color: $primary-link-hover;
@@ -346,13 +357,13 @@ Community Highlights and Events
 }
 
 .highlights__event--date {
-	display: block; 
-	text-transform: uppercase; 
+	display: block;
+	text-transform: uppercase;
 	margin-top: -0.3em;
 	font-size: ms(-2);
 	color: $gray;
-	
+
 	@media(min-width: 1200px) {
-		
+
 	}
 }

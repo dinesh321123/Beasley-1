@@ -2332,6 +2332,9 @@ Community Highlights and Events
   padding: 1.5em 0.809em;
   background-color: #f1f1f3;
   border-bottom: 1px solid #e9e9ec; }
+  @media screen and (min-width: 320px) {
+    .home__highlights {
+      padding-bottom: 1em; } }
   @media screen and (min-width: 768px) {
     .home__highlights {
       padding: 3em 3.236em; } }
@@ -2503,9 +2506,14 @@ Community Highlights and Events
   margin: 0 0 .75em;
   position: relative;
   font-size: 1.26563em;
+  margin: 0 0 1.5em;
+  position: relative;
   height: 100px; }
   .highlights__event--item:last-child {
     margin-right: 0; }
+  @media screen and (min-width: 320px) {
+    .highlights__event--item {
+      margin-bottom: 0.8em; } }
   @media screen and (min-width: 480px) {
     .highlights__event--item {
       float: left;
