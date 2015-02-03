@@ -10257,7 +10257,8 @@ category: Components - Gallery Archive
   display: block;
   margin-right: 7.42297%;
   width: 100%;
-  margin-right: 0; }
+  margin-right: 0;
+  border-top: 1px solid #d0d2d3; }
   .gallery__grid:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px) {
@@ -10275,7 +10276,8 @@ category: Components - Gallery Archive
       display: block;
       margin-right: 7.42297%;
       width: 100%;
-      margin-right: 0; }
+      margin-right: 0;
+      border-top: none; }
       .gallery__grid:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1024px) {
@@ -10296,6 +10298,11 @@ category: Components - Gallery Archive
       margin-right: 0; }
       .gallery__grid:last-child {
         margin-right: 0; } }
+  .gallery__grid .section-header {
+    margin: 20px 0; }
+    @media screen and (min-width: 768px) {
+      .gallery__grid .section-header {
+        display: none; } }
 
 .gallery__featured {
   display: block; }
@@ -10435,7 +10442,7 @@ category: Components - Gallery Archive
 
 .gallery__grid--thumbnail {
   position: relative;
-  margin-bottom: 30px; }
+  margin-bottom: 10px; }
 
 .gallery__grid--album {
   position: absolute;

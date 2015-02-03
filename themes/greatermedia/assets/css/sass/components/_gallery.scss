@@ -858,6 +858,7 @@ category: Components - Gallery Archive
 .gallery__grid {
 	@include span-columns(4 of 4);
 	@include omega;
+	border-top: 1px solid $primary-border;
 	@include bp(small) {
 		@include span-columns(6 of 6);
 		@include omega;
@@ -865,6 +866,7 @@ category: Components - Gallery Archive
 	@include bp(medium) {
 		@include span-columns(4 of 4);
 		@include omega;
+		border-top: none;
 	}
 	@include bp(large) {
 		@include span-columns(10 of 10);
@@ -873,6 +875,14 @@ category: Components - Gallery Archive
 	@include bp(x-large) {
 		@include span-columns(10 of 10);
 		@include omega;
+	}
+
+	.section-header {
+		margin: 20px 0;
+
+		@include bp(medium) {
+			display: none;
+		}
 	}
 }
 
@@ -1038,7 +1048,7 @@ category: Components - Gallery Archive
 
 .gallery__grid--thumbnail {
 	position: relative;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
 }
 
 .gallery__grid--album {

@@ -106,6 +106,8 @@ if ( $query->have_posts() ) :
 
 	<div class="gallery__grid">
 
+		<h3 class="section-header"><?php _e( 'Galleries and Alblums', 'greatermedia' ); ?></h3>
+
 		<?php
 
 		if ( $query->have_posts() ) :
