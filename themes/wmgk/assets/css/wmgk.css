@@ -759,11 +759,12 @@ img {
     -webkit-transition: all 200ms ease-in-out;
     -moz-transition: all 200ms ease-in-out;
     transition: all 200ms ease-in-out; }
-  .logged-in .live-player {
-    top: 261px; }
-    @media screen and (min-width: 783px) {
-      .logged-in .live-player {
-        top: 247px; } }
+  @media screen and (min-width: 768px) {
+    .logged-in .live-player {
+      top: 261px; } }
+  @media screen and (min-width: 783px) {
+    .logged-in .live-player {
+      top: 247px; } }
 
 .row {
   display: block; }
