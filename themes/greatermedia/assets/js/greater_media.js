@@ -816,13 +816,28 @@
 	/**
 	 * Toggles a class to the body when the mobile nav button is clicked
 	 */
+
+	function mobileOpenLocation() {
+		var y = window.pageYOffset;
+
+		siteWrap.style.top = '-' + y + 'px';
+	}
+
+	function mobileCloseLocation() {
+		var y = window.pageYOffset;
+
+		siteWrap.style.removeProperty('top');
+	}
+
 	function toggleNavButton() {
 		body.classList.toggle('mobile-nav--open');
 
 		if ($('.mobile-nav--open').length) {
 			showBlocker();
+			mobileOpenLocation();
 		} else {
 			hideBlocker();
+			mobileCloseLocation()
 		}
 	}
 

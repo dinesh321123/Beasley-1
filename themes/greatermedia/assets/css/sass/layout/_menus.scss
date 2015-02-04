@@ -139,7 +139,7 @@
 }
 
 .mobile-nav--open .header__search--form {
-	@include transform(translate(78%));
+	@include transform(translate(78%, 0));
 	@include bp('medium') {
 		@include transform(translate(78%, -200%));
 	}
@@ -150,7 +150,7 @@
 }
 
 .mobile-nav--open .live-player {
-	@include transform(translate(78%));
+	@include transform(translate(78%, 0));
 	@include bp(medium) {
 		right: 78% !important;
 	}
