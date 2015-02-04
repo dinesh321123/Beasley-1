@@ -521,7 +521,7 @@
 		$(document).ready(function() {
 			$('.article__content').fitVids({customSelector: "div[id^='playerwrapper']"});
 
-			if (liveLinksWidget != null && elemHeight(liveLinksWidget) >= windowHeight) {
+			if (liveLinksWidget != null && elemHeight(liveLinksWidget) >= windowHeight && window.innerWidth >= 768) {
 				liveLinksMore.classList.add('show-more');
 
 				var liveLinksIn = new Waypoint.Inview({

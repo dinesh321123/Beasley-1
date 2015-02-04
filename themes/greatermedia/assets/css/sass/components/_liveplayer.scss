@@ -1212,6 +1212,7 @@ category: Components
 	text-align: center;
 	overflow: hidden;
 	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 
 	@include bp(medium) {
 		visibility: visible;
@@ -1226,7 +1227,8 @@ category: Components
 		display: block;
 		height: auto !important;
 		max-height: 48vh;
-		margin-top: 43px;
+		padding-bottom: 40px;
+		margin-top: 43px !important;
 		@include bp(small) {
 			max-height: 35vh;
 		}
@@ -1381,18 +1383,22 @@ category: Components
 }
 
 .live-links--more {
-	display: none;
+	display: block;
 	visibility: hidden;
-	position: relative;
+	position: fixed;
+	bottom: 0;
 	width: 100%;
 	height: 40px;
+	padding: 5px 0;
+	text-align: center;
 	background-color: $liveplayer-bg;
-	@include transition(all 500ms ease-in-out);
-	@include transition-delay(500ms);
+	@include transition(all 200ms ease-in-out);
 
 
 	@include bp(medium) {
 		display: block;
+		position: relative;
+		bottom: auto;
 		visibility: visible;
 		width: 225px;
 	}
@@ -1418,7 +1424,6 @@ category: Components
 	.live-player--open & {
 		display: block;
 		visibility: visible;
-		@include transition-delay(500ms);
 	}
 }
 

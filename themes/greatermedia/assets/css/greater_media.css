@@ -5707,7 +5707,8 @@ category: Components
   background-color: #000000;
   text-align: center;
   overflow: hidden;
-  overflow-y: auto; }
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; }
   @media screen and (min-width: 768px) {
     .live-links {
       visibility: visible;
@@ -5720,7 +5721,8 @@ category: Components
     display: block;
     height: auto !important;
     max-height: 48vh;
-    margin-top: 43px; }
+    padding-bottom: 40px;
+    margin-top: 43px !important; }
     @media screen and (min-width: 480px) {
       .live-player--open .live-links {
         max-height: 35vh; } }
@@ -5837,21 +5839,23 @@ category: Components
   right: auto; }
 
 .live-links--more {
-  display: none;
+  display: block;
   visibility: hidden;
-  position: relative;
+  position: fixed;
+  bottom: 0;
   width: 100%;
   height: 40px;
+  padding: 5px 0;
+  text-align: center;
   background-color: #000000;
-  -webkit-transition: all 500ms ease-in-out;
-  -moz-transition: all 500ms ease-in-out;
-  transition: all 500ms ease-in-out;
-  -webkit-transition-delay: 500ms;
-  -moz-transition-delay: 500ms;
-  transition-delay: 500ms; }
+  -webkit-transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out; }
   @media screen and (min-width: 768px) {
     .live-links--more {
       display: block;
+      position: relative;
+      bottom: auto;
       visibility: visible;
       width: 225px; } }
   .live-links--more.show-more {
@@ -5874,10 +5878,7 @@ category: Components
       content: ""; }
   .live-player--open .live-links--more {
     display: block;
-    visibility: visible;
-    -webkit-transition-delay: 500ms;
-    -moz-transition-delay: 500ms;
-    transition-delay: 500ms; }
+    visibility: visible; }
 
 .live-links--more__btn {
   display: inline-block;
