@@ -2544,8 +2544,6 @@ Community Highlights and Events
   margin: 0 0 .75em;
   position: relative;
   font-size: 1.26563em;
-  margin: 0 0 1.5em;
-  position: relative;
   height: 100px; }
   .highlights__event--item:last-child {
     margin-right: 0; }
@@ -2629,7 +2627,7 @@ Community Highlights and Events
 
 .highlights__event--title {
   font-family: "Open Sans", sans-serif;
-  font-size: 1em;
+  font-size: 1.125em;
   color: #6d6e70;
   margin: 0 0 .3em;
   overflow: hidden;
