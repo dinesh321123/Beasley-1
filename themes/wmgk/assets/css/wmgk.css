@@ -8641,7 +8641,7 @@ category: Components - Shows
   margin-left: -.809em;
   /* this is the padding on .content */
   margin-right: -.809em;
-  padding: 0 .809em;
+  padding: 3em .809em 0;
   margin-bottom: 3em; }
   @media screen and (min-width: 1024px) {
     .inner-right-col {
