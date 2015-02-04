@@ -4335,6 +4335,9 @@ Link posts contain a link to an external site. They can also optionally have a f
   @media screen and (min-width: 1400px) {
     .article__list--shows {
       max-width: none; } }
+  @media screen and (min-width: 1024px) {
+    .contest .article__list--shows {
+      max-width: 80%; } }
   @media screen and (min-width: 1400px) {
     .contest .article__list--shows {
       max-width: 85%; } }
@@ -4376,6 +4379,9 @@ Link posts contain a link to an external site. They can also optionally have a f
   @media screen and (min-width: 1400px) {
     .article__show--name {
       max-width: none; } }
+  @media screen and (min-width: 1024px) {
+    .contest .article__show--name {
+      max-width: 80%; } }
   @media screen and (min-width: 1400px) {
     .contest .article__show--name {
       max-width: 85%; } }

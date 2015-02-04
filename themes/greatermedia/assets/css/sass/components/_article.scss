@@ -113,6 +113,11 @@
 		}
 
 		.contest & {
+
+			@include bp(large) {
+				max-width: 80%;
+			}
+
 			@include bp(x-large) {
 				max-width: 85%;
 			}
@@ -152,6 +157,11 @@
 			}
 			
 			.contest & {
+
+				@include bp(large) {
+					max-width: 80%;
+				}
+
 				@include bp(x-large) {
 					max-width: 85%;
 				}
