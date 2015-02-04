@@ -1106,7 +1106,6 @@ blockquote p {
   -moz-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
   background-color: #303030;
-  border-right: 1px solid #d0d2d3;
   z-index: 1;
   overflow-y: auto; }
   @media screen and (min-width: 1024px) {
@@ -1125,7 +1124,7 @@ blockquote p {
   display: none; }
 
 .mobile-nav--open .mobile-nav__toggle {
-  display: none; }
+  display: block; }
 
 .admin-bar .mobile-nav {
   top: 32px;

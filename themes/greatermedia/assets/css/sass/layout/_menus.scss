@@ -64,7 +64,6 @@
 	@include transform(translate(-100%, 0));
 	@include transition(all 100ms ease-out);
 	background-color: $secondary-bg;
-	border-right: 1px solid $primary-border;
 	z-index: 1;
 	overflow-y: auto;
 	@include bp(large) {
@@ -87,7 +86,7 @@
 
 .mobile-nav--open {
 	.mobile-nav__toggle {
-		display: none;
+		display: block;
 	}
 }
 
