@@ -23,6 +23,7 @@ get_header(); ?>
 
 			<div id="tribe-events-pg-template">
 				<?php tribe_events_before_html(); ?>
+				<h2 class="content__heading" itemprop="headline"><?php _e( 'Upcoming Events', 'greatermedia' ); ?></h2>
 				<?php tribe_get_view(); ?>
 				<?php tribe_events_after_html(); ?>
 			</div> <!-- #tribe-events-pg-template -->

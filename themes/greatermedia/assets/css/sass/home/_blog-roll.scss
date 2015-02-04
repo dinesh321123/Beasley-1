@@ -13,6 +13,10 @@
 	@include bp(medium) {
 		font-size: ms(2);
 	}
+
+	#tribe-events & {
+		margin-bottom: 30px;
+	}
 }
 
 .ad__in-loop {

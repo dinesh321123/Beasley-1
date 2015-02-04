@@ -1604,6 +1604,8 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
   @media screen and (min-width: 768px) {
     .content__heading, .sponsors__heading {
       font-size: 1.26563em; } }
+  #tribe-events .content__heading, #tribe-events .sponsors__heading {
+    margin-bottom: 30px; }
 
 .ad__in-loop {
   margin: 1.5em 0;
