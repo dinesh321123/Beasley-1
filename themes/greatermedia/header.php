@@ -43,7 +43,6 @@
 
 	<body <?php body_class(); ?>>
 		<div id="site-wrap" class="site-wrap">
-			<?php do_action( 'show_breaking_news_banner' ); ?>
 			<nav id="mobile-nav" class="mobile-nav">
 				<?php
 				$mobile_nav = array(
@@ -74,6 +73,7 @@
 
 			<div id="page-wrap" class="page-wrap">
 				<header id="header" class="header" role="banner">
+					<?php do_action( 'show_breaking_news_banner' ); ?>
 					<div class="container container__leaderboard">
 						<div class="ad__leaderboard desktop">
 							<?php do_action( 'acm_tag', 'leaderboard-top-of-site' ); ?>

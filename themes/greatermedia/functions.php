@@ -131,9 +131,10 @@ function greatermedia_scripts_styles() {
 		'greatermedia',
 		"{$baseurl}/assets/js/greater_media{$postfix}.js",
 		array(
+			'jquery',
 			'underscore',
 			'classlist-polyfill',
-			'waypoints',
+			'jquery-waypoints',
 			'waypoints-inview'
 		),
 		GREATERMEDIA_VERSION,
