@@ -95,6 +95,10 @@ Community Highlights and Events
 		padding: $base-line-height * 2 $gutter * 2;
 	}
 
+	@include bp(x-small) {
+		padding-bottom: 0.8em;
+	}
+
 }
 
 // .highlights__col {

@@ -2371,6 +2371,9 @@ Community Highlights and Events
   @media screen and (min-width: 768px) {
     .home__highlights {
       padding: 3em 3.236em; } }
+  @media screen and (min-width: 320px) {
+    .home__highlights {
+      padding-bottom: 0.8em; } }
 
 .highlights__heading {
   margin: 0 0 0.75em;
