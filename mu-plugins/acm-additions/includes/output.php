@@ -8,7 +8,7 @@ add_filter( 'acm_output_html', __NAMESPACE__ . '\render_tag', 15, 2 );
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\load_scripts' );
 
 function load_scripts() {
-	wp_enqueue_script( 'jquery' ); 
+	wp_enqueue_script( 'jquery' );
 }
 
 function wp_head() {
@@ -34,36 +34,36 @@ function wp_head() {
 
 			window.GMRAds = GMRAds;
 		})();
-		
+
 		function fill_ad( $slot ) {
 			var minWidthOk = true,
-				maxWidthOk = true; 
-			
+				maxWidthOk = true;
+
 			if ( $slot.data( 'min-width' ) ) {
 				minWidthOk = ( parseInt( $slot.data( 'min-width' ), 10 ) <= parseInt( GMRAds.width, 10 ) ) ? true : false;
 			}
 			if ( $slot.data( 'max-width' ) ) {
 				maxWidthOk = ( parseInt( $slot.data( 'max-width' ), 10 ) >= parseInt( GMRAds.width, 10 ) ) ? true : false;
 			}
-			
+
 			if ( maxWidthOk && minWidthOk ) {
 				var OX_12345 = new OX();
 				OX_12345.addAdUnit( $slot.data( 'openx-id' ) );
 				OX_12345.setAdUnitSlotId( $slot.data( 'openx-id' ), $slot.attr( 'id' ) );
 				OX_12345.load();
-				
-				$slot.addClass( 'gmr-ad-filled' ); 
+
+				$slot.addClass( 'gmr-ad-filled' );
 			}
 		}
-		
+
 		function fill_ads() {
 			$( '.gmr-ad' ).not( '.gmr-ad-filled' ).each( function () {
-				fill_ad( $( this ) );					
+				fill_ad( $( this ) );
 			} );
 		}
-		
+
 		jQuery( function( $ ) {
-			fill_ads(); 
+			fill_ads();
 			$( document ).on( 'pjax:end gmr_lazy_load_end', fill_ads );
 		} );
 	</script>
@@ -86,9 +86,9 @@ function render_tag( $output_html, $tag_id ) {
 	}
 
 	$variant = trim( ad_variant() );
-	
+
 	$min_width = $max_width = false;
-	
+
 	if ( ! empty( $variant ) ) {
 		// We know this exists, because otherwise render_variant would not have set this value
 		$variant_meta = $tag_meta['variants'][ $variant ];
@@ -111,9 +111,9 @@ function render_tag( $output_html, $tag_id ) {
 	if ( is_null( $random_number ) ) {
 		$random_number =  str_pad( rand( 0, 999999999999999 ), 15, rand( 0, 9 ), STR_PAD_LEFT );
 	}
-	
+
 	$uniqid = uniqid();
-	
+
 	ob_start();
 
 	?>
@@ -124,13 +124,6 @@ function render_tag( $output_html, $tag_id ) {
 		data-max-width="<?php echo esc_attr( $max_width ); ?>"
 	    data-openx-id="%openx_id%"
 	>
-		<noscript>
-			<iframe src="//ox-d.greatermedia.com/w/1.0/afr?auid=%openx_id%&cb=<?php echo intval( $random_number ) ?>" frameborder="0" scrolling="no">
-				<a href="http://ox-d.greatermedia.com/w/1.0/rc?cs=9ee0446165&cb=<?php echo intval( $random_number ); ?>" >
-					<img src="//ox-d.greatermedia.com/w/1.0/ai?auid=%openx_id%&cs=9ee0446165&cb=<?php echo intval( $random_number ); ?>" border="0" alt="">
-				</a>
-			</iframe>
-		</noscript>		
 	</div>
 
 	<?php
