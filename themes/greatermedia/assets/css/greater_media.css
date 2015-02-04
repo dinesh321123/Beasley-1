@@ -4295,6 +4295,9 @@ Link posts contain a link to an external site. They can also optionally have a f
     .article__categories, .article__tags, .article__shows {
       font-size: 0.88889em; } }
 
+.article__shows {
+  margin-bottom: 0; }
+
 .article__list, .article__list--categories, .article__list--tags, .article__list--shows, .article__list--show {
   display: block;
   float: left;
