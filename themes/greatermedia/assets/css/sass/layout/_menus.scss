@@ -103,6 +103,11 @@
 
 .mobile-nav--open {
 	overflow: hidden;
+
+	.site-wrap {
+		position: fixed;
+		overflow: hidden;
+	}
 }
 
 .mobile-nav--open .mobile-nav {

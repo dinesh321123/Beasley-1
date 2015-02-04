@@ -1129,6 +1129,9 @@ blockquote p {
 
 .mobile-nav--open {
   overflow: hidden; }
+  .mobile-nav--open .site-wrap {
+    position: fixed;
+    overflow: hidden; }
 
 .mobile-nav--open .mobile-nav {
   -webkit-transform: translate(0, 0);
