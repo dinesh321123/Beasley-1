@@ -818,6 +818,12 @@
 	 */
 	function toggleNavButton() {
 		body.classList.toggle('mobile-nav--open');
+
+		if ($('.mobile-nav--open').length) {
+			showBlocker();
+		} else {
+			hideBlocker();
+		}
 	}
 
 	addEventHandler(mobileNavButton, elemClick, toggleNavButton);
@@ -1003,7 +1009,7 @@
 			var href = $(this).attr('href'),
 				x = screen.width / 2 - 700 / 2,
 				y = screen.height / 2 - 450 / 2;
-			
+
 			window.open(href, href, 'height=485,width=700,scrollbars=yes,resizable=yes,left=' + x + ',top=' + y);
 
 			return false;
@@ -1066,6 +1072,36 @@
 
 	$(document).bind( 'pjax:end', function () {
 		personality_toggle();
+	});
+
+	var getBlockerDiv = function() {
+		var $div = $('#mobile-nav-blocker');
+		if ($div.length === 0) {
+			$('<div id="mobile-nav-blocker"></div>').insertAfter('#mobile-nav');
+			$div = $('#mobile-nav-blocker');
+			$div.on('click', toggleNavButton);
+		}
+
+		return $div;
+	};
+
+	var showBlocker = function() {
+		var $blocker = getBlockerDiv();
+
+		$blocker.css({
+			width: $(document).width(),
+			height: $(document).height(),
+			display: 'block',
+		});
+	};
+
+	var hideBlocker = function() {
+		var $blocker = getBlockerDiv();
+		$blocker.css({'display': 'none'});
+	};
+
+	$(document).ready(function() {
+		//showBlocker();
 	});
 
 })();

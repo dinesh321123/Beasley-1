@@ -72,6 +72,25 @@
 	}
 }
 
+#mobile-nav {
+	z-index: 25;
+}
+
+#mobile-nav-blocker {
+	background-color: rgba(0,0,0,0.4);
+	/*background-color: red;*/
+	/*opacity: 0.7;*/
+	z-index: 20;
+	position: absolute;
+	display: none;
+}
+
+.mobile-nav--open {
+	.mobile-nav__toggle {
+		display: none;
+	}
+}
+
 .admin-bar .mobile-nav {
 	top: 32px;
 	height: calc( 100% - 32px ); /* doesn't work in IE8, but probably ok. Just don't edit the site and expect the front-end to be bug-free in IE8 */
