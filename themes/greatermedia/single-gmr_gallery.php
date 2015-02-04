@@ -38,7 +38,7 @@ get_header(); ?>
 
 					</section>
 
-					<?php get_template_part( 'partials/post', 'footer' ); ?>
+					<?php get_template_part( 'partials/article', 'footer' ); ?>
 
 					<?php
 						$current_gallery = get_post();

@@ -63,7 +63,8 @@
 }
 
 .article__list, %article__list {
-	display: inline;
+	display: block;
+	float: left;
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -85,7 +86,9 @@
 			}
 			
 	.article__list--title {
-		display: inline-block;
+		display: block;
+		float: left;
+		width: auto;
 		font-weight: 800;
 	}
 		.article__list--title:after {
@@ -97,6 +100,19 @@
 		@extend %article__list;
 	}
 
+	.article__list--shows {
+		width: auto;
+		max-width: 75%;
+
+		@include bp(medium) {
+			max-width: 85%;
+		}
+
+		@include bp(x-large) {
+			max-width: none;
+		}
+	}
+
 	.article__list--show {
 		@extend %article__list;
 		margin-right: .5em;
@@ -104,7 +120,7 @@
 	}
 
 	.article__show--logo {
-		display: inline-block;
+		display: block;
 		float: left;
 		width: 24px;
 		height: 24px;
@@ -116,7 +132,18 @@
 			@include border-radius(50%);
 		}		
 		.article__show--name {
-			display: inline-block;
+			display: block;
+			float: left;
+			width: auto;
+			max-width: 80%;
+
+			@include bp(medium) {
+				max-width: 85%;
+			}
+
+			@include bp(x-large) {
+				max-width: none;
+			}
 		}
 		
 	// Bump up the spacing at larger breakpoints

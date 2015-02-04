@@ -40,7 +40,7 @@
 		</div>
 	<?php endif; ?>
 
-	<?php get_template_part( 'partials/post', 'footer' ); ?>
+	<?php get_template_part( 'partials/article', 'footer' ); ?>
 	</section>
 	<section class="col__inner--right">
 		<div class="ad__inline--right desktop">
