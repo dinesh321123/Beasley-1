@@ -640,7 +640,7 @@ category: Components - Shows
 	float: none;
 	margin-left: -.809em; /* this is the padding on .content */
 	margin-right: -.809em;
-	padding: 3em .809em 0;
+	padding: 0 .809em;
 	margin-bottom: 3em;
 
 	@extend .cf;
@@ -657,6 +657,16 @@ category: Components - Shows
 		@include span-columns(4 of 12);
 		@include omega;
 		float: right;
+	}
+}
+
+.show__ad {
+	padding-top: 3em;
+	margin: 0 auto;
+	text-align: center;
+
+	@include bp(large) {
+		padding-top: 0;
 	}
 }
 

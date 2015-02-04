@@ -8641,7 +8641,7 @@ category: Components - Shows
   margin-left: -.809em;
   /* this is the padding on .content */
   margin-right: -.809em;
-  padding: 3em .809em 0;
+  padding: 0 .809em;
   margin-bottom: 3em; }
   @media screen and (min-width: 1024px) {
     .inner-right-col {
@@ -8660,6 +8660,14 @@ category: Components - Shows
       float: right; }
       .inner-right-col:last-child {
         margin-right: 0; } }
+
+.show__ad {
+  padding-top: 3em;
+  margin: 0 auto;
+  text-align: center; }
+  @media screen and (min-width: 1024px) {
+    .show__ad {
+      padding-top: 0; } }
 
 .show__favorites .featured__content--block {
   float: left;
