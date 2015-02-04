@@ -111,6 +111,12 @@
 		@include bp(x-large) {
 			max-width: none;
 		}
+
+		.contest & {
+			@include bp(x-large) {
+				max-width: 85%;
+			}
+		}
 	}
 
 	.article__list--show {
@@ -143,6 +149,12 @@
 
 			@include bp(x-large) {
 				max-width: none;
+			}
+			
+			.contest & {
+				@include bp(x-large) {
+					max-width: 85%;
+				}
 			}
 		}
 		
