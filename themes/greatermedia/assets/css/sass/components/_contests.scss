@@ -17,14 +17,29 @@
 
 	.col__inner--left {
 		border-right-width: 0;
+
+		@include bp(large) {
+			width: calc(100% - 300px - 2.35765%);
+		}
+
+		@include bp(x-large) {
+			@include span-columns(8 of 12);
+		}
 	}
 
 	.col__inner--right {
 		border-bottom: 1px solid $primary-border;
 		margin-bottom: 30px;
 		padding-bottom: 30px;
-		@include bp('large') {
+
+		@include bp(large) {
+			width: 300px;
 			border: none;
+		}
+
+		@include bp(x-large) {
+			@include span-columns(4 of 12);
+			@include omega;
 		}
 	}
 
