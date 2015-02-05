@@ -664,6 +664,7 @@
 		if (liveLinks != null && liveLinksWidget != null) {
 			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
 				liveLinks.style.height = elemHeight(livePlayer) - elemHeight(liveStreamContainer) + 'px';
+				console.log('--- Live Links Height Changed ---');
 			}
 
 			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
