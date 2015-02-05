@@ -48,6 +48,10 @@
 	padding: 0;
 	border: none; 
 	line-height: 1.5;
+
+	.contest & {
+		margin: 30px 0 0;
+	}
 }	
 
 .article__categories, .article__tags, .article__shows {

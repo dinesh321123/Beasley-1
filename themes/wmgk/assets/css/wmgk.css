@@ -4314,6 +4314,8 @@ Link posts contain a link to an external site. They can also optionally have a f
   line-height: 1.5; }
   .article__footer:last-child {
     margin-right: 0; }
+  .contest .article__footer {
+    margin: 30px 0 0; }
 
 .article__categories, .article__tags, .article__shows {
   overflow: auto;
