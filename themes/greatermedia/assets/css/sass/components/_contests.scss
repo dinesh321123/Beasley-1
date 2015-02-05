@@ -38,6 +38,14 @@
 			@include span-columns(4 of 12);
 			@include omega;
 		}
+
+		.desktop {
+			text-align: center;
+
+			@include bp(medium) {
+				text-align: left;
+			}
+		}
 	}
 
 	&.collapsed {

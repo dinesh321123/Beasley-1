@@ -6646,6 +6646,13 @@ category: Components - Ads
       .type-contest .col__inner--right:last-child,
       .type-survey .col__inner--right:last-child {
         margin-right: 0; } }
+  .type-contest .col__inner--right .desktop,
+  .type-survey .col__inner--right .desktop {
+    text-align: center; }
+    @media screen and (min-width: 768px) {
+      .type-contest .col__inner--right .desktop,
+      .type-survey .col__inner--right .desktop {
+        text-align: left; } }
 .type-contest.collapsed .col__inner--left,
 .type-survey.collapsed .col__inner--left {
   width: 100%;
