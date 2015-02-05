@@ -42,7 +42,7 @@
 		.desktop {
 			text-align: center;
 
-			@include bp(medium) {
+			@include bp(large) {
 				text-align: left;
 			}
 		}

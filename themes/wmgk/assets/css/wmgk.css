@@ -6659,7 +6659,7 @@ category: Components - Ads
   .type-contest .col__inner--right .desktop,
   .type-survey .col__inner--right .desktop {
     text-align: center; }
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 1024px) {
       .type-contest .col__inner--right .desktop,
       .type-survey .col__inner--right .desktop {
         text-align: left; } }
