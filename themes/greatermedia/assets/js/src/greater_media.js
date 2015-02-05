@@ -150,15 +150,9 @@
 		if (liveLinksBlogRoll != null) {
 			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
 		}
-		if (liveLinks != null && liveLinksWidget != null) {
-			if (elemHeight(liveLinksWidget) >= elemHeight(livePlayer)) {
-				liveLinksMore.classList.add('show-more--fixed');
-				liveLinks.style.height = elemHeight(livePlayer) - elemHeight(liveStreamContainer) + 'px';
-			}
-		}
 
-		if(liveLinksWidget != null & liveLinksMore != null && liveLinksItem.length >= 1) {
-			liveLinksMore.classList.add('show-more');
+		if(liveLinksWidget != null & liveLinksMore != null && liveLinksItem.length <= 1) {
+			liveLinksMore.classList.add('show-more--muted');
 		}
 	}
 
@@ -214,28 +208,32 @@
 				if (liveStreamContainer.classList.contains('live-stream--fixed')) {
 					liveStreamContainer.classList.remove('live-stream--fixed');
 				}
+				if (liveLinks.classList.contains('live-links--fixed')) {
+					liveLinks.classList.remove('live-links--fixed');
+				}
+				lpPosDefault();
 			} else if (scrollObject.y >= 1 && elementInViewport(header) && ! elementInViewport(footer)) {
 				if (liveStreamContainer.classList.contains('live-stream--fixed')) {
 					liveStreamContainer.classList.remove('live-stream--fixed');
 				}
-				if(liveLinks != null) {
-					liveLinks.style.marginTop = '0px';
+				if (liveLinks.classList.contains('live-links--fixed')) {
+					liveLinks.classList.remove('live-links--fixed');
 				}
+				lpPosDefault();
 			} else if (!elementInViewport(header) && ! elementInViewport(footer)) {
 				liveStreamContainer.classList.add('live-stream--fixed');
-				if(liveLinks != null) {
-					liveLinks.style.marginTop = elemHeight(liveStreamContainer) + 'px';
+				if (livePlayer != null) {
+					livePlayer.style.removeProperty('top');
 				}
-			} else if (elementInViewport(footer) && liveLinksWidget != null) {
-				if (elemHeight(liveLinksWidget) <= elemHeight(siteWrap)) {
-					liveLinks.style.marginTop = '0px';
-				}
-			} else {
-				if (liveStreamContainer.classList.contains('live-stream--fixed')) {
-					liveStreamContainer.classList.remove('live-stream--fixed');
+				if (liveLinks != null) {
+					liveLinks.classList.add('live-links--fixed');
+					if (body.classList.contains('logged-in')) {
+						liveLinks.style.top = wpAdminHeight + elemHeight(liveStreamContainer) + 'px';
+					} else {
+						liveLinks.style.top = elemHeight(liveStreamContainer) + 'px';
+					}
 				}
 			}
-			lpPosDefault();
 			lpHeight();
 		}
 	}

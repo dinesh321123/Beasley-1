@@ -5748,6 +5748,8 @@ category: Components
     @media screen and (min-width: 480px) {
       .live-player--open .live-links {
         max-height: 35vh; } }
+  .live-links.live-links--fixed {
+    position: fixed; }
 
 #popup-player-livestream .live-links {
   display: block;
@@ -5861,8 +5863,7 @@ category: Components
   right: auto; }
 
 .live-links--more {
-  display: none;
-  visibility: hidden;
+  display: block;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -5875,34 +5876,30 @@ category: Components
   transition: all 200ms ease-in-out; }
   @media screen and (min-width: 768px) {
     .live-links--more {
-      position: relative;
-      bottom: auto;
-      visibility: visible;
       width: 225px; } }
-  .live-links--more.show-more {
-    display: block; }
+  .live-links--more.show-more--muted {
+    display: none; }
   .live-links--more.show-more--fixed {
     position: fixed;
     display: block;
     bottom: 0; }
-    .live-links--more.show-more--fixed:before {
-      position: absolute;
-      bottom: 40px;
-      left: 0;
-      width: 100%;
-      height: 40px;
-      background: -webkit-linear-gradient(transparent, black);
-      /* For Safari 5.1 to 6.0 */
-      background: -o-linear-gradient(transparent, black);
-      /* For Opera 11.1 to 12.0 */
-      background: -moz-linear-gradient(transparent, black);
-      /* For Firefox 3.6 to 15 */
-      background: linear-gradient(transparent, black);
-      /* Standard syntax (must be last) */
-      content: ""; }
+  .live-links--more:before {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: -webkit-linear-gradient(transparent, black);
+    /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(transparent, black);
+    /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(transparent, black);
+    /* For Firefox 3.6 to 15 */
+    background: linear-gradient(transparent, black);
+    /* Standard syntax (must be last) */
+    content: ""; }
   .live-player--open .live-links--more {
-    display: block;
-    visibility: visible; }
+    display: block; }
 
 .live-links--more__btn {
   display: inline-block;
