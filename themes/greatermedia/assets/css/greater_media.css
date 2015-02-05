@@ -1097,7 +1097,8 @@ blockquote p {
   transition: all 100ms ease-out;
   background-color: #000000;
   z-index: 1;
-  overflow-y: auto; }
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; }
   @media screen and (min-width: 1024px) {
     .mobile-nav {
       display: none; } }

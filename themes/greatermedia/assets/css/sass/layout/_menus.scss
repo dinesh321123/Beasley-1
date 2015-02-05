@@ -66,6 +66,7 @@
 	background-color: $secondary-bg;
 	z-index: 1;
 	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 	@include bp(large) {
 		display: none;
 	}
