@@ -143,6 +143,14 @@
 		if (livePlayer != null) {
 			livePlayer.style.height = elemHeight(siteWrap) - elemHeight(header) + 'px';
 		}
+
+		if (liveLinks != null && elemHeight(liveLinksWidget) >= elemHeight(siteWrap) && window.innerWidth >= 768) {
+			liveLinks.style.height = elemHeight(livePlayer) - elemHeight(liveStreamContainer) + 'px';
+		}
+
+		if (liveLinksWidget != null && elemHeight(liveLinksWidget) >= elemHeight(siteWrap) && window.innerWidth >= 768) {
+			liveLinksMore.classList.add('show-more');
+		}
 	}
 
 	/**
@@ -520,28 +528,6 @@
 		});
 		$(document).ready(function() {
 			$('.article__content').fitVids({customSelector: "div[id^='playerwrapper']"});
-
-			if (liveLinksWidget != null && elemHeight(liveLinksWidget) >= windowHeight && window.innerWidth >= 768) {
-				liveLinksMore.classList.add('show-more');
-
-				var liveLinksIn = new Waypoint.Inview({
-					element: $('#live-links__widget--end')[0],
-					entered: function (direction) {
-						if (direction === 'down') {
-							liveLinksMore.classList.remove('show-more');
-						}
-					}
-				});
-
-				var liveLinksOut = new Waypoint.Inview({
-					element: $('#live-links__widget--end')[0],
-					exited: function (direction) {
-						if (direction === 'up') {
-							liveLinksMore.classList.add('show-more');
-						}
-					}
-				});
-			}
 		});
 	})(jQuery);
 
