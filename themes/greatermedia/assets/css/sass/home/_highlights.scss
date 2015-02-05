@@ -95,10 +95,6 @@ Community Highlights and Events
 		padding: $base-line-height * 2 $gutter * 2;
 	}
 
-	@include bp(x-small) {
-		padding-bottom: 0.8em;
-	}
-
 }
 
 // .highlights__col {
@@ -251,9 +247,7 @@ Community Highlights and Events
 	background-color: $primary-bg;
 	color: $primary-text;
 	margin: 0 0 .75em;
-	position: relative; 
-	
-	font-size: ms(2);
+	position: relative;
 	height: 100px;
 
 	@include bp(x-small) {
@@ -263,10 +257,6 @@ Community Highlights and Events
 	@include bp(small) {
 		@include span-columns(6 of 12);
 		margin-bottom: 0;
-	}
-
-	@include bp(medium) {
-		font-size: ms(0);
 	}
 
 	@include bp(large) {
@@ -318,8 +308,12 @@ Community Highlights and Events
 
 .highlights__event--meta {
 	@include span-columns(4 of 6);
-	font-size: ms(0);
 	padding: 6% $gutter 0 0;
+	font-size: ms(2);
+
+	@include bp(medium) {
+		font-size: ms(1);
+	}
 
 	@include bp(large) {
 		width: auto;
@@ -330,7 +324,7 @@ Community Highlights and Events
 
 .highlights__event--title {
 	font-family: $open-sans;
-	font-size: ms(1);
+	font-size: ms(0);
 	color: $medium-dark-gray;
 	margin: 0 0 .3em;
 

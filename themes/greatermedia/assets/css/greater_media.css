@@ -2374,9 +2374,6 @@ Community Highlights and Events
   @media screen and (min-width: 768px) {
     .home__highlights {
       padding: 3em 3.236em; } }
-  @media screen and (min-width: 320px) {
-    .home__highlights {
-      padding-bottom: 0.8em; } }
 
 .highlights__heading {
   margin: 0 0 0.75em;
@@ -2544,7 +2541,6 @@ Community Highlights and Events
   color: #404041;
   margin: 0 0 .75em;
   position: relative;
-  font-size: 1.26563em;
   height: 100px; }
   .highlights__event--item:last-child {
     margin-right: 0; }
@@ -2560,9 +2556,6 @@ Community Highlights and Events
       margin-bottom: 0; }
       .highlights__event--item:last-child {
         margin-right: 0; } }
-  @media screen and (min-width: 768px) {
-    .highlights__event--item {
-      font-size: 1em; } }
   @media screen and (min-width: 1024px) {
     .highlights__event--item {
       float: left;
@@ -2616,10 +2609,13 @@ Community Highlights and Events
   display: block;
   margin-right: 4.82916%;
   width: 65.05695%;
-  font-size: 1em;
-  padding: 6% 1.618em 0 0; }
+  padding: 6% 1.618em 0 0;
+  font-size: 1.26563em; }
   .highlights__event--meta:last-child {
     margin-right: 0; }
+  @media screen and (min-width: 768px) {
+    .highlights__event--meta {
+      font-size: 1.125em; } }
   @media screen and (min-width: 1024px) {
     .highlights__event--meta {
       width: auto;
@@ -2628,7 +2624,7 @@ Community Highlights and Events
 
 .highlights__event--title {
   font-family: "Open Sans", sans-serif;
-  font-size: 1.125em;
+  font-size: 1em;
   color: #6d6e70;
   margin: 0 0 .3em;
   overflow: hidden;
