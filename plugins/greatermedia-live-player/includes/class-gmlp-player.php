@@ -81,6 +81,7 @@ class GMLP_Player {
 		<div class="live-stream__player">
 			<div class="live-stream__controls">
 				<div id="playButton" class="live-stream__btn--play" data-action="play-live"></div>
+				<div id="loadButton" class="live-stream__btn--loading"><i class="fa fa-spin fa-refresh"></i></div>
 				<div id="pauseButton" class="live-stream__btn--pause"></div>
 				<div id="resumeButton" class="live-stream__btn--resume"></div>
 			</div>

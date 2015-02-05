@@ -25,6 +25,7 @@
 	var playBtn = document.getElementById('playButton');
 	var pauseBtn = document.getElementById('pauseButton');
 	var resumeBtn= document.getElementById('resumeButton');
+	var loadingBtn = document.getElementById('loadButton');
 	var podcastPlayBtn = document.querySelector('.podcast__btn--play');
 	var podcastPauseBtn = document.querySelector('.podcast__btn--pause');
 	var podcastPlayer = document.querySelector('.podcast-player');
@@ -213,8 +214,8 @@
 			nowPlaying.style.display = 'inline-block';
 			listenNow.style.display = 'none';
 		}
-		if (pauseBtn.classList.contains('live-player__muted')) {
-			pauseBtn.classList.remove('live-player__muted');
+		if (loadingBtn != null) {
+			loadingBtn.classList.add('loading');
 		}
 
 
@@ -998,6 +999,13 @@
 
 	function onStreamStarted() {
 		livePlaying = true;
+
+		if (loadingBtn.classList.contains('loading')) {
+			loadingBtn.classList.remove('loading');
+		}
+		if (pauseBtn.classList.contains('live-player__muted')) {
+			pauseBtn.classList.remove('live-player__muted');
+		}
 	}
 
 	function onStreamSelect() {

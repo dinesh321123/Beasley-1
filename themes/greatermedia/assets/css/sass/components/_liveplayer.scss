@@ -612,7 +612,7 @@ category: Components
 	}
 }
 
-.live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause {
+.live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading {
 	position: relative;
 	@extend %live-stream__btn;
 }
@@ -640,6 +640,14 @@ category: Components
 	.live-stream__player.audio__playing & {
 		content: "\e61f" !important;
 	}
+}
+
+.live-stream__btn--loading .fa {
+	position: absolute;
+	top: 30%;
+	left: 35%;
+	@include transform(translate(-50%, -50%));
+	font-size: ms(2);
 }
 
 .live-stream__btn--play {
@@ -698,6 +706,17 @@ category: Components
 		top: 52%;
 	}
 
+}
+
+.live-stream__btn--loading {
+	display: none;
+	border: none;
+	background: $btn-bg;
+	color: $liveplayer-bg;
+
+	&.loading {
+		display: block;
+	}
 }
 
 .live-stream__btn--pause {

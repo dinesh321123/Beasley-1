@@ -5080,7 +5080,7 @@ category: Components
   font-family: "gmr-icons" !important;
   content: "\e606" !important; }
 
-.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream--inactive, .podcast__btn--play,
+.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading, .live-stream--inactive, .podcast__btn--play,
 .podcast__btn--pause {
   width: 34px;
   height: 34px;
@@ -5104,13 +5104,13 @@ category: Components
   cursor: pointer;
   z-index: 1; }
   @media screen and (min-width: 768px) {
-    .live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream--inactive, .podcast__btn--play,
+    .live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading, .live-stream--inactive, .podcast__btn--play,
     .podcast__btn--pause {
       width: 56px;
       height: 56px;
       z-index: initial; } }
 
-#popup-player-livestream .live-stream__btn--login, #popup-player-livestream .live-stream__btn--play, #popup-player-livestream .live-stream__btn--resume, #popup-player-livestream .live-stream__btn--pause, #popup-player-livestream .live-stream--inactive, #popup-player-livestream .podcast__btn--play,
+#popup-player-livestream .live-stream__btn--login, #popup-player-livestream .live-stream__btn--play, #popup-player-livestream .live-stream__btn--resume, #popup-player-livestream .live-stream__btn--pause, #popup-player-livestream .live-stream__btn--loading, #popup-player-livestream .live-stream--inactive, #popup-player-livestream .podcast__btn--play,
 #popup-player-livestream .podcast__btn--pause {
   width: 54px;
   height: 54px; }
@@ -5156,7 +5156,7 @@ category: Components
       .live-player__container.playing .live-stream__btn--login {
         display: none; } }
 
-.live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause {
+.live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading {
   position: relative; }
 
 .live-stream__btn--play:before, .live-stream__btn--resume:before {
@@ -5187,6 +5187,17 @@ category: Components
   content: "\e61f" !important; }
   .live-stream__player.audio__playing .live-stream__btn--pause:before {
     content: "\e61f" !important; }
+
+.live-stream__btn--loading .fa {
+  position: absolute;
+  top: 30%;
+  left: 35%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-size: 1.26563em; }
 
 .live-stream__btn--play {
   -webkit-transform: rotateX(180deg);
@@ -5252,6 +5263,14 @@ category: Components
     display: none; }
   .live-stream__btn--play.play-btn--heartbeat:before {
     top: 52%; }
+
+.live-stream__btn--loading {
+  display: none;
+  border: none;
+  background: #d22228;
+  color: #000000; }
+  .live-stream__btn--loading.loading {
+    display: block; }
 
 .live-stream__btn--pause {
   display: none;
