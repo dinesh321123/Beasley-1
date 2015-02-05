@@ -659,19 +659,19 @@
 	function liveLinksHeight() {
 		var liveLinksBlogRoll = document.getElementById('live-links__blogroll');
 		if (liveLinksBlogRoll != null) {
-			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li').length;
+			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
 		}
 		if (liveLinks != null && liveLinksWidget != null) {
-			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap) && window.innerWidth >= 768) {
+			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
 				liveLinks.style.height = elemHeight(livePlayer) - elemHeight(liveStreamContainer) + 'px';
 			}
 
-			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap) && window.innerWidth >= 768) {
+			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
 				liveLinksMore.classList.add('show-more--fixed');
 			}
 		}
 
-		if(liveLinksWidget != null & liveLinksMore != null && liveLinksItem >= 1) {
+		if(liveLinksWidget != null & liveLinksMore != null && liveLinksItem.length >= 1) {
 			liveLinksMore.classList.add('show-more');
 		}
 	}
@@ -751,7 +751,6 @@
 			}
 			lpPosDefault();
 			lpHeight();
-			liveLinksHeight();
 		}
 	}
 
