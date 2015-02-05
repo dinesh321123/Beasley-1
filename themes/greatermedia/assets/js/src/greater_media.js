@@ -229,8 +229,10 @@
 				if(liveLinks != null) {
 					liveLinks.style.marginTop = elemHeight(liveStreamContainer) + 'px';
 				}
-			} else if (elementInViewport(footer)) {
-				liveLinks.style.marginTop = '0px';
+			} else if (elementInViewport(footer) && liveLinksWidget != null) {
+				if (elemHeight(liveLinksWidget) <= elemHeight(siteWrap)) {
+					liveLinks.style.marginTop = '0px';
+				}
 			} else {
 				if (liveStreamContainer.classList.contains('live-stream--fixed')) {
 					liveStreamContainer.classList.remove('live-stream--fixed');
@@ -242,7 +244,9 @@
 		}
 	}
 
-	/**
+
+
+			/**
 	 * adds some styles to the live player that would be called at mobile breakpoints. This is added specifically to
 	 * deal with a window being resized.
 	 */
