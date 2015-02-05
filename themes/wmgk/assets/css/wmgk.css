@@ -5849,7 +5849,7 @@ category: Components
   right: auto; }
 
 .live-links--more {
-  display: block;
+  display: none;
   visibility: hidden;
   position: fixed;
   bottom: 0;
@@ -5863,15 +5863,17 @@ category: Components
   transition: all 200ms ease-in-out; }
   @media screen and (min-width: 768px) {
     .live-links--more {
-      display: block;
       position: relative;
       bottom: auto;
       visibility: visible;
       width: 225px; } }
   .live-links--more.show-more {
+    display: block; }
+  .live-links--more.show-more--fixed {
     position: fixed;
+    display: block;
     bottom: 0; }
-    .live-links--more.show-more:before {
+    .live-links--more.show-more--fixed:before {
       position: absolute;
       bottom: 40px;
       left: 0;

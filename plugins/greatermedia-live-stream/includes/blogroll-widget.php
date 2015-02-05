@@ -130,7 +130,7 @@ function gmr_blogroll_get_widget_html() {
 		'posts_per_page'      => 30,
 	) );
 
-	echo '<ul>';
+	echo '<ul id="live-links__blogroll">';
 		while ( $query->have_posts() ) :
 			$query->the_post();
 
