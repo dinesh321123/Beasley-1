@@ -64,7 +64,7 @@ class GreaterMediaNavWalker extends Walker_Nav_Menu {
 			if ( ! empty( $item->menu_item_parent ) ) {
 
 				// Get the associated parent item and assign it to the new property menu_item_parent_title
-				$matching_parents = (array) wp_filter_object_list( $sorted_menu_items, array( 'ID' => $item->menu_item_parent ), 'and', 'post_title' );
+				$matching_parents = (array) wp_filter_object_list( $sorted_menu_items, array( 'ID' => $item->menu_item_parent ), 'and', 'title' );
 				$item->menu_item_parent_title = array_shift( $matching_parents );
 
 				// Find out how many items also have this parent and add it to the new property siblings_count
