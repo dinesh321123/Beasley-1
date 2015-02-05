@@ -663,11 +663,6 @@
 		}
 		if (liveLinks != null && liveLinksWidget != null) {
 			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
-				liveLinks.style.height = elemHeight(livePlayer) - elemHeight(liveStreamContainer) + 'px';
-				console.log('--- Live Links Height Changed ---');
-			}
-
-			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
 				liveLinksMore.classList.add('show-more--fixed');
 			}
 		}
@@ -734,6 +729,9 @@
 					liveStreamContainer.classList.remove('live-stream--fixed');
 				}
 				if(liveLinks != null) {
+					if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
+						liveLinks.style.height = elemHeight(livePlayer) - elemHeight(liveStreamContainer) + 'px';
+					}
 					liveLinks.style.marginTop = '0px';
 				}
 			} else if (!elementInViewport(header) && ! elementInViewport(footer)) {
