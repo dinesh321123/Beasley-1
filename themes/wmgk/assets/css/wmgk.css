@@ -10582,6 +10582,11 @@ category: Components - Gallery Archive
   position: relative;
   margin-bottom: 10px; }
 
+@media screen and (min-width: 768px) {
+  .gallery__grid--thumbwrap {
+    max-height: 125px;
+    overflow: hidden; } }
+
 .gallery__grid--album {
   position: absolute;
   top: 10px;
