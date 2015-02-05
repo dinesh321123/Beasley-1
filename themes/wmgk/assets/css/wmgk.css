@@ -5760,6 +5760,9 @@ category: Components
         max-height: 35vh; } }
   .live-links.live-links--fixed {
     position: fixed; }
+    @media screen and (min-width: 768px) {
+      .live-links.live-links--fixed {
+        width: 225px; } }
 
 #popup-player-livestream .live-links {
   display: block;
@@ -5873,7 +5876,7 @@ category: Components
   right: auto; }
 
 .live-links--more {
-  display: block;
+  display: none;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -5886,6 +5889,7 @@ category: Components
   transition: all 200ms ease-in-out; }
   @media screen and (min-width: 768px) {
     .live-links--more {
+      display: block;
       width: 225px; } }
   .live-links--more.show-more--muted {
     display: none; }

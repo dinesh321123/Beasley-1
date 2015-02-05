@@ -1260,6 +1260,10 @@ category: Components
 
 	&.live-links--fixed {
 		position: fixed;
+
+		@include bp(medium) {
+			width: 225px;
+		}
 	}
 }
 
@@ -1411,7 +1415,7 @@ category: Components
 }
 
 .live-links--more {
-	display: block;
+	display: none;
 	position: fixed;
 	bottom: 0;
 	width: 100%;
@@ -1423,6 +1427,7 @@ category: Components
 
 
 	@include bp(medium) {
+		display: block;
 		width: 225px;
 	}
 
