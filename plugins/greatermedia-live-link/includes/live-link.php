@@ -157,10 +157,20 @@ function gmr_ll_get_suggestion_post_types() {
  * @uses 'gmr_live_link_taxonomies' filter to filter supported taxonomies.
  */
 function gmr_ll_register_post_type() {
+
+	$rewrite = array(
+		'slug'                => 'live-links',
+		'with_front'          => true,
+		'pages'               => true,
+		'feeds'               => true,
+	);
+
 	register_post_type( GMR_LIVE_LINK_CPT, array(
-		'public'               => false,
+		'public'               => true,
 		'show_ui'              => true,
-		'rewrite'              => false,
+		'rewrite'              => $rewrite,
+		'publicly_queryable'   => true,
+		'has_archive'          => true,
 		'query_var'            => false,
 		'can_export'           => false,
 		'menu_position'        => 5,
