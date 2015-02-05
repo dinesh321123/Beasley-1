@@ -5200,14 +5200,18 @@ category: Components
 
 .live-stream__btn--loading .fa {
   position: absolute;
-  top: 30%;
-  left: 35%;
+  top: 20%;
+  left: 23%;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   font-size: 1.26563em; }
+  @media screen and (min-width: 768px) {
+    .live-stream__btn--loading .fa {
+      top: 28%;
+      left: 32%; } }
 
 .live-stream__btn--play {
   -webkit-transform: rotateX(180deg);

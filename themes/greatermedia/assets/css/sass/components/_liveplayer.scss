@@ -644,10 +644,15 @@ category: Components
 
 .live-stream__btn--loading .fa {
 	position: absolute;
-	top: 30%;
-	left: 35%;
+	top: 20%;
+	left: 23%;
 	@include transform(translate(-50%, -50%));
 	font-size: ms(2);
+
+	@include bp(medium) {
+		top: 28%;
+		left: 32%;
+	}
 }
 
 .live-stream__btn--play {
