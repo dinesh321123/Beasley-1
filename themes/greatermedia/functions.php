@@ -934,3 +934,22 @@ function greatermedia_clear_mega_menu_cache_on_menu_item_delete( $post_id = fals
 	}
 }
 add_action( 'delete_post', 'greatermedia_clear_mega_menu_cache_on_menu_item_delete' );
+
+/**
+ * Function to add titles to category or tag archives
+ */
+function greatermedia_archive_title() {
+	$current_category = single_cat_title( '', false );
+
+	echo '<h2 class="content__heading">';
+
+	if ( is_category() ) :
+		echo 'Browsing articles labeled "' . $current_category . '"';
+	elseif ( is_tag() ) :
+		echo 'Browsing articles tagged "';
+		single_tag_title();
+		echo  '"';
+	endif;
+
+	echo '</h2>';
+}
