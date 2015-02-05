@@ -6630,14 +6630,11 @@ category: Components - Ads
         margin-right: 0; } }
 .type-contest .col__inner--right,
 .type-survey .col__inner--right {
-  border-bottom: 1px solid #d0d2d3;
-  margin-bottom: 30px;
   padding-bottom: 30px; }
   @media screen and (min-width: 1024px) {
     .type-contest .col__inner--right,
     .type-survey .col__inner--right {
-      width: 300px;
-      border: none; } }
+      width: 300px; } }
   @media screen and (min-width: 1400px) {
     .type-contest .col__inner--right,
     .type-survey .col__inner--right {
