@@ -151,8 +151,9 @@
 			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
 		}
 		if (liveLinks != null && liveLinksWidget != null) {
-			if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
+			if (elemHeight(liveLinksWidget) >= elemHeight(livePlayer)) {
 				liveLinksMore.classList.add('show-more--fixed');
+				liveLinks.style.height = elemHeight(livePlayer) - elemHeight(liveStreamContainer) + 'px';
 			}
 		}
 
@@ -218,9 +219,6 @@
 					liveStreamContainer.classList.remove('live-stream--fixed');
 				}
 				if(liveLinks != null) {
-					if (elemHeight(liveLinksWidget) >= elemHeight(siteWrap)) {
-						liveLinks.style.height = elemHeight(livePlayer) - elemHeight(liveStreamContainer) + 'px';
-					}
 					liveLinks.style.marginTop = '0px';
 				}
 			} else if (!elementInViewport(header) && ! elementInViewport(footer)) {
