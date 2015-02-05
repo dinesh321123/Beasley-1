@@ -32,6 +32,7 @@
 
 	li {
 		margin-bottom: 0.75em;
+		overflow: auto;
 
 		&:last-child {
 			margin-bottom: 0;
@@ -51,8 +52,27 @@
 	}
 
 	.song__time {
+		float: left;
+		display: block;
+		width: auto;
+		max-width: 30%;
 		margin-right: 1em;
 		color: $light-gray;
+
+		@include bp(small) {
+			max-width: 20%;
+		}
+	}
+
+	.song__meta {
+		float: left;
+		display: block;
+		width: auto;
+		max-width: 65%;
+
+		@include bp(small) {
+			max-width: 75%;
+		}
 	}
 
 	.song__artist {

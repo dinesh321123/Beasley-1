@@ -12804,7 +12804,8 @@ category: Components
       .songs__group--list:last-child {
         margin-right: 0; } }
   .songs__group--list li {
-    margin-bottom: 0.75em; }
+    margin-bottom: 0.75em;
+    overflow: auto; }
     .songs__group--list li:last-child {
       margin-bottom: 0; }
   .songs__group--list .song__time,
@@ -12816,8 +12817,23 @@ category: Components
     font-size: 1em;
     font-weight: bold; }
   .songs__group--list .song__time {
+    float: left;
+    display: block;
+    width: auto;
+    max-width: 30%;
     margin-right: 1em;
     color: #d0d2d3; }
+    @media screen and (min-width: 480px) {
+      .songs__group--list .song__time {
+        max-width: 20%; } }
+  .songs__group--list .song__meta {
+    float: left;
+    display: block;
+    width: auto;
+    max-width: 65%; }
+    @media screen and (min-width: 480px) {
+      .songs__group--list .song__meta {
+        max-width: 75%; } }
   .songs__group--list .song__artist {
     font-size: 0.88889em; }
 

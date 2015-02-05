@@ -38,10 +38,10 @@ while( have_posts() ) :
 	$link = get_post_meta( get_the_ID(), 'purchase_link', true );
 	
 	?><li class="song__item">
-		<span class="song__time">
+		<div class="song__time">
 			<?php echo get_the_time( 'h:i A' ); ?>
-		</span>
-
+		</div>
+		<div class="song__meta">
 		<?php if ( filter_var( $link, FILTER_VALIDATE_URL ) ) : ?>
 			<a href="<?php echo esc_url( $link ); ?>">
 				<span class="song__title"><?php the_title(); ?></span>
@@ -55,6 +55,7 @@ while( have_posts() ) :
 				&#8212; <?php echo esc_html( $artist ); ?>
 			</span>
 		<?php endif; ?>
+		</div>
 	</li><?php
 endwhile;
 
