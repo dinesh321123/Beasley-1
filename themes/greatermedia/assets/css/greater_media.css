@@ -4650,11 +4650,11 @@ category: Components
 .live-stream {
   display: block;
   width: 100%;
-  overflow: auto;
   background-color: #000000; }
   @media screen and (min-width: 768px) {
     .live-stream {
-      width: 225px; } }
+      width: 225px;
+      overflow: auto; } }
   @media screen and (min-width: 768px) {
     .live-stream.live-stream--fixed {
       position: fixed;
@@ -4873,7 +4873,7 @@ category: Components
   position: absolute;
   right: 39px;
   width: 34px;
-  height: 58px;
+  height: 57px;
   padding: 12px 0;
   margin-right: 5px;
   -webkit-transition: width 200ms ease-in-out 200ms;
@@ -5539,7 +5539,7 @@ category: Components
   display: none;
   float: left;
   width: calc(100% - 144px);
-  height: 58px;
+  height: 57px;
   padding: 16px 1em 0 0;
   text-align: left; }
   @media screen and (min-width: 768px) {
@@ -5554,7 +5554,7 @@ category: Components
     position: relative;
     display: block;
     width: calc(100% - 78px);
-    padding: 0 0 0 3.75%; }
+    padding: 0 3.75%; }
     @media screen and (min-width: 768px) {
       .live-player--active .now-playing {
         width: 100%;
@@ -5566,7 +5566,7 @@ category: Components
     left: 0;
     display: block;
     width: calc(100% - 110px);
-    height: 58px;
+    height: 57px;
     padding: 0 0 0 3.75%; }
     @media screen and (min-width: 768px) {
       .now-playing.playing {
@@ -5604,7 +5604,7 @@ category: Components
 
 .now-playing__title {
   margin: 0 0 8px;
-  line-height: 1;
+  line-height: 1.2;
   font-size: 1em;
   font-weight: lighter;
   color: #d22228; }
