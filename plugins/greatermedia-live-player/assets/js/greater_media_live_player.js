@@ -79,7 +79,7 @@
 				$(document).pjax('a:not(.ab-item)', '.main', {
 					'fragment': '.main',
 					'maxCacheLength': 500,
-					'timeout': 5000
+					'timeout': 10000
 				});
 			}
 		} else if (gmlp.logged_in) {
@@ -87,7 +87,7 @@
 				$(document).pjax('a:not(.ab-item)', '.page-wrap', {
 					'fragment': '.page-wrap',
 					'maxCacheLength': 500,
-					'timeout': 5000
+					'timeout': 10000
 				});
 			}
 		}
