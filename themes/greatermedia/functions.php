@@ -172,7 +172,7 @@ function greatermedia_scripts_styles() {
 	wp_enqueue_style(
 		'greatermedia'
 	);
-	
+
 	/**
 	 * this is a fix to resolve conflicts with styles and javascript for The Events Calendar plugin that will not
 	 * load once pjax has been activated. We are checking to see if the `Tribe_Template_Factory` class exists and if
@@ -198,7 +198,7 @@ function greatermedia_scripts_styles() {
 add_action( 'wp_enqueue_scripts', 'greatermedia_scripts_styles');
 
 /**
- * Add custom admin stylesheet.  
+ * Add custom admin stylesheet.
  */
 function greatermedia_admin_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
@@ -217,7 +217,7 @@ function greatermedia_admin_styles() {
 add_action( 'admin_enqueue_scripts', 'greatermedia_admin_styles' );
 
 /**
- * Unload YARPP stylesheets.  
+ * Unload YARPP stylesheets.
  */
 add_action( 'get_footer', function () {
  	wp_dequeue_style( 'yarppRelatedCss' );
@@ -314,8 +314,8 @@ function get_post_with_keyword( $query_arg ) {
 }
 
 /**
- * Get the URL of a post's thumbnail.  
- * 
+ * Get the URL of a post's thumbnail.
+ *
  * @param string|array $size Thumbnail size.
  * @param int $post_id Post ID. Defaults to current post.
  * @param bool $use_fallback Determines whether to use fallback image if thumbnmail doesn't exist.
@@ -338,8 +338,8 @@ function gm_get_post_thumbnail_url( $size = 'thumbnail', $post_id = null, $use_f
 }
 
 /**
- * Output the escaped URL of a post's thumbnail.  
- * 
+ * Output the escaped URL of a post's thumbnail.
+ *
  * @param string|array $size Thumbnail size.
  * @param int $post_id Post ID. Defaults to current post.
  * @param bool $use_fallback Determines whether to use fallback image if thumbnmail doesn't exist.
@@ -349,15 +349,15 @@ function gm_post_thumbnail_url( $size = 'thumbnail', $post_id = null, $use_fallb
 }
 
 /**
- * Get the URL of an attachment thumbnail. 
- * 
+ * Get the URL of an attachment thumbnail.
+ *
  * @param id $attachment_id
- * @return null|string URL if found, null otherwise. 
+ * @return null|string URL if found, null otherwise.
  */
 function gm_get_thumbnail_url( $attachment_id, $size ) {
 	$src = wp_get_attachment_image_src( $attachment_id, $size );
 	if ( $src ) {
-		return $src[0]; 
+		return $src[0];
 	}
 
 	return null;
@@ -397,7 +397,7 @@ add_action( 'keyword_search_result', 'get_results_for_keyword' );
 
 /**
  * Alter search results on search page
- * 
+ *
  * @param  WP_Query $query [description]
  */
 function greatermedia_alter_search_query( $query ) {
@@ -475,22 +475,22 @@ if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 		if ( ! $partial_slug ) {
 			$partial_slug = 'partials/loop';
 		}
-		
-		global $wp_query; 
-		
-		ob_start(); 
-		
+
+		global $wp_query;
+
+		ob_start();
+
 		get_template_part( $partial_slug, $partial_name );
-		
+
 		$html = ob_get_clean();
-		
-		wp_send_json( array( 
-			'paged' => $wp_query->query_vars['paged'], 
+
+		wp_send_json( array(
+			'paged' => $wp_query->query_vars['paged'],
 			'max_num_pages' => $wp_query->max_num_pages,
 			'post_count' => $wp_query->post_count,
 			'html' => $html,
 		) );
-		
+
 		exit;
 	}
 
@@ -500,7 +500,7 @@ add_action( 'template_redirect', 'greatermedia_load_more_template' );
 function greatermedia_load_more_button( $args = array() ) {
 
 	global $wp_query;
-	
+
 	// $partial_slug = null, $partial_name = null, $query_or_page_link_template = null, $next_page = null
 	$args = wp_parse_args( $args, array(
 		'partial_slug' => '',
@@ -509,7 +509,7 @@ function greatermedia_load_more_button( $args = array() ) {
 		'page_link_template' => null,
 		'next_page' => null,
 		'auto_load' => false,
-	) ); 
+	) );
 
 	if ( ! $args['query'] && ! $args['page_link_template'] ) {
 		$args['query'] = $wp_query;
@@ -526,15 +526,15 @@ function greatermedia_load_more_button( $args = array() ) {
 		}
 
 		$wp_query = $temp_wp_query;
-	} 
-	
-	// Bail if we're basing this off a query and we can see there are no more 
+	}
+
+	// Bail if we're basing this off a query and we can see there are no more
 	// posts to load.
 	if ( $args['query'] && $args['next_page'] > $args['query']->max_num_pages ) {
-		return; 
-	}	
-	
-	
+		return;
+	}
+
+
 	if ( ! $args['next_page'] ) {
 		$args['next_page'] = 2;
 	}
@@ -562,9 +562,9 @@ function hide_seo_columns() {
 
     $currentScreen = get_current_screen();
     $current_user = wp_get_current_user();
-    
+
     $hidden = array( 'wpseo-score',  'wpseo-title', 'wpseo-metadesc', 'wpseo-focuskw' );
-    $first = get_user_meta( $current_user->ID, "screen-defaults-{$currentScreen->id}", true ); 
+    $first = get_user_meta( $current_user->ID, "screen-defaults-{$currentScreen->id}", true );
 
     if( !$first ) {
     	update_user_meta( $current_user->ID, 'manage' . $currentScreen->id . 'columnshidden', $hidden );
@@ -598,7 +598,7 @@ add_action( 'init' , 'greatermedia_remove_custom_fields', 10 );
 
 /**
  * Returns fallback image id for a post.
- * 
+ *
  * @param int|WP_Post|null $post_id The post id or object to return fallback for.
  * @return int The fallback image id.
  */
@@ -629,8 +629,8 @@ function add_google_analytics() {
 	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 	ga('create', 'UA-804109-43', 'auto');
-	
-	if( is_gigya_user_logged_in() ) {
+
+	if( window.is_gigya_user_logged_in && is_gigya_user_logged_in() ) {
 		ga( 'set', '&uid', get_gigya_user_id() );
 	}
 
@@ -665,7 +665,7 @@ function greatermedia_add_gigya_body_class( $classes ) {
 add_filter( 'body_class', 'greatermedia_add_gigya_body_class' );
 
 /**
- * Show more posts that usual for gmr_closure archives. 
+ * Show more posts that usual for gmr_closure archives.
  */
 add_action( 'parse_query', function ( WP_Query $query ) {
 	if ( $query->is_main_query() && $query->is_post_type_archive( 'gmr_closure' ) ) {
@@ -817,7 +817,7 @@ function post_type_caps( $post_type, $args ) {
 		'member_query',
 		'subscription',
 		);
-	
+
 	if( !in_array( $post_type, $types_to_add ) ) {
 		return;
 	}
@@ -899,7 +899,7 @@ function greatermedia_cache_mega_menu( $menu, $args ) {
 
 	$cached_menus[ $hash ] = $menu;
 	set_transient( 'gmr_mega_menus', $cached_menus );
-	
+
 	return $menu;
 }
 add_filter( 'wp_nav_menu', 'greatermedia_cache_mega_menu', 100, 2 );

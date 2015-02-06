@@ -440,7 +440,9 @@
 		}
 	}
 
-	changePlayerState();
+	$(document).ready(function() {
+		changePlayerState();
+	});
 
 	function loggedInGigyaUser() {
 		if (is_gigya_user_logged_in() ) {
@@ -1195,7 +1197,7 @@
 
 		$("#asyncData").html("<div>" + tableContent + "</div>");
 	}
-	
+
 
 	function attachAdListeners() {
 		if (player.addEventListener){
@@ -1658,12 +1660,12 @@
 		addEventHandler(podcastPlayBtn,elemClick,setInlineAudioUX);
 		addEventHandler(podcastPauseBtn,elemClick,pauseCustomInlineAudio);
 	});
-	
+
 	function is_player_popup_required() {
 		/** For testing return true **/
 		return ( "undefined" !== typeof Modernizr  && false === Modernizr.history && "" === gmlp.is_popup );
 	}
-	
+
 	function load_player_popup(){
 		jQuery('#playButton').click(function(){
 			if ( playerPopupWindow == null || playerPopupWindow.closed) {
@@ -1673,6 +1675,6 @@
 				playerPopupWindow.focus();
 			}
 		});
-		
+
 	}
 })(jQuery, window);

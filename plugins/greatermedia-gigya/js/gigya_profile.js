@@ -757,6 +757,11 @@
 			}
 		},
 
+		rerun: function(pageName) {
+			this.config.current_page = pageName;
+			this.controller.screenSetView.render();
+		},
+
 		/* must be logged in to access these pages */
 		loggedInPages: [
 			'logout',
@@ -864,23 +869,45 @@
 		}
 	};
 
-	// KLUDGE: Duplication
-	$(document).on('pjax:beforeSend', function(event, xhr, settings) {
-		var url = settings.url;
+	var getPathnameFromUrl = function(url) {
 		var a = document.createElement('a');
 		a.href = url;
 
 		var search   = a.search.replace('_pjax=.page-wrap', '');
 		search       = search.replace('_pjax=.main', '');
+
 		var pathname = a.pathname + search;
 
+		return pathname;
+	};
+
+	$(document).on('pjax:beforeSend', function(event, xhr, settings) {
+		var pathname = getPathnameFromUrl(settings.url);
+
 		if (pathname.indexOf('/members/') === 0) {
-			location.href = pathname;
-			return false;
+			if (window.gigya_profile_loaded) {
+				return true;
+			} else {
+				location.href = pathname;
+				return false;
+			}
 		} else {
 			return true;
 		}
 
 	});
+
+	$(document).on('pjax:end', function(event, xhr, settings) {
+		var pathname = getPathnameFromUrl(settings.url);
+		console.log('on pjax:end ', settings.url, pathname);
+
+		if (pathname.indexOf('/members/account') === 0) {
+			app.rerun('account');
+		} else if (pathname.indexOf('/members/logout') === 0) {
+			app.rerun('logout');
+		}
+	});
+
+	window.gigya_profile_loaded = true;
 
 }(jQuery));
