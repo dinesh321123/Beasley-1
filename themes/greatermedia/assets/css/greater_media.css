@@ -8458,7 +8458,7 @@ category: Components - Shows
     .show__nav li a {
       font-size: 1em;
       font-weight: bold;
-      padding: 9px;
+      padding: 5px;
       border-radius: 20px;
       display: inline-block;
       text-transform: uppercase;
@@ -8487,9 +8487,7 @@ category: Components - Shows
         text-align: left;
         margin-left: -9px;
         padding-top: 8px;
-        width: auto; }
-        .show__nav ul li a {
-          padding: 5px; } }
+        width: auto; } }
   @media screen and (min-width: 1200px) {
     .show__nav ul {
       text-align: justify;

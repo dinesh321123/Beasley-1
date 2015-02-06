@@ -282,7 +282,7 @@ category: Components - Shows
 		a {
 			font-size: ms(0);
 			font-weight: bold;
-			padding: 9px;
+			padding: 5px;
 			border-radius: 20px;
 			display: inline-block;
 			text-transform: uppercase;
@@ -323,12 +323,6 @@ category: Components - Shows
 			margin-left: -9px;
 			padding-top: 8px;
 			width: auto;
-
-			li {
-				a {
-					padding: 5px;
-				}
-			}
 		}
 	}
 
