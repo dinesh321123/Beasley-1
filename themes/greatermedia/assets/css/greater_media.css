@@ -5911,6 +5911,30 @@ category: Components
   padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
+  background-color: #929497;
+  border: 1px solid #929497;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 100em;
+  -webkit-transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out; }
+  .live-links--more__btn:hover, .live-links--more__btn:focus {
+    background-color: #7b7d80;
+    border-color: #7b7d80;
+    color: #ffffff; }
+  .live-links--more__btn:last-of-type {
+    margin-right: 0; }
+
+.live-links--more__btn:hover {
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
   background-color: #d22228;
   border: 1px solid #d22228;
   font-family: "Open Sans", sans-serif;
@@ -5919,11 +5943,11 @@ category: Components
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 100em; }
-  .live-links--more__btn:hover, .live-links--more__btn:focus {
+  .live-links--more__btn:hover:hover, .live-links--more__btn:hover:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
     color: #ffffff; }
-  .live-links--more__btn:last-of-type {
+  .live-links--more__btn:hover:last-of-type {
     margin-right: 0; }
 
 .audio__time {

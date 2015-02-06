@@ -1460,6 +1460,11 @@ category: Components
 }
 
 .live-links--more__btn {
+	@include btn($btn-muted, $color-text-white, $btn-muted, 0.5em, 1em, ms(-1));
+	@include transition(all 200ms ease-in-out);
+}
+
+.live-links--more__btn:hover {
 	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
 }
 
