@@ -1451,6 +1451,9 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
 .mobile-nav .sub-menu.is-visible, .mobile-nav .header__nav .format-fw > ul.is-visible, .header__nav .mobile-nav .format-fw > ul.is-visible, .mobile-nav .header__nav .format-sp > ul.is-visible, .header__nav .mobile-nav .format-sp > ul.is-visible, .mobile-nav .header__nav .format-fi > ul.is-visible, .header__nav .mobile-nav .format-fi > ul.is-visible {
   display: block;
   left: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   z-index: 1; }
 .mobile-nav .menu-item-has-children > a:first-child {
   float: left;
