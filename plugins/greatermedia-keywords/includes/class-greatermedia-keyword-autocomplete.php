@@ -12,7 +12,6 @@ class GreaterMediaKeywordAutocomplete {
 
 	public static function enqueue_scripts() {
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		wp_enqueue_script( 'jquery-ui-autocomplete');
 
 		wp_enqueue_script(
 			GreaterMedia_Keyword_Admin::$plugin_slug . '-autocomplete-script'

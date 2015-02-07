@@ -90,6 +90,23 @@ function greatermedia_setup() {
 add_action( 'after_setup_theme', 'greatermedia_setup' );
 
 /**
+ * Hooks in when script tags are being output to <head>
+ * This is the only way to use IE conditionals to load scripts.
+ * Also useful for inline script snippets that don't deserve the http request.
+ *
+ * Note: IE conditional CSS can use the enqueue system and snippets should use the wp_print_styles hook
+ */
+function greatermedia_print_scripts() {
+?>
+	<!--[if lte IE 8]>
+	<script src="<?php echo get_template_directory_uri(); ?>/assets/js/vendor/respond.min.js?ver=1.4.2"></script>
+	<![endif]-->
+	<?php
+}
+
+add_action( 'wp_print_scripts', 'greatermedia_print_scripts' );
+
+/**
  * Enqueue scripts and styles for front-end.
  *
  * @since 0.1.0
@@ -139,20 +156,6 @@ function greatermedia_scripts_styles() {
 		),
 		GREATERMEDIA_VERSION,
 		true
-	);
-	wp_enqueue_script(
-		'respond.js',
-		"{$baseurl}/assets/js/vendor/respond.min.js",
-		array(),
-		'1.4.2',
-		false
-	);
-	wp_enqueue_script(
-		'html5shiv',
-		"{$baseurl}/assets/js/vendor/html5shiv-printshiv.js",
-		array(),
-		'3.7.2',
-		false
 	);
 	wp_enqueue_script(
 		'placeholders',

@@ -52,13 +52,20 @@ add_action( 'after_setup_theme', 'wmgk_setup' );
 function wmgk_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-	wp_enqueue_script(
-		'wmgk',
-		get_stylesheet_directory_uri() . "/assets/js/wmgk{$postfix}.js",
-		array(),
-		WMGK_VERSION,
-		true
-	);
+	/*
+	 * Commented out because wmgk.js is an empty file.
+	 * The JS file and this statement remain so that future child-theme-specific JS can be added
+	 * with ease and best practices. Until then, saving the http request.
+	 */
+//	wp_enqueue_script(
+//		'wmgk',
+//		get_stylesheet_directory_uri() . "/assets/js/wmgk{$postfix}.js",
+//		array(),
+//		WMGK_VERSION,
+//		true
+//	);
+
+
 	/**
 	 * We are dequeueing and deregistering the parent theme's style sheets.
 	 * The purpose for this is we are importing the parent's sass files into the child's sass files so that we can
@@ -81,14 +88,3 @@ function wmgk_scripts_styles() {
 }
 
 add_action( 'wp_enqueue_scripts', 'wmgk_scripts_styles', 20 );
-
-/**
- * Add humans.txt to the <head> element.
- */
-function wmgk_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_template_directory_uri() . '/humans.txt" />';
-
-	echo apply_filters( 'wmgk_humans', $humans );
-}
-
-add_action( 'wp_head', 'wmgk_header_meta' );
