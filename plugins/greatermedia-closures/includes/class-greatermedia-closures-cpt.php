@@ -78,7 +78,8 @@ class GreaterMediaClosuresCPT {
 			'query_var'           => true,
 			'can_export'          => true,
 			'rewrite'             => array( 'slug' => 'closures' ),
-			'capability_type'     => 'post',
+			'capability_type'     => array( 'closure', 'closures' ),
+			'map_meta_cap'        => true,
 			'supports'            => array(
 				'title'
 				)

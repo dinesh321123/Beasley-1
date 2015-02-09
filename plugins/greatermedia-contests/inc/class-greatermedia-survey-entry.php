@@ -84,6 +84,8 @@ class GreaterMediaSurveyEntry {
 			'can_export'          => false,
 			'rewrite'             => false,
 			'supports'            => array( 'title', 'custom-fields' ),
+			'capability_type'     => array( 'survey_entry', 'survey_entries' ),
+			'map_meta_cap'        => true,
 		);
 
 		register_post_type( GMR_SURVEY_RESPONSE_CPT, $args );

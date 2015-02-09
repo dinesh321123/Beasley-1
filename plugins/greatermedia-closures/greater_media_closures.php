@@ -22,3 +22,19 @@ define( 'GMCLOSURES_PATH',    dirname( __FILE__ ) . '/' );
 
 require GMCLOSURES_PATH . 'includes/class-greatermedia-closures-cpt.php';
 require GMCLOSURES_PATH . 'includes/class-greatermedia-closures-metaboxes.php';
+
+register_activation_hook( __FILE__, 'gmr_closures_activated' );
+register_deactivation_hook( __FILE__, 'gmr_closures_deactivated' );
+
+function gmr_closures_activated() {
+	\GreaterMediaClosuresCPT::gmedia_closures_cpt();
+
+	load_capabilities( \GreaterMediaClosuresCPT::CLOSURE_CPT_SLUG );
+
+	flush_rewrite_rules();
+}
+
+function gmr_closures_deactivated() {
+	unload_capabilities( \GreaterMediaClosuresCPT::CLOSURE_CPT_SLUG );
+	flush_rewrite_rules();
+}

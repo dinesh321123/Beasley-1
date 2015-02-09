@@ -14,3 +14,15 @@ define( 'GMR_LIVE_LINK_CPT', 'gmr-live-link' );
 
 require_once 'includes/live-link.php';
 require_once 'includes/quickpost.php';
+
+register_activation_hook( __FILE__, 'gmr_live_link_activate' );
+register_deactivation_hook( __FILE__, 'gmr_live_link_deactivate' );
+
+function gmr_live_link_activate() {
+	gmr_ll_register_post_type();
+	load_capabilities( GMR_LIVE_LINK_CPT );
+}
+
+function gmr_live_link_deactivate() {
+	unload_capabilities( GMR_LIVE_LINK_CPT );
+}

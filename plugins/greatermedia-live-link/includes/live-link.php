@@ -107,7 +107,7 @@ function gmr_ll_delete_post_live_links( $post_id ) {
  */
 function gmr_ll_live_link_suggest() {
 	$query = new WP_Query();
-	
+
 	$results = $query->query( array(
 		'live_link_suggestion' => wp_unslash( $_GET['q'] ),
 		'post_type'            => gmr_ll_get_suggestion_post_types(),
@@ -132,12 +132,12 @@ function gmr_ll_live_link_suggest() {
  */
 function gmr_ll_suggestion_by_post_title( $where, $wp_query ) {
     global $wpdb;
-	
+
     if ( ( $post_title = $wp_query->get( 'live_link_suggestion' ) ) ) {
 		$post_title = esc_sql( $wpdb->esc_like( $post_title ) );
 		$where .= " AND {$wpdb->posts}.post_title LIKE '%{$post_title}%'";
     }
-	
+
     return $where;
 }
 
@@ -195,6 +195,8 @@ function gmr_ll_register_post_type() {
 			'not_found'          => 'No links found.',
 			'not_found_in_trash' => 'No links found in Trash.',
 		),
+		'capability_type' => array( 'live_link', 'live_links' ),
+		'map_meta_cap' => true,
 	) );
 }
 
@@ -236,7 +238,7 @@ function gmr_ll_render_redirect_meta_box( WP_Post $post ) {
 			});
 		})(jQuery);
 	</script>
-	
+
 	<input type="text" class="widefat" name="gmr_ll_redirect" value="<?php echo esc_attr( $redirect_url ) ?>" required>
 	<p class="description">Enter external link or start typing a post title to see a list of suggestions.</p><?php
 }
@@ -319,7 +321,7 @@ function gmr_ll_render_custom_column( $column_name, $post_id ) {
 	if ( 'redirect' == $column_name ) {
 		$link = gmr_ll_get_redirect_link( $post_id );
 		if ( $link ) {
-			printf( 
+			printf(
 				'<a href="%s" target="_blank" title="%s">%s</a>',
 				esc_url( $link ),
 				esc_attr( $link ),
@@ -366,7 +368,7 @@ function gmr_ll_get_redirect_link( $live_link_id ) {
 			return $redirect;
 		}
 	}
-	
+
 	if ( $post ) {
 		$post_status = get_post_status_object( $post->post_status );
 		if ( $post_status && ! empty( $post_status->public ) ) {
@@ -410,12 +412,12 @@ function gmr_ll_add_post_action( $actions, WP_Post $post ) {
 		return $actions;
 	}
 
-	// add copy action 
+	// add copy action
 	$link = admin_url( 'admin.php?action=gmr_ll_copy&post_id=' . $post->ID );
 	$link = wp_nonce_url( $link, 'gmr-ll-copy' );
 
 	$actions['gmr-live-link'] = '<a href="' . esc_url( $link ) . '">Copy Live Link</a>';
-	
+
 	return $actions;
 }
 
@@ -449,7 +451,7 @@ function gmr_ll_copy_post_to_live_link( $post_id ) {
 	if ( $post->post_type == GMR_LIVE_LINK_CPT ) {
 		return false;
 	}
-	
+
 	$args = array(
 		'post_status' => 'publish',
 		'post_type'   => GMR_LIVE_LINK_CPT,
@@ -515,7 +517,7 @@ function gmr_ll_get_widget_item_ids( $posts ) {
 
 /**
  * Returns blogroll widget item output.
- * 
+ *
  * @filter gmr_blogroll_widget_item
  * @return string The item html.
  */
@@ -523,11 +525,11 @@ function gmr_ll_output_blogroll_widget_live_link_item( $item ) {
 	if ( GMR_LIVE_LINK_CPT != get_post_type() ) {
 		return $item;
 	}
-	
+
 	$link = gmr_ll_get_redirect_link( get_the_ID() );
 
 	$post_id = get_the_ID();
-	
+
 	if ( has_post_format( 'gallery', $post_id ) ) {
 		$format = 'gallery';
 	} elseif ( has_post_format( 'link', $post_id ) ) {
@@ -550,6 +552,6 @@ function gmr_ll_output_blogroll_widget_live_link_item( $item ) {
 			get_the_title()
 		);
 	}
-	
+
 	return $item;
 }

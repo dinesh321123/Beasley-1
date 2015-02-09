@@ -47,6 +47,7 @@ class CapabilitiesLoader {
 		if ( $post_type_obj && property_exists( $post_type_obj, 'cap' ) ) {
 			return $post_type_obj->cap;
 		} else {
+			error_log( "Error: Empty Capabilities for $post_type" );
 			return array();
 		}
 	}

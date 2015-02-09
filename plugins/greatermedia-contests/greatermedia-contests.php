@@ -51,5 +51,34 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	include 'inc/class-greatermedia-contests-wp-cli.php';
 }
 
-register_activation_hook( __FILE__, 'flush_rewrite_rules' );
-register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
+register_activation_hook( __FILE__, 'gmr_contests_activated' );
+register_deactivation_hook( __FILE__, 'gmr_contests_deactivated' );
+
+function gmr_contests_activated() {
+	gmr_contests_register_post_type();
+	\GreaterMediaContestEntry::contest_entry();
+	\GreaterMediaUserGeneratedContent::user_generated_content();
+
+	$surveys = new GreaterMediaSurveys();
+	$surveys->register_survey_cpt();
+
+	\GreaterMediaSurveyEntry::register_survey_response_cpt();
+
+	load_capabilities( GMR_CONTEST_CPT );
+	load_capabilities( GMR_CONTEST_ENTRY_CPT );
+	load_capabilities( GMR_SUBMISSIONS_CPT );
+	load_capabilities( GMR_SURVEY_CPT );
+	load_capabilities( GMR_SURVEY_RESPONSE_CPT );
+
+	flush_rewrite_rules();
+}
+
+function gmr_contests_deactivated() {
+	unload_capabilities( GMR_CONTEST_CPT );
+	unload_capabilities( GMR_CONTEST_ENTRY_CPT );
+	unload_capabilities( GMR_SUBMISSIONS_CPT );
+	unload_capabilities( GMR_SURVEY_CPT );
+	unload_capabilities( GMR_SURVEY_RESPONSE_CPT );
+
+	flush_rewrite_rules();
+}

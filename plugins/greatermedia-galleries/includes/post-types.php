@@ -74,7 +74,8 @@ class GreaterMediaGalleryCPT {
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
-			'capability_type'     => 'post',
+			'capability_type'     => array( 'gallery', 'galleries' ),
+			'map_meta_cap'        => true,
 		);
 		register_post_type( self::GALLERY_POST_TYPE, $args );
 
@@ -121,7 +122,8 @@ class GreaterMediaGalleryCPT {
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
-			'capability_type'     => 'post',
+			'capability_type'     => array( 'album', 'albums' ),
+			'map_meta_cap'        => true,
 		);
 		register_post_type( self::ALBUM_POST_TYPE, $args );
 

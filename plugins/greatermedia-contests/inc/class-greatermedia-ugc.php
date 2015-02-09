@@ -219,7 +219,8 @@ class GreaterMediaUserGeneratedContent {
 			'can_export'          => true,
 			'has_archive'         => false,
 			'exclude_from_search' => true,
-			'capability_type'     => 'page',
+			'capability_type'     => array( 'listener_submission', 'listener_submissions' ),
+			'map_meta_cap'        => true,
 			'rewrite'             => array( 'slug' => 'contest-submission' ),
 		);
 
@@ -374,7 +375,7 @@ class GreaterMediaUserGeneratedContent {
 			if ( '.json' === $output ) {
 				wp_send_json_success( array( 'ids' => $ugc_id ) );
 			}
-			
+
 		} elseif ( 'gallery-delete' === $ugc_action ) {
 
 			$ugc_id = intval( get_query_var( 'ugc' ) );
@@ -412,7 +413,7 @@ class GreaterMediaUserGeneratedContent {
 			if ( '.json' === $output ) {
 				wp_send_json_success( array( 'ids' => $ugc_id ) );
 			}
-			
+
 			$redirect .= '#ugc-' . $ugc_id;
 
 		} elseif ( 'bulk' === $ugc_action ) {
@@ -443,7 +444,7 @@ class GreaterMediaUserGeneratedContent {
 
 				if ( '.json' === $output ) {
 					wp_send_json_success( array( $$ugc_ids ) );
-				} 
+				}
 
 			} elseif ( 'trash' === $action ) {
 
@@ -523,7 +524,7 @@ class GreaterMediaUserGeneratedContent {
 	public function contest() {
 
 		return get_post( $this->post->post_parent );
-		
+
 	}
 
 	public function listener_gigya_id() {

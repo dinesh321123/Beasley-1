@@ -54,7 +54,8 @@ class ContentKit {
 			'query_var'           => true,
 			'can_export'          => true,
 			'rewrite'             => true,
-			'capability_type'     => 'post',
+			'capability_type'     => array( 'content_kit', 'content_kits' ),
+			'map_meta_cap'        => true,
 			'supports'            => array(
 				'title', 'editor', 'author', 'thumbnail',
 				'excerpt','custom-fields', 'trackbacks', 'comments',

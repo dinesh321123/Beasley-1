@@ -127,11 +127,11 @@ function gmr_contests_map_meta_cap( $caps, $cap, $user_id, $args ) {
 		}
 
 		$caps[] = 'do_not_allow';
-		
+
 		unset( $caps[ array_search( 'delete_post', $caps ) ] );
 		unset( $caps[ array_search( 'delete_posts', $caps ) ] );
 	}
-	
+
 	return $caps;
 }
 
@@ -193,7 +193,7 @@ function gmr_contests_prevent_trash_transition( $new_status, $old_status, $post 
  */
 function gmr_contests_adjuste_attachments_query( $args ) {
 	if ( isset( $args['post_status'] ) ) {
-		$post_status = is_array( $args['post_status'] ) 
+		$post_status = is_array( $args['post_status'] )
 			? $args['post_status']
 			: explode( ',', $args['post_status'] );
 
@@ -201,7 +201,7 @@ function gmr_contests_adjuste_attachments_query( $args ) {
 
 		$args['post_status'] = $post_status;
 	}
-	
+
 	return $args;
 }
 
@@ -226,7 +226,7 @@ function gmr_contests_register_post_type() {
 		'not_found'          => 'Not found',
 		'not_found_in_trash' => 'Not found in Trash'
 	);
-	
+
 	$args   = array(
 		'label'               => 'Contests',
 		'labels'              => $labels,
@@ -238,6 +238,8 @@ function gmr_contests_register_post_type() {
 		'can_export'          => true,
 		'has_archive'         => 'contests',
 		'rewrite'             => array( 'slug' => 'contest', 'ep_mask' => EP_GMR_CONTEST ),
+		'capability_type'     => array( 'contest', 'contests' ),
+		'map_meta_cap'        => true,
 	);
 
 	register_post_type( GMR_CONTEST_CPT, $args );
@@ -332,7 +334,7 @@ function gmr_contests_process_submission_action() {
 		nocache_headers();
 
 		add_filter( 'gmr_gallery_use_hash', '__return_false' );
-		
+
 		the_post();
 		get_template_part( 'partials/submission', 'preview' );
 		exit;
@@ -435,7 +437,7 @@ function _gmr_contests_get_submission_for_voting_actions() {
  * @return string The voting key.
  */
 function _gmr_contests_get_vote_key() {
-	return function_exists( 'get_gigya_user_id' ) 
+	return function_exists( 'get_gigya_user_id' )
 		? 'vote_' . get_gigya_user_id()
 		: false;
 }
@@ -455,7 +457,7 @@ function gmr_contests_is_user_voted_for_submission( $submission = null ) {
 	if ( empty( $vote_key ) ) {
 		return false;
 	}
-	
+
 	$submission = get_post( $submission );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 
@@ -560,7 +562,7 @@ function gmr_contest_has_max_entries( $contest_id = null ) {
 
 	$max_entries = get_post_meta( $contest_id, 'contest-max-entries', true );
 	$current_entries = gmr_contests_get_entries_count( $contest_id );
-	
+
 	return $max_entries > 0 && $current_entries >= $max_entries;
 }
 
@@ -841,7 +843,7 @@ function gmr_contests_get_entries_count( $contest_id ) {
  */
 function gmr_contests_submissions_query( $contest_id = null ) {
 	global $submission_paged;
-	
+
 	if ( is_a( $contest_id, 'WP_Query' ) ) {
 		return $contest_id;
 	}
@@ -849,7 +851,7 @@ function gmr_contests_submissions_query( $contest_id = null ) {
 	if ( is_null( $contest_id ) ) {
 		$contest_id = get_the_ID();
 	}
-	
+
 	return new WP_Query( array(
 		'post_type'      => GMR_SUBMISSIONS_CPT,
 		'post_parent'    => $contest_id,
@@ -887,7 +889,7 @@ function gmr_contests_get_submission_permalink( $post_link, $post ) {
  */
 function gmr_contests_unpack_vars( $query_vars ) {
 	global $submission_paged;
-	
+
 	if ( empty( $query_vars[ GMR_CONTEST_CPT ] ) ) {
 		return $query_vars;
 	}
@@ -1029,7 +1031,7 @@ function gmr_contests_submission_class( $class ) {
 	if ( gmr_contests_is_submission_winner( $post ) ) {
 		$classes[] = 'winner';
 	}
-	
+
 	if ( ! empty( $class ) ) {
 		$classes = array_merge( $classes, ! is_array( $class ) ? $class = preg_split( '#\s+#', $class ) : $class );
 	}

@@ -802,55 +802,6 @@ function greatermedia_image_caption_override( $empty, $attr, $content ) {
 }
 add_filter( 'img_caption_shortcode', 'greatermedia_image_caption_override', null, 3 );
 
-function post_type_caps( $post_type, $args ) {
-	global $wp_post_types;
-
-	$types_to_add = array(
-		GMR_LIVE_LINK_CPT,
-		'gmr_gallery',
-		'gmr_album',
-		'contest',
-		'survey',
-		'show',
-		'podcast',
-		'episode',
-		'cdvertiser',
-		'gmr_closure',
-		'content-kit',
-		'member_query',
-		'subscription',
-		);
-
-	if( !in_array( $post_type, $types_to_add ) ) {
-		return;
-	}
-
-	$args->capability_type = $post_type;
-    $args->map_meta_cap = true;
-
-    $args->cap = array(
-			'edit_post' => 'edit_' . $post_type,
-            'read_post' => 'read_' . $post_type,
-            'delete_post' => 'delete_' . $post_type,
-            'edit_posts' => 'edit_' . $post_type . 's',
-            'edit_others_posts' => 'edit_others_' . $post_type . 's',
-            'publish_posts' => 'publish_' . $post_type . 's',
-            'read_private_posts' => 'read_private_' . $post_type . 's',
-            'read' => 'read',
-            'delete_posts' => 'delete_'  . $post_type . 's',
-            'delete_private_posts' => 'delete_private_'  . $post_type . 's',
-            'delete_published_posts' => 'delete_published_' . $post_type . 's',
-            'delete_others_posts' => 'delete_others_' . $post_type . 's',
-            'edit_private_posts' => 'edit_private_' . $post_type . 's',
-            'edit_published_posts' => 'edit_published_' . $post_type . 's',
-            'create_posts' => 'edit_' . $post_type . 's',
-    	);
-    $args->cap = (object) $args->cap;
-    // Modify post type object
-    $wp_post_types[$post_type] = $args;
-
-}
-add_action( 'registered_post_type', 'post_type_caps', 10, 2 );
 /**
  * Returns menu hash based on its arguments.
  *

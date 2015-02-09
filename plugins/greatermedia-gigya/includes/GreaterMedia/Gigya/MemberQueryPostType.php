@@ -160,11 +160,12 @@ class MemberQueryPostType {
 			'query_var'          => false,
 			'can_export'         => true,
 			'rewrite'            => false,
-			'capability_type'    => 'page',
+			'capability_type'    => array( 'member_query', 'member_queries' ),
+			'map_meta_cap'       => true,
 			'has_archive'        => false,
 			'hierarchical'       => false,
-			'menu_position'	     => 66,
-			'menu_icon'          => 'dashicons-search'
+			'menu_position'      => 66,
+			'menu_icon'          => 'dashicons-search',
 		);
 	}
 

@@ -5,7 +5,7 @@
  * Description: This plugin proves option to create announcements to be visible on station dashboard page
  * Version:     0.0.1
  * Author:      10up
- * Author URI:  
+ * Author URI:
  * License:     GPLv2+
  * Text Domain: gmannounce
  * Domain Path: /languages
@@ -24,3 +24,17 @@ define( 'GMANNOUNCE_PATH',    dirname( __FILE__ ) . '/' );
 
 require_once( GMANNOUNCE_PATH . 'includes/class-announcements-cpt.php' );
 require_once( GMANNOUNCE_PATH . 'includes/class-announcements-dashboard-widget.php' );
+
+register_activation_hook( __FILE__, 'gmr_announcements_activated' );
+register_deactivation_hook( __FILE__, 'gmr_announcements_deactivated' );
+
+function gmr_announcements_activated() {
+	$cpt = new AnnouncementsCPT();
+	$cpt->register_announcements_cpt();
+
+	load_capabilities( 'announcement' );
+}
+
+function gmr_announcements_deactivated() {
+	unload_capabilities( 'announcement' );
+}

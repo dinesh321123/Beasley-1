@@ -21,3 +21,19 @@ include __DIR__ . '/includes/gallery-metaboxes.php';
 include __DIR__ . '/includes/album-metaboxes.php';
 include __DIR__ . '/includes/post-list.php';
 include __DIR__ . '/includes/endpoints.php';
+
+register_activation_hook( __FILE__, 'gmr_galleries_activated' );
+register_deactivation_hook( __FILE__, 'gmr_galleries_deactivated' );
+
+function gmr_galleries_activated() {
+	\GreaterMediaGalleryCPT::gallery_cpt();
+	\GreaterMediaGalleryCPT::album_cpt();
+
+	load_capabilities( GreaterMediaGalleryCPT::GALLERY_POST_TYPE );
+	load_capabilities( GreaterMediaGalleryCPT::ALBUM_POST_TYPE );
+}
+
+function gmr_galleries_deactivated() {
+	unload_capabilities( GreaterMediaGalleryCPT::GALLERY_POST_TYPE );
+	unload_capabilities( GreaterMediaGalleryCPT::ALBUM_POST_TYPE );
+}

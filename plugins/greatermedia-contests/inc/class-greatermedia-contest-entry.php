@@ -106,6 +106,8 @@ class GreaterMediaContestEntry {
 			'public'       => false,
 			'can_export'   => true,
 			'has_archive'  => false,
+			'capability_type' => array( 'contest_entry', 'contest_entries' ),
+			'map_meta_cap'    => true,
 		) );
 
 	}

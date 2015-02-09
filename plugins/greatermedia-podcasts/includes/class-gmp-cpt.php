@@ -87,7 +87,8 @@ class GMP_CPT {
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
-			'capability_type'     => 'page',
+			'capability_type'     => array( 'podcast', 'podcasts' ),
+			'map_meta_cap'        => true,
 		);
 		register_post_type( self::PODCAST_POST_TYPE, $args );
 
@@ -144,7 +145,8 @@ class GMP_CPT {
 			'exclude_from_search' => false,
 			'publicly_queryable'  => true,
 			'rewrite'             => $rewrite,
-			'capability_type'     => 'page',
+			'capability_type'     => array( 'podcast_episode', 'podcast_episodes' ),
+			'map_meta_cap'        => true,
 			'register_meta_box_cb' => array( __CLASS__, 'parent_metabox' ),
 		);
 		register_post_type( self::EPISODE_POST_TYPE, $args );
@@ -296,7 +298,7 @@ class GMP_CPT {
 
     	$wp_custom_query = new WP_Query( $args );
     	$count += $wp_custom_query->found_posts;
-    	
+
     	$offset += 1;
 		if( $wp_custom_query->max_num_pages > $offset )  {
 			self::get_podcast_episodes( $post_id, $offset, $count );

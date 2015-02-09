@@ -54,7 +54,7 @@ class AnnouncementsCPT {
 			'query_var'             => true,
 			'can_export'            => true,
 			'rewrite'               => true,
-			'capability_type'       => 'post',
+			'capability_type'       => array( 'announcement', 'announcements' ),
 			'supports'              => array(
 				'title', 'editor', 'author', 'thumbnail',
 				'excerpt','custom-fields', 'trackbacks', 'comments',

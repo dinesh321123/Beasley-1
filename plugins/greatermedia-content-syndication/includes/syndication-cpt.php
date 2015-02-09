@@ -222,7 +222,7 @@ class SyndicationCPT {
 			'query_var'           => true,
 			'can_export'          => true,
 			'rewrite'             => true,
-			'capability_type'     => 'post',
+			'capability_type'     => array( 'subscription', 'subscriptions' ),
 			'supports'            => array(
 				'title'
 			)

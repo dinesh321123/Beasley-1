@@ -69,12 +69,16 @@ class ShowsCPT {
 				'parent_item_colon'  => __( 'Parent Show:', 'greatermedia' ),
 				'menu_name'          => __( 'Shows', 'greatermedia' ),
 			),
+			'capability_type' => array( 'show', 'shows' ),
+			'map_meta_cap' => true,
 		) );
 
 		register_post_type( self::EPISODE_CPT, array(
 			'public'     => false,
 			'rewrite'    => false,
 			'can_export' => true,
+			'capability_type' => array( 'show_episode', 'show_episodes' ),
+			'map_meta_cap' => true,
 			'labels'     => array(
 				'name'          => __( 'Show Episodes', 'greatermedia' ),
 				'singular_name' => __( 'Show Episode', 'greatermedia' ),
@@ -141,7 +145,6 @@ class ShowsCPT {
 			'podcast',
 			'tribe_events',
 			'survey',
-			'livefyre-media-wall',
 			'gmr_gallery',
 			'gmr_album',
 		);
@@ -174,7 +177,7 @@ class ShowsCPT {
 			wp_enqueue_script( 'greatermedia-show', GMEDIA_SHOWS_URL . 'assets/js/show' . $postfix . '.js', array( 'jquery' ), GMEDIA_SHOWS_VERSION, true );
 			wp_localize_script( 'greatermedia-show', 'gmr_show', array(
 				'ajaxurl' => add_query_arg( array(
-					'action' => 'gmr_show_load_live_links', 
+					'action' => 'gmr_show_load_live_links',
 					'show'   => $show_id,
 					'nonce'  => wp_create_nonce( 'show_load_more_links_' . $show_id ),
 				), admin_url( 'admin-ajax.php' ) ),

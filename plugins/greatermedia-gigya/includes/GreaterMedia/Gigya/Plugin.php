@@ -42,13 +42,29 @@ class Plugin {
 			$this->plugin_file,
 			array( $this, 'migrate' )
 		);
+
+		register_deactivation_hook(
+			$this->plugin_file,
+			array( $this, 'deactivate' )
+		);
 	}
 
 	public function migrate() {
 		$migrator = new Sync\TempSchemaMigrator();
 		$migrator->migrate();
 
+		$post_type = new MemberQueryPostType();
+		$post_type->register();
+
+		load_capabilities( $post_type->get_post_type_name() );
+
 		flush_rewrite_rules();
+	}
+
+	public function deactivate() {
+		$post_type = new MemberQueryPostType();
+
+		unload_capabilities( $post_type->get_post_type_name() );
 	}
 
 	/**

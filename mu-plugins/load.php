@@ -14,6 +14,7 @@ include __DIR__ . '/dependencies/dependencies.php';
 include __DIR__ . '/post-finder/post-finder.php';
 include __DIR__ . '/mega-menu-support/mega-menu-support.php';
 include __DIR__ . '/force-frontend-http/force-frontend-http.php';
+include __DIR__ . '/capabilities/capabilities.php';
 
 // These are going to be activated no matter what to ensure that themes can always rely on the functionality
 include __DIR__ . '/gmr-template-tags/gmr-template-tags.php';
