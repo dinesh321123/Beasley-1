@@ -223,6 +223,7 @@ class SyndicationCPT {
 			'can_export'          => true,
 			'rewrite'             => true,
 			'capability_type'     => array( 'subscription', 'subscriptions' ),
+			'map_meta_cap'        => true,
 			'supports'            => array(
 				'title'
 			)

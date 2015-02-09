@@ -14,6 +14,10 @@ add_filter( 'parent_file', 'gmr_surveys_adjust_responses_page_admin_menu' );
  * Renders link to access survey responses.
  */
 function gmr_survey_view_responses_link() {
+	if ( ! current_user_can( 'edit_survey_responses' ) ) {
+		return;
+	}
+
 	$post = get_post();
 	$post_status = get_post_status_object( $post->post_status );
 
@@ -39,8 +43,10 @@ function gmr_surveys_add_table_row_actions( $actions, WP_Post $post ) {
 	}
 
 	// add survey responses action
-	$link = admin_url( 'admin.php?page=gmr-survey-responses&survey_id=' . $post->ID );
-	$actions['gmr-survey-response'] = '<a href="' . esc_url( $link ) . '">Responses</a>';
+	if ( current_user_can( 'edit_survey_responses' ) ) {
+		$link = admin_url( 'admin.php?page=gmr-survey-responses&survey_id=' . $post->ID );
+		$actions['gmr-survey-response'] = '<a href="' . esc_url( $link ) . '">Responses</a>';
+	}
 
 	// unset redundant actions
 	unset( $actions['inline hide-if-no-js'], $actions['edit_as_new_draft'], $actions['clone'] );
@@ -53,6 +59,7 @@ function gmr_surveys_add_table_row_actions( $actions, WP_Post $post ) {
 			$actions[ $key ] = $link;
 		}
 	}
+
 
 	return $actions;
 }

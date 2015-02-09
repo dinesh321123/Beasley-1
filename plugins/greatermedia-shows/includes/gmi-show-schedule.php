@@ -96,7 +96,7 @@ function gmrs_enqueue_episode_scripts( $current_page ) {
  */
 function gmrs_register_episode_page() {
 	global $gmrs_show_episode_page;
-	$gmrs_show_episode_page = add_submenu_page( 'edit.php?post_type=' . ShowsCPT::SHOW_CPT, 'Show Schedule', 'Schedule', 'manage_options', 'episode-schedule', 'gmrs_render_episode_schedule_page' );
+	$gmrs_show_episode_page = add_submenu_page( 'edit.php?post_type=' . ShowsCPT::SHOW_CPT, 'Show Schedule', 'Schedule', 'edit_show_episodes', 'episode-schedule', 'gmrs_render_episode_schedule_page' );
 }
 
 /**
@@ -132,7 +132,7 @@ function gmrs_add_show_episode() {
 	if ( $start_date_gmt < $today_gmt ) {
 		wp_die( 'Please, select a date in the future.', '', array( 'back_link' => true ) );
 	}
-	
+
 	if ( $data['start_time'] > $data['end_time'] ) {
 		wp_die( 'Please, select the end time greater than start time.', '', array( 'back_link' => true ) );
 	}
@@ -140,7 +140,7 @@ function gmrs_add_show_episode() {
 	$iterations = 1;
 	$skip_daysofweek = array();
 	switch ( $data['repeat'] ) {
-		case 2: 
+		case 2:
 			$iterations = 7;
 			break;
 		case 3:
@@ -272,10 +272,10 @@ function gmrs_render_episode_schedule_page() {
 	) );
 
 	$now = current_time( 'timestamp', 1 );
-	$active['date'] = $active['date'] >= time() 
+	$active['date'] = $active['date'] >= time()
 		? date( 'Y-m-d', $active['date'] )
 		: date( 'Y-m-d', $now );
-	
+
 	$episodes = gmrs_get_scheduled_episodes();
 	$precision = 0.5; // 1 - each hour, 0.5 - each 30 mins, 0.25 - each 15 mins
 
@@ -393,7 +393,7 @@ function gmrs_render_episode_schedule_page() {
 									?><div class="show-<?php echo esc_attr( $episode->post_parent ); ?>"
 										 style="<?php echo implode( ';', $styles ) ?>"
 										 data-hover-color="<?php echo gmrs_show_color( $episode->post_parent, 0.4 ) ?>">
-										
+
 										<small>
 											<?php echo date( 'M d', strtotime( $episode->post_date_gmt ) + $offset ); ?><br>
 											<?php echo date( 'h:i A', strtotime( $episode->post_date_gmt ) + $offset ); ?><br>
@@ -401,7 +401,7 @@ function gmrs_render_episode_schedule_page() {
 										</small>
 
 										<b><?php echo esc_html( $episode->post_title ); ?></b>
-										
+
 										<div>
 											<?php $delete_url = 'admin.php?action=gmr_delete_show_episode&episode=' . $episode->ID ?>
 											<a class="remove-show" href="<?php echo esc_url( wp_nonce_url( $delete_url, 'gmr_delete_show_episode_' . $episode->ID ) ) ?>">Remove</a>
@@ -455,7 +455,7 @@ function gmrs_get_scheduled_episodes( $from = null, $to = null) {
 	if ( empty( $to ) ) {
 		$to = date( 'Y-m-d 23:59:59', strtotime( '+1 week' ) );
 	}
-	
+
 	$posts = $query->query( array(
 		'post_type'           => ShowsCPT::EPISODE_CPT,
 		'post_status'         => 'any',
@@ -485,9 +485,9 @@ function gmrs_get_scheduled_episodes( $from = null, $to = null) {
 		if ( ! $show ) {
 			continue;
 		}
-		
+
 		$post->post_title = $show->post_title;
-		
+
 		$episodes[ $dayofweek ][] = $post;
 	}
 
@@ -525,7 +525,7 @@ function gmrs_sort_episodes( $a, $b ) {
  */
 function gmrs_show_color( $show_id, $opacity ) {
 	$hash = sha1( $show_id );
-	return sprintf( 
+	return sprintf(
 		'rgba(%d, %d, %d, %f)',
 		hexdec( substr( $hash, 0, 2 ) ),
 		hexdec( substr( $hash, 2, 2 ) ),
@@ -613,10 +613,10 @@ function gmrs_get_current_show_episode() {
  * @return WP_Post|null The show object on success, otherwise NULL.
  */
 function gmrs_get_show_at( $time = false ) {
-	$episode = $time 
+	$episode = $time
 		? gmrs_get_show_episode_at( $time )
 		: gmrs_get_current_show_episode();
-	
+
 	if ( ! empty( $episode ) ) {
 		$show = get_post( $episode->post_parent );
 		if ( $show && ShowsCPT::SHOW_CPT == $show->post_type ) {
@@ -668,13 +668,13 @@ function gmrs_is_episode_onair( WP_Post $episode ) {
 
 	$current_time = current_time( 'timestamp', 1 );
 	$ended = $started + $interval;
-	
+
 	return $started <= $current_time && $current_time <= $ended;
 }
 
 /**
  * Disables Edit Flow custom status influence on post_date_gmt field.
- * 
+ *
  * @global edit_flow $edit_flow The Edit Flow plugin instance.
  * @global boolean $gmrs_editflow_custom_status_disabled Determines whether or not this filter has been previously disabled.
  */
@@ -689,7 +689,7 @@ function gmrs_disable_editflow_custom_status_influence() {
 
 /**
  * Enables Edit Flow custom status influence on post_date_gmt field.
- * 
+ *
  * @global edit_flow $edit_flow The Edit Flow plugin instance.
  * @global boolean $gmrs_editflow_custom_status_disabled Determines whether or not this filter has been previously disabled.
  */

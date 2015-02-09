@@ -18,6 +18,10 @@ add_filter( 'parent_file', 'gmr_contests_adjust_current_admin_menu' );
  * Renders link to access contest entries.
  */
 function gmr_contest_view_entries_link() {
+	if ( ! current_user_can( 'edit_contest_entries' ) ) {
+		return;
+	}
+
 	$post = get_post();
 	$post_status = get_post_status_object( $post->post_status );
 
@@ -412,7 +416,7 @@ class GMR_Contest_Entries_Table extends WP_Posts_List_Table {
 	 */
 	protected function extra_tablenav( $which ) {
 		global $wp_query;
-		
+
 		$random = filter_input( INPUT_GET, 'random', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
 
 		if ( $which == 'top' ) :
@@ -454,7 +458,7 @@ class GMR_Contest_Entries_Table extends WP_Posts_List_Table {
 	 */
 	public function get_columns() {
 		$columns = parent::get_columns();
-		
+
 		$contest = filter_input( INPUT_GET, 'contest_id', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
 		if ( ! $contest || ! ( $contest = get_post( $contest ) ) || GMR_CONTEST_CPT != $contest->post_type ) {
 			return $columns;
@@ -465,7 +469,7 @@ class GMR_Contest_Entries_Table extends WP_Posts_List_Table {
 		if ( gmr_contest_has_files( $contest->ID ) ) {
 			$columns['_gmr_thumbmail'] = 'Thumbnail';
 		}
-		
+
 		$columns['_gmr_username'] = 'Submitted by';
 		$columns['_gmr_email'] = 'Email';
 		$columns['_gmr_submitted'] = 'Submitted on';
@@ -555,7 +559,7 @@ class GMR_Contest_Winners_Table extends WP_List_Table {
 		if ( gmr_contest_has_files( $this->_args['contest_id'] ) ) {
 			$actions['_gmr_thumbmail'] = 'Thumbnail';
 		}
-		
+
 		$actions['_gmr_username'] = 'Name';
 		$actions['_gmr_email'] = 'Email';
 		$actions['_gmr_submitted'] = 'Submitted';

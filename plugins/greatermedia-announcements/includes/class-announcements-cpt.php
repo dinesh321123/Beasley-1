@@ -55,6 +55,7 @@ class AnnouncementsCPT {
 			'can_export'            => true,
 			'rewrite'               => true,
 			'capability_type'       => array( 'announcement', 'announcements' ),
+			'map_meta_cap'          => true,
 			'supports'              => array(
 				'title', 'editor', 'author', 'thumbnail',
 				'excerpt','custom-fields', 'trackbacks', 'comments',

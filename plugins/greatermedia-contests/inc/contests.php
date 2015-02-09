@@ -1153,6 +1153,10 @@ function gmr_contests_filter_contest_actions( $actions, WP_Post $post ) {
 		}
 	}
 
+	if ( ! current_user_can( 'edit_contest_entries' ) ) {
+		unset( $actions['gmr-contest-winner'] );
+	}
+
 	return $actions;
 }
 

@@ -41,6 +41,14 @@ abstract class AjaxHandler {
 	 */
 	public $sent_json = null;
 
+	/*
+	 * Default required capability to execute this ajax handler.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $required_capability = 'manage_options';
+
 	/**
 	 * Abstract method that returns the name of the ajax action to register
 	 * with WordPress.
@@ -309,7 +317,7 @@ abstract class AjaxHandler {
 	 * @return void
 	 */
 	public function has_capabilities() {
-		$valid_caps = current_user_can( 'manage_options' );
+		$valid_caps = current_user_can( $this->required_capability );
 
 		if ( ! $valid_caps ) {
 			$this->send_json_error( 'invalid_capabilities' );

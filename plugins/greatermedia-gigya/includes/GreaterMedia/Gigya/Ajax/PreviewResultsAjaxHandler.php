@@ -8,6 +8,8 @@ use GreaterMedia\Gigya\Sync\CleanupTask;
 
 class PreviewResultsAjaxHandler extends AjaxHandler {
 
+	public $required_capability = 'publish_member_queries';
+
 	function get_action() {
 		// using old name to preserve backwards compatibility
 		return 'preview_member_query';

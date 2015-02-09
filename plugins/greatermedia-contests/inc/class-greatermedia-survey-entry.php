@@ -84,7 +84,7 @@ class GreaterMediaSurveyEntry {
 			'can_export'          => false,
 			'rewrite'             => false,
 			'supports'            => array( 'title', 'custom-fields' ),
-			'capability_type'     => array( 'survey_entry', 'survey_entries' ),
+			'capability_type'     => array( 'survey_response', 'survey_responses' ),
 			'map_meta_cap'        => true,
 		);
 
