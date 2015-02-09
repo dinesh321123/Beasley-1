@@ -237,7 +237,7 @@ category: Components - Gallery Archive
 	@include transform(translate(-50%, -50%));
 	background-repeat: no-repeat;
 	background-position: center center;
-	background-size: cover;
+	background-size: contain;
 	@include bp(small) {
 		height: 320px;
 	}

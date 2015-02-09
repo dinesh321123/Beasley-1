@@ -9848,7 +9848,7 @@ category: Components - Gallery Archive
   transform: translate(-50%, -50%);
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; }
+  background-size: contain; }
   @media screen and (min-width: 480px) {
     .gallery__slide--image {
       height: 320px; } }

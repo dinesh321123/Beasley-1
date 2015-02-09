@@ -206,7 +206,7 @@ class GreaterMediaGallery {
 						     data-cycle-swipe="true"
 						     data-cycle-fx="scrollHorz"
 						     data-cycle-swipe-fx="scrollHorz"
-						     data-cycle-manual-fx="scrollHoriz"
+						     data-cycle-manual-fx="fade"
 						     data-cycle-auto-height=container>
 							<?php
 							while ( $gallery->have_posts() ) {
@@ -267,6 +267,7 @@ class GreaterMediaGallery {
 						     data-cycle-next="#gallery_<?php echo intval( $gallery_key ); ?>_next"
 						     data-cycle-timeout="0"
 						     data-cycle-manual-speed="1"
+						     data-cycle-fx="none"
 						     data-cycle-auto-height=container>
 							<?php
 							while ( $gallery->have_posts() ):
