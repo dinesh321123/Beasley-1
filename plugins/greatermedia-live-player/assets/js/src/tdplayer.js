@@ -135,7 +135,7 @@
 				{
 					id: 'MediaPlayer',
 					playerId: 'td_container',
-					isDebug: true,
+					isDebug: false,
 					techPriority: techPriority,
 					timeShift: { // timeShifting is currently available on Flash only. Leaving for HTML5 future
 						active: 0, /* 1 = active, 0 = inactive */
@@ -373,7 +373,7 @@
 		if (livePlayer != null) {
 			livePlayer.classList.add('live-player--heartbeat');
 		}
-		console.log('--- Heartbeat Class Added ---');
+		//console.log('--- Heartbeat Class Added ---');
 	}
 
 	function removePlayBtnHeartbeat() {
@@ -383,7 +383,7 @@
 		if (livePlayer != null && livePlayer.classList.contains('live-player--heartbeat')) {
 			livePlayer.classList.remove('live-player--heartbeat');
 		}
-		console.log('--- Heartbeat Class Removed ---');
+		//console.log('--- Heartbeat Class Removed ---');
 	}
 
 	var listenLiveStopCustomInlineAudio = function() {
@@ -455,7 +455,7 @@
 				}
 				Cookies.set( "gmlp_play_button_pushed", 0 );
 			} else {
-				console.log("--- Log In with Gigya ---");
+				//console.log("--- Log In with Gigya ---");
 			}
 		}
 	}
