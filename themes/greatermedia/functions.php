@@ -642,6 +642,17 @@ function add_google_analytics() {
 		ga('send', 'pageview');
 	});
 	ga('send', 'pageview');
+
+	var $body = jQuery('body');
+
+	$body.on('inlineAudioPlaying.gmr', function() {
+		ga('send', 'event', 'audio', 'Inline audio playing');
+	});
+
+	$body.on('liveStreamPlaying.gmr', function () {
+		ga('send', 'event', 'audio', 'Live Stream playing');
+	});
+
 	</script>
 	<?php
 }

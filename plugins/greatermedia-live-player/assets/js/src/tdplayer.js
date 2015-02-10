@@ -55,6 +55,9 @@
 	var trackInfo = document.getElementById('trackInfo');
 	var liveStreamSelector = document.querySelector('.live-player__stream');
 	var playerPopupWindow = null;
+	var inlineAudioInterval = null;
+	var liveStreamInterval = null;
+	var audioIntervalDuration = 60000; /* every minute */
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -81,6 +84,51 @@
 				elem.attachEvent('on' + eventType, handler);
 			}
 		}
+	}
+
+
+	/**
+	 * Starts an interval timer for when the live stream is playing
+	 * Broadcasts an event every `audioIntervalDuration`
+	 */
+	function startLiveStreamInterval() {
+		debug('Live stream interval set');
+
+		liveStreamInterval = setInterval(function() {
+			$(body).trigger('liveStreamPlaying.gmr');
+			debug('Live stream interval reached');
+		}, audioIntervalDuration);
+	}
+
+	/**
+	 * Starts an interval timer for when inline audio is playing
+	 * Broadcasts an event every `audioIntervalDuration`
+	 */
+	function startInlineAudioInterval() {
+		debug('Inline audio interval set');
+
+		inlineAudioInterval = setInterval(function () {
+			$(body).trigger('inlineAudioPlaying.gmr');
+			debug('Inline audio interval reached');
+		}, audioIntervalDuration);
+	}
+
+	/**
+	 * Stops the live stream interval timer
+	 * Should be called whenever live stream goes from playing to not playing
+	 */
+	function stopLiveStreamInterval() {
+		clearInterval(liveStreamInterval);
+		debug('Live stream interval off');
+	}
+
+	/**
+	 * Stops the inline audio interval timer
+	 * Should be called whenever inline audio goes from playing to not playing (including paused)
+	 */
+	function stopInlineAudioInterval() {
+		clearInterval(inlineAudioInterval);
+		debug('Inline audio interval off');
 	}
 
 	/**
@@ -398,6 +446,7 @@
 			resetInlineAudioStates();
 			resetInlineAudioUX();
 			playingCustomAudio = false;
+			stopInlineAudioInterval();
 		}
 		if (listenNowText === 'Switch to Live Stream') {
 			listenNow.innerHTML = 'Listen Live';
@@ -767,8 +816,10 @@
 	function stopStream() {
 		if ( true === playingCustomAudio ) {
 			stopCustomInlineAudio();
+			stopInlineAudioInterval();
 		} else {
 			player.stop();
+			stopLiveStreamInterval();
 		}
 
 		if (livePlayer.classList.contains('live-player--active')) {
@@ -780,8 +831,10 @@
 	function pauseStream() {
 		if ( true === playingCustomAudio ) {
 			pauseCustomInlineAudio();
+			stopInlineAudioInterval();
 		} else {
 			player.pause();
+			stopLiveStreamInterval();
 		}
 
 		if (livePlayer.classList.contains('live-player--active')) {
@@ -796,8 +849,10 @@
 		} else {
 			if (livePlaying) {
 				player.resume();
+				startInlineAudioInterval();
 			} else {
 				player.play();
+				startLiveStreamInterval();
 			}
 		}
 
@@ -832,10 +887,12 @@
 
 	function mute() {
 		player.mute();
+		stopLiveStreamInterval();
 	}
 
 	function unMute() {
 		player.unMute();
+		startLiveStreamInterval();
 	}
 
 	function getArtistData() {
@@ -1017,6 +1074,7 @@
 		if (pauseBtn.classList.contains('live-player__muted')) {
 			pauseBtn.classList.remove('live-player__muted');
 		}
+		startLiveStreamInterval();
 	}
 
 	function onStreamSelect() {
@@ -1039,6 +1097,8 @@
 
 		$('#hasLow').html('N/A');
 		$('#isLow').html('N/A');
+
+		stopLiveStreamInterval();
 	}
 
 	function onTrackCuePoint(e) {
@@ -1058,6 +1118,7 @@
 
 		$("#trackInfo").html('<div class="now-playing__title">' + currentTrackCuePoint.cueTitle + '</div><div class="now-playing__artist">' + currentTrackCuePoint.artistName + '</div>');
 
+		$(body).trigger("liveAudioTrack.gmr");
 	}
 
 	function onTrackChange( e )
@@ -1426,6 +1487,7 @@
 		setPlayingStyles();
 		setInlineAudioStates();
 		setInlineAudioUX();
+		startInlineAudioInterval();
 	};
 
 	var playCustomInlineAudio = function( src ) {
@@ -1443,6 +1505,7 @@
 		customAudio.pause();
 		resetInlineAudioStates();
 		setPausedStyles();
+		stopInlineAudioInterval();
 	};
 
 	/*
@@ -1455,6 +1518,7 @@
 		playingCustomAudio = false;
 		setStoppedStyles();
 		resetInlineAudioUX();
+		stopInlineAudioInterval();
 	};
 
 	var setPlayerTrackName = function() {
@@ -1500,11 +1564,13 @@
 				customAudio.addEventListener( 'ended', function() {
 					resetInlineAudioStates();
 					setPausedStyles();
+					stopInlineAudioInterval();
 				} );
 			} else if (customAudio.attachEvent) {
 				customAudio.attachEvent( 'ended', function() {
 					resetInlineAudioStates();
 					setPausedStyles();
+					stopInlineAudioInterval();
 				} );
 			}
 
