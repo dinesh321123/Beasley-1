@@ -248,7 +248,10 @@ function gmrs_delete_show_episode() {
 		) );
 
 		while ( $query->have_posts() ) {
-			$deleted = wp_delete_post( $query->next_post(), true );
+			$post_to_delete = $query->next_post();
+			if ( $post_to_delete ) {
+				$deleted = wp_delete_post( $post_to_delete, true );
+			}
 		}
 	} else {
 		$deleted = wp_delete_post( $episode_id, true );
