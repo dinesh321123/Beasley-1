@@ -44,7 +44,7 @@ jQuery( function ( $ ) {
 		self.is_navigating = false;
 		self.position = null;
 		self.stack_size = $items.children().length;
-		
+
 		self.$last_hovered_item = null;
 
 		function _highlight_item() {
@@ -54,12 +54,12 @@ jQuery( function ( $ ) {
 
 		function up() {
 			resume_keyboard();
-			
+
 			if ( null === self.position || $items.children().length !== self.stack_size ) {
 				self.position = $items.children().length; // Put at last index + 1
 				self.stack_size =  $items.children().length;
 			}
-			
+
 			if ( 0 === self.position ) {
 				self.position = $items.children().length - 1; // Put at last index
 			} else {
@@ -70,8 +70,8 @@ jQuery( function ( $ ) {
 		}
 
 		function down() {
-			resume_keyboard(); 
-			
+			resume_keyboard();
+
 			if ( null === self.position || $items.children().length !== self.stack_size ) {
 				self.position = -1;
 				self.stack_size =  $items.children().length;
@@ -85,14 +85,14 @@ jQuery( function ( $ ) {
 
 			_highlight_item();
 		}
-		
+
 		function resume_keyboard() {
 			if ( ! self.$last_hovered_item ) {
-				return; 
+				return;
 			}
-			
+
 			self.position = self.$last_hovered_item.index();
-			self.$last_hovered_item = null; 
+			self.$last_hovered_item = null;
 		}
 
 		$context.keydown( function( e ) {
@@ -126,10 +126,10 @@ jQuery( function ( $ ) {
 				self.is_navigating = false;
 			}
 		} );
-		
-		$items.on( 'hover', '> *', function ( e ) {
+
+		$items.on( 'mouseover', '> *', function ( e ) {
 			self.$items.addClass( 'is-hoverable' );
-			self.$items.find( '.is-highlighted' ).removeClass( 'is-highlighted' ); 
+			self.$items.find( '.is-highlighted' ).removeClass( 'is-highlighted' );
 			self.$last_hovered_item = $( this );
 		} );
 
@@ -140,7 +140,7 @@ jQuery( function ( $ ) {
 	Arrow_Key_Navigator.prototype.cancel = function () {
 		this.is_navigating = false;
 		this.position = null;
-		this.$last_hovered_item = null; 
+		this.$last_hovered_item = null;
 
 		if ( this.cancel_callback ) {
 			this.cancel_callback();
@@ -179,8 +179,13 @@ jQuery( function ( $ ) {
 	var search = new Keyword_Search( GMRKeywords );
 	var $search_field = $( '#header-search' );
 
-	var item_template = _.template( $( '#keyword-search-item-template' ).html() );
-	var body_template = _.template( $( '#keyword-search-body-template' ).html() );
+	var trim = function(str) {
+		var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+		return str.replace(rtrim, '');
+    };
+
+	var item_template = _.template( trim($( '#keyword-search-item-template' ).html()) );
+	var body_template = _.template( trim($( '#keyword-search-body-template' ).html()) );
 
 	// Add the body to the page, making sure the container is hidden.
 	var $container = $( '#keyword-search-container' );
