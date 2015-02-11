@@ -78,6 +78,11 @@ abstract class VisualShortcode {
 	const MCE_TOOLBAR_DEFAULT = '';
 	const MCE_TOOLBAR_ADVANCED = '_2';
 
+	public $unsupported_post_types = array(
+		'gmr_gallery',
+		'gmr_album',
+	);
+
 	/**
 	 * @param string $shortcode_name The name of this shortcode i.e. 'time-restricted'
 	 * @param string $js_module_name Name of the JavaScript module containing this shortcode's implementations of VisualShortcode methods
@@ -163,6 +168,12 @@ abstract class VisualShortcode {
 
 		// check user permissions
 		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
+			return;
+		}
+
+		// KLUDGE: Temporary fix for role manager
+		global $post;
+		if ( $post && in_array( $post->post_type, $this->unsupported_post_types ) ) {
 			return;
 		}
 
