@@ -126,7 +126,6 @@ function gmrs_add_show_episode() {
 
 	$offset = get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
 	$now = current_time( 'timestamp', 1 );
-	$now = strtotime( '1423656010' );
 	$today_gmt = $now - $now % DAY_IN_SECONDS - $offset;
 	$start_date = $date + $data['start_time'];
 	$start_date_gmt = $start_date - $offset;
@@ -247,9 +246,8 @@ function gmrs_delete_show_episode() {
 			),
 		) );
 
-		while ( $query->have_posts() ) {
-			$post_to_delete = $query->the_post();
-			if ( $post_to_delete ) {
+		if ( $query->have_posts() ) {
+			foreach ( $query->posts as $post_to_delete ) {
 				$deleted = wp_delete_post( $post_to_delete, true );
 			}
 		}
