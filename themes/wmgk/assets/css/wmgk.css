@@ -12606,6 +12606,11 @@ category: Components - Article
 #livefyre-comments .fyre-mention-item {
   height: 2.5em; }
 
+#livefyre-comments .fyre-user-avatar-25 {
+  visibility: hidden;
+  width: 0px;
+  margin-left: 2px; }
+
 /*doc
 ---
 title: Related Post
