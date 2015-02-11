@@ -126,6 +126,7 @@ function gmrs_add_show_episode() {
 
 	$offset = get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
 	$now = current_time( 'timestamp', 1 );
+	$now = strtotime( '1423656010' );
 	$today_gmt = $now - $now % DAY_IN_SECONDS - $offset;
 	$start_date = $date + $data['start_time'];
 	$start_date_gmt = $start_date - $offset;
@@ -355,7 +356,7 @@ function gmrs_render_episode_schedule_page() {
 					</option>
 				<?php endfor; ?>
 			</select>
-			untill
+			until
 			<select name="end_time">
 				<?php for ( $i = 1; $i <= $count; $i++ ) : ?>
 					<?php $time = HOUR_IN_SECONDS * $precision * $i; ?>
@@ -449,11 +450,11 @@ function gmrs_get_scheduled_episodes( $from = null, $to = null) {
 	$query = new WP_Query();
 
 	if ( empty( $from ) ) {
-		$from = date( DATE_ISO8601, time() );
+		$from = date( DATE_ISO8601, strtotime( '-1 day' ) );
 	}
 
 	if ( empty( $to ) ) {
-		$to = date( 'Y-m-d 23:59:59', strtotime( '+1 week' ) );
+		$to = date( 'Y-m-d 24:00:00', strtotime( '+7 week' ) );
 	}
 
 	$posts = $query->query( array(
