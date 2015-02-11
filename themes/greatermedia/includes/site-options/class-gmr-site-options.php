@@ -86,6 +86,7 @@ class GreaterMediaSiteOptions {
 
 		// Settings Section
 		add_settings_section( 'greatermedia_site_settings', 'Station Site', array( $this, 'render_site_settings_section' ), $this->_settings_page_hook );
+		add_settings_section( 'greatermedia_tracking_codes', 'Tracking Codes', array( $this, 'render_tracking_scripts_section' ), $this->_settings_page_hook );
 
 		// Social URLs
 		register_setting( self::option_group, 'gmr_facebook_url', 'esc_url_raw' );
@@ -94,6 +95,7 @@ class GreaterMediaSiteOptions {
 		register_setting( self::option_group, 'gmr_instagram_name', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'gmr_site_favicon', 'intval' );
+		register_setting( self::option_group, 'gmr_google_analytics', 'sanitize_text_field' );
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -174,6 +176,18 @@ class GreaterMediaSiteOptions {
 
 
 	<?php
+	}
+
+	public function render_tracking_scripts_section() {
+		$google_analytics = get_option( 'gmr_google_analytics', '' );
+		?>
+		<div class="gmr__option">
+			<label for="gmr_google_analytics" class="gmr__option--label">Google Analytics ID</label>
+			<input type="text" class="gmr__option--input" name="gmr_google_analytics" id="gmr_google_analytics" value="<?php echo esc_attr( $google_analytics ); ?>" />
+
+			<div class="gmr-option__field--desc">UA-xxxxxx-xx</div>
+		</div>
+		<?php
 	}
 
 	/**

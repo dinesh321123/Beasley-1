@@ -624,6 +624,11 @@ function greatermedia_deactivate_tribe_warning_on_dashboard( $option_value ) {
 add_filter( 'get_user_option_dashboard_quick_press_last_post_id', 'greatermedia_deactivate_tribe_warning_on_dashboard' );
 
 function add_google_analytics() {
+	$google_analytics = get_option( 'gmr_google_analytics', '' );
+
+	if ( empty( $google_analytics ) ) {
+		return;
+	}
 	?>
 	<script>
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -631,7 +636,7 @@ function add_google_analytics() {
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	ga('create', 'UA-804109-43', 'auto');
+	ga('create', '<?php echo esc_js( $google_analytics ); ?>', 'auto');
 
 	if( window.is_gigya_user_logged_in && is_gigya_user_logged_in() ) {
 		ga( 'set', '&uid', get_gigya_user_id() );
@@ -650,7 +655,7 @@ function add_google_analytics() {
 	});
 
 	$body.on('liveStreamPlaying.gmr', function () {
-		ga('send', 'event', 'audio', 'Live Stream playing');
+		ga('send', 'event', 'audio', 'Live stream playing');
 	});
 
 	</script>
