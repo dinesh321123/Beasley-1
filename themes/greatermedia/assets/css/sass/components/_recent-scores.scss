@@ -1,0 +1,62 @@
+.recent-scores__widget {
+	float: right;
+	display: table;
+	table-layout: fixed;
+	height: 48px;
+	font-size: ms(-2);
+	color: $color-text-white;
+}
+
+.score--visitor {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+	text-align: left;
+}
+
+.game__score {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+	padding: 0 20px;
+	text-align: center;
+}
+
+.score--home {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+	text-align: right;
+}
+
+.team__logo {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+	height: 34px;
+	padding-right: 6px;
+
+	.score--home & {
+		padding-right: 0;
+		padding-left: 6px;
+	}
+}
+
+.team__logo img {
+	height: 34px;
+	width: auto;
+}
+
+.team__name {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+}
+
+.team__record {
+	font-size: ms(-3);
+}
+
+.game__score--status {
+	font-size: ms(-3);
+}

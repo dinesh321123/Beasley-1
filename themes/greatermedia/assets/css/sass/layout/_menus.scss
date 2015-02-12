@@ -245,6 +245,12 @@
 	display: inline-block;
 	font-size: ms(0);
 	float: left;
+
+	.news-site  & {
+		font-size: ms(2);
+		font-weight: 900;
+		text-transform: uppercase;
+	}
 }
 
 .header__main a, .header__main a:visited {
@@ -263,6 +269,10 @@
 .header__account ul li a:visited, {
 	display: block;
 	padding: 33px 1.125em 32px;
+
+	.news-site & {
+		padding: 32px 1.125em 31px;
+	}
 }
 
 .header__nav ul li a:hover,

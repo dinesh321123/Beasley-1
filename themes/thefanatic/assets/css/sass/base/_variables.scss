@@ -1,0 +1,45 @@
+/**
+ * Root of the parent theme's asset folder
+ */
+$asset_root: "../../../../themes/greatermedia/assets/";
+
+// Color from parent theme
+$cardinal: #d22228;
+$light-gray: #d0d2d3;
+$gray: #929497;
+$medium-gray: #404041;
+$dark-gray: #282827;
+$highlights-bg: #5a5a5a;
+$highlights-heading: #ffffff;
+
+// child theme specific colors to use
+//
+// @author Allen Moore
+// @since 0.1.0
+//
+
+// The Fanatic Colors:
+$color-gray-light: #e3e4e5;
+$color-gray-medium-light: $medium-gray;
+$color-gray-medium: #58595B;
+$color-gray-medium-dark: #303030;
+
+$color-red: #db261d;
+$color-red-dark: #580f0c;
+
+$primary-bg: #ffffff;
+$liveplayer-bg: $primary-bg;
+$liveplayer-color: #404041;
+$secondary-bg: $color-gray-light;
+$header-bg: $color-gray-light;
+$header-search-bg: $color-gray-medium-light;
+
+$gallery-bg: $color-gray-medium-light;
+//$gallery-text: $medium-gray;
+$gallery-thumbs-bg: $color-gray-medium-dark;
+$gallery-border: #58595b;
+$gallery-grid-border: $gray !default;
+$gallery-grid-text: $gray !default;
+
+$btn-bg: $color-red;
+$btn-inactive: $light-gray;

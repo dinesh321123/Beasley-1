@@ -7,6 +7,10 @@
 	@include bp(medium) {
 		border-bottom: 1px solid $primary-border;
 	}
+
+	.news-site & {
+		border-bottom: none;
+	}
 }
 
 .header--pinned {
@@ -29,6 +33,63 @@
 			padding: 0 .714285714286%;
 		}
 	}
+
+	.news-site & {
+		padding: 0;
+	}
+}
+
+.header__leaderboard {
+	width: auto;
+}
+
+.header__sub {
+	display: none;
+	width: auto;
+	height: 48px;
+
+	.news-site & {
+		display: block;
+	}
+}
+
+.header__subnav {
+	float: right;
+	height: 48px;
+	padding: 0;
+	margin: 0 20px 0 0;
+	line-height: 1;
+	font-size: ms(0);
+	text-transform: uppercase;
+}
+
+.header__subnav li {
+	display: inline-block;
+	height: 48px;
+	padding: 14px 0 16px;
+	margin: 0;
+	color: $color-text-white;
+
+	a, a:visited {
+		display: inline-block;
+		height: 16px;
+		padding-top: 3px;
+		vertical-align: top;
+		color: $color-text-white;
+	}
+}
+
+%header__subnav--icon {
+	@extend %gmr-icons;
+	width: 0;
+	height: 0;
+	margin-right: 10px;
+	font-size: ms(2);
+}
+
+.header__subnav--schedule:before {
+	@extend %header__subnav--icon;
+	content: "\e627";
 }
 
 .header__main {
@@ -39,6 +100,15 @@
 	@include bp(medium) {
 		height: 82px;
 		border-top: 1px solid $header-border;
+	}
+
+	.news-site & {
+		border-top: none;
+		border-bottom: none;
+
+		@include bp(medium) {
+			height: 78px;
+		}
 	}
 }
 
@@ -60,6 +130,16 @@
 	@include bp(large) {
 		@include span-columns(2);
 		padding-left: $header-logo-padding;
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: 126px;
+			padding-right: 24px;
+			padding-left: 24px;
+			margin-top: -48px;
+		}
 	}
 }
 
@@ -94,6 +174,10 @@
 		float: left;
 		width: auto;
 	}
+
+	.news-site & {
+		height: 78px;
+	}
 }
 
 // container for secondary navigation -- gigya registration, social links, search
@@ -120,6 +204,13 @@
 	// 	@include span-columns(4);
 	// 	@include omega;
 	// }
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: 78px;
+		}
+	}
 }
 
 // container for account links
@@ -138,9 +229,15 @@
 
 	@include bp(larger) {
 		width: auto;
-
-
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: 78px;
+		}
+	}
+
 }
 
 .header__account--mobile {
@@ -236,15 +333,32 @@
 			padding-bottom: 25px;
 		}
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: 78px;
+			padding-top: 26px;
+			padding-bottom: 26px;
+		}
+
+		@include bp(large) {
+			font-size: ms(4);
+		}
+	}
 }
 
 .header__account--span {
-	font-family: $open-sans;
+	font-family: $primary-font;
 	color: $light-gray;
 
 	@include bp(larger) {
 		font-size: 12.65px;
 		padding-left: 12px;
+	}
+
+	.news-site & {
+		color: white;
 	}
 }
 
@@ -273,6 +387,10 @@
 		right: 0;
 		min-width: 300px;
 	}
+
+	.news-site & {
+		top: 78px;
+	}
 }
 
 .header__account--open {
@@ -293,6 +411,13 @@
 		height: 82px;
 		font-size: ms(0);
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: 78px;
+		}
+	}
 }
 
 // container for search button
@@ -306,6 +431,15 @@
 		float: right;
 		height: 82px;
 		margin-right: 1em;
+	}
+
+	.news-site & {
+
+		color: white;
+
+		@include bp(medium) {
+			height: 78px;
+		}
 	}
 }
 
@@ -323,6 +457,19 @@
 	@include bp(large) {
 		font-size: ms(-2);
 	}
+
+	.news-site & {
+		padding: 31px 0 29px;
+		text-transform: uppercase;
+
+		@include bp(medium) {
+			height: 78px;
+		}
+
+		@include bp(large) {
+			font-size: ms(-1);
+		}
+	}
 }
 
 .header__search--btn {
@@ -330,6 +477,12 @@
 	float: left;
 	height: 82px;
 	padding: 34px 0 30px;
+
+	.news-site & {
+		height: 78px;
+		padding-top: 28px;
+		padding-bottom: 27px;
+	}
 }
 
 .header__search--btn:before {
@@ -339,5 +492,12 @@
 
 	@include bp(large) {
 		font-size: ms(1);
+	}
+
+	.news-site & {
+
+		@include bp(large) {
+			font-size: ms(3);
+		}
 	}
 }

@@ -31,6 +31,13 @@ category: Components - Ads
 		&.desktop { display: block; }
 		&.mobile { display: none; }
 	}
+
+	.news-site & {
+		@include bp(medium) {
+			height: 104px;
+			padding: 7px 0;
+		}
+	}
 }
 
 .ad__leaderboard img {
