@@ -133,12 +133,19 @@
 	}
 
 	.news-site & {
+		width: 20%;
+		margin-left: 40%;
 
 		@include bp(medium) {
 			height: 126px;
 			padding-right: 24px;
 			padding-left: 24px;
 			margin-top: -48px;
+			margin-left: 70px;
+		}
+
+		@include bp(large) {
+			margin-left: 0;
 		}
 	}
 }
@@ -159,6 +166,10 @@
 	}
 
 	@include bp(large) {
+		margin-left: auto;
+	}
+
+	.news-site & {
 		margin-left: auto;
 	}
 }

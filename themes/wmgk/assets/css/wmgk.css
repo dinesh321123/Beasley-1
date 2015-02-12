@@ -1952,6 +1952,15 @@ Curated posts for Featured Articles
       margin-right: 0; }
       .home__featured:last-child {
         margin-right: 0; } }
+  .news-site .home__featured {
+    width: 100%;
+    padding: 0;
+    background-color: transparent;
+    background-image: none; }
+
+.featured__articles {
+  display: block;
+  overflow: auto; }
 
 .featured__article {
   display: block; }
@@ -1960,6 +1969,39 @@ Curated posts for Featured Articles
     display: table; }
   .featured__article:after {
     clear: both; }
+  .news-site .featured__article {
+    position: relative;
+    float: left;
+    width: 49%;
+    padding: 0;
+    margin-right: 2%;
+    background-color: transparent;
+    background-image: none;
+    font-size: 1.125em; }
+    @media screen and (min-width: 768px) {
+      .news-site .featured__article {
+        float: right;
+        width: 33%;
+        margin-bottom: 2px;
+        margin-right: 0; } }
+    @media screen and (min-width: 1024px) {
+      .news-site .featured__article {
+        font-size: 1.42383em; } }
+    .news-site .featured__article:first-of-type {
+      float: left;
+      width: 100%;
+      margin-bottom: 14px;
+      font-size: 1.42383em; }
+      @media screen and (min-width: 768px) {
+        .news-site .featured__article:first-of-type {
+          width: calc(100% - 8px - 33%);
+          margin-bottom: 0; } }
+      @media screen and (min-width: 1024px) {
+        .news-site .featured__article:first-of-type {
+          font-size: 2.02729em; } }
+    .news-site .featured__article:last-of-type {
+      margin-right: 0;
+      margin-bottom: 0; }
 
 .featured__content {
   padding-bottom: 0;
@@ -1969,6 +2011,33 @@ Curated posts for Featured Articles
     display: table; }
   .featured__content:after {
     clear: both; }
+  .news-site .featured__content {
+    padding: 1.5em 0.809em; }
+    @media screen and (min-width: 480px) {
+      .news-site .featured__content {
+        float: left;
+        display: block;
+        margin-right: 4.82916%;
+        width: 100%;
+        margin-right: 0; }
+        .news-site .featured__content:last-child {
+          margin-right: 0; } }
+    @media screen and (min-width: 768px) {
+      .news-site .featured__content {
+        float: left;
+        display: block;
+        margin-right: 3.57866%;
+        width: 100%;
+        margin-right: 0;
+        padding: 3em 3.236em; }
+        .news-site .featured__content:last-child {
+          margin-right: 0; } }
+
+.featured__article {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: auto; }
 
 .featured__article--image {
   float: left;
@@ -1985,6 +2054,9 @@ Curated posts for Featured Articles
   background-position: center center; }
   .featured__article--image:last-child {
     margin-right: 0; }
+  .news-site .featured__article--image {
+    padding-top: 61.85%;
+    background-color: transparent; }
 
 .featured__article--content {
   float: left;
@@ -2038,6 +2110,11 @@ Curated posts for Featured Articles
   .home__featured .featured__article--content {
     background-color: #270e10;
     color: #d0d2d3; }
+  .news-site .featured__article--content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5); }
 
 .featured__article--heading {
   float: left;
@@ -2061,6 +2138,10 @@ Curated posts for Featured Articles
   @media screen and (min-width: 768px) {
     .featured__article--heading {
       font-size: 1.60181em; } }
+  .news-site .featured__article--heading {
+    font-family: "Droid Sans", sans-serif;
+    font-size: 1em;
+    font-weight: normal; }
 
 .featured__article--heading a, .featured__article--heading a:visited {
   color: #ffffff; }
@@ -2139,6 +2220,13 @@ Curated posts for Featured Articles
   .home__featured .featured__content--block {
     background-color: #270e10;
     color: #d0d2d3; }
+  .news-site .featured__content--block {
+    margin-top: 0;
+    height: 100%;
+    background-color: transparent; }
+    @media screen and (min-width: 1024px) {
+      .news-site .featured__content--block {
+        height: 100%; } }
 
 .featured__content--block:last-of-type {
   margin-right: 0; }
@@ -2184,6 +2272,23 @@ Curated posts for Featured Articles
       width: 31.76157%; }
       .featured__content--image:last-child {
         margin-right: 0; } }
+  @media screen and (min-width: 1024px) {
+    .news-site .featured__content--image {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 100%;
+      padding-top: 52.25%; }
+      .news-site .featured__content--image:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1400px) {
+    .news-site .featured__content--image {
+      float: left;
+      display: block;
+      margin-right: 2.35765%;
+      width: 100%; }
+      .news-site .featured__content--image:last-child {
+        margin-right: 0; } }
 
 .featured__content--meta {
   float: left;
@@ -2214,11 +2319,16 @@ Curated posts for Featured Articles
       display: block;
       margin-right: 2.35765%;
       width: 65.88078%;
-      min-height: none; }
+      min-height: 100%; }
       .featured__content--meta:last-child {
         margin-right: 0; } }
   .home__featured .featured__content--meta {
     color: #929497; }
+  .news-site .featured__content--meta {
+    padding: .8em 0 0; }
+    @media screen and (min-width: 480px) {
+      .news-site .featured__content--meta {
+        min-height: 100%; } }
 
 .featured__content--title {
   font-size: 1em;
@@ -2235,6 +2345,9 @@ Curated posts for Featured Articles
   color: #ffffff; }
   .featured__content--block:hover .featured__content--title {
     color: #f5ed7f; }
+  .news-site .featured__content--title {
+    font-family: "Droid Sans", sans-serif;
+    font-weight: normal; }
 
 .featured__content--title a:link, .featured__content--title a:visited {
   color: #282827; }
@@ -2807,12 +2920,19 @@ Community Highlights and Events
       padding-left: 18px; }
       .header__logo:last-child {
         margin-right: 0; } }
-  @media screen and (min-width: 768px) {
-    .news-site .header__logo {
-      height: 126px;
-      padding-right: 24px;
-      padding-left: 24px;
-      margin-top: -48px; } }
+  .news-site .header__logo {
+    width: 20%;
+    margin-left: 40%; }
+    @media screen and (min-width: 768px) {
+      .news-site .header__logo {
+        height: 126px;
+        padding-right: 24px;
+        padding-left: 24px;
+        margin-top: -48px;
+        margin-left: 70px; } }
+    @media screen and (min-width: 1024px) {
+      .news-site .header__logo {
+        margin-left: 0; } }
 
 .header__logo--img {
   margin: 0 auto;
@@ -2835,6 +2955,8 @@ Community Highlights and Events
   @media screen and (min-width: 1024px) {
     .header__logo--img {
       margin-left: auto; } }
+  .news-site .header__logo--img {
+    margin-left: auto; }
 
 .header__nav {
   height: 82px;
