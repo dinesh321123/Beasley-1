@@ -55,7 +55,7 @@
 			padding-right: 0;
 			float: none;
 		}
-		
+
 		.col__inner--right {
 			display: none;
 		}
@@ -110,7 +110,7 @@
 	.contest__restriction--not-started p,
 	.contest__restriction--age-fails p,
 	.contest__restriction--one-entry p {
-		font-weight: bold; 
+		font-weight: bold;
 	}
 
 	.contest__restriction--age p:first-child {
@@ -183,7 +183,7 @@
 
 	p {
 		margin-bottom: 0.75em;
-		
+
 		&:last-child {
 			margin-bottom: 0;
 		}
@@ -366,7 +366,7 @@
 		a {
 			max-width: 49%;
 			position: absolute;
-			top: 15px;
+			top: 1.4em;
 			right: 15px;
 			font-size: ms(-2);
 			line-height: 1em;
@@ -409,7 +409,22 @@
 			font-weight: bold;
 			font-size: ms(-1);
 		}
+
+		.meta-title {
+			font-size: 1.2em;
+			font-weight: bold;
+		}
+
+		.meta-subtitle {
+			font-style: italic;
+			font-size: 0.8em;
+		}
 	}
+
+}
+
+.gmr-user .contest__form--user-info a {
+	top: 2em;
 }
 
 .contest__submissions {
@@ -599,14 +614,14 @@
 
 		.preview-close {
 			@extend .gmr-icon, .icon-close;
-			
+
 			position: absolute;
 			top: 10px;
 			right: 10px;
 			cursor: pointer;
 			color: #aaa;
 			font-size: 25px;
-			
+
 			&:hover {
 				color: #555;
 			}
@@ -680,7 +695,7 @@
 	.contest__submission {
 		width: 50%;
 		float: left;
-		
+
 		&:nth-child(2n+1) {
 			clear: both;
 		}

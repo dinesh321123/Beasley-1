@@ -633,6 +633,7 @@ function gmr_contests_render_form( $skip_age = false ) {
 
 	// render the form
 	wp_send_json_success( array(
+		'contest_id' => $contest_id,
 		'html' => GreaterMediaFormbuilderRender::render( $contest_id ),
 	) );
 }

@@ -109,10 +109,11 @@ class Plugin {
 			);
 
 			$session_data = array(
-				'data'                        => array(
-					'ajax_url'                => admin_url( 'admin-ajax.php' ),
-					'save_gigya_action_nonce' => wp_create_nonce( 'save_gigya_action' ),
-					'has_participated_nonce'  => wp_create_nonce( 'has_participated' ),
+				'data'                               => array(
+					'ajax_url'                       => admin_url( 'admin-ajax.php' ),
+					'save_gigya_action_nonce'        => wp_create_nonce( 'save_gigya_action' ),
+					'has_participated_nonce'         => wp_create_nonce( 'has_participated' ),
+					'get_gigya_profile_fields_nonce' => wp_create_nonce( 'get_gigya_profile_fields' ),
 				)
 			);
 
@@ -157,6 +158,7 @@ class Plugin {
 		//$handlers[] = new Ajax\EmmaMemberOptoutAjaxHandler();
 		$handlers[] = new Ajax\ChangeMemberQuerySegmentAjaxHandler();
 		$handlers[] = new Ajax\ResetPasswordAjaxHandler();
+		$handlers[] = new Ajax\GetGigyaProfileFields();
 
 		// MyEmma
 		$handlers[] = new \GreaterMedia\MyEmma\Ajax\ChangeMyEmmaSettings();

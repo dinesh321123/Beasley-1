@@ -631,7 +631,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				$.post(container.data('unvote'), {ugc: $this.data('id')}, function(response) {
 					sync_vote = false;
 					$icon.attr('class', classes);
-					
+
 					if (response.success) {
 						$item.removeClass('voted');
 						gridUpdateRating($rating, -1);
@@ -676,7 +676,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				} else if (iframe.attachEvent) {
 					iframe.attachEvent('onload', iframe_onload);
 				}
-				
+
 				return true;
 			}
 
@@ -695,12 +695,13 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		var loadContainerState = function(url) {
 			$.get(url, function(response) {
 				var restriction = null;
-				
+
 				if (response.success) {
 					container.html(response.data.html);
+					loadUserContestMeta(response.data.contest_id);
 
 					$('#contest-form form').parsley();
-					
+
 					$('.type-contest.collapsed').removeClass('collapsed');
 				} else {
 					restriction = response.data.restriction;
@@ -710,11 +711,64 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 			});
 		};
 
+		var loadUserContestMeta = function(contestID) {
+			if (is_gigya_user_logged_in()) {
+				get_gigya_profile_fields(['email', 'dateOfBirth'])
+					.then(didLoadUserContestMeta);
+			} else {
+				var $form = $('.contest__form--user-info');
+				$form.css('display', 'block');
+			}
+		};
+
+		var didLoadUserContestMeta = function(response) {
+			if (response.success) {
+				showUserContestMeta(response.data);
+			}
+		};
+
+		var showUserContestMeta = function(fields) {
+			var userTemplate = '<span class="meta-title">Entry Details</span>' +
+				'<a href="<%- editProfileUrl %>">Edit Your Profile</a>' +
+				'<p class="meta-subtitle">This information is required for every entry.</p>' +
+				'<dl>' +
+				'<dt>Name: </dt>' +
+				'<dd><%- firstName %> <%- lastName %></dd>' +
+				'<dt>Email Address:</dt>' +
+				'<dd><%- email %></dd>' +
+				'<dt>Date of Birth: </dt>' +
+				'<dd><%- dateOfBirth %></dd>' +
+				'<dt>Zip: </dt>' +
+				'<dd><%- zip %></dd>' +
+				'</dl>';
+
+			var data = {
+				editProfileUrl : gigya_profile_path('account'),
+				loginUrl       : gigya_profile_path('login'),
+				firstName      : get_gigya_user_field('firstName'),
+				lastName       : get_gigya_user_field('lastName'),
+				email          : fields.email || 'N/A',
+				age            : get_gigya_user_field('age'),
+				dateOfBirth    : fields.dateOfBirth || 'N/A',
+				zip            : get_gigya_user_field('zip'),
+			};
+
+			var template     = _.template(userTemplate);
+			var html         = template(data);
+			var $box        = $('.contest__form--user-info .user-info-box');
+
+			$box.html(html);
+			$box.css('display', 'block');
+
+			var $userInfo = $('.contest__form--user-info');
+			$userInfo.css('display', 'block');
+		};
+
 		$('.contest__restriction--min-age-yes').click(function() {
 			loadContainerState(container.data('confirm-age'));
 			return false;
 		});
-		
+
 		$('.contest__restriction--min-age-no').click(function() {
 			showRestriction('age-fails');
 			return false;

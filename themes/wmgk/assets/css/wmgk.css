@@ -7121,7 +7121,7 @@ category: Components - Ads
     .contest__form .contest__form--user-info a {
       max-width: 49%;
       position: absolute;
-      top: 15px;
+      top: 1.4em;
       right: 15px;
       font-size: 0.79012em;
       line-height: 1em; }
@@ -7158,6 +7158,17 @@ category: Components - Ads
       color: #000000;
       font-weight: bold;
       font-size: 0.88889em; }
+    .contest__form .contest__submission--entries .meta-title,
+    .contest__form .contest__form--user-info .meta-title {
+      font-size: 1.2em;
+      font-weight: bold; }
+    .contest__form .contest__submission--entries .meta-subtitle,
+    .contest__form .contest__form--user-info .meta-subtitle {
+      font-style: italic;
+      font-size: 0.8em; }
+
+.gmr-user .contest__form--user-info a {
+  top: 2em; }
 
 .contest__submissions {
   clear: both;

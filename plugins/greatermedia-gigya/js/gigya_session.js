@@ -189,6 +189,18 @@
 		return ajaxApi.request('has_participated', params);
 	};
 
+	window.get_gigya_profile_fields = function(fields) {
+		if (!fields) {
+			fields = ['email', 'dateOfBirth'];
+		}
+
+		var params = {
+			fields: fields
+		};
+
+		return ajaxApi.request('get_gigya_profile_fields', params);
+	};
+
 	var escapeValue = function(value) {
 		value = '' + value;
 		value = value.replace(/[!'()*]/g, escape);

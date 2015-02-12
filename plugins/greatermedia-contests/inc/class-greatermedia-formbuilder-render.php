@@ -245,8 +245,12 @@ class GreaterMediaFormbuilderRender {
 		$html .= '<form action="' . esc_url( $permalink ) . '/action/submit/" target="theiframe" method="post" enctype="multipart/form-data" novalidate>';
 
 		if ( $use_user_info ) {
-			$html .= '<div class="contest__form--user-info">';
+			//$html .= '<div class="contest__form--user-info" style="display:none"></div>';
+
+			$html .= '<div class="contest__form--user-info" style="display:none">';
 			if ( function_exists( 'is_gigya_user_logged_in' ) && is_gigya_user_logged_in() ) {
+				$html .= '<div class="user-info-box"></div>';
+				/*
 				$html .= '<a href="' . esc_url( trailingslashit( gigya_profile_path( 'account' ) ) ) . '">Edit Your Profile</a>';
 				$html .= '<dl>';
 					$html .= '<dt>Submitted By:</dt>';
@@ -258,6 +262,7 @@ class GreaterMediaFormbuilderRender {
 					$html .= '<dt>Zip:</dt>';
 					$html .= '<dd>' . self::_get_user_field( 'zip' ) . '</dd>';
 				$html .= '</dl>';
+				*/
 			} else {
 				$html .= '<i>Enter this contest as a guest</i> <a href="' . esc_url( gmr_contests_get_login_url() ) . '">Login or Register</a>';
 				foreach ( self::_get_default_fields() as $field ) {
@@ -270,6 +275,7 @@ class GreaterMediaFormbuilderRender {
 				}
 			}
 			$html .= '</div>';
+//*/
 		}
 
 		foreach ( $form as $field ) {
@@ -324,7 +330,7 @@ class GreaterMediaFormbuilderRender {
 			if ( ! empty( $field->required ) && 'section_break' != $field->field_type ) {
 				$label .= ' <abbr title="required">*</abbr>';
 			}
-			
+
 			$html .= '<label ';
 
 			foreach ( $attributes as $attribute => $value ) {
@@ -363,7 +369,7 @@ class GreaterMediaFormbuilderRender {
 			if ( ! empty( $field->required ) && 'section_break' != $field->field_type ) {
 				$label .= ' <abbr title="required">*</abbr>';
 			}
-			
+
 			$html .= '<legend ';
 			foreach ( $attributes as $attribute => $value ) {
 				$html .= $attribute . '="' . esc_attr( $value ) . '" ';
