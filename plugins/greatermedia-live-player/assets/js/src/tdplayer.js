@@ -271,10 +271,16 @@
 			nowPlaying.style.display = 'inline-block';
 			listenNow.style.display = 'none';
 		}
-		if (loadingBtn != null) {
+		if (false === playingCustomAudio && loadingBtn != null) {
 			loadingBtn.classList.add('loading');
 		}
-
+		if (true === playingCustomAudio && pauseBtn != null) {
+			if (pauseBtn.classList.contains('live-player__muted')) {
+				pauseBtn.classList.remove('live-player__muted');
+			}
+		} else {
+			pauseBtn.classList.add('live-player__muted');
+		}
 
 	}
 
