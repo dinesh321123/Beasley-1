@@ -573,7 +573,6 @@
 
 		livePlayer.classList.add('live-player--active');
 		setPlayingStyles();
-		setTimeout(replaceNPInfo, 2000);
 	});
 
 	function playLiveStreamMobile() {
@@ -609,7 +608,6 @@
 				livePlayer.classList.add('live-player--active');
 				player.play({station: station, timeShift: true});
 				setPlayingStyles();
-				setTimeout(replaceNPInfo, 2000);
 			});
 		} else if (player.attachEvent) {
 			player.attachEvent('ad-playback-complete', function () {
@@ -623,7 +621,6 @@
 				livePlayer.classList.add('live-player--active');
 				player.play({station: station, timeShift: true});
 				setPlayingStyles();
-				setTimeout(replaceNPInfo, 2000);
 			});
 		}
 
@@ -664,7 +661,6 @@
 					livePlayer.classList.add('live-player--active');
 					player.play({station: station, timeShift: true});
 					setPlayingStyles();
-					setTimeout(replaceNPInfo, 2000);
 				});
 			} else if (player.attachEvent) {
 				player.attachEvent('ad-playback-complete', function () {
@@ -678,7 +674,6 @@
 					livePlayer.classList.add('live-player--active');
 					player.play({station: station, timeShift: true});
 					setPlayingStyles();
-					setTimeout(replaceNPInfo, 2000);
 				});
 			}
 		}
@@ -710,7 +705,6 @@
 			livePlayer.classList.add('live-player--active');
 			player.play({station: station, timeShift: true});
 			setPlayingStyles();
-			setTimeout(replaceNPInfo, 2000);
 		}
 	}
 
@@ -748,7 +742,6 @@
 					livePlayer.classList.add('live-player--active');
 					player.play({station: station, timeShift: true});
 					setPlayingStyles();
-					setTimeout(replaceNPInfo, 2000);
 				});
 			} else if (player.attachEvent) {
 				player.attachEvent('ad-playback-complete', function () {
@@ -762,7 +755,6 @@
 					livePlayer.classList.add('live-player--active');
 					player.play({station: station, timeShift: true});
 					setPlayingStyles();
-					setTimeout(replaceNPInfo, 2000);
 				});
 			}
 		}
@@ -974,7 +966,6 @@
 		livePlayer.classList.add('live-player--active');
 		player.play({station: station, timeShift: true});
 		setPlayingStyles();
-		setTimeout(replaceNPInfo, 2000);
 	}
 
 	function onAdCountdown(e) {
@@ -1073,6 +1064,7 @@
 
 		$("#trackInfo").html('<div class="now-playing__title">' + currentTrackCuePoint.cueTitle + '</div><div class="now-playing__artist">' + currentTrackCuePoint.artistName + '</div>');
 
+		setTimeout(replaceNPInfo, 10000);
 		$(body).trigger("liveAudioTrack.gmr");
 	}
 
