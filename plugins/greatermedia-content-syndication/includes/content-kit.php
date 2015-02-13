@@ -53,7 +53,7 @@ class ContentKit {
 			'has_archive'         => true,
 			'query_var'           => true,
 			'can_export'          => true,
-			'rewrite'             => true,
+			'rewrite'             => array( 'slug' => 'content-kits' ),
 			'capability_type'     => array( 'content_kit', 'content_kits' ),
 			'map_meta_cap'        => true,
 			'supports'            => array(

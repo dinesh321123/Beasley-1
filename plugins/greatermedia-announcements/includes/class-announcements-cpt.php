@@ -53,7 +53,7 @@ class AnnouncementsCPT {
 			'has_archive'           => true,
 			'query_var'             => true,
 			'can_export'            => true,
-			'rewrite'               => true,
+			'rewrite'               => array( 'slug' => 'announcements' ),
 			'capability_type'       => array( 'announcement', 'announcements' ),
 			'map_meta_cap'          => true,
 			'supports'              => array(

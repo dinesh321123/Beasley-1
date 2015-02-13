@@ -238,7 +238,7 @@ function gmr_contests_register_post_type() {
 		'menu_icon'           => 'dashicons-forms',
 		'can_export'          => true,
 		'has_archive'         => 'contests',
-		'rewrite'             => array( 'slug' => 'contest', 'ep_mask' => EP_GMR_CONTEST ),
+		'rewrite'             => array( 'slug' => 'contests', 'ep_mask' => EP_GMR_CONTEST ),
 		'capability_type'     => array( 'contest', 'contests' ),
 		'map_meta_cap'        => true,
 	);

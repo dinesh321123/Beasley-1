@@ -221,7 +221,7 @@ class GreaterMediaUserGeneratedContent {
 			'exclude_from_search' => true,
 			'capability_type'     => array( 'listener_submission', 'listener_submissions' ),
 			'map_meta_cap'        => true,
-			'rewrite'             => array( 'slug' => 'contest-submission' ),
+			'rewrite'             => array( 'slug' => 'contest-submissions' ),
 		);
 
 		register_post_type( GMR_SUBMISSIONS_CPT, $args );

@@ -63,7 +63,7 @@ class GMP_CPT {
 			'not_found_in_trash'  => __( 'Not found in Trash', 'gmpodcasts' ),
 		);
 		$rewrite = array(
-			'slug'                => 'podcast',
+			'slug'                => 'podcasts',
 			'with_front'          => true,
 			'pages'               => true,
 			'feeds'               => true,
@@ -121,7 +121,7 @@ class GMP_CPT {
 			'not_found_in_trash'  => __( 'Not found in Trash', 'gmpodcasts' ),
 		);
 		$rewrite = array(
-			'slug'                => 'episode',
+			'slug'                => 'episodes',
 			'with_front'          => true,
 			'pages'               => true,
 			'feeds'               => true,

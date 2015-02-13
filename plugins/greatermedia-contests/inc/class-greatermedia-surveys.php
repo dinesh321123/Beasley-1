@@ -88,7 +88,7 @@ class GreaterMediaSurveys {
 			'has_archive'         => true,
 			'query_var'           => true,
 			'can_export'          => true,
-			'rewrite'             => array( 'slug' => 'survey', 'ep_mask' => EP_GMR_SURVEY ),
+			'rewrite'             => array( 'slug' => 'surveys', 'ep_mask' => EP_GMR_SURVEY ),
 			'capability_type'     => array( 'survey', 'surveys' ),
 			'map_meta_cap'        => true,
 			'supports'            => array( 'title', 'editor', 'thumbnail' ),

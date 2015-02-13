@@ -38,6 +38,7 @@ function gmr_advertisers_register_post_type() {
 			'not_found'          => 'No advertisers found.',
 			'not_found_in_trash' => 'No advertisers found in Trash.',
 		),
+		'rewrite' => array( 'slug' => 'advertisers' ),
 	) );
 }
 

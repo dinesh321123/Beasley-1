@@ -71,6 +71,7 @@ class ShowsCPT {
 			),
 			'capability_type' => array( 'show', 'shows' ),
 			'map_meta_cap' => true,
+			'rewrite' => array( 'slug' => 'shows' )
 		) );
 
 		register_post_type( self::EPISODE_CPT, array(
