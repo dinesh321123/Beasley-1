@@ -30,6 +30,7 @@ add_filter( 'post_thumbnail_html', 'gmr_contests_post_thumbnail_html', 10, 4 );
 add_filter( 'manage_' . GMR_CONTEST_CPT . '_posts_columns', 'gmr_contests_filter_contest_columns_list' );
 add_filter( 'post_row_actions', 'gmr_contests_filter_contest_actions', PHP_INT_MAX, 2 );
 add_filter( 'gmr_live_link_suggestion_post_types', 'gmr_contests_extend_live_link_suggestion_post_types' );
+add_filter( 'pre_get_posts', 'gmr_filter_expired_contests' );
 
 /**
  * Enqueues admin styles.
@@ -1201,4 +1202,42 @@ function gmr_contest_has_files( $contest ) {
 function gmr_contests_extend_live_link_suggestion_post_types( $post_types ) {
 	$post_types[] = GMR_CONTEST_CPT;
 	return $post_types;
+}
+
+/**
+ * Filters out expired contests
+ */
+global $did_filter_expired_contests;
+$did_filter_expired_contests = false;
+
+function gmr_filter_expired_contests( $query ) {
+	global $did_filter_expired_contests;
+
+	if ( ! is_admin() && is_search() && ! $did_filter_expired_contests ) {
+		$now           = time();
+		$query_params = array(
+			'relation' => 'OR',
+			/* This is a contest with an valid end timestamp */
+			array(
+				'key'     => 'contest-end',
+				'type'    => 'NUMERIC',
+				'value'   => $now,
+				'compare' => '>',
+			),
+			/* any other post/type which matches the search query */
+			array(
+				'key'     => 'contest-end',
+				'type'    => 'NUMERIC',
+				'value'   => '',
+				'compare' => 'NOT EXISTS',
+			),
+		);
+
+		$query->set( 'meta_query', $query_params );
+		$did_filter_expired_contests = true;
+
+		return $query;
+	} else {
+		return $query;
+	}
 }
