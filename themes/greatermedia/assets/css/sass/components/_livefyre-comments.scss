@@ -1250,20 +1250,45 @@ category: Components - Article
 ```
 */
 
-#livefyre-comments .fyre img {
-	display: inline;
+#livefyre-comments {
+	.fyre img {
+		display: inline;
+	}
+
+	label {
+		display: inline;
+	}
+
+	.fyre-mention-item {
+		height: 2.5em;
+	}
+
+	.fyre-user-avatar-25 {
+		visibility: hidden;
+		width: 0px;
+		margin-left: 2px;
+	}
+
+	.fyre {
+		.fyre-comment-user {
+			display: none;
+		}
+
+		.fyre-comment-head,
+		.fyre-comment-body,
+		.fyre-comment-footer,
+		.fyre-comment-divider {
+			margin-left: 0;
+		}
+
+		.fyre-comment-collapse {
+			margin-left: -5px;
+		}
+
+		.fyre-comment-reply-wrapper {
+			margin-left: 14px;
+		}
+
+	}
 }
 
-#livefyre-comments label {
-	display: inline;
-}
-
-#livefyre-comments .fyre-mention-item {
-	height: 2.5em;
-}
-
-#livefyre-comments .fyre-user-avatar-25 {
-	visibility: hidden;
-	width: 0px;
-	margin-left: 2px;
-}
