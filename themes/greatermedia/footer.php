@@ -47,7 +47,7 @@
 <div class="menu-overlay-mask"></div>
 <div class="header-search-overlay-mask"></div>
 <div class="busy-mask">
-	<i class="fa fa-spinner fa-spin"></i>
+	<i class="gmr-icon icon-spinner icon-spin"></i>
 </div>
 <?php wp_footer(); ?>
 </body>

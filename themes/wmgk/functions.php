@@ -79,9 +79,7 @@ function wmgk_scripts_styles() {
 		get_stylesheet_directory_uri() . "/assets/css/wmgk{$postfix}.css",
 		array(
 			'dashicons',
-			'open-sans',
-			'droid-sans',
-			'font-awesome'
+			'google-fonts'
 		),
 		WMGK_VERSION
 	);

@@ -506,8 +506,8 @@ category: Base - Typography
  */
 @font-face {
   font-family: 'gmr-icons';
-  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?lpqn4l");
-  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?#iefixlpqn4l") format("embedded-opentype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.woff?lpqn4l") format("woff"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.ttf?lpqn4l") format("truetype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.svg?lpqn4l#icomoon") format("svg");
+  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?flk2jp");
+  src: url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.eot?#iefixflk2jp") format("embedded-opentype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.woff?flk2jp") format("woff"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.ttf?flk2jp") format("truetype"), url("../../../../themes/greatermedia/assets/fonts/icon-font/gmr-icons.svg?flk2jp#icomoon") format("svg");
   font-weight: normal;
   font-style: normal; }
 [class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__subnav--schedule:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .gmr-icon, .contest__submission .preview .preview-close, .header__search--submit, .header__search--cancel {
@@ -651,6 +651,30 @@ category: Base - Typography
 .icon-weather:before {
   content: "\e62a"; }
 
+.icon-loading:before {
+  content: "\e62b"; }
+
+.icon-spinner:before {
+  content: "\e62c"; }
+
+.icon-spin {
+  -webkit-animation: icon-spin 2s infinite linear;
+  animation: icon-spin 2s infinite linear; }
+
+@-webkit-keyframes icon-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
+@keyframes icon-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg); } }
 img {
   max-width: 100%;
   display: block;
@@ -4156,9 +4180,9 @@ Link posts contain a link to an external site. They can also optionally have a f
     color: #ffffff; }
   .posts-pagination--load-more:last-of-type {
     margin-right: 0; }
-  .posts-pagination--load-more .fa {
+  .posts-pagination--load-more .gmr-icon, .posts-pagination--load-more .contest__submission .preview .preview-close, .contest__submission .preview .posts-pagination--load-more .preview-close, .posts-pagination--load-more .header__search--submit, .posts-pagination--load-more .header__search--cancel {
     margin-right: 0.4em; }
-  .posts-pagination--load-more.is-loaded .fa {
+  .posts-pagination--load-more.is-loaded .gmr-icon, .posts-pagination--load-more.is-loaded .contest__submission .preview .preview-close, .contest__submission .preview .posts-pagination--load-more.is-loaded .preview-close, .posts-pagination--load-more.is-loaded .header__search--submit, .posts-pagination--load-more.is-loaded .header__search--cancel {
     display: none; }
   .posts-pagination--load-more:disabled {
     display: inline-block;
@@ -5369,7 +5393,7 @@ category: Components
   .live-stream__player.audio__playing .live-stream__btn--pause:before {
     content: "\e61f" !important; }
 
-.live-stream__btn--loading .fa {
+.live-stream__btn--loading .gmr-icon, .live-stream__btn--loading .contest__submission .preview .preview-close, .contest__submission .preview .live-stream__btn--loading .preview-close, .live-stream__btn--loading .header__search--submit, .live-stream__btn--loading .header__search--cancel {
   position: absolute;
   top: 20%;
   left: 23%;
@@ -5378,9 +5402,9 @@ category: Components
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  font-size: 1.26563em; }
+  font-size: 1.125em; }
   @media screen and (min-width: 768px) {
-    .live-stream__btn--loading .fa {
+    .live-stream__btn--loading .gmr-icon, .live-stream__btn--loading .contest__submission .preview .preview-close, .contest__submission .preview .live-stream__btn--loading .preview-close, .live-stream__btn--loading .header__search--submit, .live-stream__btn--loading .header__search--cancel {
       top: 28%;
       left: 32%; } }
 
@@ -7234,8 +7258,12 @@ category: Components - Ads
       .contest__form button[type="submit"]:active:last-of-type,
       .contest__form input[type="submit"]:active:last-of-type {
         margin-right: 0; }
-    .contest__form button[type="submit"] i.fa,
-    .contest__form input[type="submit"] i.fa {
+    .contest__form button[type="submit"] i.gmr-icon, .contest__form button[type="submit"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form button[type="submit"] i.preview-close, .contest__form button[type="submit"] i.header__search--submit, .contest__form button[type="submit"] i.header__search--cancel,
+    .contest__form input[type="submit"] i.gmr-icon,
+    .contest__form input[type="submit"] .contest__submission .preview i.preview-close,
+    .contest__submission .preview .contest__form input[type="submit"] i.preview-close,
+    .contest__form input[type="submit"] i.header__search--submit,
+    .contest__form input[type="submit"] i.header__search--cancel {
       display: none; }
   .contest__form select {
     width: 174px;
@@ -7380,10 +7408,10 @@ category: Components - Ads
     margin-right: 0; }
   .contest__submissions--load-more:last-of-type {
     margin-right: auto; }
-  .contest__submissions--load-more .fa {
+  .contest__submissions--load-more .gmr-icon, .contest__submissions--load-more .contest__submission .preview .preview-close, .contest__submission .preview .contest__submissions--load-more .preview-close, .contest__submissions--load-more .header__search--submit, .contest__submissions--load-more .header__search--cancel {
     display: none;
     margin-right: 0.5em; }
-  .contest__submissions--load-more.loading .fa {
+  .contest__submissions--load-more.loading .gmr-icon, .contest__submissions--load-more.loading .contest__submission .preview .preview-close, .contest__submission .preview .contest__submissions--load-more.loading .preview-close, .contest__submissions--load-more.loading .header__search--submit, .contest__submissions--load-more.loading .header__search--cancel {
     display: inline-block; }
 
 .contest__submission {
@@ -13102,18 +13130,18 @@ category: Components
     -webkit-transition: opacity 250ms linear;
     -moz-transition: opacity 250ms linear;
     transition: opacity 250ms linear; }
-  .busy-mask .fa {
+  .busy-mask .gmr-icon, .busy-mask .contest__submission .preview .preview-close, .contest__submission .preview .busy-mask .preview-close, .busy-mask .header__search--submit, .busy-mask .header__search--cancel {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 60px;
     color: #bbb; }
-  .busy-mask .fa-spin {
-    -webkit-animation: spin 1s infinite linear;
-    -moz-animation: spin 1s infinite linear;
-    -o-animation: spin 1s infinite linear;
-    animation: spin 1s infinite linear; }
+  .busy-mask .icon-spin {
+    -webkit-animation: icon-spin 1s infinite linear;
+    -moz-animation: icon-spin 1s infinite linear;
+    -o-animation: icon-spin 1s infinite linear;
+    animation: icon-spin 1s infinite linear; }
 
 .sponsors {
   width: 100%;
@@ -13318,6 +13346,22 @@ blockquote {
   min-height: 6.4em; }
   blockquote, blockquote p {
     color: #6d6e70; }
+
+.video-container {
+  width: 100%;
+  position: relative;
+  padding: 56.3% 0 0 0; }
+
+.video-container > .video {
+  position: absolute;
+  top: 0; }
+
+.video-container .innerWrapper {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
 
 /**
  * Single Page Styles

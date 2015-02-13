@@ -599,12 +599,12 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		// bind vote click event
 		$previewInner.find('.contest__submission--vote').click(function() {
 			var $this = $(this),
-				$icon = $this.find('i.fa'),
+				$icon = $this.find('i.gmr-icon'),
 				classes = $icon.attr('class');
 
 			if (!sync_vote) {
 				sync_vote = true;
-				$icon.attr('class', 'fa fa-spinner fa-spin');
+				$icon.attr('class', 'gmr-icon icon-spin icon-spin');
 
 				$.post(container.data('vote'), {ugc: $this.data('id')}, function(response) {
 					sync_vote = false;
@@ -623,12 +623,12 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		// bind unvote click event
 		$previewInner.find('.contest__submission--unvote').click(function() {
 			var $this = $(this),
-				$icon = $this.find('i.fa'),
+				$icon = $this.find('i.gmr-icon'),
 				classes = $icon.attr('class');
 
 			if (!sync_vote) {
 				sync_vote = true;
-				$icon.attr('class', 'fa fa-spinner fa-spin');
+				$icon.attr('class', 'gmr-icon icon-spin icon-spin');
 
 				$.post(container.data('unvote'), {ugc: $this.data('id')}, function(response) {
 					sync_vote = false;
@@ -661,7 +661,7 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 
 			if (!form.parsley || form.parsley().isValid()) {
 				form.find('input, textarea, select, button').attr('readonly', 'readonly');
-				form.find('i.fa').show();
+				form.find('i.gmr-icon').show();
 
 				iframe_onload = function() {
 					var iframe_document = iframe.contentDocument || iframe.contentWindow.document,

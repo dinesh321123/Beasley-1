@@ -302,7 +302,7 @@
 			@include btn($btn-active, $color-text-white, $btn-active, .625em, 1em, ms(3));
 		}
 
-		i.fa {
+		i.gmr-icon {
 			display: none;
 		}
 	}
@@ -452,13 +452,13 @@
 		margin-right: auto;
 	}
 
-	.fa {
+	.gmr-icon {
 		display: none;
 		margin-right: 0.5em;
 	}
 
 	&.loading {
-		.fa {
+		.gmr-icon {
 			display: inline-block;
 		}
 	}

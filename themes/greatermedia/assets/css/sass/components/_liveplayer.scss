@@ -642,12 +642,12 @@ category: Components
 	}
 }
 
-.live-stream__btn--loading .fa {
+.live-stream__btn--loading .gmr-icon {
 	position: absolute;
 	top: 20%;
 	left: 23%;
 	@include transform(translate(-50%, -50%));
-	font-size: ms(2);
+	font-size: ms(1);
 
 	@include bp(medium) {
 		top: 28%;
