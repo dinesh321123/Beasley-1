@@ -652,7 +652,6 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 	};
 
 	var __ready = function() {
-		console.log('contests.js __ready');
 		container = $('#contest-form');
 		gridContainer = $('.contest__submissions--list');
 
@@ -696,13 +695,8 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		};
 
 		var loadContainerState = function(url) {
-			console.log('loadContainerState', url);
 			$.get(url, function(response) {
 				var restriction = null;
-
-				if (response.data && response.data.contest_id) {
-					loadUserContestMeta(response.data.contest_id);
-				}
 
 				if (response.success) {
 					container.html(response.data.html);
@@ -711,15 +705,17 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 					$('.type-contest.collapsed').removeClass('collapsed');
 				} else {
 					restriction = response.data.restriction;
-					console.log('loadContainerState failure', response);
 				}
 
 				showRestriction(restriction);
+
+				if (response.data && response.data.contest_id) {
+					loadUserContestMeta(response.data.contest_id);
+				}
 			});
 		};
 
 		var loadUserContestMeta = function(contestID) {
-			console.log('loadUserContestMeta', contestID);
 			if (is_gigya_user_logged_in()) {
 				get_gigya_profile_fields(['email', 'dateOfBirth'])
 					.then(didLoadUserContestMeta);
@@ -736,7 +732,6 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 		};
 
 		var showUserContestMeta = function(fields) {
-			console.log('showUserContestMeta', fields);
 			var userTemplate = '<span class="meta-title">Entry Details</span>' +
 				'<a href="<%- editProfileUrl %>">Edit Your Profile</a>' +
 				'<p class="meta-subtitle">This information is required for every entry.</p>' +
