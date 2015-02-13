@@ -625,10 +625,12 @@ add_filter( 'get_user_option_dashboard_quick_press_last_post_id', 'greatermedia_
 
 function add_google_analytics() {
 	$google_analytics = get_option( 'gmr_google_analytics', '' );
+	$google_uid_dimension = absint( get_option( 'gmr_google_uid_dimension', '' ) );
 
 	if ( empty( $google_analytics ) ) {
 		return;
 	}
+
 	?>
 	<script>
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -638,8 +640,16 @@ function add_google_analytics() {
 
 	ga('create', '<?php echo esc_js( $google_analytics ); ?>', 'auto');
 
+	var googleUidDimension = '<?php echo esc_js( $google_uid_dimension ); ?>';
+
 	if( window.is_gigya_user_logged_in && is_gigya_user_logged_in() ) {
 		ga( 'set', '&uid', get_gigya_user_id() );
+
+		if ( googleUidDimension !== '0' ) {
+			googleUidDimension = 'dimension' + googleUidDimension;
+			ga( 'set', googleUidDimension, get_gigya_user_id() );
+		}
+
 	}
 
 	jQuery(document).on('pjax:end', function() {

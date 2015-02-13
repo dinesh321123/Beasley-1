@@ -96,6 +96,7 @@ class GreaterMediaSiteOptions {
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'gmr_site_favicon', 'intval' );
 		register_setting( self::option_group, 'gmr_google_analytics', 'sanitize_text_field' );
+		register_setting( self::option_group, 'gmr_google_uid_dimension', 'absint' );
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -180,12 +181,24 @@ class GreaterMediaSiteOptions {
 
 	public function render_tracking_scripts_section() {
 		$google_analytics = get_option( 'gmr_google_analytics', '' );
+		$google_uid_dimension = get_option( 'gmr_google_uid_dimension', '' );
+		if ( 0 === $google_uid_dimension ) {
+			$google_uid_dimension = '';
+		}
 		?>
 		<div class="gmr__option">
 			<label for="gmr_google_analytics" class="gmr__option--label">Google Analytics ID</label>
 			<input type="text" class="gmr__option--input" name="gmr_google_analytics" id="gmr_google_analytics" value="<?php echo esc_attr( $google_analytics ); ?>" />
 
 			<div class="gmr-option__field--desc">UA-xxxxxx-xx</div>
+		</div>
+		<div class="gmr__option">
+			<label for="gmr_google_uid_dimension" class="gmr__option--label">Google User ID Custom Dimension</label>
+			dimension<input type="text" name="gmr_google_uid_dimension" id="gmr_google_uid_dimension" value="<?php echo esc_attr( $google_uid_dimension ); ?>" size="3" length="3">
+			<div class="gmr-option__field--desc">
+				Sends the current user's ID to this custom Google Analytics dimension<br>
+				Most sites can use dimension1 unless it is already in use.
+			</div>
 		</div>
 		<?php
 	}
