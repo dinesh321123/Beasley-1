@@ -582,11 +582,9 @@
 			alert('Please enter a Station');
 			return;
 		}
-
 		if ( true === playingCustomAudio ) {
 			listenLiveStopCustomInlineAudio();
 		}
-
 		debug('playLiveStream - station=' + station);
 
 		preVastAd();

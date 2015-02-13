@@ -4103,38 +4103,6 @@ Link posts contain a link to an external site. They can also optionally have a f
   margin-top: 0;
   line-height: 1; }
 
-.entry-content .alignleft, .entry-content img.alignleft {
-  display: block;
-  margin: 0 1em 16px;
-  float: left; }
-.entry-content .alignright, .entry-content img.alignright {
-  display: block;
-  margin: 0 0 16px 1em;
-  float: right; }
-.entry-content .aligncenter, .entry-content img.aligncenter {
-  margin: 0 auto 1em; }
-.entry-content .size-auto,
-.entry-content .size-full,
-.entry-content .size-large,
-.entry-content .size-medium,
-.entry-content .size-thumbnail {
-  max-width: 100%;
-  height: auto; }
-.entry-content .wp-caption {
-  max-width: 100%;
-  padding: 0;
-  margin: 0 0 16px;
-  background: #d0d2d3; }
-.entry-content .wp-caption img {
-  width: 100%;
-  margin-bottom: 0;
-  max-width: 100%; }
-.entry-content .wp-caption p.wp-caption-text {
-  padding: 16px 1.25em 20px;
-  margin: 4px .5em;
-  font-size: 0.79012em;
-  text-align: left; }
-
 .posts-pagination {
   width: 100%;
   font-size: 0.88889em;
@@ -4676,53 +4644,6 @@ Link posts contain a link to an external site. They can also optionally have a f
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context
    */ }
-  .article__content .alignleft, .article__content img.alignleft {
-    display: block;
-    margin: 0 1em 1em 1em;
-    float: left; }
-    @media screen and (min-width: 1024px) {
-      .article__content .alignleft, .article__content img.alignleft {
-        margin: 0 1em 1em 0;
-        max-width: 50%;
-        /* we want text to wrap around, don't we? */ } }
-  .article__content .alignright, .article__content img.alignright {
-    display: block;
-    float: right;
-    margin: 0 1em 1em 1em; }
-    @media screen and (min-width: 1024px) {
-      .article__content .alignright, .article__content img.alignright {
-        margin: 0 0 1em 1em;
-        max-width: 50%;
-        /* we want text to wrap around, don't we? */ } }
-  .article__content .aligncenter, .article__content img.aligncenter {
-    margin: 0 auto 1em; }
-  .article__content .size-auto,
-  .article__content .size-full,
-  .article__content .size-large,
-  .article__content .size-medium,
-  .article__content .size-thumbnail {
-    max-width: 100%;
-    height: auto; }
-  .article__content .wp-caption {
-    max-width: 100%;
-    padding: 0;
-    background: #d0d2d3; }
-  .article__content .wp-caption img {
-    width: 100%;
-    margin-bottom: 0;
-    max-width: 100%; }
-  .article__content .wp-caption .wp-caption-text {
-    padding: 16px 1.25em 20px;
-    margin: 4px .5em;
-    font-size: 0.79012em;
-    text-align: left; }
-  .article__content blockquote {
-    background: url("../../images/article__blockquote-icon.svg") no-repeat 0 0.35em;
-    border: none;
-    padding: 0 0 0 4em;
-    min-height: 6.4em; }
-    .article__content blockquote, .article__content blockquote p {
-      color: #6d6e70; }
   .article__content h1, .article__content h2, .article__content h3, .article__content h4, .article__content h5, .article__content h6 {
     margin: 25.6px 0;
     line-height: 1.5;
@@ -13324,6 +13245,69 @@ category: Components
 
 .game__score--status {
   font-size: 0.70233em; }
+
+/**
+ * WordPress Specific Styles
+ */
+.alignleft,
+img.alignleft {
+  display: block;
+  margin: 0 1em 1em 1em;
+  float: left; }
+  @media screen and (min-width: 1024px) {
+    .alignleft,
+    img.alignleft {
+      margin: 0 1em 1em 0;
+      max-width: 50%;
+      /* we want text to wrap around, don't we? */ } }
+
+.alignright,
+img.alignright {
+  display: block;
+  float: right;
+  margin: 0 1em 1em 1em; }
+  @media screen and (min-width: 1024px) {
+    .alignright,
+    img.alignright {
+      margin: 0 0 1em 1em;
+      max-width: 50%;
+      /* we want text to wrap around, don't we? */ } }
+
+.aligncenter,
+img.aligncenter {
+  margin: 0 auto 1em; }
+
+.size-auto,
+.size-full,
+.size-large,
+.size-medium,
+.size-thumbnail {
+  max-width: 100%;
+  height: auto; }
+
+.wp-caption {
+  max-width: 100%;
+  padding: 0;
+  background: #d0d2d3; }
+
+.wp-caption img {
+  width: 100%;
+  margin-bottom: 0;
+  max-width: 100%; }
+
+.wp-caption .wp-caption-text {
+  padding: 16px 1.25em 20px;
+  margin: 4px .5em;
+  font-size: 0.79012em;
+  text-align: left; }
+
+blockquote {
+  background: url("../../images/article__blockquote-icon.svg") no-repeat 0 0.35em;
+  border: none;
+  padding: 0 0 0 4em;
+  min-height: 6.4em; }
+  blockquote, blockquote p {
+    color: #6d6e70; }
 
 /**
  * Single Page Styles

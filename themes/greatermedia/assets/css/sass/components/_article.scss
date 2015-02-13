@@ -200,66 +200,7 @@
 	$line-height-computed: $font-size * $line-height;
 	
 	font-size: $font-size;
-	line-height: $line-height;	
-		
-	.alignleft, img.alignleft {
-		display: block;
-		margin: 0 1em 1em 1em;
-		float: left;
-
-		@include bp(large) {
-			margin: 0 1em 1em 0;
-			max-width: 50%; /* we want text to wrap around, don't we? */
-		}
-	}	
-	.alignright, img.alignright {
-		display: block;
-		float: right;
-		margin: 0 1em 1em 1em;
-
-		@include bp(large) {
-			margin: 0 0 1em 1em;
-			max-width: 50%; /* we want text to wrap around, don't we? */
-		}
-	}	
-	.aligncenter, img.aligncenter {
-		margin: 0 auto 1em;
-	}	
-	.size-auto,
-	.size-full,
-	.size-large,
-	.size-medium,
-	.size-thumbnail {
-		max-width: 100%;
-		height: auto;
-	}
-	.wp-caption {
-		max-width: 100%;
-		padding: 0;
-		background: $primary-border;
-	}	
-	.wp-caption img {
-		width: 100%;
-		margin-bottom: 0;
-		max-width: 100%;
-	}	
-	.wp-caption .wp-caption-text {
-		padding: 16px 1.25em 20px;
-		margin: 4px .5em;
-		font-size: ms(-2);
-		text-align: left;
-	}
-	// Override the default provided by _typography.scss
-	blockquote {
-		background: url( $asset-root + '../images/article__blockquote-icon.svg') no-repeat 0 .35em;
-		border: none;
-		padding: 0 0 0 4em;
-		min-height: 6.4em; // Four lines, assuming line height of 1.6.
-		
-		&, p {
-			color: $medium-dark-gray;
-		}
-	}
+	line-height: $line-height;
 	
 	h1, h2, h3, h4, h5, h6 {
 		// Tighten up spacing on headings.
