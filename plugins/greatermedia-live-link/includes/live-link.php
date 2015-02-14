@@ -8,6 +8,7 @@ add_action( 'manage_' . GMR_LIVE_LINK_CPT . '_posts_custom_column', 'gmr_ll_rend
 add_action( 'admin_action_gmr_ll_copy', 'gmr_ll_handle_copy_post_to_live_link' );
 add_action( 'wp_ajax_gmr_live_link_suggest', 'gmr_ll_live_link_suggest' );
 add_action( 'deleted_post', 'gmr_ll_delete_post_live_links' );
+add_action( 'post_submitbox_start', 'gmr_ll_add_post_edit_action' );
 
 // filter hooks
 add_filter( 'manage_' . GMR_LIVE_LINK_CPT . '_posts_columns', 'gmr_ll_filter_columns_list' );
@@ -407,18 +408,66 @@ function gmr_ll_get_link_permalink( $post_link, $post ) {
  */
 function gmr_ll_add_post_action( $actions, WP_Post $post ) {
 	// check whether or not we need to add copy link
-	$post_type = get_post_type_object( $post->post_type );
-	if ( ! apply_filters( 'gmr_live_link_add_copy_action', $post_type && $post_type->public, $post ) ) {
+	if ( ! gmr_ll_allow_copy_live_link( $post ) ) {
 		return $actions;
 	}
 
-	// add copy action
-	$link = admin_url( 'admin.php?action=gmr_ll_copy&post_id=' . $post->ID );
-	$link = wp_nonce_url( $link, 'gmr-ll-copy' );
-
-	$actions['gmr-live-link'] = '<a href="' . esc_url( $link ) . '">Copy Live Link</a>';
+	$actions['gmr-live-link'] = '<a href="' . esc_url( gmr_ll_get_copy_live_link_url( $post->ID ) ) . '">Copy Live Link</a>';
 
 	return $actions;
+}
+
+/**
+ * Add "copy live link" link to post edit screen
+ */
+function gmr_ll_add_post_edit_action() {
+	global $post;
+	if ( ! gmr_ll_allow_copy_live_link( $post ) ) {
+		return;
+	}
+
+	echo '<div class="gmr-live-link">';
+	echo '<a href="' . esc_url( gmr_ll_get_copy_live_link_url( $post->ID ) ) . '">Copy Live Link</a>';
+	echo '</div>';
+}
+
+/**
+ * Should the current $post be allowed to have a live link copied?
+ *
+ * In general, only if it's a public post type that is published, but that's filterable.
+ *
+ * @param $post WP_Post
+ * @return bool
+ */
+function gmr_ll_allow_copy_live_link( $post ) {
+	// check whether or not we need to add copy link
+	$post_type   = get_post_type_object( $post->post_type );
+	$post_status = get_post_status( $post->ID );
+
+	$allow_or_disallow = $post_type && $post_type->public && $post_status === 'publish';
+
+	/**
+	 * Allows or disallows a post to be copied to a live link.
+	 *
+	 * @param boolean $allow_or_disallow
+	 * @param WP_Post $post
+	 */
+	return apply_filters( 'gmr_live_link_add_copy_action', $allow_or_disallow , $post );
+}
+
+/**
+ * Assemble the URL used to copy a given $post_id_to_copy to live links
+ *
+ * @param $post_id_to_copy integer
+ *
+ * @return string
+ */
+function gmr_ll_get_copy_live_link_url( $post_id_to_copy ) {
+	// add copy action
+	$link = admin_url( 'admin.php?action=gmr_ll_copy&post_id=' . absint( $post_id_to_copy ) );
+	$link = wp_nonce_url( $link, 'gmr-ll-copy' );
+
+	return $link;
 }
 
 /**
