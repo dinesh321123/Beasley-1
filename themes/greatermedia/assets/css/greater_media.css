@@ -6645,7 +6645,7 @@ category: Components - Ads
 
 */
 .ad__inline--right:after, .ad__in-loop:after {
-  content: '\25BE  Advertisement';
+  content: '\25B4  Advertisement';
   display: block;
   font-size: 10px;
   text-transform: uppercase;
