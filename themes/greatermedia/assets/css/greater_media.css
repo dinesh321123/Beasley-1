@@ -6644,7 +6644,7 @@ category: Components - Ads
 ```
 
 */
-.ad__inline--right:before, .ad__in-loop:before {
+.ad__inline--right:after, .ad__in-loop:after {
   content: '\25BE  Advertisement';
   display: block;
   font-size: 10px;
