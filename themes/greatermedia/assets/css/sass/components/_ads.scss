@@ -14,7 +14,7 @@ category: Components - Ads
 */
 
 /// Apply to an advertisement for a bit of text that calls it out as an advertisement.
-%advertisement-disclosure--before {
+%advertisement-disclosure {
 	&:after {
 		content: '\25B4  Advertisement';
 		display:block;
@@ -70,7 +70,7 @@ category: Components - Ads
 	float: none;
 	margin: 0 auto;
 	text-align: center;
-	@extend %advertisement-disclosure--before;
+	@extend %advertisement-disclosure;
 
 	@include bp(medium) {
 		float: none;
@@ -90,7 +90,7 @@ category: Components - Ads
 
 .ad__in-loop {
 	text-align: center;
-	@extend %advertisement-disclosure--before;
+	@extend %advertisement-disclosure;
 }
 	.ad__in-loop--mobile {}
 	.ad__in-loop--desktop {
