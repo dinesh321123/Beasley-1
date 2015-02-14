@@ -37,7 +37,7 @@
 
 			if (!form.parsley || form.parsley().isValid()) {
 				form.find('input, textarea, select, button').attr('readonly', 'readonly');
-				form.find('i.fa').show();
+				form.find('i.gmr-icon').show();
 
 				iframe_onload = function() {
 					var iframe_document = iframe.contentDocument || iframe.contentWindow.document,

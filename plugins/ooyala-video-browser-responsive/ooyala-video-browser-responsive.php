@@ -25,18 +25,6 @@ function ooyala_responsive_admin_enqueue_scripts() {
 
 }
 
-add_action( 'wp_enqueue_scripts', 'ooyala_responsive_wp_enqueue_styles' );
-function ooyala_responsive_wp_enqueue_styles() {
-
-	wp_enqueue_style(
-		'ooyala-video-browser-responsive',
-		OOYALA_RESPONSIVE_URL . '/ooyala-video-browser-responsive.css',
-		array(),
-		OOYALA_RESPONSIVE_VERSION
-	);
-
-}
-
 add_action( 'wp_enqueue_scripts', 'ooyala_responsive_wp_enqueue_scripts' );
 function ooyala_responsive_wp_enqueue_scripts() {
 

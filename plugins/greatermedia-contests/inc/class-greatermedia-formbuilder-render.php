@@ -867,7 +867,7 @@ class GreaterMediaFormbuilderRender {
 			$attributes = $other_attributes;
 		}
 
-		$button = '<button type="submit" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '" ' . $attributes . '><i class="fa fa-spinner fa-spin"></i> ' . esc_attr( $text ) . '</button>';
+		$button = '<button type="submit" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '" ' . $attributes . '><i class="gmr-icon icon-spin icon-spin"></i> ' . esc_attr( $text ) . '</button>';
 
 		if ( $wrap ) {
 			$button = '<p class="submit">' . $button . '</p>';

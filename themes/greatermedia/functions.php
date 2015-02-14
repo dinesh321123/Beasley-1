@@ -116,20 +116,8 @@ function greatermedia_scripts_styles() {
 	$baseurl = untrailingslashit( get_template_directory_uri() );
 
 	wp_register_style(
-		'open-sans',
-		'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,700,800',
-		array(),
-		null
-	);
-	wp_register_style(
-		'droid-sans',
-		'http://fonts.googleapis.com/css?family=Droid+Sans:400,700',
-		array(),
-		null
-	);
-	wp_register_style(
-		'font-awesome',
-		'//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css',
+		'google-fonts',
+		'//fonts.googleapis.com/css?family=Droid+Sans:400,700|Open+Sans:300italic,400italic,700italic,800italic,400,300,700,8',
 		array(),
 		null
 	);
@@ -138,9 +126,7 @@ function greatermedia_scripts_styles() {
 		"{$baseurl}/assets/css/greater_media{$postfix}.css",
 		array(
 			'dashicons',
-			'open-sans',
-			'droid-sans',
-			'font-awesome'
+			'google-fonts'
 		),
 		GREATERMEDIA_VERSION
 	);
@@ -150,9 +136,7 @@ function greatermedia_scripts_styles() {
 		array(
 			'jquery',
 			'underscore',
-			'classlist-polyfill',
-			'jquery-waypoints',
-			'waypoints-inview'
+			'classlist-polyfill'
 		),
 		GREATERMEDIA_VERSION,
 		true
@@ -174,6 +158,13 @@ function greatermedia_scripts_styles() {
 	);
 	wp_enqueue_style(
 		'greatermedia'
+	);
+
+	/**
+	 * YARPP styles are not being used, so let's get rid of them!
+	 */
+	wp_dequeue_style(
+		'yarppWidgetCss'
 	);
 
 	/**
@@ -554,7 +545,7 @@ function greatermedia_load_more_button( $args = array() ) {
 			data-partial-name='<?php echo esc_attr( $args['partial_name'] ); ?>'
 			data-auto-load='<?php echo intval( $args['auto_load'] ); ?>'
 			>
-			<i class="fa fa-spin fa-refresh"></i> Load More
+			<i class="gmr-icon icon-spin icon-loading"></i> Load More
 		</a>
 	</div>
 <?php

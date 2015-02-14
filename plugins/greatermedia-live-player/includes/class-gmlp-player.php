@@ -81,7 +81,7 @@ class GMLP_Player {
 		<div class="live-stream__player">
 			<div class="live-stream__controls">
 				<div id="playButton" class="live-stream__btn--play" data-action="play-live"></div>
-				<div id="loadButton" class="live-stream__btn--loading"><i class="fa fa-spin fa-refresh"></i></div>
+				<div id="loadButton" class="live-stream__btn--loading"><i class="gmr-icon icon-spin icon-loading"></i></div>
 				<div id="pauseButton" class="live-stream__btn--pause"></div>
 				<div id="resumeButton" class="live-stream__btn--resume"></div>
 			</div>
@@ -121,7 +121,7 @@ class GMLP_Player {
 
 		$home_url = home_url( '/' );
 		wp_register_script( 'load-jquery', GMLIVEPLAYER_URL . 'assets/js/src/jquery.load.js', array(), GMLIVEPLAYER_VERSION, true );
-		wp_enqueue_script( 'tdplayer', GMLIVEPLAYER_URL . "assets/js/tdplayer{$postfix}.js", array( 'load-jquery', 'wp-mediaelement', 'underscore', 'classlist-polyfill', 'adblock-detect', 'bowser', 'cookies-js' ), time(), true );
+		wp_enqueue_script( 'tdplayer', GMLIVEPLAYER_URL . "assets/js/tdplayer{$postfix}.js", array( 'load-jquery', 'wp-mediaelement', 'underscore', 'classlist-polyfill', 'bowser', 'cookies-js' ), time(), true );
 		wp_localize_script( 'tdplayer', 'gmr', array( 'logged_in' => is_gigya_user_logged_in(), 'callsign' => $callsign, 'streamUrl' => $vast_url, 'wpLoggedIn' => is_user_logged_in(), 'homeUrl' => $home_url ) );
 		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery', 'pjax', 'wp-mediaelement', 'cookies-js', 'tdplayer' ), GMLIVEPLAYER_VERSION, true );
 		wp_localize_script( 'gmlp-js', 'gmlp', array( 'logged_in' => is_user_logged_in(), 'popup_url' => home_url( self::$endpoint_slug ), 'is_popup' => self::$is_loading_popup ) );

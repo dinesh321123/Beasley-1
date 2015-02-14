@@ -28,7 +28,7 @@ wp_enqueue_script( 'gmr-gallery' );
 		<?php endwhile; ?>
 	</ul>
 
-	<button type="button" class="contest__submissions--load-more"><i class="fa fa-refresh fa-spin"></i> Load More</button>
+	<button type="button" class="contest__submissions--load-more"><i class="gmr-icon icon-spin icon-loading"></i> Load More</button>
 </section>
 
 <?php wp_reset_postdata(); ?>

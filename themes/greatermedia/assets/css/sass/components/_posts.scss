@@ -634,7 +634,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 .posts-pagination--load-more {
 	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
 	
-	.fa {
+	.gmr-icon {
 		margin-right: 0.4em;
 	}
 
@@ -642,7 +642,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 	// make it visible by default but use the .is-loaded flag to signal that 
 	// loading is done and the icon can go away.
 	&.is-loaded {
-		.fa {
+		.gmr-icon {
 			display: none;  
 		}
 	}
