@@ -13,6 +13,17 @@ category: Components - Ads
 
 */
 
+/// Apply to an advertisement for a bit of text that calls it out as an advertisement.
+%advertisement-disclosure--before {
+	&:before {
+		content: '\25BE  Advertisement';
+		display:block;
+		font-size: 10px;
+		text-transform: uppercase;
+		color: lighten( $color-text-gray, 25%);
+	}
+}
+
 .ad__leaderboard {
 	position: relative;
 	padding: em(20px) 0;
@@ -59,6 +70,7 @@ category: Components - Ads
 	float: none;
 	margin: 0 auto;
 	text-align: center;
+	@extend %advertisement-disclosure--before;
 
 	@include bp(medium) {
 		float: none;
@@ -78,6 +90,7 @@ category: Components - Ads
 
 .ad__in-loop {
 	text-align: center;
+	@extend %advertisement-disclosure--before;
 }
 	.ad__in-loop--mobile {}
 	.ad__in-loop--desktop {

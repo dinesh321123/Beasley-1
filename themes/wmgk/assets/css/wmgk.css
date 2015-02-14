@@ -6652,8 +6652,14 @@ category: Components - Ads
 	<img src="http://placehold.it/728x90&amp;text=leaderboard">
 </div>
 ```
-
 */
+.ad__inline--right:before, .ad__in-loop:before {
+  content: '\25BE  Advertisement';
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #7f7f81; }
+
 .ad__leaderboard {
   position: relative;
   padding: 1.25em 0;
