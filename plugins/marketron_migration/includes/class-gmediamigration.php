@@ -2788,11 +2788,19 @@ class GMedia_Migration extends WP_CLI_Command {
 				$count = 0;
 			}
 
-			$contest_title = trim( (string) $contest['ContestName'] );
-			preg_match( '/(\[\s*(\S+)\s*\])?(.*)/', $contest_title, $contest_title_matches );
-
-			if( !empty( $contest_title_matches ) ) {
-				$contest_title = $contest_title_matches[3];
+			/*
+			 * Changing to use ContestHeader if available as per suggestion
+			 * from Steve.
+			 */
+			if ( isset( $contest->ContestText['ContestHeader'] ) ) {
+				$contest_title = (string) $contest->ContestText['ContestHeader'];
+				$contest_title = trim( $contest_title );
+			} else {
+				$contest_title = trim( (string) $contest['ContestName'] );
+				preg_match( '/(\[\s*(\S+)\s*\])?(.*)/', $contest_title, $contest_title_matches );
+				if( !empty( $contest_title_matches ) ) {
+					$contest_title = $contest_title_matches[3];
+				}
 			}
 
 			$contest_args = array(

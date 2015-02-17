@@ -81,6 +81,11 @@ function greatermedia_setup() {
 	add_post_type_support( 'post', 'login-restricted-content' );
 	add_post_type_support( 'post', 'age-restricted-content' );
 
+	// Pages should also support same restrictions as posts
+	add_post_type_support( 'page', 'timed-content' );
+	add_post_type_support( 'page', 'login-restricted-content' );
+	add_post_type_support( 'page', 'age-restricted-content' );
+
 	// Add theme support for post-formats
 	$formats = array( 'gallery', 'link', 'image', 'video', 'audio' );
 	add_theme_support( 'post-formats', $formats );
