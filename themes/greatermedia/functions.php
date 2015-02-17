@@ -649,14 +649,16 @@ function add_google_analytics() {
 	});
 	ga('send', 'pageview');
 
-	var $body = jQuery('body');
+	jQuery(document).ready(function() {
+		var $body = jQuery('body');
 
-	$body.on('inlineAudioPlaying.gmr', function() {
-		ga('send', 'event', 'audio', 'Inline audio playing');
-	});
+		$body.on('inlineAudioPlaying.gmr', function() {
+			ga('send', 'event', 'audio', 'Inline audio playing');
+		});
 
-	$body.on('liveStreamPlaying.gmr', function () {
-		ga('send', 'event', 'audio', 'Live stream playing');
+		$body.on('liveStreamPlaying.gmr', function () {
+			ga('send', 'event', 'audio', 'Live stream playing');
+		});
 	});
 
 	</script>
