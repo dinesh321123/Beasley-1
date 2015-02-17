@@ -1,7 +1,10 @@
 {
-"version": 3,
-"mappings": ";;;;;;AAYG,4BAAM;EACL,KAAK,EAAE,IAAI;EACX,KAAK,EAAE,GAAG;EAEV,+BAAG;IACF,OAAO,EAAE,KAAK;IACd,WAAW,EAAE,CAAC;AAIhB,mEAAsB;EACrB,KAAK,EAAE,GAAG",
-"sources": ["sass/gm_admin.scss"],
-"names": [],
-"file": "gm_admin.css"
+	"version": 3,
+	"file": "gm_admin.css",
+	"sources": [
+		"../../gm_admin.scss"
+	],
+	"sourcesContent": [],
+	"mappings": ";;;;;;AAYA,AAAU,AAAa;EACnB,AAAO;EACP,AAAO;EAEX,AAAU,AAAa,AAAM;IACxB,AAAS;IACT,AAAa;AAIlB,AAAU,AAAa,AAAQ,AAAU,AAAa,AAAQ;EAC1D,AAAO",
+	"names": []
 }

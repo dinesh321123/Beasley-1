@@ -72,7 +72,9 @@ module.exports = function (grunt) {
 		},
 		sass: {
 			options: {
-				require: 'sass-globbing'
+				require: 'sass-globbing',
+				sourceMap: true,
+				precision: 5
 			},
 			all: {
 				files: {
