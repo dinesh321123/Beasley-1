@@ -135,16 +135,16 @@ class GMR_Audio_Shortcodes {
 
 		$downloadable = get_post_meta( $post_id, 'gmp_audio_downloadable', true );
 		$new_html = '';
-		
+
 		$is_podcast = is_singular( array( ShowsCPT::SHOW_CPT, GMP_CPT::PODCAST_POST_TYPE ) );
 
 		// podcast archive details
 
 		if ( $is_podcast || $is_podcast_archive ) {
 			$new_html .= '<div class="podcast-player">';
-		} else { 
+		} else {
 			$new_html .= '<div class="podcast-player podcast-player--compact">';
-		} 
+		}
 		$new_html .= '<div class="podcast__play mp3-' . esc_attr( $hash ) . '">'; // Hash is used to ensure the inline audio can always match state of live player, even when the player is the buttons that are clicked
 		$new_html .= '<div class="podcast__cover"  style="background-image: url(' . $featured_image . ');">';
 		if ( $is_podcast ) {
@@ -165,7 +165,15 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<div id="audio__time--remaining" class="audio__time--remaining"></div>';
 			$new_html .= '</div>';
 		}
-		$new_html .= '<span class="podcast__runtime">' . esc_html( $metadata['length_formatted'] ) . '</span>';
+
+		$new_html .= '<span class="podcast__runtime">';
+
+		if ( isset( $metadata['length_formatted'] ) ) {
+			$new_html .= esc_html( $metadata['length_formatted'] );
+		}
+
+		$new_html .= '</span>';
+
 		if( ( $is_podcast || $is_podcast_archive ) && ( $downloadable == 'on' || $downloadable == '' ) ) {
 			$new_html .= '<div class="podcast__download">';
 			if( !is_singular( GMP_CPT::PODCAST_POST_TYPE ) ) {
@@ -182,7 +190,7 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '</div>';
 		}
 		// if( $featured_image ) {
-		// 	$new_html .= '<img src="' . $featured_image . '" class="podcast__img">';	
+		// 	$new_html .= '<img src="' . $featured_image . '" class="podcast__img">';
 		// }
 		$new_html .= '</div>';
 		$new_html .= '<div class="podcast__meta">';
@@ -234,7 +242,10 @@ class GMR_Audio_Shortcodes {
 		$new_html .= '</div>'; // .podcast-player
 
 		update_post_meta( $post_id, 'enclosure', esc_attr( $mp3_src ) );
-		update_post_meta( $post_id, 'duration', esc_html( $metadata['length_formatted'] ) );
+
+		if ( isset( $metadata['length_formatted'] ) ) {
+			update_post_meta( $post_id, 'duration', esc_html( $metadata['length_formatted'] ) );
+		}
 
 		return $new_html;
 	}
