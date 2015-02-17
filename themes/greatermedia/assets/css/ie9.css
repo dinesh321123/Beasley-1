@@ -1,8 +1,7 @@
 .header__search--btn:before {
   font-size: 1.125rem; }
 
-.gallery__next--btn:after,
-.gallery__prev--btn:before {
+.gallery__next--btn:after, .gallery__prev--btn:before {
   font-size: 0.8rem;
   margin-top: 2px; }
 
@@ -10,8 +9,7 @@
   font-size: 16px;
   font-size: 1rem; }
 
-.entry2__thumbnail--event-date,
-.entry2__thumbnail--contest-type {
+.entry2__thumbnail--event-date, .entry2__thumbnail--contest-type {
   font-size: 16px !important;
   font-size: 1rem !important; }
 
@@ -32,5 +30,3 @@
   /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
   /* IE6-8 */ }
-
-/*# sourceMappingURL=ie9.css.map */

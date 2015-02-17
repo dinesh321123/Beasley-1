@@ -15,9 +15,9 @@ $max-site-width: 1400px;
 
 // simple css effect to make images responsive and fluid while also retaining proper aspect ratio
 img {
+	display: block; // block display will remove additional padding on images
 	max-width: 100%;
-	@include display(block); // block display will remove additional padding on images
-	@include size(null auto); // this will keep images from being stretched at lower resolutions
+	height: auto; // this will keep images from being stretched at lower resolutions
 }
 
 #site-wrap {
@@ -101,7 +101,7 @@ img {
 		width: 225px;
 		height: 100%;
 		max-height: none;
-		@include box-sizing(border-box);
+		box-sizing: border-box;
 		cursor: default;
 		@include transition(none);
 	}

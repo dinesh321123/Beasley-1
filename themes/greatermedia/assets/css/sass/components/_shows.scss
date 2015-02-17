@@ -828,7 +828,7 @@ category: Components - Shows
 	position: relative;
 	overflow: hidden;
 	height: 1499px;
-	@include box-sizing(border-box);
+	box-sizing: border-box;
 }
 
 .shows__schedule--day {
@@ -837,7 +837,7 @@ category: Components - Shows
 	position: absolute;
 	border: 1px solid $light-gray;
 	border-left-width: 0;
-	@include box-sizing(border-box);
+	box-sizing: border-box;
 	@include show-schedule-columns(1);
 	@include user-select(none);
 
@@ -882,7 +882,7 @@ category: Components - Shows
 	text-align: center;
 	padding: 15px 0;
 	height: 54px;
-	@include box-sizing(border-box);
+	box-sizing: border-box;
 	z-index: 99999;
 	position: absolute;
 	left: 0;

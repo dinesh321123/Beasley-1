@@ -88,7 +88,8 @@
 }
 
 .header__search--submit {
-	@extend .gmr-icon, .icon-search; 
+	@extend %gmr-icons;
+	@extend .icon-search;
 	
 	// Hide when the panel is open. 
 	.header__search--open & {
@@ -97,9 +98,10 @@
 }
 
 .header__search--cancel {
-	@extend .gmr-icon, .icon-close;
-	
-	// Only show when the panel is open. 
+	@extend %gmr-icons;
+	@extend .icon-close;
+
+	// Only show when the panel is open.
 	display: none;	
 	.header__search--open & {
 		display: block;

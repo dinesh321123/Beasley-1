@@ -73,23 +73,28 @@ a.social-share-link {
 }
 
 .social__link--facebook {
-	@extend %gmr-icons, .icon-facebook;
+	@extend %gmr-icons;
+	@extend .icon-facebook;
 }
 
 .social__link--twitter {
-	@extend %gmr-icons, .icon-twitter; 
+	@extend %gmr-icons;
+	@extend .icon-twitter;
 }
 
 .social__link--google-plus:before {
-	@extend %gmr-icons, .icon-google-plus; 
+	@extend %gmr-icons;
+	@extend .icon-google-plus;
 }
 
 .social__link--youtube:before {
-	@extend %gmr-icons, .icon-youtube;
+	@extend %gmr-icons;
+	@extend .icon-youtube;
 }
 
 .social__link--instagram:before {
-	@extend %gmr-icons, .icon-instagram;
+	@extend %gmr-icons;
+	@extend .icon-instagram;
 }
 
 .social__link,
