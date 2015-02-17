@@ -1239,7 +1239,11 @@ blockquote p {
   transform: translate(78%, 0); }
   @media screen and (min-width: 768px) {
     .mobile-nav--open .live-player {
-      right: 78% !important; } }
+      -webkit-transform: translate(178%, 0);
+      -moz-transform: translate(178%, 0);
+      -ms-transform: translate(178%, 0);
+      -o-transform: translate(178%, 0);
+      transform: translate(178%, 0); } }
 
 .mobile-nav--open .page-wrap {
   top: 40px; }
@@ -1260,11 +1264,15 @@ blockquote p {
 .mobile-nav--open .live-player:before {
   position: absolute;
   top: 0;
+  display: block;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
   content: " ";
   z-index: 2; }
+  @media screen and (min-width: 768px) {
+    .mobile-nav--open .live-player:before {
+      display: none; } }
 
 .mobile-nav__list {
   padding: 0;

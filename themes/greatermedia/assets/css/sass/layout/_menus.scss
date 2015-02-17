@@ -153,7 +153,7 @@
 .mobile-nav--open .live-player {
 	@include transform(translate(78%, 0));
 	@include bp(medium) {
-		right: 78% !important;
+		@include transform(translate(178%, 0));
 	}
 }
 
@@ -180,11 +180,16 @@
 .mobile-nav--open .live-player:before {
 	position: absolute;
 	top: 0;
+	display: block;
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0,0,0,.4);
 	content: " ";
 	z-index: 2;
+
+	@include bp(medium) {
+		display: none;
+	}
 }
 
 .mobile-nav__list {
