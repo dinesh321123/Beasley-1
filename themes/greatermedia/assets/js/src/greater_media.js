@@ -605,6 +605,12 @@
 
 	$(document).ready(function() {
 		//showBlocker();
+
+		$('.sub-menu li a').on('click touchend', function(e) {
+			var el = $(this);
+			var link = el.attr('href');
+			window.location = link;
+		});
 	});
 
 })();
