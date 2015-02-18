@@ -86,6 +86,18 @@
 					</div>
 					<div class="header__sub">
 						<div class="container">
+							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__logo">
+								<?php do_action( 'gmr_site_logo' ); ?>
+							</a>
+							<div class="header__subnav">
+								<div class="header__subnav--item"><a href="#" class="header__link--schedule"><div class="header__link--text">Schedule</div></a></div>
+								<div class="header__subnav--item"><a href="#" class="header__link--stocks"><div class="header__link--text">Stocks</div></a></div>
+								<div class="header__subnav--item"><a href="#" class="header__link--traffic"><div class="header__link--text">Traffic</div></a></div>
+								<div class="header__subnav--item"><a href="#" class="header__link--weather"><div class="header__link--text">Weather</div></a></div>
+								<div id="header__search" class="header__search">
+									<label for="s" class="header__search--label"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Search', 'greatermedia' ); ?></div></label>
+								</div>
+							</div>
 							<div class="recent-scores__widget">
 								<div class="score--visitor">
 									<div class="team__logo">
@@ -116,9 +128,6 @@
 									</div>
 								</div>
 							</div>
-							<ul class="header__subnav">
-								<li class="header__subnav--schedule"><a href="#" class="header__link--schedule">Schedule</a></li>
-							</ul>
 						</div>
 					</div>
 					<div class="header__main">
@@ -126,9 +135,6 @@
 							<div class="mobile-nav__toggle">
 								<div class="mobile-nav__toggle--span"></div>
 							</div>
-							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__logo">
-								<?php do_action( 'gmr_site_logo' ); ?>
-							</a>
 							<?php
 							$main_nav = array(
 								'theme_location'  => 'main-nav',
@@ -172,14 +178,11 @@
 								<div class="header__account header__account--large">
 									<a href="#" class="header__account--btn">
 										<span class="icon-user"></span>
-										<span class="header__account--span">Login or Register</span>
+										<span class="header__account--span">Login</span>
 									</a>
 									<div class="header__account--container">
 
 									</div>
-								</div>
-								<div id="header__search" class="header__search">
-									<label for="s" class="header__search--label"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Search', 'greatermedia' ); ?></div></label>
 								</div>
 							</div>
 						</div>

@@ -1,5 +1,5 @@
 .contest__thumbnail {
-	@include proportional-thumbnail( 66% );
+	@include proportional-thumbnail(66%);
 }
 
 .single__featured-img--contest {
@@ -72,8 +72,7 @@
 	}
 }
 
-
-.contest__description:last-of-type  {
+.contest__description:last-of-type {
 	margin-bottom: 0;
 }
 
@@ -262,7 +261,6 @@
 		margin-bottom: 0;
 	}
 
-
 	fieldset {
 		legend,
 		label {
@@ -321,10 +319,10 @@
 		font-family: $open-sans;
 		color: $dark-gray;
 		display: inline-block;
-		-webkit-appearance:none;
-		-moz-appearance:none;
-		appearance:none;
-		cursor:pointer;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		cursor: pointer;
 	}
 
 	input,
@@ -448,7 +446,7 @@
 	margin: 1em auto 0;
 	display: block;
 
-	&:last-of-type{
+	&:last-of-type {
 		margin-right: auto;
 	}
 

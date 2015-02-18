@@ -62,6 +62,13 @@
 			color: $secondary-link;
 		}
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: 72px;
+		}
+	}
 }
 
 .header__search--submit,
@@ -84,6 +91,13 @@
 		height: 100px;
 		color: $color-text-black;
 		font-size: ms(5);
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: 72px;
+		}
 	}
 }
 

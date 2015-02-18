@@ -471,7 +471,7 @@ category: Base - Typography
   font-weight: normal;
   font-style: normal; }
 
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__subnav--schedule:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit, .header__search--cancel, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .gmr-icon, .contest__submission .preview .preview-close {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit, .header__search--cancel, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .gmr-icon, .contest__submission .preview .preview-close {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -537,7 +537,7 @@ category: Base - Typography
 .icon-google-plus:before, .social__link--google-plus:before {
   content: "\e611"; }
 
-.icon-search:before, .header__search--submit:before {
+.icon-search:before, .header__link--search:before, .header__search--submit:before {
   content: "\e612"; }
 
 .icon-post-format-video:before, .format-video .entry2__thumbnail__icon:before {
@@ -600,16 +600,16 @@ category: Base - Typography
 .icon-radio-tower:before {
   content: "\e626"; }
 
-.icon-schedule:before {
+.icon-schedule:before, .header__link--schedule:before {
   content: "\e627"; }
 
-.icon-stocks:before {
+.icon-stocks:before, .header__link--stocks:before {
   content: "\e628"; }
 
-.icon-traffic:before {
+.icon-traffic:before, .header__link--traffic:before {
   content: "\e629"; }
 
-.icon-weather:before {
+.icon-weather:before, .header__link--weather:before {
   content: "\e62a"; }
 
 .icon-loading:before {
@@ -1304,7 +1304,8 @@ blockquote p {
   display: block;
   padding: 33px 1.125em 32px; }
   .news-site .header__nav ul li a, .news-site .header__nav ul li a:link, .news-site .header__nav ul li a:visited, .news-site .header__account ul li a, .news-site .header__account ul li a:link, .news-site .header__account ul li a:visited {
-    padding: 32px 1.125em 31px; }
+    padding: 29px 1.2em 29px;
+    border-right: 1px solid #282827; }
 
 .header__nav ul li a:hover, .header__nav ul li a:focus, .header__nav ul li a:active, .header__nav ul li:hover, .header__account ul li a:hover, .header__account ul li a:focus, .header__account ul li a:active, .header__account ul li:hover, .ui-menu .ui-state-focus {
   background-color: #d22228; }
@@ -1392,6 +1393,11 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
       color: #000000; }
     .header__nav .sub-menu a:hover, .header__nav .format-fw > ul a:hover, .header__nav .format-sp > ul a:hover, .header__nav .format-fi > ul a:hover, .header__account--links.sub-menu a:hover, .header__nav .format-fw > ul.header__account--links a:hover, .header__nav .format-sp > ul.header__account--links a:hover, .header__nav .format-fi > ul.header__account--links a:hover, .ui-menu a:hover {
       color: #ffffff; }
+  .news-site .header__nav .sub-menu li a, .news-site .header__nav .format-fw > ul li a, .news-site .header__nav .format-sp > ul li a, .news-site .header__nav .format-fi > ul li a, .news-site .header__account--links.sub-menu li a, .news-site .header__nav .format-fw > ul.header__account--links li a, .header__nav .news-site .format-fw > ul.header__account--links li a, .news-site .header__nav .format-sp > ul.header__account--links li a, .header__nav .news-site .format-sp > ul.header__account--links li a, .news-site .header__nav .format-fi > ul.header__account--links li a, .header__nav .news-site .format-fi > ul.header__account--links li a, .news-site .ui-menu li a {
+    border-right: none;
+    font-size: 0.79012em;
+    font-weight: normal;
+    text-transform: none; }
 
 .header__account--container {
   display: none; }
@@ -2788,35 +2794,46 @@ Community Highlights and Events
     display: block; }
 
 .header__subnav {
-  float: right;
+  float: left;
+  display: table;
+  table-layout: fixed;
   height: 48px;
   padding: 0;
-  margin: 0 20px 0 0;
+  margin: 0 1.25em 0 0;
   line-height: 1;
   font-size: 1em;
   text-transform: uppercase; }
 
-.header__subnav li {
-  display: inline-block;
+.header__subnav--item {
+  display: table-cell;
+  width: auto;
   height: 48px;
-  padding: 14px 0 16px;
+  vertical-align: middle;
+  padding: 0;
   margin: 0;
   color: #ffffff; }
-  .header__subnav li a, .header__subnav li a:visited {
-    display: inline-block;
-    height: 16px;
-    padding-top: 3px;
-    vertical-align: top;
+  .header__subnav--item a, .header__subnav--item a:visited {
+    display: block;
+    height: 48px;
+    padding: 14px 0 16px 1.25em;
+    margin: 0;
     color: #ffffff; }
+  .header__subnav--item a:hover, .header__subnav--item a:focus, .header__subnav--item a:active {
+    color: #aa1c20; }
 
-.header__subnav--schedule:before {
-  width: 0;
-  height: 0;
-  margin-right: 10px;
+.header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before {
+  display: table-cell;
+  width: 18px;
+  height: 18px;
+  padding-right: .75em;
+  vertical-align: middle;
   font-size: 1.26562em; }
 
-.header__subnav--schedule:before {
-  content: "\e627"; }
+.header__link--text {
+  display: table-cell;
+  width: auto;
+  height: 18px;
+  vertical-align: middle; }
 
 .header__main {
   width: 100%;
@@ -2863,14 +2880,15 @@ Community Highlights and Events
         margin-right: 0; } }
   .news-site .header__logo {
     width: 20%;
-    margin-left: 40%; }
+    margin-left: 40%;
+    z-index: 5000101; }
     @media screen and (min-width: 768px)  {
       .news-site .header__logo {
         height: 126px;
-        padding-right: 24px;
-        padding-left: 24px;
-        margin-top: -48px;
-        margin-left: 70px; } }
+        padding-right: 1.5em;
+        padding-left: 1.5em;
+        margin-left: 70px;
+        margin-right: 0; } }
     @media screen and (min-width: 1024px)  {
       .news-site .header__logo {
         margin-left: 0; } }
@@ -2932,6 +2950,8 @@ Community Highlights and Events
       transform: none; } }
   @media screen and (min-width: 768px)  {
     .news-site .header__secondary {
+      right: auto;
+      float: left;
       height: 78px; } }
 
 .header__account {
@@ -3015,8 +3035,7 @@ Community Highlights and Events
   @media screen and (min-width: 768px)  {
     .news-site .header__account--btn {
       height: 78px;
-      padding-top: 26px;
-      padding-bottom: 26px; } }
+      padding: 26px 1.5em; } }
   @media screen and (min-width: 1024px)  {
     .news-site .header__account--btn {
       font-size: 1.60181em; } }
@@ -3029,6 +3048,9 @@ Community Highlights and Events
       font-size: 12.65px;
       padding-left: 12px; } }
   .news-site .header__account--span {
+    font-weight: 900;
+    font-size: 0.79012em;
+    text-transform: uppercase;
     color: white; }
 
 /** An image is shown if the current user is logged in and Gigya gives us a thumbnail URL **/
@@ -3086,10 +3108,12 @@ Community Highlights and Events
       height: 82px;
       margin-right: 1em; } }
   .news-site .header__search {
+    padding-left: 1.25em;
+    margin-right: 0;
     color: white; }
     @media screen and (min-width: 768px)  {
       .news-site .header__search {
-        height: 78px; } }
+        height: 48px; } }
 
 .header__search--span {
   display: none; }
@@ -3105,14 +3129,15 @@ Community Highlights and Events
     .header__search--span {
       font-size: 0.79012em; } }
   .news-site .header__search--span {
-    padding: 31px 0 29px;
     text-transform: uppercase; }
     @media screen and (min-width: 768px)  {
       .news-site .header__search--span {
-        height: 78px; } }
+        height: 48px;
+        padding: 16px 0;
+        margin: 0; } }
     @media screen and (min-width: 1024px)  {
       .news-site .header__search--span {
-        font-size: 0.88889em; } }
+        font-size: 1em; } }
 
 .header__search--btn {
   display: block;
@@ -3120,9 +3145,8 @@ Community Highlights and Events
   height: 82px;
   padding: 34px 0 30px; }
   .news-site .header__search--btn {
-    height: 78px;
-    padding-top: 28px;
-    padding-bottom: 27px; }
+    height: 48px;
+    padding: 16px 1.25em 14px 0; }
 
 .header__search--btn:before {
   font-size: 1.42383em;
@@ -3130,9 +3154,8 @@ Community Highlights and Events
   @media screen and (min-width: 1024px)  {
     .header__search--btn:before {
       font-size: 1.125em; } }
-  @media screen and (min-width: 1024px)  {
-    .news-site .header__search--btn:before {
-      font-size: 1.42383em; } }
+  .news-site .header__search--btn:before {
+    font-size: 1em; }
 
 .footer {
   width: 100%;
@@ -8395,9 +8418,9 @@ header.podcast__header {
   display: inline-block; }
 
 .show-attr--logo {
-  height: 60px;
   width: 60px;
-  margin-right: 0.5em;
+  height: 60px;
+  margin-right: .5em;
   display: inline-block;
   background-color: #d0d2d3; }
 
@@ -9329,6 +9352,9 @@ a.social__link, a.social-share-link {
         color: #d0d2d3; }
       .header__search--input:-ms-input-placeholder {
         color: #d0d2d3; } }
+  @media screen and (min-width: 768px)  {
+    .news-site .header__search--input {
+      height: 72px; } }
 
 .header__search--submit, .header__search--cancel {
   position: relative;
@@ -9347,6 +9373,9 @@ a.social__link, a.social-share-link {
       height: 100px;
       color: #000000;
       font-size: 1.80203em; } }
+  @media screen and (min-width: 768px)  {
+    .news-site .header__search--submit, .news-site .header__search--cancel {
+      height: 72px; } }
 
 .header__search--open .header__search--submit {
   display: none; }
@@ -13044,58 +13073,6 @@ category: Components
   .image__attribution a:hover, .image__attribution a:active, .image__attribution a:focus {
     color: #aa1c20; }
 
-.recent-scores__widget {
-  float: right;
-  display: table;
-  table-layout: fixed;
-  height: 48px;
-  font-size: 0.79012em;
-  color: #ffffff; }
-
-.score--visitor {
-  display: table-cell;
-  width: auto;
-  vertical-align: middle;
-  text-align: left; }
-
-.game__score {
-  display: table-cell;
-  width: auto;
-  vertical-align: middle;
-  padding: 0 20px;
-  text-align: center; }
-
-.score--home {
-  display: table-cell;
-  width: auto;
-  vertical-align: middle;
-  text-align: right; }
-
-.team__logo {
-  display: table-cell;
-  width: auto;
-  vertical-align: middle;
-  height: 34px;
-  padding-right: 6px; }
-  .score--home .team__logo {
-    padding-right: 0;
-    padding-left: 6px; }
-
-.team__logo img {
-  height: 34px;
-  width: auto; }
-
-.team__name {
-  display: table-cell;
-  width: auto;
-  vertical-align: middle; }
-
-.team__record {
-  font-size: 0.70233em; }
-
-.game__score--status {
-  font-size: 0.70233em; }
-
 /**
  * WordPress Specific Styles
  */
@@ -13165,6 +13142,58 @@ blockquote {
   left: 0;
   width: 100%;
   height: 100%; }
+
+.recent-scores__widget {
+  float: right;
+  display: table;
+  table-layout: fixed;
+  height: 48px;
+  font-size: 0.79012em;
+  color: #ffffff; }
+
+.score--visitor {
+  display: table-cell;
+  width: auto;
+  vertical-align: middle;
+  text-align: left; }
+
+.game__score {
+  display: table-cell;
+  width: auto;
+  vertical-align: middle;
+  padding: 0 20px;
+  text-align: center; }
+
+.score--home {
+  display: table-cell;
+  width: auto;
+  vertical-align: middle;
+  text-align: right; }
+
+.team__logo {
+  display: table-cell;
+  width: auto;
+  vertical-align: middle;
+  height: 34px;
+  padding-right: 6px; }
+  .score--home .team__logo {
+    padding-right: 0;
+    padding-left: 6px; }
+
+.team__logo img {
+  height: 34px;
+  width: auto; }
+
+.team__name {
+  display: table-cell;
+  width: auto;
+  vertical-align: middle; }
+
+.team__record {
+  font-size: 0.70233em; }
+
+.game__score--status {
+  font-size: 0.70233em; }
 
 /**
  * Single Page Styles

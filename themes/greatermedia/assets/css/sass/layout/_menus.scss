@@ -276,7 +276,8 @@
 	padding: 33px 1.125em 32px;
 
 	.news-site & {
-		padding: 32px 1.125em 31px;
+		padding: 29px 1.2em 29px;
+		border-right: 1px solid $header-nav-border;
 	}
 }
 

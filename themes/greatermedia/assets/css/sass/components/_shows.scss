@@ -130,15 +130,17 @@
 }
 
 .show-attr--name {
-	@include position(absolute, 50% null null null);
-	@include size(null 60px);
+	position: absolute;
+	top: 50%;
+	height: 60px;
 	@include transform(translate(0, -25%));
 	display: inline-block;
 }
 
 .show-attr--logo {
-	@include size(60px 60px);
-	@include margin(null .5em null null);
+	width: 60px;
+	height: 60px;
+	margin-right: .5em;
 	display: inline-block;
 	background-color: $primary-border;
 }

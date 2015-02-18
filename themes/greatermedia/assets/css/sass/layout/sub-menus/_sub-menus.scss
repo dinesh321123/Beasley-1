@@ -91,6 +91,17 @@
 
 	}
 
+	.news-site & {
+		li {
+			a {
+				border-right: none;
+				font-size: ms(-2);
+				font-weight: normal;
+				text-transform: none;
+			}
+		}
+	}
+
 }
 
 .header__account--container {
