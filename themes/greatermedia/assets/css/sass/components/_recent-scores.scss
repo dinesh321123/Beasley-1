@@ -1,10 +1,35 @@
 .recent-scores__widget {
-	float: right;
+	position: absolute;
+	top: 32px;
 	display: table;
 	table-layout: fixed;
-	height: 48px;
-	font-size: ms(-2);
+	width: 100%;
+	height: 32px;
+	padding: 0 1em;
+	line-height: 1.5em;
+	font-size: ms(-3);
 	color: $color-text-white;
+
+	@include media(400px) {
+		position: relative;
+		top: auto;
+		width: auto;
+		height: 40px;
+		padding: 0;
+		line-height: 1.4em;
+	}
+
+	@include media(620px) {
+		position: relative;
+		top: auto;
+		float: right;
+		height: 32px;
+		line-height: 1.5em;
+	}
+
+	@include bp(medium) {
+		height: 48px;
+	}
 }
 
 .score--visitor {
@@ -18,8 +43,12 @@
 	display: table-cell;
 	width: auto;
 	vertical-align: middle;
-	padding: 0 20px;
+	padding: 0 5px;
 	text-align: center;
+
+	@include bp(large) {
+		padding: 0 20px;
+	}
 }
 
 .score--home {
@@ -33,8 +62,12 @@
 	display: table-cell;
 	width: auto;
 	vertical-align: middle;
-	height: 34px;
+	height: 32px;
 	padding-right: 6px;
+
+	@include bp(medium) {
+		height: 34px;
+	}
 
 	.score--home & {
 		padding-right: 0;
@@ -43,8 +76,12 @@
 }
 
 .team__logo img {
-	height: 34px;
-	width: auto;
+	max-width: 20px;
+	height: auto;
+
+	@include bp(medium) {
+		max-width: 34px;
+	}
 }
 
 .team__name {

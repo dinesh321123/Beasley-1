@@ -46,7 +46,19 @@
 .header__sub {
 	display: none;
 	width: auto;
-	height: 48px;
+	height: 72px;
+
+	@include media(400px) {
+		height: 40px;
+	}
+
+	@include media(620px) {
+		height: 32px;
+	}
+
+	@include bp(medium) {
+		height: 48px;
+	}
 
 	.news-site & {
 		display: block;
@@ -54,21 +66,47 @@
 }
 
 .header__subnav {
-	float: left;
+	position: absolute;
 	display: table;
-	table-layout: fixed;
-	height: 48px;
-	padding: 0;
-	margin: 0 1.25em 0 0;
+	width: 100%;
+	padding: 0 1em;
+	margin: 0;
 	line-height: 1;
-	font-size: ms(0);
+	font-size: ms(-3);
 	text-transform: uppercase;
+
+	@include media(400px) {
+		display: block;
+		width: auto;
+	}
+
+	@include media(620px) {
+		display: table;
+		table-layout: fixed;
+	}
+
+	@include bp(medium) {
+		font-size: ms(-2);
+	}
+
+	@include bp(large) {
+		position: relative;
+		left: auto;
+		float: left;
+		height: 48px;
+		margin-right: 1.25em;
+	}
+
+	@include bp(larger) {
+		font-size: ms(0);
+	}
+
 }
 
 .header__subnav--item {
 	display: table-cell;
 	width: auto;
-	height: 48px;
+	height: 32px;
 	vertical-align: middle;
 	padding: 0;
 	margin: 0;
@@ -76,25 +114,74 @@
 
 	a, a:visited {
 		display: block;
-		height: 48px;
-		padding: 14px 0 16px 1.25em;
+		height: 32px;
+		padding: 8px .5em 8px 0;
 		margin: 0;
 		color: $color-text-white;
 	}
 
+	&:last-of-type {
+
+		a {
+			padding-right: 0;
+		}
+	}
+
 	a:hover, a:focus, a:active {
 		color: $primary-link-hover;
+	}
+
+	@include media(400px) {
+		display: inline-block;
+		width: 45%;
+		height: 20px;
+
+		a, a:visited {
+			display: block;
+			height: 20px;
+			padding-top: 2px;
+			padding-bottom: 2px;
+			margin: 0;
+			color: $color-text-white;
+		}
+	}
+
+	@include media(620px) {
+		display: table-cell;
+		width: auto;
+		height: 32px;
+
+		a, a:visited {
+			height: 32px;
+			padding-top: 8px;
+			padding-bottom: 8px;
+		}
+	}
+
+	@include bp(medium) {
+		height: 48px;
+		padding-right: 0;
+		padding-left: 1.25em;
+
+		a, a:visited {
+			height: 48px;
+			padding: 14px 0 16px 0;
+		}
 	}
 }
 
 %header__subnav--icon {
 	@extend %gmr-icons;
 	display: table-cell;
-	width: 18px;
+	width: 0;
 	height: 18px;
-	padding-right: .75em;
+	padding-right: .25em;
 	vertical-align: middle;
 	font-size: ms(2);
+
+	@include bp(medium) {
+		padding-right: .75em;
+	}
 }
 
 .header__link--schedule:before {
@@ -170,19 +257,30 @@
 	}
 
 	.news-site & {
+		top: 72px;
 		width: 20%;
 		margin-left: 40%;
 		z-index: 5000101;
 
+		@include media(400px) {
+			top: 40px;
+		}
+
+		@include media(620px) {
+			top: 32px;
+		}
+
 		@include bp(medium) {
-			height: 126px;
-			padding-right: 1.5em;
-			padding-left: 1.5em;
-			margin-left: 70px;
-			margin-right: 0;
+			top: 48px;
+			height: 78px;
 		}
 
 		@include bp(large) {
+			top: auto;
+			height: 126px;
+			padding-right: 1.5em;
+			padding-left: 1.5em;
+			margin-right: 0;
 			margin-left: 0;
 		}
 	}
@@ -257,9 +355,17 @@
 	.news-site & {
 
 		@include bp(medium) {
+			position: absolute;
+			right: 0;
+			top: auto;
+			float: none;
+			height: 78px;
+		}
+
+		@include bp(large) {
+			position: relative;
 			right: auto;
 			float: left;
-			height: 78px;
 		}
 	}
 }
@@ -395,6 +501,16 @@
 		@include bp(large) {
 			font-size: ms(4);
 		}
+
+		@include bp(larger) {
+			padding-top: 28px;
+			padding-bottom: 28px;
+		}
+
+		@include bp(x-large) {
+			padding-top: 26px;
+			padding-bottom: 26px;
+		}
 	}
 }
 
@@ -412,6 +528,14 @@
 		font-size: ms(-2);
 		text-transform: uppercase;
 		color: white;
+
+		@include bp(larger) {
+			font-size: ms(-3);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(-2);
+		}
 	}
 }
 

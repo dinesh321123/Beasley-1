@@ -252,9 +252,19 @@
 	float: left;
 
 	.news-site  & {
-		font-size: ms(2);
-		font-weight: 900;
-		text-transform: uppercase;
+
+		@include bp(large) {
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+
+		@include bp(larger) {
+			font-size: ms(1);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(2);
+		}
 	}
 }
 
@@ -276,8 +286,19 @@
 	padding: 33px 1.125em 32px;
 
 	.news-site & {
-		padding: 29px 1.2em 29px;
+		padding-top: 32px;
+		padding-bottom: 31px;
 		border-right: 1px solid $header-nav-border;
+
+		@include bp(larger) {
+			padding-top: 31px;
+			padding-bottom: 30px;
+		}
+
+		@include bp(x-large) {
+			padding-top: 29px;
+			padding-bottom: 29px;
+		}
 	}
 }
 

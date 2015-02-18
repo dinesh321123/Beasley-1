@@ -1,5 +1,15 @@
 .header__nav .sub-menu,
 .header__account--links.sub-menu,
 .ui-menu {
-	border-top-color: $color-red-dark;
+	border-top-color: $color-red;
+}
+
+.mobile-nav {
+	.mobile-menu-submenu-header {
+		background-color: $color-red;
+	}
+
+	.show-subnavigation {
+		border-left-color: $color-gray-medium;
+	}
 }

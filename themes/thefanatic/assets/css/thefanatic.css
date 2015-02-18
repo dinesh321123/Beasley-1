@@ -1289,10 +1289,16 @@ blockquote p {
   display: inline-block;
   font-size: 1em;
   float: left; }
-  .news-site .header__nav > ul > li, .news-site .header__account > ul > li {
-    font-size: 1.26562em;
-    font-weight: 900;
-    text-transform: uppercase; }
+  @media screen and (min-width: 1024px)  {
+    .news-site .header__nav > ul > li, .news-site .header__account > ul > li {
+      font-weight: 900;
+      text-transform: uppercase; } }
+  @media screen and (min-width: 1200px)  {
+    .news-site .header__nav > ul > li, .news-site .header__account > ul > li {
+      font-size: 1.125em; } }
+  @media screen and (min-width: 1400px)  {
+    .news-site .header__nav > ul > li, .news-site .header__account > ul > li {
+      font-size: 1.26562em; } }
 
 .header__main a, .header__main a:visited {
   color: #ffffff; }
@@ -1304,8 +1310,17 @@ blockquote p {
   display: block;
   padding: 33px 1.125em 32px; }
   .news-site .header__nav ul li a, .news-site .header__nav ul li a:link, .news-site .header__nav ul li a:visited, .news-site .header__account ul li a, .news-site .header__account ul li a:link, .news-site .header__account ul li a:visited {
-    padding: 29px 1.2em 29px;
+    padding-top: 32px;
+    padding-bottom: 31px;
     border-right: 1px solid #580f0c; }
+    @media screen and (min-width: 1200px)  {
+      .news-site .header__nav ul li a, .news-site .header__nav ul li a:link, .news-site .header__nav ul li a:visited, .news-site .header__account ul li a, .news-site .header__account ul li a:link, .news-site .header__account ul li a:visited {
+        padding-top: 31px;
+        padding-bottom: 30px; } }
+    @media screen and (min-width: 1400px)  {
+      .news-site .header__nav ul li a, .news-site .header__nav ul li a:link, .news-site .header__nav ul li a:visited, .news-site .header__account ul li a, .news-site .header__account ul li a:link, .news-site .header__account ul li a:visited {
+        padding-top: 29px;
+        padding-bottom: 29px; } }
 
 .header__nav ul li a:hover, .header__nav ul li a:focus, .header__nav ul li a:active, .header__nav ul li:hover, .header__account ul li a:hover, .header__account ul li a:focus, .header__account ul li a:active, .header__account ul li:hover, .ui-menu .ui-state-focus {
   background-color: #d22228; }
@@ -2789,45 +2804,108 @@ Community Highlights and Events
 .header__sub {
   display: none;
   width: auto;
-  height: 48px; }
+  height: 72px; }
+  @media screen and (min-width: 400px) {
+    .header__sub {
+      height: 40px; } }
+  @media screen and (min-width: 620px) {
+    .header__sub {
+      height: 32px; } }
+  @media screen and (min-width: 768px)  {
+    .header__sub {
+      height: 48px; } }
   .news-site .header__sub {
     display: block; }
 
 .header__subnav {
-  float: left;
+  position: absolute;
   display: table;
-  table-layout: fixed;
-  height: 48px;
-  padding: 0;
-  margin: 0 1.25em 0 0;
+  width: 100%;
+  padding: 0 1em;
+  margin: 0;
   line-height: 1;
-  font-size: 1em;
+  font-size: 0.70233em;
   text-transform: uppercase; }
+  @media screen and (min-width: 400px) {
+    .header__subnav {
+      display: block;
+      width: auto; } }
+  @media screen and (min-width: 620px) {
+    .header__subnav {
+      display: table;
+      table-layout: fixed; } }
+  @media screen and (min-width: 768px)  {
+    .header__subnav {
+      font-size: 0.79012em; } }
+  @media screen and (min-width: 1024px)  {
+    .header__subnav {
+      position: relative;
+      left: auto;
+      float: left;
+      height: 48px;
+      margin-right: 1.25em; } }
+  @media screen and (min-width: 1200px)  {
+    .header__subnav {
+      font-size: 1em; } }
 
 .header__subnav--item {
   display: table-cell;
   width: auto;
-  height: 48px;
+  height: 32px;
   vertical-align: middle;
   padding: 0;
   margin: 0;
   color: #ffffff; }
   .header__subnav--item a, .header__subnav--item a:visited {
     display: block;
-    height: 48px;
-    padding: 14px 0 16px 1.25em;
+    height: 32px;
+    padding: 8px .5em 8px 0;
     margin: 0;
     color: #ffffff; }
+  .header__subnav--item:last-of-type a {
+    padding-right: 0; }
   .header__subnav--item a:hover, .header__subnav--item a:focus, .header__subnav--item a:active {
     color: #aa1c20; }
+  @media screen and (min-width: 400px) {
+    .header__subnav--item {
+      display: inline-block;
+      width: 45%;
+      height: 20px; }
+      .header__subnav--item a, .header__subnav--item a:visited {
+        display: block;
+        height: 20px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        margin: 0;
+        color: #ffffff; } }
+  @media screen and (min-width: 620px) {
+    .header__subnav--item {
+      display: table-cell;
+      width: auto;
+      height: 32px; }
+      .header__subnav--item a, .header__subnav--item a:visited {
+        height: 32px;
+        padding-top: 8px;
+        padding-bottom: 8px; } }
+  @media screen and (min-width: 768px)  {
+    .header__subnav--item {
+      height: 48px;
+      padding-right: 0;
+      padding-left: 1.25em; }
+      .header__subnav--item a, .header__subnav--item a:visited {
+        height: 48px;
+        padding: 14px 0 16px 0; } }
 
 .header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before {
   display: table-cell;
-  width: 18px;
+  width: 0;
   height: 18px;
-  padding-right: .75em;
+  padding-right: .25em;
   vertical-align: middle;
   font-size: 1.26562em; }
+  @media screen and (min-width: 768px)  {
+    .header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before {
+      padding-right: .75em; } }
 
 .header__link--text {
   display: table-cell;
@@ -2879,18 +2957,27 @@ Community Highlights and Events
       .header__logo:last-child {
         margin-right: 0; } }
   .news-site .header__logo {
+    top: 72px;
     width: 20%;
     margin-left: 40%;
     z-index: 5000101; }
+    @media screen and (min-width: 400px) {
+      .news-site .header__logo {
+        top: 40px; } }
+    @media screen and (min-width: 620px) {
+      .news-site .header__logo {
+        top: 32px; } }
     @media screen and (min-width: 768px)  {
       .news-site .header__logo {
+        top: 48px;
+        height: 78px; } }
+    @media screen and (min-width: 1024px)  {
+      .news-site .header__logo {
+        top: auto;
         height: 126px;
         padding-right: 1.5em;
         padding-left: 1.5em;
-        margin-left: 70px;
-        margin-right: 0; } }
-    @media screen and (min-width: 1024px)  {
-      .news-site .header__logo {
+        margin-right: 0;
         margin-left: 0; } }
 
 .header__logo--img {
@@ -2950,9 +3037,16 @@ Community Highlights and Events
       transform: none; } }
   @media screen and (min-width: 768px)  {
     .news-site .header__secondary {
-      right: auto;
-      float: left;
+      position: absolute;
+      right: 0;
+      top: auto;
+      float: none;
       height: 78px; } }
+  @media screen and (min-width: 1024px)  {
+    .news-site .header__secondary {
+      position: relative;
+      right: auto;
+      float: left; } }
 
 .header__account {
   display: block;
@@ -3039,6 +3133,14 @@ Community Highlights and Events
   @media screen and (min-width: 1024px)  {
     .news-site .header__account--btn {
       font-size: 1.60181em; } }
+  @media screen and (min-width: 1200px)  {
+    .news-site .header__account--btn {
+      padding-top: 28px;
+      padding-bottom: 28px; } }
+  @media screen and (min-width: 1400px)  {
+    .news-site .header__account--btn {
+      padding-top: 26px;
+      padding-bottom: 26px; } }
 
 .header__account--span {
   font-family: 'Open Sans', sans-serif;
@@ -3052,6 +3154,12 @@ Community Highlights and Events
     font-size: 0.79012em;
     text-transform: uppercase;
     color: white; }
+    @media screen and (min-width: 1200px)  {
+      .news-site .header__account--span {
+        font-size: 0.70233em; } }
+    @media screen and (min-width: 1400px)  {
+      .news-site .header__account--span {
+        font-size: 0.79012em; } }
 
 /** An image is shown if the current user is logged in and Gigya gives us a thumbnail URL **/
 .header__account--btn img {
@@ -13153,12 +13261,34 @@ blockquote {
   height: 100%; }
 
 .recent-scores__widget {
-  float: right;
+  position: absolute;
+  top: 32px;
   display: table;
   table-layout: fixed;
-  height: 48px;
-  font-size: 0.79012em;
+  width: 100%;
+  height: 32px;
+  padding: 0 1em;
+  line-height: 1.5em;
+  font-size: 0.70233em;
   color: #ffffff; }
+  @media screen and (min-width: 400px) {
+    .recent-scores__widget {
+      position: relative;
+      top: auto;
+      width: auto;
+      height: 40px;
+      padding: 0;
+      line-height: 1.4em; } }
+  @media screen and (min-width: 620px) {
+    .recent-scores__widget {
+      position: relative;
+      top: auto;
+      float: right;
+      height: 32px;
+      line-height: 1.5em; } }
+  @media screen and (min-width: 768px)  {
+    .recent-scores__widget {
+      height: 48px; } }
 
 .score--visitor {
   display: table-cell;
@@ -13170,8 +13300,11 @@ blockquote {
   display: table-cell;
   width: auto;
   vertical-align: middle;
-  padding: 0 20px;
+  padding: 0 5px;
   text-align: center; }
+  @media screen and (min-width: 1024px)  {
+    .game__score {
+      padding: 0 20px; } }
 
 .score--home {
   display: table-cell;
@@ -13183,15 +13316,21 @@ blockquote {
   display: table-cell;
   width: auto;
   vertical-align: middle;
-  height: 34px;
+  height: 32px;
   padding-right: 6px; }
+  @media screen and (min-width: 768px)  {
+    .team__logo {
+      height: 34px; } }
   .score--home .team__logo {
     padding-right: 0;
     padding-left: 6px; }
 
 .team__logo img {
-  height: 34px;
-  width: auto; }
+  max-width: 20px;
+  height: auto; }
+  @media screen and (min-width: 768px)  {
+    .team__logo img {
+      max-width: 34px; } }
 
 .team__name {
   display: table-cell;
@@ -13224,11 +13363,25 @@ h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry
 .section-header {
   font-family: 'Open Sans', sans-serif; }
 
+.mobile-nav {
+  background-color: #303030; }
+
+.mobile-nav__list a:hover, .mobile-nav__list a:focus, .mobile-nav__list a:active {
+  background-color: #db261d; }
+
+.mobile-nav__list .menu-item {
+  border-bottom-color: #58595B; }
+
 .header__nav ul li a:hover, .header__nav ul li a:focus, .header__nav ul li a:active, .header__nav ul li:hover, .header__account ul li a:hover, .header__account ul li a:focus, .header__account ul li a:active, .header__account ul li:hover, .ui-menu .ui-state-focus {
   background-color: #580f0c; }
 
 .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul, .header__account--links.sub-menu, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul.header__account--links, .header__nav .format-fi > ul.header__account--links, .ui-menu {
-  border-top-color: #580f0c; }
+  border-top-color: #db261d; }
+
+.mobile-nav .mobile-menu-submenu-header {
+  background-color: #db261d; }
+.mobile-nav .show-subnavigation {
+  border-left-color: #58595B; }
 
 .featured__article:hover .featured__article--heading {
   color: #db261d; }
@@ -13253,5 +13406,35 @@ h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry
 @media screen and (min-width: 768px)  {
   .header__account:hover {
     background-color: #580f0c; } }
+
+.header__search--form {
+  border-top-color: #e3e4e5;
+  background-color: #58595B; }
+  @media screen and (min-width: 768px)  {
+    .header__search--form {
+      background-color: #ffffff; } }
+
+.header__search--input {
+  color: #e3e4e5; }
+  .header__search--input::-webkit-input-placeholder {
+    color: #e3e4e5; }
+  .header__search--input::-moz-placeholder {
+    color: #e3e4e5; }
+  .header__search--input:-moz-placeholder {
+    color: #e3e4e5; }
+  .header__search--input:-ms-input-placeholder {
+    color: #e3e4e5; }
+  @media screen and (min-width: 768px)  {
+    .header__search--input {
+      background-color: #ffffff !important;
+      color: #000000; }
+      .header__search--input::-webkit-input-placeholder {
+        color: #d0d2d3; }
+      .header__search--input::-moz-placeholder {
+        color: #d0d2d3; }
+      .header__search--input:-moz-placeholder {
+        color: #d0d2d3; }
+      .header__search--input:-ms-input-placeholder {
+        color: #d0d2d3; } }
 
 /*# sourceMappingURL=thefanatic.css.map */
