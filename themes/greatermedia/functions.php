@@ -130,7 +130,6 @@ function greatermedia_scripts_styles() {
 		'greatermedia',
 		"{$baseurl}/assets/css/greater_media{$postfix}.css",
 		array(
-			'dashicons',
 			'google-fonts'
 		),
 		GREATERMEDIA_VERSION

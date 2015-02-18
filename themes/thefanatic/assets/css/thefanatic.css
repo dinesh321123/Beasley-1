@@ -6685,7 +6685,10 @@ a.podcast__download--fallback:hover, a.podcast__download--fallback:active {
   background-color: #aa1c20; }
 
 .breaking-news-banner {
-  padding: 10px 0; }
+  width: 100%;
+  background: #d22228;
+  padding: 10px 0;
+  color: #ffffff; }
 
 .breaking-news-banner__inner {
   padding: 0 20px;
@@ -6708,6 +6711,8 @@ a.podcast__download--fallback:hover, a.podcast__download--fallback:active {
       padding: 0 1.618em; } }
 
 .breaking-news-banner__title {
+  font-weight: bold;
+  padding-right: 0.5em;
   color: #f5ed7f;
   text-transform: uppercase; }
 
@@ -7631,6 +7636,16 @@ category: Components - Ads
       clear: both; }
     .contest__submission .contest__submission--thumbnail {
       height: 117px; } }
+
+/**
+ * @file override some default styles in the jQuery UI datepicker so it looks less broken
+ * taken from contests plugin to reduce load
+ */
+.ui-datepicker {
+  background-color: #ffffff; }
+
+.ui-datepicker .ui-datepicker-next {
+  right: 1em; }
 
 .events-archive #tribe-events-pg-template {
   max-width: 100%; }

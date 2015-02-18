@@ -13,21 +13,7 @@ if ( !class_exists( "Breaking_News" ) ) {
 	    	add_action( 'send_breaking_news_notices', array( $this, 'send_breaking_news_notices' ) );
 	    	add_action( 'show_breaking_news_banner', array( $this, 'show_breaking_news_banner' ) );
 	    	add_action( 'show_latest_breaking_news_item', array( $this, 'show_breaking_news_banner' ) );
-	    	add_action( 'wp_enqueue_scripts', array( $this, 'breaking_news_enqueue_scripts' ) );
 	    }
-
-	    /**
-	     * Enqueue supporing front-end scripts.
-	     *
-	     * @return void
-	     */
-	    public function breaking_news_enqueue_scripts() {
-	    	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-
-	    	wp_enqueue_style( 'breaking-news',
-				BREAKING_NEWS_URL . "assets/css/breaking-news{$postfix}.css",
-				array(), BREAKING_NEWS_VERSION, 'all' );
-		}
 
 		/**
 		 * Add meta meta fields to the post edit page.

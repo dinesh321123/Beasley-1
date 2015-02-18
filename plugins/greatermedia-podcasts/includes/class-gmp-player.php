@@ -11,7 +11,7 @@ class GMP_Player{
 	 */
 	public static function init() {
 
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 100 );
+		//add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ), 100 );
 		add_action( 'gmp_display_podcasts', array( __CLASS__, 'render_podcasts' ) );
 		add_action( 'gmp_audio', array( __CLASS__, 'podcast_audio_file' ) );
 

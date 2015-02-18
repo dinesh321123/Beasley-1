@@ -39,7 +39,7 @@ class GreaterMediaGallery {
 		 * This include all js files for cycle2, located in `assets/js/vendor/cycle2/`
 		 * and `gmr_gallery.js`, located in `assets/js/src/`
 		 */
-		wp_enqueue_script( 'gmr-gallery', GREATER_MEDIA_GALLERIES_URL . "assets/js/gmr_gallery{$postfix}.js", array( 'jquery' ), GREATER_MEDIA_GALLERIES_VERSION, false );
+		wp_enqueue_script( 'gmr-gallery', GREATER_MEDIA_GALLERIES_URL . "assets/js/gmr_gallery{$postfix}.js", array( 'jquery' ), GREATER_MEDIA_GALLERIES_VERSION, true );
 	}
 
 	/**

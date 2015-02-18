@@ -1,48 +1,53 @@
 .breaking-news-banner {
+	width: 100%;
+	background: $breaking-news-bg;
 	padding: 10px 0;
+	color: $color-text-white;
 }
-	.breaking-news-banner__inner {
-		padding: 0 20px;
-		margin: 0 auto; 
-		max-width: 1400px;
-		font-size: 14px;
-		line-height: 22px; 
-		
-		@include bp(small) {
-			overflow: hidden; 
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			height: 22px;
-		}
-		
-		@include bp(medium) {
-			font-size: 15px; 
-		}
-		
-		@include bp(large) {
-			font-size: 16px; 
-			padding: 0 $gutter;
-		}		
-	}
-	
-	.breaking-news-banner__title {
-		color: $color-text-yellow; 
-		text-transform: uppercase; 
-	}
-	
-	.breaking-news-banner__excerpt {
-		display: block;
+
+.breaking-news-banner__inner {
+	padding: 0 20px;
+	margin: 0 auto;
+	max-width: 1400px;
+	font-size: 14px;
+	line-height: 22px;
+
+	@include bp(small) {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		height: 22px;
-		
-		@include bp(small) {
-			display: inline; 
-		}
 	}
-	
-	a:hover .breaking-news-banner {
-		color: $color-text-yellow; 
+
+	@include bp(medium) {
+		font-size: 15px;
 	}
-	
+
+	@include bp(large) {
+		font-size: 16px;
+		padding: 0 $gutter;
+	}
+}
+
+.breaking-news-banner__title {
+	font-weight: bold;
+	padding-right: 0.5em;
+	color: $color-text-yellow;
+	text-transform: uppercase;
+}
+
+.breaking-news-banner__excerpt {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	height: 22px;
+
+	@include bp(small) {
+		display: inline;
+	}
+}
+
+a:hover .breaking-news-banner {
+	color: $color-text-yellow;
+}
