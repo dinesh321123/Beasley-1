@@ -37,6 +37,24 @@
 }
 	
 .article .ad__inline--right {
+	&.desktop {
+		display: none;
+	}
+
+	&.mobile {
+		display: block;
+	}
+
+	@include bp(medium) {
+		&.desktop {
+			display: block;
+		}
+
+		&.mobile {
+			display: none;
+		}
+	}
+
 	@include bp(large) {
 		margin-left: $gutter * 2;	
 	}
