@@ -307,11 +307,12 @@
 
 	};
 
-	var GigyaScreenSetView = function(config, screenSet, session) {
-		this.config         = config;
-		this.screenSet      = screenSet;
-		this.session        = session;
-		this.activeScreenID = '';
+	var GigyaScreenSetView   = function(config, screenSet, session) {
+		this.config          = config;
+		this.screenSet       = screenSet;
+		this.session         = session;
+		this.activeScreenID  = '';
+		this.submitTimeoutID = -1;
 
 		this.didBeforeScreenHandler = $.proxy(this.didBeforeScreen, this);
 		this.didAfterScreenHandler  = $.proxy(this.didAfterScreen, this);
@@ -486,6 +487,7 @@
 		didAfterScreen: function(event) {
 			this.activeScreenID = event.currentScreen;
 			this.scrollToTop();
+			this.initSubmitListener();
 
 			switch (event.currentScreen) {
 				case 'gigya-update-profile-screen':
@@ -657,6 +659,30 @@
 			} else {
 				$profileCity.val('');
 				$profileState.val('');
+			}
+		},
+
+		initSubmitListener: function() {
+			console.log('initSubmitListener');
+			var $submitButton = $('.gigya-input-submit-button');
+			$submitButton.click($.proxy(this.didInputSubmitClick, this));
+		},
+
+		didInputSubmitClick: function(event) {
+			clearTimeout(this.submitTimeoutID);
+			this.submitTimeoutID = setTimeout($.proxy(this.checkForSubmitErrors, this), 150);
+		},
+
+		checkForSubmitErrors: function() {
+			var $activeErrors = $('.gigya-error-msg-active');
+			if ($activeErrors.length > 0) {
+				var $firstError = $($activeErrors[0]);
+				var params = {
+					scrollTop: $firstError.offset().top - 50
+				};
+
+				var root   = $('html, body');
+				root.animate(params, 500);
 			}
 		}
 

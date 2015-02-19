@@ -142,7 +142,7 @@ function get_gigya_verify_email_message() {
 				<input type="password" name="password" placeholder="Password" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-forgot-password-screen">Forgot Password?</a>
-				<input type="submit" name="submit" value="Login" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Login" />
 
 			</form>
 
@@ -161,7 +161,7 @@ function get_gigya_verify_email_message() {
 				<input type="text" name="loginID" placeholder="Email" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back</a>
-				<input type="submit" name="submit" value="Submit" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Submit" />
 			</form>
 		</div>
 
@@ -221,7 +221,7 @@ function get_gigya_verify_email_message() {
 				<input type="password" name="passwordRetype" placeholder="Re-Enter Password" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Login</a>
-				<input type="submit" name="submit" value="Register" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Register" />
 			</form>
 		</div>
 
@@ -325,7 +325,7 @@ function get_gigya_verify_email_message() {
 					<?php } ?>
 				</select>
 
-				<input type="submit" name="submit" value="Join the Club" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Join the Club" />
 			</form>
 		</div>
 
@@ -423,7 +423,7 @@ function get_gigya_verify_email_message() {
 				</ul>
 
 				<a href="#" class="link-button logout-button">&laquo; Logout</a>
-				<input type="submit" name="submit" value="Update Profile" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Update Profile" />
 			</form>
 		</div>
 
@@ -446,7 +446,7 @@ function get_gigya_verify_email_message() {
 				<input type="password" name="passwordRetype" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-update-profile-screen">&laquo; Back</a>
-				<input type="submit" name="submit" value="Update" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Update" />
 			</form>
 		</div>
 
@@ -476,7 +476,7 @@ function get_gigya_verify_email_message() {
 				<label>Confirm new password:</label>
 				<input type="password" name="passwordRetype" />
 
-				<input type="submit" name="submit" value="Reset" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Reset" />
 			</form>
 
 			<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back</a>
@@ -503,7 +503,7 @@ function get_gigya_verify_email_message() {
 				<input type="text" name="email" placeholder="Email" id="resend-email" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back</a>
-				<input type="submit" name="submit" value="Resend Verification" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Resend Verification" />
 			</form>
 		</div>
 
@@ -525,7 +525,7 @@ function get_gigya_verify_email_message() {
 				<input type="text" name="email" placeholder="Email" id="resend-email" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-update-profile-screen">&laquo; Back</a>
-				<input type="submit" name="submit" value="Resend Verification" />
+				<input type="submit" name="submit" class="gigya-input-submit-button" value="Resend Verification" />
 			</form>
 		</div>
 
