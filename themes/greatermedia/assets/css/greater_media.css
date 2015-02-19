@@ -7865,6 +7865,8 @@ category: Components - Ads
       margin-right: 0; }
       .tribe-events-event-meta .tribe-events-meta-group-gmap:last-child {
         margin-right: 0; } }
+  .site-wrap.pjax--active .tribe-events-event-meta .tribe-events-meta-group-gmap {
+    display: none; }
 
 .single-tribe_events .tribe-events-venue-map {
   padding: 0;

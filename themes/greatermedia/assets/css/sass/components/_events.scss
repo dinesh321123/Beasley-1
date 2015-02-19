@@ -192,6 +192,10 @@
 		@include span-columns(8 of 8);
 		@include omega;
 	}
+
+	.site-wrap.pjax--active & {
+		display: none;
+	}
 }
 
 .single-tribe_events .tribe-events-venue-map {
