@@ -37,30 +37,22 @@ class ContentKit {
 		);
 
 		$args = array(
-			'labels'                   => $labels,
-			'hierarchical'        => false,
-			'description'         => 'description',
-			'taxonomies'          => array( 'post_tag', 'category' ),
-			'public'              => true,
+			'labels'              => $labels,
+			'public'              => false,
 			'show_ui'             => true,
-			'show_in_menu'        => true,
-			'show_in_admin_bar'   => true,
+			'query_var'           => false,
 			'menu_position'       => 45,
-			'menu_icon'           => 'dashicons-media-document',
-			'show_in_nav_menus'   => true,
-			'publicly_queryable'  => true,
-			'exclude_from_search' => false,
-			'has_archive'         => true,
-			'query_var'           => true,
 			'can_export'          => true,
-			'rewrite'             => array( 'slug' => 'content-kits' ),
-			'capability_type'     => array( 'content_kit', 'content_kits' ),
+			'rewrite'             => false,
+			'menu_icon'           => 'dashicons-media-document',
 			'map_meta_cap'        => true,
+			'capability_type'     => array( 'content_kit', 'content_kits' ),
+			'taxonomies'          => array( 'post_tag', 'category' ),
 			'supports'            => array(
 				'title', 'editor', 'author', 'thumbnail',
 				'excerpt','custom-fields', 'trackbacks', 'comments',
-				'revisions', 'page-attributes', 'post-formats'
-				)
+				'revisions', 'page-attributes', 'post-formats',
+			)
 		);
 
 		register_post_type( 'content-kit', $args );
