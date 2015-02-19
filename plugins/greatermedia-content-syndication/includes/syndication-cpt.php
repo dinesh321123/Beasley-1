@@ -550,7 +550,7 @@ class SyndicationCPT {
 
 				echo '</select>';
 				if ( $multiple != 'single' ) {
-					echo '<span class="description">Create a filter using one or more Tags</span>';
+					echo '<span class="description">Create a filter requiring all selected tags.</span>';
 				} else {
 					echo '<span class="description">Create a filter using a single ' . ucfirst( $taxonomy ) . '</span>';
 				}
