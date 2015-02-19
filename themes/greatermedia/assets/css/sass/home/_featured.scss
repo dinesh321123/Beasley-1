@@ -96,7 +96,7 @@ Curated posts for Featured Articles
 
 	.news-site & {
 		width: 100%;
-		padding: 0;
+		padding: 0 0 2.375em;
 		background-color: transparent;
 		background-image: none;
 	}
@@ -109,49 +109,24 @@ Curated posts for Featured Articles
 
 .featured__article{
 	@include row();
+}
 
-	.news-site & {
-		position: relative;
-		float: left;
-		width: 49%;
-		padding: 0;
-		margin-right: 2%;
-		background-color: transparent;
-		background-image: none;
-		font-size: ms(1);
+.featured__article--primary {
+	position: relative;
+	float: left;
+	width: 66.66666666666666%;
+	overflow: auto;
+	padding: 0 5px 0 0;
+	margin: 0;
+}
 
-		@include bp(medium) {
-			float: right;
-			width: 33%;
-			margin-bottom: 2px;
-			margin-right: 0;
-		}
-
-		@include bp(large) {
-			font-size: ms(3);
-		}
-
-		&:first-of-type {
-			float: left;
-			width: 100%;
-			margin-bottom: 14px;
-			font-size: ms(3);
-
-			@include bp(medium) {
-				width: calc(100% - 8px - 33%);
-				margin-bottom: 0;
-			}
-
-			@include bp(large) {
-				font-size: ms(6);
-			}
-		}
-
-		&:last-of-type {
-			margin-right: 0;
-			margin-bottom: 0;
-		}
-	}
+.featured__article--secondary {
+	position: relative;
+	float: right;
+	width: 33.33333333333333%;
+	overflow: auto;
+	padding: 0;
+	margin: 0;
 }
 
 .featured__content {
@@ -168,7 +143,7 @@ Curated posts for Featured Articles
 		@include bp(medium) {
 			@include span-columns(8);
 			@include omega;
-			padding: $base-line-height * 2 $gutter * 2;
+			padding: 5px 0 0;
 		}
 	}
 }
@@ -177,6 +152,19 @@ Curated posts for Featured Articles
 	display: block;
 	width: 100%;
 	height: 100%;
+	overflow: auto;
+
+	.featured__article--secondary & {
+
+		&:first-of-type {
+			margin-bottom: 3px;
+		}
+	}
+}
+
+a.featured__article--link {
+	position: relative;
+	display: block;
 	overflow: auto;
 }
 
@@ -194,6 +182,10 @@ Curated posts for Featured Articles
 	.news-site & {
 		padding-top: 61.85%;
 		background-color: transparent;
+	}
+
+	.featured__article--secondary & {
+		padding-top: 61%;
 	}
 }
 
@@ -231,6 +223,7 @@ Curated posts for Featured Articles
 		position: absolute;
 		bottom: 0;
 		left: 0;
+		padding: 1em 1.875em;
 		background-color: rgba(0,0,0,.5);
 	}
 }
@@ -256,9 +249,23 @@ Curated posts for Featured Articles
 	}
 
 	.news-site & {
-		font-family: $secondary-font;
-		font-size: ms(0);
+		font-size: ms(3);
 		font-weight: normal;
+	}
+}
+
+.news-site {
+
+	.featured__article--primary {
+
+		.featured__article--heading {
+			font-size: ms(5);
+			font-weight: 700;
+		}
+
+		.featured__article--content {
+			padding: 1em 1.5em;
+		}
 	}
 }
 
@@ -327,8 +334,17 @@ Curated posts for Featured Articles
 		height: 100%;
 		background-color: transparent;
 
-		@include bp(large) {
+		@include bp(medium) {
+			width: 33.33333333333333%;
 			height: 100%;
+			padding: 0;
+			margin: 0;
+		}
+		@include bp(large) {
+			width: 33.33333333333333%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
 		}
 	}
 }
@@ -362,11 +378,30 @@ Curated posts for Featured Articles
 	.news-site & {
 
 		@include bp(large) {
-			@include span-columns(12 of 12);
+			width: calc(100% - 5px);
 			padding-top: 52.25%;
+			margin-right: 0;
 		}
+
 		@include bp(x-large) {
-			@include span-columns(12 of 12);
+			width: calc(100% - 5px);
+			margin-right: 0;
+		}
+	}
+}
+
+.news-site {
+
+	.featured__content--block:last-of-type {
+
+		.featured__content--image {
+			@include bp(large) {
+				width: 100%;
+			}
+
+			@include bp(x-large) {
+				width: 100%;
+			}
 		}
 	}
 }
@@ -394,10 +429,37 @@ Curated posts for Featured Articles
 	}
 
 	.news-site & {
-		padding: .8em 0 0;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		min-height: initial;
+		background-color: rgba(0,0,0,.5);
 
-		@include bp(small) {
-			min-height: 100%;
+		@include bp(large) {
+			width: calc(100% - 5px);
+			padding: .875em 1.25em;
+		}
+
+		@include bp(x-large) {
+			width: calc(100% - 5px);
+		}
+	}
+}
+
+
+.news-site {
+
+	.featured__content--block:last-of-type {
+
+		.featured__content--meta {
+			@include bp(large) {
+				width: 100%;
+			}
+
+			@include bp(x-large) {
+				width: 100%;
+			}
 		}
 	}
 }
@@ -421,7 +483,7 @@ Curated posts for Featured Articles
 	}
 
 	.news-site & {
-		font-family: $secondary-font;
+		font-size: ms(2);
 		font-weight: normal;
 	}
 }
@@ -454,7 +516,10 @@ Curated posts for Featured Articles
 }
 
 
-.featured__content--link {
+a.featured__content--link {
+	position: relative;
+	display: block;
+	overflow: auto;
 }
 
 .featured__content--btn {

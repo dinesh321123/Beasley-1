@@ -6,9 +6,9 @@
 }
 
 .featured__content--title {
-	color: $color-gray-medium-light;
+	color: white;
 
 	.featured__content--block:hover & {
-		color: $color-red-dark;
+		color: $color-red;
 	}
 }
