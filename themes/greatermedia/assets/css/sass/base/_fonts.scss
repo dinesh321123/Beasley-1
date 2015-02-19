@@ -49,10 +49,8 @@ category: Base - Typography
 /**
  * Font Styles
  */
-
-$open-sans:     'Open Sans', sans-serif;
-$droid-sans:    'Droid Sans', sans-serif;
-$icon-font:     'gmr-icons';
+$primary-font:	'Open Sans', sans-serif !default;
+$icon-font:		'gmr-icons';
 
 $primary-font:		'Open Sans', sans-serif !default;
 $secondary-font:	'Droid Sans', sans-serif !default;

@@ -316,7 +316,6 @@ category: Components - Gallery Archive
 	width: 100%;
 	margin: 0 0 20px;
 	line-height: 1;
-	font-family: $open-sans;
 	font-size: ms(4);
 	font-weight: lighter;
 	word-break: break-all;
@@ -434,7 +433,6 @@ category: Components - Gallery Archive
 	border: 1px solid $primary-text;
 	background-color: transparent;
 	@include border-radius(32px);
-	font-family: $open-sans;
 	font-size: ms(1);
 	font-weight: lighter;
 	color: $primary-text;
@@ -1082,7 +1080,6 @@ category: Components - Gallery Archive
 
 .gallery__grid--title {
 	margin: 0;
-	font-family: $open-sans;
 	font-size: ms(1);
 	font-weight: lighter;
 	color: $primary-heading;

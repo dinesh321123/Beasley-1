@@ -171,7 +171,6 @@ Link posts contain a link to an external site. They can also optionally have a f
 // Content
 .entry__content {
 	padding: 1.5em 0;
-	font-family: $open-sans;
 }
 
 .entry__date {
@@ -232,7 +231,6 @@ Link posts contain a link to an external site. They can also optionally have a f
 	text-align: right;
 	display: inline-block; 
 	line-height: 1;
-	font-family: $droid-sans;
 	font-weight: bold;
 	color: $secondary-heading;
 }

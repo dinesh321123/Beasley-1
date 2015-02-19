@@ -75,7 +75,7 @@
 	outline: none;
 	background-color: $btn-bg !important;
 	border: 1px solid $btn-bg !important;
-	font-family: $open-sans;
+	font-family: $primary-font;
 	font-size: ms(-1);
 	color: $color-text-white !important;
 	text-transform: uppercase;
@@ -201,7 +201,7 @@
 }
 
 .tribe-events-single-section-title {
-	font-family: $open-sans;
+	font-family: $primary-font;
 }
 
 .tribe-events-single-section.tribe-events-event-meta.primary.tribe-clearfix {

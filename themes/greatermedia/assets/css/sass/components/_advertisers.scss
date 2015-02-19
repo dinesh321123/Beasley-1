@@ -7,7 +7,6 @@
 
 .sponsors__heading {
 	@extend .content__heading;
-	font-family: $droid-sans;
 	font-size: ms(5);
 	font-weight: bold;
 	color: $primary-text;
@@ -53,7 +52,6 @@
 .sponsor__name {
 	margin: 0 auto;
 	text-align: center;
-	font-family: $droid-sans;
 
 	@include bp(medium) {
 		position: absolute;

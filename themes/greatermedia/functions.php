@@ -122,7 +122,7 @@ function greatermedia_scripts_styles() {
 
 	wp_register_style(
 		'google-fonts',
-		'//fonts.googleapis.com/css?family=Droid+Sans:400,700|Open+Sans:300italic,400italic,700italic,800italic,400,300,700,8',
+		'//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,700,800',
 		array(),
 		null
 	);

@@ -239,7 +239,6 @@ Curated posts for Featured Articles
 	@include span-columns(4 of 4);
 	@include omega;
 	margin: 0;
-	font-family: $primary-font;
 	font-size: ms(2);
 	line-height: 1.3;
 	font-weight: bold;
@@ -415,7 +414,6 @@ Curated posts for Featured Articles
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
 	text-overflow: ellipsis;
-	font-family: $primary-font;
 	color: $color-text-white;
 
 	.featured__content--block:hover & {

@@ -78,14 +78,12 @@
 
 .contest__prize--title {
 	margin: 0 0 .25em;
-	font-family: $droid-sans;
 	font-size: ms(4);
 	color: $color-text-red;
 }
 
 .contest__form--heading {
 	margin: 0 0 30px;
-	font-family: $droid-sans;
 	font-size: ms(4);
 }
 
@@ -214,7 +212,6 @@
 
 .contest__sponsors--heading {
 	margin: 0 0 1.4em;
-	font-family: $open-sans;
 	font-size: ms(-1);
 	font-weight: normal;
 	text-transform: uppercase;
@@ -283,7 +280,6 @@
 		border: 1px solid transparent;
 		outline: none;
 		background-color: $form-bg;
-		font-family: $open-sans;
 		color: $dark-gray;
 	}
 
@@ -316,7 +312,6 @@
 		background-repeat: no-repeat;
 		background-position: 90% center;
 		background-size: auto 10px;
-		font-family: $open-sans;
 		color: $dark-gray;
 		display: inline-block;
 		-webkit-appearance: none;
