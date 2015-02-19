@@ -113,20 +113,30 @@ Curated posts for Featured Articles
 
 .featured__article--primary {
 	position: relative;
-	float: left;
-	width: 66.66666666666666%;
+	width: 100%;
 	overflow: auto;
-	padding: 0 5px 0 0;
-	margin: 0;
+	padding: 0;
+	margin: 0 0 5px;
+
+	@include bp(medium) {
+		float: left;
+		width: 66.66666666666666%;
+		padding-right: 5px;
+		margin: 0;
+	}
 }
 
 .featured__article--secondary {
 	position: relative;
-	float: right;
-	width: 33.33333333333333%;
+	width: 100%;
 	overflow: auto;
 	padding: 0;
 	margin: 0;
+
+	@include bp(medium) {
+		float: right;
+		width: 33.33333333333333%;
+	}
 }
 
 .featured__content {
@@ -134,11 +144,11 @@ Curated posts for Featured Articles
 	@include row();
 
 	.news-site & {
-		padding: $base-line-height $gutter / 2;
-
+		padding: 5px 0 0;
 		@include bp(small) {
 			@include span-columns(6);
 			@include omega;
+			padding: 5px 0 0;
 		}
 		@include bp(medium) {
 			@include span-columns(8);
@@ -155,9 +165,29 @@ Curated posts for Featured Articles
 	overflow: auto;
 
 	.featured__article--secondary & {
+		float: left;
+		width: 49.5%;
+
+		@include bp(medium) {
+			float: none;
+			width: 100%;
+		}
 
 		&:first-of-type {
+			float: left;
 			margin-bottom: 3px;
+
+			@include bp(medium) {
+				float: none;
+			}
+		}
+
+		&:last-of-type {
+			float: right;
+
+			@include bp(medium) {
+				float: none;
+			}
 		}
 	}
 }
@@ -185,7 +215,11 @@ a.featured__article--link {
 	}
 
 	.featured__article--secondary & {
-		padding-top: 61%;
+		padding-top: 60.4%;
+
+		@include bp(large) {
+			padding-top: 61%;
+		}
 	}
 }
 
@@ -223,8 +257,12 @@ a.featured__article--link {
 		position: absolute;
 		bottom: 0;
 		left: 0;
-		padding: 1em 1.875em;
+		padding: .5em .75em;
 		background-color: rgba(0,0,0,.5);
+
+		@include bp(large) {
+			padding: 1em 1.875em;
+		}
 	}
 }
 
@@ -249,8 +287,16 @@ a.featured__article--link {
 	}
 
 	.news-site & {
-		font-size: ms(3);
+		font-size: ms(-1);
 		font-weight: normal;
+
+		@include bp(medium) {
+			font-size: ms(0);
+		}
+
+		@include bp(large) {
+			font-size: ms(3);
+		}
 	}
 }
 
@@ -259,12 +305,24 @@ a.featured__article--link {
 	.featured__article--primary {
 
 		.featured__article--heading {
-			font-size: ms(5);
+			font-size: ms(3);
 			font-weight: 700;
+
+			@include bp(medium) {
+				font-size: ms(3);
+			}
+
+			@include bp(large) {
+				font-size: ms(5);
+			}
 		}
 
 		.featured__article--content {
-			padding: 1em 1.5em;
+			padding: .75em 1em;
+
+			@include bp(large) {
+				padding: 1em 1.5em;
+			}
 		}
 	}
 }
@@ -330,22 +388,11 @@ a.featured__article--link {
 	}
 
 	.news-site & {
-		margin-top: 0;
+		width: 33.33333333333333%;
 		height: 100%;
+		padding: 0;
+		margin: 0;
 		background-color: transparent;
-
-		@include bp(medium) {
-			width: 33.33333333333333%;
-			height: 100%;
-			padding: 0;
-			margin: 0;
-		}
-		@include bp(large) {
-			width: 33.33333333333333%;
-			height: 100%;
-			padding: 0;
-			margin: 0;
-		}
 	}
 }
 
@@ -376,16 +423,12 @@ a.featured__article--link {
 	}
 
 	.news-site & {
+		width: calc(100% - 5px);
+		margin-right: 0;
 
 		@include bp(large) {
-			width: calc(100% - 5px);
 			padding-top: 52.25%;
-			margin-right: 0;
-		}
 
-		@include bp(x-large) {
-			width: calc(100% - 5px);
-			margin-right: 0;
 		}
 	}
 }
@@ -395,13 +438,7 @@ a.featured__article--link {
 	.featured__content--block:last-of-type {
 
 		.featured__content--image {
-			@include bp(large) {
-				width: 100%;
-			}
-
-			@include bp(x-large) {
-				width: 100%;
-			}
+			width: 100%;
 		}
 	}
 }
@@ -432,17 +469,17 @@ a.featured__article--link {
 		position: absolute;
 		bottom: 0;
 		left: 0;
-		width: 100%;
+		width: calc(100% - 5px);
+		padding: .5em .75em;
 		min-height: initial;
 		background-color: rgba(0,0,0,.5);
 
-		@include bp(large) {
-			width: calc(100% - 5px);
-			padding: .875em 1.25em;
+		@include bp(medium) {
+			padding: .75em 1em;
 		}
 
-		@include bp(x-large) {
-			width: calc(100% - 5px);
+		@include bp(large) {
+			padding: .875em 1.25em;
 		}
 	}
 }
@@ -483,8 +520,16 @@ a.featured__article--link {
 	}
 
 	.news-site & {
-		font-size: ms(2);
+		font-size: ms(-3);
 		font-weight: normal;
+
+		@include bp(medium) {
+			font-size: ms(-1);
+		}
+
+		@include bp(large) {
+			font-size: ms(2);
+		}
 	}
 }
 
