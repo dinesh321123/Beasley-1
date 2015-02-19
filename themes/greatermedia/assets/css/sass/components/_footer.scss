@@ -18,15 +18,63 @@
 }
 
 .footer .container {
-	background-color: $primary-bg;
 	min-height: 0;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: $primary-bg;
+	border-top: 1px solid $primary-border;
+
+}
+
+.footer__ad {
+	@include span-columns(4);
+	@include omega;
+	text-align: center;
+
+	@include bp(small) {
+		@include span-columns(6);
+		@include omega;
+	}
+
+	@include bp(medium) {
+		@include span-columns(8);
+		@include omega;
+	}
+
+	@include bp(large) {
+		@include span-columns(12);
+		@include omega;
+	}
+
+	@include bp(x-large) {
+		@include span-columns(12);
+		@include omega;
+	}
+
+	.mobile {
+		display: block;
+		height: 50px;
+
+		@include media(468px) {
+			display: none;
+		}
+	}
+
+	.desktop {
+		display: none;
+		height: 60px;
+
+		@include media(468px) {
+			display: block;
+		}
+	}
+
 }
 
 .footer__content {
 	@include span-columns(4);
-	padding: 40px 5.5%;
+	padding: 40px 5.5% 0;
 	background-color: $primary-bg;
-	border-top: 1px solid $primary-border;
 	color: $footer-text;
 	text-align: center;
 	@include bp(small) {

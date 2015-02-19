@@ -32,6 +32,18 @@ function filter_ad_tags() {
 				),
 			),
 		),
+		'leaderboard-footer-mobile' => array(
+			'tag' => 'leaderboard-footer-mobile',
+			'url_vars' => array(),
+			'enable_ui_mapping' => true,
+			'max_width' => 467
+		),
+		'leaderboard-footer-desktop' => array(
+			'tag' => 'leaderboard-footer-desktop',
+			'url_vars' => array(),
+			'enable_ui_mapping' => true,
+			'min_width' => 468
+		),
 		'live-links-rectangle' => array(
 			'tag' => 'live-links-rectangle',
 			'url_vars' => array(),
