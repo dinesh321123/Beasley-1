@@ -8,7 +8,7 @@ class SyndicationCPT {
 
 	private $post_type = 'subscription';
 
-	private $supported_subscriptions = array( 'post', 'content-kit', 'contest', 'survey', 'gmr_gallery', 'gmr_album' );
+	private $supported_subscriptions = array( 'post', 'content-kit', 'contest', 'survey', 'gmr_gallery' );
 
 	public static $support_default_tax = array(
 		'_shows',
