@@ -9,14 +9,26 @@
 </div> <!-- / page-wrap -->
 <footer class="footer" role="contentinfo">
 	<div class="container">
-		<div class="footer__ad">
-			<div class="desktop">
-				<?php do_action( 'acm_tag', 'leaderboard-footer-desktop' ); ?>
+		<?php
+
+		$post_types = array(
+			'page',
+			'post',
+			GMR_CONTEST_CPT,
+			GreaterMediaGalleryCPT::GALLERY_POST_TYPE,
+			'tribe_events'
+		);
+
+		if ( is_singular( $post_types ) ) { ?>
+			<div class="footer__ad">
+				<div class="desktop">
+					<?php do_action( 'acm_tag', 'leaderboard-footer-desktop' ); ?>
+				</div>
+				<div class="mobile">
+					<?php do_action( 'acm_tag', 'leaderboard-footer-mobile' ); ?>
+				</div>
 			</div>
-			<div class="mobile">
-				<?php do_action( 'acm_tag', 'leaderboard-footer-mobile' ); ?>
-			</div>
-		</div>
+		<?php } ?>
 		<div class="footer__content">
 			<div class="footer__copyright">
 				<div class="footer__copyright--logo">
