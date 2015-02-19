@@ -663,7 +663,6 @@
 		},
 
 		initSubmitListener: function() {
-			console.log('initSubmitListener');
 			var $submitButton = $('.gigya-input-submit-button');
 			$submitButton.click($.proxy(this.didInputSubmitClick, this));
 		},
@@ -925,7 +924,6 @@
 
 	$(document).on('pjax:end', function(event, xhr, settings) {
 		var pathname = getPathnameFromUrl(settings.url);
-		console.log('on pjax:end ', settings.url, pathname);
 
 		if (pathname.indexOf('/members/account') === 0) {
 			app.rerun('account');
