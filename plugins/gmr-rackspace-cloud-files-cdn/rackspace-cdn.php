@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Rackspace CDN
+Plugin Name: GMR Rackspace CDN
 Plugin URI: http://www.paypromedia.com/
 Description: This plugin stores WordPress media files on, and delivers them from, the Rackspace CDN.
 Version: 1.3.1
