@@ -4579,6 +4579,12 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-weight: normal;
   left: 0;
   top: 0; }
+  @media screen and (min-width: 768px)  {
+    .type-contest .entry2__thumbnail--contest-type {
+      max-width: 60%; } }
+  @media screen and (min-width: 1024px)  {
+    .type-contest .entry2__thumbnail--contest-type {
+      max-width: initial; } }
 .type-contest .entry2__thumbnail--day-of-week {
   font-weight: normal; }
 .type-contest .entry2__thumbnail--month-and-day {

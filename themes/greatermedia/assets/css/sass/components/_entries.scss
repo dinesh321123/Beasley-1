@@ -289,6 +289,14 @@
 		font-weight: normal;
 		left: 0;
 		top: 0;
+
+		@include bp(medium) {
+			max-width: 60%;
+		}
+
+		@include bp(large) {
+			max-width: initial;
+		}
 	}
 
 	.entry2__thumbnail--day-of-week {
