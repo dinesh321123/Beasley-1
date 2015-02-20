@@ -280,6 +280,7 @@ class GreaterMediaContestsMetaboxes {
 
 	private function _restrictions_settings( WP_Post $post ) {
 		$post_status = get_post_status_object( $post->post_status );
+		$datetime_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
 		$started = get_post_meta( $post->ID, 'contest-start', true );
 		$ended = get_post_meta( $post->ID, 'contest-end', true );
@@ -296,7 +297,7 @@ class GreaterMediaContestsMetaboxes {
 							'value'   => get_post_meta( $post->ID, 'contest-start', true )
 						) ); ?>
 					<?php else : ?>
-						<b><?php echo ! empty( $started ) ? date( get_option( 'date_format' ), get_post_meta( $post->ID, 'contest-start', true ) ) : '&#8212;'; ?></b>
+						<b><?php echo ! empty( $started ) ? date( $datetime_format, get_post_meta( $post->ID, 'contest-start', true ) ) : '&#8212;'; ?></b>
 					<?php endif; ?>
 				</td>
 			</tr>
@@ -312,7 +313,7 @@ class GreaterMediaContestsMetaboxes {
 							'value'   => get_post_meta( $post->ID, 'contest-end', true ),
 						) ); ?>
 					<?php else : ?>
-						<b><?php echo ! empty( $ended ) ? date( get_option( 'date_format' ), get_post_meta( $post->ID, 'contest-end', true ) ) : '&#8212;'; ?></b>
+						<b><?php echo ! empty( $ended ) ? date( $datetime_format, get_post_meta( $post->ID, 'contest-end', true ) ) : '&#8212;'; ?></b>
 					<?php endif; ?>
 				</td>
 			</tr>
