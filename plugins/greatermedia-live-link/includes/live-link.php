@@ -436,11 +436,6 @@ function gmr_ll_add_post_edit_action() {
  * Add "copy live link" link to post edit screen
  */
 function register_admin_styles() {
-	global $post;
-	if ( ! gmr_ll_allow_copy_live_link( $post ) ) {
-		return;
-	}
-
 	wp_enqueue_style( 'admin_css', GMEDIA_LIVE_LINK_URL . "assets/css/gmr_livelinks.css", array(), GMEDIA_LIVE_LINK_VERSION );
 }
 
