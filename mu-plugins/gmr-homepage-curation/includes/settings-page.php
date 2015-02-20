@@ -77,7 +77,7 @@ function register_settings() {
 			'limit' => 3,
 		),
 	);
-	add_settings_field( $option_name, 'Community Highlights', __NAMESPACE__ . '\render_post_finder', get_settings_page_slug(), get_settings_section(), $render_args );
+	add_settings_field( $option_name, 'Don\'t Miss', __NAMESPACE__ . '\render_post_finder', get_settings_page_slug(), get_settings_section(), $render_args );
 	register_setting( get_settings_section(), $option_name, __NAMESPACE__ . '\sanitize_post_finder' );
 
 
