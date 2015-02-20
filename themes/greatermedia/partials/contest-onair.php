@@ -24,6 +24,7 @@
 
 	<?php if ( ( $enter = trim( get_post_meta( get_the_ID(), 'how-to-enter-desc', true ) ) ) ) : ?>
 		<div class="contest__description">
+			<h3 class="contest__prize--title"><?php _e( 'What you win:', 'greatermedia' ); ?></h3>
 			<?php echo wpautop( $enter ); ?>
 		</div>
 	<?php endif; ?>
