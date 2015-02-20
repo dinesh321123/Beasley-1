@@ -2,7 +2,7 @@
 
 // action hooks
 add_action( 'admin_menu', 'gmr_contests_register_winners_page' );
-add_action( 'post_submitbox_start', 'gmr_contest_view_entries_link' );
+add_action( 'post_submitbox_start', 'gmr_contest_view_entries_link', 11 );
 add_action( 'manage_' . GMR_CONTEST_ENTRY_CPT . '_posts_custom_column', 'gmr_contests_render_contest_entry_column', 10, 2 );
 add_action( 'admin_action_gmr_contest_entry_mark_winner', 'gmr_contests_mark_contest_winner' );
 add_action( 'admin_action_gmr_contest_entry_mark_bulk_winners', 'gmr_contests_mark_bulk_contest_winner' );

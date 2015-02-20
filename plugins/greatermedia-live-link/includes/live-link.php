@@ -8,7 +8,8 @@ add_action( 'manage_' . GMR_LIVE_LINK_CPT . '_posts_custom_column', 'gmr_ll_rend
 add_action( 'admin_action_gmr_ll_copy', 'gmr_ll_handle_copy_post_to_live_link' );
 add_action( 'wp_ajax_gmr_live_link_suggest', 'gmr_ll_live_link_suggest' );
 add_action( 'deleted_post', 'gmr_ll_delete_post_live_links' );
-add_action( 'post_submitbox_start', 'gmr_ll_add_post_edit_action' );
+add_action( 'post_submitbox_start', 'gmr_ll_add_post_edit_action', 10);
+add_action( 'admin_enqueue_scripts', 'register_admin_styles' );
 
 // filter hooks
 add_filter( 'manage_' . GMR_LIVE_LINK_CPT . '_posts_columns', 'gmr_ll_filter_columns_list' );
@@ -429,6 +430,18 @@ function gmr_ll_add_post_edit_action() {
 	echo '<div class="gmr-live-link">';
 	echo '<a href="' . esc_url( gmr_ll_get_copy_live_link_url( $post->ID ) ) . '">Copy Live Link</a>';
 	echo '</div>';
+}
+
+/**
+ * Add "copy live link" link to post edit screen
+ */
+function register_admin_styles() {
+	global $post;
+	if ( ! gmr_ll_allow_copy_live_link( $post ) ) {
+		return;
+	}
+
+	wp_enqueue_style( 'admin_css', GMEDIA_LIVE_LINK_URL . "assets/css/gmr_livelinks.css", array(), GMEDIA_LIVE_LINK_VERSION );
 }
 
 /**
