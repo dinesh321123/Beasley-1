@@ -47,3 +47,44 @@
 		margin: 0 auto 3px;
 	}
 }
+
+#show_users {
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			margin: 0 0 10px 0;
+			padding: 10px;
+			border: 1px solid #ccc;
+			list-style: none;
+			cursor: pointer;
+			background-color: white;
+
+			&:after {
+				content: "";
+				display: table;
+				clear: both;
+			}
+
+			&.show-user-placeholder {
+				border-style: dashed;
+				height: 60px;
+			}
+
+			.avatar,
+			.username {
+				float: left;
+			}
+
+			.avatar {
+				margin-right: 10px;
+			}
+
+			.username {
+				font-weight: bold;
+			}
+		}
+	}
+}

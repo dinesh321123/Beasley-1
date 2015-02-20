@@ -200,13 +200,6 @@ function verify_filename($filename, $filename_raw = null) {
 		return $filename;
 	}
 
-	// Get CDN information
-	if (isset($_SESSION['cdn']->api_settings->custom_cname) && trim($_SESSION['cdn']->api_settings->custom_cname) != '') {
-		 $cdn_url = $_SESSION['cdn']->api_settings->custom_cname;
-	} else {
-		$cdn_url = (isset($_SESSION['cdn']->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
-	}
-
 	// Get file info
 	$info = pathinfo($filename);
 	$ext  = empty($info['extension']) ? '' : '.' . $info['extension'];
@@ -487,10 +480,16 @@ function set_cdn_path($attachment) {
                 if ($cur_attachment != 'http' && $cur_attachment != 'https') {
                     // Verify attachment exists
                     $new_attachment = trim(str_replace($local_uploads_url, '', $cur_attachment), '/');
-                    
+
                     // If we are good to go, return the attachment
                     if (verify_exists( $new_attachment )) {
-                        $attachment = str_replace($cur_attachment, $cdn_url.'/'.$new_attachment, $attachment);
+	                    // NEW ATTACHMENT IS THE FULL URL, so GET RID OF THE BASE!!!!
+	                    $new_attachment = str_replace( $upload_data['baseurl'], '', $new_attachment );
+	                    if ( strpos( $new_attachment, '/' ) === 0 ) {
+							$new_attachment = substr( $new_attachment, 1 );
+	                    }
+
+	                    $attachment = str_replace($cur_attachment, trailingslashit( $cdn_url ) . $new_attachment, $attachment);
                     }
                 }
             }

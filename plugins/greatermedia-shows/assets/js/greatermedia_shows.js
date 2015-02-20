@@ -219,6 +219,18 @@
 				});
 			});
 		});
+
+		if ($.fn.sortable) {
+			$('#show_users ul')
+				.sortable({
+					items: '> li',
+					containment: 'parent',
+					cursor: 'move',
+					distance: 20,
+					placeholder: 'show-user-placeholder'
+				})
+				.disableSelection();
+		}
 	});
 })(jQuery);
 (function($){

@@ -136,4 +136,30 @@
   display: block;
   margin: 0 auto 3px; }
 
+#show_users ul {
+  margin: 0;
+  padding: 0;
+  list-style: none; }
+  #show_users ul li {
+    margin: 0 0 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    list-style: none;
+    cursor: pointer;
+    background-color: white; }
+    #show_users ul li:after {
+      content: "";
+      display: table;
+      clear: both; }
+    #show_users ul li.show-user-placeholder {
+      border-style: dashed;
+      height: 60px; }
+    #show_users ul li .avatar,
+    #show_users ul li .username {
+      float: left; }
+    #show_users ul li .avatar {
+      margin-right: 10px; }
+    #show_users ul li .username {
+      font-weight: bold; }
+
 /*# sourceMappingURL=greatermedia_shows.css.map */

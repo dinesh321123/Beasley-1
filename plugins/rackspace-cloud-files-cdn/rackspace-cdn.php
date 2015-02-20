@@ -92,7 +92,7 @@ register_uninstall_hook( __FILE__, 'rscdn_uninstall' );
  */
 function rs_cdn_admin_js() {
 	wp_enqueue_script('media-upload');
-	wp_enqueue_script('admin-js', RS_CDN_URL.'assets/js/admin.js');
+	wp_enqueue_script('admin-js', str_replace( array( 'http://', 'https://' ), '//', RS_CDN_URL ).'assets/js/admin.js');
 }
 add_action('admin_enqueue_scripts', 'rs_cdn_admin_js');
 ?>

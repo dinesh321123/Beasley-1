@@ -48,9 +48,17 @@ function get_show_personality_query( $show ) {
  * @return array Users for the provided show
  */
 function get_show_personalities( $show ) {
-	$query = get_show_personality_query( $show );
+	$show = get_post( $show );
 
-	return $query->get_results();
+	$personalities = get_post_meta( $show->ID, 'show_personalities', true );
+	$personalities = is_array( $personalities ) ? array_flip( $personalities ) : array();
+	
+	$query = get_show_personality_query( $show );
+	foreach ( $query->get_results() as $personality ) {
+		$personalities[ $personality->ID ] = $personality;
+	}
+
+	return $personalities;
 }
 
 /**

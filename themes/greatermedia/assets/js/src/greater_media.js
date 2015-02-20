@@ -606,6 +606,8 @@
 	$(document).ready(function() {
 		//showBlocker();
 
+		personality_toggle();
+
 		/**
 		 * Resolves issue that requires a double click on a sub-menu link on iOS.
 		 */

@@ -44,11 +44,11 @@
 								<?php echo get_avatar( $personality->ID ); ?>
 							</div>
 							<?php
-								$content = apply_filters('the_content', get_the_author_meta( 'description', $personality->ID ) );
-								$c = explode("</p>", $content);
-								$n = count($c) - 1;
+								$content = apply_filters( 'the_content', get_the_author_meta( 'description', $personality->ID ) );
+								$c = explode( "</p>", $content );
+								$n = count( $c ) - 1;
 							?>
-							<div class="personality__meta<?php if ($n <= 1) echo ' not-has-hidden';?>">
+							<div class="personality__meta<?php echo $n <= 1 ? ' not-has-hidden' : ''; ?>">
 								<span class="personality__name h1"><?php echo esc_html( $personality->data->display_name ); ?></span>
 								<div class="personality__bio"><?php echo $content; ?></div>
 								<button class="person-toggle more-btn">more</button>

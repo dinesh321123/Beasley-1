@@ -39,7 +39,7 @@ class GMR_Show_Metaboxes {
 		$post_types = ShowsCPT::get_supported_post_types();
 
 		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) && $typenow == ShowsCPT::SHOW_CPT ) {
-			wp_enqueue_script( 'meta_box', GMEDIA_SHOWS_URL . "assets/js/greatermedia_shows{$postfix}.js", array( 'jquery', 'jquery-ui-datepicker' ), GMEDIA_SHOWS_VERSION, true );
+			wp_enqueue_script( 'meta_box', GMEDIA_SHOWS_URL . "assets/js/greatermedia_shows{$postfix}.js", array( 'jquery', 'jquery-ui-datepicker', 'jquery-ui-sortable' ), GMEDIA_SHOWS_VERSION, true );
 			wp_enqueue_style( 'meta_box', GMEDIA_SHOWS_URL . "assets/css/greatermedia_shows{$postfix}.css", array(), GMEDIA_SHOWS_VERSION );
 		}
 
@@ -53,7 +53,7 @@ class GMR_Show_Metaboxes {
 				$term_ids[] = $current_show_term->term_id;
 			}
 
-			wp_register_script( 'admin_show_selector', GMEDIA_SHOWS_URL . "assets/js/admin_show_selector{$postfix}.js", array( 'jquery'), GMEDIA_SHOWS_VERSION, true );
+			wp_register_script( 'admin_show_selector', GMEDIA_SHOWS_URL . "assets/js/admin_show_selector{$postfix}.js", array( 'jquery' ), GMEDIA_SHOWS_VERSION, true );
 
 			wp_localize_script( 'admin_show_selector', 'SHOW_JS', array(
 				'usersShow' => $term_ids,
@@ -74,6 +74,7 @@ class GMR_Show_Metaboxes {
 
 		add_meta_box( 'show_featured', 'Featured', array( $this, 'render_featured_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced', 'high' );
 		add_meta_box( 'show_favorites', 'Favorites', array( $this, 'render_favorites_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced', 'high' );
+		add_meta_box( 'show_users', 'Personalities', array( $this, 'render_show_users_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced', 'high' );
 		add_meta_box( 'show_time', 'Show Times', array( $this, 'render_show_times_meta_box' ), ShowsCPT::SHOW_CPT, 'side' );
 		add_meta_box( 'show_social_pages', 'Social Pages', array( $this, 'render_social_pages_meta_box' ), ShowsCPT::SHOW_CPT, 'advanced' );
 	}
@@ -325,6 +326,30 @@ class GMR_Show_Metaboxes {
 	}
 
 	/**
+	 * Render a meta box to manage show users.
+	 *
+	 * @access public
+	 * @param WP_Post $post The show object.
+	 */
+	public function render_show_users_meta_box( $post ) {
+		$personalities = \GreaterMedia\Shows\get_show_personalities( $post );
+
+		?><p>Drag and drop personalities to reorder them.</p>
+
+		<ul>
+			<?php foreach ( $personalities as $personality ) : ?>
+				<li>
+					<input type="hidden" name="personalities[]" value="<?php echo esc_attr( $personality->ID ); ?>">
+					<?php echo get_avatar( $personality->ID, 48 ); ?>
+					<span class="username">
+						<?php echo esc_html( $personality->data->display_name ); ?>
+					</span>
+				</li>
+			<?php endforeach; ?>
+		</ul><?php
+	}
+
+	/**
 	 * Saves the captured data.
 	 *
 	 * @action save_post
@@ -337,6 +362,10 @@ class GMR_Show_Metaboxes {
 		if ( $doing_autosave || ! $valid_nonce || ! $can_edit_post ) {
 			return;
 		}
+
+		$personalities = isset( $_POST['personalities'] ) ? (array) $_POST['personalities'] : array();
+		$personalities = array_filter( array_map( 'intval', $personalities ) );
+		update_post_meta( $post_id, 'show_personalities', $personalities );
 
 		$homepage_support = filter_input( INPUT_POST, 'show_homepage', FILTER_VALIDATE_BOOLEAN );
 		$gallery_support = filter_input( INPUT_POST, 'show_homepage_galleries', FILTER_VALIDATE_BOOLEAN );
