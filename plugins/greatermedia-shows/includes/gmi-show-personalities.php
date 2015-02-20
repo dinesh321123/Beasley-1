@@ -50,12 +50,15 @@ function get_show_personality_query( $show ) {
 function get_show_personalities( $show ) {
 	$show = get_post( $show );
 
-	$personalities = get_post_meta( $show->ID, 'show_personalities', true );
-	$personalities = is_array( $personalities ) ? array_flip( $personalities ) : array();
-	
+	$personalities = array();
 	$query = get_show_personality_query( $show );
-	foreach ( $query->get_results() as $personality ) {
-		$personalities[ $personality->ID ] = $personality;
+	if ( ! empty( $query ) ) {
+		$personalities = get_post_meta( $show->ID, 'show_personalities', true );
+		$personalities = is_array( $personalities ) ? array_flip( $personalities ) : array();
+
+		foreach ( $query->get_results() as $personality ) {
+			$personalities[ $personality->ID ] = $personality;
+		}
 	}
 
 	return $personalities;

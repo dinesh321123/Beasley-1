@@ -333,6 +333,10 @@ class GMR_Show_Metaboxes {
 	 */
 	public function render_show_users_meta_box( $post ) {
 		$personalities = \GreaterMedia\Shows\get_show_personalities( $post );
+		if ( empty( $personalities ) ) {
+			?><p>No personalities assigned to this show.</p><?php
+			return;
+		}
 
 		?><p>Drag and drop personalities to reorder them.</p>
 
