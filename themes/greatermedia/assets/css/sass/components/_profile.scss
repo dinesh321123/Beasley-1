@@ -28,7 +28,7 @@
 	.profile-page__sidebar {
 		background-color: $featured-primary-bg;
 		color: $color-text-white;
-		background-image: url( $asset-root + '../images/profile_bg.jpg' );
+		background-image: url('../../images/profile_bg.jpg');
 		text-align: center;
 		background-size: cover;
 		background-repeat: no-repeat;

@@ -11455,7 +11455,7 @@ select {
   .profile-page .profile-page__sidebar {
     background-color: #561015;
     color: #ffffff;
-    background-image: url("../../../../themes/greatermedia/assets/../images/profile_bg.jpg");
+    background-image: url('../../images/profile_bg.jpg');
     text-align: center;
     background-size: cover;
     background-repeat: no-repeat; }
