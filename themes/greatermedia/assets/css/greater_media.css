@@ -6773,6 +6773,9 @@ a.podcast__download--fallback, a.podcast__download--fallback:visited {
 a.podcast__download--fallback:hover, a.podcast__download--fallback:active {
   background-color: #aa1c20; }
 
+body.vast-ad--playing {
+  overflow: hidden !important; }
+
 .breaking-news-banner {
   width: 100%;
   background: #d22228;

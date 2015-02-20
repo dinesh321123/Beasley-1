@@ -1694,3 +1694,7 @@ a.podcast__download--fallback, a.podcast__download--fallback:visited {
 a.podcast__download--fallback:hover, a.podcast__download--fallback:active {
 	background-color: $primary-link-hover;
 }
+
+body.vast-ad--playing {
+	overflow: hidden !important;
+}

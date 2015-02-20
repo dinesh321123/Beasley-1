@@ -53,6 +53,7 @@
 	var inlineAudioInterval = null;
 	var liveStreamInterval = null;
 	var audioIntervalDuration = 60000;
+	var footer = document.querySelector('.footer');
 	/* every minute */
 
 	/**
@@ -494,6 +495,8 @@
 	function preVastAd() {
 		var preRoll = document.getElementById('live-stream__container');
 
+		body.classList.add('vast-ad--playing');
+
 		if (preRoll != null) {
 			preRoll.classList.add('vast__pre-roll');
 		}
@@ -501,6 +504,10 @@
 
 	function postVastAd() {
 		var preRoll = document.getElementById('live-stream__container');
+
+		if (body.classList.contains('vast-ad--playing')) {
+			body.classList.remove('vast-ad--playing');
+		}
 
 		if (preRoll != null) {
 			preRoll.classList.remove('vast__pre-roll');
