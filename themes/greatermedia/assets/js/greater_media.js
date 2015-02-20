@@ -1114,19 +1114,62 @@
 		$blocker.css({'display': 'none'});
 	};
 
+	/**
+	 * Returns user agents for mobile devices. We need to be able to detect common mobile devices in order to remove
+	 * the double tap click issue that appears, specifically in iOS. If we do not detect the agent, this will stay
+	 * active in the menu at all times and breaks Pjax.
+	 *
+	 * @type {{TOUCH_DOWN_EVENT_NAME: string, TOUCH_UP_EVENT_NAME: string, TOUCH_MOVE_EVENT_NAME: string, TOUCH_DOUBLE_TAB_EVENT_NAME: string, isAndroid: Function, isBlackBerry: Function, isIOS: Function, isOpera: Function, isWindows: Function, isMobile: Function}}
+	 */
+	var Environment = {
+		//mobile or desktop compatible event name, to be used with '.on' function
+		TOUCH_DOWN_EVENT_NAME: 'mousedown touchstart',
+		TOUCH_UP_EVENT_NAME: 'mouseup touchend',
+		TOUCH_MOVE_EVENT_NAME: 'mousemove touchmove',
+		TOUCH_DOUBLE_TAB_EVENT_NAME: 'dblclick dbltap',
+
+		isAndroid: function() {
+			return navigator.userAgent.match(/Android/i);
+		},
+		isBlackBerry: function() {
+			return navigator.userAgent.match(/BlackBerry/i);
+		},
+		isIOS: function() {
+			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+		},
+		isOpera: function() {
+			return navigator.userAgent.match(/Opera Mini/i);
+		},
+		isWindows: function() {
+			return navigator.userAgent.match(/IEMobile/i);
+		},
+		isMobile: function() {
+			return (Environment.isAndroid() || Environment.isBlackBerry() || Environment.isIOS() || Environment.isOpera() || Environment.isWindows());
+		}
+	};
+
+	/**
+	 * Resolves issue that requires a double click on a sub-menu link on iOS.
+	 */
+	function stopClickMobile() {
+		$('.sub-menu li a').on('click touchend', function (e) {
+			var el = $(this);
+			var link = el.attr('href');
+			window.location = link;
+		});
+	}
+
 	$(document).ready(function() {
 		//showBlocker();
 
 		personality_toggle();
 
 		/**
-		 * Resolves issue that requires a double click on a sub-menu link on iOS.
+		 * Only run this function if the Environment is a mobile device
 		 */
-		$('.sub-menu li a').on('click touchend', function(e) {
-			var el = $(this);
-			var link = el.attr('href');
-			window.location = link;
-		});
+		if (Environment.isMobile()) {
+			stopClickMobile();
+		}
 	});
 
 })();
