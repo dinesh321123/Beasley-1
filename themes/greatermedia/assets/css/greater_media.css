@@ -4586,10 +4586,23 @@ Link posts contain a link to an external site. They can also optionally have a f
     .type-contest .entry2__thumbnail--contest-type {
       max-width: initial; } }
 .type-contest .entry2__thumbnail--day-of-week {
+  font-size: 1em;
   font-weight: normal; }
+  @media screen and (min-width: 768px)  {
+    .type-contest .entry2__thumbnail--day-of-week {
+      font-size: .875em; } }
+  @media screen and (min-width: 1024px)  {
+    .type-contest .entry2__thumbnail--day-of-week {
+      font-size: 1em; } }
 .type-contest .entry2__thumbnail--month-and-day {
   font-size: 2em;
   margin-top: .15em; }
+  @media screen and (min-width: 768px)  {
+    .type-contest .entry2__thumbnail--month-and-day {
+      font-size: 1.5em; } }
+  @media screen and (min-width: 1024px)  {
+    .type-contest .entry2__thumbnail--month-and-day {
+      font-size: 2em; } }
 
 .entry2-ad-wrap {
   clear: both;

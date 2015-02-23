@@ -300,12 +300,29 @@
 	}
 
 	.entry2__thumbnail--day-of-week {
+		font-size: 1em;
 		font-weight: normal;
+
+		@include bp(medium) {
+			font-size: .875em;
+		}
+
+		@include bp(large) {
+			font-size: 1em;
+		}
 	}
 
 	.entry2__thumbnail--month-and-day {
 		font-size: 2em;
 		margin-top: .15em;
+
+		@include bp(medium) {
+			font-size: 1.5em;
+		}
+
+		@include bp(large) {
+			font-size: 2em;
+		}
 	}
 }
 
