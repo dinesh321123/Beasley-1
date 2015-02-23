@@ -58,7 +58,7 @@ function greatermedia_setup() {
 
 	// Add theme support for post thumbnails
 	add_theme_support( 'post-thumbnails' );
-	add_image_size( 'gm-article-thumbnail',     		1580,   9999,   false   ); // thumbnails used for articles
+	add_image_size( 'gm-article-thumbnail',     		1400,   9999,   false   ); // thumbnails used for articles
 	add_image_size( 'gm-entry-thumbnail-1-1' ,          500,    500,    true    );
 	add_image_size( 'gm-entry-thumbnail-4-3' ,          500,    375,    true    );
 	add_image_size( 'gmr-gallery',              		800,    534,    true    ); // large images for the gallery
