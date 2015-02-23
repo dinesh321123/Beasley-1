@@ -2,7 +2,7 @@
 	@include span-columns(4);
 	@include omega;
 	padding: $base-line-height $gutter / 2;
-	
+
 	@include bp(medium) {
 		padding: $base-line-height $gutter * 2;
 	}
@@ -10,7 +10,7 @@
 
 .entry2 {
 	@include span-columns(6 of 6);
-	@include omega; 
+	@include omega;
 	margin-bottom: $base-line-height * 1.5;
 	border-bottom: 1px solid $primary-border;
 
@@ -18,190 +18,214 @@
 		border-bottom: none;
 	}
 }
- 
-.entry2__thumbnail {	
-	margin-bottom: $base-line-height * .75; 
-	
- 	@include bp(small) {
+
+.entry2__thumbnail {
+	margin-bottom: $base-line-height * .75;
+
+	@include bp(small) {
 		@include span-columns(2 of 6);
-		margin-bottom: 0; 
+		margin-bottom: 0;
 	}
-	
+
+	@include bp(large) {
+		margin-bottom: 1em;
+	}
+
+	@include bp(larger) {
+		margin-bottom: 0;
+	}
+
 	.has-excerpt &:after {
 		padding-top: 75%;
 	}
-	
+
 	position: relative;
 }
-	.entry2__thumbnail__image {
-		// Force aspect ratio 
-		position: relative;
-		
-		&:after {
-			content: '';
-			display: block;
-			padding-top: 66.666%;
-		}
-		
-		background-size: 100%;
-		background-size: cover;
-		background-position: center center;
-		background-repeat: no-repeat;
+
+.entry2__thumbnail__image {
+	// Force aspect ratio
+	position: relative;
+
+	&:after {
+		content: '';
+		display: block;
+		padding-top: 66.666%;
 	}
 
-	.entry2__thumbnail__overlay {
-		background-color: $btn-bg;
-		@include opacity(0.6); 
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;		
-	}
-	
-	.entry2__thumbnail__icon {
-		// Post type icons
-		position: absolute;
-		top: .2em;
-		right: .2em;
-		color: #fff;
-		z-index: 30;
-		font-size: 4em;
-		
-		@include bp(small) {
-			font-size: 2.5em;
-		}
-		@include bp(large) {
-			font-size: 3em;
-		}
+	background-size: 100%;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
 
-		@extend %gmr-icons;
-		
-		.format-audio & {
-			@extend .icon-post-format-audio;
-		}
-		.format-gallery & {
-			@extend .icon-post-format-gallery;
-		}
-		.format-video & {
-			@extend .icon-post-format-video;
-		}
-		.type-contest & {
-			@extend .icon-contest;
-		}
-		.type-tribe_events & {
-			@extend .icon-post-format-events;
-		}
+.entry2__thumbnail__overlay {
+	background-color: $btn-bg;
+	@include opacity(0.6);
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.entry2__thumbnail__icon {
+	// Post type icons
+	position: absolute;
+	top: .2em;
+	right: .2em;
+	color: #fff;
+	z-index: 30;
+	font-size: 4em;
+
+	@include bp(small) {
+		font-size: 2.5em;
+	}
+	@include bp(large) {
+		font-size: 3em;
 	}
 
+	@extend %gmr-icons;
+
+	.format-audio & {
+		@extend .icon-post-format-audio;
+	}
+	.format-gallery & {
+		@extend .icon-post-format-gallery;
+	}
+	.format-video & {
+		@extend .icon-post-format-video;
+	}
+	.type-contest & {
+		@extend .icon-contest;
+	}
+	.type-tribe_events & {
+		@extend .icon-post-format-events;
+	}
+}
 
 .entry2__meta {
 	@include bp(small) {
 		@include span-columns(6 of 6);
 		@include omega;
-		 
+
 		.has-post-thumbnail &,
 		.type-contest &,
 		.type-tribe_events & {
 			@include span-columns(4 of 6);
-			@include omega; 
+			@include omega;
+		}
+
+		.has-post-thumbnail & {
+
+			@include bp(large) {
+				@include span-columns(6 of 6);
+				@include omega;
+				float: none;
+			}
+
+			@include bp(larger) {
+				@include span-columns(4 of 6);
+				@include omega;
+			}
 		}
 	}
 }
-	.entry2__date {
-		font-size: ms(0);
-		font-weight: lighter;
-		color: $secondary-heading;
-		text-transform: uppercase;
-		display: block; 
-		margin: -0.3em 0 0.5em;
-		
-		@include bp(small) {
-			font-size: ms(-1);
-		}
-		
-		@include bp(large) {
-			font-size: ms(-2);
-		}
+
+.entry2__date {
+	font-size: ms(0);
+	font-weight: lighter;
+	color: $secondary-heading;
+	text-transform: uppercase;
+	display: block;
+	margin: -0.3em 0 0.5em;
+
+	@include bp(small) {
+		font-size: ms(-1);
 	}
-	
-	.entry2__title {
+
+	@include bp(large) {
+		font-size: ms(-2);
+	}
+}
+
+.entry2__title {
+	margin: 0;
+	font-size: ms(6);
+	line-height: 1.2;
+}
+
+.entry2__excerpt {
+	margin: .75em 0 0;
+
+	p {
 		margin: 0;
-		font-size: ms(6);
-		line-height: 1.2;
 	}
-	
-	.entry2__excerpt {
-		margin: .75em 0 0;
-		
-		p {
-			margin: 0;
-		}
-		
-		@include bp(medium) {
-			display: block;
-		}
+
+	@include bp(medium) {
+		display: block;
 	}
-	
+}
+
 .entry2__event--details {
 	margin-top: $base-line-height / 2;
 	padding: 0;
 	font-weight: bold;
-	list-style: none; 
+	list-style: none;
 }
 
 .entry2__footer {
 	margin-top: $base-line-height * 1.5;
 	padding: 0 0 $base-line-height / 2;
-	
-	@include omega; 
+
+	@include omega;
 	@include span-columns(4);
 
 	.events-archive & {
 		display: none;
 	}
 }
-	.entry2__footer--category:link, .entry2__footer--category:visited {
-		float: left;
-		display: block;
-		line-height: 1;
-		font-weight: bold;
-		font-size: ms(1);
-		color: $secondary-heading;
-		
-		@include bp(medium) {
-			font-size: ms(0);
-		}
-		
-		@include bp(large) {
-			font-size: ms(-1);
-		}
-	}
-	
-	.entry2__footer--category:hover, .entry2__footer--category:focus, .entry2__footer--category:active {
-		color: $secondary-link-hover;
+
+.entry2__footer--category:link, .entry2__footer--category:visited {
+	float: left;
+	display: block;
+	line-height: 1;
+	font-weight: bold;
+	font-size: ms(1);
+	color: $secondary-heading;
+
+	@include bp(medium) {
+		font-size: ms(0);
 	}
 
-	.entry2__footer--read-more:link, .entry2__footer--read-more:visited {
-		float: right;
-		display: inline-block;
-		line-height: 1;
-		font-weight: bold;
-		font-size: ms(1);
-		color: $primary-link;
+	@include bp(large) {
+		font-size: ms(-1);
+	}
+}
 
-		@include bp(medium) {
-			font-size: ms(0);
-		}
+.entry2__footer--category:hover, .entry2__footer--category:focus, .entry2__footer--category:active {
+	color: $secondary-link-hover;
+}
 
-		@include bp(large) {
-			font-size: ms(-1);
-		}
+.entry2__footer--read-more:link, .entry2__footer--read-more:visited {
+	float: right;
+	display: inline-block;
+	line-height: 1;
+	font-weight: bold;
+	font-size: ms(1);
+	color: $primary-link;
+
+	@include bp(medium) {
+		font-size: ms(0);
 	}
 
-	.entry2__footer--read-more:hover, .entry2__footer--read-more:focus, .entry2__footer--read-more:active {
-		color: $primary-link-hover;
+	@include bp(large) {
+		font-size: ms(-1);
 	}
+}
+
+.entry2__footer--read-more:hover, .entry2__footer--read-more:focus, .entry2__footer--read-more:active {
+	color: $primary-link-hover;
+}
 
 // Special tweaks for the standard type
 // Basically just puts the image on the right instead of the left. 
@@ -211,7 +235,7 @@
 			float: right;
 			margin-right: 0;
 		}
-	}	
+	}
 }
 
 // Layout tweaks for audio posts.
@@ -219,41 +243,40 @@
 	@include bp(small) {
 		.entry2__thumbnail {
 			@include span-columns(2 of 9);
-			
+
 		}
-			.entry2__thumbnail__image {
-				&:after {
-					padding-top: 100%;
-				}			
+		.entry2__thumbnail__image {
+			&:after {
+				padding-top: 100%;
 			}
+		}
 		.entry2__meta {
 			@include span-columns(7 of 9);
-			@include omega; 
+			@include omega;
 		}
-	}	
+	}
 }
-
 
 // Special handling for date information in event thumbnail
 .type-tribe_events {
 	.entry2__thumbnail {
 		background-color: $btn-bg;
 	}
-	
+
 	.entry2__thumbnail--event-date {
 		@extend .h1;
-		font-size: ms(0); 
+		font-size: ms(0);
 		line-height: 1;
-		text-transform: uppercase; 
+		text-transform: uppercase;
 		color: #fff;
 		position: absolute;
 		left: 0;
 		bottom: 0;
 		padding: 4% 6%;
-		z-index: 20;		
+		z-index: 20;
 	}
 	.entry2__thumbnail--day-of-week {
-		font-weight: normal;	
+		font-weight: normal;
 	}
 	.entry2__thumbnail--month-and-day {
 		font-size: 2.5em;
@@ -284,7 +307,7 @@
 		bottom: 0;
 		text-align: right;
 	}
-	
+
 	.entry2__thumbnail--contest-type {
 		font-weight: normal;
 		left: 0;
@@ -328,42 +351,42 @@
 
 // Special handling for ad-wrapped items
 .entry2-ad-wrap {
-	clear: both; 
+	clear: both;
 	position: relative;
-	
+
 	.entry2__thumbnail {
 		@include bp(small) {
 			@include span-columns(2 of 6)
 		}
 	}
-	
+
 	.entry2__meta {
 		@include span-columns(4 of 6);
 	}
-		.entry2.has-post-thumbnail .entry2__meta, 
-		.entry2.type-contest .entry2__meta,
-		.entry2.type-tribe_events .entry2__meta {
-			@include span-columns(2 of 6);
-		}
-	
+	.entry2.has-post-thumbnail .entry2__meta,
+	.entry2.type-contest .entry2__meta,
+	.entry2.type-tribe_events .entry2__meta {
+		@include span-columns(2 of 6);
+	}
+
 	// Move the ad logic bits to _ads.scss
 	.entry2-ad-wrap__ad {
 		@include span-columns(2 of 6);
-		@include omega; 
-		position: absolute; 
+		@include omega;
+		position: absolute;
 		right: 0;
 		top: 0;
-		
+
 		&.desktop {
-			display: none; 
+			display: none;
 		}
-		
+
 		@include bp(large) {
 			&.mobile {
-				display: none; 
+				display: none;
 			}
 			&.desktop {
-				display: block;	
+				display: block;
 			}
 		}
 	}
@@ -376,5 +399,5 @@
 			float: left;
 			margin-right: $gutter * 2;
 		}
-	}	
+	}
 }
