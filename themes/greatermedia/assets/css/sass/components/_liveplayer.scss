@@ -703,6 +703,10 @@ category: Components
 		display: none;
 	}
 
+	.vast-ad--playing & {
+		display: block;
+	}
+
 	&.live-player__muted {
 		display: none;
 	}

@@ -5641,6 +5641,8 @@ category: Components
         right: auto; } }
   .live-player--active .live-stream__btn--play {
     display: none; }
+  .vast-ad--playing .live-stream__btn--play {
+    display: block; }
   .live-stream__btn--play.live-player__muted {
     display: none; }
   .live-stream__btn--play.play-btn--heartbeat:before {
