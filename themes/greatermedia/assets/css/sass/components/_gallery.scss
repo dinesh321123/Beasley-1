@@ -1047,6 +1047,14 @@ category: Components - Gallery Archive
 .gallery__grid--thumbnail {
 	position: relative;
 	margin-bottom: 10px;
+
+	.thumbnail {
+		padding-bottom: 66%;
+		background-position: center center;
+		background-size: 100%;
+		background-size: cover;
+		background-repeat: no-repeat;
+	}
 }
 
 .gallery__grid--thumbwrap {
