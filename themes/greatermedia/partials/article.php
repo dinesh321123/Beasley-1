@@ -3,7 +3,7 @@
 	<div class="container">
 
 		<?php if ( has_post_thumbnail() && ! \Greater_Media\Gallery_Post_Thumbnails\post_has_gallery() ): ?>
-			<div class="article__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( 'full' ); ?>)'>
+			<div class="article__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( 'gm-article-thumbnail' ); ?>)'>
 				<?php
 
 					$image_attr = image_attribution();

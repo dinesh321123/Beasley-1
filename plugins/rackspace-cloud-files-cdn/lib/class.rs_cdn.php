@@ -2,7 +2,7 @@
 /**
  * Functions used to connect to the CDN
  */
- 
+
 /**
  * Include global vars
  */
@@ -140,8 +140,8 @@ class RS_CDN {
 
 
 	/**
-	* Uploads given file attachment to CDN
-	*/
+	 * Uploads given file attachment to CDN
+	 */
 	public function upload_file( $file_path , $file_name = null, $existing_container = null, $post_id = null){
 		global $wpdb;
 
@@ -175,8 +175,8 @@ class RS_CDN {
 
 		// Upload failed, remove attachment from db
 		if (isset($post_id)) {
-			$wpdb->query("DELETE FROM $wpdb->posts WHERE ID='$post_id' AND post_type='attachment'");
-			$wpdb->query("DELETE FROM $wpdb->postmeta WHERE post_id='$post_id'");
+			$wpdb->delete( $wpdb->posts, array( 'ID' => $post_id, 'post_type' => 'attachment' ), array( '%d', '%s' ) );
+			$wpdb->delete( $wpdb->postmeta, array( 'post_id' => $post_id ), array( '%d' ) );
 		}
 
 		return false;
@@ -187,46 +187,47 @@ class RS_CDN {
 	*  Get list of CDN objects
 	*/
 	public function get_cdn_objects( $force_cache = false ) {
-		// Ensure CDN instance exists
-		if (check_cdn() === false) {
-			return array();
+		static $cdn_objects_cache = null;
+
+		if ( ! is_null( $cdn_objects_cache ) && ! $force_cache ) {
+			return $cdn_objects_cache;
 		}
 
-	    // Path to cache file
-	    $cache_file_path = RS_CDN_PATH.'object_cache';
+		$cdn_objects_cache = array();
 
-		// Set array to store CDN objects
-		$cdn_objects = array();
+		// Ensure CDN instance exists
+		if ( check_cdn() !== false ) {
+			// Path to cache file
+			$cache_file_path = RS_CDN_PATH . 'object_cache.dat';
 
-        // Check if caching is enabled
-        if ($force_cache === true || !is_writable(RS_CDN_PATH) || !is_writable($cache_file_path)) {
-    		// Update object cache
-            try {
-                $objects = $this->container_object()->objectList();
-            } catch (Exception $exc) {
-                return array();
-            }
+			// Check if caching is enabled
+			if ( $force_cache === true || ! is_writable( RS_CDN_PATH ) || ! is_writable( $cache_file_path ) ) {
+				// Update object cache
+				try {
+					$objects = $this->container_object()->objectList();
+				} catch ( Exception $exc ) {
+					return array();
+				}
 
-            // Setup objects
-            $cdn_objects = array();
-            foreach ($objects as $object) {
-                $cdn_objects[] = array('fn' => $object['name'], 'fs' => $object['bytes']);
-            }
+				// Setup objects
+				$cdn_objects_cache = array();
+				foreach ( $objects as $object ) {
+					$cdn_objects_cache[] = array( 'fn' => $object['name'], 'fs' => $object['bytes'] );
+				}
 
-            // Write files to cache file
-            if (is_writable(RS_CDN_PATH) && is_writable($cache_file_path)) {
-                // Write to cache file
-                file_put_contents($cache_file_path, json_encode($cdn_objects));
-            }
+				// Write files to cache file
+				if ( is_writable( RS_CDN_PATH ) && ( is_writable( $cache_file_path ) || ! file_exists( $cache_file_path ) ) ) {
+					// Write to cache file
+					file_put_contents( $cache_file_path, serialize( $cdn_objects_cache ) );
+				}
+			} else {
+				// Return caching
+				$cdn_objects_cache = unserialize( file_get_contents( $cache_file_path ), true );
+			}
+		}
 
-    		// Return CDN objects
-    		return $cdn_objects;
-        } else {
-            // Return caching
-            return json_decode(file_get_contents($cache_file_path), true);
-        }
+		return $cdn_objects_cache;
 	}
-
 
 	/**
 	 * Force CDN object cache
@@ -268,4 +269,3 @@ class RS_CDN {
 		return true;
 	}
 }
-?>

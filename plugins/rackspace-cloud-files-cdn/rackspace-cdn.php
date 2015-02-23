@@ -43,7 +43,7 @@ global $wpdb;
 function rscdn_install() {
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-	global $wpdb;
+	global $rackspace_cdn;
 
 	// Add default CDN settings
 	$cdn_settings = new stdClass();
@@ -61,7 +61,8 @@ function rscdn_install() {
 	add_option( RS_CDN_OPTIONS, $cdn_settings, '', 'yes' );
 
     // If CDN var is already set, unset it
-    unset($_SESSION['cdn']);
+	$rackspace_cdn = null;
+    unset($rackspace_cdn);
 }
 register_activation_hook( __FILE__, 'rscdn_install' );
 
@@ -70,7 +71,7 @@ register_activation_hook( __FILE__, 'rscdn_install' );
  *  Run when plugin is uninstalled
  */
 function rscdn_uninstall() {
-	global $wpdb;
+	global $wpdb, $rackspace_cdn;
 
 	// Delete single site option
 	@delete_option( RS_CDN_OPTIONS );
@@ -79,10 +80,12 @@ function rscdn_uninstall() {
 	@delete_site_option( RS_CDN_OPTIONS );
 
 	// Delete failed uploads table
-	$wpdb->query( "DROP TABLE IF EXISTS ".$wpdb->prefix."rscdn_failed_uploads" );
+	$prefix = $wpdb->get_blog_prefix();
+	$wpdb->query( "DROP TABLE IF EXISTS {$prefix}rscdn_failed_uploads" );
 
     // Remove session
-    unset($_SESSION['cdn']);
+	$rackspace_cdn = null;
+    unset($rackspace_cdn);
 }
 register_uninstall_hook( __FILE__, 'rscdn_uninstall' );
 

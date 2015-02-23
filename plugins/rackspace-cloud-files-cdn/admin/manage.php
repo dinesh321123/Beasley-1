@@ -1,15 +1,11 @@
 <?php
-	/**
-	 * Start session, if not started
-	 */
-	if( !session_id() )
-		session_start();
-
 
 	/**
 	 * Make sure CDN constants are defined
 	 */
-	defined('RS_CDN_PATH') or die();
+	if ( ! defined('RS_CDN_PATH') ) {
+		die();
+	}
 
 
 	/**
@@ -45,8 +41,10 @@
 			$show_errors[] = 'Could not create instance of class RS_CDN.';
 		}
 
+		global $rackspace_cdn;
+
 		// Check if connection has been made by grabbing container
-		if (!isset($_SESSION['cdn']) || !is_object($_SESSION['cdn']) || is_null($_SESSION['cdn']) || is_null($_SESSION['cdn']->container_object())) {
+		if (!isset($rackspace_cdn) || !is_object($rackspace_cdn) || is_null($rackspace_cdn) || is_null($rackspace_cdn->container_object())) {
 			$show_errors[] = 'Container does not exist.';
 		}
 	} catch (Exception $exc) {
@@ -61,7 +59,7 @@
 	/**
 	 * Assign API settings
 	 */
-	if (!isset($_SESSION['cdn']->api_settings)) {
+	if (!isset($rackspace_cdn->api_settings)) {
 		if ( get_option( RS_CDN_OPTIONS ) == false ) {
 			// Add default CDN settings
 			$cdn_settings = new stdClass();
@@ -79,7 +77,7 @@
 			$cdn_settings->url = (isset($cdn_settings->url)) ? $cdn_settings->url : 'https://identity.api.rackspacecloud.com/v2.0/';
 		}
 	} else {
-		$cdn_settings = (object) $_SESSION['cdn']->api_settings;
+		$cdn_settings = (object) $rackspace_cdn->api_settings;
 	}
 
 
@@ -95,6 +93,10 @@
 			$files_to_sync = array('upload' => array(), 'download' => array());
 			$settings_error = true;
 		}
+	}
+
+	if ( ! isset( $num_files_to_sync ) ) {
+		$num_files_to_sync = 0;
 	}
 ?>
 <script type="text/javascript">
@@ -137,10 +139,11 @@
 			}
 
             // Make sure cache file is writable
-            if (!is_writable(RS_CDN_PATH) || !is_writable(RS_CDN_PATH.'object_cache')) {
+			$object_cache_file = RS_CDN_PATH . 'object_cache.dat';
+            if ( ! is_writable( RS_CDN_PATH ) || ( file_exists( $object_cache_file ) && ! is_writable( $object_cache_file ) ) ) {
         ?>
             <div class="error"> 
-				<p><strong>Uh-Oh!</strong><br />Looks like the "object_cache" file is not writable. Please fix this to improve load time performance.</p>
+				<p><strong>Uh-Oh!</strong><br />Looks like the "object_cache.dat" file is not writable. Please fix this to improve load time performance.</p>
 			</div>
         <?php
             }

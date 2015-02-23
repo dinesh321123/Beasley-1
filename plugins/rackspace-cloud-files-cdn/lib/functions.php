@@ -1,40 +1,29 @@
 <?php
-/**
- * Set global variables
- */
-global $wpdb;
-
-
-/**
- * Register session
- */
-function register_session() {
-    if( !session_id() )
-        session_start();
-}
-add_action('init','register_session');
-
 
 /**
  * Ensure CDN instance exists
  */
 function check_cdn() {
+	global $rackspace_cdn;
+
 	// Verify class has been loaded
-	if (!class_exists('RS_CDN')) {
-		require_once(RS_CDN_PATH."lib/class.rs_cdn.php");
+	if ( ! class_exists( 'RS_CDN' ) ) {
+		require_once RS_CDN_PATH . "lib/class.rs_cdn.php";
 	}
 
 	// Check if CDN exists
 	try {
-		$_SESSION['cdn'] = (isset($_SESSION['cdn']) && is_object($_SESSION['cdn'])) ? $_SESSION['cdn'] : new RS_CDN();
-	} catch (Exception $exc) {
+		if ( ! $rackspace_cdn || ! is_a( $rackspace_cdn, 'RS_CDN' ) ) {
+			$rackspace_cdn = new RS_CDN();
+		}
+	} catch ( Exception $exc ) {
 		return false;
 	}
 
-    // Check if connection OR container objects are null, if so, return false
-    if (is_null($_SESSION['cdn']->connection_object()) || is_null($_SESSION['cdn']->container_object())) {
-        return false;
-    }
+	// Check if connection OR container objects are null, if so, return false
+	if ( is_null( $rackspace_cdn->connection_object() ) || is_null( $rackspace_cdn->container_object() ) ) {
+		return false;
+	}
 
 	// Session created successfully
 	return true;
@@ -52,6 +41,8 @@ function upload_images($meta_id, $post_id, $meta_key='', $meta_value='') {
 			return false;
 			die();
 		}
+
+		global $rackspace_cdn;
 
 		// Get upload dir
 		$upload_dir = wp_upload_dir();
@@ -71,20 +62,20 @@ function upload_images($meta_id, $post_id, $meta_key='', $meta_value='') {
 
 			// Upload file to CDN, add to file check
 			try {
-				$_SESSION['cdn']->upload_file($cur_file, $file_name);
+				$rackspace_cdn->upload_file($cur_file, $file_name);
 			} catch (Exception $exc) {
 				return false;
 				die();
 			}
 
 			// Delete file when successfully uploaded, if set
-			if (isset($_SESSION['cdn']->api_settings->remove_local_files) && $_SESSION['cdn']->api_settings->remove_local_files == true) {
+			if (isset($rackspace_cdn->api_settings->remove_local_files) && $rackspace_cdn->api_settings->remove_local_files == true) {
 				@unlink($cur_file);
 			}
 		}
 
         // Update CDN image cache
-        $_SESSION['cdn']->get_cdn_objects(true);
+        $rackspace_cdn->get_cdn_objects(true);
 
 		return true;
     }
@@ -97,6 +88,8 @@ function upload_images($meta_id, $post_id, $meta_key='', $meta_value='') {
 			die();
 		}
 
+		global $rackspace_cdn;
+
 		// Get upload dir
 		$upload_dir = wp_upload_dir();
 
@@ -106,14 +99,14 @@ function upload_images($meta_id, $post_id, $meta_key='', $meta_value='') {
 
 		// Upload file to CDN, add to file check
 		try {
-			$_SESSION['cdn']->upload_file($cur_file, $file_name);
+			$rackspace_cdn->upload_file($cur_file, $file_name);
 		} catch (Exception $exc) {
 			return false;
 			die();
 		}
 
 		// Delete file when successfully uploaded, if set
-		if (isset($_SESSION['cdn']->api_settings->remove_local_files) && $_SESSION['cdn']->api_settings->remove_local_files == true) {
+		if (isset($rackspace_cdn->api_settings->remove_local_files) && $rackspace_cdn->api_settings->remove_local_files == true) {
 			
 			if (stripos($content_type, 'image') === false) {
 			    @unlink($cur_file);
@@ -121,7 +114,7 @@ function upload_images($meta_id, $post_id, $meta_key='', $meta_value='') {
 		}
 
         // Update CDN image cache
-        $_SESSION['cdn']->get_cdn_objects(true);
+        $rackspace_cdn->get_cdn_objects(true);
 
 		return true;
     }
@@ -134,7 +127,7 @@ add_action('updated_post_meta', 'upload_images', 10, 4);
  * Delete file from CDN
  */
 function remove_cdn_files( $post_id ){
-	global $wpdb;
+	global $wpdb, $rackspace_cdn;
 
 	// Ensure CDN instance exists
 	if (check_cdn() === false) {
@@ -142,8 +135,9 @@ function remove_cdn_files( $post_id ){
 	}
 	
 	// Get attachment metadata so we can delete all attachments associated with this image
-	$attachment_metadata = $wpdb->get_results("SELECT meta_key,meta_value FROM ".$wpdb->prefix."postmeta WHERE post_id = '$post_id' AND (meta_key='_wp_attachment_metadata' OR meta_key='_wp_attached_file')");
-	if ($wpdb->num_rows > 0) {
+	$query = $wpdb->prepare( "SELECT meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id = %d AND (meta_key = '_wp_attachment_metadata' OR meta_key = '_wp_attached_file')", $post_id );
+	$attachment_metadata = $wpdb->get_results( $query );
+	if ( count( $attachment_metadata ) > 0 ) {
 		// Check if meta value or attached file
         foreach ($attachment_metadata as $cur_attachment_metadata) {
 			// Unserialize image data
@@ -183,7 +177,7 @@ function remove_cdn_files( $post_id ){
 	}
 
 	// Send batch delete
-	$_SESSION['cdn']->delete_files( $files_to_delete );
+	$rackspace_cdn->delete_files( $files_to_delete );
 }
 add_action( 'delete_attachment', 'remove_cdn_files');
 
@@ -205,7 +199,8 @@ function verify_filename($filename, $filename_raw = null) {
 	$ext  = empty($info['extension']) ? '' : '.' . $info['extension'];
 
 	// Get attachment metadata so we can delete all attachments associated with this image
-	$existing_files = $wpdb->get_results("SELECT guid FROM ".$wpdb->prefix."posts WHERE guid LIKE '%".preg_replace('/[0-9]*$/', '', $info['filename'])."%".$info['extension']."'");
+	$query = $wpdb->prepare( "SELECT guid FROM {$wpdb->posts} WHERE guid LIKE %s", "%" . preg_replace( '/[0-9]*$/', '', $info['filename'] ) . "%" . $info['extension'] );
+	$existing_files = $wpdb->get_results( $query );
 
 	// Check if file exists
 	if (count($existing_files) > 0) {
@@ -263,9 +258,11 @@ function get_files_to_sync() {
 		return array('response' => 'fail', 'message' => 'Error instantiating CDN session.', 'upload' => $objects_to_upload, 'download' => $objects_to_download);
 	}
 
+	global $rackspace_cdn;
+
 	// Get CDN objects
 	$local_objects = get_local_files();
-	$remote_objects = $_SESSION['cdn']->get_cdn_objects(true);
+	$remote_objects = $rackspace_cdn->get_cdn_objects(true);
 
 	// If CDN objects is null, we need to return an error because we couldn't fetch them
 	if (is_null($remote_objects)) {
@@ -282,7 +279,7 @@ function get_files_to_sync() {
 	// Check remote files needing DOWNloaded
 	foreach ($remote_objects as $cur_remote_object) {
 		if (!in_array($cur_remote_object, $local_objects) && $cur_remote_object['fs'] > 0) {
-			$cdn_url = (isset($_SESSION['cdn']->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
+			$cdn_url = (isset($rackspace_cdn->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
 			$cur_remote_object['fn'] = $cdn_url.'/'.$cur_remote_object['fn'];
 			$objects_to_download[] = $cur_remote_object;
 		}
@@ -313,8 +310,10 @@ function sync_existing_file() {
 		die();
 	}
 
+	global $rackspace_cdn;
+
     // Get CDN object(s)
-    // $cdn_objects = $_SESSION['cdn']->get_cdn_objects();
+    // $cdn_objects = $rackspace_cdn->get_cdn_objects();
 
 	// Upload file - Get file to upload
 	$upload_dir = wp_upload_dir();
@@ -337,7 +336,7 @@ function sync_existing_file() {
 		// Try to upload file
 		try {
 			// Try to upload file
-			$_SESSION['cdn']->upload_file($file_to_sync, str_replace($upload_dir['basedir'].'/', '', $file_to_sync));
+			$rackspace_cdn->upload_file($file_to_sync, str_replace($upload_dir['basedir'].'/', '', $file_to_sync));
 		} catch (Exception $exc) {
 			// Let the browser know upload failed
 			echo json_encode(array('response' => 'error', 'message' => 'Upload for "'.basename($file_to_sync).'" failed. Exception: '.$exc.' (SEF-002).'));
@@ -345,17 +344,17 @@ function sync_existing_file() {
 		}
 
 		// Verify file was successfully uploaded
-		if (isset($_SESSION['cdn']->api_settings->remove_local_files) && $_SESSION['cdn']->api_settings->remove_local_files == true) {
+		if (isset($rackspace_cdn->api_settings->remove_local_files) && $rackspace_cdn->api_settings->remove_local_files == true) {
 			if (verify_exists($file_to_sync) == true) {
 				@unlink($file_to_sync);
 			}
 		}
 
 		// Force CDN object cache
-		$_SESSION['cdn']->force_object_cache();
+		$rackspace_cdn->force_object_cache();
 	} else {
 		// Download file - Get CDN URL
-		$cdn_url = (isset($_SESSION['cdn']->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
+		$cdn_url = (isset($rackspace_cdn->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
 
 		// Write file to disk
 		$file_info = pathinfo($file_to_sync);
@@ -365,7 +364,7 @@ function sync_existing_file() {
 
     // If this is the last file, force update CDN cache
     if ($_REQUEST['current_file_num'] == $_REQUEST['rs_cdn_num_files_to_sync']) {
-        $_SESSION['cdn']->force_object_cache();
+        $rackspace_cdn->force_object_cache();
     }
 
 	// Let the browser know upload was successful
@@ -386,12 +385,14 @@ function remove_existing_file() {
 		die();
 	}
 
+	global $rackspace_cdn;
+
 	// Upload file - Get file to upload
 	$upload_dir = wp_upload_dir();
 	$file_to_sync = $_REQUEST['file_path'];
 
 	// Get CDN URL
-	$cdn_url = (isset($_SESSION['cdn']->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
+	$cdn_url = (isset($rackspace_cdn->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
 
 	// Get remote file URL
 	$file_info = pathinfo($file_to_sync);
@@ -412,7 +413,7 @@ function remove_existing_file() {
 		// Try to upload file
 		try {
 			// Try to upload file
-			$_SESSION['cdn']->upload_file($upload_dir['basedir'].'/'.$file_to_sync, $file_to_sync);
+			$rackspace_cdn->upload_file($upload_dir['basedir'].'/'.$file_to_sync, $file_to_sync);
 
 			// Successful upload, delete the file
 			unlink($upload_dir['basedir'].'/'.$file_to_sync);
@@ -425,7 +426,7 @@ function remove_existing_file() {
 
     // If this is the last file, force update CDN cache
     if ($_REQUEST['current_file_num'] == $_REQUEST['rs_cdn_num_files_to_sync']) {
-        $_SESSION['cdn']->force_object_cache();
+        $rackspace_cdn->force_object_cache();
     }
 
 	// Let the browser know upload was successful
@@ -444,6 +445,8 @@ function set_cdn_path($attachment) {
 		return $attachment;
 	}
 
+	global $rackspace_cdn;
+
 	// Uploads folder data
 	$upload_data = wp_upload_dir();
 
@@ -456,10 +459,10 @@ function set_cdn_path($attachment) {
 
 	// Get public CDN URL
 	try {
-		if (isset($_SESSION['cdn']->api_settings->custom_cname) && trim($_SESSION['cdn']->api_settings->custom_cname) != '') {
-			 $cdn_url = $_SESSION['cdn']->api_settings->custom_cname;
+		if (isset($rackspace_cdn->api_settings->custom_cname) && trim($rackspace_cdn->api_settings->custom_cname) != '') {
+			 $cdn_url = $rackspace_cdn->api_settings->custom_cname;
 		} else {
-			$cdn_url = (isset($_SESSION['cdn']->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
+			$cdn_url = (isset($rackspace_cdn->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
 		}
 	} catch (Exception $e) {
 		return $attachment;
@@ -508,6 +511,8 @@ add_filter('wp_get_attachment_url', 'set_cdn_path');
  *	Get local files
  */
 function get_local_files() {
+	global $rackspace_cdn;
+	
 	// Get uploads directory
 	$upload_dir = wp_upload_dir();
 	$dir = $upload_dir['basedir'];
@@ -529,9 +534,9 @@ function get_local_files() {
 		$the_file = $fileinfo->getRealPath();
 		$file_path = pathinfo($the_file);
 	    if (!is_dir($the_file)) {
-	    	if (isset($_SESSION['cdn']->api_settings->files_to_ignore)) {
+	    	if (isset($rackspace_cdn->api_settings->files_to_ignore)) {
 	    		// File extensions ignored
-	    		$ignore_files = explode(",", $_SESSION['cdn']->api_settings->files_to_ignore);
+	    		$ignore_files = explode(",", $rackspace_cdn->api_settings->files_to_ignore);
 		    	if (!in_array($file_path['extension'], $ignore_files)) {
 		    		$cur_local_file = $fileinfo->getRealPath();
 		    		$local_files[$i++] = array('fn' => trim(str_replace($upload_dir['basedir'], '', $cur_local_file), '/'), 'fs' => filesize($cur_local_file));
@@ -556,11 +561,13 @@ function verify_exists( $file_path = null ) {
 		return false;
 	}
 
+	global $rackspace_cdn;
+
 	// Get CDN URL
-	if (isset($_SESSION['cdn']->api_settings->custom_cname) && trim($_SESSION['cdn']->api_settings->custom_cname) != '') {
-		$cdn_url = $_SESSION['cdn']->api_settings->custom_cname;
+	if (isset($rackspace_cdn->api_settings->custom_cname) && trim($rackspace_cdn->api_settings->custom_cname) != '') {
+		$cdn_url = $rackspace_cdn->api_settings->custom_cname;
 	} else {
-		$cdn_url = (isset($_SESSION['cdn']->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
+		$cdn_url = (isset($rackspace_cdn->api_settings->use_ssl)) ? get_cdn_url('ssl') : get_cdn_url();
 	}
 
 	// Define variables needed
@@ -583,8 +590,10 @@ function find_file_name( $file_name ) {
 		return false;
 	}
 
+	global $rackspace_cdn;
+
 	// Get CDN objects
-	$cdn_objects = $_SESSION['cdn']->get_cdn_objects();
+	$cdn_objects = $rackspace_cdn->get_cdn_objects();
 
 	// Loop through and see if we can find the file name
 	foreach ($cdn_objects as $cur_cdn_object) {
@@ -608,14 +617,16 @@ function get_cdn_url($type = 'http') {
 		return $wp_url['baseurl'];
 	}
 
+	global $rackspace_cdn;
+
 	// Get correct CDN URL
 	$type = strtolower($type);
 	if ($type == 'ssl' || $type == 'https') {
 		// Return HTTPS URI
-		return $_SESSION['cdn']->container_object()->SSLURI();
+		return $rackspace_cdn->container_object()->SSLURI();
 	} else {
 		// Return HTTP URI
-		return $_SESSION['cdn']->container_object()->CDNURI();
+		return $rackspace_cdn->container_object()->CDNURI();
 	}
 }
 
@@ -799,4 +810,3 @@ function show_download_link($actions, $post) {
 }
 add_filter('media_row_actions', 'show_download_link', 10, 2);
 */
-?>
