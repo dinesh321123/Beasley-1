@@ -16,7 +16,7 @@ category: Components - Ads
 /// Apply to an advertisement for a bit of text that calls it out as an advertisement.
 %advertisement-disclosure {
 	&:after {
-		content: '\25B4  Advertisement';
+		content: 'Advertisement';
 		display:block;
 		font-size: 10px;
 		text-transform: uppercase;
