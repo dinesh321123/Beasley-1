@@ -83,13 +83,16 @@
 
 (function(jQuery, window, undefined) {
 
-	var $mobileMenu = jQuery(document.querySelectorAll('ul.js-mobile-sub-menus'));
+	var $mobileMenu = jQuery(document.querySelectorAll('ul.js-mobile-sub-menus')),
+		$menuOverlay = jQuery(document.querySelector('.menu-overlay-mask'));
 
 	function init() {
 
 		$mobileMenu.on('click.greaterMedia.Menus', 'a.show-subnavigation', openSubMenu);
 
 		$mobileMenu.on('click.greaterMedia.Menus', 'a.mobile-menu-submenu-back-link', closeSubMenu);
+
+		$menuOverlay.on('click', closeSubMenu);
 
 	}
 
