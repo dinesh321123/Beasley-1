@@ -135,7 +135,8 @@
 								<div class="header__account header__account--large">
 									<a href="#" class="header__account--btn">
 										<span class="icon-user"></span>
-										<span class="header__account--span">Login or Register</span>
+										<span class="header__account--logged-out"><?php _e( 'Login or Register', 'greatermedia' ); ?></span>
+										<span class="header__account--logged-in"><?php _e( 'Logout', 'greatermedia' ); ?></span>
 									</a>
 									<div class="header__account--container">
 

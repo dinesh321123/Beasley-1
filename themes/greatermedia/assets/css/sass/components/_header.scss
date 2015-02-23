@@ -513,7 +513,9 @@
 	}
 }
 
-.header__account--span {
+.header__account--span,
+.header__account--logged-in,
+.header__account--logged-out {
 	color: $light-gray;
 
 	@include bp(larger) {
@@ -534,6 +536,22 @@
 		@include bp(x-large) {
 			font-size: ms(-2);
 		}
+	}
+}
+
+.header__account--logged-in {
+	display: none !important;
+
+	.gmr-user & {
+		display: table-cell !important;
+	}
+}
+
+.header__account--logged-out {
+	display: table-cell !important;
+
+	.gmr-user & {
+		display: none !important;
 	}
 }
 
