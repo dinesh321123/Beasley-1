@@ -58,7 +58,6 @@
 	var nowPlayingInfo = document.getElementById('nowPlaying');
 	var trackInfo = document.getElementById('trackInfo');
 	var liveStreamSelector = document.querySelector('.live-player__stream');
-	var playerPopupWindow = null;
 	var inlineAudioInterval = null;
 	var liveStreamInterval = null;
 	var audioIntervalDuration = 60000;
@@ -139,20 +138,6 @@
 	 */
 	window.tdPlayerApiReady = function () {
 		console.log("--- TD Player API Loaded ---");
-		/**
-		 * This adds support for the live player to open in a pop-up window. This was originally supposed to be a
-		 * feature for IE8, but this never functioned as it should. We created a direct link for live audio to
-		 * resolve that issue. However, this popup features activates on IE9 and causes conflicts.
-		 *
-		 * We are going to comment this out for now so that we don't lose the functionality and we will return false
-		 * so that we don't have to remove the instances when this is called.
-		 *
-		 * if (is_player_popup_required()) {
-		 *	load_player_popup();
-		 * } else {
-		 *	initPlayer();
-		 * }
-		 */
 		initPlayer();
 	};
 
@@ -1519,21 +1504,4 @@
 		addEventHandler(podcastPlayBtn, elemClick, setInlineAudioUX);
 		addEventHandler(podcastPauseBtn, elemClick, pauseCustomInlineAudio);
 	});
-
-	function is_player_popup_required() {
-		/** For testing return true **/
-		return ( "undefined" !== typeof Modernizr && false === Modernizr.history && "" === gmlp.is_popup );
-	}
-
-	function load_player_popup() {
-		jQuery('#playButton').click(function () {
-			if (playerPopupWindow == null || playerPopupWindow.closed) {
-				//create new, since none is open
-				playerPopupWindow = window.open(gmlp.popup_url, "livestreaming", "toolbar=no, scrollbars=no, resizable=no, top=500, left=500, width=400, height=400");
-			} else {
-				playerPopupWindow.focus();
-			}
-		});
-
-	}
 })(jQuery, window);
