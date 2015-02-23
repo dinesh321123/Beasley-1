@@ -139,11 +139,21 @@
 	 */
 	window.tdPlayerApiReady = function () {
 		console.log("--- TD Player API Loaded ---");
-		if (is_player_popup_required()) {
-			load_player_popup();
-		} else {
-			initPlayer();
-		}
+		/**
+		 * This adds support for the live player to open in a pop-up window. This was originally supposed to be a
+		 * feature for IE8, but this never functioned as it should. We created a direct link for live audio to
+		 * resolve that issue. However, this popup features activates on IE9 and causes conflicts.
+		 *
+		 * We are going to comment this out for now so that we don't lose the functionality and we will return false
+		 * so that we don't have to remove the instances when this is called.
+		 *
+		 * if (is_player_popup_required()) {
+		 *	load_player_popup();
+		 * } else {
+		 *	initPlayer();
+		 * }
+		 */
+		initPlayer();
 	};
 
 	function calcTechPriority() {
