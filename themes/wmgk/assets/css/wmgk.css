@@ -2773,7 +2773,15 @@ Community Highlights and Events
   display: block;
   margin-right: 4.82916%;
   width: 65.05695%;
-  padding: 6% 1.618em 0 0;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  padding: 0 1.618em 0 0;
+  margin-left: 35%;
   font-size: 1.26562em; }
   .highlights__event--meta:last-child {
     margin-right: 0; }
@@ -2784,7 +2792,7 @@ Community Highlights and Events
     .highlights__event--meta {
       width: auto;
       margin-left: 26.32916%;
-      padding-top: 4%; } }
+      padding-top: 0; } }
 
 .highlights__event--title {
   font-size: 1em;

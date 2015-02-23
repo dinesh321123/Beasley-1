@@ -307,7 +307,11 @@ Community Highlights and Events
 
 .highlights__event--meta {
 	@include span-columns(4 of 6);
-	padding: 6% $gutter 0 0;
+	position: absolute;
+	top: 50%;
+	@include transform(translateY(-50%));
+	padding: 0 $gutter 0 0;
+	margin-left: 35%;
 	font-size: ms(2);
 
 	@include bp(medium) {
@@ -317,7 +321,7 @@ Community Highlights and Events
 	@include bp(large) {
 		width: auto;
 		margin-left: 26.32916%;
-		padding-top: 4%;
+		padding-top: 0;
 	}
 }
 
