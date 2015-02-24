@@ -23,7 +23,7 @@
 									<div class="show__feature">
 										<div class='show-feature__thumbnail'>
 											<?php if ( has_post_thumbnail() ) : ?>
-												<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary' ); ?>)'></div>
+												<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary', null, true ); ?>)'></div>
 											<?php else: ?>
 												<div class='thumbnail thumbnail-placeholder' style=''></div>
 											<?php endif; ?>
@@ -44,7 +44,7 @@
 										<div class="show__feature">
 											<div class='show-feature__thumbnail'>
 												<?php if ( has_post_thumbnail() ) : ?>
-													<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary' ); ?>)'></div>
+													<div class='thumbnail' style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-show-featured-primary', null, true ); ?>)'></div>
 												<?php else: ?>
 													<div class='thumbnail thumbnail-placeholder' style=''></div>
 												<?php endif; ?>

@@ -6,7 +6,7 @@
 				<div class="gallery__grid--album"></div>
 			<?php } ?>
 			<?php if ( has_post_thumbnail() ) : ?>
-				<div class="thumbnail" style="background-image: url(<?php gm_post_thumbnail_url( 'gmr-gallery-grid-thumb' ); ?>)"></div>
+				<div class="thumbnail" style="background-image: url(<?php gm_post_thumbnail_url( 'gmr-gallery-grid-thumb', null, true ); ?>)"></div>
 			<?php else: ?>
 				<div class="thumbnail thumbnail-placeholder" style=""></div>
 			<?php endif; ?>
