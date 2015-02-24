@@ -1431,7 +1431,12 @@ category: Components
 
 	@include bp(medium) {
 		display: block;
+		right: 0;
 		width: 225px;
+	}
+
+	@include bp(x-large) {
+		@include calc(right, '50% - 700px');
 	}
 
 	&.show-more--muted {

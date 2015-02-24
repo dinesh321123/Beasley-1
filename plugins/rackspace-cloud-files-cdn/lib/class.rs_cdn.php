@@ -187,6 +187,9 @@ class RS_CDN {
 	*  Get list of CDN objects
 	*/
 	public function get_cdn_objects( $force_cache = false ) {
+		// temporary deactivated
+		return array();
+
 		static $cdn_objects_cache = null;
 
 		if ( ! is_null( $cdn_objects_cache ) && ! $force_cache ) {

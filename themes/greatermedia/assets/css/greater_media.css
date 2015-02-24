@@ -6284,7 +6284,12 @@ category: Components
   @media screen and (min-width: 768px)  {
     .live-links--more {
       display: block;
+      right: 0;
       width: 225px; } }
+  @media screen and (min-width: 1400px)  {
+    .live-links--more {
+      right: -webkit-calc(50% - 700px);
+      right: calc(50% - 700px); } }
   .live-links--more.show-more--muted {
     display: none; }
   .live-links--more.show-more--fixed {
