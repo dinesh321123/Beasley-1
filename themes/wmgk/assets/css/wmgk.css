@@ -4472,7 +4472,7 @@ Link posts contain a link to an external site. They can also optionally have a f
       margin-right: 0; }
       .has-post-thumbnail .entry2__meta:last-child, .type-contest .entry2__meta:last-child, .type-tribe_events .entry2__meta:last-child {
         margin-right: 0; }
-    @media screen and (min-width: 1024px)  {
+    @media screen and (min-width: 768px)  {
       .has-post-thumbnail .entry2__meta {
         float: left;
         display: block;
@@ -4576,6 +4576,15 @@ Link posts contain a link to an external site. They can also optionally have a f
   .entry2.format-standard .entry2__thumbnail {
     float: right;
     margin-right: 0; } }
+
+@media screen and (min-width: 768px)  {
+  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail {
+    margin-left: 2em;
+    margin-bottom: 1em; } }
+@media screen and (min-width: 1200px)  {
+  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail {
+    margin-left: 0;
+    margin-bottom: 0; } }
 
 @media screen and (min-width: 480px)  {
   .entry2.format-audio.has-post-thumbnail .entry2__thumbnail {
