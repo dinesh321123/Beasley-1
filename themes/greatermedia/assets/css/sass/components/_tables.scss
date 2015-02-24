@@ -1,0 +1,48 @@
+table.responsive {
+	width: 100% !important;
+	margin-bottom: 0;
+	border: 1px solid $light-gray;
+	font-size: ms(-2);
+
+	@include bp(medium) {
+		font-size: ms(-1);
+	}
+
+	@include bp(large) {
+		font-size: ms(0);
+	}
+}
+
+table.responsive td,
+table.responsive th {
+	position: relative;
+	overflow: auto;
+}
+
+table.responsive th {
+	padding: .5em .75em;
+	font-weight: bold;
+	text-align: left;
+}
+
+table.responsive td {
+	padding: .5em .75em;
+	text-align: left;
+}
+
+table.responsive tr {
+	border: none;
+	border-bottom: 1px solid $light-gray;
+}
+
+table.responsive tr:last-of-type {
+	border-bottom: none;
+}
+
+table.responsive tr:nth-of-type(odd) {
+	background-color: $extra-light-gray;
+}
+
+table.responsive tr:nth-of-type(even) {
+	background-color: white;
+}

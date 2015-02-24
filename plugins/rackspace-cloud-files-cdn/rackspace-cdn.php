@@ -20,6 +20,7 @@ if ( ! defined( 'WP_PLUGIN_URL' ) ) {
 require_once 'lib/functions.php';
 require_once 'admin/functions.php';
 require_once 'lib/class.rs_cdn.php';
+require_once 'lib/wp-cli.php';
 if ( ! class_exists( 'OpenCloud', false ) ) {
 	require_once 'lib/php-opencloud-1.5.10/lib/php-opencloud.php';
 }

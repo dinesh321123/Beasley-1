@@ -560,7 +560,9 @@
 		$overlay = $('.overlay-mask'),
 		livePlayerMore = document.getElementById('live-player--more'),
 		mainContent = document.querySelector('.main'),
-		footer = document.querySelector('.footer');
+		footer = document.querySelector('.footer'),
+		$table = $('table'),
+		$tableTd = $('table td');
 
 	/**
 	 * function to dynamically calculate the offsetHeight of an element
@@ -738,9 +740,7 @@
 		}
 	}
 
-
-
-			/**
+	/**
 	 * adds some styles to the live player that would be called at mobile breakpoints. This is added specifically to
 	 * deal with a window being resized.
 	 */
@@ -933,6 +933,16 @@
 	function playerNotActive() {
 		body.classList.remove('live-player--active');
 	}
+
+	/**
+	 * Adds a class to a HTML table to make the table responsive
+	 */
+	function responsiveTables() {
+		$table.addClass('responsive');
+		$tableTd.removeAttr('width');
+	}
+
+	responsiveTables();
 
 	/**
 	 * Resize Window function for when a user scales down their browser window below 767px
