@@ -10,9 +10,16 @@ License: GPLv2
 */
 
 if ( ! defined( 'WP_PLUGIN_URL' ) ) {
-	die('Restricted access');
+	die( 'Restricted access' );
 }
 
+/**
+ *  Define constants
+ */
+define( 'RS_CDN_PATH', dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
+define( 'RS_CDN_URL', plugins_url( '/', __FILE__ ) );
+define( 'RS_CDN_OPTIONS', 'wp_rs_cdn_settings' );
+define( 'RS_META_SYNCED', 'rackspace-synced' );
 
 /**
  *  Require scripts and libraries
@@ -21,18 +28,9 @@ require_once 'lib/functions.php';
 require_once 'admin/functions.php';
 require_once 'lib/class.rs_cdn.php';
 require_once 'lib/wp-cli.php';
-if ( ! class_exists( 'OpenCloud', false ) ) {
+if ( ! class_exists( 'OpenCloud' ) ) {
 	require_once 'lib/php-opencloud-1.5.10/lib/php-opencloud.php';
 }
-
-
-/**
- *  Define constants
- */
-define( 'RS_CDN_PATH', ABSPATH . PLUGINDIR . '/rackspace-cloud-files-cdn/' );
-define( 'RS_CDN_URL', WP_PLUGIN_URL . '/rackspace-cloud-files-cdn/' );
-define( 'RS_CDN_OPTIONS', "wp_rs_cdn_settings" );
-define( 'RS_META_SYNCED', 'rackspace-synced' );
 
 /**
  *  Run when plugin is installed
@@ -88,10 +86,12 @@ register_uninstall_hook( __FILE__, 'rscdn_uninstall' );
 
 
 /**
- *  Register and enqueue admin JavaScript
+ * Register and enqueue admin JavaScript
  */
 function rs_cdn_admin_js() {
-	wp_enqueue_script('media-upload');
-	wp_enqueue_script('admin-js', str_replace( array( 'http://', 'https://' ), '//', RS_CDN_URL ).'assets/js/admin.js');
+	if ( isset( $_REQUEST['page'] ) && 'rs-cdn-manage' == $_REQUEST['page'] ) {
+		wp_enqueue_script( 'media-upload' );
+		wp_enqueue_script( 'admin-js', RS_CDN_URL . 'assets/js/admin.js' );
+	}
 }
-add_action('admin_enqueue_scripts', 'rs_cdn_admin_js');
+add_action( 'admin_enqueue_scripts', 'rs_cdn_admin_js' );

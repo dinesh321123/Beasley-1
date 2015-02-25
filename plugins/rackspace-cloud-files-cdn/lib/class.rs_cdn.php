@@ -44,16 +44,6 @@ class RS_CDN {
 
 		// Set API settings
 		$this->api_settings = (object) $settings;
-
-		// Set container object
-		try {
-    		$the_container_obj = $this->container_object();
-
-            // Assign container object
-            $this->oc_container = $the_container_obj;
-		} catch (Exception $exc) {
-    		return false;
-		}
 	}
 
 
@@ -150,6 +140,10 @@ class RS_CDN {
 
 		// Get ready to upload file to CDN
 		$container = $this->container_object();
+		if ( ! $container ) {
+			return false;
+		}
+		
 		$file = $this->file_object($container, $file_path, $file_name);
 
 		// Upload object
@@ -207,7 +201,12 @@ class RS_CDN {
 			if ( $force_cache === true || ! is_writable( RS_CDN_PATH ) || ! is_writable( $cache_file_path ) ) {
 				// Update object cache
 				try {
-					$objects = $this->container_object()->objectList();
+					$container = $this->container_object();
+					if ( ! $container ) {
+						return array();
+					}
+					
+					$objects = $container->objectList();
 				} catch ( Exception $exc ) {
 					return array();
 				}
@@ -246,6 +245,9 @@ class RS_CDN {
 	public function delete_files( $files ) {
 		// Get container object
 		$container = $this->container_object();
+		if ( ! $container ) {
+			return false;
+		}
 
 		// Delete object(s)
 		if (count($files) > 0) {

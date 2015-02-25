@@ -13,10 +13,15 @@
 		font-weight: 700;
 		color: $secondary-heading;
 
+		@include bp(medium) {
+			font-size: ms(7);
+		}
+
 		@include bp(large) {
 			@include span-columns(3 of 12);
 			clear: both;
 			margin-top: 24px;
+			font-size: ms(10);
 		}
 
 	}
