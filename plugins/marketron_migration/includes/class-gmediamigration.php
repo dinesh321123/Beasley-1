@@ -2943,6 +2943,11 @@ class GMedia_Migration extends WP_CLI_Command {
 					$response_index++;
 					$response_values = array();
 
+					// limit survey responses for testing purposes
+					if ( $this->limit !== -1 && $response_index > $this->limit ) {
+						continue;
+					}
+
 					foreach ( $response->Answer as $answer ) {
 
 						// get parent question id
@@ -3015,12 +3020,21 @@ class GMedia_Migration extends WP_CLI_Command {
 		global $wpdb;
 
 		$total  = count( $contests->Contest );
+		foreach ( $contests->Contest as $contest ) {
+			$total += count( $contest->Entries->Entry );
+		}
+
 		$notify = new \cli\progress\Bar( "Importing $total contests", $total );
 
 		$count = 0;
+		$total_contests = count( $contests->Contest );
+		$contest_index = 0;
+
 		foreach ( $contests->Contest as $contest ) {
+			$contest_index++;
 			$contest_hash = trim( (string) $contest['Title'] ) . (string) $contest['DateCreated'];
 			$contest_hash = md5( $contest_hash );
+			\WP_CLI::log( "Importing Contest ( $contest_index/$total_contests )" );
 
 			$total  = count( $contest->Entries->Entry );
 			$progress = new \cli\progress\Bar( "Importing $total Entries", $total );
@@ -3032,17 +3046,6 @@ class GMedia_Migration extends WP_CLI_Command {
 			if ( ! $force && $wp_id ) {
 				//$notify->tick();
 				continue;
-			}
-
-			// counter to clear the cache
-			$count++;
-			if( $count == 100 ) {
-				if( class_exists('MTM_Migration_Utils') ) {
-					MTM_Migration_Utils::stop_the_insanity();
-				}
-				// sleep for 10 seconds
-				sleep(15);
-				$count = 0;
 			}
 
 			/*
@@ -3146,9 +3149,17 @@ class GMedia_Migration extends WP_CLI_Command {
 				}
 			}
 
+			$contest_entry_index = 0;
+			$total_contest_entries = count( $contest->Entries->Entry );
+
 			if( isset( $contest->Entries->Entry ) ) {
 
 				foreach ( $contest->Entries->Entry as $entry ) {
+					$contest_entry_index++;
+
+					if ( $this->limit !== -1 && $contest_entry_index > $this->limit ) {
+						continue;
+					}
 
 					$entry_name = (string) $entry['ContestEntryID'];
 					if( isset( $entry['MemberID'] ) ) {
@@ -3163,11 +3174,17 @@ class GMedia_Migration extends WP_CLI_Command {
 						'post_date'   => (string) $entry['UTCEntryDate'],
 					);
 
+					\WP_CLI::log( "Importing Contest( $contest_index/$total_contests ) - Entry ( $contest_entry_index/$total_contest_entries )" );
+
 					$entry_id = wp_insert_post( $entry_args );
 
 					if ( $entry_id ) {
 
-						$response_id = $wpdb->get_var( $sql = $wpdb->prepare( "SELECT post_id from {$wpdb->postmeta} WHERE meta_key = '_legacy_survey_MemberID' AND meta_value = %s" ), $entry_name  );
+						$response_id = $wpdb->get_var(
+							$wpdb->prepare(
+								"SELECT post_id from {$wpdb->postmeta} WHERE meta_key = '_legacy_survey_MemberID' AND meta_value = %s", $entry_name
+							)
+						);
 
 						$submitted_values = array();
 
@@ -3202,15 +3219,15 @@ class GMedia_Migration extends WP_CLI_Command {
 
 					}
 
+					$notify->tick();
+
 				}
 			}
 
-			//$progress->finish();
-			//$notify->tick();
+			$notify->tick();
 		}
 
-		//$notify->finish();
-		//$this->clean_up();
+		$notify->finish();
 	}
 
 	private function process_schedules( $schedules, $force ) {

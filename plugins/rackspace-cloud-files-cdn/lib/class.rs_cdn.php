@@ -1,13 +1,4 @@
 <?php
-/**
- * Functions used to connect to the CDN
- */
-
-/**
- * Include global vars
- */
-global $wpdb;
-
 
 /**
  * CDN class
@@ -48,11 +39,14 @@ class RS_CDN {
 
 
 	/**
-	 *  Openstack Connection Object
+	 * Openstack Connection Object
+	 *
+	 * @access private
+	 * @return \OpenCloud\ObjectStore\Service
 	 */
-	function connection_object(){
+	private function connection_object() {
 		// If connection object is already set, return it
-		if (isset($this->oc_connection)) {
+		if ( isset( $this->oc_connection ) ) {
 			// Return existing connection object
 			return $this->oc_connection;
 		}
@@ -60,33 +54,33 @@ class RS_CDN {
 		// Get settings
 		$api_settings = $this->api_settings;
 
-        // Create connection object
+		// Create connection object
 		$connection = new \OpenCloud\Rackspace(
-			$api_settings->url,
-			array(
-				'username' => $api_settings->username,
-				'apiKey' => $api_settings->apiKey
+			$api_settings->url, array(
+			'username' => $api_settings->username,
+			'apiKey' => $api_settings->apiKey
 			)
 		);
 
-        // Try to create connection object
-        try {
-            $cdn = $connection->ObjectStore( 'cloudFiles', $api_settings->region, 'publicURL' );
-            $this->oc_connection = $cdn;
-            return $this->oc_connection;
-        } catch (Exception $exc) {
-            $this->oc_connection = null;
-            return null;
-        }
+		// Try to create connection object
+		try {
+			$cdn = $connection->ObjectStore( 'cloudFiles', $api_settings->region, 'publicURL' );
+			$this->oc_connection = $cdn;
+			return $this->oc_connection;
+		} catch ( Exception $exc ) {
+			$this->oc_connection = null;
+			return null;
+		}
 	}
 
-
 	/**
-	*  Retrieve Openstack CDN Container Object
-	*/
+	 * Retrieve Openstack CDN Container Object
+	 *
+	 * @return \OpenCloud\ObjectStore\Container
+	 */
 	public function container_object() {
-	    // If container object is already set, return it
-		if (isset($this->oc_container)) {
+		// If container object is already set, return it
+		if ( isset( $this->oc_container ) ) {
 			// Return existing container
 			return $this->oc_container;
 		}
@@ -94,88 +88,66 @@ class RS_CDN {
 		// Get settings
 		$api_settings = $this->api_settings;
 
-        // Check if connection object is valid
-        if (is_null($this->connection_object())) {
-            return null;
-        }
+		// Check if connection object is valid
+		if ( is_null( $this->connection_object() ) ) {
+			return null;
+		}
 
 		// Setup container
 		try {
 			// Try to set container
-			$this->oc_container = $this->connection_object()->Container($api_settings->container);
+			$this->oc_container = $this->connection_object()->Container( $api_settings->container );
 
-            // Return container
-    		return $this->oc_container;
-		} catch (Exception $exc) {
+			// Return container
+			return $this->oc_container;
+		} catch ( Exception $exc ) {
 			$this->oc_container = null;
 			return null;
 		}
 	}
 
-
-	/**
-	*  Create Openstack CDN File Object
-	*/
-	public function file_object($container, $file_path, $file_name = null){
-		// Get file content
-		$file_contents = @file_get_contents( $file_path );
-		$file_name = (isset($file_name) && !is_null($file_name)) ? $file_name : basename( $file_path );
-
-		// Create file object
-		$file = $container->DataObject();
-		$file->SetData( $file_contents );
-		$file->name = $file_name;
-		return $file;
-	}
-
-
 	/**
 	 * Uploads given file attachment to CDN
 	 */
-	public function upload_file( $file_path , $file_name = null, $existing_container = null, $post_id = null){
-		global $wpdb;
-
-		// Check if file exists
-		$check_file_name = (isset($file_name)) ? $file_name : basename($file_path);
-
+	public function upload_file( $file_path, $file_name = null ) {
 		// Get ready to upload file to CDN
 		$container = $this->container_object();
 		if ( ! $container ) {
 			return false;
 		}
 		
-		$file = $this->file_object($container, $file_path, $file_name);
-
-		// Upload object
+		// Create params array to upload object
+		$params = array();
 		$content_type = get_content_type( $file_path );
-		if ($content_type !== false) {
-			if ($file->Create(array('content_type' => $content_type))) {
-				return true;
-			}
-		} else {
-			if ($file->Create()) {
-				return true;
-			}
+		if ( $content_type !== false ) {
+			$params['content_type'] = $content_type;
 		}
 
-		// Upload failed, remove local images
-		if (stripos($file_path, 'http') == 0) {
-			$upload_dir = wp_upload_dir();
-			$file_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $file_path);
-			unlink($file_path);
-		} else {
-			unlink($file_path);
-		}
-
-		// Upload failed, remove attachment from db
-		if (isset($post_id)) {
-			$wpdb->delete( $wpdb->posts, array( 'ID' => $post_id, 'post_type' => 'attachment' ), array( '%d', '%s' ) );
-			$wpdb->delete( $wpdb->postmeta, array( 'post_id' => $post_id ), array( '%d' ) );
+		// Create file object and upload it
+		$file = $container->DataObject();
+		$file->name = ! empty( $file_name ) ? $file_name : basename( $file_path );;
+		if ( $file->Create( $params, $file_path ) ) {
+			return true;
 		}
 
 		return false;
 	}
 
+	public function download_file( $file_path, $file_name ) {
+		// Get ready to upload file to CDN
+		$container = $this->container_object();
+		if ( ! $container ) {
+			return false;
+		}
+
+		// Create file object and download it
+		$file = $container->DataObject( ! empty( $file_name ) ? $file_name : basename( $file_path ) );
+		if ( $file->SaveToFilename( $file_path ) ) {
+			return true;
+		}
+
+		return false;
+	}
 
 	/**
 	*  Get list of CDN objects
