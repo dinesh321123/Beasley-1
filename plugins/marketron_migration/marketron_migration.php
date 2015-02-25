@@ -22,4 +22,7 @@ define( 'GMEDIA_PATH',    dirname( __FILE__ ) . '/' );
 if ( defined( 'WP_CLI' ) and WP_CLI  ) {
 	include_once GMEDIA_PATH . 'includes/class-gmediamigration.php';
 	include_once GMEDIA_PATH . 'includes/class-MTM_Migration_Utils.php';
+
+	require_once( __DIR__ . '/vendor/autoload.php' );
+	\WP_CLI::add_command( 'marketron_migration', '\GreaterMedia\Commands\Migrator' );
 }

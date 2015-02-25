@@ -9,33 +9,30 @@ Author URI: http://www.paypromedia.com/individuals/bobbie-stump/
 License: GPLv2
 */
 
-defined('WP_PLUGIN_URL') or die('Restricted access');
+if ( ! defined( 'WP_PLUGIN_URL' ) ) {
+	die('Restricted access');
+}
 
 
 /**
  *  Require scripts and libraries
  */
-require_once("lib/functions.php");
-require_once("admin/functions.php");
-require_once("lib/class.rs_cdn.php");
-if( !class_exists("OpenCloud") ) {
-	require_once("lib/php-opencloud-1.5.10/lib/php-opencloud.php");
+require_once 'lib/functions.php';
+require_once 'admin/functions.php';
+require_once 'lib/class.rs_cdn.php';
+require_once 'lib/wp-cli.php';
+if ( ! class_exists( 'OpenCloud', false ) ) {
+	require_once 'lib/php-opencloud-1.5.10/lib/php-opencloud.php';
 }
 
 
 /**
  *  Define constants
  */
-define('RS_CDN_PATH', ABSPATH.PLUGINDIR.'/rackspace-cloud-files-cdn/');
-define('RS_CDN_URL', WP_PLUGIN_URL.'/rackspace-cloud-files-cdn/');
-define('RS_CDN_OPTIONS', "wp_rs_cdn_settings" );
-
-
-/**
- * Define globals
- */
-global $wpdb;
-
+define( 'RS_CDN_PATH', ABSPATH . PLUGINDIR . '/rackspace-cloud-files-cdn/' );
+define( 'RS_CDN_URL', WP_PLUGIN_URL . '/rackspace-cloud-files-cdn/' );
+define( 'RS_CDN_OPTIONS', "wp_rs_cdn_settings" );
+define( 'RS_META_SYNCED', 'rackspace-synced' );
 
 /**
  *  Run when plugin is installed
@@ -98,4 +95,3 @@ function rs_cdn_admin_js() {
 	wp_enqueue_script('admin-js', str_replace( array( 'http://', 'https://' ), '//', RS_CDN_URL ).'assets/js/admin.js');
 }
 add_action('admin_enqueue_scripts', 'rs_cdn_admin_js');
-?>

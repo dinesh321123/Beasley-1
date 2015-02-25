@@ -25,7 +25,7 @@
 
 					<a href="<?php the_permalink(); ?>">
 
-						<div class="highlights__community--thumb" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary' ) ?>)'></div>
+						<div class="highlights__community--thumb" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ) ?>)'></div>
 
 						<h3 class="highlights__community--title">
 							<?php the_title(); ?>
@@ -54,7 +54,7 @@
 					<div class="highlights__event--item">
 						<a href="<?php the_permalink(); ?>">
 							<?php if ( has_post_thumbnail() ) : ?>
-								<div class="highlights__event--thumb" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary' ) ?>)'></div>
+								<div class="highlights__event--thumb" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ) ?>)'></div>
 							<?php endif; ?>
 	
 							<div class="highlights__event--meta">

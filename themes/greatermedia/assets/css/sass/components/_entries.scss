@@ -117,7 +117,7 @@
 
 		.has-post-thumbnail & {
 
-			@include bp(large) {
+			@include bp(medium) {
 				@include span-columns(6 of 6);
 				@include omega;
 				float: none;
@@ -234,6 +234,22 @@
 		.entry2__thumbnail {
 			float: right;
 			margin-right: 0;
+		}
+	}
+}
+
+.entry2.format-standard.has-post-thumbnail {
+	@include bp(medium) {
+		.entry2__thumbnail {
+			margin-left: 2em;
+			margin-bottom: 1em;
+		}
+	}
+
+	@include bp(larger) {
+		.entry2__thumbnail {
+			margin-left: 0;
+			margin-bottom: 0;
 		}
 	}
 }

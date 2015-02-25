@@ -46,7 +46,9 @@
 		$overlay = $('.overlay-mask'),
 		livePlayerMore = document.getElementById('live-player--more'),
 		mainContent = document.querySelector('.main'),
-		footer = document.querySelector('.footer');
+		footer = document.querySelector('.footer'),
+		$table = $('table'),
+		$tableTd = $('table td');
 
 	/**
 	 * function to dynamically calculate the offsetHeight of an element
@@ -205,42 +207,26 @@
 			};
 
 			if (scrollObject.y == 0) {
-				if (liveStreamContainer.classList.contains('live-stream--fixed')) {
-					liveStreamContainer.classList.remove('live-stream--fixed');
-				}
-				if (liveLinks.classList.contains('live-links--fixed')) {
-					liveLinks.classList.remove('live-links--fixed');
+				if (livePlayer.classList.contains('live-player--fixed')) {
+					livePlayer.classList.remove('live-player--fixed');
 				}
 				lpPosDefault();
 			} else if (scrollObject.y >= 1 && elementInViewport(header) && ! elementInViewport(footer)) {
-				if (liveStreamContainer.classList.contains('live-stream--fixed')) {
-					liveStreamContainer.classList.remove('live-stream--fixed');
-				}
-				if (liveLinks.classList.contains('live-links--fixed')) {
-					liveLinks.classList.remove('live-links--fixed');
+				if (livePlayer.classList.contains('live-player--fixed')) {
+					livePlayer.classList.remove('live-player--fixed');
 				}
 				lpPosDefault();
 			} else if (!elementInViewport(header) && ! elementInViewport(footer)) {
-				liveStreamContainer.classList.add('live-stream--fixed');
+				livePlayer.classList.add('live-player--fixed');
 				if (livePlayer != null) {
 					livePlayer.style.removeProperty('top');
-				}
-				if (liveLinks != null) {
-					liveLinks.classList.add('live-links--fixed');
-					if (body.classList.contains('logged-in')) {
-						liveLinks.style.top = wpAdminHeight + elemHeight(liveStreamContainer) + 'px';
-					} else {
-						liveLinks.style.top = elemHeight(liveStreamContainer) + 'px';
-					}
 				}
 			}
 			lpHeight();
 		}
 	}
 
-
-
-			/**
+	/**
 	 * adds some styles to the live player that would be called at mobile breakpoints. This is added specifically to
 	 * deal with a window being resized.
 	 */
@@ -251,9 +237,6 @@
 			}
 			if (livePlayer.classList.contains('live-player--fixed')) {
 				livePlayer.classList.remove('live-player--fixed');
-			}
-			if (liveStreamContainer.classList.contains('live-stream--fixed')) {
-				liveStreamContainer.classList.remove('live-stream--fixed');
 			}
 			liveLinks.style.marginTop = '0px';
 			livePlayer.classList.add('live-player--mobile');
@@ -438,6 +421,16 @@
 	}
 
 	/**
+	 * Adds a class to a HTML table to make the table responsive
+	 */
+	function responsiveTables() {
+		$table.addClass('responsive');
+		$tableTd.removeAttr('width');
+	}
+
+	responsiveTables();
+
+	/**
 	 * Resize Window function for when a user scales down their browser window below 767px
 	 */
 	function resizeWindow() {
@@ -448,7 +441,6 @@
 		} else {
 			if (livePlayer != null) {
 				livePlayerDesktopReset();
-				lpPosDefault();
 				addEventHandler(window, elemScroll, function () {
 					scrollDebounce();
 					scrollThrottle();
