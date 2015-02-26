@@ -7402,7 +7402,7 @@ category: Components - Ads
     outline: none;
     background-color: #d0d2d3;
     color: #282827; }
-  .contest__form button[type="submit"], .contest__form input[type="submit"] {
+  .contest__form button[type="button"], .contest__form button[type="submit"], .contest__form input[type="submit"] {
     display: inline-block;
     line-height: 1;
     padding: 0.625em 1em;
@@ -7416,13 +7416,13 @@ category: Components - Ads
     cursor: pointer;
     border-radius: 100em;
     text-transform: uppercase; }
-    .contest__form button[type="submit"]:hover, .contest__form button[type="submit"]:focus, .contest__form input[type="submit"]:hover, .contest__form input[type="submit"]:focus {
+    .contest__form button[type="button"]:hover, .contest__form button[type="button"]:focus, .contest__form button[type="submit"]:hover, .contest__form button[type="submit"]:focus, .contest__form input[type="submit"]:hover, .contest__form input[type="submit"]:focus {
       background-color: #aa1c20;
       border-color: #aa1c20;
       color: #ffffff; }
-    .contest__form button[type="submit"]:last-of-type, .contest__form input[type="submit"]:last-of-type {
+    .contest__form button[type="button"]:last-of-type, .contest__form button[type="submit"]:last-of-type, .contest__form input[type="submit"]:last-of-type {
       margin-right: 0; }
-    .contest__form button[type="submit"]:hover, .contest__form input[type="submit"]:hover {
+    .contest__form button[type="button"]:hover, .contest__form button[type="submit"]:hover, .contest__form input[type="submit"]:hover {
       display: inline-block;
       line-height: 1;
       padding: 0.625em 1em;
@@ -7435,13 +7435,13 @@ category: Components - Ads
       text-transform: uppercase;
       cursor: pointer;
       border-radius: 100em; }
-      .contest__form button[type="submit"]:hover:hover, .contest__form button[type="submit"]:hover:focus, .contest__form input[type="submit"]:hover:hover, .contest__form input[type="submit"]:hover:focus {
+      .contest__form button[type="button"]:hover:hover, .contest__form button[type="button"]:hover:focus, .contest__form button[type="submit"]:hover:hover, .contest__form button[type="submit"]:hover:focus, .contest__form input[type="submit"]:hover:hover, .contest__form input[type="submit"]:hover:focus {
         background-color: #f2e754;
         border-color: #f2e754;
         color: #000000; }
-      .contest__form button[type="submit"]:hover:last-of-type, .contest__form input[type="submit"]:hover:last-of-type {
+      .contest__form button[type="button"]:hover:last-of-type, .contest__form button[type="submit"]:hover:last-of-type, .contest__form input[type="submit"]:hover:last-of-type {
         margin-right: 0; }
-    .contest__form button[type="submit"]:active, .contest__form input[type="submit"]:active {
+    .contest__form button[type="button"]:active, .contest__form button[type="submit"]:active, .contest__form input[type="submit"]:active {
       display: inline-block;
       line-height: 1;
       padding: 0.625em 1em;
@@ -7454,13 +7454,13 @@ category: Components - Ads
       text-transform: uppercase;
       cursor: pointer;
       border-radius: 100em; }
-      .contest__form button[type="submit"]:active:hover, .contest__form button[type="submit"]:active:focus, .contest__form input[type="submit"]:active:hover, .contest__form input[type="submit"]:active:focus {
+      .contest__form button[type="button"]:active:hover, .contest__form button[type="button"]:active:focus, .contest__form button[type="submit"]:active:hover, .contest__form button[type="submit"]:active:focus, .contest__form input[type="submit"]:active:hover, .contest__form input[type="submit"]:active:focus {
         background-color: black;
         border-color: black;
         color: #ffffff; }
-      .contest__form button[type="submit"]:active:last-of-type, .contest__form input[type="submit"]:active:last-of-type {
+      .contest__form button[type="button"]:active:last-of-type, .contest__form button[type="submit"]:active:last-of-type, .contest__form input[type="submit"]:active:last-of-type {
         margin-right: 0; }
-    .contest__form button[type="submit"] i.gmr-icon, .contest__form button[type="submit"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form button[type="submit"] i.preview-close, .contest__form input[type="submit"] i.gmr-icon, .contest__form input[type="submit"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form input[type="submit"] i.preview-close {
+    .contest__form button[type="button"] i.gmr-icon, .contest__form button[type="button"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form button[type="button"] i.preview-close, .contest__form button[type="submit"] i.gmr-icon, .contest__form button[type="submit"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form button[type="submit"] i.preview-close, .contest__form input[type="submit"] i.gmr-icon, .contest__form input[type="submit"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form input[type="submit"] i.preview-close {
       display: none; }
   .contest__form select {
     width: 174px;

@@ -49,10 +49,6 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
-		test:   {
-			files: ['assets/js/test/**/*.js']
-		},
-		
 		sass:   {
 			options: {
 				require: 'sass-globbing',
@@ -65,7 +61,6 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
-		
 		cssmin: {
 			minify: {
 				expand: true,

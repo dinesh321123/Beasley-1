@@ -233,6 +233,7 @@ class GreaterMediaFormbuilderRender {
 			}
 		}
 
+		$is_preivew = is_preview();
 		$permalink = untrailingslashit( get_permalink( $post_id ) );
 
 		$html = '';
@@ -241,8 +242,11 @@ class GreaterMediaFormbuilderRender {
 			$html .= '<h3 class="contest__form--heading">' . esc_html( $title ) . '</h3>';
 		}
 
-		$html .= '<iframe id="theiframe" name="theiframe" style="width:1px;height:1px;border:none;display:none"></iframe>';
-		$html .= '<form action="' . esc_url( $permalink ) . '/action/submit/" target="theiframe" method="post" enctype="multipart/form-data" novalidate>';
+		if ( $is_preivew ) {
+		} else {
+			$html .= '<iframe id="theiframe" name="theiframe" style="width:1px;height:1px;border:none;display:none"></iframe>';
+			$html .= '<form action="' . esc_url( $permalink ) . '/action/submit/" target="theiframe" method="post" enctype="multipart/form-data" novalidate>';
+		}
 
 		if ( $use_user_info ) {
 			$html .= '<div class="contest__form--user-info" style="display:none">';
@@ -277,8 +281,12 @@ class GreaterMediaFormbuilderRender {
 			$submit_text = __( 'Submit', 'greatermedia_contests' );
 		}
 
-		$html .= self::get_submit_button( $submit_text, null, null, true );
-		$html .= '</form>';
+		if ( $is_preivew ) {
+			$html .= self::get_submit_button( $submit_text, null, 'button', null, true );
+		} else {
+			$html .= self::get_submit_button( $submit_text, null, 'submit', null, true );
+			$html .= '</form>';
+		}
 
 		return $html;
 	}
@@ -830,7 +838,7 @@ class GreaterMediaFormbuilderRender {
 	 *
 	 * @return string HTML
 	 */
-	public static function get_submit_button( $text = null, $type = 'primary large', $name = 'submit', $wrap = true, $other_attributes = null ) {
+	public static function get_submit_button( $text = null, $type = 'primary large', $button_type = 'submit', $name = 'submit', $wrap = true, $other_attributes = null ) {
 		if ( ! is_array( $type ) ) {
 			$type = explode( ' ', $type );
 		}
@@ -867,7 +875,7 @@ class GreaterMediaFormbuilderRender {
 			$attributes = $other_attributes;
 		}
 
-		$button = '<button type="submit" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '" ' . $attributes . '><i class="gmr-icon icon-spin icon-spin"></i> ' . esc_attr( $text ) . '</button>';
+		$button = '<button type="' . esc_attr( $button_type ) . '" name="' . esc_attr( $name ) . '" id="' . esc_attr( $id ) . '" class="' . esc_attr( $class ) . '" ' . $attributes . '><i class="gmr-icon icon-spin icon-spin"></i> ' . esc_attr( $text ) . '</button>';
 
 		if ( $wrap ) {
 			$button = '<p class="submit">' . $button . '</p>';

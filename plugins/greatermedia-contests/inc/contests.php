@@ -304,16 +304,28 @@ function gmr_contest_container_attributes( $post = null ) {
 		return;
 	}
 
-	$permalink = untrailingslashit( get_permalink( $post->ID ) );
-	$permalink_action = "{$permalink}/action";
+	$endpoints = array();
+	
+	if ( is_preview() ) {
+		$endpoints = array(
+			'load'        => add_query_arg( 'action', 'load' ),
+			'confirm-age' => add_query_arg( 'action', 'confirm-age' ),
+			'vote'        => add_query_arg( 'action', 'vote' ),
+			'unvote'      => add_query_arg( 'action', 'unvote' ),
+			'infinite'    => add_query_arg( 'page', '' ),
+		);
+	} else {
+		$permalink = untrailingslashit( get_permalink( $post->ID ) );
+		$permalink_action = "{$permalink}/action";
 
-	$endpoints = array(
-		'load'        => "{$permalink_action}/load/",
-		'confirm-age' => "{$permalink_action}/confirm-age/",
-		'vote'        => "{$permalink_action}/vote/",
-		'unvote'      => "{$permalink_action}/unvote/",
-		'infinite'    => "{$permalink}/page/",
-	);
+		$endpoints = array(
+			'load'        => "{$permalink_action}/load/",
+			'confirm-age' => "{$permalink_action}/confirm-age/",
+			'vote'        => "{$permalink_action}/vote/",
+			'unvote'      => "{$permalink_action}/unvote/",
+			'infinite'    => "{$permalink}/page/",
+		);
+	}
 
 	foreach ( $endpoints as $attribute => $value ) {
 		echo sprintf( ' data-%s="%s"', $attribute, esc_url( $value ) );

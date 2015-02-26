@@ -283,6 +283,7 @@
 		color: $dark-gray;
 	}
 
+	button[type="button"],
 	button[type="submit"],
 	input[type="submit"] {
 		@include btn($btn-bg, $color-text-white, $btn-bg, .625em, 1em, ms(3));
