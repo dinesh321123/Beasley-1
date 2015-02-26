@@ -29,6 +29,7 @@ class GMP_CPT {
 		self::add_save_post_actions();
 		add_filter( 'ss_podcasting_episode_fields', array( __CLASS__, 'remove_audio_imputs' ) );
 		add_filter( 'manage_edit-' . self::PODCAST_POST_TYPE . '_columns', array( __CLASS__, 'show_feed_url_as_column' ), 10, 1 );
+		add_filter( 'redirect_canonical', array( __CLASS__, 'check_redirect_canonical' ) );
 		add_action( 'manage_posts_custom_column' , array( __CLASS__ , 'add_feed_url_column' ) , 1 , 2 );
 		add_action( 'edit_form_after_title', array( __CLASS__, 'inline_instructions' ) );
 	}
@@ -333,6 +334,15 @@ class GMP_CPT {
 
 		<?php
 
+	}
+
+	/**
+	 * Prevents canonical redirect for podcast's episodes archive.
+	 */
+	public static function check_redirect_canonical( $redirect_url ) {
+		return get_query_var( 'post_type' ) != self::PODCAST_POST_TYPE || get_query_var( 'paged' ) < 2
+			? $redirect_url
+			: false;
 	}
 
 }

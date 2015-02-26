@@ -474,7 +474,7 @@ if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 			$partial_slug = 'partials/loop';
 		}
 
-		global $wp_query;
+		global $wp_query, $gmr_loadmore_num_pages, $gmr_loadmore_post_count, $gmr_loadmore_paged;
 
 		ob_start();
 
@@ -483,10 +483,10 @@ if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 		$html = ob_get_clean();
 
 		wp_send_json( array(
-			'paged' => $wp_query->query_vars['paged'],
-			'max_num_pages' => $wp_query->max_num_pages,
-			'post_count' => $wp_query->post_count,
-			'html' => $html,
+			'paged'         => $gmr_loadmore_paged ?: $wp_query->query_vars['paged'],
+			'max_num_pages' => $gmr_loadmore_num_pages ?: $wp_query->max_num_pages,
+			'post_count'    => $gmr_loadmore_post_count ?: $wp_query->post_count,
+			'html'          => $html,
 		) );
 
 		exit;
