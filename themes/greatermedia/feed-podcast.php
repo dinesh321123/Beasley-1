@@ -221,9 +221,9 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		<dc:creator><?php echo esc_html( $author ); ?></dc:creator>
 		<guid isPermaLink="false"><?php esc_html( the_guid() ); ?></guid>
 		<description><![CDATA[<?php the_excerpt_rss(); ?>]]></description>
-		<itunes:subtitle><?php echo esc_html( $itunes_excerpt ); ?></itunes:subtitle>
+		<itunes:subtitle><![CDATA[<?php echo esc_html( $itunes_excerpt ); ?>]]></itunes:subtitle>
 		<content:encoded><![CDATA[<?php echo esc_html( $content ); ?>]]></content:encoded>
-		<itunes:summary><?php echo esc_html( $itunes_summary ); ?></itunes:summary>
+		<itunes:summary><![CDATA[<?php echo esc_html( $itunes_summary ); ?>]]></itunes:summary>
 		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $size ); ?>" type="<?php echo esc_attr( $mime_type ); ?>"></enclosure>
 		<itunes:explicit><?php echo esc_html( $explicit_flag ); ?></itunes:explicit>
 		<itunes:block><?php echo esc_html( $block_flag ); ?></itunes:block>
