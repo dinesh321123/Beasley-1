@@ -206,7 +206,8 @@ class GreaterMediaContestsMetaboxes {
 		self::render_input( $args );
 
 		if ( $render_server_time ) {
-			echo ' <small>(server time is <code>' . date( get_option( 'time_format' ), current_time( 'timestamp' ) ) . '</code>)</small>';
+			$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+			echo ' <small>(server time is ' . date( $format, current_time( 'timestamp' ) ) . ')</small>';
 			$render_server_time = false;
 		}
 		
