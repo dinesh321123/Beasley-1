@@ -39,6 +39,18 @@ class AccountSchema {
 	public function get_profile_schema() {
 		return array(
 			'fields' => array(
+				'firstName' => array(
+					'writeAccess' => 'clientModify',
+					'required' => true,
+				),
+				'lastName' => array(
+					'writeAccess' => 'clientModify',
+					'required' => true,
+				),
+				'email' => array(
+					'writeAccess' => 'clientModify',
+					'required' => true,
+				),
 				'nickname' => array(
 					'writeAccess' => 'clientModify',
 					'required' => false,

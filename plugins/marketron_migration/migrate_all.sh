@@ -6,14 +6,16 @@ set -e
 # Configuration parameters
 marketron_export=wmgk_data_export_02_23_15.zip
 url=wmgk1.greatermedia.dev
+limit=2
+
 site=www.wmgk.com
 config_file=wmgk_blog_cfg.csv
 mapping=wmgk_mapping.csv
 tags=wmgk_tags.csv
-limit=2
 
 # extract and clean XML files from zips
 wp marketron_migration migrate \
+	--allow-root \
 	--marketron_export=$marketron_export \
 	--fresh=0
 
