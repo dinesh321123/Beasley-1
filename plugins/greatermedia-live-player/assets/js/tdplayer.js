@@ -435,7 +435,7 @@
 				if (lpInit === 0) {
 					// do nothing
 				} else if (lpInit === 1) {
-					playLiveStream();
+					playLiveStreamNoAd();
 					clearInterval(detectApiState);
 				} else {
 					setInitialPlay();
@@ -458,9 +458,9 @@
 				// do nothing
 			} else if (lpInit === 1) {
 				if (window.innerWidth >= 768) {
-					playLiveStream();
+					playLiveStreamNoAd();
 				} else {
-					playLiveStreamMobile();
+					playLiveStreamMobileNoAd();
 				}
 				clearInterval(detectApiState);
 			} else {
@@ -505,9 +505,9 @@
 			setStoppedStyles();
 			if (Cookies.get("gmlp_play_button_pushed") == 1) {
 				if (window.innerWidth >= 768) {
-					playLiveStream();
+					playLiveStreamNoAd();
 				} else {
-					playLiveStreamMobile();
+					playLiveStreamMobileNoAd();
 				}
 				Cookies.set("gmlp_play_button_pushed", 0);
 			} else {
@@ -617,6 +617,32 @@
 
 	}
 
+	/**
+	 * Temp to remove vast ad while issues are resolves
+	 */
+	function playLiveStreamMobileNoAd() {
+		var station = gmr.callsign;
+
+		if (station === '') {
+			alert('Please enter a Station');
+			return;
+		}
+		if (true === playingCustomAudio) {
+			listenLiveStopCustomInlineAudio();
+		}
+		debug('playLiveStream - station=' + station);
+
+		if (livePlaying) {
+			player.stop();
+		}
+
+		body.classList.add('live-player--active');
+		livePlayer.classList.add('live-player--active');
+		player.play({station: station, timeShift: true});
+		setPlayingStyles();
+
+	}
+
 	function playLiveStream() {
 		var station = gmr.callsign;
 
@@ -665,6 +691,37 @@
 					setPlayingStyles();
 				});
 			}
+		}
+	}
+
+	/**
+	 * Temp to remove vast ad while issues are resolves
+	 */
+	function playLiveStreamNoAd() {
+		var station = gmr.callsign;
+
+		pjaxInit();
+		if (true === playingCustomAudio) {
+			resumeCustomInlineAudio();
+
+			setPlayingStyles();
+		} else {
+
+			if (station === '') {
+				alert('Please enter a Station');
+				return;
+			}
+
+			debug('playLiveStream - station=' + station);
+
+			if (livePlaying) {
+				player.stop();
+			}
+
+			body.classList.add('live-player--active');
+			livePlayer.classList.add('live-player--active');
+			player.play({station: station, timeShift: true});
+			setPlayingStyles();
 		}
 	}
 

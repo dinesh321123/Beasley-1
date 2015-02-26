@@ -11,6 +11,7 @@ define( 'GMR_LIVEFYRE_PLUGIN_FILE', __FILE__ );
 define( 'GMR_LIVEFYRE_VERSION', '0.2.0' );
 
 function gmr_livefyre_main_real() {
+	require_once __DIR__ . '/../greatermedia-gigya/vendor/autoload.php';
 	require_once __DIR__ . '/vendor/autoload.php';
 
 	$plugin = new \GreaterMedia\LiveFyre\Plugin();
@@ -21,7 +22,8 @@ function gmr_livefyre_main_real() {
 }
 
 function gmr_livefyre_main() {
-	if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	// Gigya has classes that are a dependency, so we need to ensure that the autoload from there is loaded first, so checking that it exists also!
+	if ( file_exists( __DIR__ . '/vendor/autoload.php' ) && file_exists( __DIR__ . '/../greatermedia-gigya/vendor/autoload.php' ) ) {
 		gmr_livefyre_main_real();
 	} else {
 		$install_dir = GMR_LIVEFYRE_PATH;
