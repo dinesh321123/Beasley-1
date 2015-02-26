@@ -28,7 +28,7 @@ class ContestEntryDispatcher {
 	}
 
 	function action_for_entry( $entry, $type = 'contest' ) {
-		$data = $this->action_data_for_entry_reference( $entry->entry_reference );
+		$data = $this->action_data_for_entry_reference( $entry );
 		
 		return empty( $data ) ? false : array(
 			'actionType' => 'action:' . $type,
@@ -37,14 +37,28 @@ class ContestEntryDispatcher {
 		);
 	}
 
-	function action_data_for_entry_reference( $entry_reference ) {
-		if ( is_string( $entry_reference ) ) {
-			$entry_reference = json_decode( $entry_reference, true );
+	function action_data_for_entry_reference( $entry ) {
+		$data = $entry;
+		if ( is_object( $entry ) ) {
+			$data = json_decode( $entry->entry_reference, true );
+
+			$extra_data = array(
+				'entrant_name', 'entrant_gender', 'entrant_email',
+				'entrant_zip', 'entrant_birth_year', 'entrant_birth_date',
+			);
+			
+			foreach ( $extra_data as $key ) {
+				if ( property_exists( $entry, $key ) ) {
+					$data[ $key ] = $entry->$key;
+				}
+			}
+		} elseif ( is_string( $entry ) ) {
+			$data = json_decode( $entry, true );
 		}
 
 		$actionData = array();
 
-		foreach ( $entry_reference as $key => $value ) {
+		foreach ( $data as $key => $value ) {
 			$actionData[] = array(
 				'name'  => (string) $key,
 				'value' => $value,

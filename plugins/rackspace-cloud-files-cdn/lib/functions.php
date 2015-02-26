@@ -40,6 +40,8 @@ function rackspace_upload_attachment( $post_id, &$meta_data ) {
 
 	global $rackspace_cdn;
 
+	$use_wp_cli = defined( 'WP_CLI' ) && WP_CLI;
+
 	// get upload dir and attachment file
 	$upload_dir = wp_upload_dir();
 	$uploaded = false;
@@ -62,7 +64,9 @@ function rackspace_upload_attachment( $post_id, &$meta_data ) {
 				}
 			}
 		}
-	} catch ( Exception $e ) {}
+	} catch ( Exception $e ) {
+		$use_wp_cli && WP_CLI::warning( $e->getMessage() );
+	}
 
 	// upload image sizes
 	if ( ! empty( $meta_data['sizes'] ) ) {
@@ -87,7 +91,9 @@ function rackspace_upload_attachment( $post_id, &$meta_data ) {
 						@unlink( $cur_file );
 					}
 				}
-			} catch ( Exception $e ) {}
+			} catch ( Exception $e ) {
+				$use_wp_cli && WP_CLI::warning( $e->getMessage() );
+			}
 		}
 	}
 
@@ -115,6 +121,8 @@ function rackspace_download_attachment( $post_id, $meta_data ) {
 
 	global $rackspace_cdn;
 
+	$use_wp_cli = defined( 'WP_CLI' ) && WP_CLI;
+
 	// get upload dir and attachment file
 	$upload_dir = wp_upload_dir();
 	$downloaded = false;
@@ -126,7 +134,9 @@ function rackspace_download_attachment( $post_id, $meta_data ) {
 	try {
 		$rackspace_cdn->download_file( $filepath, $filename );
 		$downloaded = true;
-	} catch ( Exception $e ) {}
+	} catch ( Exception $e ) {
+		$use_wp_cli && WP_CLI::warning( $e->getMessage() );
+	}
 
 	// download image sizes
 	if ( ! empty( $meta_data['sizes'] ) ) {
@@ -135,12 +145,11 @@ function rackspace_download_attachment( $post_id, $meta_data ) {
 
 		foreach ( $meta_data['sizes'] as $meta ) {
 			try {
-				$cur_file = $root_dir . $meta['file'];
-
-				// download file
-				$rackspace_cdn->upload_file( $cur_file, $base_dir . $meta['file'] );
+				$rackspace_cdn->download_file( $root_dir . $meta['file'], $base_dir . $meta['file'] );
 				$downloaded = true;
-			} catch ( Exception $e ) {}
+			} catch ( Exception $e ) {
+				$use_wp_cli && WP_CLI::warning( $e->getMessage() );
+			}
 		}
 	}
 

@@ -58,7 +58,7 @@ from actions
 where
 	data.actions.actionType = 'action:{$type}'   and
 	data.actions.actionID = '{$contest_id}'      and
-	data.actions.actionData.value_s = '{$email}'
+	data.actions.actionData.entrant_email = '{$email}'
 GQL;
 
 		$request = new GigyaRequest( null, null, 'ds.search' );

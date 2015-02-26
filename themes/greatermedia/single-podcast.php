@@ -27,7 +27,7 @@ get_header(); ?>
 								<div class="podcast__parent--title">
 									<h1 itemprop="headline"><?php the_title(); ?></h1>
 								</div>
-								<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>
+								<a class="podcast__rss" href="<?php echo esc_url( $feed_url ) ?>" target="_blank">Podcast Feed</a>
 								<?php
 								if( $itunes_url != '' ) {
 									?>
