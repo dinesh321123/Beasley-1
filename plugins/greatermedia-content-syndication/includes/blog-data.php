@@ -421,10 +421,10 @@ class BlogData {
 			foreach ( $defaults as $taxonomy => $default_terms ) {
 				if( $post_id && taxonomy_exists( $taxonomy ) ) {
 					if( is_taxonomy_hierarchical( $taxonomy) ) {
-						wp_set_post_terms( $post_id, $default_terms, $taxonomy );
+						wp_set_post_terms( $post_id, $default_terms, $taxonomy, true );
 					} else {
 						$term_obj = get_term_by( 'id', absint( $default_terms[0] ), $taxonomy );
-						wp_set_post_terms( $post_id, $term_obj->name, $taxonomy );
+						wp_set_post_terms( $post_id, $term_obj->name, $taxonomy, true );
 					}
 				}
 			}
