@@ -8,7 +8,7 @@
  */
 
 $time_format = 'F j';
-if ( the_time( 'Y' ) != date( 'Y' ) ) {
+if ( get_the_time( 'Y' ) != date( 'Y' ) ) {
 	$time_format .= ', y';
 }
 
