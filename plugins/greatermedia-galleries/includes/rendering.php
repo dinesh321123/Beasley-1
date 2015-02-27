@@ -287,6 +287,7 @@ class GreaterMediaGallery {
 									 data-cycle-hash="<?php echo esc_attr( $slide_hash ); ?>"
 									 <?php endif; ?>
 									 >
+									<h2 class="gallery__slide--title"><?php echo sanitize_text_field( $post->post_excerpt ); ?></h2>
 
 									<div class="gallery__prev">
 										<button type="button" class="gallery_<?php echo intval( $gallery_key ); ?>_prev gallery__prev--btn slide-overlay-control-nohide">
