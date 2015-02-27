@@ -253,18 +253,16 @@ function rackspace_delete_attachment( $attachment_id ) {
 	global $rackspace_cdn;
 
 	$files = array();
-	$metadata = wp_get_attachment_metadata( $attachment_id );
-	$base_dir = trailingslashit( dirname( $metadata['file'] ) );
 
+	$attached_file = get_post_meta( $attachment_id, '_wp_attached_file', true );
+
+	$metadata = wp_get_attachment_metadata( $attachment_id );
 	if ( ! empty( $metadata[ RS_META_SYNCED ] ) ) {
-		if ( ! isset( $metadata['file'] ) ) {
-			$files[] = get_post_meta( $attachment_id, '_wp_attached_file', true );
-		} else {
-			$files[] = $metadata['file'];
-		}
+		$files[] = $attached_file;
 	}
 
 	if ( ! empty( $metadata['sizes'] ) ) {
+		$base_dir = trailingslashit( dirname( $attached_file ) );
 		foreach ( $metadata['sizes'] as $meta ) {
 			if ( ! empty( $meta[ RS_META_SYNCED ] ) ) {
 				$files[] = $base_dir . $meta['file'];
