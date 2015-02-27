@@ -39,7 +39,6 @@ class ShowsCPT {
 
 			add_filter( 'gmr_blogroll_widget_item_post_types', array( self::$_instance, 'add_episode_pt_to_blogroll_widget' ) );
 			add_filter( 'redirect_canonical', array( self::$_instance, 'check_redirect_canonical' ) );
-			add_filter( 'request', array( self::$_instance, 'show_unpack_vars' ) );
 		}
 
 		return self::$_instance;
@@ -217,22 +216,6 @@ class ShowsCPT {
 			</li><?php
 		}
 		exit;
-	}
-	
-	/**
-	 * Unpacks query vars for show archive.
-	 *
-	 * @filter request
-	 * @param array $query_vars The array of initial query vars.
-	 * @return array The array of unpacked query vars.
-	 */
-	public function show_unpack_vars( $query_vars ) {
-		// do nothing if it is wrong page
-		if ( ! empty( $query_vars[ self::SHOW_CPT ] ) ) {
-			$query_vars['show_section_page'] = isset( $query_vars['paged'] ) ? $query_vars['paged'] : 1;
-		}
-
-		return $query_vars;
 	}
 
 	/**

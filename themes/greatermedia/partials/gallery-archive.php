@@ -16,12 +16,7 @@ $rendered_posts = array();
  *
  * Here, we calculate those values!
  */
-if ( 'show' == get_post_type() ) {
-	// Show section endpoints use a custom pagination param, since default paged would cause issues with primary show navigation
-	$page = get_query_var( 'show_section_page' ) ? get_query_var( 'show_section_page' ) : 1;
-} else {
-	$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-}
+$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 
 if ( $page > 1 ) {
 	$per_page = 16;

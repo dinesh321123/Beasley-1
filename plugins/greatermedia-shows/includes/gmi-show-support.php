@@ -117,11 +117,13 @@ function get_show_podcast_ids() {
 function get_show_podcast_query() {
 	$possible_parents = get_show_podcast_ids();
 	if ( ! empty( $possible_parents ) ) {
-		$current_page = get_query_var( 'show_section_page' ) ?: 1;
+		$current_page = get_query_var( 'paged', 1 );
+
 		$podcast_args = array(
-			'post_type' => \GMP_CPT::EPISODE_POST_TYPE,
+			'post_type'       => \GMP_CPT::EPISODE_POST_TYPE,
 			'post_parent__in' => $possible_parents,
-			'paged' => $current_page,
+			'paged'           => $current_page,
+			'posts_per_page'  => get_option( 'posts_per_page', 10 ),
 		);
 
 		$podcast_query = new \WP_Query( $podcast_args );
@@ -139,7 +141,7 @@ function get_show_podcast_query() {
  */
 function get_show_video_query() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
-	$current_page = get_query_var( 'show_section_page' ) ?: 1;
+	$current_page = get_query_var( 'paged', 1 );
 
 	$video_args = array(
 		'post_type' => 'post',
@@ -171,7 +173,7 @@ function get_show_video_query() {
  */
 function get_show_gallery_query() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
-	$current_page = get_query_var( 'show_section_page' ) ?: 1;
+	$current_page = get_query_var( 'paged', 1 );
 
 	$album_args = array(
 		'post_type' => 'albums', // todo is this post type coming from migration scripts? Need to dynamically grab this post type if we can
@@ -288,7 +290,7 @@ function get_show_live_links_archive_query() {
 
 	$show_term = \TDS\get_related_term( get_the_ID() );
 
-	$current_page = get_query_var( 'show_section_page' ) ?: 1;
+	$current_page = get_query_var( 'paged', 1 );
 
 	$args = array(
 		'post_type' => GMR_LIVE_LINK_CPT,
@@ -319,7 +321,7 @@ function get_show_live_links_archive_query() {
 
 function get_show_main_query() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
-	$current_page = get_query_var( 'show_section_page' ) ?: 1;
+	$current_page = get_query_var( 'paged' ) ?: 1;
 
 	$post_types = array( 'post' );
 	if ( class_exists( '\GreaterMediaGalleryCPT' ) ) {
