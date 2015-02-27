@@ -44,6 +44,10 @@
 		$( 'body').addClass( 'is-busy' );
 	} );
 
+	$document.bind( 'pjax:click', function () {
+		$( 'body').addClass( 'pjax-start' );
+	} );
+
 	/**
 	 * Remove the "is-busy" class from the body when a Pjax request ends.
 	 */

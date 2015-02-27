@@ -1179,14 +1179,14 @@ blockquote p {
   -o-transform: translate(78%, 0);
   transform: translate(78%, 0); }
 
-.mobile-nav--open .header__search--form {
+.moble-nav--open .header__search--form {
   -webkit-transform: translate(78%, 0);
   -moz-transform: translate(78%, 0);
   -ms-transform: translate(78%, 0);
   -o-transform: translate(78%, 0);
   transform: translate(78%, 0); }
   @media screen and (min-width: 768px)  {
-    .mobile-nav--open .header__search--form {
+    .moble-nav--open .header__search--form {
       -webkit-transform: translate(78%, -200%);
       -moz-transform: translate(78%, -200%);
       -ms-transform: translate(78%, -200%);
@@ -1320,7 +1320,7 @@ blockquote p {
         padding-top: 29px;
         padding-bottom: 29px; } }
 
-.header__nav ul li a:hover, .header__nav ul li a:focus, .header__nav ul li a:active, .header__nav ul li:hover, .header__account ul li a:hover, .header__account ul li a:focus, .header__account ul li a:active, .header__account ul li:hover, .ui-menu .ui-state-focus {
+.header__nav ul li.active a:hover, .header__nav ul li a:focus, .header__nav ul li a:active, .header__nav ul li.active, .header__account ul li a:hover, .header__account ul li a:focus, .header__account ul li a:active, .header__account ul li:hover, .ui-menu .ui-state-focus {
   background-color: #d22228; }
 
 ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw > ul li:not(.mobile-menu-submenu-header):hover, .header__nav .format-sp > ul li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fi > ul li:not(.mobile-menu-submenu-header):hover {
@@ -1339,15 +1339,17 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
  *
  */
 /* Psuedo element helps with selection by preventing the menu from collapsing on just a bit of a mouse-out */
-.header__nav .menu-item-has-children:hover:after {
+.header__nav .menu-item-has-children:after {
   content: ' ';
-  display: block;
+  display: none;
   position: relative;
   bottom: 40px;
   right: -40px;
   float: right;
   width: 40px;
   height: 40px; }
+  .header__nav .menu-item-has-children:after.active .header__nav .menu-item-has-children:after {
+    display: block; }
 
 .menu-overlay-mask {
   visibility: hidden;
@@ -1369,6 +1371,8 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
     -webkit-transition: visibility 0s linear, opacity 100ms ease-out;
     -moz-transition: visibility 0s linear, opacity 100ms ease-out;
     transition: visibility 0s linear, opacity 100ms ease-out; }
+  .active .menu-overlay-mask {
+    visibility: hidden; }
 
 /**
  * This is not ideal, we should be doing this on the top level <li>
@@ -1381,7 +1385,10 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
     z-index: 5000100;
     /* IAB z-index standard for drop nav is 5000000 - 5999999 */ }
 
-.header__nav ul li:hover .sub-menu, .header__nav ul li:hover .format-fw > ul, .header__nav ul li:hover .format-sp > ul, .header__nav ul li:hover .format-fi > ul {
+.header__nav ul li .sub-menu, .header__nav ul li .format-fw > ul, .header__nav ul li .format-sp > ul, .header__nav ul li .format-fi > ul {
+  display: none; }
+
+.header__nav ul li.active .sub-menu, .header__nav ul li.active .format-fw > ul, .header__nav ul li.active .format-sp > ul, .header__nav ul li.active .format-fi > ul {
   display: block; }
 
 .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul, .header__account--links.sub-menu, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul.header__account--links, .header__nav .format-fi > ul.header__account--links, .ui-menu {

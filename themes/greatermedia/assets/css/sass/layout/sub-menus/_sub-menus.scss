@@ -9,15 +9,19 @@
  */
 
 /* Psuedo element helps with selection by preventing the menu from collapsing on just a bit of a mouse-out */
-.header__nav .menu-item-has-children:hover:after {
+.header__nav .menu-item-has-children:after {
 	content: ' ';
-	display: block;
+	display: none;
 	position: relative;
 	bottom: 40px;
 	right: -40px;
 	float: right;
 	width: 40px;
 	height: 40px;
+
+	&.active & {
+		display: block;
+	}
 }
 
 .menu-overlay-mask {
@@ -37,6 +41,10 @@
 		opacity: 1;
 		@include transition(visibility 0s linear, opacity 100ms ease-out);
 	}
+
+	.active & {
+		visibility: hidden;
+	}
 }
 
 /**
@@ -53,7 +61,11 @@
 }
 
 
-.header__nav ul li:hover .sub-menu {
+.header__nav ul li .sub-menu {
+	display: none;
+}
+
+.header__nav ul li.active .sub-menu {
 	display: block;
 }
 

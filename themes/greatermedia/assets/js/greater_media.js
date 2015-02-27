@@ -503,6 +503,10 @@
 		$( 'body').addClass( 'is-busy' );
 	} );
 
+	$document.bind( 'pjax:click', function () {
+		$( 'body').addClass( 'pjax-start' );
+	} );
+
 	/**
 	 * Remove the "is-busy" class from the body when a Pjax request ends.
 	 */
@@ -1038,6 +1042,37 @@
 
 	init_menu_overlay();
 
+	function addHoverMobile() {
+		$('.header__nav ul li').on('click touchstart', function() {
+			$(this).addClass('active');
+		});
+	}
+
+	addHoverMobile();
+
+	function removeHoverMobile() {
+		$('.header__nav ul li').removeClass('active');
+	}
+
+	function removeoverlay() {
+		var $overlay = jQuery(document.querySelector('.menu-overlay-mask'));
+
+		$overlay.removeClass('is-visible');
+	}
+
+	function addMenuHover() {
+		$('.header__nav ul li').hover(
+			function () {
+				$(this).addClass('active');
+			},
+			function () {
+				$(this).removeClass('active');
+			}
+		);
+	}
+
+	addMenuHover();
+
 	(function ($) {
 		$(document).on('click', '.popup', function () {
 			var href = $(this).attr('href'),
@@ -1085,6 +1120,8 @@
 	$(document).bind( 'pjax:end', function () {
 		personality_toggle();
 		hideBlocker();
+		removeHoverMobile();
+		removeoverlay();
 	});
 
 	var getBlockerDiv = function() {
