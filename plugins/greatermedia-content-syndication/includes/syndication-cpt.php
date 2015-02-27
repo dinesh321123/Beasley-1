@@ -8,7 +8,7 @@ class SyndicationCPT {
 
 	private $post_type = 'subscription';
 
-	private $supported_subscriptions = array( 'post', 'content-kit', 'contest', 'survey', 'gmr_gallery' );
+	public static $supported_subscriptions = array( 'post', 'content-kit', 'contest', 'survey', 'gmr_gallery' );
 
 	public static $support_default_tax = array(
 		'_shows',
@@ -191,7 +191,7 @@ class SyndicationCPT {
 		$labels = array(
 			'name'                => __( 'Subscriptions', 'greatermedia' ),
 			'singular_name'       => __( 'Subscription', 'greatermedia' ),
-			'add_new'             => _x( 'Add New Subscription', 'greatermedia', 'greatermedia' ),
+			'add_new'             => _x( 'Add Subscription', 'menu item', 'greatermedia' ),
 			'add_new_item'        => __( 'Add New Subscription', 'greatermedia' ),
 			'edit_item'           => __( 'Edit Subscription', 'greatermedia' ),
 			'new_item'            => __( 'New Subscription', 'greatermedia' ),
@@ -474,35 +474,28 @@ class SyndicationCPT {
 
 	public function render_subscription_type( $post ) {
 
-		if( $post->post_type == $this->post_type ) {
+		if ( $post->post_type != $this->post_type ) {
+			return;
+		}
 
 		$subscription_type = get_post_meta( $post->ID, 'subscription_type', true );
-		$checked = '';
+		
 		echo '<div class="subscription_type">';
-		echo '<label for="subscription_type">Choose subscription type</label>';
-		echo '<select name="subscription_type" id="subscription_type" class="subscription_defaults" style="width: 300px;">';
-		foreach( $this->supported_subscriptions as $type ) {
-			echo '<p>';
-			if( post_type_exists( $type ) ) {
-				$cpt_obj = get_post_type_object( $type );
-
-				if( $subscription_type != '' ) {
-					$checked = $subscription_type == $type ? 'selected="selected"' : '';
-				} elseif( $type == 'post') {
-					$checked = 'selected="selected"';
-				} else {
-					$checked = '';
+			echo '<label for="subscription_type">Choose subscription type</label>';
+			echo '<select name="subscription_type" id="subscription_type" class="subscription_defaults" style="width:300px;">';
+				echo '<option value="">All content types</option>';
+				foreach ( self::$supported_subscriptions as $type ) {
+					if ( post_type_exists( $type ) ) {
+						$cpt_obj = get_post_type_object( $type );
+						
+						echo '<option ', selected( $type, $subscription_type ), ' value="', esc_attr( $type ), '">';
+							echo esc_html( $cpt_obj->labels->name );
+						echo '</option>';
+					}
 				}
-
-				echo '<option ' . $checked . ' value="' . esc_attr( $type ) . '">'
-				. esc_html( $cpt_obj->labels->name ) . '</option>';
-			}
-			echo '</p>';
-		}
-		echo '</select>';
-		echo '<span class="description">Choose post type you want to subscribe to</span>';
+				echo '</select>';
+			echo '<span class="description">Choose post type you want to subscribe to</span>';
 		echo '</div>';
-		}
 	}
 
 	/**

@@ -139,7 +139,9 @@ class BlogData {
 		}
 
 		$post_type = get_post_meta( $subscription_id, 'subscription_type', true );
-		$post_type = sanitize_text_field( $post_type );
+		if ( empty( $post_type ) ) {
+			$post_type = SyndicationCPT::$supported_subscriptions;
+		}
 
 		// query args
 		$args = array(
