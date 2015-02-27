@@ -76,7 +76,26 @@ class GreaterMediaSiteOptions {
 
 		$callback = array( $this, 'render_fallback_image_field' );
 		$types = get_post_types( array( 'public' => true ), 'object' );
+
+		// Sort the Post types in the UI
+		ksort( $types, SORT_ASC );
+
 		foreach ( $types as $type => $type_object ) {
+
+			// Post types to exclude
+			$exclude = array(
+				GMR_SUBMISSIONS_CPT,
+				GMR_ADVERTISER_CPT,
+				GMR_SURVEY_CPT,
+				ShowsCPT::SHOW_CPT,
+				ShowsCPT::EPISODE_CPT
+			);
+
+			// If the Post type is in the exclude list, then don't add to Media Page
+			if ( TRUE === in_array( $type_object->name, $exclude ) ) {
+				continue;
+			}
+
 			if ( post_type_supports( $type, 'thumbnail' ) ) {
 				$option_name = "{$type}_fallback";
 				add_settings_field( $option_name, $type_object->label, $callback, 'media', 'greatermedia_fallback_thumbnails', array( 'option_name' => $option_name ) );
