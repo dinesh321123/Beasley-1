@@ -946,7 +946,7 @@ h5, .h5 {
   letter-spacing: 2px; }
 
 h6, .h6 {
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   letter-spacing: 2px; }
 
 .section-header {
@@ -1244,7 +1244,7 @@ blockquote p {
   display: block;
   padding: 18px 1.25em;
   line-height: 1;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   color: #ffffff; }
 
 .mobile-nav__list a:hover, .mobile-nav__list a:focus, .mobile-nav__list a:active {
@@ -1286,7 +1286,7 @@ blockquote p {
       font-size: 1.125em; } }
   @media screen and (min-width: 1400px)  {
     .news-site .header__nav > ul > li, .news-site .header__account > ul > li {
-      font-size: 1.26562em; } }
+      font-size: 1.26563em; } }
 
 .header__main a, .header__main a:visited {
   color: #ffffff; }
@@ -1615,7 +1615,7 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
   color: #929497; }
   @media screen and (min-width: 768px)  {
     .content__heading, .sponsors__heading {
-      font-size: 1.26562em; } }
+      font-size: 1.26563em; } }
   #tribe-events .content__heading, #tribe-events .sponsors__heading {
     margin-bottom: 30px; }
 
@@ -2103,7 +2103,7 @@ a.featured__article--link {
   width: 100%;
   margin-right: 0;
   margin: 0;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   line-height: 1.3;
   font-weight: bold;
   color: #ffffff; }
@@ -2286,7 +2286,7 @@ a.featured__article--link {
   margin-right: 2.35765%;
   width: 65.88078%;
   padding: .8em 0.809em;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   font-weight: lighter;
   overflow: hidden; }
   .featured__content--meta:last-child {
@@ -2358,7 +2358,7 @@ a.featured__article--link {
         font-size: 0.88889em; } }
     @media screen and (min-width: 1024px)  {
       .news-site .featured__content--title {
-        font-size: 1.26562em; } }
+        font-size: 1.26563em; } }
 
 .featured__content--title a:link, .featured__content--title a:visited {
   color: #282827; }
@@ -2541,7 +2541,7 @@ Community Highlights and Events
 .highlights__heading {
   margin: 0 0 0.75em;
   line-height: 1;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   font-weight: lighter;
   color: #929497;
   vertical-align: top; }
@@ -2779,7 +2779,7 @@ Community Highlights and Events
   transform: translateY(-50%);
   padding: 0 1.618em 0 0;
   margin-left: 35%;
-  font-size: 1.26562em; }
+  font-size: 1.26563em; }
   .highlights__event--meta:last-child {
     margin-right: 0; }
   @media screen and (min-width: 768px)  {
@@ -2958,7 +2958,7 @@ Community Highlights and Events
   height: 18px;
   padding-right: .25em;
   vertical-align: middle;
-  font-size: 1.26562em; }
+  font-size: 1.26563em; }
   @media screen and (min-width: 768px)  {
     .header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before {
       padding-right: .75em; } }
@@ -4910,7 +4910,7 @@ Link posts contain a link to an external site. They can also optionally have a f
     font-size: 1.42383em;
     letter-spacing: 2px; }
   .article__content h4 {
-    font-size: 1.26562em;
+    font-size: 1.26563em;
     letter-spacing: 2px; }
   .article__content h5, .article__content h6 {
     font-weight: bold;
@@ -5047,6 +5047,9 @@ category: Components
   right: 0 !important;
   left: 0 !important;
   height: auto !important; }
+
+body.profile-page-login .live-player--mobile {
+  display: none; }
 
 .live-player--open .page-wrap:before {
   position: absolute;
@@ -5567,7 +5570,7 @@ category: Components
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     font-family: 'gmr-icons' !important;
-    font-size: 1.26562em;
+    font-size: 1.26563em;
     content: "\e626"; }
   .live-player__container.playing .live-stream__btn--login {
     display: block; }
@@ -5589,7 +5592,7 @@ category: Components
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   font-family: 'gmr-icons' !important;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   content: "\e606" !important; }
 
 .live-stream__btn--pause:before {
@@ -5602,7 +5605,7 @@ category: Components
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   font-family: 'gmr-icons' !important;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   content: "\e61f" !important; }
   .live-stream__player.audio__playing .live-stream__btn--pause:before {
     content: "\e61f" !important; }
@@ -5761,7 +5764,7 @@ category: Components
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     font-family: 'gmr-icons' !important;
-    font-size: 1.26562em;
+    font-size: 1.26563em;
     content: "\e626"; }
   .live-player__container.playing .live-stream--inactive {
     display: block; }
@@ -9455,7 +9458,7 @@ category: Components - Shows
   margin: 0 -1px; }
 
 .gmr_gallery .entry__related-posts .section-header {
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   font-weight: bold;
   color: #6d6e70; }
   .gmr_gallery .entry__related-posts .section-header a, .gmr_gallery .entry__related-posts .section-header a:visited {
@@ -9738,7 +9741,7 @@ a.social__link, a.social-share-link {
   padding: 0;
   margin-top: 26px;
   margin-bottom: 0;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   color: #404041;
   text-transform: uppercase; }
 
@@ -9820,7 +9823,7 @@ a.social__link, a.social-share-link {
   margin-right: 0;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   font-weight: normal;
   color: #d22228; }
   .search__result--title:last-child {
@@ -11621,7 +11624,7 @@ select {
   height: 250px;
   padding: 20px;
   background-color: #ffffff;
-  font-size: 1.26562em;
+  font-size: 1.26563em;
   color: #404041;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
