@@ -252,7 +252,11 @@
 			var redirectUrl = this.getRedirectUrl(defaultDest);
 
 			if (redirectUrl) {
-				location.href = redirectUrl;
+				if (location.replace) {
+					location.replace(redirectUrl);
+				} else {
+					location.href = redirectUrl;
+				}
 			}
 		},
 
