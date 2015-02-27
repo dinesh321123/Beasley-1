@@ -5058,9 +5058,6 @@ category: Components
   left: 0 !important;
   height: auto !important; }
 
-body.profile-page-login .live-player--mobile {
-  display: none; }
-
 .live-player--open .page-wrap:before {
   position: absolute;
   top: 0;

@@ -6,6 +6,6 @@
 		"../../admin/_tinymce.scss"
 	],
 	"sourcesContent": [],
-	"mappings": ";;;;;;ACAA;EACC,AAAW;EACX,AAAO;;AAGR;EACC,AAAW;;AAGZ;EACC,AAAW",
+	"mappings": "ACAA,AACC,AAAW,AACX,AAAO,AAGR,AACC,AAAW,AAGZ,AACC,AAAW",
 	"names": []
 }

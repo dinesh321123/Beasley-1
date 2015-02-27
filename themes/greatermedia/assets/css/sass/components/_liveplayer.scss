@@ -111,13 +111,6 @@ category: Components
 	height: auto !important;
 }
 
-	// Hide the player on the login, register, and forgot password pages. The
-	// "Listen Live" button looks like a form submission button and confuses
-	// users when they are filling out the forms.  
-	body.profile-page-login .live-player--mobile {
-		display: none;
-	}
-
 // for when the live player is opened on mobile
 .live-player--open .page-wrap:before {
 	position: absolute;
