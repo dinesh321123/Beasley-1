@@ -28,9 +28,13 @@ class Thumbnail_Filter
 					// refreshing the cache. Return false. 
 					$thumbnail_id = false; 
 				} elseif ( ! $thumbnail_id ) {
-					// Okay, get a new one. 
-					$thumbnail_id = $this->_get_first_gallery_image( $post_id );
-										
+					// Okay, get a new one.
+					if ( 'gmr_album' == get_post_type( $post_id ) ) {
+						$thumbnail_id = $this->_get_first_album_image( $post_id );
+					} else {
+						$thumbnail_id = $this->_get_first_gallery_image( $post_id );
+					}
+
 					// If we've got nothing, store a "blank" value so we don't keep
 					// refreshing the cache. 
 					if ( ! $thumbnail_id ) {
@@ -56,6 +60,32 @@ class Thumbnail_Filter
 		}
 		
 		wp_cache_delete( $post_id, 'gm/post_gallery_thumb' );
+	}
+
+	protected function _get_first_album_image( $post )
+	{
+		$post = get_post( $post );
+
+		// Make sure there's a post.
+		if ( ! $post ) {
+			return;
+		}
+
+		// Get the first gallery in this album.
+		$child_gallery_posts = get_posts( array(
+			'post_parent' => $post->ID,
+			'post_type' => 'gmr_gallery',
+			'post_status' => 'publish',
+			'fields' => 'ids',
+			'posts_per_page' => 1,
+			'orderby' => 'menu_order',
+			'order' => 'ASC',
+		) );
+
+		// Get the thumbnail for that gallery.
+		if ( $child_gallery_posts ) {
+			return $this->_get_first_gallery_image( $child_gallery_posts[0] );
+		}
 	}
 	
 	protected function _get_first_gallery_image( $post )
