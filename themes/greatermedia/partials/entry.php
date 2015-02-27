@@ -6,9 +6,13 @@
  * partials for the individual formats and post types. But for now this one 
  * covers them all. 
  */
-?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'entry2' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+$time_format = 'F j';
+if ( the_time( 'Y' ) != date( 'Y' ) ) {
+	$time_format .= ', y';
+}
+
+?><article id="post-<?php the_ID(); ?>" <?php post_class( 'entry2' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 	<?php 
 	if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) : 
 		if ( has_post_format( 'audio' ) ) {
@@ -24,21 +28,13 @@
 			</a>
 			
 			<div class="entry2__thumbnail__attribution">
-				<?php
-	
-					$image_attr = image_attribution();
-	
-					if ( ! empty( $image_attr ) ) {
-						echo $image_attr;
-					}
-	
-				?>				
+				<?php image_attribution(); ?>
 			</div>
 		</section>
 	<?php endif; ?>
 
 	<section class="entry2__meta">
-		<time datetime="<?php the_time( 'c' ); ?>" class="entry2__date"><?php the_time( 'F j' ); ?></time>
+		<time datetime="<?php the_time( 'c' ); ?>" class="entry2__date"><?php the_time( $time_format ); ?></time>
 		
 		<h2 class="entry2__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 		
