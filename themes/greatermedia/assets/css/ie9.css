@@ -1,10 +1,6 @@
 .header__search--btn:before {
   font-size: 1.125rem; }
 
-.gallery__next--btn:after, .gallery__prev--btn:before {
-  font-size: 0.8rem;
-  margin-top: 2px; }
-
 .type-contest .entry2__thumbnail--end-date, .type-contest .entry2__thumbnail--contest-type {
   font-size: 16px;
   font-size: 1rem; }
