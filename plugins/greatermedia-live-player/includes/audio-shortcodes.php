@@ -98,7 +98,7 @@ class GMR_Audio_Shortcodes {
 		if (empty($metadata['title'])) {
 			$title = get_the_title();
 		} else {
-			$title = esc_html( $metadata['title'] );
+			$title = $metadata['title'];
 		}
 
 		$is_podcast_archive = is_post_type_archive( GMP_CPT::PODCAST_POST_TYPE );
@@ -158,7 +158,7 @@ class GMR_Audio_Shortcodes {
 		} elseif(  $is_podcast_archive ) {
 			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . get_the_title() . '" data-mp3-artist="' . esc_html( get_the_title() ) . ' - ' . get_the_time( 'n.j.y' ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
 		} else {
-			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . $title . '" data-mp3-artist=" " data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . esc_attr( $title ) . '" data-mp3-artist=" " data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
 		}
 		$new_html .= '<button class="podcast__btn--pause"></button>';
 		$new_html .= '</div>';
@@ -207,7 +207,7 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<h3 class="podcast__title"><a href="' . get_the_permalink() . '">' . get_the_title() . '</a></h3>';
 			$new_html .= '<time class="podcast__date" datetime="' . date( 'c', $episode_date ) . '">LATEST EPISODE: ' . date( 'F j', $episode_date ) . '</time>';
 		} else {
-			$new_html .= '<h3 class="podcast__title">' . $title . '</h3>';
+			$new_html .= '<h3 class="podcast__title">' . esc_html( $title ) . '</h3>';
 		}
 		if( $parent_podcast_id && $is_podcast && !is_singular( GMP_CPT::PODCAST_POST_TYPE ) ) {
 			$new_html .= '<div class="podcast__parent--title podcast__parent--title--mobile show-mobile"><a href="' . esc_url( get_permalink( $parent_podcast->ID) )  . '">'. esc_html( $parent_podcast->post_title ) . '</a></div>';
