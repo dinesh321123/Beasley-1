@@ -1255,7 +1255,7 @@ $did_filter_expired_contests = false;
 function gmr_filter_expired_contests( $query ) {
 	global $did_filter_expired_contests;
 
-	if ( ! is_admin() && is_search() && ! $did_filter_expired_contests ) {
+	if ( ! is_admin() && ( is_search() || is_post_type_archive( GMR_CONTEST_CPT ) ) && ! $did_filter_expired_contests ) {
 		$now           = time();
 		$query_params = array(
 			'relation' => 'OR',
