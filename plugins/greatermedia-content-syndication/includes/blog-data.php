@@ -36,8 +36,7 @@ class BlogData {
 	}
 
 	public static function get_content_site_id() {
-
-		if( defined( 'GMR_CONTENT_SITE_ID' ) ) {
+		if ( defined( 'GMR_CONTENT_SITE_ID' ) ) {
 			self::$content_site_id = GMR_CONTENT_SITE_ID;
 		} elseif ( is_multisite() ) {
 			self::$content_site_id = get_current_site()->blog_id;
@@ -81,13 +80,17 @@ class BlogData {
 			$terms = get_post_meta( $syndication_id, 'subscription_default_terms-' . $label, true );
 			$terms = explode( ',', $terms );
 			$defaults[ $label ] = $terms;
-
 		}
 
 		$imported_post_ids = array();
 
+		$my_home_url = trailingslashit( home_url() );
+		switch_to_blog( self::$content_site_id );
+		$content_home_url = trailingslashit( home_url() );
+		restore_current_blog();
+
 		foreach ( $result as $single_post ) {
-			array_push( $imported_post_ids, self::ImportPosts(
+			$post_id = self::ImportPosts(
 				$single_post['post_obj']
 				, $single_post['post_metas']
 				, $defaults
@@ -96,7 +99,12 @@ class BlogData {
 				, $single_post['gallery_attachments']
 				, $single_post['galleries']
 				, $single_post['term_tax']
-			) );
+			);
+
+			if ( $post_id > 0 ) {
+				array_push( $imported_post_ids, $post_id );
+				self::NormalizeLinks( $post_id, $my_home_url, $content_home_url );
+			}
 		}
 
 		$imported_post_ids = implode( ',', $imported_post_ids );
@@ -245,11 +253,11 @@ class BlogData {
 
 		// prepare arguments for wp_insert_post
 		$args = array(
-			'post_title'    =>  $post_title,
-			'post_content'  =>  $post->post_content,
-			'post_type'     =>  $post_type,
-			'post_name'     =>  $post_name,
-			'post_status'   =>  $post_status
+			'post_title'   =>  $post_title,
+			'post_content' =>  $post->post_content,
+			'post_type'    =>  $post_type,
+			'post_name'    =>  $post_name,
+			'post_status'  =>  $post_status
 		);
 
 		// create unique meta value for imported post
@@ -259,10 +267,10 @@ class BlogData {
 
 		// query to check whether post already exist
 		$meta_query_args = array(
-			'meta_key'     => 'syndication_old_name',
-			'meta_value'   => $post_name,
+			'meta_key'    => 'syndication_old_name',
+			'meta_value'  => $post_name,
 			'post_status' => 'any',
-			'post_type' => $post_type
+			'post_type'   => $post_type
 		);
 
 		$existing = get_posts( $meta_query_args );
@@ -358,6 +366,51 @@ class BlogData {
 	}
 
 	/**
+	 * Updates links in a post content to lead to a proper site.
+	 *
+	 * @param int $post_id The new post id.
+	 * @param string $my_home_url The current site home URL.
+	 * @param string $content_home_url The content site home URL.
+	 */
+	private static function NormalizeLinks( $post_id, $my_home_url, $content_home_url ) {
+		$post = get_post( $post_id );
+
+		// we need to properly update image src and class name
+		$imgs = array();
+		if ( preg_match_all( '#\<img .*?>#is', $post->post_content, $imgs ) ) {
+			foreach ( $imgs[0] as $img ) {
+				$attrs = array();
+				if ( preg_match_all( '#(\w+)=[\'"](.*?)[\'"]#is', $img, $attrs ) ) {
+					$attrs = array_combine( $attrs[1], $attrs[2] );
+					if ( isset( $attrs['src'] ) ) {
+						$new_src = str_replace( $content_home_url, $my_home_url, $attrs['src'] );
+						$post->post_content = str_replace( $attrs['src'], $new_src, $post->post_content );
+					}
+
+					$class = array();
+					if ( isset( $attrs['class'] ) && preg_match( '#wp-image-(\d+)#i', $attrs['class'], $class ) ) {
+						$attachment = get_posts( array(
+							'meta_key'   => 'syndication_attachment_old_id',
+							'meta_value' => $class[1],
+							'post_type'  => 'attachment',
+						) );
+
+						if ( ! empty( $attachment ) ) {
+							$post->post_content = str_replace( $class[0], 'wp-image-' . $attachment[0]->ID, $post->post_content );
+						}
+					}
+				}
+			}
+		}
+
+		// update else links
+		$post->post_content = str_replace( $content_home_url, $my_home_url, $post->post_content );
+
+		// save changes
+		wp_update_post( $post->to_array() );
+	}
+
+	/**
 	 * Set post default terms
 	 *
 	 * @param $post_id
@@ -396,15 +449,15 @@ class BlogData {
 
 		if( $old_id == 0 && $featured == true ) {
 			$meta_query_args = array(
-				'meta_key'     => 'syndication_attachment_old_url',
-				'meta_value'   => esc_url_raw( $filename ),
-				'post_type' => 'attachment',
+				'meta_key'   => 'syndication_attachment_old_url',
+				'meta_value' => esc_url_raw( $filename ),
+				'post_type'  => 'attachment',
 			);
 		} else {
 			$meta_query_args = array(
-				'meta_key'     => 'syndication_attachment_old_id',
-				'meta_value'   => $old_id,
-				'post_type' => 'attachment',
+				'meta_key'   => 'syndication_attachment_old_id',
+				'meta_value' => $old_id,
+				'post_type'  => 'attachment',
 			);
 		}
 
