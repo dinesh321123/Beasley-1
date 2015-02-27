@@ -250,6 +250,9 @@ class GigyaSession {
 					$age_bracket = '0';
 				};
 
+				/* Set header for nginx caching. */
+				header( 'X-WP-Cache-Bucket: yes_' . $age_bracket );
+
 				/* Return composite cache variant based on logged in
 				 * status and age bracket */
 				return 'yes_' . $age_bracket;
@@ -301,6 +304,8 @@ class GigyaSession {
 				} else {
 					$age_bracket = '0';
 				};
+
+				header( 'X-WP-Cache-Bucket: yes_' . $age_bracket );
 
 				return 'yes_' . $age_bracket;
 			} else {

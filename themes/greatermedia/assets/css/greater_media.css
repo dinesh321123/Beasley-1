@@ -10230,7 +10230,6 @@ category: Components - Gallery Archive
   width: 100%;
   min-height: 127px;
   padding: 0;
-  margin-bottom: 20px;
   color: #404041;
   text-align: center; }
   .gallery__meta:last-child {
@@ -10260,7 +10259,7 @@ category: Components - Gallery Archive
       display: block;
       margin-right: 2.35765%;
       width: 100%;
-      min-height: 120px; }
+      min-height: 74px; }
       .gallery__meta:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1400px)  {
@@ -10273,7 +10272,7 @@ category: Components - Gallery Archive
         margin-right: 0; } }
   .single-gmr_gallery .gallery__meta {
     color: #d0d2d3;
-    padding: 0 4.375%; }
+    padding: 20px 4.375% 0; }
 
 .gallery__content {
   position: relative; }
@@ -10530,7 +10529,8 @@ category: Components - Gallery Archive
       margin-right: 2.35765%;
       width: 100%;
       height: 106px;
-      padding: 20px 0; }
+      padding: 20px 0;
+      margin-top: 30px; }
       .gallery__thumbnails:last-child {
         margin-right: 0; }
       .single-gmr_gallery .gallery__thumbnails {
@@ -10543,7 +10543,7 @@ category: Components - Gallery Archive
       width: 100%;
       height: 126px;
       padding: 20px 0;
-      margin-top: 44px; }
+      margin-top: 40px; }
       .gallery__thumbnails:last-child {
         margin-right: 0; }
       .single-gmr_gallery .gallery__thumbnails {

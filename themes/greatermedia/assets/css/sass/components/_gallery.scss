@@ -266,7 +266,6 @@ category: Components - Gallery Archive
 	@include span-columns(4);
 	min-height: 127px;
 	padding: 0;
-	margin-bottom: 20px;
 	color: $primary-text;
 	text-align: center;
 	@include bp(small) {
@@ -280,7 +279,7 @@ category: Components - Gallery Archive
 	}
 	@include bp(large) {
 		@include span-columns(12);
-		min-height: 120px;
+		min-height: 74px;
 	}
 	@include bp(x-large) {
 		@include span-columns(12);
@@ -288,7 +287,7 @@ category: Components - Gallery Archive
 
 	.single-gmr_gallery & {
 		color: $gallery-text;
-		padding: 0 4.375%;
+		padding: 20px 4.375% 0;
 	}
 }
 
@@ -592,6 +591,7 @@ category: Components - Gallery Archive
 		@include span-columns(12);
 		height: 106px;
 		padding: 20px 0;
+		margin-top: 30px;
 		.single-gmr_gallery & {
 			height: 111px;
 		}
@@ -600,7 +600,7 @@ category: Components - Gallery Archive
 		@include span-columns(12);
 		height: 126px;
 		padding: 20px 0;
-		margin-top: 44px;
+		margin-top: 40px;
 		.single-gmr_gallery & {
 			height: 145px;
 		}

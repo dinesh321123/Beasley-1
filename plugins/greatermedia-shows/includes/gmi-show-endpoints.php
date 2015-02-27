@@ -42,7 +42,7 @@ function add_rewrites() {
 
 	// The rule so that the main show page can be paginated!
 	$rule = sprintf( '%1$s/([^/]+)(/page/([0-9]+))?/?$', $rewrite_base );
-	\add_rewrite_rule( $rule, sprintf( 'index.php?%1$s=$matches[1]&show_section_page=$matches[3]', $post_type ) , 'top' );
+	\add_rewrite_rule( $rule, sprintf( 'index.php?%1$s=$matches[1]&show_section_page=$matches[8]', $post_type ) , 'top' );
 }
 
 /**
