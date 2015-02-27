@@ -77,11 +77,11 @@
 
 		<?php if ( ( $contest_rules = trim( get_post_meta( get_the_ID(), 'rules-desc', true ) ) ) ) : ?>
 		<div class="contest__description">
-
+			<p>
 				<a class="contest-attr--rules-toggler pjax-exclude" href="#" data-toggle="collapse" data-target="#contest-rules" data-alt-text="Hide Contest Rules">
 					<?php _e( 'view contest rules', 'greatermedia' ); ?>
 				</a>
-
+			</p>
 			<div id="contest-rules" class="contest-attr--rules" style="display:none;"><?php echo wpautop( $contest_rules ); ?></div>
 		</div>
 		<?php endif; ?>
