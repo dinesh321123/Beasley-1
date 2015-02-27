@@ -107,17 +107,7 @@
 
 				        <section class="show__blogroll inner-left-col">
 				        	<h2 class="section-header">Blog</h2>
-
-					        <?php
-					        $main_query = \GreaterMedia\Shows\get_show_main_query();
-					        while( $main_query->have_posts() ): $main_query->the_post(); ?>
-						        
-								<?php get_template_part('partials/entry'); ?>
-
-					        <?php endwhile; ?>
-					        <?php wp_reset_query(); ?>
-	
-							<?php greatermedia_load_more_button( array( 'page_link_template' => home_url( '_shows/' . get_post()->post_name . '/page/%d/' ) ) );	?>
+							<?php get_template_part( 'partials/loop', 'show' ); ?>
 						</section>
 
 			        </div>

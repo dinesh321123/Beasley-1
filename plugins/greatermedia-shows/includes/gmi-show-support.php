@@ -315,8 +315,10 @@ function get_show_main_query() {
 	$current_page = get_query_var( 'show_section_page' ) ?: 1;
 
 	$show_args = array(
-		'post_type' => 'post',
-		'tax_query' => array(
+		'post_type'      => 'post',
+		'paged'          => $current_page,
+		'posts_per_page' => get_option( 'posts_per_page', 10 ),
+		'tax_query'      => array(
 			'relation' => 'AND',
 			array(
 				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
@@ -324,7 +326,6 @@ function get_show_main_query() {
 				'terms' => $show_term->term_taxonomy_id,
 			)
 		),
-		'paged' => $current_page,
 	);
 
 	$show_query = new \WP_Query( $show_args );
