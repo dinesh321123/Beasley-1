@@ -14,10 +14,7 @@ if ( $episodes_query->have_posts() ) :
 
 	while( $episodes_query->have_posts() ) :
 		$episodes_query->the_post();
-
-		?><article id="post-<?php the_ID(); ?>" <?php post_class( 'cf episode' ); ?> role="article" itemscope itemtype="http://schema.org/OnDemandEvent">
-			<?php GMP_Player::render_podcast_episode(); ?>
-		</article><?php
+		get_template_part( 'partials/entry', get_post_type() );
 	endwhile;
 
 	wp_reset_query();

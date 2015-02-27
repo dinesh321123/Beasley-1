@@ -6,7 +6,7 @@ $main_query = \GreaterMedia\Shows\get_show_main_query();
 if ( $main_query->have_posts() ) :
 	while( $main_query->have_posts() ):
 		$main_query->the_post();
-		get_template_part('partials/entry');
+		get_template_part( 'partials/entry', get_post_type() );
 	endwhile;
 
 	wp_reset_query();
