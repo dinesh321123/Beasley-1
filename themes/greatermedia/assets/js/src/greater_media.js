@@ -638,12 +638,6 @@
 
 		personality_toggle();
 
-		/**
-		 * Only run this function if the Environment is a mobile device
-		 */
-		if (Environment.isMobile()) {
-			stopClickMobile();
-		}
 	});
 
 })();

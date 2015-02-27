@@ -825,7 +825,7 @@
 		if (lpInit === 1) {
 			setPlayerReady();
 			playLiveStreamDevice();
-		} else if (parseInt(Cookies.get('gmlp_play_button_pushed')) === 1) {
+		} else if (Cookies.get('gmlp_play_button_pushed') === 1) {
 			setPlayerReady();
 			playLiveStreamDevice();
 		} else {
