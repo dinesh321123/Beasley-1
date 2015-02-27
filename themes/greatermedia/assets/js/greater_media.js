@@ -842,7 +842,7 @@
 			mobileOpenLocation();
 		} else {
 			hideBlocker();
-			mobileCloseLocation()
+			mobileCloseLocation();
 		}
 	}
 
@@ -1084,6 +1084,7 @@
 
 	$(document).bind( 'pjax:end', function () {
 		personality_toggle();
+		hideBlocker();
 	});
 
 	var getBlockerDiv = function() {
@@ -1110,6 +1111,9 @@
 	var hideBlocker = function() {
 		var $blocker = getBlockerDiv();
 		$blocker.css({'display': 'none'});
+		if ($blocker.hasClass('active')) {
+			$blocker.removeClass('active');
+		}
 	};
 
 	/**
