@@ -53,7 +53,7 @@
 	var liveStreamInterval = null;
 	var audioIntervalDuration = 60000; /* every minute */
 	var footer = document.querySelector('.footer');
-	var lpInit = null;
+	var lpInit = false;
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -154,7 +154,7 @@
 				{
 					id: 'MediaPlayer',
 					playerId: 'td_container',
-					isDebug: false,
+					isDebug: true,
 					techPriority: techPriority,
 					timeShift: { // timeShifting is currently available on Flash only. Leaving for HTML5 future
 						active: 0, /* 1 = active, 0 = inactive */
@@ -431,48 +431,46 @@
 			listenNow.innerHTML = 'Listen Live';
 		}
 		if (window.innerWidth >= 768) {
-			var detectApiState = setInterval(function () {
-				if (lpInit === 0) {
-					// do nothing
-				} else if (lpInit === 1) {
-					playLiveStreamNoAd();
-					clearInterval(detectApiState);
-				} else {
-					setInitialPlay();
-				}
-			});
+			playLiveStreamNoAd();
 		}
 	};
 
 	function setInitialPlay() {
-		lpInit = 0;
+		lpInit = 1;
+		console.log('-- Player Initialized By Click ---');
 	}
 
 	function setPlayerReady() {
-		lpInit = 1;
+		lpInit = true;
+		console.log('-- Player Ready to Go ---');
 	}
 
 	function playLiveStreamDevice() {
-		var detectApiState = setInterval(function () {
-			if (lpInit === 0) {
-				// do nothing
-			} else if (lpInit === 1) {
-				if (window.innerWidth >= 768) {
-					playLiveStreamNoAd();
-				} else {
-					playLiveStreamMobileNoAd();
-				}
-				clearInterval(detectApiState);
+		if (is_gigya_user_logged_in() && lpInit === true) {
+			setStoppedStyles();
+			if (window.innerWidth >= 768) {
+				playLiveStreamNoAd();
 			} else {
-				setInitialPlay();
+				playLiveStreamMobileNoAd();
 			}
-		});
+		}
 	}
 
 	function changePlayerState() {
 		if (is_gigya_user_logged_in()) {
 			if (playBtn != null) {
-				addEventHandler(playBtn, elemClick, playLiveStreamDevice);
+				addEventHandler(playBtn, elemClick, function(){
+					if (lpInit === true) {
+						setStoppedStyles();
+						if (window.innerWidth >= 768) {
+							playLiveStreamNoAd();
+						} else {
+							playLiveStreamMobileNoAd();
+						}
+					} else {
+						setInitialPlay();
+					}
+				});
 			}
 			if (listenNow != null) {
 				addEventHandler(listenNow, elemClick, listenLiveStopCustomInlineAudio);
@@ -481,6 +479,7 @@
 			if (playBtn != null) {
 				addEventHandler(playBtn, 'click', function () {
 					window.location.href = gigyaLogin;
+					setPlayerReady();
 				});
 			}
 			if (listenNow != null) {
@@ -501,19 +500,8 @@
 	});
 
 	function loggedInGigyaUser() {
-		if (is_gigya_user_logged_in()) {
-			setStoppedStyles();
-			if (Cookies.get("gmlp_play_button_pushed") == 1) {
-				if (window.innerWidth >= 768) {
-					playLiveStreamNoAd();
-				} else {
-					playLiveStreamMobileNoAd();
-				}
-				Cookies.set("gmlp_play_button_pushed", 0);
-			} else {
-				//console.log("--- Log In with Gigya ---");
-			}
-		}
+		playLiveStreamDevice();
+		Cookies.set("gmlp_play_button_pushed", 0);
 	}
 
 	function preVastAd() {
@@ -574,6 +562,7 @@
 	function playLiveStreamMobile() {
 		var station = gmr.callsign;
 
+		pjaxInit();
 		if (station === '') {
 			alert('Please enter a Station');
 			return;
@@ -785,8 +774,6 @@
 
 		//Listen on companion-load-error event
 		//companions.addEventListener("companion-load-error", onCompanionLoadError);
-
-		loggedInGigyaUser();
 		initControlsUi();
 
 		if (player.addEventListener) {
@@ -826,7 +813,15 @@
 		player.setVolume(1); //Set volume to 100%
 
 		setStatus('Api Ready');
-		setPlayerReady();
+		if (lpInit === 1) {
+			setPlayerReady();
+			playLiveStreamDevice();
+		} else if (parseInt(Cookies.get('gmlp_play_button_pushed')) === 1) {
+			setPlayerReady();
+			playLiveStreamDevice();
+		} else {
+			setPlayerReady();
+		}
 		if (window.innerWidth >= 768) {
 			addPlayBtnHeartbeat();
 			setTimeout(removePlayBtnHeartbeat, 2000);
