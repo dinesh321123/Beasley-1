@@ -95,7 +95,7 @@ category: Components - Shows
 	background-color: rgba($primary-bg, 0.5);
 }
 
-.single-show {
+.show__blogroll {
 	.podcast__btn--play,
 	.podcast__btn--pause {
 		width: 80%;
@@ -195,11 +195,17 @@ category: Components - Shows
 	}
 }
 
-.single-show {
+.show__blogroll {
 	.podcast__title {
 		@include bp(large) {
 			margin-bottom: 13px;
 		}
+	}
+
+	.episode {
+		padding-bottom: $base-line-height * 1.5;
+		margin-bottom: $base-line-height * 1.5;
+		border-bottom: 1px solid $primary-border;
 	}
 }
 
@@ -214,7 +220,7 @@ category: Components - Shows
 	margin-right: 10px;
 }
 
-.single-show {
+.show__blogroll {
 	.podcast__parent--title {
 		display: block;
 		margin-bottom: 0.5em;
