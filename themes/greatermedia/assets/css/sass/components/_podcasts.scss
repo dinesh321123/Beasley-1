@@ -82,7 +82,7 @@ category: Components - Shows
 }
 
 .podcast__btn--play,
-.podcast__btn--pause{
+.podcast__btn--pause {
 	position: absolute;
 	@extend %live-stream__btn;
 	width: 45%;
@@ -93,6 +93,16 @@ category: Components - Shows
 	height: 45%;
 	border-width: 3px;
 	background-color: rgba($primary-bg, 0.5);
+}
+
+.single-show {
+	.podcast__btn--play,
+	.podcast__btn--pause {
+		width: 80%;
+		height: 80%;
+		left: 10%;
+		top: 10%;
+	}
 }
 
 .podcast__btn--play:hover, .podcast__btn--pause:focus {
@@ -185,6 +195,14 @@ category: Components - Shows
 	}
 }
 
+.single-show {
+	.podcast__title {
+		@include bp(large) {
+			margin-bottom: 13px;
+		}
+	}
+}
+
 .podcast__parent {
 	margin-bottom: 10px;
 }
@@ -193,6 +211,14 @@ category: Components - Shows
 .podcast__child--title {
 	display: inline-block;
 	font-weight: bold;
+	margin-right: 10px;
+}
+
+.single-show {
+	.podcast__parent--title {
+		display: block;
+		margin-bottom: 0.5em;
+	}
 }
 
 .podcast__date {
@@ -207,7 +233,6 @@ category: Components - Shows
 a.podcast__rss:link, a.podcast__rss:visited {
 	@include btn(transparent, $gray, $gray, .5em, 1em, ms(-1));
 	display: inline-block;
-	margin-left: 10px;
 	font-weight: normal;
 	text-transform: none;
 }
@@ -270,7 +295,7 @@ a.podcast__rss:active {
 
 .podcast__subscribe {
 	@extend .live-stream__listen-now--btn;
-	margin: 0 0 0 10px;
+	margin: 0 10px 0 0;
 	text-transform: none;
 }
 

@@ -14,9 +14,9 @@ if ( $main_query->have_posts() ) :
 	$gmr_loadmore_paged = get_query_var( 'paged', 1 );
 	if ( $gmr_loadmore_paged < 2 ) :
 		greatermedia_load_more_button( array(
-			'query'              => $main_query,
-			'partial_slug'       => 'partials/loop',
-			'partial_name'       => 'show',
+			'query'        => $main_query,
+			'partial_slug' => 'partials/loop',
+			'partial_name' => 'show',
 		) );
 	endif;
 
