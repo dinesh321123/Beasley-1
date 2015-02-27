@@ -633,6 +633,8 @@ Link posts contain a link to an external site. They can also optionally have a f
 	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
 	
 	.gmr-icon {
+		// Must be inline-block, because inline elements can't be animated.
+		display: inline-block;
 		margin-right: 0.4em;
 	}
 
