@@ -77,6 +77,7 @@
 	clear: both;
 	margin-bottom: 1.25em;
 	font-size: ms(1);
+	line-height: 1.6;
 	color: $gray;
 	
 	@include bp(medium) {
@@ -89,8 +90,7 @@
 }
 
 .article__list, %article__list {
-	display: block;
-	float: left;
+	display: inline;
 	padding: 0;
 	margin: 0;
 	list-style: none;
@@ -100,7 +100,8 @@
 	}
 	
 	.article__list--item, %article__list--item {
-		display: inline; 
+		display: inline-block;
+		white-space: nowrap;
 		list-style: none;
 		margin-right: .5em;
 	}
@@ -112,9 +113,7 @@
 			}
 			
 	.article__list--title {
-		display: block;
-		float: left;
-		width: auto;
+		display: inline;
 		font-weight: 800;
 	}
 		.article__list--title:after {

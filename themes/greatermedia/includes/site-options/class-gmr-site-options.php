@@ -92,7 +92,7 @@ class GreaterMediaSiteOptions {
 			);
 
 			// If the Post type is in the exclude list, then don't add to Media Page
-			if ( TRUE === in_array( $type_object->name, $exclude ) ) {
+			if ( true === in_array( $type_object->name, $exclude ) ) {
 				continue;
 			}
 
