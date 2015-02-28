@@ -410,28 +410,6 @@ function greatermedia_alter_search_query( $query ) {
 add_action( 'pre_get_posts', 'greatermedia_alter_search_query' );
 
 /**
- * Alters the main query on the front page to include additional post types
- *
- * @param WP_Query $query
- */
-function greatermedia_alter_front_page_query( $query ) {
-	if ( $query->is_main_query() && $query->is_front_page() ) {
-		// Need to really think about how to include events here, and if it really makes sense. By default,
-		// we would have all published events, in reverse cron - so like we'd have "posts" looking things dated for the future
-		// that would end up hiding the actual posts, potentially for pages before getting to any real content.
-		//
-		// ADDITIONALLY - There is a checkbox for this on the events setting page, so we don't need to do that here :)
-		$post_types = array( 'post' );
-		if ( class_exists( 'GMP_CPT' ) ) {
-			$post_types[] = GMP_CPT::EPISODE_POST_TYPE;
-		}
-
-		$query->set( 'post_type', $post_types );
-	}
-}
-add_action( 'pre_get_posts', 'greatermedia_alter_front_page_query' );
-
-/**
  * This will keep Jetpack Sharing from auto adding to the end of a post.
  * We want to add this manually to the proper theme locations
  *

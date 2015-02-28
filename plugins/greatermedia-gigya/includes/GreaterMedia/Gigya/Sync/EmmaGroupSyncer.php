@@ -248,7 +248,7 @@ class EmmaGroupSyncer {
 
 		$group_ids = $this->to_int_ids( $group_ids );
 
-		if ( $gigya_account['data']['optout'] === true ) {
+		if ( array_key_exists( 'optout', $gigya_account['data'] ) && $gigya_account['data']['optout'] === true ) {
 			// if optout, signup has to happen via Emma Signup email
 			$this->signup( $gigya_account, $group_ids );
 		} else {
