@@ -1,4 +1,5 @@
 (function($) {
+	console.log('v1');
 
 	var ajaxApi = new WpAjaxApi(window.gigya_profile_meta);
 
@@ -199,7 +200,7 @@
 
 			var profile = this.profileForResponse(response);
 			this.session.login(profile);
-			this.redirect('/');
+			this.redirect('/', 'login');
 		},
 
 		didRegister: function(response) {
@@ -248,8 +249,13 @@
 			return profile;
 		},
 
-		redirect: function(defaultDest) {
+		redirect: function(defaultDest, source) {
 			var redirectUrl = this.getRedirectUrl(defaultDest);
+			if (source === 'login' && redirectUrl === '/members/account') {
+				// override redirect to account page when redirecting after login
+				// even if dest is to the account page
+				redirectUrl = '/';
+			}
 
 			if (redirectUrl) {
 				if (location.replace) {
