@@ -176,6 +176,7 @@ function gmr_ll_register_post_type() {
 		'query_var'            => false,
 		'can_export'           => false,
 		'menu_position'        => 5,
+		'show_in_nav_menus'    => false,
 		'menu_icon'            => 'dashicons-admin-links',
 		'supports'             => array( 'title', 'post-formats' ),
 		'taxonomies'           => apply_filters( 'gmr_live_link_taxonomies', array() ),

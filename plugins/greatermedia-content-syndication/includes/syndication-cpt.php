@@ -212,6 +212,7 @@ class SyndicationCPT {
 			'public'              => false,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
+			'show_in_nav_menus'   => false,
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 67,
 			'menu_icon'           => 'dashicons-rss',

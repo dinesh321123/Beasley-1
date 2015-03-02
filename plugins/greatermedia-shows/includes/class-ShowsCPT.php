@@ -114,7 +114,7 @@ class ShowsCPT {
 		$args = array(
 			'labels'            => $labels,
 			'public'            => true,
-			'show_in_nav_menus' => true,
+			'show_in_nav_menus' => false,
 			'show_admin_column' => false,
 			'hierarchical'      => true, // Show check boxes in the Shows meta box.
 			'show_tagcloud'     => true,

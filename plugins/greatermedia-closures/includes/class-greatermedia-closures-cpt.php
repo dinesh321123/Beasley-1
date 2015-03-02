@@ -71,7 +71,7 @@ class GreaterMediaClosuresCPT {
 			'show_in_admin_bar'   => true,
 			'menu_position'       => 42,
 			'menu_icon'           => 'dashicons-welcome-comments',
-			'show_in_nav_menus'   => true,
+			'show_in_nav_menus'   => false,
 			'publicly_queryable'  => true,
 			'exclude_from_search' => false,
 			'has_archive'         => true,
@@ -114,7 +114,7 @@ class GreaterMediaClosuresCPT {
 		$args = array(
 			'labels'            => $labels,
 			'public'            => true,
-			'show_in_nav_menus' => true,
+			'show_in_nav_menus' => false,
 			'show_admin_column' => true,
 			'hierarchical'      => false,
 			'show_tagcloud'     => true,

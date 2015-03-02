@@ -134,7 +134,7 @@ function gmr_streams_register_post_type() {
 		'exclude_from_search'  => true,
 		'publicly_queryable'   => false,
 		'show_ui'              => true,
-		'show_in_nav_menus'    => true,
+		'show_in_nav_menus'    => false,
 		'show_in_menu'         => 'options-general.php',
 		'rewrite'              => false,
 		'query_var'            => false,
