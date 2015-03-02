@@ -3467,7 +3467,8 @@ Community Highlights and Events
 
 .footer__copyright {
   padding: 0;
-  font-size: 0.70233em; }
+  font-size: 0.70233em;
+  text-align: left; }
   @media screen and (min-width: 1024px)  {
     .footer__copyright {
       float: left;
