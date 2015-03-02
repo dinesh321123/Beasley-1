@@ -281,8 +281,9 @@ function get_ping_for_pull_user_id() {
 
 function get_ping_for_pull_profile( $user_id ) {
 	try {
-		$user = get_gigya_user_profile( $user_id );
-		$user['UID'] = $user_id;
+		$gigya_user_id = base64_decode( $user_id );
+		$user = get_gigya_user_profile( $gigya_user_id );
+		$user['UID'] = $gigya_user_id;
 	} catch ( \Exception $e ) {
 		error_log( 'Failed to fetch ping for pull profile for: ' . $user_id );
 		$user = new \WP_Error(
@@ -302,7 +303,7 @@ function get_ping_for_pull_profile_json() {
 
 	if ( ! is_wp_error( $user ) ) {
 		$json = array(
-			'id'           => md5( $user_id ),
+			'id'           => $user_id,
 			'display_name' => $display_name,
 			'email' => $user['email'],
 		);

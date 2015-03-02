@@ -95,7 +95,7 @@ class Plugin {
 	}
 
 	function sync_livefyre_user( $gigya_user_id ) {
-		$gigya_user_id = md5( $gigya_user_id );
+		$gigya_user_id = rtrim( base64_encode( $gigya_user_id ), '=' );
 		$settings      = $this->get_livefyre_settings();
 		$network_name  = $settings['network_name'];
 		$network_key   = $settings['network_key'];

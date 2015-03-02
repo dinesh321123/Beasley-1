@@ -41,7 +41,7 @@ class TokenBuilder {
 		$network      = Livefyre::getNetwork( $network_name, $network_key );
 
 		return $network->buildUserAuthToken(
-			md5( get_gigya_user_id() ),
+			rtrim( base64_encode( get_gigya_user_id() ), '=' ),
 			get_gigya_user_field( 'firstName' ) . ' ' . get_gigya_user_field( 'lastName' ),
 			$this->expires
 		);
@@ -54,6 +54,5 @@ class TokenBuilder {
 			return '';
 		}
 	}
-
 
 }
