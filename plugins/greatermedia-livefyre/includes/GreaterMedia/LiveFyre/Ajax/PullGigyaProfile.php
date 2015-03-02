@@ -62,7 +62,6 @@ class PullGigyaProfile extends AjaxHandler {
 			$user = get_gigya_user_profile( $gigya_user_id );
 			$user['UID'] = $gigya_user_id;
 		} catch ( \Exception $e ) {
-			error_log( 'Failed to fetch ping for pull profile for: ' . $user_id );
 			$user = new \WP_Error(
 				'error', 'Failed to fetch ping for pull profile for: ' . $user_id
 			);

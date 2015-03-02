@@ -104,9 +104,8 @@ class Plugin {
 		try {
 			$network = Livefyre::getNetwork( $network_name, $network_key );
 			$network->syncUser( $gigya_user_id );
-			error_log( "Synced Livefyre User: $gigya_user_id" );
 		} catch ( \Exception $e ) {
-			error_log( "Failed to sync user: $gigya_user_id" );
+			error_log( "Failed to sync livefyre user: $gigya_user_id" );
 		}
 	}
 
