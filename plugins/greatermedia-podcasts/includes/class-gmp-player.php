@@ -70,15 +70,16 @@ class GMP_Player{
 	}
 
 
-	public static function render_podcast_episode() {
+	public static function get_podcast_episode() {
 		$content = get_the_content();
 		$pattern = get_shortcode_regex();
 
-		if (   preg_match_all( '/'. $pattern .'/s', $content, $matches )
-		       && array_key_exists( 2, $matches )
-		       && in_array( 'audio', $matches[2] ) ) {
-				echo do_shortcode( $matches[0][0] );
+		$html = '';
+		if ( preg_match_all( '/'. $pattern .'/s', $content, $matches ) && array_key_exists( 2, $matches ) && in_array( 'audio', $matches[2] ) ) {
+			$html = do_shortcode( $matches[0][0] );
 		}
+
+		return $html;
 	}
 
 	/**
