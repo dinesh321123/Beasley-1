@@ -1,6 +1,7 @@
 <?php
 
 // action hooks
+add_action( 'admin_init', 'gmr_survey_check_responses_permissions' );
 add_action( 'admin_menu', 'gmr_surveys_register_responses_page' );
 add_action( 'post_submitbox_start', 'gmr_survey_view_responses_link', 1 );
 add_action( 'manage_' . GMR_SURVEY_RESPONSE_CPT . '_posts_custom_column', 'gmr_surveys_render_survey_response_column', 10, 2 );
@@ -10,6 +11,17 @@ add_action( 'admin_action_gmr_survey_export', 'gmr_survey_export_to_csv' );
 // filter hooks
 add_filter( 'post_row_actions', 'gmr_surveys_add_table_row_actions', PHP_INT_MAX, 2 );
 add_filter( 'parent_file', 'gmr_surveys_adjust_responses_page_admin_menu' );
+
+/**
+ * Checks user capabilities to see responses page.
+ */
+function gmr_survey_check_responses_permissions() {
+	global $pagenow;
+
+	if ( 'admin.php' == $pagenow && isset( $_REQUEST['page'] ) && 'gmr-survey-responses' == $_REQUEST['page'] && ! current_user_can( 'edit_survey', filter_input( INPUT_GET, 'survey' ) ) ) {
+		wp_die( "You don't have sufficient permissions to view survey responses." );
+	}
+}
 
 /**
  * Renders link to access survey responses.
@@ -94,6 +106,10 @@ function gmr_surveys_render_response_page() {
 		wp_die( 'Survey has not been found.' );
 	}
 
+	if ( ! current_user_can( 'edit_survey', $survey->ID ) ) {
+		wp_die( "You don't have sufficient permissions to view contest entries." );
+	}
+
 	// fake post type to make standard WP_Posts_List_Table class working properly
 	$_GET['post_type'] = GMR_SURVEY_RESPONSE_CPT;
 
@@ -125,7 +141,9 @@ function gmr_surveys_render_response_page() {
 			Responses:
 			<a href="<?php echo get_edit_post_link( $survey->ID ); ?>"><?php echo esc_html( $survey->post_title ); ?></a>
 			<a class="add-new-h2" href="<?php echo esc_url( $survys_link ); ?>">All Surveys</a>
-			<a class="add-new-h2" href="<?php echo esc_url( $export_link ); ?>">Export to CSV</a>
+			<?php if ( current_user_can( 'export_survey_responses' ) ) : ?>
+				<a class="add-new-h2" href="<?php echo esc_url( $export_link ); ?>">Export to CSV</a>
+			<?php endif; ?>
 		</h2>
 
 		<form id="posts-filter">
@@ -147,6 +165,11 @@ function gmr_surveys_render_response_page() {
  */
 function gmr_survey_export_to_csv() {
 	check_admin_referer( 'gmr-survey-export' );
+
+	if ( ! current_user_can( 'export_survey_responses' ) ) {
+		wp_die( "You don't have sufficient permissions to export survey responses." );
+		exit;
+	}
 
 	$survey = filter_input( INPUT_GET, 'survey', FILTER_VALIDATE_INT );
 	if ( ! $survey || ! ( $survey = get_post( $survey ) ) || GMR_SURVEY_CPT != $survey->post_type ) {

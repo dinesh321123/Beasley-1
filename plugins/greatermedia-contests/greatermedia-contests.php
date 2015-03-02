@@ -70,6 +70,10 @@ function gmr_contests_activated() {
 	load_capabilities( GMR_SURVEY_CPT );
 	load_capabilities( GMR_SURVEY_RESPONSE_CPT );
 
+	$admin = get_role( 'administrator' );
+	$admin->add_cap( 'export_contest_entries', true );
+	$admin->add_cap( 'export_survey_responses', true );
+
 	flush_rewrite_rules();
 }
 
@@ -79,6 +83,10 @@ function gmr_contests_deactivated() {
 	unload_capabilities( GMR_SUBMISSIONS_CPT );
 	unload_capabilities( GMR_SURVEY_CPT );
 	unload_capabilities( GMR_SURVEY_RESPONSE_CPT );
+
+	$admin = get_role( 'administrator' );
+	$admin->remove_cap( 'export_contest_entries', true );
+	$admin->remove_cap( 'export_survey_responses', true );
 
 	flush_rewrite_rules();
 }

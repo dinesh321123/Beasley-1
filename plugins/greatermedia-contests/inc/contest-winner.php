@@ -1,6 +1,7 @@
 <?php
 
 // action hooks
+add_action( 'admin_init', 'gmr_contests_check_entries_permissions' );
 add_action( 'admin_menu', 'gmr_contests_register_winners_page' );
 add_action( 'post_submitbox_start', 'gmr_contest_view_entries_link', 11 );
 add_action( 'manage_' . GMR_CONTEST_ENTRY_CPT . '_posts_custom_column', 'gmr_contests_render_contest_entry_column', 10, 2 );
@@ -14,6 +15,17 @@ add_action( 'pre_get_posts', 'gmr_contest_adjust_contest_entries_query' );
 add_filter( 'post_row_actions', 'gmr_contests_add_table_row_actions', 10, 2 );
 add_filter( 'parent_file', 'gmr_contests_adjust_winners_page_admin_menu' );
 add_filter( 'parent_file', 'gmr_contests_adjust_current_admin_menu' );
+
+/**
+ * Checks user capabilities to see entries page.
+ */
+function gmr_contests_check_entries_permissions() {
+	global $pagenow;
+
+	if ( 'admin.php' == $pagenow && isset( $_REQUEST['page'] ) && 'gmr-contest-winner' == $_REQUEST['page'] && ! current_user_can( 'edit_contest', filter_input( INPUT_GET, 'contest' ) ) ) {
+		wp_die( "You don't have sufficient permissions to view contest entries." );
+	}
+}
 
 /**
  * Renders link to access contest entries.
@@ -83,6 +95,10 @@ function gmr_contests_render_winner_page() {
 		wp_die( 'Contest has not been found.' );
 	}
 
+	if ( ! current_user_can( 'edit_contest', $contest->ID ) ) {
+		wp_die( "You don't have sufficient permissions to view contest entries." );
+	}
+
 	// fake post type to make standard WP_Posts_List_Table class working properly
 	$_GET['post_type'] = GMR_CONTEST_ENTRY_CPT;
 
@@ -121,7 +137,9 @@ function gmr_contests_render_winner_page() {
 			Entries:
 			<a href="<?php echo get_edit_post_link( $contest->ID ); ?>"><?php echo esc_html( $contest->post_title ); ?></a>
 			<a class="add-new-h2" href="<?php echo esc_url( $contests_link ); ?>">All Contests</a>
-			<a class="add-new-h2" href="<?php echo esc_url( $export_link ); ?>">Export to CSV</a>
+			<?php if ( current_user_can( 'export_contest_entries' ) ) : ?>
+				<a class="add-new-h2" href="<?php echo esc_url( $export_link ); ?>">Export to CSV</a>
+			<?php endif; ?>
 		</h2>
 
 		<?php if ( $winners->has_items() ) : ?>
@@ -154,6 +172,11 @@ function gmr_contests_export_to_csv() {
 	$contest = filter_input( INPUT_GET, 'contest', FILTER_VALIDATE_INT );
 	if ( ! $contest || ! ( $contest = get_post( $contest ) ) || GMR_CONTEST_CPT != $contest->post_type ) {
 		status_header( 404 );
+		exit;
+	}
+
+	if ( ! current_user_can( 'export_contest_entries' ) ) {
+		wp_die( "You don't have sufficient permissions to export contest entries." );
 		exit;
 	}
 
