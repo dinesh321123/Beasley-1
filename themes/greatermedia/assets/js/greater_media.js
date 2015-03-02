@@ -559,7 +559,6 @@
 		windowWidth = this.innerWidth || this.document.documentElement.clientWidth || this.document.body.clientWidth || 0,
 		windowHeight = this.innerHeight|| this.document.documentElement.clientHeight || this.document.body.clientHeight || 0,
 		scrollObject = {},
-		collapseToggle = document.querySelector('*[data-toggle="collapse"]'),
 		breakingNewsBanner = document.getElementById('breaking-news-banner'),
 		$overlay = $('.overlay-mask'),
 		livePlayerMore = document.getElementById('live-player--more'),
@@ -853,28 +852,6 @@
 	addEventHandler(mobileNavButton, elemClick, toggleNavButton);
 
 	/**
-	 * Toggles a target element.
-	 *
-	 * @param {MouseEvent} e
-	 */
-	function toggleCollapsedElement(e) {
-		var target = $($(this).attr('data-target')).get(0),
-			currentText = $(this).html(),
-			newText = $(this).attr('data-alt-text');
-
-		e.preventDefault();
-
-		target.style.display = target.style.display != 'none' ? 'none' : 'block';
-
-		$(this).html(newText);
-		$(this).attr('data-alt-text', currentText);
-	}
-
-	if (collapseToggle != null) {
-		$(collapseToggle ).click(toggleCollapsedElement);
-	}
-
-	/**
 	 * Toggles a class to the Live Play Stream Select box when the box is clicked
 	 */
 	function toggleStreamSelect() {
@@ -1083,6 +1060,24 @@
 
 			return false;
 		});
+
+		/**
+		 * Toggles a target element.
+		 * @param {MouseEvent} e
+		 */
+		$(document).on('click', '*[data-toggle="collapse"]', function(e) {
+			var target = $($(this).attr('data-target')).get(0),
+				currentText = $(this).html(),
+				newText = $(this).attr('data-alt-text');
+
+			target.style.display = target.style.display != 'none' ? 'none' : 'block';
+
+			$(this).html(newText);
+			$(this).attr('data-alt-text', currentText);
+
+			return false;
+		});
+
 		$(document).ready(function() {
 			$('.article__content').fitVids({customSelector: "div[id^='playerwrapper']"});
 		});
