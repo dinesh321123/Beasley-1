@@ -3,6 +3,14 @@
 	overflow: auto;
 	border: 1px solid $primary-border;
 	border-bottom: none;
+
+	@include bp(medium) {
+		display: table;
+		table-layout: fixed;
+		border: 1px solid $primary-border;
+		border-collapse: collapse;
+		background-color: $color-gray-light;
+	}
 }
 
 .sponsors__heading {
@@ -19,33 +27,33 @@
 
 	@include bp(medium) {
 		border-bottom: 1px solid $primary-border;
+		display: table-row;
 	}
 }
 
 .sponsor {
-	position: relative;
 	display: block;
-	float: left;
-	width: 100%;
 	padding: 2em;
 	background-color: white;
 	border-bottom: 1px solid $primary-border;
 
 	@include bp(medium) {
+		display: table-cell;
+		vertical-align: middle;
 		width: 50%;
+		border: 1px solid $primary-border;
+
+		// We don't want height to include the padding.
+		box-sizing: content-box;
+
+		// On table-cell elements, the height property behaves like min-height.
+		// Make sure this corresponds with the .sponsor_logo img heights.
 		height: 200px;
-		border-bottom: none;
-		border-right: 1px solid $primary-border;
 	}
 
 	@include bp(large) {
 		height: 270px;
 	}
-
-	&:nth-of-type(2n+2) {
-		border-right: none;
-	}
-
 }
 
 .sponsor__logo,
@@ -54,11 +62,6 @@
 	text-align: center;
 
 	@include bp(medium) {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		@include transform(translate(-50%, -50%));
-
 		a {
 			display: block;
 		}
@@ -67,6 +70,16 @@
 
 .sponsor__logo img {
 	margin: 0 auto;
+	width: auto;
+	max-width: 100%;
+
+	@include bp(medium) {
+		max-height: 200px;
+	}
+
+	@include bp(large) {
+		max-height: 270px;
+	}
 }
 
 .sponsor__name a,
