@@ -1,5 +1,4 @@
 (function($) {
-	console.log('v1');
 
 	var ajaxApi = new WpAjaxApi(window.gigya_profile_meta);
 
@@ -251,7 +250,7 @@
 
 		redirect: function(defaultDest, source) {
 			var redirectUrl = this.getRedirectUrl(defaultDest);
-			if (source === 'login' && redirectUrl === '/members/account') {
+			if (source === 'login' && redirectUrl.indexOf('/members/account') === 0) {
 				// override redirect to account page when redirecting after login
 				// even if dest is to the account page
 				redirectUrl = '/';
