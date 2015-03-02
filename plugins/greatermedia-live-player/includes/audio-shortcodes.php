@@ -105,29 +105,16 @@ class GMR_Audio_Shortcodes {
 
 		$is_podcast_archive = is_post_type_archive( GMP_CPT::PODCAST_POST_TYPE );
 
+		$parent_podcast = false;
 		$parent_podcast_id = wp_get_post_parent_id( $post_id );
 		if ( $parent_podcast_id ) {
 			$parent_podcast = get_post( $parent_podcast_id );
 			$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
-		} else {
-			$parent_podcast = false;
 		}
 
 		if ( $is_podcast_archive ) {
 			$parent_podcast_id = $post_id;
 			$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
-//			$args = array(
-//				'numberposts' => 500,
-//				'offset'      => 0,
-//				'orderby' => 'post_date',
-//				'order' => 'DESC',
-//				'post_type' => GMP_CPT::EPISODE_POST_TYPE,
-//				'post_status' => 'publish',
-//				'post_parent' => $post_id
-//			);
-//
-//			$episodes = wp_get_recent_posts( $args );
-//			$recent_episode = $episodes[0];
 			$episode_date = strtotime( get_post_field( 'post_date', null ) );
 		}
 
@@ -225,11 +212,18 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>';
 			$new_html .= '</div>';
 		} elseif ( $is_podcast_archive ) {
-			$new_html .= '<div class="podcast__parent--title podcast__parent--title--mobile show-mobile">' . get_the_title() . '</div>';
-			$new_html .= '<div class="podcast__parent hide-mobile"><div class="podcast__parent--title">' . get_the_title() . '</div>';
+			$parent_title = get_the_title();
+			if ( ! empty( $parent_podcast ) ) {
+				$parent_title = esc_html( $parent_podcast->post_title );
+			}
+
+			$new_html .= '<div class="podcast__parent--title podcast__parent--title--mobile show-mobile">' . $parent_title . '</div>';
+			$new_html .= '<div class="podcast__parent hide-mobile"><div class="podcast__parent--title">' . $parent_title . '</div>';
+
 			if ( $itunes_url != '' ) {
 				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 			}
+			
 			$new_html .= '<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>';
 			$new_html .= '</div>';
 		}
