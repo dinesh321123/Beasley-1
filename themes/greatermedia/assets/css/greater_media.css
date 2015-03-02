@@ -735,6 +735,7 @@ img {
       width: 225px;
       height: 100%;
       max-height: none;
+      overflow: hidden;
       box-sizing: border-box;
       cursor: default;
       -webkit-transition: none;
@@ -3457,7 +3458,8 @@ Community Highlights and Events
 
 .footer__copyright {
   padding: 0;
-  font-size: 0.70233em; }
+  font-size: 0.70233em;
+  text-align: left; }
   @media screen and (min-width: 1024px)  {
     .footer__copyright {
       float: left;
@@ -8565,7 +8567,7 @@ a.podcast__rss:active {
     .podcast-player--compact .podcast__btn--play, .podcast-player--compact .podcast__btn--pause {
       border-width: 3px; }
       .podcast-player--compact .podcast__btn--play:before, .podcast-player--compact .podcast__btn--pause:before {
-        font-size: 200%; }
+        font-size: 40px; }
     .podcast-player--compact .podcast__meta {
       padding-left: 1.5em;
       padding-right: 8em; }
@@ -13324,6 +13326,13 @@ category: Components
   overflow: auto;
   border: 1px solid #d0d2d3;
   border-bottom: none; }
+  @media screen and (min-width: 768px)  {
+    .sponsors {
+      display: table;
+      table-layout: fixed;
+      border: 1px solid #d0d2d3;
+      border-collapse: collapse;
+      background-color: #d0d2d3; } }
 
 .sponsors__heading {
   font-size: 1.80203em;
@@ -13336,46 +13345,43 @@ category: Components
   background-color: #d0d2d3; }
   @media screen and (min-width: 768px)  {
     .sponsors__row {
-      border-bottom: 1px solid #d0d2d3; } }
+      border-bottom: 1px solid #d0d2d3;
+      display: table-row; } }
 
 .sponsor {
-  position: relative;
   display: block;
-  float: left;
-  width: 100%;
   padding: 2em;
   background-color: white;
   border-bottom: 1px solid #d0d2d3; }
   @media screen and (min-width: 768px)  {
     .sponsor {
+      display: table-cell;
+      vertical-align: middle;
       width: 50%;
-      height: 200px;
-      border-bottom: none;
-      border-right: 1px solid #d0d2d3; } }
+      border: 1px solid #d0d2d3;
+      box-sizing: content-box;
+      height: 200px; } }
   @media screen and (min-width: 1024px)  {
     .sponsor {
       height: 270px; } }
-  .sponsor:nth-of-type(2n+2) {
-    border-right: none; }
 
 .sponsor__logo, .sponsor__name {
   margin: 0 auto;
   text-align: center; }
   @media screen and (min-width: 768px)  {
-    .sponsor__logo, .sponsor__name {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-      -o-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%); }
-      .sponsor__logo a, .sponsor__name a {
-        display: block; } }
+    .sponsor__logo a, .sponsor__name a {
+      display: block; } }
 
 .sponsor__logo img {
-  margin: 0 auto; }
+  margin: 0 auto;
+  width: auto;
+  max-width: 100%; }
+  @media screen and (min-width: 768px)  {
+    .sponsor__logo img {
+      max-height: 200px; } }
+  @media screen and (min-width: 1024px)  {
+    .sponsor__logo img {
+      max-height: 270px; } }
 
 .sponsor__name a, .sponsor__name a:visited {
   font-size: 1.80203em;

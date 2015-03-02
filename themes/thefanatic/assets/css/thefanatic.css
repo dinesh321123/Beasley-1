@@ -745,6 +745,7 @@ img {
       width: 225px;
       height: 100%;
       max-height: none;
+      overflow: hidden;
       box-sizing: border-box;
       cursor: default;
       -webkit-transition: none;
@@ -3467,7 +3468,8 @@ Community Highlights and Events
 
 .footer__copyright {
   padding: 0;
-  font-size: 0.70233em; }
+  font-size: 0.70233em;
+  text-align: left; }
   @media screen and (min-width: 1024px)  {
     .footer__copyright {
       float: left;
@@ -4357,6 +4359,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   .posts-pagination--load-more:last-of-type {
     margin-right: 0; }
   .posts-pagination--load-more .gmr-icon, .posts-pagination--load-more .contest__submission .preview .preview-close, .contest__submission .preview .posts-pagination--load-more .preview-close {
+    display: inline-block;
     margin-right: 0.4em; }
   .posts-pagination--load-more.is-loaded .gmr-icon, .posts-pagination--load-more.is-loaded .contest__submission .preview .preview-close, .contest__submission .preview .posts-pagination--load-more.is-loaded .preview-close {
     display: none; }
@@ -4792,6 +4795,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   clear: both;
   margin-bottom: 1.25em;
   font-size: 1.125em;
+  line-height: 1.6;
   color: #929497; }
   @media screen and (min-width: 768px)  {
     .article__categories, .article__tags, .article__shows {
@@ -4801,8 +4805,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   margin-bottom: 0; }
 
 .article__list, .article__list--categories, .article__list--tags, .article__list--shows, .article__list--show {
-  display: block;
-  float: left;
+  display: inline;
   padding: 0;
   margin: 0;
   list-style: none; }
@@ -4811,7 +4814,8 @@ Link posts contain a link to an external site. They can also optionally have a f
   text-transform: uppercase; }
 
 .article__list--item {
-  display: inline;
+  display: inline-block;
+  white-space: nowrap;
   list-style: none;
   margin-right: .5em; }
 
@@ -4822,9 +4826,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   color: #aa1c20; }
 
 .article__list--title {
-  display: block;
-  float: left;
-  width: auto;
+  display: inline;
   font-weight: 800; }
 
 .article__list--title:after {
@@ -8220,6 +8222,12 @@ category: Components - Shows
   border-width: 3px;
   background-color: rgba(255, 255, 255, 0.5); }
 
+.show__blogroll .podcast__btn--play, .show__blogroll .podcast__btn--pause {
+  width: 80%;
+  height: 80%;
+  left: 10%;
+  top: 10%; }
+
 .podcast__btn--play:hover, .podcast__btn--pause:focus {
   border-color: #b21f18;
   color: #b21f18; }
@@ -8308,12 +8316,25 @@ category: Components - Shows
       line-height: 1;
       font-size: 1.80203em; } }
 
+@media screen and (min-width: 1024px)  {
+  .show__blogroll .podcast__title {
+    margin-bottom: 13px; } }
+.show__blogroll .episode {
+  padding-bottom: 2.25em;
+  margin-bottom: 2.25em;
+  border-bottom: 1px solid #d0d2d3; }
+
 .podcast__parent {
   margin-bottom: 10px; }
 
 .podcast__parent--title, .podcast__child--title {
   display: inline-block;
-  font-weight: bold; }
+  font-weight: bold;
+  margin-right: 10px; }
+
+.show__blogroll .podcast__parent--title {
+  display: block;
+  margin-bottom: 0.5em; }
 
 .podcast__date, .podcast__archive--episode-count {
   font-size: 0.79012em;
@@ -8337,7 +8358,6 @@ a.podcast__rss:link, a.podcast__rss:visited {
   cursor: pointer;
   border-radius: 100em;
   display: inline-block;
-  margin-left: 10px;
   font-weight: normal;
   text-transform: none; }
   a.podcast__rss:link:hover, a.podcast__rss:link:focus, a.podcast__rss:visited:hover, a.podcast__rss:visited:focus {
@@ -8481,7 +8501,7 @@ a.podcast__rss:active {
     margin-right: 0; }
 
 .podcast__subscribe {
-  margin: 0 0 0 10px;
+  margin: 0 10px 0 0;
   text-transform: none; }
 
 .gmr-mediaelement-fallback {
@@ -8557,7 +8577,7 @@ a.podcast__rss:active {
     .podcast-player--compact .podcast__btn--play, .podcast-player--compact .podcast__btn--pause {
       border-width: 3px; }
       .podcast-player--compact .podcast__btn--play:before, .podcast-player--compact .podcast__btn--pause:before {
-        font-size: 200%; }
+        font-size: 40px; }
     .podcast-player--compact .podcast__meta {
       padding-left: 1.5em;
       padding-right: 8em; }
@@ -10250,6 +10270,7 @@ category: Components - Gallery Archive
   width: 100%;
   min-height: 127px;
   padding: 0;
+  margin-bottom: 20px;
   color: #404041;
   text-align: center; }
   .gallery__meta:last-child {
@@ -10279,7 +10300,7 @@ category: Components - Gallery Archive
       display: block;
       margin-right: 2.35765%;
       width: 100%;
-      min-height: 74px; }
+      min-height: 120px; }
       .gallery__meta:last-child {
         margin-right: 0; } }
   @media screen and (min-width: 1400px)  {
@@ -10292,7 +10313,7 @@ category: Components - Gallery Archive
         margin-right: 0; } }
   .single-gmr_gallery .gallery__meta {
     color: #d0d2d3;
-    padding: 20px 4.375% 0; }
+    padding: 0 4.375%; }
 
 .gallery__content {
   position: relative; }
@@ -10549,8 +10570,7 @@ category: Components - Gallery Archive
       margin-right: 2.35765%;
       width: 100%;
       height: 106px;
-      padding: 20px 0;
-      margin-top: 30px; }
+      padding: 20px 0; }
       .gallery__thumbnails:last-child {
         margin-right: 0; }
       .single-gmr_gallery .gallery__thumbnails {
@@ -10563,7 +10583,7 @@ category: Components - Gallery Archive
       width: 100%;
       height: 126px;
       padding: 20px 0;
-      margin-top: 40px; }
+      margin-top: 44px; }
       .gallery__thumbnails:last-child {
         margin-right: 0; }
       .single-gmr_gallery .gallery__thumbnails {
@@ -12960,21 +12980,48 @@ category: Components - Article
   display: inline; }
 #livefyre-comments label {
   display: inline; }
-#livefyre-comments .fyre-mention-item {
-  height: 2.5em; }
-#livefyre-comments .fyre-user-avatar-25 {
-  visibility: hidden;
-  width: 0px;
-  margin-left: 2px; }
-#livefyre-comments .fyre .fyre-comment-user {
-  display: none; }
-#livefyre-comments .fyre .fyre-comment-head, #livefyre-comments .fyre .fyre-comment-body, #livefyre-comments .fyre .fyre-comment-footer, #livefyre-comments .fyre .fyre-comment-divider {
-  margin-left: 0; }
-#livefyre-comments .fyre .fyre-comment-collapse {
-  margin-left: -5px; }
-#livefyre-comments .fyre .fyre-comment-reply-wrapper {
-  margin-left: 14px; }
+#livefyre-comments .fyre-hovercard {
+  display: none !important; }
 
+.fyre-hovercard .fyre-hovercard-body .fyre-hovercard-button {
+  display: none !important; }
+
+.fyre-mention-menu .fyre-mention-item {
+  height: 2.5em; }
+
+/*
+	.fyre-mention-item {
+		height: 2.5em;
+	}
+
+	.fyre-user-avatar-25 {
+		visibility: hidden;
+		width: 0px;
+		margin-left: 2px;
+	}
+
+	.fyre {
+		.fyre-comment-user {
+			display: none;
+		}
+
+		.fyre-comment-head,
+		.fyre-comment-body,
+		.fyre-comment-footer,
+		.fyre-comment-divider {
+			margin-left: 0;
+		}
+
+		.fyre-comment-collapse {
+			margin-left: -5px;
+		}
+
+		.fyre-comment-reply-wrapper {
+			margin-left: 14px;
+		}
+
+	}
+	*/
 /*doc
 ---
 title: Related Post
@@ -13166,15 +13213,15 @@ category: Components
 </article>
 ```
 */
-.podcast .hide-mobile {
+.show__blogroll .hide-mobile, .podcast .hide-mobile {
   display: none !important; }
   @media screen and (min-width: 1024px)  {
-    .podcast .hide-mobile {
+    .show__blogroll .hide-mobile, .podcast .hide-mobile {
       display: block !important; } }
-.podcast .show-mobile {
+.show__blogroll .show-mobile, .podcast .show-mobile {
   display: block !important; }
   @media screen and (min-width: 1024px)  {
-    .podcast .show-mobile {
+    .show__blogroll .show-mobile, .podcast .show-mobile {
       display: none !important; } }
 
 .songs__group {
@@ -13289,6 +13336,13 @@ category: Components
   overflow: auto;
   border: 1px solid #d0d2d3;
   border-bottom: none; }
+  @media screen and (min-width: 768px)  {
+    .sponsors {
+      display: table;
+      table-layout: fixed;
+      border: 1px solid #d0d2d3;
+      border-collapse: collapse;
+      background-color: #e3e4e5; } }
 
 .sponsors__heading {
   font-size: 1.80203em;
@@ -13301,46 +13355,43 @@ category: Components
   background-color: #e3e4e5; }
   @media screen and (min-width: 768px)  {
     .sponsors__row {
-      border-bottom: 1px solid #d0d2d3; } }
+      border-bottom: 1px solid #d0d2d3;
+      display: table-row; } }
 
 .sponsor {
-  position: relative;
   display: block;
-  float: left;
-  width: 100%;
   padding: 2em;
   background-color: white;
   border-bottom: 1px solid #d0d2d3; }
   @media screen and (min-width: 768px)  {
     .sponsor {
+      display: table-cell;
+      vertical-align: middle;
       width: 50%;
-      height: 200px;
-      border-bottom: none;
-      border-right: 1px solid #d0d2d3; } }
+      border: 1px solid #d0d2d3;
+      box-sizing: content-box;
+      height: 200px; } }
   @media screen and (min-width: 1024px)  {
     .sponsor {
       height: 270px; } }
-  .sponsor:nth-of-type(2n+2) {
-    border-right: none; }
 
 .sponsor__logo, .sponsor__name {
   margin: 0 auto;
   text-align: center; }
   @media screen and (min-width: 768px)  {
-    .sponsor__logo, .sponsor__name {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -webkit-transform: translate(-50%, -50%);
-      -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-      -o-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%); }
-      .sponsor__logo a, .sponsor__name a {
-        display: block; } }
+    .sponsor__logo a, .sponsor__name a {
+      display: block; } }
 
 .sponsor__logo img {
-  margin: 0 auto; }
+  margin: 0 auto;
+  width: auto;
+  max-width: 100%; }
+  @media screen and (min-width: 768px)  {
+    .sponsor__logo img {
+      max-height: 200px; } }
+  @media screen and (min-width: 1024px)  {
+    .sponsor__logo img {
+      max-height: 270px; } }
 
 .sponsor__name a, .sponsor__name a:visited {
   font-size: 1.80203em;

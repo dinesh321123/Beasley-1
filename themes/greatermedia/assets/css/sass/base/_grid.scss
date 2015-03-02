@@ -101,6 +101,7 @@ img {
 		width: 225px;
 		height: 100%;
 		max-height: none;
+		overflow: hidden;
 		box-sizing: border-box;
 		cursor: default;
 		@include transition(none);
