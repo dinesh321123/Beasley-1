@@ -10,11 +10,17 @@ class GigyaLoginAjaxHandler extends AjaxHandler {
 		return 'gigya_login';
 	}
 
-	public function run( $params ) {
-		$user_id = $params['UID'];
-		$session = GigyaSession::get_instance();
+	public function is_public() {
+		return true;
+	}
 
-		$session->login( $user_id );
+	public function run( $params ) {
+		if ( is_gigya_user_logged_in() ) {
+			do_action( 'gigya_login', get_gigya_user_id() );
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

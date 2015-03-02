@@ -22,6 +22,7 @@ class UpdateAccountAjaxHandler extends AjaxHandler {
 
 			$transient = 'gigya_user_profile_' . $user_id;
 			delete_transient( $transient );
+			do_action( 'update_gigya_account', $user_id );
 
 			return true;
 		} else {

@@ -146,7 +146,6 @@ class Plugin {
 	public function register_ajax_handlers() {
 		$handlers   = array();
 
-		//$handlers[] = new Ajax\GigyaLoginAjaxHandler();
 		//$handlers[] = new Ajax\GigyaLogoutAjaxHandler();
 		$handlers[] = new Ajax\PreviewResultsAjaxHandler();
 		$handlers[] = new Ajax\ListEntryTypesAjaxHandler();
@@ -172,6 +171,7 @@ class Plugin {
 		// basic security measure, else we have an open endpoint that
 		// anyone can hit and use to add actions to DS.Store
 		if ( is_gigya_user_logged_in() ) {
+			$handlers[] = new Ajax\GigyaLoginAjaxHandler();
 			$handlers[] = new Ajax\SaveGigyaActionAjaxHandler();
 			$handlers[] = new Ajax\RegisterAccountAjaxHandler();
 			$handlers[] = new Ajax\UpdateAccountAjaxHandler();
