@@ -8576,7 +8576,7 @@ a.podcast__rss:active {
     .podcast-player--compact .podcast__btn--play, .podcast-player--compact .podcast__btn--pause {
       border-width: 3px; }
       .podcast-player--compact .podcast__btn--play:before, .podcast-player--compact .podcast__btn--pause:before {
-        font-size: 200%; }
+        font-size: 40px; }
     .podcast-player--compact .podcast__meta {
       padding-left: 1.5em;
       padding-right: 8em; }
