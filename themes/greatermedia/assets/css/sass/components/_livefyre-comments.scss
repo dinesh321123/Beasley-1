@@ -1259,6 +1259,17 @@ category: Components - Article
 		display: inline;
 	}
 
+	.fyre-hovercard {
+		display: none !important;
+	}
+
+}
+
+.fyre-hovercard .fyre-hovercard-body .fyre-hovercard-button {
+	display: none !important;
+}
+
+	/*
 	.fyre-mention-item {
 		height: 2.5em;
 	}
@@ -1290,5 +1301,5 @@ category: Components - Article
 		}
 
 	}
-}
+	*/
 
