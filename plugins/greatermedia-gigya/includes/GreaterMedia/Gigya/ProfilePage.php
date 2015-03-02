@@ -305,7 +305,8 @@ function get_ping_for_pull_profile_json() {
 		$json = array(
 			'id'           => $user_id,
 			'display_name' => $display_name,
-			'email' => $user['email'],
+			'email'        => $user['email'],
+			'settings_url' => get_site_url() . '/members/account',
 		);
 
 		if ( array_key_exists( 'thumbnailURL', $user ) ) {
