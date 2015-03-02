@@ -113,7 +113,6 @@ class GMR_Audio_Shortcodes {
 		}
 
 		if ( $is_podcast_archive ) {
-			$parent_podcast_id = $post_id;
 			$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
 			$episode_date = strtotime( get_post_field( 'post_date', null ) );
 		}
@@ -197,7 +196,7 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<time class="podcast__date" datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'F j' ) . '</time>';
 			$new_html .= '<h3 class="podcast__title">' . get_the_title() . '</h3>';
 		} elseif ( $is_podcast_archive ) {
-			$new_html .= '<h3 class="podcast__title"><a href="' . get_the_permalink() . '">' . get_the_title() . '</a></h3>';
+			$new_html .= '<h3 class="podcast__title"><a href="' . get_the_permalink( $parent_podcast ) . '">' . get_the_title() . '</a></h3>';
 			$new_html .= '<time class="podcast__date" datetime="' . date( 'c', $episode_date ) . '">LATEST EPISODE: ' . date( 'F j', $episode_date ) . '</time>';
 		} else {
 			$new_html .= '<h3 class="podcast__title">' . esc_html( $title ) . '</h3>';
