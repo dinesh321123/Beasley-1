@@ -65,6 +65,7 @@ class Plugin {
 		$handlers   = array();
 		$handlers[] = new Ajax\ChangeLiveFyreSettings();
 		$handlers[] = new Ajax\GetLiveFyreAuthToken();
+		$handlers[] = new Ajax\PullGigyaProfile();
 
 		foreach ( $handlers as $handler ) {
 			$handler->register();

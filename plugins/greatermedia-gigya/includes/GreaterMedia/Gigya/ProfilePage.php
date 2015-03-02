@@ -13,7 +13,6 @@ class ProfilePage {
 		'cookies-required',
 		'reset-password',
 		'verify-email',
-		'json'
 	);
 
 	public function register() {
@@ -26,15 +25,6 @@ class ProfilePage {
 		add_action(
 			'wp_title', array( $this, 'change_page_title' ), 99
 		);
-
-		add_filter( 'query_vars', array( $this, 'add_json_query_vars' ) );
-	}
-
-	function add_json_query_vars( $query_vars ) {
-		$query_vars[] = 'ping_for_pull_auth_token';
-		$query_vars[] = 'gigya_user_id';
-
-		return $query_vars;
 	}
 
 	public function change_page_title( $title ) {
@@ -50,9 +40,7 @@ class ProfilePage {
 	public function render_if_profile_page( $template ) {
 		$profile_page = get_query_var( 'profile_page' );
 
-		if ( $profile_page === 'json' ) {
-			return $this->render_json();
-		} else if ( $profile_page !== '' ) {
+		if ( $profile_page !== '' ) {
 			$endpoint  = $this->get_profile_endpoint();
 			$page_path = "/{$endpoint}/{$profile_page}";
 
@@ -60,39 +48,6 @@ class ProfilePage {
 		}
 
 		return $template;
-	}
-
-	public function render_json() {
-		// TODO: Authentication
-		$auth_token = sanitize_text_field( get_query_var( 'ping_for_pull_auth_token' ) );
-
-		if ( $this->is_valid_ping_for_pull_auth_token( $auth_token ) ) {
-			$template = GMR_GIGYA_PATH . 'templates/profile_json.php';
-			header( 'Content-Type: application/json' );
-
-			return $template;
-		} else {
-			wp_die( 'Not Authorized' );
-		}
-	}
-
-	function is_valid_ping_for_pull_auth_token( $auth_token ) {
-		$required_auth_token = $this->get_ping_for_pull_auth_token();
-		return $auth_token === $required_auth_token;
-	}
-
-	function get_ping_for_pull_auth_token() {
-		$settings      = $this->get_livefyre_settings();
-		$settings_json = json_encode( $settings );
-
-		return md5( $settings_json );
-	}
-
-	function get_livefyre_settings() {
-		$settings = get_option( 'livefyre_settings' );
-		$settings = json_decode( $settings, true );
-
-		return $settings;
 	}
 
 	/**
@@ -267,54 +222,4 @@ class ProfilePage {
 		return ProfilePath::get_instance()->endpoint;
 	}
 
-}
-
-/* Ping For Pull Template Helpers */
-function get_ping_for_pull_user_id() {
-	global $wp_query;
-
-	$user_id = get_query_var( 'gigya_user_id' );
-	$user_id = sanitize_text_field( $user_id );
-
-	return $user_id;
-}
-
-function get_ping_for_pull_profile( $user_id ) {
-	try {
-		$gigya_user_id = base64_decode( $user_id );
-		$user = get_gigya_user_profile( $gigya_user_id );
-		$user['UID'] = $gigya_user_id;
-	} catch ( \Exception $e ) {
-		error_log( 'Failed to fetch ping for pull profile for: ' . $user_id );
-		$user = new \WP_Error(
-			'error', 'Failed to fetch ping for pull profile for: ' . $user_id
-		);
-	}
-
-	return $user;
-}
-
-function get_ping_for_pull_profile_json() {
-	$user_id      = get_ping_for_pull_user_id();
-	$user         = get_ping_for_pull_profile( $user_id );
-	$first_name   = array_key_exists( 'firstName', $user ) ? $user['firstName'] : '';
-	$last_name    = array_key_exists( 'lastName', $user ) ? $user['lastName'] : '';
-	$display_name = $first_name . ' ' . $last_name;
-
-	if ( ! is_wp_error( $user ) ) {
-		$json = array(
-			'id'           => $user_id,
-			'display_name' => $display_name,
-			'email'        => $user['email'],
-			'settings_url' => get_site_url() . '/members/account',
-		);
-
-		if ( array_key_exists( 'thumbnailURL', $user ) ) {
-			$json['image_url'] = $user['thumbnailURL'];
-		}
-	} else {
-		$json = array( 'error' => $user->get_error_message() );
-	}
-
-	return json_encode( $json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
 }
