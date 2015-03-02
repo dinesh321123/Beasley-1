@@ -1,28 +1,31 @@
 <?php
-	global $post;
-	$args = array(
-		'numberposts' => 500,
-		'offset' => 0,
-		'orderby' => 'post_date',
-		'order' => 'DESC',
-		'post_type' => GMP_CPT::EPISODE_POST_TYPE,
-		'post_status' => 'publish',
-		'post_parent' => $post->ID
-	);
 
-	$pattern = get_shortcode_regex();
-	$episodes =  new WP_Query( $args );
-	$recent_posts = $episodes->posts[0];
-	$episode_date = strtotime( $recent_posts->post_date );
-?>
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast podcast__archive' ); ?> role="article" itemscope itemtype="http://schema.org/OnDemandEvent">
-		<?php
-		if ( preg_match_all( '/'. $pattern .'/s', $recent_posts->post_content, $matches )
-			&& array_key_exists( 2, $matches )
-			&& in_array( 'audio', $matches[2] ) ) :
-			?>
-			<?php echo do_shortcode( $matches[0][0] ); ?>
-		<?php
-		endif;
-		?>
-</article>
+global $podcast_episodes_query;
+
+$podcast_episodes_query =  new WP_Query( array(
+	'posts_per_page' => 2,
+	'orderby'        => 'date',
+	'order'          => 'DESC',
+	'post_type'      => GMP_CPT::EPISODE_POST_TYPE,
+	'post_parent'    => get_the_ID(),
+) );
+
+if ( ! $podcast_episodes_query->have_posts() ) {
+	return;
+}
+
+while ( $podcast_episodes_query->have_posts() ) {
+	$podcast_episodes_query->the_post();
+	$content = GMP_Player::get_podcast_episode();
+	if ( ! empty( $content ) ) {
+		break;
+	}
+}
+
+wp_reset_postdata();
+
+if ( ! empty( $content ) ) {
+	?><article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast podcast__archive' ); ?> role="article" itemscope itemtype="http://schema.org/OnDemandEvent">
+		<?php echo $content; ?>
+	</article><?php
+}
