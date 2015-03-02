@@ -20,7 +20,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-clean')
   grunt.loadNpmTasks('grunt-release')
-  grunt.loadNpmTasks('grunt-karma')
 
   grunt.initConfig
 
@@ -113,12 +112,7 @@ module.exports = (grunt) ->
     release:
       npm: false
 
-    karma:
-      unit:
-        configFile: '<%= testFolder %>/karma.conf.coffee'
-
 
   grunt.registerTask 'default', ALL_TASKS
   grunt.registerTask 'mobile_friendly', ['jst:all', 'coffee:all', 'concat:mobile_friendly', 'stylus:all', 'clean:compiled']
   grunt.registerTask 'dist', ['cssmin:dist', 'uglify:dist']
-  grunt.registerTask 'test', ['dist', 'karma']
