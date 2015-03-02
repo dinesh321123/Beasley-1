@@ -1055,7 +1055,7 @@ function gmr_contest_get_entry_author_email( $entry_id ) {
 		} catch( Exception $e ) {}
 	}
 
-	return $email;
+	return filter_var( $email, FILTER_VALIDATE_EMAIL );
 }
 
 /**

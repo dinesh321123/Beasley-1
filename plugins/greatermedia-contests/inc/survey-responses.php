@@ -5,6 +5,7 @@ add_action( 'admin_menu', 'gmr_surveys_register_responses_page' );
 add_action( 'post_submitbox_start', 'gmr_survey_view_responses_link', 1 );
 add_action( 'manage_' . GMR_SURVEY_RESPONSE_CPT . '_posts_custom_column', 'gmr_surveys_render_survey_response_column', 10, 2 );
 add_action( 'pre_get_posts', 'gmr_survey_adjust_survey_responses_query' );
+add_action( 'admin_action_gmr_survey_export', 'gmr_survey_export_to_csv' );
 
 // filter hooks
 add_filter( 'post_row_actions', 'gmr_surveys_add_table_row_actions', PHP_INT_MAX, 2 );
@@ -114,11 +115,17 @@ function gmr_surveys_render_response_page() {
 		exit;
 	}
 
+	// links
+	$survys_link = admin_url( 'edit.php?post_type=' . GMR_SURVEY_CPT );
+	$export_link = admin_url( 'admin.php?action=gmr_survey_export&survey=' . $survey->ID );
+	$export_link = wp_nonce_url( $export_link, 'gmr-survey-export' );
+
 	?><div id="survey-response-selection" class="wrap">
 		<h2>
 			Responses:
 			<a href="<?php echo get_edit_post_link( $survey->ID ); ?>"><?php echo esc_html( $survey->post_title ); ?></a>
-			<a class="add-new-h2" href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . GMR_SURVEY_CPT ) ); ?>">All Surveys</a>
+			<a class="add-new-h2" href="<?php echo esc_url( $survys_link ); ?>">All Surveys</a>
+			<a class="add-new-h2" href="<?php echo esc_url( $export_link ); ?>">Export to CSV</a>
 		</h2>
 
 		<form id="posts-filter">
@@ -131,6 +138,84 @@ function gmr_surveys_render_response_page() {
 			<?php $wp_list_table->display(); ?>
 		</form>
 	</div><?php
+}
+
+/**
+ * Exports survey responses as CSV file.
+ *
+ * @action admin_action_gmr_survey_export
+ */
+function gmr_survey_export_to_csv() {
+	check_admin_referer( 'gmr-survey-export' );
+
+	$survey = filter_input( INPUT_GET, 'survey', FILTER_VALIDATE_INT );
+	if ( ! $survey || ! ( $survey = get_post( $survey ) ) || GMR_SURVEY_CPT != $survey->post_type ) {
+		status_header( 404 );
+		exit;
+	}
+
+	header( 'Content-Description: File Transfer' );
+	header( 'Content-Type: text/csv' );
+	header( 'Content-Disposition: attachment; filename=' . $survey->post_name . '.csv' );
+	header( 'Connection: Keep-Alive' );
+
+	$paged = 1;
+	$query = new WP_Query();
+
+	$form = get_post_meta( $survey->ID, 'survey_embedded_form', true );
+	if ( ! empty( $form ) ) {
+		if ( is_string( $form ) ) {
+			$clean_form = trim( $form, '"' );
+			$form = json_decode( $clean_form );
+		}
+	}
+
+	$headers = array( 'Name', 'Email' );
+	if ( $form ) {
+		foreach ( $form as $field ) {
+			$headers[] = $field->label;
+		}
+	}
+
+	$stdout = fopen( 'php://output', 'w' );
+	fputcsv( $stdout, $headers );
+
+	do {
+		$query->query( array(
+			'post_type'           => GMR_SURVEY_RESPONSE_CPT,
+			'post_parent'         => $survey->ID,
+			'suppress_filters'    => true,
+			'paged'               => $paged,
+			'posts_per_page'      => 100,
+			'ignore_sticky_posts' => true,
+			'fields'              => 'ids',
+		) );
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$entry_id = $query->next_post();
+				$row = array(
+					gmr_contest_get_entry_author( $entry_id ),
+					gmr_contest_get_entry_author_email( $entry_id ),
+				);
+
+				if ( $form ) {
+					$records = GreaterMediaFormbuilderRender::parse_entry( $survey->ID, $entry_id, $form );
+					foreach ( $records as $record ) {
+						$row[] = is_array( $record['value'] ) ? implode( ',', $record['value'] ) : $record['value'];
+					}
+
+				}
+
+				fputcsv( $stdout, $row );
+			}
+		}
+
+		$paged++;
+	} while( $query->post_count > 0 );
+
+	fclose( $stdout );
+	exit;
 }
 
 /**
