@@ -204,7 +204,6 @@ function gmr_survey_export_to_csv() {
 					foreach ( $records as $record ) {
 						$row[] = is_array( $record['value'] ) ? implode( ',', $record['value'] ) : $record['value'];
 					}
-
 				}
 
 				fputcsv( $stdout, $row );

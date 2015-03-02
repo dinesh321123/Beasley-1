@@ -208,7 +208,16 @@ function gmr_contests_export_to_csv() {
 				if ( $form ) {
 					$records = GreaterMediaFormbuilderRender::parse_entry( $contest->ID, $entry_id, $form );
 					foreach ( $records as $record ) {
-						$row[] = is_array( $record['value'] ) ? implode( ',', $record['value'] ) : $record['value'];
+						if ( $record['type'] == 'file' ) {
+							$attachment = get_post( $record['value'] );
+							$row[] = $attachment && 'attachment' == $attachment->post_type && 'inherit' == $attachment->post_status
+								? wp_get_attachment_url( $attachment->ID )
+								: '';
+						} else {
+							$row[] = is_array( $record['value'] )
+								? implode( ',', $record['value'] )
+								: $record['value'];
+						}
 					}
 				}
 
