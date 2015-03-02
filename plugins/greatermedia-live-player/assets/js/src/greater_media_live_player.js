@@ -100,24 +100,11 @@
 		}
 	}
 
-	function pjaxStop() {
-		$(document).on('pjax:click', function(event) {
-			event.preventDefault();
-		});
-	}
-
-	playButton.on('click', function(event) {
-		event.preventDefault();
+	playButton.on('click', function() {
 		pjaxInit();
 	});
 
-	pauseButton.on('click', function(event) {
-		event.preventDefault();
-		$('a').on('click', pjaxStop);
-	});
-
-	resumeButton.on('click', function(event) {
-		event.preventDefault();
+	resumeButton.on('click', function() {
 		pjaxInit();
 	});
 

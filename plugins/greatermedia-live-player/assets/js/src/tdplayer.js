@@ -22,6 +22,7 @@
 	var customAudio = false;
 	/* Will be an HTML5 Audio object, if we support it */
 	var customArtist, customTrack, customHash; // So we can re-add these when resuming via live-player
+	var playingLiveAudio = false; // This will be true if we're playing live audio from the live stream
 
 	var adPlaying;
 	/* boolean - Ad break currently playing */
@@ -163,7 +164,7 @@
 				{
 					id: 'MediaPlayer',
 					playerId: 'td_container',
-					isDebug: true,
+					isDebug: false,
 					techPriority: techPriority,
 					timeShift: { // timeShifting is currently available on Flash only. Leaving for HTML5 future
 						active: 0, /* 1 = active, 0 = inactive */
@@ -753,6 +754,7 @@
 			pauseCustomInlineAudio();
 			stopInlineAudioInterval();
 		} else {
+			playingLiveAudio = false;
 			player.pause();
 			stopLiveStreamInterval();
 		}
@@ -946,6 +948,7 @@
 
 	function onStreamStarted() {
 		livePlaying = true;
+		playingLiveAudio = true;
 
 		if (loadingBtn.classList.contains('loading')) {
 			loadingBtn.classList.remove('loading');
@@ -966,6 +969,7 @@
 
 	function onStreamStopped() {
 		livePlaying = false;
+		playingLiveAudio = false;
 
 		clearNpe();
 		$("#trackInfo").html('');
@@ -1379,9 +1383,9 @@
 	};
 
 	var pauseCustomInlineAudio = function () {
-		pjaxStop();
 		customAudio.pause();
 		resetInlineAudioStates();
+		playingCustomAudio = false;
 		setPausedStyles();
 		stopInlineAudioInterval();
 	};
@@ -1390,7 +1394,6 @@
 	 Same as pausing, but sets the "Playing" state to false, to allow resuming live player audio
 	 */
 	var stopCustomInlineAudio = function () {
-		pjaxStop();
 		customAudio.pause();
 		resetInlineAudioStates();
 		playingCustomAudio = false;
@@ -1502,11 +1505,20 @@
 		}
 	}
 
-	function pjaxStop() {
-		$(document).on('pjax:click', function (event) {
+	/**
+	 * Stops pjax if the live player or inline audio has stopped
+	 *
+	 * @param event
+	 */
+	function pjaxStop(event) {
+		if (playingLiveAudio === true || true === playingCustomAudio) {
+			// do nothing
+		} else {
 			event.preventDefault();
-		});
+		}
 	}
+
+	$(document).bind('pjax:click', pjaxStop);
 
 	/**
 	 * calculates the time of an inline audio element and outputs the duration as a % displayed in the progress bar
@@ -1590,4 +1602,5 @@
 		addEventHandler(podcastPlayBtn, elemClick, setInlineAudioUX);
 		addEventHandler(podcastPauseBtn, elemClick, pauseCustomInlineAudio);
 	});
+
 })(jQuery, window);
