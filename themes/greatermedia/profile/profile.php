@@ -269,6 +269,7 @@ function get_gigya_verify_email_message() {
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
+				<label>ZIP Code</label>
 				<input type="text" name="profile.zip" placeholder="ZIP Code" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
