@@ -969,7 +969,7 @@ category: Components - Gallery Archive
 		line-height: 1.2;
 	}
 
-	.show__feature--primary & h3 {
+	.gallery__featured--primary & h3 {
 		font-size: ms(5);
 	}
 
@@ -980,7 +980,7 @@ category: Components - Gallery Archive
 	}
 
 	.inner-wrap {
-		padding: $base-line-height $gutter;
+		padding: $base-line-height * .8 $gutter;
 	}
 
 	@include bp( large ) {
@@ -991,15 +991,21 @@ category: Components - Gallery Archive
 		bottom: 0;
 
 		h3 {
-			font-size: ms(1);
+			font-size: ms(0);
 		}
 
-		.show__feature--primary & h3 {
+		.gallery__featured--primary & h3 {
 			font-size: ms(6);
 		}
 
 		time {
 			font-size: ms(-1);
+		}
+	}
+
+	@include bp( larger ) {
+		h3 {
+			font-size: ms(1);
 		}
 	}
 }
