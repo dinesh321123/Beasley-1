@@ -146,12 +146,18 @@ class GreaterMediaFormbuilderRender {
 							? $field->field_options->options[ $contest_entry[ $field->cid ] ]->label
 							: $contest_entry[ $field->cid ],
 					);
-				} elseif ( 'checkboxes' == $field->field_type && is_array( $contest_entry[ $field->cid ] ) ) {
+				} elseif ( 'checkboxes' == $field->field_type ) {
 					$values = array();
-					foreach ( $contest_entry[ $field->cid ] as $value ) {
-						$values[] = ! empty( $field->field_options->options[ $value ] )
-							? $field->field_options->options[ $value ]->label
-							: $value;
+					if ( is_array( $contest_entry[ $field->cid ] ) ) {
+						foreach ( $contest_entry[ $field->cid ] as $value ) {
+							$values[] = ! empty( $field->field_options->options[ $value ] )
+								? $field->field_options->options[ $value ]->label
+								: $value;
+						}
+					} else {
+						$values = ! empty( $field->field_options->options[ $contest_entry[ $field->cid ] ] )
+							? $field->field_options->options[ $contest_entry[ $field->cid ] ]->label
+							: $contest_entry[ $field->cid ];
 					}
 
 					$results[ $field->cid ] = array(
