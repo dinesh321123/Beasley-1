@@ -131,11 +131,15 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 	<itunes:new-feed-url><?php echo esc_url( $new_feed_url ); ?></itunes:new-feed-url>
 	<?php }
 
+	// paged views for podcasts
+	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
 	// Fetch podcast episodes
 	$args = array(
 		'post_type' => 'episode',
 		'post_status' => 'publish',
-		'posts_per_page' => 500,
+		'posts_per_page' => 10,
+		'paged' => $paged,
 		'post_parent' => $parent_podcast_id
 	);
 
@@ -217,7 +221,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 	<item>
 		<title><?php esc_html( the_title_rss() ); ?></title>
 		<link><?php esc_url( the_permalink_rss() ); ?></link>
-		<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', true ), false ) ); ?></pubDate>
+		<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', false ), false ) ); ?></pubDate>
 		<dc:creator><?php echo esc_html( $author ); ?></dc:creator>
 		<guid isPermaLink="false"><?php esc_html( the_guid() ); ?></guid>
 		<description><![CDATA[<?php the_excerpt_rss(); ?>]]></description>
