@@ -390,6 +390,7 @@
 	.news-site & {
 
 		@include bp(medium) {
+			width: auto;
 			height: 78px;
 		}
 	}
@@ -493,6 +494,7 @@
 	.news-site & {
 
 		@include bp(medium) {
+			width: auto;
 			height: 78px;
 			padding: 26px 1.5em;
 		}

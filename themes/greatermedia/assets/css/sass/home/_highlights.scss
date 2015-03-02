@@ -89,10 +89,17 @@ Community Highlights and Events
 	@extend %main;
 	padding: $base-line-height $gutter / 2;
 	background-color: $highlights-bg;
-	border-bottom: 1px solid darken( $highlights-bg, 3% );
+	border-bottom: 1px solid darken($highlights-bg, 3%);
 
 	@include bp(medium) {
 		padding: $base-line-height * 2 $gutter * 2;
+	}
+
+	.news-site & {
+		padding-top: 0;
+		padding-bottom: 0;
+		background-color: transparent;
+		border-bottom: none;
 	}
 
 }
@@ -115,6 +122,13 @@ Community Highlights and Events
 // 	}
 // }
 
+.highlights__col {
+
+	.news-site & {
+		border-top: 1px solid $primary-border;
+	}
+}
+
 .highlights__heading {
 	margin: 0 0 $base-line-height / 2;
 	line-height: 1;
@@ -122,6 +136,26 @@ Community Highlights and Events
 	font-weight: lighter;
 	color: $secondary-heading;
 	vertical-align: top;
+
+	.news-site & {
+		padding: .35em 0 .6em;
+		margin: 0;
+		font-size: ms(6);
+		font-weight: lighter;
+		text-transform: uppercase;
+
+		@include bp(medium) {
+			font-size: ms(3);
+		}
+
+		@include bp(large) {
+			font-size: ms(3);
+		}
+
+		@include bp(larger) {
+			font-size: ms(6);
+		}
+	}
 }
 
 .highlights__community {
@@ -141,11 +175,11 @@ Community Highlights and Events
 	&:nth-of-type(3) {
 		display: none;
 	}
- 	@include bp(small) {
+	@include bp(small) {
 		@include span-columns(4 of 12);
 		&:nth-of-type(2n) {
 			margin-left: 0;
- 		}
+		}
 		&:nth-of-type(3) {
 			display: block;
 		}
@@ -166,7 +200,7 @@ Community Highlights and Events
 	background-size: 100%;
 	background-size: cover;
 	background-position: center center;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 }
 
 .highlights__community--thumb:after {
@@ -187,7 +221,7 @@ Community Highlights and Events
 }
 
 .highlights__community--title {
-	@include css-gradient(rgba(0,0,0,0), $darker-gray);
+	@include css-gradient(rgba(0, 0, 0, 0), $darker-gray);
 	background-color: transparent; // Override the background color set by css-gradient().
 	position: absolute;
 	bottom: 0;
@@ -220,26 +254,37 @@ Community Highlights and Events
 		clear: none;
 		padding-top: 0;
 	}
+
+	.news-site & {
+		@include span-columns(4 of 12);
+
+		@include bp(medium) {
+			clear: both;
+			padding-top: 0;
+		}
+	}
 }
-	.highlights__events .highlights__heading {
-		display: inline-block;
-	}
-	.highlights__events--more-btn {
-		@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, .8em);
-		margin-left: .5em;
-		margin-top: 0;
-		vertical-align: top;
-		text-transform: none;
 
-		@include bp(large) {
-			margin-top: .05em;
-		}
+.highlights__events .highlights__heading {
+	display: inline-block;
+}
 
-		&:hover {
-			color: $primary-link-hover !important;
-			border-color: $primary-link-hover;
-		}
+.highlights__events--more-btn {
+	@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, .8em);
+	margin-left: .5em;
+	margin-top: 0;
+	vertical-align: top;
+	text-transform: none;
+
+	@include bp(large) {
+		margin-top: .05em;
 	}
+
+	&:hover {
+		color: $primary-link-hover !important;
+		border-color: $primary-link-hover;
+	}
+}
 
 .highlights__event--item {
 	@include span-columns(4);
@@ -279,6 +324,21 @@ Community Highlights and Events
 		bottom: 0;
 		left: 0;
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			@include span-columns(6 of 6);
+			// Force a specific height relative to the grid
+			height: 0;
+			padding-bottom: 21.5%;
+			margin: 0 0 5%;
+		}
+
+		@include bp(large) {
+			margin-bottom: 6%;
+		}
+	}
 }
 
 .highlights__event--item:last-of-type {
@@ -294,7 +354,7 @@ Community Highlights and Events
 	background-size: 100%;
 	background-size: cover;
 	background-position: center center;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 
 	@include bp(large) {
 		@include span-columns(2 of 6);
@@ -323,6 +383,10 @@ Community Highlights and Events
 		margin-left: 26.32916%;
 		padding-top: 0;
 	}
+
+	.news-site & {
+		padding-top: 0;
+	}
 }
 
 .highlights__event--title {
@@ -349,6 +413,21 @@ Community Highlights and Events
 	a:hover & {
 		color: $primary-link-hover;
 	}
+
+	.news-site & {
+		font-size: ms(-2);
+		font-weight: normal;
+		text-transform: uppercase;
+
+		@include bp(large) {
+			font-size: ms(0);
+		}
+
+		@include bp(x-large) {
+			margin-top: -5px;
+			font-size: ms(2);
+		}
+	}
 }
 
 .highlights__event--date {
@@ -358,7 +437,214 @@ Community Highlights and Events
 	font-size: ms(-2);
 	color: $gray;
 
-	@media(min-width: 1200px) {
+	.news-site & {
+		font-size: ms(-3);
+		text-transform: none;
 
+		@include bp(large) {
+			font-size: ms(-1);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(1);
+		}
+	}
+}
+
+.highlights__contests {
+	clear: both;
+	padding-top: 1.5em;
+	@include bp(medium) {
+		@include span-columns(6 of 15);
+		clear: none;
+		padding-top: 0;
+	}
+
+	.news-site & {
+		@include span-columns(4 of 12);
+	}
+}
+
+.highlights__contests--more-btn {
+	@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, .8em);
+	margin-left: .5em;
+	margin-top: 0;
+	vertical-align: top;
+	text-transform: none;
+
+	@include bp(large) {
+		margin-top: .05em;
+	}
+
+	&:hover {
+		color: $primary-link-hover !important;
+		border-color: $primary-link-hover;
+	}
+}
+
+.highlights__contest--item {
+	@include span-columns(4);
+	background-color: $primary-bg;
+	color: $primary-text;
+	margin: 0 0 .75em;
+	position: relative;
+	height: 100px;
+
+	@include bp(x-small) {
+		margin-bottom: .65em;
+	}
+
+	@include bp(small) {
+		@include span-columns(6 of 12);
+		margin-bottom: 0;
+	}
+
+	@include bp(medium) {
+		@include span-columns(6 of 6);
+		// Force a specific height relative to the grid
+		height: 0;
+		padding-bottom: 21.5%;
+		margin: 0 0 5%;
+	}
+
+	.news-site & {
+
+		@include bp(large) {
+			margin-bottom: 6%;
+		}
+	}
+}
+
+.highlights__contest--item:last-of-type {
+	margin-bottom: 0;
+}
+
+.highlights__contest--thumb {
+	@include span-columns(2 of 6);
+
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	background-size: 100%;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+
+	@include bp(medium) {
+		@include span-columns(2 of 6);
+		width: 21.5%;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+}
+
+.highlights__contest--meta {
+	@include span-columns(4 of 6);
+	padding: 6% $gutter 0 0;
+	font-size: ms(2);
+
+	@include bp(medium) {
+		font-size: ms(1);
+	}
+
+	@include bp(medium) {
+		width: auto;
+		margin-left: 26.32916%;
+		padding-top: 4%;
+	}
+
+	.news-site & {
+		padding-top: 0;
+	}
+}
+
+.highlights__contest--title {
+	font-size: ms(0);
+	color: $medium-dark-gray;
+	margin: 0 0 .3em;
+
+	// Never show more than two lines of text (layout will break).
+	overflow: hidden;
+	line-height: 1.25;
+	max-height: 2.5em;
+
+	@include bp(large) {
+		// One line of text at this breakpoint because we need to fit the date.
+		max-height: 1.25em;
+	}
+
+	@media(min-width: 1250px) {
+		// Back to two lines.
+		max-height: 2.5em;
+	}
+
+	// Highlight on hover
+	a:hover & {
+		color: $primary-link-hover;
+	}
+
+	.news-site & {
+		font-size: ms(-2);
+		font-weight: normal;
+		text-transform: uppercase;
+
+		@include bp(large) {
+			font-size: ms(0);
+		}
+
+		@include bp(x-large) {
+			margin-top: -5px;
+			font-size: ms(2);
+		}
+	}
+}
+
+.highlights__contest--date {
+	display: block;
+	text-transform: uppercase;
+	margin-top: -0.3em;
+	font-size: ms(-2);
+	color: $gray;
+
+	.news-site & {
+		font-size: ms(1);
+		text-transform: none;
+
+		@include bp(large) {
+			font-size: ms(-1);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(1);
+		}
+	}
+}
+
+a.highlights__contest--btn {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, .875em);
+	@include border-radius(4px);
+	margin-top: 1em;
+	text-align: center;
+
+	@include bp(medium) {
+		font-size: ms(-2);
+	}
+
+	@include bp(large) {
+		font-size: ms(-1);
+	}
+}
+
+.highlights__ad {
+
+	.news-site & {
+		clear: both;
+		padding-top: 1.5em;
+		@include bp(medium) {
+			@include span-columns(4 of 12);
+			clear: none;
+			padding-top: 0;
+		}
 	}
 }

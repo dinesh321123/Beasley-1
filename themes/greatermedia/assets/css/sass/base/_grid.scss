@@ -123,6 +123,13 @@ img {
 			top: 247px;
 		}
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			border-left: 1px solid $primary-border;
+		}
+	}
 }
 
 .row {

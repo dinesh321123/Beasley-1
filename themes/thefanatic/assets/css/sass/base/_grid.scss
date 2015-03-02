@@ -1,0 +1,14 @@
+// max-width for the site
+$max-width: em(1100);
+
+.container, %container {
+	@include bp(medium) {
+		padding-right: 300px;
+	}
+}
+
+.live-player {
+	@include bp(medium){
+		width: 300px;
+	}
+}

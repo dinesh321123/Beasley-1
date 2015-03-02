@@ -302,6 +302,15 @@
 	}
 }
 
+.header__account ul li a,
+.header__account ul li a:link,
+.header__account ul li a:visited, {
+
+	.news-site & {
+		border-right: none;
+	}
+}
+
 .header__nav ul li.active a:hover,
 .header__nav ul li a:focus,
 .header__nav ul li a:active,
