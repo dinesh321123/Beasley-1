@@ -327,7 +327,7 @@ function get_show_main_query() {
 	if ( class_exists( '\GreaterMediaGalleryCPT' ) ) {
 		$post_types[] = \GreaterMediaGalleryCPT::GALLERY_POST_TYPE;
 	}
-	
+
 	$show_args = array(
 		'post_type'      => $post_types,
 		'paged'          => $current_page,
@@ -354,13 +354,16 @@ function adjust_show_main_query( $where ) {
 	remove_filter( 'posts_where', '\GreaterMedia\Shows\adjust_show_main_query' );
 	
 	if ( class_exists( '\GMP_CPT' ) ) {
-		$where = sprintf(
-			" AND ((1 = 1%1\$s) OR (%2\$s.post_type = '%3\$s' AND %2\$s.post_parent IN (%4\$s) AND (%2\$s.post_status = 'publish')))",
-			$where,
-			$wpdb->posts,
-			\GMP_CPT::EPISODE_POST_TYPE,
-			implode( ',', get_show_podcast_ids() )
-		);
+		$podcasts = get_show_podcast_ids();
+		if ( ! empty( $podcasts ) ) {
+			$where = sprintf(
+				" AND ((1 = 1%1\$s) OR (%2\$s.post_type = '%3\$s' AND %2\$s.post_parent IN (%4\$s) AND (%2\$s.post_status = 'publish')))",
+				$where,
+				$wpdb->posts,
+				\GMP_CPT::EPISODE_POST_TYPE,
+				implode( ',', $podcasts )
+			);
+		}
 	}
 
 	return $where;
