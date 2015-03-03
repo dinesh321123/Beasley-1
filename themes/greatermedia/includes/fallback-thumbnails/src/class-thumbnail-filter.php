@@ -1,6 +1,8 @@
 <?php
 
-namespace Greater_Media\Gallery_Post_Thumbnails;
+namespace Greater_Media\Fallback_Thumbnails;
+
+use TDS;
 
 class Thumbnail_Filter
 {	
@@ -9,7 +11,7 @@ class Thumbnail_Filter
 	public function __construct()
 	{	
 		add_filter( 'get_post_metadata', array( $this, 'filter_post_meta' ), 10, 4 );
-		add_action( 'save_post', array( $this, 'clear_cached_gallery_thumb' ) );
+		add_action( 'save_post', array( $this, 'clear_cached_fallback_thumb' ) );
 	}
 	
 	public function filter_post_meta( $data, $post_id, $key, $single )
@@ -21,7 +23,7 @@ class Thumbnail_Filter
 		
 			if ( ! $thumbnail_id ) {
 				// Try to get one from cache. 
-				$thumbnail_id = wp_cache_get( $post_id, 'gm/post_gallery_thumb' );
+				$thumbnail_id = wp_cache_get( $post_id, 'gm/post_fallback_thumb' );
 				
 				if ( -1 == $thumbnail_id ) {
 					// "Blank" value represented this way so we don't keep 
@@ -29,10 +31,12 @@ class Thumbnail_Filter
 					$thumbnail_id = false; 
 				} elseif ( ! $thumbnail_id ) {
 					// Okay, get a new one.
-					if ( 'gmr_album' == get_post_type( $post_id ) ) {
-						$thumbnail_id = $this->_get_first_album_image( $post_id );
+					if ( 'podcast' == get_post_type( $post_id ) ) {
+						$thumbnail_id = $this->_get_image_for_podcast( $post_id );
+					} elseif ( 'gmr_album' == get_post_type( $post_id ) ) {
+						$thumbnail_id = $this->_get_image_for_album( $post_id );
 					} else {
-						$thumbnail_id = $this->_get_first_gallery_image( $post_id );
+						$thumbnail_id = $this->_get_image_for_gallery( $post_id );
 					}
 
 					// If we've got nothing, store a "blank" value so we don't keep
@@ -42,7 +46,7 @@ class Thumbnail_Filter
 					}  
 					
 					// Throw it in the cache. 
-					wp_cache_set( $post_id, $thumbnail_id, 'gm/post_gallery_thumb' );
+					wp_cache_set( $post_id, $thumbnail_id, 'gm/post_fallback_thumb' );
 				} 
 			}
 			
@@ -53,16 +57,48 @@ class Thumbnail_Filter
 		return $data; 
 	}
 	
-	public function clear_cached_gallery_thumb( $post_id ) 
+	public function clear_cached_fallback_thumb( $post_id )
 	{
 		if ( wp_is_post_revision( $post_id ) ) {
 			return;
 		}
 		
-		wp_cache_delete( $post_id, 'gm/post_gallery_thumb' );
+		wp_cache_delete( $post_id, 'gm/post_fallback_thumb' );
 	}
 
-	protected function _get_first_album_image( $post )
+	/**
+	 * Get image for a podcast. This will use the logo for the show associated
+	 * with the podcast.
+	 *
+	 * @param $post_id
+	 * @return int|void
+	 */
+	protected function _get_image_for_podcast( $post_id )
+	{
+		//  Find the associated show post
+		$terms = wp_get_object_terms( $post_id, '_shows' );
+
+		if ( ! $terms ) {
+			return;
+		}
+
+		$show_post = TDS\get_related_post( $terms[0] );
+
+		if ( ! $show_post ) {
+			return;
+		}
+
+		return (int) get_post_meta( $show_post->ID, 'logo_image', true );
+	}
+
+	/**
+	 * Get image for an album. This will use the first image of the first
+	 * gallery in the album.
+	 *
+	 * @param $post
+	 * @return int|void
+	 */
+	protected function _get_image_for_album( $post )
 	{
 		$post = get_post( $post );
 
@@ -84,11 +120,17 @@ class Thumbnail_Filter
 
 		// Get the thumbnail for that gallery.
 		if ( $child_gallery_posts ) {
-			return $this->_get_first_gallery_image( $child_gallery_posts[0] );
+			return $this->_get_image_for_gallery( $child_gallery_posts[0] );
 		}
 	}
-	
-	protected function _get_first_gallery_image( $post )
+
+	/**
+	 * Get image for a gallery. This will use the first image in the gallery.
+	 *
+	 * @param $post
+	 * @return int|void
+	 */
+	protected function _get_image_for_gallery( $post )
 	{
 		$post = get_post( $post );
 		

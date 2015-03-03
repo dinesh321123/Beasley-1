@@ -433,7 +433,9 @@ header.podcast__header {
 .podcast__archive {
 	.podcast__date {
 		width: 100%;
+		display: block;
 		margin-bottom: 0;
+		float: none;
 	}
 
 	.podcast__title {
@@ -447,6 +449,18 @@ header.podcast__header {
 	a.podcast__rss {
 		font-size: 0.7em;
 		vertical-align: top;
+	}
+}
+
+.post-type-archive-podcast {
+	.podcast__archive {
+		.podcast__date {
+			margin: 10px 0;
+
+			@include bp(large) {
+				margin-top: 0;
+			}
+		}
 	}
 }
 
