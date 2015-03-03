@@ -47,15 +47,9 @@
 	.profile-page__sidebar h1 {
 		text-transform: uppercase;
 
+		margin-bottom: 0;
+
 		@include bp('medium') {
-			margin-bottom: 0.5em;
-		}
-
-		@include bp('small') {
-			margin-bottom: 0.5em;
-		}
-
-		@include bp('x-small') {
 			margin-bottom: 0.5em;
 		}
 
@@ -71,8 +65,9 @@
 	/**
 	 * Hide happy text on mobile
 	 */
-	.profile-page__sidebar p {
+	.profile-page__sidebar .profile-message {
 		display: none;
+
 		@include bp('medium') {
 			display: block;
 		}
