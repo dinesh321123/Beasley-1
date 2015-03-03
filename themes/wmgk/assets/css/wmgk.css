@@ -13966,6 +13966,9 @@ table.responsive tr:nth-of-type(even) {
 .page__title {
   text-transform: uppercase; }
 
+.main, .home__highlights {
+  background-color: #fff; }
+
 .header {
   border-bottom: 1px solid #58595b; }
 
@@ -14066,6 +14069,9 @@ table.responsive tr:nth-of-type(even) {
 
 .audio__progress-bar {
   background-color: #929497; }
+
+.footer {
+  background-color: #fff; }
 
 .live-link__type--show {
   border-bottom-color: white;

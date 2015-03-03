@@ -1,3 +1,7 @@
+.main, %main {
+	background-color: $primary-bg;
+}
+
 .header {
 	border-bottom: 1px solid #58595b;
 }
@@ -140,4 +144,8 @@
 
 .audio__progress-bar {
 	background-color: $gray;
+}
+
+.footer {
+	background-color: $primary-bg;
 }
