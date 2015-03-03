@@ -7,6 +7,23 @@ add_action( 'wp_enqueue_scripts', 'gmr_surveys_enqueue_scripts' );
 add_action( 'gmr_survey_load', 'gmr_surveys_render_form' );
 add_action( 'gmr_survey_submit', 'gmr_surveys_process_form_submission' );
 
+// filter hooks
+add_filter( 'gmr-homepage-curation-post-types', 'gmr_survey_register_curration_post_type' );
+add_filter( 'gmr-show-curation-post-types', 'gmr_survey_register_curration_post_type' );
+
+/**
+ * Registers survey post type in the curration types list.
+ *
+ * @filter gmr-homepage-curation-post-types
+ * @filter gmr-show-curation-post-types
+ * @param array $types Array of already registered types.
+ * @return array Extended array of post types.
+ */
+function gmr_survey_register_curration_post_type( $types ) {
+	$types[] = GMR_SURVEY_CPT;
+	return $types;
+}
+
 /**
  * Processes survey actions triggered from front end.
  *

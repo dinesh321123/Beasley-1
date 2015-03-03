@@ -39,9 +39,23 @@ class ShowsCPT {
 
 			add_filter( 'gmr_blogroll_widget_item_post_types', array( self::$_instance, 'add_episode_pt_to_blogroll_widget' ) );
 			add_filter( 'redirect_canonical', array( self::$_instance, 'check_redirect_canonical' ) );
+			add_filter( 'gmr-homepage-curation-post-types', array( self::$_instance, 'register_curration_post_type' ) );
 		}
 
 		return self::$_instance;
+	}
+
+
+	/**
+	 * Registers show post type in the curration types list.
+	 *
+	 * @filter gmr-homepage-curation-post-types
+	 * @param array $types Array of already registered types.
+	 * @return array Extended array of post types.
+	 */
+	public function register_curration_post_type( $types ) {
+		$types[] = self::SHOW_CPT;
+		return $types;
 	}
 
 	/**
