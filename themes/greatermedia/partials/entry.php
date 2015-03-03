@@ -26,10 +26,6 @@ if ( get_the_time( 'Y' ) != date( 'Y' ) ) {
 				<div class="entry2__thumbnail__image" style='background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size ); ?>)'></div>
 				<div class="entry2__thumbnail__icon"></div>
 			</a>
-			
-			<div class="entry2__thumbnail__attribution">
-				<?php image_attribution(); ?>
-			</div>
 		</section>
 	<?php endif; ?>
 

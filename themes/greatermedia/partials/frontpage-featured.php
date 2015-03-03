@@ -14,15 +14,7 @@
 			<div class="featured__article">
 				<a href="<?php the_permalink(); ?>">
 					<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary', null, true ) ?>)'>
-						<?php
-
-							$image_attr = image_attribution();
-
-							if ( ! empty( $image_attr ) ) {
-								echo $image_attr;
-							}
-
-						?>
+						<?php image_attribution(); ?>
 					</div>
 					<div class="featured__article--content">
 						<div class="featured__article--heading">
