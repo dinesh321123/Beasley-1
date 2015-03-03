@@ -136,10 +136,10 @@ function get_gigya_verify_email_message() {
 			<form class="gigya-login-form" id="gigya-login-form" data-on-success-screen="gigya-login-success-screen">
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-login-form"></span>
 				<span class="gigya-error-msg" data-bound-to="loginID" ></span>
-				<input type="text" name="loginID" placeholder="Email" />
+				<label for="login-email">Email</label><input type="text" name="loginID" id="login-email" placeholder="Email" />
 
 				<span class="gigya-error-msg" data-bound-to="password" ></span>
-				<input type="password" name="password" placeholder="Password" />
+				<label for="login-password">Password</label><input type="password" name="password" id="login-password" placeholder="Password" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-forgot-password-screen">Forgot Password?</a>
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Login" />
@@ -158,7 +158,7 @@ function get_gigya_verify_email_message() {
 			<form class="gigya-reset-password-form" id="gigya-reset-password-form" data-on-success-screen="gigya-forgot-password-sent-screen">
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-reset-password-form"></span>
 				<span class="gigya-error-msg" data-bound-to="loginID" ></span>
-				<input type="text" name="loginID" placeholder="Email" />
+				<label for="password-reset-email">Email</label><input type="text" name="loginID" id="password-reset-email" placeholder="Email" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back</a>
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Submit" />
@@ -206,19 +206,19 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-register-form"></span>
 
 				<span class="gigya-error-msg" data-bound-to="email" ></span>
-				<input type="text" name="email" placeholder="Email" />
+				<label for="register-email">Email</label><input type="text" name="email" id="register-email" placeholder="Email" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.firstName" ></span>
-				<input type="text" name="profile.firstName" placeholder="First Name" />
+				<label for="register-firstName">First Name</label><input type="text" name="profile.firstName" id="register-firstName" placeholder="First Name" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.lastName" ></span>
-				<input type="text" name="profile.lastName" placeholder="Last Name" />
+				<label for="register-lastName">Last Name</label><input type="text" name="profile.lastName" id="register-lastName" placeholder="Last Name" />
 
 				<span class="gigya-error-msg" data-bound-to="password" ></span>
-				<input type="password" name="password" placeholder="Password" />
+				<label for="register-password">Password</label><input type="password" name="password" id="register-password" placeholder="Password" />
 
 				<span class="gigya-error-msg" data-bound-to="passwordRetype" ></span>
-				<input type="password" name="passwordRetype" placeholder="Re-Enter Password" />
+				<label for="register-password-confirm">Re-Enter Password</label><input type="password" name="passwordRetype" id="register-password-confirm" placeholder="Re-Enter Password" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Login</a>
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Register" />
@@ -232,25 +232,25 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-profile-form"></span>
 
 				<span class="gigya-error-msg" data-bound-to="profile.email" ></span>
-				<input type="text" name="profile.email" placeholder="Email" />
+				<label for="register-complete-email">Email</label><input type="text" name="profile.email" id="register-complete-email" placeholder="Email" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.firstName" ></span>
-				<input type="text" name="profile.firstName" placeholder="First Name"/>
+				<label for="register-complete-firstName">First Name</label><input type="text" name="profile.firstName" id="register-complete-firstName" placeholder="First Name"/>
 
 				<span class="gigya-error-msg" data-bound-to="profile.lastName" ></span>
-				<input type="text" name="profile.lastName" placeholder="Last Name" />
+				<label for="register-complete-lastName">Last Name</label><input type="text" name="profile.lastName" id="register-complete-lastName" placeholder="Last Name" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.birthYear" ></span>
-				<label>Year of Birth:</label>
-				<select name="profile.birthYear">
+				<label for="register-complete-birthYear">Year of Birth:</label>
+				<select name="profile.birthYear" id="register-complete-birthYear">
 					<?php foreach ( range( 1920, date( 'Y' ) ) as $year ) { ?>
 						<option value="<?php echo esc_attr( $year ); ?>"><?php echo esc_html( $year ); ?></option>
 					<?php } ?>
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.birthMonth" ></span>
-				<label>Month of Birth:</label>
-				<select name="profile.birthMonth">
+				<label for="register-complete-birthMonth">Month of Birth:</label>
+				<select name="profile.birthMonth" id="register-complete-birthMonth">
 					<?php foreach ( $months as $month_num => $month_name ) { ?>
 						<option value="<?php echo esc_attr( $month_num + 1 ); ?>">
 						<?php echo esc_html( $month_name ); ?>
@@ -259,8 +259,8 @@ function get_gigya_verify_email_message() {
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.birthDay" ></span>
-				<label>Day of Birth:</label>
-				<select name="profile.birthDay">
+				<label for="register-complete-birthDay">Day of Birth:</label>
+				<select name="profile.birthDay" id="register-complete-birthDay">
 					<?php foreach ( range( 1, 31 ) as $day_num ) { ?>
 						<option value="<?php echo esc_attr( $day_num ); ?>">
 						<?php echo esc_html( $day_num ); ?>
@@ -269,16 +269,16 @@ function get_gigya_verify_email_message() {
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
-				<label>ZIP Code</label>
-				<input type="text" name="profile.zip" placeholder="ZIP Code" />
+				<label for="register-complete-zip">ZIP Code</label>
+				<input type="text" name="profile.zip" id="register-complete-zip" placeholder="ZIP Code" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label class="gender-label">Gender:</label>
-				<label class="inline-label"><input type="radio" name="profile.gender" value="m" />Male</label>
-				<label class="inline-label"><input type="radio" name="profile.gender" value="f" />Female</label>
+				<label class="inline-label" for="register-complete-gender-male"><input type="radio" name="profile.gender" id="register-complete-gender-male" value="m" />Male</label>
+				<label class="inline-label" for="register-complete-gender-female"><input type="radio" name="profile.gender" id="register-complete-gender-female" value="f" />Female</label>
 
 				<span class="gigya-error-msg" data-bound-to="profile.state" ></span>
-				<label>State:</label>
+				<label for="profile-state">State:</label>
 				<select name="profile.state" id="profile-state">
 					<option disabled selected value>Select One</option>
 					<?php foreach ( $state_names as $state ) { ?>
@@ -287,7 +287,7 @@ function get_gigya_verify_email_message() {
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.city" ></span>
-				<label>City:</label>
+				<label for="profile-city">City:</label>
 				<input type="text" name="profile.city" id="profile-city" />
 
 				<h2>Email Subscriptions</h2>
@@ -308,18 +308,18 @@ function get_gigya_verify_email_message() {
 
 				<h2>Radio Listening Questions:</h2>
 
-				<label>On a typical day, about how much time would you say that you spend listening to the radio?</label>
+				<label for="register-complete-listening-frequency">On a typical day, about how much time would you say that you spend listening to the radio?</label>
 				<span class="gigya-error-msg" data-bound-to="data.listeningFrequency" ></span>
-				<select name="data.listeningFrequency">
+				<select name="data.listeningFrequency" id="register-complete-listening-frequency">
 					<option disabled selected value>Select One</option>
 					<option value="0">less than 1 hour</option>
 					<option value="1">1 to 3 hours</option>
 					<option value="2">more than 3 hours</option>
 				</select>
 
-				<label>When you're listening to the radio, about what percentage of time do you spend listening to 102.9 WMGK?</label>
+				<label for="register-complete-listening-loyalty">When you're listening to the radio, about what percentage of time do you spend listening to 102.9 WMGK?</label>
 				<span class="gigya-error-msg" data-bound-to="data.listeningLoyalty" ></span>
-				<select name="data.listeningLoyalty">
+				<select name="data.listeningLoyalty" id="register-complete-listening-loyalty">
 					<option disabled selected value>Select One</option>
 					<?php foreach ( range( 0, 100, 10 ) as $percent ) { ?>
 						<option value="<?php echo esc_attr( $percent ); ?>"><?php echo esc_html( $percent . '%' ); ?></option>
@@ -341,32 +341,32 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-profile-form"></span>
 				<span class="gigya-error-msg" data-bound-to="profile.email" ></span>
 
-				<label>Email:
+				<label for="profile-update-email">Email:
 					<a href="#"
 						class="link-button verify-email-link"
 						data-switch-screen="gigya-resend-verification-code-update-screen">Verify Email</a>
 				</label>
-				<input type="text" name="profile.email" />
+				<input type="text" name="profile.email" id="profile-update-email" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.firstName" ></span>
-				<label>First Name:</label>
-				<input type="text" name="profile.firstName" />
+				<label for="profile-update-firstName">First Name:</label>
+				<input type="text" name="profile.firstName" id="profile-update-firstName" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.lastName" ></span>
-				<label>Last Name:</label>
-				<input type="text" name="profile.lastName" />
+				<label for="profile-update-lastName">Last Name:</label>
+				<input type="text" name="profile.lastName" id="profile-update-lastName" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.birthYear" ></span>
-				<label>Year of Birth:</label>
-				<select name="profile.birthYear">
+				<label for="profile-update-birthYear">Year of Birth:</label>
+				<select name="profile.birthYear" id="profile-update-birthYear">
 					<?php foreach ( range( 1920, date( 'Y' ) ) as $year ) { ?>
 						<option value="<?php echo esc_attr( $year ); ?>"><?php echo esc_html( $year ); ?></option>
 					<?php } ?>
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.birthMonth" ></span>
-				<label>Month of Birth:</label>
-				<select name="profile.birthMonth">
+				<label for="profile-update-birthMonth">Month of Birth:</label>
+				<select name="profile.birthMonth" id="profile-update-birthMonth">
 					<?php foreach ( $months as $month_num => $month_name ) { ?>
 						<option value="<?php echo esc_attr( $month_num + 1 ); ?>">
 						<?php echo esc_html( $month_name ); ?>
@@ -375,8 +375,8 @@ function get_gigya_verify_email_message() {
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.birthDay" ></span>
-				<label>Day of Birth:</label>
-				<select name="profile.birthDay">
+				<label for="profile-update-birthDay">Day of Birth:</label>
+				<select name="profile.birthDay" id="profile-update-birthDay">
 					<?php foreach ( range( 1, 31 ) as $day_num ) { ?>
 						<option value="<?php echo esc_attr( $day_num ); ?>">
 						<?php echo esc_html( $day_num ); ?>
@@ -385,25 +385,25 @@ function get_gigya_verify_email_message() {
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
-				<label>ZIP Code:</label>
-				<input type="text" name="profile.zip" />
+				<label for="profile-update-zip">ZIP Code:</label>
+				<input type="text" name="profile.zip" id="profile-update-zip" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label class="gender-label">Gender:</label>
-				<label class="inline-label"><input type="radio" name="profile.gender" value="m" />Male</label>
-				<label class="inline-label"><input type="radio" name="profile.gender" value="f" />Female</label>
+				<label class="inline-label" for="profile-update-gender-male"><input type="radio" name="profile.gender" id="profile-update-gender-male" value="m" />Male</label>
+				<label class="inline-label" for="profile-update-gender-female"><input type="radio" name="profile.gender" id="profile-update-gender-female" value="f" />Female</label>
 
 				<span class="gigya-error-msg" data-bound-to="profile.state" ></span>
-				<label>State:</label>
-				<select name="profile.state">
+				<label for="profile-update-state">State:</label>
+				<select name="profile.state" id="profile-update-state">
 					<?php foreach ( $state_names as $state ) { ?>
 						<option value="<?php echo esc_attr( $state['value'] ); ?>"><?php echo esc_html( $state['label'] ); ?></option>
 					<?php } ?>
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.city" ></span>
-				<label>City:</label>
-				<input type="text" name="profile.city" />
+				<label for="profile-update-city">City:</label>
+				<input type="text" name="profile.city" id="profile-update-city" />
 
 				<h2>Password</h2>
 				<a href="#" data-switch-screen="gigya-change-password-screen">Change your password.</a>
@@ -435,16 +435,16 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-profile-form"></span>
 
 				<span class="gigya-error-msg" data-bound-to="password" ></span>
-				<label>Enter your current password:</label>
-				<input type="password" name="password" />
+				<label for="password-change-current">Enter your current password:</label>
+				<input type="password" name="password" id="password-change-current" />
 
 				<span class="gigya-error-msg" data-bound-to="newPassword" ></span>
-				<label>Choose a new password:</label>
-				<input type="password" name="newPassword" />
+				<label for="password-change-new">Choose a new password:</label>
+				<input type="password" name="newPassword" id="password-change-new" />
 
 				<span class="gigya-error-msg" data-bound-to="passwordRetype" ></span>
-				<label>Retype new password:</label>
-				<input type="password" name="passwordRetype" />
+				<label for="password-change-confirm">Retype new password:</label>
+				<input type="password" name="passwordRetype" id="password-change-confirm" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-update-profile-screen">&laquo; Back</a>
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Update" />
@@ -470,12 +470,12 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg reset-link-password-error-msg"></span>
 
 				<span class="gigya-error-msg" data-bound-to="newPassword" ></span>
-				<label>Choose a new password:</label>
-				<input type="password" name="newPassword" />
+				<label for="password-reset-new">Choose a new password:</label>
+				<input type="password" name="newPassword" id="password-reset-new" />
 
 				<span class="gigya-error-msg" data-bound-to="passwordRetype" ></span>
-				<label>Confirm new password:</label>
-				<input type="password" name="passwordRetype" />
+				<label for="password-reset-confirm">Confirm new password:</label>
+				<input type="password" name="passwordRetype" id="password-reset-confirm" />
 
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Reset" />
 			</form>
@@ -501,7 +501,7 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-resend-verification-code-form"></span>
 
 				<span class="gigya-error-msg" data-bound-to="email" placeholder="Email:" ></span>
-				<input type="text" name="email" placeholder="Email" id="resend-email" />
+				<label for="resend-email">Email</label><input type="text" name="email" placeholder="Email" id="resend-email" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back</a>
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Resend Verification" />
@@ -523,7 +523,7 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg login-error-msg" data-bound-to="gigya-resend-verification-code-form"></span>
 
 				<span class="gigya-error-msg" data-bound-to="email" placeholder="Email:" ></span>
-				<input type="text" name="email" placeholder="Email" id="resend-email" />
+				<label for="resend-email">Email</label><input type="text" name="email" placeholder="Email" id="resend-email" />
 
 				<a href="#" class="link-button" data-switch-screen="gigya-update-profile-screen">&laquo; Back</a>
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Resend Verification" />
