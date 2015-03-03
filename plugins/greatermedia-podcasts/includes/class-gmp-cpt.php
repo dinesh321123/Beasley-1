@@ -32,6 +32,22 @@ class GMP_CPT {
 		add_filter( 'redirect_canonical', array( __CLASS__, 'check_redirect_canonical' ) );
 		add_action( 'manage_posts_custom_column' , array( __CLASS__ , 'add_feed_url_column' ) , 1 , 2 );
 		add_action( 'edit_form_after_title', array( __CLASS__, 'inline_instructions' ) );
+		add_filter( 'gmr-homepage-curation-post-types', array( __CLASS__, 'register_curration_post_type' ) );
+		add_filter( 'gmr-show-curation-post-types', array( __CLASS__, 'register_curration_post_type' ) );
+	}
+
+	/**
+	 * Registers podcast post type in the curration types list.
+	 *
+	 * @filter gmr-homepage-curation-post-types
+	 * @filter gmr-show-curation-post-types
+	 * @param array $types Array of already registered types.
+	 * @return array Extended array of post types.
+	 */
+	public function register_curration_post_type( $types ) {
+		$types[] = self::EPISODE_POST_TYPE;
+		$types[] = self::PODCAST_POST_TYPE;
+		return $types;
 	}
 
 	public static function add_save_post_actions() {

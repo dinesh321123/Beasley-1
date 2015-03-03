@@ -25,7 +25,8 @@ add_filter( 'gmr_contest_submissions_query', 'gmr_contests_submissions_query' );
 add_filter( 'post_type_link', 'gmr_contests_get_submission_permalink', 10, 2 );
 add_filter( 'request', 'gmr_contests_unpack_vars' );
 add_filter( 'wp_link_query_args', 'gmr_contests_exclude_ugc_from_editor_links_query' );
-add_filter( 'gmr-homepage-curation-post-types', 'gmr_contest_register_homepage_curration_post_type' );
+add_filter( 'gmr-homepage-curation-post-types', 'gmr_contest_register_curration_post_type' );
+add_filter( 'gmr-show-curation-post-types', 'gmr_contest_register_curration_post_type' );
 add_filter( 'post_thumbnail_html', 'gmr_contests_post_thumbnail_html', 10, 4 );
 add_filter( 'manage_' . GMR_CONTEST_CPT . '_posts_columns', 'gmr_contests_filter_contest_columns_list' );
 add_filter( 'post_row_actions', 'gmr_contests_filter_contest_actions', PHP_INT_MAX, 2 );
@@ -61,13 +62,14 @@ function gmr_contests_admin_enqueue_scripts() {
 }
 
 /**
- * Registers contest post type in the homepage curration types list.
+ * Registers contest post type in the curration types list.
  *
  * @filter gmr-homepage-curation-post-types
+ * @filter gmr-show-curation-post-types
  * @param array $types Array of already registered types.
  * @return array Extended array of post types.
  */
-function gmr_contest_register_homepage_curration_post_type( $types ) {
+function gmr_contest_register_curration_post_type( $types ) {
 	$types[] = GMR_CONTEST_CPT;
 	return $types;
 }
@@ -1016,26 +1018,41 @@ function gmr_contest_submission_get_author( $submission = null ) {
  * @param int $entry_id The contest entry id.
  * @return string The author name.
  */
-function gmr_contest_get_entry_author( $entry_id ) {
+function gmr_contest_get_entry_author( $entry_id, $return = 'string' ) {
 	if ( function_exists( 'get_gigya_user_profile' ) ) {
 		try {
 			$gigya_id = get_post_meta( $entry_id, 'entrant_reference', true );
 			if ( $gigya_id && ( $profile = get_gigya_user_profile( $gigya_id ) ) ) {
-				return trim( sprintf(
-					'%s %s',
-					isset( $profile['firstName'] ) ? $profile['firstName'] : '',
-					isset( $profile['lastName'] ) ? $profile['lastName'] : ''
-				) );
+				if ( 'string' == $return ) {
+					return trim( sprintf(
+						'%s %s',
+						isset( $profile['firstName'] ) ? $profile['firstName'] : '',
+						isset( $profile['lastName'] ) ? $profile['lastName'] : ''
+					) );
+				} else {
+					return array(
+						isset( $profile['firstName'] ) ? $profile['firstName'] : '',
+						isset( $profile['lastName'] ) ? $profile['lastName'] : ''
+					);
+				}
 			}
 		} catch( Exception $e ) {}
 	}
 
 	$username = trim( get_post_meta( $entry_id, 'entrant_name', true ) );
-	if ( $username ) {
+	if ( ! $username ) {
+		$username = 'guest';
+	}
+
+	if ( 'string' == $return ) {
 		return $username;
 	}
 
-	return 'guest';
+	$username = explode( ' ', $username );
+	$last_name = array_pop( $username );
+	$first_name = implode( ' ', $username );
+
+	return array( $first_name, $last_name );
 }
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Greater_Media\Gallery_Post_Thumbnails; 
+namespace Greater_Media\Fallback_Thumbnails;
 
 function post_has_gallery( $post = null )
 {

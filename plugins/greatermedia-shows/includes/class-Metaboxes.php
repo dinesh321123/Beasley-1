@@ -7,6 +7,7 @@
 class GMR_Show_Metaboxes {
 
 	private $_restricted_posts = null;
+	private $_curation_post_types = null;
 
 	/**
 	 * Constructor.
@@ -213,6 +214,14 @@ class GMR_Show_Metaboxes {
 		return $this->_restricted_posts;
 	}
 
+	private function _get_curation_post_types() {
+		if ( is_null( $this->_curation_post_types ) ) {
+			$this->_curation_post_types = apply_filters( 'gmr-show-curation-post-types', array( 'post', 'tribe_events' ) );
+		}
+
+		return $this->_curation_post_types;
+	}
+
 	public function render_featured_meta_box( WP_Post $post ) {
 		if ( ! function_exists( 'pf_render' ) ) {
 			?><p>Please install the <a href="http://github.com/10up/post-finder">"post-finder"</a> plugin.</p><?php
@@ -222,7 +231,7 @@ class GMR_Show_Metaboxes {
 
 		$options = array(
 			'args' => array(
-				'post_type' => array( 'post', 'tribe_events' ),
+				'post_type' => $this->_get_curation_post_types(),
 				'meta_key'  => '_thumbnail_id',
 				'exclude'   => $this->_get_restricted_post_ids(),
 			),
@@ -245,7 +254,7 @@ class GMR_Show_Metaboxes {
 
 		$options = array(
 			'args' => array(
-				'post_type' => array( 'post' ),
+				'post_type' => $this->_get_curation_post_types(),
 				'meta_key'  => '_thumbnail_id',
 				'exclude'   => $this->_get_restricted_post_ids(),
 			),
