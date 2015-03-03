@@ -193,7 +193,7 @@ function gmr_survey_export_to_csv() {
 		}
 	}
 
-	$headers = array( 'Name', 'Email' );
+	$headers = array( 'First Name', 'Last Name', 'Email' );
 	if ( $form ) {
 		foreach ( $form as $field ) {
 			$headers[] = $field->label;
@@ -217,10 +217,8 @@ function gmr_survey_export_to_csv() {
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$entry_id = $query->next_post();
-				$row = array(
-					gmr_contest_get_entry_author( $entry_id ),
-					gmr_contest_get_entry_author_email( $entry_id ),
-				);
+				$row = gmr_contest_get_entry_author( $entry_id, 'array' );
+				$row[] = gmr_contest_get_entry_author_email( $entry_id );
 
 				if ( $form ) {
 					$records = GreaterMediaFormbuilderRender::parse_entry( $survey->ID, $entry_id, $form );

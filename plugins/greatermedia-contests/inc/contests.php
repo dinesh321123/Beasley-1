@@ -1018,26 +1018,41 @@ function gmr_contest_submission_get_author( $submission = null ) {
  * @param int $entry_id The contest entry id.
  * @return string The author name.
  */
-function gmr_contest_get_entry_author( $entry_id ) {
+function gmr_contest_get_entry_author( $entry_id, $return = 'string' ) {
 	if ( function_exists( 'get_gigya_user_profile' ) ) {
 		try {
 			$gigya_id = get_post_meta( $entry_id, 'entrant_reference', true );
 			if ( $gigya_id && ( $profile = get_gigya_user_profile( $gigya_id ) ) ) {
-				return trim( sprintf(
-					'%s %s',
-					isset( $profile['firstName'] ) ? $profile['firstName'] : '',
-					isset( $profile['lastName'] ) ? $profile['lastName'] : ''
-				) );
+				if ( 'string' == $return ) {
+					return trim( sprintf(
+						'%s %s',
+						isset( $profile['firstName'] ) ? $profile['firstName'] : '',
+						isset( $profile['lastName'] ) ? $profile['lastName'] : ''
+					) );
+				} else {
+					return array(
+						isset( $profile['firstName'] ) ? $profile['firstName'] : '',
+						isset( $profile['lastName'] ) ? $profile['lastName'] : ''
+					);
+				}
 			}
 		} catch( Exception $e ) {}
 	}
 
 	$username = trim( get_post_meta( $entry_id, 'entrant_name', true ) );
-	if ( $username ) {
+	if ( ! $username ) {
+		$username = 'guest';
+	}
+
+	if ( 'string' == $return ) {
 		return $username;
 	}
 
-	return 'guest';
+	$username = explode( ' ', $username );
+	$last_name = array_pop( $username );
+	$first_name = implode( ' ', $username );
+
+	return array( $first_name, $last_name );
 }
 
 /**
