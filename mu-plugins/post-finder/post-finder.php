@@ -89,7 +89,7 @@ class NS_Post_Finder {
 
 		$item_template =
 			'<li data-id="<%= ID %>" data-permalink="<%= permalink %>" data-title="<%= post_title %>">
-				<a class="post-link" href="<%= permalink %>">
+				<a class="post-link" href="<%= permalink %>" target="_blank">
 					<%= post_title %> (<%= post_date_formatted %>)
 				</a>
 				<a class="add" href="#">Add</a>

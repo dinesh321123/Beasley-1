@@ -220,7 +220,6 @@
 					if( typeof response.posts != "undefined" ) {
 						if ( response.posts.length > 0 ) {
 							for( var i in response.posts ) {
-								console.log(response.posts[i]);
 								html += _.template(itemTemplate, response.posts[i]);
 							}
 						} else {
