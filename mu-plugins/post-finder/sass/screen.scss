@@ -94,7 +94,7 @@
 	}
 
 	.search {
-		
+
 		background: none;
 
 		input {
@@ -111,7 +111,11 @@
 			border-bottom: 1px dotted #ccc;
 		}
 
-		a {
+		.post-link {
+			text-decoration: none;
+		}
+
+		.add {
 			float: right;
 		}
 	}

@@ -34,13 +34,13 @@
 		plugin.settings = {}; //empty object to store extended settings
 
 		var $element = $(element), //store jquery object of el
-			element  = element; //store html el		
+			element  = element; //store html el
 
 		plugin.init = function() {
-			
+
 			// over write defaults with passed options
-			plugin.settings = $.extend({}, defaults, options); 
-			
+			plugin.settings = $.extend({}, defaults, options);
+
 			// all jquery objects are fetched once and stored in the plugin object
 			plugin.$field   = $element.find(plugin.settings.fieldSelector),
 			plugin.$select  = $element.find(plugin.settings.selectSelector),
@@ -60,7 +60,7 @@
 				e.preventDefault();
 				plugin.search();
 			});
-			
+
 			// search on enter key press
 			plugin.$search.find('input[type="text"]').keypress(function(e){
 				if (e.which == 13) {
@@ -87,7 +87,7 @@
 			plugin.$results.on('click', '.add', function(e){
 				e.preventDefault();
 				$li = $(this).closest('li');
-				plugin.add_item( $li.data('id'), $li.find('span').text(), $li.data('permalink') );
+				plugin.add_item( $li.data('id'), $li.data('title'), $li.data('permalink') );
 			});
 
 			// bind number inputs
@@ -132,7 +132,7 @@
 
 			// middle positions
 			} else if( pos > 1 && pos < len ) {
-				
+
 				plugin.$list.find('li').eq( pos - 1 ).before( $clone );
 
 			// last position
@@ -149,7 +149,7 @@
 		};
 
 		plugin.add_item = function( id, title, permalink ) {//private method
-	
+
 			// make sure we have an id
 			if( id == 0 )
 				return;
@@ -166,8 +166,8 @@
 			}
 
 			// add item
-			plugin.$list.append(_.template(plugin.settings.template, { 
-				id:        id, 
+			plugin.$list.append(_.template(plugin.settings.template, {
+				id:        id,
 				title:     title,
 				edit_url:  POST_FINDER_CONFIG.adminurl + 'post.php?post=' + id + '&action=edit',
 				permalink: permalink,
@@ -186,7 +186,7 @@
 
 		//Prv method to remove an item
 		plugin.remove_item = function( id ) {
-			
+
 			plugin.$list.find('li[data-id="' + id + '"]').remove();
 
 			plugin.serialize();
@@ -198,7 +198,7 @@
 		};
 
 		plugin.search = function() {
-		
+
 			var html = '',
 				args = $element.data('args'),
 				data = {
@@ -209,7 +209,7 @@
 
 			// merge the default args in
 			data = $.extend(data, args);
-			
+
 			// display loading
 			plugin.$search.addClass('loading');
 
@@ -220,6 +220,7 @@
 					if( typeof response.posts != "undefined" ) {
 						if ( response.posts.length > 0 ) {
 							for( var i in response.posts ) {
+								console.log(response.posts[i]);
 								html += _.template(itemTemplate, response.posts[i]);
 							}
 						} else {
@@ -232,7 +233,7 @@
 		};
 
 		plugin.serialize = function() {
-			
+
 			var ids = [], i = 1;
 
 			plugin.$list.find('li').each(function(){
