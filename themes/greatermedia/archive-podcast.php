@@ -17,7 +17,7 @@ get_header(); ?>
 			<?php if ( have_posts() ) : while( have_posts() ): the_post(); ?>
 
 				<?php get_template_part( 'partials/loop', 'podcast_archive' ); ?>
-			
+
 				<?php greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop', 'partial_name' => 'podcast_archive', 'auto_load' => true ) ); ?>
 
 			<?php endwhile; ?>
@@ -27,7 +27,7 @@ get_header(); ?>
 
 					<header class="article-header">
 
-						<h1><?php _e( 'No Closures Found!', 'greatermedia' ); ?></h1>
+						<h1><?php _e( 'No Podcasts Found!', 'greatermedia' ); ?></h1>
 
 					</header>
 

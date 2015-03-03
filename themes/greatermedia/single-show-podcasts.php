@@ -12,7 +12,7 @@
 				<div class="podcasts">
 					<h2>Podcasts</h2>
 
-					<?php 
+					<?php
 
 					$episodes = 0;
 					$podcast_query = \GreaterMedia\Shows\get_show_podcast_query();
@@ -32,10 +32,10 @@
 								?></article><?php
 							endif;
 					endwhile;
-						
+
 						wp_reset_query();
 					endif;
-					
+
 					if ( ! $episodes ) :
 
 						?><article id="post-not-found" class="hentry cf">

@@ -20,11 +20,12 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ), 30, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 20, 0 );
 		add_action( 'save_post', array( $this, 'save_post' ) );
-		
+
 		add_filter( 'the_excerpt', array( $this, 'the_content' ), 100 );
 		add_filter( 'the_content', array( $this, 'the_content' ), 100 );
+		add_filter( 'the_secondary_content', array( $this, 'filter_secondary_content' ), 100 );
 		add_filter( 'wp_trim_words', array( $this, 'untrim_restricted_markup' ), 10, 4 );
-		
+
 	}
 
 	public function untrim_restricted_markup( $text, $num_words, $more, $original_text ) {
@@ -206,9 +207,9 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 
 		if ( ( 'logged-in' === $login_restriction ) && ! is_gigya_user_logged_in() ) {
 			ob_start();
-			
+
 			include GREATER_MEDIA_LOGIN_RESTRICTED_CONTENT_PATH . '/tpl/login-restricted-shortcode-render.tpl.php';
-			
+
 			return ob_get_clean();
 		} elseif ( ( 'logged-out' === $login_restriction ) && is_gigya_user_logged_in() ) {
 			return '';
@@ -292,6 +293,28 @@ class GreaterMediaLoginRestrictedContent extends VisualShortcode {
 		// Fall-through, return content as-is
 		return $content;
 
+	}
+
+	function filter_secondary_content( $content ) {
+		global $post;
+
+		// do nothing if the $post variable is not set
+		if ( empty( $post ) ) {
+			return $content;
+		}
+
+		$login_restriction = self::sanitize_login_restriction(
+			get_post_meta( $post->ID, 'post_login_restriction', true )
+		);
+
+		if ( ( 'logged-in' === $login_restriction ) && ! is_gigya_user_logged_in() ) {
+			return '';
+		} elseif ( ( 'logged-out' === $login_restriction ) && is_gigya_user_logged_in() ) {
+			return '';
+		}
+
+		// Fall-through, return content as-is
+		return $content;
 	}
 
 }

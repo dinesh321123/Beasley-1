@@ -30,6 +30,8 @@ $event_id = get_the_ID();
 
 			<h2 class="entry__title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
+			<?php ob_start(); ?>
+
 			<?php do_action( 'tribe_events_single_event_after_the_content' ) ?>
 
 			<?php if ( has_post_thumbnail() ) { ?>
@@ -39,6 +41,9 @@ $event_id = get_the_ID();
 				</div>
 			<?php
 			}
+
+			$event_secondary_content = ob_get_clean();
+			echo apply_filters( 'the_secondary_content', $event_secondary_content );
 			?>
 
 			<div class="ad__inline--right desktop">
@@ -57,11 +62,18 @@ $event_id = get_the_ID();
 			 * to transition: if you are one of those users, please review the new meta templates
 			 * and make the switch!
 			 */
+
+			ob_start();
+
 			if ( ! apply_filters( 'tribe_events_single_event_meta_legacy_mode', false ) ) {
 				tribe_get_template_part( 'modules/meta' );
 			} else {
 				echo tribe_events_single_event_meta();
 			}
+
+			$event_secondary_content = ob_get_clean();
+			echo apply_filters( 'the_secondary_content', $event_secondary_content );
+
 			?>
 			<?php do_action( 'tribe_events_single_event_after_the_meta' ) ?>
 			<!-- Event content -->

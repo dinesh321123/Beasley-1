@@ -134,7 +134,7 @@ class GreaterMediaGallery {
 			}
 		}
 
-		return ! empty( $array_ids ) 
+		return ! empty( $array_ids )
 			? self::get_query_for_ids( $array_ids )
 			: null;
 	}
@@ -148,7 +148,8 @@ class GreaterMediaGallery {
 
 		$gallery_query = self::get_query_for_post( get_queried_object() );
 		if ( $gallery_query ) {
-			echo self::render_gallery_from_query( $gallery_query );
+			$content = self::render_gallery_from_query( $gallery_query );
+			echo apply_filters( 'the_secondary_content', $content );
 		}
 	}
 
@@ -181,10 +182,10 @@ class GreaterMediaGallery {
 	 * @return string Rendered HTML for the gallery
 	 */
 	public static function render_gallery_from_query( \WP_Query $gallery ) {
-		static $gallery_key = -1; 
-		
-		$gallery_key++; 
-		
+		static $gallery_key = -1;
+
+		$gallery_key++;
+
 		ob_start();
 		if ( $gallery->have_posts() ):
 			$main_post_id = get_queried_object_id();

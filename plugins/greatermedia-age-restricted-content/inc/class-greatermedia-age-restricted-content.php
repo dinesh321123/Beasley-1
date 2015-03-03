@@ -20,9 +20,10 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ), 30, 0 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 20, 0 );
 		add_action( 'save_post', array( $this, 'save_post' ) );
-		
+
 		add_filter( 'the_excerpt', array( $this, 'the_content' ), 100 );
 		add_filter( 'the_content', array( $this, 'the_content' ), 100 );
+		add_filter( 'the_secondary_content', array( $this, 'filter_secondary_content' ), 100, 2 );
 		add_filter( 'wp_trim_words', array( $this, 'untrim_restricted_markup' ), 10, 4 );
 
 	}
@@ -282,13 +283,13 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 		$age_restriction = self::sanitize_age_restriction( get_post_meta( $post->ID, 'post_age_restriction', true ) );
 
 		if ( ( '18plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 18 > absint( get_gigya_user_field( 'age' ) ) ) ) {
-			
+
 			$age_restriction = '18+';
 
 			ob_start();
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-post-render.tpl.php';
 			return ob_get_clean();
-			
+
 		} elseif ( ( '21plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 21 > absint( get_gigya_user_field( 'age' ) ) ) ) {
 
 			$age_restriction = '21+';
@@ -296,12 +297,40 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 			ob_start();
 			include GREATER_MEDIA_AGE_RESTRICTED_CONTENT_PATH . '/tpl/age-restricted-post-render.tpl.php';
 			return ob_get_clean();
-			
+
 		}
 
 		// Fall-through, return content as-is
 		return $content;
 
+	}
+
+	function filter_secondary_content( $content, $parent_post = null ) {
+		global $post, $wp;
+		error_log( 'filter_secondary: ' . print_r( $parent_post, true ) );
+
+		// if no parent, use current post
+		if ( is_null( $parent_post ) ) {
+			$parent_post = $post;
+		}
+
+		// do nothing if the $post variable is not set
+		if ( empty( $parent_post ) ) {
+			return $content;
+		}
+
+		$age_restriction = self::sanitize_age_restriction( get_post_meta( $parent_post->ID, 'post_age_restriction', true ) );
+
+		if ( ( '18plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 18 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+			return '';
+		} elseif ( ( '21plus' === $age_restriction ) && ( ! is_gigya_user_logged_in() || 21 > absint( get_gigya_user_field( 'age' ) ) ) ) {
+			return '';
+		}
+
+		error_log( 'age_restriction: ' . $age_restriction );
+		error_log( 'filtering ' . $parent_post->ID );
+		// Fall-through, return content as-is
+		return $content;
 	}
 
 }

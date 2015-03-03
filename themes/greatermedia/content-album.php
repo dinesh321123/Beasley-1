@@ -21,12 +21,12 @@
 			</div>
 
 		<?php } ?>
-		
+
 		<section class="content">
 
 			<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
-				
+
 
 				<div class="ad__inline--right">
 					<?php do_action( 'acm_tag', 'mrec-body' ); ?>
@@ -56,6 +56,12 @@
 		wp_reset_query();
 	?>
 
+	<?php
+
+	// Secondary content needs to go through a filter to allow the
+	// restriction plugins to do their work
+	ob_start();
+	?>
 	<section class="gallery__archive">
 
 		<div class="gallery__grid">
@@ -90,5 +96,10 @@
 		</div>
 
 	</section>
+
+	<?php
+	$secondary_content = ob_get_clean();
+	echo apply_filters( 'the_secondary_content', $secondary_content );
+	?>
 
 </div>

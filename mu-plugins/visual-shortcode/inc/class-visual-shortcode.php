@@ -171,12 +171,6 @@ abstract class VisualShortcode {
 			return;
 		}
 
-		// KLUDGE: Temporary fix for role manager
-		global $post;
-		if ( $post && in_array( $post->post_type, $this->unsupported_post_types ) ) {
-			return;
-		}
-
 		// check if WYSIWYG is enabled
 		if ( 'true' == get_user_option( 'rich_editing' ) ) {
 

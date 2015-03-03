@@ -53,11 +53,12 @@ get_header(); ?>
 									'post__not_in'	=> array( $post->ID )
 								);
 							$siblings = new WP_Query( $args );
-							
+							ob_start();
+
 							if ( $siblings->have_posts() ) : ?>
 
 								<section class="entry__related-posts">
-								
+
 									<h2 class="section-header">More Galleries in <a href="<?php echo esc_url( post_permalink( $parent_post ) ); ?>"><?php echo $parent_post->post_title; ?></a></h2>
 
 									<?php while ( $siblings->have_posts() ) : $siblings->the_post(); ?>
@@ -69,7 +70,12 @@ get_header(); ?>
 								</section>
 
 							<?php endif; ?>
-							
+
+							<?php
+								$secondary_content = ob_get_clean();
+								echo apply_filters( 'the_secondary_content', $secondary_content, $current_gallery );
+							?>
+
 						<?php } ?>
 
 				</article>
