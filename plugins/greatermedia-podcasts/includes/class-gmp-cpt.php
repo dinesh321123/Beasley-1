@@ -44,7 +44,7 @@ class GMP_CPT {
 	 * @param array $types Array of already registered types.
 	 * @return array Extended array of post types.
 	 */
-	public function register_curration_post_type( $types ) {
+	public static function register_curration_post_type( $types ) {
 		$types[] = self::EPISODE_POST_TYPE;
 		$types[] = self::PODCAST_POST_TYPE;
 		return $types;
