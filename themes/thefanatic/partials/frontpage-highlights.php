@@ -50,7 +50,7 @@
 
 		<div class="highlights__contests">
 
-			<h2 class="highlights__heading">Contests</h2>
+			<h2 class="highlights__heading"><?php _e( 'Contests', 'greatermedia' ); ?></h2>
 
 			<div class="highlights__contest--item">
 				<div class="highlights__contest--thumb" style='background-image: url(http://lorempixel.com/200/200/sports/)'></div>
@@ -66,7 +66,12 @@
 
 		<div class="highlights__ad">
 
-			<img src="http://placehold.it/300x250">
+			<div class="highlights__ad--desktop">
+				<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'desktop' ); ?>
+			</div>
+			<div class="highlights__ad--mobile">
+				<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'mobile' ); ?>
+			</div>
 
 		</div>
 

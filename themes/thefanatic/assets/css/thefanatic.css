@@ -2714,16 +2714,33 @@ Community Highlights and Events
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 31.76157%; }
+    width: 100%;
+    margin-right: 0; }
     .news-site .highlights__events:last-child {
       margin-right: 0; }
     @media screen and (min-width: 768px)  {
       .news-site .highlights__events {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 48.82117%;
         clear: both;
-        padding-top: 0; } }
+        padding-top: 0; }
+        .news-site .highlights__events:last-child {
+          margin-right: 0; } }
+    @media screen and (min-width: 1024px)  {
+      .news-site .highlights__events {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 31.76157%; }
+        .news-site .highlights__events:last-child {
+          margin-right: 0; } }
 
 .highlights__events .highlights__heading {
   display: inline-block; }
+  .news-site .highlights__events .highlights__heading {
+    display: block; }
 
 .highlights__events--more-btn {
   display: inline-block;
@@ -2929,9 +2946,27 @@ Community Highlights and Events
     float: left;
     display: block;
     margin-right: 2.35765%;
-    width: 31.76157%; }
+    width: 100%;
+    margin-right: 0; }
     .news-site .highlights__contests:last-child {
       margin-right: 0; }
+    @media screen and (min-width: 768px)  {
+      .news-site .highlights__contests {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 48.82117%;
+        margin-right: 0; }
+        .news-site .highlights__contests:last-child {
+          margin-right: 0; } }
+    @media screen and (min-width: 1024px)  {
+      .news-site .highlights__contests {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
+        width: 31.76157%; }
+        .news-site .highlights__contests:last-child {
+          margin-right: 0; } }
 
 .highlights__contests--more-btn {
   display: inline-block;
@@ -3025,6 +3060,17 @@ Community Highlights and Events
       display: block;
       margin-right: 4.82916%;
       width: 30.11389%;
+      position: absolute;
+      left: 0;
+      top: 0; }
+      .highlights__contest--thumb:last-child {
+        margin-right: 0; } }
+  @media screen and (min-width: 1024px)  {
+    .highlights__contest--thumb {
+      float: left;
+      display: block;
+      margin-right: 4.82916%;
+      width: 30.11389%;
       width: 21.5%;
       position: absolute;
       left: 0;
@@ -3037,14 +3083,14 @@ Community Highlights and Events
   display: block;
   margin-right: 4.82916%;
   width: 65.05695%;
-  padding: 6% 1.618em 0 0;
   font-size: 1.26562em; }
   .highlights__contest--meta:last-child {
     margin-right: 0; }
   @media screen and (min-width: 768px)  {
     .highlights__contest--meta {
+      margin-left: 35%;
       font-size: 1.125em; } }
-  @media screen and (min-width: 768px)  {
+  @media screen and (min-width: 1024px)  {
     .highlights__contest--meta {
       width: auto;
       margin-left: 26.32916%;
@@ -3134,14 +3180,31 @@ a.highlights__contest--btn {
   padding-top: 1.5em; }
   @media screen and (min-width: 768px)  {
     .news-site .highlights__ad {
+      width: 100%;
+      margin: 0 auto;
+      text-align: center; } }
+  @media screen and (min-width: 1024px)  {
+    .news-site .highlights__ad {
       float: left;
       display: block;
       margin-right: 2.35765%;
       width: 31.76157%;
-      clear: none;
-      padding-top: 0; }
+      margin-right: 0;
+      clear: none; }
       .news-site .highlights__ad:last-child {
         margin-right: 0; } }
+.highlights__ad .highlights__ad--mobile {
+  display: block;
+  text-align: center; }
+  @media screen and (min-width: 1024px)  {
+    .highlights__ad .highlights__ad--mobile {
+      display: none; } }
+.highlights__ad .highlights__ad--desktop {
+  display: none;
+  text-align: center; }
+  @media screen and (min-width: 1024px)  {
+    .highlights__ad .highlights__ad--desktop {
+      display: block; } }
 
 .header {
   position: relative;
@@ -8943,7 +9006,9 @@ header.podcast__header {
 
 .podcast__archive .podcast__date, .podcast__archive .podcast__archive--episode-count {
   width: 100%;
-  margin-bottom: 0; }
+  display: block;
+  margin-bottom: 0;
+  float: none; }
 .podcast__archive .podcast__title {
   margin-top: 0; }
 .podcast__archive .podcast__desc {
@@ -8951,6 +9016,12 @@ header.podcast__header {
 .podcast__archive a.podcast__subscribe, .podcast__archive a.podcast__rss {
   font-size: 0.7em;
   vertical-align: top; }
+
+.post-type-archive-podcast .podcast__archive .podcast__date, .post-type-archive-podcast .podcast__archive .podcast__archive--episode-count {
+  margin: 10px 0; }
+  @media screen and (min-width: 1024px)  {
+    .post-type-archive-podcast .podcast__archive .podcast__date, .post-type-archive-podcast .podcast__archive .podcast__archive--episode-count {
+      margin-top: 0; } }
 
 .single-podcast .podcast__header a.podcast__subscribe, .single-podcast .podcast__header a.podcast__rss {
   vertical-align: text-bottom; }
@@ -11924,14 +11995,9 @@ select {
         text-align: left;
         background-position: 50% 50%; } }
   .profile-page .profile-page__sidebar h1 {
-    text-transform: uppercase; }
+    text-transform: uppercase;
+    margin-bottom: 0; }
     @media screen and (min-width: 768px)  {
-      .profile-page .profile-page__sidebar h1 {
-        margin-bottom: 0.5em; } }
-    @media screen and (min-width: 480px)  {
-      .profile-page .profile-page__sidebar h1 {
-        margin-bottom: 0.5em; } }
-    @media screen and (min-width: 320px)  {
       .profile-page .profile-page__sidebar h1 {
         margin-bottom: 0.5em; } }
     @media screen and (min-width: 1024px)  {
@@ -11940,10 +12006,10 @@ select {
     @media screen and (min-width: 1400px)  {
       .profile-page .profile-page__sidebar h1 {
         margin-bottom: 0.6em; } }
-  .profile-page .profile-page__sidebar p {
+  .profile-page .profile-page__sidebar .profile-message {
     display: none; }
     @media screen and (min-width: 768px)  {
-      .profile-page .profile-page__sidebar p {
+      .profile-page .profile-page__sidebar .profile-message {
         display: block; } }
 
 .show__live-links .live-links-group {
