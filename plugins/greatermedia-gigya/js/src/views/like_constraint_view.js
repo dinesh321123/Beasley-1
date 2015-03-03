@@ -13,6 +13,7 @@ var LikeConstraintView = ConstraintView.extend({
 
 		var html = this.template(data);
 		this.$el.html(html);
+		this.renderConjunctionGuide();
 	},
 
 	updateConstraint: function(constraint) {
