@@ -63,9 +63,9 @@
 								/*
 								 * Moved the class from the span to the time so I could add both the start and end times to the datetime attributes
 								 */
-								$start = tribe_get_start_date( get_the_ID(), false, 'M d' );
+								$start = tribe_get_start_date( get_the_ID(), false, 'M j, Y' );
 								$start_c = tribe_get_start_date( get_the_ID(), false, 'c' );
-								$end = tribe_get_end_date( get_the_ID(), false, 'M d' );
+								$end = tribe_get_end_date( get_the_ID(), false, 'M j, Y' );
 								$end_c = tribe_get_end_date( get_the_ID(), false, 'c' );
 								if ( $start != $end ) {
 									printf( '<span class="highlights__event--date"><time datetime="%1$s">%2$s</time> - <time datetime="%3$s">%4$s</time></span>', $start_c, $start, $end_c, $end );

@@ -7,7 +7,7 @@ if ( ! empty( $gmr_moved_song ) ) :
 	array_unshift( $wp_query->posts, $gmr_moved_song );
 endif;
 
-$date_pattern = 'M j';
+$date_pattern = 'M j, Y';
 $current_date = null;
 while( have_posts() ) :
 	the_post();

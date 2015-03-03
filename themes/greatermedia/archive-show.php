@@ -41,7 +41,7 @@ get_header(); ?>
 							<div class="shows__schedule--day">
 
 								<div class="shows__schedule--dayofweek">
-									<?php echo date( 'D, M jS', $start ); ?>
+									<?php echo date( 'D, M j, Y', $start ); ?>
 								</div>
 
 								<div class="shows__schedule--episodes">

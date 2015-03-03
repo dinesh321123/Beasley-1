@@ -29,7 +29,7 @@ get_header(); ?>
 					if ( $live_links_query->have_posts() ) :
 						// get the first post's date
 						$live_links_query->the_post();
-						$current_date = get_the_time( 'M j' );
+						$current_date = get_the_time( 'M j, Y' );
 						$live_links_query->rewind_posts();
 						?>
 						<div class="live-links-group">
@@ -40,7 +40,7 @@ get_header(); ?>
 						<ul class="ll-archive-list">
 						<?php while ( $live_links_query->have_posts() ) : $live_links_query->the_post(); ?>
 						<?php
-						$date = get_the_time( 'M j' );
+						$date = get_the_time( 'M j, Y' );
 						if ( $date != $current_date ) {
 							$current_date = $date;
 							// New Date - Close the UL, Render Date, Reopen UL

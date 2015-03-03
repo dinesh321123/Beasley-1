@@ -4,7 +4,7 @@
 	<section class="col__inner--left">
 
 		<header class="entry__header">
-			<time class="entry__date" datetime="<?php echo get_the_time(); ?>"><?php the_date( 'F j' ); ?></time>
+			<time class="entry__date" datetime="<?php echo get_the_time(); ?>"><?php the_date( 'F j, Y' ); ?></time>
 			<h2 class="entry__title" itemprop="headline">
 				<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 				<sup class="entry__title--tag"><?php echo esc_html( gmr_contest_get_type_label() ); ?></sup>

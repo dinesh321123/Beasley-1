@@ -22,7 +22,7 @@ get_header(); ?>
 
 						<header class="entry-header">
 
-							<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'j F' ); ?></time>
+							<time datetime="<?php the_time( 'c' ); ?>" class="entry__date"><?php the_time( 'F j, Y' ); ?></time>
 
 							<h2 class="entry__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 

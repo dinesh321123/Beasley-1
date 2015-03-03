@@ -7,11 +7,6 @@
  * covers them all. 
  */
 
-$time_format = 'F j';
-if ( get_the_time( 'Y' ) != date( 'Y' ) ) {
-	$time_format .= ', y';
-}
-
 ?><article id="post-<?php the_ID(); ?>" <?php post_class( 'entry2' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 	<?php 
 	if ( has_post_thumbnail() || 'tribe_events' == $post->post_type ) : 
@@ -34,7 +29,7 @@ if ( get_the_time( 'Y' ) != date( 'Y' ) ) {
 	<?php endif; ?>
 
 	<section class="entry2__meta">
-		<time datetime="<?php the_time( 'c' ); ?>" class="entry2__date"><?php the_time( $time_format ); ?></time>
+		<time datetime="<?php the_time( 'c' ); ?>" class="entry2__date"><?php the_time( 'F j, Y' ); ?></time>
 		
 		<h2 class="entry2__title" itemprop="headline"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 		
