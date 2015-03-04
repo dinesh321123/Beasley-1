@@ -456,16 +456,57 @@ header.podcast__header {
 	.podcast__archive {
 		.podcast__date {
 			margin: 10px 0;
+			display: inline-block;
+			float: none;
+			width: auto;
+			font-weight: bold;
+			font-size: 1em;
+			color: $primary-text;
+			text-transform: none;
 
 			@include bp(large) {
 				margin-top: 0;
 			}
+
+			&:before {
+				width: 0;
+				height: 0;
+				margin: 0 5px;
+				content: " - ";
+			}
+		}
+
+		.podcast__title {
+			display: inline-block;
+		}
+
+		.podcast__rss {
+			display: inline-block;
+			margin-top: 2px;
+			margin-left: 10px;
+			margin-bottom: 0;
+		}
+
+		.podcast__parent--title {
+			margin-right: 0;
 		}
 	}
 }
 
 .podcast__archive--episode-count {
-	@extend .podcast__date;
+	font-size: ms(-2);
+	line-height: 1;
+	margin-bottom: 10px;
+	color: $color-gray;
+	text-transform: uppercase;
+
+	.post-type-archive-podcast & {
+		display: inline-block;
+		width: auto;
+		margin-top: 8px !important;
+		margin-left: 10px !important;
+		vertical-align: top;
+	}
 }
 
 .single-podcast {

@@ -196,10 +196,17 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<time class="podcast__date" datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'F j, Y' ) . '</time>';
 			$new_html .= '<h3 class="podcast__title">' . get_the_title() . '</h3>';
 		} elseif ( $is_podcast_archive ) {
-			$new_html .= '<h3 class="podcast__title"><a href="' . get_the_permalink( $parent_podcast ) . '">' . get_the_title() . '</a></h3>';
-			$new_html .= '<time class="podcast__date" datetime="' . date( 'c', $episode_date ) . '">LATEST EPISODE: ' . date( 'F j, Y', $episode_date ) . '</time>';
+			$parent_title = esc_html( $parent_podcast->post_title );
+			$new_html .= '<h3 class="podcast__title"><a href="' . esc_url( get_the_permalink( $parent_podcast ) ) . '">' . esc_html( $parent_title ) . '</a></h3>';
+			$new_html .= self::filter_episode_content(
+				$post_id, '<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>'
+			);
 		} else {
 			$new_html .= '<h3 class="podcast__title">' . esc_html( $title ) . '</h3>';
+		}
+
+		if ( $is_podcast_archive && $podcast_episodes_query ) {
+			$new_html .= '<div class="podcast__archive--episode-count">' . $podcast_episodes_query->found_posts . ' Episodes</div>';
 		}
 
 		if ( $parent_podcast_id && $is_podcast && !is_singular( GMP_CPT::PODCAST_POST_TYPE ) ) {
@@ -214,30 +221,20 @@ class GMR_Audio_Shortcodes {
 			);
 			$new_html .= '</div>';
 		} elseif ( $is_podcast_archive ) {
-			$parent_title = get_the_title();
-			if ( ! empty( $parent_podcast ) ) {
-				$parent_title = esc_html( $parent_podcast->post_title );
-			}
 
-			$new_html .= '<div class="podcast__parent--title podcast__parent--title--mobile show-mobile">' . $parent_title . '</div>';
-			$new_html .= '<div class="podcast__parent hide-mobile"><div class="podcast__parent--title">' . $parent_title . '</div>';
+			$new_html .= '<div class="podcast__parent--title podcast__parent--title--mobile show-mobile">Latest Episode: ' . get_the_title() . '</div>';
+			$new_html .= '<div class="podcast__parent hide-mobile"><div class="podcast__parent--title">Latest Episode: ' . get_the_title() . '</div>';
+			$new_html .= '<time class="podcast__date" datetime="' . date( 'c', $episode_date ) . '">' . date( 'F j, y', $episode_date ) . '</time>';
 
 			if ( $itunes_url != '' ) {
 				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 			}
 
-			$new_html .= self::filter_episode_content(
-				$post_id, '<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>'
-			);
 			$new_html .= '</div>';
 		}
 
 		if ( $is_podcast || $is_podcast_archive ) {
 			$new_html .= '<div class="podcast__desc">' . get_the_excerpt() . '</div>';
-		}
-
-		if ( $is_podcast_archive && $podcast_episodes_query ) {
-			$new_html .= '<div class="podcast__archive--episode-count">' . $podcast_episodes_query->found_posts . ' Episodes</div>';
 		}
 
 		if ( ! $is_podcast && ! $is_podcast_archive ) {
