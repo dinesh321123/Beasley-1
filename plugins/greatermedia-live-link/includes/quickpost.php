@@ -143,11 +143,6 @@ class GMR_QuickPost {
 	 * @access public
 	 */
 	public function process_quicklink_popup() {
-		// die if user don't have permissions
-		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( GMR_LIVE_LINK_CPT )->cap->create_posts ) ) {
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
-		}
-
 		define( 'IFRAME_REQUEST' , true );
 		header( sprintf( 'Content-Type: %s; charset=%s', get_option( 'html_type' ), get_option( 'blog_charset' ) ) );
 
@@ -165,6 +160,11 @@ class GMR_QuickPost {
 		}
 
 		$post = get_default_post_to_edit( GMR_LIVE_LINK_CPT, ! $saved );
+
+		// die if user don't have permissions
+		if ( ! current_user_can( get_post_type_object( GMR_LIVE_LINK_CPT )->cap->create_posts, $post ) ) {
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
+		}
 
 		wp_enqueue_style( 'colors' );
 		wp_enqueue_script( 'post' );
