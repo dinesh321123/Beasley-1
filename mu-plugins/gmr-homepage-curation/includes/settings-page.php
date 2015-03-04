@@ -6,6 +6,15 @@ add_action( 'admin_menu', __NAMESPACE__ . '\add_settings_page' );
 add_action( 'admin_init', __NAMESPACE__ . '\register_settings' );
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_admin_scripts' );
 
+add_filter( 'post_finder_search_results', __NAMESPACE__ . '\adjust_pf_posts' );
+
+/* Adds publish time to the post finder list items. */
+function adjust_pf_posts( $posts ) {
+	foreach ( $posts as $post ) {
+		$post->post_title .= sprintf( ' <small style="float:right;margin-right:2em;color:#aaa;">%s</small>', get_the_time( 'F j, Y', $post ) );
+	}
+	return $posts;
+}
 
 /* Define sections, page slugs, etc */
 function get_settings_page_slug() {
@@ -23,7 +32,7 @@ function register_settings() {
 	add_settings_section( get_settings_section(), 'Homepage Curation', '__return_null', get_settings_page_slug() );
 
 	// Can hook into this to add more post types
-	$homepage_curation_post_types = apply_filters( 'gmr-homepage-curation-post-types', array( 'post', 'tribe_events' ) );
+	$homepage_curation_post_types = apply_filters( 'gmr-homepage-curation-post-types', array( 'post', 'page', 'tribe_events' ) );
 
 	// Fetch restricted post ids
 	$query = new \WP_Query();

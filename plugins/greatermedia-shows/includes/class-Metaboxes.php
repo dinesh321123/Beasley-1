@@ -216,7 +216,7 @@ class GMR_Show_Metaboxes {
 
 	private function _get_curation_post_types() {
 		if ( is_null( $this->_curation_post_types ) ) {
-			$this->_curation_post_types = apply_filters( 'gmr-show-curation-post-types', array( 'post', 'tribe_events' ) );
+			$this->_curation_post_types = apply_filters( 'gmr-show-curation-post-types', array( 'post', 'page', 'tribe_events' ) );
 		}
 
 		return $this->_curation_post_types;
