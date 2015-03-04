@@ -6,16 +6,6 @@ add_action( 'admin_menu', __NAMESPACE__ . '\add_settings_page' );
 add_action( 'admin_init', __NAMESPACE__ . '\register_settings' );
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_admin_scripts' );
 
-add_filter( 'post_finder_search_results', __NAMESPACE__ . '\adjust_pf_posts' );
-
-/* Adds publish time to the post finder list items. */
-function adjust_pf_posts( $posts ) {
-	foreach ( $posts as $post ) {
-		$post->post_title .= sprintf( ' <small style="float:right;margin-right:2em;color:#aaa;">%s</small>', get_the_time( 'F j, Y', $post ) );
-	}
-	return $posts;
-}
-
 /* Define sections, page slugs, etc */
 function get_settings_page_slug() {
 	return 'homepage-curation';
@@ -184,8 +174,8 @@ function render_homepage_curation() {
 }
 
 function enqueue_admin_scripts( $page ) {
-	global $gmr_homepage_curation;
-	if ( $gmr_homepage_curation == $page ) {
+	global $gmr_homepage_curation, $typenow;
+	if ( $gmr_homepage_curation == $page || 'show' == $typenow ) {
 		wp_enqueue_style( 'homepage-curation', GMEDIA_HOMEPAGE_CURATION_URL . 'css/admin.css', null, GMEDIA_HOMEPAGE_CURATION_VERSION );
 		wp_enqueue_script( 'homepage-curation', GMEDIA_HOMEPAGE_CURATION_URL . 'js/curation.js', array( 'jquery' ), GMEDIA_HOMEPAGE_CURATION_VERSION, true );
 	}

@@ -90,9 +90,12 @@ class NS_Post_Finder {
 		$item_template =
 			'<li data-id="<%= ID %>" data-permalink="<%= permalink %>" data-title="<%= post_title %>">
 				<a class="post-link" href="<%= permalink %>" target="_blank">
-					<%= post_title %> (<%= post_date_formatted %>)
+					<%= post_title %>
 				</a>
 				<a class="add" href="#">Add</a>
+				<small class="post-date">
+					<%= post_date_formatted %>
+				</small>
 			</li>';
 
 		// allow for filtering / overriding of templates
@@ -323,7 +326,7 @@ class NS_Post_Finder {
 		// Get the permalink so that View/Edit links work
 		foreach( $posts as $key => $post ) {
 			$posts[$key]->permalink = get_permalink( $post->ID );
-			$posts[$key]->post_date_formatted = mysql2date( get_option( 'date_format' ), $post->post_date );
+			$posts[$key]->post_date_formatted = get_the_time( 'F j, Y', $post );
 		}
 
 		$posts = apply_filters( 'post_finder_search_results', $posts );
