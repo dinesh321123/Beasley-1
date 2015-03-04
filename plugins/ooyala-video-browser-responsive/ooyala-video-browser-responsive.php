@@ -100,11 +100,15 @@ function ooyala_responsive_shortcode( $atts ) {
 		'ooyala_video' => $code,
 	);
 
+	ob_start();
+	ooyala_print_footer_scripts();
+	$output .= ob_get_clean();
+
 	return $output;
 
 }
 
-add_action( 'wp_print_footer_scripts', 'ooyala_print_footer_scripts', 20 );
+//add_action( 'wp_print_footer_scripts', 'ooyala_print_footer_scripts', 20 );
 function ooyala_print_footer_scripts() {
 
 	foreach ( $GLOBALS['ooyala_players'] as $ooyala_player ) {
