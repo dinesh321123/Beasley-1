@@ -45,7 +45,7 @@
 		display: block;
 	}
 
-	@include bp(medium) {
+	@include bp(large) {
 		&.desktop {
 			display: block;
 		}

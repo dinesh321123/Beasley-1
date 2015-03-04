@@ -5175,7 +5175,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   display: none; }
 .article .ad__inline--right.mobile {
   display: block; }
-@media screen and (min-width: 768px)  {
+@media screen and (min-width: 1024px)  {
   .article .ad__inline--right.desktop {
     display: block; }
   .article .ad__inline--right.mobile {
