@@ -2550,7 +2550,7 @@ Community Highlights and Events
 */
 .home__highlights {
   padding: 1.5em 0.809em;
-  background-color: #f1f1f3;
+  background-color: #f1f1f3 !important;
   border-bottom: 1px solid #e9e9ec; }
   @media screen and (min-width: 768px)  {
     .home__highlights {
