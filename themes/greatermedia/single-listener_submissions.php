@@ -6,12 +6,8 @@
  * @since   0.1.0
  */
 
-get_header(); ?>
+get_header();
 
-	<main class="main" role="main">
+	get_template_part( 'content', 'submission' );
 
-		<?php get_template_part( 'content', 'submission' ); ?>
-
-	</main>
-
-<?php get_footer();
+get_footer();

@@ -8,16 +8,15 @@
 
 get_header(); ?>
 
-<main class="main" role="main">
-
 	<div class="container">
 
-		<?php  if ( have_posts() ) : ?>
+		<?php if ( have_posts() ) : ?>
 
 			<?php while ( have_posts() ) : the_post(); ?>
-		
+
 				<?php if ( has_post_thumbnail() ) : ?>
-					<div class="contest__thumbnail" style="background-image:url(<?php gm_post_thumbnail_url( 'gmr-contest-thumbnail' ); ?>)">
+					<div class="contest__thumbnail"
+					     style="background-image:url(<?php gm_post_thumbnail_url( 'gmr-contest-thumbnail' ); ?>)">
 					</div>
 				<?php endif; ?>
 
@@ -26,7 +25,7 @@ get_header(); ?>
 				</section>
 
 			<?php endwhile; ?>
-		
+
 		<?php else : ?>
 
 			<section class="content">
@@ -48,7 +47,5 @@ get_header(); ?>
 		<?php endif; ?>
 
 	</div>
-
-</main>
 
 <?php get_footer();

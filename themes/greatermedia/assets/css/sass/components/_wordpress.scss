@@ -70,3 +70,28 @@ blockquote {
 		color: $medium-dark-gray;
 	}
 }
+
+// Styles needed for sign up, password reset, and user notifications
+.main {
+	.widecolumn {
+		@extend %container;
+
+		h2 {
+			@include fill-parent;
+			@include omega;
+			padding: 1em $gutter / 2 0;
+
+			@include bp(medium) {
+				padding: 1em $gutter 0;
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.lead-in,
+	#signup-welcome,
+	.view {
+		@extend %content;
+	}
+
+}

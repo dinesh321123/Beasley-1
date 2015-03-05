@@ -1,27 +1,24 @@
 <?php get_header(); ?>
 
-	<main class="main" role="main">
+	<div class="container">
 
-		<div class="container">
+		<?php the_post(); ?>
 
-			<?php the_post(); ?>
+		<?php get_template_part( 'show-header' ); ?>
 
-			<?php get_template_part( 'show-header' ); ?>
+		<section class="gallery__archive">
 
-			<section class="gallery__archive">
+			<div class="galleries">
 
-				<div class="galleries">
+				<?php get_template_part( 'partials/gallery-archive' ); ?>
 
-					<?php get_template_part( 'partials/gallery-archive' ); ?>
+				<div
+					class="show__paging"><?php /* echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $album_query ); */ ?></div>
 
-					<div class="show__paging"><?php /* echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $album_query ); */ ?></div>
+			</div>
 
-				</div>
-				
-			</section>
+		</section>
 
-		</div>
-
-	</main>
+	</div>
 
 <?php get_footer();

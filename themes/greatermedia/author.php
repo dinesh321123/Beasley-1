@@ -10,43 +10,39 @@
 
 get_header(); ?>
 
-	<main class="main" role="main">
+	<div class="container">
 
-		<div class="container">
+		<section class="content">
 
-			<section class="content">
+			<h2 class="content__heading">Latest from <?php bloginfo( 'name' ); ?></h2>
 
-				<h2 class="content__heading">Latest from <?php bloginfo( 'name' ); ?></h2>
+			<?php if ( have_posts() ) : ?>
 
-				<?php if ( have_posts() ) : ?>
+				<?php get_template_part( 'partials/loop' ); ?>
+				<?php get_template_part( 'partials/pagination' ); ?>
 
-					<?php get_template_part( 'partials/loop' ); ?>
-					<?php get_template_part( 'partials/pagination' ); ?>
+			<?php else : ?>
 
-				<?php else : ?>
+				<article id="post-not-found" class="hentry cf">
 
-					<article id="post-not-found" class="hentry cf">
+					<header class="article-header">
 
-						<header class="article-header">
+						<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
 
-							<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
+					</header>
 
-						</header>
+					<section class="entry-content">
 
-						<section class="entry-content">
+						<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
 
-							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
+					</section>
 
-						</section>
+				</article>
 
-					</article>
+			<?php endif; ?>
 
-				<?php endif; ?>
+		</section>
 
-			</section>
-
-		</div>
-
-	</main>
+	</div>
 
 <?php get_footer(); ?>

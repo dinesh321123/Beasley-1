@@ -8,22 +8,18 @@
 
 get_header(); ?>
 
-	<main class="main" role="main">
+	<div class="container">
 
-		<div class="container">
+		<section class="content">
+			<div id="wall"></div>
+		</section>
 
-			<section class="content">
-				<div id="wall"></div>
-			</section>
+		<aside class="sidebar" role="complementary">
 
-			<aside class="sidebar" role="complementary">
+			Sidebar area
 
-				Sidebar area
+		</aside>
 
-			</aside>
-
-		</div>
-
-	</main>
+	</div>
 
 <?php get_footer();

@@ -10,72 +10,68 @@
 
 get_header(); ?>
 
-	<main class="main" role="main">
+	<div class="container">
 
-		<div class="container">
+		<section class="content">
 
-			<section class="content">
+			<h2 class="sponsors__heading"><?php _e( 'Advertisers', 'greatermedia' ); ?></h2>
 
-				<h2 class="sponsors__heading"><?php _e( 'Advertisers', 'greatermedia' ); ?></h2>
+			<div class="sponsors">
 
-				<div class="sponsors">
+				<?php
 
-					<?php
+				$advertiser_args = array(
+					'post_type'         => GMR_ADVERTISER_CPT,
+					'orderby'           => 'menu_order date',
+					'order'             => 'ASC',
+					'posts_per_page'    => 30
+				);
 
-					$advertiser_args = array(
-						'post_type'         => GMR_ADVERTISER_CPT,
-						'orderby'           => 'menu_order date',
-						'order'             => 'ASC',
-						'posts_per_page'    => 30
-					);
+				$advertiser_query = new WP_Query( $advertiser_args );
+				$i = 1;
 
-					$advertiser_query = new WP_Query( $advertiser_args );
-					$i = 1;
+				echo '<div class="sponsors__row">';
+				if ( $advertiser_query->have_posts() ) : while ( $advertiser_query->have_posts() ) : $advertiser_query->the_post();
 
-					echo '<div class="sponsors__row">';
-					if ( $advertiser_query->have_posts() ) : while ( $advertiser_query->have_posts() ) : $advertiser_query->the_post();
+					?>
 
-						?>
+					<?php get_template_part( 'partials/loop', 'advertiser' );
 
-						<?php get_template_part( 'partials/loop', 'advertiser' );
+					if ( $i % 2 == 0 ) {
+						echo '</div><div class="sponsors__row">';
+					}
 
-						if ( $i % 2 == 0 ) {
-							echo '</div><div class="sponsors__row">';
-						}
+					$i++;
 
-						$i++;
+					?>
 
-						?>
+				<?php endwhile; ?>
 
-					<?php endwhile; ?>
+				<?php else : ?>
 
-					<?php else : ?>
+					<article id="post-not-found" class="hentry cf">
 
-						<article id="post-not-found" class="hentry cf">
+						<header class="article-header">
 
-							<header class="article-header">
+							<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
 
-								<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
+						</header>
 
-							</header>
+						<section class="entry-content">
 
-							<section class="entry-content">
+							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
 
-								<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
+						</section>
 
-							</section>
+					</article>
 
-						</article>
-
-					<?php endif; ?>
-					</div>
-
+				<?php endif; ?>
 				</div>
 
-			</section>
+			</div>
 
-		</div>
+		</section>
 
-	</main>
+	</div>
 
 <?php get_footer(); ?>

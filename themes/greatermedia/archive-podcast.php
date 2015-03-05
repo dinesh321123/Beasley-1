@@ -6,39 +6,39 @@
 
 get_header(); ?>
 
-<main class="main" role="main">
+<div class="container">
 
-	<div class="container">
+	<section class="content">
+		<header class="podcast__header">
+			<h1 itemprop="headline">Podcasts</h1>
+		</header>
+		<?php if ( have_posts() ) : while ( have_posts() ): the_post(); ?>
 
-		<section class="content">
-			<header class="podcast__header">
-				<h1 itemprop="headline">Podcasts</h1>
-			</header>
-			<?php if ( have_posts() ) : while( have_posts() ): the_post(); ?>
+			<?php get_template_part( 'partials/loop', 'podcast_archive' ); ?>
 
-				<?php get_template_part( 'partials/loop', 'podcast_archive' ); ?>
+			<?php greatermedia_load_more_button( array(
+				'partial_slug' => 'partials/loop',
+				'partial_name' => 'podcast_archive',
+				'auto_load'    => true
+			) ); ?>
 
-				<?php greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop', 'partial_name' => 'podcast_archive', 'auto_load' => true ) ); ?>
+		<?php endwhile; ?>
+		<?php else : ?>
 
-			<?php endwhile; ?>
-			<?php else : ?>
+			<article id="post-not-found" class="hentry cf">
 
-				<article id="post-not-found" class="hentry cf">
+				<header class="article-header">
 
-					<header class="article-header">
+					<h1><?php _e( 'No Podcasts Found!', 'greatermedia' ); ?></h1>
 
-						<h1><?php _e( 'No Podcasts Found!', 'greatermedia' ); ?></h1>
+				</header>
 
-					</header>
+			</article>
 
-				</article>
+		<?php endif; ?>
 
-			<?php endif; ?>
+	</section>
 
-		</section>
-
-	</div>
-
-</main>
+</div>
 
 <?php get_footer(); ?>

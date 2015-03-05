@@ -10,51 +10,47 @@
 
 get_header(); ?>
 
-	<main class="main" role="main">
+	<div class="container">
 
-		<div class="container">
+		<section class="content">
 
-			<section class="content">
+			<?php if ( is_category() || is_tag() ) {
+				greatermedia_archive_title();
+			} else { ?>
 
-				<?php if ( is_category() || is_tag() ) {
-					greatermedia_archive_title();
-				} else { ?>
+				<h2 class="content__heading">
+					<?php $object = get_queried_object(); ?>
+					<?php echo ! empty( $object->labels->name ) ? esc_html( $object->labels->name) : ''; ?>
+				</h2>
+			<?php } ?>
 
-					<h2 class="content__heading">
-						<?php $object = get_queried_object(); ?>
-						<?php echo ! empty( $object->labels->name ) ? esc_html( $object->labels->name) : ''; ?>
-					</h2>
-				<?php } ?>
+			<?php if ( have_posts() ) :  ?>
 
-				<?php if ( have_posts() ) :  ?>
+				<?php get_template_part( 'partials/loop' ); ?>
+				<?php greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop', 'auto_load' => true ) ); ?>
 
-					<?php get_template_part( 'partials/loop' ); ?>
-					<?php greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop', 'auto_load' => true ) ); ?>
+			<?php else : ?>
 
-				<?php else : ?>
+				<article id="post-not-found" class="hentry cf">
 
-					<article id="post-not-found" class="hentry cf">
+					<header class="article-header">
 
-						<header class="article-header">
+						<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
 
-							<h1><?php _e( 'Oops, Post Not Found!', 'greatermedia' ); ?></h1>
+					</header>
 
-						</header>
+					<section class="entry-content">
 
-						<section class="entry-content">
+						<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
 
-							<p><?php _e( 'Uh Oh. Something is missing. Try double checking things.', 'greatermedia' ); ?></p>
+					</section>
 
-						</section>
+				</article>
 
-					</article>
+			<?php endif; ?>
 
-				<?php endif; ?>
+		</section>
 
-			</section>
-
-		</div>
-
-	</main>
+	</div>
 
 <?php get_footer(); ?>

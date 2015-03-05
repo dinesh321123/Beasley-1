@@ -1,36 +1,33 @@
 <?php get_header(); ?>
 
-	<main class="main" role="main">
+	<div class="container">
 
-		<div class="container">
+		<?php the_post(); ?>
 
-			<?php the_post(); ?>
+		<?php get_template_part( 'show-header' ); ?>
 
-			<?php get_template_part( 'show-header' ); ?>
+		<section class="content">
 
-			<section class="content">
+			<div class="videos">
 
-				<div class="videos">
+				<?php
+				$video_query = \GreaterMedia\Shows\get_show_video_query();
 
-					<?php
-					$video_query = \GreaterMedia\Shows\get_show_video_query();
+				while ( $video_query->have_posts() ) : $video_query->the_post();
 
-					while( $video_query->have_posts() ) : $video_query->the_post();
-						
-						get_template_part( 'partials/entry', get_post_field( 'post_type', null ) );
+					get_template_part( 'partials/entry', get_post_field( 'post_type', null ) );
 
-					endwhile;
-					wp_reset_query();
-					?>
+				endwhile;
+				wp_reset_query();
+				?>
 
-					<div class="show__paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $video_query ); ?></div>
+				<div
+					class="show__paging"><?php echo \GreaterMedia\Shows\get_show_endpoint_pagination_links( $video_query ); ?></div>
 
-				</div>
-				
-			</section>
+			</div>
 
-		</div>
+		</section>
 
-	</main>
+	</div>
 
 <?php get_footer();

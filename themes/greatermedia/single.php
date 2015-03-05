@@ -6,12 +6,8 @@
  * @since   0.1.0
  */
 
-get_header(); ?>
+get_header();
 
-	<main class="main" role="main">
+	get_template_part( 'partials/article', get_post_format() );
 
-		<?php get_template_part( 'partials/article', get_post_format() ); ?>
-
-	</main>
-
-<?php get_footer();
+get_footer();
