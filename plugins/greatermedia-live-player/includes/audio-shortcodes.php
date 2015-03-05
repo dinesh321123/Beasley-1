@@ -188,6 +188,10 @@ class GMR_Audio_Shortcodes {
 					}
 					$new_html .= '<a class="podcast__rss show-mobile" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>';
 				}
+
+				if ( $is_podcast_archive && $podcast_episodes_query ) {
+					$new_html .= '<div class="podcast__archive--episode-count">' . $podcast_episodes_query->found_posts . ' Episodes</div>';
+				}
 			}
 			
 			if ( ! $is_podcast_archive ) {
@@ -231,10 +235,9 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '</div>';
 		} elseif ( $is_podcast_archive ) {
 
-			$new_html .= '<div class="podcast__parent--title podcast__parent--title--mobile show-mobile">Latest Episode: ' . get_the_title() . '</div>';
-			$new_html .= '<div class="podcast__parent hide-mobile"><div class="podcast__parent--title">Latest Episode: ' . get_the_title() . '</div>';
-			$new_html .= '<time class="podcast__date" datetime="' . date( 'c', $episode_date ) . '">' . date( 'F j, y', $episode_date ) . '</time>';
-			
+			$new_html .= '<div class="podcast__parent"><div class="podcast__parent--title">Latest Episode: ' . get_the_title() . '</div>';
+			$new_html .= '<time class="podcast__date" datetime="' . date( 'c', $episode_date ) . '">' . date( 'F j, Y', $episode_date ) . '</time>';
+
 			$new_html .= '</div>';
 		}
 

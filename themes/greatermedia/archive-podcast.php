@@ -9,9 +9,7 @@ get_header(); ?>
 <div class="container">
 
 	<section class="content">
-		<header class="podcast__header">
-			<h1 itemprop="headline">Podcasts</h1>
-		</header>
+		<h2 class="content__heading" itemprop="headline"><?php _e( 'Podcasts', 'greatermedia' ); ?></h2>
 		<?php if ( have_posts() ) : while ( have_posts() ): the_post(); ?>
 
 			<?php get_template_part( 'partials/loop', 'podcast_archive' ); ?>

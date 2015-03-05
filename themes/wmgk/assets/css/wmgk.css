@@ -5146,12 +5146,12 @@ Link posts contain a link to an external site. They can also optionally have a f
     .article__date {
       font-size: 0.88889em; } }
 
-.article__title {
+.article__title, .single-podcast .podcast__parent--title {
   font-size: 2.88651em;
   line-height: 1.2;
   margin: 0 0 0.65em; }
   @media screen and (min-width: 768px)  {
-    .article__title {
+    .article__title, .single-podcast .podcast__parent--title {
       font-size: 2.2807em; } }
 
 .article__thumbnail {
@@ -8995,9 +8995,6 @@ a.podcast__rss:active {
     .podcast-player--compact .podcast-player {
       max-width: 60%; } }
 
-header.podcast__header {
-  padding-left: 1em; }
-
 .podcast__archive_title {
   margin-bottom: 10px; }
 
@@ -9017,37 +9014,52 @@ header.podcast__header {
   font-size: 0.7em;
   vertical-align: top; }
 
-.post-type-archive-podcast .podcast__archive .podcast__date {
-  margin: 10px 0;
-  display: inline-block;
+.post-type-archive-podcast .podcast__archive .podcast__meta .podcast__date {
+  margin: 0;
+  display: block;
   float: none;
   width: auto;
+  line-height: 1.5;
   font-weight: bold;
   font-size: 1em;
   color: #404041;
   text-transform: none; }
   @media screen and (min-width: 1024px)  {
-    .post-type-archive-podcast .podcast__archive .podcast__date {
-      margin-top: 0; } }
-  .post-type-archive-podcast .podcast__archive .podcast__date:before {
-    width: 0;
-    height: 0;
-    margin: 0 5px;
-    content: " - "; }
-.post-type-archive-podcast .podcast__archive .podcast__title {
-  display: inline-block; }
-.post-type-archive-podcast .podcast__archive .podcast__rss {
-  display: inline-block;
-  margin-top: 2px;
-  margin-left: 10px;
-  margin-bottom: 0; }
-.post-type-archive-podcast .podcast__archive .podcast__parent--title {
+    .post-type-archive-podcast .podcast__archive .podcast__meta .podcast__date {
+      display: inline; }
+      .post-type-archive-podcast .podcast__archive .podcast__meta .podcast__date:before {
+        width: 0;
+        height: 0;
+        margin: 0 5px;
+        content: " - "; } }
+.post-type-archive-podcast .podcast__archive .podcast__meta .podcast__title {
+  margin: 0 0 .5em; }
+.post-type-archive-podcast .podcast__archive .podcast__meta .podcast__rss {
+  display: none; }
+  @media screen and (min-width: 1024px)  {
+    .post-type-archive-podcast .podcast__archive .podcast__meta .podcast__rss {
+      display: inline-block;
+      margin-top: 2px;
+      margin-bottom: 0;
+      margin-right: 1em; } }
+@media screen and (min-width: 1024px)  {
+  .post-type-archive-podcast .podcast__archive .podcast__meta .podcast__parent {
+    margin-top: .5em; } }
+.post-type-archive-podcast .podcast__archive .podcast__meta .podcast__parent--title {
+  display: block;
   margin-right: 0; }
-.post-type-archive-podcast .podcast__archive .podcast__subscribe {
-  display: inline-block;
-  margin-top: 2px;
-  margin-left: 10px;
-  margin-bottom: 0; }
+  @media screen and (min-width: 1024px)  {
+    .post-type-archive-podcast .podcast__archive .podcast__meta .podcast__parent--title {
+      display: inline; } }
+.post-type-archive-podcast .podcast__archive .podcast__meta .podcast__subscribe {
+  display: none; }
+  @media screen and (min-width: 1024px)  {
+    .post-type-archive-podcast .podcast__archive .podcast__meta .podcast__subscribe {
+      display: inline-block;
+      margin-top: 2px;
+      margin-bottom: 0;
+      margin-right: 1em;
+      margin-left: 0; } }
 
 .podcast__archive--episode-count {
   font-size: 0.79012em;
@@ -9055,15 +9067,24 @@ header.podcast__header {
   margin-bottom: 10px;
   color: #929497;
   text-transform: uppercase; }
-  .post-type-archive-podcast .podcast__archive--episode-count {
-    display: inline-block;
-    width: auto;
-    margin-top: 8px !important;
-    margin-left: 10px !important;
-    vertical-align: top; }
+  .podcast__download .podcast__archive--episode-count {
+    display: block; }
+    @media screen and (min-width: 1024px)  {
+      .podcast__download .podcast__archive--episode-count {
+        display: none; } }
+  .podcast__meta .podcast__archive--episode-count {
+    display: none; }
+    @media screen and (min-width: 1024px)  {
+      .podcast__meta .podcast__archive--episode-count {
+        display: inline-block;
+        width: auto;
+        margin-top: 8px !important;
+        vertical-align: top; } }
 
 .single-podcast .podcast__header a.podcast__subscribe, .single-podcast .podcast__header a.podcast__rss {
   vertical-align: text-bottom; }
+.single-podcast .podcast__parent--title {
+  margin-right: 10px; }
 
 .login-restricted-login-btn, .logout-restricted-login-btn, .age-restricted-login-btn {
   display: inline-block;
