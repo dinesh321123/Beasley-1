@@ -9,15 +9,11 @@ module.exports = function( grunt ) {
 			},
 			greater_media_live_player: {
 				src: [
-					'assets/js/src/greater_media_live_player.js'
-				],
-				dest: 'assets/js/greater_media_live_player.js'
-			},
-			tdplayer: {
-				src: [
+					'assets/js/src/jquery.load.js',
+					'assets/js/src/greater_media_live_player.js',
 					'assets/js/src/tdplayer.js'
 				],
-				dest: 'assets/js/tdplayer.js'
+				dest: 'assets/js/greater_media_live_player.js'
 			}
 		},
 		jshint: {
@@ -62,7 +58,6 @@ module.exports = function( grunt ) {
 			all: {
 				files: {
 					'assets/js/greater_media_live_player.min.js': ['assets/js/greater_media_live_player.js'],
-					'assets/js/tdplayer.min.js': ['assets/js/tdplayer.js']
 				},
 				options: {
 					mangle: {

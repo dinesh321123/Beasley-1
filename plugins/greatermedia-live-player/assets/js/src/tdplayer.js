@@ -1494,7 +1494,7 @@
 					'timeout': 10000
 				});
 			}
-		} else if (gmlp.logged_in) {
+		} else if (gmr.wpLoggedIn) {
 			if ($.support.pjax) {
 				$(document).pjax('a:not(.ab-item)', '.page-wrap', {
 					'fragment': '.page-wrap',

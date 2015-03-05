@@ -10,47 +10,13 @@
 
 	// variables
 	var document = window.document,
-		$document = $(document),
-		$window = $(window),
 		body = document.querySelectorAll('body'),
-		$body = $(body),
-		toggleButton = document.querySelectorAll('.gmlp-nav-toggle'),
-		$toggleButton = $(toggleButton),
 		playButton = $('#playButton'),
 		pauseButton = $('#pauseButton'),
 		resumeButton = $('#resumeButton'),
-		podcastPlay = $('.podcast__btn--play'),
 		listenNow = $('#live-stream__listen-now'),
 		listenLogin = $('#live-stream__login'),
 		accountLogin = $('.header__account--btn');
-	/**
-	 * global variables for event types to use in conjunction with `addEventHandler` function
-	 * @type {string}
-	 */
-	var elemClick = 'click',
-		elemLoad = 'load',
-		elemScroll = 'scroll',
-		elemResize = 'resize';
-
-	/**
-	 * function to detect if the current browser can use `addEventListener`, if not, use `attachEvent`
-	 * this is a specific fix for IE8
-	 *
-	 * @param elem
-	 * @param eventType
-	 * @param handler
-	 */
-	function addEventHandler(elem,eventType,handler) {
-		if (elem.addEventListener) {
-			elem.addEventListener(eventType, handler, false);
-		} else if (elem.attachEvent) {
-			elem.attachEvent('on' + eventType, handler);
-		}
-	}
-
-	var enablePjax = function() {
-		$(document).pjax('a:not(.ab-item)', 'section.content', {'fragment': 'section.content', 'maxCacheLength': 500, 'timeout' : 5000});
-	};
 
 	/**
 	 *
@@ -89,7 +55,7 @@
 					'timeout': 10000
 				});
 			}
-		} else if (gmlp.logged_in) {
+		} else if (gmr.wpLoggedIn) {
 			if ($.support.pjax) {
 				$(document).pjax('a:not(.ab-item)', '.page-wrap', {
 					'fragment': '.page-wrap',
@@ -134,7 +100,5 @@
 			Cookies.set('gmr_play_live_audio', 0);
 		}
 	});
-
-
 
 } )(jQuery,window);
