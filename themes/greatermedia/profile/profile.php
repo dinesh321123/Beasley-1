@@ -216,9 +216,11 @@ function get_gigya_verify_email_message() {
 
 				<span class="gigya-error-msg" data-bound-to="password" ></span>
 				<label for="register-password">Password</label><input type="password" name="password" id="register-password" placeholder="Password" />
+				<div class="profile__helper">Passwords must be a minimum of 6 characters</div>
 
 				<span class="gigya-error-msg" data-bound-to="passwordRetype" ></span>
 				<label for="register-password-confirm">Re-Enter Password</label><input type="password" name="passwordRetype" id="register-password-confirm" placeholder="Re-Enter Password" />
+				<div class="profile__helper">Passwords must be a minimum of 6 characters</div>
 
 				<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Login</a>
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Register" />
@@ -441,10 +443,12 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg" data-bound-to="newPassword" ></span>
 				<label for="password-change-new">Choose a new password:</label>
 				<input type="password" name="newPassword" id="password-change-new" />
+				<div class="profile__helper">Passwords must be a minimum of 6 characters</div>
 
 				<span class="gigya-error-msg" data-bound-to="passwordRetype" ></span>
 				<label for="password-change-confirm">Retype new password:</label>
 				<input type="password" name="passwordRetype" id="password-change-confirm" />
+				<div class="profile__helper">Passwords must be a minimum of 6 characters</div>
 
 				<a href="#" class="link-button" data-switch-screen="gigya-update-profile-screen">&laquo; Back</a>
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Update" />
@@ -472,10 +476,12 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg" data-bound-to="newPassword" ></span>
 				<label for="password-reset-new">Choose a new password:</label>
 				<input type="password" name="newPassword" id="password-reset-new" />
+				<div class="profile__helper">Passwords must be a minimum of 6 characters</div>
 
 				<span class="gigya-error-msg" data-bound-to="passwordRetype" ></span>
 				<label for="password-reset-confirm">Confirm new password:</label>
 				<input type="password" name="passwordRetype" id="password-reset-confirm" />
+				<div class="profile__helper">Passwords must be a minimum of 6 characters</div>
 
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Reset" />
 			</form>
