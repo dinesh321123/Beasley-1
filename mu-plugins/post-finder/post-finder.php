@@ -58,7 +58,7 @@ class NS_Post_Finder {
 			)
 		);
 
-		wp_enqueue_style( 'post-finder', plugins_url( 'css/screen.css', __FILE__ ) );
+		wp_enqueue_style( 'post-finder', plugins_url( 'css/screen.css', __FILE__ ), null, POST_FINDER_VERSION );
 	}
 
 	/**
