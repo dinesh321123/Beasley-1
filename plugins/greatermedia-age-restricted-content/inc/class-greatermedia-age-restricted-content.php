@@ -307,7 +307,6 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 
 	function filter_secondary_content( $content, $parent_post = null ) {
 		global $post, $wp;
-		error_log( 'filter_secondary: ' . print_r( $parent_post, true ) );
 
 		// if no parent, use current post
 		if ( is_null( $parent_post ) ) {
@@ -327,8 +326,6 @@ class GreaterMediaAgeRestrictedContent extends VisualShortcode {
 			return '';
 		}
 
-		error_log( 'age_restriction: ' . $age_restriction );
-		error_log( 'filtering ' . $parent_post->ID );
 		// Fall-through, return content as-is
 		return $content;
 	}

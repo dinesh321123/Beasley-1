@@ -198,8 +198,6 @@ class GreaterMediaGallery {
 						<div class="gallery__slide--images cycle-slideshow"
 						     data-cycle-log="false"
 						     data-slides="> .gallery__slide--image"
-						     data-cycle-prev=".gallery_<?php echo intval( $gallery_key ); ?>_prev"
-						     data-cycle-next=".gallery_<?php echo intval( $gallery_key ); ?>_next"
 						     data-cycle-timeout="0"
 						     data-cycle-caption="#gallery__count"
 						     data-cycle-caption-template="<?php echo esc_attr( $image_count_text ); ?>"

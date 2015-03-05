@@ -1,38 +1,38 @@
 (function ($, window, undefined) {
 	"use strict";
 
-	var document = window.document,
-		$document = $(document),
+	var $document = $(document),
 		$window = $(window),
 		__ready;
 
 	__ready = function() {
-		$document.find( '.gallery' ).each( function () {
-			var $gallery = $( this ),
+		$document.find('.gallery').each(function() {
+			var $gallery = $(this),
 				gallery = $gallery.get(),
-				$main = $gallery.find( '.gallery__slide--images' ),
+				$main = $gallery.find('.gallery__slide--images'),
 				main = $main.get(0),
-				$main_wrapper = $gallery.find( '.gallery__slides' ),
-				slideshow = $gallery.find( '.gallery__slide--images.cycle-slideshow' ),
-				$caption = $gallery.find( '.gallery__content' ),
-				$sidebar = $gallery.find( '.gallery__thumbnails' ),
-				$slide_paging = $gallery.find( '.gallery__paging' ),
-				$slide_paging_previews = $gallery.find( '.gallery__previews' ),
-				$single_thumbnail = $gallery.find( '.gallery__previews div div' );
+				$main_wrapper = $gallery.find('.gallery__slides'),
+				slideshow = $gallery.find('.gallery__slide--images.cycle-slideshow'),
+				$caption = $gallery.find('.gallery__content'),
+				$sidebar = $gallery.find('.gallery__thumbnails'),
+				$slide_paging = $gallery.find('.gallery__paging'),
+				$slide_paging_previews = $gallery.find('.gallery__previews'),
+				$single_thumbnail = $gallery.find('.gallery__previews div div');
 	
 			/**
 			 * Bind the gallery full screen toggle
 			 */
 			function bind_events() {
-				var hashChange = false;
+				var hashChange = false,
+					transitioning = false;
 	
-				slideshow = $gallery.find( '.gallery__slide--images' );
+				slideshow = $gallery.find('.gallery__slide--images');
 				
 				// Don't enable the centering plugin on IE8. Note that removing 
 				// the attributes (instead of adding them) doesn't work. 
-				if ( ! $( 'html' ).hasClass( 'lt-ie9' ) ) {
-					slideshow.attr( 'data-cycle-center-horz', true );
-					slideshow.attr( 'data-cycle-center-vert', true ); 
+				if (!$('html').hasClass('lt-ie9')) {
+					slideshow.attr('data-cycle-center-horz', true);
+					slideshow.attr('data-cycle-center-vert', true);
 				}
 				
 				// Initialize the slideshow.
@@ -43,17 +43,20 @@
 				/**
 				 * Make sure thumbnails are updated before the slideshow cycles.
 				 */
-				slideshow.on( 'cycle-before', function ( event, optionHash ) {
+				slideshow.on('cycle-before', function (event, optionHash) {
 					update_thumbnails(optionHash.nextSlide); // nextSlide = incoming slide. could be backward
 					//$caption.cycle( 'goto', optionHash.nextSlide );
-				} );
+				});
 
 				// Record page view
-				slideshow.on('cycle-after', function () {
+				slideshow.on('cycle-after', function() {
+					// reset transition flag
+					transitioning = false;
+					
 					// track page views
 					if ("function" === typeof(ga)) {
 						ga('send', 'pageview');
-					} else if ("object" === typeof(_gaq) ) {
+					} else if ("object" === typeof(_gaq)) {
 						// Older google analytics
 						_gaq.push(['_trackPageview']);
 					}
@@ -62,56 +65,69 @@
 				/**
 				 * Wire up additional events after the slideshow has fully initialized.
 				 */
-				slideshow.on( 'cycle-update-view', function( event, optionHash ) {
-					update_thumbnails( optionHash.currSlide );
-				} );
+				slideshow.on('cycle-update-view', function (event, optionHash) {
+					update_thumbnails(optionHash.currSlide);
+				});
 	
 				/**
 				 * On mobile, regroup thumbnails on page load
 				 */
-				slideshow.on( 'cycle-initialized', function( e, opts ) {
+				slideshow.on('cycle-initialized', function (e, opts) {
 					responsive_thumbnails();
-				} );
+				});
 	
 				/**
 				 * Make sure the preview buttons transition the slideshow.
 				 */
-				$slide_paging_previews.on( 'click', '.cycle-slide div', function () {
-					var $this = $( this ),
-						index = $this.data( 'cycle-index' );
-	
-					slideshow.cycle( 'goto', index );
-					$caption.cycle( 'goto', index );
-				} );
+				$slide_paging_previews.on('click', '.cycle-slide div', function () {
+					var $this = $(this),
+						index = $this.data('cycle-index');
+
+					slideshow.cycle('goto', index);
+					$caption.cycle('goto', index);
+				});
 	
 				// Make sure we disable other hashchange events that attempt to capture manual hash changes.
-				$document.on( 'cycle-pre-initialize', function( e, opts ) {
-					$( window ).off( 'hashchange', opts._onHashChange);
+				$document.on('cycle-pre-initialize', function (e, opts) {
+					$window.off('hashchange', opts._onHashChange);
 				});
 	
 				// Rebind Captions - Code taken directly from jquery2.cycle.caption.js (with certain code standard updates)
-				$document.on( 'cycle-update-view', function ( e, opts, slideOpts, currSlide ) {
-					if ( opts.captionModule !== 'caption' ) {
+				$document.on('cycle-update-view', function (e, opts, slideOpts, currSlide) {
+					if (opts.captionModule !== 'caption') {
 						return;
 					}
-	
+
 					var el;
-					$.each( ['caption', 'overlay'], function () {
+					$.each(['caption', 'overlay'], function () {
 						var name = this,
-							template = slideOpts[name + 'Template'],
-							el = opts.API.getComponent( name );
-	
-						if ( el.length && template ) {
-							el.html( opts.API.tmpl( template, slideOpts, opts, currSlide ) );
+								template = slideOpts[name + 'Template'],
+								el = opts.API.getComponent(name);
+
+						if (el.length && template) {
+							el.html(opts.API.tmpl(template, slideOpts, opts, currSlide));
 							el.show();
-						}
-						else {
+						} else {
 							el.hide();
 						}
-					} );
-				} );
+					});
+				});
+
+				$gallery.find('.gallery__prev--btn').click(function() {
+					if (!transitioning) {
+						transitioning = true;
+						slideshow.cycle('prev');
+					}
+				});
+
+				$gallery.find('.gallery__next--btn').click(function() {
+					if (!transitioning) {
+						transitioning = true;
+						slideshow.cycle('next');
+					}
+				});
 	
-				$window.resize( responsive_thumbnails );
+				$window.resize(responsive_thumbnails);
 			}
 	
 			/**
