@@ -9043,6 +9043,11 @@ header.podcast__header {
   margin-bottom: 0; }
 .post-type-archive-podcast .podcast__archive .podcast__parent--title {
   margin-right: 0; }
+.post-type-archive-podcast .podcast__archive .podcast__subscribe {
+  display: inline-block;
+  margin-top: 2px;
+  margin-left: 10px;
+  margin-bottom: 0; }
 
 .podcast__archive--episode-count {
   font-size: 0.79012em;
