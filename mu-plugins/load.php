@@ -21,6 +21,7 @@ include __DIR__ . '/gmr-template-tags/gmr-template-tags.php';
 include __DIR__ . '/gmr-homepage-curation/gmr-homepage-curation.php';
 include __DIR__ . '/acm-additions/acm-additions.php';
 include __DIR__ . '/legacy-redirects/class-CMM_Legacy_Redirects.php';
+include __DIR__ . '/gmr-fallback-thumbnails/gmr-fallback-thumbnails.php';
 
 // Load 10up Experience, if the plugin files are present
 if ( file_exists( __DIR__ . '/10up-experience/10up-experience.php' ) ) {

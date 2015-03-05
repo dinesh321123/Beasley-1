@@ -4,35 +4,44 @@ namespace Greater_Media\Fallback_Thumbnails;
 
 use TDS;
 
-class Thumbnail_Filter
-{	
-	protected $_filtering_meta = false; 
-	 
-	public function __construct()
-	{	
+class Thumbnail_Filter {
+	protected $_filtering_meta = false;
+
+	public function __construct() {
 		add_filter( 'get_post_metadata', array( $this, 'filter_post_meta' ), 10, 4 );
 		add_action( 'save_post', array( $this, 'clear_cached_fallback_thumb' ) );
 	}
-	
-	public function filter_post_meta( $data, $post_id, $key, $single )
-	{
+
+	/**
+	 * Filter the post meta to add a featured image for posts if they do not have one
+	 *
+	 * @param $data
+	 * @param $post_id
+	 * @param $key
+	 * @param $single
+	 *
+	 * @return bool|int|mixed|void
+	 */
+	public function filter_post_meta( $data, $post_id, $key, $single ) {
 		if ( '_thumbnail_id' == $key && ! $this->_filtering_meta ) {
 			$this->_filtering_meta = true;
-		
+
 			$thumbnail_id = get_post_meta( $post_id, $key, $single );
-		
+
 			if ( ! $thumbnail_id ) {
 				// Try to get one from cache. 
 				$thumbnail_id = wp_cache_get( $post_id, 'gm/post_fallback_thumb' );
-				
-				if ( -1 == $thumbnail_id ) {
+
+				if ( - 1 == $thumbnail_id ) {
 					// "Blank" value represented this way so we don't keep 
 					// refreshing the cache. Return false. 
-					$thumbnail_id = false; 
+					$thumbnail_id = false;
 				} elseif ( ! $thumbnail_id ) {
 					// Okay, get a new one.
 					if ( 'podcast' == get_post_type( $post_id ) ) {
 						$thumbnail_id = $this->_get_image_for_podcast( $post_id );
+					} elseif ( 'episode' == get_post_type( $post_id ) ) {
+						$thumbnail_id = $this->_get_image_for_podcast_episode( $post_id );
 					} elseif ( 'gmr_album' == get_post_type( $post_id ) ) {
 						$thumbnail_id = $this->_get_image_for_album( $post_id );
 					} else {
@@ -42,39 +51,37 @@ class Thumbnail_Filter
 					// If we've got nothing, store a "blank" value so we don't keep
 					// refreshing the cache. 
 					if ( ! $thumbnail_id ) {
-						$thumbnail_id = -1;
-					}  
-					
+						$thumbnail_id = - 1;
+					}
+
 					// Throw it in the cache. 
 					wp_cache_set( $post_id, $thumbnail_id, 'gm/post_fallback_thumb' );
-				} 
+				}
 			}
-			
-			$data = $thumbnail_id; 
-			$this->_filtering_meta = false; 
+
+			$data                  = $thumbnail_id;
+			$this->_filtering_meta = false;
 		}
-				
-		return $data; 
+
+		return $data;
 	}
-	
-	public function clear_cached_fallback_thumb( $post_id )
-	{
+
+	public function clear_cached_fallback_thumb( $post_id ) {
 		if ( wp_is_post_revision( $post_id ) ) {
 			return;
 		}
-		
+
 		wp_cache_delete( $post_id, 'gm/post_fallback_thumb' );
 	}
 
 	/**
-	 * Get image for a podcast. This will use the logo for the show associated
-	 * with the podcast.
+	 * Get thumbnail for a podcast. This will use the logo for the show associated with the podcast.
 	 *
 	 * @param $post_id
+	 *
 	 * @return int|void
 	 */
-	protected function _get_image_for_podcast( $post_id )
-	{
+	protected function _get_image_for_podcast( $post_id ) {
 		//  Find the associated show post
 		$terms = wp_get_object_terms( $post_id, '_shows' );
 
@@ -92,14 +99,40 @@ class Thumbnail_Filter
 	}
 
 	/**
-	 * Get image for an album. This will use the first image of the first
-	 * gallery in the album.
+	 * Get thumbnail for a podcast episode. This will pull the image from the parent podcast if the episode does not
+	 * have a featured image
 	 *
 	 * @param $post
+	 *
 	 * @return int|void
 	 */
-	protected function _get_image_for_album( $post )
-	{
+	protected function _get_image_for_podcast_episode( $post ) {
+
+		$post = get_post( $post );
+
+		// Make sure there's a post.
+		if ( ! $post ) {
+			return;
+		}
+
+		$parent_post = $post->post_parent;
+
+		if ( ! $parent_post ) {
+			return;
+		}
+
+		return $this->_get_image_for_podcast( $parent_post );
+
+	}
+
+	/**
+	 * Get thumbnail for an album. This will use the first image of the first gallery in the album.
+	 *
+	 * @param $post
+	 *
+	 * @return int|void
+	 */
+	protected function _get_image_for_album( $post ) {
 		$post = get_post( $post );
 
 		// Make sure there's a post.
@@ -109,13 +142,13 @@ class Thumbnail_Filter
 
 		// Get the first gallery in this album.
 		$child_gallery_posts = get_posts( array(
-			'post_parent' => $post->ID,
-			'post_type' => 'gmr_gallery',
-			'post_status' => 'publish',
-			'fields' => 'ids',
+			'post_parent'    => $post->ID,
+			'post_type'      => 'gmr_gallery',
+			'post_status'    => 'publish',
+			'fields'         => 'ids',
 			'posts_per_page' => 1,
-			'orderby' => 'menu_order',
-			'order' => 'ASC',
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
 		) );
 
 		// Get the thumbnail for that gallery.
@@ -125,41 +158,41 @@ class Thumbnail_Filter
 	}
 
 	/**
-	 * Get image for a gallery. This will use the first image in the gallery.
+	 * Get thumbnail for a gallery. This will use the first image in the gallery.
 	 *
 	 * @param $post
+	 *
 	 * @return int|void
 	 */
-	protected function _get_image_for_gallery( $post )
-	{
+	protected function _get_image_for_gallery( $post ) {
 		$post = get_post( $post );
-		
+
 		// Make sure there's a post. 
 		if ( ! $post ) {
-			return; 
-		}		
-		
+			return;
+		}
+
 		// Make sure there's a gallery. 
 		if ( ! preg_match( '#\[gallery#i', $post->post_content ) ) {
-			return; 
+			return;
 		}
-		
+
 		// Does the gallery have image IDs specified? 
 		if ( preg_match( '#\[gallery[^\]]+ids\s*=\s*((\'|")?)(\d+)#', $post->post_content, $matches ) ) {
-			return (int) $matches[3]; 
+			return (int) $matches[3];
 		}
-		
+
 		// Find the first image attached to this post.
-		$children = get_children( array( 
-			'post_parent' => $post->ID, 
-			'post_status' => 'inherit', 
-			'post_type' => 'attachment', 
+		$children = get_children( array(
+			'post_parent'    => $post->ID,
+			'post_status'    => 'inherit',
+			'post_type'      => 'attachment',
 			'post_mime_type' => 'image',
 			'posts_per_page' => 1,
-			'fields' => 'ids',
-		) ); 
+			'fields'         => 'ids',
+		) );
 		if ( $children ) {
-			return (int) $children[0]; 
+			return (int) $children[0];
 		}
 	}
 }
