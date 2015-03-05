@@ -47,6 +47,15 @@
 	border-radius: 0;
 }
 
+#register-password,
+#register-password-confirm,
+#password-change-new,
+#password-change-confirm,
+#password-reset-new,
+#password-reset-confirm {
+	margin-bottom: .25em !important;
+}
+
 #profile-content .gigya-screen input:focus {
 	outline: none;
 }
@@ -200,3 +209,9 @@ select:-webkit-autofill {
 	color: red;
 }
 
+.profile__helper {
+	margin-bottom: 1.5em;
+	font-size: .75em;
+	font-style: italic;
+	color: #929497;
+}
