@@ -342,6 +342,11 @@ class BlogData {
 				self::AssignDefaultTerms( $post_id, $defaults );
 			}
 
+			$uncategorized = get_term_by( 'name', 'Uncategorized', 'category' );
+			if ( $uncategorized ) {
+				wp_remove_object_terms( $post_id, $uncategorized->term_id, 'category' );
+			}
+
 			if ( ! is_null( $featured ) ) {
 				$featured = esc_url_raw( $featured );
 				self::ImportMedia( $post_id, $featured, true );

@@ -425,50 +425,51 @@ class SyndicationCPT {
 		}
 
 		// get all taxonomies for post
-		$taxonomy_names  = get_object_taxonomies( 'post', 'objects' );
+		$taxonomy_names = get_object_taxonomies( 'post', 'objects' );
 
 		// foreach taxonomy pare defaults
-		foreach( $taxonomy_names as $taxonomy ) {
-			if( isset( $_POST[ 'subscription_default_terms-' . $taxonomy->name ] ) ) {
+		foreach ( $taxonomy_names as $taxonomy ) {
+			if ( isset( $_POST['subscription_default_terms-' . $taxonomy->name] ) ) {
 				// sanitize defaults
 				$sanitized = array_map( 'sanitize_text_field', $_POST['subscription_default_terms-' . $taxonomy->name] );
 				$default_terms = implode( ',', $sanitized );
-				update_post_meta( $post_id, 'subscription_default_terms-' . $taxonomy->name, $default_terms  );
+				update_post_meta( $post_id, 'subscription_default_terms-' . $taxonomy->name, $default_terms );
+			} else {
+				delete_post_meta( $post_id, 'subscription_default_terms-' . $taxonomy->name );
 			}
 		}
 
 		// save deafult status
-		if( isset( $_POST[ 'subscription_post_status' ] ) ) {
-			$sanitized = sanitize_text_field( $_POST[ 'subscription_post_status' ] );
+		if ( isset( $_POST['subscription_post_status'] ) ) {
+			$sanitized = sanitize_text_field( $_POST['subscription_post_status'] );
 
 			// Update the meta field.
-			update_post_meta( $post_id, 'subscription_post_status', $sanitized  );
+			update_post_meta( $post_id, 'subscription_post_status', $sanitized );
 		}
 
 		// get filter metas
-		foreach( BlogData::$taxonomies as $taxonomy => $type ) {
+		foreach ( BlogData::$taxonomies as $taxonomy => $type ) {
 			$terms = '';
 
-			if( isset( $_POST[ 'subscription_filter_terms-' . $taxonomy ] ) ) {
-				$sanitized = array_map( 'sanitize_text_field', $_POST[ 'subscription_filter_terms-' . $taxonomy ] );
+			if ( isset( $_POST['subscription_filter_terms-' . $taxonomy] ) ) {
+				$sanitized = array_map( 'sanitize_text_field', $_POST['subscription_filter_terms-' . $taxonomy] );
 				$terms = implode( ',', $sanitized );
 			}
 
 			// Update the meta field.
-			update_post_meta( $post_id, 'subscription_filter_terms-' . $taxonomy, $terms  );
-
+			update_post_meta( $post_id, 'subscription_filter_terms-' . $taxonomy, $terms );
 		}
 
-		if( isset( $_POST['enabled_filter_taxonomy'] ) ) {
+		if ( isset( $_POST['enabled_filter_taxonomy'] ) ) {
 			$enabled_taxonomy = sanitize_text_field( $_POST['enabled_filter_taxonomy'] );
 			// Update the meta field.
-			update_post_meta( $post_id, 'subscription_enabled_filter', $enabled_taxonomy  );
+			update_post_meta( $post_id, 'subscription_enabled_filter', $enabled_taxonomy );
 		}
 
-		if( isset( $_POST['subscription_type'] ) ) {
+		if ( isset( $_POST['subscription_type'] ) ) {
 			$subscription_type = sanitize_text_field( $_POST['subscription_type'] );
 			// Update the meta field.
-			update_post_meta( $post_id, 'subscription_type', $subscription_type  );
+			update_post_meta( $post_id, 'subscription_type', $subscription_type );
 		}
 	}
 
