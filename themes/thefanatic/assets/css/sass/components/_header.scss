@@ -20,6 +20,11 @@
 .header__account:hover {
 
 	@include bp(medium) {
-		background-color: $color-red-dark;
+		background-color: white;
+	}
+
+	> a,
+	.header__account--span {
+		color: black;
 	}
 }

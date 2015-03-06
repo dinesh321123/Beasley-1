@@ -19,8 +19,12 @@
 	width: 40px;
 	height: 40px;
 
-	&.active & {
+	&.active {
 		display: block;
+
+		&:hover {
+			color: white;
+		}
 	}
 }
 
@@ -104,6 +108,9 @@
 	}
 
 	.news-site & {
+		border-top: none;
+		border-bottom: 7px solid $color-text-red;
+
 		li {
 			a {
 				border-right: none !important;

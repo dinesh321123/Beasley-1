@@ -29,6 +29,44 @@
 		clear: left;
 	}
 
+	.news-site & {
+
+		& > ul > li {
+			width: 23.5%; // 100% - 2% - 2% - 2% (for margins, below and padding of ul above) / 4 (4 columns)
+			float: none;
+			display: inline-block;
+			vertical-align: top;
+
+			& > a {
+				float: left;
+				width: 100%;
+				line-height: 1.25em;
+			}
+		}
+
+		& > ul > li:not(:nth-child(3n+1)) {
+			border-left: none;
+			padding-left: 0;
+			margin-left: 0;
+		}
+
+
+		& > ul > li:not(:nth-child(4n+1)) {
+			border-left: 1px solid $primary-border !important;
+			padding-left: 1%;
+			margin-left: 1%;
+		}
+
+		& > ul > li:nth-child(3n+1) {
+			clear: none;
+		}
+
+		& > ul > li:nth-child(4n+1) {
+			clear: left;
+		}
+
+	}
+
 }
 
 .header__nav .format-fw {

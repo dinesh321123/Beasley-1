@@ -1,7 +1,12 @@
 .header__nav .sub-menu,
 .header__account--links.sub-menu,
 .ui-menu {
-	border-top-color: $color-red-dark;
+	border-bottom-color: $color-red-dark;
+}
+
+.header__nav .sub-menu li.active a {
+	background-color: $color-red;
+	color: white;
 }
 
 .mobile-nav {
