@@ -27,6 +27,12 @@
 	background-color: transparent;
 	border-color: $btn-bg;
 	color: $color-text-red !important;
+
+	&:hover {
+		background-color: $btn-bg;
+		border-color: $btn-bg;
+		color: white !important;
+	}
 }
 
 .live-links {

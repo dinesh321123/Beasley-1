@@ -14344,6 +14344,10 @@ a.entry2__category:link, a.entry2__category:visited {
   background-color: transparent;
   border-color: #db261d;
   color: #d22228 !important; }
+  .live-stream__listen-now--btn:hover, .podcast__rss:hover {
+    background-color: #db261d;
+    border-color: #db261d;
+    color: white !important; }
 
 @media screen and (min-width: 768px)  {
   .live-links {
