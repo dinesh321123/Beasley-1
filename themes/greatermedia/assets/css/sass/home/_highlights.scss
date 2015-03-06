@@ -271,7 +271,7 @@ Community Highlights and Events
 		}
 
 		@include bp(larger) {
-			@include span-columns(3 of 12);
+			@include span-columns(4 of 12);
 		}
 	}
 }
