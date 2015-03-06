@@ -208,7 +208,16 @@ class BlogData {
 	public static function PostDataExtractor( $post_type, $single_result ) {
 		$metas = get_metadata( 'post', $single_result->ID, '', true );
 		$media = get_attached_media( 'image', $single_result->ID );
-		$featured = wp_get_attachment_image_src( get_post_thumbnail_id( $single_result->ID ), 'full' );
+
+		$featured_src = '';
+		$featured_id = get_post_thumbnail_id( $single_result->ID );
+		if ( $featured_id ) {
+			$featured_src = wp_get_attachment_image_src( $featured_id, 'full' );
+			if ( $featured_src ) {
+				$featured_src = $featured_src[0];
+			}
+		}
+		
 		$galleries = get_post_galleries( $single_result->ID, false );
 
 		$attachments = array();
@@ -228,7 +237,7 @@ class BlogData {
 			'post_metas'          => $metas,
 			'attachments'         => $media,
 			'gallery_attachments' => $attachments,
-			'featured'            => $featured[0],
+			'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
 			'galleries'           => $galleries,
 			'term_tax'            => $term_tax
 		);
@@ -348,8 +357,7 @@ class BlogData {
 			}
 
 			if ( ! is_null( $featured ) ) {
-				$featured = esc_url_raw( $featured );
-				self::ImportMedia( $post_id, $featured, true );
+				self::ImportMedia( $post_id, esc_url_raw( $featured[1] ), true, $featured[0] );
 			}
 
 			if ( ! is_null( $attachments ) ) {
@@ -447,7 +455,7 @@ class BlogData {
 	 *
 	 * @return int|object
 	 */
-	public static function ImportMedia( $post_id = 0, $filename, $featured = false, $old_id = 0 ) {
+	public static function ImportMedia( $post_id, $filename, $featured = false, $old_id = 0 ) {
 		$id = 0;
 		$old_id = intval( $old_id );
 		$tmp = download_url( $filename );
