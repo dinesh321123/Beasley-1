@@ -98,7 +98,7 @@ class GreaterMedia_Keyword_Admin {
 		$this->_page_slug = add_menu_page(
 			'On-Air Keywords',
 			'Keywords',
-			'manage_options',
+			'manage_keywords',
 			$this::$plugin_slug,
 			array( $this, 'display_plugin_admin_page' ),
 			'dashicons-lightbulb',
@@ -142,14 +142,14 @@ class GreaterMedia_Keyword_Admin {
 			$nonce = $_POST['save_new_keyword'];
 		}
 
-		if( !wp_verify_nonce( $nonce, 'save_new_keyword' ) ) {
+		if ( ! wp_verify_nonce( $nonce, 'save_new_keyword' ) ) {
 			return false;
 		}
 
 		$pairs = get_option( $this::$plugin_slug . '_option_name' );
 		$pairs = self::array_map_r( 'sanitize_text_field', $pairs );
 
-		if ( isset( $_POST["save_keyword_settings"] ) && current_user_can('manage_options') ) {
+		if ( isset( $_POST["save_keyword_settings"] ) && current_user_can( 'manage_keywords' ) ) {
 
 			$linked_content = isset( $_POST['linked_content'] ) ? intval( $_POST['linked_content'] ) : 0;
 			$keyword = isset( $_POST['keyword'] )? sanitize_text_field( $_POST['keyword'] ) : '';
@@ -264,7 +264,6 @@ class GreaterMedia_Keyword_Admin {
 	}
 
 	public static function get_posts() {
-
 		$res = array();
 
 		$search_term = isset( $_REQUEST['s'] ) ? sanitize_text_field( $_REQUEST['s'] ) : '';
@@ -286,7 +285,6 @@ class GreaterMedia_Keyword_Admin {
 		}
 
 		wp_send_json_success( $res );
-		exit;
 	}
 }
 
