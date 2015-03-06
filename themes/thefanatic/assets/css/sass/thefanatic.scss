@@ -10,7 +10,7 @@
 
 @import "../../../../greatermedia/assets/css/sass/greater_media.scss";
 
-//@import "base/grid";
+@import "base/grid";
 
 
 // Anything that doesn't print out CSS along with normalize and fonts
@@ -28,3 +28,4 @@
 @import "components/header";
 @import "components/search";
 @import "components/entries";
+@import "components/liveplayer";

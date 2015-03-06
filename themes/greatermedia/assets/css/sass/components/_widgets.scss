@@ -16,6 +16,16 @@
 		font-size: ms(0);
 		font-weight: normal;
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			line-height: 1;
+			font-size: ms(5);
+			font-weight: lighter;
+			text-transform: uppercase;
+		}
+	}
 }
 
 .widget--live-player ul {

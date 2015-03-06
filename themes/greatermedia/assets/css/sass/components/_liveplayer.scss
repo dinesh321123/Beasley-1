@@ -152,7 +152,6 @@ category: Components
 	background-color: $liveplayer-bg;
 
 	@include bp(medium) {
-		width: 225px;
 		overflow: auto;
 	}
 
@@ -171,6 +170,14 @@ category: Components
 			@include media(min-width 783px) {
 				top: 32px;
 			}
+		}
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			width: 200px;
+			margin: 4em auto 0;
 		}
 	}
 }
@@ -216,6 +223,17 @@ category: Components
 
 	&.full__width {
 		width: 90%;
+	}
+
+	.news-site & {
+		@include border-radius(4px);
+		border-color: $primary-border;
+		background-color: transparent;
+
+		@include bp(medium) {
+			width: 200px;
+			margin: 0;
+		}
 	}
 }
 #popup-player-livestream .live-player__stream{
@@ -263,17 +281,32 @@ category: Components
 	font-size: ms(-2);
 	content: "\e606";
 	@include transform(rotate(90deg));
+
+	.news-site & {
+		top: 9px;
+		right: 10px;
+	}
 }
 
 .live-player__stream--current.open:after {
 	top: 16px;
 	right: 25px;
 	@include transform(rotate(270deg));
+
+	.news-site & {
+		top: 18px;
+		right: 20px;
+		color: $primary-border;
+	}
 }
 
 .live-player__stream--title {
 	display: inline-block;
 	padding: 5px 2px 5px 15px;
+
+	.news-site & {
+		padding: .5em .125em .5em 1em;
+	}
 }
 
 .live-player__stream--current-name {
@@ -312,6 +345,10 @@ category: Components
 
 .live-player__stream--item:last-of-type {
 	@include border-radius(0 0 1em 1em);
+
+	.news-site & {
+		@include border-radius(0 0 4px 4px);
+	}
 }
 
 .live-player__stream--item:hover {
@@ -352,6 +389,14 @@ category: Components
 
 		@include bp(medium) {
 			overflow: hidden;
+		}
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			padding: 0 0 80px;
+			margin-top: 3.75em;
 		}
 	}
 }
@@ -415,6 +460,20 @@ category: Components
 			padding: 0 0 23px;
 		}
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			padding-bottom: 2em;
+		}
+
+		&.audio__playing {
+
+			@include bp(medium) {
+				padding-bottom: 2em;
+			}
+		}
+	}
 }
 #popup-player-livestream .live-stream__player{
   padding-bottom: 23px;
@@ -458,11 +517,13 @@ category: Components
 			display: block;
 		}
 	}
+
+	.news-site & {
+		top: 273px;
+		width: 200px;
+	}
 }
-#popup-player-livestream .live-stream__status{
-  display: block;
-  height: 23px;
-}
+
 .live-stream__listen-now--btn {
 	display: none;
 
@@ -484,6 +545,11 @@ category: Components
 		@include bp(medium) {
 			max-width: none;
 		}
+	}
+
+	.news-site & {
+		@include border-radius(4px);
+		padding: .7em 1.4em;
 	}
 }
 
@@ -907,11 +973,19 @@ category: Components
 	position: relative;
 	@include fill-parent;
 	text-align: right;
+
 	@include bp(medium) {
 		float: none;
 		width: auto;
 		padding: 23px 0 0;
-	text-align: center;
+		text-align: center;
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			padding-top: 2em;
+		}
 	}
 
 	&.audio__playing {
@@ -927,6 +1001,13 @@ category: Components
 	@include bp(medium) {
 		@include fill-parent;
 		padding-top: 23px;
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			padding-top: 2em;
+		}
 	}
 }
 
@@ -947,16 +1028,7 @@ category: Components
 		margin: 0;
 		text-align: center;
 	}
-#popup-player-livestream {
-  .on-air, .up-next{
-    float: none;
-    width: 100%;
-    height: 48px;
-    padding: 0 1em;
-    margin: 0;
-    text-align: center;
-  }
-}
+
 	.live-player__container.playing & {
 		display: none;
 
@@ -991,6 +1063,13 @@ category: Components
 	&.on-air__npe {
 		top: 0;
 		@include transition(all 500ms ease-in-out);
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: auto;
+		}
 	}
 }
 
@@ -1276,6 +1355,13 @@ category: Components
 			width: 225px;
 		}
 	}
+
+	.news-site & {
+		padding-top: 8px;
+		margin-right: 3.125em;
+		margin-left: 3.125em;
+		text-align: left;
+	}
 }
 
 #popup-player-livestream .live-links{
@@ -1472,15 +1558,32 @@ category: Components
 	.live-player--open & {
 		display: block;
 	}
+
+	.news-site & {
+		background-color: $liveplayer-bg;
+
+		@include bp(medium) {
+			width: 300px;
+			border-left: 1px solid $primary-border;
+		}
+	}
 }
 
 .live-links--more__btn {
 	@include btn($btn-muted, $color-text-white, $btn-muted, 0.5em, 1em, ms(-1));
 	@include transition(all 200ms ease-in-out);
+
+	.news-site & {
+		@include border-radius(4px);
+	}
 }
 
 .live-links--more__btn:hover {
 	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 1em, ms(-1));
+
+	.news-site & {
+		@include border-radius(4px);
+	}
 }
 
 .audio__time {
