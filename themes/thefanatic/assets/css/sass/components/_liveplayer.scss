@@ -26,7 +26,7 @@
 .live-stream__listen-now--btn {
 	background-color: transparent;
 	border-color: $btn-bg;
-	color: $color-text-red;
+	color: $color-text-red !important;
 }
 
 .live-links {
