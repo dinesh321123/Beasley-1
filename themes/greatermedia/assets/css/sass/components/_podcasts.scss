@@ -300,7 +300,11 @@ a.podcast__rss:active {
 }
 
 .podcast__subscribe {
-	@extend .live-stream__listen-now--btn;
+	display: block;
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
+	font-weight: 700;
+	z-index: 1;
+	@include transition(all 200ms ease-in-out);
 	margin: 0 10px 0 0;
 	text-transform: none;
 }
@@ -551,6 +555,12 @@ a.podcast__rss:active {
 
 .single-podcast {
 	.podcast__header {
+		margin-bottom: 1.75em;
+
+		@include bp(medium) {
+			margin-bottom: 0;
+		}
+		
 		a.podcast__subscribe,
 		a.podcast__rss {
 			vertical-align: text-bottom;
@@ -560,5 +570,9 @@ a.podcast__rss:active {
 	.podcast__parent--title {
 		@extend .article__title;
 		margin-right: 10px;
+	}
+
+	.podcast__subscribe {
+		display: inline-block;
 	}
 }

@@ -23,7 +23,7 @@ get_header(); ?>
 				<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast' ); ?> role="article" itemscope
 				         itemtype="http://schema.org/BlogPosting">
 					<header class="podcast__header">
-						 <h2 class="podcast__parent--title" itemprop="headline"><?php the_title(); ?></h2>
+						<h2 class="content__heading" itemprop="headline"><?php the_title(); ?></h2>
 						<a class="podcast__rss" href="<?php echo esc_url( $feed_url ) ?>" target="_blank">Podcast
 							Feed</a>
 						<?php

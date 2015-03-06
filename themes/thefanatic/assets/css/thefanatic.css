@@ -1635,6 +1635,14 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
       font-size: 1.26562em; } }
   #tribe-events .content__heading, #tribe-events .sponsors__heading {
     margin-bottom: 30px; }
+  .single-podcast .content__heading, .single-podcast .sponsors__heading {
+    display: block;
+    margin-bottom: .25em; }
+    @media screen and (min-width: 768px)  {
+      .single-podcast .content__heading, .single-podcast .sponsors__heading {
+        display: inline-block;
+        margin-bottom: 1.5em;
+        margin-right: 10px; } }
   .news-site .content__heading, .news-site .sponsors__heading {
     padding: .35em 0 1.65em;
     margin: 0;
@@ -5786,10 +5794,10 @@ body.profile-page-login .live-player--mobile {
   display: block;
   height: 23px; }
 
-.live-stream__listen-now--btn, .podcast__subscribe, .podcast__rss {
+.live-stream__listen-now--btn, .podcast__rss {
   display: none; }
   @media screen and (min-width: 768px)  {
-    .live-stream__listen-now--btn, .podcast__subscribe, .podcast__rss {
+    .live-stream__listen-now--btn, .podcast__rss {
       display: block;
       margin-right: 0;
       display: inline-block;
@@ -5809,13 +5817,13 @@ body.profile-page-login .live-player--mobile {
       -webkit-transition: all 200ms ease-in-out;
       -moz-transition: all 200ms ease-in-out;
       transition: all 200ms ease-in-out; }
-      .live-stream__listen-now--btn:hover, .podcast__subscribe:hover, .podcast__rss:hover, .live-stream__listen-now--btn:focus, .podcast__subscribe:focus, .podcast__rss:focus {
+      .live-stream__listen-now--btn:hover, .podcast__rss:hover, .live-stream__listen-now--btn:focus, .podcast__rss:focus {
         background-color: #b21f18;
         border-color: #b21f18;
         color: #ffffff; }
-      .live-stream__listen-now--btn:last-of-type, .podcast__subscribe:last-of-type, .podcast__rss:last-of-type {
+      .live-stream__listen-now--btn:last-of-type, .podcast__rss:last-of-type {
         margin-right: 0; } }
-  .audio__playing .live-stream__listen-now--btn, .audio__playing .podcast__subscribe, .audio__playing .podcast__rss {
+  .audio__playing .live-stream__listen-now--btn, .audio__playing .podcast__rss {
     max-width: 100px;
     -webkit-transition: all 200ms ease-in-out;
     -moz-transition: all 200ms ease-in-out;
@@ -5825,7 +5833,7 @@ body.profile-page-login .live-player--mobile {
     transition-delay: 1s;
     text-align: center; }
     @media screen and (min-width: 768px)  {
-      .audio__playing .live-stream__listen-now--btn, .audio__playing .podcast__subscribe, .audio__playing .podcast__rss {
+      .audio__playing .live-stream__listen-now--btn, .audio__playing .podcast__rss {
         max-width: none; } }
 
 .live-stream__now-playing--btn {
@@ -8909,8 +8917,32 @@ a.podcast__rss:active {
     margin-right: 0; }
 
 .podcast__subscribe {
+  display: block;
+  display: inline-block;
+  line-height: 1;
+  padding: 0.5em 1em;
+  margin-right: .5em;
+  outline: none;
+  background-color: #db261d;
+  border: 1px solid #db261d;
+  font-size: 0.88889em;
+  color: #ffffff !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 100em;
+  font-weight: 700;
+  z-index: 1;
+  -webkit-transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
   margin: 0 10px 0 0;
   text-transform: none; }
+  .podcast__subscribe:hover, .podcast__subscribe:focus {
+    background-color: #b21f18;
+    border-color: #b21f18;
+    color: #ffffff; }
+  .podcast__subscribe:last-of-type {
+    margin-right: 0; }
 
 .gmr-mediaelement-fallback {
   max-height: 100px; }
@@ -9081,10 +9113,17 @@ a.podcast__rss:active {
         margin-top: 8px !important;
         vertical-align: top; } }
 
-.single-podcast .podcast__header a.podcast__subscribe, .single-podcast .podcast__header a.podcast__rss {
-  vertical-align: text-bottom; }
+.single-podcast .podcast__header {
+  margin-bottom: 1.75em; }
+  @media screen and (min-width: 768px)  {
+    .single-podcast .podcast__header {
+      margin-bottom: 0; } }
+  .single-podcast .podcast__header a.podcast__subscribe, .single-podcast .podcast__header a.podcast__rss {
+    vertical-align: text-bottom; }
 .single-podcast .podcast__parent--title {
   margin-right: 10px; }
+.single-podcast .podcast__subscribe {
+  display: inline-block; }
 
 .login-restricted-login-btn, .logout-restricted-login-btn, .age-restricted-login-btn {
   display: inline-block;

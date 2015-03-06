@@ -17,6 +17,17 @@
 		margin-bottom: 30px;
 	}
 
+	.single-podcast & {
+		display: block;
+		margin-bottom: .25em;
+
+		@include bp(medium) {
+			display: inline-block;
+			margin-bottom: $base-line-height;
+			margin-right: 10px;
+		}
+	}
+
 	.news-site & {
 		padding: .35em 0 1.65em;
 		margin: 0;
