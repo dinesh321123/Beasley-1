@@ -1564,6 +1564,9 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
   margin-right: 1em;
   max-height: 40px;
   width: auto; }
+@media screen and (min-width: 1024px)  {
+  .news-site .format-sp li .group {
+    width: 78%; } }
 
 .header__nav .format-fi {
   /* Yes, I'm in over-specific selector hell */ }
