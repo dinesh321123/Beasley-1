@@ -2002,9 +2002,8 @@ Curated posts for Featured Articles
   @media screen and (min-width: 768px)  {
     .featured__article--primary {
       float: left;
-      width: 66.66667%;
-      padding-right: 5px;
-      margin: 0; } }
+      width: calc(66.75% - 5px);
+      margin: 0 5px 0 0; } }
 
 .featured__article--secondary {
   position: relative;
@@ -2015,7 +2014,7 @@ Curated posts for Featured Articles
   @media screen and (min-width: 768px)  {
     .featured__article--secondary {
       float: right;
-      width: 33.33333%; } }
+      width: 33.25%; } }
 
 .featured__content {
   padding-bottom: 0;
@@ -2080,7 +2079,7 @@ a.featured__article--link {
     padding-top: 60.4%; }
     @media screen and (min-width: 1024px)  {
       .featured__article--secondary .featured__article--image {
-        padding-top: 61%; } }
+        padding-top: 61.25%; } }
 
 .featured__article--content {
   display: table-cell;
@@ -7228,7 +7227,7 @@ body.vast-ad--playing {
 
 .breaking-news-banner {
   width: 100%;
-  background: #d22228;
+  background: #db261d;
   padding: 10px 0;
   color: #ffffff; }
 

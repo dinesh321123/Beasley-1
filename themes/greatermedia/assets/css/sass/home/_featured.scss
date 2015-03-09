@@ -125,9 +125,8 @@ Curated posts for Featured Articles
 
 	@include bp(medium) {
 		float: left;
-		width: 66.66666666666666%;
-		padding-right: 5px;
-		margin: 0;
+		width: calc(66.75% - 5px);
+		margin: 0 5px 0 0;
 	}
 }
 
@@ -140,7 +139,7 @@ Curated posts for Featured Articles
 
 	@include bp(medium) {
 		float: right;
-		width: 33.33333333333333%;
+		width: 33.25%;
 	}
 }
 
@@ -216,7 +215,7 @@ a.featured__article--link {
 		padding-top: 60.4%;
 
 		@include bp(large) {
-			padding-top: 61%;
+			padding-top: 61.25%;
 		}
 	}
 }
