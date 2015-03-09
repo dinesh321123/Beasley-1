@@ -24,6 +24,7 @@ get_header(); ?>
 				         itemtype="http://schema.org/BlogPosting">
 					<header class="podcast__header">
 						<h2 class="content__heading" itemprop="headline"><?php the_title(); ?></h2>
+						
 						<a class="podcast__rss" href="<?php echo esc_url( $feed_url ) ?>" target="_blank">Podcast
 							Feed</a>
 						<?php

@@ -43,12 +43,22 @@
 }
 
 .live-link__type--show {
-	border-bottom-color: $primary-border;
 	background: none;
 }
 
 .live-link__title {
 	color: $primary-text;
+
+	a:link,
+	a:visited {
+		color: $primary-text;
+	}
+
+	a:hover,
+	a:active,
+	a:focus {
+		color: $primary-link-hover;
+	}
 }
 
 

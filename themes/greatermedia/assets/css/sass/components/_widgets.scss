@@ -20,6 +20,7 @@
 	.news-site & {
 
 		@include bp(medium) {
+			margin-bottom: 0;
 			line-height: 1;
 			font-size: ms(5);
 			font-weight: lighter;
@@ -39,4 +40,22 @@
 	padding: 0;
 	margin: 0;
 	line-height: 1;
+
+	.news-site & {
+		padding: 2.125em 0 1.875em;
+		margin: 0 0 0 50px;
+		border-bottom: 1px solid $primary-border;
+
+		&:hover {
+
+			.live-link__title {
+				color: $primary-link-hover;
+			}
+
+			div:before {
+				color: $primary-link-hover;
+				border-color: $primary-link-hover;
+			}
+		}
+	}
 }

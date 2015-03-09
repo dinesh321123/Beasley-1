@@ -105,6 +105,11 @@ Curated posts for Featured Articles
 .featured__articles {
 	display: block;
 	overflow: auto;
+
+	.news-site & {
+		@include fill-parent();
+		@include row(table);
+	}
 }
 
 .featured__article{
@@ -145,16 +150,8 @@ Curated posts for Featured Articles
 
 	.news-site & {
 		padding: 5px 0 0;
-		@include bp(small) {
-			@include span-columns(6);
-			@include omega;
-			padding: 5px 0 0;
-		}
-		@include bp(medium) {
-			@include span-columns(8);
-			@include omega;
-			padding: 5px 0 0;
-		}
+		@include fill-parent();
+		@include row(table);
 	}
 }
 
@@ -210,6 +207,7 @@ a.featured__article--link {
 	background-position: center center;
 
 	.news-site & {
+		display: block;
 		padding-top: 61.85%;
 		background-color: transparent;
 	}
@@ -388,7 +386,8 @@ a.featured__article--link {
 	}
 
 	.news-site & {
-		width: 33.33333333333333%;
+		@include span-columns(4);
+		@include pad();
 		height: 100%;
 		padding: 0;
 		margin: 0;
@@ -398,6 +397,7 @@ a.featured__article--link {
 
 .featured__content--block:last-of-type {
 	@include omega;
+	@include reset-display;
 }
 
 .featured__content--image {

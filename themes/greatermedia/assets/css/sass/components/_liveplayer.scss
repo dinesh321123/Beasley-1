@@ -1389,12 +1389,32 @@ category: Components
 	&:hover {
 		color: $primary-link-hover;
 	}
+
+	.news-site & {
+		position: absolute;
+		top: 0;
+		left: -50px;
+		display: block;
+		width: 30px;
+		height: 30px;
+		padding: 10px 0;
+		margin-right: 1.25em;
+		border: 1px solid $primary-border;
+		@include border-radius(50%);
+		font-size: .675em;
+		color: $primary-text;
+		text-align: center;
+	}
 }
 
 .live-link__type--audio, .live-link__type--gallery, .live-link__type--image, .live-link__type--link, .live-link__type--standard, .live-link__type--video, .live-link__song {
 	display: block;
 	position: relative;
 	padding: 13px 25px;
+
+	.news-site & {
+		padding: 0;
+	}
 }
 
 .live-link__song {
@@ -1472,6 +1492,11 @@ category: Components
 	background: -o-linear-gradient(rgba(50, 48, 48, 0.35), rgb(0, 0, 0)); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(rgba(50, 48, 48, 0.35), rgb(0, 0, 0)); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(rgba(50, 48, 48, 0.35), rgb(0, 0, 0)); /* Standard syntax (must be last) */
+
+	.news-site & {
+		padding: 0;
+		border-bottom: none;
+	}
 }
 
 .live-link__title {
@@ -1492,6 +1517,12 @@ category: Components
 
 	.live-link__type--show & {
 		padding-top: 0;
+	}
+
+	.news-site & {
+		width: 100%;
+		padding-top: 0;
+		line-height: 1.5;
 	}
 }
 
