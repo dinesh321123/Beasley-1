@@ -14157,7 +14157,7 @@ table.responsive tr:nth-of-type(even) {
 .mobile-nav__list .menu-item {
   border-bottom-color: #58595B; }
 
-.header__nav ul li.active, .header__nav ul li.active a:hover, .header__nav ul li a:focus, .header__nav ul li a:active, .header__nav ul li.active, .header__account ul li a:hover, .header__account ul li a:focus, .header__account ul li a:active, .header__account ul li:hover, .ui-menu .ui-state-focus {
+.header__nav ul > li.active > a:hover, .header__nav ul > li > a:focus, .header__nav ul > li > a:active, .header__nav ul > li.active, .header__account ul li a:hover, .header__account ul li a:focus, .header__account ul li a:active, .header__account ul li:hover, .ui-menu .ui-state-focus {
   background-color: white;
   color: black; }
 
@@ -14167,7 +14167,7 @@ table.responsive tr:nth-of-type(even) {
 .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul, .header__account--links.sub-menu, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul.header__account--links, .header__nav .format-fi > ul.header__account--links, .ui-menu {
   border-bottom-color: #580f0c; }
 
-.header__nav .sub-menu li.active a, .header__nav .format-fw > ul li.active a, .header__nav .format-sp > ul li.active a, .header__nav .format-fi > ul li.active a {
+.header__nav .sub-menu li.active > a, .header__nav .format-fw > ul li.active > a, .header__nav .format-sp > ul li.active > a, .header__nav .format-fi > ul li.active > a, .header__nav .sub-menu li:hover > a, .header__nav .format-fw > ul li:hover > a, .header__nav .format-sp > ul li:hover > a, .header__nav .format-fi > ul li:hover > a, .header__nav > ul > li > ul > li.active > a:hover {
   background-color: #db261d;
   color: white; }
 

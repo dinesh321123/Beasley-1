@@ -10,11 +10,10 @@
 	border-bottom-color: $color-gray-medium;
 }
 
-.header__nav ul li.active,
-.header__nav ul li.active a:hover,
-.header__nav ul li a:focus,
-.header__nav ul li a:active,
-.header__nav ul li.active,
+.header__nav ul > li.active > a:hover,
+.header__nav ul > li > a:focus,
+.header__nav ul > li > a:active,
+.header__nav ul > li.active,
 .header__account ul li a:hover,
 .header__account ul li a:focus,
 .header__account ul li a:active,
