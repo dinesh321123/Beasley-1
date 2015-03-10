@@ -150,7 +150,6 @@ var $ = jQuery;
 	var liveStreamSelector = document.querySelector('.live-player__stream');
 	var inlineAudioInterval = null;
 	var liveStreamInterval = null;
-	var audioIntervalDuration = 60000; /* every minute */
 	var footer = document.querySelector('.footer');
 	var lpInit = false;
 
@@ -184,12 +183,16 @@ var $ = jQuery;
 	 * Broadcasts an event every `audioIntervalDuration`
 	 */
 	function startLiveStreamInterval() {
-		debug('Live stream interval set');
+		var interval = gmr.intervals.live_streaming;
 
-		liveStreamInterval = setInterval(function () {
-			$(body).trigger('liveStreamPlaying.gmr');
-			debug('Live stream interval reached');
-		}, audioIntervalDuration);
+		if (interval > 0) {
+			debug('Live stream interval set');
+
+			liveStreamInterval = setInterval(function () {
+				$(body).trigger('liveStreamPlaying.gmr');
+				debug('Live stream interval reached');
+			}, interval * 60 * 1000);
+		}
 	}
 
 	/**
@@ -197,12 +200,16 @@ var $ = jQuery;
 	 * Broadcasts an event every `audioIntervalDuration`
 	 */
 	function startInlineAudioInterval() {
-		debug('Inline audio interval set');
+		var interval = gmr.intervals.inline_audio;
 
-		inlineAudioInterval = setInterval(function () {
-			$(body).trigger('inlineAudioPlaying.gmr');
-			debug('Inline audio interval reached');
-		}, audioIntervalDuration);
+		if (interval > 0) {
+			debug('Inline audio interval set');
+
+			inlineAudioInterval = setInterval(function () {
+				$(body).trigger('inlineAudioPlaying.gmr');
+				debug('Inline audio interval reached');
+			}, interval * 60 * 1000);
+		}
 	}
 
 	/**
