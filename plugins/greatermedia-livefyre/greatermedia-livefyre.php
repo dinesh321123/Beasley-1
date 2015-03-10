@@ -16,7 +16,11 @@ function gmr_livefyre_main_real() {
 
 	$plugin = new \GreaterMedia\LiveFyre\Plugin();
 	$plugin->enable();
-	
+
+	if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		\WP_CLI::add_command( 'livefyre', 'GreaterMedia\LiveFyre\Commands\LiveFyreCommand' );
+	}
+
 	new \GreaterMedia\LiveFyrePolls\ContentFilter();
 	new \GreaterMedia\LiveFyrePolls\ShortcodeHandler();
 }
