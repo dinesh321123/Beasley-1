@@ -6,6 +6,8 @@ add_action( 'admin_menu', __NAMESPACE__ . '\add_settings_page' );
 add_action( 'admin_init', __NAMESPACE__ . '\register_settings' );
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_admin_scripts' );
 
+add_filter( 'option_page_capability_homepage-curation', __NAMESPACE__ . '\get_capability' );
+
 /* Define sections, page slugs, etc */
 function get_settings_page_slug() {
 	return 'homepage-curation';
@@ -149,8 +151,10 @@ function sanitize_post_finder( $unsanitized ) {
 
 /* The settings page */
 function add_settings_page() {
-	global $gmr_homepage_curation;
-	$gmr_homepage_curation = add_menu_page( 'Homepage Curation', 'Homepage', 'edit_others_posts', get_settings_page_slug(), __NAMESPACE__ . '\render_homepage_curation', 'dashicons-admin-home', '2.88' );
+	global $gmr_homepage_curation, $gmr_homepage_curation_position;
+	
+	$gmr_homepage_curation_position = '2.88';
+	$gmr_homepage_curation = add_menu_page( 'Homepage Curation', 'Homepage', 'edit_others_posts', get_settings_page_slug(), __NAMESPACE__ . '\render_homepage_curation', 'dashicons-admin-home', $gmr_homepage_curation_position );
 }
 
 function render_homepage_curation() {
@@ -161,7 +165,7 @@ function render_homepage_curation() {
 
 		<?php settings_errors(); ?>
 
-		<form method="post" action="<?php echo esc_url( admin_url( 'options.php' ) ); ?>">
+		<form method="post" action="<?php echo esc_url( admin_url( 'options.php?option_page=homepage-curation' ) ); ?>">
 			<?php
 			settings_fields( get_settings_page_slug() ); // the nonce, action, etc
 			do_settings_sections( get_settings_page_slug() ); // the actual fields
@@ -179,4 +183,14 @@ function enqueue_admin_scripts( $page ) {
 		wp_enqueue_style( 'homepage-curation', GMEDIA_HOMEPAGE_CURATION_URL . 'css/admin.css', null, GMEDIA_HOMEPAGE_CURATION_VERSION );
 		wp_enqueue_script( 'homepage-curation', GMEDIA_HOMEPAGE_CURATION_URL . 'js/curation.js', array( 'jquery' ), GMEDIA_HOMEPAGE_CURATION_VERSION, true );
 	}
+}
+
+function get_capability( $capability ) {
+	global $menu, $gmr_homepage_curation_position;
+
+	if ( $gmr_homepage_curation_position && ! empty( $menu[ $gmr_homepage_curation_position ][1] ) ) {
+		$capability = $menu[ $gmr_homepage_curation_position ][1];
+	}
+	
+	return $capability;
 }
