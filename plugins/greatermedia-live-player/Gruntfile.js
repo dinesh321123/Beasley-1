@@ -9,6 +9,8 @@ module.exports = function( grunt ) {
 			},
 			greater_media_live_player: {
 				src: [
+					'assets/js/vendor/bowser.js',
+					'assets/js/vendor/jquery.nouislider.js',
 					'assets/js/src/jquery.load.js',
 					'assets/js/src/greater_media_live_player.js',
 					'assets/js/src/tdplayer.js'
@@ -19,8 +21,7 @@ module.exports = function( grunt ) {
 		jshint: {
 			all: [
 				'Gruntfile.js',
-				'assets/js/src/**/*.js',
-				'assets/js/test/**/*.js',
+				'assets/js/src/**/*.js'
 			],
 			options: {
 				curly:   true,

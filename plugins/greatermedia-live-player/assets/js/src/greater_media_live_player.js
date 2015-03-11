@@ -5,7 +5,7 @@
  * Licensed under the GPLv2+ license.
  */
 
-(function ($,window,undefined) {
+(function($, window, undefined) {
 	"use strict";
 
 	// variables
@@ -100,5 +100,4 @@
 			Cookies.set('gmr_play_live_audio', 0);
 		}
 	});
-
-} )(jQuery,window);
+})(jQuery, window);

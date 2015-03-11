@@ -78,25 +78,21 @@ class GMLP_Player {
 	 * Render the player for the front end
 	 */
 	public static function render_player() {
-
-		?>
-		<div class="live-stream__player">
+		?><div class="live-stream__player">
 			<div class="live-stream__controls">
 				<div id="playButton" class="live-stream__btn--play" data-action="play-live"></div>
 				<div id="loadButton" class="live-stream__btn--loading"><i class="gmr-icon icon-spin icon-loading"></i></div>
 				<div id="pauseButton" class="live-stream__btn--pause"></div>
 				<div id="resumeButton" class="live-stream__btn--resume"></div>
 			</div>
+
 			<div id="live-stream__container" class="live-stream__container">
-				<div id="td_container" class="live-stream__container--player">
-			</div>
+				<div id="td_container" class="live-stream__container--player"></div>
 				<div class="pre-roll__notification"><?php _e( 'Live stream will be available after this brief ad from our sponsors', ' gmliveplayer' ); ?></div>
 			</div>
-
-		</div>
-
-	<?php
-
+			
+			<div id="live-player--volume"></div>
+		</div><?php
 	}
 
 	/**
@@ -113,10 +109,8 @@ class GMLP_Player {
 			$vast_url = gmr_streams_get_primary_stream_vast_url();
 		}
 
-		wp_register_script( 'bowser', GMLIVEPLAYER_URL . 'assets/js/bowser.js', array(), true, '0.7.2' );
-
 		$home_url = home_url( '/' );
-		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery', 'underscore', 'classlist-polyfill', 'bowser', 'pjax', 'wp-mediaelement', 'cookies-js' ), GMLIVEPLAYER_VERSION, true );
+		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery', 'underscore', 'classlist-polyfill', 'pjax', 'wp-mediaelement', 'cookies-js' ), GMLIVEPLAYER_VERSION, true );
 		wp_localize_script( 'gmlp-js', 'gmr', array(
 			'logged_in'  => is_gigya_user_logged_in(),
 			'callsign'   => $callsign,

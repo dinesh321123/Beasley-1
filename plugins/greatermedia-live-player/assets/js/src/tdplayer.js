@@ -63,6 +63,8 @@
 	var liveStreamInterval = null;
 	var footer = document.querySelector('.footer');
 	var lpInit = false;
+	var volume_slider = $(document.getElementById('live-player--volume'));
+	var global_volume = 1;
 
 	/**
 	 * global variables for event types to use in conjunction with `addEventHandler` function
@@ -194,7 +196,7 @@
 			}
 		);
 
-		player = new TdPlayerApi(tdPlayerConfig);
+		window.player = player = new TdPlayerApi(tdPlayerConfig);
 		if (player.addEventListener) {
 			player.addEventListener('player-ready', onPlayerReady);
 			player.addEventListener('configuration-error', onConfigurationError);
@@ -827,8 +829,8 @@
 			player.attachEvent('stream-start', onStreamStarted);
 			player.attachEvent('stream-stop', onStreamStopped);
 		}
-
-		player.setVolume(1); //Set volume to 100%
+		
+		player.setVolume(1);
 
 		setStatus('Api Ready');
 		if (lpInit === 1) {
@@ -868,6 +870,29 @@
 
 		$("#pwaButton").click(function () {
 			loadPwaData();
+		});
+
+		volume_slider.noUiSlider({
+			start: getVolume(),
+			range: {
+				min: 0,
+				max: 1
+			}
+		});
+
+		volume_slider.on('slide', function() {
+			global_volume = parseFloat(volume_slider.val());
+			if (isNaN(global_volume)) {
+				global_volume = 1;
+			}
+
+			if (livePlaying) {
+				player.setVolume(global_volume);
+			}
+			
+			if (typeof(localStorage) !== "undefined") {
+				localStorage.setItem("gmr-live-player-volume", global_volume);
+			}
 		});
 	}
 
@@ -953,6 +978,24 @@
 		}
 	}
 
+	function getVolume() {
+		var volume = global_volume;
+
+		if (typeof(localStorage) !== "undefined") {
+			volume = localStorage.getItem("gmr-live-player-volume");
+			if (volume === null) {
+				volume = 1;
+			} else {
+				volume = parseFloat(volume);
+				if (isNaN(volume)) {
+					volume = 1;
+				}
+			}
+		}
+
+		return volume;
+	}
+
 	function onStreamStarted() {
 		livePlaying = true;
 		playingLiveAudio = true;
@@ -960,10 +1003,14 @@
 		if (loadingBtn.classList.contains('loading')) {
 			loadingBtn.classList.remove('loading');
 		}
+
 		if (pauseBtn.classList.contains('live-player__muted')) {
 			pauseBtn.classList.remove('live-player__muted');
 		}
+
 		startLiveStreamInterval();
+		
+		player.setVolume(getVolume());
 	}
 
 	function onStreamSelect() {
