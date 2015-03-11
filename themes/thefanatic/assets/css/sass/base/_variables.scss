@@ -23,7 +23,7 @@ $color-gray: $gray;
 $color-gray-light: #e3e4e5;
 $color-gray-medium-light: $medium-gray;
 $color-gray-medium-lighter: #6d6f70;
-$color-gray-medium: #58595B;
+$color-gray-medium: #58595b;
 $color-gray-medium-dark: #303030;
 $color-gray-dark: #221f1f;
 
@@ -46,11 +46,14 @@ $header-search-bg: $color-gray-medium-light;
 $gallery-bg: $color-gray-medium-light;
 //$gallery-text: $medium-gray;
 $gallery-thumbs-bg: $color-gray-medium-dark;
-$gallery-border: #58595b;
-$gallery-grid-border: $gray !default;
-$gallery-grid-text: $gray !default;
+$gallery-border: $color-gray-medium;
+$gallery-grid-border: $gray;
+$gallery-grid-text: $gray;
 
 $btn-bg: $color-red;
 $btn-inactive: $light-gray;
+
+$social-color: #000000;
+$social-hover: $color-red;
 
 $breaking-news-bg: $color-red;
