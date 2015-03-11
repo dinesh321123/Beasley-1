@@ -104,6 +104,10 @@ $header-search-bg: $black !default;
 
 $liveplayer-bg: $black !default;
 $liveplayer-color: lighten($color-gray-medium, 20%) !default;
+$liveplayer-vol-bg: $gray !default;
+$liveplayer-vol-level: $cardinal !default;
+$liveplayer-vol-control: $medium-gray !default;
+$liveplayer-vol-control-active: $darker-gray !default;
 
 $featured-primary-bg: $heath !default;
 $featured-secondary-bg: $coffee-bean !default;

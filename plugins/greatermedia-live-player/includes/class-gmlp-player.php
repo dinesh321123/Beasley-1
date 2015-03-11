@@ -90,7 +90,7 @@ class GMLP_Player {
 				<div id="td_container" class="live-stream__container--player"></div>
 				<div class="pre-roll__notification"><?php _e( 'Live stream will be available after this brief ad from our sponsors', ' gmliveplayer' ); ?></div>
 			</div>
-			
+
 			<div id="live-player--volume"></div>
 		</div><?php
 	}
