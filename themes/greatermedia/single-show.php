@@ -80,7 +80,7 @@
 						$live_link_archive = \GreaterMedia\Shows\get_live_links_permalink( get_the_ID() );
 						?>
 						<section class="show__live-links cf">
-							<h2 class="section-header">Live Links</h2>
+							<h2 class="section-header"><?php do_action( 'gmr_livelinks_title' ); ?></h2>
 							<ul>
 								<?php while ( $live_links_query->have_posts() ) : ?>
 									<?php $live_links_query->the_post(); ?>

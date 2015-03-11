@@ -116,6 +116,7 @@ class GreaterMediaSiteOptions {
 		register_setting( self::option_group, 'gmr_site_favicon', 'intval' );
 		register_setting( self::option_group, 'gmr_google_analytics', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_google_uid_dimension', 'absint' );
+		register_setting( self::option_group, 'gmr_livelinks_title', 'sanitize_text_field');
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -157,16 +158,26 @@ class GreaterMediaSiteOptions {
 		$instagram = get_option( 'gmr_instagram_name', '' );
 		$site_logo_id = GreaterMediaSiteOptionsHelperFunctions::get_site_logo_id();
 		$site_favicon_id = GreaterMediaSiteOptionsHelperFunctions::get_site_favicon_id();
+		$livelinks_title = get_option( 'gmr_livelinks_title', '' );
 
 		?>
 
 		<?php self::render_image_select( 'Site Logo', 'gmr_site_logo', $site_logo_id ); ?>
 
-		<hr/>
+		<hr />
 
 		<?php self::render_image_select( 'Site Fav Icon', 'gmr_site_favicon', $site_favicon_id ); ?>
 
-		<hr/>
+		<hr />
+
+		<h4>Live Links</h4>
+
+		<div class="gmr__option">
+			<label for="gmr_livelinks_title" class="gmr__option--label">Title of Live Links Sidebar</label>
+			<input type="text" class="gmr__option--input" name="gmr_livelinks_title" id="gmr_livelinks_title" value="<?php echo esc_html( $livelinks_title ); ?>" />
+		</div>
+
+		<hr />
 
 		<h4>Social Pages</h4>
 
@@ -192,7 +203,7 @@ class GreaterMediaSiteOptions {
 			<div class="gmr-option__field--desc"><?php _e( 'Please enter username only, not a full url.', 'greatermedia' ); ?></div>
 		</div>
 
-		<hr/>
+		<hr />
 
 
 	<?php

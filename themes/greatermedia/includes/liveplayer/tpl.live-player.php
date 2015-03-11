@@ -74,7 +74,7 @@ if ( empty( $active_stream ) ) {
 	<?php // start the live links section of the live player ?>
 	<div id="live-links" class="live-links">
 
-		<h3 class="widget--live-player__title"><?php _e( 'Live Links', 'greatermedia' ); ?></h3>
+		<h3 class="widget--live-player__title"><?php do_action( 'gmr_livelinks_title' ); ?></h3>
 
 		<?php dynamic_sidebar( 'liveplayer_sidebar' ); ?>
 

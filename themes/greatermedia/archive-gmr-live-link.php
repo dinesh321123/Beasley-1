@@ -14,7 +14,7 @@ get_header(); ?>
 
 			<section class="show__live-links cf">
 
-				<h2>Live Links Archive</h2>
+				<h2><?php do_action( 'gmr_livelinks_title' ); ?> Archive</h2>
 
 				<?php
 

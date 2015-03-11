@@ -14,6 +14,7 @@ class GreaterMediaSiteOptionsHelperFunctions {
 		add_action( 'gmr_social_instagram', array( __CLASS__, 'instagram_link' ) );
 		add_action( 'gmr_social', array( __CLASS__, 'social_links' ) );
 		add_action( 'wp_head', array( __CLASS__, 'site_favicon' ) );
+		add_action( 'gmr_livelinks_title', array( __CLASS__, 'livelinks_title' ) );
 	}
 
 	public static function get_site_logo_id() {
@@ -107,6 +108,15 @@ class GreaterMediaSiteOptionsHelperFunctions {
 		}
 		echo '</ul>';
 		
+	}
+
+	public static function livelinks_title() {
+		$livelinks_title = get_option( 'gmr_livelinks_title', '' );
+		if ( ! empty( $livelinks_title) ) {
+			echo esc_html( $livelinks_title );
+		} else {
+			echo 'Live Links';
+		}
 	}
 
 }
