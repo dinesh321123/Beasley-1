@@ -46,15 +46,7 @@
 .header__sub {
 	display: none;
 	width: auto;
-	height: 72px;
-
-	@include media(400px) {
-		height: 40px;
-	}
-
-	@include media(620px) {
-		height: 32px;
-	}
+	height: 40px;
 
 	@include bp(medium) {
 		height: 48px;
@@ -67,25 +59,18 @@
 
 .header__subnav {
 	position: absolute;
-	display: table;
-	width: 100%;
-	padding: 0 1em;
+	display: block;
+	width: auto;
+	padding: 4px 1em;
 	margin: 0;
 	line-height: 1;
-	font-size: ms(-3);
+	font-size: ms(0);
 	text-transform: uppercase;
 
-	@include media(400px) {
-		display: block;
-		width: auto;
-	}
-
-	@include media(620px) {
+	@include bp(medium) {
 		display: table;
 		table-layout: fixed;
-	}
-
-	@include bp(medium) {
+		padding: 0 1em;
 		font-size: ms(-2);
 	}
 
@@ -104,7 +89,7 @@
 }
 
 .header__subnav--item {
-	display: table-cell;
+	display: inline-block;
 	width: auto;
 	height: 32px;
 	vertical-align: middle;
@@ -115,9 +100,14 @@
 	a, a:visited {
 		display: block;
 		height: 32px;
-		padding: 8px .5em 8px 0;
+		padding: 4px .5em 4px 0;
 		margin: 0;
 		color: $color-text-white;
+
+		@include bp(medium) {
+			padding-top: 8px;
+			padding-bottom: 8px;
+		}
 	}
 
 	&:last-of-type {
@@ -131,34 +121,9 @@
 		color: $primary-link-hover;
 	}
 
-	@include media(400px) {
-		display: inline-block;
-		width: 45%;
-		height: 20px;
-
-		a, a:visited {
-			display: block;
-			height: 20px;
-			padding-top: 2px;
-			padding-bottom: 2px;
-			margin: 0;
-			color: $color-text-white;
-		}
-	}
-
-	@include media(620px) {
+	@include bp(medium) {
 		display: table-cell;
 		width: auto;
-		height: 32px;
-
-		a, a:visited {
-			height: 32px;
-			padding-top: 8px;
-			padding-bottom: 8px;
-		}
-	}
-
-	@include bp(medium) {
 		height: 48px;
 		padding-right: 0;
 		padding-left: 1.25em;
@@ -172,15 +137,19 @@
 
 %header__subnav--icon {
 	@extend %gmr-icons;
-	display: table-cell;
-	width: 0;
-	height: 18px;
+	display: block;
+	width: 24px;
+	height: 24px;
 	padding-right: .25em;
 	vertical-align: middle;
-	font-size: ms(2);
+	font-size: ms(6);
 
 	@include bp(medium) {
+		display: table-cell;
+		width: 0;
+		height: 18px;
 		padding-right: .75em;
+		font-size: ms(2);
 	}
 }
 
@@ -210,10 +179,14 @@
 }
 
 .header__link--text {
-	display: table-cell;
-	width: auto;
-	height: 18px;
-	vertical-align: middle;
+	display: none;
+
+	@include bp(medium) {
+		display: table-cell;
+		width: auto;
+		height: 18px;
+		vertical-align: middle;
+	}
 }
 
 .header__main {
@@ -257,18 +230,10 @@
 	}
 
 	.news-site & {
-		top: 72px;
+		top: 40px;
 		width: 20%;
 		margin-left: 40%;
 		z-index: 5000101;
-
-		@include media(400px) {
-			top: 40px;
-		}
-
-		@include media(620px) {
-			top: 32px;
-		}
 
 		@include bp(medium) {
 			top: 48px;
