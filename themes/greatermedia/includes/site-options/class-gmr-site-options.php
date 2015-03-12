@@ -174,7 +174,7 @@ class GreaterMediaSiteOptions {
 
 		<div class="gmr__option">
 			<label for="gmr_livelinks_title" class="gmr__option--label">Title of Live Links Sidebar</label>
-			<input type="text" class="gmr__option--input" name="gmr_livelinks_title" id="gmr_livelinks_title" value="<?php echo esc_html( $livelinks_title ); ?>" />
+			<input type="text" class="gmr__option--input" name="gmr_livelinks_title" id="gmr_livelinks_title" value="<?php echo esc_attr( $livelinks_title ); ?>" />
 		</div>
 
 		<hr />
@@ -188,7 +188,7 @@ class GreaterMediaSiteOptions {
 
 		<div class="gmr__option">
 			<label for="gmr_twitter_url" class="gmr__option--label">Twitter Username</label>
-			<input type="text" class="gmr__option--input" name="gmr_twitter_name" id="gmr_twitter_name" value="<?php echo esc_html( $twitter ); ?>" />
+			<input type="text" class="gmr__option--input" name="gmr_twitter_name" id="gmr_twitter_name" value="<?php echo esc_attr( $twitter ); ?>" />
 			<div class="gmr-option__field--desc"><?php _e( 'Please enter username minus the @', 'greatermedia' ); ?></div>
 		</div>
 
@@ -199,7 +199,7 @@ class GreaterMediaSiteOptions {
 
 		<div class="gmr__option">
 			<label for="gmr_instagram_url" class="gmr__option--label">Instagram Username</label>
-			<input type="text" class="gmr__option--input" name="gmr_instagram_name" id="gmr_instagram_name" value="<?php echo esc_html( $instagram ); ?>" />
+			<input type="text" class="gmr__option--input" name="gmr_instagram_name" id="gmr_instagram_name" value="<?php echo esc_attr( $instagram ); ?>" />
 			<div class="gmr-option__field--desc"><?php _e( 'Please enter username only, not a full url.', 'greatermedia' ); ?></div>
 		</div>
 
