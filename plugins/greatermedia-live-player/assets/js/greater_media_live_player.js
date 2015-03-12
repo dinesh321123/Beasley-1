@@ -1730,6 +1730,7 @@ var $ = jQuery;
 			onStreamStop();
 		}
 
+		debug('Send ad block cue metadata event to Nielsen SDK.');
 		ggComObj.gg.ggPM(15, {
 			assetid: data.cueID,
 			title: data.cueTitle,
@@ -1737,6 +1738,7 @@ var $ = jQuery;
 			type: 'midroll'
 		});
 
+		debug('Send playhead position event to Nielsen SDK.');
 		ggComObj.gg.ggPM(49, Date.now() / 1000);
 
 		ggComObj.is_playing = true;
@@ -1749,6 +1751,7 @@ var $ = jQuery;
 			onStreamStop();
 		}
 
+		debug('Send track cue metadata event to Nielsen SDK.');
 		ggComObj.gg.ggPM(15, {
 			assetid: data.cueID,
 			title: data.cueTitle,
@@ -1756,6 +1759,7 @@ var $ = jQuery;
 			type: 'content'
 		});
 
+		debug('Send playhead position event to Nielsen SDK.');
 		ggComObj.gg.ggPM(49, Date.now() / 1000);
 
 		ggComObj.is_playing = true;
@@ -1763,8 +1767,16 @@ var $ = jQuery;
 
 	var onStreamStop = function() {
 		if (ggComObj.is_playing) {
+			debug('Send stop event to Nielsen SDK.');
+			
 			ggComObj.gg.ggPM(7, Date.now() / 1000);
 			ggComObj.is_playing = false;
+		}
+	};
+
+	var debug = function(info) {
+		if (gmr.debug && console) {
+			console.log(info);
 		}
 	};
 })();
