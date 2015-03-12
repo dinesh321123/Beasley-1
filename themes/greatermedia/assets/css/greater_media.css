@@ -928,8 +928,7 @@ h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry
   h1 a:hover, h1 a:focus, h1 a:active, .h1 a:hover, .type-tribe_events .entry2__thumbnail--event-date a:hover, .type-contest .entry2__thumbnail--end-date a:hover, .type-contest .entry2__thumbnail--contest-type a:hover, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--contest-type a:focus, .h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--contest-type a:active, h2 a:hover, h2 a:focus, h2 a:active, .h2 a:hover, .h2 a:focus, .h2 a:active, h3 a:hover, h3 a:focus, h3 a:active, .h3 a:hover, .h3 a:focus, .h3 a:active, h4 a:hover, h4 a:focus, h4 a:active, .h4 a:hover, .h4 a:focus, .h4 a:active, h5 a:hover, h5 a:focus, h5 a:active, .h5 a:hover, .h5 a:focus, .h5 a:active, h6 a:hover, h6 a:focus, h6 a:active, .h6 a:hover, .h6 a:focus, .h6 a:active {
     color: #aa1c20; }
   .news-site h1, .news-site .h1, .news-site .type-tribe_events .entry2__thumbnail--event-date, .type-tribe_events .news-site .entry2__thumbnail--event-date, .news-site .type-contest .entry2__thumbnail--end-date, .type-contest .news-site .entry2__thumbnail--end-date, .news-site .type-contest .entry2__thumbnail--contest-type, .type-contest .news-site .entry2__thumbnail--contest-type, .news-site h2, .news-site .h2, .news-site h3, .news-site .h3, .news-site h4, .news-site .h4, .news-site h5, .news-site .h5, .news-site h6, .news-site .h6 {
-    font-weight: normal;
-    color: #404041; }
+    font-weight: normal; }
 
 .featured__content--title a:link, .featured__content--title a:visited, .featured__article--title a:link, .featured__article--title a:visited, .highlights__community--title a:link, .highlights__community--title a:visited {
   color: #ffffff; }
@@ -1666,6 +1665,10 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
         margin-bottom: 1.5em;
         margin-right: 10px; } }
   .news-site .content__heading, .news-site .sponsors__heading {
+    font-size: 2.02729em;
+    font-weight: lighter;
+    text-transform: uppercase; }
+  .home.news-site .content__heading, .home.news-site .sponsors__heading {
     padding: .35em 0 1.65em;
     margin: 0;
     line-height: 1;
@@ -5144,6 +5147,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .article__list--title {
   display: inline;
   font-weight: 800; }
+  .news-site .article__list--title {
+    font-weight: normal;
+    color: #404041; }
 
 .article__list--title:after {
   content: "/";
@@ -9415,6 +9421,20 @@ category: Components - Shows
     background-size: 100% auto;
     background-size: cover;
     background-position: center; }
+    .show__header.has-thumbnail:before {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(to bottom, rgba(86, 16, 21, 0.85), rgba(86, 16, 21, 0.85));
+      background-image: -moz-linear-gradient(top, rgba(86, 16, 21, 0.85), rgba(86, 16, 21, 0.85));
+      background-image: -o-linear-gradient(top, rgba(86, 16, 21, 0.85), rgba(86, 16, 21, 0.85));
+      background-image: -ms-linear-gradient(top, rgba(86, 16, 21, 0.85), rgba(86, 16, 21, 0.85));
+      background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(86, 16, 21, 0.85)), to(rgba(86, 16, 21, 0.85)));
+      background-image: -webkit-linear-gradient(top, rgba(86, 16, 21, 0.85), rgba(86, 16, 21, 0.85));
+      content: " "; }
   .show__header > div {
     vertical-align: middle; }
   @media screen and (min-width: 768px)  {
@@ -9435,6 +9455,7 @@ category: Components - Shows
 
 .show__cast {
   width: 100%;
+  position: relative;
   height: 100%; }
   @media screen and (min-width: 1024px)  {
     .show__cast {
@@ -9470,6 +9491,7 @@ category: Components - Shows
 .show__nav {
   width: 100%;
   overflow: auto;
+  position: relative;
   text-align: center;
   margin: 1.5em 0 .5em; }
   .show__nav .show__title {
@@ -9511,7 +9533,6 @@ category: Components - Shows
       text-align: left;
       padding-left: 3em;
       padding-right: 3em;
-      position: relative;
       overflow: visible; }
       .show__nav .show__title {
         margin-top: 0;
@@ -9555,6 +9576,7 @@ category: Components - Shows
 
 .show__meta {
   width: 100%;
+  position: relative;
   text-align: center;
   float: none; }
   @media screen and (min-width: 1024px)  {
@@ -9671,6 +9693,8 @@ category: Components - Shows
       top: 0; }
   .show__feature:hover h3 {
     color: #aa1c20; }
+  .news-site .show__feature:hover .show__feature--title {
+    color: #d22228; }
   @media screen and (min-width: 1024px)  {
     .show__feature {
       padding-bottom: 75%;
@@ -9682,7 +9706,7 @@ category: Components - Shows
         top: 0; } }
 
 .show__feature--desc {
-  background-color: #F1F1F3;
+  background-color: #f1f1f3;
   color: #404041; }
   .show__feature--desc h3 {
     margin: 0;
@@ -9826,6 +9850,19 @@ category: Components - Shows
       color: #404041; }
       .show__live-links li[class^="live-link__type"] a:hover {
         color: #aa1c20; }
+  .news-site .show__live-links li[class^="live-link__type"] {
+    min-height: 30px; }
+    .news-site .show__live-links li[class^="live-link__type"]:before {
+      top: auto;
+      font-size: .675em; }
+      @media screen and (min-width: 1024px)  {
+        .news-site .show__live-links li[class^="live-link__type"]:before {
+          top: auto;
+          font-size: .675em; } }
+    .news-site .show__live-links li[class^="live-link__type"] a:hover {
+      color: #d22228; }
+  .news-site .show__live-links .live-link__title {
+    padding-left: 20px; }
 
 .show__live-links--more {
   position: relative;
@@ -9852,6 +9889,9 @@ category: Components - Shows
   .more-btn:hover {
     color: #aa1c20;
     border: 1px solid #aa1c20; }
+  .news-site .more-btn:hover {
+    border-color: #d22228;
+    color: #d22228; }
 
 .show__paging {
   clear: both;

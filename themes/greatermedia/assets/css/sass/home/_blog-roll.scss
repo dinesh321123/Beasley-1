@@ -29,6 +29,12 @@
 	}
 
 	.news-site & {
+		font-size: ms(6);
+		font-weight: lighter;
+		text-transform: uppercase;
+	}
+
+	.home.news-site & {
 		padding: .35em 0 1.65em;
 		margin: 0;
 		line-height: 1;

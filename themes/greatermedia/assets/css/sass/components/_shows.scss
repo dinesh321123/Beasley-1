@@ -192,6 +192,22 @@ category: Components - Shows
 		background-size: 100% auto;
 		background-size: cover;
 		background-position: center;
+
+		&:before {
+			position: absolute;
+			display: block;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: linear-gradient(to bottom, rgba(86, 16, 21, .85), rgba(86, 16, 21, .85));
+			background-image: -moz-linear-gradient(top, rgba(86, 16, 21, .85), rgba(86, 16, 21, .85));
+			background-image: -o-linear-gradient(top, rgba(86, 16, 21, .85), rgba(86, 16, 21, .85));
+			background-image: -ms-linear-gradient(top, rgba(86, 16, 21, .85), rgba(86, 16, 21, .85));
+			background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(86, 16, 21, .85)), to(rgba(86, 16, 21, .85)));
+			background-image: -webkit-linear-gradient(top, rgba(86, 16, 21, .85), rgba(86, 16, 21, .85));
+			content: " ";
+		}
 	}
 
 	> div {
@@ -221,6 +237,7 @@ category: Components - Shows
 
 .show__cast {
 	@include fill-parent;
+	position: relative;
 	height: 100%;
 
 	@include bp(large) {
@@ -254,6 +271,7 @@ category: Components - Shows
 .show__nav {
 	@include fill-parent;
 	overflow: auto;
+	position: relative;
 	text-align: center;
 	margin: 1.5em 0 .5em;
 
@@ -310,8 +328,7 @@ category: Components - Shows
 		vertical-align: middle;
 		text-align: left;
 		padding-left: 3em;
-		padding-right: 3em;
-		position: relative;
+		padding-right: 3em; 
 		overflow: visible;
 
 		.show__title {
@@ -380,6 +397,7 @@ category: Components - Shows
 
 .show__meta {
 	@include fill-parent;
+	position: relative;
 	text-align: center;
 	float: none;
 
@@ -473,6 +491,7 @@ category: Components - Shows
 }
 
 .show__feature--primary {
+
 	@include bp(large) {
 		@include span-columns(8 of 12);
 	}
@@ -480,6 +499,7 @@ category: Components - Shows
 }
 
 .show__feature--secondary {
+
 	@include bp(large) {
 		@include span-columns(4 of 12);
 		@include omega;
@@ -508,6 +528,13 @@ category: Components - Shows
 		h3 {
 			color: $primary-link-hover;
 		}
+
+		.news-site & {
+
+			.show__feature--title {
+				color: $primary-link;
+			}
+		}
 	}
 
 	@include bp(large) {
@@ -524,7 +551,7 @@ category: Components - Shows
 }
 
 .show__feature--desc {
-	background-color: #F1F1F3;
+	background-color: $show-highlights-bg;
 	color: $primary-heading;
 
 	h3 {
@@ -571,8 +598,6 @@ category: Components - Shows
 		}
 	}
 }
-
-
 
 /*doc
 ---
@@ -715,6 +740,35 @@ category: Components - Shows
 			}
 		}
 	}
+
+	.news-site & {
+
+		li[class^="live-link__type"] {
+			min-height: 30px;
+
+			&:before {
+				top: auto;
+				font-size: .675em;
+
+				@include bp(large) {
+					top: auto;
+					font-size: .675em;
+				}
+			}
+
+			a {
+
+				&:hover {
+					color: $primary-link;
+				}
+			}
+		}
+
+		.live-link__title {
+			padding-left: 20px;
+		}
+	}
+
 }
 
 .show__live-links--more {
@@ -746,6 +800,14 @@ category: Components - Shows
 	&:hover {
 		color: $primary-link-hover;
 		border: 1px solid $primary-link-hover;
+	}
+
+	.news-site & {
+
+		&:hover {
+			border-color: $primary-link;
+			color: $primary-link;
+		}
 	}
 }
 

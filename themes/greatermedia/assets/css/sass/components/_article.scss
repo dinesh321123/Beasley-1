@@ -115,6 +115,11 @@
 	.article__list--title {
 		display: inline;
 		font-weight: 800;
+
+		.news-site & {
+			font-weight: normal;
+			color: $primary-text;
+		}
 	}
 		.article__list--title:after {
 			content: "/";
