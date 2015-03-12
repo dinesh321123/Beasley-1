@@ -1681,6 +1681,93 @@ function closure ( target, options, originalOptions ){
 }( window.jQuery || window.Zepto ));
 
 var $ = jQuery;
+(function() {
+	var ggComObj;
+
+	// Nielsen SDK event codes:
+	//  5 - play
+	//  6 - pause
+	//  7 - stop
+	//  8 - position change
+	//  9 - mute
+	// 10 - fullscreen
+	// 11 - volume change
+	// 15 - load Metadata
+	// 49 - set Playhead Position
+	// 55 - timed Metadata
+
+	window.bindNielsenSDKEvents = function(beacon, player) {
+		var hasAddEventListener = player.addEventListener ? true : false,
+			events = {
+				'track-cue-point': onTrackCuePoint,
+				'ad-break-cue-point': onAdBreakCuePoint,
+				'stream-stop': onStreamStop
+			};
+
+		ggComObj = new NielsenSDKggCom(beacon, player);
+
+		for (var event in events) {
+			if (hasAddEventListener) {
+				player.addEventListener(event, events[event]);
+			} else {
+				player.attachEvent(event, events[event]);
+			}
+		}
+	};
+
+	function NielsenSDKggCom(beacon, player) {
+		var that = this;
+
+		that.gg = beacon;
+		that.player = player;
+		that.is_playing = false;
+	}
+
+	var onAdBreakCuePoint = function(e) {
+		var data = e.data.adBreakData;
+
+		if (ggComObj.is_playing) {
+			onStreamStop();
+		}
+
+		ggComObj.gg.ggPM(15, {
+			assetid: data.cueID,
+			title: data.cueTitle,
+			length: data.duration / 1000, // convert to seconds
+			type: 'midroll'
+		});
+
+		ggComObj.gg.ggPM(49, Date.now() / 1000);
+
+		ggComObj.is_playing = true;
+	};
+
+	var onTrackCuePoint = function(e) {
+		var data = e.data.cuePoint;
+
+		if (ggComObj.is_playing) {
+			onStreamStop();
+		}
+
+		ggComObj.gg.ggPM(15, {
+			assetid: data.cueID,
+			title: data.cueTitle,
+			length: data.cueTimeDuration,
+			type: 'content'
+		});
+
+		ggComObj.gg.ggPM(49, Date.now() / 1000);
+
+		ggComObj.is_playing = true;
+	};
+
+	var onStreamStop = function() {
+		if (ggComObj.is_playing) {
+			ggComObj.gg.ggPM(7, Date.now() / 1000);
+			ggComObj.is_playing = false;
+		}
+	};
+})();
 (function($, window, undefined) {
 	"use strict";
 
@@ -1860,7 +1947,6 @@ var $ = jQuery;
 		}
 	}
 
-
 	/**
 	 * Starts an interval timer for when the live stream is playing
 	 * Broadcasts an event every `audioIntervalDuration`
@@ -1917,7 +2003,7 @@ var $ = jQuery;
 	 * @todo remove the console log before beta
 	 */
 	window.tdPlayerApiReady = function () {
-		console.log("--- TD Player API Loaded ---");
+		debug("--- TD Player API Loaded ---");
 		initPlayer();
 	};
 
@@ -1935,7 +2021,7 @@ var $ = jQuery;
 
 	function initPlayer() {
 		var techPriority = calcTechPriority();
-		console.log('+++ initPlayer - techPriority = ', techPriority);
+		debug('+++ initPlayer - techPriority = ' + techPriority.join(', '));
 
 		/* TD player configuration object used to create player instance */
 		var tdPlayerConfig = {
@@ -2226,12 +2312,12 @@ var $ = jQuery;
 
 	function setInitialPlay() {
 		lpInit = 1;
-		console.log('-- Player Initialized By Click ---');
+		debug('-- Player Initialized By Click ---');
 	}
 
 	function setPlayerReady() {
 		lpInit = true;
-		console.log('-- Player Ready to Go ---');
+		debug('-- Player Ready to Go ---');
 	}
 
 	function playLiveStreamDevice() {
@@ -2331,7 +2417,7 @@ var $ = jQuery;
 	var currentStream = $('.live-player__stream--current-name');
 
 	currentStream.bind("DOMSubtreeModified", function () {
-		console.log("--- new stream select ---");
+		debug("--- new stream select ---");
 		var station = currentStream.text();
 
 		if (livePlaying) {
@@ -2366,7 +2452,7 @@ var $ = jQuery;
 		if (player.addEventListener) {
 			player.addEventListener('ad-playback-complete', function () {
 				postVastAd();
-				console.log("--- ad complete ---");
+				debug("--- ad complete ---");
 
 				if (livePlaying) {
 					player.stop();
@@ -2380,7 +2466,7 @@ var $ = jQuery;
 		} else if (player.attachEvent) {
 			player.attachEvent('ad-playback-complete', function () {
 				postVastAd();
-				console.log("--- ad complete ---");
+				debug("--- ad complete ---");
 
 				if (livePlaying) {
 					player.stop();
@@ -2443,7 +2529,7 @@ var $ = jQuery;
 			if (player.addEventListener) {
 				player.addEventListener('ad-playback-complete', function () {
 					postVastAd();
-					console.log("--- ad complete ---");
+					debug("--- ad complete ---");
 
 					if (livePlaying) {
 						player.stop();
@@ -2457,7 +2543,7 @@ var $ = jQuery;
 			} else if (player.attachEvent) {
 				player.attachEvent('ad-playback-complete', function () {
 					postVastAd();
-					console.log("--- ad complete ---");
+					debug("--- ad complete ---");
 
 					if (livePlaying) {
 						player.stop();
@@ -2576,7 +2662,7 @@ var $ = jQuery;
 			player.addEventListener('stream-geo-blocked', onGeoBlocked);
 			player.addEventListener('timeout-alert', onTimeOutAlert);
 			player.addEventListener('timeout-reach', onTimeOutReach);
-			player.addEventListener('npe-song', onNPESong);
+//			player.addEventListener('npe-song', onNPESong);
 
 			player.addEventListener('stream-select', onStreamSelect);
 
@@ -2592,7 +2678,7 @@ var $ = jQuery;
 			player.attachEvent('stream-geo-blocked', onGeoBlocked);
 			player.attachEvent('timeout-alert', onTimeOutAlert);
 			player.attachEvent('timeout-reach', onTimeOutReach);
-			player.attachEvent('npe-song', onNPESong);
+//			player.attachEvent('npe-song', onNPESong);
 
 			player.attachEvent('stream-select', onStreamSelect);
 
@@ -2664,6 +2750,11 @@ var $ = jQuery;
 				localStorage.setItem("gmr-live-player-volume", global_volume);
 			}
 		});
+
+		if (window._nolggGlobalParams) {
+			var beacon = new NOLCMB.ggInitialize(window._nolggGlobalParams);
+			bindNielsenSDKEvents(beacon, player);
+		}
 	}
 
 	/**
@@ -2810,8 +2901,7 @@ var $ = jQuery;
 
 	function onTrackCuePoint(e) {
 		debug('New Track cuepoint received');
-		debug('Title:' + e.data.cuePoint.cueTitle + ' - Artist:' + e.data.cuePoint.artistName);
-		console.log(e);
+		debug('Title: ' + e.data.cuePoint.cueTitle + ' - Artist: ' + e.data.cuePoint.artistName);
 
 		if (currentTrackCuePoint && currentTrackCuePoint != e.data.cuePoint) {
 			clearNpe();
@@ -2837,13 +2927,10 @@ var $ = jQuery;
 	function onHlsCuePoint(e) {
 		debug('New HLS cuepoint received');
 		debug('Track Id:' + e.data.cuePoint.hlsTrackId + ' SegmentId:' + e.data.cuePoint.hlsSegmentId);
-		console.log(e);
 	}
-
 
 	function onAdBreak(e) {
 		setStatus('Commercial break...');
-		console.log(e);
 	}
 
 	function clearNpe() {
@@ -2854,7 +2941,6 @@ var $ = jQuery;
 	//Song History
 	function onListLoaded(e) {
 		debug('Song History loaded');
-		console.log(e.data);
 
 		$("#asyncData").html('<br><p><span class="label label-warning">Song History:</span>');
 
@@ -2878,7 +2964,6 @@ var $ = jQuery;
 
 	function onNowPlayingApiError(e) {
 		debug('Song History loading error', true);
-		console.error(e);
 
 		$("#asyncData").html('<br><p><span class="label label-important">Song History error</span>');
 	}
@@ -2893,7 +2978,6 @@ var $ = jQuery;
 
 	function onConfigurationError(e) {
 		debug('Configuration error', true);
-		console.log(e);
 	}
 
 	function onModuleError(object) {
@@ -2907,13 +2991,13 @@ var $ = jQuery;
 	}
 
 	function onStatus(e) {
-		console.log('tdplayer::onStatus');
+		debug('tdplayer::onStatus');
 
 		setStatus(e.data.status);
 	}
 
 	function onGeoBlocked(e) {
-		console.log('tdplayer::onGeoBlocked');
+		debug('tdplayer::onGeoBlocked');
 
 		setStatus(e.data.text);
 	}
@@ -2949,14 +3033,12 @@ var $ = jQuery;
 
 	function onPwaDataLoaded(e) {
 		debug('PlayerWebAdmin data loaded successfully');
-		console.log(e);
 
 		$("#asyncData").html('<br><p><span class="label label-warning">PlayerWebAdmin:</span>');
 
 		var tableContent = '<table class="table table-striped"><thead><tr><th>Key</th><th>Value</th></tr></thead>';
 
 		for (var item in e.data.config) {
-			console.log(item);
 			tableContent += "<tr><td>" + item + "</td><td>" + e.data.config[item] + "</td></tr>";
 		}
 
@@ -3005,8 +3087,7 @@ var $ = jQuery;
 	var artist;
 
 	function onNPESong(e) {
-		console.log('tdplayer::onNPESong');
-		console.log(e);
+		debug('tdplayer::onNPESong');
 
 		song = e.data.song;
 
@@ -3057,8 +3138,7 @@ var $ = jQuery;
 	}
 
 	function onArtistPictureComplete(pictures) {
-		console.log('tdplayer::onArtistPictureComplete');
-		console.log(pictures);
+		debug('tdplayer::onArtistPictureComplete');
 
 		var songData = '<span class="label label-inverse">Photos:</span><br>';
 
@@ -3142,11 +3222,16 @@ var $ = jQuery;
 	}
 
 	function debug(info, error) {
+		if (!gmr.debug) {
+			return;
+		}
 
-		if (error) {
-			console.error(info);
-		} else {
-			console.log(info);
+		if (window.console) {
+			if (error) {
+				console.error(info);
+			} else {
+				console.log(info);
+			}
 		}
 
 		$('#debugInformation').append(info);
