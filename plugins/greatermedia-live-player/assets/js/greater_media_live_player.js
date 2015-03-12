@@ -1701,7 +1701,7 @@ var $ = jQuery;
 			events = {
 				'track-cue-point': onTrackCuePoint,
 				'ad-break-cue-point': onAdBreakCuePoint,
-				'stream-stop': onStreamStop
+				'stream-status': onStreamStatus
 			};
 
 		ggComObj = new NielsenSDKggCom(beacon, player);
@@ -1722,6 +1722,12 @@ var $ = jQuery;
 		that.player = player;
 		that.is_playing = false;
 	}
+
+	var onStreamStatus = function(e) {
+		if (e.data.code === 'LIVE_PAUSE' || e.data.code === 'LIVE_STOP') {
+			onStreamStop();
+		}
+	};
 
 	var onAdBreakCuePoint = function(e) {
 		var data = e.data.adBreakData;
