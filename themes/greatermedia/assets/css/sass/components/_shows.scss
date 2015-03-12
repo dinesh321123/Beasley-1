@@ -528,13 +528,6 @@ category: Components - Shows
 		h3 {
 			color: $primary-link-hover;
 		}
-
-		.news-site & {
-
-			.show__feature--title {
-				color: $primary-link;
-			}
-		}
 	}
 
 	@include bp(large) {
@@ -745,6 +738,8 @@ category: Components - Shows
 
 		li[class^="live-link__type"] {
 			min-height: 30px;
+			margin-left: 0;
+			border-bottom: none;
 
 			&:before {
 				top: auto;
@@ -753,13 +748,6 @@ category: Components - Shows
 				@include bp(large) {
 					top: auto;
 					font-size: .675em;
-				}
-			}
-
-			a {
-
-				&:hover {
-					color: $primary-link;
 				}
 			}
 		}
@@ -800,14 +788,6 @@ category: Components - Shows
 	&:hover {
 		color: $primary-link-hover;
 		border: 1px solid $primary-link-hover;
-	}
-
-	.news-site & {
-
-		&:hover {
-			border-color: $primary-link;
-			color: $primary-link;
-		}
 	}
 }
 

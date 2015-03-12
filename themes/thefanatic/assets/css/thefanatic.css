@@ -2471,16 +2471,16 @@ a.featured__content--link {
   padding: 0.25em 1.2em;
   margin-right: .5em;
   outline: none;
-  background-color: #f5ed7f;
-  border: 1px solid #f5ed7f;
+  background-color: #580f0c;
+  border: 1px solid #580f0c;
   font-size: 0.7em;
   color: #000000 !important;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 100em; }
   .featured__content--block:hover .featured__content--btn:hover, .featured__content--block:hover .featured__content--btn:focus {
-    background-color: #f2e754;
-    border-color: #f2e754;
+    background-color: #300806;
+    border-color: #300806;
     color: #000000; }
   .featured__content--block:hover .featured__content--btn:last-of-type {
     margin-right: 0; }
@@ -4950,7 +4950,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-size: 1em;
   line-height: 1;
   text-transform: uppercase;
-  color: #fff;
+  color: #ffffff !important;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -7797,16 +7797,16 @@ category: Components - Ads
     padding: 0.625em 1em;
     margin-right: .5em;
     outline: none;
-    background-color: #f5ed7f;
-    border: 1px solid #f5ed7f;
+    background-color: #580f0c;
+    border: 1px solid #580f0c;
     font-size: 0.88889em;
     color: #000000 !important;
     text-transform: uppercase;
     cursor: pointer;
     border-radius: 100em; }
     .contest__restriction--min-age-yes:hover:hover, .contest__restriction--min-age-yes:hover:focus, .contest__restriction--min-age-no:hover:hover, .contest__restriction--min-age-no:hover:focus {
-      background-color: #f2e754;
-      border-color: #f2e754;
+      background-color: #300806;
+      border-color: #300806;
       color: #000000; }
     .contest__restriction--min-age-yes:hover:last-of-type, .contest__restriction--min-age-no:hover:last-of-type {
       margin-right: 0; }
@@ -7982,16 +7982,16 @@ category: Components - Ads
       padding: 0.625em 1em;
       margin-right: .5em;
       outline: none;
-      background-color: #f5ed7f;
-      border: 1px solid #f5ed7f;
+      background-color: #580f0c;
+      border: 1px solid #580f0c;
       font-size: 1.42383em;
       color: #000000 !important;
       text-transform: uppercase;
       cursor: pointer;
       border-radius: 100em; }
       .contest__form button[type="button"]:hover:hover, .contest__form button[type="button"]:hover:focus, .contest__form button[type="submit"]:hover:hover, .contest__form button[type="submit"]:hover:focus, .contest__form input[type="submit"]:hover:hover, .contest__form input[type="submit"]:hover:focus {
-        background-color: #f2e754;
-        border-color: #f2e754;
+        background-color: #300806;
+        border-color: #300806;
         color: #000000; }
       .contest__form button[type="button"]:hover:last-of-type, .contest__form button[type="submit"]:hover:last-of-type, .contest__form input[type="submit"]:hover:last-of-type {
         margin-right: 0; }
@@ -8468,8 +8468,8 @@ category: Components - Ads
   margin-right: 0 !important; }
 
 .tribe-events-button:hover {
-  background-color: #f5ed7f !important;
-  border: 1px solid #f5ed7f !important;
+  background-color: #580f0c !important;
+  border: 1px solid #580f0c !important;
   color: #000000 !important; }
 
 .tribe-events-button:active {
@@ -9354,7 +9354,7 @@ a.podcast__rss:active {
   .single-show .highlights__event--item .highlights__event--title:hover {
     color: #580f0c; }
 .single-show .highlights__community--item:hover .highlights__community--title {
-  color: #f5ed7f; }
+  color: #580f0c; }
 .single-show .entry2__meta {
   float: none !important;
   width: auto !important; }
@@ -9705,8 +9705,6 @@ category: Components - Shows
       top: 0; }
   .show__feature:hover h3 {
     color: #580f0c; }
-  .news-site .show__feature:hover .show__feature--title {
-    color: #db261d; }
   @media screen and (min-width: 1024px)  {
     .show__feature {
       padding-bottom: 75%;
@@ -9863,7 +9861,9 @@ category: Components - Shows
       .show__live-links li[class^="live-link__type"] a:hover {
         color: #580f0c; }
   .news-site .show__live-links li[class^="live-link__type"] {
-    min-height: 30px; }
+    min-height: 30px;
+    margin-left: 0;
+    border-bottom: none; }
     .news-site .show__live-links li[class^="live-link__type"]:before {
       top: auto;
       font-size: .675em; }
@@ -9871,8 +9871,6 @@ category: Components - Shows
         .news-site .show__live-links li[class^="live-link__type"]:before {
           top: auto;
           font-size: .675em; } }
-    .news-site .show__live-links li[class^="live-link__type"] a:hover {
-      color: #db261d; }
   .news-site .show__live-links .live-link__title {
     padding-left: 20px; }
 
@@ -9901,9 +9899,6 @@ category: Components - Shows
   .more-btn:hover {
     color: #580f0c;
     border: 1px solid #580f0c; }
-  .news-site .more-btn:hover {
-    border-color: #db261d;
-    color: #db261d; }
 
 .show__paging {
   clear: both;
@@ -12378,16 +12373,16 @@ select {
   padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
-  background-color: #f5ed7f;
-  border: 1px solid #f5ed7f;
+  background-color: #580f0c;
+  border: 1px solid #580f0c;
   font-size: 0.88889em;
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 100em; }
   .adblock--detected__close:hover:hover, .adblock--detected__close:hover:focus {
-    background-color: #f2e754;
-    border-color: #f2e754;
+    background-color: #300806;
+    border-color: #300806;
     color: #ffffff; }
   .adblock--detected__close:hover:last-of-type {
     margin-right: 0; }
@@ -14353,6 +14348,9 @@ h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry
 .mobile-nav .show-subnavigation {
   border-left-color: #58595b; }
 
+.header__nav .sub-menu a:hover, .header__nav .format-fw > ul a:hover, .header__nav .format-sp > ul a:hover, .header__nav .format-fi > ul a:hover, .header__account--links.sub-menu a:hover, .header__nav .format-fw > ul.header__account--links a:hover, .header__nav .format-sp > ul.header__account--links a:hover, .header__nav .format-fi > ul.header__account--links a:hover, .ui-menu a:hover {
+  background-color: #db261d; }
+
 .featured__article:hover .featured__article--heading {
   color: #db261d; }
 
@@ -14499,7 +14497,17 @@ a.entry2__category:link, a.entry2__category:visited {
 .shows__schedule--now {
   border-color: #db261d; }
 
+.single-show .highlights__community--item:hover .highlights__community--title {
+  color: #db261d; }
+
 .single-gmr_gallery .gallery__paging--prev, .single-gmr_gallery .gallery__paging--next {
   color: #929497; }
+
+.contest-attr--rules-toggler:hover, .contest-attr--rules-toggler:hover:focus {
+  background-color: #580f0c !important;
+  border-color: #580f0c !important; }
+
+.contest__prize--title {
+  color: #db261d; }
 
 /*# sourceMappingURL=thefanatic.css.map */

@@ -4950,7 +4950,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   font-size: 1em;
   line-height: 1;
   text-transform: uppercase;
-  color: #fff;
+  color: #ffffff !important;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -9705,8 +9705,6 @@ category: Components - Shows
       top: 0; }
   .show__feature:hover h3 {
     color: #aa1c20; }
-  .news-site .show__feature:hover .show__feature--title {
-    color: #d22228; }
   @media screen and (min-width: 1024px)  {
     .show__feature {
       padding-bottom: 75%;
@@ -9863,7 +9861,9 @@ category: Components - Shows
       .show__live-links li[class^="live-link__type"] a:hover {
         color: #aa1c20; }
   .news-site .show__live-links li[class^="live-link__type"] {
-    min-height: 30px; }
+    min-height: 30px;
+    margin-left: 0;
+    border-bottom: none; }
     .news-site .show__live-links li[class^="live-link__type"]:before {
       top: auto;
       font-size: .675em; }
@@ -9871,8 +9871,6 @@ category: Components - Shows
         .news-site .show__live-links li[class^="live-link__type"]:before {
           top: auto;
           font-size: .675em; } }
-    .news-site .show__live-links li[class^="live-link__type"] a:hover {
-      color: #d22228; }
   .news-site .show__live-links .live-link__title {
     padding-left: 20px; }
 
@@ -9901,9 +9899,6 @@ category: Components - Shows
   .more-btn:hover {
     color: #aa1c20;
     border: 1px solid #aa1c20; }
-  .news-site .more-btn:hover {
-    border-color: #d22228;
-    color: #d22228; }
 
 .show__paging {
   clear: both;

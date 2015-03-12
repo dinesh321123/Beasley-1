@@ -20,3 +20,15 @@
 		border-left-color: $color-gray-medium;
 	}
 }
+
+.header__nav .sub-menu,
+.header__account--links.sub-menu,
+.ui-menu {
+
+	a {
+
+		&:hover {
+			background-color: $color-red;
+		}
+	}
+}
