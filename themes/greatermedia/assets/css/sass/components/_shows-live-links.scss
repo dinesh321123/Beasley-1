@@ -21,7 +21,15 @@
 			@include span-columns(3 of 12);
 			clear: both;
 			margin-top: 24px;
+			font-size: ms(8);
+		}
+
+		@include bp(larger) {
 			font-size: ms(10);
+		}
+
+		.news-site & {
+			font-weight: normal;
 		}
 
 	}

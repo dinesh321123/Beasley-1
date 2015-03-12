@@ -12280,9 +12280,14 @@ select {
       width: 23.23176%;
       clear: both;
       margin-top: 24px;
-      font-size: 3.24732em; }
+      font-size: 2.56578em; }
       .show__live-links .group-date:last-child {
         margin-right: 0; } }
+  @media screen and (min-width: 1200px)  {
+    .show__live-links .group-date {
+      font-size: 3.24732em; } }
+  .news-site .show__live-links .group-date {
+    font-weight: normal; }
 .show__live-links .ll-archive-list li {
   margin-bottom: 2em; }
 @media screen and (min-width: 1024px)  {
