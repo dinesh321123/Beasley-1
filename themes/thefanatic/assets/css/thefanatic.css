@@ -6625,7 +6625,9 @@ body.profile-page-login .live-player--mobile {
   position: relative;
   padding: 13px 25px; }
   .news-site .live-link__type--audio, .news-site .live-link__type--gallery, .news-site .live-link__type--image, .news-site .live-link__type--link, .news-site .live-link__type--standard, .news-site .live-link__type--video, .news-site .live-link__song {
-    padding: 0; }
+    padding: 0 0 1.875em;
+    margin: 0 0 0 50px;
+    border-bottom: 1px solid #b8babc; }
 
 .live-link__song {
   display: block;
@@ -6684,8 +6686,8 @@ body.profile-page-login .live-player--mobile {
   background: linear-gradient(rgba(50, 48, 48, 0.35), #000000);
   /* Standard syntax (must be last) */ }
   .news-site .live-link__type--show {
-    padding: 0;
-    border-bottom: none; }
+    padding: 0 0 1.875em;
+    border-bottom: 1px solid #b8babc; }
 
 .live-link__title {
   display: block;
@@ -10203,9 +10205,7 @@ category: Components - Shows
   margin: 0;
   line-height: 1; }
   .news-site .widget--live-player li {
-    padding: 2.125em 0 1.875em;
-    margin: 0 0 0 50px;
-    border-bottom: 1px solid #b8babc; }
+    padding-top: 2.125em; }
     .news-site .widget--live-player li:hover .live-link__title {
       color: #580f0c; }
     .news-site .widget--live-player li:hover div:before {
@@ -10812,7 +10812,7 @@ category: Components - Gallery Archive
     .gallery .container {
       padding-right: 0; } }
   .single-gmr_gallery .gallery .container {
-    background-color: #404041; }
+    background-color: #929497; }
 
 .gallery__slides {
   display: block; }
@@ -11001,7 +11001,7 @@ category: Components - Gallery Archive
       .gallery__meta:last-child {
         margin-right: 0; } }
   .single-gmr_gallery .gallery__meta {
-    color: #d0d2d3;
+    color: #ffffff;
     padding: 0 4.375%; }
 
 .gallery__content {
@@ -11080,8 +11080,8 @@ category: Components - Gallery Archive
   border-color: #58595b;
   color: #58595b; }
   .single-gmr_gallery .gallery__social a.social-share-link:link, .single-gmr_gallery .gallery__social--mobile a.social-share-link:link, .single-gmr_gallery .gallery__social a.social-share-link:visited, .single-gmr_gallery .gallery__social--mobile a.social-share-link:visited {
-    border-color: #d0d2d3;
-    color: #d0d2d3; }
+    border-color: #ffffff;
+    color: #ffffff; }
 
 .gallery__social a.social-share-link:hover, .gallery__social--mobile a.social-share-link:hover, .gallery__social a.social-share-link:focus, .gallery__social--mobile a.social-share-link:focus {
   border-color: #db261d;
@@ -11091,11 +11091,11 @@ category: Components - Gallery Archive
     color: #d22228; }
 
 .gallery__social a.social-share-link:active, .gallery__social--mobile a.social-share-link:active {
-  border-color: #58595b;
-  color: #58595b; }
+  border-color: #b8babc;
+  color: #b8babc; }
   .single-gmr_gallery .gallery__social a.social-share-link:active, .single-gmr_gallery .gallery__social--mobile a.social-share-link:active {
-    border-color: #58595b;
-    color: #58595b; }
+    border-color: #b8babc;
+    color: #b8babc; }
 
 .gallery__progress {
   position: relative;
@@ -11143,8 +11143,8 @@ category: Components - Gallery Archive
   color: #d22228; }
 
 .gallery__prev--btn:active, .gallery__next--btn:active {
-  border-color: #58595b;
-  color: #58595b; }
+  border-color: #b8babc;
+  color: #b8babc; }
 
 .gallery__prev {
   text-align: left; }
@@ -11212,7 +11212,7 @@ category: Components - Gallery Archive
   font-weight: lighter;
   color: #58595b; }
   .single-gmr_gallery .gallery__count {
-    color: #d0d2d3; }
+    color: #ffffff; }
 
 .gallery__thumbnails {
   position: relative;
@@ -11228,8 +11228,8 @@ category: Components - Gallery Archive
     margin-right: 0; }
   .single-gmr_gallery .gallery__thumbnails {
     height: 145px;
-    border-color: #58595b;
-    background-color: #303030; }
+    border-color: #b8babc;
+    background-color: #58595b; }
   .single-contest .gallery__thumbnails {
     height: 93px;
     margin-top: 0px; }
@@ -14498,5 +14498,8 @@ a.entry2__category:link, a.entry2__category:visited {
 
 .shows__schedule--now {
   border-color: #db261d; }
+
+.single-gmr_gallery .gallery__paging--prev, .single-gmr_gallery .gallery__paging--next {
+  color: #929497; }
 
 /*# sourceMappingURL=thefanatic.css.map */

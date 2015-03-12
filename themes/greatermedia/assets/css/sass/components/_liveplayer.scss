@@ -1414,7 +1414,9 @@ category: Components
 	padding: 13px 25px;
 
 	.news-site & {
-		padding: 0;
+		padding: 0 0 1.875em;
+		margin: 0 0 0 50px;
+		border-bottom: 1px solid $primary-border;
 	}
 }
 
@@ -1495,8 +1497,8 @@ category: Components
 	background: linear-gradient(rgba(50, 48, 48, 0.35), rgb(0, 0, 0)); /* Standard syntax (must be last) */
 
 	.news-site & {
-		padding: 0;
-		border-bottom: none;
+		padding: 0 0 1.875em;
+		border-bottom: 1px solid $primary-border;
 	}
 }
 
