@@ -3169,6 +3169,8 @@ a.highlights__contest--btn {
       height: 48px; } }
   .news-site .header__sub {
     display: block; }
+    .news-site .header__sub.is-visible {
+      z-index: 5000101; }
 
 .header__subnav {
   position: absolute;
@@ -3300,7 +3302,7 @@ a.highlights__contest--btn {
     top: 40px;
     width: 20%;
     margin-left: 40%;
-    z-index: 5000101; }
+    z-index: 1; }
     @media screen and (min-width: 768px)  {
       .news-site .header__logo {
         top: 48px;
@@ -3313,6 +3315,8 @@ a.highlights__contest--btn {
         padding-left: 1.5em;
         margin-right: 0;
         margin-left: 0; } }
+    .news-site .header__logo.is-visible {
+      z-index: 5000101; }
 
 .header__logo--img {
   margin: 0 auto;
