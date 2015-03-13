@@ -2342,9 +2342,9 @@ var $ = jQuery;
 		if (is_gigya_user_logged_in() && lpInit === true) {
 			setStoppedStyles();
 			if (window.innerWidth >= 768) {
-				playLiveStreamNoAd();
+				playLiveStream();
 			} else {
-				playLiveStreamMobileNoAd();
+				playLiveStreamMobile();
 			}
 		}
 	}
@@ -2430,6 +2430,9 @@ var $ = jQuery;
 		player.stop();
 		player.skipAd();
 		player.playAd('vastAd', {url: vastUrl});
+		setTimeout(function() {
+			this.stop();
+		}, 25000);
 	}
 
 	var currentStream = $('.live-player__stream--current-name');
