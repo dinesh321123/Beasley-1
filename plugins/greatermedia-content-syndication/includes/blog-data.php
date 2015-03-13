@@ -516,6 +516,16 @@ class BlogData {
 			}
 		}
 
+		if ( ! empty( $old_id ) ) {
+			switch_to_blog( self::$content_site_id );
+			$attribution = get_post_meta( $old_id, 'gmr_image_attribution', true );
+			restore_current_blog();
+
+			if ( ! empty( $attribution ) ) {
+				add_post_meta( $id, 'gmr_image_attribution', $attribution );
+			}
+		}
+
 		return $id;
 	}
 
