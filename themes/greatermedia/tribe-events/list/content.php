@@ -25,13 +25,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 		tribe_get_template_part( 'list/loop' );
 		
 		if ( tribe_has_next_event() ) :
-			$_request = $_REQUEST;
-			$_request['tribe_paged'] = '%d';
+			$page_link = '';
+			if ( is_tax( 'tribe_events_cat' ) ) {
+				$page_link = str_replace( PHP_INT_MAX, '%d', get_pagenum_link( PHP_INT_MAX ) );
+			} else {
+				$_request = $_REQUEST;
+				$_request['tribe_paged'] = '%d';
+				$page_link = add_query_arg( $_request, tribe_get_events_link() );
+			}
 
 			greatermedia_load_more_button( array(
 				'partial_slug'       => 'tribe-events/list/loop',
 				'auto_load'          => true,
-				'page_link_template' => add_query_arg( $_request, tribe_get_events_link() ),
+				'page_link_template' =>  $page_link,
 			) );
 		endif;
 
