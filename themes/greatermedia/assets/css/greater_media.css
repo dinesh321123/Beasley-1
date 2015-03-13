@@ -5717,6 +5717,8 @@ body.profile-page-login .live-player--mobile {
       .gmr-user .live-stream__status {
         display: block;
         top: 264px; } }
+  .gmr-user .live-player__container.no-volume-control .live-stream__status {
+    top: 236px; }
   .news-site .live-stream__status {
     top: 273px;
     width: 200px; }
@@ -7030,6 +7032,8 @@ a.live-audio__link {
     .gmr-user #live-player--volume {
       display: block; } }
   .live-player__container.playing #live-player--volume {
+    display: none; }
+  .live-player__container.no-volume-control #live-player--volume {
     display: none; }
 
 @-webkit-keyframes heartbeat {

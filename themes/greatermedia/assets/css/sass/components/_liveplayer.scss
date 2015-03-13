@@ -519,6 +519,10 @@ category: Components
 		}
 	}
 
+	.gmr-user .live-player__container.no-volume-control & {
+		top: 236px;
+	}
+
 	.news-site & {
 		top: 273px;
 		width: 200px;
@@ -1899,6 +1903,10 @@ a.live-audio__link {
 
 
 	.live-player__container.playing & {
+		display: none;
+	}
+
+	.live-player__container.no-volume-control & {
 		display: none;
 	}
 }

@@ -871,28 +871,32 @@
 			loadPwaData();
 		});
 
-		volume_slider.noUiSlider({
-			start: getVolume(),
-			range: {
-				min: 0,
-				max: 1
-			}
-		});
+		if (bowser.ios) {
+			livePlayer.classList.add('no-volume-control');
+		} else {
+			volume_slider.noUiSlider({
+				start: getVolume(),
+				range: {
+					min: 0,
+					max: 1
+				}
+			});
 
-		volume_slider.on('slide', function() {
-			global_volume = parseFloat(volume_slider.val());
-			if (isNaN(global_volume)) {
-				global_volume = 1;
-			}
+			volume_slider.on('slide', function () {
+				global_volume = parseFloat(volume_slider.val());
+				if (isNaN(global_volume)) {
+					global_volume = 1;
+				}
 
-			if (livePlaying) {
-				player.setVolume(global_volume);
-			}
-			
-			if (typeof(localStorage) !== "undefined") {
-				localStorage.setItem("gmr-live-player-volume", global_volume);
-			}
-		});
+				if (livePlaying) {
+					player.setVolume(global_volume);
+				}
+
+				if (typeof(localStorage) !== "undefined") {
+					localStorage.setItem("gmr-live-player-volume", global_volume);
+				}
+			});
+		}
 
 		if (window._nolggGlobalParams) {
 			var beacon = new NOLCMB.ggInitialize(window._nolggGlobalParams);
