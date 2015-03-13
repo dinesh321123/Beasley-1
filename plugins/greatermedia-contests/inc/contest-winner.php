@@ -180,6 +180,10 @@ function gmr_contests_export_to_csv() {
 		exit;
 	}
 
+	if ( function_exists( 'set_time_limit' ) ) {
+		set_time_limit( 0 );
+	}
+
 	header( 'Content-Description: File Transfer' );
 	header( 'Content-Type: text/csv; charset=utf-8' );
 	header( 'Content-Disposition: attachment; filename=' . $contest->post_name . '.csv' );

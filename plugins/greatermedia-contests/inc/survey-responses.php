@@ -177,10 +177,13 @@ function gmr_survey_export_to_csv() {
 		exit;
 	}
 
+	if ( function_exists( 'set_time_limit' ) ) {
+		set_time_limit( 0 );
+	}
+
 	header( 'Content-Description: File Transfer' );
-	header( 'Content-Type: text/csv' );
+	header( 'Content-Type: text/csv; charset=utf-8' );
 	header( 'Content-Disposition: attachment; filename=' . $survey->post_name . '.csv' );
-	header( 'Connection: Keep-Alive' );
 
 	$paged = 1;
 	$query = new WP_Query();
@@ -228,6 +231,11 @@ function gmr_survey_export_to_csv() {
 				}
 
 				fputcsv( $stdout, $row );
+
+				flush();
+				ob_flush();
+
+				wp_cache_flush();
 			}
 		}
 
