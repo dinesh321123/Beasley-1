@@ -332,7 +332,7 @@ function get_gigya_verify_email_message() {
 					<h2>Nielsen Research</h2>
 					<p>Our properties may feature Nielsen proprietary measurement software, which will allow you to contribute to market research, such as Nielsen TV Ratings. To learn more about the information that Nielsen software may collect and your choices with regard to it, please see the Nielsen Digital Measurement Privacy Policy at <a href="http://www.nielsen.com/digitalprivacy">http://www.nielsen.com/digitalprivacy</a>.</p>
 
-					<input type="checkbox" name="nielsen.opt-out" class="nielsen-opt-out" checked="checked" /><label class="label-nielsen-opt-out" for="nielsen.opt-out">I consent to participate in Nielsen's Online Measurement Research.</label>
+					<input type="checkbox" name="nielsen_optout" class="nielsen-opt-out" /><label class="label-nielsen-opt-out" for="nielsen_optout">Opt-out of Nielsen's Online Measurement Research.</label>
 				</div>
 
 				<input type="submit" name="submit" class="gigya-input-submit-button" value="Join the Club" />
@@ -436,7 +436,7 @@ function get_gigya_verify_email_message() {
 					<h2>Nielsen Research</h2>
 					<p>Our properties may feature Nielsen proprietary measurement software, which will allow you to contribute to market research, such as Nielsen TV Ratings. To learn more about the information that Nielsen software may collect and your choices with regard to it, please see the Nielsen Digital Measurement Privacy Policy at <a href="http://www.nielsen.com/digitalprivacy">http://www.nielsen.com/digitalprivacy</a>.</p>
 
-					<input type="checkbox" name="nielsen.opt-out" class="nielsen-opt-out" checked="checked" /><label class="label-nielsen-opt-out" for="nielsen.opt-out">I consent to participate in Nielsen's Online Measurement Research.</label>
+					<input type="checkbox" name="nielsen_optout" class="nielsen-opt-out" /><label class="label-nielsen-opt-out" for="nielsen_optout">Opt-out of Nielsen's Online Measurement Research.</label>
 				</div>
 
 				<a href="#" class="link-button logout-button">&laquo; Logout</a>

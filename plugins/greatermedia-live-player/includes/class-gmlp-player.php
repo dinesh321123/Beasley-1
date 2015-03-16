@@ -105,19 +105,27 @@ class GMLP_Player {
 		if ( function_exists( 'gmr_streams_get_primary_stream_callsign') ) {
 			$callsign = gmr_streams_get_primary_stream_callsign();
 		}
+		
 		if ( function_exists( 'gmr_streams_get_primary_stream_vast_url') ) {
 			$vast_url = gmr_streams_get_primary_stream_vast_url();
 		}
 
 		wp_register_script( 'nielsen-sdk', '//secure-us.imrworldwide.com/novms/js/2/ggcmb400.js', null, null );
 
-		$apid = get_option( 'gmr_nielsen_sdk_apid' );
-		if ( ! empty( $apid ) ) {
-			wp_localize_script( 'nielsen-sdk', '_nolggGlobalParams', array(
-				'apid'   => $apid,
-				'apn'    => get_option( 'gmr_nielsen_sdk_apn', get_bloginfo( 'name' ) ),
-				'sfcode' => get_option( 'gmr_nielsen_sdk_mode' ) ? 'drm' : 'uat-cert',
-			) );
+		$optout = false;
+		if ( function_exists( 'get_gigya_user_field' ) ) {
+			$optout = filter_var( get_gigya_user_field( 'nielsen_optout' ), FILTER_VALIDATE_BOOLEAN );
+		}
+		
+		if ( ! $optout ) {
+			$apid = get_option( 'gmr_nielsen_sdk_apid' );
+			if ( ! empty( $apid ) ) {
+				wp_localize_script( 'nielsen-sdk', '_nolggGlobalParams', array(
+					'apid'   => $apid,
+					'apn'    => get_option( 'gmr_nielsen_sdk_apn', get_bloginfo( 'name' ) ),
+					'sfcode' => get_option( 'gmr_nielsen_sdk_mode' ) ? 'drm' : 'uat-cert',
+				) );
+			}
 		}
 
 		$home_url = home_url( '/' );
