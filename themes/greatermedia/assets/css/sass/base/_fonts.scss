@@ -52,9 +52,6 @@ category: Base - Typography
 $primary-font:	'Open Sans', sans-serif !default;
 $icon-font:		'gmr-icons';
 
-$primary-font:		'Open Sans', sans-serif !default;
-$secondary-font:	'Droid Sans', sans-serif !default;
-
 @font-face {
 	font-family: 'gmr-icons';
 	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?-1dkdju');
