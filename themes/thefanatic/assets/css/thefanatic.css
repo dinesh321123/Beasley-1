@@ -10609,7 +10609,7 @@ body.search-results .posts-pagination {
   color: #db261d; }
 
 .is-hoverable a:hover .keyword-search-item, .is-hoverable a:focus .keyword-search-item, .is-highlighted .keyword-search-item {
-  background: #d22228; }
+  background: #db261d; }
 .is-hoverable a:hover .keyword-search-item__keyword, .is-hoverable a:hover .keyword-search-item__article, .is-hoverable a:focus .keyword-search-item__keyword, .is-hoverable a:focus .keyword-search-item__article, .is-highlighted .keyword-search-item__keyword, .is-highlighted .keyword-search-item__article {
   color: #ffffff; }
 

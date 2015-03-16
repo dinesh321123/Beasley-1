@@ -1087,7 +1087,7 @@
 		});
 	}
 
-	addLogoVisibility()
+	addLogoVisibility();
 
 	(function ($) {
 		$(document).on('click', '.popup', function () {
