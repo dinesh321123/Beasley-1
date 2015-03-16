@@ -35,6 +35,11 @@
 	font-weight: 600;
 }
 
+.gmr__option--label-inline {
+	display: inline-block;
+	font-weight: normal;
+}
+
 .gmr__option--input {
 	box-sizing: border-box;
 	@include placeholder {

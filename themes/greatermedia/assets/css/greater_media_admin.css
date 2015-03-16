@@ -34,6 +34,10 @@
   margin: 0 0 .75em;
   font-weight: 600; }
 
+.gmr__option--label-inline {
+  display: inline-block;
+  font-weight: normal; }
+
 .gmr__option--input {
   box-sizing: border-box;
   width: 99%; }

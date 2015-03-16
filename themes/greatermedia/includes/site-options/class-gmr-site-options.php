@@ -117,6 +117,7 @@ class GreaterMediaSiteOptions {
 		register_setting( self::option_group, 'gmr_google_analytics', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_google_uid_dimension', 'absint' );
 		register_setting( self::option_group, 'gmr_livelinks_title', 'sanitize_text_field');
+		register_setting( self::option_group, 'gmr_newssite', 'esc_attr' );
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -159,6 +160,7 @@ class GreaterMediaSiteOptions {
 		$site_logo_id = GreaterMediaSiteOptionsHelperFunctions::get_site_logo_id();
 		$site_favicon_id = GreaterMediaSiteOptionsHelperFunctions::get_site_favicon_id();
 		$livelinks_title = get_option( 'gmr_livelinks_title', '' );
+		$news_site = get_option( 'gmr_newssite', '' );
 
 		?>
 
@@ -170,35 +172,43 @@ class GreaterMediaSiteOptions {
 
 		<hr />
 
-		<h4>Live Links</h4>
+		<h4><?php _e( 'Station Type', 'greatermedia' ); ?></h4>
+		<div class="gmr__option">
+			<input type="checkbox" name="gmr_newssite" id="gmr_newssite" value="1" <?php checked( 1 == esc_attr( $news_site ) ); ?>><label for="gmr_newssite" class="gmr__option--label-inline"><?php _e( 'News/Sports Station', 'greatermedia' ); ?></label>
+			<div class="gmr-option__field--desc"><?php _e( 'Check this box if this site is for a News or Sports Radio Station.', 'greatermedia' ); ?></div>
+		</div>
+
+		<hr />
+
+		<h4><?php _e( 'Live Links', 'greatermedia' ); ?></h4>
 
 		<div class="gmr__option">
-			<label for="gmr_livelinks_title" class="gmr__option--label">Title of Live Links Sidebar</label>
+			<label for="gmr_livelinks_title" class="gmr__option--label"><?php _e( 'Title of Live Links Sidebar', 'greatermedia' ); ?></label>
 			<input type="text" class="gmr__option--input" name="gmr_livelinks_title" id="gmr_livelinks_title" value="<?php echo esc_attr( $livelinks_title ); ?>" />
 		</div>
 
 		<hr />
 
-		<h4>Social Pages</h4>
+		<h4><?php _e( 'Social Pages', 'greatermedia' ); ?></h4>
 
 		<div class="gmr__option">
-			<label for="gmr_facebook_url" class="gmr__option--label">Facebook URL</label>
+			<label for="gmr_facebook_url" class="gmr__option--label"><?php _e( 'Facebook URL', 'greatermedia' ); ?></label>
 			<input type="text" class="gmr__option--input" name="gmr_facebook_url" id="gmr_facebook_url" value="<?php echo esc_url( $facebook ); ?>" />
 		</div>
 
 		<div class="gmr__option">
-			<label for="gmr_twitter_url" class="gmr__option--label">Twitter Username</label>
+			<label for="gmr_twitter_url" class="gmr__option--label"><?php _e( 'Twitter Username', 'greatermedia' ); ?></label>
 			<input type="text" class="gmr__option--input" name="gmr_twitter_name" id="gmr_twitter_name" value="<?php echo esc_attr( $twitter ); ?>" />
 			<div class="gmr-option__field--desc"><?php _e( 'Please enter username minus the @', 'greatermedia' ); ?></div>
 		</div>
 
 		<div class="gmr__option">
-			<label for="gmr_youtube_url" class="gmr__option--label">YouTube URL</label>
+			<label for="gmr_youtube_url" class="gmr__option--label"><?php _e( 'YouTube URL', 'greatermedia' ); ?></label>
 			<input type="text" class="gmr__option--input" name="gmr_youtube_url" id="gmr_youtube_url" value="<?php echo esc_url( $youtube ); ?>" />
 		</div>
 
 		<div class="gmr__option">
-			<label for="gmr_instagram_url" class="gmr__option--label">Instagram Username</label>
+			<label for="gmr_instagram_url" class="gmr__option--label"><?php _e( 'Instagram Username', 'greatermedia' ); ?></label>
 			<input type="text" class="gmr__option--input" name="gmr_instagram_name" id="gmr_instagram_name" value="<?php echo esc_attr( $instagram ); ?>" />
 			<div class="gmr-option__field--desc"><?php _e( 'Please enter username only, not a full url.', 'greatermedia' ); ?></div>
 		</div>
@@ -217,17 +227,17 @@ class GreaterMediaSiteOptions {
 		}
 		?>
 		<div class="gmr__option">
-			<label for="gmr_google_analytics" class="gmr__option--label">Google Analytics ID</label>
+			<label for="gmr_google_analytics" class="gmr__option--label"><?php _e( 'Google Analytics ID', 'greatermedia' ); ?></label>
 			<input type="text" class="gmr__option--input" name="gmr_google_analytics" id="gmr_google_analytics" value="<?php echo esc_attr( $google_analytics ); ?>" />
 
-			<div class="gmr-option__field--desc">UA-xxxxxx-xx</div>
+			<div class="gmr-option__field--desc"><?php _e( 'UA-xxxxxx-xx', 'greatermedia' ); ?></div>
 		</div>
 		<div class="gmr__option">
-			<label for="gmr_google_uid_dimension" class="gmr__option--label">Google User ID Custom Dimension</label>
-			dimension<input type="text" name="gmr_google_uid_dimension" id="gmr_google_uid_dimension" value="<?php echo esc_attr( $google_uid_dimension ); ?>" size="3" length="3">
+			<label for="gmr_google_uid_dimension" class="gmr__option--label"><?php _e( 'Google User ID Custom Dimension', 'greatermedia' ); ?></label>
+			<?php _e( 'dimension', 'greatermedia' ); ?><input type="text" name="gmr_google_uid_dimension" id="gmr_google_uid_dimension" value="<?php echo esc_attr( $google_uid_dimension ); ?>" size="3" length="3">
 			<div class="gmr-option__field--desc">
-				Sends the current user's ID to this custom Google Analytics dimension<br>
-				Most sites can use dimension1 unless it is already in use.
+				<?php _e( 'Sends the current user\'s ID to this custom Google Analytics dimension', 'greatermedia' ); ?><br>
+				<?php _e( 'Most sites can use dimension1 unless it is already in use.', 'greatermedia' ); ?>
 			</div>
 		</div>
 		<?php

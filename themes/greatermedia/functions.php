@@ -927,3 +927,14 @@ function greatermedia_archive_title() {
 
 	echo '</h2>';
 }
+
+function greatermedia_newssite_class( $classes ) {
+	$news_site = get_option( 'gmr_newssite' );
+
+	if ( $news_site ) {
+		$classes[] = 'news-site';
+	}
+	
+	return $classes;
+}
+add_filter( 'body_class', 'greatermedia_newssite_class' );

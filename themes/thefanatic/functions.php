@@ -90,10 +90,3 @@ function thefanatic_header_meta() {
 }
 
 add_action( 'wp_head', 'thefanatic_header_meta' );
-
-function thefanatic_class_names( $classes ) {
-	$classes[] = 'news-site';
-
-	return $classes;
-}
-add_filter( 'body_class', 'thefanatic_class_names' );
