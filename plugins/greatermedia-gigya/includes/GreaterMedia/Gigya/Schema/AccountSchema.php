@@ -222,7 +222,7 @@ class AccountSchema {
 					'writeAccess' => 'clientModify',
 					'required' => false,
 				),
-				'optout' => array(
+				'nielsen_optout' => array(
 					'writeAccess' => 'clientModify',
 					'required' => false,
 				),
