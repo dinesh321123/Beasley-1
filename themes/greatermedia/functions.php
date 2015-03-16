@@ -928,6 +928,13 @@ function greatermedia_archive_title() {
 	echo '</h2>';
 }
 
+/**
+ * Adds a class to the body if a checkbox for News/Sports sites, has been checked in the site settings
+ *
+ * @param $classes
+ *
+ * @return array
+ */
 function greatermedia_newssite_class( $classes ) {
 	$news_site = get_option( 'gmr_newssite' );
 
