@@ -263,14 +263,12 @@ function get_show_live_links_query( $show = null, $page = 1 ) {
 		'posts_per_page'      => 10,
 		'ignore_sticky_posts' => true,
 		'no_found_rows'       => true,
-		/*
 		'tax_query'           => array(
 			array(
 				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
 				'terms'    => $term->term_id,
 			),
 		),
-		*/
 	);
 
 	if ( $episode && $show->ID == $episode->post_parent && \gmrs_is_episode_onair( $episode ) ) {
