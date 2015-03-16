@@ -114,7 +114,7 @@ class GMLP_Player {
 
 		$optout = false;
 		if ( function_exists( 'get_gigya_user_field' ) ) {
-			$optout = filter_var( get_gigya_user_field( 'nielsen_optout' ), FILTER_VALIDATE_BOOLEAN );
+			$optout = filter_var( get_gigya_user_field( 'data.nielsen_optout' ), FILTER_VALIDATE_BOOLEAN );
 		}
 		
 		if ( ! $optout ) {
