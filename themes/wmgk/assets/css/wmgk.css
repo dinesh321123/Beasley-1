@@ -13660,7 +13660,7 @@ category: Components - Article
   height: 2.5em; }
 
 .fyre .fyre-comment-action-button {
-  height: auto !important; }
+  height: 27px !important; }
 
 /*
 	.fyre-mention-item {
