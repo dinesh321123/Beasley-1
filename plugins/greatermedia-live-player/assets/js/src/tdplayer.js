@@ -894,6 +894,10 @@
 				if (livePlaying) {
 					player.setVolume(global_volume);
 				}
+				
+				if (customAudio) {
+					customAudio.volume = global_volume;
+				}
 
 				if (typeof(localStorage) !== "undefined") {
 					localStorage.setItem("gmr-live-player-volume", global_volume);
@@ -1422,6 +1426,7 @@
 		playingCustomAudio = true;
 		stopLiveStreamIfPlaying();
 		customAudio.play();
+		customAudio.volume = getVolume();
 		setPlayerTrackName();
 		setPlayerArtist();
 		resetInlineAudioStates();

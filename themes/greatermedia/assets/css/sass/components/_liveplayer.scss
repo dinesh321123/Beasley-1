@@ -500,16 +500,6 @@ category: Components
 		text-align: center;
 	}
 
-	&.audio__playing {
-
-		display: none;
-
-		@include bp(medium) {
-			display: block;
-			top: 66px;
-		}
-	}
-
 	.gmr-user & {
 		display: none;
 
@@ -523,12 +513,29 @@ category: Components
 		top: 236px;
 	}
 
-	.news-site & {
-		top: 273px;
-		width: 200px;
+	&.audio__playing {
+
+		display: none;
+
+		@include bp(medium) {
+			display: block;
+			top: 66px;
+		}
+
+		.gmr-user .live-player__container.no-volume-control & {
+
+			@include bp(medium) {
+				display: block;
+				top: 66px;
+			}
+		}
 	}
 }
 
+#popup-player-livestream .live-stream__status{
+  display: block;
+  height: 23px;
+}
 .live-stream__listen-now--btn {
 	display: none;
 
@@ -1899,11 +1906,6 @@ a.live-audio__link {
 		@include bp(medium) {
 			display: block;
 		}
-	}
-
-
-	.live-player__container.playing & {
-		display: none;
 	}
 
 	.live-player__container.no-volume-control & {
