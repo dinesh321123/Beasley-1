@@ -10,6 +10,7 @@ add_action( 'admin_action_gmr_contest_entry_mark_bulk_winners', 'gmr_contests_ma
 add_action( 'admin_action_gmr_contest_entry_unmark_winner', 'gmr_contests_unmark_contest_winner' );
 add_action( 'admin_action_gmr_contest_export', 'gmr_contests_export_to_csv' );
 add_action( 'pre_get_posts', 'gmr_contest_adjust_contest_entries_query' );
+add_action( 'gmr_do_contest_export', 'gmr_do_contest_export' );
 
 // filter hooks
 add_filter( 'post_row_actions', 'gmr_contests_add_table_row_actions', 10, 2 );
@@ -142,6 +143,12 @@ function gmr_contests_render_winner_page() {
 			<?php endif; ?>
 		</h2>
 
+		<?php if ( filter_input( INPUT_GET, 'export', FILTER_VALIDATE_BOOLEAN ) ) : ?>
+			<div class="updated">
+				<p>Export process has been started. We will email you a CSV file when export is finished.</p>
+			</div>
+		<?php endif; ?>
+
 		<?php if ( $winners->has_items() ) : ?>
 			<h3>Selected Winners</h3>
 			<?php $winners->display(); ?>
@@ -180,13 +187,31 @@ function gmr_contests_export_to_csv() {
 		exit;
 	}
 
-	if ( function_exists( 'set_time_limit' ) ) {
-		set_time_limit( 0 );
+	wp_async_task_add( 'gmr_do_contest_export', array(
+		'contest' => $contest->ID,
+		'email'   => wp_get_current_user()->user_email,
+	) );
+
+	$redirect = admin_url( 'admin.php?page=gmr-contest-winner&export=1&contest_id=' . $contest->ID );
+	wp_redirect( $redirect );
+	exit;
+}
+
+/**
+ * Performs contest export.
+ *
+ * @param array $args The export arguments.
+ */
+function gmr_do_contest_export( $args ) {
+	if ( empty( $args['contest'] ) || ! ( $contest = get_post( $args['contest'] ) ) || GMR_CONTEST_CPT != $contest->post_type ) {
+		return;
 	}
 
-	header( 'Content-Description: File Transfer' );
-	header( 'Content-Type: text/csv; charset=utf-8' );
-	header( 'Content-Disposition: attachment; filename=' . $contest->post_name . '.csv' );
+	$filename = wp_tempnam( $contest->post_name . date( '-Y-m-d' ) . '.csv' );
+	$stdout = fopen( $filename, 'w' );
+	if ( ! $stdout ) {
+		return;
+	}
 
 	$paged = 1;
 	$query = new WP_Query();
@@ -206,7 +231,6 @@ function gmr_contests_export_to_csv() {
 		}
 	}
 
-	$stdout = fopen( 'php://output', 'w' );
 	fputcsv( $stdout, $headers );
 
 	do {
@@ -247,11 +271,6 @@ function gmr_contests_export_to_csv() {
 				}
 
 				fputcsv( $stdout, $row );
-
-				flush();
-				ob_flush();
-
-				wp_cache_flush();
 			}
 		}
 
@@ -259,7 +278,10 @@ function gmr_contests_export_to_csv() {
 	} while( $query->post_count > 0 );
 
 	fclose( $stdout );
-	exit;
+
+	wp_mail( $args['email'], $contest->post_title . ' Entries', '', '', array( $filename ) );
+	
+	@unlink( $filename );
 }
 
 /**
