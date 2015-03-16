@@ -13662,6 +13662,9 @@ category: Components - Article
 .fyre-mention-menu .fyre-mention-item {
   height: 2.5em; }
 
+.fyre .fyre-comment-action-button {
+  height: 27px !important; }
+
 /*
 	.fyre-mention-item {
 		height: 2.5em;
