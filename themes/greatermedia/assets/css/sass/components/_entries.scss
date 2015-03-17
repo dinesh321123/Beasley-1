@@ -6,6 +6,13 @@
 	@include bp(medium) {
 		padding: $base-line-height $gutter * 2;
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			padding: $base-line-height 1.5em;
+		}
+	}
 }
 
 .entry2 {

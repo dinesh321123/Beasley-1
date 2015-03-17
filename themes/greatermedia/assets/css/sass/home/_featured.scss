@@ -257,10 +257,15 @@ a.featured__article--link {
 		left: 0;
 		padding: .5em .75em;
 		background-color: rgba(0,0,0,.5);
+		@include transition(all .25s);
 
 		@include bp(large) {
 			padding: 1em 1.875em;
 		}
+	}
+
+	.news-site .featured__article:hover & {
+		background-color: rgba(0,0,0,.85);
 	}
 }
 
@@ -304,7 +309,6 @@ a.featured__article--link {
 
 		.featured__article--heading {
 			font-size: ms(3);
-			font-weight: 700;
 
 			@include bp(medium) {
 				font-size: ms(3);
@@ -474,6 +478,7 @@ a.featured__article--link {
 		padding: .5em .75em;
 		min-height: initial;
 		background-color: rgba(0,0,0,.5);
+		@include transition(all .25s);
 
 		@include bp(medium) {
 			padding: .75em 1em;
@@ -482,6 +487,10 @@ a.featured__article--link {
 		@include bp(large) {
 			padding: .875em 1.25em;
 		}
+	}
+
+	.news-site .featured__content--block:hover & {
+		background-color: rgba(0,0,0,.85);
 	}
 }
 

@@ -100,6 +100,10 @@ Community Highlights and Events
 		padding-bottom: 0;
 		background-color: transparent !important;
 		border-bottom: none;
+
+		@include bp(medium) {
+			padding: 0 1.5em;
+		}
 	}
 
 }
@@ -272,6 +276,10 @@ Community Highlights and Events
 		}
 
 		@include bp(larger) {
+			@include span-columns(6 of 12);
+		}
+
+		@include bp(x-large) {
 			@include span-columns(4 of 12);
 		}
 	}
@@ -282,7 +290,7 @@ Community Highlights and Events
 	.news-site & {
 		padding-top: 1.5em;
 
-		@include bp(medium) {
+		@media (min-width: 768px) and (max-width: 1399px) {
 			@include omega;
 		}
 
@@ -590,7 +598,7 @@ a.highlights__contest--btn {
 			text-align: center;
 		}
 
-		@include bp(larger) {
+		@include bp(x-large) {
 			@include span-columns(4 of 12);
 			@include omega;
 			clear: none;

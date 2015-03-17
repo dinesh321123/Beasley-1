@@ -724,6 +724,9 @@ img {
   @media screen and (min-width: 768px)  {
     .content, .gallery__archive, .main .lead-in, .main #signup-welcome, .main .view {
       padding: 3em 3.236em; } }
+  @media screen and (min-width: 768px)  {
+    .news-site .content, .news-site .gallery__archive, .news-site .main .lead-in, .main .news-site .lead-in, .news-site .main #signup-welcome, .main .news-site #signup-welcome, .news-site .main .view, .main .news-site .view {
+      padding: 1.5em 1.5em; } }
 
 .live-player {
   position: fixed;
@@ -2153,10 +2156,15 @@ a.featured__article--link {
     bottom: 0;
     left: 0;
     padding: .5em .75em;
-    background-color: rgba(0, 0, 0, 0.5); }
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-transition: all .25s;
+    -moz-transition: all .25s;
+    transition: all .25s; }
     @media screen and (min-width: 1024px)  {
       .news-site .featured__article--content {
         padding: 1em 1.875em; } }
+  .news-site .featured__article:hover .featured__article--content {
+    background-color: rgba(0, 0, 0, 0.85); }
 
 .featured__article--heading {
   float: left;
@@ -2190,8 +2198,7 @@ a.featured__article--link {
         font-size: 1.42383em; } }
 
 .news-site .featured__article--primary .featured__article--heading {
-  font-size: 1.42383em;
-  font-weight: 700; }
+  font-size: 1.42383em; }
   @media screen and (min-width: 768px)  {
     .news-site .featured__article--primary .featured__article--heading {
       font-size: 1.42383em; } }
@@ -2386,13 +2393,18 @@ a.featured__article--link {
     width: calc(100% - 5px);
     padding: .5em .75em;
     min-height: initial;
-    background-color: rgba(0, 0, 0, 0.5); }
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-transition: all .25s;
+    -moz-transition: all .25s;
+    transition: all .25s; }
     @media screen and (min-width: 768px)  {
       .news-site .featured__content--meta {
         padding: .75em 1em; } }
     @media screen and (min-width: 1024px)  {
       .news-site .featured__content--meta {
         padding: .875em 1.25em; } }
+  .news-site .featured__content--block:hover .featured__content--meta {
+    background-color: rgba(0, 0, 0, 0.85); }
 
 @media screen and (min-width: 1024px)  {
   .news-site .featured__content--block:last-of-type .featured__content--meta {
@@ -2607,6 +2619,9 @@ Community Highlights and Events
     padding-bottom: 0;
     background-color: transparent !important;
     border-bottom: none; }
+    @media screen and (min-width: 768px)  {
+      .news-site .home__highlights {
+        padding: 0 1.5em; } }
 
 .news-site .highlights__col {
   border-top: 1px solid #d0d2d3; }
@@ -2774,13 +2789,21 @@ Community Highlights and Events
         float: left;
         display: block;
         margin-right: 2.35765%;
+        width: 48.82117%; }
+        .news-site .highlights__events:last-child, .news-site .highlights__contests:last-child {
+          margin-right: 0; } }
+    @media screen and (min-width: 1400px)  {
+      .news-site .highlights__events, .news-site .highlights__contests {
+        float: left;
+        display: block;
+        margin-right: 2.35765%;
         width: 31.76157%; }
         .news-site .highlights__events:last-child, .news-site .highlights__contests:last-child {
           margin-right: 0; } }
 
 .news-site .highlights__contests {
   padding-top: 1.5em; }
-  @media screen and (min-width: 768px)  {
+  @media (min-width: 768px) and (max-width: 1399px) {
     .news-site .highlights__contests {
       margin-right: 0; } }
   @media screen and (min-width: 1024px)  {
@@ -3107,7 +3130,7 @@ a.highlights__contest--btn {
       width: 100%;
       margin: 0 auto;
       text-align: center; } }
-  @media screen and (min-width: 1200px)  {
+  @media screen and (min-width: 1400px)  {
     .news-site .highlights__ad {
       float: left;
       display: block;
@@ -4681,6 +4704,9 @@ Link posts contain a link to an external site. They can also optionally have a f
   @media screen and (min-width: 768px)  {
     .entries {
       padding: 1.5em 3.236em; } }
+  @media screen and (min-width: 768px)  {
+    .news-site .entries {
+      padding: 1.5em 1.5em; } }
 
 .entry2 {
   float: left;
@@ -5277,6 +5303,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 title: Live Player
 name: live-player
 category: Components
+category: Components
 ---
 
 ```html_example
@@ -5422,7 +5449,7 @@ body.profile-page-login .live-player--mobile {
   @media screen and (min-width: 768px)  {
     .news-site .live-stream {
       width: 200px;
-      margin: 4em auto 0; } }
+      margin: 4em auto; } }
 
 .live-player__stream {
   position: absolute;
@@ -5627,7 +5654,7 @@ body.profile-page-login .live-player--mobile {
       overflow: hidden; } }
   @media screen and (min-width: 768px)  {
     .news-site .live-player__container {
-      padding: 0 0 80px;
+      padding: 0 0 3em;
       margin-top: 3.75em; } }
 
 #popup-player-livestream .live-player__container {
@@ -5736,10 +5763,9 @@ body.profile-page-login .live-player--mobile {
       .gmr-user .live-player__container.no-volume-control .live-stream__status.audio__playing {
         display: block;
         top: 66px; } }
-
-#popup-player-livestream .live-stream__status {
-  display: block;
-  height: 23px; }
+  .news-site .live-stream__status {
+    top: 304px;
+    width: 200px; }
 
 .live-stream__listen-now--btn, .podcast__rss {
   display: none; }
@@ -6383,6 +6409,8 @@ body.profile-page-login .live-player--mobile {
         top: auto;
         left: auto;
         width: 100%; } }
+  .news-site .now-playing {
+    display: none; }
 
 #popup-player-livestream .now-playing {
   display: block;
@@ -6660,7 +6688,7 @@ body.profile-page-login .live-player--mobile {
   content: "\e602"; }
 
 .live-link__type--standard:before {
-  content: "\e608"; }
+  content: "\e602"; }
 
 .live-link__type--video:before {
   content: "\e605"; }

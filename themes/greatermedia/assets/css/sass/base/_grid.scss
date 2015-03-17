@@ -75,10 +75,13 @@ img {
 	@include bp(medium) {
 		padding: $base-line-height * 2 $gutter * 2;
 	}
-	// @include bp(large) {
-	// }
-	// @include bp(x-large) {
-	// }
+
+	.news-site & {
+
+		@include bp(medium) {
+			padding: $base-line-height 1.5em;
+		}
+	}
 }
 
 .live-player {
