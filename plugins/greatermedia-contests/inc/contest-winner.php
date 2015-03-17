@@ -145,7 +145,7 @@ function gmr_contests_render_winner_page() {
 
 		<?php if ( filter_input( INPUT_GET, 'export', FILTER_VALIDATE_BOOLEAN ) ) : ?>
 			<div class="updated">
-				<p>Export process has been started. We will email you a CSV file when export is finished.</p>
+				<p>Export process has been started. We will email you a CSV file when export is finished. If you don't receive an email in the nearest time, then check your spam folder.</p>
 			</div>
 		<?php endif; ?>
 

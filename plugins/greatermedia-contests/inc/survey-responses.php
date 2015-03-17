@@ -7,6 +7,7 @@ add_action( 'post_submitbox_start', 'gmr_survey_view_responses_link', 1 );
 add_action( 'manage_' . GMR_SURVEY_RESPONSE_CPT . '_posts_custom_column', 'gmr_surveys_render_survey_response_column', 10, 2 );
 add_action( 'pre_get_posts', 'gmr_survey_adjust_survey_responses_query' );
 add_action( 'admin_action_gmr_survey_export', 'gmr_survey_export_to_csv' );
+add_action( 'gmr_do_survey_export', 'gmr_do_survey_export' );
 
 // filter hooks
 add_filter( 'post_row_actions', 'gmr_surveys_add_table_row_actions', PHP_INT_MAX, 2 );
@@ -146,6 +147,12 @@ function gmr_surveys_render_response_page() {
 			<?php endif; ?>
 		</h2>
 
+		<?php if ( filter_input( INPUT_GET, 'export', FILTER_VALIDATE_BOOLEAN ) ) : ?>
+			<div class="updated">
+				<p>Export process has been started. We will email you a CSV file when export is finished. If you don't receive an email in the nearest time, then check your spam folder.</p>
+			</div>
+		<?php endif; ?>
+
 		<form id="posts-filter">
 			<input type="hidden" name="noheader" value="true">
 			<input type="hidden" name="page" value="<?php echo esc_html( filter_input( INPUT_GET, 'page' ) ); ?>">
@@ -177,13 +184,32 @@ function gmr_survey_export_to_csv() {
 		exit;
 	}
 
-	if ( function_exists( 'set_time_limit' ) ) {
-		set_time_limit( 0 );
+	wp_async_task_add( 'gmr_do_survey_export', array(
+		'survey' => $survey->ID,
+		'email'  => wp_get_current_user()->user_email,
+	) );
+
+	$redirect = admin_url( 'admin.php?page=gmr-survey-responses&export=1&survey_id=' . $survey->ID );
+	wp_redirect( $redirect );
+	exit;
+}
+
+/**
+ * Performs survey export.
+ *
+ * @param array $args The export arguments.
+ */
+function gmr_do_survey_export( $args ) {
+	if ( empty( $args['survey'] ) || ! ( $survey = get_post( $args['survey'] ) ) || GMR_SURVEY_CPT != $survey->post_type ) {
+		return;
 	}
 
-	header( 'Content-Description: File Transfer' );
-	header( 'Content-Type: text/csv; charset=utf-8' );
-	header( 'Content-Disposition: attachment; filename=' . $survey->post_name . '.csv' );
+	$dir = get_temp_dir();
+	$filename = $dir . wp_unique_filename( $dir, $survey->post_name . date( '-Y-m-d' ) . '.csv' );
+	$stdout = fopen( $filename, 'w' );
+	if ( ! $stdout ) {
+		return;
+	}
 
 	$paged = 1;
 	$query = new WP_Query();
@@ -203,7 +229,6 @@ function gmr_survey_export_to_csv() {
 		}
 	}
 
-	$stdout = fopen( 'php://output', 'w' );
 	fputcsv( $stdout, $headers );
 
 	do {
@@ -231,11 +256,6 @@ function gmr_survey_export_to_csv() {
 				}
 
 				fputcsv( $stdout, $row );
-
-				flush();
-				ob_flush();
-
-				wp_cache_flush();
 			}
 		}
 
@@ -243,7 +263,14 @@ function gmr_survey_export_to_csv() {
 	} while( $query->post_count > 0 );
 
 	fclose( $stdout );
-	exit;
+
+	$title = $survey->post_title . ' Entries';
+	$message = 'Please, find in attach CSV file with all responses.';
+	$from = 'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST );
+
+	wp_mail( $args['email'], $title, $message, $from, array( $filename ) );
+
+	@unlink( $filename );
 }
 
 /**
