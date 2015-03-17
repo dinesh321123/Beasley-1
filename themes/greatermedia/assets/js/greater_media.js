@@ -539,10 +539,6 @@
 		header = document.getElementById('header'),
 		livePlayer = document.getElementById('live-player__sidebar'),
 		liveStreamContainer = document.querySelector('.live-stream'),
-		livePlayerStream = document.querySelector('.live-player__stream'),
-		livePlayerStreamSelect = document.querySelector('.live-player__stream--current'),
-		livePlayerCurrentName = livePlayerStreamSelect.querySelector('.live-player__stream--current-name'),
-		livePlayerStreams = livePlayerStreamSelect.querySelectorAll('.live-player__stream--item'),
 		liveLinksMoreBtn = document.querySelector('.live-links--more__btn'),
 		liveLinksEnd = document.getElementById('live-links__widget--end'),
 		wpAdminBar = document.getElementById('wpadminbar'),
@@ -675,27 +671,6 @@
 		}
 	}
 
-	/**
-     * Toggles a class to the Live Play Stream Select box when the box is clicked
-     */
-    function toggleStreamSelect() {
-        livePlayerStreamSelect.classList.toggle( 'open' );
-    }
-    addEventHandler(livePlayerStreamSelect,elemClick,toggleStreamSelect);
-
-    /**
-     * Selects a Live Player Stream
-     */
-    function selectStream() {
-        var selected_stream = this.querySelector( '.live-player__stream--name' ).textContent;
-
-        livePlayerCurrentName.textContent = selected_stream;
-        document.dispatchEvent( new CustomEvent( 'live-player-stream-changed', { 'detail': selected_stream } ) );
-    }
-
-    for ( var i = 0; i < livePlayerStreams.length; i++ ) {
-        addEventHandler(livePlayerStreams[i],elemClick,selectStream);
-    }
     /**
      * from Js Window resize script is not neccessary on popupPlayer window
      */
@@ -852,28 +827,49 @@
 	addEventHandler(mobileNavButton, elemClick, toggleNavButton);
 
 	/**
-	 * Toggles a class to the Live Play Stream Select box when the box is clicked
+	 * Function to handle stream selection through a dropdown
 	 */
-	function toggleStreamSelect() {
-		livePlayerStreamSelect.classList.toggle('open');
-		livePlayerStream.classList.toggle('open');
+	function streamSelection() {
+		var livePlayerStream = document.querySelector('.live-player__stream'),
+			livePlayerStreamSelect = document.querySelector('.live-player__stream--current'),
+			livePlayerCurrentName = document.querySelector('.live-player__stream--current-name'),
+			livePlayerStreams = document.querySelectorAll('.live-player__stream--item');
+
+		function toggleStreamSelect() {
+			if (livePlayerStreamSelect != null) {
+				livePlayerStreamSelect.classList.toggle('open');
+			}
+
+			if (livePlayerStream !== null) {
+				livePlayerStream.classList.toggle('open');
+			}
+		}
+
+		if (livePlayerStreamSelect !== null) {
+			addEventHandler(livePlayerStreamSelect, elemClick, toggleStreamSelect);
+		}
+
+		/**
+		 * Selects a Live Player Stream
+		 */
+		function selectStream() {
+			var selected_stream = this.querySelector('.live-player__stream--name').textContent;
+
+			if (livePlayerCurrentName != null) {
+				livePlayerCurrentName.textContent = selected_stream;
+			}
+
+			document.dispatchEvent(new CustomEvent('live-player-stream-changed', {'detail': selected_stream}));
+		}
+
+		if (livePlayerStreams !== null) {
+			for (var i = 0; i < livePlayerStreams.length; i++) {
+				addEventHandler(livePlayerStreams[i], elemClick, selectStream);
+			}
+		}
 	}
 
-	addEventHandler(livePlayerStreamSelect, elemClick, toggleStreamSelect);
-
-	/**
-	 * Selects a Live Player Stream
-	 */
-	function selectStream() {
-		var selected_stream = this.querySelector('.live-player__stream--name').textContent;
-
-		livePlayerCurrentName.textContent = selected_stream;
-		document.dispatchEvent(new CustomEvent('live-player-stream-changed', {'detail': selected_stream}));
-	}
-
-	for (var i = 0; i < livePlayerStreams.length; i++) {
-		addEventHandler(livePlayerStreams[i], elemClick, selectStream);
-	}
+	streamSelection();
 
 	function liveLinksMobileState() {
 		if ( $('body').hasClass('live-player--open')) {
@@ -990,6 +986,9 @@
 	}
 	if (liveLinksWidget != null) {
 		addEventHandler(liveLinksWidget, elemClick, liveLinksClose);
+	}
+	if (body.classList.contains('liveplayer-disabled')) {
+		addEventHandler(liveLinksWidgetTitle, 'click', openLivePlayer);
 	}
 
 	addEventHandler(window, elemResize, function () {

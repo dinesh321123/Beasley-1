@@ -1374,6 +1374,11 @@ category: Components
 		margin-left: 3.125em;
 		text-align: left;
 	}
+
+	.liveplayer-disabled & {
+		visibility: visible;
+		max-height: none;
+	}
 }
 
 #popup-player-livestream .live-links{

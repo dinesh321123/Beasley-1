@@ -945,3 +945,14 @@ function greatermedia_newssite_class( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'greatermedia_newssite_class' );
+
+function greatermedia_liveplayer_disabled( $classes ) {
+	$liveplayer_disabled = get_option( 'gmr_liveplayer_disabled' );
+
+	if ( $liveplayer_disabled == 1 ) {
+		$classes[] = 'liveplayer-disabled';
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'greatermedia_liveplayer_disabled' );
