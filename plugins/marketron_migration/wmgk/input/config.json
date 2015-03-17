@@ -1,0 +1,33 @@
+{
+	"database": {
+		"seed_id": 0
+	},
+	"site": {
+		"domain": "wmgk.com",
+		"email_domain": "wmgk.com",
+		"default_author_password": "foobar",
+		"asset_dirs": [
+			"PICS-WMGKFM/WMGKFM",
+			"PICS-GMFeedSharingAM/GMFeedSharingAM",
+			"MEDIA-WMGKFM"
+		],
+		"data_files": {
+			"WMGK Data Export 022315.zip": [
+				"feed", "blog", "venue", "event_calendar",
+				"photo_album_v2", "showcase"
+			],
+			"GMFeedSharing Data Export 022315.zip": [
+				"venue"
+			]
+		},
+		"tags_file": "tags.csv",
+		"limit": 10000
+	},
+	"error": {
+		"log_file": "errors.log"
+	},
+	"gigya": {
+		"api_key": "",
+		"secret_key": ""
+	}
+}

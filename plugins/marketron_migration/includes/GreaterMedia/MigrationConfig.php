@@ -4,10 +4,121 @@ namespace GreaterMedia;
 
 class MigrationConfig {
 
-	function load( $config_file ) {
+	public $container;
+	public $input_dir;
+	public $output_dir;
+	public $site_dir;
+	public $data;
+	public $asset_dirs;
+	public $data_files;
+
+	function __construct( $site_dir ) {
+		$this->site_dir   = $site_dir;
+		$this->input_dir  = $site_dir . '/input';
+		$this->output_dir = $site_dir . '/output';
+	}
+
+	function get_config_file() {
+		return $this->input_dir . '/config.json';
+	}
+
+	function get_site_dir() {
+		return $this->container->opts['site_dir'];
+	}
+
+	function get_mapping_file() {
+		return $this->input_dir . '/mapping.csv';
+	}
+
+	function get_tags_file() {
+		return $this->input_dir . '/tags.csv';
+	}
+
+	// DEPRECATED, there are multiple exports
+	function get_marketron_export_file() {
+		return $this->input_dir . '/marketron_export.zip';
+	}
+
+	function get_marketron_export_extract_dir() {
+		return $this->output_dir . '/marketron_export';
+	}
+
+	function get_csv_export_dir() {
+		return $this->output_dir . '/csv';
+	}
+
+	function get_site_domain() {
+		return $this->data['site']['domain'];
+	}
+
+	function get_email_domain() {
+		return $this->data['site']['email_domain'];
+	}
+
+	function get_seed_id() {
+		return $this->data['database']['seed_id'];
+	}
+
+	function get_site_option( $name ) {
+		return $this->get_config_option( 'site', $name );
+	}
+
+	function get_error_option( $name ) {
+		return $this->get_config_option( 'error', $name );
+	}
+
+	function get_config_option( $parent, $name ) {
+		if ( array_key_exists( $name, $this->data[ $parent ] ) ) {
+			return $this->data[ $parent ][ $name ];
+		} else {
+			\WP_CLI::error( "Error: Unknown site_option - $name" );
+		}
+	}
+
+	function get_asset_dirs() {
+		if ( is_null( $this->asset_dirs ) ) {
+			$asset_dirs = $this->data['site']['asset_dirs'];
+			$site_dir   = $this->get_site_dir();
+			$dirs       = array();
+
+			foreach ( $asset_dirs as $asset_dir ) {
+				$dirs[] = $site_dir . '/marketron_files/' . $asset_dir;
+			}
+
+			$this->asset_dirs = $dirs;
+		}
+
+		return $this->asset_dirs;
+	}
+
+	function get_data_files() {
+		$data_files_map = $this->get_site_option( 'data_files' );
+		return array_keys( $data_files_map );
+	}
+
+	function get_data_file_dirs_for_tool( $name ) {
+		$data_files = $this->get_site_option( 'data_files' );
+		$dirs       = array();
+		$site_dir   = $this->get_site_dir();
+
+		foreach ( $data_files as $data_file => $tools ) {
+			if ( in_array( $name, $tools ) ) {
+				$data_file_dirname = basename( $data_file, '.zip' );
+				$data_file_dir     = $site_dir . '/marketron_files/' . $data_file_dirname;
+				$dirs[]            = $data_file_dir;
+			}
+		}
+
+		return $dirs;
+	}
+
+	function load() {
+		$config_file = $this->get_config_file();
+		\WP_CLI::log( "Loading Config File: $config_file" );
+
 		if ( file_exists( $config_file ) ) {
-			$json = file_get_contents( $config_file, 'r' );
-			return $this->parse( $json );
+			$json       = file_get_contents( $config_file, 'r' );
+			$this->data = $this->parse( $json );
 		} else {
 			\WP_CLI::error( "Config File not found - $config_file" );
 			return false;

@@ -4,6 +4,7 @@ namespace Marketron\Tools;
 
 class Feed extends BaseTool {
 
+	/*
 	public $articles;
 	public $article_fields = array(
 		'Title',
@@ -29,6 +30,7 @@ class Feed extends BaseTool {
 	public $slug_history_fields = array(
 		'ArticleHistoricalSlug',
 	);
+	 */
 
 	function get_name() {
 		return 'feed';
@@ -38,6 +40,7 @@ class Feed extends BaseTool {
 		return 'Feeds.XML';
 	}
 
+/*
 	function parse( $xml_element ) {
 		$this->articles = $this->parse_collection(
 			'parse_article', $xml_element->Articles->Article
@@ -95,5 +98,6 @@ class Feed extends BaseTool {
 			return $item;
 		}
 	}
+*/
 
 }

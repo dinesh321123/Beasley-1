@@ -5,12 +5,7 @@ namespace Marketron\Tools;
 class BaseTool {
 
 	public $container;
-
-	function __construct( $container ) {
-		$this->container  = $container;
-		$this->downloader = $container->downloader;
-		$this->config     = $container->config;
-	}
+	public $sources = array();
 
 	function get_name() {
 		return 'base_tool';
@@ -20,8 +15,20 @@ class BaseTool {
 		return 'base_tool.XML';
 	}
 
+	function get_config() {
+		return $this->container->config;
+	}
+
 	function get_cmd_option( $name ) {
 		return $this->container->opts[ $name ];
+	}
+
+	function get_site_option( $name ) {
+		return $this->get_config()->get_site_option( $name );
+	}
+
+	function get_site_dir() {
+		return $this->get_config()->get_site_dir();
 	}
 
 	function can_import( $marketron_id ) {
@@ -34,37 +41,52 @@ class BaseTool {
 		);
 	}
 
-	function get_data_filepath() {
-		$migration_cache_dir = $this->get_cmd_option( 'migration_cache_dir' );
-		$xml_dir             = $migration_cache_dir . '/marketron_export';
-		$filename            = $this->get_data_filename();
-		$filename            = preg_replace( '/.(XML|xml)$/', '_formatted.xml', $filename );
+	function get_formatted_data_filename() {
+		$filename = $this->get_data_filename();
+		return preg_replace( '/.(XML|xml)$/', '_formatted.xml', $filename );
+	}
 
-		return $xml_dir . '/' . $filename;
+	function get_data_files() {
+		$files    = array();
+		$filename = $this->get_formatted_data_filename();
+
+		foreach ( $this->get_data_file_dirs() as $dir ) {
+			$files[] = $dir . '/' . $filename;
+		}
+
+		return $files;
+	}
+
+	function get_data_file_dirs() {
+		return $this->get_config()->get_data_file_dirs_for_tool( $this->get_name() );
 	}
 
 	function load() {
-		$name = $this->get_name();
-		$file = $this->get_data_filepath();
+		$tool_name  = $this->get_name();
+		$data_files = $this->get_data_files();
 
-		if ( file_exists( $file ) ) {
-			\WP_CLI::log( "Loading Tool Data: $name ..." );
-			$xml_element = simplexml_load_file( $file );
+		foreach ( $data_files as $data_file ) {
+			if ( file_exists( $data_file ) ) {
+				\WP_CLI::log( "Loading Data for Marketron $tool_name ( $data_file ) ..." );
+				$xml_doc = simplexml_load_file( $data_file );
 
-			if ( $xml_element !== false ) {
-				$this->parse( $xml_element );
+				if ( $xml_doc !== false ) {
+					$this->parse( $xml_doc );
+					$this->sources[] = $xml_doc;
+				} else {
+					\WP_CLI::error( "Invalid XML for Tool($tool_name) - $file" );
+				}
 			} else {
-				\WP_CLI::error( "Invalid XML for Tool($name) - $file" );
+				\WP_CLI::error( "Failed to import $tool_name - $file"  );
 			}
-		} else {
-			\WP_CLI::error( "Failed to import $name - $file"  );
 		}
 	}
 
-	function parse( $xml_element ) {
-		// abstract
+	function parse( $xml_doc ) {
+		// do optional custom parsing here
 	}
 
+	/*
 	function parse_fields( $element, $fields ) {
 		$record     = array();
 		$attributes = $element->attributes();
@@ -72,8 +94,11 @@ class BaseTool {
 		foreach ( $fields as $field_name ) {
 			if ( isset( $attributes[ $field_name ] ) ) {
 				$value = $this->parse_value( $field_name, $attributes );
-				$record[ $field_name ] = $value;
+			} else {
+				$value = null;
 			}
+
+			$record[ $field_name ] = $value;
 		}
 
 		return $record;
@@ -81,14 +106,16 @@ class BaseTool {
 
 	function parse_value( $field_name, $attributes ) {
 		$value = $attributes[ $field_name ];
-		$value = strval( $value );
+		$value = (string) $value;
 		$value = trim( $value );
 
 		if ( preg_match( '/DateTime$/', $field_name ) ) {
-			$value = new \DateTime( $value );
+			$value = $value;
+			//$value = new \DateTime( $value );
 		} else if ( preg_match( '/Filepath$/', $field_name ) ) {
 			$value = $this->parse_filepath( $value );
 		}
+
 
 		return $value;
 	}
@@ -117,5 +144,6 @@ class BaseTool {
 
 		return $items;
 	}
+*/
 
 }

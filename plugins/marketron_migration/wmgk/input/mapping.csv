@@ -1,0 +1,41 @@
+Site Migration Content Mapping,,,,,,,,
+WMGK,,,,,,,,Updated: 2/11/15
+,,,,,,,,
+Marketron Tool,Marketron Name,Marketron ID,Marketron Has Audio Attachment,Wordpress Post Type,Wordpress Author,Wordpress Show,Wordpress Categories,Wordpress Podcast
+Blogs,John DeBella's Blog,1001038,No,Post,John DeBella,The John DeBella Show,The John DeBella Show,
+Blogs,John DeBella's Blog,1001038,Yes,Podcast Episode,John DeBella,The John DeBella Show,The John DeBella Show,The John DeBella Show
+Blogs,Debbi Calton's Blog,1001039,No,Post,Debbi Calton,Debbi Calton,Debbi Calton,
+Blogs,Debbi Calton's Blog,1001039,Yes,Podcast Episode,Debbi Calton,Debbi Calton,Debbi Calton,Debbie's Podcast
+Blogs,Andre Gardner's Blog,1001043,No,Post,Andre Gardner,Andre Gardner,Andre Gardner,
+Blogs,Andre Gardner's Blog,1001043,Yes,Podcast Episode,Andre Gardner,Andre Gardner,Andre Gardner,Andre's Podcast
+Blogs,Ray Koob's Blog,1001273,No,Post,Ray Koob,Ray Koob,Ray Koob,
+Blogs,Ray Koob's Blog,1001273,Yes,Podcast Episode,Ray Koob,Ray Koob,Ray Koob,Ray's Podcast
+Blogs,Rich DeSisto's Blog,1001275,DO NOT IMPORT,,,,,
+Blogs,Tony Harris's Blog,1001276,DO NOT IMPORT,,,,,
+Blogs,T Morgan's Blog,1001277,DO NOT IMPORT,,,,,
+Blogs,Jim Kinney's Blog,1001278,DO NOT IMPORT,,,,,
+Blogs,Kathy Wagner's Blog,1001279,No,Post,Kathy Wagner,Kathy Wagner,Kathy Wagner,
+Blogs,Kathy Wagner's Blog,1001279,Yes,Podcast Episode,Kathy Wagner,Kathy Wagner,Kathy Wagner,Kathy's Podcast
+Blogs,Cyndy Drue's Blog,1001280,No,Post,Cyndy Drue,Cyndy Drue,Cyndy Drue,
+Blogs,Cyndy Drue's Blog,1001280,Yes,Podcast Episode,Cyndy Drue,Cyndy Drue,Cyndy Drue,Cyndy's Podcast
+Blogs,Scott Carr's Blog,1001281,DO NOT IMPORT,,,,,
+Blogs,Classic Rock Video of the Day,1001294,Either,Post,WMGK,,Classic Rock Video Of The Day,
+Blogs,Ask the DJ Blog,1003397,DO NOT IMPORT,,,,,
+Blogs,Between The Grooves,1003405,DO NOT IMPORT,,,,,
+Blogs,Gettysburg Ghost Tour Radio Show,1003571,DO NOT IMPORT,,,,,
+Blogs,Straight from the Studio,1004558,Either,Post,WMGK,,Straight From The Studio,
+Channels,Andre's Secret Contest,7629,DO NOT IMPORT,,,,,
+Channels,At Work Network Announcements,2919,DO NOT IMPORT,,,,,
+Channels,Crozer-Keystone: Ways to Better Sleep,5857,DO NOT IMPORT,,,,,
+Channels,John DeBella Show Announcements,2968,DO NOT IMPORT,,,,,
+Channels,MGK News,3024,DO NOT IMPORT,,,,,
+Channels,MGK Rocks Your House,7313,DO NOT IMPORT,,,,,
+Channels,MGK: Music News,3101,DO NOT IMPORT,,,,,
+Channels,Prize of the Day,2586,DO NOT IMPORT,,,,,
+Feeds,Classic Rock News,273,Either,Post,WMGK,,Classic Rock News,
+Feeds,Classic Rock Top 5,272,Either,Post,WMGK,,Classic Rock Top 5,
+Feeds,MGK's Top 20 Classic Rock Albums of All Time,1941,DO NOT IMPORT,,,,,
+Feeds,Rock MD,699,DO NOT IMPORT,,,,,
+Feeds,Rocks Your House,669,DO NOT IMPORT,,,,,
+Feeds,Whole Lotta Love Line Archive,2036,Either,Post,WMGK,,Whole Lotta Love Line,
+Podcasts,Andre's Beatle Minute Podcast,1473,Yes,Podcast Episode,Andre Gardner,Andre Gardner,Andre Gardner,Andre's Beatle Minute Podcast
