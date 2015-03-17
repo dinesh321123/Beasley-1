@@ -80,6 +80,8 @@ if ( empty( $active_stream ) ) {
 
 		<h3 class="widget--live-player__title"><?php do_action( 'gmr_livelinks_title' ); ?></h3>
 
+		<div class="live-player--open__btn"></div>
+
 		<?php dynamic_sidebar( 'liveplayer_sidebar' ); ?>
 
 		<div id="live-links__widget--end"></div>

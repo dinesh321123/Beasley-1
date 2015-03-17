@@ -43,7 +43,8 @@
 		mainContent = document.querySelector('.main'),
 		footer = document.querySelector('.footer'),
 		$table = $('table'),
-		$tableTd = $('table td');
+		$tableTd = $('table td'),
+		livePlayerOpenBtn = document.querySelector('.live-player--open__btn');
 
 	/**
 	 * function to dynamically calculate the offsetHeight of an element
@@ -471,6 +472,7 @@
 	}
 	if (body.classList.contains('liveplayer-disabled')) {
 		addEventHandler(liveLinksWidgetTitle, 'click', openLivePlayer);
+		addEventHandler(livePlayerOpenBtn, 'click', openLivePlayer);
 	}
 
 	addEventHandler(window, elemResize, function () {

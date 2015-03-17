@@ -2005,3 +2005,48 @@ a.podcast__download--fallback:hover, a.podcast__download--fallback:active {
 body.vast-ad--playing {
 	overflow: hidden !important;
 }
+
+.live-player--open__btn {
+	position: absolute;
+	display: none;
+	top: 0;
+	right: 0;
+	width: 58px;
+	height: 58px;
+	padding: 0;
+	border: 1px solid white;
+	border-top: none;
+	border-right: none;
+	font-size: 2em;
+	color: $color-gray;
+	@include transition(all .25s);
+
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: $color-gray-light;
+	}
+
+	.liveplayer-disabled & {
+		display: block;
+
+		@include bp(medium) {
+			display: none;
+		}
+	}
+
+	&:before {
+		@extend %gmr-icons;
+		width: 0;
+		height: 0;
+		vertical-align: middle;
+		content: "\e62d";
+	}
+
+	.live-player--open & {
+
+		&:before {
+			content: "\e624";
+		}
+	}
+}

@@ -54,11 +54,11 @@ $icon-font:		'gmr-icons';
 
 @font-face {
 	font-family: 'gmr-icons';
-	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?-1dkdju');
-	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?#iefix-1dkdju') format('embedded-opentype'),
-		url('#{$asset-root}fonts/icon-font/gmr-icons.woff?-1dkdju') format('woff'),
-		url('#{$asset-root}fonts/icon-font/gmr-icons.ttf?-1dkdju') format('truetype'),
-		url('#{$asset-root}fonts/icon-font/gmr-icons.svg?-1dkdju#icomoon') format('svg');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?-yuus17');
+	src:url('#{$asset-root}fonts/icon-font/gmr-icons.eot?#iefix-yuus17') format('embedded-opentype'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.woff?-yuus17') format('woff'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.ttf?-yuus17') format('truetype'),
+		url('#{$asset-root}fonts/icon-font/gmr-icons.svg?-yuus17#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -255,6 +255,10 @@ $icon-font:		'gmr-icons';
 
 .icon-spinner:before {
 	content: "\e62c";
+}
+
+.icon-ellipsis-v:before {
+	content: "\e62d";
 }
 
 .icon-spin {
