@@ -37,7 +37,7 @@ include 'inc/class-ugc-moderation-table.php';
 include 'inc/class-greatermedia-surveys.php';
 include 'inc/class-greatermedia-survey-entry.php';
 
-if ( is_admin() ) {
+if ( is_admin() || ( defined( 'DOING_ASYNC' ) && DOING_ASYNC ) ) {
 	// include list table class files if it hasn't been included yet
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 	require_once ABSPATH . 'wp-admin/includes/class-wp-posts-list-table.php';
