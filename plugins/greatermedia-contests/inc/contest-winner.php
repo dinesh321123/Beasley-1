@@ -207,7 +207,8 @@ function gmr_do_contest_export( $args ) {
 		return;
 	}
 
-	$filename = wp_tempnam( $contest->post_name . date( '-Y-m-d' ) . '.csv' );
+	$dir = get_temp_dir();
+	$filename = $dir . wp_unique_filename( $dir, $contest->post_name . date( '-Y-m-d' ) . '.csv' );
 	$stdout = fopen( $filename, 'w' );
 	if ( ! $stdout ) {
 		return;
@@ -279,7 +280,11 @@ function gmr_do_contest_export( $args ) {
 
 	fclose( $stdout );
 
-	wp_mail( $args['email'], $contest->post_title . ' Entries', '', '', array( $filename ) );
+	$title = $contest->post_title . ' Entries';
+	$message = 'Please, find in attach CSV file with all entries.';
+	$from = 'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST );
+	
+	wp_mail( $args['email'], $title, $message, $from, array( $filename ) );
 	
 	@unlink( $filename );
 }
