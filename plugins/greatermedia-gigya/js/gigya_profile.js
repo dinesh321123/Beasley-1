@@ -234,10 +234,11 @@
 			this.redirect('/');
 		},
 
-		didProfileUpdate: function(profile) {
+		didProfileUpdate: function(profile, data) {
 			var response = {
 				UID: this.session.getUserID(),
-				profile: profile
+				profile: profile,
+				data: data
 			};
 
 			var profile_to_update = this.profileForResponse(response);
@@ -247,11 +248,12 @@
 
 		profileForResponse: function(response) {
 			var profile = {
-				UID       : response.UID,
-				firstName : response.profile.firstName,
-				lastName  : response.profile.lastName,
-				age       : response.profile.age,
-				zip       : response.profile.zip
+				UID            : response.UID,
+				firstName      : response.profile.firstName,
+				lastName       : response.profile.lastName,
+				age            : response.profile.age,
+				zip            : response.profile.zip,
+				nielsen_optout : response.data ? response.data.nielsen_optout : false
 			};
 
 			if (response.profile.thumbnailURL) {
@@ -522,8 +524,9 @@
 					break;
 
 				case 'gigya-update-profile-success-screen':
-					var profile = this.profileFromEvent(event);
-					this.controller.didProfileUpdate(profile);
+					var profile = this.profileFromEvent(event),
+						data = this.dataFromEvent(event);
+					this.controller.didProfileUpdate(profile, data);
 					break;
 
 				case 'gigya-reset-link-password-screen':
@@ -561,6 +564,19 @@
 			}
 
 			return profile;
+		},
+
+		dataFromEvent: function(event) {
+			var data     = event.data;
+			var new_data = event.response.requestParams.data;
+
+			for (var field in new_data) {
+				if (new_data.hasOwnProperty(field) && data.hasOwnProperty(field)) {
+					data[field] = new_data[field];
+				}
+			}
+
+			return data;
 		},
 
 		calcAge: function(birthYear) {

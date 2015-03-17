@@ -905,7 +905,8 @@
 			});
 		}
 
-		if (window._nolggGlobalParams) {
+		var opted_out = window.get_gigya_user_field && get_gigya_user_field('nielsen_optout');
+		if (!opted_out && window._nolggGlobalParams) {
 			var beacon = new NOLCMB.ggInitialize(window._nolggGlobalParams);
 			bindNielsenSDKEvents(beacon, player);
 		}
