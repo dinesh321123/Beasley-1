@@ -59,7 +59,7 @@ function gmr_surveys_add_table_row_actions( $actions, WP_Post $post ) {
 	// add survey responses action
 	if ( current_user_can( 'edit_survey_responses' ) ) {
 		$link = admin_url( 'admin.php?page=gmr-survey-responses&survey_id=' . $post->ID );
-		$actions['gmr-survey-response'] = '<a href="' . esc_url( $link ) . '">Responses</a>';
+		$actions['gmr-survey-responses'] = '<a href="' . esc_url( $link ) . '">Responses</a>';
 	}
 
 	// unset redundant actions
@@ -284,7 +284,7 @@ function gmr_do_survey_export( $args ) {
 function gmr_surveys_adjust_responses_page_admin_menu( $parent_file ) {
 	global $submenu_file;
 
-	if ( ! empty( $_REQUEST['page'] ) && 'gmr-survey-response' == $_REQUEST['page'] ) {
+	if ( ! empty( $_REQUEST['page'] ) && 'gmr-survey-responses' == $_REQUEST['page'] ) {
 		$parent_file = 'edit.php?post_type=' . GMR_SURVEY_CPT;
 		$submenu_file = 'edit.php?post_type=' . GMR_SURVEY_CPT;
 	}
@@ -337,7 +337,7 @@ function gmr_surveys_render_survey_response_column( $column_name, $post_id ) {
 function gmr_survey_adjust_survey_responses_query( WP_Query $query ) {
 	global $typenow;
 
-	if ( GMR_SURVEY_RESPONSE_CPT == $typenow && 'gmr-survey-response' == filter_input( INPUT_GET, 'page' ) && $query->is_main_query() ) {
+	if ( GMR_SURVEY_RESPONSE_CPT == $typenow && 'gmr-survey-responses' == filter_input( INPUT_GET, 'page' ) && $query->is_main_query() ) {
 		$survey = filter_input( INPUT_GET, 'survey_id', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
 		if ( $survey && ( $survey = get_post( $survey ) ) && GMR_SURVEY_CPT == $survey->post_type ) {
 			$query->set( 'post_parent', $survey->ID );
