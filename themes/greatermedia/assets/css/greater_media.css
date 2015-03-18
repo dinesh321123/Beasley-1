@@ -611,6 +611,12 @@ category: Base - Typography
 .icon-ellipsis-v:before {
   content: "\e62d"; }
 
+.icon-album:before {
+  content: "\e62e"; }
+
+.icon-post-format-album:before {
+  content: "\e62f"; }
+
 .icon-spin {
   -webkit-animation: icon-spin 2s infinite linear;
   animation: icon-spin 2s infinite linear; }
@@ -11787,7 +11793,7 @@ category: Components - Gallery Archive
 .gallery__grid--album:before {
   width: 0;
   height: 0;
-  content: "\e61a"; }
+  content: "\e62f"; }
 
 @media screen and (min-width: 768px)  {
   .gallery__grid--meta {

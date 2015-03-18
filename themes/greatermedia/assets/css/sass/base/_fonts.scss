@@ -261,6 +261,14 @@ $icon-font:		'gmr-icons';
 	content: "\e62d";
 }
 
+.icon-album:before {
+	content: "\e62e";
+}
+
+.icon-post-format-album:before {
+	content: "\e62f";
+}
+
 .icon-spin {
 	-webkit-animation: icon-spin 2s infinite linear;
 	animation: icon-spin 2s infinite linear;
