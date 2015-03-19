@@ -60,6 +60,14 @@ class BlogData {
 	}
 
 	public static function run( $syndication_id, $offset = 0 ) {
+		global $edit_flow, $gmrs_editflow_custom_status_disabled;
+
+		// disable editflow influence
+		if ( $edit_flow && ! empty( $edit_flow->custom_status ) && is_a( $edit_flow->custom_status, 'EF_Custom_Status' ) ) {
+			$gmrs_editflow_custom_status_disabled = true;
+			remove_filter( 'wp_insert_post_data', array( $edit_flow->custom_status, 'fix_custom_status_timestamp' ), 10, 2 );
+		}
+
 		$result = self::QueryContentSite( $syndication_id, '', $offset );
 		$taxonomy_names = SyndicationCPT::$support_default_tax;
 		$defaults = array(
@@ -153,8 +161,8 @@ class BlogData {
 
 		// query args
 		$args = array(
-			'post_type'      =>  $post_type,
-			'post_status'    =>  'publish',
+			'post_type'      => $post_type,
+			'post_status'    => array( 'publish', 'future', 'private' ),
 			'posts_per_page' => 500,
 			'offset'         => $offset * 500,
 			'tax_query'      => array(),
@@ -254,7 +262,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax ) {
+	public static function ImportPosts( WP_Post $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax ) {
 		$post_name = sanitize_title( $post->post_name );
 		$post_title = sanitize_text_field( $post->post_title );
 		$post_type = sanitize_text_field( $post->post_type );
@@ -262,12 +270,21 @@ class BlogData {
 
 		// prepare arguments for wp_insert_post
 		$args = array(
-			'post_title'   =>  $post_title,
-			'post_content' =>  $post->post_content,
-			'post_type'    =>  $post_type,
-			'post_name'    =>  $post_name,
-			'post_status'  =>  $post_status
+			'post_title'        => $post_title,
+			'post_content'      => $post->post_content,
+			'post_type'         => $post_type,
+			'post_name'         => $post_name,
+			'post_status'       => ! empty( $post_status ) ? $post_status : $post->post_status,
+			'post_date'         => $post->post_date,
+			'post_date_gmt'     => $post->post_date_gmt,
+			'post_modified'     => $post->post_modified,
+			'post_modified_gmt' => $post->post_modified_gmt,
 		);
+
+		if ( 'publish' == $post_status ) {
+			$args['post_date'] = $args['post_modified'] = current_time( 'mysql' );
+			$args['post_date_gmt'] = $args['post_modified_gmt'] = current_time( 'mysql', 1 );
+		}
 
 		// create unique meta value for imported post
 		$post_hash = trim( $post->post_title ) . $post->post_modified;

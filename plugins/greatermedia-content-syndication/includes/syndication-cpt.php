@@ -614,34 +614,47 @@ class SyndicationCPT {
 
 		// get default status from meta
 		$default_status = get_post_meta( $post->ID, 'subscription_post_status', 'true');
-
-		if( !in_array( $default_status, $list_status ) ) {
-			$default_status = 'draft';
+		if ( ! in_array( $default_status, $list_status ) ) {
+			$default_status = '';
 		}
 
 		echo '<div class="subscription_post_status">';
-		// post status metabox
-		echo '<h4>';
-		esc_html_e( 'Status', 'greatermedia' );
-		echo '</h4>';
 
-		foreach( $list_status as $status ) {
+			echo '<h4>', esc_html__( 'Status', 'greatermedia' ), '</h4>';
+
 			echo '<div class="subscription_status">';
-			echo '<label for="subscription_post_status-' . $status . '">';
-			echo esc_html( ucfirst( $status ) );
-			echo '</label>';
-			echo '<input type="radio" name="subscription_post_status" id="subscription_post_status-' . $status . '" value="'
-			 . esc_attr( $status ) . '" '
-		     . checked( $status, $default_status, false)
-		     . ' />';
+				echo '<label for="subscription_post_status-default">Original</label>';
+
+				printf(
+					'<input type="radio" name="subscription_post_status" id="subscription_post_status-default" value=""%s>',
+					checked( empty( $default_status ), true, false )
+				);
 			echo '</div>';
-		}
+
+			foreach ( $list_status as $status ) {
+				$status = get_post_status_object( $status );
+				if ( ! $status ) {
+					continue;
+				}
+
+				echo '<div class="subscription_status">';
+					echo '<label for="subscription_post_status-', $status->name, '">';
+						echo esc_html( $status->label );
+					echo '</label>';
+					
+					printf(
+						'<input type="radio" name="subscription_post_status" id="subscription_post_status-%1$s" value="%1$s"%2$s>',
+						esc_attr( $status->name ),
+						checked( $status->name, $default_status, false )
+					);
+				echo '</div>';
+			}
+
+			echo '<span class="description">If original status is selected, then status of imported posts will not be changed.</span>';
+
 		echo '</div>';
 
-		// get all taxonomies of "post"
-		//$taxonomy_names = get_object_taxonomies( 'post', 'objects' );
-
-		foreach( self::$support_default_tax as $taxonomy_label ) {
+		foreach ( self::$support_default_tax as $taxonomy_label ) {
 
 			$taxonomy = get_taxonomy( $taxonomy_label );
 
@@ -653,24 +666,23 @@ class SyndicationCPT {
 			$terms = explode( ',', $terms );
 
 			// Display the form, using the current value.
-			echo '<p> ';
-
 			$term_args = array(
-				'get'           => 'all',
-				'hide_empty'    => false
+				'get'        => 'all',
+				'hide_empty' => false
 			);
 
 			$allterms[] = get_terms( $label, $term_args );
 			echo '<h4>' . esc_html( $name ) . '</h4>';
 
-			if( !empty( $allterms[0] ) ) {
+			echo '<p>';
+
+			if ( !empty( $allterms[0] ) ) {
 				echo '<select name="subscription_default_terms-' . esc_attr( $label )
-				     . '[]" multiple class="subscription_defaults" style="width: 300px;">'
-				     . '<option></option>';
-				foreach( $allterms as $index => $term ) {
-					foreach( $term as $single_term ) {
-						echo '<option', in_array( $single_term->term_id, $terms) ? ' selected="selected"' : ''
-						, ' value="' . intval( $single_term->term_id ) .'">' . esc_html( $single_term->name ) . '</option>';
+					. '[]" multiple class="subscription_defaults" style="width: 300px;">'
+					. '<option></option>';
+				foreach ( $allterms as $term ) {
+					foreach ( $term as $single_term ) {
+						echo '<option', in_array( $single_term->term_id, $terms ) ? ' selected="selected"' : '', ' value="' . intval( $single_term->term_id ) . '">' . esc_html( $single_term->name ) . '</option>';
 					}
 				}
 				echo '</select>';
@@ -678,16 +690,6 @@ class SyndicationCPT {
 				echo "No existing term";
 			}
 
-			if( $taxonomy_label == 'category' ) {
-				echo '<br>';
-				echo '<span class="description">These will be added to categories already set on imported content.</span>';
-			}
-			unset($allterms);
-			$allterms = array();
-			if( $taxonomy_label == 'category' ) {
-				echo '<br>';
-				echo '<span class="description">These will be added categories already set on imported content.</span>';
-			}
 			echo '</p>';
 		}
 	}

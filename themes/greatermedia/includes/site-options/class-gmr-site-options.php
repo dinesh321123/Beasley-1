@@ -84,11 +84,11 @@ class GreaterMediaSiteOptions {
 
 			// Post types to exclude
 			$exclude = array(
-				GMR_SUBMISSIONS_CPT,
-				GMR_ADVERTISER_CPT,
-				GMR_SURVEY_CPT,
-				ShowsCPT::SHOW_CPT,
-				ShowsCPT::EPISODE_CPT
+				'listener_submissions',
+				'advertiser',
+				'survey',
+				'show',
+				'show-episode',
 			);
 
 			// If the Post type is in the exclude list, then don't add to Media Page
