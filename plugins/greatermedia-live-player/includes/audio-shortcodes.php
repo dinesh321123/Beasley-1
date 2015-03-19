@@ -184,9 +184,12 @@ class GMR_Audio_Shortcodes {
 			if ( ! is_singular( GMP_CPT::PODCAST_POST_TYPE ) ) {
 				if ( $parent_podcast_id && ( $is_podcast || $is_podcast_archive ) ) {
 					if ( $itunes_url != '' ) {
-						$new_html .= '<a class="podcast__subscribe show-mobile" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
+						$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 					}
-					$new_html .= '<a class="podcast__rss show-mobile" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>';
+					$new_html .= self::filter_episode_content(
+						$post_id,
+						'<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>'
+					);
 				}
 
 				if ( $is_podcast_archive && $podcast_episodes_query ) {
@@ -223,8 +226,7 @@ class GMR_Audio_Shortcodes {
 		}
 
 		if ( $parent_podcast_id && $is_podcast && !is_singular( GMP_CPT::PODCAST_POST_TYPE ) ) {
-			$new_html .= '<div class="podcast__parent--title podcast__parent--title--mobile show-mobile"><a href="' . esc_url( get_permalink( $parent_podcast->ID ) ) . '">' . esc_html( $parent_podcast->post_title ) . '</a></div>';
-			$new_html .= '<div class="podcast__parent hide-mobile"><div class="podcast__parent--title"><a href="' . esc_url( get_permalink( $parent_podcast->ID ) ) . '">' . esc_html( $parent_podcast->post_title ) . '</a></div>';
+			$new_html .= '<div class="podcast__parent"><div class="podcast__parent--title"><a href="' . esc_url( get_permalink( $parent_podcast->ID ) ) . '">' . esc_html( $parent_podcast->post_title ) . '</a></div>';
 			if ( $itunes_url != '' ) {
 				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 			}

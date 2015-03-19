@@ -8954,6 +8954,16 @@ a.podcast__rss:link, a.podcast__rss:visited {
     color: #929497; }
   a.podcast__rss:link:last-of-type, a.podcast__rss:visited:last-of-type {
     margin-right: 0; }
+  .podcast__download a.podcast__rss:link, .podcast__download a.podcast__rss:visited {
+    display: block; }
+    @media screen and (min-width: 1024px)  {
+      .podcast__download a.podcast__rss:link, .podcast__download a.podcast__rss:visited {
+        display: none; } }
+  .podcast__parent a.podcast__rss:link, .podcast__parent a.podcast__rss:visited {
+    display: none; }
+    @media screen and (min-width: 1024px)  {
+      .podcast__parent a.podcast__rss:link, .podcast__parent a.podcast__rss:visited {
+        display: inline-block; } }
 
 a.podcast__rss:hover, a.podcast__rss:focus {
   display: inline-block;
@@ -9115,6 +9125,16 @@ a.podcast__rss:active {
     color: #ffffff; }
   .podcast__subscribe:last-of-type {
     margin-right: 0; }
+  .podcast__download .podcast__subscribe {
+    display: block; }
+    @media screen and (min-width: 1024px)  {
+      .podcast__download .podcast__subscribe {
+        display: none; } }
+  .podcast__parent .podcast__subscribe {
+    display: none; }
+    @media screen and (min-width: 1024px)  {
+      .podcast__parent .podcast__subscribe {
+        display: inline-block; } }
 
 .gmr-mediaelement-fallback {
   max-height: 100px; }
