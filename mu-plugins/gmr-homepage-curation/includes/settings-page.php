@@ -26,6 +26,12 @@ function register_settings() {
 	// Can hook into this to add more post types
 	$homepage_curation_post_types = apply_filters( 'gmr-homepage-curation-post-types', array( 'post', 'page', 'tribe_events' ) );
 
+	// Can hook into these to change the limit for each curated area
+	$homepage_curation_featured_limit = apply_filters( 'gmr-homepage-featured-limit', 4 );
+	$homepage_curation_community_limit = apply_filters( 'gmr-homepage-community-limit', 3 );
+	$homepage_curation_events_limit = apply_filters( 'gmr-homepage-events-limit', 2 );
+	$homepage_curation_contests_limit = apply_filters( 'gmr-homepage-contests-limit', 1 );
+
 	// Fetch restricted post ids
 	$query = new \WP_Query();
 	$restricted_posts = $query->query( array(
@@ -58,7 +64,7 @@ function register_settings() {
 				'meta_key'  => '_thumbnail_id', // Forces the posts to have a featured image
 				'exclude'   => $restricted_posts,
 			),
-			'limit' => 4,
+			'limit' => $homepage_curation_featured_limit,
 		),
 	);
 	add_settings_field( $option_name, 'Featured', __NAMESPACE__ . '\render_post_finder', get_settings_page_slug(), get_settings_section(), $render_args );
@@ -75,7 +81,7 @@ function register_settings() {
 				'meta_key'  => '_thumbnail_id', // Forces the posts to have a featured image
 				'exclude'   => $restricted_posts,
 			),
-			'limit' => 3,
+			'limit' => $homepage_curation_community_limit ,
 		),
 	);
 	add_settings_field( $option_name, 'Don\'t Miss', __NAMESPACE__ . '\render_post_finder', get_settings_page_slug(), get_settings_section(), $render_args );
@@ -115,10 +121,26 @@ function register_settings() {
 				'post_type' => array( 'tribe_events' ),
 				'include'   => $future_events,
 			),
-			'limit' => 2,
+			'limit' => $homepage_curation_events_limit,
 		),
 	);
 	add_settings_field( $option_name, 'Events', __NAMESPACE__ . '\render_post_finder', get_settings_page_slug(), get_settings_section(), $render_args );
+	register_setting( get_settings_section(), $option_name, __NAMESPACE__ . '\sanitize_post_finder' );
+
+	// Contests - This section is optional.
+	$option_name = 'gmr-homepage-contests';
+	$render_args = array(
+		'name' => $option_name,
+		'pf_options' => array(
+			'args' => array(
+				'post_type' => GMR_CONTEST_CPT,
+				'meta_key'  => '_thumbnail_id', // Forces the posts to have a featured image
+				'exclude'   => $restricted_posts,
+			),
+			'limit' => $homepage_curation_contests_limit,
+		),
+	);
+	add_settings_field( $option_name, 'Contests', __NAMESPACE__ . '\render_post_finder', get_settings_page_slug(), get_settings_section(), $render_args );
 	register_setting( get_settings_section(), $option_name, __NAMESPACE__ . '\sanitize_post_finder' );
 }
 
