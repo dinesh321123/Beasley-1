@@ -215,33 +215,3 @@ select:-webkit-autofill {
 	font-style: italic;
 	color: #929497;
 }
-
-.nielsen-research {
-	margin-bottom: 1.5em;
-	overflow: auto;
-}
-
-.nielsen-research p {
-	font-size: .875em;
-}
-
-.nielsen-opt-out {
-	display: block !important;
-	float: left;
-	width: auto;
-	margin-top: 3px;
-	margin-bottom: 0 !important;
-	margin-right: .5em;
-	border: none;
-	background-color: #d0d2d3;
-	color: #282827;
-	border-radius: 0;
-}
-
-.label-nielsen-opt-out {
-	display: block;
-	float: left;
-	width: auto;
-	max-width: 80%;
-	font-size: .875em;
-}

@@ -99,39 +99,19 @@ class GMLP_Player {
 	 * Enqueue scripts
 	 */
 	public static function enqueue_scripts() {
-		$script_debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
-		$postfix = $script_debug ? '' : '.min';
+
+		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 		if ( function_exists( 'gmr_streams_get_primary_stream_callsign') ) {
 			$callsign = gmr_streams_get_primary_stream_callsign();
 		}
-		
 		if ( function_exists( 'gmr_streams_get_primary_stream_vast_url') ) {
 			$vast_url = gmr_streams_get_primary_stream_vast_url();
 		}
 
-		wp_register_script( 'nielsen-sdk', '//secure-us.imrworldwide.com/novms/js/2/ggcmb400.js', null, null );
-
-		$optout = false;
-		if ( function_exists( 'get_gigya_user_field' ) ) {
-			$optout = filter_var( get_gigya_user_field( 'data.nielsen_optout' ), FILTER_VALIDATE_BOOLEAN );
-		}
-		
-		if ( ! $optout ) {
-			$apid = get_option( 'gmr_nielsen_sdk_apid' );
-			if ( ! empty( $apid ) ) {
-				wp_localize_script( 'nielsen-sdk', '_nolggGlobalParams', array(
-					'apid'   => $apid,
-					'apn'    => get_option( 'gmr_nielsen_sdk_apn', get_bloginfo( 'name' ) ),
-					'sfcode' => get_option( 'gmr_nielsen_sdk_mode' ) ? 'drm' : 'uat-cert',
-				) );
-			}
-		}
-
 		$home_url = home_url( '/' );
-		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery', 'underscore', 'classlist-polyfill', 'nielsen-sdk', 'pjax', 'wp-mediaelement', 'cookies-js' ), GMLIVEPLAYER_VERSION, true );
+		wp_enqueue_script( 'gmlp-js', GMLIVEPLAYER_URL . "assets/js/greater_media_live_player{$postfix}.js", array( 'jquery', 'underscore', 'classlist-polyfill', 'pjax', 'wp-mediaelement', 'cookies-js' ), GMLIVEPLAYER_VERSION, true );
 		wp_localize_script( 'gmlp-js', 'gmr', array(
-			'debug'      => $script_debug,
 			'logged_in'  => is_gigya_user_logged_in(),
 			'callsign'   => $callsign,
 			'streamUrl'  => $vast_url,
@@ -162,62 +142,30 @@ class GMLP_Player {
 	}
 
 	public static function register_settings() {
-		$text_callback = array( __CLASS__, 'render_text_setting' );
-		$interval_callback = array( __CLASS__, 'render_interval_settings' );
+		$callback = array( __CLASS__, 'render_interval_settings' );
 
 		add_settings_section( 'greatermedia_live_player', 'Live Player', array( __CLASS__, 'render_settings_description' ), 'media' );
 
-		add_settings_field( 'gmr_nielsen_sdk_apid', 'Nielsen SDK App ID', $text_callback, 'media', 'greatermedia_live_player', array( 
-			'name' => 'gmr_nielsen_sdk_apid',
-			'desc' => 'Enter Nielsen Browser SDK identifier for the application.',
-		) );
-
-		add_settings_field( 'gmr_nielsen_sdk_apn', 'Nielsen SDK App Name', $text_callback, 'media', 'greatermedia_live_player', array(
-			'name'    => 'gmr_nielsen_sdk_apn',
-			'desc'    => 'Enter a string value for describing your player (for example, prime-time channel browser player).',
-			'default' => get_bloginfo( 'name' ),
-		) );
-
-		add_settings_field( 'gmr_nielsen_sdk_mode', 'Nielsen SDK Mode', array( __CLASS__, 'render_nielsen_sdk_mode_settings' ), 'media', 'greatermedia_live_player' );
+		add_settings_field( 'gmr_live_streaming_interval', 'Live Streaming Interval', $callback, 'media', 'greatermedia_live_player', array( 'option_name' => 'gmr_live_streaming_interval' ) );
+		add_settings_field( 'gmr_inline_audio_interval', 'Inline Audio Interval', $callback, 'media', 'greatermedia_live_player', array( 'option_name' => 'gmr_inline_audio_interval' ) );
 		
-		add_settings_field( 'gmr_live_streaming_interval', 'Live Streaming Interval', $interval_callback, 'media', 'greatermedia_live_player', array( 'name' => 'gmr_live_streaming_interval' ) );
-		add_settings_field( 'gmr_inline_audio_interval', 'Inline Audio Interval', $interval_callback, 'media', 'greatermedia_live_player', array( 'name' => 'gmr_inline_audio_interval' ) );
-
-		register_setting( 'media', 'gmr_nielsen_sdk_apid', 'trim' );
-		register_setting( 'media', 'gmr_nielsen_sdk_apn', 'trim' );
-		register_setting( 'media', 'gmr_nielsen_sdk_mode', 'boolval' );
 		register_setting( 'media', 'gmr_live_streaming_interval', 'intval' );
 		register_setting( 'media', 'gmr_inline_audio_interval', 'intval' );
 	}
 
 	public static function render_settings_description() {
 		?><p>
-			Use following settings to setup Nielsen Browser SDK and live player events tracking intervals. Intervals will be used to track live player activity. Each interval is in minutes; setting it to &quot;0&quot; (zero) will disable that event recoding for the site.
+			Use following settings to setup intervals which will be used to track live player activity. Each interval is in minutes; setting it to &quot;0&quot; (zero) will disable that event recoding for the site.
 		</p><?php
 	}
 
 	public static function render_interval_settings( $args ) {
-		$name = $args['name'];
+		$name = $args['option_name'];
 		
 		?><label>
 			<input type="number" class="small-text" name="<?php echo esc_attr( $name ); ?>" value="<?php echo intval( get_option( $name, 1 ) ); ?>" min="0" step="1">
 			mins
 		</label><?php
-	}
-
-	public static function render_text_setting( $args ) {
-		$name = $args['name'];
-		$default = isset( $args['default'] ) ? $args['default'] : null;
-		
-		?><input type="text" class="regular-text" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( get_option( $name, $default ) ); ?>">
-		<p class="description"><?php echo esc_html( $args['desc'] ); ?></p><?php
-	}
-
-	public static function render_nielsen_sdk_mode_settings() {
-		?><select name="gmr_nielsen_sdk_mode">
-			<option value="0">Test</option>
-			<option value="1"<?php selected( get_option( 'gmr_nielsen_sdk_mode' ) ); ?>>Production</option>
-		</select><?php
 	}
 
 }

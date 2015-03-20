@@ -3,7 +3,7 @@
  * Plugin Name: Greater Media Live Player
  * Plugin URI:  http://wordpress.org/plugins
  * Description: A persistent site-wide player for live audio and podcast for Greater Media
- * Version:     1.0.3
+ * Version:     0.1.0
  * Author:      10up
  * Author URI:  http://10up.com
  * License:     GPLv2+

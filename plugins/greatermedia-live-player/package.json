@@ -2,7 +2,7 @@
 	"name": "greater-media-live-player",
 	"title": "Greater Media Live Player",
 	"description": "A persistent site-wide player for live audio and podcast for Greater Media",
-	"version": "1.0.3",
+	"version": "0.1.0",
 	"homepage": "http://wordpress.org/plugins",
 	"author": {
 		"name": "10up",
