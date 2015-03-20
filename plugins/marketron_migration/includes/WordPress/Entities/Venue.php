@@ -8,6 +8,22 @@ class Venue extends Post {
 		return 'tribe_venue';
 	}
 
+	function add( &$fields ) {
+		if ( ! empty( $fields['venue_name'] ) ) {
+			$venue_name = $fields['venue_name'];
+		} else {
+			$venue_name = $fields['post_title'];
+		}
+
+		$venue = $this->get_venue_by_name( $venue_name );
+
+		if ( is_null( $venue ) ) {
+			return parent::add( $fields );
+		} else {
+			return $venue;
+		}
+	}
+
 	function get_venue_by_name( $name ) {
 		$name  = trim( $name );
 		$table = $this->get_table( 'posts' );

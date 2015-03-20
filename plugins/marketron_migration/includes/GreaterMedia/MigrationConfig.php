@@ -67,11 +67,15 @@ class MigrationConfig {
 		return $this->get_config_option( 'error', $name );
 	}
 
-	function get_config_option( $parent, $name ) {
+	function get_config_option( $parent, $name = null ) {
+		if ( is_null ( $name ) ) {
+			return $this->data[ $parent ];
+		}
+
 		if ( array_key_exists( $name, $this->data[ $parent ] ) ) {
 			return $this->data[ $parent ][ $name ];
 		} else {
-			\WP_CLI::error( "Error: Unknown site_option - $name" );
+			\WP_CLI::error( "Error: Unknown config option - $name" );
 		}
 	}
 

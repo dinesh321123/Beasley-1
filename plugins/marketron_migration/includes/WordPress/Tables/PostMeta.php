@@ -16,6 +16,10 @@ class PostMeta extends BaseTable {
 		'post_id',
 	);
 
+	public $columns_with_defaults = array(
+		'post_id',
+	);
+
 	function get_table_name() {
 		return 'postmeta';
 	}

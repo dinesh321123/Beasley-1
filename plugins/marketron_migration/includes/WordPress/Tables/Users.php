@@ -23,6 +23,13 @@ class Users extends BaseTable {
 		'display_name',
 	);
 
+	public $columns_with_defaults = array(
+		'user_registered',
+		'user_status',
+		'spam',
+		'deleted',
+	);
+
 	function get_table_name() {
 		return 'users';
 	}

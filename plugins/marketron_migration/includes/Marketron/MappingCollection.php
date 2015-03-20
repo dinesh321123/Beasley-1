@@ -5,9 +5,10 @@ namespace Marketron;
 class MappingCollection {
 
 	public $container;
-	public $mappings = array();
-	public $shows = array();
+	public $mappings     = array();
+	public $shows        = array();
 	public $author_names = array();
+	public $podcasts     = array();
 
 	function load() {
 		$config       = $this->container->config;
@@ -245,6 +246,25 @@ class MappingCollection {
 		return $this->get_mapping( $marketron_id );
 	}
 
+	function has_podcast( $podcast_name ) {
+		$podcast_name = trim( $podcast_name );
+		return array_key_exists( $podcast_name, $this->podcasts );
+	}
+
+	function get_podcast( $podcast_name ) {
+		$podcast_name = trim( $podcast_name );
+
+		foreach ( $this->mappings as $mapping ) {
+			if ( ! empty( $mappings->wordpress_podcast_name ) ) {
+				if ( $mappings->wordpress_podcast_name === $podcast_name ) {
+					return $mapping;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	function get_author_names() {
 		$author_names = array();
 
@@ -330,8 +350,11 @@ class MappingCollection {
 				);
 
 				$entity->add( $podcast );
+				$podcasts_map[ $podcast_name ] = true;
 			}
 		}
+
+		$this->podcasts = $podcasts_map;
 	}
 
 	function import_tags() {
@@ -375,6 +398,18 @@ class MappingCollection {
 		}
 
 		return null;
+	}
+
+	function get_matched_authors( $string ) {
+		$matches = array();
+
+		foreach ( $this->author_names as $author ) {
+			if ( strpos( $string, $author ) !== false ) {
+				$matches[] = $author;
+			}
+		}
+
+		return $matches;
 	}
 
 }

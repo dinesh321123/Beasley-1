@@ -68,16 +68,16 @@ class BaseTool {
 		foreach ( $data_files as $data_file ) {
 			if ( file_exists( $data_file ) ) {
 				\WP_CLI::log( "Loading Data for Marketron $tool_name ( $data_file ) ..." );
-				$xml_doc = simplexml_load_file( $data_file );
+				$xml_doc = @simplexml_load_file( $data_file );
 
 				if ( $xml_doc !== false ) {
 					$this->parse( $xml_doc );
 					$this->sources[] = $xml_doc;
 				} else {
-					\WP_CLI::error( "Invalid XML for Tool($tool_name) - $file" );
+					\WP_CLI::warning( "Invalid XML for Tool($tool_name) - $data_file" );
 				}
 			} else {
-				\WP_CLI::error( "Failed to import $tool_name - $file"  );
+				\WP_CLI::error( "Failed to import $tool_name - $data_file"  );
 			}
 		}
 	}

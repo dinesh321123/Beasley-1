@@ -13,21 +13,93 @@
 		],
 		"data_files": {
 			"WMGK Data Export 022315.zip": [
-				"feed", "blog", "venue", "event_calendar",
-				"photo_album_v2", "showcase"
+				"feed", "blog", "venue", "event_calendar", "channel",
+				"video_channel", "event_manager",
+				"photo_album_v2", "showcase", "podcast", "survey",
+				"contest"
 			],
 			"GMFeedSharing Data Export 022315.zip": [
-				"venue"
+				"venue", "event_manager"
 			]
 		},
 		"tags_file": "tags.csv",
+		"exclude_survey_entries": true,
 		"limit": 10000
 	},
 	"error": {
 		"log_file": "errors.log"
 	},
 	"gigya": {
-		"api_key": "",
-		"secret_key": ""
+		"api_key": "3_e_T7jWO0Vjsd9y0WJcjnsN6KaFUBv6r3VxMKqbitvw-qKfmaUWysQKa1fra5MTb6",
+		"secret_key": "trS0ufXWUXZ0JBcpr/6umiRfgUiwT7YhJMQSDpUz/p8="
+	},
+	"livefyre": {
+		"network_name": "gmphiladelphia-int-0.fyre.co",
+		"network_key": "HMRdmPqj5i2mf5drZrr/TJz44YY=",
+		"site_id": "305113",
+		"site_key": "QH7QgPRrMi+h5r4r9BKKbZ+UhBo="
+	},
+	"myemma": {
+		"account_id": "1746533",
+		"public_key": "3e89a3b76be875952b48",
+		"private_key": "519231e76466c2f0bfc0",
+		"webhook_auth_token": "348a7a99347d92e3d675ec5a32bfbd48"
+	},
+	"live_player": {
+		"streams": [
+			{ "call_sign": "WMGKFM", "description": "", "vast_url": "" },
+			{ "call_sign": "WMMRFM", "description": "", "vast_url": "" }
+		]
+	},
+	"ooyala": {
+		"api_key": "A2ZXQxOoSOfl15vkNBBKIdXmbw9G.xULuw",
+		"api_secret": "dqzj4c3WWGOa214qQmv1mf4j92RES9ftq8RwXgbq",
+		"video_status": "pending",
+		"partner_code": "",
+		"partner_secret": ""
+	},
+	"member_page_text": {
+		"join": {
+			"heading": "Register",
+			"message": "Membership gives you access to all areas of the site, including full membership-only contests and the ability to submit content to share with the site and other members."
+		},
+		"login": {
+			"heading": "Login",
+			"message": "Please enter your login details to access full membership-only contests and the ability to submit content to share with the site and other members."
+		},
+		"logout": {
+			"heading": "Logout",
+			"message": "Please wait, Logging out ..."
+		},
+		"account": {
+			"heading": "Manage Your Account",
+			"message": "Help us get to know you better, manage your communication preferences, or change your password."
+		},
+		"forgot-password": {
+			"heading": "Password Reset",
+			"message": "Forgot your password? No worries, it happens. We'll send you a password reset email."
+		},
+		"cookies-required": {
+			"heading": "Cookies Required",
+			"message": "It doesn't look like your browser is letting us set a cookie. These small bits of information are stored in your browser and allow us to ensure you stay logged in. They are required to use the site and can generally be authorized in your browser's preferences or settings screen."
+		},
+		"reset-password": {
+			"heading": "Reset Password",
+			"message": "Enter your new password to reset it."
+		},
+		"verify-email": {
+			"heading": "Email Verification",
+			"message": "Please verify that your profile email belongs to you."
+		}
+	},
+	"google_analytics": {
+		"id": "UA-xxxxxx-xx",
+		"dimension": "1"
+	},
+	"social_pages": {
+		"facebook": "https://www.facebook.com/1029wmgk",
+		"twitter": "WMGK",
+		"youtube": "https://www.youtube.com/user/WMGKFM",
+		"instagram": ""
 	}
 }

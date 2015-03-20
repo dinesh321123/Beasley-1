@@ -13,7 +13,13 @@ class PodcastEpisode extends Post {
 		$episode_name    = $fields['episode_name'];
 		$episode_podcast = $fields['episode_podcast'];
 
-		$podcast_id = $this->get_podcast_id( $episode_podcast );
+		if ( is_string( $episode_podcast ) ) {
+			$podcast_name = $episode_podcast;
+		} else {
+			$podcast_name = $episode_podcast['podcast_name'];
+		}
+
+		$podcast_id = $this->get_podcast_id( $podcast_name );
 
 		$fields['post_parent']    = $podcast_id;
 		$fields['post_title']     = $episode_name;
@@ -23,7 +29,7 @@ class PodcastEpisode extends Post {
 		$episode_id = $fields['ID'];
 
 		$series_entity = $this->get_entity( 'series_taxonomy' );
-		$series_entity->add( $episode_podcast, $episode_id );
+		$series_entity->add( $podcast_name, $episode_id );
 
 		return $fields;
 	}

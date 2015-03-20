@@ -29,6 +29,11 @@ class Factory {
 		'blog' => 'WordPress\Entities\Blog',
 		'gallery' => 'WordPress\Entities\Gallery',
 		'album' => 'WordPress\Entities\Album',
+		'survey' => 'WordPress\Entities\Survey',
+		'survey_entry' => 'WordPress\Entities\SurveyEntry',
+		'live_stream' => 'WordPress\Entities\LiveStream',
+		'contest' => 'WordPress\Entities\Contest',
+		'contest_entry' => 'WordPress\Entities\Contest',
 	);
 
 

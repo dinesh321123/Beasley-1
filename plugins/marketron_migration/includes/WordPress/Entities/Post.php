@@ -23,6 +23,10 @@ class Post extends BaseEntity {
 			$time_variants           = $this->to_time_variants( $fields['created_on'] );
 			$fields['post_date']     = $time_variants['date'];
 			$fields['post_date_gmt'] = $time_variants['date_gmt'];
+
+			if ( empty( $fields['modified_on'] ) ) {
+				$fields['modified_on'] = $fields['created_on'];
+			}
 		}
 
 		if ( array_key_exists( 'modified_on', $fields ) ) {
@@ -30,6 +34,8 @@ class Post extends BaseEntity {
 			$fields['post_modified']     = $time_variants['date'];
 			$fields['post_modified_gmt'] = $time_variants['date_gmt'];
 		}
+
+		$fields['post_content'] = $this->import_images_in_content( $fields['post_content'] );
 
 		$fields = $table->add( $fields );
 		$post_id = $fields['ID'];
@@ -126,6 +132,11 @@ class Post extends BaseEntity {
 			// if no meta found, don't use as featured image
 			return true;
 		}
+	}
+
+	function import_images_in_content( $content ) {
+		$inline_image_replacer = $this->container->inline_image_replacer;
+		return $inline_image_replacer->find_and_replace( $content );
 	}
 
 	function set_post_format( $post_id, $post_format ) {

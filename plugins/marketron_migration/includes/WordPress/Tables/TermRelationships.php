@@ -16,6 +16,12 @@ class TermRelationships extends BaseTable {
 		'term_taxonomy_id',
 	);
 
+	public $columns_with_defaults = array(
+		'object_id',
+		'term_taxonomy_id',
+		'term_order',
+	);
+
 	function get_table_name() {
 		return 'term_relationships';
 	}

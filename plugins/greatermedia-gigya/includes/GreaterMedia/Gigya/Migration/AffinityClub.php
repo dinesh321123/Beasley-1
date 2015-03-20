@@ -11,19 +11,19 @@ class AffinityClub {
 	public $errors;
 
 	public $member_group_ids = array(
-		'@Work Network Newsletter' => '2196755',
-		"MGK's Discount Deal"      => '2197779',
+		'BEN-efits Club Newsletter' => '2196755',
+		"BEN's Big Deal"      => '2197779',
 		'Birthday Greetings'       => '2198803',
-		'Listener Appreciation'    => '',
-		'Hidden Group'             => '',
+		'Canadian Anti-spam test'    => '',
+		'Canadian Members'             => '',
 	);
 
 	public $member_group_gigya_keys = array(
-		'@Work Network Newsletter' => 'workNetworkGroup',
-		"MGK's Discount Deal"      => 'discountDealGroup',
+		'BEN-efits Club Newsletter' => 'benefitsGroup',
+		"BEN's Big Deal"      => 'benBigDealGroup',
 		'Birthday Greetings'       => 'birthdayGreetingsGroup',
-		'Listener Appreciation'    => 'listenerAppreciationGroup',
-		'Hidden Group'             => 'hiddenGroup1',
+		'Canadian Anti-spam test'    => 'canAntiSpamTestGroup',
+		'Canadian Members'             => 'canadianMembersGroup',
 	);
 
 	function parse( $node ) {
@@ -139,8 +139,8 @@ class AffinityClub {
 		$keys     = array_flip( $member_ids );
 
 		foreach ( $this->members as $member ) {
-			if ( array_key_exists( $member->member_id, $keys ) ) {
 				$accounts[] = $member->export();
+			if ( array_key_exists( $member->member_id, $keys ) ) {
 			}
 		}
 

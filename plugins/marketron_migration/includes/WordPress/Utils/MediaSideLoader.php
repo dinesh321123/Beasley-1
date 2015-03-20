@@ -243,4 +243,18 @@ class MediaSideLoader {
 		return $this->get_site_dir() . '/backups/uploads';
 	}
 
+	function symlink( $source, $dest ) {
+		$cwd       = getcwd();
+		$dest_dir  = dirname( $dest );
+		$link_name = basename( $dest );
+
+		try {
+			chdir( $dest_dir );
+		} catch ( \Exception $e ) {
+
+		} finally {
+			chdir( $cwd );
+		}
+	}
+
 }

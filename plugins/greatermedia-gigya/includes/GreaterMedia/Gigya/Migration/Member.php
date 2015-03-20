@@ -153,7 +153,7 @@ class Member {
 			$account['email'] = $this->email;
 		}
 
-		$account['userInfo'] = $this->export_user_info();
+		$account['profile'] = $this->export_user_info();
 
 		$identities = $this->export_identities();
 		if ( ! is_null( $identities ) ) {

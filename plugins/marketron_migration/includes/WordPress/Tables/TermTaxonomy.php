@@ -17,6 +17,12 @@ class TermTaxonomy extends BaseTable {
 		'term_id',
 	);
 
+	public $columns_with_defaults = array(
+		'term_id',
+		'parent',
+		'count',
+	);
+
 	function get_table_name() {
 		return 'term_taxonomy';
 	}

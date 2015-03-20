@@ -16,6 +16,10 @@ class Terms extends BaseTable {
 		'name',
 	);
 
+	public $columns_with_defaults = array(
+		'term_group',
+	);
+
 	function get_table_name() {
 		return 'terms';
 	}

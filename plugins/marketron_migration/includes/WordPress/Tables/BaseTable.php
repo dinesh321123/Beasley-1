@@ -9,6 +9,7 @@ class BaseTable {
 	public $id_counter    = null;
 	public $rows          = array();
 	public $columns       = array();
+	public $null_columns  = array();
 	public $indices       = array();
 	public $indices_store = array();
 	public $primary_key   = 'ID';
@@ -276,7 +277,11 @@ SQL;
 		$csv_row = array();
 		foreach ( $columns as $column ) {
 			if ( ! array_key_exists( $column, $row ) ) {
-				$value = null;
+				if ( $this->column_has_default( $column ) ) {
+					$value = 'NULL';
+				} else {
+					$value = null;
+				}
 			} else {
 				$type = gettype( $row[ $column ] );
 				$value = $row[ $column ];
@@ -295,5 +300,8 @@ SQL;
 		return $csv_row;
 	}
 
+	function column_has_default( $column ) {
+		return in_array( $column, $this->columns_with_defaults );
+	}
 
 }

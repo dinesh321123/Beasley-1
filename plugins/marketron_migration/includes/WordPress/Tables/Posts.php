@@ -5,11 +5,16 @@ namespace WordPress\Tables;
 class Posts extends BaseTable {
 
 	public $columns = array(
+		'post_parent',
+		'menu_order',
+		'post_modified',
 		'ID',
+		'post_modified_gmt',
 		'post_author',
 		'post_date',
 		'post_date_gmt',
 		'post_title',
+		'post_name',
 		'post_content',
 		'post_content_filtered',
 		'post_excerpt',
@@ -17,14 +22,9 @@ class Posts extends BaseTable {
 		'comment_status',
 		'ping_status',
 		'post_password',
-		'post_name',
 		'to_ping',
 		'pinged',
-		'post_modified',
-		'post_modified_gmt',
-		'post_parent',
 		'guid',
-		'menu_order',
 		'post_type',
 		'post_mime_type',
 		'comment_count',
@@ -34,6 +34,21 @@ class Posts extends BaseTable {
 		'post_name',
 		'post_type',
 		'post_title',
+	);
+
+	public $columns_with_defaults = array(
+		'post_author',
+		'post_date',
+		'post_date_gmt',
+		'post_status',
+		'comment_status',
+		'ping_status',
+		'post_modified',
+		'post_modified_gmt',
+		'post_parent',
+		'menu_order',
+		'post_type',
+		'comment_count',
 	);
 
 	function get_table_name() {
@@ -54,6 +69,22 @@ class Posts extends BaseTable {
 
 		if ( ! array_key_exists( 'guid', $fields ) ) {
 			$this->rows[ $post_id ]['guid'] = trailingslashit( get_site_url() ) . '?p=' . $fields['ID'];
+		}
+
+		if ( ! array_key_exists( 'post_password', $fields ) ) {
+			$fields['post_password'] = '';
+		}
+
+		if ( ! array_key_exists( 'post_author', $fields ) ) {
+			$fields['post_author'] = 0;
+		}
+
+		if ( ! array_key_exists( 'post_parent', $fields ) ) {
+			$fields['post_parent'] = 0;
+		}
+
+		if ( ! array_key_exists( 'menu_order', $fields ) ) {
+			$fields['menu_order'] = 0;
 		}
 
 		return $fields;

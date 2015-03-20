@@ -56,7 +56,6 @@ class Venue extends BaseImporter {
 		}
 
 		$post['postmeta']    = $postmeta;
-		$post['post_name']   = sanitize_title( $venue['post_title'] );
 
 		if ( ! empty( $venue['DateCreated'] ) ) {
 			$post['created_on'] = $this->import_string( $venue['DateCreated'] );

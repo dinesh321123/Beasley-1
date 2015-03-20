@@ -15,6 +15,10 @@ class UserMeta extends BaseTable {
 		'umeta_id',
 	);
 
+	public $columns_with_defaults = array(
+		'user_id',
+	);
+
 	public $primary_key = 'umeta_id';
 
 	function get_table_name() {

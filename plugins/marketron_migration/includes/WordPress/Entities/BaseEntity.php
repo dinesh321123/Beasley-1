@@ -59,7 +59,7 @@ class BaseEntity {
 			$date = new \DateTime( $timestamp );
 		}
 
-		$date->setTimeZone( new \DateTimeZone( 'GMT' ) );
+		//$date->setTimeZone( new \DateTimeZone( 'GMT' ) );
 
 		return $date;
 	}

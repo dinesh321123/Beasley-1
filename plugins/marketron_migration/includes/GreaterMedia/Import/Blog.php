@@ -8,14 +8,6 @@ class Blog extends BaseImporter {
 		return 'blog';
 	}
 
-	function get_mappings() {
-		return $this->container->mappings;
-	}
-
-	function can_import( $blog_id ) {
-		return $this->get_mappings()->can_import( $blog_id );
-	}
-
 	function import_source( $source ) {
 		$blogs = $this->blogs_from_source( $source );
 

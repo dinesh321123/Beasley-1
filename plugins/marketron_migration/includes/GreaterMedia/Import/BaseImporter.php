@@ -36,6 +36,14 @@ class BaseImporter {
 		return $this->container->table_factory->build( $name );
 	}
 
+	function get_mappings() {
+		return $this->container->mappings;
+	}
+
+	function can_import( $blog_id ) {
+		return $this->get_mappings()->can_import( $blog_id );
+	}
+
 	function import() {
 		$tool    = $this->get_tool();
 		$sources = $tool->sources;
@@ -52,6 +60,11 @@ class BaseImporter {
 	function import_string( $element ) {
 		$string = (string) $element;
 		return trim( $string );
+	}
+
+	function import_bool( $element ) {
+		$string = $this->import_string( $element );
+		return filter_var( $string, FILTER_VALIDATE_BOOLEAN );
 	}
 
 	function to_datetime( $timestamp ) {

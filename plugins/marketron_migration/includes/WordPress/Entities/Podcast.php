@@ -11,7 +11,6 @@ class Podcast extends Post {
 	function add( &$fields ) {
 		$podcast_name   = trim( $fields['podcast_name'] );
 		$podcast_author = $fields['podcast_author'];
-		$podcast_show   = trim( $fields['podcast_show'] );
 
 		if ( array_key_exists( 'podcast_meta', $fields ) ) {
 			$podcast_meta = $fields['podcast_meta'];
@@ -27,7 +26,10 @@ class Podcast extends Post {
 		$fields             = parent::add( $fields );
 		$podcast_id = $fields['ID'];
 
-		$this->set_podcast_show( $podcast_id, $podcast_show );
+		if ( ! empty( $fields['podcast_show'] ) ) {
+			$podcast_show   = trim( $fields['podcast_show'] );
+			$this->set_podcast_show( $podcast_id, $podcast_show );
+		}
 
 		return $fields;
 	}
@@ -35,6 +37,16 @@ class Podcast extends Post {
 	function set_podcast_show( $podcast_id, $podcast_show ) {
 		$entity = $this->get_entity( 'show_taxonomy' );
 		$entity->add( $podcast_show, $podcast_id );
+	}
+
+	function get_podcast_by_name( $name ) {
+		$table = $this->get_table( 'posts' );
+
+		if ( $table->has_row_with_field( 'post_title', $name ) ) {
+			return $table->get_row_with_field( 'post_title', $name );
+		} else {
+			return null;
+		}
 	}
 
 	function get_show_id( $name ) {
