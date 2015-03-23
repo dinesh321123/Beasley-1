@@ -13,7 +13,7 @@ class Venue extends BaseImporter {
 		$tool_name      = $tool->get_name();
 		$venues         = $this->venues_from_source( $source );
 		$total          = count( $venues );
-		$notify         = new \cli\progress\Bar( "Importing $total items from $tool_name", $total );
+		$notify         = new \WordPress\Utils\ProgressBar( "Importing $total items from $tool_name", $total );
 		$venue_entities = $this->get_entity( 'venue' );
 		$max_items      = $this->get_site_option( 'limit' );
 		$item_index     = 0;

@@ -22,7 +22,7 @@ class ConfigLoader {
 		$this->load_gigya_options();
 		$this->load_myemma_options();
 		$this->load_livefyre_options();
-		$this->load_ooyala_options();
+		//$this->load_ooyala_options();
 		$this->load_member_page_text_options();
 		$this->load_google_analytics_options();
 		$this->load_social_page_options();
@@ -82,6 +82,32 @@ class ConfigLoader {
 		update_option( 'member_query_settings', $emma_options );
 
 		\WP_CLI::success( 'Updated MyEmma Options' );
+	}
+
+	function load_myemma_groups() {
+		$newsletters = $this->get_config()->get_newsletters();
+		$groups      = array();
+
+		foreach ( $newsletters as $newsletter ) {
+			$group = array(
+				'group_id'          => $newsletter['emma_group_id'],
+				'group_name'        => $newsletter['emma_name'],
+				'field_key'         => $newsletter['gigya_field_key'],
+			);
+
+			if ( ! empty( $newsletter['description'] ) ) {
+				$group['group_description'] = $newsletter['description'];
+			} else {
+				$group['group_description'] = '';
+			}
+
+			$groups[] = $group;
+		}
+
+		$groups = json_encode( $groups );
+		update_option( 'emma_groups', $groups );
+
+		\WP_CLI::success( 'Updated MyEmma Groups' );
 	}
 
 	function load_ooyala_options() {
@@ -176,7 +202,7 @@ class ConfigLoader {
 		update_option( 'gmr_youtube_url', $youtube );
 		update_option( 'gmr_instagram_name', $instagram );
 
-		\WP_CLI::success( 'Update Social Page Options' );
+		\WP_CLI::success( 'Updated Social Page Options' );
 	}
 
 }

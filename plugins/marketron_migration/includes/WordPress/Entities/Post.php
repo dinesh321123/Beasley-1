@@ -12,6 +12,10 @@ class Post extends BaseEntity {
 			}
 		}
 
+		if ( ! empty( $fields['post_author'] ) && $fields['post_author'] === 'INACTIVE' ) {
+			$fields['post_author'] = 0;
+		}
+
 		if ( empty( $fields['post_name'] ) && ! empty( $fields['post_title'] ) ) {
 			$fields['post_name'] = sanitize_title( $fields['post_title'] );
 		}
@@ -35,7 +39,9 @@ class Post extends BaseEntity {
 			$fields['post_modified_gmt'] = $time_variants['date_gmt'];
 		}
 
-		$fields['post_content'] = $this->import_images_in_content( $fields['post_content'] );
+		$fields['post_content'] = $this->import_images_in_content(
+			$fields['post_content']
+		);
 
 		$fields = $table->add( $fields );
 		$post_id = $fields['ID'];
@@ -53,19 +59,33 @@ class Post extends BaseEntity {
 		}
 
 		if ( array_key_exists( 'featured_image', $fields ) && ! empty( $fields['featured_image'] ) ) {
-			$this->set_featured_image(
-				$post_id, $fields['featured_image'], $fields['post_author']
-			);
+			$this->set_featured_image( $post_id, $fields );
 		}
 
 		if ( array_key_exists( 'featured_audio', $fields ) && ! empty( $fields['featured_audio'] ) ) {
-			$this->set_featured_audio( $fields );
+			$this->set_featured_audio( $post_id, $fields );
+		}
+
+		if ( array_key_exists( 'redirects', $fields ) ) {
+			$this->set_redirects( $post_id, $fields );
 		}
 
 		return $fields;
 	}
 
-	function set_featured_image( $post_id, $attachment, $post_author = 0 ) {
+	function set_redirects( $post_id, &$fields ) {
+		$redirects = $fields['redirects'];
+		$legacy_redirects = $this->get_entity( 'legacy_redirect' );
+
+		foreach ( $redirects as $redirect ) {
+			$redirect['post_id'] = $post_id;
+			$redirect = $legacy_redirects->add( $redirect );
+		}
+	}
+
+	function set_featured_image( $post_id, &$fields ) {
+		$attachment = $fields['featured_image'];
+		$post_author = ! empty( $fields['post_author'] ) ? $fields['post_author'] : 0;
 		$entity = $this->get_entity( 'attachment' );
 
 		if ( is_string( $attachment ) ) {
@@ -74,7 +94,8 @@ class Post extends BaseEntity {
 
 		$attachment['post_parent'] = $post_id;
 		$attachment['post_author'] = $post_author;
-		$attachment = $entity->add( $attachment );
+		$attachment['created_on']  = $fields['created_on'];
+		$attachment                = $entity->add( $attachment );
 
 		if ( $attachment === false ) {
 			return;
@@ -92,8 +113,7 @@ class Post extends BaseEntity {
 		$posts->add_post_meta( $post_id, $meta_fields );
 	}
 
-	function set_featured_audio( $fields ) {
-		$post_id     = $fields['ID'];
+	function set_featured_audio( $post_id, &$fields ) {
 		$attachment  = $fields['featured_audio'];
 		$post_author = $fields['post_author'];
 		$entity      = $this->get_entity( 'attachment' );
@@ -104,6 +124,7 @@ class Post extends BaseEntity {
 
 		$attachment['post_parent'] = $post_id;
 		$attachment['post_author'] = $post_author;
+		$attachment['created_on']  = $fields['created_on'];
 		$attachment                = $entity->add( $attachment );
 
 		if ( isset( $attachment['file_meta'] ) ) {

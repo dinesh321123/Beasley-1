@@ -5,12 +5,26 @@ namespace WordPress\Utils;
 class AssetLocator {
 
 	public $container;
+	public $media_library = '/srv/www/greatermedia/htdocs/wp-content/plugins/marketron_migration/tmp/media_library';
+	public $library_images = array();
+	public $library_mp3s = array();
+	public $loaded_library = false;
 
 	function get_asset_dirs() {
 		return $this->container->config->get_asset_dirs();
 	}
 
 	function find( $path ) {
+		if ( $this->use_media_library() ) {
+			if ( strpos( $path, 'mp3' ) !== false ) {
+				$path = $this->get_random_mp3();
+			} else {
+				$path = $this->get_random_image();
+			}
+
+			return $path;
+		}
+
 		$path = $this->repair_path( $path );
 
 		if ( is_dir( $path ) ) {
@@ -90,5 +104,53 @@ class AssetLocator {
 		}
 	}
 
+	function get_random_image() {
+		$this->load_library();
+
+		$total = count( $this->library_images );
+		$index = rand( 0, $total - 1 );
+
+		$image = $this->library_images[ $index ];
+		//error_log( $image );
+		return $image;
+	}
+
+	function get_random_mp3() {
+		$this->load_library();
+
+		$total = count( $this->library_mp3s );
+		$index = rand( 0, $total - 1 );
+
+		$mp3 = $this->library_mp3s[ $index ];
+		return $mp3;
+	}
+
+	function load_library() {
+		if ( ! $this->loaded_library ) {
+			$this->library_images = $this->load_image_library();
+			$this->library_mp3s   = $this->load_audio_library();
+			$this->loaded_library = true;
+		}
+	}
+
+	function load_image_library() {
+		$image_dir = $this->media_library . '/images';
+		$pattern   = "$image_dir/*.jpg";
+		$files     = glob( $pattern );
+
+		return $files;
+	}
+
+	function load_audio_library() {
+		$mp3_dir = $this->media_library . '/mp3s';
+		$pattern   = "$mp3_dir/*.mp3";
+		$files     = glob( $pattern );
+
+		return $files;
+	}
+
+	function use_media_library() {
+		return $this->container->opts['fake_media'];
+	}
 
 }

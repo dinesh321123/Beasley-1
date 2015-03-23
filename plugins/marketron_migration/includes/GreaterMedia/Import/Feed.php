@@ -9,25 +9,40 @@ class Feed extends BaseImporter {
 	}
 
 	function import_source( $source ) {
-		$tool      = $this->get_tool();
-		$tool_name = $tool->get_name();
-		$posts     = $this->get_entity( 'post' );
-		$articles  = $this->articles_from_source( $source );
-		$total     = count( $articles );
-		$locator   = $this->container->asset_locator;
-		$notify    = new \cli\progress\Bar( "Importing $total items from $tool_name", $total );
-		$max_items = $this->get_site_option( 'limit' );
-		$item_index = 1;
+		$tool             = $this->get_tool();
+		$tool_name        = $tool->get_name();
+		$posts            = $this->get_entity( 'blog' );
+		$podcast_episodes = $this->get_entity( 'podcast_episode' );
+		$articles         = $this->articles_from_source( $source );
+		$total            = count( $articles );
+		$locator          = $this->container->asset_locator;
+		$notify           = new \WordPress\Utils\ProgressBar( "Importing $total items from $tool_name", $total );
+
+		$podcast_count = 0;
+		$blog_post_count = 0;
+		$blog_with_shows = 0;
 
 		foreach ( $articles as $article ) {
 			$post = $this->post_from_article( $article );
-			$posts->add( $post );
-			$notify->tick();
+			if ( ! empty( $post['featured_audio'] ) && ! empty( $post['show'] ) ) {
+				$post['episode_name']    = $post['post_title'];
+				$post['episode_podcast'] = $this->mapped_podcast_for_show( $post['show'] );
+				$post['episode_file']    = $post['featured_audio'];
 
-			if ( $item_index++ > $max_items ) {
-				break;
+				$podcast_episodes->add( $post );
+				$podcast_count++;
+			} else {
+				$posts->add( $post );
+				$blog_post_count++;
+				if ( ! empty( $post['show'] ) ) {
+					$blog_with_shows++;
+				}
 			}
+
+			$notify->tick();
 		}
+
+		//\WP_CLI::error( "Podcast Episode Count: $podcast_count, Blog Post Count: $blog_post_count, Blog with Shows: $blog_with_shows" );
 
 		$notify->finish();
 	}
@@ -47,6 +62,7 @@ class Feed extends BaseImporter {
 		$post_excerpt   = $this->excerpt_from_article( $article );
 		$created_on     = $this->import_string( $article['UTCStartDateTime'] );
 		$modified_on    = $this->import_string( $article['LastModifiedUTCDateTime'] );
+		$show           = $this->show_from_categories( $categories );
 
 		if ( ! is_null( $featured_audio ) ) {
 			$post_format = 'audio';
@@ -73,9 +89,10 @@ class Feed extends BaseImporter {
 			'created_on'            => $created_on,
 			'modified_on'           => $modified_on,
 
-			'tags'           => $tags,
-			'categories'     => $categories,
-			'post_format'    => $post_format,
+			'tags'        => $tags,
+			'categories'  => $categories,
+			'post_format' => $post_format,
+			'redirects'   => $redirects,
 		);
 
 		if ( ! is_null( $featured_image ) ) {
@@ -86,8 +103,41 @@ class Feed extends BaseImporter {
 			$post['featured_audio'] = $featured_audio;
 		}
 
+		if ( ! is_null( $show ) ) {
+			$post['show'] = $show;
+		} else {
+			$post['show'] = $this->show_from_tags( $tags );
+
+			if ( empty( $post['show'] ) ) {
+				$post['show'] = $this->show_from_title( $post['post_title'] );
+			}
+		}
+
 		return $post;
 	}
+
+	function show_from_title( $name ) {
+		$mappings = $this->container->mappings;
+		$authors  = $mappings->get_matched_authors( $name );
+
+		if ( ! empty( $authors ) ) {
+			$show = $mappings->get_show_from_author_names( $authors );
+		} else {
+			$show = null;
+		}
+
+		return null;
+	}
+
+	function show_from_tags( &$tags ) {
+		$show = $this->show_from_categories( $tags );
+		if ( empty( $show ) ) {
+			$show = $this->container->mappings->get_show_from_author_names( $tags );
+		}
+		return $show;
+	}
+
+
 
 	function articles_from_source( $source ) {
 		return $source->Articles->Article;
@@ -167,6 +217,10 @@ class Feed extends BaseImporter {
 			}
 		}
 
+		$category_names = array_merge(
+			$this->feed_names_from_article( $article )
+		);
+
 		return array_unique( $category_names );
 	}
 
@@ -186,6 +240,50 @@ class Feed extends BaseImporter {
 		return array_unique( $tag_names );
 	}
 
+	function feeds_from_article( $article ) {
+		return $article->Feeds->Feed;
+	}
+
+	function feed_names_from_article( $article ) {
+		$feeds      = $this->feeds_from_article( $article );
+		$feed_names = array();
+
+		if ( ! empty( $feeds ) ) {
+			foreach ( $feeds as $feed ) {
+				$feed_name = $this->import_string( $feed['Feed'] );
+				$feed_names[] = $feed_name;
+			}
+		}
+
+		$feed_names = array_merge(
+			$feed_names, $this->feed_category_names_from_article( $article )
+		);
+
+		//error_log( 'Found Feed Names: ' . print_r( $feed_names, true ) );
+		return $feed_names;
+	}
+
+	function feed_categories_from_article( $article ) {
+		return $article->Feeds->Feed->FeedCategories->FeedCategory;
+	}
+
+	function feed_category_names_from_article( $article ) {
+		$categories = $this->feed_categories_from_article( $article );
+		$category_names = array();
+
+		if ( ! empty( $categories) ) {
+			foreach( $categories as $category ) {
+				$category_names[] = $this->import_string( $category['Category'] );
+			}
+		}
+
+		return $category_names;
+	}
+
+	function show_from_categories( &$categories ) {
+		return $this->container->mappings->get_show_from_categories( $categories );
+	}
+
 	function redirects_from_article( $article ) {
 		$site_domain        = $this->get_site_option( 'domain' );
 		$slug_history_items = $article->SlugHistoryItems->SlugHistoryItem;
@@ -196,12 +294,14 @@ class Feed extends BaseImporter {
 				$slug = $slug_history_item['ArticleHistoricalSlug'];
 
 				if ( isset( $slug ) ) {
-					$redirects[] = "http://$site_domain/" . $this->import_string( $slug );
+					$redirects[] = array(
+						'url' => "http://$site_domain/" . $this->import_string( $slug )
+					);
 				}
 			}
 		}
 
-		return array_unique( $redirects );
+		return $redirects;
 	}
 
 	function featured_image_from_article( $article ) {
@@ -240,31 +340,9 @@ class Feed extends BaseImporter {
 		return array_unique( $author_names );
 	}
 
-	function to_post( $article ) {
-		$post = array(
-			'post_author'           => 0,
-			'post_type'             => 'post',
-			'post_title'            => htmlentities( $article['Title'] ),
-			'post_name'             => $article['Slug'],
-			'post_excerpt'          => $article['ExcerptText'],
-			'post_content'          => $article['ArticleText'],
-			'post_content_filtered' => null,
-			'post_status'           => 'publish',
-			'comment_status'        => 'open',
-			'ping_status'           => 'open',
-			'to_ping'               => null,
-			'pinged'                => null,
-			'post_date'             => $article['UTCStartDateTime'],
-			'post_date_gmt'         => $article['UTCStartDateTime'],
-			'post_modified'         => $article['LastModifiedUTCDateTime'],
-			'post_modified_gmt'     => $article['LastModifiedUTCDateTime'],
-			'post_parent'           => 0,
-			'menu_order'            => 0,
-			'post_mime_type'        => null,
-			'comment_count'         => 0,
-		);
-
-		return $post;
+	function mapped_podcast_for_show( $show ) {
+		$mappings = $this->container->mappings;
+		return $mappings->get_podcast_for_show( $show );
 	}
 
 }

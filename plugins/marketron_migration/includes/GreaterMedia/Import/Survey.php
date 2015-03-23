@@ -11,17 +11,11 @@ class Survey extends BaseImporter {
 	function import_source( $source ) {
 		$surveys      = $this->surveys_from_source( $source );
 		$total        = count( $surveys );
-		$progress_bar = new \cli\progress\Bar( "Importing $total Surveys", $total );
-		$index = 0;
-		$limit = 3;
+		$progress_bar = new \WordPress\Utils\ProgressBar( "Importing $total Surveys", $total );
 
 		foreach( $surveys as $survey ) {
 			$this->import_survey( $survey );
 			$progress_bar->tick();
-
-			//if ( $index++ >= $limit ) {
-				//break;
-			//}
 		}
 
 		$progress_bar->finish();
@@ -37,23 +31,35 @@ class Survey extends BaseImporter {
 
 	function import_survey( $survey ) {
 		$survey_name = $this->import_string( $survey['SurveyName'] );
-		\WP_CLI::log( "Importing Survey: $survey_name" );
+		//\WP_CLI::log( "Importing Survey: $survey_name" );
 
 		$survey_entity = $this->survey_entity_from_survey( $survey );
 		$entity        = $this->get_entity( 'survey' );
 
-		if ( ! empty( $survey_entity['survey_form'] ) ) {
+		if ( ! empty( $survey_entity ) && ! empty( $survey_entity['survey_form'] ) ) {
 			$entity->add( $survey_entity );
 		}
 	}
 
 	function survey_entity_from_survey( $survey ) {
+		$survey_id = $this->import_string( $survey['SurveyID'] );
+
+		// For testing
+		//if ( $survey_id === '16' || $survey_id === '14' || $survey_id === '18' ) {
+			//return;
+		//}
+
 		$survey_name           = $this->import_string( $survey['SurveyName'] );
-		$survey_id             = $this->import_string( $survey['SurveyID'] );
 		$survey_featured_image = $this->featured_image_from_survey( $survey );
 		$survey_restrictions   = $this->restrictions_from_survey( $survey );
 		$responses             = $this->responses_from_survey( $survey );
-		$survey_entries        = $this->survey_entries_from_responses( $responses );
+		$survey_entries        = $this->survey_entries_from_responses( $responses, $survey );
+
+		if ( ! empty( $survey['ContestID'] ) ) {
+			$contest_id = $this->import_string( $survey['ContestID'] );
+		} else {
+			$contest_id = null;
+		}
 
 		$post = array(
 			'created_on'                => $this->import_string( $survey['UTCDateCreated'] ),
@@ -65,6 +71,7 @@ class Survey extends BaseImporter {
 			'survey_excerpt'            => $this->excerpt_from_survey( $survey ),
 			'survey_entries'            => $survey_entries,
 			'survey_completion_message' => wp_strip_all_tags( $this->import_string( $survey['CompletionMessage'] ) ),
+			'contest_id'                => $contest_id,
 		);
 
 		if ( ! empty( $survey_featured_image ) ) {
@@ -156,7 +163,7 @@ class Survey extends BaseImporter {
 
 	function form_item_from_question( $question ) {
 		$input_style       = strtolower( $this->import_string( $question['InputStyle'] ) );
-		$question_id       = $this->import_string( $question['QuestionID'] );
+		$question_id       = $this->import_string( $question['SubQuestionID'] );
 		$question_text     = $this->import_string( $question['QuestionText'] );
 		$question_required = $this->import_bool( $question['isRequired'] );
 
@@ -284,25 +291,33 @@ class Survey extends BaseImporter {
 		return array();
 	}
 
-	function survey_entries_from_responses( $responses ) {
+	function survey_entries_from_responses( $responses, $survey ) {
 		$survey_entries = array();
 		$exclude_survey_entries = $this->get_site_option( 'exclude_survey_entries' );
+
+		if ( ! empty( $survey['ContestID'] ) ) {
+			$contest_id = $this->import_string( $survey['ContestID'] );
+		} else {
+			$contest_id = null;
+		}
 
 		if ( empty( $responses ) || $exclude_survey_entries ) {
 			return $survey_entries;
 		}
 
-		$total = count( $responses );
-		$progress_bar = new \cli\progress\Bar( "  Importing $total Survey Responses", $total );
+		//$total = count( $responses );
+		//$progress_bar = new \WordPress\Utils\ProgressBar( "  Importing $total Survey Responses", $total );
 
 		foreach ( $responses as $response ) {
-			$survey_entry     = $this->survey_entry_from_response( $response );
-			$survey_entries[] = $survey_entry;
+			$survey_entry                   = $this->survey_entry_from_response( $response );
+			$survey_entry['contest_id']     = $contest_id;
+			$survey_entry['user_survey_id'] = $this->import_string( $response['UserSurveyID'] );
+			$survey_entries[]               = $survey_entry;
 
-			$progress_bar->tick();
+			//$progress_bar->tick();
 		}
 
-		$progress_bar->finish();
+		//$progress_bar->finish();
 
 		return $survey_entries;
 	}
@@ -329,13 +344,17 @@ class Survey extends BaseImporter {
 		$survey_answers = array();
 
 		foreach ( $answers as $answer ) {
-			$question_id  = $this->import_string( $answer['QuestionID'] );
+			$question_id  = $this->import_string( $answer['SubQuestionID'] );
 			$answer_value = $this->import_string( $answer['AnswerValue'] );
-			$field_id     = 'form_field_c' . $question_id;
+			$answer_value = preg_replace( '/\s+/', ' ', $answer_value );
+			$field_id     = 'c' . $question_id;
 
 			if ( array_key_exists( $field_id, $survey_answers ) ) {
-				// converting to array for multiple answers to allow question
-				$survey_answers[ $field_id ]   = array( $survey_answers[ $field_id ] );
+				if ( ! is_array( $survey_answers[ $field_id ] ) ) {
+					$old_value                   = $survey_answers[ $field_id ];
+					$survey_answers[ $field_id ] = array( $old_value );
+				}
+
 				$survey_answers[ $field_id ][] = $answer_value;
 			} else {
 				$survey_answers[ $field_id ] = $answer_value;

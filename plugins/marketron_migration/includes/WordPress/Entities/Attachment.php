@@ -4,6 +4,8 @@ namespace WordPress\Entities;
 
 class Attachment extends Post {
 
+	public $attachments_log;
+
 	function get_post_type() {
 		return 'attachment';
 	}
@@ -21,6 +23,7 @@ class Attachment extends Post {
 		if ( $file_meta !== false ) {
 			$attachment_meta = $this->get_attachment_meta( $file_meta );
 			$attachment_meta = $attachment_meta;
+			$dest_file = $file_meta['file'];
 
 			$fields['post_mime_type'] = $file_meta['mime_type'];
 			$fields['guid']           = $file_meta['url'];
@@ -31,14 +34,14 @@ class Attachment extends Post {
 
 			$fields['attachment_meta'] = $attachment_meta;
 			$fields['file_meta']       = $file_meta;
-			$filename                  = pathinfo( $file, PATHINFO_FILENAME );
+			$filename                  = pathinfo( $dest_file, PATHINFO_FILENAME );
 
 			if ( ! array_key_exists( 'post_title', $fields ) ) {
-				$fields['post_title'] = basename( $file );
+				$fields['post_title'] = $filename;
 			}
 
 			if ( ! array_key_exists( 'post_name', $fields ) ) {
-				$fields['post_name']  = basename( $file );
+				$fields['post_name']  = basename( $dest_file );
 			}
 
 			if ( ! array_key_exists( 'post_status', $fields ) ) {
@@ -46,6 +49,11 @@ class Attachment extends Post {
 			}
 
 			$fields = parent::add( $fields );
+			$attachment_id = $fields['ID'];
+
+			if ( strpos( $file_meta['mime_type'], 'image/' ) === 0 ) {
+				$this->log_attachment( $attachment_id );
+			}
 
 			return $fields;
 		} else {
@@ -74,6 +82,22 @@ class Attachment extends Post {
 		}
 
 		return $meta;
+	}
+
+	function get_attachments_log() {
+		if ( is_null( $this->attachments_log ) ) {
+			$path = $this->container->config->get_attachments_log_file();
+			$this->attachments_log = fopen( $path, 'w' );
+		}
+
+		return $this->attachments_log;
+	}
+
+	function log_attachment( $attachment_id ) {
+		$log  = $this->get_attachments_log();
+		$line = $attachment_id . "\n";
+
+		fwrite( $log, $line );
 	}
 
 }

@@ -130,7 +130,7 @@ class MappingCollection {
 
 			$flag_field = trim( $fields[3] );
 
-			if ( $flag_field !== 'DO NOT IMPORT' ) {
+			if ( strpos( $flag_field, 'DO NOT IMPORT' ) === false ) {
 				$mapping->can_import = true;
 
 				$audio_flag_field = strtolower( trim( $fields[3] ) );
@@ -147,9 +147,9 @@ class MappingCollection {
 				}
 
 				$mapping->wordpress_author_name  = trim( $fields[5] );
-				$mapping->wordpress_show_name    = trim( $fields[6] );
+				$mapping->wordpress_show_name    = $this->sanitize_mapping( $fields[6] );
 				$mapping->wordpress_category     = trim( $fields[7] );
-				$mapping->wordpress_podcast_name = trim( $fields[8] );
+				$mapping->wordpress_podcast_name = $this->sanitize_mapping( $fields[8] );
 			} else {
 				$mapping->can_import = false;
 			}
@@ -158,6 +158,21 @@ class MappingCollection {
 		} else {
 			return false;
 		}
+	}
+
+	function sanitize_mapping( $text ) {
+		$text = trim( $text );
+
+		switch ( $text ) {
+			case 'NA':
+			case 'N/A':
+				$text = null;
+				break;
+
+			default:
+		}
+
+		return $text;
 	}
 
 	function parse_marketron_tool_name( $name ) {
@@ -233,7 +248,11 @@ class MappingCollection {
 	}
 
 	function get_mapping( $marketron_id ) {
-		return $this->mappings[ $marketron_id ];
+		if ( array_key_exists( strval( $marketron_id ), $this->mappings ) ) {
+			return $this->mappings[ $marketron_id ];
+		} else {
+			return null;
+		}
 	}
 
 	function has_show( $show_author ) {
@@ -350,7 +369,7 @@ class MappingCollection {
 				);
 
 				$entity->add( $podcast );
-				$podcasts_map[ $podcast_name ] = true;
+				$podcasts_map[ $podcast_name ] = $mapping->wordpress_show_name;
 			}
 		}
 
@@ -362,7 +381,7 @@ class MappingCollection {
 		$file       = fopen( $tags_file, 'r' );
 		$fields     = fgetcsv( $file, 0, ',', '"' );
 		$total_tags = count( file( $tags_file ) ) - 1;
-		$notify     = new \cli\progress\Bar( "Importing $total_tags Tags ", $total_tags );
+		$notify     = new \WordPress\Utils\ProgressBar( "Importing $total_tags Tags ", $total_tags );
 		$entity     = $this->get_entity( 'tag' );
 
 		while ( $fields !== false ) {
@@ -400,6 +419,34 @@ class MappingCollection {
 		return null;
 	}
 
+	function get_show_from_categories( $categories ) {
+		foreach ( $categories as $category ) {
+			foreach ( $this->mappings as $mapping ) {
+				if ( ! empty( $mapping->wordpress_category ) ) {
+					if ( strpos( $category, $mapping->wordpress_category ) !== false ) {
+						return $mapping->wordpress_show_name;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	function get_show_from_author_names( $author_names ) {
+		foreach ( $author_names as $author_name ) {
+			foreach ( $this->mappings as $mapping ) {
+				if ( ! empty( $mapping->wordpress_author_name ) ) {
+					if ( strpos( $author_name, $mapping->wordpress_author_name ) !== false ) {
+						return $mapping->wordpress_show_name;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
 	function get_matched_authors( $string ) {
 		$matches = array();
 
@@ -410,6 +457,26 @@ class MappingCollection {
 		}
 
 		return $matches;
+	}
+
+	function get_podcast_for_show( $show_name ) {
+		foreach ( $this->podcasts as $podcast_name => $podcast_show_name ) {
+			if ( $show_name === $podcast_show_name ) {
+				return $podcast_name;
+			}
+		}
+
+		return null;
+	}
+
+	function get_podcast_from_marketron_name( $marketron_name ) {
+		foreach ( $this->mappings as $mapping ) {
+			if ( $mapping->marketron_name === $marketron_name ) {
+				return $mapping->wordpress_podcast_name;
+			}
+		}
+
+		return null;
 	}
 
 }

@@ -5,10 +5,14 @@ namespace Marketron\Tools;
 class BaseTool {
 
 	public $container;
-	public $sources = array();
+	//public $sources = array();
 
 	function get_name() {
 		return 'base_tool';
+	}
+
+	function get_importer( $name ) {
+		return $this->container->importer_factory->build( $name );
 	}
 
 	function get_data_filename() {
@@ -67,12 +71,16 @@ class BaseTool {
 
 		foreach ( $data_files as $data_file ) {
 			if ( file_exists( $data_file ) ) {
-				\WP_CLI::log( "Loading Data for Marketron $tool_name ( $data_file ) ..." );
+				$short_name = basename( $data_file );
+				\WP_CLI::log( "Loading Data for Marketron Tool: $tool_name ..." );
 				$xml_doc = @simplexml_load_file( $data_file );
 
 				if ( $xml_doc !== false ) {
 					$this->parse( $xml_doc );
-					$this->sources[] = $xml_doc;
+
+					$importer = $this->get_importer( $tool_name );
+					$importer->import_source( $xml_doc );
+					//$this->sources[] = $xml_doc;
 				} else {
 					\WP_CLI::warning( "Invalid XML for Tool($tool_name) - $data_file" );
 				}

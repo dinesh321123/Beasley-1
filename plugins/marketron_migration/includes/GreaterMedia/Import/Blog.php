@@ -27,7 +27,7 @@ class Blog extends BaseImporter {
 		$total   = count( $entries );
 		$msg     = "Importing $total entries from Blog($blog_name)";
 		$msg     = str_pad( $msg, 60, ' ' );
-		$notify  = new \cli\progress\Bar( $msg, $total );
+		$notify  = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $entries as $entry ) {
 			$this->import_blog_entry( $entry, $blog_id, $author );
@@ -44,10 +44,18 @@ class Blog extends BaseImporter {
 
 		if ( $this->has_audio( $blog_entry ) ) {
 			$post['episode_name']    = $post['post_title'];
-			$post['episode_podcast'] = $this->mapped_podcast_for_blog( $blog_id );
-			$post['episode_file']    = $post['featured_audio'];
 
-			$entity = $this->get_entity( 'podcast_episode' );
+			$episode_podcast = $this->mapped_podcast_for_blog( $blog_id );
+
+			// Either - mapping
+			if ( ! empty( $episode_podcast ) ) {
+				$post['episode_podcast'] = $episode_podcast;
+				$post['episode_file']    = $post['featured_audio'];
+
+				$entity = $this->get_entity( 'podcast_episode' );
+			} else {
+				$entity = $this->get_entity( 'blog' );
+			}
 		} else {
 			$post['show'] = $this->mapped_show_for_blog( $blog_id );
 			$entity       = $this->get_entity( 'blog' );
@@ -67,6 +75,7 @@ class Blog extends BaseImporter {
 		$post_content   = $post_content['body'];
 		$featured_image = $this->featured_image_from_blog_entry( $blog_entry );
 		$featured_audio = $this->featured_audio_from_blog_entry( $blog_entry );
+		$entry_url      = $this->import_string( $blog_entry['BlogEntryURL'] );
 
 		if ( isset( $blog_entry['DateModified'] ) ) {
 			$modified_on = $this->import_string( $blog_entry['DateModified'] );
@@ -90,6 +99,12 @@ class Blog extends BaseImporter {
 
 		if ( ! is_null( $featured_audio ) ) {
 			$post['featured_audio'] = $featured_audio;
+		}
+
+		if ( ! is_null( $entry_url ) ) {
+			//$post['redirects'] = array(
+				//array( 'url' => $entry_url )
+			//);
 		}
 
 		return $post;
@@ -174,22 +189,38 @@ class Blog extends BaseImporter {
 
 	function mapped_author_for_blog( $blog_id ) {
 		$mapping = $this->get_mappings()->get_mapping( $blog_id );
-		return $mapping->wordpress_author_name;
+		if ( ! is_null( $mapping ) ) {
+			return $mapping->wordpress_author_name;
+		} else {
+			return null;
+		}
 	}
 
 	function mapped_podcast_for_blog( $blog_id ) {
 		$mapping = $this->get_mappings()->get_mapping( $blog_id );
-		return $mapping->wordpress_podcast_name;
+		if ( ! is_null( $mapping ) ) {
+			return $mapping->wordpress_podcast_name;
+		} else {
+			return null;
+		}
 	}
 
 	function mapped_categories_for_blog( $blog_id ) {
 		$mapping = $this->get_mappings()->get_mapping( $blog_id );
-		return array( $mapping->wordpress_category );
+		if ( ! is_null( $mapping ) ) {
+			return array( $mapping->wordpress_category );
+		} else {
+			return array();
+		}
 	}
 
 	function mapped_show_for_blog( $blog_id ) {
 		$mapping = $this->get_mappings()->get_mapping( $blog_id );
-		return $mapping->wordpress_show_name;
+		if ( ! is_null( $mapping ) ) {
+			return $mapping->wordpress_show_name;
+		} else {
+			return null;
+		}
 	}
 
 	function authors_from_blog( $blog ) {

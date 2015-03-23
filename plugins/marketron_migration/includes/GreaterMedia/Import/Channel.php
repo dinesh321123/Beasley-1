@@ -26,12 +26,12 @@ class Channel extends BaseImporter {
 	function import_channel( $channel ) {
 		$channel_name = $this->import_string( $channel['ChannelTitle'] );
 		$channel_id   = $this->import_string( $channel['ChannelID'] );
-		\WP_CLI::log( "Importing Channel: $channel_name" );
+		//\WP_CLI::log( "Importing Channel: $channel_name" );
 
 		$stories      = $this->stories_from_channel( $channel );
 		$total        = count( $stories );
-		$msg          = "Importing $total stories from Channel";
-		$progress_bar = new \cli\progress\Bar( $msg, $total );
+		//$msg          = "Importing $total stories from Channel";
+		//$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 		$entity       = $this->get_entity( 'blog' );
 
 		$categories = $this->categories_from_channel( $channel );
@@ -42,10 +42,10 @@ class Channel extends BaseImporter {
 
 			$entity->add( $blog );
 
-			$progress_bar->tick();
+			//$progress_bar->tick();
 		}
 
-		$progress_bar->finish();
+		//$progress_bar->finish();
 	}
 
 	function channels_from_source( $source ) {

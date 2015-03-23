@@ -18,6 +18,7 @@ class Factory {
 		'survey' => 'GreaterMedia\Import\Survey',
 		'livestream' => 'GreaterMedia\Import\LiveStream',
 		'contest' => 'GreaterMedia\Import\Contest',
+		'affinity_club' => 'GreaterMedia\Import\AffinityClub',
 	);
 
 	public $container;

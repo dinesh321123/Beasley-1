@@ -37,7 +37,7 @@ class Event extends Post {
 		}
 
 		if ( array_key_exists( 'event_venue', $fields ) ) {
-			$this->set_event_venue( $event_id, $fields['event_venue'] );
+			$this->set_event_venue( $event_id, $fields['event_venue'], $fields );
 		}
 
 		return $fields;
@@ -58,7 +58,7 @@ class Event extends Post {
 		}
 	}
 
-	function set_event_venue( $event_id, $venue ) {
+	function set_event_venue( $event_id, $venue, &$fields ) {
 		$entity = $this->get_entity( 'venue' );
 
 		if ( is_string( $venue ) ) {
@@ -73,7 +73,10 @@ class Event extends Post {
 
 		if ( is_null( $venue_entity ) ) {
 			if ( is_string( $venue ) ) {
-				$venue_entity = array( 'post_title' => $venue_name );
+				$venue_entity = array(
+					'post_title' => $venue_name,
+					'created_on' => $fields['created_on'],
+				);
 			} else {
 				$venue_entity = $venue;
 			}

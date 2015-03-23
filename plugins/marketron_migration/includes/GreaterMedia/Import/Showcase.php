@@ -11,7 +11,7 @@ class Showcase extends BaseImporter {
 	function import_source( $source ) {
 		$showcases = $this->showcases_from_source( $source );
 		$total     = count( $showcases );
-		$notify = new \cli\progress\Bar( "Importing $total Showcases", $total );
+		$notify = new \WordPress\Utils\ProgressBar( "Importing $total Showcases", $total );
 		$entity = $this->get_entity( 'album' );
 
 		foreach ( $showcases as $showcase ) {

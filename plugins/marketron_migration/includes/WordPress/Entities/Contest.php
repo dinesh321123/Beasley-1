@@ -4,6 +4,8 @@ namespace WordPress\Entities;
 
 class Contest extends Post {
 
+	public $guest_entry_count = 0;
+
 	function get_post_type() {
 		return 'contest';
 	}
@@ -77,11 +79,24 @@ class Contest extends Post {
 	}
 
 	function add_contest_entries( $contest_id, $entries ) {
-		$entity = $this->get_entity( 'contest_entry' );
+		$entity         = $this->get_entity( 'contest_entry' );
+		$gigya_users    = $this->get_entity( 'gigya_user' );
+		//$total        = count( $entries );
+		//$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $entries as $entry ) {
+			$entry['contest_id'] = $contest_id;
+			$member_id           = $entry['member_id'];
 
+			$entry = $entity->add( $entry );
+
+			if ( ! empty( $member_id ) ) {
+				$gigya_users->add_contest_entry( $member_id, $entry );
+			} else {
+				$this->guest_entry_count++;
+			}
 		}
 	}
+
 
 }

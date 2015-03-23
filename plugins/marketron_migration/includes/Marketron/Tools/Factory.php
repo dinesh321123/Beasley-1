@@ -7,7 +7,11 @@ class Factory {
 	public $container;
 	public $tools = array();
 	public $tools_type_map = array(
+		/* WARNING: These 3 tools have implicit load order. */
 		'affinity_club'  => 'Marketron\Tools\AffinityClub',
+		'survey'   => 'Marketron\Tools\Survey',
+		'contest'  => 'Marketron\Tools\Contest',
+
 		'feed'           => 'Marketron\Tools\Feed',
 		'blog'           => 'Marketron\Tools\Blog',
 		'showcase'       => 'Marketron\Tools\Showcase',
@@ -19,12 +23,8 @@ class Factory {
 		'video_channel' => 'Marketron\Tools\VideoChannel',
 		'event_manager' => 'Marketron\Tools\EventManager',
 
-		'concert'  => 'Marketron\Tools\Concert',
 		'podcast'  => 'Marketron\Tools\Podcast',
-		'survey'   => 'Marketron\Tools\Survey',
-		'contest'  => 'Marketron\Tools\Contest',
-		'schedule' => 'Marketron\Tools\Schedule',
-		'podcast'  => 'Marketron\Tools\Podcast',
+		//'schedule' => 'Marketron\Tools\Schedule',
 	);
 
 	function build( $tool_name ) {
@@ -36,6 +36,10 @@ class Factory {
 		}
 
 		return $this->tools[ $tool_name ];
+	}
+
+	function get_tool_names() {
+		return array_keys( $this->tools_type_map );
 	}
 
 }

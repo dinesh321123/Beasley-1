@@ -11,6 +11,8 @@ class MigrationConfig {
 	public $data;
 	public $asset_dirs;
 	public $data_files;
+	public $myemma_newsletters;
+	public $marketron_newsletters;
 
 	function __construct( $site_dir ) {
 		$this->site_dir   = $site_dir;
@@ -34,6 +36,10 @@ class MigrationConfig {
 		return $this->input_dir . '/tags.csv';
 	}
 
+	function get_member_ids_file() {
+		return $this->input_dir . '/' . $this->get_site_option( 'member_ids_file' );
+	}
+
 	// DEPRECATED, there are multiple exports
 	function get_marketron_export_file() {
 		return $this->input_dir . '/marketron_export.zip';
@@ -45,6 +51,26 @@ class MigrationConfig {
 
 	function get_csv_export_dir() {
 		return $this->output_dir . '/csv';
+	}
+
+	function get_import_script_file() {
+		return $this->output_dir . '/import.sh';
+	}
+
+	function get_gigya_action_export_file() {
+		return $this->output_dir . '/gigya_actions.json';
+	}
+
+	function get_gigya_profile_export_file() {
+		return $this->output_dir . '/gigya_profiles.json';
+	}
+
+	function get_gigya_account_export_file() {
+		return $this->output_dir . '/gigya_accounts.json';
+	}
+
+	function get_attachments_log_file() {
+		return $this->output_dir . '/attachments.log';
 	}
 
 	function get_site_domain() {
@@ -116,6 +142,36 @@ class MigrationConfig {
 		return $dirs;
 	}
 
+	function get_myemma_newsletters() {
+		if ( is_null( $this->myemma_newsletters ) ) {
+			$this->myemma_newsletters    = $this->get_config_option( 'myemma', 'newsletters' );
+		}
+
+		return $this->myemma_newsletters;
+	}
+
+	function has_newsletter( $marketron_name ) {
+		return array_key_exists( $marketron_name, $this->newsletters );
+	}
+
+	function get_newsletter( $marketron_name ) {
+		return $this->newsletters[ $marketron_name ];
+	}
+
+	function get_newsletter_id( $marketron_name ) {
+		return $this->newsletters[ $marketron_name ]['emma_group_id'];
+	}
+
+	function get_newsletters() {
+		return $this->newsletters;
+	}
+
+	function update_newsletter( $marketron_name, $description ) {
+		if ( $this->has_newsletter( $marketron_name ) ) {
+			$this->newsletters[ $marketron_name ]['description'] = $description;
+		}
+	}
+
 	function load() {
 		$config_file = $this->get_config_file();
 		\WP_CLI::log( "Loading Config File: $config_file" );
@@ -123,6 +179,12 @@ class MigrationConfig {
 		if ( file_exists( $config_file ) ) {
 			$json       = file_get_contents( $config_file, 'r' );
 			$this->data = $this->parse( $json );
+			$this->newsletters = array();
+
+			foreach ( $this->get_config_option( 'myemma', 'newsletters' ) as $newsletter ) {
+				$marketron_name = $newsletter['marketron_name'];
+				$this->newsletters[ $marketron_name ] = $newsletter;
+			}
 		} else {
 			\WP_CLI::error( "Config File not found - $config_file" );
 			return false;

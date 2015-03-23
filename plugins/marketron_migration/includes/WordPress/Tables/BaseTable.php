@@ -204,11 +204,9 @@ SQL;
 		return $query;
 	}
 
-	function import() {
+	function get_import_command() {
 		$table_name = $this->get_prefixed_table_name();
 		$query      = $this->get_import_query();
-
-		\WP_CLI::log( "Importing $table_name ..." );
 
 		$cmd  = 'mysql';
 		$cmd .= ' --user='     . DB_USER;
@@ -219,6 +217,15 @@ SQL;
 		$cmd .= ' --show-warnings';
 		$cmd .= ' -vve ' . escapeshellarg( $query );
 
+		return $cmd;
+	}
+
+	function import() {
+		$table_name = $this->get_prefixed_table_name();
+
+		\WP_CLI::log( "Importing $table_name ..." );
+
+		$cmd = $this->get_import_command();
 		system( $cmd );
 
 		\WP_CLI::success( "Imported $table_name" );
@@ -254,7 +261,7 @@ SQL;
 		if ( $total_rows > 0 ) {
 			$msg        = "Generating CSV with $total_rows $table_name";
 			$msg        = str_pad( $msg, 40, ' ', STR_PAD_RIGHT );
-			$notify     = new \cli\progress\Bar( $msg, $total_rows );
+			$notify     = new \WordPress\Utils\ProgressBar( $msg, $total_rows );
 
 			foreach ( $rows as $row_id => $row ) {
 				$csv_row = $this->to_csv_row( $row, $columns );

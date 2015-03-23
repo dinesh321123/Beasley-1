@@ -4,6 +4,8 @@ namespace WordPress\Entities;
 
 class Show extends Post {
 
+	public $shows_added = array();
+
 	function get_post_type() {
 		return 'show';
 	}
@@ -11,6 +13,10 @@ class Show extends Post {
 	function add( &$fields ) {
 		$show_name   = $fields['show_name'];
 		$show_author = $fields['show_author'];
+
+		if ( array_key_exists( $show_name, $this->shows_added ) ) {
+			return $this->shows_added[ $show_name ];
+		}
 
 		if ( array_key_exists( 'show_meta', $fields ) ) {
 			$show_meta = $fields['show_meta'];
@@ -37,6 +43,7 @@ class Show extends Post {
 
 		$fields  = parent::add( $fields );
 		$show_id = $fields['ID'];
+		$this->shows_added[ $show_name ] = $fields;
 
 		$show_taxonomy_entity = $this->get_entity( 'show_taxonomy' );
 		$show_taxonomy_entity->add( $show_name, $show_id );

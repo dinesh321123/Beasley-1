@@ -9,7 +9,7 @@ class Blog extends Post {
 	}
 
 	function add( &$fields ) {
-		if ( isset( $fields['show'] ) ) {
+		if ( ! empty( $fields['show'] ) ) {
 			$show = $fields['show'];
 		} else {
 			$show = null;

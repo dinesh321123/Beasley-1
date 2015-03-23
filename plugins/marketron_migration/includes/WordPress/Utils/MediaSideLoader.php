@@ -28,11 +28,17 @@ class MediaSideLoader {
 		$source_dir = $this->get_sync_source_dir();
 		$target_dir = $this->get_sync_target_dir();
 		$total      = count( $this->pending_sideloads );
-		$notify     = new \cli\progress\Bar( "Copying $total Media items", $total );
+		$notify     = new \WordPress\Utils\ProgressBar( "Copying $total Media items", $total );
 
 		foreach ( $this->pending_sideloads as $pending_sideload ) {
-			$source = $pending_sideload['source'];
-			$dest = $pending_sideload['dest'];
+			$source   = $pending_sideload['source'];
+			$dest     = $pending_sideload['dest'];
+			$dest_dir = dirname( $dest );
+
+			if ( ! file_exists( $dest_dir ) ) {
+				mkdir( $dest_dir, 0700, true );
+				//system( 'mkdir -p ' . escapeshellarg( $dest_dir ) );
+			}
 
 			//error_log( "copy: $source - $dest" );
 			copy( $source, $dest );
@@ -60,7 +66,7 @@ class MediaSideLoader {
 		$target_filepath = $target_dir . '/' . $new_filename;
 
 		if ( ! is_dir( $target_dir ) ) {
-			system( 'mkdir -p ' . escapeshellarg( $target_dir ) );
+			//system( 'mkdir -p ' . escapeshellarg( $target_dir ) );
 		}
 
 		// slow copy

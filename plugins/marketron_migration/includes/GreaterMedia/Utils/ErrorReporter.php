@@ -30,7 +30,7 @@ class ErrorReporter {
 
 		if ( $total > 0 ) {
 			\WP_CLI::warning( "Migration Successful, with $total errors" );
-			$notify = new \cli\progress\Bar( str_pad( "Writing $total Errors", 40, ' ' ), $total );
+			$notify = new \WordPress\Utils\ProgressBar( str_pad( "Writing $total Errors", 40, ' ' ), $total );
 
 			foreach ( $this->errors as $error ) {
 				$line  = implode( ' ', $error );

@@ -49,9 +49,32 @@ class Factory {
 
 	// build all csvs
 	function export() {
+		$this->export_all();
+		$this->export_to_file();
+	}
+
+	function export_all() {
 		foreach ( $this->instances as $instance ) {
 			$instance->export();
 		}
+	}
+
+	function export_to_file() {
+		$import_script_file = $this->container->config->get_import_script_file();
+		$file               = fopen( $import_script_file, 'w' );
+		fwrite( $file, "#!/usr/bin/env bash\n" );
+		fwrite( $file, "set -e\n" );
+
+		foreach ( $this->instances as $instance ) {
+			$cmd = $instance->get_import_command();
+			fwrite( $file, 'echo "Importing ' . $instance->get_table_name() . "...\"\n" );
+			fwrite( $file, $cmd . "\n" );
+			fwrite( $file, "\n" );
+		}
+
+		fclose( $file );
+		chmod( $import_script_file, '0700' );
+		\WP_CLI::success( 'Exported Tables Successfully' );
 	}
 
 	// load data from all csvs exported

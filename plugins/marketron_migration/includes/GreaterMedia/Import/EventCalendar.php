@@ -22,7 +22,7 @@ class EventCalendar extends BaseImporter {
 		$entities   = $this->get_entity( 'event' );
 		$events     = $this->events_from_calendar( $calendar );
 		$total      = count( $events );
-		$notify     = new \cli\progress\Bar( "Importing $total items from Calendar", $total );
+		$notify     = new \WordPress\Utils\ProgressBar( "Importing $total items from Calendar", $total );
 		$max_items  = $this->get_site_option( 'limit' );
 		$item_index = 1;
 		$category   = $this->category_from_calendar( $calendar );
@@ -59,6 +59,8 @@ class EventCalendar extends BaseImporter {
 
 		$post['post_title']   = $this->title_from_event( $event );
 		$post['post_content'] = $this->content_from_event( $event );
+		$post['created_on']   = $this->import_string( $event['DateCreated'] );
+		$post['modified_on']  = $this->import_string( $event['DateModified'] );
 
 		$featured_image = $this->featured_image_from_event( $event );
 		if ( ! is_null( $featured_image ) ) {

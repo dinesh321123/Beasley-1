@@ -6,25 +6,28 @@
 		"domain": "wmgk.com",
 		"email_domain": "wmgk.com",
 		"default_author_password": "foobar",
-		"asset_dirs": [
+		"aasset_dirs": [
 			"PICS-WMGKFM/WMGKFM",
 			"PICS-GMFeedSharingAM/GMFeedSharingAM",
 			"MEDIA-WMGKFM"
+		],
+		"asset_dirs": [
 		],
 		"data_files": {
 			"WMGK Data Export 022315.zip": [
 				"feed", "blog", "venue", "event_calendar", "channel",
 				"video_channel", "event_manager",
 				"photo_album_v2", "showcase", "podcast", "survey",
-				"contest"
+				"contest", "affinity_club"
 			],
 			"GMFeedSharing Data Export 022315.zip": [
 				"venue", "event_manager"
 			]
 		},
 		"tags_file": "tags.csv",
-		"exclude_survey_entries": true,
-		"limit": 10000
+		"member_ids_file": "member_ids.csv",
+		"exclude_survey_entries": false,
+		"limit": 100000000
 	},
 	"error": {
 		"log_file": "errors.log"
@@ -43,12 +46,34 @@
 		"account_id": "1746533",
 		"public_key": "3e89a3b76be875952b48",
 		"private_key": "519231e76466c2f0bfc0",
-		"webhook_auth_token": "348a7a99347d92e3d675ec5a32bfbd48"
+		"webhook_auth_token": "348a7a99347d92e3d675ec5a32bfbd48",
+		"newsletters": [
+			{
+				"marketron_name": "BEN-efits Club Newsletter",
+				"emma_name": "BEN-efits Club Newsletter",
+				"emma_group_id": "123",
+				"gigya_field_key": "benefitsGroup",
+				"description": "Sign up to receive all the BEN-efits emails approximately two times a month.  You'll get insider info on the music you love, the contests you want to win and events that you can't wait to attend and so much more."
+			},
+			{
+				"marketron_name": "BEN's Big Deal",
+				"emma_name": "MGK's Discount Deal",
+				"emma_group_id": "124",
+				"gigya_field_key": "discountDealGroup",
+				"description": "Get weekly emails from BEN-FM with special discount offers."
+			},
+			{
+				"marketron_name": "Birthday Greetings",
+				"emma_name": "Birthday Greetings",
+				"emma_group_id": "125",
+				"gigya_field_key": "birthdayGreetingsGroup",
+				"description": "Your recieve a special birthday wish in an email once a year"
+			}
+		]
 	},
 	"live_player": {
 		"streams": [
-			{ "call_sign": "WMGKFM", "description": "", "vast_url": "" },
-			{ "call_sign": "WMMRFM", "description": "", "vast_url": "" }
+			{ "call_sign": "WBENFM", "description": "", "vast_url": "" }
 		]
 	},
 	"ooyala": {

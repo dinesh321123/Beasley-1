@@ -24,7 +24,7 @@ class VideoChannel extends BaseImporter {
 		$posts        = $this->posts_from_channel( $channel );
 		$total        = count( $posts );
 		$msg          = "Importing $total posts from VideoChannel";
-		$progress_bar = new \cli\progress\Bar( $msg, $total );
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 		$entity       = $this->get_entity( 'blog' );
 
 		$categories = $this->categories_from_channel( $channel );

@@ -12,8 +12,4 @@ class AffinityClub extends BaseTool {
 		return 'AffinityClub_With_FacebookInfo.XML';
 	}
 
-	function parse( $xml_element ) {
-		\WP_CLI::success( 'Parse affinity club done' );
-	}
-
 }

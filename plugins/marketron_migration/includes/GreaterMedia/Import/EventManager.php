@@ -9,22 +9,28 @@ class EventManager extends BaseImporter {
 	}
 
 	function import_source( $source ) {
-		$calendars = $this->calendars_from_source( $source );
+		$calendars    = $this->calendars_from_source( $source );
+		$total        = count( $calendars );
+		$msg          = "Importing $total Calendars";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $calendars as $calendar ) {
 			$this->import_calendar( $calendar );
+			$progress_bar->tick();
 		}
+
+		$progress_bar->finish();
 	}
 
 	function import_calendar( $calendar ) {
 		$calendar_id   = $this->import_string( $calendar['CalendarID'] );
 		$calendar_name = $this->import_string( $calendar['CalendarName'] );
-		\WP_CLI::log( "Importing Calendar: $calendar_name" );
+		//\WP_CLI::log( "Importing Calendar: $calendar_name" );
 
 		$events       = $this->events_from_calendar( $calendar );
-		$total        = count( $events );
-		$msg          = "Importing $total Events from Calendar";
-		$progress_bar = new \cli\progress\Bar( $msg, $total );
+		//$total        = count( $events );
+		//$msg          = "Importing $total Events from Calendar";
+		//$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 		$entity       = $this->get_entity( 'event' );
 		$categories   = $this->categories_from_calendar( $calendar );
 
@@ -33,10 +39,10 @@ class EventManager extends BaseImporter {
 			$event['event_categories'] = $categories;
 
 			$entity->add( $event );
-			$progress_bar->tick();
+			//$progress_bar->tick();
 		}
 
-		$progress_bar->finish();
+		//$progress_bar->finish();
 	}
 
 	function calendars_from_source( $source ) {

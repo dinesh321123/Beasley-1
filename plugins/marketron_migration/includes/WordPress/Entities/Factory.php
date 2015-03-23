@@ -33,7 +33,8 @@ class Factory {
 		'survey_entry' => 'WordPress\Entities\SurveyEntry',
 		'live_stream' => 'WordPress\Entities\LiveStream',
 		'contest' => 'WordPress\Entities\Contest',
-		'contest_entry' => 'WordPress\Entities\Contest',
+		'contest_entry' => 'WordPress\Entities\ContestEntry',
+		'gigya_user' => 'WordPress\Entities\GigyaUser',
 	);
 
 

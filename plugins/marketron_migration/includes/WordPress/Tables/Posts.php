@@ -60,6 +60,8 @@ class Posts extends BaseTable {
 			$fields['post_name'] = sanitize_title( $fields['post_title'] );
 		}
 
+		$fields['post_name'] = $this->distinct_post_name( $fields['post_name'] );
+
 		$fields  = parent::add( $fields );
 		$post_id = $fields['ID'];
 
@@ -88,6 +90,23 @@ class Posts extends BaseTable {
 		}
 
 		return $fields;
+	}
+
+	function distinct_post_name( $post_name ) {
+		$counter = 1;
+		$max_attempts = 10;
+
+		while ( $counter < $max_attempts ) {
+			if ( $this->has_row_with_field( 'post_name', $post_name ) ) {
+				$post_name = $post_name . '-' . $counter;
+			} else {
+				break;
+			}
+
+			$counter++;
+		}
+
+		return $post_name;
 	}
 
 	function add_timestamps( &$fields ) {
