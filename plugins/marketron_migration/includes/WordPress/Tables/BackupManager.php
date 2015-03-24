@@ -19,8 +19,8 @@ class BackupManager {
 			\WP_CLI::log( "Backing up Database: $backup" );
 		}
 
-		echo( "wp db export \"$backup\" --tables=$tables_arg" );
-		system( "wp db export \"$backup\" --tables=$tables_arg" );
+		//echo( "wp a--db export \"$backup\" --tables=$tables_arg" );
+		system( "wp --allow-root db export \"$backup\" --tables=$tables_arg" );
 	}
 
 	function restore() {
@@ -30,7 +30,7 @@ class BackupManager {
 
 		if ( file_exists( $backup ) ) {
 			\WP_CLI::log( "Restoring Backup: $backup" );
-			system( "wp db import \"$backup\"" );
+			system( "wp --allow-root db import \"$backup\"" );
 		} else {
 			\WP_CLI::error( "Backup not found: $backup" );
 		}

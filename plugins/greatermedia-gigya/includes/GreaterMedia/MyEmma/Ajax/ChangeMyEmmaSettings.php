@@ -26,9 +26,6 @@ class ChangeMyEmmaSettings extends AjaxHandler {
 			);
 		}
 
-		$emma_fields_updater = new EmmaFieldsUpdater();
-		$emma_fields_updater->update();
-
 		// TODO: breakout emma settings into new option
 		$settings = get_option( 'member_query_settings', '{}' );
 		$settings = json_decode( $settings, true );
@@ -38,6 +35,9 @@ class ChangeMyEmmaSettings extends AjaxHandler {
 		$settings['emma_private_key'] = $emma_private_key;
 
 		update_option( 'member_query_settings', json_encode( $settings ) );
+
+		$emma_fields_updater = new EmmaFieldsUpdater();
+		$emma_fields_updater->update();
 	}
 
 	// TODO: Make this smarter
