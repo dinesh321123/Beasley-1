@@ -1228,8 +1228,8 @@ var AVAILABLE_CONSTRAINTS = [
 
 	/* System Fields */
 	{
-		type: 'system:createdTimestamp',
-		valueType: 'date',
+		type: 'data:registeredTimestamp',
+		valueType: 'epoch',
 		value: '01/01/2012',
 		operator: 'greater than',
 	},
@@ -1494,7 +1494,7 @@ var AVAILABLE_CONSTRAINTS_META = [
 
 	/* System Fields */
 	{
-		type: 'system:createdTimestamp',
+		type: 'data:registeredTimestamp',
 		title: 'Creation Date',
 	},
 	{
@@ -2468,7 +2468,7 @@ var ConstraintView = Backbone.View.extend({
 
 		var $constraintField = $('.constraint-value', this.el);
 
-		if (data.valueType === 'date') {
+		if (data.valueType === 'date' || data.valueType === 'epoch') {
 			$constraintField.datepicker({dateFormat: 'mm/dd/yy'});
 		} else if (this.hasChoices()) {
 			//$constraintField.select2();
@@ -2612,7 +2612,7 @@ var ConstraintView = Backbone.View.extend({
 			}
 		} else if (valueType === 'boolean') {
 			return this.booleanOperators;
-		} else if (valueType === 'date') {
+		} else if (valueType === 'date' || valueType === 'epoch') {
 			return this.dateOperators;
 		} else if (valueType === 'enum') {
 			return this.enumOperators;

@@ -175,6 +175,7 @@ class GreaterMediaSiteOptions {
 		<hr />
 
 		<h4><?php _e( 'Station Type', 'greatermedia' ); ?></h4>
+
 		<div class="gmr__option">
 			<input type="checkbox" name="gmr_newssite" id="gmr_newssite" value="1" <?php checked( 1 == esc_attr( $news_site ) ); ?>><label for="gmr_newssite" class="gmr__option--label-inline"><?php _e( 'News/Sports Station', 'greatermedia' ); ?></label>
 			<div class="gmr-option__field--desc"><?php _e( 'Check this box if this site is for a News or Sports Radio Station.', 'greatermedia' ); ?></div>
