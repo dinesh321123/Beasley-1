@@ -2516,6 +2516,19 @@ a.featured__content--link {
   .featured__content--block:active .featured__content--btn:last-of-type {
     margin-right: 0; }
 
+.featured__video {
+  position: absolute;
+  top: 1.75em;
+  right: 2.5em;
+  color: white;
+  width: 40px;
+  height: 40px; }
+
+.featured__video .gmr-icon, .featured__video .contest__submission .preview .preview-close, .contest__submission .preview .featured__video .preview-close {
+  width: 40px;
+  height: 40px;
+  font-size: 2.5em; }
+
 /*doc
 ---
 title: Highlights
@@ -3251,7 +3264,7 @@ a.highlights__contest--btn {
   .header__subnav--item:last-of-type a {
     padding-right: 0; }
   .header__subnav--item a:hover, .header__subnav--item a:focus, .header__subnav--item a:active {
-    color: #aa1c20; }
+    color: #d22228; }
   @media screen and (min-width: 768px)  {
     .header__subnav--item {
       display: table-cell;
@@ -3626,6 +3639,8 @@ a.highlights__contest--btn {
     @media screen and (min-width: 1024px)  {
       .news-site .header__search--span {
         font-size: 1em; } }
+  .news-site .header__search:hover .header__search--span {
+    color: #d22228; }
 
 .header__search--btn {
   display: block;
@@ -3635,6 +3650,8 @@ a.highlights__contest--btn {
   .news-site .header__search--btn {
     height: 48px;
     padding: 16px 1.25em 14px 0; }
+  .news-site .header__search:hover .header__search--btn {
+    color: #d22228; }
 
 .header__search--btn:before {
   font-size: 1.42383em;
@@ -5746,7 +5763,7 @@ body.profile-page-login .live-player--mobile {
       margin: 0 auto;
       text-align: center; } }
   .news-site .live-stream__status {
-    top: 304px;
+    top: 264px;
     width: 200px; }
   .gmr-user .live-stream__status {
     display: none; }
@@ -5755,7 +5772,7 @@ body.profile-page-login .live-player--mobile {
         display: block;
         top: 264px; } }
   .gmr-user.news-site .live-stream__status {
-    top: 324px;
+    top: 314px;
     width: 200px;
     padding-bottom: 0; }
   .gmr-user .live-player__container.no-volume-control .live-stream__status {
@@ -14242,6 +14259,12 @@ category: Components
     text-decoration: underline; }
   .image__attribution a:hover, .image__attribution a:active, .image__attribution a:focus {
     color: #aa1c20; }
+  .news-site .image__attribution {
+    top: 10px;
+    right: auto;
+    bottom: auto;
+    left: 10px;
+    margin-left: 0; }
 
 /**
  * WordPress Specific Styles

@@ -16,4 +16,12 @@
 	a:hover, a:active, a:focus {
 		color: $secondary-link-hover;
 	}
+
+	.news-site & {
+		top: 10px;
+		right: auto;
+		bottom: auto;
+		left: 10px;
+		margin-left: 0;
+	}
 }

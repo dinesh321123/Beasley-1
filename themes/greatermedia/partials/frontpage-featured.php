@@ -20,8 +20,8 @@
 				<div class="featured__article--primary">
 					<?php if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 						<div class="featured__article">
-							<a href="#<?php the_permalink(); ?>" class="featured__article--link">
-								<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary', null, true ) ?>)'>
+							<a href="<?php the_permalink(); ?>" class="featured__article--link">
+								<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary', null, true ); ?>);'>
 									<?php
 
 									$image_attr = image_attribution();
@@ -37,6 +37,9 @@
 										<?php the_title(); ?>
 									</div>
 								</div>
+								<?php if ( has_post_format( 'video' ) ) { ?>
+									<div class="featured__video"><i class="gmr-icon icon-play-circle"></i></div>
+								<?php } ?>
 							</a>
 						</div>
 					<?php endif; ?>
@@ -52,8 +55,8 @@
 						while ( $hp_featured_query->have_posts() && $count < 2 ) : $hp_featured_query->the_post();
 						$count++; ?>
 						<div class="featured__article">
-							<a href="#<?php the_permalink(); ?>" class="featured__article--link">
-								<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ) ?>)'>
+							<a href="<?php the_permalink(); ?>" class="featured__article--link">
+								<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ); ?>);'>
 									<?php
 
 									$image_attr = image_attribution();
@@ -69,6 +72,9 @@
 										<?php the_title(); ?>
 									</div>
 								</div>
+								<?php if ( has_post_format( 'video' ) ) { ?>
+									<div class="featured__video"><i class="gmr-icon icon-play-circle"></i></div>
+								<?php } ?>
 							</a>
 						</div>
 					<?php
@@ -84,11 +90,14 @@
 						while ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post();
 					?>
 							<div class="featured__content--block">
-								<a href="#<?php the_permalink(); ?>" class="featured__content--link">
-									<div class="featured__content--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ) ?>'></div>
+								<a href="<?php the_permalink(); ?>" class="featured__content--link">
+									<div class="featured__content--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ); ?>);'></div>
 									<div class="featured__content--meta">
 										<h2 class="featured__content--title"><?php the_title(); ?></h2>
 									</div>
+									<?php if ( has_post_format( 'video' ) ) { ?>
+										<div class="featured__video"><i class="gmr-icon icon-play-circle"></i></div>
+									<?php } ?>
 								</a>
 							</div>
 					<?php
@@ -107,7 +116,7 @@
 		if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 			<div class="featured__article">
 				<a href="<?php the_permalink(); ?>">
-					<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary', null, true ) ?>)'>
+					<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary', null, true ); ?>);'>
 						<?php image_attribution(); ?>
 					</div>
 					<div class="featured__article--content">
@@ -124,7 +133,7 @@
 				<?php while ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 					<div class="featured__content--block">
 						<a href="<?php the_permalink(); ?>">
-							<div class="featured__content--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ) ?>)'></div>
+							<div class="featured__content--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ); ?>);'></div>
 							<div class="featured__content--meta">
 								<h2 class="featured__content--title"><?php the_title(); ?></h2>
 								<div class="featured__content--link">

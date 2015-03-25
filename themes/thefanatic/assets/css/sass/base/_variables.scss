@@ -35,7 +35,7 @@ $primary-border: #b8babc;
 $primary-text: $color-gray-medium;
 $primary-heading: #000000;
 $primary-link: $color-red;
-$primary-link-hover: $color-red-dark;
+$primary-link-hover: darken($primary-link, 9%);
 $liveplayer-bg: $primary-bg;
 $liveplayer-color: #404041;
 $secondary-bg: $color-gray-light;
