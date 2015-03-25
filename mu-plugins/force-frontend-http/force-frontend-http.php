@@ -7,7 +7,7 @@
 class FrontEndHttpRedirector {
 
 	function enable() {
-		add_action( 'init', array( $this, 'run' ) );
+		add_action( 'wp', array( $this, 'run' ) );
 	}
 
 	function run() {
@@ -28,11 +28,17 @@ HTML;
 	}
 
 	function needs_redirect() {
-		return ! $this->is_login_page() && ! is_admin() && is_ssl();
+		return ! $this->is_login_page() && ! is_admin() && is_ssl() && ! $this->is_ugc_moderation();
 	}
 
 	function is_login_page() {
 		return in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) );
+	}
+
+	// Redirecting in the admin on UGC moderation breaks moderation process - avoid these
+	function is_ugc_moderation() {
+		$ugc_action = get_query_var( 'ugc_action' );
+		return ! empty( $ugc_action );
 	}
 
 }
