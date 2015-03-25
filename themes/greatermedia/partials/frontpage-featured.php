@@ -22,15 +22,6 @@
 						<div class="featured__article">
 							<a href="<?php the_permalink(); ?>" class="featured__article--link">
 								<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary', null, true ); ?>);'>
-									<?php
-
-									$image_attr = image_attribution();
-
-									if ( ! empty( $image_attr ) ) {
-										echo $image_attr;
-									}
-
-									?>
 								</div>
 								<div class="featured__article--content">
 									<div class="featured__article--heading">
@@ -57,15 +48,6 @@
 						<div class="featured__article">
 							<a href="<?php the_permalink(); ?>" class="featured__article--link">
 								<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ); ?>);'>
-									<?php
-
-									$image_attr = image_attribution();
-
-									if ( ! empty( $image_attr ) ) {
-										echo $image_attr;
-									}
-
-									?>
 								</div>
 								<div class="featured__article--content">
 									<div class="featured__article--heading">

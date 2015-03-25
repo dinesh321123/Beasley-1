@@ -14259,12 +14259,6 @@ category: Components
     text-decoration: underline; }
   .image__attribution a:hover, .image__attribution a:active, .image__attribution a:focus {
     color: #aa1c20; }
-  .news-site .image__attribution {
-    top: 10px;
-    right: auto;
-    bottom: auto;
-    left: 10px;
-    margin-left: 0; }
 
 /**
  * WordPress Specific Styles
