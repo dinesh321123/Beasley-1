@@ -272,7 +272,7 @@ class GreaterMediaUserGeneratedContent {
 		}
 
 		$contest_cpt = get_post_type_object( GMR_CONTEST_CPT );
-		add_submenu_page( 'edit.php?post_type=contest', 'Moderation', $menu, $contest_cpt->cap->edit_post, GreaterMediaUserGeneratedContentModerationTable::PAGE_NAME, array( __CLASS__, 'moderation_ui' ) );
+		add_submenu_page( 'edit.php?post_type=contest', 'Moderation', $menu, $contest_cpt->cap->edit_posts, GreaterMediaUserGeneratedContentModerationTable::PAGE_NAME, array( __CLASS__, 'moderation_ui' ) );
 	}
 
 	public static function admin_enqueue_scripts() {
