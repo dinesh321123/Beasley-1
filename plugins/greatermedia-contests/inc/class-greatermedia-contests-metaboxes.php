@@ -157,6 +157,16 @@ class GreaterMediaContestsMetaboxes {
 			'value'   => ! empty( $thank_you ) ? $thank_you : 'Thanks for entering!',
 		) );
 
+		add_settings_field( 'show-submission-details', 'Show submission details', array( $this, 'render_submission_details_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
+
+	}
+
+	public function render_submission_details_field( $post_id ) {
+		$show = get_post_meta( $post_id, 'show-submission-details', true );
+		?><select name="show-submission-details">
+			<option value="1">Show</option>
+			<option value="0"<?php selected( $show == 0 && $show !== false ); ?>>Hide</option>
+		</select><?php
 	}
 
 	/**
@@ -513,6 +523,9 @@ class GreaterMediaContestsMetaboxes {
 
 		$min_age = filter_input( INPUT_POST, 'greatermedia_contest_min_age', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'default' => '' ) ) );
 		update_post_meta( $post_id, 'contest-min-age', $min_age );
+
+		$show_submission_details = filter_input( INPUT_POST, 'show-submission-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
+		update_post_meta( $post_id, 'show-submission-details', $show_submission_details );
 	}
 
 }

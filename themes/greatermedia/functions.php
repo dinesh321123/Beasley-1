@@ -956,3 +956,24 @@ function greatermedia_liveplayer_disabled( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'greatermedia_liveplayer_disabled' );
+
+/**
+ * Extends the homepage featured curation limit
+ *
+ * @param $limit
+ *
+ * @return int
+ */
+function greatermedia_extend_featured_curation_limit( $limit ) {
+	$news_site = get_option( 'gmr_newssite' );
+
+	if ( $news_site ) {
+		$limit = 6;
+	} else {
+		$limit = 4;
+	}
+
+	return $limit;
+
+}
+add_filter( 'gmr-homepage-featured-limit', 'greatermedia_extend_featured_curation_limit' );
