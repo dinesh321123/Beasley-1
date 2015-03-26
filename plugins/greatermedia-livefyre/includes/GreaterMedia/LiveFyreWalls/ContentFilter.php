@@ -9,7 +9,7 @@ class ContentFilter {
 	}
 
 	public function filter_content( $content ) {
-		$pattern = '#<div\s*id\s*=\s*\\\(\'|")wall\\\\\\1.*?</script>.*?</script>#is';
+		$pattern = '#\<div\s*id\s*=\s*\\\(\'|")wall\\\\\\1.*?\<\/script\>.*?\<\/script\>#is';
 		$pattern_with_encoded_brackets = str_replace( array( '<', '>' ), array( '&lt;', '&gt;' ), $pattern );
 
 		$content = preg_replace_callback( array( $pattern, $pattern_with_encoded_brackets ), array( $this, 'replacement_callback' ), $content );
@@ -35,6 +35,11 @@ class ContentFilter {
 				$res .= ' ' . $sub_match[1] . '="' . $sub_match[2] . '"';
 			}
 		}
+
+		if ( preg_match( '#comparator:\s*#is', $matches[0] ) ) {
+			$res .= ' order="asc"';
+		}
+
 		$res .= ']';
 
 		return $res;
