@@ -23,6 +23,9 @@ function gmr_livefyre_main_real() {
 
 	new \GreaterMedia\LiveFyrePolls\ContentFilter();
 	new \GreaterMedia\LiveFyrePolls\ShortcodeHandler();
+
+	new \GreaterMedia\LiveFyreWalls\ContentFilter();
+	new \GreaterMedia\LiveFyreWalls\ShortcodeHandler();
 }
 
 function gmr_livefyre_main() {
