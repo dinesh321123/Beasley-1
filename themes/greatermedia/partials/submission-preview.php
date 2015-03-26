@@ -11,30 +11,33 @@
 		<dd><?php echo get_the_date( '' ); ?></dd>
 		
 		<?php
-		
-		$contest_entry_id = get_post_meta( get_the_ID(), 'contest_entry_id', true );
-		if ( $contest_entry_id ) :
-			$fields = GreaterMediaFormbuilderRender::parse_entry( get_post()->post_parent, $contest_entry_id );
-			if ( ! empty( $fields ) ) :
-				foreach ( $fields as $field ) :
-					if ( 'file' != $field['type'] && 'email' != $field['type'] ) :
-						?><dt>
-							<?php echo esc_html( $field['label'] ); ?>
-						</dt>
-						<dd>
-							<?php 
-							
-							$value = is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'];
-							if ( strlen( $value ) > 200 ) {
-								$value = substr( $value, 0, 200 ) . '&hellip;';
-							}
-							
-							echo esc_html( $value );
 
-							?>
-						</dd><?php
-					endif;
-				endforeach;
+		$show_details = (int) get_post_meta( get_post_field( 'post_parent', null ), 'show-submission-details', true );
+		if ( $show_details ) :
+			$contest_entry_id = get_post_meta( get_the_ID(), 'contest_entry_id', true );
+			if ( $contest_entry_id ) :
+				$fields = GreaterMediaFormbuilderRender::parse_entry( get_post()->post_parent, $contest_entry_id );
+				if ( ! empty( $fields ) ) :
+					foreach ( $fields as $field ) :
+						if ( 'file' != $field['type'] && 'email' != $field['type'] ) :
+							?><dt>
+								<?php echo esc_html( $field['label'] ); ?>
+							</dt>
+							<dd>
+								<?php
+
+								$value = is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'];
+								if ( strlen( $value ) > 200 ) {
+									$value = substr( $value, 0, 200 ) . '&hellip;';
+								}
+
+								echo esc_html( $value );
+
+								?>
+							</dd><?php
+						endif;
+					endforeach;
+				endif;
 			endif;
 		endif;
 
