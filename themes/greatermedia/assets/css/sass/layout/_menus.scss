@@ -248,8 +248,12 @@
 	margin: 0;
 	list-style: none;
 	display: inline-block;
-	font-size: ms(0);
+	font-size: ms(-1);
 	float: left;
+
+	@include bp(larger) {
+		font-size: ms(0);
+	}
 
 	.news-site  & {
 
@@ -283,7 +287,11 @@
 .header__account ul li a:link,
 .header__account ul li a:visited, {
 	display: block;
-	padding: 33px 1.125em 32px;
+	padding: 34px 1em 33px;
+
+	@include bp(larger) {
+		padding: 33px 1.125em 32px;
+	}
 
 	.news-site & {
 		padding-top: 32px;

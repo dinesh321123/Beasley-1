@@ -1293,8 +1293,9 @@ blockquote p {
   margin: 0;
   list-style: none;
   display: inline-block;
-  font-size: 1em;
+  font-size: 0.88889em;
   float: left; }
+<<<<<<< HEAD
   @media screen and (min-width: 1024px)  {
     .news-site .header__nav > ul > li, .news-site .header__account > ul > li {
       font-weight: 900;
@@ -1305,6 +1306,11 @@ blockquote p {
   @media screen and (min-width: 1400px)  {
     .news-site .header__nav > ul > li, .news-site .header__account > ul > li {
       font-size: 1.26562em; } }
+=======
+  @media screen and (min-width: 1200px)  {
+    .header__nav > ul > li, .header__account > ul > li {
+      font-size: 1em; } }
+>>>>>>> feature/header-social-icons
 
 .header__main a, .header__main a:visited {
   color: #ffffff; }
@@ -1314,6 +1320,7 @@ blockquote p {
 
 .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited, .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited {
   display: block;
+<<<<<<< HEAD
   padding: 33px 1.125em 32px; }
   .news-site .header__nav ul li a, .news-site .header__nav ul li a:link, .news-site .header__nav ul li a:visited, .news-site .header__account ul li a, .news-site .header__account ul li a:link, .news-site .header__account ul li a:visited {
     padding-top: 32px;
@@ -1330,6 +1337,12 @@ blockquote p {
 
 .news-site .header__account ul li a, .news-site .header__account ul li a:link, .news-site .header__account ul li a:visited {
   border-right: none; }
+=======
+  padding: 34px 1em 33px; }
+  @media screen and (min-width: 1200px)  {
+    .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited, .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited {
+      padding: 33px 1.125em 32px; } }
+>>>>>>> feature/header-social-icons
 
 .header__nav ul li.active a:hover, .header__nav ul li a:focus, .header__nav ul li a:active, .header__nav ul li.active, .header__account ul li a:hover, .header__account ul li a:focus, .header__account ul li a:active, .header__account ul li:hover, .ui-menu .ui-state-focus {
   background-color: #d22228; }
@@ -3587,15 +3600,33 @@ a.highlights__contest--btn {
 
 .header__social {
   display: none; }
-  @media screen and (min-width: 768px)  {
+  @media screen and (min-width: 1024px)  {
     .header__social {
       display: block;
       float: right;
       height: 82px;
+      margin-right: 2em;
       font-size: 1em; } }
   @media screen and (min-width: 768px)  {
     .news-site .header__social {
       height: 78px; } }
+
+.header__social > .social__list {
+  padding: 0; }
+
+.header__social > .social__list > li {
+  margin-right: 1em; }
+  .header__social > .social__list > li:last-of-type {
+    margin-right: 0; }
+
+@media screen and (min-width: 1024px)  {
+  .header__social a.social__link {
+    width: auto;
+    height: auto;
+    padding: 2.1875em 0;
+    border: none;
+    font-size: 1em;
+    color: white; } }
 
 .header__search {
   display: none;

@@ -146,6 +146,9 @@
 									<label for="s" class="header__search--label"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Keyword Search', 'greatermedia' ); ?></div></label>
 								</div>
 							</div>
+							<nav class="header__social" role="navigation">
+								<?php do_action( 'gmr_social' ); ?>
+							</nav>
 						</div>
 					</div>
 				</header>
