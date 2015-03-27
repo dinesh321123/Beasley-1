@@ -150,6 +150,10 @@ class GreaterMediaTimedContent extends VisualShortcode {
 				$exp_hh = isset( $_POST['hidden_exp_hh'] ) ? intval( $_POST['hidden_exp_hh'] ) : '0';
 				$exp_mn = isset( $_POST['hidden_exp_mn'] ) ? str_pad( intval( $_POST['hidden_exp_mn'] ), 2, '0', STR_PAD_LEFT ) : '00';
 
+				if ( $exp_aa < 0 ) {
+					$exp_aa = 0;
+				}
+
 				$exp_str = "{$exp_mm} {$exp_jj} {$exp_aa} {$exp_hh} {$exp_mn}";
 				if ( '0 0 0 0 00' !== trim( $exp_str ) ) {
 					$exp_date      = DateTime::createFromFormat( 'n j Y G i', $exp_str );
@@ -169,6 +173,10 @@ class GreaterMediaTimedContent extends VisualShortcode {
 				if ( $exp_timestamp_gmt > gmdate( 'U' ) ) {
 					wp_clear_scheduled_hook( 'greatermedia_expire_post', array( $post_id ) ); // clear anything else in the system
 					wp_schedule_single_event( $exp_timestamp_gmt, 'greatermedia_expire_post', array( $post_id ) );
+				} else if ( $this->is_past_timestamp( $exp_timestamp, $exp_timestamp_gmt ) ){
+					wp_clear_scheduled_hook( 'greatermedia_expire_post', array( $post_id ) ); // clear anything else in the system
+					remove_action( 'save_post', array( $this, 'save_post' ) );
+					$this->greatermedia_expire_post( $post_id );
 				}
 
 			}
@@ -181,6 +189,14 @@ class GreaterMediaTimedContent extends VisualShortcode {
 
 		}
 
+	}
+
+	function is_past_timestamp( $timestamp, $gmt_timestamp ) {
+		if ( ! empty( $timestamp ) ) {
+			return $gmt_timestamp < gmdate( 'U' );
+		} else {
+			return false;
+		}
 	}
 
 	/**
