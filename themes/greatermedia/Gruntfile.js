@@ -118,13 +118,21 @@ module.exports = function (grunt) {
 					debounceDelay: 500
 				}
 			}
+		},
+		parker: {
+			options: {
+				metrics: ['TotalStylesheets', 'TotalStylesheetSize', 'TotalRules', 'TotalSelectors', 'TotalIdentifiers', 'TotalDeclarations', 'SelectorsPerRule', 'IdentifiersPerSelector', 'SpecificityPerSelector', 'TopSelectorSpecificity', 'TopSelectorSpecificitySelector', 'TotalIdSelectors', 'TotalUniqueColours', 'TotalImportantKeywords', 'TotalMediaQueries'],
+				file: 'assets/css/style.css.md',
+				usePackage: true
+			},
+			src: ['assets/css/*.css']
 		}
 	});
 
 	// Default tasks
 	grunt.registerTask('css', ['sass', 'cssmin']);
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify']);
-	grunt.registerTask('default', ['js', 'css']);
+	grunt.registerTask('default', ['js', 'css'], 'parker');
 
 	grunt.util.linefeed = '\n';
 };
