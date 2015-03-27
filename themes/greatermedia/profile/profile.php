@@ -319,7 +319,7 @@ function get_gigya_verify_email_message() {
 					<option value="2">more than 3 hours</option>
 				</select>
 
-				<label for="register-complete-listening-loyalty">When you're listening to the radio, about what percentage of time do you spend listening to 102.9 WMGK?</label>
+				<label for="register-complete-listening-loyalty">When you're listening to the radio, about what percentage of time do you spend listening to <?php echo get_bloginfo( 'name' ); ?>?</label>
 				<span class="gigya-error-msg" data-bound-to="data.listeningLoyalty" ></span>
 				<select name="data.listeningLoyalty" id="register-complete-listening-loyalty">
 					<option disabled selected value>Select One</option>
