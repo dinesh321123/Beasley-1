@@ -20,12 +20,32 @@ class MigrationConfig {
 		$this->output_dir = $site_dir . '/output';
 	}
 
+	function get_input_dir() {
+		return $this->input_dir;
+	}
+
+	function get_output_dir() {
+		return $this->output_dir;
+	}
+
 	function get_config_file() {
 		return $this->input_dir . '/config.json';
 	}
 
 	function get_site_dir() {
 		return $this->container->opts['site_dir'];
+	}
+
+	function get_marketron_files_dir() {
+		return $this->site_dir . '/marketron_files';
+	}
+
+	function get_backups_dir() {
+		return $this->site_dir . '/backups';
+	}
+
+	function get_upload_backups_dir() {
+		return $this->get_backups_dir() . '/uploads';
 	}
 
 	function get_mapping_file() {
@@ -91,6 +111,14 @@ class MigrationConfig {
 
 	function get_error_option( $name ) {
 		return $this->get_config_option( 'error', $name );
+	}
+
+	function has_config_option( $parent, $name = null ) {
+		if ( is_null( $name ) ) {
+			return array_key_exists( $parent, $this->data );
+		}
+
+		return array_key_exists( $name, $this->data[ $parent ] );
 	}
 
 	function get_config_option( $parent, $name = null ) {
@@ -181,9 +209,11 @@ class MigrationConfig {
 			$this->data = $this->parse( $json );
 			$this->newsletters = array();
 
-			foreach ( $this->get_config_option( 'myemma', 'newsletters' ) as $newsletter ) {
-				$marketron_name = $newsletter['marketron_name'];
-				$this->newsletters[ $marketron_name ] = $newsletter;
+			if ( array_key_exists( 'myemma', $this->data ) ) {
+				foreach ( $this->get_config_option( 'myemma', 'newsletters' ) as $newsletter ) {
+					$marketron_name = $newsletter['marketron_name'];
+					$this->newsletters[ $marketron_name ] = $newsletter;
+				}
 			}
 		} else {
 			\WP_CLI::error( "Config File not found - $config_file" );

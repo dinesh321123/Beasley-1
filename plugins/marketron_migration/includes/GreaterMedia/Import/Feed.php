@@ -21,6 +21,8 @@ class Feed extends BaseImporter {
 		$podcast_count = 0;
 		$blog_post_count = 0;
 		$blog_with_shows = 0;
+		$max = 5;
+		$index = 0;
 
 		foreach ( $articles as $article ) {
 			$post = $this->post_from_article( $article );
@@ -40,6 +42,10 @@ class Feed extends BaseImporter {
 			}
 
 			$notify->tick();
+
+			//if ( $index++ > $max ) {
+				//break;
+			//}
 		}
 
 		//\WP_CLI::error( "Podcast Episode Count: $podcast_count, Blog Post Count: $blog_post_count, Blog with Shows: $blog_with_shows" );
@@ -51,6 +57,7 @@ class Feed extends BaseImporter {
 		$post           = array();
 		$categories     = $this->categories_from_article( $article );
 		$tags           = $this->tags_from_article( $article );
+		$collections    = $this->collections_from_article( $article );
 		$redirects      = $this->redirects_from_article( $article );
 		$featured_image = $this->featured_image_from_article( $article );
 		$content_parts  = $this->content_from_article( $article );
@@ -91,6 +98,7 @@ class Feed extends BaseImporter {
 
 			'tags'        => $tags,
 			'categories'  => $categories,
+			'collections' => $collections,
 			'post_format' => $post_format,
 			'redirects'   => $redirects,
 		);
@@ -206,6 +214,7 @@ class Feed extends BaseImporter {
 	}
 
 	function categories_from_article( $article ) {
+		//return array();
 		$categories     = $article->ArticleCategories->ArticleCategory;
 		$category_names = array();
 
@@ -225,6 +234,7 @@ class Feed extends BaseImporter {
 	}
 
 	function tags_from_article( $article ) {
+		//return array();
 		$tags      = $article->Tags->Tag;
 		$tag_names = array();
 
@@ -240,11 +250,33 @@ class Feed extends BaseImporter {
 		return array_unique( $tag_names );
 	}
 
+	function collections_from_article( $article ) {
+		//return array();
+		$mappings = $this->container->mappings;
+
+		if ( $mappings->show_is_collection ) {
+			$feeds       = $this->feed_names_from_article( $article );
+			$collections = array();
+
+			foreach ( $feeds as $feed ) {
+				$collection = $mappings->get_collection_from_marketron_name( $feed );
+				if ( ! empty( $collection ) ) {
+					$collections[] = $collection;
+				}
+			}
+
+			return $collections;
+		} else {
+			return array();
+		}
+	}
+
 	function feeds_from_article( $article ) {
 		return $article->Feeds->Feed;
 	}
 
 	function feed_names_from_article( $article ) {
+		//return array();
 		$feeds      = $this->feeds_from_article( $article );
 		$feed_names = array();
 
@@ -264,10 +296,16 @@ class Feed extends BaseImporter {
 	}
 
 	function feed_categories_from_article( $article ) {
-		return $article->Feeds->Feed->FeedCategories->FeedCategory;
+		//return array();
+		if ( isset( $article->Feeds->Feed->FeedCategories->FeedCategory ) ) {
+			return $article->Feeds->Feed->FeedCategories->FeedCategory;
+		} else {
+			return array();
+		}
 	}
 
 	function feed_category_names_from_article( $article ) {
+		//return array();
 		$categories = $this->feed_categories_from_article( $article );
 		$category_names = array();
 
@@ -285,6 +323,7 @@ class Feed extends BaseImporter {
 	}
 
 	function redirects_from_article( $article ) {
+		//return array();
 		$site_domain        = $this->get_site_option( 'domain' );
 		$slug_history_items = $article->SlugHistoryItems->SlugHistoryItem;
 		$redirects          = array();

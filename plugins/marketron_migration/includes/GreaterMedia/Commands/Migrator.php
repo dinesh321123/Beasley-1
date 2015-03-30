@@ -323,7 +323,7 @@ class Migrator {
 
 	function load_boolean_opt( $name, $default ) {
 		if ( ! array_key_exists( $name, $this->opts ) ) {
-			$this->opts[ $name ] = false;
+			$this->opts[ $name ] = $default;
 		} else {
 			$this->opts[ $name ] = filter_var( $this->opts[ $name ], FILTER_VALIDATE_BOOLEAN );
 		}
@@ -397,6 +397,18 @@ SQL;
 
 		$gigya_user = $this->entity_factory->get_entity( 'gigya_user' );
 		$gigya_user->export_actions();
+	}
+
+	function prepare( $args, $opts ) {
+		$this->load_params( $args, $opts );
+
+		$this->config = new MigrationConfig( $this->site_dir );
+		$this->config->container = $this;
+
+		$this->config_loader = new \GreaterMedia\ConfigLoader();
+		$this->config_loader->container = $this;
+
+		$this->config_loader->prepare();
 	}
 
 }

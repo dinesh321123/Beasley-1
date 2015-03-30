@@ -49,25 +49,22 @@
 		"webhook_auth_token": "348a7a99347d92e3d675ec5a32bfbd48",
 		"newsletters": [
 			{
-				"marketron_name": "BEN-efits Club Newsletter",
-				"emma_name": "BEN-efits Club Newsletter",
+				"marketron_name": "@Work Network Newsletter",
+				"emma_name": "@Work Network Newsletter",
 				"emma_group_id": "123",
-				"gigya_field_key": "benefitsGroup",
-				"description": "Sign up to receive all the BEN-efits emails approximately two times a month.  You'll get insider info on the music you love, the contests you want to win and events that you can't wait to attend and so much more."
+				"gigya_field_key": "workNetworkGroup"
 			},
 			{
-				"marketron_name": "BEN's Big Deal",
+				"marketron_name": "MGK's Discount Deal",
 				"emma_name": "MGK's Discount Deal",
 				"emma_group_id": "124",
-				"gigya_field_key": "discountDealGroup",
-				"description": "Get weekly emails from BEN-FM with special discount offers."
+				"gigya_field_key": "discountDealGroup"
 			},
 			{
 				"marketron_name": "Birthday Greetings",
 				"emma_name": "Birthday Greetings",
 				"emma_group_id": "125",
-				"gigya_field_key": "birthdayGreetingsGroup",
-				"description": "Your recieve a special birthday wish in an email once a year"
+				"gigya_field_key": "birthdayGreetingsGroup"
 			}
 		]
 	},

@@ -7,10 +7,11 @@ class Factory {
 	public $container;
 	public $instances = array();
 	public $types     = array(
-		'tag'             => 'WordPress\Entities\Tag',
-		'category'        => 'WordPress\Entities\Category',
-		'post_format'     => 'WordPress\Entities\PostFormat',
-		'show_taxonomy'   => 'WordPress\Entities\ShowTaxonomy',
+		'tag'                 => 'WordPress\Entities\Tag',
+		'category'            => 'WordPress\Entities\Category',
+		'post_format'         => 'WordPress\Entities\PostFormat',
+		'show_taxonomy'       => 'WordPress\Entities\ShowTaxonomy',
+		'collection_taxonomy' => 'WordPress\Entities\CollectionTaxonomy',
 
 		'user'            => 'WordPress\Entities\User',
 		'author'          => 'WordPress\Entities\Author',
@@ -19,22 +20,22 @@ class Factory {
 		'attachment'      => 'WordPress\Entities\Attachment',
 		'legacy_redirect' => 'WordPress\Entities\LegacyRedirect',
 
-		'venue' => 'WordPress\Entities\Venue',
-		'event_category' => 'WordPress\Entities\EventCategory',
-		'event' => 'WordPress\Entities\Event',
-		'show' => 'WordPress\Entities\Show',
-		'podcast' => 'WordPress\Entities\Podcast',
+		'venue'           => 'WordPress\Entities\Venue',
+		'event_category'  => 'WordPress\Entities\EventCategory',
+		'event'           => 'WordPress\Entities\Event',
+		'show'            => 'WordPress\Entities\Show',
+		'podcast'         => 'WordPress\Entities\Podcast',
 		'podcast_episode' => 'WordPress\Entities\PodcastEpisode',
 		'series_taxonomy' => 'WordPress\Entities\SeriesTaxonomy',
-		'blog' => 'WordPress\Entities\Blog',
-		'gallery' => 'WordPress\Entities\Gallery',
-		'album' => 'WordPress\Entities\Album',
-		'survey' => 'WordPress\Entities\Survey',
-		'survey_entry' => 'WordPress\Entities\SurveyEntry',
-		'live_stream' => 'WordPress\Entities\LiveStream',
-		'contest' => 'WordPress\Entities\Contest',
-		'contest_entry' => 'WordPress\Entities\ContestEntry',
-		'gigya_user' => 'WordPress\Entities\GigyaUser',
+		'blog'            => 'WordPress\Entities\Blog',
+		'gallery'         => 'WordPress\Entities\Gallery',
+		'album'           => 'WordPress\Entities\Album',
+		'survey'          => 'WordPress\Entities\Survey',
+		'survey_entry'    => 'WordPress\Entities\SurveyEntry',
+		'live_stream'     => 'WordPress\Entities\LiveStream',
+		'contest'         => 'WordPress\Entities\Contest',
+		'contest_entry'   => 'WordPress\Entities\ContestEntry',
+		'gigya_user'      => 'WordPress\Entities\GigyaUser',
 	);
 
 

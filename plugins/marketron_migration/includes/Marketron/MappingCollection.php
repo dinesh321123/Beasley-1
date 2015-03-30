@@ -5,10 +5,12 @@ namespace Marketron;
 class MappingCollection {
 
 	public $container;
-	public $mappings     = array();
-	public $shows        = array();
-	public $author_names = array();
-	public $podcasts     = array();
+	public $mappings           = array();
+	public $shows              = array();
+	public $author_names       = array();
+	public $podcasts           = array();
+	public $show_is_collection = false;
+	public $shows_map          = array();
 
 	function load() {
 		$config       = $this->container->config;
@@ -105,6 +107,10 @@ class MappingCollection {
 
 				if ( $mapping->wordpress_author_name ) {
 					$this->shows[ $mapping->wordpress_author_name ] = $marketron_id;
+				}
+			} else if ( $fields[0] === 'Marketron Tool' ){
+				if ( strpos( trim( $fields[6] ), 'Collection' ) !== false ) {
+					$this->show_is_collection = true;
 				}
 			}
 
@@ -352,6 +358,8 @@ class MappingCollection {
 				$shows_map[ $show_name ] = true;
 			}
 		}
+
+		$this->shows_map = $shows_map;
 	}
 
 	function import_podcasts() {
@@ -378,6 +386,11 @@ class MappingCollection {
 
 	function import_tags() {
 		$tags_file  = $this->container->config->get_tags_file();
+		if ( ! file_exists( $tags_file ) ) {
+			\WP_CLI::warning( "Skipping Tags Import: $tags_file" );
+			return;
+		}
+
 		$file       = fopen( $tags_file, 'r' );
 		$fields     = fgetcsv( $file, 0, ',', '"' );
 		$total_tags = count( file( $tags_file ) ) - 1;
@@ -477,6 +490,28 @@ class MappingCollection {
 		}
 
 		return null;
+	}
+
+	function has_collection( $collection ) {
+		if ( $this->show_is_collection ) {
+			return array_key_exists( $collection, $this->shows_map );
+		} else {
+			return false;
+		}
+	}
+
+	function get_collection_from_marketron_name( $marketron_name ) {
+		if ( $this->show_is_collection ) {
+			foreach ( $this->mappings as $mapping ) {
+				if ( $mapping->marketron_name === $marketron_name ) {
+					return $mapping->wordpress_show_name;
+				}
+			}
+
+			return null;
+		} else {
+			return null;
+		}
 	}
 
 }

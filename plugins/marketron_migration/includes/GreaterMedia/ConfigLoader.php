@@ -18,6 +18,30 @@ class ConfigLoader {
 		$this->load_options();
 	}
 
+	function prepare() {
+		$dirs = $this->get_required_dirs();
+
+		foreach ( $dirs as $dir ) {
+			if ( ! file_exists( $dir ) )  {
+				mkdir( $dir, 0700, true );
+				\WP_CLI::success( "Created Directory: $dir" );
+			}
+		}
+	}
+
+	function get_required_dirs() {
+		$config = $this->container->config;
+
+		return array(
+			$config->get_input_dir(),
+			$config->get_output_dir(),
+			$config->get_csv_export_dir(),
+			$config->get_marketron_files_dir(),
+			$config->get_backups_dir(),
+			$config->get_upload_backups_dir(),
+		);
+	}
+
 	function load_options() {
 		$this->load_gigya_options();
 		$this->load_myemma_options();
@@ -29,6 +53,10 @@ class ConfigLoader {
 	}
 
 	function load_gigya_options() {
+		if ( ! $this->get_config()->has_config_option( 'gigya' ) ) {
+			return;
+		}
+
 		$api_key    = $this->get_config_option( 'gigya', 'api_key' );
 		$secret_key = $this->get_config_option( 'gigya', 'secret_key' );
 
@@ -45,6 +73,10 @@ class ConfigLoader {
 	}
 
 	function load_livefyre_options() {
+		if ( ! $this->get_config()->has_config_option( 'livefyre' ) ) {
+			return;
+		}
+
 		$network_name = $this->get_config_option( 'livefyre', 'network_name' );
 		$network_key  = $this->get_config_option( 'livefyre', 'network_key' );
 		$site_id      = $this->get_config_option( 'livefyre', 'site_id' );
@@ -65,6 +97,10 @@ class ConfigLoader {
 	}
 
 	function load_myemma_options() {
+		if ( ! $this->get_config()->has_config_option( 'myemma' ) ) {
+			return;
+		}
+
 		$account_id         = $this->get_config_option( 'myemma', 'account_id' );
 		$public_key         = $this->get_config_option( 'myemma', 'public_key' );
 		$private_key        = $this->get_config_option( 'myemma', 'private_key' );
@@ -85,6 +121,10 @@ class ConfigLoader {
 	}
 
 	function load_myemma_groups() {
+		if ( ! $this->get_config()->has_config_option( 'myemma' ) ) {
+			return;
+		}
+
 		$newsletters = $this->get_config()->get_newsletters();
 		$groups      = array();
 
@@ -111,6 +151,10 @@ class ConfigLoader {
 	}
 
 	function load_ooyala_options() {
+		if ( ! $this->get_config()->has_config_option( 'ooyala' ) ) {
+			return;
+		}
+
 		require_once( GMEDIA_PATH . '/../ooyala-video-browser/OoyalaApi.php' );
 
 		$api_key        = $this->get_config_option( 'ooyala', 'api_key' );
@@ -146,6 +190,10 @@ class ConfigLoader {
 	}
 
 	function load_live_streams() {
+		if ( ! $this->get_config()->has_config_option( 'live_player' ) ) {
+			return;
+		}
+
 		$live_streams = $this->get_config_option( 'live_player', 'streams' );
 		$entity       = $this->container->entity_factory->get_entity( 'live_stream' );
 		$total        = count( $live_streams );
@@ -158,6 +206,10 @@ class ConfigLoader {
 	}
 
 	function load_member_page_text_options() {
+		if ( ! $this->get_config()->has_config_option( 'member_page_text' ) ) {
+			return;
+		}
+
 		$member_page_text = $this->get_config_option( 'member_page_text' );
 
 		update_option( 'gmr_join_page_heading', $member_page_text['join']['heading'] );
@@ -182,6 +234,10 @@ class ConfigLoader {
 	}
 
 	function load_google_analytics_options() {
+		if ( ! $this->get_config()->has_config_option( 'google_analytics' ) ) {
+			return;
+		}
+
 		$id        = $this->get_config_option( 'google_analytics', 'id' );
 		$dimension = $this->get_config_option( 'google_analytics', 'dimension' );
 
@@ -192,6 +248,10 @@ class ConfigLoader {
 	}
 
 	function load_social_page_options() {
+		if ( ! $this->get_config()->has_config_option( 'social_pages' ) ) {
+			return;
+		}
+
 		$facebook  = $this->get_config_option( 'social_pages', 'facebook' );
 		$twitter   = $this->get_config_option( 'social_pages', 'twitter' );
 		$youtube   = $this->get_config_option( 'social_pages', 'youtube' );
