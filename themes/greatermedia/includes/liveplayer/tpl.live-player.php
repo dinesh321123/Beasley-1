@@ -96,7 +96,7 @@ if ( empty( $active_stream ) ) {
 	$livelinks_redirect = get_option( 'gmr_livelinks_more_redirect' );
 	$livelinks_url = null;
 
-	if ( $livelinks_redirect == 1 ) {
+	if ( $livelinks_redirect === 1 ) {
 		$livelinks_url = home_url( '/stream/' . $active_stream );
 	} else {
 		$livelinks_url = home_url( '/live-links' );
