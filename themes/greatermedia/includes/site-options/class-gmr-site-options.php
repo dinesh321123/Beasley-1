@@ -193,7 +193,6 @@ class GreaterMediaSiteOptions {
 		</div>
 
 		<div class="gmr__option">
-			<label for="gmr_livelinks_title" class="gmr__option--label"><?php _e( 'Title of Live Links Sidebar', 'greatermedia' ); ?></label>
 			<input type="checkbox" name="gmr_livelinks_more_redirect" id="gmr_livelinks_more_redirect" value="1" <?php checked( 1 == esc_attr( $livelinks_more ) ); ?> /><label for="gmr_livelinks_more_redirect" class="gmr__option--label-inline"><?php _e( 'Redirect the Live Links "More" button to the Station Stream Archive', 'greatermedia' ); ?></label>
 			<div class="gmr-option__field--desc"><?php _e( 'By default, the "More" button located in the Live Links section of the live player sidebar, points to an archive of Live Links for the station. Checking this box will change the reference point for the more button so that when clicked, the button redirects to a Stream Archive for the Station.', 'greatermedia' ); ?></div>
 		</div>
