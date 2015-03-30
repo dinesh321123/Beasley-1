@@ -52,11 +52,15 @@ function fpmrss_get_media_group( SimpleXMLElement $element ) {
 function fpmrss_extract_media_thumbnail( SimpleXMLElement $element ) {
 	$group = fpmrss_get_media_group( $element );
 	if ( ! is_a( $group, 'SimpleXMLElement' ) ) {
-		return false;
+		$group = $element;
 	}
-
+	
 	$thumbnail_url = false;
 	$thumbnails = $group->xpath( 'media:thumbnail' );
+	if ( empty( $thumbnails ) && $element != $group ) {
+		$thumbnails = $element->xpath( 'media:thumbnail' );
+	}
+	
 	if ( ! empty( $thumbnails ) ) {
 		$max_width = 0;
 		foreach ( $thumbnails as $thumbnail ) {
@@ -86,16 +90,51 @@ function fpmrss_extract_media_thumbnail( SimpleXMLElement $element ) {
 function fpmrss_extract_media_player( SimpleXMLElement $element ) {
 	$group = fpmrss_get_media_group( $element );
 	if ( ! is_a( $group, 'SimpleXMLElement' ) ) {
-		return false;
+		$group = $element;
 	}
 
 	$player_value = false;
 	$player = $group->xpath( 'media:player' );
+	if ( empty( $player ) && $group != $element ) {
+		$player = $element->xpath( 'media:player' );
+	}
+	
 	if ( ! empty( $player ) ) {
 		$player = current( $player );
 		$player_value = trim( strval( $player ) );
 		if ( empty( $player_value ) && ! empty( $player['url'] ) && filter_var( $player['url'], FILTER_VALIDATE_URL ) ) {
 			$player_value = strval( $player['url'] );
+		}
+	}
+
+	if ( empty( $player_value ) ) {
+		$contents = $group->xpath( 'media:content' );
+		if ( empty( $contents ) && $group != $element ) {
+			$contents = $element->xpath( 'media:content' );
+		}
+
+		if ( ! empty( $contents ) ) {
+			$max_width = 0;
+			foreach ( $contents as $content ) {
+				if ( empty( $content['url'] ) || ! filter_var( $content['url'], FILTER_VALIDATE_URL ) ) {
+					continue;
+				}
+
+				$current_width = intval( $content['width'] );
+				if ( ! empty( $current_width ) && $max_width >= $current_width ) {
+					continue;
+				}
+
+				$player_value = strval( $content['url'] );
+				$max_width = $current_width;
+			}
+		}
+	}
+
+	if ( ! empty( $player_value ) && filter_var( $player_value, FILTER_VALIDATE_URL ) ) {
+		$oembed = wp_oembed_get( $player_value );
+		if ( $oembed ) {
+			$player_value = $oembed;
 		}
 	}
 
