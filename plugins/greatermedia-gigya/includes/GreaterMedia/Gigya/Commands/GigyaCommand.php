@@ -245,7 +245,15 @@ class GigyaCommand extends \WP_CLI_Command {
 	}
 
 	public function query( $args, $opts ) {
-		$query = $args[0];
+		if ( count( $args ) === 3 ) {
+			$api_key    = $args[0];
+			$secret_key = $args[1];
+			$query      = $args[2];
+		} else {
+			$query      = $args[0];
+			$api_key    = null;
+			$secret_key = null;
+		}
 
 		if ( strstr( $query, 'from accounts' ) !== false ) {
 			$endpoint = 'accounts.search';
@@ -253,7 +261,7 @@ class GigyaCommand extends \WP_CLI_Command {
 			$endpoint = 'ds.search';
 		}
 
-		$request = new GigyaRequest( null, null, $endpoint );
+		$request = new GigyaRequest( $api_key, $secret_key, $endpoint );
 		$request->setParam( 'query', $query );
 		$response      = $request->send();
 		$response_text = $response->getResponseText();
