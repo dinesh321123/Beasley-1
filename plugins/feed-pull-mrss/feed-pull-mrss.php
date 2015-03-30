@@ -132,9 +132,12 @@ function fpmrss_extract_media_player( SimpleXMLElement $element ) {
 	}
 
 	if ( ! empty( $player_value ) && filter_var( $player_value, FILTER_VALIDATE_URL ) ) {
-		$oembed = wp_oembed_get( $player_value );
-		if ( $oembed ) {
-			$player_value = $oembed;
+		$domain = parse_url( $player_value, PHP_URL_HOST );
+		if ( preg_match( '#youtu\.?be#i', $domain ) || preg_match( '#vimeo\.com#i', $domain ) ) {
+			$oembed = wp_oembed_get( $player_value );
+			if ( $oembed ) {
+				$player_value = $oembed;
+			}
 		}
 	}
 
