@@ -86,8 +86,25 @@ if ( empty( $active_stream ) ) {
 
 		<div id="live-links__widget--end"></div>
 	</div>
+
+	<?php
+
+	/**
+	 * Changes the url that will be used by the live links more button based on whether a checkbox has been checked in
+	 * the Station Site Administration Screen
+	 */
+	$livelinks_redirect = get_option( 'gmr_livelinks_more_redirect' );
+	$livelinks_url = null;
+
+	if ( $livelinks_redirect == 1 ) {
+		$livelinks_url = home_url( '/stream/' . $active_stream );
+	} else {
+		$livelinks_url = home_url( '/live-links' );
+	}
+
+	?>
 	<div class="live-links--more">
-		<a href="<?php echo esc_url( home_url( '/live-links' ) ); ?>" class="live-links--more__btn">More</a>
+		<a href="<?php echo esc_url( $livelinks_url ); ?>" class="live-links--more__btn">More</a>
 	</div>
 
 </aside>
