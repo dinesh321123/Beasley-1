@@ -42,6 +42,11 @@ class GigyaUser extends BaseEntity {
 	}
 
 	function export() {
+		if ( count( $this->gigya_users ) === 0 ) {
+			\WP_CLI::warning( 'No Gigya users to export' );
+			return;
+		}
+
 		$this->load_member_ids();
 
 		$export_file  = $this->container->config->get_gigya_profile_export_file();
@@ -352,18 +357,21 @@ class GigyaUser extends BaseEntity {
 		$member_ids_file = $this->container->config->get_member_ids_file();
 		$file            = fopen( $member_ids_file, 'r' );
 		$member_ids      = array();
-		$line            = fgets( $file );
 
-		while ( $line !== false ) {
-			$line = trim( $line );
-			$line = rtrim( $line, ',' );
-
-			if ( is_numeric( $line ) ) {
-				$member_id                = $line;
-				$member_ids[ $member_id ] = true;
-			}
-
+		if ( $file !== false ) {
 			$line = fgets( $file );
+
+			while ( $line !== false ) {
+				$line = trim( $line );
+				$line = rtrim( $line, ',' );
+
+				if ( is_numeric( $line ) ) {
+					$member_id                = $line;
+					$member_ids[ $member_id ] = true;
+				}
+
+				$line = fgets( $file );
+			}
 		}
 
 		$this->member_ids = $member_ids;

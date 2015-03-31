@@ -285,7 +285,6 @@ class Migrator {
 
 		$this->config_loader->load_live_streams();
 		$this->table_factory->export();
-		$this->update_term_counts();
 		$this->error_reporter->save_report();
 		$this->side_loader->sync();
 	}
@@ -319,6 +318,8 @@ class Migrator {
 		$this->load_boolean_opt( 'fake_media', false );
 		$this->load_boolean_opt( 'fresh', false );
 		$this->load_boolean_opt( 'export_to_gigya', true );
+
+		$this->fresh = $this->opts['fresh'];
 	}
 
 	function load_boolean_opt( $name, $default ) {
@@ -339,7 +340,7 @@ class Migrator {
 		return $tools_to_load;
 	}
 
-	private function update_term_counts() {
+	function update_term_counts( $args, $opts ) {
 		global $wpdb;
 		$query = <<<SQL
 UPDATE {$wpdb->prefix}term_taxonomy
@@ -355,6 +356,8 @@ SET count = (
 );
 SQL;
 		$wpdb->query( $query );
+
+		\WP_CLI::success( 'Taxonomy Term counts updated successfully' );
 	}
 
 	function review_featured_images( $args, $opts ) {

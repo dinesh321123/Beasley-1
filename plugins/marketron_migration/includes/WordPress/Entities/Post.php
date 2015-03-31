@@ -50,15 +50,15 @@ class Post extends BaseEntity {
 			$this->set_post_format( $post_id, $fields['post_format'] );
 		}
 
-		if ( array_key_exists( 'tags', $fields ) ) {
+		if ( ! empty( $fields['tags'] ) ) {
 			$this->set_post_tags( $post_id, $fields['tags'] );
 		}
 
-		if ( array_key_exists( 'categories', $fields ) ) {
+		if ( ! empty( $fields['categories'] ) ) {
 			$this->set_post_categories( $post_id, $fields['categories'] );
 		}
 
-		if ( array_key_exists( 'collections', $fields ) ) {
+		if ( ! empty( $fields['collections'] ) ) {
 			$this->set_post_collections( $post_id, $fields['collections'] );
 		}
 
@@ -70,15 +70,14 @@ class Post extends BaseEntity {
 			$this->set_featured_audio( $post_id, $fields );
 		}
 
-		if ( array_key_exists( 'redirects', $fields ) ) {
-			$this->set_redirects( $post_id, $fields );
+		if ( ! empty( $fields['redirects'] ) ) {
+			$this->set_redirects( $post_id, $fields['redirects'] );
 		}
 
 		return $fields;
 	}
 
-	function set_redirects( $post_id, &$fields ) {
-		$redirects = $fields['redirects'];
+	function set_redirects( $post_id, &$redirects ) {
 		$legacy_redirects = $this->get_entity( 'legacy_redirect' );
 
 		foreach ( $redirects as $redirect ) {
@@ -140,6 +139,9 @@ class Post extends BaseEntity {
 
 			$posts = $this->get_table( 'posts' );
 			$posts->update( $post_id, 'post_content', $content );
+		} else {
+			$posts = $this->get_table( 'posts' );
+			$posts->update( $post_id, 'post_format', 'standard' );
 		}
 	}
 

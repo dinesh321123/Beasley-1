@@ -354,7 +354,9 @@ class MappingCollection {
 					'show_author' => $mapping->wordpress_author_name,
 				);
 
-				$entity->add( $show );
+				if ( ! $this->show_is_collection ) {
+					$entity->add( $show );
+				}
 				$shows_map[ $show_name ] = true;
 			}
 		}
@@ -505,6 +507,20 @@ class MappingCollection {
 			foreach ( $this->mappings as $mapping ) {
 				if ( $mapping->marketron_name === $marketron_name ) {
 					return $mapping->wordpress_show_name;
+				}
+			}
+
+			return null;
+		} else {
+			return null;
+		}
+	}
+
+	function get_category_from_marketron_name( $marketron_name ) {
+		if ( $this->show_is_collection ) {
+			foreach ( $this->mappings as $mapping ) {
+				if ( $mapping->marketron_name === $marketron_name ) {
+					return $mapping->wordpress_category;
 				}
 			}
 
