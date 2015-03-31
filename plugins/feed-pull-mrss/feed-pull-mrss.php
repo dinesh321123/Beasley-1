@@ -206,11 +206,7 @@ function fpmrss_launch_async_thumbnails_import() {
 	}
 
 	// try to launch async task if available, otherwise schedule single event
-	if ( function_exists( 'wp_async_task_add' ) ) {
-		wp_async_task_add( 'fpmrss_import_thumbnails', $fpmrss_feed_thumbnails );
-	} else {
-		wp_schedule_single_event( current_time( 'timestamp', 1 ), 'fpmrss_import_thumbnails', array( $fpmrss_feed_thumbnails ) );
-	}
+	wp_schedule_single_event( current_time( 'timestamp', 1 ), 'fpmrss_import_thumbnails', array( $fpmrss_feed_thumbnails ) );
 }
 add_action( 'fp_post_feed_pull', 'fpmrss_launch_async_thumbnails_import' );
 
