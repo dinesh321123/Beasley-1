@@ -14,6 +14,8 @@ use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
  */
 class GigyaCommand extends \WP_CLI_Command {
 
+	public $domain;
+
 	/**
 	 * Creates fake Gigya Users.
 	 *
@@ -94,30 +96,26 @@ class GigyaCommand extends \WP_CLI_Command {
 	}
 
 	public function set_account_schema( $args, $opts ) {
-		$api_key    = $args[0];
-		$secret_key = $args[1];
 		$schema     = new AccountSchema();
-		$request    = new GigyaRequest( $api_key, $secret_key, 'accounts.setSchema' );
+		$request    = new GigyaRequest( null, null, 'accounts.setSchema' );
 
 		try {
 			$schema->update( $request );
-			\WP_CLI::success( 'Updated Gigya Account Schema' );
+			\WP_CLI::log( "\tUpdated Gigya Account Schema" );
 		} catch ( \Exception $err ) {
-			\WP_CLI::error( $err->getMessage() );
+			\WP_CLI::warning( $err->getMessage() );
 		}
 	}
 
 	public function get_account_schema( $args, $opts ) {
-		$api_key    = $args[0];
-		$secret_key = $args[1];
 		$schema  = new AccountSchema();
-		$request = new GigyaRequest( $api_key, $secret_key, 'accounts.getSchema' );
+		$request = new GigyaRequest( null, null, 'accounts.getSchema' );
 
 		try {
 			$schema_text = $schema->fetch( $request );
 			\WP_CLI::log( $schema_text );
 		} catch ( \Exception $err ) {
-			\WP_CLI::error( $err->getMessage() );
+			\WP_CLI::warning( $err->getMessage() );
 		}
 	}
 
@@ -127,9 +125,9 @@ class GigyaCommand extends \WP_CLI_Command {
 
 		try {
 			$schema->update( $request );
-			\WP_CLI::success( 'Updated Gigya Data Store Schema' );
+			\WP_CLI::log( "\tUpdated Gigya Data Store Schema" );
 		} catch ( \Exception $err ) {
-			\WP_CLI::error( $err->getMessage() );
+			\WP_CLI::warning( $err->getMessage() );
 		}
 	}
 
@@ -142,6 +140,51 @@ class GigyaCommand extends \WP_CLI_Command {
 			\WP_CLI::log( $schema_text );
 		} catch ( \Exception $err ) {
 			\WP_CLI::error( $err->getMessage() );
+		}
+	}
+
+	function update_schema( $args, $opts ) {
+		$force = isset( $opts['force'] ) ? filter_var( $opts['force'], FILTER_VALIDATE_BOOLEAN ) : false;
+		$sites = wp_get_sites();
+
+		foreach ( $sites as $site ) {
+			$blog_id      = $site['blog_id'];
+			$domain       = $site['domain'];
+			$this->domain = $domain;
+
+			try {
+				switch_to_blog( $blog_id );
+				\WP_CLI::log( "Updating Schema for $domain ..." );
+				$this->update_profile_and_actions_schema( array(), array() );
+
+			} catch ( \Exception $e ) {
+				$msg = "Failed to update schema for $domain - " . $e->getMessage();
+
+				if ( $force ) {
+					\WP_CLI::warning( $msg );
+				} else {
+					\WP_CLI::error( $msg );
+				}
+			} finally {
+				restore_current_blog();
+			}
+		}
+	}
+
+	function update_profile_and_actions_schema( $args, $opts ) {
+		$options = get_option( 'member_query_settings', '{}' );
+		$options = json_decode( $options, true );
+
+		if ( ! empty( $options['gigya_api_key'] ) ) {
+			if ( $options['gigya_api_key'] === '3_e_T7jWO0Vjsd9y0WJcjnsN6KaFUBv6r3VxMKqbitvw-qKfmaUWysQKa1fra5MTb6' ) {
+				// don't try to update the dev domain
+				return;
+			}
+
+			$this->set_account_schema( array(), array() );
+			$this->set_actions_schema( array(), array() );
+		} else {
+			\WP_CLI::warning( "Gigya API Key not found, ignoring $this->domain" );
 		}
 	}
 
