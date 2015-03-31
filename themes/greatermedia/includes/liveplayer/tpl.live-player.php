@@ -94,9 +94,10 @@ if ( empty( $active_stream ) ) {
 	 * the Station Site Administration Screen
 	 */
 	$livelinks_redirect = get_option( 'gmr_livelinks_more_redirect' );
+	$livelinks_redirect = filter_var( $livelinks_redirect, FILTER_VALIDATE_BOOLEAN);
 	$livelinks_url = null;
 
-	if ( $livelinks_redirect === 1 ) {
+	if ( $livelinks_redirect === true ) {
 		$livelinks_url = home_url( '/stream/' . $active_stream );
 	} else {
 		$livelinks_url = home_url( '/live-links' );
