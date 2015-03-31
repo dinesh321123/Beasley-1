@@ -932,14 +932,16 @@ function greatermedia_archive_title() {
 /**
  * Adds a class to the body if a checkbox for News/Sports sites, has been checked in the site settings
  *
+ * @action body_class
+ * @access public
+ *
  * @param $classes
  *
  * @return array
  */
 function greatermedia_newssite_class( $classes ) {
-	$news_site = get_option( 'gmr_newssite' );
 
-	if ( $news_site ) {
+	if ( is_news_site() ) {
 		$classes[] = 'news-site';
 	}
 	
@@ -947,6 +949,16 @@ function greatermedia_newssite_class( $classes ) {
 }
 add_filter( 'body_class', 'greatermedia_newssite_class' );
 
+/**
+ * Adds a class to the body if a checkbox, that disables the live player, has been checked in the site settings
+ *
+ * @action body_class
+ * @access public
+ *
+ * @param $classes
+ *
+ * @return array
+ */
 function greatermedia_liveplayer_disabled( $classes ) {
 	$liveplayer_disabled = get_option( 'gmr_liveplayer_disabled' );
 
@@ -961,14 +973,16 @@ add_filter( 'body_class', 'greatermedia_liveplayer_disabled' );
 /**
  * Extends the homepage featured curation limit
  *
+ * @action gmr-homepage-featured-limit
+ * @access public
+ *
  * @param $limit
  *
  * @return int
  */
 function greatermedia_extend_featured_curation_limit( $limit ) {
-	$news_site = get_option( 'gmr_newssite' );
 
-	if ( $news_site ) {
+	if ( is_news_site() ) {
 		$limit = 6;
 	} else {
 		$limit = 4;
