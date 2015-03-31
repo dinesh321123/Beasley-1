@@ -7,8 +7,6 @@ Author: 10up
 Author URI: http://10up.com/
 */
 
-delete_option( 'fp_deleted_syndicated' );
-
 /**
  * Catches SimpleXML element to use in the next steps.
  *
