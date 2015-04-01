@@ -2706,7 +2706,7 @@ var $ = jQuery;
 			player.attachEvent('stream-start', onStreamStarted);
 			player.attachEvent('stream-stop', onStreamStopped);
 		}
-		
+
 		player.setVolume(1);
 
 		setStatus('Api Ready');
@@ -2749,12 +2749,14 @@ var $ = jQuery;
 			loadPwaData();
 		});
 
-		var opted_out = window.get_gigya_user_field && get_gigya_user_field('nielsen_optout');
-		if (!opted_out && window._nolggGlobalParams) {
-			var beacon = new NOLCMB.ggInitialize(window._nolggGlobalParams);
-			bindNielsenSDKEvents(beacon, player);
-		}
-		
+		$(document).ready(function() {
+			var opted_out = window.get_gigya_user_field && get_gigya_user_field('nielsen_optout');
+			if (!opted_out && window._nolggGlobalParams) {
+				var beacon = new NOLCMB.ggInitialize(window._nolggGlobalParams);
+				bindNielsenSDKEvents(beacon, player);
+			}
+		});
+
 		if (bowser.ios) {
 			livePlayer.classList.add('no-volume-control');
 		} else {
@@ -2775,7 +2777,7 @@ var $ = jQuery;
 				if (livePlaying) {
 					player.setVolume(global_volume);
 				}
-				
+
 				if (customAudio) {
 					customAudio.volume = global_volume;
 				}
@@ -2900,7 +2902,7 @@ var $ = jQuery;
 		}
 
 		startLiveStreamInterval();
-		
+
 		player.setVolume(getVolume());
 	}
 
