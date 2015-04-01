@@ -3,7 +3,7 @@
 namespace GreaterMedia\LiveFyre\Ajax;
 
 use GreaterMedia\Gigya\Ajax\AjaxHandler;
-use GreaterMedia\Gigya\Ajax\PullGigyaProfile;
+use GreaterMedia\LiveFyre\Ajax\PullGigyaProfile;
 use Livefyre\Livefyre;
 
 class ChangeLiveFyreSettings extends AjaxHandler {
