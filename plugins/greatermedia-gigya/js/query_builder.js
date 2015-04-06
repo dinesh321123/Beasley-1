@@ -1026,7 +1026,7 @@ var ListConstraint = Constraint.extend({
 		var parts   = type.split(':');
 		var subType = parts[1];
 
-		console.log('getListTypeName', type, parts, subType);
+		//console.log('getListTypeName', type, parts, subType);
 		return subType.replace('_list', '');
 	},
 
@@ -1041,7 +1041,7 @@ var ListConstraint = Constraint.extend({
 
 	loadList: function() {
 		var type   = this.getListTypeName();
-		console.log('loadList: type', type);
+		//console.log('loadList: type', type);
 		var params = { 'type': type };
 
 		this.trigger('loadListStart');
@@ -2675,7 +2675,13 @@ var EntryConstraintView = ConstraintView.extend({
 			currentChoice: this.model.get('entryFieldID')
 		};
 
-		var html = this.entrySelectTemplate(data);
+		var html;
+
+		if (choices.length === 0) {
+			choices.push({ label: 'No questions found for contest', value: '-1' });
+		}
+
+		html = this.entrySelectTemplate(data);
 		$entrySelectChoice.html(html);
 
 		this.renderEntryAnswer();
@@ -2684,6 +2690,7 @@ var EntryConstraintView = ConstraintView.extend({
 	renderEntryValueSelect: function() {
 		var $entrySelectChoice = $('.constraint-value', this.el);
 		var choices = this.model.getEntryFieldChoices();
+
 		var data = {
 			choices: choices,
 			currentChoice: this.model.get('value')

@@ -30,7 +30,13 @@ var EntryConstraintView = ConstraintView.extend({
 			currentChoice: this.model.get('entryFieldID')
 		};
 
-		var html = this.entrySelectTemplate(data);
+		var html;
+
+		if (choices.length === 0) {
+			choices.push({ label: 'No questions found for contest', value: '-1' });
+		}
+
+		html = this.entrySelectTemplate(data);
 		$entrySelectChoice.html(html);
 
 		this.renderEntryAnswer();
@@ -39,6 +45,7 @@ var EntryConstraintView = ConstraintView.extend({
 	renderEntryValueSelect: function() {
 		var $entrySelectChoice = $('.constraint-value', this.el);
 		var choices = this.model.getEntryFieldChoices();
+
 		var data = {
 			choices: choices,
 			currentChoice: this.model.get('value')

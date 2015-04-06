@@ -39,13 +39,19 @@ class GetChoicesForConstraintType extends AjaxHandler {
 
 	function get_choices_for_post_type( $post_type, $post_status = 'publish', $required_meta = null ) {
 		// TODO: pagination
-		$args = array( 'post_type' => $post_type, 'post_status' => $post_status );
+		$args = array(
+			'post_type'   => $post_type,
+			'post_status' => $post_status,
+			'fields'      => array( 'ID', 'post_title' ),
+			'nopaging'    => true,
+		);
+
 		$query   = new \WP_Query( $args );
 		$posts   = $query->get_posts();
 		$choices = [];
 
 		foreach ( $posts as $post ) {
-			if ( $required_meta ) {
+			if ( ! empty( $required_meta ) ) {
 				$post_meta = get_post_meta( $post->ID, $required_meta, true );
 
 				if ( $post_meta === '' ) {
@@ -64,13 +70,13 @@ class GetChoicesForConstraintType extends AjaxHandler {
 
 	function get_contest_choices() {
 		return $this->get_choices_for_post_type(
-			'contest', 'publish', 'embedded_form'
+			'contest', 'publish'
 		);
 	}
 
 	function get_survey_choices() {
 		return $this->get_choices_for_post_type(
-			'survey', 'publish', 'survey_embedded_form'
+			'survey', 'publish'
 		);
 	}
 

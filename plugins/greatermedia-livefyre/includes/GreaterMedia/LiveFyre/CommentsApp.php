@@ -112,7 +112,7 @@ class CommentsApp {
 	function get_livefyre_option( $name ) {
 		$options = $this->get_livefyre_options();
 
-		if ( $options !== false && array_key_exists( $name, $options ) ) {
+		if ( ! empty( $options ) && array_key_exists( $name, $options ) ) {
 			return $options[ $name ];
 		} else {
 			return '';
