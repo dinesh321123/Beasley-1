@@ -54,6 +54,7 @@ class Survey extends BaseImporter {
 		$survey_restrictions   = $this->restrictions_from_survey( $survey );
 		$responses             = $this->responses_from_survey( $survey );
 		$survey_entries        = $this->survey_entries_from_responses( $responses, $survey );
+		$survey_title          = $this->title_from_survey( $survey );
 
 		if ( ! empty( $survey['ContestID'] ) ) {
 			$contest_id = $this->import_string( $survey['ContestID'] );
@@ -64,9 +65,9 @@ class Survey extends BaseImporter {
 		$post = array(
 			'created_on'                => $this->import_string( $survey['UTCDateCreated'] ),
 			'modified_on'               => $this->import_string( $survey['UTCDateModified'] ),
-			'post_name'                 => sanitize_title( $survey_name ),
+			'post_name'                 => sanitize_title( $survey_title ),
 			'marketron_id'              => $survey_id,
-			'survey_title'              => $this->title_from_survey( $survey ),
+			'survey_title'              => htmlentities( $survey_title ),
 			'survey_content'            => $this->content_from_survey( $survey ),
 			'survey_excerpt'            => $this->excerpt_from_survey( $survey ),
 			'survey_entries'            => $survey_entries,
@@ -99,12 +100,18 @@ class Survey extends BaseImporter {
 
 	function excerpt_from_survey( $survey ) {
 		$excerpt = $this->import_string( $survey['SurveyBlurb'] );
+		$excerpt = htmlentities( $excerpt );
 
 		return $excerpt;
 	}
 
 	function title_from_survey( $survey ) {
 		$title = $this->import_string( $survey['SurveyTitle'] );
+		$survey_name = $this->import_string( $survey['SurveyName'] );
+
+		if ( $title !== $survey_name ) {
+			$title .= ' - ' . $survey_name;
+		}
 
 		return $title;
 	}
@@ -145,8 +152,9 @@ class Survey extends BaseImporter {
 		if ( ! empty( $questions ) ) {
 			foreach ( $questions as $question ) {
 				$form_item = $this->form_item_from_question( $question );
-				$form_item['cid'] = 'c' . strval( $cid++ );
-				$form_item['expected_cid'] = 'c' . $this->import_string( $question['SubQuestionID'] );
+				//$form_item['cid'] = 'c' . strval( $cid++ );
+				//$form_item['expected_cid'] = 'c' . $this->import_string( $question['SubQuestionID'] );
+				$form_item['cid'] = 'c' . $this->import_string( $question['SubQuestionID'] );
 
 				if ( $form_item['field_type'] === 'custom_label' ) {
 					$form['custom_label'] .= $form_item['custom_label'];

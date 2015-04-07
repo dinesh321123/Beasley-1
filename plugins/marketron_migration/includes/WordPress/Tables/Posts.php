@@ -94,7 +94,7 @@ class Posts extends BaseTable {
 
 	function distinct_post_name( $post_name ) {
 		$counter = 1;
-		$max_attempts = 10;
+		$max_attempts = 50;
 
 		while ( $counter < $max_attempts ) {
 			if ( $this->has_row_with_field( 'post_name', $post_name ) ) {

@@ -138,6 +138,7 @@ class EventManager extends BaseImporter {
 	function content_from_event( $event ) {
 		$content = $event['ConcertBlurb'];
 		$content = $this->import_string( $content );
+		$content = htmlentities( $content );
 
 		return $content;
 	}

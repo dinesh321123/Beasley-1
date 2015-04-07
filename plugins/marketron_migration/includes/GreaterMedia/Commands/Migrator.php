@@ -323,7 +323,7 @@ class Migrator {
 	function get_tools_to_load() {
 		$tools_to_load = $this->opts['tools_to_load'];
 
-		if ( $tools_to_load[0] === 'all' ) {
+		if ( $tools_to_load === 'all' ) {
 			$tools_to_load = $this->tool_factory->get_tool_names();
 		} else if ( $tools_to_load[0] === 'none' ) {
 			$tools_to_load = array();

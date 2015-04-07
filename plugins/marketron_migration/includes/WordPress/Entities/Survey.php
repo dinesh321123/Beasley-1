@@ -48,6 +48,7 @@ class Survey extends Post {
 		$meta                         = array();
 		$meta['form-title']           = $survey_title;
 		$meta['form-thankyou']        = $survey_completion_message;
+		$meta['marketron_survey_id']  = $marketron_id;
 
 		if ( ! empty( $survey_form ) ) {
 			$meta['survey_embedded_form'] = json_encode( $survey_form );

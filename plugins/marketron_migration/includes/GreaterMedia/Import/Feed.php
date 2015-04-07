@@ -220,6 +220,8 @@ class Feed extends BaseImporter {
 			$excerpt = '';
 		}
 
+		$excerpt = htmlentities( $excerpt );
+
 		return $excerpt;
 	}
 

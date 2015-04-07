@@ -29,9 +29,11 @@ class PhotoAlbumV2 extends BaseImporter {
 		$gallery_tags        = array_unique( $gallery_image_items['tags'] );
 
 		$gallery = array(
-			'gallery_name' => $this->import_string( $album['AlbumName'] ),
+			'gallery_name'    => $this->import_string( $album['AlbumName'] ),
 			'gallery_content' => $this->import_string( $album['Description'] ),
-			'gallery_images' => $gallery_images,
+			'gallery_images'  => $gallery_images,
+			'created_on'      => $this->import_string( $album['UTCDateCreated'] ),
+			'modified_on'     => $this->import_string( $album['UTCDateModified'] ),
 		);
 
 		$meta         = $this->meta_from_album( $album );
