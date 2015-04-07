@@ -527,14 +527,14 @@ class MemberQuery {
 		}
 		 */
 
+		if ( $valueType === 'string' ) {
+			$valueType = 'text';
+		}
+
 		$query .= $this->field_name_for( 'actionData.value', $valueType );
 		$query .= ' ';
 		$query .= $this->operator_for( $operator );
 		$query .= ' ';
-
-		if ( $valueType === 'string' ) {
-			$valueType = 'text';
-		}
 
 		$query .= $this->value_for( $value, $valueType );
 
