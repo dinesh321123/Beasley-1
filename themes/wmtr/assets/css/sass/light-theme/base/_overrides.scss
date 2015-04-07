@@ -1,4 +1,3 @@
-
 @import url(http://fonts.googleapis.com/css?family=Arimo:400,700);
 
 .main, %main {
@@ -147,7 +146,13 @@ a:hover
    	background-repeat:no-repeat;
     	background-position-x: -50px;
 }
-.header__nav { font-family: "Arimo", sans-serif;}
+
+
+.header__nav {
+    	font-family: "Arimo", sans-serif;
+  
+  }
+
 
 .home__featured .featured__content--block {
 	background-color: #37080d;
@@ -201,10 +206,10 @@ font-family: "Arimo", sans-serif;
 @media screen and (min-width:768px) {
 
 .header__social .social__list {
-        padding: 0 20px;
+        padding: 0 5px;
 }
 .header__social .social__list li {
-        padding: 0 5px;
+        padding: 0 4px;
 }
 .header__social a.social__link {
       	width: auto;
@@ -322,7 +327,7 @@ font-family: "Arimo", sans-serif;
 .header__nav ul li a,
 .header__nav ul li a:link,
 .header__nav ul li a:visited {
-        padding: 33px .5em 32px;
+        padding: 33px .38em 32px;
 }
 }
 @media screen and (min-width:1175px) {
@@ -357,7 +362,7 @@ font-family: "Arimo", sans-serif;
 .header__nav ul li a,
 .header__nav ul li a:link,
 .header__nav ul li a:visited {
-        padding: 33px 1.125em 32px;
+        padding: 33px .4em 32px;
 }
 .main {
         background: #e1e1dd url("../../images/new_bg.jpg") repeat-y center top !important;
