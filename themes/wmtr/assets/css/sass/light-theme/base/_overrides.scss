@@ -2,7 +2,7 @@
 @import url(http://fonts.googleapis.com/css?family=Arimo:400,700);
 
 .main, %main {
-color: #555;0;
+color: #555;
 }
 .header {
 	border-bottom: 0;
@@ -33,7 +33,7 @@ li:last-child {
 	@include border-bottom-radius(1em);
 }
 }
-}
+
 .now-playing__artist {
 	color: $color-gray-medium-dark;
 }
@@ -90,7 +90,7 @@ a:hover & {
 	color: #fff;
 	font-weight: 700;
 	text-transform: uppercase;
-	font-family: 'Arimo', sans-serif;
+	font-family: "Arimo", sans-serif;
 }
 .type-contest .entry__title--tag {
 	background-color: $light-gray;
@@ -111,7 +111,7 @@ a:hover & {
     color: #fff;
     font-weight: 700;
     text-transform: uppercase;
-   font-family: 'Arimo', sans-serif;
+   font-family: "Arimo", sans-serif;
 }
 .home__highlights,
 .home__featured { background-color: #37080d}
@@ -137,7 +137,7 @@ a:hover
 .featured__article:hover
 .featured__article--heading {
    	color: #fff;
-    	font-family: 'Arimo', sans-serif;
+    	font-family: "Arimo", sans-serif;
 
  .featured__article:hover .featured__article--heading {
     	color: #fff; }
@@ -147,7 +147,7 @@ a:hover
    	background-repeat:no-repeat;
     	background-position-x: -50px;
 }
-.header__nav { font-family: 'Arimo', sans-serif;}
+.header__nav { font-family: "Arimo", sans-serif;}
 
 .home__featured .featured__content--block {
 	background-color: #37080d;
@@ -158,18 +158,18 @@ a:hover
 .highlights__event--date,
 .highlights__event--title {
    		color: #fff;
-font-family: 'Arimo', sans-serif;
+font-family: "Arimo", sans-serif;
 }
 .featured__content--block:hover {
     	background: #b30000;
 
 }
-.entry2__title { font-family: 'Arimo', sans-serif;}
+.entry2__title { font-family: "Arimo", sans-serif;}
 .content__heading,
-.sponsors__heading { font-family: 'Arimo', sans-serif;}
+.sponsors__heading { font-family: "Arimo", sans-serif;}
 .featured__content--title {
     	color: #fff;
-    	font-family: 'font-family: 'Arimo', sans-serif;
+    	font-family: "Arimo", sans-serif;
 }
 .featured__content--link {
     	display:none;
@@ -190,13 +190,13 @@ font-family: 'Arimo', sans-serif;
     	margin: 0 0 .25em;
     	font-size: 1.60181em;
     	color: #d22228;
-    	font-family: 'Arimo', sans-serif;
+    	font-family: "Arimo", sans-serif;
 }
 .entry__title,
 .page__title {
     	margin: 0 0 20px;
     	font-size: 1.60181em;
-    	font-family: 'Arimo', sans-serif;
+    	font-family: "Arimo", sans-serif;
 }
 @media screen and (min-width:768px) {
 
@@ -268,7 +268,7 @@ font-family: 'Arimo', sans-serif;
         font-size: .88889em;
 	font-weight: 700;
 	text-transform: uppercase;
-	font-family: 'Arimo', sans-serif;
+	font-family: "Arimo", sans-serif;
 }
 .live-link__song--artist,
 .live-link__song:before {
@@ -279,7 +279,7 @@ font-family: 'Arimo', sans-serif;
 .widget--live-player__title {
         color: #fff;
 	font-weight: 700;
-	font-family: 'Arimo', sans-serif;
+	font-family: "Arimo", sans-serif;
 }
 .live-link__song--title { color: #ffc540 }
 .header__main {
@@ -306,7 +306,7 @@ font-family: 'Arimo', sans-serif;
         background-color: #37080d;
 	color: #d0d2d3;
 }
-}
+
 @media screen and (min-width:1024px) {
 .header__nav li {
         font-weight: 700;
@@ -382,8 +382,7 @@ font-family: 'Arimo', sans-serif;
 li:last-child {
 @include border-bottom-radius(1em);
 }
-}
-}
+
 .now-playing__artist {
 	color: $color-gray-medium-dark;
 }
@@ -442,7 +441,7 @@ a:hover & {
 	color: #fff;
 	font-weight: 700;
 	text-transform: uppercase;
-	font-family: 'Arimo', sans-serif;
+	font-family: "Arimo", sans-serif;
 }
 .type-contest .entry__title--tag {
 	background-color: $light-gray;
@@ -461,7 +460,7 @@ a:hover & {
     	color: #fff;
     	font-weight: 700;
     	text-transform: uppercase;
-   	font-family: 'Arimo', sans-serif;
+   	font-family: "Arimo", sans-serif;
 }
 
 .home__featured .featured__article--content {
@@ -475,7 +474,7 @@ a:hover & {
 }
 .featured__article--heading {
     	color: #fff;
-    	font-family: 'Arimo', sans-serif;
+    	font-family: "Arimo", sans-serif;
 
 }
 .header {
@@ -486,14 +485,10 @@ a:hover & {
     	background-position: 0 -36px;
 }
 
-a:hover
-.highlights__event--date,
-a:hover
-.highlights__event--title {
+a:hover .highlights__event--date,
+a:hover .highlights__event--title {
    		color: #fff;
-	font-family: 'Arimo', sans-serif;
-}
-
+		font-family: "Arimo", sans-serif;
 
 }
 .featured__content--btn {
@@ -550,4 +545,3 @@ a:hover
     text-transform: uppercase;
     transition: all 200ms ease-in-out 0s;
 }
-
