@@ -5,7 +5,7 @@ namespace Marketron\Tools;
 class BaseTool {
 
 	public $container;
-	//public $sources = array();
+	public $sources = array();
 
 	function get_name() {
 		return 'base_tool';
@@ -80,7 +80,10 @@ class BaseTool {
 
 					$importer = $this->get_importer( $tool_name );
 					$importer->import_source( $xml_doc );
-					//$this->sources[] = $xml_doc;
+
+					if ( $this->container->opts['repair'] ) {
+						$this->sources[] = $xml_doc;
+					}
 				} else {
 					\WP_CLI::warning( "Invalid XML for Tool($tool_name) - $data_file" );
 				}

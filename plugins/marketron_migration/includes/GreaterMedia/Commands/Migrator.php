@@ -47,33 +47,6 @@ class Migrator {
 	public $fresh;
 	public $initialized = false;
 
-	function _test_downloader( $args, $opts ) {
-		$downloader = new Downloader( 'migration_cache/downloads' );
-		$tmp_file = $downloader->download( 'https://www.google.co.in/images/srpr/logo10w.png' );
-		\WP_CLI::log( 'First tmp file = ' . $tmp_file );
-
-		$tmp_file = $downloader->download( 'https://www.google.co.in/images/srpr/logo10w.png' );
-		\WP_CLI::log( 'Second tmp file = ' . $tmp_file );
-	}
-
-	function test_media_downloader( $args, $opts ) {
-		$downloader = new Downloader(
-			'migration_cache/downloads',
-			'migration_cache/media'
-		);
-		$tmp_file = $downloader->download( 'http://media.wmgk.com/' . urlencode('Blogs/1001280/Watch The Mummers Strut (More Than A Tradition)mastered.mp3'  ) );
-		\WP_CLI::log( 'First tmp file = ' . $tmp_file );
-
-		$tmp_file = $downloader->download( 'http://media.wmgk.com/' . urlencode('Blogs/1001280/Watch The Mummers Strut (More Than A Tradition)mastered.mp3'  ) );
-		\WP_CLI::log( 'Second tmp file = ' . $tmp_file );
-
-	}
-
-	function test_mapping( $args, $opts ) {
-		$this->mapping_collection = new MappingCollection();
-		$this->mapping_collection->load( 'wmgk_mapping.csv' );
-	}
-
 	function build_actions_json( $args, $opts ) {
 		$user_ids = $opts['user_ids'];
 		$output   = $opts['output'];
@@ -279,6 +252,13 @@ class Migrator {
 		$tools_to_load = $this->get_tools_to_load();
 		$this->load_tools( $tools_to_load );
 
+		if ( $this->opts['repair'] ) {
+			//$repairer = new \GreaterMedia\Import\Repair\EmbeddedFormRepairer();
+			//$repairer->container = $this;
+			//$repairer->repair( $this->opts['site_dir'] . '/output/cids.json' );
+
+		}
+
 		if ( $this->opts['export_to_gigya'] ) {
 			$this->entity_factory->build( 'gigya_user' )->export();
 		}
@@ -287,6 +267,15 @@ class Migrator {
 		$this->table_factory->export();
 		$this->error_reporter->save_report();
 		$this->side_loader->sync();
+	}
+
+	function repair( $args, $opts ) {
+		$opts['repair'] = true;
+		$this->initialize( $args, $opts, false );
+
+		$repairer = new \GreaterMedia\Import\Repair\EmbeddedFormRepairer();
+		$repairer->container = $this;
+		$repairer->update_cids( $this->opts['site_dir'] . '/output/cids.json' );
 	}
 
 	function restore( $args, $opts ) {
@@ -318,6 +307,7 @@ class Migrator {
 		$this->load_boolean_opt( 'fake_media', false );
 		$this->load_boolean_opt( 'fresh', false );
 		$this->load_boolean_opt( 'export_to_gigya', true );
+		$this->load_boolean_opt( 'repair', false );
 
 		$this->fresh = $this->opts['fresh'];
 	}
@@ -333,8 +323,10 @@ class Migrator {
 	function get_tools_to_load() {
 		$tools_to_load = $this->opts['tools_to_load'];
 
-		if ( $tools_to_load === 'all' ) {
+		if ( $tools_to_load[0] === 'all' ) {
 			$tools_to_load = $this->tool_factory->get_tool_names();
+		} else if ( $tools_to_load[0] === 'none' ) {
+			$tools_to_load = array();
 		}
 
 		return $tools_to_load;

@@ -146,6 +146,7 @@ class Survey extends BaseImporter {
 			foreach ( $questions as $question ) {
 				$form_item = $this->form_item_from_question( $question );
 				$form_item['cid'] = 'c' . strval( $cid++ );
+				$form_item['expected_cid'] = 'c' . $this->import_string( $question['SubQuestionID'] );
 
 				if ( $form_item['field_type'] === 'custom_label' ) {
 					$form['custom_label'] .= $form_item['custom_label'];
