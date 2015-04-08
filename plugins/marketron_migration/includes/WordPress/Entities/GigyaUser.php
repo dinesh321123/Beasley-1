@@ -318,9 +318,11 @@ class GigyaUser extends BaseEntity {
 		$data['lastUpdated']          = $gigya_user['last_updated'];
 		$data['lastUpdatedTimestamp'] = strtotime( $gigya_user['last_updated'] );
 
-		$survey_entity        = $this->get_entity( 'survey' );
-		$data['contest_list'] = $this->get_user_contest_entries_list( $id );
-		$data['survey_list']  = $this->get_user_survey_entries_list( $id );
+		$survey_entity         = $this->get_entity( 'survey' );
+		$data['contest_list']  = $this->get_user_contest_entries_list( $id );
+		$data['survey_list']   = $this->get_user_survey_entries_list( $id );
+		$data['contest_count'] = count( $data['contest_list'] );
+		$data['survey_count']  = count( $data['survey_list'] );
 
 		$this->export_newsletters( $gigya_user, $data );
 
@@ -455,13 +457,16 @@ class GigyaUser extends BaseEntity {
 
 	function get_user_survey_answers( $user_id, $user_survey_id ) {
 		if ( $this->user_exists( $user_id ) ) {
-			$user_survey_entries = $this->gigya_users[ $user_id ]['survey_entries'];
 
-			foreach ( $user_survey_entries as $user_survey_entry ) {
-				if ( ! empty( $user_survey_entry['user_survey_id'] ) ) {
-					if ( $user_survey_entry['user_survey_id'] === $user_survey_id ) {
-						if ( ! empty( $user_survey_entry['answers'] ) ) {
-							return $user_survey_entry['answers'];
+			if ( ! empty( $this->gigya_users[ $user_id ][ 'survey_entries' ] ) ) {
+				$user_survey_entries = $this->gigya_users[ $user_id ]['survey_entries'];
+
+				foreach ( $user_survey_entries as $user_survey_entry ) {
+					if ( ! empty( $user_survey_entry['user_survey_id'] ) ) {
+						if ( $user_survey_entry['user_survey_id'] === $user_survey_id ) {
+							if ( ! empty( $user_survey_entry['answers'] ) ) {
+								return $user_survey_entry['answers'];
+							}
 						}
 					}
 				}

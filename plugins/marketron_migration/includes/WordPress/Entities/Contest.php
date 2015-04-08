@@ -36,7 +36,9 @@ class Contest extends Post {
 			'contest-single-entry' => intval( $contest_single_entry ),
 		);
 
-		if ( ! empty( $contest_survey ) ) {
+		if ( ! empty( $fields['inline_contest_form'] ) ) {
+			$meta['embedded_form'] = json_encode( $fields['inline_contest_form'] );
+		} else if ( ! empty( $contest_survey ) ) {
 			$meta['embedded_form'] = $this->get_contest_form( $contest_survey );
 		}
 

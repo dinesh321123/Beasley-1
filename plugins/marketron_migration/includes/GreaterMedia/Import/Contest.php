@@ -48,6 +48,7 @@ class Contest extends BaseImporter {
 		$post['contest_single_entry'] = $this->single_entry_from_contest( $contest );
 		$post['contest_members_only'] = $this->members_only_from_contest( $contest );
 		$post['contest_survey']       = $this->survey_from_contest( $contest );
+		$post['inline_contest_form']  = $this->contest_form_from_contest( $contest );
 		$post['post_content']         = $this->content_from_contest( $contest );
 		$post['contest_confirmation'] = $this->confirmation_from_contest( $contest );
 		$post['contest_entries']      = $contest_entries;
@@ -65,7 +66,13 @@ class Contest extends BaseImporter {
 
 	function contest_type_from_contest( $contest ) {
 		$giveaway_medium = $this->import_string( $contest['GiveawayMedium'] );
-		$giveaway_medium = strtolower( $giveaway_medium );
+
+		if ( ! empty( $giveaway_medium ) ) {
+			$giveaway_medium = strtolower( $giveaway_medium );
+		} else if ( ! empty( $contest->CustomQuestionConfigurations ) ) {
+			// has form, so assuming online
+			$giveaway_medium = 'web';
+		}
 
 		$has_on_air = strpos( $giveaway_medium, 'air' ) !== false;
 		$has_web = strpos( $giveaway_medium, 'web' ) !== false;
@@ -97,6 +104,96 @@ class Contest extends BaseImporter {
 		return $authors;
 	}
 
+	function contest_form_from_contest( $contest ) {
+		$form_config = $contest->CustomQuestionConfigurations;
+
+		if ( ! empty( $form_config ) ) {
+			$form_items = array();
+			$field_items = $form_config->CustomQuestionConfiguration;
+
+			foreach ( $field_items as $field_item ) {
+				$form_item = $this->form_item_from_custom_question( $field_item );
+
+				if ( ! empty( $form_item ) ) {
+					$form_items[] = $form_item;
+				}
+			}
+
+			return $form_items;
+		} else {
+			return null;
+		}
+	}
+
+	function form_item_from_custom_question( $question ) {
+		$form_item     = array();
+		$field_name    = $this->import_string( $question['FieldName'] );
+		$question_text = $this->import_string( $question['Question'] );
+		$question_id   = ltrim( $field_name, 'Field' );
+		$answer_type   = $this->import_string( $question['AnswerType'] );
+		$required      = $this->import_bool( $question['Required'] );
+
+		switch ( $answer_type ) {
+			case 'Text':
+				$field_type    = 'text';
+				$field_options = array( 'size' => 'large' );
+				break;
+
+			case 'TextArea':
+				$field_type = 'paragraph';
+				$field_options = array( 'size' => 'large' );
+				break;
+
+			case 'Checkbox':
+				$field_type = 'checkboxes';
+				$field_options = array(
+					array( 'label' => $question_text, 'checked' => false ),
+				);
+				break;
+
+			case 'Select':
+				$field_type    = 'dropdown';
+				$field_options = array();
+				$options       = array();
+
+				foreach ( $question->QuestionOptions->QuestionOption as $option ) {
+					$options[] = array(
+						'label' => $this->import_string( $option['FieldValue'] ),
+						'checked' => false,
+					);
+				}
+
+				$field_options['options'] = $options;
+				break;
+
+			case 'Radio':
+				$field_type    = 'radio';
+				$field_options = array();
+				$options       = array();
+
+				foreach ( $question->QuestionOptions->QuestionOption as $option ) {
+					$options[] = array(
+						'label' => $this->import_string( $option['FieldValue'] ),
+						'checked' => false,
+					);
+				}
+
+				$field_options['options'] = $options;
+				break;
+
+			default:
+				var_dump( $field_name );
+				\WP_CLI::error( 'Unknown Contest Form AnswerType: ' . $answer_type );
+		}
+
+		$form_item['label']         = $question_text;
+		$form_item['cid']           = 'c' . $question_id;
+		$form_item['field_type']    = $field_type;
+		$form_item['required']      = $required;
+		$form_item['field_options'] = $field_options;
+
+		return $form_item;
+	}
 
 	function members_only_from_contest( $contest ) {
 		$non_club = $this->import_bool( $contest['IsNonClubContest'] );
@@ -157,7 +254,7 @@ class Contest extends BaseImporter {
 		//$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $entries as $entry ) {
-			$contest_entry     = $this->contest_entry_from_entry( $entry, $contest_id );
+			$contest_entry     = $this->contest_entry_from_entry( $entry, $contest_id, $contest );
 			$contest_entries[] = $contest_entry;
 			//$progress_bar->tick();
 		}
@@ -171,24 +268,39 @@ class Contest extends BaseImporter {
 		return $this->contest_shows_from_contest( $contest );
 	}
 
-	function contest_entry_from_entry( $entry, $contest_id ) {
+	function contest_entry_from_entry( $entry, $contest_id, $contest ) {
 		$contest_entry                         = array();
 		$contest_entry['marketron_contest_id'] = $contest_id;
 		$contest_entry['member_id']            = $this->import_string( $entry['MemberID'] );
-		$contest_entry['answers']              = $this->answers_from_entry( $entry, $contest_id );
+		$contest_entry['answers']              = $this->answers_from_entry( $entry, $contest_id, $contest );
 		$contest_entry['created_on']           = $this->import_string( $entry['UTCEntryDate'] );
 		$contest_entry['user_survey_id']       = $this->import_string( $entry['UserSurveyID'] );
 
 		return $contest_entry;
 	}
 
-	function answers_from_entry( $entry, $contest_id ) {
+	function answers_from_entry( $entry, $contest_id, $contest ) {
 		$member_id   = $this->import_string( $entry['MemberID'] );
 		$gigya_users = $this->get_entity( 'gigya_user' );
 
 		if ( empty( $entry['UserSurveyID'] ) ) {
 			// no linked survey, enter to win type of contest
-			return array();
+			$answers   = array();
+			$questions = $contest->CustomQuestionConfigurations;
+
+			if ( ! empty( $questions->CustomQuestionConfiguration ) ) {
+				foreach ( $questions->CustomQuestionConfiguration as $question ) {
+					$field_name = $this->import_string( $question['FieldName'] );
+
+					if ( ! empty( $entry[ $field_name ] ) ) {
+						$field_key   = 'c' . ltrim( $field_name, 'Field' );
+						$field_value = $this->import_string( $entry[ $field_name ] );
+						$answers[ $field_key ] = $field_value;
+					}
+				}
+			}
+
+			return $answers;
 		} else {
 			// answers will be picked up from the corresponding survey
 			$user_survey_id = $this->import_string( $entry['UserSurveyID'] );

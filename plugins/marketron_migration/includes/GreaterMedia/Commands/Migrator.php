@@ -252,13 +252,6 @@ class Migrator {
 		$tools_to_load = $this->get_tools_to_load();
 		$this->load_tools( $tools_to_load );
 
-		if ( $this->opts['repair'] ) {
-			//$repairer = new \GreaterMedia\Import\Repair\EmbeddedFormRepairer();
-			//$repairer->container = $this;
-			//$repairer->repair( $this->opts['site_dir'] . '/output/cids.json' );
-
-		}
-
 		if ( $this->opts['export_to_gigya'] ) {
 			$this->entity_factory->build( 'gigya_user' )->export();
 		}
@@ -270,6 +263,10 @@ class Migrator {
 	}
 
 	function repair( $args, $opts ) {
+			//$repairer = new \GreaterMedia\Import\Repair\EmbeddedFormRepairer();
+			//$repairer->container = $this;
+			//$repairer->repair( $this->opts['site_dir'] . '/output/cids.json' );
+
 		$opts['repair'] = true;
 		$this->initialize( $args, $opts, false );
 
