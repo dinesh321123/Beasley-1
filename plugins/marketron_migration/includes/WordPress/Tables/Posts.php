@@ -93,12 +93,13 @@ class Posts extends BaseTable {
 	}
 
 	function distinct_post_name( $post_name ) {
+		$new_post_name = $post_name;
 		$counter = 1;
-		$max_attempts = 50;
+		$max_attempts = 100;
 
 		while ( $counter < $max_attempts ) {
-			if ( $this->has_row_with_field( 'post_name', $post_name ) ) {
-				$post_name = $post_name . '-' . $counter;
+			if ( $this->has_row_with_field( 'post_name', $new_post_name ) ) {
+				$new_post_name = $post_name . '-' . $counter;
 			} else {
 				break;
 			}
@@ -106,7 +107,7 @@ class Posts extends BaseTable {
 			$counter++;
 		}
 
-		return $post_name;
+		return $new_post_name;
 	}
 
 	function add_timestamps( &$fields ) {

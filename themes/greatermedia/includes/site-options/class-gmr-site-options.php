@@ -182,7 +182,7 @@ class GreaterMediaSiteOptions {
 		<h4><?php _e( 'Live Player and Live Links', 'greatermedia' ); ?></h4>
 
 		<div class="gmr__option">
-			<input type="checkbox" name="gmr_liveplayer_more" id="gmr_liveplayer_disabled" value="1" <?php checked( 1 == esc_attr( $liveplayer_disabled ) ); ?> /><label for="gmr_liveplayer_disabled" class="gmr__option--label-inline"><?php _e( 'Disable the Live Player', 'greatermedia' ); ?></label>
+			<input type="checkbox" name="gmr_liveplayer_disabled" id="gmr_liveplayer_disabled" value="1" <?php checked( 1 == esc_attr( $liveplayer_disabled ) ); ?> /><label for="gmr_liveplayer_disabled" class="gmr__option--label-inline"><?php _e( 'Disable the Live Player', 'greatermedia' ); ?></label>
 			<div class="gmr-option__field--desc"><?php _e( 'Check this box if this site does not have a live audio stream.', 'greatermedia' ); ?></div>
 		</div>
 
