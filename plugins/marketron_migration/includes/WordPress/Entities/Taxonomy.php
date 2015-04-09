@@ -5,6 +5,7 @@ namespace WordPress\Entities;
 class Taxonomy extends BaseEntity {
 
 	public $container;
+	public $relationships_cache = array();
 
 	function get_taxonomy() {
 		return 'taxonomy_name';
@@ -62,21 +63,40 @@ class Taxonomy extends BaseEntity {
 	function find_or_create_term_relationship( $term_taxonomy_id, $object_id ) {
 		$table = $this->get_table( 'term_relationships' );
 
-		if ( ! $table->has_term_relationship( $term_taxonomy_id, $object_id ) ) {
+		if ( ! $this->has_cached_term_relationship( $term_taxonomy_id, $object_id ) ) {
 			$term_relationship = array(
 				'term_taxonomy_id' => $term_taxonomy_id,
 				'object_id'        => $object_id,
 			);
 
 			$term_relationship = $table->add( $term_relationship );
+			$this->cache_term_relationship( $term_relationship );
 		} else {
-			$term_relationship = $table->get_term_relationship( $term_taxonomy_id, $object_id );
+			$term_relationship = $this->get_cached_term_relationship( $term_taxonomy_id, $object_id );
 		}
 
 		//error_log( "find_or_create_term_relationship: $term_taxonomy_id, object_id: $object_id" );
 		//var_dump( $term_relationship );
 
 		return $term_relationship;
+	}
+
+	function has_cached_term_relationship( $term_taxonomy_id, $object_id ) {
+		$key = $term_taxonomy_id . ' x ' . $object_id;
+		return array_key_exists( $key, $this->relationships_cache );
+	}
+
+	function cache_term_relationship( &$term_relationship ) {
+		$term_taxonomy_id                  = $term_relationship['term_taxonomy_id'];
+		$object_id                         = $term_relationship['object_id'];
+		$key                               = $term_taxonomy_id . ' x ' . $object_id;
+
+		$this->relationships_cache[ $key ] = $term_relationship;
+	}
+
+	function get_cached_term_relationship( $term_taxonomy_id, $object_id ) {
+		$key = $term_taxonomy_id . ' x ' . $object_id;
+		return $this->relationships_cache[ $key ];
 	}
 
 }

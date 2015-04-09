@@ -100,7 +100,7 @@ class Survey extends BaseImporter {
 
 	function excerpt_from_survey( $survey ) {
 		$excerpt = $this->import_string( $survey['SurveyBlurb'] );
-		$excerpt = htmlentities( $excerpt );
+		$excerpt = wp_strip_all_tags( $excerpt );
 
 		return $excerpt;
 	}

@@ -21,7 +21,7 @@ class Feed extends BaseImporter {
 		$podcast_count = 0;
 		$blog_post_count = 0;
 		$blog_with_shows = 0;
-		$max = 100;
+		$max = 3000;
 		$min = 9500;
 		$index = 0;
 
@@ -220,7 +220,7 @@ class Feed extends BaseImporter {
 			$excerpt = '';
 		}
 
-		$excerpt = htmlentities( $excerpt );
+		$excerpt = wp_strip_all_tags( $excerpt );
 
 		return $excerpt;
 	}
