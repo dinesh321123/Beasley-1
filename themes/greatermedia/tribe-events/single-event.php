@@ -83,7 +83,7 @@ $event_id = get_the_ID();
 				<?php the_content(); ?>
 
 			</div>
-			<div class="tribe-events-single-event-author"><p>Posted by <span class="author"><?php the_author(); ?></span></p></div>
+			<div class="tribe-events-single-event-author"><p>Posted by <span class="vcard author post-author"><span class="fn"><?php the_author(); ?></span></span></p></div>
 
 			<div class="ad__inline--right mobile">
 				<?php do_action( 'acm_tag_gmr_variant', 'mrec-body', 'mobile', array( 'max_width' => 1023 ) ); ?>
