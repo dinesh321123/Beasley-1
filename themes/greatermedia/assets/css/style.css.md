@@ -83,38 +83,38 @@
 ### assets/css/greater_media.css
 
 - **Total Stylesheets:** 1
-- **Total Stylesheet Size:** 460303
-- **Total Media Queries:** 7
-- **Total Rules:** 2567
-- **Selectors Per Rule:** 1.3848850798597585
-- **Total Selectors:** 3555
-- **Identifiers Per Selector:** 2.8542897327707455
-- **Specificity Per Selector:** 19.263291139240508
+- **Total Stylesheet Size:** 460438
+- **Total Media Queries:** 15
+- **Total Rules:** 2538
+- **Selectors Per Rule:** 1.429866036249015
+- **Total Selectors:** 3629
+- **Identifiers Per Selector:** 2.3229539818131717
+- **Specificity Per Selector:** 21.145770184623863
 - **Top Selector Specificity:** 120
-- **Top Selector Specificity Selector:** }#popup-player-livestream .live-player--open .live-links
-- **Total Id Selectors:** 48
-- **Total Identifiers:** 10147
-- **Total Declarations:** 2656
-- **Total Unique Colors:** 12
-- **Total Important Keywords:** 13
+- **Top Selector Specificity Selector:** #popup-player-livestream .live-player--open .live-links
+- **Total Id Selectors:** 9
+- **Total Identifiers:** 8430
+- **Total Declarations:** 7565
+- **Total Unique Colors:** 31
+- **Total Important Keywords:** 131
 
 ### assets/css/greater_media.min.css
 
 - **Total Stylesheets:** 1
-- **Total Stylesheet Size:** 1007554
-- **Total Media Queries:** 16
-- **Total Rules:** 9357
-- **Selectors Per Rule:** 1.4770759858929143
-- **Total Selectors:** 13821
-- **Identifiers Per Selector:** 2.272122132986036
-- **Specificity Per Selector:** 20.965342594602415
+- **Total Stylesheet Size:** 262060
+- **Total Media Queries:** 15
+- **Total Rules:** 2457
+- **Selectors Per Rule:** 1.5327635327635327
+- **Total Selectors:** 3766
+- **Identifiers Per Selector:** 2.2910249601699415
+- **Specificity Per Selector:** 20.92113648433351
 - **Top Selector Specificity:** 120
 - **Top Selector Specificity Selector:** #popup-player-livestream .live-player--open .live-links
-- **Total Id Selectors:** 40
-- **Total Identifiers:** 31403
-- **Total Declarations:** 27133
-- **Total Unique Colors:** 32
-- **Total Important Keywords:** 498
+- **Total Id Selectors:** 9
+- **Total Identifiers:** 8628
+- **Total Declarations:** 6942
+- **Total Unique Colors:** 31
+- **Total Important Keywords:** 128
 
 ### assets/css/greater_media_admin.css
 
