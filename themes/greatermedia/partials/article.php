@@ -26,8 +26,8 @@
 
 				<header class="article__header">
 
-					<time class="article__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j, Y'); ?></time>
-					<h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
+					<time class="article__date updated" itemprop="datePublished" datetime="<?php echo get_the_time('c'); ?>"><?php the_date('F j, Y'); ?></time>
+					<h2 class="article__title entry-title" itemprop="headline"><?php the_title(); ?></h2>
 					<?php get_template_part( 'partials/social-share' ); ?>
 
 				</header>
