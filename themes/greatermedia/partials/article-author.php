@@ -10,5 +10,5 @@ $the_id = get_the_ID();
 
 ?>
 <div class="article__author">
-    <p>Posted by <span class="author"><?php the_author($the_id); ?></span></p>
+    <p>Posted by <span class="vcard author post-author"><span class="fn"><?php the_author($the_id); ?></span></span></p>
 </div>
