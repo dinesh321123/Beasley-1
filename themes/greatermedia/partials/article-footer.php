@@ -7,7 +7,7 @@ if ( (in_array( 'category', $post_taxonomies ) && has_category() ) ||  ( in_arra
 
 <footer class="article__footer">
 
-            get_template_part( 'partials/article', 'author' );
+            <?php get_template_part( 'partials/article', 'author' ); ?>
 
 	<?php if ( in_array( 'category', $post_taxonomies ) && has_category() ) :
 
