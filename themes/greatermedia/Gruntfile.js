@@ -130,9 +130,9 @@ module.exports = function (grunt) {
 	});
 
 	// Default tasks
-	grunt.registerTask('css', ['sass', 'cssmin']);
+	grunt.registerTask('css', ['sass', 'cssmin', 'parker']);
 	grunt.registerTask('js', ['jshint', 'concat', 'uglify']);
-	grunt.registerTask('default', ['js', 'css'], 'parker');
+	grunt.registerTask('default', ['js', 'css']);
 
 	grunt.util.linefeed = '\n';
 };
