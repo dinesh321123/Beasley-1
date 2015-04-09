@@ -4,6 +4,20 @@ namespace WordPress\Entities;
 
 class Post extends BaseEntity {
 
+	public $entities_map = array(
+		'â€¦'             => '&#8230;', # elipsis
+		'â€“'             => '&ndash;', # long hyphen
+		'â€™'             => '&rsquo;', # curly apostrophe
+		'â€œ'             => '&ldquo;', # curly open quote
+		'/â€[[:cntrl:]]/' => '&rdquo;', # curly close quote
+
+		'…' => '&#8230;', # elipsis
+		'–' => '&ndash;', # long hyphen
+		'’' => '&rsquo;', # curly apostrophe
+		'“' => '&ldquo;', # curly open quote
+		'”' => '&rdquo;', # curly close quote
+	);
+
 	function add( &$fields ) {
 		if ( array_key_exists( 'post_authors', $fields ) ) {
 			$post_authors = $this->add_post_authors( $fields['post_authors'] );
@@ -41,6 +55,14 @@ class Post extends BaseEntity {
 
 		$fields['post_content'] = $this->import_images_in_content(
 			$fields['post_content']
+		);
+
+		$fields['post_content'] = $this->replace_broken_entities(
+			$fields['post_content']
+		);
+
+		$fields['post_excerpt'] = $this->replace_broken_entities(
+			$fields['post_excerpt']
 		);
 
 		$fields = $table->add( $fields );
@@ -164,6 +186,18 @@ class Post extends BaseEntity {
 	function import_images_in_content( $content ) {
 		$inline_image_replacer = $this->container->inline_image_replacer;
 		return $inline_image_replacer->find_and_replace( $content );
+	}
+
+	function replace_broken_entities( $content ) {
+		foreach ( $this->entities_map as $key => $value ) {
+			if ( strpos( $key, '/' ) === 0 ) {
+				$content = preg_replace( $key, $value, $content );
+			} else {
+				$content = str_replace( $key, $value, $content );
+			}
+		}
+
+		return $content;
 	}
 
 	function set_post_format( $post_id, $post_format ) {
