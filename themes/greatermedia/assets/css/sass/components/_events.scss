@@ -40,7 +40,7 @@
 .event__info {
 	@include row();
 	margin-bottom: 2em;
-	
+
 	@include bp(large) {
 		padding-right: 320px;
 	}
@@ -236,4 +236,8 @@
 	.entry2__meta p {
 		margin: 0;
 	}
+}
+
+.tribe-events-single-event-author {
+	display: none;
 }
