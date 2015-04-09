@@ -7,48 +7,13 @@
  */
 ?>
 <section id="featured" class="home__featured">
-		<?php
-		$hp_featured_query = \GreaterMedia\HomepageCuration\get_featured_query();
+	<?php if ( is_news_site() ) {
 
-		if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
-			<div class="featured__article">
-				<a href="<?php the_permalink(); ?>">
-					<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary', null, true ) ?>)'>
-						<?php
+		get_template_part( 'partials/news/featured');
 
-							$image_attr = image_attribution();
+	} else {
 
-							if ( ! empty( $image_attr ) ) {
-								echo $image_attr;
-							}
+		get_template_part( 'partials/music/featured' );
 
-						?>
-					</div>
-					<div class="featured__article--content">
-						<div class="featured__article--heading">
-							<?php the_title(); ?>
-						</div>
-					</div>
-				</a>
-			</div>
-		<?php endif; ?>
-		<?php // if we still have more posts (we almost always will), render the 3 below the main section ?>
-		<?php if ( $hp_featured_query->have_posts() ) : ?>
-			<div class="featured__content">
-				<?php while ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
-					<div class="featured__content--block">
-						<a href="<?php the_permalink(); ?>">
-							<div class="featured__content--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-secondary', null, true ) ?>)'></div>
-							<div class="featured__content--meta">
-								<h2 class="featured__content--title"><?php the_title(); ?></h2>
-								<div class="featured__content--link">
-									<span class="featured__content--btn">Read More</span>
-								</div>
-							</div>
-						</a>
-					</div>
-				<?php endwhile; ?>
-			</div>
-		<?php endif; ?>
-		<?php wp_reset_query(); ?>
+	} ?>
 </section>

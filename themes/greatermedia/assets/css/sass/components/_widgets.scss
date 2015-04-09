@@ -7,6 +7,13 @@
 		margin-bottom: 58px;
 	}
 
+	.news-site & {
+		padding: 0 5%;
+
+		@include bp(medium) {
+			padding: 0;
+		}
+	}
 	.liveplayer-disabled & {
 		visibility: hidden;
 
@@ -36,6 +43,17 @@
 		margin: 0 0 1em;
 		font-size: ms(0);
 		font-weight: normal;
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			margin-bottom: 0;
+			line-height: 1;
+			font-size: ms(5);
+			font-weight: lighter;
+			text-transform: uppercase;
+		}
 	}
 
 	.liveplayer-disabled & {
@@ -78,94 +96,16 @@
 	padding: 0;
 	margin: 0;
 	line-height: 1;
-}
 
-// On-air Schedule
-.widget-onair--current {
+	.news-site & {
+		margin-top: 2.125em;
 
-}
+		&:hover {
 
-.widget-onair--listen_now {
-
-}
-
-.widget-onair--upcoming_shows {
-
-}
-
-// Link Roll
-.widget-link--icon {
-
-}
-
-.widget-link--filter {
-
-}
-
-.widget-link--title {
-
-}
-
-// Calendar (event list)
-.widget-calendar--title {
-
-}
-
-.widget-calendar--list {
-
-}
-
-.widget-calendar--event_date {
-
-}
-
-.widget-calendar--event_time {
-
-}
-
-.widget-calendar--event_title {
-
-}
-
-.widget-calendar--event_location {
-
-}
-
-// Weather Summary
-.widget-weather--temp_high {
-
-}
-
-.widget-weather--temp_low {
-
-}
-
-.widget-weather--excerpt {
-
-}
-
-.widget-weather--link {
-
-}
-
-// Live Webcam
-.widget-webcam--title {
-
-}
-
-.widget-webcam--player {
-
-}
-
-// Traffic Map
-.widget-traffic--title {
-
-}
-
-.widget--weather--map {
-
-}
-
-.widget-traffic--link {
-
+			div:before {
+				color: $primary-link-hover;
+				border-color: $primary-link-hover;
+			}
+		}
+	}
 }

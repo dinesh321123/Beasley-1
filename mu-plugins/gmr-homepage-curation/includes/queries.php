@@ -64,3 +64,22 @@ function get_events_query() {
 
 	return $query;
 }
+
+function get_contests_query() {
+	$ids = explode( ',', get_option( 'gmr-homepage-contests' ) );
+	$post_types = array(
+		GMR_CONTEST_CPT,
+		GMR_SURVEY_CPT
+	);
+
+	$args = array(
+		'post_type'           => $post_types,
+		'post__in'            => $ids,
+		'orderby'             => 'post__in',
+		'ignore_sticky_posts' => true,
+	);
+
+	$query = new WP_Query( $args );
+
+	return $query;
+}

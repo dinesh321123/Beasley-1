@@ -6,6 +6,13 @@
 	@include bp(medium) {
 		padding: $base-line-height $gutter * 2;
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			padding: $base-line-height 1.5em;
+		}
+	}
 }
 
 .entry2 {
@@ -16,6 +23,10 @@
 
 	&:last-of-type {
 		border-bottom: none;
+	}
+
+	.news-site & {
+		padding-bottom: 2.5em;
 	}
 }
 
@@ -158,6 +169,11 @@
 	margin: 0;
 	font-size: ms(6);
 	line-height: 1.2;
+
+	.news-site & {
+		margin: .5em 0 .75em;
+		font-weight: normal;
+	}
 }
 
 .entry2__excerpt {
@@ -169,6 +185,11 @@
 
 	@include bp(medium) {
 		display: block;
+	}
+
+	.news-site & {
+		margin: 0;
+		line-height: 1.875;
 	}
 }
 
@@ -189,6 +210,27 @@
 	.events-archive & {
 		display: none;
 	}
+}
+
+.entry2__category:link, .entry2__category:visited {
+	@include fill-parent();
+	display: block;
+	line-height: 1;
+	font-weight: lighter;
+	font-size: ms(1);
+	text-transform: uppercase;
+
+	@include bp(medium) {
+		font-size: ms(0);
+	}
+
+	@include bp(large) {
+		font-size: ms(-1);
+	}
+}
+
+.entry2__category:hover, .entry2__category:focus, .entry2__category:active {
+	color: $secondary-link-hover;
 }
 
 .entry2__footer--category:link, .entry2__footer--category:visited {
@@ -290,7 +332,7 @@
 		font-size: ms(0);
 		line-height: 1;
 		text-transform: uppercase;
-		color: #fff;
+		color: #ffffff !important;
 		position: absolute;
 		left: 0;
 		bottom: 0;

@@ -1,0 +1,91 @@
+.recent-scores__widget {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: table;
+	table-layout: fixed;
+	width: 55%;
+	height: 40px;
+	padding: 0 1em;
+	line-height: 1.5em;
+	font-size: ms(-3);
+	color: $color-text-white;
+
+	@include bp(medium) {
+		height: 48px;
+		position: relative;
+		top: auto;
+		left: auto;
+		float: right;
+		width: auto;
+		height: 48px;
+		padding: 0;
+		line-height: 1.5em;
+	}
+}
+
+.score--visitor {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+	text-align: left;
+}
+
+.game__score {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+	padding: 0 5px;
+	text-align: center;
+
+	@include bp(large) {
+		padding: 0 20px;
+	}
+}
+
+.score--home {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+	text-align: right;
+}
+
+.team__logo {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+	height: 32px;
+	padding-right: 6px;
+
+	@include bp(medium) {
+		height: 34px;
+	}
+
+	.score--home & {
+		padding-right: 0;
+		padding-left: 6px;
+	}
+}
+
+.team__logo img {
+	max-width: 20px;
+	height: auto;
+
+	@include bp(medium) {
+		max-width: 34px;
+	}
+}
+
+.team__name {
+	display: table-cell;
+	width: auto;
+	vertical-align: middle;
+}
+
+.team__record {
+	font-size: ms(-3);
+}
+
+.game__score--status {
+	font-size: ms(-3);
+}

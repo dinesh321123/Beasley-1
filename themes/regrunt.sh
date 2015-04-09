@@ -6,4 +6,7 @@ grunt
 cd ../wmgk
 grunt
 
+cd ../thefanatic
+grunt
+
 cd ../

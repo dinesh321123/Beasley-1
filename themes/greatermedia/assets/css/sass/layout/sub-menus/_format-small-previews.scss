@@ -51,4 +51,13 @@
 		max-height: 40px;
 		width: auto;
 	}
+
+	.news-site & {
+		li .group {
+			
+			@include bp(large) {
+				width: 78%;
+			}
+		}
+	}
 }

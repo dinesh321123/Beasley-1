@@ -47,9 +47,15 @@ function wp_head() {
 			}
 
 			if ( maxWidthOk && minWidthOk ) {
-				var OX_12345 = new OX();
+				var OX_12345 = new OX(),
+					category = jQuery.trim( $slot.attr( 'category' ) );
+
 				OX_12345.addAdUnit( $slot.data( 'openx-id' ) );
 				OX_12345.setAdUnitSlotId( $slot.data( 'openx-id' ), $slot.attr( 'id' ) );
+				if ( category ) {
+					OX_12345.addVariable( 'category', category );
+				}
+
 				OX_12345.load();
 
 				$slot.addClass( 'gmr-ad-filled' );
@@ -57,8 +63,8 @@ function wp_head() {
 		}
 
 		function fill_ads() {
-			$( '.gmr-ad' ).not( '.gmr-ad-filled' ).each( function () {
-				fill_ad( $( this ) );
+			jQuery( '.gmr-ad' ).not( '.gmr-ad-filled' ).each( function () {
+				fill_ad( jQuery( this ) );
 			} );
 		}
 
@@ -71,9 +77,7 @@ function wp_head() {
 }
 
 function load_js() {
-	?>
-	<script type="text/javascript" src="//ox-d.greatermedia.com/w/1.0/jstag"></script>
-	<?php
+	?><script type="text/javascript" src="//ox-d.greatermedia.com/w/1.0/jstag"></script><?php
 }
 
 function render_tag( $output_html, $tag_id ) {
@@ -109,10 +113,23 @@ function render_tag( $output_html, $tag_id ) {
 	}
 
 	if ( is_null( $random_number ) ) {
-		$random_number =  str_pad( rand( 0, 999999999999999 ), 15, rand( 0, 9 ), STR_PAD_LEFT );
+		$random_number =  str_pad( rand( 0, PHP_INT_MAX ), 15, rand( 0, 9 ), STR_PAD_LEFT );
 	}
 
 	$uniqid = uniqid();
+	
+	$category = false;
+	if ( is_singular() ) {
+		$categories = wp_get_post_categories( get_queried_object_id() );
+		if ( ! empty( $categories ) ) {
+			$category = get_category( current( $categories ) );
+			if ( $category ) {
+				$category = $category->name;
+			}
+		}
+	} elseif ( is_category() ) {
+		$category = get_queried_object()->name;
+	}
 
 	ob_start();
 
@@ -122,6 +139,9 @@ function render_tag( $output_html, $tag_id ) {
 		class="gmr-ad"
 		data-min-width="<?php echo esc_attr( $min_width ); ?>"
 		data-max-width="<?php echo esc_attr( $max_width ); ?>"
+		<?php if ( ! empty( $category ) ) : ?>
+		data-category="<?php echo esc_attr( $category ); ?>"
+		<?php endif; ?>
 	    data-openx-id="%openx_id%"
 	>
 	</div>

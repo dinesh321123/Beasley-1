@@ -93,27 +93,132 @@ Curated posts for Featured Articles
 		@include span-columns(12);
 		@include omega;
 	}
+
+	.news-site & {
+		width: 100%;
+		padding: 0 0 2.375em;
+		background-color: transparent;
+		background-image: none;
+	}
+}
+
+.featured__articles {
+	display: block;
+	overflow: auto;
+
+	.news-site & {
+		@include fill-parent();
+		@include row(table);
+	}
 }
 
 .featured__article{
 	@include row();
 }
 
+.featured__article--primary {
+	position: relative;
+	width: 100%;
+	overflow: auto;
+	padding: 0;
+	margin: 0 0 5px;
+
+	@include bp(medium) {
+		float: left;
+		width: calc(66.75% - 5px);
+		margin: 0 5px 0 0;
+	}
+}
+
+.featured__article--secondary {
+	position: relative;
+	width: 100%;
+	overflow: auto;
+	padding: 0;
+	margin: 0;
+
+	@include bp(medium) {
+		float: right;
+		width: 33.25%;
+	}
+}
+
 .featured__content {
 	padding-bottom: 0;
 	@include row();
+
+	.news-site & {
+		@include fill-parent();
+		display: table;
+		table-layout: fixed;
+		padding: 5px 0 0;
+	}
+}
+
+.featured__article {
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+
+	.featured__article--secondary & {
+		float: left;
+		width: 49.5%;
+
+		@include bp(medium) {
+			float: none;
+			width: 100%;
+		}
+
+		&:first-of-type {
+			float: left;
+
+			@include bp(medium) {
+				float: none;
+				margin-bottom: 3px;
+			}
+		}
+
+		&:last-of-type {
+			float: right;
+
+			@include bp(medium) {
+				float: none;
+			}
+		}
+	}
+}
+
+a.featured__article--link {
+	position: relative;
+	display: block;
+	overflow: auto;
 }
 
 .featured__article--image {
 	@include span-columns(4 of 4);
 	@include omega;
 	overflow: hidden;
-	background-color: $featured-secondary-bg;	
-	position: relative;  
+	background-color: $featured-secondary-bg;
+	position: relative;
 	padding-top: 35.71%;
 	background-size: 100%;
 	background-size: cover;
-	background-position: center center; 
+	background-position: center center;
+
+	.news-site & {
+		display: block;
+		padding-top: 61.85%;
+		background-color: transparent;
+	}
+
+	.featured__article--secondary & {
+		padding-top: 60.4%;
+
+		@include bp(large) {
+			padding-top: 61.25%;
+		}
+	}
 }
 
 .featured__article--content {
@@ -145,6 +250,23 @@ Curated posts for Featured Articles
 		background-color: $featured-secondary-bg;
 		color: $secondary-link;
 	}
+
+	.news-site & {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		padding: .5em .75em;
+		background-color: rgba(0,0,0,.5);
+		@include transition(all .25s);
+
+		@include bp(large) {
+			padding: 1em 1.875em;
+		}
+	}
+
+	.news-site .featured__article:hover & {
+		background-color: rgba(0,0,0,.85);
+	}
 }
 
 .featured__article--heading {
@@ -165,6 +287,45 @@ Curated posts for Featured Articles
 	}
 	@include bp(medium) {
 		font-size: ms(4);
+	}
+
+	.news-site & {
+		font-size: ms(-1);
+		font-weight: normal;
+
+		@include bp(medium) {
+			font-size: ms(0);
+		}
+
+		@include bp(large) {
+			font-size: ms(3);
+		}
+	}
+}
+
+.news-site {
+
+	.featured__article--primary {
+
+		.featured__article--heading {
+			font-size: ms(3);
+
+			@include bp(medium) {
+				font-size: ms(3);
+			}
+
+			@include bp(large) {
+				font-size: ms(5);
+			}
+		}
+
+		.featured__article--content {
+			padding: .75em 1em;
+
+			@include bp(large) {
+				padding: 1em 1.5em;
+			}
+		}
 	}
 }
 
@@ -227,6 +388,16 @@ Curated posts for Featured Articles
 		background-color: $featured-secondary-bg;
 		color: $secondary-link;
 	}
+
+	.news-site & {
+		display: table-cell;
+		float: none;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		background-color: transparent;
+	}
 }
 
 .featured__content--block:last-of-type {
@@ -241,7 +412,7 @@ Curated posts for Featured Articles
 	background-size: 100%;
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-position: center center; 
+	background-position: center center;
 	@include bp(small) {
 		@include span-columns(4 of 4);
 		@include omega;
@@ -253,6 +424,27 @@ Curated posts for Featured Articles
 	}
 	@include bp(x-large) {
 		@include span-columns(4 of 12);
+	}
+
+	.news-site & {
+		width: calc(100% - 5px);
+		padding-top: 54%;
+		margin-right: 0;
+
+		@include bp(large) {
+			padding-top: 54%;
+
+		}
+	}
+}
+
+.news-site {
+
+	.featured__content--block:last-of-type {
+
+		.featured__content--image {
+			width: 100%;
+		}
 	}
 }
 
@@ -271,11 +463,51 @@ Curated posts for Featured Articles
 	}
 	@include bp(large) {
 		@include span-columns(8 of 12);
-		min-height: none;
+		min-height: 100%;
 	}
 
 	.home__featured & {
 		color: $highlights-text;
+	}
+
+	.news-site & {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: calc(100% - 5px);
+		padding: .5em .75em;
+		min-height: initial;
+		background-color: rgba(0,0,0,.5);
+		@include transition(all .25s);
+
+		@include bp(medium) {
+			padding: .75em 1em;
+		}
+
+		@include bp(large) {
+			padding: .875em 1.25em;
+		}
+	}
+
+	.news-site .featured__content--block:hover & {
+		background-color: rgba(0,0,0,.85);
+	}
+}
+
+
+.news-site {
+
+	.featured__content--block:last-of-type {
+
+		.featured__content--meta {
+			@include bp(large) {
+				width: 100%;
+			}
+
+			@include bp(x-large) {
+				width: 100%;
+			}
+		}
 	}
 }
 
@@ -295,6 +527,19 @@ Curated posts for Featured Articles
 
 	.featured__content--block:hover & {
 		color: $color-text-yellow;
+	}
+
+	.news-site & {
+		font-size: ms(-3);
+		font-weight: normal;
+
+		@include bp(medium) {
+			font-size: ms(-1);
+		}
+
+		@include bp(large) {
+			font-size: ms(2);
+		}
 	}
 }
 
@@ -326,7 +571,10 @@ Curated posts for Featured Articles
 }
 
 
-.featured__content--link {
+a.featured__content--link {
+	position: relative;
+	display: block;
+	overflow: auto;
 }
 
 .featured__content--btn {
@@ -341,4 +589,19 @@ Curated posts for Featured Articles
 
 .featured__content--block:active .featured__content--btn {
 	@include btn($btn-active, $color-text-white, $btn-active, .25em, 1.2em, .7em);
+}
+
+.featured__video {
+	position: absolute;
+	top: 1.75em;
+	right: 2.5em;
+	color: white;
+	width: 40px;
+	height: 40px;
+}
+
+.featured__video .gmr-icon {
+	width: 40px;
+	height: 40px;
+	font-size: 2.5em;
 }

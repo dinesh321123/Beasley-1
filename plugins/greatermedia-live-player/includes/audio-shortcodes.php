@@ -146,24 +146,19 @@ class GMR_Audio_Shortcodes {
 		} else {
 			$new_html .= '<div class="podcast-player podcast-player--compact">';
 		}
-
+		
 		$new_html .= '<div class="podcast__play mp3-' . esc_attr( $hash ) . '">'; // Hash is used to ensure the inline audio can always match state of live player, even when the player is the buttons that are clicked
 		$new_html .= '<div class="podcast__cover"  style="background-image: url(' . $featured_image . ');">';
 
-		/* Note: the content below is for a podcast episode */
-		$play_episode_content = '';
-
 		if ( $is_podcast ) {
-			$play_episode_content .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . get_the_title() . '" data-mp3-artist="' . esc_html( $parent_podcast->post_title ) . ' - ' . get_the_time( 'n.j.y' ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . get_the_title() . '" data-mp3-artist="' . esc_html( $parent_podcast->post_title ) . ' - ' . get_the_time( 'n.j.y' ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
 		} elseif ( $is_podcast_archive ) {
-			$play_episode_content .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . get_the_title() . '" data-mp3-artist="' . esc_html( get_the_title() ) . ' - ' . get_the_time( 'n.j.y' ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . get_the_title() . '" data-mp3-artist="' . esc_html( get_the_title() ) . ' - ' . get_the_time( 'n.j.y' ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
 		} else {
-			$play_episode_content .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . esc_attr( $title ) . '" data-mp3-artist=" " data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
+			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . esc_attr( $title ) . '" data-mp3-artist=" " data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
 		}
 
-		$play_episode_content .= '<button class="podcast__btn--pause"></button>';
-
-		$new_html .= self::filter_episode_content( $post_id, $play_episode_content );
+		$new_html .= '<button class="podcast__btn--pause"></button>';
 		$new_html .= '</div>';
 
 		if ( $is_podcast || $is_podcast_archive ) {
@@ -201,10 +196,9 @@ class GMR_Audio_Shortcodes {
 					$new_html .= '<div class="podcast__archive--episode-count">' . $podcast_episodes_query->found_posts . ' Episodes</div>';
 				}
 			}
-
+			
 			if ( ! $is_podcast_archive ) {
-				$download_content = '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download--btn" download>Download</a>';
-				$new_html .= self::filter_episode_content( $post_id, $download_content );
+				$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download--btn" download>Download</a>';
 			}
 
 			$new_html .= '</div>';

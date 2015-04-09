@@ -7,6 +7,10 @@
 	@include bp(medium) {
 		border-bottom: 1px solid $primary-border;
 	}
+
+	.news-site & {
+		border-bottom: none;
+	}
 }
 
 .header--pinned {
@@ -29,6 +33,164 @@
 			padding: 0 .714285714286%;
 		}
 	}
+
+	.news-site & {
+		padding: 0;
+	}
+}
+
+.header__leaderboard {
+	width: auto;
+}
+
+.header__sub {
+	display: none;
+	width: auto;
+	height: 40px;
+
+	@include bp(medium) {
+		height: 48px;
+	}
+
+	.news-site & {
+		display: block;
+
+		&.is-visible {
+			z-index: 5000101;
+		}
+	}
+}
+
+.header__subnav {
+	position: absolute;
+	display: block;
+	width: auto;
+	padding: 4px 1em;
+	margin: 0;
+	line-height: 1;
+	font-size: ms(0);
+	text-transform: uppercase;
+
+	@include bp(medium) {
+		display: table;
+		table-layout: fixed;
+		padding: 0 1em;
+		font-size: ms(-2);
+	}
+
+	@include bp(large) {
+		position: relative;
+		left: auto;
+		float: left;
+		height: 48px;
+		margin-right: 1.25em;
+	}
+
+	@include bp(larger) {
+		font-size: ms(0);
+	}
+
+}
+
+.header__subnav--item {
+	display: inline-block;
+	width: auto;
+	height: 32px;
+	vertical-align: middle;
+	padding: 0;
+	margin: 0;
+	color: $color-text-white;
+
+	a, a:visited {
+		display: block;
+		height: 32px;
+		padding: 4px .5em 4px 0;
+		margin: 0;
+		color: $color-text-white;
+
+		@include bp(medium) {
+			padding-top: 8px;
+			padding-bottom: 8px;
+		}
+	}
+
+	&:last-of-type {
+
+		a {
+			padding-right: 0;
+		}
+	}
+
+	a:hover, a:focus, a:active {
+		color: $primary-link;
+	}
+
+	@include bp(medium) {
+		display: table-cell;
+		width: auto;
+		height: 48px;
+		padding-right: 0;
+		padding-left: 1.25em;
+
+		a, a:visited {
+			height: 48px;
+			padding: 14px 0 16px 0;
+		}
+	}
+}
+
+%header__subnav--icon {
+	@extend %gmr-icons;
+	display: block;
+	width: 24px;
+	height: 24px;
+	padding-right: .25em;
+	vertical-align: middle;
+	font-size: ms(6);
+
+	@include bp(medium) {
+		display: table-cell;
+		width: 0;
+		height: 18px;
+		padding-right: .75em;
+		font-size: ms(2);
+	}
+}
+
+.header__link--schedule:before {
+	@extend %header__subnav--icon;
+	@extend .icon-schedule;
+}
+
+.header__link--stocks:before {
+	@extend %header__subnav--icon;
+	@extend .icon-stocks;
+}
+
+.header__link--traffic:before {
+	@extend %header__subnav--icon;
+	@extend .icon-traffic;
+}
+
+.header__link--weather:before {
+	@extend %header__subnav--icon;
+	@extend .icon-weather;
+}
+
+.header__link--search:before {
+	@extend %header__subnav--icon;
+	@extend .icon-search;
+}
+
+.header__link--text {
+	display: none;
+
+	@include bp(medium) {
+		display: table-cell;
+		width: auto;
+		height: 18px;
+		vertical-align: middle;
+	}
 }
 
 .header__main {
@@ -39,6 +201,15 @@
 	@include bp(medium) {
 		height: 82px;
 		border-top: 1px solid $header-border;
+	}
+
+	.news-site & {
+		border-top: none;
+		border-bottom: none;
+
+		@include bp(medium) {
+			height: 78px;
+		}
 	}
 }
 
@@ -61,6 +232,31 @@
 		@include span-columns(2);
 		padding-left: $header-logo-padding;
 	}
+
+	.news-site & {
+		top: 40px;
+		width: 20%;
+		margin-left: 40%;
+		z-index: 1;
+
+		@include bp(medium) {
+			top: 48px;
+			height: 78px;
+		}
+
+		@include bp(large) {
+			top: auto;
+			height: 126px;
+			padding-right: 1.5em;
+			padding-left: 1.5em;
+			margin-right: 0;
+			margin-left: 0;
+		}
+
+		&.is-visible {
+			z-index: 5000101;
+		}
+	}
 }
 
 .header__logo--img{
@@ -81,6 +277,10 @@
 	@include bp(large) {
 		margin-left: auto;
 	}
+
+	.news-site & {
+		margin-left: auto;
+	}
 }
 
 // container for main header navigation
@@ -93,6 +293,10 @@
 		display: block;
 		float: left;
 		width: auto;
+	}
+
+	.news-site & {
+		height: 78px;
 	}
 }
 
@@ -120,6 +324,23 @@
 	// 	@include span-columns(4);
 	// 	@include omega;
 	// }
+
+	.news-site & {
+
+		@include bp(medium) {
+			position: absolute;
+			right: 0;
+			top: auto;
+			float: none;
+			height: 78px;
+		}
+
+		@include bp(large) {
+			position: relative;
+			right: auto;
+			float: left;
+		}
+	}
 }
 
 // container for account links
@@ -137,9 +358,16 @@
 
 	@include bp(larger) {
 		width: auto;
-
-
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			width: auto;
+			height: 78px;
+		}
+	}
+
 }
 
 .header__account--mobile {
@@ -235,6 +463,29 @@
 			padding-bottom: 25px;
 		}
 	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			width: auto;
+			height: 78px;
+			padding: 26px 1.5em;
+		}
+
+		@include bp(large) {
+			font-size: ms(4);
+		}
+
+		@include bp(larger) {
+			padding-top: 28px;
+			padding-bottom: 28px;
+		}
+
+		@include bp(x-large) {
+			padding-top: 26px;
+			padding-bottom: 26px;
+		}
+	}
 }
 
 .header__account--span,
@@ -245,6 +496,21 @@
 	@include bp(larger) {
 		font-size: 12.65px;
 		padding-left: 12px;
+	}
+
+	.news-site & {
+		font-weight: 900;
+		font-size: ms(-2);
+		text-transform: uppercase;
+		color: white;
+
+		@include bp(larger) {
+			font-size: ms(-3);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(-2);
+		}
 	}
 }
 
@@ -289,6 +555,10 @@
 		right: 0;
 		min-width: 300px;
 	}
+
+	.news-site & {
+		top: 78px;
+	}
 }
 
 .header__account--open {
@@ -309,6 +579,13 @@
 		height: 82px;
 		margin-right: 2em;
 		font-size: ms(0);
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			height: 78px;
+		}
 	}
 }
 
@@ -348,6 +625,16 @@
 		height: 82px;
 		margin-right: 1em;
 	}
+
+	.news-site & {
+		padding-left: 1.25em;
+		margin-right: 0;
+		color: white;
+
+		@include bp(medium) {
+			height: 48px;
+		}
+	}
 }
 
 .header__search--span {
@@ -364,6 +651,25 @@
 	@include bp(large) {
 		font-size: ms(-2);
 	}
+
+	.news-site & {
+		text-transform: uppercase;
+
+		@include bp(medium) {
+			height: 48px;
+			padding: 16px 0;
+			margin: 0;
+		}
+
+		@include bp(large) {
+			font-size: ms(0);
+		}
+	}
+
+	.news-site .header__search:hover & {
+
+		color: $primary-link;
+	}
 }
 
 .header__search--btn {
@@ -371,6 +677,16 @@
 	float: left;
 	height: 82px;
 	padding: 34px 0 30px;
+
+	.news-site & {
+		height: 48px;
+		padding: 16px 1.25em 14px 0;
+	}
+
+	.news-site .header__search:hover & {
+
+		color: $primary-link;
+	}
 }
 
 .header__search--btn:before {
@@ -380,5 +696,9 @@
 
 	@include bp(large) {
 		font-size: ms(1);
+	}
+
+	.news-site & {
+		font-size: ms(0);
 	}
 }

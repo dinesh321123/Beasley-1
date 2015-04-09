@@ -254,6 +254,22 @@
 	@include bp(larger) {
 		font-size: ms(0);
 	}
+
+	.news-site  & {
+
+		@include bp(large) {
+			font-weight: 900;
+			text-transform: uppercase;
+		}
+
+		@include bp(larger) {
+			font-size: ms(1);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(2);
+		}
+	}
 }
 
 .header__main a, .header__main a:visited {
@@ -275,6 +291,31 @@
 
 	@include bp(larger) {
 		padding: 33px 1.125em 32px;
+	}
+
+	.news-site & {
+		padding-top: 32px;
+		padding-bottom: 31px;
+		border-right: 1px solid $header-nav-border;
+
+		@include bp(larger) {
+			padding-top: 31px;
+			padding-bottom: 30px;
+		}
+
+		@include bp(x-large) {
+			padding-top: 29px;
+			padding-bottom: 29px;
+		}
+	}
+}
+
+.header__account ul li a,
+.header__account ul li a:link,
+.header__account ul li a:visited, {
+
+	.news-site & {
+		border-right: none;
 	}
 }
 

@@ -12,48 +12,50 @@
 		padding: 1.5em 2.5%;
 	}
 }
-	.keyword-search__header {
-		font-weight: bold;
-		border-bottom: 5px solid $light-gray;
-		margin: 0 -.5em;
-		padding: 0 .5em 1em;
-	}
-	
-	// Fix ugly looking :focus border in some browsers. 
-	.keyword-search__items > a {
-		display: block; 
-	}
 
+.keyword-search__header {
+	font-weight: bold;
+	border-bottom: 5px solid $light-gray;
+	margin: 0 -.5em;
+	padding: 0 .5em 1em;
+}
+
+// Fix ugly looking :focus border in some browsers.
+.keyword-search__items > a {
+	display: block;
+}
+
+.keyword-search-item {
+	border-bottom: 1px solid $extra-light-gray;
+	margin: 0 -.5em;
+	padding: 1em .5em;
+	color: $color-text-black;
+}
+
+.keyword-search-item__article {
+	color: $primary-link;
+}
+
+// Hover states
+.is-hoverable a:hover,
+.is-hoverable a:focus,
+.is-highlighted {
 	.keyword-search-item {
-		border-bottom: 1px solid $extra-light-gray;
-		margin: 0 -.5em;
-		padding: 1em .5em;
-		color: $color-text-black;
+		background: $primary-link;
 	}
-		.keyword-search-item__article {
-			color: $primary-link;
-		}
+	.keyword-search-item__keyword,
+	.keyword-search-item__article {
+		color: $white;
+	}
+}
 
-		// Hover states
-		.is-hoverable a:hover,
-		.is-hoverable a:focus,
-		.is-highlighted {
-			.keyword-search-item {
-				background: $cardinal;
-			}
-			.keyword-search-item__keyword,
-			.keyword-search-item__article {
-				color: $white;
-			}
-		}
-
-		// at larger breakpoints
-		@include bp(medium) {
-			.keyword-search-item__keyword {
-				display: inline-block;
-				min-width: 12em;
-			}
-			.keyword-search-item__article {
-				display: inline-block;
-			}
-		}
+// at larger breakpoints
+@include bp(medium) {
+	.keyword-search-item__keyword {
+		display: inline-block;
+		min-width: 12em;
+	}
+	.keyword-search-item__article {
+		display: inline-block;
+	}
+}

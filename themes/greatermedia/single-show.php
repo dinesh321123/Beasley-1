@@ -25,7 +25,7 @@
 								</div>
 								<div class="show__feature--desc">
 									<div class='inner-wrap'>
-										<h3><?php the_title(); ?></h3>
+										<h3 class="show__feature--title"><?php the_title(); ?></h3>
 										<time class="show__feature--date"
 										      datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'M j, Y' ); ?></time>
 									</div>
@@ -48,7 +48,7 @@
 										</div>
 										<div class="show__feature--desc">
 											<div class='inner-wrap'>
-												<h3><?php the_title(); ?></h3>
+												<h3 class="show__feature--title"><?php the_title(); ?></h3>
 												<time class="show__feature--date"
 												      datetime="<?php the_time( 'c' ); ?>"><?php the_time( 'M j, Y' ); ?></time>
 											</div>

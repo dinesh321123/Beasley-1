@@ -99,6 +99,7 @@ $secondary-border: $dark-gray !default;
 $header-bg: $black !default;
 $header-border: $dark-gray !default;
 $header-nav-bg: $cardinal !default;
+$header-nav-border: $dark-gray !default;
 $header-search-bg: $black !default;
 
 $liveplayer-bg: $black !default;
@@ -134,11 +135,13 @@ $btn-muted-hover: $cardinal !default;
 $btn-muted-active: $black !default;
 $btn-inactive: $dark-gray !default;
 
-$social-color: $medium-gray;
+$show-highlights-bg: $extra-light-gray !default;
+
+$social-color: $medium-gray !default;
 $social-hover: $cardinal !default;
 
-$form-bg: $light-gray;
-$form-text: $dark-gray;
+$form-bg: $light-gray !default;
+$form-text: $dark-gray !default;
 
 $breaking-news-bg: $cardinal !default;
 

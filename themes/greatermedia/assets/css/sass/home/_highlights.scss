@@ -95,6 +95,17 @@ Community Highlights and Events
 		padding: $base-line-height * 2 $gutter * 2;
 	}
 
+	.news-site & {
+		padding-top: 0;
+		padding-bottom: 0;
+		background-color: transparent !important;
+		border-bottom: none;
+
+		@include bp(medium) {
+			padding: 0 1.5em;
+		}
+	}
+
 }
 
 // .highlights__col {
@@ -115,6 +126,13 @@ Community Highlights and Events
 // 	}
 // }
 
+.highlights__col {
+
+	.news-site & {
+		border-top: 1px solid $primary-border;
+	}
+}
+
 .highlights__heading {
 	margin: 0 0 $base-line-height / 2;
 	line-height: 1;
@@ -122,6 +140,30 @@ Community Highlights and Events
 	font-weight: lighter;
 	color: $secondary-heading;
 	vertical-align: top;
+
+	.news-site & {
+		padding: .35em 0 .6em;
+		margin: 0;
+		font-size: ms(6);
+		font-weight: lighter;
+		text-transform: uppercase;
+
+		@include bp(medium) {
+			font-size: ms(3);
+		}
+
+		@include bp(large) {
+			font-size: ms(3);
+		}
+
+		@include bp(larger) {
+			font-size: ms(4);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(6);
+		}
+	}
 }
 
 .highlights__community {
@@ -141,11 +183,11 @@ Community Highlights and Events
 	&:nth-of-type(3) {
 		display: none;
 	}
- 	@include bp(small) {
+	@include bp(small) {
 		@include span-columns(4 of 12);
 		&:nth-of-type(2n) {
 			margin-left: 0;
- 		}
+		}
 		&:nth-of-type(3) {
 			display: block;
 		}
@@ -166,7 +208,7 @@ Community Highlights and Events
 	background-size: 100%;
 	background-size: cover;
 	background-position: center center;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 }
 
 .highlights__community--thumb:after {
@@ -187,7 +229,7 @@ Community Highlights and Events
 }
 
 .highlights__community--title {
-	@include css-gradient(rgba(0,0,0,0), $darker-gray);
+	@include css-gradient(rgba(0, 0, 0, 0), $darker-gray);
 	background-color: transparent; // Override the background color set by css-gradient().
 	position: absolute;
 	bottom: 0;
@@ -212,7 +254,8 @@ Community Highlights and Events
 	}
 }
 
-.highlights__events {
+.highlights__events,
+.highlights__contests {
 	clear: both;
 	padding-top: 1.5em;
 	@include bp(large) {
@@ -220,28 +263,70 @@ Community Highlights and Events
 		clear: none;
 		padding-top: 0;
 	}
-}
-	.highlights__events .highlights__heading {
-		display: inline-block;
-	}
-	.highlights__events--more-btn {
-		@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, .8em);
-		margin-left: .5em;
-		margin-top: 0;
-		vertical-align: top;
-		text-transform: none;
+
+	.news-site & {
+		@include span-columns(12 of 12);
+		@include omega;
+		padding-top: 0;
 
 		@include bp(large) {
-			margin-top: .05em;
+			@include span-columns(6 of 12);
+			clear: none;
+			padding-top: 0;
 		}
 
-		&:hover {
-			color: $primary-link-hover !important;
-			border-color: $primary-link-hover;
+		@include bp(larger) {
+			@include span-columns(6 of 12);
+		}
+
+		@include bp(x-large) {
+			@include span-columns(4 of 12);
 		}
 	}
+}
 
-.highlights__event--item {
+.highlights__contests {
+
+	.news-site & {
+		padding-top: 1.5em;
+
+		@media (min-width: 768px) and (max-width: 1399px) {
+			@include omega;
+		}
+
+		@include bp(large) {
+			padding-top: 0;
+		}
+	}
+}
+
+.highlights__events .highlights__heading {
+	display: inline-block;
+
+	.news-site & {
+		display: block;
+	}
+}
+
+.highlights__events--more-btn {
+	@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, .8em);
+	margin-left: .5em;
+	margin-top: 0;
+	vertical-align: top;
+	text-transform: none;
+
+	@include bp(large) {
+		margin-top: .05em;
+	}
+
+	&:hover {
+		color: $primary-link-hover !important;
+		border-color: $primary-link-hover;
+	}
+}
+
+.highlights__event--item,
+.highlights__contest--item {
 	@include span-columns(4);
 	background-color: $primary-bg;
 	color: $primary-text;
@@ -272,12 +357,51 @@ Community Highlights and Events
 	// because it adds a :last-child to every grid block to remove margin from
 	// the last item in a row. Of course, when the grid block is inside a
 	// wrapper it is _always_ the last child, so the margins get removed.
-	a {
+	> a {
 		position: absolute;
 		top: 0;
 		right: 0;
 		bottom: 0;
 		left: 0;
+	}
+
+	.news-site & {
+
+		@include bp(medium) {
+			@include span-columns(3 of 6);
+			height: auto;
+			padding-bottom: 0;
+		}
+
+		@include bp(large) {
+			@include span-columns(6 of 6);
+			height: auto;
+			padding-bottom: 0;
+			margin: 0 0 1.375em;
+		}
+
+		> a {
+			position: relative;
+			display: block;
+			top: auto;
+			right: auto;
+			bottom: auto;
+			left: auto;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+.highlights__contest--item {
+
+	.news-site & {
+
+		@include bp(medium) {
+			@include span-columns(6 of 6);
+			height: auto;
+			padding-bottom: 0;
+		}
 	}
 }
 
@@ -285,7 +409,8 @@ Community Highlights and Events
 	margin-bottom: 0;
 }
 
-.highlights__event--thumb {
+.highlights__event--thumb,
+.highlights__contest--thumb {
 	@include span-columns(2 of 6);
 
 	position: relative;
@@ -294,7 +419,7 @@ Community Highlights and Events
 	background-size: 100%;
 	background-size: cover;
 	background-position: center center;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 
 	@include bp(large) {
 		@include span-columns(2 of 6);
@@ -303,9 +428,19 @@ Community Highlights and Events
 		left: 0;
 		top: 0;
 	}
+
+	.news-site & {
+		position: relative;
+		top: auto;
+		left: auto;
+		width: 75px;
+		height: 75px;
+		margin-right: 1.25em;
+	}
 }
 
-.highlights__event--meta {
+.highlights__event--meta,
+.highlights__contest--meta {
 	@include span-columns(4 of 6);
 	position: absolute;
 	top: 50%;
@@ -323,9 +458,19 @@ Community Highlights and Events
 		margin-left: 26.32916%;
 		padding-top: 0;
 	}
+
+	.news-site & {
+		position: relative;
+		top: auto;
+		@include transform(none);
+		width: calc(100% - 75px - 1.25em);
+		padding-top: 0;
+		margin-left: 0;
+	}
 }
 
-.highlights__event--title {
+.highlights__event--title,
+.highlights__contest--title {
 	font-size: ms(0);
 	color: $medium-dark-gray;
 	margin: 0 0 .3em;
@@ -349,16 +494,132 @@ Community Highlights and Events
 	a:hover & {
 		color: $primary-link-hover;
 	}
+
+	.news-site & {
+		font-size: ms(-2);
+		font-weight: normal;
+		text-transform: uppercase;
+
+		@include bp(large) {
+			font-size: ms(0);
+		}
+
+		@include bp(x-large) {
+			margin-top: -5px;
+			font-size: ms(2);
+		}
+	}
 }
 
-.highlights__event--date {
+.highlights__event--date,
+.highlights__contest--date {
 	display: block;
 	text-transform: uppercase;
 	margin-top: -0.3em;
 	font-size: ms(-2);
 	color: $gray;
 
-	@media(min-width: 1200px) {
+	.news-site & {
+		font-size: ms(-3);
+		text-transform: none;
 
+		@include bp(large) {
+			font-size: ms(-1);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(1);
+		}
+	}
+}
+
+.highlights__event--time,
+.highlights__contest--time {
+
+	.news-site & {
+		font-size: ms(-3);
+		text-transform: uppercase;
+
+		@include bp(large) {
+			font-size: ms(-1);
+		}
+
+		@include bp(x-large) {
+			font-size: ms(1);
+		}
+	}
+}
+
+.highlights__contests--more-btn {
+	@include btn(transparent, lighten($gray, 10%), lighten($gray, 10%), .25em, 1em, .8em);
+	margin-left: .5em;
+	margin-top: 0;
+	vertical-align: top;
+	text-transform: none;
+
+	@include bp(large) {
+		margin-top: .05em;
+	}
+
+	&:hover {
+		color: $primary-link-hover !important;
+		border-color: $primary-link-hover;
+	}
+}
+
+.highlights__contest--item:last-of-type {
+	margin-bottom: 0;
+}
+
+a.highlights__contest--btn {
+	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, .875em);
+	@include border-radius(4px);
+	margin-top: 1em;
+	text-align: center;
+
+	@include bp(medium) {
+		font-size: ms(-2);
+	}
+
+	@include bp(large) {
+		font-size: ms(-1);
+	}
+}
+
+.highlights__ad {
+
+	.news-site & {
+		clear: both;
+		padding-top: 1.5em;
+
+		@include bp(medium) {
+			@include fill-parent();
+			margin: 0 auto;
+			text-align: center;
+		}
+
+		@include bp(x-large) {
+			@include span-columns(4 of 12);
+			@include omega;
+			clear: none;
+		}
+	}
+
+	.highlights__ad--mobile {
+		display: block;
+		text-align: center;
+
+		@include bp(large) {
+			display: none;
+		}
+	}
+
+	.highlights__ad--desktop {
+		display: none;
+		text-align: center;
+
+		@include bp(large) {
+			display: block;
+		}
 	}
 }
