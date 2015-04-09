@@ -28,7 +28,7 @@ $event_id = get_the_ID();
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 
-			<h2 class="entry__title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+			<h2 class="entry__title summary entry-title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?></a></h2>
 
 			<?php ob_start(); ?>
 
@@ -78,11 +78,12 @@ $event_id = get_the_ID();
 			<?php do_action( 'tribe_events_single_event_after_the_meta' ) ?>
 			<!-- Event content -->
 			<?php do_action( 'tribe_events_single_event_before_the_content' ) ?>
-			<div class="tribe-events-single-event-description tribe-events-content entry-content description">
+			<div class="tribe-events-single-event-description tribe-events-content entry-content summary description">
 
 				<?php the_content(); ?>
 
 			</div>
+			<div class="tribe-events-single-event-author"><p>Posted by <span class="author"><?php the_author(); ?></span></p></div>
 
 			<div class="ad__inline--right mobile">
 				<?php do_action( 'acm_tag_gmr_variant', 'mrec-body', 'mobile', array( 'max_width' => 1023 ) ); ?>
