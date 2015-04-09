@@ -5340,6 +5340,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .article__comments {
   margin: 3em 0; }
 
+.article__author {
+  display: none; }
+
 .ad-unit--300--250 {
   position: relative;
   height: 250px;
@@ -8808,6 +8811,9 @@ category: Components - Ads
   padding: 0 0 2.25em; }
   .tribe-events-list .type-tribe_events .entry2__meta p {
     margin: 0; }
+
+.tribe-events-single-event-author {
+  display: none; }
 
 /*doc
 ---
@@ -14702,9 +14708,9 @@ a:hover .highlights__community--title {
 
 @media screen and (min-width: 768px) {
   .header__social .social__list {
-    padding: 0 20px; }
+    padding: 0 3px; }
   .header__social .social__list li {
-    padding: 0 5px; }
+    padding: 0 3px; }
   .header__social a.social__link {
     width: auto;
     height: auto;
@@ -14809,7 +14815,7 @@ a:hover .highlights__community--title {
     font-weight: 700;
     text-transform: uppercase; }
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-    padding: 33px .5em 32px; } }
+    padding: 33px .38em 32px; } }
 
 @media screen and (min-width: 1175px) {
   .header__nav {
@@ -14835,7 +14841,7 @@ a:hover .highlights__community--title {
 
 @media screen and (min-width: 1252px) {
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-    padding: 33px 1.125em 32px; }
+    padding: 33px .4em 32px; }
   .main {
     background: #e1e1dd url("../../images/new_bg.jpg") repeat-y center top !important; } }
 
@@ -14915,7 +14921,7 @@ li:last-child {
   font-family: "Arimo", sans-serif; }
 
 .home__featured .featured__article--content {
-  background-color: #37080d;
+  background-color: #270e10;
   color: #d0d2d3; }
 
 .home__featured .featured__article a:hover .featured__article--content {

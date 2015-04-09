@@ -128,7 +128,7 @@ a:hover
 
 .home__featured .featured__article--content {
     	background-color: #37080d;
-   	 color: #d0d2d3;
+   	 	color: #d0d2d3;
 }
 .home__featured .featured__article a:hover .featured__article--content {
     	background-color: #b30000;
@@ -143,19 +143,18 @@ a:hover
 }
 .header {
     	background-color: #37080d;
-   	background-repeat:no-repeat;
+   		background-repeat:no-repeat;
     	background-position-x: -50px;
 }
 
 
 .header__nav {
     	font-family: "Arimo", sans-serif;
-  
-  }
+}
 
 
 .home__featured .featured__content--block {
-	background-color: #37080d;
+		background-color: #37080d;
 }
 .highlights__event--item:hover {
     	background-color: #b30000;
@@ -206,10 +205,10 @@ font-family: "Arimo", sans-serif;
 @media screen and (min-width:768px) {
 
 .header__social .social__list {
-        padding: 0 5px;
+        padding: 0 3px;
 }
 .header__social .social__list li {
-        padding: 0 4px;
+        padding: 0 3px;
 }
 .header__social a.social__link {
       	width: auto;
@@ -469,7 +468,7 @@ a:hover & {
 }
 
 .home__featured .featured__article--content {
-    	background-color: #37080d;
+    	background-color: #270e10;
     	color: #d0d2d3;
 }
 .home__featured .featured__article a:hover .featured__article--content {
