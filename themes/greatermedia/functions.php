@@ -106,6 +106,11 @@ function greatermedia_setup() {
 	add_post_type_support( 'tribe_events', 'login-restricted-content' );
 	add_post_type_support( 'tribe_events', 'age-restricted-content' );
 
+	// Restrictions for contests
+	add_post_type_support( 'contest', 'timed-content' );
+	add_post_type_support( 'contest', 'login-restricted-content' );
+	add_post_type_support( 'contest', 'age-restricted-content' );
+
 	// Add theme support for post-formats
 	$formats = array( 'gallery', 'link', 'image', 'video', 'audio' );
 	add_theme_support( 'post-formats', $formats );
@@ -944,7 +949,7 @@ function greatermedia_newssite_class( $classes ) {
 	if ( is_news_site() ) {
 		$classes[] = 'news-site';
 	}
-	
+
 	return $classes;
 }
 add_filter( 'body_class', 'greatermedia_newssite_class' );

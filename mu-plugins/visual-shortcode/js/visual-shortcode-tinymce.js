@@ -3,18 +3,18 @@
 	var self = this;
 
 	function js_module_sanity_check(shortcode_name, js_module_name) {
-		return true; 
+		return true;
 
 		// Check if the shortcode's module implementation has been loaded on this page
 		if (!window[VisualShortcode.registry[shortcode_name].js_module]) {
 			return false;
 		}
 
-		var js_module = window[VisualShortcode.registry[shortcode_name].js_module]; 
-		
+		var js_module = window[VisualShortcode.registry[shortcode_name].js_module];
+
 		if ( jsmodule.hasOwnProperty('toolbar_button_action')) {
-			return true; 
-		}		
+			return true;
+		}
 
 		var required_methods = [
 			'button_onclick',
@@ -25,7 +25,7 @@
 			var method_name = required_methods[required_method_index];
 			if (!js_module.hasOwnProperty(method_name)) {
 				console && console.log(js_module_name + ' needs a toolbar_button_action method or all three of button_onclick, view_gethtml, and view_edit_popup_onsubmit methods.');
-				return false; 
+				return false;
 			}
 		}
 	}
@@ -52,16 +52,16 @@
 						function (editor, url) {
 
 							function button_onclick_handler(e) {
-
+								var activeSelection = tinymce.activeEditor.selection.getContent();
 								var title = VisualShortcode.strings['Create'],
 									content = tinymce.activeEditor.selection.getContent(),
 									parsed_shortcode = (wp.shortcode.next(shortcode_name, content)) ? wp.shortcode.next(shortcode_name, content).shortcode : undefined,
 									body = [];
 
 								if (window[VisualShortcode.registry[shortcode_name].js_module].toolbar_button_action) {
-									
+
 									var attrs = window[VisualShortcode.registry[shortcode_name].js_module].toolbar_button_action.call(this, e);
-									
+
 									editor.insertContent(
 										new wp.shortcode({
 											tag    : shortcode_name,
@@ -69,46 +69,50 @@
 											content: tinymce.activeEditor.selection.getContent()
 										}).string()
 									);
-									
-								} else {									
+
+								} else {
 									if (window[VisualShortcode.registry[shortcode_name].js_module].create_popup_title) {
 										title = window[VisualShortcode.registry[shortcode_name].js_module].create_popup_title;
 									}
-	
+
 									if (window[VisualShortcode.registry[shortcode_name].js_module].view_edit_popup_body_fields) {
 										body = (window[VisualShortcode.registry[shortcode_name].js_module].view_edit_popup_body_fields.call(this, parsed_shortcode)).concat(body);
 									}
-	
+
 									var popup = {
-	
+
 										title: title,
-	
+
 										body: body,
-	
+
 										/**
 										 * When the popup is submitted, generate a shortcode and insert it into the editor
 										 *
 										 * @param {Event} e
 										 */
 										onsubmit: function (e) {
-	
 											var attrs = window[VisualShortcode.registry[shortcode_name].js_module].view_edit_popup_onsubmit.call(this, e);
-	
+											var selection = tinymce.activeEditor.selection.getContent();
+
+											if (!selection) {
+												selection = activeSelection;
+											}
+
 											editor.insertContent(
 												new wp.shortcode({
 													tag    : shortcode_name,
 													attrs  : attrs,
-													content: tinymce.activeEditor.selection.getContent()
+													content: activeSelection,
 												}).string()
 											);
-	
+
 										},
-	
+
 										width : 600,
 										height: 130
-	
+
 									};
-	
+
 									self.editor.windowManager.open(popup);
 									if (window[VisualShortcode.registry[shortcode_name].js_module].view_edit_popup_visible) {
 										window[VisualShortcode.registry[shortcode_name].js_module].view_edit_popup_visible.call(this);
