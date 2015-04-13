@@ -403,5 +403,22 @@ SQL;
 		$this->config_loader->prepare();
 	}
 
+	function merge_duplicate_taxonomy( $args, $opts ) {
+		if ( ! empty( $opts['taxonomy'] ) ) {
+			$taxonomy = $opts['taxonomy'];
+		} else {
+			$taxonomy = 'post_tag';
+		}
+
+		$merger      = new \WordPress\Utils\DuplicateTaxonomyMerger();
+		$merge_count = $merger->merge( $taxonomy );
+
+		if ( $merge_count > 0 ) {
+			\WP_CLI::success( "Merged $merge_count Terms for Taxonomy: $taxonomy" );
+		} else {
+			\WP_CLI::warning( "No Duplicate Terms found for Taxonomy: $taxonomy" );
+		}
+	}
+
 }
 
