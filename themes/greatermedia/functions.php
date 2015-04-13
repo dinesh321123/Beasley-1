@@ -997,3 +997,26 @@ function greatermedia_extend_featured_curation_limit( $limit ) {
 
 }
 add_filter( 'gmr-homepage-featured-limit', 'greatermedia_extend_featured_curation_limit' );
+
+/**
+ * Extends the homepage community curation limit
+ *
+ * @action gmr-homepage-community-limit
+ * @access public
+ *
+ * @param $limit
+ *
+ * @return int
+ */
+function greatermedia_extend_community_curation_limit( $limit ) {
+
+	if ( is_news_site() ) {
+		$limit = 4;
+	} else {
+		$limit = 3;
+	}
+
+	return $limit;
+
+}
+add_filter( 'gmr-homepage-community-limit', 'greatermedia_extend_community_curation_limit' );

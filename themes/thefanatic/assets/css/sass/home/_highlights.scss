@@ -23,5 +23,9 @@
 }
 
 .highlights__community--title {
-	color: white;
+	color: $black;
+
+	a:hover & {
+		color: $primary-link-hover;
+	}
 }

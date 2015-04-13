@@ -170,6 +170,26 @@ Community Highlights and Events
 	@include bp(large) {
 		@include span-columns(9 of 15);
 	}
+
+	.news-site & {
+		@include span-columns(12 of 12);
+		@include omega;
+		padding-top: 0;
+
+		@include bp(large) {
+			@include span-columns(12 of 12);
+			@include omega;
+		}
+
+		@include bp(larger) {
+			@include span-columns(12 of 12);
+			@include omega;
+		}
+
+		@include bp(x-large) {
+			@include span-columns(8 of 12);
+		}
+	}
 }
 
 .highlights__community--item {
@@ -195,6 +215,68 @@ Community Highlights and Events
 	@include bp(large) {
 		@include span-columns(3 of 9);
 	}
+
+	.news-site & {
+		@include span-columns(12 of 12);
+		@include omega;
+		padding-top: 0;
+		margin-bottom: 1em;
+
+		&:nth-of-type(2n) {
+			margin-left: 0;
+		}
+		&:nth-of-type(3) {
+			display: block;
+		}
+
+		@include bp(small) {
+			@include span-columns(12 of 12);
+			@include omega;
+		}
+
+		@include bp(medium) {
+			@include span-columns(12 of 12);
+			@include omega;
+		}
+
+		@include bp(large) {
+			@include span-columns(12 of 12);
+			@include omega;
+		}
+
+		@include bp(larger) {
+			@include span-columns(12 of 12);
+			@include omega;
+		}
+
+		@include bp(x-large) {
+			@include span-columns(12 of 12);
+			@include omega;
+		}
+	}
+}
+
+.highlights__community--column {
+
+	.news-site & {
+		@include span-columns(12 of 12);
+		@include omega;
+		padding-top: 0;
+
+		@include bp(large) {
+			@include span-columns(6 of 12);
+			clear: none;
+			padding-top: 0;
+		}
+
+		@include bp(larger) {
+			@include span-columns(6 of 12);
+		}
+
+		@include bp(x-large) {
+			@include span-columns(6 of 12);
+		}
+	}
 }
 
 .highlights__community--thumb {
@@ -209,6 +291,17 @@ Community Highlights and Events
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
+
+	.news-site & {
+		float: left;
+		position: relative;
+		top: auto;
+		left: auto;
+		width: 75px;
+		height: 75px;
+		padding-top: 0;
+		margin-right: 1.25em;
+	}
 }
 
 .highlights__community--thumb:after {
@@ -226,6 +319,10 @@ Community Highlights and Events
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .65) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#000000', GradientType=0);
 	content: "";
+
+	.news-site & {
+		display: none;
+	}
 }
 
 .highlights__community--title {
@@ -251,6 +348,36 @@ Community Highlights and Events
 
 	a:hover & {
 		color: $yellow;
+	}
+
+	.news-site & {
+		float: left;
+		position: relative;
+		top: auto;
+		bottom: auto;
+		left: auto;
+		right: auto;
+		@include transform(none);
+		width: calc(100% - 75px - 1.25em);
+		max-height: 4.5em;
+		white-space: normal;
+		@include css-gradient(transparent, transparent);
+		padding: 0;
+		margin-left: 0;
+		text-align: left;
+		text-overflow: initial;
+		font-size: ms(0);
+		font-weight: normal;
+		text-transform: uppercase;
+
+		@include bp(large) {
+			font-size: ms(0);
+		}
+
+		@include bp(x-large) {
+			margin-top: -5px;
+			font-size: ms(2);
+		}
 	}
 }
 
