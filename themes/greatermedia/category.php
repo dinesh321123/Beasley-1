@@ -24,8 +24,13 @@ get_header(); ?>
 
 			<?php if ( have_posts() ) :  ?>
 
-				<?php get_template_part( 'partials/loop', $layout ); ?>
-				<?php greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop', 'auto_load' => true ) ); ?>
+				<?php
+				if ( ! empty( $layout ) ) {
+					get_template_part( 'partials/loop', $layout );
+				} else {
+					get_template_part( 'partials/loop' );
+					greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop', 'auto_load' => true ) );
+				} ?>
 
 			<?php else : ?>
 

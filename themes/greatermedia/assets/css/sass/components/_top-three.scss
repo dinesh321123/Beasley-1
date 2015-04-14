@@ -1,0 +1,139 @@
+.top-three__features,
+.top-three__blogroll {
+	@include row();
+}
+
+.top-three__feature--primary {
+	@include bp(large) {
+		@include span-columns(8 of 12);
+	}
+}
+
+.top-three__feature--secondary {
+	@include bp(large) {
+		@include span-columns(4 of 12);
+		@include omega;
+	}
+}
+
+.top-three__feature {
+	position: relative;
+	margin-bottom: 5.6%;
+
+	.thumbnail {
+		background-color: $dark-gray;
+		padding-bottom: 66%;
+		background-position: center center;
+		background-size: 100%;
+		background-size: cover;
+		background-repeat: no-repeat;
+
+		.inner-wrap {
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+	}
+
+	&:hover {
+		h3 {
+			color: $primary-link-hover;
+		}
+	}
+
+	@include bp(large) {
+		padding-bottom: 75%;
+		position: relative;
+
+		.thumbnail {
+			position: absolute;
+			width: 100%;
+			left: 0;
+			top: 0;
+		}
+	}
+}
+
+.top-three__thumbnail {
+	position: relative;
+}
+
+.top-three__play {
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	@include transform(translate(-50%, -35%));
+	@extend %gmr-icons;
+	@include opacity(.75);
+	font-size: 4em;
+	color: white;
+	z-index: 2;
+
+	.top-three__feature--primary & {
+		font-size: 6em;
+	}
+
+	.entry2 & {
+		display: none;
+		top: 50%;
+		@include transform(translate(-50%, -50%));
+		font-size: 3em;
+
+		&[class*='category-'] {
+			display: block;
+		}
+	}
+}
+
+.top-three__play:before {
+	content: "\e606";
+}
+
+.top-three__desc {
+	background-color: #F1F1F3;
+	color: $primary-heading;
+
+	h3 {
+		margin: 0;
+		font-size: ms(3);
+		line-height: 1.2;
+	}
+
+	.top-three__feature--primary & h3 {
+		font-size: ms(5);
+	}
+
+	time {
+		font-size: ms(0);
+		text-transform: uppercase;
+		color: $primary-heading;
+	}
+
+	.inner-wrap {
+		padding: $base-line-height $gutter;
+
+		.top-three__feature--secondary & {
+			padding: 1em;
+		}
+	}
+
+	@include bp( large ) {
+		// padding-bottom: 22%; // 3/10 the height of our 4:3 unit.
+		position: absolute;
+		width: 100%;
+		left: 0;
+		bottom: 0;
+
+		h3 {
+			font-size: ms(1);
+		}
+
+		.top-three__feature--primary & h3 {
+			font-size: ms(6);
+		}
+
+		time {
+			font-size: ms(-1);
+		}
+	}
+}
