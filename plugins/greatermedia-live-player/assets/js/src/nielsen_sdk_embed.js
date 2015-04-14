@@ -1,5 +1,5 @@
-(function() {
-	var ggComObj;
+(function(gmr) {
+	var ggComObj, stream, tracker = null;
 
 	// Nielsen SDK event codes:
 	//  5 - play
@@ -21,14 +21,23 @@
 				'stream-status': onStreamStatus
 			};
 
+		stream = gmr.callsign;
 		ggComObj = new NielsenSDKggCom(beacon, player);
 
+		// register event listeners
 		for (var event in events) {
 			if (hasAddEventListener) {
 				player.addEventListener(event, events[event]);
 			} else {
 				player.attachEvent(event, events[event]);
 			}
+		}
+
+		// listen to stream change event
+		if (hasAddEventListener) {
+			document.addEventListener('live-player-stream-changed', onStreamChanged);
+		} else {
+			document.attachEvent('live-player-stream-changed', onStreamChanged);
 		}
 	};
 
@@ -40,9 +49,23 @@
 		that.is_playing = false;
 	}
 
+	var onStreamChanged = function(e) {
+		debug('Stream has been changed to ' + e.detail);
+		stream = e.detail;
+	};
+
 	var onStreamStatus = function(e) {
 		if (e.data.code === 'LIVE_PAUSE' || e.data.code === 'LIVE_STOP') {
 			onStreamStop();
+		}
+	};
+
+	var trackPlayheadPosition = function() {
+		if (!tracker) {
+			tracker = setInterval(function() {
+				debug('Send playhead position event to Nielsen SDK.');
+				ggComObj.gg.ggPM(49, Date.now() / 1000);
+			}, 9500);
 		}
 	};
 
@@ -55,14 +78,16 @@
 
 		debug('Send ad block cue metadata event to Nielsen SDK.');
 		ggComObj.gg.ggPM(15, {
-			assetid: data.cueID,
+			dataSrc: 'cms',
+			assetid: stream,
 			title: data.cueTitle,
 			length: data.duration / 1000, // convert to seconds
-			type: 'midroll'
+			type: 'radio',
+			provider: 'GreaterMedia',
+			stationType: 1
 		});
 
-		debug('Send playhead position event to Nielsen SDK.');
-		ggComObj.gg.ggPM(49, Date.now() / 1000);
+		trackPlayheadPosition();
 
 		ggComObj.is_playing = true;
 	};
@@ -76,14 +101,16 @@
 
 		debug('Send track cue metadata event to Nielsen SDK.');
 		ggComObj.gg.ggPM(15, {
-			assetid: data.cueID,
+			dataSrc: 'cms',
+			assetid: stream,
 			title: data.cueTitle,
 			length: data.cueTimeDuration,
-			type: 'content'
+			type: 'radio',
+			provider: 'GreaterMedia',
+			stationType: 1
 		});
 
-		debug('Send playhead position event to Nielsen SDK.');
-		ggComObj.gg.ggPM(49, Date.now() / 1000);
+		trackPlayheadPosition();
 
 		ggComObj.is_playing = true;
 	};
@@ -94,6 +121,11 @@
 			
 			ggComObj.gg.ggPM(7, Date.now() / 1000);
 			ggComObj.is_playing = false;
+
+			if (tracker) {
+				clearInterval(tracker);
+				tracker = null;
+			}
 		}
 	};
 
@@ -102,4 +134,4 @@
 			console.log(info);
 		}
 	};
-})();
+})(gmr);
