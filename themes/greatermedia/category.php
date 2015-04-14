@@ -1,6 +1,6 @@
 <?php
 /**
- * Archive template file
+ * Category template file
  *
  * @package Greater Media
  * @since   0.1.0
@@ -8,20 +8,23 @@
  * @todo this template file still needs to be layed out according to the design
  */
 
+$layout = sprintf( 'gmr_category_%d_layout', get_queried_object_id() );
+$layout = get_option( $layout );
+if ( ! empty( $layout ) ) {
+	$layout = 'category-' . $layout;
+}
+
 get_header(); ?>
 
 	<div class="container">
 
 		<section class="content">
 
-			<h2 class="content__heading">
-				<?php $object = get_queried_object(); ?>
-				<?php echo ! empty( $object->labels->name ) ? esc_html( $object->labels->name) : ''; ?>
-			</h2>
+			<?php greatermedia_archive_title(); ?>
 
 			<?php if ( have_posts() ) :  ?>
 
-				<?php get_template_part( 'partials/loop' ); ?>
+				<?php get_template_part( 'partials/loop', $layout ); ?>
 				<?php greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop', 'auto_load' => true ) ); ?>
 
 			<?php else : ?>
