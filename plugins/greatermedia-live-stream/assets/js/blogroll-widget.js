@@ -12,7 +12,14 @@
 	};
 
 	$document.ready(function () {
-		active_stream = $('.live-player__stream--current-name').text();
+		var curStream = $('.live-player__stream--current-name');
+		var primaryStream = gmr.primary;
+
+		if (curStream.length > 0) {
+			active_stream = curStream.text();
+		} else {
+			active_stream = primaryStream;
+		}
 		window.setInterval(refresh_widget, gmr.interval);
 	});
 

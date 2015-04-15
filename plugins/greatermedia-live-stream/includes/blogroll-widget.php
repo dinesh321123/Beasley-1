@@ -46,10 +46,18 @@ function gmr_blogroll_register_widgets() {
  */
 function gmr_blogroll_enqueue_widget_scripts() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
+	$streams = apply_filters( 'gmr_live_player_streams', array() );
+	$active_stream = key( $streams );
+	if ( empty( $active_stream ) ) {
+		$active_stream = 'None';
+	}
+
 	wp_register_script( 'gmr-blogroll-widget', GMEDIA_LIVE_STREAM_URL . "/assets/js/blogroll-widget{$postfix}.js", array( 'jquery' ), GMEDIA_LIVE_STREAM_VERSION, true );
 	wp_localize_script( 'gmr-blogroll-widget', 'gmr_blogroll_widget', array(
 		'ajaxurl'  => home_url( '/blogroll/stream/' ),
 		'interval' => MINUTE_IN_SECONDS * 1000, // 60 000 milliseconds
+		'primary' => $active_stream,
 	) );
 }
 
