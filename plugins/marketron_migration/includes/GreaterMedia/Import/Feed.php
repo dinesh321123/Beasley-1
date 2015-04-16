@@ -32,13 +32,14 @@ class Feed extends BaseImporter {
 
 			$post = $this->post_from_article( $article );
 
-			if ( ! empty( $post['featured_audio'] ) && ! empty( $post['show'] ) ) {
+			if ( ! empty( $post['featured_audio'] ) && ! empty( $post['show'] ) && ! empty( $this->mapped_podcast_for_show( $post['show'] ) ) ) {
 				$post['episode_name']    = $post['post_title'];
 				$post['episode_podcast'] = $this->mapped_podcast_for_show( $post['show'] );
 				$post['episode_file']    = $post['featured_audio'];
 
 				$podcast_episodes->add( $post );
 				$podcast_count++;
+				//error_log( 'Found Show Podcast Episode: ' . $post['show'] );
 			} else {
 				$posts->add( $post );
 				$blog_post_count++;
@@ -129,6 +130,10 @@ class Feed extends BaseImporter {
 			if ( empty( $post['show'] ) ) {
 				$post['show'] = $this->show_from_title( $post['post_title'] );
 			}
+		}
+
+		if ( ! empty( $post['show'] ) ) {
+			//\WP_CLI::log( 'Found Show: ' . $post['show'] );
 		}
 
 		return $post;

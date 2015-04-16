@@ -129,6 +129,7 @@ class Contest extends BaseImporter {
 		$form_item     = array();
 		$field_name    = $this->import_string( $question['FieldName'] );
 		$question_text = $this->import_string( $question['Question'] );
+		$question_text = str_replace( '"', '&quot;', $question_text );
 		$question_id   = ltrim( $field_name, 'Field' );
 		$answer_type   = $this->import_string( $question['AnswerType'] );
 		$required      = $this->import_bool( $question['Required'] );
@@ -157,8 +158,10 @@ class Contest extends BaseImporter {
 				$options       = array();
 
 				foreach ( $question->QuestionOptions->QuestionOption as $option ) {
+					$field_value = $this->import_string( $option['FieldValue'] );
+					$field_value = str_replace( '"', '&quot;', $field_value );
 					$options[] = array(
-						'label' => $this->import_string( $option['FieldValue'] ),
+						'label' => $field_value,
 						'checked' => false,
 					);
 				}
@@ -171,14 +174,23 @@ class Contest extends BaseImporter {
 				$field_options = array();
 				$options       = array();
 
-				foreach ( $question->QuestionOptions->QuestionOption as $option ) {
-					$options[] = array(
-						'label' => $this->import_string( $option['FieldValue'] ),
-						'checked' => false,
-					);
+				if ( empty( $question->QuestionOptions ) ) {
+					$field_type = 'text';
+					$field_options = array( 'size' => 'large' );
+					\WP_CLI::warning( "Invalid QuestionOptions: $question_text" );
+				} else {
+					foreach ( $question->QuestionOptions->QuestionOption as $option ) {
+						$field_value = $this->import_string( $option['FieldValue'] );
+						$field_value = str_replace( '"', '&quot;', $field_value );
+						$options[] = array(
+							'label' => $field_value,
+							'checked' => false,
+						);
+					}
+
+					$field_options['options'] = $options;
 				}
 
-				$field_options['options'] = $options;
 				break;
 
 			default:
@@ -210,19 +222,20 @@ class Contest extends BaseImporter {
 
 	function title_from_contest( $contest ) {
 		$title = $this->import_string( $contest->ContestText['ContestHeader'] );
-		$title = ltrim( $title, '[ONLINE]' );
-		$title = ltrim( $title, '[ONLINE*]' );
-		$title = ltrim( $title, '[ON-AIR]' );
-		$title = ltrim( $title, '[ON-AIR*]' );
+		//$title = ltrim( $title, '\[ONLINE\]' );
+		//$title = ltrim( $title, '\[ONLINE\*\]' );
+		//$title = ltrim( $title, '\[ON-AIR\]' );
+		//$title = ltrim( $title, '\[ON-AIR\*\]' );
 		$title = ltrim( $title, ' ' );
 		$title = ltrim( $title, '-' );
 		$title = ltrim( $title, ' ' );
+		$title = ucwords( $title );
 
 		return $title;
 	}
 
 	function content_from_contest( $contest ) {
-		$content = $this->import_string( $contest->ContestText );
+		$content = $this->import_string( $contest->ContestText['ContestDescription'] );
 
 		return $content;
 	}

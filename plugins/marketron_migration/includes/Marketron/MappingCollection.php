@@ -142,12 +142,12 @@ class MappingCollection {
 				$audio_flag_field = strtolower( trim( $fields[3] ) );
 				$target_post_type = $this->parse_post_type_name( $fields[4] );
 
-				if ( $audio_flag_field === 'yes' ) {
+				if ( strpos( $audio_flag_field, 'yes' ) === 0 ) {
 					//error_log( print_r( $fields ) );
 					$mapping->audio_present_post_type = $target_post_type;
-				} else if ( $audio_flag_field === 'no' ) {
+				} else if ( strpos( $audio_flag_field, 'no' ) === 0 ) {
 					$mapping->audio_absent_post_type = $target_post_type;
-				} else if ( $audio_flag_field === 'either' ) {
+				} else if ( strpos( $audio_flag_field, 'either' ) === 0 ) {
 					$mapping->audio_present_post_type = $target_post_type;
 					$mapping->audio_absent_post_type = $target_post_type;
 				}
@@ -468,6 +468,15 @@ class MappingCollection {
 		foreach ( $this->author_names as $author ) {
 			if ( strpos( $string, $author ) !== false ) {
 				$matches[] = $author;
+			} else if ( strpos( $author, ' ' ) !== false ) {
+				$sub_authors = explode( ' ', $author );
+				$sub_authors = array_map( 'trim', $sub_authors );
+
+				foreach ( $sub_authors as $sub_author ) {
+					if ( strpos( $string, $sub_author . ' ' ) !== false ) {
+						$matches[] = $author;
+					}
+				}
 			}
 		}
 

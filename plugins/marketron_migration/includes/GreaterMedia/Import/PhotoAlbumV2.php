@@ -84,7 +84,7 @@ class PhotoAlbumV2 extends BaseImporter {
 			$show = null;
 		}
 
-		return null;
+		return $show;
 	}
 
 	function show_from_categories( &$categories ) {

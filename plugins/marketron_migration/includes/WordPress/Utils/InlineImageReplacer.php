@@ -8,13 +8,54 @@ class InlineImageReplacer {
 	public $img_tag_pattern = '/<img[^>]+>/';
 	public $img_src_pattern = "/src=['\"]([^'\"]*?)['\"]/";
 	public $class_src_pattern = "/class=['\"]([^'\"]*?)['\"]/";
+	public $bg_url_pattern = "/url\('([^']*)'\)/";
 
 	function find_and_replace( $content, $parent = null ) {
+		$content = $this->find_and_replace_img_tags( $content, $parent );
+		$content = $this->find_and_replace_background_images( $content, $parent );
+
+		return $content;
+	}
+
+	function find_and_replace_img_tags( $content, $parent = null ) {
 		$image_tags = $this->find_image_tags( $content );
 		$images     = $this->find_images( $image_tags );
 
 		foreach ( $images as $image_item ) {
 			$content = $this->replace_image( $image_item, $content );
+		}
+
+		return $content;
+	}
+
+	function find_and_replace_background_images( $content, $parent = null ) {
+		$images = $this->find_background_images( $content );
+
+		foreach ( $images as $image_item ) {
+			$content = $this->replace_background_image( $image_item, $content );
+		}
+
+		return $content;
+	}
+
+	function find_background_images( $content ) {
+		$result = preg_match_all( $this->bg_url_pattern, $content, $matches );
+
+		if ( $result >= 1 ) {
+			return $matches[1];
+		} else {
+			return array();
+		}
+	}
+
+	function replace_background_image( $src, $content ) {
+		$replacement = $this->get_replacement( $src );
+
+		if ( $replacement !== false ) {
+			$new_url       = $replacement['url'];
+			$attachment_id = $replacement['attachment_id'];
+
+			$content = str_replace( $src, $new_url, $content );;
 		}
 
 		return $content;

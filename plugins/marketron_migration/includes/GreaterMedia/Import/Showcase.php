@@ -31,7 +31,9 @@ class Showcase extends BaseImporter {
 		$album = array(
 			'album_name' => $this->import_string( $showcase['ShowcaseName'] ),
 			'album_galleries' => $this->galleries_from_album( $showcase ),
-			'album_content' => $this->import_string( $showcase['ShowcaseDescription'] )
+			'album_content' => $this->import_string( $showcase['ShowcaseDescription'] ),
+			'created_on' => $this->import_string( $showcase['DateCreated'] ),
+			'modified_on' => $this->import_string( $showcase['DateModified'] ),
 		);
 
 		return $album;

@@ -9,20 +9,23 @@ class EventCalendar extends BaseImporter {
 	}
 
 	function import_source( $source ) {
-		$tool       = $this->get_tool();
-		$tool_name  = $tool->get_name();
-		$calendars  = $this->calendars_from_source( $source );
+		$tool         = $this->get_tool();
+		$tool_name    = $tool->get_name();
+		$calendars    = $this->calendars_from_source( $source );
+		$total        = count( $calendars );
+		$progress_bar = new \WordPress\Utils\ProgressBar( "Importing $total Calendars", $total );
 
 		foreach ( $calendars as $calendar ) {
 			$this->import_calendar( $calendar );
+			$progress_bar->tick();
 		}
+
+		$progress_bar->finish();
 	}
 
 	function import_calendar( $calendar ) {
 		$entities   = $this->get_entity( 'event' );
 		$events     = $this->events_from_calendar( $calendar );
-		$total      = count( $events );
-		$notify     = new \WordPress\Utils\ProgressBar( "Importing $total items from Calendar", $total );
 		$max_items  = $this->get_site_option( 'limit' );
 		$item_index = 1;
 		$category   = $this->category_from_calendar( $calendar );
@@ -31,14 +34,7 @@ class EventCalendar extends BaseImporter {
 			$entity = $this->entity_from_event( $event );
 			$entity['event_categories'] = array( $category );
 			$entities->add( $entity );
-			$notify->tick();
-
-			if ( $item_index++ > $max_items ) {
-				break;
-			}
 		}
-
-		$notify->finish();
 	}
 
 	function calendars_from_source( $source ) {
@@ -50,7 +46,19 @@ class EventCalendar extends BaseImporter {
 	}
 
 	function category_from_calendar( $calendar ) {
-		return $this->import_string( $calendar['EventCalendarName'] );
+		$category = $this->import_string( $calendar['EventCalendarName'] );
+		$dashes   = substr_count( $category, '-' );
+
+		if ( $dashes >= 1 ) {
+			// Merges variants of a category under one name
+			$first_dash = strpos( $category, '-' );
+			$category   = substr( $category, 0, $first_dash - 1 );
+			$category   = trim( $category );
+		}
+
+		$category = ucwords( $category );
+
+		return $category;
 	}
 
 	function entity_from_event( $event ) {
@@ -70,6 +78,9 @@ class EventCalendar extends BaseImporter {
 		$venue = $this->venue_from_event( $event );
 		if ( ! is_null( $venue ) ) {
 			$post['event_venue'] = $venue;
+		} else {
+			$postmeta['_EventShowMap'] = true;
+			$postmeta['_EventShowMapLink'] = true;
 		}
 
 		$timespan                    = $this->timespan_from_event( $event );

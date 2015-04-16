@@ -113,6 +113,9 @@ class Survey extends BaseImporter {
 			$title .= ' - ' . $survey_name;
 		}
 
+		$title = ltrim( $title, '.' );
+		$title = ltrim( $title, '-' );
+
 		return $title;
 	}
 
