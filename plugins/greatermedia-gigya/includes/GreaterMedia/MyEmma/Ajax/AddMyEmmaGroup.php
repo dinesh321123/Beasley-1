@@ -13,12 +13,18 @@ class AddMyEmmaGroup extends AjaxHandler {
 	}
 
 	function run( $params ) {
-		$group_id   = sanitize_text_field( $params['emma_group_id'] );
-		$group_name = sanitize_text_field( $params['emma_group_name'] );
-		$field_key  = sanitize_text_field( $params['gigya_field_key'] );
+		$group_id          = sanitize_text_field( $params['emma_group_id'] );
+		$group_name        = sanitize_text_field( $params['emma_group_name'] );
+		$field_key         = sanitize_text_field( $params['gigya_field_key'] );
+		$group_description = sanitize_text_field( $params['emma_group_description'] );
+		$group_active      = filter_var( $params['emma_group_active'], FILTER_VALIDATE_BOOLEAN );
 
 		if ( empty( $group_name ) ) {
-			throw new \Exception( 'Error: Emma Group name must not be empty' );
+			throw new \Exception( 'Error: Emma Group Name must not be empty' );
+		}
+
+		if ( empty( $group_description ) ) {
+			throw new \Exception( 'Error: Emma Group Description must not be empty' );
 		}
 
 		if ( empty( $field_key ) || ! ctype_alnum( $field_key ) ) {
@@ -34,9 +40,11 @@ class AddMyEmmaGroup extends AjaxHandler {
 		}
 
 		$group = array(
-			'group_id' => $group_id,
-			'group_name' => $group_name,
-			'field_key' => $field_key,
+			'group_id'          => $group_id,
+			'group_name'        => $group_name,
+			'field_key'         => $field_key,
+			'group_description' => $group_description,
+			'group_active'      => $group_active
 		);
 
 		$groups = get_option( 'emma_groups' );

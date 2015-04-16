@@ -46,8 +46,14 @@
 	margin: 0.5em 0 1em 0;
 }
 
-.emma-nav-content input[type=submit], .emma-nav-content .button {
+.emma-nav-content input[type=submit], .emma-nav-content input[type=checkbox], .emma-nav-content .button {
 	width: auto;
+}
+
+.emma-nav-content input[type=checkbox] {
+	width: 1em;
+	display: inline-block;
+	margin-right: 0.5em;
 }
 
 .emma-nav-content p {
@@ -83,4 +89,17 @@
 	.emma-nav-content input {
 		width: 100%;
 	}
+}
+
+#emma_group_description {
+	width: 30em;
+	height: 7em;
+}
+
+.emma_group_description_label {
+	margin-bottom: 0.5em;
+}
+
+.emma_group_active_label {
+	display: inline;
 }

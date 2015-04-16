@@ -38,6 +38,7 @@
 				<th class="row-title">MyEmma Group ID</th>
 				<th class="row-title">MyEmma Group Name</th>
 				<th class="row-title">Gigya Field Key</th>
+				<th class="row-title">Status</th>
 				<th class="row-title">Actions</th>
 			</tr>
 		</thead>
@@ -51,6 +52,7 @@
 					</td>
 					<td><%- groupItem.group_name %></td>
 					<td><%- groupItem.field_key %></td>
+					<td><%- groupItem.group_active === undefined || !!groupItem.group_active ? 'Active' : 'Inactive' %></td>
 					<td>
 						<% if (groupItem.group_id) { %>
 						<a data-group="<%- groupItem.group_id %>" title="Edit Group" href="#" class="edit-group-link"><i alt="f119" class="dashicons dashicons-welcome-write-blog"></i></a>
@@ -96,7 +98,7 @@
 					<p></p>
 				</div>
 
-				<label for="emma_group_name">MyEmma Group Name</label>
+				<label for="emma_group_name">MyEmma Group Name (Name of the Audience Group in MyEmma)</label>
 				<input type="text" name="emma_group_name" value="" id="emma_group_name" />
 
 				<label for="emma_group_id">MyEmma Group ID (Leave blank to create a new group)</label>
@@ -104,6 +106,12 @@
 
 				<label for="gigya_field_key">Gigya Field Key (Must only contain letters and numbers)</label>
 				<input type="text" name="gigya_field_key" value="" id="gigya_field_key" />
+
+				<label for="emma_group_description" class="emma_group_description_label">MyEmma Group Description (Label shown to Members)</label>
+				<textarea name="emma_group_description" value="" id="emma_group_description"></textarea>
+
+				<label for="emma_group_active" class="emma_group_active_label">
+				<input type="checkbox" name="emma_group_active" value="" id="emma_group_active" />Active (Only Active Groups are shown to Members)</label>
 
 				<input type="submit" value="Create" class="button button-primary create-group-button" />
 				<span class="spinner"></span>

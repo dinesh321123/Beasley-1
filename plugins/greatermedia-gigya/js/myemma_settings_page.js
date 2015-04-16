@@ -158,7 +158,9 @@
 			var params = {
 				emma_group_id: opts.group_id,
 				emma_group_name: opts.group_name,
-				gigya_field_key: opts.field_key
+				gigya_field_key: opts.field_key,
+				emma_group_description: opts.group_description,
+				emma_group_active: opts.group_active
 			};
 
 			this.trigger('didAddStart');
@@ -183,7 +185,9 @@
 				emma_group_id: opts.group_id,
 				emma_group_name: opts.group_name,
 				gigya_field_key: opts.field_key,
-				group_to_update: group_id
+				group_to_update: group_id,
+				emma_group_description: opts.group_description,
+				emma_group_active: opts.group_active
 			};
 
 			this.trigger('didUpdateStart');
@@ -198,7 +202,9 @@
 				model.set({
 					group_id: response.data.emma_group_id,
 					group_name: response.data.emma_group_name,
-					field_key: response.data.gigya_field_key
+					field_key: response.data.gigya_field_key,
+					group_description: response.data.group_description,
+					group_active: response.data.group_active
 				});
 				this.trigger('didUpdateSuccess');
 			} else {
@@ -368,10 +374,19 @@
 				$submitButton.val('Update');
 
 				var group = this.collection.findWhere({group_id: this.groupToEdit});
+				var group_active = group.get('group_active');
+
+				if (group_active === undefined) {
+					group_active = true;
+				} else {
+					group_active = !!group_active;
+				}
 
 				$('#emma_group_id').val(group.get('group_id'));
 				$('#emma_group_name').val(group.get('group_name'));
 				$('#gigya_field_key').val(group.get('field_key'));
+				$('#emma_group_description').val(group.get('group_description'));
+				$('#emma_group_active').attr('checked', group_active);
 			} else {
 				$title.text('New MyEmma Group');
 				$submitButton.val('Create');
@@ -401,7 +416,9 @@
 			var params = {
 				group_id: $('#emma_group_id').val(),
 				group_name: $('#emma_group_name').val(),
-				field_key: $('#gigya_field_key').val()
+				field_key: $('#gigya_field_key').val(),
+				group_description: $('#emma_group_description').val(),
+				group_active: $('#emma_group_active').is(':checked')
 			};
 
 			if (this.editMode) {

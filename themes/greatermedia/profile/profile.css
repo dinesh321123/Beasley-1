@@ -245,3 +245,12 @@ select:-webkit-autofill {
 	max-width: 80%;
 	font-size: .875em;
 }
+
+#profile-content .member-groups-list li {
+	margin-bottom: 1em;
+}
+
+#profile-content .member-groups-list input[type=checkbox] {
+	margin-bottom: 0;
+	vertical-align: middle;
+}

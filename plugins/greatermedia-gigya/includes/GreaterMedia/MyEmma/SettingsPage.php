@@ -30,7 +30,7 @@ class SettingsPage {
 			true
 		);
 
-		$member_query_settings = get_option( 'member_query_settings' );
+		$member_query_settings = get_option( 'member_query_settings', '{}' );
 		$member_query_settings = json_decode( $member_query_settings, true );
 
 		$meta = array(
@@ -53,7 +53,7 @@ class SettingsPage {
 			$meta['data']['emma_webhook_auth_token'] = $member_query_settings['emma_webhook_auth_token'];
 		}
 
-		if ( $meta['data']['emma_webhook_auth_token'] === '' ) {
+		if ( empty( $meta['data']['emma_webhook_auth_token'] ) ) {
 			$meta['data']['emma_webhook_auth_token'] = md5( $_SERVER['HTTP_USER_AGENT'] . time() );
 		}
 

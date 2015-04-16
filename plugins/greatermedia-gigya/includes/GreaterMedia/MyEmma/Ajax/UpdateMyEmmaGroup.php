@@ -13,13 +13,19 @@ class UpdateMyEmmaGroup extends AjaxHandler {
 	}
 
 	function run( $params ) {
-		$group_to_update = sanitize_text_field( $params['group_to_update'] );
-		$group_id        = trim( sanitize_text_field( $params['emma_group_id'] ) );
-		$group_name      = sanitize_text_field( $params['emma_group_name'] );
-		$field_key       = sanitize_text_field( $params['gigya_field_key'] );
+		$group_to_update   = sanitize_text_field( $params['group_to_update'] );
+		$group_id          = trim( sanitize_text_field( $params['emma_group_id'] ) );
+		$group_name        = sanitize_text_field( $params['emma_group_name'] );
+		$field_key         = sanitize_text_field( $params['gigya_field_key'] );
+		$group_description = sanitize_text_field( $params['emma_group_description'] );
+		$group_active      = filter_var( $params['emma_group_active'], FILTER_VALIDATE_BOOLEAN );
 
 		if ( empty( $group_name ) ) {
 			throw new \Exception( 'Error: Emma Group name must not be empty' );
+		}
+
+		if ( empty( $group_description ) ) {
+			throw new \Exception( 'Error: Emma Group Description must not be empty' );
 		}
 
 		if ( empty( $field_key ) || ! ctype_alnum( $field_key ) ) {
@@ -40,9 +46,11 @@ class UpdateMyEmmaGroup extends AjaxHandler {
 
 		if ( $group_index !== -1 ) {
 			$groups[ $group_index ] = array(
-				'group_id'   => $group_id,
-				'group_name' => $group_name,
-				'field_key'  => $field_key,
+				'group_id'          => $group_id,
+				'group_name'        => $group_name,
+				'field_key'         => $field_key,
+				'group_description' => $group_description,
+				'group_active'      => $group_active
 			);
 
 			update_option( 'emma_groups', json_encode( array_values( $groups ) ) );
@@ -52,7 +60,10 @@ class UpdateMyEmmaGroup extends AjaxHandler {
 
 		$this->update_emma_group( $group_id, $group_name );
 
-		$params['emma_group_id'] = $group_id;
+		$params['emma_group_id']     = $group_id;
+		$params['group_description'] = $group_description;
+		$params['group_active']      = $group_active;
+
 		return $params;
 	}
 

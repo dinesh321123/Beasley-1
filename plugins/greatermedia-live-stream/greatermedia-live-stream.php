@@ -7,7 +7,7 @@
  */
 
 // global constants
-define( 'GMEDIA_LIVE_STREAM_VERSION', '1.0.0' );
+define( 'GMEDIA_LIVE_STREAM_VERSION', '1.0.1' );
 define( 'GMEDIA_LIVE_STREAM_URL',     plugin_dir_url( __FILE__ ) );
 define( 'GMEDIA_LIVE_STREAM_PATH',    dirname( __FILE__ ) . '/' );
 

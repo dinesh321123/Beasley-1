@@ -19,11 +19,26 @@ $months = array(
 	'December',
 );
 
+function emma_filter_active_groups( $group ) {
+	if ( ! array_key_exists( 'group_active', $group ) ) {
+		// old settings before this feature, assumes all such groups are
+		// active by default
+		return true;
+	} else if ( filter_var( $group['group_active'], FILTER_VALIDATE_BOOLEAN ) === true ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 $emma_groups = get_option( 'emma_groups' );
 $emma_groups = json_decode( $emma_groups, true );
 if ( ! $emma_groups ) {
 	$emma_groups = array();
+} else {
+	$emma_groups = array_filter( $emma_groups, 'emma_filter_active_groups' );
 }
+
 
 $state_names = array(
 	array( 'label' => 'Alabama', 'value' => 'AL' ),
@@ -296,13 +311,19 @@ function get_gigya_verify_email_message() {
 
 				<ul class="member-groups-list">
 					<?php foreach ( $emma_groups as $emma_group ) { ?>
+					<?php
+						$emma_group_id          = $emma_group['group_id'];
+						$emma_group_name        = $emma_group['group_name'];
+						$emma_group_description = empty( $emma_group['group_description'] ) ? $emma_group_name : $emma_group['group_description'];
+						$field_key              = $emma_group['field_key'];
+					?>
 						<li>
 							<input
 								type="checkbox"
-								name="data.<?php echo esc_attr( $emma_group['field_key'] ) ?>"
-								checked="checked" />
-							<label class="label-email-list">
-								<?php echo esc_html( $emma_group['group_name'] ) ?>
+								name="data.<?php echo esc_attr( $field_key ) ?>"
+								checked="checked" id="emma_group_<?php echo esc_attr( $emma_group_id ); ?>" />
+							<label class="label-email-list" for="emma_group_<?php echo esc_attr( $emma_group_id ); ?>">
+								<?php echo esc_html( $emma_group_description ) ?>
 							</label>
 						</li>
 					<?php } ?>
@@ -414,12 +435,19 @@ function get_gigya_verify_email_message() {
 
 				<ul class="member-groups-list">
 					<?php foreach ( $emma_groups as $emma_group ) { ?>
+					<?php
+						$emma_group_id          = $emma_group['group_id'];
+						$emma_group_name        = $emma_group['group_name'];
+						$emma_group_description = empty( $emma_group['group_description'] ) ? $emma_group_name : $emma_group['group_description'];
+						$field_key              = $emma_group['field_key'];
+					?>
 						<li>
 							<input
 								type="checkbox"
-								name="data.<?php echo esc_attr( $emma_group['field_key'] ) ?>" />
-							<label class="label-email-list">
-								<?php echo esc_html( $emma_group['group_name'] ) ?>
+								name="data.<?php echo esc_attr( $field_key ) ?>"
+								checked="checked" id="emma_group_<?php echo esc_attr( $emma_group_id ); ?>" />
+							<label class="label-email-list" for="emma_group_<?php echo esc_attr( $emma_group_id ); ?>">
+								<?php echo esc_html( $emma_group_description ) ?>
 							</label>
 						</li>
 					<?php } ?>
