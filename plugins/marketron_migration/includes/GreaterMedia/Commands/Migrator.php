@@ -420,5 +420,19 @@ SQL;
 		}
 	}
 
+	function repair_optin_groups( $args, $opts ) {
+		$optin_groups_config = $opts['optin_groups'];
+		$errors_file         = $opts['errors_file'];
+
+		$optin_groups = new \GreaterMedia\Import\Repair\OptinGroups();
+		$optin_groups->load( $optin_groups_config );
+
+		$repairer         = new \GreaterMedia\Import\Repair\OptinGroupsRepairer();
+		$repairer->groups = $optin_groups;
+		$total = $repairer->repair( $errors_file );
+
+		\WP_CLI::success( "Successfully Repaired $total Optin Groups" );
+	}
+
 }
 
