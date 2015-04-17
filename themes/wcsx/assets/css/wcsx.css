@@ -13566,6 +13566,69 @@ table.responsive tr:nth-of-type(even) {
 .footer {
   background-color: #fff; }
 
+/*//////////
+// Chris's overrides
+//////////
+*/
+#site-wrap.site-wrap {
+  background-size: 100%;
+  background-color: #000;
+  background-image: url(../../images/concertcrowd.jpg);
+  background-repeat: repeat-x; }
+
+.header {
+  background-image: url(../../images/mastgrade.png);
+  border-bottom: 1px solid #D22228; }
+
+.header__main {
+  background-color: #000;
+  font-family: oswald;
+  text-transform: uppercase;
+  border-bottom: solid 4px #D22228; }
+
+.home__featured {
+  background-color: transparent;
+  background-image: url(../../images/black60bg.png); }
+
+.featured__content--block {
+  background-color: #000; }
+
+.featured__article--content {
+  background-color: #000000; }
+
+.home__highlights {
+  background-color: #252424; }
+
+.main, #page-wrap.page-wrap {
+  background-color: transparent; }
+
+header#header.header {
+  background-color: transparent; }
+
+.container {
+  background-color: transparent; }
+
+.entries {
+  background-color: #E5E5E5;
+  background-repeat: repeat-x;
+  background-image: url(../../images/mainbg.jpg); }
+
+.content {
+  background-color: #fff;
+  background-image: url(../../images/mainbg.jpg); }
+
+.gallery__archive {
+  background-color: #E5E5E5 !important;
+  background-repeat: repeat-x;
+  background-image: url(../../images/mainbg.jpg); }
+
+.home__highlights {
+  visibility: hidden;
+  height: 0px; }
+
+.page__title, h1, h2, h3, h4, h5, h6 {
+  font-family: oswald !important; }
+
 .live-link__type--show {
   border-bottom-color: white;
   background: none; }

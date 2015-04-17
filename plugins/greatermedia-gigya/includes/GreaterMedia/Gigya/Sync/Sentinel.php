@@ -16,10 +16,14 @@ class Sentinel {
 		$this->cache_cleared = false;
 	}
 
+	function clear_task_meta_cache() {
+		wp_cache_delete( $this->member_query_id, 'post_meta' );
+		$this->cache_cleared = true;
+	}
+
 	function get_task_meta( $key ) {
 		if ( ! $this->cache_cleared ) {
-			wp_cache_delete( $this->member_query_id, 'post_meta' );
-			$this->cache_cleared = true;
+			$this->clear_task_meta_cache();
 		}
 
 		$key   = "{$this->meta_prefix}_$key";
