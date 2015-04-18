@@ -1,7 +1,5 @@
 (function () {
 
-	var self = this;
-
 	function js_module_sanity_check(shortcode_name, js_module_name) {
 		return true;
 
@@ -45,6 +43,7 @@
 				 * the right shortcode_name.
 				 */
 				(function (shortcode_name) {
+					var self = this;
 
 					// Register a custom button in the TinyMCE toolbar
 					tinymce.PluginManager.add(
@@ -213,7 +212,7 @@
 
 									var attrs = window[VisualShortcode.registry[shortcode_name].js_module].view_edit_popup_onsubmit.call(this, e);
 
-									editor.insertContent(
+									self.editor.insertContent(
 										new wp.shortcode({
 											tag    : shortcode_name,
 											attrs  : attrs,

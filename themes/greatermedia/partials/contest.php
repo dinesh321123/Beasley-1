@@ -64,14 +64,14 @@
 		<?php if ( ( $contest_prize = trim( get_post_meta( get_the_ID(), 'prizes-desc', true ) ) ) ) : ?>
 			<div class="contest__description">
 				<h3 class="contest__prize--title"><?php _e( 'What you win:', 'greatermedia' ); ?></h3>
-				<?php echo wpautop( $contest_prize ); ?>
+				<?php echo wpautop( do_shortcode( $contest_prize ) ); ?>
 			</div>
 		<?php endif; ?>
 
 		<?php if ( ( $enter = trim( get_post_meta( get_the_ID(), 'how-to-enter-desc', true ) ) ) ) : ?>
 			<div class="contest__description">
 				<h3 class="contest__prize--title"><?php _e( 'How to enter:', 'greatermedia' ); ?></h3>
-				<?php echo wpautop( $enter ); ?>
+				<?php echo wpautop( do_shortcode( $enter ) ); ?>
 			</div>
 		<?php endif; ?>
 
@@ -82,7 +82,7 @@
 					<?php _e( 'view contest rules', 'greatermedia' ); ?>
 				</a>
 			</p>
-			<div id="contest-rules" class="contest-attr--rules" style="display:none;"><?php echo wpautop( $contest_rules ); ?></div>
+			<div id="contest-rules" class="contest-attr--rules" style="display:none;"><?php echo wpautop( do_shortcode( $contest_rules ) ); ?></div>
 		</div>
 		<?php endif; ?>
 
