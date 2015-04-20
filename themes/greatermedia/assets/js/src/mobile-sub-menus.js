@@ -1,8 +1,25 @@
-(function(jQuery, window, undefined) {
+/**
+ * Greater Media
+ *
+ * Functionality specific to the the mobile menus.
+ *
+ * Copyright (c) 2014 10up
+ * Licensed under the GPLv2+ license.
+ */
 
-	var $mobileMenu = jQuery(document.querySelectorAll('ul.js-mobile-sub-menus')),
-		$menuOverlay = jQuery(document.querySelector('.menu-overlay-mask'));
+(function($, window, undefined) {
 
+	/**
+	 * Global Variables
+	 *
+	 * @type {*|HTMLElement}
+	 */
+	var $mobileMenu = $(document.querySelectorAll('ul.js-mobile-sub-menus')),
+		$menuOverlay = $(document.querySelector('.menu-overlay-mask'));
+
+	/**
+	 * Init Function
+	 */
 	function init() {
 
 		$mobileMenu.on('click.greaterMedia.Menus', 'a.show-subnavigation', openSubMenu);
@@ -13,17 +30,27 @@
 
 	}
 
+	/**
+	 * Closes the SubMenu
+	 *
+	 * @param event
+	 */
 	function closeSubMenu(event) {
 		event.preventDefault();
-		jQuery(this).parents('.sub-menu').removeClass('is-visible');
+		$(this).parents('.sub-menu').removeClass('is-visible');
 	}
 
+	/**
+	 * Opens the SubMenu
+	 *
+	 * @param event
+	 */
 	function openSubMenu(event) {
 		event.preventDefault();
 
 		// collapse any other open menus before opening ours.
 		$mobileMenu.find('.is-visible').removeClass('is-visible');
-		jQuery(this).siblings('.sub-menu').addClass('is-visible');
+		$(this).siblings('.sub-menu').addClass('is-visible');
 	}
 
 	init();
