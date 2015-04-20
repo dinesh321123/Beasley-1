@@ -81,7 +81,7 @@
 // Works with either jQuery or Zepto
 })( window.jQuery || window.Zepto );
 
-(function($, window, undefined) {
+(function($, document, undefined) {
 
 	/**
 	 * Global Variables
@@ -129,7 +129,7 @@
 
 	init();
 
-})(jQuery, window);
+})(jQuery, document);
 (function($) {
 
 	var ProfileMenuApp = function() {
@@ -475,7 +475,7 @@
 
 }(jQuery));
 
-(function($, location) {
+(function($, location, document) {
 	var $document = $(document),
 		classes = {},
 		last_url = null,
@@ -539,8 +539,8 @@
 	$document.bind('pjax:start', function() {
 		siteWrap.addClass('pjax--active');
 	});
-})(jQuery, location);
-(function ($, window) {
+})(jQuery, location, document);
+(function ($, window, document, undefined) {
 
 	/**
 	 * Global variables
@@ -666,16 +666,14 @@
 		personality_toggle();
 	});
 	
-})(jQuery, window);
-(function () {
+})(jQuery, window, document);
+(function ($, window, document, undefined) {
 
 	/**
-	 * global variables
+	 * Global Variables
 	 *
-	 * @type {jQuery}
+	 * @type {*|HTMLElement}
 	 */
-	var $ = jQuery;
-
 	var body = document.querySelector('body');
 	var html = document.querySelector('html');
 	var siteWrap = document.getElementById('site-wrap');
@@ -1007,8 +1005,8 @@
 		resizeThrottle();
 	});
 
-})();
-(function ($, window) {
+})(jQuery, window, document);
+(function ($, window, document, undefined) {
 
 	/**
 	 * Global variables
@@ -1182,8 +1180,8 @@
 		removeoverlay();
 	});
 
-})(jQuery, window);
-(function($, window, undefined) {
+})(jQuery, window, document);
+(function($, window, document, undefined) {
 
 	var $searchContainer = $( '#header__search--form '),
 		$searchForm = $( '#header__search--form ' ).find( 'form' ),
@@ -1321,4 +1319,4 @@
 		closeSearch( e );
 	} );
 	
-})(jQuery, window);
+})(jQuery, window, document);

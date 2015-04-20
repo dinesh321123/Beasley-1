@@ -6,15 +6,13 @@
  * Copyright (c) 2014 10up
  * Licensed under the GPLv2+ license.
  */
-(function () {
+(function ($, window, document, undefined) {
 
 	/**
-	 * global variables
+	 * Global Variables
 	 *
-	 * @type {jQuery}
+	 * @type {*|HTMLElement}
 	 */
-	var $ = jQuery;
-
 	var body = document.querySelector('body');
 	var html = document.querySelector('html');
 	var siteWrap = document.getElementById('site-wrap');
@@ -346,4 +344,4 @@
 		resizeThrottle();
 	});
 
-})();
+})(jQuery, window, document);

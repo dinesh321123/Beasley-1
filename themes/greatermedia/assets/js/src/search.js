@@ -1,4 +1,4 @@
-(function($, window, undefined) {
+(function($, window, document, undefined) {
 
 	var $searchContainer = $( '#header__search--form '),
 		$searchForm = $( '#header__search--form ' ).find( 'form' ),
@@ -136,4 +136,4 @@
 		closeSearch( e );
 	} );
 	
-})(jQuery, window);
+})(jQuery, window, document);

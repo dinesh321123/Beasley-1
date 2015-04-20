@@ -6,7 +6,7 @@
  * Copyright (c) 2014 10up
  * Licensed under the GPLv2+ license.
  */
-(function ($, window) {
+(function ($, window, document, undefined) {
 
 	/**
 	 * Global variables
@@ -132,4 +132,4 @@
 		personality_toggle();
 	});
 	
-})(jQuery, window);
+})(jQuery, window, document);

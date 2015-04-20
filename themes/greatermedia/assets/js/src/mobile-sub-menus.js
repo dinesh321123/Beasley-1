@@ -7,7 +7,7 @@
  * Licensed under the GPLv2+ license.
  */
 
-(function($, window, undefined) {
+(function($, document, undefined) {
 
 	/**
 	 * Global Variables
@@ -55,4 +55,4 @@
 
 	init();
 
-})(jQuery, window);
+})(jQuery, document);
