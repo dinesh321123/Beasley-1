@@ -24,8 +24,10 @@ if ( ! empty( $layout ) ) {
 		<section class="entry2__thumbnail">			
 			<a href="<?php the_permalink(); ?>">
 				<div class="entry2__thumbnail__image" style='background-image: url(<?php gm_post_thumbnail_url( $thumbnail_size ); ?>)'></div>
-				<div class="entry2__thumbnail__icon"></div>
-				<?php if ( is_archive() && ! empty ( $layout ) ) { ?>
+				<?php if ( empty ( $layout ) ) { ?>
+					<div class="entry2__thumbnail__icon"></div>
+				<?php } ?>
+				<?php if ( is_archive() && ! empty ( $layout ) && has_post_format( 'video' ) ) { ?>
 					<div class="top-three__play <?php echo esc_html( $layout ); ?>"></div>
 				<?php } ?>
 			</a>
