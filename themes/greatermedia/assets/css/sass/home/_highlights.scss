@@ -219,6 +219,7 @@ Community Highlights and Events
 	.news-site & {
 		@include span-columns(12 of 12);
 		@include omega;
+		max-height: 75px;
 		padding-top: 0;
 		margin-bottom: 1em;
 
@@ -359,11 +360,12 @@ Community Highlights and Events
 		right: auto;
 		@include transform(none);
 		width: calc(100% - 75px - 1.25em);
-		max-height: 4.5em;
+		max-height: 5em;
 		white-space: normal;
 		@include css-gradient(transparent, transparent);
 		padding: 0;
 		margin-left: 0;
+		line-height: 1.3;
 		text-align: left;
 		text-overflow: initial;
 		font-size: ms(0);
@@ -375,6 +377,7 @@ Community Highlights and Events
 		}
 
 		@include bp(x-large) {
+			max-height: 3.9em;
 			margin-top: -5px;
 			font-size: ms(2);
 		}

@@ -2760,6 +2760,7 @@ Community Highlights and Events
     margin-right: 2.35765%;
     width: 100%;
     margin-right: 0;
+    max-height: 75px;
     padding-top: 0;
     margin-bottom: 1em; }
     .news-site .highlights__community--item:last-child {
@@ -2930,7 +2931,7 @@ Community Highlights and Events
     -o-transform: none;
     transform: none;
     width: calc(100% - 75px - 1.25em);
-    max-height: 4.5em;
+    max-height: 5em;
     white-space: normal;
     background-color: transparent;
     background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
@@ -2940,6 +2941,7 @@ Community Highlights and Events
     background-image: linear-gradient(to bottom, transparent, transparent);
     padding: 0;
     margin-left: 0;
+    line-height: 1.3;
     text-align: left;
     text-overflow: initial;
     font-size: 1em;
@@ -2950,6 +2952,7 @@ Community Highlights and Events
         font-size: 1em; } }
     @media screen and (min-width: 1400px)  {
       .news-site .highlights__community--title {
+        max-height: 3.9em;
         margin-top: -5px;
         font-size: 1.26562em; } }
 
