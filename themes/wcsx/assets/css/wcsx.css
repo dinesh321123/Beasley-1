@@ -906,7 +906,7 @@ body {
 body {
   line-height: 2;
   font-size: 80%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   color: #404041;
   -webkit-font-smoothing: antialiased; }
   @media screen and (min-width: 480px)  {
@@ -7686,7 +7686,7 @@ category: Components - Ads
   outline: none;
   background-color: #d22228 !important;
   border: 1px solid #d22228 !important;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 0.8888888889em;
   color: #ffffff !important;
   text-transform: uppercase;
@@ -7879,7 +7879,7 @@ category: Components - Ads
   border-radius: 0; }
 
 .tribe-events-single-section-title {
-  font-family: 'Open Sans', sans-serif; }
+  font-family: 'Oswald', sans-serif; }
 
 .tribe-events-single-section.tribe-events-event-meta.primary.tribe-clearfix {
   float: left !important;
@@ -13624,10 +13624,14 @@ header#header.header {
 
 .home__highlights {
   visibility: hidden;
-  height: 0px; }
+  height: 0px;
+  padding: 0px; }
 
 .page__title, h1, h2, h3, h4, h5, h6 {
   font-family: oswald !important; }
+
+.article__thumbnail, .contest__thumbnail {
+  max-height: 300px; }
 
 .live-link__type--show {
   border-bottom-color: white;

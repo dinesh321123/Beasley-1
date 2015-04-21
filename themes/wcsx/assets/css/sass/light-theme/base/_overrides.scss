@@ -169,10 +169,11 @@ header#header.header{background-color: transparent;}
 .content{background-color: #fff; background-image: url(../../images/mainbg.jpg);}
 .gallery__archive{background-color: #E5E5E5!important;background-repeat: repeat-x;background-image: url(../../images/mainbg.jpg);}
 .home__highlights
-{visibility: hidden;height: 0px;
+{visibility: hidden;height: 0px;padding:0px;
 }
 .page__title, h1, h2, h3, h4, h5, h6
 {font-family: oswald!important;
 }
+.article__thumbnail,.contest__thumbnail {max-height:300px;}
 
 
