@@ -9,11 +9,11 @@
  * theme's file, so the child theme functions would be used.
  *
  * @package wcsx
- * @since 0.1.0
+ * @since 0.1.1
  */
  
  // Useful global constants
-define( 'WCSX_VERSION', '0.1.0' );
+define( 'WCSX_VERSION', '0.1.1' );
  
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -37,15 +37,13 @@ define( 'WCSX_VERSION', '0.1.0' );
  /**
   * Enqueue scripts and styles for front-end.
   *
-  * @since 0.1.0
+  * @since 0.1.1
   */
- function wcsx_scripts_styles() {
-	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-     wp_register_style('google-fonts-wcsx','//fonts.googleapis.com/css?family=Oswald:400,300,700',array(),null); 
-​
-	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
-	​wp_enqueue_style( 'wcsx', get_stylesheet_directory_uri() . "/assets/css/wcsx{$postfix}.css", array( 'google-fonts-wcsx' ), WCSX_VERSION );
+ function wcsx_scripts_styles() {$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+ 	wp_register_style('google-fonts-wcsx','//fonts.googleapis.com/css?family=Oswald:400,300,700',array(),null);
+ 	wp_dequeue_style( 'greatermedia' );
+ 	wp_deregister_style( 'greatermedia' );
+ 	wp_enqueue_style( 'wcsx', get_stylesheet_directory_uri() . "/assets/css/wcsx{$postfix}.css", array( 'google-fonts-wcsx' ), WCSX_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wcsx_scripts_styles', 20 );
  
