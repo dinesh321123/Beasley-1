@@ -13568,7 +13568,7 @@ table.responsive tr:nth-of-type(even) {
   background-color: #fff; }
 
 /*
-// Denis's Changes
+// Denis's Changes - 4/21
 */
 /* CUSTOM OVERRIDES BELOW */
 .highlights__heading {
@@ -13583,6 +13583,9 @@ table.responsive tr:nth-of-type(even) {
 /* ------------- LIVE PLAYER BTN -------------------------------*/
 div#live-player {
   background-color: #80b1ff !important; }
+
+.live-player {
+  background-color: #002a6e !important; }
 
 .live-player__stream {
   display: none !important; }
@@ -13803,11 +13806,17 @@ h2.entry2__title a:link {
   font-family: 'Ubuntu', sans-serif;
   font-weight: 700; }
 
+h2.entry2__title a:hover {
+  color: #7fc7fb !important; }
+
 .entry2__footer--category:link {
   color: #000000; }
 
 .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
   color: #002a6e !important; }
+
+.entry2__footer--read-more:hover {
+  color: #7fc7fb !important; }
 
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px 
@@ -13960,24 +13969,41 @@ media 1024px
   .live-link__song:before {
     margin-top: 10px;
     color: #FFFFFF !important; }
-  .header__nav {
-    position: relative;
-    left: 80px; }
+  /*.header__nav {
+      position: relative;
+      left: 80px;
+    }*/
   .header__nav li {
     font-weight: 800;
     text-transform: uppercase; }
   .header__nav li:hover {
     font-weight: 800;
     text-transform: uppercase; }
+  /*.header__account ul li a,
+    .header__account ul li a:link,
+    .header__account ul li a:visited,
+    .header__nav ul li a,
+    .header__nav ul li a:link,
+    .header__nav ul li a:visited {
+        padding: 33px .5em 32px;
+    }*/
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-    padding: 33px .5em 32px; } }
+    padding: 33px 1.125em 32px; }
+  .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .header__nav ul li.active a:focus, .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover, .ui-menu .ui-state-focus {
+    background-color: #114598 !important; }
+  .header__account--btn:hover, .header__account--logged-out:hover {
+    background-color: #114598 !important; }
+  /*.header__search--span, .header__search--btn, .header__account--btn {color: #fff;font-weight: 700;font-family: 'Ubuntu', sans-serif;}
+.header__account--logged-in, .header__account--logged-out, .header__account--span {color: #fff;font-weight: 700;font-family: 'Ubuntu', sans-serif;}*/
+  .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul {
+    border-top: 7px solid #ffe513 !important; } }
 
 /*-----------------------------------
 media 1175px 
 -----------------------------------*/
 @media screen and (min-width: 1175px) {
   .header__nav {
-    left: 40px; }
+    padding-left: 240px; }
   .header__logo {
     background: url("../../images/logo_MAGIC_large.png") no-repeat;
     background-size: contain;
@@ -14002,16 +14028,6 @@ media 1175px
 media 1252px 
 -----------------------------------*/
 @media screen and (min-width: 1252px) {
-  .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-    padding: 33px 1.125em 32px; }
-  .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .header__nav ul li.active a:focus, .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover, .ui-menu .ui-state-focus {
-    background-color: #114598 !important; }
-  .header__account--btn:hover, .header__account--logged-out:hover {
-    background-color: #114598 !important; }
-  /*.header__search--span, .header__search--btn, .header__account--btn {color: #fff;font-weight: 700;font-family: 'Ubuntu', sans-serif;}
-.header__account--logged-in, .header__account--logged-out, .header__account--span {color: #fff;font-weight: 700;font-family: 'Ubuntu', sans-serif;}*/
-  .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul {
-    border-top: 7px solid #ffe513 !important; }
   .main {
     background: #a8d6f7 !important; }
   .widget--live-player a:hover > div {
@@ -14120,9 +14136,9 @@ media 1400px
   background: none; }
 
 .live-links--more:before {
-  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #f2f2f2 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0), color-stop(100%, #f2f2f2)));
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #f2f2f2 100%);
-  background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #f2f2f2 100%);
-  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #f2f2f2 100%);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #f2f2f2 100%); }
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0, #002a6e 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(255, 255, 255, 0), color-stop(100%, #002a6e)));
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0, #002a6e 100%);
+  background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0, #002a6e 100%);
+  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0, #002a6e 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #002a6e 100%); }
