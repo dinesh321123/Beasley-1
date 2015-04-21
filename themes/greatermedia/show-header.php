@@ -9,14 +9,7 @@
 <div class="show__header<?php if( has_post_thumbnail() ) echo ' has-thumbnail'; ?>"
 
 	<?php if( has_post_thumbnail() ) { ?>
-	style="
-	background-image: url(<?php echo $src; ?>);
-    background-image: url(<?php echo $src; ?>);
-    background-image: url(<?php echo $src; ?>);
-    background-image: url(<?php echo $src; ?>);
-    background-image: url(<?php echo $src; ?>);
-    background-image: url(<?php echo $src; ?>);
-	"
+	style="background-image: url(<?php echo $src; ?>);"
 	<?php } ?>
 >
 	<div class="show__header-content">
