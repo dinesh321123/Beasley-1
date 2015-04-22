@@ -150,7 +150,7 @@ class Blog extends BaseImporter {
 
 		$content = preg_replace(
 			'#<div.*data-youtube-id="(.*)">.*</div>#',
-			'http://www.youtube.com/watch?v=${1}',
+			'[embed]http://www.youtube.com/watch?v=${1}[/embed]',
 			$content, -1, $videos
 		);
 

@@ -434,5 +434,10 @@ SQL;
 		\WP_CLI::success( "Successfully Repaired $total Optin Groups" );
 	}
 
+	function repair_video_embeds( $args, $opts ) {
+		$refresher = new \GreaterMedia\Import\Repair\VideoRefresher();
+		$refresher->refresh();
+	}
+
 }
 
