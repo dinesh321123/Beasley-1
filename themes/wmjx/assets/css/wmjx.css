@@ -13701,7 +13701,7 @@ table.responsive tr:nth-of-type(even) {
   background-color: #fff; }
 
 /*
-// Denis's Changes - 4/23
+// Denis's Changes - 4/24
 */
 /* CUSTOM OVERRIDES BELOW */
 .highlights__heading {
@@ -14080,7 +14080,7 @@ media 768px
     overflow: hidden; }
   .live-stream {
     background: url(../../images/magic_listenlive_header1.png) no-repeat #fff;
-    margin: 14px auto; }
+    margin: 8px auto; }
   .home__featured .featured__article--content {
     background-color: #002a6e;
     color: #fff;
@@ -14228,9 +14228,7 @@ media 1024px
   /*.header__search--span, .header__search--btn, .header__account--btn {color: #fff;font-weight: 700;font-family: 'Ubuntu', sans-serif;}
 .header__account--logged-in, .header__account--logged-out, .header__account--span {color: #fff;font-weight: 700;font-family: 'Ubuntu', sans-serif;}*/
   .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul {
-    border-top: 7px solid #ffe513 !important; }
-  .live-stream {
-    margin: 0px auto; } }
+    border-top: 7px solid #ffe513 !important; } }
 
 /*-----------------------------------
 media 1175px 
@@ -14277,7 +14275,7 @@ media 1252px
       opacity: 1; }
 
     100% {
-      background-image: url(../../images/img_Artist3.pngg);
+      background-image: url(../../images/img_Artist3.png);
       opacity: 1; } }
 
   @-moz-keyframes artist_animation {
@@ -14291,7 +14289,7 @@ media 1252px
       opacity: 1; }
 
     100% {
-      background-image: url(../../images/img_Artist3.pngg);
+      background-image: url(../../images/img_Artist3.png);
       opacity: 1; } }
 
   @keyframes artist_animation {
@@ -14305,7 +14303,7 @@ media 1252px
       opacity: 1; }
 
     100% {
-      background-image: url(../../images/img_Artist3.pngg);
+      background-image: url(../../images/img_Artist3.png);
       opacity: 1; } }
 
   .ad__leaderboard.desktop:after {
@@ -14347,6 +14345,8 @@ media 1400px
   .header__nav {
     padding-left: 250px; }
   .header__logo {
+    background: url("../../images/logo_MAGIC_large.png") no-repeat;
+    background-size: contain;
     top: -110px;
     left: 0px;
     width: 260px !important;

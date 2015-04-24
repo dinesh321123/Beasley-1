@@ -151,7 +151,7 @@
 }
 
 /*
-// Denis's Changes - 4/23
+// Denis's Changes - 4/24
 */
 
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500);
@@ -454,7 +454,7 @@ span.icon-user { color: #fff!important;}
 div#live-player {background-color: #fff!important;}
 .live-player {background-color: #002a6e!important;}
 .live-player__container {background: url(../../images/equalizer-gray.gif)center bottom no-repeat;overflow: hidden;}
-.live-stream {  background: url(../../images/magic_listenlive_header1.png)no-repeat #fff;margin: 14px auto;}
+.live-stream {  background: url(../../images/magic_listenlive_header1.png)no-repeat #fff;margin: 8px auto;}
 
 .home__featured .featured__article--content {background-color: #002a6e; color: #fff; border-bottom-left-radius: 0em!important; border-bottom-right-radius: 1.5em;}
 .home__featured .featured__article a:hover {background-color: #002a6e; color: #fff; border-bottom-left-radius: 0em!important;border-top-left-radius: 1.5em!important; border-bottom-right-radius: 1.5em;}
@@ -639,7 +639,7 @@ media 1024px
 .header__account--logged-in, .header__account--logged-out, .header__account--span {color: #fff;font-weight: 700;font-family: 'Ubuntu', sans-serif;}*/
 
 .header__nav .sub-menu {border-top: 7px solid #ffe513!important;}
-.live-stream {margin: 0px auto;}
+
 
 
 
@@ -689,7 +689,7 @@ media 1252px
 
         0%{background-image:url(../../images/img_Artist1.png);opacity:1;}
         50%{background-image:url(../../images/img_Artist2.png);opacity:1;}
-        100%{background-image:url(../../images/img_Artist3.pngg);opacity:1;}
+        100%{background-image:url(../../images/img_Artist3.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
         
       }
@@ -698,7 +698,7 @@ media 1252px
 
         0%{background-image:url(../../images/img_Artist1.png);opacity:1;}
         50%{background-image:url(../../images/img_Artist2.png);opacity:1;}
-        100%{background-image:url(../../images/img_Artist3.pngg);opacity:1;}
+        100%{background-image:url(../../images/img_Artist3.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
         
       }      
@@ -706,7 +706,7 @@ media 1252px
 @keyframes artist_animation{
         0%{background-image:url(../../images/img_Artist1.png);opacity:1;}
         50%{background-image:url(../../images/img_Artist2.png);opacity:1;}
-        100%{background-image:url(../../images/img_Artist3.pngg);opacity:1;}
+        100%{background-image:url(../../images/img_Artist3.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
         
 }
@@ -757,6 +757,8 @@ media 1400px
 @media screen and (min-width:1400px) {
 .header__nav { padding-left: 250px; }
 .header__logo {
+      background:  url("../../images/logo_MAGIC_large.png") no-repeat;
+      background-size: contain;
       top:-110px;
       left: 0px;
       width: 260px!important;
