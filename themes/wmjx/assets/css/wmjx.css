@@ -13730,13 +13730,25 @@ table.responsive tr:nth-of-type(even) {
   color: #a8d6f7;
   border-color: #a8d6f7; }
 
+.social__link:link {
+  color: #002a6e !important;
+  border-color: #002a6e !important; }
+
+.social__link:hover {
+  color: #a8d6f7 !important;
+  border-color: #a8d6f7 !important; }
+
 /* mobile contests */
 .contest__prize--title {
   color: #002a6e !important; }
 
-.contest__form button[type=submit], .contest__form input[type=submit] {
-  background-color: #002a6e;
-  border: 1px solid #80b1ff; }
+button.button {
+  background-color: #002a6e !important;
+  border: 1px solid #80b1ff !important; }
+
+button.button:hover {
+  background-color: #80b1ff !important;
+  border: 1px solid #002a6e !important; }
 
 .contest-attr--rules-toggler {
   background-color: #002a6e;
@@ -14063,6 +14075,9 @@ media 768px
     background-color: #fff !important; }
   .live-player {
     background-color: #002a6e !important; }
+  .live-player__container {
+    background: url(../../images/equalizer-gray.gif) center bottom no-repeat;
+    overflow: hidden; }
   .live-stream {
     background: url(../../images/magic_listenlive_header1.png) no-repeat #fff;
     margin: 14px auto; }

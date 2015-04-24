@@ -174,11 +174,14 @@
 .mobile-nav .mobile-menu-submenu-header {background-color: #002a6e;color: #fff;padding: 18px 1.25em;}
 .mobile-nav__list a:hover, .ui-menu .ui-state-focus {background-color: #002a6e;}
 .mobile-nav .social__link:visited {color:#fff;border-color: #fff;}
-.mobile-nav .social__link:hover {color:#a8d6f7;border-color: #a8d6f7;}
+.mobile-nav .social__link:hover{color:#a8d6f7;border-color: #a8d6f7;}
+.social__link:link{color:#002a6e!important;border-color: #002a6e!important;}
+.social__link:hover {color:#a8d6f7!important;border-color: #a8d6f7!important;}
 
 /* mobile contests */
 .contest__prize--title {color: #002a6e!important;}
-.contest__form button[type=submit], .contest__form input[type=submit] {background-color: #002a6e;border: 1px solid #80b1ff;}
+button.button {background-color: #002a6e!important;border: 1px solid #80b1ff!important;}
+button.button:hover {background-color: #80b1ff!important;border: 1px solid #002a6e!important;}
 .contest-attr--rules-toggler {background-color: #002a6e;border:solid 1px #002a6e;}
 .contest-attr--rules-toggler:hover {background-color: #ffe513; color: #002a6e;}
 a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #a8d6f7; color: #002a6e!important;border: 1px solid #002a6e!important;}
@@ -450,7 +453,7 @@ span.icon-user { color: #fff!important;}
 
 div#live-player {background-color: #fff!important;}
 .live-player {background-color: #002a6e!important;}
-
+.live-player__container {background: url(../../images/equalizer-gray.gif)center bottom no-repeat;overflow: hidden;}
 .live-stream {  background: url(../../images/magic_listenlive_header1.png)no-repeat #fff;margin: 14px auto;}
 
 .home__featured .featured__article--content {background-color: #002a6e; color: #fff; border-bottom-left-radius: 0em!important; border-bottom-right-radius: 1.5em;}
@@ -611,7 +614,7 @@ media 1024px
     .header__nav ul li a,
     .header__nav ul li a:link,
     .header__nav ul li a:visited {
-      
+       
         padding: 33px 1.125em 32px;
     }
 
