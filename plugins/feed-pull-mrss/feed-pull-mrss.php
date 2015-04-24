@@ -174,6 +174,42 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 	// fetch player
 	$player = fpmrss_extract_media_player( $fpmrss_feed_item );
 	if ( $player ) {
+		// check if redirect header exists for a video
+		if ( filter_var( $player, FILTER_VALIDATE_URL ) ) {
+			$response = wp_remote_head( $player );
+			$location = wp_remote_retrieve_header( $response, 'location' );
+			if ( ! empty( $location ) ) {
+				$player = $location;
+			}
+		}
+
+		// we need to switch a link on a video to player embed code
+		if ( filter_var( $player, FILTER_VALIDATE_URL ) && preg_match( '#^https?\:\/\/.*?\.ooyala\.com\/(.+?)\/(.+?)\/?$#i', $player, $matches ) ) {
+$player = <<<OOYALA_PLAYER
+<script src="http://player.ooyala.com/player.js?embedCode={$matches[1]}&embedType=player.jsMRSS&videoPcode={$matches[2]}&width=480&height=270"></script>
+<noscript>
+  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="ooyalaPlayer_5j2v5o_nn9rxe" width="480" height="270" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
+	<param name="movie" value="http://player.ooyala.com/player_v2.swf?embedCode={$matches[1]}&keepEmbedCode=true&videoPcode={$matches[2]}"/>
+	<param name="bgcolor" value="#000000"/>
+	<param name="allowScriptAccess" value="always"/>
+	<param name="allowFullScreen" value="true"/>
+	<param name="flashvars" value="embedCode={$matches[1]}&embedType=noscriptObjectTagMRSS&videoPcode={$matches[2]}&width=480&height=270"/>
+	<embed src="http://player.ooyala.com/player_v2.swf?embedCode={$matches[1]}&keepEmbedCode=true&videoPcode={$matches[2]}"
+		bgcolor="#000000"
+		width="480"
+		height="270"
+		name="ooyalaPlayer_572t57_nn9rxe" align="middle" play="true" loop="false"
+		allowScriptAccess="always" allowFullScreen="true"
+		type="application/x-shockwave-flash"
+		flashvars="embedCode={$matches[1]}&embedType=noscriptObjectTagMRSS&videoPcode={$matches[2]}&width=480&height=270"
+		pluginspage="http://www.adobe.com/go/getflashplayer">
+	</embed>
+  </object>
+</noscript>
+OOYALA_PLAYER;
+		}
+
+		// set player meta
 		update_post_meta( $post_id, 'gmr-player', $player );
 		set_post_format( $post_id, 'video' );
 	}

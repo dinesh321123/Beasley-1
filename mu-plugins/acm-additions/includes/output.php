@@ -122,13 +122,12 @@ function render_tag( $output_html, $tag_id ) {
 	if ( is_singular() ) {
 		$categories = wp_get_post_categories( get_queried_object_id() );
 		if ( ! empty( $categories ) ) {
-			$category = get_category( current( $categories ) );
-			if ( $category ) {
-				$category = $category->name;
-			}
+			$categories = array_filter( array_map( 'get_category', $categories ) );
+			$categories = wp_list_pluck( $categories, 'slug' );
+			$category = implode( ',', $categories );
 		}
 	} elseif ( is_category() ) {
-		$category = get_queried_object()->name;
+		$category = get_queried_object()->slug;
 	}
 
 	ob_start();
