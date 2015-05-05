@@ -12,6 +12,8 @@ class GreaterMediaUserGeneratedContentModerationTable extends WP_List_Table {
 
 	const PAGE_NAME = 'moderate-ugc';
 
+	protected $query;
+
 	/**
 	 * Constructor.
 	 *

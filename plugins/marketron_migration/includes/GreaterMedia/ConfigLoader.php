@@ -46,7 +46,7 @@ class ConfigLoader {
 		$this->load_gigya_options();
 		$this->load_myemma_options();
 		$this->load_livefyre_options();
-		//$this->load_ooyala_options();
+		$this->load_ooyala_options();
 		$this->load_member_page_text_options();
 		$this->load_google_analytics_options();
 		$this->load_social_page_options();
@@ -199,7 +199,17 @@ class ConfigLoader {
 		$total        = count( $live_streams );
 
 		foreach ( $live_streams as $live_stream ) {
-			$entity->add( $live_stream );
+			$post = array(
+				'post_type'   => 'live-stream',
+				'post_title'  => $live_stream['call_sign'],
+				'post_status' => 'publish',
+			);
+
+			$post_id = wp_insert_post( $post );
+
+			update_post_meta( $post_id, 'call_sign', $live_stream['call_sign'] );
+			update_post_meta( $post_id, 'description', $live_stream['description'] );
+			update_post_meta( $post_id, 'vast_url', $live_stream['vast_url'] );
 		}
 
 		\WP_CLI::success( "Imported $total Live Stream(s)" );
