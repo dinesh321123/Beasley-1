@@ -156,7 +156,7 @@
 		} else if (bowser.safari) {
 			return ['Html5', 'Flash'];
 		} else if (bowser.chrome) {
-			return ['Flash', 'Html5'];
+			return ['Html5', 'Flash'];
 		} else {
 			return ['Html5', 'Flash'];
 		}
@@ -357,7 +357,7 @@
 		if (podcastPlayer != null && ( body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast') )) {
 			audioCurrent.classList.add('playing__current');
 			runtimeCurrent.classList.add('playing');
-		} else if (podcastPlayer != null && (body.classList.contains('single-post'))) {
+		} else if (podcastPlayer != null && ! (body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast'))) {
 			audioCurrent.classList.add('playing__current');
 			inlineTime.classList.add('playing__current');
 		} else {
@@ -515,6 +515,9 @@
 				addEventHandler(listenLogin, 'click', function () {
 					window.location.href = gigyaLogin;
 				});
+			}
+			if (podcastPlayBtn != null) {
+				 addEventHandler(podcastPlayBtn, 'click', pjaxInit);
 			}
 		}
 	}
@@ -1571,6 +1574,14 @@
 			if ($.support.pjax) {
 				$(document).pjax('a:not(.ab-item)', '.page-wrap', {
 					'fragment': '.page-wrap',
+					'maxCacheLength': 500,
+					'timeout': 10000
+				});
+			}
+		} else {
+			if ($.support.pjax) {
+				$(document).pjax('a:not(.ab-item)', '.main', {
+					'fragment': '.main',
 					'maxCacheLength': 500,
 					'timeout': 10000
 				});

@@ -63,6 +63,14 @@
 					'timeout': 10000
 				});
 			}
+		} else {
+			if ($.support.pjax) {
+				$(document).pjax('a:not(.ab-item)', '.main', {
+					'fragment': '.main',
+					'maxCacheLength': 500,
+					'timeout': 10000
+				});
+			}
 		}
 	}
 
