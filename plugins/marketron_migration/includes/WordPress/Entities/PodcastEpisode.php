@@ -15,8 +15,10 @@ class PodcastEpisode extends Post {
 
 		if ( is_string( $episode_podcast ) ) {
 			$podcast_name = $episode_podcast;
-		} else {
+		} else if ( ! empty( $episode_podcast['podcast_name'] ) ) {
 			$podcast_name = $episode_podcast['podcast_name'];
+		} else {
+			$podcast_name = '';
 		}
 
 		$podcast_id = $this->get_podcast_id( $podcast_name );
