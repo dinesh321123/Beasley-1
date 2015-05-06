@@ -436,6 +436,27 @@ function greatermedia_alter_search_query( $query ) {
 add_action( 'pre_get_posts', 'greatermedia_alter_search_query' );
 
 /**
+ * Alter query to show custom post types in category pages.
+ *
+ * @param  WP_Query $query [description]
+ */
+function greatermedia_alter_taxonomy_archive_query( $query ) {
+	if ( greatermedia_is_taxonomy_archive( $query ) ) {
+		$query->set( 'post_type', get_post_types() );
+	}
+}
+
+function greatermedia_is_taxonomy_archive( $query ) {
+	if ( $query->is_main_query() ) {
+		return $query->is_category() || $query->is_tag();
+	} else {
+		return false;
+	}
+}
+
+add_action( 'pre_get_posts', 'greatermedia_alter_taxonomy_archive_query' );
+
+/**
  * This will keep Jetpack Sharing from auto adding to the end of a post.
  * We want to add this manually to the proper theme locations
  *
