@@ -43,7 +43,7 @@ class GMR_Audio_Shortcodes {
 		if ( is_admin() ) {
 			return $html;
 		}
-		
+
 //		/*
 //		 * Spec supports mp3 only, as do the browsers we're trying to use audio element with.
 //		 * Anything else will just use media element, rather than the live player
@@ -110,7 +110,7 @@ class GMR_Audio_Shortcodes {
 			$title = $metadata['title'];
 		}
 
-		$is_podcast_archive = is_post_type_archive( GMP_CPT::PODCAST_POST_TYPE );
+		$is_podcast_archive = is_post_type_archive( 'podcast' );
 
 		$parent_podcast = false;
 		$parent_podcast_id = wp_get_post_parent_id( $post_id );
@@ -137,7 +137,7 @@ class GMR_Audio_Shortcodes {
 		$downloadable = get_post_meta( $post_id, 'gmp_audio_downloadable', true );
 		$new_html = '';
 
-		$is_podcast = is_singular( array( ShowsCPT::SHOW_CPT, GMP_CPT::PODCAST_POST_TYPE ) );
+		$is_podcast = is_singular( array( ShowsCPT::SHOW_CPT, 'podcast' ) );
 
 		// podcast archive details
 
@@ -181,7 +181,7 @@ class GMR_Audio_Shortcodes {
 
 		if ( ( $is_podcast || $is_podcast_archive ) && ( $downloadable == 'on' || $downloadable == '' ) ) {
 			$new_html .= '<div class="podcast__download">';
-			if ( ! is_singular( GMP_CPT::PODCAST_POST_TYPE ) ) {
+			if ( ! is_singular( 'podcast' ) ) {
 				if ( $parent_podcast_id && ( $is_podcast || $is_podcast_archive ) ) {
 					if ( $itunes_url != '' ) {
 						$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
@@ -225,7 +225,7 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<div class="podcast__archive--episode-count">' . $podcast_episodes_query->found_posts . ' Episodes</div>';
 		}
 
-		if ( $parent_podcast_id && $is_podcast && !is_singular( GMP_CPT::PODCAST_POST_TYPE ) ) {
+		if ( $parent_podcast_id && $is_podcast && !is_singular( 'podcast' ) ) {
 			$new_html .= '<div class="podcast__parent"><div class="podcast__parent--title"><a href="' . esc_url( get_permalink( $parent_podcast->ID ) ) . '">' . esc_html( $parent_podcast->post_title ) . '</a></div>';
 			if ( $itunes_url != '' ) {
 				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
