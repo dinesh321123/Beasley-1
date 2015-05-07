@@ -768,8 +768,10 @@ var EntryConstraint = Constraint.extend({
 		if (field) {
 			var choices = field.get('choices');
 			if (choices && choices.length > 0) {
+				this.set('valueType', 'list');
 				return choices;
 			} else {
+				this.set('valueType', 'string');
 				return [];
 			}
 		} else {

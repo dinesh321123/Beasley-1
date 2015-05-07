@@ -27,6 +27,7 @@ class MemberQuery {
 		'text'    => 't',
 		'boolean' => 'b',
 		'date'    => 'd',
+		'list'    => 'list',
 	);
 
 	/**
@@ -468,6 +469,7 @@ class MemberQuery {
 
 		$query .= ' and ';
 
+		error_log( 'valueType: $valueType' );
 		$query .= $this->data_store_field_name_for( 'actionValue', $valueType );
 		$query .= ' ';
 		$query .= $this->operator_for( $operator );
@@ -912,6 +914,8 @@ class MemberQuery {
 			);
 
 			return $date->getTimestamp();
+		} elseif ( $valueType === 'list' ) {
+			return "'{$value}'";
 		} else {
 			return $value;
 		}
