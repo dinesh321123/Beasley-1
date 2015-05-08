@@ -9,7 +9,7 @@ class FeaturedImageRepairer {
 
 	function repair() {
 		$this->container->opts['repair'] = true;
-		$this->container->opts['fake_media'] = true;
+		$this->container->opts['fake_media'] = false;
 
 		$feed_tool = $this->container->tool_factory->build( 'feed' );
 		$feed_tool->load();
@@ -61,6 +61,8 @@ class FeaturedImageRepairer {
 				set_post_thumbnail( $post_id, $attachment_id );
 				\WP_CLI::success( "Updated Featured Image: $post_id - $attachment_id" );
 			}
+		} else {
+			\WP_CLI::log( "Featured Image not found - $post_id: $featured_image" );
 		}
 	}
 
