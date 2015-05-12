@@ -185,22 +185,7 @@
 
 /* end */
 
-.entry2__thumbnail__icon {display: none;}
-.entry2__thumbnail__overlay {background-color: #002a6e;opacity: .5;}
-.type-contest .entry2__thumbnail--contest-type {display: none;}
-.type-tribe_events .entry2__thumbnail--event-date {font-size: .75em;}
 
-
-/* live stream */
-.live-stream__now-playing--btn{color:#002a6e!important;}
-.live-stream__btn--loading, .live-stream__btn--pause, .live-stream__btn--resume{color:#002a6e!important;}
-.now-playing__title {color: #002a6e!important;}
-.now-playing__artist {color: #002a6e!important;}
-#live-player--volume .noUi-base {background: #a8d6f7;}
-#live-player--volume.noUi-horizontal .noUi-handle {background: #002a6e;}
-
-
-/* end live stream */
 .highlights__heading {
     color: #C01C1C;
     font-weight: 500;
@@ -456,9 +441,24 @@ media 768px
     }
     a:link, a:visited {color: #002a6e!important;}
     a:hover {color: #002a6e!important; text-decoration: underline;}*/
-    .widget--live-player a:hover>div{background-color: #114598!important;color:#0067b1!important;}
 
-     .ad__leaderboard.desktop {
+/* --------------------------------------
+new changes for Live player 5/12
+-------------------------------------- */
+.live-stream__btn--pause,
+.live-stream__btn--resume,
+.live-stream__btn--loading {  background: #002a6e!important;color:#fff!important; border: 2px solid #a8d6f7!important;}
+
+.now-playing__title {font-weight: 500;}
+.now-playing__artist {font-size: .90em;font-weight: 400;font-style: italic;}
+
+/* --------------------------------------
+ end changes for Live player 5/12 
+ -------------------------------------- */
+
+.widget--live-player a:hover>div{background-color: #114598!important;color:#0067b1!important;}
+
+.ad__leaderboard.desktop {
 
     border: 5px solid #002a6e!important;
     width:738px;
@@ -622,8 +622,10 @@ media 1024px
 @media screen and (min-width:1024px) {
 
 
+    .entry2__thumbnail__icon {display: none;}
+    .entry2__thumbnail__overlay {background-color: #002a6e;opacity: .5;}
+    .type-contest .entry2__thumbnail--contest-type {display: none;}
 
-    .type-tribe_events .entry2__thumbnail--event-date {font-size: .75em;}
     .header__logo {background-position: center top;border: solid 1px #fff;margin: 18px 0px 0px 20px;}
     .live-stream {margin: 0px auto;}
     .header__secondary {position: relative;}

@@ -11,10 +11,10 @@
  * @package WMJX
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WMJX_VERSION', '0.1.1' );
- 
+ define( 'WMJX_VERSION', '0.1.2' );
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WMJX_VERSION', '0.1.1' );
 	load_theme_textdomain( 'wmjx', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wmjx_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,17 +43,17 @@ define( 'WMJX_VERSION', '0.1.1' );
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wmjx', get_stylesheet_directory_uri() . "/assets/css/wmjx{$postfix}.css", array(), WMJX_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wmjx_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wmjx_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wmjx_humans', $humans );
  }
  add_action( 'wp_head', 'wmjx_header_meta' );
