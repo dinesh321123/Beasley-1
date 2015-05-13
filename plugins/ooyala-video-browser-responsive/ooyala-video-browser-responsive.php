@@ -55,12 +55,14 @@ function ooyala_responsive_shortcode( $atts ) {
 		'player_id'     => $options['player_id'],
 		'platform'      => 'html5-fallback',
 		'wrapper_class' => 'ooyala-video-wrapper',
+		'ad_set'        => '',
 	) ), $atts
 	);
 
 	$code = $shortcode_atts['code'];
 	$player_id = $shortcode_atts['player_id'];
 	$platform = $shortcode_atts['platform'];
+	$ad_set = $shortcode_atts['ad_set'];
 
 	// Check if platform is one of the accepted. If not, set to html5-fallback
 	$platform = in_array( $platform, array(
@@ -98,6 +100,7 @@ function ooyala_responsive_shortcode( $atts ) {
 		'player_id'    => $player_id,
 		'platform'     => $platform,
 		'ooyala_video' => $code,
+		'ad_set'       => $ad_set,
 	);
 
 	ob_start();

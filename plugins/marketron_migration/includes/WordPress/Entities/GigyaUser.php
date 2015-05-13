@@ -379,6 +379,8 @@ class GigyaUser extends BaseEntity {
 
 				$line = fgets( $file );
 			}
+
+			$this->can_import_all_members = false;
 		} else {
 			$this->can_import_all_members = true;
 		}
