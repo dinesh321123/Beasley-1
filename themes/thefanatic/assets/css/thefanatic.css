@@ -471,7 +471,7 @@ category: Base - Typography
   font-weight: normal;
   font-style: normal; }
 
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .live-player--open__btn:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit, .header__search--cancel, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .top-three__play, .gmr-icon, .contest__submission .preview .preview-close {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .secondary-nav .menu-item.schedule a:before, .secondary-nav .menu-item a[title*="schedule"]:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="SCHEDULE"]:before, .secondary-nav .menu-item.stocks a:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="stocks"]:before, .secondary-nav .menu-item a[title*="STOCKS"]:before, .secondary-nav .menu-item.traffic a:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="TRAFFIC"]:before, .secondary-nav .menu-item a[title*="traffic"]:before, .secondary-nav .menu-item.weather a:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .live-player--open__btn:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit, .header__search--cancel, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .top-three__play, .gmr-icon, .contest__submission .preview .preview-close {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -600,16 +600,16 @@ category: Base - Typography
 .icon-radio-tower:before {
   content: "\e626"; }
 
-.icon-schedule:before, .secondary-nav .menu-item a[title*="Schedule"]:before {
+.icon-schedule:before, .secondary-nav .menu-item.schedule a:before, .secondary-nav .menu-item a[title*="schedule"]:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="SCHEDULE"]:before {
   content: "\e627"; }
 
-.icon-stocks:before, .secondary-nav .menu-item a[title*="Stocks"]:before {
+.icon-stocks:before, .secondary-nav .menu-item.stocks a:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="stocks"]:before, .secondary-nav .menu-item a[title*="STOCKS"]:before {
   content: "\e628"; }
 
-.icon-traffic:before, .secondary-nav .menu-item a[title*="Traffic"]:before {
+.icon-traffic:before, .secondary-nav .menu-item.traffic a:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="TRAFFIC"]:before, .secondary-nav .menu-item a[title*="traffic"]:before {
   content: "\e629"; }
 
-.icon-weather:before, .secondary-nav .menu-item a[title*="Weather"]:before {
+.icon-weather:before, .secondary-nav .menu-item.weather a:before, .secondary-nav .menu-item a[title*="Weather"]:before {
   content: "\e62a"; }
 
 .icon-loading:before {
@@ -3480,7 +3480,7 @@ a.highlights__contest--btn {
         height: 48px;
         padding: 14px 0 16px 0; } }
 
-.secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before {
+.secondary-nav .menu-item.schedule a:before, .secondary-nav .menu-item a[title*="schedule"]:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="SCHEDULE"]:before, .secondary-nav .menu-item.stocks a:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="stocks"]:before, .secondary-nav .menu-item a[title*="STOCKS"]:before, .secondary-nav .menu-item.traffic a:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="TRAFFIC"]:before, .secondary-nav .menu-item a[title*="traffic"]:before, .secondary-nav .menu-item.weather a:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before {
   display: block;
   width: 24px;
   height: 24px;
@@ -3488,7 +3488,7 @@ a.highlights__contest--btn {
   vertical-align: middle;
   font-size: 2.02729em; }
   @media screen and (min-width: 768px)  {
-    .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before {
+    .secondary-nav .menu-item.schedule a:before, .secondary-nav .menu-item a[title*="schedule"]:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="SCHEDULE"]:before, .secondary-nav .menu-item.stocks a:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="stocks"]:before, .secondary-nav .menu-item a[title*="STOCKS"]:before, .secondary-nav .menu-item.traffic a:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="TRAFFIC"]:before, .secondary-nav .menu-item a[title*="traffic"]:before, .secondary-nav .menu-item.weather a:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before {
       display: table-cell;
       width: 0;
       height: 18px;

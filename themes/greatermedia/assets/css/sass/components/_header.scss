@@ -169,21 +169,35 @@
 	}
 }
 
-.secondary-nav .menu-item a[title*="Schedule"]:before {
+// These are related to the secondary navigation of the News/Sports theme. We are targeting either the class option or
+// the title option that is available for the WordPress wp_nav_menu items.
+.secondary-nav .menu-item.schedule a:before,
+.secondary-nav .menu-item a[title*="schedule"]:before,
+.secondary-nav .menu-item a[title*="Schedule"]:before,
+.secondary-nav .menu-item a[title*="SCHEDULE"]:before {
 	@extend %header__subnav--icon;
 	@extend .icon-schedule;
 }
 
-.secondary-nav .menu-item a[title*="Stocks"]:before {
+.secondary-nav .menu-item.stocks a:before,
+.secondary-nav .menu-item a[title*="Stocks"]:before,
+.secondary-nav .menu-item a[title*="stocks"]:before,
+.secondary-nav .menu-item a[title*="STOCKS"]:before {
 	@extend %header__subnav--icon;
 	@extend .icon-stocks;
 }
 
-.secondary-nav .menu-item a[title*="Traffic"]:before {
+.secondary-nav .menu-item.traffic a:before,
+.secondary-nav .menu-item a[title*="Traffic"]:before,
+.secondary-nav .menu-item a[title*="TRAFFIC"]:before,
+.secondary-nav .menu-item a[title*="traffic"]:before {
 	@extend %header__subnav--icon;
 	@extend .icon-traffic;
 }
 
+.secondary-nav .menu-item.weather a:before,
+.secondary-nav .menu-item a[title*="Weather"]:before,
+.secondary-nav .menu-item a[title*="Weather"]:before,
 .secondary-nav .menu-item a[title*="Weather"]:before {
 	@extend %header__subnav--icon;
 	@extend .icon-weather;
