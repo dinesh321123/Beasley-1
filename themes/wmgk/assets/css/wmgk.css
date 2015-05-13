@@ -471,7 +471,7 @@ category: Base - Typography
   font-weight: normal;
   font-style: normal; }
 
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .live-player--open__btn:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit, .header__search--cancel, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .top-three__play, .gmr-icon, .contest__submission .preview .preview-close {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .live-player--open__btn:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit, .header__search--cancel, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .top-three__play, .gmr-icon, .contest__submission .preview .preview-close {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -600,16 +600,16 @@ category: Base - Typography
 .icon-radio-tower:before {
   content: "\e626"; }
 
-.icon-schedule:before, .header__link--schedule:before {
+.icon-schedule:before, .secondary-nav .menu-item a[title*="Schedule"]:before {
   content: "\e627"; }
 
-.icon-stocks:before, .header__link--stocks:before {
+.icon-stocks:before, .secondary-nav .menu-item a[title*="Stocks"]:before {
   content: "\e628"; }
 
-.icon-traffic:before, .header__link--traffic:before {
+.icon-traffic:before, .secondary-nav .menu-item a[title*="Traffic"]:before {
   content: "\e629"; }
 
-.icon-weather:before, .header__link--weather:before {
+.icon-weather:before, .secondary-nav .menu-item a[title*="Weather"]:before {
   content: "\e62a"; }
 
 .icon-loading:before {
@@ -3423,8 +3423,6 @@ a.highlights__contest--btn {
   text-transform: uppercase; }
   @media screen and (min-width: 768px)  {
     .header__subnav {
-      display: table;
-      table-layout: fixed;
       padding: 0 1em;
       font-size: 0.79012em; } }
   @media screen and (min-width: 1024px)  {
@@ -3438,7 +3436,18 @@ a.highlights__contest--btn {
     .header__subnav {
       font-size: 1em; } }
 
-.header__subnav--item {
+.secondary-nav {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin: 0; }
+
+.secondary-nav-list {
+  width: 100%;
+  padding: 0;
+  margin: 0; }
+
+.secondary-nav .menu-item {
   display: inline-block;
   width: auto;
   height: 32px;
@@ -3446,32 +3455,32 @@ a.highlights__contest--btn {
   padding: 0;
   margin: 0;
   color: #ffffff; }
-  .header__subnav--item a, .header__subnav--item a:visited {
+  .secondary-nav .menu-item a, .secondary-nav .menu-item a:visited {
     display: block;
     height: 32px;
     padding: 4px .5em 4px 0;
     margin: 0;
     color: #ffffff; }
     @media screen and (min-width: 768px)  {
-      .header__subnav--item a, .header__subnav--item a:visited {
+      .secondary-nav .menu-item a, .secondary-nav .menu-item a:visited {
         padding-top: 8px;
         padding-bottom: 8px; } }
-  .header__subnav--item:last-of-type a {
+  .secondary-nav .menu-item:last-of-type a {
     padding-right: 0; }
-  .header__subnav--item a:hover, .header__subnav--item a:focus, .header__subnav--item a:active {
+  .secondary-nav .menu-item a:hover, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:active {
     color: #d22228; }
   @media screen and (min-width: 768px)  {
-    .header__subnav--item {
+    .secondary-nav .menu-item {
       display: table-cell;
       width: auto;
       height: 48px;
       padding-right: 0;
       padding-left: 1.25em; }
-      .header__subnav--item a, .header__subnav--item a:visited {
+      .secondary-nav .menu-item a, .secondary-nav .menu-item a:visited {
         height: 48px;
         padding: 14px 0 16px 0; } }
 
-.header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before {
+.secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before {
   display: block;
   width: 24px;
   height: 24px;
@@ -3479,12 +3488,16 @@ a.highlights__contest--btn {
   vertical-align: middle;
   font-size: 2.02729em; }
   @media screen and (min-width: 768px)  {
-    .header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before {
+    .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before {
       display: table-cell;
       width: 0;
       height: 18px;
       padding-right: .75em;
       font-size: 1.26562em; } }
+
+.secondary-link {
+  display: table-cell;
+  padding-top: 3px; }
 
 .header__link--text {
   display: none; }
@@ -3822,6 +3835,7 @@ a.highlights__contest--btn {
       height: 82px;
       margin-right: 1em; } }
   .news-site .header__search {
+    display: inline-block;
     padding-left: 1.25em;
     margin-right: 0;
     color: white; }

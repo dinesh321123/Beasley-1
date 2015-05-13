@@ -72,8 +72,6 @@
 	text-transform: uppercase;
 
 	@include bp(medium) {
-		display: table;
-		table-layout: fixed;
 		padding: 0 1em;
 		font-size: ms(-2);
 	}
@@ -92,7 +90,21 @@
 
 }
 
-.header__subnav--item {
+.secondary-nav {
+	display: inline-block;
+	width: auto;
+	padding: 0;
+	margin: 0;
+}
+
+
+.secondary-nav-list {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+.secondary-nav .menu-item {
 	display: inline-block;
 	width: auto;
 	height: 32px;
@@ -157,24 +169,29 @@
 	}
 }
 
-.header__link--schedule:before {
+.secondary-nav .menu-item a[title*="Schedule"]:before {
 	@extend %header__subnav--icon;
 	@extend .icon-schedule;
 }
 
-.header__link--stocks:before {
+.secondary-nav .menu-item a[title*="Stocks"]:before {
 	@extend %header__subnav--icon;
 	@extend .icon-stocks;
 }
 
-.header__link--traffic:before {
+.secondary-nav .menu-item a[title*="Traffic"]:before {
 	@extend %header__subnav--icon;
 	@extend .icon-traffic;
 }
 
-.header__link--weather:before {
+.secondary-nav .menu-item a[title*="Weather"]:before {
 	@extend %header__subnav--icon;
 	@extend .icon-weather;
+}
+
+.secondary-link {
+	display: table-cell;
+	padding-top: 3px;
 }
 
 .header__link--search:before {
@@ -627,6 +644,7 @@
 	}
 
 	.news-site & {
+		display: inline-block;
 		padding-left: 1.25em;
 		margin-right: 0;
 		color: white;

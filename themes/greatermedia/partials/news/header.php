@@ -21,44 +21,36 @@
 				<?php do_action( 'gmr_site_logo' ); ?>
 			</a>
 			<div class="header__subnav">
-				<div class="header__subnav--item"><a href="#" class="header__link--schedule"><div class="header__link--text">Schedule</div></a></div>
-				<div class="header__subnav--item"><a href="#" class="header__link--stocks"><div class="header__link--text">Stocks</div></a></div>
-				<div class="header__subnav--item"><a href="#" class="header__link--traffic"><div class="header__link--text">Traffic</div></a></div>
-				<div class="header__subnav--item"><a href="#" class="header__link--weather"><div class="header__link--text">Weather</div></a></div>
+				<?php
+				$secondary_nav = array(
+					'theme_location'  => 'secondary-nav',
+					'menu'            => '',
+					'container'       => 'nav',
+					'container_class' => 'secondary-nav',
+					'container_id'    => '',
+					'menu_class'      => 'secondary-nav-list',
+					'menu_id'         => '',
+					'echo'            => true,
+					'fallback_cb'     => '',
+					'before'          => '',
+					'after'           => '',
+					'link_before'     => '<div class="secondary-link">',
+					'link_after'      => '</div>',
+					'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+					'depth'           => 0,
+				);
+				wp_nav_menu( $secondary_nav );
+				?>
 				<div id="header__search" class="header__search">
 					<label for="s" class="header__search--label"><i class="header__search--btn"></i><div class="header__search--span"><?php _e( 'Search', 'greatermedia' ); ?></div></label>
 				</div>
 			</div>
-			<div class="recent-scores__widget">
-				<div class="score--visitor">
-					<div class="team__logo">
-						<img src="<?php bloginfo( 'stylesheet_directory' ); ?>/images/detroit-pistons-logo.png">
-					</div>
-					<div class="team__name">
-						Detroit Pistons
-						<div class="team__record">
-							(14-24)
-						</div>
-					</div>
-				</div>
-				<div class="game__score">
-					114 - 111
-					<div class="game__score--status">
-						Final
-					</div>
-				</div>
-				<div class="score--home">
-					<div class="team__name">
-						Toronto Raptors
-						<div class="team__record">
-							(25-12)
-						</div>
-					</div>
-					<div class="team__logo">
-						<img src="<?php bloginfo( 'stylesheet_directory' ); ?>/images/toronto-raptors-logo.png">
-					</div>
-				</div>
-			</div>
+			<?php
+			/**
+			 * Comment out the sports scores for now
+			 */
+			/* get_template_part( 'partials/news/header', 'scores'); */
+			?>
 		</div>
 	</div>
 	<div class="header__main">
