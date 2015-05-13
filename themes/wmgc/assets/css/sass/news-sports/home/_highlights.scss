@@ -1,0 +1,31 @@
+.highlights__heading {
+	color: $black;
+}
+
+.highlights__event--title {
+	color: $black;
+}
+
+.highlights__event--date {
+	color: $color-gray-medium;
+}
+
+.highlights__event--time {
+	color: $color-gray-medium;
+}
+
+.highlights__contest--title {
+	color: $black;
+}
+
+.highlights__contest--date {
+	color: $color-gray-medium;
+}
+
+.highlights__community--title {
+	color: $black;
+
+	a:hover & {
+		color: $primary-link-hover;
+	}
+}
