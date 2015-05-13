@@ -116,7 +116,7 @@ function ooyala_print_footer_scripts() {
 		$player_id = isset( $ooyala_player['player_id'] ) ? $ooyala_player['player_id'] : '';
 		$platform  = isset( $ooyala_player['platform'] ) ? $ooyala_player['platform'] : '';
 
-		echo '<script src="http://player.ooyala.com/v3/' . esc_attr( $player_id ) . '?platform=' . esc_attr( $platform ) . '"></script>';
+		echo '<script src="//player.ooyala.com/v3/' . esc_attr( $player_id ) . '?platform=' . esc_attr( $platform ) . '"></script>';
 
 	}
 

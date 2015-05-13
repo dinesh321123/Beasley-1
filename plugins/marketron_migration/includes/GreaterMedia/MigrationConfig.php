@@ -48,6 +48,10 @@ class MigrationConfig {
 		return $this->get_backups_dir() . '/uploads';
 	}
 
+	function get_downloads_dir() {
+		return $this->site_dir . '/downloads';
+	}
+
 	function get_mapping_file() {
 		return $this->input_dir . '/mapping.csv';
 	}

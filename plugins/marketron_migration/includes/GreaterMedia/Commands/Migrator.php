@@ -15,22 +15,6 @@ use WordPress\Utils\MediaSideLoader;
 
 class Migrator {
 
-	public $default_opts = array(
-		'config_file'              => 'wmgk.json',
-		'marketron_export'    => 'wmgk.zip',
-		'tool'                => 'feed',
-		'fresh'               => false,
-		'migration_cache_dir' => 'migration_cache',
-		'mapping_file'        => 'wmgk_mapping.csv',
-	);
-
-	//public $default_tools = array(
-		//'feed', 'blog', 'venue', 'event_calendar', 'channel',
-		//'video_channel', 'event_manager',
-		//'photo_album_v2', 'showcase', 'podcast', 'survey',
-		//'contest',
-	//);
-
 	public $default_tools = array(
 		'feed'
 	);
@@ -41,56 +25,13 @@ class Migrator {
 	public $opts;
 	public $entity_factory;
 	public $table_factory;
+	public $inline_image_replacer;
+	public $inline_libsyn_replacer;
 
 	public $config;
 	public $mappings;
 	public $fresh;
 	public $initialized = false;
-
-	function build_actions_json( $args, $opts ) {
-		$user_ids = $opts['user_ids'];
-		$output   = $opts['output'];
-
-		$user_ids     = file( $user_ids );
-		$records = array();
-
-		foreach ( $user_ids as $user_id ) {
-			$user_id = trim( $user_id );
-			$actions_count = rand( 5, 50 );
-
-			for ( $i = 0; $i < $actions_count; $i++ ) {
-				$record = array(
-					'UID' => $user_id,
-					'data' => array(
-						'actions' => array(
-							array(
-								'actionType' => 'action:contest',
-								'actionID' => strval( rand( 50000, 100000 ) ),
-								'actionData' => array(
-									array(
-										'name' => 'rc' . rand( 1, 10 ),
-										'value_t' => 'lorem ispum dolor sit amet ' . rand( 1000, 100000 ),
-									),
-									array(
-										'name' => 'timestamp',
-										'value_i' => strtotime( 'now' ),
-									),
-								),
-							),
-						),
-					)
-				);
-
-				$records[] = $record;
-			}
-		}
-
-		$json = json_encode( $records, JSON_PRETTY_PRINT );
-		file_put_contents( $output, $json );
-		$count = count( $records );
-
-		\WP_CLI::success( "Actions( $count ) JSON generated successfully." );
-	}
 
 	function migrate( $args, $opts ) {
 		$opts          = wp_parse_args( $opts, $this->default_opts );
@@ -230,6 +171,9 @@ class Migrator {
 
 			$this->inline_image_replacer = new \WordPress\Utils\InlineImageReplacer();
 			$this->inline_image_replacer->container = $this;
+
+			$this->inline_libsyn_replacer = new \WordPress\Utils\InlineLibSynReplacer();
+			$this->inline_libsyn_replacer->container = $this;
 
 			$this->initialized = true;
 		}

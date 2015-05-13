@@ -177,36 +177,20 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 		// check if redirect header exists for a video
 		if ( filter_var( $player, FILTER_VALIDATE_URL ) ) {
 			$response = wp_remote_head( $player );
-			$location = wp_remote_retrieve_header( $response, 'location' );
-			if ( ! empty( $location ) ) {
-				$player = $location;
+			if ( ! is_wp_error( $response ) ) {
+				$location = wp_remote_retrieve_header( $response, 'location' );
+				if ( ! empty( $location ) ) {
+					$player = $location;
+				}
 			}
 		}
 
-		// we need to switch a link on a video to player embed code
+		// we need to convert a link or an embed code into the player shortcode
+		$matches = array();
 		if ( filter_var( $player, FILTER_VALIDATE_URL ) && preg_match( '#^https?\:\/\/.*?\.ooyala\.com\/(.+?)\/(.+?)\/?$#i', $player, $matches ) ) {
-$player = <<<OOYALA_PLAYER
-<script src="http://player.ooyala.com/player.js?embedCode={$matches[1]}&embedType=player.jsMRSS&videoPcode={$matches[2]}&width=480&height=270"></script>
-<noscript>
-  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="ooyalaPlayer_5j2v5o_nn9rxe" width="480" height="270" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
-	<param name="movie" value="http://player.ooyala.com/player_v2.swf?embedCode={$matches[1]}&keepEmbedCode=true&videoPcode={$matches[2]}"/>
-	<param name="bgcolor" value="#000000"/>
-	<param name="allowScriptAccess" value="always"/>
-	<param name="allowFullScreen" value="true"/>
-	<param name="flashvars" value="embedCode={$matches[1]}&embedType=noscriptObjectTagMRSS&videoPcode={$matches[2]}&width=480&height=270"/>
-	<embed src="http://player.ooyala.com/player_v2.swf?embedCode={$matches[1]}&keepEmbedCode=true&videoPcode={$matches[2]}"
-		bgcolor="#000000"
-		width="480"
-		height="270"
-		name="ooyalaPlayer_572t57_nn9rxe" align="middle" play="true" loop="false"
-		allowScriptAccess="always" allowFullScreen="true"
-		type="application/x-shockwave-flash"
-		flashvars="embedCode={$matches[1]}&embedType=noscriptObjectTagMRSS&videoPcode={$matches[2]}&width=480&height=270"
-		pluginspage="http://www.adobe.com/go/getflashplayer">
-	</embed>
-  </object>
-</noscript>
-OOYALA_PLAYER;
+			$player = "[ooyala code=\"{$matches[1]}\"]";
+		} elseif ( preg_match( '#embedCode\=(.+?)[\&\"\']#is', $player, $matches ) ) {
+			$player = "[ooyala code=\"{$matches[1]}\"]";
 		}
 
 		// set player meta
@@ -386,15 +370,10 @@ add_action( 'add_meta_boxes', 'fpmrss_add_meta_box' );
  * @param WP_Post $feed The feed object.
  */
 function fpmrss_render_ooyala_metabox( $feed ) {
-	$player_id = get_post_meta( $feed->ID, 'fpmrss-ooyala-player-id', true );
 	$ad_set = get_post_meta( $feed->ID, 'fpmrss-ooyala-ad-set', true );
 
 	wp_nonce_field( 'fpmrss-ooyala', 'fpmrss_ooyala_nonce', false );
 
-	echo '<p>';
-		echo '<label for="fpmrss-ooyala-player-id">Player ID:</label>';
-		echo '<input type="text" id="fpmrss-ooyala-player-id" class="widefat" name="fpmrss-ooyala-player-id" value="', esc_attr( $player_id ), '">';
-	echo '</p>';
 	echo '<p>';
 		echo '<label for="fpmrss-ooyala-ad-set">Ad Set:</label>';
 		echo '<input type="text" id="fpmrss-ooyala-ad-set" class="widefat" name="fpmrss-ooyala-ad-set" value="', esc_attr( $ad_set ), '">';
@@ -417,7 +396,7 @@ function fpmrss_save_settings( $post_id ) {
 
 	$ooyala_nonce = filter_input( INPUT_POST, 'fpmrss_ooyala_nonce' );
 	if ( $ooyala_nonce && wp_verify_nonce( $ooyala_nonce, 'fpmrss-ooyala' ) ) {
-		$fields = array( 'fpmrss-ooyala-player-id', 'fpmrss-ooyala-ad-set' );
+		$fields = array( 'fpmrss-ooyala-ad-set' );
 		foreach ( $fields as $field ) {
 			$value = wp_kses_post( filter_input( INPUT_POST, $field ) );
 			$value = trim( $value );

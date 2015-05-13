@@ -103,6 +103,14 @@ class BaseTable {
 
 	/* Eg:- has_row_with_field( 'slug', 'foo-bar' ) */
 	function has_row_with_field( $field_name, $field_value ) {
+		if ( is_null( $field_value ) ) {
+			return false;
+		}
+
+		if ( is_array( $field_value ) ) {
+			$field_value = $field_value[0];
+		}
+
 		if ( array_key_exists( $field_name, $this->indices_store ) ) {
 			if ( array_key_exists( $field_value, $this->indices_store[ $field_name ] ) ) {
 				$indices = $this->indices_store[ $field_name ][ $field_value ];
@@ -117,6 +125,10 @@ class BaseTable {
 
 	// returns first row with matched index
 	function get_row_with_field( $field_name, $field_value ) {
+		if ( is_array( $field_value ) ) {
+			$field_value = $field_value[0];
+		}
+
 		if ( $this->has_row_with_field( $field_name, $field_value ) ) {
 			$indices = $this->indices_store[ $field_name ][ $field_value ];
 			$row_id  = $indices[0];

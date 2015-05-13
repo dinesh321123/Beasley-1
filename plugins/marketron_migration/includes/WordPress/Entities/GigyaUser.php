@@ -4,8 +4,9 @@ namespace WordPress\Entities;
 
 class GigyaUser extends BaseEntity {
 
-	public $gigya_users = array();
-	public $member_ids = array();
+	public $gigya_users            = array();
+	public $member_ids             = array();
+	public $can_import_all_members = true;
 
 	function add( &$gigya_user ) {
 		if ( empty( $gigya_user['id'] ) ) {
@@ -362,6 +363,10 @@ class GigyaUser extends BaseEntity {
 
 		if ( $file !== false ) {
 			$line = fgets( $file );
+			if ( trim( $line ) === '*' ) {
+				$this->can_import_all_members = true;
+				return;
+			}
 
 			while ( $line !== false ) {
 				$line = trim( $line );
@@ -374,13 +379,19 @@ class GigyaUser extends BaseEntity {
 
 				$line = fgets( $file );
 			}
+		} else {
+			$this->can_import_all_members = true;
 		}
 
 		$this->member_ids = $member_ids;
 	}
 
 	function can_import_member( $member_id ) {
-		return array_key_exists( $member_id, $this->member_ids );
+		if ( $this->can_import_all_members ) {
+			return true;
+		} else {
+			return array_key_exists( $member_id, $this->member_ids );
+		}
 	}
 
 	function can_import_gigya_user( &$gigya_user ) {

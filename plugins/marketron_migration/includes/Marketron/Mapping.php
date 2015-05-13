@@ -15,6 +15,7 @@ class Mapping {
 	public $wordpress_author_name;
 	public $wordpress_show_name;
 	public $wordpress_category;
+	public $wordpress_categories;
 	public $wordpress_podcast_name;
 
 }

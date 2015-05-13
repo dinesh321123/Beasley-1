@@ -11,6 +11,7 @@ class MappingCollection {
 	public $podcasts           = array();
 	public $show_is_collection = false;
 	public $shows_map          = array();
+	public $id_counter         = 999999999;
 
 	function load() {
 		$config       = $this->container->config;
@@ -101,13 +102,30 @@ class MappingCollection {
 
 		while ( $fields !== false ) {
 			$mapping = $this->parse_fields( $fields );
-			if ( $mapping !== false ) {
-				$marketron_id = strval( $mapping->marketron_id );
-				$this->mappings[ $marketron_id ] = $mapping;
 
-				if ( $mapping->wordpress_author_name ) {
-					$this->shows[ $mapping->wordpress_author_name ] = $marketron_id;
+			if ( $mapping !== false ) {
+				if ( ! is_null( $mapping->wordpress_categories ) ) {
+					foreach ( $mapping->wordpress_categories as $category ) {
+						$mapping = clone( $mapping );
+						$mapping->wordpress_category = $category;
+						$marketron_id = $mapping->marketron_id + $this->id_counter++;
+						$mapping->marketron_id = $marketron_id;
+
+						$this->mappings[ $marketron_id ] = $mapping;
+
+						if ( $mapping->wordpress_author_name && ! empty( $this->shows[ $mapping->wordpress_author_name ] ) ) {
+							$this->shows[ $mapping->wordpress_author_name ] = $marketron_id;
+						}
+					}
+				} else {
+					$marketron_id = strval( $mapping->marketron_id );
+
+					$this->mappings[ $marketron_id ] = $mapping;
+					if ( $mapping->wordpress_author_name ) {
+						$this->shows[ $mapping->wordpress_author_name ] = $marketron_id;
+					}
 				}
+
 			} else if ( $fields[0] === 'Marketron Tool' ){
 				if ( strpos( trim( $fields[6] ), 'Collection' ) !== false ) {
 					$this->show_is_collection = true;
@@ -155,6 +173,12 @@ class MappingCollection {
 				$mapping->wordpress_author_name  = trim( $fields[5] );
 				$mapping->wordpress_show_name    = $this->sanitize_mapping( $fields[6] );
 				$mapping->wordpress_category     = trim( $fields[7] );
+
+				if ( strpos( $fields[7], ',' ) !== false ) {
+					$mapping->wordpress_categories = explode( ',', $mapping->wordpress_category );
+					$mapping->wordpress_categories = array_map( 'trim', $mapping->wordpress_categories );
+				}
+
 				$mapping->wordpress_podcast_name = $this->sanitize_mapping( $fields[8] );
 			} else {
 				$mapping->can_import = false;
@@ -186,15 +210,19 @@ class MappingCollection {
 
 		switch ( $name ) {
 			case 'blogs':
+			case 'blog':
 				return 'blog';
 
 			case 'channels':
+			case 'channel':
 				return 'channel';
 
 			case 'feeds':
+			case 'feed':
 				return 'feed';
 
 			case 'podcasts':
+			case 'podcast':
 				return 'podcast';
 
 			default:
@@ -210,6 +238,7 @@ class MappingCollection {
 				return 'post';
 
 			case 'podcast episode':
+			case 'podcast':
 				return 'podcast_episode';
 
 			default:
@@ -230,6 +259,16 @@ class MappingCollection {
 			// anything else is a post or a custom post type
 			return true;
 		}
+	}
+
+	function can_import_marketron_name( $name ) {
+		foreach ( $this->mappings as $mapping ) {
+			if ( $mapping->marketron_name === $name && ! $mapping->can_import ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	function get_post_type_for( $marketron_id, $has_attachment ) {
@@ -435,17 +474,18 @@ class MappingCollection {
 	}
 
 	function get_show_from_categories( $categories ) {
+		$shows = array();
 		foreach ( $categories as $category ) {
 			foreach ( $this->mappings as $mapping ) {
 				if ( ! empty( $mapping->wordpress_category ) ) {
 					if ( strpos( $category, $mapping->wordpress_category ) !== false ) {
-						return $mapping->wordpress_show_name;
+						$shows[] = $mapping->wordpress_show_name;
 					}
 				}
 			}
 		}
 
-		return null;
+		return $shows;
 	}
 
 	function get_show_from_author_names( $author_names ) {
