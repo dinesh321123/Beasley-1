@@ -556,11 +556,11 @@ a.social-share-link:hover,a.social__link:hover{
 @media screen and (min-width:1024px) {
 
 .header__nav li {
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .header__nav li:hover {
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .header__account ul li a,
@@ -568,7 +568,7 @@ a.social-share-link:hover,a.social__link:hover{
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
-.header__nav ul li a:visited {padding: 33px .23em 32px;}
+.header__nav ul li a:visited {padding: 33px .45em 32px;}
 }
 
 @media screen and (min-width:1175px) {
@@ -605,7 +605,7 @@ a.social-share-link:hover,a.social__link:hover{
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
-.header__nav ul li a:visited {padding: 33px .23em 32px;}
+.header__nav ul li a:visited {padding: 33px .45em 32px;}
                                                                                          
 /* Site background */
 .main {background: #0a244a;}

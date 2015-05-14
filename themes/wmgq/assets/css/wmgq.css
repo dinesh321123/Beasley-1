@@ -15275,11 +15275,11 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
       color: #40b9fd; }
   @media screen and (min-width: 1024px) {
     .header__nav li {
-      font-weight: 400; }
+      font-weight: 700; }
     .header__nav li:hover {
-      font-weight: 400; }
+      font-weight: 700; }
     .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-      padding: 33px .23em 32px; } }
+      padding: 33px .45em 32px; } }
   @media screen and (min-width: 1175px) {
     .header__nav {
       padding-left: 200px; }
@@ -15303,7 +15303,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
       transform: none; } }
   @media screen and (min-width: 1252px) {
     .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-      padding: 33px .23em 32px; }
+      padding: 33px .45em 32px; }
     /* Site background */
     .main {
       background: #0a244a; } }
