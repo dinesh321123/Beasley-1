@@ -15135,7 +15135,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   .header__social .social__list {
     padding: 0 2px; }
   .header__social .social__list li {
-    padding: 0 1px; }
+    padding: 0 .5px; }
   .header__social a.social__link {
     width: auto;
     height: auto;
@@ -15156,8 +15156,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   .live-links {
     background-color: #40b9fd; }
   .live-stream {
-    background: #f2f2f2;
-    /*url(/wp-content/themes/wben/images/live-player-top-bg.png) no-repeat*/ }
+    background: #f2f2f2 url(../../images/wmgq_listenlive_header.png) no-repeat; }
   .live-player {
     color: #103368;
     font-weight: 400;
@@ -15276,13 +15275,13 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
       color: #40b9fd; }
   @media screen and (min-width: 1024px) {
     .header__nav li {
-      font-weight: 600;
+      font-weight: 400;
       text-transform: uppercase; }
     .header__nav li:hover {
-      font-weight: 600;
+      font-weight: 400;
       text-transform: uppercase; }
     .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-      padding: 33px .3em 32px; } }
+      padding: 33px .38em 32px; } }
   @media screen and (min-width: 1175px) {
     .header__nav {
       padding-left: 200px; }
@@ -15306,7 +15305,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
       transform: none; } }
   @media screen and (min-width: 1252px) {
     .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-      padding: 33px .3em 32px; }
+      padding: 33px .28em 32px; }
     /* Site background */
     .main {
       background: #0a244a; } }
