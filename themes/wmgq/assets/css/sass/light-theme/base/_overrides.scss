@@ -557,12 +557,10 @@ a.social-share-link:hover,a.social__link:hover{
 
 .header__nav li {
   font-weight: 400;
-  text-transform: uppercase;
 }
 
 .header__nav li:hover {
   font-weight: 400;
-  text-transform: uppercase;
 }
 
 .header__account ul li a,
@@ -570,7 +568,7 @@ a.social-share-link:hover,a.social__link:hover{
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
-.header__nav ul li a:visited {padding: 33px .38em 32px;}
+.header__nav ul li a:visited {padding: 33px .23em 32px;}
 }
 
 @media screen and (min-width:1175px) {
@@ -607,7 +605,7 @@ a.social-share-link:hover,a.social__link:hover{
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
-.header__nav ul li a:visited {padding: 33px .28em 32px;}
+.header__nav ul li a:visited {padding: 33px .23em 32px;}
                                                                                          
 /* Site background */
 .main {background: #0a244a;}
@@ -828,18 +826,10 @@ a:link, a:visited {
   font-size:1.26562em;
   color:#fff;
 }
-
-.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover{background-color:#fff;}
-  
-.mobile-nav .mobile-menu-submenu-header{
-  background-color:#007abd;
-  color:#fff;
-  padding:18px 1.25em;
-}
   
 .mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover{background-color:#007abd;}
     
-mobile-nav .mobile-menu-submenu-header{
+.mobile-nav .mobile-menu-submenu-header{
   background-color:#007abd;
   color:#fff;
   padding:18px 1.25em
