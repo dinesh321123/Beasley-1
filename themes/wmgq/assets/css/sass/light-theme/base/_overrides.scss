@@ -138,7 +138,7 @@ li:last-child {@include border-bottom-radius(1em);}
   background-color:#f5a81c;
   outline:0;
   font-weight:700;
-  font-size:.88889em;
+  font-size:.8em;
   color:#fff;
   -webkit-transition:all 200ms ease-in-out;
   -moz-transition:all 200ms ease-in-out;
@@ -378,9 +378,9 @@ li:last-child {@include border-bottom-radius(1em);}
 }      
     
 /* Social link color and padding */ 
-.header__social .social__list {padding: 0 20px;}
+.header__social .social__list {padding: 0 2px;}
 
-.header__social .social__list li {padding: 0 5px;}
+.header__social .social__list li {padding: 0 1px;}
 
 .header__social a.social__link {
   width: auto;
@@ -404,12 +404,6 @@ li:last-child {@include border-bottom-radius(1em);}
 a.social-share-link:hover,a.social__link:hover{
   color:#007abd;
   border-color:#007abd;
-}
-
-/* Header background image */
-.header {
-  background-image: url("http://beta.magic983.com/wp-content/uploads/sites/13/2015/04/WMGQ-Header-Background2.jpg");
-  background-position: center top;
 }
 
 /* Live stream background color */
@@ -562,12 +556,12 @@ a.social-share-link:hover,a.social__link:hover{
 @media screen and (min-width:1024px) {
 
 .header__nav li {
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
 .header__nav li:hover {
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -576,7 +570,7 @@ a.social-share-link:hover,a.social__link:hover{
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
-.header__nav ul li a:visited {padding: 33px .38em 32px;}
+.header__nav ul li a:visited {padding: 33px .30em 32px;}
 }
 
 @media screen and (min-width:1175px) {
@@ -613,7 +607,7 @@ a.social-share-link:hover,a.social__link:hover{
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
-.header__nav ul li a:visited {padding: 33px .4em 32px;}
+.header__nav ul li a:visited {padding: 33px .3em 32px;}
                                                                                          
 /* Site background */
 .main {background: #0a244a;}
@@ -631,11 +625,10 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 .header {
-  background-color:#37080d;
-  background-image: url("http://beta.magic983.com/wp-content/uploads/sites/13/2015/04/WMGQ-Header-Mobile.jpg");
+  background-color:#40b9fd;
+  background-image: url("../../images/WMGQ-Header-Mobile.jpg");
   background-position: center top;
   background-repeat: no-repeat;
-  background-position: 0 -36px;
 }
 
 a:hover .highlights__event--date,
@@ -688,11 +681,6 @@ a:hover .highlights__event--title {
   background-color:#40b9fd;
   border-color:#40b9fd;
   color:#fff;
-}
- 
-.header {
-  background-image: url("http://beta.magic983.com/wp-content/uploads/sites/13/2015/04/WMGQ-Header-Background2.jpg");
-  background-position: center top;
 }
 
 .live-link__song:before,.live-link__type--audio:before,.live-link__type--gallery:before,.live-link__type--image:before,.live-link__type--link:before,.live-link__type--standard:before,.live-link__type--video:before{
@@ -791,6 +779,12 @@ a:hover .highlights__event--title {
 .profile-page__sidebar .profile-header-link:hover {color: #103368;}
 
 @media screen and (min-width: 768px) {
+
+.header {
+  background-color: #40b9fd!important;
+  background-image: url("../../images/WMGQ-Header-Background.jpg")!important;
+  background-position: center top;
+}
 
 .section-header {font-size: 1em;}
 }
