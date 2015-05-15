@@ -92,22 +92,36 @@ function gmr_blogroll_render_widget_html() {
 }
 
 /**
+ * Returns current stream object.
+ *
+ * @staticvar type $stream
+ * @return \WP_Post The stream object.
+ */
+function gmr_blogroll_get_current_stream() {
+	static $stream = null;
+	
+	if ( is_null( $stream ) ) {
+		$sign = get_query_var( GMR_LIVE_STREAM_CPT );
+		if ( ! empty( $sign ) ) {
+			$stream = gmr_streams_get_stream_by_sign( $sign );
+		}
+
+		if ( ! $stream ) {
+			$stream = gmr_streams_get_primary_stream();
+		}
+	}
+
+	return $stream;
+}
+
+/**
  * Adjusts blogroll widget transient name to make unique transients per stream.
  *
  * @param string $name The initial transient name.
  * @return string Adjusted transient name.
  */
 function gmr_blogroll_get_widget_transient_name( $name ) {
-	$stream = null;
-	$sign = get_query_var( GMR_LIVE_STREAM_CPT );
-	if ( ! empty( $sign ) ) {
-		$stream = gmr_streams_get_stream_by_sign( $sign );
-	}
-
-	if ( ! $stream ) {
-		$stream = gmr_streams_get_primary_stream();
-	}
-
+	$stream = gmr_blogroll_get_current_stream();
 	return $stream ? "{$name}_{$stream->ID}" : $name;
 }
 
@@ -128,6 +142,29 @@ function gmr_blogroll_get_widget_html() {
 	// start from enabling outbut buffering
 	ob_start();
 
+	// grab latest song ids for else streams to exclude it from the current stream blogroll
+	$wrong_songs = array();
+	$stream = gmr_blogroll_get_current_stream();
+	if ( $stream ) {
+		$query = new WP_Query();
+		$wrong_songs = $query->query( array(
+			'post_type'           => GMR_SONG_CPT,
+			'orderby'             => 'date',
+			'order'               => 'DESC',
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+			'posts_per_page'      => 1000,
+			'post_parent__not_in' => array( $stream->ID ),
+			'fields'              => 'ids',
+			'date_query'          => array(
+				array(
+					'year' => date( 'Y' ),
+					'week' => date( 'W' ),
+				),
+			),
+		) );
+	}
+
 	// build quiery and render widget's html
 	$query = new WP_Query( array(
 		'post_type'           => apply_filters( 'gmr_blogroll_widget_item_post_types', array() ),
@@ -136,6 +173,13 @@ function gmr_blogroll_get_widget_html() {
 		'ignore_sticky_posts' => true,
 		'no_found_rows'       => true,
 		'posts_per_page'      => 30,
+		'post__not_in'        => $wrong_songs,
+		'date_query'          => array(
+			array(
+				'year' => date( 'Y' ),
+				'week' => date( 'W' ),
+			),
+		),
 	) );
 
 	echo '<ul id="live-links__blogroll">';
