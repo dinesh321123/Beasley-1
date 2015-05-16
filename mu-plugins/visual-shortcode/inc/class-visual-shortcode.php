@@ -174,13 +174,13 @@ abstract class VisualShortcode {
 		// check if WYSIWYG is enabled
 		if ( 'true' == get_user_option( 'rich_editing' ) ) {
 
-			add_filter( 'mce_external_plugins', array( $this, 'register_tinymce_plugin' ) );
+			//add_filter( 'mce_external_plugins', array( $this, 'register_tinymce_plugin' ) );
 
 			// Using if/else instead of string concat so filter names stay searchable
 			if ( self::MCE_TOOLBAR_DEFAULT === $this->mce_toolbar ) {
-				add_filter( 'mce_buttons', array( $this, 'register_tinymce_button' ) );
+				//add_filter( 'mce_buttons', array( $this, 'register_tinymce_button' ) );
 			} else {
-				add_filter( 'mce_buttons_2', array( $this, 'register_tinymce_button' ) );
+				//add_filter( 'mce_buttons_2', array( $this, 'register_tinymce_button' ) );
 			}
 
 		}

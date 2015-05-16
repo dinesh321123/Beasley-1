@@ -1,0 +1,108 @@
+.age-restricted,
+.login-restricted,
+.time-restricted {
+	display: block;
+	padding: 0.8em 0.5em;
+	border: 1px dotted rgb(99, 191, 60);
+	position: relative;
+	margin-top: 1.5em;
+	margin-bottom: 1.5em;
+}
+
+.age-restricted:after,
+.login-restricted:after,
+.time-restricted:after {
+	content: " ";
+    clear: both;
+}
+
+.age-restricted .header:before,
+.login-restricted .header:before,
+.time-restricted .header:before {
+	font:                    normal 20px/1 'dashicons';
+	content:                 '\f112';
+	top:                     -1px;
+	color:                   #888;
+	speak:                   none;
+	display:                 inline-block;
+	padding:                 0 2px 0 0;
+	top:                     -16px;
+	left:                    16px;
+	position:                relative;
+	vertical-align:          top;
+	-webkit-font-smoothing:  antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-decoration:         none !important;
+}
+
+.age-restricted .meta,
+.login-restricted .meta,
+.time-restricted .meta {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+	position: absolute;
+	top: -1em;
+	left: 0.5em;
+	background: white;
+	padding: 0.2em 0.5em;
+	color: rgb(99, 191, 60);
+	font-size: 0.8em;
+}
+
+.age-restricted-focus,
+.login-restricted-focus,
+.time-restricted-focus {
+	background: #eee;
+}
+
+.login-restricted {
+	border-color: green;
+}
+
+.login-restricted .meta {
+	color: green;
+}
+
+.time-restricted {
+	border-color: purple;
+}
+
+.time-restricted .meta {
+	color: purple;
+}
+
+.age-restricted {
+	border-color: red;
+}
+
+.age-restricted .meta {
+	color: red;
+}
+
+.age-restricted .meta:before,
+.login-restricted .meta:before,
+.time-restricted .meta:before {
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 20px/1 'dashicons';
+	vertical-align: top;
+	padding-right: 0.2em
+}
+
+.age-restricted .meta:before {
+	content: "\f338";
+}
+
+.login-restricted .meta:before {
+	content: "\f112";
+}
+
+.time-restricted .meta:before {
+	content: "\f469";
+}
+

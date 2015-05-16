@@ -1,0 +1,25 @@
+.mce-i-ageRestricted:before,
+.mce-i-loginRestricted:before,
+.mce-i-timeRestricted:before {
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 20px/1 'dashicons';
+	vertical-align: top;
+}
+
+.mce-i-ageRestricted:before {
+	content: "\f338";
+}
+
+.mce-i-loginRestricted:before {
+	content: "\f112";
+}
+
+.mce-i-timeRestricted:before {
+	content: "\f469";
+}
+
+/* KLUDGE: does not work due to inline styles */
+#content-restricted-remove-button {
+	left: 10px;
+}
