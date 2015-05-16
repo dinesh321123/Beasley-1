@@ -463,6 +463,8 @@
 			$('#emma_group_id').val('');
 			$('#emma_group_name').val('');
 			$('#gigya_field_key').val('');
+			$('#emma_group_description').val('');
+			$('#emma_group_active').attr('checked', false);
 		},
 
 		didRemoveClick: function(event) {
