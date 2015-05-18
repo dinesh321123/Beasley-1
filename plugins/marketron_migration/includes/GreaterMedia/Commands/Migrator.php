@@ -204,7 +204,18 @@ class Migrator {
 			$this->entity_factory->build( 'gigya_user' )->export();
 		}
 
+		$this->importer_factory->destroy();
+		$this->importer_factory = null;
+		unset( $this->importer_factory );
+
+		$this->entity_factory->destroy();
+		$this->entity_factory = null;
+		unset( $this->entity_factory );
+
 		$this->table_factory->export();
+		$this->table_factory = null;
+		unset( $this->table_factory );
+
 		$this->error_reporter->save_report();
 		$this->side_loader->sync();
 	}
@@ -213,6 +224,7 @@ class Migrator {
 		$this->initialize( $args, $opts );
 		$this->config_loader->load();
 		$this->config_loader->load_live_streams();
+		$this->config_loader->load_myemma_groups( true );
 	}
 
 	function repair( $args, $opts ) {
@@ -427,6 +439,19 @@ SQL;
 			\WP_CLI::error( 'Verification Failed with ' . count( $errors ) . ' errors.' );
 		}
 		//print_r( count( $marketron_accounts ) );
+	}
+
+	function delete_facebook_data( $args, $opts ) {
+		$this->initialize( $args, $opts );
+
+		$screener = new \GreaterMedia\Profile\AffinityClubScreener();
+		$screener->container = $this;
+
+		$affinity_club_tool    = $this->tool_factory->build( 'affinity_club' );
+		$affinity_clubs_input  = $affinity_club_tool->get_data_files()[0];
+		$affinity_clubs_output = str_replace( '_formatted.xml', '_filtered.xml', $affinity_clubs_input );
+
+		$screener->screen( $affinity_clubs_input, $affinity_clubs_output );
 	}
 }
 

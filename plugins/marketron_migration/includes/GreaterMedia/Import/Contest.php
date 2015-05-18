@@ -262,13 +262,27 @@ class Contest extends BaseImporter {
 			return $contest_entries;
 		}
 
-		$total        = count( $entries );
-		$msg          = "  Importing $total Contest Entries";
+		$total          = count( $entries );
+		$msg            = "  Importing $total Contest Entries";
+		$gigya_users    = $this->container->entity_factory->build( 'gigya_user' );
+		$user_entries   = array();
 		//$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $entries as $entry ) {
-			$contest_entry     = $this->contest_entry_from_entry( $entry, $contest_id, $contest );
-			$contest_entries[] = $contest_entry;
+			$member_id = $this->import_string( $entry['MemberID'] );
+
+			if ( array_key_exists( $member_id, $user_entries ) ) {
+				continue;
+			}
+
+			$contest_entry = $this->contest_entry_from_entry(
+				$entry, $contest_id, $contest, $gigya_users
+			);
+
+			if ( ! empty( $contest_entry ) ) {
+				$user_entries[ $member_id ] = true;
+				$contest_entries[] = $contest_entry;
+			}
 			//$progress_bar->tick();
 		}
 
@@ -281,10 +295,15 @@ class Contest extends BaseImporter {
 		return $this->contest_shows_from_contest( $contest );
 	}
 
-	function contest_entry_from_entry( $entry, $contest_id, $contest ) {
+	function contest_entry_from_entry( $entry, $contest_id, $contest, $gigya_users ) {
 		$contest_entry                         = array();
 		$contest_entry['marketron_contest_id'] = $contest_id;
 		$contest_entry['member_id']            = $this->import_string( $entry['MemberID'] );
+
+		if ( ! $gigya_users->can_import_member( $contest_entry['member_id'] ) ) {
+			return null;
+		}
+
 		$contest_entry['answers']              = $this->answers_from_entry( $entry, $contest_id, $contest );
 		$contest_entry['created_on']           = $this->import_string( $entry['UTCEntryDate'] );
 		$contest_entry['user_survey_id']       = $this->import_string( $entry['UserSurveyID'] );

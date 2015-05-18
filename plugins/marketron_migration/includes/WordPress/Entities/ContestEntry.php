@@ -42,21 +42,7 @@ class ContestEntry extends Post {
 		$fields = parent::add( $fields );
 		$contest_id = $fields['ID'];
 
-		//if ( ! empty( $answers ) ) {
-			//error_log( 'Found Answers in ' . $contest_id );
-		//}
-
-		$this->save_contest_participation( $member_id, $contest_id );
-
 		return $fields;
-	}
-
-	function save_contest_participation( $member_id, $contest_id ) {
-		if ( ! array_key_exists( $member_id, $this->member_contests ) ) {
-			$this->member_contests[ $member_id ] = array();
-		}
-
-		$this->member_contests[ $member_id ][] = $contest_id;
 	}
 
 }

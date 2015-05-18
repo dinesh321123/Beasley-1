@@ -14,7 +14,7 @@ class Podcast extends BaseImporter {
 		foreach ( $channels as $channel ) {
 			$podcast = $this->podcast_from_channel( $channel );
 
-			if ( ! empty( $podcast ) ) {
+			if ( ! empty( $podcast ) )  {
 				$items = $this->items_from_channel( $channel );
 				$this->import_podcast_episodes( $podcast, $items );
 			}
@@ -31,6 +31,10 @@ class Podcast extends BaseImporter {
 
 	function podcast_from_channel( $channel ) {
 		$podcast_name        = $this->import_string( $channel['ChannelTitle'] );
+		if ( ! $this->can_import_marketron_name( $podcast_name, 'podcast' ) ) {
+			return null;
+		}
+
 		$mapped_podcast_name = $this->mapped_podcast_from_title( $podcast_name );
 		$entity              = $this->get_entity( 'podcast' );
 

@@ -10,6 +10,9 @@ class Channel extends BaseImporter {
 
 	function import_source( $source ) {
 		$channels     = $this->channels_from_source( $source );
+		$total        = count( $channels );
+		$msg          = "Importing $total Channels";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $channels as $channel ) {
 			$channel_id = $this->import_string( $channel['ChannelID'] );
@@ -18,9 +21,13 @@ class Channel extends BaseImporter {
 			if ( $this->can_import( $channel_id ) ) {
 				$this->import_channel( $channel );
 			} else {
-				\WP_CLI::log( "Excluded Channel: $channel_name" );
+				//\WP_CLI::log( "Excluded Channel: $channel_name" );
 			}
+
+			$progress_bar->tick();
 		}
+
+		$progress_bar->finish();
 	}
 
 	function import_channel( $channel ) {

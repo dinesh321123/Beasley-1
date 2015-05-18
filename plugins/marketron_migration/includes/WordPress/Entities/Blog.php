@@ -22,7 +22,9 @@ class Blog extends Post {
 			$shows = array_unique( $shows );
 			foreach ( $shows as $show ) {
 				$entity = $this->get_entity( 'show_taxonomy' );
-				$entity->add( $show, $post_id );
+				if ( trim( $show ) !== '' ) {
+					$entity->add( $show, $post_id );
+				}
 			}
 		}
 

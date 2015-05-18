@@ -120,7 +120,7 @@ class ConfigLoader {
 		\WP_CLI::success( 'Updated MyEmma Options' );
 	}
 
-	function load_myemma_groups() {
+	function load_myemma_groups( $save = false ) {
 		if ( ! $this->get_config()->has_config_option( 'myemma' ) ) {
 			return;
 		}
@@ -144,10 +144,12 @@ class ConfigLoader {
 			$groups[] = $group;
 		}
 
-		$groups = json_encode( $groups );
-		update_option( 'emma_groups', $groups );
+		if ( $save ) {
+			$groups = json_encode( $groups );
+			update_option( 'emma_groups', $groups );
 
-		\WP_CLI::success( 'Updated MyEmma Groups' );
+			\WP_CLI::success( 'Updated MyEmma Groups' );
+		}
 	}
 
 	function load_ooyala_options() {

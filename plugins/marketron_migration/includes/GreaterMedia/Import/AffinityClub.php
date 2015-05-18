@@ -130,4 +130,9 @@ class AffinityClub extends BaseImporter {
 		}
 	}
 
+	function destroy() {
+		$this->member_ids = null;
+		parent::destroy();
+	}
+
 }

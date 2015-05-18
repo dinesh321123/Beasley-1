@@ -7,6 +7,7 @@ class GigyaUser extends BaseEntity {
 	public $gigya_users            = array();
 	public $member_ids             = array();
 	public $can_import_all_members = true;
+	public $loaded_member_ids      = false;
 
 	function add( &$gigya_user ) {
 		if ( empty( $gigya_user['id'] ) ) {
@@ -57,39 +58,62 @@ class GigyaUser extends BaseEntity {
 		file_put_contents( $export_file, json_encode( $gigya_export, JSON_PRETTY_PRINT ) );
 		\WP_CLI::success( "Saved $total Gigya Profiles" );
 
-		$export_file          = $this->container->config->get_gigya_account_export_file();
-		$filtered_gigya_users = $this->export_gigya_users();
-		file_put_contents( $export_file, json_encode( $filtered_gigya_users, JSON_PRETTY_PRINT ) );
-
-		\WP_CLI::success( "Saved $total Gigya Accounts" );
+		$export_file = $this->container->config->get_gigya_account_export_file();
+		$this->export_gigya_users( $export_file );
 	}
 
-	function export_gigya_users() {
-		$gigya_users         = array();
-		$total               = count( $this->gigya_users );
-		$msg                 = 'Saving Gigya Accounts ...';
-		$progress_bar        = new \WordPress\Utils\ProgressBar( $msg, $total );
+	/* Writing as lines over stream to conserve memory */
+	/* JSON will be invalid without containing array and commas */
+	/* export_actions reconstructs it back into correct format */
+	function export_gigya_users( $export_file ) {
+		$total        = count( $this->gigya_users );
+		$write_total  = 0;
+		$msg          = 'Saving Gigya Accounts ...';
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+		$index        = 0;
+		$file         = fopen( $export_file, 'w' );
 
 		foreach ( $this->gigya_users as $user_id => $gigya_user ) {
-			if ( $this->can_import_gigya_user( $gigya_user ) ) {
-				$gigya_users[] = $gigya_user;
+			if ( ! $this->can_import_gigya_user( $gigya_user ) ) {
+				unset( $this->gigya_users[ $user_id ] );
+			} else {
+				fwrite( $file, json_encode( $gigya_user ) . "\n" );
+				$write_total++;
 			}
 
 			$progress_bar->tick();
 		}
 
+		fclose( $file );
 		$progress_bar->finish();
 
-		return $gigya_users;
+		//\WP_CLI::log( 'Saving Gigya Accounts ...' );
+		//file_put_contents( $export_file, json_encode( $this->gigya_users, JSON_PRETTY_PRINT ) );
+		\WP_CLI::success( "Saved $write_total Gigya Accounts." );
 	}
 
 	function export_actions() {
 		\WP_CLI::log( 'Loading Gigya Accounts File ...' );
 		$export_file = $this->container->config->get_gigya_account_export_file();
-		$json        = file_get_contents( $export_file );
-		$accounts    = json_decode( $json, true );
 
-		\WP_CLI::success( 'Loaded Gigya Accounts File' );
+		$file = fopen( $export_file, 'r' );
+		$line = fgets( $file );
+		$json = '[';
+
+		while ( $line !== false ) {
+			$json .= $line . ',';
+			$line = fgets( $file );
+		}
+
+		$json     = rtrim( $json, ',' );
+		$json .= ']';
+		$accounts = json_decode( $json, true );
+
+		if ( json_last_error() === JSON_ERROR_NONE ) {
+			\WP_CLI::success( 'Loaded Gigya Accounts File' );
+		} else {
+			\WP_CLI::error( 'Failed to Parse Accounts JSON' );
+		}
 
 		$export_file = $this->container->config->get_gigya_action_export_file();
 		$actions     = $this->export_actions_to_gigya( $accounts );
@@ -222,21 +246,25 @@ class GigyaUser extends BaseEntity {
 	}
 
 	function export_accounts() {
-		$accounts            = array();
-		$total               = count( $this->gigya_users );
-		$msg                 = 'Saving Gigya Profiles';
-		$progress_bar        = new \WordPress\Utils\ProgressBar( $msg, $total );
-		$max_contest_entries = 0;
-		$max_survey_entries  = 0;
+		$accounts                 = array();
+		$total                    = count( $this->gigya_users );
+		$msg                      = 'Saving Gigya Profiles';
+		$progress_bar             = new \WordPress\Utils\ProgressBar( $msg, $total );
+		$max_contest_entries      = 0;
+		$max_survey_entries       = 0;
+		$max_contest_entries_user = '';
+		$max_survey_entries_user  = '';
 
 		foreach ( $this->gigya_users as $user_id => $gigya_user ) {
 			if ( $this->can_import_gigya_user( $gigya_user ) ) {
 				$account    = $this->export_gigya_user( $gigya_user );
 				if ( count( $account['data']['contest_list'] ) > $max_contest_entries ) {
 					$max_contest_entries = count( $account['data']['contest_list'] );
+					$max_contest_entries_user = $user_id;
 				}
 				if ( count( $account['data']['survey_list'] ) > $max_survey_entries ) {
 					$max_survey_entries = count( $account['data']['survey_list'] );
+					$max_survey_entries_user = $user_id;
 				}
 				$accounts[] = $account;
 			}
@@ -244,7 +272,7 @@ class GigyaUser extends BaseEntity {
 			$progress_bar->tick();
 		}
 
-		\WP_CLI::log( "Max Contest Entries: $max_contest_entries, Max Survey Entries: $max_survey_entries" );
+		\WP_CLI::log( "Max Contest Entries: $max_contest_entries($max_contest_entries_user), Max Survey Entries: $max_survey_entries($max_survey_entries_user)" );
 		$progress_bar->finish();
 
 		return $accounts;
@@ -357,6 +385,10 @@ class GigyaUser extends BaseEntity {
 	}
 
 	function load_member_ids() {
+		if ( $this->loaded_member_ids ) {
+			return;
+		}
+
 		$member_ids_file = $this->container->config->get_member_ids_file();
 		$file            = fopen( $member_ids_file, 'r' );
 		$member_ids      = array();
@@ -385,10 +417,15 @@ class GigyaUser extends BaseEntity {
 			$this->can_import_all_members = true;
 		}
 
-		$this->member_ids = $member_ids;
+		$this->member_ids        = $member_ids;
+		$this->loaded_member_ids = true;
 	}
 
 	function can_import_member( $member_id ) {
+		if ( ! $this->loaded_member_ids ) {
+			$this->load_member_ids();
+		}
+
 		if ( $this->can_import_all_members ) {
 			return true;
 		} else {
@@ -489,6 +526,20 @@ class GigyaUser extends BaseEntity {
 		} else {
 			return array();
 		}
+	}
+
+	function can_destroy() {
+		return false;
+	}
+
+	function destroy() {
+		$this->gigya_users = null;
+		unset( $this->gigya_users );
+
+		$this->member_ids = null;
+		unset( $this->member_ids );
+
+		parent::destroy();
 	}
 
 }

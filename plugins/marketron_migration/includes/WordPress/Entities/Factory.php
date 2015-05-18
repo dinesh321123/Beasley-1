@@ -61,4 +61,17 @@ class Factory {
 		return $this->instances[ $name ];
 	}
 
+	function destroy() {
+		foreach ( $this->instances as $name => $instance ) {
+			if ( $instance->can_destroy() ) {
+				$instance->destroy();
+				$this->instances[ $name ] = null;
+				unset( $this->instances[ $name ] );
+			}
+		}
+
+		$this->container = null;
+		unset( $this->container );
+	}
+
 }

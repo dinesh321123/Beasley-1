@@ -44,6 +44,10 @@ class BaseImporter {
 		return $this->get_mappings()->can_import( $blog_id );
 	}
 
+	function can_import_marketron_name( $name, $tool_name = null ) {
+		return $this->get_mappings()->can_import_marketron_name( $name, $tool_name );
+	}
+
 	function import() {
 		$tool    = $this->get_tool();
 		$sources = $tool->sources;
@@ -69,6 +73,15 @@ class BaseImporter {
 
 	function to_datetime( $timestamp ) {
 		return $this->container->entity_factory->get_entity( 'post' )->to_datetime( $timestamp );
+	}
+
+	function can_destroy() {
+		return true;
+	}
+
+	function destroy() {
+		$this->container = null;
+		unset( $this->container );
 	}
 
 }

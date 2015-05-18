@@ -225,4 +225,15 @@ class Survey extends Post {
 		);
 	}
 
+	function destroy() {
+		$this->survey_forms = null;
+		unset( $this->survey_forms );
+
+		$this->contest_entries = null;
+		unset( $this->contest_entries );
+
+		$this->survey_entries = null;
+		unset( $this->survey_entries );
+	}
+
 }

@@ -261,8 +261,12 @@ class MappingCollection {
 		}
 	}
 
-	function can_import_marketron_name( $name ) {
+	function can_import_marketron_name( $name, $tool_name = null ) {
 		foreach ( $this->mappings as $mapping ) {
+			if ( ! is_null( $tool_name ) && $mapping->marketron_tool_name !== $tool_name ) {
+				continue;
+			}
+
 			if ( $mapping->marketron_name === $name && ! $mapping->can_import ) {
 				return false;
 			}
@@ -352,6 +356,12 @@ class MappingCollection {
 				'display_name' => $author_name,
 			);
 
+			$existing_author_id = $this->get_user_id_by_display_name( $author_name );
+
+			if ( $existing_author_id !== false ) {
+				$author['existing_id'] = intval( $existing_author_id );
+			}
+
 			$entity->add( $author );
 		}
 
@@ -377,7 +387,9 @@ class MappingCollection {
 		$entity  = $this->container->entity_factory->build( 'category' );
 
 		foreach ( $categories as $category_name ) {
-			$entity->add( $category_name );
+			$existing_category = get_term_by( 'name', $category_name, 'category', ARRAY_A );
+			$exclude_from_csv = ( $existing_category !== false );
+			$entity->add( $category_name, null, $exclude_from_csv );
 		}
 	}
 
@@ -394,6 +406,12 @@ class MappingCollection {
 				);
 
 				if ( ! $this->show_is_collection ) {
+					$existing_show_id = $this->get_existing_show_id( $show_name );
+
+					if ( ! is_null( $existing_show_id ) ) {
+						$show['existing_id'] = $existing_show_id;
+					}
+
 					$entity->add( $show );
 				}
 				$shows_map[ $show_name ] = true;
@@ -401,6 +419,16 @@ class MappingCollection {
 		}
 
 		$this->shows_map = $shows_map;
+	}
+
+	function get_existing_show_id( $show_name ) {
+		$show = get_page_by_title( $show_name, ARRAY_A, 'show' );
+
+		if ( ! is_null( $show ) ) {
+			return $show['ID'];
+		} else {
+			return null;
+		}
 	}
 
 	function import_podcasts() {
@@ -416,6 +444,12 @@ class MappingCollection {
 					'podcast_author' => $mapping->wordpress_author_name,
 					'podcast_show' => $mapping->wordpress_show_name,
 				);
+
+				$existing_podcast = get_page_by_title( $podcast_name, ARRAY_A, 'podcast' );
+
+				if ( ! is_null( $existing_podcast ) ) {
+					$podcast['existing_id'] = $existing_podcast['ID'];
+				}
 
 				$entity->add( $podcast );
 				$podcasts_map[ $podcast_name ] = $mapping->wordpress_show_name;
@@ -441,7 +475,9 @@ class MappingCollection {
 		while ( $fields !== false ) {
 			if ( is_numeric( $fields[0] ) ) {
 				$tag_name = $fields[1];
-				$entity->add( $tag_name );
+				$existing_tag = get_term_by( 'name', $tag_name, 'post_tag', ARRAY_A );
+				$exclude_from_csv = ( $existing_tag !== false );
+				$entity->add( $tag_name, null, $exclude_from_csv );
 			}
 
 			$fields = fgetcsv( $file, 0, ',', '"' );
@@ -576,6 +612,23 @@ class MappingCollection {
 			return null;
 		} else {
 			return null;
+		}
+	}
+
+	/* SE: 90512 */
+	function get_user_id_by_display_name( $display_name ) {
+		global $wpdb;
+
+		$query = $wpdb->prepare(
+			"SELECT `ID` FROM $wpdb->users WHERE `display_name` = %s", $display_name
+		);
+
+		$user = $wpdb->get_row( $query );
+
+		if ( ! $user ) {
+			return false;
+		} else {
+			return $user->ID;
 		}
 	}
 

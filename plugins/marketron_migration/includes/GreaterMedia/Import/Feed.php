@@ -26,7 +26,8 @@ class Feed extends BaseImporter {
 		$index = 0;
 
 		foreach ( $articles as $article ) {
-			if ( ! $this->container->mappings->can_import_marketron_name( (string) $article->Feeds->Feed['Feed'] ) ) {
+			if ( ! $this->container->mappings->can_import_marketron_name(
+				(string) $article->Feeds->Feed['Feed'], 'feed' ) ) {
 				continue;
 			}
 
@@ -203,7 +204,11 @@ class Feed extends BaseImporter {
 			$primary_media_ref = $this->import_string( $article['PrimaryMediaReference'] );
 
 			if ( strpos($primary_media_ref, 'youtube.com' ) !== false ) {
-				$content     = $primary_media_ref . '<br/>' . $content;
+				$content     = '[embed]' . $primary_media_ref . '[/embed]'. '<br/>' . $content;
+				$post_format = 'video';
+			} else if ( strpos( $primary_media_ref, 'youtu.be' ) !== false ) {
+				$primary_media_ref = str_replace( 'youtu.be/', 'youtube.com/watch?v=', $primary_media_ref );
+				$content     = '[embed]' . $primary_media_ref . '[/embed]' . '<br/>' . $content;
 				$post_format = 'video';
 			}
 		}

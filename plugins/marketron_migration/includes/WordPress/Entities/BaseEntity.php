@@ -79,4 +79,13 @@ class BaseEntity {
 		}
 	}
 
+	function can_destroy() {
+		return true;
+	}
+
+	function destroy() {
+		$this->container = null;
+		unset( $this->container );
+	}
+
 }

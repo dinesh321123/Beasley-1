@@ -8,7 +8,7 @@ class PostFormat extends Taxonomy {
 		return 'post_format';
 	}
 
-	function add( $post_format, $post_id = null ) {
+	function add( $post_format, $post_id = null, $exclude_from_csv = false ) {
 		$term_name = $this->get_post_format( $post_format );
 		return parent::add( $term_name, $post_id );
 	}
