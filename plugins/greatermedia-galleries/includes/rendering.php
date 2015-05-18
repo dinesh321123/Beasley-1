@@ -9,7 +9,7 @@ class GreaterMediaGallery {
 	public static $strip_shortcodes = false;
 
 	public static function init() {
-		if ( ! is_admin() ) {
+		if ( ! is_admin() && ! defined( 'WP_CLI' ) ) {
 			// Override the core gallery shortcode with our own handler, only on the front end
 			remove_shortcode( 'gallery' );
 			add_shortcode( 'gallery', array( __CLASS__, 'render_shortcode' ) );
