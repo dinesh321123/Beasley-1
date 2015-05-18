@@ -408,37 +408,13 @@ SQL;
 	/* profile verification */
 	function verify_gigya_import( $args, $opts ) {
 		$marketron_accounts_file = $opts['marketron_accounts'];
-		$gigya_accounts_file     = $opts['gigya_accounts'];
-		$error_file              = $opts['errors'];
-
-		$csv_loader     = new \GreaterMedia\Profile\GigyaCSVLoader();
-		$gigya_accounts = $csv_loader->load( $gigya_accounts_file );
-		//var_dump( $gigya_accounts );
-		//return;
-
-		\WP_CLI::log( 'Loaded ' . count( $gigya_accounts ) . ' Gigya Accounts' );
+		$errors_file              = $opts['errors_file'];
 
 		$json_loader        = new \GreaterMedia\Profile\ImportJSONLoader();
 		$marketron_accounts = $json_loader->load( $marketron_accounts_file );
 
-		\WP_CLI::log( 'Loaded ' . count( $marketron_accounts ) . ' Marketron Accounts' );
-
-		$verifier = new \GreaterMedia\Profile\ImportVerifier(
-			$marketron_accounts, $gigya_accounts
-		);
-
-		$success = $verifier->verify();
-
-		if ( $success ) {
-			\WP_CLI::success( 'Gigya Profile Import Verified!!!' );
-		} else {
-			$errors = $verifier->errors;
-			$data   = implode( "\n", $errors );
-
-			file_put_contents( $error_file, $data );
-			\WP_CLI::error( 'Verification Failed with ' . count( $errors ) . ' errors.' );
-		}
-		//print_r( count( $marketron_accounts ) );
+		$verifier = new \GreaterMedia\Profile\GigyaAccountImportVerifier();
+		$verifier->verify( $marketron_accounts, $errors_file );
 	}
 
 	function delete_facebook_data( $args, $opts ) {
