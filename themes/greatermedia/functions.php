@@ -447,7 +447,7 @@ function greatermedia_alter_taxonomy_archive_query( $query ) {
 }
 
 function greatermedia_is_taxonomy_archive( $query ) {
-	if ( $query->is_main_query() ) {
+	if ( $query->is_main_query() && ! is_admin() ) {
 		return $query->is_category() || $query->is_tag();
 	} else {
 		return false;
