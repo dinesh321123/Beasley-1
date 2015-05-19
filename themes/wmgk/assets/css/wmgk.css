@@ -14947,4 +14947,14 @@ table.responsive tr:nth-of-type(even) {
 .live-player--open__btn:hover, .live-player--open__btn:active, .live-player--open__btn:focus {
   background-color: #d0d2d3; }
 
+.show__header.has-thumbnail:before {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: none;
+  content: " "; }
+
 /*# sourceMappingURL=wmgk.css.map */
