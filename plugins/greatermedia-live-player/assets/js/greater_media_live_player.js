@@ -2269,7 +2269,7 @@ var $ = jQuery;
 		var inlineMeta = inlineCurrent.nextElementSibling;
 		var inlineTime = inlineMeta.querySelector('.audio__time');
 		$('.playing__current').removeClass('playing__current');
-		if (podcastPlayer != null && ( body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast') )) {
+		if (podcastPlayer != null && ( body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast') || body.classList.contains('home'))) {
 			audioCurrent.classList.add('playing__current');
 			runtimeCurrent.classList.add('playing');
 		} else if (podcastPlayer != null && ! (body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast'))) {

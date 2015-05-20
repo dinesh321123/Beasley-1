@@ -111,6 +111,7 @@ class GMR_Audio_Shortcodes {
 		}
 
 		$is_podcast_archive = is_post_type_archive( 'podcast' );
+		$is_home = is_home();
 
 		$parent_podcast = false;
 		$parent_podcast_id = wp_get_post_parent_id( $post_id );
@@ -141,7 +142,7 @@ class GMR_Audio_Shortcodes {
 
 		// podcast archive details
 
-		if ( $is_podcast || $is_podcast_archive ) {
+		if ( $is_podcast || $is_podcast_archive || $is_home ) {
 			$new_html .= '<div class="podcast-player">';
 		} else {
 			$new_html .= '<div class="podcast-player podcast-player--compact">';
@@ -152,7 +153,7 @@ class GMR_Audio_Shortcodes {
 
 		if ( $is_podcast ) {
 			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . get_the_title() . '" data-mp3-artist="' . esc_html( $parent_podcast->post_title ) . ' - ' . get_the_time( 'n.j.y' ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
-		} elseif ( $is_podcast_archive ) {
+		} elseif ( $is_podcast_archive || $is_home ) {
 			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . get_the_title() . '" data-mp3-artist="' . esc_html( get_the_title() ) . ' - ' . get_the_time( 'n.j.y' ) . '" data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
 		} else {
 			$new_html .= '<button class="podcast__btn--play" data-mp3-src="' . esc_attr( $mp3_src ) . '" data-mp3-title="' . esc_attr( $title ) . '" data-mp3-artist=" " data-mp3-hash="' . esc_attr( $hash ) . '"></button>';
@@ -161,7 +162,7 @@ class GMR_Audio_Shortcodes {
 		$new_html .= '<button class="podcast__btn--pause"></button>';
 		$new_html .= '</div>';
 
-		if ( $is_podcast || $is_podcast_archive ) {
+		if ( $is_podcast || $is_podcast_archive || $is_home ) {
 			$new_html .= '<div id="audio__time" class="audio__time">';
 			$new_html .= '<div id="audio__progress-bar" class="audio__progress-bar">';
 			$new_html .= '<span id="audio__progress" class="audio__progress"></span>';
@@ -179,10 +180,10 @@ class GMR_Audio_Shortcodes {
 
 		$new_html .= '</span>';
 
-		if ( ( $is_podcast || $is_podcast_archive ) && ( $downloadable == 'on' || $downloadable == '' ) ) {
+		if ( ( $is_podcast || $is_podcast_archive || $is_home ) && ( $downloadable == 'on' || $downloadable == '' ) ) {
 			$new_html .= '<div class="podcast__download">';
 			if ( ! is_singular( 'podcast' ) ) {
-				if ( $parent_podcast_id && ( $is_podcast || $is_podcast_archive ) ) {
+				if ( $parent_podcast_id && ( $is_podcast || $is_podcast_archive || $is_home ) ) {
 					if ( $itunes_url != '' ) {
 						$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 					}
@@ -206,7 +207,7 @@ class GMR_Audio_Shortcodes {
 
 		$new_html .= '</div>';
 		$new_html .= '<div class="podcast__meta">';
-		if ( $is_podcast ) {
+		if ( $is_podcast || $is_home ) {
 			$new_html .= '<time class="podcast__date" datetime="' . get_the_time( 'c' ) . '">' . get_the_time( 'F j, Y' ) . '</time>';
 			$new_html .= '<h3 class="podcast__title">' . get_the_title() . '</h3>';
 		} elseif ( $is_podcast_archive ) {
@@ -225,7 +226,7 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<div class="podcast__archive--episode-count">' . $podcast_episodes_query->found_posts . ' Episodes</div>';
 		}
 
-		if ( $parent_podcast_id && $is_podcast && !is_singular( 'podcast' ) ) {
+		if ( $parent_podcast_id && $is_podcast && !is_singular( 'podcast' ) || $is_home ) {
 			$new_html .= '<div class="podcast__parent"><div class="podcast__parent--title"><a href="' . esc_url( get_permalink( $parent_podcast->ID ) ) . '">' . esc_html( $parent_podcast->post_title ) . '</a></div>';
 			if ( $itunes_url != '' ) {
 				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
@@ -243,11 +244,11 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '</div>';
 		}
 
-		if ( $is_podcast || $is_podcast_archive ) {
+		if ( $is_podcast || $is_podcast_archive || $is_home ) {
 			$new_html .= '<div class="podcast__desc">' . get_the_excerpt() . '</div>';
 		}
 
-		if ( ! $is_podcast && ! $is_podcast_archive ) {
+		if ( ! $is_podcast && ! $is_podcast_archive || ! $is_home ) {
 			$new_html .= '<div id="audio__time" class="audio__time">';
 			$new_html .= '<div id="audio__progress-bar" class="audio__progress-bar">';
 			$new_html .= '<span id="audio__progress" class="audio__progress"></span>';

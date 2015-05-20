@@ -730,8 +730,23 @@ img {
   @media screen and (min-width: 768px)  {
     .content, .gallery__archive, .main .lead-in, .main #signup-welcome, .main .view {
       padding: 3em 3.236em; } }
+  .home .content, .home .gallery__archive, .home .main .lead-in, .main .home .lead-in, .home .main #signup-welcome, .main .home #signup-welcome, .home .main .view, .main .home .view {
+    float: left;
+    display: block;
+    margin-right: 7.42297%;
+    width: 100%;
+    margin-right: 0;
+    padding: 1.5em 0.809em; }
+    .home .content:last-child, .home .gallery__archive:last-child, .home .main .lead-in:last-child, .main .home .lead-in:last-child, .home .main #signup-welcome:last-child, .main .home #signup-welcome:last-child, .home .main .view:last-child, .main .home .view:last-child {
+      margin-right: 0; }
+    @media screen and (min-width: 768px)  {
+      .home .content, .home .gallery__archive, .home .main .lead-in, .main .home .lead-in, .home .main #signup-welcome, .main .home #signup-welcome, .home .main .view, .main .home .view {
+        padding: 1.5em 3.236em; } }
   @media screen and (min-width: 768px)  {
     .news-site .content, .news-site .gallery__archive, .news-site .main .lead-in, .main .news-site .lead-in, .news-site .main #signup-welcome, .main .news-site #signup-welcome, .news-site .main .view, .main .news-site .view {
+      padding: 1.5em 1.5em; } }
+  @media screen and (min-width: 768px)  {
+    .home.news-site .content, .home.news-site .gallery__archive, .home.news-site .main .lead-in, .main .home.news-site .lead-in, .home.news-site .main #signup-welcome, .main .home.news-site #signup-welcome, .home.news-site .main .view, .main .home.news-site .view {
       padding: 1.5em 1.5em; } }
 
 .live-player {
@@ -4948,7 +4963,7 @@ Link posts contain a link to an external site. They can also optionally have a f
     .news-site .entries {
       padding: 1.5em 1.5em; } }
 
-.entry2 {
+.entry2, .home .episode {
   float: left;
   display: block;
   margin-right: 4.82916%;
@@ -4956,11 +4971,11 @@ Link posts contain a link to an external site. They can also optionally have a f
   margin-right: 0;
   margin-bottom: 2.25em;
   border-bottom: 1px solid #d0d2d3; }
-  .entry2:last-child {
+  .entry2:last-child, .home .episode:last-child {
     margin-right: 0; }
-  .entry2:last-of-type {
+  .entry2:last-of-type, .home .episode:last-of-type {
     border-bottom: none; }
-  .news-site .entry2 {
+  .news-site .entry2, .news-site .home .episode, .home .news-site .episode {
     padding-bottom: 2.5em; }
 
 .entry2__thumbnail {
@@ -5170,36 +5185,36 @@ Link posts contain a link to an external site. They can also optionally have a f
   color: #aa1c20; }
 
 @media screen and (min-width: 480px)  {
-  .entry2.format-standard .entry2__thumbnail {
+  .entry2.format-standard .entry2__thumbnail, .home .format-standard.episode .entry2__thumbnail {
     float: right;
     margin-right: 0; } }
 
 @media screen and (min-width: 480px)  {
-  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail {
+  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail, .home .format-standard.has-post-thumbnail.episode .entry2__thumbnail {
     margin-left: 2em;
     margin-bottom: 1em; } }
 @media screen and (min-width: 1200px)  {
-  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail {
+  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail, .home .format-standard.has-post-thumbnail.episode .entry2__thumbnail {
     margin-left: 0;
     margin-bottom: 0; } }
 
 @media screen and (min-width: 480px)  {
-  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail {
+  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail, .home .format-audio.has-post-thumbnail.episode .entry2__thumbnail {
     float: left;
     display: block;
     margin-right: 3.16844%;
     width: 19.75788%; }
-    .entry2.format-audio.has-post-thumbnail .entry2__thumbnail:last-child {
+    .entry2.format-audio.has-post-thumbnail .entry2__thumbnail:last-child, .home .format-audio.has-post-thumbnail.episode .entry2__thumbnail:last-child {
       margin-right: 0; }
-  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail__image:after {
+  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail__image:after, .home .format-audio.has-post-thumbnail.episode .entry2__thumbnail__image:after {
     padding-top: 100%; }
-  .entry2.format-audio.has-post-thumbnail .entry2__meta {
+  .entry2.format-audio.has-post-thumbnail .entry2__meta, .home .format-audio.has-post-thumbnail.episode .entry2__meta {
     float: left;
     display: block;
     margin-right: 3.16844%;
     width: 77.07368%;
     margin-right: 0; }
-    .entry2.format-audio.has-post-thumbnail .entry2__meta:last-child {
+    .entry2.format-audio.has-post-thumbnail .entry2__meta:last-child, .home .format-audio.has-post-thumbnail.episode .entry2__meta:last-child {
       margin-right: 0; } }
 
 .type-tribe_events .entry2__thumbnail {
@@ -5281,12 +5296,12 @@ Link posts contain a link to an external site. They can also optionally have a f
     width: 65.05695%; }
     .entry2-ad-wrap .entry2__meta:last-child {
       margin-right: 0; }
-  .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta, .entry2-ad-wrap .entry2.type-contest .entry2__meta, .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta {
+  .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta, .entry2-ad-wrap .home .has-post-thumbnail.episode .entry2__meta, .home .entry2-ad-wrap .has-post-thumbnail.episode .entry2__meta, .entry2-ad-wrap .entry2.type-contest .entry2__meta, .entry2-ad-wrap .home .type-contest.episode .entry2__meta, .home .entry2-ad-wrap .type-contest.episode .entry2__meta, .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta, .entry2-ad-wrap .home .type-tribe_events.episode .entry2__meta, .home .entry2-ad-wrap .type-tribe_events.episode .entry2__meta {
     float: left;
     display: block;
     margin-right: 4.82916%;
     width: 30.11389%; }
-    .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta:last-child, .entry2-ad-wrap .entry2.type-contest .entry2__meta:last-child, .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta:last-child {
+    .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta:last-child, .entry2-ad-wrap .home .has-post-thumbnail.episode .entry2__meta:last-child, .home .entry2-ad-wrap .has-post-thumbnail.episode .entry2__meta:last-child, .entry2-ad-wrap .entry2.type-contest .entry2__meta:last-child, .entry2-ad-wrap .home .type-contest.episode .entry2__meta:last-child, .home .entry2-ad-wrap .type-contest.episode .entry2__meta:last-child, .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta:last-child, .entry2-ad-wrap .home .type-tribe_events.episode .entry2__meta:last-child, .home .entry2-ad-wrap .type-tribe_events.episode .entry2__meta:last-child {
       margin-right: 0; }
   .entry2-ad-wrap .entry2-ad-wrap__ad {
     float: left;
@@ -5308,7 +5323,7 @@ Link posts contain a link to an external site. They can also optionally have a f
         display: block; } }
 
 @media screen and (min-width: 480px)  {
-  .entry2-ad-wrap .entry2.format-standard .entry2__thumbnail {
+  .entry2-ad-wrap .entry2.format-standard .entry2__thumbnail, .entry2-ad-wrap .home .format-standard.episode .entry2__thumbnail, .home .entry2-ad-wrap .format-standard.episode .entry2__thumbnail {
     float: left;
     margin-right: 3.236em; } }
 
@@ -9426,6 +9441,8 @@ a.podcast__rss:active {
 
 .gmr-mediaelement-fallback {
   max-height: 100px; }
+  .home .gmr-mediaelement-fallback {
+    max-height: none; }
 
 .podcast-player--compact {
   position: relative;
@@ -9604,6 +9621,11 @@ a.podcast__rss:active {
   margin-right: 10px; }
 .single-podcast .podcast__subscribe {
   display: inline-block; }
+
+.home .episode {
+  display: block;
+  width: 100%;
+  height: auto; }
 
 .login-restricted-login-btn, .logout-restricted-login-btn, .age-restricted-login-btn {
   display: inline-block;
@@ -14769,7 +14791,7 @@ table.responsive tr:nth-of-type(even) {
   z-index: 2; }
   .top-three__feature--primary .top-three__play {
     font-size: 6em; }
-  .entry2 .top-three__play {
+  .entry2 .top-three__play, .home .episode .top-three__play {
     display: none;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
@@ -14778,7 +14800,7 @@ table.responsive tr:nth-of-type(even) {
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     font-size: 3em; }
-    .entry2 .top-three__play[class*='category-'] {
+    .entry2 .top-three__play[class*='category-'], .home .episode .top-three__play[class*='category-'] {
       display: block; }
 
 .top-three__play:before {
