@@ -77,6 +77,11 @@ class GMR_Audio_Shortcodes {
 			'artist'           => '',
 		);
 
+		/* Don't look for data if the mp3 source is absent */
+		if ( empty( $mp3_src ) ) {
+			return $html;
+		}
+
 		/*
 		 * Breakdown on how we get title data.
 		 *
