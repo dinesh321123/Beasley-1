@@ -123,7 +123,7 @@ class GMLP_Player {
 				wp_localize_script( 'nielsen-sdk', '_nolggGlobalParams', array(
 					'apid'   => $apid,
 					'apn'    => get_option( 'gmr_nielsen_sdk_apn', get_bloginfo( 'name' ) ),
-					'sfcode' => get_option( 'gmr_nielsen_sdk_mode' ) ? 'drm' : 'uat-cert',
+					'sfcode' => get_option( 'gmr_nielsen_sdk_mode' ) ? 'DRM' : 'uat-cert',
 				) );
 			}
 		}
