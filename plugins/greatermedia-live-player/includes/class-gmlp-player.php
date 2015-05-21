@@ -110,7 +110,7 @@ class GMLP_Player {
 			$vast_url = gmr_streams_get_primary_stream_vast_url();
 		}
 
-		wp_register_script( 'nielsen-sdk', '//secure-uat-cert.imrworldwide.com/novms/js/2/ggcmb400.js', null, null );
+		wp_register_script( 'nielsen-sdk', '//secure-drm.imrworldwide.com/novms/js/2/ggcmb400.js', null, null );
 
 		$optout = false;
 		if ( function_exists( 'get_gigya_user_field' ) ) {
