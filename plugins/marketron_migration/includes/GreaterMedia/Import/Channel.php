@@ -12,7 +12,7 @@ class Channel extends BaseImporter {
 		$channels     = $this->channels_from_source( $source );
 		$total        = count( $channels );
 		$msg          = "Importing $total Channels";
-		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+		//$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $channels as $channel ) {
 			$channel_id = $this->import_string( $channel['ChannelID'] );
@@ -24,10 +24,10 @@ class Channel extends BaseImporter {
 				//\WP_CLI::log( "Excluded Channel: $channel_name" );
 			}
 
-			$progress_bar->tick();
+			//$progress_bar->tick();
 		}
 
-		$progress_bar->finish();
+		//$progress_bar->finish();
 	}
 
 	function import_channel( $channel ) {
@@ -37,8 +37,8 @@ class Channel extends BaseImporter {
 
 		$stories      = $this->stories_from_channel( $channel );
 		$total        = count( $stories );
-		//$msg          = "Importing $total stories from Channel";
-		//$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+		$msg          = "Importing $total Stories from Channel - $channel_name";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 		$entity       = $this->get_entity( 'blog' );
 
 		$categories = $this->categories_from_channel( $channel );
@@ -49,10 +49,10 @@ class Channel extends BaseImporter {
 
 			$entity->add( $blog );
 
-			//$progress_bar->tick();
+			$progress_bar->tick();
 		}
 
-		//$progress_bar->finish();
+		$progress_bar->finish();
 	}
 
 	function channels_from_source( $source ) {
@@ -69,7 +69,7 @@ class Channel extends BaseImporter {
 	}
 
 	function blog_from_story( $story ) {
-		$blog_title     = $this->import_string( $story['Headline'] );
+		$blog_title     = ucwords( $this->import_string( $story['Headline'] ) );
 		$blog_content   = $this->import_string( $story->StoryText );
 		$featured_image = $this->featured_image_from_story( $story );
 

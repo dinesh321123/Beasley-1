@@ -225,6 +225,20 @@ class MappingCollection {
 			case 'podcast':
 				return 'podcast';
 
+			case 'event calendars':
+			case 'event calendar':
+				return 'event_calendar';
+
+			case 'event manager':
+			case 'event managers':
+			case 'events manager':
+			case 'events managers':
+				return 'event_manager';
+
+			case 'photo album':
+			case 'photo albums':
+				return 'photo_album_v2';
+
 			default:
 				\WP_CLI::error( "Unknown Marketron Tool Name - $name" );
 		}
@@ -240,6 +254,9 @@ class MappingCollection {
 			case 'podcast episode':
 			case 'podcast':
 				return 'podcast_episode';
+
+			case 'event':
+				return 'event';
 
 			default:
 				\WP_CLI::error( "Unknown WordPress Target Post Type - $name" );
@@ -302,6 +319,18 @@ class MappingCollection {
 		} else {
 			return null;
 		}
+	}
+
+	function get_mapping_by_name( $name, $tool ) {
+		foreach ( $this->mappings as $mapping ) {
+			if ( $mapping->marketron_name === $name && $mapping->marketron_tool_name === $tool ) {
+				//\WP_CLI::error( "Found find mapping by name $name, $tool" );
+				return $mapping;
+			}
+		}
+
+		//\WP_CLI::error( "Did not find mapping by name $name, $tool" );
+		return null;
 	}
 
 	function has_show( $show_author ) {

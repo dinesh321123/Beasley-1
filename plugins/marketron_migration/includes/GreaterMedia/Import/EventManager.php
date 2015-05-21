@@ -13,9 +13,15 @@ class EventManager extends BaseImporter {
 		$total        = count( $calendars );
 		$msg          = "Importing $total Calendars";
 		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+		$mappings     = $this->container->mappings;
 
 		foreach ( $calendars as $calendar ) {
-			$this->import_calendar( $calendar );
+			$calendar_name = $this->import_string( $calendar['CalendarName'] );
+
+			if ( $mappings->can_import_marketron_name( $calendar_name, 'event_manager' ) ) {
+				$this->import_calendar( $calendar );
+			}
+
 			$progress_bar->tick();
 		}
 

@@ -167,9 +167,12 @@ class Post extends BaseEntity {
 
 			$posts = $this->get_table( 'posts' );
 			$posts->update( $post_id, 'post_content', $content );
+
+			$post_formats = $this->get_entity( 'post_format' );
+			$post_formats->add( 'audio', $post_id );
 		} else {
-			$posts = $this->get_table( 'posts' );
-			$posts->update( $post_id, 'post_format', 'standard' );
+			$post_formats = $this->get_entity( 'post_format' );
+			$post_formats->add( 'standard', $post_id );
 		}
 	}
 
