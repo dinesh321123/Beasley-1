@@ -67,6 +67,9 @@ class PhotoAlbumV2 extends BaseImporter {
 		}
 
 		$gallery_show = $this->show_from_categories( $categories );
+		if ( empty( $gallery_show ) ) {
+			//\WP_CLI::error( 'No show for categories' );
+		}
 
 		return array(
 			'categories' => $categories,

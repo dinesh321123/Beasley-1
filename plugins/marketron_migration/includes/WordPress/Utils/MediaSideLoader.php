@@ -43,6 +43,8 @@ class MediaSideLoader {
 			//error_log( "copy: $source - $dest" );
 			if ( ! $this->container->opts['fake_media'] ) {
 				copy( $source, $dest );
+			} else if ( preg_match( '/.jpg$/', $dest ) !== false ){
+				copy( $source, $dest );
 			} else {
 				$this->symlink( $source, $dest );
 			}

@@ -347,6 +347,10 @@ a.podcast__rss:active {
 
 .gmr-mediaelement-fallback {
 	max-height: 100px;
+
+	.home & {
+		max-height: none;
+	}
 }
 
 // Compact player
@@ -606,5 +610,15 @@ a.podcast__rss:active {
 
 	.podcast__subscribe {
 		display: inline-block;
+	}
+}
+
+.episode {
+
+	.home & {
+		@extend .entry2;
+		display: block;
+		width: 100%;
+		height: auto;
 	}
 }

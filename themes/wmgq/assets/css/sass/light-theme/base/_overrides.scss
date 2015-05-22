@@ -968,3 +968,39 @@ a.social-share-link:hover,a.social__link:hover{
 .gallery__grid--column:hover .gallery__grid--title {
     color: #007abd;
 }
+.live-stream__now-playing--btn {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 100em;
+    color: #f6ac32 !important;
+    cursor: default;
+    display: none;
+    font-size: 0.888889em;
+    font-weight: 700;
+    line-height: 1;
+    margin-right: 0;
+    outline: 0 none;
+    padding: 0.5em 1em;
+    text-transform: uppercase;
+    transition: background 200ms ease-in-out 0s;
+}
+
+.now-playing__title {
+    color: #103368;
+    font-size: 1em;
+    font-weight: lighter;
+    line-height: 1.2;
+    margin: 0 0 8px;
+}
+
+#live-player--volume .noUi-base {
+    background: #f6ac32 none repeat scroll 0 0;
+    border-radius: 5px;
+    height: 7px;
+    transform: translate3d(0px, 0px, 0px);
+}
+
+.live-stream__btn--loading, .live-stream__btn--pause, .live-stream__btn--resume {
+    background: #d22228 none repeat scroll 0 0;
+    color: #f2f2f2;
+}

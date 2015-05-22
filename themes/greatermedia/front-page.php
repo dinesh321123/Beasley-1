@@ -15,10 +15,14 @@ get_header();
 		<?php get_template_part( 'partials/frontpage', 'featured' ); ?>
 		<?php get_template_part( 'partials/frontpage', 'highlights' ); ?>
 
-		<section class="entries">
-			<?php get_template_part( 'partials/ad-in-loop' ); ?>
+		<section class="content">
 
-			<h2 class="content__heading">Latest from <?php bloginfo( 'name' ); ?></h2>
+			<?php if ( is_news_site() ) : ?>
+				<h2 class="content__heading"><?php _e( 'News', 'greatermedia' ); ?></h2>
+			<?php else : ?>
+				<?php get_template_part( 'partials/ad-in-loop' ); ?>
+				<h2 class="content__heading"><?php _e( 'Latest from ', 'greatermedia' ); ?><?php bloginfo( 'name' ); ?></h2>
+			<?php endif; ?>
 
 			<?php if ( have_posts() ) : ?>
 

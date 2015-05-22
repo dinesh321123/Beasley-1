@@ -35,7 +35,21 @@ class GigyaUser extends BaseEntity {
 
 	function get_full_name( $member_id ) {
 		$gigya_user = $this->get_by_id( $member_id );
-		return $gigya_user['first_name'] . ' ' . $gigya_user['last_name'];
+		$full_name = null;
+
+		if ( ! empty( $gigya_user['first_name'] ) ) {
+			$full_name = $gigya_user['first_name'] . ' ';
+		}
+
+		if ( ! empty( $gigya_user['last_name'] ) ) {
+			$full_name .= $gigya_user['last_name'];
+		}
+
+		if ( ! empty( $full_name ) ) {
+			return trim( $full_name );
+		} else {
+			return 'NA';
+		}
 	}
 
 	function get_email( $member_id ) {

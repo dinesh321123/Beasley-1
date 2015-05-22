@@ -14,9 +14,14 @@ class EventCalendar extends BaseImporter {
 		$calendars    = $this->calendars_from_source( $source );
 		$total        = count( $calendars );
 		$progress_bar = new \WordPress\Utils\ProgressBar( "Importing $total Calendars", $total );
+		$mappings     = $this->container->mappings;
 
 		foreach ( $calendars as $calendar ) {
-			$this->import_calendar( $calendar );
+			$calendar_name = $this->import_string( $calendar['EventCalendarName'] );
+			if ( $mappings->can_import_marketron_name( $calendar_name, 'event_calendar' ) ) {
+				$this->import_calendar( $calendar );
+			}
+
 			$progress_bar->tick();
 		}
 

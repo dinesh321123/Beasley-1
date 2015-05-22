@@ -28,6 +28,11 @@ class Blog extends Post {
 			}
 		}
 
+		if ( ! empty( $fields['post_format'] ) ) {
+			$post_formats = $this->get_entity( 'post_format' );
+			$post_formats->add( $fields['post_format'], $post_id );
+		}
+
 		return $fields;
 	}
 

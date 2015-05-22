@@ -157,13 +157,15 @@ class Contest extends BaseImporter {
 				$field_options = array();
 				$options       = array();
 
-				foreach ( $question->QuestionOptions->QuestionOption as $option ) {
-					$field_value = $this->import_string( $option['FieldValue'] );
-					$field_value = str_replace( '"', '&quot;', $field_value );
-					$options[] = array(
-						'label' => $field_value,
-						'checked' => false,
-					);
+				if ( ! empty( $question->QuestionOptions->QuestionOption ) ) {
+					foreach ( $question->QuestionOptions->QuestionOption as $option ) {
+						$field_value = $this->import_string( $option['FieldValue'] );
+						$field_value = str_replace( '"', '&quot;', $field_value );
+						$options[] = array(
+							'label' => $field_value,
+							'checked' => false,
+						);
+					}
 				}
 
 				$field_options['options'] = $options;

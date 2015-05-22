@@ -1290,6 +1290,11 @@ function gmr_filter_expired_contests( $query ) {
 				'value'   => '',
 				'compare' => 'NOT EXISTS',
 			),
+			array(
+				'key'     => 'contest-end',
+				'type'    => 'NUMERIC',
+				'value'   => 0,
+			),
 		);
 
 		$query->set( 'meta_query', $query_params );
