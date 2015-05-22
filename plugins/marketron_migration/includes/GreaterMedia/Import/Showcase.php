@@ -58,6 +58,10 @@ class Showcase extends BaseImporter {
 		$gallery = array(
 			'gallery_name' => $this->import_string( $entry['ShowcaseEntryName'] ),
 			'gallery_content' => $this->import_string( $entry['LongText01'] ),
+			'marketron_id' => $this->import_string( $entry['ShowcaseEntryID'] ),
+			'redirects' => array(
+				array( 'url' => $this->import_string( $entry['ShowcaseEntryURL'] ) )
+			)
 		);
 
 		foreach ( $photos as $photo ) {

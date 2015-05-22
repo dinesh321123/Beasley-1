@@ -83,7 +83,7 @@ class EventManager extends BaseImporter {
 	}
 
 	function meta_from_event( $event ) {
-		$meta = array();
+		$meta                           = array();
 		$meta['_EventShowMap']          = 1;
 		$meta['_EventShowMapLink']      = 1;
 		$meta['_EventCurrencySymbol']   = '$';
@@ -92,7 +92,7 @@ class EventManager extends BaseImporter {
 		$meta['_EventCost']             = $this->price_from_event( $event );
 		$meta['_EventOrigin']           = 'marketron';
 		$meta['_EventOrganizerID']      = 0;
-		$meta['_legacy_ConcertID']      = $this->import_string( $event['ConcertID'] );
+		$meta['marketron_id']           = $this->import_string( $event['ConcertID'] );
 
 		$timespan = $this->timespan_from_event( $event );
 

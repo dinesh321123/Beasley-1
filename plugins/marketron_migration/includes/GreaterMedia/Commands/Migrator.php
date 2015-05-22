@@ -265,7 +265,8 @@ class Migrator {
 			$this->opts['tools_to_load'] = explode( ',', $this->opts['tools_to_load'] );
 		}
 
-		$this->site_dir = $opts['site_dir'];
+		$opts['site_dir'] = untrailingslashit( $opts['site_dir'] );
+		$this->site_dir   = $opts['site_dir'];
 
 		$this->load_boolean_opt( 'fake_media', false );
 		$this->load_boolean_opt( 'fresh', false );

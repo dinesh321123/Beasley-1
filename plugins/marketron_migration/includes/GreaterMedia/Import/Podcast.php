@@ -9,7 +9,10 @@ class Podcast extends BaseImporter {
 	}
 
 	function import_source( $source ) {
-		$channels = $this->channels_from_source( $source );
+		$channels     = $this->channels_from_source( $source );
+		$total        = count( $channels );
+		$msg          = "Importing $total Podcasts";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $channels as $channel ) {
 			$podcast = $this->podcast_from_channel( $channel );
@@ -18,7 +21,11 @@ class Podcast extends BaseImporter {
 				$items = $this->items_from_channel( $channel );
 				$this->import_podcast_episodes( $podcast, $items );
 			}
+
+			$progress_bar->tick();
 		}
+
+		$progress_bar->finish();
 	}
 
 	function channels_from_source( $source ) {

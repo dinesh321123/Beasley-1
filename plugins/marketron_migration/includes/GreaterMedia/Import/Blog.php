@@ -87,18 +87,15 @@ class Blog extends BaseImporter {
 		}
 
 		$post = array(
-			'post_title' => $post_title,
-			'post_status' => $post_status,
+			'post_title'   => $post_title,
+			'post_status'  => $post_status,
 			'post_content' => $post_body,
-			'created_on' => $created_on,
-			'modified_on' => $modified_on,
+			'created_on'   => $created_on,
+			'modified_on'  => $modified_on,
+			'marketron_id' => $this->import_string( $blog_entry['BlogEntryID'] ),
 
 			'tags' => $tags,
 		);
-
-		if ( ! empty( $post_body ) ) {
-			//$post['post_excerpt'] = wp_trim_excerpt( $post_body );
-		}
 
 		if ( ! is_null( $featured_image ) ) {
 			$post['featured_image'] = $featured_image;
@@ -112,7 +109,7 @@ class Blog extends BaseImporter {
 
 		if ( ! is_null( $entry_url ) ) {
 			$post['redirects'] = array(
-				array( 'url' => $entry_url )
+				array( 'url' => $entry_url ),
 			);
 		}
 

@@ -41,6 +41,7 @@ class Venue extends BaseImporter {
 		$post       = array(
 			'post_title'   => $this->title_from_venue( $venue ),
 			'post_content' => $this->content_from_venue( $venue ),
+			'marketron_id' => $this->import_string( $venue['VenueID'] ),
 		);
 
 		foreach ( $meta_fields as $marketron_field => $new_field ) {

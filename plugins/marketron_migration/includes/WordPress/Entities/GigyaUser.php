@@ -312,9 +312,18 @@ class GigyaUser extends BaseEntity {
 	function export_gigya_user_profile( &$gigya_user ) {
 		$profile = array();
 		$profile['email'] = $gigya_user['email'];
-		$profile['firstName'] = $gigya_user['first_name'];
-		$profile['lastName'] = $gigya_user['last_name'];
-		$profile['nickname'] = $gigya_user['nick_name'];
+
+		if ( ! empty( $gigya_user['first_name'] ) ) {
+			$profile['firstName'] = $gigya_user['first_name'];
+		}
+
+		if ( ! empty( $gigya_user['last_name'] ) ) {
+			$profile['lastName'] = $gigya_user['last_name'];
+		}
+
+		if ( ! empty( $gigya_user['nick_name'] ) ) {
+			$profile['nickname'] = $gigya_user['nick_name'];
+		}
 
 		if ( ! empty( $gigya_user['birthday'] ) ) {
 			$birthday              = $gigya_user['birthday'];
@@ -323,12 +332,29 @@ class GigyaUser extends BaseEntity {
 			$profile['birthDay']   = $birthday['day'];
 		}
 
-		$profile['gender']  = $this->export_gender( $gigya_user['gender'] );
-		$profile['city']    = $gigya_user['city'];
-		$profile['state']   = $gigya_user['state'];
-		$profile['country'] = $this->export_country( $gigya_user['country'] );
-		$profile['address'] = $gigya_user['address'];
-		$profile['zip']     = $gigya_user['zip'];
+		if ( ! empty( $gigya_user['gender'] ) ) {
+			$profile['gender']  = $this->export_gender( $gigya_user['gender'] );
+		}
+
+		if ( ! empty( $gigya_user['city'] ) ) {
+			$profile['city']    = $gigya_user['city'];
+		}
+
+		if ( ! empty( $gigya_user['state'] ) ) {
+			$profile['state']   = $gigya_user['state'];
+		}
+
+		if ( ! empty( $gigya_user['country'] ) ) {
+			$profile['country'] = $this->export_country( $gigya_user['country'] );
+		}
+
+		if ( ! empty( $gigya_user['address'] ) ) {
+			$profile['address'] = $gigya_user['address'];
+		}
+
+		if ( ! empty( $gigya_user['zip'] ) ) {
+			$profile['zip'] = $gigya_user['zip'];
+		}
 
 		return $profile;
 	}
@@ -508,7 +534,7 @@ class GigyaUser extends BaseEntity {
 			}
 		}
 
-		return $ids;
+		return array_unique( $ids );
 	}
 
 	function get_user_contest_entries_list( $user_id ) {
