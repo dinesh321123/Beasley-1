@@ -115,9 +115,6 @@ function greatermedia_setup() {
 	// Add theme support for post-formats
 	$formats = array( 'gallery', 'link', 'image', 'video', 'audio' );
 	add_theme_support( 'post-formats', $formats );
-
-	// Add editor styles
-	add_editor_style();
 }
 
 add_action( 'after_setup_theme', 'greatermedia_setup' );
