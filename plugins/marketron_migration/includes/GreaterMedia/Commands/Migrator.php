@@ -430,5 +430,54 @@ SQL;
 
 		$screener->screen( $affinity_clubs_input, $affinity_clubs_output );
 	}
+
+	/**
+	 * Regenerate thumbnail(s).
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<attachment-id>...]
+	 * : One or more IDs of the attachments to regenerate.
+	 *
+	 * [--skip-delete]
+	 * : Skip deletion of the original thumbnails. If your thumbnails are linked from sources outside your control, it's likely best to leave them around. Defaults to false.
+	 *
+	 * [--site_dir]
+	 * : Path to GMR site configuration dir
+	 *
+	 * [--yes]
+	 * : Skip confirmation
+
+	 * [--owner]
+	 * : New file owner
+	 *
+	 * [--group]
+	 * : New file group
+	 *
+	 * [--errors_file]
+	 * : Optional path to errors file, defaults to site_dir/output_dir/thumbnail_generation_errors.json
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     # re-generate all thumbnails, without confirmation
+	 *     wp marketron_migration regenerate_thumbnails --yes
+	 *
+	 *     # re-generate all thumbnails that have IDs between 1000 and 2000
+	 *     seq 1000 2000 | xargs wp marketron_migration regenerate_thumbnails
+	 */
+	function regenerate_thumbnails( $args, $opts ) {
+		$this->initialize( $args, $opts );
+
+		if ( empty( $args ) && empty( $this->opts['yes'] ) ) {
+			\WP_CLI::confirm(
+				'Are you sure you want to regenerate all thumbnails?'
+			);
+		}
+
+		$regenerator = new \WordPress\Utils\ThumbnailListRegenerator();
+		$regenerator->container = $this;
+
+		$regenerator->regenerate( $args, $this->opts );
+	}
 }
 
