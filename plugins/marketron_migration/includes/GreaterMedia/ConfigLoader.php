@@ -50,6 +50,7 @@ class ConfigLoader {
 		$this->load_member_page_text_options();
 		$this->load_google_analytics_options();
 		$this->load_social_page_options();
+		$this->load_embedly_options();
 	}
 
 	function load_gigya_options() {
@@ -283,6 +284,23 @@ class ConfigLoader {
 		update_option( 'gmr_instagram_name', $instagram );
 
 		\WP_CLI::success( 'Updated Social Page Options' );
+	}
+
+	function load_embedly_options() {
+		if ( ! $this->get_config()->has_config_option( 'embedly' ) ) {
+			return;
+		}
+
+		global $wpdb;
+		$settings = array(
+			'table'  => $wpdb->prefix . 'embedly_providers',
+			'active' => true,
+			'key'    => $this->get_config_option( 'embedly', 'api_key' ),
+		);
+
+		update_option( 'embedly_settings', $settings );
+
+		\WP_CLI::success( 'Updated Embedly Options' );
 	}
 
 }
