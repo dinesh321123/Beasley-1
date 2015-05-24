@@ -61,8 +61,17 @@ class AddMyEmmaGroup extends AjaxHandler {
 		return $group;
 	}
 
-	function create_group( $group_name ) {
-		$api = new EmmaAPI();
+	function create_group( $group_name, $opts = null ) {
+		if ( is_null( $opts ) ) {
+			$api = new EmmaAPI();
+		} else {
+			$api = new EmmaAPI(
+				$opts['account_id'],
+				$opts['public_key'],
+				$opts['private_key']
+			);
+		}
+
 		$groups = array(
 			'groups' => array(
 				array(

@@ -141,6 +141,8 @@ class ConfigLoader {
 				$group['group_description'] = '';
 			}
 
+			$group['group_active'] = empty( $newsletter['active'] ) ? true : $newsletter['active'];
+
 			$groups[] = $group;
 		}
 
@@ -197,10 +199,14 @@ class ConfigLoader {
 		}
 
 		$live_streams = $this->get_config_option( 'live_player', 'streams' );
-		$entity       = $this->container->entity_factory->get_entity( 'live_stream' );
-		$total        = count( $live_streams );
+		$total        = 0;
 
 		foreach ( $live_streams as $live_stream ) {
+			$existing_post = get_page_by_title( $live_stream['call_sign'], ARRAY_A, 'live-stream' );
+			if ( ! is_null( $existing_post ) ) {
+				continue;
+			}
+
 			$post = array(
 				'post_type'   => 'live-stream',
 				'post_title'  => $live_stream['call_sign'],
@@ -212,6 +218,8 @@ class ConfigLoader {
 			update_post_meta( $post_id, 'call_sign', $live_stream['call_sign'] );
 			update_post_meta( $post_id, 'description', $live_stream['description'] );
 			update_post_meta( $post_id, 'vast_url', $live_stream['vast_url'] );
+
+			$total++;
 		}
 
 		\WP_CLI::success( "Imported $total Live Stream(s)" );
