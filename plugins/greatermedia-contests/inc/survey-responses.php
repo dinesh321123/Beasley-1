@@ -187,7 +187,7 @@ function gmr_survey_export_to_csv() {
 	wp_async_task_add( 'gmr_do_survey_export', array(
 		'survey' => $survey->ID,
 		'email'  => wp_get_current_user()->user_email,
-	) );
+	), 'high' );
 
 	$redirect = admin_url( 'admin.php?page=gmr-survey-responses&export=1&survey_id=' . $survey->ID );
 	wp_redirect( $redirect );

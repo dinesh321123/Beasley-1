@@ -34,6 +34,10 @@ class Task {
 		return $this->get_task_name() . '_async_job';
 	}
 
+	function get_task_priority() {
+		return 'normal';
+	}
+
 	function register() {
 		$this->log( 'register' );
 
@@ -48,7 +52,8 @@ class Task {
 
 		return wp_async_task_add(
 			$this->get_async_action(),
-			$params
+			$params,
+			$this->get_task_priority()
 		);
 	}
 
@@ -179,11 +184,14 @@ class Task {
 			array_shift( $args );
 
 			if ( $this->can_log( $type ) ) {
-				$task_name = $this->get_task_name();
-				$params    = json_encode( $this->params );
-				$pid       = getmypid();
+				$task_name     = $this->get_task_name();
+				$task_priority = $this->get_task_priority();
+				$params        = json_encode( $this->params );
+				$pid           = getmypid();
 
-				error_log( "Task[{$pid}] ($task_name.$type) - ($params)" );
+				error_log(
+					"Task[{$pid}] ($task_name.$type@$task_priority) - ($params)"
+				);
 
 				if ( count( $args ) > 0 ) {
 					error_log( "\t" . json_encode( $args ) );

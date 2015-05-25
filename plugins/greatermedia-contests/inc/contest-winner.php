@@ -190,7 +190,7 @@ function gmr_contests_export_to_csv() {
 	wp_async_task_add( 'gmr_do_contest_export', array(
 		'contest' => $contest->ID,
 		'email'   => wp_get_current_user()->user_email,
-	) );
+	), 'high' );
 
 	$redirect = admin_url( 'admin.php?page=gmr-contest-winner&export=1&contest_id=' . $contest->ID );
 	wp_redirect( $redirect );
@@ -283,9 +283,9 @@ function gmr_do_contest_export( $args ) {
 	$title = $contest->post_title . ' Entries';
 	$message = 'Please, find in attach CSV file with all entries.';
 	$from = 'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST );
-	
+
 	wp_mail( $args['email'], $title, $message, $from, array( $filename ) );
-	
+
 	@unlink( $filename );
 }
 
