@@ -154,7 +154,7 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 			, $data['gallery_attachments']
 			, $data['galleries']
 			, $data['term_tax']
-			, false
+			, true
 		);
 
 		\WP_CLI::success( 'The post has been updated.' );
