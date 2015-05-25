@@ -312,6 +312,8 @@ class BlogData {
 			if ( $hash_value != $post_hash || $force_update ) {
 				// post has been updated, override existing one
 				$args['ID'] = $post_id;
+				unset( $args['post_date'], $args['post_date_gmt'] );
+				
 				wp_update_post( $args );
 				if ( ! empty( $metas ) ) {
 					foreach ( $metas as $meta_key => $meta_value ) {
@@ -597,7 +599,9 @@ class BlogData {
 						$new_gallery_ids .= $existing[0]->ID . ",";
 					} elseif ( ! empty( $old_ids[ $index ] ) ) {
 						$new_id = self::ImportMedia( 0, $image_src, false, $old_ids[ $index ] );
-						$new_gallery_ids .= $new_id . ",";
+						if ( $new_id && ! is_wp_error( $new_id ) ) {
+							$new_gallery_ids .= $new_id . ",";
+						}
 					}
 				}
 
