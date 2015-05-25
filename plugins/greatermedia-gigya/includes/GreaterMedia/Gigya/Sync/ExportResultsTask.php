@@ -122,7 +122,9 @@ class ExportResultsTask extends SyncTask {
 			$this->get_sentinel()->set_email_segment_id( $segment_id );
 		} else {
 			$segment_id = $this->get_email_segment_id();
-			$this->update_email_segment( $segment_id );
+			if ( ! $this->is_auto_sync_query() ) {
+				$this->update_email_segment( $segment_id );
+			}
 		}
 
 		return $segment_id;
