@@ -115,6 +115,10 @@ function greatermedia_setup() {
 	// Add theme support for post-formats
 	$formats = array( 'gallery', 'link', 'image', 'video', 'audio' );
 	add_theme_support( 'post-formats', $formats );
+
+	// Embed providers
+	wp_embed_register_handler( 'pinterest', '~https?\:\/\/\w+\.pinterest\.com\/pin\/(\d+)\/?~i', 'greatermedia_pinterest_handler' );
+	wp_embed_register_handler( 'facebook', '~https?\:\/\/\w+\.facebook\.com\/\w+\/posts\/(\d+)\/?~i', 'greatermedia_facebook_handler' );
 }
 
 add_action( 'after_setup_theme', 'greatermedia_setup' );
@@ -1050,3 +1054,16 @@ function greatermedia_podcasts_in_loop( $query ) {
 	return $query;
 }
 add_action( 'pre_get_posts', 'greatermedia_podcasts_in_loop' );
+
+function greatermedia_pinterest_handler( $matches, $attr, $url, $rawattr ) {
+	return sprintf(
+		'<a data-pin-do="embedPin" href="%s"></a>' .
+		'<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>',
+		esc_url( $url )
+	);
+}
+
+function greatermedia_facebook_handler( $matches, $attr, $url, $rawattr ) {
+	return '<script>!function(e,n,t){var o,c=e.getElementsByTagName(n)[0];e.getElementById(t)||(o=e.createElement(n),o.id=t,o.src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.2",c.parentNode.insertBefore(o,c))}(document,"script","facebook-jssdk");</script>
+			<div class="fb-post" data-href="' . esc_url( $url ) . '"></div>';
+}
