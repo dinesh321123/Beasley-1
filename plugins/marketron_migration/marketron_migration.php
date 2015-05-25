@@ -29,7 +29,10 @@ if ( defined( 'WP_CLI' ) and WP_CLI  ) {
 }
 
 if ( defined( 'DOING_ASYNC' ) && DOING_ASYNC ) {
-	require ( ABSPATH . 'wp-admin/includes/image.php' );
+	if ( ! function_exists( '\wp_generate_attachment_metadata' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+	}
+
 	require_once( __DIR__ . '/vendor/autoload.php' );
 
 	$thumbnail_list_regenerator = new \WordPress\Utils\ThumbnailListRegenerator();
