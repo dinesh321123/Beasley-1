@@ -18,6 +18,14 @@ class SyncTask extends Task {
 		return 'sync_task';
 	}
 
+	function get_task_priority() {
+		if ( $this->get_mode() === 'preview' ) {
+			return 'high';
+		} else {
+			return 'normal';
+		}
+	}
+
 	function get_sentinel() {
 		if ( is_null( $this->sentinel ) ) {
 			$this->sentinel = new Sentinel(
