@@ -262,7 +262,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( WP_Post $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax ) {
+	public static function ImportPosts( WP_Post $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax, $force_update = false ) {
 		$post_name = sanitize_title( $post->post_name );
 		$post_title = sanitize_text_field( $post->post_title );
 		$post_type = sanitize_text_field( $post->post_type );
@@ -272,6 +272,7 @@ class BlogData {
 		$args = array(
 			'post_title'        => $post_title,
 			'post_content'      => $post->post_content,
+			'post_author'       => $post->post_author,
 			'post_type'         => $post_type,
 			'post_name'         => $post_name,
 			'post_status'       => ! empty( $post_status ) ? $post_status : $post->post_status,
@@ -308,11 +309,11 @@ class BlogData {
 		if ( ! empty( $existing ) ) {
 			$post_id = intval( $existing[0]->ID );
 			$hash_value = get_post_meta( $post_id, 'syndication_import', true );
-			if ( $hash_value != $post_hash ) {
+			if ( $hash_value != $post_hash || $force_update ) {
 				// post has been updated, override existing one
 				$args['ID'] = $post_id;
 				wp_update_post( $args );
-				if ( !empty( $metas ) ) {
+				if ( ! empty( $metas ) ) {
 					foreach ( $metas as $meta_key => $meta_value ) {
 						update_post_meta( $post_id, $meta_key, $meta_value[0] );
 					}
@@ -391,6 +392,8 @@ class BlogData {
 				}
 			}
 		}
+
+		clean_post_cache( $post_id );
 
 		return $post_id;
 	}

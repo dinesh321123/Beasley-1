@@ -103,6 +103,63 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 
 		return $date;
 	}
+	
+	/**
+	 * Updates syndicated post with the latest version of original post.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<id>]
+	 * : Post id to update.
+	 *
+	 *
+	 * ## EXAMPLES
+	 *
+	 * wp gmr-syndication reload
+	 *
+	 * wp gmr-syndication reload 20109
+	 *
+	 * @synopsis [<id>]
+	 *
+	 * @param $args
+	 * @param $assoc_args
+	 */
+	public function reload( $args, $assoc_args ) {
+		if ( empty( $args ) ) {
+			\WP_CLI::error( 'Please, provide post id to update.' );
+		}
+
+		$syndicated_post = get_post( $args[0] );
+		if ( empty( $syndicated_post ) ) {
+			\WP_CLI::error( 'The post has not been found.' );
+		}
+		
+		$info = get_post_meta( $syndicated_post->ID, 'syndication_old_data', true );
+		if ( empty( $info ) ) {
+			\WP_CLI::error( 'Syndication data has not been found.' );
+		}
+
+		$info = unserialize( $info );
+		switch_to_blog( $info['blog_id'] );
+		$original_post = get_post( $info['id'] );
+		$data = BlogData::PostDataExtractor( $syndicated_post->post_type, $original_post );
+		restore_current_blog();
+		
+		BlogData::ImportPosts(
+			$data['post_obj']
+			, $data['post_metas']
+			, array( 'status' => $syndicated_post->post_status )
+			, $data['featured']
+			, $data['attachments']
+			, $data['gallery_attachments']
+			, $data['galleries']
+			, $data['term_tax']
+			, false
+		);
+
+		\WP_CLI::success( 'The post has been updated.' );
+	}
+
 }
 
 WP_CLI::add_command( 'gmr-syndication', 'GMR_Syndication_CLI' );
