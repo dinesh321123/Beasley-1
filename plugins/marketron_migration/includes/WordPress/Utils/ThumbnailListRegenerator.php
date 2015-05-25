@@ -8,24 +8,42 @@ class ThumbnailListRegenerator {
 	public $thumbnail_regenerator;
 	public $errors;
 
+	function register() {
+		add_action( 'init', array( $this, 'do_register' ) );
+	}
+
+	function do_register() {
+		add_action(
+			'regenerate_attachment_async_job',
+			array( $this, 'do_regenerate_attachment' )
+		);
+	}
+
 	function regenerate( $ids = array(), $opts ) {
 		if ( empty( $ids ) ) {
 			/* default to all if ids is empty */
 			$ids = $this->find_all_attachments();
 		}
 
-		$regenerator  = $this->get_thumbnail_regenerator();
+		$errors_file  = $this->get_errors_file( $opts );
+
+		if ( file_exists( $errors_file ) ) {
+			unlink( $errors_file );
+		}
+
 		$total        = count( $ids );
 		$msg          = "Regenerating $total Thumbnails";
 		$progress_bar = new ProgressBar( $msg, $total );
-		$errors_file  = $this->get_errors_file( $opts );
+		$async        = $this->get_is_async( $opts );
 
-		foreach ( $ids as $id ) {
-			$id     = intval( $id );
-			$result = $regenerator->regenerate( $id, $opts );
+		foreach ( $ids as $index => $id ) {
+			$opts['index'] = $index + 1;
+			$opts['total'] = $total;
 
-			if ( is_wp_error( $result ) ) {
-				$this->log_error( $id, $error );
+			if ( $async ) {
+				$this->regenerate_attachment_async( $id, $opts );
+			} else {
+				$this->regenerate_attachment( $id, $opts );
 			}
 
 			$progress_bar->tick();
@@ -34,6 +52,34 @@ class ThumbnailListRegenerator {
 		$progress_bar->finish();
 
 		$this->write_errors( $errors_file );
+	}
+
+	function regenerate_attachment_async( $id, $opts ) {
+		wp_async_task_add(
+			'regenerate_attachment_async_job',
+			array( $id, $opts ),
+			'low'
+		);
+	}
+
+	function do_regenerate_attachment( $params ) {
+		$id   = $params[0];
+		$opts = $params[1];
+
+		$this->regenerate_attachment( $id, $opts );
+	}
+
+	function regenerate_attachment( $id, $opts ) {
+		$id          = intval( $id );
+		$regenerator = $this->get_thumbnail_regenerator();
+		$result      = $regenerator->regenerate( $id, $opts );
+
+		if ( is_wp_error( $result ) ) {
+			$this->log_error( $id, $error );
+		} else {
+			$percent = round( $opts['index'] / $opts['total'] * 100, 2 );
+			error_log( "Regenerated Attachment ($id) - $percent%" );
+		}
 	}
 
 	/* helpers */
@@ -85,11 +131,18 @@ class ThumbnailListRegenerator {
 				'Thumbnails regeneration successful, No errors occurred.'
 			);
 		} else {
+			$lines = '';
+
+			foreach ( $this->errors as $error ) {
+				$line = $error['id'] . ': ' . $error['message'];
+				$lines .= $line . "\n";
+			}
+
 			file_put_contents(
-				$path, json_encode( $this->errors, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES )
+				$path, $lines, FILE_APPEND | LOCK_EX
 			);
 
-			\WP_CLI::warning( "$total_errors Errors written to $path." );
+			\WP_CLI::warning( "$total_errors Errors written to $path" );
 		}
 	}
 
@@ -97,9 +150,19 @@ class ThumbnailListRegenerator {
 		if ( empty( $opts['errors_file'] ) ) {
 			$output_dir = $this->container->config->get_output_dir();
 
-			return $output_dir . '/thumbnail_regeneration_errors.json';
+			return $output_dir . '/thumbnail_regeneration_errors.log';
 		} else {
 			return $opts['errors_file'];
+		}
+	}
+
+	function get_is_async( &$opts ) {
+		if ( empty( $opts['async'] ) ) {
+			return false;
+		} else if ( $opts['async'] === '' ) {
+			return true;
+		} else {
+			return filter_var( $opts['async'], FILTER_VALIDATE_BOOLEAN );
 		}
 	}
 

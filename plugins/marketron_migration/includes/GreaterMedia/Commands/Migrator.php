@@ -458,6 +458,9 @@ SQL;
 	 * [--errors_file]
 	 * : Optional path to errors file, defaults to site_dir/output_dir/thumbnail_generation_errors.json
 	 *
+	 * [--async]
+	 * : Optional whether to use gearman to generate the thumbnails
+	 *
 	 * ## EXAMPLES
 	 *
 	 *     # re-generate all thumbnails, without confirmation

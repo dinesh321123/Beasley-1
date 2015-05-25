@@ -20,11 +20,11 @@ class ThumbnailRegenerator {
 	}
 
 	function regenerate_attachment( $id, $owner, $group ) {
-		$path     = get_attached_file( $id );
-		$metadata = wp_generate_attachment_metadata( $id, $path );
+		$path     = \get_attached_file( $id );
+		$metadata = \wp_generate_attachment_metadata( $id, $path );
 
-		if ( ! is_wp_error( $metadata ) ) {
-			wp_update_attachment_metadata( $id, $metadata );
+		if ( ! \is_wp_error( $metadata ) ) {
+			\wp_update_attachment_metadata( $id, $metadata );
 
 			$new_variants   = $this->get_variants_from_meta( $metadata );
 			$new_variants[] = array( 'path' => $path, 'meta' => $metadata );
@@ -94,7 +94,7 @@ class ThumbnailRegenerator {
 	}
 
 	function get_metadata( $id ) {
-		$metadata = wp_get_attachment_metadata( $id );
+		$metadata = \wp_get_attachment_metadata( $id );
 
 		if ( ! empty( $metadata ) ) {
 			return $metadata;
