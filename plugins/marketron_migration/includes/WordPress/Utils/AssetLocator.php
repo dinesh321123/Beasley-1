@@ -5,7 +5,6 @@ namespace WordPress\Utils;
 class AssetLocator {
 
 	public $container;
-	public $media_library = '/srv/www/greatermedia/htdocs/wp-content/plugins/marketron_migration/tmp/media_library';
 	public $library_images = array();
 	public $library_mp3s = array();
 	public $loaded_library = false;
@@ -134,7 +133,7 @@ class AssetLocator {
 	}
 
 	function load_image_library() {
-		$image_dir = $this->media_library . '/images';
+		$image_dir = $this->get_media_library() . '/images';
 		$pattern   = "$image_dir/*.jpg";
 		$files     = glob( $pattern );
 
@@ -142,15 +141,23 @@ class AssetLocator {
 	}
 
 	function load_audio_library() {
-		$mp3_dir = $this->media_library . '/mp3s';
-		$pattern   = "$mp3_dir/*.mp3";
-		$files     = glob( $pattern );
+		$mp3_dir = $this->get_media_library() . '/mp3s';
+		$pattern = "$mp3_dir/*.mp3";
+		$files   = glob( $pattern );
 
 		return $files;
 	}
 
 	function use_media_library() {
 		return $this->container->opts['fake_media'];
+	}
+
+	function get_media_library() {
+		if ( defined( 'FAKE_MEDIA_LIBRARY' ) ) {
+			return FAKE_MEDIA_LIBRARY;
+		} else {
+			\WP_CLI::error( 'Fatal Error: FAKE_MEDIA_LIBRARY is not defined' );
+		}
 	}
 
 }
