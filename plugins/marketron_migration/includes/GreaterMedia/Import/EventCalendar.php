@@ -31,8 +31,6 @@ class EventCalendar extends BaseImporter {
 	function import_calendar( $calendar ) {
 		$entities   = $this->get_entity( 'event' );
 		$events     = $this->events_from_calendar( $calendar );
-		$max_items  = $this->get_site_option( 'limit' );
-		$item_index = 1;
 		$category   = $this->category_from_calendar( $calendar );
 
 		foreach ( $events as $event ) {
@@ -140,7 +138,7 @@ class EventCalendar extends BaseImporter {
 	function venue_from_event( $event ) {
 		if ( ! empty( $event['EventLocation'] ) ) {
 			$venue = $event['EventLocation'];
-			$venue = $this->import_string( $venue );
+			$venue = strip_tags( $this->import_string( $venue ) );
 		} else {
 			$venue = null;
 		}

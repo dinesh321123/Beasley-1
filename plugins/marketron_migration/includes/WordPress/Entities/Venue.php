@@ -10,9 +10,9 @@ class Venue extends Post {
 
 	function add( &$fields ) {
 		if ( ! empty( $fields['venue_name'] ) ) {
-			$venue_name = $fields['venue_name'];
+			$venue_name = strip_tags( $fields['venue_name'] );
 		} else {
-			$venue_name = $fields['post_title'];
+			$venue_name = strip_tags( $fields['post_title'] );
 		}
 
 		$venue = $this->get_venue_by_name( $venue_name );

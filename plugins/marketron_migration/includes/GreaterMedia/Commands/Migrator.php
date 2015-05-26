@@ -408,8 +408,11 @@ SQL;
 
 	/* profile verification */
 	function verify_gigya_import( $args, $opts ) {
-		$marketron_accounts_file = $opts['marketron_accounts'];
-		$errors_file              = $opts['errors_file'];
+		$this->initialize( $args, $opts );
+
+		$output_dir              = $this->config->get_output_dir();
+		$marketron_accounts_file = $output_dir . '/gigya_profiles.json';
+		$errors_file             = $output_dir . '/gigya_import_errors.json';
 
 		$json_loader        = new \GreaterMedia\Profile\ImportJSONLoader();
 		$marketron_accounts = $json_loader->load( $marketron_accounts_file );
@@ -426,7 +429,6 @@ SQL;
 
 		$affinity_club_tool    = $this->tool_factory->build( 'affinity_club' );
 		$affinity_clubs_input  = $affinity_club_tool->get_data_files()[0];
-		//$affinity_clubs_output = str_replace( '_formatted.xml', '_filtered.xml', $affinity_clubs_input );
 		$affinity_clubs_output = $affinity_clubs_input;
 
 		$screener->screen( $affinity_clubs_input, $affinity_clubs_output );

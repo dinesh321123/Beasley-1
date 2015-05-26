@@ -256,6 +256,11 @@ class Contest extends BaseImporter {
 	}
 
 	function contest_entries_from_contest( $contest ) {
+		$exclude_contest_entries = $this->get_site_option( 'exclude_contest_entries' );
+		if ( $exclude_contest_entries ) {
+			return array();
+		}
+
 		$contest_id = $this->import_string( $contest['ContestID'] );
 		$contest_entries = array();
 		$entries         = $this->entries_from_contest( $contest );
