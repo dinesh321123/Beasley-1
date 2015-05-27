@@ -14954,8 +14954,17 @@ table.responsive tr:nth-of-type(even) {
 
 .live-player__container {
   border-bottom: 1px solid white; }
+  .live-player__container .live-stream__status .live-stream__login {
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    font-size: 16px; }
   .live-player__container .live-stream__status .live-stream__listen-now--btn, .live-player__container .live-stream__status .podcast__rss {
-    color: #fdfafa; }
+    color: #fdfafa;
+    -webkit-box-shadow: 0px 0px 12px 3px white;
+    -moz-box-shadow: 0px 0px 12px 3px white;
+    box-shadow: 0px 0px 12px 3px white; }
 
 .now-playing__title {
   font-weight: normal;
@@ -15138,9 +15147,18 @@ table.responsive tr:nth-of-type(even) {
   .live-stream {
     background-image: url("../../images/tuner-bg.jpg"); }
     .live-stream .on-air, .live-stream .up-next {
-      visibility: hidden; }
+      padding: 4px 1em;
+      position: relative;
+      top: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-family: 'Oswald', sans-serif; }
     .live-stream .live-stream__controls {
       padding: 34px 0 0; }
+      .live-stream .live-stream__controls div {
+        -webkit-box-shadow: 0px 0px 12px 3px white;
+        -moz-box-shadow: 0px 0px 12px 3px white;
+        box-shadow: 0px 0px 12px 3px white; }
     .live-stream .now-playing__title {
       color: #fff;
       text-shadow: 0px 0px 10px black; } }
