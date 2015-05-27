@@ -266,9 +266,12 @@ function gmr_do_survey_export( $args ) {
 
 	$title = $survey->post_title . ' Entries';
 	$message = 'Please, find in attach CSV file with all responses.';
-	$from = 'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST );
+	$mail_headers = array(
+		'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST ),
+		'Bcc: security@greatermedia.com',
+	);
 
-	wp_mail( $args['email'], $title, $message, $from, array( $filename ) );
+	wp_mail( $args['email'], $title, $message, $mail_headers, array( $filename ) );
 
 	@unlink( $filename );
 }
