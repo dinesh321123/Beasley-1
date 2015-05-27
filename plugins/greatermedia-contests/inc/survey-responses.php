@@ -213,6 +213,7 @@ function gmr_do_survey_export( $args ) {
 
 	$paged = 1;
 	$query = new WP_Query();
+	$date_format = get_option( 'date_format', 'm/d/Y' );
 
 	$form = get_post_meta( $survey->ID, 'survey_embedded_form', true );
 	if ( ! empty( $form ) ) {
@@ -222,7 +223,21 @@ function gmr_do_survey_export( $args ) {
 		}
 	}
 
-	$headers = array( 'First Name', 'Last Name', 'Email' );
+	$headers = array(
+		'EntryDateTime',
+		'Gigya First Name',
+		'Gigya Last Name',
+		'Gigya Email',
+		'Gigya Address',
+		'Gigya City',
+		'Gigya State',
+		'Gigya Zip',
+		'Gigya Country',
+		'Gigya Date of Birth',
+		'Gigya Age',
+		'Gigya Gender',
+	);
+
 	if ( $form ) {
 		foreach ( $form as $field ) {
 			$headers[] = $field->label;
@@ -239,17 +254,45 @@ function gmr_do_survey_export( $args ) {
 			'paged'               => $paged,
 			'posts_per_page'      => 100,
 			'ignore_sticky_posts' => true,
-			'fields'              => 'ids',
 		) );
 
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
-				$entry_id = $query->next_post();
-				$row = gmr_contest_get_entry_author( $entry_id, 'array' );
-				$row[] = gmr_contest_get_entry_author_email( $entry_id );
+				$entry = $query->next_post();
+
+				$profile = get_post_meta( $entry->ID, 'entrant_reference', true );
+				if ( ! empty( $profile ) ) {
+					$profile = get_gigya_user_profile( $profile );
+				}
+
+				$birthday = (int) get_post_meta( $entry->ID, 'entrant_birth_date', true );
+				if ( ! empty( $birthday ) ) {
+					$birthday = date( $date_format, $birthday );
+				}
+
+				if ( ! empty( $profile['birthMonth'] ) && ! empty( $profile['birthDay'] ) && ! empty( $profile['birthYear'] ) ) {
+					$birthday = new DateTime();
+					$birthday->setDate( $profile['birthYear'], $profile['birthMonth'], $profile['birthDay'] );
+					$birthday = $birthday->format( $date_format );
+				}
+
+				$zip = ! empty( $profile['zip'] ) ? $profile['zip'] : get_post_meta( $entry->ID, 'entrant_zip', true );
+				$zip = str_pad( absint( $zip ), 5, '0', STR_PAD_LEFT );
+
+				$row = array_merge( array( $entry->post_date ), gmr_contest_get_entry_author( $entry->ID, 'array' ), array(
+					gmr_contest_get_entry_author_email( $entry->ID ),
+					! empty( $profile['address'] ) ? $profile['address'] : '',
+					! empty( $profile['city'] ) ? $profile['city'] : '',
+					! empty( $profile['state'] ) ? $profile['state'] : '',
+					$zip,
+					! empty( $profile['country'] ) ? $profile['country'] : '',
+					$birthday,
+					! empty( $profile['age'] ) ? $profile['age'] : '',
+					! empty( $profile['gender'] ) ? $profile['gender'] : get_post_meta( $entry->ID, 'entrant_gender', true ),
+				) );
 
 				if ( $form ) {
-					$records = GreaterMediaFormbuilderRender::parse_entry( $survey->ID, $entry_id, $form );
+					$records = GreaterMediaFormbuilderRender::parse_entry( $survey->ID, $entry->ID, $form );
 					foreach ( $records as $record ) {
 						$row[] = is_array( $record['value'] ) ? implode( ',', $record['value'] ) : $record['value'];
 					}
@@ -266,9 +309,13 @@ function gmr_do_survey_export( $args ) {
 
 	$title = $survey->post_title . ' Entries';
 	$message = 'Please, find in attach CSV file with all responses.';
-	$from = 'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST );
 
-	wp_mail( $args['email'], $title, $message, $from, array( $filename ) );
+	$mail_headers = array( 'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST ) );
+	if ( defined( 'GMR_CSV_EXPORT_BCC' ) && filter_var( GMR_CSV_EXPORT_BCC, FILTER_VALIDATE_EMAIL ) ) {
+		$mail_headers[] = 'Bcc: ' . GMR_CSV_EXPORT_BCC;
+	}
+
+	wp_mail( $args['email'], $title, $message, $mail_headers, array( $filename ) );
 
 	@unlink( $filename );
 }

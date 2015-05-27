@@ -1,153 +1,153 @@
 .main, %main {
-	background-color: $primary-bg;
+  background-color: $primary-bg;
 }
 
 .header {
-	border-bottom: 1px solid #58595b;
+  border-bottom: 1px solid #58595b;
 }
 
 .home__featured {
-	@include bp(medium) {
-		background-position: left top;
-		background-color: #561015;
-		// background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
-	}
+  @include bp(medium) {
+    background-position: left top;
+    background-color: #561015;
+    // background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
+  }
 }
 
 .live-links {
-	border-top: 0;
+  border-top: 0;
 }
 
 .single-gmr_gallery .gallery__paging--prev,
 .single-gmr_gallery .gallery__paging--next {
-	color: $light-gray;
+  color: $light-gray;
 
-	&:hover {
-		color: $cardinal;
-	}
+  &:hover {
+    color: $cardinal;
+  }
 }
 
 .live-player__stream {
-	border: 1px solid lighten($color-gray-medium-dark,50%);
-	color: lighten($color-gray-medium-dark,50%);
-	@include border-radius(1em);
-	background-color: $liveplayer-bg;
+  border: 1px solid lighten($color-gray-medium-dark,50%);
+  color: lighten($color-gray-medium-dark,50%);
+  @include border-radius(1em);
+  background-color: $liveplayer-bg;
 
-	li {
-		height: auto;
-	}
+  li {
+    height: auto;
+  }
 
-	.live-player__stream--available {
-		display: none;
-	}
+  .live-player__stream--available {
+    display: none;
+  }
 
-	.live-player__stream--current.open .live-player__stream--available {
-		color: $dark-gray;
-		border-top: 1px solid darken($color-gray-light, 10%);
+  .live-player__stream--current.open .live-player__stream--available {
+    color: $dark-gray;
+    border-top: 1px solid darken($color-gray-light, 10%);
 
-		&:after {
-			background: transparent;
-		}
+    &:after {
+      background: transparent;
+    }
 
-		.live-player__stream--item, .live-player__stream--desc {
-			color: $dark-gray;
-		}
+    .live-player__stream--item, .live-player__stream--desc {
+      color: $dark-gray;
+    }
 
-		.live-player__stream--item {
-			background-color: $liveplayer-bg;
+    .live-player__stream--item {
+      background-color: $liveplayer-bg;
 
-			&:hover {
-				background-color: $light-gray;
-			}
-		}
+      &:hover {
+        background-color: $light-gray;
+      }
+    }
 
-		li:last-child {
-			@include border-bottom-radius(1em);
-		}
-	}
+    li:last-child {
+      @include border-bottom-radius(1em);
+    }
+  }
 
 }
 
 .live-player__container {
-	border-bottom: 1px solid white;
+  border-bottom: 1px solid white;
 }
 
 .now-playing__artist {
-	color: $color-gray-medium-dark;
+  color: $color-gray-medium-dark;
 }
 
 .live-link__title, .live-link__title a:link, .live-link__title a:visited {
-	color: $color-gray-medium;
+  color: $color-gray-medium;
 }
 
 .live-link__song:before {
-	color: $medium-dark-gray;
+  color: $medium-dark-gray;
 }
 
 .live-link__song--artist {
-	color: $medium-dark-gray;
+  color: $medium-dark-gray;
 }
 
 .live-link__song--title {
-	color: $dark-gray;
+  color: $dark-gray;
 
-	a, a:visited {
-		color: $darker-gray;
-	}
+  a, a:visited {
+    color: $darker-gray;
+  }
 }
 
 .live-link__title a:link, .live-link__title a:visited {
-	color: $color-gray-medium;
+  color: $color-gray-medium;
 }
 
 .live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
-	color: $primary-link-hover;
+  color: $primary-link-hover;
 }
 
 .header__logo {
-	@include bp(medium) {
-		top: -7px;
-	}
+  @include bp(medium) {
+    top: -7px;
+  }
 }
 .home__highlights {
-	border-bottom-color: $primary-border;
+  border-bottom-color: $primary-border;
 }
 
 .highlights__events--more-btn {
-	&:hover {
-		color: $yellow !important;
-		border-color: $yellow;
-	}
+  &:hover {
+    color: $yellow !important;
+    border-color: $yellow;
+  }
 }
 
 .highlights__event--item {
-	background-color: #8c8c8c;
-	color: $white;
+  background-color: #8c8c8c;
+  color: $white;
 }
 
 .highlights__event--title, .highlights__event--date {
-	color: $white;
+  color: $white;
 
-	a:hover & {
-		color: $yellow;
-	}
+  a:hover & {
+    color: $yellow;
+  }
 }
 
 .highlights__heading {
-	color: $highlights-heading;
+  color: $highlights-heading;
 }
 
 .type-contest .entry__title--tag {
-	background-color: $light-gray;
-	border-color: $light-gray;
+  background-color: $light-gray;
+  border-color: $light-gray;
 }
 
 .audio__progress-bar {
-	background-color: $gray;
+  background-color: $gray;
 }
 
 .footer {
-	background-color: $primary-bg;
+  background-color: $primary-bg;
 }
 
 /* -------------------------------------------
@@ -175,7 +175,8 @@ Denis Changes to _overrides.scss file 5/20
  #page-wrap.page-wrap,
 .main,
 .home .container
-{background-color: transparent!important;}                
+{background-color: transparent!important; background-image: none!important;}        
+
 .highlights__heading {
     color: #fff!important;
     font-weight: 500;
@@ -195,7 +196,7 @@ Denis Changes to _overrides.scss file 5/20
     /*background-image: url("http://i.imgur.com/q7eZ8Jz.png");
     background-repeat: no-repeat;
     background-position: left top;*/
-    background-color: #004c90!important;color:#fff;
+    background-color: #0e2242!important;color:#fff;
   }
 
 .live-player__stream{display: inline!important; margin-top: 60px; }
@@ -283,7 +284,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #004c90; colo
 
 .home__featured .featured__article--content { background-color: #0e2242;color: #fff; border-bottom-left-radius: 0em!important; border-bottom-right-radius:0em!important;}
 .home__featured .featured__article a:hover {background-color: #005596; color: #fff; border-bottom-left-radius: 0em!important;border-top-left-radius: 0em!important; border-bottom-right-radius:0em!important;}
-.home__featured .featured__article a:hover .featured__article--content {background-color: #005596;color: #ffe513!important;border-bottom-right-radius: 0em!important;}
+.home__featured .featured__article a:hover .featured__article--content {background-color: #005596;color: #ffe513!important;border-bottom-left-radius: 0em!important;border-bottom-right-radius: 0em!important;}
 
 .featured__content--title {color: #FFFFFF;font-family: 'Ubuntu', sans-serif;}
 .featured__content--title:hover {color: #FFFFFF!important;font-family: 'Ubuntu', sans-serif;}
@@ -386,8 +387,10 @@ h2.entry2__title a:hover{color: #f58426!important;}
 .entry2__thumbnail__overlay {background-color: #002a6e;opacity: .4;}
 .type-contest .entry2__thumbnail--contest-type {display: none;}
 
-
 .entries {background-color: #fff;}
+
+.content {background-color: #fff;}
+.home .content{float: left;display: block;width: 100%;}
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px 
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -433,7 +436,7 @@ a:hover {color: #002a6e!important; text-decoration: underline;}*/
   box-shadow: 0px 0px 0px 0px!important;
 }
 
-section.content {background-color: #fff;}
+
 
 .header {
   -webkit-animation-name: no_name!important;
@@ -746,8 +749,7 @@ media 1252px
   animation-direction: alternate;
   animation-time: 10s;
   }
-.main 
-{background: transparent!important;} 
+
 
 }
 /*-----------------------------------
