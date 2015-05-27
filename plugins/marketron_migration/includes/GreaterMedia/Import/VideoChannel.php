@@ -103,7 +103,7 @@ class VideoChannel extends BaseImporter {
 
 		if ( ! empty( $matches ) && count( $matches ) >= 1 ) {
 			$video_id = $matches[1];
-			return 'https://www.youtube.com/watch?v=' . $video_id;
+			return '[embed]https://www.youtube.com/watch?v=' . $video_id . '[/embed]';
 		} else {
 			return false;
 		}
