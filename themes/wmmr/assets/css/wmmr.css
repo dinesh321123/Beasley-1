@@ -14954,17 +14954,8 @@ table.responsive tr:nth-of-type(even) {
 
 .live-player__container {
   border-bottom: 1px solid white; }
-  .live-player__container .live-stream__status .live-stream__login {
-    text-transform: uppercase;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    color: #fff;
-    font-size: 16px; }
   .live-player__container .live-stream__status .live-stream__listen-now--btn, .live-player__container .live-stream__status .podcast__rss {
-    color: #fdfafa;
-    -webkit-box-shadow: 0px 0px 12px 3px white;
-    -moz-box-shadow: 0px 0px 12px 3px white;
-    box-shadow: 0px 0px 12px 3px white; }
+    color: #fdfafa; }
 
 .now-playing__title {
   font-weight: normal;
@@ -15136,6 +15127,18 @@ table.responsive tr:nth-of-type(even) {
   .live-player {
     background-image: url("../../images/brushed-metal.jpg");
     background-position: center; }
+  .live-player__container {
+    border-bottom: 1px solid white; }
+    .live-player__container .live-stream__status .live-stream__login {
+      text-transform: uppercase;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      font-size: 16px; }
+    .live-player__container .live-stream__status .live-stream__listen-now--btn, .live-player__container .live-stream__status .podcast__rss {
+      -webkit-box-shadow: 0px 0px 12px 3px white;
+      -moz-box-shadow: 0px 0px 12px 3px white;
+      box-shadow: 0px 0px 12px 3px white; }
   .live-links {
     border-top: 0;
     background: none; }
