@@ -266,10 +266,11 @@ function gmr_do_survey_export( $args ) {
 
 	$title = $survey->post_title . ' Entries';
 	$message = 'Please, find in attach CSV file with all responses.';
-	$mail_headers = array(
-		'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST ),
-		'Bcc: security@greatermedia.com',
-	);
+
+	$mail_headers = array( 'From: no-reply@' . parse_url( home_url(), PHP_URL_HOST ) );
+	if ( defined( 'GMR_CSV_EXPORT_BCC' ) && filter_var( GMR_CSV_EXPORT_BCC, FILTER_VALIDATE_EMAIL ) ) {
+		$mail_headers[] = 'Bcc: ' . GMR_CSV_EXPORT_BCC;
+	}
 
 	wp_mail( $args['email'], $title, $message, $mail_headers, array( $filename ) );
 
