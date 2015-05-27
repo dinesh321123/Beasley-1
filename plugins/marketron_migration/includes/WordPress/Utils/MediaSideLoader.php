@@ -25,12 +25,18 @@ class MediaSideLoader {
 
 	// copy sideloaded uploads to site's uploads directory
 	function sync() {
+		$this->remove_duplicates();
+
 		$source_dir = $this->get_sync_source_dir();
 		$target_dir = $this->get_sync_target_dir();
 		$total      = count( $this->pending_sideloads );
 		$notify     = new \WordPress\Utils\ProgressBar( "Copying $total Media items", $total );
 
 		foreach ( $this->pending_sideloads as $pending_sideload ) {
+			if ( is_null( $pending_sideload ) ) {
+				continue;
+			}
+
 			$source   = $pending_sideload['source'];
 			$dest     = $pending_sideload['dest'];
 			$dest_dir = dirname( $dest );
@@ -40,7 +46,7 @@ class MediaSideLoader {
 				//system( 'mkdir -p ' . escapeshellarg( $dest_dir ) );
 			}
 
-			//error_log( "copy: $source - $dest" );
+			//\WP_CLI::log( "copy: $source - $dest" );
 			if ( ! $this->container->opts['fake_media'] ) {
 				copy( $source, $dest );
 				$this->update_ownership( $dest );
@@ -275,6 +281,31 @@ class MediaSideLoader {
 		/* TODO: configurable via WP_CLI opts */
 		chown( $path, 'nginx' );
 		chgrp( $path, 'nginx' );
+	}
+
+	function remove_duplicates() {
+		$map = array();
+
+		foreach ( $this->pending_sideloads as $index => $pending_sideload ) {
+			$source = $pending_sideload['source'];
+			$dest   = $pending_sideload['dest'];
+			$hash   = md5( $source . $dest );
+
+			if ( ! array_key_exists( $hash, $map ) ) {
+				$map[ $hash ] = true;
+			} else {
+				$this->pending_sideloads[ $index ] = null;
+			}
+		}
+
+		$this->pending_sideloads = array_filter(
+			$this->pending_sideloads,
+			array( $this, 'is_pending_sideload' )
+		);
+	}
+
+	function is_pending_sideload( $item ) {
+		return ! empty( $item );
 	}
 
 }

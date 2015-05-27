@@ -57,13 +57,21 @@ class Feed extends BaseImporter {
 
 			} else {
 				if ( ! empty( $post['featured_audio'] ) && ! empty( $post['shows'] ) && ! empty( $this->mapped_podcast_for_show( $post['shows'][0] ) ) ) {
-					$post['episode_name']    = $post['post_title'];
-					$post['episode_podcast'] = $this->mapped_podcast_for_show( $post['shows'][0] );
-					$post['episode_file']    = $post['featured_audio'];
+					$episode_podcast = $this->mapped_podcast_for_show( $post['shows'][0] );
 
-					$podcast_episodes->add( $post );
-					$podcast_count++;
-					//error_log( 'Found Show Podcast Episode: ' . $post['show'] );
+					if ( ! empty( $episode_podcast ) ) {
+						$post['episode_name']    = $post['post_title'];
+						$post['episode_podcast'] = $episode_podcast;
+						$post['episode_file']    = $post['featured_audio'];
+
+						$podcast_episodes->add( $post );
+						$podcast_count++;
+
+						//\WP_CLI::log( 'Found Show Podcast Episode: ' . $episode_podcast );
+					} else {
+						$posts->add( $post );
+						$blog_post_count++;
+					}
 				} else {
 					$posts->add( $post );
 					$blog_post_count++;
@@ -211,6 +219,15 @@ class Feed extends BaseImporter {
 				$content     = '[embed]' . $primary_media_ref . '[/embed]' . '<br/>' . $content;
 				$post_format = 'video';
 			}
+		} else if ( strpos( $content, 'RTEMp3Player.swf' ) !== false ) {
+			$result = $this->find_and_replace_flash_audio( $content );
+
+			if ( $result !== false ) {
+				$featured_audio = $result['featured_audio'];
+				//\WP_CLI::log( 'Featured Audio: ' . $featured_audio );
+				$content = $result['content'];
+				$post_format = 'audio';
+			}
 		}
 
 		$content = preg_replace(
@@ -241,6 +258,34 @@ class Feed extends BaseImporter {
 			'post_format' => $post_format,
 			'featured_audio' => $featured_audio,
 		);
+	}
+
+	function find_and_replace_flash_audio( $content ) {
+		if ( strpos( $content, 'RTEMp3Player.swf' ) !== false ) {
+			$object_pattern = '#<object[^>]+>.*</object>#';
+			$result         = preg_match_all( $object_pattern, $content, $matches );
+
+			if ( $result >= 1 ) {
+				$objects   = $matches[0];
+				$object    = $objects[0];
+				$pattern = '#data=".*RTEMp3Player\.swf\?File=([^"]+)"#';
+				$result = preg_match_all( $pattern, $object, $matches );
+
+				if ( $result >= 1 ) {
+					$featured_audio = parse_url( $matches[1][0], PHP_URL_PATH );
+					$content = str_replace( $object, '', $content );
+
+					return array(
+						'featured_audio' => $featured_audio,
+						'content' => $content,
+					);
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	function title_from_article( $article ) {

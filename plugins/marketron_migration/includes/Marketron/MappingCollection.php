@@ -239,6 +239,10 @@ class MappingCollection {
 			case 'photo albums':
 				return 'photo_album_v2';
 
+			case 'audio_video_player':
+			case 'audiovideoplayer':
+				return 'audio_video_player';
+
 			default:
 				\WP_CLI::error( "Unknown Marketron Tool Name - $name" );
 		}

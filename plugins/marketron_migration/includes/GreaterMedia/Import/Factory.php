@@ -19,6 +19,7 @@ class Factory {
 		'livestream' => 'GreaterMedia\Import\LiveStream',
 		'contest' => 'GreaterMedia\Import\Contest',
 		'affinity_club' => 'GreaterMedia\Import\AffinityClub',
+		'audio_video_player' => 'GreaterMedia\Import\AudioVideoPlayer',
 	);
 
 	public $container;
