@@ -287,7 +287,7 @@ function gmr_do_contest_export( $args ) {
 					! empty( $profile['address'] ) ? $profile['address'] : '',
 					! empty( $profile['city'] ) ? $profile['city'] : '',
 					! empty( $profile['state'] ) ? $profile['state'] : '',
-					! empty( $profile['zip'] ) ? $profile['zip'] : get_post_meta( $entry->ID, 'entrant_zip', true ),
+					$zip,
 					! empty( $profile['country'] ) ? $profile['country'] : '',
 					$birthday,
 					! empty( $profile['age'] ) ? $profile['age'] : '',
