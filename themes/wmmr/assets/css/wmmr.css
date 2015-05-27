@@ -478,7 +478,7 @@ category: Base - Typography
   font-weight: normal;
   font-style: normal; }
 
-[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .live-player--open__btn:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit, .header__search--cancel, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .top-three__play, .gmr-icon, .contest__submission .preview .preview-close {
+[class^="icon-"], [class*=" icon-"], .entry__thumbnail--video:before, .entry__thumbnail--events:before, .entry__thumbnail--audio:before, .secondary-nav .menu-item.schedule a:before, .secondary-nav .menu-item a[title*="schedule"]:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="SCHEDULE"]:before, .secondary-nav .menu-item.stocks a:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="stocks"]:before, .secondary-nav .menu-item a[title*="STOCKS"]:before, .secondary-nav .menu-item.traffic a:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="TRAFFIC"]:before, .secondary-nav .menu-item a[title*="traffic"]:before, .secondary-nav .menu-item.weather a:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before, .header__search--btn:before, .entry2__thumbnail__icon, .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before, .live-player--open__btn:before, .social__link--facebook, .social__link--twitter, .social__link--google-plus:before, .social__link--youtube:before, .social__link--instagram:before, .header__search--submit, .header__search--cancel, .gallery__prev--btn:before, .gallery__next--btn:after, .gallery__paging--prev, .gallery__paging--next, .gallery__grid--album, .top-three__play, .gmr-icon, .contest__submission .preview .preview-close {
   font-family: 'gmr-icons';
   speak: none;
   font-style: normal;
@@ -607,16 +607,16 @@ category: Base - Typography
 .icon-radio-tower:before {
   content: "\e626"; }
 
-.icon-schedule:before, .header__link--schedule:before {
+.icon-schedule:before, .secondary-nav .menu-item.schedule a:before, .secondary-nav .menu-item a[title*="schedule"]:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="SCHEDULE"]:before {
   content: "\e627"; }
 
-.icon-stocks:before, .header__link--stocks:before {
+.icon-stocks:before, .secondary-nav .menu-item.stocks a:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="stocks"]:before, .secondary-nav .menu-item a[title*="STOCKS"]:before {
   content: "\e628"; }
 
-.icon-traffic:before, .header__link--traffic:before {
+.icon-traffic:before, .secondary-nav .menu-item.traffic a:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="TRAFFIC"]:before, .secondary-nav .menu-item a[title*="traffic"]:before {
   content: "\e629"; }
 
-.icon-weather:before, .header__link--weather:before {
+.icon-weather:before, .secondary-nav .menu-item.weather a:before, .secondary-nav .menu-item a[title*="Weather"]:before {
   content: "\e62a"; }
 
 .icon-loading:before {
@@ -737,8 +737,23 @@ img {
   @media screen and (min-width: 768px)  {
     .content, .gallery__archive, .main .lead-in, .main #signup-welcome, .main .view {
       padding: 3em 3.236em; } }
+  .home .content, .home .gallery__archive, .home .main .lead-in, .main .home .lead-in, .home .main #signup-welcome, .main .home #signup-welcome, .home .main .view, .main .home .view {
+    float: left;
+    display: block;
+    margin-right: 7.4229703521%;
+    width: 100%;
+    margin-right: 0;
+    padding: 1.5em 0.809em; }
+    .home .content:last-child, .home .gallery__archive:last-child, .home .main .lead-in:last-child, .main .home .lead-in:last-child, .home .main #signup-welcome:last-child, .main .home #signup-welcome:last-child, .home .main .view:last-child, .main .home .view:last-child {
+      margin-right: 0; }
+    @media screen and (min-width: 768px)  {
+      .home .content, .home .gallery__archive, .home .main .lead-in, .main .home .lead-in, .home .main #signup-welcome, .main .home #signup-welcome, .home .main .view, .main .home .view {
+        padding: 1.5em 3.236em; } }
   @media screen and (min-width: 768px)  {
     .news-site .content, .news-site .gallery__archive, .news-site .main .lead-in, .main .news-site .lead-in, .news-site .main #signup-welcome, .main .news-site #signup-welcome, .news-site .main .view, .main .news-site .view {
+      padding: 1.5em 1.5em; } }
+  @media screen and (min-width: 768px)  {
+    .home.news-site .content, .home.news-site .gallery__archive, .home.news-site .main .lead-in, .main .home.news-site .lead-in, .home.news-site .main #signup-welcome, .main .home.news-site #signup-welcome, .home.news-site .main .view, .main .home.news-site .view {
       padding: 1.5em 1.5em; } }
 
 .live-player {
@@ -3430,8 +3445,6 @@ a.highlights__contest--btn {
   text-transform: uppercase; }
   @media screen and (min-width: 768px)  {
     .header__subnav {
-      display: table;
-      table-layout: fixed;
       padding: 0 1em;
       font-size: 0.7901234568em; } }
   @media screen and (min-width: 1024px)  {
@@ -3445,7 +3458,18 @@ a.highlights__contest--btn {
     .header__subnav {
       font-size: 1em; } }
 
-.header__subnav--item {
+.secondary-nav {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin: 0; }
+
+.secondary-nav-list {
+  width: 100%;
+  padding: 0;
+  margin: 0; }
+
+.secondary-nav .menu-item {
   display: inline-block;
   width: auto;
   height: 32px;
@@ -3453,32 +3477,32 @@ a.highlights__contest--btn {
   padding: 0;
   margin: 0;
   color: #ffffff; }
-  .header__subnav--item a, .header__subnav--item a:visited {
+  .secondary-nav .menu-item a, .secondary-nav .menu-item a:visited {
     display: block;
     height: 32px;
     padding: 4px .5em 4px 0;
     margin: 0;
     color: #ffffff; }
     @media screen and (min-width: 768px)  {
-      .header__subnav--item a, .header__subnav--item a:visited {
+      .secondary-nav .menu-item a, .secondary-nav .menu-item a:visited {
         padding-top: 8px;
         padding-bottom: 8px; } }
-  .header__subnav--item:last-of-type a {
+  .secondary-nav .menu-item:last-of-type a {
     padding-right: 0; }
-  .header__subnav--item a:hover, .header__subnav--item a:focus, .header__subnav--item a:active {
+  .secondary-nav .menu-item a:hover, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:active {
     color: #d22228; }
   @media screen and (min-width: 768px)  {
-    .header__subnav--item {
+    .secondary-nav .menu-item {
       display: table-cell;
       width: auto;
       height: 48px;
       padding-right: 0;
       padding-left: 1.25em; }
-      .header__subnav--item a, .header__subnav--item a:visited {
+      .secondary-nav .menu-item a, .secondary-nav .menu-item a:visited {
         height: 48px;
         padding: 14px 0 16px 0; } }
 
-.header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before {
+.secondary-nav .menu-item.schedule a:before, .secondary-nav .menu-item a[title*="schedule"]:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="SCHEDULE"]:before, .secondary-nav .menu-item.stocks a:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="stocks"]:before, .secondary-nav .menu-item a[title*="STOCKS"]:before, .secondary-nav .menu-item.traffic a:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="TRAFFIC"]:before, .secondary-nav .menu-item a[title*="traffic"]:before, .secondary-nav .menu-item.weather a:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before {
   display: block;
   width: 24px;
   height: 24px;
@@ -3486,12 +3510,16 @@ a.highlights__contest--btn {
   vertical-align: middle;
   font-size: 2.0272865295em; }
   @media screen and (min-width: 768px)  {
-    .header__link--schedule:before, .header__link--stocks:before, .header__link--traffic:before, .header__link--weather:before, .header__link--search:before {
+    .secondary-nav .menu-item.schedule a:before, .secondary-nav .menu-item a[title*="schedule"]:before, .secondary-nav .menu-item a[title*="Schedule"]:before, .secondary-nav .menu-item a[title*="SCHEDULE"]:before, .secondary-nav .menu-item.stocks a:before, .secondary-nav .menu-item a[title*="Stocks"]:before, .secondary-nav .menu-item a[title*="stocks"]:before, .secondary-nav .menu-item a[title*="STOCKS"]:before, .secondary-nav .menu-item.traffic a:before, .secondary-nav .menu-item a[title*="Traffic"]:before, .secondary-nav .menu-item a[title*="TRAFFIC"]:before, .secondary-nav .menu-item a[title*="traffic"]:before, .secondary-nav .menu-item.weather a:before, .secondary-nav .menu-item a[title*="Weather"]:before, .header__link--search:before {
       display: table-cell;
       width: 0;
       height: 18px;
       padding-right: .75em;
       font-size: 1.265625em; } }
+
+.secondary-link {
+  display: table-cell;
+  padding-top: 3px; }
 
 .header__link--text {
   display: none; }
@@ -3829,6 +3857,7 @@ a.highlights__contest--btn {
       height: 82px;
       margin-right: 1em; } }
   .news-site .header__search {
+    display: inline-block;
     padding-left: 1.25em;
     margin-right: 0;
     color: white; }
@@ -4941,7 +4970,7 @@ Link posts contain a link to an external site. They can also optionally have a f
     .news-site .entries {
       padding: 1.5em 1.5em; } }
 
-.entry2 {
+.entry2, .home .episode {
   float: left;
   display: block;
   margin-right: 4.8291579146%;
@@ -4949,11 +4978,11 @@ Link posts contain a link to an external site. They can also optionally have a f
   margin-right: 0;
   margin-bottom: 2.25em;
   border-bottom: 1px solid #d0d2d3; }
-  .entry2:last-child {
+  .entry2:last-child, .home .episode:last-child {
     margin-right: 0; }
-  .entry2:last-of-type {
+  .entry2:last-of-type, .home .episode:last-of-type {
     border-bottom: none; }
-  .news-site .entry2 {
+  .news-site .entry2, .news-site .home .episode, .home .news-site .episode {
     padding-bottom: 2.5em; }
 
 .entry2__thumbnail {
@@ -5163,36 +5192,36 @@ Link posts contain a link to an external site. They can also optionally have a f
   color: #aa1c20; }
 
 @media screen and (min-width: 480px)  {
-  .entry2.format-standard .entry2__thumbnail {
+  .entry2.format-standard .entry2__thumbnail, .home .format-standard.episode .entry2__thumbnail {
     float: right;
     margin-right: 0; } }
 
 @media screen and (min-width: 480px)  {
-  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail {
+  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail, .home .format-standard.has-post-thumbnail.episode .entry2__thumbnail {
     margin-left: 2em;
     margin-bottom: 1em; } }
 @media screen and (min-width: 1200px)  {
-  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail {
+  .entry2.format-standard.has-post-thumbnail .entry2__thumbnail, .home .format-standard.has-post-thumbnail.episode .entry2__thumbnail {
     margin-left: 0;
     margin-bottom: 0; } }
 
 @media screen and (min-width: 480px)  {
-  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail {
+  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail, .home .format-audio.has-post-thumbnail.episode .entry2__thumbnail {
     float: left;
     display: block;
     margin-right: 3.1684356888%;
     width: 19.7578833532%; }
-    .entry2.format-audio.has-post-thumbnail .entry2__thumbnail:last-child {
+    .entry2.format-audio.has-post-thumbnail .entry2__thumbnail:last-child, .home .format-audio.has-post-thumbnail.episode .entry2__thumbnail:last-child {
       margin-right: 0; }
-  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail__image:after {
+  .entry2.format-audio.has-post-thumbnail .entry2__thumbnail__image:after, .home .format-audio.has-post-thumbnail.episode .entry2__thumbnail__image:after {
     padding-top: 100%; }
-  .entry2.format-audio.has-post-thumbnail .entry2__meta {
+  .entry2.format-audio.has-post-thumbnail .entry2__meta, .home .format-audio.has-post-thumbnail.episode .entry2__meta {
     float: left;
     display: block;
     margin-right: 3.1684356888%;
     width: 77.073680958%;
     margin-right: 0; }
-    .entry2.format-audio.has-post-thumbnail .entry2__meta:last-child {
+    .entry2.format-audio.has-post-thumbnail .entry2__meta:last-child, .home .format-audio.has-post-thumbnail.episode .entry2__meta:last-child {
       margin-right: 0; } }
 
 .type-tribe_events .entry2__thumbnail {
@@ -5274,12 +5303,12 @@ Link posts contain a link to an external site. They can also optionally have a f
     width: 65.0569473618%; }
     .entry2-ad-wrap .entry2__meta:last-child {
       margin-right: 0; }
-  .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta, .entry2-ad-wrap .entry2.type-contest .entry2__meta, .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta {
+  .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta, .entry2-ad-wrap .home .has-post-thumbnail.episode .entry2__meta, .home .entry2-ad-wrap .has-post-thumbnail.episode .entry2__meta, .entry2-ad-wrap .entry2.type-contest .entry2__meta, .entry2-ad-wrap .home .type-contest.episode .entry2__meta, .home .entry2-ad-wrap .type-contest.episode .entry2__meta, .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta, .entry2-ad-wrap .home .type-tribe_events.episode .entry2__meta, .home .entry2-ad-wrap .type-tribe_events.episode .entry2__meta {
     float: left;
     display: block;
     margin-right: 4.8291579146%;
     width: 30.1138947236%; }
-    .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta:last-child, .entry2-ad-wrap .entry2.type-contest .entry2__meta:last-child, .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta:last-child {
+    .entry2-ad-wrap .entry2.has-post-thumbnail .entry2__meta:last-child, .entry2-ad-wrap .home .has-post-thumbnail.episode .entry2__meta:last-child, .home .entry2-ad-wrap .has-post-thumbnail.episode .entry2__meta:last-child, .entry2-ad-wrap .entry2.type-contest .entry2__meta:last-child, .entry2-ad-wrap .home .type-contest.episode .entry2__meta:last-child, .home .entry2-ad-wrap .type-contest.episode .entry2__meta:last-child, .entry2-ad-wrap .entry2.type-tribe_events .entry2__meta:last-child, .entry2-ad-wrap .home .type-tribe_events.episode .entry2__meta:last-child, .home .entry2-ad-wrap .type-tribe_events.episode .entry2__meta:last-child {
       margin-right: 0; }
   .entry2-ad-wrap .entry2-ad-wrap__ad {
     float: left;
@@ -5301,7 +5330,7 @@ Link posts contain a link to an external site. They can also optionally have a f
         display: block; } }
 
 @media screen and (min-width: 480px)  {
-  .entry2-ad-wrap .entry2.format-standard .entry2__thumbnail {
+  .entry2-ad-wrap .entry2.format-standard .entry2__thumbnail, .entry2-ad-wrap .home .format-standard.episode .entry2__thumbnail, .home .entry2-ad-wrap .format-standard.episode .entry2__thumbnail {
     float: left;
     margin-right: 3.236em; } }
 
@@ -9412,6 +9441,8 @@ a.podcast__rss:active {
 
 .gmr-mediaelement-fallback {
   max-height: 100px; }
+  .home .gmr-mediaelement-fallback {
+    max-height: none; }
 
 .podcast-player--compact {
   position: relative;
@@ -9590,6 +9621,11 @@ a.podcast__rss:active {
   margin-right: 10px; }
 .single-podcast .podcast__subscribe {
   display: inline-block; }
+
+.home .episode {
+  display: block;
+  width: 100%;
+  height: auto; }
 
 .login-restricted-login-btn, .logout-restricted-login-btn, .age-restricted-login-btn {
   display: inline-block;
@@ -14738,7 +14774,7 @@ table.responsive tr:nth-of-type(even) {
   z-index: 2; }
   .top-three__feature--primary .top-three__play {
     font-size: 6em; }
-  .entry2 .top-three__play {
+  .entry2 .top-three__play, .home .episode .top-three__play {
     display: none;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
@@ -14747,7 +14783,7 @@ table.responsive tr:nth-of-type(even) {
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     font-size: 3em; }
-    .entry2 .top-three__play[class*='category-'] {
+    .entry2 .top-three__play[class*='category-'], .home .episode .top-three__play[class*='category-'] {
       display: block; }
 
 .top-three__play:before {
@@ -15045,16 +15081,16 @@ table.responsive tr:nth-of-type(even) {
 
 /* Smartphones & Tablets (portrait) ----------- */
 @media only screen and (max-width: 479px) {
-  .entry2 {
+  .entry2, .home .episode {
     border: 1px solid #d0d2d3;
     -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.55);
     -moz-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.55);
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.55); }
-    .entry2 .entry2__meta {
+    .entry2 .entry2__meta, .home .episode .entry2__meta {
       padding: 0 10px; }
-      .entry2 .entry2__meta .entry2__date {
+      .entry2 .entry2__meta .entry2__date, .home .episode .entry2__meta .entry2__date {
         margin: 0; }
-    .entry2 .entry2__footer {
+    .entry2 .entry2__footer, .home .episode .entry2__footer {
       padding: 10px;
       margin-top: 1em; } }
 
