@@ -528,14 +528,19 @@ class BlogData {
 				@unlink( $tmp );
 			}
 
-			update_post_meta( $id, 'syndication_attachment_old_id', $old_id );
-			update_post_meta( $id, 'syndication_attachment_old_url', esc_url_raw( $filename ) );
+			if ( ! is_wp_error( $id ) ) {
+				update_post_meta( $id, 'syndication_attachment_old_id', $old_id );
+				update_post_meta( $id, 'syndication_attachment_old_url', esc_url_raw( $filename ) );
 
+				self::updateImageCaption( $id, $old_id );
+			}
 		} else {
 			$id = $existing[0]->ID;
-			if( $featured == true && $post_id != 0 ) {
+			if ( $featured == true && $post_id != 0 ) {
 				set_post_thumbnail( $post_id, $id );
 			}
+
+			self::updateImageCaption( $id, $old_id );
 		}
 
 		if ( ! empty( $old_id ) ) {
@@ -597,6 +602,9 @@ class BlogData {
 
 					if ( ! empty( $existing ) ) {
 						$new_gallery_ids .= $existing[0]->ID . ",";
+						if ( ! empty( $old_ids[ $index ] ) ) {
+							self::updateImageCaption( $existing[0]->ID, $old_ids[ $index ] );
+						}
 					} elseif ( ! empty( $old_ids[ $index ] ) ) {
 						$new_id = self::ImportMedia( 0, $image_src, false, $old_ids[ $index ] );
 						if ( $new_id && ! is_wp_error( $new_id ) ) {
@@ -610,6 +618,25 @@ class BlogData {
 
 				// update new post
 				wp_update_post( array( 'ID' => $post_id, 'post_content' => $content ) );
+			}
+		}
+	}
+
+	/**
+	 * Updates image caption.
+	 */
+	private static function updateImageCaption( $new_id, $old_id ) {
+		if ( self::$content_site_id ) {
+			switch_to_blog( self::$content_site_id );
+			$old_post = get_post( $old_id, ARRAY_A );
+			restore_current_blog();
+
+			if ( ! empty( $old_post ) ) {
+				$new_post = get_post( $new_id, ARRAY_A );
+				if ( ! empty( $new_post ) ) {
+					$new_post['post_excerpt'] = $old_post['post_excerpt'];
+					wp_update_post( $new_post );
+				}
 			}
 		}
 	}
