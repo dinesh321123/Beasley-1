@@ -160,6 +160,15 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 		return;
 	}
 
+	// set show
+	$show = get_post_meta( $feed_id, 'fpmrss-show', true );
+	if ( $show && function_exists( 'TDS\get_related_term' ) ) {
+		$term = TDS\get_related_term( $show );
+		if ( $term ) {
+			wp_set_object_terms( $post_id, $term->term_id, ShowsCPT::SHOW_TAXONOMY );
+		}
+	}
+
 	// init feed thumbnails array if it isn't
 	if ( ! is_array( $fpmrss_feed_thumbnails ) ) {
 		$fpmrss_feed_thumbnails = array();
@@ -393,9 +402,22 @@ function fpmrss_add_meta_box() {
 		if ( filter_var( $feed_url, FILTER_VALIDATE_URL ) && preg_match( '#ooyala\.com$#i', parse_url( $feed_url, PHP_URL_HOST ) ) ) {
 			add_meta_box( 'fpmrss-ooyala', 'Ooyala Settings', 'fpmrss_render_ooyala_metabox', $typenow, 'side', 'core' );
 		}
+
+		if ( 'fp_feed' == $typenow ) {
+			add_meta_box( 'fpmrss-shows', 'Show', 'fpmrss_render_shows_metabox', $typenow, 'side', 'core' );
+		}
+
+		add_action( 'edit_form_top', 'fpmrss_render_nonce_field' );
 	}
 }
 add_action( 'add_meta_boxes', 'fpmrss_add_meta_box' );
+
+/**
+ * Renders nonce field.
+ */
+function fpmrss_render_nonce_field() {
+	wp_nonce_field( 'fpmrss', 'fpmrss_nonce', false );
+}
 
 /**
  * Renders Ooyala settings meta box.
@@ -411,8 +433,6 @@ function fpmrss_render_ooyala_metabox( $post ) {
 		$ooyala_api = new OoyalaApi( $ooyala['api_key'], $ooyala['api_secret'] );
 	}
 	
-	wp_nonce_field( 'fpmrss-ooyala', 'fpmrss_ooyala_nonce', false );
-
 	$selected_player = get_post_meta( $post->ID, 'fpmrss-ooyala-player-id', true );
 	$players = get_transient( 'gmr_ooyala_players' );
 	if ( $players === false ) {
@@ -479,6 +499,36 @@ function fpmrss_render_ooyala_metabox( $post ) {
 }
 
 /**
+ * Renders Shows metabox.
+ *
+ * @param WP_Post $post The post object.
+ */
+function fpmrss_render_shows_metabox( $post ) {
+	$selected_show = get_post_meta( $post->ID, 'fpmrss-show', true );
+	$shows = new WP_Query( array(
+		'post_type'           => ShowsCPT::SHOW_CPT,
+		'post_status'         => 'publish',
+		'posts_per_page'      => 500,
+		'no_found_rows'       => true,
+		'ignore_sticky_posts' => true,
+		'orderby'             => 'title',
+		'order'               => 'ASC',
+	) );
+
+	echo '<p>';
+		echo '<select id="fpmrss-show" name="fpmrss-show" class="widefat">';
+			echo '<option value="">---</option>';
+			while ( $shows->have_posts() ) :
+				$show = $shows->next_post();
+				echo '<option value="', esc_attr( $show->ID ), '"', selected( $show->ID, $selected_show, false ), '>';
+					echo esc_html( $show->post_title );
+				echo '</option>';
+			endwhile;
+		echo '</select>';
+	echo '</p>';
+}
+
+/**
  * Saves post settings.
  *
  * @param int $post_id The post id.
@@ -492,9 +542,9 @@ function fpmrss_save_settings( $post_id ) {
 		return;
 	}
 
-	$ooyala_nonce = filter_input( INPUT_POST, 'fpmrss_ooyala_nonce' );
-	if ( $ooyala_nonce && wp_verify_nonce( $ooyala_nonce, 'fpmrss-ooyala' ) ) {
-		$fields = array( 'fpmrss-ooyala-player-id', 'fpmrss-ooyala-ad-set' );
+	$nonce = filter_input( INPUT_POST, 'fpmrss_nonce' );
+	if ( $nonce && wp_verify_nonce( $nonce, 'fpmrss' ) ) {
+		$fields = array( 'fpmrss-ooyala-player-id', 'fpmrss-ooyala-ad-set', 'fpmrss-show' );
 		foreach ( $fields as $field ) {
 			$value = wp_kses_post( filter_input( INPUT_POST, $field ) );
 			$value = trim( $value );
