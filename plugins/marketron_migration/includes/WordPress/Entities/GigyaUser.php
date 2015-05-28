@@ -225,7 +225,9 @@ class GigyaUser extends BaseEntity {
 
 	function export_user_actions( &$account ) {
 		$actions = $this->export_survey_actions( $account );
-		$actions = array_merge( $actions, $this->export_contest_actions( $account ) );
+		foreach ( $this->export_contest_actions( $account ) as $contest_action ) {
+			$actions[] = $contest_action;
+		}
 
 		return $actions;
 	}
@@ -632,7 +634,7 @@ class GigyaUser extends BaseEntity {
 			}
 		}
 
-		return array_unique( $ids );
+		return array_values( array_unique( $ids ) );
 	}
 
 	function get_user_contest_entries_list( $user_id ) {

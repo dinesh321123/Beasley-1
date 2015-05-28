@@ -18,7 +18,7 @@ class Channel extends BaseImporter {
 			if ( $this->can_import( $channel_id ) ) {
 				$this->import_channel( $channel );
 			} else {
-				\WP_CLI::log( "Excluded Channel: $channel_name" );
+				\WP_CLI::log( "    Excluded Channel: $channel_name" );
 			}
 		}
 	}
@@ -27,6 +27,7 @@ class Channel extends BaseImporter {
 		$channel_name = $this->import_string( $channel['ChannelTitle'] );
 		$channel_id   = $this->import_string( $channel['ChannelID'] );
 
+		$mapping      = $this->container->mappings->get_mapping_by_name( $channel_name, 'channel' );
 		$stories      = $this->stories_from_channel( $channel );
 		$total        = count( $stories );
 		$msg          = "Importing $total Stories from Channel - $channel_name";
@@ -38,6 +39,16 @@ class Channel extends BaseImporter {
 		foreach ( $stories as $story ) {
 			$blog               = $this->blog_from_story( $story );
 			$blog['categories'] = $categories;
+
+			if ( ! empty( $mapping ) && ! empty( $mapping->wordpress_show_name ) ) {
+				$blog['shows'] = array( $mapping->wordpress_show_name );
+
+				if ( ! empty( $mapping->wordpress_categories ) ) {
+					foreach ( $mapping->wordpress_categories as $wordpress_category ) {
+						$blog['categories'][] = $wordpress_category;
+					}
+				}
+			}
 
 			$entity->add( $blog );
 

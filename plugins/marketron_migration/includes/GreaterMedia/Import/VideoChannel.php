@@ -80,8 +80,10 @@ class VideoChannel extends BaseImporter {
 	}
 
 	function content_from_post( $post ) {
-		$content      = $this->import_string( $post['PostText'] );
-		$embed_code   = $this->import_string( $post['EmbededTag'] );
+		$content    = $this->import_string( $post['PostText'] );
+		$title      = $this->import_string( $post['PostTitle'] );
+		$embed_code = $this->import_string( $post['EmbededTag'] );
+
 		$video_oembed = $this->video_from_embed_code( $embed_code );
 
 		if ( $video_oembed !== false ) {
@@ -105,7 +107,26 @@ class VideoChannel extends BaseImporter {
 			$video_id = $matches[1];
 			return '[embed]https://www.youtube.com/watch?v=' . $video_id . '[/embed]';
 		} else {
-			return false;
+			$pattern = '#youtube\.com/embed/([^"\?]+)#';
+			preg_match( $pattern, $embed_code, $matches );
+
+			if ( ! empty( $matches ) && count( $matches ) >= 1 ) {
+				$video_id = $matches[1];
+				return '[embed]https://www.youtube.com/watch?v=' . $video_id . '[/embed]';
+			} else {
+				return false;
+			}
+			$embed_code = preg_replace(
+				$pattern, '[embed]https://www.youtube.com/watch?v=${1}[/embed]',
+				$embed_code,
+				-1, $videos
+			);
+
+			if ( $videos > 0 ) {
+				return $embed_code;
+			} else {
+				return false;
+			}
 		}
 	}
 

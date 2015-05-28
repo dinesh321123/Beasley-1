@@ -284,7 +284,7 @@ class MappingCollection {
 
 	function can_import_marketron_name( $name, $tool_name = null ) {
 		foreach ( $this->mappings as $mapping ) {
-			if ( ! is_null( $tool_name ) && $mapping->marketron_tool_name !== $tool_name ) {
+			if ( ! is_null( $tool_name ) && strtolower( $mapping->marketron_tool_name ) !== strtolower( $tool_name ) ) {
 				continue;
 			}
 
@@ -327,7 +327,7 @@ class MappingCollection {
 
 	function get_mapping_by_name( $name, $tool ) {
 		foreach ( $this->mappings as $mapping ) {
-			if ( $mapping->marketron_name === $name && $mapping->marketron_tool_name === $tool ) {
+			if ( strtolower( $mapping->marketron_name ) === strtolower( $name ) && $mapping->marketron_tool_name === $tool ) {
 				//\WP_CLI::error( "Found find mapping by name $name, $tool" );
 				return $mapping;
 			}

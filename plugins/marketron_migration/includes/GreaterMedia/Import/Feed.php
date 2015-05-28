@@ -28,6 +28,7 @@ class Feed extends BaseImporter {
 		foreach ( $articles as $article ) {
 			if ( ! $this->container->mappings->can_import_marketron_name(
 				(string) $article->Feeds->Feed['Feed'], 'feed' ) ) {
+				//\WP_CLI::log( '    Exclude Feed: ' . (string) $article->Feeds->Feed['Feed'] );
 				continue;
 			}
 

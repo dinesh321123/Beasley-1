@@ -18,7 +18,7 @@ class Blog extends BaseImporter {
 			if ( $this->can_import_marketron_name( $blog_name, 'blog' ) ) {
 				$this->import_blog( $blog, $blog_name, $blog_id );
 			} else {
-				\WP_CLI::log( 'Excluded Blog: ' . $blog_name );
+				\WP_CLI::log( '    Excluded Blog: ' . $blog_name );
 			}
 		}
 	}
@@ -69,7 +69,7 @@ class Blog extends BaseImporter {
 
 	function post_from_blog_entry( $blog_entry ) {
 		$post_title = $this->import_string( $blog_entry['EntryTitle'] );
-		$post_title = ucwords( $post_title );
+		$post_title = htmlentities( ucwords( $post_title ) );
 
 		$post_status    = 'publish';
 		$tags           = $this->tags_from_blog_entry( $blog_entry );
