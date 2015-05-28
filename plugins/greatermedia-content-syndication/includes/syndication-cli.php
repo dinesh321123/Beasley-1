@@ -10,6 +10,9 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 	 * [<start>]
 	 * : Import articles that were added on or after this date. YYYY-MM-DD
 	 *
+	 * [<end>]
+	 * : Import articles that were added before this date. YYYY-MM-DD
+	 *
 	 * [<reload>]
 	 * : Forces syndication to reload content.
 	 *
@@ -19,7 +22,7 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 	 *
 	 * wp gmr-syndication import 2014-09-30
 	 *
-	 * @synopsis [<start>] [--reload]
+	 * @synopsis [<start>] [<end>] [--reload]
 	 *
 	 * @subcommand import
 	 *
@@ -54,7 +57,7 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 				$start = date( 'Y-m-d H:i:s', mktime( 0, 0, 0, 1, 1, 2012 ) );
 			}
 
-			$result = BlogData::QueryContentSite( $single_subscription->ID, $start );
+			$result = BlogData::QueryContentSite( $single_subscription->ID, $start, $end );
 
 			$taxonomy_names = get_object_taxonomies( 'post', 'objects' );
 			$defaults = array(

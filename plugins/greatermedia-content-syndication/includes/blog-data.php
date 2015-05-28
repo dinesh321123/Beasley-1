@@ -68,7 +68,7 @@ class BlogData {
 			remove_filter( 'wp_insert_post_data', array( $edit_flow->custom_status, 'fix_custom_status_timestamp' ), 10, 2 );
 		}
 
-		$result = self::QueryContentSite( $syndication_id, '', $offset );
+		$result = self::QueryContentSite( $syndication_id, '', '', $offset );
 		$taxonomy_names = SyndicationCPT::$support_default_tax;
 		$defaults = array(
 			'status' =>  get_post_meta( $syndication_id, 'subscription_post_status', true ),
@@ -139,7 +139,7 @@ class BlogData {
 	 *
 	 * @return array WP_Post objects
 	 */
-	public static function QueryContentSite( $subscription_id , $start_date = '', $offset = 0 ) {
+	public static function QueryContentSite( $subscription_id , $start_date = '', $end_date = '', $offset = 0 ) {
 		$result = array();
 
 		if ( $start_date == '' ) {
@@ -171,6 +171,10 @@ class BlogData {
 				'after'  => $last_queried,
 			),
 		);
+
+		if ( ! empty( $end_date ) ) {
+			$args['date_query']['before'] = $end_date;
+		}
 
 		$enabled_taxonomy = get_post_meta( $subscription_id, 'subscription_enabled_filter', true );
 		$enabled_taxonomy = sanitize_text_field( $enabled_taxonomy );
@@ -262,7 +266,11 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( WP_Post $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax, $force_update = false ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax, $force_update = false ) {
+		if ( ! $post ) {
+			return;
+		}
+		
 		$post_name = sanitize_title( $post->post_name );
 		$post_title = sanitize_text_field( $post->post_title );
 		$post_type = sanitize_text_field( $post->post_type );
@@ -283,8 +291,8 @@ class BlogData {
 		);
 
 		if ( 'publish' == $post_status ) {
-			$args['post_date'] = $args['post_modified'] = current_time( 'mysql' );
-			$args['post_date_gmt'] = $args['post_modified_gmt'] = current_time( 'mysql', 1 );
+			$args['post_modified'] = current_time( 'mysql' );
+			$args['post_modified_gmt'] = current_time( 'mysql', 1 );
 		}
 
 		// create unique meta value for imported post
@@ -312,7 +320,6 @@ class BlogData {
 			if ( $hash_value != $post_hash || $force_update ) {
 				// post has been updated, override existing one
 				$args['ID'] = $post_id;
-				unset( $args['post_date'], $args['post_date_gmt'] );
 				
 				wp_update_post( $args );
 				if ( ! empty( $metas ) ) {
