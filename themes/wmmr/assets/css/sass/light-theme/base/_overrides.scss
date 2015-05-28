@@ -380,6 +380,21 @@
     margin-bottom: 1em;
 }
 
+.profile-page .profile-page__content,
+.profile-page .profile-page__sidebar {
+    background-color: #fff;
+}
+
+.mobile-nav .sub-menu li:not(.mobile-menu-submenu-header),
+.mobile-nav .header__nav .format-fw > ul li:not(.mobile-menu-submenu-header),
+.header__nav .mobile-nav .format-fw > ul li:not(.mobile-menu-submenu-header),
+.mobile-nav .header__nav .format-sp > ul li:not(.mobile-menu-submenu-header),
+.header__nav .mobile-nav .format-sp > ul li:not(.mobile-menu-submenu-header),
+.mobile-nav .header__nav .format-fi > ul li:not(.mobile-menu-submenu-header),
+.header__nav .mobile-nav .format-fi > ul li:not(.mobile-menu-submenu-header) {
+    background-color: #fff;
+}
+
 /* Smartphones & Tablets (portrait) ----------- */
 @media only screen and (max-width : 479px) {
 
@@ -536,24 +551,35 @@
 
 @include bp(large) {
 
-    .header__nav > ul > li a,
-    .header__nav > ul > li a:active,
-    .header__nav > ul > li a:hover,
-    .header__nav > ul > li a:visited {
+    .header__nav > ul > li > a,
+    .header__nav > ul > li > a:active,
+    .header__nav > ul > li > a:hover,
+    .header__nav > ul > li > a:visited {
         font-size: 16px;
-        padding: 33px 12px 33px 12px!important;
+        padding: 33px .4em 33px .4em!important;
+    }
+
+    .header__search--span {
+        display: none;
     }
 
     .header__nav > ul > li a:hover {
         color: #333;
     }
 
-    .header__main .header__search {
-        padding: 0 16px;
+    .header__main {
 
-        &:hover {
-            background-color: #f8c50f;
-            color: #333;
+        .header__search {
+            padding: 0 16px;
+
+            &:hover {
+                background-color: #f8c50f;
+                color: #333;
+            }
+        }
+
+        .header__social a.social__link:hover {
+            color: #f8c50f;
         }
     }
 
@@ -576,12 +602,12 @@
 
 @include bp(larger) {
 
-    .header__nav > ul > li a,
-    .header__nav > ul > li a:active,
-    .header__nav > ul > li a:hover,
-    .header__nav > ul > li a:visited {
+    .header__nav > ul > li > a,
+    .header__nav > ul > li > a:active,
+    .header__nav > ul > li > a:hover,
+    .header__nav > ul > li > a:visited {
         font-size: 18px;
-        padding: 32px 15px 32px 15px !important;
+        padding: 32px 0.6em 32px .6em !important;
     }
 
 }
@@ -593,6 +619,10 @@
         background-position: center;
         background-repeat: repeat-y;
         background-color:#000;
+    }
+
+    .header__search--span {
+        display: block;
     }
 
 }
