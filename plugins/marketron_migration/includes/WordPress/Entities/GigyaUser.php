@@ -209,7 +209,9 @@ class GigyaUser extends BaseEntity {
 
 		foreach ( $accounts as $account ) {
 			$account_actions = $this->export_user_actions( $account );
-			$actions         = array_merge( $actions, $account_actions );
+			foreach ( $account_actions as $account_action ) {
+				$actions[] = $account_action;
+			}
 			$progress_bar->tick();
 			if ( $index++ > $max ) {
 				break;
