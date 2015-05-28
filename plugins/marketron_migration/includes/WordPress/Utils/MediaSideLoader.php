@@ -7,6 +7,25 @@ class MediaSideLoader {
 	public $container;
 	public $pending_sideloads = array();
 
+	function register() {
+		add_action( 'init', array( $this, 'do_register' ) );
+	}
+
+	function do_register() {
+		add_action(
+			'sideload_file_async_job',
+			array( $this, 'do_sideload_file' )
+		);
+	}
+
+	function do_sideload_file( $params ) {
+		$source = $params[0];
+		$dest   = $params[1];
+		$opts   = $params[2];
+
+		$this->do_copy( $source, $dest, $opts );
+	}
+
 	// copy the site's uploads directory to backups/uploads
 	function backup() {
 		$source_dir = $this->get_sync_target_dir();
@@ -32,30 +51,12 @@ class MediaSideLoader {
 		$total      = count( $this->pending_sideloads );
 		$notify     = new \WordPress\Utils\ProgressBar( "Copying $total Media items", $total );
 
-		foreach ( $this->pending_sideloads as $pending_sideload ) {
-			if ( is_null( $pending_sideload ) ) {
-				continue;
-			}
-
+		foreach ( $this->pending_sideloads as $index => $pending_sideload ) {
 			$source   = $pending_sideload['source'];
 			$dest     = $pending_sideload['dest'];
-			$dest_dir = dirname( $dest );
+			$opts     = array( 'index' => $index + 1, 'total' => $total );
 
-			if ( ! file_exists( $dest_dir ) ) {
-				mkdir( $dest_dir, 0700, true );
-				//system( 'mkdir -p ' . escapeshellarg( $dest_dir ) );
-			}
-
-			//\WP_CLI::log( "copy: $source - $dest" );
-			if ( ! $this->container->opts['fake_media'] ) {
-				copy( $source, $dest );
-				$this->update_ownership( $dest );
-			} else if ( preg_match( '/.jpg$/', $dest ) !== false ){
-				copy( $source, $dest );
-				$this->update_ownership( $dest );
-			} else {
-				$this->symlink( $source, $dest );
-			}
+			$this->copy( $source, $dest, $opts );
 
 			$notify->tick();
 		}
@@ -79,49 +80,6 @@ class MediaSideLoader {
 		$target_dir      = $this->get_upload_dir_for( $timestamp );
 		$target_filepath = $target_dir . '/' . $new_filename;
 
-		if ( ! is_dir( $target_dir ) ) {
-			//system( 'mkdir -p ' . escapeshellarg( $target_dir ) );
-		}
-
-		// slow copy
-		//error_log( "copy: $filepath $target_filepath" );
-		//copy( $filepath, $target_filepath );
-
-		// copy with system
-		//$filepath_arg        = escapeshellarg( $filepath );
-		//$target_filepath_arg = escapeshellarg( $target_filepath );
-
-		//system( "cp $filepath_arg $target_filepath_arg" );
-
-		// we symlink the media file into place, and use rsync to
-		// resolve symlinks
-		//$cwd         = getcwd();
-		//$cd_dir      = dirname( $target_filepath );
-		//$link_target = realpath( $filepath );
-		//$link_name   = basename( $target_filepath );
-
-		//$link_target_arg = escapeshellarg( $link_target );
-		//$link_name_arg   = escapeshellarg( $link_name );
-
-		/*
-		try {
-			chdir( $cd_dir );
-
-			//if ( is_link( $link_name ) ) {
-				//unlink( $link_name );
-			//}
-
-			if ( ! is_link( $link_name ) ) {
-				symlink( $link_target, $link_name );
-			}
-
-		} catch ( \Exception $e ) {
-			error_log( 'Symlink Error: ' . $e->getMessage() );
-		} finally {
-			chdir( $cwd );
-		}
-		 */
-
 		$wordpress_upload_dir = $this->get_wordpress_upload_path_for( $filename, $timestamp );
 
 		$this->pending_sideloads[] = array(
@@ -129,9 +87,6 @@ class MediaSideLoader {
 			'dest' => $wordpress_upload_dir,
 		);
 
-		//return $this->get_file_meta( $new_filename, $target_filepath, $timestamp );
-		// we are getting meta info from the source file itself
-		// the file will be copied into place at the end
 		return $this->get_file_meta( $new_filename, $filepath, $timestamp );
 	}
 
@@ -302,10 +257,47 @@ class MediaSideLoader {
 			$this->pending_sideloads,
 			array( $this, 'is_pending_sideload' )
 		);
+
+		$this->pending_sideloads = array_values( $this->pending_sideloads );
 	}
 
 	function is_pending_sideload( $item ) {
 		return ! empty( $item );
+	}
+
+	function copy( $source, $dest, $opts  ) {
+		if ( $this->container->opts['async'] === true ) {
+			$this->enqueue_copy( $source, $dest, $opts );
+		} else {
+			$this->do_copy( $source, $dest, $opts );
+		}
+	}
+
+	function do_copy( $source, $dest, $opts ) {
+		$dest_dir = dirname( $dest );
+
+		if ( ! file_exists( $dest_dir ) ) {
+			mkdir( $dest_dir, 0700, true );
+			$this->update_ownership( $dest_dir );
+			//system( 'mkdir -p ' . escapeshellarg( $dest_dir ) );
+		}
+
+		copy( $source, $dest );
+		$this->update_ownership( $dest );
+
+		$name    = basename( $dest );
+		$percent = round( $opts['index'] / $opts['total'] * 100, 2 );
+
+		error_log( $opts['index'] . ' / ' . $opts['total'] );
+		error_log( "Copied: $name - $percent%" );
+	}
+
+	function enqueue_copy( $source, $dest, $opts ) {
+		wp_async_task_add(
+			'sideload_file_async_job',
+			array( $source, $dest, $opts ),
+			'normal'
+		);
 	}
 
 }

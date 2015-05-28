@@ -40,4 +40,7 @@ if ( defined( 'DOING_ASYNC' ) && DOING_ASYNC ) {
 
 	$gigya_action_generator = new \WordPress\Entities\GigyaUser();
 	$gigya_action_generator->register();
+
+	$media_file_sideloader = new \WordPress\Utils\MediaSideLoader();
+	$media_file_sideloader->register();
 }

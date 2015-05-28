@@ -148,31 +148,26 @@ class GigyaUser extends BaseEntity {
 		\WP_CLI::success( "Saved $total Gigya Actions" );
 	}
 
-	function join_accounts_file( $file_to_join, $dest ) {
+	function join_actions_file( $file_to_join, $dest ) {
 		\WP_CLI::log( "Joining File: $file_to_join" );
-		$file = fopen( $file_to_join, 'r' );
-		$line = fgets( $file );
-		$json = '[';
 
-		while ( $line !== false ) {
-			$json .= $line . ',';
-			$line = fgets( $file );
+		$lines        = file( $file_to_join );
+		$total        = count( $lines );
+		$msg          = "Joining $total Actions";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+		$actions      = array();
+
+		foreach ( $lines as $index => $line ) {
+			$json = json_decode( $line );
+			$actions = array_merge( $actions, $json );
+			$progress_bar->tick();
 		}
 
-		$json     = rtrim( $json, ',' );
-		$json .= ']';
-		$output = json_decode( $json, true );
+		$progress_bar->finish();
 
-		if ( json_last_error() === JSON_ERROR_NONE ) {
-			\WP_CLI::success( 'Loaded File Successfully' );
-		} else {
-			\WP_CLI::error( 'Failed to Parse JSON' );
-		}
-
-		file_put_contents( $dest, json_encode( $output, JSON_PRETTY_PRINT ) );
-
-		$total = count( $output );
-		\WP_CLI::success( "Saved $total lines to $dest" );
+		\WP_CLI::log( 'Saving Actions ...' );
+		file_put_contents( $dest, json_encode( $actions, JSON_PRETTY_PRINT ) );
+		\WP_CLI::success( "Saved $total Actions to $dest" );
 	}
 
 	function export_actions_async() {
