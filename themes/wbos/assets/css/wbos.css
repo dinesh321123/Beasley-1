@@ -14970,6 +14970,38 @@ Denis Changes to _overrides.scss file 5/20
   padding: 10px;
   background-color: #005596; }
 
+/*Show header and link */
+.show__header {
+  padding: 10em 3.236em; }
+
+.show__header.has-thumbnail:before {
+  background-image: linear-gradient(to bottom, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  background-image: -moz-linear-gradient(top, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  background-image: -o-linear-gradient(top, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  background-image: -ms-linear-gradient(top, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 42, 110, 0.45)), to(rgba(0, 42, 110, 0.45)));
+  background-image: -webkit-linear-gradient(top, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  content: " "; }
+
+.show__nav h1 a:hover {
+  color: #fff;
+  text-decoration: none; }
+
+/* end */
+/*members profile pages */
+.profile-page .profile-page__sidebar {
+  background-color: #0e2242; }
+
+.profile-page__sidebar .profile-header-link {
+  color: #005494; }
+
+.profile-page__sidebar .profile-header-link:hover {
+  color: #f48325; }
+
+#profile-content .gigya-screen input[type="submit"] {
+  background-color: #0e2242; }
+
+/* end */
 /* ------------- LIVE PLAYER BTN -------------------------------*/
 .live-player {
   /*background-image: url("http://i.imgur.com/q7eZ8Jz.png");
@@ -15137,8 +15169,8 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
   background-color: #000 !important;
   color: #14499f !important;
   font-family: 'Ubuntu', sans-serif;
-  border-bottom-right-radius: 1.5em !important;
-  border-bottom-left-radius: 1.5em !important; }
+  border-bottom-right-radius: 0em !important;
+  border-bottom-left-radius: 0em !important; }
 
 .home__featured .featured__article--content {
   background-color: #0e2242;
