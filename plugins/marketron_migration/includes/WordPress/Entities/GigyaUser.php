@@ -153,19 +153,22 @@ class GigyaUser extends BaseEntity {
 
 		$lines        = file( $file_to_join );
 		$total        = count( $lines );
-		$msg          = "Joining $total Actions";
+		$msg          = "Joining $total Lines ...";
 		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 		$actions      = array();
 
 		foreach ( $lines as $index => $line ) {
 			$json = json_decode( $line );
-			$actions = array_merge( $actions, $json );
+			foreach ( $json as $json_item ) {
+				$actions[] = $json_item;
+			}
 			$progress_bar->tick();
 		}
 
 		$progress_bar->finish();
 
-		\WP_CLI::log( 'Saving Actions ...' );
+		$total = count( $actions );
+		\WP_CLI::log( "Saving $total Actions ..." );
 		file_put_contents( $dest, json_encode( $actions, JSON_PRETTY_PRINT ) );
 		\WP_CLI::success( "Saved $total Actions to $dest" );
 	}
