@@ -9,6 +9,17 @@ class GigyaUser extends BaseEntity {
 	public $can_import_all_members = true;
 	public $loaded_member_ids      = false;
 
+	function register() {
+		add_action( 'init', array( $this, 'do_register' ) );
+	}
+
+	function do_register() {
+		add_action(
+			'generate_gigya_action_async_job',
+			array( $this, 'do_generate_gigya_action' )
+		);
+	}
+
 	function add( &$gigya_user ) {
 		if ( empty( $gigya_user['id'] ) ) {
 			var_dump( $gigya_user );
@@ -137,6 +148,59 @@ class GigyaUser extends BaseEntity {
 		\WP_CLI::success( "Saved $total Gigya Actions" );
 	}
 
+	function join_accounts_file( $file_to_join, $dest ) {
+		\WP_CLI::log( "Joining File: $file_to_join" );
+		$file = fopen( $file_to_join, 'r' );
+		$line = fgets( $file );
+		$json = '[';
+
+		while ( $line !== false ) {
+			$json .= $line . ',';
+			$line = fgets( $file );
+		}
+
+		$json     = rtrim( $json, ',' );
+		$json .= ']';
+		$output = json_decode( $json, true );
+
+		if ( json_last_error() === JSON_ERROR_NONE ) {
+			\WP_CLI::success( 'Loaded File Successfully' );
+		} else {
+			\WP_CLI::error( 'Failed to Parse JSON' );
+		}
+
+		file_put_contents( $dest, json_encode( $output, JSON_PRETTY_PRINT ) );
+
+		$total = count( $output );
+		\WP_CLI::success( "Saved $total lines to $dest" );
+	}
+
+	function export_actions_async() {
+		\WP_CLI::log( 'Loading Gigya Accounts File ...' );
+		$export_file = $this->container->config->get_gigya_account_export_file();
+
+		$output_dir = $this->container->config->get_output_dir();
+		$lines_file = $output_dir . '/actions.log';
+
+		if ( file_exists( $lines_file ) ) {
+			unlink( $lines_file );
+		}
+
+		$lines        = file( $export_file );
+		$total        = count( $lines );
+		$msg          = "Enqueuing Actions for $total Gigya Accounts";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+
+		foreach ( $lines as $index => $line ) {
+			$account = json_decode( $line, true );
+			$this->enqueue_generate_gigya_action( $account, $index, $total );
+			$progress_bar->tick();
+		}
+
+		$progress_bar->finish();
+		\WP_CLI::success( "Enqueued Actions for $total Gigya Accounts" );
+	}
+
 	function export_actions_to_gigya( &$accounts ) {
 		$actions = array();
 		$total   = count( $accounts );
@@ -164,6 +228,40 @@ class GigyaUser extends BaseEntity {
 		$actions = array_merge( $actions, $this->export_contest_actions( $account ) );
 
 		return $actions;
+	}
+
+	function enqueue_generate_gigya_action( &$account, $index, $total ) {
+		$output_dir = $this->container->config->get_output_dir();
+		$dest       = realpath( $output_dir ) . '/actions.log';
+
+		wp_async_task_add(
+			'generate_gigya_action_async_job',
+			array( $account, $dest, $index, $total ),
+			'normal'
+		);
+	}
+
+	function do_generate_gigya_action( $params ) {
+		$account = $params[0];
+		$dest    = $params[1];
+		$index   = $params[2];
+		$total   = $params[3];
+		$actions = $this->export_user_actions( $account );
+		$total_actions = count( $actions );
+
+		if ( $total_actions > 0 ) {
+			$actions = json_encode( $actions );
+
+			file_put_contents(
+				$dest, $actions . "\n", FILE_APPEND | LOCK_EX
+			);
+
+			$uid     = $account['id'];
+			$percent = round( $index / $total * 100, 2 );
+
+			error_log( "Generating Action: ($uid) - $total_actions Actions - $percent%" );
+		}
+
 	}
 
 	function export_contest_actions( &$account ) {

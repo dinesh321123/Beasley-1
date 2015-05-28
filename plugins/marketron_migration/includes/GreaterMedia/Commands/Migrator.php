@@ -354,8 +354,33 @@ SQL;
 	function export_actions( $args, $opts ) {
 		$this->initialize( $args, $opts, false );
 
+		if ( array_key_exists( 'async', $opts ) ) {
+			if ( empty( $opts['async'] ) ) {
+				$async = true;
+			} else {
+				$async = filter_var( $opts['async'], FILTER_VALIDATE_BOOLEAN );
+			}
+		} else {
+			$async = false;
+		}
+
 		$gigya_user = $this->entity_factory->get_entity( 'gigya_user' );
-		$gigya_user->export_actions();
+
+		if ( $async ) {
+			$gigya_user->export_actions_async();
+		} else {
+			$gigya_user->export_actions();
+		}
+	}
+
+	function join_actions_file( $args, $opts ) {
+		$this->initialize( $args, $opts, false );
+
+		$actions_log = $this->config->get_output_dir() . '/actions.log';
+		$dest = $this->config->get_gigya_action_export_file();
+
+		$gigya_user = $this->entity_factory->get_entity( 'gigya_user' );
+		$gigya_user->join_accounts_file( $actions_log, $dest );
 	}
 
 	function prepare( $args, $opts ) {
