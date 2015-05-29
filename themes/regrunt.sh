@@ -24,4 +24,10 @@ grunt
 cd ../wmtr
 grunt
 
+cd ../wmmr
+grunt
+
+cd ../wbos
+grunt
+
 cd ../
