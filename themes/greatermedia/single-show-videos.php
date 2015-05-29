@@ -15,11 +15,8 @@
 				global $gmr_loadmore_num_pages, $gmr_loadmore_post_count, $gmr_loadmore_paged;
 
 				$video_query = \GreaterMedia\Shows\get_show_video_query();
-
 				while ( $video_query->have_posts() ) : $video_query->the_post();
-
 					get_template_part( 'partials/entry', get_post_field( 'post_type', null ) );
-
 				endwhile;
 
 				wp_reset_query();
@@ -28,8 +25,8 @@
 				if ( $gmr_loadmore_paged < 2 ) :
 					greatermedia_load_more_button( array(
 						'query'        => $video_query,
-						'partial_slug' => 'partials/entry',
-						'partial_name' => get_post_field( 'post_type', null ),
+						'partial_slug' => 'partials/loop',
+						'partial_name' => 'show-video',
 					) );
 				endif;
 
