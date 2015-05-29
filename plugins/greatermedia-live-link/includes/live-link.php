@@ -268,9 +268,14 @@ function gmr_ll_save_redirect_meta_box_data( $post_id ) {
 	// validate redirect link
 	$redirect = filter_input( INPUT_POST, 'gmr_ll_redirect' );
 	if ( ( ! is_numeric( $redirect ) || ! ( $post = get_post( $redirect ) ) || $post->post_type == GMR_LIVE_LINK_CPT ) && ! filter_var( $redirect, FILTER_VALIDATE_URL ) ) {
-		$post = get_page_by_title( $redirect, OBJECT, gmr_ll_get_suggestion_post_types() );
+		$types = gmr_ll_get_suggestion_post_types();
+		$post = get_page_by_title( $redirect, OBJECT, $types );
 		if ( ! $post ) {
-			wp_die( 'Please enter a valid URL or post title.', '', array( 'back_link' => true ) );
+			// replace & with &amp; and try again
+			$post = get_page_by_title( str_replace( '&', '&amp;', $redirect ), OBJECT, $types );
+			if ( ! $post ) {
+				wp_die( 'Please enter a valid URL or post title.', '', array( 'back_link' => true ) );
+			}
 		}
 
 		$redirect = $post->ID;
