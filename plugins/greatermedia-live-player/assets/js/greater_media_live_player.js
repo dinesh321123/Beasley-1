@@ -1982,12 +1982,6 @@ var $ = jQuery;
 	var global_volume = 1;
 
 	/**
-	 * global variables for event types to use in conjunction with `addEventHandler` function
-	 * @type {string}
-	 */
-	var elemClick = 'click';
-
-	/**
 	 * function to detect if the current browser can use `addEventListener`, if not, use `attachEvent`
 	 * this is a specific fix for IE8
 	 *
@@ -2138,15 +2132,21 @@ var $ = jQuery;
 	function initControlsUi() {
 
 		if (pauseBtn != null) {
-			addEventHandler(pauseBtn, elemClick, pauseStream);
+			addEventHandler(pauseBtn, 'click', pauseStream);
 		}
 
 		if (resumeBtn != null) {
-			addEventHandler(resumeBtn, elemClick, resumeLiveStream);
+			if ( is_gigya_user_logged_in() ) {
+				addEventHandler(resumeBtn, 'click', resumeLiveStream);
+			} else {
+				addEventHandler(resumeBtn, 'click', function () {
+					window.location.href = gigyaLogin;
+				});
+			}
 		}
 
 		if (clearDebug != null) {
-			addEventHandler(clearDebug, elemClick, clearDebugInfo);
+			addEventHandler(clearDebug, 'click', clearDebugInfo);
 		}
 
 	}
@@ -2401,7 +2401,7 @@ var $ = jQuery;
 	function changePlayerState() {
 		if (is_gigya_user_logged_in()) {
 			if (playBtn != null) {
-				addEventHandler(playBtn, elemClick, function(){
+				addEventHandler(playBtn, 'click', function(){
 					if (lpInit === true) {
 						setStoppedStyles();
 						if (window.innerWidth >= 768) {
@@ -2415,7 +2415,7 @@ var $ = jQuery;
 				});
 			}
 			if (listenNow != null) {
-				addEventHandler(listenNow, elemClick, listenLiveStopCustomInlineAudio);
+				addEventHandler(listenNow, 'click', listenLiveStopCustomInlineAudio);
 			}
 		} else {
 			if (playBtn != null) {
@@ -2489,22 +2489,26 @@ var $ = jQuery;
 
 	var currentStream = $('.live-player__stream--current-name');
 
-	currentStream.bind("DOMSubtreeModified", function () {
-		debug("--- new stream select ---");
-		var station = currentStream.text();
+	currentStream.bind('DOMSubtreeModified', function () {
+		if ( is_gigya_user_logged_in() ) {
+			debug('--- new stream select ---');
+			var station = currentStream.text();
 
-		if (livePlaying) {
-			player.stop();
+			if (livePlaying) {
+				player.stop();
+			}
+
+			if (true === playingCustomAudio) {
+				listenLiveStopCustomInlineAudio();
+			}
+
+			player.play({station: station, timeShift: true});
+
+			livePlayer.classList.add('live-player--active');
+			setPlayingStyles();
+		} else {
+			window.location.href = gigyaLogin;
 		}
-
-		if (true === playingCustomAudio) {
-			listenLiveStopCustomInlineAudio();
-		}
-
-		player.play({station: station, timeShift: true});
-
-		livePlayer.classList.add('live-player--active');
-		setPlayingStyles();
 	});
 
 	function playLiveStreamMobile() {
@@ -3593,16 +3597,16 @@ var $ = jQuery;
 		audioTimeRemaining();
 	}, false);
 
-	addEventHandler(podcastPlayBtn, elemClick, setInlineAudioUX);
+	addEventHandler(podcastPlayBtn, 'click', setInlineAudioUX);
 
-	addEventHandler(podcastPauseBtn, elemClick, pauseCustomInlineAudio);
+	addEventHandler(podcastPauseBtn, 'click', pauseCustomInlineAudio);
 
 	// Ensures our listeners work even after a PJAX load
 	$(document).on('pjax:end', function () {
 		initInlineAudioUI();
 		setInlineAudioStates();
-		addEventHandler(podcastPlayBtn, elemClick, setInlineAudioUX);
-		addEventHandler(podcastPauseBtn, elemClick, pauseCustomInlineAudio);
+		addEventHandler(podcastPlayBtn, 'click', setInlineAudioUX);
+		addEventHandler(podcastPauseBtn, 'click', pauseCustomInlineAudio);
 	});
 
 })(jQuery, window);
