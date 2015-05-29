@@ -7368,6 +7368,8 @@ a.live-audio__link {
       display: block; } }
   .live-player__container.no-volume-control #live-player--volume {
     display: none; }
+  .audio__playing #live-player--volume {
+    display: block; }
 
 @-webkit-keyframes heartbeat {
   0% {
