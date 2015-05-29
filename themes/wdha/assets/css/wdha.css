@@ -15017,7 +15017,7 @@ table.responsive tr:nth-of-type(even) {
 
 /* Site body background color - behind featured items */
 .home__featured {
-  background: url("http://greatermedianj.com/WDHA/wdha-body-bkg.jpg") no-repeat;
+  background: url("../../images/wdha-body-bkg.jpg") no-repeat;
   background-color: #c00000; }
 
 .home__highlights {
@@ -15044,8 +15044,8 @@ table.responsive tr:nth-of-type(even) {
     margin-right: 0; } }
 
 .home__featured .featured__article--content {
-  background-color: #c00000;
-  color: #c00000;
+  background-color: #7d0000;
+  color: #7d0000;
   font-family: 'Istok+Web', sans-serif; }
 
 .live-player__stream {
@@ -15076,7 +15076,7 @@ a:hover .highlights__community--title {
 
 /* Rollover color for feature bar */
 .home__featured .featured__article a:hover .featured__article--content {
-  background-color: #781214; }
+  background-color: #5E0000; }
 
 /* Feature bar font color */
 .featured__article:hover .featured__article--heading {
@@ -15091,18 +15091,19 @@ a:hover .highlights__community--title {
 
 /* Sub-Feature box color */
 .home__featured .featured__content--block {
-  background-color: #c00000; }
+  background-color: #720000;
+  opacity: 0.9; }
 
 /* Events box color */
 .highlights__event--item {
-  background-color: #c00000;
+  background-color: #7d0000;
   transition: all 200ms ease-in-out;
   -moz-transition: all 200ms ease-in-out;
   -webkit-transition: all 200ms ease-in-out; }
 
 /* Events box rollover color */
 .highlights__event--item:hover {
-  background-color: #781214; }
+  background-color: #5E0000; }
 
 /* Events font color */
 .highlights__event--date, .highlights__event--title {
@@ -15120,7 +15121,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 
 /* Sub-Feature box rollover color */
 .featured__content--block:hover {
-  background: #c00000; }
+  background: #333; }
 
 .entry2__title {
   font-family: 'Istok+Web', sans-serif; }
@@ -15143,14 +15144,14 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 
 /* Event more button pre-rollover style */
 .highlights__events--more-btn {
-  background-color: #c00000;
-  border: 1px solid #c00000;
+  background-color: #7d0000;
+  border: 1px solid #7d0000;
   color: #fff !important;
   font-weight: 700; }
 
 .highlights__events--more-btn:hover {
-  background-color: #781214;
-  border-color: #781214;
+  background-color: #5E0000;
+  border-color: #5E0000;
   color: #fff !important; }
 
 .contest__prize--title {
@@ -15218,15 +15219,11 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   a.social-share-link:hover, a.social__link:hover {
     color: #c00000;
     border-color: #c00000; }
-  /* Header background image */
-  .header {
-    background-image: url("http://beta.magic983.com/wp-content/uploads/sites/13/2015/04/WMGQ-Header-Background2.jpg");
-    background-position: center top; }
   /* Live stream background color */
   .live-links {
     background-color: #A2A5A4; }
   .live-stream {
-    background: #f2f2f2 url(http://greatermedianj.com/WDHA/wdha_listenlive_header.png) no-repeat; }
+    background: #f2f2f2 url(../../images/wdha_listenlive_header.png) no-repeat; }
   .live-player {
     color: #000;
     font-weight: 400;
@@ -15241,7 +15238,6 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
     overflow: hidden; }
   .live-player__container {
     border-bottom: 1px #fff; }
-  /*.live-player__container.live-player--active {background-image: url("http://greatermedianj.com/WMGQ/WMGQ-listen-live-gradient.jpg");} */
   .live-link__title, .live-link__title a:link, .live-link__title a:visited {
     color: #ffffff; }
   .live-link__song:before {
@@ -15351,8 +15347,9 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 } */
   /* Featured box background desktop */
   .home__featured .featured__article--content {
-    background-color: #c00000;
-    color: #c00000; } }
+    background-color: #7d0000;
+    color: #7d0000;
+    opacity: 0.9; } }
 
 @media screen and (min-width: 1024px) {
   .header__nav li {
@@ -15412,7 +15409,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 
 .header {
   background-color: #37080d;
-  background-image: url("http://beta.magic983.com/wp-content/uploads/sites/13/2015/04/WMGQ-Header-Mobile.jpg");
+  background-image: url("../../images/WMGQ-Header-Mobile.jpg");
   background-position: center top;
   background-repeat: no-repeat;
   background-position: 0 -36px; }
@@ -15423,8 +15420,8 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 
 /* Featured content btn */
 .featured__content--btn {
-  background-color: #c00000;
-  border: 1px solid #c00000;
+  background-color: #5E0000;
+  border: 1px solid #5E0000;
   border-radius: 100em;
   color: #fff !important;
   cursor: pointer;
@@ -15465,7 +15462,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   color: #fff; }
 
 .header {
-  background-image: url("http://greatermedianj.com/WDHA/WDHA_header.jpg");
+  background-image: url("../../images/WDHA_header.jpg");
   background-position: center top; }
 
 .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before {
@@ -15715,7 +15712,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   color: #fff; }
 
 .featured__content--block:hover {
-  background: #781214; }
+  background: #5E0000; }
 
 .live-link__type--show {
   border-bottom-color: white;
@@ -15728,3 +15725,13 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #f2f2f2 100%);
   background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #f2f2f2 100%);
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #f2f2f2 100%); }
+
+.show__header.has-thumbnail:before {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: none;
+  content: " "; }

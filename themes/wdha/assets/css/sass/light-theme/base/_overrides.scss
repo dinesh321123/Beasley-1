@@ -184,7 +184,7 @@ li:last-child {@include border-bottom-radius(1em);}
 /* Site body background color - behind featured items */
 
 .home__featured { 
-  background: url("http://greatermedianj.com/WDHA/wdha-body-bkg.jpg") no-repeat;
+  background: url("../../images/wdha-body-bkg.jpg") no-repeat;
   background-color: #c00000;
 }
 
@@ -218,8 +218,8 @@ li:last-child {@include border-bottom-radius(1em);}
 }
 
 .home__featured .featured__article--content{
-  background-color:#c00000;
-  color:#c00000;
+  background-color:#7d0000;
+  color:#7d0000;
   font-family: 'Istok+Web', sans-serif;
 }
 
@@ -250,7 +250,7 @@ a:hover .highlights__community--title {color:#ccc;}
 
 
 /* Rollover color for feature bar */
-.home__featured .featured__article a:hover .featured__article--content {background-color: #781214;}
+.home__featured .featured__article a:hover .featured__article--content {background-color: #5E0000;}
 
 /* Feature bar font color */
 .featured__article:hover
@@ -264,19 +264,22 @@ a:hover .highlights__community--title {color:#ccc;}
 .header__nav {font-family: 'Istok+Web', sans-serif;}
     
 /* Sub-Feature box color */
-.home__featured .featured__content--block {background-color: #c00000;}
+.home__featured .featured__content--block {
+    background-color: #720000;
+  opacity: 0.9;
+}
 
     
 /* Events box color */
 .highlights__event--item {
-  background-color: #c00000;
+  background-color: #7d0000;
   transition: all 200ms ease-in-out;
   -moz-transition: all 200ms ease-in-out;
   -webkit-transition: all 200ms ease-in-out;
 }
 
 /* Events box rollover color */
-.highlights__event--item:hover {background-color: #781214;}
+.highlights__event--item:hover {background-color: #5E0000;}
 
 /* Events font color */
 .highlights__event--date,
@@ -296,7 +299,7 @@ a:hover .highlights__community--title {color:#ccc;}
 
 /* Sub-Feature box rollover color */
 .featured__content--block:hover {
-  background: #c00000;
+  background: #333;
 }
 
 .entry2__title { font-family: 'Istok+Web', sans-serif }
@@ -319,15 +322,15 @@ a:hover .highlights__community--title {color:#ccc;}
 
 /* Event more button pre-rollover style */
 .highlights__events--more-btn {
-  background-color: #c00000;
-  border: 1px solid #c00000;
+  background-color: #7d0000;
+  border: 1px solid #7d0000;
   color: #fff !important;
   font-weight: 700;
 }
 
 .highlights__events--more-btn:hover {
-  background-color: #781214;
-  border-color: #781214;
+  background-color: #5E0000;
+  border-color: #5E0000;
   color: #fff !important;
 }
 
@@ -412,16 +415,10 @@ a.social-share-link:hover,a.social__link:hover{
   border-color:#c00000;
 }
 
-/* Header background image */
-.header {
-  background-image: url("http://beta.magic983.com/wp-content/uploads/sites/13/2015/04/WMGQ-Header-Background2.jpg");
-  background-position: center top;
-}
-
 /* Live stream background color */
 .live-links { background-color:#A2A5A4;}
     
-.live-stream {background: #f2f2f2 url(http://greatermedianj.com/WDHA/wdha_listenlive_header.png) no-repeat;}
+.live-stream {background: #f2f2f2 url(../../images/wdha_listenlive_header.png) no-repeat;}
 
 .live-player {
   color: #000;
@@ -440,8 +437,6 @@ a.social-share-link:hover,a.social__link:hover{
 }
     
 .live-player__container {border-bottom: 1px #fff;}
-
-/*.live-player__container.live-player--active {background-image: url("http://greatermedianj.com/WMGQ/WMGQ-listen-live-gradient.jpg");} */
     
 .live-link__title, .live-link__title a:link, .live-link__title a:visited {color: $white;}
 
@@ -570,8 +565,9 @@ a.social-share-link:hover,a.social__link:hover{
     
 /* Featured box background desktop */
 .home__featured .featured__article--content {
-  background-color: #c00000;
-  color: #c00000;
+  background-color: #7d0000;
+  color: #7d0000;
+  opacity: 0.9;
 }
         
 }    
@@ -653,7 +649,7 @@ a.social-share-link:hover,a.social__link:hover{
 
 .header {
   background-color: #37080d;
-  background-image: url("http://beta.magic983.com/wp-content/uploads/sites/13/2015/04/WMGQ-Header-Mobile.jpg");
+  background-image: url("../../images/WMGQ-Header-Mobile.jpg");
   background-position: center top;
   background-repeat: no-repeat;
   background-position: 0 -36px;
@@ -661,14 +657,14 @@ a.social-share-link:hover,a.social__link:hover{
 
 a:hover .highlights__event--date,
 a:hover .highlights__event--title {
-  color: #fff;
+   color: #fff;
    font-family: 'Istok+Web', sans-serif;
 }
     
 /* Featured content btn */
 .featured__content--btn {
-  background-color: #c00000;
-  border: 1px solid #c00000;
+  background-color: #5E0000;
+  border: 1px solid #5E0000;
   border-radius: 100em;
   color: #fff !important;
   cursor: pointer;
@@ -712,7 +708,7 @@ a:hover .highlights__event--title {
 }
 
 .header {
-  background-image: url("http://greatermedianj.com/WDHA/WDHA_header.jpg");
+  background-image: url("../../images/WDHA_header.jpg");
   background-position: center top;
 }
 
@@ -1005,6 +1001,6 @@ a.social-share-link:hover,a.social__link:hover {
 .header__account--logged-out, .header__account--span {color: #fff;}
   
    .featured__content--block:hover {
-      background: #781214;
+      background: #5E0000;
 
 }
