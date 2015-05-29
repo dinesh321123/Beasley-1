@@ -345,15 +345,18 @@
 
 	function nearestPodcastPlaying(event) {
 		var eventTarget = event.target;
+		var $podcastPlayer = $(eventTarget).parents('.podcast-player');
 		var podcastCover = eventTarget.parentNode;
 		var audioCurrent = podcastCover.nextElementSibling;
 		var runtimeCurrent = audioCurrent.nextElementSibling;
-		var audioTime = document.querySelectorAll('.audio__time'), i;
+		var audioTime = $podcastPlayer.find('.podcast__play .audio__time'), i;
 		var runtime = document.querySelector('.podcast__runtime');
 		var inlineCurrent = podcastCover.parentNode;
 		var inlineMeta = inlineCurrent.nextElementSibling;
 		var inlineTime = inlineMeta.querySelector('.audio__time');
+
 		$('.playing__current').removeClass('playing__current');
+
 		if (podcastPlayer != null && ( body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast') || body.classList.contains('home'))) {
 			audioCurrent.classList.add('playing__current');
 			runtimeCurrent.classList.add('playing');
