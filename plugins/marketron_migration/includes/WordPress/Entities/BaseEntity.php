@@ -74,6 +74,16 @@ class BaseEntity {
 		if ( $located_path !== false ) {
 			return $this->get_side_loader()->sideload( $located_path, $timestamp );
 		} else {
+			/*
+			$asset_locator = $this->get_asset_locator();
+			$asset_dirs    = $asset_locator->get_asset_dirs();
+			$asset_dir     = $asset_dirs[0];
+			$repaired_path = $asset_locator->repair_path( $filepath );
+			$new_filepath  = $asset_dir . $repaired_path;
+
+			return $this->get_side_loader()->sideload( $new_filepath, $timestamp );
+			*/
+
 			$this->log_not_found( $filepath, __CLASS__ );
 			return false;
 		}

@@ -24,7 +24,10 @@ class User extends BaseEntity {
 
 		$fields['user_activation_key'] = '';
 		$fields['user_status']         = 0;
-		$fields['usermeta']            = $this->get_usermeta( $display_name );
+
+		if ( ! array_key_exists( 'existing_id', $fields ) ) {
+			$fields['usermeta'] = $this->get_usermeta( $display_name );
+		}
 
 		$table  = $this->get_table( 'users' );
 		$fields = $table->add( $fields );

@@ -6,6 +6,8 @@ class MediaSideLoader {
 
 	public $container;
 	public $pending_sideloads = array();
+	public $directory_map     = array();
+	public $conflict_count    = 0;
 
 	function register() {
 		add_action( 'init', array( $this, 'do_register' ) );
@@ -44,6 +46,7 @@ class MediaSideLoader {
 
 	// copy sideloaded uploads to site's uploads directory
 	function sync() {
+		\WP_CLI::log( "Total Conflicts: $this->conflict_count" );
 		$this->remove_duplicates();
 
 		$source_dir = $this->get_sync_source_dir();
@@ -81,6 +84,18 @@ class MediaSideLoader {
 		$target_filepath = $target_dir . '/' . $new_filename;
 
 		$wordpress_upload_dir = $this->get_wordpress_upload_path_for( $filename, $timestamp );
+
+		if ( $this->directory_has_file( dirname( $wordpress_upload_dir ), $new_filename ) ) {
+			$wordpress_upload_dir = $this->directory_next_file( dirname( $wordpress_upload_dir ), $new_filename );
+			$new_filename = basename( $wordpress_upload_dir );
+		}
+
+		if ( ! $this->directory_has_file( dirname( $wordpress_upload_dir ), $new_filename ) ) {
+			$this->directory_add_file( dirname( $wordpress_upload_dir ), $new_filename );
+		} else {
+			//\WP_CLI::log( "Conflict in path: $filepath - $wordpress_upload_dir" );
+			$this->conflict_count++;
+		}
 
 		$this->pending_sideloads[] = array(
 			'source' => $filepath,
@@ -298,6 +313,31 @@ class MediaSideLoader {
 			array( $source, $dest, $opts ),
 			'normal'
 		);
+	}
+
+	/* directory conflict detection */
+	function directory_has_file( $dir, $filename ) {
+		return array_key_exists( $dir, $this->directory_map ) &&
+			array_key_exists( $filename, $this->directory_map[ $dir ] );
+	}
+
+	function directory_add_file( $dir, $filename ) {
+		if ( ! array_key_exists( $dir, $this->directory_map ) ) {
+			$this->directory_map[ $dir ] = array();
+		}
+
+		$this->directory_map[ $dir ][ $filename ] = true;
+	}
+
+	function directory_next_file( $dir, $filename ) {
+		if ( ! array_key_exists( $dir, $this->directory_map ) ) {
+			$this->directory_map[ $dir ] = array();
+		}
+
+		$next_id   = count( $this->directory_map[ $dir ] ) + 1;
+		$next_path = $dir . '/' . $next_id . '-' . $filename;
+
+		return $next_path;
 	}
 
 }
