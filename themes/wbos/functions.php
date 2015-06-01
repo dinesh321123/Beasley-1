@@ -11,10 +11,10 @@
  * @package WBOS
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WBOS_VERSION', '0.1.2' );/* Denis Updates as of 5/26/15 */
- 
+define( 'WBOS_VERSION', '0.2.0' );/* Denis Updates as of 5/26/15 */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WBOS_VERSION', '0.1.2' );/* Denis Updates as of 5/26/15 */
 	load_theme_textdomain( 'wbos', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wbos_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,17 +43,17 @@ define( 'WBOS_VERSION', '0.1.2' );/* Denis Updates as of 5/26/15 */
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wbos', get_stylesheet_directory_uri() . "/assets/css/wbos{$postfix}.css", array(), WBOS_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wbos_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wbos_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wbos_humans', $humans );
  }
  add_action( 'wp_head', 'wbos_header_meta' );
