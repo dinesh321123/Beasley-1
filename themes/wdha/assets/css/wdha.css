@@ -15669,9 +15669,6 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
     background-color: #c00000;
     color: #fff; } }
 
-.header__logo img {
-  display: none; }
-
 .live-player {
   color: #000;
   font-weight: 700;
