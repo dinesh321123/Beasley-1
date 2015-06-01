@@ -6033,7 +6033,7 @@ body.profile-page-login .live-player--mobile {
         display: block;
         top: 66px; } }
     @media screen and (min-width: 768px)  {
-      .gmr-user.news-site .live-stream__status.audio__playing {
+      .news-site .live-stream__status.audio__playing {
         display: block;
         top: 116px; } }
 
@@ -7368,6 +7368,8 @@ a.live-audio__link {
       display: block; } }
   .live-player__container.no-volume-control #live-player--volume {
     display: none; }
+  .audio__playing #live-player--volume {
+    display: block; }
 
 @-webkit-keyframes heartbeat {
   0% {
@@ -8922,6 +8924,16 @@ category: Components - Ads
       .tribe-events-event-meta .tribe-events-meta-group-venue:last-child {
         margin-right: 0; } }
 
+.single-tribe_events .tribe-events-venue-map {
+  padding: 0;
+  background: transparent;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  -border-radius: 0;
+  border-radius: 0; }
+
 .tribe-events-event-meta .tribe-events-meta-group-gmap {
   float: left;
   display: block;
@@ -8968,18 +8980,9 @@ category: Components - Ads
       margin-right: 0; }
       .tribe-events-event-meta .tribe-events-meta-group-gmap:last-child {
         margin-right: 0; } }
-  .site-wrap.pjax--active .tribe-events-event-meta .tribe-events-meta-group-gmap {
-    display: none; }
 
-.single-tribe_events .tribe-events-venue-map {
-  padding: 0;
-  background: transparent;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
-  -border-radius: 0;
-  border-radius: 0; }
+.site-wrap.pjax--active .tribe-events-event-meta .tribe-events-meta-group-gmap, .site-wrap.pjax--active .tribe-events-event-meta .tribe-events-venue-map, .site-wrap.pjax--active .tribe-events-event-meta div[id^="tribe-events-gmap"], .site-wrap.pjax--active .tribe-events-event-meta div[id*="tribe-events-gmap"] {
+  display: none; }
 
 .tribe-events-single-section-title {
   font-family: 'Open Sans', sans-serif; }

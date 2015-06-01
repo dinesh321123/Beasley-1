@@ -167,10 +167,11 @@ Denis Changes to _overrides.scss file 5/20
                       background-attachment: fixed;
 
                     }
-  
-.home__highlights,
+.home__highlights{background: url(../../images/pw_maze_gray.png); padding: 3em 3.236em;}
 .home__featured { background-color: transparent!important;background-image: url(../../images/bg_60.png)!important; }
 /*.main .container {background-color: #fff;}                */
+
+
 
  #page-wrap.page-wrap,
 .main,
@@ -187,16 +188,43 @@ Denis Changes to _overrides.scss file 5/20
 }
 
 
+/*Show header and link */
 
+.show__header { padding: 10em 3.236em;}
 
+.show__header.has-thumbnail:before {
+  background-image: linear-gradient(to bottom,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  background-image: -moz-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  background-image: -o-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  background-image: -ms-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,42,110,.45)),to(rgba(0,42,110,.45)));
+  background-image: -webkit-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  content: " ";
+}
+
+.show__nav h1 a:hover{color: #fff; text-decoration:none;}
+
+/* end */
+/*members profile pages */
+
+.profile-page .profile-page__sidebar {background-color: #0e2242;}
+
+.profile-page__sidebar .profile-header-link {color: #005494;}
+.profile-page__sidebar .profile-header-link:hover {color: #f48325;}
+
+#profile-content .gigya-screen input[type="submit"] {background-color: #0e2242;}
+
+/* end */
 
 /* ------------- LIVE PLAYER BTN -------------------------------*/
-
+.live-player__stream--name {display: none;}
 .live-player {
     /*background-image: url("http://i.imgur.com/q7eZ8Jz.png");
     background-repeat: no-repeat;
     background-position: left top;*/
-    background-color: #0e2242!important;color:#fff;
+    background-image: url(../../images/img_meshBG2.jpg);
+    background-position: center;
+    color:#fff;
   }
 
 .live-player__stream{display: inline!important; margin-top: 60px; }
@@ -268,11 +296,13 @@ a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #004c90; colo
 
 
 
+
 .header__main {
     border-top: none;
-    background-color: #0e2242;
-    border-bottom: solid 1px #000;border-top: solid 1px #000;
+    background-color: rgba(14,34,66,.9);
+    /*border-bottom: solid 1px #000;border-top: solid 1px #000;*/
     height:82px;
+    margin-top:4px;
 }
 
 .featured__article--heading {color: #FFFFFF!important;   font-family: 'Ubuntu', sans-serif;}
@@ -280,7 +310,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #004c90; colo
 .home__featured .featured__article--image{background-color: #114598!important;}
 
 
-.featured__article:hover {background-color: #000!important;color: #14499f!important;   font-family: 'Ubuntu', sans-serif;border-bottom-right-radius: 1.5em!important;border-bottom-left-radius: 1.5em!important; }
+.featured__article:hover {background-color: #000!important;color: #14499f!important;   font-family: 'Ubuntu', sans-serif;border-bottom-right-radius: 0em!important;border-bottom-left-radius: 0em!important; }
 
 .home__featured .featured__article--content { background-color: #0e2242;color: #fff; border-bottom-left-radius: 0em!important; border-bottom-right-radius:0em!important;}
 .home__featured .featured__article a:hover {background-color: #005596; color: #fff; border-bottom-left-radius: 0em!important;border-top-left-radius: 0em!important; border-bottom-right-radius:0em!important;}
@@ -319,8 +349,8 @@ a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #004c90; colo
 
 /* ------------- END MASTHEAD -------------------------------*/
 
-.home__featured .featured__content--block { background-color: #0e2242;border-bottom-right-radius: 0em;border: solid 1px #005596!important; }
-.home__featured .featured__content--block:hover {  background-color: #005596!important; border: solid 1px #0e2242!important;border-top-right-radius: 0em!important; }
+.home__featured .featured__content--block { background-color: #0e2242;border-bottom-right-radius: 0em;border: solid 0px #005596!important; }
+.home__featured .featured__content--block:hover {  background-color: #005596!important; border: solid 0px #0e2242!important;border-top-right-radius: 0em!important; }
 
 
 .highlights__event--item {background-color: #0e2242;border-bottom-right-radius: 0em;border: solid 1px #005596!important; }
@@ -355,15 +385,16 @@ a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #004c90; colo
     white-space: nowrap;
 }
 
+
 .highlights__events--more-btn {     
-    background-color: transparent!important;
-    border: 2px solid #fff;
+    background-color: #0e2242!important;
+    border: 2px solid #0e2242;
     color: #fff!important;
     text-transform: uppercase;
-    font-weight: 700;
-    float: right;margin-top: 10px;
+    font-weight: 400;
+    float: right;margin-top: 0px;
 }
-.highlights__events--more-btn:hover {  background-color:transparent;color: #f3862b!important;  border-color: #f3862b;}
+.highlights__events--more-btn:hover {  background-color:#114598!important;color: #fff!important;  border-color: #114598;}
 
 .contest__prize--title {
     margin: 0 0 .25em;
@@ -391,6 +422,7 @@ h2.entry2__title a:hover{color: #f58426!important;}
 
 .content {background-color: #fff;}
 .home .content{float: left;display: block;width: 100%;}
+
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px 
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -422,6 +454,38 @@ media 768px
 /*a:link, a:visited {color: #002a6e!important;}
 a:hover {color: #002a6e!important; text-decoration: underline;}*/
 
+/* 3 secondary feature stories.  remove if want default display */
+
+/*aside#live-player__sidebar {top: 218px!important;}*/
+.header__main {
+    border-top: none;
+    background-color: rgba(14,34,66,.5);
+    /*border-bottom: solid 1px #000;border-top: solid 1px #000;*/
+    height:82px;
+    margin-top:4px;
+}
+.home__featured .featured__content--image {
+  float: left;
+  display: block;
+  width: 100%;
+  margin-right: 0;
+  padding-top: 66.6%;
+}
+
+
+.home__featured .featured__content--block {
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  height: 100%;
+}
+
+.home__featured .featured__content--meta {
+  width: 100%;
+  min-height: 6.8em;
+}
+/* end feature */
+
  .ad__leaderboard.desktop {
 
   background: url(../../images/img_leaderboardBG.png) no-repeat!important;
@@ -439,6 +503,9 @@ a:hover {color: #002a6e!important; text-decoration: underline;}*/
 
 
 .header {
+  background-color: transparent!important;
+  background-image:url("../../images/hdr_Radio929_Full215.png")!important;
+  background-position: center top;
   -webkit-animation-name: no_name!important;
   animation-name: no_name!important;
 }
@@ -461,7 +528,9 @@ a:hover {color: #002a6e!important; text-decoration: underline;}*/
 span.icon-user { color: #fff!important;}
 
 
-ul#live-links__blogroll {background-color: #0e2242!important;}
+ul#live-links__blogroll {    
+    background-image: url(../../images/img_meshBG2.jpg);
+    background-position: center;}
 div#live-player { background-color: transparent!important;}
 
 .live-stream {  background: url(../../images/Radio929_listenlive_header.png)no-repeat #eeeeee;}
@@ -577,7 +646,7 @@ div#live-player { background-color: transparent!important;}
 
 
 .header__account--btn:hover {background-color: #004c90!important;}
-
+  .main {background-color: transparent!important; background-image: none!important;  } 
 }
 
 
@@ -659,6 +728,8 @@ media 1175px
 media 1252px 
 -----------------------------------*/
 @media screen and (min-width:1252px) {
+
+
 /*.highlights__events--more-btn {     
     
     border: 2px solid #f3862b;

@@ -5548,6 +5548,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .article__comments {
   margin: 3em 0; }
 
+.article__author {
+  display: none; }
+
 .ad-unit--300--250 {
   position: relative;
   height: 250px;
@@ -5574,6 +5577,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 ---
 title: Live Player
 name: live-player
+category: Components
 category: Components
 ---
 
@@ -6046,7 +6050,7 @@ body.profile-page-login .live-player--mobile {
         display: block;
         top: 66px; } }
     @media screen and (min-width: 768px)  {
-      .gmr-user.news-site .live-stream__status.audio__playing {
+      .news-site .live-stream__status.audio__playing {
         display: block;
         top: 116px; } }
 
@@ -7381,6 +7385,8 @@ a.live-audio__link {
       display: block; } }
   .live-player__container.no-volume-control #live-player--volume {
     display: none; }
+  .audio__playing #live-player--volume {
+    display: block; }
 
 @-webkit-keyframes heartbeat {
   0% {
@@ -8935,6 +8941,16 @@ category: Components - Ads
       .tribe-events-event-meta .tribe-events-meta-group-venue:last-child {
         margin-right: 0; } }
 
+.single-tribe_events .tribe-events-venue-map {
+  padding: 0;
+  background: transparent;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  -border-radius: 0;
+  border-radius: 0; }
+
 .tribe-events-event-meta .tribe-events-meta-group-gmap {
   float: left;
   display: block;
@@ -8981,18 +8997,9 @@ category: Components - Ads
       margin-right: 0; }
       .tribe-events-event-meta .tribe-events-meta-group-gmap:last-child {
         margin-right: 0; } }
-  .site-wrap.pjax--active .tribe-events-event-meta .tribe-events-meta-group-gmap {
-    display: none; }
 
-.single-tribe_events .tribe-events-venue-map {
-  padding: 0;
-  background: transparent;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
-  -border-radius: 0;
-  border-radius: 0; }
+.site-wrap.pjax--active .tribe-events-event-meta .tribe-events-meta-group-gmap, .site-wrap.pjax--active .tribe-events-event-meta .tribe-events-venue-map, .site-wrap.pjax--active .tribe-events-event-meta div[id^="tribe-events-gmap"], .site-wrap.pjax--active .tribe-events-event-meta div[id*="tribe-events-gmap"] {
+  display: none; }
 
 .tribe-events-single-section-title {
   font-family: 'Open Sans', sans-serif; }
@@ -9015,6 +9022,9 @@ category: Components - Ads
   padding: 0 0 2.25em; }
   .tribe-events-list .type-tribe_events .entry2__meta p {
     margin: 0; }
+
+.tribe-events-single-event-author {
+  display: none; }
 
 /*doc
 ---
@@ -9844,6 +9854,23 @@ category: Components - Shows
 .show__cast {
   width: 100%;
   position: relative;
+  height: 100%; }
+  @media screen and (min-width: 1024px)  {
+    .show__cast {
+      width: 150px;
+      display: table-cell;
+      vertical-align: middle; } }
+  .show__cast img {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -border-radius: 50%;
+    border-radius: 50%;
+    margin: 0 auto; }
+
+.show__cast {
+  width: 100%;
   height: 100%; }
   @media screen and (min-width: 1024px)  {
     .show__cast {
@@ -14953,7 +14980,11 @@ Denis Changes to _overrides.scss file 5/20
   background-repeat: no-repeat;
   background-attachment: fixed; }
 
-.home__highlights, .home__featured {
+.home__highlights {
+  background: url(../../images/pw_maze_gray.png);
+  padding: 3em 3.236em; }
+
+.home__featured {
   background-color: transparent !important;
   background-image: url(../../images/bg_60.png) !important; }
 
@@ -14970,12 +15001,48 @@ Denis Changes to _overrides.scss file 5/20
   padding: 10px;
   background-color: #005596; }
 
+/*Show header and link */
+.show__header {
+  padding: 10em 3.236em; }
+
+.show__header.has-thumbnail:before {
+  background-image: linear-gradient(to bottom, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  background-image: -moz-linear-gradient(top, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  background-image: -o-linear-gradient(top, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  background-image: -ms-linear-gradient(top, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 42, 110, 0.45)), to(rgba(0, 42, 110, 0.45)));
+  background-image: -webkit-linear-gradient(top, rgba(0, 42, 110, 0.45), rgba(0, 42, 110, 0.45));
+  content: " "; }
+
+.show__nav h1 a:hover {
+  color: #fff;
+  text-decoration: none; }
+
+/* end */
+/*members profile pages */
+.profile-page .profile-page__sidebar {
+  background-color: #0e2242; }
+
+.profile-page__sidebar .profile-header-link {
+  color: #005494; }
+
+.profile-page__sidebar .profile-header-link:hover {
+  color: #f48325; }
+
+#profile-content .gigya-screen input[type="submit"] {
+  background-color: #0e2242; }
+
+/* end */
 /* ------------- LIVE PLAYER BTN -------------------------------*/
+.live-player__stream--name {
+  display: none; }
+
 .live-player {
   /*background-image: url("http://i.imgur.com/q7eZ8Jz.png");
     background-repeat: no-repeat;
     background-position: left top;*/
-  background-color: #0e2242 !important;
+  background-image: url(../../images/img_meshBG2.jpg);
+  background-position: center;
   color: #fff; }
 
 .live-player__stream {
@@ -15121,10 +15188,10 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
 /* ------------- LIVE PLAYER BTN -------------------------------*/
 .header__main {
   border-top: none;
-  background-color: #0e2242;
-  border-bottom: solid 1px #000;
-  border-top: solid 1px #000;
-  height: 82px; }
+  background-color: rgba(14, 34, 66, 0.9);
+  /*border-bottom: solid 1px #000;border-top: solid 1px #000;*/
+  height: 82px;
+  margin-top: 4px; }
 
 .featured__article--heading {
   color: #FFFFFF !important;
@@ -15137,8 +15204,8 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
   background-color: #000 !important;
   color: #14499f !important;
   font-family: 'Ubuntu', sans-serif;
-  border-bottom-right-radius: 1.5em !important;
-  border-bottom-left-radius: 1.5em !important; }
+  border-bottom-right-radius: 0em !important;
+  border-bottom-left-radius: 0em !important; }
 
 .home__featured .featured__article--content {
   background-color: #0e2242;
@@ -15200,11 +15267,11 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
 .home__featured .featured__content--block {
   background-color: #0e2242;
   border-bottom-right-radius: 0em;
-  border: solid 1px #005596 !important; }
+  border: solid 0px #005596 !important; }
 
 .home__featured .featured__content--block:hover {
   background-color: #005596 !important;
-  border: solid 1px #0e2242 !important;
+  border: solid 0px #0e2242 !important;
   border-top-right-radius: 0em !important; }
 
 .highlights__event--item {
@@ -15245,18 +15312,18 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
   white-space: nowrap; }
 
 .highlights__events--more-btn {
-  background-color: transparent !important;
-  border: 2px solid #fff;
+  background-color: #0e2242 !important;
+  border: 2px solid #0e2242;
   color: #fff !important;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 400;
   float: right;
-  margin-top: 10px; }
+  margin-top: 0px; }
 
 .highlights__events--more-btn:hover {
-  background-color: transparent;
-  color: #f3862b !important;
-  border-color: #f3862b; }
+  background-color: #114598 !important;
+  color: #fff !important;
+  border-color: #114598; }
 
 .contest__prize--title {
   margin: 0 0 .25em;
@@ -15332,6 +15399,29 @@ media 768px
 @media screen and (min-width: 768px) {
   /*a:link, a:visited {color: #002a6e!important;}
 a:hover {color: #002a6e!important; text-decoration: underline;}*/
+  /* 3 secondary feature stories.  remove if want default display */
+  /*aside#live-player__sidebar {top: 218px!important;}*/
+  .header__main {
+    border-top: none;
+    background-color: rgba(14, 34, 66, 0.5);
+    /*border-bottom: solid 1px #000;border-top: solid 1px #000;*/
+    height: 82px;
+    margin-top: 4px; }
+  .home__featured .featured__content--image {
+    float: left;
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    padding-top: 66.6%; }
+  .home__featured .featured__content--block {
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    height: 100%; }
+  .home__featured .featured__content--meta {
+    width: 100%;
+    min-height: 6.8em; }
+  /* end feature */
   .ad__leaderboard.desktop {
     background: url(../../images/img_leaderboardBG.png) no-repeat !important;
     width: 748px;
@@ -15344,6 +15434,9 @@ a:hover {color: #002a6e!important; text-decoration: underline;}*/
     -webkit-box-shadow: 0px 0px 0px 0px !important;
     box-shadow: 0px 0px 0px 0px !important; }
   .header {
+    background-color: transparent !important;
+    background-image: url("../../images/hdr_Radio929_Full215.png") !important;
+    background-position: center top;
     -webkit-animation-name: no_name !important;
     animation-name: no_name !important; }
   .header__logo {
@@ -15361,7 +15454,8 @@ a:hover {color: #002a6e!important; text-decoration: underline;}*/
   span.icon-user {
     color: #fff !important; }
   ul#live-links__blogroll {
-    background-color: #0e2242 !important; }
+    background-image: url(../../images/img_meshBG2.jpg);
+    background-position: center; }
   div#live-player {
     background-color: transparent !important; }
   .live-stream {
@@ -15464,7 +15558,10 @@ a:hover {color: #002a6e!important; text-decoration: underline;}*/
   .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .header__nav ul li.active a:focus, .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover, .ui-menu .ui-state-focus {
     background-color: #004c90 !important; }
   .header__account--btn:hover {
-    background-color: #004c90 !important; } }
+    background-color: #004c90 !important; }
+  .main {
+    background-color: transparent !important;
+    background-image: none !important; } }
 
 /*-----------------------------------
 media 1024px 

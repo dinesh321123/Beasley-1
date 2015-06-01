@@ -170,6 +170,12 @@
 	}
 }
 
+.single-tribe_events .tribe-events-venue-map {
+	padding: 0;
+	background: transparent;
+	@include border-radius(0);
+}
+
 .tribe-events-event-meta .tribe-events-meta-group-gmap {
 	@include span-columns(4 of 4);
 	@include omega;
@@ -193,15 +199,16 @@
 		@include omega;
 	}
 
+}
+
+.tribe-events-event-meta .tribe-events-meta-group-gmap,
+.tribe-events-event-meta .tribe-events-venue-map,
+.tribe-events-event-meta div[id^="tribe-events-gmap"],
+.tribe-events-event-meta div[id*="tribe-events-gmap"] {
+
 	.site-wrap.pjax--active & {
 		display: none;
 	}
-}
-
-.single-tribe_events .tribe-events-venue-map {
-	padding: 0;
-	background: transparent;
-	@include border-radius(0);
 }
 
 .tribe-events-single-section-title {
