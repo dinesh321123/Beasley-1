@@ -15202,7 +15202,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
     color: #f2f2f2; }
   /* Social link color and padding */
   .header__social .social__list {
-    padding: 0 20px; }
+    padding: 0 7px; }
   .header__social .social__list li {
     padding: 0 5px; }
   .header__social a.social__link {
