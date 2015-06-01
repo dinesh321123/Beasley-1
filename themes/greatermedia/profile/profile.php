@@ -125,7 +125,9 @@ function get_gigya_verify_email_message() {
 		id="GMR-CustomScreenSet"
 		style="display:none"
 		data-on-pending-registration-screen="gigya-register-complete-screen"
-		data-on-pending-verification-screen="gigya-resend-verification-code-screen">
+		data-on-pending-verification-screen="gigya-resend-verification-code-screen"
+		data-on-existing-login-identifier-screen="gigya-existing-login-identifier-screen"
+		>
 		<div class="gigya-screen" id="gigya-login-screen" data-responsive="true">
 			<h2>Login to Your Account</h2>
 			<h3>Login with your social network</h3>
@@ -584,6 +586,13 @@ function get_gigya_verify_email_message() {
 			<h3><?php echo get_gigya_verify_email_message(); ?></h3>
 
 			<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back to Login</a>
+		</div>
+
+		<div class="gigya-screen" id="gigya-existing-login-identifier-screen" data-responsive="true">
+			<h2>Account already exists</h2>
+			<h3>An account with this email address already exists. Linking Site Accounts to Social Network Accounts is not supported at this time.</h3>
+
+			<a href="#" class="link-button" data-switch-screen="gigya-login-screen">&laquo; Back</a>
 		</div>
 
 
