@@ -326,7 +326,7 @@ function gmr_do_contest_export( $args ) {
 	if ( extension_loaded( 'zip' ) && class_exists( 'ZipArchive' ) ) {
 		$zip = new ZipArchive();
 		if ( $zip->open( $zip_file, ZipArchive::CREATE ) ) {
-			$zip->addFile( $csv_file, DIRECTORY_SEPARATOR . basename( $csv_file ) );
+			$zip->addFile( $csv_file, basename( $csv_file ) );
 			$zip->close();
 
 			$attachment = $zip_file;
