@@ -627,7 +627,7 @@ class BlogData {
 							self::updateImageCaption( $existing[0]->ID, $old_ids[ $index ] );
 						}
 					} elseif ( ! empty( $old_ids[ $index ] ) ) {
-						$new_id = self::ImportMedia( 0, $image_src, false, $old_ids[ $index ] );
+						$new_id = self::ImportMedia( $post_id, $image_src, false, $old_ids[ $index ] );
 						if ( $new_id && ! is_wp_error( $new_id ) ) {
 							$new_gallery_ids .= $new_id . ",";
 						}
