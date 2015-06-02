@@ -231,6 +231,20 @@ class BlogData {
 		}
 		
 		$galleries = get_post_galleries( $single_result->ID, false );
+		foreach ( $galleries as &$gallery ) {
+			if ( ! empty( $gallery['ids'] ) ) {
+				$image_ids = array_filter( array_map( 'intval', explode( ',', $gallery['ids'] ) ) );
+				$gallery['ids'] = implode( ',', $image_ids );
+				$gallery['src'] = array();
+				
+				foreach ( $image_ids as $image_id ) {
+					$image_src = wp_get_attachment_image_src( $image_id, 'full' );
+					if ( ! empty( $image_src ) ) {
+						$gallery['src'][] = $image_src[0];
+					}
+				}
+			}
+		}
 
 		$attachments = array();
 		if ( 'gmr_gallery' == $post_type ) {
