@@ -6,6 +6,16 @@
  * @subpackage SeriouslySimplePodcasting
  */
 
+function feed_podcast_clean_output( $output, $filter ) {
+	$output = html_entity_decode( $output );
+
+	if ( ! is_null( $filter ) ) {
+		$output = apply_filters( $filter, $output );
+	}
+
+	return $output;
+}
+
 $podcast;
 $parent_podcast_id = 0;
 // Hide all errors
@@ -217,6 +227,10 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		$itunes_excerpt = wp_strip_all_tags( get_the_excerpt() );
 		$itunes_excerpt = substr( $itunes_excerpt, 0, 3950 );
 
+		$item_description     = feed_podcast_clean_output( get_the_excerpt(), 'the_excerpt_rss' );
+		$item_itunes_subtitle = feed_podcast_clean_output( $itunes_excerpt );
+		$item_itunes_summary  = feed_podcast_clean_output( $itunes_summary );
+
 	?>
 	<item>
 		<title><?php esc_html( the_title_rss() ); ?></title>
@@ -224,8 +238,8 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', false ), false ) ); ?></pubDate>
 		<dc:creator><?php echo esc_html( $author ); ?></dc:creator>
 		<guid isPermaLink="false"><?php esc_html( the_guid() ); ?></guid>
-		<description><![CDATA[<?php the_excerpt_rss(); ?>]]></description>
-		<itunes:subtitle><![CDATA[<?php echo esc_html( $itunes_excerpt ); ?>]]></itunes:subtitle>
+		<description><![CDATA[<?php echo esc_html( $item_description ); ?>]]></description>
+		<itunes:subtitle><![CDATA[<?php echo esc_html( $item_itunes_subtitle ); ?>]]></itunes:subtitle>
 		<content:encoded><![CDATA[<?php echo esc_html( $content ); ?>]]></content:encoded>
 		<itunes:summary><![CDATA[<?php echo esc_html( $itunes_summary ); ?>]]></itunes:summary>
 		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $size ); ?>" type="<?php echo esc_attr( $mime_type ); ?>"></enclosure>
