@@ -267,7 +267,11 @@ function gmr_do_contest_export( $args ) {
 
 				$profile = get_post_meta( $entry->ID, 'entrant_reference', true );
 				if ( ! empty( $profile ) ) {
-					$profile = get_gigya_user_profile( $profile );
+					try {
+						$profile = get_gigya_user_profile( $profile );
+					} catch ( Exception $e ) {
+						$profile = array();
+					}
 				}
 
 				$birthday = (int) get_post_meta( $entry->ID, 'entrant_birth_date', true );
