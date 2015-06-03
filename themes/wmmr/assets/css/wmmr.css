@@ -15148,6 +15148,8 @@ table.responsive tr:nth-of-type(even) {
       background-color: #fff !important; }
     .header__search--form .header-search-body {
       background: #fff; }
+    .header__search--form .keyword-search {
+      background-color: #fff; }
   .home__featured {
     background-color: #f2f2f2; }
     .home__featured .featured__content--block {
