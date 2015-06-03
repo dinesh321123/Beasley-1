@@ -90,6 +90,7 @@ class AffinityClubScreener {
 
 		while ( $line !== false ) {
 			$line = trim( $line );
+			$line = rtrim( $line, ',' );
 
 			if ( is_numeric( $line ) ) {
 				$member_id    = strval( $line );

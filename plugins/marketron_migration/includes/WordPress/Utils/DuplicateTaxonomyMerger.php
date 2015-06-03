@@ -8,12 +8,19 @@ class DuplicateTaxonomyMerger {
 		$terms          = $this->get_terms_for_taxonomy( $taxonomy );
 		$terms_to_merge = $this->get_terms_to_merge( $terms );
 		$merge_count    = 0;
+		$total          = count( $terms_to_merge );
+		$msg            = "Merging $total Terms";
+		$progress_bar   = new ProgressBar( $msg, $total );
 
-		if ( count( $terms_to_merge ) > 0 ) {
+		if ( $total > 0 ) {
 			foreach ( $terms_to_merge as $slug => $term_ids ) {
 				$this->merge_terms( $term_ids, $taxonomy );
 				$merge_count += count( $term_ids );
+				$progress_bar->tick();
 			}
+
+			$progress_bar->finish();
+			\WP_CLI::success( "Merge Count: $merge_count" );
 		}
 
 		return $merge_count;

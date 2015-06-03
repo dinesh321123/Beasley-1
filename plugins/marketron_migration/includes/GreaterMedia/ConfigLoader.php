@@ -142,8 +142,7 @@ class ConfigLoader {
 				$group['group_description'] = '';
 			}
 
-			$group['group_active'] = empty( $newsletter['active'] ) ? true : $newsletter['active'];
-
+			$group['group_active'] = $newsletter['active'];
 			$groups[] = $group;
 		}
 
