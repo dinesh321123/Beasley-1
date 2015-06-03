@@ -243,7 +243,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		<description><![CDATA[<?php echo esc_html( $item_description ); ?>]]></description>
 		<itunes:subtitle><![CDATA[<?php echo esc_html( $item_itunes_subtitle ); ?>]]></itunes:subtitle>
 		<content:encoded><![CDATA[<?php echo esc_html( $content ); ?>]]></content:encoded>
-		<itunes:summary><![CDATA[<?php echo esc_html( $itunes_summary ); ?>]]></itunes:summary>
+		<itunes:summary><![CDATA[<?php echo esc_html( $item_itunes_summary ); ?>]]></itunes:summary>
 		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $size ); ?>" type="<?php echo esc_attr( $mime_type ); ?>"></enclosure>
 		<itunes:explicit><?php echo esc_html( $explicit_flag ); ?></itunes:explicit>
 		<itunes:block><?php echo esc_html( $block_flag ); ?></itunes:block>
