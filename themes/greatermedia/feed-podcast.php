@@ -240,10 +240,10 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s +0000', get_post_time( 'Y-m-d H:i:s', false ), false ) ); ?></pubDate>
 		<dc:creator><?php echo esc_html( $author ); ?></dc:creator>
 		<guid isPermaLink="false"><?php esc_html( the_guid() ); ?></guid>
-		<description><![CDATA[<?php echo esc_html( $item_description ); ?>]]></description>
-		<itunes:subtitle><![CDATA[<?php echo esc_html( $item_itunes_subtitle ); ?>]]></itunes:subtitle>
+		<description><![CDATA[<?php echo wp_strip_all_tags( $item_description ); ?>]]></description>
+		<itunes:subtitle><![CDATA[<?php echo wp_strip_all_tags( $item_itunes_subtitle ); ?>]]></itunes:subtitle>
 		<content:encoded><![CDATA[<?php echo esc_html( $content ); ?>]]></content:encoded>
-		<itunes:summary><![CDATA[<?php echo esc_html( $item_itunes_summary ); ?>]]></itunes:summary>
+		<itunes:summary><![CDATA[<?php echo wp_strip_all_tags( $item_itunes_summary ); ?>]]></itunes:summary>
 		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $size ); ?>" type="<?php echo esc_attr( $mime_type ); ?>"></enclosure>
 		<itunes:explicit><?php echo esc_html( $explicit_flag ); ?></itunes:explicit>
 		<itunes:block><?php echo esc_html( $block_flag ); ?></itunes:block>
