@@ -13,6 +13,8 @@ function feed_podcast_clean_output( $output, $filter ) {
 		$output = apply_filters( $filter, $output );
 	}
 
+	$output = wp_strip_all_tags( $output );
+
 	return $output;
 }
 
