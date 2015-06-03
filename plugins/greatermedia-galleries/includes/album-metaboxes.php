@@ -111,6 +111,7 @@ class GreaterMediaGalleryAlbumMetaboxes {
 			'limit' => 1000,
 			'orderby' => 'menu_order',
 			'order' => 'ASC',
+			'posts_per_page' => 100, /* TODO: Figure out if -1 is ok here */
 		);
 		$children_ids = get_posts( $children_args );
 
