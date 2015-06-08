@@ -1,7 +1,7 @@
 /* TEAM */
-	Developer: Steve Meyers
-	Contact:   smeyers@greatermediaphiladelphia.com
-	URI:       
+	Developer: 10up
+	Contact:   allen@10up.com
+	URI:       http://10up.com
 
 /* THANKS */
 	Template Design: 10up
@@ -13,5 +13,5 @@
 	Twitter:         @ericmann
 	
 /* SITE */
-	Created:  2015-05-13
+	Created:  2014-12-22
 	Template: https://github.com/10up/grunt-wp-theme
