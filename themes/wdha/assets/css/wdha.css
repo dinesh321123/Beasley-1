@@ -15372,7 +15372,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
     height: inherit;
     display: block;
     position: absolute;
-    top: -89px;
+    top: -120px;
     margin: 0;
     padding: 0; }
   .header__logo img {
@@ -15712,6 +15712,21 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 
 .featured__content--block:hover {
   background: #5E0000; }
+
+.show__nav h1 a:hover {
+  color: #cccccc; }
+
+.single-show .highlights__event--item {
+  background-color: #F1F1F3; }
+
+.single-show .highlights__event--item .highlights__event--date, .single-show .highlights__event--item .highlights__event--title {
+  color: #404041; }
+
+.single-show .highlights__event--item .highlights__event--title:hover {
+  color: #aa1c20; }
+
+.single-show .highlights__community--item:hover .highlights__community--title {
+  color: #ccc; }
 
 .live-link__type--show {
   border-bottom-color: white;
