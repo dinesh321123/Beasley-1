@@ -115,7 +115,9 @@ class GMR_Audio_Shortcodes {
 			$title = $metadata['title'];
 		}
 
+		$is_podcast = is_singular( array( ShowsCPT::SHOW_CPT, 'podcast' ) );
 		$is_podcast_archive = is_post_type_archive( 'podcast' );
+		$is_episode = is_singular( 'episode' );
 		$is_home = is_home();
 
 		$parent_podcast = false;
@@ -131,9 +133,12 @@ class GMR_Audio_Shortcodes {
 		}
 
 		//get podcast featured image
-		$featured_image = get_post_thumbnail_id( $post_id );
-		if ( $featured_image ) {
-			$featured_image = wp_get_attachment_url( $featured_image );
+		$featured_image = false;
+		if ( $is_episode ) {
+			$featured_image = get_post_thumbnail_id( $post_id );
+			if ( $featured_image ) {
+				$featured_image = wp_get_attachment_url( $featured_image );
+			}
 		}
 
 		if ( ! $featured_image ) {
@@ -148,9 +153,8 @@ class GMR_Audio_Shortcodes {
 		}
 
 		$downloadable = get_post_meta( $post_id, 'gmp_audio_downloadable', true );
+		$downloadable = filter_var( $downloadable, FILTER_VALIDATE_BOOLEAN );
 		$new_html = '';
-
-		$is_podcast = is_singular( array( ShowsCPT::SHOW_CPT, 'podcast' ) );
 
 		// podcast archive details
 
@@ -192,7 +196,7 @@ class GMR_Audio_Shortcodes {
 
 		$new_html .= '</span>';
 
-		if ( ( $is_podcast || $is_podcast_archive || $is_home ) && ( $downloadable == 'on' || $downloadable == '' ) ) {
+		if ( ( $is_podcast || $is_podcast_archive || $is_home ) && $downloadable ) {
 			$new_html .= '<div class="podcast__download">';
 			if ( ! is_singular( 'podcast' ) ) {
 				if ( $parent_podcast_id && ( $is_podcast || $is_podcast_archive || $is_home ) ) {
