@@ -298,6 +298,7 @@ a.podcast__rss:active {
 	}
 }
 
+.podcast__link,
 .podcast__download--btn {
 	@include btn(transparent, $gray, $gray, .5em, 1em, ms(-1));
 	@include border-radius(1em);
@@ -305,11 +306,13 @@ a.podcast__rss:active {
 	text-transform: none;
 }
 
+.podcast__link:hover,
 .podcast__download--btn:hover {
 	@include btn($btn-bg, $color-text-white, $btn-bg, .5em, 1em, ms(-1));
 	text-transform: none;
 }
 
+.podcast__link:active,
 .podcast__download--btn:active {
 	@include btn($btn-active, $color-text-white, $btn-active, .5em, 1em, ms(-1));
 	text-transform: none;
@@ -621,4 +624,9 @@ a.podcast__rss:active {
 		width: 100%;
 		height: auto;
 	}
+
+}
+
+.episode__buttons {
+	margin-top: 1.5em;
 }

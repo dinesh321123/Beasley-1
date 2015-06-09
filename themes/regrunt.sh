@@ -15,6 +15,9 @@ grunt
 cd ../wcsx
 grunt
 
+cd ../wmgc
+grunt
+
 cd ../wmgq
 grunt
 

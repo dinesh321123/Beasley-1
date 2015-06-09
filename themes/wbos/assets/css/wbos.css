@@ -9339,7 +9339,7 @@ a.podcast__rss:active {
       .podcast-player.playing .podcast__download a {
         margin-top: 0 !important; } }
 
-.podcast__download--btn {
+.podcast__link, .podcast__download--btn {
   display: inline-block;
   line-height: 1;
   padding: 0.5em 1em;
@@ -9362,14 +9362,14 @@ a.podcast__rss:active {
   -moz-transition: all 200ms linear;
   transition: all 200ms linear;
   text-transform: none; }
-  .podcast__download--btn:hover, .podcast__download--btn:focus {
+  .podcast__link:hover, .podcast__link:focus, .podcast__download--btn:hover, .podcast__download--btn:focus {
     background-color: transparent;
     border-color: #7b7d80;
     color: #929497; }
-  .podcast__download--btn:last-of-type {
+  .podcast__link:last-of-type, .podcast__download--btn:last-of-type {
     margin-right: 0; }
 
-.podcast__download--btn:hover {
+.podcast__link:hover, .podcast__download--btn:hover {
   display: inline-block;
   line-height: 1;
   padding: 0.5em 1em;
@@ -9383,14 +9383,14 @@ a.podcast__rss:active {
   cursor: pointer;
   border-radius: 100em;
   text-transform: none; }
-  .podcast__download--btn:hover:hover, .podcast__download--btn:hover:focus {
+  .podcast__link:hover:hover, .podcast__link:hover:focus, .podcast__download--btn:hover:hover, .podcast__download--btn:hover:focus {
     background-color: #aa1c20;
     border-color: #aa1c20;
     color: #ffffff; }
-  .podcast__download--btn:hover:last-of-type {
+  .podcast__link:hover:last-of-type, .podcast__download--btn:hover:last-of-type {
     margin-right: 0; }
 
-.podcast__download--btn:active {
+.podcast__link:active, .podcast__download--btn:active {
   display: inline-block;
   line-height: 1;
   padding: 0.5em 1em;
@@ -9404,11 +9404,11 @@ a.podcast__rss:active {
   cursor: pointer;
   border-radius: 100em;
   text-transform: none; }
-  .podcast__download--btn:active:hover, .podcast__download--btn:active:focus {
+  .podcast__link:active:hover, .podcast__link:active:focus, .podcast__download--btn:active:hover, .podcast__download--btn:active:focus {
     background-color: black;
     border-color: black;
     color: #ffffff; }
-  .podcast__download--btn:active:last-of-type {
+  .podcast__link:active:last-of-type, .podcast__download--btn:active:last-of-type {
     margin-right: 0; }
 
 .podcast__subscribe {
@@ -9636,6 +9636,9 @@ a.podcast__rss:active {
   display: block;
   width: 100%;
   height: auto; }
+
+.episode__buttons {
+  margin-top: 1.5em; }
 
 .login-restricted-login-btn, .logout-restricted-login-btn, .age-restricted-login-btn {
   display: inline-block;
