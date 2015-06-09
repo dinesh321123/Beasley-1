@@ -37,19 +37,6 @@ get_header(); ?>
 								$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
 							}
 
-							if ( $parent_podcast ) {
-								echo '<a class="podcast__link" href="', esc_url( get_permalink( $parent_podcast_id ) ), '">', esc_html( $parent_podcast->post_title ), '</a>';
-							}
-
-							$series = get_post( $parent_podcast_id );
-							$series_slug = $series->post_name;
-							$feed_url = esc_url_raw( get_post_meta( $parent_podcast_id, 'gmp_podcast_feed', true ) );
-							if ( ! $feed_url || $feed_url == '' || strlen( $feed_url ) == 0 ) {
-								$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $series_slug;
-							}
-
-							echo '<a class="podcast__rss" href="', esc_url( $feed_url ), '" target="_blank">Podcast Feed</a>';
-
 							$downloadable = get_post_meta( get_the_ID(), 'gmp_audio_downloadable', true );
 							if ( $downloadable ) {
 								$content = get_the_content();
@@ -70,6 +57,18 @@ get_header(); ?>
 										echo '<a href="', esc_attr( $mp3_src ), '" download="', esc_attr( $mp3_src ), '" class="podcast__download--btn" download>Download</a>';
 									}
 								}
+							}
+
+							if ( $parent_podcast ) {
+
+								$feed_url = esc_url_raw( get_post_meta( $parent_podcast_id, 'gmp_podcast_feed', true ) );
+								if ( ! $feed_url || $feed_url == '' || strlen( $feed_url ) == 0 ) {
+									$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $parent_podcast->post_name;
+									echo '<a class="podcast__rss" href="', esc_url( $feed_url ), '" target="_blank">Podcast Feed</a>';
+								}
+
+								echo '<a class="podcast__link" href="', esc_url( get_permalink( $parent_podcast_id ) ), '">', esc_html( $parent_podcast->post_title ), '</a>';
+
 							}
 
 							?>
