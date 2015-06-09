@@ -67,7 +67,7 @@ get_header(); ?>
 								}
 
 								echo '<a class="podcast__rss" href="', esc_url( $feed_url ), '" target="_blank">Podcast Feed</a>';
-								echo '<a class="podcast__link" href="', esc_url( get_permalink( $parent_podcast_id ) ), '">', esc_html( $parent_podcast->post_title ), '</a>';
+								echo '<a class="podcast__link" href="', esc_url( get_permalink( $parent_podcast_id ) ), '">More From ', esc_html( $parent_podcast->post_title ), '</a>';
 
 							}
 
