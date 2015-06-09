@@ -64,9 +64,9 @@ get_header(); ?>
 								$feed_url = esc_url_raw( get_post_meta( $parent_podcast_id, 'gmp_podcast_feed', true ) );
 								if ( ! $feed_url || $feed_url == '' || strlen( $feed_url ) == 0 ) {
 									$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $parent_podcast->post_name;
-									echo '<a class="podcast__rss" href="', esc_url( $feed_url ), '" target="_blank">Podcast Feed</a>';
 								}
 
+								echo '<a class="podcast__rss" href="', esc_url( $feed_url ), '" target="_blank">Podcast Feed</a>';
 								echo '<a class="podcast__link" href="', esc_url( get_permalink( $parent_podcast_id ) ), '">', esc_html( $parent_podcast->post_title ), '</a>';
 
 							}
