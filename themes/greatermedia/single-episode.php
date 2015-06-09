@@ -38,7 +38,7 @@ get_header(); ?>
 							}
 
 							if ( $parent_podcast ) {
-								echo '<a class="podcast__link" href="', esc_url( get_permalink( $parent_podcast_id ) ), '" target="_blank">', esc_html( $parent_podcast->post_title ), '</a>';
+								echo '<a class="podcast__link" href="', esc_url( get_permalink( $parent_podcast_id ) ), '">', esc_html( $parent_podcast->post_title ), '</a>';
 							}
 
 							$series = get_post( $parent_podcast_id );
