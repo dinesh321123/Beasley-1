@@ -28,7 +28,7 @@ class Feed extends BaseImporter {
 		foreach ( $articles as $article ) {
 			if ( ! $this->container->mappings->can_import_marketron_name(
 				(string) $article->Feeds->Feed['Feed'], 'feed' ) ) {
-				//\WP_CLI::log( '    Exclude Feed: ' . (string) $article->Feeds->Feed['Feed'] );
+				\WP_CLI::log( '    Excluded Feed: ' . (string) $article->Feeds->Feed['Feed'] );
 				continue;
 			}
 
@@ -228,6 +228,20 @@ class Feed extends BaseImporter {
 				//\WP_CLI::log( 'Featured Audio: ' . $featured_audio );
 				$content = $result['content'];
 				$post_format = 'audio';
+			}
+		} else if ( strpos( $content, 'youtube.com/embed' ) !== false ) {
+			$content = preg_replace_callback(
+				'#<iframe.*src="https?://www.youtube.com/embed/([^"]*)".*</iframe>#',
+				function( $matches ) {
+					$embed_params = $matches[1];
+					$embed_params = str_replace( '?', '&', $embed_params );
+					return "[embed]http://www.youtube.com/watch?v=${embed_params}[/embed]";
+				},
+				$content, -1, $videos
+			);
+
+			if ( $post_format !== 'video' && $videos > 0 ) {
+				$post_format = 'video';
 			}
 		}
 

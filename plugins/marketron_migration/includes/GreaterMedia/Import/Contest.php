@@ -194,7 +194,7 @@ class Contest extends BaseImporter {
 				\WP_CLI::error( 'Unknown Contest Form AnswerType: ' . $answer_type );
 		}
 
-		$form_item['label']         = $question_text;
+		$form_item['label']         = html_entity_decode( $question_text );
 		$form_item['cid']           = 'c' . $question_id;
 		$form_item['field_type']    = $field_type;
 		$form_item['required']      = $required;

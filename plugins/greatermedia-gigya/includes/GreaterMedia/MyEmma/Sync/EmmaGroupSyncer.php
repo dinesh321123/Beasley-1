@@ -4,6 +4,8 @@ namespace GreaterMedia\MyEmma\Sync;
 
 class EmmaGroupSyncer {
 
+	public $delay = 1;
+
 	function sync_blog() {
 		$blog_meta   = get_blog_details();
 		$blog_id     = $blog_meta->blog_id;
@@ -36,6 +38,9 @@ class EmmaGroupSyncer {
 			$launcher = new \GreaterMedia\Gigya\Sync\Launcher();
 			$launcher->launch( $member_query_id, 'export' );
 		}
+
+		\WP_CLI::log( "  Waiting $this->delay minutes for Sync to complete ..." );
+		sleep( $this->delay * 60 );
 	}
 
 	function sync_network() {

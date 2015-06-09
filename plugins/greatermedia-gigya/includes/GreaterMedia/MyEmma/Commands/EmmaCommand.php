@@ -15,7 +15,15 @@ class EmmaCommand extends \WP_CLI_Command {
 			$all = false;
 		}
 
+		/* in minutes */
+		if ( ! empty( $opts['delay'] ) ) {
+			$delay = intval( $opts['delay'] );
+		} else {
+			$delay = 1;
+		}
+
 		$syncer = new \GreaterMedia\MyEmma\Sync\EmmaGroupSyncer();
+		$syncer->delay = $delay;
 
 		if ( $all ) {
 			$syncer->sync_network();
