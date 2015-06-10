@@ -10,8 +10,60 @@
 	}
 }
 
+@include bp(medium) {
+	.live-stream {
+		margin: 1em auto 4em auto !important;
+	}
+}
+
 .live-links {
 	border-top: 0;
+	margin: 0!important;
+	width: 100%;
+
+	.widget--live-player__title {
+		display: none;
+	}
+
+	.widget_gmr_blogroll_widget {
+		display: none;
+	}
+}
+
+.live-links--more.show-more--muted {
+	display: block;
+}
+
+.streamhub-wall-component {
+	article {
+		&.content-default .content-body {
+			font-family: 'Open Sans', sans-serif;
+			font-size: 16px;
+			line-height: 20px;
+		}
+	}
+}
+
+#fanatic-social-stream {
+	border-top: 1px solid #eee;
+
+	article {
+		border-width: 0 0 1px 0;
+		margin: 0;
+		padding: 20px 0;
+
+		&.content .content-header .content-header-inner {
+			padding-top: 0;
+		}
+
+		&.content-instagram .content-header .content-header-inner {
+			padding-top: 20px;
+		}
+	}
+
+	.hub-list-more {
+		display: none;
+	}
 }
 
 .single-gmr_gallery .gallery__paging--prev,
@@ -65,7 +117,7 @@
 }
 
 .live-player__container {
-	border-bottom: 1px solid white;
+	border-bottom: none;
 }
 
 .now-playing__artist {
@@ -98,6 +150,10 @@
 
 .live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
 	color: $primary-link-hover;
+}
+
+.header__leaderboard {
+	background-image: url('../../images/pw_pattern.png');
 }
 
 .header__logo {
@@ -140,4 +196,40 @@
 
 .audio__progress-bar {
 	background-color: $gray;
+}
+
+.footer {
+	background-image: url('../../images/pw_pattern.png');
+
+	.container {
+		-webkit-box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+		background-color: #EDEDED;
+	}
+}
+
+.footer__content {
+	background-color: #ededed;
+}
+
+.main .show__header.has-thumbnail:before {
+	background-image: linear-gradient(to bottom,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+	background-image: -moz-linear-gradient(top,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+	background-image: -o-linear-gradient(top,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+	background-image: -ms-linear-gradient(top,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(20, 16, 16, 0.55)),to(rgba(88,15,12,.55)));
+	background-image: -webkit-linear-gradient(top,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+}
+
+@include bp(x-large) {
+	.main {
+		background-image: url('../../images/pw_pattern.png');
+
+		.container {
+			-webkit-box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+			-moz-box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+			box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+		}
+	}
 }
