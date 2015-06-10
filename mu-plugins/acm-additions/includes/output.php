@@ -48,7 +48,7 @@ function wp_head() {
 
 			if ( maxWidthOk && minWidthOk ) {
 				var OX_12345 = new OX(),
-					category = jQuery.trim( $slot.attr( 'category' ) );
+					category = jQuery.trim( $slot.data( 'category' ) );
 
 				OX_12345.addAdUnit( $slot.data( 'openx-id' ) );
 				OX_12345.setAdUnitSlotId( $slot.data( 'openx-id' ), $slot.attr( 'id' ) );
@@ -117,7 +117,7 @@ function render_tag( $output_html, $tag_id ) {
 	}
 
 	$uniqid = uniqid();
-	
+
 	$category = false;
 	if ( is_singular() ) {
 		$categories = wp_get_post_categories( get_queried_object_id() );
