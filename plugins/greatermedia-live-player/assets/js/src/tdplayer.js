@@ -1629,26 +1629,31 @@
 	 * calculates the time of an inline audio element and outputs the time remaining
 	 */
 	function audioTimeRemaining() {
-		var timeleft = document.querySelectorAll('.audio__time--remaining'), i,
+		var ramainings = document.querySelectorAll('.audio__time--remaining'), i,
 			duration = parseInt(customAudio.duration),
 			currentTime = parseInt(customAudio.currentTime),
-			timeLeft = duration - currentTime,
-			s, m;
+			timeleft = new Date('2000-01-01 00:00:00'),
+			hours, mins, secs;
 
-		for (i = 0; i < timeleft.length; ++i) {
-			s = timeLeft % 60;
-			if (isNaN(s)) {
-				s = '00';
-			} else {
-				s = s < 10 ? "0" + s : s;
-			}
+		if (isNaN(duration)) {
+			duration = currentTime = 0;
+		} else if (isNaN(currentTime)) {
+			currentTime = 0;
+		}
 
-			m = Math.floor(timeLeft / 60) % 60;
-			if (isNaN(m)) {
-				m = '0';
-			}
+		timeleft.setSeconds(duration - currentTime);
+		
+		hours = timeleft.getHours();
+		mins = ('0' + timeleft.getMinutes()).slice(-2);
+		secs = ('0' + timeleft.getSeconds()).slice(-2);
+		if (hours > 0) {
+			timeleft = hours + ':' + mins + ':' + secs;
+		} else {
+			timeleft = mins + ':' + secs;
+		}
 
-			timeleft[i].innerHTML = m + ":" + s;
+		for (i = 0; i < ramainings.length; ++i) {
+			ramainings[i].innerHTML = timeleft;
 		}
 	}
 
@@ -1656,17 +1661,24 @@
 	 * calculates the time of an inline audio element and outputs the time that has elapsed
 	 */
 	function audioTimeElapsed() {
-		var timeline = document.querySelectorAll('.audio__time--elapsed'), i,
-			s = parseInt(customAudio.currentTime % 60),
-			m = parseInt((customAudio.currentTime / 60) % 60);
+		var timeline = document.querySelectorAll('.audio__time--elapsed'),
+			passedSeconds = parseInt(customAudio.currentTime),
+			currentTime = new Date('2000-01-01 00:00:00'),
+			hours, mins, secs, i;
+
+		currentTime.setSeconds(isNaN(passedSeconds) ? 0 : passedSeconds);
+		
+		hours = currentTime.getHours();
+		mins = ('0' + currentTime.getMinutes()).slice(-2);
+		secs = ('0' + currentTime.getSeconds()).slice(-2);
+		if (hours > 0) {
+			currentTime = hours + ':' + mins + ':' + secs;
+		} else {
+			currentTime = mins + ':' + secs;
+		}
 
 		for (i = 0; i < timeline.length; ++i) {
-			if (s < 10) {
-				timeline[i].innerHTML = m + ':0' + s;
-			}
-			else {
-				timeline[i].innerHTML = m + ':' + s;
-			}
+			timeline[i].innerHTML = currentTime;
 		}
 	}
 
