@@ -14872,9 +14872,38 @@ table.responsive tr:nth-of-type(even) {
     background-position: left top;
     background-color: #561015; } }
 
+.single-show .highlights__event--item {
+  background-color: #fff; }
+
+.news-site .highlights__contest--title, .news-site .highlights__event--title {
+  margin-top: 4px;
+  font-size: .9em; }
+
+.news-site .highlights__contest--date, .news-site .highlights__event--date {
+  font-size: 1em; }
+
+.contest__form button[type=button]:hover:focus, .contest__form button[type=button]:hover:hover, .contest__form button[type=submit]:hover:focus, .contest__form button[type=submit]:hover:hover, .contest__form input[type=submit]:hover:focus, .contest__form input[type=submit]:hover:hover {
+  background-color: #AE0D04;
+  border-color: #FFFDFD;
+  color: #050505; }
+
+.contest__form button[type=button]:active, .contest__form button[type=submit]:active, .contest__form input[type=submit]:active {
+  background-color: #AE0D04;
+  color: #fff !important; }
+
+.profile-page .profile-page__sidebar h1 {
+  color: #fff; }
+
 @media screen and (min-width: 768px)  {
+  .live-player {
+    background: url('../../images/listen-live-bg.jpg') no-repeat; }
   .live-stream {
-    margin: 1em auto 4em auto !important; } }
+    margin: 1em auto 4em auto !important;
+    background: none !important; }
+    .live-stream .live-player__stream {
+      visibility: hidden; }
+  .news-site .live-stream__status.audio__playing {
+    top: 78px; } }
 
 .live-links {
   border-top: 0;
