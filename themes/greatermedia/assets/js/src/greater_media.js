@@ -61,7 +61,7 @@
 			currentText = $(this).html(),
 			newText = $(this).attr('data-alt-text');
 
-		target.style.display = target.style.display != 'none' ? 'none' : 'block';
+		target.style.display = target.style.display !== 'none' ? 'none' : 'block';
 
 		$(this).html(newText);
 		$(this).attr('data-alt-text', currentText);

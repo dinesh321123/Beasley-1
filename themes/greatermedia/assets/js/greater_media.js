@@ -1,3 +1,102 @@
+(function ($, document) {
+	var __ready, reset_page = true, pagenums = {};
+
+	__ready = function() {
+		$('.posts-pagination--load-more').each(function () {
+			var $button = $(this),
+				loading = false,
+				page_link_template = $button.data('page-link-template'),
+				page = parseInt($button.data('page')),
+				partial_slug = $button.data('partial-slug'),
+				partial_name = $button.data('partial-name'),
+				auto_load = $button.data('auto-load');
+	
+			if (reset_page) {
+				pagenums[page_link_template] = !isNaN(page) && page > 0 ? page : 1;
+			}
+
+			// If auto_load is set, create a Waypoint that will trigger the button
+			// when it is reached. 
+			var waypoint_context = null; 
+			if ( auto_load ) {
+				try {					
+					$button.waypoint({
+						handler: function(direction) {
+							// Store the Waypoint context so we can refresh it later.
+							waypoint_context = this.context; 
+						$button.trigger('click'); 
+						},
+						offset: 'bottom-in-view'
+					});
+				} catch ( e ) {
+					// Waypoints not supported, disable autoload. 
+					auto_load = false; 
+				}
+			}
+
+			var hide_button = function() {
+				$button.hide();
+				if (waypoint_context) {
+					waypoint_context.destroy();
+				}
+			};
+	
+			$button.click(function() {
+				var $self = $(this);
+	
+				if (!loading) {
+					loading = true;
+					$self.removeClass('is-loaded');
+	
+					// let's use ?ajax=1 to distinguish AJAX and non AJAX requests
+					// if we don't do it and HTTP cache is enabled, then we might encounter
+					// unpleasant condition when users see cached version of a page loaded by AJAX
+					// instead of normal one.
+					$.get(page_link_template.replace('%d', pagenums[page_link_template]), {ajax: 1, partial_slug: partial_slug, partial_name: partial_name }).done(function(response) {
+						// We're done loading now.
+						loading = false;
+						$self.addClass('is-loaded');
+						
+						if ( response.post_count ) {
+							// Add content to page. 
+							$($('<div>' + $.trim(response.html) + '</div>').html()).insertBefore($button.parents('.posts-pagination'));							
+	
+							// Increment page number
+							pagenums[page_link_template]++;
+							
+							// Trigger event.
+							$( document ).trigger( 'gmr_lazy_load_end' ); 
+						}
+												
+						if ( ! response.post_count || pagenums[page_link_template] > response.max_num_pages ) {
+							hide_button();
+						} else if ( waypoint_context ) {
+							// Refresh Waypoint context, if any.
+							waypoint_context.refresh(); 
+						}
+					}).fail(function() {
+						hide_button();
+					});
+				}
+				
+				return false;
+			});
+		}); 
+	};
+
+	if (tribe_ev && tribe_ev.events) {
+		$(tribe_ev.events).bind('tribe_ev_ajaxSuccess', __ready);
+	}
+
+	$(document).bind('pjax:end', function(e, xhr) {
+		reset_page = xhr !== null;
+		__ready();
+	});
+
+	$(document).ready(__ready);
+})(jQuery, document);
+
+(function(t){"use strict";function e(t,e,r){return t.addEventListener?t.addEventListener(e,r,!1):t.attachEvent?t.attachEvent("on"+e,r):void 0}function r(t,e){var r,n;for(r=0,n=t.length;n>r;r++)if(t[r]===e)return!0;return!1}function n(t,e){var r;t.createTextRange?(r=t.createTextRange(),r.move("character",e),r.select()):t.selectionStart&&(t.focus(),t.setSelectionRange(e,e))}function a(t,e){try{return t.type=e,!0}catch(r){return!1}}t.Placeholders={Utils:{addEventListener:e,inArray:r,moveCaret:n,changeType:a}}})(this),function(t){"use strict";function e(){}function r(){try{return document.activeElement}catch(t){}}function n(t,e){var r,n,a=!!e&&t.value!==e,u=t.value===t.getAttribute(V);return(a||u)&&"true"===t.getAttribute(D)?(t.removeAttribute(D),t.value=t.value.replace(t.getAttribute(V),""),t.className=t.className.replace(R,""),n=t.getAttribute(F),parseInt(n,10)>=0&&(t.setAttribute("maxLength",n),t.removeAttribute(F)),r=t.getAttribute(P),r&&(t.type=r),!0):!1}function a(t){var e,r,n=t.getAttribute(V);return""===t.value&&n?(t.setAttribute(D,"true"),t.value=n,t.className+=" "+I,r=t.getAttribute(F),r||(t.setAttribute(F,t.maxLength),t.removeAttribute("maxLength")),e=t.getAttribute(P),e?t.type="text":"password"===t.type&&M.changeType(t,"text")&&t.setAttribute(P,"password"),!0):!1}function u(t,e){var r,n,a,u,i,l,o;if(t&&t.getAttribute(V))e(t);else for(a=t?t.getElementsByTagName("input"):b,u=t?t.getElementsByTagName("textarea"):f,r=a?a.length:0,n=u?u.length:0,o=0,l=r+n;l>o;o++)i=r>o?a[o]:u[o-r],e(i)}function i(t){u(t,n)}function l(t){u(t,a)}function o(t){return function(){m&&t.value===t.getAttribute(V)&&"true"===t.getAttribute(D)?M.moveCaret(t,0):n(t)}}function c(t){return function(){a(t)}}function s(t){return function(e){return A=t.value,"true"===t.getAttribute(D)&&A===t.getAttribute(V)&&M.inArray(C,e.keyCode)?(e.preventDefault&&e.preventDefault(),!1):void 0}}function d(t){return function(){n(t,A),""===t.value&&(t.blur(),M.moveCaret(t,0))}}function g(t){return function(){t===r()&&t.value===t.getAttribute(V)&&"true"===t.getAttribute(D)&&M.moveCaret(t,0)}}function v(t){return function(){i(t)}}function p(t){t.form&&(T=t.form,"string"==typeof T&&(T=document.getElementById(T)),T.getAttribute(U)||(M.addEventListener(T,"submit",v(T)),T.setAttribute(U,"true"))),M.addEventListener(t,"focus",o(t)),M.addEventListener(t,"blur",c(t)),m&&(M.addEventListener(t,"keydown",s(t)),M.addEventListener(t,"keyup",d(t)),M.addEventListener(t,"click",g(t))),t.setAttribute(j,"true"),t.setAttribute(V,x),(m||t!==r())&&a(t)}var b,f,m,h,A,y,E,x,L,T,N,S,w,B=["text","search","url","tel","email","password","number","textarea"],C=[27,33,34,35,36,37,38,39,40,8,46],k="#ccc",I="placeholdersjs",R=RegExp("(?:^|\\s)"+I+"(?!\\S)"),V="data-placeholder-value",D="data-placeholder-active",P="data-placeholder-type",U="data-placeholder-submit",j="data-placeholder-bound",q="data-placeholder-focus",z="data-placeholder-live",F="data-placeholder-maxlength",G=document.createElement("input"),H=document.getElementsByTagName("head")[0],J=document.documentElement,K=t.Placeholders,M=K.Utils;if(K.nativeSupport=void 0!==G.placeholder,!K.nativeSupport){for(b=document.getElementsByTagName("input"),f=document.getElementsByTagName("textarea"),m="false"===J.getAttribute(q),h="false"!==J.getAttribute(z),y=document.createElement("style"),y.type="text/css",E=document.createTextNode("."+I+" { color:"+k+"; }"),y.styleSheet?y.styleSheet.cssText=E.nodeValue:y.appendChild(E),H.insertBefore(y,H.firstChild),w=0,S=b.length+f.length;S>w;w++)N=b.length>w?b[w]:f[w-b.length],x=N.attributes.placeholder,x&&(x=x.nodeValue,x&&M.inArray(B,N.type)&&p(N));L=setInterval(function(){for(w=0,S=b.length+f.length;S>w;w++)N=b.length>w?b[w]:f[w-b.length],x=N.attributes.placeholder,x?(x=x.nodeValue,x&&M.inArray(B,N.type)&&(N.getAttribute(j)||p(N),(x!==N.getAttribute(V)||"password"===N.type&&!N.getAttribute(P))&&("password"===N.type&&!N.getAttribute(P)&&M.changeType(N,"text")&&N.setAttribute(P,"password"),N.value===N.getAttribute(V)&&(N.value=x),N.setAttribute(V,x)))):N.getAttribute(D)&&(n(N),N.removeAttribute(V));h||clearInterval(L)},100)}M.addEventListener(t,"beforeunload",function(){K.disable()}),K.disable=K.nativeSupport?e:i,K.enable=K.nativeSupport?e:l}(this);
 /*jshint browser:true */
 /*!
 * FitVids 1.1
@@ -595,7 +694,7 @@
 			currentText = $(this).html(),
 			newText = $(this).attr('data-alt-text');
 
-		target.style.display = target.style.display != 'none' ? 'none' : 'block';
+		target.style.display = target.style.display !== 'none' ? 'none' : 'block';
 
 		$(this).html(newText);
 		$(this).attr('data-alt-text', currentText);
@@ -709,7 +808,7 @@
 	 * @returns {boolean}
 	 */
 	function elementInViewport(elem) {
-		if (elem != null) {
+		if (elem !== null) {
 			var top = elem.offsetTop;
 			var left = elem.offsetLeft;
 			var width = elem.offsetWidth;
@@ -749,7 +848,7 @@
 	 * Default height for the live player
 	 */
 	function lpPosDefault() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			if (body.classList.contains('logged-in')) {
 				livePlayer.style.top = wpAdminHeight + elemHeight(header) + 'px';
 			} else {
@@ -762,7 +861,7 @@
 	 * Adds a height to the live player based on the height of the sitewrap element minus the height of the header
 	 */
 	function lpHeight() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			livePlayer.style.height = elemHeight(siteWrap) - elemHeight(header) + 'px';
 		}
 	}
@@ -772,11 +871,11 @@
 	 */
 	function liveLinksHeight() {
 		var liveLinksBlogRoll = document.getElementById('live-links__blogroll');
-		if (liveLinksBlogRoll != null) {
+		if (liveLinksBlogRoll !== null) {
 			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
 		}
 
-		if(liveLinksWidget != null & liveLinksMore != null && liveLinksItem.length <= 1) {
+		if(liveLinksWidget !== null && liveLinksMore !== null && liveLinksItem.length <= 1) {
 			liveLinksMore.classList.add('show-more--muted');
 		}
 	}
@@ -804,7 +903,7 @@
 				y: window.pageYOffset
 			};
 
-			if (scrollObject.y == 0) {
+			if (scrollObject.y === 0) {
 				if (livePlayer.classList.contains('live-player--fixed')) {
 					livePlayer.classList.remove('live-player--fixed');
 				}
@@ -816,7 +915,7 @@
 				lpPosDefault();
 			} else if (!elementInViewport(header) && ! elementInViewport(footer)) {
 				livePlayer.classList.add('live-player--fixed');
-				if (livePlayer != null) {
+				if (livePlayer !== null) {
 					livePlayer.style.removeProperty('top');
 				}
 			}
@@ -829,7 +928,7 @@
 	 * deal with a window being resized.
 	 */
 	function livePlayerMobileReset() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			if (livePlayer.classList.contains('live-player--init')) {
 				livePlayer.classList.remove('live-player--init');
 			}
@@ -871,7 +970,7 @@
 			livePlayerStreams = document.querySelectorAll('.live-player__stream--item');
 
 		function toggleStreamSelect() {
-			if (livePlayerStreamSelect != null) {
+			if (livePlayerStreamSelect !== null) {
 				livePlayerStreamSelect.classList.toggle('open');
 			}
 
@@ -890,7 +989,7 @@
 		function selectStream() {
 			var selected_stream = this.querySelector('.live-player__stream--name').textContent;
 
-			if (livePlayerCurrentName != null) {
+			if (livePlayerCurrentName !== null) {
 				livePlayerCurrentName.textContent = selected_stream;
 			}
 
@@ -945,11 +1044,11 @@
 	 */
 	function resizeWindow() {
 		if (window.innerWidth <= 767) {
-			if (livePlayer != null) {
+			if (livePlayer !== null) {
 				livePlayerMobileReset();
 			}
 		} else {
-			if (livePlayer != null) {
+			if (livePlayer !== null) {
 				livePlayerDesktopReset();
 				addEventHandler(window, 'scroll', function () {
 					scrollDebounce();
@@ -980,19 +1079,19 @@
 		});
 	}
 
-	if (onAir != null) {
+	if (onAir !== null) {
 		addEventHandler(onAir, 'click', openLivePlayer);
 	}
-	if (upNext != null) {
+	if (upNext !== null) {
 		addEventHandler(upNext, 'click', openLivePlayer);
 	}
-	if (nowPlaying != null) {
+	if (nowPlaying !== null) {
 		addEventHandler(nowPlaying, 'click', openLivePlayer);
 	}
-	if (livePlayerMore != null) {
+	if (livePlayerMore !== null) {
 		addEventHandler(livePlayerMore, 'click', openLivePlayer);
 	}
-	if (liveLinksWidget != null) {
+	if (liveLinksWidget !== null) {
 		addEventHandler(liveLinksWidget, 'click', liveLinksClose);
 	}
 	if (body.classList.contains('liveplayer-disabled')) {
@@ -1124,10 +1223,34 @@
 	}
 
 	/**
+	 * Adds an visibility class to the logo when the menu is hovered
+	 */
+<<<<<<< HEAD
+=======
+	function addLogoVisibility() {
+		var $body = jQuery(document.querySelector('body')),
+			$logo = jQuery(document.querySelector('.header__logo')),
+			$headerMain = jQuery(document.querySelector('.header__main'));
+
+		$headerMain.on('mouseover', function(e) {
+			if ($body.hasClass('news-site')) {
+				$logo.addClass('is-visible');
+			}
+		});
+
+		$headerMain.on('mouseout', function(e) {
+			if ($body.hasClass('news-site')) {
+				$logo.removeClass('is-visible');
+			}
+		});
+	}
+
+	/**
 	 * Inserts a new element on mobile to provide a blocker
 	 *
 	 * @returns {*|jQuery|HTMLElement}
 	 */
+>>>>>>> fix/theme-js-refactor
 	var getBlockerDiv = function() {
 		var $div = $('#mobile-nav-blocker');
 		if ($div.length === 0) {
@@ -1170,6 +1293,7 @@
 	init_menu_overlay();
 	addHoverMobile();
 	addMenuHover();
+	addLogoVisibility();
 
 	/**
 	 * Functions that run after the pjax:end event

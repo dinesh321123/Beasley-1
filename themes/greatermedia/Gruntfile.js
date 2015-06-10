@@ -11,14 +11,10 @@ module.exports = function (grunt) {
 			options: {
 				stripBanners: true
 			},
-			greater_media_load_more: {
-				src: [
-					'assets/js/src/greater_media_load_more.js'
-				],
-				dest: 'assets/js/greater_media_load_more.js'
-			},
 			greater_media: {
 				src: [
+					'assets/js/src/greater_media_load_more.js',
+					'assets/js/vendor/placeholders.min.js',
 					'assets/js/vendor/jquery.fitvids.js',
 					'assets/js/src/mobile-sub-menus.js',
 					'assets/js/src/profile.js',
@@ -62,7 +58,6 @@ module.exports = function (grunt) {
 			all: {
 				files: {
 					'assets/js/greater_media.min.js': ['assets/js/greater_media.js'],
-					'assets/js/greater_media_load_more.min.js': ['assets/js/greater_media_load_more.js'],
 					'assets/js/greater_media_admin.min.js': ['assets/js/greater_media_admin.js']
 				},
 				options: {

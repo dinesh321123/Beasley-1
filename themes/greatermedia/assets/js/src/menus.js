@@ -67,20 +67,39 @@
 	function init_menu_overlay() {
 		var $menu = jQuery(document.querySelector('.header__nav--list')),
 			$secondary = jQuery(document.querySelector('.header__secondary')),
-			$overlay = jQuery(document.querySelector('.menu-overlay-mask'));
+			$overlay = jQuery(document.querySelector('.menu-overlay-mask')),
+			$body = jQuery(document.querySelector('body')),
+			$logo = jQuery(document.querySelector('.header__logo')),
+			$subHeader = jQuery(document.querySelector('.header__sub'));
 
 		$menu.on('mouseover', '.menu-item-has-children, .header__account--small', function (e) {
 			$overlay.addClass('is-visible');
+			if($body.hasClass('news-site')) {
+				$logo.addClass('is-visible');
+				$subHeader.addClass('is-visible');
+			}
 		});
 		$menu.on('mouseout', '.menu-item-has-children, .header__account--small', function (e) {
 			$overlay.removeClass('is-visible');
+			if($body.hasClass('news-site')) {
+				$logo.removeClass('is-visible');
+				$subHeader.removeClass('is-visible');
+			}
 		});
 
 		$secondary.on('mouseover', '.header__account--small, .header__account--large.logged-in', function (e) {
 			$overlay.addClass('is-visible');
+			if($body.hasClass('news-site')) {
+				$logo.addClass('is-visible');
+				$subHeader.addClass('is-visible');
+			}
 		});
 		$secondary.on('mouseout', '.header__account--small, .header__account--large.logged-in', function (e) {
 			$overlay.removeClass('is-visible');
+			if($body.hasClass('news-site')) {
+				$logo.removeClass('is-visible');
+				$subHeader.removeClass('is-visible');
+			}
 		});
 	}
 
@@ -121,6 +140,27 @@
 				$(this).removeClass('active');
 			}
 		);
+	}
+
+	/**
+	 * Adds an visibility class to the logo when the menu is hovered
+	 */
+	function addLogoVisibility() {
+		var $body = jQuery(document.querySelector('body')),
+			$logo = jQuery(document.querySelector('.header__logo')),
+			$headerMain = jQuery(document.querySelector('.header__main'));
+
+		$headerMain.on('mouseover', function(e) {
+			if ($body.hasClass('news-site')) {
+				$logo.addClass('is-visible');
+			}
+		});
+
+		$headerMain.on('mouseout', function(e) {
+			if ($body.hasClass('news-site')) {
+				$logo.removeClass('is-visible');
+			}
+		});
 	}
 
 	/**
@@ -170,6 +210,7 @@
 	init_menu_overlay();
 	addHoverMobile();
 	addMenuHover();
+	addLogoVisibility();
 
 	/**
 	 * Functions that run after the pjax:end event

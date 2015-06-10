@@ -48,7 +48,7 @@
 	 * @returns {boolean}
 	 */
 	function elementInViewport(elem) {
-		if (elem != null) {
+		if (elem !== null) {
 			var top = elem.offsetTop;
 			var left = elem.offsetLeft;
 			var width = elem.offsetWidth;
@@ -88,7 +88,7 @@
 	 * Default height for the live player
 	 */
 	function lpPosDefault() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			if (body.classList.contains('logged-in')) {
 				livePlayer.style.top = wpAdminHeight + elemHeight(header) + 'px';
 			} else {
@@ -101,7 +101,7 @@
 	 * Adds a height to the live player based on the height of the sitewrap element minus the height of the header
 	 */
 	function lpHeight() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			livePlayer.style.height = elemHeight(siteWrap) - elemHeight(header) + 'px';
 		}
 	}
@@ -111,11 +111,11 @@
 	 */
 	function liveLinksHeight() {
 		var liveLinksBlogRoll = document.getElementById('live-links__blogroll');
-		if (liveLinksBlogRoll != null) {
+		if (liveLinksBlogRoll !== null) {
 			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
 		}
 
-		if(liveLinksWidget != null & liveLinksMore != null && liveLinksItem.length <= 1) {
+		if(liveLinksWidget !== null && liveLinksMore !== null && liveLinksItem.length <= 1) {
 			liveLinksMore.classList.add('show-more--muted');
 		}
 	}
@@ -143,7 +143,7 @@
 				y: window.pageYOffset
 			};
 
-			if (scrollObject.y == 0) {
+			if (scrollObject.y === 0) {
 				if (livePlayer.classList.contains('live-player--fixed')) {
 					livePlayer.classList.remove('live-player--fixed');
 				}
@@ -155,7 +155,7 @@
 				lpPosDefault();
 			} else if (!elementInViewport(header) && ! elementInViewport(footer)) {
 				livePlayer.classList.add('live-player--fixed');
-				if (livePlayer != null) {
+				if (livePlayer !== null) {
 					livePlayer.style.removeProperty('top');
 				}
 			}
@@ -168,7 +168,7 @@
 	 * deal with a window being resized.
 	 */
 	function livePlayerMobileReset() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			if (livePlayer.classList.contains('live-player--init')) {
 				livePlayer.classList.remove('live-player--init');
 			}
@@ -210,7 +210,7 @@
 			livePlayerStreams = document.querySelectorAll('.live-player__stream--item');
 
 		function toggleStreamSelect() {
-			if (livePlayerStreamSelect != null) {
+			if (livePlayerStreamSelect !== null) {
 				livePlayerStreamSelect.classList.toggle('open');
 			}
 
@@ -229,7 +229,7 @@
 		function selectStream() {
 			var selected_stream = this.querySelector('.live-player__stream--name').textContent;
 
-			if (livePlayerCurrentName != null) {
+			if (livePlayerCurrentName !== null) {
 				livePlayerCurrentName.textContent = selected_stream;
 			}
 
@@ -284,11 +284,11 @@
 	 */
 	function resizeWindow() {
 		if (window.innerWidth <= 767) {
-			if (livePlayer != null) {
+			if (livePlayer !== null) {
 				livePlayerMobileReset();
 			}
 		} else {
-			if (livePlayer != null) {
+			if (livePlayer !== null) {
 				livePlayerDesktopReset();
 				addEventHandler(window, 'scroll', function () {
 					scrollDebounce();
@@ -319,19 +319,19 @@
 		});
 	}
 
-	if (onAir != null) {
+	if (onAir !== null) {
 		addEventHandler(onAir, 'click', openLivePlayer);
 	}
-	if (upNext != null) {
+	if (upNext !== null) {
 		addEventHandler(upNext, 'click', openLivePlayer);
 	}
-	if (nowPlaying != null) {
+	if (nowPlaying !== null) {
 		addEventHandler(nowPlaying, 'click', openLivePlayer);
 	}
-	if (livePlayerMore != null) {
+	if (livePlayerMore !== null) {
 		addEventHandler(livePlayerMore, 'click', openLivePlayer);
 	}
-	if (liveLinksWidget != null) {
+	if (liveLinksWidget !== null) {
 		addEventHandler(liveLinksWidget, 'click', liveLinksClose);
 	}
 	if (body.classList.contains('liveplayer-disabled')) {
