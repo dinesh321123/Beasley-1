@@ -83,11 +83,7 @@
 ### assets/css/greater_media.css
 
 - **Total Stylesheets:** 1
-<<<<<<< HEAD
 - **Total Stylesheet Size:** 475811
-=======
-- **Total Stylesheet Size:** 474935
->>>>>>> fix/theme-js-refactor
 - **Total Media Queries:** 15
 - **Total Rules:** 2613
 - **Selectors Per Rule:** 1.462686567164179
@@ -105,11 +101,7 @@
 ### assets/css/greater_media.min.css
 
 - **Total Stylesheets:** 1
-<<<<<<< HEAD
 - **Total Stylesheet Size:** 275461
-=======
-- **Total Stylesheet Size:** 275068
->>>>>>> fix/theme-js-refactor
 - **Total Media Queries:** 15
 - **Total Rules:** 2530
 - **Selectors Per Rule:** 1.5573122529644268
