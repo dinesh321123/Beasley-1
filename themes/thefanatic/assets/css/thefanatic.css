@@ -14894,7 +14894,19 @@ table.responsive tr:nth-of-type(even) {
 .profile-page .profile-page__sidebar h1 {
   color: #fff; }
 
+.pre-roll__notification {
+  color: #000; }
+
+.audio__playing #live-player--volume {
+  display: none; }
+
+.live-stream__btn--play.live-player__login {
+  border: 1px solid #333;
+  color: #333; }
+
 @media screen and (min-width: 768px)  {
+  .audio__playing #live-player--volume {
+    display: block; }
   .live-player {
     background: url('../../images/listen-live-bg.jpg') no-repeat; }
   .live-stream {
@@ -14942,6 +14954,7 @@ table.responsive tr:nth-of-type(even) {
     color: #d22228; }
 
 .live-player__stream {
+  visibility: hidden;
   border: 1px solid #b0b0b0;
   color: #b0b0b0;
   -webkit-border-radius: 1em;
@@ -14969,6 +14982,9 @@ table.responsive tr:nth-of-type(even) {
     .live-player__stream .live-player__stream--current.open .live-player__stream--available li:last-child {
       border-bottom-left-radius: 1em;
       border-bottom-right-radius: 1em; }
+
+.live-player--open .live-links {
+  margin-top: 0 !important; }
 
 .live-player__container {
   border-bottom: none; }
