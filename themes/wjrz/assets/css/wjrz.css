@@ -15053,7 +15053,7 @@ table.responsive tr:nth-of-type(even) {
   color: #0073cf; }
 
 a:hover .highlights__community--title {
-  color: #ccc; }
+  color: #fdba30; }
 
 /* Rollover color for feature bar */
 .home__featured .featured__article a:hover .featured__article--content {
@@ -15534,7 +15534,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   color: #fdba30; }
 
 .profile-page__sidebar .profile-header-text:hover {
-  color: #fdba30; }
+  color: #fff; }
 
 .profile-page__sidebar .profile-header-sep {
   color: #fff;
