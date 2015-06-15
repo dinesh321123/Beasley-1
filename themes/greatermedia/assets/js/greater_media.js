@@ -875,7 +875,7 @@
 			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
 		}
 
-		if(liveLinksWidget !== null && liveLinksMore !== null && liveLinksItem.length <= 1) {
+		if(liveLinksWidget !== null && liveLinksMore !== null && liveLinksItem !== null) {
 			liveLinksMore.classList.add('show-more--muted');
 		}
 	}
