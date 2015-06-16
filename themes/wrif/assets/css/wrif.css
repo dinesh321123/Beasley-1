@@ -14985,6 +14985,7 @@ main.main {
   background-image: none !important; }
 
 #site-wrap.site-wrap {
+  background-color: #000000 !important;
   background-repeat: no-repeat;
   background-image: url(http://beta.wrif.com/wp-content/uploads/sites/24/2015/06/wrifwallpapertexture.jpg) !important;
   background-position: center top !important; }
@@ -14999,6 +15000,9 @@ main.main {
 .featured__content--block, .featured__article--content {
   background-color: #000 !important; }
 
+.live-stream {
+  background-color: #000000 !important; }
+
 .live-player {
   background-color: #111111 !important; }
 
@@ -15012,6 +15016,9 @@ main.main {
 .live-links--more {
   background-color: #000 !important;
   background-image: none !important; }
+
+footer.footer {
+  background-color: #000000 !important; }
 
 .live-link__type--show {
   border-bottom-color: white;
