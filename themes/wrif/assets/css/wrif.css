@@ -927,7 +927,7 @@ body {
 body {
   line-height: 2;
   font-size: 80%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   color: #404041;
   -webkit-font-smoothing: antialiased; }
   @media screen and (min-width: 480px)  {
@@ -8803,7 +8803,7 @@ category: Components - Ads
   outline: none;
   background-color: #d22228 !important;
   border: 1px solid #d22228 !important;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 0.8888888889em;
   color: #ffffff !important;
   text-transform: uppercase;
@@ -8997,7 +8997,7 @@ category: Components - Ads
   display: none; }
 
 .tribe-events-single-section-title {
-  font-family: 'Open Sans', sans-serif; }
+  font-family: 'Oswald', sans-serif; }
 
 .tribe-events-single-section.tribe-events-event-meta.primary.tribe-clearfix {
   float: left !important;
