@@ -43,11 +43,19 @@ define( 'WRIF_VERSION', '0.1.0' );
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
-	wp_enqueue_style( 'wrif', get_stylesheet_directory_uri() . "/assets/css/wrif{$postfix}.css", array(), WRIF_VERSION );
- }
- add_action( 'wp_enqueue_scripts', 'wrif_scripts_styles', 20 );
- 
+	wp_deregister_style( 'greatermedia' );
+	wp_enqueue_style( 'wrif', get_stylesheet_directory_uri() . "/assets/css/wrif{$postfix}.css", array( 'google-fonts-wrif' ), WRIF_VERSION );
+}
+add_action( 'wp_enqueue_scripts', 'wrif_scripts_styles', 20 );
+
+ wp_register_style(
+ 	'google-fonts-wcsx',
+ 	'//fonts.googleapis.com/css?family=Oswald:400,300,700',
+ 	array(),
+ 	null
+
+ );
+
  /**
   * Add humans.txt to the <head> element.
   */
