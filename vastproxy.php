@@ -49,6 +49,7 @@ class AjaxProxy
     const REQUEST_METHOD_GET     = 2;
     const REQUEST_METHOD_PUT     = 3;
     const REQUEST_METHOD_DELETE  = 4;
+    const REQUEST_METHOD_OPTIONS  = 5;
 
     /**
      * Will hold the hostname or IP address of the machin allowed to access this
@@ -176,6 +177,24 @@ class AjaxProxy
     }
 
     /**
+    * Ensure that we can get all internet headers if this function doesn't already exist.
+    */
+
+    protected function getallheaders()
+    {
+           $headers = '';
+       foreach ($_SERVER as $name => $value)
+       {
+           if (substr($name, 0, 5) == 'HTTP_')
+           {
+               $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+           }
+       }
+       return $headers;
+    }
+
+
+    /**
      * Return the string form of the request method constant
      * @param int $type A request method type constant, like
      *  self::REQUEST_METHOD_POST
@@ -193,6 +212,8 @@ class AjaxProxy
             $name = "PUT";
         elseif($type === self::REQUEST_METHOD_DELETE)
             $name = "DELETE";
+        elseif($type === self::REQUEST_METHOD_OPTIONS)
+            $name = "OPTIONS";
         else
             throw new Exception("Unknown request method constant ($type) passed as a parameter");
 
@@ -269,6 +290,9 @@ class AjaxProxy
             $this->_requestMethod = self::REQUEST_METHOD_PUT;
         elseif($method == "delete")
             $this->_requestMethod = self::REQUEST_METHOD_DELETE;
+        elseif($method == "options")
+            // Explicitly changing request type from OPTIONS to GET as Triton player uses OPTIONS but OpenX expects GET
+            $this->_requestMethod = self::REQUEST_METHOD_GET;
         else
             throw new Exception("Request method ($method) invalid");
     }
@@ -319,7 +343,7 @@ class AjaxProxy
     {
         if($this->_rawHeaders !== NULL) return;
 
-        $this->_rawHeaders = getallheaders();
+        $this->_rawHeaders = $this->getallheaders();
 
         if($this->_rawHeaders === FALSE)
             throw new Exception("Could not get request headers");
@@ -475,6 +499,14 @@ class AjaxProxy
     }
 
     /**
+     *  Used to redirect all URLs returned from OpenX to work through proxy
+     */
+    protected function _redirectProxyUrl($matches)
+    {
+        return "<![CDATA[http://proxy.wmmr.com/route=".urlencode($matches(2))."]]>";
+    }
+
+    /**
      * Parse the headers and the body out of the raw response sent back by the
      *  server. Store them in _responseHeaders and _responseBody.
      * @throws Exception When the server does not give us a valid response
@@ -507,7 +539,20 @@ class AjaxProxy
 
         $header = substr($this->_rawResponse, 0, $break);
         $this->_responseHeaders = $this->_parseResponseHeaders($header);
-        $this->_responseBody    = substr($this->_rawResponse, $break + 3);
+        $this->_responseBody    = substr($this->_rawResponse, $break + 4);
+
+        // Replace all occurances of ox-d.greatermedia.com to proxy
+        //$this->_responseBody = preg_replace('/abc/', 'def', $string);
+
+        //preg_match_all("<!\[CDATA\[http://(ox-d\.greatermedia\.com)/(.*)\]\]>",$this->_responseBody, $matches);
+        //var_dump($matches);
+
+        $filteredResponseBody = preg_replace_callback("(<!\[CDATA\[http://(ox-d\.greatermedia\.com/)(.*)\]\]>)",
+            array(&$this, '_redirectProxyUrl'),
+            $this->_responseBody);
+        var_dump($filteredResponseBody);
+        exit();
+
     }
 
     /**
@@ -556,6 +601,7 @@ class AjaxProxy
     {
         $headers                 = array();
         $headers['Content-Type'] = $this->_requestContentType;
+        //$headers['X-Forwarded-For'] = $this->
 
         if($as_string)
         {
@@ -671,6 +717,6 @@ class AjaxProxy
  * Here's the actual script part. Comment it out or remove it if you simply want
  *  the class' functionality
  */
-$proxy = new AjaxProxy('http://login.example.com/');
+$proxy = new AjaxProxy('http://ox-d.greatermedia.com/');
 $proxy->execute();
-
+?>
