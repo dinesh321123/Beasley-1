@@ -282,6 +282,13 @@ class AjaxProxy
 
         $method = strtolower($_SERVER['REQUEST_METHOD']);
 
+        // Override specific calls in VAST file to GET's.
+        $url = $_SERVER["QUERY_STRING"];
+        if(strpos($url,"%2Frv%3F") || strpos($url,"%2Fri%3F"))
+        {
+            $method = "get";
+        }
+
         if($method == "get")
             $this->_requestMethod = self::REQUEST_METHOD_GET;
         elseif($method == "post")
@@ -378,6 +385,7 @@ class AjaxProxy
         $url = $this->_forwardHost . $this->_route;
 
         # Check for cURL. If it isn't loaded, fall back to fopen()
+
         if(function_exists('curl_init'))
             $this->_rawResponse = $this->_makeCurlRequest($url);
         else
@@ -408,6 +416,9 @@ class AjaxProxy
         curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl_handle, CURLOPT_COOKIE, $this->_buildProxyRequestCookieString());
         curl_setopt($curl_handle, CURLOPT_HTTPHEADER, $this->_generateProxyRequestHeaders());
+
+        curl_setopt($curl_handle, CURLOPT_PROXY, "192.168.150.170");
+        curl_setopt($curl_handle, CURLOPT_PROXYPORT, 8888);
 
         return curl_exec($curl_handle);
     }
@@ -501,9 +512,9 @@ class AjaxProxy
     /**
      *  Used to redirect all URLs returned from OpenX to work through proxy
      */
-    protected function _redirectProxyUrl($matches)
+    protected function _redirectProxyUrl_callback ( $m )
     {
-        return "<![CDATA[http://proxy.wmmr.com/route=".urlencode($matches(2))."]]>";
+        return "<![CDATA[http://".$_SERVER["HTTP_HOST"]."/wp-content/vastproxy.php?route=".urlencode($m[2])."]]>";
     }
 
     /**
@@ -541,17 +552,13 @@ class AjaxProxy
         $this->_responseHeaders = $this->_parseResponseHeaders($header);
         $this->_responseBody    = substr($this->_rawResponse, $break + 4);
 
-        // Replace all occurances of ox-d.greatermedia.com to proxy
-        //$this->_responseBody = preg_replace('/abc/', 'def', $string);
-
-        //preg_match_all("<!\[CDATA\[http://(ox-d\.greatermedia\.com)/(.*)\]\]>",$this->_responseBody, $matches);
-        //var_dump($matches);
-
+        // Added by Greater Media to redirect all requests in the VAST file back through the proxy
         $filteredResponseBody = preg_replace_callback("(<!\[CDATA\[http://(ox-d\.greatermedia\.com/)(.*)\]\]>)",
-            array(&$this, '_redirectProxyUrl'),
+            array(&$this, '_redirectProxyUrl_callback'),
             $this->_responseBody);
-        var_dump($filteredResponseBody);
-        exit();
+
+        $this->_responseHeaders["Content-Length"] = strlen($filteredResponseBody);
+        $this->_responseBody = $filteredResponseBody;
 
     }
 
@@ -601,7 +608,8 @@ class AjaxProxy
     {
         $headers                 = array();
         $headers['Content-Type'] = $this->_requestContentType;
-        //$headers['X-Forwarded-For'] = $this->
+        $headers['Referer'] = $_SERVER["HTTP_REFERER"];
+        $headers['X-Forwarded-For'] = $_SERVER["REMOTE_ADDR"];
 
         if($as_string)
         {
@@ -610,10 +618,14 @@ class AjaxProxy
                 if($value)
                     $data .= "$name: $value\n";
 
-            $headers = $data;
+            return $data;
         }
 
-        return $headers;
+        $out = array();
+        foreach($headers as $key => $value)
+            $out[] = "$key: $value";
+
+        return $out;
     }
 
     /**
@@ -650,7 +662,6 @@ class AjaxProxy
     protected function _buildAndExecuteProxyResponse()
     {
         $this->_generateProxyResponseHeaders();
-
         $this->_output($this->_responseBody);
     }
 
