@@ -776,7 +776,7 @@
 
 		if (liveLinksWidget !== null && liveLinksMore !== null && liveLinksBlogRoll !== null) {
 			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
-			if (liveLinksItem.length !== 1) {
+			if (liveLinksItem.length <= 0) {
 				liveLinksMore.classList.add('show-more--muted');
 			}
 		} else if (liveLinksWidget === null || liveLinksMore === null || liveLinksBlogRoll === null) {
