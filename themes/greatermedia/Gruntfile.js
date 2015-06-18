@@ -13,7 +13,6 @@ module.exports = function (grunt) {
 			},
 			greater_media: {
 				src: [
-					'assets/js/src/greater_media_load_more.js',
 					'assets/js/vendor/placeholders.min.js',
 					'assets/js/vendor/jquery.fitvids.js',
 					'assets/js/src/mobile-sub-menus.js',
