@@ -417,9 +417,6 @@ class AjaxProxy
         curl_setopt($curl_handle, CURLOPT_COOKIE, $this->_buildProxyRequestCookieString());
         curl_setopt($curl_handle, CURLOPT_HTTPHEADER, $this->_generateProxyRequestHeaders());
 
-        curl_setopt($curl_handle, CURLOPT_PROXY, "192.168.150.170");
-        curl_setopt($curl_handle, CURLOPT_PROXYPORT, 8888);
-
         return curl_exec($curl_handle);
     }
 
