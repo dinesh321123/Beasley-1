@@ -773,11 +773,13 @@
 	 */
 	function liveLinksHeight() {
 		var liveLinksBlogRoll = document.getElementById('live-links__blogroll');
-		if (liveLinksBlogRoll !== null) {
-			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
-		}
 
-		if(liveLinksWidget !== null && liveLinksMore !== null && liveLinksItem !== null) {
+		if (liveLinksWidget !== null && liveLinksMore !== null && liveLinksBlogRoll !== null) {
+			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
+			if (liveLinksItem.length !== 1) {
+				liveLinksMore.classList.add('show-more--muted');
+			}
+		} else if (liveLinksWidget === null || liveLinksMore === null || liveLinksBlogRoll === null) {
 			liveLinksMore.classList.add('show-more--muted');
 		}
 	}
