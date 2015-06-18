@@ -1,4 +1,4 @@
-(function ($) {
+(function ($, document) {
 	var __ready, reset_page = true, pagenums = {};
 
 	__ready = function() {
@@ -94,4 +94,4 @@
 	});
 
 	$(document).ready(__ready);
-})(jQuery);
+})(jQuery, document);

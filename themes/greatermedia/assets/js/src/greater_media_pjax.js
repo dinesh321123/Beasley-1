@@ -1,4 +1,4 @@
-(function($, location) {
+(function($, location, document) {
 	var $document = $(document),
 		classes = {},
 		last_url = null,
@@ -62,4 +62,4 @@
 	$document.bind('pjax:start', function() {
 		siteWrap.addClass('pjax--active');
 	});
-})(jQuery, location);
+})(jQuery, location, document);
