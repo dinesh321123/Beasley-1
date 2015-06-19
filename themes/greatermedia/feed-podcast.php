@@ -219,6 +219,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 
 		// Episode content
 		$content = get_the_content_feed( 'rss2' );
+		$content = html_entity_decode( $content );
 
 		// iTunes summary does not allow any HTML and must be shorter than 4000 characters
 		$itunes_summary = wp_strip_all_tags( get_the_content() );
