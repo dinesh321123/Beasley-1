@@ -349,13 +349,13 @@ ul#live-links__blogroll {
 }
 
 .mobile-nav .social__link:hover {
-	color:#6bb3ee;
-	border-color:#6bb3ee
+	color:#034ea2;
+	border-color:#034ea2
 }
 
 .social__link:hover {
-	color:#6bb3ee!important;
-	border-color:#6bb3ee!important
+	color:#034ea2!important;
+	border-color:#034ea2!important
 }
 
 /* mobile contests */
@@ -591,13 +591,36 @@ h2.entry2__title a:hover {
 	display:none
 }
 
-.entry2__thumbnail__overlay {
-	background-color:#002a6e;
-	opacity:.4
-}
-
 .type-contest .entry2__thumbnail--contest-type {
 	display:none
+}
+
+.type-contest .entry2__thumbnail{
+	background-color: transparent!important;
+}
+
+.entry2__thumbnail__overlay {
+	background-color: transparent!important;
+}
+
+.type-contest .entry2__thumbnail--end-date {
+	display:none!important;
+}
+
+.profile-page__sidebar .profile-header-link {
+	color: #6bb3ee;
+}
+
+.profile-page .profile-page__sidebar {
+	background-color: #150958;
+}
+
+.fyre .fyre-stream-livecount {
+	display: none!important;
+}
+
+.type-tribe_events .entry2__thumbnail--event-date  {
+	display:none!important;
 }
 
 .entries {
@@ -614,6 +637,22 @@ section.content {
 
 .now-playing {
 	height:0!important
+}
+
+.show__header.has-thumbnail:before {
+
+  background-image: -moz-linear-gradient(top,rgba(21,9,88,.5),rgba(21,9,88,.5));
+  /* FF3.6+ */
+  background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(21,9,88,.5)),to(rgba(21,9,88,.5)));
+  /* Chrome,Safari4+ */
+  background-image: -webkit-linear-gradient(top,rgba(21,9,88,.5),rgba(21,9,88,.5));
+  /* Chrome10+,Safari5.1+ */
+  background-image: -o-linear-gradient(top,rgba(21,9,88,.5),rgba(21,9,88,.5));
+  /* Opera 11.10+ */
+  background-image: -ms-linear-gradient(top,rgba(21,9,88,.5),rgba(21,9,88,.5));
+  /* IE10+ */
+  background-image: linear-gradient(to bottom,rgba(21,9,88,.5),rgba(21,9,88,.5));
+  /* W3C */
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -664,8 +703,9 @@ media 400px
 media 768px
 -----------------------------------*/
 @media screen and (min-width: 768px) {
-	.on-air__show,.up-next__show {
-		display:block!important
+
+	.on-air__title, .up-next__title {
+		color: #fff;text-transform: uppercase;
 	}
 
 	.now-playing {
@@ -817,17 +857,19 @@ media 768px
 	}
 
 	.live-stream__login {
-		background-color:transparent!important;
-		color:#002a6e
+		background-color: transparent!important;
+		color: #fff!important;
+		margin-top: 55px;
+		text-transform: uppercase;
 	}
 
-	.live-stream__listen-now--btn {
+	.live-stream__listen-now--btn, .podcast__rss {
 		display:inline-block;
 		line-height:1;
 		padding:.5em 1em;
 		margin-right:.5em;
 		position:relative;
-		top:80px;
+		top:0px;
 		outline:0;
 		background-color:transparent;
 		border:1px solid #fff;
@@ -881,12 +923,13 @@ media 768px
 	}
 
 	.on-air__show,.up-next__show {
+		display:block!important;
 		font-size:.8888888889em;
 		font-weight:800;
 		text-transform:uppercase;
 		font-family:'Oswald',sans-serif;
 		color:#fff!important;
-		padding-top:2px
+	    padding-top:0px!important;
 	}
 
 	.live-link__song--artist,.live-link__song:before {
@@ -940,15 +983,15 @@ media 768px
 	}
 
 	.header__account ul li a:active,.header__account ul li a:focus,.header__account ul li a:hover,.header__account ul li:hover,.header__nav ul li a:active,.header__nav ul li a:focus,.header__nav ul li.active,.header__nav ul li.active a:hover,.header__nav ul li.active a:focus,.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover,.ui-menu .ui-state-focus {
-		background-color:#6bb3ee!important
+		background-color:#034ea2!important
 	}
 
 	.header__account--btn:hover {
-		background-color:#6bb3ee!important
+		background-color:#034ea2!important
 	}
 
 	.header__account:hover {
-		background-color:#6bb3ee;
+		background-color:#034ea2;
 		color:#fff
 	}
 
@@ -1015,16 +1058,16 @@ media 1024px
 	}
 
 	.header__account--logged-out:hover {
-		background-color:#6bb3ee!important
+		background-color:#034ea2!important
 	}
 
 	.header__account--links.sub-menu {
-		border-top:6px solid #6bb3ee!important;
+		border-top:6px solid #034ea2!important;
 		border-bottom:0!important
 	}
 
 	.header__nav .sub-menu {
-		border-top:6px solid #6bb3ee!important;
+		border-top:6px solid #034ea2!important;
 		border-bottom:0!important;
 		background-color:#fff
 	}
