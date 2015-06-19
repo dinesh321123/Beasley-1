@@ -242,7 +242,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		<guid isPermaLink="false"><?php esc_html( the_guid() ); ?></guid>
 		<description><![CDATA[<?php echo wp_strip_all_tags( $item_description ); ?>]]></description>
 		<itunes:subtitle><![CDATA[<?php echo wp_strip_all_tags( $item_itunes_subtitle ); ?>]]></itunes:subtitle>
-		<content:encoded><![CDATA[<?php echo esc_html( $content ); ?>]]></content:encoded>
+		<content:encoded><![CDATA[<?php echo wp_strip_all_tags( $content ); ?>]]></content:encoded>
 		<itunes:summary><![CDATA[<?php echo wp_strip_all_tags( $item_itunes_summary ); ?>]]></itunes:summary>
 		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $size ); ?>" type="<?php echo esc_attr( $mime_type ); ?>"></enclosure>
 		<itunes:explicit><?php echo esc_html( $explicit_flag ); ?></itunes:explicit>
