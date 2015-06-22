@@ -44,6 +44,10 @@ class GMR_Audio_Shortcodes {
 			return $html;
 		}
 
+		if ( is_feed() ) {
+			return ' ';
+		}
+
 //		/*
 //		 * Spec supports mp3 only, as do the browsers we're trying to use audio element with.
 //		 * Anything else will just use media element, rather than the live player
