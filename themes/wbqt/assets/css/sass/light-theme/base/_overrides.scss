@@ -704,6 +704,10 @@ media 768px
 -----------------------------------*/
 @media screen and (min-width: 768px) {
 
+
+	.header__nav-submenu--features li:hover p{
+		color:#fff!important;
+	}
 	.on-air__title, .up-next__title {
 		color: #fff;text-transform: uppercase;
 	}
@@ -1152,10 +1156,10 @@ media 1252px
 	    background: url(../../images/img_Artists1.png) no-repeat;
 	    background-size: contain;
 	    position: absolute;
-	    width: 275px;
+	    width: 325px;
 	    height: 136px!important;
-	    top: 10px;
-	    right: -275px;
+	    top: -25px;
+	    right: -330px;
     }
 }
 
@@ -1182,10 +1186,4 @@ media 1400px
 		z-index:1000!important
 	}
 
-  .ad__leaderboard.desktop:after {
-      width:325px;
-      height:136px!important;
-      top: -12px;
-      right: -325px;
-  }
 }
