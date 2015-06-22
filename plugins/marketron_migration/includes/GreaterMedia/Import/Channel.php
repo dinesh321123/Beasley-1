@@ -73,6 +73,7 @@ class Channel extends BaseImporter {
 
 	function blog_from_story( $story ) {
 		$blog_title     = ucwords( $this->import_string( $story['Headline'] ) );
+		$blog_title     = htmlentities( $blog_title );
 		$blog_content   = $this->import_string( $story->StoryText );
 		$featured_image = $this->featured_image_from_story( $story );
 

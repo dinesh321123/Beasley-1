@@ -56,7 +56,11 @@ class Podcast extends Post {
 	}
 
 	function get_podcast_by_name( $name ) {
-		return $this->cached_podcasts[ $name ];
+		if ( array_key_exists( $name, $this->cached_podcasts ) ) {
+			return $this->cached_podcasts[ $name ];
+		} else {
+			return null;
+		}
 	}
 
 	function get_show_id( $name ) {
