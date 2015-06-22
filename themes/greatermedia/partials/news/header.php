@@ -51,6 +51,9 @@
 			 */
 			/* get_template_part( 'partials/news/header', 'scores'); */
 			?>
+			<nav class="header__social" role="navigation">
+				<?php do_action( 'gmr_social' ); ?>
+			</nav>
 		</div>
 	</div>
 	<div class="header__main">

@@ -13,8 +13,8 @@
  */
  
  // Useful global constants
-define( 'WBQT_VERSION', '0.1.3' ); /* Denis changes to CSS 6/22/2015 @ 2:30PM EST */
- 
+define( 'WBQT_VERSION', '0.1.3' ); /* Version bump by Allen 6/22/2015 @ 2:45pm EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *

@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WDHA_VERSION', '0.2.1' );
+define( 'WDHA_VERSION', '0.2.2' ); /* Version bump by Allen 6/22/2015 @ 2:45pm EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.

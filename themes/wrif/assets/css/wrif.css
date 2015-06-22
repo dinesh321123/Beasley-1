@@ -3843,6 +3843,10 @@ a.highlights__contest--btn {
     border: none;
     font-size: 1em;
     color: white; } }
+@media screen and (min-width: 1024px)  {
+  .news-site .header__social a.social__link {
+    padding: 15px 0 14px;
+    font-size: 1.25em; } }
 
 .header__search {
   display: none;
@@ -5547,6 +5551,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .article__comments {
   margin: 3em 0; }
 
+.article__author {
+  display: none; }
+
 .ad-unit--300--250 {
   position: relative;
   height: 250px;
@@ -5573,6 +5580,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 ---
 title: Live Player
 name: live-player
+category: Components
 category: Components
 ---
 
@@ -9018,6 +9026,9 @@ category: Components - Ads
   .tribe-events-list .type-tribe_events .entry2__meta p {
     margin: 0; }
 
+.tribe-events-single-event-author {
+  display: none; }
+
 /*doc
 ---
 title: Podcast Excerpt
@@ -9849,6 +9860,23 @@ category: Components - Shows
 .show__cast {
   width: 100%;
   position: relative;
+  height: 100%; }
+  @media screen and (min-width: 1024px)  {
+    .show__cast {
+      width: 150px;
+      display: table-cell;
+      vertical-align: middle; } }
+  .show__cast img {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -border-radius: 50%;
+    border-radius: 50%;
+    margin: 0 auto; }
+
+.show__cast {
+  width: 100%;
   height: 100%; }
   @media screen and (min-width: 1024px)  {
     .show__cast {

@@ -33,4 +33,16 @@ grunt
 cd ../wbos
 grunt
 
+cd ../wbqt
+grunt
+
+cd ../wdha
+grunt
+
+cd ../wjrz
+grunt
+
+cd ../wrif
+grunt
+
 cd ../

@@ -642,6 +642,14 @@
 		font-size: 1em;
 		color: white;
 	}
+
+	.news-site & {
+
+		@include bp(large) {
+			padding: 15px 0 14px;
+			font-size: 1.25em;
+		}
+	}
 }
 
 // container for search button

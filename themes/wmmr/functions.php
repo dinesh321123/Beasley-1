@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WMMR_VERSION', '0.1.5' );
+define( 'WMMR_VERSION', '0.1.6' ); /* Version bump by Allen 6/22/2015 @ 2:45pm EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
