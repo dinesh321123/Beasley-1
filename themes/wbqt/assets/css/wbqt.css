@@ -15227,7 +15227,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
   font-family: 'Oswald', sans-serif; }
 
 .header__logo {
-  background: url(../../images/header-logo.png) no-repeat;
+  background: url(../../images/header-logo1.png) no-repeat;
   border: solid 1px #6bb3ee;
   background-position: center top;
   background-size: contain;
@@ -15392,6 +15392,26 @@ section.content {
   background-image: linear-gradient(to bottom, rgba(21, 9, 88, 0.5), rgba(21, 9, 88, 0.5));
   /* W3C */ }
 
+.top-three__desc:hover {
+  color: #150958; }
+
+a.podcast__rss:hover {
+  background-color: #150958; }
+
+h3.podcast__title a:link {
+  color: #150958; }
+
+h3.podcast__title a:hover {
+  color: #0c4da2; }
+
+.podcast__btn--play {
+  border-color: #150958;
+  color: #150958; }
+
+.podcast__btn--play:hover {
+  border-color: #0c4da2;
+  color: #0c4da2; }
+
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -15502,7 +15522,7 @@ media 768px
 	  animation-direction: normal;
 	  animation-timing-function: steps(1,end);*/ }
   .header__logo {
-    background: url(../../images/header-logo.png) no-repeat;
+    background: url(../../images/header-logo1.png) no-repeat;
     background-position: center top;
     display: block;
     width: 225px;
@@ -15525,7 +15545,7 @@ media 768px
     margin-top: 42px;
     padding: 0; }
   .live-stream {
-    background: #2e4d8f url(../../images/live-stream.png) no-repeat; }
+    background: #2e4d8f url(../../images/live-stream1.png) no-repeat; }
   .live-stream .on-air, .live-stream .up-next {
     padding: 4px 1em;
     position: relative;
@@ -15724,13 +15744,13 @@ media 1252px
   .ad__leaderboard.desktop:after {
     content: "";
     display: inline-block;
-    background: url(../../images/img_Artists1.png) no-repeat;
+    background: url(../../images/img_Artists2.png) no-repeat;
     background-size: contain;
     position: absolute;
-    width: 325px;
+    width: 275px;
     height: 136px !important;
-    top: -25px;
-    right: -330px; } }
+    top: -3px;
+    right: -275px; } }
 
 /*-----------------------------------
 media 1400px
@@ -15750,7 +15770,12 @@ media 1400px
     top: -130px;
     margin: 0;
     padding: 0;
-    z-index: 1000 !important; } }
+    z-index: 1000 !important; }
+  .ad__leaderboard.desktop:after {
+    width: 325px;
+    height: 136px !important;
+    top: -25px;
+    right: -330px; } }
 
 .live-link__type--show {
   border-bottom-color: white;
