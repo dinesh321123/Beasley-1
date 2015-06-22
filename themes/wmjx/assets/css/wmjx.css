@@ -14886,6 +14886,9 @@ table.responsive tr:nth-of-type(even) {
   .single-gmr_gallery .gallery__paging--prev:hover, .single-gmr_gallery .gallery__paging--next:hover {
     color: #d22228; }
 
+.main .fyre .fyre-livecount {
+  visibility: hidden; }
+
 .live-player__stream {
   border: 1px solid #b0b0b0;
   color: #b0b0b0;
@@ -15314,7 +15317,7 @@ h2.entry2__title a:hover {
   color: #7fc7fb !important; }
 
 /*----------------------------------------------------------------------------------------------------------------------
-media 400px 
+media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
 @media screen and (min-width: 400px) {
   .footer__copyright--logo a:hover {
@@ -15330,7 +15333,7 @@ media 400px
     color: #002a6e; } }
 
 /*-----------------------------------
-media 768px 
+media 768px
 -----------------------------------*/
 @media screen and (min-width: 768px) {
   /*.header__logo {
@@ -15352,7 +15355,7 @@ new changes for Live player 5/12
     font-weight: 400;
     font-style: italic; }
   /* --------------------------------------
- end changes for Live player 5/12 
+ end changes for Live player 5/12
  -------------------------------------- */
   .widget--live-player a:hover > div {
     background-color: #114598 !important;
@@ -15495,7 +15498,7 @@ new changes for Live player 5/12
     padding-bottom: 10px; } }
 
 /*-----------------------------------
-media 1024px 
+media 1024px
 -----------------------------------*/
 @media screen and (min-width: 1024px) {
   .entry2__thumbnail__icon {
@@ -15549,7 +15552,7 @@ media 1024px
     border-top: 7px solid #ffe513 !important; } }
 
 /*-----------------------------------
-media 1175px 
+media 1175px
 -----------------------------------*/
 @media screen and (min-width: 1175px) {
   .header__nav {
@@ -15575,7 +15578,7 @@ media 1175px
       height: 158px;*/ } }
 
 /*-----------------------------------
-media 1252px 
+media 1252px
 -----------------------------------*/
 @media screen and (min-width: 1252px) {
   .header__nav {
@@ -15657,7 +15660,7 @@ media 1252px
     animation-time: 10s; } }
 
 /*-----------------------------------
-media 1400px 
+media 1400px
 -----------------------------------*/
 @media screen and (min-width: 1400px) {
   .header__nav {
