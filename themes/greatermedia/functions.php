@@ -1070,7 +1070,7 @@ function greatermedia_facebook_handler( $matches, $attr, $url, $rawattr ) {
  */
 function greatermedia_search_results_filter( $query ) {
 	if ( ! is_admin() && $query->is_main_query() ) {
-		if ( ! $query->is_search() ) {
+		if ( $query->is_search() ) {
 			$query->set( 'orderby', 'date' );
 		}
 	}
