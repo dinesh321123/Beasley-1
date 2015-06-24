@@ -14,8 +14,8 @@
  
  // Useful global constants
 
- define( 'WBQT_VERSION', '0.1.6' );
-
+define( 'WBQT_VERSION', '0.1.7' );
+ 
  /**
   * Set up theme defaults and register supported WordPress features.
   *
