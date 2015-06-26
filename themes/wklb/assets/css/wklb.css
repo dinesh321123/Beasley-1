@@ -3845,6 +3845,10 @@ a.highlights__contest--btn {
     border: none;
     font-size: 1em;
     color: white; } }
+@media screen and (min-width: 1024px)  {
+  .news-site .header__social a.social__link {
+    padding: 15px 0 14px;
+    font-size: 1.25em; } }
 
 .header__search {
   display: none;
@@ -14999,7 +15003,7 @@ table.responsive tr:nth-of-type(even) {
   height: 83px;
   z-index: 1000 !important;
   cursor: pointer;
-  margin: 0px 30% 0; }
+  margin: 0px 27% 0; }
 
 .header__logo img {
   z-index: 1 !important;
@@ -15027,7 +15031,7 @@ table.responsive tr:nth-of-type(even) {
   font-family: 'Oswald',sans-serif;
   color: #fff !important;
   font-size: .88888em;
-  font-weight: 100 !important;
+  font-weight: 100;
   font-style: italic; }
 
 .featured__article--heading {
@@ -15125,19 +15129,10 @@ h2.entry2__title a:hover {
 .type-contest .entry2__thumbnail--end-date {
   display: none !important; }
 
-.home__featured .featured__article--content {
-  background-image: none !important;
-  background-color: #004794 !important;
-  color: #fff; }
-
 .home__featured .featured__content--block {
   background-image: none !important;
   background-color: #004794 !important;
   color: #fff; }
-
-.home__featured .featured__content--block:hover {
-  background-image: linear-gradient(to bottom, #dd0039 65%, #ce1141 100%);
-  color: #fff !important; }
 
 .featured__content--block:hover {
   background-color: #ce1141 !important; }
@@ -15145,8 +15140,18 @@ h2.entry2__title a:hover {
 .featured__content--block:hover .featured__content--title {
   color: #fff !important; }
 
+/*.home__featured .featured__content--block:hover {
+	background-image:linear-gradient(to bottom,#dd0039 65%,#ce1141 100%);
+	color:#fff!important;
+}*/
+.home__featured .featured__article--content {
+  background-image: none !important;
+  background-color: #004794 !important;
+  color: #fff; }
+
 .featured__article:hover {
-  background-color: #ce1141 !important; }
+  background-color: #ce1141;
+  color: #fff !important; }
 
 .featured__article:hover .featured__article--heading {
   color: #fff !important; }
@@ -15305,7 +15310,12 @@ a:hover .highlights__event--title, a:hover .highlights__event--date {
 #live-player--volume.noUi-horizontal .noUi-handle {
   background: #000; }
 
-/* END LIVE PLAYER */
+.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading, .live-stream--inactive, .podcast__btn--play, .podcast__btn--pause {
+  margin: 10px auto; }
+
+.featured__article--image {
+  background-color: #004794; }
+
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -15371,7 +15381,8 @@ media 768px
     margin-top: 6px !important; }
   .live-player__container {
     border-bottom: 0px solid white !important;
-    background-color: transparent !important; }
+    background-color: transparent !important;
+    height: 400px; }
   .on-air__show, .up-next__show {
     display: block !important;
     font-size: .8888888889em;
@@ -15381,7 +15392,9 @@ media 768px
     color: #fff !important;
     padding-top: 0px !important; }
   .live-stream {
-    background: url(../../images/live-stream.png) no-repeat transparent !important; }
+    background: url(../../images/live-stream.png) no-repeat transparent !important;
+    position: relative;
+    top: 13px; }
   .live-stream .on-air, .live-stream .up-next {
     padding: 4px 1em;
     position: relative;
@@ -15487,6 +15500,33 @@ media 768px
   .live-link__song .live-link__song--artist, .live-link__song .live-link__song--title {
     font-family: 'Architects Daughter', cursive;
     font-size: 1em;
+    font-weight: 400;
+    color: #fff; }
+  .live-link__song:before {
+    color: #fff; }
+  .header__logo {
+    max-width: inherit;
+    margin: 0px 27% 0; }
+  .widget--live-player__title {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: #fff; }
+  .home__featured .featured__content--image {
+    padding-top: 66.6%;
+    width: 100%; }
+  .featured__content--block {
+    height: 100%; }
+  .now-playing__title {
+    color: #fff;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1em;
+    font-weight: 700; }
+  .now-playing__artist {
+    color: #fff;
+    font-family: 'Architects Daughter';
+    font-size: 1em;
     font-weight: 400; } }
 
 /*-----------------------------------
@@ -15494,7 +15534,7 @@ media 1024px
 -----------------------------------*/
 @media screen and (min-width: 1024px) {
   .header__nav {
-    padding-left: 20px !important; }
+    padding-left: 240px !important; }
   .header__nav li {
     font-weight: 800;
     text-transform: uppercase; }
@@ -15532,14 +15572,17 @@ media 1024px
     top: -110px;
     left: 0px;
     margin: 0;
-    padding: 0; } }
+    padding: 0; }
+  .ad__leaderboard.desktop {
+    float: right;
+    margin-right: 50px; }
+  .live-stream {
+    top: 0px; } }
 
 /*-----------------------------------
 media 1175px
 -----------------------------------*/
 @media screen and (min-width: 1175px) {
-  .header__nav {
-    padding-left: 220px !important; }
   .header__nav > ul > li {
     padding-right: 5px; }
   .header__nav > ul > li > a {
@@ -15590,6 +15633,9 @@ media 1252px
       background-image: url(../../images/img_Artists3.png);
       opacity: 1; } }
 
+  .ad__leaderboard.desktop {
+    float: none;
+    margin: 16px auto; }
   .ad__leaderboard.desktop:after {
     content: "";
     display: inline-block;
@@ -15629,16 +15675,22 @@ media 1400px
   .header__nav {
     padding-left: 290px !important; }
   .header__logo {
-    border: solid 0 #fff;
-    width: 362px;
-    height: 200px;
-    top: -130px;
-    left: -30px; }
+    left: 0px; }
   .ad__leaderboard.desktop:after {
     width: 325px;
     height: 136px !important;
     top: -22px;
     right: -325px; } }
+
+/*-----------------------------------
+media 1450px
+-----------------------------------*/
+@media screen and (min-width: 1450px) {
+  .header__logo {
+    width: 362px;
+    height: 200px;
+    top: -130px;
+    left: -30px; } }
 
 .live-link__type--show {
   border-bottom-color: white;

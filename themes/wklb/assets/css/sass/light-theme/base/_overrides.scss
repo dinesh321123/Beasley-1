@@ -213,7 +213,7 @@
 	height:83px;
 	z-index:1000!important;
 	cursor:pointer;
-	margin:0px 30% 0;
+	margin:0px 27% 0;
 }
 
 .header__logo img {
@@ -245,7 +245,7 @@
 	font-family:'Oswald',sans-serif;
 	color:#fff!important;
 	font-size:.88888em;
-	font-weight:100!important;
+	font-weight:100;
 	font-style:italic
 }
 
@@ -376,23 +376,13 @@ h2.entry2__title a:hover {
 }
 
 
-.home__featured .featured__article--content {
-	background-image: none!important;
-	background-color: #004794!important;
-	color:#fff
-}
+
 
 .home__featured .featured__content--block {
     background-image: none!important;
 	background-color: #004794!important;
 	color:#fff
 }
-
-.home__featured .featured__content--block:hover {
-	background-image:linear-gradient(to bottom,#dd0039 65%,#ce1141 100%);
-	color:#fff!important;
-}
-
 
 .featured__content--block:hover {
 
@@ -403,10 +393,22 @@ h2.entry2__title a:hover {
 	color:#fff!important;
 }
 
-.featured__article:hover {
-	background-color: #ce1141!important;
+/*.home__featured .featured__content--block:hover {
+	background-image:linear-gradient(to bottom,#dd0039 65%,#ce1141 100%);
+	color:#fff!important;
+}*/
 
+.home__featured .featured__article--content {
+	background-image: none!important;
+	background-color: #004794!important;
+	color:#fff
 }
+
+.featured__article:hover  {
+	background-color: #ce1141;
+	color: #fff!important;
+}
+
 
 .featured__article:hover .featured__article--heading {
 
@@ -596,7 +598,13 @@ a:hover .highlights__event--title,a:hover .highlights__event--date {
 }
 
 
-/* END LIVE PLAYER */
+.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading, .live-stream--inactive, .podcast__btn--play, .podcast__btn--pause{
+	margin:10px auto;
+}
+
+.featured__article--image{
+	background-color: #004794;
+}
 
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
@@ -701,6 +709,7 @@ media 768px
 	.live-player__container {
 		border-bottom: 0px solid white!important;
 		background-color: transparent!important;
+		height:400px;
 	}
 
 	.on-air__show,.up-next__show {
@@ -715,6 +724,8 @@ media 768px
 
 	.live-stream {
   		background: url(../../images/live-stream.png) no-repeat transparent!important;
+  		position: relative;
+  		top: 13px;
 	}
 
 	.live-stream .on-air,.live-stream .up-next {
@@ -816,7 +827,7 @@ media 768px
 	}
 
 	a:hover .live-link__song:before,.live-link__song:hover .live-link__song--title,.live-link__song:hover .live-link__song--artist {
-		color:#fff!important
+		color:#fff!important;
 	}
 
 
@@ -861,6 +872,48 @@ media 768px
 		font-family: 'Architects Daughter', cursive;
   		font-size: 1em;
   		font-weight: 400;
+  		color:#fff;
+	}
+
+	.live-link__song:before{
+		color: #fff;
+
+	}
+
+	.header__logo {
+		max-width:inherit;
+		margin:0px 27% 0;
+	}
+
+	.widget--live-player__title{
+		font-family: 'Architects Daughter', cursive;
+  		font-size: 1.20em;
+  		text-transform: uppercase;
+  		font-weight: 400;
+  		color:#fff;
+	}
+
+	.home__featured .featured__content--image{
+		padding-top: 66.6%;
+		width: 100%;
+	}
+
+	.featured__content--block{
+		height: 100%;
+	}
+
+	.now-playing__title{	
+		color: #fff;
+  		font-family: 'Architects Daughter', cursive;
+  		font-size: 1em;
+  		font-weight: 700;
+	}
+
+	.now-playing__artist{	
+		color: #fff;
+  		font-family: 'Architects Daughter';
+  		font-size: 1em;
+  		font-weight: 400;
 	}
 
 }
@@ -874,7 +927,7 @@ media 1024px
 
 
 	.header__nav {
-		padding-left:20px!important
+		padding-left:240px!important;
 	}
 
 	.header__nav li {
@@ -937,6 +990,15 @@ media 1024px
 		padding:0;
 	}
 
+	.ad__leaderboard.desktop{
+		float: right;
+		margin-right: 50px;
+	}
+
+	.live-stream {
+  		top: 0px;
+  	}
+
 }
 
 
@@ -945,11 +1007,6 @@ media 1175px
 -----------------------------------*/
 @media screen and (min-width: 1175px) {
 
-
-
-	.header__nav {
-		padding-left:220px!important
-	}
 
 	.header__nav>ul>li {
 		padding-right:5px
@@ -992,6 +1049,10 @@ media 1252px
 	        
 	}
 
+	.ad__leaderboard.desktop{
+		float: none;
+		margin: 16px auto;
+	}
 
 	.ad__leaderboard.desktop:after {
 		  content: "";
@@ -1044,11 +1105,8 @@ media 1400px
 	}
 
 	.header__logo {
-		border:solid 0 #fff;
-		width:362px;
-		height:200px;
-		top:-130px;
-		left:-30px;
+
+		left:0px;
 		
 	}
 
@@ -1059,5 +1117,18 @@ media 1400px
 	    right: -325px;
 
   	}
+
+}
+
+/*-----------------------------------
+media 1450px
+-----------------------------------*/
+@media screen and (min-width: 1450px) {
+	.header__logo{
+		width:362px;
+		height:200px;
+		top:-130px;
+		left:-30px;
+	}
 
 }
