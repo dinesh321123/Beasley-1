@@ -10,8 +10,129 @@
 	}
 }
 
+.single-show .highlights__event--item {
+	background-color: #fff;
+}
+
+.news-site .highlights__contest--title,
+.news-site .highlights__event--title {
+	margin-top: 4px;
+	font-size: .9em;
+}
+
+.news-site .highlights__contest--date,
+.news-site .highlights__event--date {
+	font-size: 1em;
+}
+
+.contest__form button[type=button]:hover:focus,
+.contest__form button[type=button]:hover:hover,
+.contest__form button[type=submit]:hover:focus,
+.contest__form button[type=submit]:hover:hover,
+.contest__form input[type=submit]:hover:focus,
+.contest__form input[type=submit]:hover:hover {
+	background-color: #AE0D04;
+	border-color: #FFFDFD;
+	color: #050505;
+}
+
+.contest__form button[type=button]:active,
+.contest__form button[type=submit]:active,
+.contest__form input[type=submit]:active {
+	background-color: #AE0D04;
+	color: #fff!important;
+}
+
+.profile-page .profile-page__sidebar h1 {
+	color: #fff;
+}
+
+.pre-roll__notification {
+	color: #000;
+}
+
+.audio__playing #live-player--volume {
+	display: none;
+}
+
+.live-stream__btn--play.live-player__login {
+	border: 1px solid #333;
+	color: #333;
+}
+
+@include bp(medium) {
+
+	.audio__playing #live-player--volume {
+		display: block;
+	}
+
+	.live-player {
+		background: url('../../images/listen-live-bg.jpg') no-repeat;
+	}
+
+	.live-stream {
+		margin: 1em auto 4em auto !important;
+		background: none !important;
+
+		.live-player__stream {
+			visibility: hidden;
+		}
+	}
+
+	.news-site .live-stream__status.audio__playing {
+		top: 78px;
+	}
+}
+
 .live-links {
 	border-top: 0;
+	margin: 0!important;
+	width: 100%;
+
+	.widget--live-player__title {
+		display: none;
+	}
+
+	.widget_gmr_blogroll_widget {
+		display: none;
+	}
+}
+
+.live-links--more.show-more--muted {
+	display: block;
+}
+
+.streamhub-wall-component {
+	article {
+		&.content-default .content-body {
+			font-family: 'Open Sans', sans-serif;
+			font-size: 16px;
+			line-height: 20px;
+		}
+	}
+}
+
+#fanatic-social-stream {
+	overflow: hidden;
+	border-top: 1px solid #eee;
+
+	article {
+		border-width: 0 0 1px 0;
+		margin: 0;
+		padding: 20px 0;
+
+		&.content .content-header .content-header-inner {
+			padding-top: 0;
+		}
+
+		&.content-instagram .content-header .content-header-inner {
+			padding-top: 20px;
+		}
+	}
+
+	.hub-list-more {
+		display: none;
+	}
 }
 
 .single-gmr_gallery .gallery__paging--prev,
@@ -24,6 +145,7 @@
 }
 
 .live-player__stream {
+	visibility: hidden;
 	border: 1px solid lighten($color-gray-medium-dark,50%);
 	color: lighten($color-gray-medium-dark,50%);
 	@include border-radius(1em);
@@ -64,8 +186,12 @@
 
 }
 
+.live-player--open .live-links {
+	margin-top: 0 !important;
+}
+
 .live-player__container {
-	border-bottom: 1px solid white;
+	border-bottom: none;
 }
 
 .now-playing__artist {
@@ -98,6 +224,10 @@
 
 .live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
 	color: $primary-link-hover;
+}
+
+.header__leaderboard {
+	background-image: url('../../images/pw_pattern.png');
 }
 
 .header__logo {
@@ -140,4 +270,40 @@
 
 .audio__progress-bar {
 	background-color: $gray;
+}
+
+.footer {
+	background-image: url('../../images/pw_pattern.png');
+
+	.container {
+		-webkit-box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+		background-color: #EDEDED;
+	}
+}
+
+.footer__content {
+	background-color: #ededed;
+}
+
+.main .show__header.has-thumbnail:before {
+	background-image: linear-gradient(to bottom,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+	background-image: -moz-linear-gradient(top,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+	background-image: -o-linear-gradient(top,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+	background-image: -ms-linear-gradient(top,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(20, 16, 16, 0.55)),to(rgba(88,15,12,.55)));
+	background-image: -webkit-linear-gradient(top,rgba(20, 16, 16, 0.55),rgba(88,15,12,.55));
+}
+
+@include bp(x-large) {
+	.main {
+		background-image: url('../../images/pw_pattern.png');
+
+		.container {
+			-webkit-box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+			-moz-box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+			box-shadow: 0px 0px 25px 1px rgba(0,0,0,0.75);
+		}
+	}
 }

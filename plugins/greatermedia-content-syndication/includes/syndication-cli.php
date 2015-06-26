@@ -10,6 +10,11 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 	 * [<start>]
 	 * : Import articles that were added on or after this date. YYYY-MM-DD
 	 *
+	 * [<end>]
+	 * : Import articles that were added before this date. YYYY-MM-DD
+	 *
+	 * [<reload>]
+	 * : Forces syndication to reload content.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -17,7 +22,7 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 	 *
 	 * wp gmr-syndication import 2014-09-30
 	 *
-	 * @synopsis [<start>]
+	 * @synopsis [<start>] [<end>] [--reload]
 	 *
 	 * @subcommand import
 	 *
@@ -27,6 +32,7 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 	public function import( $args, $assoc_args ) {
 		$start = array_shift( $args );
 		$end = array_shift( $args );
+		$force = ! empty( $assoc_args['reload'] );
 
 		if ( ! empty( $start ) ) {
 			if ( ! $this->validate_date( $start ) ) {
@@ -45,54 +51,53 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 		// Do magic here
 		$active_subsriptions = BlogData::GetActiveSubscriptions();
 
-		foreach( $active_subsriptions as $single_subscription ) {
+		foreach ( $active_subsriptions as $single_subscription ) {
 
-			if( empty( $start ) ) {
+			if ( empty( $start ) ) {
 				$start = date( 'Y-m-d H:i:s', mktime( 0, 0, 0, 1, 1, 2012 ) );
 			}
 
-			$result = BlogData::QueryContentSite( $single_subscription->ID, $start );
+			$result = BlogData::QueryContentSite( $single_subscription->ID, $start, $end );
 
 			$taxonomy_names = get_object_taxonomies( 'post', 'objects' );
 			$defaults = array(
-				'status'    =>  get_post_meta( $single_subscription->ID, 'subscription_post_status', true ),
+				'status' => get_post_meta( $single_subscription->ID, 'subscription_post_status', true ),
 			);
 
-			foreach( $taxonomy_names as $taxonomy ) {
+			foreach ( $taxonomy_names as $taxonomy ) {
 				$label = $taxonomy->name;
 
 				// Use get_post_meta to retrieve an existing value from the database.
 				$terms = get_post_meta( $single_subscription->ID, 'subscription_default_terms-' . $label, true );
 				$terms = explode( ',', $terms );
-				$defaults[ $label ] = $terms;
+				$defaults[$label] = $terms;
 			}
-			
-			$total  = count( $result );
+
+			$total = count( $result );
 			$notify = new \cli\progress\Bar( "Importing $total articles", $total );
 
 			foreach ( $result as $single_post ) {
-				$new_post_id = BlogData::ImportPosts(
-					$single_post['post_obj']
-					, $single_post['post_metas']
-					, $defaults
-					, $single_post['featured']
-					, $single_post['attachments']
-					, $single_post['gallery_attachments']
-					, $single_post['galleries']
-					, $single_post['term_tax']
-				);
-
-				if ( $new_post_id ) {
-					$notify->tick();
+				if ( ! empty( $single_post['post_obj'] ) ) {
+					BlogData::ImportPosts(
+							$single_post['post_obj']
+							, $single_post['post_metas']
+							, $defaults
+							, $single_post['featured']
+							, $single_post['attachments']
+							, $single_post['gallery_attachments']
+							, $single_post['galleries']
+							, $single_post['term_tax']
+							, $force
+					);
 				}
+				
+				$notify->tick();
 			}
 
 			$notify->finish();
-
 		}
 
 		WP_CLI::success( "Finished Import" );
-
 	}
 
 	protected function validate_date( $date ) {
@@ -103,6 +108,63 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 
 		return $date;
 	}
+	
+	/**
+	 * Updates syndicated post with the latest version of original post.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<id>]
+	 * : Post id to update.
+	 *
+	 *
+	 * ## EXAMPLES
+	 *
+	 * wp gmr-syndication reload
+	 *
+	 * wp gmr-syndication reload 20109
+	 *
+	 * @synopsis [<id>]
+	 *
+	 * @param $args
+	 * @param $assoc_args
+	 */
+	public function reload( $args, $assoc_args ) {
+		if ( empty( $args ) ) {
+			\WP_CLI::error( 'Please, provide post id to update.' );
+		}
+
+		$syndicated_post = get_post( $args[0] );
+		if ( empty( $syndicated_post ) ) {
+			\WP_CLI::error( 'The post has not been found.' );
+		}
+		
+		$info = get_post_meta( $syndicated_post->ID, 'syndication_old_data', true );
+		if ( empty( $info ) ) {
+			\WP_CLI::error( 'Syndication data has not been found.' );
+		}
+
+		$info = unserialize( $info );
+		switch_to_blog( $info['blog_id'] );
+		$original_post = get_post( $info['id'] );
+		$data = BlogData::PostDataExtractor( $syndicated_post->post_type, $original_post );
+		restore_current_blog();
+		
+		BlogData::ImportPosts(
+			$data['post_obj']
+			, $data['post_metas']
+			, array( 'status' => $syndicated_post->post_status )
+			, $data['featured']
+			, $data['attachments']
+			, $data['gallery_attachments']
+			, $data['galleries']
+			, $data['term_tax']
+			, true
+		);
+
+		\WP_CLI::success( 'The post has been updated.' );
+	}
+
 }
 
 WP_CLI::add_command( 'gmr-syndication', 'GMR_Syndication_CLI' );

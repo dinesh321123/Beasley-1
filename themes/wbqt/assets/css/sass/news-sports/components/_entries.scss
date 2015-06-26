@@ -1,0 +1,10 @@
+a.entry2__category:link,
+a.entry2__category:visited {
+	color: $gray;
+}
+
+a.entry2__category:hover,
+a.entry2__category:active,
+a.entry2__category:focus, {
+	color: $primary-link-hover;
+}

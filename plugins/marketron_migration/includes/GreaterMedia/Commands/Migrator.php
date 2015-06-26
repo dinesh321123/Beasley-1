@@ -265,7 +265,18 @@ class Migrator {
 			$this->opts['tools_to_load'] = explode( ',', $this->opts['tools_to_load'] );
 		}
 
-		$this->site_dir = $opts['site_dir'];
+		if ( array_key_exists( 'async', $opts ) ) {
+			if ( empty( $opts['async'] ) ) {
+				$this->opts['async'] = true;
+			} else {
+				$this->opts['async'] = filter_var( $opts['async'], FILTER_VALIDATE_BOOLEAN );
+			}
+		} else {
+			$this->opts['async'] = false;
+		}
+
+		$opts['site_dir'] = untrailingslashit( $opts['site_dir'] );
+		$this->site_dir   = $opts['site_dir'];
 
 		$this->load_boolean_opt( 'fake_media', false );
 		$this->load_boolean_opt( 'fresh', false );
@@ -354,7 +365,22 @@ SQL;
 		$this->initialize( $args, $opts, false );
 
 		$gigya_user = $this->entity_factory->get_entity( 'gigya_user' );
-		$gigya_user->export_actions();
+
+		if ( $this->opts['async'] ) {
+			$gigya_user->export_actions_async();
+		} else {
+			$gigya_user->export_actions();
+		}
+	}
+
+	function join_actions_file( $args, $opts ) {
+		$this->initialize( $args, $opts, false );
+
+		$actions_log = $this->config->get_output_dir() . '/actions.log';
+		$dest = $this->config->get_gigya_action_export_file();
+
+		$gigya_user = $this->entity_factory->get_entity( 'gigya_user' );
+		$gigya_user->join_actions_file( $actions_log, $dest );
 	}
 
 	function prepare( $args, $opts ) {
@@ -407,8 +433,11 @@ SQL;
 
 	/* profile verification */
 	function verify_gigya_import( $args, $opts ) {
-		$marketron_accounts_file = $opts['marketron_accounts'];
-		$errors_file              = $opts['errors_file'];
+		$this->initialize( $args, $opts );
+
+		$output_dir              = $this->config->get_output_dir();
+		$marketron_accounts_file = $output_dir . '/gigya_profiles.json';
+		$errors_file             = $output_dir . '/gigya_import_errors.json';
 
 		$json_loader        = new \GreaterMedia\Profile\ImportJSONLoader();
 		$marketron_accounts = $json_loader->load( $marketron_accounts_file );
@@ -425,9 +454,70 @@ SQL;
 
 		$affinity_club_tool    = $this->tool_factory->build( 'affinity_club' );
 		$affinity_clubs_input  = $affinity_club_tool->get_data_files()[0];
-		$affinity_clubs_output = str_replace( '_formatted.xml', '_filtered.xml', $affinity_clubs_input );
+		$affinity_clubs_output = $affinity_clubs_input;
 
 		$screener->screen( $affinity_clubs_input, $affinity_clubs_output );
 	}
+
+	/**
+	 * Regenerate thumbnail(s).
+	 *
+	 * ## OPTIONS
+	 *
+	 * [<attachment-id>...]
+	 * : One or more IDs of the attachments to regenerate.
+	 *
+	 * [--skip-delete]
+	 * : Skip deletion of the original thumbnails. If your thumbnails are linked from sources outside your control, it's likely best to leave them around. Defaults to false.
+	 *
+	 * [--site_dir]
+	 * : Path to GMR site configuration dir
+	 *
+	 * [--yes]
+	 * : Skip confirmation
+
+	 * [--owner]
+	 * : New file owner
+	 *
+	 * [--group]
+	 * : New file group
+	 *
+	 * [--errors_file]
+	 * : Optional path to errors file, defaults to site_dir/output_dir/thumbnail_generation_errors.json
+	 *
+	 * [--async]
+	 * : Optional whether to use gearman to generate the thumbnails
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     # re-generate all thumbnails, without confirmation
+	 *     wp marketron_migration regenerate_thumbnails --yes
+	 *
+	 *     # re-generate all thumbnails that have IDs between 1000 and 2000
+	 *     seq 1000 2000 | xargs wp marketron_migration regenerate_thumbnails
+	 */
+	function regenerate_thumbnails( $args, $opts ) {
+		$this->initialize( $args, $opts );
+
+		if ( empty( $args ) && empty( $this->opts['yes'] ) ) {
+			\WP_CLI::confirm(
+				'Are you sure you want to regenerate all thumbnails?'
+			);
+		}
+
+		$regenerator = new \WordPress\Utils\ThumbnailListRegenerator();
+		$regenerator->container = $this;
+
+		$regenerator->regenerate( $args, $this->opts );
+	}
+
+	function create_emma_groups( $args, $opts ) {
+		$this->initialize( $args, $opts );
+
+		$emma_group_creator = new \GreaterMedia\EmmaGroupCreator();
+		$emma_group_creator->container = $this;
+		$emma_group_creator->create_and_save();
+	}
+
 }
 

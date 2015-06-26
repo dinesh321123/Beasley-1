@@ -15,17 +15,11 @@ class Venue extends BaseImporter {
 		$total          = count( $venues );
 		$notify         = new \WordPress\Utils\ProgressBar( "Importing $total items from $tool_name", $total );
 		$venue_entities = $this->get_entity( 'venue' );
-		$max_items      = $this->get_site_option( 'limit' );
-		$item_index     = 0;
 
 		foreach ( $venues as $venue ) {
 			$venue_entity = $this->entity_from_venue( $venue );
 			$venue_entities->add( $venue_entity );
 			$notify->tick();
-
-			if ( $item_index++ > $max_items ) {
-				break;
-			}
 		}
 
 		$notify->finish();
@@ -41,6 +35,7 @@ class Venue extends BaseImporter {
 		$post       = array(
 			'post_title'   => $this->title_from_venue( $venue ),
 			'post_content' => $this->content_from_venue( $venue ),
+			'marketron_id' => $this->import_string( $venue['VenueID'] ),
 		);
 
 		foreach ( $meta_fields as $marketron_field => $new_field ) {
@@ -71,6 +66,7 @@ class Venue extends BaseImporter {
 	function title_from_venue( $venue ) {
 		$title = $venue['VenueName'];
 		$title = $this->import_string( $title );
+		$title = strip_tags( $title );
 		$title = htmlentities( $title );
 
 		return $title;

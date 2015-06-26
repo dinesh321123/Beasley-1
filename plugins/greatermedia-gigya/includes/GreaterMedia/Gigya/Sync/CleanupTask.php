@@ -15,7 +15,7 @@ class CleanupTask extends SyncTask {
 		$this->clear_users();
 		$this->clear_results();
 
-		if ( $mode === 'preview' ) {
+		if ( $mode === 'preview' || $this->is_auto_sync_query() ) {
 			$sentinel->reset();
 			wp_delete_post( $this->get_member_query_id(), true );
 		}

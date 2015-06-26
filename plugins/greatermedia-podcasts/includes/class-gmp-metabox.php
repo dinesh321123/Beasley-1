@@ -44,6 +44,9 @@ class GMP_Meta {
 		$gmp_block = sanitize_text_field( get_post_meta( $post->ID, 'gmp_block', true ) );
 		$gmp_block = filter_var( $gmp_block, FILTER_VALIDATE_BOOLEAN );
 
+		$gmp_downloadable = sanitize_text_field( get_post_meta( $post->ID, 'gmp_audio_downloadable', true ) );
+		$gmp_downloadable = filter_var( $gmp_downloadable, FILTER_VALIDATE_BOOLEAN );
+
 		?><div id="episode-explicit" class="misc-pub-section misc-pub-gmr-podcast mis-pub-radio">
 			Explicit:
 			<span class="post-pub-section-value radio-value"><?php echo $gmp_explicit ? 'Yes' : 'No'; ?></span>
@@ -68,6 +71,22 @@ class GMP_Meta {
 			<div class="radio-select hide-if-js">
 				<label><input type="radio" name="gmp_block" value="on"<?php checked( $gmp_block, true ); ?>> Yes</label><br>
 				<label><input type="radio" name="gmp_block" value="off"<?php checked( $gmp_block, false ); ?>> No</label><br>
+
+				<p>
+					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
+					<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
+				</p>
+			</div>
+		</div>
+
+		<div id="episode-downloadable" class="misc-pub-section misc-pub-gmr-podcast mis-pub-radio">
+			Downloadable:
+			<span class="post-pub-section-value radio-value"><?php echo $gmp_downloadable ? 'Yes' : 'No'; ?></span>
+			<a href="#" class="edit-radio hide-if-no-js" style="display: inline;"><span aria-hidden="true">Edit</span></a>
+
+			<div class="radio-select hide-if-js">
+				<label><input type="radio" name="gmp_audio_downloadable" value="on"<?php checked( $gmp_downloadable, true ); ?>> Yes</label><br>
+				<label><input type="radio" name="gmp_audio_downloadable" value="off"<?php checked( $gmp_downloadable, false ); ?>> No</label><br>
 
 				<p>
 					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
@@ -168,17 +187,19 @@ class GMP_Meta {
 
 		/* OK, its safe for us to save the data now. */
 		$gmp_episode_explicit =  '';
-		if( isset( $_POST['gmp_episode_explicit'] ) ) {
+		if ( isset( $_POST['gmp_episode_explicit'] ) ) {
 			$gmp_episode_explicit =  sanitize_text_field( $_POST['gmp_episode_explicit'] );
 		}
 		update_post_meta( $post_id, 'gmp_episode_explicit', $gmp_episode_explicit );
 
 		$gmp_block =  '';
-		if( isset( $_POST['gmp_block'] ) ) {
+		if ( isset( $_POST['gmp_block'] ) ) {
 			$gmp_block =  sanitize_text_field( $_POST['gmp_block'] );
 		}
 
 		update_post_meta( $post_id, 'gmp_block', $gmp_block );
+
+		update_post_meta( $post_id, 'gmp_audio_downloadable', filter_input( INPUT_POST, 'gmp_audio_downloadable', FILTER_VALIDATE_BOOLEAN ) );
 	}
 
 	/**

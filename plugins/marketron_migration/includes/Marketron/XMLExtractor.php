@@ -17,6 +17,7 @@ class XMLExtractor {
 
 		foreach ( $data_files as $data_file ) {
 			$data_file_path = $site_dir . '/marketron_files/' . $data_file;
+
 			$this->unzip_file( $data_file_path );
 		}
 
@@ -31,9 +32,12 @@ class XMLExtractor {
 
 		$dest_arg      = escapeshellarg( $dest );
 		$data_file_arg = escapeshellarg( $data_file );
+		$detector_file = $dest . '/Contests.XML';
 
-		system( "mkdir -p $dest_arg" );
-		system( "unzip $update_flag -d $dest_arg $data_file_arg" );
+		if ( ! file_exists( $detector_file ) ) {
+			system( "mkdir -p $dest_arg" );
+			system( "unzip $update_flag -d $dest_arg $data_file_arg" );
+		}
 
 		$this->format_files_in_dir( $dest );
 	}

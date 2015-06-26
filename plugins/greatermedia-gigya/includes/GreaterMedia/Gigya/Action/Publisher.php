@@ -41,6 +41,10 @@ class Publisher extends Task {
 		return 'action_publisher';
 	}
 
+	function get_task_priority() {
+		return 'low';
+	}
+
 	function run() {
 		$actions = $this->params['actions'];
 		$this->publish_actions( $actions );

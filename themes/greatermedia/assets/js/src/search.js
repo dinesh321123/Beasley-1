@@ -1,6 +1,6 @@
-(function() {
-	var $ = jQuery,
-		$searchContainer = $( '#header__search--form '),
+(function($, window, document, undefined) {
+
+	var $searchContainer = $( '#header__search--form '),
 		$searchForm = $( '#header__search--form ' ).find( 'form' ),
 		$searchBtn = $( '#header__search'),
 		$searchInput = $( '#header-search' ),
@@ -136,4 +136,4 @@
 		closeSearch( e );
 	} );
 	
-})();
+})(jQuery, window, document);

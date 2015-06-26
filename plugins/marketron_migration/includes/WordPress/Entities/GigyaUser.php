@@ -9,6 +9,17 @@ class GigyaUser extends BaseEntity {
 	public $can_import_all_members = true;
 	public $loaded_member_ids      = false;
 
+	function register() {
+		add_action( 'init', array( $this, 'do_register' ) );
+	}
+
+	function do_register() {
+		add_action(
+			'generate_gigya_action_async_job',
+			array( $this, 'do_generate_gigya_action' )
+		);
+	}
+
 	function add( &$gigya_user ) {
 		if ( empty( $gigya_user['id'] ) ) {
 			var_dump( $gigya_user );
@@ -35,7 +46,21 @@ class GigyaUser extends BaseEntity {
 
 	function get_full_name( $member_id ) {
 		$gigya_user = $this->get_by_id( $member_id );
-		return $gigya_user['first_name'] . ' ' . $gigya_user['last_name'];
+		$full_name = null;
+
+		if ( ! empty( $gigya_user['first_name'] ) ) {
+			$full_name = $gigya_user['first_name'] . ' ';
+		}
+
+		if ( ! empty( $gigya_user['last_name'] ) ) {
+			$full_name .= $gigya_user['last_name'];
+		}
+
+		if ( ! empty( $full_name ) ) {
+			return trim( $full_name );
+		} else {
+			return 'NA';
+		}
 	}
 
 	function get_email( $member_id ) {
@@ -123,6 +148,57 @@ class GigyaUser extends BaseEntity {
 		\WP_CLI::success( "Saved $total Gigya Actions" );
 	}
 
+	function join_actions_file( $file_to_join, $dest ) {
+		\WP_CLI::log( "Joining File: $file_to_join" );
+
+		$lines        = file( $file_to_join );
+		$total        = count( $lines );
+		$msg          = "Joining $total Lines ...";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+		$actions      = array();
+
+		foreach ( $lines as $index => $line ) {
+			$json = json_decode( $line );
+			foreach ( $json as $json_item ) {
+				$actions[] = $json_item;
+			}
+			$progress_bar->tick();
+		}
+
+		$progress_bar->finish();
+
+		$total = count( $actions );
+		\WP_CLI::log( "Saving $total Actions ..." );
+		file_put_contents( $dest, json_encode( $actions, JSON_PRETTY_PRINT ) );
+		\WP_CLI::success( "Saved $total Actions to $dest" );
+	}
+
+	function export_actions_async() {
+		\WP_CLI::log( 'Loading Gigya Accounts File ...' );
+		$export_file = $this->container->config->get_gigya_account_export_file();
+
+		$output_dir = $this->container->config->get_output_dir();
+		$lines_file = $output_dir . '/actions.log';
+
+		if ( file_exists( $lines_file ) ) {
+			unlink( $lines_file );
+		}
+
+		$lines        = file( $export_file );
+		$total        = count( $lines );
+		$msg          = "Enqueuing Actions for $total Gigya Accounts";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+
+		foreach ( $lines as $index => $line ) {
+			$account = json_decode( $line, true );
+			$this->enqueue_generate_gigya_action( $account, $index, $total );
+			$progress_bar->tick();
+		}
+
+		$progress_bar->finish();
+		\WP_CLI::success( "Enqueued Actions for $total Gigya Accounts" );
+	}
+
 	function export_actions_to_gigya( &$accounts ) {
 		$actions = array();
 		$total   = count( $accounts );
@@ -133,7 +209,9 @@ class GigyaUser extends BaseEntity {
 
 		foreach ( $accounts as $account ) {
 			$account_actions = $this->export_user_actions( $account );
-			$actions         = array_merge( $actions, $account_actions );
+			foreach ( $account_actions as $account_action ) {
+				$actions[] = $account_action;
+			}
 			$progress_bar->tick();
 			if ( $index++ > $max ) {
 				break;
@@ -147,9 +225,45 @@ class GigyaUser extends BaseEntity {
 
 	function export_user_actions( &$account ) {
 		$actions = $this->export_survey_actions( $account );
-		$actions = array_merge( $actions, $this->export_contest_actions( $account ) );
+		foreach ( $this->export_contest_actions( $account ) as $contest_action ) {
+			$actions[] = $contest_action;
+		}
 
 		return $actions;
+	}
+
+	function enqueue_generate_gigya_action( &$account, $index, $total ) {
+		$output_dir = $this->container->config->get_output_dir();
+		$dest       = realpath( $output_dir ) . '/actions.log';
+
+		wp_async_task_add(
+			'generate_gigya_action_async_job',
+			array( $account, $dest, $index, $total ),
+			'normal'
+		);
+	}
+
+	function do_generate_gigya_action( $params ) {
+		$account = $params[0];
+		$dest    = $params[1];
+		$index   = $params[2];
+		$total   = $params[3];
+		$actions = $this->export_user_actions( $account );
+		$total_actions = count( $actions );
+
+		if ( $total_actions > 0 ) {
+			$actions = json_encode( $actions );
+
+			file_put_contents(
+				$dest, $actions . "\n", FILE_APPEND | LOCK_EX
+			);
+
+			$uid     = $account['id'];
+			$percent = round( $index / $total * 100, 2 );
+
+			error_log( "Generating Action: ($uid) - $total_actions Actions - $percent%" );
+		}
+
 	}
 
 	function export_contest_actions( &$account ) {
@@ -298,9 +412,18 @@ class GigyaUser extends BaseEntity {
 	function export_gigya_user_profile( &$gigya_user ) {
 		$profile = array();
 		$profile['email'] = $gigya_user['email'];
-		$profile['firstName'] = $gigya_user['first_name'];
-		$profile['lastName'] = $gigya_user['last_name'];
-		$profile['nickname'] = $gigya_user['nick_name'];
+
+		if ( ! empty( $gigya_user['first_name'] ) ) {
+			$profile['firstName'] = $gigya_user['first_name'];
+		}
+
+		if ( ! empty( $gigya_user['last_name'] ) ) {
+			$profile['lastName'] = $gigya_user['last_name'];
+		}
+
+		if ( ! empty( $gigya_user['nick_name'] ) ) {
+			$profile['nickname'] = $gigya_user['nick_name'];
+		}
 
 		if ( ! empty( $gigya_user['birthday'] ) ) {
 			$birthday              = $gigya_user['birthday'];
@@ -309,12 +432,29 @@ class GigyaUser extends BaseEntity {
 			$profile['birthDay']   = $birthday['day'];
 		}
 
-		$profile['gender']  = $this->export_gender( $gigya_user['gender'] );
-		$profile['city']    = $gigya_user['city'];
-		$profile['state']   = $gigya_user['state'];
-		$profile['country'] = $this->export_country( $gigya_user['country'] );
-		$profile['address'] = $gigya_user['address'];
-		$profile['zip']     = $gigya_user['zip'];
+		if ( ! empty( $gigya_user['gender'] ) ) {
+			$profile['gender']  = $this->export_gender( $gigya_user['gender'] );
+		}
+
+		if ( ! empty( $gigya_user['city'] ) ) {
+			$profile['city']    = $gigya_user['city'];
+		}
+
+		if ( ! empty( $gigya_user['state'] ) ) {
+			$profile['state']   = $gigya_user['state'];
+		}
+
+		if ( ! empty( $gigya_user['country'] ) ) {
+			$profile['country'] = $this->export_country( $gigya_user['country'] );
+		}
+
+		if ( ! empty( $gigya_user['address'] ) ) {
+			$profile['address'] = $gigya_user['address'];
+		}
+
+		if ( ! empty( $gigya_user['zip'] ) ) {
+			$profile['zip'] = $gigya_user['zip'];
+		}
 
 		return $profile;
 	}
@@ -494,7 +634,7 @@ class GigyaUser extends BaseEntity {
 			}
 		}
 
-		return $ids;
+		return array_values( array_unique( $ids ) );
 	}
 
 	function get_user_contest_entries_list( $user_id ) {

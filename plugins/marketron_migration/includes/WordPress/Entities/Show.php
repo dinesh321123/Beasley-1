@@ -39,7 +39,10 @@ class Show extends Post {
 
 		$fields['post_author'] = $this->get_show_author_id( $show_author );
 		$fields['post_title']  = $show_name;
-		$fields['postmeta']    = $show_meta;
+
+		if ( ! array_key_exists( 'existing_id', $fields ) ) {
+			$fields['postmeta'] = $show_meta;
+		}
 
 		$fields  = parent::add( $fields );
 		$show_id = $fields['ID'];

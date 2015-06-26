@@ -24,7 +24,7 @@ $current_post_index = ( ( $current_page - 1 ) * $posts_per_page ) + 1; ?>
 		<?php while ( have_posts() && $count >= 2 ) : the_post();
 			get_template_part( 'partials/entry', get_post_type() );
 		endwhile;
-		greatermedia_load_more_button( array( 'partial_slug' => 'partials/entry', 'auto_load' => false ) );
+		greatermedia_load_more_button( array( 'partial_slug' => 'partials/loop', 'auto_load' => false ) );
 		?>
 	</section>
 	<?php endif;

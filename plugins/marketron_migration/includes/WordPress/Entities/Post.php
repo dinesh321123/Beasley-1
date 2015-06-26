@@ -57,12 +57,6 @@ class Post extends BaseEntity {
 			$fields['post_content']
 		);
 
-		/*
-		$fields['post_content'] = $this->import_libsyn_embeds_in_content(
-			$fields['post_content'], $fields
-		);
-		 */
-
 		$fields['post_content'] = $this->replace_broken_entities(
 			$fields['post_content']
 		);
@@ -71,7 +65,17 @@ class Post extends BaseEntity {
 			$fields['post_excerpt']
 		);
 
-		$fields = $table->add( $fields );
+		if ( ! empty( $fields['marketron_id'] ) ) {
+			if ( empty( $fields['postmeta'] ) ) {
+				$fields['postmeta'] = array(
+					'marketron_id' => $fields['marketron_id'],
+				);
+			} else {
+				$fields['postmeta']['marketron_id'] = $fields['marketron_id'];
+			}
+		}
+
+		$fields  = $table->add( $fields );
 		$post_id = $fields['ID'];
 
 		if ( array_key_exists( 'post_format', $fields ) ) {
@@ -167,9 +171,12 @@ class Post extends BaseEntity {
 
 			$posts = $this->get_table( 'posts' );
 			$posts->update( $post_id, 'post_content', $content );
+
+			$post_formats = $this->get_entity( 'post_format' );
+			$post_formats->add( 'audio', $post_id );
 		} else {
-			$posts = $this->get_table( 'posts' );
-			$posts->update( $post_id, 'post_format', 'standard' );
+			$post_formats = $this->get_entity( 'post_format' );
+			$post_formats->add( 'standard', $post_id );
 		}
 	}
 

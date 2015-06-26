@@ -24,6 +24,7 @@ class Factory {
 		'event_manager' => 'Marketron\Tools\EventManager',
 
 		'podcast'  => 'Marketron\Tools\Podcast',
+		'audio_video_player' => 'Marketron\Tools\AudioVideoPlayer',
 		//'schedule' => 'Marketron\Tools\Schedule',
 	);
 

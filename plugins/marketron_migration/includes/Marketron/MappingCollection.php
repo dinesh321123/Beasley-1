@@ -225,6 +225,24 @@ class MappingCollection {
 			case 'podcast':
 				return 'podcast';
 
+			case 'event calendars':
+			case 'event calendar':
+				return 'event_calendar';
+
+			case 'event manager':
+			case 'event managers':
+			case 'events manager':
+			case 'events managers':
+				return 'event_manager';
+
+			case 'photo album':
+			case 'photo albums':
+				return 'photo_album_v2';
+
+			case 'audio_video_player':
+			case 'audiovideoplayer':
+				return 'audio_video_player';
+
 			default:
 				\WP_CLI::error( "Unknown Marketron Tool Name - $name" );
 		}
@@ -240,6 +258,9 @@ class MappingCollection {
 			case 'podcast episode':
 			case 'podcast':
 				return 'podcast_episode';
+
+			case 'event':
+				return 'event';
 
 			default:
 				\WP_CLI::error( "Unknown WordPress Target Post Type - $name" );
@@ -263,7 +284,7 @@ class MappingCollection {
 
 	function can_import_marketron_name( $name, $tool_name = null ) {
 		foreach ( $this->mappings as $mapping ) {
-			if ( ! is_null( $tool_name ) && $mapping->marketron_tool_name !== $tool_name ) {
+			if ( ! is_null( $tool_name ) && strtolower( $mapping->marketron_tool_name ) !== strtolower( $tool_name ) ) {
 				continue;
 			}
 
@@ -302,6 +323,18 @@ class MappingCollection {
 		} else {
 			return null;
 		}
+	}
+
+	function get_mapping_by_name( $name, $tool ) {
+		foreach ( $this->mappings as $mapping ) {
+			if ( strtolower( $mapping->marketron_name ) === strtolower( $name ) && $mapping->marketron_tool_name === $tool ) {
+				//\WP_CLI::error( "Found find mapping by name $name, $tool" );
+				return $mapping;
+			}
+		}
+
+		//\WP_CLI::error( "Did not find mapping by name $name, $tool" );
+		return null;
 	}
 
 	function has_show( $show_author ) {

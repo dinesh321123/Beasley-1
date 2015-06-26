@@ -68,7 +68,7 @@ class BlogData {
 			remove_filter( 'wp_insert_post_data', array( $edit_flow->custom_status, 'fix_custom_status_timestamp' ), 10, 2 );
 		}
 
-		$result = self::QueryContentSite( $syndication_id, '', $offset );
+		$result = self::QueryContentSite( $syndication_id, '', '', $offset );
 		$taxonomy_names = SyndicationCPT::$support_default_tax;
 		$defaults = array(
 			'status' =>  get_post_meta( $syndication_id, 'subscription_post_status', true ),
@@ -139,7 +139,7 @@ class BlogData {
 	 *
 	 * @return array WP_Post objects
 	 */
-	public static function QueryContentSite( $subscription_id , $start_date = '', $offset = 0 ) {
+	public static function QueryContentSite( $subscription_id , $start_date = '', $end_date = '', $offset = 0 ) {
 		$result = array();
 
 		if ( $start_date == '' ) {
@@ -171,6 +171,10 @@ class BlogData {
 				'after'  => $last_queried,
 			),
 		);
+
+		if ( ! empty( $end_date ) ) {
+			$args['date_query']['before'] = $end_date;
+		}
 
 		$enabled_taxonomy = get_post_meta( $subscription_id, 'subscription_enabled_filter', true );
 		$enabled_taxonomy = sanitize_text_field( $enabled_taxonomy );
@@ -227,6 +231,20 @@ class BlogData {
 		}
 		
 		$galleries = get_post_galleries( $single_result->ID, false );
+		foreach ( $galleries as &$gallery ) {
+			if ( ! empty( $gallery['ids'] ) ) {
+				$image_ids = array_filter( array_map( 'intval', explode( ',', $gallery['ids'] ) ) );
+				$gallery['ids'] = implode( ',', $image_ids );
+				$gallery['src'] = array();
+				
+				foreach ( $image_ids as $image_id ) {
+					$image_src = wp_get_attachment_image_src( $image_id, 'full' );
+					if ( ! empty( $image_src ) ) {
+						$gallery['src'][] = $image_src[0];
+					}
+				}
+			}
+		}
 
 		$attachments = array();
 		if ( 'gmr_gallery' == $post_type ) {
@@ -262,7 +280,11 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( WP_Post $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax, $force_update = false ) {
+		if ( ! $post ) {
+			return;
+		}
+		
 		$post_name = sanitize_title( $post->post_name );
 		$post_title = sanitize_text_field( $post->post_title );
 		$post_type = sanitize_text_field( $post->post_type );
@@ -272,6 +294,7 @@ class BlogData {
 		$args = array(
 			'post_title'        => $post_title,
 			'post_content'      => $post->post_content,
+			'post_author'       => $post->post_author,
 			'post_type'         => $post_type,
 			'post_name'         => $post_name,
 			'post_status'       => ! empty( $post_status ) ? $post_status : $post->post_status,
@@ -282,8 +305,8 @@ class BlogData {
 		);
 
 		if ( 'publish' == $post_status ) {
-			$args['post_date'] = $args['post_modified'] = current_time( 'mysql' );
-			$args['post_date_gmt'] = $args['post_modified_gmt'] = current_time( 'mysql', 1 );
+			$args['post_modified'] = current_time( 'mysql' );
+			$args['post_modified_gmt'] = current_time( 'mysql', 1 );
 		}
 
 		// create unique meta value for imported post
@@ -308,13 +331,14 @@ class BlogData {
 		if ( ! empty( $existing ) ) {
 			$post_id = intval( $existing[0]->ID );
 			$hash_value = get_post_meta( $post_id, 'syndication_import', true );
-			if ( $hash_value != $post_hash ) {
+			if ( $hash_value != $post_hash || $force_update ) {
 				// post has been updated, override existing one
 				$args['ID'] = $post_id;
+				
 				wp_update_post( $args );
-				if ( !empty( $metas ) ) {
+				if ( ! empty( $metas ) ) {
 					foreach ( $metas as $meta_key => $meta_value ) {
-						update_post_meta( $post_id, $meta_key, sanitize_text_field( $meta_value[0] ) );
+						update_post_meta( $post_id, $meta_key, $meta_value[0] );
 					}
 				}
 				$updated = 2;
@@ -323,7 +347,7 @@ class BlogData {
 			$post_id = wp_insert_post( $args );
 			if ( is_numeric( $post_id ) && ! empty( $metas ) ) {
 				foreach ( $metas as $meta_key => $meta_value ) {
-					update_post_meta( $post_id, $meta_key, sanitize_text_field( $meta_value[0] ) );
+					update_post_meta( $post_id, $meta_key, $meta_value[0] );
 				}
 			}
 			$updated = 1;
@@ -391,6 +415,8 @@ class BlogData {
 				}
 			}
 		}
+
+		clean_post_cache( $post_id );
 
 		return $post_id;
 	}
@@ -523,14 +549,19 @@ class BlogData {
 				@unlink( $tmp );
 			}
 
-			update_post_meta( $id, 'syndication_attachment_old_id', $old_id );
-			update_post_meta( $id, 'syndication_attachment_old_url', esc_url_raw( $filename ) );
+			if ( ! is_wp_error( $id ) ) {
+				update_post_meta( $id, 'syndication_attachment_old_id', $old_id );
+				update_post_meta( $id, 'syndication_attachment_old_url', esc_url_raw( $filename ) );
 
+				self::updateImageCaption( $id, $old_id );
+			}
 		} else {
 			$id = $existing[0]->ID;
-			if( $featured == true && $post_id != 0 ) {
+			if ( $featured == true && $post_id != 0 ) {
 				set_post_thumbnail( $post_id, $id );
 			}
+
+			self::updateImageCaption( $id, $old_id );
 		}
 
 		if ( ! empty( $old_id ) ) {
@@ -592,9 +623,14 @@ class BlogData {
 
 					if ( ! empty( $existing ) ) {
 						$new_gallery_ids .= $existing[0]->ID . ",";
+						if ( ! empty( $old_ids[ $index ] ) ) {
+							self::updateImageCaption( $existing[0]->ID, $old_ids[ $index ] );
+						}
 					} elseif ( ! empty( $old_ids[ $index ] ) ) {
-						$new_id = self::ImportMedia( 0, $image_src, false, $old_ids[ $index ] );
-						$new_gallery_ids .= $new_id . ",";
+						$new_id = self::ImportMedia( $post_id, $image_src, false, $old_ids[ $index ] );
+						if ( $new_id && ! is_wp_error( $new_id ) ) {
+							$new_gallery_ids .= $new_id . ",";
+						}
 					}
 				}
 
@@ -603,6 +639,25 @@ class BlogData {
 
 				// update new post
 				wp_update_post( array( 'ID' => $post_id, 'post_content' => $content ) );
+			}
+		}
+	}
+
+	/**
+	 * Updates image caption.
+	 */
+	private static function updateImageCaption( $new_id, $old_id ) {
+		if ( self::$content_site_id ) {
+			switch_to_blog( self::$content_site_id );
+			$old_post = get_post( $old_id, ARRAY_A );
+			restore_current_blog();
+
+			if ( ! empty( $old_post ) ) {
+				$new_post = get_post( $new_id, ARRAY_A );
+				if ( ! empty( $new_post ) ) {
+					$new_post['post_excerpt'] = $old_post['post_excerpt'];
+					wp_update_post( $new_post );
+				}
 			}
 		}
 	}

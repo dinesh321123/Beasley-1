@@ -9,16 +9,28 @@ class Podcast extends BaseImporter {
 	}
 
 	function import_source( $source ) {
-		$channels = $this->channels_from_source( $source );
+		$channels     = $this->channels_from_source( $source );
+		$total        = count( $channels );
+		$msg          = "Importing $total Podcasts";
+		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $channels as $channel ) {
+			if ( ! $this->container->mappings->can_import_marketron_name(
+				(string) $channel['ChannelTitle'], 'podcast' ) ) {
+				\WP_CLI::log( '    Excluded Podcast: ' . (string) $channel['ChannelTitle'] );
+				continue;
+			}
 			$podcast = $this->podcast_from_channel( $channel );
 
 			if ( ! empty( $podcast ) )  {
 				$items = $this->items_from_channel( $channel );
 				$this->import_podcast_episodes( $podcast, $items );
 			}
+
+			$progress_bar->tick();
 		}
+
+		$progress_bar->finish();
 	}
 
 	function channels_from_source( $source ) {

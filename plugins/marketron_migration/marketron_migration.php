@@ -26,4 +26,22 @@ if ( defined( 'WP_CLI' ) and WP_CLI  ) {
 	require_once( __DIR__ . '/vendor/autoload.php' );
 	\WP_CLI::add_command( 'marketron_migration', '\GreaterMedia\Commands\Migrator' );
 	\WP_CLI::add_command( 'libsyn', '\GreaterMedia\Commands\LibSynSideloadCommand' );
+	\WP_CLI::add_command( 'oembed', '\GreaterMedia\Commands\OEmbedCommand' );
+}
+
+if ( defined( 'DOING_ASYNC' ) && DOING_ASYNC ) {
+	if ( ! function_exists( '\wp_generate_attachment_metadata' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+	}
+
+	require_once( __DIR__ . '/vendor/autoload.php' );
+
+	$thumbnail_list_regenerator = new \WordPress\Utils\ThumbnailListRegenerator();
+	$thumbnail_list_regenerator->register();
+
+	$gigya_action_generator = new \WordPress\Entities\GigyaUser();
+	$gigya_action_generator->register();
+
+	$media_file_sideloader = new \WordPress\Utils\MediaSideLoader();
+	$media_file_sideloader->register();
 }

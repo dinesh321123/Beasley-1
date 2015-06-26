@@ -32,6 +32,10 @@ class MigrationConfig {
 		return $this->input_dir . '/config.json';
 	}
 
+	function get_config_data() {
+		return $this->data;
+	}
+
 	function get_site_dir() {
 		return $this->container->opts['site_dir'];
 	}

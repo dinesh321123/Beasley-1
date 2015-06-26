@@ -16,7 +16,7 @@ class Gallery extends Post {
 		$gallery_name   = $fields['gallery_name'];
 		$gallery_content = $fields['gallery_content'];
 
-		$fields['post_title']   = $fields['gallery_name'];
+		$fields['post_title']   = htmlentities( $fields['gallery_name'] );
 		$fields['post_content'] = $fields['gallery_content'];
 
 		if ( ! isset( $fields['post_format'] ) ) {

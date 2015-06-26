@@ -552,7 +552,7 @@ category: Components
 			}
 		}
 
-		.gmr-user.news-site & {
+		.news-site & {
 
 			@include bp(medium) {
 				display: block;
@@ -1972,6 +1972,10 @@ a.live-audio__link {
 
 	.live-player__container.no-volume-control & {
 		display: none;
+	}
+
+	.audio__playing & {
+		display: block;
 	}
 }
 

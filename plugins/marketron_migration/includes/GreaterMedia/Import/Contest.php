@@ -23,14 +23,7 @@ class Contest extends BaseImporter {
 	}
 
 	function import_contest( $contest ) {
-		$contest_name   = $this->import_string( $contest['ContestName'] );
-		//\WP_CLI::log( "Importing Contest: $contest_name" );
-
-		// For testing
-		//if ( strtotime( (string) $contest['DateCreated'] ) < strtotime( '-2 year' ) ) {
-			//return;
-		//}
-
+		$contest_name    = $this->import_string( $contest['ContestName'] );
 		$entity          = $this->get_entity( 'contest' );
 		$contest_id      = $this->import_string( $contest['ContestID'] );
 		$featured_image  = $this->import_string( $contest['ImageFilename'] );
@@ -54,6 +47,7 @@ class Contest extends BaseImporter {
 		$post['contest_entries']      = $contest_entries;
 		$post['contest_shows']        = $contest_shows;
 		$post['categories']           = $this->categories_from_contest( $contest );
+		$post['marketron_id']         = $this->import_string( $contest['ContestID'] );
 
 		if ( ! empty( $featured_image ) ) {
 			$post['featured_image'] = $featured_image;
@@ -157,13 +151,15 @@ class Contest extends BaseImporter {
 				$field_options = array();
 				$options       = array();
 
-				foreach ( $question->QuestionOptions->QuestionOption as $option ) {
-					$field_value = $this->import_string( $option['FieldValue'] );
-					$field_value = str_replace( '"', '&quot;', $field_value );
-					$options[] = array(
-						'label' => $field_value,
-						'checked' => false,
-					);
+				if ( ! empty( $question->QuestionOptions->QuestionOption ) ) {
+					foreach ( $question->QuestionOptions->QuestionOption as $option ) {
+						$field_value = $this->import_string( $option['FieldValue'] );
+						$field_value = str_replace( '"', '&quot;', $field_value );
+						$options[] = array(
+							'label' => $field_value,
+							'checked' => false,
+						);
+					}
 				}
 
 				$field_options['options'] = $options;
@@ -198,7 +194,7 @@ class Contest extends BaseImporter {
 				\WP_CLI::error( 'Unknown Contest Form AnswerType: ' . $answer_type );
 		}
 
-		$form_item['label']         = $question_text;
+		$form_item['label']         = html_entity_decode( $question_text );
 		$form_item['cid']           = 'c' . $question_id;
 		$form_item['field_type']    = $field_type;
 		$form_item['required']      = $required;
@@ -222,14 +218,25 @@ class Contest extends BaseImporter {
 
 	function title_from_contest( $contest ) {
 		$title = $this->import_string( $contest->ContestText['ContestHeader'] );
-		//$title = ltrim( $title, '\[ONLINE\]' );
-		//$title = ltrim( $title, '\[ONLINE\*\]' );
-		//$title = ltrim( $title, '\[ON-AIR\]' );
-		//$title = ltrim( $title, '\[ON-AIR\*\]' );
+		$title_replacements = array(
+			'ONLINE', 'ON-AIR', 'ONAIR', 'ONSITE', 'ON-SITE',
+		);
+
+		foreach ( $title_replacements as $replacement ) {
+			$title = str_replace( "[$replacement]", '', $title );
+			$title = str_replace( "[$replacement*]", '', $title );
+			$title = str_replace( "[*$replacement]", '', $title );
+		}
+
 		$title = ltrim( $title, ' ' );
 		$title = ltrim( $title, '-' );
 		$title = ltrim( $title, ' ' );
 		$title = ucwords( $title );
+		$title = trim( $title );
+
+		if ( empty( $title ) ) {
+			$title = $this->import_string( $contest['ContestName'] );
+		}
 
 		return $title;
 	}
@@ -254,6 +261,11 @@ class Contest extends BaseImporter {
 	}
 
 	function contest_entries_from_contest( $contest ) {
+		$exclude_contest_entries = $this->get_site_option( 'exclude_contest_entries' );
+		if ( $exclude_contest_entries ) {
+			return array();
+		}
+
 		$contest_id = $this->import_string( $contest['ContestID'] );
 		$contest_entries = array();
 		$entries         = $this->entries_from_contest( $contest );

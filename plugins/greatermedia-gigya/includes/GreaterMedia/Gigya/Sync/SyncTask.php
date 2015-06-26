@@ -18,6 +18,14 @@ class SyncTask extends Task {
 		return 'sync_task';
 	}
 
+	function get_task_priority() {
+		if ( $this->get_mode() === 'preview' ) {
+			return 'high';
+		} else {
+			return 'normal';
+		}
+	}
+
 	function get_sentinel() {
 		if ( is_null( $this->sentinel ) ) {
 			$this->sentinel = new Sentinel(
@@ -78,6 +86,15 @@ class SyncTask extends Task {
 	function fail( $error ) {
 		$sentinel = $this->get_sentinel();
 		$sentinel->add_error( $error->getMessage() );
+	}
+
+	/* Kludge: auto sync queries use post_type of 'preview' but
+	 * are run with mode 'export' */
+	function is_auto_sync_query() {
+		$query_id = $this->get_member_query_id();
+		$post     = get_post( $query_id );
+
+		return $post->post_type === 'member_query_preview';
 	}
 
 }

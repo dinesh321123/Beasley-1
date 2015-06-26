@@ -107,6 +107,7 @@ class Survey extends BaseImporter {
 
 	function title_from_survey( $survey ) {
 		$title = $this->import_string( $survey['SurveyTitle'] );
+		$title = wp_strip_all_tags( $title );
 		$survey_name = $this->import_string( $survey['SurveyName'] );
 
 		if ( $title !== $survey_name ) {
@@ -244,7 +245,7 @@ class Survey extends BaseImporter {
 				$form_item  = false;
 		}
 
-		$form_item['label']         = $field_label;
+		$form_item['label']         = html_entity_decode( $field_label );
 		$form_item['cid']           = 'c' . $question_id;
 		$form_item['field_type']    = $field_type;
 		$form_item['required']      = $question_required;

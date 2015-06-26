@@ -8,6 +8,7 @@ class CronTasks {
 	public static function init() {
 		add_action( 'admin_init', array( __CLASS__, 'syndication_setup_schedule' ) );
 		add_action( 'syndication_five_minute_event', array( __CLASS__, 'run_syndication' ) );
+		add_action( 'gmr_do_syndication', array( __CLASS__, 'do_syndication' ) );
 	}
 
 	/**
@@ -23,13 +24,14 @@ class CronTasks {
 	 * Runs actual syndication
 	 */
 	public static function run_syndication() {
-
 		$active_subscriptions = BlogData::GetActiveSubscriptions();
 		foreach ( $active_subscriptions as $active_subscription ) {
-			BlogData::run( $active_subscription->ID );
-			update_post_meta( $active_subscription->ID, 'syndication_last_performed', current_time( 'timestamp', 1 ) );
+			wp_async_task_add( 'gmr_do_syndication', array( 'subscription' => $active_subscription->ID ), 'high' );
 		}
-		//update_option( 'syndication_last_performed', current_time( 'timestamp', 1 ) );
+	}
+
+	public static function do_syndication( $args ) {
+		BlogData::run( $args['subscription'] );
 	}
 
 	/**
@@ -84,6 +86,7 @@ class CronTasks {
 
 		return $time_string;
 	}
+	
 }
 
 CronTasks::init();

@@ -1,0 +1,224 @@
+<style type="text/css" scoped="scoped">
+	.pmc-wrap {
+		background: #637d92 url("http://www.wror.com/Pics/PMC/PMC_background.png") no-repeat;
+		background-position: 50% 0;
+		background-size: contain;
+		padding: 20px;
+		color: #fff;
+		font-size: 0.98em;
+		text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
+		text-align: center; /* for the inline-block grid, reset as needed in containers */
+	}
+
+	.pmc-wrap + .pmc-wrap {
+		background-image: none;
+		clear: both;
+	}
+
+	.pmc-wrap a {
+		text-shadow: none;
+	}
+
+	.pmc-logo {
+		display: block;
+		margin: 0 auto;
+	}
+
+	.pmc-wrap h1,
+	.pmc-wrap h2 {
+		margin-bottom: 0;
+		text-transform: uppercase;
+	}
+
+	.pmc-header-blurb {
+		clear: both;
+		padding-top: 2em;
+		text-align: left;
+		font-size: 1.1em;
+	}
+
+	.pmc-description {
+		font-size: .8em;
+	}
+
+	.button-container {
+		margin-bottom: 2em;
+	}
+
+	.button-container a {
+		display: block;
+		margin: 0 auto;
+		font-family: Lobster, sans-serif;
+		font-size: 32px;
+		color: #fff;
+		text-align: center;
+		height: 69px;
+		width: 233px;
+		padding-right: 45px; /* center the text on the area that doesn't have the arrow graphic */
+		line-height: 62px; /* button height - padding-bottom */
+		padding-bottom: 7px;
+	}
+
+	.button-container a:hover {
+		-webkit-transform: translate(1px, 1px);
+		-moz-transform: translate(1px, 1px);
+		-ms-transform: translate(1px, 1px);
+		transform: translate(1px, 1px);
+	}
+
+	.button-register a {
+		background: url(http://www.wror.com/Pics/PMC/btn-register.png) no-repeat;
+	}
+
+	.button-team-wror a {
+		background: url(http://www.wror.com/Pics/PMC/btn-donate.png) no-repeat;
+	}
+
+	.pmc-video-wrap {
+		text-align: center;
+	}
+
+	.pmc-video-container {
+		text-align: left;
+		max-width: 420px;
+		background-color: #f7f2eb;
+		border-radius: 3px;
+		border: 1px solid #333;
+		padding: 10px;
+		margin-bottom: 2em;
+	}
+
+	.pmc-video-container + .pmc-video-container {
+		margin-bottom: 0;
+	}
+
+	.pmc-video-container h3 {
+		text-transform: uppercase;
+		margin: 0;
+		line-height: 1;
+		border-left: 3px solid red;
+		text-shadow: none;
+		color: #333;
+		font-size: 1.25em;
+		padding-left: .25em;
+		margin-top: .5em;
+	}
+
+	.pmc-video-container a {
+		display: block;
+		margin-top: 1em;
+		padding-top: 1em;
+		border-top: 1px dotted #333;
+	}
+
+	@media screen and (min-width: 480px ) {
+
+		.button-container {
+			display: inline-block;
+			width: 47%;
+			max-width: 420px;
+			margin: 2em 0;
+		}
+
+		.button-container + .button-container {
+			margin-left: 2%;
+		}
+
+		.pmc-video-container {
+			display: inline-block;
+			width: 47%;
+		}
+
+		.pmc-video-container + .pmc-video-container {
+			margin-left: 2%;
+		}
+	}
+
+		@media screen and (min-width: 1024px ) {
+
+			.pmc-wrap {
+				background-size: cover;
+			}
+
+			.pmc-logo {
+				float: left;
+				margin-right: 20px;
+				max-width: 33%;
+			}
+
+			.pmc-header {
+				float: right;
+				width: 66%;
+				text-align: right;
+			}
+
+			.pmc-header-blurb {
+				width: 60%;
+			}
+		}
+
+
+</style>
+<link href="//fonts.googleapis.com/css?family=Lobster:400" rel="stylesheet" type="text/css" media="all">
+<link href="http://www.wror.com/Other/JS/shadowbox.css" rel="stylesheet" type="text/css">
+<script src="http://www.wror.com/Other/JS/shadowbox.js" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
+	Shadowbox.init({
+		handleOversize: "drag",
+//modal: true;
+		continuous    : true,
+		counterType   : "skip",
+		overlayOpacity: "0.7"
+
+	});
+</script>
+
+<div class="pmc-wrap cf">
+
+	<img src="http://www.wror.com/Pics/PMC/pmc-badge-pms.png" class="pmc-logo">
+
+	<div class="pmc-header">
+		<h1>PMC 2015 - August 1st &amp; 2nd</h1>
+
+		<div class="pmc-description">Want to join Team WROR? Email
+			<a href="mailto:jmartel@wror.com?Subject=PMC%20Info">Jamie Martel</a> for all the details.
+		</div>
+	</div>
+
+	<div class="pmc-header-blurb">
+
+		<h2>The PMC Mission</h2>
+
+		<p>
+			The Pan-Mass Challenge raises money for life-saving cancer research and treatment at Dana-Farber Cancer Institute through an annual bike-a-thon that crosses the Commonwealth of Massachusetts. Since its founding in 1980, the PMC has successfully melded support from committed cyclists, volunteers, corporate sponsors and individual contributors. All are essential to the PMC's goal and model: to attain maximum fundraising efficiency while increasing its annual gift. Our hope and aspiration is to provide Dana-Farber's doctors and researchers with the necessary resources to discover cures for all cancers.
+		</p>
+	</div>
+
+	<div class="button-container button-register">
+		<a href="https://www2.pmc.org/register/default.asp" target="_blank">Register</a>
+	</div>
+
+
+	<div class="button-container button-team-wror">
+		<a href="http://www2.pmc.org/profile/TW0127">Team WROR</a>
+	</div>
+
+	<div class="pmc-video-wrap">
+
+		<div class="pmc-video-container">
+			<h3>PMC Committed</h3>
+			<a rel="shadowbox[Committed];width=625;height=398;" href="http://player.vimeo.com/video/47036103" title="Committed">
+				<img src="http://www.wror.com/Pics/PMC/btn_Commited.png">
+			</a>
+		</div>
+
+		<div class="pmc-video-container">
+			<h3>Why I PMC</h3>
+
+			<a rel="shadowbox[Why];width=625;height=398;" href="http://player.vimeo.com/video/71843281" title="Why I PMC">
+				<img src="http://www.wror.com/Pics/PMC/btn_Why-I-PMC.png">
+			</a>
+		</div>
+	</div>
+
+</div>

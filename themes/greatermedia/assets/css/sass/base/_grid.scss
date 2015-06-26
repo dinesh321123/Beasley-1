@@ -76,7 +76,25 @@ img {
 		padding: $base-line-height * 2 $gutter * 2;
 	}
 
+	.home & {
+		@include span-columns(4);
+		@include omega;
+		padding: $base-line-height $gutter / 2;
+
+		@include bp(medium) {
+			padding: $base-line-height $gutter * 2;
+		}
+	}
+
 	.news-site & {
+
+		@include bp(medium) {
+			padding: $base-line-height 1.5em;
+		}
+	}
+
+
+	.home.news-site & {
 
 		@include bp(medium) {
 			padding: $base-line-height 1.5em;

@@ -67,12 +67,6 @@
 	var global_volume = 1;
 
 	/**
-	 * global variables for event types to use in conjunction with `addEventHandler` function
-	 * @type {string}
-	 */
-	var elemClick = 'click';
-
-	/**
 	 * function to detect if the current browser can use `addEventListener`, if not, use `attachEvent`
 	 * this is a specific fix for IE8
 	 *
@@ -223,15 +217,21 @@
 	function initControlsUi() {
 
 		if (pauseBtn != null) {
-			addEventHandler(pauseBtn, elemClick, pauseStream);
+			addEventHandler(pauseBtn, 'click', pauseStream);
 		}
 
 		if (resumeBtn != null) {
-			addEventHandler(resumeBtn, elemClick, resumeLiveStream);
+			if ( is_gigya_user_logged_in() ) {
+				addEventHandler(resumeBtn, 'click', resumeLiveStream);
+			} else {
+				addEventHandler(resumeBtn, 'click', function () {
+					window.location.href = gigyaLogin;
+				});
+			}
 		}
 
 		if (clearDebug != null) {
-			addEventHandler(clearDebug, elemClick, clearDebugInfo);
+			addEventHandler(clearDebug, 'click', clearDebugInfo);
 		}
 
 	}
@@ -345,16 +345,19 @@
 
 	function nearestPodcastPlaying(event) {
 		var eventTarget = event.target;
+		var $podcastPlayer = $(eventTarget).parents('.podcast-player');
 		var podcastCover = eventTarget.parentNode;
 		var audioCurrent = podcastCover.nextElementSibling;
 		var runtimeCurrent = audioCurrent.nextElementSibling;
-		var audioTime = document.querySelectorAll('.audio__time'), i;
+		var audioTime = $podcastPlayer.find('.podcast__play .audio__time'), i;
 		var runtime = document.querySelector('.podcast__runtime');
 		var inlineCurrent = podcastCover.parentNode;
 		var inlineMeta = inlineCurrent.nextElementSibling;
 		var inlineTime = inlineMeta.querySelector('.audio__time');
+
 		$('.playing__current').removeClass('playing__current');
-		if (podcastPlayer != null && ( body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast') )) {
+
+		if (podcastPlayer != null && ( body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast') || body.classList.contains('home'))) {
 			audioCurrent.classList.add('playing__current');
 			runtimeCurrent.classList.add('playing');
 		} else if (podcastPlayer != null && ! (body.classList.contains('single-show') || body.classList.contains('post-type-archive-podcast') || body.classList.contains('single-podcast'))) {
@@ -483,7 +486,7 @@
 	function changePlayerState() {
 		if (is_gigya_user_logged_in()) {
 			if (playBtn != null) {
-				addEventHandler(playBtn, elemClick, function(){
+				addEventHandler(playBtn, 'click', function(){
 					if (lpInit === true) {
 						setStoppedStyles();
 						if (window.innerWidth >= 768) {
@@ -497,7 +500,7 @@
 				});
 			}
 			if (listenNow != null) {
-				addEventHandler(listenNow, elemClick, listenLiveStopCustomInlineAudio);
+				addEventHandler(listenNow, 'click', listenLiveStopCustomInlineAudio);
 			}
 		} else {
 			if (playBtn != null) {
@@ -571,22 +574,26 @@
 
 	var currentStream = $('.live-player__stream--current-name');
 
-	currentStream.bind("DOMSubtreeModified", function () {
-		debug("--- new stream select ---");
-		var station = currentStream.text();
+	currentStream.bind('DOMSubtreeModified', function () {
+		if ( is_gigya_user_logged_in() ) {
+			debug('--- new stream select ---');
+			var station = currentStream.text();
 
-		if (livePlaying) {
-			player.stop();
+			if (livePlaying) {
+				player.stop();
+			}
+
+			if (true === playingCustomAudio) {
+				listenLiveStopCustomInlineAudio();
+			}
+
+			player.play({station: station, timeShift: true});
+
+			livePlayer.classList.add('live-player--active');
+			setPlayingStyles();
+		} else {
+			window.location.href = gigyaLogin;
 		}
-
-		if (true === playingCustomAudio) {
-			listenLiveStopCustomInlineAudio();
-		}
-
-		player.play({station: station, timeShift: true});
-
-		livePlayer.classList.add('live-player--active');
-		setPlayingStyles();
 	});
 
 	function playLiveStreamMobile() {
@@ -1622,26 +1629,31 @@
 	 * calculates the time of an inline audio element and outputs the time remaining
 	 */
 	function audioTimeRemaining() {
-		var timeleft = document.querySelectorAll('.audio__time--remaining'), i,
+		var ramainings = document.querySelectorAll('.audio__time--remaining'), i,
 			duration = parseInt(customAudio.duration),
 			currentTime = parseInt(customAudio.currentTime),
-			timeLeft = duration - currentTime,
-			s, m;
+			timeleft = new Date('2000-01-01 00:00:00'),
+			hours, mins, secs;
 
-		for (i = 0; i < timeleft.length; ++i) {
-			s = timeLeft % 60;
-			if (isNaN(s)) {
-				s = '00';
-			} else {
-				s = s < 10 ? "0" + s : s;
-			}
+		if (isNaN(duration)) {
+			duration = currentTime = 0;
+		} else if (isNaN(currentTime)) {
+			currentTime = 0;
+		}
 
-			m = Math.floor(timeLeft / 60) % 60;
-			if (isNaN(m)) {
-				m = '0';
-			}
+		timeleft.setSeconds(duration - currentTime);
+		
+		hours = timeleft.getHours();
+		mins = ('0' + timeleft.getMinutes()).slice(-2);
+		secs = ('0' + timeleft.getSeconds()).slice(-2);
+		if (hours > 0) {
+			timeleft = hours + ':' + mins + ':' + secs;
+		} else {
+			timeleft = mins + ':' + secs;
+		}
 
-			timeleft[i].innerHTML = m + ":" + s;
+		for (i = 0; i < ramainings.length; ++i) {
+			ramainings[i].innerHTML = timeleft;
 		}
 	}
 
@@ -1649,17 +1661,24 @@
 	 * calculates the time of an inline audio element and outputs the time that has elapsed
 	 */
 	function audioTimeElapsed() {
-		var timeline = document.querySelectorAll('.audio__time--elapsed'), i,
-			s = parseInt(customAudio.currentTime % 60),
-			m = parseInt((customAudio.currentTime / 60) % 60);
+		var timeline = document.querySelectorAll('.audio__time--elapsed'),
+			passedSeconds = parseInt(customAudio.currentTime),
+			currentTime = new Date('2000-01-01 00:00:00'),
+			hours, mins, secs, i;
+
+		currentTime.setSeconds(isNaN(passedSeconds) ? 0 : passedSeconds);
+		
+		hours = currentTime.getHours();
+		mins = ('0' + currentTime.getMinutes()).slice(-2);
+		secs = ('0' + currentTime.getSeconds()).slice(-2);
+		if (hours > 0) {
+			currentTime = hours + ':' + mins + ':' + secs;
+		} else {
+			currentTime = mins + ':' + secs;
+		}
 
 		for (i = 0; i < timeline.length; ++i) {
-			if (s < 10) {
-				timeline[i].innerHTML = m + ':0' + s;
-			}
-			else {
-				timeline[i].innerHTML = m + ':' + s;
-			}
+			timeline[i].innerHTML = currentTime;
 		}
 	}
 
@@ -1675,16 +1694,16 @@
 		audioTimeRemaining();
 	}, false);
 
-	addEventHandler(podcastPlayBtn, elemClick, setInlineAudioUX);
+	addEventHandler(podcastPlayBtn, 'click', setInlineAudioUX);
 
-	addEventHandler(podcastPauseBtn, elemClick, pauseCustomInlineAudio);
+	addEventHandler(podcastPauseBtn, 'click', pauseCustomInlineAudio);
 
 	// Ensures our listeners work even after a PJAX load
 	$(document).on('pjax:end', function () {
 		initInlineAudioUI();
 		setInlineAudioStates();
-		addEventHandler(podcastPlayBtn, elemClick, setInlineAudioUX);
-		addEventHandler(podcastPauseBtn, elemClick, pauseCustomInlineAudio);
+		addEventHandler(podcastPlayBtn, 'click', setInlineAudioUX);
+		addEventHandler(podcastPauseBtn, 'click', pauseCustomInlineAudio);
 	});
 
 })(jQuery, window);

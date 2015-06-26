@@ -13,9 +13,15 @@ class EventManager extends BaseImporter {
 		$total        = count( $calendars );
 		$msg          = "Importing $total Calendars";
 		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
+		$mappings     = $this->container->mappings;
 
 		foreach ( $calendars as $calendar ) {
-			$this->import_calendar( $calendar );
+			$calendar_name = $this->import_string( $calendar['CalendarName'] );
+
+			if ( $mappings->can_import_marketron_name( $calendar_name, 'event_manager' ) ) {
+				$this->import_calendar( $calendar );
+			}
+
 			$progress_bar->tick();
 		}
 
@@ -77,7 +83,7 @@ class EventManager extends BaseImporter {
 	}
 
 	function meta_from_event( $event ) {
-		$meta = array();
+		$meta                           = array();
 		$meta['_EventShowMap']          = 1;
 		$meta['_EventShowMapLink']      = 1;
 		$meta['_EventCurrencySymbol']   = '$';
@@ -86,7 +92,7 @@ class EventManager extends BaseImporter {
 		$meta['_EventCost']             = $this->price_from_event( $event );
 		$meta['_EventOrigin']           = 'marketron';
 		$meta['_EventOrganizerID']      = 0;
-		$meta['_legacy_ConcertID']      = $this->import_string( $event['ConcertID'] );
+		$meta['marketron_id']           = $this->import_string( $event['ConcertID'] );
 
 		$timespan = $this->timespan_from_event( $event );
 

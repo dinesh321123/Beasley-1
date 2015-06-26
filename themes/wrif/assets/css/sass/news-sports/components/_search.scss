@@ -1,0 +1,23 @@
+.header__search--form {
+	border-top-color: $color-gray-light;
+	background-color: $color-gray-medium;
+	
+	@include bp(medium) {
+		background-color: $primary-bg;
+	}
+}
+
+.header__search--input {
+	color: $color-gray-light;
+	@include placeholder {
+		color: $color-gray-light;
+	}
+	@include bp(medium) {
+		background-color: $primary-bg !important;
+		color: $color-text-black;
+		@include placeholder {
+			color: $secondary-link;
+		}
+	}
+
+}

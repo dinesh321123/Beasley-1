@@ -6,6 +6,27 @@ class MediaSideLoader {
 
 	public $container;
 	public $pending_sideloads = array();
+	public $directory_map     = array();
+	public $conflict_count    = 0;
+
+	function register() {
+		add_action( 'init', array( $this, 'do_register' ) );
+	}
+
+	function do_register() {
+		add_action(
+			'sideload_file_async_job',
+			array( $this, 'do_sideload_file' )
+		);
+	}
+
+	function do_sideload_file( $params ) {
+		$source = $params[0];
+		$dest   = $params[1];
+		$opts   = $params[2];
+
+		$this->do_copy( $source, $dest, $opts );
+	}
 
 	// copy the site's uploads directory to backups/uploads
 	function backup() {
@@ -25,27 +46,20 @@ class MediaSideLoader {
 
 	// copy sideloaded uploads to site's uploads directory
 	function sync() {
+		\WP_CLI::log( "Total Conflicts: $this->conflict_count" );
+		$this->remove_duplicates();
+
 		$source_dir = $this->get_sync_source_dir();
 		$target_dir = $this->get_sync_target_dir();
 		$total      = count( $this->pending_sideloads );
 		$notify     = new \WordPress\Utils\ProgressBar( "Copying $total Media items", $total );
 
-		foreach ( $this->pending_sideloads as $pending_sideload ) {
+		foreach ( $this->pending_sideloads as $index => $pending_sideload ) {
 			$source   = $pending_sideload['source'];
 			$dest     = $pending_sideload['dest'];
-			$dest_dir = dirname( $dest );
+			$opts     = array( 'index' => $index + 1, 'total' => $total );
 
-			if ( ! file_exists( $dest_dir ) ) {
-				mkdir( $dest_dir, 0700, true );
-				//system( 'mkdir -p ' . escapeshellarg( $dest_dir ) );
-			}
-
-			//error_log( "copy: $source - $dest" );
-			if ( ! $this->container->opts['fake_media'] ) {
-				copy( $source, $dest );
-			} else {
-				$this->symlink( $source, $dest );
-			}
+			$this->copy( $source, $dest, $opts );
 
 			$notify->tick();
 		}
@@ -69,59 +83,25 @@ class MediaSideLoader {
 		$target_dir      = $this->get_upload_dir_for( $timestamp );
 		$target_filepath = $target_dir . '/' . $new_filename;
 
-		if ( ! is_dir( $target_dir ) ) {
-			//system( 'mkdir -p ' . escapeshellarg( $target_dir ) );
-		}
-
-		// slow copy
-		//error_log( "copy: $filepath $target_filepath" );
-		//copy( $filepath, $target_filepath );
-
-		// copy with system
-		//$filepath_arg        = escapeshellarg( $filepath );
-		//$target_filepath_arg = escapeshellarg( $target_filepath );
-
-		//system( "cp $filepath_arg $target_filepath_arg" );
-
-		// we symlink the media file into place, and use rsync to
-		// resolve symlinks
-		//$cwd         = getcwd();
-		//$cd_dir      = dirname( $target_filepath );
-		//$link_target = realpath( $filepath );
-		//$link_name   = basename( $target_filepath );
-
-		//$link_target_arg = escapeshellarg( $link_target );
-		//$link_name_arg   = escapeshellarg( $link_name );
-
-		/*
-		try {
-			chdir( $cd_dir );
-
-			//if ( is_link( $link_name ) ) {
-				//unlink( $link_name );
-			//}
-
-			if ( ! is_link( $link_name ) ) {
-				symlink( $link_target, $link_name );
-			}
-
-		} catch ( \Exception $e ) {
-			error_log( 'Symlink Error: ' . $e->getMessage() );
-		} finally {
-			chdir( $cwd );
-		}
-		 */
-
 		$wordpress_upload_dir = $this->get_wordpress_upload_path_for( $filename, $timestamp );
+
+		if ( $this->directory_has_file( dirname( $wordpress_upload_dir ), $new_filename ) ) {
+			$wordpress_upload_dir = $this->directory_next_file( dirname( $wordpress_upload_dir ), $new_filename );
+			$new_filename = basename( $wordpress_upload_dir );
+		}
+
+		if ( ! $this->directory_has_file( dirname( $wordpress_upload_dir ), $new_filename ) ) {
+			$this->directory_add_file( dirname( $wordpress_upload_dir ), $new_filename );
+		} else {
+			//\WP_CLI::log( "Conflict in path: $filepath - $wordpress_upload_dir" );
+			$this->conflict_count++;
+		}
 
 		$this->pending_sideloads[] = array(
 			'source' => $filepath,
 			'dest' => $wordpress_upload_dir,
 		);
 
-		//return $this->get_file_meta( $new_filename, $target_filepath, $timestamp );
-		// we are getting meta info from the source file itself
-		// the file will be copied into place at the end
 		return $this->get_file_meta( $new_filename, $filepath, $timestamp );
 	}
 
@@ -265,6 +245,99 @@ class MediaSideLoader {
 		} finally {
 			chdir( $cwd );
 		}
+	}
+
+	function update_ownership( $path ) {
+		/* TODO: configurable via WP_CLI opts */
+		chown( $path, 'nginx' );
+		chgrp( $path, 'nginx' );
+	}
+
+	function remove_duplicates() {
+		$map = array();
+
+		foreach ( $this->pending_sideloads as $index => $pending_sideload ) {
+			$source = $pending_sideload['source'];
+			$dest   = $pending_sideload['dest'];
+			$hash   = md5( $source . $dest );
+
+			if ( ! array_key_exists( $hash, $map ) ) {
+				$map[ $hash ] = true;
+			} else {
+				$this->pending_sideloads[ $index ] = null;
+			}
+		}
+
+		$this->pending_sideloads = array_filter(
+			$this->pending_sideloads,
+			array( $this, 'is_pending_sideload' )
+		);
+
+		$this->pending_sideloads = array_values( $this->pending_sideloads );
+	}
+
+	function is_pending_sideload( $item ) {
+		return ! empty( $item );
+	}
+
+	function copy( $source, $dest, $opts  ) {
+		if ( $this->container->opts['async'] === true ) {
+			$this->enqueue_copy( $source, $dest, $opts );
+		} else {
+			$this->do_copy( $source, $dest, $opts );
+		}
+	}
+
+	function do_copy( $source, $dest, $opts ) {
+		$dest_dir = dirname( $dest );
+
+		if ( ! file_exists( $dest_dir ) ) {
+			mkdir( $dest_dir, 0700, true );
+			$this->update_ownership( $dest_dir );
+			//system( 'mkdir -p ' . escapeshellarg( $dest_dir ) );
+		}
+
+		copy( $source, $dest );
+		$this->update_ownership( $dest );
+
+		$name    = basename( $dest );
+		$percent = round( $opts['index'] / $opts['total'] * 100, 2 );
+
+		error_log( $opts['index'] . ' / ' . $opts['total'] );
+		error_log( "Copied: $name - $percent%" );
+	}
+
+	function enqueue_copy( $source, $dest, $opts ) {
+		wp_async_task_add(
+			'sideload_file_async_job',
+			array( $source, $dest, $opts ),
+			'normal'
+		);
+	}
+
+	/* directory conflict detection */
+	function directory_has_file( $dir, $filename ) {
+		return array_key_exists( $dir, $this->directory_map ) &&
+			array_key_exists( $filename, $this->directory_map[ $dir ] );
+	}
+
+	function directory_add_file( $dir, $filename ) {
+		if ( ! array_key_exists( $dir, $this->directory_map ) ) {
+			$this->directory_map[ $dir ] = array();
+		}
+
+		$this->directory_map[ $dir ][ $filename ] = true;
+	}
+
+	function directory_next_file( $dir, $filename ) {
+		if ( ! array_key_exists( $dir, $this->directory_map ) ) {
+			$this->directory_map[ $dir ] = array();
+		}
+
+		$next_id   = count( $this->directory_map[ $dir ] ) + 1;
+		$next_path = $dir . '/' . $next_id . '-' . $filename;
+
+		return $next_path;
 	}
 
 }
