@@ -189,7 +189,8 @@
     border-bottom: 7px solid #000;
     border-top: medium none;
 }
-.header {"../../images/WCTC_header.jpg");
+.header {
+  background-image: url("../../images/WCTC_header.jpg");
   background-position: center top;
 }
 
