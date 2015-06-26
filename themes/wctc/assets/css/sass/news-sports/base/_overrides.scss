@@ -189,6 +189,7 @@
     border-bottom: 7px solid #000;
     border-top: medium none;
 }
+
 .header {
   background-image: url("../../images/WCTC_header.jpg");
   background-position: center top;
@@ -198,6 +199,7 @@
 .main {
     background-image: url("../../images/WCTC_header.jpg");
 }
+
 .main .container {
     box-shadow: 0 0 25px 1px rgba(0, 0, 0, 0.75);
 }
@@ -210,24 +212,30 @@
 .live-player {
     background: rgba(0, 0, 0, 0) url("../../images/WCTC-Live-Links-Header.png") no-repeat scroll 0 0;
 }
+
 .live-stream {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
     margin: 1em auto 4em !important;
 }
+
 .live-stream .live-player__stream {
     visibility: hidden;
 }
+
 .news-site .live-stream__status.audio__playing {
     top: 78px;
 }
+
 .news-site .widget--live-player__title {
   display: none;
 }
 }
+
 .news-site .live-stream__status {
   top: 220px;
   width: 200px;
 }
+
 .featured__article:hover .featured__article--heading, .featured__content--block:hover .featured__content--title {
   color: #de2946;
 }
@@ -235,10 +243,10 @@
 .news-site .featured__article--heading {
   font-weight: 700;
 }
+
 .news-site .featured__content--title {
   font-weight: 700;
 }
-
 
 .header__social>.social__list {
    position: relative;
