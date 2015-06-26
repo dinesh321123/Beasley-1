@@ -15206,8 +15206,8 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
 .live-stream {
   background-color: #fff; }
 
-.live-stream .live-player__stream {
-  visibility: hidden; }
+.header__sub {
+  background-color: #000; }
 
 .header__nav .news-site .format-fi > ul.header__account--links, .header__nav .news-site .format-fw > ul.header__account--links, .header__nav .news-site .format-sp > ul.header__account--links, .news-site .header__account--links.sub-menu, .news-site .header__nav .format-fw > ul.header__account--links, .header__nav .news-site .format-fw > ul.header__account--links, .news-site .header__nav .format-sp > ul.header__account--links, .header__nav .news-site .format-sp > ul.header__account--links, .news-site .header__nav .format-fi > ul.header__account--links, .header__nav .news-site .format-fi > ul.header__account--links, .news-site .header__nav .format-fi > ul, .news-site .header__nav .format-fi > ul.header__account--links, .news-site .header__nav .format-fw > ul, .news-site .header__nav .format-fw > ul.header__account--links, .news-site .header__nav .format-sp > ul, .news-site .header__nav .format-sp > ul.header__account--links, .news-site .header__nav .sub-menu, .news-site .header__nav .format-fw > ul, .news-site .header__nav .format-sp > ul, .news-site .header__nav .format-fi > ul, .news-site .ui-menu {
   border-bottom: 7px solid #000;
@@ -15246,8 +15246,8 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
     visibility: hidden; }
   .news-site .live-stream__status.audio__playing {
     top: 78px; }
-  .live-stream .live-player__stream {
-    visibility: hidden; } }
+  .news-site .widget--live-player__title {
+    display: none; } }
 
 .news-site .live-stream__status {
   top: 220px;
@@ -15265,12 +15265,3 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
 .header__social > .social__list {
   position: relative;
   top: -15px; }
-
-.live-player__container {
-  height: 58px;
-  overflow: auto;
-  transition: opacity 200ms ease-in-out 0s, height 200ms ease-in-out 0s;
-  background: #e3e4e5; }
-
-.live-player__container {
-  border-bottom: 1px solid #050505; }
