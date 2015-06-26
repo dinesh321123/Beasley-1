@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /**
- * 97.5 The Fanatic
+ * 1450 WCTC
  * http://wordpress.org/themes
  *
  * Copyright (c) 2014 10up
@@ -15027,15 +15027,15 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
   background-color: #db261d !important;
   border-color: #db261d !important; }
 
-.show__header {
-  background-color: #580f0c; }
-  .show__header.has-thumbnail:before {
-    background-image: linear-gradient(to bottom, rgba(88, 15, 12, 0.85), rgba(88, 15, 12, 0.85));
-    background-image: -moz-linear-gradient(top, rgba(88, 15, 12, 0.85), rgba(88, 15, 12, 0.85));
-    background-image: -o-linear-gradient(top, rgba(88, 15, 12, 0.85), rgba(88, 15, 12, 0.85));
-    background-image: -ms-linear-gradient(top, rgba(88, 15, 12, 0.85), rgba(88, 15, 12, 0.85));
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(88, 15, 12, 0.85)), to(rgba(88, 15, 12, 0.85)));
-    background-image: -webkit-linear-gradient(top, rgba(88, 15, 12, 0.85), rgba(88, 15, 12, 0.85)); }
+.show__header.has-thumbnail:before {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: none;
+  content: " "; }
 
 .shows__schedule--now {
   border-color: #db261d; }
@@ -15054,4 +15054,20 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
   color: #db261d; }
 
 .error__title--span {
+  color: #db261d; }
+
+.show__header.has-thumbnail:before {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: none;
+  content: " "; }
+
+.shows__schedule--now {
+  border-color: #db261d; }
+
+.single-show .highlights__community--item:hover .highlights__community--title {
   color: #db261d; }
