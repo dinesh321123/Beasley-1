@@ -237,6 +237,14 @@
     }
 }
 
+@media screen and (min-width: 768px) {
+
+    .live-links--more {
+      z-index: 1000;
+    }
+
+}
+
 @media screen and (min-width: 1400px) {
 .main {
     background: #e3e4e5;

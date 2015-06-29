@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WCTC_VERSION', '0.1.0' );
+define( 'WCTC_VERSION', '0.1.1' );
 
  /**
   * Set up theme defaults and register supported WordPress features.
