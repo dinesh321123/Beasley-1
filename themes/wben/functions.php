@@ -11,10 +11,10 @@
  * @package WBEN
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WBEN_VERSION', '0.1.6' ); /* Version bump by Allen 6/22/2015 @ 2:45pm EST */
- 
+define( 'WBEN_VERSION', '0.1.7' ); /* Version bump by Steve 6/29/2015 @ 2:45pm EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WBEN_VERSION', '0.1.6' ); /* Version bump by Allen 6/22/2015 @ 2:45pm E
 	load_theme_textdomain( 'wben', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wben_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,17 +43,17 @@ define( 'WBEN_VERSION', '0.1.6' ); /* Version bump by Allen 6/22/2015 @ 2:45pm E
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wben', get_stylesheet_directory_uri() . "/assets/css/wben{$postfix}.css", array(), WBEN_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wben_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wben_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wben_humans', $humans );
  }
  add_action( 'wp_head', 'wben_header_meta' );

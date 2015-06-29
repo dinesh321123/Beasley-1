@@ -11,10 +11,10 @@
  * @package WRIF
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WRIF_VERSION', '0.1.2' ); /* Version bump by Allen 6/22/2015 @ 2:45pm EST */
- 
+define( 'WRIF_VERSION', '0.1.3' ); /* Version bump by Steve 6/29/2015 @ 2:45pm EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WRIF_VERSION', '0.1.2' ); /* Version bump by Allen 6/22/2015 @ 2:45pm E
 	load_theme_textdomain( 'wrif', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wrif_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -47,14 +47,14 @@ define( 'WRIF_VERSION', '0.1.2' ); /* Version bump by Allen 6/22/2015 @ 2:45pm E
 }
 add_action( 'wp_enqueue_scripts', 'wrif_scripts_styles', 20 );
 
- 
+
 
  /**
   * Add humans.txt to the <head> element.
   */
  function wrif_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wrif_humans', $humans );
  }
  add_action( 'wp_head', 'wrif_header_meta' );
