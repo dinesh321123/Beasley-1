@@ -15213,6 +15213,28 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
   background-image: url("../../images/WCTC_header.jpg");
   background-position: center top; }
 
+.live-links--more.show-more--muted {
+  display: block; }
+
+.streamhub-wall-component article.content-default .content-body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 20px; }
+
+#wctc-social-stream {
+  overflow: hidden;
+  border-top: 1px solid #eee; }
+  #wctc-social-stream article {
+    border-width: 0 0 1px 0;
+    margin: 0;
+    padding: 20px 0; }
+    #wctc-social-stream article.content .content-header .content-header-inner {
+      padding-top: 0; }
+    #wctc-social-stream article.content-instagram .content-header .content-header-inner {
+      padding-top: 20px; }
+  #wctc-social-stream .hub-list-more {
+    display: none; }
+
 @media screen and (min-width: 1400px) {
   .main {
     background: #e3e4e5; }

@@ -186,6 +186,43 @@
   background-position: center top;
 }
 
+.live-links--more.show-more--muted {
+    display: block;
+}
+
+.streamhub-wall-component {
+    article {
+        &.content-default .content-body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+        }
+    }
+}
+
+#wctc-social-stream {
+    overflow: hidden;
+    border-top: 1px solid #eee;
+
+    article {
+        border-width: 0 0 1px 0;
+        margin: 0;
+        padding: 20px 0;
+
+        &.content .content-header .content-header-inner {
+            padding-top: 0;
+        }
+
+        &.content-instagram .content-header .content-header-inner {
+            padding-top: 20px;
+        }
+    }
+
+    .hub-list-more {
+        display: none;
+    }
+}
+
 @media screen and (min-width: 1400px) {
 .main {
     background: #e3e4e5;
@@ -197,7 +234,7 @@
 }
 
 @media screen and (min-width: 768px) {
-    
+
 .on-air, .up-next {
   float: none;
   width: 100%;
@@ -210,7 +247,7 @@
   margin: 0;
   text-align: center;
 }
-    
+
 .audio__playing #live-player--volume {
     display: block;
 }
