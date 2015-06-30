@@ -15188,7 +15188,9 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
 
 /* CUSTOM OVERRIDES BELOW */
 .header__logo {
-  background-color: #f2f2f2; }
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000; }
 
 .header__subnav {
   background-color: #000; }
@@ -15297,7 +15299,7 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
   font-weight: 700; }
 
 .live-player__container {
-  border-top: 1px solid black; }
+  border-top: 0px solid black; }
 
 .header__search--btn {
   display: block;

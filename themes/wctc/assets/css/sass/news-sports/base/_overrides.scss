@@ -154,6 +154,8 @@
 
 .header__logo {
   background-color: #f2f2f2;
+  border-bottom: 1px solid #000; 
+  border-top: 1px solid #000;
 }
 
 .header__subnav {
@@ -313,7 +315,7 @@
 }
 
 .live-player__container {
-  border-top: 1px solid black;
+  border-top: 0px solid black;
 }
 
 .header__search--btn {
