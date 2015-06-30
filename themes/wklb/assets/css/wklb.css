@@ -15061,10 +15061,10 @@ table.responsive tr:nth-of-type(even) {
   color: #ce1141; }
 
 .profile-page__sidebar .profile-header-link {
-  color: #f70240; }
+  color: #1679e4; }
 
 .profile-page .profile-page__sidebar {
-  background-color: #ce1141; }
+  background-color: #004794; }
 
 .fyre .fyre-stream-livecount {
   display: none !important; }
@@ -15141,9 +15141,9 @@ h2.entry2__title a:hover {
   color: #fff !important; }
 
 /*.home__featured .featured__content--block:hover {
-	background-image:linear-gradient(to bottom,#dd0039 65%,#ce1141 100%);
-	color:#fff!important;
-}*/
+		background-image:linear-gradient(to bottom,#dd0039 65%,#ce1141 100%);
+		color:#fff!important;
+	}*/
 .home__featured .featured__article--content {
   background-image: none !important;
   background-color: #004794 !important;
@@ -15186,8 +15186,8 @@ a:hover .highlights__event--title, a:hover .highlights__event--date {
   font-family: 'Oswald', sans-serif; }
 
 /*.featured__content--block:hover .featured__content--title{
-    color: #ffffff!important;
-}*/
+	    color: #ffffff!important;
+	}*/
 .content__heading, .sponsors__heading, .sponsors__heading {
   color: #004794;
   font-family: 'Oswald', sans-serif; }
@@ -15232,6 +15232,7 @@ a:hover .highlights__event--title, a:hover .highlights__event--date {
 .live-player__stream {
   display: block !important;
   margin-top: 125px;
+  z-index: 1000;
   border: 1px solid #fff;
   color: #fff;
   font-family: 'Architects Daughter', cursive;
@@ -15315,6 +15316,18 @@ a:hover .highlights__event--title, a:hover .highlights__event--date {
 
 .featured__article--image {
   background-color: #004794; }
+
+.show__header.has-thumbnail:before {
+  background-image: linear-gradient(to bottom, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
+  background-image: -moz-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
+  background-image: -o-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
+  background-image: -ms-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 71, 148, 0.7)), to(rgba(0, 71, 148, 0.7)));
+  background-image: -webkit-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7)); }
+
+.contest-attr--rules-toggler {
+  background-color: #004794;
+  border-color: #004794; }
 
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
@@ -15522,12 +15535,28 @@ media 768px
     color: #fff;
     font-family: 'Architects Daughter', cursive;
     font-size: 1em;
-    font-weight: 700; }
+    font-weight: 700;
+    text-transform: uppercase; }
   .now-playing__artist {
     color: #fff;
     font-family: 'Architects Daughter';
     font-size: 1em;
-    font-weight: 400; } }
+    font-weight: 400;
+    text-transform: uppercase; }
+  .featured__content--meta {
+    min-height: 86px; }
+  .live-player__stream--title, .live-player__stream--current-name {
+    color: #fff; }
+  .now-playing {
+    padding: 50px 1em 0; }
+  .widget--live-player__title {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: #fff;
+    padding: 3px;
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 100em;
+    font-size: 1em; } }
 
 /*-----------------------------------
 media 1024px
@@ -15577,7 +15606,10 @@ media 1024px
     float: right;
     margin-right: 50px; }
   .live-stream {
-    top: 0px; } }
+    top: 0px; }
+  .header__social a.social__link {
+    padding: 1.15em 0;
+    font-size: 1.5em; } }
 
 /*-----------------------------------
 media 1175px
@@ -15594,45 +15626,6 @@ media 1252px
 @media screen and (min-width: 1252px) {
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
     padding: 33px 1.125em 32px; }
-  @-webkit-keyframes artist_animation {
-    0% {
-      background-image: url(../../images/img_Artists1.png);
-      opacity: 1; }
-
-    50% {
-      background-image: url(../../images/img_Artists2.png);
-      opacity: 1; }
-
-    100% {
-      background-image: url(../../images/img_Artists3.png);
-      opacity: 1; } }
-
-  @-moz-keyframes artist_animation {
-    0% {
-      background-image: url(../../images/img_Artists1.png);
-      opacity: 1; }
-
-    50% {
-      background-image: url(../../images/img_Artists2.png);
-      opacity: 1; }
-
-    100% {
-      background-image: url(../../images/img_Artists3.png);
-      opacity: 1; } }
-
-  @keyframes artist_animation {
-    0% {
-      background-image: url(../../images/img_Artists1.png);
-      opacity: 1; }
-
-    50% {
-      background-image: url(../../images/img_Artists2.png);
-      opacity: 1; }
-
-    100% {
-      background-image: url(../../images/img_Artists3.png);
-      opacity: 1; } }
-
   .ad__leaderboard.desktop {
     float: none;
     margin: 16px auto; }
@@ -15645,28 +15638,7 @@ media 1252px
     width: 275px;
     height: 136px !important;
     top: -1px;
-    right: -280px;
-    -webkit-animation-name: artist_animation;
-    -webkit-animation-duration: 12s;
-    -webkit-animation-iteration-count: 5;
-    -webkit-animation-timing-function: ease-in-out;
-    -webkit-animation-direction: alternate;
-    -webkit-animation-delay: 10s;
-    -webkit-animation-time: 10s;
-    -moz-animation-name: artist_animation;
-    -moz-animation-duration: 12s;
-    -moz-animation-iteration-count: 5;
-    -moz-animation-timing-function: ease-in-out;
-    -moz-animation-direction: alternate;
-    -moz-animation-delay: 10s;
-    -moz-animation-time: 10s;
-    animation-name: artist_animation;
-    animation-duration: 12s;
-    animation-delay: 10s;
-    animation-iteration-count: 5;
-    animation-timing-function: ease-in-out;
-    animation-direction: alternate;
-    animation-time: 10s; } }
+    right: -280px; } }
 
 /*-----------------------------------
 media 1400px

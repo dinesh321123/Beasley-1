@@ -15244,6 +15244,10 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
   #wctc-social-stream .hub-list-more {
     display: none; }
 
+@media screen and (min-width: 768px) {
+  .live-links--more {
+    z-index: 1000; } }
+
 @media screen and (min-width: 1400px) {
   .main {
     background: #e3e4e5; }
