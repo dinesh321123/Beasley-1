@@ -1,0 +1,30 @@
+.show__header {
+
+	&.has-thumbnail {
+
+		&:before {
+			position: absolute;
+			display: none;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: none;
+			content: " ";
+		}
+	}
+
+}
+
+.shows__schedule--now {
+	border-color: $color-red;
+}
+
+.single-show {
+	.highlights__community--item:hover {
+
+		.highlights__community--title {
+			color: $primary-link;
+		}
+	}
+}

@@ -3845,6 +3845,10 @@ a.highlights__contest--btn {
     border: none;
     font-size: 1em;
     color: white; } }
+@media screen and (min-width: 1024px)  {
+  .news-site .header__social a.social__link {
+    padding: 15px 0 14px;
+    font-size: 1.25em; } }
 
 .header__search {
   display: none;
@@ -14999,7 +15003,7 @@ table.responsive tr:nth-of-type(even) {
   height: 83px;
   z-index: 1000 !important;
   cursor: pointer;
-  margin: 0px 30% 0; }
+  margin: 0px 27% 0; }
 
 .header__logo img {
   z-index: 1 !important;
@@ -15027,7 +15031,7 @@ table.responsive tr:nth-of-type(even) {
   font-family: 'Oswald',sans-serif;
   color: #fff !important;
   font-size: .88888em;
-  font-weight: 100 !important;
+  font-weight: 100;
   font-style: italic; }
 
 .featured__article--heading {
@@ -15057,10 +15061,10 @@ table.responsive tr:nth-of-type(even) {
   color: #ce1141; }
 
 .profile-page__sidebar .profile-header-link {
-  color: #f70240; }
+  color: #1679e4; }
 
 .profile-page .profile-page__sidebar {
-  background-color: #ce1141; }
+  background-color: #004794; }
 
 .fyre .fyre-stream-livecount {
   display: none !important; }
@@ -15125,19 +15129,10 @@ h2.entry2__title a:hover {
 .type-contest .entry2__thumbnail--end-date {
   display: none !important; }
 
-.home__featured .featured__article--content {
-  background-image: none !important;
-  background-color: #004794 !important;
-  color: #fff; }
-
 .home__featured .featured__content--block {
   background-image: none !important;
   background-color: #004794 !important;
   color: #fff; }
-
-.home__featured .featured__content--block:hover {
-  background-image: linear-gradient(to bottom, #dd0039 65%, #ce1141 100%);
-  color: #fff !important; }
 
 .featured__content--block:hover {
   background-color: #ce1141 !important; }
@@ -15145,8 +15140,18 @@ h2.entry2__title a:hover {
 .featured__content--block:hover .featured__content--title {
   color: #fff !important; }
 
+/*.home__featured .featured__content--block:hover {
+		background-image:linear-gradient(to bottom,#dd0039 65%,#ce1141 100%);
+		color:#fff!important;
+	}*/
+.home__featured .featured__article--content {
+  background-image: none !important;
+  background-color: #004794 !important;
+  color: #fff; }
+
 .featured__article:hover {
-  background-color: #ce1141 !important; }
+  background-color: #ce1141;
+  color: #fff !important; }
 
 .featured__article:hover .featured__article--heading {
   color: #fff !important; }
@@ -15181,8 +15186,8 @@ a:hover .highlights__event--title, a:hover .highlights__event--date {
   font-family: 'Oswald', sans-serif; }
 
 /*.featured__content--block:hover .featured__content--title{
-    color: #ffffff!important;
-}*/
+	    color: #ffffff!important;
+	}*/
 .content__heading, .sponsors__heading, .sponsors__heading {
   color: #004794;
   font-family: 'Oswald', sans-serif; }
@@ -15227,6 +15232,7 @@ a:hover .highlights__event--title, a:hover .highlights__event--date {
 .live-player__stream {
   display: block !important;
   margin-top: 125px;
+  z-index: 1000;
   border: 1px solid #fff;
   color: #fff;
   font-family: 'Architects Daughter', cursive;
@@ -15305,7 +15311,24 @@ a:hover .highlights__event--title, a:hover .highlights__event--date {
 #live-player--volume.noUi-horizontal .noUi-handle {
   background: #000; }
 
-/* END LIVE PLAYER */
+.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading, .live-stream--inactive, .podcast__btn--play, .podcast__btn--pause {
+  margin: 10px auto; }
+
+.featured__article--image {
+  background-color: #004794; }
+
+.show__header.has-thumbnail:before {
+  background-image: linear-gradient(to bottom, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
+  background-image: -moz-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
+  background-image: -o-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
+  background-image: -ms-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 71, 148, 0.7)), to(rgba(0, 71, 148, 0.7)));
+  background-image: -webkit-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7)); }
+
+.contest-attr--rules-toggler {
+  background-color: #004794;
+  border-color: #004794; }
+
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -15371,7 +15394,8 @@ media 768px
     margin-top: 6px !important; }
   .live-player__container {
     border-bottom: 0px solid white !important;
-    background-color: transparent !important; }
+    background-color: transparent !important;
+    height: 400px; }
   .on-air__show, .up-next__show {
     display: block !important;
     font-size: .8888888889em;
@@ -15381,7 +15405,9 @@ media 768px
     color: #fff !important;
     padding-top: 0px !important; }
   .live-stream {
-    background: url(../../images/live-stream.png) no-repeat transparent !important; }
+    background: url(../../images/live-stream.png) no-repeat transparent !important;
+    position: relative;
+    top: 13px; }
   .live-stream .on-air, .live-stream .up-next {
     padding: 4px 1em;
     position: relative;
@@ -15487,14 +15513,57 @@ media 768px
   .live-link__song .live-link__song--artist, .live-link__song .live-link__song--title {
     font-family: 'Architects Daughter', cursive;
     font-size: 1em;
-    font-weight: 400; } }
+    font-weight: 400;
+    color: #fff; }
+  .live-link__song:before {
+    color: #fff; }
+  .header__logo {
+    max-width: inherit;
+    margin: 0px 27% 0; }
+  .widget--live-player__title {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: #fff; }
+  .home__featured .featured__content--image {
+    padding-top: 66.6%;
+    width: 100%; }
+  .featured__content--block {
+    height: 100%; }
+  .now-playing__title {
+    color: #fff;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1em;
+    font-weight: 700;
+    text-transform: uppercase; }
+  .now-playing__artist {
+    color: #fff;
+    font-family: 'Architects Daughter';
+    font-size: 1em;
+    font-weight: 400;
+    text-transform: uppercase; }
+  .featured__content--meta {
+    min-height: 86px; }
+  .live-player__stream--title, .live-player__stream--current-name {
+    color: #fff; }
+  .now-playing {
+    padding: 50px 1em 0; }
+  .widget--live-player__title {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: #fff;
+    padding: 3px;
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 100em;
+    font-size: 1em; } }
 
 /*-----------------------------------
 media 1024px
 -----------------------------------*/
 @media screen and (min-width: 1024px) {
   .header__nav {
-    padding-left: 20px !important; }
+    padding-left: 240px !important; }
   .header__nav li {
     font-weight: 800;
     text-transform: uppercase; }
@@ -15532,14 +15601,20 @@ media 1024px
     top: -110px;
     left: 0px;
     margin: 0;
-    padding: 0; } }
+    padding: 0; }
+  .ad__leaderboard.desktop {
+    float: right;
+    margin-right: 50px; }
+  .live-stream {
+    top: 0px; }
+  .header__social a.social__link {
+    padding: 1.15em 0;
+    font-size: 1.5em; } }
 
 /*-----------------------------------
 media 1175px
 -----------------------------------*/
 @media screen and (min-width: 1175px) {
-  .header__nav {
-    padding-left: 220px !important; }
   .header__nav > ul > li {
     padding-right: 5px; }
   .header__nav > ul > li > a {
@@ -15551,45 +15626,9 @@ media 1252px
 @media screen and (min-width: 1252px) {
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
     padding: 33px 1.125em 32px; }
-  @-webkit-keyframes artist_animation {
-    0% {
-      background-image: url(../../images/img_Artists1.png);
-      opacity: 1; }
-
-    50% {
-      background-image: url(../../images/img_Artists2.png);
-      opacity: 1; }
-
-    100% {
-      background-image: url(../../images/img_Artists3.png);
-      opacity: 1; } }
-
-  @-moz-keyframes artist_animation {
-    0% {
-      background-image: url(../../images/img_Artists1.png);
-      opacity: 1; }
-
-    50% {
-      background-image: url(../../images/img_Artists2.png);
-      opacity: 1; }
-
-    100% {
-      background-image: url(../../images/img_Artists3.png);
-      opacity: 1; } }
-
-  @keyframes artist_animation {
-    0% {
-      background-image: url(../../images/img_Artists1.png);
-      opacity: 1; }
-
-    50% {
-      background-image: url(../../images/img_Artists2.png);
-      opacity: 1; }
-
-    100% {
-      background-image: url(../../images/img_Artists3.png);
-      opacity: 1; } }
-
+  .ad__leaderboard.desktop {
+    float: none;
+    margin: 16px auto; }
   .ad__leaderboard.desktop:after {
     content: "";
     display: inline-block;
@@ -15599,28 +15638,7 @@ media 1252px
     width: 275px;
     height: 136px !important;
     top: -1px;
-    right: -280px;
-    -webkit-animation-name: artist_animation;
-    -webkit-animation-duration: 12s;
-    -webkit-animation-iteration-count: 5;
-    -webkit-animation-timing-function: ease-in-out;
-    -webkit-animation-direction: alternate;
-    -webkit-animation-delay: 10s;
-    -webkit-animation-time: 10s;
-    -moz-animation-name: artist_animation;
-    -moz-animation-duration: 12s;
-    -moz-animation-iteration-count: 5;
-    -moz-animation-timing-function: ease-in-out;
-    -moz-animation-direction: alternate;
-    -moz-animation-delay: 10s;
-    -moz-animation-time: 10s;
-    animation-name: artist_animation;
-    animation-duration: 12s;
-    animation-delay: 10s;
-    animation-iteration-count: 5;
-    animation-timing-function: ease-in-out;
-    animation-direction: alternate;
-    animation-time: 10s; } }
+    right: -280px; } }
 
 /*-----------------------------------
 media 1400px
@@ -15629,16 +15647,22 @@ media 1400px
   .header__nav {
     padding-left: 290px !important; }
   .header__logo {
-    border: solid 0 #fff;
-    width: 362px;
-    height: 200px;
-    top: -130px;
-    left: -30px; }
+    left: 0px; }
   .ad__leaderboard.desktop:after {
     width: 325px;
     height: 136px !important;
     top: -22px;
     right: -325px; } }
+
+/*-----------------------------------
+media 1450px
+-----------------------------------*/
+@media screen and (min-width: 1450px) {
+  .header__logo {
+    width: 362px;
+    height: 200px;
+    top: -130px;
+    left: -30px; } }
 
 .live-link__type--show {
   border-bottom-color: white;

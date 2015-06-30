@@ -11,10 +11,10 @@
  * @package WMTR
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WMTR_VERSION', '0.1.8' ); /* Version bump by Allen 6/22/2015 @ 2:45pm EST */
- 
+define( 'WMTR_VERSION', '0.2.0' ); /* Version bump by Steve 6/30/2015 @ 11:30am EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WMTR_VERSION', '0.1.8' ); /* Version bump by Allen 6/22/2015 @ 2:45pm E
 	load_theme_textdomain( 'wmtr', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wmtr_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,17 +43,17 @@ define( 'WMTR_VERSION', '0.1.8' ); /* Version bump by Allen 6/22/2015 @ 2:45pm E
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wmtr', get_stylesheet_directory_uri() . "/assets/css/wmtr{$postfix}.css", array(), WMTR_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wmtr_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wmtr_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wmtr_humans', $humans );
  }
  add_action( 'wp_head', 'wmtr_header_meta' );

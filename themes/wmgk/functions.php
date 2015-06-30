@@ -21,7 +21,7 @@ if ( defined( 'GMR_WMGK_ENV' ) && 'dev' == GMR_WMGK_ENV ) {
 	// So that things like cloudflare don't hold on to our css during dev
 	define( 'WMGK_VERSION', time() );
 } else {
-	define( 'WMGK_VERSION', '1.1.1' ); /* Version bump by Allen 6/22/2015 @ 2:45pm EST */
+	define( 'WMGK_VERSION', '1.3' ); /* Version bump by Steve 6/30/2015 @ 11:30am EST */
 }
 
 /**
