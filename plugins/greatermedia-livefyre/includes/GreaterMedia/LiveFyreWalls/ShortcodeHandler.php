@@ -35,7 +35,7 @@ class ShortcodeHandler {
 			'ad_inventory_id' => ''
 		), $atts );
 
-		?><div id="wall-<?php echo esc_attr( $uniqid ); ?>"></div>
+		?><div id="wall-<?php echo esc_attr( $uniqid ); ?>" class="livefyre-mediawall"></div>
 		<script src="//cdn.livefyre.com/Livefyre.js"></script>
 		<script type="text/javascript">// <![CDATA[
 		if ((typeof Livefyre) !== "undefined") {
@@ -162,7 +162,7 @@ class ShortcodeHandler {
 			'ad_inventory_id' => ''
 		), $atts );
 
-		?><div id="wall-<?php echo esc_attr( $uniqid ); ?>"></div>
+		?><div id="wall-<?php echo esc_attr( $uniqid ); ?>" class="livefyre-mediawall"></div>
 		<script src="//cdn.livefyre.com/Livefyre.js"></script>
 		<script>
 			Livefyre.require(['streamhub-wall#3', 'streamhub-sdk#2'], function(LiveMediaWall, SDK) {

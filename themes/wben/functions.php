@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WBEN_VERSION', '0.1.7' ); /* Version bump by Steve 6/29/2015 @ 2:45pm EST */
+define( 'WBEN_VERSION', '0.1.8' ); /* Version bump by Steve 6/30/2015 @ 11:30am EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.

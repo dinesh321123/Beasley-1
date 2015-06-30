@@ -14131,8 +14131,10 @@ category: Components - Article
 
 	}
 	*/
-.streamhub-wall-component article.content {
-  padding: 0 0 17px 0; }
+.livefyre-mediawall {
+  overflow: hidden; }
+  .livefyre-mediawall .streamhub-wall-component article.content {
+    padding: 0 0 17px 0; }
 
 /*doc
 ---

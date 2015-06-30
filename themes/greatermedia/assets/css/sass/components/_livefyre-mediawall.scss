@@ -1,9 +1,15 @@
-.streamhub-wall-component {
+.livefyre-mediawall {
+    overflow: hidden;
 
-    article.content {
+    .streamhub-wall-component {
 
-        padding: 0 0 17px 0;
+        article.content {
+
+            padding: 0 0 17px 0;
+
+        }
 
     }
-
 }
+
+
