@@ -71,7 +71,7 @@ class GMP_Player{
 
 
 	public static function get_podcast_episode() {
-		$content = get_the_content();
+		$content = get_post()->post_content;
 		$pattern = get_shortcode_regex();
 
 		$html = '';
