@@ -508,8 +508,12 @@
 		}
 
 		@include bp(larger) {
-			padding-top: 28px;
-			padding-bottom: 28px;
+			padding: 28px .25em;
+		}
+
+		@media screen and (min-width: 1260px) {
+			padding-right: 1.5em;
+			padding-left: 1.5em;
 		}
 
 		@include bp(x-large) {
@@ -615,7 +619,7 @@
 	.news-site & {
 
 		@include bp(medium) {
-			height: 78px;
+			height: 48px;
 		}
 	}
 }

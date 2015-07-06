@@ -3742,8 +3742,11 @@ a.highlights__contest--btn {
       font-size: 1.60181em; } }
   @media screen and (min-width: 1200px)  {
     .news-site .header__account--btn {
-      padding-top: 28px;
-      padding-bottom: 28px; } }
+      padding: 28px .25em; } }
+  @media screen and (min-width: 1260px) {
+    .news-site .header__account--btn {
+      padding-right: 1.5em;
+      padding-left: 1.5em; } }
   @media screen and (min-width: 1400px)  {
     .news-site .header__account--btn {
       padding-top: 26px;
@@ -3819,7 +3822,7 @@ a.highlights__contest--btn {
       font-size: 1em; } }
   @media screen and (min-width: 768px)  {
     .news-site .header__social {
-      height: 78px; } }
+      height: 48px; } }
 
 .header__social > .social__list {
   padding: 0; }
@@ -15161,7 +15164,7 @@ h1, .h1, .type-tribe_events .entry2__thumbnail--event-date, .type-contest .entry
 @media screen and (min-width: 768px)  {
   .header__account:hover {
     background-color: white; } }
-.header__account:hover > a, .header__account:hover .header__account--span {
+.header__account:hover > a, .header__account:hover .header__account--span, .header__account:hover .header__account--logged-out, .header__account:hover .header__account--logged-in {
   color: black; }
 
 .header__search--form {

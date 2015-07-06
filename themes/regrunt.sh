@@ -45,4 +45,10 @@ grunt
 cd ../wrif
 grunt
 
+cd ../wctc
+grunt
+
+cd ../wklb
+grunt
+
 cd ../
