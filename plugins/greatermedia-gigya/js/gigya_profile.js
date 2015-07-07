@@ -506,6 +506,14 @@
 		didBeforeScreen: function(event) {
 			var screenID = event.nextScreen;
 			this.updateSidebar(this.getPageForScreenID(screenID));
+
+			switch (event.nextScreen) {
+				case 'gigya-update-profile-screen':
+				case 'gigya-register-complete-screen':
+					this.countryStateGroup = null;
+					break;
+
+			}
 		},
 
 		didAfterScreen: function(event) {
@@ -516,11 +524,13 @@
 			switch (event.currentScreen) {
 				case 'gigya-update-profile-screen':
 					this.registerLogoutButton();
+					this.initCountryState('profile-update');
 					break;
 
 				case 'gigya-register-complete-screen':
 					this.controller.willRegister = true;
 					this.updateGeoFields();
+					this.initCountryState('profile');
 					break;
 
 				case 'gigya-update-profile-success-screen':
@@ -592,6 +602,17 @@
 			$logout.one('click', this.didLogoutClickHandler);
 		},
 
+		initCountryState: function(type) {
+			if (!this.countryStateGroup) {
+				this.countryStateGroup = new CountryState.Group(
+					type + '-country',
+					type + '-state'
+				);
+			}
+
+			this.countryStateGroup.render();
+		},
+
 		didLogoutClick: function(event) {
 			this.show('gigya-logout-screen');
 			gigya.accounts.logout();
@@ -655,7 +676,42 @@
 			if (event.form === 'gigya-reset-link-password-form') {
 				this.controller.resetPassword(event.formData.newPassword);
 				return false;
+			} else if (event.form === 'gigya-profile-form') {
+				var $zipCode, $error;
+
+				if (event.screen === 'gigya-register-complete-screen') {
+					$zipCode = $('#register-complete-zip');
+					$error = $('#profile-zip-error');
+				} else if (event.screen === 'gigya-update-profile-screen') {
+					$zipCode = $('#profile-update-zip');
+					$error = $('#profile-update-zip-error');
+				}
+
+				var zipCode  = $zipCode.val();
+				var country  = this.countryStateGroup.getSelectedCountryCode();
+
+				if (!this.isZipCodeValid(zipCode, country)) {
+					this.showZipErrorMessage( $error );
+					return false;
+				}
 			}
+		},
+
+		isZipCodeValid: function(zip, country) {
+			if (!this.zipValidator) {
+				this.zipValidator = new CountryState.ZipCodeValidator();
+			}
+
+			return this.zipValidator.validate(zip, country);
+		},
+
+		showZipErrorMessage: function($error) {
+			$error.css('display', 'block');
+			$error.css('visibility', 'visible');
+			$error.text('Please enter a valid Zip code');
+			$error.toggleClass('gigya-error-msg-active', true);
+
+			this.checkForSubmitErrors();
 		},
 
 		didFieldChange: function(event) {

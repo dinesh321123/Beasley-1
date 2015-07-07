@@ -75,6 +75,10 @@ class AccountSchema {
 					'writeAccess' => 'clientModify',
 					'required' => true,
 				),
+				'country' => array(
+					'writeAccess' => 'clientModify',
+					'required' => true,
+				),
 				'state' => array(
 					'writeAccess' => 'clientModify',
 					'required' => true,

@@ -66,11 +66,13 @@ module.exports = function(grunt) {
 		uglify: {
 			dist: {
 				files: {
-					'query_builder.min.js' : ['query_builder.js'],
-					'gigya_profile.min.js' : ['gigya_profile.js'],
-					'gigya_session.min.js' : ['gigya_session.js'],
-					'wp_ajax_api.min.js'   : ['wp_ajax_api.js'],
-					'settings_page.min.js' : ['settings_page.js']
+					'query_builder.min.js'          : ['query_builder.js'],
+					'gigya_profile.min.js'          : ['gigya_profile.js'],
+					'gigya_session.min.js'          : ['gigya_session.js'],
+					'wp_ajax_api.min.js'            : ['wp_ajax_api.js'],
+					'settings_page.min.js'          : ['settings_page.js'],
+					'geodata.min.js'                : ['geodata.js'],
+					'country_state_selector.min.js' : ['country_state_selector.js']
 				}
 			}
 		},

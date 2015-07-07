@@ -287,7 +287,7 @@ function get_gigya_verify_email_message() {
 					<?php } ?>
 				</select>
 
-				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.zip" id="profile-zip-error"></span>
 				<label for="register-complete-zip">ZIP Code</label>
 				<input type="text" name="profile.zip" id="register-complete-zip" placeholder="ZIP Code" />
 
@@ -296,13 +296,14 @@ function get_gigya_verify_email_message() {
 				<label class="inline-label" for="register-complete-gender-male"><input type="radio" name="profile.gender" id="register-complete-gender-male" value="m" />Male</label>
 				<label class="inline-label" for="register-complete-gender-female"><input type="radio" name="profile.gender" id="register-complete-gender-female" value="f" />Female</label>
 
+				<span class="gigya-error-msg" data-bound-to="profile.country" ></span>
+				<label class="country-label" for="profile-country">Country:</label>
+				<select name="profile.country" id="profile-country" >
+				</select>
+
 				<span class="gigya-error-msg" data-bound-to="profile.state" ></span>
-				<label for="profile-state">State:</label>
+				<label for="profile-state">State/Province:</label>
 				<select name="profile.state" id="profile-state">
-					<option disabled selected value>Select One</option>
-					<?php foreach ( $state_names as $state ) { ?>
-						<option value="<?php echo esc_attr( $state['value'] ); ?>"><?php echo esc_html( $state['label'] ); ?></option>
-					<?php } ?>
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.city" ></span>
@@ -409,21 +410,27 @@ function get_gigya_verify_email_message() {
 					<?php } ?>
 				</select>
 
-				<span class="gigya-error-msg" data-bound-to="profile.zip" ></span>
+				<span class="gigya-error-msg" data-bound-to="profile.zip" id="profile-update-zip-error"></span>
 				<label for="profile-update-zip">ZIP Code:</label>
 				<input type="text" name="profile.zip" id="profile-update-zip" />
 
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label class="gender-label">Gender:</label>
-				<label class="inline-label" for="profile-update-gender-male"><input type="radio" name="profile.gender" id="profile-update-gender-male" value="m" />Male</label>
-				<label class="inline-label" for="profile-update-gender-female"><input type="radio" name="profile.gender" id="profile-update-gender-female" value="f" />Female</label>
+				<label class="inline-label" for="profile-update-gender-male">
+				<input type="radio" name="profile.gender" id="profile-update-gender-male" value="m" />Male</label>
+				<label class="inline-label" for="profile-update-gender-female">
+				<input type="radio" name="profile.gender" id="profile-update-gender-female" value="f" />Female</label>
+
+				<span class="gigya-error-msg" data-bound-to="profile.country" ></span>
+				<label class="country-label" for="profile-update-country">Country:</label>
+				<input type="hidden" name="profile.country" id="profile-update-country-hidden" />
+				<select name="profile.country" id="profile-update-country" >
+				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.state" ></span>
-				<label for="profile-update-state">State:</label>
+				<label for="profile-update-state">State/Province:</label>
+				<input type="hidden" name="profile.state" id="profile-update-state-hidden" />
 				<select name="profile.state" id="profile-update-state">
-					<?php foreach ( $state_names as $state ) { ?>
-						<option value="<?php echo esc_attr( $state['value'] ); ?>"><?php echo esc_html( $state['label'] ); ?></option>
-					<?php } ?>
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.city" ></span>
