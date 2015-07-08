@@ -74,14 +74,15 @@ class Channel extends BaseImporter {
 	function blog_from_story( $story ) {
 		$blog_title     = ucwords( $this->import_string( $story['Headline'] ) );
 		$blog_title     = htmlentities( $blog_title );
-		$blog_content   = $this->import_string( $story->StoryText );
+		$blog_content   = $this->content_from_story( $story );
 		$featured_image = $this->featured_image_from_story( $story );
 
 		$blog = array(
 			'post_title'   => $blog_title,
-			'post_content' => $blog_content,
+			'post_content' => $blog_content['body'],
 			'created_on'   => $this->import_string( $story['StoryDate'] ),
 			'marketron_id' => $this->import_string( $story['StoryID'] ),
+			'post_format' => $blog_content['post_format'],
 		);
 
 		if ( ! empty( $featured_image ) ) {
@@ -96,4 +97,46 @@ class Channel extends BaseImporter {
 		return $featured_image;
 	}
 
+	function content_from_story( $story ) {
+		$content        = $story->StoryText;
+		$post_format    = 'standard';
+		$featured_audio = null;
+
+		if ( isset( $content ) ) {
+			$content = $this->import_string( $content );
+		} else {
+			$content = '';
+		}
+
+		if ( strpos( $content, 'youtube.com/embed' ) !== false ) {
+			$content = preg_replace_callback(
+				'#<iframe.*src="https?://www.youtube.com/embed/([^"]*)".*</iframe>#',
+				function( $matches ) {
+					$embed_params = $matches[1];
+					$embed_params = str_replace( '?', '&', $embed_params );
+					return "[embed]http://www.youtube.com/watch?v=${embed_params}[/embed]";
+				},
+				$content, -1, $videos
+			);
+
+			if ( $post_format !== 'video' && $videos > 0 ) {
+				$post_format = 'video';
+			}
+		}
+
+		$content = preg_replace(
+			'#<div.*data-youtube-id="(.*)">.*</div>#',
+			'[embed]http://www.youtube.com/watch?v=${1}[/embed]',
+			$content, -1, $videos
+		);
+
+		if ( $post_format !== 'video' && $videos > 0 ) {
+			$post_format = 'video';
+		}
+
+		return array(
+			'body'        => $content,
+			'post_format' => $post_format,
+		);
+	}
 }
