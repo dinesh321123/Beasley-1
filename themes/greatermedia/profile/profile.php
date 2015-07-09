@@ -287,10 +287,6 @@ function get_gigya_verify_email_message() {
 					<?php } ?>
 				</select>
 
-				<span class="gigya-error-msg" data-bound-to="profile.zip" id="profile-zip-error"></span>
-				<label for="register-complete-zip">ZIP Code</label>
-				<input type="text" name="profile.zip" id="register-complete-zip" placeholder="ZIP Code" />
-
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label class="gender-label">Gender:</label>
 				<label class="inline-label" for="register-complete-gender-male"><input type="radio" name="profile.gender" id="register-complete-gender-male" value="m" />Male</label>
@@ -309,6 +305,10 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg" data-bound-to="profile.city" ></span>
 				<label for="profile-city">City:</label>
 				<input type="text" name="profile.city" id="profile-city" />
+
+				<span class="gigya-error-msg" data-bound-to="profile.zip" id="profile-zip-error"></span>
+				<label for="register-complete-zip">ZIP Code</label>
+				<input type="text" name="profile.zip" id="register-complete-zip" placeholder="ZIP Code" />
 
 				<h2>Email Subscriptions</h2>
 
@@ -410,10 +410,6 @@ function get_gigya_verify_email_message() {
 					<?php } ?>
 				</select>
 
-				<span class="gigya-error-msg" data-bound-to="profile.zip" id="profile-update-zip-error"></span>
-				<label for="profile-update-zip">ZIP Code:</label>
-				<input type="text" name="profile.zip" id="profile-update-zip" />
-
 				<span class="gigya-error-msg" data-bound-to="profile.gender" ></span>
 				<label class="gender-label">Gender:</label>
 				<label class="inline-label" for="profile-update-gender-male">
@@ -436,6 +432,10 @@ function get_gigya_verify_email_message() {
 				<span class="gigya-error-msg" data-bound-to="profile.city" ></span>
 				<label for="profile-update-city">City:</label>
 				<input type="text" name="profile.city" id="profile-update-city" />
+
+				<span class="gigya-error-msg" data-bound-to="profile.zip" id="profile-update-zip-error"></span>
+				<label for="profile-update-zip">ZIP Code:</label>
+				<input type="text" name="profile.zip" id="profile-update-zip" />
 
 				<h2>Password</h2>
 				<a href="#" data-switch-screen="gigya-change-password-screen">Change your password.</a>
