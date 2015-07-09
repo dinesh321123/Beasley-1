@@ -585,6 +585,41 @@ __e( title ) +
 }
 return __p
 };
+
+this["JST"]["src/templates/zip_code_constraint.jst"] = function(obj) {
+obj || (obj = {});
+var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+with (obj) {
+__p += '<ul class="constraint-toolbar">\n\t<li>\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-admin-page copy-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Duplicate"\n\t\t/>\n\n\t\t<a\n\t\t\talt="f105"\n\t\t\tclass="dashicons dashicons-trash remove-constraint"\n\t\t\thref="#"\n\t\t\ttitle="Remove"\n\t\t/>\n\t</li>\n</ul>\n\n<p class="constraint-title">\n\t' +
+__e( title ) +
+'\n</p>\n\n<p>Enter Zip Codes (comma delimited)</p>\n\n<p>\n\t<textarea class="constraint-value constraint-textarea">' +
+__e( value ) +
+'</textarea>\n</p>\n\n<select class="constraint-operator">\n\t';
+ _.each(view.operatorsFor(valueType, type), function(operatorItem) { ;
+__p += '\n\t<option value="' +
+__e( operatorItem ) +
+'" ' +
+((__t = ( operatorItem === operator ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t' +
+__e( operatorItem ) +
+'\n\t</option>\n\t';
+ }) ;
+__p += '\n</select>\n\n<input type="text" class="constraint-value constraint-value-text"\nvalue="" style="visibility:hidden" />\n\n<select class="constraint-conjunction">\n\t';
+ _.each(view.conjunctions, function(conjunctionItem) { ;
+__p += '\n\t<option value="' +
+__e( conjunctionItem ) +
+'" ' +
+((__t = ( conjunctionItem === conjunction ? 'selected="selected"' : ''  )) == null ? '' : __t) +
+'">\n\t' +
+__e( conjunctionItem ) +
+'\n\t</option>\n\t';
+ }) ;
+__p += '\n</select>\n\n<div class="conjunction-guide">\n\t<p><span class="arrow-down"></span>OR any of the following conditions</p>\n</div>\n\n';
+
+}
+return __p
+};
 var EntryType = Backbone.Model.extend({
 
 	defaults: {
@@ -2257,6 +2292,8 @@ var ConstraintCollection = Backbone.Collection.extend({
 				return 'email_engagement';
 			} else if (subType.match(/_list$/)) {
 				return 'list';
+			} else if (subType === 'zip') {
+				return 'zip_code';
 			} else {
 				return typeList[0];
 			}
@@ -2952,6 +2989,26 @@ var FavoriteConstraintView = ConstraintView.extend({
 
 });
 
+var ZipCodeConstraintView = ConstraintView.extend({
+
+	template: getTemplate('zip_code_constraint'),
+
+	initialize: function(model, opts) {
+		ConstraintView.prototype.initialize.call(this, model, opts);
+	},
+
+	operatorsFor: function(valueType, type) {
+		if (type === 'profile:zip') {
+			return ['in', 'not in'];
+		} else {
+			return ConstraintView.prototype.operatorsFor.call(
+				this, valueType, type
+			);
+		}
+	}
+
+});
+
 var ActiveConstraintsView = Backbone.CollectionView.extend({
 
 	el: jQuery('#active_constraints'),
@@ -2984,6 +3041,9 @@ var ActiveConstraintsView = Backbone.CollectionView.extend({
 
 			case 'email_engagement':
 				return EmailEngagementConstraintView;
+
+			case 'zip_code':
+				return ZipCodeConstraintView;
 
 			default:
 				return ConstraintView;

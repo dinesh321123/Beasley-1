@@ -43,6 +43,8 @@ class MemberQuery {
 		'greater than or equal to' => '>=',
 		'less than'                => '<',
 		'less than or equal to'    => '<=',
+		'in'                       => 'in',
+		'not in'                   => 'not in',
 	);
 
 	/**
@@ -398,6 +400,8 @@ class MemberQuery {
 					return $this->clause_for_likes_constraint( $constraint );
 				} else if ( $subType === 'favorites' ) {
 					return $this->clause_for_favorites_constraint( $constraint );
+				} else if ( $subType === 'zip' ) {
+					return $this->clause_for_zip_code_constraint( $constraint );
 				} else {
 					return $this->clause_for_profile_constraint( $constraint );
 				}
@@ -566,6 +570,51 @@ class MemberQuery {
 
 		return $query;
 	}
+
+	public function clause_for_zip_code_constraint( $constraint ) {
+		$type      = $constraint['type'];
+		$typeParts = explode( ':', $type );
+		$value     = $constraint['value'];
+		$valueType = $constraint['valueType'];
+		$operator  = $constraint['operator'];
+		$query     = '';
+
+		if ( $operator === 'equals' ) {
+			$operator = 'in';
+		} else if ( $operator === 'not equals' ) {
+			$operator = 'not in';
+		}
+
+		$query .= 'profile.' . $typeParts[1];
+		$query .= ' ';
+		$query .= $this->operator_for( $operator );
+		$query .= ' ';
+		$query .= $this->get_zip_code_list( $value );
+
+		return $query;
+	}
+
+	function get_zip_code_list( $input ) {
+		$input = trim( $input );
+		$input = trim( $input, ',' );
+
+		$zip_codes = explode( ',', $input );
+		$formatted = array();
+
+		foreach ( $zip_codes as $zip_code ) {
+			$zip_code = trim( $zip_code );
+
+			if ( ! empty( $zip_code ) ) {
+				$zip_code = "'{$zip_code}'";
+				$formatted[] = $zip_code;
+			}
+		}
+
+		$zip_codes_list = implode( ', ', $formatted );
+
+		return "({$zip_codes_list})";
+	}
+
 
 	public function clause_for_data_constraint( $constraint ) {
 		$type      = $constraint['type'];

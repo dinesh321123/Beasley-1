@@ -31,6 +31,9 @@ var ActiveConstraintsView = Backbone.CollectionView.extend({
 			case 'email_engagement':
 				return EmailEngagementConstraintView;
 
+			case 'zip_code':
+				return ZipCodeConstraintView;
+
 			default:
 				return ConstraintView;
 		}
