@@ -419,13 +419,11 @@ function get_gigya_verify_email_message() {
 
 				<span class="gigya-error-msg" data-bound-to="profile.country" ></span>
 				<label class="country-label" for="profile-update-country">Country:</label>
-				<input type="hidden" name="profile.country" id="profile-update-country-hidden" />
 				<select name="profile.country" id="profile-update-country" >
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.state" ></span>
 				<label for="profile-update-state">State/Province:</label>
-				<input type="hidden" name="profile.state" id="profile-update-state-hidden" />
 				<select name="profile.state" id="profile-update-state">
 				</select>
 

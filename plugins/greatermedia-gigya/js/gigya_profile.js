@@ -524,7 +524,7 @@
 			switch (event.currentScreen) {
 				case 'gigya-update-profile-screen':
 					this.registerLogoutButton();
-					this.initCountryState('profile-update');
+					this.initCountryState('profile-update', event.profile);
 					break;
 
 				case 'gigya-register-complete-screen':
@@ -602,11 +602,12 @@
 			$logout.one('click', this.didLogoutClickHandler);
 		},
 
-		initCountryState: function(type) {
+		initCountryState: function(type, profile) {
 			if (!this.countryStateGroup) {
 				this.countryStateGroup = new CountryState.Group(
 					type + '-country',
-					type + '-state'
+					type + '-state',
+					profile
 				);
 			}
 

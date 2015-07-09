@@ -86,25 +86,29 @@
 
 	};
 
-	var CountryStateGroup    = function(country_id, state_id) {
+	var CountryStateGroup    = function(country_id, state_id, profile) {
 		this.$country        = $('#' + country_id);
 		this.$state          = $('#' + state_id);
 
 		var $countryHidden = $('#' + country_id + '-hidden');
 		var $stateHidden = $('#' + state_id + '-hidden');
 
-		if ($countryHidden.length > 0) {
-			this.selectedCountry = $countryHidden.val();
-			this.selectedState   = $stateHidden.val();
+		if (profile) {
+			if (profile.country) {
+				this.selectedCountry = profile.country;
+			} else {
+				this.selectedCountry = null;
+			}
 
-			$countryHidden.remove();
-			$stateHidden.remove();
+			if (profile.state) {
+				this.selectedState = profile.state;
+			} else {
+				this.selectedState = null;
+			}
 		} else {
 			this.selectedCountry = null;
 			this.selectedState = null;
 		}
-
-		//console.log('CountryStateGroup country: ', this.selectedCountry, ', state', this.selectedState);
 
 		this.finder = new CountryStateFinder();
 		this.subscribe();
