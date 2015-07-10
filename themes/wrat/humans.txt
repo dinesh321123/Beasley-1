@@ -1,0 +1,17 @@
+/* TEAM */
+	Developer: Greater Media
+	Contact:   webmaster@wrat.com
+	URI:       http://wrat.com
+
+/* THANKS */
+	Template Design: 10up
+	URI:             http://10up.com
+	Twitter:         @10up
+	
+	Template Design: Eric Mann
+	URI:             http://eamann.com
+	Twitter:         @ericmann
+	
+/* SITE */
+	Created:  2015-07-10
+	Template: https://github.com/10up/grunt-wp-theme
