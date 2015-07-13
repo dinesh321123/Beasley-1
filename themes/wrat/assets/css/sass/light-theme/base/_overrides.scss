@@ -1074,3 +1074,23 @@ a:hover .highlights__community--title {color:#f3ec1d;}
     overflow: hidden;
     color: #fff;
 }
+.header-search__search-all-btn {
+    background-color: #cc0000;
+    border: 1px solid #cc0000;
+    border-radius: 100em;
+    color: #fff !important;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.888889em;
+    line-height: 1;
+    margin-right: 0.5em;
+    outline: 0 none;
+    padding: 0.5em 1em;
+    text-transform: none;
+}
+
+.header-search__search-all-btn:focus, .header-search__search-all-btn:hover {
+    background-color: #ff0000;
+    border-color: #ff0000;
+    color: #fff;
+}
