@@ -243,14 +243,9 @@
     z-index: 5000100;
 }
 
-a:link, a:visited {
-    color: #fff;
-    text-decoration: none;
+.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
+  color: #fff;
 }
-a:active, a:focus, a:hover {
-    color: #fff;
-}
-
 
 @media screen and (min-width: 1200px){
 .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
