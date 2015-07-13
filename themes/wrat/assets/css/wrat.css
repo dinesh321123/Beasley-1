@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,700italic,900);
 /**
  * WRAT
  * http://wrat.com
@@ -15225,7 +15225,7 @@ a.social-share-link:hover, a.social__link:hover {
 
 .on-air__show, .up-next__show {
   font-size: .88889em;
-  font-weight: 700;
+  font-weight: 900;
   text-transform: uppercase;
   font-family: 'Roboto', sans-serif; }
 
@@ -15295,16 +15295,24 @@ a.social-share-link:hover, a.social__link:hover {
   transition: all 200ms ease-in-out; }
 
 /* Live links more gradient */
-.live-links--more::before {
+.live-links--more:before {
   background: transparent linear-gradient(to bottom, rgba(51, 51, 51, 0) 0px, #333 100%) repeat scroll 0 0; }
 
 .live-links--more:before {
-  background: -moz-linear-gradient(top, rgba(51, 51, 51, 0) 0, #333 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(51, 51, 51, 0), color-stop(100%, #333)));
-  background: -webkit-linear-gradient(top, rgba(51, 51, 51, 0) 0, #333 100%);
-  background: -o-linear-gradient(top, rgba(51, 51, 51, 0) 0, #333 100%);
-  background: -ms-linear-gradient(top, rgba(51, 51, 51, 0) 0, #333 100%);
-  background: linear-gradient(to bottom, rgba(51, 51, 51, 0) 0, #333 100%); }
+  background: -moz-linear-gradient(top, transparent 0%, #333333 100%) !important;
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent), color-stop(100%, #333333)) !important;
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, transparent 0%, #333333 100%) !important;
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, transparent 0%, #333333 100%) !important;
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, transparent 0%, #333333 100%) !important;
+  /* IE10+ */
+  background: linear-gradient(to bottom, transparent 0%, #333333 100%) !important;
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000', endColorstr='#333',GradientType=0 ) !important;
+  /* IE6-9 */ }
 
 /* header */
 .header {
@@ -15601,8 +15609,6 @@ a:hover .highlights__community--title {
   background-image: linear-gradient(to bottom, #ccc 5%, #000 100%); }
 
 @media screen and (min-width: 320px) {
-  .live-links--more::before {
-    background: transparent linear-gradient(to bottom, rgba(51, 51, 51, 0) 0px, #333 100%) repeat scroll 0 0; }
   .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
     float: right;
     display: inline-block;
@@ -15756,7 +15762,7 @@ a:hover .highlights__community--title {
   color: #fff;
   text-transform: uppercase; }
 
-.live-links--more::before {
+.live-links--more:before {
   background: transparent linear-gradient(to bottom, rgba(51, 51, 51, 0) 0px, #333 100%) repeat scroll 0 0; }
 
 .featured__article--heading {
