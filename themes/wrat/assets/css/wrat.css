@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url(http://fonts.googleapis.com/css?family=Fjalla+One);
+@import url(http://fonts.googleapis.com/css?family=Roboto);
 /**
  * WRAT
  * http://wrat.com
@@ -14971,6 +14971,15 @@ table.responsive tr:nth-of-type(even) {
   margin-top: 36px !important;
   border-top: 2px solid #ccc; }
 
+.live-links {
+  background-repeat: repeat;
+  background-color: transparent;
+  border-top: 2px solid #FFF;
+  margin-top: 12px; }
+
+.live-player__container {
+  border-bottom: 1px #fff; }
+
 @media screen and (min-width: 320px) {
   .live-stream__login {
     background-color: #f3ec1d;
@@ -15042,7 +15051,7 @@ table.responsive tr:nth-of-type(even) {
 .header__nav {
   font-weight: 700;
   text-transform: uppercase;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 /* Social link color and padding */
 .header__social .social__list {
@@ -15108,7 +15117,7 @@ a.social-share-link:hover, a.social__link:hover {
   background-color: #1f1f1f;
   color: #fff;
   font-weight: 400;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 .now-playing__title {
   color: #fff;
@@ -15167,13 +15176,13 @@ a.social-share-link:hover, a.social__link:hover {
   color: #fff;
   font-weight: 400;
   text-transform: uppercase;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 .live-link__song--title {
   color: #f3ec1d;
   font-weight: 700;
   text-transform: uppercase;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Roboto', sans-serif; }
   .live-link__song--title a, .live-link__song--title a:visited {
     color: #f3ec1d; }
 
@@ -15211,7 +15220,7 @@ a.social-share-link:hover, a.social__link:hover {
   font-size: .88889em;
   font-weight: 700;
   text-transform: uppercase;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 /* Last played music note color */
 .live-link__song:before {
@@ -15228,13 +15237,13 @@ a.social-share-link:hover, a.social__link:hover {
 .widget--live-player__title {
   color: #f3ec1d;
   font-weight: 700;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 /* Last played song title color */
 .live-link__song--title {
   color: #f3ec1d;
   font-weight: 400;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 /* Live links more button */
 .live-links--more__btn {
@@ -15392,13 +15401,33 @@ a.social-share-link:hover, a.social__link:hover {
 /* Events font color */
 .highlights__event--date, .highlights__event--title {
   color: #fff;
-  font-family: 'Fjalla One', sans-serif; }
+  font-family: 'Roboto', sans-serif; }
 
 a:hover .highlights__event--date {
   color: #fff; }
 
 a:hover .highlights__event--title {
   color: #f3ec1d; }
+
+.highlights__community--title {
+  background-color: transparent;
+  background-image: linear-gradient(to bottom, transparent, #191919);
+  bottom: 0;
+  box-sizing: content-box;
+  color: #fff;
+  font-size: 1em;
+  font-weight: 400;
+  left: 0;
+  line-height: 1.5;
+  margin: 0;
+  max-height: 1.5em;
+  overflow: hidden;
+  padding: 2.25em 0.809em 0.75em;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
 
 /* Home Don't Miss rollover color */
 a:hover .highlights__community--title {
@@ -15492,7 +15521,8 @@ a:hover .highlights__community--title {
     border-top: none;
     background-color: rgba(0, 0, 0, 0.7) !important;
     height: 82px;
-    margin-top: 7px !important; }
+    margin-top: 7px !important;
+    color: #fff; }
   /* Mobile nav rollover - Not all work */
   .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
     background-color: #828386; }
@@ -15564,6 +15594,8 @@ a:hover .highlights__community--title {
   background-image: linear-gradient(to bottom, #ccc 5%, #000 100%); }
 
 @media screen and (min-width: 320px) {
+  .live-links--more::before {
+    background: transparent linear-gradient(to bottom, rgba(51, 51, 51, 0) 0px, #333 100%) repeat scroll 0 0; }
   .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
     float: right;
     display: inline-block;
@@ -15716,6 +15748,32 @@ a:hover .highlights__community--title {
   font-size: 1.265625em;
   color: #fff;
   text-transform: uppercase; }
+
+.live-links--more::before {
+  background: transparent linear-gradient(to bottom, rgba(51, 51, 51, 0) 0px, #333 100%) repeat scroll 0 0; }
+
+.featured__article--heading {
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.4em;
+  float: left;
+  display: block;
+  width: 100%;
+  margin: 0;
+  line-height: 1.3;
+  color: #fff; }
+
+.featured__content--title {
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  display: block;
+  width: 100%;
+  margin: 0 auto .15em;
+  line-height: 1.25;
+  max-height: 2.5em;
+  overflow: hidden;
+  color: #fff; }
 
 .live-link__type--show {
   border-bottom-color: white;
