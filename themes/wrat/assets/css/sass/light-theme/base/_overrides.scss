@@ -780,6 +780,10 @@ a:hover .highlights__community--title {color:#f3ec1d;}
   margin-top:7px!important;
     color: #fff;
 }
+
+.header__.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
+    color: #fff;
+} 
     
 /* Mobile nav rollover - Not all work */ 
 .mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#828386;}
