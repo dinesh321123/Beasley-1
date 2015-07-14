@@ -28,6 +28,11 @@ class GreaterMediaGalleriesPostList {
 		if ( $query->is_main_query() && $query->get( 'post_type' ) === GreaterMediaGalleryCPT::GALLERY_POST_TYPE && isset( $_GET['post_parent'] ) && -1 != $_GET['post_parent'] ) {
 			$query->set( 'post_parent', intval( $_GET['post_parent'] ) );
 		}
+
+		if ( $query->is_main_query() && isset( $_GET['post_parent'] ) && -1 == $_GET['post_parent'] ) {
+			// If -1 is post parent, we don't want any restriction here
+			$query->set( 'post_parent', '' );
+		}
 	}
 
 	public static function add_album_dropdown() {

@@ -423,7 +423,7 @@ add_action( 'keyword_search_result', 'get_results_for_keyword' );
  * @param  WP_Query $query [description]
  */
 function greatermedia_alter_search_query( $query ) {
-	if( $query->is_search && $query->is_main_query() ) {
+	if( ! is_admin() && $query->is_search() && $query->is_main_query() ) {
 		$search_query_arg = sanitize_text_field( $query->query_vars['s'] );
 		$custom_post_id = intval( get_post_with_keyword( $search_query_arg ) );
 		if( $custom_post_id != 0 ) {
@@ -674,6 +674,7 @@ function add_google_analytics() {
 		ga('set', 'location', window.location.href);
 		ga('send', 'pageview');
 	});
+	ga('require', 'displayfeatures');
 	ga('send', 'pageview');
 
 	jQuery(document).ready(function() {
