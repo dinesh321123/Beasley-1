@@ -1021,7 +1021,7 @@ category: Base - Typography
 ```
 */
 a:link, a:visited {
-  color: #333;
+  color: #cc0000;
   text-decoration: none; }
 
 a:hover, a:focus, a:active {
@@ -1512,7 +1512,7 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
   text-align: center;
   border-left: 1px solid #282827; }
 .mobile-nav .mobile-menu-submenu-header {
-  background-color: #333;
+  background-color: #cc0000;
   color: #fff;
   padding: 18px 1.25em; }
 .mobile-nav a.mobile-menu-submenu-back-link {
@@ -3490,7 +3490,7 @@ a.highlights__contest--btn {
   .secondary-nav .menu-item:last-of-type a {
     padding-right: 0; }
   .secondary-nav .menu-item a:hover, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:active {
-    color: #333; }
+    color: #cc0000; }
   @media screen and (min-width: 768px)  {
     .secondary-nav .menu-item {
       display: table-cell;
@@ -3896,7 +3896,7 @@ a.highlights__contest--btn {
       .news-site .header__search--span {
         font-size: 1em; } }
   .news-site .header__search:hover .header__search--span {
-    color: #333; }
+    color: #cc0000; }
 
 .header__search--btn {
   display: block;
@@ -3907,7 +3907,7 @@ a.highlights__contest--btn {
     height: 48px;
     padding: 16px 1.25em 14px 0; }
   .news-site .header__search:hover .header__search--btn {
-    color: #333; }
+    color: #cc0000; }
 
 .header__search--btn:before {
   font-size: 1.423828125em;
@@ -3932,7 +3932,7 @@ a.highlights__contest--btn {
   color: #929497; }
 
 .footer a:hover, .footer a:focus, .footer a:active {
-  color: #333; }
+  color: #cc0000; }
 
 .footer .container {
   min-height: 0;
@@ -4074,7 +4074,7 @@ a.highlights__contest--btn {
   .footer__copyright--logo a:link, .footer__copyright--logo a:visited {
     color: #929497; }
   .footer__copyright--logo a:hover, .footer__copyright--logo a:focus, .footer__copyright--logo a:active {
-    color: #333; }
+    color: #cc0000; }
 
 @media screen and (min-width: 768px)  {
   .footer__menu {
@@ -4120,8 +4120,8 @@ a.highlights__contest--btn {
   margin-right: 0;
   margin-left: 6px; }
   .footer__menu a.social__link:hover {
-    border-color: #333;
-    color: #333; }
+    border-color: #cc0000;
+    color: #cc0000; }
 
 .footer__menu li:first-of-type a.social__link {
   margin-left: 0; }
@@ -4545,7 +4545,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .entry__comments--count a:hover, .entry__comments--count a:focus {
   display: block;
-  background-color: #333;
+  background-color: #cc0000;
   color: #404041; }
 
 .entry__comments--count a:hover:after, .entry__comments--count a:focus:after {
@@ -5187,7 +5187,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   line-height: 1;
   font-weight: bold;
   font-size: 1.125em;
-  color: #333; }
+  color: #cc0000; }
   @media screen and (min-width: 768px)  {
     .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
       font-size: 1em; } }
@@ -7735,7 +7735,7 @@ a.podcast__download--fallback, a.podcast__download--fallback:visited {
   height: 40px;
   margin-top: 6px;
   padding-top: 6px;
-  background-color: #333;
+  background-color: #cc0000;
   font-size: 14px;
   color: white;
   text-align: center; }
@@ -7926,7 +7926,7 @@ category: Components - Ads
   margin: 0;
   padding-left: 0;
   text-transform: uppercase;
-  color: #333;
+  color: #cc0000;
   float: left;
   margin-right: 1em; }
   @media screen and (max-width: 1023px) {
@@ -10782,7 +10782,7 @@ a.social__link, a.social-share-link {
   color: #929497;
   padding: 0; }
   .header__search--submit:hover, .header__search--submit:focus, .header__search--cancel:hover, .header__search--cancel:focus {
-    color: #333; }
+    color: #cc0000; }
   @media screen and (min-width: 768px)  {
     .header__search--submit, .header__search--cancel {
       width: 10%;
@@ -10954,7 +10954,7 @@ a.social__link, a.social-share-link {
   margin-bottom: 0;
   font-size: 1.265625em;
   font-weight: normal;
-  color: #333; }
+  color: #cc0000; }
   .search__result--title:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px)  {
@@ -10995,7 +10995,7 @@ a.social__link, a.social-share-link {
         margin-right: 0; } }
 
 .search__result--title a:link, .search__result--title a:visited {
-  color: #333; }
+  color: #cc0000; }
 
 .search__result--title a:hover, .search__result--title a:focus, .search__result--title a:active {
   color: #828386; }
@@ -11035,10 +11035,10 @@ body.search-results .posts-pagination {
   color: #000000; }
 
 .keyword-search-item__article {
-  color: #333; }
+  color: #cc0000; }
 
 .is-hoverable a:hover .keyword-search-item, .is-hoverable a:focus .keyword-search-item, .is-highlighted .keyword-search-item {
-  background: #333; }
+  background: #cc0000; }
 .is-hoverable a:hover .keyword-search-item__keyword, .is-hoverable a:hover .keyword-search-item__article, .is-hoverable a:focus .keyword-search-item__keyword, .is-hoverable a:focus .keyword-search-item__article, .is-highlighted .keyword-search-item__keyword, .is-highlighted .keyword-search-item__article {
   color: #ffffff; }
 
@@ -12157,7 +12157,7 @@ category: Components - Gallery Archive
   color: #929497; }
 
 .gallery__grid--pagination-list li a:hover, .gallery__grid--pagination-list li a:focus {
-  color: #333; }
+  color: #cc0000; }
 
 .gallery__grid--pagination-list li a:active {
   color: #404041; }
@@ -12172,8 +12172,8 @@ category: Components - Gallery Archive
   border-radius: 50%; }
 
 .gallery__grid--pagination-current:hover, .gallery__grid--pagination-current:focus {
-  border-color: #333;
-  color: #333; }
+  border-color: #cc0000;
+  color: #cc0000; }
 
 .gallery__grid--pagination-current:active {
   border-color: #404041;
@@ -14264,7 +14264,7 @@ category: Components - Article
   font-size: 1.6018066406em; }
 
 .error__title--span {
-  color: #333; }
+  color: #cc0000; }
 
 .error__content {
   margin-top: 1.33em;
@@ -15445,9 +15445,6 @@ a:hover .highlights__community--title {
   color: #f3ec1d; }
 
 @media screen and (min-width: 768px) {
-  a:link, a:visited {
-    color: #cc0000;
-    text-decoration: none; }
   .now-playing {
     display: block;
     width: 100%;
