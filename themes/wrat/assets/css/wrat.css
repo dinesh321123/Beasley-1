@@ -14959,10 +14959,6 @@ table.responsive tr:nth-of-type(even) {
   background-color: #fff; }
 
 /* CUSTOM OVERRIDES BELOW */
-a:link, a:visited {
-  color: #cc0000;
-  text-decoration: none; }
-
 .live-player__stream {
   display: none !important; }
 
@@ -15449,6 +15445,9 @@ a:hover .highlights__community--title {
   color: #f3ec1d; }
 
 @media screen and (min-width: 768px) {
+  a:link, a:visited {
+    color: #cc0000;
+    text-decoration: none; }
   .now-playing {
     display: block;
     width: 100%;
