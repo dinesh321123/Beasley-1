@@ -15441,6 +15441,10 @@ a:hover .highlights__event--title {
 a:hover .highlights__community--title {
   color: #f3ec1d; }
 
+/* Navigation font color - all menus but only instagram social */
+.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
+  color: #fff; }
+
 @media screen and (min-width: 768px) {
   .now-playing {
     display: block;
