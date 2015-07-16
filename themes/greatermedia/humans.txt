@@ -8,10 +8,6 @@
 	URI:             http://10up.com
 	Twitter:         @10up
 	
-	Template Design: Eric Mann
-	URI:             http://eamann.com
-	Twitter:         @ericmann
-	
 /* SITE */
 	Created:  2014-10-07
 	Template: https://github.com/10up/grunt-wp-theme

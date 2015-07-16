@@ -15234,7 +15234,10 @@ table.responsive tr:nth-of-type(even) {
         box-shadow: 0px 0px 12px 3px white; }
     .live-stream .now-playing__title, .live-stream .now-playing__artist {
       color: #fff;
-      text-shadow: 0px 0px 10px black; }
+      text-shadow: 0px 0px 10px black;
+      font-size: 1em;
+      position: relative;
+      top: 20px; }
     .live-stream .live-stream__now-playing--btn {
       display: none; }
   .ad__leaderboard.desktop {
@@ -15250,7 +15253,8 @@ table.responsive tr:nth-of-type(even) {
     box-shadow: 0 0 0 0; }
   #live-player--volume.noUi-horizontal {
     position: relative;
-    top: 138px; }
+    top: 80px;
+    z-index: 100001; }
     #live-player--volume.noUi-horizontal .noUi-handle {
       background-color: #fff; }
   .show__header {
