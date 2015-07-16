@@ -670,7 +670,7 @@ a:hover .highlights__event--title {color:#f3ec1d;}
 a:hover .highlights__community--title {color:#f3ec1d;}
     
 @media screen and (min-width: 768px) {
- 
+
 .now-playing {
   display: block;
   width: 100%;
@@ -1051,9 +1051,10 @@ a:hover .highlights__community--title {color:#f3ec1d;}
 }
 
 .featured__article--heading {
-    font-weight: 700;
+    font-weight: 900;
     font-family: 'Roboto', sans-serif;
-    font-size: 1.4em;
+    font-size: 1.5em;
+    text-transform: uppercase;
     float: left;
     display: block;
     width: 100%;
@@ -1064,7 +1065,7 @@ a:hover .highlights__community--title {color:#f3ec1d;}
 
 .featured__content--title {
     font-weight: 600;
-  font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1em;
     display: block;
     width: 100%;
@@ -1139,3 +1140,42 @@ a:hover .highlights__community--title {color:#f3ec1d;}
     border-color: #ff0000;
     color: #fff;
 }
+
+.live-stream__btn--loading, .live-stream__btn--pause, .live-stream__btn--resume {
+    background: #cc0000;
+    color: #fff;
+    border: 2px solid #cc0000;
+}
+
+.podcast__btn--pause, .podcast__btn--play {
+    border: 2px solid #C00000;
+    color: #cc0000;
+}
+
+.podcast__btn--pause:focus, .podcast__btn--play:hover {
+    border-color: #828386;
+  color: #828386;
+}
+
+a.podcast__rss:focus:focus, a.podcast__rss:focus:hover, a.podcast__rss:hover:focus, a.podcast__rss:hover:hover {
+  background-color: #cc0000;
+  border-color: #cc0000;
+  color: #fff;
+}
+
+.posts-pagination--load-more {
+    display: inline-block;
+    margin-right: .5em;
+    background-color: #cc0000;
+    border: 1px solid #cc0000;
+    color: #fff!important;
+    border-radius: 100em;
+}
+
+.posts-pagination--load-more:focus, .posts-pagination--load-more:hover {
+    background-color: #333;
+    border-color: #333;
+    color: #fff;
+}
+
+.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {color: #fff;}
