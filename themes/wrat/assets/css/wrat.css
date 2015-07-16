@@ -15040,9 +15040,6 @@ table.responsive tr:nth-of-type(even) {
   position: absolute;
   z-index: 5000100; }
 
-.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
-  color: #fff; }
-
 @media screen and (min-width: 1200px) {
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
     padding: 33px .52em 32px; } }
@@ -15534,8 +15531,6 @@ a:hover .highlights__community--title {
     height: 82px;
     margin-top: 7px !important;
     color: #fff; }
-  .header__.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
-    color: #fff; }
   /* Mobile nav rollover - Not all work */
   .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
     background-color: #828386; }
@@ -15876,9 +15871,6 @@ a.podcast__rss:focus:focus, a.podcast__rss:focus:hover, a.podcast__rss:hover:foc
 .posts-pagination--load-more:focus, .posts-pagination--load-more:hover {
   background-color: #333;
   border-color: #333;
-  color: #fff; }
-
-.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
   color: #fff; }
 
 .live-link__type--show {
