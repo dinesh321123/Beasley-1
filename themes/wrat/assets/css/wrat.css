@@ -15882,6 +15882,9 @@ a.podcast__rss:focus:focus, a.podcast__rss:focus:hover, a.podcast__rss:hover:foc
   border-color: #333;
   color: #fff; }
 
+.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
+  color: #fff; }
+
 .live-link__type--show {
   border-bottom-color: white;
   background: none; }
