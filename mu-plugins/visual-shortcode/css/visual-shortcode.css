@@ -9,6 +9,12 @@
 	margin-bottom: 1.5em;
 }
 
+.age-restricted p:last-child,
+.login-restricted p:last-child,
+.time-restricted p:last-child{
+	margin-bottom: 0;
+}
+
 .age-restricted:after,
 .login-restricted:after,
 .time-restricted:after {

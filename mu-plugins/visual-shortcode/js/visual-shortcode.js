@@ -1,5 +1,16 @@
 (function($) {
 
+	/* From Mozilla Dev */
+	if (!String.prototype.trim) {
+		(function() {
+			// Make sure we trim BOM and NBSP
+			var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+			String.prototype.trim = function() {
+				return this.replace(rtrim, '');
+			};
+		})();
+	}
+
 	var Convertor = function() {
 		this.toHTMLFragmentProxy   = $.proxy(this.toHTMLFragment, this);
 		this.replaceShortcodeProxy = $.proxy(this.replaceShortcode, this);
@@ -40,8 +51,11 @@
 			var $root   = $('<div></div>', dataAttrs);
 			var $header = $('<span></span>', { class: 'meta', contenteditable: false });
 			var $body   = $('<div></div>', { class: 'body' });
+			var content = shortcode.content;
 
-			$body.html(shortcode.content);
+			content = this.replaceTrailingPara(content);
+
+			$body.html(content);
 			$header.html(this.plugin.getMetaLabel(data));
 
 			$root.data('status', data.status);
@@ -78,14 +92,29 @@
 			});
 
 			var html = wpShortcode.string();
+			html = this.collapseNbsp(html);
 
 			$shortcode.replaceWith(html);
 		},
 
 		replaceEmptyBody: function(html) {
-			html = html.replace('<div class="body">&nbsp;</div>', '&nbsp;');
+			html = html.replace('<div class="body">&nbsp;</div>', '');
 
 			return html;
+		},
+
+		replaceTrailingPara: function(content) {
+			content = content.trim();
+			content = content.replace(/<br \/>$/, '');
+			content = content.replace(/<p>$/, '');
+			content = content.trim();
+			content = content.replace(/<\/p>$/, '');
+
+			return content;
+		},
+
+		collapseNbsp: function(content) {
+			return content.replace(/(&nbsp;)+/, '&nbsp;');
 		},
 
 		getSelector: function() {
@@ -301,13 +330,13 @@
 		register: function(plugin) {
 			if (!this.registered) {
 				var editor = plugin.getEditor();
-				editor.onNodeChange.add($.proxy(this.didNodeChange, this));
+				editor.on('NodeChange', $.proxy(this.didNodeChange, this));
 
 				this.registered = true;
 			}
 		},
 
-		didNodeChange: function(editor, controlManager, node) {
+		didNodeChange: function(event) {
 			var groupHasFocus = this.groupHasFocus();
 			var n             = this.plugins.length;
 			var i, plugin;
@@ -482,9 +511,10 @@
 			this.menu = this.getMenu();
 			this.menu.register();
 
-			this.editor.onNodeChange.add(this.callback('didNodeChange'));
+			this.editor.on('NodeChange', this.callback('didNodeChange'));
 			this.editor.on('BeforeSetContent', this.callback('didBeforeSetContent'));
 			this.editor.on('PostProcess', this.callback('didPostProcess'));
+			this.editor.on('KeyDown', this.callback('didKeyDown'));
 		},
 
 		/* TinyMCE Events */
@@ -496,9 +526,9 @@
 			dialog.open();
 		},
 
-		didNodeChange: function(editor, controlManager, node) {
+		didNodeChange: function(event) {
 			var hasFocus = this.isFocussed();
-			controlManager.setActive(this.getCommand(), hasFocus);
+			this.editor.controlManager.setActive(this.getCommand(), hasFocus);
 
 			var focusState = this.getFocusState();
 			var isInside   = false;
@@ -529,6 +559,45 @@
 				var convertor = this.getConvertor();
 				event.content = convertor.toShortcode(event.content);
 			}
+		},
+
+		didKeyDown: function(event) {
+			if (event.keyCode === 13 && !event.shiftKey) {
+				var focusState = this.getFocusState();
+
+				if (focusState.value !== 'outside') {
+					var $target = focusState.target;
+					var target  = $target.get(0);
+					var range   = tinymce.DOM.createRng();
+					var rangeTarget;
+					var $para;
+
+					if (target.nextSibling) {
+						rangeTarget = target.nextSibling;
+					} else {
+						$para = $('<p>&nbsp;</p>');
+						$target.after($para);
+						rangeTarget = $para.get(0);
+					}
+
+					range.setStart(rangeTarget, 0);
+
+					if ($para) {
+						range.setEnd(rangeTarget, 1);
+					} else {
+						range.setEnd(rangeTarget, 0);
+					}
+
+					this.editor.selection.setRng(range);
+
+					event.preventDefault();
+					event.stopPropagation();
+
+					return false;
+				}
+			}
+
+			return true;
 		},
 
 		/* helpers */
