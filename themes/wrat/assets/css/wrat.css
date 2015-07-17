@@ -15437,10 +15437,10 @@ a:hover .highlights__community--title {
     text-decoration: none; }
   /*navigation rollover color */
   .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {
-    background-color: #015da6; }
+    background-color: #000; }
   .header__account--links.sub-menu, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul.header__account--links, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul, .ui-menu {
     background-color: #fff;
-    border-top: 7px solid #fdba30;
+    border-top: 7px solid #f3ec1d;
     color: #fff;
     min-width: 300px;
     position: absolute;
