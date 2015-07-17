@@ -15445,6 +15445,37 @@ a:hover .highlights__community--title {
     min-width: 300px;
     position: absolute;
     z-index: 5000100; }
+  /* Mobile nav rollover - Not all work */
+  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
+    background-color: #828386; }
+  .mobile-nav__list {
+    padding: 0;
+    margin: 0; }
+  .mobile-nav__list .menu-item {
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #000;
+    line-height: 0; }
+  .mobile-nav__list a:link, .mobile-nav__list a:visited {
+    display: block;
+    padding: 18px 1.25em;
+    line-height: 1;
+    font-size: 1.26562em;
+    color: #fff; }
+  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
+    background-color: #fff; }
+  .mobile-nav .mobile-menu-submenu-header {
+    background-color: #828386;
+    color: #fff;
+    padding: 18px 1.25em; }
+  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
+    background-color: #828386; }
+  .mobile-nav .mobile-menu-submenu-header {
+    background-color: #828386;
+    color: #fff;
+    padding: 18px 1.25em; }
+  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
+    background-color: #828386; }
   /* Navigation font color - all menus but only instagram social */
   .header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
     color: #fff; }
@@ -15536,38 +15567,7 @@ a:hover .highlights__community--title {
     background-color: rgba(0, 0, 0, 0.7) !important;
     height: 82px;
     margin-top: 7px !important;
-    color: #fff; }
-  /* Mobile nav rollover - Not all work */
-  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
-    background-color: #828386; }
-  .mobile-nav__list {
-    padding: 0;
-    margin: 0; }
-  .mobile-nav__list .menu-item {
-    padding: 0;
-    margin: 0;
-    border-bottom: 1px solid #000;
-    line-height: 0; }
-  .mobile-nav__list a:link, .mobile-nav__list a:visited {
-    display: block;
-    padding: 18px 1.25em;
-    line-height: 1;
-    font-size: 1.26562em;
-    color: #fff; }
-  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
-    background-color: #fff; }
-  .mobile-nav .mobile-menu-submenu-header {
-    background-color: #828386;
-    color: #fff;
-    padding: 18px 1.25em; }
-  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
-    background-color: #828386; }
-  .mobile-nav .mobile-menu-submenu-header {
-    background-color: #828386;
-    color: #fff;
-    padding: 18px 1.25em; }
-  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
-    background-color: #828386; } }
+    color: #fff; } }
 
 @media screen and (min-width: 1175px) {
   .header__nav {
