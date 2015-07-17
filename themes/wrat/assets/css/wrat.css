@@ -15430,6 +15430,9 @@ a:hover .highlights__community--title {
   color: #f3ec1d; }
 
 @media screen and (min-width: 320px) {
+  a:link, a:visited {
+    color: #cc0000;
+    text-decoration: none; }
   .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
     float: right;
     display: inline-block;
@@ -15443,6 +15446,9 @@ a:hover .highlights__community--title {
     color: #828386; }
   /* Navigation background color */
   .header__account--logged-in, .header__account--logged-out, .header__account--span {
+    color: #fff; }
+  /* Navigation font color - all menus but only instagram social */
+  .header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
     color: #fff; }
   .header__main {
     height: 82px;
