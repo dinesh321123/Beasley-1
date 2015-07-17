@@ -816,17 +816,17 @@ a:link, a:visited {
   /*background-color:transparent!important;*/
     background-color:#000;
     border-bottom: 2px solid #000;
-  background-image:url(../../images/WRAT_header-bkg.jpg)!important;
-  background-position:center top;
-  background-size:cover;
-  height:220px!important;
+    background-image:url(../../images/WRAT_header-bkg.jpg)!important;
+    background-position:center top;
+    background-size:cover;
+    height:220px!important;
 }
     
 .header__main {
-  border-top:none;
-  background-color:rgba(0,0,0,.7)!important;
-  height:82px;
-  margin-top:7px!important;
+    border-top:none;
+    background-color:rgba(0,0,0,.7)!important;
+    height:82px;
+    margin-top:7px!important;
     color: #fff;
 }
 }
@@ -891,6 +891,16 @@ a:link, a:visited {
 .entry2__footer--read-more:active,.entry2__footer--read-more:focus,.entry2__footer--read-more:hover{color:#828386;}
     
 .h1 a:active, .h1 a:focus, .h1 a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {color: #828386;}
+
+/* Navigation background color */
+.header__account--logged-in, .header__account--logged-out, .header__account--span {color: #fff;}
+
+.header__main {
+  height: 82px;
+  border-top: none;
+  background-color: #000;
+  border-bottom: none;
+}
 }
 
 /* Thumbnail overlay color */
@@ -910,7 +920,7 @@ a:link, a:visited {
     padding: .25em 1em;
     margin-top: 0!important;
     margin-bottom: 1em!important;
-  margin-right: 0!important;
+    margin-right: 0!important;
     outline: 0;
     background-color: #828386!important;
     border: 1px solid #828386!important;
@@ -1040,7 +1050,7 @@ a:link, a:visited {
     color:#828386;
 }
 
-.mobile-nav__list a:link, .mobile-nav__list a:visited {
+.mobile-nav__list a:link,.mobile-nav__list a:visited {
   display: block;
   padding: 18px 1.25em;
   line-height: 1;
