@@ -20,7 +20,7 @@
 if ( defined( 'GMR_PARENT_ENV' ) && 'dev' == GMR_PARENT_ENV ) {
 	define( 'GREATERMEDIA_VERSION', time() );
 } else {
-	define( 'GREATERMEDIA_VERSION', '1.2.3' ); /* Version bump by Allen 7/6/2015 @ 10:00am EST */
+	define( 'GREATERMEDIA_VERSION', '1.2.4' ); /* Version bump by Steve 7/21/2015 @ 11:40am EST */
 }
 
 add_theme_support( 'homepage-curation' );
@@ -1083,3 +1083,16 @@ add_action( 'pre_get_posts', 'greatermedia_search_results_filter' );
  * Disables wptexturize for compatibility with Embed.ly
  */
 add_filter( 'run_wptexturize', '__return_false' );
+
+/**
+ * Adds default styles to Embedly cards added by the Embedly Wordpress plug-in as defined at:
+ * http://embed.ly/docs/products/cards
+ *
+ * @param $content
+ */
+
+function stylize_embedly_embeds( $content ) {
+	return preg_replace( '/(<a class=\\\\"embedly-card\\\\" )(href=\\\\"[^"]*\\\\">)/', ' ${1}data-card-width=\"100%\" data-card-chrome=\"0\" data-card-controls=\"0\" $2', $content );
+}
+
+add_filter( 'content_save_pre', 'stylize_embedly_embeds', 30, 1 );
