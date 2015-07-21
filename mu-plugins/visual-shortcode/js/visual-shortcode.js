@@ -35,11 +35,15 @@
 			var selector    = this.getSelector();
 			var $shortcodes = $(selector, $root);
 
-			$shortcodes.each(this.replaceShortcodeProxy);
+			if ($shortcodes.length > 0) {
+				$shortcodes.each(this.replaceShortcodeProxy);
 
-			var html = $root.html();
+				var html = $root.html();
 
-			return html;
+				return html;
+			} else {
+				return content;
+			}
 		},
 
 		/* helpers */
