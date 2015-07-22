@@ -1096,3 +1096,14 @@ function stylize_embedly_embeds( $content ) {
 }
 
 add_filter( 'content_save_pre', 'stylize_embedly_embeds', 30, 1 );
+
+/**
+ * Enables Video Thumbnails to work with Embedly on first post save.
+ */
+function urldecode_markup_for_video_thumbnails( $markup, $post_id ) {
+	return urldecode($markup);
+}
+
+add_filter( 'video_thumbnail_markup', 'urldecode_markup_for_video_thumbnails', 10, 2 );
+
+
