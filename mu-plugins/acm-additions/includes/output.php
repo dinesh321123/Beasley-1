@@ -15,35 +15,16 @@ function wp_head() {
 	// Creates global ad object for use later in the rendering process
 	?>
 	<script type="text/javascript">
-		(function() {
-			var GMRAds = GMRAds || {};
-
-			if ( typeof window.innerWidth !== "undefined" ) {
-				// Normal Browsers (Including IE9+)
-				GMRAds.width = window.innerWidth;
-				GMRAds.height = window.innerHeight;
-			} else if ( typeof document.documentElement !== "undefined" && typeof document.documentElement.clientWidth !== 0 ) {
-				// Old IE Versions
-				GMRAds.width = document.documentElement.clientWidth;
-				GMRAds.height = document.documentElement.clientHeight;
-			} else {
-				// Ancient IE Versions
-				GMRAds.width = document.getElementsByTagName('body')[0].clientWidth;
-				GMRAds.height = document.getElementsByTagName('body')[0].clientHeight;
-			}
-
-			window.GMRAds = GMRAds;
-		})();
 
 		function fill_ad( $slot ) {
 			var minWidthOk = true,
 				maxWidthOk = true;
 
 			if ( $slot.data( 'min-width' ) ) {
-				minWidthOk = ( parseInt( $slot.data( 'min-width' ), 10 ) <= parseInt( GMRAds.width, 10 ) ) ? true : false;
+				minWidthOk = ( parseInt( $slot.data( 'min-width' ), 10 ) <= parseInt( window.GMRAds.width, 10 ) ) ? true : false;
 			}
 			if ( $slot.data( 'max-width' ) ) {
-				maxWidthOk = ( parseInt( $slot.data( 'max-width' ), 10 ) >= parseInt( GMRAds.width, 10 ) ) ? true : false;
+				maxWidthOk = ( parseInt( $slot.data( 'max-width' ), 10 ) >= parseInt( window.GMRAds.width, 10 ) ) ? true : false;
 			}
 
 			if ( maxWidthOk && minWidthOk ) {
@@ -68,9 +49,30 @@ function wp_head() {
 			} );
 		}
 
-		jQuery( function( $ ) {
+		jQuery( window ).load( function( $ ) {
+
+			(function() {
+				var GMRAds = GMRAds || {};
+
+				if ( typeof window.innerWidth !== "undefined" ) {
+					// Normal Browsers (Including IE9+)
+					GMRAds.width = window.innerWidth;
+					GMRAds.height = window.innerHeight;
+				} else if ( typeof document.documentElement !== "undefined" && typeof document.documentElement.clientWidth !== 0 ) {
+					// Old IE Versions
+					GMRAds.width = document.documentElement.clientWidth;
+					GMRAds.height = document.documentElement.clientHeight;
+				} else {
+					// Ancient IE Versions
+					GMRAds.width = document.getElementsByTagName('body')[0].clientWidth;
+					GMRAds.height = document.getElementsByTagName('body')[0].clientHeight;
+				}
+
+				window.GMRAds = GMRAds;
+			})();
+
 			fill_ads();
-			$( document ).on( 'pjax:end gmr_lazy_load_end', fill_ads );
+			jQuery( document ).on( 'pjax:end gmr_lazy_load_end', fill_ads );
 		} );
 	</script>
 	<?php
