@@ -1643,7 +1643,7 @@
 		var ramainings = document.querySelectorAll('.audio__time--remaining'), i,
 			duration = parseInt(customAudio.duration),
 			currentTime = parseInt(customAudio.currentTime),
-			timeleft = new Date('2000-01-01 00:00:00'),
+			timeleft = new Date(2000,1,1,0,0,0),
 			hours, mins, secs;
 
 		if (isNaN(duration)) {
@@ -1674,7 +1674,7 @@
 	function audioTimeElapsed() {
 		var timeline = document.querySelectorAll('.audio__time--elapsed'),
 			passedSeconds = parseInt(customAudio.currentTime),
-			currentTime = new Date('2000-01-01 00:00:00'),
+			currentTime = new Date(2000,1,1,0,0,0),
 			hours, mins, secs, i;
 
 		currentTime.setSeconds(isNaN(passedSeconds) ? 0 : passedSeconds);
