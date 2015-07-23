@@ -11,10 +11,10 @@
  * @package WROR
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WROR_VERSION', '0.1.2' );
- 
+define( 'WROR_VERSION', '0.1.3' ); /* Version bump by Allen 7/23/2015 @ 4:40pm EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WROR_VERSION', '0.1.2' );
 	load_theme_textdomain( 'wror', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wror_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,17 +43,17 @@ define( 'WROR_VERSION', '0.1.2' );
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wror', get_stylesheet_directory_uri() . "/assets/css/wror{$postfix}.css", array(), WROR_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wror_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wror_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wror_humans', $humans );
  }
  add_action( 'wp_head', 'wror_header_meta' );
