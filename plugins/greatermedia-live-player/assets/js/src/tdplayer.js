@@ -1625,6 +1625,17 @@
 		}
 	}
 
+	 /**
+            * enables scrubbing of current audio file
+            */
+            $('.audio__progress-bar').click(function(e) {
+		var thisWidth = $(this).width();
+		var thisOffset = $(this).offset();
+		var relX = e.pageX - thisOffset.left;
+		var seekLocation = Math.floor(( relX / thisWidth ) * customAudio.duration);
+		customAudio.currentTime = seekLocation;
+	});
+
 	/**
 	 * calculates the time of an inline audio element and outputs the time remaining
 	 */
@@ -1642,7 +1653,7 @@
 		}
 
 		timeleft.setSeconds(duration - currentTime);
-		
+
 		hours = timeleft.getHours();
 		mins = ('0' + timeleft.getMinutes()).slice(-2);
 		secs = ('0' + timeleft.getSeconds()).slice(-2);
@@ -1667,7 +1678,7 @@
 			hours, mins, secs, i;
 
 		currentTime.setSeconds(isNaN(passedSeconds) ? 0 : passedSeconds);
-		
+
 		hours = currentTime.getHours();
 		mins = ('0' + currentTime.getMinutes()).slice(-2);
 		secs = ('0' + currentTime.getSeconds()).slice(-2);
