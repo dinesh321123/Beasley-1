@@ -3540,12 +3540,14 @@ var $ = jQuery;
 		}
 	}
 
-	 /**
-            * enables scrubbing of current audio file
-            */
-            $('.audio__progress-bar').click(function(e) {
-		var thisWidth = $(this).width();
-		var thisOffset = $(this).offset();
+	/**
+	 * Enables scrubbing of current audio file
+	 */
+	$('.audio__progress-bar').click(function(e) {
+		var $this = $(this);
+
+		var thisWidth = $this.width();
+		var thisOffset = $this.offset();
 		var relX = e.pageX - thisOffset.left;
 		var seekLocation = Math.floor(( relX / thisWidth ) * customAudio.duration);
 		customAudio.currentTime = seekLocation;
