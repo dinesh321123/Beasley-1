@@ -7162,7 +7162,7 @@ body.profile-page-login .live-player--mobile {
   .podcast-player .audio__time {
     width: 100%; }
   .podcast-player.podcast-player--compact .audio__time {
-    padding-top: 12px;
+    padding-top: 5px;
     padding-bottom: 0; }
   .audio__time.playing__current {
     display: block;
@@ -7208,7 +7208,7 @@ body.profile-page-login .live-player--mobile {
 .audio__progress-bar {
   width: 100%;
   position: relative;
-  height: 3px;
+  height: 10px;
   background-color: #404041;
   color: #fff;
   -webkit-border-radius: 2px;
@@ -7228,7 +7228,7 @@ body.profile-page-login .live-player--mobile {
   top: 0;
   left: 0;
   display: inline-block;
-  height: 3px;
+  height: 10px;
   background-color: #db261d;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -15067,6 +15067,9 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
 
 .error__title--span {
   color: #db261d; }
+
+body {
+  font-family: 'Lato', sans-serif; }
 
 .header {
   border-bottom: 1px solid #58595b; }

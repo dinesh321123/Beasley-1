@@ -45,6 +45,7 @@ define( 'WBT_VERSION', '0.1.0' );
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );	
 	wp_enqueue_style( 'wbt', get_stylesheet_directory_uri() . "/assets/css/wbt{$postfix}.css", array(), WBT_VERSION );
+	wp_enqueue_style( 'wbt_font', "http://fonts.googleapis.com/css?family=Lato", array(), WBT_VERSION );
 	wp_enqueue_script(
         'wbt',
         get_stylesheet_directory_uri() . "/assets/js/wbt{$postfix}.js",
