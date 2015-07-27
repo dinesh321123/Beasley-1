@@ -202,51 +202,171 @@ body {
 }
 
 .live-player {
-	background-image: url(../../images/LivePlayerBackground.png);
+// 	background-image: url(../../images/LivePlayerBackground.png);
 	background-repeat: no-repeat;
 }
 
-.gmcltWXcurrent {
+.gmcltWX_current {
 	box-sizing: border-box;
 	background-color: #E3E4E5;
 	display: block;
 	width: 100%;
 	padding: 0.5em;
-	@include bp(large) {
+	@include bp(larger) {
 		width: 36%;
 		float: left;
 	}
 }
 
-.gmcltWXcurrent h2 {
+.gmcltWX_current h2 {
 	margin: 0;
 	padding: 0;
 }
 
-.gmcltWXcurrentIcon {
+.gmcltWX_currentOne {
+	@include bp(small) {
+		float: left;
+	}
+	@include bp(larger) {
+		float: none;	
+	}
+}
+
+.gmcltWX_currentTwo {
+	@include bp(small) {
+		float: left;
+		padding-left: 20px;
+	}
+	@include bp(larger) {
+		float: none;	
+	}
+}
+
+.gmcltWX_data h4 {
+	margin: 0;
+}
+
+.gmcltWX_data p {
+	margin: 0;
+}
+
+.gmcltWX_data p.gmcltWX_dataSmall {
+	font-size: 0.7em;
+}
+
+.gmcltWX_currentIcon {
 	float: left;
 	width: 50%;
 }
 
-.gmcltWXcurrentIcon img {
+.gmcltWX_currentIcon img {
 	width: 95%;
 }
 
-.gmcltWXcurrentTemp {
+.gmcltWX_currentTemp {
 	width: 50%;
 	font-size: 5em;
 	float: left;
 }
 
+.gmcltWX_mobile {
+	@include bp(larger) {
+		display: none;	
+	}
+}
 
-.gmcltWXforecast {
+.gmcltWX_desktop {
+	display: none;
+	@include bp(larger) {
+		display: inline;	
+	}
+}
+
+.gmcltWX_forecast {
 	box-sizing: border-box;
 	font-size: 16px;
 	width: 100%;
-	margin-left: 10px;
-	@include bp(large) {
+	
+	@include bp(larger) {
+		margin-left: 10px;
 		width: 60%;
 		float: left;
 	}
 	
+}
+
+.gmcltWX_forecastDay {
+	border-bottom: solid;
+	border-bottom-color: #E3E4E5;
+	border-bottom-width: 4px;
+	margin-top: 5px;
+}
+
+.gmcltWX_forecastShort {
+	@include bp(larger) {
+		float: left;
+		width: 20%;
+		border-bottom: none;
+		border-right: solid;
+		border-right-color: #E3E4E5;
+		border-right-width: 4px;
+		padding: 0 8px;
+	}
+}
+
+.gmcltWX_forecastShort h4 {
+	@include bp(larger) {
+		font-size: 0.8em;
+	}
+}
+
+.gmcltWX_first {
+	@include bp(larger) {
+		padding-left: 0;
+	}
+}
+
+.gmcltWX_last {
+	@include bp(larger) {
+		padding-right: 0;
+		border-right: none;
+	}
+}
+
+h4.gmcltWX_forecastDayHeader {
+	margin: 0;
+}
+
+.gmcltWX_forecastIcon {
+	float: left;
+	text-align: center;
+	@include bp(larger) {
+		float: right;	
+	}
+}
+
+.gmcltWX_forecastIconShort {
+	float: left;
+	text-align: center;
+	@include bp(larger) {
+		float: none;	
+	}
+}
+
+.gmcltWX_forecastIcon img {
+	display: block;
+	width: 100px;
+}
+
+.gmcltWX_forecastText {
+	margin-left: 110px;
+	@include bp(larger) {
+		margin-left: 0;
+	}
+}
+
+.gmcltWX_forecastText p {
+	@include bp(larger) {
+		font-size: 0.8em;
+	}
 }

@@ -15215,44 +15215,137 @@ body {
   background-color: #929497; }
 
 .live-player {
-  background-image: url(../../images/LivePlayerBackground.png);
   background-repeat: no-repeat; }
 
-.gmcltWXcurrent {
+.gmcltWX_current {
   box-sizing: border-box;
   background-color: #E3E4E5;
   display: block;
   width: 100%;
   padding: 0.5em; }
-  @media screen and (min-width: 1024px)  {
-    .gmcltWXcurrent {
+  @media screen and (min-width: 1200px)  {
+    .gmcltWX_current {
       width: 36%;
       float: left; } }
 
-.gmcltWXcurrent h2 {
+.gmcltWX_current h2 {
   margin: 0;
   padding: 0; }
 
-.gmcltWXcurrentIcon {
+@media screen and (min-width: 480px)  {
+  .gmcltWX_currentOne {
+    float: left; } }
+@media screen and (min-width: 1200px)  {
+  .gmcltWX_currentOne {
+    float: none; } }
+
+@media screen and (min-width: 480px)  {
+  .gmcltWX_currentTwo {
+    float: left;
+    padding-left: 20px; } }
+@media screen and (min-width: 1200px)  {
+  .gmcltWX_currentTwo {
+    float: none; } }
+
+.gmcltWX_data h4 {
+  margin: 0; }
+
+.gmcltWX_data p {
+  margin: 0; }
+
+.gmcltWX_data p.gmcltWX_dataSmall {
+  font-size: 0.7em; }
+
+.gmcltWX_currentIcon {
   float: left;
   width: 50%; }
 
-.gmcltWXcurrentIcon img {
+.gmcltWX_currentIcon img {
   width: 95%; }
 
-.gmcltWXcurrentTemp {
+.gmcltWX_currentTemp {
   width: 50%;
   font-size: 5em;
   float: left; }
 
-.gmcltWXforecast {
+@media screen and (min-width: 1200px)  {
+  .gmcltWX_mobile {
+    display: none; } }
+
+.gmcltWX_desktop {
+  display: none; }
+  @media screen and (min-width: 1200px)  {
+    .gmcltWX_desktop {
+      display: inline; } }
+
+.gmcltWX_forecast {
   box-sizing: border-box;
   font-size: 16px;
-  width: 100%;
-  margin-left: 10px; }
-  @media screen and (min-width: 1024px)  {
-    .gmcltWXforecast {
+  width: 100%; }
+  @media screen and (min-width: 1200px)  {
+    .gmcltWX_forecast {
+      margin-left: 10px;
       width: 60%;
       float: left; } }
+
+.gmcltWX_forecastDay {
+  border-bottom: solid;
+  border-bottom-color: #E3E4E5;
+  border-bottom-width: 4px;
+  margin-top: 5px; }
+
+@media screen and (min-width: 1200px)  {
+  .gmcltWX_forecastShort {
+    float: left;
+    width: 20%;
+    border-bottom: none;
+    border-right: solid;
+    border-right-color: #E3E4E5;
+    border-right-width: 4px;
+    padding: 0 8px; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmcltWX_forecastShort h4 {
+    font-size: 0.8em; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmcltWX_first {
+    padding-left: 0; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmcltWX_last {
+    padding-right: 0;
+    border-right: none; } }
+
+h4.gmcltWX_forecastDayHeader {
+  margin: 0; }
+
+.gmcltWX_forecastIcon {
+  float: left;
+  text-align: center; }
+  @media screen and (min-width: 1200px)  {
+    .gmcltWX_forecastIcon {
+      float: right; } }
+
+.gmcltWX_forecastIconShort {
+  float: left;
+  text-align: center; }
+  @media screen and (min-width: 1200px)  {
+    .gmcltWX_forecastIconShort {
+      float: none; } }
+
+.gmcltWX_forecastIcon img {
+  display: block;
+  width: 100px; }
+
+.gmcltWX_forecastText {
+  margin-left: 110px; }
+  @media screen and (min-width: 1200px)  {
+    .gmcltWX_forecastText {
+      margin-left: 0; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmcltWX_forecastText p {
+    font-size: 0.8em; } }
 
 /*# sourceMappingURL=wbt.css.map */
