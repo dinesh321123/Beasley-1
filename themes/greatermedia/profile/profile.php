@@ -455,7 +455,7 @@ function get_gigya_verify_email_message() {
 							<input
 								type="checkbox"
 								name="data.<?php echo esc_attr( $field_key ) ?>"
-								checked="checked" id="emma_group_<?php echo esc_attr( $emma_group_id ); ?>" />
+								id="emma_group_<?php echo esc_attr( $emma_group_id ); ?>" />
 							<label class="label-email-list" for="emma_group_<?php echo esc_attr( $emma_group_id ); ?>">
 								<?php echo esc_html( $emma_group_description ) ?>
 							</label>
