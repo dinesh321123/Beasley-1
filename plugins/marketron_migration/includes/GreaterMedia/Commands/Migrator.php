@@ -446,6 +446,16 @@ SQL;
 		$verifier->verify( $marketron_accounts, $errors_file );
 	}
 
+	function repair_gigya_import( $args, $opts ) {
+		$this->initialize( $args, $opts );
+
+		$output_dir = $this->config->get_output_dir();
+		$page_size  = isset( $opts['page_size'] ) ? intval( $opts['page_size'] ) : 10;
+
+		$repairer = new \GreaterMedia\Profile\GigyaAccountRepairer();
+		$repairer->repair( $page_size );
+	}
+
 	function delete_facebook_data( $args, $opts ) {
 		$this->initialize( $args, $opts );
 

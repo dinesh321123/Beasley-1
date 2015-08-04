@@ -19,7 +19,7 @@ add_filter( 'parent_file', 'gmr_surveys_adjust_responses_page_admin_menu' );
 function gmr_survey_check_responses_permissions() {
 	global $pagenow;
 
-	if ( 'admin.php' == $pagenow && isset( $_REQUEST['page'] ) && 'gmr-survey-responses' == $_REQUEST['page'] && ! current_user_can( 'edit_survey', filter_input( INPUT_GET, 'survey' ) ) ) {
+	if ( 'admin.php' == $pagenow && isset( $_REQUEST['page'] ) && 'gmr-survey-responses' == $_REQUEST['page'] && ! current_user_can( 'edit_survey', filter_input( INPUT_GET, 'survey_id' ) ) ) {
 		wp_die( "You don't have sufficient permissions to view survey responses." );
 	}
 }
@@ -207,7 +207,7 @@ function gmr_do_survey_export( $args ) {
 	$dir = get_temp_dir();
 	$csv_file = $dir . wp_unique_filename( $dir, $survey->post_name . date( '-Y-m-d' ) . '.csv' );
 	$zip_file = $dir . wp_unique_filename( $dir, $survey->post_name . date( '-Y-m-d' ) . '.zip' );
-	
+
 	$handle = fopen( $csv_file, 'w' );
 	if ( ! $handle ) {
 		return;

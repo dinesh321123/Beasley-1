@@ -11,10 +11,10 @@
  * @package WKLB
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WKLB_VERSION', '0.1.8' ); /* Version bump by Allen 7/6/2015 @ 10:00am EST */
- 
+define( 'WKLB_VERSION', '0.1.9' ); /* Version bump by Allen 7/23/2015 @ 4:40pm EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WKLB_VERSION', '0.1.8' ); /* Version bump by Allen 7/6/2015 @ 10:00am E
 	load_theme_textdomain( 'wklb', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wklb_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,17 +43,17 @@ define( 'WKLB_VERSION', '0.1.8' ); /* Version bump by Allen 7/6/2015 @ 10:00am E
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wklb', get_stylesheet_directory_uri() . "/assets/css/wklb{$postfix}.css", array(), WKLB_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wklb_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wklb_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wklb_humans', $humans );
  }
  add_action( 'wp_head', 'wklb_header_meta' );

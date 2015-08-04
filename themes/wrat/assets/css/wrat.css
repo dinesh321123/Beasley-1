@@ -5555,6 +5555,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .article__comments {
   margin: 3em 0; }
 
+.article__author {
+  display: none; }
+
 .ad-unit--300--250 {
   position: relative;
   height: 250px;
@@ -5581,6 +5584,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 ---
 title: Live Player
 name: live-player
+category: Components
 category: Components
 ---
 
@@ -7169,7 +7173,7 @@ body.profile-page-login .live-player--mobile {
   .podcast-player .audio__time {
     width: 100%; }
   .podcast-player.podcast-player--compact .audio__time {
-    padding-top: 12px;
+    padding-top: 5px;
     padding-bottom: 0; }
   .audio__time.playing__current {
     display: block;
@@ -7215,7 +7219,7 @@ body.profile-page-login .live-player--mobile {
 .audio__progress-bar {
   width: 100%;
   position: relative;
-  height: 3px;
+  height: 10px;
   background-color: #404041;
   color: #fff;
   -webkit-border-radius: 2px;
@@ -7235,7 +7239,7 @@ body.profile-page-login .live-player--mobile {
   top: 0;
   left: 0;
   display: inline-block;
-  height: 3px;
+  height: 10px;
   background-color: #f3ec1d;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -9026,6 +9030,9 @@ category: Components - Ads
   .tribe-events-list .type-tribe_events .entry2__meta p {
     margin: 0; }
 
+.tribe-events-single-event-author {
+  display: none; }
+
 /*doc
 ---
 title: Podcast Excerpt
@@ -9857,6 +9864,23 @@ category: Components - Shows
 .show__cast {
   width: 100%;
   position: relative;
+  height: 100%; }
+  @media screen and (min-width: 1024px)  {
+    .show__cast {
+      width: 150px;
+      display: table-cell;
+      vertical-align: middle; } }
+  .show__cast img {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -border-radius: 50%;
+    border-radius: 50%;
+    margin: 0 auto; }
+
+.show__cast {
+  width: 100%;
   height: 100%; }
   @media screen and (min-width: 1024px)  {
     .show__cast {
@@ -15028,21 +15052,6 @@ table.responsive tr:nth-of-type(even) {
 .footer__copyright--logo a:link, .footer__copyright--logo a:visited {
   color: #fff; }
 
-/*navigation rollover color */
-.header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {
-  background-color: #000; }
-
-.header__account--links.sub-menu, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul.header__account--links, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul, .ui-menu {
-  background-color: #fff;
-  border-top: 7px solid #f3ec1d;
-  color: #fff;
-  min-width: 300px;
-  position: absolute;
-  z-index: 5000100; }
-
-.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
-  color: #fff; }
-
 @media screen and (min-width: 1200px) {
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
     padding: 33px .52em 32px; } }
@@ -15444,7 +15453,83 @@ a:hover .highlights__event--title {
 a:hover .highlights__community--title {
   color: #f3ec1d; }
 
+@media screen and (min-width: 320px) {
+  a:link, a:visited {
+    color: #cc0000;
+    text-decoration: none; }
+  .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
+    float: right;
+    display: inline-block;
+    line-height: 1;
+    font-weight: 700;
+    font-size: 1.125em;
+    color: #333; }
+  .entry2__footer--read-more:active, .entry2__footer--read-more:focus, .entry2__footer--read-more:hover {
+    color: #828386; }
+  .h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--contest-type a:active, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--contest-type a:focus, .h1 a:hover, .type-tribe_events .entry2__thumbnail--event-date a:hover, .type-contest .entry2__thumbnail--end-date a:hover, .type-contest .entry2__thumbnail--contest-type a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {
+    color: #828386; }
+  /* Navigation background color */
+  .header__account--logged-in, .header__account--logged-out, .header__account--span {
+    color: #fff; }
+  /* Navigation font color - all menus but only instagram social */
+  .header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
+    color: #fff; }
+  .header__main {
+    height: 82px;
+    border-top: none;
+    background-color: #000;
+    border-bottom: none; } }
+
 @media screen and (min-width: 768px) {
+  .section-header {
+    font-size: 1em; }
+  a:link, a:visited {
+    color: #cc0000;
+    text-decoration: none; }
+  /*navigation rollover color */
+  .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {
+    background-color: #000; }
+  .header__account--links.sub-menu, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul.header__account--links, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul, .ui-menu {
+    background-color: #fff;
+    border-top: 7px solid #f3ec1d;
+    color: #fff;
+    min-width: 300px;
+    position: absolute;
+    z-index: 5000100; }
+  /* Mobile nav rollover - Not all work */
+  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
+    background-color: #828386; }
+  .mobile-nav__list {
+    padding: 0;
+    margin: 0; }
+  .mobile-nav__list .menu-item {
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #000;
+    line-height: 0; }
+  .mobile-nav__list a:link, .mobile-nav__list a:visited {
+    display: block;
+    padding: 18px 1.25em;
+    line-height: 1;
+    font-size: 1.26562em;
+    color: #fff; }
+  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
+    background-color: #fff; }
+  .mobile-nav .mobile-menu-submenu-header {
+    background-color: #828386;
+    color: #fff;
+    padding: 18px 1.25em; }
+  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
+    background-color: #828386; }
+  .mobile-nav .mobile-menu-submenu-header {
+    background-color: #828386;
+    color: #fff;
+    padding: 18px 1.25em; }
+  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
+    background-color: #828386; }
+  /* Navigation font color - all menus but only instagram social */
+  .header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
+    color: #fff; }
   .now-playing {
     display: block;
     width: 100%;
@@ -15533,40 +15618,7 @@ a:hover .highlights__community--title {
     background-color: rgba(0, 0, 0, 0.7) !important;
     height: 82px;
     margin-top: 7px !important;
-    color: #fff; }
-  .header__.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
-    color: #fff; }
-  /* Mobile nav rollover - Not all work */
-  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
-    background-color: #828386; }
-  .mobile-nav__list {
-    padding: 0;
-    margin: 0; }
-  .mobile-nav__list .menu-item {
-    padding: 0;
-    margin: 0;
-    border-bottom: 1px solid #000;
-    line-height: 0; }
-  .mobile-nav__list a:link, .mobile-nav__list a:visited {
-    display: block;
-    padding: 18px 1.25em;
-    line-height: 1;
-    font-size: 1.26562em;
-    color: #fff; }
-  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
-    background-color: #fff; }
-  .mobile-nav .mobile-menu-submenu-header {
-    background-color: #828386;
-    color: #fff;
-    padding: 18px 1.25em; }
-  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
-    background-color: #828386; }
-  .mobile-nav .mobile-menu-submenu-header {
-    background-color: #828386;
-    color: #fff;
-    padding: 18px 1.25em; }
-  .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
-    background-color: #828386; } }
+    color: #fff; } }
 
 @media screen and (min-width: 1175px) {
   .header__nav {
@@ -15605,19 +15657,6 @@ a:hover .highlights__community--title {
 /* Sub-Feature box color */
 .home__featured .featured__content--block {
   background-image: linear-gradient(to bottom, #ccc 5%, #000 100%); }
-
-@media screen and (min-width: 320px) {
-  .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
-    float: right;
-    display: inline-block;
-    line-height: 1;
-    font-weight: 700;
-    font-size: 1.125em;
-    color: #333; }
-  .entry2__footer--read-more:active, .entry2__footer--read-more:focus, .entry2__footer--read-more:hover {
-    color: #828386; }
-  .h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--contest-type a:active, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--contest-type a:focus, .h1 a:hover, .type-tribe_events .entry2__thumbnail--event-date a:hover, .type-contest .entry2__thumbnail--end-date a:hover, .type-contest .entry2__thumbnail--contest-type a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {
-    color: #828386; } }
 
 /* Thumbnail overlay color */
 .entry2__thumbnail__overlay {
@@ -15806,6 +15845,7 @@ a:hover .highlights__community--title {
   border-color: #ff0000;
   color: #fff; }
 
+/* Contest styles */
 .contest__form button[type="button"], .contest__form button[type="submit"], .contest__form input[type="submit"] {
   background-color: #cc0000;
   border: 1px solid #cc0000;
@@ -15876,9 +15916,6 @@ a.podcast__rss:focus:focus, a.podcast__rss:focus:hover, a.podcast__rss:hover:foc
 .posts-pagination--load-more:focus, .posts-pagination--load-more:hover {
   background-color: #333;
   border-color: #333;
-  color: #fff; }
-
-.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
   color: #fff; }
 
 .live-link__type--show {

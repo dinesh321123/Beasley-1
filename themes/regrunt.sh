@@ -51,4 +51,10 @@ grunt
 cd ../wklb
 grunt
 
+cd ../wrat
+grunt
+
+cd ../wror
+grunt
+
 cd ../

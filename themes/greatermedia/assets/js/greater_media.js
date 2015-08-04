@@ -7,6 +7,9 @@
 * Credit to Thierry Koblentz - http://www.alistapart.com/articles/creating-intrinsic-ratios-for-video/
 * Released under the WTFPL license - http://sam.zoy.org/wtfpl/
 *
+* FORKED by Steve Meyers on 7/21/15 to ensure that Embedly embeds don't receive an extra div wrapped around them.
+*
+*
 */
 
 ;(function( $ ){
@@ -34,10 +37,10 @@
 
     return this.each(function(){
       var selectors = [
-        'iframe[src*="player.vimeo.com"]',
-        'iframe[src*="youtube.com"]',
-        'iframe[src*="youtube-nocookie.com"]',
-        'iframe[src*="kickstarter.com"][src*="video.html"]',
+        'iframe[src*="player.vimeo.com"]:not(.embedly-card)',
+        'iframe[src*="youtube.com"]:not(.embedly-card)',
+        'iframe[src*="youtube-nocookie.com"]:not(.embedly-card)',
+        'iframe[src*="kickstarter.com"][src*="video.html"]:not(.embedly-card)',
         'object',
         'embed'
       ];

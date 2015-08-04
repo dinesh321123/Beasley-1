@@ -18,18 +18,7 @@ add_filter( 'gmr_blogroll_widget_item', 'gmrs_get_blogroll_widget_episode_item' 
  * @param WP_Admin_Bar $admin_bar The admin bar object.
  */
 function gmrs_add_admin_bar_items( WP_Admin_Bar $admin_bar ) {
-	if ( is_admin() ) {
-		if ( isset( $_REQUEST['page'] ) && 'episode-schedule' == $_REQUEST['page'] ) {
-			$admin_bar->add_menu( array(
-				'id' => 'view-show-schedule',
-				'title' => 'View Show Schedule',
-				'href' => get_post_type_archive_link( ShowsCPT::SHOW_CPT ),
-				'meta' => array(
-					'title' => 'View Show Schedule',
-				),
-			) );
-		}
-	} else {
+	if ( current_user_can( 'edit_others_shows' ) ) {
 		if ( is_post_type_archive( ShowsCPT::SHOW_CPT ) ) {
 			$admin_bar->add_menu( array(
 				'id' => 'edit-show-schedule',
@@ -37,6 +26,17 @@ function gmrs_add_admin_bar_items( WP_Admin_Bar $admin_bar ) {
 				'href' => admin_url( '/edit.php?page=episode-schedule&post_type=' . ShowsCPT::SHOW_CPT ),
 				'meta' => array(
 					'title' => 'Edit Show Schedule',
+				),
+			) );
+		}
+	} else {
+		if ( isset( $_REQUEST['page'] ) && 'episode-schedule' == $_REQUEST['page'] ) {
+			$admin_bar->add_menu( array(
+				'id' => 'view-show-schedule',
+				'title' => 'View Show Schedule',
+				'href' => get_post_type_archive_link( ShowsCPT::SHOW_CPT ),
+				'meta' => array(
+					'title' => 'View Show Schedule',
 				),
 			) );
 		}
@@ -96,7 +96,13 @@ function gmrs_enqueue_episode_scripts( $current_page ) {
  */
 function gmrs_register_episode_page() {
 	global $gmrs_show_episode_page;
-	$gmrs_show_episode_page = add_submenu_page( 'edit.php?post_type=' . ShowsCPT::SHOW_CPT, 'Show Schedule', 'Schedule', 'edit_show_episodes', 'episode-schedule', 'gmrs_render_episode_schedule_page' );
+	$gmrs_show_episode_page = add_submenu_page(
+		'edit.php?post_type=' . ShowsCPT::SHOW_CPT,
+		'Show Schedule', 'Schedule',
+		'edit_others_shows',
+		'episode-schedule',
+		'gmrs_render_episode_schedule_page'
+	);
 }
 
 /**

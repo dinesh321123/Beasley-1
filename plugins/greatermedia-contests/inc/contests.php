@@ -202,6 +202,10 @@ function gmr_contests_adjuste_attachments_query( $args ) {
 
 		unset( $post_status[ array_search( 'private', $post_status ) ] );
 
+		if ( empty( $post_status ) ) {
+			$post_status = array( 'inherit' );
+		}
+
 		$args['post_status'] = $post_status;
 	}
 
@@ -307,7 +311,7 @@ function gmr_contest_container_attributes( $post = null ) {
 	}
 
 	$endpoints = array();
-	
+
 	if ( is_preview() ) {
 		$endpoints = array(
 			'load'        => add_query_arg( 'action', 'load' ),
@@ -766,7 +770,7 @@ function gmr_contests_process_form_submission() {
 		$contests[] = $contest_id;
 		$contests = array_filter( array_unique( $contests ) );
 		$contests = base64_encode( implode( ',', $contests ) );
-		
+
 		setcookie( '__cs', $contests, current_time( 'timestamp', 1 ) + YEAR_IN_SECONDS, '/', parse_url( home_url(), PHP_URL_HOST ) );
 	}
 

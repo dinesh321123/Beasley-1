@@ -1,0 +1,372 @@
+body {
+	font-family: 'Lato', sans-serif;
+}
+
+.header {
+	border-bottom: 1px solid #58595b;
+}
+
+.home__featured {
+	@include bp(medium) {
+		background-position: left top;
+		background-color: #561015;
+		// background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
+	}
+}
+
+.live-links {
+	border-top: 0;
+}
+
+.single-gmr_gallery .gallery__paging--prev,
+.single-gmr_gallery .gallery__paging--next {
+	color: $light-gray;
+
+	&:hover {
+		color: $cardinal;
+	}
+}
+
+.live-player__stream {
+	border: 1px solid lighten($color-gray-medium-dark,50%);
+	color: lighten($color-gray-medium-dark,50%);
+	@include border-radius(1em);
+	background-color: $liveplayer-bg;
+
+	li {
+		height: auto;
+	}
+
+	.live-player__stream--available {
+		display: none;
+	}
+
+	.live-player__stream--current.open .live-player__stream--available {
+		color: $dark-gray;
+		border-top: 1px solid darken($color-gray-light, 10%);
+
+		&:after {
+			background: transparent;
+		}
+
+		.live-player__stream--item, .live-player__stream--desc {
+			color: $dark-gray;
+		}
+
+		.live-player__stream--item {
+			background-color: $liveplayer-bg;
+
+			&:hover {
+				background-color: $light-gray;
+			}
+		}
+
+		li:last-child {
+			@include border-bottom-radius(1em);
+		}
+	}
+
+}
+
+.live-player__container {
+	border-bottom: 1px solid white;
+}
+
+.now-playing__artist {
+	color: $color-gray-medium-dark;
+}
+
+.live-link__title, .live-link__title a:link, .live-link__title a:visited {
+	color: $color-gray-medium;
+}
+
+.live-link__song:before {
+	color: $medium-dark-gray;
+}
+
+.live-link__song--artist {
+	color: $medium-dark-gray;
+}
+
+.live-link__song--title {
+	color: $dark-gray;
+
+	a, a:visited {
+		color: $darker-gray;
+	}
+}
+
+.live-link__title a:link, .live-link__title a:visited {
+	color: $color-gray-medium;
+}
+
+.live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
+	color: $primary-link-hover;
+}
+
+.secondary-nav .menu-item a:active, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:hover {
+    color: #CF000F;
+}
+
+.breaking-news-banner {
+	background-color: #CF000F;
+}
+
+.breaking-news-banner__title {
+	color: #FFFFFF;
+}
+
+.header {
+	background-image: url(../../images/skyscraperHeaderImage.jpg);
+}
+
+.header__logo {
+	@include bp(medium) {
+		top: -7px;
+	}
+	padding: 5px 0 !important;
+	background-color: transparent;
+}
+
+.header__main {
+	background-color: #0A47B4;
+}
+
+.header__sub {
+	background-color: #000000;
+}
+
+.header__nav .sub-menu {
+	border-bottom: #CF000F;
+}
+
+.header__nav .sub-menu a:hover {
+	background-color: #CF000F;
+}
+
+.home__highlights {
+	border-bottom-color: $primary-border;
+}
+
+.news-site .featured__article--heading {
+	font-size: 1em;
+}
+
+.featured__article:hover .featured__article--heading {
+	color: #CF000F;
+}
+
+.featured__content:hover .featured__content--title {
+	color: #CF000F;
+}
+
+.news-site .featured__content--title {
+	font-size: 0.87em;
+}
+
+.news-site .featured__article--primary .featured__article--heading {
+	font-size: 1.3em;
+}
+
+.highlights__events--more-btn {
+	&:hover {
+		color: $yellow !important;
+		border-color: $yellow;
+	}
+}
+
+.highlights__event--item {
+	background-color: #8c8c8c;
+	color: $white;
+}
+
+.highlights__event--title, .highlights__event--date {
+	color: $white;
+
+	a:hover & {
+		color: $yellow;
+	}
+}
+
+.highlights__heading {
+	color: $highlights-heading;
+}
+
+.type-contest .entry__title--tag {
+	background-color: $light-gray;
+	border-color: $light-gray;
+}
+
+.audio__progress-bar {
+	background-color: $gray;
+}
+
+.live-player {
+// 	background-image: url(../../images/LivePlayerBackground.png);
+	background-repeat: no-repeat;
+}
+
+.gmcltWX_current {
+	box-sizing: border-box;
+	background-color: #E3E4E5;
+	display: block;
+	width: 100%;
+	padding: 0.5em;
+	@include bp(larger) {
+		width: 36%;
+		float: left;
+	}
+}
+
+.gmcltWX_current h2 {
+	margin: 0;
+	padding: 0;
+}
+
+.gmcltWX_currentOne {
+	@include bp(small) {
+		float: left;
+	}
+	@include bp(larger) {
+		float: none;	
+	}
+}
+
+.gmcltWX_currentTwo {
+	@include bp(small) {
+		float: left;
+		padding-left: 20px;
+	}
+	@include bp(larger) {
+		float: none;	
+	}
+}
+
+.gmcltWX_data h4 {
+	margin: 0;
+}
+
+.gmcltWX_data p {
+	margin: 0;
+}
+
+.gmcltWX_data p.gmcltWX_dataSmall {
+	font-size: 0.7em;
+}
+
+.gmcltWX_currentIcon {
+	float: left;
+	width: 50%;
+}
+
+.gmcltWX_currentIcon img {
+	width: 95%;
+}
+
+.gmcltWX_currentTemp {
+	width: 50%;
+	font-size: 5em;
+	float: left;
+}
+
+.gmcltWX_mobile {
+	@include bp(larger) {
+		display: none;	
+	}
+}
+
+.gmcltWX_desktop {
+	display: none;
+	@include bp(larger) {
+		display: inline;	
+	}
+}
+
+.gmcltWX_forecast {
+	box-sizing: border-box;
+	font-size: 16px;
+	width: 100%;
+	
+	@include bp(larger) {
+		margin-left: 10px;
+		width: 60%;
+		float: left;
+	}
+	
+}
+
+.gmcltWX_forecastDay {
+	border-bottom: solid;
+	border-bottom-color: #E3E4E5;
+	border-bottom-width: 4px;
+	margin-top: 5px;
+}
+
+.gmcltWX_forecastShort {
+	@include bp(larger) {
+		float: left;
+		width: 20%;
+		border-bottom: none;
+		border-right: solid;
+		border-right-color: #E3E4E5;
+		border-right-width: 4px;
+		padding: 0 8px;
+	}
+}
+
+.gmcltWX_forecastShort h4 {
+	@include bp(larger) {
+		font-size: 0.8em;
+	}
+}
+
+.gmcltWX_first {
+	@include bp(larger) {
+		padding-left: 0;
+	}
+}
+
+.gmcltWX_last {
+	@include bp(larger) {
+		padding-right: 0;
+		border-right: none;
+	}
+}
+
+h4.gmcltWX_forecastDayHeader {
+	margin: 0;
+}
+
+.gmcltWX_forecastIcon {
+	float: left;
+	text-align: center;
+	@include bp(larger) {
+		float: right;	
+	}
+}
+
+.gmcltWX_forecastIconShort {
+	float: left;
+	text-align: center;
+	@include bp(larger) {
+		float: none;	
+	}
+}
+
+.gmcltWX_forecastIcon img {
+	display: block;
+	width: 100px;
+}
+
+.gmcltWX_forecastText {
+	margin-left: 110px;
+	@include bp(larger) {
+		margin-left: 0;
+	}
+}
+
+.gmcltWX_forecastText p {
+	@include bp(larger) {
+		font-size: 0.8em;
+	}
+}

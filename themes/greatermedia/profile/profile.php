@@ -298,7 +298,7 @@ function get_gigya_verify_email_message() {
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.state" ></span>
-				<label for="profile-state">State/Province:</label>
+				<label for="profile-state">State / Province:</label>
 				<select name="profile.state" id="profile-state">
 				</select>
 
@@ -423,7 +423,7 @@ function get_gigya_verify_email_message() {
 				</select>
 
 				<span class="gigya-error-msg" data-bound-to="profile.state" ></span>
-				<label for="profile-update-state">State/Province:</label>
+				<label for="profile-update-state">State / Province:</label>
 				<select name="profile.state" id="profile-update-state">
 				</select>
 
@@ -431,9 +431,12 @@ function get_gigya_verify_email_message() {
 				<label for="profile-update-city">City:</label>
 				<input type="text" name="profile.city" id="profile-update-city" />
 
+
 				<span class="gigya-error-msg" data-bound-to="profile.zip" id="profile-update-zip-error"></span>
 				<label for="profile-update-zip">ZIP Code:</label>
 				<input type="text" name="profile.zip" id="profile-update-zip" />
+
+
 
 				<h2>Password</h2>
 				<a href="#" data-switch-screen="gigya-change-password-screen">Change your password.</a>
@@ -452,7 +455,7 @@ function get_gigya_verify_email_message() {
 							<input
 								type="checkbox"
 								name="data.<?php echo esc_attr( $field_key ) ?>"
-								checked="checked" id="emma_group_<?php echo esc_attr( $emma_group_id ); ?>" />
+								id="emma_group_<?php echo esc_attr( $emma_group_id ); ?>" />
 							<label class="label-email-list" for="emma_group_<?php echo esc_attr( $emma_group_id ); ?>">
 								<?php echo esc_html( $emma_group_description ) ?>
 							</label>

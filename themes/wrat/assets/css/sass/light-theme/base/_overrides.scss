@@ -231,22 +231,6 @@
 .footer__copyright--logo a:link, .footer__copyright--logo a:visited {color: #fff;}
 
 
-/*navigation rollover color */   
-.header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {background-color: #000;}
-    
-.header__account--links.sub-menu, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .ui-menu {
-    background-color: #fff;
-    border-top: 7px solid #f3ec1d;
-    color: #fff;
-    min-width: 300px;
-    position: absolute;
-    z-index: 5000100;
-}
-
-.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
-  color: #fff;
-}
-
 @media screen and (min-width: 1200px){
 .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
     padding: 33px .52em 32px;
@@ -668,8 +652,107 @@ a:hover .highlights__event--title {color:#f3ec1d;}
 
 /* Home Don't Miss rollover color */
 a:hover .highlights__community--title {color:#f3ec1d;}
+
+@media screen and (min-width:320px) { 
+
+a:link, a:visited {
+  color: #cc0000;
+  text-decoration: none;
+}  
+
+.entry2__footer--read-more:link, .entry2__footer--read-more:visited {
+    float: right;
+    display: inline-block;
+    line-height: 1;
+    font-weight: 700;
+    font-size: 1.125em;
+    color: #333;
+}
+
+.entry2__footer--read-more:active,.entry2__footer--read-more:focus,.entry2__footer--read-more:hover{color:#828386;}
+    
+.h1 a:active, .h1 a:focus, .h1 a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {color: #828386;}
+
+/* Navigation background color */
+.header__account--logged-in, .header__account--logged-out, .header__account--span {color: #fff;}
+
+/* Navigation font color - all menus but only instagram social */
+.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {color: #fff;}
+
+.header__main {
+  height: 82px;
+  border-top: none;
+  background-color: #000;
+  border-bottom: none;
+}
+}
     
 @media screen and (min-width: 768px) {
+
+.section-header {font-size: 1em;}
+
+a:link, a:visited {
+  color: #cc0000;
+  text-decoration: none;
+}  
+
+/*navigation rollover color */   
+.header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {background-color: #000;}
+    
+.header__account--links.sub-menu, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .ui-menu {
+    background-color: #fff;
+    border-top: 7px solid #f3ec1d;
+    color: #fff;
+    min-width: 300px;
+    position: absolute;
+    z-index: 5000100;
+}
+
+/* Mobile nav rollover - Not all work */ 
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#828386;}
+    
+.mobile-nav__list {
+    padding:0;
+    margin:0;   
+}
+
+.mobile-nav__list .menu-item {
+    padding:0;
+    margin:0;
+    border-bottom:1px solid #000;
+    line-height:0;
+}
+
+.mobile-nav__list a:link,.mobile-nav__list a:visited {
+    display:block;
+    padding:18px 1.25em;
+    line-height:1;
+    font-size:1.26562em;
+    color:#fff;
+}
+
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#fff;}
+  
+.mobile-nav .mobile-menu-submenu-header {
+  background-color:#828386;
+    color:#fff;
+    padding:18px 1.25em;
+}
+  
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#828386;}
+    
+.mobile-nav .mobile-menu-submenu-header {
+    background-color:#828386;
+    color:#fff;
+    padding:18px 1.25em
+}
+
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {
+    background-color:#828386;
+}       
+
+/* Navigation font color - all menus but only instagram social */
+.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {color: #fff;}
 
 .now-playing {
   display: block;
@@ -762,71 +845,23 @@ a:hover .highlights__community--title {color:#f3ec1d;}
 }    
     
 /* Header transparent nav and header background image */
-    
 .header {
   /*background-color:transparent!important;*/
     background-color:#000;
     border-bottom: 2px solid #000;
-  background-image:url(../../images/WRAT_header-bkg.jpg)!important;
-  background-position:center top;
-  background-size:cover;
-  height:220px!important;
+    background-image:url(../../images/WRAT_header-bkg.jpg)!important;
+    background-position:center top;
+    background-size:cover;
+    height:220px!important;
 }
     
 .header__main {
-  border-top:none;
-  background-color:rgba(0,0,0,.7)!important;
-  height:82px;
-  margin-top:7px!important;
+    border-top:none;
+    background-color:rgba(0,0,0,.7)!important;
+    height:82px;
+    margin-top:7px!important;
     color: #fff;
 }
-
-.header__.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
-    color: #fff;
-} 
-    
-/* Mobile nav rollover - Not all work */ 
-.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#828386;}
-    
-.mobile-nav__list {
-    padding:0;
-    margin:0;   
-}
-
-.mobile-nav__list .menu-item {
-    padding:0;
-    margin:0;
-    border-bottom:1px solid #000;
-    line-height:0;
-}
-
-.mobile-nav__list a:link,.mobile-nav__list a:visited {
-    display:block;
-    padding:18px 1.25em;
-    line-height:1;
-    font-size:1.26562em;
-    color:#fff;
-}
-
-.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#fff;}
-  
-.mobile-nav .mobile-menu-submenu-header {
-  background-color:#828386;
-    color:#fff;
-    padding:18px 1.25em;
-}
-  
-.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#828386;}
-    
-.mobile-nav .mobile-menu-submenu-header {
-    background-color:#828386;
-    color:#fff;
-    padding:18px 1.25em
-}
-
-.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {
-    background-color:#828386;
-}       
 }
 
 @media screen and (min-width:1175px) {
@@ -875,22 +910,6 @@ a:hover .highlights__community--title {color:#f3ec1d;}
     background-image: linear-gradient(to bottom,#ccc 5%,#000 100%);
 }
 
-@media screen and (min-width:320px) { 
-
-.entry2__footer--read-more:link, .entry2__footer--read-more:visited {
-    float: right;
-    display: inline-block;
-    line-height: 1;
-    font-weight: 700;
-    font-size: 1.125em;
-    color: #333;
-}
-
-.entry2__footer--read-more:active,.entry2__footer--read-more:focus,.entry2__footer--read-more:hover{color:#828386;}
-    
-.h1 a:active, .h1 a:focus, .h1 a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {color: #828386;}
-}
-
 /* Thumbnail overlay color */
 .entry2__thumbnail__overlay {
     background-color: #B9B903;
@@ -908,7 +927,7 @@ a:hover .highlights__community--title {color:#f3ec1d;}
     padding: .25em 1em;
     margin-top: 0!important;
     margin-bottom: 1em!important;
-  margin-right: 0!important;
+    margin-right: 0!important;
     outline: 0;
     background-color: #828386!important;
     border: 1px solid #828386!important;
@@ -1038,7 +1057,7 @@ a:hover .highlights__community--title {color:#f3ec1d;}
     color:#828386;
 }
 
-.mobile-nav__list a:link, .mobile-nav__list a:visited {
+.mobile-nav__list a:link,.mobile-nav__list a:visited {
   display: block;
   padding: 18px 1.25em;
   line-height: 1;
@@ -1096,6 +1115,7 @@ a:hover .highlights__community--title {color:#f3ec1d;}
     color: #fff;
 }
 
+/* Contest styles */
 .contest__form button[type="button"], .contest__form button[type="submit"], .contest__form input[type="submit"] {
     background-color: #cc0000;
     border: 1px solid #cc0000;
@@ -1177,5 +1197,3 @@ a.podcast__rss:focus:focus, a.podcast__rss:focus:hover, a.podcast__rss:hover:foc
     border-color: #333;
     color: #fff;
 }
-
-.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {color: #fff;}
