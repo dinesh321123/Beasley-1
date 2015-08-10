@@ -24,6 +24,9 @@ function gmr_livefyre_main_real() {
 	new \GreaterMedia\LiveFyrePolls\ContentFilter();
 	new \GreaterMedia\LiveFyrePolls\ShortcodeHandler();
 
+	new \GreaterMedia\LiveFyreApps\ContentFilter();
+	new \GreaterMedia\LiveFyreApps\ShortcodeHandler();
+
 	new \GreaterMedia\LiveFyreWalls\ContentFilter();
 	new \GreaterMedia\LiveFyreWalls\ShortcodeHandler();
 }
