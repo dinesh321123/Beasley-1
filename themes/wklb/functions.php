@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WKLB_VERSION', '0.1.9' ); /* Version bump by Allen 7/23/2015 @ 4:40pm EST */
+define( 'WKLB_VERSION', '0.2.0' ); /* Version bump by Denis Prindeville 8/12/15  @ 2:00pm EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -34,6 +34,29 @@ define( 'WKLB_VERSION', '0.1.9' ); /* Version bump by Allen 7/23/2015 @ 4:40pm E
  }
  add_action( 'after_setup_theme', 'wklb_setup' );
 
+/**
+ * Filter the Simpli-Fi script and make it async
+ *
+ * @param $tag
+ * @param $handle
+ * @param $src
+ *
+ * @return mixed|void
+ */
+
+function wklb_async_script( $tag, $handle, $src ) {
+
+    if ( 'simpli-fi' !== $handle ) :
+
+      return $tag;
+
+    endif;
+
+    return str_replace( '<script', '<script async ', $tag );
+}
+add_filter( 'script_loader_tag', 'wklb_async_script', 10, 3 );
+
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -45,6 +68,18 @@ define( 'WKLB_VERSION', '0.1.9' ); /* Version bump by Allen 7/23/2015 @ 4:40pm E
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wklb', get_stylesheet_directory_uri() . "/assets/css/wklb{$postfix}.css", array(), WKLB_VERSION );
+
+	// begin simpli.fi
+	// The option after 'simpli-fi', should be the unique link for the station
+	wp_enqueue_script(
+	'simpli-fi',
+	'https://i.simpli.fi/dpx.js?cid=34212&action=100&segment=hoodsourcream&m=1&sifi_tuid=15933',
+	array(),
+	null,
+	true
+	);
+	//end simpli.fi
+
  }
  add_action( 'wp_enqueue_scripts', 'wklb_scripts_styles', 20 );
 
