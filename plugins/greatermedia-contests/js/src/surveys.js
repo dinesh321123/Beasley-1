@@ -10,7 +10,7 @@
 				$restrictions.addClass(restriction);
 			}
 		};
-		
+
 		var loadContainerState = function(url) {
 			$.get(url, function(response) {
 				var restriction = null;
@@ -25,7 +25,7 @@
 				showRestriction(restriction);
 			});
 		};
-		
+
 		container.on('submit', 'form', function() {
 			var form = $(this),
 				iframe, iframe_onload;
@@ -39,7 +39,15 @@
 						iframe_body = iframe_document.getElementsByTagName('body')[0],
 						scroll_to = container.offset().top - $('#wpadminbar').height() - 10;
 
-					container.html(iframe_body.innerHTML);
+					iframe_body = $.trim(iframe_body.innerHTML);
+					if (iframe_body.length > 0) {
+						container.html(iframe_body);
+					} else {
+						alert('Your submission failed. Please, enter required fields and try again.');
+						form.find('input, textarea, select, button').removeAttr('readonly');
+						form.find('i.gmr-icon').hide();
+					}
+
 					$('html, body').animate({scrollTop: scroll_to}, 200);
 				};
 
@@ -55,7 +63,7 @@
 
 			return false;
 		});
-		
+
 		if (container.length > 0) {
 			loadContainerState(container.data('load'));
 		}
