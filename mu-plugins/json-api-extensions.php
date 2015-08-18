@@ -30,3 +30,12 @@ function greatermedia_json_api_shows( $post, $data, $update ) {
 	}
 }
 add_filter('json_insert_post', 'greatermedia_json_api_shows', 20, 3 );
+
+function greatermedia_json_api_breaking( $post, $data, $update ) {
+	if ( ! empty( $data['x-breaking'] ) ) {
+		$breaking = filter_var( $data['x-breaking'], FILTER_VALIDATE_BOOLEAN );
+
+		update_post_meta( $post['ID'], '_is_breaking_news', $breaking );
+	}
+}
+add_filter('json_insert_post', 'greatermedia_json_api_breaking', 20, 3 );

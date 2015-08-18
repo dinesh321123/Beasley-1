@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'GREATER_MEDIA_CONTESTS_URL', plugin_dir_url( __FILE__ ) );
 define( 'GREATER_MEDIA_CONTESTS_PATH', dirname( __FILE__ ) );
-define( 'GREATER_MEDIA_CONTESTS_VERSION', '1.0.6' );
+define( 'GREATER_MEDIA_CONTESTS_VERSION', '1.0.7' );
 
 define( 'GMR_CONTEST_CPT',         'contest' );
 define( 'GMR_CONTEST_ENTRY_CPT',   'contest_entry' );
