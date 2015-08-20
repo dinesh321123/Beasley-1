@@ -104,10 +104,6 @@ body {
 	color: $primary-link-hover;
 }
 
-.secondary-nav .menu-item a:active, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:hover {
-    color: #CF000F;
-}
-
 .breaking-news-banner {
 	background-color: #CF000F;
 }
@@ -156,7 +152,7 @@ body {
 	color: #CF000F;
 }
 
-.featured__content:hover .featured__content--title {
+.featured__content--block:hover .featured__content--title {
 	color: #CF000F;
 }
 
@@ -369,4 +365,24 @@ h4.gmcltWX_forecastDayHeader {
 	@include bp(larger) {
 		font-size: 0.8em;
 	}
+}
+@include bp(medium){
+	.header__account:hover {
+		color: #000000;
+
+		.header__account--span, 
+		.header__account--logged-in, 
+		.header__account--logged-out {
+			color: #000000;
+		}
+
+	}
+}
+
+a:hover .breaking-news-banner {
+	color: #cccccc;
+}
+
+.secondary-nav .menu-item a:active, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:hover {
+	color: #cf000f;
 }
