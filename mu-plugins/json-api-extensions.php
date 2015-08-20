@@ -39,3 +39,12 @@ function greatermedia_json_api_breaking( $post, $data, $update ) {
 	}
 }
 add_filter('json_insert_post', 'greatermedia_json_api_breaking', 20, 3 );
+
+function greatermedia_json_api_attribution( $post, $data, $update ) {
+	if ( ! empty( $data['x-attribution'] ) ) {
+		$attribution = sanitize_text_field( $data['x-attribution'] );
+
+		update_post_meta( $post['ID'], 'gmr_image_attribution', $attribution );
+	}
+}
+add_filter('json_insert_post', 'greatermedia_json_api_attribution', 20, 3 );
