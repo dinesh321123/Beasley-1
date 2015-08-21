@@ -121,7 +121,7 @@ class GMR_Audio_Shortcodes {
 
 		$is_podcast = is_singular( array( ShowsCPT::SHOW_CPT, 'podcast' ) );
 		$is_podcast_archive = is_post_type_archive( 'podcast' );
-		$is_episode = is_singular( 'episode' );
+		$is_episode = get_post_type($post_id) == 'episode' ? true : false;
 		$is_home = is_home();
 
 		$parent_podcast = false;
