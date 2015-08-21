@@ -13,7 +13,7 @@ module.exports = function( grunt ) {
 			},
 			wbt: {
 				src: [
-					'assets/js/src/wbt.js'
+					'assets/js/src/**.js'
 				],
 				dest: 'assets/js/wbt.js'
 			}

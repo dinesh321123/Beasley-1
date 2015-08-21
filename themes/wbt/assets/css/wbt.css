@@ -15357,4 +15357,18 @@ a:hover .breaking-news-banner {
 .secondary-nav .menu-item a:active, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:hover {
   color: #cf000f; }
 
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%; }
+
+.embed-container iframe, .embed-container div, .embed-container object, .embed-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
 /*# sourceMappingURL=wbt.css.map */
