@@ -48,3 +48,12 @@ function greatermedia_json_api_attribution( $post, $data, $update ) {
 	}
 }
 add_filter('json_insert_post', 'greatermedia_json_api_attribution', 20, 3 );
+
+function greatermedia_json_post_format( $post, $data, $update ) {
+	if ( ! empty( $data['x-post-format'] ) ) {
+		$format = sanitize_text_field( $data['x-post-format'] );
+
+		set_post_format( $post['ID'], $format );
+	}
+}
+add_filter('json_insert_post', 'greatermedia_json_post_format', 20, 3 );
