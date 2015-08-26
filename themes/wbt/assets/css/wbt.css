@@ -15326,7 +15326,11 @@ h4.gmcltWX_forecastDayHeader {
 
 .gmcltWX_forecastIconShort {
   float: left;
-  text-align: center; }
+  text-align: center;
+  max-width: 100px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
   @media screen and (min-width: 1200px)  {
     .gmcltWX_forecastIconShort {
       float: none; } }
@@ -15344,6 +15348,25 @@ h4.gmcltWX_forecastDayHeader {
 @media screen and (min-width: 1200px)  {
   .gmcltWX_forecastText p {
     font-size: 0.8em; } }
+
+.gmcltWX_loading {
+  z-index: 100;
+  left: 50%;
+  margin-bottom: 10px; }
+
+.gmcltWX_loading img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+.gmcltWX_loading p {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  text-align: center; }
+
+.gmcltWX_search {
+  text-align: right;
+  display: none; }
 
 @media screen and (min-width: 768px)  {
   .header__account:hover {
