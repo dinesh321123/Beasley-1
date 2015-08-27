@@ -8,23 +8,25 @@
 
 get_header(); ?>
 
-	<div class="container">
+	<?php
+	if ( have_posts() ) : while ( have_posts() ) : the_post();
+		$feed_url   = esc_url_raw( get_post_meta( $post->ID, 'gmp_podcast_feed', true ) );
+		$itunes_url = get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true );
+		if ( ! $feed_url || $feed_url == '' || strlen( $feed_url ) == 0 ) {
+			$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $post->post_name;
+		}
+		?>
+		<div class="container">
 
-		<section class="content">
+			<?php get_template_part( 'partials/show-mini-nav' ); ?>
 
-			<?php
-			if ( have_posts() ) : while ( have_posts() ) : the_post();
-				$feed_url   = esc_url_raw( get_post_meta( $post->ID, 'gmp_podcast_feed', true ) );
-				$itunes_url = get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true );
-				if ( ! $feed_url || $feed_url == '' || strlen( $feed_url ) == 0 ) {
-					$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $post->post_name;
-				}
-				?>
+			<section class="content">
+
 				<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast' ); ?> role="article" itemscope
 				         itemtype="http://schema.org/BlogPosting">
 					<header class="podcast__header">
 						<h2 class="content__heading" itemprop="headline"><?php the_title(); ?></h2>
-						
+
 						<a class="podcast__rss" href="<?php echo esc_url( $feed_url ) ?>" target="_blank">Podcast
 							Feed</a>
 						<?php
@@ -58,12 +60,12 @@ get_header(); ?>
 
 				</article>
 
-			<?php endif;
-			wp_reset_query();
-			?>
+			</section>
 
-		</section>
+		</div>
 
-	</div>
+	<?php endif;
+	wp_reset_query();
+	?>
 
 <?php get_footer();

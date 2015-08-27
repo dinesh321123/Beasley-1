@@ -2,6 +2,8 @@
 
 	<div class="container">
 
+		<?php get_template_part( 'partials/show-mini-nav' ); ?>
+
 		<?php
 		/**
 		 * This runs a check to determine if the post has a thumbnail, and that it's not a gallery or video post format.

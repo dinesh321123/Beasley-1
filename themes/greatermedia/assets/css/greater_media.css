@@ -9862,23 +9862,6 @@ category: Components - Shows
     border-radius: 50%;
     margin: 0 auto; }
 
-.show__cast {
-  width: 100%;
-  height: 100%; }
-  @media screen and (min-width: 1024px)  {
-    .show__cast {
-      width: 150px;
-      display: table-cell;
-      vertical-align: middle; } }
-  .show__cast img {
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    -border-radius: 50%;
-    border-radius: 50%;
-    margin: 0 auto; }
-
 .show__nav {
   width: 100%;
   overflow: auto;
@@ -10002,6 +9985,58 @@ category: Components - Shows
   left: 0;
   width: 100%;
   z-index: -1; }
+
+.show__mini-nav .show__header {
+  padding: 5px; }
+  .show__mini-nav .show__header .show__cast {
+    width: 40px;
+    float: left;
+    margin-top: 5px; }
+    .show__mini-nav .show__header .show__cast img {
+      width: 30px;
+      height: 30px; }
+  .show__mini-nav .show__header .show__nav {
+    padding: 0;
+    margin: 0 0 0 -40px;
+    display: block;
+    float: left; }
+    @media screen and (min-width: 1024px)  {
+      .show__mini-nav .show__header .show__nav {
+        margin: 0; } }
+    .show__mini-nav .show__header .show__nav .show__title {
+      font-size: 1em;
+      display: inline-block;
+      line-height: 15px;
+      padding: 0 10px 0 0;
+      max-width: 250px; }
+      @media screen and (min-width: 1024px)  {
+        .show__mini-nav .show__header .show__nav .show__title {
+          line-height: 30px;
+          max-width: none; }
+          .show__mini-nav .show__header .show__nav .show__title:after {
+            content: "\0003a";
+            font-weight: bold; } }
+      .show__mini-nav .show__header .show__nav .show__title a {
+        padding-right: 0px;
+        text-transform: uppercase;
+        color: #fff;
+        font-weight: bold;
+        padding: 5px;
+        border-radius: 20px;
+        display: inline-block; }
+        .show__mini-nav .show__header .show__nav .show__title a:hover {
+          background-color: #ffffff;
+          color: #561015; }
+    .show__mini-nav .show__header .show__nav ul {
+      display: inline-block;
+      margin: 0;
+      padding: 0; }
+      .show__mini-nav .show__header .show__nav ul li a {
+        padding: 0 5px;
+        line-height: 30px; }
+      @media screen and (min-width: 1024px)  {
+        .show__mini-nav .show__header .show__nav ul {
+          position: relative; } }
 
 /*doc
 ---
