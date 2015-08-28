@@ -19,7 +19,7 @@ get_header();
 		<section class="article__content" itemprop="articleBody">
 			<?php the_content(); ?>
 			
-			<div class="gmcltWX_current">
+			<div class="gmcltWX_narrowColumn">
 				<div class="gmcltWX_loading">
 					<p>Loading...</p>
 					<img src="/wp-content/themes/wbt/images/WBTajaxLoader.gif">
@@ -27,17 +27,17 @@ get_header();
 				<div class="gmcltWX_search">
 					<input type="text" name="gmcltWX_search" id="gmcltWX_search" placeholder="Search for location..."><input type="submit" id="gmcltWX_searchsubmit" value="Search">
 				</div>
-				<div id="gmcltWX_currentContent"></div>
+				<div id="gmcltWX_narrowColumnContent"></div>
 				<div style="text-align: center; padding-top: 10px;">
 					<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'desktop' ); ?>
 				</div>
 			</div>
 			
-			<div class="gmcltWX_forecast">
+			<div class="gmcltWX_wideColumn">
 				<div id="gmcltWX_forecastFullContent"></div>
 				<div id="gmcltWX_forecastContent"></div>
+				<div id="radarMap-canvas"></div>
 			</div>
-			
 		</section>
 		
 	
@@ -46,14 +46,15 @@ get_header();
 </div>
 
 <script type="text/javascript" src="/wp-content/themes/wbt/assets/js/vendor/handlebars-v3.0.3.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
 <script id="currentConditions-template" type="text/x-handlebars-template">
-	<h2>{{location}}</h2>
-	<div class="gmcltWX_currentOne">
-		<div class="gmcltWX_currentIcon">
+	<h2>{{location}}, {{state}}</h2>
+	<div class="gmcltWX_narrowColumnOne">
+		<div class="gmcltWX_narrowColumnIcon">
 			<img src="/wp-content/themes/wbt/images/wx/{{currentConditions.graphicCode}}.png">
 		</div>
-		<div class="gmcltWX_currentTemp">
+		<div class="gmcltWX_narrowColumnTemp">
 			{{currentConditions.temperature}}&deg;
 		</div>
 		<div class="gmcltWX_data">
@@ -62,7 +63,7 @@ get_header();
 			<p class="gmcltWX_dataSmall">Current as of {{currentConditions.updateTime}} Eastern</p>
 		</div>
 	</div>
-	<div class="gmcltWX_currentTwo">
+	<div class="gmcltWX_narrowColumnTwo">
 		Feels Like: <strong>{{currentConditions.feelslike}}&deg; F</strong><br />
 		Dew Point: <strong>{{currentConditions.dewpoint}}&deg; F</strong><br />
 		Relative Humidity: <strong>{{currentConditions.relativeHumidity}}%</strong><br />
@@ -123,8 +124,13 @@ get_header();
 	<h2>Search Results</h2>
 	<p>{{{message}}}</p>
 	{{#each results}}
-		<a href="javascript:void(0);" onclick="GMCLT.Weather.populateWeatherData('{{locationId}}')">{{location}}</a><br />
+		<a href="javascript:void(0)" onclick="GMCLT.Weather.populateWeatherData('{{locationId}}')">{{location}}</a><br />
 	{{/each}}
+</script>
+
+<script id="error-template" type="text/x-handlebars-template">
+	<h2>Sorry!</h2>
+	<p>An error has occurred while loading weather information. Please refresh the page and try again.</p>
 </script>
 
 <script type="text/javascript">

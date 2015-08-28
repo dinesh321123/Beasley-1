@@ -202,7 +202,7 @@ body {
 	background-repeat: no-repeat;
 }
 
-.gmcltWX_current {
+.gmcltWX_narrowColumn {
 	box-sizing: border-box;
 	background-color: #E3E4E5;
 	display: block;
@@ -214,12 +214,12 @@ body {
 	}
 }
 
-.gmcltWX_current h2 {
+.gmcltWX_narrowColumn h2 {
 	margin: 0;
 	padding: 0;
 }
 
-.gmcltWX_currentOne {
+.gmcltWX_narrowColumnOne {
 	@include bp(small) {
 		float: left;
 	}
@@ -228,7 +228,7 @@ body {
 	}
 }
 
-.gmcltWX_currentTwo {
+.gmcltWX_narrowColumnTwo {
 	@include bp(small) {
 		float: left;
 		padding-left: 20px;
@@ -250,16 +250,16 @@ body {
 	font-size: 0.7em;
 }
 
-.gmcltWX_currentIcon {
+.gmcltWX_narrowColumnIcon {
 	float: left;
 	width: 50%;
 }
 
-.gmcltWX_currentIcon img {
+.gmcltWX_narrowColumnIcon img {
 	width: 95%;
 }
 
-.gmcltWX_currentTemp {
+.gmcltWX_narrowColumnTemp {
 	width: 50%;
 	font-size: 5em;
 	float: left;
@@ -278,7 +278,7 @@ body {
 	}
 }
 
-.gmcltWX_forecast {
+.gmcltWX_wideColumn {
 	box-sizing: border-box;
 	font-size: 16px;
 	width: 100%;
@@ -415,8 +415,25 @@ a:hover .breaking-news-banner {
 	color: #cf000f;
 }
 
-.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; }
-.embed-container iframe,
-.embed-container div,
-.embed-container object,
-.embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+#GMCLTstateSelect {
+	margin-bottom: 10px;
+}
+
+#stormwatchMap-canvas {
+	margin: auto;
+	width: 80%;
+	height: 350px;
+	@include bp(larger) {
+		width: 100%;
+		height: 700px;
+	}
+}
+
+#radarMap-canvas {
+	margin: auto;
+	width: 80%;
+	height: 300px;
+	@include bp(larger) {
+		width: 100%;
+	}
+}

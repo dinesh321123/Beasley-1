@@ -1,5 +1,7 @@
 var GMCLT = GMCLT || {};
 
+var apiUrl = 'http://api2.wbt.com';
+
 GMCLT.Traffic = function() {
 	
   	var init = function() {
@@ -134,81 +136,3 @@ GMCLT.Traffic = function() {
 	    return oPublic;
  
  }();
-  
-GMCLT.Weather = function() {
-	 
- 	var init = function() {
-		//alert('hello');
-		//handlebarsExample();
-		populateWeatherData('USNC0121');	
-		jQuery('#gmcltWX_search').keydown(function (e){
-		    if(e.keyCode == 13){
-		        searchWeatherLocations();
-		    }
-		}); 
-		jQuery('#gmcltWX_searchsubmit').click(function(){
-			searchWeatherLocations();
-			
-		});
-	};
-	
-	var populateWeatherData = function(locationId) {
-		
-		var wxDataObject;
-		var wxConditionsSource = jQuery("#currentConditions-template").html(); 
-		var wxConditionsTemplate = Handlebars.compile(wxConditionsSource); 
-		var wxForecastFullSource = jQuery("#forecastFull-template").html(); 
-		var wxForecastFullTemplate = Handlebars.compile(wxForecastFullSource);
-		var wxForecastSource = jQuery("#forecast-template").html(); 
-		var wxForecastTemplate = Handlebars.compile(wxForecastSource); 
-		
-		jQuery.getJSON('http://api.gmclt.com/weather/weather.cfc?method=getWeatherData&locationId=' + locationId + '&callback=?',
-		
-			function (wxDataObject) {
-				jQuery('#gmcltWX_currentContent').html(wxConditionsTemplate(wxDataObject));
-				jQuery('#gmcltWX_forecastFullContent').html(wxForecastFullTemplate(wxDataObject));
-				jQuery('#gmcltWX_forecastContent').html(wxForecastTemplate(wxDataObject));
-				jQuery('.gmcltWX_search').show();
-				jQuery('.gmcltWX_loading').hide();
-			});
-		
-		
-		
-	};
-	
-	var searchWeatherLocations = function() {
-		var searchQuery = jQuery.trim(jQuery('#gmcltWX_search').val());
-		var wxSearchSource = jQuery("#searchResults-template").html(); 
-		var wxSearchTemplate = Handlebars.compile(wxSearchSource);
-		
-		if (searchQuery.length) {
-			jQuery('.gmcltWX_loading').show();
-			jQuery('#gmcltWX_currentContent').html('');
-			jQuery('#gmcltWX_forecastFullContent').html('');
-			jQuery('#gmcltWX_forecastContent').html('');
-			jQuery.getJSON('http://api.gmclt.com/weather/weather.cfc?method=searchLocations&queryString=' + searchQuery + '&callback=?',
-		
-			function (wxSearchObject) {
-				if (wxSearchObject.match) {
-					populateWeatherData(wxSearchObject.results[0].locationId);
-					jQuery('#gmcltWX_search').val('');
-				}
-				else {
-					jQuery('#gmcltWX_currentContent').html(wxSearchTemplate(wxSearchObject));
-					jQuery('.gmcltWX_loading').hide();
-					jQuery('#gmcltWX_search').val('');
-				}
-			});
-			
-		}
-		
-	}
-	
-	var oPublic =
-	    {
-	      init: init,
-	      populateWeatherData: populateWeatherData
-	    };
-    return oPublic;
-	 
-}();

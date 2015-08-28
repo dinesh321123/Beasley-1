@@ -15214,34 +15214,34 @@ body {
 .live-player {
   background-repeat: no-repeat; }
 
-.gmcltWX_current {
+.gmcltWX_narrowColumn {
   box-sizing: border-box;
   background-color: #E3E4E5;
   display: block;
   width: 100%;
   padding: 0.5em; }
   @media screen and (min-width: 1200px)  {
-    .gmcltWX_current {
+    .gmcltWX_narrowColumn {
       width: 36%;
       float: left; } }
 
-.gmcltWX_current h2 {
+.gmcltWX_narrowColumn h2 {
   margin: 0;
   padding: 0; }
 
 @media screen and (min-width: 480px)  {
-  .gmcltWX_currentOne {
+  .gmcltWX_narrowColumnOne {
     float: left; } }
 @media screen and (min-width: 1200px)  {
-  .gmcltWX_currentOne {
+  .gmcltWX_narrowColumnOne {
     float: none; } }
 
 @media screen and (min-width: 480px)  {
-  .gmcltWX_currentTwo {
+  .gmcltWX_narrowColumnTwo {
     float: left;
     padding-left: 20px; } }
 @media screen and (min-width: 1200px)  {
-  .gmcltWX_currentTwo {
+  .gmcltWX_narrowColumnTwo {
     float: none; } }
 
 .gmcltWX_data h4 {
@@ -15253,14 +15253,14 @@ body {
 .gmcltWX_data p.gmcltWX_dataSmall {
   font-size: 0.7em; }
 
-.gmcltWX_currentIcon {
+.gmcltWX_narrowColumnIcon {
   float: left;
   width: 50%; }
 
-.gmcltWX_currentIcon img {
+.gmcltWX_narrowColumnIcon img {
   width: 95%; }
 
-.gmcltWX_currentTemp {
+.gmcltWX_narrowColumnTemp {
   width: 50%;
   font-size: 5em;
   float: left; }
@@ -15275,12 +15275,12 @@ body {
     .gmcltWX_desktop {
       display: inline; } }
 
-.gmcltWX_forecast {
+.gmcltWX_wideColumn {
   box-sizing: border-box;
   font-size: 16px;
   width: 100%; }
   @media screen and (min-width: 1200px)  {
-    .gmcltWX_forecast {
+    .gmcltWX_wideColumn {
       margin-left: 10px;
       width: 60%;
       float: left; } }
@@ -15380,18 +15380,24 @@ a:hover .breaking-news-banner {
 .secondary-nav .menu-item a:active, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:hover {
   color: #cf000f; }
 
-.embed-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  max-width: 100%; }
+#GMCLTstateSelect {
+  margin-bottom: 10px; }
 
-.embed-container iframe, .embed-container div, .embed-container object, .embed-container embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; }
+#stormwatchMap-canvas {
+  margin: auto;
+  width: 80%;
+  height: 350px; }
+  @media screen and (min-width: 1200px)  {
+    #stormwatchMap-canvas {
+      width: 100%;
+      height: 700px; } }
+
+#radarMap-canvas {
+  margin: auto;
+  width: 80%;
+  height: 300px; }
+  @media screen and (min-width: 1200px)  {
+    #radarMap-canvas {
+      width: 100%; } }
 
 /*# sourceMappingURL=wbt.css.map */
