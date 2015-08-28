@@ -70,7 +70,10 @@
 
 .live-player__container {
 	border-bottom: 1px solid white;
+	background-color:#002a6e;
+	height:375px	
 }
+
 
 .now-playing__artist {
 	color: $color-gray-medium-dark;
@@ -457,26 +460,27 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
 }
 
 .header__logo {
-	background:url(../../images/header-logo1.png) no-repeat;
-	border:solid 1px #6bb3ee;
+	background:url(../../images/header-logo-large.png) no-repeat;
+	border:solid 0px #6bb3ee;
 	background-position:center top;
 	background-size:contain;
 	display:block;
-	width:175px;
-	height:37px;
-	z-index:1000!important;
+	width:75px;
+	height:75px;
+	z-index:1000;
 	cursor:pointer;
-	margin:24px 23% 0
+	margin:5px 37% 0;
 }
 
+
 .header__logo img {
-	z-index:1!important;
-	display:none!important
+	z-index:1;
+	display:none
 }
 
 .header__logo--img {
-	z-index:1!important;
-	display:none!important
+	z-index:1;
+	display:none;
 }
 
 /* ------------- END MASTHEAD -------------------------------*/
@@ -690,7 +694,8 @@ media 400px
 	}
 
 	.header__logo {
-		margin:24px 28% 0
+		margin:5px 40% 0;
+
 	}
 
 	.footer,.footer .container {
@@ -730,6 +735,12 @@ media 768px
 -----------------------------------*/
 @media screen and (min-width: 768px) {
 
+
+	.live-player__container {
+
+		background-color:transparent;
+	
+	}
 
 	.header__nav-submenu--features li:hover p{
 		color:#fff!important;
@@ -772,10 +783,7 @@ media 768px
 		color:#fff
 	}
 
-	.live-player__container,.no-volume-control {
-		background-color:#002a6e!important;
-		height:375px
-	}
+
 
 	.header__main {
 		border-top:none;
@@ -824,17 +832,17 @@ media 768px
 	}
 
 	.header {
-		background-color:transparent!important;
-		background-image:url(../../images/header.jpg)!important;
+		background-color:transparent;
+		background-image:url(../../images/header.jpg);
 		background-position:center top;
 		background-size:cover;
-		height:215px!important;
-		-webkit-animation-name:no_name!important;
+		height:auto;
+		-webkit-animation-name:no_name;
 	/* -webkit-animation-duration: 30s;
 	  -webkit-animation-iteration-count: 5;
 	  -webkit-animation-direction: normal;
 	  -webkit-animation-timing-function: steps(1,end);*/
-		animation-name:no_name!important
+		animation-name:no_name;
 	/* animation-duration: 30s;
 	  animation-iteration-count: 5;
 	  animation-direction: normal;
@@ -842,15 +850,9 @@ media 768px
 	}
 
 	.header__logo {
-		background:url(../../images/header-logo1.png) no-repeat;
-		background-position:center top;
-		display:block;
-		width:225px;
-		height:47px;
-		z-index:1000!important;
-		cursor:pointer;
-		margin:20px 28% 0;
-		max-width:100%
+
+		margin:8px 40% 0;
+
 	}
 
 	.header__secondary {
@@ -1008,14 +1010,9 @@ media 768px
 		color:#fff
 	}
 
-	.live-player__container {
-		background:none!important;
-		overflow:hidden
-	}
 
-	.live-player__container.live-player--active {
-		background-image:none!important
-	}
+
+
 
 	.header__account ul li a:active,.header__account ul li a:focus,.header__account ul li a:hover,.header__account ul li:hover,.header__nav ul li a:active,.header__nav ul li a:focus,.header__nav ul li.active,.header__nav ul li.active a:hover,.header__nav ul li.active a:focus,.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover,.ui-menu .ui-state-focus {
 		background-color:#034ea2!important
@@ -1038,21 +1035,37 @@ media 768px
 	.header__nav .sub-menu li {
 		font-weight:600
 	}
+
+	.gmr-user #live-player--volume {
+	  
+	  position: relative;
+	  top: 55px;
+	  z-index: 1000;
+
+	  	  .noUi-base{
+		  	background:#150958;
+		  }
+	}
 }
 
 /*-----------------------------------
 media 1024px
 -----------------------------------*/
 @media screen and (min-width: 1024px) {
-	#live-player--volume .noUi-base {
-		margin-top:54px;
-		background:#150958;
-		z-index: 1000!important;
-	}
+
+
 
 	.header__logo {
 		background-position:center top;
-		margin:25px 0 0 6px
+		background-size: contain;
+		width: 125px;
+		height: 125px;
+		display: block;
+	    position: absolute;
+	    top: -50px;
+	    left: 10px;
+  		margin:0;
+		padding:0;
 	}
 
 	.header__secondary {
@@ -1152,11 +1165,11 @@ media 1175px
 		background-size:contain;
 		background-position:center top;
 		border:solid 0 #fff;
-		width:180px;
-		height:232px;
+		width:200px;
+		height:200px;
 		display:block;
 		position:absolute;
-		top:-110px;
+		top:-130px;
 		left:20px;
 		margin:0;
 		padding:0;
