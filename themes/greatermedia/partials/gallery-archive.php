@@ -53,12 +53,12 @@ if ( $query->have_posts() ) : ?>
 
 		<div class="gallery__featured--secondary">
 
-			<?php if ( $query->have_posts() ) : ?>
+			<?php if ( $query->have_posts() && $query->post_count > 1 ) : ?>
 				<?php $query->the_post(); ?>
 				<?php get_template_part( 'partials/gallery-featured', 'secondary' ); ?>
 			<?php endif; ?>
 
-			<?php if ( $query->have_posts() ) : ?>
+			<?php if ( $query->have_posts() && $query->post_count > 2 ) : ?>
 				<?php $query->the_post(); ?>
 				<?php get_template_part( 'partials/gallery-featured', 'secondary' ); ?>
 			<?php endif; ?>
