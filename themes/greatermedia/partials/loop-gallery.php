@@ -31,10 +31,12 @@ if ( 'show' == get_post_type() ) {
 $query = new WP_Query( $query_args );
 
 if ( $query->have_posts() ) :
+	if ( $page == 1 ) : ?>
 
-?>
 <h2 class="section-header"><?php _e( 'Galleries', 'greatermedia' ); ?></h2>
-<?php
+
+	<?php
+	endif;
 
 	while ( $query->have_posts() ) :
 		$query->the_post();
