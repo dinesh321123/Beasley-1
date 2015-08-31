@@ -32,6 +32,10 @@ $query = new WP_Query( $query_args );
 
 if ( $query->have_posts() ) :
 
+?>
+<h2 class="section-header"><?php _e( 'Galleries', 'greatermedia' ); ?></h2>
+<?php
+
 	while ( $query->have_posts() ) :
 		$query->the_post();
 		get_template_part( 'partials/gallery-grid' );

@@ -71,8 +71,6 @@ if ( $query->have_posts() ) : ?>
 
 	<div class="gallery__grid">
 
-		<h2 class="section-header"><?php _e( 'Albums', 'greatermedia' ); ?></h3>
-
 		<?php get_template_part( 'partials/loop', 'album' ); ?>
 
 	</div>
@@ -80,8 +78,6 @@ if ( $query->have_posts() ) : ?>
 	<?php wp_reset_postdata(); ?>
 
 	<div class="gallery__grid">
-
-		<h2 class="section-header"><?php _e( 'Galleries', 'greatermedia' ); ?></h3>
 
 		<?php get_template_part( 'partials/loop', 'gallery' ); ?>
 
