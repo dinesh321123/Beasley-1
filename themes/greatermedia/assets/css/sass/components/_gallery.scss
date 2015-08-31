@@ -877,10 +877,14 @@ category: Components - Gallery Archive
 
 	.section-header {
 		margin: 20px 0;
+		font-size: 1.6em;
+		font-weight: bold;
+		color: #404041;
+		text-transform: uppercase;
 
-		@include bp(medium) {
+		/*@include bp(medium) {
 			display: none;
-		}
+		}*/
 	}
 }
 

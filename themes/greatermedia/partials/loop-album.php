@@ -8,11 +8,11 @@ if ( empty( $page ) ) {
 }
 
 $query_args = array(
-	'post_type'      => array( 'gmr_gallery' ),
+	'post_type'      => array( 'gmr_album' ),
 	'orderby'        => 'date',
 	'order'          => 'DESC',
-	'posts_per_page' => 16,
-	'offset'         => 3 + 16 * ( $page - 1 ),
+	'posts_per_page' => 100,
+	'offset'         => 0,
 );
 
 if ( 'show' == get_post_type() ) {
@@ -44,7 +44,7 @@ if ( $query->have_posts() ) :
 		greatermedia_load_more_button( array(
 			'query'        => $query,
 			'partial_slug' => 'partials/loop',
-			'partial_name' => 'gallery',
+			'partial_name' => 'album',
 			'auto_load'    => false,
 		) );
 	endif;

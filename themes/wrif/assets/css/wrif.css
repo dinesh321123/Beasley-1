@@ -12010,10 +12010,14 @@ category: Components - Gallery Archive
       .gallery__grid:last-child {
         margin-right: 0; } }
   .gallery__grid .section-header {
-    margin: 20px 0; }
-    @media screen and (min-width: 768px)  {
-      .gallery__grid .section-header {
-        display: none; } }
+    margin: 20px 0;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #404041;
+    text-transform: uppercase;
+    /*@include bp(medium) {
+			display: none;
+		}*/ }
 
 .gallery__featured {
   display: block; }

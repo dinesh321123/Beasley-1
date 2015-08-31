@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WCSX_VERSION', '0.2.1' ); /* Version bump by Steve 7/23/2015 @ 4:40pm EST */
+define( 'WCSX_VERSION', '0.2.2' ); /* Version bump by Steve 8/31/2015 @ 10:30pm EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
