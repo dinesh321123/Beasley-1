@@ -10,7 +10,7 @@ class GreaterMediaUserGeneratedImage extends GreaterMediaUserGeneratedContent {
 
 	/**
 	 * Returns post format.
-	 * 
+	 *
 	 * @access protected
 	 * @return string The post format.
 	 */
@@ -18,11 +18,11 @@ class GreaterMediaUserGeneratedImage extends GreaterMediaUserGeneratedContent {
 		return 'image';
 	}
 
-	public static function first_image( $post_content ) {
+	public static function first_image( $post_content, $size = 'thumbnail' ) {
 
 		$first_img = get_post_thumbnail_id();
 		if ( $first_img ) {
-			$first_img = wp_get_attachment_image_src( $first_img );
+			$first_img = wp_get_attachment_image_src( $first_img, $size );
 			if ( ! empty( $first_img ) ) {
 				return current( $first_img );
 			}
@@ -34,7 +34,7 @@ class GreaterMediaUserGeneratedImage extends GreaterMediaUserGeneratedContent {
 		}
 
 		return $first_img;
-		
+
 	}
 
 	/**
@@ -47,12 +47,17 @@ class GreaterMediaUserGeneratedImage extends GreaterMediaUserGeneratedContent {
 		$html = '';
 
 		$first_image = $this->first_image( $this->post->post_content );
+		$first_image_full = $this->first_image( $this->post->post_content, 'full' );
 
 		$html .= '<div class="ugc-moderation-data">' .
 			'<div class="ugc-moderation-gallery-thumb">' .
+			'<a title="Click to view full size" href="' .
+			esc_attr( $first_image_full ) .
+			'" target="_blank">' .
 			'<img src="' .
 			esc_attr( $first_image ) .
 			'" />' .
+			'</a>' .
 			'</div>' .
 			'</div>';
 
