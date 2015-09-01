@@ -284,10 +284,15 @@ class GreaterMediaUserGeneratedContent {
 		include trailingslashit( GREATER_MEDIA_CONTESTS_PATH ) . 'tpl/moderation-approved-row.tpl.php';
 		$approved_row = ob_get_clean();
 
+		ob_start();
+		include trailingslashit( GREATER_MEDIA_CONTESTS_PATH ) . 'tpl/moderation-unapproved-row.tpl.php';
+		$unapproved_row = ob_get_clean();
+
 		// AJAX Templates
 		$greatermedia_ugc = array(
 			'templates' => array(
-				'approved' => $approved_row
+				'approved' => $approved_row,
+				'unapproved' => $unapproved_row
 			),
 		);
 
@@ -377,6 +382,25 @@ class GreaterMediaUserGeneratedContent {
 				wp_send_json_success( array( 'ids' => $ugc_id ) );
 			}
 
+		} elseif ( 'unapprove' === $ugc_action ) {
+
+			$ugc_id = intval( get_query_var( 'ugc' ) );
+			if ( empty( $ugc_id ) ) {
+				return;
+			}
+
+			$nonce = isset( $_REQUEST['_wpnonce'] ) ? $_REQUEST['_wpnonce'] : '';
+			if ( false === wp_verify_nonce( $nonce, 'unapprove-ugc_' . $ugc_id ) ) {
+				wp_nonce_ays( 'unapprove-ugc_' . $ugc_id );
+			}
+
+			$ugc = self::for_post_id( $ugc_id );
+			$ugc->unapprove();
+
+			if ( '.json' === $output ) {
+				wp_send_json_success( array( 'ids' => $ugc_id ) );
+			}
+
 		} elseif ( 'gallery-delete' === $ugc_action ) {
 
 			$ugc_id = intval( get_query_var( 'ugc' ) );
@@ -447,6 +471,18 @@ class GreaterMediaUserGeneratedContent {
 					wp_send_json_success( array( $$ugc_ids ) );
 				}
 
+			} elseif ( 'unapprove' === $action ) {
+
+				// Unapprove each post
+				foreach ( $ugc_ids as $ugc_id ) {
+					$ugc = self::for_post_id( $ugc_id );
+					$ugc->unapprove();
+				}
+
+				if ( '.json' === $output ) {
+					wp_send_json_success( array( $$ugc_ids ) );
+				}
+
 			} elseif ( 'trash' === $action ) {
 
 				// Trash each post
@@ -497,6 +533,16 @@ class GreaterMediaUserGeneratedContent {
 	}
 
 	/**
+	 * Unapprove this User Generated Content
+	 */
+	public function unapprove() {
+
+		$this->post->post_status = 'pending';
+		wp_update_post( $this->post );
+
+	}
+
+	/**
 	 * Retrieve a list of rewrite rules this class implements
 	 * @return array
 	 */
@@ -508,6 +554,7 @@ class GreaterMediaUserGeneratedContent {
 			$rewrite_rules = array(
 				'^ugc/bulk'                          => 'index.php?ugc_action=bulk&ugc=$matches[1]',
 				'^ugc/(.*)/approve(.*)?'             => 'index.php?ugc_action=approve&ugc=$matches[1]&output=$matches[2]',
+				'^ugc/(.*)/unapprove(.*)?'           => 'index.php?ugc_action=unapprove&ugc=$matches[1]&output=$matches[2]',
 				'^ugc/(.*)/gallery/(.*)/delete(.*)?' => 'index.php?ugc_action=gallery-delete&ugc=$matches[1]&ugc_attachment=$matches[2]&output=$matches[3]',
 			);
 

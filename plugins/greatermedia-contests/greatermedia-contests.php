@@ -2,7 +2,7 @@
 /*
 Plugin Name: Greater Media Contests
 Description: Contest Features
-Version: 1.0.6
+Version: 1.1.1
 Author: 10up
 Author URI: http://10up.com
 */

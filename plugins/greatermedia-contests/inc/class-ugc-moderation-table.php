@@ -71,7 +71,7 @@ class GreaterMediaUserGeneratedContentModerationTable extends WP_List_Table {
 		$this->query = new WP_Query(
 			array(
 				'post_type'   => GMR_SUBMISSIONS_CPT,
-				'post_status' => 'pending',
+				'post_status' => array( 'pending', 'publish' ),
 				'order'       => 'DESC',
 				'orderby'     => 'date',
 			)
@@ -123,6 +123,7 @@ class GreaterMediaUserGeneratedContentModerationTable extends WP_List_Table {
 			$actions = array();
 
 			$actions['approve'] = __( 'Approve' );
+			$actions['unapprove'] = __( 'Unapprove' );
 			$actions['trash']   = __( 'Move to Trash' );
 		}
 
@@ -214,6 +215,21 @@ class GreaterMediaUserGeneratedContentModerationTable extends WP_List_Table {
 	public function approve_link( $post_id ) {
 
 		$url = home_url( sprintf( 'ugc/%d/approve', intval( $post_id ) ) );
+
+		return $url;
+
+	}
+
+	/**
+	 * Build a URL for unapproving an item of User Generated Content
+	 *
+	 * @param $post_id
+	 *
+	 * @return string
+	 */
+	public function unapprove_link( $post_id ) {
+
+		$url = home_url( sprintf( 'ugc/%d/unapprove', intval( $post_id ) ) );
 
 		return $url;
 
