@@ -57,3 +57,14 @@ function greatermedia_json_post_format( $post, $data, $update ) {
 	}
 }
 add_filter('json_insert_post', 'greatermedia_json_post_format', 20, 3 );
+
+function greatermedia_json_wpseo_redirect( $post, $data, $update ) {
+	if ( ! empty( $data['x-redirect'] ) ) {
+		$redirect_url = trim( esc_url_raw( $data['x-redirect'] ) );
+
+		if ( ! empty( $redirect_url ) ) {
+			update_post_meta( $post['ID'], '_yoast_wpseo_redirect', $redirect_url );
+		}
+	}
+}
+add_filter( 'json_insert_post', 'greatermedia_json_wpseo_redirect', 20, 3 );
