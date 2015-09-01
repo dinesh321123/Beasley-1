@@ -28,6 +28,7 @@ body {
 }
 
 .live-player__stream {
+	display: none;
 	border: 1px solid lighten($color-gray-medium-dark,50%);
 	color: lighten($color-gray-medium-dark,50%);
 	@include border-radius(1em);
@@ -66,10 +67,6 @@ body {
 		}
 	}
 
-}
-
-.live-player__container {
-	border-bottom: 1px solid white;
 }
 
 .now-playing__artist {
@@ -198,8 +195,16 @@ body {
 }
 
 .live-player {
-// 	background-image: url(../../images/LivePlayerBackground.png);
+ 	background-image: url(../../images/player-bg.png);
 	background-repeat: no-repeat;
+}
+
+.live-stream {
+	background-color: transparent;
+}
+
+.live-stream__listen-now--btn {
+	background-color: white !important;
 }
 
 .gmcltWX_narrowColumn {
