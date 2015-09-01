@@ -183,7 +183,7 @@ li:last-child {@include border-bottom-radius(1em);}
 
 /* Site body background color - behind featured items */
 
-.home__featured { 
+.home__featured {
   background: url("../../images/wdha-body-bkg.jpg") no-repeat;
   background-color: #c00000;
 }
@@ -262,14 +262,14 @@ a:hover .highlights__community--title {color:#ccc;}
  .featured__article:hover .featured__article--heading {color: #fff;}
 
 .header__nav {font-family: 'Istok+Web', sans-serif;}
-    
+
 /* Sub-Feature box color */
 .home__featured .featured__content--block {
     background-color: #720000;
   opacity: 0.9;
 }
 
-    
+
 /* Events box color */
 .highlights__event--item {
   background-color: #7d0000;
@@ -348,7 +348,7 @@ a:hover .highlights__community--title {color:#ccc;}
   font-family: 'Istok+Web' sans-serif;
 }
 
-@media screen and (min-width:320px) { 
+@media screen and (min-width:320px) {
 
 .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
   float: right;
@@ -360,10 +360,10 @@ a:hover .highlights__community--title {color:#ccc;}
 }
 
 .entry2__footer--read-more:active,.entry2__footer--read-more:focus,.entry2__footer--read-more:hover{color:#c00000;}
-    
+
 .h1 a:active, .h1 a:focus, .h1 a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {color: #c00000;}
-    
-/* Live stream player color */     
+
+/* Live stream player color */
 .live-stream__btn--play {
   -webkit-transform: rotateX(180deg);
   -moz-transform: rotateX(180deg);
@@ -384,9 +384,9 @@ a:hover .highlights__community--title {color:#ccc;}
   border: none;
   background: #c20000;
   color: #f2f2f2;
-}      
-    
-/* Social link color and padding */ 
+}
+
+/* Social link color and padding */
 .header__social .social__list {padding: 0 7px;}
 
 .header__social .social__list li {padding: 0 5px;}
@@ -409,7 +409,7 @@ a:hover .highlights__community--title {color:#ccc;}
   border-color:#c00000;
   color:#c00000;
 }
-    
+
 a.social-share-link:hover,a.social__link:hover{
   color:#c00000;
   border-color:#c00000;
@@ -417,7 +417,7 @@ a.social-share-link:hover,a.social__link:hover{
 
 /* Live stream background color */
 .live-links { background-color:#A2A5A4;}
-    
+
 .live-stream {background: #f2f2f2 url(../../images/wdha_listenlive_header.png) no-repeat;}
 
 .live-player {
@@ -425,9 +425,9 @@ a.social-share-link:hover,a.social__link:hover{
   font-weight: 400;
   font-family: 'Istok+Web', sans-serif;
 }
-    
+
 .live-link__song:hover,.live-link__song:hover .live-link__song--title,.live-link__song:hover:before{color:#000;}
-  
+
 .live-player__container {
   background-color: #f2f2f2;
   transition: all 200ms ease-in-out;
@@ -435,9 +435,9 @@ a.social-share-link:hover,a.social__link:hover{
   -webkit-transition: all 200ms ease-in-out;
   overflow:hidden;
 }
-    
+
 .live-player__container {border-bottom: 1px #fff;}
-    
+
 .live-link__title, .live-link__title a:link, .live-link__title a:visited {color: $white;}
 
 .live-link__song:before {color: $white;}
@@ -458,7 +458,7 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 .live-link__title a:link, .live-link__title a:visited {color: $white;}
-                                            
+
 /*.live-links {
   visibility: hidden;
   padding: 16px 0 0;
@@ -468,7 +468,7 @@ a.social-share-link:hover,a.social__link:hover{
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 } */
-                                                         
+
 /*.header__logo {margin: 20px 0 0 50px;}*/
 
 .live-link__song {
@@ -478,7 +478,7 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 .widget--live-player a:hover {color: #fff;}
-                                         
+
 /* Background rollover color of last played songs */
 .widget--live-player a:hover > div {background: #c00000;}
 
@@ -509,7 +509,7 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 .live-link__song--title p:hover {color: #fff;}
-    
+
 /* Live Links header title color */
 
 .widget--live-player__title {
@@ -534,7 +534,7 @@ a.social-share-link:hover,a.social__link:hover{
   background-color: #333;
   border-bottom: none;
 }
-                                            
+
 /* Background behind last played More button */
 .live-links--more {
   background-color: #f2f2f2;
@@ -553,7 +553,7 @@ a.social-share-link:hover,a.social__link:hover{
   background: linear-gradient(to bottom, rgba(153,153,153,1) 0%,rgba(242,242,242,1) 100%)!important; /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#f2f2f2',GradientType=0 )!important; /* IE6-9 */
 }
-    
+
  /* .live-links--more:before {
   background: -moz-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
   background: -webkit-gradient(linear,left top,left bottom,color- stop(0,rgba(255,255,255,0),color-stop(100%,#000)));
@@ -562,16 +562,16 @@ a.social-share-link:hover,a.social__link:hover{
   background: -ms-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
   background: linear-gradient(to bottom,rgba(219,138,138,0)0,#f2f2f2 100%);
 } */
-    
+
 /* Featured box background desktop */
 .home__featured .featured__article--content {
   background-color: #7d0000;
   color: #7d0000;
   opacity: 0.9;
 }
-        
-}    
-    
+
+}
+
 @media screen and (min-width:1024px) {
 
 .header__nav li {
@@ -620,14 +620,14 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 @media screen and (min-width:1252px) {
- 
+
 .header__account ul li a,
 .header__account ul li a:link,
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
 .header__nav ul li a:visited {padding: 33px .4em 32px;}
-}                                                                                       
+}
 /* Site background */
 .main {background: #000;}
 
@@ -660,7 +660,7 @@ a:hover .highlights__event--title {
    color: #fff;
    font-family: 'Istok+Web', sans-serif;
 }
-    
+
 /* Featured content btn */
 .featured__content--btn {
   background-color: #5E0000;
@@ -720,8 +720,8 @@ a:hover .highlights__event--title {
 
 .live-link__song:hover:before,.live-link__type--audio:hover:before,.live-link__type--gallery:hover:before,.live-link__type--image:hover:before,.live-link__type--link:hover:before,.live-link__type--standard:hover:before,.live-link__type--video:hover:before {
   color:#000;
-}     
-        
+}
+
 .live-link__title a:link,.live-link__title a:visited {
   color:#c00000;
 }
@@ -745,7 +745,7 @@ a:hover .highlights__event--title {
   text-transform: uppercase;
   transition: all 200ms ease-in-out 0s;
 }
-    
+
 .live-links--more__btn:focus,.live-links--more__btn:hover {
   background-color:#781214;
   border-color:#781214;
@@ -777,9 +777,9 @@ a:hover .highlights__event--title {
 
 .live-links--more__btn:hover:last-of-type {margin-right:0;}
 
-/* Login page */     
-.profile-page__sidebar .profile-header-link {color: #fff;}    
-    
+/* Login page */
+.profile-page__sidebar .profile-header-link {color: #fff;}
+
 .profile-page .profile-page__sidebar {
   background-color: #c00000;
   background-image: url("../../images/profile_bg.jpg");
@@ -787,8 +787,8 @@ a:hover .highlights__event--title {
   background-size: cover;
   color: #fff;
   text-align: left;
-} 
-    
+}
+
 #profile-content .gigya-screen input[type="submit"] {
   float: right;
   width: 7em;
@@ -798,34 +798,34 @@ a:hover .highlights__event--title {
   border: none;
   border-radius: 20px;
   padding: 0.6em 1.5em;
-}    
-    
+}
+
 #profile-content .gigya-screen .new-account-msg a {
   color: #c00000;
   display: inline;
 }
 
 .profile-page__sidebar .profile-header-link:hover {color: #000;}
-    
+
 .profile-page__sidebar .profile-header-text:hover {color: #000;}
-    
+
 .profile-page__sidebar .profile-header-sep {
     color: #fff;
   opacity: 100;
 }
 
 @media screen and (min-width: 768px) {
-    
+
 .section-header {font-size: 1em;}
 
 a:link, a:visited {
   color: #c00000;
   text-decoration: none;
-}  
+}
 
-/*navigation rollover color */   
+/*navigation rollover color */
 .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {background-color: #c20000;}
-    
+
 .header__account--links.sub-menu, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .ui-menu {
   background-color: #fff;
   border-top: 7px solid #c20000;
@@ -834,10 +834,10 @@ a:link, a:visited {
   position: absolute;
   z-index: 5000100;
 }
-    
-/* Mobile nav rollover - Not all work */ 
+
+/* Mobile nav rollover - Not all work */
 .mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#c20000;}
-    
+
 .mobile-nav__list {
   padding:0;
   margin:0;
@@ -859,41 +859,41 @@ a:link, a:visited {
 }
 
 .mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#fff;}
-  
+
 .mobile-nav .mobile-menu-submenu-header {
   background-color:#c20000;
   color:#fff;
   padding:18px 1.25em;
 }
-  
+
 .mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#c20000;}
-    
+
 .mobile-nav .mobile-menu-submenu-header {
   background-color:#c20000;
   color:#fff;
   padding:18px 1.25em
 }
 
-.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#c20000}    
-    
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#c20000}
+
 /* Mobile features */
 a:hover .highlights__event--date,a:hover .highlights__event--title {color:#fff}
-    
+
 .featured__article:hover .featured__article--heading {color:#fff;}
-    
+
 .featured__article--heading a:focus,.featured__article--heading a:hover {color:#fff;}
-    
+
 .featured__content--block:hover .featured__content--title {color:#fff;}
-    
+
 .home__featured .featured__content--title a:focus,.home__featured .featured__content--title a:hover {color:#fff;}
-    
+
 a:hover .highlights__community--title {color:#ccc;}
-    
+
 .highlights__events--more-btn:hover {
   color:#fff !important;
   border-color:#000;
 }
-    
+
     .featured__content--block:hover {
       background: #781214;
 
@@ -903,7 +903,7 @@ a:hover .highlights__community--title {color:#ccc;}
 .header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {color: #fff;}
 }
 
-/* Live stream button colors */   
+/* Live stream button colors */
 @media screen and (min-width:768px){
 
 .live-stream__listen-now--btn,.podcast__rss {
@@ -932,14 +932,14 @@ a:hover .highlights__community--title {color:#ccc;}
   color:#fff;
 }
 
- /* Header search color */      
- .header__search {color: #fff;}   
-       
+ /* Header search color */
+ .header__search {color: #fff;}
+
 a.social-share-link:hover,a.social__link:hover {
   color:#c00000;
   border-color:#c00000;
 }
-    
+
 .header__account--logged-out, .header__account--span {color: #fff;}
 }
 
@@ -968,7 +968,7 @@ a.social-share-link:hover,a.social__link:hover {
   bottom: 0;
   left: 0;
 }
-    
+
 .tribe-events-button {
   background-color: #c00000 !important;
   border: 1px solid #c00000 !important;
@@ -990,11 +990,11 @@ a.social-share-link:hover,a.social__link:hover {
   background-color: #c00000 !important;
   border: 1px solid #c00000 !important;
   color: #fff !important;
-} 
+}
 
-/* Header login color */  
+/* Header login color */
 .header__account--logged-out, .header__account--span {color: #fff;}
-  
+
    .featured__content--block:hover {
       background: #5E0000;
 
@@ -1016,4 +1016,10 @@ a.social-share-link:hover,a.social__link:hover {
 
 .single-show .highlights__community--item:hover .highlights__community--title{
   color:#ccc;
+}
+
+.show__mini-nav .show__header {
+    background-color: #5d0000;
+    border-top: solid 1px #c00000;
+    padding: 1px 5px 0 5px;
 }

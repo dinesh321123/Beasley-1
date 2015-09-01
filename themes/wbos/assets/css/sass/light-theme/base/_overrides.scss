@@ -151,7 +151,7 @@
 }
 
 /* -------------------------------------------
-Denis Changes to _overrides.scss file 5/20 
+Denis Changes to _overrides.scss file 5/20
 --------------------------------------------*/
 
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500);
@@ -161,7 +161,7 @@ Denis Changes to _overrides.scss file 5/20
 /* ------------- HIGHLIGHTS -------------------------------*/
 
 #site-wrap.site-wrap {background-size: cover;
-                      background-color: #061222; 
+                      background-color: #061222;
                       /*background-image:url("http://i.imgur.com/AQ8tELI.jpg")!important;*/
                       background-image:url("../../images/img_BGCrowd2.jpg");
                       background-repeat: no-repeat;
@@ -176,7 +176,7 @@ Denis Changes to _overrides.scss file 5/20
  #page-wrap.page-wrap,
 .main,
 .home .container
-{background-color: transparent; background-image: none;}        
+{background-color: transparent; background-image: none;}
 
 .highlights__heading {
     color: #fff;
@@ -184,7 +184,7 @@ Denis Changes to _overrides.scss file 5/20
     text-transform: uppercase;
     font-family: 'Ubuntu', sans-serif;
     padding: 10px;
-    background-color:#005596; 
+    background-color:#005596;
 }
 
 
@@ -218,7 +218,7 @@ Denis Changes to _overrides.scss file 5/20
 
 /* ------------- LIVE PLAYER BTN -------------------------------*/
 .live-player__stream{
-    margin-top: 110px; 
+    margin-top: 110px;
     z-index: 1001;
     background-color: rgba(0,0,0,.5);
     color: #fff;
@@ -364,7 +364,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #004c90; colo
 
 
 
-.highlights__events--more-btn {     
+.highlights__events--more-btn {
     background-color: #0e2242;
     border: 2px solid #0e2242;
     color: #fff;
@@ -393,7 +393,7 @@ h2.entry2__title a:hover{color: #f58426;}
 .entry2__footer--read-more:link, .entry2__footer--read-more:visited {color: #002a6e;}
 
     .entry2__thumbnail__overlay,
-    .entry2__thumbnail__icon, 
+    .entry2__thumbnail__icon,
     .entry2__thumbnail--event-date,
     .type-contest .entry2__thumbnail--contest-type,
     .type-contest .entry2__thumbnail--end-date{
@@ -423,7 +423,7 @@ h2.entry2__title a:hover{color: #f58426;}
 
         position: relative;
         top: 10px!important;
-    
+
         .now-playing__title {color: #fff;font-size: .95em;font-weight: 700;text-shadow: 0px 0px 5px rgba(0, 0, 0, .4); line-height:1.30em;}
         .now-playing__artist {color: #fff;font-size: .90em;font-weight: 500;font-style: italic;text-shadow: 0px 0px 5px rgba(0, 0, 0, .4);line-height:1.30em;}
 
@@ -447,7 +447,7 @@ h2.entry2__title a:hover{color: #f58426;}
             padding-left: 10px;
             background: transparent url(../../images/play-button.png);
             background-position: center center;
-            color: #fff; 
+            color: #fff;
             border: 0px solid #002a6e;
             -webkit-transform: rotateX(0deg);
             -moz-transform: rotateX(0deg);
@@ -458,7 +458,7 @@ h2.entry2__title a:hover{color: #f58426;}
         }
 
     .live-stream {
-       
+
         background-color: #000;
 
           .on-air, .up-next,
@@ -468,9 +468,14 @@ h2.entry2__title a:hover{color: #f58426;}
 
     }
 
+.show__mini-nav .show__header .show__nav .show__title a:hover,
+.show__mini-nav .show__nav li a:hover {
+    color: #004c90;
+}
+
 
 /*----------------------------------------------------------------------------------------------------------------------
-media 400px 
+media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
 
 @media screen and (min-width:400px) {
@@ -494,7 +499,7 @@ media 400px
 }
 
 /*-----------------------------------
-media 768px 
+media 768px
 -----------------------------------*/
 @media screen and (min-width:768px) {
 
@@ -505,7 +510,7 @@ media 768px
     color:#fff;
   }
 
-.live-player--active .now-playing, 
+.live-player--active .now-playing,
 .now-playing
     {
         padding: 75px 0em 0;
@@ -586,7 +591,7 @@ media 768px
 span.icon-user { color: #fff;}
 
 
-ul#live-links__blogroll {    
+ul#live-links__blogroll {
     background-image: url(../../images/img_meshBG2.jpg);
     background-position: center;}
 div#live-player { background-color: transparent;}
@@ -617,22 +622,22 @@ div#live-player { background-color: transparent;}
         }
 
         .live-stream__controls {
-            
+
             position: relative;
             top: 13px;
             color: #fff;
 
 
         }
-        
 
 
 
 
- 
+
+
         .live-stream__login {
             /*display: none;*/
-            
+
             position: relative;
             top: -20px;
             padding: 6px 0 0 0;
@@ -647,11 +652,11 @@ div#live-player { background-color: transparent;}
             text-transform: uppercase;
         }
 
-        
+
         .live-stream__now-playing--btn,
         .live-stream__listen-now--btn {
             /*display: none;*/
-            
+
             position: relative;
             top: -20px;
             border: 0px;
@@ -729,7 +734,7 @@ div#live-player { background-color: transparent;}
     }
     .live-links--more:before {
 
-      
+
         background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(14,34,66,1) 100%); /* FF3.6+ */
         background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(14,34,66,1))); /* Chrome,Safari4+ */
         background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(14,34,66,1) 100%); /* Chrome10+,Safari5.1+ */
@@ -760,7 +765,7 @@ div#live-player { background-color: transparent;}
 
 
 .header__account--btn:hover {background-color: #004c90;}
-  .main {background-color: transparent; background-image: none;  } 
+  .main {background-color: transparent; background-image: none;  }
 
 .now-playing__info{
         .now-playing__title {font-size:1.10em;color: #002a6e;}
@@ -778,7 +783,7 @@ div#live-player { background-color: transparent;}
 
 
 /*-----------------------------------
-media 1024px 
+media 1024px
 -----------------------------------*/
 @media screen and (min-width:1024px) {
 
@@ -819,7 +824,7 @@ media 1024px
 }
 
 /*-----------------------------------
-media 1175px 
+media 1175px
 -----------------------------------*/
 @media screen and (min-width:1175px) {
 
@@ -846,10 +851,15 @@ media 1175px
       z-index: 1000;
     }
     .ad__leaderboard.desktop {float: right;margin: 10px 100px 10px 0;}
-} 
+
+    .show__mini-nav .show__header {
+      padding-left: 225px;
+    }
+
+}
 
 /*-----------------------------------
-media 1252px 
+media 1252px
 -----------------------------------*/
 @media screen and (min-width:1252px) {
 
@@ -860,8 +870,8 @@ media 1252px
     .header__nav ul li a,
     .header__nav ul li a:link,
     .header__nav ul li a:visited {
-      
-        padding: 33px 1.125em 32px;
+
+        padding: 33px .7em 32px;
     }
 
 
@@ -874,7 +884,7 @@ media 1252px
         50%{background-image:url(../../images/img_Artists2.png);opacity:1;}
         100%{background-image:url(../../images/img_Artists3.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
-        
+
       }
 
 @-moz-keyframes artist_animation{
@@ -882,15 +892,15 @@ media 1252px
         50%{background-image:url(../../images/img_Artists2.png);opacity:1;}
         100%{background-image:url(../../images/img_Artists3.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
-        
-      }      
+
+      }
 
 @keyframes artist_animation{
         0%{background-image:url(../../images/img_Artists1.png);opacity:1;}
         50%{background-image:url(../../images/img_Artists2.png);opacity:1;}
         100%{background-image:url(../../images/img_Artists3.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
-        
+
 }
 
 .ad__leaderboard.desktop {float: none;margin: 10px auto;}
@@ -936,7 +946,7 @@ media 1252px
 
 }
 /*-----------------------------------
-media 1400px 
+media 1400px
 -----------------------------------*/
 @media screen and (min-width:1400px) {
 
@@ -954,5 +964,9 @@ media 1400px
 
   }
 
-  
+  .show__mini-nav .show__header {
+    padding-left: 233px;
+  }
+
+
 }

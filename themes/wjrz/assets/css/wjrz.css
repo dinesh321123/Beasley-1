@@ -15864,6 +15864,14 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 .show__feature--desc time {
   display: none; }
 
+.show__mini-nav .show__header {
+  background-color: #e6a110;
+  border-bottom: solid 1px #0073cf;
+  padding: 0px 5px 1px 5px; }
+
+.show__mini-nav .show__header .show__nav .show__title a:hover {
+  color: #015da6; }
+
 .live-link__type--show {
   border-bottom-color: white;
   background: none; }

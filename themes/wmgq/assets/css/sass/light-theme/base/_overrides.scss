@@ -182,7 +182,7 @@ li:last-child {@include border-bottom-radius(1em);}
 
 /* Site body background color - behind featured items */
 .home__highlights,
-.home__featured { 
+.home__featured {
   background-color: #103368;
 }
 
@@ -257,10 +257,10 @@ li:last-child {@include border-bottom-radius(1em);}
  .featured__article:hover .featured__article--heading {color: #fff;}
 
 .header__nav {font-family: 'Istok+Web', sans-serif;}
-    
+
 /* Sub-Feature box color */
 .home__featured .featured__content--block {background-color: #103368;}
-    
+
 /* Events box color */
 .highlights__event--item {
   background-color: #40b9fd;
@@ -339,7 +339,7 @@ li:last-child {@include border-bottom-radius(1em);}
 }
 
 
-@media screen and (min-width:320px) { 
+@media screen and (min-width:320px) {
 
 .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
   float: right;
@@ -351,10 +351,10 @@ li:last-child {@include border-bottom-radius(1em);}
 }
 
 .entry2__footer--read-more:active,.entry2__footer--read-more:focus,.entry2__footer--read-more:hover{color:#007abd;}
-    
+
 .h1 a:active, .h1 a:focus, .h1 a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {color: #007abd;}
-    
-/* Live stream player color */     
+
+/* Live stream player color */
 .live-stream__btn--play {
   -webkit-transform: rotateX(180deg);
   -moz-transform: rotateX(180deg);
@@ -375,9 +375,9 @@ li:last-child {@include border-bottom-radius(1em);}
   border: none;
   background: #f5a81c;
   color: #f2f2f2;
-}      
-    
-/* Social link color and padding */ 
+}
+
+/* Social link color and padding */
 .header__social .social__list {padding: 0 2px;}
 
 .header__social .social__list li {padding: 0 .5px;}
@@ -400,7 +400,7 @@ li:last-child {@include border-bottom-radius(1em);}
   border-color:#007abd;
   color:#007abd;
 }
-    
+
 a.social-share-link:hover,a.social__link:hover{
   color:#007abd;
   border-color:#007abd;
@@ -408,7 +408,7 @@ a.social-share-link:hover,a.social__link:hover{
 
 /* Live stream background color */
 .live-links { background-color:#40b9fd;}
-    
+
 .live-stream {background: #f2f2f2 url(../../images/wmgq_listenlive_header.png) no-repeat;}
 
 .live-player {
@@ -416,9 +416,9 @@ a.social-share-link:hover,a.social__link:hover{
   font-weight: 400;
   font-family: 'Istok+Web', sans-serif;
 }
-    
+
 .live-link__song:hover,.live-link__song:hover .live-link__song--title,.live-link__song:hover:before{color:#103368;}
-  
+
 .live-player__container {
   background-color: #f2f2f2;
   transition: all 200ms ease-in-out;
@@ -426,10 +426,10 @@ a.social-share-link:hover,a.social__link:hover{
   -webkit-transition: all 200ms ease-in-out;
   overflow:hidden;
 }
-    
+
 .live-player__container {border-bottom: 1px #40b9fd;
 }
-    
+
 .live-link__title, .live-link__title a:link, .live-link__title a:visited {color: $white;}
 
 .live-link__song:before {color: $white;}
@@ -450,7 +450,7 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 .live-link__title a:link, .live-link__title a:visited {color: $white;}
-                                            
+
 .live-links {
   visibility: hidden;
   padding: 16px 0 0;
@@ -459,8 +459,8 @@ a.social-share-link:hover,a.social__link:hover{
   overflow: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-} 
-                                                         
+}
+
 /*.header__logo {margin: 20px 0 0 50px;}*/
 
 .live-link__song {
@@ -470,7 +470,7 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 .widget--live-player a:hover {color: #fff;}
-                                         
+
 /* Background rollover color of last played songs */
 .widget--live-player a:hover > div {background: #103368;}
 
@@ -501,7 +501,7 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 .live-link__song--title p:hover {color: #fff;}
-    
+
 /* Live Links header title color */
 
 .widget--live-player__title {
@@ -526,7 +526,7 @@ a.social-share-link:hover,a.social__link:hover{
   background-color: #232c64;
   border-bottom: none;
 }
-                                            
+
 /* Background behind last played More button */
 .live-links--more {
   background-color: #6a1515;
@@ -545,14 +545,14 @@ a.social-share-link:hover,a.social__link:hover{
   background: linear-gradient(to bottom, rgba(139,0,0,0) 0%,rgba(106,21,21,1) 100%)!important; /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#f2f2f2',GradientType=0 )!important; /* IE6-9 */
 }
-    
+
 /* Featured box background desktop */
 .home__featured .featured__article--content {
   background-color: #40b9fd;
   color: #40b9fd;
 }
-}    
-    
+}
+
 @media screen and (min-width:1024px) {
 
 .header__nav li {
@@ -599,14 +599,14 @@ a.social-share-link:hover,a.social__link:hover{
 }
 
 @media screen and (min-width:1252px) {
- 
+
 .header__account ul li a,
 .header__account ul li a:link,
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
 .header__nav ul li a:visited {padding: 33px .45em 32px;}
-                                                                                         
+
 /* Site background */
 .main {background: #0a244a;}
 }
@@ -634,7 +634,7 @@ a:hover .highlights__event--title {
   color: #fff;
    font-family: 'Istok+Web', sans-serif;
 }
-    
+
 /* Featured content btn */
 .featured__content--btn {
   background-color: #103368;
@@ -689,8 +689,8 @@ a:hover .highlights__event--title {
 
 .live-link__song:hover:before,.live-link__type--audio:hover:before,.live-link__type--gallery:hover:before,.live-link__type--image:hover:before,.live-link__type--link:hover:before,.live-link__type--standard:hover:before,.live-link__type--video:hover:before{
   color:#103368;
-}     
-        
+}
+
 .live-link__title a:link,.live-link__title a:visited{
   color:#103368;
 }
@@ -714,7 +714,7 @@ a:hover .highlights__event--title {
   text-transform: uppercase;
   transition: all 200ms ease-in-out 0s;
 }
-    
+
 .live-links--more__btn:focus,.live-links--more__btn:hover{
   background-color:#007abd;
   border-color:#007abd;
@@ -746,9 +746,9 @@ a:hover .highlights__event--title {
 
 .live-links--more__btn:hover:last-of-type{margin-right:0;}
 
-/* Login page */     
-.profile-page__sidebar .profile-header-link {color: #40b9fd;}    
-    
+/* Login page */
+.profile-page__sidebar .profile-header-link {color: #40b9fd;}
+
 .profile-page .profile-page__sidebar {
   background-color: #007abd;
   background-image: url("../../images/profile_bg.jpg");
@@ -756,8 +756,8 @@ a:hover .highlights__event--title {
   background-size: cover;
   color: #fff;
   text-align: left;
-} 
-    
+}
+
 #profile-content .gigya-screen input[type="submit"] {
   float: right;
   width: 7em;
@@ -767,8 +767,8 @@ a:hover .highlights__event--title {
   border: none;
   border-radius: 20px;
   padding: 0.6em 1.5em;
-}    
-    
+}
+
 #profile-content .gigya-screen .new-account-msg a {
   color: #007abd;
   display: inline;
@@ -790,11 +790,11 @@ a:hover .highlights__event--title {
 a:link, a:visited {
   color: #007abd;
   text-decoration: none;
-}  
+}
 
-/*navigation rollover color */   
+/*navigation rollover color */
 .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {background-color: #007abd;}
-    
+
 .header__account--links.sub-menu, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .ui-menu {
   background-color: #fff;
   border-top: 7px solid #f5a81c;
@@ -803,10 +803,10 @@ a:link, a:visited {
   position: absolute;
   z-index: 5000100;
 }
-    
-/* Mobile nav rollover - Not all work */ 
+
+/* Mobile nav rollover - Not all work */
 .mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover{background-color:#007abd;}
-    
+
 .mobile-nav__list{
   padding:0;
   margin:0;
@@ -826,30 +826,30 @@ a:link, a:visited {
   font-size:1.26562em;
   color:#fff;
 }
-  
+
 .mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover{background-color:#007abd;}
-    
+
 .mobile-nav .mobile-menu-submenu-header{
   background-color:#007abd;
   color:#fff;
   padding:18px 1.25em
 }
 
-.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover{background-color:#007abd}    
-    
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover{background-color:#007abd}
+
 /* Mobile features */
 a:hover .highlights__event--date,a:hover .highlights__event--title{color:#fff}
-    
+
 .featured__article:hover .featured__article--heading{color:#fff;}
-    
+
 .featured__article--heading a:focus,.featured__article--heading a:hover{color:#fff;}
-    
+
 .featured__content--block:hover .featured__content--title{color:#fff;}
-    
+
 .home__featured .featured__content--title a:focus,.home__featured .featured__content--title a:hover{color:#fff;}
-    
+
 a:hover .highlights__community--title{color:#f5a81c;}
-    
+
 .highlights__events--more-btn:hover{
   color:#fff!important;
   border-color:#fff;
@@ -857,8 +857,8 @@ a:hover .highlights__community--title{color:#f5a81c;}
 
 /* Navigation font color - all menus but only instagram social */
 .header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {color: #fff;}
-   
-/* Live stream button colors */   
+
+/* Live stream button colors */
 @media screen and (min-width:768px){
 
 .live-stream__listen-now--btn,.podcast__rss{
@@ -888,14 +888,14 @@ a:hover .highlights__community--title{color:#f5a81c;}
 }
 }
 
- /* Header search color */      
- .header__search {color: #fff;}   
-       
+ /* Header search color */
+ .header__search {color: #fff;}
+
 a.social-share-link:hover,a.social__link:hover{
   color:#007abd;
   border-color:#007abd;
 }
-    
+
 .header__account--logged-out, .header__account--span {color: #fff;}
 }
 
@@ -924,7 +924,7 @@ a.social-share-link:hover,a.social__link:hover{
   bottom: 0;
   left: 0;
 }
-    
+
 .tribe-events-button {
   background-color: #103368 !important;
   border: 1px solid #103368 !important;
@@ -946,11 +946,11 @@ a.social-share-link:hover,a.social__link:hover{
   background-color: #007abd !important;
   border: 1px solid #007abd !important;
   color: #fff !important;
-} 
+}
 
-/* Header login color */  
+/* Header login color */
 .header__account--logged-out, .header__account--span {color: #fff;}
-  
+
 .gallery__feature .gallery__featured--title {
     color: #103368;
 }
@@ -1003,4 +1003,10 @@ a.social-share-link:hover,a.social__link:hover{
 .live-stream__btn--loading, .live-stream__btn--pause, .live-stream__btn--resume {
     background: #d22228 none repeat scroll 0 0;
     color: #f2f2f2;
+}
+
+.show__mini-nav .show__header {
+    background-color: #2b68b4;
+    border-top: solid 1px #f0ae0c;
+    padding: 1px 5px 0 5px;
 }

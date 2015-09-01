@@ -15768,6 +15768,11 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   background: #d22228 none repeat scroll 0 0;
   color: #f2f2f2; }
 
+.show__mini-nav .show__header {
+  background-color: #2b68b4;
+  border-top: solid 1px #f0ae0c;
+  padding: 1px 5px 0 5px; }
+
 .live-link__type--show {
   border-bottom-color: white;
   background: none; }

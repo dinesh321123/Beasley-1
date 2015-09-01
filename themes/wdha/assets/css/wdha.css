@@ -15806,6 +15806,11 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 .single-show .highlights__community--item:hover .highlights__community--title {
   color: #ccc; }
 
+.show__mini-nav .show__header {
+  background-color: #5d0000;
+  border-top: solid 1px #c00000;
+  padding: 1px 5px 0 5px; }
+
 .live-link__type--show {
   border-bottom-color: white;
   background: none; }
