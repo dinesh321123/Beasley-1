@@ -12004,10 +12004,14 @@ category: Components - Gallery Archive
       .gallery__grid:last-child {
         margin-right: 0; } }
   .gallery__grid .section-header {
-    margin: 20px 0; }
-    @media screen and (min-width: 768px)  {
-      .gallery__grid .section-header {
-        display: none; } }
+    margin: 20px 0;
+    font-size: 1.6em;
+    font-weight: bold;
+    color: #404041;
+    text-transform: uppercase;
+    /*@include bp(medium) {
+			display: none;
+		}*/ }
 
 .gallery__featured {
   display: block; }
@@ -15451,6 +15455,32 @@ h4.gmcltWX_forecastDayHeader {
   text-align: right;
   display: none; }
 
+.gmcltTraffic_loading {
+  z-index: 100;
+  left: 50%;
+  margin-bottom: 10px; }
+
+.gmcltTraffic_loading img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+
+.gmcltTraffic_loading p {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  text-align: center; }
+
+.gmcltTraffic_list .entry {
+  float: left;
+  display: block;
+  width: 100%;
+  margin-right: 0;
+  padding-top: 2.25em;
+  border-top: 1px solid #b8babc; }
+
+.gmcltTraffic_listIcon {
+  float: left; }
+
 @media screen and (min-width: 768px)  {
   .header__account:hover {
     color: #000000; }
@@ -15482,5 +15512,14 @@ a:hover .breaking-news-banner {
   @media screen and (min-width: 1200px)  {
     #radarMap-canvas {
       width: 100%; } }
+
+#trafficMap-canvas {
+  margin: auto;
+  width: 80%;
+  height: 300px; }
+  @media screen and (min-width: 1200px)  {
+    #trafficMap-canvas {
+      width: 100%;
+      height: 700px; } }
 
 /*# sourceMappingURL=wbt.css.map */

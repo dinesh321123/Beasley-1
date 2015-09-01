@@ -20,9 +20,24 @@ get_header();
 		</header>
 		<section class="article__content" itemprop="articleBody">
 			<?php the_content(); ?>
-			<!--<div class="embed-container">-->
-				<div id="traffic-map-canvas" style="width: 100%; height: 700px;"></div>
-			<!--</div>-->
+			<div id="gmcltTraffic_mapLoading" class="gmcltTraffic_loading">
+				<p>Loading...</p>
+				<img src="/wp-content/themes/wbt/images/WBTajaxLoader.gif">
+			</div>
+			<div id="trafficMap-canvas"></div>
+			<div class="ad__in-loop ad__in-loop--desktop">
+				<?php do_action( 'acm_tag_gmr_variant', 'leaderboard-body', 'desktop' ); ?>
+			</div>
+			<div class="ad__in-loop ad__in-loop--mobile">
+				<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'mobile' ); ?>
+			</div>
+			<div id="gmcltTraffic_listLoading" class="gmcltTraffic_loading">
+				<p>Loading...</p>
+				<img src="/wp-content/themes/wbt/images/WBTajaxLoader.gif">
+			</div>
+			<div id="gmcltTraffic_list" class="gmcltTraffic_list">
+				
+			</div>
 		</section>
 		
 	
@@ -30,7 +45,30 @@ get_header();
 	</article>
 </div>
 
+<script type="text/javascript" src="/wp-content/themes/wbt/assets/js/vendor/handlebars-v3.0.3.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
+<script id="list-template" type="text/x-handlebars-template">
+	{{#each this}}
+		<article class="entry">
+				<section style="float: right;">
+					<img src="/wp-content/themes/wbt/images/traffic/{{marker}}">
+				</section>
+				<section style="float: left; width: 80%;">
+					<time>{{dateString}}</time>
+					<h2>{{headline}}</h2>
+					<p>{{body}}</p>
+				</section>
+			</article>
+
+	{{/each}}
+</script>
+
+<script id="error-template" type="text/x-handlebars-template">
+	<h2>Sorry!</h2>
+	<p>An error has occurred while loading traffic information. Please refresh the page and try again.</p>
+</script>
+
 <script type="text/javascript">
 jQuery(document).ready(function(){
 	GMCLT.Traffic.init();

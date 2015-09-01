@@ -1,6 +1,9 @@
 var GMCLT = GMCLT || {};
 
 var apiUrl = 'http://api2.wbt.com';
+var iconPath = '/wp-content/themes/wbt/images/traffic/';
+var trafficmap;
+var infowindow;
 
 GMCLT.Traffic = function() {
 	
@@ -15,9 +18,9 @@ GMCLT.Traffic = function() {
 		    scrollwheel: false,
 		    //draggable: false,
 		    center: myLatlng
-		}
+		};
 
-		trafficmap = new google.maps.Map(document.getElementById('traffic-map-canvas'), mapOptions);
+		trafficmap = new google.maps.Map(document.getElementById('trafficMap-canvas'), mapOptions);
 
 		var trafficLayer = new google.maps.TrafficLayer();
 		trafficLayer.setMap(trafficmap);
@@ -26,13 +29,14 @@ GMCLT.Traffic = function() {
 	};
 
 	var getTrafficIncidents = function() {
-		trafficObject = new Object();
-			
-		infowindow = new google.maps.InfoWindow({
+		var trafficListSource = jQuery("#list-template").html(); 
+		var trafficListTemplate = Handlebars.compile(trafficListSource);
+		
+		var infowindow = new google.maps.InfoWindow({
 	        content: 'Test content'
 	    });
 			
-		jQuery.getJSON('http://site.gmclt.com/api/Traffic.cfc?method=getActiveIncidents&callback=?',
+		jQuery.getJSON(apiUrl + '/traffic/traffic.cfc?method=getActiveIncidents&callback=?',
 			
 			function (trafficObject) {
 					
@@ -47,7 +51,7 @@ GMCLT.Traffic = function() {
 					window['marker' + id] = new google.maps.Marker({
 						position: location,
 						map: trafficmap,
-						icon: markerimage,
+						icon: iconPath + markerimage,
 						title: title,
 						zIndex: zindex
 					});
@@ -55,7 +59,14 @@ GMCLT.Traffic = function() {
 					//Add listener for click
 					google.maps.event.addListener(window['marker' + id], 'click', buildIncidentClickHandler(trafficObject[i]));
 					
+					jQuery('#gmcltTraffic_list').html(trafficListTemplate(trafficObject));
+					jQuery('#gmcltTraffic_listLoading').hide();
+					
 				}
+				jQuery('#gmcltTraffic_mapLoading').hide();
+			})
+			.fail(function() {
+			   trafficError('map');
 			});
 	};
 
@@ -65,31 +76,20 @@ GMCLT.Traffic = function() {
 			var body = i.body;
 			var title = i.headline;
 			var markerimage = i.marker;
-			var startdate = i.startdate;
-			var starttime = i.starttime;
-			var enddate = i.enddate;
-			var endtime = i.endtime;
+			var dateString = i.dateString;
 			
-			if (startdate == enddate) {
-				var activedatestring = startdate + ' at ' + starttime + ' - ' + endtime;
-			}
-			else {
-				var activedatestring = startdate + ' at ' + starttime + ' - ' + enddate + ' at ' + endtime;
-			}
-			
-			infowindow.setContent("<h3><img src='" + markerimage + "' align='left' style='padding: 10px;' vspace='2' hspace='2'>" + title + "</h3><p class='attribution'>" + activedatestring + "</p><p>" + body + "</p>");
+			infowindow.setContent("<h3><img src='" + iconPath + markerimage + "' align='left' style='padding: 10px;' vspace='2' hspace='2'>" + title + "</h3><p class='attribution'>" + dateString + "</p><p>" + body + "</p>");
 			infowindow.open(trafficmap,window['marker' + id]);
 		};
 	};
 
 	var	getTrafficCameras = function() {
-		cameraObject = new Object();
-		
+				
 		infowindow = new google.maps.InfoWindow({
-	        content: 'Test content'
+	        content: 'blank'
 	    });
 		
-		jQuery.getJSON('http://site.gmclt.com/api/Traffic.cfc?method=getActiveCameras&callback=?',
+		jQuery.getJSON(apiUrl + '/traffic/traffic.cfc?method=getActiveCameras&callback=?',
 		
 			function (cameraObject) {
 				
@@ -102,7 +102,7 @@ GMCLT.Traffic = function() {
 					window['camera' + id] = new google.maps.Marker({
 						position: location,
 						map: trafficmap,
-						icon: 'http://content.gmclt.com/traffic/trafficCamera.png',
+						icon: iconPath + 'trafficCamera.png',
 						title: title,
 						zIndex: 1
 					});
@@ -111,6 +111,9 @@ GMCLT.Traffic = function() {
 					google.maps.event.addListener(window['camera' + id], 'click', buildCameraClickHandler(cameraObject[i]));
 					
 				}
+			})
+			.fail(function() {
+			   //do nothing. if no traffic cameras are available, it doens't detrimentally affect usability
 			});
 	};
 
@@ -119,7 +122,6 @@ GMCLT.Traffic = function() {
 			var id = i.webId;
 			var orientation = i.orientation;
 			var name = i.name;
-			var refreshRate = i.refreshRate;
 			var provider = i.provider;
 			var fullImage = i.fullImage;
 			
@@ -129,7 +131,14 @@ GMCLT.Traffic = function() {
 
   };
 
-  	var oPublic =
+  	var trafficError = function(area) {
+		var trafficErrorSource = jQuery("#error-template").html(); 
+		var trafficErrorTemplate = Handlebars.compile(trafficErrorSource);
+		jQuery('#traffic-map-canvas').html(trafficErrorTemplate());
+		jQuery('#gmcltTraffic_' + area + 'Loading').hide();
+	};
+	
+	var oPublic =
 	    {
 	      init: init
 	    };
