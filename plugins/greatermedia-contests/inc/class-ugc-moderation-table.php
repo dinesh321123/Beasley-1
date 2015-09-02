@@ -68,14 +68,34 @@ class GreaterMediaUserGeneratedContentModerationTable extends WP_List_Table {
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
+		// Setup paging and query
+		$per_page = 20;
+    $paged = !empty($_GET["paged"]) ? esc_attr($_GET["paged"]) : '';
+    if( empty( $paged ) || !is_numeric( $paged ) || $paged <= 0 ){ $paged = 1; }
+
 		$this->query = new WP_Query(
 			array(
 				'post_type'   => GMR_SUBMISSIONS_CPT,
 				'post_status' => array( 'pending', 'publish' ),
 				'order'       => 'DESC',
 				'orderby'     => 'date',
+				'posts_per_page' => $per_page,
+				'offset'         => $per_page * ( $paged - 1 ),
 			)
 		);
+
+		// Number of elements in the table?
+    $totalitems = $this->query->found_posts; //return the total number of affected rows
+
+		// How many pages do we have in total?
+    $totalpages = ceil($totalitems/$per_page);
+
+    // Register the pagination
+		$this->set_pagination_args( array(
+		   'total_items' => $totalitems,
+		   'total_pages' => $totalpages,
+		   'per_page' => $per_page,
+		) );
 
 	}
 
