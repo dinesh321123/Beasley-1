@@ -76,7 +76,13 @@ class GMP_Player{
 
 		$html = '';
 		if ( preg_match_all( '/'. $pattern .'/s', $content, $matches ) && array_key_exists( 2, $matches ) && in_array( 'audio', $matches[2] ) ) {
-			$html = trim( do_shortcode( $matches[0][0] ) );
+
+			// Return first audio shortcode (don't assume audio is the first one)
+			foreach ( $matches[0] as $shortcode ){
+				if ( preg_match( '#^\[audio#', $shortcode ) && empty($html) ){
+					$html = trim( do_shortcode( $shortcode ) );
+				}
+			}
 		}
 
 		return $html;

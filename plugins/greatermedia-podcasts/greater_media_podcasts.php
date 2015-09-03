@@ -9,7 +9,7 @@
  */
 
 // Useful global constants
-define( 'GMPODCASTS_VERSION', '0.1.0' );
+define( 'GMPODCASTS_VERSION', '0.1.1' );
 define( 'GMPODCASTS_URL',     plugin_dir_url( __FILE__ ) );
 define( 'GMPODCASTS_PATH',    dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 
