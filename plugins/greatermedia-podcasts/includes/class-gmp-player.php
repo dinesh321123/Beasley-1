@@ -79,8 +79,9 @@ class GMP_Player{
 
 			// Return first audio shortcode (don't assume audio is the first one)
 			foreach ( $matches[0] as $shortcode ){
-				if ( preg_match( '#^\[audio#', $shortcode ) && empty($html) ){
+				if ( preg_match( '#^\[audio#', $shortcode ) && empty( $html ) ){
 					$html = trim( do_shortcode( $shortcode ) );
+					break;
 				}
 			}
 		}
