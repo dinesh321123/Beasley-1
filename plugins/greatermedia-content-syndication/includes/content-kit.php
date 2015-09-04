@@ -46,7 +46,9 @@ class ContentKit {
 			'rewrite'             => false,
 			'menu_icon'           => 'dashicons-media-document',
 			'map_meta_cap'        => true,
-			'capability_type'     => array( 'content_kit', 'content_kits' ),
+			// Capabilities aren't working correctly right now for this CPT, so disabling and
+			// allowing content kits to inherit post capabilities.
+			// 'capability_type'     => array( 'content_kit', 'content_kits' ),
 			'taxonomies'          => array( 'post_tag', 'category' ),
 			'supports'            => array(
 				'title', 'editor', 'author', 'thumbnail',
