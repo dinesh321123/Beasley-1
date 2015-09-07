@@ -114,7 +114,6 @@ function recent_homepage_query( $meta_key ) {
 				'posts_per_page'         => 1,
 				'no_found_rows'          => true,
 				'ignore_sticky_posts'    => true,
-				'fields'                 => 'ids',
 				'update_post_term_cache' => false
 			)
 		);
