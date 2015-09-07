@@ -8,6 +8,8 @@ add_action( 'init',                  __NAMESPACE__ . '\register_homepage_cpt' );
 add_action( 'save_post',             __NAMESPACE__ . '\save_meta_data' );
 add_action( 'post_submitbox_start',  __NAMESPACE__ . '\create_homepages_nonce' );
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_admin_scripts' );
+add_action( 'add_meta_boxes',        __NAMESPACE__ . '\remove_yoast_metabox', PHP_INT_MAX );
+add_action( 'wp_print_scripts',      __NAMESPACE__ . '\remove_yoast_metabox_js', PHP_INT_MAX );
 
 add_filter( 'preview_post_link',     __NAMESPACE__ . '\preview_post_setup', PHP_INT_MAX, 2 );
 
@@ -346,5 +348,28 @@ function enqueue_admin_scripts( $page ) {
 			GMEDIA_HOMEPAGE_CURATION_VERSION,
 			true
 		);
+	}
+}
+
+
+/**
+ * Remove the Yoast SEO metabox from homepage CPT's.
+ */
+function remove_yoast_metabox() {
+	remove_meta_box( 'wpseo_meta', gmr_homepages_slug(), 'normal' );
+}
+
+/**
+ * Remove the Yoast SEO metabox js from homepage CPT's.
+ */
+function remove_yoast_metabox_js() {
+	global $post;
+
+	if ( ! is_a( $post, '\WP_Post' ) ) {
+		return;
+	}
+
+	if ( gmr_homepages_slug() === $post->post_type ) {
+		wp_dequeue_script( 'wp-seo-metabox' );
 	}
 }
