@@ -11,3 +11,7 @@
 .post-finder .add {
 	float: right;
 }
+
+.post-finder .list {
+	float: none;
+}
