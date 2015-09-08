@@ -32,7 +32,9 @@ function wp_head() {
 					category = jQuery.trim( $slot.data( 'category' ) );
 
 				OX_12345.addAdUnit( $slot.data( 'openx-id' ) );
-				OX_12345.setAdUnitSlotId( $slot.data( 'openx-id' ), $slot.attr( 'id' ) );
+				jQuery( $slot ).empty();
+				jQuery( $slot ).append( '<div id="' + $slot.attr( 'id' ) + '-placeholder"></div>' )
+				OX_12345.setAdUnitSlotId( $slot.data( 'openx-id' ), $slot.attr( 'id' ) + '-placeholder' );
 				if ( category ) {
 					OX_12345.addVariable( 'category', category );
 				}
@@ -44,7 +46,7 @@ function wp_head() {
 		}
 
 		function fill_ads() {
-			jQuery( '.gmr-ad' ).not( '.gmr-ad-filled' ).each( function () {
+			jQuery( '.gmr-ad' ).each( function () {
 				fill_ad( jQuery( this ) );
 			} );
 		}
