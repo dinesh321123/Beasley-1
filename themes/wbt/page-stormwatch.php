@@ -131,7 +131,7 @@ get_header();
 			<div class="gmcltWX_wideColumn">
 				<div class="gmcltWX_mapLoading">
 					<p>Loading...</p>
-					<img src="/wp-content/themes/wbt/images/WBTajaxLoader.gif">
+					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WBTajaxLoader.gif">
 				</div>
 				<div id="stormwatchMap-canvas"></div>
 			</div>
@@ -152,7 +152,7 @@ get_header();
 	</article>
 </div>
 
-<script type="text/javascript" src="/wp-content/themes/wbt/assets/js/vendor/handlebars-v3.0.3.js"></script>
+<script type="text/javascript" src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>assets/js/vendor/handlebars-v3.0.3.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 
 
