@@ -9,58 +9,6 @@
 get_header();
 ?>
 
-<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400' rel='stylesheet' type='text/css'>
-
-  <style type="text/css">
-#alert-content h1 {
-	font-family: 'Source Sans Pro', sans-serif;
-	font-size: 24px;
-	font-weight:400;
-}
-
-#alert-content h2 {
-	font-family: 'Source Sans Pro', sans-serif;
-	font-size: 18px;
-	font-weight:400;
-}
-
-#alert-content p {
-	font-family: 'Source Sans Pro', sans-serif;
-	font-size: 14px;
-	font-weight:300;
-	margin: 0 0 10px 0;
-}
-
-#alert-content ul {
-	margin: 10px 0 10px 50px;
-	list-style-type: none;
-}
-
-#alert-content li {
-	margin: 0 0 10px 0;
-	font-family: 'Source Sans Pro', sans-serif;
-	font-size: 14px;
-	font-weight:300;
-}
-
-#alert-content hr {
-    border: 0;
-    height: 1px;
-    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
-    margin-bottom: 10px;
-}
-
-#search-box p {
-	font-family: 'Source Sans Pro', sans-serif;
-	font-size: 14px;
-	font-weight:300;
-	margin: 0 0 10px 0;
-}
-</style>
-	
 <div class="container">
 	<section class="content">
 		<article id="post-242" class="article cf post-242 page type-page status-publish hentry" role="article" itemscope="" itemtype="http://schema.org/BlogPosting">
@@ -128,7 +76,7 @@ get_header();
 					<option value="WI">WISCONSIN</option>
 					<option value="WY">WYOMING</option>
 				</select>
-			<div class="gmcltWX_wideColumn">
+			<div class="gmclt_wideColumn left">
 				<div class="gmcltWX_mapLoading">
 					<p>Loading...</p>
 					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WBTajaxLoader.gif">
@@ -136,11 +84,12 @@ get_header();
 				<div id="stormwatchMap-canvas"></div>
 			</div>
 			
-			<div class="gmcltWX_narrowColumn">
+			<div class="gmclt_narrowColumn">
 				
-				<div id="gmcltWX_narrowColumnContent"></div>
-				<div style="text-align: center; padding-top: 10px;">
+				<div id="gmclt_narrowColumnContent"></div>
+				<div class="gmclt_adDiv">
 					<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'desktop' ); ?>
+					<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'mobile' ); ?>
 				</div>
 			</div>
 			

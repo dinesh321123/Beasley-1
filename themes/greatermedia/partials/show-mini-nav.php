@@ -8,7 +8,9 @@
 
 	$post_taxonomies = get_post_taxonomies();
 	$shows = array();
-
+	
+	//var_dump(get_the_terms( $the_id, ShowsCPT::SHOW_TAXONOMY )); die();
+	
 	foreach ( get_the_terms( $the_id, ShowsCPT::SHOW_TAXONOMY ) as $show ) :
 		if ( ( $show = \TDS\get_related_post( $show ) ) ) :
 			if ( \GreaterMedia\Shows\supports_homepage( $show->ID ) ) :

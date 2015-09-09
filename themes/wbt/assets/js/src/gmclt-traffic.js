@@ -1,7 +1,3 @@
-var GMCLT = GMCLT || {};
-
-var apiUrl = 'http://api2.wbt.com';
-var iconPath = '/wp-content/themes/wbt/images/traffic/';
 var trafficmap;
 var infowindow;
 

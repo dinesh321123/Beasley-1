@@ -51,10 +51,10 @@ get_header();
 <script id="list-template" type="text/x-handlebars-template">
 	{{#each this}}
 		<article class="entry">
-				<section style="float: right;">
-					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>traffic/{{marker}}">
+				<section class="gmclt_right">
+					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/traffic/{{marker}}">
 				</section>
-				<section style="float: left; width: 80%;">
+				<section class="gmclt_left">
 					<time>{{dateString}}</time>
 					<h2>{{headline}}</h2>
 					<p>{{body}}</p>
@@ -70,6 +70,8 @@ get_header();
 </script>
 
 <script type="text/javascript">
+
+var iconPath = '<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/traffic/';
 jQuery(document).ready(function(){
 	GMCLT.Traffic.init();
 });

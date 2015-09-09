@@ -19,7 +19,7 @@ get_header();
 		<section class="article__content" itemprop="articleBody">
 			<?php the_content(); ?>
 			
-			<div class="gmcltWX_narrowColumn">
+			<div class="gmclt_narrowColumn">
 				<div class="gmcltWX_loading">
 					<p>Loading...</p>
 					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WBTajaxLoader.gif">
@@ -27,13 +27,14 @@ get_header();
 				<div class="gmcltWX_search">
 					<input type="text" name="gmcltWX_search" id="gmcltWX_search" placeholder="Search for location..."><input type="submit" id="gmcltWX_searchsubmit" value="Search">
 				</div>
-				<div id="gmcltWX_narrowColumnContent"></div>
-				<div style="text-align: center; padding-top: 10px;">
+				<div id="gmclt_narrowColumnContent"></div>
+				<div class="gmclt_adDiv">
 					<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'desktop' ); ?>
+					<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'mobile' ); ?>
 				</div>
 			</div>
 			
-			<div class="gmcltWX_wideColumn">
+			<div class="gmclt_wideColumn right">
 				<div id="gmcltWX_forecastFullContent"></div>
 				<div id="gmcltWX_forecastContent"></div>
 				<div id="radarMap-canvas"></div>
@@ -50,20 +51,20 @@ get_header();
 
 <script id="currentConditions-template" type="text/x-handlebars-template">
 	<h2>{{location}}, {{state}}</h2>
-	<div class="gmcltWX_narrowColumnOne">
-		<div class="gmcltWX_narrowColumnIcon">
+	<div class="gmclt_narrowColumnOne">
+		<div class="gmclt_narrowColumnIcon">
 			<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/wx/{{currentConditions.graphicCode}}.png">
 		</div>
-		<div class="gmcltWX_narrowColumnTemp">
+		<div class="gmclt_narrowColumnTemp">
 			{{currentConditions.temperature}}&deg;
 		</div>
 		<div class="gmcltWX_data">
 			<h4>{{currentConditions.sky}} {{currentConditions.weather}}</h4>
-			<p style="margin-top: 0;"><strong>Wind moving from the {{currentConditions.windDirection}} at {{currentConditions.windSpeed}} mph</strong></p>
+			<p><strong>Wind moving from the {{currentConditions.windDirection}} at {{currentConditions.windSpeed}} mph</strong></p>
 			<p class="gmcltWX_dataSmall">Current as of {{currentConditions.updateTime}} Eastern</p>
 		</div>
 	</div>
-	<div class="gmcltWX_narrowColumnTwo">
+	<div class="gmclt_narrowColumnTwo">
 		Feels Like: <strong>{{currentConditions.feelslike}}&deg; F</strong><br />
 		Dew Point: <strong>{{currentConditions.dewpoint}}&deg; F</strong><br />
 		Relative Humidity: <strong>{{currentConditions.relativeHumidity}}%</strong><br />
@@ -93,7 +94,7 @@ get_header();
 					<h4 class="gmcltWX_forecastDayHeader">{{nightName}}</h4>
 					<p>{{nightForecast}}</p>
 				</div>
-				<div style="clear: both;"></div>
+				<div class="gmclt_clear"></div>
 			</div>
 		{{/if}}
 	{{/each}}
@@ -114,7 +115,7 @@ get_header();
 					<h4 class="gmcltWX_forecastDayHeader gmcltWX_mobile">{{dayName}}</h4>
 					<p>{{dayForecast}}</p>
 				</div>
-				<div style="clear: both;"></div>
+				<div class="gmclt_clear"></div>
 			</div>
 		{{/unless}}
 	{{/each}}

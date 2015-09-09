@@ -1,7 +1,5 @@
 GMCLT.Weather = function() {
 	 
- 	var apiUrl = 'http://api2.wbt.com';
- 	
  	var init = function() {
 		populateWeatherData('USNC0121');	
 		//listen for search
@@ -28,11 +26,12 @@ GMCLT.Weather = function() {
 		jQuery.getJSON(apiUrl + '/weather/weather.cfc?method=getWeatherData&locationId=' + locationId + '&callback=?',
 		
 			function (wxDataObject) {
-				jQuery('#gmcltWX_narrowColumnContent').html(wxConditionsTemplate(wxDataObject));
+				jQuery('#gmclt_narrowColumnContent').html(wxConditionsTemplate(wxDataObject));
 				jQuery('#gmcltWX_forecastFullContent').html(wxForecastFullTemplate(wxDataObject));
 				jQuery('#gmcltWX_forecastContent').html(wxForecastTemplate(wxDataObject));
 				jQuery('.gmcltWX_search').show();
 				jQuery('.gmcltWX_loading').hide();
+				jQuery('#radarMap-canvas').show();
 				initializeRadarMap(wxDataObject.location + ', ' + wxDataObject.state);
 			})
 			.fail(function() {
@@ -48,9 +47,10 @@ GMCLT.Weather = function() {
 		
 		if (searchQuery.length) {
 			jQuery('.gmcltWX_loading').show();
-			jQuery('#gmcltWX_narrowColumnContent').html('');
+			jQuery('#gmclt_narrowColumnContent').html('');
 			jQuery('#gmcltWX_forecastFullContent').html('');
 			jQuery('#gmcltWX_forecastContent').html('');
+			jQuery('#radarMap-canvas').hide();
 			jQuery.getJSON(apiUrl + '/weather/weather.cfc?method=searchLocations&queryString=' + searchQuery + '&callback=?',
 		
 			function (wxSearchObject) {
@@ -59,7 +59,7 @@ GMCLT.Weather = function() {
 					jQuery('#gmcltWX_search').val('');
 				}
 				else {
-					jQuery('#gmcltWX_narrowColumnContent').html(wxSearchTemplate(wxSearchObject));
+					jQuery('#gmclt_narrowColumnContent').html(wxSearchTemplate(wxSearchObject));
 					jQuery('.gmcltWX_loading').hide();
 					jQuery('#gmcltWX_search').val('');
 				}
@@ -226,7 +226,7 @@ GMCLT.Weather = function() {
 			
 				function (GMCLTDetailsObject) {
 					
-					jQuery('#gmcltWX_narrowColumnContent').html(wxAlertTemplate(GMCLTDetailsObject));
+					jQuery('#gmclt_narrowColumnContent').html(wxAlertTemplate(GMCLTDetailsObject));
 										
 				})
 				.fail(function() {
@@ -238,7 +238,7 @@ GMCLT.Weather = function() {
 	var wxError = function() {
 		var wxErrorSource = jQuery("#error-template").html(); 
 		var wxErrorTemplate = Handlebars.compile(wxErrorSource);
-		jQuery('#gmcltWX_narrowColumnContent').html(wxErrorTemplate());
+		jQuery('#gmclt_narrowColumnContent').html(wxErrorTemplate());
 		jQuery('.gmcltWX_loading').hide();
 		jQuery('.gmcltWX_search').hide();
 	};
