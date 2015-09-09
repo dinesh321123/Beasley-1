@@ -1,5 +1,6 @@
 .post-finder h4 {
 	clear: both;
+	display: inline-block;
 }
 
 .post-finder .post-date {
