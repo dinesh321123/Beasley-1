@@ -21,12 +21,17 @@
 		</div>
 		<nav class="show__nav">
 			<h1 class="show__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+			<?php
+			if ( \GreaterMedia\Shows\uses_custom_menu( get_the_ID() ) ) :
+				wp_nav_menu( array( 'menu' => \GreaterMedia\Shows\assigned_custom_menu_id( get_the_ID() ) ) );
+			else : ?>
 			<ul>
 				<?php \GreaterMedia\Shows\about_link_html( get_the_ID() ); ?>
 				<?php \GreaterMedia\Shows\podcasts_link_html( get_the_ID() ); ?>
 				<?php \GreaterMedia\Shows\galleries_link_html( get_the_ID() ); ?>
 				<?php \GreaterMedia\Shows\videos_link_html( get_the_ID() ); ?>
 			</ul>
+			<?php endif; ?>
 		</nav>
 		<div class="show__meta">
 			<?php

@@ -98,6 +98,9 @@ class GMR_Show_Metaboxes {
 		$supports_galleries = \GreaterMedia\Shows\supports_galleries( get_the_ID() );
 		$supports_podcasts = \GreaterMedia\Shows\supports_podcasts( get_the_ID() );
 		$supports_videos = \GreaterMedia\Shows\supports_videos( get_the_ID() );
+		$uses_custom_menu = \GreaterMedia\Shows\uses_custom_menu( get_the_ID() );
+		$available_nav_menus = \GreaterMedia\Shows\available_nav_menus();
+		$assigned_custom_menu_id = \GreaterMedia\Shows\assigned_custom_menu_id( get_the_ID() );
 
 		?><div id="show-homepage" class="misc-pub-section misc-pub-gmr mis-pub-radio">
 			Has home page:
@@ -162,6 +165,32 @@ class GMR_Show_Metaboxes {
 				</p>
 			</div>
 		</div>
+
+		<div id="show-homepage-uses-custom-menu" class="misc-pub-section misc-pub-gmr mis-pub-radio">
+			Uses Custom Menu:
+			<span class="post-pub-section-value radio-value"><?php echo $uses_custom_menu ? 'Yes' : 'No'; ?></span>
+			<a href="#" class="edit-radio hide-if-no-js" style="display: inline;"><span aria-hidden="true">Edit</span></a>
+
+			<div class="radio-select hide-if-js">
+				<p>
+					<select name="show_assigned_custom_menu" id="show-assigned-custom-menu">
+				<?php
+				foreach ($available_nav_menus as $menu) {
+					$is_selected = ($assigned_custom_menu_id == $menu->term_id) ? 'selected' : '';
+					echo '<option value="'.$menu->term_id.'" '.$is_selected.'>'.$menu->name.'</option>';
+				}
+				?>
+					</select>
+				</p>
+				<label for="show-homepage-uses-custom-menu-no"><input type="radio" name="show_homepage_custom_menu" id="show-homepage-uses-custom-menu-no" value="0"<?php checked( $uses_custom_menu, false ) ?>> No</label><br>
+				<label for="show-homepage-uses-custom-menu-yes"><input type="radio" name="show_homepage_custom_menu" id="show-homepage-uses-custom-menu-yes" value="1"<?php checked( $uses_custom_menu, true ) ?>> Yes</label><br>
+
+				<p>
+					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
+					<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
+				</p>
+			</div>
+		</div>
 		<?php
 	}
 
@@ -182,7 +211,7 @@ class GMR_Show_Metaboxes {
 		echo '<div style="text-align:center">';
 			echo '<a href="#" class="meta_box_upload_image_button button button-primary" rel="', $post->ID, '">Choose Image</a> ';
 			if ( $image_id ) {
-				echo '<a href="#" class="meta_box_clear_image_button button">Remove Image</a>'; 
+				echo '<a href="#" class="meta_box_clear_image_button button">Remove Image</a>';
 			}
 		echo '</div>';
 	}
@@ -295,17 +324,17 @@ class GMR_Show_Metaboxes {
 		</p>
 		<?php
 	}
-	
+
 	/**
 	 * Render a meta box to enter a social page links.
 	 * @param $post WP_Post
 	 */
-	public function render_social_pages_meta_box( $post ) {				
-		$facebook = get_post_meta( $post->ID, 'show/social_pages/facebook', true ); 
+	public function render_social_pages_meta_box( $post ) {
+		$facebook = get_post_meta( $post->ID, 'show/social_pages/facebook', true );
 		$twitter = get_post_meta( $post->ID, 'show/social_pages/twitter', true );
 		$instagram = get_post_meta( $post->ID, 'show/social_pages/instagram', true );
 		$google = get_post_meta( $post->ID, 'show/social_pages/google', true );
-		
+
 		?>
 		<table class="form-table">
 			<tr>
@@ -384,6 +413,8 @@ class GMR_Show_Metaboxes {
 		$gallery_support = filter_input( INPUT_POST, 'show_homepage_galleries', FILTER_VALIDATE_BOOLEAN );
 		$podcast_support = filter_input( INPUT_POST, 'show_homepage_podcasts', FILTER_VALIDATE_BOOLEAN );
 		$video_support = filter_input( INPUT_POST, 'show_homepage_videos', FILTER_VALIDATE_BOOLEAN );
+		$uses_custom_menu = filter_input( INPUT_POST, 'show_homepage_custom_menu', FILTER_VALIDATE_BOOLEAN );
+		$assigned_custom_menu_id = filter_input( INPUT_POST, 'show_assigned_custom_menu', FILTER_VALIDATE_INT );
 
 		update_post_meta( $post_id, 'show_homepage', $homepage_support );
 
@@ -391,11 +422,16 @@ class GMR_Show_Metaboxes {
 			update_post_meta( $post_id, 'show_homepage_galleries', $gallery_support );
 			update_post_meta( $post_id, 'show_homepage_podcasts', $podcast_support );
 			update_post_meta( $post_id, 'show_homepage_videos', $video_support );
+			update_post_meta( $post_id, 'show_homepage_custom_menu', $uses_custom_menu );
+			update_post_meta( $post_id, 'show_assigned_custom_menu', $assigned_custom_menu_id );
+
 		} else {
 			// Impossible to support these if homepage support is turned off
 			update_post_meta( $post_id, 'show_homepage_galleries', false );
 			update_post_meta( $post_id, 'show_homepage_podcasts', false );
 			update_post_meta( $post_id, 'show_homepage_videos', false );
+			update_post_meta( $post_id, 'show_homepage_custom_menu', false );
+			update_post_meta( $post_id, 'show_assigned_custom_menu', 0 );
 
 			if ( $gallery_support || $podcast_support || $video_support ) {
 				add_filter( 'redirect_post_location', array( $this, 'add_homepage_validation_error' ), 99 );
@@ -425,8 +461,8 @@ class GMR_Show_Metaboxes {
 		} else {
 			delete_post_meta( $post_id, 'show_days' );
 		}
-		
-		
+
+
 		// Save social pages
 		update_post_meta( $post_id, 'show/social_pages/facebook', filter_input( INPUT_POST, 'show/social_pages/facebook', FILTER_SANITIZE_URL ) );
 		update_post_meta( $post_id, 'show/social_pages/twitter', filter_input( INPUT_POST, 'show/social_pages/twitter', FILTER_SANITIZE_URL ) );

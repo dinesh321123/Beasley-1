@@ -33,12 +33,17 @@
 			</div>
 			<nav class="show__nav">
 				<div class="show__title"><a href="<?php echo get_the_permalink( $show->ID ); ?>"><?php echo get_the_title( $show->ID ); ?></a></div>
+				<?php
+				if ( \GreaterMedia\Shows\uses_custom_menu( $show->ID ) ) :
+					wp_nav_menu( array( 'menu' => \GreaterMedia\Shows\assigned_custom_menu_id( $show->ID ), 'container' => false ) );
+				else : ?>
 				<ul>
 					<?php \GreaterMedia\Shows\about_link_html( $show->ID ); ?>
 					<?php \GreaterMedia\Shows\podcasts_link_html( $show->ID ); ?>
 					<?php \GreaterMedia\Shows\galleries_link_html( $show->ID ); ?>
 					<?php \GreaterMedia\Shows\videos_link_html( $show->ID ); ?>
 				</ul>
+				<?php endif; ?>
 			</nav>
 		</div>
 	</div>
