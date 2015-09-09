@@ -29,7 +29,13 @@
 							?>
 							<article id="post-<?php the_ID(); ?>" <?php post_class( 'cf podcast' ); ?> role="article"
 							         itemscope itemtype="http://schema.org/OnDemandEvent"><?php
-							echo do_shortcode( $matches[0][0] );
+							// Return first audio shortcode (don't assume audio is the first one)
+							foreach ( $matches[0] as $shortcode ){
+								if ( preg_match( '#^\[audio#', $shortcode ) && empty( $html ) ){
+									echo trim( do_shortcode( $shortcode ) );
+									break;
+								}
+							}
 							?></article><?php
 						endif;
 					endwhile;
