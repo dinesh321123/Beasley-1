@@ -184,7 +184,7 @@ function render_homepage_curation() {
 
 function enqueue_admin_scripts( $page ) {
 	global $gmr_homepage_curation, $typenow;
-	if ( $gmr_homepage_curation == $page || 'show' == $typenow ) {
+	if ( $gmr_homepage_curation == $page || 'show' == $typenow || 'gmr_homepage' == $typenow ) {
 		wp_enqueue_style( 'homepage-curation', GMEDIA_HOMEPAGE_CURATION_URL . 'css/admin.css', null, GMEDIA_HOMEPAGE_CURATION_VERSION );
 		wp_enqueue_script( 'homepage-curation', GMEDIA_HOMEPAGE_CURATION_URL . 'js/curation.js', array( 'jquery' ), GMEDIA_HOMEPAGE_CURATION_VERSION, true );
 	}
