@@ -124,6 +124,19 @@ function recent_homepage_query( $meta_key ) {
 			$homepages->the_post();
 			$posts = get_post_meta( get_the_ID(), $meta_key, true );
 		}
+	} else {
+		// fallback to old style with options
+		switch ( $meta_key ) {
+			case 'featured_meta_box':
+				$posts = get_option( 'gmr-homepage-featured' );
+				break;
+			case 'dont_miss_meta_box':
+				$posts = get_option( 'gmr-homepage-community' );
+				break;
+			case 'events_meta_box':
+				$posts = get_option( 'gmr-homepage-events' );
+				break;
+		}
 	}
 
 	wp_reset_postdata();
