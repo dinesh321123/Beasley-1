@@ -271,8 +271,10 @@ function preview_post_setup( $url, $post ) {
 	 * This is the only reliable place I could find to do this, even though it would be better to find an action.
 	 * I tried using the '_wp_put_post_revision' action but it didn't fire every time the previe button was clicked.
 	 */
-	if ( gmr_homepages_slug() !== $typenow ) {
+	if ( gmr_homepages_slug() === $typenow ) {
 		save_meta_data( $post->ID );
+	} else {
+		return $url;
 	}
 
 	// Build a new preview URL. We can't just include the front page template here
