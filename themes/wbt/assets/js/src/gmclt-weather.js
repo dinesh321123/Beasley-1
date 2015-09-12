@@ -1,3 +1,7 @@
+jQuery(document).ready(function(){
+	GMCLT.Weather.currentConditionsSubnav();
+});
+
 GMCLT.Weather = function() {
 	 
  	var init = function() {
@@ -12,6 +16,40 @@ GMCLT.Weather = function() {
 			searchWeatherLocations();
 			
 		});
+	};
+	
+	var currentConditionsSubnav = function() {
+		var index = jQuery("div.secondary-link:contains('Weather')").parents().eq(1).attr('id');
+		
+		if (index) {
+		
+			var cookieWx = Cookies.get('gmcltWx');
+		
+			if (cookieWx) {
+				var currentConditions = cookieWx.split(',');
+				populateCurrentConditionsSubnav(currentConditions[0],currentConditions[1],index);
+			}
+			else {
+				jQuery.getJSON(apiUrl + '/weather/weather.cfc?method=getCurrentMini&callback=?',
+		
+				function (wxConditionsDataObject) {
+					populateCurrentConditionsSubnav(wxConditionsDataObject.temperature,wxConditionsDataObject.graphicCode,index);
+					Cookies.set('gmcltWx', wxConditionsDataObject.temperature + ',' + wxConditionsDataObject.graphicCode, { expires: 900 });
+				})
+				.fail(function() {
+				   //do nothing. Not catastrophic
+				});
+			}
+		}
+		else {
+			alert('not found');
+		}
+		
+	}
+	
+	var populateCurrentConditionsSubnav = function(temperature,graphicCode,index) {
+		var htmlString = '<a href="/weather"><div class="secondary-link"><img class="gmclt_headerWxIcon" src="/wp-content/themes/wbt/images/wx/' + graphicCode +  '.png"> ' + temperature + '&deg;</div></a>';
+		jQuery('#' + index).html(htmlString);
 	};
 	
 	var populateWeatherData = function(locationId) {
@@ -247,7 +285,8 @@ GMCLT.Weather = function() {
 	    {
 	      init: init,
 	      stormwatchInit: stormwatchInit,
-	      populateWeatherData: populateWeatherData
+	      populateWeatherData: populateWeatherData,
+	      currentConditionsSubnav: currentConditionsSubnav
 	    };
     return oPublic;
 	 

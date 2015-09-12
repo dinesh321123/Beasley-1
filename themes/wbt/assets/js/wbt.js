@@ -4,22 +4,32 @@ var apiUrl = 'http://api2.wbt.com';
 
 var gmcltStationName = 'WBT';
 var gmcltStationID = 2;
-Handlebars.registerHelper("inc", function(value, options)
-{
-    return parseInt(value) + 1;
-});
-
-Handlebars.registerHelper("analytics", function(eventCode)
-{
-    ga('send', {'hitType': 'event', 'eventCategory': 'Advertising', 'eventAction': 'Impression', 'eventLabel': eventCode});
-    return '';
-});
+if (typeof Handlebars != "undefined") {
+	
+}
 
 GMCLT.AdIndex = function() {
+	
+	var $advertiserSearch = jQuery( document.getElementById( 'gmclt_advertiserSearch' ) );
+	var $wideColumnContent = jQuery( document.getElementById( 'gmclt_wideColumnContent' ) );
+	var $categorySelect = '';
+	var $categoryDropdown = jQuery( document.getElementById( 'gmclt_categoryDropdown' ) );
 
 	var init = function() {
+		Handlebars.registerHelper("inc", function(value, options)
+		{
+		    return parseInt(value) + 1;
+		});
+		
+		Handlebars.registerHelper("analytics", function(eventCode)
+		{
+		    ga('send', {'hitType': 'event', 'eventCategory': 'Advertising', 'eventAction': 'Impression', 'eventLabel': eventCode});
+		   return '';
+		});
+		
+		
 		//listen for search
-		jQuery('#gmclt_advertiserSearch').keydown(function (e){
+		$advertiserSearch.keydown(function (e){
 		    if(e.keyCode == 13){
 		        searchAdvertisers(0, 'search');
 		    }
@@ -47,7 +57,8 @@ GMCLT.AdIndex = function() {
 	};	
 	
 	var searchAdvertisers = function(id,mode) {
-		var searchQuery = jQuery.trim(jQuery('#gmclt_advertiserSearch').val());
+		
+		var searchQuery = jQuery.trim( $advertiserSearch.val() );
 		var adSearchSource = jQuery("#searchResults-template").html(); 
 		var adSearchTemplate = Handlebars.compile(adSearchSource);
 		var proceed = false;
@@ -66,7 +77,7 @@ GMCLT.AdIndex = function() {
 				break;
 			case 'direct':
 				url = apiUrl + '/adIndex/adIndex.cfc?method=searchIndex&advertiserId=' + id + '&mode=' + mode +'&station=' + gmcltStationName + '&callback=?';
-				jQuery('#gmclt_categoryDropdown').hide();
+				$categoryDropdown.hide();
 				jQuery('.gmclt_searchBar').hide();
 				proceed = true;
 				break;
@@ -74,15 +85,15 @@ GMCLT.AdIndex = function() {
 		
 		if (proceed) {
 			jQuery('.gmclt_searching').show();
-			jQuery('#gmclt_wideColumnContent').html('');
+			$wideColumnContent.html('');
 			jQuery.getJSON(url,
 		
 			function (searchObject) {
-				jQuery('#gmclt_wideColumnContent').html(adSearchTemplate(searchObject));
+				$wideColumnContent.html(adSearchTemplate(searchObject));
 				jQuery('.gmclt_searching').hide();
-				jQuery('#gmclt_advertiserSearch').val('');
+				$advertiserSearch.val('');
 				if (mode != 'category') {
-					$("#gmclt_categorySelect").val('0');
+					$categorySelect.val('0');
 				} 
 				
 			})
@@ -91,7 +102,6 @@ GMCLT.AdIndex = function() {
 			});
 			
 		}
-		
 	};
 	
 	var populateCategories = function() {
@@ -101,8 +111,9 @@ GMCLT.AdIndex = function() {
 		jQuery.getJSON(apiUrl + '/adIndex/adIndex.cfc?method=getCategories&stationId=' + gmcltStationID + '&callback=?',
 	
 		function (categoryObject) {
-			jQuery('#gmclt_categoryDropdown').html(categoryTemplate(categoryObject));
-			jQuery('#gmclt_categorySelect').change(function() 
+			$categoryDropdown.html(categoryTemplate(categoryObject));
+			$categorySelect = jQuery( document.getElementById( 'gmclt_categorySelect' ) );
+			$categorySelect.change(function() 
 				{
 				  searchAdvertisers($(this).attr('value'), 'category');
 				});
@@ -110,15 +121,12 @@ GMCLT.AdIndex = function() {
 			.fail(function() {
 			   //do nothing. Not catastrophic
 			});
-			
-		
-		
 	};
 	
 	var searchError = function() {
 		var searchErrorSource = jQuery("#error-template").html(); 
 		var searchErrorTemplate = Handlebars.compile(searchErrorSource);
-		jQuery('#gmclt_wideColumnContent').html(searchErrorTemplate());
+		$wideColumnContent.html(searchErrorTemplate());
 		jQuery('.gmclt_searching').hide();
 		jQuery('.gmclt_searchBar').hide();
 	};
@@ -129,6 +137,62 @@ GMCLT.AdIndex = function() {
 	    };
 	    return oPublic;
  
+}();
+jQuery(document).ready(function(){
+	GMCLT.Stocks.stockQuoteSubnav();
+});
+
+GMCLT.Stocks = function() {
+	
+	var stockObject;
+	var currentStock = 0;
+	var index = jQuery("div.secondary-link:contains('Stocks')").parents().eq(1).attr('id');
+	 
+ 	var init = function() {
+		
+	};
+	
+	var stockQuoteSubnav = function() {
+		
+		if (index) {
+		
+			jQuery.getJSON(apiUrl + '/stocks/stocks.cfc?method=getStocksMini&callback=?',
+	
+			function (stockDataObject) {
+				stockObject = stockDataObject;
+				window.setInterval("GMCLT.Stocks.populateStockQuote()", 4000);
+			})
+			.fail(function() {
+			   //do nothing. Not catastrophic
+			});
+			
+		}
+		else {
+			alert('not found');
+		}
+		
+	}
+	
+	var populateStockQuote = function() {
+		var htmlString = '<a href="/category/business-news/"><div class="secondary-link"><img class="gmclt_headerStocksIcon" src="/wp-content/themes/wbt/images/stocks/' + stockObject[currentStock].arrow + '.png"> ' + stockObject[currentStock].shortName + ': ' + stockObject[currentStock].change + '</div></a>';
+		jQuery('#' + index).html(htmlString);
+		
+		if (stockObject.length == currentStock+1) {
+			currentStock = 0;
+		}
+		else {
+			currentStock = currentStock+1;
+		}
+	};
+	
+	var oPublic =
+	    {
+	      init: init,
+	      stockQuoteSubnav: stockQuoteSubnav,
+	      populateStockQuote: populateStockQuote
+	    };
+    return oPublic;
+	 
 }();
 var trafficmap;
 var infowindow;
@@ -273,6 +337,10 @@ GMCLT.Traffic = function() {
 	    return oPublic;
  
  }();
+jQuery(document).ready(function(){
+	GMCLT.Weather.currentConditionsSubnav();
+});
+
 GMCLT.Weather = function() {
 	 
  	var init = function() {
@@ -287,6 +355,40 @@ GMCLT.Weather = function() {
 			searchWeatherLocations();
 			
 		});
+	};
+	
+	var currentConditionsSubnav = function() {
+		var index = jQuery("div.secondary-link:contains('Weather')").parents().eq(1).attr('id');
+		
+		if (index) {
+		
+			var cookieWx = Cookies.get('gmcltWx');
+		
+			if (cookieWx) {
+				var currentConditions = cookieWx.split(',');
+				populateCurrentConditionsSubnav(currentConditions[0],currentConditions[1],index);
+			}
+			else {
+				jQuery.getJSON(apiUrl + '/weather/weather.cfc?method=getCurrentMini&callback=?',
+		
+				function (wxConditionsDataObject) {
+					populateCurrentConditionsSubnav(wxConditionsDataObject.temperature,wxConditionsDataObject.graphicCode,index);
+					Cookies.set('gmcltWx', wxConditionsDataObject.temperature + ',' + wxConditionsDataObject.graphicCode, { expires: 900 });
+				})
+				.fail(function() {
+				   //do nothing. Not catastrophic
+				});
+			}
+		}
+		else {
+			alert('not found');
+		}
+		
+	}
+	
+	var populateCurrentConditionsSubnav = function(temperature,graphicCode,index) {
+		var htmlString = '<a href="/weather"><div class="secondary-link"><img class="gmclt_headerWxIcon" src="/wp-content/themes/wbt/images/wx/' + graphicCode +  '.png"> ' + temperature + '&deg;</div></a>';
+		jQuery('#' + index).html(htmlString);
 	};
 	
 	var populateWeatherData = function(locationId) {
@@ -522,7 +624,8 @@ GMCLT.Weather = function() {
 	    {
 	      init: init,
 	      stormwatchInit: stormwatchInit,
-	      populateWeatherData: populateWeatherData
+	      populateWeatherData: populateWeatherData,
+	      currentConditionsSubnav: currentConditionsSubnav
 	    };
     return oPublic;
 	 
