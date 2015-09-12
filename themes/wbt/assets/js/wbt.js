@@ -167,9 +167,6 @@ GMCLT.Stocks = function() {
 			});
 			
 		}
-		else {
-			alert('not found');
-		}
 		
 	}
 	
@@ -379,9 +376,6 @@ GMCLT.Weather = function() {
 				   //do nothing. Not catastrophic
 				});
 			}
-		}
-		else {
-			alert('not found');
 		}
 		
 	}

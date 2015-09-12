@@ -41,9 +41,6 @@ GMCLT.Weather = function() {
 				});
 			}
 		}
-		else {
-			alert('not found');
-		}
 		
 	}
 	

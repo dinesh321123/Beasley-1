@@ -27,9 +27,6 @@ GMCLT.Stocks = function() {
 			});
 			
 		}
-		else {
-			alert('not found');
-		}
 		
 	}
 	
