@@ -40,12 +40,16 @@ class EventManager extends BaseImporter {
 		$entity       = $this->get_entity( 'event' );
 		$categories   = $this->categories_from_calendar( $calendar );
 
-		foreach ( $events as $calendar_event ) {
-			$event = $this->entity_from_event( $calendar_event );
-			$event['event_categories'] = $categories;
+		if ( ! empty( $events ) ) {
+			foreach ( $events as $calendar_event ) {
+				$event = $this->entity_from_event( $calendar_event );
+				$event['event_categories'] = $categories;
 
-			$entity->add( $event );
-			//$progress_bar->tick();
+				$entity->add( $event );
+				//$progress_bar->tick();
+			}
+		} else {
+			\WP_CLI::log( 'Ignoring Empty Calendar: ' . $calendar_name );
 		}
 
 		//$progress_bar->finish();
