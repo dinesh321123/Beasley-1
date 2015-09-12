@@ -85,7 +85,6 @@ GMCLT.AdIndex = function() {
 			});
 			
 		}
-		
 	};
 	
 	var populateCategories = function() {
@@ -104,9 +103,6 @@ GMCLT.AdIndex = function() {
 			.fail(function() {
 			   //do nothing. Not catastrophic
 			});
-			
-		
-		
 	};
 	
 	var searchError = function() {
