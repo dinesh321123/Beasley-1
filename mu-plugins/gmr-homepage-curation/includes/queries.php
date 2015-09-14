@@ -5,13 +5,7 @@ namespace GreaterMedia\HomepageCuration;
 use \WP_Query;
 
 function get_featured_query() {
-	$ids = recent_homepage_query( 'featured_meta_box' );
-
-	if ( '' !== $ids ) {
-		$ids = explode( ',', $ids );
-	} else {
-		$ids = array();
-	}
+	$ids = explode( ',', recent_homepage_query( 'featured_meta_box' ) );
 
 	$args = array(
 		'post_type'           => 'any',
@@ -26,13 +20,7 @@ function get_featured_query() {
 }
 
 function get_community_query() {
-	$ids = recent_homepage_query( 'dont_miss_meta_box' );
-
-	if ( '' !== $ids ) {
-		$ids = explode( ',', $ids );
-	} else {
-		$ids = array();
-	}
+	$ids = explode( ',', recent_homepage_query( 'dont_miss_meta_box' ) );
 
 	$args = array(
 		'post_type'           => 'any',
@@ -47,14 +35,7 @@ function get_community_query() {
 }
 
 function get_events_query() {
-	$ids = recent_homepage_query( 'events_meta_box' );
-
-	if ( '' !== $ids ) {
-		$ids = explode( ',', $ids );
-	} else {
-		$ids = array();
-	}
-
+	$ids = explode( ',', recent_homepage_query( 'events_meta_box' ) );
 
 	if ( count( $ids ) ) {
 		$args = array(
