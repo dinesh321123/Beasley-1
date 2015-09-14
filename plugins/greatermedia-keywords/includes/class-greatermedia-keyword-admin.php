@@ -102,7 +102,7 @@ class GreaterMedia_Keyword_Admin {
 			$this::$plugin_slug,
 			array( $this, 'display_plugin_admin_page' ),
 			'dashicons-lightbulb',
-			3
+			4
 		);
 
 	}

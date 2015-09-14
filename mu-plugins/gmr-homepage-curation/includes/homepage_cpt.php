@@ -103,7 +103,7 @@ function register_homepage_cpt() {
 	);
 
 	$args = array(
-		'labels'                   => $labels,
+		'labels'              => $labels,
 		'hierarchical'        => false,
 		'description'         => 'description',
 		'taxonomies'          => array(),
@@ -111,7 +111,7 @@ function register_homepage_cpt() {
 		'show_ui'             => true,
 		'show_in_menu'        => true,
 		'show_in_admin_bar'   => true,
-		'menu_position'       => 5,
+		'menu_position'       => 3,
 		'menu_icon'           => 'dashicons-admin-home',
 		'show_in_nav_menus'   => true,
 		'publicly_queryable'  => true,
