@@ -12,6 +12,8 @@ add_action( 'wp_print_scripts',      __NAMESPACE__ . '\remove_yoast_metabox_js',
 
 add_filter( 'preview_post_link',     __NAMESPACE__ . '\preview_post_setup', PHP_INT_MAX, 2 );
 
+// Enqueue scripts
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_admin_scripts' );
 /**
  * Homepage save nonce
  *
@@ -58,7 +60,7 @@ function metabox_data() {
  * @return array
  */
 function get_supported_post_types() {
-	return (array) apply_filters( 'gmr_homepage_curation_supported_post_types', array( 'post' )  );
+	return (array) apply_filters( 'gmr-homepage-curation-post-types', array( 'post', 'page', 'tribe_events' )  );
 }
 
 /**
@@ -115,7 +117,7 @@ function register_homepage_cpt() {
 		'menu_icon'           => 'dashicons-admin-home',
 		'show_in_nav_menus'   => true,
 		'publicly_queryable'  => true,
-		'exclude_from_search' => false,
+		'exclude_from_search' => true,
 		'has_archive'         => true,
 		'query_var'           => true,
 		'can_export'          => true,
@@ -154,13 +156,83 @@ function register_meta_boxes( $homepage ) {
 function render_source_meta_box( $homepage, $metabox ) {
 	$post_ids = get_preview_aware_post_meta( $homepage->ID, $metabox['args']['slug'], true );
 
-	render_post_picker( $metabox['args']['slug'], $post_ids, array(
-		'limit'                   => 5,
+	// Can hook into these to change the limit for each curated area
+	$homepage_curation_featured_limit = apply_filters( 'gmr-homepage-featured-limit', 4 );
+	$homepage_curation_community_limit = apply_filters( 'gmr-homepage-community-limit', 3 );
+	$homepage_curation_events_limit = apply_filters( 'gmr-homepage-events-limit', 2 );
+
+	$post_picker_args = array (
 		'show_numbers'            => true,
 		'show_icons'              => true,
 		'show_recent_select_list' => true,
-		'args'                    => array( 'post_type' => get_supported_post_types() ),
-	) );
+		'args'                    => array (
+			'post_type' => get_supported_post_types(),
+			'meta_key'  => '_thumbnail_id', // Forces the posts to have a featured image
+		),
+	);
+
+	if ( 'events_meta_box' !== $metabox['args']['slug'] ) {
+		// Query restricted posts.
+		$query            = new \WP_Query();
+		$restricted_posts = $query->query( array (
+			'post_type'           => get_supported_post_types(),
+			'post_status'         => 'any',
+			'posts_per_page'      => 50,
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+			'fields'              => 'ids',
+			'meta_query'          => array (
+				'relation' => 'OR',
+				array (
+					'key'     => 'post_age_restriction',
+					'compare' => 'EXISTS',
+				),
+				array (
+					'key'     => 'post_login_restriction',
+					'compare' => 'EXISTS',
+				),
+			),
+		) );
+
+		if ( 'featured_meta_box' === $metabox['args']['slug'] ) {
+			$post_picker_args['limit'] = $homepage_curation_featured_limit;
+		} else {
+			$post_picker_args['limit'] = $homepage_curation_community_limit;
+		}
+
+		$post_picker_args['args']['exclude'] = $restricted_posts;
+
+	} else {
+		// Fetch future events post ids
+		$query = new \WP_Query();
+		$future_events = $query->query( array(
+			'post_type'           => 'tribe_events',
+			'post_status'         => array( 'publish', 'future', 'private' ),
+			'posts_per_page'      => 2,
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+			'fields'              => 'ids',
+			'suppress_filters'    => true, // have to suppress filters otherwise it won't work
+			'meta_key'            => '_EventStartDate',
+			'meta_type'           => 'DATETIME',
+			'orderby'             => 'meta_value',
+			'order'               => 'ASC',
+			'meta_query'          => array(
+				array(
+					'key'     => '_EventStartDate',
+					'value'   => current_time( 'mysql' ),
+					'type'    => 'DATETIME',
+					'compare' => '>',
+				),
+			),
+		) );
+
+		$post_picker_args['limit'] = $homepage_curation_events_limit;
+		$post_picker_args['args']['post_type'] = 'tribe_events';
+		$post_picker_args['args']['include']   = $future_events;
+	}
+
+	render_post_picker( $metabox['args']['slug'], $post_ids, $post_picker_args );
 }
 
 /**
@@ -349,5 +421,17 @@ function remove_yoast_metabox_js() {
 
 	if ( gmr_homepages_slug() === $post->post_type ) {
 		wp_dequeue_script( 'wp-seo-metabox' );
+	}
+}
+
+/**
+ * Enqueue admin scripts.
+ * @param $page
+ */
+function enqueue_admin_scripts( $page ) {
+	global $gmr_homepage_curation, $typenow;
+	if ( $gmr_homepage_curation == $page || 'show' == $typenow || 'gmr_homepage' == $typenow ) {
+		wp_enqueue_style( 'homepage-curation', GMEDIA_HOMEPAGE_CURATION_URL . 'css/admin.css', null, GMEDIA_HOMEPAGE_CURATION_VERSION );
+		wp_enqueue_script( 'homepage-curation', GMEDIA_HOMEPAGE_CURATION_URL . 'js/curation.js', array( 'jquery' ), GMEDIA_HOMEPAGE_CURATION_VERSION, true );
 	}
 }

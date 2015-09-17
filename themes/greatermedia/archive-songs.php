@@ -29,9 +29,9 @@ get_header(); ?>
 					if ( $stream_query->have_posts() ) : $stream_query->the_post(); 
 						$description = get_post_meta( get_the_ID(), 'description', true );
 						if ( !empty( $description ) ){
-							echo 'on '.$description;
+							echo 'on ' . esc_html( $description );
 						}else{
-							echo 'on '.$call_sign;
+							echo 'on ' . esc_html( $call_sign );
 						}
 					endif;
 					wp_reset_postdata();

@@ -175,9 +175,9 @@ class GMR_Show_Metaboxes {
 				<p>
 					<select name="show_assigned_custom_menu" id="show-assigned-custom-menu">
 				<?php
-				foreach ($available_nav_menus as $menu) {
-					$is_selected = ($assigned_custom_menu_id == $menu->term_id) ? 'selected' : '';
-					echo '<option value="'.$menu->term_id.'" '.$is_selected.'>'.$menu->name.'</option>';
+				foreach ( $available_nav_menus as $menu ) {
+					$is_selected = ( $assigned_custom_menu_id == $menu->term_id ) ? 'selected' : '';
+					echo '<option value="' . esc_attr( $menu->term_id ) . '" ' . $is_selected . '>' . esc_html( $menu->name ) . '</option>';
 				}
 				?>
 					</select>
