@@ -529,5 +529,17 @@ SQL;
 		$emma_group_creator->create_and_save();
 	}
 
+	function repair_feed_image_attribution( $args, $opts ) {
+		$opts['repair'] = true;
+		$opts['tools_to_load'] = 'feed';
+		$this->initialize( $args, $opts, false );
+
+		$this->mappings->load();
+
+		$repairer = new \GreaterMedia\Import\Repair\FeedImageAttribution();
+		$repairer->container = $this;
+		$repairer->repair();
+	}
+
 }
 
