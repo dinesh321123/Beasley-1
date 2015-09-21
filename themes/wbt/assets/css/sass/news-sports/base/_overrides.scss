@@ -28,7 +28,7 @@ body {
 }
 
 .live-player__stream {
-	display: none;
+	display: none !important;
 	border: 1px solid lighten($color-gray-medium-dark,50%);
 	color: lighten($color-gray-medium-dark,50%);
 	@include border-radius(1em);
@@ -110,7 +110,7 @@ body {
 }
 
 .header {
-	background-image: url(../../images/skyscraperHeaderImage.jpg);
+	background-image: url(http://assets.wbt.com/images/skyscraperHeaderImage.jpg);
 }
 
 .footer__ad .desktop {
@@ -207,8 +207,12 @@ body {
 }
 
 .live-player {
- 	background-image: url(../../images/player-bg.png);
+ 	background-image: url(../../images/player-bg-mobile.png);
 	background-repeat: no-repeat;
+	background-size: 100%;
+	@include bp(medium) {
+		background-image: url(../../images/player-bg.png);
+	}
 }
 
 .live-stream {
@@ -591,10 +595,69 @@ a:hover .breaking-news-banner {
 }
 
 .show__header.has-thumbnail::before {
-	background-image: linear-gradient(to bottom,rgba(0,0,0,.52),rgba(0,0,0,.52));
-	background-image: -moz-linear-gradient(top,rgba(0,0,0,.52),rgba(0,0,0,.52));
-	background-image: -o-linear-gradient(top,rgba(0,0,0,.52),rgba(0,0,0,.52));
-	background-image: -ms-linear-gradient(top,rgba(0,0,0,.52),rgba(0,0,0,.52));
-	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.52)),to(rgba(0,0,0,.52)));
-	background-image: -webkit-linear-gradient(top,rgba(0, 0, 0, 0.52),rgba(0, 0, 0, 0.52));
+	background-image: linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,0));
+	background-image: -moz-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
+	background-image: -o-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
+	background-image: -ms-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
+	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0)),to(rgba(0,0,0,0)));
+	background-image: -webkit-linear-gradient(top,rgba(0, 0, 0, 00),rgba(0, 0, 0, 00));
+}
+
+.article__thumbnail__caption {
+	padding: 2px 4px 2px 4px;
+	color: #838383;
+}
+
+.live-links {
+	border-top: 0;
+	margin: 0!important;
+	width: 100%;
+
+	.widget--live-player__title {
+		display: none;
+	}
+
+	.widget_gmr_blogroll_widget {
+		display: none;
+	}
+}
+
+.live-links--more.show-more--muted {
+	display: none;
+	@include bp(medium) {
+		display: block;
+	}
+}
+
+.streamhub-wall-component {
+	article {
+		&.content-default .content-body {
+			font-family: 'Open Sans', sans-serif;
+			font-size: 16px;
+			line-height: 20px;
+		}
+	}
+}
+
+#wbt-social-column {
+	overflow: hidden;
+	border-top: 1px solid #eee;
+
+	article {
+		border-width: 0 0 1px 0;
+		margin: 0;
+		padding: 20px 0;
+
+		&.content .content-header .content-header-inner {
+			padding-top: 0;
+		}
+
+		&.content-instagram .content-header .content-header-inner {
+			padding-top: 20px;
+		}
+	}
+
+	.hub-list-more {
+		display: none;
+	}
 }

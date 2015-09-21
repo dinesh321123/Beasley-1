@@ -15175,7 +15175,7 @@ body {
     color: #d22228; }
 
 .live-player__stream {
-  display: none;
+  display: none !important;
   border: 1px solid #b0b0b0;
   color: #b0b0b0;
   -webkit-border-radius: 1em;
@@ -15234,7 +15234,7 @@ body {
   color: #FFFFFF; }
 
 .header {
-  background-image: url(../../images/skyscraperHeaderImage.jpg); }
+  background-image: url(http://assets.wbt.com/images/skyscraperHeaderImage.jpg); }
 
 .footer__ad .desktop {
   height: 90px; }
@@ -15308,8 +15308,12 @@ body {
   background-color: #929497; }
 
 .live-player {
-  background-image: url(../../images/player-bg.png);
-  background-repeat: no-repeat; }
+  background-image: url(../../images/player-bg-mobile.png);
+  background-repeat: no-repeat;
+  background-size: 100%; }
+  @media screen and (min-width: 768px)  {
+    .live-player {
+      background-image: url(../../images/player-bg.png); } }
 
 .live-stream {
   background-color: transparent; }
@@ -15616,11 +15620,49 @@ a:hover .breaking-news-banner {
       height: 700px; } }
 
 .show__header.has-thumbnail::before {
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52));
-  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52));
-  background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52));
-  background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52));
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.52)), to(rgba(0, 0, 0, 0.52)));
-  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52)); }
+  background-image: linear-gradient(to bottom, transparent, transparent);
+  background-image: -moz-linear-gradient(top, transparent, transparent);
+  background-image: -o-linear-gradient(top, transparent, transparent);
+  background-image: -ms-linear-gradient(top, transparent, transparent);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image: -webkit-linear-gradient(top, transparent, transparent); }
+
+.article__thumbnail__caption {
+  padding: 2px 4px 2px 4px;
+  color: #838383; }
+
+.live-links {
+  border-top: 0;
+  margin: 0 !important;
+  width: 100%; }
+  .live-links .widget--live-player__title {
+    display: none; }
+  .live-links .widget_gmr_blogroll_widget {
+    display: none; }
+
+.live-links--more.show-more--muted {
+  display: none; }
+  @media screen and (min-width: 768px)  {
+    .live-links--more.show-more--muted {
+      display: block; } }
+
+.streamhub-wall-component article.content-default .content-body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 20px; }
+
+#wbt-social-column {
+  overflow: hidden;
+  border-top: 1px solid #eee; }
+  #wbt-social-column article {
+    border-width: 0 0 1px 0;
+    margin: 0;
+    padding: 20px 0; }
+    #wbt-social-column article.content .content-header .content-header-inner {
+      padding-top: 0; }
+    #wbt-social-column article.content-instagram .content-header .content-header-inner {
+      padding-top: 20px; }
+  #wbt-social-column .hub-list-more {
+    display: none; }
 
 /*# sourceMappingURL=wbt.css.map */
