@@ -556,8 +556,7 @@ function greatermedia_load_more_button( $args = array() ) {
 		return;
 	}
 
-
-	if ( ! $args['next_page'] ) {
+	if ( empty( $args['next_page'] ) || !is_numeric( $args['next_page'] ) ) {
 		$args['next_page'] = 2;
 	}
 

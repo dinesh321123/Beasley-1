@@ -8,16 +8,19 @@
 
 	$post_taxonomies = get_post_taxonomies();
 	$shows = array();
-	
-	//var_dump(get_the_terms( $the_id, ShowsCPT::SHOW_TAXONOMY )); die();
-	
-	foreach ( get_the_terms( $the_id, ShowsCPT::SHOW_TAXONOMY ) as $show ) :
-		if ( ( $show = \TDS\get_related_post( $show ) ) ) :
-			if ( \GreaterMedia\Shows\supports_homepage( $show->ID ) ) :
-				array_push($shows, $show);
+
+	// Check to see if any shows are associated with this content
+	$current_terms = get_the_terms( $the_id, ShowsCPT::SHOW_TAXONOMY );
+
+	if ( ( $current_terms != false ) && ( is_array( $current_terms ) ) ){
+		foreach ( $current_terms as $show ) :
+			if ( ( $show = \TDS\get_related_post( $show ) ) ) :
+				if ( \GreaterMedia\Shows\supports_homepage( $show->ID ) ) :
+					array_push($shows, $show);
+				endif;
 			endif;
-		endif;
-	endforeach;
+		endforeach;
+	}
 
 	// Only show the mini nav if the content is associated with one and only one show
 	if (count( $shows ) == 1) :
