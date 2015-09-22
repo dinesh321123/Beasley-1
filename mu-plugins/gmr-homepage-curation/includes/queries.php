@@ -35,7 +35,7 @@ function get_community_query() {
 }
 
 function get_events_query() {
-	$ids = explode( ',', recent_homepage_query( 'events_meta_box' ) );
+	$ids = array_filter( explode( ',', recent_homepage_query( 'events_meta_box' ) ) );
 
 	if ( count( $ids ) ) {
 		$args = array(
