@@ -201,8 +201,6 @@ function render_source_meta_box( $homepage, $metabox ) {
 		}
 
 		$post_picker_args['args']['exclude'] = $restricted_posts;
-		$post_picker_args['args']['meta_key']  = '_thumbnail_id'; // Force posts only with thumbnail.
-
 	} else {
 		// Fetch future events post ids
 		$query = new \WP_Query();
