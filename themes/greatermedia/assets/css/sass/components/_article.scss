@@ -48,6 +48,8 @@
 	@include bp(large) {
 		&.desktop {
 			display: block;
+			width: 300px;
+			min-height: 250px;
 		}
 
 		&.mobile {
