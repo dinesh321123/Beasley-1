@@ -541,5 +541,10 @@ SQL;
 		$repairer->repair();
 	}
 
+	function delete_posts( $args, $opts ) {
+		$post_deletor = new \GreaterMedia\Import\Repair\PostDeletor();
+		$post_deletor->delete();
+	}
+
 }
 
