@@ -45,9 +45,6 @@ get_header();
 	</article>
 </div>
 
-<script type="text/javascript" src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>assets/js/vendor/handlebars-v3.0.3.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-
 <script id="list-template" type="text/x-handlebars-template">
 	{{#each this}}
 		<article class="entry">
