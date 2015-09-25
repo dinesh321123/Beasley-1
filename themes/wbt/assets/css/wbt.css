@@ -15235,6 +15235,9 @@ body {
 .breaking-news-banner__title {
   color: #FFFFFF; }
 
+.profile-page .profile-page__sidebar {
+  background-color: #CF000F; }
+
 .header {
   background-image: url(http://assets.wbt.com/images/skyscraperHeaderImage.jpg); }
 

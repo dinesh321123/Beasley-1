@@ -108,6 +108,14 @@ body {
 	color: #FFFFFF;
 }
 
+.profile-page .profile-page__sidebar {
+	background-color: #4288DC;
+}
+
+.profile-page__sidebar .profile-header-link {
+	color: #0A3FAB;
+}
+
 .header {
 	background-image: url(http://assets.wbt.com/images/skyscraperHeaderImage.jpg);
 }
@@ -220,6 +228,10 @@ body {
 
 .live-stream__listen-now--btn {
 	background-color: white !important;
+}
+
+.show__header {
+	background-color: #4288DC;
 }
 
 .show__header.has-thumbnail::before {
