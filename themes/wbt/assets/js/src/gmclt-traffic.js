@@ -4,10 +4,6 @@ var infowindow;
 GMCLT.Traffic = function() {
 	
   	var init = function() {
-  		google.maps.event.addDomListener(window, 'load', initialize);
-  	};
-
-	var initialize = function() {
 		var myLatlng = new google.maps.LatLng(35.2269, -80.8433);
 		var mapOptions = {
 			zoom: 11,
@@ -18,7 +14,7 @@ GMCLT.Traffic = function() {
 
 		trafficmap = new google.maps.Map(document.getElementById('gmclt_trafficMapCanvas'), mapOptions);
 
-		var trafficLayer = new google.maps.TrafficLayer();
+		trafficLayer = new google.maps.TrafficLayer();
 		trafficLayer.setMap(trafficmap);
 		getTrafficIncidents();
 		getTrafficCameras();

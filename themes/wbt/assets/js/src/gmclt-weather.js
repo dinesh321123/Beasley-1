@@ -145,7 +145,8 @@ GMCLT.Weather = function() {
 	var GMCLTstate = 'NC';
 	
 	var stormwatchInit = function() {
-		google.maps.event.addDomListener(window, 'load', initializeStormwatchMap);
+		//google.maps.event.addDomListener(window, 'load', initializeStormwatchMap);
+		initializeStormwatchMap();
 		google.maps.visualRefresh = true;
 		
 		jQuery('#gmclt_selectState').change(function () {
