@@ -16,7 +16,7 @@ GMCLT.Traffic = function() {
 		    center: myLatlng
 		};
 
-		trafficmap = new google.maps.Map(document.getElementById('trafficMap-canvas'), mapOptions);
+		trafficmap = new google.maps.Map(document.getElementById('gmclt_trafficMapCanvas'), mapOptions);
 
 		var trafficLayer = new google.maps.TrafficLayer();
 		trafficLayer.setMap(trafficmap);
@@ -55,8 +55,8 @@ GMCLT.Traffic = function() {
 					//Add listener for click
 					google.maps.event.addListener(window['marker' + id], 'click', buildIncidentClickHandler(trafficObject[i]));
 					
-					jQuery('#gmcltTraffic_list').html(trafficListTemplate(trafficObject));
-					jQuery('#gmcltTraffic_listLoading').hide();
+					jQuery('#gmclt_trafficList').html(trafficListTemplate(trafficObject));
+					jQuery('#gmclt_trafficListLoading').hide();
 					
 				}
 				jQuery('#gmcltTraffic_mapLoading').hide();

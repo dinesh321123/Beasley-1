@@ -5378,7 +5378,9 @@ Link posts contain a link to an external site. They can also optionally have a f
   display: block; }
 @media screen and (min-width: 1024px)  {
   .article .ad__inline--right.desktop {
-    display: block; }
+    display: block;
+    width: 300px;
+    min-height: 250px; }
   .article .ad__inline--right.mobile {
     display: none; } }
 @media screen and (min-width: 1024px)  {
@@ -15321,6 +15323,38 @@ body {
 .live-stream__listen-now--btn, .podcast__rss {
   background-color: white !important; }
 
+.show__header.has-thumbnail::before {
+  background-image: linear-gradient(to bottom, transparent, transparent);
+  background-image: -moz-linear-gradient(top, transparent, transparent);
+  background-image: -o-linear-gradient(top, transparent, transparent);
+  background-image: -ms-linear-gradient(top, transparent, transparent);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image: -webkit-linear-gradient(top, transparent, transparent); }
+
+.article__thumbnail__caption {
+  padding: 2px 4px 2px 4px;
+  color: #838383; }
+
+.live-links {
+  border-top: 0;
+  margin: 0 !important;
+  width: 100%; }
+  .live-links .widget--live-player__title {
+    display: none; }
+  .live-links .widget_gmr_blogroll_widget {
+    display: none; }
+
+.live-links--more.show-more--muted {
+  display: none; }
+  @media screen and (min-width: 768px)  {
+    .live-links--more.show-more--muted {
+      display: block; } }
+
+.streamhub-wall-component article.content-default .content-body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 20px; }
+
 .gmclt_narrowColumn {
   box-sizing: border-box;
   background-color: #E3E4E5;
@@ -15351,15 +15385,6 @@ body {
   .gmclt_narrowColumnTwo {
     float: none; } }
 
-.gmcltWX_data h4 {
-  margin: 0; }
-
-.gmcltWX_data p {
-  margin: 0; }
-
-.gmcltWX_data p.gmcltWX_dataSmall {
-  font-size: 0.7em; }
-
 .gmclt_narrowColumnIcon {
   float: left;
   width: 50%; }
@@ -15373,16 +15398,6 @@ body {
   float: left;
   margin-top: -20px; }
 
-@media screen and (min-width: 1200px)  {
-  .gmcltWX_mobile {
-    display: none; } }
-
-.gmcltWX_desktop {
-  display: none; }
-  @media screen and (min-width: 1200px)  {
-    .gmcltWX_desktop {
-      display: inline; } }
-
 .gmclt_wideColumn {
   box-sizing: border-box;
   font-size: 16px;
@@ -15395,6 +15410,28 @@ body {
 .gmclt_topBottomPadding {
   padding: 10px 0 10px 0; }
 
+.gmclt_endorsementLogo {
+  display: inline !important; }
+
+.gmclt_wxData h4 {
+  margin: 0; }
+
+.gmclt_wxData p {
+  margin: 0; }
+
+.gmclt_wxData p.gmclt_wxDataSmall {
+  font-size: 0.7em; }
+
+@media screen and (min-width: 1200px)  {
+  .gmclt_wxMobile {
+    display: none; } }
+
+.gmclt_wxDesktop {
+  display: none; }
+  @media screen and (min-width: 1200px)  {
+    .gmclt_wxDesktop {
+      display: inline; } }
+
 .gmclt_adDiv {
   text-align: center;
   padding-top: 10px; }
@@ -15405,14 +15442,14 @@ body {
   .gmclt_wideColumn.right {
     margin-left: 10px; } }
 
-.gmcltWX_forecastDay {
+.gmclt_wxForecastDay {
   border-bottom: solid;
   border-bottom-color: #E3E4E5;
   border-bottom-width: 4px;
   margin-top: 5px; }
 
 @media screen and (min-width: 1200px)  {
-  .gmcltWX_forecastShort {
+  .gmclt_wxForecastShort {
     float: left;
     width: 20%;
     border-bottom: none;
@@ -15422,29 +15459,29 @@ body {
     padding: 0 8px; } }
 
 @media screen and (min-width: 1200px)  {
-  .gmcltWX_forecastShort h4 {
+  .gmclt_wxForecastShort h4 {
     font-size: 0.8em; } }
 
 @media screen and (min-width: 1200px)  {
-  .gmcltWX_first {
+  .gmclt_wxFirst {
     padding-left: 0; } }
 
 @media screen and (min-width: 1200px)  {
-  .gmcltWX_last {
+  .gmclt_wxLast {
     padding-right: 0;
     border-right: none; } }
 
-h4.gmcltWX_forecastDayHeader {
+h4.gmclt_wxForecastDayHeader {
   margin: 0; }
 
-.gmcltWX_forecastIcon {
+.gmclt_wxForecastIcon {
   float: left;
   text-align: center; }
   @media screen and (min-width: 1200px)  {
-    .gmcltWX_forecastIcon {
+    .gmclt_wxForecastIcon {
       float: right; } }
 
-.gmcltWX_forecastIconShort {
+.gmclt_wxForecastIconShort {
   float: left;
   text-align: center;
   max-width: 100px;
@@ -15452,70 +15489,70 @@ h4.gmcltWX_forecastDayHeader {
   margin-left: auto;
   margin-right: auto; }
   @media screen and (min-width: 1200px)  {
-    .gmcltWX_forecastIconShort {
+    .gmclt_wxForecastIconShort {
       float: none; } }
 
-.gmcltWX_forecastIcon img {
+.gmclt_wxForecastIcon img {
   display: block;
   width: 100px; }
 
-.gmcltWX_forecastText {
+.gmclt_wxForecastText {
   margin-left: 110px; }
   @media screen and (min-width: 1200px)  {
-    .gmcltWX_forecastText {
+    .gmclt_wxForecastText {
       margin-left: 0; } }
 
 @media screen and (min-width: 1200px)  {
-  .gmcltWX_forecastText p {
+  .gmclt_wxForecastText p {
     font-size: 0.8em; } }
 
-.gmcltWX_loading {
+.gmclt_wxLoading {
   z-index: 100;
   left: 50%;
   margin-bottom: 10px; }
 
-.gmcltWX_loading img {
+.gmclt_wxLoading img {
   display: block;
   margin-left: auto;
   margin-right: auto; }
 
-.gmcltWX_loading p {
+.gmclt_wxLoading p {
   margin-bottom: 0;
   padding-bottom: 0;
   text-align: center; }
 
-.gmcltWX_search {
+.gmclt_wxSearch {
   text-align: right;
   display: none; }
 
-.gmclt_headerWxIcon {
+.gmclt_wxHeaderIcon {
   height: 35px;
   display: inline;
   margin-top: -10px;
   vertical-align: top; }
 
-.gmclt_headerStocksIcon {
+.gmclt_stocksHeaderIcon {
   height: 17px;
   width: 13px;
   display: inline;
   vertical-align: top; }
 
-.gmcltTraffic_loading {
+.gmclt_trafficLoading {
   z-index: 100;
   left: 50%;
   margin-bottom: 10px; }
 
-.gmcltTraffic_loading img {
+.gmclt_trafficLoading img {
   display: block;
   margin-left: auto;
   margin-right: auto; }
 
-.gmcltTraffic_loading p {
+.gmclt_trafficLoading p {
   margin-bottom: 0;
   padding-bottom: 0;
   text-align: center; }
 
-.gmcltTraffic_list .entry {
+.gmclt_trafficList .entry {
   float: left;
   display: block;
   width: 100%;
@@ -15523,10 +15560,10 @@ h4.gmcltWX_forecastDayHeader {
   padding-top: 2.25em;
   border-top: 1px solid #b8babc; }
 
-.gmcltTraffic_list.gmclt_left {
+.gmclt_trafficList.gmclt_left {
   width: 80%; }
 
-.gmcltTraffic_listIcon {
+.gmclt_trafficListIcon {
   float: left; }
 
 .gmclt_searching {
@@ -15590,66 +15627,34 @@ a:hover .breaking-news-banner {
 .secondary-nav .menu-item a:active, .secondary-nav .menu-item a:focus, .secondary-nav .menu-item a:hover {
   color: #cf000f; }
 
-#GMCLTstateSelect {
+#gmclt_selectState {
   margin-bottom: 10px; }
 
-#stormwatchMap-canvas {
+#gmclt_stormwatchMapCanvas {
   margin: auto;
   width: 80%;
   height: 350px; }
   @media screen and (min-width: 1200px)  {
-    #stormwatchMap-canvas {
+    #gmclt_stormwatchMapCanvas {
       width: 100%;
       height: 700px; } }
 
-#radarMap-canvas {
+#gmclt_radarMapCanvas {
   margin: auto;
   width: 80%;
   height: 300px; }
   @media screen and (min-width: 1200px)  {
-    #radarMap-canvas {
+    #gmclt_radarMapCanvas {
       width: 100%; } }
 
-#trafficMap-canvas {
+#gmclt_trafficMapCanvas {
   margin: auto;
   width: 80%;
   height: 300px; }
   @media screen and (min-width: 1200px)  {
-    #trafficMap-canvas {
+    #gmclt_trafficMapCanvas {
       width: 100%;
       height: 700px; } }
-
-.show__header.has-thumbnail::before {
-  background-image: linear-gradient(to bottom, transparent, transparent);
-  background-image: -moz-linear-gradient(top, transparent, transparent);
-  background-image: -o-linear-gradient(top, transparent, transparent);
-  background-image: -ms-linear-gradient(top, transparent, transparent);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image: -webkit-linear-gradient(top, transparent, transparent); }
-
-.article__thumbnail__caption {
-  padding: 2px 4px 2px 4px;
-  color: #838383; }
-
-.live-links {
-  border-top: 0;
-  margin: 0 !important;
-  width: 100%; }
-  .live-links .widget--live-player__title {
-    display: none; }
-  .live-links .widget_gmr_blogroll_widget {
-    display: none; }
-
-.live-links--more.show-more--muted {
-  display: none; }
-  @media screen and (min-width: 768px)  {
-    .live-links--more.show-more--muted {
-      display: block; } }
-
-.streamhub-wall-component article.content-default .content-body {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
-  line-height: 20px; }
 
 #wbt-social-column {
   overflow: hidden;

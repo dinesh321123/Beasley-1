@@ -20,12 +20,12 @@ get_header();
 			<?php the_content(); ?>
 			
 			<div class="gmclt_narrowColumn">
-				<div class="gmcltWX_loading">
+				<div class="gmclt_wxLoading">
 					<p>Loading...</p>
 					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WBTajaxLoader.gif">
 				</div>
-				<div class="gmcltWX_search">
-					<input type="text" name="gmcltWX_search" id="gmcltWX_search" placeholder="Search for location..."><input type="submit" id="gmcltWX_searchsubmit" value="Search">
+				<div class="gmclt_wxSearch">
+					<input type="text" name="gmclt_wxSearch" id="gmclt_wxSearch" placeholder="Search for location..."><input type="submit" id="gmclt_wxSearchsubmit" value="Search">
 				</div>
 				<div id="gmclt_narrowColumnContent"></div>
 				<div class="gmclt_adDiv">
@@ -37,7 +37,7 @@ get_header();
 			<div class="gmclt_wideColumn right">
 				<div id="gmcltWX_forecastFullContent"></div>
 				<div id="gmcltWX_forecastContent"></div>
-				<div id="radarMap-canvas"></div>
+				<div id="gmclt_radarMapCanvas"></div>
 			</div>
 		</section>
 		
@@ -55,10 +55,10 @@ get_header();
 		<div class="gmclt_narrowColumnTemp">
 			{{currentConditions.temperature}}&deg;
 		</div>
-		<div class="gmcltWX_data">
+		<div class="gmclt_wxData">
 			<h4>{{currentConditions.sky}} {{currentConditions.weather}}</h4>
 			<p><strong>Wind moving from the {{currentConditions.windDirection}} at {{currentConditions.windSpeed}} mph</strong></p>
-			<p class="gmcltWX_dataSmall">Current as of {{currentConditions.updateTime}} Eastern</p>
+			<p class="gmclt_wxDataSmall">Current as of {{currentConditions.updateTime}} Eastern</p>
 		</div>
 	</div>
 	<div class="gmclt_narrowColumnTwo">
@@ -75,20 +75,20 @@ get_header();
 <script id="forecastFull-template" type="text/x-handlebars-template">
 	{{#each forecast}}
 		{{#if nightName}}
-			<div class="gmcltWX_forecastDay gmcltWX_forecastFull">
+			<div class="gmclt_wxForecastDay gmcltWX_forecastFull">
 				{{#unless eveningOnly}}
-				<div class="gmcltWX_forecastIcon">
+				<div class="gmclt_wxForecastIcon">
 					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/wx/{{sky24}}.png">
 					High <strong>{{hiTmpF}}&deg;</strong><br />
 					Low <strong>{{loTmpF}}&deg;</strong>
 				</div>
 				{{/unless}}
-				<div class="gmcltWX_forecastText">
+				<div class="gmclt_wxForecastText">
 					{{#unless eveningOnly}}
-					<h4 class="gmcltWX_forecastDayHeader">{{dayName}}</h4>
+					<h4 class="gmclt_wxForecastDayHeader">{{dayName}}</h4>
 					<p>{{dayForecast}}</p>
 					{{/unless}}
-					<h4 class="gmcltWX_forecastDayHeader">{{nightName}}</h4>
+					<h4 class="gmclt_wxForecastDayHeader">{{nightName}}</h4>
 					<p>{{nightForecast}}</p>
 				</div>
 				<div class="gmclt_clear"></div>
@@ -100,16 +100,16 @@ get_header();
 <script id="forecast-template" type="text/x-handlebars-template">
 	{{#each forecast}}
 		{{#unless nightName}}
-			<div class="gmcltWX_forecastDay gmcltWX_forecastShort{{#if firstDay}} gmcltWX_first{{/if}}{{#if lastDay}} gmcltWX_last{{/if}}">
-				<h4 class="gmcltWX_forecastDayHeader gmcltWX_desktop">{{dayName}}</h4>
-				<div class="gmcltWX_forecastIconShort">
+			<div class="gmclt_wxForecastDay gmclt_wxForecastShort{{#if firstDay}} gmclt_wxFirst{{/if}}{{#if lastDay}} gmclt_wxLast{{/if}}">
+				<h4 class="gmclt_wxForecastDayHeader gmclt_wxDesktop">{{dayName}}</h4>
+				<div class="gmclt_wxForecastIconShort">
 					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/wx/{{sky24}}.png">
 					High <strong>{{hiTmpF}}&deg;</strong><br />
 					Low <strong>{{loTmpF}}&deg;</strong><br />
 						
 				</div>
-				<div class="gmcltWX_forecastText">
-					<h4 class="gmcltWX_forecastDayHeader gmcltWX_mobile">{{dayName}}</h4>
+				<div class="gmclt_wxForecastText">
+					<h4 class="gmclt_wxForecastDayHeader gmclt_wxMobile">{{dayName}}</h4>
 					<p>{{dayForecast}}</p>
 				</div>
 				<div class="gmclt_clear"></div>

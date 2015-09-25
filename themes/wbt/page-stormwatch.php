@@ -20,7 +20,7 @@ get_header();
 			<?php the_content(); ?>
 			
 			Choose a state to view WBT Operation Storm Watch Alerts:<br />
-				<select id="GMCLTstateSelect" name="GMCLTstateSelect">
+				<select id="gmclt_selectState" name="gmclt_selectState">
 					<option value="NC" selected="selected">NORTH CAROLINA</option>
 					<option value="SC">SOUTH CAROLINA</option>
 					<option value="NC">   --------   </option>
@@ -81,7 +81,7 @@ get_header();
 					<p>Loading...</p>
 					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WBTajaxLoader.gif">
 				</div>
-				<div id="stormwatchMap-canvas"></div>
+				<div id="gmclt_stormwatchMapCanvas"></div>
 			</div>
 			
 			<div class="gmclt_narrowColumn">

@@ -10,7 +10,6 @@ body {
 	@include bp(medium) {
 		background-position: left top;
 		background-color: #561015;
-		// background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
 	}
 }
 
@@ -223,6 +222,51 @@ body {
 	background-color: white !important;
 }
 
+.show__header.has-thumbnail::before {
+	background-image: linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,0));
+	background-image: -moz-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
+	background-image: -o-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
+	background-image: -ms-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
+	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0)),to(rgba(0,0,0,0)));
+	background-image: -webkit-linear-gradient(top,rgba(0, 0, 0, 00),rgba(0, 0, 0, 00));
+}
+
+.article__thumbnail__caption {
+	padding: 2px 4px 2px 4px;
+	color: #838383;
+}
+
+.live-links {
+	border-top: 0;
+	margin: 0!important;
+	width: 100%;
+
+	.widget--live-player__title {
+		display: none;
+	}
+
+	.widget_gmr_blogroll_widget {
+		display: none;
+	}
+}
+
+.live-links--more.show-more--muted {
+	display: none;
+	@include bp(medium) {
+		display: block;
+	}
+}
+
+.streamhub-wall-component {
+	article {
+		&.content-default .content-body {
+			font-family: 'Open Sans', sans-serif;
+			font-size: 16px;
+			line-height: 20px;
+		}
+	}
+}
+
 .gmclt_narrowColumn {
 	box-sizing: border-box;
 	background-color: #E3E4E5;
@@ -259,18 +303,6 @@ body {
 	}
 }
 
-.gmcltWX_data h4 {
-	margin: 0;
-}
-
-.gmcltWX_data p {
-	margin: 0;
-}
-
-.gmcltWX_data p.gmcltWX_dataSmall {
-	font-size: 0.7em;
-}
-
 .gmclt_narrowColumnIcon {
 	float: left;
 	width: 50%;
@@ -285,19 +317,6 @@ body {
 	font-size: 5em;
 	float: left;
 	margin-top: -20px;
-}
-
-.gmcltWX_mobile {
-	@include bp(larger) {
-		display: none;	
-	}
-}
-
-.gmcltWX_desktop {
-	display: none;
-	@include bp(larger) {
-		display: inline;	
-	}
 }
 
 .gmclt_wideColumn {
@@ -315,6 +334,35 @@ body {
 	padding: 10px 0 10px 0;
 }
 
+.gmclt_endorsementLogo {
+	display: inline !important;
+}
+
+.gmclt_wxData h4 {
+	margin: 0;
+}
+
+.gmclt_wxData p {
+	margin: 0;
+}
+
+.gmclt_wxData p.gmclt_wxDataSmall {
+	font-size: 0.7em;
+}
+
+.gmclt_wxMobile {
+	@include bp(larger) {
+		display: none;	
+	}
+}
+
+.gmclt_wxDesktop {
+	display: none;
+	@include bp(larger) {
+		display: inline;	
+	}
+}
+
 .gmclt_adDiv {
 	text-align: center; padding-top: 10px;
 }
@@ -328,14 +376,14 @@ body {
 	}
 }
 
-.gmcltWX_forecastDay {
+.gmclt_wxForecastDay {
 	border-bottom: solid;
 	border-bottom-color: #E3E4E5;
 	border-bottom-width: 4px;
 	margin-top: 5px;
 }
 
-.gmcltWX_forecastShort {
+.gmclt_wxForecastShort {
 	@include bp(larger) {
 		float: left;
 		width: 20%;
@@ -347,30 +395,30 @@ body {
 	}
 }
 
-.gmcltWX_forecastShort h4 {
+.gmclt_wxForecastShort h4 {
 	@include bp(larger) {
 		font-size: 0.8em;
 	}
 }
 
-.gmcltWX_first {
+.gmclt_wxFirst {
 	@include bp(larger) {
 		padding-left: 0;
 	}
 }
 
-.gmcltWX_last {
+.gmclt_wxLast {
 	@include bp(larger) {
 		padding-right: 0;
 		border-right: none;
 	}
 }
 
-h4.gmcltWX_forecastDayHeader {
+h4.gmclt_wxForecastDayHeader {
 	margin: 0;
 }
 
-.gmcltWX_forecastIcon {
+.gmclt_wxForecastIcon {
 	float: left;
 	text-align: center;
 	@include bp(larger) {
@@ -378,7 +426,7 @@ h4.gmcltWX_forecastDayHeader {
 	}
 }
 
-.gmcltWX_forecastIconShort {
+.gmclt_wxForecastIconShort {
 	float: left;
 	text-align: center;
 	max-width: 100px;
@@ -390,80 +438,80 @@ h4.gmcltWX_forecastDayHeader {
 	}
 }
 
-.gmcltWX_forecastIcon img {
+.gmclt_wxForecastIcon img {
 	display: block;
 	width: 100px;
 }
 
-.gmcltWX_forecastText {
+.gmclt_wxForecastText {
 	margin-left: 110px;
 	@include bp(larger) {
 		margin-left: 0;
 	}
 }
 
-.gmcltWX_forecastText p {
+.gmclt_wxForecastText p {
 	@include bp(larger) {
 		font-size: 0.8em;
 	}
 }
 
-.gmcltWX_loading {
+.gmclt_wxLoading {
 	z-index: 100;
 	left: 50%;
 	margin-bottom: 10px;
 }
 
-.gmcltWX_loading img {
+.gmclt_wxLoading img {
 	display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
-.gmcltWX_loading p {
+.gmclt_wxLoading p {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	text-align: center;
 }
 
-.gmcltWX_search {
+.gmclt_wxSearch {
 	text-align: right;
 	display: none;
 }
 
-.gmclt_headerWxIcon {
+.gmclt_wxHeaderIcon {
 	height: 35px;
 	display: inline;
 	margin-top: -10px;
 	vertical-align: top;
 }
 
-.gmclt_headerStocksIcon {
+.gmclt_stocksHeaderIcon {
 	height: 17px;
 	width: 13px;
 	display: inline;
 	vertical-align: top;
 }
 
-.gmcltTraffic_loading {
+.gmclt_trafficLoading {
     z-index: 100;
     left: 50%;
     margin-bottom: 10px;
 }
 
-.gmcltTraffic_loading img {
+.gmclt_trafficLoading img {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
-.gmcltTraffic_loading p {
+.gmclt_trafficLoading p {
     margin-bottom: 0;
     padding-bottom: 0;
     text-align: center;
 }
 
-.gmcltTraffic_list .entry {
+.gmclt_trafficList .entry {
     float: left;
     display: block;
     width: 100%;
@@ -472,11 +520,11 @@ h4.gmcltWX_forecastDayHeader {
     border-top: 1px solid #b8babc;
 }
 
-.gmcltTraffic_list.gmclt_left {
+.gmclt_trafficList.gmclt_left {
 	width: 80%;
 }
 
-.gmcltTraffic_listIcon {
+.gmclt_trafficListIcon {
     float: left;
 }
 
@@ -561,11 +609,11 @@ a:hover .breaking-news-banner {
 	color: #cf000f;
 }
 
-#GMCLTstateSelect {
+#gmclt_selectState {
 	margin-bottom: 10px;
 }
 
-#stormwatchMap-canvas {
+#gmclt_stormwatchMapCanvas {
 	margin: auto;
 	width: 80%;
 	height: 350px;
@@ -575,7 +623,7 @@ a:hover .breaking-news-banner {
 	}
 }
 
-#radarMap-canvas {
+#gmclt_radarMapCanvas {
 	margin: auto;
 	width: 80%;
 	height: 300px;
@@ -584,58 +632,13 @@ a:hover .breaking-news-banner {
 	}
 }
 
-#trafficMap-canvas {
+#gmclt_trafficMapCanvas {
     margin: auto;
     width: 80%;
     height: 300px;
     @include bp(larger) {
 		width: 100%;
 		height: 700px;
-	}
-}
-
-.show__header.has-thumbnail::before {
-	background-image: linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,0));
-	background-image: -moz-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
-	background-image: -o-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
-	background-image: -ms-linear-gradient(top,rgba(0,0,0,0),rgba(0,0,0,0));
-	background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0)),to(rgba(0,0,0,0)));
-	background-image: -webkit-linear-gradient(top,rgba(0, 0, 0, 00),rgba(0, 0, 0, 00));
-}
-
-.article__thumbnail__caption {
-	padding: 2px 4px 2px 4px;
-	color: #838383;
-}
-
-.live-links {
-	border-top: 0;
-	margin: 0!important;
-	width: 100%;
-
-	.widget--live-player__title {
-		display: none;
-	}
-
-	.widget_gmr_blogroll_widget {
-		display: none;
-	}
-}
-
-.live-links--more.show-more--muted {
-	display: none;
-	@include bp(medium) {
-		display: block;
-	}
-}
-
-.streamhub-wall-component {
-	article {
-		&.content-default .content-body {
-			font-family: 'Open Sans', sans-serif;
-			font-size: 16px;
-			line-height: 20px;
-		}
 	}
 }
 
