@@ -9,11 +9,23 @@
 }
 
 .header {
-    background-color: #000;
-    background-image: url("../../images/header.jpg");
+    background-color: #091f40;
+    background-image: url("../../images/wror-header-light-blue.jpg");
     background-repeat: repeat-x;
     background-position: center;
     border-bottom: none;
+}
+
+h2 {
+    a:link,
+    a:visited,
+    a:active {
+        color:#091f40;
+
+    }
+    a:hover{
+        color:#2484c6;
+    }
 }
 
 .header__main {
@@ -72,8 +84,8 @@
 .header__nav ul li.active,
 .header__nav ul li.active a:hover,
 .ui-menu .ui-state-focus {
-    background-color: #ffcf00;
-    color:#333!important;
+    background-color: #2484c6;
+    color:#fff!important;
 }
 
 .header__account--links.sub-menu,
@@ -85,13 +97,45 @@
 .header__nav .format-sp > ul.header__account--links,
 .header__nav .sub-menu, .ui-menu {
     position: absolute;
-    border-top: 7px solid #ffcf00;
+    border-top: 7px solid #2484c6;
     background-color: #fff;
-    color: #333;
+    color: #fff;
     min-width: 300px;
     z-index: 5000100;
 }
 
+.content {
+
+    .contest__prize--title {
+        color: #092040;
+    }
+
+    .contest-attr--rules-toggler {
+        background-color: #092040;
+        border: solid 1px #2484c6;
+
+        &:hover {
+            background-color: #2484c6;
+            border: solid 1px #092040;
+        }
+    }
+
+    .article__title, .single-podcast .podcast__parent--title {
+
+        color: #092040;
+    }
+
+    a.social__link, a.social-share-link {
+        color: #092040;
+        border: solid 1px #092040;
+
+        &:hover {
+            color: #2484c6;
+            border: solid 1px #2484c6; 
+        }
+    }
+
+}
 
 .home__featured {
 
@@ -101,25 +145,34 @@
     background: url("../../images/pw_maze_white.png");
 
     .featured__article--content {
-        background-color: #910101;
-        color: #fff;
+        background-color: #091f40;
+        &:hover {
+            color: #fff;
+        }
     }
 
-    .featured__article:hover .featured__article--content {
-        background-color: #c20000;
+    .featured__article:hover .featured__article--content  {
+        background-color: #2484c6;
+        
+
     }
+
+
 
     .featured__content--block {
-        background-color: #910101;
+        background-color: #091f40;
 
         &:hover{
-            background-color: #c20000;   
+            background-color: #2484c6;   
+            
         }
     }
 
     .featured__content--block:hover .featured__content--title {
              
-        color: #ffd520;
+        color: #99d8ff;
+        text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+
     }
 
 
@@ -131,15 +184,28 @@
     }
 }
 
+.featured__article:hover .featured__article--heading {
+    text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+    color: #fff;
+}
+
 .live-links--more {
+    
 
     &:before {
-        background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#9f9c9c 100%);
+        
+        background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#bfbfbf 100%);
+        
     }
+
 
     .live-links--more__btn {
         border: none;
-        background-color: #5b5d5f;
+        background-color: #092040;
+
+        &:hover {
+            background-color: #2484c6;
+        }
     }
 
 }
@@ -241,42 +307,81 @@
     font-family: 'Oswald', sans-serif;
 
     &:before {
-        color: #c20411;
+        color: $primary-link;
         position: absolute;
         left: 10px;
     }
 
+    &:hover {
+        color: $primary-link-hover;
+    }
+
     .live-link__song--artist {
-        color: #c20411;
+        color: $color-text-light-blue;
     }
 }
 
 .live-link__song--title {
-    color: $dark-gray;
+    color: $primary-link;
 
     a, a:visited {
         color: $darker-gray;
     }
 }
 
-.live-link__title a:link, .live-link__title a:visited {
-    color: $color-gray-medium;
-}
 
-.live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
-    color: $primary-link-hover;
+
+
+    .live-links {
+        border-top: 0;
+        background: none;
+        &:before {
+            color: #092040;
+        }
+        .live-link__title {
+
+            a,
+            a:visited {
+                font-family: 'Oswald', sans-serif;
+                line-height: 1.1em;
+                color: $primary-link;
+                text-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+            }
+            a:hover {
+                color: $primary-link-hover;
+            }
+
+        }
+
+
+    }
+
+
+
+
+
+
+.live-link__song:before, 
+.live-link__type--audio:before, 
+.live-link__type--gallery:before, 
+.live-link__type--image:before, 
+.live-link__type--link:before, 
+.live-link__type--standard:before, 
+.live-link__type--video:before {
+
+    color: #092040;
 }
 
 
 .header__logo {
-  background-image: url("../../images/wror-logo.png");
+  background-image: url("../../images/wror-new-logo.png");
   background-repeat: no-repeat;
   float: left;
   display: block;
   width: 46.288514824%;
   margin-left: 26.855742588%;
   margin-top: 3.355742588%;
-  height: 35px;
+
   padding: 18px 0;
   line-height: 1;
   position: relative;
@@ -305,28 +410,30 @@
 }
 
 .highlights__events--more-btn {
-    background-color: #878787;
+    background-color: #182441;
+    border-color: #5083c2;
     color: #fff!important;
+    text-transform: uppercase;
 
     &:hover {
-        color: #c20000;
-        background-color: transparent;
-        border-color: #c20000;
+        color: #fff!important;
+        background-color: #5083c2;
+        border-color: #182441;
     }
 }
 
 .highlights__event--item {
     background-color: rgba(0,0,0,.1);
-    color: $white;
+    color: #092040;
 }
 
 .highlights__event--title {
     font-family: 'Oswald', sans-serif;
     font-weight: 400;
-    color: #b72f2c;
+    color: #092040;
 
     a:hover & {
-        color: $yellow;
+        color: #2484c6;
     }
 }
 
@@ -334,7 +441,7 @@
     color: #716c6c;
 
     a:hover & {
-        color: $yellow;
+        color: #2484c6;
     }
 }
 
@@ -342,8 +449,33 @@
     text-transform: uppercase;
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
-    color: #b72f2c;
-    text-shadow: 2px 2px 2px rgba(139, 128, 146, 0.4);
+    color: #182441;
+    text-shadow: 2px 2px 2px rgba(80, 131, 194, 0.4);
+}
+
+.highlights__community--item {
+
+    .highlights__community--title{
+        color:#fff;
+
+    }
+
+}
+
+.highlights__community--item:hover .highlights__community--title{
+        color:#6ebff7;
+
+    }
+
+.highlights__community--thumb:after {
+
+    background: -moz-linear-gradient(top, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent), color-stop(100%, rgba(9, 32, 64, 0.75)));
+    background: -webkit-linear-gradient(top, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    background: -o-linear-gradient(top, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    background: -ms-linear-gradient(top, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    background: linear-gradient(to bottom, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#092040', endColorstr='#092040', GradientType=0);
 }
 
 .type-contest .entry__title--tag {
@@ -363,6 +495,8 @@
     font-size: 1.23em;
     font-family: 'Oswald', sans-serif;
     font-weight: 400;
+     text-shadow: 2px 2px 1px rgba(36, 132, 198, .5);
+    color: #fff;
 }
 
 .featured__content--btn {
@@ -373,7 +507,7 @@
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
     text-transform: uppercase;
-    text-shadow: 2px 2px 1px rgba(83, 6, 6, 1);
+    text-shadow: 2px 2px 1px rgba(36, 132, 198, .7);
     color: #fff;
 }
 
@@ -381,12 +515,13 @@
     /*border-radius: 0 38px 0 0;
     -moz-border-radius: 0 38px 0 0;
     -webkit-border-radius: 0 38px 0 0;*/
+    background-color: #091f40;
 }
 
 .widget--live-player__title {
     font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
-    color: #ff0000;
+    color: #092040;
 }
 
 .podcast__btn--play,
@@ -408,6 +543,22 @@
       text-align: center;
       background-size: cover;
       background-repeat: no-repeat;
+      background-color: #092040;
+
+}
+
+.profile-page__sidebar {
+
+    .profile-header-sep {
+        opacity: 0.8;
+    }
+    .profile-header-link {
+        color: #2484c6;
+
+        &:hover {
+            color: #6fbceb;
+        }
+    }
 }
 
 .mobile-nav .sub-menu li:not(.mobile-menu-submenu-header),
@@ -434,14 +585,191 @@
   font-weight: 500;
 }
 
+.entry2__footer--read-more:link, 
+.entry2__footer--read-more:visited
+    {
+        color: #092040;
+
+        &:hover {
+            color: #2484c6;
+        }
+    
+    }
+
+.type-tribe_events .entry2__thumbnail,
+.type-contest .entry2__thumbnail {
+    background-color: #092040;
+}
+
+.tribe-events-button {
+    background-color: #092040!important;
+    border-color: #2484c6!important;
+
+    &:hover {
+        background-color: #2484c6!important;
+        border-color: #092040!important;
+    }
+}
+
+
+.now-playing__info{
+
+        .now-playing__title:before,
+        .now-playing__title:after
+        
+        {
+            content: '"';
+        }
+
+
+        .now-playing__artist:before{
+            content: "by  ";
+            
+        }
+
+}
+
+#profile-content .gigya-screen input[type="submit"],
+.contest__form button[type="submit"]:last-of-type {
+    background-color: #092040;
+    border: solid 1px #2484c6;
+
+    &:hover {
+        background-color: #2484c6;
+        border: solid 1px #092040;
+    }
+
+}
+
+#profile-content .gigya-screen .new-account-msg a {
+
+        color: $color-text-dark-blue;
+
+    &:hover {
+        color: $color-text-light-blue;
+    }
+}
+
+.footer a:link, .footer__copyright--logo a:link, .footer__copyright--logo a:visited {
+
+    color: #2484c6;
+    &:hover {
+        color: #fff;
+    }
+}
+
+
+.footer__copyright--span:first-of-type, .footer__copyright--span:last-of-type {
+        color: #2484c6;
+}
+
+
+.entry2 {
+
+    border: 0px;
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.55); 
+    -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.55);
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.55);
+}
+
+.live-stream {
+    background-color: #092040;
+
+    .on-air, .up-next {
+          padding: 4px 1em;
+          color: #fff;
+          font-family: 'Oswald', sans-serif;
+    }
+
+    .on-air__show, .up-next__show {
+        font-size: 1.35em;
+        position: relative;
+        top: 10px;
+    }
+
+    .live-stream__controls {
+        
+
+        div {
+            background-color: #2484c6;
+            border: solid 1px #fff;
+
+        }
+    }
+
+    .now-playing__title,
+    .now-playing__artist {
+        color: #fff;
+        font-size: .98em;
+
+    }
+
+
+}
+
+.live-player__container {
+ 
+    height:auto;
+    .live-stream__status {
+
+        .live-stream__login {
+            background-color: #2484c6;
+            border: solid 1px #fff;
+        }
+    }
+}
+
+.mobile-nav__list  {
+    .menu-item a:link, .menu-item a:visited { 
+        background-color: #2484c6;
+        color:#fff!important;
+}
+}
+
+.mobile-nav__list .menu-item a:hover {
+        background-color: #092040;
+}
+
+.mobile-nav {
+
+    a.mobile-menu-submenu-back-link:link, .mobile-nav a.mobile-menu-submenu-back-link:visited {
+        background-color: transparent!important;
+    }
+
+}
+
+
+.podcast__btn--play, 
+.podcast__btn--pause {
+
+    border: solid 2px #092040;
+    color: #092040;
+}
+
+.entry2__thumbnail__overlay,
+.entry2__thumbnail__icon, 
+.entry2__thumbnail--event-date,
+.type-contest .entry2__thumbnail--contest-type,
+.type-contest .entry2__thumbnail--end-date{
+    display:none;
+}
+
+.fyre .fyre-stream-livecount {
+    display: none;
+}
+
+.article__content h2 {
+    margin: 0px 0;
+}
+
+.article__content > * {
+  overflow: visible;
+}
 /* Smartphones & Tablets (portrait) ----------- */
 @media only screen and (max-width : 479px) {
 
     .entry2 {
-        border: 1px solid #d0d2d3;
-        -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.55);
-        -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.55);
-        box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.55);
+
 
         .entry2__meta {
             padding: 0 10px;
@@ -456,6 +784,8 @@
             margin-top: 1em;
         }
     }
+
+
 
 }
 
@@ -501,7 +831,7 @@
 
         .featured__content--meta {
             width: 100%;
-            min-height: 6.8em;
+            min-height: 4.8em;
         }
 
         .live-player--open {
@@ -516,6 +846,12 @@
 
         }
 
+    }
+
+    .live-stream {
+        .on-air__show, .up-next__show {
+            font-size: 1.75em;
+        }
     }
     
 
@@ -542,6 +878,10 @@
                 font-weight: 700;
                 color: #fff;
                 font-size: 16px;
+            
+                background-color: transparent;
+                border: solid 0px #fff;
+        
             }
 
             .live-stream__listen-now--btn, .live-stream__now-playing--btn {
@@ -556,20 +896,13 @@
         }
     }
 
-    .live-links {
-        border-top: 0;
-        background: none;
 
-        .live-link__title {
 
-            a {
-                font-family: 'Oswald', sans-serif;
-                line-height: 1.1em;
-                color: #000;
-                text-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
-            }
-
-        }
+    .live-player__container .live-stream__status .live-stream__listen-now--btn,
+    .live-player__container .live-stream__status .podcast__rss,
+    .live-player__container .live-stream__status .live-stream__now-playing--btn {
+        border: solid 1px #092040;
+        background-color: #2484c6;
     }
 
     .live-stream {
@@ -584,10 +917,17 @@
               font-family: 'Oswald', sans-serif;
         }
 
+        .on-air__show, .up-next__show {
+            font-size: 1em;
+            top: 2px;
+
+        }
         .live-stream__controls {
             padding: 34px 0 0;
 
             div {
+                background-color: #2484c6;
+                border: solid 1px #092040;
                 -webkit-box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
                 -moz-box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
                 box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
@@ -598,7 +938,7 @@
         .now-playing__artist {
             color: #fff;
             text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
-            font-size: 1em;
+            font-size: .98em;
             position: relative;
             top: 20px;
         }
@@ -625,6 +965,10 @@
         position: relative;
         top: 80px;
         z-index: 100001;
+            .noUi-base {
+                background-color: #2484c6;
+            }
+
             .noUi-handle{
                 background-color: #fff;
             }
@@ -634,29 +978,18 @@
         padding: 10em 5em;
     }
 
-    .entry2__thumbnail__overlay,
-    .entry2__thumbnail__icon, 
-    .entry2__thumbnail--event-date,
-    .type-contest .entry2__thumbnail--contest-type,
-    .type-contest .entry2__thumbnail--end-date{
-        display:none;
-    }
 
-    .fyre .fyre-stream-livecount {
-        display: none;
-    }
 
     .header__logo {
 
         
         /*top: -7px;*/
-        background-image: url("../../images/wror-logo.png");
+        background-image: url("../../images/wror-new-logo.png");
         background-repeat: no-repeat;
-        width: 243px;
-        height: 57px;
+
         position: absolute;
         z-index: 100;
-        top: -10px;
+        top: -20px;
 
         float: none;
 
@@ -689,8 +1022,8 @@
             padding: 0 16px;
 
             &:hover {
-                background-color: #ffcf00;
-                color: #333;
+                background-color: #2484c6;
+                color: #fff;
             }
         }
 
@@ -700,17 +1033,17 @@
     }
 
     .header__account:hover {
-        background-color: #ffcf00;
+        background-color: #2484c6;
     }
 
     .header__main a:hover {
-        color: #333;
+        color: #fff;
 
         .header__account--logged-in,
         .header__account--logged-out,
         .header__account--,
         {
-            color: #333;
+            color: #fff;
         }
     }
 
@@ -722,8 +1055,11 @@
 
     .header__logo{
         margin-left: 0px;
-        margin-top:20px;
-        max-width:243px;
+        width:200px;
+        max-width:175px;
+        height:127px;
+        top:-60px;
+
     }
 
 
@@ -736,12 +1072,14 @@
     .header__nav > ul > li > a:hover,
     .header__nav > ul > li > a:visited {
         font-size: 18px;
-        padding: 32px 0.6em 32px 1.4em !important;
+        padding: 32px 1.2em 32px 1.4em !important;
     }
 
     .header__logo{
-
-        top:-40px;
+        width:230px;
+        max-width:230px;
+        height:146px;
+        top:-90px;
     }
 
 }
@@ -768,10 +1106,10 @@
     }
 
     .header__logo{
-        width:275px;
-        max-width:275px;
-        height:65px;
-        top:-40px;
+        width:300px;
+        max-width:300px;
+        height:190px;
+        top:-130px;
     }
     .header__main {
         .header__nav {
