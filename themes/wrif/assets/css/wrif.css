@@ -15072,10 +15072,10 @@ table.responsive tr:nth-of-type(even) {
 
 .header__main {
   text-transform: uppercase !important;
-  font-family: oswald !important;
-  border-top: solid 1px #444 !important;
-  background-image: url(http://beta.wrif.com/wp-content/uploads/sites/24/2015/06/mastbg.jpg) !important;
-  border-bottom: 0px !important; }
+  border-top: solid 1px #444;
+  border-bottom: 0;
+  background-image: url(../../images/mastbg.jpg);
+  background-position: center top; }
 
 #site-wrap {
   background-color: #000000 !important; }
@@ -15094,7 +15094,7 @@ main.main {
 #site-wrap.site-wrap {
   background-color: #000000 !important;
   background-repeat: no-repeat;
-  background-image: url(http://beta.wrif.com/wp-content/uploads/sites/24/2015/06/wrifwallpapertexture.jpg) !important;
+  background-image: url(../../images/wrifbg1.jpg);
   background-position: center top !important; }
 
 #page-wrap.page-wrap {
@@ -15126,6 +15126,16 @@ main.main {
 
 footer.footer {
   background-color: #000000 !important; }
+
+.featured__content--block {
+  height: 100%; }
+
+.home__featured .featured__content--image {
+  padding-top: 66%;
+  width: 100%; }
+
+.home_featured .featured_content-meta {
+  min-height: 6.8em; }
 
 .live-link__type--show {
   border-bottom-color: white;
