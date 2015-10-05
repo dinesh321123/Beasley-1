@@ -49,6 +49,11 @@ function filter_ad_tags() {
 			'url_vars' => array(),
 			'enable_ui_mapping' => true,
 		),
+		'events-sponsorship' => array(
+			'tag' => 'events-sponsorship',
+			'url_vars' => array(),
+			'enable_ui_mapping' => true,
+		),
 		'mrec-body' => array(
 			'tag' => 'mrec-body',
 			'url_vars' => array(),
