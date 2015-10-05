@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
 /**
  * WMGC
  * http://wordpress.org/themes
@@ -15156,5 +15157,112 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
 
 .error__title--span {
   color: #db261d; }
+
+#header, #featured, h1, h2, h3, h4, h5, h6 {
+  font-family: Oswald; }
+
+.header {
+  border-bottom: 1px solid #58595b; }
+
+@media screen and (min-width: 768px)  {
+  .home__featured {
+    background-position: left top;
+    background-color: #561015; } }
+
+.live-links {
+  border-top: 0; }
+
+.single-gmr_gallery .gallery__paging--prev, .single-gmr_gallery .gallery__paging--next {
+  color: #d0d2d3; }
+  .single-gmr_gallery .gallery__paging--prev:hover, .single-gmr_gallery .gallery__paging--next:hover {
+    color: #d22228; }
+
+.live-player__stream {
+  border: 1px solid #b0b0b0;
+  color: #b0b0b0;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  -ms-border-radius: 1em;
+  -o-border-radius: 1em;
+  -border-radius: 1em;
+  border-radius: 1em;
+  background-color: #ffffff; }
+  .live-player__stream li {
+    height: auto; }
+  .live-player__stream .live-player__stream--available {
+    display: none; }
+  .live-player__stream .live-player__stream--current.open .live-player__stream--available {
+    color: #282827;
+    border-top: 1px solid #c9cbcc; }
+    .live-player__stream .live-player__stream--current.open .live-player__stream--available:after {
+      background: transparent; }
+    .live-player__stream .live-player__stream--current.open .live-player__stream--available .live-player__stream--item, .live-player__stream .live-player__stream--current.open .live-player__stream--available .live-player__stream--desc {
+      color: #282827; }
+    .live-player__stream .live-player__stream--current.open .live-player__stream--available .live-player__stream--item {
+      background-color: #ffffff; }
+      .live-player__stream .live-player__stream--current.open .live-player__stream--available .live-player__stream--item:hover {
+        background-color: #d0d2d3; }
+    .live-player__stream .live-player__stream--current.open .live-player__stream--available li:last-child {
+      border-bottom-left-radius: 1em;
+      border-bottom-right-radius: 1em; }
+
+.live-player__container {
+  border-bottom: 1px solid white; }
+
+.now-playing__artist {
+  color: #303030; }
+
+.live-link__title, .live-link__title a:link, .live-link__title a:visited {
+  color: #58595b; }
+
+.live-link__song:before {
+  color: #6d6e70; }
+
+.live-link__song--artist {
+  color: #6d6e70; }
+
+.live-link__song--title {
+  color: #282827; }
+  .live-link__song--title a, .live-link__song--title a:visited {
+    color: #191919; }
+
+.live-link__title a:link, .live-link__title a:visited {
+  color: #58595b; }
+
+.live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
+  color: #b21f18; }
+
+.header__logo {
+  background: transparent; }
+  @media screen and (min-width: 768px)  {
+    .header__logo {
+      top: -7px; } }
+
+.header__sub {
+  background-color: #333333; }
+
+.home__highlights {
+  border-bottom-color: #b8babc; }
+
+.ad__leaderboard {
+  background-size: 100%;
+  background-image: url(../../images/lightsmast.jpg); }
+
+/*//////////
+// WMGC's overrides
+//////////
+*/
+#header, #featured, h1, h2, h3, h4, h5, h6 {
+  font-family: oswald !important; }
+
+.header__logo {
+  background: transparent !important; }
+
+.header__sub {
+  background-color: #333333 !important; }
+
+.ad__leaderboard {
+  background-size: 100% !important;
+  background-image: url(http://detroitsports1051.com/wp-content/uploads/sites/23/2015/05/lightsmast.jpg); }
 
 /*# sourceMappingURL=wmgc.css.map */

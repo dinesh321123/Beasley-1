@@ -56,3 +56,20 @@ define( 'WCSX_VERSION', '0.2.2' ); /* Version bump by Steve 8/31/2015 @ 10:30pm 
 	echo apply_filters( 'wcsx_humans', $humans );
  }
  add_action( 'wp_head', 'wcsx_header_meta' );
+
+ /**
+  * Add Chartbeat to site.
+  */
+ function wcsx_chartbeat_header() {
+  $content = '<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>';
+
+  echo apply_filters( 'wcsx_chartbeat_header', $content );
+ }
+ add_action( 'wp_head', 'wcsx_chartbeat_header' );
+
+function wcsx_chartbeat_footer() {
+  $content = '<script type="text/javascript">var cbjspath = "static.chartbeat.com/js/chartbeat.js?uid=2332&domain=wcsx.com";var cbjsprotocol = (("https:" == document.location.protocol) ? "/web/20150302054219/https://s3.amazonaws.com/" : "http://"); document.write(unescape("%3Cscript src=\'"+cbjsprotocol+cbjspath+"\' type=\'text/javascript\'%3E%3C/script%3E"))</script>';
+
+  echo apply_filters( 'wcsx_chartbeat_footer', $content );
+}
+add_action( 'wp_footer', 'wcsx_chartbeat_footer' );

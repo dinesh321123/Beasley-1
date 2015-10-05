@@ -15053,11 +15053,11 @@ table.responsive tr:nth-of-type(even) {
 #site-wrap.site-wrap {
   background-size: 100%;
   background-color: #000;
-  background-image: url(../../images/concertcrowd.jpg);
+  background-image: url(../../images/starbg.jpg);
   background-repeat: repeat-x; }
 
 .header {
-  background-image: url(../../images/mastgrade.png);
+  background-image: url(../../images/masttbg.jpg);
   border-bottom: 1px solid #D22228; }
 
 .header__main {
@@ -15070,11 +15070,11 @@ table.responsive tr:nth-of-type(even) {
   background-color: transparent;
   background-image: url(../../images/black60bg.png); }
 
-.featured__content--block {
-  background-color: #000; }
+.featured__content--block, .home__featured .featured__content--block {
+  background-color: #23282D; }
 
-.featured__article--content {
-  background-color: #000000; }
+.featured__article--content, .home__featured .featured__article--content {
+  background-color: #23282D; }
 
 .home__highlights {
   background-color: #252424; }
