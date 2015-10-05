@@ -15089,7 +15089,7 @@ table.responsive tr:nth-of-type(even) {
   text-transform: uppercase;
   font-family: 'Ubuntu', sans-serif; }
 
-.home__highlights, .home__featured {
+.home__highlights {
   background: #a0c5ff url("../../images/bg_babyblue.jpg") top; }
 
 /*mobile nav */
@@ -15138,7 +15138,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
   color: #002a6e;
   border: 1px solid #002a6e; }
 
-.h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--contest-type a:active, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--contest-type a:focus, .h1 a:hover, .type-tribe_events .entry2__thumbnail--event-date a:hover, .type-contest .entry2__thumbnail--end-date a:hover, .type-contest .entry2__thumbnail--contest-type a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {
+.h1 a:active, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--contest-type a:active, .h1 a:focus, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--contest-type a:focus, .h1 a:hover, .type-tribe_events .entry2__thumbnail--event-date a:hover, .type-contest .entry2__thumbnail--end-date a:hover, .type-contest .entry2__thumbnail--contest-type a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {
   color: #002a6e; }
 
 a.social-share-link:hover, a.social__link:hover {
@@ -15239,37 +15239,30 @@ ul#live-links__blogroll {
   border-bottom: none;
   height: 82px; }
 
-.home__featured .featured__article--content {
-  background-color: #002a6e;
+.home__featured {
+  background: url("../../images/bg_babyblue.jpg"); }
+  .home__featured .featured__article--heading {
+    color: #FFFFFF;
+    font-family: 'Ubuntu', sans-serif; }
+  .home__featured .featured__article--content {
+    background-color: #002a6e; }
+    .home__featured .featured__article--content:hover {
+      color: #fff; }
+  .home__featured .featured__article:hover .featured__article--content {
+    background-color: #14499f;
+    color: #fff;
+    text-shadow: 2px 2px 1px rgba(9, 32, 64, 0.7); }
+  .home__featured .featured__content--block {
+    background-color: #002a6e; }
+    .home__featured .featured__content--block:hover {
+      background-color: #a8d6f7; }
+  .home__featured .featured__content--block:hover .featured__content--title {
+    color: #99d8ff;
+    text-shadow: 2px 2px 1px rgba(9, 32, 64, 0.7); }
+
+.featured__article:hover .featured__article--heading {
+  text-shadow: 2px 2px 1px rgba(9, 32, 64, 0.7);
   color: #fff; }
-
-.home__featured .featured__article a:hover {
-  background-color: #002a6e;
-  color: #fff; }
-
-.featured__article--heading {
-  color: #FFFFFF;
-  font-family: 'Ubuntu', sans-serif; }
-
-.home__featured .featured__article a:hover .featured__article--content {
-  background-color: #114598;
-  color: #000; }
-
-.home__featured .featured__article--image {
-  background-color: #114598; }
-
-.featured__article:hover {
-  background-color: #000;
-  color: #000;
-  font-family: 'Ubuntu', sans-serif; }
-
-.featured__content--title {
-  color: #FFFFFF;
-  font-family: 'Ubuntu', sans-serif; }
-
-.featured__content--title:hover {
-  color: #ffe513;
-  font-family: 'Ubuntu', sans-serif; }
 
 /* ------------- END HIGHLIGHTS -------------------------------*/
 /* ------------- MASTHEAD -------------------------------*/
@@ -15342,16 +15335,15 @@ ul#live-links__blogroll {
   white-space: nowrap; }
 
 .highlights__events--more-btn {
-  background-color: #ffe513;
-  border: 1px solid #ffe513;
-  color: #002a6e;
+  background-color: #002a6e;
+  border: 1px solid #a8d6f7;
+  color: #fff !important;
   text-transform: uppercase;
   font-weight: 700; }
-
-.highlights__events--more-btn:hover {
-  background-color: #002a6e;
-  color: #f5ed7f;
-  border-color: #f5ed7f; }
+  .highlights__events--more-btn:hover {
+    background-color: #a8d6f7;
+    border: 1px solid #002a6e;
+    color: #002a6e !important; }
 
 .contest__prize--title {
   margin: 0 0 .25em;
@@ -15368,9 +15360,8 @@ h2.entry2__title a:link, h2.entry2__title a:visited {
   color: #002a6e;
   font-family: 'Ubuntu', sans-serif;
   font-weight: 700; }
-
-h2.entry2__title a:hover {
-  color: #7fc7fb; }
+  h2.entry2__title a:link:hover, h2.entry2__title a:visited:hover {
+    color: #7fc7fb; }
 
 .entry2__footer--category:link {
   color: #000000; }
@@ -15405,6 +15396,27 @@ h2.entry2__title a:hover {
 
 .live-player--active.live-player--open .live-player__stream {
   width: 90%; }
+
+.entry2__thumbnail__overlay, .entry2__thumbnail__icon, .entry2__thumbnail--event-date, .type-contest .entry2__thumbnail--contest-type, .type-contest .entry2__thumbnail--end-date {
+  display: none; }
+
+.type-tribe_events .entry2__thumbnail {
+  background-color: #002a6e; }
+
+#tribe-events .tribe-events-button {
+  background-color: #002a6e !important;
+  border: 1px solid #a8d6f7 !important;
+  color: #fff; }
+  #tribe-events .tribe-events-button:hover {
+    background-color: #a8d6f7 !important;
+    border: 1px solid #002a6e !important;
+    color: #002a6e !important; }
+
+h2 a:link, h2 a:visited {
+  color: #002a6e !important; }
+h2 a:hover {
+  color: #a8d6f7 !important;
+  text-shadow: 2px 2px 1px rgba(9, 32, 64, 0.7); }
 
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
@@ -15448,7 +15460,7 @@ media 768px
       padding-top: 66.6%; }
     .home__featured .featured__content--meta {
       width: 100%;
-      min-height: 6.8em; }
+      min-height: 4.8em; }
     .home__featured .live-player--open .live-player__stream {
       /*display: none;*/ }
     .home__featured .live-player--open .live-links {
@@ -15618,17 +15630,11 @@ media 768px
     background-color: #002a6e; }
   .live-link__title a:link, .live-link__title a:visited {
     color: #fff; }
-  #tribe-events .tribe-events-button {
-    background-color: #002a6e;
-    border: 1px solid #002a6e;
-    color: #fff; }
   /* footer */
   .footer, .footer .container {
     background-color: #a8d6f7; }
   .footer__ad, .footer__content {
     padding-bottom: 10px; }
-  .entry2__thumbnail__overlay, .entry2__thumbnail__icon, .entry2__thumbnail--event-date, .type-contest .entry2__thumbnail--contest-type, .type-contest .entry2__thumbnail--end-date {
-    display: none; }
   #live-player--volume .noUi-base {
     background: #a8d6f7; }
   #live-player--volume.noUi-horizontal .noUi-handle {

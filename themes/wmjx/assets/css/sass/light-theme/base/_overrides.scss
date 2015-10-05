@@ -196,8 +196,7 @@
     text-transform: uppercase;
     font-family: 'Ubuntu', sans-serif;
 }
-.home__highlights,
-.home__featured { background: #a0c5ff url("../../images/bg_babyblue.jpg") top }
+.home__highlights{ background: #a0c5ff url("../../images/bg_babyblue.jpg") top }
 
 
 
@@ -220,7 +219,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #a8d6f7; colo
 
 
 .h1 a:active, .h1 a:focus, .h1 a:hover,
-.h2 a:active, .h2 a:focus, .h2 a:hover,
+
 .h3 a:active, .h3 a:focus, .h3 a:hover,
 .h4 a:active, .h4 a:focus, .h4 a:hover,
 .h5 a:active, .h5 a:focus, .h5 a:hover,
@@ -235,7 +234,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #a8d6f7; colo
 .type-tribe_events .entry2__thumbnail--event-date a:focus,
 .type-tribe_events .entry2__thumbnail--event-date a:hover,
 h1 a:active,h1 a:focus, h1 a:hover,
-h2 a:active, h2 a:focus, h2 a:hover,
+
 h3 a:active, h3 a:focus, h3 a:hover,
 h4 a:active, h4 a:focus, h4 a:hover,
 h5 a:active, h5 a:focus, h5 a:hover,
@@ -316,23 +315,53 @@ position: fixed;bottom: 0;height: 40px;padding: 5px 0;text-align: center;backgro
     border-bottom: none;
     height:82px;
 }
-.home__featured .featured__article--content {background-color: #002a6e; color: #fff; }
-.home__featured .featured__article a:hover {background-color: #002a6e; color: #fff; }
-
-.featured__article--heading {color: #FFFFFF;   font-family: 'Ubuntu', sans-serif;}
 
 
-.home__featured .featured__article a:hover .featured__article--content {background-color: #114598;color: #000;}
+.home__featured {
 
-.home__featured .featured__article--image{background-color: #114598; }
+ 
+    background: url("../../images/bg_babyblue.jpg");
+    .featured__article--heading {
+        color: #FFFFFF;   font-family: 'Ubuntu', sans-serif;
+    }
+    .featured__article--content {
+        background-color: #002a6e;
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .featured__article:hover .featured__article--content  {
+
+        background-color: #14499f;
+        color: #fff;
+        text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+    }
 
 
-.featured__article:hover {background-color: #000;color: #000;   font-family: 'Ubuntu', sans-serif;}
+
+    .featured__content--block {
+        background-color: #002a6e;
+
+        &:hover{
+            background-color: #a8d6f7;   
+            
+        }
+    }
+
+    .featured__content--block:hover .featured__content--title {
+             
+        color: #99d8ff;
+        text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+
+    }
 
 
-
-.featured__content--title {color: #FFFFFF;font-family: 'Ubuntu', sans-serif;}
-.featured__content--title:hover {color: #ffe513;font-family: 'Ubuntu', sans-serif;}
+}
+.featured__article:hover .featured__article--heading {
+    text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+    color: #fff;
+}
 /* ------------- END HIGHLIGHTS -------------------------------*/
 
 
@@ -402,13 +431,17 @@ position: fixed;bottom: 0;height: 40px;padding: 5px 0;text-align: center;backgro
 }
 
 .highlights__events--more-btn {
-    background-color: #ffe513;
-    border: 1px solid #ffe513;
-    color: #002a6e;
+    background-color: #002a6e;
+    border: 1px solid #a8d6f7;
+    color: #fff!important;
     text-transform: uppercase;
     font-weight: 700;
+    &:hover {
+        background-color: #a8d6f7;
+        border: 1px solid #002a6e;
+        color: #002a6e!important;
+    }
 }
-.highlights__events--more-btn:hover {  background-color:#002a6e;color: #f5ed7f;  border-color: #f5ed7f;}
 
 .contest__prize--title {
     margin: 0 0 .25em;
@@ -425,8 +458,13 @@ position: fixed;bottom: 0;height: 40px;padding: 5px 0;text-align: center;backgro
 
 h2.entry2__title a:link,
 h2.entry2__title a:visited
-                        {color: #002a6e;font-family: 'Ubuntu', sans-serif ; font-weight: 700;}
-h2.entry2__title a:hover{color: #7fc7fb;}
+                        {color: #002a6e;font-family: 'Ubuntu', sans-serif ; font-weight: 700;
+                         &:hover {
+                            color: #7fc7fb;
+                         }   
+
+                    }
+
 .entry2__footer--category:link {color: #000000;}
 
 .entry2__footer--read-more:link,
@@ -464,6 +502,45 @@ h2.entry2__title a:hover{color: #7fc7fb;}
     }
 }
 
+.entry2__thumbnail__overlay,
+.entry2__thumbnail__icon, 
+.entry2__thumbnail--event-date,
+.type-contest .entry2__thumbnail--contest-type,
+.type-contest .entry2__thumbnail--end-date{
+    display:none;
+}
+
+.type-tribe_events {
+
+    .entry2__thumbnail {
+        background-color: #002a6e;
+    }
+} 
+#tribe-events {
+    .tribe-events-button {
+        background-color: #002a6e!important;
+        border: 1px solid #a8d6f7!important;
+        color: #fff;
+
+        &:hover {
+            background-color: #a8d6f7!important;
+            border: 1px solid #002a6e!important;
+            color: #002a6e!important;
+        }
+    }
+}
+
+h2  {
+    a:link, a:visited {
+        color: #002a6e!important;
+
+
+    }
+    a:hover {
+        color: #a8d6f7!important;
+        text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+    }
+}
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -515,7 +592,7 @@ media 768px
 
         .featured__content--meta {
             width: 100%;
-            min-height: 6.8em;
+            min-height: 4.8em;
         }
 
         .live-player--open {
@@ -762,7 +839,6 @@ media 768px
     {background-color: #002a6e;}
 
     .live-link__title a:link, .live-link__title a:visited {color: #fff;}
-    #tribe-events .tribe-events-button {background-color: #002a6e;border: 1px solid #002a6e;color: #fff;}
 
     /* footer */
     .footer,
@@ -770,13 +846,7 @@ media 768px
     .footer__ad,
     .footer__content {padding-bottom: 10px;}
 
-    .entry2__thumbnail__overlay,
-    .entry2__thumbnail__icon, 
-    .entry2__thumbnail--event-date,
-    .type-contest .entry2__thumbnail--contest-type,
-    .type-contest .entry2__thumbnail--end-date{
-        display:none;
-    }
+
 
     #live-player--volume .noUi-base {background: #a8d6f7;}
     #live-player--volume.noUi-horizontal .noUi-handle {background: #002a6e;border: solid 1px #a8d6f7;}
