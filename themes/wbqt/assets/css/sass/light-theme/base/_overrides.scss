@@ -460,7 +460,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
 }
 
 .header__logo {
-	background:url(../../images/header-logo-large.png) no-repeat;
+	background:url(../../images/header-logo-large-pink.png) no-repeat;
 	border:solid 0px #6bb3ee;
 	background-position:center top;
 	background-size:contain;
@@ -1094,7 +1094,9 @@ media 1024px
 	}
 
 	.header__nav {
-		padding-left:20px!important
+		/* old padding normal logo
+		padding-left:20px!important;*/
+		padding-left:200px!important;
 	}
 
 	.header__nav li {
@@ -1160,21 +1162,25 @@ media 1175px
 	}
 
 	.header__logo--img {
-		display:block!important
-	/*width: 200px;
-	      height: 158px;*/
+		display:block!important;
+	/*-- width: 200px;
+	      height: 158px; */
 	}
 
 	.header__logo {
-		background:url(../../images/header-logo-large.png) no-repeat;
+		
 		background-size:contain;
 		background-position:center top;
 		border:solid 0 #fff;
 		width:200px;
+		height: 219px;
+		top:-120px;
+		/* normal logo height and top 
 		height:200px;
+		top:-130px;*/
 		display:block;
 		position:absolute;
-		top:-130px;
+		
 		left:20px;
 		margin:0;
 		padding:0;
@@ -1222,12 +1228,17 @@ media 1400px
 	}
 
 	.header__logo {
-		background:url(../../images/header-logo-large.png) no-repeat;
+		
 		background-size:contain;
 		background-position:center top;
 		border:solid 0 #fff;
+		/* normal logo width and height
 		width:242px;
-		height:242px;
+		height:242px;*/
+
+		width:225px;
+		max-width: 225px;
+		height:247px;
 		display:block;
 		position:absolute;
 		top:-130px;
