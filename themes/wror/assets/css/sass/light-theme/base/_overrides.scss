@@ -1,0 +1,1121 @@
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
+
+.main, %main {
+    background-color: #fff;
+
+    .container {
+        background-color: #fff;
+    }
+}
+
+.header {
+    background-color: #091f40;
+    background-image: url("../../images/wror-header-light-blue.jpg");
+    background-repeat: repeat-x;
+    background-position: center;
+    border-bottom: none;
+}
+
+h2 {
+    a:link,
+    a:visited,
+    a:active {
+        color:#091f40;
+
+    }
+    a:hover{
+        color:#2484c6;
+    }
+}
+
+.header__main {
+    height: 82px;
+    border-top: none;
+    border-bottom: none;
+    background-color: rgba(0, 0, 0, 0.65);
+
+    a,
+    a:active,
+    a:hover,
+    a:visited {
+        color: #fff;
+        font-weight: 700;
+    }
+
+    .header__nav {
+        text-transform: uppercase;
+        font-family: 'Oswald', sans-serif;
+        font-weight: 700;
+        margin-left: 250px;
+    }
+
+    .header__search {
+        color: #fff;
+    }
+
+    .header__account--logged-in,
+    .header__account--logged-out,
+    .header__account-- {
+        color: #fff;
+
+    }
+
+
+    .header__social {
+
+        a.social__link {
+            color: #fff;
+        }
+
+    }
+}
+
+.header__nav ul li {
+    padding: 0px;
+
+}
+
+.header__account ul li a:active,
+.header__account ul li a:focus,
+.header__account ul li a:hover,
+.header__account ul li:hover,
+.header__nav ul li a:active,
+.header__nav ul li a:focus,
+.header__nav ul li.active,
+.header__nav ul li.active a:hover,
+.ui-menu .ui-state-focus {
+    background-color: #2484c6;
+    color:#fff!important;
+}
+
+.header__account--links.sub-menu,
+.header__nav .format-fi > ul,
+.header__nav .format-fi > ul.header__account--links,
+.header__nav .format-fw > ul,
+.header__nav .format-fw > ul.header__account--links,
+.header__nav .format-sp > ul,
+.header__nav .format-sp > ul.header__account--links,
+.header__nav .sub-menu, .ui-menu {
+    position: absolute;
+    border-top: 7px solid #2484c6;
+    background-color: #fff;
+    color: #fff;
+    min-width: 300px;
+    z-index: 5000100;
+}
+
+.content {
+
+    .contest__prize--title {
+        color: #092040;
+    }
+
+    .contest-attr--rules-toggler {
+        background-color: #092040;
+        border: solid 1px #2484c6;
+
+        &:hover {
+            background-color: #2484c6;
+            border: solid 1px #092040;
+        }
+    }
+
+    .article__title, .single-podcast .podcast__parent--title {
+
+        color: #092040;
+    }
+
+    a.social__link, a.social-share-link {
+        color: #092040;
+        border: solid 1px #092040;
+
+        &:hover {
+            color: #2484c6;
+            border: solid 1px #2484c6; 
+        }
+    }
+
+}
+
+.home__featured {
+
+    background-color: white;
+    background-image: none;
+    border: 1px solid #eee;
+    background: url("../../images/pw_maze_white.png");
+
+    .featured__article--content {
+        background-color: #091f40;
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .featured__article:hover .featured__article--content  {
+        background-color: #2484c6;
+        
+
+    }
+
+
+
+    .featured__content--block {
+        background-color: #091f40;
+
+        &:hover{
+            background-color: #2484c6;   
+            
+        }
+    }
+
+    .featured__content--block:hover .featured__content--title {
+             
+        color: #99d8ff;
+        text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+
+    }
+
+
+
+    @include bp(medium) {
+        background-position: left top;
+        background-color: #561015;
+        // background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
+    }
+}
+
+.featured__article:hover .featured__article--heading {
+    text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+    color: #fff;
+}
+
+.live-links--more {
+    
+
+    &:before {
+        
+        background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#bfbfbf 100%);
+        
+    }
+
+
+    .live-links--more__btn {
+        border: none;
+        background-color: #092040;
+
+        &:hover {
+            background-color: #2484c6;
+        }
+    }
+
+}
+
+.single-gmr_gallery .gallery__paging--prev,
+.single-gmr_gallery .gallery__paging--next {
+    color: $light-gray;
+
+    &:hover {
+        color: $cardinal;
+    }
+}
+
+.live-player__stream {
+   
+    position: absolute;
+    top: 50px;
+    border: 1px solid #fff;
+    color: #fff;
+    background-color: transparent;
+
+    li {
+        height: auto;
+    }
+
+    .live-player__stream--available {
+        
+    }
+
+    .live-player__stream--current.open .live-player__stream--available {
+        color: $dark-gray;
+        border-top: 1px solid darken($color-gray-light, 10%);
+
+        &:after {
+            background: transparent;
+        }
+
+        .live-player__stream--item, .live-player__stream--desc {
+            color: $dark-gray;
+        }
+
+        .live-player__stream--item {
+            background-color: $liveplayer-bg;
+
+            &:hover {
+                background-color: $light-gray;
+            }
+        }
+
+        li:last-child {
+            @include border-bottom-radius(1em);
+        }
+    }
+
+}
+
+.live-player--open {
+
+    .live-player__stream {
+        
+    }
+
+    .live-links {
+        margin-top: 0!important;
+    }
+
+}
+
+.live-player__container {
+    border-bottom: 1px solid white;
+
+    .live-stream__status {
+
+        .live-stream__listen-now--btn {
+            color: #fdfafa;
+        }
+
+    }
+}
+
+.now-playing__title {
+    font-weight: normal;
+    color: #000;
+    font-family: 'Oswald', sans-serif;
+}
+
+.now-playing__artist {
+    font-weight: 400;
+    color: #000;
+    font-family: 'Oswald', sans-serif;
+}
+
+.live-link__title, .live-link__title a:link, .live-link__title a:visited {
+    color: $color-gray-medium;
+}
+
+.live-link__song {
+    font-weight: 400;
+    font-family: 'Oswald', sans-serif;
+
+    &:before {
+        color: $primary-link;
+        position: absolute;
+        left: 10px;
+    }
+
+    &:hover {
+        color: $primary-link-hover;
+    }
+
+    .live-link__song--artist {
+        color: $color-text-light-blue;
+    }
+}
+
+.live-link__song--title {
+    color: $primary-link;
+
+    a, a:visited {
+        color: $darker-gray;
+    }
+}
+
+
+
+
+    .live-links {
+        border-top: 0;
+        background: none;
+        &:before {
+            color: #092040;
+        }
+        .live-link__title {
+
+            a,
+            a:visited {
+                font-family: 'Oswald', sans-serif;
+                line-height: 1.1em;
+                color: $primary-link;
+                text-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+            }
+            a:hover {
+                color: $primary-link-hover;
+            }
+
+        }
+
+
+    }
+
+
+
+
+
+
+.live-link__song:before, 
+.live-link__type--audio:before, 
+.live-link__type--gallery:before, 
+.live-link__type--image:before, 
+.live-link__type--link:before, 
+.live-link__type--standard:before, 
+.live-link__type--video:before {
+
+    color: #092040;
+}
+
+
+.header__logo {
+  background-image: url("../../images/wror-new-logo.png");
+  background-repeat: no-repeat;
+  float: left;
+  display: block;
+  width: 46.288514824%;
+  margin-left: 26.855742588%;
+  margin-top: 3.355742588%;
+
+  padding: 18px 0;
+  line-height: 1;
+  position: relative;
+  background-size: contain;
+  background-position:center;
+    .header__logo--img {
+        display: none;
+    }
+
+}
+
+
+
+
+.home__highlights {
+    background: url("../../images/pw_maze_gray.png");
+    border-bottom-color: $primary-border;
+}
+
+.single-show .home__highlights {
+    background: none;
+}
+
+.highlights__events {
+    text-decoration: none;
+}
+
+.highlights__events--more-btn {
+    background-color: #182441;
+    border-color: #5083c2;
+    color: #fff!important;
+    text-transform: uppercase;
+
+    &:hover {
+        color: #fff!important;
+        background-color: #5083c2;
+        border-color: #182441;
+    }
+}
+
+.highlights__event--item {
+    background-color: rgba(0,0,0,.1);
+    color: #092040;
+}
+
+.highlights__event--title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    color: #092040;
+
+    a:hover & {
+        color: #2484c6;
+    }
+}
+
+.highlights__event--date {
+    color: #716c6c;
+
+    a:hover & {
+        color: #2484c6;
+    }
+}
+
+.highlights__heading {
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: #182441;
+    text-shadow: 2px 2px 2px rgba(80, 131, 194, 0.4);
+}
+
+.highlights__community--item {
+
+    .highlights__community--title{
+        color:#fff;
+
+    }
+
+}
+
+.highlights__community--item:hover .highlights__community--title{
+        color:#6ebff7;
+
+    }
+
+.highlights__community--thumb:after {
+
+    background: -moz-linear-gradient(top, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent), color-stop(100%, rgba(9, 32, 64, 0.75)));
+    background: -webkit-linear-gradient(top, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    background: -o-linear-gradient(top, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    background: -ms-linear-gradient(top, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    background: linear-gradient(to bottom, transparent 0%, rgba(9, 32, 64, 0.75) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#092040', endColorstr='#092040', GradientType=0);
+}
+
+.type-contest .entry__title--tag {
+    background-color: $light-gray;
+    border-color: $light-gray;
+}
+
+.audio__progress-bar {
+    background-color: $gray;
+}
+
+.footer {
+    background-color: $primary-bg;
+}
+
+.featured__content--title {
+    font-size: 1.23em;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+     text-shadow: 2px 2px 1px rgba(36, 132, 198, .5);
+    color: #fff;
+}
+
+.featured__content--btn {
+    display:none!important;
+}
+
+.featured__article--heading {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 1px rgba(36, 132, 198, .7);
+    color: #fff;
+}
+
+.featured__article--image {
+    /*border-radius: 0 38px 0 0;
+    -moz-border-radius: 0 38px 0 0;
+    -webkit-border-radius: 0 38px 0 0;*/
+    background-color: #091f40;
+}
+
+.widget--live-player__title {
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+    color: #092040;
+}
+
+.podcast__btn--play,
+.podcast__btn--pause {
+    background-color: rgba(192,192,192,.3);
+}
+
+.article__content .fluid-width-video-wrapper {
+    margin-bottom: 1em;
+}
+
+.profile-page .profile-page__content{
+    background-color:#fff;
+}
+
+.profile-page .profile-page__sidebar {
+      color: #fff;
+      background-image: url(../../images/profile_bg.jpg);
+      text-align: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: #092040;
+
+}
+
+.profile-page__sidebar {
+
+    .profile-header-sep {
+        opacity: 0.8;
+    }
+    .profile-header-link {
+        color: #2484c6;
+
+        &:hover {
+            color: #6fbceb;
+        }
+    }
+}
+
+.mobile-nav .sub-menu li:not(.mobile-menu-submenu-header),
+.mobile-nav .header__nav .format-fw > ul li:not(.mobile-menu-submenu-header),
+.header__nav .mobile-nav .format-fw > ul li:not(.mobile-menu-submenu-header),
+.mobile-nav .header__nav .format-sp > ul li:not(.mobile-menu-submenu-header),
+.header__nav .mobile-nav .format-sp > ul li:not(.mobile-menu-submenu-header),
+.mobile-nav .header__nav .format-fi > ul li:not(.mobile-menu-submenu-header),
+.header__nav .mobile-nav .format-fi > ul li:not(.mobile-menu-submenu-header) {
+    background-color: #fff;
+}
+
+.show__header.has-thumbnail:before {
+    background-image: linear-gradient(to bottom,rgba(0,0,0,.45),rgba(0,0,0,.35));
+    background-image: -moz-linear-gradient(top,rgba(0,0,0,.45),rgba(0,0,0,.35));
+    background-image: -o-linear-gradient(top,rgba(0,0,0,.45),rgba(0,0,0,.35));
+    background-image: -ms-linear-gradient(top,rgba(0,0,0,.45),rgba(0,0,0,.35));
+    background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.45)),to(rgba(0,0,0,.35)));
+    background-image: -webkit-linear-gradient(top,rgba(0,0,0,.45),rgba(0,0,0,.35));
+}
+
+.show__meta em {
+
+  font-weight: 500;
+}
+
+.entry2__footer--read-more:link, 
+.entry2__footer--read-more:visited
+    {
+        color: #092040;
+
+        &:hover {
+            color: #2484c6;
+        }
+    
+    }
+
+.type-tribe_events .entry2__thumbnail,
+.type-contest .entry2__thumbnail {
+    background-color: #092040;
+}
+
+.tribe-events-button {
+    background-color: #092040!important;
+    border-color: #2484c6!important;
+
+    &:hover {
+        background-color: #2484c6!important;
+        border-color: #092040!important;
+    }
+}
+
+
+.now-playing__info{
+
+        .now-playing__title:before,
+        .now-playing__title:after
+        
+        {
+            content: '"';
+        }
+
+
+        .now-playing__artist:before{
+            content: "by  ";
+            
+        }
+
+}
+
+#profile-content .gigya-screen input[type="submit"],
+.contest__form button[type="submit"]:last-of-type {
+    background-color: #092040;
+    border: solid 1px #2484c6;
+
+    &:hover {
+        background-color: #2484c6;
+        border: solid 1px #092040;
+    }
+
+}
+
+#profile-content .gigya-screen .new-account-msg a {
+
+        color: $color-text-dark-blue;
+
+    &:hover {
+        color: $color-text-light-blue;
+    }
+}
+
+.footer a:link, .footer__copyright--logo a:link, .footer__copyright--logo a:visited {
+
+    color: #2484c6;
+    &:hover {
+        color: #fff;
+    }
+}
+
+
+.footer__copyright--span:first-of-type, .footer__copyright--span:last-of-type {
+        color: #2484c6;
+}
+
+
+.entry2 {
+
+    border: 0px;
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.55); 
+    -moz-box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.55);
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.55);
+}
+
+.live-stream {
+    background-color: #092040;
+
+    .on-air, .up-next {
+          padding: 4px 1em;
+          color: #fff;
+          font-family: 'Oswald', sans-serif;
+    }
+
+    .on-air__show, .up-next__show {
+        font-size: 1.35em;
+        position: relative;
+        top: 10px;
+    }
+
+    .live-stream__controls {
+        
+
+        div {
+            background-color: #2484c6;
+            border: solid 1px #fff;
+
+        }
+    }
+
+    .now-playing__title,
+    .now-playing__artist {
+        color: #fff;
+        font-size: .98em;
+
+    }
+
+
+}
+
+.live-player__container {
+ 
+    height:auto;
+    .live-stream__status {
+
+        .live-stream__login {
+            background-color: #2484c6;
+            border: solid 1px #fff;
+        }
+    }
+}
+
+.mobile-nav__list  {
+    .menu-item a:link, .menu-item a:visited { 
+        background-color: #2484c6;
+        color:#fff!important;
+}
+}
+
+.mobile-nav__list .menu-item a:hover {
+        background-color: #092040;
+}
+
+.mobile-nav {
+
+    a.mobile-menu-submenu-back-link:link, .mobile-nav a.mobile-menu-submenu-back-link:visited {
+        background-color: transparent!important;
+    }
+
+}
+
+
+.podcast__btn--play, 
+.podcast__btn--pause {
+
+    border: solid 2px #092040;
+    color: #092040;
+}
+
+.entry2__thumbnail__overlay,
+.entry2__thumbnail__icon, 
+.entry2__thumbnail--event-date,
+.type-contest .entry2__thumbnail--contest-type,
+.type-contest .entry2__thumbnail--end-date{
+    display:none;
+}
+
+.fyre .fyre-stream-livecount {
+    display: none;
+}
+
+.article__content h2 {
+    margin: 0px 0;
+}
+
+.article__content > * {
+  overflow: visible;
+}
+/* Smartphones & Tablets (portrait) ----------- */
+@media only screen and (max-width : 479px) {
+
+    .entry2 {
+
+
+        .entry2__meta {
+            padding: 0 10px;
+
+            .entry2__date {
+                margin: 0;
+            }
+        }
+
+        .entry2__footer {
+            padding: 10px;
+            margin-top: 1em;
+        }
+    }
+
+
+
+}
+
+/* 768 */
+@include bp(medium) {
+
+    .header__search--form {
+
+        background-color: #fff;
+
+        .header__search--input {
+            background-color: #fff!important;
+        }
+
+        .header-search-body {
+            background: #fff;
+        }
+
+        .keyword-search {
+            background-color: #fff;
+        }
+
+    }
+
+    .home__featured {
+
+        background-color: #f2f2f2;
+
+        .featured__content--block {
+            border-radius: 0;
+            -moz-border-radius: 0;
+            -webkit-border-radius: 0;
+            height: 100%;
+        }
+
+        .featured__content--image {
+            float: left;
+            display: block;
+            width: 100%;
+            margin-right: 0;
+            padding-top: 66.6%;
+        }
+
+        .featured__content--meta {
+            width: 100%;
+            min-height: 4.8em;
+        }
+
+        .live-player--open {
+
+            .live-player__stream {
+                /*display: none;*/
+            }
+
+            .live-links {
+                /*margin-top: 0!important;*/
+            }
+
+        }
+
+    }
+
+    .live-stream {
+        .on-air__show, .up-next__show {
+            font-size: 1.75em;
+        }
+    }
+    
+
+    .live-player {
+
+        background-image: url("../../images/brushed-metal.jpg");
+        background-position: center;
+        
+    }
+
+    .live-player--fixed{
+            position:fixed;
+            top: 0;
+    }
+
+    .live-player__container {
+        border-bottom: 1px solid white;
+        height:auto;
+        .live-stream__status {
+
+            .live-stream__login {
+                text-transform: uppercase;
+                font-family: 'Oswald', sans-serif;
+                font-weight: 700;
+                color: #fff;
+                font-size: 16px;
+            
+                background-color: transparent;
+                border: solid 0px #fff;
+        
+            }
+
+            .live-stream__listen-now--btn, .live-stream__now-playing--btn {
+                -webkit-box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
+                -moz-box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
+                box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
+                background-color: #d22228;
+                border: 1px solid #d22228;
+                color: #fff!important;
+            }
+
+        }
+    }
+
+
+
+    .live-player__container .live-stream__status .live-stream__listen-now--btn,
+    .live-player__container .live-stream__status .podcast__rss,
+    .live-player__container .live-stream__status .live-stream__now-playing--btn {
+        border: solid 1px #092040;
+        background-color: #2484c6;
+    }
+
+    .live-stream {
+        background-image: url("../../images/tuner-bg.jpg");
+
+        .on-air, .up-next {
+              padding: 4px 1em;
+              position: relative;
+              top: 26px;
+              background-color: rgba(0,0,0,.7);
+              color: #fff;
+              font-family: 'Oswald', sans-serif;
+        }
+
+        .on-air__show, .up-next__show {
+            font-size: 1em;
+            top: 2px;
+
+        }
+        .live-stream__controls {
+            padding: 34px 0 0;
+
+            div {
+                background-color: #2484c6;
+                border: solid 1px #092040;
+                -webkit-box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
+                -moz-box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
+                box-shadow: 0px 0px 12px 3px rgba(255,255,255,1);
+            }
+        }
+
+        .now-playing__title,
+        .now-playing__artist {
+            color: #fff;
+            text-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
+            font-size: .98em;
+            position: relative;
+            top: 20px;
+        }
+
+        .live-stream__now-playing--btn {
+            display: none;
+        }
+    }
+
+    .ad__leaderboard.desktop {
+        background:none;
+        width:728px;
+        height:90px;
+        margin:16px auto;
+        padding:0;
+        border:0px solid #ffda36;
+        -webkit-border-radius:0;
+        border-radius:0;
+        -webkit-box-shadow:0 0 0 0;
+        box-shadow:0 0 0 0;
+    }
+
+    #live-player--volume.noUi-horizontal  {
+        position: relative;
+        top: 80px;
+        z-index: 100001;
+            .noUi-base {
+                background-color: #2484c6;
+            }
+
+            .noUi-handle{
+                background-color: #fff;
+            }
+    }
+
+    .show__header {
+        padding: 10em 5em;
+    }
+
+
+
+    .header__logo {
+
+        
+        /*top: -7px;*/
+        background-image: url("../../images/wror-new-logo.png");
+        background-repeat: no-repeat;
+
+        position: absolute;
+        z-index: 100;
+        top: -20px;
+
+        float: none;
+
+    
+    }
+
+}
+
+@include bp(large) {
+
+    .header__nav > ul > li > a,
+    .header__nav > ul > li > a:active,
+    .header__nav > ul > li > a:hover,
+    .header__nav > ul > li > a:visited {
+        font-size: 16px;
+        padding: 33px .4em 33px .13em!important;
+    }
+
+    .header__search--span {
+        display: none;
+    }
+
+    .header__nav > ul > li a:hover {
+        color: #333;
+    }
+
+    .header__main {
+
+        .header__search {
+            padding: 0 16px;
+
+            &:hover {
+                background-color: #2484c6;
+                color: #fff;
+            }
+        }
+
+        .header__social a.social__link:hover {
+            color: #333;
+        }
+    }
+
+    .header__account:hover {
+        background-color: #2484c6;
+    }
+
+    .header__main a:hover {
+        color: #fff;
+
+        .header__account--logged-in,
+        .header__account--logged-out,
+        .header__account--,
+        {
+            color: #fff;
+        }
+    }
+
+    .ad__leaderboard.desktop {
+        width:730px;
+        height:93px;
+        border:1px solid #ffda36;
+    }
+
+    .header__logo{
+        margin-left: 0px;
+        width:200px;
+        max-width:175px;
+        height:127px;
+        top:-60px;
+
+    }
+
+
+}
+
+@include bp(larger) {
+
+    .header__nav > ul > li > a,
+    .header__nav > ul > li > a:active,
+    .header__nav > ul > li > a:hover,
+    .header__nav > ul > li > a:visited {
+        font-size: 18px;
+        padding: 32px 1.2em 32px 1.4em !important;
+    }
+
+    .header__logo{
+        width:230px;
+        max-width:230px;
+        height:146px;
+        top:-90px;
+    }
+
+}
+
+
+
+
+
+
+@include bp(x-large) {
+
+    .main {
+        background-image: url("../../images/main-background.jpg");
+
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color:#000;
+        background-attachment: fixed;
+    }
+
+
+    .header__search--span {
+        display: block;
+    }
+
+    .header__logo{
+        width:300px;
+        max-width:300px;
+        height:190px;
+        top:-130px;
+    }
+    .header__main {
+        .header__nav {
+            margin-left: 300px;
+        }
+    }
+
+
+}

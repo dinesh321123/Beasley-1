@@ -100,7 +100,22 @@ class GigyaSession {
 		if ( $response->getErrorCode() === 0 ) {
 			return true;
 		} else {
-			throw new \Exception( 'Failed to set user data profile' );
+			throw new \Exception( 'Failed to set user data profile: ' . $response_text );
+		}
+	}
+
+	/* For repairing profiles */
+	public function set_user_profile( $user_id, $data ) {
+		$request = new GigyaRequest( null, null, 'accounts.setAccountInfo' );
+		$request->setParam( 'UID', $user_id );
+		$request->setParam( 'profile', json_encode( $data ) );
+		$response = $request->send();
+		$response_text = $response->getResponseText();
+
+		if ( $response->getErrorCode() === 0 ) {
+			return true;
+		} else {
+			throw new \Exception( 'Failed to set user profile: ' . $response_text );
 		}
 	}
 

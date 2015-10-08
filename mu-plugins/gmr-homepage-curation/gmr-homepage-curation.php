@@ -15,7 +15,7 @@ function load() {
 		return;
 	}
 
-	include __DIR__ . '/includes/settings-page.php';
+	include __DIR__ . '/includes/homepage_cpt.php';
 	include __DIR__ . '/includes/queries.php';
 }
 \add_action ( 'after_setup_theme', __NAMESPACE__ . '\load' );

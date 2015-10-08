@@ -135,7 +135,8 @@ class GreaterMediaFormbuilderRender {
 		}
 
 		$results = array();
-		$contest_entry = @json_decode( $contest_entry, true );
+		$contest_entry = str_replace( "\\'", "'", $contest_entry ); // strip useless slashes
+		$contest_entry = json_decode( $contest_entry, true );
 		foreach ( $form as $field ) {
 			if ( isset( $contest_entry[ $field->cid ] ) ) {
 				if ( 'radio' == $field->field_type ) {

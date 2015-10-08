@@ -14,10 +14,13 @@ class QueryPaginator {
 		$this->page_size  = $page_size;
 	}
 
-	function fetch( $query, $cursor = 0 ) {
+	function fetch( $query, $cursor = 0, $light_query = true ) {
 		$request     = $this->request_for( $this->store_type );
 		$limit_query = $this->to_limit_query( $query, $cursor, $this->page_size );
-		$limit_query = $this->to_light_query( $limit_query );
+
+		if ( $light_query ) {
+			$limit_query = $this->to_light_query( $limit_query );
+		}
 
 		$request->setParam( 'query', $limit_query );
 

@@ -668,7 +668,15 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 						iframe_body = iframe_document.getElementsByTagName('body')[0],
 						scroll_to = container.offset().top - $('#wpadminbar').height() - 10;
 
-					container.html(iframe_body.innerHTML);
+					iframe_body = $.trim(iframe_body.innerHTML);
+					if (iframe_body.length > 0) {
+						container.html(iframe_body);
+					} else {
+						alert('Your submission failed. Please, enter required fields and try again.');
+						form.find('input, textarea, select, button').removeAttr('readonly');
+						form.find('i.gmr-icon').hide();
+					}
+
 					$('html, body').animate({scrollTop: scroll_to}, 200);
 				};
 

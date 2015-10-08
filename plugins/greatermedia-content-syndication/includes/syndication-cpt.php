@@ -481,7 +481,7 @@ class SyndicationCPT {
 		}
 
 		$subscription_type = get_post_meta( $post->ID, 'subscription_type', true );
-		
+
 		echo '<div class="subscription_type">';
 			echo '<label for="subscription_type">Choose subscription type</label>';
 			echo '<select name="subscription_type" id="subscription_type" class="subscription_defaults" style="width:300px;">';
@@ -489,7 +489,7 @@ class SyndicationCPT {
 				foreach ( self::$supported_subscriptions as $type ) {
 					if ( post_type_exists( $type ) ) {
 						$cpt_obj = get_post_type_object( $type );
-						
+
 						echo '<option ', selected( $type, $subscription_type ), ' value="', esc_attr( $type ), '">';
 							echo esc_html( $cpt_obj->labels->name );
 						echo '</option>';
@@ -641,7 +641,7 @@ class SyndicationCPT {
 					echo '<label for="subscription_post_status-', $status->name, '">';
 						echo esc_html( $status->label );
 					echo '</label>';
-					
+
 					printf(
 						'<input type="radio" name="subscription_post_status" id="subscription_post_status-%1$s" value="%1$s"%2$s>',
 						esc_attr( $status->name ),
@@ -690,6 +690,7 @@ class SyndicationCPT {
 				echo "No existing term";
 			}
 
+			$allterms = array();
 			echo '</p>';
 		}
 	}

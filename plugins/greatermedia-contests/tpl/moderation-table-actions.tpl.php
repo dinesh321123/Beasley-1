@@ -6,7 +6,11 @@
 		<div class="ugc-moderation-primary-controls">
 			<label class="screen-reader-text" for="cb-select-<?php the_ID(); ?>"><?php printf( __( 'Select %s' ), $title ); ?></label>
 			<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="ugc[]" value="<?php the_ID(); ?>" />
+			<?php if ( $post->post_status == 'pending' ) : ?>
 			<a href="<?php echo esc_attr( wp_nonce_url( GreaterMediaUserGeneratedContentModerationTable::approve_link( $post->ID ), 'approve-ugc_' . $post->ID ) ); ?>" class="button" name="approve"><?php _e( 'Approve', 'greatermedia_ugc' ); ?></a>
+			<?php elseif ( $post->post_status == 'publish') : ?>
+			<a href="<?php echo esc_attr( wp_nonce_url( GreaterMediaUserGeneratedContentModerationTable::unapprove_link( $post->ID ), 'unapprove-ugc_' . $post->ID ) ); ?>" class="button" name="unapprove"><?php _e( 'Unapprove', 'greatermedia_ugc' ); ?></a>
+			<?php endif; ?>
 		</div>
 		<ul class="ugc-moderation-links">
 			<li>

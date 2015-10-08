@@ -114,6 +114,11 @@
 	padding-right: 0.5em;
 }
 
+.constraint-textarea {
+	width: 97.5% !important;
+	height: 5em;
+}
+
 .constraint-value-text {
 	width: 45%;
 	height: 2em;

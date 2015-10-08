@@ -194,6 +194,7 @@ class GreaterMediaGallery {
 			?>
 			<div class="gallery">
 				<div class="container">
+					<?php get_template_part( 'partials/show-mini-nav' ); ?>
 					<div class="gallery__slides">
 						<div class="gallery__slide--images cycle-slideshow"
 						     data-cycle-log="false"

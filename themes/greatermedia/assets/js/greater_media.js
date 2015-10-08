@@ -1,3 +1,4 @@
+(function(t){"use strict";function e(t,e,r){return t.addEventListener?t.addEventListener(e,r,!1):t.attachEvent?t.attachEvent("on"+e,r):void 0}function r(t,e){var r,n;for(r=0,n=t.length;n>r;r++)if(t[r]===e)return!0;return!1}function n(t,e){var r;t.createTextRange?(r=t.createTextRange(),r.move("character",e),r.select()):t.selectionStart&&(t.focus(),t.setSelectionRange(e,e))}function a(t,e){try{return t.type=e,!0}catch(r){return!1}}t.Placeholders={Utils:{addEventListener:e,inArray:r,moveCaret:n,changeType:a}}})(this),function(t){"use strict";function e(){}function r(){try{return document.activeElement}catch(t){}}function n(t,e){var r,n,a=!!e&&t.value!==e,u=t.value===t.getAttribute(V);return(a||u)&&"true"===t.getAttribute(D)?(t.removeAttribute(D),t.value=t.value.replace(t.getAttribute(V),""),t.className=t.className.replace(R,""),n=t.getAttribute(F),parseInt(n,10)>=0&&(t.setAttribute("maxLength",n),t.removeAttribute(F)),r=t.getAttribute(P),r&&(t.type=r),!0):!1}function a(t){var e,r,n=t.getAttribute(V);return""===t.value&&n?(t.setAttribute(D,"true"),t.value=n,t.className+=" "+I,r=t.getAttribute(F),r||(t.setAttribute(F,t.maxLength),t.removeAttribute("maxLength")),e=t.getAttribute(P),e?t.type="text":"password"===t.type&&M.changeType(t,"text")&&t.setAttribute(P,"password"),!0):!1}function u(t,e){var r,n,a,u,i,l,o;if(t&&t.getAttribute(V))e(t);else for(a=t?t.getElementsByTagName("input"):b,u=t?t.getElementsByTagName("textarea"):f,r=a?a.length:0,n=u?u.length:0,o=0,l=r+n;l>o;o++)i=r>o?a[o]:u[o-r],e(i)}function i(t){u(t,n)}function l(t){u(t,a)}function o(t){return function(){m&&t.value===t.getAttribute(V)&&"true"===t.getAttribute(D)?M.moveCaret(t,0):n(t)}}function c(t){return function(){a(t)}}function s(t){return function(e){return A=t.value,"true"===t.getAttribute(D)&&A===t.getAttribute(V)&&M.inArray(C,e.keyCode)?(e.preventDefault&&e.preventDefault(),!1):void 0}}function d(t){return function(){n(t,A),""===t.value&&(t.blur(),M.moveCaret(t,0))}}function g(t){return function(){t===r()&&t.value===t.getAttribute(V)&&"true"===t.getAttribute(D)&&M.moveCaret(t,0)}}function v(t){return function(){i(t)}}function p(t){t.form&&(T=t.form,"string"==typeof T&&(T=document.getElementById(T)),T.getAttribute(U)||(M.addEventListener(T,"submit",v(T)),T.setAttribute(U,"true"))),M.addEventListener(t,"focus",o(t)),M.addEventListener(t,"blur",c(t)),m&&(M.addEventListener(t,"keydown",s(t)),M.addEventListener(t,"keyup",d(t)),M.addEventListener(t,"click",g(t))),t.setAttribute(j,"true"),t.setAttribute(V,x),(m||t!==r())&&a(t)}var b,f,m,h,A,y,E,x,L,T,N,S,w,B=["text","search","url","tel","email","password","number","textarea"],C=[27,33,34,35,36,37,38,39,40,8,46],k="#ccc",I="placeholdersjs",R=RegExp("(?:^|\\s)"+I+"(?!\\S)"),V="data-placeholder-value",D="data-placeholder-active",P="data-placeholder-type",U="data-placeholder-submit",j="data-placeholder-bound",q="data-placeholder-focus",z="data-placeholder-live",F="data-placeholder-maxlength",G=document.createElement("input"),H=document.getElementsByTagName("head")[0],J=document.documentElement,K=t.Placeholders,M=K.Utils;if(K.nativeSupport=void 0!==G.placeholder,!K.nativeSupport){for(b=document.getElementsByTagName("input"),f=document.getElementsByTagName("textarea"),m="false"===J.getAttribute(q),h="false"!==J.getAttribute(z),y=document.createElement("style"),y.type="text/css",E=document.createTextNode("."+I+" { color:"+k+"; }"),y.styleSheet?y.styleSheet.cssText=E.nodeValue:y.appendChild(E),H.insertBefore(y,H.firstChild),w=0,S=b.length+f.length;S>w;w++)N=b.length>w?b[w]:f[w-b.length],x=N.attributes.placeholder,x&&(x=x.nodeValue,x&&M.inArray(B,N.type)&&p(N));L=setInterval(function(){for(w=0,S=b.length+f.length;S>w;w++)N=b.length>w?b[w]:f[w-b.length],x=N.attributes.placeholder,x?(x=x.nodeValue,x&&M.inArray(B,N.type)&&(N.getAttribute(j)||p(N),(x!==N.getAttribute(V)||"password"===N.type&&!N.getAttribute(P))&&("password"===N.type&&!N.getAttribute(P)&&M.changeType(N,"text")&&N.setAttribute(P,"password"),N.value===N.getAttribute(V)&&(N.value=x),N.setAttribute(V,x)))):N.getAttribute(D)&&(n(N),N.removeAttribute(V));h||clearInterval(L)},100)}M.addEventListener(t,"beforeunload",function(){K.disable()}),K.disable=K.nativeSupport?e:i,K.enable=K.nativeSupport?e:l}(this);
 /*jshint browser:true */
 /*!
 * FitVids 1.1
@@ -5,6 +6,9 @@
 * Copyright 2013, Chris Coyier - http://css-tricks.com + Dave Rupert - http://daverupert.com
 * Credit to Thierry Koblentz - http://www.alistapart.com/articles/creating-intrinsic-ratios-for-video/
 * Released under the WTFPL license - http://sam.zoy.org/wtfpl/
+*
+* FORKED by Steve Meyers on 7/21/15 to ensure that Embedly embeds don't receive an extra div wrapped around them.
+*
 *
 */
 
@@ -33,10 +37,10 @@
 
     return this.each(function(){
       var selectors = [
-        'iframe[src*="player.vimeo.com"]',
-        'iframe[src*="youtube.com"]',
-        'iframe[src*="youtube-nocookie.com"]',
-        'iframe[src*="kickstarter.com"][src*="video.html"]',
+        'iframe[src*="player.vimeo.com"]:not(.embedly-card)',
+        'iframe[src*="youtube.com"]:not(.embedly-card)',
+        'iframe[src*="youtube-nocookie.com"]:not(.embedly-card)',
+        'iframe[src*="kickstarter.com"][src*="video.html"]:not(.embedly-card)',
         'object',
         'embed'
       ];
@@ -81,11 +85,19 @@
 // Works with either jQuery or Zepto
 })( window.jQuery || window.Zepto );
 
-(function(jQuery, window, undefined) {
+(function($, document, undefined) {
 
-	var $mobileMenu = jQuery(document.querySelectorAll('ul.js-mobile-sub-menus')),
-		$menuOverlay = jQuery(document.querySelector('.menu-overlay-mask'));
+	/**
+	 * Global Variables
+	 *
+	 * @type {*|HTMLElement}
+	 */
+	var $mobileMenu = $(document.querySelectorAll('ul.js-mobile-sub-menus')),
+		$menuOverlay = $(document.querySelector('.menu-overlay-mask'));
 
+	/**
+	 * Init Function
+	 */
 	function init() {
 
 		$mobileMenu.on('click.greaterMedia.Menus', 'a.show-subnavigation', openSubMenu);
@@ -96,22 +108,32 @@
 
 	}
 
+	/**
+	 * Closes the SubMenu
+	 *
+	 * @param event
+	 */
 	function closeSubMenu(event) {
 		event.preventDefault();
-		jQuery(this).parents('.sub-menu').removeClass('is-visible');
+		$(this).parents('.sub-menu').removeClass('is-visible');
 	}
 
+	/**
+	 * Opens the SubMenu
+	 *
+	 * @param event
+	 */
 	function openSubMenu(event) {
 		event.preventDefault();
 
 		// collapse any other open menus before opening ours.
 		$mobileMenu.find('.is-visible').removeClass('is-visible');
-		jQuery(this).siblings('.sub-menu').addClass('is-visible');
+		$(this).siblings('.sub-menu').addClass('is-visible');
 	}
 
 	init();
 
-})(jQuery, window);
+})(jQuery, document);
 (function($) {
 
 	var ProfileMenuApp = function() {
@@ -457,7 +479,7 @@
 
 }(jQuery));
 
-(function($, location) {
+(function($, location, document) {
 	var $document = $(document),
 		classes = {},
 		last_url = null,
@@ -521,51 +543,161 @@
 	$document.bind('pjax:start', function() {
 		siteWrap.addClass('pjax--active');
 	});
-})(jQuery, location);
-(function () {
+})(jQuery, location, document);
+(function ($, window, document, undefined) {
 
 	/**
-	 * global variables
-	 *
-	 * @type {jQuery}
+	 * Global variables
 	 */
-	var $ = jQuery;
-
-	var body = document.querySelector('body'),
-		html = document.querySelector('html'),
-		mobileNavButton = document.querySelector('.mobile-nav__toggle'),
-		siteWrap = document.getElementById('site-wrap'),
-		pageWrap = document.getElementById('page-wrap'),
-		header = document.getElementById('header'),
-		livePlayer = document.getElementById('live-player__sidebar'),
-		liveStreamContainer = document.querySelector('.live-stream'),
-		liveLinksMoreBtn = document.querySelector('.live-links--more__btn'),
-		liveLinksEnd = document.getElementById('live-links__widget--end'),
-		wpAdminBar = document.getElementById('wpadminbar'),
-		wpAdminHeight = 32,
-		onAir = document.getElementById( 'on-air' ),
-		upNext = document.getElementById( 'up-next'),
-		nowPlaying = document.getElementById( 'nowPlaying' ),
-		liveLinks = document.getElementById( 'live-links' ),
-		liveLink = document.querySelector( '.live-link__title'),
-		liveLinksWidget = document.querySelector( '.widget--live-player' ),
-		liveLinksWidgetTitle = document.querySelector('.widget--live-player__title'),
-		liveLinksMore = document.querySelector('.live-links--more'),
-		liveStream = document.getElementById( 'live-player' ),
-		windowWidth = this.innerWidth || this.document.documentElement.clientWidth || this.document.body.clientWidth || 0,
-		windowHeight = this.innerHeight|| this.document.documentElement.clientHeight || this.document.body.clientHeight || 0,
-		scrollObject = {},
-		breakingNewsBanner = document.getElementById('breaking-news-banner'),
-		$overlay = $('.overlay-mask'),
-		livePlayerMore = document.getElementById('live-player--more'),
-		mainContent = document.querySelector('.main'),
-		footer = document.querySelector('.footer'),
-		$table = $('table'),
-		$tableTd = $('table td'),
-		livePlayerOpenBtn = document.querySelector('.live-player--open__btn');
+	var body = document.querySelector('body');
+	var html = document.querySelector('html');
+	var header = document.getElementById('header');
+	var footer = document.querySelector('.footer');
+	var $table = $('table');
+	var $tableTd = $('table td');
 
 	/**
-	 * function to dynamically calculate the offsetHeight of an element
+	 * Adds a class to a HTML table to make the table responsive
+	 */
+	function responsiveTables() {
+		$table.addClass('responsive');
+		$tableTd.removeAttr('width');
+	}
+
+	/**
+	 * Fallback for adding a body class when a user is a Gigya authenticated user
+	 */
+	function addGigyaBodyClass() {
+		if (! body.classList.contains('gmr-user')) {
+			body.classList.add('gmr-user');
+		}
+	}
+
+	/**
+	 * Function to add pop-up for social links
+	 *
+	 * @returns {boolean}
+	 */
+	function socialPopup() {
+		var href = $(this).attr('href'),
+			x = screen.width / 2 - 700 / 2,
+			y = screen.height / 2 - 450 / 2;
+
+		window.open(href, href, 'height=485,width=700,scrollbars=yes,resizable=yes,left=' + x + ',top=' + y);
+
+		return false;
+	}
+
+	/**
+	 * Toggles a target element for contest rules
+	 *
+	 * @param {MouseEvent} e
+	 * @returns {boolean}
+	 */
+	function contestRulesToggle(e) {
+		var target = $($(this).attr('data-target')).get(0),
+			currentText = $(this).html(),
+			newText = $(this).attr('data-alt-text');
+
+		target.style.display = target.style.display !== 'none' ? 'none' : 'block';
+
+		$(this).html(newText);
+		$(this).attr('data-alt-text', currentText);
+
+		return false;
+	}
+
+	/**
+	 * Personality Toggle
+	 */
+	function personality_toggle() {
+		var $button = $('.person-toggle');
+		start = $('.personality__meta').first().height(); // get the height of the meta before we start, basically tells us whether we're using the mobile or desktop height
+
+		$button.on('click', function (e) {
+			var $this = $(this);
+			$parent = $this.parent().parent('.personality');
+			$meta = $this.siblings('.personality__meta');
+			curr = $meta.height();
+			auto = $meta.css('height', 'auto').height(),
+				offset = '';
+
+			$parent.toggleClass('open');
+			// if( $parent.hasClass('open') ) {
+			// 	$meta.height(curr).animate({height: auto * 0.69}, 1000); // the 0.69 adjusts for the difference in height due to the overflow: visible wrapping the text
+			// } else {
+			// 	$meta.height(curr).animate({height: start}, 1000);
+			// }
+
+
+			if ($this.hasClass('active')) {
+				$this.text('More');
+			} else {
+				$this.text('Less');
+			}
+			$this.toggleClass('active');
+		});
+	}
+
+	/**
+	 * Init Functions
+	 */
+	responsiveTables();
+
+	if (is_gigya_user_logged_in()) {
+		addGigyaBodyClass();
+	}
+
+	/**
+	 * Functions called on Document Ready
+	 */
+	$(document).ready(function() {
+		personality_toggle();
+		$('.article__content').fitVids({customSelector: "div[id^='playerwrapper']"});
+	});
+
+	/**
+	 * Functions specific to document events
+	 */
+	$(document).on('click', '.popup', socialPopup);
+
+	$(document).on('click', '*[data-toggle="collapse"]', contestRulesToggle);
+
+	/**
+	 * Functions that run after the pjax:end event
+	 */
+	$(document).bind( 'pjax:end', function () {
+		personality_toggle();
+	});
+	
+})(jQuery, window, document);
+(function ($, window, document, undefined) {
+
+	/**
+	 * Global Variables
+	 *
+	 * @type {*|HTMLElement}
+	 */
+	var body = document.querySelector('body');
+	var html = document.querySelector('html');
+	var siteWrap = document.getElementById('site-wrap');
+	var header = document.getElementById('header');
+	var livePlayer = document.getElementById('live-player__sidebar');
+	var wpAdminHeight = 32;
+	var onAir = document.getElementById( 'on-air' );
+	var upNext = document.getElementById( 'up-next');
+	var nowPlaying = document.getElementById( 'nowPlaying' );
+	var liveLinks = document.getElementById( 'live-links' );
+	var liveLinksWidget = document.querySelector( '.widget--live-player' );
+	var liveLinksWidgetTitle = document.querySelector('.widget--live-player__title');
+	var liveLinksMore = document.querySelector('.live-links--more');
+	var scrollObject = {};
+	var livePlayerMore = document.getElementById('live-player--more');
+	var footer = document.querySelector('.footer');
+	var livePlayerOpenBtn = document.querySelector('.live-player--open__btn');
+
+	/**
+	 * Function to dynamically calculate the offsetHeight of an element
 	 *
 	 * @param elem
 	 * @returns {number}
@@ -574,30 +706,14 @@
 		return elem.offsetHeight;
 	}
 
-	function elemTopOffset(elem) {
-		if (elem != null) {
-			return elem.offsetTop;
-		}
-	}
-
-	function elemHeightOffset(elem) {
-		if (elem != null) {
-			return elemHeight(elem) - elemTopOffset(elem);
-		}
-	}
-
-	function windowHeight(elem) {
-		return Math.max(document.documentElement.clientHeight, elem.innerHeight || 0);
-	}
-
-	function documentHeight() {
-		var html = document.documentElement;
-
-		return Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-	}
-
+	/**
+	 * Function that will detect if the element is in the visible viewport
+	 *
+	 * @param elem
+	 * @returns {boolean}
+	 */
 	function elementInViewport(elem) {
-		if (elem != null) {
+		if (elem !== null) {
 			var top = elem.offsetTop;
 			var left = elem.offsetLeft;
 			var width = elem.offsetWidth;
@@ -610,25 +726,16 @@
 			}
 
 			return (
-				top < (window.pageYOffset + window.innerHeight) &&
-				left < (window.pageXOffset + window.innerWidth) &&
-				(top + height) > window.pageYOffset &&
-				(left + width) > window.pageXOffset
+			top < (window.pageYOffset + window.innerHeight) &&
+			left < (window.pageXOffset + window.innerWidth) &&
+			(top + height) > window.pageYOffset &&
+			(left + width) > window.pageXOffset
 			);
 		}
 	}
 
 	/**
-	 * global variables for event types to use in conjunction with `addEventHandler` function
-	 * @type {string}
-	 */
-	var elemClick = 'click',
-		elemLoad = 'load',
-		elemScroll = 'scroll',
-		elemResize = 'resize';
-
-	/**
-	 * function to detect if the current browser can use `addEventListener`, if not, use `attachEvent`
+	 * Function to detect if the current browser can use `addEventListener`, if not, use `attachEvent`
 	 * this is a specific fix for IE8
 	 *
 	 * @param elem
@@ -643,10 +750,10 @@
 	}
 
 	/**
-	 * default height for the live player
+	 * Default height for the live player
 	 */
 	function lpPosDefault() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			if (body.classList.contains('logged-in')) {
 				livePlayer.style.top = wpAdminHeight + elemHeight(header) + 'px';
 			} else {
@@ -655,42 +762,46 @@
 		}
 	}
 
+	/**
+	 * Adds a height to the live player based on the height of the sitewrap element minus the height of the header
+	 */
 	function lpHeight() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			livePlayer.style.height = elemHeight(siteWrap) - elemHeight(header) + 'px';
 		}
 	}
 
+	/**
+	 * Adds a height to the live links
+	 */
 	function liveLinksHeight() {
 		var liveLinksBlogRoll = document.getElementById('live-links__blogroll');
-		if (liveLinksBlogRoll != null) {
-			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
-		}
 
-		if(liveLinksWidget != null & liveLinksMore != null && liveLinksItem.length <= 1) {
+		if (liveLinksWidget !== null && liveLinksMore !== null && liveLinksBlogRoll !== null) {
+			var liveLinksItem = liveLinksBlogRoll.getElementsByTagName('li');
+			if (liveLinksItem.length <= 0) {
+				liveLinksMore.classList.add('show-more--muted');
+			}
+		} else if (liveLinksWidget === null || liveLinksMore === null || liveLinksBlogRoll === null) {
 			liveLinksMore.classList.add('show-more--muted');
 		}
 	}
 
-    /**
-     * from Js Window resize script is not neccessary on popupPlayer window
-     */
-    if( document.getElementById( 'popup-player-livestream' ) ){
-        return;
-    }
-
 	/**
-	 * detects various positions of the screen on scroll to deliver states of the live player
+	 * Detects various positions of the screen on scroll to deliver states of the live player
 	 *
 	 * y scroll position === `0`: the live player will be absolute positioned with a top location value based
 	 * on the height of the header and the height of the WP Admin bar (if logged in); the height will be adjusted
 	 * based on the window height - WP Admin Bar height (if logged in) - header height.
+	 *
 	 * y scroll position >= `1` and <= the header height: the live player height will be 100% and will still be
 	 * positioned absolute as y scroll position === `0` was.
+	 *
 	 * y scroll position >= the header height: the live player height will be based on the height of the window - WP
 	 * Admin bar height (if logged in); the live player will be fixed position at `0` or the height of the WP Admin bar
 	 * if logged in.
-	 * all other states will cause the live player to have a height of 100%;.
+	 *
+	 * All other states will cause the live player to have a height of 100%;.
 	 */
 	function getScrollPosition() {
 		if (window.innerWidth >= 768) {
@@ -699,7 +810,7 @@
 				y: window.pageYOffset
 			};
 
-			if (scrollObject.y == 0) {
+			if (scrollObject.y === 0) {
 				if (livePlayer.classList.contains('live-player--fixed')) {
 					livePlayer.classList.remove('live-player--fixed');
 				}
@@ -711,7 +822,7 @@
 				lpPosDefault();
 			} else if (!elementInViewport(header) && ! elementInViewport(footer)) {
 				livePlayer.classList.add('live-player--fixed');
-				if (livePlayer != null) {
+				if (livePlayer !== null) {
 					livePlayer.style.removeProperty('top');
 				}
 			}
@@ -720,11 +831,11 @@
 	}
 
 	/**
-	 * adds some styles to the live player that would be called at mobile breakpoints. This is added specifically to
+	 * Adds some styles to the live player that would be called at mobile breakpoints. This is added specifically to
 	 * deal with a window being resized.
 	 */
 	function livePlayerMobileReset() {
-		if (livePlayer != null) {
+		if (livePlayer !== null) {
 			if (livePlayer.classList.contains('live-player--init')) {
 				livePlayer.classList.remove('live-player--init');
 			}
@@ -737,7 +848,7 @@
 	}
 
 	/**
-	 * adds some styles to the live player that would be called at desktop breakpoints. This is added specifically to
+	 * Adds some styles to the live player that would be called at desktop breakpoints. This is added specifically to
 	 * deal with a window being resized.
 	 */
 	function livePlayerDesktopReset() {
@@ -755,78 +866,7 @@
 			livePlayer.style.right = '0';
 		}
 	}
-
-	/**
-	 * creates a re-usable variable that will call a button name, element to hide, and element to display
-	 *
-	 * @param btn
-	 * @param elemHide
-	 * @param elemDisplay
-	 */
-	var lpAction = function (btn, elemHide, elemDisplay) {
-		this.btn = btn;
-		this.elemHide = elemHide;
-		this.elemDisplay = elemDisplay;
-	};
-
-	/**
-	 * this function will create a re-usable function to hide and display elements based on lpAction
-	 */
-	lpAction.prototype.playAction = function () {
-		var that = this; // `this`, when registering an event handler, won't ref the method's parent object, so a var it is
-		addEventHandler(that.btn, elemClick, function () {
-			that.elemHide.style.display = 'none';
-			that.elemDisplay.style.display = 'inline-block';
-		});
-	};
-
-	/**
-	 * variables used for button interactions on the live player
-	 */
-	var playLp, pauseLp, resumeLp, playBtn, pauseBtn, resumeBtn, lpListenNow, lpNowPlaying;
-	playBtn = document.getElementById('playButton');
-	pauseBtn = document.getElementById('pauseButton');
-	resumeBtn = document.getElementById('resumeButton');
-	lpListenNow = document.getElementById('live-stream__listen-now');
-	lpNowPlaying = document.getElementById('live-stream__now-playing');
-
-	/**
-	 * creates new method of lpAction with custom btn, element to hide, and element to display
-	 *
-	 * @type {lpAction}
-	 */
-	resumeLp = new lpAction(resumeBtn, lpListenNow, lpNowPlaying);
-
-	/**
-	 * Toggles a class to the body when the mobile nav button is clicked
-	 */
-
-	function mobileOpenLocation() {
-		var y = window.pageYOffset;
-
-		siteWrap.style.top = '-' + y + 'px';
-	}
-
-	function mobileCloseLocation() {
-		var y = window.pageYOffset;
-
-		siteWrap.style.removeProperty('top');
-	}
-
-	function toggleNavButton() {
-		body.classList.toggle('mobile-nav--open');
-
-		if ($('.mobile-nav--open').length) {
-			showBlocker();
-			mobileOpenLocation();
-		} else {
-			hideBlocker();
-			mobileCloseLocation();
-		}
-	}
-
-	addEventHandler(mobileNavButton, elemClick, toggleNavButton);
-
+	
 	/**
 	 * Function to handle stream selection through a dropdown
 	 */
@@ -837,7 +877,7 @@
 			livePlayerStreams = document.querySelectorAll('.live-player__stream--item');
 
 		function toggleStreamSelect() {
-			if (livePlayerStreamSelect != null) {
+			if (livePlayerStreamSelect !== null) {
 				livePlayerStreamSelect.classList.toggle('open');
 			}
 
@@ -847,7 +887,7 @@
 		}
 
 		if (livePlayerStreamSelect !== null) {
-			addEventHandler(livePlayerStreamSelect, elemClick, toggleStreamSelect);
+			addEventHandler(livePlayerStreamSelect, 'click', toggleStreamSelect);
 		}
 
 		/**
@@ -856,7 +896,7 @@
 		function selectStream() {
 			var selected_stream = this.querySelector('.live-player__stream--name').textContent;
 
-			if (livePlayerCurrentName != null) {
+			if (livePlayerCurrentName !== null) {
 				livePlayerCurrentName.textContent = selected_stream;
 			}
 
@@ -865,22 +905,12 @@
 
 		if (livePlayerStreams !== null) {
 			for (var i = 0; i < livePlayerStreams.length; i++) {
-				addEventHandler(livePlayerStreams[i], elemClick, selectStream);
+				addEventHandler(livePlayerStreams[i], 'click', selectStream);
 			}
 		}
 	}
 
 	streamSelection();
-
-	function liveLinksMobileState() {
-		if ( $('body').hasClass('live-player--open')) {
-			document.body.style.overflow = 'hidden';
-			html.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = 'initial';
-			html.style.overflow = 'initial';
-		}
-	}
 
 	/**
 	 * Toggles a class to the body when an element is clicked on small screens.
@@ -893,6 +923,19 @@
 	}
 
 	/**
+	 * Sets states needed for the liveplayer on mobile
+	 */
+	function liveLinksMobileState() {
+		if ( $('body').hasClass('live-player--open')) {
+			document.body.style.overflow = 'hidden';
+			html.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'initial';
+			html.style.overflow = 'initial';
+		}
+	}
+
+	/**
 	 * Closes the live links
 	 */
 	function liveLinksClose() {
@@ -900,36 +943,7 @@
 			if (body.classList.contains('live-player--open')) {
 				body.classList.remove('live-player--open');
 			}
-			//liveLinksMobileState();
 		}
-	}
-
-	function playerActive() {
-		body.classList.add('live-player--active');
-	}
-
-	function playerNotActive() {
-		body.classList.remove('live-player--active');
-	}
-
-	/**
-	 * Adds a class to a HTML table to make the table responsive
-	 */
-	function responsiveTables() {
-		$table.addClass('responsive');
-		$tableTd.removeAttr('width');
-	}
-
-	responsiveTables();
-
-	function addGigyaBodyClass() {
-		if (! body.classList.contains('gmr-user')) {
-			body.classList.add('gmr-user');
-		}
-	}
-
-	if (is_gigya_user_logged_in()) {
-		addGigyaBodyClass();
 	}
 
 	/**
@@ -937,13 +951,13 @@
 	 */
 	function resizeWindow() {
 		if (window.innerWidth <= 767) {
-			if (livePlayer != null) {
+			if (livePlayer !== null) {
 				livePlayerMobileReset();
 			}
 		} else {
-			if (livePlayer != null) {
+			if (livePlayer !== null) {
 				livePlayerDesktopReset();
-				addEventHandler(window, elemScroll, function () {
+				addEventHandler(window, 'scroll', function () {
 					scrollDebounce();
 					scrollThrottle();
 				});
@@ -966,38 +980,96 @@
 		lpPosDefault();
 		lpHeight();
 		liveLinksHeight();
-		addEventHandler(window, elemScroll, function () {
+		addEventHandler(window, 'scroll', function () {
 			scrollDebounce();
 			scrollThrottle();
 		});
 	}
 
-
-	if (onAir != null) {
-		addEventHandler(onAir, elemClick, openLivePlayer);
+	if (onAir !== null) {
+		addEventHandler(onAir, 'click', openLivePlayer);
 	}
-	if (upNext != null) {
-		addEventHandler(upNext, elemClick, openLivePlayer);
+	if (upNext !== null) {
+		addEventHandler(upNext, 'click', openLivePlayer);
 	}
-	if (nowPlaying != null) {
-		addEventHandler(nowPlaying, elemClick, openLivePlayer);
+	if (nowPlaying !== null) {
+		addEventHandler(nowPlaying, 'click', openLivePlayer);
 	}
-	if (livePlayerMore != null) {
+	if (livePlayerMore !== null) {
 		addEventHandler(livePlayerMore, 'click', openLivePlayer);
 	}
-	if (liveLinksWidget != null) {
-		addEventHandler(liveLinksWidget, elemClick, liveLinksClose);
+	if (liveLinksWidget !== null) {
+		addEventHandler(liveLinksWidget, 'click', liveLinksClose);
 	}
 	if (body.classList.contains('liveplayer-disabled')) {
 		addEventHandler(liveLinksWidgetTitle, 'click', openLivePlayer);
 		addEventHandler(livePlayerOpenBtn, 'click', openLivePlayer);
 	}
 
-	addEventHandler(window, elemResize, function () {
+	addEventHandler(window, 'resize', function () {
 		resizeDebounce();
 		resizeThrottle();
 	});
 
+})(jQuery, window, document);
+(function ($, window, document, undefined) {
+
+	/**
+	 * Global variables
+	 */
+	var body = document.querySelector('body');
+	var mobileNavButton = document.querySelector('.mobile-nav__toggle');
+	var siteWrap = document.getElementById('site-wrap');
+
+	/**
+	 * Function to detect if the current browser can use `addEventListener`, if not, use `attachEvent`
+	 * this is a specific fix for IE8
+	 *
+	 * @param elem
+	 * @param eventType
+	 * @param handler
+	 */
+	function addEventHandler(elem, eventType, handler) {
+		if (elem.addEventListener)
+			elem.addEventListener(eventType, handler, false);
+		else if (elem.attachEvent)
+			elem.attachEvent('on' + eventType, handler);
+	}
+
+	/**
+	 * Allows the main content body to maintain it's vertical position when the mobile menu is opened
+	 */
+	function mobileOpenLocation() {
+		var y = window.pageYOffset;
+
+		siteWrap.style.top = '-' + y + 'px';
+	}
+
+	/**
+	 * Returns the main content body to it's vertical position when the mobile menu is closed
+	 */
+	function mobileCloseLocation() {
+		siteWrap.style.removeProperty('top');
+	}
+
+	/**
+	 * Toggles a class to the body when the mobile nav button is clicked
+	 */
+	function toggleNavButton() {
+		body.classList.toggle('mobile-nav--open');
+
+		if ($('.mobile-nav--open').length) {
+			showBlocker();
+			mobileOpenLocation();
+		} else {
+			hideBlocker();
+			mobileCloseLocation();
+		}
+	}
+
+	/**
+	 * Adds a overlay to the body when a menu item that has a sub-menu, is hovered
+	 */
 	function init_menu_overlay() {
 		var $menu = jQuery(document.querySelector('.header__nav--list')),
 			$secondary = jQuery(document.querySelector('.header__secondary')),
@@ -1037,26 +1109,34 @@
 		});
 	}
 
-	init_menu_overlay();
-
+	/**
+	 * Helps with hover issues on mobile
+	 */
 	function addHoverMobile() {
 		$('.header__nav ul li').on('click touchstart', function() {
 			$(this).addClass('active');
 		});
 	}
 
-	addHoverMobile();
-
+	/**
+	 * Removes the active class added by addHoverMobile
+	 */
 	function removeHoverMobile() {
 		$('.header__nav ul li').removeClass('active');
 	}
 
+	/**
+	 * Triggered by pjax to remove the `is-visible` class when the pjax:end event is triggered
+	 */
 	function removeoverlay() {
 		var $overlay = jQuery(document.querySelector('.menu-overlay-mask'));
 
 		$overlay.removeClass('is-visible');
 	}
 
+	/**
+	 * Adds an active class to a menu item when it is hovered
+	 */
 	function addMenuHover() {
 		$('.header__nav ul li').hover(
 			function () {
@@ -1068,8 +1148,9 @@
 		);
 	}
 
-	addMenuHover();
-
+	/**
+	 * Adds an visibility class to the logo when the menu is hovered
+	 */
 	function addLogoVisibility() {
 		var $body = jQuery(document.querySelector('body')),
 			$logo = jQuery(document.querySelector('.header__logo')),
@@ -1088,77 +1169,11 @@
 		});
 	}
 
-	addLogoVisibility();
-
-	(function ($) {
-		$(document).on('click', '.popup', function () {
-			var href = $(this).attr('href'),
-				x = screen.width / 2 - 700 / 2,
-				y = screen.height / 2 - 450 / 2;
-
-			window.open(href, href, 'height=485,width=700,scrollbars=yes,resizable=yes,left=' + x + ',top=' + y);
-
-			return false;
-		});
-
-		/**
-		 * Toggles a target element.
-		 * @param {MouseEvent} e
-		 */
-		$(document).on('click', '*[data-toggle="collapse"]', function(e) {
-			var target = $($(this).attr('data-target')).get(0),
-				currentText = $(this).html(),
-				newText = $(this).attr('data-alt-text');
-
-			target.style.display = target.style.display != 'none' ? 'none' : 'block';
-
-			$(this).html(newText);
-			$(this).attr('data-alt-text', currentText);
-
-			return false;
-		});
-
-		$(document).ready(function() {
-			$('.article__content').fitVids({customSelector: "div[id^='playerwrapper']"});
-		});
-	})(jQuery);
-
-	function personality_toggle() {
-		var $button = jQuery('.person-toggle');
-		start = jQuery('.personality__meta').first().height(); // get the height of the meta before we start, basically tells us whether we're using the mobile or desktop height
-
-		$button.on('click', function (e) {
-			var $this = $(this);
-			$parent = $this.parent().parent('.personality');
-			$meta = $this.siblings('.personality__meta');
-			curr = $meta.height();
-			auto = $meta.css('height', 'auto').height(),
-				offset = '';
-
-			$parent.toggleClass('open');
-			// if( $parent.hasClass('open') ) {
-			// 	$meta.height(curr).animate({height: auto * 0.69}, 1000); // the 0.69 adjusts for the difference in height due to the overflow: visible wrapping the text
-			// } else {
-			// 	$meta.height(curr).animate({height: start}, 1000);
-			// }
-
-
-			if ($this.hasClass('active')) {
-				$this.text('More');
-			} else {
-				$this.text('Less');
-			}
-			$this.toggleClass('active');
-		});
-	}
-
-	$(document).bind( 'pjax:end', function () {
-		personality_toggle();
-		hideBlocker();
-		removeHoverMobile();
-		removeoverlay();
-	});
-
+	/**
+	 * Inserts a new element on mobile to provide a blocker
+	 *
+	 * @returns {*|jQuery|HTMLElement}
+	 */
 	var getBlockerDiv = function() {
 		var $div = $('#mobile-nav-blocker');
 		if ($div.length === 0) {
@@ -1170,6 +1185,9 @@
 		return $div;
 	};
 
+	/**
+	 * Shows the blocker div that is created by getBlockerDiv
+	 */
 	var showBlocker = function() {
 		var $blocker = getBlockerDiv();
 
@@ -1180,6 +1198,9 @@
 		});
 	};
 
+	/**
+	 * Hides the blocker div that is shown by showBlocker
+	 */
 	var hideBlocker = function() {
 		var $blocker = getBlockerDiv();
 		$blocker.css({'display': 'none'});
@@ -1189,62 +1210,27 @@
 	};
 
 	/**
-	 * Returns user agents for mobile devices. We need to be able to detect common mobile devices in order to remove
-	 * the double tap click issue that appears, specifically in iOS. If we do not detect the agent, this will stay
-	 * active in the menu at all times and breaks Pjax.
-	 *
-	 * @type {{TOUCH_DOWN_EVENT_NAME: string, TOUCH_UP_EVENT_NAME: string, TOUCH_MOVE_EVENT_NAME: string, TOUCH_DOUBLE_TAB_EVENT_NAME: string, isAndroid: Function, isBlackBerry: Function, isIOS: Function, isOpera: Function, isWindows: Function, isMobile: Function}}
+	 * Init Functions
 	 */
-	var Environment = {
-		//mobile or desktop compatible event name, to be used with '.on' function
-		TOUCH_DOWN_EVENT_NAME: 'mousedown touchstart',
-		TOUCH_UP_EVENT_NAME: 'mouseup touchend',
-		TOUCH_MOVE_EVENT_NAME: 'mousemove touchmove',
-		TOUCH_DOUBLE_TAB_EVENT_NAME: 'dblclick dbltap',
-
-		isAndroid: function() {
-			return navigator.userAgent.match(/Android/i);
-		},
-		isBlackBerry: function() {
-			return navigator.userAgent.match(/BlackBerry/i);
-		},
-		isIOS: function() {
-			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-		},
-		isOpera: function() {
-			return navigator.userAgent.match(/Opera Mini/i);
-		},
-		isWindows: function() {
-			return navigator.userAgent.match(/IEMobile/i);
-		},
-		isMobile: function() {
-			return (Environment.isAndroid() || Environment.isBlackBerry() || Environment.isIOS() || Environment.isOpera() || Environment.isWindows());
-		}
-	};
+	addEventHandler(mobileNavButton, 'click', toggleNavButton);
+	init_menu_overlay();
+	addHoverMobile();
+	addMenuHover();
+	addLogoVisibility();
 
 	/**
-	 * Resolves issue that requires a double click on a sub-menu link on iOS.
+	 * Functions that run after the pjax:end event
 	 */
-	function stopClickMobile() {
-		$('.sub-menu li a').on('click touchend', function (e) {
-			var el = $(this);
-			var link = el.attr('href');
-			window.location = link;
-		});
-	}
-
-	$(document).ready(function() {
-		//showBlocker();
-
-		personality_toggle();
-
+	$(document).bind( 'pjax:end', function () {
+		hideBlocker();
+		removeHoverMobile();
+		removeoverlay();
 	});
 
-})();
+})(jQuery, window, document);
+(function($, window, document, undefined) {
 
-(function() {
-	var $ = jQuery,
-		$searchContainer = $( '#header__search--form '),
+	var $searchContainer = $( '#header__search--form '),
 		$searchForm = $( '#header__search--form ' ).find( 'form' ),
 		$searchBtn = $( '#header__search'),
 		$searchInput = $( '#header-search' ),
@@ -1380,4 +1366,4 @@
 		closeSearch( e );
 	} );
 	
-})();
+})(jQuery, window, document);

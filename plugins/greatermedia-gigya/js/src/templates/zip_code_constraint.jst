@@ -1,0 +1,51 @@
+<ul class="constraint-toolbar">
+	<li>
+		<a
+			alt="f105"
+			class="dashicons dashicons-admin-page copy-constraint"
+			href="#"
+			title="Duplicate"
+		/>
+
+		<a
+			alt="f105"
+			class="dashicons dashicons-trash remove-constraint"
+			href="#"
+			title="Remove"
+		/>
+	</li>
+</ul>
+
+<p class="constraint-title">
+	<%- title %>
+</p>
+
+<p>Enter Zip Codes (comma delimited)</p>
+
+<p>
+	<textarea class="constraint-value constraint-textarea"><%- value %></textarea>
+</p>
+
+<select class="constraint-operator">
+	<% _.each(view.operatorsFor(valueType, type), function(operatorItem) { %>
+	<option value="<%- operatorItem %>" <%= operatorItem === operator ? 'selected="selected"' : ''  %>">
+	<%- operatorItem %>
+	</option>
+	<% }) %>
+</select>
+
+<input type="text" class="constraint-value constraint-value-text"
+value="" style="visibility:hidden" />
+
+<select class="constraint-conjunction">
+	<% _.each(view.conjunctions, function(conjunctionItem) { %>
+	<option value="<%- conjunctionItem %>" <%= conjunctionItem === conjunction ? 'selected="selected"' : ''  %>">
+	<%- conjunctionItem %>
+	</option>
+	<% }) %>
+</select>
+
+<div class="conjunction-guide">
+	<p><span class="arrow-down"></span>OR any of the following conditions</p>
+</div>
+

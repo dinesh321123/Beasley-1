@@ -86,7 +86,7 @@
 			padding-top: 0;
 		}
 	}
-	
+
 	.highlights__heading {
 		font-size: ms(1);
 		color: $secondary-heading;
@@ -98,7 +98,7 @@
 		.highlights__event--title, .highlights__event--date {
 			color: $primary-heading;
 		}
-		
+
 		.highlights__event--title:hover {
 			color: $primary-link-hover;
 		}
@@ -119,7 +119,7 @@
 		margin-bottom: 0.5em;
 
 	}
-	
+
 	.format-standard .entry2__thumbnail {
 		margin-top: 1.75em;
 
@@ -230,8 +230,8 @@ category: Components - Shows
 .show__header-content {
 	@include bp(large) {
 		display: table;
-		table-layout: fixed; 
-		width: 100%;		
+		table-layout: fixed;
+		width: 100%;
 	}
 }
 
@@ -242,8 +242,8 @@ category: Components - Shows
 
 	@include bp(large) {
 		width: 150px;
-		display: table-cell; 
-		vertical-align: middle; 
+		display: table-cell;
+		vertical-align: middle;
 	}
 
 	img {
@@ -258,7 +258,7 @@ category: Components - Shows
 	position: relative;
 	text-align: center;
 	margin: 1.5em 0 .5em;
-	
+
 	.show__title {
 		line-height: 1.3;
 		margin: 0;
@@ -307,12 +307,12 @@ category: Components - Shows
 	}
 
 	@include bp(large) {
-		width: auto;  
+		width: auto;
 		display: table-cell;
 		vertical-align: middle;
 		text-align: left;
 		padding-left: 3em;
-		padding-right: 3em; 
+		padding-right: 3em;
 		overflow: visible;
 
 		.show__title {
@@ -389,7 +389,7 @@ category: Components - Shows
 		width: 180px;
 		white-space: nowrap;
 		display: table-cell;
-		vertical-align: middle; 
+		vertical-align: middle;
 		text-align: right;
 	}
 
@@ -426,6 +426,83 @@ category: Components - Shows
 	left: 0;
 	width: 100%;
 	z-index: -1;
+}
+
+.show__mini-nav {
+	.show__header {
+		padding: 5px;
+
+		.show__cast {
+			width: 40px;
+			float: left;
+			margin-top:5px;
+
+			img {
+				width: 30px;
+				height: 30px;
+			}
+		}
+
+		.show__nav {
+			padding: 0;
+			margin: 0 0 0 -40px;
+			display: block;
+			float: left;
+
+			@include bp(large) {
+				margin: 0;
+			}
+
+			.show__title {
+				font-size: 1em;
+				display: inline-block;
+				line-height: 15px;
+				padding: 0 10px 0 0;
+				max-width: 250px;
+
+				@include bp(large) {
+					line-height: 30px;
+					max-width: none;
+
+					&:after {
+						content: "\0003a";
+						font-weight: bold;
+					}
+				}
+
+				a {
+					padding-right: 0px;
+					text-transform: uppercase;
+					color: #fff;
+					font-weight: bold;
+					padding: 5px;
+					border-radius: 20px;
+					display: inline-block;
+
+					&:hover  {
+						background-color: $secondary-text;
+						color: $heath;
+					}
+				}
+
+			}
+
+			ul {
+				display: inline-block;
+				margin: 0;
+				padding: 0;
+
+				li a {
+					padding: 0 5px;
+					line-height: 30px;
+				}
+
+				@include bp(large) {
+					position: relative;
+				}
+			}
+		}
+	}
 }
 
 /*doc
@@ -479,7 +556,7 @@ category: Components - Shows
 	@include bp(large) {
 		@include span-columns(8 of 12);
 	}
-	
+
 }
 
 .show__feature--secondary {
@@ -492,15 +569,15 @@ category: Components - Shows
 
 .show__feature {
 	margin-bottom: 5.6%;
-	
+
  	.thumbnail {
 		background-color: $dark-gray;
 		padding-bottom: 66%;
-		background-position: center center; 
-		background-size: 100%; 
+		background-position: center center;
+		background-size: 100%;
 		background-size: cover;
-        background-repeat: no-repeat; 
-				 
+        background-repeat: no-repeat;
+
 		.inner-wrap {
 			position: absolute;
 			left: 0;
@@ -513,15 +590,15 @@ category: Components - Shows
 			color: $primary-link-hover;
 		}
 	}
-	
+
 	@include bp(large) {
 		padding-bottom: 75%;
 		position: relative;
-		
+
 		.thumbnail {
 			position: absolute;
 			width: 100%;
-			left: 0; 
+			left: 0;
 			top: 0;
 		}
 	}
@@ -540,13 +617,13 @@ category: Components - Shows
 	.show__feature--primary & h3 {
 		font-size: ms(5);
 	}
-	
+
 	time {
 		font-size: ms(0);
 		text-transform: uppercase;
 		color: $primary-heading;
-	}			
-	
+	}
+
 	.inner-wrap {
 		padding: $base-line-height $gutter;
 
@@ -554,22 +631,22 @@ category: Components - Shows
 			padding: 1em;
 		}
 	}
-	
+
 	@include bp( large ) {
 		// padding-bottom: 22%; // 3/10 the height of our 4:3 unit.
 		position: absolute;
 		width: 100%;
 		left: 0;
 		bottom: 0;
-		
+
 		h3 {
 			font-size: ms(1);
 		}
-		
+
 		.show__feature--primary & h3 {
 			font-size: ms(6);
 		}
-		
+
 		time {
 			font-size: ms(-1);
 		}
@@ -594,7 +671,7 @@ category: Components - Shows
 		width: 100%;
 		padding-right: 330px;
 	}
-	
+
 	@include bp(larger) {
 		@include span-columns(8 of 12);
 		padding-right: 25px;
@@ -679,7 +756,7 @@ category: Components - Shows
 	@include span-columns(12 of 12);
 	@include omega();
 
-	
+
 	.section-header {
 		font-size: ms(1);
 		margin-bottom: 0.6em;
@@ -796,27 +873,27 @@ category: Components - Shows
 }
 
 .show__paging {
-	clear: both; 
+	clear: both;
 	width: 100%;
 	font-size: ms(-1);
-	margin: 0 0 $base-line-height; 
+	margin: 0 0 $base-line-height;
 	text-align: center;
-	
+
 	.page-numbers {
 		display: none;
-		
-		&.next, 
+
+		&.next,
 		&.prev {
 			display: inline;
-		} 
+		}
 	}
-	
+
 	.prev {
 		float: left;
 		width: 50%;
 		text-align: left;
 	}
-	
+
 	.next {
 		float: right;
 		width: 50%;

@@ -1,12 +1,5 @@
-<h2 class="page__title" itemprop="headline"><?php _e( 'Photos', 'greatermedia' ); ?></h2>
+<h2 class="page__title" itemprop="headline"><?php _e( 'Latest Galleries', 'greatermedia' ); ?></h2>
 <?php
-/*
- * Will have post IDs of posts we've rendered on the page, to avoid duplication. There is a rare case that can pop
- * up that seems to be from using have_posts() multiple times, where rewind_posts() gets called right as we start
- * the final query. Tracking IDs allows us to be sure we don't accidentally render the bottom section as a duplicate
- * of the top section for these rare cases.
- */
-$rendered_posts = array();
 
 /*
  * Posts per page is 16, for the main section.
@@ -27,103 +20,68 @@ if ( $page > 1 ) {
 }
 
 $query_args = array(
-	'post_type' => array( 'gmr_gallery', 'gmr_album' ),
-	'orderby' => 'date',
-	'order' => 'DESC',
-	'post_parent' => '0',
-	'posts_per_page' => $per_page,
-	'offset' => $offset,
+	'post_type'      => array( 'gmr_gallery' ),
+	'orderby'        => 'date',
+	'order'          => 'DESC',
+	'posts_per_page' => 3,
+	'offset'         => 0,
 );
 
 if ( 'show' == get_post_type() ) {
 	$term = \TDS\get_related_term( get_the_ID() );
-
-	$query_args['tax_query'] = array(
-		array(
-			'taxonomy' => '_shows',
-			'field' => 'slug',
-			'terms' => $term->slug,
-		)
-	);
+	if ( $term ) {
+		$query_args['tax_query'] = array(
+			array(
+				'taxonomy' => '_shows',
+				'field'    => 'slug',
+				'terms'    => $term->slug,
+			)
+		);
+	}
 }
 
 $query = new WP_Query( $query_args );
 
-if ( $query->have_posts() ) :
+if ( $query->have_posts() ) : ?>
 
-	if ( $page < 2 ) { ?>
+	<div class="gallery__featured">
 
-		<div class="gallery__featured">
-
-			<div class="gallery__featured--primary">
-
-				<?php if ($query->have_posts() ) : $query->the_post();
-
-					$rendered_posts[ get_the_ID() ] = get_the_ID();
-
-					get_template_part( 'partials/gallery-featured', 'primary' );
-
-				endif;
-
-				?>
-
-			</div>
-
-			<div class="gallery__featured--secondary">
-
-				<?php
-				$secondary_count = 0;
-				if ( $query->have_posts() ) :
-
-					while ( $query->have_posts() && $secondary_count < 2 ): $query->the_post();
-
-						if ( in_array( get_the_ID(), $rendered_posts ) ) {
-							continue;
-						}
-
-						$rendered_posts[ get_the_ID() ] = get_the_ID();
-
-						$secondary_count++;
-
-						get_template_part( 'partials/gallery-featured', 'secondary' );
-
-					endwhile;
-
-				endif;
-
-				?>
-
-			</div>
-
+		<div class="gallery__featured--primary">
+			<?php $query->the_post(); ?>
+			<?php get_template_part( 'partials/gallery-featured', 'primary' ); ?>
 		</div>
 
-	<?php } ?>
+		<div class="gallery__featured--secondary">
 
-	<div class="gallery__grid">
+			<?php if ( $query->have_posts() && $query->post_count > 1 ) : ?>
+				<?php $query->the_post(); ?>
+				<?php get_template_part( 'partials/gallery-featured', 'secondary' ); ?>
+			<?php endif; ?>
 
-		<h3 class="section-header"><?php _e( 'Galleries and Alblums', 'greatermedia' ); ?></h3>
+			<?php if ( $query->have_posts() && $query->post_count > 2 ) : ?>
+				<?php $query->the_post(); ?>
+				<?php get_template_part( 'partials/gallery-featured', 'secondary' ); ?>
+			<?php endif; ?>
 
-		<?php
-
-		if ( $query->have_posts() ) :
-
-			while ( $query->have_posts() ) : $query->the_post();
-
-				if ( in_array( get_the_ID(), $rendered_posts ) ) {
-					continue;
-				}
-
-				$rendered_posts[ get_the_ID() ] = get_the_ID();
-
-				get_template_part( 'partials/gallery-grid' );
-
-			endwhile;
-
-		endif; ?>
+		</div>
 
 	</div>
 
 	<?php wp_reset_postdata(); ?>
+
+	<div class="gallery__grid">
+
+		<?php get_template_part( 'partials/loop', 'album' ); ?>
+
+	</div>
+
+	<?php wp_reset_postdata(); ?>
+
+	<div class="gallery__grid">
+
+		<?php get_template_part( 'partials/loop', 'gallery' ); ?>
+
+	</div>
 
 <?php else : ?>
 

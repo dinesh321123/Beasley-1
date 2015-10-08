@@ -72,7 +72,8 @@ module.exports = function (grunt) {
 					GreaterMediaAdminNotifier: false,
 					GreaterMediaUGC: false,
 					Formbuilder: false,
-					FormData: false
+					FormData: false,
+					alert: false
 				}
 			}
 		},

@@ -20,7 +20,7 @@
 if ( defined( 'GMR_PARENT_ENV' ) && 'dev' == GMR_PARENT_ENV ) {
 	define( 'GREATERMEDIA_VERSION', time() );
 } else {
-	define( 'GREATERMEDIA_VERSION', '1.0.4' );
+	define( 'GREATERMEDIA_VERSION', '1.2.5' ); /* Version bump by Steve 7/23/2015 @ 2:40pm EST */
 }
 
 add_theme_support( 'homepage-curation' );
@@ -34,6 +34,7 @@ require_once( __DIR__ . '/includes/image-attributes/loader.php');
 require_once( __DIR__ . '/includes/posts-screen-thumbnails/loader.php' );
 require_once( __DIR__ . '/includes/category-options.php' );
 require_once( __DIR__ . '/includes/class-favicon.php' );
+require_once( __DIR__ . '/includes/iframe-embed.php' );
 
 /**
  * Required files
@@ -175,17 +176,12 @@ function greatermedia_scripts_styles() {
 		true
 	);
 	wp_enqueue_script(
-		'placeholders',
-		"{$baseurl}/assets/js/vendor/placeholders.min.js",
-		array(),
-		'3.0.2',
-		false
-	);
-
-	wp_enqueue_script(
 		'greatermedia-load-more',
 		"{$baseurl}/assets/js/greater_media_load_more{$postfix}.js",
-		array( 'jquery', 'jquery-waypoints' ),
+		array(
+			'jquery',
+			'jquery-waypoints'
+		),
 		GREATERMEDIA_VERSION,
 		true
 	);
@@ -428,7 +424,7 @@ add_action( 'keyword_search_result', 'get_results_for_keyword' );
  * @param  WP_Query $query [description]
  */
 function greatermedia_alter_search_query( $query ) {
-	if( $query->is_search && $query->is_main_query() ) {
+	if( ! is_admin() && $query->is_search() && $query->is_main_query() ) {
 		$search_query_arg = sanitize_text_field( $query->query_vars['s'] );
 		$custom_post_id = intval( get_post_with_keyword( $search_query_arg ) );
 		if( $custom_post_id != 0 ) {
@@ -560,8 +556,7 @@ function greatermedia_load_more_button( $args = array() ) {
 		return;
 	}
 
-
-	if ( ! $args['next_page'] ) {
+	if ( empty( $args['next_page'] ) || !is_numeric( $args['next_page'] ) ) {
 		$args['next_page'] = 2;
 	}
 
@@ -679,6 +674,7 @@ function add_google_analytics() {
 		ga('set', 'location', window.location.href);
 		ga('send', 'pageview');
 	});
+	ga('require', 'displayfeatures');
 	ga('send', 'pageview');
 
 	jQuery(document).ready(function() {
@@ -974,7 +970,7 @@ function greatermedia_newssite_class( $classes ) {
 	if ( is_news_site() ) {
 		$classes[] = 'news-site';
 	}
-	
+
 	return $classes;
 }
 add_filter( 'body_class', 'greatermedia_newssite_class' );
@@ -1067,3 +1063,46 @@ function greatermedia_facebook_handler( $matches, $attr, $url, $rawattr ) {
 	return '<script>!function(e,n,t){var o,c=e.getElementsByTagName(n)[0];e.getElementById(t)||(o=e.createElement(n),o.id=t,o.src="//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.2",c.parentNode.insertBefore(o,c))}(document,"script","facebook-jssdk");</script>
 			<div class="fb-post" data-href="' . esc_url( $url ) . '"></div>';
 }
+
+/**
+ * Filters search results to be ordered by the date
+ *
+ * @param $query
+ */
+function greatermedia_search_results_filter( $query ) {
+	if ( ! is_admin() && $query->is_main_query() ) {
+		if ( $query->is_search() ) {
+			$query->set( 'orderby', 'date' );
+		}
+	}
+}
+add_action( 'pre_get_posts', 'greatermedia_search_results_filter' );
+
+/**
+ * Disables wptexturize for compatibility with Embed.ly
+ */
+add_filter( 'run_wptexturize', '__return_false' );
+
+/**
+ * Adds default styles to Embedly cards added by the Embedly Wordpress plug-in as defined at:
+ * http://embed.ly/docs/products/cards
+ *
+ * @param $content
+ */
+
+function stylize_embedly_embeds( $content ) {
+	return preg_replace( '/(<a class=\\\\"embedly-card\\\\" )(href=\\\\"[^"]*\\\\">)/', ' ${1}data-card-width=\"100%\" data-card-chrome=\"0\" data-card-controls=\"0\" $2', $content );
+}
+
+add_filter( 'content_save_pre', 'stylize_embedly_embeds', 30, 1 );
+
+/**
+ * Enables Video Thumbnails to work with Embedly on first post save.
+ */
+function urldecode_markup_for_video_thumbnails( $markup, $post_id ) {
+	return urldecode($markup);
+}
+
+add_filter( 'video_thumbnail_markup', 'urldecode_markup_for_video_thumbnails', 10, 2 );
+
+

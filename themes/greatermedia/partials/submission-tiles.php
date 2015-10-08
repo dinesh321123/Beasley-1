@@ -28,7 +28,7 @@ wp_enqueue_script( 'gmr-gallery' );
 		<?php endwhile; ?>
 	</ul>
 
-	<?php if ( $submissions_query->max_num_pages > 1 ) : ?>
+	<?php if ( $submissions_query->max_num_pages > 1 && ! is_preview() ) : ?>
 		<button type="button" class="contest__submissions--load-more">
 			<i class="gmr-icon icon-spin icon-loading"></i> Load More
 		</button>

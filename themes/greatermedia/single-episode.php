@@ -12,6 +12,8 @@ get_header(); ?>
 
 		<div class="container">
 
+			<?php get_template_part( 'partials/show-mini-nav' ); ?>
+
 			<section class="content">
 
 				<article id="post-<?php the_ID(); ?>" <?php post_class( 'article cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
@@ -24,7 +26,7 @@ get_header(); ?>
 
 						<time class="article__date" datetime="<?php echo get_the_time(); ?>"><?php the_date( 'F j, Y' ); ?></time>
 						<h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
-						
+
 						<?php get_template_part( 'partials/social-share' ); ?>
 
 						<div class="episode__buttons">

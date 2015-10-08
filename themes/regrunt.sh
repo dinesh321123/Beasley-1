@@ -3,19 +3,37 @@
 cd greatermedia
 grunt
 
-cd ../wmgk
-grunt
-
 cd ../thefanatic
 grunt
 
 cd ../wben
 grunt
 
+cd ../wbos
+grunt
+
+cd ../wbqt
+grunt
+
 cd ../wcsx
 grunt
 
+cd ../wctc
+grunt
+
+cd ../wdha
+grunt
+
+cd ../wjrz
+grunt
+
+cd ../wklb
+grunt
+
 cd ../wmgc
+grunt
+
+cd ../wmgk
 grunt
 
 cd ../wmgq
@@ -24,13 +42,19 @@ grunt
 cd ../wmjx
 grunt
 
-cd ../wmtr
-grunt
-
 cd ../wmmr
 grunt
 
-cd ../wbos
+cd ../wmtr
+grunt
+
+cd ../wrat
+grunt
+
+cd ../wrif
+grunt
+
+cd ../wror
 grunt
 
 cd ../

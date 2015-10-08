@@ -232,6 +232,11 @@ class Contest extends BaseImporter {
 		$title = ltrim( $title, '-' );
 		$title = ltrim( $title, ' ' );
 		$title = ucwords( $title );
+		$title = trim( $title );
+
+		if ( empty( $title ) ) {
+			$title = $this->import_string( $contest['ContestName'] );
+		}
 
 		return $title;
 	}

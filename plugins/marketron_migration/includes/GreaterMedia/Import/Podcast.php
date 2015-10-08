@@ -15,6 +15,11 @@ class Podcast extends BaseImporter {
 		$progress_bar = new \WordPress\Utils\ProgressBar( $msg, $total );
 
 		foreach ( $channels as $channel ) {
+			if ( ! $this->container->mappings->can_import_marketron_name(
+				(string) $channel['ChannelTitle'], 'podcast' ) ) {
+				\WP_CLI::log( '    Excluded Podcast: ' . (string) $channel['ChannelTitle'] );
+				continue;
+			}
 			$podcast = $this->podcast_from_channel( $channel );
 
 			if ( ! empty( $podcast ) )  {

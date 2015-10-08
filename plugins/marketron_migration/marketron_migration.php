@@ -26,6 +26,7 @@ if ( defined( 'WP_CLI' ) and WP_CLI  ) {
 	require_once( __DIR__ . '/vendor/autoload.php' );
 	\WP_CLI::add_command( 'marketron_migration', '\GreaterMedia\Commands\Migrator' );
 	\WP_CLI::add_command( 'libsyn', '\GreaterMedia\Commands\LibSynSideloadCommand' );
+	\WP_CLI::add_command( 'oembed', '\GreaterMedia\Commands\OEmbedCommand' );
 }
 
 if ( defined( 'DOING_ASYNC' ) && DOING_ASYNC ) {

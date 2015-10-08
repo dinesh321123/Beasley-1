@@ -1,0 +1,28 @@
+.show__header {
+	background-color: rgb(88, 15, 12);
+
+	&.has-thumbnail {
+
+		&:before {
+			background-image: linear-gradient(to bottom, rgba(88, 15, 12, .85), rgba(88, 15, 12, .85));
+			background-image: -moz-linear-gradient(top, rgba(88, 15, 12, .85), rgba(88, 15, 12, .85));
+			background-image: -o-linear-gradient(top, rgba(88, 15, 12, .85), rgba(88, 15, 12, .85));
+			background-image: -ms-linear-gradient(top, rgba(88, 15, 12, .85), rgba(88, 15, 12, .85));
+			background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(88, 15, 12, .85)), to(rgba(88, 15, 12, .85)));
+			background-image: -webkit-linear-gradient(top, rgba(88, 15, 12, .85), rgba(88, 15, 12, .85));
+		}
+	}
+}
+
+.shows__schedule--now {
+	border-color: $color-red;
+}
+
+.single-show {
+	.highlights__community--item:hover {
+
+		.highlights__community--title {
+			color: $primary-link;
+		}
+	}
+}

@@ -202,6 +202,10 @@ function gmr_contests_adjuste_attachments_query( $args ) {
 
 		unset( $post_status[ array_search( 'private', $post_status ) ] );
 
+		if ( empty( $post_status ) ) {
+			$post_status = array( 'inherit' );
+		}
+
 		$args['post_status'] = $post_status;
 	}
 
@@ -307,7 +311,7 @@ function gmr_contest_container_attributes( $post = null ) {
 	}
 
 	$endpoints = array();
-	
+
 	if ( is_preview() ) {
 		$endpoints = array(
 			'load'        => add_query_arg( 'action', 'load' ),
@@ -658,7 +662,7 @@ function gmr_contests_render_form( $skip_age = false ) {
 	// render the form
 	wp_send_json_success( array(
 		'contest_id' => $contest_id,
-		'html' => GreaterMediaFormbuilderRender::render( $contest_id ),
+		'html'       => GreaterMediaFormbuilderRender::render( $contest_id ),
 	) );
 }
 
@@ -676,6 +680,67 @@ function gmr_contests_get_login_url( $redirect = null ) {
 	return function_exists( 'gigya_profile_path' )
 		? gigya_profile_path( 'login', array( 'dest' => $redirect ) )
 		: '#';
+}
+
+/**
+ * Verifies form submission.
+ */
+function gmr_contests_verify_form_submission( $form ) {
+	foreach ( $form as $field ) {
+		if ( ! $field->required ) {
+			continue;
+		}
+
+		$field_key = 'form_field_' . $field->cid;
+		if ( 'file' === $field->field_type ) {
+
+			if ( isset( $_FILES[ $field_key ] ) && file_is_valid_image( $_FILES[ $field_key ]['tmp_name'] ) ) {
+				continue;
+			}
+
+		} else if ( isset( $_POST[ $field_key ] ) ) {
+
+			if ( is_scalar( $_POST[ $field_key ] ) ) {
+
+				$value = $_POST[ $field_key ];
+				if ( 'radio' == $field->field_type && 'other' == $value ) {
+					if ( ! empty( $_POST[ "{$field_key}_other_value" ] ) ) {
+						$value = $_POST[ "{$field_key}_other_value" ];
+					}
+				}
+
+				$value = trim( $value );
+				if ( ! empty( $value ) ) {
+					continue;
+				}
+
+			} else if ( is_array( $_POST[ $field_key ] ) ) {
+
+				$array_data = array();
+				foreach ( $_POST[ $field_key ] as $value ) {
+					if ( 'checkboxes' == $field->field_type && 'other' == $value ) {
+						if ( empty( $_POST[ "{$field_key}_other_value" ] ) ) {
+							continue;
+						}
+
+						$value = $_POST[ "{$field_key}_other_value" ];
+					}
+
+					$array_data[] = sanitize_text_field( $value );
+				}
+
+				$array_data = array_filter( array_map( 'trim', $array_data ) );
+				if ( ! empty( $array_data ) ) {
+					continue;
+				}
+
+			}
+		}
+
+		// required field is empty, so we need to interupt submission process
+		status_header( 400 );
+		exit;
+	}
 }
 
 /**
@@ -702,11 +767,13 @@ function gmr_contests_process_form_submission() {
 		}
 	}
 
+	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
+	gmr_contests_verify_form_submission( $form );
+
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 
-	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
 	foreach ( $form as $field ) {
 		$field_key = 'form_field_' . $field->cid;
 		if ( 'file' === $field->field_type ) {
@@ -766,7 +833,7 @@ function gmr_contests_process_form_submission() {
 		$contests[] = $contest_id;
 		$contests = array_filter( array_unique( $contests ) );
 		$contests = base64_encode( implode( ',', $contests ) );
-		
+
 		setcookie( '__cs', $contests, current_time( 'timestamp', 1 ) + YEAR_IN_SECONDS, '/', parse_url( home_url(), PHP_URL_HOST ) );
 	}
 

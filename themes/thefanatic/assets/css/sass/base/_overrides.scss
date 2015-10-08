@@ -47,8 +47,25 @@
 	color: #fff;
 }
 
+.pre-roll__notification {
+	color: #000;
+}
+
+.audio__playing #live-player--volume {
+	display: none;
+}
+
+.live-stream__btn--play.live-player__login {
+	border: 1px solid #333;
+	color: #333;
+}
 
 @include bp(medium) {
+
+	.audio__playing #live-player--volume {
+		display: block;
+	}
+
 	.live-player {
 		background: url('../../images/listen-live-bg.jpg') no-repeat;
 	}
@@ -128,6 +145,7 @@
 }
 
 .live-player__stream {
+	visibility: hidden;
 	border: 1px solid lighten($color-gray-medium-dark,50%);
 	color: lighten($color-gray-medium-dark,50%);
 	@include border-radius(1em);
@@ -166,6 +184,10 @@
 		}
 	}
 
+}
+
+.live-player--open .live-links {
+	margin-top: 0 !important;
 }
 
 .live-player__container {

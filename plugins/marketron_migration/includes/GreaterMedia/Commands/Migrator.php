@@ -446,6 +446,16 @@ SQL;
 		$verifier->verify( $marketron_accounts, $errors_file );
 	}
 
+	function repair_gigya_import( $args, $opts ) {
+		$this->initialize( $args, $opts );
+
+		$output_dir = $this->config->get_output_dir();
+		$page_size  = isset( $opts['page_size'] ) ? intval( $opts['page_size'] ) : 10;
+
+		$repairer = new \GreaterMedia\Profile\GigyaAccountRepairer();
+		$repairer->repair( $page_size );
+	}
+
 	function delete_facebook_data( $args, $opts ) {
 		$this->initialize( $args, $opts );
 
@@ -517,6 +527,23 @@ SQL;
 		$emma_group_creator = new \GreaterMedia\EmmaGroupCreator();
 		$emma_group_creator->container = $this;
 		$emma_group_creator->create_and_save();
+	}
+
+	function repair_feed_image_attribution( $args, $opts ) {
+		$opts['repair'] = true;
+		$opts['tools_to_load'] = 'feed';
+		$this->initialize( $args, $opts, false );
+
+		$this->mappings->load();
+
+		$repairer = new \GreaterMedia\Import\Repair\FeedImageAttribution();
+		$repairer->container = $this;
+		$repairer->repair();
+	}
+
+	function delete_posts( $args, $opts ) {
+		$post_deletor = new \GreaterMedia\Import\Repair\PostDeletor();
+		$post_deletor->delete();
 	}
 
 }

@@ -219,6 +219,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 
 		// Episode content
 		$content = get_the_content_feed( 'rss2' );
+		$content = html_entity_decode( $content );
 
 		// iTunes summary does not allow any HTML and must be shorter than 4000 characters
 		$itunes_summary = wp_strip_all_tags( get_the_content() );
@@ -242,7 +243,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		<guid isPermaLink="false"><?php esc_html( the_guid() ); ?></guid>
 		<description><![CDATA[<?php echo wp_strip_all_tags( $item_description ); ?>]]></description>
 		<itunes:subtitle><![CDATA[<?php echo wp_strip_all_tags( $item_itunes_subtitle ); ?>]]></itunes:subtitle>
-		<content:encoded><![CDATA[<?php echo esc_html( $content ); ?>]]></content:encoded>
+		<content:encoded><![CDATA[<?php echo wp_strip_all_tags( $content ); ?>]]></content:encoded>
 		<itunes:summary><![CDATA[<?php echo wp_strip_all_tags( $item_itunes_summary ); ?>]]></itunes:summary>
 		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $size ); ?>" type="<?php echo esc_attr( $mime_type ); ?>"></enclosure>
 		<itunes:explicit><?php echo esc_html( $explicit_flag ); ?></itunes:explicit>

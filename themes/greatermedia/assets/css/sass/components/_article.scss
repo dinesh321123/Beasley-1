@@ -1,24 +1,24 @@
 .article {}
 
 .article__header {
-	margin-bottom: 2em; 
+	margin-bottom: 2em;
 }
 	.article__date {
 		display: block;
-		margin-bottom: 0.5em; 
-		font-size: ms(0); 
-		text-transform: uppercase; 
+		margin-bottom: 0.5em;
+		font-size: ms(0);
+		text-transform: uppercase;
 		color: $gray;
-		
+
 		@include bp(medium) {
-			font-size: ms(-1); 
+			font-size: ms(-1);
 		}
-	}	
+	}
 	.article__title {
 		font-size: ms(9);
 		line-height: 1.2;
 		margin: 0 0 0.65em;
-		
+
 		@include bp(medium) {
 			font-size: ms(7);
 		}
@@ -30,12 +30,12 @@
 
 .article__content {
 	margin-bottom: 1.5em;
-	
+
 	@include bp(large) {
 		margin-bottom: 4.5em;
 	}
 }
-	
+
 .article .ad__inline--right {
 	&.desktop {
 		display: none;
@@ -48,6 +48,8 @@
 	@include bp(large) {
 		&.desktop {
 			display: block;
+			width: 300px;
+			min-height: 250px;
 		}
 
 		&.mobile {
@@ -56,7 +58,7 @@
 	}
 
 	@include bp(large) {
-		margin-left: $gutter * 2;	
+		margin-left: $gutter * 2;
 	}
 }
 
@@ -64,13 +66,13 @@
 	@include span-columns(4);
 	margin: 0 0 3em;
 	padding: 0;
-	border: none; 
+	border: none;
 	line-height: 1.5;
 
 	.contest & {
 		margin: 30px 0 0;
 	}
-}	
+}
 
 .article__categories, .article__tags, .article__shows {
 	overflow: auto;
@@ -79,9 +81,9 @@
 	font-size: ms(1);
 	line-height: 1.6;
 	color: $gray;
-	
+
 	@include bp(medium) {
-		font-size: ms(-1); 
+		font-size: ms(-1);
 	}
 }
 
@@ -98,7 +100,7 @@
 	.article__list:before, %article__list--before {
 		text-transform: uppercase;
 	}
-	
+
 	.article__list--item, %article__list--item {
 		display: inline-block;
 		white-space: nowrap;
@@ -111,7 +113,7 @@
 			.article__list--item a:hover, .article__list--item a:focus, .article__list--item a:active, .article__list--show a:hover, .article__list--show a:focus, .article__list--show a:active {
 				color: $primary-link-hover;
 			}
-			
+
 	.article__list--title {
 		display: inline;
 		font-weight: 800;
@@ -168,10 +170,10 @@
 		margin-right: .5em;
 		@include border-radius(50%);
 		background-color: $secondary-border;
-	}	
+	}
 		.article__show--logo img {
 			@include border-radius(50%);
-		}		
+		}
 		.article__show--name {
 			display: block;
 			float: left;
@@ -185,7 +187,7 @@
 			@include bp(x-large) {
 				max-width: none;
 			}
-			
+
 			.contest & {
 
 				@include bp(large) {
@@ -197,7 +199,7 @@
 				}
 			}
 		}
-		
+
 	// Bump up the spacing at larger breakpoints
 	@include bp(large) {
 		.article__list--item,
@@ -206,57 +208,57 @@
 		.article__show--logo {
 			margin-right: 1.5em;
 		}
-		
+
 		.article__list--title:after {
 			margin: 0 1.25em 0 1.5em;
 		}
-	} 
+	}
 
 
 .article__content {
-	
+
 	// Using pixel-based size for now rather than fighting with the theme's
 	// relative sizing (where I will have to add sizes for all breakpoints).
 	$font-size: 16px;
-	$line-height: 1.6;  	
+	$line-height: 1.6;
 	$line-height-computed: $font-size * $line-height;
-	
+
 	font-size: $font-size;
 	line-height: $line-height;
-	
+
 	h1, h2, h3, h4, h5, h6 {
 		// Tighten up spacing on headings.
-		margin: $line-height-computed 0; 
-		
+		margin: $line-height-computed 0;
+
 		// Reset base styles.
 		line-height: 1.5;
-		letter-spacing: normal; 
+		letter-spacing: normal;
 	}
-	
+
 	h1 {
 		font-size: ms(5);
 	}
-	
+
 	h2 {
 		font-size: ms(4);
 	}
-	
+
 	h3 {
 		font-size: ms(3);
 		letter-spacing: 2px;
 	}
-	
+
 	h4 {
 		font-size: ms(2);
 		letter-spacing: 2px;
 	}
-	
+
 	h5, h6 {
-		font-weight: bold; 
-		font-size: 1em; 
+		font-weight: bold;
+		font-size: 1em;
 		line-height: $line-height;
 	}
-	
+
 	.livefyre-poll {
 		margin: 1.5em 0;
 	}
@@ -275,5 +277,5 @@
 }
 
 .article__comments {
-	margin: 3em 0; 	
+	margin: 3em 0;
 }

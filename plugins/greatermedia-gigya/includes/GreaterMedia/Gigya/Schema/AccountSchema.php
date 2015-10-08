@@ -75,6 +75,10 @@ class AccountSchema {
 					'writeAccess' => 'clientModify',
 					'required' => true,
 				),
+				'country' => array(
+					'writeAccess' => 'clientModify',
+					'required' => true,
+				),
 				'state' => array(
 					'writeAccess' => 'clientModify',
 					'required' => true,
@@ -240,11 +244,11 @@ class AccountSchema {
 				),
 				'listeningFrequency' => array(
 					'writeAccess' => 'clientModify',
-					'required' => true,
+					'required' => false,
 				),
 				'listeningLoyalty' => array(
 					'writeAccess' => 'clientModify',
-					'required' => true,
+					'required' => false,
 				),
 				'subscribedToList' => array(
 					'writeAccess' => 'clientModify',

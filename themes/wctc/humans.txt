@@ -1,0 +1,9 @@
+/* TEAM */
+	Developer: Tom Stark
+	Contact:   tstark@greatermedianj.com
+	URI:       
+
+/* THANKS */
+	Template Design: 10up
+	URI:             http://10up.com
+	Twitter:         @10up

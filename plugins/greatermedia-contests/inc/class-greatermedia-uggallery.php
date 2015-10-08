@@ -31,7 +31,7 @@ class GreaterMediaUserGeneratedGallery extends GreaterMediaUserGeneratedContent 
 		}
 
 		return $attachments;
-		
+
 	}
 
 	/**
@@ -66,9 +66,13 @@ class GreaterMediaUserGeneratedGallery extends GreaterMediaUserGeneratedContent 
 
 			$html .= '<div class="ugc-moderation-gallery-thumb">' .
 				'<a href="' . wp_nonce_url( $delete_url, 'trash-ugc-gallery_' . $attachment_id ) . '" class="trash"><div class="dashicons dashicons-trash"></div></a>' .
+				'<a title="Click to view full size" href="' .
+				esc_attr( wp_get_attachment_image_src( $attachment_id, 'full' )[0] ) .
+				'" target="_blank">' .
 				'<img src="' .
 				esc_attr( $attachment_src ) .
 				'" />' .
+				'</a>' .
 				'</div>';
 		}
 

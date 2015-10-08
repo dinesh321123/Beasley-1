@@ -5,7 +5,7 @@ namespace GreaterMedia\HomepageCuration;
 use \WP_Query;
 
 function get_featured_query() {
-	$ids = explode( ',', get_option( 'gmr-homepage-featured' ) );
+	$ids = explode( ',', recent_homepage_query( 'featured_meta_box' ) );
 
 	$args = array(
 		'post_type'           => 'any',
@@ -20,7 +20,7 @@ function get_featured_query() {
 }
 
 function get_community_query() {
-	$ids = explode( ',', get_option( 'gmr-homepage-community' ) );
+	$ids = explode( ',', recent_homepage_query( 'dont_miss_meta_box' ) );
 
 	$args = array(
 		'post_type'           => 'any',
@@ -35,7 +35,7 @@ function get_community_query() {
 }
 
 function get_events_query() {
-	$ids = array_filter( explode( ',', get_option( 'gmr-homepage-events' ) ) );
+	$ids = array_filter( explode( ',', recent_homepage_query( 'events_meta_box' ) ) );
 
 	if ( count( $ids ) ) {
 		$args = array(
@@ -82,4 +82,44 @@ function get_contests_query() {
 	$query = new WP_Query( $args );
 
 	return $query;
+}
+
+function recent_homepage_query( $meta_key ) {
+	$posts = '';
+	$homepages = get_preview_homepage();
+
+	if ( false === $homepages ) {
+		$homepages = new WP_Query(
+			array(
+				'post_type'              => gmr_homepages_slug(),
+				'posts_per_page'         => 1,
+				'no_found_rows'          => true,
+				'ignore_sticky_posts'    => true,
+				'update_post_term_cache' => false
+			)
+		);
+	}
+
+	if ( $homepages->have_posts() ) {
+		while ( $homepages->have_posts() ) {
+			$homepages->the_post();
+			$posts = get_post_meta( get_the_ID(), $meta_key, true );
+		}
+	} else {
+		// fallback to old style with options
+		switch ( $meta_key ) {
+			case 'featured_meta_box':
+				$posts = get_option( 'gmr-homepage-featured' );
+				break;
+			case 'dont_miss_meta_box':
+				$posts = get_option( 'gmr-homepage-community' );
+				break;
+			case 'events_meta_box':
+				$posts = get_option( 'gmr-homepage-events' );
+				break;
+		}
+	}
+
+	wp_reset_postdata();
+	return $posts;
 }

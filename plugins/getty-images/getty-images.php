@@ -184,18 +184,25 @@ class Getty_Images {
 			}
 		}
 
-		wp_enqueue_script( 'spin-js', plugins_url( '/js/spin.js', __FILE__ ), array(), 1, true );
-		wp_enqueue_script( 'getty-images-filters', plugins_url( '/js/getty-filters.js', __FILE__ ), array(), 1, true );
-		wp_enqueue_script( 'getty-images-views', plugins_url( '/js/getty-views.js', __FILE__ ), array( 'getty-images-filters', 'spin-js' ), 1, true );
+		$plugin_version = '2.4.1';
+
+		wp_enqueue_script( 'spin-js', plugins_url( '/js/spin.js', __FILE__ ), array(), $plugin_version, true );
+		wp_enqueue_script( 'getty-images-filters', plugins_url( '/js/getty-filters.js', __FILE__ ), array(), $plugin_version, true );
+		wp_enqueue_script( 'getty-images-views', plugins_url( '/js/getty-views.js', __FILE__ ), array( 'getty-images-filters', 'spin-js' ), $plugin_version, true );
 
 		// Register Omniture s-code
-		wp_register_script( 'getty-omniture-scode', apply_filters( 'getty_images_s_code_js_url', plugins_url( '/js/s_code.js', __FILE__ ) ), array(), 1, true );
+		wp_register_script( 'getty-omniture-scode', apply_filters( 'getty_images_s_code_js_url', plugins_url( '/js/s_code.js', __FILE__ ) ), array(), $plugin_version, true );
 
 		// Optionally load it as a dependency
 		$models_depend = $load_omniture ? array( 'jquery-cookie', 'getty-omniture-scode' ) : array( 'jquery-cookie' );
 
+<<<<<<< HEAD
 		wp_enqueue_script( 'getty-images-models', plugins_url( '/js/getty-models.js', __FILE__ ), $models_depend, 1, true );
 		wp_enqueue_script( 'getty-images', plugins_url( '/js/getty-images.js', __FILE__ ), array( 'getty-images-views', 'getty-images-models' ), 1.1, true );
+=======
+		wp_enqueue_script( 'getty-images-models', plugins_url( '/js/getty-models.js', __FILE__ ), $models_depend, $plugin_version, true );
+		wp_enqueue_script( 'getty-images', plugins_url( '/js/getty-images.js', __FILE__ ), array( 'getty-images-views', 'getty-images-models' ), $plugin_version, true );
+>>>>>>> master
 
 		wp_enqueue_style( 'getty-images', plugins_url( '/getty-images.css', __FILE__ ) );
 

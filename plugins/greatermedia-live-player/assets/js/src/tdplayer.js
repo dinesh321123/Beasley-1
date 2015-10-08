@@ -1626,13 +1626,26 @@
 	}
 
 	/**
+	 * Enables scrubbing of current audio file
+	 */
+	$('.audio__progress-bar').click(function(e) {
+		var $this = $(this);
+
+		var thisWidth = $this.width();
+		var thisOffset = $this.offset();
+		var relX = e.pageX - thisOffset.left;
+		var seekLocation = Math.floor(( relX / thisWidth ) * customAudio.duration);
+		customAudio.currentTime = seekLocation;
+	});
+
+	/**
 	 * calculates the time of an inline audio element and outputs the time remaining
 	 */
 	function audioTimeRemaining() {
 		var ramainings = document.querySelectorAll('.audio__time--remaining'), i,
 			duration = parseInt(customAudio.duration),
 			currentTime = parseInt(customAudio.currentTime),
-			timeleft = new Date('2000-01-01 00:00:00'),
+			timeleft = new Date(2000,1,1,0,0,0),
 			hours, mins, secs;
 
 		if (isNaN(duration)) {
@@ -1642,7 +1655,7 @@
 		}
 
 		timeleft.setSeconds(duration - currentTime);
-		
+
 		hours = timeleft.getHours();
 		mins = ('0' + timeleft.getMinutes()).slice(-2);
 		secs = ('0' + timeleft.getSeconds()).slice(-2);
@@ -1663,11 +1676,11 @@
 	function audioTimeElapsed() {
 		var timeline = document.querySelectorAll('.audio__time--elapsed'),
 			passedSeconds = parseInt(customAudio.currentTime),
-			currentTime = new Date('2000-01-01 00:00:00'),
+			currentTime = new Date(2000,1,1,0,0,0),
 			hours, mins, secs, i;
 
 		currentTime.setSeconds(isNaN(passedSeconds) ? 0 : passedSeconds);
-		
+
 		hours = currentTime.getHours();
 		mins = ('0' + currentTime.getMinutes()).slice(-2);
 		secs = ('0' + currentTime.getSeconds()).slice(-2);

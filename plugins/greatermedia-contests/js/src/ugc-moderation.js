@@ -70,6 +70,32 @@ jQuery(function () {
 
 	);
 
+	// AJAX-ify the "unapprove" button
+	jQuery('a[name=unapprove]').click(
+		function () {
+
+			var unapprove_link = append_extension(this.href, 'json');
+			var ugc_id = jQuery(this).parents('tr').data('ugc-id');
+
+			console.log('unapprove link: ', unapprove_link);
+			var req = jQuery.ajax(unapprove_link);
+			req.done(function () {
+				var row = jQuery('tr[data-ugc-id=' + ugc_id + ']');
+				row.addClass('unapproved');
+				row.find('a[name=unapprove]').replaceWith(GreaterMediaUGC.templates.unapproved);
+				row.find('input[type=checkbox]').css('visibility', 'hidden');
+				if (GreaterMediaAdminNotifier && GreaterMediaAdminNotifier.message) {
+					// @TODO add listener name, contest name, etc. to this message & run it through translation
+					// @TODO include "undo" link
+					GreaterMediaAdminNotifier.message('Unapproved');
+				}
+			});
+
+			return false;
+		}
+
+	);
+
 	// AJAX-ify single gallery post deletion
 	jQuery('.ugc-moderation-gallery-thumb a.trash').click(
 		function () {

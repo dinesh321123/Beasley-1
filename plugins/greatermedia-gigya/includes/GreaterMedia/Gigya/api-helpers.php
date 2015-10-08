@@ -21,6 +21,10 @@ function get_gigya_user_profile( $user_id = null ) {
 	return get_gigya_session()->get_user_profile( $user_id );
 }
 
+function set_gigya_user_profile( $user_id, $profile ) {
+	return get_gigya_session()->set_user_profile( $user_id, $profile );
+}
+
 /* Action Helpers */
 function get_gigya_action_dispatcher() {
 	return \GreaterMedia\Gigya\Action\Dispatcher::get_instance();

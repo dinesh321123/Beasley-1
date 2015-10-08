@@ -90,11 +90,28 @@ class ProfilePage {
 
 	public function load_scripts( $page_name ) {
 		$api_key = $this->get_gigya_api_key();
+		$postfix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
 
 		if ( $api_key === '' ) {
 			error_log( 'Fatal Error: Gigya API Key not found.' );
 			return;
 		}
+
+		wp_enqueue_script(
+			'geodata',
+			plugins_url( "js/geodata{$postfix}", GMR_GIGYA_PLUGIN_FILE ),
+			array(),
+			GMR_GIGYA_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'country-region-selector',
+			plugins_url( "js/country_state_selector{$postfix}", GMR_GIGYA_PLUGIN_FILE ),
+			array(),
+			GMR_GIGYA_VERSION,
+			true
+		);
 
 		wp_enqueue_script(
 			'gigya_config',

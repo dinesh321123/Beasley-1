@@ -1,0 +1,181 @@
+.main, %main {
+	background-color: $primary-bg;
+}
+
+.header {
+	border-bottom: 1px solid #58595b;
+}
+
+.home__featured {
+	@include bp(medium) {
+		background-position: left top;
+		background-color: #561015;
+		// background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
+	}
+}
+
+.live-links {
+	border-top: 0;
+}
+
+.single-gmr_gallery .gallery__paging--prev,
+.single-gmr_gallery .gallery__paging--next {
+	color: $light-gray;
+
+	&:hover {
+		color: $cardinal;
+	}
+}
+
+.live-player__stream {
+	border: 1px solid lighten($color-gray-medium-dark,50%);
+	color: lighten($color-gray-medium-dark,50%);
+	@include border-radius(1em);
+	background-color: $liveplayer-bg;
+
+	li {
+		height: auto;
+	}
+
+	.live-player__stream--available {
+		display: none;
+	}
+
+	.live-player__stream--current.open .live-player__stream--available {
+		color: $dark-gray;
+		border-top: 1px solid darken($color-gray-light, 10%);
+
+		&:after {
+			background: transparent;
+		}
+
+		.live-player__stream--item, .live-player__stream--desc {
+			color: $dark-gray;
+		}
+
+		.live-player__stream--item {
+			background-color: $liveplayer-bg;
+
+			&:hover {
+				background-color: $light-gray;
+			}
+		}
+
+		li:last-child {
+			@include border-bottom-radius(1em);
+		}
+	}
+
+}
+
+.live-player__container {
+	border-bottom: 1px solid white;
+}
+
+.now-playing__artist {
+	color: $color-gray-medium-dark;
+}
+
+.live-link__title, .live-link__title a:link, .live-link__title a:visited {
+	color: $color-gray-medium;
+}
+
+.live-link__song:before {
+	color: $medium-dark-gray;
+}
+
+.live-link__song--artist {
+	color: $medium-dark-gray;
+}
+
+.live-link__song--title {
+	color: $dark-gray;
+
+	a, a:visited {
+		color: $darker-gray;
+	}
+}
+
+.live-link__title a:link, .live-link__title a:visited {
+	color: $color-gray-medium;
+}
+
+.live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
+	color: $primary-link-hover;
+}
+
+.header__logo {
+	@include bp(medium) {
+		top: -7px;
+	}
+}
+.home__highlights {
+	border-bottom-color: $primary-border;
+}
+
+.highlights__events--more-btn {
+	&:hover {
+		color: $yellow !important;
+		border-color: $yellow;
+	}
+}
+
+.highlights__event--item {
+	background-color: #8c8c8c;
+	color: $white;
+}
+
+.highlights__event--title, .highlights__event--date {
+	color: $white;
+
+	a:hover & {
+		color: $yellow;
+	}
+}
+
+.highlights__heading {
+	color: $highlights-heading;
+}
+
+.type-contest .entry__title--tag {
+	background-color: $light-gray;
+	border-color: $light-gray;
+}
+
+.audio__progress-bar {
+	background-color: $gray;
+}
+
+.footer {
+	background-color: $primary-bg;
+}
+
+
+/*//////////
+// Detroit's overrides
+//////////
+*/
+
+#header.header{background-color:#000000!important;}
+.home__featured{background-image: url(http://beta.wrif.com/wp-content/uploads/sites/24/2015/06/featurebgmetal.jpg)!important;background-color:
+#676767!important;background-size: 100%!important;}
+#live-player{background-color: #111111!important; background-repeat: no-repeat!important;background-image: url(http://beta.wrif.com/wp-content/uploads/sites/24/2015/06/playerbg15.gif)!important;}
+.live-stream__login{margin-top: -10px!important; margin-bottom: 10px!important;}
+.header{background-image: none!important;}
+.header__main{text-transform: uppercase!important;font-family: oswald!important;border-top: solid 1px #444!important;background-image: url(http://beta.wrif.com/wp-content/uploads/sites/24/2015/06/mastbg.jpg)!important;border-bottom:
+0px!important;}
+#site-wrap{background-color:#000000!important;}
+.live-stream{background-color:#000000!important;}
+#header.header{background-color: transparent!important;background-image: none!important;}
+main.main{background-color: transparent!important;background-image: none!important;}
+#site-wrap.site-wrap{background-color: #000000!important;background-repeat: no-repeat;background-image: url(http://beta.wrif.com/wp-content/uploads/sites/24/2015/06/wrifwallpapertexture.jpg)!important;
+background-position: center top!important;}
+#page-wrap.page-wrap{background-color: transparent!important;background-image: none!important;}
+.home__featured{background-color: #DDDDDD!important;}
+.featured__content--block,.featured__article--content{background-color: #000!important;}
+.live-stream{background-color:#000000!important;}
+.live-player{background-color: #111111!important;}
+.live-player__stream--name {display:none !important}
+.live-links{background-color: #111!important;background-image: none!important;}
+.live-links--more{background-color: #000!important;background-image: none!important;}
+footer.footer{background-color: #000000!important;}

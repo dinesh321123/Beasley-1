@@ -41,7 +41,7 @@
 @import "components/footer";
 @import "components/posts";
 @import "components/entries"; // Temporary!
-@import "components/article"; 
+@import "components/article";
 @import "components/sidebar";
 @import "components/liveplayer";
 @import "components/breaking-news";
@@ -67,6 +67,7 @@
 @import "components/shows-live-links";
 @import "components/adblock";
 @import "components/livefyre-comments";
+@import "components/livefyre-mediawall";
 @import "components/related-posts";
 @import "components/404";
 @import "components/mobile-podcasts";
@@ -79,6 +80,7 @@
 @import "components/recent-scores";
 @import "components/tables";
 @import "components/top-three";
+@import "components/iframe-embed";
 
 // Custom styles only used on single pages
 @import "pages/single";

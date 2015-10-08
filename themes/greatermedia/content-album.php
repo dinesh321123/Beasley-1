@@ -2,6 +2,8 @@
 
 	<?php if (have_posts()) : while ( have_posts() ) : the_post(); ?>
 
+		<?php get_template_part( 'partials/show-mini-nav' ); ?>
+
 		<?php if ( has_post_thumbnail() ) { ?>
 
 			<div class="entry__thumbnail">

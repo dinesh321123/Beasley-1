@@ -40,6 +40,8 @@ var ConstraintCollection = Backbone.Collection.extend({
 				return 'email_engagement';
 			} else if (subType.match(/_list$/)) {
 				return 'list';
+			} else if (subType === 'zip') {
+				return 'zip_code';
 			} else {
 				return typeList[0];
 			}

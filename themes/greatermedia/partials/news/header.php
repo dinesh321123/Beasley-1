@@ -51,6 +51,9 @@
 			 */
 			/* get_template_part( 'partials/news/header', 'scores'); */
 			?>
+			<nav class="header__social" role="navigation">
+				<?php do_action( 'gmr_social' ); ?>
+			</nav>
 		</div>
 	</div>
 	<div class="header__main">
@@ -101,7 +104,8 @@
 				<div class="header__account header__account--large">
 					<a href="#" class="header__account--btn">
 						<span class="icon-user"></span>
-						<span class="header__account--span">Login</span>
+						<span class="header__account--logged-out">Login or Register</span>
+						<span class="header__account--logged-in">Logout</span>
 					</a>
 					<div class="header__account--container">
 

@@ -155,7 +155,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 		);
 
 		$actual = $this->query->clause_for_constraint( $constraint );
-		$expected = "data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'New York'";
+		$expected = "data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_t = 'New York'";
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -256,7 +256,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 		);
 
 		$actual = $this->query->clause_for( $constraints );
-		$expected = "profile.city contains 'New York' and data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'New York'";
+		$expected = "profile.city contains 'New York' and data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_t = 'New York'";
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -282,7 +282,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 
 		$this->query = $this->query_for( json_encode( $constraints ) );
 		$actual = $this->query->to_gql();
-		$expected = "select * from accounts where profile.city contains 'New York' and data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'New York'";
+		$expected = "select * from accounts where profile.city contains 'New York' and data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_t = 'New York'";
 		$this->assertEquals( $expected, $actual );
 	}
 
@@ -486,7 +486,7 @@ class MemberQueryTest extends \WP_UnitTestCase {
 		$this->assertEquals( 'profile', $actual[0]['store_type'] );
 		$this->assertEquals( $expected, $actual[0]['query'] );
 
-		$expected = "select * from actions where data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_s = 'foo' or data.actions.actionType = 'action:contest' and data.actions.actionID = '101' and data.actions.actionData.name = '201' and data.actions.actionData.value_s = 'bar'";
+		$expected = "select * from actions where data.actions.actionType = 'action:contest' and data.actions.actionID = '100' and data.actions.actionData.name = '200' and data.actions.actionData.value_t = 'foo' or data.actions.actionType = 'action:contest' and data.actions.actionID = '101' and data.actions.actionData.name = '201' and data.actions.actionData.value_t = 'bar'";
 		$this->assertEquals( 'data_store', $actual[1]['store_type'] );
 		$this->assertEquals( $expected, $actual[1]['query'] );
 	}
@@ -739,6 +739,78 @@ class MemberQueryTest extends \WP_UnitTestCase {
 
 		$actual   = $this->query->clause_for_constraint( $constraint );
 		$expected = "data.email_message_click_count > 0";
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_can_build_zip_code_list_from_multiple_input() {
+		$input = '1,2,3,4,5';
+		$actual = $this->query->get_zip_code_list( $input );
+		$this->assertEquals( "('1', '2', '3', '4', '5')", $actual );
+	}
+
+	function test_it_can_build_zip_code_list_from_single_input() {
+		$input = '1';
+		$actual = $this->query->get_zip_code_list( $input );
+		$this->assertEquals( "('1')", $actual );
+	}
+
+	function test_it_can_build_zip_code_list_with_trailing_comma() {
+		$input = '1,2,,,';
+		$actual = $this->query->get_zip_code_list( $input );
+		$this->assertEquals( "('1', '2')", $actual );
+	}
+
+	function test_it_can_build_zip_code_list_with_extra_whitespace() {
+		$input = "1,   2, 4,\t,5,\n6";
+		$actual = $this->query->get_zip_code_list( $input );
+		$this->assertEquals( "('1', '2', '4', '5', '6')", $actual );
+	}
+
+	function test_it_can_build_zip_code_list_without_input() {
+		$input = '   ';
+		$actual = $this->query->get_zip_code_list( $input );
+		$this->assertEquals( '()', $actual );
+	}
+
+	function test_it_can_build_zip_code_constraint_from_list_of_zip_codes() {
+		$constraint = array(
+			'type'        => 'profile:zip',
+			'operator'    => 'in',
+			'conjunction' => 'and',
+			'valueType'   => 'string',
+			'value'       => '10001,10002,10003',
+		);
+
+		$actual   = $this->query->clause_for_constraint( $constraint );
+		$expected = "profile.zip in ('10001', '10002', '10003')";
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_can_build_zip_code_constraint_from_opposite_of_list_of_zip_codes() {
+		$constraint = array(
+			'type'        => 'profile:zip',
+			'operator'    => 'not in',
+			'conjunction' => 'and',
+			'valueType'   => 'string',
+			'value'       => '10001,10002,10003',
+		);
+
+		$actual   = $this->query->clause_for_constraint( $constraint );
+		$expected = "profile.zip not in ('10001', '10002', '10003')";
+		$this->assertEquals( $expected, $actual );
+	}
+
+	function test_it_can_build_zip_code_constraint_from_old_constraint_data() {
+		$constraint = array(
+			'type'        => 'profile:zip',
+			'operator'    => 'equals',
+			'conjunction' => 'and',
+			'valueType'   => 'string',
+			'value'       => '10001',
+		);
+
+		$actual   = $this->query->clause_for_constraint( $constraint );
+		$expected = "profile.zip in ('10001')";
 		$this->assertEquals( $expected, $actual );
 	}
 }
