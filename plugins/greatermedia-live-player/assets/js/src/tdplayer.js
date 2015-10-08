@@ -587,7 +587,7 @@
 				listenLiveStopCustomInlineAudio();
 			}
 
-			player.play({station: station, timeShift: true});
+			player.play({mount: station, timeShift: true});
 
 			livePlayer.classList.add('live-player--active');
 			setPlayingStyles();
@@ -622,7 +622,7 @@
 
 				body.classList.add('live-player--active');
 				livePlayer.classList.add('live-player--active');
-				player.play({station: station, timeShift: true});
+				player.play({mount: station, timeShift: true});
 				setPlayingStyles();
 			});
 		} else if (player.attachEvent) {
@@ -636,7 +636,7 @@
 
 				body.classList.add('live-player--active');
 				livePlayer.classList.add('live-player--active');
-				player.play({station: station, timeShift: true});
+				player.play({mount: station, timeShift: true});
 				setPlayingStyles();
 			});
 		}
@@ -664,7 +664,7 @@
 
 		body.classList.add('live-player--active');
 		livePlayer.classList.add('live-player--active');
-		player.play({station: station, timeShift: true});
+		player.play({mount: station, timeShift: true});
 		setPlayingStyles();
 
 	}
@@ -699,7 +699,7 @@
 
 					body.classList.add('live-player--active');
 					livePlayer.classList.add('live-player--active');
-					player.play({station: station, timeShift: true});
+					player.play({mount: station, timeShift: true});
 					setPlayingStyles();
 				});
 			} else if (player.attachEvent) {
@@ -713,7 +713,7 @@
 
 					body.classList.add('live-player--active');
 					livePlayer.classList.add('live-player--active');
-					player.play({station: station, timeShift: true});
+					player.play({mount: station, timeShift: true});
 					setPlayingStyles();
 				});
 			}
@@ -746,7 +746,7 @@
 
 			body.classList.add('live-player--active');
 			livePlayer.classList.add('live-player--active');
-			player.play({station: station, timeShift: true});
+			player.play({mount: station, timeShift: true});
 			setPlayingStyles();
 		}
 	}
@@ -771,7 +771,7 @@
 			}
 
 			livePlayer.classList.add('live-player--active');
-			player.play({station: station, timeShift: true});
+			player.play({mount: station, timeShift: true});
 			setPlayingStyles();
 		}
 	}
@@ -965,7 +965,7 @@
 		}
 
 		livePlayer.classList.add('live-player--active');
-		player.play({station: station, timeShift: true});
+		player.play({mount: station, timeShift: true});
 		setPlayingStyles();
 	}
 
