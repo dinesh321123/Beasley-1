@@ -11,6 +11,8 @@ $asset_root: "../../../../themes/greatermedia/assets/";
 $black: #000000;
 $white: #ffffff;
 $cardinal: #d22228;
+$navyblue: #092040;
+$lightblue: #2484c6;
 $heath: #561015;
 $coffee-bean: #270e10;
 $extra-light-gray: #f1f1f3;
@@ -33,6 +35,8 @@ $color-text-black: $black;
 $color-text-white: $white;
 $color-text-gray: $medium-gray;
 $color-text-red: $cardinal;
+$color-text-dark-blue: $navyblue;
+$color-text-light-blue: $lightblue;
 $color-text-yellow: $yellow;
 
 $color-gray: $gray;
@@ -46,15 +50,15 @@ $color-gray-darker: $darker-gray;
 $primary-bg: #000;
 $primary-text: $color-text-gray;
 $primary-heading: $color-text-gray;
-$primary-link: $color-text-red;
-$primary-link-hover: darken($color-text-red, 9%);
+$primary-link: $color-text-dark-blue;
+$primary-link-hover: darken($color-text-light-blue, 9%);
 $primary-border: $light-gray;
 
 $secondary-bg: $color-gray-medium-dark;
 $secondary-text: $color-text-white;
 $secondary-heading: $gray;
 $secondary-link: $light-gray;
-$secondary-link-hover: darken($color-text-red, 9%);
+$secondary-link-hover: darken($color-text-dark-blue, 9%);
 $secondary-border: $dark-gray;
 
 // Section Variables
@@ -83,7 +87,7 @@ $gallery-featured-bg: #f2f2f2;
 $footer-text: $gray;
 
 $btn-bg: $cardinal;
-$btn-hover: $yellow;
+$btn-hover: #000;
 $btn-active: $black;
 $btn-muted: $gray;
 $btn-muted-hover: $cardinal;

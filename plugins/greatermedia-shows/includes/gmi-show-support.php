@@ -18,6 +18,18 @@ function supports_videos( $show_id ) {
 	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage_videos', true ), FILTER_VALIDATE_BOOLEAN );
 }
 
+function uses_custom_menu( $show_id ) {
+	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage_custom_menu', true ), FILTER_VALIDATE_BOOLEAN );
+}
+
+function assigned_custom_menu_id( $show_id ) {
+	return (int) filter_var( get_post_meta( $show_id, 'show_assigned_custom_menu', true ), FILTER_VALIDATE_INT );
+}
+
+function available_nav_menus() {
+	return wp_get_nav_menus();
+}
+
 function get_about_permalink( $show_id ) {
 	return trailingslashit( get_the_permalink( $show_id ) ) . "about/";
 }
@@ -350,7 +362,7 @@ function adjust_show_main_query( $where ) {
 	global $wpdb;
 
 	remove_filter( 'posts_where', '\GreaterMedia\Shows\adjust_show_main_query' );
-	
+
 	if ( class_exists( '\GMP_CPT' ) ) {
 		$podcasts = get_show_podcast_ids();
 		if ( ! empty( $podcasts ) ) {

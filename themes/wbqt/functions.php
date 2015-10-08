@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WBQT_VERSION', '0.2.2' );
+define( 'WBQT_VERSION', '0.2.4' ); /* Version bump by Denis Prindeville 9/11/2015 @ 10:00pm EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.

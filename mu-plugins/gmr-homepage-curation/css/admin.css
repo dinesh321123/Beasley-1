@@ -1,5 +1,10 @@
 .post-finder h4 {
 	clear: both;
+	display: inline-block;
+}
+
+.search h4{
+	display: block;
 }
 
 .post-finder .post-date {
@@ -10,4 +15,8 @@
 
 .post-finder .add {
 	float: right;
+}
+
+.post-finder .list {
+	float: none;
 }

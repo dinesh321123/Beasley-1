@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WMMR_VERSION', '0.2.1' ); /* Version bump by Steve 8/31/2015 @ 10:30pm EST */
+define( 'WMMR_VERSION', '0.2.2' ); /* Version bump by Steve 9/2/2015 @ 2:35pm EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -32,28 +32,56 @@ define( 'WMMR_VERSION', '0.2.1' ); /* Version bump by Steve 8/31/2015 @ 10:30pm 
 	 */
 	load_theme_textdomain( 'wmmr', get_stylesheet_directory_uri() . '/languages' );
  }
+
  add_action( 'after_setup_theme', 'wmmr_setup' );
 
- /**
-  * Enqueue scripts and styles for front-end.
-  *
-  * @since 0.1.0
-  */
- function wmmr_scripts_styles() {
-	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+  /**
+ * Filter the Simpli-Fi script and make it async
+ *
+ * @param $tag
+ * @param $handle
+ * @param $src
+ *
+ * @return mixed|void
+ */
+function wmmr_async_script( $tag, $handle, $src ) {
+    if ( 'simpli-fi' !== $handle ) :
+      return $tag;
+    endif;
 
-	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'wmmr', get_stylesheet_directory_uri() . "/assets/css/wmmr{$postfix}.css", array(), WMMR_VERSION );
- }
- add_action( 'wp_enqueue_scripts', 'wmmr_scripts_styles', 20 );
+    return str_replace( '<script', '<script async ', $tag );
+}
 
- /**
-  * Add humans.txt to the <head> element.
-  */
- function wmmr_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
+add_filter( 'script_loader_tag', 'wmmr_async_script', 10, 3 );
 
-	echo apply_filters( 'wmmr_humans', $humans );
- }
- add_action( 'wp_head', 'wmmr_header_meta' );
+/**
+* Enqueue scripts and styles for front-end.
+*
+* @since 0.1.0
+*/
+function wmmr_scripts_styles() {
+  $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
+  wp_dequeue_style( 'greatermedia' );
+  wp_deregister_style( 'greatermedia' );
+  wp_enqueue_style( 'wmmr', get_stylesheet_directory_uri() . "/assets/css/wmmr{$postfix}.css", array(), WMMR_VERSION );
+  wp_enqueue_script(
+    'simpli-fi',
+    'http://i.simpli.fi/dpx.js?cid=23417&action=100&segment=wmmrrocks&m=1&sifi_tuid=7533',
+    array(),
+    null,
+    true
+  );
+}
+
+add_action( 'wp_enqueue_scripts', 'wmmr_scripts_styles', 20 );
+
+/**
+* Add humans.txt to the <head> element.
+*/
+function wmmr_header_meta() {
+  $humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
+  echo apply_filters( 'wmmr_humans', $humans );
+}
+
+add_action( 'wp_head', 'wmmr_header_meta' );

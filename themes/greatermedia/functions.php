@@ -34,6 +34,7 @@ require_once( __DIR__ . '/includes/image-attributes/loader.php');
 require_once( __DIR__ . '/includes/posts-screen-thumbnails/loader.php' );
 require_once( __DIR__ . '/includes/category-options.php' );
 require_once( __DIR__ . '/includes/class-favicon.php' );
+require_once( __DIR__ . '/includes/iframe-embed.php' );
 
 /**
  * Required files
@@ -555,8 +556,7 @@ function greatermedia_load_more_button( $args = array() ) {
 		return;
 	}
 
-
-	if ( ! $args['next_page'] ) {
+	if ( empty( $args['next_page'] ) || !is_numeric( $args['next_page'] ) ) {
 		$args['next_page'] = 2;
 	}
 

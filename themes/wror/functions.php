@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WROR_VERSION', '0.1.4' ); /* Version bump by Steve 8/31/2015 @ 10:30pm EST */
+define( 'WROR_VERSION', '0.1.5' ); /* Version bump by Denis Prindeville 9/30/2015 @ 10:30am EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.

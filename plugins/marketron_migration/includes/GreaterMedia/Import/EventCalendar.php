@@ -105,6 +105,7 @@ class EventCalendar extends BaseImporter {
 	function title_from_event( $event ) {
 		$title = $event['EventName'];
 		$title = $this->import_string( $title );
+		$title = wp_strip_all_tags( $title );
 		$title = htmlentities( $title );
 
 		return $title;

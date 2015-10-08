@@ -15,45 +15,73 @@
  // Useful global constants
 define( 'WBEN_VERSION', '0.2.1' ); /* Version bump by Steve 8/31/2015 @ 10:30pm EST */
 
- /**
-  * Set up theme defaults and register supported WordPress features.
-  *
-  * @uses load_theme_textdomain() For translation/localization support.
-  *
-  * @since 0.1.0
-  */
- function wben_setup() {
-	/**
-	 * Makes WBEN available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on WBEN, use a find and replace
-	 * to change 'wben' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'wben', get_stylesheet_directory_uri() . '/languages' );
- }
- add_action( 'after_setup_theme', 'wben_setup' );
+/**
+* Set up theme defaults and register supported WordPress features.
+*
+* @uses load_theme_textdomain() For translation/localization support.
+*
+* @since 0.1.0
+*/
+function wben_setup() {
+/**
+ * Makes WBEN available for translation.
+ *
+ * Translations can be added to the /lang directory.
+ * If you're building a theme based on WBEN, use a find and replace
+ * to change 'wben' to the name of your theme in all template files.
+ */
+load_theme_textdomain( 'wben', get_stylesheet_directory_uri() . '/languages' );
+}
 
- /**
-  * Enqueue scripts and styles for front-end.
-  *
-  * @since 0.1.0
-  */
- function wben_scripts_styles() {
-	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+add_action( 'after_setup_theme', 'wben_setup' );
 
-	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'wben', get_stylesheet_directory_uri() . "/assets/css/wben{$postfix}.css", array(), WBEN_VERSION );
- }
- add_action( 'wp_enqueue_scripts', 'wben_scripts_styles', 20 );
+/**
+* Filter the Simpli-Fi script and make it async
+*
+* @param $tag
+* @param $handle
+* @param $src
+*
+* @return mixed|void
+*/
+function wben_async_script( $tag, $handle, $src ) {
+  if ( 'simpli-fi' !== $handle ) :
+    return $tag;
+  endif;
 
- /**
-  * Add humans.txt to the <head> element.
-  */
- function wben_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
+  return str_replace( '<script', '<script async ', $tag );
+}
 
-	echo apply_filters( 'wben_humans', $humans );
- }
- add_action( 'wp_head', 'wben_header_meta' );
+add_filter( 'script_loader_tag', 'wben_async_script', 10, 3 );
+
+/**
+* Enqueue scripts and styles for front-end.
+*
+* @since 0.1.0
+*/
+function wben_scripts_styles() {
+  $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
+  wp_dequeue_style( 'greatermedia' );
+  wp_deregister_style( 'greatermedia' );
+  wp_enqueue_style( 'wben', get_stylesheet_directory_uri() . "/assets/css/wben{$postfix}.css", array(), WBEN_VERSION );
+  wp_enqueue_script(
+    'simpli-fi',
+    'http://i.simpli.fi/dpx.js?cid=23418&action=100&segment=benfem&m=1&sifi_tuid=7534',
+    array(),
+    null,
+    true
+  );
+}
+
+add_action( 'wp_enqueue_scripts', 'wben_scripts_styles', 20 );
+
+/**
+* Add humans.txt to the <head> element.
+*/
+function wben_header_meta() {
+  $humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
+  echo apply_filters( 'wben_humans', $humans );
+}
+
+add_action( 'wp_head', 'wben_header_meta' );

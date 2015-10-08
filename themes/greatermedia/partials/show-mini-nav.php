@@ -9,13 +9,18 @@
 	$post_taxonomies = get_post_taxonomies();
 	$shows = array();
 
-	foreach ( get_the_terms( $the_id, ShowsCPT::SHOW_TAXONOMY ) as $show ) :
-		if ( ( $show = \TDS\get_related_post( $show ) ) ) :
-			if ( \GreaterMedia\Shows\supports_homepage( $show->ID ) ) :
-				array_push($shows, $show);
+	// Check to see if any shows are associated with this content
+	$current_terms = get_the_terms( $the_id, ShowsCPT::SHOW_TAXONOMY );
+
+	if ( ( $current_terms != false ) && ( is_array( $current_terms ) ) ){
+		foreach ( $current_terms as $show ) :
+			if ( ( $show = \TDS\get_related_post( $show ) ) ) :
+				if ( \GreaterMedia\Shows\supports_homepage( $show->ID ) ) :
+					array_push($shows, $show);
+				endif;
 			endif;
-		endif;
-	endforeach;
+		endforeach;
+	}
 
 	// Only show the mini nav if the content is associated with one and only one show
 	if (count( $shows ) == 1) :
@@ -33,12 +38,17 @@
 			</div>
 			<nav class="show__nav">
 				<div class="show__title"><a href="<?php echo get_the_permalink( $show->ID ); ?>"><?php echo get_the_title( $show->ID ); ?></a></div>
+				<?php
+				if ( \GreaterMedia\Shows\uses_custom_menu( $show->ID ) ) :
+					wp_nav_menu( array( 'menu' => \GreaterMedia\Shows\assigned_custom_menu_id( $show->ID ), 'container' => false ) );
+				else : ?>
 				<ul>
 					<?php \GreaterMedia\Shows\about_link_html( $show->ID ); ?>
 					<?php \GreaterMedia\Shows\podcasts_link_html( $show->ID ); ?>
 					<?php \GreaterMedia\Shows\galleries_link_html( $show->ID ); ?>
 					<?php \GreaterMedia\Shows\videos_link_html( $show->ID ); ?>
 				</ul>
+				<?php endif; ?>
 			</nav>
 		</div>
 	</div>

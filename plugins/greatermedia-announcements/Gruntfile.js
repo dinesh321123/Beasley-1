@@ -62,33 +62,6 @@ module.exports = function( grunt ) {
 		test:   {
 			files: ['assets/js/test/**/*.js']
 		},
-		
-		sass:   {
-			all: {
-				files: {
-					'assets/css/greatermedia_announcements.css': 'assets/css/sass/greatermedia_announcements.scss'
-				}
-			}
-		},
-		
-		cssmin: {
-			options: {
-				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
-					' * <%= pkg.homepage %>\n' +
-					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-					' * Licensed GPLv2+' +
-					' */\n'
-			},
-			minify: {
-				expand: true,
-				
-				cwd: 'assets/css/',				
-				src: ['greatermedia_announcements.css'],
-				
-				dest: 'assets/css/',
-				ext: '.min.css'
-			}
-		},
 		watch:  {
 			
 			sass: {
@@ -159,7 +132,7 @@ module.exports = function( grunt ) {
 	
 	// Default task.
 	
-	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify', 'sass', 'cssmin'] );
+	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify'] );
 	
 	
 	grunt.registerTask( 'build', ['default', 'clean', 'copy', 'compress'] );

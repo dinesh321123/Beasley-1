@@ -45,26 +45,31 @@ function wmgk_setup() {
 add_action( 'after_setup_theme', 'wmgk_setup' );
 
 /**
+ * Filter the Simpli-Fi script and make it async
+ *
+ * @param $tag
+ * @param $handle
+ * @param $src
+ *
+ * @return mixed|void
+ */
+function wmgk_async_script( $tag, $handle, $src ) {
+    if ( 'simpli-fi' !== $handle ) :
+      return $tag;
+    endif;
+
+    return str_replace( '<script', '<script async ', $tag );
+}
+
+add_filter( 'script_loader_tag', 'wmgk_async_script', 10, 3 );
+
+/**
  * Enqueue scripts and styles for front-end.
  *
  * @since 0.1.0
  */
 function wmgk_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-
-	/*
-	 * Commented out because wmgk.js is an empty file.
-	 * The JS file and this statement remain so that future child-theme-specific JS can be added
-	 * with ease and best practices. Until then, saving the http request.
-	 */
-//	wp_enqueue_script(
-//		'wmgk',
-//		get_stylesheet_directory_uri() . "/assets/js/wmgk{$postfix}.js",
-//		array(),
-//		WMGK_VERSION,
-//		true
-//	);
-
 
 	/**
 	 * We are dequeueing and deregistering the parent theme's style sheets.
@@ -81,6 +86,13 @@ function wmgk_scripts_styles() {
 			'google-fonts'
 		),
 		WMGK_VERSION
+	);
+	wp_enqueue_script(
+		'simpli-fi',
+		'http://i.simpli.fi/dpx.js?cid=23419&action=100&segment=classicrockmgk&m=1&sifi_tuid=7536',
+		array(),
+		null,
+		true
 	);
 }
 

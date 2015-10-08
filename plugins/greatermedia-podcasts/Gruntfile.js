@@ -79,7 +79,6 @@ module.exports = function( grunt ) {
 		
 		sass:   {
 			options: {
-				require: 'sass-globbing',
 				update: true
 			},
 			all: {
