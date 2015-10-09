@@ -1,17 +1,48 @@
+body {
+	background-color: #ffffff !important;
+}
+
+.main {
+	background-image: url(../../images/linkBackgroundStripes.jpg);
+}
+
 .main, %main {
 	background-color: $primary-bg;
 }
 
 .header {
 	border-bottom: 1px solid #58595b;
+	background-color: #ffffff;
+	background-image: url(http://assets.gmclt.com/images/linkHeader.jpg);
+}
+
+.header__main {
+	background-color: #020276;
+	opacity: 0.75;
+}
+
+.featured__article--content {
+	//opacity: 0.75;
+}
+
+.featured__content--meta {
+	//opacity: 0.75;
+}
+
+.home__highlights {
+	background-color: 333366 !important;
 }
 
 .home__featured {
 	@include bp(medium) {
 		background-position: left top;
-		background-color: #561015;
+		//background-color: #561015;
 		// background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
 	}
+}
+
+.live-player__stream {
+	display: none;
 }
 
 .live-links {
@@ -121,7 +152,7 @@
 }
 
 .highlights__event--item {
-	background-color: #8c8c8c;
+	background-color: #cf000f;
 	color: $white;
 }
 
@@ -129,8 +160,17 @@
 	color: $white;
 
 	a:hover & {
-		color: $yellow;
+		color: #3399ff;
 	}
+}
+
+a:hover .highlights__community--title {
+	color: #3399ff;
+}
+
+.highlights__events--more-btn:hover {
+	color: #3399ff !important;
+	border-color: #3399ff;
 }
 
 .highlights__heading {

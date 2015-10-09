@@ -196,13 +196,9 @@ class Getty_Images {
 		// Optionally load it as a dependency
 		$models_depend = $load_omniture ? array( 'jquery-cookie', 'getty-omniture-scode' ) : array( 'jquery-cookie' );
 
-<<<<<<< HEAD
-		wp_enqueue_script( 'getty-images-models', plugins_url( '/js/getty-models.js', __FILE__ ), $models_depend, 1, true );
-		wp_enqueue_script( 'getty-images', plugins_url( '/js/getty-images.js', __FILE__ ), array( 'getty-images-views', 'getty-images-models' ), 1.1, true );
-=======
 		wp_enqueue_script( 'getty-images-models', plugins_url( '/js/getty-models.js', __FILE__ ), $models_depend, $plugin_version, true );
 		wp_enqueue_script( 'getty-images', plugins_url( '/js/getty-images.js', __FILE__ ), array( 'getty-images-views', 'getty-images-models' ), $plugin_version, true );
->>>>>>> master
+
 
 		wp_enqueue_style( 'getty-images', plugins_url( '/getty-images.css', __FILE__ ) );
 
