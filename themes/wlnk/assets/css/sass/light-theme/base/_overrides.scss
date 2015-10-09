@@ -13,12 +13,26 @@ body {
 .header {
 	border-bottom: 1px solid #58595b;
 	background-color: #ffffff;
-	background-image: url(http://assets.gmclt.com/images/linkHeader.jpg);
+	background-image: url(http://assets.gmclt.com/images/linkHeader.gif);
+	background-repeat: no-repeat;
+	background-size: auto 120px;
+	@include bp(medium) {
+		background-size: cover;
+	}
+	@include bp(large) {
+		background-position: left top;
+	}
+	@include bp(larger) {
+		background-position: center top;
+		background-size: auto;
+	}
+	
 }
 
 .header__main {
-	background-color: #020276;
-	opacity: 0.75;
+	//background-color: #020276;
+	background-color:rgba(2,2,118,0.75);
+	//opacity: 0.75;
 }
 
 .featured__article--content {
@@ -30,7 +44,7 @@ body {
 }
 
 .home__highlights {
-	background-color: 333366 !important;
+	background-color: #333399 !important;
 }
 
 .home__featured {
@@ -38,6 +52,17 @@ body {
 		background-position: left top;
 		//background-color: #561015;
 		// background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
+	}
+}
+
+.header__logo--img {
+	max-height: 60px;
+	max-width: none;
+	top: 50%;
+	@include bp(larger) {
+		top: 16px;
+		margin-left: -20px;
+		max-height: 92px;
 	}
 }
 
@@ -58,12 +83,48 @@ body {
 	}
 }
 
+.live-links {
+	background-color: transparent !important;
+}
+
+.live-player {
+	background-color: #3399ff;
+	//background-image: url(../../images/mobilePlayer-bg.jpg);
+}
+
+.live-stream {
+ 	//background-image: url(../../images/mobilePlayer-bg.jpg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+	@include bp(medium) {
+		background-image: url(http://assets.gmclt.com/images/wlnkPlayer.jpg);
+	}
+}
+
+.on-air {
+	@include bp(medium) {
+		margin-top: 30px;
+		margin-bottom: -19px;
+	}
+}
+
+.on-air__show {
+		font-weight: bolder;
+}
+
+.on-air__title {
+		font-weight: bolder;
+}
+
+.live-player__container {
+	border-bottom: 0 !important; 
+}
+
 .live-player__stream {
 	border: 1px solid lighten($color-gray-medium-dark,50%);
 	color: lighten($color-gray-medium-dark,50%);
 	@include border-radius(1em);
 	background-color: $liveplayer-bg;
-
 	li {
 		height: auto;
 	}

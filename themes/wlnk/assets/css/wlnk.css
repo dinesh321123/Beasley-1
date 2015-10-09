@@ -1001,7 +1001,7 @@ h6, .h6 {
 .section-header {
   font-weight: 200;
   font-size: 1.25em;
-  color: #929497;
+  color: #333399;
   margin-top: 0;
   margin-bottom: 20px; }
   @media screen and (min-width: 768px)  {
@@ -1699,7 +1699,7 @@ ul.sub-menu li:not(.mobile-menu-submenu-header):hover, .header__nav .format-fw >
   font-size: 2.0272865295em;
   font-weight: bold;
   text-align: left;
-  color: #929497; }
+  color: #333399; }
   @media screen and (min-width: 768px)  {
     .content__heading, .sponsors__heading {
       font-size: 1.265625em; } }
@@ -2114,7 +2114,7 @@ a.featured__article--link {
   width: 100%;
   margin-right: 0;
   overflow: hidden;
-  background-color: #020276;
+  background-color: #333399;
   position: relative;
   padding-top: 35.71%;
   background-size: 100%;
@@ -2182,7 +2182,7 @@ a.featured__article--link {
       .featured__article--content:last-child {
         margin-right: 0; } }
   .home__featured .featured__article--content {
-    background-color: #020276;
+    background-color: #333399;
     color: #d0d2d3; }
   .news-site .featured__article--content {
     position: absolute;
@@ -2294,7 +2294,7 @@ a.featured__article--link {
   width: 100%;
   margin-right: 0;
   overflow: hidden;
-  background: #333366;
+  background: #333399;
   height: 100px;
   margin: 1.5em 0 0; }
   .featured__content--block:last-child {
@@ -2319,7 +2319,7 @@ a.featured__article--link {
       .featured__content--block:last-child {
         margin-right: 0; } }
   .home__featured .featured__content--block {
-    background-color: #020276;
+    background-color: #333399;
     color: #d0d2d3; }
   .news-site .featured__content--block {
     display: table-cell;
@@ -2418,7 +2418,7 @@ a.featured__article--link {
       .featured__content--meta:last-child {
         margin-right: 0; } }
   .home__featured .featured__content--meta {
-    color: #929497; }
+    color: #333399; }
   .news-site .featured__content--meta {
     position: absolute;
     bottom: 0;
@@ -2655,8 +2655,8 @@ Community Highlights and Events
 */
 .home__highlights {
   padding: 1.5em 0.809em;
-  background-color: #333366 !important;
-  border-bottom: 1px solid #2e2e5c; }
+  background-color: #333399 !important;
+  border-bottom: 1px solid #2f2f8e; }
   @media screen and (min-width: 768px)  {
     .home__highlights {
       padding: 3em 3.236em; } }
@@ -2677,7 +2677,7 @@ Community Highlights and Events
   line-height: 1;
   font-size: 1.265625em;
   font-weight: lighter;
-  color: #929497;
+  color: #333399;
   vertical-align: top; }
   .news-site .highlights__heading {
     padding: .35em 0 .6em;
@@ -3670,7 +3670,7 @@ a.highlights__contest--btn {
     .header__account {
       width: 64px;
       height: 82px;
-      color: #929497; } }
+      color: #333399; } }
   @media screen and (min-width: 1200px)  {
     .header__account {
       width: auto; } }
@@ -3928,7 +3928,7 @@ a.highlights__contest--btn {
       padding-bottom: 0; } }
 
 .footer a:link, .footer a:visited {
-  color: #929497; }
+  color: #333399; }
 
 .footer a:hover, .footer a:focus, .footer a:active {
   color: #cf000f; }
@@ -4005,7 +4005,7 @@ a.highlights__contest--btn {
   width: 100%;
   padding: 40px 5.5% 0;
   background-color: #fff;
-  color: #929497;
+  color: #333399;
   text-align: center; }
   .footer__content:last-child {
     margin-right: 0; }
@@ -4068,10 +4068,10 @@ a.highlights__contest--btn {
   line-height: 1.2;
   margin-bottom: .25em;
   font-weight: lighter;
-  color: #929497;
+  color: #333399;
   text-transform: uppercase; }
   .footer__copyright--logo a:link, .footer__copyright--logo a:visited {
-    color: #929497; }
+    color: #333399; }
   .footer__copyright--logo a:hover, .footer__copyright--logo a:focus, .footer__copyright--logo a:active {
     color: #cf000f; }
 
@@ -4114,8 +4114,8 @@ a.highlights__contest--btn {
       padding: 0; } }
 
 .footer__menu a.social__link {
-  border-color: #929497;
-  color: #929497;
+  border-color: #333399;
+  color: #333399;
   margin-right: 0;
   margin-left: 6px; }
   .footer__menu a.social__link:hover {
@@ -4285,7 +4285,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry__date {
   font-size: 0.7901234568em;
   font-weight: lighter;
-  color: #929497;
+  color: #333399;
   text-transform: uppercase; }
 
 .entry__show {
@@ -4347,7 +4347,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   display: inline-block;
   line-height: 1;
   font-weight: bold;
-  color: #929497; }
+  color: #333399; }
 
 .entry__footer--category:hover, .entry__footer--category:focus, .entry__footer--category:active {
   color: #a1000c; }
@@ -5097,7 +5097,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 .entry2__date {
   font-size: 1em;
   font-weight: lighter;
-  color: #929497;
+  color: #333399;
   text-transform: uppercase;
   display: block;
   margin: -0.3em 0 0.5em; }
@@ -5169,7 +5169,7 @@ Link posts contain a link to an external site. They can also optionally have a f
   line-height: 1;
   font-weight: bold;
   font-size: 1.125em;
-  color: #929497; }
+  color: #333399; }
   @media screen and (min-width: 768px)  {
     .entry2__footer--category:link, .entry2__footer--category:visited {
       font-size: 1em; } }
@@ -5860,7 +5860,7 @@ body.profile-page-login .live-player--mobile {
   -webkit-transition: visibility 0s linear 500ms, opacity 500ms linear;
   -moz-transition: visibility 0s linear 500ms, opacity 500ms linear;
   transition: visibility 0s linear 500ms, opacity 500ms linear;
-  color: #929497; }
+  color: #333399; }
 
 .live-player__stream--current.open .live-player__stream--available {
   position: relative;
@@ -5912,7 +5912,7 @@ body.profile-page-login .live-player--mobile {
   width: 60%;
   line-height: 1.2;
   font-size: 0.7901234568em;
-  color: #929497; }
+  color: #333399; }
 
 .live-player__container {
   height: 58px;
@@ -7100,8 +7100,8 @@ body.profile-page-login .live-player--mobile {
   padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
-  background-color: #929497;
-  border: 1px solid #929497;
+  background-color: #333399;
+  border: 1px solid #333399;
   font-size: 0.8888888889em;
   color: #ffffff !important;
   text-transform: uppercase;
@@ -7111,8 +7111,8 @@ body.profile-page-login .live-player--mobile {
   -moz-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out; }
   .live-links--more__btn:hover, .live-links--more__btn:focus {
-    background-color: #7b7d80;
-    border-color: #7b7d80;
+    background-color: #282877;
+    border-color: #282877;
     color: #ffffff; }
   .live-links--more__btn:last-of-type {
     margin-right: 0; }
@@ -7759,7 +7759,7 @@ body.vast-ad--playing {
   border-top: none;
   border-right: none;
   font-size: 2em;
-  color: #929497;
+  color: #333399;
   -webkit-transition: all .25s;
   -moz-transition: all .25s;
   transition: all .25s; }
@@ -8209,16 +8209,16 @@ category: Components - Ads
   padding: 0.5em 1em;
   margin-right: .5em;
   outline: none;
-  background-color: #929497;
-  border: 1px solid #929497;
+  background-color: #333399;
+  border: 1px solid #333399;
   font-size: 0.7901234568em;
   color: #ffffff !important;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 100em; }
   .contest-attr--rules-toggler:hover, .contest-attr--rules-toggler:focus {
-    background-color: #7b7d80;
-    border-color: #7b7d80;
+    background-color: #282877;
+    border-color: #282877;
     color: #ffffff; }
   .contest-attr--rules-toggler:last-of-type {
     margin-right: 0; }
@@ -8274,7 +8274,7 @@ category: Components - Ads
   font-size: 0.8888888889em;
   font-weight: normal;
   text-transform: uppercase;
-  color: #929497; }
+  color: #333399; }
 
 .contest__sponsor {
   display: inline-block;
@@ -9243,7 +9243,7 @@ category: Components - Shows
   line-height: 1;
   float: left;
   margin-bottom: 10px;
-  color: #929497;
+  color: #333399;
   text-transform: uppercase; }
 
 a.podcast__rss:link, a.podcast__rss:visited {
@@ -9605,7 +9605,7 @@ a.podcast__rss:active {
   font-size: 0.7901234568em;
   line-height: 1;
   margin-bottom: 10px;
-  color: #929497;
+  color: #333399;
   text-transform: uppercase; }
   .podcast__download .podcast__archive--episode-count {
     display: block; }
@@ -9736,7 +9736,7 @@ a.podcast__rss:active {
     padding-top: 0; } }
 .single-show .highlights__heading {
   font-size: 1.125em;
-  color: #929497; }
+  color: #333399; }
 .single-show .highlights__event--item {
   background-color: #F1F1F3; }
   .single-show .highlights__event--item .highlights__event--title, .single-show .highlights__event--item .highlights__event--date {
@@ -10725,7 +10725,7 @@ a.social__link, a.social-share-link {
   margin: 0; }
 
 .social__link a, .social__link a:visited {
-  color: #929497; }
+  color: #333399; }
 
 .social__link a:hover, .social__link a:focus {
   color: #d0d2d3; }
@@ -10797,15 +10797,15 @@ a.social__link, a.social-share-link {
   border: none !important;
   outline: none;
   font-size: 1em;
-  color: #929497; }
+  color: #333399; }
   .header__search--input::-webkit-input-placeholder {
-    color: #929497; }
+    color: #333399; }
   .header__search--input::-moz-placeholder {
-    color: #929497; }
+    color: #333399; }
   .header__search--input:-moz-placeholder {
-    color: #929497; }
+    color: #333399; }
   .header__search--input:-ms-input-placeholder {
-    color: #929497; }
+    color: #333399; }
   @media screen and (min-width: 768px)  {
     .header__search--input {
       height: 100px;
@@ -10832,7 +10832,7 @@ a.social__link, a.social-share-link {
   border: none;
   width: 14px;
   background-color: transparent;
-  color: #929497;
+  color: #333399;
   padding: 0; }
   .header__search--submit:hover, .header__search--submit:focus, .header__search--cancel:hover, .header__search--cancel:focus {
     color: #cf000f; }
@@ -10961,7 +10961,7 @@ a.social__link, a.social-share-link {
   width: 19.432772236%;
   padding: 5px 0;
   font-size: 0.8888888889em;
-  color: #929497; }
+  color: #333399; }
   .search__result--date:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px)  {
@@ -12203,7 +12203,7 @@ category: Components - Gallery Archive
   margin-right: 1.45em;
   box-sizing: border-box;
   font-size: 0.8888888889em;
-  color: #929497;
+  color: #333399;
   text-align: center; }
 
 .gallery__grid--pagination-list li a, .gallery__grid--pagination-list li a:visited {
@@ -12211,7 +12211,7 @@ category: Components - Gallery Archive
   height: 26px;
   padding: 6px 0;
   line-height: 1;
-  color: #929497; }
+  color: #333399; }
 
 .gallery__grid--pagination-list li a:hover, .gallery__grid--pagination-list li a:focus {
   color: #cf000f; }
@@ -12220,7 +12220,7 @@ category: Components - Gallery Archive
   color: #404041; }
 
 .gallery__grid--pagination-current {
-  border: 1px solid #929497;
+  border: 1px solid #333399;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
@@ -12641,7 +12641,7 @@ category: Components
 */
 input[type=text], input[type=number], input[type=date], input[type=time], input[type=url], input[type=email], textarea, fieldset input[type=text], fieldset input[type=number] {
   border: none;
-  background: #929497;
+  background: #333399;
   margin-bottom: 1em;
   display: block;
   padding: 0.25em 0.5em; }
@@ -12668,7 +12668,7 @@ fieldset {
 select {
   -webkit-appeaerance: none;
   border-radius: none;
-  background: #929497;
+  background: #333399;
   border: none;
   width: 100%; }
 
@@ -12765,7 +12765,7 @@ select {
 .show__live-links .group-date {
   font-size: 3.2473210255em;
   font-weight: 700;
-  color: #929497; }
+  color: #333399; }
   @media screen and (min-width: 768px)  {
     .show__live-links .group-date {
       font-size: 2.2806973457em; } }
@@ -14404,7 +14404,7 @@ category: Components
 .songs__group--date {
   font-size: 3.2473210255em;
   font-weight: 700;
-  color: #929497; }
+  color: #333399; }
   @media screen and (min-width: 1024px)  {
     .songs__group--date {
       float: left;
@@ -14944,18 +14944,39 @@ body {
 .header {
   border-bottom: 1px solid #58595b;
   background-color: #ffffff;
-  background-image: url(http://assets.gmclt.com/images/linkHeader.jpg); }
+  background-image: url(http://assets.gmclt.com/images/linkHeader.gif);
+  background-repeat: no-repeat;
+  background-size: auto 120px; }
+  @media screen and (min-width: 768px)  {
+    .header {
+      background-size: cover; } }
+  @media screen and (min-width: 1024px)  {
+    .header {
+      background-position: left top; } }
+  @media screen and (min-width: 1200px)  {
+    .header {
+      background-position: center top;
+      background-size: auto; } }
 
 .header__main {
-  background-color: #020276;
-  opacity: 0.75; }
+  background-color: rgba(2, 2, 118, 0.75); }
 
 .home__highlights {
-  background-color: 333366 !important; }
+  background-color: #333399 !important; }
 
 @media screen and (min-width: 768px)  {
   .home__featured {
     background-position: left top; } }
+
+.header__logo--img {
+  max-height: 60px;
+  max-width: none;
+  top: 50%; }
+  @media screen and (min-width: 1200px)  {
+    .header__logo--img {
+      top: 16px;
+      margin-left: -20px;
+      max-height: 92px; } }
 
 .live-player__stream {
   display: none; }
@@ -14967,6 +14988,33 @@ body {
   color: #d0d2d3; }
   .single-gmr_gallery .gallery__paging--prev:hover, .single-gmr_gallery .gallery__paging--next:hover {
     color: #d22228; }
+
+.live-links {
+  background-color: transparent !important; }
+
+.live-player {
+  background-color: #3399ff; }
+
+.live-stream {
+  background-repeat: no-repeat;
+  background-size: 100%; }
+  @media screen and (min-width: 768px)  {
+    .live-stream {
+      background-image: url(http://assets.gmclt.com/images/wlnkPlayer.jpg); } }
+
+@media screen and (min-width: 768px)  {
+  .on-air {
+    margin-top: 30px;
+    margin-bottom: -19px; } }
+
+.on-air__show {
+  font-weight: bolder; }
+
+.on-air__title {
+  font-weight: bolder; }
+
+.live-player__container {
+  border-bottom: 0 !important; }
 
 .live-player__stream {
   border: 1px solid #b0b0b0;
