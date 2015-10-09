@@ -171,9 +171,7 @@
 		padding:3em 3.236em
 	}
 
-	.home__featured {
-		background:url(../../images/home-featured.png); 
-	}
+
 
 	#page-wrap.page-wrap,.main {
 		background-color:transparent;
@@ -256,12 +254,7 @@
 		text-transform:uppercase
 	}
 
-	.home__featured .featured__content--title {
-		color:#FFF;
-		font-family:'Oswald',sans-serif;
-		font-size:1.23em;
-		font-weight:400
-	}
+
 
 
 	.featured__content--link {
@@ -375,46 +368,116 @@
 		display:none;
 	}
 
-	.home__featured .featured__content--block {
-	    background-image: none;
-		background-color: #004794;
-		color:#fff
-	}
-
-	.featured__content--block:hover {
-
-		background-color: #ce1141;
-	}
-
-	.featured__content--block:hover .featured__content--title {
-		color:#fff;
-	}
-
-	.home__featured .featured__article--content {
-		background-image: none;
-		background-color: #004794;
-		color:#fff
-	}
-
-	.featured__article:hover  {
-		background-color: #ce1141;
-		color: #fff;
-	}
 
 
-	.featured__article:hover .featured__article--heading {
+.home__featured {
 
-		color:#fff;
-	}
+ 
+    background:url(../../images/home-featured.png);
+    .featured__article--heading {
+        color: #FFFFFF;   font-family: 'Ubuntu', sans-serif;
+    }
+    .featured__article--content {
+       			background:-moz-linear-gradient(top,rgba(0,71,148,1) 10%,rgba(47,147,255,1) 100%);
+			/* FF3.6+ */
+			background:-webkit-gradient(linear,left top,left bottom,color-stop(10%,rgba(0,71,148,1)),color-stop(100%,rgba(47,147,255,1)))!important;
+			/* Chrome,Safari4+ */
+			background:-webkit-linear-gradient(top,rgba(0,71,148,1) 10%,rgba(47,147,255,1) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background:-o-linear-gradient(top,rgba(0,71,148,1) 10%,rgba(47,147,255,1) 100%);
+			/* Opera 11.10+ */
+			background:-ms-linear-gradient(top,rgba(0,71,148,1) 10%,rgba(47,147,255,1) 100%);
+			/* IE10+ */
+			background:linear-gradient(to bottom,rgba(0,71,148,1) 10%,rgba(47,147,255,1) 100%);
+			/* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00004794',endColorstr='#ce1141',GradientType=0);
+			/* IE6-9 */
 
-	.featured__article--content:hover {
-		background-color: #ce1141;
-	}
+    }
 
-	.featured__article--content:hover .featured__article--heading {
-		background-color: #ce1141;
-		color:#fff;
-	}
+    .featured__article:hover .featured__article--content  {
+
+        	background:-moz-linear-gradient(top,rgba(47,147,255,1) 10%,rgba(0,71,148,1) 100%);
+			/* FF3.6+ */
+			background:-webkit-gradient(linear,left top,left bottom,color-stop(10%,rgba(47,147,255,1)),color-stop(100%,rgba(0,71,148,1)))!important;
+			/* Chrome,Safari4+ */
+			background:-webkit-linear-gradient(top,rgba(47,147,255,1) 10%,rgba(0,71,148,1) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background:-o-linear-gradient(top,rgba(47,147,255,1) 10%,rgba(0,71,148,1) 100%);
+			/* Opera 11.10+ */
+			background:-ms-linear-gradient(top,rgba(47,147,255,1) 10%,rgba(0,71,148,1) 100%);
+			/* IE10+ */
+			background:linear-gradient(to bottom,rgba(47,147,255,1) 10%,rgba(0,71,148,1) 100%);
+			/* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ce1141',endColorstr='#004794',GradientType=0);
+			/* IE6-9 */       
+
+
+        color: #fff;
+        text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+    }
+
+
+
+    .featured__content--block {
+        
+			background:-moz-linear-gradient(top,rgba(0,71,148,1) 75%,rgba(47,147,255,1) 100%);
+			/* FF3.6+ */
+			background:-webkit-gradient(linear,left top,left bottom,color-stop(75%,rgba(0,71,148,1)),color-stop(100%,rgba(47,147,255,1)))!important;
+			/* Chrome,Safari4+ */
+			background:-webkit-linear-gradient(top,rgba(0,71,148,1) 75%,rgba(47,147,255,1) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background:-o-linear-gradient(top,rgba(0,71,148,1) 75%,rgba(47,147,255,1) 100%);
+			/* Opera 11.10+ */
+			background:-ms-linear-gradient(top,rgba(0,71,148,1) 75%,rgba(47,147,255,1) 100%);
+			/* IE10+ */
+			background:linear-gradient(to bottom,rgba(0,71,148,1) 75%,rgba(47,147,255,1) 100%);
+			/* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00004794',endColorstr='#ce1141',GradientType=0);
+			/* IE6-9 */
+
+        &:hover{
+            
+        	background:-moz-linear-gradient(top,rgba(47,147,255,1) 75%,rgba(0,71,148,1) 100%);
+			/* FF3.6+ */
+			background:-webkit-gradient(linear,left top,left bottom,color-stop(75%,rgba(47,147,255,1)),color-stop(100%,rgba(0,71,148,1)))!important;
+			/* Chrome,Safari4+ */
+			background:-webkit-linear-gradient(top,rgba(47,147,255,1) 75%,rgba(0,71,148,1) 100%);
+			/* Chrome10+,Safari5.1+ */
+			background:-o-linear-gradient(top,rgba(47,147,255,1) 75%,rgba(0,71,148,1) 100%);
+			/* Opera 11.10+ */
+			background:-ms-linear-gradient(top,rgba(47,147,255,1) 75%,rgba(0,71,148,1) 100%);
+			/* IE10+ */
+			background:linear-gradient(to bottom,rgba(47,147,255,1) 75%,rgba(0,71,148,1) 100%);
+			/* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ce1141',endColorstr='#004794',GradientType=0);
+			/* IE6-9 */
+
+
+            
+        }
+        .featured__content--title  {
+        	overflow: visible;
+        }
+    }
+
+    .featured__content--block:hover .featured__content--title {
+             
+        color: #fff;
+        text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+        overflow: visible!important;
+
+    }
+
+
+}
+.featured__article:hover .featured__article--heading {
+    text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+    color: #fff;
+}
+
+
+
 
 
 	.highlights__event--item {
@@ -671,6 +734,47 @@
 		border:1px solid #fff;
 		color:#ce1141;
 	}
+
+
+/* below are headers to be used in body of posts and pages with Country 102.5 logo RED and BLUE options */
+	.block-header {
+			font-family:'Oswald',sans-serif;
+			font-weight: 700;
+			text-transform: uppercase;
+				&.headerxlarge {font-size: 2.0272865295em;}
+				&.headerlarge {font-size: 1.8020324707em;}
+				&.headermedium {font-size: 1.6018066406em;}
+				&.headersmall {font-size: 1.423828125em;}
+
+				&.RED {
+					color:#ce1141;
+				}
+				&.BLUE {
+				color:#084694;
+				}
+	}
+	.handwritten-header {
+			font-family: 'Architects Daughter', cursive;
+			font-weight: 700;
+			text-transform: uppercase;
+				&.headerxlarge {font-size: 2.0272865295em;}
+				&.headerlarge {font-size: 1.8020324707em;}
+				&.headermedium {font-size: 1.6018066406em;}
+				&.headersmall {font-size: 1.423828125em;}
+
+				&.RED {
+					color:#ce1141;
+				}
+				&.BLUE {
+				color:#084694;
+				}
+	}	
+/* End header options */
+
+
+
+
+	
 
 
 /*----------------------------------------------------------------------------------------------------------------------
