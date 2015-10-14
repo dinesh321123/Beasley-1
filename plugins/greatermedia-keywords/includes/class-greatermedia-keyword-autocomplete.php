@@ -16,7 +16,7 @@ class GreaterMediaKeywordAutocomplete {
 		wp_enqueue_script(
 			GreaterMedia_Keyword_Admin::$plugin_slug . '-autocomplete-script'
 			, GMKEYWORDS_URL . "assets/js/greatermedia_keywords_autocomplete{$postfix}.js"
-			, array( 'jquery' )
+			, array( 'jquery', 'underscore' )
 			, GMKEYWORDS_VERSION
 		);
 
