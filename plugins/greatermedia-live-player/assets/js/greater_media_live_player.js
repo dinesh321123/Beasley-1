@@ -2373,7 +2373,7 @@ var $ = jQuery;
 			listenNow.innerHTML = 'Listen Live';
 		}
 		if (window.innerWidth >= 768) {
-			playLiveStreamNoAd();
+			playLiveStream();
 		}
 	};
 
