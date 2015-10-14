@@ -199,6 +199,7 @@ class Getty_Images {
 		wp_enqueue_script( 'getty-images-models', plugins_url( '/js/getty-models.js', __FILE__ ), $models_depend, $plugin_version, true );
 		wp_enqueue_script( 'getty-images', plugins_url( '/js/getty-images.js', __FILE__ ), array( 'getty-images-views', 'getty-images-models' ), $plugin_version, true );
 
+
 		wp_enqueue_style( 'getty-images', plugins_url( '/getty-images.css', __FILE__ ) );
 
 		// Nonce 'n' localize!
