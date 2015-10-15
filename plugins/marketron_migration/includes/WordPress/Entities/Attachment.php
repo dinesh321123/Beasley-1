@@ -32,6 +32,14 @@ class Attachment extends Post {
 				'_wp_attachment_metadata' => serialize( $attachment_meta )
 			);
 
+			if ( ! empty ( $fields['caption'] ) ) {
+				$fields['post_content'] = $fields['caption'];
+			}
+
+			if ( ! empty( $fields['attribution'] ) ) {
+				$fields['postmeta']['gmr_image_attribution'] = $fields['attribution'];
+			}
+
 			$fields['attachment_meta'] = $attachment_meta;
 			$fields['file_meta']       = $file_meta;
 			$filename                  = pathinfo( $dest_file, PATHINFO_FILENAME );

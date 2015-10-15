@@ -127,6 +127,14 @@ class Post extends BaseEntity {
 			$attachment = array( 'file' => $attachment );
 		}
 
+		if ( ! empty( $fields['featured_image_caption'] ) ) {
+			$attachment['caption'] = $fields['featured_image_caption'];
+		}
+
+		if ( ! empty( $fields['featured_image_attribute'] ) ) {
+			$attachment['attribution'] = $fields['featured_image_attribute'];
+		}
+
 		$attachment['post_parent'] = $post_id;
 		$attachment['post_author'] = $post_author;
 		$attachment['created_on']  = $fields['created_on'];

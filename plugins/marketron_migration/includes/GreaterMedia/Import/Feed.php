@@ -24,15 +24,25 @@ class Feed extends BaseImporter {
 		$max = 3000;
 		$min = 9500;
 		$index = 0;
+		$add_count = 0;
+		$skip_count = 0;
 
 		foreach ( $articles as $article ) {
 			if ( ! $this->container->mappings->can_import_marketron_name(
 				(string) $article->Feeds->Feed['Feed'], 'feed' ) ) {
-				\WP_CLI::log( '    Excluded Feed: ' . (string) $article->Feeds->Feed['Feed'] );
+				//\WP_CLI::log( '    Excluded Feed: ' . (string) $article->Feeds->Feed['Feed'] );
+				$skip_count++;
 				continue;
 			}
 
 			$post = $this->post_from_article( $article );
+
+			if ( ! $this->can_import_by_time( $post ) ) {
+				$skip_count++;
+				continue;
+			}
+
+			$add_count++;
 
 			if ( ! empty( $post['feed_names'] ) && count( $post['feed_names'] ) > 1 ) {
 				foreach ( $post['feed_names'] as $feed_name ) {
@@ -79,11 +89,12 @@ class Feed extends BaseImporter {
 				}
 			}
 
-
 			$notify->tick();
 		}
 
 		//\WP_CLI::log( 'Total Lib Syn Replacements: ' . \WordPress\Utils\InlineLibSynReplacer::$replacements );
+		\WP_CLI::log( "Added $add_count Feeds" );
+		\WP_CLI::log( "Skipped $skip_count Feeds" );
 
 		$notify->finish();
 	}
@@ -148,6 +159,14 @@ class Feed extends BaseImporter {
 
 		if ( ! is_null( $featured_image ) ) {
 			$post['featured_image'] = $featured_image;
+
+			if ( ! empty( $article['FeaturedImageCaption'] ) ) {
+				$post['featured_image_caption'] = $this->import_string( $article['FeaturedImageCaption'] );
+			}
+
+			if ( ! empty( $article['FeaturedImageAttribute'] ) ) {
+				$post['featured_image_attribute'] = $this->import_string( $article['FeaturedImageAttribute'] );
+			}
 		}
 
 		if ( ! is_null( $featured_audio ) ) {

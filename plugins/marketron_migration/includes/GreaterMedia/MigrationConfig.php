@@ -121,6 +121,14 @@ class MigrationConfig {
 		return $this->get_config_option( 'error', $name );
 	}
 
+	function get_time_limit() {
+		if ( $this->has_config_option( 'site', 'time_limit' ) ) {
+			return $this->get_config_option( 'site', 'time_limit' );
+		} else {
+			return false;
+		}
+	}
+
 	function has_config_option( $parent, $name = null ) {
 		if ( is_null( $name ) ) {
 			return array_key_exists( $parent, $this->data );
@@ -130,7 +138,7 @@ class MigrationConfig {
 	}
 
 	function get_config_option( $parent, $name = null ) {
-		if ( is_null ( $name ) ) {
+		if ( is_null( $name ) ) {
 			return $this->data[ $parent ];
 		}
 
