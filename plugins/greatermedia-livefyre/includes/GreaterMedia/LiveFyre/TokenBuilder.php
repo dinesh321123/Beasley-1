@@ -23,6 +23,11 @@ class TokenBuilder {
 		$article_id = strval( $post->ID );
 		$url        = get_permalink( $post->ID );
 
+		// Check for post title to prevent LiveFyre through error.
+		if ( empty( $title ) ) {
+			$title = 'no title';
+		}
+
 		$network    = Livefyre::getNetwork( $network_name, $network_key );
 		$site       = $network->getSite( $site_id, $site_key );
 		$collection = $site->buildCommentsCollection( $title, $article_id, $url );
