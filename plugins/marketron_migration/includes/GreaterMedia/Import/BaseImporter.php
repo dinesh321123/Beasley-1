@@ -84,4 +84,23 @@ class BaseImporter {
 		unset( $this->container );
 	}
 
+	function can_import_by_time( $post ) {
+		$created_on      = $post['created_on'];
+		$created_on_time = strtotime( $created_on );
+		$time_limit      = $this->get_config()->get_time_limit();
+
+		if ( $time_limit === false ) {
+			return true;
+		}
+
+		$time_limit_time = strtotime( $time_limit );
+
+		if ( $created_on_time >= $time_limit_time  ) {
+			return true;
+		} else {
+			//\WP_CLI::log( 'Skipped on Time: ' . $post['created_on'] );
+			return false;
+		}
+	}
+
 }

@@ -22,6 +22,9 @@ class Blog extends Post {
 			$shows = array_unique( $shows );
 			foreach ( $shows as $show ) {
 				$entity = $this->get_entity( 'show_taxonomy' );
+				if ( is_array( $show ) ) {
+					\WP_CLI::error( 'Fatal Error in Mapping for Show: ' . print_r( $show, true ) );
+				}
 				if ( trim( $show ) !== '' ) {
 					$entity->add( $show, $post_id );
 				}
