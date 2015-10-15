@@ -14951,7 +14951,8 @@ table.responsive tr:nth-of-type(even) {
  * Misc overides for the child theme
  */
 body {
-  background-color: #ffffff !important; }
+  background-color: #ffffff !important;
+  font-family: 'Work Sans', sans-serif; }
 
 .main {
   background-image: url(../../images/linkBackgroundStripes.jpg); }
@@ -14991,6 +14992,17 @@ body {
 .show__header {
   background-image: none; }
 
+.show__header.has-thumbnail::before {
+  background-image: linear-gradient(to bottom, transparent, transparent);
+  background-image: -moz-linear-gradient(top, transparent, transparent);
+  background-image: -o-linear-gradient(top, transparent, transparent);
+  background-image: -ms-linear-gradient(top, transparent, transparent);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image: -webkit-linear-gradient(top, transparent, transparent); }
+
+.show__nav li a:hover {
+  color: #333399; }
+
 .header__logo--img {
   max-height: 60px;
   max-width: none;
@@ -15005,7 +15017,8 @@ body {
   display: none; }
 
 .live-links {
-  border-top: 0; }
+  border-top: 0;
+  display: none !important; }
 
 .single-gmr_gallery .gallery__paging--prev, .single-gmr_gallery .gallery__paging--next {
   color: #d0d2d3; }

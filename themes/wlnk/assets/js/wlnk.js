@@ -39,7 +39,7 @@ GMCLT.PlayerBackground = function() {
 			gmcltPlayerBackgroundCurrentIndex = 0;
 		}
 		
-		setTimeout(changePlayerBackgroundImage, 3000);
+		setTimeout(changePlayerBackgroundImage, 5000);
 		
 	}
 	
