@@ -24,7 +24,7 @@ get_header();
 				<p>Loading...</p>
 				<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WBTajaxLoader.gif">
 			</div>
-			<div id="gmclt_trafficMapCanvas"></div>
+			<div id="gmclt_trafficMapCanvas" style="height: 700px; width: 100%;"></div>
 			<div class="ad__in-loop ad__in-loop--desktop">
 				<?php do_action( 'acm_tag_gmr_variant', 'leaderboard-body', 'desktop' ); ?>
 			</div>

@@ -7907,6 +7907,24 @@ category: Components - Ads
   .ad__in-loop--desktop {
     display: block; } }
 
+.ad__events-sponsorship {
+  text-align: center; }
+  .ad__events-sponsorship iframe {
+    width: 100%;
+    height: 75px; }
+    @media screen and (min-width: 480px)  {
+      .ad__events-sponsorship iframe {
+        height: 124px; } }
+    @media screen and (min-width: 768px)  {
+      .ad__events-sponsorship iframe {
+        height: 150px; } }
+    @media screen and (min-width: 1024px)  {
+      .ad__events-sponsorship iframe {
+        height: 175px; } }
+    @media screen and (min-width: 1400px)  {
+      .ad__events-sponsorship iframe {
+        height: 200px; } }
+
 .closures {
   margin-bottom: 2em; }
 
@@ -15251,12 +15269,14 @@ body {
   top: 0 !important;
   padding: 5px 0 !important;
   background-color: transparent; }
-  @media screen and (min-width: 768px)  {
-    .header__logo {
-      top: 48px !important; } }
-  @media screen and (min-width: 1024px)  {
-    .header__logo {
-      top: 0 !important; } }
+
+@media screen and (min-width: 768px)  {
+  .header__logo {
+    top: 48px !important; } }
+
+@media screen and (min-width: 1024px)  {
+  .header__logo {
+    top: 0 !important; } }
 
 .header__main {
   background-color: #0A47B4; }
@@ -15264,9 +15284,10 @@ body {
 .header__sub {
   background-color: #000000;
   height: 0; }
-  @media screen and (min-width: 768px)  {
-    .header__sub {
-      height: 48px; } }
+
+@media screen and (min-width: 768px)  {
+  .header__sub {
+    height: 48px; } }
 
 .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul {
   border-bottom: #CF000F; }
@@ -15319,9 +15340,10 @@ body {
   background-image: url(../../images/player-bg-mobile.png);
   background-repeat: no-repeat;
   background-size: 100%; }
-  @media screen and (min-width: 768px)  {
-    .live-player {
-      background-image: url(../../images/player-bg.png); } }
+
+@media screen and (min-width: 768px)  {
+  .live-player {
+    background-image: url(../../images/player-bg.png); } }
 
 .live-stream {
   background-color: transparent; }
@@ -15340,6 +15362,9 @@ body {
   background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
   background-image: -webkit-linear-gradient(top, transparent, transparent); }
 
+.show__nav li a:hover {
+  color: #CF000F; }
+
 .article__thumbnail__caption {
   padding: 2px 4px 2px 4px;
   color: #838383; }
@@ -15355,9 +15380,10 @@ body {
 
 .live-links--more.show-more--muted {
   display: none; }
-  @media screen and (min-width: 768px)  {
-    .live-links--more.show-more--muted {
-      display: block; } }
+
+@media screen and (min-width: 768px)  {
+  .live-links--more.show-more--muted {
+    display: block; } }
 
 .streamhub-wall-component article.content-default .content-body {
   font-family: 'Open Sans', sans-serif;
@@ -15370,10 +15396,11 @@ body {
   display: block;
   width: 100%;
   padding: 0.5em; }
-  @media screen and (min-width: 1200px)  {
-    .gmclt_narrowColumn {
-      width: 36%;
-      float: left; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmclt_narrowColumn {
+    width: 36%;
+    float: left; } }
 
 .gmclt_narrowColumn h2 {
   margin: 0;
@@ -15382,6 +15409,7 @@ body {
 @media screen and (min-width: 480px)  {
   .gmclt_narrowColumnOne {
     float: left; } }
+
 @media screen and (min-width: 1200px)  {
   .gmclt_narrowColumnOne {
     float: none; } }
@@ -15390,6 +15418,7 @@ body {
   .gmclt_narrowColumnTwo {
     float: left;
     padding-left: 20px; } }
+
 @media screen and (min-width: 1200px)  {
   .gmclt_narrowColumnTwo {
     float: none; } }
@@ -15411,10 +15440,11 @@ body {
   box-sizing: border-box;
   font-size: 16px;
   width: 100%; }
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wideColumn {
-      width: 60%;
-      float: left; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmclt_wideColumn {
+    width: 60%;
+    float: left; } }
 
 .gmclt_topBottomPadding {
   padding: 10px 0 10px 0; }
@@ -15437,9 +15467,10 @@ body {
 
 .gmclt_wxDesktop {
   display: none; }
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wxDesktop {
-      display: inline; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmclt_wxDesktop {
+    display: inline; } }
 
 .gmclt_adDiv {
   text-align: center;
@@ -15486,9 +15517,10 @@ h4.gmclt_wxForecastDayHeader {
 .gmclt_wxForecastIcon {
   float: left;
   text-align: center; }
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wxForecastIcon {
-      float: right; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmclt_wxForecastIcon {
+    float: right; } }
 
 .gmclt_wxForecastIconShort {
   float: left;
@@ -15497,9 +15529,10 @@ h4.gmclt_wxForecastDayHeader {
   display: block;
   margin-left: auto;
   margin-right: auto; }
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wxForecastIconShort {
-      float: none; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmclt_wxForecastIconShort {
+    float: none; } }
 
 .gmclt_wxForecastIcon img {
   display: block;
@@ -15507,9 +15540,10 @@ h4.gmclt_wxForecastDayHeader {
 
 .gmclt_wxForecastText {
   margin-left: 110px; }
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wxForecastText {
-      margin-left: 0; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmclt_wxForecastText {
+    margin-left: 0; } }
 
 @media screen and (min-width: 1200px)  {
   .gmclt_wxForecastText p {
@@ -15616,10 +15650,11 @@ h4.gmclt_wxForecastDayHeader {
 
 .gmclt_right {
   float: left; }
-  @media screen and (min-width: 1200px)  {
-    .gmclt_right {
-      float: right;
-      text-align: left; } }
+
+@media screen and (min-width: 1200px)  {
+  .gmclt_right {
+    float: right;
+    text-align: left; } }
 
 .gmclt_clear {
   clear: both; }
@@ -15643,27 +15678,30 @@ a:hover .breaking-news-banner {
   margin: auto;
   width: 80%;
   height: 350px; }
-  @media screen and (min-width: 1200px)  {
-    #gmclt_stormwatchMapCanvas {
-      width: 100%;
-      height: 700px; } }
+
+@media screen and (min-width: 1200px)  {
+  #gmclt_stormwatchMapCanvas {
+    width: 100%;
+    height: 700px; } }
 
 #gmclt_radarMapCanvas {
   margin: auto;
   width: 80%;
   height: 300px; }
-  @media screen and (min-width: 1200px)  {
-    #gmclt_radarMapCanvas {
-      width: 100%; } }
+
+@media screen and (min-width: 1200px)  {
+  #gmclt_radarMapCanvas {
+    width: 100%; } }
 
 #gmclt_trafficMapCanvas {
   margin: auto;
-  width: 80%;
-  height: 300px; }
-  @media screen and (min-width: 1200px)  {
-    #gmclt_trafficMapCanvas {
-      width: 100%;
-      height: 700px; } }
+  width: 80% !important;
+  height: 300px !important; }
+
+@media screen and (min-width: 1200px)  {
+  #gmclt_trafficMapCanvas {
+    width: 100% !important;
+    height: 700px !important; } }
 
 #wbt-social-column {
   overflow: hidden;
@@ -15678,5 +15716,9 @@ a:hover .breaking-news-banner {
       padding-top: 20px; }
   #wbt-social-column .hub-list-more {
     display: none; }
+
+.live-links--more.show-more--muted {
+  z-index: 1000;
+  display: block !important; }
 
 /*# sourceMappingURL=wbt.css.map */
