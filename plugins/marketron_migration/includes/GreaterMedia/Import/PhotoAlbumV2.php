@@ -30,7 +30,7 @@ class PhotoAlbumV2 extends BaseImporter {
 				$entity->add( $gallery );
 				$add_count++;
 			} else {
-				\WP_CLI::log( "Skipped $album_name" );
+				//\WP_CLI::log( "    Skipped $album_name" );
 				$skip_count++;
 			}
 
@@ -71,6 +71,10 @@ class PhotoAlbumV2 extends BaseImporter {
 		}
 
 		$gallery['gallery_show'] = $gallery_show;
+
+		if ( empty( $gallery_show ) ) {
+			//\WP_CLI::log( 'No Gallery Show: ' . $gallery['gallery_name'] );
+		}
 
 		return $gallery;
 	}

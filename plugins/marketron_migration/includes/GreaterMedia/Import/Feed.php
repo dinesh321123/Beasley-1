@@ -176,15 +176,23 @@ class Feed extends BaseImporter {
 		if ( ! empty( $shows ) ) {
 			$post['shows'] = $shows;
 		} else {
-			$post['shows'] = array( $this->show_from_tags( $tags ) );
+			$shows_from_tags = $this->show_from_tags( $tags );
+
+			if ( ! empty( $shows_from_tags ) ) {
+				$post['shows'] = $shows_from_tags;
+			}
 
 			if ( empty( $post['shows'] ) ) {
-				$post['shows'] = array( $this->show_from_title( $post['post_title'] ) );
+				$shows_from_title = $this->show_from_title( $post['post_title'] );
+
+				if ( ! empty( $shows_from_title ) ) {
+					$post['shows'] = $shows_from_title;
+				}
 			}
 		}
 
 		if ( ! empty( $post['shows'] ) ) {
-			//\WP_CLI::log( 'Found Show: ' . $post['show'] );
+			//\WP_CLI::log( 'Found Show: ' . print_r( $post['shows'], true ) );
 		}
 
 		return $post;
