@@ -15459,6 +15459,9 @@ h4.gmclt_wxForecastDayHeader {
     width: 100%;
     height: 700px; } }
 
+.footer__ad {
+  height: 90px !important; }
+
 .live-link__type--show {
   border-bottom-color: white;
   background: none; }
