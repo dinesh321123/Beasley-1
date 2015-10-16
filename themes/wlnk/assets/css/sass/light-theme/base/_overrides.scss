@@ -17,19 +17,6 @@ body {
 	background-image: url(http://assets.gmclt.com/images/linkHeader.gif);
 	background-repeat: no-repeat;
 	background-size: auto 120px;
-<<<<<<< HEAD
-	@include bp(medium) {
-		background-size: cover;
-	}
-	@include bp(large) {
-		background-position: left top;
-	}
-	@include bp(larger) {
-		background-position: center top;
-		background-size: auto;
-	}
-	
-=======
 }
 
 @include bp(medium) {
@@ -49,7 +36,6 @@ body {
 		background-position: center top;
 		background-size: auto;
 	}
->>>>>>> feature/wlnk-v2
 }
 
 .header__main {
@@ -72,18 +58,11 @@ body {
 
 .home__featured {
 	background-image: none;
-<<<<<<< HEAD
-	@include bp(medium) {
-		background-position: left top;
-		//background-color: #561015;
-		// background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
-=======
 }
 
 @include bp(medium) {
 	.home__featured {
 		background-position: left top;
->>>>>>> feature/wlnk-v2
 	}
 }
 
@@ -108,14 +87,10 @@ body {
 	max-height: 60px;
 	max-width: none;
 	top: 50%;
-<<<<<<< HEAD
-	@include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	.header__logo--img {
->>>>>>> feature/wlnk-v2
 		top: 16px;
 		margin-left: -20px;
 		max-height: 92px;
@@ -146,14 +121,10 @@ body {
 
 .live-player {
 	background-color: #3399ff;
-<<<<<<< HEAD
-	@include bp(medium) {
-=======
 }
 
 @include bp(medium) {
 	.live-player {
->>>>>>> feature/wlnk-v2
 		background-image: url(../../images/desktopPlayer-bg.png);
 		background-repeat: no-repeat;
 	}
@@ -167,13 +138,8 @@ body {
 	
 }
 
-<<<<<<< HEAD
-.on-air {
-	@include bp(medium) {
-=======
 @include bp(medium) {
 	.on-air {
->>>>>>> feature/wlnk-v2
 		margin-top: 30px;
 		margin-bottom: -19px;
 	}
@@ -267,20 +233,12 @@ body {
 	color: $primary-link-hover;
 }
 
-<<<<<<< HEAD
-.header__logo {
-	@include bp(medium) {
-		top: -7px;
-	}
-}
-=======
 @include bp(medium) {
 	.header__logo {
 		top: -7px;
 	}
 }
 
->>>>>>> feature/wlnk-v2
 .home__highlights {
 	border-bottom-color: $primary-border;
 }
@@ -348,13 +306,6 @@ a:hover .highlights__community--title {
 	padding: 0;
 }
 
-<<<<<<< HEAD
-.gmclt_narrowColumnOne {
-	@include bp(small) {
-		float: left;
-	}
-	@include bp(larger) {
-=======
 @include bp(small) {
 	.gmclt_narrowColumnOne {
 		float: left;
@@ -363,19 +314,10 @@ a:hover .highlights__community--title {
 
 @include bp(larger) {
 	.gmclt_narrowColumnOne {
->>>>>>> feature/wlnk-v2
 		float: none;	
 	}
 }
 
-<<<<<<< HEAD
-.gmclt_narrowColumnTwo {
-	@include bp(small) {
-		float: left;
-		padding-left: 20px;
-	}
-	@include bp(larger) {
-=======
 @include bp(small) {
 	.gmclt_narrowColumnTwo {
 		float: left;
@@ -385,7 +327,6 @@ a:hover .highlights__community--title {
 
 @include bp(larger) {
 	.gmclt_narrowColumnTwo {
->>>>>>> feature/wlnk-v2
 		float: none;	
 	}
 }
@@ -409,14 +350,6 @@ a:hover .highlights__community--title {
 .gmclt_wideColumn {
 	box-sizing: border-box;
 	font-size: 16px;
-<<<<<<< HEAD
-	width: 100%;
-	
-	@include bp(larger) {
-		width: 60%;
-		float: left;
-	}	
-=======
 	width: 100%;	
 }
 
@@ -425,7 +358,6 @@ a:hover .highlights__community--title {
 		width: 60%;
 		float: left;
 	}
->>>>>>> feature/wlnk-v2
 }
 
 .gmclt_topBottomPadding {
@@ -448,27 +380,18 @@ a:hover .highlights__community--title {
 	font-size: 0.7em;
 }
 
-<<<<<<< HEAD
-.gmclt_wxMobile {
-	@include bp(larger) {
-=======
 @include bp(larger) {
 	.gmclt_wxMobile {
->>>>>>> feature/wlnk-v2
 		display: none;	
 	}
 }
 
 .gmclt_wxDesktop {
 	display: none;
-<<<<<<< HEAD
-	@include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	.gmclt_wxDesktop {
->>>>>>> feature/wlnk-v2
 		display: inline;	
 	}
 }
@@ -493,13 +416,8 @@ a:hover .highlights__community--title {
 	margin-top: 5px;
 }
 
-<<<<<<< HEAD
-.gmclt_wxForecastShort {
-	@include bp(larger) {
-=======
 @include bp(larger) {
 	.gmclt_wxForecastShort {
->>>>>>> feature/wlnk-v2
 		float: left;
 		width: 20%;
 		border-bottom: none;
@@ -510,35 +428,20 @@ a:hover .highlights__community--title {
 	}
 }
 
-<<<<<<< HEAD
-.gmclt_wxForecastShort h4 {
-	@include bp(larger) {
-=======
 @include bp(larger) {
 	.gmclt_wxForecastShort h4 {
->>>>>>> feature/wlnk-v2
 		font-size: 0.8em;
 	}
 }
 
-<<<<<<< HEAD
-.gmclt_wxFirst {
-	@include bp(larger) {
-=======
 @include bp(larger) {
 .gmclt_wxFirst {
->>>>>>> feature/wlnk-v2
 		padding-left: 0;
 	}
 }
 
-<<<<<<< HEAD
-.gmclt_wxLast {
-	@include bp(larger) {
-=======
 @include bp(larger) {
 	.gmclt_wxLast {
->>>>>>> feature/wlnk-v2
 		padding-right: 0;
 		border-right: none;
 	}
@@ -551,14 +454,10 @@ h4.gmclt_wxForecastDayHeader {
 .gmclt_wxForecastIcon {
 	float: left;
 	text-align: center;
-<<<<<<< HEAD
-	@include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	.gmclt_wxForecastIcon {
->>>>>>> feature/wlnk-v2
 		float: right;	
 	}
 }
@@ -570,14 +469,10 @@ h4.gmclt_wxForecastDayHeader {
 	display: block;
     margin-left: auto;
     margin-right: auto;
-<<<<<<< HEAD
-	@include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	.gmclt_wxForecastIconShort {
->>>>>>> feature/wlnk-v2
 		float: none;	
 	}
 }
@@ -589,25 +484,16 @@ h4.gmclt_wxForecastDayHeader {
 
 .gmclt_wxForecastText {
 	margin-left: 110px;
-<<<<<<< HEAD
-	@include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	.gmclt_wxForecastText {
->>>>>>> feature/wlnk-v2
 		margin-left: 0;
 	}
 }
 
-<<<<<<< HEAD
-.gmclt_wxForecastText p {
-	@include bp(larger) {
-=======
 @include bp(larger) {
 	.gmclt_wxForecastText p {
->>>>>>> feature/wlnk-v2
 		font-size: 0.8em;
 	}
 }
@@ -728,14 +614,10 @@ h4.gmclt_wxForecastDayHeader {
 
 .gmclt_right {
 	float: left;
-<<<<<<< HEAD
-	@include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	.gmclt_right {
->>>>>>> feature/wlnk-v2
 		float: right;
 		text-align: left;
 	}
@@ -758,14 +640,10 @@ h4.gmclt_wxForecastDayHeader {
 	margin: auto;
 	width: 80%;
 	height: 350px;
-<<<<<<< HEAD
-	@include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	#gmclt_stormwatchMapCanvas {
->>>>>>> feature/wlnk-v2
 		width: 100%;
 		height: 700px;
 	}
@@ -775,14 +653,10 @@ h4.gmclt_wxForecastDayHeader {
 	margin: auto;
 	width: 80%;
 	height: 300px;
-<<<<<<< HEAD
-	@include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	#gmclt_radarMapCanvas {
->>>>>>> feature/wlnk-v2
 		width: 100%;
 	}
 }
@@ -791,14 +665,10 @@ h4.gmclt_wxForecastDayHeader {
     margin: auto;
     width: 80%;
     height: 300px;
-<<<<<<< HEAD
-    @include bp(larger) {
-=======
 }
 
 @include bp(larger) {
 	#gmclt_trafficMapCanvas {
->>>>>>> feature/wlnk-v2
 		width: 100%;
 		height: 700px;
 	}

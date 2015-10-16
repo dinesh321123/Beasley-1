@@ -203,21 +203,13 @@ GMCLT.Traffic = function() {
 		trafficLayer = new google.maps.TrafficLayer();
 		trafficLayer.setMap(trafficmap);
 		getTrafficIncidents();
-<<<<<<< HEAD
-		getTrafficCameras();
-=======
->>>>>>> feature/wlnk-v2
 	};
 
 	var getTrafficIncidents = function() {
 		var trafficListSource = jQuery("#list-template").html(); 
 		var trafficListTemplate = Handlebars.compile(trafficListSource);
 		
-<<<<<<< HEAD
-		var infowindow = new google.maps.InfoWindow({
-=======
 		infowindow = new google.maps.InfoWindow({
->>>>>>> feature/wlnk-v2
 	        content: 'Test content'
 	    });
 			
@@ -268,57 +260,6 @@ GMCLT.Traffic = function() {
 		};
 	};
 
-<<<<<<< HEAD
-	var	getTrafficCameras = function() {
-				
-		infowindow = new google.maps.InfoWindow({
-	        content: 'blank'
-	    });
-		
-		jQuery.getJSON(apiUrl + '/traffic/traffic.cfc?method=getActiveCameras&callback=?',
-		
-			function (cameraObject) {
-				
-				for (var i=0;i<cameraObject.length;i++) { 
-					var id = cameraObject[i].webId;
-					var location = new google.maps.LatLng(cameraObject[i].latitude, cameraObject[i].longitude);
-					var title = cameraObject[i].name;
-					
-					//create marker
-					window['camera' + id] = new google.maps.Marker({
-						position: location,
-						map: trafficmap,
-						icon: iconPath + 'trafficCamera.png',
-						title: title,
-						zIndex: 1
-					});
-
-					//Add listener for click
-					google.maps.event.addListener(window['camera' + id], 'click', buildCameraClickHandler(cameraObject[i]));
-					
-				}
-			})
-			.fail(function() {
-			   //do nothing. if no traffic cameras are available, it doens't detrimentally affect usability
-			});
-	};
-
-	var buildCameraClickHandler = function(i) {
-		return function() {
-			var id = i.webId;
-			var orientation = i.orientation;
-			var name = i.name;
-			var provider = i.provider;
-			var fullImage = i.fullImage;
-			
-			infowindow.setContent("<img src='" + fullImage + "' style='padding: 10px;' vspace='2' hspace='2'><h2>" + name + "</h2><p class='attribution'>" + orientation + "</p><p>" + provider + "</p>");
-			infowindow.open(trafficmap,window['camera' + id]);
-		};
-
-  };
-
-=======
->>>>>>> feature/wlnk-v2
   	var trafficError = function(area) {
 		var trafficErrorSource = jQuery("#error-template").html(); 
 		var trafficErrorTemplate = Handlebars.compile(trafficErrorSource);
@@ -333,13 +274,6 @@ GMCLT.Traffic = function() {
 	    return oPublic;
  
  }();
-<<<<<<< HEAD
-jQuery(document).ready(function(){
-	GMCLT.Weather.currentConditionsSubnav();
-});
-
-=======
->>>>>>> feature/wlnk-v2
 GMCLT.Weather = function() {
 	 
  	var init = function() {
@@ -356,40 +290,6 @@ GMCLT.Weather = function() {
 		});
 	};
 	
-<<<<<<< HEAD
-	var currentConditionsSubnav = function() {
-		var index = jQuery("div.secondary-link:contains('Weather')").parents().eq(1).attr('id');
-		
-		if (index) {
-		
-			var cookieWx = Cookies.get('gmcltWx');
-		
-			if (cookieWx) {
-				var currentConditions = cookieWx.split(',');
-				populateCurrentConditionsSubnav(currentConditions[0],currentConditions[1],index);
-			}
-			else {
-				jQuery.getJSON(apiUrl + '/weather/weather.cfc?method=getCurrentMini&callback=?',
-		
-				function (wxConditionsDataObject) {
-					populateCurrentConditionsSubnav(wxConditionsDataObject.temperature,wxConditionsDataObject.graphicCode,index);
-					Cookies.set('gmcltWx', wxConditionsDataObject.temperature + ',' + wxConditionsDataObject.graphicCode, { expires: 900 });
-				})
-				.fail(function() {
-				   //do nothing. Not catastrophic
-				});
-			}
-		}
-		
-	}
-	
-	var populateCurrentConditionsSubnav = function(temperature,graphicCode,index) {
-		var htmlString = '<a href="/weather"><div class="secondary-link"><img class="gmclt_wxHeaderIcon" src="/wp-content/themes/wbt/images/wx/' + graphicCode +  '.png"> ' + temperature + '&deg;</div></a>';
-		jQuery('#' + index).html(htmlString);
-	};
-	
-=======
->>>>>>> feature/wlnk-v2
 	var populateWeatherData = function(locationId) {
 		//init handlebars templates
 		var wxConditionsSource = jQuery("#currentConditions-template").html(); 
@@ -624,12 +524,7 @@ GMCLT.Weather = function() {
 	    {
 	      init: init,
 	      stormwatchInit: stormwatchInit,
-<<<<<<< HEAD
-	      populateWeatherData: populateWeatherData,
-	      currentConditionsSubnav: currentConditionsSubnav
-=======
 	      populateWeatherData: populateWeatherData
->>>>>>> feature/wlnk-v2
 	    };
     return oPublic;
 	 

@@ -5560,12 +5560,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .article__comments {
   margin: 3em 0; }
 
-<<<<<<< HEAD
 .article__author {
   display: none; }
 
-=======
->>>>>>> feature/wlnk-v2
 .ad-unit--300--250 {
   position: relative;
   height: 250px;
@@ -5593,10 +5590,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 title: Live Player
 name: live-player
 category: Components
-<<<<<<< HEAD
 category: Components
-=======
->>>>>>> feature/wlnk-v2
 ---
 
 ```html_example
@@ -9059,12 +9053,9 @@ category: Components - Ads
   .tribe-events-list .type-tribe_events .entry2__meta p {
     margin: 0; }
 
-<<<<<<< HEAD
 .tribe-events-single-event-author {
   display: none; }
 
-=======
->>>>>>> feature/wlnk-v2
 /*doc
 ---
 title: Podcast Excerpt
@@ -14986,18 +14977,6 @@ body {
   background-image: url(http://assets.gmclt.com/images/linkHeader.gif);
   background-repeat: no-repeat;
   background-size: auto 120px; }
-<<<<<<< HEAD
-  @media screen and (min-width: 768px)  {
-    .header {
-      background-size: cover; } }
-  @media screen and (min-width: 1024px)  {
-    .header {
-      background-position: left top; } }
-  @media screen and (min-width: 1200px)  {
-    .header {
-      background-position: center top;
-      background-size: auto; } }
-=======
 
 @media screen and (min-width: 768px)  {
   .header {
@@ -15011,7 +14990,6 @@ body {
   .header {
     background-position: center top;
     background-size: auto; } }
->>>>>>> feature/wlnk-v2
 
 .header__main {
   background-color: rgba(2, 2, 118, 0.75); }
@@ -15021,16 +14999,10 @@ body {
 
 .home__featured {
   background-image: none; }
-<<<<<<< HEAD
-  @media screen and (min-width: 768px)  {
-    .home__featured {
-      background-position: left top; } }
-=======
 
 @media screen and (min-width: 768px)  {
   .home__featured {
     background-position: left top; } }
->>>>>>> feature/wlnk-v2
 
 .show__header {
   background-image: none; }
@@ -15050,20 +15022,12 @@ body {
   max-height: 60px;
   max-width: none;
   top: 50%; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    .header__logo--img {
-      top: 16px;
-      margin-left: -20px;
-      max-height: 92px; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   .header__logo--img {
     top: 16px;
     margin-left: -20px;
     max-height: 92px; } }
->>>>>>> feature/wlnk-v2
 
 .live-player__stream {
   display: none; }
@@ -15082,18 +15046,11 @@ body {
 
 .live-player {
   background-color: #3399ff; }
-<<<<<<< HEAD
-  @media screen and (min-width: 768px)  {
-    .live-player {
-      background-image: url(../../images/desktopPlayer-bg.png);
-      background-repeat: no-repeat; } }
-=======
 
 @media screen and (min-width: 768px)  {
   .live-player {
     background-image: url(../../images/desktopPlayer-bg.png);
     background-repeat: no-repeat; } }
->>>>>>> feature/wlnk-v2
 
 .live-stream {
   background-repeat: no-repeat;
@@ -15222,10 +15179,7 @@ a:hover .highlights__community--title {
 @media screen and (min-width: 480px)  {
   .gmclt_narrowColumnOne {
     float: left; } }
-<<<<<<< HEAD
-=======
 
->>>>>>> feature/wlnk-v2
 @media screen and (min-width: 1200px)  {
   .gmclt_narrowColumnOne {
     float: none; } }
@@ -15234,10 +15188,7 @@ a:hover .highlights__community--title {
   .gmclt_narrowColumnTwo {
     float: left;
     padding-left: 20px; } }
-<<<<<<< HEAD
-=======
 
->>>>>>> feature/wlnk-v2
 @media screen and (min-width: 1200px)  {
   .gmclt_narrowColumnTwo {
     float: none; } }
@@ -15259,18 +15210,11 @@ a:hover .highlights__community--title {
   box-sizing: border-box;
   font-size: 16px;
   width: 100%; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wideColumn {
-      width: 60%;
-      float: left; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   .gmclt_wideColumn {
     width: 60%;
     float: left; } }
->>>>>>> feature/wlnk-v2
 
 .gmclt_topBottomPadding {
   padding: 10px 0 10px 0; }
@@ -15293,16 +15237,10 @@ a:hover .highlights__community--title {
 
 .gmclt_wxDesktop {
   display: none; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wxDesktop {
-      display: inline; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   .gmclt_wxDesktop {
     display: inline; } }
->>>>>>> feature/wlnk-v2
 
 .gmclt_adDiv {
   text-align: center;
@@ -15349,16 +15287,10 @@ h4.gmclt_wxForecastDayHeader {
 .gmclt_wxForecastIcon {
   float: left;
   text-align: center; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wxForecastIcon {
-      float: right; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   .gmclt_wxForecastIcon {
     float: right; } }
->>>>>>> feature/wlnk-v2
 
 .gmclt_wxForecastIconShort {
   float: left;
@@ -15367,16 +15299,10 @@ h4.gmclt_wxForecastDayHeader {
   display: block;
   margin-left: auto;
   margin-right: auto; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wxForecastIconShort {
-      float: none; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   .gmclt_wxForecastIconShort {
     float: none; } }
->>>>>>> feature/wlnk-v2
 
 .gmclt_wxForecastIcon img {
   display: block;
@@ -15384,16 +15310,10 @@ h4.gmclt_wxForecastDayHeader {
 
 .gmclt_wxForecastText {
   margin-left: 110px; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    .gmclt_wxForecastText {
-      margin-left: 0; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   .gmclt_wxForecastText {
     margin-left: 0; } }
->>>>>>> feature/wlnk-v2
 
 @media screen and (min-width: 1200px)  {
   .gmclt_wxForecastText p {
@@ -15494,18 +15414,11 @@ h4.gmclt_wxForecastDayHeader {
 
 .gmclt_right {
   float: left; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    .gmclt_right {
-      float: right;
-      text-align: left; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   .gmclt_right {
     float: right;
     text-align: left; } }
->>>>>>> feature/wlnk-v2
 
 .gmclt_clear {
   clear: both; }
@@ -15521,50 +15434,30 @@ h4.gmclt_wxForecastDayHeader {
   margin: auto;
   width: 80%;
   height: 350px; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    #gmclt_stormwatchMapCanvas {
-      width: 100%;
-      height: 700px; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   #gmclt_stormwatchMapCanvas {
     width: 100%;
     height: 700px; } }
->>>>>>> feature/wlnk-v2
 
 #gmclt_radarMapCanvas {
   margin: auto;
   width: 80%;
   height: 300px; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    #gmclt_radarMapCanvas {
-      width: 100%; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   #gmclt_radarMapCanvas {
     width: 100%; } }
->>>>>>> feature/wlnk-v2
 
 #gmclt_trafficMapCanvas {
   margin: auto;
   width: 80%;
   height: 300px; }
-<<<<<<< HEAD
-  @media screen and (min-width: 1200px)  {
-    #gmclt_trafficMapCanvas {
-      width: 100%;
-      height: 700px; } }
-=======
 
 @media screen and (min-width: 1200px)  {
   #gmclt_trafficMapCanvas {
     width: 100%;
     height: 700px; } }
->>>>>>> feature/wlnk-v2
 
 .live-link__type--show {
   border-bottom-color: white;

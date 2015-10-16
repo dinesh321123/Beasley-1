@@ -17,21 +17,13 @@ GMCLT.Traffic = function() {
 		trafficLayer = new google.maps.TrafficLayer();
 		trafficLayer.setMap(trafficmap);
 		getTrafficIncidents();
-<<<<<<< HEAD
-		getTrafficCameras();
-=======
->>>>>>> feature/wlnk-v2
 	};
 
 	var getTrafficIncidents = function() {
 		var trafficListSource = jQuery("#list-template").html(); 
 		var trafficListTemplate = Handlebars.compile(trafficListSource);
 		
-<<<<<<< HEAD
-		var infowindow = new google.maps.InfoWindow({
-=======
 		infowindow = new google.maps.InfoWindow({
->>>>>>> feature/wlnk-v2
 	        content: 'Test content'
 	    });
 			
@@ -82,57 +74,6 @@ GMCLT.Traffic = function() {
 		};
 	};
 
-<<<<<<< HEAD
-	var	getTrafficCameras = function() {
-				
-		infowindow = new google.maps.InfoWindow({
-	        content: 'blank'
-	    });
-		
-		jQuery.getJSON(apiUrl + '/traffic/traffic.cfc?method=getActiveCameras&callback=?',
-		
-			function (cameraObject) {
-				
-				for (var i=0;i<cameraObject.length;i++) { 
-					var id = cameraObject[i].webId;
-					var location = new google.maps.LatLng(cameraObject[i].latitude, cameraObject[i].longitude);
-					var title = cameraObject[i].name;
-					
-					//create marker
-					window['camera' + id] = new google.maps.Marker({
-						position: location,
-						map: trafficmap,
-						icon: iconPath + 'trafficCamera.png',
-						title: title,
-						zIndex: 1
-					});
-
-					//Add listener for click
-					google.maps.event.addListener(window['camera' + id], 'click', buildCameraClickHandler(cameraObject[i]));
-					
-				}
-			})
-			.fail(function() {
-			   //do nothing. if no traffic cameras are available, it doens't detrimentally affect usability
-			});
-	};
-
-	var buildCameraClickHandler = function(i) {
-		return function() {
-			var id = i.webId;
-			var orientation = i.orientation;
-			var name = i.name;
-			var provider = i.provider;
-			var fullImage = i.fullImage;
-			
-			infowindow.setContent("<img src='" + fullImage + "' style='padding: 10px;' vspace='2' hspace='2'><h2>" + name + "</h2><p class='attribution'>" + orientation + "</p><p>" + provider + "</p>");
-			infowindow.open(trafficmap,window['camera' + id]);
-		};
-
-  };
-
-=======
->>>>>>> feature/wlnk-v2
   	var trafficError = function(area) {
 		var trafficErrorSource = jQuery("#error-template").html(); 
 		var trafficErrorTemplate = Handlebars.compile(trafficErrorSource);
