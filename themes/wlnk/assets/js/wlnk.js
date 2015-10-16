@@ -203,14 +203,21 @@ GMCLT.Traffic = function() {
 		trafficLayer = new google.maps.TrafficLayer();
 		trafficLayer.setMap(trafficmap);
 		getTrafficIncidents();
+<<<<<<< HEAD
 		getTrafficCameras();
+=======
+>>>>>>> feature/wlnk-v2
 	};
 
 	var getTrafficIncidents = function() {
 		var trafficListSource = jQuery("#list-template").html(); 
 		var trafficListTemplate = Handlebars.compile(trafficListSource);
 		
+<<<<<<< HEAD
 		var infowindow = new google.maps.InfoWindow({
+=======
+		infowindow = new google.maps.InfoWindow({
+>>>>>>> feature/wlnk-v2
 	        content: 'Test content'
 	    });
 			
@@ -261,6 +268,7 @@ GMCLT.Traffic = function() {
 		};
 	};
 
+<<<<<<< HEAD
 	var	getTrafficCameras = function() {
 				
 		infowindow = new google.maps.InfoWindow({
@@ -309,6 +317,8 @@ GMCLT.Traffic = function() {
 
   };
 
+=======
+>>>>>>> feature/wlnk-v2
   	var trafficError = function(area) {
 		var trafficErrorSource = jQuery("#error-template").html(); 
 		var trafficErrorTemplate = Handlebars.compile(trafficErrorSource);
@@ -323,10 +333,13 @@ GMCLT.Traffic = function() {
 	    return oPublic;
  
  }();
+<<<<<<< HEAD
 jQuery(document).ready(function(){
 	GMCLT.Weather.currentConditionsSubnav();
 });
 
+=======
+>>>>>>> feature/wlnk-v2
 GMCLT.Weather = function() {
 	 
  	var init = function() {
@@ -343,6 +356,7 @@ GMCLT.Weather = function() {
 		});
 	};
 	
+<<<<<<< HEAD
 	var currentConditionsSubnav = function() {
 		var index = jQuery("div.secondary-link:contains('Weather')").parents().eq(1).attr('id');
 		
@@ -374,6 +388,8 @@ GMCLT.Weather = function() {
 		jQuery('#' + index).html(htmlString);
 	};
 	
+=======
+>>>>>>> feature/wlnk-v2
 	var populateWeatherData = function(locationId) {
 		//init handlebars templates
 		var wxConditionsSource = jQuery("#currentConditions-template").html(); 
@@ -608,8 +624,12 @@ GMCLT.Weather = function() {
 	    {
 	      init: init,
 	      stormwatchInit: stormwatchInit,
+<<<<<<< HEAD
 	      populateWeatherData: populateWeatherData,
 	      currentConditionsSubnav: currentConditionsSubnav
+=======
+	      populateWeatherData: populateWeatherData
+>>>>>>> feature/wlnk-v2
 	    };
     return oPublic;
 	 

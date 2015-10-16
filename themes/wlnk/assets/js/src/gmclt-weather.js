@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 jQuery(document).ready(function(){
 	GMCLT.Weather.currentConditionsSubnav();
 });
 
+=======
+>>>>>>> feature/wlnk-v2
 GMCLT.Weather = function() {
 	 
  	var init = function() {
@@ -18,6 +21,7 @@ GMCLT.Weather = function() {
 		});
 	};
 	
+<<<<<<< HEAD
 	var currentConditionsSubnav = function() {
 		var index = jQuery("div.secondary-link:contains('Weather')").parents().eq(1).attr('id');
 		
@@ -49,6 +53,8 @@ GMCLT.Weather = function() {
 		jQuery('#' + index).html(htmlString);
 	};
 	
+=======
+>>>>>>> feature/wlnk-v2
 	var populateWeatherData = function(locationId) {
 		//init handlebars templates
 		var wxConditionsSource = jQuery("#currentConditions-template").html(); 
@@ -283,8 +289,12 @@ GMCLT.Weather = function() {
 	    {
 	      init: init,
 	      stormwatchInit: stormwatchInit,
+<<<<<<< HEAD
 	      populateWeatherData: populateWeatherData,
 	      currentConditionsSubnav: currentConditionsSubnav
+=======
+	      populateWeatherData: populateWeatherData
+>>>>>>> feature/wlnk-v2
 	    };
     return oPublic;
 	 

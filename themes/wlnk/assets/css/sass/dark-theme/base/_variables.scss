@@ -54,7 +54,11 @@ $secondary-link-hover: darken($color-text-red, 9%);
 $secondary-border: $dark-gray;
 
 // Section Variables
+<<<<<<< HEAD
 $header-bg: #22A7F0;
+=======
+$header-bg: $black;
+>>>>>>> feature/wlnk-v2
 $header-border: $dark-gray;
 $header-nav-bg: $cardinal;
 $header-search-bg: $black;

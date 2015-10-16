@@ -19,7 +19,11 @@ get_header();
 		<section class="article__content" itemprop="articleBody">
 			<?php the_content(); ?>
 			
+<<<<<<< HEAD
 			Choose a state to view WBT Operation Storm Watch Alerts:<br />
+=======
+			Choose a state to view National Weather Service Alerts Alerts:<br />
+>>>>>>> feature/wlnk-v2
 				<select id="gmclt_selectState" name="gmclt_selectState">
 					<option value="NC" selected="selected">NORTH CAROLINA</option>
 					<option value="SC">SOUTH CAROLINA</option>
@@ -79,7 +83,11 @@ get_header();
 			<div class="gmclt_wideColumn left">
 				<div class="gmcltWX_mapLoading">
 					<p>Loading...</p>
+<<<<<<< HEAD
 					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WBTajaxLoader.gif">
+=======
+					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WLNKajaxLoader.gif">
+>>>>>>> feature/wlnk-v2
 				</div>
 				<div id="gmclt_stormwatchMapCanvas"></div>
 			</div>

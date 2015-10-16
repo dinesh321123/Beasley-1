@@ -22,7 +22,11 @@ get_header();
 			<div class="gmclt_narrowColumn">
 				<div class="gmclt_wxLoading">
 					<p>Loading...</p>
+<<<<<<< HEAD
 					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WBTajaxLoader.gif">
+=======
+					<img src="<?php echo trailingslashit( get_stylesheet_directory_uri() ); ?>images/WLNKajaxLoader.gif">
+>>>>>>> feature/wlnk-v2
 				</div>
 				<div class="gmclt_wxSearch">
 					<input type="text" name="gmclt_wxSearch" id="gmclt_wxSearch" placeholder="Search for location..."><input type="submit" id="gmclt_wxSearchsubmit" value="Search">

@@ -13,5 +13,9 @@
 	Twitter:         @ericmann
 	
 /* SITE */
+<<<<<<< HEAD
 	Created:  2015-06-15
+=======
+	Created:  2015-10-16
+>>>>>>> feature/wlnk-v2
 	Template: https://github.com/10up/grunt-wp-theme

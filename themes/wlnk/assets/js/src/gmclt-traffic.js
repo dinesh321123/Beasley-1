@@ -17,14 +17,21 @@ GMCLT.Traffic = function() {
 		trafficLayer = new google.maps.TrafficLayer();
 		trafficLayer.setMap(trafficmap);
 		getTrafficIncidents();
+<<<<<<< HEAD
 		getTrafficCameras();
+=======
+>>>>>>> feature/wlnk-v2
 	};
 
 	var getTrafficIncidents = function() {
 		var trafficListSource = jQuery("#list-template").html(); 
 		var trafficListTemplate = Handlebars.compile(trafficListSource);
 		
+<<<<<<< HEAD
 		var infowindow = new google.maps.InfoWindow({
+=======
+		infowindow = new google.maps.InfoWindow({
+>>>>>>> feature/wlnk-v2
 	        content: 'Test content'
 	    });
 			
@@ -75,6 +82,7 @@ GMCLT.Traffic = function() {
 		};
 	};
 
+<<<<<<< HEAD
 	var	getTrafficCameras = function() {
 				
 		infowindow = new google.maps.InfoWindow({
@@ -123,6 +131,8 @@ GMCLT.Traffic = function() {
 
   };
 
+=======
+>>>>>>> feature/wlnk-v2
   	var trafficError = function(area) {
 		var trafficErrorSource = jQuery("#error-template").html(); 
 		var trafficErrorTemplate = Handlebars.compile(trafficErrorSource);
