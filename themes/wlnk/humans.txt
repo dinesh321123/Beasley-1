@@ -8,10 +8,6 @@
 	URI:             http://10up.com
 	Twitter:         @10up
 	
-	Template Design: Eric Mann
-	URI:             http://eamann.com
-	Twitter:         @ericmann
-	
 /* SITE */
 <<<<<<< HEAD
 	Created:  2015-06-15
