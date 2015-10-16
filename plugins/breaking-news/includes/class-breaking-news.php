@@ -82,13 +82,14 @@ if ( !class_exists( "Breaking_News" ) ) {
 		 */
 		public function show_breaking_news_banner() {
 			global $post;
-			$post = $this->get_latest_breaking_news_item();
+			$breaking_post = $this->get_latest_breaking_news_item();
 			
 			// Bail if no post.
-			if ( ! $post ) {
+			if ( ! $breaking_post ) {
 				return; 
 			}
 
+			$post = $breaking_post;
 			setup_postdata( $post );
 			
 			?>
