@@ -15283,7 +15283,11 @@ body {
 
 .header__sub {
   background-color: #000000;
-  height: 0; }
+  height: 48px; }
+
+@media screen and (min-width: 320px)  {
+  .header__sub {
+    height: 0; } }
 
 @media screen and (min-width: 768px)  {
   .header__sub {

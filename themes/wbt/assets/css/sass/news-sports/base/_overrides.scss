@@ -148,7 +148,13 @@ body {
 
 .header__sub {
     background-color: #000000;
-    height: 0;
+    height: 48px;
+}
+
+@include bp(x-small) {
+	.header__sub {
+		height: 0;
+	}
 }
 
 @include bp(medium) {
