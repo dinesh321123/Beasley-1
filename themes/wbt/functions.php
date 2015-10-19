@@ -11,10 +11,10 @@
  * @package WBT
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WBT_VERSION', '0.1.5' );
- 
+define( 'WBT_VERSION', '0.1.6' );
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WBT_VERSION', '0.1.5' );
 	load_theme_textdomain( 'wbt', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wbt_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,7 +43,7 @@ define( 'WBT_VERSION', '0.1.5' );
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wbt', get_stylesheet_directory_uri() . "/assets/css/wbt{$postfix}.css", array(), WBT_VERSION );
 	wp_enqueue_style( 'wbt_font', "http://fonts.googleapis.com/css?family=Lato", array(), WBT_VERSION );
 	wp_enqueue_script(
@@ -58,13 +58,13 @@ define( 'WBT_VERSION', '0.1.5' );
 
  }
  add_action( 'wp_enqueue_scripts', 'wbt_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wbt_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wbt_humans', $humans );
  }
  add_action( 'wp_head', 'wbt_header_meta' );

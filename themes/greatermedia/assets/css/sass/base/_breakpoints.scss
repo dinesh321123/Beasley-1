@@ -14,4 +14,5 @@ $breakpoints: (
 	large: new-breakpoint(min-width 1024px 12),
 	larger: new-breakpoint(min-width 1200px 12),
 	x-large: new-breakpoint(min-width 1400px 12),
+	ie9medium: new-breakpoint(max-width 767px 6),
 );

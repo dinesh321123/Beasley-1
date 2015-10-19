@@ -151,15 +151,9 @@ body {
     height: 48px;
 }
 
-@include bp(x-small) {
-	.header__sub {
-		height: 0;
-	}
-}
-
-@include bp(medium) {
+@include bp(ie9medium) {
     .header__sub {
-        height: 48px;
+        height: 0;
     }
 }
 
@@ -337,7 +331,7 @@ body {
 
 @include bp(larger) {
 	.gmclt_narrowColumnOne {
-		float: none;	
+		float: none;
 	}
 }
 
@@ -350,7 +344,7 @@ body {
 
 @include bp(larger) {
 	.gmclt_narrowColumnTwo {
-		float: none;	
+		float: none;
 	}
 }
 
@@ -373,7 +367,7 @@ body {
 .gmclt_wideColumn {
 	box-sizing: border-box;
 	font-size: 16px;
-	width: 100%;	
+	width: 100%;
 }
 
 @include bp(larger) {
@@ -405,7 +399,7 @@ body {
 
 @include bp(larger) {
 	.gmclt_wxMobile {
-		display: none;	
+		display: none;
 	}
 }
 
@@ -415,7 +409,7 @@ body {
 
 @include bp(larger) {
 	.gmclt_wxDesktop {
-		display: inline;	
+		display: inline;
 	}
 }
 
@@ -481,7 +475,7 @@ h4.gmclt_wxForecastDayHeader {
 
 @include bp(larger) {
 	.gmclt_wxForecastIcon {
-		float: right;	
+		float: right;
 	}
 }
 
@@ -496,7 +490,7 @@ h4.gmclt_wxForecastDayHeader {
 
 @include bp(larger) {
 	.gmclt_wxForecastIconShort {
-		float: none;	
+		float: none;
 	}
 }
 
@@ -660,8 +654,8 @@ h4.gmclt_wxForecastDayHeader {
 	.header__account:hover {
 		color: #000000;
 
-		.header__account--span, 
-		.header__account--logged-in, 
+		.header__account--span,
+		.header__account--logged-in,
 		.header__account--logged-out {
 			color: #000000;
 		}
