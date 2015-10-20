@@ -13,11 +13,8 @@
  */
 
  // Useful global constants
-<<<<<<< HEAD
-define( 'WBT_VERSION', '0.1.6' );
-=======
+
 define( 'WBT_VERSION', '0.1.10' );
->>>>>>> fix/wbt-ie-insanity
 
  /**
   * Set up theme defaults and register supported WordPress features.
