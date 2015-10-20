@@ -15289,10 +15289,6 @@ body {
   .header__sub {
     height: 0; } }
 
-.header__nav li {
-  font-size: 1.218em !important;
-  padding-bottom: 29px !important; }
-
 .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul {
   border-bottom: #CF000F; }
 
