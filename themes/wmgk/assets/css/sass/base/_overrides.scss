@@ -3,15 +3,29 @@
 }
 
 .header {
-	border-bottom: 1px solid #58595b;
+	background-color: #262626;
+    background-image: url("../../images/header-red-1.jpg");
+    background-repeat: repeat-x;
+    background-position: center top;
+    border-bottom: none;
 }
 
+.header__main {
+    border-top: none;
+    background-color: rgba(0, 0, 0, .3);
+}
+
+.home__featured .featured__article--content,
+.home__featured .featured__content--block {
+    background-image: linear-gradient(to left, #7e080f 0, #c02925 100%);
+}
 .home__featured {
-	@include bp(medium) {
-		background-position: left top;
-		background-color: #561015;
-		// background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
-	}
+    border: 1px solid #eee;
+    background: url("../../images/pattern1.png");
+}
+.home__highlights {
+    background: url("../../images/pattern2.png");
+    border-bottom-color: #d0d2d3;
 }
 
 .live-links {
@@ -109,19 +123,29 @@
 		top: -7px;
 	}
 }
-.home__highlights {
-	border-bottom-color: $primary-border;
+
+.highlights__community--title {
+	white-space: normal;
+	max-height: 4em;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#111));
+    background-image: -webkit-linear-gradient(top, transparent, #111);
+    background-image: -moz-linear-gradient(top, transparent, #111);
+    background-image: -o-linear-gradient(top, transparent, #111);
+    background-image: linear-gradient(to bottom, transparent, #111);
 }
 
 .highlights__events--more-btn {
+	background-color: #7D7E80;
+
 	&:hover {
-		color: $yellow !important;
-		border-color: $yellow;
+		background-color: rgba(77, 76, 76, 0.83);
+	    border-color: #959799!important;
+	    color: #acaeb0!important;
 	}
 }
 
 .highlights__event--item {
-	background-color: #8c8c8c;
+	background-color: rgba(0, 0, 0, .4);
 	color: $white;
 }
 
@@ -129,12 +153,27 @@
 	color: $white;
 
 	a:hover & {
-		color: $yellow;
+		color: #fbe374;
 	}
 }
 
 .highlights__heading {
 	color: $highlights-heading;
+	font-weight: 700;
+}
+
+.featured__article--heading {
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 1px #530606;
+    color: #fff;
+
+    &:hover {
+    	color: #fbe374;
+    }
+}
+.featured__content--btn {
+    display: none;
 }
 
 .type-contest .entry__title--tag {
@@ -148,4 +187,81 @@
 
 .footer {
 	background-color: $primary-bg;
+}
+
+/***** Tablet *****/
+
+@media screen and (min-width: 768px) {
+	.header {
+	    background-position: center bottom;
+	}
+    .live-player {
+        background-image: url("../../images/metal-texture.jpg");
+    }
+    .live-stream {
+        background-image: url("../../images/record-bg-final.png");
+        background-color: transparent;
+    }
+    .live-links {
+        background-color: transparent;
+    }
+    .live-player__stream {
+        display: none;
+    }
+    .live-link__song:before {
+        color: #c20411;
+        position: absolute;
+        left: 10px;
+    }
+    .live-link__song--artist {
+        color: #c20411;
+        font-weight: 600;
+    }
+    .noUi-base { /* VOLUME SLIDER MOVE DOWN - MAKE ROOM FOR RECORD PLAYER */
+        margin-top: 15px !important;
+    }
+    .now-playing__title {
+        font-weight: 400;
+    }
+    .now-playing__artist {
+        font-weight: 600
+    }
+    .widget--live-player__title {
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+}
+/***** DESKTOP *****/
+
+@media screen and (min-width: 1024px) {
+    .featured__content--block {
+        height: 100%;
+    }
+    .featured__content--image {
+        margin-right: 0;
+        width: 100%;
+        padding-top: 66.6%;
+    }
+    .featured__content--meta {
+        width: 100%;
+        min-height: 6.8em;
+    }
+    .featured__content--title {
+        font-size: 1.13em;
+    }
+}
+/***** LARGER DESKTOP *****/
+
+@media screen and (min-width: 1400px) {
+    .main {
+        background-image: url("../../images/bg-3.jpg");
+        background-position: top;
+        background-repeat: repeat-y;
+        background-color: #262626;
+    }
+    .home__featured .featured__article--content {
+        background-image: url("../../images/gtr.png"), linear-gradient(to left, #7e080f 0, #c02925 100%);
+        background-repeat: no-repeat;
+        background-position: right;
+    }
 }
