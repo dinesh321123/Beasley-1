@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WRIF_VERSION', '0.1.7' ); /* Version bump by Steve 8/31/2015 @ 10:30pm EST */
+define( 'WRIF_VERSION', '0.1.8' ); /* Version bump by Steve 10/21/2015 @ 2:40pm EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -44,6 +44,13 @@ define( 'WRIF_VERSION', '0.1.7' ); /* Version bump by Steve 8/31/2015 @ 10:30pm 
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wrif', get_stylesheet_directory_uri() . "/assets/css/wrif{$postfix}.css", array( 'google-fonts-wrif' ), WRIF_VERSION );
+	wp_enqueue_script(
+		'wrif',
+		get_stylesheet_directory_uri() . "/assets/js/wrif{$postfix}.js",
+		array(),
+		WRIF_VERSION,
+		true
+	);
 }
 add_action( 'wp_enqueue_scripts', 'wrif_scripts_styles', 20 );
 

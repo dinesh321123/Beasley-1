@@ -157,13 +157,18 @@
 #site-wrap.site-wrap {
     background-size: 100%;
     background-color: #000;
-    background-image: url(../../images/starbg.jpg);
+    background-image: url('../../images/starbg.jpg');
     background-repeat: repeat-x;
 }
 
 .header {
-    background-image: url(../../images/masttbg.jpg);
     border-bottom: 1px solid #D22228;
+}
+
+.header{
+    background-image: url('../../images/starmasttop.jpg')!important;
+    background-size: cover!important;
+    background-position: bottom center!important;
 }
 
 .header__main {
@@ -175,7 +180,7 @@
 
 .home__featured {
     background-color: transparent;
-    background-image: url(../../images/black60bg.png);
+    background-image: url('../../images/black60bg.png');
 }
 
 .featured__content--block,
@@ -208,18 +213,17 @@ header#header.header {
 .entries {
     background-color: #E5E5E5;
     background-repeat: repeat-x;
-    background-image: url(../../images/mainbg.jpg);
+    background-image: url('../../images/mainbg.jpg');
 }
 
 .content {
     background-color: #fff;
-    background-image: url(../../images/mainbg.jpg);
 }
 
 .gallery__archive {
     background-color: #E5E5E5!important;
     background-repeat: repeat-x;
-    background-image: url(../../images/mainbg.jpg);
+    background-image: url('../../images/mainbg.jpg');
 }
 
 .home__highlights {
@@ -249,4 +253,57 @@ h6 {
 .content {
     background-repeat: no-repeat;
     background-color: #E5E5E5;
+}
+
+/* Livefyre Overrides For Sidebar */
+
+.live-links {
+    border-top: 0;
+    margin: 0!important;
+    width: 100%;
+
+    .widget--live-player__title {
+        display: none;
+    }
+
+    .widget_gmr_blogroll_widget {
+        display: none;
+    }
+}
+
+.live-links--more.show-more--muted {
+    display: block;
+}
+
+.streamhub-wall-component {
+    article {
+        &.content-default .content-body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+        }
+    }
+}
+
+#wcsx-social-stream {
+    overflow: hidden;
+    border-top: 1px solid #eee;
+
+    article {
+        border-width: 0 0 1px 0;
+        margin: 0;
+        padding: 20px 0;
+
+        &.content .content-header .content-header-inner {
+            padding-top: 0;
+        }
+
+        &.content-instagram .content-header .content-header-inner {
+            padding-top: 20px;
+        }
+    }
+
+    .hub-list-more {
+        display: none;
+    }
 }

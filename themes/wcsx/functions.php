@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WCSX_VERSION', '0.2.2' ); /* Version bump by Steve 8/31/2015 @ 10:30pm EST */
+define( 'WCSX_VERSION', '0.2.3' ); /* Version bump by Steve 10/21/2015 @ 2:40pm EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -39,12 +39,20 @@ define( 'WCSX_VERSION', '0.2.2' ); /* Version bump by Steve 8/31/2015 @ 10:30pm 
   *
   * @since 0.1.1
   */
- function wcsx_scripts_styles() {$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
- 	wp_register_style('google-fonts-wcsx','//fonts.googleapis.com/css?family=Oswald:400,300,700',array(),null);
- 	wp_dequeue_style( 'greatermedia' );
- 	wp_deregister_style( 'greatermedia' );
- 	wp_enqueue_style( 'wcsx', get_stylesheet_directory_uri() . "/assets/css/wcsx{$postfix}.css", array( 'google-fonts-wcsx' ), WCSX_VERSION );
- }
+ function wcsx_scripts_styles() {
+  $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+  wp_register_style('google-fonts-wcsx','//fonts.googleapis.com/css?family=Oswald:400,300,700',array(),null);
+  wp_dequeue_style( 'greatermedia' );
+  wp_deregister_style( 'greatermedia' );
+  wp_enqueue_style( 'wcsx', get_stylesheet_directory_uri() . "/assets/css/wcsx{$postfix}.css", array( 'google-fonts-wcsx' ), WCSX_VERSION );
+  wp_enqueue_script(
+    'wcsx',
+    get_stylesheet_directory_uri() . "/assets/js/wcsx{$postfix}.js",
+    array(),
+    WCSX_VERSION,
+    true
+  );
+}
  add_action( 'wp_enqueue_scripts', 'wcsx_scripts_styles', 20 );
 
  /**

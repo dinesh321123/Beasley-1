@@ -264,3 +264,97 @@ footer.footer {
 .home_featured .featured_content-meta {
     min-height: 6.8em
 }
+
+@media screen and (min-width: 1400px) { 
+    .header__logo {
+        background-size: cover;
+        left: 0;
+        width: 290px;
+        max-width: 290px;
+        top:-10px;
+    }
+      
+    .header__logo--img
+    {
+        display:block;
+        top:-70px !important;
+    }
+     
+    .header__logo img
+    {
+        width: 100%;
+        height: auto;
+        max-height: inherit;
+        max-width: inherit;
+        z-index: 1;
+        display: block;
+        transform: none;
+    }
+}
+
+/* Livefyre Overrides For Sidebar */
+
+.live-links {
+    border-top: 0;
+    margin: 0!important;
+    width: 100%;
+
+    .widget--live-player__title {
+        display: none;
+    }
+
+    .widget_gmr_blogroll_widget {
+        display: none;
+    }
+}
+
+.live-links--more {
+    z-index:1000;
+}
+
+.live-links--more.show-more--muted {
+    display: block;
+}
+
+.streamhub-wall-component {
+    article {
+        &.content-default .content-body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+        }
+    }
+}
+
+#wrif-social-stream {
+    overflow: hidden;
+    border-top: 1px solid #eee;
+
+    article {
+        border-width: 0 0 1px 0;
+        margin: 0;
+        padding: 20px 0;
+
+        &.content .content-header .content-header-inner {
+            padding-top: 0;
+        }
+
+        &.content-instagram .content-header .content-header-inner {
+            padding-top: 20px;
+        }
+    }
+
+    .hub-list-more {
+        display: none;
+    }
+}
+
+#live-player__sidebar .live-links--more:before {
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #000000 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0), color-stop(100%, #000000)));
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #000000 100%);
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #000000 100%);
+    background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #000000 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #000000 100%);
+}
+

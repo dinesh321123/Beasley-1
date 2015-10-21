@@ -13,7 +13,6 @@
  */
 
  // Useful global constants
-
 define( 'WBT_VERSION', '0.1.10' );
 
  /**

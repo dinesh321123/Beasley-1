@@ -15038,16 +15038,13 @@ body {
 .live-player__stream {
   display: none; }
 
-.live-links {
-  border-top: 0;
-  display: none !important; }
-
 .single-gmr_gallery .gallery__paging--prev, .single-gmr_gallery .gallery__paging--next {
   color: #d0d2d3; }
   .single-gmr_gallery .gallery__paging--prev:hover, .single-gmr_gallery .gallery__paging--next:hover {
     color: #d22228; }
 
 .live-links {
+  border-top: 0;
   background-color: transparent !important; }
 
 .live-player {
@@ -15078,6 +15075,7 @@ body {
   border-bottom: 0 !important; }
 
 .live-player__stream {
+  display: none !important;
   border: 1px solid #b0b0b0;
   color: #b0b0b0;
   -webkit-border-radius: 1em;

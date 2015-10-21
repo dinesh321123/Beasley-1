@@ -15010,6 +15010,12 @@ body {
     .home__featured {
       background-position: left top; } }
 
+.highlights__events .highlights__heading {
+  visibility: hidden !important; }
+
+.highlights__events--more-btn {
+  visibility: hidden !important; }
+
 .single-show .content {
   padding: 0; }
 
@@ -15227,6 +15233,12 @@ a:hover .highlights__community--title {
 .content-body {
   font-family: sans-serif;
   font-size: 15px; }
+
+.footer__ad {
+  height: 90px !important; }
+
+.gmclt_endorsementLogo {
+  display: inline !important; }
 
 .live-link__type--show {
   border-bottom-color: white;

@@ -15262,9 +15262,44 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
 .home__highlights {
   border-bottom-color: #b8babc; }
 
-.ad__leaderboard {
-  background-size: 100%;
-  background-image: url(../../images/lightsmast.jpg); }
+.header {
+  background-size: cover !important;
+  background-image: url('../../images/lightsmast.jpg'); }
+
+.live-links {
+  border-top: 0;
+  margin: 0 !important;
+  width: 100%; }
+  .live-links .widget--live-player__title {
+    display: none; }
+  .live-links .widget_gmr_blogroll_widget {
+    display: none; }
+
+.live-links--more {
+  z-index: 1000; }
+
+.live-links--more.show-more--muted {
+  display: block;
+  width: 300px; }
+
+.streamhub-wall-component article.content-default .content-body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 20px; }
+
+#wmgc-social-stream {
+  overflow: hidden;
+  border-top: 1px solid #eee; }
+  #wmgc-social-stream article {
+    border-width: 0 0 1px 0;
+    margin: 0;
+    padding: 20px 0; }
+    #wmgc-social-stream article.content .content-header .content-header-inner {
+      padding-top: 0; }
+    #wmgc-social-stream article.content-instagram .content-header .content-header-inner {
+      padding-top: 20px; }
+  #wmgc-social-stream .hub-list-more {
+    display: none; }
 
 /*//////////
 // WMGC's overrides

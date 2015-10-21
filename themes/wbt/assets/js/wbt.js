@@ -193,7 +193,7 @@ GMCLT.Stocks = function() {
 	}
 	
 	var populateStockQuote = function() {
-		var htmlString = '<a href="/category/business-news/"><div class="secondary-link"><img class="gmclt_stocksHeaderIcon" src="/wp-content/themes/wbt/images/stocks/' + stockObject[currentStock].arrow + '.png"> ' + stockObject[currentStock].shortName + ': ' + stockObject[currentStock].change + '</div></a>';
+		var htmlString = '<a href="/category/business-news/"><div class="secondary-link"><img style="height: 17px; width: 13px; display: inline; vertical-align: top;" class="gmclt_stocksHeaderIcon" src="/wp-content/themes/wbt/images/stocks/' + stockObject[currentStock].arrow + '.png"> ' + stockObject[currentStock].shortName + ': ' + stockObject[currentStock].change + '</div></a>';
 		jQuery('#' + index).html(htmlString);
 		
 		if (stockObject.length == currentStock+1) {
@@ -350,7 +350,7 @@ GMCLT.Weather = function() {
 	}
 	
 	var populateCurrentConditionsSubnav = function(temperature,graphicCode,index) {
-		var htmlString = '<a href="/weather"><div class="secondary-link"><img class="gmclt_wxHeaderIcon" src="/wp-content/themes/wbt/images/wx/' + graphicCode +  '.png"> ' + temperature + '&deg;</div></a>';
+		var htmlString = '<a href="/weather"><div class="secondary-link"><img style="height: 35px; display: inline; margin-top: -10px; vertical-align: top;" class="gmclt_wxHeaderIcon" src="/wp-content/themes/wbt/images/wx/' + graphicCode +  '.png"> ' + temperature + '&deg;</div></a>';
 		jQuery('#' + index).html(htmlString);
 	};
 	

@@ -109,11 +109,6 @@ body {
 	display: none;
 }
 
-.live-links {
-	border-top: 0;
-	display: none !important;
-}
-
 .single-gmr_gallery .gallery__paging--prev,
 .single-gmr_gallery .gallery__paging--next {
 	color: $light-gray;
@@ -124,6 +119,7 @@ body {
 }
 
 .live-links {
+	border-top: 0;
 	background-color: transparent !important;
 }
 
@@ -166,6 +162,7 @@ body {
 }
 
 .live-player__stream {
+	display: none !important;
 	border: 1px solid lighten($color-gray-medium-dark,50%);
 	color: lighten($color-gray-medium-dark,50%);
 	@include border-radius(1em);

@@ -21,7 +21,7 @@ if ( defined( 'WMGC_ENV' ) && 'dev' == WMGC_ENV ) {
 	// So that things like cloudflare don't hold on to our css during dev
 	define( 'WMGC_VERSION', time() );
 } else {
-	define( 'WMGC_VERSION', '0.2.3' ); /* Version bump by Steve 8/31/2015 @ 10:30pm EST */
+	define( 'WMGC_VERSION', '0.2.4' ); /* Version bump by Steve 10/21/2015 @ 2:40pm EST */
 }
 
 /**
@@ -90,3 +90,19 @@ function wmgc_header_meta() {
 }
 
 add_action( 'wp_head', 'wmgc_header_meta' );
+
+/**
+* Add Chartbeat to site.
+*/
+function wmgc_chartbeat_header() {
+	$content = '<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>';
+
+	echo apply_filters( 'wmgc_chartbeat_header', $content );
+}
+add_action( 'wp_head', 'wmgc_chartbeat_header' );
+
+function wmgc_chartbeat_footer() {
+	$content = '<script type="text/javascript">var _sf_async_config={uid:2332,domain:"detroitsports1051.com",useCanonical:true};(function(){function loadChartbeat() {window._sf_endpt=(new Date()).getTime();var e = document.createElement(\’script\’);e.setAttribute(\’language\’, \’javascript\’);e.setAttribute(\’type\’, \’text/javascript\’);e.setAttribute(\’src\’, \’//static.chartbeat.com/js/chartbeat.js\');document.body.appendChild(e);}var oldonload = window.onload;window.onload = (typeof window.onload != \’function\’) ?loadChartbeat : function() { oldonload(); loadChartbeat(); };})();</script>';
+	echo apply_filters( 'wmgc_chartbeat_footer', $content );
+}
+add_action( 'wp_footer', 'wmgc_chartbeat_footer' );

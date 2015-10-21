@@ -45,7 +45,7 @@ GMCLT.Weather = function() {
 	}
 	
 	var populateCurrentConditionsSubnav = function(temperature,graphicCode,index) {
-		var htmlString = '<a href="/weather"><div class="secondary-link"><img class="gmclt_wxHeaderIcon" src="/wp-content/themes/wbt/images/wx/' + graphicCode +  '.png"> ' + temperature + '&deg;</div></a>';
+		var htmlString = '<a href="/weather"><div class="secondary-link"><img style="height: 35px; display: inline; margin-top: -10px; vertical-align: top;" class="gmclt_wxHeaderIcon" src="/wp-content/themes/wbt/images/wx/' + graphicCode +  '.png"> ' + temperature + '&deg;</div></a>';
 		jQuery('#' + index).html(htmlString);
 	};
 	

@@ -15260,7 +15260,8 @@ body {
   color: #0A3FAB; }
 
 .header {
-  background-image: url(http://assets.wbt.com/images/skyscraperHeaderImage.jpg); }
+  background-image: url(http://assets.wbt.com/images/skyscraperHeaderImage.jpg);
+  background-position: center top; }
 
 .footer__ad .desktop {
   height: 90px; }
