@@ -13,7 +13,7 @@
  */
  
  // Useful global constants
-define( 'WLNK_VERSION', '0.1.4' );
+define( 'WLNK_VERSION', '0.1.5' );
  
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -41,11 +41,15 @@ define( 'WLNK_VERSION', '0.1.4' );
   */
  function wlnk_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-
+	
+	global $wp_styles;
+	
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );	
 	wp_enqueue_style( 'wlnk', get_stylesheet_directory_uri() . "/assets/css/wlnk{$postfix}.css", array(), WLNK_VERSION );
-	wp_enqueue_style( 'wbt_font', "http://fonts.googleapis.com/css?family=Work+Sans", array(), WLNK_VERSION );
+	wp_enqueue_style( 'wlnk_ie', get_stylesheet_directory_uri() . "/assets/css/wlnk_ie.css", array('wlnk'), WLNK_VERSION );
+	$wp_styles->add_data( 'wlnk_ie', 'conditional', 'lte IE 9' );
+	wp_enqueue_style( 'wlnk_font', "http://fonts.googleapis.com/css?family=Work+Sans", array(), WLNK_VERSION );
 	wp_enqueue_script(
         'wlnk',
         get_stylesheet_directory_uri() . "/assets/js/wlnk{$postfix}.js",
