@@ -763,7 +763,7 @@ img {
   width: 100%;
   max-height: 58px;
   background-color: #f2f2f2;
-  color: #404041;
+  color: #000000;
   cursor: pointer;
   -webkit-transition: all 200ms ease-in-out;
   -moz-transition: all 200ms ease-in-out;
@@ -5744,7 +5744,7 @@ body.profile-page-login .live-player--mobile {
   border-radius: 1em;
   border: 1px solid #58595B;
   background-color: #191919;
-  color: #404041;
+  color: #000000;
   cursor: pointer;
   -webkit-transition: all 500ms ease-in-out;
   -moz-transition: all 500ms ease-in-out;
@@ -5807,7 +5807,7 @@ body.profile-page-login .live-player--mobile {
   font-size: 0.88889em; }
   .live-player__stream--current.open {
     display: block;
-    color: #404041;
+    color: #000000;
     z-index: 10; }
 
 .live-player__stream--current:after {
@@ -15043,6 +15043,9 @@ body {
 .show__mini-nav .show__header .show__nav .show__title {
   padding: 0 10px 2px 0; }
 
+.profile-page .profile-page__sidebar {
+  background-color: #333399; }
+
 .header__logo--img {
   max-height: 30px;
   max-width: none;
@@ -15054,10 +15057,13 @@ body {
       max-height: 50px; } }
 
 .live-player__stream {
-  display: none; }
+  display: none !important; }
 
 .live-links {
   border-top: 0; }
+
+.live-stream__btn--play {
+  background: #CF000F; }
 
 .single-gmr_gallery .gallery__paging--prev, .single-gmr_gallery .gallery__paging--next {
   color: #d0d2d3; }
@@ -15075,7 +15081,7 @@ body {
   background-size: 100%; }
   @media screen and (min-width: 768px)  {
     .live-stream {
-      background-image: url(http://assets.gmclt.com/images/BobAndSheriPlayer.jpg); } }
+      background-image: url(../../images/bobandsheriPlayer-bg.png); } }
 
 @media screen and (min-width: 768px)  {
   .on-air {
