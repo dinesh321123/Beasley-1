@@ -149,9 +149,6 @@ Curated posts for Featured Articles
 
 	.news-site & {
 		@include fill-parent();
-		display: table;
-		table-layout: fixed;
-		padding: 5px 0 0;
 	}
 }
 
@@ -390,11 +387,9 @@ a.featured__article--link {
 	}
 
 	.news-site & {
-		display: table-cell;
-		float: none;
-		width: 100%;
+		width: 33.3333333333%;
 		height: 100%;
-		padding: 0;
+		padding: 5px 0 0;
 		margin: 0;
 		background-color: transparent;
 	}

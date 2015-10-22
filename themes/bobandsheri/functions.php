@@ -11,10 +11,10 @@
  * @package BOBANDSHERI
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'BOBANDSHERI_VERSION', '0.1.3' );
- 
+define( 'BOBANDSHERI_VERSION', '0.1.4' ); /* Version bump by Allen 10/22/2015 @ 9:45am EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'BOBANDSHERI_VERSION', '0.1.3' );
 	load_theme_textdomain( 'bobandsheri', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'bobandsheri_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,7 +43,7 @@ define( 'BOBANDSHERI_VERSION', '0.1.3' );
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'bobandsheri', get_stylesheet_directory_uri() . "/assets/css/bobandsheri{$postfix}.css", array(), BOBANDSHERI_VERSION );
 	wp_enqueue_style( 'bobandsheri_font', "http://fonts.googleapis.com/css?family=Work+Sans", array(), BOBANDSHERI_VERSION );
 	wp_enqueue_script(
@@ -53,16 +53,16 @@ define( 'BOBANDSHERI_VERSION', '0.1.3' );
         WBT_VERSION,
         true
     );
-    
+
  }
  add_action( 'wp_enqueue_scripts', 'bobandsheri_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function bobandsheri_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'bobandsheri_humans', $humans );
  }
  add_action( 'wp_head', 'bobandsheri_header_meta' );

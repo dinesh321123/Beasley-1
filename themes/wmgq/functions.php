@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WMGQ_VERSION', '0.2.1' ); /* Version bump by Steve 91/2015 @ 9:30am EST */
+define( 'WMGQ_VERSION', '0.2.2' ); /* Version bump by Allen 10/22/2015 @ 9:45am EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.

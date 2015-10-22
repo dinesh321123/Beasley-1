@@ -11,10 +11,10 @@
  * @package WLNK
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WLNK_VERSION', '0.1.6' );
- 
+define( 'WLNK_VERSION', '0.1.8' ); /* Version bump by Allen 10/22/2015 @ 9:45am EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WLNK_VERSION', '0.1.6' );
 	load_theme_textdomain( 'wlnk', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wlnk_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -41,11 +41,11 @@ define( 'WLNK_VERSION', '0.1.6' );
   */
  function wlnk_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-	
+
 	global $wp_styles;
-	
+
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wlnk', get_stylesheet_directory_uri() . "/assets/css/wlnk{$postfix}.css", array(), WLNK_VERSION );
 	wp_enqueue_style( 'wlnk_ie', get_stylesheet_directory_uri() . "/assets/css/wlnk_ie.css", array('wlnk'), WLNK_VERSION );
 	$wp_styles->add_data( 'wlnk_ie', 'conditional', 'lte IE 9' );
@@ -61,13 +61,13 @@ define( 'WLNK_VERSION', '0.1.6' );
     wp_enqueue_script( 'googlemaps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array() );
  }
  add_action( 'wp_enqueue_scripts', 'wlnk_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wlnk_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wlnk_humans', $humans );
  }
  add_action( 'wp_head', 'wlnk_header_meta' );

@@ -2057,10 +2057,7 @@ Curated posts for Featured Articles
   .featured__content:after {
     clear: both; }
   .news-site .featured__content {
-    width: 100%;
-    display: table;
-    table-layout: fixed;
-    padding: 5px 0 0; }
+    width: 100%; }
 
 .featured__article {
   display: block;
@@ -2306,11 +2303,9 @@ a.featured__article--link {
     background-color: #270e10;
     color: #d0d2d3; }
   .news-site .featured__content--block {
-    display: table-cell;
-    float: none;
-    width: 100%;
+    width: 33.33333%;
     height: 100%;
-    padding: 0;
+    padding: 5px 0 0;
     margin: 0;
     background-color: transparent; }
 
