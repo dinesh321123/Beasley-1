@@ -15004,6 +15004,9 @@ body {
   .home__featured {
     background-position: left top; } }
 
+.profile-page .profile-page__sidebar {
+  background-color: #3399FF; }
+
 .show__header {
   background-image: none; }
 
