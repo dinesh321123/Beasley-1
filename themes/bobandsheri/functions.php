@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'BOBANDSHERI_VERSION', '0.1.4' ); /* Version bump by Allen 10/22/2015 @ 9:45am EST */
+define( 'BOBANDSHERI_VERSION', '0.1.5' ); /* Version bump by Allen 10/23/2015 @ 11:00 a.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -53,7 +53,14 @@ define( 'BOBANDSHERI_VERSION', '0.1.4' ); /* Version bump by Allen 10/22/2015 @ 
         WBT_VERSION,
         true
     );
-
+    wp_enqueue_script(
+	    'steel-media',
+	    'https://secure.adnxs.com/seg?add=3581739&t=1',
+	    array(),
+	    null,
+	    true
+	);
+    
  }
  add_action( 'wp_enqueue_scripts', 'bobandsheri_scripts_styles', 20 );
 

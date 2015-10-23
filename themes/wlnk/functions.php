@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WLNK_VERSION', '0.1.8' ); /* Version bump by Allen 10/22/2015 @ 9:45am EST */
+define( 'WLNK_VERSION', '0.1.9' ); /* Version bump by Allen 10/23/2015 @ 11:00 a.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -57,6 +57,13 @@ define( 'WLNK_VERSION', '0.1.8' ); /* Version bump by Allen 10/22/2015 @ 9:45am 
         WLNK_VERSION,
         true
     );
+    wp_enqueue_script(
+	    'steel-media',
+	    'https://secure.adnxs.com/seg?add=3581727&t=1',
+	    array(),
+	    null,
+	    true
+		);
     wp_enqueue_script( 'handlebars', get_stylesheet_directory_uri() . '/assets/js/vendor/handlebars-v3.0.3.js', array( 'jquery' ) );
     wp_enqueue_script( 'googlemaps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array() );
  }
