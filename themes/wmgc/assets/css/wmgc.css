@@ -15300,21 +15300,4 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
   #wmgc-social-stream .hub-list-more {
     display: none; }
 
-/*//////////
-// WMGC's overrides
-//////////
-*/
-#header, #featured, h1, h2, h3, h4, h5, h6 {
-  font-family: oswald !important; }
-
-.header__logo {
-  background: transparent !important; }
-
-.header__sub {
-  background-color: #333333 !important; }
-
-.ad__leaderboard {
-  background-size: 100% !important;
-  background-image: url(http://detroitsports1051.com/wp-content/uploads/sites/23/2015/05/lightsmast.jpg); }
-
 /*# sourceMappingURL=wmgc.css.map */
