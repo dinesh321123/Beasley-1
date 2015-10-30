@@ -1,0 +1,1370 @@
+.main, %main {
+    background-color: $primary-bg;
+}
+
+.header {
+    border-bottom: 1px solid #58595b;
+}
+
+.home__featured {
+    @include bp(medium) {
+        background-position: left top;
+        background-color: #561015;
+        // background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
+    }
+}
+
+.live-links {
+    border-top: 0;
+}
+
+.single-gmr_gallery .gallery__paging--prev,
+.single-gmr_gallery .gallery__paging--next {
+    color: $light-gray;
+
+    &:hover {
+        color: $cardinal;
+    }
+}
+
+.main .fyre .fyre-livecount {
+    visibility: hidden;
+}
+
+.live-player__stream {
+    border: 1px solid lighten($color-gray-medium-dark,50%);
+    color: lighten($color-gray-medium-dark,50%);
+    @include border-radius(1em);
+    background-color: $liveplayer-bg;
+
+    li {
+        height: auto;
+    }
+
+    .live-player__stream--available {
+        display: none;
+    }
+
+    .live-player__stream--current.open .live-player__stream--available {
+        color: $dark-gray;
+        border-top: 1px solid darken($color-gray-light, 10%);
+
+        &:after {
+            background: transparent;
+        }
+
+        .live-player__stream--item, .live-player__stream--desc {
+            color: $dark-gray;
+        }
+
+        .live-player__stream--item {
+            background-color: $liveplayer-bg;
+
+            &:hover {
+                background-color: $light-gray;
+            }
+        }
+
+        li:last-child {
+            @include border-bottom-radius(1em);
+        }
+    }
+
+}
+
+
+
+.now-playing__artist {
+    color: $color-gray-medium-dark;
+}
+
+.live-link__title, .live-link__title a:link, .live-link__title a:visited {
+    color: $color-gray-medium;
+}
+
+.live-link__song:before {
+    color: $medium-dark-gray;
+}
+
+.live-link__song--artist {
+    color: $medium-dark-gray;
+}
+
+.live-link__song--title {
+    color: $dark-gray;
+
+    a, a:visited {
+        color: $darker-gray;
+    }
+}
+
+.live-link__title a:link, .live-link__title a:visited {
+    color: $color-gray-medium;
+}
+
+.live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
+    color: $primary-link-hover;
+}
+
+.header__logo {
+    @include bp(medium) {
+        top: -7px;
+    }
+}
+.home__highlights {
+    border-bottom-color: $primary-border;
+}
+
+.highlights__events--more-btn {
+    &:hover {
+        color: $yellow ;
+        border-color: $yellow;
+    }
+}
+
+.highlights__event--item {
+    background-color: #8c8c8c;
+    color: $white;
+}
+
+.highlights__event--title, .highlights__event--date {
+    color: $white;
+
+    a:hover & {
+        color: $yellow;
+    }
+}
+
+.highlights__heading {
+    color: $highlights-heading;
+}
+
+.type-contest .entry__title--tag {
+    background-color: $light-gray;
+    border-color: $light-gray;
+}
+
+.audio__progress-bar {
+    background-color: $gray;
+}
+
+.footer {
+    background-color: $primary-bg;
+}
+
+
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500);
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
+@import url(https://fonts.googleapis.com/css?family=Permanent+Marker);
+@import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
+
+
+
+/* CUSTOM OVERRIDES BELOW */
+
+#site-wrap.site-wrap {background-size: cover;
+                      background-color: #061222;
+                      /*background-image:url("http://i.imgur.com/AQ8tELI.jpg")!important;*/
+                      background-image:url("../../images/santa-winter-background.jpg");
+                      background-repeat: no-repeat;
+                      background-attachment: fixed;
+
+                    }
+
+ #page-wrap.page-wrap,
+.main
+ {
+    background-color: transparent; 
+    background-image: none;
+} 
+
+.home {
+
+
+    .container {
+    background-color: transparent; 
+    background-image: none;
+    } 
+
+}
+    
+.main .container {
+    
+    background-color: rgba(255,255,255,.75);
+    }          
+
+/*Show header and link */
+
+.show__header.has-thumbnail:before {
+  background-image: linear-gradient(to bottom,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  background-image: -moz-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  background-image: -o-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  background-image: -ms-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,42,110,.45)),to(rgba(0,42,110,.45)));
+  background-image: -webkit-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
+  content: " ";
+}
+
+.show__nav h1 a:hover{color: #ffe513; text-decoration:none;}
+
+/* end */
+
+/*members profile pages */
+
+.profile-page .profile-page__sidebar {
+      color: #fff;
+      background: url(../../images/profile-bg.png) transparent;
+      text-align: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+}
+
+.profile-page__sidebar .profile-header-link {color: #a8d6f7;}
+.profile-page__sidebar .profile-header-link:hover {color: #ffe411;}
+
+#profile-content .gigya-screen input[type="submit"] {background-color: #002a6e;}
+
+/* end */
+
+
+
+
+.highlights__heading {
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: #b72f2c;
+    text-shadow: 2px 2px 2px rgba(183, 47, 44, 0.4);
+}
+
+
+.home__highlights {
+    background: url("../../images/pw_maze_gray.png");
+    border-bottom-color: $primary-border;
+}
+
+
+
+
+/*mobile nav */
+.mobile-nav__list {
+    background-color: #c20411;
+}
+.mobile-nav .mobile-menu-submenu-header {background-color: #c20411;color: #fff;padding: 18px 1.25em;}
+.mobile-nav__list a:hover, .ui-menu .ui-state-focus {background-color: #166031;}
+.mobile-nav .social__link:visited {color:#fff;border-color: #fff;}
+.mobile-nav .social__link:hover{color:#a8d6f7;border-color: #a8d6f7;}
+
+.social__link:hover {color:#a8d6f7;border-color: #a8d6f7;}
+
+/* mobile contests */
+.contest__prize--title {color: #002a6e;}
+button.button {background-color: #002a6e;border: 1px solid #80b1ff;}
+button.button:hover {background-color: #80b1ff;border: 1px solid #002a6e;}
+.contest-attr--rules-toggler {background-color: #002a6e;border:solid 1px #002a6e;}
+.contest-attr--rules-toggler:hover {background-color: #ffe513; color: #002a6e;}
+a.contest-attr--rules-toggler.pjax-exclude:hover{background-color: #a8d6f7; color: #002a6e;border: 1px solid #002a6e;}
+
+
+.h1 a:active, .h1 a:focus, .h1 a:hover,
+.h2 a:active, .h2 a:focus, .h2 a:hover,
+.h3 a:active, .h3 a:focus, .h3 a:hover,
+.h4 a:active, .h4 a:focus, .h4 a:hover,
+.h5 a:active, .h5 a:focus, .h5 a:hover,
+.h6 a:active, .h6 a:focus, .h6 a:hover,
+.type-contest .entry2__thumbnail--contest-type a:active,
+.type-contest .entry2__thumbnail--contest-type a:focus,
+.type-contest .entry2__thumbnail--contest-type a:hover,
+.type-contest .entry2__thumbnail--end-date a:active,
+.type-contest .entry2__thumbnail--end-date a:focus,
+.type-contest .entry2__thumbnail--end-date a:hover,
+.type-tribe_events .entry2__thumbnail--event-date a:active,
+.type-tribe_events .entry2__thumbnail--event-date a:focus,
+.type-tribe_events .entry2__thumbnail--event-date a:hover,
+h1 a:active,h1 a:focus, h1 a:hover,
+h2 a:active, h2 a:focus, h2 a:hover,
+h3 a:active, h3 a:focus, h3 a:hover,
+h4 a:active, h4 a:focus, h4 a:hover,
+h5 a:active, h5 a:focus, h5 a:hover,
+h6 a:active, h6 a:focus, h6 a:hover {
+  color: #002a6e;
+}
+
+a.social__link, a.social-share-link {
+        color: #166031;
+        border-color: #166031;
+
+        &:hover {
+            color: #c20411;
+            border-color: #c20411;
+        }
+}
+.footer__menu li:first-of-type a.social__link,
+.footer__menu li:last-of-type a.social__link {
+
+        color: #fff;
+        border-color: #fff;
+
+        &:hover {
+            color: #166031;
+            border-color: #166031;
+        }
+}
+
+
+.contest__prize--title {color: #002a6e;}
+/* ------------- LIVE PLAYER BTN -------------------------------*/
+
+div#live-player {
+    background: url("../../images/brushed-metal.jpg") transparent;
+    background-position: center; 
+}
+
+.live-player__stream{
+    margin-top: 3px; 
+    z-index: 1001;
+    background-color: rgba(194,4,17,1);
+    color: #fff;
+
+    .live-player__stream--current.open{
+        color:#fff;
+    }
+
+}
+.live-stream__login {background-color: #002a6e;}
+.live-stream__btn--play,
+.live-stream__btn--pause,
+.live-stream__btn--resume,
+.live-stream__btn--loading  {
+    background-color: #c20411;
+    color: #fff; border: 1px solid #c20411;
+    -webkit-transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+
+.live-player__container, .no-volume-control{background-color: #002a6e;}
+
+
+
+
+.live-links--more {
+    background-color: #fff;
+    &:before {
+        background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#9f9c9c 100%);
+    }
+
+    .live-links--more__btn {
+        border: none;
+        background-color: #c20411;
+        &:hover {
+            background-color:#00730e;
+            color: #fff!important;
+        }
+    }
+
+}
+
+.live-player--open .live-links {margin-top:0px;padding: 0px 0px 0px;}
+/* ------------- LIVE PLAYER BTN -------------------------------*/
+
+/* ------------- HIGHLIGHTS -------------------------------*/
+
+
+/* END HIGHLIGHTS */
+
+.header__main {
+    border-top: none;
+    background-color: #c41230;
+    border-bottom: none;
+    height:82px;
+}
+
+.home__featured {
+
+    background-color: transparent;
+    background-image: none;
+    border: 0px solid #eee;
+    /*background: url("../../images/bg_babyblue.jpg");*/
+    background-image: url(../../images/bg_60.png);
+
+    .featured__article--heading {
+    color:#FFF!important;
+    }
+    
+    .featured__article--image {
+        background-color: transparent;
+    }
+    .featured__article--content {
+        background-color: #00730e;
+        color: #fff;
+    }
+
+    .featured__article:hover .featured__article--content {
+        
+        background-color: #c20411;
+        color: #fff;
+    }
+
+    .featured__content--block {
+        background-color: #00730e;
+        color: #fff;
+
+        &:hover{
+        background-color: #c20411;
+        color: #fff;
+        }
+    }
+
+    .featured__content--block:hover .featured__content--title {
+             
+        color: #fff;
+    }
+
+    .featured__article:hover .featured__article--heading {
+        color:#fff;
+        text-shadow:2px 2px 2px rgba(21,9,88,.3)
+    }
+
+}
+
+
+
+.featured__content--title {color: #FFFFFF;font-family: 'Ubuntu', sans-serif;}
+.featured__content--title:hover {color: #fff;font-family: 'Ubuntu', sans-serif;}
+/* ------------- END HIGHLIGHTS -------------------------------*/
+
+
+
+/* ------------- MASTHEAD -------------------------------*/
+.header {
+    background-color: #c20411;
+    background-image: url("../../images/hdr_christmas.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+
+
+.header__nav { font-family: 'Ubuntu', sans-serif }
+
+
+
+.header__logo {
+  background-image: url("../../images/Magic_logo_xmas-trans.png");
+  background-repeat: no-repeat;
+  float: left;
+  display: block;
+  width: 50.288514824%;
+  margin-left: 26.855742588%;
+  margin-top: 3.355742588%;
+  height: 57px;
+  padding: 18px 0;
+  line-height: 1;
+  position: relative;
+  background-size: contain;
+  background-position:center;
+    .header__logo--img,.header__logo img {
+        display: none;
+    }
+
+
+}
+
+
+
+
+/* ------------- END MASTHEAD -------------------------------*/
+
+
+.highlights__event--item {
+    background-color: rgba(0,0,0,.1);
+    color: $white;
+
+    &:hover {
+        background-color: rgba(22, 96, 49, .2);
+    }
+}
+
+.highlights__event--title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    color: #b72f2c;
+
+    a:hover & {
+        color: #166031;
+    }
+}
+
+.highlights__event--date {
+    color: #b72f2c;
+
+    a:hover & {
+        color: #166031;
+    }
+}
+
+
+
+.featured__content--block:hover .featured__content--title{
+    color: #fff;
+}
+.content__heading,
+.sponsors__heading { color: #c41230;font-family: 'Ubuntu', sans-serif }
+
+.featured__content--btn {
+    display: inline-block;
+    line-height: 1;
+    padding: .25em 1.2em;
+    margin-right: .5em;
+    outline: 0;
+    background-color: #ffe50f;
+    border: 1px solid #ffe50f;
+    font-size: .7em;
+    color: #002a6e;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 100em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+
+
+.highlights__events--more-btn {
+    background-color: #c20000;
+    color: #fff!important;
+    text-transform: uppercase;
+
+    &:hover {
+        color: #fff!important;
+        background-color: #00730e;
+        border-color: #c20000;
+    }
+}
+
+.contest__prize--title {
+    margin: 0 0 .25em;
+    font-size: 1.60181em;
+    color: #d22228;
+    font-family: 'Ubuntu' sans-serif;
+}
+.entry__title,
+.page__title {
+    margin: 0 0 20px;
+    font-size: 1.60181em;
+    font-family: 'Ubuntu' sans-serif;
+}
+
+h2.entry2__title a:link,
+h2.entry2__title a:visited
+                        {color: #c41230;font-family: 'Ubuntu', sans-serif ; font-weight: 700; cursor: pointer!important;}
+h2.entry2__title a:hover{color: #166031;cursor: pointer!important;}
+.entry2__footer--category:link {color: #166031;cursor: pointer!important;}
+
+.entry2__date {
+    color: #404041;
+}
+
+.entry2__footer--read-more:link,
+.entry2__footer--read-more:visited {color: #166031;cursor: pointer!important;}
+
+.entry2__footer--read-more:hover {color: #c41230;cursor: pointer!important;}
+
+.featured__content--btn {
+    display:none!important;
+}
+
+.now-playing__info{
+        font-family: 'Oswald', sans-serif;
+
+        .now-playing__title {color: #c20411;font-size:.95em;font-weight: 700; font-style: italic;padding-left: 2px;}
+        .now-playing__artist {color: #c20411;font-size: .90em;font-weight: 700;font-style: italic;padding-left: 2px;}
+
+        .now-playing__title:before
+        {
+            content: "Song:";
+            background-color: #fff;
+            color: Red;
+            padding: 0 4px;
+            border-radius: 5px;
+            border: solid 2px Red;
+            margin-right: 3px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
+            
+        }
+
+        .now-playing__artist:before{
+            content: "From:";
+            background-color: #fff;
+            color: Red;
+            padding: 0 4px;
+            border-radius: 5px;
+            border: solid 2px Red;
+            margin-right: 3px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
+
+        }
+
+}
+
+
+.live-player {
+    /*background-color: #002a6e;*/
+    background-image: url("../../images/brushed-metal.jpg");
+    background-position: center;
+    color: #c20411;
+    
+}
+
+.live-player--active.live-player--open {
+    .live-player__stream {
+        width: 90%;
+    }
+}
+
+/* begin new live-link song, title, artist */
+.live-link__title, .live-link__title a:link, .live-link__title a:visited {
+    color: $color-gray-medium;
+}
+
+.live-link__song {
+    font-weight: 400;
+    font-family: 'Oswald', sans-serif;
+
+    &:before {
+        color: #c20411;
+        position: absolute;
+        left: 10px;
+    }
+
+    .live-link__song--artist {
+        color: #c20411;
+    }
+}
+
+.live-link__song--title {
+    color: $dark-gray;
+
+    a, a:visited {
+        color: $darker-gray;
+    }
+}
+
+
+.live-link__type--audio,
+.live-link__type--standard,
+.live-link__type--link,
+.live-link__type--video,
+.live-link__type--gallery
+ {
+    font-weight: 400;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+
+    &:before {
+        color: #c20411!important;
+        position: absolute;
+        left: 10px;
+    }
+
+    .live-link__title a:link, .live-link__title a:visited {
+        color: #c20411;
+    }
+
+    .live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
+        color: #166031;
+    }
+
+    &:hover {
+        color: #166031;
+    }
+}
+
+/* END new live-link song, title, artist */
+
+.on-air__show, .up-next__show {
+    font-size: .95em; 
+    font-weight: 400; 
+    padding: 0 4px;
+    width: 100%;
+    line-height: 1.20em;
+
+}
+
+
+.live-links {  
+    background-image: url("../../images/brushed-metal.jpg");
+    background-position: center;
+
+}
+
+.content__heading {
+
+  font-size: 1.85em;
+}
+
+
+.live-stream__status {
+
+    .live-stream__login {
+        background-color: #c20411;
+    }
+
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+@media 400px
+------------------------------------------------------------------------------------------------------------------------*/
+
+@media screen and (min-width:400px) {
+.footer__copyright--logo a:link, a:visted {color: #fff;}
+.footer__copyright--logo a:hover {color: #002a6e;}
+
+
+.footer a:hover {color:#002a6e;}
+
+
+
+.footer__menu a.social__link:hover {border-color: #002a6e;color: #002a6e;}
+
+}
+
+.on-air__show, .up-next__show {
+    font-size: 1.0em; 
+}
+/*-----------------------------------
+@media 768px - 782px
+-----------------------------------*/
+@media screen and (min-width:768px) and (max-width: 782px){
+
+    .live-player {
+        margin-top: 14px!important;
+    }
+}
+
+/*-----------------------------------
+@media 768px
+-----------------------------------*/
+@media screen and (min-width:768px) {
+
+
+
+.live-player__stream{
+
+    background-color: rgba(0,0,0,.5);
+
+}
+
+.home__featured {
+
+        .featured__article--content {
+        background-color: #fff;
+        background: -webkit-gradient(linear,left top,left bottom,color-stop(100%,#004794),color-stop(10%,#2f93ff))!important;
+        background: -o-linear-gradient(top,#004794 100%,#2f93ff 10%);
+        background: -ms-linear-gradient(top,#004794 100%,#2f93ff 10%);
+        background: linear-gradient(to bottom,#004794 100%,#2f93ff 10%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00004794', endColorstr='#ce1141', GradientType=0);
+        color: #fff;
+    }
+
+    .featured__article:hover .featured__article--content {
+        
+        background: -webkit-gradient(linear,left top,left bottom,color-stop(10%,#004794),color-stop(100%,#2f93ff))!important;
+        background: -o-linear-gradient(top,#004794 10%,#2f93ff 100%);
+        background: -ms-linear-gradient(top,#004794 10%,#2f93ff 100%);
+        background: linear-gradient(to bottom,#004794 10%,#2f93ff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00004794', endColorstr='#ce1141', GradientType=0);
+        color: #fff;
+    }
+
+    .featured__content--block {
+        background: -webkit-gradient(linear,left top,left bottom,color-stop(100%,#004794),color-stop(60%,#2f93ff))!important;
+        background: -o-linear-gradient(top,#004794 100%,#2f93ff 60%);
+        background: -ms-linear-gradient(top,#004794 100%,#2f93ff 60%);
+        background: linear-gradient(to bottom,#004794 100%,#2f93ff 60%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00004794', endColorstr='#ce1141', GradientType=0);
+        text-shadow:2px 2px 2px rgba(21,9,88,.3);
+
+        &:hover{
+        background: -webkit-gradient(linear,left top,left bottom,color-stop(80%,#004794),color-stop(100%,#2f93ff))!important;
+        background: -o-linear-gradient(top,#004794 80%,#2f93ff 100%);
+        background: -ms-linear-gradient(top,#004794 80%,#2f93ff 100%);
+        background: linear-gradient(to bottom,#004794 80%,#2f93ff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00004794', endColorstr='#ce1141', GradientType=0); 
+        text-shadow: none;
+        }
+    }
+}
+
+
+
+
+
+
+.live-player__container {
+    border-bottom: 1px solid white;
+    min-height: 300px;
+}
+    .footer__copyright {
+        color: #fff;
+
+        .footer__copyright--logo a:link,
+        .footer__copyright--logo a:visited,
+        .footer__copyright--span a:link,
+        .footer__copyright--span a:visited {
+            color: #fff;
+
+            &:hover {
+               color: #166031; 
+            }
+        }
+    }
+
+    .article__title, .single-podcast .podcast__parent--title {
+        color: #166031;
+    }
+
+    .header .container.container__leaderboard {height:165px;}
+    .live-stream__btn--play,
+    .live-stream__btn--pause,
+    .live-stream__btn--resume,
+    .live-stream__btn--loading  {
+        background-color: transparent;
+        color: #E31837; border: 0px solid #a8d6f7;
+        -webkit-transition: all 200ms ease-in-out;
+        -moz-transition: all 200ms ease-in-out;
+        transition: all 200ms ease-in-out;
+        position: relative;
+        top: 50px;
+        
+    }
+    .home__featured {
+
+
+        background-color: rgba(0,0,0,.2);
+        .featured__content--block {
+            border-radius: 0;
+            -moz-border-radius: 0;
+            -webkit-border-radius: 0;
+            height: 100%;
+        }
+
+        .featured__content--image {
+            float: left;
+            display: block;
+            width: 100%;
+            margin-right: 0;
+            padding-top: 66.6%;
+        }
+
+        .featured__content--meta {
+            width: 100%;
+            min-height: 6.8em;
+        }
+
+        .live-player--open {
+
+            .live-player__stream {
+                /*display: none;*/
+            }
+
+            .live-links {
+                /*margin-top: 0;*/
+            }
+
+        }
+
+    }
+
+
+
+    .live-player--active .now-playing, 
+    .now-playing
+    {
+        padding: 100px 1em 0;
+    }
+
+   
+
+
+
+
+    .widget--live-player a:hover>div{background-color: #114598;color:#0067b1;}
+
+
+
+    .ad__leaderboard.desktop {
+
+        border: 5px solid #002a6e;
+        width:738px;
+        height:100px;
+        margin:20px auto;
+        padding: 0px 0;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 1px 1px 20px 5px #002a6e;
+        box-shadow: 1px 1px 20px 2px #002a6e;
+        }
+
+
+
+    .header {
+        background-color: #002a6e;
+        background-image:url("../../images/header-christmas.jpg");
+      background-position: center top;
+     
+      -webkit-animation-name: no_name;
+      animation-name: no_name;
+
+    }
+
+    .header__secondary {
+      top: 0px;
+      position: absolute;
+    }
+    span.icon-user { color: #fff;}
+
+  
+    
+   
+        div#live-player {
+            background: transparent;
+
+            background-color: transparent;
+        }
+
+        .live-stream {
+        background: url("../../images/listen-live-xmas.png") no-repeat;
+
+
+
+        .on-air, .up-next {
+              display: none;
+              /*padding: 1px 1em;
+              position: relative;
+              top: -16px;
+              background-color: rgba(0,0,0,.7);
+              color: #fff;
+              font-family: 'Oswald', sans-serif;*/
+              
+        }
+
+
+        .live-stream__controls {
+            padding-left: 20px;
+            position: relative;
+            top: 12px;
+     
+            color: $yellow;
+
+       
+        }
+
+    .now-playing__info{
+            position: relative;
+            top: 20px;
+            padding-top: 15px;
+            
+            text-align: left;
+            font-family: 'Oswald', sans-serif;
+            .now-playing__title {
+                color: #fff;
+                font-size:.75em;
+                font-weight: 500;
+                
+                
+            }
+            .now-playing__artist {
+                color: #fff;
+                font-size: .70em;
+                font-weight: 500;
+                
+                
+            }
+
+
+    }
+
+    .live-stream__now-playing--btn {
+            display: none;
+        }
+    }
+
+
+            .gmr-user .live-stream__status{
+                display: none;
+                /*top:210px;
+                .live-stream__login {background-color: transparent;color: #fff;}*/
+            }
+   
+
+    
+
+    .live-stream__listen-now--btn {
+      display: inline-block;
+      line-height: 1;
+      padding: .5em 1em;
+      margin-right: .5em;
+      outline: 0;
+      background-color: #a8d6f7;
+      border: 1px solid #002a6e;
+      font-size: .8888888889em;
+      color: #002a6e!important;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 100em;
+      font-weight: 700;
+      z-index: 1;
+      -webkit-transition: all 200ms ease-in-out;
+      -moz-transition: all 200ms ease-in-out;
+      transition: all 200ms ease-in-out;
+
+      &:hover
+        {
+            background-color: #002a6e;
+            border: 1px solid #0e2242;
+            color: #a8d6f7!important;
+        }
+    }
+
+   
+
+    .live-stream__now-playing--btn {
+    
+      line-height: 1;
+      padding: .5em 1em;
+      margin-right: .5em;
+      outline: 0;
+      background-color: #a8d6f7;
+      border: 1px solid #002a6e;
+      font-size: .8888888889em;
+      color: #002a6e!important;
+      text-transform: uppercase;
+      border-radius: 100em;
+      font-weight: 700;
+      z-index: 1;
+
+      &:hover{
+
+            line-height: 1;
+            padding: .5em 1em;
+            margin-right: .5em;
+            outline: 0;
+            background-color: #a8d6f7;
+            border: 1px solid #002a6e;
+            font-size: .8888888889em;
+            color: #002a6e!important;
+            text-transform: uppercase;
+            border-radius: 100em;
+            font-weight: 700;
+            z-index: 1;
+      }
+
+    }
+      .live-link__song {
+            transition: all 200ms ease-in-out;
+            -moz-transition: all 200ms ease-in-out;
+            -webkit-transition: all 200ms ease-in-out;
+        }
+
+        .widget--live-player a:hover {
+            color: #fff;
+        }
+        .widget--live-player a:hover > div {
+            background: #80b1ff;
+        }
+        .widget--live-player a:hover .live-link__song:before {
+            color: #fff;
+        }
+        .widget--live-player a:hover .live-link__song--title {
+            color: #fff;
+        }
+        .live-links {  
+
+
+            &:before {
+                content: "";
+                display: inline-block;
+                background: url("../../images/recently-played-header1.png") no-repeat;
+                width:225px;
+                height:65px;
+                position: relative;
+                top: -16px;
+            }   
+
+        }
+
+
+
+        .widget--live-player__title {
+            /*font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            color: #E31837;*/
+            display: none;
+        }
+        
+
+  
+
+    .live-link__song:before,
+    .live-link__type--audio:before,
+    .live-link__type--gallery:before,
+    .live-link__type--image:before,
+    .live-link__type--link:before,
+    .live-link__type--standard:before,
+    .live-link__type--video:before
+    {color: #fff;}
+
+    .live-link__song:hover,
+    .live-link__type--audio:hover,
+    .live-link__type--gallery:hover,
+    .live-link__type--image:hover,
+    .live-link__type--link:hover,
+    .live-link__type--standard:hover,
+    .live-link__type--video:hover
+    {background-color: transparent;}
+
+  
+    #tribe-events .tribe-events-button {background-color: #002a6e;border: 1px solid #002a6e;color: #fff;}
+
+    /* footer */
+    .footer {
+        background-color: transparent;
+
+        .container {
+            background-color: transparent;
+        }        
+    }
+    
+    .footer__ad {
+        padding: 10px 0px 0px;
+        background-color: rgba(206,17,65,.75);
+        border-left: #ce1141 1px solid;border-top: #ce1141 1px solid;border-right: #ce1141 1px solid;
+        margin-bottom: 0px;
+    }
+    .footer__content {
+        padding-bottom: 10px;
+        background-color: rgba(206,17,65,.75);
+        border-left: #ce1141 1px solid;border-bottom: #ce1141 1px solid;border-right: #ce1141 1px solid;
+    }
+
+    .entry2__thumbnail__overlay,
+    .entry2__thumbnail__icon, 
+    .entry2__thumbnail--event-date,
+    .type-contest .entry2__thumbnail--contest-type,
+    .type-contest .entry2__thumbnail--end-date{
+        display:none;
+    }
+
+    #live-player--volume .noUi-base {
+        background: #E31837;
+        position: relative;
+        top: 25px;
+        z-index: 10001;
+    }
+
+    #live-player--volume.noUi-horizontal .noUi-handle {background: #000;border: solid 1px #E31837;}
+    .on-air__show, .up-next__show {
+        font-size: .85em; 
+        font-weight: 400; 
+        padding: 0 4px;
+        width: 100%;
+        line-height: 1.20em;
+    }
+
+}
+
+
+
+/*-----------------------------------
+media 1024px
+-----------------------------------*/
+@media screen and (min-width:1024px) {
+
+
+    .header__logo {
+                /*top: -7px;*/
+        
+        width: 243px;
+        height: 57px;
+        position: absolute;
+        z-index: 100;
+        top: -20px;
+        margin-left: 0;
+        float: none;
+        background-position: left center;
+    }
+
+    .live-stream {margin: 0px auto;}
+    .header__secondary {position: relative;}
+
+
+
+
+    .header__nav {
+     
+      padding-left: 100px;
+    }
+    .header__nav li {
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+    .header__nav li:hover {
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+
+    .header__account ul li a,
+    .header__account ul li a:link,
+    .header__account ul li a:visited,
+    .header__nav ul li a,
+    .header__nav ul li a:link,
+    .header__nav ul li a:visited {
+
+        padding: 33px 1.125em 32px;
+    }
+
+
+  .header__account ul li a:active,
+  .header__account ul li a:focus,
+  .header__account ul li a:hover,
+  .header__account ul li:hover,
+  .header__nav ul li a:active,
+  .header__nav ul li a:focus,
+  .header__nav ul li.active,
+  .header__nav ul li.active a:hover,
+  .header__nav ul li.active a:focus,
+  .mobile-nav__list a:active,
+  .mobile-nav__list a:focus,
+  .mobile-nav__list a:hover,
+  .ui-menu .ui-state-focus{background-color: #166031;}
+
+  .header__account--links.sub-menu,
+.header__nav .format-fi > ul,
+.header__nav .format-fi > ul.header__account--links,
+.header__nav .format-fw > ul,
+.header__nav .format-fw > ul.header__account--links,
+.header__nav .format-sp > ul,
+.header__nav .format-sp > ul.header__account--links,
+.header__nav .sub-menu, .ui-menu {
+    position: absolute;
+    border-top: 7px solid #166031;
+    background-color: #fff;
+    color: #333;
+    min-width: 300px;
+    z-index: 5000100;
+}
+
+
+.header__main {
+
+    .header__search {
+        padding: 0 16px;
+
+        &:hover {
+            background-color: #166031;
+            color: #fff;
+        }
+    }
+
+    .header__social a.social__link:hover {
+        color: #166031;
+    }
+}
+
+.header__account:hover {
+    background-color: #166031;
+}
+
+.header__main a:hover {
+    color: #fff;
+
+    .header__account--logged-in,
+    .header__account--logged-out,
+    .header__account--,
+    {
+        color: #fff;
+    }
+}
+
+.header__nav .sub-menu {border-top: 7px solid #166031;}
+
+
+
+
+}
+
+/*-----------------------------------
+media 1175px
+-----------------------------------*/
+@media screen and (min-width:1175px) {
+
+    .header__nav { padding-left: 240px; }
+
+
+    .header__logo {
+        background-size: contain;
+        margin-left: 0px;
+        margin-top:20px;
+        width:250px;
+        height: 196px;
+        top: -150px;
+
+    }
+
+}
+
+/*-----------------------------------
+media 1252px
+-----------------------------------*/
+@media screen and (min-width:1252px) {
+
+.header__nav { padding-left: 210px; }
+
+
+
+
+
+
+
+.ad__leaderboard.desktop:after {
+  content: "";
+  display: inline-block;
+  background: url(../../images/santa-sleigh.png) no-repeat;
+  background-size: contain;
+  position: absolute;
+
+    width:325px;
+    height:165px;
+    top: -35px;
+    right: -320px;
+
+
+  }
+
+
+}
+/*-----------------------------------
+media 1400px
+-----------------------------------*/
+@media screen and (min-width:1400px) {
+.header__nav { padding-left: 250px; }
+.header__logo {
+     
+      background-size: cover;
+      top:-170px;
+      left: 0px;
+      width: 250px;
+      height: 193px;
+      max-width: 250px;
+
+    }
+
+
+
+
+}
+
