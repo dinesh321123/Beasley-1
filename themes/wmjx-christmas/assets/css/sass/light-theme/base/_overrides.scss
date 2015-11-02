@@ -108,7 +108,7 @@
 
 .header__logo {
     @include bp(medium) {
-        top: -7px;
+        top: -25px;
     }
 }
 .home__highlights {
@@ -222,7 +222,7 @@
 .profile-page__sidebar .profile-header-link {color: #a8d6f7;}
 .profile-page__sidebar .profile-header-link:hover {color: #ffe411;}
 
-#profile-content .gigya-screen input[type="submit"] {background-color: #002a6e;}
+#profile-content .gigya-screen input[type="submit"] {background-color: #c20411;}
 
 /* end */
 
@@ -318,6 +318,7 @@ a.social__link, a.social-share-link {
 div#live-player {
     background: url("../../images/brushed-metal.jpg") transparent;
     background-position: center; 
+    background-size: cover;
 }
 
 .live-player__stream{
@@ -707,11 +708,87 @@ h2.entry2__title a:hover{color: #166031;cursor: pointer!important;}
 
 
 .live-stream__status {
-
+      background-color: #c20411;
+      border: 1px solid #c20411;
+      border-radius: 4em;
+      
     .live-stream__login {
-        background-color: #c20411;
+        background-color: transparent;
+        color: #fff;
+        padding: 0.25em 0 0 .75em;
+        text-transform: uppercase;
+        z-index: 100;
+    }
+    .live-stream__listen-now--btn,
+    .live-stream__now-playing--btn {
+    
+      line-height: 1;
+      padding: .5em 2em;
+      width: 82%;
+      
+      outline: 0;
+      font-size: .8888888889em;
+      font-weight: 700;
+      
+
+
+
     }
 
+}
+
+
+.highlights__community--item {
+
+    .highlights__community--title{
+        color:#fff;
+        background-color: transparent;
+    }
+
+}
+
+.highlights__community--item:hover .highlights__community--title{
+        background: -moz-linear-gradient(top, transparent 0%, rgba(22, 96, 49, 0.85) 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent), color-stop(100%, rgba(22, 96, 49, 0.85)));
+        background: -webkit-linear-gradient(top, transparent 0%, rgba(22, 96, 49, 0.85) 100%);
+        background: -o-linear-gradient(top, transparent 0%, rgba(22, 96, 49, 0.85) 100%);
+        background: -ms-linear-gradient(top, transparent 0%, rgba(22, 96, 49, 0.85) 100%);
+        background: linear-gradient(to bottom, transparent 0%, rgba(22, 96, 49, 0.85) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#166031', endColorstr='#166031', GradientType=0);
+        color:#fff;
+
+    }
+
+.highlights__community--thumb:after {
+
+    background: -moz-linear-gradient(top, transparent 0%, rgba(194, 4, 17, 0.85) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent), color-stop(100%, rgba(194, 4, 17, 0.85)));
+    background: -webkit-linear-gradient(top, transparent 0%, rgba(194, 4, 17, 0.85) 100%);
+    background: -o-linear-gradient(top, transparent 0%, rgba(194, 4, 17, 0.85) 100%);
+    background: -ms-linear-gradient(top, transparent 0%, rgba(194, 4, 17, 0.85) 100%);
+    background: linear-gradient(to bottom, transparent 0%, rgba(194, 4, 17, 0.85) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c20411', endColorstr='#c20411', GradientType=0);
+}
+
+/* footer */
+.footer {
+    background-color: transparent;
+
+    .container {
+        background-color: transparent;
+    }        
+}
+
+.footer__ad {
+    padding: 10px 0px 0px;
+    background-color: rgba(206,17,65,.75);
+    border-left: #ce1141 1px solid;border-top: #ce1141 1px solid;border-right: #ce1141 1px solid;
+    margin-bottom: 0px;
+}
+.footer__content {
+    padding-bottom: 10px;
+    background-color: rgba(206,17,65,.75);
+    border-left: #ce1141 1px solid;border-bottom: #ce1141 1px solid;border-right: #ce1141 1px solid;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -719,8 +796,27 @@ h2.entry2__title a:hover{color: #166031;cursor: pointer!important;}
 ------------------------------------------------------------------------------------------------------------------------*/
 
 @media screen and (min-width:400px) {
-.footer__copyright--logo a:link, a:visted {color: #fff;}
-.footer__copyright--logo a:hover {color: #002a6e;}
+
+
+.on-air__show, .up-next__show {
+      padding: 8px 4px 0 19px;
+}   
+
+.footer__copyright {
+    color: #fff;
+
+    .footer__copyright--logo a:link,
+    .footer__copyright--logo a:visited,
+    .footer__copyright--span a:link,
+    .footer__copyright--span a:visited {
+        color: #fff;
+
+        &:hover {
+           color: #166031; 
+        }
+    }
+}
+
 
 
 .footer a:hover {color:#002a6e;}
@@ -731,25 +827,45 @@ h2.entry2__title a:hover{color: #166031;cursor: pointer!important;}
 
 }
 
-.on-air__show, .up-next__show {
-    font-size: 1.0em; 
-}
-/*-----------------------------------
-@media 768px - 782px
------------------------------------*/
-@media screen and (min-width:768px) and (max-width: 782px){
 
-    .live-player {
-        margin-top: 14px!important;
+.on-air, .up-next {
+             padding: 10px 0;
+              /*padding: 1px 1em;
+              position: relative;
+              top: -16px;
+              background-color: rgba(0,0,0,.7);
+              color: #fff;
+              font-family: 'Oswald', sans-serif;*/
+    .on-air__show, .up-next__show {
+    font-size: 1.0em; 
     }
+              
 }
+
+
+
 
 /*-----------------------------------
 @media 768px
 -----------------------------------*/
 @media screen and (min-width:768px) {
 
+.live-stream__status {
+      background-color: transparent;
+      border: 0px solid #c20411;
+      border-radius: 0em;
+      .live-stream__login {
+        color: #c20411;
+        position: relative;
+        top: -50px;
+      }
+}
 
+.header__logo {
+    margin-top: 0;
+    height: 80px;
+    top: 2px;
+}
 
 .live-player__stream{
 
@@ -807,20 +923,7 @@ h2.entry2__title a:hover{color: #166031;cursor: pointer!important;}
     border-bottom: 1px solid white;
     min-height: 300px;
 }
-    .footer__copyright {
-        color: #fff;
 
-        .footer__copyright--logo a:link,
-        .footer__copyright--logo a:visited,
-        .footer__copyright--span a:link,
-        .footer__copyright--span a:visited {
-            color: #fff;
-
-            &:hover {
-               color: #166031; 
-            }
-        }
-    }
 
     .article__title, .single-podcast .podcast__parent--title {
         color: #166031;
@@ -1002,64 +1105,33 @@ h2.entry2__title a:hover{color: #166031;cursor: pointer!important;}
 
     
 
-    .live-stream__listen-now--btn {
-      display: inline-block;
-      line-height: 1;
-      padding: .5em 1em;
-      margin-right: .5em;
-      outline: 0;
-      background-color: #a8d6f7;
-      border: 1px solid #002a6e;
-      font-size: .8888888889em;
-      color: #002a6e!important;
-      text-transform: uppercase;
-      cursor: pointer;
-      border-radius: 100em;
-      font-weight: 700;
-      z-index: 1;
-      -webkit-transition: all 200ms ease-in-out;
-      -moz-transition: all 200ms ease-in-out;
-      transition: all 200ms ease-in-out;
-
-      &:hover
-        {
-            background-color: #002a6e;
-            border: 1px solid #0e2242;
-            color: #a8d6f7!important;
-        }
-    }
 
    
-
+    .live-stream__listen-now--btn,
     .live-stream__now-playing--btn {
     
       line-height: 1;
-      padding: .5em 1em;
+      padding: .5em 2em;
+      width: 82%;
       margin-right: .5em;
       outline: 0;
-      background-color: #a8d6f7;
-      border: 1px solid #002a6e;
+      background-color: #fff;
+      border: 1px solid #c20411;
       font-size: .8888888889em;
-      color: #002a6e!important;
+      color: #c20411!important;
       text-transform: uppercase;
-      border-radius: 100em;
+      border-radius: .45em;
       font-weight: 700;
       z-index: 1;
-
+      position: relative;
+      top: -40px;
       &:hover{
 
-            line-height: 1;
-            padding: .5em 1em;
-            margin-right: .5em;
-            outline: 0;
-            background-color: #a8d6f7;
-            border: 1px solid #002a6e;
+            background-color: #c20411;
+            border: 1px solid #c20411;
             font-size: .8888888889em;
-            color: #002a6e!important;
-            text-transform: uppercase;
-            border-radius: 100em;
-            font-weight: 700;
-            z-index: 1;
+            color: #fff!important;
+      
       }
 
     }
@@ -1129,26 +1201,7 @@ h2.entry2__title a:hover{color: #166031;cursor: pointer!important;}
   
     #tribe-events .tribe-events-button {background-color: #002a6e;border: 1px solid #002a6e;color: #fff;}
 
-    /* footer */
-    .footer {
-        background-color: transparent;
 
-        .container {
-            background-color: transparent;
-        }        
-    }
-    
-    .footer__ad {
-        padding: 10px 0px 0px;
-        background-color: rgba(206,17,65,.75);
-        border-left: #ce1141 1px solid;border-top: #ce1141 1px solid;border-right: #ce1141 1px solid;
-        margin-bottom: 0px;
-    }
-    .footer__content {
-        padding-bottom: 10px;
-        background-color: rgba(206,17,65,.75);
-        border-left: #ce1141 1px solid;border-bottom: #ce1141 1px solid;border-right: #ce1141 1px solid;
-    }
 
     .entry2__thumbnail__overlay,
     .entry2__thumbnail__icon, 
@@ -1187,14 +1240,15 @@ media 1024px
     .header__logo {
                 /*top: -7px;*/
         
-        width: 243px;
-        height: 57px;
+        width: 150px;
+        height: 118px;
         position: absolute;
         z-index: 100;
-        top: -20px;
+        top: -50px;
         margin-left: 0;
         float: none;
         background-position: left center;
+
     }
 
     .live-stream {margin: 0px auto;}
@@ -1205,7 +1259,7 @@ media 1024px
 
     .header__nav {
      
-      padding-left: 100px;
+      margin-left: 175px;
     }
     .header__nav li {
         font-weight: 800;
@@ -1302,7 +1356,10 @@ media 1175px
 -----------------------------------*/
 @media screen and (min-width:1175px) {
 
-    .header__nav { padding-left: 240px; }
+    .header__nav { 
+        padding-left: 240px; 
+        margin-left: 0px;
+    }
 
 
     .header__logo {
@@ -1347,6 +1404,21 @@ media 1252px
 
 
 }
+/*-----------------------------------
+media 1385px - 1415px
+-----------------------------------*/
+@media screen and (min-width:1385px) and (max-width:1415px) {
+
+    .live-player {
+        right: calc(50% - 690px)!important;
+    }
+}
+
+
+
+
+
+
 /*-----------------------------------
 media 1400px
 -----------------------------------*/
