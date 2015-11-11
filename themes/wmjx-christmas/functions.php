@@ -13,7 +13,7 @@
  */
  
  // Useful global constants
-define( 'WMJX_CHRISTMAS_VERSION', '0.1.2' ); /* Version bump by Denis Prindeville 11/3/2015 @ 12:30am EST */
+define( 'WMJX_CHRISTMAS_VERSION', '0.1.2' ); /* Version bump by Denis Prindeville 11/11/2015 @ 12:30pm EST */
  
  /**
   * Set up theme defaults and register supported WordPress features.
