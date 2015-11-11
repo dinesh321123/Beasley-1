@@ -45,7 +45,7 @@ get_header(); ?>
 							<div class="shows__schedule--episodes">
 								<div class="shows__schedule--now"
 								     style="top:<?php echo ( $now % DAY_IN_SECONDS ) * 60 / HOUR_IN_SECONDS; ?>px"></div>
-
+								<?php date_default_timezone_set( get_option('timezone_string') ); ?>
 								<?php $day = date( 'N', $start ); ?>
 								<?php if ( ! empty( $episodes[ $day ] ) ) : ?>
 									<?php for ( $j = 0, $len = count( $episodes[ $day ] ); $j < $len; $j ++ ) :
