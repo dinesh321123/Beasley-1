@@ -145,14 +145,16 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 
 	// paged views for podcasts
 	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+	$posts_per_page = absint( get_option( 'posts_per_rss', '' ) );
+	$posts_per_page = ( '' !== $posts_per_page ) ? $posts_per_page : 10;
 
 	// Fetch podcast episodes
 	$args = array(
-		'post_type' => 'episode',
-		'post_status' => 'publish',
-		'posts_per_page' => 10,
-		'paged' => $paged,
-		'post_parent' => $parent_podcast_id
+		'post_type'      => 'episode',
+		'post_status'    => 'publish',
+		'posts_per_page' => $posts_per_page,
+		'paged'          => $paged,
+		'post_parent'    => $parent_podcast_id
 	);
 
 	$qry = new WP_Query( $args );
