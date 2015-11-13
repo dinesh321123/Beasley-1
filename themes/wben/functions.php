@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WBEN_VERSION', '0.2.3' ); /* Version bump by Allen 10/23/2015 @ 11:00 a.m. EST */
+define( 'WBEN_VERSION', '0.2.4' ); /* Version bump by Steve 11/13/2015 @ 2:00 p.m. EST */
 
 /**
 * Set up theme defaults and register supported WordPress features.
@@ -65,13 +65,14 @@ function wben_scripts_styles() {
   wp_dequeue_style( 'greatermedia' );
   wp_deregister_style( 'greatermedia' );
   wp_enqueue_style( 'wben', get_stylesheet_directory_uri() . "/assets/css/wben{$postfix}.css", array(), WBEN_VERSION );
-  wp_enqueue_script(
+  /* DISABLING DUE TO SIMPLIFI NETWORK ISSUE - WILL ENABLE ONCE FIXED - STEVE MEYERS - 11/13/15 */
+  /*wp_enqueue_script(
     'simpli-fi',
     'http://i.simpli.fi/dpx.js?cid=23418&action=100&segment=benfem&m=1&sifi_tuid=7534',
     array(),
     null,
     true
-  );
+  );*/
 }
 
 add_action( 'wp_enqueue_scripts', 'wben_scripts_styles', 20 );

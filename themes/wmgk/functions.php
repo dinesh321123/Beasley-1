@@ -21,7 +21,7 @@ if ( defined( 'GMR_WMGK_ENV' ) && 'dev' == GMR_WMGK_ENV ) {
 	// So that things like cloudflare don't hold on to our css during dev
 	define( 'WMGK_VERSION', time() );
 } else {
-	define( 'WMGK_VERSION', '1.5.1' ); /* Version bump by Allen 10/23/2015 @ 11:00 a.m. EST */
+	define( 'WMGK_VERSION', '1.5.2' ); /* Version bump by Steve 11/13/2015 @ 2:00 p.m. EST */
 }
 
 /**
@@ -87,13 +87,14 @@ function wmgk_scripts_styles() {
 		),
 		WMGK_VERSION
 	);
-	wp_enqueue_script(
+	/* DISABLING DUE TO SIMPLIFI NETWORK ISSUE - WILL ENABLE ONCE FIXED - STEVE MEYERS - 11/13/15 */
+	/*wp_enqueue_script(
 		'simpli-fi',
 		'http://i.simpli.fi/dpx.js?cid=23419&action=100&segment=classicrockmgk&m=1&sifi_tuid=7536',
 		array(),
 		null,
 		true
-	);
+	);*/
 }
 
 add_action( 'wp_enqueue_scripts', 'wmgk_scripts_styles', 20 );

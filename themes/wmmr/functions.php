@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WMMR_VERSION', '0.2.4' ); /* Version bump by Allen 10/23/2015 @ 11:00 a.m. EST */
+define( 'WMMR_VERSION', '0.2.5' ); /* Version bump by Steve 11/13/2015 @ 2:00 p.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -65,13 +65,14 @@ function wmmr_scripts_styles() {
   wp_dequeue_style( 'greatermedia' );
   wp_deregister_style( 'greatermedia' );
   wp_enqueue_style( 'wmmr', get_stylesheet_directory_uri() . "/assets/css/wmmr{$postfix}.css", array(), WMMR_VERSION );
-  wp_enqueue_script(
+  /* DISABLING DUE TO SIMPLIFI NETWORK ISSUE - WILL ENABLE ONCE FIXED - STEVE MEYERS - 11/13/15 */
+  /*wp_enqueue_script(
     'simpli-fi',
     'http://i.simpli.fi/dpx.js?cid=23417&action=100&segment=wmmrrocks&m=1&sifi_tuid=7533',
     array(),
     null,
     true
-  );
+  );*/
 }
 
 add_action( 'wp_enqueue_scripts', 'wmmr_scripts_styles', 20 );
