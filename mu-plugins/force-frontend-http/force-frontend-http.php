@@ -17,6 +17,10 @@ class FrontEndHttpRedirector {
 	}
 
 	function redirect() {
+		if ( function_exists( 'batcache_cancel' ) ) {
+			batcache_cancel();
+		}
+
 		$html = <<<HTML
 <script type="text/javascript">
 	location.href = location.href.replace('https://', 'http://');
