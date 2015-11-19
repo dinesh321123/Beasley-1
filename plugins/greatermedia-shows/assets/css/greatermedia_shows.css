@@ -58,7 +58,13 @@
       #schedule-table td > div a {
         display: none; }
       #schedule-table td > div:hover a {
-        display: inline; }
+        display: inline;
+        display: inline;
+        position: absolute;
+        bottom: 3px;
+        left: 3px;
+        padding: 0 .25em;
+        background-color: rgba(255, 255, 255, 0.75); }
   #schedule-table a {
     text-decoration: none;
     margin-right: 2em; }
