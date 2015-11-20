@@ -15103,7 +15103,12 @@ table.responsive tr:nth-of-type(even) {
   font-family: 'Istok+Web', sans-serif;
   text-shadow: 1px 1px 1px black; }
 
+header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited, .header__nav .menu-item-has-children:after.active:hover {
+  color: #fff; }
+
 @media screen and (min-width: 768px) {
+  header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
+    color: #fff; }
   .live-stream__login {
     width: auto;
     height: auto;
@@ -15145,7 +15150,7 @@ table.responsive tr:nth-of-type(even) {
   background-color: #103368; }
 
 .home__featured {
-  background: url("../../images/wmgq-body-bkg.jpg") no-repeat;
+  background: url("http://greatermedianj.com/WMGQ/wmgq-body-bkg.jpg") no-repeat;
   background-color: #103368; }
 
 .home__highlights {
@@ -15355,6 +15360,10 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   font-family: 'Istok+Web' sans-serif; }
 
 @media screen and (min-width: 320px) {
+  .header__account--logged-in, .header__account--logged-out, .header__account--span, .header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {
+    color: #fff; }
+  .show__header {
+    background-color: #103368; }
   .entry2__footer--read-more:link, .entry2__footer--read-more:visited {
     float: right;
     display: inline-block;
@@ -15561,9 +15570,17 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   color: #fff;
   font-family: 'Istok+Web', sans-serif; }
 
+/*
+.header {
+  background-color:#40b9fd;
+  background-image: url("../../images/WMGQ-Header-Mobile.jpg");
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+*/
 .header {
   background-color: #40b9fd;
-  background-image: url("../../images/WMGQ-Header-Background-CHRISTMAS.jpg");
+  background-image: url("http://greatermedianj.com/WMGQ/WMGQ-Header-Background-CHRISTMAS.jpg");
   background-position: center top;
   background-repeat: no-repeat; }
 
@@ -15751,8 +15768,15 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 @media screen and (min-width: 768px) {
   .header {
     background-color: #40b9fd !important;
-    background-image: url("../../images/WMGQ-Header-Background-CHRISTMAS.jpg") !important;
+    background-image: url("http://greatermedianj.com/WMGQ/WMGQ-Header-Background-CHRISTMAS.jpg") !important;
     background-position: center top; }
+  /*
+.header {
+  background-color: #40b9fd!important;
+  background-image: url("../../images/WMGQ-Header-Background.jpg")!important;
+  background-position: center top;
+}
+*/
   .section-header {
     font-size: 1em; } }
 
@@ -15881,7 +15905,7 @@ a.social-share-link:hover, a.social__link:hover {
 
 @media screen and (min-width: 768px) {
   .live-stream {
-    background-image: url("../../images/WMGQ-tuner-bg-CHRISTMAS.png"); }
+    background-image: url("http://greatermedianj.com/WMGQ/WMGQ-tuner-bg-CHRISTMAS.png"); }
   .live-player__container {
     border-bottom: medium none;
     height: auto;
