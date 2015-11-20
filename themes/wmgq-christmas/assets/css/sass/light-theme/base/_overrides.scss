@@ -328,6 +328,11 @@ header__main a, .header__main a:active,.header__main a:hover, .header__main a:vi
     color: #007abd;
 }
 
+.show__mini-nav .show__header .show__nav .show__title a:hover {
+    background-color: #fff;
+    color: #40b9fd;
+}
+
 /* Rollover color for feature bar */
 .home__featured .featured__article a:hover .featured__article--content {background-color: #007abd;}
 
