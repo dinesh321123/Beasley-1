@@ -208,6 +208,9 @@
     .live-player__stream {
         display: none;
     }
+    .live-player__container.playing {
+         margin-top:55px;
+    }
     .live-link__song:before {
         color: #c20411;
         position: absolute;
