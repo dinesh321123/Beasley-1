@@ -801,7 +801,27 @@ a:hover .highlights__event--title {
   color:#fff;
 }
 
-.live-link__song:hover:before,.live-link__type--audio:hover:before,.live-link__type--gallery:hover:before,.live-link__type--image:hover:before,.live-link__type--link:hover:before,.live-link__type--standard:hover:before,.live-link__type--video:hover:before { color:#000; }     
+.live-link__song:hover:before,.live-link__type--audio:hover:before,.live-link__type--gallery:hover:before,.live-link__type--image:hover:before,.live-link__type--link:hover:before,.live-link__type--standard:hover:before,.live-link__type--video:hover:before { color:#000; } 
+
+.gallery__feature .gallery__featured--title {
+    color: #404041;
+}
+
+.gallery__feature .gallery__featured--title:hover {
+    color: #c00000;
+}
+
+.single-gmr_gallery .gallery__next--btn, .single-gmr_gallery .gallery__prev--btn {
+    border-color: #781214;
+    background-color: #fff;
+    color: #781214;
+}
+
+.gallery__next--btn:focus, .gallery__next--btn:hover, .gallery__prev--btn:focus, .gallery__prev--btn:hover {
+    border-color: #c00000;
+    background-color: #fff;
+    color: #d22228;
+}
         
 .live-link__title a:link,.live-link__title a:visited { color:#c00000; }
 
