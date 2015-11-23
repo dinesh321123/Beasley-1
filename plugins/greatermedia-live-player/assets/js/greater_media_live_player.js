@@ -2502,7 +2502,7 @@ var $ = jQuery;
 				listenLiveStopCustomInlineAudio();
 			}
 
-			player.play({mount: station, timeShift: true});
+			player.play({station: station, timeShift: true});
 
 			livePlayer.classList.add('live-player--active');
 			setPlayingStyles();
@@ -2537,7 +2537,7 @@ var $ = jQuery;
 
 				body.classList.add('live-player--active');
 				livePlayer.classList.add('live-player--active');
-				player.play({mount: station, timeShift: true});
+				player.play({station: station, timeShift: true});
 				setPlayingStyles();
 			});
 		} else if (player.attachEvent) {
@@ -2551,7 +2551,7 @@ var $ = jQuery;
 
 				body.classList.add('live-player--active');
 				livePlayer.classList.add('live-player--active');
-				player.play({mount: station, timeShift: true});
+				player.play({station: station, timeShift: true});
 				setPlayingStyles();
 			});
 		}
@@ -2579,7 +2579,7 @@ var $ = jQuery;
 
 		body.classList.add('live-player--active');
 		livePlayer.classList.add('live-player--active');
-		player.play({mount: station, timeShift: true});
+		player.play({station: station, timeShift: true});
 		setPlayingStyles();
 
 	}
@@ -2614,7 +2614,7 @@ var $ = jQuery;
 
 					body.classList.add('live-player--active');
 					livePlayer.classList.add('live-player--active');
-					player.play({mount: station, timeShift: true});
+					player.play({station: station, timeShift: true});
 					setPlayingStyles();
 				});
 			} else if (player.attachEvent) {
@@ -2628,7 +2628,7 @@ var $ = jQuery;
 
 					body.classList.add('live-player--active');
 					livePlayer.classList.add('live-player--active');
-					player.play({mount: station, timeShift: true});
+					player.play({station: station, timeShift: true});
 					setPlayingStyles();
 				});
 			}
@@ -2661,7 +2661,7 @@ var $ = jQuery;
 
 			body.classList.add('live-player--active');
 			livePlayer.classList.add('live-player--active');
-			player.play({mount: station, timeShift: true});
+			player.play({station: station, timeShift: true});
 			setPlayingStyles();
 		}
 	}
@@ -2686,7 +2686,7 @@ var $ = jQuery;
 			}
 
 			livePlayer.classList.add('live-player--active');
-			player.play({mount: station, timeShift: true});
+			player.play({station: station, timeShift: true});
 			setPlayingStyles();
 		}
 	}
