@@ -52,6 +52,10 @@ while ( have_posts() ) : the_post(); ?>
                     By accessing and/or using this code snippet, you agree to AccuWeather’s terms and conditions (in English) which can be found at http://www.accuweather.com/en/free-weather-widgets/terms and AccuWeather’s Privacy Statement (in English) which can be found at http://www.accuweather.com/en/privacy.
                     -->
                     </a><div id="awtd1406746145996" class="aw-widget-36hour"  data-locationkey="2192064" data-unit="f" data-language="en-us" data-useip="false" data-uid="awtd1406746145996" data-editlocation="true" data-lifestyle="sun-sand"></div><script type="text/javascript" src="http://oap.accuweather.com/launch.js"></script>
+                    
+                    <iframe src="http://www.snocountry.com/widget/widget_us_states.php?pettabs=1&region=us&size=small" frameborder="0" height="435" width="250" scrolling="no"><br />
+  <p>Your browser does not support iframes.</p><br />
+</iframe>
 
                 </section>
 
