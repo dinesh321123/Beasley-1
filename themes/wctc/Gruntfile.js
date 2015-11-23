@@ -7,6 +7,22 @@ module.exports = function( grunt ) {
 	// Project configuration
 	grunt.initConfig( {
 		pkg:    grunt.file.readJSON( 'package.json' ),
+<<<<<<< HEAD
+		
+		sass:   {
+			all: {
+				files: {
+					'assets/css/wctc.css': 'assets/css/sass/wctc_light.scss'
+				}
+			}
+		},
+		
+		cssmin: {
+			minify: {
+				expand: true,
+				cwd: 'assets/css/',
+				src: ['wctc.css'],
+=======
 		concat: {
 			options: {
 				stripBanners: true
@@ -73,12 +89,16 @@ module.exports = function( grunt ) {
 				cwd: 'assets/css/',
 				src: ['wctc.css'],
 
+>>>>>>> master
 				dest: 'assets/css/',
 				ext: '.min.css'
 			}
 		},
 		watch:  {
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
 			sass: {
 				files: ['assets/css/sass/**/*.scss'],
 				tasks: ['sass', 'cssmin'],
@@ -86,6 +106,8 @@ module.exports = function( grunt ) {
 					debounceDelay: 500
 				}
 			},
+<<<<<<< HEAD
+=======
 
 			scripts: {
 				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
@@ -94,13 +116,21 @@ module.exports = function( grunt ) {
 					debounceDelay: 500
 				}
 			}
+>>>>>>> master
 		}
 	} );
 
 	// Default task.
+<<<<<<< HEAD
+	grunt.registerTask( 'default', ['sass', 'cssmin'] );
+
+	grunt.util.linefeed = '\n';
+};
+=======
 
 	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify', 'sass', 'cssmin'] );
 
 
 	grunt.util.linefeed = '\n';
 };
+>>>>>>> master

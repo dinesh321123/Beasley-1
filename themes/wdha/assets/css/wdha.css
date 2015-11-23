@@ -15013,9 +15013,8 @@ table.responsive tr:nth-of-type(even) {
   border-bottom: 1px solid white; }
 
 .now-playing__artist {
-  color: #303030; }
+  color: #fff; }
 
-/*.live-link__title, .live-link__title a:link, .live-link__title a:visited {color: $white;} */
 .live-link__song:before {
   color: #fff; }
 
@@ -15028,7 +15027,6 @@ table.responsive tr:nth-of-type(even) {
   .live-link__song--title a, .live-link__song--title a:visited {
     color: #fff; }
 
-/*.live-link__title a:link, .live-link__title a:visited {color: $white;}*/
 .live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {
   color: #781214; }
 
@@ -15084,6 +15082,30 @@ table.responsive tr:nth-of-type(even) {
   transition: all 200ms ease-in-out; }
 
 @media screen and (min-width: 768px) {
+  .live-stream {
+    background-image: url("../../images/tuner-bg.jpg"); }
+  .live-stream .on-air, .live-stream .up-next {
+    padding: 4px 1em;
+    position: relative;
+    top: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-family: 'Istok+Web', sans-serif; }
+  .now-playing {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 66px 1em 0;
+    margin-left: 0;
+    text-align: center; }
+  .home__featured .featured__content--meta {
+    width: 100%;
+    min-height: 4.2em; }
+  .home__featured .featured__content--image {
+    padding-top: 66.6%;
+    width: 100%; }
+  .featured__content--block {
+    height: 100%; }
   .live-stream__login {
     width: auto;
     height: auto;
@@ -15096,7 +15118,7 @@ table.responsive tr:nth-of-type(even) {
     border-radius: 0;
     background-color: transparent;
     margin-right: 0;
-    color: #000; } }
+    color: #fff; } }
 
 /* Mobile phone listen live padding */
 .live-player--open .live-links {
@@ -15315,14 +15337,32 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   .footer__menu a.social__link:hover {
     border-color: #c00000;
     color: #c00000; }
+  .footer .container {
+    min-height: 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #272727;
+    border-top: 1px solid #d0d2d3; }
+  .footer__content {
+    display: block;
+    margin-right: 7.4229703521%;
+    padding: 40px 5.5% 0;
+    background-color: #272727;
+    color: #929497; }
   a.social-share-link:hover, a.social__link:hover {
     color: #c00000;
     border-color: #c00000; }
+  .live-player__container .live-stream__status .live-stream__listen-now--btn, .live-player__container .live-stream__status .podcast__rss, .live-player__container .live-stream__status .podcast__rss {
+    -webkit-box-shadow: 0 0 12px 3px #fff;
+    -moz-box-shadow: 0 0 12px 3px #fff;
+    box-shadow: 0 0 12px 3px #f1f1f3; }
   /* Live stream background color */
   .live-links {
     background-color: #A2A5A4; }
+  .now-playing__artist {
+    color: #000; }
   .live-stream {
-    background: #f2f2f2 url(../../images/wdha_listenlive_header.png) no-repeat; }
+    background: #f2f2f2; }
   .live-player {
     color: #000;
     font-weight: 400;
@@ -15330,11 +15370,25 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   .live-link__song:hover, .live-link__song:hover .live-link__song--title, .live-link__song:hover:before {
     color: #000; }
   .live-player__container {
-    background-color: #f2f2f2;
+    background-color: transparent;
     transition: all 200ms ease-in-out;
     -moz-transition: all 200ms ease-in-out;
     -webkit-transition: all 200ms ease-in-out;
     overflow: hidden; }
+  .live-stream__now-playing--btn {
+    line-height: 1;
+    padding: .5em 1em;
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: #fff !important;
+    border-radius: 100em;
+    display: none;
+    margin-right: 0;
+    font-weight: 700;
+    -webkit-transition: background .2s ease-in-out;
+    -moz-transition: background .2s ease-in-out;
+    transition: background .2s ease-in-out;
+    cursor: default; }
   .live-player__container {
     border-bottom: 1px #fff; }
   .live-link__title, .live-link__title a:link, .live-link__title a:visited {
@@ -15355,16 +15409,6 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
       color: #ffffff; }
   .live-link__title a:link, .live-link__title a:visited {
     color: #ffffff; }
-  /*.live-links {
-  visibility: hidden;
-  padding: 16px 0 0;
-  background-color: #000;
-  text-align: center;
-  overflow: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-} */
-  /*.header__logo {margin: 20px 0 0 50px;}*/
   .live-link__song {
     transition: all 200ms ease-in-out;
     -moz-transition: all 200ms ease-in-out;
@@ -15378,11 +15422,15 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   .widget--live-player a:hover .live-link__song:before {
     color: #fff; }
   /* Last played artist rollover color */
+  .widget--live-player a:hover .live-link__song--artist {
+    color: #fff; }
+  /* Last played song rollover color */
   .widget--live-player a:hover .live-link__song--title {
     color: #fff; }
   /* Last played box background color */
   .live-links {
-    background-color: #999; }
+    background-color: #999;
+    border-top: 1px solid #fff; }
   .live-link__song {
     color: #fff; }
   .on-air__show, .up-next__show {
@@ -15400,20 +15448,26 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   .widget--live-player__title {
     color: #fff;
     font-weight: 700;
-    font-family: 'Istok+Web', sans-serif; }
+    font-family: 'Istok+Web', sans-serif;
+    font-style: italic; }
   /* Last played song title color */
   .live-link__song--title {
     color: #fff;
     font-weight: 700;
     font-family: 'Istok+Web', sans-serif; }
-  /* Navigation background color */
-  .header__account--logged-in, .header__account--logged-out, .header__account--span {
-    color: #fff; }
-  .header__main {
-    height: 82px;
-    border-top: none;
+  /* Header transparent nav and header background image */
+  .header {
+    /*background-color:transparent!important;*/
     background-color: #333;
-    border-bottom: none; }
+    border-bottom: 1px solid #000;
+    background-position: center top;
+    background-size: cover; }
+  .header__main {
+    border-top: none;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    height: 82px;
+    margin-top: 7px !important;
+    color: #fff; }
   /* Background behind last played More button */
   .live-links--more {
     background-color: #f2f2f2;
@@ -15422,28 +15476,27 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
     transition: all 200ms ease-in-out; }
   /* Different in WMTR CODE */
   .live-links--more:before {
-    background: -moz-linear-gradient(top, #999999 0%, #f2f2f2 100%) !important;
+    background: -moz-linear-gradient(top, rgba(153, 153, 153, 0) 0%, #f2f2f2 100%) !important;
     /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #999999), color-stop(100%, #f2f2f2)) !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(153, 153, 153, 0)), color-stop(100%, #f2f2f2)) !important;
     /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #999999 0%, #f2f2f2 100%) !important;
+    background: -webkit-linear-gradient(top, rgba(153, 153, 153, 0) 0%, #f2f2f2 100%) !important;
     /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #999999 0%, #f2f2f2 100%) !important;
+    background: -o-linear-gradient(top, rgba(153, 153, 153, 0) 0%, #f2f2f2 100%) !important;
     /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #999999 0%, #f2f2f2 100%) !important;
+    background: -ms-linear-gradient(top, rgba(153, 153, 153, 0) 0%, #f2f2f2 100%) !important;
     /* IE10+ */
-    background: linear-gradient(to bottom, #999999 0%, #f2f2f2 100%) !important;
+    background: linear-gradient(to bottom, rgba(153, 153, 153, 0) 0%, #f2f2f2 100%) !important;
     /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#f2f2f2',GradientType=0 ) !important;
     /* IE6-9 */ }
-  /* .live-links--more:before {
-  background: -moz-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
-  background: -webkit-gradient(linear,left top,left bottom,color- stop(0,rgba(255,255,255,0),color-stop(100%,#000)));
-  background: -webkit-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
-  background: -o-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
-  background: -ms-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
-  background: linear-gradient(to bottom,rgba(219,138,138,0)0,#f2f2f2 100%);
-} */
+  .live-links--more:before {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    content: ""; }
   /* Featured box background desktop */
   .home__featured .featured__article--content {
     background-color: #7d0000;
@@ -15469,7 +15522,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
     height: inherit;
     display: block;
     position: absolute;
-    top: -120px;
+    top: -93px;
     margin: 0;
     padding: 0; }
   .header__logo img {
@@ -15504,11 +15557,13 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 
 .featured__article--heading {
   color: #fff;
-  font-family: 'Istok+Web', sans-serif; }
+  text-transform: uppercase;
+  font-family: 'Istok+Web', sans-serif;
+  text-shadow: 1px 1px 1px black; }
 
 .header {
   background-color: #37080d;
-  background-image: url("../../images/WMGQ-Header-Mobile.jpg");
+  background-image: url("../../images/WDHA_header2.jpg");
   background-position: center top;
   background-repeat: no-repeat;
   background-position: 0 -36px; }
@@ -15560,8 +15615,11 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   border-color: #000;
   color: #fff; }
 
+.featured__content--btn {
+  display: none !important; }
+
 .header {
-  background-image: url("../../images/WDHA_header.jpg");
+  background-image: url("../../images/WDHA_header2.jpg");
   background-position: center top; }
 
 .live-link__song:before, .live-link__type--audio:before, .live-link__type--gallery:before, .live-link__type--image:before, .live-link__type--link:before, .live-link__type--standard:before, .live-link__type--video:before {
@@ -15660,11 +15718,12 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   opacity: 100; }
 
 @media screen and (min-width: 768px) {
+  .live-stream__btn--play {
+    -webkit-box-shadow: 0 0 12px 3px #fff;
+    -moz-box-shadow: 0 0 12px 3px #fff;
+    box-shadow: 0 0 12px 3px #f1f1f3; }
   .section-header {
     font-size: 1em; }
-  a:link, a:visited {
-    color: #c00000;
-    text-decoration: none; }
   /*navigation rollover color */
   .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {
     background-color: #c20000; }
@@ -15692,6 +15751,8 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
     line-height: 1;
     font-size: 1.26562em;
     color: #fff; }
+  a:active, a:focus, a:hover {
+    color: #781214; }
   .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover {
     background-color: #fff; }
   .mobile-nav .mobile-menu-submenu-header {
@@ -15730,6 +15791,8 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 
 /* Live stream button colors */
 @media screen and (min-width: 768px) {
+  .now-playing__artist {
+    color: #fff; }
   .live-stream__listen-now--btn, .podcast__rss, .podcast__rss {
     display: inline-block;
     line-height: 1;
@@ -15755,20 +15818,32 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   /* Header search color */
   .header__search {
     color: #fff; }
+  .header__main .header__search {
+    padding: 0 16px; }
+  .header__main .header__search:hover {
+    background-color: #c00000;
+    color: #fff; }
   a.social-share-link:hover, a.social__link:hover {
     color: #c00000;
     border-color: #c00000; }
   .header__account--logged-out, .header__account--span {
-    color: #fff; } }
-
-@media screen and (min-width: 768px) {
+    color: #fff; }
+  .live-stream {
+    background-image: url("../../images/tuner-bg.jpg"); }
+  .live-stream .on-air, .live-stream .up-next {
+    padding: 4px 1em;
+    position: relative;
+    top: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-family: 'Istok+Web', sans-serif; }
   .header__account:hover {
     background-color: #c00000;
     color: #fff; } }
 
 .live-player {
   color: #000;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   font-family: 'Istok+Web', sans-serif; }
 
@@ -15825,10 +15900,33 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
 .single-show .highlights__community--item:hover .highlights__community--title {
   color: #ccc; }
 
-.show__mini-nav .show__header {
-  background-color: #5d0000;
-  border-top: solid 1px #c00000;
-  padding: 1px 5px 0 5px; }
+.songs__group--list .song__time {
+  float: left;
+  display: block;
+  width: auto;
+  max-width: 30%;
+  margin-right: 1em;
+  color: #666; }
+
+.show__feature--desc time {
+  display: none; }
+
+.show__feature:hover h3 {
+  color: #cc0000; }
+
+.contest__form button[type="button"]:hover, .contest__form button[type="submit"]:hover, .contest__form input[type="submit"]:hover {
+  background-color: #781214;
+  border: 1px solid #781214;
+  border-radius: 100em;
+  color: #fff !important;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.42383em;
+  line-height: 1;
+  margin-right: 0.5em;
+  outline: 0 none;
+  padding: 0.625em 1em;
+  text-transform: uppercase; }
 
 .live-link__type--show {
   border-bottom-color: white;
