@@ -13,7 +13,8 @@ function load_scripts() {
 
 function wp_head() {
 	// Creates global ad object for use later in the rendering process
-	?>
+
+?>
 	<script type="text/javascript">
 
 		function fill_ad( $slot ) {
@@ -35,6 +36,7 @@ function wp_head() {
 				jQuery( $slot ).empty();
 				jQuery( $slot ).append( '<div id="' + $slot.attr( 'id' ) + '-placeholder"></div>' )
 				OX_12345.setAdUnitSlotId( $slot.data( 'openx-id' ), $slot.attr( 'id' ) + '-placeholder' );
+				OX_12345.addVariable( 'slug', $slot.attr( 'slug' ) );
 				if ( category ) {
 					OX_12345.addVariable( 'category', category );
 				}
@@ -86,6 +88,8 @@ function load_js() {
 
 function render_tag( $output_html, $tag_id ) {
 	static $random_number;
+	global $post;
+	$slug = $post->post_name;
 
 	$tag_meta = get_ad_tag_meta( $tag_id );
 
@@ -144,6 +148,7 @@ function render_tag( $output_html, $tag_id ) {
 		data-max-width="<?php echo esc_attr( $max_width ); ?>"
 		<?php if ( ! empty( $category ) ) : ?>
 		data-category="<?php echo esc_attr( $category ); ?>"
+		data-slug="<?php echo esc_attr( $slug ); ?>"
 		<?php endif; ?>
 	    data-openx-id="%openx_id%"
 	>
