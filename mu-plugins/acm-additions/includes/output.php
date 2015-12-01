@@ -39,6 +39,9 @@ function wp_head() {
 				if ( $slot.data( 'slug' ) )  {
 					OX_12345.addVariable( 'slug', $slot.data( 'slug' ) );
 				}
+				if ( $slot.data( 'shows' ) )  {
+					OX_12345.addVariable( 'shows', $slot.data( 'shows' ) );
+				}
 				if ( category ) {
 					OX_12345.addVariable( 'category', category );
 				}
@@ -91,9 +94,24 @@ function load_js() {
 function render_tag( $output_html, $tag_id ) {
 	static $random_number;
 
+	// Check if the post is singluar
 	if ( is_singular() ) {
-		global $post;
+		global $post; // Just to be safe
+		// We want a slug for all singular post types
 		$slug = $post->post_name;
+
+		// Check if the class exists so we can use its properties
+		if ( class_exists( 'ShowsCPT' ) && defined( "ShowsCPT::SHOW_TAXONOMY" ) ) {
+			// Get the show terms
+			$terms = get_the_terms( $post->ID, constant( 'ShowsCPT::SHOW_TAXONOMY' ) );
+			// Check for errors
+			if ( $terms && ! is_wp_error( $terms ) ) { 
+				// Pluck those slugs out of the terms object
+				$shows = wp_list_pluck( $terms, 'slug' );
+				// Finally join those for openx in a csv format
+				$shows = join( ",", $shows );
+			}
+		}
 	}
 
 	$tag_meta = get_ad_tag_meta( $tag_id );
@@ -153,6 +171,9 @@ function render_tag( $output_html, $tag_id ) {
 		data-max-width="<?php echo esc_attr( $max_width ); ?>"
 		<?php if ( ! empty( $slug ) ) : ?>
 			data-slug="<?php echo esc_attr( $slug ); ?>"
+		<?php endif; ?>
+		<?php if ( ! empty( $shows ) ) : ?>
+			data-shows="<?php echo esc_attr( $shows ); ?>"
 		<?php endif; ?>
 		<?php if ( ! empty( $category ) ) : ?>
 		data-category="<?php echo esc_attr( $category ); ?>"
