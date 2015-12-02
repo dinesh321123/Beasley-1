@@ -12,7 +12,7 @@
  * @return void
  */
 function gmr_verify_form_submission( $form ) {
-	foreach ( $form as $field ) {
+	foreach ( (array) $form as $field ) {
 		if ( ! $field->required ) {
 			continue;
 		}
