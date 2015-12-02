@@ -686,61 +686,8 @@ function gmr_contests_get_login_url( $redirect = null ) {
  * Verifies form submission.
  */
 function gmr_contests_verify_form_submission( $form ) {
-	foreach ( $form as $field ) {
-		if ( ! $field->required ) {
-			continue;
-		}
-
-		$field_key = 'form_field_' . $field->cid;
-		if ( 'file' === $field->field_type ) {
-
-			if ( isset( $_FILES[ $field_key ] ) && file_is_valid_image( $_FILES[ $field_key ]['tmp_name'] ) ) {
-				continue;
-			}
-
-		} else if ( isset( $_POST[ $field_key ] ) ) {
-
-			if ( is_scalar( $_POST[ $field_key ] ) ) {
-
-				$value = $_POST[ $field_key ];
-				if ( 'radio' == $field->field_type && 'other' == $value ) {
-					if ( ! empty( $_POST[ "{$field_key}_other_value" ] ) ) {
-						$value = $_POST[ "{$field_key}_other_value" ];
-					}
-				}
-
-				$value = trim( $value );
-				if ( ! empty( $value ) ) {
-					continue;
-				}
-
-			} else if ( is_array( $_POST[ $field_key ] ) ) {
-
-				$array_data = array();
-				foreach ( $_POST[ $field_key ] as $value ) {
-					if ( 'checkboxes' == $field->field_type && 'other' == $value ) {
-						if ( empty( $_POST[ "{$field_key}_other_value" ] ) ) {
-							continue;
-						}
-
-						$value = $_POST[ "{$field_key}_other_value" ];
-					}
-
-					$array_data[] = sanitize_text_field( $value );
-				}
-
-				$array_data = array_filter( array_map( 'trim', $array_data ) );
-				if ( ! empty( $array_data ) ) {
-					continue;
-				}
-
-			}
-		}
-
-		// required field is empty, so we need to interupt submission process
-		status_header( 400 );
-		exit;
-	}
+	_deprecated_function( 'gmr_contests_verify_form_submission', '1.1.3', 'gmr_verify_form_submission' );
+	gmr_verify_form_submission( $form );
 }
 
 /**
@@ -768,7 +715,7 @@ function gmr_contests_process_form_submission() {
 	}
 
 	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
-	gmr_contests_verify_form_submission( $form );
+	gmr_verify_form_submission( $form );
 
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
