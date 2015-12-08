@@ -11,17 +11,10 @@
  * @package WJRZ
  * @since 0.1.0
  */
-<<<<<<< HEAD
- 
- // Useful global constants
-define( 'WJRZ_VERSION', '0.1.0' );
- 
-=======
 
  // Useful global constants
 define( 'WJRZ_VERSION', '0.2.0' ); /* Version bump by Allen 10/23/2015 @ 11:00 a.m. EST */
 
->>>>>>> master
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -40,11 +33,7 @@ define( 'WJRZ_VERSION', '0.2.0' ); /* Version bump by Allen 10/23/2015 @ 11:00 a
 	load_theme_textdomain( 'wjrz', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wjrz_setup' );
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> master
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -54,15 +43,21 @@ define( 'WJRZ_VERSION', '0.2.0' ); /* Version bump by Allen 10/23/2015 @ 11:00 a
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-<<<<<<< HEAD
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wjrz', get_stylesheet_directory_uri() . "/assets/css/wjrz{$postfix}.css", array(), WJRZ_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wjrz_scripts_styles', 20 );
- 
-=======
-	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'wjrz', get_stylesheet_directory_uri() . "/assets/css/wjrz{$postfix}.css", array(), WJRZ_VERSION );
+
+ /**
+  * Add humans.txt to the <head> element.
+  */
+ function wjrz_header_meta() {
+	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
+
+	echo apply_filters( 'wjrz_humans', $humans );
+ }
+ add_action( 'wp_head', 'wjrz_header_meta' );
+.css", array(), WJRZ_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wjrz_scripts_styles', 20 );
 
