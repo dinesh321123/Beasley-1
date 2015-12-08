@@ -57,24 +57,3 @@ define( 'WJRZ_VERSION', '0.2.0' ); /* Version bump by Allen 10/23/2015 @ 11:00 a
 	echo apply_filters( 'wjrz_humans', $humans );
  }
  add_action( 'wp_head', 'wjrz_header_meta' );
-.css", array(), WJRZ_VERSION );
- }
- add_action( 'wp_enqueue_scripts', 'wjrz_scripts_styles', 20 );
-
->>>>>>> master
- /**
-  * Add humans.txt to the <head> element.
-  */
- function wjrz_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-<<<<<<< HEAD
-	
-	echo apply_filters( 'wjrz_humans', $humans );
- }
- add_action( 'wp_head', 'wjrz_header_meta' );
-=======
-
-	echo apply_filters( 'wjrz_humans', $humans );
- }
- add_action( 'wp_head', 'wjrz_header_meta' );
->>>>>>> master
