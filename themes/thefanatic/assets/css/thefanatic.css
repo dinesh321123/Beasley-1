@@ -15353,6 +15353,29 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
   background-color: #db261d !important;
   border-color: #db261d !important; }
 
+.category-fanvote-of-the-day .lf-app-container .ad__lf-app-sponsorship-container {
+  min-width: 220px;
+  max-width: 500px;
+  margin: auto;
+  padding: 10px;
+  background-color: #2f3440; }
+  .category-fanvote-of-the-day .lf-app-container .ad__lf-app-sponsorship-container .ad__lf-app-sponsorship {
+    position: relative;
+    padding-bottom: 41.7%;
+    height: 0;
+    overflow: hidden; }
+    .category-fanvote-of-the-day .lf-app-container .ad__lf-app-sponsorship-container .ad__lf-app-sponsorship iframe {
+      background-color: #2f3440;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%; }
+.category-fanvote-of-the-day .lf-app-container .lf-poll {
+  border-radius: 0;
+  background-color: #2f3440 !important;
+  font-family: 'Open Sans', sans-serif !important; }
+
 .show__header {
   background-color: #580f0c; }
   .show__header.has-thumbnail:before {

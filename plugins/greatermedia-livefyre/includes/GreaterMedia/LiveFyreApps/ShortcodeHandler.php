@@ -27,10 +27,16 @@ class ShortcodeHandler
 
 		?>
 
-		<script src="//cdn.livefyre.com/Livefyre.js"></script>
-		<div class="lf-app-embed" data-lf-app="<?php echo esc_attr($code_atts['data_lf_app']) ?>" data-lf-env="<?php echo esc_attr($code_atts['data_lf_env']) ?>"></div>
-		<script>Livefyre.require(['//livefyre-cdn-staging.s3.amazonaws.com/libs/app-embed/v0.6.5/app-embed.min.js'], function (appEmbed) {appEmbed.loadAll().done(function(embed) {embed = embed[0];if(embed.el.onload && embed.getConfig){embed.el.onload(embed.getConfig());}});});</script>
-
+		<div class="lf-app-container">
+			<div class="ad__lf-app-sponsorship-container">
+				<div class="ad__lf-app-sponsorship">
+					<?php do_action( 'acm_tag', 'livefyre-app-sponsorship' ); ?>
+				</div>
+			</div>
+			<script src="//cdn.livefyre.com/Livefyre.js"></script>
+			<div class="lf-app-embed" data-lf-app="<?php echo esc_attr($code_atts['data_lf_app']) ?>" data-lf-env="<?php echo esc_attr($code_atts['data_lf_env']) ?>"></div>
+			<script>Livefyre.require(['//livefyre-cdn-staging.s3.amazonaws.com/libs/app-embed/v0.6.5/app-embed.min.js'], function (appEmbed) {appEmbed.loadAll().done(function(embed) {embed = embed[0];if(embed.el.onload && embed.getConfig){embed.el.onload(embed.getConfig());}});});</script>
+		</div>
 		<?php
 
 		return ob_get_clean();
