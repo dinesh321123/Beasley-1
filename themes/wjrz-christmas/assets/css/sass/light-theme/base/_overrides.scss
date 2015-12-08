@@ -1,0 +1,1175 @@
+@import url(http://fonts.googleapis.com/css?family=Istok+Web:400,700);
+
+.main, %main {
+  color: #555;
+}
+
+.header {
+  border-bottom: 0;
+  background-color: #b20000;
+}
+
+.header__search {
+  color: #fff;
+}
+
+.home__featured {
+  @include bp(medium) {
+    background-position: left top;
+    background-color: #561015;
+  }
+}
+
+.live-links {border-top: 0;}
+
+.single-gmr_gallery .gallery__paging--prev,
+.single-gmr_gallery .gallery__paging--next {
+  color: $light-gray;
+  &:hover {color: $cardinal;}
+}
+
+.live-player__stream {
+  border: 1px solid lighten($color-gray-medium-dark,50%);
+  color: lighten($color-gray-medium-dark,50%);
+  @include border-radius(1em);
+  background-color: $liveplayer-bg;
+
+  li {height: auto;}
+
+.live-player__stream--available {display: none;}
+
+.live-player__stream--current.open .live-player__stream--available {
+  color: $dark-gray;
+  border-top: 1px solid darken($color-gray-light, 10%);
+  &:after {background: transparent;}
+
+.live-player__stream--item, .live-player__stream--desc {color: $dark-gray;}
+
+  .live-player__stream--item {
+    background-color: $liveplayer-bg;
+    &:hover {background-color: $light-gray;}
+}
+
+li:last-child {@include border-bottom-radius(1em);}
+  }
+
+}
+
+.live-player__container {border-bottom: 1px solid white;}
+
+.now-playing__artist {color: $color-gray-medium-dark;}
+
+/*.live-link__title, .live-link__title a:link, .live-link__title a:visited {color: $white;} */
+
+.live-link__song:before {color: #fff;}
+
+.live-link__song--artist {
+  color: #fff;
+  font-size: 1em;
+}
+
+.live-link__song--title {
+  color: #fff;
+
+  a, a:visited {color: #fff;}
+}
+
+/*.live-link__title a:link, .live-link__title a:visited {color: $white;}*/
+
+.live-link__title a:hover, .live-link__title a:focus, .live-link__title a:active {color: $primary-link-hover;}
+
+.header__logo {
+  @include bp(medium) {
+    /*top: -7px;*/
+  }
+}
+
+.home__highlights {
+  border-bottom-color: $primary-border;
+  padding-top: 1em;
+}
+
+.highlights__events--more-btn {
+  &:hover {
+    color: $yellow !important;
+    border-color: $yellow;
+  }
+}
+
+.highlights__event--item {
+  background-color: #8c8c8c;
+  color: $white;
+}
+
+.highlights__event--title, .highlights__event--date {
+  color: $white;
+
+  a:hover & {color: #fff;}
+}
+
+.highlights__heading {color: $highlights-heading;}
+
+.type-contest .entry__title--tag {
+  background-color: $light-gray;
+  border-color: $light-gray;
+}
+
+.audio__progress-bar {
+  background-color: $gray;
+}
+
+.footer {
+  background-color: $primary-bg;
+}
+
+/* CUSTOM OVERRIDES BELOW */
+
+.live-stream__login{
+  display:block;
+  width:100px;
+  height:28px;
+  padding:.25em 0 0 1em;
+  -webkit-border-radius:3em;
+  -moz-border-radius:3em;
+  -ms-border-radius:3em;
+  -o-border-radius:3em;
+  -border-radius:3em;
+  border-radius:3em;
+  background-color:#26a903;
+  outline:0;
+  font-weight:700;
+  font-size:.82em;
+  color:#fff;
+  -webkit-transition:all 200ms ease-in-out;
+  -moz-transition:all 200ms ease-in-out;
+  transition:all 200ms ease-in-out
+}
+
+@media screen and (min-width:768px){
+    
+.live-stream {
+    background-image: url("../../images/WJRZ-tuner-bg.jpg");
+} 
+    
+.live-stream .on-air, .live-stream .up-next {
+      padding: 7px 1em;
+      position: relative;
+      top: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-family: 'Istok+Web', sans-serif;
+}        
+    
+  .live-stream__login{
+    width:auto;
+    height:auto;
+    padding:0 0 3px;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    -ms-border-radius:0;
+    -o-border-radius:0;
+    -border-radius:0;
+    border-radius:0;
+    background-color:transparent;
+    margin-right:0;
+    color:#fff;
+}
+}
+
+/* Mobile phone listen live padding */
+.live-player--open .live-links {
+  visibility: visible;
+  display: block;
+  height: auto!important;
+  max-height: 48vh;
+  padding-bottom: 40px;
+  margin-top: 1px!important;
+}
+
+
+/* Events header color */
+.highlights__heading {
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+/* Site body background color - behind featured items */
+
+.home__featured { 
+    background: url("../../images/wjrz-body-bkg-Christmas.jpg") no-repeat;
+    background-color: #26a903;
+}
+
+.home__highlights {
+  padding: 1.5em .809em;
+  background-color: #333 !important;
+  border-bottom: 1px solid #333;
+}
+
+@media screen and (min-width: 480px){
+.home__featured {
+  float: left;
+  display: block;
+  width: 100%;
+  margin-right: 0;
+}
+}
+
+/* Mobile feature background */
+@media screen and (min-width:1400px){
+  .featured__article--content{
+    float:left;
+    display:block;
+    width:100%;
+    margin-right:0;
+    padding:28px 2.89855%;
+  }
+
+  .featured__article--content:last-child{margin-right:0}
+
+}
+
+.home__featured .featured__article--content{
+  background-color:#b20000;
+  color:#b20000;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+
+.live-player__stream {display: none!important }
+
+/* Header top of site background color */
+.header{
+  position:relative;
+  width:100%;
+  padding:0;
+  background-color:#b20000;
+  -webkit-transition:all 200ms linear;
+  -moz-transition:all 200ms linear;
+  transition:all 200ms linear
+}
+
+/* Navigation background color */
+.header__main {
+  height: 82px;
+  border-top: none;
+  background-color: #b20000;
+  border-bottom: none;
+}
+
+.single-show .highlights__community--item:hover .highlights__community--title{color:#b20000;}
+
+.show__nav h1 a:hover{
+  color:#26a903;
+}
+
+.show__nav li a:hover{
+  background-color:#fff;
+  color:#980000;
+}
+
+.show__meta .social-share-link:active,.show__meta .social-share-link:hover{
+  color:#980000;
+  background:#fff;
+  border-color:#fff
+}
+
+a:hover .highlights__community--title {color:#26a903;}
+
+
+/* Rollover color for feature bar */
+.home__featured .featured__article a:hover .featured__article--content {background-color: #980000;}
+
+/* Feature bar font color */
+.featured__article:hover
+.featured__article--heading {
+  color: #eded8f;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+ .featured__article:hover .featured__article--heading {color: #fff;}
+
+.header__nav {font-family: 'Istok+Web', sans-serif;}
+    
+/* Sub-Feature box color */
+.home__featured .featured__content--block {
+  background-color: #b20000;
+  /*background-image: linear-gradient(to left,#b20000 0%,#980000 100%);*/
+  border-radius: 0 0 12px 0px;
+  -moz-border-radius: 0 0 12px 0px;
+  -webkit-border-radius: 0 0 12px 0px;
+}
+
+    
+/* Events box color */
+.highlights__event--item {
+  background-color: #b20000;
+  transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  -webkit-transition: all 200ms ease-in-out;
+}
+
+/* Events box rollover color */
+.highlights__event--item:hover {background-color: #980000;}
+
+/* Events font color */
+.highlights__event--date,
+.highlights__event--title {
+    color: #fff;
+    font-family: 'Istok+Web', sans-serif;
+}
+
+ a:hover .highlights__event--date,a:hover .highlights__event--title {color:#fff;}
+
+/* NOT IN WMTR CODE */
+.featured__content--block {
+  transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  -webkit-transition: all 200ms ease-in-out;
+}
+
+/* Sub-Feature box rollover color */
+.featured__content--block:hover {
+  background: #980000;
+}
+
+.entry2__title { font-family: 'Istok+Web', sans-serif }
+.content__heading,
+.sponsors__heading { font-family: 'Istok+Web', sans-serif }
+
+/* Sub-Feature font color */
+.featured__content--title {
+  color: #fff;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+.featured__content--block:hover .featured__content--title {color:#fff;}
+
+/* Button for sub-features */
+.featured__content--link {
+  color: #fff;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+/* Event more button pre-rollover style */
+.highlights__events--more-btn {
+  background-color: #b20000;
+  border: 1px solid #b20000;
+  color: #fff !important;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.highlights__events--more-btn:hover {
+  background-color: #980000;
+  border-color: #980000;
+  color: #fff !important;
+}
+
+.contest__prize--title {
+  margin: 0 0 .25em;
+  font-size: 1.60181em;
+  color: #b20000;
+  font-family: 'Istok+Web' sans-serif;
+}
+
+.entry__title,
+.page__title {
+  margin: 0 0 20px;
+  font-size: 1.60181em;
+  font-family: 'Istok+Web' sans-serif;
+}   
+
+@media screen and (min-width:320px) { 
+
+.entry2__footer--read-more:link, .entry2__footer--read-more:visited {
+  float: right;
+  display: inline-block;
+  line-height: 1;
+  font-weight: 700;
+  font-size: 1.125em;
+  color: #b20000;
+}
+
+.entry2__footer--read-more:active,.entry2__footer--read-more:focus,.entry2__footer--read-more:hover{color:#980000;}
+    
+.h1 a:active, .h1 a:focus, .h1 a:hover, .h2 a:active, .h2 a:focus, .h2 a:hover, .h3 a:active, .h3 a:focus, .h3 a:hover, .h4 a:active, .h4 a:focus, .h4 a:hover, .h5 a:active, .h5 a:focus, .h5 a:hover, .h6 a:active, .h6 a:focus, .h6 a:hover, .type-contest .entry2__thumbnail--contest-type a:active, .type-contest .entry2__thumbnail--contest-type a:focus, .type-contest .entry2__thumbnail--contest-type a:hover, .type-contest .entry2__thumbnail--end-date a:active, .type-contest .entry2__thumbnail--end-date a:focus, .type-contest .entry2__thumbnail--end-date a:hover, .type-tribe_events .entry2__thumbnail--event-date a:active, .type-tribe_events .entry2__thumbnail--event-date a:focus, .type-tribe_events .entry2__thumbnail--event-date a:hover, h1 a:active, h1 a:focus, h1 a:hover, h2 a:active, h2 a:focus, h2 a:hover, h3 a:active, h3 a:focus, h3 a:hover, h4 a:active, h4 a:focus, h4 a:hover, h5 a:active, h5 a:focus, h5 a:hover, h6 a:active, h6 a:focus, h6 a:hover {color: #b20000;}
+    
+/* Live stream player color */     
+.live-stream__btn--play {
+  -webkit-transform: rotateX(180deg);
+  -moz-transform: rotateX(180deg);
+  -ms-transform: rotateX(180deg);
+  -o-transform: rotateX(180deg);
+  transform: rotateX(180deg);
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition: 500ms;
+  -moz-transition: 500ms;
+  transition: 500ms;
+  -webkit-transition-delay: 200ms;
+  -moz-transition-delay: 200ms;
+  transition-delay: 200ms;
+  border: none;
+  background: #26a903;
+  color: #f2f2f2;
+}      
+    
+/* Social link color and padding */ 
+    
+.header__social .social__list {padding: 0 10px;}
+
+.header__social .social__list li {padding: 0 2px;}
+
+.header__social a.social__link {
+  width: auto;
+  height: auto;
+  padding: 2.1875em 0;
+  border: none;
+  font-size: 1em;
+  color: #fff;
+}
+
+.header__social a.social__link:hover {
+  border-color: #26a903;
+  color: #26a903;
+}
+
+.footer__menu a.social__link:hover{
+  border-color:#26a903;
+  color:#26a903;
+}
+    
+a.social-share-link:hover,a.social__link:hover{
+  color:#26a903;
+  border-color:#26a903;
+}
+
+/* Header background image */
+.header {
+  background-image: url("../../images/WJRZ_header-bkg-Christmas.jpg");
+  background-position: center top;
+}
+
+.live-player__container .live-stream__status .live-stream__listen-now--btn, .live-player__container .live-stream__status .podcast__rss {
+    -webkit-box-shadow: 0 0 12px 3px #fff;
+    -moz-box-shadow: 0 0 12px 3px #fff;
+    box-shadow: 0 0 12px 3px #f1f1f3;
+}     
+    
+/* Live stream background color */
+.live-links {background-color: #b20000;
+}  
+    
+.live-stream {background: #f2f2f2;} 
+
+.live-player {
+  color: #b20000;
+  font-weight: 400;
+  font-family: 'Istok+Web', sans-serif;
+}
+    
+.now-playing__artist {
+    color: #b20000;
+}
+        
+.now-playing__title {
+    color: #26a903;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1.2;
+    margin: 0 0 8px;
+} 
+    
+#live-player--volume .noUi-base {
+    background: #26a903 none repeat scroll 0 0;
+    border-radius: 5px;
+    height: 7px;
+    transform: translate3d(0px, 0px, 0px);
+}
+    
+.live-link__song:hover,.live-link__song:hover .live-link__song--title,.live-link__song:hover:before{color:#000;}
+  
+.live-player__container {
+  background-color: transparent;
+  transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  -webkit-transition: all 200ms ease-in-out;
+  overflow:hidden;
+}
+    
+.live-stream__now-playing--btn {
+    line-height: 1;
+    padding: .5em 1em;
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: #fff!important;
+    border-radius: 100em;
+    display: none;
+    margin-right: 0;
+    font-weight: 700;
+    -webkit-transition: background .2s ease-in-out;
+    -moz-transition: background .2s ease-in-out;
+    transition: background .2s ease-in-out;
+    cursor: default;
+}        
+    
+.live-player__container {border-bottom: 1px #fff;}
+    
+.live-link__title, .live-link__title a:link, .live-link__title a:visited {color: $white;}
+
+.live-link__song:before {color: $white;}
+
+.live-link__song--artist {
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'Istok+Web', sans-serif; }
+
+.live-link__song--title {
+  color: $white;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'Istok+Web', sans-serif;
+
+  a, a:visited {color: $white;}
+}
+
+.live-link__title a:link, .live-link__title a:visited {color: $white;}
+                                            
+/*.live-links {
+  visibility: hidden;
+  padding: 16px 0 0;
+  background-color: #000;
+  text-align: center;
+  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+} */
+                                                         
+/*.header__logo {margin: 20px 0 0 50px;}*/
+
+.live-link__song {
+  transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  -webkit-transition: all 200ms ease-in-out;
+}
+
+.widget--live-player a:hover {color: #fff;}
+                                         
+/* Background rollover color of last played songs */
+.widget--live-player a:hover > div {background: #b20000;}
+
+/* Last played song note rollover color */
+.widget--live-player a:hover .live-link__song:before {color: #fff;}
+
+/* Last played artist rollover color */
+.widget--live-player a:hover .live-link__song--title {color: #fff;}
+
+/* Last played box background color */
+.live-links {
+    background-color: #b20000;
+  border-top: 2px solid #26a903;
+}
+
+.live-link__song {color: #fff;}
+
+.on-air__show,
+.up-next__show {
+  font-size: .88889em;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+/* Last played music note and song title color */
+.live-link__song--artist,
+.live-link__song:before {
+  color: #fff;
+  font-weight: 700;
+}
+
+.live-link__song--title p:hover {color: #fff;}
+    
+/* Live Links header title color */
+
+.widget--live-player__title {
+  color: #fff;
+  font-weight: 700;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+/* Last played song title color */
+.live-link__song--title {
+  color: #fff;
+  font-weight: 700;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+/* Navigation background color */
+.header__account--logged-in, .header__account--logged-out, .header__account--span {color: #fff;}
+
+.header__main {
+  height: 82px;
+  border-top: none;
+  background-color: #b20000;
+  border-bottom: none;
+}
+                                            
+/* Background behind last played More button */
+.live-links--more {
+  background-color: #f2f2f2;
+  -webkit-transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+    
+/* Different in WMTR CODE */
+.live-links--more:before {
+  background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(242,242,242,1) 100%)!important; /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(242, 242, 242,1)))!important; /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(242,242,242,1) 100%)!important; /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(242,242,242,1) 100%)!important; /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(242,242,242,1) 100%)!important; /* IE10+ */
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(242,242,242,1) 100%)!important; /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#f2f2f2',GradientType=0 )!important; /* IE6-9 */
+}    
+    
+ /* .live-links--more:before {
+  background: -moz-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color- stop(0,rgba(255,255,255,0),color-stop(100%,#000)));
+  background: -webkit-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
+top,rgba(255,255,255,0)0,#000 100%);
+  background: -ms-linear-gradient(top,rgba(255,255,255,0)0,#000 100%);
+  background: linear-gradient(to bottom,rgba(219,138,138,0)0,#f2f2f2 100%);
+} */
+    
+.live-links--more:before {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    content: "";
+}    
+    
+/* Featured box background desktop */
+.home__featured .featured__article--content {
+  background-color: #b20000;
+  color: #b20000;
+  opacity: 1;
+}
+/* NEW box configuration %%%%%%%%%% */    
+    .home__featured .featured__article--content {
+  /*background-image: linear-gradient(to bottom,#033d6c 0%,#980000 100%);*/
+  border-radius: 0 0 12px 12px;
+  -moz-border-radius: 0 0 12px 12px;
+  -webkit-border-radius: 0 0 12px 12px;
+}
+
+.home__featured .featured__content--image {
+    padding-top: 66.6%;
+    width: 100%;
+}  
+
+.featured__content--block {
+    height: 100%;
+}
+    
+}    
+    
+@media screen and (min-width:1024px) {
+
+.header__nav li {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.header__nav li:hover {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.header__account ul li a,
+.header__account ul li a:link,
+.header__account ul li a:visited,
+.header__nav ul li a,
+.header__nav ul li a:link,
+.header__nav ul li a:visited {padding: 33px .38em 32px;}
+}
+
+@media screen and (min-width:1175px) {
+
+.header__nav {padding-left: 200px;}
+
+.header__logo {
+  background: none;
+  width: inherit;
+  height: inherit;
+  display:block;
+  position:absolute;
+  top:-120px;
+  margin:0;
+  padding:0;
+}
+
+.header__logo img {
+  width: 100%;
+  height: auto;
+  max-height: inherit;
+  max-width: inherit;
+  z-index: 1;
+  display:block;
+  -webkit-transform:none;
+   transform:none;
+}
+}
+
+@media screen and (min-width:1252px) {
+ 
+.header__account ul li a,
+.header__account ul li a:link,
+.header__account ul li a:visited,
+.header__nav ul li a,
+.header__nav ul li a:link,
+.header__nav ul li a:visited {padding: 33px .4em 32px;}
+}                                                                                       
+/* Site background */
+.main {background: #980000;}
+
+.featured__content--block:hover .featured__content--title {color: #fff;}
+
+.home__featured .featured__content--title a:hover, .home__featured .featured__content--title a:focus {color: #fff;}
+
+.live-link__song--artist, .live-link__song::before {
+    color: #fff;
+}
+
+.live-link__song--title {
+    color: #fdba30;
+}
+
+.featured__article--heading {
+  color: #fff;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+a:hover .highlights__event--date,
+a:hover .highlights__event--title {
+  color: #fff;
+   font-family: 'Istok+Web', sans-serif;
+}
+    
+.featured__content--btn {
+  display: none !important;
+}
+
+.featured__content--block:hover .featured__content--btn{
+  display:inline-block;
+  line-height:1;
+  padding:.25em 1.2em;
+  margin-right:.5em;
+  outline:0;
+  background-color:#b20000;
+  border:1px solid #b20000;
+  font-size:.7em;
+  color:#fff!important;
+  text-transform:uppercase;
+  cursor:pointer;
+  border-radius:100em;
+}
+
+.featured__content--block:hover .featured__content--btn:focus,.featured__content--block:hover .featured__content--btn:hover{
+  background-color:#26a903;
+  border-color:#26a903;
+  color:#fff;
+}
+
+.header {
+  background-image: url("../../images/WJRZ_header-bkg-Christmas.jpg");
+  background-position: center top;
+}
+
+.live-link__song:before,.live-link__type--audio:before,.live-link__type--gallery:before,.live-link__type--image:before,.live-link__type--link:before,.live-link__type--standard:before,.live-link__type--video:before {
+  width:0;
+  height:0;
+  color:#fff;
+}
+
+.live-link__song:hover:before,.live-link__type--audio:hover:before,.live-link__type--gallery:hover:before,.live-link__type--image:hover:before,.live-link__type--link:hover:before,.live-link__type--standard:hover:before,.live-link__type--video:hover:before {
+  color:#000;
+}     
+        
+.live-link__title a:link,.live-link__title a:visited {
+  color:#b20000;
+}
+
+.live-link__title a:active,.live-link__title a:focus,.live-link__title a:hover {
+  color:#b20000;
+}
+
+.live-links--more__btn {
+  background-color: #26a903;
+  border: 1px solid #26a903;
+  border-radius: 100em;
+  color: #fff !important;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.88889em;
+  line-height: 1;
+  margin-right: 0.5em;
+  outline: 0 none;
+  padding: 0.5em 1em;
+  text-transform: uppercase;
+  transition: all 200ms ease-in-out 0s;
+}
+    
+.live-links--more__btn:focus,.live-links--more__btn:hover {
+  background-color:#b20000;
+  border-color:#b20000;
+  color:#fff;
+}
+
+.live-links--more__btn:hover {
+    background-color: #b20000;
+    border: 1px solid #b20000;
+    border-radius: 100em;
+    color: #fff !important;
+    margin-right: 0.5em;
+}
+
+.live-links--more__btn:hover:focus, .live-links--more__btn:hover:hover {
+    background-color: #b20000;
+    border-color: #b20000;
+    color: #fff;
+}
+
+.live-links--more__btn:last-of-type {margin-right:0;}
+
+/* Login page */     
+.profile-page__sidebar .profile-header-link {color: #fff;}    
+    
+.profile-page .profile-page__sidebar {
+  background-color: #b20000;
+  background-image: url("../../images/profile_bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  text-align: left;
+} 
+    
+#profile-content .gigya-screen input[type="submit"] {
+  float: right;
+  width: 7em;
+  background-color: #b20000;
+  color: #fff;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6em 1.5em;
+}    
+    
+#profile-content .gigya-screen .new-account-msg a {
+  color: #b20000;
+  display: inline;
+}
+
+.profile-page__sidebar .profile-header-link:hover {color: #26a903;}
+    
+.profile-page__sidebar .profile-header-text:hover {color: #fff;}
+    
+.profile-page__sidebar .profile-header-sep {
+    color: #fff;
+  opacity: 100;
+}
+
+@media screen and (min-width: 768px) {
+ 
+.now-playing__artist {
+    color: #fff;
+}
+    
+.now-playing__title {
+    color: #fdba30;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1.2;
+    margin: 0 0 8px;
+}     
+
+.section-header {font-size: 1em;}
+
+a:link, a:visited {
+  color: #b20000;
+  text-decoration: none;
+}  
+
+/*navigation rollover color */   
+.header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {background-color: #980000;}
+    
+.header__account--links.sub-menu, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .ui-menu {
+  background-color: #fff;
+  border-top: 7px solid #26a903;
+  color: #fff;
+  min-width: 300px;
+  position: absolute;
+  z-index: 5000100;
+}
+    
+/* Mobile nav rollover - Not all work */ 
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#26a903;}
+    
+.mobile-nav__list {
+  padding:0;
+  margin:0;
+}
+
+.mobile-nav__list .menu-item {
+  padding:0;
+  margin:0;
+  border-bottom:1px solid #000;
+  line-height:0;
+}
+
+.mobile-nav__list a:link,.mobile-nav__list a:visited {
+  display:block;
+  padding:18px 1.25em;
+  line-height:1;
+  font-size:1.26562em;
+  color:#fff;
+}
+
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#fff;}
+  
+.mobile-nav .mobile-menu-submenu-header {
+  background-color:#980000;
+  color:#fff;
+  padding:18px 1.25em;
+}
+  
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#980000;}
+    
+.mobile-nav .mobile-menu-submenu-header {
+  background-color:#980000;
+  color:#fff;
+  padding:18px 1.25em
+}
+
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#980000}    
+    
+/* Mobile features */
+a:hover .highlights__event--date,a:hover .highlights__event--title {color:#fff}
+    
+.featured__article:hover .featured__article--heading {color:#fff;}
+    
+.featured__article--heading a:focus,.featured__article--heading a:hover {color:#fff;}
+    
+.featured__content--block:hover .featured__content--title {color:#fff;}
+    
+.home__featured .featured__content--title a:focus,.home__featured .featured__content--title a:hover {color:#fff;}
+    
+a:hover .highlights__community--title {color:#26a903;}
+    
+.highlights__events--more-btn:hover {
+  color:#fff !important;
+}
+    
+    .featured__content--block:hover {
+      background: #980000;
+}
+
+/* Navigation font color - all menus but only instagram social */
+.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {color: #fff;}
+}
+
+/* Live stream button colors */   
+@media screen and (min-width:768px){
+
+.live-stream__listen-now--btn,.podcast__rss {
+  display:inline-block;
+  line-height:1;
+  padding:.5em 1em;
+  margin-right:.5em;
+  outline:0;
+  background-color:#26a903;
+  border:1px solid #26a903;
+  font-size:.88889em;
+  color:#fff!important;
+  text-transform:uppercase;
+  cursor:pointer;
+  border-radius:100em;
+  font-weight:700;
+  z-index:1;
+  -webkit-transition:all 200ms ease-in-out;
+  -moz-transition:all 200ms ease-in-out;
+  transition:all 200ms ease-in-out;
+}
+
+.live-stream__listen-now--btn:focus,.live-stream__listen-now--btn:hover,.podcast__rss:focus,.podcast__rss:hover {
+  background-color:#b20000;
+  border-color:#b20000;
+  color:#fff;
+}
+    .live-stream__btn--loading, .live-stream__btn--pause, .live-stream__btn--resume {
+   background: #b20000;
+   border: 2px solid #b20000;
+   color: #f2f2f2;
+}
+    .live-stream__now-playing--btn{
+    color: #fff !important;
+}
+    
+.live-stream {
+    background-image: url("../../images/WJRZ-tuner-bg.jpg");
+}
+
+.live-stream .on-air, .live-stream .up-next {
+      padding: 7px 1em;
+      position: relative;
+      top: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-family: 'Istok+Web', sans-serif;
+}    
+    
+    
+ /* Header search color */      
+ .header__search {color: #fff;}   
+       
+a.social-share-link:hover,a.social__link:hover {
+  color:#26a903;
+  border-color:#26a903;
+}
+    
+.header__account--logged-out, .header__account--span {color: #fff;}
+}
+
+@media screen and (min-width:768px){
+
+.header__account:hover{
+  background-color:#980000;
+  color:#fff;
+} 
+}
+
+.live-player {
+  color: #b20000;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: 'Istok+Web', sans-serif;
+}
+
+.entry2__thumbnail__overlay {
+  background-color: #b20000;
+  opacity: .6;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+    
+.tribe-events-button {
+  background-color: #b20000 !important;
+  border: 1px solid #b20000 !important;
+  color: #fff !important;
+  cursor: pointer;
+  display: block !important;
+  font-family: "Open Sans",sans-serif;
+  font-size: 0.88889em;
+  line-height: 1;
+  margin-bottom: 1em !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  outline: 0 none;
+  padding: 0.25em 1em;
+  text-transform: uppercase;
+}
+
+.tribe-events-button:hover {
+  background-color: #b20000 !important;
+  border: 1px solid #b20000 !important;
+  color: #fff !important;
+} 
+
+/* Header login color */  
+.header__account--logged-out, .header__account--span {color: #fff;}
+  
+.featured__content--block:hover {
+      background: #980000;
+}
+
+.live-player {
+  background-color: #b20000;
+}
+.single-show .highlights__event--item{
+  background-color:#F1F1F3;
+}
+
+.single-show .highlights__event--item .highlights__event--date,.single-show .highlights__event--item .highlights__event--title{
+  color:#404041;
+}
+
+.single-show .highlights__event--item .highlights__event--title:hover{
+  color:#b20000;
+}
+
+.single-show .highlights__community--item:hover .highlights__community--title{
+  color:#26a903;
+}
+
+.show__feature:hover h3{
+  color:#b20000;
+}
+
+.gallery__feature:hover .gallery__featured--title {
+  color: #b20000;
+}
+
+.gallery__grid--column:hover .gallery__grid--title{
+  color:#b20000;
+}
+
+.gallery__next--btn:focus,.gallery__next--btn:hover,.gallery__prev--btn:focus,.gallery__prev--btn:hover{
+  border-color:#26a903;
+  color:#26a903;
+}
+
+.gallery__social a.social-share-link:focus,.gallery__social a.social-share-link:hover,.gallery__social--mobile a.social-share-link:focus,.gallery__social--mobile a.social-share-link:hover,.single-gmr_gallery .gallery__social a.social-share-link:focus,.single-gmr_gallery .gallery__social a.social-share-link:hover,.single-gmr_gallery .gallery__social--mobile a.social-share-link:focus,.single-gmr_gallery .gallery__social--mobile a.social-share-link:hover{
+  border-color:#26a903;
+  color:#26a903;
+}
+.mobile-nav .mobile-menu-submenu-header {
+  background-color:#980000;
+  color:#fff;
+  padding:18px 1.25em;
+}
+  
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#980000;}
+    
+.mobile-nav .mobile-menu-submenu-header {
+  background-color:#980000;
+  color:#fff;
+  padding:18px 1.25em
+}
+
+.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover {background-color:#980000}   
+
+.footer a:link,.footer a:visited{
+  color:#929497;
+}
+
+.footer a:active,.footer a:focus,.footer a:hover{
+  color:#980000;
+}
+
+.show__feature--desc time{
+  display: none;
+}
+
