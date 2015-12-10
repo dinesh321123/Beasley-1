@@ -15353,8 +15353,6 @@ a.entry2__category:hover, a.entry2__category:active, a.entry2__category:focus {
   background-color: #db261d !important;
   border-color: #db261d !important; }
 
-.category-fanvote-of-the-day .article__thumbnail {
-  display: none; }
 .category-fanvote-of-the-day .lf-app-container .ad__lf-app-sponsorship-container {
   min-width: 220px;
   max-width: 500px;
