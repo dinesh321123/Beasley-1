@@ -192,9 +192,23 @@
 /***** Tablet *****/
 
 @media screen and (min-width: 768px) {
-	.header {
-	    background-position: center bottom;
-	}
+		.header {
+		    background-position: center bottom;
+		}
+		.ad__leaderboard.desktop {
+			border: 10px solid #8b0000;
+			width: 748px;
+			height: 110px;
+			margin: 10px auto;
+			padding: 0;
+			-webkit-border-radius: 10px;
+			border-radius: 10px;
+			-webkit-box-shadow: 1px 1px 30px 5px #8b0000;
+			box-shadow: 1px 1px 30px 2px #8b0000;
+		}
+		.ad__leaderboard.mobile {
+			display: none;
+		}
     .live-player {
         background-image: url("../../images/metal-texture.jpg");
     }
