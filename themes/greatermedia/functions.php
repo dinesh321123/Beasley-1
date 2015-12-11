@@ -648,7 +648,11 @@ function add_google_analytics() {
 	if ( empty( $google_analytics ) ) {
 		return;
 	}
-
+	if ( is_singular() ) {
+		$args     = array( 'orderby' => 'name', 'order' => 'ASC', 'fields' => 'slugs' );
+		$shows    = implode( ', ', wp_get_post_terms( $post->ID, '_shows', $args ) );
+		$category = implode( ', ', wp_get_post_terms($post->ID, 'category', $args ) );
+	}
 	?>
 	<script>
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -675,6 +679,11 @@ function add_google_analytics() {
 		ga('send', 'pageview');
 	});
 	ga('require', 'displayfeatures');
+	<?php if (  is_singular(  )  ) : ?>
+		ga( 'set' 'contentGroup1', <?php echo json_encode( $shows ); ?>' );
+		ga( 'set' 'contentGroup2', <?php echo json_encode( $category ); ?>' );
+	<?php endif ?>
+
 	ga('send', 'pageview');
 
 	jQuery(document).ready(function() {
