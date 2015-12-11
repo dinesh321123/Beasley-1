@@ -1,0 +1,60 @@
+Array
+(
+)
+Array
+(
+    [data] => Array
+        (
+            [wp-check-locked-posts] => Array
+                (
+                    [0] => post-409242
+                    [1] => post-409439
+                    [2] => post-409283
+                    [3] => post-409262
+                    [4] => post-409244
+                    [5] => post-409230
+                    [6] => post-409214
+                    [7] => post-409201
+                    [8] => post-409187
+                    [9] => post-409126
+                    [10] => post-408975
+                    [11] => post-408942
+                    [12] => post-408884
+                    [13] => post-408828
+                    [14] => post-408856
+                    [15] => post-408836
+                    [16] => post-408839
+                    [17] => post-408780
+                    [18] => post-409246
+                    [19] => post-408579
+                )
+
+        )
+
+    [interval] => 15
+    [_nonce] => 171ac3fb7a
+    [action] => heartbeat
+    [screen_id] => edit-post
+    [has_focus] => false
+)
+Array
+(
+    [data] => Array
+        (
+            [wp-refresh-post-lock] => Array
+                (
+                    [post_id] => 409262
+                    [lock] => 1449866360:20369
+                )
+
+        )
+
+    [interval] => 15
+    [_nonce] => 171ac3fb7a
+    [action] => heartbeat
+    [screen_id] => post
+    [has_focus] => false
+)
+Array
+(
+)
