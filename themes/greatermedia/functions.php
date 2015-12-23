@@ -682,10 +682,10 @@ function add_google_analytics() {
 	ga('require', 'displayfeatures');
 	<?php if ( is_singular() ) : ?>
 		<?php if ( ! empty( $shows ) ) : ?>
-			ga( 'set' 'contentGroup1', <?php echo json_encode( $shows ); ?> );
+			ga( 'set', 'contentGroup1', <?php echo json_encode( $shows ); ?> );
 		<?php endif; ?>
 		<?php if ( ! empty( $category ) ): ?>
-			ga( 'set' 'contentGroup2', <?php echo json_encode( $category ); ?> );
+			ga( 'set', 'contentGroup2', <?php echo json_encode( $category ); ?> );
 		<?php endif; ?>
 	<?php endif ?>
 
