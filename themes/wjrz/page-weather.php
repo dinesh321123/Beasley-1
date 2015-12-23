@@ -53,9 +53,12 @@ while ( have_posts() ) : the_post(); ?>
                     -->
                     </a><div id="awtd1406746145996" class="aw-widget-36hour"  data-locationkey="2192064" data-unit="f" data-language="en-us" data-useip="false" data-uid="awtd1406746145996" data-editlocation="true" data-lifestyle="sun-sand"></div><script type="text/javascript" src="http://oap.accuweather.com/launch.js"></script>
                     
-                    <iframe src="http://www.snocountry.com/widget/widget_us_states.php?pettabs=1&region=us&size=small" frameborder="0" height="435" width="250" scrolling="no"><br />
-  <p>Your browser does not support iframes.</p><br />
-</iframe>
+                    <hr />
+
+                    <center>
+                    <p><strong>Check out the latest ski reports from SnoCountry</strong>:</p><iframe src="http://www.snocountry.com/widget/widget_us_states.php?pettabs=1&region=us&size=small" frameborder="0" height="435" width="250" scrolling="no"><br />
+                    <p>Your browser does not support iframes.</p><br />
+                    </iframe></center>
 
                 </section>
 
