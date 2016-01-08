@@ -8,6 +8,52 @@ module.exports = function( grunt ) {
 	grunt.initConfig( {
 		pkg:    grunt.file.readJSON( 'package.json' ),
 		
+		concat: {
+			options: {
+				stripBanners: true
+			},
+			thefanatic: {
+				src: [
+					'assets/js/src/wbqt.js'
+				],
+				dest: 'assets/js/wbqt.js'
+			}
+		},
+		jshint: {
+			browser: {
+				all: [
+					'assets/js/src/**/*.js',
+					'assets/js/test/**/*.js'
+				],
+				options: {
+					jshintrc: '.jshintrc'
+				}
+			},
+			grunt: {
+				all: [
+					'Gruntfile.js'
+				],
+				options: {
+					jshintrc: '.gruntjshintrc'
+				}
+			}   
+		},
+		uglify: {
+			all: {
+				files: {
+					'assets/js/wbqt.min.js': ['assets/js/wbqt.js']
+				},
+				options: {
+					mangle: {
+						except: ['jQuery']
+					}
+				}
+			}
+		},
+		test:   {
+			files: ['assets/js/test/**/*.js']
+		},
+
 		sass:   {
 			all: {
 				files: {
@@ -37,7 +83,7 @@ module.exports = function( grunt ) {
 	} );
 
 	// Default task.
-	grunt.registerTask( 'default', ['sass', 'cssmin'] );
+	grunt.registerTask( 'default', ['jshint', 'concat', 'uglify', 'sass', 'cssmin'] );
 
 	grunt.util.linefeed = '\n';
 };

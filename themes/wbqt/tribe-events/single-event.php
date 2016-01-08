@@ -28,16 +28,14 @@ $event_id = get_the_ID();
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 
-			<h2 class="entry__title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?></a></h2>
-
+			<h2 class="entry__title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?> - <?php echo tribe_get_start_date( get_the_ID(), false, 'l' ); ?>, <?php echo tribe_get_start_date( get_the_ID(), false, 'M j' ); ?></a></h2>
+			
 			<?php ob_start(); ?>
 
 			<?php do_action( 'tribe_events_single_event_after_the_content' ) ?>
 
 
 			<?php
-			
-
 			$event_secondary_content = ob_get_clean();
 			echo apply_filters( 'the_secondary_content', $event_secondary_content );
 			?>
