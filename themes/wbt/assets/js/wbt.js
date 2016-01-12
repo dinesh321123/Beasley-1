@@ -26,18 +26,15 @@ var gmcltStationID = 2;
     jQuery('.live-links--more__btn').attr('href', '/social/');
 
  } )( this );
-if (typeof Handlebars != "undefined") {
-	
-}
-
 GMCLT.AdIndex = function() {
-	
-	var $advertiserSearch = jQuery( document.getElementById( 'gmclt_advertiserSearch' ) );
-	var $wideColumnContent = jQuery( document.getElementById( 'gmclt_wideColumnContent' ) );
-	var $categorySelect = '';
-	var $categoryDropdown = jQuery( document.getElementById( 'gmclt_categoryDropdown' ) );
 
 	var init = function() {
+		
+		$advertiserSearch = jQuery( document.getElementById( 'gmclt_advertiserSearch' ) );
+		$wideColumnContent = jQuery( document.getElementById( 'gmclt_wideColumnContent' ) );
+		$categorySelect = '';
+		$categoryDropdown = jQuery( document.getElementById( 'gmclt_categoryDropdown' ) );
+		
 		Handlebars.registerHelper("inc", function(value, options)
 		{
 		    return parseInt(value) + 1;
