@@ -66,9 +66,6 @@ class ShowsCPT {
 	public function register_post_type() {
 		register_post_type( self::SHOW_CPT, array(
 			'public'              => true,
-			'show_in_rest'        => true,
-			'rest_base'           => 'show',
-			'rest_controller_class' =>'WP_REST_Posts_Controller',
 			'menu_position'       => 37,
 			'menu_icon'           => 'dashicons-megaphone',
 			'has_archive'         => 'shows',
