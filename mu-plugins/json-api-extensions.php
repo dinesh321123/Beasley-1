@@ -104,7 +104,7 @@ function greatermedia_json_categories_tags($post, $data, $update) {
 	if ( ! empty( $data['x-categories'] ) ) {
 		if ( is_array( $data['x-categories'] ) ) {
 			for( $x = 0; $x < count( $data['x-categories'] ); $x++ ) {
-				if ( ! ctype_digit( $data['x-categories'][ $x ] ) ) {
+				if ( ! is_numeric( $data['x-categories'][ $x ] ) ) {
 					$data['x-categories'][ $x ] = get_cat_ID( $data['x-categories'][ $x ] );
 				}
 			}
