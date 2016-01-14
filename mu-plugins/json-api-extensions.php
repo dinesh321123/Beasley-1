@@ -101,14 +101,10 @@ function greatermedia_json_categories_tags($post, $data, $update) {
 			wp_set_post_tags( $post['ID'], $data['x-tags'], $append );
 		}
 	}
+
 	if ( ! empty( $data['x-categories'] ) ) {
 		if ( is_array( $data['x-categories'] ) ) {
-			for( $x = 0; $x < count( $data['x-categories'] ); $x++ ) {
-				if ( ! is_numeric( $data['x-categories'][ $x ] ) ) {
-					$data['x-categories'][ $x ] = get_cat_ID( $data['x-categories'][ $x ] );
-				}
-			}
-			wp_set_post_categories( $post['ID'], $data['x-categories'], $append );
+			wp_set_object_terms( $post['ID'], $data['x-categories'], 'category', $append );
 		}
 	}
 }
