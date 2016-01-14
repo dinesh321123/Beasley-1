@@ -67,6 +67,8 @@ class ShowsCPT {
 		register_post_type( self::SHOW_CPT, array(
 			'public'              => true,
 			'show_in_rest'        => true,
+			'rest_base'           => 'show',
+			'rest_controller_class' =>'WP_REST_Posts_Controller',
 			'menu_position'       => 37,
 			'menu_icon'           => 'dashicons-megaphone',
 			'has_archive'         => 'shows',
@@ -130,6 +132,8 @@ class ShowsCPT {
 			'labels'            => $labels,
 			'public'            => true,
 			'show_in_rest'      => true,
+			'rest_base'           => '_shows',
+			'rest_controller_class' =>'WP_REST_Terms_Controller',
 			'show_in_nav_menus' => false,
 			'show_admin_column' => false,
 			'hierarchical'      => true, // Show check boxes in the Shows meta box.
