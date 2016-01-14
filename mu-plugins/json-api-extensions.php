@@ -90,3 +90,29 @@ function greatermedia_json_wpseo_redirect( $post, $data, $update ) {
 add_filter( 'json_insert_post', 'greatermedia_json_wpseo_redirect', 20, 3 );
 // 2.x
 add_filter( 'rest_insert_post', 'greatermedia_json_wpseo_redirect', 20, 3 );
+
+function greatermedia_json_categories_tags($post, $data, $update) {
+	// Since 1.x IS array, and 2.x is object
+	$post = (array) $post;
+	$append = false;
+
+	if ( ! empty( $data['x-tags'] ) ) {
+		if ( is_array( $data['x-tags'] ) ) {
+			wp_set_post_tags( $post['ID'], $data['x-tags'], $append );
+		}
+	}
+	if ( ! empty( $data['x-categories'] ) ) {
+		if ( is_array( $data['x-categories'] ) ) {
+			for( $x = 0; $x < count( $data['x-categories'] ); $x++ ) {
+				if ( ! ctype_digit( $data['x-categories'][ $x ] ) ) {
+					$data['x-categories'][ $x ] = get_cat_ID( $data['x-categories'][ $x ] );
+				}
+			}
+			wp_set_post_categories( $post['ID'], $data['x-categories'], $append );
+		}
+	}
+}
+// 1.x
+add_filter('json_insert_post', 'greatermedia_json_categories_tags', 20, 3 );
+// 2.x
+add_filter('rest_insert_post', 'greatermedia_json_categories_tags', 20, 3 );
