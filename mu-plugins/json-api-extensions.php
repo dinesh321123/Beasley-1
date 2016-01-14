@@ -8,6 +8,7 @@
  */
 function greatermedia_json_api_post_thumbnails($post, $data, $update) {
 	if ( ! empty( $data['x-post-thumbnail'] ) ) {
+		$post = (array) $post;
 		$thumb_id = intval( $data['x-post-thumbnail'] );
 
 		$image = get_post( $thumb_id );
@@ -26,6 +27,7 @@ add_filter('rest_insert_post', 'greatermedia_json_api_post_thumbnails', 20, 3 );
 
 function greatermedia_json_api_shows( $post, $data, $update ) {
 	if ( ! empty( $data['x-shows'] ) ) {
+		$post = (array) $post;
 		$shows = (array) $data['x-shows'];
 		$shows = array_map( 'sanitize_text_field', $shows );
 
@@ -39,6 +41,7 @@ add_filter('rest_insert_post', 'greatermedia_json_api_shows', 20, 3 );
 
 function greatermedia_json_api_breaking( $post, $data, $update ) {
 	if ( ! empty( $data['x-breaking'] ) ) {
+		$post = (array) $post;
 		$breaking = filter_var( $data['x-breaking'], FILTER_VALIDATE_BOOLEAN );
 
 		update_post_meta( $post['ID'], '_is_breaking_news', $breaking );
@@ -51,6 +54,7 @@ add_filter('rest_insert_post', 'greatermedia_json_api_breaking', 20, 3 );
 
 function greatermedia_json_api_attribution( $post, $data, $update ) {
 	if ( ! empty( $data['x-attribution'] ) ) {
+		$post = (array) $post;
 		$attribution = sanitize_text_field( $data['x-attribution'] );
 
 		update_post_meta( $post['ID'], 'gmr_image_attribution', $attribution );
@@ -63,6 +67,7 @@ add_filter('rest_insert_post', 'greatermedia_json_api_attribution', 20, 3 );
 
 function greatermedia_json_post_format( $post, $data, $update ) {
 	if ( ! empty( $data['x-post-format'] ) ) {
+		$post = (array) $post;
 		$format = sanitize_text_field( $data['x-post-format'] );
 
 		set_post_format( $post['ID'], $format );
@@ -73,6 +78,7 @@ add_filter('json_insert_post', 'greatermedia_json_post_format', 20, 3 );
 
 function greatermedia_json_wpseo_redirect( $post, $data, $update ) {
 	if ( ! empty( $data['x-redirect'] ) ) {
+		$post = (array) $post;
 		$redirect_url = trim( esc_url_raw( $data['x-redirect'] ) );
 
 		if ( ! empty( $redirect_url ) ) {
