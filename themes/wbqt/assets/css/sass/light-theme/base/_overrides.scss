@@ -993,6 +993,12 @@ media 768px
               font-family: 'Oswald', sans-serif;
         }
 
+        .on-air__title, .up-next__title {
+			color: #fff;
+			text-transform: uppercase;
+			padding-top: 3px;
+		}
+
         .on-air__show, .up-next__show {
             font-size: .95em;
             position: relative;
@@ -1064,7 +1070,8 @@ media 768px
     }
 
 
-
+.article__header {
+	margin-bottom: 1em;
 	.article__author {
 		color: #404041;
 		font-style: italic;
@@ -1072,17 +1079,16 @@ media 768px
 		margin-bottom: 1em;
 		font-size: 16px;
 		font-weight: bold;
+		display: block!important;
 	}
-
+}
 	
 
 
 	.header__nav-submenu--features li:hover p{
 		color:#fff!important;
 	}
-	.on-air__title, .up-next__title {
-		color: #fff;text-transform: uppercase;
-	}
+
 
 
 	.live-player--active .now-playing,
@@ -1447,7 +1453,7 @@ media 1252px
 	.ad__leaderboard.desktop:after {
 	    content: "";
 	    display: inline-block;
-	    background: url(../../images/artist-masthead.png) no-repeat;
+	    background: url(../../images/artist-masthead2.png) no-repeat;
 	    background-size: contain;
 	    position: absolute;
 	    width: 275px;

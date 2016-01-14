@@ -15673,6 +15673,10 @@ media 768px
       background-color: rgba(0, 0, 0, 0.7);
       color: #fff;
       font-family: 'Oswald', sans-serif; }
+    .live-stream .on-air__title, .live-stream .up-next__title {
+      color: #fff;
+      text-transform: uppercase;
+      padding-top: 3px; }
     .live-stream .on-air__show, .live-stream .up-next__show {
       font-size: .95em;
       position: relative;
@@ -15719,18 +15723,18 @@ media 768px
     border-radius: 0;
     -webkit-box-shadow: 0 0 0 0;
     box-shadow: 0 0 0 0; }
-  .article__author {
-    color: #404041;
-    font-style: italic;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    font-size: 16px;
-    font-weight: bold; }
+  .article__header {
+    margin-bottom: 1em; }
+    .article__header .article__author {
+      color: #404041;
+      font-style: italic;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      font-size: 16px;
+      font-weight: bold;
+      display: block !important; }
   .header__nav-submenu--features li:hover p {
     color: #fff !important; }
-  .on-air__title, .up-next__title {
-    color: #fff;
-    text-transform: uppercase; }
   .live-player--active .now-playing, .now-playing {
     height: auto;
     padding: 65px 1em 0; }
@@ -15953,7 +15957,7 @@ media 1252px
   .ad__leaderboard.desktop:after {
     content: "";
     display: inline-block;
-    background: url(../../images/artist-masthead.png) no-repeat;
+    background: url(../../images/artist-masthead2.png) no-repeat;
     background-size: contain;
     position: absolute;
     width: 275px;
