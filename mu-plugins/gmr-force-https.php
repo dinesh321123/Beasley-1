@@ -4,7 +4,7 @@
 * Force URLs in srcset attributes into HTTPS scheme.
 */
 function ssl_srcset( $sources ) {
-	if ( ! is_admin() ) {
+	if (!is_ssl()) {
 		return $sources;
 	}
 
