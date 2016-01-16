@@ -18,11 +18,14 @@ add_filter( 'gmr_live_link_suggestion_post_types', 'gmr_streams_add_suggestion_p
  * Registers live stream post types in the live links suggestions post types array.
  *
  * @filter gmr_live_link_suggestion_post_types
+ *
  * @param array $post_types The array of already registered post types.
+ *
  * @return array The extended version of incoming array, which contains live stream post type.
  */
 function gmr_streams_add_suggestion_post_type( $post_types ) {
 	$post_types[] = GMR_LIVE_STREAM_CPT;
+
 	return $post_types;
 }
 
@@ -30,8 +33,10 @@ function gmr_streams_add_suggestion_post_type( $post_types ) {
  * Builds permalink for Live Stream object.
  *
  * @filter post_type_link 10 2
+ *
  * @param string $post_link The initial permalink
  * @param WP_Post $post The post object.
+ *
  * @return string The live stream permalink.
  */
 function gmr_streams_get_stream_permalink( $post_link, $post ) {
@@ -54,21 +59,23 @@ function gmr_streams_get_stream_permalink( $post_link, $post ) {
  * Unpacks query vars for live stream page.
  *
  * @filter request
+ *
  * @param array $query_vars The array of initial query vars.
+ *
  * @return array The array of unpacked query vars.
  */
 function gmr_streams_unpack_vars( $query_vars ) {
 	global $gmr_last_song, $gmr_moved_song;
-	
+
 	// do nothing if it is wrong page
-	if ( empty( $query_vars[GMR_LIVE_STREAM_CPT] ) ) {
+	if ( empty( $query_vars[ GMR_LIVE_STREAM_CPT ] ) ) {
 		return $query_vars;
 	}
 
 	// fetch stream
-	$stream_id = false;
-	$stream_sign = $query_vars[GMR_LIVE_STREAM_CPT];
-	$query = new WP_Query( array(
+	$stream_id   = false;
+	$stream_sign = $query_vars[ GMR_LIVE_STREAM_CPT ];
+	$query       = new WP_Query( array(
 		'post_type'           => GMR_LIVE_STREAM_CPT,
 		'meta_key'            => 'call_sign',
 		'meta_value'          => $stream_sign,
@@ -89,15 +96,15 @@ function gmr_streams_unpack_vars( $query_vars ) {
 
 	// unpack query vars if stream has been found
 	if ( ! empty( $stream_id ) ) {
-		$query_vars['post_type'] = GMR_SONG_CPT;
-		$query_vars['post_parent'] = $stream_id;
-		$query_vars['order'] = 'DESC';
-		$query_vars['orderby'] = 'date';
+		$query_vars['post_type']      = GMR_SONG_CPT;
+		$query_vars['post_parent']    = $stream_id;
+		$query_vars['order']          = 'DESC';
+		$query_vars['orderby']        = 'date';
 		$query_vars['posts_per_page'] = 50;
 
 		if ( ! empty( $query_vars['paged'] ) && $query_vars['paged'] > 1 ) {
 			$qv = $query_vars;
-			$qv['paged']--;
+			$qv['paged'] --;
 			$qv['fields'] = 'ids';
 
 			$songs = $query->query( $qv );
@@ -106,10 +113,10 @@ function gmr_streams_unpack_vars( $query_vars ) {
 				$pre_last_song = get_post( array_pop( $songs ) );
 
 				remove_filter( 'get_post_time', array( 'TribeEventsTemplates', 'event_date_to_pubDate' ), 10, 3 );
-				
+
 				if ( get_the_time( 'M j', $pre_last_song ) != get_the_time( 'M j', $gmr_last_song ) ) {
 					$gmr_moved_song = $gmr_last_song;
-					$gmr_last_song = $pre_last_song;
+					$gmr_last_song  = $pre_last_song;
 				}
 			}
 		}
@@ -130,22 +137,25 @@ function gmr_streams_register_post_type() {
 
 	// register post type
 	register_post_type( GMR_LIVE_STREAM_CPT, array(
-		'public'               => true,
-		'exclude_from_search'  => true,
-		'publicly_queryable'   => false,
-		'show_ui'              => true,
-		'show_in_nav_menus'    => false,
-		'show_in_menu'         => 'options-general.php',
-		'rewrite'              => false,
-		'query_var'            => false,
-		'can_export'           => false,
-		'hierarchical'         => true,
-		'menu_position'        => 5,
-		'menu_icon'            => 'dashicons-format-audio',
-		'supports'             => array( 'title' ),
-		'register_meta_box_cb' => 'gmr_streams_register_meta_boxes',
-		'label'                => 'Live Streams',
-		'labels'               => array(
+		'public'                => true,
+		'exclude_from_search'   => true,
+		'publicly_queryable'    => false,
+		'show_in_rest'          => true,
+		'rest_base'             => 'stream',
+		'rest_controller_class' => 'WP_REST_Posts_Controller',
+		'show_ui'               => true,
+		'show_in_nav_menus'     => false,
+		'show_in_menu'          => 'options-general.php',
+		'rewrite'               => false,
+		'query_var'             => false,
+		'can_export'            => false,
+		'hierarchical'          => true,
+		'menu_position'         => 5,
+		'menu_icon'             => 'dashicons-format-audio',
+		'supports'              => array( 'title' ),
+		'register_meta_box_cb'  => 'gmr_streams_register_meta_boxes',
+		'label'                 => 'Live Streams',
+		'labels'                => array(
 			'name'               => 'Live Streams',
 			'singular_name'      => 'Live Stream',
 			'menu_name'          => 'Live Streams',
@@ -174,7 +184,7 @@ function gmr_streams_register_post_type() {
 	}
 
 	$wp->add_query_var( GMR_LIVE_STREAM_CPT );
-	$all_rules = $wp_rewrite->wp_rewrite_rules();
+	$all_rules  = $wp_rewrite->wp_rewrite_rules();
 	$rules_diff = array_diff_key( $new_rules, $all_rules );
 	if ( ! empty( $rules_diff ) ) {
 		$wp_rewrite->flush_rules();
@@ -226,13 +236,14 @@ function gmr_streams_render_vast_url_meta_box( WP_Post $post ) {
  * Saves Live Stream meta box data.
  *
  * @action save_post
+ *
  * @param int $post_id The post id.
  */
 function gmr_streams_save_meta_box_data( $post_id ) {
 	// validate nonce and user permissions
 	$doing_autosave = defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE;
-	$valid_nonce = wp_verify_nonce( filter_input( INPUT_POST, '_gmr_stream_nonce' ), 'gmr_stream_meta_boxes' );
-	$can_edit = current_user_can( 'edit_post', $post_id );
+	$valid_nonce    = wp_verify_nonce( filter_input( INPUT_POST, '_gmr_stream_nonce' ), 'gmr_stream_meta_boxes' );
+	$can_edit       = current_user_can( 'edit_post', $post_id );
 	if ( $doing_autosave || ! $valid_nonce || ! $can_edit ) {
 		return;
 	}
@@ -262,11 +273,13 @@ function gmr_streams_update_admin_menu() {
  * Adds Call Sign column to the Streams table.
  *
  * @fitler manage_gmr-live-stream_posts_columns
+ *
  * @param array $columns The columns array.
+ *
  * @return array Extended array of columns.
  */
 function gmr_streams_filter_columns_list( $columns ) {
-	$cut_mark = array_search( 'title', array_keys( $columns ) ) + 1;
+	$cut_mark    = array_search( 'title', array_keys( $columns ) ) + 1;
 	$new_columns = array(
 		'call_sign' => 'Call Sign',
 		'primary'   => 'Primary',
@@ -287,6 +300,7 @@ function gmr_streams_filter_columns_list( $columns ) {
  * Renders Call Sign column at the Streams table.
  *
  * @action manage_gmr-live-stream_posts_custom_column
+ *
  * @param string $column_name The column name to render.
  * @param int $post_id The current stream id.
  */
@@ -301,7 +315,7 @@ function gmr_streams_render_custom_column( $column_name, $post_id ) {
 				echo '<span class="dashicons dashicons-star-filled"></span>';
 			} else {
 				echo '<a href="', wp_nonce_url( 'admin.php?action=gmr_stream_make_primary&stream=' . $post_id, 'gmr_mark_primary_stream' ), '" title="Make Primary">';
-					echo '<span class="dashicons dashicons-star-empty"></span>';
+				echo '<span class="dashicons dashicons-star-empty"></span>';
 				echo '</a>';
 			}
 			break;
@@ -333,7 +347,7 @@ function gmr_streams_make_primary() {
 	$paged = 0;
 
 	do {
-		$paged++;
+		$paged ++;
 		$query = new WP_Query( array(
 			'post_type'           => GMR_LIVE_STREAM_CPT,
 			'post_status'         => 'any',
@@ -343,12 +357,12 @@ function gmr_streams_make_primary() {
 		) );
 
 		while ( $query->have_posts() ) {
-			$stream = $query->next_post();
+			$stream             = $query->next_post();
 			$stream->menu_order = $stream->ID == $stream_id ? 1 : 0;
 			wp_update_post( $stream->to_array() );
 		}
 	} while ( $paged <= $query->max_num_pages );
-	
+
 	wp_redirect( wp_get_referer() );
 	exit;
 }
@@ -360,11 +374,11 @@ function gmr_streams_make_primary() {
  * @return array The array of public streams.
  */
 function gmr_streams_get_public_streams() {
-	$paged = 0;
+	$paged   = 0;
 	$streams = array();
 
 	do {
-		$paged++;
+		$paged ++;
 		$query = new WP_Query( array(
 			'post_type'           => GMR_LIVE_STREAM_CPT,
 			'posts_per_page'      => 100,
@@ -385,7 +399,7 @@ function gmr_streams_get_public_streams() {
 			$streams[ $call_sign ] = get_post_meta( $stream_id, 'description', true );
 		}
 	} while ( $paged <= $query->max_num_pages );
-	
+
 	return $streams;
 }
 
@@ -393,6 +407,7 @@ function gmr_streams_get_public_streams() {
  * Returns live stream based on its sign.
  *
  * @param string $sign The stream call sign.
+ *
  * @return WP_Post The stream object on success, otherwise NULL.
  */
 function gmr_streams_get_stream_by_sign( $sign ) {
@@ -445,7 +460,7 @@ function gmr_streams_get_primary_stream() {
 function gmr_streams_get_primary_stream_callsign() {
 	static $callsign = null;
 
-	if ( is_null( $callsign) ) {
+	if ( is_null( $callsign ) ) {
 		$stream = gmr_streams_get_primary_stream();
 
 		if ( ! isset( $stream->ID ) ) {
@@ -461,7 +476,7 @@ function gmr_streams_get_primary_stream_callsign() {
 function gmr_streams_get_primary_stream_vast_url() {
 	static $vast_url = null;
 
-	if ( is_null( $vast_url) ) {
+	if ( is_null( $vast_url ) ) {
 		$stream = gmr_streams_get_primary_stream();
 
 		if ( ! isset( $stream->ID ) ) {
