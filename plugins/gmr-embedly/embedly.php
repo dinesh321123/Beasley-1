@@ -94,7 +94,7 @@ class WP_Embedly {
     add_action('admin_print_styles', array($this, 'embedly_enqueue_admin'));
     add_action('admin_print_styles', array($this, 'embedly_menu_icons'));
     add_action('wp_ajax_embedly_update_providers', array($this, 'embedly_ajax_update_providers'));
-    add_action('admin_head', array($this, 'embedly_footer_widgets'));    
+    add_action('admin_head', array($this, 'embedly_footer_widgets'));
     add_action('plugins_loaded', array($this, 'add_embedly_providers'));
 
     //Post page actions
@@ -245,14 +245,14 @@ class WP_Embedly {
     $screen = get_current_screen();
     if($screen->id == $this->embedly_settings_page) {
       $protocol = is_ssl() ? 'https' : 'http';
-      wp_enqueue_style('embedly_admin_styles', EMBEDLY_URL.'/css/embedly-admin.css');
+      wp_enqueue_style('embedly_admin_styles', plugins_url( '/css/embedly-admin.css', __FILE__ ) );
       wp_enqueue_style('google_fonts', $protocol.'://fonts.googleapis.com/css?family=Cabin:400,600');
-      wp_enqueue_script('embedly_admin_scripts', EMBEDLY_URL.'/js/embedly.js',array('jquery'),'1.0',true);
+      wp_enqueue_script('embedly_admin_scripts', plugins_url( '/js/embedly.js', __FILE__ ),array('jquery'),'1.0',true);
     }
     return;
   }
 
-  
+
   /**
    * Enqueue menu icon styles globally in admin
   **/
@@ -509,8 +509,8 @@ class WP_Embedly {
                   <div class="generator-card">
                     <span></span>
                     <div id="card"></div>
-                    <textarea style="display:none;" id="snippet" readonly></textarea> 
-                  </div>              
+                    <textarea style="display:none;" id="snippet" readonly></textarea>
+                  </div>
                 </div>
               </fieldset>
       </form>
