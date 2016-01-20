@@ -499,6 +499,11 @@ class BlogData {
 	 * @return int|object
 	 */
 	public static function ImportMedia( $post_id, $filename, $featured = false, $old_id = 0 ) {
+
+		require_once( ABSPATH . 'wp-admin' . '/includes/image.php' );
+		require_once( ABSPATH . 'wp-admin' . '/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin' . '/includes/media.php' );
+
 		$id = 0;
 		$old_id = intval( $old_id );
 		$tmp = download_url( $filename );
