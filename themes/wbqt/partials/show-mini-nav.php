@@ -68,10 +68,10 @@
 					$times = \GreaterMedia\Shows\get_show_times( $show->ID );
 
 					if ( ! empty( $days ) ) {
-						echo '<em>' . $days . '</em>';
+						echo '<em>' . esc_html($days) . '</em>';
 					}
 					if ( ! empty( $times ) ) {
-						echo '<em>' . $times . '</em>';
+						echo '<em>' . esc_html($times) . '</em>';
 					}
 				?>
 							<?php if ( $facebook_url = get_post_meta( $show->ID, 'show/social_pages/facebook', true ) ): ?>
