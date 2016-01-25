@@ -12,6 +12,7 @@
  * @return void
  */
 function gmr_verify_form_submission( $form ) {
+	
 	foreach ( (array) $form as $field ) {
 		if ( ! $field->required || 'section_break' === $field->field_type ) {
 			continue;

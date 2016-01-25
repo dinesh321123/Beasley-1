@@ -714,12 +714,12 @@ function gmr_contests_process_form_submission() {
 		}
 	}
 
-	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
-	gmr_verify_form_submission( $form );
-
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
+	
+	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
+	gmr_verify_form_submission( $form );
 
 	foreach ( $form as $field ) {
 		$field_key = 'form_field_' . $field->cid;
