@@ -18,7 +18,7 @@
 
 			<div class="contest__restriction--signin">
 				<p>
-					You must be signed in to enter the contest!
+					You must be signed in to participate in the survey!
 				</p>
 
 				<p>
