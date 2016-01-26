@@ -579,7 +579,7 @@ class BlogData {
 				$id = media_handle_sideload( $file_array, $post_id, null );
 
 				// @remove after debugging
-				error_log( print_r( "ImportMedia id: {$id}", true ) );
+				error_log( print_r( $id, true ) );
 
 
 				// If error storing permanently, unlink
