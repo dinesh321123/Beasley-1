@@ -36,14 +36,14 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 
 		if ( ! empty( $start ) ) {
 			if ( ! $this->validate_date( $start ) ) {
-				WP_CLI::error( "Invalid Start Date" );
+				\WP_CLI::error( "Invalid Start Date" );
 			}
 			$start .= ' 00:00:00';
 		}
 
 		if ( ! empty( $end ) ) {
 			if ( ! $this->validate_date( $end ) ) {
-				WP_CLI::error( "Invalid End Date" );
+				\WP_CLI::error( "Invalid End Date" );
 			}
 			$end .= ' 23:59:59';
 		}
@@ -64,6 +64,7 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 				'status' => get_post_meta( $single_subscription->ID, 'subscription_post_status', true ),
 			);
 
+			\WP_CLI::line( print_r( $taxonomy_names ) );
 			foreach ( $taxonomy_names as $taxonomy ) {
 				$label = $taxonomy->name;
 
@@ -76,6 +77,7 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 			$total = count( $result );
 			$notify = new \cli\progress\Bar( "Importing $total articles", $total );
 
+			\WP_CLI::line( print_r( $result ) );
 			foreach ( $result as $single_post ) {
 				if ( ! empty( $single_post['post_obj'] ) ) {
 					BlogData::ImportPosts(
@@ -90,14 +92,14 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 							, $force
 					);
 				}
-				
+
 				$notify->tick();
 			}
 
 			$notify->finish();
 		}
 
-		WP_CLI::success( "Finished Import" );
+		\WP_CLI::success( "Finished Import" );
 	}
 
 	protected function validate_date( $date ) {
@@ -105,10 +107,10 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 		if ( ! preg_match( $pattern, $date ) ) {
 			return false;
 		}
-
+		WP_CLI::line( print_r( $date ) );
 		return $date;
 	}
-	
+
 	/**
 	 * Updates syndicated post with the latest version of original post.
 	 *
@@ -138,18 +140,22 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 		if ( empty( $syndicated_post ) ) {
 			\WP_CLI::error( 'The post has not been found.' );
 		}
-		
+
 		$info = get_post_meta( $syndicated_post->ID, 'syndication_old_data', true );
 		if ( empty( $info ) ) {
 			\WP_CLI::error( 'Syndication data has not been found.' );
+		} else {
+			\WP_CLI::line( print_r( $info ) );
 		}
 
 		$info = unserialize( $info );
 		switch_to_blog( $info['blog_id'] );
 		$original_post = get_post( $info['id'] );
+		\WP_CLI::line( print_r( $original_post ) );
 		$data = BlogData::PostDataExtractor( $syndicated_post->post_type, $original_post );
+		\WP_CLI::line( print_r( $data) );
 		restore_current_blog();
-		
+
 		BlogData::ImportPosts(
 			$data['post_obj']
 			, $data['post_metas']

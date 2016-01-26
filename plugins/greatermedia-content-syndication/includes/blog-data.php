@@ -55,6 +55,10 @@ class BlogData {
 		$syndication_id = filter_input( INPUT_POST, 'syndication_id', FILTER_VALIDATE_INT );
 		$total = $syndication_id > 0 ? self::run( $syndication_id ) : 0;
 
+		// @remove after debugging
+		error_log( print_r( "Syndication ID: {$syndication_id}", true ) );
+		error_log( print_r( "Total: {$total}", true ) );
+
 		echo (int) $total;
 		exit;
 	}
@@ -97,6 +101,8 @@ class BlogData {
 		$content_home_url = trailingslashit( home_url() );
 		restore_current_blog();
 
+		// @remove after debugging
+		error_log( print_r( $result, true ) );
 		foreach ( $result as $single_post ) {
 			$post_id = self::ImportPosts(
 				$single_post['post_obj']
@@ -117,6 +123,8 @@ class BlogData {
 
 		$imported_post_ids = implode( ',', $imported_post_ids );
 
+		// @remove after debugging
+		error_log( print_r( "Imported post ids: {$imported_post_ids}", true ) );
 		self::add_or_update( 'syndication_imported_posts', $imported_post_ids );
 		set_transient( 'syndication_imported_posts', $imported_post_ids, WEEK_IN_SECONDS * 4 );
 
@@ -229,14 +237,19 @@ class BlogData {
 				$featured_src = $featured_src[0];
 			}
 		}
-		
+
 		$galleries = get_post_galleries( $single_result->ID, false );
+		// @remove after debugging
+		error_log( print_r( "Galleries: {$galleries}", true ) );
+		error_log( print_r( "Featured ID: {$featured_id}", true ) );
+		error_log( print_r( "Featured SRC: {$featured_src}", true ) );
+
 		foreach ( $galleries as &$gallery ) {
 			if ( ! empty( $gallery['ids'] ) ) {
 				$image_ids = array_filter( array_map( 'intval', explode( ',', $gallery['ids'] ) ) );
 				$gallery['ids'] = implode( ',', $image_ids );
 				$gallery['src'] = array();
-				
+
 				foreach ( $image_ids as $image_id ) {
 					$image_src = wp_get_attachment_image_src( $image_id, 'full' );
 					if ( ! empty( $image_src ) ) {
@@ -252,8 +265,13 @@ class BlogData {
 			$attachments = array_filter( array_map( 'get_post', $attachments ) );
 		}
 
+		// @remove after debugging
+		error_log( print_r( "Attachments: {$attachments}", true ) );
+
 		$term_tax = array();
 		$taxonomies = get_object_taxonomies( $single_result );
+		// @remove after debugging
+		error_log( print_r( "Taxonomies: {$taxonomies}", true ) );
 		foreach ( $taxonomies as $taxonomy ) {
 			$term_tax[$taxonomy][] = wp_get_object_terms( $single_result->ID, $taxonomy, array( "fields" => "names" ) );
 		}
@@ -284,7 +302,7 @@ class BlogData {
 		if ( ! $post ) {
 			return;
 		}
-		
+
 		$post_name = sanitize_title( $post->post_name );
 		$post_title = sanitize_text_field( $post->post_title );
 		$post_type = sanitize_text_field( $post->post_type );
@@ -303,6 +321,10 @@ class BlogData {
 			'post_modified'     => $post->post_modified,
 			'post_modified_gmt' => $post->post_modified_gmt,
 		);
+
+
+		// @remove after debugging
+		error_log( print_r( "ImportPosts args: {$args}", true ) );
 
 		if ( 'publish' == $post_status ) {
 			$args['post_modified'] = current_time( 'mysql' );
@@ -324,6 +346,9 @@ class BlogData {
 
 		$existing = get_posts( $meta_query_args );
 
+		// @remove after debugging
+		error_log( print_r( "ImportPosts existing: {$existing}", true ) );
+
 		$updated = 0;
 		$post_id = 0;
 
@@ -334,7 +359,7 @@ class BlogData {
 			if ( $hash_value != $post_hash || $force_update ) {
 				// post has been updated, override existing one
 				$args['ID'] = $post_id;
-				
+
 				wp_update_post( $args );
 				if ( ! empty( $metas ) ) {
 					foreach ( $metas as $meta_key => $meta_value ) {
@@ -352,6 +377,10 @@ class BlogData {
 			}
 			$updated = 1;
 		}
+
+
+		// @remove after debugging
+		error_log( print_r( "ImportPosts updated: {$updated}", true ) );
 
 		/**
 		 * Post has been updated or created, assign default terms
@@ -524,13 +553,21 @@ class BlogData {
 
 		// query to check whether post already exist
 		$existing = get_posts( $meta_query_args );
+		// @remove after debugging
+		error_log( print_r( "ImportMedia existing: {$updated}", true ) );
 		if ( empty( $existing ) ) {
 			preg_match( '/[^\?]+\.(jpg|jpe|jpeg|gif|png)/i', $filename, $matches );
+
+			// @remove after debugging
+			error_log( print_r( "ImportMedia matches: {$matches}", true ) );
 
 			// make sure we have a match.  This won't be set for PDFs and .docs
 			if ( $matches && isset( $matches[0] ) ) {
 				$file_array['name'] = basename( $matches[0] );
 				$file_array['tmp_name'] = $tmp;
+
+				// @remove after debugging
+				error_log( print_r( "ImportMedia file_array: {$file_array}", true ) );
 
 				// If error storing temporarily, unlink
 				if ( is_wp_error( $tmp ) ) {
@@ -541,12 +578,20 @@ class BlogData {
 				// do the validation and storage stuff
 				$id = media_handle_sideload( $file_array, $post_id, null );
 
+				// @remove after debugging
+				error_log( print_r( "ImportMedia id: {$id}", true ) );
+
+
 				// If error storing permanently, unlink
 				if ( is_wp_error( $id ) ) {
 					@unlink( $file_array['tmp_name'] );
 				} else {
 					@unlink( $file_array['tmp_name'] );
+					// @remove after debugging
+					error_log( print_r( "ImportMedia featured: {$featured}", true ) );
 					if( $featured == true && $post_id != 0 ) {
+						// @remove after debugging
+						error_log( print_r( "ImportMedia post_id: {$post_id}", true ) );
 						set_post_thumbnail( $post_id, $id );
 					}
 				}
@@ -595,6 +640,8 @@ class BlogData {
 			$imported[] = self::ImportMedia( $post_id, $filename, false, $attachment->ID );
 		}
 
+		// @remove after debugging
+		error_log( print_r( "ImportAttachedImages imported: {$imported}", true ) );
 		return $imported;
 	}
 
