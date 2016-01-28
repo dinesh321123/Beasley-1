@@ -55,10 +55,6 @@ class BlogData {
 		$syndication_id = filter_input( INPUT_POST, 'syndication_id', FILTER_VALIDATE_INT );
 		$total = $syndication_id > 0 ? self::run( $syndication_id ) : 0;
 
-		// @remove after debugging
-		error_log( print_r( "Syndication ID: {$syndication_id}", true ) );
-		error_log( print_r( "Total: {$total}", true ) );
-
 		echo (int) $total;
 		exit;
 	}
@@ -73,7 +69,7 @@ class BlogData {
 		}
 
 		$result = self::QueryContentSite( $syndication_id, '', '', $offset );
-		$taxonomy_names = SyndicationCPT::$support_default_tax;
+		$taxonomy_namer = SyndicationCPT::$support_default_tax;
 		$defaults = array(
 			'status' =>  get_post_meta( $syndication_id, 'subscription_post_status', true ),
 		);
@@ -101,8 +97,6 @@ class BlogData {
 		$content_home_url = trailingslashit( home_url() );
 		restore_current_blog();
 
-		// @remove after debugging
-		error_log( print_r( $result, true ) );
 		foreach ( $result as $single_post ) {
 			$post_id = self::ImportPosts(
 				$single_post['post_obj']
@@ -123,8 +117,6 @@ class BlogData {
 
 		$imported_post_ids = implode( ',', $imported_post_ids );
 
-		// @remove after debugging
-		error_log( print_r( "Imported post ids: {$imported_post_ids}", true ) );
 		self::add_or_update( 'syndication_imported_posts', $imported_post_ids );
 		set_transient( 'syndication_imported_posts', $imported_post_ids, WEEK_IN_SECONDS * 4 );
 
@@ -239,10 +231,6 @@ class BlogData {
 		}
 
 		$galleries = get_post_galleries( $single_result->ID, false );
-		// @remove after debugging
-		error_log( print_r( "Galleries: {$galleries}", true ) );
-		error_log( print_r( "Featured ID: {$featured_id}", true ) );
-		error_log( print_r( "Featured SRC: {$featured_src}", true ) );
 
 		foreach ( $galleries as &$gallery ) {
 			if ( ! empty( $gallery['ids'] ) ) {
@@ -265,13 +253,8 @@ class BlogData {
 			$attachments = array_filter( array_map( 'get_post', $attachments ) );
 		}
 
-		// @remove after debugging
-		error_log( print_r( "Attachments: {$attachments}", true ) );
-
 		$term_tax = array();
 		$taxonomies = get_object_taxonomies( $single_result );
-		// @remove after debugging
-		error_log( print_r( "Taxonomies: {$taxonomies}", true ) );
 		foreach ( $taxonomies as $taxonomy ) {
 			$term_tax[$taxonomy][] = wp_get_object_terms( $single_result->ID, $taxonomy, array( "fields" => "names" ) );
 		}
@@ -323,9 +306,6 @@ class BlogData {
 		);
 
 
-		// @remove after debugging
-		error_log( print_r( "ImportPosts args: {$args}", true ) );
-
 		if ( 'publish' == $post_status ) {
 			$args['post_modified'] = current_time( 'mysql' );
 			$args['post_modified_gmt'] = current_time( 'mysql', 1 );
@@ -345,9 +325,6 @@ class BlogData {
 		);
 
 		$existing = get_posts( $meta_query_args );
-
-		// @remove after debugging
-		error_log( print_r( "ImportPosts existing: {$existing}", true ) );
 
 		$updated = 0;
 		$post_id = 0;
@@ -379,8 +356,6 @@ class BlogData {
 		}
 
 
-		// @remove after debugging
-		error_log( print_r( "ImportPosts updated: {$updated}", true ) );
 
 		/**
 		 * Post has been updated or created, assign default terms
@@ -553,11 +528,9 @@ class BlogData {
 		foreach ( $files as $file ) {
 			if ( file_exists( $path = $old_upload_dir['basedir'] . '/' . $file ) ) {
 				if ( ! copy( $path, $upload_dir['basedir'] . '/' . $file ) ) {
-					error_log( "Failed to moved %s to S3 {$file}", true );
-				} else {
-					if ( ! empty( $args_assoc['delete-local'] ) ) {
-						unlink( $path );
-					}
+					error_log( "Unable to path:" . print_r( $path, true ), 3, '/var/www/html/wordpress/debug.log' );
+					error_log( "Unable to upload_dir:" . print_r( $upload_dir, true ), 3, '/var/www/html/wordpress/debug.log' );
+					error_log( "Unable to file:" . print_r( $file, true ), 3, '/var/www/html/wordpress/debug.log' );
 				}
 			}
 		}
@@ -602,21 +575,13 @@ class BlogData {
 
 		// query to check whether post already exist
 		$existing = get_posts( $meta_query_args );
-		// @remove after debugging
-		error_log( print_r( "ImportMedia existing: {$updated}", true ) );
 		if ( empty( $existing ) ) {
 			preg_match( '/[^\?]+\.(jpg|jpe|jpeg|gif|png)/i', $filename, $matches );
-
-			// @remove after debugging
-			error_log( print_r( "ImportMedia matches: {$matches}", true ) );
 
 			// make sure we have a match.  This won't be set for PDFs and .docs
 			if ( $matches && isset( $matches[0] ) ) {
 				$file_array['name'] = basename( $matches[0] );
 				$file_array['tmp_name'] = $tmp;
-
-				// @remove after debugging
-				error_log( print_r( "ImportMedia file_array: {$file_array}", true ) );
 
 				// If error storing temporarily, unlink
 				if ( is_wp_error( $tmp ) ) {
@@ -627,10 +592,6 @@ class BlogData {
 				// do the validation and storage stuff
 				$id = media_handle_sideload( $file_array, $post_id, null );
 
-				// @remove after debugging
-				error_log( print_r( $id, true ) );
-
-
 				// If error storing permanently, unlink
 				if ( is_wp_error( $id ) ) {
 					@unlink( $file_array['tmp_name'] );
@@ -640,11 +601,7 @@ class BlogData {
 					self::MigrateAttachmentToS3( $id );
 
 					@unlink( $file_array['tmp_name'] );
-					// @remove after debugging
-					error_log( print_r( "ImportMedia featured: {$featured}", true ) );
 					if( $featured == true && $post_id != 0 ) {
-						// @remove after debugging
-						error_log( print_r( "ImportMedia post_id: {$post_id}", true ) );
 						set_post_thumbnail( $post_id, $id );
 					}
 				}
@@ -660,6 +617,8 @@ class BlogData {
 			}
 		} else {
 			$id = $existing[0]->ID;
+				// Try to migrate the post attachment to S3 if it failed for whatever reason
+				self::MigrateAttachmentToS3( $id );
 			if ( $featured == true && $post_id != 0 ) {
 				set_post_thumbnail( $post_id, $id );
 			}
@@ -693,8 +652,6 @@ class BlogData {
 			$imported[] = self::ImportMedia( $post_id, $filename, false, $attachment->ID );
 		}
 
-		// @remove after debugging
-		error_log( print_r( "ImportAttachedImages imported: {$imported}", true ) );
 		return $imported;
 	}
 
