@@ -516,6 +516,55 @@ class BlogData {
 		}
 	}
 
+
+	/**
+	 * Borrowed from S3 Uploads plugin cli command for migrating attachements
+	 *
+	 * @param int    $id - Post ID of the image
+	 *
+	 * @return null
+	 */
+	public static function MigrateAttachmentToS3( $id ) {
+
+		// If theres no class them return silently
+		if ( ! class_exists( 'S3_Uploads' ) ) {
+			return;
+		}
+
+		// Ensure things are active
+		$instance = S3_Uploads::get_instance();
+		if ( ! s3_uploads_enabled() ) {
+			$instance->setup();
+		}
+
+		$old_upload_dir = $instance->get_original_upload_dir();
+		$upload_dir = wp_upload_dir();
+
+		$files = array( get_post_meta( $id, '_wp_attached_file', true ) );
+
+		$meta_data = wp_get_attachment_metadata( $id );
+
+		if ( ! empty( $meta_data['sizes'] ) ) {
+			foreach ( $meta_data['sizes'] as $file ) {
+				$files[] = path_join( dirname( $meta_data['file'] ), $file['file'] );
+			}
+		}
+
+		foreach ( $files as $file ) {
+			if ( file_exists( $path = $old_upload_dir['basedir'] . '/' . $file ) ) {
+				if ( ! copy( $path, $upload_dir['basedir'] . '/' . $file ) ) {
+					error_log( "Failed to moved %s to S3 {$file}", true );
+				} else {
+					if ( ! empty( $args_assoc['delete-local'] ) ) {
+						unlink( $path );
+					}
+				}
+			}
+		}
+
+	}
+
+
 	/**
 	 * Helper function to import images
 	 * Reused code from
@@ -586,6 +635,10 @@ class BlogData {
 				if ( is_wp_error( $id ) ) {
 					@unlink( $file_array['tmp_name'] );
 				} else {
+
+					// Try to migrate the post attachment to S3 if it failed for whatever reason
+					self::MigrateAttachmentToS3( $id );
+
 					@unlink( $file_array['tmp_name'] );
 					// @remove after debugging
 					error_log( print_r( "ImportMedia featured: {$featured}", true ) );
