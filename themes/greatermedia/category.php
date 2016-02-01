@@ -21,6 +21,8 @@ get_header(); ?>
 		<section class="content">
 
 			<?php greatermedia_archive_title(); ?>
+			
+			<?php echo category_description(); ?>
 
 			<?php if ( have_posts() ) :  ?>
 
