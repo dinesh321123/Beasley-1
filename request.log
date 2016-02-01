@@ -1,0 +1,232 @@
+Array
+(
+)
+Array
+(
+    [doing_wp_cron] => 1454366907.5526459217071533203125
+)
+Array
+(
+)
+Array
+(
+    [plugin_status] => all
+    [paged] => 1
+    [s] => 
+)
+Array
+(
+    [redirect_to] => http://gmr.dev/wp-admin/network/plugins.php?plugin_status=all&paged=1&s
+    [reauth] => 1
+)
+Array
+(
+    [plugin_status] => all
+    [paged] => 1
+    [s] => 
+)
+Array
+(
+    [redirect_to] => http://gmr.dev/wp-admin/network/plugins.php?plugin_status=all&paged=1&s
+    [reauth] => 1
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+    [redirect_to] => http://gmr.dev/wp-admin/network/
+    [reauth] => 1
+)
+Array
+(
+    [redirect_to] => http://gmr.dev/wp-admin/network/
+    [reauth] => 1
+)
+Array
+(
+    [log] => 10up
+    [pwd] => 10up
+    [wp-submit] => Log In
+    [redirect_to] => http://gmr.dev/wp-admin/network/
+    [testcookie] => 1
+)
+Array
+(
+)
+Array
+(
+    [action] => dashboard-widgets
+    [widget] => dashboard_primary
+    [pagenow] => dashboard-network
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => dashboard-network
+    [has_focus] => true
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => dashboard-network
+    [has_focus] => true
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => dashboard-network
+    [has_focus] => false
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => dashboard-network
+    [has_focus] => false
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => dashboard-network
+    [has_focus] => true
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+    [action] => activate
+    [plugin] => S3-Uploads-master/s3-uploads.php
+    [plugin_status] => all
+    [paged] => 1
+    [s] => 
+    [_wpnonce] => c5dea38a6c
+)
+Array
+(
+    [activate] => true
+    [plugin_status] => all
+    [paged] => 1
+    [s] => 
+)
+Array
+(
+)
+Array
+(
+    [doing_wp_cron] => 1454367389.3214468955993652343750
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => plugins-network
+    [has_focus] => false
+)
+Array
+(
+)
+Array
+(
+    [doing_wp_cron] => 1454367463.2017090320587158203125
+)
+Array
+(
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => plugins-network
+    [has_focus] => false
+)
+Array
+(
+)
+Array
+(
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => plugins-network
+    [has_focus] => false
+)
+Array
+(
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => plugins-network
+    [has_focus] => true
+)
+Array
+(
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => plugins-network
+    [has_focus] => false
+)
+Array
+(
+)
+Array
+(
+    [interval] => 60
+    [_nonce] => 865a93c6a4
+    [action] => heartbeat
+    [screen_id] => plugins-network
+    [has_focus] => false
+)
+Array
+(
+    [doing_wp_cron] => 1454368015.4993460178375244140625
+)
+Array
+(
+)
+Array
+(
+)

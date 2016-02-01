@@ -69,7 +69,7 @@ class BlogData {
 		}
 
 		$result = self::QueryContentSite( $syndication_id, '', '', $offset );
-		$taxonomy_namer = SyndicationCPT::$support_default_tax;
+		$taxonomy_names = SyndicationCPT::$support_default_tax;
 		$defaults = array(
 			'status' =>  get_post_meta( $syndication_id, 'subscription_post_status', true ),
 		);
@@ -617,8 +617,8 @@ class BlogData {
 			}
 		} else {
 			$id = $existing[0]->ID;
-				// Try to migrate the post attachment to S3 if it failed for whatever reason
-				self::MigrateAttachmentToS3( $id );
+			// Try to migrate the post attachment to S3 if it failed for whatever reason
+			self::MigrateAttachmentToS3( $id );
 			if ( $featured == true && $post_id != 0 ) {
 				set_post_thumbnail( $post_id, $id );
 			}
