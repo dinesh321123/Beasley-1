@@ -163,6 +163,21 @@
 /* CUSTOM OVERRIDES BELOW */
 
 /*Show header and link */
+.show__mini-nav {
+        .show__header.has-thumbnail:before {           
+        background-image: linear-gradient(to bottom,rgba(3,104,172,1),rgba(78,132,192,1));
+        background-image: -moz-linear-gradient(top,rgba(3,104,172,1),rgba(78,132,192,1));
+        background-image: -o-linear-gradient(top,rgba(3,104,172,1),rgba(78,132,192,1));
+        background-image: -ms-linear-gradient(top,rgba(3,104,172,1),rgba(78,132,192,1));
+        background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(3,104,172,1)),to(rgba(78,132,192,1)));
+        background-image: -webkit-linear-gradient(top,rgba(3,104,172,1),rgba(78,132,192,1));
+        content: " ";
+        }  
+         
+        .show__header { 
+            padding: 3px;
+        }
+}
 
 .show__header.has-thumbnail:before {
   background-image: linear-gradient(to bottom,rgba(0,42,110,.45),rgba(0,42,110,.45));
@@ -173,6 +188,7 @@
   background-image: -webkit-linear-gradient(top,rgba(0,42,110,.45),rgba(0,42,110,.45));
   content: " ";
 }
+
 
 .show__nav h1 a:hover{color: #ffe513; text-decoration:none;}
 
@@ -465,7 +481,7 @@ h2.entry2__title a:visited
 
                     }
 
-.entry2__footer--category:link {color: #000000;}
+
 
 .entry2__footer--read-more:link,
 .entry2__footer--read-more:visited {color: #002a6e;}
@@ -506,7 +522,9 @@ h2.entry2__title a:visited
 .entry2__thumbnail__icon, 
 .entry2__thumbnail--event-date,
 .type-contest .entry2__thumbnail--contest-type,
-.type-contest .entry2__thumbnail--end-date{
+.type-contest .entry2__thumbnail--end-date,
+.type-contest .entry__title--tag
+{
     display:none;
 }
 
@@ -541,6 +559,52 @@ h2  {
         text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
     }
 }
+
+time.show__feature--date {
+
+    display: none;
+}
+
+
+
+.show__feature--primary{
+
+    .show__feature--desc h3 {
+        font-family: 'Ubuntu', sans-serif ; font-weight: 700;
+        color: #002a6e;
+
+        &:hover {
+            color:#a8d6f7;
+            text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
+        }
+    }
+}
+
+.show__feature--secondary {
+
+    .show__feature--desc h3 {
+        font-family: 'Ubuntu', sans-serif ; font-weight: 500;
+        color: #002a6e;
+        font-size: 1.50em;
+        &:hover {
+            color:#a8d6f7;
+            text-shadow: 1px 1px 1px rgba(9, 32, 64, .7);
+        }
+    }
+}
+
+
+.gallery__slide--title {
+
+    font-size: 1.20em;
+}
+
+.article__title {
+        font-family: 'Ubuntu', sans-serif;
+        font-weight: 500;
+        color: #002a6e;
+}
+
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -943,9 +1007,18 @@ media 1024px
         }
     }
 
-    .header__social a.social__link:hover {
-        color: #fff;
+    .header__social {
+        float:right;
+        a.social__link{
+            padding: 1.0em 0;
+            font-size: 1.65em;
+
+            &:hover {
+                color: #a8d6f7;
+            }
+        }
     }
+
 }
 
 .header__account:hover {
@@ -1012,26 +1085,26 @@ media 1252px
 
 @-webkit-keyframes artist_animation{
 
-        0%{background-image:url(../../images/img_Artist1.png);opacity:1;}
-        50%{background-image:url(../../images/img_Artist2.png);opacity:1;}
-        100%{background-image:url(../../images/img_Artist3.png);opacity:1;}
+        0%{background-image:url(../../images/img_Artist1-update.png);opacity:1;}
+        50%{background-image:url(../../images/img_Artist2-update.png);opacity:1;}
+        100%{background-image:url(../../images/img_Artist3-update.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
 
       }
 
 @-moz-keyframes artist_animation{
 
-        0%{background-image:url(../../images/img_Artist1.png);opacity:1;}
-        50%{background-image:url(../../images/img_Artist2.png);opacity:1;}
-        100%{background-image:url(../../images/img_Artist3.png);opacity:1;}
+        0%{background-image:url(../../images/img_Artist1-update.png);opacity:1;}
+        50%{background-image:url(../../images/img_Artist2-update.png);opacity:1;}
+        100%{background-image:url(../../images/img_Artist3-update.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
 
       }
 
 @keyframes artist_animation{
-        0%{background-image:url(../../images/img_Artist1.png);opacity:1;}
-        50%{background-image:url(../../images/img_Artist2.png);opacity:1;}
-        100%{background-image:url(../../images/img_Artist3.png);opacity:1;}
+        0%{background-image:url(../../images/img_Artist1-update.png);opacity:1;}
+        50%{background-image:url(../../images/img_Artist2-update.png);opacity:1;}
+        100%{background-image:url(../../images/img_Artist3-update.png);opacity:1;}
         /*99%{background-image:url(http://i.imgur.com/P1MjtZx.png);opacity:1;}*/
 
 }
@@ -1040,7 +1113,7 @@ media 1252px
 .ad__leaderboard.desktop:after {
   content: "";
   display: inline-block;
-  background: url(../../images/img_Artist1.png) no-repeat;
+  background: url(../../images/img_Artist1-update.png) no-repeat;
   background-size: contain;
   position: absolute;
 
