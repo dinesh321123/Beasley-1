@@ -15308,7 +15308,11 @@ body {
   color: #CF000F; }
 
 .news-site .featured__content--title {
-  font-size: 0.87em; }
+  font-size: 0.1em; }
+
+@media screen and (min-width: 768px)  {
+  .news-site .featured__content--title {
+    font-size: 0.87em; } }
 
 .news-site .featured__article--primary .featured__article--heading {
   font-size: 1.3em; }
@@ -15698,7 +15702,7 @@ a:hover .breaking-news-banner {
   width: 80% !important;
   height: 300px !important; }
 
-@media screen and (min-width: 1200px)  {
+@media screen and (min-width: 768px)  {
   #gmclt_trafficMapCanvas {
     width: 100% !important;
     height: 700px !important; } }

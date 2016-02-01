@@ -183,7 +183,13 @@ body {
 }
 
 .news-site .featured__content--title {
-	font-size: 0.87em;
+	font-size: 0.1em;
+}
+
+@include bp(medium) {
+	.news-site .featured__content--title {
+		font-size: 0.87em;
+	}
 }
 
 .news-site .featured__article--primary .featured__article--heading {
@@ -702,7 +708,7 @@ a:hover .breaking-news-banner {
     height: 300px !important;
 }
 
-@include bp(larger) {
+@include bp(medium) {
 	#gmclt_trafficMapCanvas {
 		width: 100% !important;
 		height: 700px !important;

@@ -141,7 +141,6 @@ class GMR_Syndication_CLI extends WP_CLI_Command {
 		$info = get_post_meta( $syndicated_post->ID, 'syndication_old_data', true );
 		if ( empty( $info ) ) {
 			\WP_CLI::error( 'Syndication data has not been found.' );
-		} else {
 		}
 
 		$info = unserialize( $info );
