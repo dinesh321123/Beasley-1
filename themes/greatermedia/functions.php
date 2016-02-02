@@ -1127,4 +1127,4 @@ function greatermedia_filter_hidden_audio_shortcode( $html, $atts, $audio, $post
 	 return $html;
 }
 
-add_filter( 'wp_audio_shortcode', 'audio_short_fix', 10, 5 );
+add_filter( 'wp_audio_shortcode', 'greatermedia_filter_hidden_audio_shortcode', 10, 5 );
