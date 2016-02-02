@@ -1119,3 +1119,12 @@ function urldecode_markup_for_video_thumbnails( $markup, $post_id ) {
 }
 
 add_filter( 'video_thumbnail_markup', 'urldecode_markup_for_video_thumbnails', 10, 2 );
+
+
+
+function greatermedia_filter_hidden_audio_shortcode( $html, $atts, $audio, $post_id, $library ) {
+	$html = str_replace( 'visibility: hidden;', '', $html );
+	 return $html;
+}
+
+add_filter( 'wp_audio_shortcode', 'audio_short_fix', 10, 5 );
