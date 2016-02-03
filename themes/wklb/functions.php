@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WKLB_VERSION', '0.2.4' ); /* Version bump by Allen 10/23/2015 @ 11:00 a.m. EST */
+define( 'WKLB_VERSION', '0.2.5' ); /* Version bump by Denis Prindeville 2/3/2016 @ 3:00 p.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.

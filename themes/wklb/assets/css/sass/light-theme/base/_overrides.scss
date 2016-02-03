@@ -138,8 +138,7 @@
 }
 
 .type-contest .entry__title--tag {
-	background-color: $light-gray;
-	border-color: $light-gray;
+	display:none;
 }
 
 .audio__progress-bar {
@@ -771,12 +770,63 @@
 	}	
 /* End header options */
 
-
+.article__header {
+	margin-bottom: 1em;
+	.article__author {
+		color: #404041;
+		font-style: italic;
+		margin-top: 1em;
+		margin-bottom: 1em;
+		font-size: 12px;
+		font-weight: bold;
+		display: block!important;
+	}
+}
 
 
 	
+time.show__feature--date {
+	display: none;
+}
 
 
+.show__feature--primary{
+
+    .show__feature--desc h3 {
+		color: #004794;
+		font-family: 'Oswald',sans-serif;
+		font-weight: 700;
+        &:hover {
+            color:#ce1141;
+            
+        }
+    }
+}
+
+.show__feature--secondary {
+
+    .show__feature--desc h3 {
+        font-family: 'Oswald',sans-serif; font-weight: 700;
+        color: #004794;
+        font-size: 1.50em;
+        &:hover {
+            color:#ce1141;
+            
+        }
+    }
+}
+
+
+.gallery__slide--title {
+
+    font-size: 1.20em;
+}
+
+.article__title {
+        font-family: 'Oswald',sans-serif;
+        font-weight: 500;
+        color: #004794;
+}
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -826,6 +876,13 @@ media 768px
 -----------------------------------*/
 @media screen and (min-width: 768px) {
 
+
+	.article__header {
+		
+		.article__author {		
+			font-size: 16px;
+		}
+	}
 	.live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading, .live-stream--inactive, .podcast__btn--play, .podcast__btn--pause{
 		margin:10px auto;
 	}
@@ -1147,7 +1204,7 @@ media 1024px
   	}
 
   	.header__social a.social__link{
-  		padding: 1.15em 0;
+  		padding: 1.20em 0;
   		font-size: 1.50em;
   	}
 
@@ -1185,7 +1242,7 @@ media 1252px
 -----------------------------------*/
 @media screen and (min-width: 1252px) {
 	.header__account ul li a,.header__account ul li a:link,.header__account ul li a:visited,.header__nav ul li a,.header__nav ul li a:link,.header__nav ul li a:visited {
-		padding:33px 1.125em 32px
+		padding:33px .70em 32px
 	}
 
 	.header__logo {
