@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WBT_VERSION', '0.1.5' );
+define( 'WBT_VERSION', '0.1.6' );
 
  /**
   * Set up theme defaults and register supported WordPress features.
