@@ -15301,6 +15301,9 @@ body {
 .news-site .featured__article--heading {
   font-size: 1em; }
 
+.article__content h2 {
+  font-size: 1em; }
+
 .featured__article:hover .featured__article--heading {
   color: #CF000F; }
 
