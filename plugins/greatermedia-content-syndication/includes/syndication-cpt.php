@@ -637,15 +637,20 @@ class SyndicationCPT {
 					continue;
 				}
 
+				/**
+				 * All of the strtolower( $status->name ) is because EditFlow messes with
+				 * the core post status objects for draft and pending. They end up with a
+				 * name property that is capitalized instead of lowercase like they should be.
+				 */
 				echo '<div class="subscription_status">';
-					echo '<label for="subscription_post_status-', $status->name, '">';
+					echo '<label for="subscription_post_status-', strtolower( $status->name ), '">';
 						echo esc_html( $status->label );
 					echo '</label>';
 
 					printf(
 						'<input type="radio" name="subscription_post_status" id="subscription_post_status-%1$s" value="%1$s"%2$s>',
-						esc_attr( $status->name ),
-						checked( $status->name, $default_status, false )
+						esc_attr( strtolower( $status->name ) ),
+						checked( strtolower( $status->name ), $default_status, false )
 					);
 				echo '</div>';
 			}
