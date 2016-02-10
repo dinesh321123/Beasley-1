@@ -964,7 +964,20 @@ class MemberQuery {
 
 			return $date->getTimestamp();
 		} elseif ( $valueType === 'list' ) {
-			return "'{$value}'";
+			// This should escape surrounding double quotes in the full SQL query as well as encapsulate the $value in double quotes
+			// In theory we should get something like \"Who Says You Can't Go Home - Bon Jovi\"
+			// A minimalized query would look something like.
+			/*
+			SELECT *
+			FROM actions
+			WHERE data.actions.actionType = 'action:survey'
+			AND data.actions.actionID = '2306'
+			AND data.actions.actionData.name = 'c13766'
+			AND data.actions.actionData.value_list
+			CONTAINS \"Who Says You Can't Go Home - BON JOVI\"
+			ORDER BY UID START 0 LIMIT 5
+			*/
+			return "\\" . "\"{$value}\"" . "\\";
 		} else {
 			return $value;
 		}
