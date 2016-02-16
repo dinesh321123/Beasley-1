@@ -123,6 +123,8 @@ function register_homepage_cpt() {
 		'can_export'          => true,
 		'rewrite'             => true,
 		'capability_type'     => 'post',
+		'show_in_rest'       => true,
+        'rest_base'          => 'homepages',
 		'supports'            => array( 'title' ),
 		'register_meta_box_cb' => __NAMESPACE__ . '\register_meta_boxes',
 	);

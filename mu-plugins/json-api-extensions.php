@@ -112,3 +112,42 @@ function greatermedia_json_categories_tags($post, $data, $update) {
 add_filter('json_insert_post', 'greatermedia_json_categories_tags', 20, 3 );
 // 2.x
 add_filter('rest_insert_post', 'greatermedia_json_categories_tags', 20, 3 );
+
+add_action( 'rest_api_init', 'slug_register_breaking' );
+function slug_register_breaking() {
+    register_rest_field( 'post',
+        '_is_breaking_news',
+        array(
+            'get_callback'    => 'slug_get_breaking',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+}
+
+function slug_get_breaking( $object, $field_name, $request ) {
+    return get_post_meta( $object[ 'id' ], $field_name, true );
+}
+
+add_action( 'rest_api_init', 'slug_register_homepage_features' );
+function slug_register_homepage_features() {
+    register_rest_field( 'gmr_homepage',
+        'featured_meta_box',
+        array(
+            'get_callback'    => 'slug_get_featured',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+}
+
+function slug_get_featured( $object, $field_name, $request ) {
+    return get_post_meta( $object[ 'id' ], $field_name, true );
+}
+
+function my_allow_meta_query( $valid_vars ) {
+	
+	$valid_vars = array_merge( $valid_vars, array( 'meta_key', 'meta_value' ) );
+	return $valid_vars;
+}
+add_filter( 'rest_query_vars', 'my_allow_meta_query' );
