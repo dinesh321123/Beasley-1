@@ -305,7 +305,6 @@ class BlogData {
 			'post_modified_gmt' => $post->post_modified_gmt,
 		);
 
-
 		if ( 'publish' == $post_status ) {
 			$args['post_modified'] = current_time( 'mysql' );
 			$args['post_modified_gmt'] = current_time( 'mysql', 1 );
@@ -789,7 +788,7 @@ class BlogData {
 
 		return $success;
 	}
-	
+
 }
 
 BlogData::init();

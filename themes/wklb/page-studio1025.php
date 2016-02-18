@@ -41,7 +41,7 @@ get_header();
 
 				<header class="article__header">
 
-					
+
 					<h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
 					<?php get_template_part( 'partials/social-share' ); ?>
 
@@ -58,7 +58,7 @@ get_header();
 						var ooyalaPlayer;
 						OO.ready(function() {
 						    var playerConfiguration = {
-							adSetCode:'cfce5b2a04374e91a5b51dfe47b14812',
+							adSetCode:'f25d24d32a3d4e2e9f2b8ddc3350f3e0',
 							playlistsPlugin: {"data":["e4c4cac195bf482c99b409f0cfe16a75","2f8f6b2ed35c4ee1875595ddf881f605","13454882812d48159b3bc46a773fe154","c570d208f9df40e9a75f6ba838be417c","ae615e882e5d42a2b17d137042e83b23","205fce70130342fd852c2d73c1839e3e"]},
 						        autoplay: false,
 						        loop: false,

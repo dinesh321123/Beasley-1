@@ -113,41 +113,37 @@ add_filter('json_insert_post', 'greatermedia_json_categories_tags', 20, 3 );
 // 2.x
 add_filter('rest_insert_post', 'greatermedia_json_categories_tags', 20, 3 );
 
-add_action( 'rest_api_init', 'slug_register_breaking' );
-function slug_register_breaking() {
-    register_rest_field( 'post',
-        '_is_breaking_news',
-        array(
-            'get_callback'    => 'slug_get_breaking',
-            'update_callback' => null,
-            'schema'          => null,
-        )
-    );
+add_action( 'rest_api_init', 'greatermedia_json_register_breaking' );
+function greatermedia_json_register_breaking() {
+	register_rest_field( 'post',
+		'_is_breaking_news',
+		array(
+			'get_callback'    => 'greatermedia_json_get_breaking',
+		)
+	);
 }
 
-function slug_get_breaking( $object, $field_name, $request ) {
-    return get_post_meta( $object[ 'id' ], $field_name, true );
+function greatermedia_json_get_breaking( $object, $field_name, $request ) {
+	return get_post_meta( $object[ 'id' ], $field_name, true );
 }
 
-add_action( 'rest_api_init', 'slug_register_homepage_features' );
-function slug_register_homepage_features() {
-    register_rest_field( 'gmr_homepage',
-        'featured_meta_box',
-        array(
-            'get_callback'    => 'slug_get_featured',
-            'update_callback' => null,
-            'schema'          => null,
-        )
-    );
+add_action( 'rest_api_init', 'greatermedia_json_register_homepage_features' );
+function greatermedia_json_register_homepage_features() {
+	register_rest_field( 'gmr_homepage',
+		'featured_meta_box',
+		array(
+			'get_callback'    => 'greatermedia_json_get_featured',
+		)
+	);
 }
 
-function slug_get_featured( $object, $field_name, $request ) {
-    return get_post_meta( $object[ 'id' ], $field_name, true );
+function greatermedia_json_get_featured( $object, $field_name, $request ) {
+	return get_post_meta( $object[ 'id' ], $field_name, true );
 }
 
-function my_allow_meta_query( $valid_vars ) {
+function greatermedia_json_filter_meta_query( $valid_vars ) {
 	
 	$valid_vars = array_merge( $valid_vars, array( 'meta_key', 'meta_value' ) );
 	return $valid_vars;
 }
-add_filter( 'rest_query_vars', 'my_allow_meta_query' );
+add_filter( 'rest_query_vars', 'greatermedia_json_filter_meta_query' );

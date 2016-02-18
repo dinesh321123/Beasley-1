@@ -510,7 +510,7 @@ if ( ! function_exists( 'greatermedia_load_more_template' ) ) :
 			'paged'         => $gmr_loadmore_paged ?: $wp_query->query_vars['paged'],
 			'max_num_pages' => $gmr_loadmore_num_pages ?: $wp_query->max_num_pages,
 			'post_count'    => $gmr_loadmore_post_count ?: $wp_query->post_count,
-			'html'          => $html,
+			'html'          => apply_filters( 'dynamic_cdn_content', $html ), // Apply dynamic cdn filter so images aren't broken.
 		) );
 
 		exit;
