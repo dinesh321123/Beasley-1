@@ -15,7 +15,7 @@ class GMPFeed {
 
 			// Prevent feed from returning a 404 error when no posts are present on site
 			add_action( 'template_redirect' , array( __CLASS__ , 'gmp_prevent_404' ) , 10 );
-			add_action( 'template_redirect' , array( __CLASS__ , 'gmp_feed_template' ) , 1 );
+			add_action( 'template_redirect' , array( __CLASS__ , 'gmp_feed_template' ) , 11 );
 		}
 	}
 
@@ -57,7 +57,7 @@ class GMPFeed {
 
 			$data = wp_remote_head( $file );
 
-			if( isset( $data['headers']['content-length'] ) ) {
+			if ( ! is_wp_error( $data ) && isset( $data['headers']['content-length'] ) ) {
 
 				$raw = $data['headers']['content-length'];
 				$formatted = self::format_bytes( $raw );

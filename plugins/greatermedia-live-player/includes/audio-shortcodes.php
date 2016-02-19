@@ -71,6 +71,11 @@ class GMR_Audio_Shortcodes {
 			}
 		}
 
+		// Sometimes, we just have "src" instead of something more specific
+		if ( empty( $mp3_src ) && isset( $atts['src'] ) && ! empty( $atts['src'] ) && filter_var( $atts['src'], FILTER_VALIDATE_URL ) ) {
+			$mp3_src = $atts['src'];
+		}
+
 		if ( ! function_exists( 'wp_read_audio_metadata' ) ) {
 			include_once trailingslashit( ABSPATH ) . 'wp-admin/includes/media.php';
 		}
