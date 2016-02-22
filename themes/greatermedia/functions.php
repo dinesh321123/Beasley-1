@@ -1079,21 +1079,6 @@ function greatermedia_facebook_handler( $matches, $attr, $url, $rawattr ) {
 }
 
 /**
- * Filters search results to be ordered by the date
- *
- * @param $query
- */
-function greatermedia_search_results_filter( $query ) {
-	if ( ! is_admin() && $query->is_main_query() ) {
-		if ( $query->is_search() ) {
-			$query->set( 'orderby', 'date' );
-		}
-	}
-}
-
-add_action( 'pre_get_posts', 'greatermedia_search_results_filter' );
-
-/**
  * Disables wptexturize for compatibility with Embed.ly
  */
 add_filter( 'run_wptexturize', '__return_false' );
