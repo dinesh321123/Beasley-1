@@ -435,6 +435,30 @@ function greatermedia_alter_search_query( $query ) {
 add_action( 'pre_get_posts', 'greatermedia_alter_search_query' );
 
 /**
+ * Alter search score to favor more recent posts first
+ *
+ * @param $request_args
+ */
+function EP_search_request_args($request_args, $args="", $scope="") {
+	$gauss = new \stdClass();
+	$gauss->post_date = array("scale" => "52w", "offset" => "12w", "decay" => 0.3);
+
+	$function_score = array(
+		'function_score' => array(
+			'functions' => array(
+				array("gauss" => $gauss)
+			),
+			'score_mode' => 'multiply',
+			'query' => $request_args["query"]
+		)
+	);
+	$request_args["query"] = $function_score;
+
+	return $request_args;
+}
+add_filter('ep_formatted_args', 'EP_search_request_args');
+
+/**
  * Alter query to show custom post types in category pages.
  *
  * @param  WP_Query $query [description]
