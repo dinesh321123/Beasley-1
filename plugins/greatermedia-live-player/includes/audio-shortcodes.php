@@ -26,6 +26,12 @@ class GMR_Audio_Shortcodes {
 			return $result;
 		}
 
+		// Use local URL instead of S3, to ensure we get the correct post.
+		if ( false !== strpos( $url, 'amazonaws' ) ) {
+			$url = strstr( $url, 'uploads' );
+			$url = get_site_url() . '/wp-content/' . $url;
+		}
+
 		$post_id = attachment_url_to_postid( $url );
 
 		if ( $post_id ) {
