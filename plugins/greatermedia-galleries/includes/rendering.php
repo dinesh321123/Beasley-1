@@ -194,7 +194,7 @@ class GreaterMediaGallery {
 			?>
 			<div class="gallery">
 				<div class="container">
-					<?php if ( get_post_type( $main_post_id ) === 'gmr_gallery' ) { ?>
+					<?php if ( 'gmr_gallery' === get_post_type( $main_post_id ) ) { ?>
 						<?php get_template_part( 'partials/show-mini-nav' ); ?>
 					<?php } ?>
 					<div class="gallery__slides">
