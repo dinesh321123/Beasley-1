@@ -20,7 +20,7 @@ get_header();
 				<?php the_content(); ?>
 				
 				<div class="gmclt_wideColumn left">
-					<script type="text/javascript" src="https://form.jotform.com/jsform/60595995934172"></script>
+					<script type="text/javascript" src="https://form.jotform.com/jsform/60595863383164"></script>
 				</div>
 				
 				<div class="gmclt_narrowColumn">
