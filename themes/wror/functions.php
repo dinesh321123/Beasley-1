@@ -13,7 +13,11 @@
  */
 
  // Useful global constants
+<<<<<<< HEAD
 define( 'WROR_VERSION', '0.1.8' ); /* Version bump by Denis Prindeville 3/4/2016 @ 11:00 a.m. EST */
+=======
+define( 'WROR_VERSION', '0.1.8' ); /* Version bump by Denis Prindeville on 3/4/2016 @ 1:50 p.m. EST */
+>>>>>>> feature/wror-css-changes
 
  /**
   * Set up theme defaults and register supported WordPress features.
