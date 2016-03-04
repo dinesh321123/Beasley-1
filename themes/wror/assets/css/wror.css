@@ -14962,9 +14962,13 @@ table.responsive tr:nth-of-type(even) {
   .main .container, .home__highlights .container {
     background-color: #fff; }
 
+#headercachebreak {
+  display: block; }
+
 .header {
   background-color: #091f40;
-  background-image: url("../../images/wror-header-gray.jpg");
+  background-image: url("../../images/wror-header-light-blue.jpg");
+  /* The light blue masthead image */
   background-repeat: repeat-x;
   background-position: center;
   border-bottom: none; }
