@@ -351,8 +351,8 @@ class WP_Embedly {
     // remove default WP oembed providers
     add_filter('oembed_providers', create_function('', 'return array();'));
 
-	// added instagram provider back to the list (by 10up)
-	wp_oembed_add_provider('#https?://instagr(\.am|am\.com)/p/.*#i', 'https://api.instagram.com/oembed', true);
+	 // added instagram provider back to the list (by 10up)
+	 wp_oembed_add_provider( '#https?://(www\.)?instagr(\.am|am\.com)/p/.*#i', 'https://api.instagram.com/oembed', true  );
 
     if($selected_services && $this->embedly_options['active']) {
       foreach($selected_services as $service) {
