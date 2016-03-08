@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WRIF_VERSION', '0.2.2' ); /* Version bump by Steve 10/23/2015 @ 2:00pm EST */
+define( 'WRIF_VERSION', '0.2.3' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.

@@ -17,7 +17,6 @@
 define( 'WROR_VERSION', '0.1.9' ); /* Version bump by Denis Prindeville on 3/8/2016 @ 2:50 p.m. EST */
 
 
-
  /**
   * Set up theme defaults and register supported WordPress features.
   *
