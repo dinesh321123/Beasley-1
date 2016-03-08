@@ -24,7 +24,7 @@
 
 		<section class="content">
 
-			<article id="post-<?php the_ID(); ?>" <?php post_class( 'article cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
+			<article id="post-<?php esc_attr( the_ID() ); ?>" <?php post_class( 'article cf' ); ?> role="article" itemscope itemtype="http://schema.org/BlogPosting">
 
 				<div class="ad__inline--right desktop">
 					<?php do_action( 'acm_tag_gmr_variant', 'mrec-body', 'desktop', array( 'min_width' => 1024 ) ); ?>
@@ -32,7 +32,7 @@
 
 				<header class="article__header">
 
-					<time class="article__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j, Y'); ?></time>
+					<time class="article__date" datetime="<?php echo esc_attr( get_the_time() ); ?>"><?php esc_html( the_date('F j, Y') ); ?></time>
 					<h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
 					<?php get_template_part( 'partials/social-share' ); ?>
 					<div class="article__author">by <?php the_author();?></div>
