@@ -11,7 +11,7 @@
 		<div class="sponsor_description">
 			<div class="sponsor_description-text"><?php the_content(); ?></div>
 		</div>
-		<div class="sponsor_link"><a href="<?php echo esc_html( esc_url( $advertiser_link ) ); ?>" target="_blank" class="contest-attr--rules-toggler">Visit <?php the_title(); ?></a></div>
+		<div class="sponsor_link"><a href="<?php echo esc_url( $advertiser_link ); ?>" target="_blank" class="contest-attr--rules-toggler">Visit <?php esc_html( the_title() ); ?></a></div>
 	<?php } else { ?>
 
 		
@@ -20,7 +20,7 @@
 		<div class="sponsor_description">
 			<div class="sponsor_description-text"><?php the_content(); ?></div>
 		</div>
-		<div class="sponsor_link"><a href="<?php echo esc_html( esc_url( $advertiser_link ) ); ?>" target="_blank" class="contest-attr--rules-toggler">Visit <?php the_title(); ?></a></div>
+		<div class="sponsor_link"><a href="<?php echo esc_url( $advertiser_link ); ?>" target="_blank" class="contest-attr--rules-toggler">Visit <?php esc_html( the_title() ); ?></a></div>
 
 
 
