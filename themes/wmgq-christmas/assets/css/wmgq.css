@@ -5342,6 +5342,11 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .article__header {
   margin-bottom: 2em; }
+  @media screen and (min-width: 1024px)  {
+    .article__header .article__thumbnail {
+      width: calc(100% - 355px); } }
+  .article__header .article__thumbnail:after {
+    padding-top: 0; }
 
 .article__date {
   display: block;
@@ -5362,21 +5367,20 @@ Link posts contain a link to an external site. They can also optionally have a f
       font-size: 2.2806973457em; } }
 
 .article__thumbnail {
-  position: relative;
-  background-position: center center;
-  background-size: 100%;
-  background-size: cover;
-  background-repeat: no-repeat; }
-  .article__thumbnail:after {
-    content: '';
-    display: block;
-    padding-top: 66%; }
+  position: relative; }
 
 .article__content {
   margin-bottom: 1.5em; }
   @media screen and (min-width: 1024px)  {
     .article__content {
       margin-bottom: 4.5em; } }
+  .article__content .article__thumbnail {
+    margin-bottom: 2em; }
+    @media screen and (min-width: 1024px)  {
+      .article__content .article__thumbnail {
+        width: calc(100% - 355px); } }
+    .article__content .article__thumbnail:after {
+      padding-top: 0; }
 
 .article .ad__inline--right.desktop {
   display: none; }
@@ -5556,6 +5560,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .article__comments {
   margin: 3em 0; }
 
+.article__author {
+  display: none; }
+
 .ad-unit--300--250 {
   position: relative;
   height: 250px;
@@ -5582,6 +5589,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 ---
 title: Live Player
 name: live-player
+category: Components
 category: Components
 ---
 
@@ -8012,14 +8020,7 @@ category: Components - Ads
 
 .contest__thumbnail {
   position: relative;
-  background-position: center center;
-  background-size: 100%;
-  background-size: cover;
-  background-repeat: no-repeat; }
-  .contest__thumbnail:after {
-    content: '';
-    display: block;
-    padding-top: 66%; }
+  margin-bottom: 2em; }
 
 .single__featured-img--contest {
   margin: 0 auto; }
@@ -8756,7 +8757,8 @@ category: Components - Ads
   width: 100%;
   background-color: #e8e9e9;
   margin: 0 auto 2em;
-  text-align: center; }
+  text-align: center;
+  position: relative; }
   .event__thumbnail:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px)  {
@@ -8791,6 +8793,10 @@ category: Components - Ads
       width: 100%; }
       .event__thumbnail:last-child {
         margin-right: 0; } }
+
+@media screen and (min-width: 1024px)  {
+  .event__thumbnail-inline .event__thumbnail {
+    width: calc(100% - 355px); } }
 
 .event__thumbnail img {
   margin: 0 auto; }
@@ -9044,6 +9050,9 @@ category: Components - Ads
   padding: 0 0 2.25em; }
   .tribe-events-list .type-tribe_events .entry2__meta p {
     margin: 0; }
+
+.tribe-events-single-event-author {
+  display: none; }
 
 /*doc
 ---

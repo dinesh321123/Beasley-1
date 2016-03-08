@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WBOS_VERSION', '0.3.3' ); /* Version bump by Denis Prindeville 2/9/2016 @ 3:00 p.m. EST */
+define( 'WBOS_VERSION', '0.3.3' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.

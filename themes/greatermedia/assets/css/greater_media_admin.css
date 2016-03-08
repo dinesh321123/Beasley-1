@@ -65,4 +65,20 @@
   width: 100%;
   height: auto; }
 
+.feature-image-preference #feature-image-preference-value:before {
+  font: normal 20px/1 'dashicons';
+  content: '\f538';
+  top: -1px;
+  color: #888;
+  speak: none;
+  display: inline-block;
+  padding: 0 2px 0 0;
+  top: 0;
+  left: -1px;
+  position: relative;
+  vertical-align: top;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-decoration: none !important; }
+
 /*# sourceMappingURL=greater_media_admin.css.map */
