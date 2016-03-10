@@ -22,7 +22,7 @@
 		<h2 class="entry2__title" itemprop="headline"><a href="<?php esc_url( the_permalink() ); ?>"><?php the_title(); ?></a></h2>
 				
 		<div class="entry2__event--details">
-			<?php echo esc_html( tribe_get_start_date( get_the_ID() ), false, 'l' ); ?>, <?php echo esc_html( tribe_get_start_date( get_the_ID() ), false, 'M j' ); ?>
+			<?php echo esc_html( tribe_get_start_date( get_the_ID() , false, 'l' ) ); ?>, <?php echo esc_html( tribe_get_start_date( get_the_ID() , false, 'M j' ) ); ?>
 			
 				<?php
 				$startTime = tribe_get_start_time();
