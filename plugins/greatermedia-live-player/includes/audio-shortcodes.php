@@ -97,6 +97,13 @@ class GMR_Audio_Shortcodes {
 			return $html;
 		}
 
+		// Ensure we have an S3 URL and not local, fixes issues with old URLs prior to S3
+		$site_url = trailingslashit( get_site_url( get_current_blog_id(), '', 'http' ) );
+		if ( false !== strpos( $mp3_src, $site_url ) ) {
+			$upload_dir = wp_upload_dir();
+			$mp3_src = str_replace( $site_url . 'wp-content/uploads', $upload_dir['baseurl'], $mp3_src );
+		}		
+
 		/*
 		 * Breakdown on how we get title data.
 		 *
