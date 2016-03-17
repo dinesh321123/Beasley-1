@@ -97,11 +97,12 @@ class GMR_Audio_Shortcodes {
 			return $html;
 		}
 
-		/* Fix URLs on older podcasts */
-		if ( class_exists( 'S3_Uploads' ) ) {
+		$current_blog_id = get_current_blog_id();
 
-			$current_blog_id = get_current_blog_id();
-
+		/* Fix URLs on older podcasts.
+		 * This is a "quick fix", ideally we'd create a script to update the DB.
+		*/
+		if ( class_exists( 'S3_Uploads' ) && 24 === $current_blog_id ) {
 			// Ensure we have an S3 URL and not local, fixes issues with old URLs prior to S3
 			$site_url = trailingslashit( get_site_url( $current_blog_id, '', 'http' ) );
 			if ( false !== strpos( $mp3_src, $site_url ) ) {
