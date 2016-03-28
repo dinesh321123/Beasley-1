@@ -466,7 +466,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
 
 .header__logo {
 	/*background:url(../../images/header-logo-large.png) no-repeat;*/
-	background:url(../../images/H96_Logo_Boston.png) no-repeat;
+	background:url(../../images/WBQTnewlogo-HF.png) no-repeat;
 	border:solid 0px #6bb3ee;
 	background-position:center top;
 	background-size:contain;
@@ -1134,9 +1134,9 @@ media 768px
 
 
 
-
-	.widget--live-player a:hover>div {
-		background-color:rgba(21,9,88,.5);
+	.widget--live-player a:hover>div{
+		background-color: #4e84c4;
+		color:#06357a!important;
 	}
 
 	a:hover .live-link__song:before,.live-link__song:hover .live-link__song--title,.live-link__song:hover .live-link__song--artist {
@@ -1511,9 +1511,9 @@ media 1400px
 		border:solid 0 #fff;
 		
 		width:228px;
-		height:228px;
-		max-width: 228px;
 		
+		max-width: 228px;
+		left: 0px;
 		display:block;
 		position:absolute;
 		top:-130px;
@@ -1526,7 +1526,7 @@ media 1400px
 	    width: 325px;
 	    height: 133px!important;
 	    top: -20px;
-	    right: -330px;
+	    right: -360px;
     }
 
 }
