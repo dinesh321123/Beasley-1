@@ -1065,15 +1065,26 @@ category: Components - Shows
 
 }
 
-.guitar-month-show .show__header {
+.guitar-month-show {
 
-	&.has-thumbnail {
+	.show__header {
 
-		&:before {
-			display: none;
-			background-image: none;
+		&.has-thumbnail {
+
+			&:before {
+				display: none;
+				background-image: none;
+			}
+
 		}
 
+	}
+
+	.show__cast {
+
+		img {
+			@include border-radius(0%);
+		}
 	}
 
 }

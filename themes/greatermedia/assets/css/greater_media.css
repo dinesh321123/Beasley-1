@@ -10604,6 +10604,13 @@ category: Components - Shows
 .guitar-month-show .show__header.has-thumbnail:before {
   display: none;
   background-image: none; }
+.guitar-month-show .show__cast img {
+  -webkit-border-radius: 0%;
+  -moz-border-radius: 0%;
+  -ms-border-radius: 0%;
+  -o-border-radius: 0%;
+  -border-radius: 0%;
+  border-radius: 0%; }
 
 .widget--live-player {
   padding: 0;
