@@ -1064,3 +1064,16 @@ category: Components - Shows
 	}
 
 }
+
+.guitar-month-show .show__header {
+
+	&.has-thumbnail {
+
+		&:before {
+			display: none;
+			background-image: none;
+		}
+
+	}
+
+}

@@ -10618,6 +10618,10 @@ category: Components - Shows
   .gmr_gallery .entry__related-posts .section-header a:hover, .gmr_gallery .entry__related-posts .section-header a:active, .gmr_gallery .entry__related-posts .section-header a:focus {
     color: #828386; }
 
+.guitar-month-show .show__header.has-thumbnail:before {
+  display: none;
+  background-image: none; }
+
 .widget--live-player {
   padding: 0;
   margin: 0 0 1em;
