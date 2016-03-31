@@ -13,8 +13,7 @@
  */
 
  // Useful global constants
-
-define( 'WROR_VERSION', '0.2.0' ); /* Version bump by Denis Prindeville on 3/8/2016 @ 4:40 p.m. EST */
+define( 'WROR_VERSION', '0.2.1' ); /* Version bump by Steve 3/31/16 @ 9:15 a.m. EST */
 
 
 
