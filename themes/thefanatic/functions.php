@@ -21,7 +21,7 @@ if ( defined( 'GMR_THEFANATIC_ENV' ) && 'dev' == GMR_THEFANATIC_ENV ) {
 	// So that things like cloudflare don't hold on to our css during dev
 	define( 'THEFANATIC_VERSION', time() );
 } else {
-	define( 'THEFANATIC_VERSION', '0.3.1' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m. EST */
+	define( 'THEFANATIC_VERSION', '0.3.1' ); /* Version bump by Steve 3/3/2016 @ 11:00 p.m. EST */
 }
 
 /**
@@ -116,3 +116,5 @@ function thefanatic_header_meta() {
 }
 
 add_action( 'wp_head', 'thefanatic_header_meta' );
+
+add_theme_support( 'homepage-countdown-clock' );
