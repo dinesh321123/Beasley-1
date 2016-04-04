@@ -115,7 +115,7 @@ class GreaterMediaCountdownClockMetaboxes {
 
 		if ( $render_server_time ) {
 			$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-			echo esc_html( ' <small>(server time is ' . date( $format, current_time( 'timestamp' ) ) . ')</small>' );
+			echo ' <small>(server time is ' . esc_html( date( $format, current_time( 'timestamp' ) ) ) . ')</small>';
 			$render_server_time = false;
 		}
 
