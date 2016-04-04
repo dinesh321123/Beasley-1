@@ -79,7 +79,7 @@ class GreaterMediaCountdownClockMetaboxes {
 				}
 			}
 			wp_enqueue_style( 'greatermedia-countdown-clock-admin', trailingslashit( GMEDIA_HOMEPAGE_COUNTDOWN_CLOCK_URL ) . 'css/greatermedia-countdown-clock-admin.css', null, GMEDIA_HOMEPAGE_COUNTDOWN_CLOCK_VERSION );
-			wp_enqueue_script( 'greatermedia-countdown-clock-admin', "{$base_path}js/countdown-clock-admin{$postfix}.js", array( 'datetimepicker' ), false, true );
+			wp_enqueue_script( 'greatermedia-countdown-clock-admin', "{$base_path}js/countdown-clock-admin.js", array( 'datetimepicker' ), false, true );
 		};
 	}
 
