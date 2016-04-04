@@ -115,7 +115,7 @@ class GreaterMediaCountdownClockMetaboxes {
 
 		if ( $render_server_time ) {
 			$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-			echo ' <small>(server time is ' . date( $format, current_time( 'timestamp' ) ) . ')</small>';
+			echo esc_html( ' <small>(server time is ' . date( $format, current_time( 'timestamp' ) ) . ')</small>' );
 			$render_server_time = false;
 		}
 
@@ -191,7 +191,7 @@ class GreaterMediaCountdownClockMetaboxes {
 					<?php else : ?>
 						<b>
 							<?php if ( ! empty( $countdownDate ) ) : ?>
-								<?php echo date( $datetime_format, $countdownDate + $offset ); ?>
+								<?php echo esc_html( date( $datetime_format, $countdownDate + $offset ) ); ?>
 							<?php else : ?>
 								&#8212;
 							<?php endif; ?>
@@ -199,7 +199,7 @@ class GreaterMediaCountdownClockMetaboxes {
 
 						<?php if ( ! empty( $countdownDate ) ) : ?>
 							<small style="margin-left:2em;">
-								(server time is <?php echo date( $datetime_format, current_time( 'timestamp' ) ); ?>)
+								(server time is <?php echo esc_html( date( $datetime_format, current_time( 'timestamp' ) ) ); ?>)
 							</small>
 						<?php endif; ?>
 					<?php endif; ?>
