@@ -10618,6 +10618,17 @@ category: Components - Shows
   .gmr_gallery .entry__related-posts .section-header a:hover, .gmr_gallery .entry__related-posts .section-header a:active, .gmr_gallery .entry__related-posts .section-header a:focus {
     color: #aa1c20; }
 
+.guitar-month-show .show__header.has-thumbnail:before {
+  display: none;
+  background-image: none; }
+.guitar-month-show .show__cast img {
+  -webkit-border-radius: 0%;
+  -moz-border-radius: 0%;
+  -ms-border-radius: 0%;
+  -o-border-radius: 0%;
+  -border-radius: 0%;
+  border-radius: 0%; }
+
 .widget--live-player {
   padding: 0;
   margin: 0 0 1em;

@@ -161,10 +161,10 @@ class GM_FlexibleFeatureImages {
 				),
 				'rendered_templates' => array(),
 				'strings'            => array(
-					'Poster'                    => __( 'Poster', 'greatermedia-feature-image-preference' ),
-					'Top'                    => __( 'Top', 'greatermedia-feature-image-preference' ),
-					'Inline'                => __( 'Inline', 'greatermedia-feature-image-preference' ),
-					'None'                 => __( 'None', 'greatermedia-feature-image-preference' ),
+					'Poster'             => __( 'Poster', 'greatermedia-feature-image-preference' ),
+					'Top'                => __( 'Top', 'greatermedia-feature-image-preference' ),
+					'Inline'             => __( 'Inline', 'greatermedia-feature-image-preference' ),
+					'None'               => __( 'None', 'greatermedia-feature-image-preference' ),
 				),
 			);
 
