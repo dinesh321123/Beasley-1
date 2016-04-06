@@ -8,7 +8,7 @@ Author: 10up
 define( 'GMR_GIGYA_URL', plugin_dir_url( __FILE__ ) );
 define( 'GMR_GIGYA_PATH', dirname( __FILE__ ) . '/' );
 define( 'GMR_GIGYA_PLUGIN_FILE', __FILE__ );
-define( 'GMR_GIGYA_VERSION', '0.30.1' );
+define( 'GMR_GIGYA_VERSION', '0.30.2' );
 
 /* JOB DB details - behind an ifdef to allow wp-config to override in production */
 if ( ! defined( 'GMR_JOB_DB' ) ) {
