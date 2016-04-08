@@ -106,11 +106,12 @@ class GM_FlexibleFeatureImages {
 
 		$tab_index_attribute = '';
 		if ( (int) $tab_index > 0 ) {
-			$tab_index_attribute = " tabindex=\"$tab_index\"";
+			$tab_index_attribute = ' tabindex="' . intval( $tab_index ) . '"';
 		}
 
 		$feature_image_preference = self::sanitize_feature_image_preference( $feature_image_preference );
 
+		$html .= wp_nonce_field( 'feature_image_preference_meta_boxes', '__feature_image_preference_nonce', true, false );
 		$html .= '<div class="feature-image-preference-wrap">';
 		$html .= '<label for="fip_status" class="screen-reader-text">' . __( 'Feature Image Preference', 'greatermedia-feature-image-preference' ) . '</label>';
 		$html .= '<fieldset id="fip_status"' . $tab_index_attribute . ">\n";
@@ -183,6 +184,11 @@ class GM_FlexibleFeatureImages {
 		$post = get_post( $post_id );
 
 		if ( post_type_supports( $post->post_type, 'flexible-feature-image' ) ) {
+
+			// Verify that the form nonce is valid.
+			if ( ! wp_verify_nonce( filter_input( INPUT_POST, '__feature_image_preference_nonce' ), 'feature_image_preference_meta_boxes' ) ) {
+				return;
+			}
 
 			delete_post_meta( $post_id, 'post_feature_image_preference' );
 
