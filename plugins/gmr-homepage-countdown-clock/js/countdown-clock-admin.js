@@ -3,22 +3,6 @@
  * Copyright (c) 2016;
  * Licensed GPLv2+
  */
-(function ($) {
-	$(document).ready(function () {
-		$('#countdown-clock-settings ul.tabs a').click(function() {
-			$('#countdown-clock-settings ul.tabs li.active').removeClass('active');
-			$(this).parent().addClass('active');
-
-			$('#countdown-clock-settings div.tab.active').removeClass('active');
-			$('#countdown-clock-settings').find($(this).attr('href')).addClass('active');
-			return false;
-		});
-	});
-})(jQuery);
-
-/**
- * Set up date pickers for browsers without a native control
- */
 document.addEventListener("DOMContentLoaded", function() {
 	/**
 	 * Generate a list of supported input types (text, date, range, etc.).
@@ -72,4 +56,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			timepicker: false
 		});
 	}
+
+	jQuery('#countdown-clock-settings ul.tabs a').click(function() {
+		jQuery('#countdown-clock-settings ul.tabs li.active').removeClass('active');
+		jQuery(this).parent().addClass('active');
+
+		jQuery('#countdown-clock-settings div.tab.active').removeClass('active');
+		jQuery('#countdown-clock-settings').find(jQuery(this).attr('href')).addClass('active');
+		return false;
+	});
 }, false );
