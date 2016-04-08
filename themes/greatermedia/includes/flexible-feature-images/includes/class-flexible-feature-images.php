@@ -185,6 +185,11 @@ class GM_FlexibleFeatureImages {
 
 		if ( post_type_supports( $post->post_type, 'flexible-feature-image' ) ) {
 
+			// Check the user's permissions.
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
+				return;
+			}
+
 			// Verify that the form nonce is valid.
 			if ( ! wp_verify_nonce( filter_input( INPUT_POST, '__feature_image_preference_nonce' ), 'feature_image_preference_meta_boxes' ) ) {
 				return;
