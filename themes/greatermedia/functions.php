@@ -24,6 +24,7 @@ if ( defined( 'GMR_PARENT_ENV' ) && 'dev' == GMR_PARENT_ENV ) {
 }
 
 add_theme_support( 'homepage-curation' );
+add_theme_support( 'homepage-countdown-clock' );
 
 require_once( __DIR__ . '/includes/liveplayer/class-liveplayer.php' );
 require_once( __DIR__ . '/includes/site-options/loader.php' );
