@@ -42,8 +42,3 @@ if ( $hp_featured_query->have_posts() ) : ?>
 <?php
 endif;
 wp_reset_query();
-
-// If the home page countdown clock plugin is enabled, render the next available clock.
-if ( function_exists( 'GreaterMedia\HomepageCountdownClock\render_homepage_countdown_clock' ) ) {
-	GreaterMedia\HomepageCountdownClock\render_homepage_countdown_clock();
-}

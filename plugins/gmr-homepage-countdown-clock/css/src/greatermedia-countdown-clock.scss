@@ -451,9 +451,7 @@
       float: left;
 
       @media screen and (max-width: 965px) {
-        width: 98%;
-        padding: 1%;
-        margin: 5px auto;
+        width: 100%;
         float: none;
       }
 
@@ -496,9 +494,6 @@
   }
 }
 
-.home__featured_music .homepage_countdown_clock_wrapper {
-  padding-top: 34px;
-}
 
 .flip-clock-wrapper ul {height: 40px;line-height: 40px; }
 .flip-clock-wrapper ul li a div.up:after {

@@ -116,3 +116,5 @@ function thefanatic_header_meta() {
 }
 
 add_action( 'wp_head', 'thefanatic_header_meta' );
+
+add_theme_support( 'homepage-countdown-clock' );

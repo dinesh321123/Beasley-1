@@ -15,7 +15,7 @@ Text Domain: greatermedia-homepage-countdown-clock
 
 namespace GreaterMedia\HomepageCountdownClock;
 
-define( 'GMEDIA_HOMEPAGE_COUNTDOWN_CLOCK_VERSION', '1.0.2' );
+define( 'GMEDIA_HOMEPAGE_COUNTDOWN_CLOCK_VERSION', '1.0.1' );
 define( 'GMEDIA_HOMEPAGE_COUNTDOWN_CLOCK_URL', plugin_dir_url( __FILE__ ) );
 define( 'GMEDIA_HOMEPAGE_COUNTDOWN_CLOCK_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GMR_COUNTDOWN_CLOCK_CPT', 'gmr_countdown_clock' );

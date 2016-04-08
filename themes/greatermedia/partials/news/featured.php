@@ -84,12 +84,45 @@ if ( $hp_featured_query->have_posts() ) : ?>
 	<?php wp_reset_query(); ?>
 </div>
 <?php
+
 else :
 endif;
 
-// If the home page countdown clock plugin is enabled, render the next available clock.
-if ( function_exists( 'GreaterMedia\HomepageCountdownClock\render_homepage_countdown_clock' ) ) {
-	GreaterMedia\HomepageCountdownClock\render_homepage_countdown_clock();
-}
+// Start Countdown Clocks
+if ( function_exists( 'GreaterMedia\HomepageCountdownClock\current_countdown_clock_query' ) ) {
+	$countdown_clock_query = GreaterMedia\HomepageCountdownClock\current_countdown_clock_query();
 
-?>
+	if ( $countdown_clock_query->have_posts() ) : $countdown_clock_query->the_post(); ?>
+	<div class="homepage_countdown_clock_wrapper">
+		<div class="homepage_countdown_clock" style='background-image: url(<?php gm_post_thumbnail_url( 'full', null, true ); ?>);'>
+			<div class="homepage_countdown_clock_container">
+				<div class="homepage_countdown_clock_message">
+					<div class="homepage_countdown_clock_message_counting">
+						<?php if ( ( $countdown_mesage = trim( get_post_meta( get_the_ID(), 'countdown-message', true ) ) ) ) : ?>
+								<?php echo wpautop( do_shortcode( $countdown_mesage ) ); ?>
+						<?php endif; ?>
+					</div>
+					<div class="homepage_countdown_clock_message_reached" style="display:none;">
+						<?php if ( ( $reached_message = trim( get_post_meta( get_the_ID(), 'reached-message', true ) ) ) ) : ?>
+								<?php echo wpautop( do_shortcode( $reached_message ) ); ?>
+						<?php endif; ?>
+					</div>
+				</div>
+				<div class="homepage_countdown_clock_ticker_wrapper">
+					<?php if ( ( $countdown_date = trim( get_post_meta( get_the_ID(), 'countdown-date', true ) ) ) ) : ?>
+					<div class="homepage_countdown_clock_ticker" data-countdown-target="<?php echo $countdown_date."000"; ?>">
+						<!-- Fill in countdown here -->
+					</div>
+					<?php endif; ?>
+				</div>
+			</div>
+			<div class="ad__countdown-clock-sponsorship">
+				<span class="homepage_countdown_clock_sponsored_by">Sponsored By:</span>
+				<?php do_action( 'acm_tag', 'countdown-clock-sponsorship' ); ?>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+	</div>
+	<?php endif;
+}
+// End Countdown Clocks
