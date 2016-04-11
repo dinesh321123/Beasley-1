@@ -119,7 +119,7 @@ function render_homepage_countdown_clock() {
 				</div>
 				<div class="homepage_countdown_clock_ticker_wrapper">
 					<?php if ( ( $countdown_date = trim( get_post_meta( get_the_ID(), 'countdown-date', true ) ) ) ) : ?>
-					<div class="homepage_countdown_clock_ticker" data-countdown-target="<?php echo $countdown_date."000"; ?>">
+					<div class="homepage_countdown_clock_ticker" data-countdown-target="<?php echo esc_attr( $countdown_date ) . "000"; ?>">
 						<!-- Fill in countdown here -->
 					</div>
 					<?php endif; ?>
