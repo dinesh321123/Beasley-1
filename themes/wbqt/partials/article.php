@@ -16,8 +16,7 @@
 
 				<header class="article__header">
 					<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'top' ) ? get_template_part( 'partials/feature-image-article' ) : ''; ?>
-					<time class="article__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j, Y'); ?></time>
-					<h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
+					<time class="article__date" datetime="<?php echo esc_attr( get_the_time() ); ?>"><?php esc_html( the_date('F j, Y') ); ?></time>					<h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
 					<?php get_template_part( 'partials/social-share' ); ?>
 					<div class="article__author">by <?php the_author();?></div>
 
