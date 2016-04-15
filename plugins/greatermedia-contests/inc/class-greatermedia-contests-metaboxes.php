@@ -396,6 +396,13 @@ class GreaterMediaContestsMetaboxes {
 					<input type="text" id="greatermedia_contest_min_age" name="greatermedia_contest_min_age" value="<?php echo esc_attr( get_post_meta( $post->ID, 'contest-min-age', true ) ); ?>">
 				</td>
 			</tr>
+
+			<tr>
+				<th scope="row"><label for="greatermedia_contest_display_vote_counts">Display vote counts?</label></th>
+				<td>
+					<input type="checkbox" id="greatermedia_contest_display_vote_counts" name="greatermedia_contest_display_vote_counts" value="1" <?php checked( get_post_meta( $post->ID, 'contest_show_vote_counts', true ) ); ?>>
+				</td>
+			</tr>
 		</table><?php
 	}
 
@@ -526,6 +533,12 @@ class GreaterMediaContestsMetaboxes {
 
 		$show_submission_details = filter_input( INPUT_POST, 'show-submission-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
 		update_post_meta( $post_id, 'show-submission-details', $show_submission_details );
+
+		if ( isset( $_POST['greatermedia_contest_display_vote_counts'] ) ) {
+			update_post_meta( $post_id, 'contest_show_vote_counts', 1 );
+		} else {
+			delete_post_meta( $post_id, 'contest_show_vote_counts' );
+		}
 	}
 
 }
