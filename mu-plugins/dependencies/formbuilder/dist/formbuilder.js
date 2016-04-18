@@ -883,13 +883,18 @@ return __p
 
 this["Formbuilder"]["templates"]["edit/checkboxes"] = function(obj) {
 obj || (obj = {});
-var __t, __p = '', __e = _.escape;
+var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
 with (obj) {
 __p += '<label>\n  <input type=\'checkbox\' data-rv-checked=\'model.' +
 ((__t = ( Formbuilder.options.mappings.REQUIRED )) == null ? '' : __t) +
-'\' />\n  Required\n</label>\n<!-- label>\n  <input type=\'checkbox\' data-rv-checked=\'model.' +
-((__t = ( Formbuilder.options.mappings.ADMIN_ONLY )) == null ? '' : __t) +
-'\' />\n  Admin only\n</label -->';
+'\' />\n  Required\n</label>\n\n<!-- Only display this field for contests. We use \'sticky\' for our only purposes, to save us adding additional mappings -->\n';
+ if ( typeof typenow !== 'undefined' && 'contest' === typenow ) { ;
+__p += '\n\t<label>\n\t\t<br />\n\t \t<input type=\'checkbox\' data-rv-checked=\'model.' +
+((__t = ( Formbuilder.options.mappings.STICKY )) == null ? '' : __t) +
+'\' />\n\t  \tDisplay with entries\n\t</label>\n';
+ } ;
+
 
 }
 return __p

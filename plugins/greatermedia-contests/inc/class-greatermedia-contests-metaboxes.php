@@ -159,11 +159,21 @@ class GreaterMediaContestsMetaboxes {
 
 		add_settings_field( 'show-submission-details', 'Show submission details', array( $this, 'render_submission_details_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
 
+		add_settings_field( 'show-entrant-details', 'Show entrant details (name/date)', array( $this, 'render_entrant_details_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
+
 	}
 
 	public function render_submission_details_field( $post_id ) {
 		$show = get_post_meta( $post_id, 'show-submission-details', true );
 		?><select name="show-submission-details">
+			<option value="1">Show</option>
+			<option value="0"<?php selected( $show == 0 && $show !== false ); ?>>Hide</option>
+		</select><?php
+	}
+
+	public function render_entrant_details_field( $post_id ) {
+		$show = get_post_meta( $post_id, 'show-entrant-details', true );
+		?><select name="show-entrant-details">
 			<option value="1">Show</option>
 			<option value="0"<?php selected( $show == 0 && $show !== false ); ?>>Hide</option>
 		</select><?php
@@ -539,6 +549,9 @@ class GreaterMediaContestsMetaboxes {
 		} else {
 			delete_post_meta( $post_id, 'contest_show_vote_counts' );
 		}
+
+		$show_entrant_details = filter_input( INPUT_POST, 'show-entrant-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
+		update_post_meta( $post_id, 'show-entrant-details', $show_entrant_details );
 	}
 
 }

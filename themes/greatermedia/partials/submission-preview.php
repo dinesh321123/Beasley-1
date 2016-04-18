@@ -4,15 +4,33 @@
 
 <section class="col__inner--right">
 	<dl class="contest__submission--entries">
-		<dt>Submitted By</dt>
-		<dd><?php echo esc_html( gmr_contest_submission_get_author() ); ?></dd>
+		<?php
+		$post_parent = get_post_field( 'post_parent', null );
+		$display_submitted_details = (int) get_post_meta( $post_parent, 'show-entrant-details', true );
+		if ( $display_submitted_details ) { ?>
+			<dt>Submitted By</dt>
+			<dd><?php echo esc_html( gmr_contest_submission_get_author() ); ?></dd>
 
-		<dt>Submitted On</dt>
-		<dd><?php echo get_the_date( '' ); ?></dd>
+			<dt>Submitted On</dt>
+			<dd><?php echo get_the_date( '' ); ?></dd>
+		<?php } ?>
 		
 		<?php
+		/*
+		 * Display the fields associated with an entry, checked as 'Display with entries' on the form builder.
+		*/
+		$entry_fields = gmr_contest_get_entry_fields();
+		foreach( $entry_fields as $field ) { ?>
+			<dt>
+				<?php echo esc_html( $field['label'] ); ?>
+			</dt>
 
-		$show_details = (int) get_post_meta( get_post_field( 'post_parent', null ), 'show-submission-details', true );
+			<dd>
+				<?php echo esc_html( $field['value'] ); ?>
+			</dd>
+		<?php }
+
+		$show_details = (int) get_post_meta( $post_parent, 'show-submission-details', true );
 		if ( $show_details ) :
 			$contest_entry_id = get_post_meta( get_the_ID(), 'contest_entry_id', true );
 			if ( $contest_entry_id ) :
@@ -58,7 +76,7 @@
 		<?php else : ?>
 			<p>
 				You must be logged in to vote for the submission!
-				<a href="<?php echo esc_url( gmr_contests_get_login_url( parse_url( get_permalink( get_post_field( 'post_parent', null ) ), PHP_URL_PATH ) ) ) ?>">Sign in here</a>.
+				<a href="<?php echo esc_url( gmr_contests_get_login_url( parse_url( get_permalink( $post_parent ), PHP_URL_PATH ) ) ) ?>">Sign in here</a>.
 			</p>
 		<?php endif; ?>
 	<?php endif; ?>

@@ -2,7 +2,12 @@
   <input type='checkbox' data-rv-checked='model.<%= Formbuilder.options.mappings.REQUIRED %>' />
   Required
 </label>
-<!-- label>
-  <input type='checkbox' data-rv-checked='model.<%= Formbuilder.options.mappings.ADMIN_ONLY %>' />
-  Admin only
-</label -->
+
+<!-- Only display this field for contests. We use 'sticky' for our only purposes, to save us adding additional mappings -->
+<% if ( typeof typenow !== 'undefined' && 'contest' === typenow ) { %>
+	<label>
+		<br />
+	 	<input type='checkbox' data-rv-checked='model.<%= Formbuilder.options.mappings.STICKY %>' />
+	  	Display with entries
+	</label>
+<% } %>

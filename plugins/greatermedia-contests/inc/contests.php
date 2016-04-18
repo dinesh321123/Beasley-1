@@ -1335,3 +1335,31 @@ function gmr_contests_can_show_vote_count( $submission = null ) {
 		return get_post_meta( $submission->post_parent, 'contest_show_vote_counts', true ) ? true : false;
 	}
 }
+
+/*
+ * Return the custom fields associated with an entry; field => value.
+ */
+function gmr_contest_get_entry_fields( $submission = null ) {
+	$entry_fields = array();
+	if ( is_null( $submission ) ) {
+		$submission = get_the_ID();
+	}
+
+	$entry_id = get_post_meta( $submission, 'contest_entry_id', true );
+
+	$entry = get_post( $entry_id );
+	
+	$entry_reference = get_post_meta( $entry->ID, 'entry_reference', true );
+
+	$fields = GreaterMediaFormbuilderRender::parse_entry( $entry->post_parent, $entry->ID, null, true );
+
+	foreach ( $fields as $field ) {
+		if ( false === $field['entry_field'] || 'text' !== $field['type'] ) {
+			continue;
+		}
+
+		$entry_fields[] = $field;
+	}
+
+	return $entry_fields;
+}

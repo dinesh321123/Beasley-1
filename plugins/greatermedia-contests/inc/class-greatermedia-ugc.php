@@ -185,6 +185,9 @@ class GreaterMediaUserGeneratedContent {
 
 		add_filter( 'gmr_live_link_add_copy_action', array( __CLASS__, 'remove_copy_to_live_link_action' ), 10, 2 );
 
+		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_boxes' ) );
+		add_action( 'save_post', array( __CLASS__, 'save_post' ) );
+
 	}
 
 	/**
@@ -226,6 +229,78 @@ class GreaterMediaUserGeneratedContent {
 
 		register_post_type( GMR_SUBMISSIONS_CPT, $args );
 
+	}
+
+	/**
+	 * Add the entry fields metabox to the editing page.
+	 */
+	public static function add_meta_boxes() {
+		add_meta_box( 'submission-entry-fields', 'Entry Fields', array( __CLASS__, 'render_entry_fields_metabox' ), GMR_SUBMISSIONS_CPT, 'normal' );
+	}
+
+	/**
+	 * Render the entry fields metabox.
+	 *
+	 * @param WP_Post $post.
+	 */
+	public static function render_entry_fields_metabox( $post ) {
+		$post_id = $post->ID;
+		$post_status = get_post_status_object( $post->post_status );
+		wp_nonce_field( 'submission_entry_fields_save', 'submission_entry_fields' );
+
+		$entry_fields = gmr_contest_get_entry_fields( $post->ID ); ?>
+
+		<table class="form-table">			
+			<?php foreach ( $entry_fields as $field ) { ?>
+				<tr>
+					<th scope="row"><label><?php echo esc_html( $field['label'] ); ?></label></th>
+					<td><input type="text" name="<?php echo esc_attr( $field['cid'] ); ?>" value="<?php echo esc_attr( $field['value'] ); ?>" /></td>
+				</tr>
+			<?php } ?>
+		</table>
+	<?php }
+
+	/**
+	 * Save the updated entry fields.
+	 *
+	 * @param int $post_id
+	 */
+	public static function save_post( $post_id ) {
+		// Verify that the form nonce is valid.
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'submission_entry_fields' ), 'submission_entry_fields_save' ) ) {
+			return;
+		}
+
+		// If this is an autosave, the editor has not been submitted, so we don't want to do anything.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		// Make sure the post type is correct
+		if ( GMR_SUBMISSIONS_CPT !== $_POST['post_type'] ) {
+			return;
+		}
+
+		// Check the user's permissions.
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}		
+
+		$entry_id = get_post_meta( $post_id, 'contest_entry_id', true );
+
+		$entry = get_post( $entry_id );
+		
+		$entry_reference = get_post_meta( $entry->ID, 'entry_reference', true );
+
+		if ( is_string( $entry_reference ) ) {
+			$entry_fields = json_decode( $entry_reference, true );
+			foreach ( $entry_fields as $key => $field ) {
+				if ( isset( $_POST[ $key ] ) ) {
+					$entry_fields[ $key ] = sanitize_text_field( $_POST[ $key ] );
+				}
+			}
+			update_post_meta( $entry->ID, 'entry_reference', json_encode( $entry_fields ) );
+		}
 	}
 
 	/**

@@ -141,8 +141,10 @@ class GreaterMediaFormbuilderRender {
 			if ( isset( $contest_entry[ $field->cid ] ) ) {
 				if ( 'radio' == $field->field_type ) {
 					$results[ $field->cid ] = array(
+						'cid'	=> $field->cid,
 						'type'  => $field->field_type,
 						'label' => $field->label,
+						'entry_field' => $field->sticky ? true: false,
 						'value' => ! empty( $field->field_options->options[ $contest_entry[ $field->cid ] ] )
 							? $field->field_options->options[ $contest_entry[ $field->cid ] ]->label
 							: $contest_entry[ $field->cid ],
@@ -162,15 +164,19 @@ class GreaterMediaFormbuilderRender {
 					}
 
 					$results[ $field->cid ] = array(
+						'cid'	=> $field->cid,
 						'type'  => $field->field_type,
 						'label' => $field->label,
 						'value' => $values,
+						'entry_field' => $field->sticky ? true : false,
 					);
 				} elseif ( 'file' != $field->field_type || ! $strip_files ) {
 					$results[ $field->cid ] = array(
+						'cid'	=> $field->cid,
 						'type'  => $field->field_type,
 						'label' => $field->label,
 						'value' => $contest_entry[ $field->cid ],
+						'entry_field' => $field->sticky ? true: false,
 					);
 				}
 			}
@@ -239,6 +245,8 @@ class GreaterMediaFormbuilderRender {
 				$form = json_decode( trim( $form, '"' ) );
 			}
 		}
+
+		// print_r( $form );
 
 		$is_preivew = is_preview();
 		$permalink = untrailingslashit( get_permalink( $post_id ) );
@@ -418,6 +426,10 @@ class GreaterMediaFormbuilderRender {
 		if ( isset( $field->required ) && $field->required ) {
 			$special_attributes['required'] = 'required';
 		}
+
+		// if ( isset( $field->sticky ) && $field->sticky ) {
+		// 	$special_attributes['entry_field'] = 'required';
+		// }
 
 		if ( isset( $field->field_options->size ) ) {
 
