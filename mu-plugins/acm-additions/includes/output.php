@@ -104,7 +104,7 @@ function render_tag( $output_html, $tag_id ) {
 		$slug = $post->post_name;
 
 		// Check if the shows class exists so we can use its properties
-		if ( class_exists( 'ShowsCPT' ) && defined( "ShowsCPT::SHOW_TAXONOMY" ) ) {
+		if ( class_exists( 'ShowsCPT' ) && defined( 'ShowsCPT::SHOW_TAXONOMY' ) ) {
 			// Get the show terms
 			$terms = get_the_terms( $post->ID, constant( 'ShowsCPT::SHOW_TAXONOMY' ) );
 			// Check for errors
@@ -117,7 +117,7 @@ function render_tag( $output_html, $tag_id ) {
 		}
 
 		// Check if the podcast class exists so we can use its properties
-		if ( class_exists( 'GMP_CPT' ) ) {
+		if ( class_exists( 'GMP_CPT' ) && defined( 'GMP_CPT::PODCAST_POST_TYPE' ) && defined( 'GMP_CPT::EPISODE_POST_TYPE' ) ) {
 
 			$post_type = get_post_type( $post );
 
