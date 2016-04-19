@@ -26,7 +26,14 @@
 			</dt>
 
 			<dd>
-				<?php echo esc_html( $field['value'] ); ?>
+				<?php
+				$value = is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'];
+				if ( strlen( $value ) > 200 ) {
+					$value = substr( $value, 0, 200 ) . '&hellip;';
+				}
+
+				echo esc_html( $value );
+				?>
 			</dd>
 		<?php }
 

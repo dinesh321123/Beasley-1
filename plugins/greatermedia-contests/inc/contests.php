@@ -1354,7 +1354,7 @@ function gmr_contest_get_entry_fields( $submission = null ) {
 	$fields = GreaterMediaFormbuilderRender::parse_entry( $entry->post_parent, $entry->ID, null, true );
 
 	foreach ( $fields as $field ) {
-		if ( false === $field['entry_field'] || 'text' !== $field['type'] ) {
+		if ( false === $field['entry_field'] || ( 'file' === $field['type'] || 'email' === $field['type'] ) ) {
 			continue;
 		}
 
