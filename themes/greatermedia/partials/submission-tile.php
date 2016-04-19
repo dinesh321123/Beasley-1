@@ -11,7 +11,11 @@
 
 		<?php the_post_thumbnail( 'gmr-featured-secondary' ); ?>
 
-		<span class="contest__submission--author"><?php echo esc_html( gmr_contest_submission_get_author() ); ?></span>
-		<span class="contest__submission--date"><?php echo esc_html( get_the_date() ); ?></span>
+		<?php
+		$display_submitted_details = (int) get_post_meta( get_post_field( 'post_parent', null ), 'show-entrant-details', true );
+		if ( $display_submitted_details ) { ?>
+			<span class="contest__submission--author"><?php echo esc_html( gmr_contest_submission_get_author() ); ?></span>
+			<span class="contest__submission--date"><?php echo esc_html( get_the_date() ); ?></span>
+		<?php } ?>
 	</a>
 </li>
