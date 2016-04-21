@@ -1,6 +1,6 @@
 /*! Greater Media Contests - v1.0.6
  * http://10up.com/
- * Copyright (c) 2015;
+ * Copyright (c) 2016;
  * Licensed GPLv2+
  */
 (function ($) {

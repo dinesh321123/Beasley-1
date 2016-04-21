@@ -70,7 +70,7 @@
 	</dl>
 
 	<?php if ( function_exists( 'is_gigya_user_logged_in' ) ) : ?>
-		<?php if ( is_gigya_user_logged_in() ) : ?>
+		<?php if ( gmr_contests_is_voting_open( get_post()->post_parent ) && is_gigya_user_logged_in() ) : ?>
 			<div>
 				<a class="contest__submission--vote" href="#" data-id="<?php echo esc_attr( get_post_field( 'post_name', null ) ); ?>">
 					<i class="fa fa-thumbs-o-up"></i> Upvote

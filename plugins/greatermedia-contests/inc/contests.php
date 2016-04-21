@@ -448,7 +448,14 @@ function _gmr_contests_get_submission_for_voting_actions() {
 		wp_send_json_error();
 	}
 
-	return get_post( current( $submissions ) );
+	$submission = get_post( current( $submissions ) );
+
+	// Do nothing if voting is closed.
+	if ( gmr_contests_is_voting_open( $submission->post_parent ) ) {
+		wp_send_json_error();
+	}
+
+	return $submission;
 }
 
 /**
@@ -1318,6 +1325,23 @@ function gmr_filter_expired_contests( $query ) {
 	} else {
 		return $query;
 	}
+}
+
+/**
+ * Check whether or not voting for the contest is open.
+ *
+ * @param int $contest_id ID of contest to check.
+ *
+ * @return bool
+ */
+function gmr_contests_is_voting_open( $contest_id ) {
+	$vote_start   = get_post_meta( $contest_id, 'contest-vote-start', true ) ?:
+		get_post_meta( $contest_id, 'contest-start', true );
+	$vote_end     = get_post_meta( $contest_id, 'contest-vote-end', true ) ?:
+		get_post_meta( $contest_id, 'contest-end', true );
+	$current_time = time();
+
+	return ( $vote_start <= $current_time && $current_time < $vote_end );
 }
 
 /**
