@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  * Define Constants
  */
 if (!defined('EMBEDLY_URL')) {
-    define('EMBEDLY_URL', plugins_url('/embedly'));
+    define( 'EMBEDLY_URL', plugins_url( '', __FILE__ ) );
 }
 if (!defined('EMBEDLY_BASE_URI')) {
     define('EMBEDLY_BASE_URI', 'https://api.embedly.com/1/card?');
@@ -286,7 +286,7 @@ class WP_Embedly
         if ($screen->id == $this->embedly_settings_page) {
             wp_enqueue_style('dashicons');
             wp_enqueue_style('embedly_admin_styles', EMBEDLY_URL . '/css/embedly-admin.css');
-            wp_enqueue_style('embedly-fonts', 'https://embed.ly/static/styles/fontspring-stylesheet.css');
+            wp_enqueue_style('embedly-fonts', 'https://cdn.embed.ly/wordpress/static/styles/fontspring-stylesheet.css');
             wp_enqueue_script('platform', '//cdn.embedly.com/widgets/platform.js', array(), '1.0', true);
         }
         return;

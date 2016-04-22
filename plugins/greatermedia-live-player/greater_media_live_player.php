@@ -3,7 +3,7 @@
  * Plugin Name: Greater Media Live Player
  * Plugin URI:  http://wordpress.org/plugins
  * Description: A persistent site-wide player for live audio and podcast for Greater Media
- * Version:     1.0.15
+ * Version:     1.1.1
  * Author:      10up
  * Author URI:  http://10up.com
  * License:     GPLv2+
@@ -36,7 +36,7 @@
  */
 
 // Useful global constants
-define( 'GMLIVEPLAYER_VERSION', '1.1.0' );
+define( 'GMLIVEPLAYER_VERSION', '1.1.1' );
 define( 'GMLIVEPLAYER_URL',     plugin_dir_url( __FILE__ ) );
 define( 'GMLIVEPLAYER_PATH',    dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 
