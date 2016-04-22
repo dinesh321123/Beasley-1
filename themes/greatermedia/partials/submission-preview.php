@@ -69,22 +69,26 @@
 		?>
 	</dl>
 
-	<?php if ( function_exists( 'is_gigya_user_logged_in' ) ) : ?>
-		<?php if ( gmr_contests_is_voting_open( get_post()->post_parent ) && is_gigya_user_logged_in() ) : ?>
-			<div>
-				<a class="contest__submission--vote" href="#" data-id="<?php echo esc_attr( get_post_field( 'post_name', null ) ); ?>">
-					<i class="fa fa-thumbs-o-up"></i> Upvote
-				</a>
+	<?php if (
+		gmr_contests_is_voting_open( get_post()->post_parent ) &&
+		(
+			gmr_contests_allow_anonymous_votes( get_post()->post_parent ) ||
+			( function_exists( 'is_gigya_user_logged_in' ) && is_gigya_user_logged_in() )
+		)
+	) : ?>
+		<div>
+			<a class="contest__submission--vote" href="#" data-id="<?php echo esc_attr( get_post_field( 'post_name', null ) ); ?>">
+				<i class="fa fa-thumbs-o-up"></i> Upvote
+			</a>
 
-				<a class="contest__submission--unvote" href="#" data-id="<?php echo esc_attr( get_post_field( 'post_name', null ) ); ?>">
-					<i class="fa fa-thumbs-o-down"></i> Downvote
-				</a>
-			</div>
-		<?php else : ?>
-			<p>
-				You must be logged in to vote for the submission!
-				<a href="<?php echo esc_url( gmr_contests_get_login_url( parse_url( get_permalink( $post_parent ), PHP_URL_PATH ) ) ) ?>">Sign in here</a>.
-			</p>
-		<?php endif; ?>
+			<a class="contest__submission--unvote" href="#" data-id="<?php echo esc_attr( get_post_field( 'post_name', null ) ); ?>">
+				<i class="fa fa-thumbs-o-down"></i> Downvote
+			</a>
+		</div>
+	<?php else : ?>
+		<p>
+			You must be logged in to vote for the submission!
+			<a href="<?php echo esc_url( gmr_contests_get_login_url( parse_url( get_permalink( get_post_field( 'post_parent', null ) ), PHP_URL_PATH ) ) ) ?>">Sign in here</a>.
+		</p>
 	<?php endif; ?>
 </section>
