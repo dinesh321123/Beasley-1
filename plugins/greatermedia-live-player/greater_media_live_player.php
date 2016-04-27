@@ -36,7 +36,7 @@
  */
 
 // Useful global constants
-define( 'GMLIVEPLAYER_VERSION', '1.1.1' );
+define( 'GMLIVEPLAYER_VERSION', '1.1.2' );
 define( 'GMLIVEPLAYER_URL',     plugin_dir_url( __FILE__ ) );
 define( 'GMLIVEPLAYER_PATH',    dirname( __FILE__ ) . DIRECTORY_SEPARATOR );
 

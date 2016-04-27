@@ -1743,9 +1743,23 @@ var $ = jQuery;
 			onStreamStop();
 		}
 		if (e.data.code === 'LIVE_PLAYING') {
-			trackPlayheadPosition();
 
-			ggComObj.is_playing = true;
+			if (!ggComObj.is_playing) {
+
+				debug('Send now playing metadata event to Nielsen SDK.');
+				ggComObj.gg.ggPM(15, {
+					dataSrc: 'cms',
+					assetid: stream,
+					type: 'radio',
+					provider: 'GreaterMedia',
+					stationType: 1
+				});
+
+				trackPlayheadPosition();
+
+				ggComObj.is_playing = true;
+
+			}
 		}
 	};
 
