@@ -15347,7 +15347,7 @@ body {
     color: #f5ed7f; }
 
 .highlights__heading {
-  color: #ffffff; }
+  visibility: hidden; }
 
 .type-contest .entry__title--tag {
   background-color: #d0d2d3;
