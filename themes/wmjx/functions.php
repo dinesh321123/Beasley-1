@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
- define( 'WMJX_VERSION', '0.2.9' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m. EST */
+ define( 'WMJX_VERSION', '0.3.0' ); /* Version bump by Denis 4/29/2016 @ 2:30p.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -57,3 +57,11 @@
 	echo apply_filters( 'wmjx_humans', $humans );
  }
  add_action( 'wp_head', 'wmjx_header_meta' );
+
+ /**
+  * Pinterest function
+  */
+function add_pinterest_meta_tag() {
+  echo '<meta name="p:domain_verify" content="a7841aca042c739e84d1143a2f671ef8"/>';
+}
+add_action('wp_head', 'add_pinterest_meta_tag');
