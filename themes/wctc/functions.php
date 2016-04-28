@@ -45,6 +45,7 @@ define( 'WCTC_VERSION', '0.1.9' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m
   wp_dequeue_style( 'greatermedia' );
   wp_deregister_style( 'greatermedia' );
   wp_enqueue_style( 'wctc', get_stylesheet_directory_uri() . "/assets/css/wctc{$postfix}.css", array(), WCTC_VERSION );
+
             wp_enqueue_script(
                 'wctc',
                 get_stylesheet_directory_uri() . "/assets/js/wctc{$postfix}.js",
@@ -59,6 +60,7 @@ define( 'WCTC_VERSION', '0.1.9' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m
   * Add humans.txt to the <head> element.
   */
  function wctc_header_meta() {
+
   $humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
 
   echo apply_filters( 'wctc_humans', $humans );
