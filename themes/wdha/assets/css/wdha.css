@@ -15999,6 +15999,13 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   padding: 0.625em 1em;
   text-transform: uppercase; }
 
+.article__date {
+  display: none;
+  margin-bottom: .5em;
+  font-size: 1em;
+  text-transform: uppercase;
+  color: #929497; }
+
 .live-link__type--show {
   border-bottom-color: white;
   background: none; }
