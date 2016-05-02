@@ -1336,13 +1336,35 @@ function gmr_filter_expired_contests( $query ) {
  * @return bool
  */
 function gmr_contests_is_voting_open( $contest_id ) {
-	$vote_start   = get_post_meta( $contest_id, 'contest-vote-start', true ) ?:
-		get_post_meta( $contest_id, 'contest-start', true );
-	$vote_end     = get_post_meta( $contest_id, 'contest-vote-end', true ) ?:
-		get_post_meta( $contest_id, 'contest-end', true );
+	$vote_start   = gmr_contests_get_vote_start_date( $contest_id );
+	$vote_end     = gmr_contests_get_vote_end_date( $contest_id );
 	$current_time = time();
 
 	return ( $vote_start <= $current_time && $current_time < $vote_end );
+}
+
+/**
+ * Get contest's vote start date.
+ *
+ * @param $contest_id
+ *
+ * @return int
+ */
+function gmr_contests_get_vote_start_date( $contest_id ) {
+	return (int) get_post_meta( $contest_id, 'contest-vote-start', true ) ?:
+		get_post_meta( $contest_id, 'contest-start', true );;
+}
+
+/**
+ * Get contest's vote end date.
+ *
+ * @param $contest_id
+ *
+ * @return int
+ */
+function gmr_contests_get_vote_end_date( $contest_id ) {
+	return (int) get_post_meta( $contest_id, 'contest-vote-end', true ) ?:
+		get_post_meta( $contest_id, 'contest-end', true );
 }
 
 /**
