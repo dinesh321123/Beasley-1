@@ -446,7 +446,7 @@ function _gmr_contests_get_submission_for_voting_actions() {
 	$submission = get_post( current( $submissions ) );
 
 	// do nothing if an user is not logged in
-	if ( ! gmr_contests_allow_anonymous_votes( $submission ) && ( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() ) ) {
+	if ( ! gmr_contests_allow_anonymous_votes( $submission->post_parent ) && ( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() ) ) {
 		wp_send_json_error();
 	}
 
