@@ -449,7 +449,7 @@ function _gmr_contests_get_submission_for_voting_actions() {
 	if (
 		! gmr_contests_is_voting_open( $submission->post_parent ) ||
 		(
-			! gmr_contests_allow_anonymous_votes( $submission ) &&
+			! gmr_contests_allow_anonymous_votes( $submission->post_parent ) &&
 			( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() )
 		)
 	) {
