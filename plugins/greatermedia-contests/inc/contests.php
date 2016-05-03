@@ -462,12 +462,33 @@ function _gmr_contests_get_submission_for_voting_actions() {
 /**
  * Returns voting key.
  *
+ * @param  int $contest_id ID of the contest being voted for.
+ *
  * @return string The voting key.
  */
-function _gmr_contests_get_vote_key() {
-	return function_exists( 'get_gigya_user_id' )
-		? 'vote_' . get_gigya_user_id()
-		: false;
+function _gmr_contests_get_vote_key( $contest_id ) {
+	$key = false;
+	// Get the gigya user id if they're logged in.
+	if ( function_exists( 'get_gigya_user_id' ) ) {
+		$key = get_gigya_user_id();
+	}
+
+	// If we don't have a key and anonymous voting is allowed get a
+	// unique id.
+	if ( empty( $key ) && gmr_contests_allow_anonymous_votes( $contest_id ) ) {
+		// Check a cookie first.
+		$key = isset( $_COOKIE['_gmrvk'] ) ? $_COOKIE['_gmrvk'] : false;
+
+		// If we don't have a key generate new one.
+		if ( empty( $key ) ) {
+			$key = uniqid();
+		}
+
+		// Save for future sessions.
+		setcookie( '_gmrvk', $key, time() + YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+	}
+
+	return 'vote_' . $key;
 }
 
 /**
@@ -502,7 +523,7 @@ function gmr_contests_vote_for_submission() {
 	$submission = _gmr_contests_get_submission_for_voting_actions();
 
 	// do nothing if an user has already voted for this submission
-	$vote_key = _gmr_contests_get_vote_key();
+	$vote_key = _gmr_contests_get_vote_key( $submission->post_parent );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 	if ( ! empty( $voted ) ) {
 		wp_send_json_error();
@@ -526,7 +547,7 @@ function gmr_contests_unvote_for_submission() {
 	$submission = _gmr_contests_get_submission_for_voting_actions();
 
 	// do nothing if an user has not voted for this submission yet
-	$vote_key = _gmr_contests_get_vote_key();
+	$vote_key = _gmr_contests_get_vote_key( $submission->post_parent );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 	if ( empty( $voted ) ) {
 		wp_send_json_error();
