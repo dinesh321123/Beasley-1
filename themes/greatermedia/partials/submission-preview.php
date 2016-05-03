@@ -19,7 +19,7 @@
 		/*
 		 * Display the fields associated with an entry, checked as 'Display with entries' on the form builder.
 		*/
-		$entry_fields = gmr_contest_get_entry_fields();
+		$entry_fields = gmr_contest_get_fields();
 		foreach( $entry_fields as $field ) { ?>
 			<dt>
 				<?php echo esc_html( $field['label'] ); ?>
@@ -44,7 +44,7 @@
 				$fields = GreaterMediaFormbuilderRender::parse_entry( get_post()->post_parent, $contest_entry_id );
 				if ( ! empty( $fields ) ) :
 					foreach ( $fields as $field ) :
-						if ( 'file' != $field['type'] && 'email' != $field['type'] ) :
+						if ( 'file' != $field['type'] && 'email' != $field['type'] && false === $field['entry_field'] && false === $field['display_name'] ) :
 							?><dt>
 								<?php echo esc_html( $field['label'] ); ?>
 							</dt>
