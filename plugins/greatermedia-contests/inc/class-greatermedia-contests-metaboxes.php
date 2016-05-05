@@ -161,6 +161,9 @@ class GreaterMediaContestsMetaboxes {
 
 		add_settings_field( 'show-entrant-details', 'Show entrant details (name/date)', array( $this, 'render_entrant_details_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
 
+		add_settings_field( 'entries-order-by', 'Order entries by', array( $this, 'render_order_by_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
+
+
 	}
 
 	public function render_submission_details_field( $post_id ) {
@@ -176,6 +179,15 @@ class GreaterMediaContestsMetaboxes {
 		?><select name="show-entrant-details">
 			<option value="1">Show</option>
 			<option value="0"<?php selected( $show == 0 && $show !== false ); ?>>Hide</option>
+		</select><?php
+	}
+	
+	public function render_order_by_field( $post_id ) {
+		$order = get_post_meta( $post_id, 'entries-order-by', true );
+		?><select name="entries-order-by">
+			<option value="date">Date</option>
+			<option value="entrant_name"<?php selected( 'entrant_name', $order ); ?>>Entrant name</option>
+			<option value="display_name"<?php selected( 'display_name', $order ); ?>>Display name</option>
 		</select><?php
 	}
 
@@ -605,6 +617,10 @@ class GreaterMediaContestsMetaboxes {
 
 		$show_submission_details = filter_input( INPUT_POST, 'show-submission-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
 		update_post_meta( $post_id, 'show-submission-details', $show_submission_details );
+
+		if ( isset( $_POST['entries-order-by'] ) ) {
+			update_post_meta( $post_id, 'entries-order-by', sanitize_text_field( $_POST['entries-order-by'] ) );
+		}		
 
 		if ( isset( $_POST['greatermedia_contest_display_vote_counts'] ) ) {
 			update_post_meta( $post_id, 'contest_show_vote_counts', 1 );
