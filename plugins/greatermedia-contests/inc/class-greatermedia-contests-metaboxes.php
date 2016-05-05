@@ -101,7 +101,7 @@ class GreaterMediaContestsMetaboxes {
 			} else {
 				// backward compatibility: we need to be able to delete any fields
 				foreach ( $form as &$sticky ) {
-					unset( $sticky['sticky'] );
+					//unset( $sticky['sticky'] );
 				}
 			}
 

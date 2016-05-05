@@ -892,7 +892,9 @@ __p += '<label>\n  <input type=\'checkbox\' data-rv-checked=\'model.' +
  if ( typeof typenow !== 'undefined' && 'contest' === typenow ) { ;
 __p += '\n\t<label>\n\t\t<br />\n\t \t<input type=\'checkbox\' data-rv-checked=\'model.' +
 ((__t = ( Formbuilder.options.mappings.STICKY )) == null ? '' : __t) +
-'\' />\n\t  \tDisplay with entries\n\t</label>\n';
+'\' />\n\t  \tDisplay with entries\n\t</label>\n\n\t<label>\n\t\t<br />\n\t \t<input type=\'checkbox\' data-rv-checked=\'model.' +
+((__t = ( Formbuilder.options.mappings.ADMIN_ONLY )) == null ? '' : __t) +
+'\' />\n\t  \tUse as display name\n\t</label>\n';
  } ;
 
 

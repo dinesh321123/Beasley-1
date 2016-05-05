@@ -3,11 +3,17 @@
   Required
 </label>
 
-<!-- Only display this field for contests. We use 'sticky' for our only purposes, to save us adding additional mappings -->
+<!-- Only display these fields for contests. We use 'sticky' and 'admin_only' for our own purposes, to save us adding additional mappings -->
 <% if ( typeof typenow !== 'undefined' && 'contest' === typenow ) { %>
 	<label>
 		<br />
 	 	<input type='checkbox' data-rv-checked='model.<%= Formbuilder.options.mappings.STICKY %>' />
 	  	Display with entries
+	</label>
+
+	<label>
+		<br />
+	 	<input type='checkbox' data-rv-checked='model.<%= Formbuilder.options.mappings.ADMIN_ONLY %>' />
+	  	Use as display name
 	</label>
 <% } %>

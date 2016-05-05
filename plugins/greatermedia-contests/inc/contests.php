@@ -449,7 +449,7 @@ function _gmr_contests_get_submission_for_voting_actions() {
 	if (
 		! gmr_contests_is_voting_open( $submission->post_parent ) ||
 		(
-			! gmr_contests_allow_anonymous_votes( $submission ) &&
+			! gmr_contests_allow_anonymous_votes( $submission->post_parent ) &&
 			( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() )
 		)
 	) {
@@ -462,12 +462,33 @@ function _gmr_contests_get_submission_for_voting_actions() {
 /**
  * Returns voting key.
  *
+ * @param  int $contest_id ID of the contest being voted for.
+ *
  * @return string The voting key.
  */
-function _gmr_contests_get_vote_key() {
-	return function_exists( 'get_gigya_user_id' )
-		? 'vote_' . get_gigya_user_id()
-		: false;
+function _gmr_contests_get_vote_key( $contest_id ) {
+	$key = false;
+	// Get the gigya user id if they're logged in.
+	if ( function_exists( 'get_gigya_user_id' ) ) {
+		$key = get_gigya_user_id();
+	}
+
+	// If we don't have a key and anonymous voting is allowed get a
+	// unique id.
+	if ( empty( $key ) && gmr_contests_allow_anonymous_votes( $contest_id ) ) {
+		// Check a cookie first.
+		$key = isset( $_COOKIE['_gmrvk'] ) ? $_COOKIE['_gmrvk'] : false;
+
+		// If we don't have a key generate new one.
+		if ( empty( $key ) ) {
+			$key = uniqid();
+		}
+
+		// Save for future sessions.
+		setcookie( '_gmrvk', $key, time() + YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+	}
+
+	return 'vote_' . $key;
 }
 
 /**
@@ -502,7 +523,7 @@ function gmr_contests_vote_for_submission() {
 	$submission = _gmr_contests_get_submission_for_voting_actions();
 
 	// do nothing if an user has already voted for this submission
-	$vote_key = _gmr_contests_get_vote_key();
+	$vote_key = _gmr_contests_get_vote_key( $submission->post_parent );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 	if ( ! empty( $voted ) ) {
 		wp_send_json_error();
@@ -526,7 +547,7 @@ function gmr_contests_unvote_for_submission() {
 	$submission = _gmr_contests_get_submission_for_voting_actions();
 
 	// do nothing if an user has not voted for this submission yet
-	$vote_key = _gmr_contests_get_vote_key();
+	$vote_key = _gmr_contests_get_vote_key( $submission->post_parent );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 	if ( empty( $voted ) ) {
 		wp_send_json_error();
@@ -1025,9 +1046,14 @@ function gmr_contests_post_thumbnail_html( $html, $post_id, $post_thumbnail_id, 
 function gmr_contest_submission_get_author( $submission = null ) {
 	$submission = get_post( $submission );
 	if ( $submission ) {
-		$entry = get_post_meta( $submission->ID, 'contest_entry_id', true );
-		if ( $entry ) {
-			return gmr_contest_get_entry_author( $entry );
+		$display_name = gmr_contest_get_fields( $submission->ID, 'display_name' );
+		if ( ! empty ( $display_name = $display_name[0] ) ) {
+			return $display_name['value'];
+		} else {
+			$entry = get_post_meta( $submission->ID, 'contest_entry_id', true );
+			if ( $entry ) {
+				return gmr_contest_get_entry_author( $entry );
+			}
 		}
 	}
 
@@ -1336,13 +1362,35 @@ function gmr_filter_expired_contests( $query ) {
  * @return bool
  */
 function gmr_contests_is_voting_open( $contest_id ) {
-	$vote_start   = get_post_meta( $contest_id, 'contest-vote-start', true ) ?:
-		get_post_meta( $contest_id, 'contest-start', true );
-	$vote_end     = get_post_meta( $contest_id, 'contest-vote-end', true ) ?:
-		get_post_meta( $contest_id, 'contest-end', true );
+	$vote_start   = gmr_contests_get_vote_start_date( $contest_id );
+	$vote_end     = gmr_contests_get_vote_end_date( $contest_id );
 	$current_time = time();
 
 	return ( $vote_start <= $current_time && $current_time < $vote_end );
+}
+
+/**
+ * Get contest's vote start date.
+ *
+ * @param $contest_id
+ *
+ * @return int
+ */
+function gmr_contests_get_vote_start_date( $contest_id ) {
+	return (int) get_post_meta( $contest_id, 'contest-vote-start', true ) ?:
+		get_post_meta( $contest_id, 'contest-start', true );;
+}
+
+/**
+ * Get contest's vote end date.
+ *
+ * @param $contest_id
+ *
+ * @return int
+ */
+function gmr_contests_get_vote_end_date( $contest_id ) {
+	return (int) get_post_meta( $contest_id, 'contest-vote-end', true ) ?:
+		get_post_meta( $contest_id, 'contest-end', true );
 }
 
 /**
@@ -1364,8 +1412,8 @@ function gmr_contests_can_show_vote_count( $submission = null ) {
 /*
  * Return the custom fields associated with an entry; field => value.
  */
-function gmr_contest_get_entry_fields( $submission = null ) {
-	$entry_fields = array();
+function gmr_contest_get_fields( $submission = null, $field_type = 'entry_field' ) {
+	$contest_fields = array();
 	if ( is_null( $submission ) ) {
 		$submission = get_the_ID();
 	}
@@ -1379,14 +1427,14 @@ function gmr_contest_get_entry_fields( $submission = null ) {
 	$fields = GreaterMediaFormbuilderRender::parse_entry( $entry->post_parent, $entry->ID, null, true );
 
 	foreach ( $fields as $field ) {
-		if ( false === $field['entry_field'] || ( 'file' === $field['type'] || 'email' === $field['type'] ) ) {
+		if ( false === $field[ $field_type ] || ( 'file' === $field['type'] || 'email' === $field['type'] ) ) {
 			continue;
 		}
 
-		$entry_fields[] = $field;
+		$contest_fields[] = $field;
 	}
 
-	return $entry_fields;
+	return $contest_fields;
 }
 
 /**

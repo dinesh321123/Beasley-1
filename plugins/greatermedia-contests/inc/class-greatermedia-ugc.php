@@ -248,9 +248,19 @@ class GreaterMediaUserGeneratedContent {
 		$post_status = get_post_status_object( $post->post_status );
 		wp_nonce_field( 'submission_entry_fields_save', 'submission_entry_fields' );
 
-		$entry_fields = gmr_contest_get_entry_fields( $post->ID ); ?>
+		$display_name = gmr_contest_get_fields( $post->ID, 'display_name' );
 
-		<table class="form-table">			
+		$entry_fields = gmr_contest_get_fields( $post->ID ); ?>
+
+		<table class="form-table">
+
+			<?php if ( ! empty( $display_name = $display_name[0] ) ) { ?>
+				<tr>
+					<th scope="row"><label><?php echo esc_html( $display_name['label'] ); ?> (display name)</label></th>
+					<td><input type="text" name="<?php echo esc_attr( $display_name['cid'] ); ?>" value="<?php echo esc_attr( $display_name['value'] ); ?>" /></td>
+				</tr>
+			<?php } ?>
+
 			<?php foreach ( $entry_fields as $field ) { ?>
 				<tr>
 					<th scope="row"><label><?php echo esc_html( $field['label'] ); ?></label></th>
