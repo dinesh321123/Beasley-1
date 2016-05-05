@@ -30,13 +30,15 @@
 
 <div class="highlights__events">
 
-	<div>
+	<!-- <div>
 		<h2 class="highlights__heading"><?php _e( 'Upcoming Events', 'greatermedia' ); ?></h2>
 
 		<a class='highlights__events--more-btn' href='<?php echo esc_url( home_url( '/events/' ) ); ?>'>More</a>
-	</div>
+	</div> -->
 
 	<?php
+	/*
+	 * TEMP: Fixes issue with homepage running out of resources
 	$events_query = \GreaterMedia\HomepageCuration\get_events_query();
 	while( $events_query->have_posts() ) : $events_query->the_post(); ?>
 		<div class="highlights__event--item">
@@ -50,7 +52,7 @@
 					<?php
 					/*
 					 * Moved the class from the span to the time so I could add both the start and end times to the datetime attributes
-					 */
+					 *
 					$start = tribe_get_start_date( get_the_ID(), false, 'M j, Y' );
 					$start_c = tribe_get_start_date( get_the_ID(), false, 'c' );
 					$end = tribe_get_end_date( get_the_ID(), false, 'M j, Y' );
@@ -65,6 +67,6 @@
 			</a>
 		</div>
 	<?php endwhile; ?>
-	<?php wp_reset_query(); ?>
+	<?php wp_reset_query();*/ ?>
 
 </div>
