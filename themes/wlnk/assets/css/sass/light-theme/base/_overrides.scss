@@ -143,7 +143,7 @@ body {
 	background-repeat: no-repeat;
 	background-size: 100%;
 	background-color: transparent !important;
-	
+
 }
 
 @include bp(medium) {
@@ -162,7 +162,7 @@ body {
 }
 
 .live-player__container {
-	border-bottom: 0 !important; 
+	border-bottom: 0 !important;
 }
 
 .live-player__stream {
@@ -327,7 +327,7 @@ a:hover .highlights__community--title {
 
 @include bp(larger) {
 	.gmclt_narrowColumnOne {
-		float: none;	
+		float: none;
 	}
 }
 
@@ -340,7 +340,7 @@ a:hover .highlights__community--title {
 
 @include bp(larger) {
 	.gmclt_narrowColumnTwo {
-		float: none;	
+		float: none;
 	}
 }
 
@@ -363,7 +363,7 @@ a:hover .highlights__community--title {
 .gmclt_wideColumn {
 	box-sizing: border-box;
 	font-size: 16px;
-	width: 100%;	
+	width: 100%;
 }
 
 @include bp(larger) {
@@ -395,7 +395,7 @@ a:hover .highlights__community--title {
 
 @include bp(larger) {
 	.gmclt_wxMobile {
-		display: none;	
+		display: none;
 	}
 }
 
@@ -405,7 +405,7 @@ a:hover .highlights__community--title {
 
 @include bp(larger) {
 	.gmclt_wxDesktop {
-		display: inline;	
+		display: inline;
 	}
 }
 
@@ -471,7 +471,7 @@ h4.gmclt_wxForecastDayHeader {
 
 @include bp(larger) {
 	.gmclt_wxForecastIcon {
-		float: right;	
+		float: right;
 	}
 }
 
@@ -486,13 +486,12 @@ h4.gmclt_wxForecastDayHeader {
 
 @include bp(larger) {
 	.gmclt_wxForecastIconShort {
-		float: none;	
+		float: none;
 	}
 }
 
 .gmclt_wxForecastIcon img {
 	display: block;
-	width: 100px;
 }
 
 .gmclt_wxForecastText {

@@ -15555,8 +15555,7 @@ h4.gmclt_wxForecastDayHeader {
     float: none; } }
 
 .gmclt_wxForecastIcon img {
-  display: block;
-  width: 100px; }
+  display: block; }
 
 .gmclt_wxForecastText {
   margin-left: 110px; }
