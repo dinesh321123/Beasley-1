@@ -1,243 +1,455 @@
-/**
-  * Quicksand 1.2.2
-  * Reorder and filter items with a nice shuffling animation.
-  * Copyright (c) 2010 Jacek Galanciak (razorjack.net) and agilope.com
-  * Big thanks for Piotr Petrus (riddle.pl) for deep code review and wonderful docs & demos.
-  * Dual licensed under the MIT and GPL version 2 licenses.
-  * http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt
-  * http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt
-  * Project site: http://razorjack.net/quicksand
-  * Github site: http://github.com/razorjack/quicksand
-**/
-(function($){$.fn.quicksand=function(collection,customOptions){var options={duration:750,easing:'swing',attribute:'data-id',adjustHeight:'auto',useScaling:true,enhancement:function(c){},selector:'> *',dx:0,dy:0};$.extend(options,customOptions);if($.browser.msie||(typeof($.fn.scale)=='undefined')){options.useScaling=false;}var callbackFunction;if(typeof(arguments[1])=='function'){var callbackFunction=arguments[1];}else if(typeof(arguments[2]=='function')){var callbackFunction=arguments[2];}return this.each(function(i){var val;var animationQueue=[];var $collection=$(collection).clone();var $sourceParent=$(this);var sourceHeight=$(this).css('height');var destHeight;var adjustHeightOnCallback=false;var offset=$($sourceParent).offset();var offsets=[];var $source=$(this).find(options.selector);if($.browser.msie&&$.browser.version.substr(0,1)<7){$sourceParent.html('').append($collection);return;}var postCallbackPerformed=0;var postCallback=function(){if(!postCallbackPerformed){postCallbackPerformed=1;$toDelete=$sourceParent.find('> *');$sourceParent.prepend($dest.find('> *'));$toDelete.remove();if(adjustHeightOnCallback){$sourceParent.css('height',destHeight);}options.enhancement($sourceParent);if(typeof callbackFunction=='function'){callbackFunction.call(this);}}};var $correctionParent=$sourceParent.offsetParent();var correctionOffset=$correctionParent.offset();if($correctionParent.css('position')=='relative'){if($correctionParent.get(0).nodeName.toLowerCase()=='body'){}else{correctionOffset.top+=(parseFloat($correctionParent.css('border-top-width'))||0);correctionOffset.left+=(parseFloat($correctionParent.css('border-left-width'))||0);}}else{correctionOffset.top-=(parseFloat($correctionParent.css('border-top-width'))||0);correctionOffset.left-=(parseFloat($correctionParent.css('border-left-width'))||0);correctionOffset.top-=(parseFloat($correctionParent.css('margin-top'))||0);correctionOffset.left-=(parseFloat($correctionParent.css('margin-left'))||0);}if(isNaN(correctionOffset.left)){correctionOffset.left=0;}if(isNaN(correctionOffset.top)){correctionOffset.top=0;}correctionOffset.left-=options.dx;correctionOffset.top-=options.dy;$sourceParent.css('height',$(this).height());$source.each(function(i){offsets[i]=$(this).offset();});$(this).stop();var dx=0;var dy=0;$source.each(function(i){$(this).stop();var rawObj=$(this).get(0);if(rawObj.style.position=='absolute'){dx=-options.dx;dy=-options.dy;}else{dx=options.dx;dy=options.dy;}rawObj.style.position='absolute';rawObj.style.margin='0';rawObj.style.top=(offsets[i].top-parseFloat(rawObj.style.marginTop)-correctionOffset.top+dy)+'px';rawObj.style.left=(offsets[i].left-parseFloat(rawObj.style.marginLeft)-correctionOffset.left+dx)+'px';});var $dest=$($sourceParent).clone();var rawDest=$dest.get(0);rawDest.innerHTML='';rawDest.setAttribute('id','');rawDest.style.height='auto';rawDest.style.width=$sourceParent.width()+'px';$dest.append($collection);$dest.insertBefore($sourceParent);$dest.css('opacity',0.0);rawDest.style.zIndex=-1;rawDest.style.margin='0';rawDest.style.position='absolute';rawDest.style.top=offset.top-correctionOffset.top+'px';rawDest.style.left=offset.left-correctionOffset.left+'px';if(options.adjustHeight==='dynamic'){$sourceParent.animate({height:$dest.height()},options.duration,options.easing);}else if(options.adjustHeight==='auto'){destHeight=$dest.height();if(parseFloat(sourceHeight)<parseFloat(destHeight)){$sourceParent.css('height',destHeight);}else{adjustHeightOnCallback=true;}}$source.each(function(i){var destElement=[];if(typeof(options.attribute)=='function'){val=options.attribute($(this));$collection.each(function(){if(options.attribute(this)==val){destElement=$(this);return false;}});}else{destElement=$collection.filter('['+options.attribute+'='+$(this).attr(options.attribute)+']');}if(destElement.length){if(!options.useScaling){animationQueue.push({element:$(this),animation:{top:destElement.offset().top-correctionOffset.top,left:destElement.offset().left-correctionOffset.left,opacity:1.0}});}else{animationQueue.push({element:$(this),animation:{top:destElement.offset().top-correctionOffset.top,left:destElement.offset().left-correctionOffset.left,opacity:1.0,scale:'1.0'}});}}else{if(!options.useScaling){animationQueue.push({element:$(this),animation:{opacity:'0.0'}});}else{animationQueue.push({element:$(this),animation:{opacity:'0.0',scale:'0.0'}});}}});$collection.each(function(i){var sourceElement=[];var destElement=[];if(typeof(options.attribute)=='function'){val=options.attribute($(this));$source.each(function(){if(options.attribute(this)==val){sourceElement=$(this);return false;}});$collection.each(function(){if(options.attribute(this)==val){destElement=$(this);return false;}});}else{sourceElement=$source.filter('['+options.attribute+'='+$(this).attr(options.attribute)+']');destElement=$collection.filter('['+options.attribute+'='+$(this).attr(options.attribute)+']');}var animationOptions;if(sourceElement.length===0){if(!options.useScaling){animationOptions={opacity:'1.0'};}else{animationOptions={opacity:'1.0',scale:'1.0'};}d=destElement.clone();var rawDestElement=d.get(0);rawDestElement.style.position='absolute';rawDestElement.style.margin='0';rawDestElement.style.top=destElement.offset().top-correctionOffset.top+'px';rawDestElement.style.left=destElement.offset().left-correctionOffset.left+'px';d.css('opacity',0.0);if(options.useScaling){d.css('transform','scale(0.0)');}d.appendTo($sourceParent);animationQueue.push({element:$(d),animation:animationOptions});}});$dest.remove();options.enhancement($sourceParent);for(i=0;i<animationQueue.length;i++){animationQueue[i].element.animate(animationQueue[i].animation,options.duration,options.easing,postCallback);}});};})(jQuery);
-(function($){$.fn.sorted=function(customOptions){var options={reversed:false,by:function(a){return a.text();}};$.extend(options,customOptions);$data=$(this);arr=$data.get();arr.sort(function(a,b){var valA=options.by($(a));var valB=options.by($(b));if(options.reversed){return(valA<valB)?1:(valA>valB)?-1:0;}else{return(valA<valB)?-1:(valA>valB)?1:0;}});return $(arr);};})(jQuery);
+/* globals EMBEDLY_CONFIG:true, jQuery:true */
+// EMBEDLY ADMIN PAGE JAVASCRIPT
+// Copyright 2015 Embedly  (email : developer@embed.ly)
 
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License, version 2, as
+// published by the Free Software Foundation.
 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-jQuery(document).ready(function($) {
+// valid class prefixes for modulation of key state
 
+// To avoid poluting the global namespace, everything should be in here.
+(function($){
 
+  // for mapping backend data to preview card data-card-* attrs
+  var preview_map = {
+    'card_chrome': 'data-card-chrome',
+    'card_controls': 'data-card-controls',
+    'card_width': 'data-card-width',
+    'card_theme': 'data-card-theme',
+    'card_align': 'data-card-align'
+  };
 
+  var utils = {};
 
-
-
-
-
-
-  if($('#embedly_key').attr('readonly')) {
-    $('.embedly-lock-control').removeClass('embedly-unlocked').addClass('embedly-locked');
-  }
-  else {
-    $('.embedly-lock-control').removeClass('embedly-locked').addClass('embedly-unlocked');
-  }
-  $('.embedly-lock-control').click(function(e) {
-    e.preventDefault();
-    if($(this).hasClass('embedly-locked')) {
-      $(this).removeClass('embedly-locked').addClass('embedly-unlocked').siblings('#embedly_key').removeClass('embedly-locked-input').removeAttr('readonly');
+  utils.comma = function(val){
+    while (/(\d+)(\d{3})/.test(val.toString())){
+      val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
     }
-    else {
-      $(this).removeClass('embedly-unlocked').addClass('embedly-locked').siblings('#embedly_key').addClass('embedly-locked-input').attr('readonly', 'readonly');
+    return val;
+  };
+
+  utils.unparam = function(param){
+    var query = window.location.search.substring(1).split('&').reduce(function(obj, tuple){
+      var parts = tuple.split('=');
+      obj[parts[0]] = decodeURIComponent(parts[1]);
+      return obj;
+    }, {});
+
+    if (param){
+      return query[param];
     }
-  }).hover(function() {
-    if($(this).hasClass('embedly-locked')) {
-      $(this).attr('title', $(this).attr('data-locked'));
-    }
-    else {
-      $(this).attr('title', $(this).attr('data-unlocked'));
-    }
-  }, function() {
-    $(this).attr('title', '');
-  });
-  
-  // Adjust some minor aesthetic details onload
-  $('.embedly-service-generator li').each(function() {
-    if($(this).find('input').attr('checked')) {
-      var allSelected   = true;
-      var allDeselected = false;
-    }
-    else {
-      var allSelected   = false;
-      var allDeselected = true;
-    }
-    $(this).find('label').each(function() {
-      $(this).css({marginLeft:'-'+$(this).width()/2+'px'});
-    });
-    $(this).find('input:checked').each(function() {
-      $(this).parents('li').addClass('service-selected');
-    });
-    if(allSelected) {
-      $('#embedly-service-select').find('a').removeClass('active');
-      $('#embedly-service-select').find('a.all').addClass('active');
-    }
-    if(allDeselected) {
-      $('#embedly-service-select').find('a').removeClass('active');
-      $('#embedly-service-select').find('a.clearselection').addClass('active');      
-    }
-  });
-  
-  // Define the vars
-  var allCheckboxes     = $('.embedly-service-generator li input');
-  var photoCheckboxes   = $('.embedly-service-generator li.photo input');
-  var videoCheckboxes   = $('.embedly-service-generator li.video input');
-  var richCheckboxes    = $('.embedly-service-generator li.rich input');
-  var productCheckboxes = $('.embedly-service-generator li.product input');
-  var audioCheckboxes   = $('.embedly-service-generator li.audio input');
-  var serviceList       = $('#services-source');
-  var listClone         = $('#services-source').clone();
-  var cnt               = 0;
-  
-  
-  /**
-   * Creates providers when ajax update function is run
-  **/
-  function create_provider(obj, cnt) {
-    var checked = (obj.selected == 1) ? 'checked="checked"' : '';
-    var li  = '<li class="'+obj.type+'" id="'+obj.name+'" data-type="'+obj.type+'" data-id="id-'+cnt+'"><div class="full-service-wrapper"><label for="'+obj.name+'-checkbox" class="embedly-icon-name">'+obj.displayname+'</label>';
-        li += '<div class="embedly-icon-wrapper"><input type="checkbox" id="'+obj.name+'-checkbox" name="'+obj.name+'" '+checked+'" />';
-        li += '<img src="'+obj.favicon+'" title="'+obj.name+'" alt="'+obj.displayname+'"></div></div></li>';
-    return li;
-  }
-  
-  
-  /**
-   * Resets all services to de-selected state
-  **/
-  function resetSelected() {
-    allCheckboxes.removeAttr('checked').trigger('change');
-    listClone.find('li').removeClass('service-selected').find('input[type=checkbox]').removeAttr('checked');
-    serviceList.find('li').removeClass('service-selected').find('input[type=checkbox]').removeAttr('checked');
-  }
+    return query;
+  };
 
 
-  /**
-   * Adds "filtering" via the Quicksand jQuery plugin
-  **/
-  $('#embedly-service-filter li a').click(function(e) {
-    e.preventDefault();
-    var dataValue = $(this).parents('li').attr('data-value');
-    $(this).parents('ul').find('a').removeClass('active');
-    $(this).addClass('active');
-    if($(this).hasClass('all')) {
-      var filteredData = listClone.find('li');
-    }
-    else {
-      var filteredData = listClone.find('li[data-type='+dataValue+']')
-    }
-    serviceList.quicksand(filteredData, {
-      duration: 800,
-      easing: 'swing',
-    });
-  });
+  // Returns 'YYYYMMDD' for now, or and offset in days.
+  utils.date = function(days){
+    var now = new Date(),
+      utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
 
+    if (days){
+      utc.setDate(utc.getDate() + days);
+    }
 
-  /**
-   * Function to handle selection/deselection of services onclick
-   * Includes CTRL keybind check for joining selections
-  **/
-  $('#embedly-service-select li a').click(function(e) {
-    e.preventDefault();
-    var elem_class = $(this).removeClass('active').attr('class');
-    if(elem_class != 'all' && elem_class != 'clearselection') {
-      if(!e.ctrlKey) {
-        resetSelected();
-        $(this).parents('ul').find('a').removeClass('active');
+    var str = utc.getFullYear().toString();
+
+    return str + $.map([utc.getMonth(), utc.getDate()], function(v){
+      return ("00" + v).slice(-2);
+    }).join('');
+  };
+
+  window.utils = utils;
+
+  /*
+  * APP
+  * Connect button integration
+  */
+  var app = {
+    _ready: false,
+    _iframe: null,
+    _queue: false,
+    _callback: null
+  };
+
+  app.init = function () {
+    window.addEventListener('message', function (e) {
+      var data;
+      try {
+        data = window.JSON.parse(e.data);
+      } catch (err) {
+        return false;
       }
-      else {
-        if($('#embedly-service-select .all').hasClass('active') || $('#embedly-service-select .clearselection').hasClass('active')) {
-          $('#embedly-service-select .clearselection').add($('#embedly-service-select .all')).removeClass('active');
+      if (!data) {
+        return false;
+      }
+      if (data.method === 'connect' && data.context === 'embedly-app') {
+        app.message(data);
+      }
+    });
+
+    var iframe = document.createElement('iframe');
+    app._iframe = iframe;
+
+    iframe.addEventListener('load', function () {
+      app._ready = true;
+      // If we set a callback earlier, use it.
+      if (app._callback !== null){
+        app.connect(app._callback);
+      }
+    });
+
+    iframe.frameborder = '0';
+    iframe.style.width = '1px';
+    iframe.style.border = 'none';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '-9999em';
+    iframe.style.width = '10px';
+    iframe.style.height = '10px';
+    iframe.src = 'https://app.embed.ly/api/connect';
+    document.body.appendChild(iframe);
+  };
+
+  app.message = function (data) {
+    if (app._callback) {
+      app._callback.call(window, data);
+    }
+  };
+
+  // connection code
+  app.connect = function (callback) {
+    app._callback = callback;
+
+    if (app._ready === false){
+      return false;
+    }
+
+    var msg = window.JSON.stringify({
+      method: 'connect'
+    });
+    app._iframe.contentWindow.postMessage(msg, '*');
+  };
+
+
+  /*
+  * ANALYTICS
+  * Everything that has to do with getting information from Embedly's Analytics Engines.
+  */
+  var analytics = {};
+
+  // loads the analytics from narrate.
+  analytics.actives = function() {
+    if (EMBEDLY_CONFIG.analyticsKey){
+      $.getJSON('https://narrate.embed.ly/1/keys?' + $.param({
+        key: EMBEDLY_CONFIG.analyticsKey
+      })).then(function(response){
+        $(".embedly-analytics .active-viewers .active-count").html(response.active);
+      });
+    }
+  };
+
+  // Number of impressions in the last week.
+  // analytics.historical = function() {
+  //   if (EMBEDLY_CONFIG.analyticsKey){
+  //     var start = utils.date(-7),
+  //       end = utils.date(1);
+
+  //     $.getJSON('https://api.embed.ly/2/analytics/stats?' + $.param({
+  //       key: EMBEDLY_CONFIG.analyticsKey,
+  //       start: start,
+  //       end: end
+  //     })).then(function(response){
+  //       var value = '-';
+  //       if (response){
+  //         value = response.reduce(function(sum, entry){
+  //           return sum + entry.actions.load;
+  //         }, 0);
+  //         value = utils.comma(value);
+  //       }
+  //        $(".embedly-analytics .historical-viewers .weekly-count").html(value);
+  //     });
+  //   }
+  // };
+
+  // Start everything.
+  analytics.init = function(){
+    analytics.actives();
+    setInterval(analytics.actives, 10000);
+    // analytics.historical();
+  };
+
+
+  /*
+  * SETTINGS
+  * Everything that has to do with the saving things to the Wordpress Backend.
+  */
+  var settings = {};
+
+  // given a key, value pair for a card setting, performs
+  // ajax request to ajaxurl backend to update option
+  settings.update = function (key, value) {
+    $.post(
+      EMBEDLY_CONFIG.ajaxurl,
+      {
+        'action': 'embedly_update_option',
+        'security': EMBEDLY_CONFIG.updateOptionNonce,
+        'key': key,
+        'value': value
+      }, function(response) {
+        if(key === 'card_width') {
+          // if the input was invalid for width,
+          // the value will default to previous value
+          value = response;
         }
-      }
-    }
-    else {
-      $(this).parents('ul').find('a').removeClass('active');
-    }
-    switch(elem_class) {
-      case 'all':
-        allCheckboxes.attr('checked', 'checked').trigger('change');
-        listClone.find('li').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');
-        serviceList.find('li').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');      
-      break;
-      case 'clearselection':
-        resetSelected();
-      break;
-      case 'videos':
-        videoCheckboxes.attr('checked', 'checked').trigger('change');
-        listClone.find('li.video').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');
-        serviceList.find('li.video').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');
-      break;
-      case 'photos':
-        photoCheckboxes.attr('checked', 'checked').trigger('change');
-        listClone.find('li.photo').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');
-        serviceList.find('li.photo').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');      
-      break;
-      case 'audio':
-        audioCheckboxes.attr('checked', 'checked').trigger('change');
-        listClone.find('li.audio').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');
-        serviceList.find('li.audio').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');      
-      break;
-      case 'rich':
-        richCheckboxes.attr('checked', 'checked').trigger('change');
-        listClone.find('li.rich').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');
-        serviceList.find('li.rich').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');      
-      break;
-      case 'products':
-        productCheckboxes.attr('checked', 'checked').trigger('change');
-        listClone.find('li.product').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');
-        serviceList.find('li.product').addClass('service-selected').find('input[type=checkbox]').attr('checked', 'checked');      
-      break;
-    }
-    $(this).addClass('active');
-  });
+        settings.preview(preview_map[key], String(value));
+      });
 
+    $('#embedly-settings-saved').show();
 
+    // Fade out after 3 seconds.
+    setTimeout(function(){
+      $('#embedly-settings-saved').fadeOut();
+    }, 3000);
+  };
 
-
-  /**
-   * Function to change selected state upon clicking individual services
-  **/
-  $('#services-source li').on('click', function(e) {
-    e.preventDefault();
-    var checkBox = $(this).find('input[type=checkbox]');
-    if(checkBox.attr('checked')) {
-      $(this).removeClass('service-selected');
-      checkBox.removeAttr('checked').trigger('change');
+  // Build the card.
+  settings.card = function() {
+    if (window.embedly){
+      // clone the template
+      var clone = $('a.embedly-card-template').clone();
+      clone.removeClass('embedly-card-template').addClass('embedly-card-preview');
+      // remove the old card
+      $('.card-preview-container .embedly-card').remove();
+      // insert the new card template
+      clone.insertAfter('a.embedly-card-template');
+      // cardify it.
+      window.embedly.card($('a.embedly-card-preview')[0]);
+    } else {
+      // when embedly loads build the card.
+      window.onEmbedlyReady = function(){
+        settings.card();
+      };
     }
-    else {
-      $(this).addClass('service-selected');
-      checkBox.attr('checked', 'checked').trigger('change');
-    }
-  });
-  
+  };
 
-  /**
-   * AJAX function that handles retrieving/updating providers from Embed.ly API
-  **/
-  $('#embedly_update_providers_form').submit(function(e) {
-    e.preventDefault();
-    $('#embedly-ajax-error').add($('#embedly-ajax-success')).hide();
-    var providers = [];
-    $('.embedly-service-generator li input:checked').each(function(index, elem) {
-      providers.push($(elem).attr('name'));
+  // function that updates the template card with the key value pair
+  settings.preview = function(key, value){
+    // update the template first
+    $('a.embedly-card-template').attr(key, value);
+    // then render the new card
+    settings.card();
+  };
+
+  // Save the account.
+  settings.save = function(api_key, analytics_key, name) {
+    $.post(
+      EMBEDLY_CONFIG.ajaxurl,
+      {
+        'action': 'embedly_save_account',
+        'security': EMBEDLY_CONFIG.saveAccountNonce,
+        'api_key': api_key,
+        'analytics_key': analytics_key,
+        'org_name': name
+      },
+      function(response) {
+        if(response === 'true') {
+          location.reload();
+        } else {
+          window.alert([
+            'We were unable to save your Embedly information your Wordpress ',
+            'install. Please email support@embed.ly and we will try to help.'].join(''));
+        }
+
     });
-    var data = {
-      action: 'embedly_update_providers'
-    };
-    $.post(ajaxurl, data, function(json) {
-      if(json.hasOwnProperty('error')) {
-        $('#embedly-ajax-error').fadeIn();
-      }
-      else {
-        if($('#services-source').length != 1) {
-          window.location.reload();
-          $('#services-source').html('');
-          $.each(json, function(index, obj) {
-            $('#services-source').append(create_provider(obj, cnt++));
+  };
+
+  //Uses the app.connect to try to auth the user.
+  settings.connect = function(callback){
+    // cleans html for user select:
+    // if the div is open already, close it., else continue:
+    var $which = $('#embedly-which'),
+      $list = $('#embedly-which-list'),
+      $button = $('#connect-button');
+
+    if($which.is(":visible")) {
+      $which.hide();
+      return;
+    }
+    // if the user clicks multiple times, make sure div is empty
+    $list.empty();
+
+    app.connect(function (data) {
+      if (data.error === false) {
+        if (data.organizations.length === 1) {
+          // single organization. easy.
+          var org = data.organizations[0];
+          $button.text('CONNECTED');
+          settings.save(org.api_key, org.analytics_key, org.name);
+        } else {
+          $which.show();
+
+          var selected = function (org) {
+            return function () {
+              $button.text('CONNECTED');
+              settings.save(org.api_key, org.analytics_key, org.name);
+              // clear html after selection in case of reselection
+              $which.hide();
+              $list.empty();
+            };
+          };
+
+          data.organizations.forEach(function(org){
+            var $li = $('<li></li>'),
+              $a = $('<a>'+org.name.toUpperCase()+'</a>');
+
+            $a.on('click', selected(org));
+            $li.append($a);
+            $list.append($li);
           });
         }
-        $('#embedly-ajax-success').fadeIn();
+      } else {
+        // user is not currently logged in
+        if (callback){
+          callback({error: true});
+        } else {
+          window.alert("Please log in to your Embedly account first");
+        }
       }
-    }, 'json');
-  });
+    });
+  };
 
-});
+  settings.init = function(){
+    Object.keys(preview_map).forEach(function(key) {
+      // current card is set globally server side.
+      // contains a map of "card_chrome" => "1" for all set options
+      // if set, update the template for the initial card.
+      if(EMBEDLY_CONFIG.current[key]) {
+        settings.preview(preview_map[key], EMBEDLY_CONFIG.current[key]);
+      }
+    });
+
+    settings.card();
+  };
+
+  $(document).ready(function($) {
+    // Set up the iframe;
+    app.init();
+
+    // Set up the analytics.
+    analytics.init();
+
+    // Set up the settings.
+    settings.init();
+
+    // All the code to deal with the advanced options.
+    $(".embedly-align-select-container  a").click(function(){
+      $(this).parent().addClass("selected").siblings().removeClass("selected");
+    });
+
+    // When the alignment is selected, unselect other alignments
+    $('.align-icon').mousedown(function() {
+      $(this).children()[0].value = 'checked';
+      $(this).addClass('selected-align-select');
+
+      $.each($(this).parent().siblings(), function(name, obj) {
+        var span = $(obj).children()[0];
+        var hidden = $(span).children()[0];
+        hidden.value = 'unchecked';
+        $(span).removeClass('selected-align-select');
+      });
+
+      var align = $(this).attr('align-value');
+      settings.update('card_align', align);
+    });
+
+    // minimal checkbox at the moment
+    $('.chrome-card-checkbox').click(function() {
+      settings.update('card_chrome', $(this).is(':checked') ? 0 : 1);
+    });
+
+    $('.embedly-social-checkbox').click(function() {
+      settings.update('card_controls', $(this).is(':checked') ? 1 : 0);
+    });
+
+    $('.embedly-dark-checkbox').click(function() {
+      var checked = $(this).is(':checked'),
+        value = checked ? 'dark' : 'light';
+
+      settings.update('card_theme', value);
+
+      var $preview = $('.card-preview-container');
+      if(checked) {
+        $preview.addClass('dark-theme');
+      } else {
+        $preview.removeClass('dark-theme');
+      }
+    });
+
+    $('#embedly-max-width').focusout(function() {
+      settings.update('card_width', $(this).val());
+    });
+
+    $('#embedly-max-width').keypress(function(e) {
+      if(e.which === 13) {
+        settings.update('card_width', $(this).val());
+        return false;
+      }
+    });
+
+    // toggles dropdowns
+    $('.dropdown-wrapper .dropdown-header a').click(function(){
+      var $wrapper = $(this).parents('.dropdown-wrapper'),
+        $body = $wrapper.find('.dropdown-body'),
+        $arrow = $wrapper.find('.dropdown-header a span');
+
+      if($body.is(":visible")) {
+        $body.hide();
+        $arrow.removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-right-alt2');
+      } else {
+        $body.show();
+        $arrow.removeClass('dashicons-arrow-right-alt2').addClass('dashicons-arrow-down-alt2');
+      }
+      return false;
+    });
+
+    // sets the back direct link on the create account button
+    $('#create-account-btn').attr("href", "https://app.embed.ly/signup/wordpress?back=" + encodeURIComponent(window.location.toString()));
+
+
+    // sets the back direct link for pre-existing users
+    $('#preexisting-user').attr('href',
+      'https://app.embed.ly/wordpress?back=' +
+      encodeURIComponent(window.location.toString()));
+
+
+    $('#connect-button').click(function() {
+      // First try to see if we are logged in, then move away from the plugin.
+      settings.connect(function(){
+        $('#connect-button').html("VISITING APP.EMBED.LY...");
+        window.location = [
+          'https://app.embed.ly/wordpress?back=',
+          encodeURIComponent(window.location.toString())
+        ].join('');
+      });
+      return false;
+    });
+
+    // checks if page was loaded after signing in from app.embed.ly/wordpress/*
+    if(utils.unparam('embedly') === 'back' && !EMBEDLY_CONFIG.analyticsKey) {
+      $('#embedly-connect-failed-refresh').show();
+      $('.embedly-create-account-btn-wrap').hide();
+      settings.connect(function(){
+        //I'm pretty sure this should fail silently.
+      });
+    }
+  });
+})(jQuery);

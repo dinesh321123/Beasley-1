@@ -14,11 +14,7 @@ get_header(); ?>
 
 			<?php while ( have_posts() ) : the_post(); ?>
 
-				<?php if ( has_post_thumbnail() ) : ?>
-					<div class="contest__thumbnail"
-					     style="background-image:url(<?php gm_post_thumbnail_url( 'gmr-contest-thumbnail' ); ?>)">
-					</div>
-				<?php endif; ?>
+				<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'poster' ) ? get_template_part( 'partials/feature-image-contest' ) : ''; ?>
 
 				<section class="content">
 					<?php get_template_part( 'partials/contest', get_post_meta( $post->ID, 'contest_type', true ) ); ?>

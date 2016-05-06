@@ -174,6 +174,10 @@ body {
 	font-size: 1em;
 }
 
+.article__content h2 {
+	font-size: 1em;
+}
+
 .featured__article:hover .featured__article--heading {
 	color: #CF000F;
 }
@@ -183,7 +187,13 @@ body {
 }
 
 .news-site .featured__content--title {
-	font-size: 0.87em;
+	font-size: 0.55em;
+}
+
+@include bp(medium) {
+	.news-site .featured__content--title {
+		font-size: 0.87em;
+	}
 }
 
 .news-site .featured__article--primary .featured__article--heading {
@@ -211,7 +221,7 @@ body {
 }
 
 .highlights__heading {
-	color: $highlights-heading;
+	visibility: hidden;
 }
 
 .type-contest .entry__title--tag {
@@ -702,7 +712,7 @@ a:hover .breaking-news-banner {
     height: 300px !important;
 }
 
-@include bp(larger) {
+@include bp(medium) {
 	#gmclt_trafficMapCanvas {
 		width: 100% !important;
 		height: 700px !important;

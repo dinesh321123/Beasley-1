@@ -317,12 +317,14 @@ function get_gigya_verify_email_message() {
 						$emma_group_name        = $emma_group['group_name'];
 						$emma_group_description = empty( $emma_group['group_description'] ) ? $emma_group_name : $emma_group['group_description'];
 						$field_key              = $emma_group['field_key'];
+						$checked              	= ( true === $emma_group['opt_in_default'] ) ? true : false;
+
 					?>
 						<li>
 							<input
 								type="checkbox"
-								name="data.<?php echo esc_attr( $field_key ) ?>"
-								checked="checked" id="emma_group_<?php echo esc_attr( $emma_group_id ); ?>" />
+								name="data.<?php echo esc_attr( $field_key ) ?>" <?php checked( $checked ); ?>
+								id="emma_group_<?php echo esc_attr( $emma_group_id ); ?>" />
 							<label class="label-email-list" for="emma_group_<?php echo esc_attr( $emma_group_id ); ?>">
 								<?php echo esc_html( $emma_group_description ) ?>
 							</label>

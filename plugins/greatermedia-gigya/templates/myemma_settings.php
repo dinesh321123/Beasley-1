@@ -113,6 +113,9 @@
 				<label for="emma_group_active" class="emma_group_active_label">
 				<input type="checkbox" name="emma_group_active" value="" id="emma_group_active" />Active (Only Active Groups are shown to Members)</label>
 
+				<label for="emma_group_opt_in" class="emma_group_opt_in_label">
+				<input type="checkbox" name="emma_group_opt_in" value="" id="emma_group_opt_in" />Opt-in by default?</label>
+
 				<input type="submit" value="Create" class="button button-primary create-group-button" />
 				<span class="spinner"></span>
 			</div>

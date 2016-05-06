@@ -1,23 +1,26 @@
 <?php
 
 // filter hooks
-add_filter( 'json_endpoints', 'gmr_streams_init_api_endpoint' );
+add_filter( 'rest_api_init', 'gmr_streams_init_api_endpoint' );
 add_filter( 'determine_current_user', 'gmr_streams_json_basic_auth_handler', 20 );
-add_filter( 'json_authentication_errors', 'gmr_streams_json_basic_auth_error' );
+add_filter( 'rest_authentication_errors', 'gmr_streams_json_basic_auth_error' );
 
 /**
  * Registers API endpoint.
  *
  * @filter json_endpoints
+ *
  * @param array $routes The initial array of routes.
+ *
  * @return array Extended array of API routes.
  */
 function gmr_streams_init_api_endpoint( $routes ) {
-	$routes['/stream/(?P<sign>\S+)'] = array(
-		array( 'gmr_streams_process_endpoint', WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
+	register_rest_route( 'wp/v2', '/stream/(?P<sign>\S+)',
+		array(
+			'methods'  => 'POST',
+			'callback' => 'gmr_streams_process_endpoint',
+		)
 	);
-
-	return $routes;
 }
 
 /**
@@ -26,14 +29,23 @@ function gmr_streams_init_api_endpoint( $routes ) {
  * @param string $sign The stream id.
  * @param array $data The song data.
  */
-function gmr_streams_process_endpoint( $sign, $data ) {
+function gmr_streams_process_endpoint( /*$sign,*/ $data ) {
+	$sign = $data->get_param( 'sign' );
+
 	// an example of data:
 	// {"artist": "Bruce Springsteen", "title": "Born to run", "purchase_link": "http://itunes.apple.com/album/born-to-run/id192810984?i=192811017&uo=5", "timestamp": "1417788996"}
 	//
 	// sample of curl command to test endpoint:
 	// curl -u admin:password -X POST --data '{json}' {endpoint_url}
 
-	$data = filter_var_array( $data, array(
+	$params = array(
+		'artist' => $data->get_param( 'artist' ),
+		'title' => $data->get_param( 'title' ),
+		'purchase_link' => $data->get_param( 'purchase_link' ),
+		'timestamp' => $data->get_param( 'timestamp' ),
+	);
+
+	$params = filter_var_array( $params, array(
 		'artist'        => FILTER_DEFAULT,
 		'title'         => FILTER_DEFAULT,
 		'purchase_link' => FILTER_VALIDATE_URL,
@@ -48,7 +60,7 @@ function gmr_streams_process_endpoint( $sign, $data ) {
 	);
 
 	foreach ( $validate as $key => $error ) {
-		if ( empty( $data[ $key ] ) ) {
+		if ( empty( $params[ $key ] ) ) {
 			return new WP_Error( 'gmr_stream_bad_request', $error, array( 'status' => 400 ) );
 		}
 	}
@@ -70,30 +82,29 @@ function gmr_streams_process_endpoint( $sign, $data ) {
 	$song = array(
 		'post_type'     => GMR_SONG_CPT,
 		'post_status'   => 'publish',
-		'post_date'     => date( DATE_ISO8601, $data['timestamp'] + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ),
-		'post_date_gmt' => date( DATE_ISO8601, $data['timestamp'] ),
+		'post_date'     => date( DATE_ISO8601, $params['timestamp'] + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ),
+		'post_date_gmt' => date( DATE_ISO8601, $params['timestamp'] ),
 		'post_parent'   => $query->next_post()->ID,
-		'post_title'    => $data['title'],
+		'post_title'    => $params['title'],
 	);
 
 	$song_id = wp_insert_post( $song, true );
 	$created = $song_id && ! is_wp_error( $song_id );
 	if ( $created ) {
-		update_post_meta( $song_id, 'artist', $data['artist'] );
-		update_post_meta( $song_id, 'purchase_link', $data['purchase_link'] );
+		update_post_meta( $song_id, 'artist', $params['artist'] );
+		update_post_meta( $song_id, 'purchase_link', $params['purchase_link'] );
 	}
 
-	$response = new WP_JSON_Response();
-	$response->set_status( $created ? 201 : 400 );
-
-	return $response;
+	return new WP_REST_Response( $created, $created ? 201 : 400 );
 }
 
 /**
  * Authorizes an user using HTTP Basic Authorization method.
  *
  * @global WP_Error $wp_json_basic_auth_error The basic authorization error object.
+ *
  * @param WP_User $user The current user object.
+ *
  * @return WP_User|int The user id or object on success, otherwise null;
  */
 function gmr_streams_json_basic_auth_handler( $user ) {
@@ -107,7 +118,7 @@ function gmr_streams_json_basic_auth_handler( $user ) {
 	}
 
 	// Check that we're trying to authenticate
-	if ( !isset( $_SERVER['PHP_AUTH_USER'] ) ) {
+	if ( ! isset( $_SERVER['PHP_AUTH_USER'] ) ) {
 		return $user;
 	}
 
@@ -128,6 +139,7 @@ function gmr_streams_json_basic_auth_handler( $user ) {
 
 	if ( is_wp_error( $user ) ) {
 		$wp_json_basic_auth_error = new WP_Error( 'gmr_stream_not_authorized', strip_tags( $user->get_error_message() ), array( 'status' => 401 ) );
+
 		return null;
 	}
 
@@ -140,7 +152,9 @@ function gmr_streams_json_basic_auth_handler( $user ) {
  * Returns Basic Authorization errors if exists any.
  *
  * @global WP_Error $wp_json_basic_auth_error The basic authorization error object.
+ *
  * @param WP_Error $error The incoming error object or null.
+ *
  * @return WP_Error The error object on failure, otherwise null.
  */
 function gmr_streams_json_basic_auth_error( $error ) {

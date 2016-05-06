@@ -11,10 +11,10 @@
  * @package WMJX - Christmas
  * @since 0.1.0
  */
- 
+
  // Useful global constants
-define( 'WMJX_CHRISTMAS_VERSION', '0.1.2' ); /* Version bump by Denis Prindeville 11/11/2015 @ 12:30pm EST */
- 
+define( 'WMJX_CHRISTMAS_VERSION', '0.1.3' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m. EST */
+
  /**
   * Set up theme defaults and register supported WordPress features.
   *
@@ -33,7 +33,7 @@ define( 'WMJX_CHRISTMAS_VERSION', '0.1.2' ); /* Version bump by Denis Prindevill
 	load_theme_textdomain( 'wmjx_christmas', get_stylesheet_directory_uri() . '/languages' );
  }
  add_action( 'after_setup_theme', 'wmjx_christmas_setup' );
- 
+
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -43,17 +43,17 @@ define( 'WMJX_CHRISTMAS_VERSION', '0.1.2' ); /* Version bump by Denis Prindevill
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
-	wp_deregister_style( 'greatermedia' );	
+	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wmjx_christmas', get_stylesheet_directory_uri() . "/assets/css/wmjx_christmas{$postfix}.css", array(), WMJX_CHRISTMAS_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wmjx_christmas_scripts_styles', 20 );
- 
+
  /**
   * Add humans.txt to the <head> element.
   */
  function wmjx_christmas_header_meta() {
 	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-	
+
 	echo apply_filters( 'wmjx_christmas_humans', $humans );
  }
  add_action( 'wp_head', 'wmjx_christmas_header_meta' );

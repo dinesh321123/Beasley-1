@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WBQT_VERSION', '0.2.7' ); /* Version bump by Denis 10/30/2015 @ 12:00 p.m. EST */
+define( 'WBQT_VERSION', '0.3.3' ); /* Version bump by Steve 4/4/2016 @ 1:00 p.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -45,6 +45,13 @@ define( 'WBQT_VERSION', '0.2.7' ); /* Version bump by Denis 10/30/2015 @ 12:00 p
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_style( 'wbqt', get_stylesheet_directory_uri() . "/assets/css/wbqt{$postfix}.css", array(), WBQT_VERSION );
+	wp_enqueue_script(
+    'wbqt',
+    get_stylesheet_directory_uri() . "/assets/js/wbqt{$postfix}.js",
+    array(),
+    WBQT_VERSION,
+    true
+  );
  }
  add_action( 'wp_enqueue_scripts', 'wbqt_scripts_styles', 20 );
 

@@ -97,6 +97,7 @@ class BlogData {
 		$content_home_url = trailingslashit( home_url() );
 		restore_current_blog();
 
+		// @remove after debugging
 		foreach ( $result as $single_post ) {
 			$post_id = self::ImportPosts(
 				$single_post['post_obj']
@@ -229,14 +230,15 @@ class BlogData {
 				$featured_src = $featured_src[0];
 			}
 		}
-		
+
 		$galleries = get_post_galleries( $single_result->ID, false );
+
 		foreach ( $galleries as &$gallery ) {
 			if ( ! empty( $gallery['ids'] ) ) {
 				$image_ids = array_filter( array_map( 'intval', explode( ',', $gallery['ids'] ) ) );
 				$gallery['ids'] = implode( ',', $image_ids );
 				$gallery['src'] = array();
-				
+
 				foreach ( $image_ids as $image_id ) {
 					$image_src = wp_get_attachment_image_src( $image_id, 'full' );
 					if ( ! empty( $image_src ) ) {
@@ -284,7 +286,7 @@ class BlogData {
 		if ( ! $post ) {
 			return;
 		}
-		
+
 		$post_name = sanitize_title( $post->post_name );
 		$post_title = sanitize_text_field( $post->post_title );
 		$post_type = sanitize_text_field( $post->post_type );
@@ -334,7 +336,7 @@ class BlogData {
 			if ( $hash_value != $post_hash || $force_update ) {
 				// post has been updated, override existing one
 				$args['ID'] = $post_id;
-				
+
 				wp_update_post( $args );
 				if ( ! empty( $metas ) ) {
 					foreach ( $metas as $meta_key => $meta_value ) {
@@ -487,6 +489,53 @@ class BlogData {
 		}
 	}
 
+
+	/**
+	 * Borrowed from S3 Uploads plugin cli command for migrating attachements
+	 *
+	 * @param int    $id - Post ID of the image
+	 *
+	 * @return null
+	 */
+	public static function MigrateAttachmentToS3( $id ) {
+
+		// If theres no class them return silently
+		if ( ! class_exists( 'S3_Uploads' ) ) {
+			return;
+		}
+
+		// Ensure things are active
+		$instance = S3_Uploads::get_instance();
+		if ( ! s3_uploads_enabled() ) {
+			$instance->setup();
+		}
+
+		$old_upload_dir = $instance->get_original_upload_dir();
+		$upload_dir = wp_upload_dir();
+
+		$files = array( get_post_meta( $id, '_wp_attached_file', true ) );
+
+		$meta_data = wp_get_attachment_metadata( $id );
+
+		if ( ! empty( $meta_data['sizes'] ) ) {
+			foreach ( $meta_data['sizes'] as $file ) {
+				$files[] = path_join( dirname( $meta_data['file'] ), $file['file'] );
+			}
+		}
+
+		foreach ( $files as $file ) {
+			if ( file_exists( $path = $old_upload_dir['basedir'] . '/' . $file ) ) {
+				if ( ! copy( $path, $upload_dir['basedir'] . '/' . $file ) ) {
+					error_log( "Unable to path:" . print_r( $path, true ), 3, '/var/www/html/wordpress/debug.log' );
+					error_log( "Unable to upload_dir:" . print_r( $upload_dir, true ), 3, '/var/www/html/wordpress/debug.log' );
+					error_log( "Unable to file:" . print_r( $file, true ), 3, '/var/www/html/wordpress/debug.log' );
+				}
+			}
+		}
+
+	}
+
+
 	/**
 	 * Helper function to import images
 	 * Reused code from
@@ -499,6 +548,11 @@ class BlogData {
 	 * @return int|object
 	 */
 	public static function ImportMedia( $post_id, $filename, $featured = false, $old_id = 0 ) {
+
+		require_once( ABSPATH . 'wp-admin' . '/includes/image.php' );
+		require_once( ABSPATH . 'wp-admin' . '/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin' . '/includes/media.php' );
+
 		$id = 0;
 		$old_id = intval( $old_id );
 		$tmp = download_url( $filename );
@@ -540,6 +594,10 @@ class BlogData {
 				if ( is_wp_error( $id ) ) {
 					@unlink( $file_array['tmp_name'] );
 				} else {
+
+					// Try to migrate the post attachment to S3 if it failed for whatever reason
+					self::MigrateAttachmentToS3( $id );
+
 					@unlink( $file_array['tmp_name'] );
 					if( $featured == true && $post_id != 0 ) {
 						set_post_thumbnail( $post_id, $id );
@@ -557,6 +615,8 @@ class BlogData {
 			}
 		} else {
 			$id = $existing[0]->ID;
+				// Try to migrate the post attachment to S3 if it failed for whatever reason
+				self::MigrateAttachmentToS3( $id );
 			if ( $featured == true && $post_id != 0 ) {
 				set_post_thumbnail( $post_id, $id );
 			}

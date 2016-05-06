@@ -1,5 +1,6 @@
 .contest__thumbnail {
-	@include proportional-thumbnail(66%);
+	position: relative;
+	margin-bottom: 2em;
 }
 
 .single__featured-img--contest {

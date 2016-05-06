@@ -36,6 +36,10 @@ cd ../wjrz
 npm update
 grunt
 
+cd ../wjrz-christmas
+npm update
+grunt
+
 cd ../wklb
 npm update
 grunt
@@ -52,7 +56,15 @@ cd ../wmgq
 npm update
 grunt
 
+cd ../wmgq-christmas
+npm update
+grunt
+
 cd ../wmjx
+npm update
+grunt
+
+cd ../wmjx-christmas
 npm update
 grunt
 

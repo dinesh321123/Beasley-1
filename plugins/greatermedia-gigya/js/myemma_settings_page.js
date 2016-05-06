@@ -160,7 +160,8 @@
 				emma_group_name: opts.group_name,
 				gigya_field_key: opts.field_key,
 				emma_group_description: opts.group_description,
-				emma_group_active: opts.group_active
+				emma_group_active: opts.group_active,
+				emma_group_opt_in: opts.opt_in_default
 			};
 
 			this.trigger('didAddStart');
@@ -187,7 +188,8 @@
 				gigya_field_key: opts.field_key,
 				group_to_update: group_id,
 				emma_group_description: opts.group_description,
-				emma_group_active: opts.group_active
+				emma_group_active: opts.group_active,
+				emma_group_opt_in: opts.opt_in_default
 			};
 
 			this.trigger('didUpdateStart');
@@ -374,7 +376,8 @@
 				$submitButton.val('Update');
 
 				var group = this.collection.findWhere({group_id: this.groupToEdit});
-				var group_active = group.get('group_active');
+				var group_active = group.get('group_active'),
+					opt_in_default = group.get( 'opt_in_default' );
 
 				if (group_active === undefined) {
 					group_active = true;
@@ -387,6 +390,7 @@
 				$('#gigya_field_key').val(group.get('field_key'));
 				$('#emma_group_description').val(group.get('group_description'));
 				$('#emma_group_active').attr('checked', group_active);
+				$('#emma_group_opt_in').attr('checked', opt_in_default);
 			} else {
 				$title.text('New MyEmma Group');
 				$submitButton.val('Create');
@@ -418,7 +422,8 @@
 				group_name: $('#emma_group_name').val(),
 				field_key: $('#gigya_field_key').val(),
 				group_description: $('#emma_group_description').val(),
-				group_active: $('#emma_group_active').is(':checked')
+				group_active: $('#emma_group_active').is(':checked'),
+				opt_in_default: $('#emma_group_opt_in').is(':checked')
 			};
 
 			if (this.editMode) {
@@ -465,6 +470,7 @@
 			$('#gigya_field_key').val('');
 			$('#emma_group_description').val('');
 			$('#emma_group_active').attr('checked', false);
+			$('#emma_group_opt_in').attr('checked', false);
 		},
 
 		didRemoveClick: function(event) {

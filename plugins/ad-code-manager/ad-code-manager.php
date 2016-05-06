@@ -122,7 +122,7 @@ class Ad_Code_Manager {
 
 		/**
 		 * Configuration filter: acm_provider_slug
-		 *
+		 *CM_Ad_Zones
 		 * By default we use doubleclick-for-publishers provider
 		 * To switch to a different ad provider use this filter
 		 */
@@ -719,7 +719,9 @@ class Ad_Code_Manager {
 	 *
 	 */
 	function register_widget() {
-		register_widget( 'ACM_Ad_Zones' );
+		if ( class_exists( 'WP_Widget' ) ) {
+			register_widget( 'ACM_Ad_Zones' );
+		}
 	}
 
 	/**

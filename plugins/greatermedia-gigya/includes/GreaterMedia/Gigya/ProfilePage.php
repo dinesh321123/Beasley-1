@@ -123,7 +123,7 @@ class ProfilePage {
 
 		wp_enqueue_script(
 			'gigya_socialize',
-			"https://members.wmgk.com/JS/gigya.js?apiKey={$api_key}",
+			"https://cdns.gigya.com/JS/gigya.js?apiKey={$api_key}",
 			array( 'jquery', 'cookies-js', 'underscore', 'gigya_config' ),
 			GMR_GIGYA_VERSION,
 			true

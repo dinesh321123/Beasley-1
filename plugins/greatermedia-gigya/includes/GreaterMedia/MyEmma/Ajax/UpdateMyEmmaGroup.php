@@ -19,6 +19,7 @@ class UpdateMyEmmaGroup extends AjaxHandler {
 		$field_key         = sanitize_text_field( $params['gigya_field_key'] );
 		$group_description = sanitize_text_field( $params['emma_group_description'] );
 		$group_active      = filter_var( $params['emma_group_active'], FILTER_VALIDATE_BOOLEAN );
+		$opt_in_default    = filter_var( $params['emma_group_opt_in'], FILTER_VALIDATE_BOOLEAN );
 
 		if ( empty( $group_name ) ) {
 			throw new \Exception( 'Error: Emma Group name must not be empty' );
@@ -50,7 +51,8 @@ class UpdateMyEmmaGroup extends AjaxHandler {
 				'group_name'        => $group_name,
 				'field_key'         => $field_key,
 				'group_description' => $group_description,
-				'group_active'      => $group_active
+				'group_active'      => $group_active,
+				'opt_in_default' 	=> $opt_in_default,
 			);
 
 			update_option( 'emma_groups', json_encode( array_values( $groups ) ) );

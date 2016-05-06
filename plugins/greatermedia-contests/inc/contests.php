@@ -714,12 +714,12 @@ function gmr_contests_process_form_submission() {
 		}
 	}
 
-	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
-	gmr_verify_form_submission( $form );
-
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
+	
+	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
+	gmr_verify_form_submission( $form );
 
 	foreach ( $form as $field ) {
 		$field_key = 'form_field_' . $field->cid;
@@ -1317,5 +1317,21 @@ function gmr_filter_expired_contests( $query ) {
 		return $query;
 	} else {
 		return $query;
+	}
+}
+
+/**
+ * Determines if we can show vote counts or not.
+ *
+ * @param  int|WP_Post $submission The post ID or object.
+ * @return boolean true/false if the vote counts should be displayed.
+ */
+function gmr_contests_can_show_vote_count( $submission = null ) {
+	if ( is_null( $submission ) || is_int( $submission ) ) {
+		$submission = get_post( get_the_ID() );
+	}
+
+	if ( $submission->post_parent ) {
+		return get_post_meta( $submission->post_parent, 'contest_show_vote_counts', true ) ? true : false;
 	}
 }

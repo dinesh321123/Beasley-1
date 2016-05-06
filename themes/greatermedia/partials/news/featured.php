@@ -14,7 +14,7 @@ if ( $hp_featured_query->have_posts() ) : ?>
 			<?php if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 				<div class="featured__article">
 					<a href="<?php the_permalink(); ?>" class="featured__article--link">
-						<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gmr-featured-primary', null, true ); ?>);'>
+						<div class="featured__article--image" style='background-image: url(<?php gm_post_thumbnail_url( 'gm-article-thumbnail', null, true ); ?>);'>
 						</div>
 						<div class="featured__article--content">
 							<div class="featured__article--heading">
@@ -28,6 +28,7 @@ if ( $hp_featured_query->have_posts() ) : ?>
 				</div>
 			<?php endif; ?>
 		</div>
+
 	<?php
 	// if we still have more posts (we almost always will), render the 3 below the main section
 
@@ -86,3 +87,9 @@ if ( $hp_featured_query->have_posts() ) : ?>
 
 else :
 endif;
+
+// Start Countdown Clock
+if ( function_exists( 'GreaterMedia\HomepageCountdownClock\render_homepage_countdown_clock' ) ) {
+	GreaterMedia\HomepageCountdownClock\render_homepage_countdown_clock();
+}
+// End Countdown Clock

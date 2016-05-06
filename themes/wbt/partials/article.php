@@ -1,29 +1,10 @@
 <?php while ( have_posts() ) : the_post(); ?>
 
 	<div class="container">
-		
+
 		<?php get_template_part( 'partials/show-mini-nav' ); ?>
-		
-		<?php
-		/**
-		 * This runs a check to determine if the post has a thumbnail, and that it's not a gallery or video post format.
-		 */
-		if ( has_post_thumbnail() && ! \Greater_Media\Fallback_Thumbnails\post_has_gallery() && ! has_post_format( 'video' ) && ! has_post_format( 'audio' )  ): ?>
-			<div class="article__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( 'gm-article-thumbnail' ); ?>)'>
-				<?php
 
-					$image_attr = image_attribution();
-
-					if ( ! empty( $image_attr ) ) {
-						echo $image_attr;
-					}
-
-				?>
-			</div>
-			<?php if ( ! empty(get_post(get_post_thumbnail_id())->post_excerpt)) { ?>
-			<div class="article__thumbnail__caption"><?php echo get_post(get_post_thumbnail_id())->post_excerpt; ?></div>
-			<?php } ?>
-		<?php endif; ?>
+		<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'poster' ) ? get_template_part( 'partials/feature-image-article' ) : ''; ?>
 
 		<section class="content">
 
@@ -34,7 +15,7 @@
 				</div>
 
 				<header class="article__header">
-
+					<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'top' ) ? get_template_part( 'partials/feature-image-article' ) : ''; ?>
 					<time class="article__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j, Y'); ?></time>
 					<h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
 					<?php get_template_part( 'partials/social-share' ); ?>
@@ -42,6 +23,8 @@
 				</header>
 
 				<section class="article__content" itemprop="articleBody">
+
+					<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'inline' ) ? get_template_part( 'partials/feature-image-article' ) : ''; ?>
 
 					<?php the_content(); ?>
 

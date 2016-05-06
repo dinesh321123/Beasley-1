@@ -27,17 +27,21 @@ $event_id = get_the_ID();
 	<?php while ( have_posts() ) :  the_post(); ?>
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
+			<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'poster' ) ? get_template_part( 'partials/feature-image-event' ) : ''; ?>
 
-			<h2 class="entry__title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+			<h2 class="entry__title"><a href="<?php the_permalink(); ?>" title="<?php the_title() ?>" rel="bookmark"><?php the_title(); ?> - <?php echo tribe_get_start_date( get_the_ID(), false, 'l' ); ?>, <?php echo tribe_get_start_date( get_the_ID(), false, 'M j' ); ?></a></h2>
+
+			<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'top' ) ? get_template_part( 'partials/feature-image-event' ) : ''; ?>
 
 			<?php ob_start(); ?>
 
 			<?php do_action( 'tribe_events_single_event_after_the_content' ) ?>
 
+			<div class="event__thumbnail-inline">
+				<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'inline' ) ? get_template_part( 'partials/feature-image-event' ) : ''; ?>
+			</div>
 
 			<?php
-			
-
 			$event_secondary_content = ob_get_clean();
 			echo apply_filters( 'the_secondary_content', $event_secondary_content );
 			?>

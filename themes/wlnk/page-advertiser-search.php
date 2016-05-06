@@ -18,8 +18,8 @@ get_header();
 		</header>
 		<section class="article__content" itemprop="articleBody">
 			<?php the_content(); ?>
-			
-			
+
+
 			<div class="gmclt_wideColumn left">
 				<div id="gmclt_categoryDropdown"></div>
 				<div class="gmclt_searchBar">
@@ -31,20 +31,20 @@ get_header();
 				</div>
 				<div id="gmclt_wideColumnContent"></div>
 			</div>
-			
+
 			<div class="gmclt_narrowColumn">
-				
+
 				<div id="gmclt_narrowColumnContent"></div>
 				<div class="gmclt_adDiv">
 					<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'desktop' ); ?>
 					<?php do_action( 'acm_tag_gmr_variant', 'mrec-lists', 'mobile' ); ?>
 				</div>
 			</div>
-			
-			
+
+
 		</section>
-		
-	
+
+
 	</section>
 	</article>
 </div>
@@ -68,7 +68,7 @@ get_header();
 	{{#if message}}<p>{{{message}}}</p>{{/if}}
 	<div class="gmclt_advertiserList">
 	{{#each results}}
-	
+
 	<article class="entry">
 		<section class="entry2__meta">
 			<h2 class="entry2__title" itemprop="headline">{{advertiserName}} {{analytics analyticsId}}</h2>
@@ -77,7 +77,10 @@ get_header();
 			{{#if advertiserUrl}}
 				On the web: <a href="{{advertiserUrl}}" onclick="ga('send', {'hitType': 'event', 'eventCategory': 'Advertising', 'eventAction': 'Clickthrough', 'eventLabel': '{{analyticsId}}'})" target="_blank">{{advertiserDisplayUrl}}</a>
 			{{/if}}
-			
+			{{#if advertiserPhone}}
+				<br />Phone: {{advertiserPhone}}
+			{{/if}}
+
 			{{#if advertiserLocations}}
 			<div>
 				{{#if advertiserMapUrl}}
@@ -99,13 +102,13 @@ get_header();
 						</div>
 					{{/each}}
 				</div>
-				
+
 				<div class="gmclt_clear"></div>
 			<div>
 			{{/if}}
-			
+
 		</section>
-		
+
 		{{#each advertiserSpots}}
 			<div class="podcast-player podcast-player--compact">
 				<div class="podcast__play mp3-{{spotHash}}">
@@ -126,13 +129,13 @@ get_header();
 					</div>
 					<a href="{{spotFileName}}" download="{{spotFileName}}" class="podcast__download--fallback">Download Commercial</a>
 				</div>
-				
+
 			</div>
 		{{/each}}
-		
-		
-	</article>	
-		
+
+
+	</article>
+
 	{{/each}}
 	</div>
 </script>
@@ -144,8 +147,3 @@ get_header();
 </script>
 
 <?php get_footer(); ?>
-
-
-
-
-		

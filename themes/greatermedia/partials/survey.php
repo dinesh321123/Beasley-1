@@ -3,6 +3,8 @@
 
 	<section class="col__inner--left">
 
+		<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'top' ) ? get_template_part( 'partials/feature-image-contest' ) : ''; ?>
+
 		<header class="entry__header">
 
 			<time class="entry__date"
@@ -13,12 +15,13 @@
 
 		</header>
 
+		<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'inline' ) ? get_template_part( 'partials/feature-image-contest' ) : ''; ?>
 
 		<div class="contest__restrictions">
 
 			<div class="contest__restriction--signin">
 				<p>
-					You must be signed in to enter the contest!
+					You must be signed in to participate in the survey!
 				</p>
 
 				<p>

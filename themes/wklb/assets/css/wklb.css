@@ -5343,6 +5343,11 @@ Link posts contain a link to an external site. They can also optionally have a f
 
 .article__header {
   margin-bottom: 2em; }
+  @media screen and (min-width: 1024px)  {
+    .article__header .article__thumbnail {
+      width: calc(100% - 355px); } }
+  .article__header .article__thumbnail:after {
+    padding-top: 0; }
 
 .article__date {
   display: block;
@@ -5363,21 +5368,20 @@ Link posts contain a link to an external site. They can also optionally have a f
       font-size: 2.2806973457em; } }
 
 .article__thumbnail {
-  position: relative;
-  background-position: center center;
-  background-size: 100%;
-  background-size: cover;
-  background-repeat: no-repeat; }
-  .article__thumbnail:after {
-    content: '';
-    display: block;
-    padding-top: 66%; }
+  position: relative; }
 
 .article__content {
   margin-bottom: 1.5em; }
   @media screen and (min-width: 1024px)  {
     .article__content {
       margin-bottom: 4.5em; } }
+  .article__content .article__thumbnail {
+    margin-bottom: 2em; }
+    @media screen and (min-width: 1024px)  {
+      .article__content .article__thumbnail {
+        width: calc(100% - 355px); } }
+    .article__content .article__thumbnail:after {
+      padding-top: 0; }
 
 .article .ad__inline--right.desktop {
   display: none; }
@@ -8013,14 +8017,7 @@ category: Components - Ads
 
 .contest__thumbnail {
   position: relative;
-  background-position: center center;
-  background-size: 100%;
-  background-size: cover;
-  background-repeat: no-repeat; }
-  .contest__thumbnail:after {
-    content: '';
-    display: block;
-    padding-top: 66%; }
+  margin-bottom: 2em; }
 
 .single__featured-img--contest {
   margin: 0 auto; }
@@ -8757,7 +8754,8 @@ category: Components - Ads
   width: 100%;
   background-color: #e8e9e9;
   margin: 0 auto 2em;
-  text-align: center; }
+  text-align: center;
+  position: relative; }
   .event__thumbnail:last-child {
     margin-right: 0; }
   @media screen and (min-width: 480px)  {
@@ -8792,6 +8790,10 @@ category: Components - Ads
       width: 100%; }
       .event__thumbnail:last-child {
         margin-right: 0; } }
+
+@media screen and (min-width: 1024px)  {
+  .event__thumbnail-inline .event__thumbnail {
+    width: calc(100% - 355px); } }
 
 .event__thumbnail img {
   margin: 0 auto; }
@@ -10609,6 +10611,17 @@ category: Components - Shows
     color: #282827; }
   .gmr_gallery .entry__related-posts .section-header a:hover, .gmr_gallery .entry__related-posts .section-header a:active, .gmr_gallery .entry__related-posts .section-header a:focus {
     color: #aa1c20; }
+
+.guitar-month-show .show__header.has-thumbnail:before {
+  display: none;
+  background-image: none; }
+.guitar-month-show .show__cast img {
+  -webkit-border-radius: 0%;
+  -moz-border-radius: 0%;
+  -ms-border-radius: 0%;
+  -o-border-radius: 0%;
+  -border-radius: 0%;
+  border-radius: 0%; }
 
 .widget--live-player {
   padding: 0;
@@ -15049,8 +15062,7 @@ table.responsive tr:nth-of-type(even) {
   color: #ffffff; }
 
 .type-contest .entry__title--tag {
-  background-color: #d0d2d3;
-  border-color: #d0d2d3; }
+  display: none; }
 
 .audio__progress-bar {
   background-color: #929497; }
@@ -15551,6 +15563,43 @@ a:hover .live-link__song:before, .live-link__song:hover .live-link__song--title,
     color: #084694; }
 
 /* End header options */
+.article__header {
+  margin-bottom: 1em; }
+  .article__header .article__author {
+    color: #404041;
+    font-style: italic;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 12px;
+    font-weight: bold;
+    display: block !important; }
+
+time.show__feature--date {
+  display: none; }
+
+.show__feature--primary .show__feature--desc h3 {
+  color: #004794;
+  font-family: 'Oswald',sans-serif;
+  font-weight: 700; }
+  .show__feature--primary .show__feature--desc h3:hover {
+    color: #ce1141; }
+
+.show__feature--secondary .show__feature--desc h3 {
+  font-family: 'Oswald',sans-serif;
+  font-weight: 700;
+  color: #004794;
+  font-size: 1.5em; }
+  .show__feature--secondary .show__feature--desc h3:hover {
+    color: #ce1141; }
+
+.gallery__slide--title {
+  font-size: 1.2em; }
+
+.article__title, .single-podcast .podcast__parent--title {
+  font-family: 'Oswald',sans-serif;
+  font-weight: 500;
+  color: #004794; }
+
 /*----------------------------------------------------------------------------------------------------------------------
 media 400px
 ------------------------------------------------------------------------------------------------------------------------*/
@@ -15579,6 +15628,8 @@ media 400px
 media 768px
 -----------------------------------*/
 @media screen and (min-width: 768px) {
+  .article__header .article__author {
+    font-size: 16px; }
   .live-stream__btn--login, .live-stream__btn--play, .live-stream__btn--resume, .live-stream__btn--pause, .live-stream__btn--loading, .live-stream--inactive, .podcast__btn--play, .podcast__btn--pause {
     margin: 10px auto; }
   .live-links {
@@ -15792,7 +15843,7 @@ media 1024px
   .live-stream {
     top: 0px; }
   .header__social a.social__link {
-    padding: 1.15em 0;
+    padding: 1.2em 0;
     font-size: 1.5em; } }
 
 /*-----------------------------------
@@ -15813,7 +15864,7 @@ media 1252px
 -----------------------------------*/
 @media screen and (min-width: 1252px) {
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-    padding: 33px 1.125em 32px; }
+    padding: 33px .7em 32px; }
   .header__logo {
     width: 250px;
     height: 138px; }
