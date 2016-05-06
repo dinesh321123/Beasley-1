@@ -19,9 +19,9 @@
 
 		} else {
 
-			if ( 30 !== get_current_blog_id() ) {
+			
 				get_template_part( 'partials/music/highlights' );
-			}
+			
 
 		} ?>
 
