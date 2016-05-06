@@ -13,7 +13,7 @@ get_header();
 	<div class="container">
 
 		<?php get_template_part( 'partials/frontpage', 'featured' ); ?>
-		<?php //get_template_part( 'partials/frontpage', 'highlights' ); ?>
+		<?php get_template_part( 'partials/frontpage', 'highlights' ); ?>
 
 		<section class="content">
 

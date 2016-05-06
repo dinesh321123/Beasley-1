@@ -12,6 +12,9 @@
 	</section>
 <?php } else { ?>
 	<section id="featured" class="home__featured home__featured_music">
-		<?php get_template_part( 'partials/music/featured' ); ?>
+		<?php
+		if ( 30 !== get_current_blog_id() ) {
+			get_template_part( 'partials/music/featured' );
+		} ?>
 	</section>
 <?php } ?>
