@@ -554,7 +554,6 @@ a.social-share-link:hover,a.social__link:hover{
 .live-link__song--title p:hover {color: #fff;}
     
 /* Live Links header title color */
-
 .widget--live-player__title {
   color: #fff;
   font-weight: 700;
@@ -630,10 +629,7 @@ a.social-share-link:hover,a.social__link:hover{
 .header__account ul li a:visited,
 .header__nav ul li a,
 .header__nav ul li a:link,
-.header__nav ul li a:visited {padding: 36px .38em 32px;}
-    
-.show__header {
-    background-color: #0059a1;   
+.header__nav ul li a:visited {padding: 36px .38em 32px;}     
 }
 
 @media screen and (min-width:1175px) {
@@ -786,8 +782,6 @@ a:hover .highlights__event--title {
 }
 
 .live-links--more__btn:last-of-type {margin-right:0;}
-
-
 
 /* Login page */     
 .profile-page__sidebar .profile-header-link {color: #fff;}    
@@ -963,7 +957,8 @@ a:hover .highlights__community--title {color:#fdba30;}
   border-color:#0073cf;
   color:#fff;
 }
-    .live-stream__btn--loading, .live-stream__btn--pause, .live-stream__btn--resume {
+    
+.live-stream__btn--loading, .live-stream__btn--pause, .live-stream__btn--resume {
    background: #0073cf;
    border: 2px solid #0073cf;
    color: #f2f2f2;
@@ -986,7 +981,6 @@ a.social-share-link:hover,a.social__link:hover {
 }
     
 .header__account--logged-out, .header__account--span {color: #fff;}
-}
 }
 
 @media screen and (min-width:768px){
@@ -1055,6 +1049,8 @@ a.social-share-link:hover,a.social__link:hover {
 
 .show__feature:hover h3 {color:#0073cf;}
 
+.show__header {background-color: #0059a1;}
+
 .gallery__feature:hover .gallery__featured--title {color: #0073cf;}
 
 .gallery__grid--column:hover .gallery__grid--title {color:#0073cf;}
@@ -1108,15 +1104,6 @@ a.social-share-link:hover,a.social__link:hover {
     border-color: #004c88;
     color: #000;
 }
-
-.article__date {
-    display: none;
-    margin-bottom: .5em;
-    font-size: 1em;
-    text-transform: uppercase;
-    color: #929497;
-}
-
 .contest__form button[type="button"]:hover, .contest__form button[type="submit"]:hover, .contest__form input[type="submit"]:hover {
     display: inline-block;
     line-height: 1;
@@ -1131,3 +1118,12 @@ a.social-share-link:hover,a.social__link:hover {
     cursor: pointer;
     border-radius: 100em;
 }
+    
+.article__date {
+    display: none;
+    margin-bottom: .5em;
+    font-size: 1em;
+    text-transform: uppercase;
+    color: #929497;
+}    
+    
