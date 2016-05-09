@@ -1355,7 +1355,6 @@ function gmr_filter_expired_contests( $query ) {
 }
 
 /**
-<<<<<<< HEAD
  * Check whether or not voting for the contest is open.
  *
  * @param int $contest_id ID of contest to check.
@@ -1395,8 +1394,6 @@ function gmr_contests_get_vote_end_date( $contest_id ) {
 }
 
 /**
-=======
->>>>>>> fix/embedlyref
  * Determines if we can show vote counts or not.
  *
  * @param  int|WP_Post $submission The post ID or object.
@@ -1438,7 +1435,6 @@ function gmr_contest_get_fields( $submission = null, $field_type = 'entry_field'
 	}
 
 	return $contest_fields;
-<<<<<<< HEAD
 }
 
 /**
@@ -1450,6 +1446,4 @@ function gmr_contest_get_fields( $submission = null, $field_type = 'entry_field'
  */
 function gmr_contests_allow_anonymous_votes( $contest_id = 0 ) {
 	return (bool) get_post_meta( $contest_id, 'contest-allow-anonymous-voting', true );
-=======
->>>>>>> fix/embedlyref
 }

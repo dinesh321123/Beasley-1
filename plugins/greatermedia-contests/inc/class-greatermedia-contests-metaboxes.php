@@ -618,29 +618,20 @@ class GreaterMediaContestsMetaboxes {
 		$show_submission_details = filter_input( INPUT_POST, 'show-submission-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
 		update_post_meta( $post_id, 'show-submission-details', $show_submission_details );
 
-<<<<<<< HEAD
 		if ( isset( $_POST['entries-order-by'] ) ) {
 			update_post_meta( $post_id, 'entries-order-by', sanitize_text_field( $_POST['entries-order-by'] ) );
 		}		
 
-=======
->>>>>>> fix/embedlyref
 		if ( isset( $_POST['greatermedia_contest_display_vote_counts'] ) ) {
 			update_post_meta( $post_id, 'contest_show_vote_counts', 1 );
 		} else {
 			delete_post_meta( $post_id, 'contest_show_vote_counts' );
 		}
-<<<<<<< HEAD
 
 		$show_entrant_details = filter_input( INPUT_POST, 'show-entrant-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
 		update_post_meta( $post_id, 'show-entrant-details', $show_entrant_details );
 
 			update_post_meta( $post_id, 'contest-allow-anonymous-voting', isset( $_POST['greatermedia_contest_allow_anonymous_voting'] ) );
-=======
-		
-		$show_entrant_details = filter_input( INPUT_POST, 'show-entrant-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
-		update_post_meta( $post_id, 'show-entrant-details', $show_entrant_details );
->>>>>>> fix/embedlyref
 	}
 
 }
