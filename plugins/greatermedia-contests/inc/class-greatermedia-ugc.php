@@ -249,6 +249,7 @@ class GreaterMediaUserGeneratedContent {
 		wp_nonce_field( 'submission_entry_fields_save', 'submission_entry_fields' );
 
 		$entry_fields_meta = gmr_contest_get_fields( $post->ID );
+		$display_name = gmr_contest_get_fields( $post->ID, 'display_name' );
 		$fields = get_post_meta( $post->post_parent, 'embedded_form', true );
 		if ( is_string( $fields ) ) {
 			$fields = json_decode( $fields, true );
@@ -258,16 +259,9 @@ class GreaterMediaUserGeneratedContent {
 
 		foreach ( $entry_fields_meta as $field ) {
 			$entry_fields[ $field['cid'] ] = $field;
-		} ?>
+		}
+		$entry_fields[ $display_name[0]['cid'] ] = $display_name[0]; ?>
 		<table class="form-table">
-
-			<?php if ( ! empty( $display_name = $display_name[0] ) ) { ?>
-				<tr>
-					<th scope="row"><label><?php echo esc_html( $display_name['label'] ); ?> (display name)</label></th>
-					<td><input type="text" name="<?php echo esc_attr( $display_name['cid'] ); ?>" value="<?php echo esc_attr( $display_name['value'] ); ?>" /></td>
-				</tr>
-			<?php } ?>
-
 			<?php foreach ( $fields as $field ) {				
 				if ( 'file' === $field['field_type'] || 'email' === $field['field_type'] ) {
 					continue;
