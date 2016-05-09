@@ -249,8 +249,6 @@ class GreaterMediaFormbuilderRender {
 			}
 		}
 
-		// print_r( $form );
-
 		$is_preivew = is_preview();
 		$permalink = untrailingslashit( get_permalink( $post_id ) );
 
@@ -429,10 +427,6 @@ class GreaterMediaFormbuilderRender {
 		if ( isset( $field->required ) && $field->required ) {
 			$special_attributes['required'] = 'required';
 		}
-
-		// if ( isset( $field->sticky ) && $field->sticky ) {
-		// 	$special_attributes['entry_field'] = 'required';
-		// }
 
 		if ( isset( $field->field_options->size ) ) {
 
