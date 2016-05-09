@@ -1,5 +1,5 @@
 <section class="col__inner--left">
-	<?php the_content(); ?>
+	<?php echo apply_filters( 'the_content', get_post_field( 'post_content', null ) ); ?>
 </section>
 
 <section class="col__inner--right">
