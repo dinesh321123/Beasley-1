@@ -64,6 +64,7 @@ if ( 'entrant_name' === $order_by ) {
 			<?php get_template_part( 'partials/submission', 'tile' ); ?>
 		<?php endforeach; ?>
 		<?php wp_reset_postdata(); ?>
+		<?php wp_reset_query(); ?>
 	</ul>
 
 	<?php if ( $submissions_query->max_num_pages > 1 && ! is_preview() ) : ?>
