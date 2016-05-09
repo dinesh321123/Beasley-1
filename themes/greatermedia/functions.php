@@ -20,7 +20,7 @@
 if ( defined( 'GMR_PARENT_ENV' ) && 'dev' == GMR_PARENT_ENV ) {
 	define( 'GREATERMEDIA_VERSION', time() );
 } else {
-	define( 'GREATERMEDIA_VERSION', '1.3.0' ); /* Version bump by Steve 4/13/2016 @ 8:00 a.m. EST */
+	define( 'GREATERMEDIA_VERSION', '1.3.1' ); /* Version bump by Steve 5/9/2016 @ 10:00 a.m. EST */
 }
 
 add_theme_support( 'homepage-curation' );
@@ -740,6 +740,32 @@ function add_google_analytics() {
 	<?php
 }
 add_action( 'wp_head' , 'add_google_analytics' );
+
+/**
+ * Adds Embedly global script to each page to ensure no broken embeds.
+ */
+
+function add_embedly_global_script() {
+	if ( class_exists( 'WP_Embedly' ) ) {
+		?>
+
+		<script>
+		  (function(w, d){
+		   var id='embedly-platform', n = 'script';
+		   if (!d.getElementById(id)){
+		     w.embedly = w.embedly || function() {(w.embedly.q = w.embedly.q || []).push(arguments);};
+		     var e = d.createElement(n); e.id = id; e.async=1;
+		     e.src = ('https:' === document.location.protocol ? 'https' : 'http') + '://cdn.embedly.com/widgets/platform.js';
+		     var s = d.getElementsByTagName(n)[0];
+		     s.parentNode.insertBefore(e, s);
+		   }
+		  })(window, document);
+		</script>
+
+		<?php
+	}
+}
+add_action( 'wp_head' , 'add_embedly_global_script' );
 
 /**
  * adds an additional body class if a user is authenticated with gigya
