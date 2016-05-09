@@ -248,10 +248,17 @@ class GreaterMediaUserGeneratedContent {
 		$post_status = get_post_status_object( $post->post_status );
 		wp_nonce_field( 'submission_entry_fields_save', 'submission_entry_fields' );
 
-		$display_name = gmr_contest_get_fields( $post->ID, 'display_name' );
+		$entry_fields_meta = gmr_contest_get_fields( $post->ID );
+		$fields = get_post_meta( $post->post_parent, 'embedded_form', true );
+		if ( is_string( $fields ) ) {
+			$fields = json_decode( $fields, true );
+		}
 
-		$entry_fields = gmr_contest_get_fields( $post->ID ); ?>
+		$entry_fields = array();
 
+		foreach ( $entry_fields_meta as $field ) {
+			$entry_fields[ $field['cid'] ] = $field;
+		} ?>
 		<table class="form-table">
 
 			<?php if ( ! empty( $display_name = $display_name[0] ) ) { ?>
@@ -261,10 +268,14 @@ class GreaterMediaUserGeneratedContent {
 				</tr>
 			<?php } ?>
 
-			<?php foreach ( $entry_fields as $field ) { ?>
+			<?php foreach ( $fields as $field ) {				
+				if ( 'file' === $field['field_type'] || 'email' === $field['field_type'] ) {
+					continue;
+				}
+				$value = isset( $entry_fields[ $field['cid'] ] ) ? $entry_fields[ $field['cid'] ]['value'] : ''; ?>
 				<tr>
-					<th scope="row"><label><?php echo esc_html( $field['label'] ); ?></label></th>
-					<td><input type="text" name="<?php echo esc_attr( $field['cid'] ); ?>" value="<?php echo esc_attr( $field['value'] ); ?>" /></td>
+					<th scope="row"><label><?php echo esc_html( $field['label'] ); ?><?php echo ( true === $field['admin_only'] ) ? ' (display name)' : ''; ?></label></th>
+					<td><input type="text" name="form_fields[<?php echo esc_attr( $field['cid'] ); ?>]" value="<?php echo esc_attr( $value ); ?>" /></td>
 				</tr>
 			<?php } ?>
 		</table>
@@ -294,7 +305,7 @@ class GreaterMediaUserGeneratedContent {
 		// Check the user's permissions.
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
-		}		
+		}
 
 		$entry_id = get_post_meta( $post_id, 'contest_entry_id', true );
 
@@ -304,10 +315,8 @@ class GreaterMediaUserGeneratedContent {
 
 		if ( is_string( $entry_reference ) ) {
 			$entry_fields = json_decode( $entry_reference, true );
-			foreach ( $entry_fields as $key => $field ) {
-				if ( isset( $_POST[ $key ] ) ) {
-					$entry_fields[ $key ] = sanitize_text_field( $_POST[ $key ] );
-				}
+			foreach ( $_POST['form_fields'] as $key => $field ) {
+				$entry_fields[ $key ] = sanitize_text_field( $field );
 			}
 			update_post_meta( $entry->ID, 'entry_reference', json_encode( $entry_fields ) );
 		}
