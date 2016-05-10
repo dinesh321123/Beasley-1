@@ -3,14 +3,12 @@
 </section>
 
 <section class="col__inner--right">
+	<h2><?php echo esc_html( gmr_contest_submission_get_author() ); ?></h2>
 	<dl class="contest__submission--entries">
 		<?php
 		$post_parent = get_post_field( 'post_parent', null );
 		$display_submitted_details = (int) get_post_meta( $post_parent, 'show-entrant-details', true );
 		if ( $display_submitted_details ) { ?>
-			<dt>Submitted By</dt>
-			<dd><?php echo esc_html( gmr_contest_submission_get_author() ); ?></dd>
-
 			<dt>Submitted On</dt>
 			<dd><?php echo get_the_date( '' ); ?></dd>
 		<?php } ?>
