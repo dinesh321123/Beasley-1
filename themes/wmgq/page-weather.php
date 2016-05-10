@@ -37,7 +37,7 @@ while ( have_posts() ) : the_post(); ?>
 
                 <header class="article__header">
 
-                    <time class="article__date" datetime="<?php echo get_the_time(); ?>"><?php the_date('F j, Y'); ?></time>
+                    <time class="article__date" datetime="<?php echo esc_attr( get_the_time() ); ?>"><?php the_date('F j, Y'); ?></time>
                     <h2 class="article__title" itemprop="headline"><?php the_title(); ?></h2>
                     <?php get_template_part( 'partials/social-share' ); ?>
 
