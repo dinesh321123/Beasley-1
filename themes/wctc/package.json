@@ -2,10 +2,11 @@
   "name": "wctc",
   "title": "WCTC",
   "version": "0.1.0",
-  "homepage": "http://greatermedia.com",
+  "homepage": "http://wctcam.com",
   "author": {
-    "name": "Tom Stark",
-    "email": "tstark@greatermedianj.com"
+    "name": "Greater Media",
+    "email": "webmaster@wctcam.com",
+    "url": "http://wctcam.com"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

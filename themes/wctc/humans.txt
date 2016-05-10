@@ -1,19 +1,12 @@
 /* TEAM */
-<<<<<<< HEAD
 	Developer: Greater Media
 	Contact:   webmaster@wctcam.com
 	URI:       http://wctcam.com
-=======
-	Developer: Tom Stark
-	Contact:   tstark@greatermedianj.com
-	URI:       
->>>>>>> master
 
 /* THANKS */
 	Template Design: 10up
 	URI:             http://10up.com
 	Twitter:         @10up
-<<<<<<< HEAD
 	
 	Template Design: Eric Mann
 	URI:             http://eamann.com
@@ -22,5 +15,3 @@
 /* SITE */
 	Created:  2015-06-22
 	Template: https://github.com/10up/grunt-wp-theme
-=======
->>>>>>> master
