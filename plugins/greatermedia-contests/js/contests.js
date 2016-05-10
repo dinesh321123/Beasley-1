@@ -701,14 +701,19 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 			var submitButton = $('#contest-form form button[type="submit"]');
 			submitButton.attr('disabled', 'disabled');
 			submitButton.addClass('disabled');
-			submitButton.html('<i class="gmr-icon icon-spinner icon-spin" style="display: inline-block;"></i> Submitting...');
+			submitButton.empty();
+			$('<i>', {
+			    class: 'gmr-icon icon-spinner icon-spin',
+			    style: 'display: inline-block',
+			}).appendTo(submitButton);
+			submitButton.append(' Submitting...');
 		};
 
 		var enableSubmitButton = function() {
 			var submitButton = $('#contest-form form button[type="submit"]');
 			submitButton.removeAttr('disabled');
 			submitButton.removeClass('disabled');
-			submitButton.html('Submit');
+			submitButton.text('Submit');
 		};
 
 		var showRestriction = function(restriction) {
