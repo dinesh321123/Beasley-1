@@ -20,14 +20,17 @@
 		 * Display the fields associated with an entry, checked as 'Display with entries' on the form builder.
 		*/
 		$entry_fields = gmr_contest_get_fields();
-		foreach( $entry_fields as $field ) { ?>
+		foreach( $entry_fields as $field ) {
+			$value = is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'];
+			if ( empty( $value ) ) {
+				continue;
+			} ?>
 			<dt>
 				<?php echo esc_html( $field['label'] ); ?>
 			</dt>
 
 			<dd>
-				<?php
-				$value = is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'];
+				<?php				
 				if ( strlen( $value ) > 200 ) {
 					$value = substr( $value, 0, 200 ) . '&hellip;';
 				}
@@ -45,13 +48,15 @@
 				if ( ! empty( $fields ) ) :
 					foreach ( $fields as $field ) :
 						if ( 'file' != $field['type'] && 'email' != $field['type'] && false === $field['entry_field'] && false === $field['display_name'] ) :
+							$value = is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'];
+							if ( empty( $value ) ) {
+								continue;
+							}
 							?><dt>
 								<?php echo esc_html( $field['label'] ); ?>
 							</dt>
 							<dd>
 								<?php
-
-								$value = is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'];
 								if ( strlen( $value ) > 200 ) {
 									$value = substr( $value, 0, 200 ) . '&hellip;';
 								}
