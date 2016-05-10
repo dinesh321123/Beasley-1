@@ -8397,6 +8397,65 @@ category: Components - Ads
         margin-right: 0; }
     .contest__form button[type="button"] i.gmr-icon, .contest__form button[type="button"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form button[type="button"] i.preview-close, .contest__form button[type="submit"] i.gmr-icon, .contest__form button[type="submit"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form button[type="submit"] i.preview-close, .contest__form input[type="submit"] i.gmr-icon, .contest__form input[type="submit"] .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form input[type="submit"] i.preview-close {
       display: none; }
+    .contest__form button[type="button"].disabled, .contest__form button[type="submit"].disabled, .contest__form input[type="submit"].disabled {
+      display: inline-block;
+      line-height: 1;
+      padding: 0.625em 1em;
+      margin-right: .5em;
+      outline: none;
+      background-color: #d0d2d3;
+      border: 1px solid #000000;
+      font-size: 1.42383em;
+      color: #000000 !important;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 100em; }
+      .contest__form button[type="button"].disabled i.gmr-icon, .contest__form button[type="button"].disabled .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form button[type="button"].disabled i.preview-close, .contest__form button[type="submit"].disabled i.gmr-icon, .contest__form button[type="submit"].disabled .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form button[type="submit"].disabled i.preview-close, .contest__form input[type="submit"].disabled i.gmr-icon, .contest__form input[type="submit"].disabled .contest__submission .preview i.preview-close, .contest__submission .preview .contest__form input[type="submit"].disabled i.preview-close {
+        display: inline-block; }
+      .contest__form button[type="button"].disabled:hover, .contest__form button[type="button"].disabled:focus, .contest__form button[type="submit"].disabled:hover, .contest__form button[type="submit"].disabled:focus, .contest__form input[type="submit"].disabled:hover, .contest__form input[type="submit"].disabled:focus {
+        background-color: #b8bbbd;
+        border-color: black;
+        color: #000000; }
+      .contest__form button[type="button"].disabled:last-of-type, .contest__form button[type="submit"].disabled:last-of-type, .contest__form input[type="submit"].disabled:last-of-type {
+        margin-right: 0; }
+      .contest__form button[type="button"].disabled:hover, .contest__form button[type="submit"].disabled:hover, .contest__form input[type="submit"].disabled:hover {
+        display: inline-block;
+        line-height: 1;
+        padding: 0.625em 1em;
+        margin-right: .5em;
+        outline: none;
+        background-color: #d0d2d3;
+        border: 1px solid #000000;
+        font-size: 1.42383em;
+        color: #000000 !important;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 100em; }
+        .contest__form button[type="button"].disabled:hover:hover, .contest__form button[type="button"].disabled:hover:focus, .contest__form button[type="submit"].disabled:hover:hover, .contest__form button[type="submit"].disabled:hover:focus, .contest__form input[type="submit"].disabled:hover:hover, .contest__form input[type="submit"].disabled:hover:focus {
+          background-color: #b8bbbd;
+          border-color: black;
+          color: #000000; }
+        .contest__form button[type="button"].disabled:hover:last-of-type, .contest__form button[type="submit"].disabled:hover:last-of-type, .contest__form input[type="submit"].disabled:hover:last-of-type {
+          margin-right: 0; }
+      .contest__form button[type="button"].disabled:active, .contest__form button[type="submit"].disabled:active, .contest__form input[type="submit"].disabled:active {
+        display: inline-block;
+        line-height: 1;
+        padding: 0.625em 1em;
+        margin-right: .5em;
+        outline: none;
+        background-color: #d0d2d3;
+        border: 1px solid #000000;
+        font-size: 1.42383em;
+        color: #000000 !important;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 100em; }
+        .contest__form button[type="button"].disabled:active:hover, .contest__form button[type="button"].disabled:active:focus, .contest__form button[type="submit"].disabled:active:hover, .contest__form button[type="submit"].disabled:active:focus, .contest__form input[type="submit"].disabled:active:hover, .contest__form input[type="submit"].disabled:active:focus {
+          background-color: #b8bbbd;
+          border-color: black;
+          color: #000000; }
+        .contest__form button[type="button"].disabled:active:last-of-type, .contest__form button[type="submit"].disabled:active:last-of-type, .contest__form input[type="submit"].disabled:active:last-of-type {
+          margin-right: 0; }
   .contest__form select {
     width: 174px;
     padding: 18px 20px;

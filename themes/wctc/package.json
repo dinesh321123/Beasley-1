@@ -2,28 +2,16 @@
   "name": "wctc",
   "title": "WCTC",
   "version": "0.1.0",
-<<<<<<< HEAD
-  "homepage": "http://wctcam.com",
-  "author": {
-    "name": "Greater Media",
-    "email": "webmaster@wctcam.com",
-    "url": "http://wctcam.com"
-=======
   "homepage": "http://greatermedia.com",
   "author": {
     "name": "Tom Stark",
     "email": "tstark@greatermedianj.com"
->>>>>>> master
   },
   "devDependencies": {
     "grunt": "~0.4.1",
     "matchdep": "~0.3.0",
     "grunt-contrib-concat": "~0.5.0",
-<<<<<<< HEAD
-    "grunt-contrib-uglify": "~0.6.0",
-=======
     "grunt-contrib-uglify": "~0.9.2",
->>>>>>> master
     "grunt-contrib-cssmin": "~0.11.0",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",

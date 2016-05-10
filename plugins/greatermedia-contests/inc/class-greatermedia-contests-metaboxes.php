@@ -163,7 +163,6 @@ class GreaterMediaContestsMetaboxes {
 
 		add_settings_field( 'entries-order-by', 'Order entries by', array( $this, 'render_order_by_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
 
-
 	}
 
 	public function render_submission_details_field( $post_id ) {
@@ -181,7 +180,7 @@ class GreaterMediaContestsMetaboxes {
 			<option value="0"<?php selected( $show == 0 && $show !== false ); ?>>Hide</option>
 		</select><?php
 	}
-	
+
 	public function render_order_by_field( $post_id ) {
 		$order = get_post_meta( $post_id, 'entries-order-by', true );
 		?><select name="entries-order-by">
@@ -243,7 +242,7 @@ class GreaterMediaContestsMetaboxes {
 			echo ' <small>(server time is ' . date( $format, current_time( 'timestamp' ) ) . ')</small>';
 			$render_server_time = false;
 		}
-		
+
 	}
 
 	public function render_input( array $args ) {
@@ -350,7 +349,7 @@ class GreaterMediaContestsMetaboxes {
 								&#8212;
 							<?php endif; ?>
 						</b>
-					
+
 						<?php if ( ! empty( $started ) ) : ?>
 							<small style="margin-left:2em;">
 								(server time is <?php echo date( $datetime_format, current_time( 'timestamp' ) ); ?>)
@@ -620,7 +619,7 @@ class GreaterMediaContestsMetaboxes {
 
 		if ( isset( $_POST['entries-order-by'] ) ) {
 			update_post_meta( $post_id, 'entries-order-by', sanitize_text_field( $_POST['entries-order-by'] ) );
-		}		
+		}
 
 		if ( isset( $_POST['greatermedia_contest_display_vote_counts'] ) ) {
 			update_post_meta( $post_id, 'contest_show_vote_counts', 1 );
