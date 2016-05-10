@@ -944,7 +944,7 @@ function gmr_contests_submissions_query( $contest_id = null ) {
 	return new WP_Query( array(
 		'post_type'      => GMR_SUBMISSIONS_CPT,
 		'post_parent'    => $contest_id,
-		'posts_per_page' => 20,
+		'posts_per_page' => 500,
 		'paged'          => $submission_paged,
 	) );
 }
