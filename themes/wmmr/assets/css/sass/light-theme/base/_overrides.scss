@@ -646,3 +646,12 @@
     }
 
 }
+
+/*
+ * CSS hack until we have functionality to turn off contest entry forms during
+ * voting.
+ */
+
+ #post-394598 .contest__form {
+   display: none;
+ }

@@ -221,7 +221,7 @@ body {
 }
 
 .highlights__heading {
-	color: $highlights-heading;
+	visibility: hidden;
 }
 
 .type-contest .entry__title--tag {
@@ -502,7 +502,6 @@ h4.gmclt_wxForecastDayHeader {
 
 .gmclt_wxForecastIcon img {
 	display: block;
-	width: 100px;
 }
 
 .gmclt_wxForecastText {

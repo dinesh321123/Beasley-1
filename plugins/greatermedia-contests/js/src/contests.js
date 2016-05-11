@@ -115,15 +115,38 @@
 				iframe = document.getElementById('theiframe');
 				if (iframe.addEventListener) {
 					iframe.addEventListener('load', iframe_onload, false);
+					iframe.addEventListener('load', enableSubmitButton, false);
 				} else if (iframe.attachEvent) {
 					iframe.attachEvent('onload', iframe_onload);
+					iframe.attachEvent('onload', enableSubmitButton);
 				}
+
+				busySubmitButton();
 
 				return true;
 			}
 
 			return false;
 		});
+
+		var busySubmitButton = function() {
+			var submitButton = $('#contest-form form button[type="submit"]');
+			submitButton.attr('disabled', 'disabled');
+			submitButton.addClass('disabled');
+			submitButton.empty();
+			$('<i>', {
+			    class: 'gmr-icon icon-spinner icon-spin',
+			    style: 'display: inline-block',
+			}).appendTo(submitButton);
+			submitButton.append(' Submitting...');
+		};
+
+		var enableSubmitButton = function() {
+			var submitButton = $('#contest-form form button[type="submit"]');
+			submitButton.removeAttr('disabled');
+			submitButton.removeClass('disabled');
+			submitButton.text('Submit');
+		};
 
 		var showRestriction = function(restriction) {
 			var $restrictions = $('.contest__restrictions');

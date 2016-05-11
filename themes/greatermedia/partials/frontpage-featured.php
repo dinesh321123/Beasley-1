@@ -12,6 +12,9 @@
 	</section>
 <?php } else { ?>
 	<section id="featured" class="home__featured home__featured_music">
-		<?php get_template_part( 'partials/music/featured' ); ?>
+		<?php	
+			get_template_part( 'partials/music/featured' );
+		?>
+	
 	</section>
 <?php } ?>

@@ -19,7 +19,9 @@
 
 		} else {
 
-			get_template_part( 'partials/music/highlights' );
+			
+				get_template_part( 'partials/music/highlights' );
+			
 
 		} ?>
 

@@ -301,6 +301,22 @@
 		i.gmr-icon {
 			display: none;
 		}
+
+		&.disabled {
+			i.gmr-icon {
+				display: inline-block;
+			}
+
+			@include btn($btn-inactive, $color-text-black, $btn-active, .625em, 1em, ms(3));
+
+			&:hover {
+				@include btn($btn-inactive, $color-text-black, $btn-active, .625em, 1em, ms(3));
+			}
+
+			&:active {
+				@include btn($btn-inactive, $color-text-black, $btn-active, .625em, 1em, ms(3));
+			}
+		}
 	}
 
 	select {

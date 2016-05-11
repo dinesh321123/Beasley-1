@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WBT_VERSION', '0.1.9' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m. EST */
+define( 'WBT_VERSION', '0.2.0' ); /* Version bump by Jonathan 5/5/2016 @ 1:19 p.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -31,8 +31,11 @@ define( 'WBT_VERSION', '0.1.9' ); /* Version bump by Steve 3/8/2016 @ 11:30 a.m.
 	 * to change 'wbt' to the name of your theme in all template files.
 	 */
 	load_theme_textdomain( 'wbt', get_stylesheet_directory_uri() . '/languages' );
+  add_image_size( 'gm-article-thumbnail-wbt',     		1175,   776,   array( 'center', 'top' ) ); // thumbnails used for articles
+
  }
  add_action( 'after_setup_theme', 'wbt_setup' );
+
 
  /**
   * Enqueue scripts and styles for front-end.

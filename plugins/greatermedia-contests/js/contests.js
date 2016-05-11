@@ -1,6 +1,6 @@
 /*! Greater Media Contests - v1.0.6
  * http://10up.com/
- * Copyright (c) 2015;
+ * Copyright (c) 2016;
  * Licensed GPLv2+
  */
 (function ($) {
@@ -683,15 +683,38 @@ var BLANK = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAO
 				iframe = document.getElementById('theiframe');
 				if (iframe.addEventListener) {
 					iframe.addEventListener('load', iframe_onload, false);
+					iframe.addEventListener('load', enableSubmitButton, false);
 				} else if (iframe.attachEvent) {
 					iframe.attachEvent('onload', iframe_onload);
+					iframe.attachEvent('onload', enableSubmitButton);
 				}
+
+				busySubmitButton();
 
 				return true;
 			}
 
 			return false;
 		});
+
+		var busySubmitButton = function() {
+			var submitButton = $('#contest-form form button[type="submit"]');
+			submitButton.attr('disabled', 'disabled');
+			submitButton.addClass('disabled');
+			submitButton.empty();
+			$('<i>', {
+			    class: 'gmr-icon icon-spinner icon-spin',
+			    style: 'display: inline-block',
+			}).appendTo(submitButton);
+			submitButton.append(' Submitting...');
+		};
+
+		var enableSubmitButton = function() {
+			var submitButton = $('#contest-form form button[type="submit"]');
+			submitButton.removeAttr('disabled');
+			submitButton.removeClass('disabled');
+			submitButton.text('Submit');
+		};
 
 		var showRestriction = function(restriction) {
 			var $restrictions = $('.contest__restrictions');

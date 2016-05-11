@@ -141,8 +141,11 @@ class GreaterMediaFormbuilderRender {
 			if ( isset( $contest_entry[ $field->cid ] ) ) {
 				if ( 'radio' == $field->field_type ) {
 					$results[ $field->cid ] = array(
+						'cid'	=> $field->cid,
 						'type'  => $field->field_type,
 						'label' => $field->label,
+						'entry_field' => $field->sticky ? true: false,
+						'display_name' => $field->admin_only ? true: false,
 						'value' => ! empty( $field->field_options->options[ $contest_entry[ $field->cid ] ] )
 							? $field->field_options->options[ $contest_entry[ $field->cid ] ]->label
 							: $contest_entry[ $field->cid ],
@@ -162,15 +165,21 @@ class GreaterMediaFormbuilderRender {
 					}
 
 					$results[ $field->cid ] = array(
+						'cid'	=> $field->cid,
 						'type'  => $field->field_type,
 						'label' => $field->label,
 						'value' => $values,
+						'entry_field' => $field->sticky ? true : false,
+						'display_name' => $field->admin_only ? true: false,
 					);
 				} elseif ( 'file' != $field->field_type || ! $strip_files ) {
 					$results[ $field->cid ] = array(
+						'cid'	=> $field->cid,
 						'type'  => $field->field_type,
 						'label' => $field->label,
 						'value' => $contest_entry[ $field->cid ],
+						'entry_field' => $field->sticky ? true: false,
+						'display_name' => $field->admin_only ? true: false,
 					);
 				}
 			}

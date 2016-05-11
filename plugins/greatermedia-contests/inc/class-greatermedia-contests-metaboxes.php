@@ -101,7 +101,7 @@ class GreaterMediaContestsMetaboxes {
 			} else {
 				// backward compatibility: we need to be able to delete any fields
 				foreach ( $form as &$sticky ) {
-					unset( $sticky['sticky'] );
+					//unset( $sticky['sticky'] );
 				}
 			}
 
@@ -159,6 +159,10 @@ class GreaterMediaContestsMetaboxes {
 
 		add_settings_field( 'show-submission-details', 'Show submission details', array( $this, 'render_submission_details_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
 
+		add_settings_field( 'show-entrant-details', 'Show entrant details (name/date)', array( $this, 'render_entrant_details_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
+
+		add_settings_field( 'entries-order-by', 'Order entries by', array( $this, 'render_order_by_field'), 'greatermedia-contest-form', 'greatermedia-contest-form', $post_id );
+
 	}
 
 	public function render_submission_details_field( $post_id ) {
@@ -166,6 +170,23 @@ class GreaterMediaContestsMetaboxes {
 		?><select name="show-submission-details">
 			<option value="1">Show</option>
 			<option value="0"<?php selected( $show == 0 && $show !== false ); ?>>Hide</option>
+		</select><?php
+	}
+
+	public function render_entrant_details_field( $post_id ) {
+		$show = get_post_meta( $post_id, 'show-entrant-details', true );
+		?><select name="show-entrant-details">
+			<option value="1">Show</option>
+			<option value="0"<?php selected( $show == 0 && $show !== false ); ?>>Hide</option>
+		</select><?php
+	}
+
+	public function render_order_by_field( $post_id ) {
+		$order = get_post_meta( $post_id, 'entries-order-by', true );
+		?><select name="entries-order-by">
+			<option value="date">Date</option>
+			<option value="entrant_name"<?php selected( 'entrant_name', $order ); ?>>Entrant name</option>
+			<option value="display_name"<?php selected( 'display_name', $order ); ?>>Display name</option>
 		</select><?php
 	}
 
@@ -541,6 +562,10 @@ class GreaterMediaContestsMetaboxes {
 		$show_submission_details = filter_input( INPUT_POST, 'show-submission-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
 		update_post_meta( $post_id, 'show-submission-details', $show_submission_details );
 
+		if ( isset( $_POST['entries-order-by'] ) ) {
+			update_post_meta( $post_id, 'entries-order-by', sanitize_text_field( $_POST['entries-order-by'] ) );
+		}		
+
 		if ( isset( $_POST['greatermedia_contest_display_vote_counts'] ) ) {
 			update_post_meta( $post_id, 'contest_show_vote_counts', 1 );
 		} else {
@@ -548,6 +573,9 @@ class GreaterMediaContestsMetaboxes {
 		}
 
 		update_post_meta( $post_id, 'contest-allow-anonymous-voting', isset( $_POST['greatermedia_contest_allow_anonymous_voting'] ) );
+
+		$show_entrant_details = filter_input( INPUT_POST, 'show-entrant-details', FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 0, 'default' => 1 ) ) );
+		update_post_meta( $post_id, 'show-entrant-details', $show_entrant_details );
 	}
 
 }

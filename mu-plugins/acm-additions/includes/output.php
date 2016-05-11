@@ -42,6 +42,9 @@ function wp_head() {
 				if ( $slot.data( 'shows' ) )  {
 					OX_12345.addVariable( 'shows', $slot.data( 'shows' ) );
 				}
+				if ( $slot.data( 'podcast' ) )  {
+					OX_12345.addVariable( 'podcast', $slot.data( 'podcast' ) );
+				}
 				if ( category ) {
 					OX_12345.addVariable( 'category', category );
 				}
@@ -100,16 +103,37 @@ function render_tag( $output_html, $tag_id ) {
 		// We want a slug for all singular post types
 		$slug = $post->post_name;
 
-		// Check if the class exists so we can use its properties
-		if ( class_exists( 'ShowsCPT' ) && defined( "ShowsCPT::SHOW_TAXONOMY" ) ) {
+		// Check if the shows class exists so we can use its properties
+		if ( class_exists( 'ShowsCPT' ) && defined( 'ShowsCPT::SHOW_TAXONOMY' ) ) {
 			// Get the show terms
 			$terms = get_the_terms( $post->ID, constant( 'ShowsCPT::SHOW_TAXONOMY' ) );
 			// Check for errors
-			if ( $terms && ! is_wp_error( $terms ) ) { 
+			if ( $terms && ! is_wp_error( $terms ) ) {
 				// Pluck those slugs out of the terms object
 				$shows = wp_list_pluck( $terms, 'slug' );
 				// Finally join those for openx in a csv format
 				$shows = join( ",", $shows );
+			}
+		}
+
+		// Check if the podcast class exists so we can use its properties
+		if ( class_exists( 'GMP_CPT' ) && defined( 'GMP_CPT::PODCAST_POST_TYPE' ) && defined( 'GMP_CPT::EPISODE_POST_TYPE' ) ) {
+
+			$post_type = get_post_type( $post );
+
+			if ( constant( 'GMP_CPT::PODCAST_POST_TYPE' ) == $post_type ) {
+				$podcast = $post->post_name;
+			}
+
+			if ( constant( 'GMP_CPT::EPISODE_POST_TYPE' ) == $post_type ) {
+				// Find the podcast that this episode is a part of.
+				$parent_podcast_id = wp_get_post_parent_id( $post );
+
+				if ( $parent_podcast_id && ! is_wp_error( $parent_podcast_id ) ) {
+					// Assign parent's slug to this post
+					$parent_podcast = get_post( $parent_podcast_id );
+					$podcast = $parent_podcast->post_name;
+				}
 			}
 		}
 	}
@@ -174,6 +198,9 @@ function render_tag( $output_html, $tag_id ) {
 		<?php endif; ?>
 		<?php if ( ! empty( $shows ) ) : ?>
 			data-shows="<?php echo esc_attr( $shows ); ?>"
+		<?php endif; ?>
+		<?php if ( ! empty( $podcast ) ) : ?>
+			data-podcast="<?php echo esc_attr( $podcast ); ?>"
 		<?php endif; ?>
 		<?php if ( ! empty( $category ) ) : ?>
 		data-category="<?php echo esc_attr( $category ); ?>"

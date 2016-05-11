@@ -1738,8 +1738,28 @@ var $ = jQuery;
 	};
 
 	var onStreamStatus = function(e) {
+		debug('onStreamStatus: ' + e.data.code + ' ' + Date.now());
 		if (e.data.code === 'LIVE_PAUSE' || e.data.code === 'LIVE_STOP') {
 			onStreamStop();
+		}
+		if (e.data.code === 'LIVE_PLAYING') {
+
+			if (!ggComObj.is_playing) {
+
+				debug('Send now playing metadata event to Nielsen SDK.');
+				ggComObj.gg.ggPM(15, {
+					dataSrc: 'cms',
+					assetid: stream,
+					type: 'radio',
+					provider: 'GreaterMedia',
+					stationType: 1
+				});
+
+				trackPlayheadPosition();
+
+				ggComObj.is_playing = true;
+
+			}
 		}
 	};
 
@@ -1801,7 +1821,7 @@ var $ = jQuery;
 	var onStreamStop = function() {
 		if (ggComObj.is_playing) {
 			debug('Send stop event to Nielsen SDK.');
-			
+
 			ggComObj.gg.ggPM(7, Date.now() / 1000);
 			ggComObj.is_playing = false;
 
@@ -1818,6 +1838,7 @@ var $ = jQuery;
 		}
 	};
 })(gmr);
+
 (function($, window, undefined) {
 	"use strict";
 

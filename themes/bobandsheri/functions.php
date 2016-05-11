@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'BOBANDSHERI_VERSION', '0.1.5' ); /* Version bump by Allen 10/23/2015 @ 11:00 a.m. EST */
+define( 'BOBANDSHERI_VERSION', '0.1.6' ); /* Version bump by Steve 5/10/2016 @ 11:00 a.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
@@ -60,7 +60,7 @@ define( 'BOBANDSHERI_VERSION', '0.1.5' ); /* Version bump by Allen 10/23/2015 @ 
 	    null,
 	    true
 	);
-    
+
  }
  add_action( 'wp_enqueue_scripts', 'bobandsheri_scripts_styles', 20 );
 
