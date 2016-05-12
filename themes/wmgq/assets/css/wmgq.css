@@ -15860,6 +15860,14 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   display: block;
   line-height: 1.2; }
 
+.header__nav--list li a {
+  color: #fff; }
+
+.sub-menu li a, .header__nav .format-fw > ul li a, .header__nav .format-sp > ul li a, .header__nav .format-fi > ul li a {
+  color: #000; }
+  .sub-menu li a:hover, .header__nav .format-fw > ul li a:hover, .header__nav .format-sp > ul li a:hover, .header__nav .format-fi > ul li a:hover {
+    color: #fff; }
+
 /*navigation rollover color */
 .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {
   background-color: #007abd; }

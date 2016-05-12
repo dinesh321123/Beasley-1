@@ -997,6 +997,13 @@ a:link, a:visited {
 .on-air__show, .up-next__show {
     display: block;
     line-height: 1.2;
+}
+
+.header__nav--list li a {color: #fff;}
+
+.sub-menu li a {
+    color: #000;
+    &:hover {color: #fff;}
 }    
     
 /*navigation rollover color */   
