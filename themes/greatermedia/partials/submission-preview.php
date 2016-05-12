@@ -1,5 +1,12 @@
 <section class="col__inner--left">
-	<?php echo apply_filters( 'the_content', get_post_field( 'post_content', null ) ); ?>
+	<?php
+	echo apply_filters( 'the_content', get_post_field( 'post_content', null ) ); // WPCS: xss ok.
+	if ( ! has_post_format( 'gallery' ) ) :
+		?>
+		<div class="social-share"><?php get_template_part( 'partials/social-share' ); ?></div>
+	<?php
+	endif;
+	?>
 </section>
 
 <section class="col__inner--right">
