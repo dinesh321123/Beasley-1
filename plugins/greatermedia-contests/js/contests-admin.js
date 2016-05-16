@@ -132,9 +132,14 @@ document.addEventListener("DOMContentLoaded", function() {
 	// Add datepickers for start & end dates if not supported natively
 	var supported_input_types = check_supported_input_types();
 	if (!supported_input_types.hasOwnProperty('date') || false === supported_input_types.date) {
-		jQuery('#greatermedia_contest_start').add('#greatermedia_contest_end').datetimepicker({
+		jQuery('#greatermedia_contest_start,#greatermedia_contest_end,#greatermedia_contest_vote_end,#greatermedia_contest_vote_start').datetimepicker({
 			format: 'm/d/Y',
 			timepicker: false
+		});
+
+		jQuery('#greatermedia_contest_start_time,#greatermedia_contest_end_time,#greatermedia_contest_vote_end_time,#greatermedia_contest_vote_start_time').datetimepicker({
+			format: 'H:i',
+			datepicker: false
 		});
 	}
 }, false );

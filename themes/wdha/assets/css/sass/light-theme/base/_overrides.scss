@@ -177,6 +177,7 @@ li:last-child {@include border-bottom-radius(1em);}
 }
     
   .live-stream__login {
+
     width:auto;
     height:auto;
     padding:0 0 3px;
@@ -295,6 +296,7 @@ a:hover .highlights__community--title {color:#ccc;}
 .header__nav {font-family: 'Istok+Web', sans-serif;}
     
 /* Sub-Feature box color */
+
 .home__featured .featured__content--block {
     background-color: #720000;
     opacity: 0.9;
@@ -922,8 +924,7 @@ a:hover .highlights__event--title {
 .section-header {font-size: 1em;}
 
 /*navigation rollover color */   
-.header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {background-color: #c20000;}    
-    
+.header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .ui-menu .ui-state-focus {background-color: #c20000;}        
 .header__account--links.sub-menu, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .ui-menu {
   background-color: #fff;
   border-top: 7px solid #c20000;
@@ -1121,7 +1122,7 @@ a.social-share-link:hover,a.social__link:hover {
 /* Header login color */  
 .header__account--logged-out, .header__account--span {color: #fff;}
   
-   .featured__content--block:hover {
+.featured__content--block:hover {
       background: #5E0000;
 } 
 
