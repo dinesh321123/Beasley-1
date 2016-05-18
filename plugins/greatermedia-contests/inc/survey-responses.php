@@ -389,6 +389,31 @@ function gmr_surveys_render_survey_response_column( $column_name, $post_id ) {
 			human_time_diff( strtotime( $response->post_date ), current_time( 'timestamp' ) )
 		);
 
+	} elseif ( '_gmr_responses' == $column_name ) {
+
+		$survey_id = wp_get_post_parent_id( $post_ID );
+
+		$form = get_post_meta ( $survey_id, 'survey_embedded_form', true );
+		$clean_form = trim( $form, '"' );
+		$form = json_decode( $clean_form );
+
+		$fields = GreaterMediaFormbuilderRender::parse_entry( $survey_id, $post_id, $form );
+
+		if ( ! empty( $fields ) ) :
+			?>
+			<dl class="contest__submission--entries">
+				<?php foreach ( $fields as $field ) : ?>
+					<?php if ( 'file' != $field['type'] ) : ?>
+						<dt>
+							<strong><?php echo esc_html( $field['label'] ); ?></strong>
+						</dt>
+						<dd>
+							<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
+						</dd>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</dl><?php
+		endif;
 	}
 }
 
@@ -488,6 +513,7 @@ class GMR_Survey_Responses_Table extends WP_Posts_List_Table {
 
 		$columns['_gmr_username'] = 'Submitted by';
 		$columns['_gmr_email'] = 'Email';
+		$columns['_gmr_responses'] = 'Responses';
 		$columns['_gmr_submitted'] = 'Submitted on';
 
 		return $columns;

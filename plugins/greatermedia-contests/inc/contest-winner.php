@@ -440,8 +440,29 @@ function gmr_contests_render_contest_entry_column( $column_name, $post_id ) {
 			mysql2date( 'M j, Y H:i', $entry->post_date ),
 			human_time_diff( strtotime( $entry->post_date ), current_time( 'timestamp' ) )
 		);
+	} elseif ( '_gmr_responses' == $column_name ) {
 
-	} else {
+		$contest_id = wp_get_post_parent_id( $post_ID );
+
+		$fields = GreaterMediaFormbuilderRender::parse_entry( $contest_id, $post_id );
+
+		if ( ! empty( $fields ) ) :
+			?>
+			<dl class="contest__submission--entries">
+				<?php foreach ( $fields as $field ) : ?>
+					<?php if ( 'file' != $field['type'] ) : ?>
+						<dt>
+							<strong><?php echo esc_html( $field['label'] ); ?></strong>
+						</dt>
+						<dd>
+							<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
+						</dd>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</dl><?php
+		endif;
+
+	}  else {
 
 		$form_column_name = substr( $column_name, strlen( '_gmr_form_' ) );
 		$fields = GreaterMediaFormbuilderRender::parse_entry( $entry->post_parent, $entry->ID );
@@ -687,6 +708,7 @@ class GMR_Contest_Entries_Table extends WP_Posts_List_Table {
 
 		$columns['_gmr_username'] = 'Submitted by';
 		$columns['_gmr_email'] = 'Email';
+		$columns['_gmr_responses'] = 'Responses';
 		$columns['_gmr_submitted'] = 'Submitted on';
 
 		return $columns;
