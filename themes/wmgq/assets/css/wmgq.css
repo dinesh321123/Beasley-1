@@ -15860,6 +15860,7 @@ a:hover .highlights__event--date, a:hover .highlights__event--title {
   display: block;
   line-height: 1.2; }
 
+/*correct navigation color */
 .header__nav--list li a {
   color: #fff; }
 
