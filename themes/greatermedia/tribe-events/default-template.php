@@ -27,6 +27,12 @@ get_header(); ?>
 				</div>
 				<?php tribe_events_before_html(); ?>
 				<h2 class="content__heading" itemprop="headline"><?php _e( 'Upcoming Events', 'greatermedia' ); ?></h2>
+				<div class="tribe-clearfix">
+				<?php
+					if( is_tax() ) {
+				  	echo term_description( get_queried_object_id(), 'tribe_events_cat' );
+					} ?>
+				</div>
 				<?php tribe_get_view(); ?>
 				<?php tribe_events_after_html(); ?>
 			</div> <!-- #tribe-events-pg-template -->
