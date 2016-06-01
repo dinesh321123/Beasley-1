@@ -2,7 +2,7 @@
 /*
 Plugin Name: Greater Media Contests
 Description: Contest Features
-Version: 1.2.0
+Version: 1.2.1
 Author: 10up
 Author URI: http://10up.com
 */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'GREATER_MEDIA_CONTESTS_URL', plugin_dir_url( __FILE__ ) );
 define( 'GREATER_MEDIA_CONTESTS_PATH', dirname( __FILE__ ) );
-define( 'GREATER_MEDIA_CONTESTS_VERSION', '1.2.0' );
+define( 'GREATER_MEDIA_CONTESTS_VERSION', '1.2.1' );
 
 define( 'GMR_CONTEST_CPT',         'contest' );
 define( 'GMR_CONTEST_ENTRY_CPT',   'contest_entry' );
