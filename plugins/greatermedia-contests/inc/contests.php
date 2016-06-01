@@ -428,11 +428,6 @@ function _gmr_contests_get_submission_for_voting_actions() {
 		wp_send_json_error();
 	}
 
-	// do nothing if an user is not logged in
-	if ( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() ) {
-		wp_send_json_error();
-	}
-
 	$query = new WP_Query();
 	$submissions = $query->query( array(
 		'posts_per_page'      => 1,
@@ -448,18 +443,52 @@ function _gmr_contests_get_submission_for_voting_actions() {
 		wp_send_json_error();
 	}
 
-	return get_post( current( $submissions ) );
+	$submission = get_post( current( $submissions ) );
+
+	// Do nothing if voting is closed or the user isn't logged in.
+	if (
+		gmr_contests_is_voting_open( get_post()->post_parent ) &&
+		(
+			gmr_contests_allow_anonymous_votes( get_post()->post_parent ) ||
+			( function_exists( 'is_gigya_user_logged_in' ) && is_gigya_user_logged_in() )
+		)
+	) {
+		wp_send_json_error();
+	}
+
+	return $submission;
 }
 
 /**
  * Returns voting key.
  *
+ * @param  int $contest_id ID of the contest being voted for.
+ *
  * @return string The voting key.
  */
-function _gmr_contests_get_vote_key() {
-	return function_exists( 'get_gigya_user_id' )
-		? 'vote_' . get_gigya_user_id()
-		: false;
+function _gmr_contests_get_vote_key( $contest_id ) {
+	$key = false;
+	// Get the gigya user id if they're logged in.
+	if ( function_exists( 'get_gigya_user_id' ) ) {
+		$key = get_gigya_user_id();
+	}
+
+	// If we don't have a key and anonymous voting is allowed get a
+	// unique id.
+	if ( empty( $key ) && gmr_contests_allow_anonymous_votes( $contest_id ) ) {
+		// Check a cookie first.
+		$key = isset( $_COOKIE['_gmrvk'] ) ? $_COOKIE['_gmrvk'] : false;
+
+		// If we don't have a key generate new one.
+		if ( empty( $key ) ) {
+			$key = uniqid();
+		}
+
+		// Save for future sessions.
+		setcookie( '_gmrvk', $key, time() + YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+	}
+
+	return 'vote_' . $key;
 }
 
 /**
@@ -469,16 +498,19 @@ function _gmr_contests_get_vote_key() {
  * @return boolean TRUE if current gigya user voted for a submission, otherwise FALSE.
  */
 function gmr_contests_is_user_voted_for_submission( $submission = null ) {
-	if ( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() ) {
+	if ( ! gmr_contests_allow_anonymous_votes( get_post()->post_parent ) && ! ( function_exists( 'is_gigya_user_logged_in' ) && is_gigya_user_logged_in() ) ) {
 		return false;
 	}
 
-	$vote_key = _gmr_contests_get_vote_key();
+	if ( is_null( $submission ) || is_int( $submission ) ) {
+		$submission = get_post( get_the_ID() );
+	}
+
+	$vote_key = _gmr_contests_get_vote_key( $submission->post_parent );
 	if ( empty( $vote_key ) ) {
 		return false;
 	}
 
-	$submission = get_post( $submission );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 
 	return ! empty( $voted );
@@ -494,7 +526,7 @@ function gmr_contests_vote_for_submission() {
 	$submission = _gmr_contests_get_submission_for_voting_actions();
 
 	// do nothing if an user has already voted for this submission
-	$vote_key = _gmr_contests_get_vote_key();
+	$vote_key = _gmr_contests_get_vote_key( $submission->post_parent );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 	if ( ! empty( $voted ) ) {
 		wp_send_json_error();
@@ -518,7 +550,7 @@ function gmr_contests_unvote_for_submission() {
 	$submission = _gmr_contests_get_submission_for_voting_actions();
 
 	// do nothing if an user has not voted for this submission yet
-	$vote_key = _gmr_contests_get_vote_key();
+	$vote_key = _gmr_contests_get_vote_key( $submission->post_parent );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 	if ( empty( $voted ) ) {
 		wp_send_json_error();
@@ -1326,6 +1358,45 @@ function gmr_filter_expired_contests( $query ) {
 }
 
 /**
+ * Check whether or not voting for the contest is open.
+ *
+ * @param int $contest_id ID of contest to check.
+ *
+ * @return bool
+ */
+function gmr_contests_is_voting_open( $contest_id ) {
+	$vote_start   = gmr_contests_get_vote_start_date( $contest_id );
+	$vote_end     = gmr_contests_get_vote_end_date( $contest_id );
+	$current_time = time();
+
+	return ( $vote_start <= $current_time && $current_time < $vote_end );
+}
+
+/**
+ * Get contest's vote start date.
+ *
+ * @param $contest_id
+ *
+ * @return int
+ */
+function gmr_contests_get_vote_start_date( $contest_id ) {
+	return (int) get_post_meta( $contest_id, 'contest-vote-start', true ) ?:
+		get_post_meta( $contest_id, 'contest-start', true );;
+}
+
+/**
+ * Get contest's vote end date.
+ *
+ * @param $contest_id
+ *
+ * @return int
+ */
+function gmr_contests_get_vote_end_date( $contest_id ) {
+	return (int) get_post_meta( $contest_id, 'contest-vote-end', true ) ?:
+		get_post_meta( $contest_id, 'contest-end', true );
+}
+
+/**
  * Determines if we can show vote counts or not.
  *
  * @param  int|WP_Post $submission The post ID or object.
@@ -1339,6 +1410,17 @@ function gmr_contests_can_show_vote_count( $submission = null ) {
 	if ( $submission->post_parent ) {
 		return get_post_meta( $submission->post_parent, 'contest_show_vote_counts', true ) ? true : false;
 	}
+}
+
+/**
+ * Returns true if anonymous voting is allowed for a contest, and false if it's not.
+ * 
+ * @param int $contest_id
+ *
+ * @return bool
+ */
+function gmr_contests_allow_anonymous_votes( $contest_id = 0 ) {
+	return (bool) get_post_meta( $contest_id, 'contest-allow-anonymous-voting', true );
 }
 
 /*
