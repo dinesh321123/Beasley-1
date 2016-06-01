@@ -371,6 +371,37 @@ function gmr_contests_adjust_winners_page_admin_menu( $parent_file ) {
 }
 
 /**
+ * Builds HTML string to render user submitted responses for display in the admin.
+ * @param int $entry_id The post id for the entry.
+ */
+function gmr_contests_build_contest_responses_list( $entry_id ) {
+	$contest_id = wp_get_post_parent_id( $entry_id );
+
+	$fields = GreaterMediaFormbuilderRender::parse_entry( $contest_id, $entry_id );
+
+	$responses_list = '';
+
+	if ( ! empty( $fields ) ) :
+		$responses_list .= '<dl class="contest__submission--entries">';
+
+		foreach ( $fields as $field ) :
+			if ( 'file' != $field['type'] ) :
+				$responses_list .= '<dt>';
+				$responses_list .= '<strong>' . esc_html( $field['label'] ) . '</strong>';
+				$responses_list .= '</dt>';
+				$responses_list .= '<dd>';
+				$responses_list .= esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] );
+				$responses_list .= '</dd>';
+			endif;
+		endforeach;
+
+		$responses_list .= '</dl>';
+	endif;
+
+	return $responses_list;
+}
+
+/**
  * Renders custom columns for the contest entries table.
  *
  * @param string $column_name The column name which is gonna be rendered.
@@ -442,25 +473,7 @@ function gmr_contests_render_contest_entry_column( $column_name, $post_id ) {
 		);
 	} elseif ( '_gmr_responses' == $column_name ) {
 
-		$contest_id = wp_get_post_parent_id( $post_ID );
-
-		$fields = GreaterMediaFormbuilderRender::parse_entry( $contest_id, $post_id );
-
-		if ( ! empty( $fields ) ) :
-			?>
-			<dl class="contest__submission--entries">
-				<?php foreach ( $fields as $field ) : ?>
-					<?php if ( 'file' != $field['type'] ) : ?>
-						<dt>
-							<strong><?php echo esc_html( $field['label'] ); ?></strong>
-						</dt>
-						<dd>
-							<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
-						</dd>
-					<?php endif; ?>
-				<?php endforeach; ?>
-			</dl><?php
-		endif;
+		printf( gmr_contests_build_contest_responses_list( $entry->ID ) );
 
 	}  else {
 
@@ -782,6 +795,10 @@ class GMR_Contest_Winners_Table extends WP_List_Table {
 		return sprintf( '<a href="mailto:%1$s" title="%1$s">%1$s</a>', $email );
 	}
 
+	public function column__gmr_responses( WP_Post $entry ) {
+		printf( gmr_contests_build_contest_responses_list( $entry->ID ) );
+	}
+
 	public function column__gmr_submitted( WP_Post $entry ) {
 		return sprintf(
 			'<span title="%s">%s ago</span>',
@@ -799,6 +816,7 @@ class GMR_Contest_Winners_Table extends WP_List_Table {
 
 		$actions['_gmr_username'] = 'Name';
 		$actions['_gmr_email'] = 'Email';
+		$actions['_gmr_responses'] = 'Responses';
 		$actions['_gmr_submitted'] = 'Submitted';
 
 		return $actions;
