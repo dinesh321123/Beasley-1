@@ -498,16 +498,19 @@ function _gmr_contests_get_vote_key( $contest_id ) {
  * @return boolean TRUE if current gigya user voted for a submission, otherwise FALSE.
  */
 function gmr_contests_is_user_voted_for_submission( $submission = null ) {
-	if ( ! function_exists( 'is_gigya_user_logged_in' ) || ! is_gigya_user_logged_in() ) {
+	if ( ! gmr_contests_allow_anonymous_votes( get_post()->post_parent ) && ! ( function_exists( 'is_gigya_user_logged_in' ) && is_gigya_user_logged_in() ) ) {
 		return false;
 	}
 
-	$vote_key = _gmr_contests_get_vote_key();
+	if ( is_null( $submission ) || is_int( $submission ) ) {
+		$submission = get_post( get_the_ID() );
+	}
+
+	$vote_key = _gmr_contests_get_vote_key( $submission->post_parent );
 	if ( empty( $vote_key ) ) {
 		return false;
 	}
 
-	$submission = get_post( $submission );
 	$voted = get_post_meta( $submission->ID, $vote_key, true );
 
 	return ! empty( $voted );
