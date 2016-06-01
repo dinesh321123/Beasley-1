@@ -477,6 +477,13 @@ class GreaterMediaContestsMetaboxes {
 					<input type="checkbox" id="greatermedia_contest_display_vote_counts" name="greatermedia_contest_display_vote_counts" value="1" <?php checked( get_post_meta( $post->ID, 'contest_show_vote_counts', true ) ); ?>>
 				</td>
 			</tr>
+
+			<tr>
+				<th scope="row"><label for="greatermedia_contest_allow_anonymous_voting">Allow anonymous voting?</label></th>
+				<td>
+					<input type="checkbox" id="greatermedia_contest_allow_anonymous_voting" name="greatermedia_contest_allow_anonymous_voting" value="1" <?php checked( get_post_meta( $post->ID, 'contest-allow-anonymous-voting', true ) ); ?>>
+				</td>
+			</tr>
 		</table><?php
 	}
 
