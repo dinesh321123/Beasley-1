@@ -15107,7 +15107,8 @@ table.responsive tr:nth-of-type(even) {
     top: -7px; } }
 
 .home__highlights {
-  border-bottom-color: #d0d2d3; }
+  border-bottom-color: #d0d2d3;
+  padding: 3em 3.236em; }
 
 .highlights__events--more-btn:hover {
   color: #f5ed7f !important;
@@ -15196,8 +15197,7 @@ header#header.header {
   background-image: url('../../images/mainbg.jpg'); }
 
 .home__highlights {
-  visibility: visible;
-  padding: 0px; }
+  visibility: visible; }
 
 .page__title, h1, h2, h3, h4, h5, h6 {
   font-family: oswald !important; }
