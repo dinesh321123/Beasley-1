@@ -195,6 +195,7 @@
 
 .home__highlights {
     background-color: #252424;
+    padding: 3em 3.236em;
 }
 
 .main,
@@ -227,8 +228,7 @@ header#header.header {
 }
 
 .home__highlights {
-    visibility: hidden;
-    height: 0px;
+    visibility: visible;
     padding: 0px;
 }
 
@@ -283,6 +283,9 @@ h6 {
             line-height: 20px;
         }
     }
+}
+.live-player__container {
+  background-image: url(https://files.greatermedia.com/uploads/sites/14/2016/04/listenliveamp-4.jpg)
 }
 
 #wcsx-social-stream {
