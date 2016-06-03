@@ -408,7 +408,7 @@ function gmr_surveys_render_survey_response_column( $column_name, $post_id ) {
 							<strong><?php echo esc_html( $field['label'] ); ?></strong>
 						</dt>
 						<dd>
-							<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
+							<?php echo is_array( $field['value'] ) ? esc_html( implode( ', ', $field['value'] ) ) : esc_html( $field['value'] ); ?>
 						</dd>
 					<?php endif; ?>
 				<?php endforeach; ?>

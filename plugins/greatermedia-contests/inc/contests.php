@@ -717,7 +717,7 @@ function gmr_contests_process_form_submission() {
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
-	
+
 	$form = @json_decode( get_post_meta( $contest_id, 'embedded_form', true ) );
 	gmr_verify_form_submission( $form );
 
@@ -799,7 +799,7 @@ function gmr_contests_process_form_submission() {
 								<?php echo esc_html( $field['label'] ); ?>
 							</dt>
 							<dd>
-								<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
+								<?php echo is_array( $field['value'] ) ? esc_html( implode( ', ', $field['value'] ) ) : esc_html( $field['value'] ); ?>
 							</dd>
 						<?php endif; ?>
 					<?php endforeach; ?>
@@ -1353,7 +1353,7 @@ function gmr_contest_get_fields( $submission = null, $field_type = 'entry_field'
 	$entry_id = get_post_meta( $submission, 'contest_entry_id', true );
 
 	$entry = get_post( $entry_id );
-	
+
 	$entry_reference = get_post_meta( $entry->ID, 'entry_reference', true );
 
 	$fields = GreaterMediaFormbuilderRender::parse_entry( $entry->post_parent, $entry->ID, null, true );
