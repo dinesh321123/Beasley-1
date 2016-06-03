@@ -390,7 +390,7 @@ function gmr_contests_build_contest_responses_list( $entry_id ) {
 				$responses_list .= '<strong>' . esc_html( $field['label'] ) . '</strong>';
 				$responses_list .= '</dt>';
 				$responses_list .= '<dd>';
-				$responses_list .= esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] );
+				$responses_list .= is_array( $field['value'] ) ? esc_html( implode( ', ', $field['value'] ) ) : esc_html( $field['value'] );
 				$responses_list .= '</dd>';
 			endif;
 		endforeach;

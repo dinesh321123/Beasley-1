@@ -178,7 +178,7 @@ function gmr_surveys_process_form_submission() {
 								<?php echo esc_html( $field['label'] ); ?>
 							</dt>
 							<dd>
-								<?php echo esc_html( is_array( $field['value'] ) ? implode( ', ', $field['value'] ) : $field['value'] ); ?>
+								<?php echo is_array( $field['value'] ) ? esc_html( implode( ', ', $field['value'] ) ) : esc_html( $field['value'] ); ?>
 							</dd>
 						<?php endif; ?>
 					<?php endforeach; ?>
