@@ -38,11 +38,40 @@ class ShortcodeHandler
 
     $atts['sort_order'] = filter_var( $atts['sort_order'], FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => '', 'regexp' => '/^StartTimeNewest|PricePlusShippingHighest|PricePlusShippingLowest|BestMatch/' ) ) );
 
+		// Build URL
+		$url = '//www.auctionnudge.com/item_build/js';
+
+		$url .= '/SellerID/' . $atts['username'];
+
+		$url .= '/siteid/0';
+
+		$url .= '/theme/' . $atts['theme'];
+
+		$url .= '/MaxEntries/' . $atts['maxentries'];
+
+		if ( $atts['category_list'] ) {
+			$url .= '/cats_output/dropdown';
+		}
+
+		$url .= '/page/init/show_logo/1';
+
+		$url .= '/img_size/' . $atts['img_size'];
+
+		$url .= '/blank/1';
+
+		if( ! empty( $atts['keyword'] ) ) {
+			$url .= '/keyword/' . $atts['keyword'];
+		}
+
+		if( ! empty( $atts['sort_order'] ) ) {
+			$url .= '/sortOrder/' . $atts['sort_order'];
+		}
+
 		ob_start();
 
     // Render widget
 		?>
-    <script type="text/javascript" src="//www.auctionnudge.com/item_build/js/SellerID/<?php echo esc_url( $atts['username'] ); ?>/siteid/0/theme/<?php echo esc_url( $atts['theme'] ); ?>/MaxEntries/<?php echo esc_url( $atts['maxentries'] ); ?><?php if ( $atts['category_list'] ) { echo '/cats_output/dropdown'; } ?>/page/init/show_logo/1/img_size/<?php echo esc_url( $atts['img_size'] ); ?>/blank/1<?php if( ! empty( $atts['keyword'] ) ) { echo '/keyword/' . esc_url( $atts['keyword'] ); } ?><?php if( ! empty( $atts['sort_order'] ) ) { echo '/sortOrder/' . esc_url( $atts['sort_order'] ); } ?>"></script>
+    <script type="text/javascript" src="<?php echo esc_url( $url ) ?>"></script>
     <div id="auction-nudge-items" class="auction-nudge"></div>
 
 		<?php
