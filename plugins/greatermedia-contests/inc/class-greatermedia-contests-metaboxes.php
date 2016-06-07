@@ -324,11 +324,13 @@ class GreaterMediaContestsMetaboxes {
 		$post_status = get_post_status_object( $post->post_status );
 		$datetime_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
-		$started    = get_post_meta( $post->ID, 'contest-start', true );
-		$vote_start = get_post_meta( $post->ID, 'contest-vote-start', true );
-		$ended      = get_post_meta( $post->ID, 'contest-end', true );
-		$vote_end   = get_post_meta( $post->ID, 'contest-vote-end', true );
-		$offset     = get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
+		$started          = get_post_meta( $post->ID, 'contest-start', true );
+		$vote_start       = get_post_meta( $post->ID, 'contest-vote-start', true );
+		$submission_start = get_post_meta( $post->ID, 'contest-submission-start', true );
+		$ended            = get_post_meta( $post->ID, 'contest-end', true );
+		$vote_end         = get_post_meta( $post->ID, 'contest-vote-end', true );
+		$submission_end   = get_post_meta( $post->ID, 'contest-submission-end', true );
+		$offset           = get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
 
 		?><table class="form-table">
 			<tr>
@@ -384,6 +386,31 @@ class GreaterMediaContestsMetaboxes {
 			</td>
 		</tr>
 
+		<tr>
+			<th scope="row"><label for="greatermedia_contest_submission_start">Submission start date</label></th>
+			<td>
+				<?php if ( ! $post_status->public ) : ?>
+					<?php $this->render_date_field( array(
+						'post_id' => $post->ID,
+						'id'      => 'greatermedia_contest_submission_start',
+						'name'    => 'greatermedia_contest_submission_start',
+						'value'   => $submission_start,
+					) ); ?><br>
+					<small>
+						(leave empty to use start date)
+					</small>
+				<?php else : ?>
+					<b>
+						<?php if ( ! empty( $submission_start ) ) : ?>
+							<?php echo date( $datetime_format, $submission_start + $offset ); ?>
+						<?php else : ?>
+							&#8212;
+						<?php endif; ?>
+					</b>
+				<?php endif; ?>
+			</td>
+		</tr>
+
 			<tr>
 				<th scope="row"><label for="greatermedia_contest_end">End date</label></th>
 				<td>
@@ -429,6 +456,31 @@ class GreaterMediaContestsMetaboxes {
 					<b>
 						<?php if ( ! empty( $vote_end ) ) : ?>
 							<?php echo date( $datetime_format, $vote_end + $offset ); ?>
+						<?php else : ?>
+							&#8212;
+						<?php endif; ?>
+					</b>
+				<?php endif; ?>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row"><label for="greatermedia_contest_submission_end">Submission end date</label></th>
+			<td>
+				<?php if ( ! $post_status->public ) : ?>
+					<?php $this->render_date_field( array(
+						'post_id' => $post->ID,
+						'id'      => 'greatermedia_contest_submission_end',
+						'name'    => 'greatermedia_contest_submission_end',
+						'value'   => $submission_end,
+					) ); ?><br>
+					<small>
+						(leave empty to use end date)
+					</small>
+				<?php else : ?>
+					<b>
+						<?php if ( ! empty( $submission_end ) ) : ?>
+							<?php echo date( $datetime_format, $submission_end + $offset ); ?>
 						<?php else : ?>
 							&#8212;
 						<?php endif; ?>
@@ -580,10 +632,12 @@ class GreaterMediaContestsMetaboxes {
 
 		$offset = get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
 		$dates = array(
-			'contest-start'      => 'greatermedia_contest_start',
-			'contest-end'        => 'greatermedia_contest_end',
-			'contest-vote-start' => 'greatermedia_contest_vote_start',
-			'contest-vote-end'   => 'greatermedia_contest_vote_end',
+			'contest-start'            => 'greatermedia_contest_start',
+			'contest-end'              => 'greatermedia_contest_end',
+			'contest-vote-start'       => 'greatermedia_contest_vote_start',
+			'contest-vote-end'         => 'greatermedia_contest_vote_end',
+			'contest-submission-start' => 'greatermedia_contest_submission_start',
+			'contest-submission-end'   => 'greatermedia_contest_submission_end',
 		);
 
 		foreach ( $dates as $meta => $param ) {
