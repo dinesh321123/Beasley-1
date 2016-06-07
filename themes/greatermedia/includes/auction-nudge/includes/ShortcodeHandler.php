@@ -42,7 +42,7 @@ class ShortcodeHandler
 
     // Render widget
 		?>
-    <script type="text/javascript" src="//www.auctionnudge.com/item_build/js/SellerID/<?php echo esc_attr( $atts['username'] ); ?>/siteid/0/theme/<?php echo esc_attr( $atts['theme'] ); ?>/MaxEntries/<?php echo esc_attr( $atts['maxentries'] ); ?><?php if ( $atts['category_list'] ) { echo '/cats_output/dropdown'; } ?>/page/init/show_logo/1/img_size/<?php echo esc_attr( $atts['img_size'] ); ?>/blank/1<?php if( ! empty( $atts['keyword'] ) ) { echo '/keyword/' . esc_attr( $atts['keyword'] ); } ?><?php if( ! empty( $atts['sort_order'] ) ) { echo '/sortOrder/' . esc_attr( $atts['sort_order'] ); } ?>"></script>
+    <script type="text/javascript" src="//www.auctionnudge.com/item_build/js/SellerID/<?php echo esc_url( $atts['username'] ); ?>/siteid/0/theme/<?php echo esc_url( $atts['theme'] ); ?>/MaxEntries/<?php echo esc_url( $atts['maxentries'] ); ?><?php if ( $atts['category_list'] ) { echo '/cats_output/dropdown'; } ?>/page/init/show_logo/1/img_size/<?php echo esc_url( $atts['img_size'] ); ?>/blank/1<?php if( ! empty( $atts['keyword'] ) ) { echo '/keyword/' . esc_url( $atts['keyword'] ); } ?><?php if( ! empty( $atts['sort_order'] ) ) { echo '/sortOrder/' . esc_url( $atts['sort_order'] ); } ?>"></script>
     <div id="auction-nudge-items" class="auction-nudge"></div>
 
 		<?php
