@@ -20,7 +20,7 @@
 if ( defined( 'GMR_PARENT_ENV' ) && 'dev' == GMR_PARENT_ENV ) {
 	define( 'GREATERMEDIA_VERSION', time() );
 } else {
-	define( 'GREATERMEDIA_VERSION', '1.3.2' ); /* Version bump by Steve 5/9/2016 @ 10:00 a.m. EST */
+	define( 'GREATERMEDIA_VERSION', '1.3.3' ); /* Version bump by Steve 6/7/2016 @ 11:00 a.m. EST */
 }
 
 add_theme_support( 'homepage-curation' );
@@ -37,6 +37,7 @@ require_once( __DIR__ . '/includes/category-options.php' );
 require_once( __DIR__ . '/includes/class-favicon.php' );
 require_once( __DIR__ . '/includes/iframe-embed.php' );
 require_once( __DIR__ . '/includes/flexible-feature-images/gmr-flexible-feature-images.php' );
+require_once( __DIR__ . '/includes/auction-nudge/gmr-auction-nudge.php' );
 
 /**
  * Required files
