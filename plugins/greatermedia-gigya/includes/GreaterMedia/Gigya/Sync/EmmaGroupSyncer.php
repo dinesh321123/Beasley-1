@@ -248,6 +248,8 @@ class EmmaGroupSyncer {
 
 		$group_ids = $this->to_int_ids( $group_ids );
 
+		$signup_method = false;
+
 		if ( array_key_exists( 'optout', $gigya_account['data'] ) && $gigya_account['data']['optout'] === true ) {
 			// if optout, signup has to happen via Emma Signup email
 			$this->signup( $gigya_account, $group_ids );
@@ -260,7 +262,17 @@ class EmmaGroupSyncer {
 
 			$api      = $this->get_emma_api();
 			$response = $api->membersBatchAdd( $params );
+
+			$signup_method = true;
 		}
+
+		error_log( sprintf(
+			'[Emma Debug] Emma User ID: %s, Member Array %s, Group IDs %s, Used signup method?',
+			$emma_user_id,
+			print_r( $member, true ),
+			print_r( $group_ids, true ),
+			$signup_method
+		) );
 
 		return true;
 	}
