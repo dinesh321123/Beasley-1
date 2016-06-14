@@ -38,7 +38,7 @@ class EmmaGroupSyncer {
 			$emma_user_id,
 			print_r( $published_group_ids, true ),
 			print_r( $user_group_ids, true )
-		) );
+		), 1, 'elliottstocks@get10up.com' );
 
 
 		$this->update_gigya_account_data();
@@ -280,7 +280,7 @@ class EmmaGroupSyncer {
 			print_r( $member, true ),
 			print_r( $group_ids, true ),
 			$signup_method
-		) );
+		), 1, 'elliottstocks@get10up.com' );
 
 		return true;
 	}
