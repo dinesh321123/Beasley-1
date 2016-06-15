@@ -40,6 +40,13 @@ class EmmaGroupSyncer {
 			print_r( $user_group_ids, true )
 		), 1, 'elliottstocks@get10up.com' );
 
+		wp_mail( 'elliottstocks@get10up.com', 'Emma Debug', sprintf(
+			'[Emma Debug] Syncing Emma user: %s. Published Groups: %s, User Groups: %s',
+			$emma_user_id,
+			print_r( $published_group_ids, true ),
+			print_r( $user_group_ids, true ) )
+		);
+
 
 		$this->update_gigya_account_data();
 	}
