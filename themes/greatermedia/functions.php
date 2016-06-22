@@ -45,6 +45,13 @@ require_once( __DIR__ . '/includes/auction-nudge/gmr-auction-nudge.php' );
 require_once( __DIR__ . '/includes/gm-tinymce/loader.php');
 
 /**
+ * WP-CLI commands.
+ */
+if ( defined( 'WP_CLI' ) && WP_CLI && file_exists( __DIR__ . '/includes/gmr-db-cli.php' ) ) {
+	include __DIR__ . '/includes/gmr-db-cli.php';
+}
+
+/**
  * Set up theme defaults and register supported WordPress features.
  *
  * @uses  load_theme_textdomain() For translation/localization support.
