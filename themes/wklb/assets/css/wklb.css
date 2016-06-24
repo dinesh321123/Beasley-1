@@ -1350,10 +1350,10 @@ blockquote p {
 
 .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited, .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited {
   display: block;
-  padding: 34px 1em 33px; }
+  padding: 34px .5em 33px; }
   @media screen and (min-width: 1200px)  {
     .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited, .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited {
-      padding: 33px 1.125em 32px; } }
+      padding: 33px .5em 32px; } }
   .news-site .header__nav ul li a, .news-site .header__nav ul li a:link, .news-site .header__nav ul li a:visited, .news-site .header__account ul li a, .news-site .header__account ul li a:link, .news-site .header__account ul li a:visited {
     padding-top: 32px;
     padding-bottom: 31px;
@@ -3820,7 +3820,7 @@ a.highlights__contest--btn {
 
 .header__social {
   display: none; }
-  @media screen and (min-width: 1024px)  {
+  @media screen and (min-width: 1400px)  {
     .header__social {
       display: block;
       float: right;
@@ -3874,7 +3874,7 @@ a.highlights__contest--btn {
 
 .header__search--span {
   display: none; }
-  @media screen and (min-width: 768px)  {
+  @media screen and (min-width: 1400px)  {
     .header__search--span {
       display: block;
       float: left;
@@ -15138,7 +15138,7 @@ table.responsive tr:nth-of-type(even) {
 
 /* -----------------------------------------
 
-	begin Denis Overrides for Country 102.5 
+	begin Denis Overrides for Country 102.5
 
 -------------------------------------------*/
 #site-wrap.site-wrap {
@@ -15930,7 +15930,7 @@ media 1252px
 -----------------------------------*/
 @media screen and (min-width: 1252px) {
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-    padding: 33px .7em 32px; }
+    padding: 33px .5em 32px; }
   .header__logo {
     width: 250px;
     height: 138px; }

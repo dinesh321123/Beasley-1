@@ -35,7 +35,7 @@ class GMR_DB_Upgrade extends WP_CLI_Command {
 			WP_CLI::line( 'Dry run...' );
 		}
 
-		if ( 'utf8mb4' === $wpdb->charset ) {
+		if ( 'utf8mb4' === $wpdb->charset || 'utf8' === $wpdb->charset ) {
 
 			$blog_id = get_current_blog_id();
 

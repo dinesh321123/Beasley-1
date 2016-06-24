@@ -252,7 +252,7 @@
 	padding: $header-logo-padding 0;
 	line-height: 1;
 	position: relative;
-	
+
 	@include bp(medium) {
 		@include shift(0);
 		max-width: 200px;
@@ -425,7 +425,7 @@
 		.header__account--container {
 			display: block;
 		}
-		
+
 	}
 }
 
@@ -608,7 +608,7 @@
 // container for social links
 .header__social {
 	display: none;
-	@include bp(large) {
+	@include bp(x-large) {
 		display: block;
 		float: right;
 		height: 82px;
@@ -683,7 +683,7 @@
 
 .header__search--span {
 	display: none;
-	@include bp(medium) {
+	@include bp(x-large) {
 		display: block;
 		float: left;
 		height: 82px;

@@ -21,7 +21,7 @@ if ( defined( 'WMGC_ENV' ) && 'dev' == WMGC_ENV ) {
 	// So that things like cloudflare don't hold on to our css during dev
 	define( 'WMGC_VERSION', time() );
 } else {
-	define( 'WMGC_VERSION', '0.3.5' ); /* Version bump by Steve 5/10/2016 @ 11:00 a.m. EST */
+	define( 'WMGC_VERSION', '0.3.6' ); /* Version bump by Steve 6/24/2016 @ 11:00 a.m. EST */
 }
 
 /**
