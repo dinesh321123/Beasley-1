@@ -15816,11 +15816,8 @@ media 1024px
       color: #fff; }
   .header__main .header__social {
     float: right; }
-    .header__main .header__social a.social__link {
-      padding: 1em 0;
-      font-size: 1.65em; }
-      .header__main .header__social a.social__link:hover {
-        color: #a8d6f7; }
+    .header__main .header__social a.social__link:hover {
+      color: #a8d6f7; }
   .header__account:hover {
     background-color: #114598; }
   .header__main a:hover {

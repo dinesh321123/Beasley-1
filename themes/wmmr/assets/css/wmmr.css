@@ -15053,7 +15053,7 @@ table.responsive tr:nth-of-type(even) {
     text-transform: uppercase;
     font-family: 'Oswald', sans-serif;
     font-weight: 700;
-    margin-left: 250px; }
+    margin-left: 200px; }
   .header__main .header__search {
     color: #fff; }
   .header__main .header__account--logged-in, .header__main .header__account--logged-out, .header__main .header__account-- {
@@ -15402,7 +15402,7 @@ table.responsive tr:nth-of-type(even) {
 
 @media screen and (min-width: 1200px)  {
   .header__nav > ul > li > a, .header__nav > ul > li > a:active, .header__nav > ul > li > a:hover, .header__nav > ul > li > a:visited {
-    font-size: 18px;
+    font-size: 17px;
     padding: 32px 0.6em 32px .6em !important; } }
 
 @media screen and (min-width: 1400px)  {

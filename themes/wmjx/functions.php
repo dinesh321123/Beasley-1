@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
- define( 'WMJX_VERSION', '0.3.2' ); /* Version bump by Steve 6/24/2016 @ 11:00 a.m. EST */
+ define( 'WMJX_VERSION', '0.3.3' ); /* Version bump by Steve 6/28/2016 @ 4:00 p.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
