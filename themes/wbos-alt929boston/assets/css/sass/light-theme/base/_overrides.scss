@@ -1189,10 +1189,10 @@ media 1024px
     .live-player{margin-top:0px!important;}
     .header__logo{
         margin-left: 0px;
-        width:150px;
-        max-width:150px;
-        height:150px;
-        top:-60px;
+        width:120px;
+        max-width:120px;
+        height:120px;
+        top:-40px;
 
     }
 
@@ -1201,7 +1201,7 @@ media 1024px
 
 
 
-    .header__nav {padding-left: 20px;}
+    .header__nav {padding-left: 128px;}
     .header__nav li {
         font-weight: 800;
         text-transform: uppercase;
@@ -1238,16 +1238,23 @@ media 1175px
 -----------------------------------*/
 @media screen and (min-width:1175px) {
 
-.header__nav {padding-left: 220px;}
-.header__nav>ul>li {padding-right: 5px;}
+  .header__logo{
+      margin-left: 0px;
+      width:150px;
+      max-width:150px;
+      height:150px;
+      top:-60px;
 
+  }
 
+  .header__nav {padding-left: 220px;}
+  .header__nav>ul>li {padding-right: 5px;}
 
     /*.ad__leaderboard.desktop {float: right;margin: 10px 100px 10px 0;}*/
 
-    .show__mini-nav .show__header {
-      padding-left: 225px;
-    }
+  .show__mini-nav .show__header {
+    padding-left: 225px;
+  }
 
 }
 

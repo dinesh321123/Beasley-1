@@ -13,7 +13,7 @@
  */
 
  // Useful global constants
-define( 'WBOS_ALT929BOSTON_VERSION', '0.3.6' ); /* Version bump by Steve Meyers 7/11/2016 @ 1:00 p.m. EST */
+define( 'WBOS_ALT929BOSTON_VERSION', '0.3.7' ); /* Version bump by Steve Meyers 7/11/2016 @ 1:00 p.m. EST */
 
  /**
   * Set up theme defaults and register supported WordPress features.
