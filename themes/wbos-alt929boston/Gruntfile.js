@@ -11,7 +11,7 @@ module.exports = function( grunt ) {
 		sass:   {
 			all: {
 				files: {
-					'assets/css/wbos_alt929boston.css': 'assets/css/sass/wbos_alt929boston_light.scss'
+					'assets/css/wbos.css': 'assets/css/sass/wbos_light.scss'
 				}
 			}
 		},
@@ -20,7 +20,7 @@ module.exports = function( grunt ) {
 			minify: {
 				expand: true,
 				cwd: 'assets/css/',
-				src: ['wbos_alt929boston.css'],
+				src: ['wbos.css'],
 				dest: 'assets/css/',
 				ext: '.min.css'
 			}
