@@ -5561,6 +5561,9 @@ Link posts contain a link to an external site. They can also optionally have a f
 .article__comments {
   margin: 3em 0; }
 
+.article__author {
+  display: none; }
+
 .ad-unit--300--250 {
   position: relative;
   height: 250px;
@@ -5587,6 +5590,7 @@ Link posts contain a link to an external site. They can also optionally have a f
 ---
 title: Live Player
 name: live-player
+category: Components
 category: Components
 ---
 
@@ -9106,6 +9110,9 @@ category: Components - Ads
   padding: 0 0 2.25em; }
   .tribe-events-list .type-tribe_events .entry2__meta p {
     margin: 0; }
+
+.tribe-events-single-event-author {
+  display: none; }
 
 /*doc
 ---
