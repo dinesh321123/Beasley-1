@@ -366,6 +366,7 @@ a.contest-attr--rules-toggler.pjax-exclude:hover {
 .header {
     background-color: #004f92;
     background-image: url("../../images/hdr_Radio929_Full.png");
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: left top;
 }
@@ -749,7 +750,6 @@ media 768px
     }
     .header {
         background-color: transparent;
-        background-image: url("../../images/hdr_Radio929_Full215.png");
         background-position: center top;
         -webkit-animation-name: no_name;
         animation-name: no_name;
