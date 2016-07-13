@@ -15738,10 +15738,10 @@ media 768px
       font-family: 'Oswald', sans-serif;
       font-size: 1.15em; }
     .live-stream .live-stream__now-playing--btn:after {
-      content: ' on\a Radio 92.9';
+      content: ' on\a Alt 92.9 Boston';
       white-space: pre; }
     .live-stream .live-stream__listen-now--btn:after, .live-stream .podcast__rss:after {
-      content: ' to\a Radio 92.9';
+      content: ' to\a Alt 92.9 Boston';
       white-space: pre; }
   .live-link__song {
     transition: all 200ms ease-in-out;
