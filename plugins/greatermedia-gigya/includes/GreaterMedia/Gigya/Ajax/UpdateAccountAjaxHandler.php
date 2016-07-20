@@ -19,8 +19,6 @@ class UpdateAccountAjaxHandler extends AjaxHandler {
 			$user_id              = get_gigya_user_id();
 			$emma_group_sync_task = new EmmaGroupSyncTask();
 			$emma_group_sync_task->enqueue( array( 'user_id' => $user_id ) );
-
-			wp_mail( 'elliottstocks@get10up.com', 'Emma Debug', sprintf( 'Updating Emma Account: %s', $user_id ) );
 			
 			$transient = 'gigya_user_profile_' . $user_id;
 			delete_transient( $transient );

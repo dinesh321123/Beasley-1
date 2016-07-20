@@ -33,21 +33,6 @@ class EmmaGroupSyncer {
 		$this->remove_user_from_groups( $emma_user_id, $published_group_ids );
 		$this->add_user_to_groups( $emma_user_id, $user_group_ids );
 
-		error_log( sprintf(
-			'[Emma Debug] Syncing Emma user: %s. Published Groups: %s, User Groups: %s',
-			$emma_user_id,
-			print_r( $published_group_ids, true ),
-			print_r( $user_group_ids, true )
-		), 1, 'elliottstocks@get10up.com' );
-
-		wp_mail( 'elliottstocks@get10up.com', 'Emma Debug', sprintf(
-			'[Emma Debug] Syncing Emma user: %s. Published Groups: %s, User Groups: %s',
-			$emma_user_id,
-			print_r( $published_group_ids, true ),
-			print_r( $user_group_ids, true ) )
-		);
-
-
 		$this->update_gigya_account_data();
 	}
 
@@ -280,14 +265,6 @@ class EmmaGroupSyncer {
 
 			$signup_method = true;
 		}
-
-		error_log( sprintf(
-			'[Emma Debug] Emma User ID: %s, Member Array %s, Group IDs %s, Used signup method? %s',
-			$emma_user_id,
-			print_r( $member, true ),
-			print_r( $group_ids, true ),
-			$signup_method
-		), 1, 'elliottstocks@get10up.com' );
 
 		return true;
 	}

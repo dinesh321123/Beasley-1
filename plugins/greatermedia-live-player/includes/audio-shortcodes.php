@@ -156,10 +156,12 @@ class GMR_Audio_Shortcodes {
 		if ( $parent_podcast_id ) {
 			$parent_podcast = get_post( $parent_podcast_id );
 			$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
+			$google_play_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_google_play_url', true );
 		}
 
 		if ( $is_podcast_archive ) {
 			$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
+			$google_play_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_google_play_url', true );
 			$episode_date = strtotime( get_post_field( 'post_date', null ) );
 		}
 
@@ -234,6 +236,9 @@ class GMR_Audio_Shortcodes {
 					if ( $itunes_url != '' ) {
 						$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 					}
+					if ( $google_play_url != '' ) {
+						$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $google_play_url ) . '" target="_blank">Subscribe in Google Play</a>';
+					}
 					$new_html .= self::filter_episode_content(
 						$post_id,
 						'<a class="podcast__rss" href="' . esc_url( $feed_url ) . '" target="_blank">Podcast Feed</a>'
@@ -264,6 +269,9 @@ class GMR_Audio_Shortcodes {
 			if ( $itunes_url != '' ) {
 				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
 			}
+			if ( $google_play_url != '' ) {
+				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $google_play_url ) . '" target="_blank">Subscribe in Google Play</a>';
+			}
 
 		} else {
 			$new_html .= '<h3 class="podcast__title">' . esc_html( $title ) . '</h3>';
@@ -277,6 +285,9 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '<div class="podcast__parent"><div class="podcast__parent--title"><a href="' . esc_url( get_permalink( $parent_podcast->ID ) ) . '">' . esc_html( $parent_podcast->post_title ) . '</a></div>';
 			if ( $itunes_url != '' ) {
 				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $itunes_url ) . '" target="_blank">Subscribe in iTunes</a>';
+			}
+			if ( $google_play_url != '' ) {
+				$new_html .= '<a class="podcast__subscribe" href="' . esc_url( $google_play_url ) . '" target="_blank">Subscribe in Google Play</a>';
 			}
 			$new_html .= self::filter_episode_content(
 				$post_id,
