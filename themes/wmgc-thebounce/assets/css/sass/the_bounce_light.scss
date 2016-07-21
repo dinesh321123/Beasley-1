@@ -1,0 +1,23 @@
+/**
+ * 105.1 The Bounce
+ * http://greatermedia.com
+ *
+ * Copyright (c) 2016 Steve Meyers
+ * Licensed under the GPLv2+ license.
+ */
+
+/**
+ * Overides variables from the parent theme
+ */
+@import "light-theme/base/variables";
+
+/**
+ * Imports Sass files from the parent theme
+ */
+@import "../../../../greatermedia/assets/css/sass/greater_media.scss";
+
+/**
+ * Misc overides for the child theme
+ */
+@import "light-theme/base/overrides";
+@import "light-theme/components/liveplayer";
