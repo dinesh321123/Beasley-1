@@ -21,7 +21,7 @@ if ( defined( 'GMR_THEFANATIC_ENV' ) && 'dev' == GMR_THEFANATIC_ENV ) {
 	// So that things like cloudflare don't hold on to our css during dev
 	define( 'THEFANATIC_VERSION', time() );
 } else {
-	define( 'THEFANATIC_VERSION', '0.3.3' ); /* Version bump by Steve 5/10/2016 @ 11:00 a.m. EST */
+	define( 'THEFANATIC_VERSION', '0.3.4' ); /* Version bump by Steve 6/24/2016 @ 11:00 a.m. EST */
 }
 
 /**

@@ -1349,10 +1349,10 @@ blockquote p {
 
 .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited, .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited {
   display: block;
-  padding: 34px 1em 33px; }
+  padding: 34px .5em 33px; }
   @media screen and (min-width: 1200px)  {
     .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited, .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited {
-      padding: 33px 1.125em 32px; } }
+      padding: 33px .5em 32px; } }
   .news-site .header__nav ul li a, .news-site .header__nav ul li a:link, .news-site .header__nav ul li a:visited, .news-site .header__account ul li a, .news-site .header__account ul li a:link, .news-site .header__account ul li a:visited {
     padding-top: 32px;
     padding-bottom: 31px;
@@ -3819,7 +3819,7 @@ a.highlights__contest--btn {
 
 .header__social {
   display: none; }
-  @media screen and (min-width: 1024px)  {
+  @media screen and (min-width: 1400px)  {
     .header__social {
       display: block;
       float: right;
@@ -3873,7 +3873,7 @@ a.highlights__contest--btn {
 
 .header__search--span {
   display: none; }
-  @media screen and (min-width: 768px)  {
+  @media screen and (min-width: 1400px)  {
     .header__search--span {
       display: block;
       float: left;
@@ -15792,7 +15792,7 @@ media 1024px
     font-weight: 800;
     text-transform: uppercase; }
   .header__account ul li a, .header__account ul li a:link, .header__account ul li a:visited, .header__nav ul li a, .header__nav ul li a:link, .header__nav ul li a:visited {
-    padding: 33px 1.125em 32px; }
+    padding: 33px .5em 32px; }
   .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .header__nav ul li.active a:focus, .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover, .ui-menu .ui-state-focus {
     background-color: #114598; }
   .header__account--links.sub-menu, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul.header__account--links, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .header__nav .format-fw > ul, .header__nav .format-sp > ul, .header__nav .format-fi > ul, .ui-menu {
@@ -15809,11 +15809,8 @@ media 1024px
       color: #fff; }
   .header__main .header__social {
     float: right; }
-    .header__main .header__social a.social__link {
-      padding: 1em 0;
-      font-size: 1.65em; }
-      .header__main .header__social a.social__link:hover {
-        color: #a8d6f7; }
+    .header__main .header__social a.social__link:hover {
+      color: #a8d6f7; }
   .header__account:hover {
     background-color: #114598; }
   .header__main a:hover {

@@ -32,11 +32,12 @@ get_header(); ?>
 						<div class="episode__buttons">
 							<?php
 
-							$itunes_url = $parent_podcast = false;
+							$itunes_url = $google_play_url = $parent_podcast = false;
 							$parent_podcast_id = wp_get_post_parent_id( get_the_ID() );
 							if ( $parent_podcast_id ) {
 								$parent_podcast = get_post( $parent_podcast_id );
 								$itunes_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_itunes_url', true );
+								$google_play_url = get_post_meta( $parent_podcast_id, 'gmp_podcast_google_play_url', true );
 							}
 
 							$downloadable = get_post_meta( get_the_ID(), 'gmp_audio_downloadable', true );

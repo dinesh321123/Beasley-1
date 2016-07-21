@@ -15,6 +15,7 @@ get_header(); ?>
 		if ( ! $feed_url || $feed_url == '' || strlen( $feed_url ) == 0 ) {
 			$feed_url = home_url( '/' ) . '?feed=podcast&podcast_series=' . $post->post_name;
 		}
+		$google_play_url = get_post_meta( $post->ID, 'gmp_podcast_google_play_url', true );
 		?>
 		<div class="container">
 
@@ -34,6 +35,12 @@ get_header(); ?>
 							?>
 							<a class="podcast__subscribe" href="<?php echo esc_url( $itunes_url ); ?>" target="_blank">Subscribe
 								in iTunes</a>
+						<?php
+						}
+						if ( $google_play_url != '' ) {
+							?>
+							<a class="podcast__subscribe" href="<?php echo esc_url( $google_play_url ); ?>" target="_blank">Subscribe
+								in Google Play</a>
 						<?php
 						}
 						?>

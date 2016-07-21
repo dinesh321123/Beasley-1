@@ -16,7 +16,7 @@ class GMP_Meta {
 
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_submitbox_misc_actions' ) );
 		add_action( 'save_post', array( $this, 'save_episode_meta_box' ) );
-		
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
 
 	}
@@ -145,6 +145,9 @@ class GMP_Meta {
 		// Sanitize and save the user input.
 		update_post_meta( $post_id, 'gmp_podcast_itunes_url', esc_url_raw( $itunes_url ) );
 
+		$google_play_url = esc_url_raw( $_POST[ 'gmp_podcast_google_play_url' ] );
+		// Sanitize and save the user input.
+		update_post_meta( $post_id, 'gmp_podcast_google_play_url', esc_url_raw( $google_play_url ) );
 
 		$gmp_subtitle =  sanitize_text_field( $_POST['gmp_subtitle'] );
 		update_post_meta( $post_id, 'gmp_subtitle', $gmp_subtitle );
@@ -214,6 +217,7 @@ class GMP_Meta {
 
 		// Use get_post_meta to retrieve an existing value from the database.
 		$itunes_url = esc_url( get_post_meta( $post->ID, 'gmp_podcast_itunes_url', true ) );
+		$google_play_url = esc_url( get_post_meta( $post->ID, 'gmp_podcast_google_play_url', true ) );
 		$gmp_subtitle = sanitize_text_field( get_post_meta( $post->ID, 'gmp_subtitle', true ) );
 		$gmp_explicit = sanitize_text_field( get_post_meta( $post->ID, 'gmp_explicit', true ) );
 		$gmp_category = sanitize_text_field( get_post_meta( $post->ID, 'gmp_category', true ) );
@@ -226,6 +230,13 @@ class GMP_Meta {
 			<div class="gmp-meta-row-content gmp-upload">
 					<label for="gmp_podcast_itunes_url" class="gmp-meta-row-label"><?php _e( 'iTunes Feed URL:', 'gmpodcasts' ); ?></label>
 					<input type="text" id="gmp_podcast_itunes_url" name="gmp_podcast_itunes_url" value="<?php echo esc_url( $itunes_url ); ?>"/>
+			</div>
+		</div>
+		<br>
+		<div class="gmp-meta-row">
+			<div class="gmp-meta-row-content gmp-upload">
+					<label for="gmp_podcast_google_play_url" class="gmp-meta-row-label"><?php _e( 'Google Play Feed URL:', 'gmpodcasts' ); ?></label>
+					<input type="text" id="gmp_podcast_google_play_url" name="gmp_podcast_google_play_url" value="<?php echo esc_url( $google_play_url ); ?>"/>
 			</div>
 		</div>
 		<br>
@@ -269,7 +280,7 @@ class GMP_Meta {
 				<?php echo '<span class="description">' . sprintf( __( 'Your podcast\'s category - use one of the first-tier categories from %1$sthis list%2$s.' , 'ss-podcasting' ) , '<a href="' . esc_url( 'http://www.apple.com/itunes/podcasts/specs.html#categories' ) . '" target="' . esc_attr( '_blank' ) . '">' , '</a>' ) . '</span>'; ?>
 			</div>
 		</div>
-		<br>		
+		<br>
 		<div class="gmp-meta-row">
 			<div class="gmp-meta-row-content gmp-upload">
 				<label for="gmp_sub_category" class="gmp-meta-row-label">

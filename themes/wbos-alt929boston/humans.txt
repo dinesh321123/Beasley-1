@@ -1,0 +1,9 @@
+/* TEAM */
+	Developer: Denis Prindeville
+	Contact:   dprindeville@greatermediaboston.com
+	URI:       
+
+/* THANKS */
+	Template Design: 10up
+	URI:             http://10up.com
+	Twitter:         @10up

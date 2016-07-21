@@ -151,7 +151,7 @@
 
 /* -----------------------------------------
 
-	begin Denis Overrides for Country 102.5 
+	begin Denis Overrides for Country 102.5
 
 -------------------------------------------*/
 @import url(http://fonts.googleapis.com/css?family=Oswald:400,700);
@@ -371,7 +371,7 @@
 
 .home__featured {
 
- 
+
     background:url(../../images/home-featured.png);
     .featured__article--heading {
         color: #FFFFFF;   font-family: 'Ubuntu', sans-serif;
@@ -409,7 +409,7 @@
 			background:linear-gradient(to bottom,rgba(47,147,255,1) 10%,rgba(0,71,148,1) 100%);
 			/* W3C */
 			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ce1141',endColorstr='#004794',GradientType=0);
-			/* IE6-9 */       
+			/* IE6-9 */
 
 
         color: #fff;
@@ -419,7 +419,7 @@
 
 
     .featured__content--block {
-        
+
 			background:-moz-linear-gradient(top,rgba(0,71,148,1) 75%,rgba(47,147,255,1) 100%);
 			/* FF3.6+ */
 			background:-webkit-gradient(linear,left top,left bottom,color-stop(75%,rgba(0,71,148,1)),color-stop(100%,rgba(47,147,255,1)))!important;
@@ -436,7 +436,7 @@
 			/* IE6-9 */
 
         &:hover{
-            
+
         	background:-moz-linear-gradient(top,rgba(47,147,255,1) 75%,rgba(0,71,148,1) 100%);
 			/* FF3.6+ */
 			background:-webkit-gradient(linear,left top,left bottom,color-stop(75%,rgba(47,147,255,1)),color-stop(100%,rgba(0,71,148,1)))!important;
@@ -453,7 +453,7 @@
 			/* IE6-9 */
 
 
-            
+
         }
         .featured__content--title  {
         	overflow: visible;
@@ -461,7 +461,7 @@
     }
 
     .featured__content--block:hover .featured__content--title {
-             
+
         color: #fff;
         text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
         overflow: visible!important;
@@ -571,13 +571,13 @@
 
 	.live-player__container {
 		border-top: 1px solid white;
-		
+
 		background-image:url(../../images/live-links.png);
 	}
 
 	.live-stream__login{
 
-		background-color: #ce1141;	
+		background-color: #ce1141;
 	}
 
 	.live-stream__btn--play,.live-stream__btn--loading,.live-stream__btn--pause,.live-stream__btn--resume {
@@ -591,7 +591,7 @@
 	}
   	.live-links{
 		background-image:url(../../images/live-links.png);
-		
+
 		background-repeat: repeat;
 		background-color: transparent;
 		border-top: 2px solid #fff;
@@ -601,7 +601,7 @@
 	.live-player--open .live-links{
 	  padding-bottom: 40px;
 	  padding-top: 40px;
-	  margin-top: 0px; 
+	  margin-top: 0px;
 	}
 
 
@@ -665,14 +665,14 @@
 	}
 
 	.show__header.has-thumbnail:before {
-	 
+
 	  background-image: linear-gradient(to bottom, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
 	  background-image: -moz-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
 	  background-image: -o-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
 	  background-image: -ms-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
 	  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 71, 148, 0.7)), to(rgba(0, 71, 148, 0.7)));
 	  background-image: -webkit-linear-gradient(top, rgba(0, 71, 148, 0.7), rgba(0, 71, 148, 0.7));
-	  
+
 	}
 
 	.contest-attr--rules-toggler {
@@ -767,7 +767,7 @@
 				&.BLUE {
 				color:#084694;
 				}
-	}	
+	}
 /* End header options */
 
 .article__header {
@@ -784,7 +784,7 @@
 }
 
 
-	
+
 time.show__feature--date {
 	display: none;
 }
@@ -798,7 +798,7 @@ time.show__feature--date {
 		font-weight: 700;
         &:hover {
             color:#ce1141;
-            
+
         }
     }
 }
@@ -811,7 +811,7 @@ time.show__feature--date {
         font-size: 1.50em;
         &:hover {
             color:#ce1141;
-            
+
         }
     }
 }
@@ -878,8 +878,8 @@ media 768px
 
 
 	.article__header {
-		
-		.article__author {		
+
+		.article__author {
 			font-size: 16px;
 		}
 	}
@@ -920,7 +920,7 @@ media 768px
 	.header__nav .sub-menu li {
 		font-weight:600
 	}
-	
+
 	.header__account ul li a:active,.header__account ul li a:focus,.header__account ul li a:hover,.header__account ul li:hover,.header__nav ul li a:active,.header__nav ul li a:focus,.header__nav ul li.active,.header__nav ul li.active a:hover,.header__nav ul li.active a:focus,.mobile-nav__list a:active,.mobile-nav__list a:focus,.mobile-nav__list a:hover,.ui-menu .ui-state-focus {
 		background-color:#ce1141;
 	}
@@ -980,7 +980,7 @@ media 768px
 	}
 
 	.live-stream__login{
-		background-color: transparent;	
+		background-color: transparent;
 		color: #fff;
   		font-family: 'Architects Daughter', cursive;
   		font-size: 1em;
@@ -1041,7 +1041,7 @@ media 768px
 	}
 
 	.live-player--active .now-playing {
-  		
+
   		padding: 50px 1em 0;
   	}
 
@@ -1080,7 +1080,7 @@ media 768px
 		height: 100%;
 	}
 
-	.now-playing__title{	
+	.now-playing__title{
 		color: #fff;
   		font-family: 'Architects Daughter', cursive;
   		font-size: 1em;
@@ -1088,7 +1088,7 @@ media 768px
   		text-transform: uppercase;
 	}
 
-	.now-playing__artist{	
+	.now-playing__artist{
 		color: #fff;
   		font-family: 'Architects Daughter';
   		font-size: 1em;
@@ -1232,7 +1232,7 @@ media 1175px
 	.ad__leaderboard.desktop{
 		margin-right: 100px;
 	}
-	
+
 
 }
 
@@ -1242,7 +1242,7 @@ media 1252px
 -----------------------------------*/
 @media screen and (min-width: 1252px) {
 	.header__account ul li a,.header__account ul li a:link,.header__account ul li a:visited,.header__nav ul li a,.header__nav ul li a:link,.header__nav ul li a:visited {
-		padding:33px .70em 32px
+		padding:33px .5em 32px
 	}
 
 	.header__logo {

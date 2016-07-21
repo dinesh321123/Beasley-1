@@ -287,10 +287,10 @@
 .header__account ul li a:link,
 .header__account ul li a:visited, {
 	display: block;
-	padding: 34px 1em 33px;
+	padding: 34px .5em 33px;
 
 	@include bp(larger) {
-		padding: 33px 1.125em 32px;
+		padding: 33px .5em 32px;
 	}
 
 	.news-site & {

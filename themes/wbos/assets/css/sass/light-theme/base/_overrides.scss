@@ -192,7 +192,7 @@ Denis Changes to _overrides.scss file 5/20
 /*Show header and link */
 
 .show__mini-nav {
-        .show__header.has-thumbnail:before {           
+        .show__header.has-thumbnail:before {
         background-image: linear-gradient(to bottom,rgba(0,84,150,1),rgba(0,84,150,1));
         background-image: -moz-linear-gradient(top,rgba(0,84,150,1),rgba(0,84,150,1));
         background-image: -o-linear-gradient(top,rgba(0,84,150,1),rgba(78,132,192,1));
@@ -200,9 +200,9 @@ Denis Changes to _overrides.scss file 5/20
         background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,84,150,1)),to(rgba(0,84,150,1)));
         background-image: -webkit-linear-gradient(top,rgba(0,84,150,1),rgba(0,84,150,1));
         content: " ";
-        }  
-         
-        .show__header { 
+        }
+
+        .show__header {
             padding: 3px;
         }
 }
@@ -536,7 +536,7 @@ h2.entry2__title a:hover{color: #f58426;}
       background:linear-gradient(to bottom,rgba(30,119,215,1) 10%,rgba(0,71,148,1) 100%);
       /* W3C */
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ce1141',endColorstr='#004794',GradientType=0);
-      /* IE6-9 */       
+      /* IE6-9 */
 
 
         color: #fff;
@@ -546,16 +546,16 @@ h2.entry2__title a:hover{color: #f58426;}
 
 
     .featured__content--block {
-        
+
       border-radius: 0;
       -moz-border-radius: 0;
       -webkit-border-radius: 0;
       height: 100%;
-      
+
         background-color: #0e2242;
 
         &:hover{
-            
+
           background:-moz-linear-gradient(top,rgba(30,119,215,1) 75%,rgba(0,71,148,1) 100%);
       /* FF3.6+ */
       background:-webkit-gradient(linear,left top,left bottom,color-stop(75%,rgba(30,119,215,1)),color-stop(100%,rgba(0,71,148,1)))!important;
@@ -572,7 +572,7 @@ h2.entry2__title a:hover{color: #f58426;}
       /* IE6-9 */
 
 
-            
+
         }
         .featured__content--title  {
           overflow: visible;
@@ -585,7 +585,7 @@ h2.entry2__title a:hover{color: #f58426;}
     }
 
     .featured__content--block:hover .featured__content--title {
-             
+
         color: #fff;
         text-shadow: 2px 2px 1px rgba(9, 32, 64, .7);
         overflow: visible!important;
@@ -611,7 +611,7 @@ font-family: 'Ubuntu', sans-serif ;
 font-weight: 700;
         &:hover {
             color:#f58325;
-            
+
         }
     }
 }
@@ -619,13 +619,13 @@ font-weight: 700;
 .show__feature--secondary {
 
     .show__feature--desc h3 {
-        font-family: 'Ubuntu', sans-serif ; 
+        font-family: 'Ubuntu', sans-serif ;
         font-weight: 500;
         color: #002a6e;
         font-size: 1.50em;
         &:hover {
             color:#f58325;
-            
+
         }
     }
 }
@@ -1016,7 +1016,7 @@ media 1252px
     .header__nav ul li a:link,
     .header__nav ul li a:visited {
 
-        padding: 33px .7em 32px;
+        padding: 33px .5em 32px;
     }
 
 

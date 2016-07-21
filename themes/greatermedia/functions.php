@@ -20,7 +20,7 @@
 if ( defined( 'GMR_PARENT_ENV' ) && 'dev' == GMR_PARENT_ENV ) {
 	define( 'GREATERMEDIA_VERSION', time() );
 } else {
-	define( 'GREATERMEDIA_VERSION', '1.3.2' ); /* Version bump by Steve 5/9/2016 @ 10:00 a.m. EST */
+	define( 'GREATERMEDIA_VERSION', '1.3.4' ); /* Version bump by Steve 6/24/2016 @ 11:00 a.m. EST */
 }
 
 add_theme_support( 'homepage-curation' );
@@ -37,11 +37,19 @@ require_once( __DIR__ . '/includes/category-options.php' );
 require_once( __DIR__ . '/includes/class-favicon.php' );
 require_once( __DIR__ . '/includes/iframe-embed.php' );
 require_once( __DIR__ . '/includes/flexible-feature-images/gmr-flexible-feature-images.php' );
+require_once( __DIR__ . '/includes/auction-nudge/gmr-auction-nudge.php' );
 
 /**
  * Required files
  */
 require_once( __DIR__ . '/includes/gm-tinymce/loader.php');
+
+/**
+ * WP-CLI commands.
+ */
+if ( defined( 'WP_CLI' ) && WP_CLI && file_exists( __DIR__ . '/includes/gmr-db-cli.php' ) ) {
+	include __DIR__ . '/includes/gmr-db-cli.php';
+}
 
 /**
  * Set up theme defaults and register supported WordPress features.
