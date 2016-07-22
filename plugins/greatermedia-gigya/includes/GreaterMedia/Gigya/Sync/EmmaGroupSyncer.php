@@ -186,6 +186,7 @@ class EmmaGroupSyncer {
 			$gigya_account                          = $this->get_gigya_account();
 			$gigya_account_data                     = $gigya_account['data'];
 			$gigya_account_data['subscribedToList'] = $this->get_user_group_ids();
+			$gigya_account_data['EmmaSync']         = true;
 
 			$this->new_gigya_account_data = $gigya_account_data;
 		}
