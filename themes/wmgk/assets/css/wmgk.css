@@ -8783,6 +8783,13 @@ category: Components - Ads
     .contest__submission .contest__submission--thumbnail {
       height: 117px; } }
 
+.fb-field-wrapper .label_image, .contest__form--row .label_image {
+  width: 100%;
+  height: auto; }
+
+.fb-field-wrapper audio, .contest__form--row audio {
+  width: 100%; }
+
 /**
  * @file override some default styles in the jQuery UI datepicker so it looks less broken
  * taken from contests plugin to reduce load

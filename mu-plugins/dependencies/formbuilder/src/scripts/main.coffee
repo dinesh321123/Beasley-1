@@ -402,6 +402,9 @@ class Formbuilder
       MAXLENGTH: 'field_options.maxlength'
       LENGTH_UNITS: 'field_options.min_max_length_units'
       STICKY: 'sticky'
+      AUDIO: 'field_options.audio'
+      IMAGE: 'field_options.image'
+      LINK: 'field_options.link'
 
     dict:
       ALL_CHANGES_SAVED: 'All changes saved'

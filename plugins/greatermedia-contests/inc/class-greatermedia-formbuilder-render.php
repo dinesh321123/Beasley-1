@@ -326,12 +326,23 @@ class GreaterMediaFormbuilderRender {
 		);
 
 		$label = ( isset( $field->label ) ) ? esc_html( $field->label ) : '';
+		$audio = ( isset( $field->field_options->audio ) ) ? esc_html( $field->field_options->audio ) : '';
+		$image = ( isset( $field->field_options->image ) ) ? esc_html( $field->field_options->image ) : '';
+		$link = ( isset( $field->field_options->link ) ) ? esc_html( $field->field_options->link ) : '';
 
 		// Give the theme a chance to alter the attributes for the input field
 		$attributes = apply_filters( 'gm_form_text_label_attrs', $attributes );
 		$attributes = apply_filters( 'gm_form_label_attrs', $attributes );
-		$label                = apply_filters( 'gm_form_text_label_text', $label );
-		$label                = apply_filters( 'gm_form_label_text', $label );
+		$label = apply_filters( 'gm_form_text_label_text', $label );
+		$label = apply_filters( 'gm_form_label_text', $label );
+		$audio = apply_filters( 'gm_form_text_label_audio_text', $audio );
+		$audio = apply_filters( 'gm_form_label_audio_text', $audio );
+		$image = apply_filters( 'gm_form_text_label_audio_text', $image );
+		$image = apply_filters( 'gm_form_label_audio_text', $image );
+		$link = apply_filters( 'gm_form_text_label_audio_text', $link );
+		$link = apply_filters( 'gm_form_label_audio_text', $link );
+		$image = esc_html( $image );
+		$link = esc_html( $link );
 
 		if ( ! empty( $label ) ) {
 
@@ -349,6 +360,38 @@ class GreaterMediaFormbuilderRender {
 
 		}
 
+		if ( !empty( $image ) ) {
+
+			$html .= '<p>';
+
+			if ( !empty( $link ) ) {
+				$html .= '<a target="_blank" href="' . $link . '">';
+			}
+
+			$html .= '<img class="label_image" src="';
+
+			$html .= $image;
+
+			$html .= '"/>';
+
+			if ( !empty( $link ) ) {
+				$html .= '</a>';
+			}
+
+			$html .= '</p>';
+
+		}
+
+		if ( ! empty( $audio ) ) {
+
+			$html .= '<p><audio controls><source src="';
+
+			$html .= $audio;
+
+			$html .= '"></audio></p>';
+
+		}
+
 		return $html;
 	}
 
@@ -361,6 +404,10 @@ class GreaterMediaFormbuilderRender {
 	 */
 	public static function render_legend( stdClass $field ) {
 		$label = ( isset( $field->label ) ) ? $field->label : '';
+		$audio = ( isset( $field->field_options->audio ) ) ? esc_html( $field->field_options->audio ) : '';
+		$image = ( isset( $field->field_options->image ) ) ? esc_html( $field->field_options->image ) : '';
+		$link = ( isset( $field->field_options->link ) ) ? esc_html( $field->field_options->link ) : '';
+
 		$attributes = array(
 			'class' => 'contest__form--label',
 		);
@@ -370,7 +417,16 @@ class GreaterMediaFormbuilderRender {
 		$attributes = apply_filters( 'gm_form_label_attrs', $attributes );
 		$label = apply_filters( 'gm_form_text_label_text', $label );
 		$label = apply_filters( 'gm_form_label_text', $label );
+		$audio = apply_filters( 'gm_form_text_label_audio_text', $audio );
+		$audio = apply_filters( 'gm_form_label_audio_text', $audio );
+		$image = apply_filters( 'gm_form_text_label_audio_text', $image );
+		$image = apply_filters( 'gm_form_label_audio_text', $image );
+		$link = apply_filters( 'gm_form_text_label_audio_text', $link );
+		$link = apply_filters( 'gm_form_label_audio_text', $link );
 		$label = esc_html( $label );
+		$audio = esc_html( $audio );
+		$image = esc_html( $image );
+		$link = esc_html( $link );
 
 		$html = '';
 		if ( ! empty( $label ) ) {
@@ -383,6 +439,38 @@ class GreaterMediaFormbuilderRender {
 				$html .= $attribute . '="' . esc_attr( $value ) . '" ';
 			}
 			$html .= '>' . $label . '</legend>';
+		}
+
+		if ( !empty( $image ) ) {
+
+			$html .= '<p>';
+
+			if ( !empty( $link ) ) {
+				$html .= '<a target="_blank" href="' . $link . '">';
+			}
+
+			$html .= '<img class="label_image" src="';
+
+			$html .= $image;
+
+			$html .= '"/>';
+
+			if ( !empty( $link ) ) {
+				$html .= '</a>';
+			}
+
+			$html .= '</p>';
+
+		}
+
+		if ( ! empty( $audio ) ) {
+
+			$html .= '<p><audio controls><source src="';
+
+			$html .= $audio;
+
+			$html .= '"></audio></p>';
+
 		}
 
 		return $html;
@@ -407,7 +495,7 @@ class GreaterMediaFormbuilderRender {
 			foreach ( $attributes as $attribute => $value ) {
 				$html .= $attribute . '="' . esc_attr( $value ) . '" ';
 			}
-			$html .= ' >' . esc_html( $description ) . '</p>';
+			$html .= ' >' . $description . '</p>';
 		}
 
 		return $html;

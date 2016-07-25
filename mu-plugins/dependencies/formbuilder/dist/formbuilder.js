@@ -591,7 +591,10 @@
         MINLENGTH: 'field_options.minlength',
         MAXLENGTH: 'field_options.maxlength',
         LENGTH_UNITS: 'field_options.min_max_length_units',
-        STICKY: 'sticky'
+        STICKY: 'sticky',
+        AUDIO: 'field_options.audio',
+        IMAGE: 'field_options.image',
+        LINK: 'field_options.link'
       },
       dict: {
         ALL_CHANGES_SAVED: 'All changes saved',
@@ -888,7 +891,7 @@ function print() { __p += __j.call(arguments, '') }
 with (obj) {
 __p += '<label>\n  <input type=\'checkbox\' data-rv-checked=\'model.' +
 ((__t = ( Formbuilder.options.mappings.REQUIRED )) == null ? '' : __t) +
-'\' />\n  Required\n</label>\n\n<!-- Only display this field for contests. We use \'sticky\' for our only purposes, to save us adding additional mappings -->\n';
+'\' />\n  Required\n</label>\n\n<!-- Only display these fields for contests. We use \'sticky\' and \'admin_only\' for our own purposes, to save us adding additional mappings -->\n';
  if ( typeof typenow !== 'undefined' && 'contest' === typenow ) { ;
 __p += '\n\t<label>\n\t\t<br />\n\t \t<input type=\'checkbox\' data-rv-checked=\'model.' +
 ((__t = ( Formbuilder.options.mappings.STICKY )) == null ? '' : __t) +
@@ -934,9 +937,15 @@ var __t, __p = '', __e = _.escape;
 with (obj) {
 __p += '<input type=\'text\' data-rv-input=\'model.' +
 ((__t = ( Formbuilder.options.mappings.LABEL )) == null ? '' : __t) +
-'\' />\n<textarea data-rv-input=\'model.' +
+'\' />\n<p>Optional:</p>\n<input type=\'text\' data-rv-input=\'model.' +
+((__t = ( Formbuilder.options.mappings.AUDIO )) == null ? '' : __t) +
+'\' placeholder=\'MP3 File\' />\n<input type=\'text\' data-rv-input=\'model.' +
+((__t = ( Formbuilder.options.mappings.IMAGE )) == null ? '' : __t) +
+'\' placeholder=\'Image File\' />\n<input type=\'text\' data-rv-input=\'model.' +
+((__t = ( Formbuilder.options.mappings.LINK )) == null ? '' : __t) +
+'\' placeholder=\'Image Link\' />\n<textarea data-rv-input=\'model.' +
 ((__t = ( Formbuilder.options.mappings.DESCRIPTION )) == null ? '' : __t) +
-'\'\n  placeholder=\'Add a longer description to this field\'></textarea>';
+'\'\n  placeholder=\'Add a longer description to this field\'></textarea>\n';
 
 }
 return __p
@@ -1199,6 +1208,18 @@ __p += '<label>\n  <span>' +
 __p += '\n    <abbr title=\'required\'>*</abbr>\n  ';
  } ;
 __p += '\n</label>\n';
+ if (rf.get(Formbuilder.options.mappings.IMAGE)) { ;
+__p += '\n<p>\n  <img class=\'label_image\' src=\'' +
+((__t = ( Formbuilder.helpers.simple_format(rf.get(Formbuilder.options.mappings.IMAGE)) )) == null ? '' : __t) +
+'\' />\n</p>\n';
+ } ;
+__p += '\n';
+ if (rf.get(Formbuilder.options.mappings.AUDIO)) { ;
+__p += '\n<p>\n  <audio controls><source src=\'' +
+((__t = ( Formbuilder.helpers.simple_format(rf.get(Formbuilder.options.mappings.AUDIO)) )) == null ? '' : __t) +
+'\' type=\'audio/mpeg\' ></audio>\n</p>\n';
+ } ;
+__p += '\n';
 
 }
 return __p

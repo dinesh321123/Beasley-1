@@ -65,6 +65,13 @@
   width: 100%;
   height: auto; }
 
+.fb-field-wrapper .label_image, .contest__form--row .label_image {
+  width: 100%;
+  height: auto; }
+
+.fb-field-wrapper audio, .contest__form--row audio {
+  width: 100%; }
+
 .feature-image-preference #feature-image-preference-value:before {
   font: normal 20px/1 'dashicons';
   content: '\f538';
