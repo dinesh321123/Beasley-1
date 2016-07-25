@@ -4,3 +4,13 @@
     <abbr title='required'>*</abbr>
   <% } %>
 </label>
+<% if (rf.get(Formbuilder.options.mappings.IMAGE)) { %>
+<p>
+  <img class='label_image' src='<%= Formbuilder.helpers.simple_format(rf.get(Formbuilder.options.mappings.IMAGE)) %>' />
+</p>
+<% } %>
+<% if (rf.get(Formbuilder.options.mappings.AUDIO)) { %>
+<p>
+  <audio controls><source src='<%= Formbuilder.helpers.simple_format(rf.get(Formbuilder.options.mappings.AUDIO)) %>' type='audio/mpeg' ></audio>
+</p>
+<% } %>

@@ -16,6 +16,10 @@ cd ../wbos
 npm update
 grunt
 
+cd ../wbos-alt929boston
+npm update
+grunt
+
 cd ../wbqt
 npm update
 grunt
@@ -45,6 +49,10 @@ npm update
 grunt
 
 cd ../wmgc
+npm update
+grunt
+
+cd ../wmgc-thebounce
 npm update
 grunt
 
