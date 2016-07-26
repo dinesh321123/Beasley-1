@@ -42,9 +42,10 @@ define( 'WMGC_VERSION', '0.1.0' );
  function wmgc_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-	wp_dequeue_style( 'greatermedia' );
+  wp_register_style('google-fonts-wmgc','//fonts.googleapis.com/css?family=Oswald:400,300,700',array(),null);
+  wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'wmgc', get_stylesheet_directory_uri() . "/assets/css/the_bounce{$postfix}.css", array(), WMGC_VERSION );
+	wp_enqueue_style( 'wmgc', get_stylesheet_directory_uri() . "/assets/css/the_bounce{$postfix}.css", array('google-fonts-wmgc'), WMGC_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'wmgc_scripts_styles', 20 );
 
