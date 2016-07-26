@@ -151,168 +151,347 @@
 }
 
 
-//Overrides for 1051thebounce - July 19, 2016 noon
+//Overrides for 1051thebounce - July 22, 2016 noon
 
-#site-wrap.site-wrap{background-image: url(../../images/bouncebgd.jpg);background-position: top center; }
-  #header.header{background-image: url(../../images/mastbg.jpg);background-size:cover;background-position: top center;}
+#site-wrap.site-wrap{background-color: transparent!important; background-image: none!important;}
+
+  #page-wrap.page-wrap{background-color: transparent!important; background-image: none!important;}
+
+  main.main{background-color: #000000!important; background-image: url(../../images/bouncebgd.jpg)!important;background-position: center top!important; background-repeat: no-repeat; }
+
+
+
+  #header.header{background-image: url(../../images/mastbg.jpg)!important;background-size:
+
+
+
+cover;background-position: top center;}
+
   .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul
+
+
 
 li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active
 
+
+
 a:hover, .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover, .ui-menu .ui-state-focus
+
 {
+
   background-color: #ff0000!important;
+
 }
+
     @media screen and (min-width: 400px) {
 
+
+
   .live-stream
+
   {background-image: url(../../images/playerbg.jpg)!important;background-repeat: no-repeat;
 
+
+
 background-color: #000000!important;}
+
   }
+
 .header__nav
+
 {
+
   padding-left: 220px;
+
+  font-family: 'Oswald', sans-serif!important;
+
+  text-transform: uppercase!important;
+
 }
+
+
+
+.header__main{background-color: #000!important;border-bottom: #000000!important;}
 
 
 
   @media screen and (min-width: 1400px) {
+
   .header__logo
+
 {
+
+
+
+
+
   float: left;
+
   display: block;
+
   margin-right: 2.35765%;
+
   width: 14.702%;
+
   padding-left: 18px;
+
 }
+
 .header__logo, .header__logo:last-child
+
 {
+
   margin-right: 0px;
+
 }
+
 .header__logo
+
 {
+
   background-size: contain;
+
   background-position: center top;
+
   border-top-width: 0px;
+
   border-right-width: 0px;
+
   border-bottom-width: 0px;
+
   border-left-width: 0px;
+
   border-top-style: solid;
+
   border-right-style: solid;
+
   border-bottom-style: solid;
+
   border-left-style: solid;
+
   border-top-color: #ffffff;
+
   border-right-color: #ffffff;
- border-bottom-color: #ffffff;
+
+  border-bottom-color: #ffffff;
+
   border-left-color: #ffffff;
+
   border-image-source: none;
+
   border-image-slice: 100% 100% 100% 100%;
+
   border-image-width: 1 1 1 1;
+
   border-image-outset: 0 0 0 0;
+
   border-image-repeat: stretch stretch;
+
   height: 140px;
+
   width: 228px;
+
   max-width: 228px;
+
   left: 0px;
+
   display: block;
+
   position: absolute;
+
   top: -70px;
+
   margin-top: 0px;
+
   margin-right: 0px;
+
   margin-bottom: 0px;
+
   margin-left: 0px;
+
   padding-top: 0px;
+
   padding-right: 0px;
+
   padding-bottom: 0px;
+
   padding-left: 0px;
-  z-index: 1000;
+
+ z-index: 1000;
+
     }}
 
+
+
   @media screen and (min-width: 1200px) {
+
   .header .container.container__leaderboard
+
+
 
   {background-image: url(../../images/artistmast.png)!important;background-position: top right!
 
+
+
 important;background-repeat: no-repeat!important;}
+
   }
-    .header__main
+
+    .header
+
   {border-bottom:  none!important;}
 
+
+
 .home__featured
-  {background-color: #dddddd;  background-image: none;}
+
+  {background-color: #dddddd!important;  background-image: none!important;}
+
+
 
   .featured__article:hover .featured__article--heading
- {color: #ffcccc!important;}
+
+  {color: #ffcccc!important;}
+
+
+
 
 
   .featured__content--block:hover .featured__content--title
+
 {color: #ffcccc!important;}
+
 .featured__content--block:hover .featured__content--btn
-{   background-color: #660000;
+
+{   background-color: #660000!important;
+
   border-top-color: #660000!important;
+
   border-right-color: #660000!important;
+
   border-bottom-color: #660000!important;
+
   border-left-color: #660000!important;
+
   color: #ffffff;
+
 }
+
  .featured__content--btn:focus, .featured__content--btn:hover
+
 {
+
   background-color: #660000!important;
+
   border-top-color: #660000!important;
+
   border-right-color: #660000!important;
+
   border-bottom-color: #660000!important;
+
   border-left-color: #660000!important;
+
   color: #ffcccc!important;
+
 }
+
+
 
  .featured__content--block:hover .featured__content--btn
+
   {color: #ffffff!important;background-color:#660000;}
 
+
+
 btn:hover
+
 {
+
   background-color: #660000!important;
+
   border-top-color: #660000!important;
+
   border-right-color: #660000!important;
+
   border-bottom-color: #660000!important;
+
   border-left-color: #660000!important;
+
   color: #ffffff;
+
 }
 
-.featured__content--block:active .featured__content--btn, .featured__content--block:hover .featured__content--btn, .featured__content--btn
+
+
+.featured__content--block:active .featured__content--btn, .featured__content--block:hover .featured__content--btn,
+
+
+
+.featured__content--btn
+
+
 
   {background-color: #660000!important;}
 
+
+
     .live-links
+
   {background-color: #ffffff!important;background-image: none!important;}
 
 
-
   .live-links--more
+
   {background-color: #000000!important;}
+
   #live-links.livelinks
+
   {background-color: #000000!important;}
+
+
+
+
 
 
 
 .live-player__container
+
 {
+
   background-image: none!important;
+
 }
+
+
 
 .on-air__show, .up-next__show
+
 {color: #ffffff!important;}
 
+
+
 .featured__article--content
+
 {
+
   background-color: #cc3333!important;
-}
-.home__featured .featured__article--content, .home__featured .featured__content--block
-{
-  background-color: #cc3333!important;
+
 }
 
-.home__featured .featured__article--content
+.home__featured .featured__article--content, .home__featured .featured__content--block
+
 {
+
   background-color: #cc3333!important;
+
+}
+
+
+
+.home__featured .featured__article--content
+
+{
+
+  background-color: #cc3333!important;
+
 }

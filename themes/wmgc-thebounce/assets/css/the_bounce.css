@@ -15143,11 +15143,21 @@ table.responsive tr:nth-of-type(even) {
   background-color: #fff; }
 
 #site-wrap.site-wrap {
-  background-image: url(../../images/bouncebgd.jpg);
-  background-position: top center; }
+  background-color: transparent !important;
+  background-image: none !important; }
+
+#page-wrap.page-wrap {
+  background-color: transparent !important;
+  background-image: none !important; }
+
+main.main {
+  background-color: #000000 !important;
+  background-image: url(../../images/bouncebgd.jpg) !important;
+  background-position: center top !important;
+  background-repeat: no-repeat; }
 
 #header.header {
-  background-image: url(../../images/mastbg.jpg);
+  background-image: url(../../images/mastbg.jpg) !important;
   background-size: cover;
   background-position: top center; }
 
@@ -15161,7 +15171,13 @@ table.responsive tr:nth-of-type(even) {
     background-color: #000000 !important; } }
 
 .header__nav {
-  padding-left: 220px; }
+  padding-left: 220px;
+  font-family: 'Oswald', sans-serif !important;
+  text-transform: uppercase !important; }
+
+.header__main {
+  background-color: #000 !important;
+  border-bottom: #000000 !important; }
 
 @media screen and (min-width: 1400px) {
   .header__logo {
@@ -15215,12 +15231,12 @@ table.responsive tr:nth-of-type(even) {
     background-position: top right !important;
     background-repeat: no-repeat !important; } }
 
-.header__main {
+.header {
   border-bottom: none !important; }
 
 .home__featured {
-  background-color: #dddddd;
-  background-image: none; }
+  background-color: #dddddd !important;
+  background-image: none !important; }
 
 .featured__article:hover .featured__article--heading {
   color: #ffcccc !important; }
@@ -15229,7 +15245,7 @@ table.responsive tr:nth-of-type(even) {
   color: #ffcccc !important; }
 
 .featured__content--block:hover .featured__content--btn {
-  background-color: #660000;
+  background-color: #660000 !important;
   border-top-color: #660000 !important;
   border-right-color: #660000 !important;
   border-bottom-color: #660000 !important;
