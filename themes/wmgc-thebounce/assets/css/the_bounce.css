@@ -15164,7 +15164,7 @@ main.main {
 .header__account ul li a:active, .header__account ul li a:focus, .header__account ul li a:hover, .header__account ul li:hover, .header__nav ul li a:active, .header__nav ul li a:focus, .header__nav ul li.active, .header__nav ul li.active a:hover, .mobile-nav__list a:active, .mobile-nav__list a:focus, .mobile-nav__list a:hover, .ui-menu .ui-state-focus {
   background-color: #ff0000 !important; }
 
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 768px) {
   .live-stream {
     background-image: url(../../images/playerbg.jpg) !important;
     background-repeat: no-repeat;
