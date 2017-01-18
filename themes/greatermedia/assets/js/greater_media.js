@@ -753,6 +753,8 @@
 	 * Default height for the live player
 	 */
 	function lpPosDefault() {
+		return; // Disabling code we may not need once the player is in the header or footer.
+
 		if (livePlayer !== null) {
 			if (body.classList.contains('logged-in')) {
 				livePlayer.style.top = wpAdminHeight + elemHeight(header) + 'px';
@@ -766,6 +768,8 @@
 	 * Adds a height to the live player based on the height of the sitewrap element minus the height of the header
 	 */
 	function lpHeight() {
+		return; // Disabling code we may not need once the player is in the header or footer.
+
 		if (livePlayer !== null) {
 			livePlayer.style.height = elemHeight(siteWrap) - elemHeight(header) + 'px';
 		}
@@ -804,6 +808,8 @@
 	 * All other states will cause the live player to have a height of 100%;.
 	 */
 	function getScrollPosition() {
+		return; // Disabling code we may not need once the player is in the header or footer.
+
 		if (window.innerWidth >= 768) {
 			scrollObject = {
 				x: window.pageXOffset,
@@ -835,6 +841,8 @@
 	 * deal with a window being resized.
 	 */
 	function livePlayerMobileReset() {
+		return; // Disabling code we may not need once the player is in the header or footer.
+
 		if (livePlayer !== null) {
 			if (livePlayer.classList.contains('live-player--init')) {
 				livePlayer.classList.remove('live-player--init');
@@ -852,6 +860,8 @@
 	 * deal with a window being resized.
 	 */
 	function livePlayerDesktopReset() {
+		return; // Disabling code we may not need once the player is in the header or footer.
+
 		if (body.classList.contains('live-player--open')) {
 			body.classList.remove('live-player--open');
 		}
