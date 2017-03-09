@@ -214,12 +214,12 @@ function greatermedia_dfp_footer() {
 								.build();
 						} else if ('dfp_ad_incontent_pos1' == slots[i][4] || 'dfp_ad_incontent_pos2' == slots[i][4]) {
 							sizeMapping = googletag.sizeMapping()
-								.addSize([1024, 200], [])
+								.addSize([768, 200], [])
 								.addSize([0, 0], [300, 250])
 								.build();
 						} else if ($(document.getElementById(slots[i][2])).parents('.widget_gmr-dfp-widget').length > 0) {
 							sizeMapping = googletag.sizeMapping()
-								.addSize([1024, 200], slots[i][1])
+								.addSize([768, 200], slots[i][1])
 								.addSize([0, 0], [])
 								.build();
 						}

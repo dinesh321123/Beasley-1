@@ -8038,8 +8038,9 @@ a.podcast__subscribe {
     border-width: 2px;
     width: 100%;
     height: 100%;
-    left: 0;
-    top: 0; }
+    /* Commented out by Steve on 3/9/17 to fix play button on inline audio
+				left: 0;
+				top: 0;*/ }
     .podcast-player--compact .podcast__btn--play:before,
     .podcast-player--compact .podcast__btn--pause:before {
       font-size: 150%; }

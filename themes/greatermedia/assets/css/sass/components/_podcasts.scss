@@ -351,7 +351,7 @@ a.podcast__subscribe {
 	border-width: 1px 0;
 	margin: 1.5em 0;
 	padding: 1em 0;
-	
+
 	.podcast__play,
 	.podcast__meta {
 		float: none;
@@ -359,28 +359,29 @@ a.podcast__subscribe {
 		width: auto;
 		vertical-align: middle;
 	}
-	
+
 	.podcast__play {
 		width: 1px;
-	}	
+	}
 		.podcast__cover {
 			width: 50px;
 			height: 50px;
 			padding: 0;
-		}			
-			.podcast__btn--play, 
+		}
+			.podcast__btn--play,
 			.podcast__btn--pause {
 				border-width: 2px;
 				width: 100%;
 				height: 100%;
+				/* Commented out by Steve on 3/9/17 to fix play button on inline audio
 				left: 0;
-				top: 0;
+				top: 0;*/
 				&:before {
 					font-size: 150%;
 				}
 			}
 		.podcast__runtime {
-			position: absolute; 
+			position: absolute;
 			right: 0;
 			top: .2em;
 			font-size: 20px;
@@ -388,22 +389,22 @@ a.podcast__subscribe {
 			color: $gray;
 			display: none;
 		}
-		
+
 	.podcast__meta {
 		display: table-cell;
 		vertical-align: middle;
-		padding-left: 1em; 
+		padding-left: 1em;
 	}
 		.podcast__title {
 			margin: 0;
 			font-size: ms(3);
 			line-height: 1.4;
 		}
-	
+
 	.gmr-mediaelement-fallback {
-		display: none; 
+		display: none;
 	}
-	
+
 	@include bp( medium ) {
 		.podcast-player {
 			padding: 1.5em .5em;
@@ -424,10 +425,10 @@ a.podcast__subscribe {
 				height: 80px;
 				padding: 0;
 			}
-				.podcast__btn--play, 
+				.podcast__btn--play,
 				.podcast__btn--pause, {
 					border-width: 3px;
-					
+
 					&:before {
 						font-size: 40px;
 					}
@@ -437,10 +438,10 @@ a.podcast__subscribe {
 				padding-right: 8em;
 			}
 				.podcast__title {
-					font-size: ms(5); 
+					font-size: ms(5);
 				}
 	}
-	
+
 	@include bp( large ) {
 		.podcast-player {
 			max-width: 60%;
@@ -586,11 +587,11 @@ a.podcast__subscribe {
 		@include bp(medium) {
 			margin-bottom: 0;
 		}
-		
+
 		a.podcast__subscribe,
 		a.podcast__rss {
 			vertical-align: text-bottom;
-		}	
+		}
 	}
 
 	.podcast__parent--title {
