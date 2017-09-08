@@ -13437,6 +13437,34 @@ article > .triton-song-history {
     background-repeat: no-repeat;
     background-color: #000000; } }
 
+.header__main.headroom {
+  background-color: transparent !important;
+  background-image: url("../../images/KKLZ-Top-Navigation8.jpg") !important;
+  background-position: top center;
+  background-size: cover;
+  background-repeat: no-repeat; }
+
+@media screen and (min-width: 768px) {
+  .header__main.headroom {
+    background-color: transparent !important;
+    background-image: url("../../images/KKLZ-Top-Navigation8.jpg") !important;
+    background-position: top center;
+    background-size: auto; } }
+
+.header__search {
+  color: #ffffff;
+  padding-top: 4px;
+  padding-right: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  text-transform: uppercase !important; }
+
+.header__nav ul li {
+  background-color: #ffc425; }
+
+.mobile-nav__toggle--span, .mobile-nav__toggle--span::after, .mobile-nav__toggle--span::before {
+  background-color: #ffffff !important; }
+
 .live-link__type--show {
   border-bottom-color: white;
   background: none; }
