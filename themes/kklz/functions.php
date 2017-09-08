@@ -12,7 +12,7 @@
  * @since 0.1.0
  */
 
-$version = '0.1.1';
+$version = '0.1.2';
 
 // If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
 if ( file_exists( __DIR__ . '/../.version.php' ) ) {
