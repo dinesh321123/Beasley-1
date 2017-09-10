@@ -24,3 +24,30 @@ a:hover .highlights__community--title
     }
 
 }
+//// September Updates - Made in Detroit
+
+.header__main.headroom
+{background-color: transparent!important;background-image: url(../../images/KOAS-Top-Navigation2.jpg)!important; background-position: top center;background-size: cover;background-repeat: no-repeat;}
+
+@media screen and (min-width: 768px)  {.header__main.headroom
+{background-color: transparent!important;background-image: url(../../images/KOAS-Top-Navigation2.jpg)!important; background-position: top center;background-size: auto;}}
+
+  .header__search
+{ color: #ffffff;
+  padding-top: 4px;
+  padding-right: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  text-transform: uppercase!important;}
+
+ .header__nav ul li
+{
+ background-color: #000000 ;
+}
+
+   .header__nav ul li a
+{ color: #ffffff!important;
+  }
+
+.mobile-nav__toggle--span, .mobile-nav__toggle--span::after, .mobile-nav__toggle--span::before
+  {background-color: #ffffff!important;}
