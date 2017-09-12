@@ -309,15 +309,17 @@ class BlogData {
 			self::log_variable( $args, "Query Args for Syndicate Now" );
 		}
 
+		self::log( "Site ID before switching: " . get_current_blog_id() );
+
 		// switch to content site
 		switch_to_blog( self::$content_site_id );
+
+		self::log( "Site ID after switching: " . get_current_blog_id() );
 
 		// get all postst matching filters
 		$wp_custom_query = new WP_Query( $args );
 
-		if ( self::$syndicate_now ) {
-			self::log_variable( $wp_custom_query, "Result of Query during Syndicate Now" );
-		}
+		self::log( "SQL Query: " . $wp_custom_query->request );
 
 		// get all metas
 		foreach ( $wp_custom_query->posts as $single_result ) {
