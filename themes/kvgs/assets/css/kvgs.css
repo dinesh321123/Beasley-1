@@ -13441,15 +13441,15 @@ article > .triton-song-history {
   background-color: transparent !important;
   background-image: url(../../images/KVGS-Top-Navigation4.jpg) !important;
   background-position: top center;
-  background-size: cover;
+  background-size: cover !important;
   background-repeat: no-repeat; }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 768px) {
   .header__main.headroom {
-    background-color: transparent !important;
+    background-color: #ed008c !important;
     background-image: url(../../images/KVGS-Top-Navigation4.jpg) !important;
     background-position: top center;
-    background-size: auto; } }
+    background-size: auto !important; } }
 
 .header__search {
   color: #ffffff;
@@ -13459,10 +13459,13 @@ article > .triton-song-history {
   padding-left: 4px;
   text-transform: uppercase !important; }
 
+.header__nav .format-fi > ul a.active, .header__nav .format-fi > ul a:focus, .header__nav .format-fi > ul a:hover, .header__nav .format-fw > ul a.active, .header__nav .format-fw > ul a:focus, .header__nav .format-fw > ul a:hover, .header__nav .format-sp > ul a.active, .header__nav .format-sp > ul a:focus, .header__nav .format-sp > ul a:hover, .header__nav .sub-menu a.active, .header__nav .format-fw > ul a.active, .header__nav .format-sp > ul a.active, .header__nav .format-fi > ul a.active, .header__nav .sub-menu a:focus, .header__nav .format-fw > ul a:focus, .header__nav .format-sp > ul a:focus, .header__nav .format-fi > ul a:focus, .header__nav .sub-menu a:hover, .header__nav .format-fw > ul a:hover, .header__nav .format-sp > ul a:hover, .header__nav .format-fi > ul a:hover, .ui-menu a.active, .ui- menu a:focus, .ui-menu a:hover {
+  color: #ED008C !important; }
+
 .header__nav ul li {
   background-color: #262262; }
 
-.header__nav ul li a {
+.header__nav ul a {
   color: #ffffff !important; }
 
 .mobile-nav__toggle--span, .mobile-nav__toggle--span::after, .mobile-nav__toggle--span::before {
