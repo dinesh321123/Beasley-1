@@ -27,10 +27,10 @@ a:hover .highlights__community--title
 //// Sept 2017 Updates - Made in Detroit
 
 .header__main.headroom
-{background-color: transparent!important;background-image: url("../../images/KKLZ-Top-Navigation8.jpg")!important; background-position: top center;background-size: cover;background-repeat: no-repeat;}
+{background-color: transparent!important;background-image: url(../../images//KKLZ-Top-Navigation8.jpg)!important; background-position: top center;background-size: cover;background-repeat: no-repeat;}
 
 @media screen and (min-width: 768px)  {.header__main.headroom
-{background-color: transparent!important;background-image: url("../../images/KKLZ-Top-Navigation8.jpg")!important; background-position: top center;background-size: auto;}}
+{background-color: #25BADA!important;background-image: url(../../images/KKLZ-Top-Navigation8.jpg)!important; background-position: top center;background-size: auto;}}
 
   .header__search
 { color: #ffffff;
@@ -45,5 +45,7 @@ a:hover .highlights__community--title
  background-color: #ffc425 ;
 }
 
+
+
 .mobile-nav__toggle--span, .mobile-nav__toggle--span::after, .mobile-nav__toggle--span::before
-  {background-color: #ffffff!important;}
+  {background-color: #ffcd05!important;}

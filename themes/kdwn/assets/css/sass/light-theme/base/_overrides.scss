@@ -53,17 +53,15 @@ body {
 /// August 2017 overrides - Made in Detroit
 
 .header__main.headroom
-{background-color: transparent;background-image: url(../../images/KDWN-Top-Nav.jpg); background-position: top center;background-size: cover;background-repeat: no-repeat;}
+{background-color: transparent!important;background-image: url(../../images/KDWN-Top-Navigation4.jpg)!important; background-position: top center;background-size: cover;background-repeat: no-repeat;}
 
 
 @media screen and (min-width: 768px)  {.header__main.headroom
-{background-color: transparent;background-image: url(../../images/KDWN-Top-Nav.jpg); background-position: top center;background-size: auto;}
-}
-@media screen and (min-width: 768px)  {.header .container {height:145px;}}
+{background-color: #000000!important;background-image: url(../../images/KDWN-Top-Navigation4.jpg)!important; background-position: top center;background-size: auto;}}
 
 .header__nav ul li
 {
- color: #ffffff;}
+ color: #ffffff!important;}
 
 .header__main a, .header__main a:visited
 {
@@ -75,8 +73,7 @@ body {
   padding-right: 4px;
   padding-bottom: 4px;
   padding-left: 4px;
-  text-transform: uppercase;
-}
+  text-transform: uppercase!important;}
 
 .mobile-nav__toggle--span, .mobile-nav__toggle--span::after, .mobile-nav__toggle--span::before
-  {background-color: #ffffff;}
+  {background-color: #ffffff!important;}
