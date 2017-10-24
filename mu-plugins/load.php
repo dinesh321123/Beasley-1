@@ -12,7 +12,6 @@ include __DIR__ . '/term-data-store/term-data-store.php';
 include __DIR__ . '/visual-shortcode/visual-shortcode.php';
 include __DIR__ . '/dependencies/dependencies.php';
 include __DIR__ . '/post-finder/post-finder.php';
-include __DIR__ . '/force-frontend-http/force-frontend-http.php';
 include __DIR__ . '/capabilities/capabilities.php';
 include __DIR__ . '/edit-flow-notification-block/edit-flow-notification-block.php';
 
