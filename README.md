@@ -5,3 +5,8 @@
 This is intended to be used on stage, where we have a special domain that will first check local FS, then stage S3 bucket, then prod S3 bucket.
 
 Example: `define( 'BEASLEY_IMAGE_DOMAIN', 'files.bbgistage.com' );`
+
+##### BEASLEY_PHOTON_DOMAIN
+Must be set to rewrite images to photon. Should be the full domain (including http(s):// prefix) to the photon server.
+
+Example: `define( 'BEASLEY_PHOTON_DOMAIN', 'https://photon.10uplabs.com' );`
