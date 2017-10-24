@@ -2,7 +2,7 @@
 	"name": "greater-media-live-player",
 	"title": "Greater Media Live Player",
 	"description": "A persistent site-wide player for live audio and podcast for Greater Media",
-	"version": "1.1.2",
+	"version": "1.1.3",
 	"devDependencies": {
 		"grunt": "^1.0.1",
 		"grunt-contrib-concat": "^1.0.1",

@@ -284,7 +284,7 @@
 			$('.audio-stream .audio-stream__title').text('SWITCH TO LIVE STREAM');
 		} else {
 			$audioPodcast.removeClass('-show');
-			$audioControls.addClass('-loading');
+			//$audioControls.addClass('-loading');
 
 			$('.audio-stream .audio-stream__title').each(function() {
 				var $this = $(this),
@@ -336,8 +336,8 @@
 			return;
 		}
 
-		$audioControls.removeClass('-playing -loading');
-		$audioControls.addClass('-paused');
+		//$audioControls.removeClass('-playing -loading');
+		//$audioControls.addClass('-paused');
 		if (!playingCustomAudio) {
 			$audioStatus.addClass('-show');
 		}
@@ -391,8 +391,8 @@
 		$(nowPlaying).addClass('-show');
 		$audioPodcast.addClass('-show');
 
-		$audioControls.removeClass('-loading -paused');
-		$audioControls.addClass('-playing');
+		//$audioControls.removeClass('-loading -paused');
+		//$audioControls.addClass('-playing');
 	}
 
 	function nearestPodcastPlaying(event) {
@@ -523,6 +523,7 @@
 	function changePlayerState() {
 		if (playBtn != null) {
 			addEventHandler(playBtn, 'click', function() {
+
 				if (lpInit === true) {
 					setStoppedStyles();
 					playLiveStreamDevice();
@@ -534,6 +535,7 @@
 
 		if (listenNow != null) {
 			addEventHandler(listenNow, 'click', function() {
+
 				if (!livePlaying && !playingCustomAudio) {
 					listenLiveStopCustomInlineAudio();
 				}
@@ -809,6 +811,7 @@
 	}
 
 	function pauseStream() {
+
 		if (true === playingCustomAudio) {
 			pauseCustomInlineAudio();
 			stopInlineAudioInterval();
@@ -1094,8 +1097,8 @@
 		livePlaying = true;
 		playingLiveAudio = true;
 
-		$audioControls.removeClass('-loading -paused');
-		$audioControls.addClass('-playing');
+		//$audioControls.removeClass('-loading -paused');
+		//$audioControls.addClass('-playing');
 
 		if (loadingBtn.classList.contains('loading')) {
 			loadingBtn.classList.remove('loading');
@@ -1270,6 +1273,55 @@
 
 	function onStatus(e) {
 		debug('tdplayer::onStatus');
+		debug('code: ' + e.data.code);
+
+		// Handle different status events
+		switch (e.data.code) {
+			case 'LIVE_PAUSE':
+				$audioControls.removeClass('-loading -playing');
+				$audioControls.addClass('-paused');
+			break;
+
+			case 'LIVE_PLAYING':
+				$audioControls.removeClass('-loading -paused');
+				$audioControls.addClass('-playing');
+			break;
+
+			case 'LIVE_STOP':
+				$audioControls.removeClass('-loading -playing');
+				$audioControls.addClass('-paused');
+			break;
+
+			case 'LIVE_FAILED':
+				$audioControls.removeClass('-loading -playing');
+				$audioControls.addClass('-paused');
+			break;
+
+			case 'LIVE_BUFFERING':
+				$audioControls.removeClass('-paused -playing');
+				$audioControls.addClass('-loading');
+			break;
+
+			case 'LIVE_CONNECTING':
+				$audioControls.removeClass('-paused -playing');
+				$audioControls.addClass('-loading');
+			break;
+
+			case 'LIVE_RECONNECTING':
+				$audioControls.removeClass('-paused -playing');
+				$audioControls.addClass('-loading');
+			break;
+
+			case 'STREAM_GEO_BLOCKED':
+				$audioControls.removeClass('-loading -playing');
+				$audioControls.addClass('-paused');
+			break;
+
+			case 'STATION_NOT_FOUND':
+				$audioControls.removeClass('-loading -playing');
+				$audioControls.addClass('-paused');
+			break;
+		}
 
 		setStatus(e.data.status);
 	}

@@ -115,6 +115,7 @@ class GreaterMediaSiteOptions {
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'gmr_google_analytics', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_google_uid_dimension', 'absint' );
+		register_setting( self::option_group, 'gmr_google_author_dimension', 'absint' );
 		register_setting( self::option_group, 'gmr_livelinks_title', 'sanitize_text_field');
 		register_setting( self::option_group, 'gmr_newssite', 'esc_attr' );
 		register_setting( self::option_group, 'gmr_livelinks_more_redirect', 'esc_attr' );
@@ -234,6 +235,10 @@ class GreaterMediaSiteOptions {
 		if ( 0 === $google_uid_dimension ) {
 			$google_uid_dimension = '';
 		}
+		$google_author_dimension = get_option( 'gmr_google_author_dimension', '' );
+		if ( 0 === $google_author_dimension ) {
+			$google_author_dimension = '';
+		}
 		?>
 		<div class="gmr__option">
 			<label for="gmr_google_analytics" class="gmr__option--label"><?php _e( 'Google Analytics ID', 'greatermedia' ); ?></label>
@@ -242,11 +247,19 @@ class GreaterMediaSiteOptions {
 			<div class="gmr-option__field--desc"><?php _e( 'UA-xxxxxx-xx', 'greatermedia' ); ?></div>
 		</div>
 		<div class="gmr__option">
-			<label for="gmr_google_uid_dimension" class="gmr__option--label"><?php _e( 'Google User ID Custom Dimension', 'greatermedia' ); ?></label>
+			<label for="gmr_google_uid_dimension" class="gmr__option--label"><?php _e( 'Google Analytics User ID Custom Dimension', 'greatermedia' ); ?></label>
 			<?php _e( 'dimension', 'greatermedia' ); ?><input type="text" name="gmr_google_uid_dimension" id="gmr_google_uid_dimension" value="<?php echo esc_attr( $google_uid_dimension ); ?>" size="3" length="3">
 			<div class="gmr-option__field--desc">
 				<?php _e( 'Sends the current user\'s ID to this custom Google Analytics dimension', 'greatermedia' ); ?><br>
 				<?php _e( 'Most sites can use dimension1 unless it is already in use.', 'greatermedia' ); ?>
+			</div>
+		</div>
+		<div class="gmr__option">
+			<label for="gmr_google_author_dimension" class="gmr__option--label"><?php _e( 'Google Analytics Author Custom Dimension', 'greatermedia' ); ?></label>
+			<?php _e( 'dimension', 'greatermedia' ); ?><input type="text" name="gmr_google_author_dimension" id="gmr_google_author_dimension" value="<?php echo esc_attr( $google_author_dimension ); ?>" size="3" length="3">
+			<div class="gmr-option__field--desc">
+				<?php _e( 'Sends the current post\'s author login ID to this custom Google Analytics dimension', 'greatermedia' ); ?><br>
+				<?php _e( 'Most sites can use dimension2 unless it is already in use.', 'greatermedia' ); ?>
 			</div>
 		</div>
 		<?php

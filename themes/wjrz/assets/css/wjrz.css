@@ -13906,7 +13906,7 @@ article > .triton-song-history {
  */
 .header {
   background-color: #e97e01 !important;
-  background-image: url("../../images/WJRZ_header-bkg3.jpg") !important;
+  background-image: url("../../images/WJRZ_header-bkg2.jpg") !important;
   background-repeat: repeat-x;
   background-position: center top;
   border-bottom: none; }
@@ -13963,7 +13963,7 @@ article > .triton-song-history {
   color: #fdba30; }
 
 .mobile-nav__list a {
-  background-color: #303030;
+  background-color: #0073cf;
   color: #fff;
   display: block;
   padding: 18px 1.25em;
@@ -13971,8 +13971,15 @@ article > .triton-song-history {
   font-size: 1.265625em; }
 
 .mobile-nav .sub-menu a:link, .mobile-nav .header__nav .format-fw > ul a:link, .header__nav .mobile-nav .format-fw > ul a:link, .mobile-nav .header__nav .format-sp > ul a:link, .header__nav .mobile-nav .format-sp > ul a:link, .mobile-nav .header__nav .format-fi > ul a:link, .header__nav .mobile-nav .format-fi > ul a:link, .mobile-nav .header__nav .format-fw > ul a:link, .header__nav .mobile-nav .format-fw > ul a:link, .mobile-nav .header__nav .format-sp > ul a:link, .header__nav .mobile-nav .format-sp > ul a:link, .mobile-nav .header__nav .format-fi > ul a:link, .header__nav .mobile-nav .format-fi > ul a:link, .mobile-nav .sub-menu a:visited, .mobile-nav .header__nav .format-fw > ul a:visited, .header__nav .mobile-nav .format-fw > ul a:visited, .mobile-nav .header__nav .format-sp > ul a:visited, .header__nav .mobile-nav .format-sp > ul a:visited, .mobile-nav .header__nav .format-fi > ul a:visited, .header__nav .mobile-nav .format-fi > ul a:visited, .mobile-nav .header__nav .format-fw > ul a:visited, .header__nav .mobile-nav .format-fw > ul a:visited, .mobile-nav .header__nav .format-sp > ul a:visited, .header__nav .mobile-nav .format-sp > ul a:visited, .mobile-nav .header__nav .format-fi > ul a:visited, .header__nav .mobile-nav .format-fi > ul a:visited {
-  background-color: #303030;
+  background-color: #004982;
   color: #ffffff; }
+
+.mobile-nav .show-subnavigation {
+  background-color: #0073cf;
+  float: right;
+  width: 25%;
+  text-align: center;
+  border-left: 1px solid #282827; }
 
 .mobile-nav .social__link {
   color: #ccc;
@@ -14045,7 +14052,7 @@ article > .triton-song-history {
     float: left;
     display: block;
     width: 100%;
-    min-height: 5.8em; } }
+    min-height: 6.5em; } }
 
 .featured__content--meta {
   float: left;
@@ -14140,6 +14147,67 @@ a:hover .highlights__community--title {
   background-size: 96%;
   background-position: center center;
   background-repeat: no-repeat; }
+
+.highlights__contest--title, .highlights__event--title {
+  max-height: 5.25em; }
+
+/* Show Nav */
+.show__nav li.current-menu-item a {
+  background-color: #fff;
+  color: #1e4c89; }
+
+.show__nav li a:hover {
+  background-color: #fff;
+  color: #0073cf; }
+
+.show__meta .social-share-link:active, .show__meta .social-share-link:hover {
+  color: #0073cf;
+  background: #fff;
+  border-color: #fff; }
+
+/* Search Hover */
+.header__main .header__search:hover {
+  background-color: transparent;
+  color: #fff;
+  padding-left: 8px; }
+
+/* Social Icons - Right Rail */
+a.social-share-link, a.social__link {
+  margin: 0 6px 0 0;
+  list-style: none;
+  color: #015da6;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  border: 1px solid #015da6;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-top-color: #015da6;
+  border-right-color: #015da6;
+  border-bottom-color: #015da6;
+  border-left-color: #015da6;
+  -moz-border-top-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  border-image-source: none;
+  border-image-slice: 100%;
+  border-image-width: 1;
+  border-image-outset: 0;
+  border-image-repeat: stretch stretch;
+  border-radius: 50%;
+  padding: 9px; }
+
+a.social-share-link:hover, a.social__link:hover {
+  color: #fdba30;
+  border-color: #fdba30; }
 
 .live-link__type--show {
   border-bottom-color: white;
