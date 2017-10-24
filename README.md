@@ -1,15 +1,18 @@
 ## Prod Configuration
 The following constants are expected on prod:
+
 * S3_UPLOADS_BUCKET
 * S3_UPLOADS_KEY
 * S3_UPLOADS_SECRET
 * BEASLEY_PHOTON_DOMAIN
 
 The following constants **should not** be set on prod:
+
 * BEASLEY_IMAGE_DOMAIN
 
 ## Stage Configuration
 The following constants are expected to be set on stage:
+
 * S3_UPLOADS_BUCKET
 * S3_UPLOADS_KEY
 * S3_UPLOADS_SECRET
