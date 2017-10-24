@@ -9,7 +9,7 @@ include 'functions.photon.php';
 include 'class.photon.php';
 
 add_filter( 'beasley_photon_domain', function() {
-	return 'http://photon.cmm.io';
+	return 'https://photon.10uplabs.com';
 } );
 
 // Allow using these images in the admin
