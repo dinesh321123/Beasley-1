@@ -71,22 +71,22 @@ class ShowsCPT {
 			'has_archive'         => 'shows',
 			'supports'            => array( 'title', 'editor', 'author', 'thumbnail', 'comments', 'revisions' ),
 			'labels'              => array(
-				'name'               => __( 'Shows', 'greatermedia' ),
-				'singular_name'      => __( 'Show', 'greatermedia' ),
-				'add_new'            => _x( 'Add New Show', 'greatermedia', 'greatermedia' ),
-				'add_new_item'       => __( 'Add New Show', 'greatermedia' ),
-				'edit_item'          => __( 'Edit Show', 'greatermedia' ),
-				'new_item'           => __( 'New Show', 'greatermedia' ),
-				'view_item'          => __( 'View Show', 'greatermedia' ),
-				'search_items'       => __( 'Search Shows', 'greatermedia' ),
-				'not_found'          => __( 'No Shows found', 'greatermedia' ),
-				'not_found_in_trash' => __( 'No Shows found in Trash', 'greatermedia' ),
-				'parent_item_colon'  => __( 'Parent Show:', 'greatermedia' ),
-				'menu_name'          => __( 'Shows', 'greatermedia' ),
+				'name'               => __( 'Features', 'greatermedia' ),
+				'singular_name'      => __( 'Feature', 'greatermedia' ),
+				'add_new'            => _x( 'Add New Feature', 'greatermedia', 'greatermedia' ),
+				'add_new_item'       => __( 'Add New Feature', 'greatermedia' ),
+				'edit_item'          => __( 'Edit Feature', 'greatermedia' ),
+				'new_item'           => __( 'New Feature', 'greatermedia' ),
+				'view_item'          => __( 'View Feature', 'greatermedia' ),
+				'search_items'       => __( 'Search Features', 'greatermedia' ),
+				'not_found'          => __( 'No Features found', 'greatermedia' ),
+				'not_found_in_trash' => __( 'No Features found in Trash', 'greatermedia' ),
+				'parent_item_colon'  => __( 'Parent Feature:', 'greatermedia' ),
+				'menu_name'          => __( 'Features', 'greatermedia' ),
 			),
 			'capability_type' => array( 'show', 'shows' ),
 			'map_meta_cap' => true,
-			'rewrite' => array( 'slug' => 'shows' )
+			'rewrite' => array( 'slug' => 'features' )
 		) );
 
 		register_post_type( self::EPISODE_CPT, array(
