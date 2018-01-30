@@ -37,5 +37,16 @@ function listings_init() {
 			'slug' => apply_filters( 'beasley_listing_slug', 'listing' ),
 		),
 	) );
+
+	register_taxonomy( 'listing-category', array( 'listing' ), array(
+		'public'        => true,
+		'show_tagcloud' => false,
+		'hierarchical'  => true,
+	) );
+
+	register_taxonomy( 'listing-tag', array( 'listing' ), array(
+		'public'        => true,
+		'show_tagcloud' => false,
+	) );
 }
 add_action( 'init', 'listings_init' );
