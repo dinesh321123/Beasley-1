@@ -33,9 +33,8 @@ function listings_init() {
 		'menu_position' => 21,
 		'menu_icon'     => 'dashicons-exerpt-view',
 		'has_archive'   => true,
-		'rewrite'       => array(
-			'slug' => apply_filters( 'beasley_listing_slug', 'listing' ),
-		),
+		'rewrite'       => array( 'slug' => apply_filters( 'beasley_listing_slug', 'listing' ) ),
+		'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 	) );
 
 	register_taxonomy( 'listing-category', array( 'listing' ), array(
