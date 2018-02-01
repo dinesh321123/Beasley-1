@@ -17,6 +17,7 @@ class Listings {
 	 */
 	public function register() {
 		add_action( 'init', array( $this, 'register_cpt' ) );
+		add_action( 'init', array( $this, 'setup_permalinks' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		$this->register_featured_image( self::TAXONOMY_CATEGORY );
@@ -54,7 +55,7 @@ class Listings {
 			'menu_position' => 21,
 			'menu_icon'     => 'dashicons-exerpt-view',
 			'has_archive'   => true,
-			'rewrite'       => array( 'slug' => apply_filters( 'beasley_listing_slug', 'listing' ) ),
+			'rewrite'       => false,
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 		) );
 
@@ -62,11 +63,13 @@ class Listings {
 			'public'        => true,
 			'show_tagcloud' => false,
 			'hierarchical'  => true,
+			'rewrite'       => false,
 		) );
 
 		register_taxonomy( self::TAXONOMY_TAG, array( self::TYPE_LISTING ), array(
 			'public'        => true,
 			'show_tagcloud' => false,
+			'rewrite'       => false,
 		) );
 	}
 
@@ -91,6 +94,17 @@ class Listings {
 	}
 
 	/**
+	 * Returns permastructure.
+	 *
+	 * @static
+	 * @access protected
+	 * @return string
+	 */
+	protected static function _get_permastruct() {
+		return get_option( 'listing-permalink', '/directory/%listing-cat%/%listing-slug%/' );
+	}
+
+	/**
 	 * Renders permalink setting field.
 	 *
 	 * @access public
@@ -100,8 +114,29 @@ class Listings {
 
 		printf(
 			'<input type="text" class="regular-text code" name="listing-permalink" value="%s">',
-			esc_attr( get_option( 'listing-permalink', '/directory/%listing-category%/%postname%/' ) )
+			esc_attr( self::_get_permastruct() )
 		);
+
+		echo '<p>Use <code>%listing-cat%</code> to define category slug and <code>%listing-slug%</code> to define listing slug.</p>';
+	}
+
+	/**
+	 * Sets up permalink structure.
+	 *
+	 * @access public
+	 * @action init
+	 */
+	public function setup_permalinks() {
+		add_rewrite_tag( '%listing-cat%', '([^/]+)', self::TAXONOMY_CATEGORY . '=' );
+		add_rewrite_tag( '%listing-slug%', '([^/]+)', self::TYPE_LISTING . '=' );
+
+		add_permastruct( 'listing', self::_get_permastruct(), array(
+			'with_front'  => false,
+			'paged'       => false,
+			'feed'        => false,
+			'forcomments' => false,
+			'endpoints'   => false,
+		) );
 	}
 
 }
