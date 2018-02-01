@@ -6,11 +6,20 @@ class Listings {
 
 	use \Beasley\DirectoryListing\FeaturedImage;
 
-	const TYPE_LISTING      = 'listing';
-	const TAXONOMY_CATEGORY = 'listing-category';
-	const TAXONOMY_TAG      = 'listing-tag';
-	const TAG_LISTING_SLUG  = '%listing-slug%';
-	const TAG_LISTING_CAT   = '%listing-cat%';
+	const TYPE_LISTING        = 'listing';
+	const TAXONOMY_CATEGORY   = 'listing-category';
+	const TAXONOMY_TAG        = 'listing-tag';
+	const TAG_LISTING_SLUG    = '%listing-slug%';
+	const TAG_LISTING_CAT     = '%listing-cat%';
+	const TAG_LISTING_ARCHIVE = '%listing-archive%';
+
+	/**
+	 * Determines whether or not nonce field has been rendered.
+	 *
+	 * @access protected
+	 * @var boolean
+	 */
+	protected $_rendered_nonce = false;
 
 	/**
 	 * Registers hooks.
@@ -25,6 +34,30 @@ class Listings {
 		add_filter( 'post_type_link', array( $this, 'update_post_link' ), 10, 2 );
 
 		$this->register_featured_image( self::TAXONOMY_CATEGORY );
+	}
+
+	/**
+	 * Handles plugin activation.
+	 *
+	 * @static
+	 * @access public
+	 */
+	public static function activation_hook() {
+		update_option( 'listing-archive-permalink', 'directory' );
+		update_option( 'listing-category-permalink', sprintf( '/%s/%s/', self::TAG_LISTING_ARCHIVE, self::TAG_LISTING_CAT ) );
+		update_option( 'listing-permalink', sprintf( '/%s/%s/%s/', self::TAG_LISTING_ARCHIVE, self::TAG_LISTING_CAT, self::TAG_LISTING_SLUG) );
+
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Handles plugin deactivation.
+	 *
+	 * @static
+	 * @access public
+	 */
+	public static function deactivation_hook() {
+		flush_rewrite_rules();
 	}
 
 	/**
@@ -58,7 +91,7 @@ class Listings {
 			'public'        => true,
 			'menu_position' => 21,
 			'menu_icon'     => 'dashicons-exerpt-view',
-			'has_archive'   => true,
+			'has_archive'   => false,
 			'rewrite'       => false,
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 		) );
@@ -84,31 +117,40 @@ class Listings {
 	 * @action admin_init
 	 */
 	public function register_settings() {
-		add_settings_field( 'listing-permalink', 'Directory Listing', array( $this, 'render_permalink_field' ), 'permalink', 'optional' );
-		register_setting( 'permalink', 'listing-permalink', 'sanitize_text_field' );
+		$callback = array( $this, 'render_permalink_field' );
+
+		add_settings_section( 'listings', 'Directory Listing Permalinks', array( $this, 'render_settings_description' ), 'permalink' );
+
+		add_settings_field( 'listing-archive-permalink', 'Archive Slug', $callback, 'permalink', 'listings', 'name=listing-archive-permalink' );
+		add_settings_field( 'listing-cat-permalink', 'Category', $callback, 'permalink', 'listings', 'name=listing-category-permalink' );
+		add_settings_field( 'listing-permalink', 'Listing', $callback, 'permalink', 'listings', 'name=listing-permalink' );
 
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 			$nonce = filter_input( INPUT_POST, '__listing_nonce' );
 			if ( wp_verify_nonce( $nonce, 'listing-permalink' ) && current_user_can( 'manage_option' ) ) {
-				$permalink = filter_input( INPUT_POST, 'listing-permalink' );
-				update_option( 'listing-permalink', sanitize_text_field( $permalink ), 'no' );
+				$options = array( 'listing-archive-permalink', 'listing-category-permalink', 'listing-permalink' );
+				foreach ( $options as $option ) {
+					$permalink = filter_input( INPUT_POST, $option );
+					update_option( $option, sanitize_text_field( $permalink ) );
+				}
+
 				flush_rewrite_rules();
 			}
 		}
 	}
 
 	/**
-	 * Returns permastructure.
+	 * Renders description for settings section.
 	 *
-	 * @static
-	 * @access protected
-	 * @return string
+	 * @access public
 	 */
-	protected static function _get_permastruct() {
-		return get_option(
-			'listing-permalink',
-			sprintf( '/directory/%s/%s/', self::TAG_LISTING_CAT, self::TAG_LISTING_SLUG )
-		);
+	public function render_settings_description() {
+		?><p>
+			Use this settings to define permalink structures for directory listing archive,
+			categories and individual listings. You can use <code><?php echo esc_html( self::TAG_LISTING_ARCHIVE ); ?></code>
+			to define archive slug, <code><?php echo esc_html( self::TAG_LISTING_CAT ); ?></code> to define category slug
+			and <code><?php echo esc_html( self::TAG_LISTING_SLUG ); ?></code> to define listing slug.
+		</p><?php
 	}
 
 	/**
@@ -116,15 +158,18 @@ class Listings {
 	 *
 	 * @access public
 	 */
-	public function render_permalink_field() {
-		wp_nonce_field( 'listing-permalink', '__listing_nonce', false );
+	public function render_permalink_field( $args ) {
+		if ( ! $this->_rendered_nonce ) {
+			wp_nonce_field( 'listing-permalink', '__listing_nonce', false );
+			$this->_rendered_nonce = true;
+		}
+
+		$args = wp_parse_args( $args );
 
 		printf(
-			'<input type="text" class="regular-text code" name="listing-permalink" value="%s">' .
-			'<p>Use <code>%s</code> to define category slug and <code>%s</code> to define listing slug.</p>',
-			esc_attr( self::_get_permastruct() ),
-			self::TAG_LISTING_CAT,
-			self::TAG_LISTING_SLUG
+			'<input type="text" class="regular-text code" name="%s" value="%s">',
+			esc_attr( $args['name'] ),
+			esc_attr( get_option( $args['name'] ) )
 		);
 	}
 
@@ -138,13 +183,20 @@ class Listings {
 		add_rewrite_tag( self::TAG_LISTING_CAT, '([^/]+)', self::TAXONOMY_CATEGORY . '=' );
 		add_rewrite_tag( self::TAG_LISTING_SLUG, '([^/]+)', self::TYPE_LISTING . '=' );
 
-		add_permastruct( self::TYPE_LISTING, self::_get_permastruct(), array(
+		$archvie = trim( get_option( 'listing-archive-permalink' ), '/' );
+
+		$permastruct = get_option( 'listing-permalink' );
+		$permastruct = str_replace( self::TAG_LISTING_ARCHIVE, $archvie, $permastruct );
+
+		add_permastruct( self::TYPE_LISTING, $permastruct, array(
 			'with_front'  => false,
 			'paged'       => false,
 			'feed'        => false,
 			'forcomments' => false,
 			'endpoints'   => false,
 		) );
+
+		add_rewrite_rule( $archvie . '/?$', 'index.php?post_type=' . self::TYPE_LISTING, 'top' );
 	}
 
 	/**
