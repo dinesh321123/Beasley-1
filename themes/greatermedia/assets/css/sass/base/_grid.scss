@@ -48,7 +48,7 @@ img {
 		padding-right: 340px;
 		min-height: 800px;
 	}
-	
+
 	/*@include bp(x-large) {
 		@include outer-container(970px);
 	}*/
@@ -68,6 +68,12 @@ img {
 	@include bp(medium) {
 		//margin-top: 40px;
 		padding: 20px 340px 20px 20px;
+	}
+}
+
+.page-template-full-bleed .main > .container {
+	@include bp(medium) {
+		padding: 20px 20px 20px 20px;
 	}
 }
 

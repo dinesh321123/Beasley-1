@@ -17,7 +17,7 @@
  * Add this constant to wp-config and set value to "dev" to trigger time() as the cache buster on css/js that use this,
  * instead of the version - useful for dev, especially when cloudflare or other cdn's are involved
  */
-$version = '2.0.10';
+$version = '2.1.1';
 
 // If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
 if ( file_exists( __DIR__ . '/../.version.php' ) ) {
@@ -55,6 +55,7 @@ require_once __DIR__ . '/includes/shortcodes.php';
 require_once __DIR__ . '/includes/class-firebase.php';
 require_once __DIR__ . '/includes/class-wp-widget-triton-song-history.php';
 require_once __DIR__ . '/includes/class-wp-widget-recent-contests.php';
+require_once __DIR__ . '/includes/futuri.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	include __DIR__ . '/includes/gmr-db-cli.php';
