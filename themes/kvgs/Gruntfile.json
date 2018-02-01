@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"kvgs/assets/css/kvgs.css": "kvgs/assets/css/sass/kvgs_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "kvgs/assets/css/",
+		"src": ["kvgs.css"],
+		"dest": "kvgs/assets/css/",
+		"ext": ".min.css"
+	}
+}

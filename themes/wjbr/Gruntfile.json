@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wjbr/assets/css/wjbr.css": "wjbr/assets/css/sass/wjbr_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wjbr/assets/css/",
+		"src": ["wjbr.css"],
+		"dest": "wjbr/assets/css/",
+		"ext": ".min.css"
+	}
+}

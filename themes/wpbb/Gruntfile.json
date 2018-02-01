@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wpbb/assets/css/wpbb.css": "wpbb/assets/css/sass/wpbb_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wpbb/assets/css/",
+		"src": ["wpbb.css"],
+		"dest": "wpbb/assets/css/",
+		"ext": ".min.css"
+	}
+}

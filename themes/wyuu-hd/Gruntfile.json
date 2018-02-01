@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wyuu-hd/assets/css/wyuu_hd.css": "wyuu-hd/assets/css/sass/wyuu_hd_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wyuu-hd/assets/css/",
+		"src": ["wyuu_hd.css"],
+		"dest": "wyuu-hd/assets/css/",
+		"ext": ".min.css"
+	}
+}

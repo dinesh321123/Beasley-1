@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wrdw-am/assets/css/wrdw_am.css": "wrdw-am/assets/css/sass/wrdw_am_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wrdw-am/assets/css/",
+		"src": ["wrdw_am.css"],
+		"dest": "wrdw-am/assets/css/",
+		"ext": ".min.css"
+	}
+}

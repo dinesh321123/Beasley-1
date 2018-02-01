@@ -1,0 +1,23 @@
+{
+	"concat": {
+		"src": ["bobandsheri/assets/js/src/**.js"],
+		"dest": "bobandsheri/assets/js/bobandsheri.js"
+	},
+	"uglify": {
+		"files": {
+			"bobandsheri/assets/js/bobandsheri.min.js": ["bobandsheri/assets/js/bobandsheri.js"]
+		}
+	},
+	"sass": {
+		"files": {
+			"bobandsheri/assets/css/bobandsheri.css": "bobandsheri/assets/css/sass/bobandsheri_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "bobandsheri/assets/css/",
+		"src": ["bobandsheri.css"],
+		"dest": "bobandsheri/assets/css/",
+		"ext": ".min.css"
+	}
+}

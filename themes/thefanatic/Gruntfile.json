@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"thefanatic/assets/css/thefanatic.css": "thefanatic/assets/css/sass/thefanatic.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "thefanatic/assets/css/",
+		"src": ["thefanatic.css"],
+		"dest": "thefanatic/assets/css/",
+		"ext": ".min.css"
+	}
+}

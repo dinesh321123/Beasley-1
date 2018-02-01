@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"kklz/assets/css/kklz.css": "kklz/assets/css/sass/kklz_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "kklz/assets/css/",
+		"src": ["kklz.css"],
+		"dest": "kklz/assets/css/",
+		"ext": ".min.css"
+	}
+}

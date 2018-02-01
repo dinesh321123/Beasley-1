@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wzfx/assets/css/wzfx.css": "wzfx/assets/css/sass/wzfx_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wzfx/assets/css/",
+		"src": ["wzfx.css"],
+		"dest": "wzfx/assets/css/",
+		"ext": ".min.css"
+	}
+}

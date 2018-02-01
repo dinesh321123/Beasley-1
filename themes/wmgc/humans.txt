@@ -1,9 +1,0 @@
-/* TEAM */
-	Developer: 10up
-	Contact:   allen@10up.com
-	URI:       http://10up.com
-
-/* THANKS */
-	Template Design: 10up
-	URI:             http://10up.com
-	Twitter:         @10up

@@ -1,9 +1,0 @@
-/* TEAM */
-	Developer: Greater Media
-	Contact:   webmaster@wrat.com
-	URI:       http://wrat.com
-
-/* THANKS */
-	Template Design: 10up
-	URI:             http://10up.com
-	Twitter:         @10up

@@ -1,0 +1,23 @@
+{
+	"concat": {
+		"src": ["wmgc/assets/js/src/wmgc.js"],
+		"dest": "wmgc/assets/js/wmgc.js"
+	},
+	"uglify": {
+		"files": {
+			"wmgc/assets/js/wmgc.min.js": ["wmgc/assets/js/wmgc.js"]
+		}
+	},
+	"sass": {
+		"files": {
+			"wmgc/assets/css/wmgc.css": "wmgc/assets/css/sass/wmgc.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wmgc/assets/css/",
+		"src": ["wmgc.css"],
+		"dest": "wmgc/assets/css/",
+		"ext": ".min.css"
+	}
+}

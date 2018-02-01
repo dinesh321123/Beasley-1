@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wrca/assets/css/wrca.css": "wrca/assets/css/sass/wrca_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wrca/assets/css/",
+		"src": ["wrca.css"],
+		"dest": "wrca/assets/css/",
+		"ext": ".min.css"
+	}
+}

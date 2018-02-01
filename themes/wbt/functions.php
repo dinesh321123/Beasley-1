@@ -12,17 +12,6 @@
  * @since 0.1.0
  */
 
-$version = '2.0.7';
-
-// If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
-if ( file_exists( __DIR__ . '/../.version.php' ) ) {
-	$suffix  = intval( file_get_contents( __DIR__ . '/../.version.php' ) );
-	$version = $version . "." . $suffix;
-}
-
-// Useful global constants
-define( 'WBT_VERSION', $version ); /* Version bump by Steve 03/20/2017 */
-
 /**
  * Set up theme defaults and register supported WordPress features.
  *
@@ -31,14 +20,6 @@ define( 'WBT_VERSION', $version ); /* Version bump by Steve 03/20/2017 */
  * @since 0.1.0
  */
 function wbt_setup() {
-	/**
-	 * Makes WBT available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on WBT, use a find and replace
-	 * to change 'wbt' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'wbt', get_stylesheet_directory_uri() . '/languages' );
 	add_image_size( 'gm-article-thumbnail-wbt', 1175, 776, array( 'center', 'top' ) ); // thumbnails used for articles
 }
 add_action( 'after_setup_theme', 'wbt_setup' );
@@ -55,41 +36,19 @@ function wbt_scripts_styles() {
 
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'wbt', get_stylesheet_directory_uri() . "/assets/css/wbt{$postfix}.css", array(), WBT_VERSION );
-	wp_enqueue_style( 'wbt-ie', get_stylesheet_directory_uri() . "/assets/css/wbt_ie.css", array('wbt'), WBT_VERSION );
+	wp_enqueue_style( 'wbt', get_stylesheet_directory_uri() . "/assets/css/wbt{$postfix}.css", array(), GREATERMEDIA_VERSION );
+	wp_enqueue_style( 'wbt-ie', get_stylesheet_directory_uri() . "/assets/css/wbt_ie.css", array( 'wbt' ), GREATERMEDIA_VERSION );
 	$wp_styles->add_data( 'wbt-ie', 'conditional', 'lte IE 9' );
-	wp_enqueue_style( 'wbt-font', "https://fonts.googleapis.com/css?family=Lato", array(), WBT_VERSION );
+	wp_enqueue_style( 'wbt-font', "https://fonts.googleapis.com/css?family=Lato", array(), GREATERMEDIA_VERSION );
 	wp_enqueue_script( 'livefyre', '//cdn.livefyre.com/Livefyre.js', null, null, true );
-	wp_enqueue_script(
-        'wbt',
-        get_stylesheet_directory_uri() . "/assets/js/wbt{$postfix}.js",
-        array( 'jquery', 'livefyre' ),
-        WBT_VERSION,
-        true
-	);
-	wp_enqueue_script(
-	    'steel-media',
-	    'https://ib.adnxs.com/seg?add=3513887&t=1',
-	    array(),
-	    null,
-	    true
-	);
+	wp_enqueue_script( 'wbt', get_stylesheet_directory_uri() . "/assets/js/wbt{$postfix}.js", array( 'jquery', 'livefyre' ), GREATERMEDIA_VERSION, true );
+	wp_enqueue_script( 'steel-media', 'https://ib.adnxs.com/seg?add=3513887&t=1', array(), null, true );
 	wp_enqueue_script( 'handlebars', get_stylesheet_directory_uri() . '/assets/js/vendor/handlebars-v3.0.3.js', array( 'jquery' ) );
 	wp_enqueue_script( 'quantcast', get_stylesheet_directory_uri() . '/assets/js/vendor/quantcast.js', array(), true );
 	wp_enqueue_script( 'cxense', get_stylesheet_directory_uri() . '/assets/js/vendor/cxense.js', array(), false );
 	wp_enqueue_script( 'googlemaps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array() );
 }
 add_action( 'wp_enqueue_scripts', 'wbt_scripts_styles', 20 );
-
-/**
- * Add humans.txt to the <head> element.
- */
-function wbt_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-
-	echo apply_filters( 'wbt_humans', $humans );
-}
-add_action( 'wp_head', 'wbt_header_meta' );
 
 function add_featured_image_in_rss() {
 	$featured_image = get_post_thumbnail_id();

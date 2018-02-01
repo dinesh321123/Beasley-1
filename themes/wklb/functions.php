@@ -12,36 +12,6 @@
  * @since 0.1.0
  */
 
-$version = '2.0.7';
-
-// If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
-if ( file_exists( __DIR__ . '/../.version.php' ) ) {
-	$suffix  = intval( file_get_contents( __DIR__ . '/../.version.php' ) );
-	$version = $version . "." . $suffix;
-}
-
- // Useful global constants
-define( 'WKLB_VERSION', $version ); /* Version bump by Steve 03/20/2017 */
-
- /**
-  * Set up theme defaults and register supported WordPress features.
-  *
-  * @uses load_theme_textdomain() For translation/localization support.
-  *
-  * @since 0.1.0
-  */
- function wklb_setup() {
-	/**
-	 * Makes WKLB available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on WKLB, use a find and replace
-	 * to change 'wklb' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'wklb', get_stylesheet_directory_uri() . '/languages' );
- }
- add_action( 'after_setup_theme', 'wklb_setup' );
-
 /**
  * Filter the Simpli-Fi script and make it async
  *
@@ -51,52 +21,30 @@ define( 'WKLB_VERSION', $version ); /* Version bump by Steve 03/20/2017 */
  *
  * @return mixed|void
  */
-
 function wklb_async_script( $tag, $handle, $src ) {
+	if ( 'simpli-fi' !== $handle ) :
+		return $tag;
+	endif;
 
-    if ( 'simpli-fi' !== $handle ) :
-
-      return $tag;
-
-    endif;
-
-    return str_replace( '<script', '<script async ', $tag );
+	return str_replace( '<script', '<script async ', $tag );
 }
 add_filter( 'script_loader_tag', 'wklb_async_script', 10, 3 );
 
-
- /**
-  * Enqueue scripts and styles for front-end.
-  *
-  * @since 0.1.0
-  */
- function wklb_scripts_styles() {
+/**
+ * Enqueue scripts and styles for front-end.
+ *
+ * @since 0.1.0
+ */
+function wklb_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'wklb', get_stylesheet_directory_uri() . "/assets/css/wklb{$postfix}.css", array(), WKLB_VERSION );
+	wp_enqueue_style( 'wklb', get_stylesheet_directory_uri() . "/assets/css/wklb{$postfix}.css", array(), GREATERMEDIA_VERSION );
 
 	// begin simpli.fi
 	// The option after 'simpli-fi', should be the unique link for the station
-	wp_enqueue_script(
-	'simpli-fi',
-	'https://i.simpli.fi/dpx.js?cid=34212&action=100&segment=hoodsourcream&m=1&sifi_tuid=15933',
-	array(),
-	null,
-	true
-	);
+	wp_enqueue_script( 'simpli-fi', 'https://i.simpli.fi/dpx.js?cid=34212&action=100&segment=hoodsourcream&m=1&sifi_tuid=15933', array(), null, true );
 	//end simpli.fi
-
- }
- add_action( 'wp_enqueue_scripts', 'wklb_scripts_styles', 20 );
-
- /**
-  * Add humans.txt to the <head> element.
-  */
- function wklb_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-
-	echo apply_filters( 'wklb_humans', $humans );
- }
- add_action( 'wp_head', 'wklb_header_meta' );
+}
+add_action( 'wp_enqueue_scripts', 'wklb_scripts_styles', 20 );

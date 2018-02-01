@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"kdwn/assets/css/kdwn.css": "kdwn/assets/css/sass/kdwn_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "kdwn/assets/css/",
+		"src": ["kdwn.css"],
+		"dest": "kdwn/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,9 +1,0 @@
-/* TEAM */
-	Developer: Greater Media
-	Contact:   webmaster@magic983.com
-	URI:       http://magic983.com
-
-/* THANKS */
-	Template Design: 10up
-	URI:             http://10up.com
-	Twitter:         @10up

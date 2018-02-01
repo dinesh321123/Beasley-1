@@ -1,0 +1,53 @@
+{
+	"concat": {
+		"files": {
+			"greatermedia/assets/js/frontend.js": [
+				"greatermedia/assets/js/vendor/cycle2/jquery.cycle2.js",
+				"greatermedia/assets/js/vendor/cycle2/jquery.cycle2.center.js",
+				"greatermedia/assets/js/vendor/cycle2/jquery.cycle2.swipe.js",
+				"greatermedia/assets/js/vendor/cycle2/jquery.cycle2.carousel.js",
+				"greatermedia/assets/js/vendor/placeholders.min.js",
+				"greatermedia/assets/js/vendor/jquery.fitvids.js",
+				"greatermedia/assets/js/vendor/headroom.min.js",
+				"greatermedia/assets/js/src/_matchHeights.js",
+				"greatermedia/assets/js/src/mobile-sub-menus.js",
+				"greatermedia/assets/js/src/show-schedule.js",
+				"greatermedia/assets/js/src/social_share.js",
+				"greatermedia/assets/js/src/pjax.js",
+				"greatermedia/assets/js/src/greater_media.js",
+				"greatermedia/assets/js/src/load_more.js",
+				"greatermedia/assets/js/src/menus.js",
+				"greatermedia/assets/js/src/hero-slider.js",
+				"greatermedia/assets/js/src/search.js",
+				"greatermedia/assets/js/src/fixed-header-player.js",
+				"greatermedia/assets/js/src/content-sidebar-heights.js",
+				"greatermedia/assets/js/src/firebase.js"
+			],
+			"greatermedia/assets/js/admin.js": [
+				"greatermedia/assets/js/src/admin.js"
+			]
+		}
+	},
+	"uglify": {
+		"files": {
+			"greatermedia/assets/js/frontend.min.js": ["greatermedia/assets/js/frontend.js"],
+			"greatermedia/assets/js/admin.min.js": ["greatermedia/assets/js/admin.js"]
+		}
+	},
+	"sass": {
+		"files": {
+			"greatermedia/assets/css/greater_media.css": "greatermedia/assets/css/sass/greater_media.scss",
+			"greatermedia/assets/css/greater_media_admin.css": "greatermedia/assets/css/sass/greater_media_admin.scss",
+			"greatermedia/assets/css/gm_admin.css": "greatermedia/assets/css/sass/gm_admin.scss",
+			"greatermedia/assets/css/gm_tinymce.css": "greatermedia/assets/css/sass/gm_tinymce.scss",
+			"greatermedia/assets/css/ie9.css": "greatermedia/assets/css/sass/ie9.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "greatermedia/assets/css/",
+		"src": ["greater_media.css", "greater_media_admin.css", "gm_admin.css", "gm_tinymce.css"],
+		"dest": "greatermedia/assets/css/",
+		"ext": ".min.css"
+	}
+}

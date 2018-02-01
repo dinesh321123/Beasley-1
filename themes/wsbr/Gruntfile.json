@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wsbr/assets/css/wsbr.css": "wsbr/assets/css/sass/wsbr_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wsbr/assets/css/",
+		"src": ["wsbr.css"],
+		"dest": "wsbr/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": ";;;;;;AAAA,cAAc;EACb,SAAS,EAAE,GAAG;EACd,KAAK,EAAE,GAAG;;AAGX,OAAO;EACN,SAAS,EAAE,GAAG;;AAGf,OAAO;EACN,SAAS,EAAE,GAAG",
-"sources": ["sass/admin/_tinymce.scss"],
-"names": [],
-"file": "gm_tinymce.css"
-}

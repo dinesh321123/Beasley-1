@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"whhd/assets/css/whhd.css": "whhd/assets/css/sass/whhd_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "whhd/assets/css/",
+		"src": ["whhd.css"],
+		"dest": "whhd/assets/css/",
+		"ext": ".min.css"
+	}
+}

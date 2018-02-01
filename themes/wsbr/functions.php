@@ -12,56 +12,16 @@
  * @since 0.1.0
  */
 
-$version = '0.1.2';
-
-// If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
-if ( file_exists( __DIR__ . '/../.version.php' ) ) {
-	$suffix  = intval( file_get_contents( __DIR__ . '/../.version.php' ) );
-	$version = $version . "." . $suffix;
-}
-
- // Useful global constants
-define( 'WSBR_VERSION', $version ); /* Version bump by Steve 03/27/2017 */
-
- /**
-  * Set up theme defaults and register supported WordPress features.
-  *
-  * @uses load_theme_textdomain() For translation/localization support.
-  *
-  * @since 0.1.0
-  */
- function wsbr_setup() {
-	/**
-	 * Makes WSBR available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on WSBR, use a find and replace
-	 * to change 'wsbr' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'wsbr', get_stylesheet_directory_uri() . '/languages' );
- }
- add_action( 'after_setup_theme', 'wsbr_setup' );
-
- /**
-  * Enqueue scripts and styles for front-end.
-  *
-  * @since 0.1.0
-  */
- function wsbr_scripts_styles() {
+/**
+ * Enqueue scripts and styles for front-end.
+ *
+ * @since 0.1.0
+ */
+function wsbr_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'wsbr', get_stylesheet_directory_uri() . "/assets/css/wsbr{$postfix}.css", array(), WSBR_VERSION );
- }
- add_action( 'wp_enqueue_scripts', 'wsbr_scripts_styles', 20 );
-
- /**
-  * Add humans.txt to the <head> element.
-  */
- function wsbr_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-
-	echo apply_filters( 'wsbr_humans', $humans );
- }
- add_action( 'wp_head', 'wsbr_header_meta' );
+	wp_enqueue_style( 'wsbr', get_stylesheet_directory_uri() . "/assets/css/wsbr{$postfix}.css", array(), GREATERMEDIA_VERSION );
+}
+add_action( 'wp_enqueue_scripts', 'wsbr_scripts_styles', 20 );

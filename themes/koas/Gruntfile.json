@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"koas/assets/css/koas.css": "koas/assets/css/sass/koas_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "koas/assets/css/",
+		"src": ["koas.css"],
+		"dest": "koas/assets/css/",
+		"ext": ".min.css"
+	}
+}

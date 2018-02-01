@@ -29,7 +29,7 @@ if ( file_exists( __DIR__ . '/../.version.php' ) ) {
 if ( defined( 'GMR_PARENT_ENV' ) && 'dev' == GMR_PARENT_ENV ) {
 	define( 'GREATERMEDIA_VERSION', time() );
 } else {
-	define( 'GREATERMEDIA_VERSION', $version ); /* Version bump by Steve 03/27/2017 */
+	define( 'GREATERMEDIA_VERSION', $version );
 }
 
 add_theme_support( 'homepage-curation' );
@@ -239,17 +239,6 @@ add_action( 'get_footer', function () {
  	wp_dequeue_style( 'yarppRelatedCss' );
  	wp_dequeue_style( 'yarpp-thumbnails-yarpp-thumbnail' );
 } );
-
-/**
- * Add humans.txt to the <head> element.
- */
-function greatermedia_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_template_directory_uri() . '/humans.txt" />';
-
-	echo apply_filters( 'greatermedia_humans', $humans );
-}
-
-add_action( 'wp_head', 'greatermedia_header_meta' );
 
 /**
  * Register Navigation Menus

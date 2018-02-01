@@ -1,0 +1,23 @@
+{
+	"concat": {
+		"src": ["wlnk/assets/js/src/**.js"],
+		"dest": "wlnk/assets/js/wlnk.js"
+	},
+	"uglify": {
+		"files": {
+			"wlnk/assets/js/wlnk.min.js": ["wlnk/assets/js/wlnk.js"]
+		}
+	},
+	"sass": {
+		"files": {
+			"wlnk/assets/css/wlnk.css": "wlnk/assets/css/sass/wlnk_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wlnk/assets/css/",
+		"src": ["wlnk.css"],
+		"dest": "wlnk/assets/css/",
+		"ext": ".min.css"
+	}
+}

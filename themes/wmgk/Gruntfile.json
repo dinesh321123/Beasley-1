@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wmgk/assets/css/wmgk.css": "wmgk/assets/css/sass/wmgk.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wmgk/assets/css/",
+		"src": ["wmgk.css"],
+		"dest": "wmgk/assets/css/",
+		"ext": ".min.css"
+	}
+}

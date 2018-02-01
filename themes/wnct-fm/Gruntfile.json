@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wnct-fm/assets/css/wnct_fm.css": "wnct-fm/assets/css/sass/wnct_fm_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wnct-fm/assets/css/",
+		"src": ["wnct_fm.css"],
+		"dest": "wnct-fm/assets/css/",
+		"ext": ".min.css"
+	}
+}

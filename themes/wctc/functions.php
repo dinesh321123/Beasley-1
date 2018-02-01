@@ -12,64 +12,18 @@
  * @since 0.1.0
  */
 
-$version = '2.0.8';
-
-// If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
-if ( file_exists( __DIR__ . '/../.version.php' ) ) {
-  $suffix  = intval( file_get_contents( __DIR__ . '/../.version.php' ) );
-  $version = $version . "." . $suffix;
-}
-
- // Useful global constants
-define( 'WCTC_VERSION', $version ); /* Version bump by Steve 03/20/2017 */
-
- /**
-  * Set up theme defaults and register supported WordPress features.
-  *
-  * @uses load_theme_textdomain() For translation/localization support.
-  *
-  * @since 0.1.0
-  */
- function wctc_setup() {
-	/**
-	 * Makes WCTC available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on WCTC, use a find and replace
-	 * to change 'wctc' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'wctc', get_stylesheet_directory_uri() . '/languages' );
- }
- add_action( 'after_setup_theme', 'wctc_setup' );
-
- /**
-  * Enqueue scripts and styles for front-end.
-  *
-  * @since 0.1.0
-  */
- function wctc_scripts_styles() {
+/**
+ * Enqueue scripts and styles for front-end.
+ *
+ * @since 0.1.0
+ */
+function wctc_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
 	wp_enqueue_script( 'livefyre', '//cdn.livefyre.com/Livefyre.js', null, null, true );
-	wp_enqueue_style( 'wctc', get_stylesheet_directory_uri() . "/assets/css/wctc{$postfix}.css", array(), WCTC_VERSION );
-            wp_enqueue_script(
-                'wctc',
-                get_stylesheet_directory_uri() . "/assets/js/wctc{$postfix}.js",
-                array( 'livefyre' ),
-                WCTC_VERSION,
-                true
-            );
- }
- add_action( 'wp_enqueue_scripts', 'wctc_scripts_styles', 20 );
-
- /**
-  * Add humans.txt to the <head> element.
-  */
- function wctc_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-
-	echo apply_filters( 'wctc_humans', $humans );
- }
- add_action( 'wp_head', 'wctc_header_meta' );
+	wp_enqueue_style( 'wctc', get_stylesheet_directory_uri() . "/assets/css/wctc{$postfix}.css", array(), GREATERMEDIA_VERSION );
+	wp_enqueue_script( 'wctc', get_stylesheet_directory_uri() . "/assets/js/wctc{$postfix}.js", array( 'livefyre' ), GREATERMEDIA_VERSION, true );
+}
+add_action( 'wp_enqueue_scripts', 'wctc_scripts_styles', 20 );

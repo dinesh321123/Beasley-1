@@ -1,0 +1,15 @@
+{
+	"sass": {
+		"files": {
+			"wbos-alt929boston/assets/css/wbos.css": "wbos-alt929boston/assets/css/sass/wbos_light.scss"
+		}
+	},
+
+	"cssmin": {
+		"expand": true,
+		"cwd": "wbos-alt929boston/assets/css/",
+		"src": ["wbos.css"],
+		"dest": "wbos-alt929boston/assets/css/",
+		"ext": ".min.css"
+	}
+}

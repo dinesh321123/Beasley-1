@@ -12,35 +12,6 @@
  * @since 0.1.0
  */
 
-$version = '0.1.1';
-
-// If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
-if ( file_exists( __DIR__ . '/../.version.php' ) ) {
-	$suffix  = intval( file_get_contents( __DIR__ . '/../.version.php' ) );
-	$version = $version . "." . $suffix;
-}
- // Useful global constants
-define( 'KCYE_VERSION', $version );
-
- /**
-  * Set up theme defaults and register supported WordPress features.
-  *
-  * @uses load_theme_textdomain() For translation/localization support.
-  *
-  * @since 0.1.0
-  */
- function kcye_setup() {
-	/**
-	 * Makes KCYE available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on KCYE, use a find and replace
-	 * to change 'kcye' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'kcye', get_stylesheet_directory_uri() . '/languages' );
- }
- add_action( 'after_setup_theme', 'kcye_setup' );
-
  /**
   * Enqueue scripts and styles for front-end.
   *
@@ -51,16 +22,6 @@ define( 'KCYE_VERSION', $version );
 
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'kcye', get_stylesheet_directory_uri() . "/assets/css/kcye{$postfix}.css", array(), KCYE_VERSION );
+	wp_enqueue_style( 'kcye', get_stylesheet_directory_uri() . "/assets/css/kcye{$postfix}.css", array(), GREATERMEDIA_VERSION );
  }
  add_action( 'wp_enqueue_scripts', 'kcye_scripts_styles', 20 );
-
- /**
-  * Add humans.txt to the <head> element.
-  */
- function kcye_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-
-	echo apply_filters( 'kcye_humans', $humans );
- }
- add_action( 'wp_head', 'kcye_header_meta' );

@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wklb-201705/assets/css/wklb.css": "wklb-201705/assets/css/sass/wklb_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wklb-201705/assets/css/",
+		"src": ["wklb.css"],
+		"dest": "wklb-201705/assets/css/",
+		"ext": ".min.css"
+	}
+}

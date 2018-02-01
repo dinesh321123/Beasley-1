@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wkml/assets/css/wkml.css": "wkml/assets/css/sass/wkml_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wkml/assets/css/",
+		"src": ["wkml.css"],
+		"dest": "wkml/assets/css/",
+		"ext": ".min.css"
+	}
+}

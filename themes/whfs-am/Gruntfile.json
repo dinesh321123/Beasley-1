@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"whfs-am/assets/css/whfs_am.css": "whfs-am/assets/css/sass/whfs_am_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "whfs-am/assets/css/",
+		"src": ["whfs_am.css"],
+		"dest": "whfs-am/assets/css/",
+		"ext": ".min.css"
+	}
+}

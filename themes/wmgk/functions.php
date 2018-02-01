@@ -12,46 +12,6 @@
  * @since   0.1.1
  */
 
-$version = '2.0.7';
-
-// If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
-if ( file_exists( __DIR__ . '/../.version.php' ) ) {
-	$suffix  = intval( file_get_contents( __DIR__ . '/../.version.php' ) );
-	$version = $version . "." . $suffix;
-}
-
-// Useful global constants
-/*
- * Add this constant to wp-config and set value to "dev" to trigger time() as the cache buster on css/js that use this,
- * instead of the version - useful for dev, especially when cloudflare or other cdn's are involved
- */
-if ( defined( 'GMR_WMGK_ENV' ) && 'dev' == GMR_WMGK_ENV ) {
-	// So that things like cloudflare don't hold on to our css during dev
-	define( 'WMGK_VERSION', time() );
-} else {
-	define( 'WMGK_VERSION', $version ); /* Version bump by Steve 03/20/2017 */
-}
-
-/**
- * Set up theme defaults and register supported WordPress features.
- *
- * @uses  load_theme_textdomain() For translation/localization support.
- *
- * @since 0.1.0
- */
-function wmgk_setup() {
-	/**
-	 * Makes WMGK available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on WMGK, use a find and replace
-	 * to change 'wmgk' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'wmgk', get_template_directory() . '/languages' );
-}
-
-add_action( 'after_setup_theme', 'wmgk_setup' );
-
 /**
  * Filter the Simpli-Fi script and make it async
  *
@@ -62,13 +22,12 @@ add_action( 'after_setup_theme', 'wmgk_setup' );
  * @return mixed|void
  */
 function wmgk_async_script( $tag, $handle, $src ) {
-    if ( 'simpli-fi' !== $handle ) :
-      return $tag;
-    endif;
+	if ( 'simpli-fi' !== $handle ) :
+		return $tag;
+	endif;
 
-    return str_replace( '<script', '<script async ', $tag );
+	return str_replace( '<script', '<script async ', $tag );
 }
-
 add_filter( 'script_loader_tag', 'wmgk_async_script', 10, 3 );
 
 /**
@@ -87,22 +46,9 @@ function wmgk_scripts_styles() {
 	 */
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style(
-		'wmgk',
-		get_stylesheet_directory_uri() . "/assets/css/wmgk{$postfix}.css",
-		array(
-			'google-fonts'
-		),
-		WMGK_VERSION
-	);
-	/* DISABLING DUE TO SIMPLIFI NETWORK ISSUE - WILL ENABLE ONCE FIXED - STEVE MEYERS - 11/13/15 */
-	/*wp_enqueue_script(
-		'simpli-fi',
-		'http://i.simpli.fi/dpx.js?cid=23419&action=100&segment=classicrockmgk&m=1&sifi_tuid=7536',
-		array(),
-		null,
-		true
-	);*/
-}
+	wp_enqueue_style( 'wmgk', get_stylesheet_directory_uri() . "/assets/css/wmgk{$postfix}.css", array( 'google-fonts' ), GREATERMEDIA_VERSION );
 
+	/* DISABLING DUE TO SIMPLIFI NETWORK ISSUE - WILL ENABLE ONCE FIXED - STEVE MEYERS - 11/13/15 */
+	/* wp_enqueue_script( 'simpli-fi', 'http://i.simpli.fi/dpx.js?cid=23419&action=100&segment=classicrockmgk&m=1&sifi_tuid=7536', array(), null, true ); */
+}
 add_action( 'wp_enqueue_scripts', 'wmgk_scripts_styles', 20 );

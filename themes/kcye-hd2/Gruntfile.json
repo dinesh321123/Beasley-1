@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"kcye-hd2/assets/css/kcye.css": "kcye-hd2/assets/css/sass/kcye_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "kcye-hd2/assets/css/",
+		"src": ["kcye.css"],
+		"dest": "kcye-hd2/assets/css/",
+		"ext": ".min.css"
+	}
+}

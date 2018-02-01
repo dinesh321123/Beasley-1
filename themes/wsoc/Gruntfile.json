@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wsoc/assets/css/wsoc.css": "wsoc/assets/css/sass/wsoc_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wsoc/assets/css/",
+		"src": ["wsoc.css"],
+		"dest": "wsoc/assets/css/",
+		"ext": ".min.css"
+	}
+}

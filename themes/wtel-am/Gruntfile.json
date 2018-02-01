@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wtel-am/assets/css/wtel_am.css": "wtel-am/assets/css/sass/wtel_am_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wtel-am/assets/css/",
+		"src": ["wtel_am.css"],
+		"dest": "wtel-am/assets/css/",
+		"ext": ".min.css"
+	}
+}

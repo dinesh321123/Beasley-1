@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"waec/assets/css/waec.css": "waec/assets/css/sass/waec_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "waec/assets/css/",
+		"src": ["waec.css"],
+		"dest": "waec/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -12,46 +12,6 @@
  * @since   0.1.1
  */
 
-$version = '2.0.7';
-
-// If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
-if ( file_exists( __DIR__ . '/../.version.php' ) ) {
-	$suffix  = intval( file_get_contents( __DIR__ . '/../.version.php' ) );
-	$version = $version . "." . $suffix;
-}
-
-// Useful global constants
-/*
- * Add this constant to wp-config and set value to "dev" to trigger time() as the cache buster on css/js that use this,
- * instead of the version - useful for dev, especially when cloudflare or other cdn's are involved
- */
-if ( defined( 'GMR_THEFANATIC_ENV' ) && 'dev' == GMR_THEFANATIC_ENV ) {
-	// So that things like cloudflare don't hold on to our css during dev
-	define( 'THEFANATIC_VERSION', time() );
-} else {
-	define( 'THEFANATIC_VERSION', $version ); /* Version bump by Steve 03/20/2017 */
-}
-
-/**
- * Set up theme defaults and register supported WordPress features.
- *
- * @uses  load_theme_textdomain() For translation/localization support.
- *
- * @since 0.1.0
- */
-function thefanatic_setup() {
-	/**
-	 * Makes THEFANATIC available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on THEFANATIC, use a find and replace
-	 * to change 'thefanatic' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'thefanatic', get_template_directory() . '/languages' );
-}
-
-add_action( 'after_setup_theme', 'thefanatic_setup' );
-
 /**
  * Filter the Simpli-Fi script and make it async
  *
@@ -62,13 +22,12 @@ add_action( 'after_setup_theme', 'thefanatic_setup' );
  * @return mixed|void
  */
 function wpen_async_script( $tag, $handle, $src ) {
-  if ( 'simpli-fi' !== $handle ) :
-    return $tag;
-  endif;
+	if ( 'simpli-fi' !== $handle ) :
+		return $tag;
+	endif;
 
-  return str_replace( '<script', '<script async ', $tag );
+	return str_replace( '<script', '<script async ', $tag );
 }
-
 add_filter( 'script_loader_tag', 'wpen_async_script', 10, 3 );
 
 /**
@@ -80,13 +39,7 @@ function thefanatic_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 	wp_enqueue_script( 'livefyre', '//cdn.livefyre.com/Livefyre.js', null, null, true );
-	wp_enqueue_script(
-		'thefanatic',
-		get_stylesheet_directory_uri() . "/assets/js/thefanatic{$postfix}.js",
-		array( 'livefyre' ),
-		THEFANATIC_VERSION,
-		true
-	);
+
 	/**
 	 * We are dequeueing and deregistering the parent theme's style sheets.
 	 * The purpose for this is we are importing the parent's sass files into the child's sass files so that we can
@@ -95,33 +48,9 @@ function thefanatic_scripts_styles() {
 	 */
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style(
-		'thefanatic',
-		get_stylesheet_directory_uri() . "/assets/css/thefanatic{$postfix}.css",
-		array(
-			'dashicons',
-			'google-fonts'
-		),
-		THEFANATIC_VERSION
-	);
+	wp_enqueue_style( 'thefanatic', get_stylesheet_directory_uri() . "/assets/css/thefanatic{$postfix}.css", array( 'dashicons', 'google-fonts' ), GREATERMEDIA_VERSION );
+
 	/* DISABLING DUE TO SIMPLIFI NETWORK ISSUE - WILL ENABLE ONCE FIXED - STEVE MEYERS - 11/13/15 */
-	/*wp_enqueue_script(
-		'simpli-fi',
-		'http://i.simpli.fi/dpx.js?cid=23420&action=100&segment=fanatic&m=1&sifi_tuid=7537',
-		array(),
-		null,
-		true
-	);*/
+	/* wp_enqueue_script( 'simpli-fi', 'http://i.simpli.fi/dpx.js?cid=23420&action=100&segment=fanatic&m=1&sifi_tuid=7537', array(), null, true ); */
 }
-
 add_action( 'wp_enqueue_scripts', 'thefanatic_scripts_styles', 20 );
-
-/**
- * Add humans.txt to the <head> element.
- */
-function thefanatic_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_template_directory_uri() . '/humans.txt" />';
-	echo apply_filters( 'thefanatic_humans', $humans );
-}
-
-add_action( 'wp_head', 'thefanatic_header_meta' );

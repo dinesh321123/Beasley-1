@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wjpt/assets/css/wjpt.css": "wjpt/assets/css/sass/wjpt_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wjpt/assets/css/",
+		"src": ["wjpt.css"],
+		"dest": "wjpt/assets/css/",
+		"ext": ".min.css"
+	}
+}

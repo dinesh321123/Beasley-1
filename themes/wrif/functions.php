@@ -12,72 +12,27 @@
  * @since 0.1.0
  */
 
-$version = '2.0.8';
-
-// If .version.php file exists, the content of this file (timestamp) is added to the $version value set above
-if ( file_exists( __DIR__ . '/../.version.php' ) ) {
-	$suffix  = intval( file_get_contents( __DIR__ . '/../.version.php' ) );
-	$version = $version . "." . $suffix;
-}
-
- // Useful global constants
-define( 'WRIF_VERSION', $version );
-
- /**
-  * Set up theme defaults and register supported WordPress features.
-  *
-  * @uses load_theme_textdomain() For translation/localization support.
-  *
-  * @since 0.1.0
-  */
- function wrif_setup() {
-	/**
-	 * Makes WRIF available for translation.
-	 *
-	 * Translations can be added to the /lang directory.
-	 * If you're building a theme based on WRIF, use a find and replace
-	 * to change 'wrif' to the name of your theme in all template files.
-	 */
-	load_theme_textdomain( 'wrif', get_stylesheet_directory_uri() . '/languages' );
- }
- add_action( 'after_setup_theme', 'wrif_setup' );
-
- /**
-  * Enqueue scripts and styles for front-end.
-  *
-  * @since 0.1.0
-  */
- function wrif_scripts_styles() {$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-    wp_register_style('google-fonts-wrif','//fonts.googleapis.com/css?family=Oswald:400,300,700',array(),null);
+/**
+ * Enqueue scripts and styles for front-end.
+ *
+ * @since 0.1.0
+ */
+function wrif_scripts_styles() {
+	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+	
+	wp_register_style( 'google-fonts-wrif', '//fonts.googleapis.com/css?family=Oswald:400,300,700', array(), null );
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
-	wp_enqueue_style( 'wrif', get_stylesheet_directory_uri() . "/assets/css/wrif{$postfix}.css", array( 'google-fonts-wrif' ), WRIF_VERSION );
+	wp_enqueue_style( 'wrif', get_stylesheet_directory_uri() . "/assets/css/wrif{$postfix}.css", array( 'google-fonts-wrif' ), GREATERMEDIA_VERSION );
+
 	wp_enqueue_script( 'livefyre', '//cdn.livefyre.com/Livefyre.js', null, null, true );
-	wp_enqueue_script(
-		'wrif',
-		get_stylesheet_directory_uri() . "/assets/js/wrif{$postfix}.js",
-		array( 'livefyre' ),
-		WRIF_VERSION,
-		true
-	);
+	wp_enqueue_script( 'wrif', get_stylesheet_directory_uri() . "/assets/js/wrif{$postfix}.js", array( 'livefyre' ), GREATERMEDIA_VERSION, true	);
 }
 add_action( 'wp_enqueue_scripts', 'wrif_scripts_styles', 20 );
 
-
-
- /**
-  * Add humans.txt to the <head> element.
-  */
- function wrif_header_meta() {
-	$humans = '<link type="text/plain" rel="author" href="' . get_stylesheet_directory_uri() . '/humans.txt" />';
-
-	echo apply_filters( 'wrif_humans', $humans );
- }
- add_action( 'wp_head', 'wrif_header_meta' );
-
 /**
-* Add Chartbeat to site.
-*/
+ * Add Chartbeat to site.
+ */
 function wrif_chartbeat_header() {
 	$content = '<script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>';
 
@@ -86,20 +41,18 @@ function wrif_chartbeat_header() {
 add_action( 'wp_head', 'wrif_chartbeat_header' );
 
 /**
-* Add Dave & Chuck Geo Redirect to site
-* only when the post content is in the category-options
-* 'dave-chuck-the-freak'
-*/
+ * Add Dave & Chuck Geo Redirect to site
+ * only when the post content is in the category-options
+ * 'dave-chuck-the-freak'
+ */
 function wrif_dave_and_chuck_geo_redirect() {
-	if ( in_category( 'dave-chuck-the-freak' ) || ( 'dave-and-chuck' === get_page_uri() ) ){
-		?>
-		<script>
+	if ( in_category( 'dave-chuck-the-freak' ) || ( 'dave-and-chuck' === get_page_uri() ) ) {
+		?><script>
 			var geolifygeoredirect = document.createElement('script')
-			geolifygeoredirect.setAttribute('type','text/javascript')
-			geolifygeoredirect.setAttribute('src', '//www.geolify.com/georedirectv2.php?id=29964&refurl='+document.referrer)
+			geolifygeoredirect.setAttribute('type', 'text/javascript')
+			geolifygeoredirect.setAttribute('src', '//www.geolify.com/georedirectv2.php?id=29964&refurl=' + document.referrer)
 			document.getElementsByTagName('head')[0].appendChild(geolifygeoredirect)
-		</script>
-		<?php
+		</script><?php
 	}
 }
 add_action( 'wp_head', 'wrif_dave_and_chuck_geo_redirect', 0 );

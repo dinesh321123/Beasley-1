@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wnks/assets/css/wnks.css": "wnks/assets/css/sass/wnks_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wnks/assets/css/",
+		"src": ["wnks.css"],
+		"dest": "wnks/assets/css/",
+		"ext": ".min.css"
+	}
+}

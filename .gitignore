@@ -73,3 +73,7 @@ atlassian-ide-plugin.xml
 style.css.md
 /vendor/
 /plugins/wp-debug-logger/
+
+*.map
+**/css/*.css
+**/js/*.js

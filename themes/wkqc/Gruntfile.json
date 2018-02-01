@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wkqc/assets/css/wkqc.css": "wkqc/assets/css/sass/wkqc_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wkqc/assets/css/",
+		"src": ["wkqc.css"],
+		"dest": "wkqc/assets/css/",
+		"ext": ".min.css"
+	}
+}

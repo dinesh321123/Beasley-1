@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wlld/assets/css/wlld.css": "wlld/assets/css/sass/wlld_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wlld/assets/css/",
+		"src": ["wlld.css"],
+		"dest": "wlld/assets/css/",
+		"ext": ".min.css"
+	}
+}

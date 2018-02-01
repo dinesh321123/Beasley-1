@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wnct-am/assets/css/wnct_am.css": "wnct-am/assets/css/sass/wnct_am_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wnct-am/assets/css/",
+		"src": ["wnct_am.css"],
+		"dest": "wnct-am/assets/css/",
+		"ext": ".min.css"
+	}
+}

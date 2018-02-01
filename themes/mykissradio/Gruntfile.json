@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"mykissradio/assets/css/mykissradio.css": "mykissradio/assets/css/sass/mykissradio_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "mykissradio/assets/css/",
+		"src": ["mykissradio.css"],
+		"dest": "mykissradio/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wwdb/assets/css/wwdb.css": "wwdb/assets/css/sass/wwdb_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wwdb/assets/css/",
+		"src": ["wwdb.css"],
+		"dest": "wwdb/assets/css/",
+		"ext": ".min.css"
+	}
+}

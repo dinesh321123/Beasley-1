@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wben/assets/css/wben.css": "wben/assets/css/sass/wben_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wben/assets/css/",
+		"src": ["wben.css"],
+		"dest": "wben/assets/css/",
+		"ext": ".min.css"
+	}
+}

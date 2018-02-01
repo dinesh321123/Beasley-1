@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wwwe/assets/css/wwwe.css": "wwwe/assets/css/sass/wwwe_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wwwe/assets/css/",
+		"src": ["wwwe.css"],
+		"dest": "wwwe/assets/css/",
+		"ext": ".min.css"
+	}
+}

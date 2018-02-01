@@ -1,9 +1,0 @@
-/* TEAM */
-	Developer: Chris Brunt
-	Contact:   cbrunt@greatermediadetroit.com
-	URI:       
-
-/* THANKS */
-	Template Design: 10up
-	URI:             http://10up.com
-	Twitter:         @10up

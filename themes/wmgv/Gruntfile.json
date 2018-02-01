@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wmgv/assets/css/wmgv.css": "wmgv/assets/css/sass/wmgv_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wmgv/assets/css/",
+		"src": ["wmgv.css"],
+		"dest": "wmgv/assets/css/",
+		"ext": ".min.css"
+	}
+}

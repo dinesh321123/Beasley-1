@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wbav/assets/css/wbav.css": "wbav/assets/css/sass/wbav_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wbav/assets/css/",
+		"src": ["wbav.css"],
+		"dest": "wbav/assets/css/",
+		"ext": ".min.css"
+	}
+}

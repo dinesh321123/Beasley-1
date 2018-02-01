@@ -1,0 +1,15 @@
+{
+	"sass": {
+		"files": {
+			"wjrz/assets/css/wjrz.css": "wjrz/assets/css/sass/wjrz_light.scss"
+		}
+	},
+
+	"cssmin": {
+		"expand": true,
+		"cwd": "wjrz/assets/css/",
+		"src": ["wjrz.css"],
+		"dest": "wjrz/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wtmr/assets/css/wtmr.css": "wtmr/assets/css/sass/wtmr_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wtmr/assets/css/",
+		"src": ["wtmr.css"],
+		"dest": "wtmr/assets/css/",
+		"ext": ".min.css"
+	}
+}

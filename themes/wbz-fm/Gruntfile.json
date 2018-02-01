@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wbz-fm/assets/css/wbz_fm.css": "wbz-fm/assets/css/sass/wbz_fm_news.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wbz-fm/assets/css/",
+		"src": ["wbz_fm.css"],
+		"dest": "wbz-fm/assets/css/",
+		"ext": ".min.css"
+	}
+}

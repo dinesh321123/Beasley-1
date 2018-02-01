@@ -1,0 +1,23 @@
+{
+	"concat": {
+		"src": ["wcsx/assets/js/src/wcsx.js"],
+		"dest": "wcsx/assets/js/wcsx.js"
+	},
+	"uglify": {
+		"files": {
+			"wcsx/assets/js/wcsx.min.js": ["wcsx/assets/js/wcsx.js"]
+		}
+	},
+	"sass": {
+		"files": {
+			"wcsx/assets/css/wcsx.css": "wcsx/assets/css/sass/wcsx_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wcsx/assets/css/",
+		"src": ["wcsx.css"],
+		"dest": "wcsx/assets/css/",
+		"ext": ".min.css"
+	}
+}
