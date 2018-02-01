@@ -9,6 +9,8 @@ class Listings {
 	const TYPE_LISTING      = 'listing';
 	const TAXONOMY_CATEGORY = 'listing-category';
 	const TAXONOMY_TAG      = 'listing-tag';
+	const TAG_LISTING_SLUG  = '%listing-slug%';
+	const TAG_LISTING_CAT   = '%listing-cat%';
 
 	/**
 	 * Registers hooks.
@@ -19,6 +21,8 @@ class Listings {
 		add_action( 'init', array( $this, 'register_cpt' ) );
 		add_action( 'init', array( $this, 'setup_permalinks' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+
+		add_filter( 'post_type_link', array( $this, 'update_post_link' ), 10, 2 );
 
 		$this->register_featured_image( self::TAXONOMY_CATEGORY );
 	}
@@ -101,7 +105,10 @@ class Listings {
 	 * @return string
 	 */
 	protected static function _get_permastruct() {
-		return get_option( 'listing-permalink', '/directory/%listing-cat%/%listing-slug%/' );
+		return get_option(
+			'listing-permalink',
+			sprintf( '/directory/%s/%s/', self::TAG_LISTING_CAT, self::TAG_LISTING_SLUG )
+		);
 	}
 
 	/**
@@ -113,11 +120,12 @@ class Listings {
 		wp_nonce_field( 'listing-permalink', '__listing_nonce', false );
 
 		printf(
-			'<input type="text" class="regular-text code" name="listing-permalink" value="%s">',
-			esc_attr( self::_get_permastruct() )
+			'<input type="text" class="regular-text code" name="listing-permalink" value="%s">' .
+			'<p>Use <code>%s</code> to define category slug and <code>%s</code> to define listing slug.</p>',
+			esc_attr( self::_get_permastruct() ),
+			self::TAG_LISTING_CAT,
+			self::TAG_LISTING_SLUG
 		);
-
-		echo '<p>Use <code>%listing-cat%</code> to define category slug and <code>%listing-slug%</code> to define listing slug.</p>';
 	}
 
 	/**
@@ -127,16 +135,51 @@ class Listings {
 	 * @action init
 	 */
 	public function setup_permalinks() {
-		add_rewrite_tag( '%listing-cat%', '([^/]+)', self::TAXONOMY_CATEGORY . '=' );
-		add_rewrite_tag( '%listing-slug%', '([^/]+)', self::TYPE_LISTING . '=' );
+		add_rewrite_tag( self::TAG_LISTING_CAT, '([^/]+)', self::TAXONOMY_CATEGORY . '=' );
+		add_rewrite_tag( self::TAG_LISTING_SLUG, '([^/]+)', self::TYPE_LISTING . '=' );
 
-		add_permastruct( 'listing', self::_get_permastruct(), array(
+		add_permastruct( self::TYPE_LISTING, self::_get_permastruct(), array(
 			'with_front'  => false,
 			'paged'       => false,
 			'feed'        => false,
 			'forcomments' => false,
 			'endpoints'   => false,
 		) );
+	}
+
+	/**
+	 * Updates listing permalink by adding listing slug and category.
+	 *
+	 * @access public
+	 * @filter post_type_link
+	 * @param string $link
+	 * @param \WP_Post $post
+	 * @return string
+	 */
+	public function update_post_link( $link, $post ) {
+		if ( $post->post_type != self::TYPE_LISTING ) {
+			return $link;
+		}
+
+		if ( stripos( $link, self::TAG_LISTING_SLUG ) !== false ) {
+			$link = str_replace( self::TAG_LISTING_SLUG, $post->post_name, $link );
+		}
+
+		if ( stripos( $link, self::TAG_LISTING_CAT ) !== false ) {
+			$category_slug = '';
+
+			$cats = wp_get_post_terms( $post->ID, self::TAXONOMY_CATEGORY );
+			if ( is_array( $cats ) && ! empty( $cats ) ) {
+				$category = current( $cats );
+				if ( is_a( $category, '\WP_Term' ) ) {
+					$category_slug = $category->slug;
+				}
+			}
+
+			$link = str_replace( self::TAG_LISTING_CAT, $category_slug, $link );
+		}
+
+		return $link;
 	}
 
 }
