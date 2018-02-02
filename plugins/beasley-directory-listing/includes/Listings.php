@@ -32,6 +32,7 @@ class Listings {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		add_filter( 'post_type_link', array( $this, 'update_post_link' ), 10, 2 );
+		add_filter( 'term_link', array( $this, 'update_term_link' ), 10, 3 );
 
 		$this->register_featured_image( self::TAXONOMY_CATEGORY );
 	}
@@ -229,6 +230,30 @@ class Listings {
 			}
 
 			$link = str_replace( self::TAG_LISTING_CAT, $category_slug, $link );
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Updates category permalink.
+	 * 
+	 * @access public
+	 * @filter term_link
+	 * @param string $link
+	 * @param \WP_Term $term
+	 * @param string $taxonomy
+	 * @return string
+	 */
+	public function update_term_link( $link, $term, $taxonomy ) {
+		if ( $taxonomy === self::TAXONOMY_CATEGORY ) {
+			$permalink = get_option( 'listing-category-permalink' );
+			if ( ! empty( $permalink ) ) {
+				$permalink = str_replace( self::TAG_LISTING_CAT, $term->slug, $permalink );
+				$permalink = str_replace( self::TAG_LISTING_ARCHIVE, get_option( 'listing-archive-permalink' ), $permalink );
+
+				return $permalink;
+			}
 		}
 
 		return $link;
