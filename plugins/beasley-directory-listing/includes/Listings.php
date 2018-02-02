@@ -91,7 +91,7 @@ class Listings {
 			'public'        => true,
 			'menu_position' => 21,
 			'menu_icon'     => 'dashicons-exerpt-view',
-			'has_archive'   => false,
+			'has_archive'   => true,
 			'rewrite'       => false,
 			'supports'      => array( 'title', 'editor', 'thumbnail', 'excerpt' ),
 		) );

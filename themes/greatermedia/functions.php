@@ -1222,10 +1222,18 @@ function greatermedia_extend_community_curation_limit( $limit, $homepage ) {
 }
 add_filter( 'gmr-homepage-community-limit', 'greatermedia_extend_community_curation_limit', 10, 2 );
 
-function greatermedia_podcasts_in_loop( $query ) {
+function greatermedia_podcasts_in_loop( \WP_Query $query ) {
+	if ( is_home() && $query->is_main_query() ) {
+		$post_type = array_filter( (array) $query->get( 'post_type' ) );
+		if ( empty( $post_type ) ) {
+			$post_type[] = 'post';
+		}
 
-	if ( is_home() && $query->is_main_query() )
-		$query->set( 'post_type', array( 'post', 'episode' ) );
+		if ( in_array( 'post', $post_type ) ) {
+			$post_type[] = 'episode';
+			$query->set( 'post_type', $post_type );
+		}
+	}
 
 	return $query;
 }
