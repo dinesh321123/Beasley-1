@@ -12,7 +12,7 @@ get_header();
 	<img src="<?php echo ! empty( $image_id ) ? esc_url( wp_get_attachment_image_url( $image_id, 'full' ) ) : '#'; ?>" alt="<?php echo esc_attr( $category->name ); ?>">
 
 	<?php while ( have_posts() ) : the_post(); ?>
-		<?php get_template_part( 'partials/directory-listing/taxonomy-item' ); ?>
+		<?php get_template_part( 'partials/directory-listing/list-item' ); ?>
 	<?php endwhile; ?>
 </div><?php
 
