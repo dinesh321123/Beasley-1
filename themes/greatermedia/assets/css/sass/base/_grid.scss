@@ -61,6 +61,15 @@ img {
 	background-color: $secondary-bg;
 }
 
+// Removing background images from all themes for Directory Listing pages.
+.listing-template-default,
+.tax-listing-category {
+	.main {
+		background-color: $white !important;
+		background-image: none !important;
+	}
+}
+
 .main > .container {
 	background-color: $primary-bg;
 	position: relative;

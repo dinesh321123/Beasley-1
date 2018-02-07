@@ -1,0 +1,67 @@
+.single-directory-listing {
+	background-color: $white;
+
+
+	&__hero {
+		background-position: center center;
+		background-size: cover;
+		height: 350px;
+		width: 100%;
+	}
+
+	&__header {
+		margin: -85px auto 20px auto;
+		max-width: 780px;
+		padding: 0 20px;
+
+		@include bp(small) {
+			display: flex;
+			margin-bottom: 40px;
+		}
+
+		@include bp(medium) {
+			padding: 0 40px;
+		}
+	}
+
+	&__thumbnail {
+		border: 2px solid $white;
+		height: 170px;
+		width: 170px;
+
+		@include bp(small) {
+			flex: 0 0 170px;
+		}
+
+		img {
+			height: 166px;
+			width: 166px;
+		}
+	}
+
+	&__title {
+		font-size: 30px;
+		line-height: 1;
+		margin: 20px 0 0 0;
+		text-transform: uppercase;
+
+		@include bp(small) {
+			margin: 110px 0 0 20px;
+		}
+
+		@include bp(medium) {
+			font-size: 42px;
+			margin-top: 106px;
+		}
+	}
+
+	&__content {
+		margin: 0 auto;
+		max-width: 780px;
+		padding: 0 20px;
+
+		@include bp(medium) {
+			padding: 0 40px;
+		}
+	}
+}
