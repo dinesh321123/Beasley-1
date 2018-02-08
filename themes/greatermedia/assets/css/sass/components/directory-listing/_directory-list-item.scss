@@ -1,0 +1,36 @@
+.directory-list-item {
+	align-items: flex-start;
+	background-color: $white;
+	border-bottom: 1px solid #efd6d9;
+	display: flex;
+	margin-bottom: 30px;
+	padding-bottom: 30px;
+
+	&__thumbnail {
+		flex: 1 0 200px;
+
+		img {
+			height: auto;
+			width: 100%;
+		}
+	}
+
+	&__content {
+		margin: 0 20px;
+
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&__title {
+		font-size: 18px;
+		line-height: 1;
+		margin: 0 0 5px 0;
+		text-transform: uppercase;
+
+		@include bp(medium) {
+			font-size: 24px;
+		}
+	}
+}

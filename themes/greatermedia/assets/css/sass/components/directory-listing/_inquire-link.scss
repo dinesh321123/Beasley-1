@@ -1,4 +1,12 @@
-a.inquire-link {
-	@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 2em, ms(0));
-	margin: 2em 0;
+.inquire {
+
+	&__link,
+	&__link:link,
+	&__link:visited { // css override
+		@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 2em, ms(0));
+	}
+
+	.single-directory-listing__content & {
+		margin: 2em 0;
+	}
 }

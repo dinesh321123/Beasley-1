@@ -24,8 +24,8 @@ if ( ! $query->have_posts() ) :
 	return;
 endif;
 
-?><div>
-	<h4>Related posts</h4>
+?><div class="directory-related">
+	<h4 class="directory-related__title">Related posts</h4>
 	<?php while ( $query->have_posts() ) : $query->the_post(); ?>
 		<?php get_template_part( 'partials/directory-listing/list-item' ); ?>
 	<?php endwhile; ?>

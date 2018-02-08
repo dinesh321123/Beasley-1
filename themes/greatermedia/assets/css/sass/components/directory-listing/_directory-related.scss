@@ -1,0 +1,17 @@
+.directory-related {
+	margin: 0 auto;
+	max-width: 930px;
+	padding: 30px 20px 40px 20px;
+
+	@include bp(medium) {
+		padding: 0 40px;
+	}
+
+	&__title {
+		border-top: 1px solid #efd6d9;
+		font-size: 18px;
+		font-weight: normal;
+		margin: 0;
+		padding: 20px 0;
+	}
+}
