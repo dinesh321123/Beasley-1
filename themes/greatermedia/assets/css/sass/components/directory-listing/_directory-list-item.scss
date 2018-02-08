@@ -2,12 +2,30 @@
 	align-items: flex-start;
 	background-color: $white;
 	border-bottom: 1px solid #efd6d9;
-	display: flex;
 	margin-bottom: 30px;
 	padding-bottom: 30px;
 
+	@include bp(small) {
+		padding-right: 10px;
+		width: 50%;
+
+		&:nth-child(2n) {
+			padding-left: 10px;
+			padding-right: 0;
+		}
+	}
+	@include bp(medium) {
+		display: flex;
+		width: 100%;
+	}
+
 	&__thumbnail {
 		flex: 1 0 200px;
+		margin-bottom: 15px;
+
+		@include bp(medium) {
+			margin-bottom: 0;
+		}
 
 		img {
 			height: auto;
@@ -16,7 +34,11 @@
 	}
 
 	&__content {
-		margin: 0 20px;
+		margin-bottom: 15px;
+
+		@include bp(medium) {
+			margin: 0 20px;
+		}
 
 		p:last-child {
 			margin-bottom: 0;

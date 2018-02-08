@@ -26,8 +26,10 @@ endif;
 
 ?><div class="directory-related">
 	<h4 class="directory-related__title">Related posts</h4>
-	<?php while ( $query->have_posts() ) : $query->the_post(); ?>
-		<?php get_template_part( 'partials/directory-listing/list-item' ); ?>
-	<?php endwhile; ?>
+	<div class="directory-related__wrapper">
+		<?php while ( $query->have_posts() ) : $query->the_post(); ?>
+			<?php get_template_part( 'partials/directory-listing/list-item' ); ?>
+		<?php endwhile; ?>
+	</div>
 	<?php wp_reset_postdata(); ?>
 </div>
