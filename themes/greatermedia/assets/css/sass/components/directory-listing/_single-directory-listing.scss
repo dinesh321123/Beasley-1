@@ -1,7 +1,6 @@
 .single-directory-listing {
 	background-color: $white;
 
-
 	&__hero {
 		background-position: center center;
 		background-size: cover;
@@ -11,7 +10,7 @@
 
 	&__header {
 		margin: -85px auto 20px auto;
-		max-width: 780px;
+		max-width: 860px;
 		padding: 0 20px;
 
 		@include bp(small) {
@@ -57,7 +56,7 @@
 
 	&__content {
 		margin: 0 auto;
-		max-width: 780px;
+		max-width: 860px;
 		padding: 0 20px;
 
 		@include bp(medium) {

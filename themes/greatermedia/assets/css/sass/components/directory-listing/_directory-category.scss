@@ -1,0 +1,55 @@
+.directory-category {
+
+	&__hero {
+		align-items: flex-end;
+		background-position: center center;
+		background-size: cover;
+		display: flex;
+		height: 225px;
+		justify-content: center;
+		position: relative;
+		width: 100%;
+
+		@include bp(medium) {
+			height: 350px;
+		}
+	}
+
+	&__title-wrapper {
+		max-width: 1010px;
+		padding: 0 20px;
+		width: 100%;
+
+		@include bp(medium) {
+			padding: 0 40px;
+		}
+	}
+
+	&__title {
+		bottom: -7px;
+		color: $white;
+		font-size: 48px;
+		font-style: italic;
+		line-height: 1;
+		margin: 0;
+		position: relative;
+		text-transform: uppercase;
+
+		@include bp(medium) {
+			bottom: -9px;
+			font-size: 70px;
+		}
+	}
+
+	&__wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 auto;
+		max-width: 1010px;
+		padding: 30px 20px 40px 20px;
+
+		@include bp(medium) {
+			padding: 30px 40px 40px 40px;
+		}
+	}
+}
