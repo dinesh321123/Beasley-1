@@ -1,17 +1,18 @@
-.directory-category {
+.directory-archive {
 
 	&__hero {
-		align-items: flex-end;
+		align-items: center;
 		background-position: center center;
 		background-size: cover;
 		display: flex;
-		height: 225px;
+		height: 350px;
 		justify-content: center;
 		position: relative;
+		text-align: center;
 		width: 100%;
 
 		@include bp(medium) {
-			height: 350px;
+			height: 500px;
 		}
 	}
 
@@ -26,18 +27,33 @@
 	}
 
 	&__title {
-		bottom: -7px;
 		color: $color-text-white;
-		font-size: 48px;
+		font-size: 42px;
 		font-style: italic;
-		line-height: 1;
+		font-weight: 400;
+		line-height: 1.2;
 		margin: 0;
-		position: relative;
-		text-transform: uppercase;
 
 		@include bp(medium) {
-			bottom: -9px;
-			font-size: 70px;
+			font-size: 54px;
+		}
+	}
+
+	&__intro {
+		font-size: 16px;
+		line-height: 1.5;
+		margin: 0 auto;
+		max-width: 1010px;
+		padding: 20px 20px 0 20px;
+		text-align: center;
+
+		@include bp(medium) {
+			font-size: 18px;
+			padding: 30px 40px 0 40px;
+		}
+
+		p:last-child {
+			margin-bottom: 0;
 		}
 	}
 

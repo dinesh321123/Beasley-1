@@ -1,12 +1,23 @@
 .inquire {
 
+	.single-directory-listing__content & {
+		margin: 2em 0;
+	}
+
+	.directory-categories & {
+		margin-top: auto;
+		padding: 0 20px;
+		width: 100%;
+	}
+
 	&__link,
 	&__link:link,
 	&__link:visited { // css override
 		@include btn($btn-bg, $color-text-white, $btn-bg, 0.5em, 2em, ms(0));
-	}
+		text-align: center;
 
-	.single-directory-listing__content & {
-		margin: 2em 0;
+		.directory-categories & {
+			display: block;
+		}
 	}
 }

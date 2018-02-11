@@ -1,5 +1,5 @@
 .single-directory-listing {
-	background-color: $white;
+	background-color: $primary-bg;
 
 	&__hero {
 		background-position: center center;
@@ -24,7 +24,7 @@
 	}
 
 	&__thumbnail {
-		border: 2px solid $white;
+		border: 2px solid $primary-bg;
 		height: 170px;
 		width: 170px;
 
