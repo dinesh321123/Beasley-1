@@ -14,14 +14,6 @@ class Listings {
 	const TAG_LISTING_ARCHIVE = '%listing-archive%';
 
 	/**
-	 * Determines whether or not nonce field has been rendered.
-	 *
-	 * @access protected
-	 * @var boolean
-	 */
-	protected $_rendered_nonce = false;
-
-	/**
 	 * Registers hooks.
 	 *
 	 * @access public
@@ -55,7 +47,7 @@ class Listings {
 		foreach ( $options as $key => $default ) {
 			$value = trim( get_option( $key ) );
 			if ( empty( $value ) ) {
-				add_option( $key, $default );
+				update_option( $key, $default );
 			}
 		}
 
@@ -129,65 +121,18 @@ class Listings {
 	 * @action admin_init
 	 */
 	public function register_settings() {
-		$callback = array( $this, 'render_permalink_field' );
+		$callback = array( $this, 'render_input_field' );
 
-		add_settings_section( 'listing-permalinks', 'Directory Listing Permalinks', array( $this, 'render_settings_description' ), 'permalink' );
 		add_settings_section( 'listing-archive', 'Archive Settings', '__return_false', 'directory-listing' );
+		add_settings_section( 'listing-permalinks', 'Directory Listing Permalinks', array( $this, 'render_settings_description' ), 'directory-listing' );
 
-		add_settings_field( 'listing-archive-permalink', 'Archive Slug', $callback, 'permalink', 'listing-permalinks', 'name=listing-archive-permalink' );
-		add_settings_field( 'listing-cat-permalink', 'Category', $callback, 'permalink', 'listing-permalinks', 'name=listing-category-permalink' );
-		add_settings_field( 'listing-permalink', 'Listing', $callback, 'permalink', 'listing-permalinks', 'name=listing-permalink' );
+		add_settings_field( 'listing-archive-permalink', 'Archive Slug', $callback, 'directory-listing', 'listing-permalinks', 'name=listing-archive-permalink' );
+		add_settings_field( 'listing-category-permalink', 'Category', $callback, 'directory-listing', 'listing-permalinks', 'name=listing-category-permalink' );
+		add_settings_field( 'listing-permalink', 'Listing', $callback, 'directory-listing', 'listing-permalinks', 'name=listing-permalink' );
 
 		add_settings_field( 'listgin-archive-title', 'Title', $callback, 'directory-listing', 'listing-archive', 'name=listing-archive-title' );
 		add_settings_field( 'listgin-archive-image', 'Featured Image', array( $this, 'render_image_field' ), 'directory-listing', 'listing-archive' );
 		add_settings_field( 'listgin-archive-description', 'Description', array( $this, 'render_editor_field' ), 'directory-listing', 'listing-archive' );
-
-		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-			$nonce = filter_input( INPUT_POST, '__listing_permalink_nonce' );
-			if ( wp_verify_nonce( $nonce, 'listing-permalink' ) && current_user_can( 'manage_option' ) ) {
-				$options = array( 'listing-archive-permalink', 'listing-category-permalink', 'listing-permalink' );
-				foreach ( $options as $option ) {
-					$permalink = filter_input( INPUT_POST, $option );
-					update_option( $option, sanitize_text_field( $permalink ) );
-				}
-
-				flush_rewrite_rules();
-			}
-		}
-	}
-
-	/**
-	 * Renders description for settings section.
-	 *
-	 * @access public
-	 */
-	public function render_settings_description() {
-		?><p>
-			Use this settings to define permalink structures for directory listing archive,
-			categories and individual listings. You can use <code><?php echo esc_html( self::TAG_LISTING_ARCHIVE ); ?></code>
-			to define archive slug, <code><?php echo esc_html( self::TAG_LISTING_CAT ); ?></code> to define category slug
-			and <code><?php echo esc_html( self::TAG_LISTING_SLUG ); ?></code> to define listing slug.
-		</p><?php
-	}
-
-	/**
-	 * Renders permalink setting field.
-	 *
-	 * @access public
-	 */
-	public function render_permalink_field( $args ) {
-		if ( ! $this->_rendered_nonce ) {
-			wp_nonce_field( 'listing-permalink', '__listing_permalink_nonce', false );
-			$this->_rendered_nonce = true;
-		}
-
-		$args = wp_parse_args( $args );
-
-		printf(
-			'<input type="text" class="regular-text code" name="%s" value="%s">',
-			esc_attr( $args['name'] ),
-			esc_attr( get_option( $args['name'] ) )
-		);
 	}
 
 	/**
@@ -332,6 +277,35 @@ class Listings {
 	}
 
 	/**
+	 * Renders description for settings section.
+	 *
+	 * @access public
+	 */
+	public function render_settings_description() {
+		?><p>
+			Use this settings to define permalink structures for directory listing archive,
+			categories and individual listings. You can use <code><?php echo esc_html( self::TAG_LISTING_ARCHIVE ); ?></code>
+			to define archive slug, <code><?php echo esc_html( self::TAG_LISTING_CAT ); ?></code> to define category slug
+			and <code><?php echo esc_html( self::TAG_LISTING_SLUG ); ?></code> to define listing slug.
+		</p><?php
+	}
+
+	/**
+	 * Renders permalink setting field.
+	 *
+	 * @access public
+	 */
+	public function render_input_field( $args ) {
+		$args = wp_parse_args( $args );
+
+		printf(
+			'<input type="text" class="regular-text code" name="%s" value="%s">',
+			esc_attr( $args['name'] ),
+			esc_attr( get_option( $args['name'] ) )
+		);
+	}
+
+	/**
 	 * Renders editor field.
 	 *
 	 * @access public
@@ -357,6 +331,9 @@ class Listings {
 			'listing-archive-title',
 			'listgin-archive-image',
 			'listgin-archive-description',
+			'listing-archive-permalink',
+			'listing-category-permalink',
+			'listing-permalink',
 		);
 
 		return $options;
