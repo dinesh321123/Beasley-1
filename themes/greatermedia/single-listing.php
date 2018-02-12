@@ -29,9 +29,6 @@ the_post();
 
 	<div class="single-directory-listing__content">
 		<?php the_content(); ?>
-		<div class="inquire">
-			<a class="inquire__link" href="<?php echo esc_url( get_permalink() ); ?>">Inquire</a>
-		</div>
 	</div>
 
 	<?php get_template_part( 'partials/directory-listing/related-items' ); ?>
