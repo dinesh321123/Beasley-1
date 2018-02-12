@@ -138,6 +138,7 @@ class Listings {
 		add_settings_field( 'listing-cat-permalink', 'Category', $callback, 'permalink', 'listing-permalinks', 'name=listing-category-permalink' );
 		add_settings_field( 'listing-permalink', 'Listing', $callback, 'permalink', 'listing-permalinks', 'name=listing-permalink' );
 
+		add_settings_field( 'listgin-archive-title', 'Title', $callback, 'directory-listing', 'listing-archive', 'name=listing-archive-title' );
 		add_settings_field( 'listgin-archive-image', 'Featured Image', array( $this, 'render_image_field' ), 'directory-listing', 'listing-archive' );
 		add_settings_field( 'listgin-archive-description', 'Description', array( $this, 'render_editor_field' ), 'directory-listing', 'listing-archive' );
 
@@ -353,6 +354,7 @@ class Listings {
 	 */
 	public function whitelist_options( $options ) {
 		$options['directory-listing'] = array(
+			'listing-archive-title',
 			'listgin-archive-image',
 			'listgin-archive-description',
 		);

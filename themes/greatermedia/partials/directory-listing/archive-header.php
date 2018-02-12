@@ -12,7 +12,9 @@ endif;
 
 ?><div class="directory-archive__hero" style="<?php echo esc_attr( $styles ); ?>">
 	<div class="directory-archive__title-wrapper">
-		<h1 class="directory-archive__title">What are you looking for?</h1>
+		<h1 class="directory-archive__title">
+			<?php echo esc_html( get_option( 'listing-archive-title' ) ); ?>
+		</h1>
 	</div>
 </div>
 
