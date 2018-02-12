@@ -101,16 +101,18 @@ class Listings {
 		) );
 
 		register_taxonomy( self::TAXONOMY_CATEGORY, array( self::TYPE_LISTING ), array(
-			'public'        => true,
-			'show_tagcloud' => false,
-			'hierarchical'  => true,
-			'rewrite'       => false,
+			'public'            => true,
+			'show_tagcloud'     => false,
+			'show_admin_column' => true,
+			'hierarchical'      => true,
+			'rewrite'           => false,
 		) );
 
 		register_taxonomy( self::TAXONOMY_TAG, array( self::TYPE_LISTING ), array(
-			'public'        => true,
-			'show_tagcloud' => false,
-			'rewrite'       => false,
+			'public'            => true,
+			'show_tagcloud'     => false,
+			'show_admin_column' => true,
+			'rewrite'           => false,
 		) );
 	}
 
