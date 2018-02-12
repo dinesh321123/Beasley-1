@@ -44,9 +44,18 @@ class Listings {
 	 * @access public
 	 */
 	public static function activation_hook() {
-		update_option( 'listing-archive-permalink', 'directory' );
-		update_option( 'listing-category-permalink', sprintf( '/%s/%s/', self::TAG_LISTING_ARCHIVE, self::TAG_LISTING_CAT ) );
-		update_option( 'listing-permalink', sprintf( '/%s/%s/%s/', self::TAG_LISTING_ARCHIVE, self::TAG_LISTING_CAT, self::TAG_LISTING_SLUG) );
+		$options = array(
+			'listing-archive-permalink'  => 'directory',
+			'listing-category-permalink' => sprintf( '/%s/%s/', self::TAG_LISTING_ARCHIVE, self::TAG_LISTING_CAT ),
+			'listing-permalink'          => sprintf( '/%s/%s/%s/', self::TAG_LISTING_ARCHIVE, self::TAG_LISTING_CAT, self::TAG_LISTING_SLUG ),
+		);
+
+		foreach ( $options as $key => $default ) {
+			$value = trim( get_option( $key ) );
+			if ( empty( $value ) ) {
+				add_option( $key, $default );
+			}
+		}
 
 		flush_rewrite_rules();
 	}
@@ -237,7 +246,7 @@ class Listings {
 
 	/**
 	 * Updates category permalink.
-	 * 
+	 *
 	 * @access public
 	 * @filter term_link
 	 * @param string $link
