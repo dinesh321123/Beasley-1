@@ -29,10 +29,12 @@ class Listings {
 	public function register() {
 		add_action( 'init', array( $this, 'register_cpt' ) );
 		add_action( 'init', array( $this, 'setup_permalinks' ) );
+		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 
 		add_filter( 'post_type_link', array( $this, 'update_post_link' ), 10, 2 );
 		add_filter( 'term_link', array( $this, 'update_term_link' ), 10, 3 );
+		add_filter( 'whitelist_options', array( $this, 'whitelist_options' ) );
 
 		$this->register_featured_image( self::TAXONOMY_CATEGORY );
 	}
@@ -129,14 +131,18 @@ class Listings {
 	public function register_settings() {
 		$callback = array( $this, 'render_permalink_field' );
 
-		add_settings_section( 'listings', 'Directory Listing Permalinks', array( $this, 'render_settings_description' ), 'permalink' );
+		add_settings_section( 'listing-permalinks', 'Directory Listing Permalinks', array( $this, 'render_settings_description' ), 'permalink' );
+		add_settings_section( 'listing-archive', 'Archive Settings', '__return_false', 'directory-listing' );
 
-		add_settings_field( 'listing-archive-permalink', 'Archive Slug', $callback, 'permalink', 'listings', 'name=listing-archive-permalink' );
-		add_settings_field( 'listing-cat-permalink', 'Category', $callback, 'permalink', 'listings', 'name=listing-category-permalink' );
-		add_settings_field( 'listing-permalink', 'Listing', $callback, 'permalink', 'listings', 'name=listing-permalink' );
+		add_settings_field( 'listing-archive-permalink', 'Archive Slug', $callback, 'permalink', 'listing-permalinks', 'name=listing-archive-permalink' );
+		add_settings_field( 'listing-cat-permalink', 'Category', $callback, 'permalink', 'listing-permalinks', 'name=listing-category-permalink' );
+		add_settings_field( 'listing-permalink', 'Listing', $callback, 'permalink', 'listing-permalinks', 'name=listing-permalink' );
+
+		add_settings_field( 'listgin-archive-image', 'Featured Image', array( $this, 'render_image_field' ), 'directory-listing', 'listing-archive' );
+		add_settings_field( 'listgin-archive-description', 'Description', array( $this, 'render_editor_field' ), 'directory-listing', 'listing-archive' );
 
 		if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-			$nonce = filter_input( INPUT_POST, '__listing_nonce' );
+			$nonce = filter_input( INPUT_POST, '__listing_permalink_nonce' );
 			if ( wp_verify_nonce( $nonce, 'listing-permalink' ) && current_user_can( 'manage_option' ) ) {
 				$options = array( 'listing-archive-permalink', 'listing-category-permalink', 'listing-permalink' );
 				foreach ( $options as $option ) {
@@ -170,7 +176,7 @@ class Listings {
 	 */
 	public function render_permalink_field( $args ) {
 		if ( ! $this->_rendered_nonce ) {
-			wp_nonce_field( 'listing-permalink', '__listing_nonce', false );
+			wp_nonce_field( 'listing-permalink', '__listing_permalink_nonce', false );
 			$this->_rendered_nonce = true;
 		}
 
@@ -266,6 +272,92 @@ class Listings {
 		}
 
 		return $link;
+	}
+
+	/**
+	 * Registers settings page.
+	 *
+	 * @access public
+	 * @action admin_menu
+	 */
+	public function register_menu() {
+		$title = 'Directory Listing';
+		$callback = array( $this, 'render_settings_page' );
+		add_options_page( $title, $title, 'manage_options', 'directory-listing', $callback );
+	}
+
+	/**
+	 * Renders settings page.
+	 *
+	 * @access public
+	 */
+	public function render_settings_page() {
+		?><div class="wrap">
+			<h1>Directory Listing</h1>
+
+			<form id="settings-form" action="options.php" method="post">
+				<?php settings_fields( 'directory-listing' ); ?>
+				<?php do_settings_sections( 'directory-listing' ); ?>
+				<?php submit_button(); ?>
+			</form>
+		</div><?php
+	}
+
+	/**
+	 * Renders image selection field.
+	 *
+	 * @access public
+	 */
+	public function render_image_field() {
+		wp_enqueue_media();
+		wp_enqueue_script( 'featured-image', BEASLEY_LISTINGS_ABSURL . 'assets/media-assets.js', array( 'jquery' ), null, true );
+
+		$image_id = get_option( 'listgin-archive-image' );
+
+		$thumbnail_image = '';
+		$thumbnail_image_src = wp_get_attachment_image_src( $image_id, 'thumbnail' );
+		if ( ! empty( $thumbnail_image_src ) ) {
+			$thumbnail_image = current( $thumbnail_image_src );
+		}
+
+		$styles = "background: url('{$thumbnail_image}') 50% 50% / cover no-repeat; width: 240px; height: 135px; margin-bottom: 1em; border: 1px solid #aaa";
+
+		?><div>
+			<input type="hidden" name="listgin-archive-image" value="<?php echo esc_attr( $image_id ); ?>">
+			<div style="<?php echo esc_attr( $styles ); ?>"></div>
+			<button type="button" class="button select-image" title="Select Image">Select</button>
+			<button type="button" class="button clear-image">Clear</button>
+		</div><?php
+	}
+
+	/**
+	 * Renders editor field.
+	 *
+	 * @access public
+	 */
+	public function render_editor_field() {
+		$content = get_option( 'listgin-archive-description' );
+		wp_editor( $content, 'listgin-archive-description', array(
+			'media_buttons' => false,
+			'tinymce'       => false,
+		) );
+	}
+
+	/**
+	 * Updates whitelisted options list.
+	 *
+	 * @access public
+	 * @filter whitelist_options
+	 * @param array $options
+	 * @return array
+	 */
+	public function whitelist_options( $options ) {
+		$options['directory-listing'] = array(
+			'listgin-archive-image',
+			'listgin-archive-description',
+		);
+
+		return $options;
 	}
 
 }
