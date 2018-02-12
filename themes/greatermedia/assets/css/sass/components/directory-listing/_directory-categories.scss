@@ -1,0 +1,72 @@
+.directory-categories {
+	margin: 0 auto;
+	max-width: 1010px;
+	padding: 30px 20px 40px 20px;
+
+	@include bp(medium) {
+		padding: 30px 40px 40px 40px;
+	}
+
+	&__title {
+		background-color: $btn-bg;
+		border-radius: 4px;
+		color: $color-text-white;
+		display: block;
+		font-weight: 400;
+		line-height: 1;
+		margin-top: 0;
+		padding: 4px 10px;
+		text-align: center;
+		text-transform: uppercase;
+		width: 100%;
+	}
+
+	&__wrapper {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 -1%;
+	}
+
+	&__item {
+		align-items: flex-start;
+		border: 2px solid $light-gray;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		margin: 0 1% 20px 1%;
+		padding-bottom: 20px;
+
+		@include bp(small) {
+			width: 48%;
+		}
+		@include bp(medium) {
+			width: 31.333%;
+		}
+		@include bp(large) {
+			width: 23%;
+		}
+
+		&-thumbnail {
+			padding: 1px;
+			width: 100%;
+
+			img {
+				height: auto;
+				width: 100%;
+			}
+		}
+
+		&-content {
+			font-size: 14px;
+			line-height: 1.4;
+			margin: 20px;
+			text-align: center;
+
+			p:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+	}
+
+}
