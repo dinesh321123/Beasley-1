@@ -11,10 +11,10 @@ cache:
     - plugins/greatermedia-content-syndication/vendor
     - .composer-cache # Composer
 
-#test:
-#  stage: test
-#  script:
-#    - 10up-scripts
+test:
+  stage: test
+  script:
+    - 10up-scripts
 
 deploy_stage:
   stage: deploy
