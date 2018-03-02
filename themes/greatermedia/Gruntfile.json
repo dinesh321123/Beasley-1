@@ -38,7 +38,6 @@
 		"files": {
 			"greatermedia/assets/css/greater_media.css": "greatermedia/assets/css/sass/greater_media.scss",
 			"greatermedia/assets/css/greater_media_admin.css": "greatermedia/assets/css/sass/greater_media_admin.scss",
-			"greatermedia/assets/css/gm_admin.css": "greatermedia/assets/css/sass/gm_admin.scss",
 			"greatermedia/assets/css/gm_tinymce.css": "greatermedia/assets/css/sass/gm_tinymce.scss",
 			"greatermedia/assets/css/ie9.css": "greatermedia/assets/css/sass/ie9.scss"
 		}
@@ -46,7 +45,7 @@
 	"cssmin": {
 		"expand": true,
 		"cwd": "greatermedia/assets/css/",
-		"src": ["greater_media.css", "greater_media_admin.css", "gm_admin.css", "gm_tinymce.css"],
+		"src": ["greater_media.css", "greater_media_admin.css", "gm_tinymce.css"],
 		"dest": "greatermedia/assets/css/",
 		"ext": ".min.css"
 	}

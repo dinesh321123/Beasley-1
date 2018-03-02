@@ -1,0 +1,46 @@
+image: docker.10up.com/10up-build/deploy-container:latest
+
+stages:
+  - test
+  - deploy
+
+# Define paths that should be cached between jobs. Good use cases are things like node_modules and bower_components
+cache:
+  paths:
+    - themes/node_modules
+    - plugins/greatermedia-content-syndication/vendor
+    - .composer-cache # Composer
+
+#test:
+#  stage: test
+#  script:
+#    - 10up-scripts
+
+deploy_stage:
+  stage: deploy
+  environment:
+    name: Staging
+    url: https://bbgistage.com/
+  script:
+    - bash ./deploy-scripts/build.sh
+    - bash ./deploy-scripts/deploy-stage.sh
+    - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart supervisord.service'
+    - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart memcached.service'
+    - ssh beanstalk@54.87.4.54 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
+  only:
+    - stage
+
+deploy_prod:
+  stage: deploy
+  environment:
+    name: Production
+    url: https://sites.greatermedia.com/
+  script:
+    - bash ./deploy-scripts/build.sh
+    - bash ./deploy-scripts/deploy-prod.sh
+    - ssh beanstalk@52.0.13.41 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
+    - ssh beanstalk@52.0.13.41 'touch /var/www/html/deploy-date'
+    - ssh beanstalk@52.0.13.41 'echo $(date +%s) > /var/www/html/deploy-date'
+  only:
+    - master
+  when: manual

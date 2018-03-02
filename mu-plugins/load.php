@@ -8,6 +8,8 @@
  * IMPORTANT: Not everything should be added to mu-plugins. Before adding anything here, please check with Chris or Dave
  */
 
+define( 'ACF_LITE', true );
+
 include __DIR__ . '/term-data-store/term-data-store.php';
 include __DIR__ . '/visual-shortcode/visual-shortcode.php';
 include __DIR__ . '/dependencies/dependencies.php';
@@ -22,3 +24,4 @@ include __DIR__ . '/gmr-homepage-curation/gmr-homepage-curation.php';
 include __DIR__ . '/legacy-redirects/class-CMM_Legacy_Redirects.php';
 include __DIR__ . '/gmr-fallback-thumbnails/gmr-fallback-thumbnails.php';
 include __DIR__ . '/gmr-mobile-homepage-curation/gmr-mobile-homepage-curation.php';
+include __DIR__ . '/advanced-custom-fields/acf.php';

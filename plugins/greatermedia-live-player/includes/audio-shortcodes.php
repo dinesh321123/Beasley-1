@@ -323,7 +323,9 @@ class GMR_Audio_Shortcodes {
 			$new_html .= '</div>';
 		}
 
-		$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download--fallback" download>Download Podcast</a>';
+		if ( $downloadable ){
+			$new_html .= '<a href="' . esc_attr( $mp3_src ) . '" download="' . esc_attr( $mp3_src ) . '" class="podcast__download--fallback" download>Download Podcast</a>';
+		}
 		$new_html .= '</div>'; // .podcast__meta
 		$new_html .= '<div class="gmr-mediaelement-fallback">' . $html . '</div>';
 		$new_html .= '</div>'; // .podcast-player
