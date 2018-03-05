@@ -20,6 +20,6 @@ call_user_func( function() {
 	$directories = new Beasley\DirectoryListing\Directories();
 	$directories->register();
 
-	$listings = new Beasley\DirectoryListing\Listings();
-	$listings->register();
+//	$listings = new Beasley\DirectoryListing\Listings();
+//	$listings->register();
 } );
