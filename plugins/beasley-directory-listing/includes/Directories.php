@@ -12,6 +12,24 @@ class Directories {
 		add_action( 'init', array( $this, 'register_cpt' ) );
 		add_action( 'init', array( $this, 'register_directory_settings' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
+		add_action( 'save_post_' . self::TYPE_DIRECTORIES, array( $this, 'on_directory_save' ) );
+	}
+
+	protected function _get_directories() {
+		$key = 'directories';
+		$group = 'beasley-directory-listing';
+		$directories = wp_cache_get( $key, $group );
+		if ( $directories === false ) {
+			$directories = get_posts( array(
+				'post_type'   => self::TYPE_DIRECTORIES,
+				'numberposts' => 1000, // should be enough
+				'fields'      => 'ids',
+			) );
+
+			wp_cache_set( $key, $directories, $group );
+		}
+
+		return $directories;
 	}
 
 	public function register_cpt() {
@@ -58,19 +76,7 @@ class Directories {
 			),
 		) );
 
-		$key = 'directories';
-		$group = 'beasley-directory-listing';
-		$directories = wp_cache_get( $key, $group );
-		if ( $directories === false ) {
-			$directories = get_posts( array(
-				'post_type'   => self::TYPE_DIRECTORIES,
-				'numberposts' => 1000, // should be enough
-				'fields'      => 'ids',
-			) );
-
-			wp_cache_set( $key, $directories, $group );
-		}
-
+		$directories = $this->_get_directories();
 		if ( ! empty( $directories ) ) {
 			foreach ( (array) $directories as $directory ) {
 				$directory = get_post( $directory );
@@ -186,6 +192,10 @@ class Directories {
 //		$title = 'Directory Listing';
 //		$callback = array( $this, 'render_settings_page' );
 //		add_options_page( $title, $title, 'manage_options', 'directory-listing', $callback );
+	}
+
+	public function on_directory_save() {
+		wp_cache_delete( 'directories', 'beasley-directory-listing' );
 	}
 
 }
