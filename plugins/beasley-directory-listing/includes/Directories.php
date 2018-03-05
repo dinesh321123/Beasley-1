@@ -4,13 +4,20 @@ namespace Beasley\DirectoryListing;
 
 class Directories {
 
+	use \Beasley\DirectoryListing\FeaturedImage;
+
 	const TYPE_DIRECTORIES  = 'directory';
+	const TAG_LISTING_SLUG    = '%listing-slug%';
+	const TAG_LISTING_CAT     = '%listing-cat%';
+	const TAG_LISTING_ARCHIVE = '%listing-archive%';
 
 	public function register() {
 		add_action( 'init', array( $this, 'register_cpt' ) );
-		add_action( 'init', array( $this, 'register_directory_settings' ) );
+		add_action( 'init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'save_post_' . self::TYPE_DIRECTORIES, array( $this, 'on_directory_save' ) );
+
+		add_filter( 'post_type_link', array( $this, 'update_post_link' ), 10, 2 );
 	}
 
 	protected function _get_directories() {
@@ -65,6 +72,8 @@ class Directories {
 				$directory = get_post( $directory );
 				if ( is_a( $directory, '\WP_Post' ) ) {
 					$post_type = 'directory-' . $directory->ID;
+					$cateogry_taxonomy = 'directory-cat-' . $directory->ID;
+
 					register_post_type( $post_type, array(
 						'public'        => true,
 						'menu_position' => 52,
@@ -92,7 +101,20 @@ class Directories {
 						),
 					) );
 
-					register_taxonomy( 'directory-cat-' . $directory->ID, array( $post_type ), array(
+					add_permastruct( $post_type, sprintf( '/%s/%s/%s/', self::TAG_LISTING_ARCHIVE, self::TAG_LISTING_CAT, self::TAG_LISTING_SLUG ), array(
+						'with_front'  => false,
+						'paged'       => false,
+						'feed'        => false,
+						'forcomments' => false,
+						'endpoints'   => false,
+					) );
+
+					$archive = get_field( 'archive_slug', $directory->ID );
+					add_rewrite_rule( $archive . '/?$', 'index.php?post_type=' . $post_type, 'top' );
+					add_rewrite_rule( $archive . '/([^/]+)/?$', 'index.php?post_type=' . $post_type . '&' . $cateogry_taxonomy . '=$matches[1]', 'top' );
+					add_rewrite_rule( $archive . '/([^/]+)/([^/]+)/?$', 'index.php?post_type=' . $post_type . '&' . $cateogry_taxonomy . '=$matches[1]&post_name__in=$matches[2]', 'top' );
+
+					register_taxonomy( $cateogry_taxonomy, array( $post_type ), array(
 						'public'            => true,
 						'show_tagcloud'     => false,
 						'show_admin_column' => true,
@@ -106,12 +128,14 @@ class Directories {
 						'show_admin_column' => true,
 						'rewrite'           => false,
 					) );
+
+					$this->register_featured_image( $cateogry_taxonomy );
 				}
 			}
 		}
 	}
 
-	public function register_directory_settings() {
+	public function register_settings() {
 		if ( function_exists( 'acf_add_local_field_group' ) ) {
 			$location = array(
 				array(
@@ -188,6 +212,45 @@ class Directories {
 
 	public function on_directory_save() {
 		wp_cache_delete( 'directories', 'beasley-directory-listing' );
+	}
+
+	public function update_post_link( $link, $post ) {
+		$prefix = 'directory-';
+		if ( substr( $post->post_type, 0, strlen( $prefix ) ) != $prefix ) {
+			return $link;
+		}
+
+		$directory = get_post( intval( substr( $post->post_type, strlen( $prefix ) ) ) );
+		if ( ! is_a( $directory, '\WP_Post' ) ) {
+			return $link;
+		}
+
+		if ( stripos( $link, self::TAG_LISTING_ARCHIVE ) !== false ) {
+			$archive = get_field( 'archive_slug', $directory->ID );
+			if ( ! empty( $archive ) ) {
+				$link = str_replace( self::TAG_LISTING_ARCHIVE, $archive, $link );
+			}
+		}
+
+		if ( stripos( $link, self::TAG_LISTING_SLUG ) !== false ) {
+			$link = str_replace( self::TAG_LISTING_SLUG, $post->post_name, $link );
+		}
+
+		if ( stripos( $link, self::TAG_LISTING_CAT ) !== false ) {
+			$category_slug = '';
+
+			$cats = wp_get_post_terms( $post->ID, 'directory-cat-' . $directory->ID );
+			if ( is_array( $cats ) && ! empty( $cats ) ) {
+				$category = current( $cats );
+				if ( is_a( $category, '\WP_Term' ) ) {
+					$category_slug = $category->slug;
+				}
+			}
+
+			$link = str_replace( self::TAG_LISTING_CAT, $category_slug, $link );
+		}
+
+		return $link;
 	}
 
 }
