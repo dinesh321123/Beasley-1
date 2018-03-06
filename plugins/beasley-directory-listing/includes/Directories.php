@@ -20,6 +20,7 @@ class Directories {
 		add_filter( 'post_type_link', array( $this, 'update_post_link' ), 10, 2 );
 		add_filter( 'term_link', array( $this, 'update_term_link' ), 10, 3 );
 		add_filter( 'archive_template_hierarchy', array( $this, 'update_archive_template' ) );
+		add_filter( 'single_template_hierarchy', array( $this, 'update_single_template' ) );
 		add_filter( 'body_class', array( $this, 'update_body_classes' ) );
 	}
 
@@ -286,6 +287,24 @@ class Directories {
 					$_templates[] = ! empty( $category )
 						? 'taxonomy-listing-category.php'
 						: 'archive-listing.php';
+				}
+
+				$_templates[] = $template;
+			}
+
+			$templates = $_templates;
+		}
+
+		return $templates;
+	}
+
+	public function update_single_template( $templates ) {
+		$directory_id = get_query_var( 'directory_id' );
+		if ( $directory_id > 0 ) {
+			$_templates = array();
+			foreach ( $templates as $template ) {
+				if ( $template == 'single.php' ) {
+					$_templates[] = 'single-listing.php';
 				}
 
 				$_templates[] = $template;

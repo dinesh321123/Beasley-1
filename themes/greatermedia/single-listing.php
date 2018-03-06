@@ -1,9 +1,10 @@
 <?php
 
+$directory_id = get_query_var( 'directory_id' );
 $post = get_queried_object();
 
 $image = false;
-$category = current( wp_get_post_terms( $post->ID, 'listing-category' ) );
+$category = current( wp_get_post_terms( $post->ID, 'directory-cat-' . $directory_id ) );
 if ( $category ) :
 	$image_id = get_term_meta( $category->term_id, 'featured-image', true );
 	if ( ! empty( $image_id ) ) :

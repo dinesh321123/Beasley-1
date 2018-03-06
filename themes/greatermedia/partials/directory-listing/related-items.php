@@ -1,15 +1,17 @@
 <?php
 
+$directory_id = get_query_var( 'directory_id' );
+
 $post = get_queried_object();
 $args = array(
-	'post_type'           => 'listing',
+	'post_type'           => $post->post_type,
 	'posts_per_page'      => 5,
 	'no_found_rows'       => true,
 	'ignore_sticky_posts' => true,
 	'post__not_in'        => array( $post->ID ),
 );
 
-$category = current( wp_get_post_terms( $post->ID, 'listing-category' ) );
+$category = current( wp_get_post_terms( $post->ID, 'directory-cat-' . $directory_id ) );
 if ( is_a( $category, '\WP_Term' ) ) :
 	$args['tax_query'] = array(
 		array(
