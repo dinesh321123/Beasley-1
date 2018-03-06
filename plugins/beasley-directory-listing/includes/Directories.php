@@ -277,11 +277,15 @@ class Directories {
 
 	public function update_archive_template( $templates ) {
 		$directory_id = get_query_var( 'directory_id' );
-		if ( filter_var( $directory_id, FILTER_VALIDATE_INT ) > 0 ) {
+		if ( $directory_id > 0 ) {
+			$category = get_query_var( 'directory-cat-' . $directory_id );
+
 			$_templates = array();
 			foreach ( $templates as $template ) {
 				if ( $template == 'archive.php' ) {
-					$_templates[] = 'archive-listing.php';
+					$_templates[] = ! empty( $category )
+						? 'taxonomy-listing-category.php'
+						: 'archive-listing.php';
 				}
 
 				$_templates[] = $template;
@@ -296,7 +300,10 @@ class Directories {
 	public function update_body_classes( $classes ) {
 		$directory_id = get_query_var( 'directory_id' );
 		if ( ! empty( $directory_id ) && $directory_id > 0 ) {
-			$classes[] = 'post-type-archive-listing';
+			$category = get_query_var( 'directory-cat-' . $directory_id );
+			$classes[] = empty( $category )
+				? 'post-type-archive-listing'
+				: 'tax-listing-category';
 		}
 
 		return $classes;
