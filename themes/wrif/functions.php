@@ -19,7 +19,7 @@
  */
 function wrif_scripts_styles() {
 	$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-	
+
 	wp_register_style( 'google-fonts-wrif', '//fonts.googleapis.com/css?family=Oswald:400,300,700', array(), null );
 	wp_dequeue_style( 'greatermedia' );
 	wp_deregister_style( 'greatermedia' );
@@ -46,7 +46,7 @@ add_action( 'wp_head', 'wrif_chartbeat_header' );
  * 'dave-chuck-the-freak'
  */
 function wrif_dave_and_chuck_geo_redirect() {
-	if ( in_category( 'dave-chuck-the-freak' ) || ( 'dave-and-chuck' === get_page_uri() ) ) {
+	if ( ( is_single() || is_singular() || is_page() ) && ( in_category( 'dave-chuck-the-freak' ) || 'dave-and-chuck' == get_queried_object()->post_name ) ) {
 		?><script>
 			var geolifygeoredirect = document.createElement('script')
 			geolifygeoredirect.setAttribute('type', 'text/javascript')
