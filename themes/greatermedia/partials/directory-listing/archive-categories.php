@@ -1,7 +1,14 @@
-<div class="directory-categories">
+<?php
+
+$directory = get_post( get_query_var( 'directory_id' ) );
+if ( ! is_a( $directory, '\WP_Post' ) ) :
+	return;
+endif;
+
+?><div class="directory-categories">
 	<h2 class="directory-categories__title">Categories</h2>
 	<div class="directory-categories__wrapper">
-		<?php foreach ( get_terms( 'taxonomy=listing-category' ) as $category ) : ?>
+		<?php foreach ( get_terms( 'taxonomy=directory-cat-' . $directory->ID ) as $category ) : ?>
 			<div class="directory-categories__item">
 				<div class="directory-categories__item-thumbnail">
 					<a href="<?php echo esc_url( get_term_link( $category ) ); ?>">

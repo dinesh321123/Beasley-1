@@ -18,6 +18,9 @@ class Directories {
 		add_action( 'save_post_' . self::TYPE_DIRECTORIES, array( $this, 'on_directory_save' ) );
 
 		add_filter( 'post_type_link', array( $this, 'update_post_link' ), 10, 2 );
+		add_filter( 'term_link', array( $this, 'update_term_link' ), 10, 3 );
+		add_filter( 'archive_template_hierarchy', array( $this, 'update_archive_template' ) );
+		add_filter( 'body_class', array( $this, 'update_body_classes' ) );
 	}
 
 	protected function _get_directories() {
@@ -38,6 +41,8 @@ class Directories {
 	}
 
 	public function register_cpt() {
+		global $wp;
+
 		register_post_type( self::TYPE_DIRECTORIES, array(
 			'public'        => false,
 			'show_ui'       => true,
@@ -68,6 +73,8 @@ class Directories {
 
 		$directories = $this->_get_directories();
 		if ( ! empty( $directories ) ) {
+			$wp->add_query_var( 'directory_id' );
+
 			foreach ( (array) $directories as $directory ) {
 				$directory = get_post( $directory );
 				if ( is_a( $directory, '\WP_Post' ) ) {
@@ -110,9 +117,9 @@ class Directories {
 					) );
 
 					$archive = get_field( 'archive_slug', $directory->ID );
-					add_rewrite_rule( $archive . '/?$', 'index.php?post_type=' . $post_type, 'top' );
-					add_rewrite_rule( $archive . '/([^/]+)/?$', 'index.php?post_type=' . $post_type . '&' . $cateogry_taxonomy . '=$matches[1]', 'top' );
-					add_rewrite_rule( $archive . '/([^/]+)/([^/]+)/?$', 'index.php?post_type=' . $post_type . '&' . $cateogry_taxonomy . '=$matches[1]&post_name__in=$matches[2]', 'top' );
+					add_rewrite_rule( "{$archive}/?$",                 "index.php?directory_id={$directory->ID}&post_type={$post_type}",                                                     'top' );
+					add_rewrite_rule( "{$archive}/([^/]+)/?$",         "index.php?directory_id={$directory->ID}&post_type={$post_type}&{$cateogry_taxonomy}=\$matches[1]",                   'top' );
+					add_rewrite_rule( "{$archive}/([^/]+)/([^/]+)/?$", "index.php?directory_id={$directory->ID}&post_type={$post_type}&{$cateogry_taxonomy}=\$matches[1]&name=\$matches[2]", 'top' );
 
 					register_taxonomy( $cateogry_taxonomy, array( $post_type ), array(
 						'public'            => true,
@@ -251,6 +258,48 @@ class Directories {
 		}
 
 		return $link;
+	}
+
+	public function update_term_link( $link, $term, $taxonomy ) {
+		$prefix = 'directory-cat-';
+		if ( substr( $taxonomy, 0, strlen( $prefix ) ) == $prefix ) {
+			$directory_id = substr( $taxonomy, strlen( $prefix ) );
+			if ( $directory_id > 0 ) {
+				$archive = get_field( 'archive_slug', $directory_id );
+				if ( ! empty( $archive ) ) {
+					return sprintf( '/%s/%s/', urlencode( $archive ), urlencode( $term->slug ) );
+				}
+			}
+		}
+
+		return $link;
+	}
+
+	public function update_archive_template( $templates ) {
+		$directory_id = get_query_var( 'directory_id' );
+		if ( filter_var( $directory_id, FILTER_VALIDATE_INT ) > 0 ) {
+			$_templates = array();
+			foreach ( $templates as $template ) {
+				if ( $template == 'archive.php' ) {
+					$_templates[] = 'archive-listing.php';
+				}
+
+				$_templates[] = $template;
+			}
+
+			$templates = $_templates;
+		}
+
+		return $templates;
+	}
+
+	public function update_body_classes( $classes ) {
+		$directory_id = get_query_var( 'directory_id' );
+		if ( ! empty( $directory_id ) && $directory_id > 0 ) {
+			$classes[] = 'post-type-archive-listing';
+		}
+
+		return $classes;
 	}
 
 }

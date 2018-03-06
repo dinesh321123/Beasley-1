@@ -13,8 +13,8 @@ require_once __DIR__ . '/includes/FeaturedImage.php';
 require_once __DIR__ . '/includes/Listings.php';
 require_once __DIR__ . '/includes/Directories.php';
 
-register_activation_hook( __FILE__, array( '\Beasley\DirectoryListing\Listings', 'activation_hook' ) );
-register_deactivation_hook( __FILE__, array( '\Beasley\DirectoryListing\Listings', 'deactivation_hook' ) );
+register_activation_hook( __FILE__, 'flush_rewrite_rules' );
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 
 call_user_func( function() {
 	$directories = new Beasley\DirectoryListing\Directories();
