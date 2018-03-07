@@ -11,6 +11,6 @@
 		<?php the_excerpt(); ?>
 	</div>
 	<div class="inquire">
-		<a class="inquire__link" href="<?php echo esc_url( get_permalink() ); ?>">INQUIRE</a>
+		<a class="inquire__link" href="<?php echo esc_url( get_permalink() ); ?>">READ MORE</a>
 	</div>
 </div>
