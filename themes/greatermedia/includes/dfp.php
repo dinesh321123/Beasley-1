@@ -1,29 +1,12 @@
 <?php
 
 function greatermedia_init_dfp_settings( $group, $page ) {
-	add_settings_section( 'greatermedia_dfp_settings', 'DoubleClick for Publishers', 'greatermedia_render_dfp_settings_section', $page );
+	add_settings_section( 'beasley_dfp_settings', 'DoubleClick for Publishers', '__return_false', $page );
+	add_settings_section( 'beasley_dfp_global_targeting_settings', 'DFP Global Targeting', '__return_false', $page );
+	add_settings_section( 'beasley_dfp_unit_codes', 'DFP Unit Codes', '__return_false', $page );
 
 	register_setting( $group, 'dfp_network_code', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_targeting_market', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_targeting_genre', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_targeting_ctest', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_ad_leaderboard_pos1', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_ad_leaderboard_pos2', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_ad_incontent_pos1', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_ad_incontent_pos2', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_ad_inlist_infinite', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_ad_interstitial', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_ad_wallpaper', 'sanitize_text_field' );
-	register_setting( $group, 'dfp_ad_playersponsorship', 'sanitize_text_field' );
-}
-add_action( 'greatermedia-settings-register-settings', 'greatermedia_init_dfp_settings', 10, 2 );
-
-function greatermedia_render_dfp_settings_section() {
-	echo '<div class="gmr__option">';
-		echo '<label for="dfp_network_code" class="gmr__option--label">Network Code</label>';
-		echo '<input type="text" class="gmr__option--input" name="dfp_network_code" id="dfp_network_code" value="', esc_attr( get_option( 'dfp_network_code' ) ), '">';
-		echo '<div class="gmr-option__field--desc"></div>';
-	echo '</div>';
+	add_settings_field( 'dfp_network_code', 'Network Code', 'beasley_input_field', $page, 'beasley_dfp_settings', 'name=dfp_network_code' );
 
 	$settings = array(
 		'dfp_targeting_market' => 'Market Targeting Value',
@@ -31,15 +14,9 @@ function greatermedia_render_dfp_settings_section() {
 		'dfp_targeting_ctest'  => 'CTest Targeting Value',
 	);
 
-	echo '<hr>';
-	echo '<h3>Global Targeting</h3>';
-
 	foreach ( $settings as $key => $label ) {
-		echo '<div class="gmr__option">';
-			echo '<label for="', esc_attr( $key ), '" class="gmr__option--label">', esc_html( $label ), '</label>';
-			echo '<input type="text" class="gmr__option--input" name="', esc_attr( $key ), '" id="', esc_attr( $key ), '" value="', esc_attr( get_option( $key ) ), '">';
-			echo '<div class="gmr-option__field--desc"></div>';
-		echo '</div>';
+		register_setting( $group, $key, 'sanitize_text_field' );
+		add_settings_field( $key, $label, 'beasley_input_field', $page, 'beasley_dfp_global_targeting_settings', 'name=' . $key );
 	}
 
 	$settings = array(
@@ -57,19 +34,14 @@ function greatermedia_render_dfp_settings_section() {
 	 * Filter dfp setting section titles.
 	 *
 	 */
-	$settings = apply_filters( 'greatermedia_filter_dfp_settings_section_title', $settings );
-
-	echo '<hr>';
-	echo '<h3>Unit Codes</h3>';
+	$settings = apply_filters( 'beasley-dfp-unit-codes-settings', $settings );
 
 	foreach ( $settings as $key => $label ) {
-		echo '<div class="gmr__option">';
-			echo '<label for="', esc_attr( $key ), '" class="gmr__option--label">', esc_html( $label ), '</label>';
-			echo '<input type="text" class="gmr__option--input" name="', esc_attr( $key ), '" id="', esc_attr( $key ), '" value="', esc_attr( get_option( $key ) ), '">';
-			echo '<div class="gmr-option__field--desc"></div>';
-		echo '</div>';
+		register_setting( $group, $key, 'sanitize_text_field' );
+		add_settings_field( $key, $label, 'beasley_input_field', $page, 'beasley_dfp_unit_codes', 'name=' . $key );
 	}
 }
+add_action( 'beasley-register-settings', 'greatermedia_init_dfp_settings', 10, 2 );
 
 function greatermedia_is_dfp_active() {
 	$network_id = trim( get_option( 'dfp_network_code' ) );

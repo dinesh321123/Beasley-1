@@ -1,11 +1,10 @@
 <?php
 /**
  * Plugin Name: Greater Media Podcasts
- * Plugin URI:  http://wordpress.org/plugins
  * Description: A podcasting solution for Greater Media
- * Version:     0.1.0
- * Author:      10up
- * Author URI:  http://10up.com
+ * Version:     1.0.0
+ * Author:      10up Inc
+ * Author URI:  http://10up.com/
  */
 
 // Useful global constants

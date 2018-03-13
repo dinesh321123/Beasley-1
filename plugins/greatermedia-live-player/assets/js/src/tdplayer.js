@@ -1625,9 +1625,6 @@
 
 	var pauseCustomInlineAudio = function () {
 		customAudio.pause();
-		resetInlineAudioStates();
-		setPausedStyles();
-		stopInlineAudioInterval();
 	};
 
 	/*
@@ -1680,26 +1677,32 @@
 	};
 
 	var initCustomAudioPlayer = function () {
-		if ("undefined" !== typeof Modernizr && Modernizr.audio) {
-			customAudio = new Audio();
+		if ("undefined" === typeof Modernizr || !Modernizr.audio) {
+			return;
+		}
 
-			// Revert the button states back to play once the file is done playing
-			if (customAudio.addEventListener) {
-				customAudio.addEventListener('ended', function () {
-					playingCustomAudio = false;
-					resetInlineAudioStates();
-					setStoppedStyles();
-					stopInlineAudioInterval();
-				});
-			} else if (customAudio.attachEvent) {
-				customAudio.attachEvent('ended', function () {
-					playingCustomAudio = false;
-					resetInlineAudioStates();
-					setStoppedStyles();
-					stopInlineAudioInterval();
-				});
-			}
+		window.customAudio = customAudio = new Audio();
 
+		var customAudioPaused = function() {
+			resetInlineAudioStates();
+			setPausedStyles();
+			stopInlineAudioInterval();
+		};
+
+		var customAudioEnded = function() {
+			playingCustomAudio = false;
+			resetInlineAudioStates();
+			setStoppedStyles();
+			stopInlineAudioInterval();
+		};
+
+		// Revert the button states back to play once the file is done playing
+		if (customAudio.addEventListener) {
+			customAudio.addEventListener('pause', customAudioPaused);
+			customAudio.addEventListener('ended', customAudioEnded);
+		} else if (customAudio.attachEvent) {
+			customAudio.attachEvent('pause', customAudioPaused);
+			customAudio.attachEvent('ended', customAudioEnded);
 		}
 	};
 
@@ -1792,8 +1795,7 @@
 	 * calculates the time of an inline audio element and outputs the time remaining
 	 */
 	function audioTimeRemaining() {
-		var ramainings = document.querySelectorAll('.audio__time--remaining'), i,
-			duration = parseInt(customAudio.duration),
+		var duration = parseInt(customAudio.duration),
 			currentTime = parseInt(customAudio.currentTime),
 			timeleft = new Date(2000,1,1,0,0,0),
 			hours, mins, secs;
@@ -1804,7 +1806,8 @@
 			currentTime = 0;
 		}
 
-		timeleft.setSeconds(duration - currentTime);
+//		timeleft.setSeconds(duration - currentTime);
+		timeleft.setSeconds(duration);
 
 		hours = timeleft.getHours();
 		mins = ('0' + timeleft.getMinutes()).slice(-2);
@@ -1815,10 +1818,7 @@
 			timeleft = mins + ':' + secs;
 		}
 
-		for (i = 0; i < ramainings.length; ++i) {
-			ramainings[i].innerHTML = timeleft;
-		}
-
+//		$('.podcast__btn--play.playing').parents('.podcast-player').find('.audio__time--remaining').text(timeleft);
 		$audioPodcast.find('span:last').text(timeleft);
 	}
 
@@ -1826,8 +1826,7 @@
 	 * calculates the time of an inline audio element and outputs the time that has elapsed
 	 */
 	function audioTimeElapsed() {
-		var timeline = document.querySelectorAll('.audio__time--elapsed'),
-			passedSeconds = parseInt(customAudio.currentTime),
+		var passedSeconds = parseInt(customAudio.currentTime),
 			currentTime = new Date(2000,1,1,0,0,0),
 			hours, mins, secs, i;
 
@@ -1842,10 +1841,7 @@
 			currentTime = mins + ':' + secs;
 		}
 
-		for (i = 0; i < timeline.length; ++i) {
-			timeline[i].innerHTML = currentTime;
-		}
-
+//		$('.podcast__btn--play.playing').parents('.podcast-player').find('.audio__time--elapsed').text(currentTime);
 		$audioPodcast.find('span:first').text(currentTime);
 	}
 

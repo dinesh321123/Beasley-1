@@ -50,9 +50,7 @@ class GreaterMediaSiteOptions {
 	}
 
 	public function render_settings_page() {
-		?>
-		<form action="options.php" method="post" class="greatermedia-settings-form" style="max-width: 550px;">
-			<?php
+		echo '<form action="options.php" method="post" class="greatermedia-settings-form" style="max-width:750px;">';
 			settings_fields( self::option_group );
 			do_settings_sections( $this->_settings_page_hook );
 
@@ -64,9 +62,7 @@ class GreaterMediaSiteOptions {
 			do_action( 'greatermedia-settings-additional-settings' );
 
 			submit_button( 'Submit' );
-			?>
-		</form>
-	<?php
+		echo '</form>';
 	}
 
 
@@ -81,7 +77,6 @@ class GreaterMediaSiteOptions {
 		ksort( $types, SORT_ASC );
 
 		foreach ( $types as $type => $type_object ) {
-
 			// Post types to exclude
 			$exclude = array(
 				'listener_submissions',
@@ -104,8 +99,28 @@ class GreaterMediaSiteOptions {
 		}
 
 		// Settings Section
-		add_settings_section( 'greatermedia_site_settings', 'Station Site', array( $this, 'render_site_settings_section' ), $this->_settings_page_hook );
-		add_settings_section( 'greatermedia_tracking_codes', 'Tracking Codes', array( $this, 'render_tracking_scripts_section' ), $this->_settings_page_hook );
+		add_settings_section( 'beasley_site_settings', 'Station Site', array( $this, 'render_site_settings_section' ), $this->_settings_page_hook );
+		add_settings_section( 'beasley_social_networks', 'Social Networks', '__return_false', $this->_settings_page_hook );
+		add_settings_section( 'beasley_google_analytics', 'Google Analytics', '__return_false', $this->_settings_page_hook );
+
+		add_settings_field( 'gmr_livelinks_title', 'Live Links Sidebar Title', 'beasley_input_field', $this->_settings_page_hook, 'beasley_site_settings', 'name=gmr_livelinks_title' );
+
+		add_settings_field( 'gmr_facebook_url', 'Facebook', 'beasley_input_field', $this->_settings_page_hook, 'beasley_social_networks', 'name=gmr_facebook_url' );
+		add_settings_field( 'gmr_twitter_name', 'Twitter', 'beasley_input_field', $this->_settings_page_hook, 'beasley_social_networks', array( 'name' => 'gmr_twitter_name', 'desc' => 'Please enter username minus the @' ) );
+		add_settings_field( 'gmr_youtube_url', 'Youtube', 'beasley_input_field', $this->_settings_page_hook, 'beasley_social_networks', 'name=gmr_youtube_url' );
+		add_settings_field( 'gmr_instagram_name', 'Instagram', 'beasley_input_field', $this->_settings_page_hook, 'beasley_social_networks', 'name=gmr_instagram_name' );
+
+		add_settings_field( 'gmr_google_analytics', 'Tracking ID', 'beasley_input_field', $this->_settings_page_hook, 'beasley_google_analytics', 'name=gmr_google_analytics&desc=UA-xxxxxx-xx' );
+
+		add_settings_field( 'gmr_google_uid_dimension', 'User ID Dimension #', 'beasley_input_field', $this->_settings_page_hook, 'beasley_google_analytics', array(
+			'name' => 'gmr_google_uid_dimension',
+			'desc' => 'Sends the current user\'s ID to this custom Google Analytics dimension. Most sites can use dimension1 unless it is already in use.',
+		) );
+
+		add_settings_field( 'gmr_google_author_dimension', 'Author Dimension #', 'beasley_input_field', $this->_settings_page_hook, 'beasley_google_analytics', array(
+			'name' => 'gmr_google_author_dimension',
+			'desc' => 'Sends the current post\'s author login ID to this custom Google Analytics dimension. Most sites can use dimension2 unless it is already in use.',
+		) );
 
 		// Social URLs
 		register_setting( self::option_group, 'gmr_facebook_url', 'esc_url_raw' );
@@ -114,8 +129,8 @@ class GreaterMediaSiteOptions {
 		register_setting( self::option_group, 'gmr_instagram_name', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'gmr_google_analytics', 'sanitize_text_field' );
-		register_setting( self::option_group, 'gmr_google_uid_dimension', 'absint' );
-		register_setting( self::option_group, 'gmr_google_author_dimension', 'absint' );
+		register_setting( self::option_group, 'gmr_google_uid_dimension', 'sanitize_text_field' );
+		register_setting( self::option_group, 'gmr_google_author_dimension', 'sanitize_text_field' );
 		register_setting( self::option_group, 'gmr_livelinks_title', 'sanitize_text_field');
 		register_setting( self::option_group, 'gmr_newssite', 'esc_attr' );
 		register_setting( self::option_group, 'gmr_livelinks_more_redirect', 'esc_attr' );
@@ -124,7 +139,7 @@ class GreaterMediaSiteOptions {
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
 		 */
-		do_action( 'greatermedia-settings-register-settings', self::option_group, $this->_settings_page_hook );
+		do_action( 'beasley-register-settings', self::option_group, $this->_settings_page_hook );
 	}
 
 	public function render_fallback_section_info() {
@@ -155,19 +170,12 @@ class GreaterMediaSiteOptions {
 	}
 
 	public function render_site_settings_section() {
-		$facebook = get_option( 'gmr_facebook_url', '' );
-		$twitter = get_option( 'gmr_twitter_name', '' );
-		$youtube = get_option( 'gmr_youtube_url', '' );
-		$instagram = get_option( 'gmr_instagram_name', '' );
-		$site_logo_id = GreaterMediaSiteOptionsHelperFunctions::get_site_logo_id();
-		$livelinks_title = get_option( 'gmr_livelinks_title', '' );
 		$news_site = get_option( 'gmr_newssite', '' );
 		$livelinks_more = get_option( 'gmr_livelinks_more_redirect', '' );
 		$liveplayer_disabled = get_option( 'gmr_liveplayer_disabled', '' );
 
-		?>
-
-		<?php self::render_image_select( 'Site Logo', 'gmr_site_logo', $site_logo_id ); ?>
+		$site_logo_id = GreaterMediaSiteOptionsHelperFunctions::get_site_logo_id();
+		self::render_image_select( 'Site Logo', 'gmr_site_logo', $site_logo_id ); ?>
 
 		<hr />
 
@@ -192,79 +200,7 @@ class GreaterMediaSiteOptions {
 			<div class="gmr-option__field--desc"><?php _e( 'By default, the "More" button located in the Live Links section of the live player sidebar, points to an archive of Live Links for the station. Checking this box will change the reference point for the more button so that when clicked, the button redirects to a Stream Archive for the Station.', 'greatermedia' ); ?></div>
 		</div>
 
-		<div class="gmr__option">
-			<label for="gmr_livelinks_title" class="gmr__option--label"><?php _e( 'Title of Live Links Sidebar', 'greatermedia' ); ?></label>
-			<input type="text" class="gmr__option--input" name="gmr_livelinks_title" id="gmr_livelinks_title" value="<?php echo esc_attr( $livelinks_title ); ?>" />
-		</div>
-
-		<hr />
-
-		<h4><?php _e( 'Social Pages', 'greatermedia' ); ?></h4>
-
-		<div class="gmr__option">
-			<label for="gmr_facebook_url" class="gmr__option--label"><?php _e( 'Facebook URL', 'greatermedia' ); ?></label>
-			<input type="text" class="gmr__option--input" name="gmr_facebook_url" id="gmr_facebook_url" value="<?php echo esc_url( $facebook ); ?>" />
-		</div>
-
-		<div class="gmr__option">
-			<label for="gmr_twitter_url" class="gmr__option--label"><?php _e( 'Twitter Username', 'greatermedia' ); ?></label>
-			<input type="text" class="gmr__option--input" name="gmr_twitter_name" id="gmr_twitter_name" value="<?php echo esc_attr( $twitter ); ?>" />
-			<div class="gmr-option__field--desc"><?php _e( 'Please enter username minus the @', 'greatermedia' ); ?></div>
-		</div>
-
-		<div class="gmr__option">
-			<label for="gmr_youtube_url" class="gmr__option--label"><?php _e( 'YouTube URL', 'greatermedia' ); ?></label>
-			<input type="text" class="gmr__option--input" name="gmr_youtube_url" id="gmr_youtube_url" value="<?php echo esc_url( $youtube ); ?>" />
-		</div>
-
-		<div class="gmr__option">
-			<label for="gmr_instagram_url" class="gmr__option--label"><?php _e( 'Instagram Username', 'greatermedia' ); ?></label>
-			<input type="text" class="gmr__option--input" name="gmr_instagram_name" id="gmr_instagram_name" value="<?php echo esc_attr( $instagram ); ?>" />
-			<div class="gmr-option__field--desc"><?php _e( 'Please enter username only, not a full url.', 'greatermedia' ); ?></div>
-		</div>
-
-		<hr />
-
-
-	<?php
-	}
-
-	public function render_tracking_scripts_section() {
-		$google_analytics = get_option( 'gmr_google_analytics', '' );
-
-		$google_uid_dimension = get_option( 'gmr_google_uid_dimension', '' );
-		if ( 0 === $google_uid_dimension ) {
-			$google_uid_dimension = '';
-		}
-
-		$google_author_dimension = get_option( 'gmr_google_author_dimension', '' );
-		if ( 0 === $google_author_dimension ) {
-			$google_author_dimension = '';
-		}
-
-		?><div class="gmr__option">
-			<label for="gmr_google_analytics" class="gmr__option--label">Google Analytics ID</label>
-			<input type="text" class="gmr__option--input" name="gmr_google_analytics" id="gmr_google_analytics" value="<?php echo esc_attr( $google_analytics ); ?>" />
-			<div class="gmr-option__field--desc">UA-xxxxxx-xx</div>
-		</div>
-
-		<div class="gmr__option">
-			<label for="gmr_google_uid_dimension" class="gmr__option--label">User ID Custom Dimension</label>
-			dimension<input type="text" name="gmr_google_uid_dimension" id="gmr_google_uid_dimension" value="<?php echo esc_attr( $google_uid_dimension ); ?>" size="3" length="3">
-			<div class="gmr-option__field--desc">
-				Sends the current user's ID to this custom Google Analytics dimension<br>
-				Most sites can use dimension1 unless it is already in use.
-			</div>
-		</div>
-
-		<div class="gmr__option">
-			<label for="gmr_google_author_dimension" class="gmr__option--label">Author Custom Dimension</label>
-			dimension<input type="text" name="gmr_google_author_dimension" id="gmr_google_author_dimension" value="<?php echo esc_attr( $google_author_dimension ); ?>" size="3" length="3">
-			<div class="gmr-option__field--desc">
-				Sends the current post's author login ID to this custom Google Analytics dimension<br>
-				Most sites can use dimension2 unless it is already in use.
-			</div>
-		</div><?php
+		<hr /><?php
 	}
 
 	/**
@@ -306,3 +242,27 @@ class GreaterMediaSiteOptions {
 }
 
 GreaterMediaSiteOptions::instance();
+
+function beasley_input_field( $args = array() ) {
+	$args = wp_parse_args( $args, array(
+		'type'    => 'text',
+		'name'    => '',
+		'default' => '',
+		'class'   => 'regular-text',
+		'desc'    => '',
+	) );
+
+	$value = get_option( $args['name'], $args['default'] );
+
+	printf(
+		'<input type="%s" name="%s" class="%s" value="%s">',
+		esc_attr( $args['type'] ),
+		esc_attr( $args['name'] ),
+		esc_attr( $args['class'] ),
+		esc_attr( $value )
+	);
+
+	if ( ! empty( $args['desc'] ) ) {
+		printf( '<p class="description">%s</p>', esc_html( $args['desc'] ) );
+	}
+}

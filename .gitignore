@@ -41,6 +41,6 @@ atlassian-ide-plugin.xml
 style.css.md
 /vendor/
 
-*.map
-**/css/*.css
-**/js/*.js
+themes/**/*.map
+themes/**/css/*.css
+themes/**/js/*.js

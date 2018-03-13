@@ -329,6 +329,7 @@ class live_player_widget extends WP_Widget {
 
 	// Widget Backend
 	public function form( $instance ) {
+		$title = '';
 		if ( isset( $instance[ 'title' ] ) ) {
 			$title = $instance[ 'title' ];
 		}

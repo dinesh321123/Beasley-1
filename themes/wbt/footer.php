@@ -29,7 +29,13 @@
 							<div class="footer__copyright--logo">
 								<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>
 							</div>
-							<span class="footer__copyright--span"><?php _e( '&copy;', 'greatermedia' ); ?> <?php bloginfo( 'name' ); ?></span><?php _e( '-', 'greatermedia' ); ?><span class="footer__copyright--span"><a href="http://www.entercom.com/"><?php _e( 'Entercom', 'greatermedia' ); ?></a></span>
+							<span class="footer__copyright--span">
+								&copy; <?php bloginfo( 'name' ); ?>
+							</span>
+							-
+							<span class="footer__copyright--span">
+								<a href="http://www.entercom.com/" target="_blank" rel="noopener noreferrer">Entercom</a>
+							</span>
 						</div>
 						<div class="footer__menu">
 							<?php do_action( 'gmr_social' ); ?>

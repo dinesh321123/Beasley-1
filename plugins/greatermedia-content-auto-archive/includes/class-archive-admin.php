@@ -8,7 +8,7 @@ class GMR_Archive_Admin {
 	 * @access public
 	 */
 	public function setup() {
-		add_action( 'greatermedia-settings-register-settings', array( $this, 'init_setting' ), 10, 2 );
+		add_action( 'beasley-register-settings', array( $this, 'init_setting' ), 10, 2 );
 		add_filter( 'the_title', array( $this, 'the_title' ), 10, 2 );
 		add_filter( 'display_post_states', array( $this, 'display_post_states' ), 10, 2 );
 		add_action( 'admin_footer-post.php', array( $this, 'add_post_status_to_dropdown' ) );
@@ -20,11 +20,7 @@ class GMR_Archive_Admin {
 	}
 
 	function init_setting( $group, $page ) {
-		add_settings_section( 'greatermedia_auto_archive_settings', 'Auto Archive Content', array(
-			$this,
-			'render_section'
-		), $page );
-
+		add_settings_section( 'greatermedia_auto_archive_settings', 'Auto Archive Content', array( $this, 'render_section' ), $page );
 		register_setting( $group, 'content_auto_archive_days', array( $this, 'sanitize_days' ) );
 	}
 

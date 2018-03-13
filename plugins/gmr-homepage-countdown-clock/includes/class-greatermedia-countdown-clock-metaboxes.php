@@ -19,8 +19,8 @@ class GreaterMediaCountdownClockMetaboxes {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_post' ) );
 		//DFP Setting and ad slot rendering
-		add_action( 'greatermedia-settings-register-settings', array( $this, 'init_dfp_settings' ), 10, 2 );
-		add_filter( 'greatermedia_filter_dfp_settings_section_title', array( $this, 'settings_section_title' ), 10, 1 );
+		add_action( 'beasley-register-settings', array( $this, 'init_dfp_settings' ), 10, 2 );
+		add_filter( 'beasley-dfp-unit-codes-settings', array( $this, 'settings_section_title' ), 10, 1 );
 		add_filter( 'greatermedia_dfp_footer_unit_codes', array( $this, 'footer_unit_codes' ), 10, 1 );
 		add_filter( 'greatermedia_dfp_footer_sizes', array( $this, 'footer_sizes' ), 10, 1 );
 	}

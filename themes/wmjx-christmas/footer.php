@@ -30,8 +30,9 @@
 								<div class="footer__copyright--logo">
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a>
 								</div>
-								<span class="footer__copyright--span"><?php _e( '&copy; ' . date("Y"), 'greatermedia' ); ?> <a href="http://entercom.com/"
-																		 target="_blank"><?php _e( 'Entercom Communications Corp.', 'greatermedia' ); ?></a></span>
+								<span class="footer__copyright--span">
+									&copy; <?php echo date( "Y" ); ?> <a href="http://entercom.com/" target="_blank" rel="noopener noreferrer">Entercom Communications Corp.</a>
+								</span>
 							</div>
 							<div class="footer__menu">
 								<?php do_action( 'gmr_social' ); ?>

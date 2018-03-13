@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e9f3044ab08820ca31178df0998bd89",
+    "content-hash": "234b0e8e3cba567dfdc182954ba8d34b",
     "packages": [
         {
             "name": "10up/post-finder",

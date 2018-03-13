@@ -152,7 +152,7 @@ class GMP_Meta {
 		$gmp_subtitle =  sanitize_text_field( $_POST['gmp_subtitle'] );
 		update_post_meta( $post_id, 'gmp_subtitle', $gmp_subtitle );
 
-		$gmp_subtitle =  sanitize_text_field( $_POST['gmp_explicit'] );
+		$gmp_subtitle = isset( $_POST['gmp_explicit'] ) ? sanitize_text_field( $_POST['gmp_explicit'] ) : '';
 		update_post_meta( $post_id, 'gmp_explicit', $gmp_subtitle );
 
 		$gmp_category =  sanitize_text_field( $_POST['gmp_category'] );
