@@ -2,9 +2,9 @@
 /*
 Plugin Name: Embedly
 Plugin URI: http://embed.ly/wordpress
-Description: The Embedly Plugin extends Wordpress's automatic embed feature, allowing bloggers to Embed from 300+ services and counting.
+Description: The Embedly Plugin extends Wordpress's automatic embed feature, allowing bloggers to Embed from 500+ services and counting.
 Author: Embed.ly Inc
-Version: 4.0.12-10up
+Version: 4.9.2-10up
 Author URI: http://embed.ly
 License: GPL2
 
@@ -31,13 +31,16 @@ if (!defined('EMBEDLY_URL')) {
     define( 'EMBEDLY_URL', plugins_url( '', __FILE__ ) );
 }
 if (!defined('EMBEDLY_BASE_URI')) {
-    define('EMBEDLY_BASE_URI', 'https://api.embedly.com/1/card?');
+    define('EMBEDLY_BASE_URI', 'https://api.embedly.com/2/card');
+
+}
+if (!defined('EMBEDLY_WP_BASE_KEY')) {
+    define('EMBEDLY_WP_BASE_KEY', 'cedd0120dd674379ab8c9689f2cfe588');
 }
 
 // maps local settings key => api param name
 $settings_map = array(
     'card_controls' => 'cards_controls',
-    'card_chrome' => 'cards_chrome',
     'card_theme' => 'cards_theme',
     'card_width' => 'cards_width',
     'card_align' => 'cards_align',
@@ -66,7 +69,6 @@ class WP_Embedly
             'active' => true,
             'key' => '',
             'analytics_key' => '',
-            'card_chrome' => 0,
             'card_controls' => true,
             'card_align' => 'center',
             'card_width' => '',
@@ -121,10 +123,10 @@ class WP_Embedly
         ));
 
         // action notifies user on admin menu if they don't have a key
-        add_action( 'admin_menu', array(
-            $this,
-            'embedly_notify_user_icon'
-        ));
+        //add_action( 'admin_menu', array(
+        //    $this,
+        //    'embedly_notify_user_icon'
+        //));
 
         add_action('wp_ajax_embedly_update_option', array(
             $this,
@@ -134,16 +136,20 @@ class WP_Embedly
             $this,
             'embedly_save_account',
         ));
+        add_action('wp_ajax_embedly_save_api_key', array(
+            $this,
+            'embedly_save_api_key',
+        ));
 
         // Instead of checking for admin_init action
         // we created a custom cron action on plugin activation.
         // it will revalidate the acct every hour.
         // worst case if a user wants to revalidate immediately
         // just deactivate and reactivate the plugin
-        add_action('embedly_revalidate_account', array(
-            $this,
-            'validate_api_key'
-        ));
+        //add_action('embedly_revalidate_account', array(
+        //    $this,
+        //    'validate_api_key'
+        //));
 
         // action establishes embed.ly the provider of embeds
         add_action('plugins_loaded', array(
@@ -158,7 +164,7 @@ class WP_Embedly
     **/
     function validate_api_key()
     {
-        if($this->embedly_acct_has_feature('oembed', $this->embedly_options['key'])) {
+        if($this->embedly_acct_has_feature('card_details', $this->embedly_options['key'])) {
             $this->embedly_save_option('is_key_valid', true);
         } else {
             $this->embedly_save_option('is_key_valid', false);
@@ -196,6 +202,53 @@ class WP_Embedly
             // better than returning some ambiguous boolean type
             echo 'true';
             wp_die();
+        }
+        echo 'false';
+        wp_die();
+    }
+
+    /**
+    * receives embedly api_key from plugin api key input, validates and saves it.
+    **/
+    function embedly_save_api_key()
+    {
+        // check nonce
+        if( ! wp_verify_nonce($_POST['security'], "embedly_save_account_nonce") ) {
+            echo "security exception";
+            wp_die("security_exception");
+        }
+
+        // verify permission to save account info on 'connect' click
+        if(!current_user_can('manage_options')) {
+            echo "invalid permissions";
+            wp_die("permission_exception");
+        }
+
+        if(isset($_POST) && !empty($_POST)) {
+            $api_key = $_POST['api_key'];
+            if (empty($api_key)) {
+                # assume removal intended.
+                $this->embedly_save_option('key', '');
+                echo 'removed';
+                wp_die();
+            } else {
+                # actually check the key:
+                $valid = $this->embedly_acct_has_feature('card_details', $api_key);
+            }
+
+            if($valid) {
+                $this->embedly_save_option('key', $api_key);
+                // better than returning some ambiguous boolean type
+                echo 'true';
+                wp_die();
+            } else {
+                echo 'false';
+                wp_die();
+            }
+
+            // need to validate the API key after signup since no longer plugin_load hook.
+            #$this->validate_api_key();
+
         }
         echo 'false';
         wp_die();
@@ -255,6 +308,7 @@ class WP_Embedly
 
     /**
     * warns user if their key is not set in the settings
+    * DEPRECATED
     **/
     function embedly_notify_user_icon()
     {
@@ -319,11 +373,13 @@ class WP_Embedly
     function embedly_localize_config()
     {
         global $settings_map;
-        if($this->valid_key()) {
-            $analytics_key = $this->embedly_options['analytics_key'];
-        } else {
-            $analytics_key = 'null';
-        }
+
+        // DEPRECATED
+        //if($this->valid_key()) {
+        //    $analytics_key = $this->embedly_options['analytics_key'];
+        //} else {
+        //    $analytics_key = 'null';
+       // }
 
         $ajax_url = admin_url( 'admin-ajax.php', 'relative' );
 
@@ -341,7 +397,7 @@ class WP_Embedly
         $embedly_config = array(
             'updateOptionNonce' => wp_create_nonce("embedly_update_option_nonce"),
             'saveAccountNonce' => wp_create_nonce("embedly_save_account_nonce"),
-            'analyticsKey' => $analytics_key,
+            #'analyticsKey' => $analytics_key,
             'ajaxurl' => $ajax_url,
             'current' => $current,
         );
@@ -360,56 +416,80 @@ class WP_Embedly
     function add_embedly_providers()
     {
         // if user entered valid key, override providers, else, do nothing
-        if ($this->valid_key()) {
-            // delete all current oembed providers
-            add_filter('oembed_providers', '__return_empty_array');
-            // add embedly provider
-            $provider_uri = $this->build_uri_with_options();
-			//Use default polldaddy embed
-            wp_oembed_add_provider( '#https?://(.+\.)?polldaddy\.com/.*#i', 'https://polldaddy.com/oembed/', true );
-			wp_oembed_add_provider( '#https?://poll\.fm/.*#i', 'https://polldaddy.com/oembed/', true );
-			wp_oembed_add_provider( '#https?://[^\s]+#i', $provider_uri, true );
-        }
+        //if ($this->valid_key()) {
+        // delete all current oembed providers
+        add_filter('oembed_providers', '__return_empty_array');
+        // add embedly provider
+        $provider_uri = $this->build_uri_with_options();
+		wp_oembed_add_provider( '#https?://(.+\.)?polldaddy\.com/.*#i', 'https://polldaddy.com/oembed/', true );
+		wp_oembed_add_provider( '#https?://poll\.fm/.*#i', 'https://polldaddy.com/oembed/', true );
+		wp_oembed_add_provider( '#https?://[^\s]+#i', $provider_uri, true );
+        //}
     }
 
 
     /**
     * construct's a oembed endpoint for cards using embedly_options settings
+    *
+    * If key is defined, use it. Else, don't.
     **/
     function build_uri_with_options()
     {
         global $settings_map;
         // gets the subset of settings that are actually set in plugin
         $set_options = array();
-        foreach ($settings_map as $setting => $api_param) {
-            if(isset($this->embedly_options[$setting])) {
-                $set_options[$setting] = $api_param;
+        if(!empty($settings_map)) {
+            foreach ($settings_map as $setting => $api_param) {
+                if(isset($this->embedly_options[$setting])) {
+                    $set_options[$setting] = $api_param;
+                }
             }
         }
 
         // option params is a list of url_param => value
         // for the url string
+        $first = true;
         $option_params = array(); # example: '&card_theme' => 'dark'
         foreach ($set_options as $option => $api_param) {
             $value = $this->embedly_options[$option];
+
+            $delimiter = '&';
+            if ( $first ) {
+                $delimiter = '?';
+                $first = false;
+            }
+
             if ( is_bool($value) ) {
-                $whole_param = '&' . $api_param . '=' . ($value ? '1' : '0');
+                $whole_param = $delimiter . $api_param . '=' . ($value ? '1' : '0');
                 $option_params[$option] = $whole_param;
             }
             else {
-                $whole_param = '&' . $api_param . '=' . $value;
+                $whole_param = $delimiter . $api_param . '=' . $value;
                 $option_params[$option] = $whole_param;
             }
         }
 
         $base = EMBEDLY_BASE_URI;
-        $key = 'key=' . $this->embedly_options['key']; // first param
-        $uri = $base . $key;
+        $param_str = '';
+
         foreach($option_params as $key => $value) {
-            $uri .= $value; # value is the actual uri parameter, at this point
+            $param_str .= $value; # value is the actual uri parameter, at this point
         }
 
-        return $uri;
+        # generic key w/o analytics, no premium features
+        $key = EMBEDLY_WP_BASE_KEY;
+
+        # unless overidden
+        if ($this->embedly_options['key']) {
+            $key = $this->embedly_options['key'];
+            $cards_key_param = '&cards_key=' . $key;
+            $param_str .= $cards_key_param;
+        }
+
+        $key_param = '&key=' . $key;
+        $param_str .= $key_param;
+
+        return $base . $param_str;
     }
 
 
@@ -561,6 +641,19 @@ class WP_Embedly
     }
 
     /**
+    * returns embedly api_key if it's set
+    **/
+    function get_value_embedly_api_key()
+    {
+        if(isset($this->embedly_options['key'])) {
+          $value = 'value="';
+          $key = $this->embedly_options['key'];
+          $value = $value . $key;
+          echo $value . '" ';
+        }
+    }
+
+    /**
     * returns current card_align value
     **/
     function get_current_align()
@@ -574,6 +667,7 @@ class WP_Embedly
 
     /**
     * Builds an href for the Realtime Analytics button
+    * DEPRECATED
     */
     function get_onclick_analytics_button() {
         if($this->valid_key()) {
@@ -643,13 +737,13 @@ class WP_Embedly
     {
         global $wpdb;
         ######## BEGIN FORM HTML #########
+        #debugging:
+        #echo $this->build_uri_with_options();
+
         ?>
           <div class="embedly-wrap">
             <div class="embedly-ui">
               <div class="embedly-input-wrapper">
-                <?php
-                // Decide which modal to display.
-                if( $this->valid_key() ) { ?>
 
                 <!-- EXISTING USER MODAL -->
                 <form id="embedly_key_form" method="POST" action="">
@@ -669,18 +763,20 @@ class WP_Embedly
                         <div id="welcome-blurb">
                           <?php $this->get_welcome_message();  ?>
                         </div>
+
+                        <!--
                         <div class="embedly-analytics">
                           <div class="active-viewers">
                             <h1 class="active-count"><img src=<?php echo EMBEDLY_URL . "/img/ajax-loader.gif" ?>></h1>
                             <p>People are <strong>actively viewing</strong> your embeds!</p>
-                            <br/> <!-- is this acceptable? need to format my h tags for this page.-->
+                            <br/>
                             <a class="emb-button" target="_blank" <?php $this->get_onclick_analytics_button(); ?>><?php esc_html_e('Realtime Analytics', 'embedly')?></a>
                           </div>
-						  <!-- <div class="historical-viewers">
+						  <div class="historical-viewers">
                             <h1 class="weekly-count"><img src=<?php echo EMBEDLY_URL . "/img/ajax-loader.gif" ?>></h1>
                             <p>People have <strong>viewed</strong> an embed in the <strong>last week</strong>.</p>
-                          </div> -->
-                        </div>
+                          </div>
+                        </div> -->
 
                         <!-- Begin 'Advanced Options' Section -->
                         <hr>
@@ -691,19 +787,12 @@ class WP_Embedly
                             <span id="advanced-arrow" class="dashicons dashicons-arrow-right-alt2 embedly-dropdown"></span></h3></a>
                           </div>
                           <div class = "advanced-body dropdown-body">
-                            <p><?php esc_html_e('Changing these settings will change how your future embeds appear.', 'embedly');?>
+                            <p><?php esc_html_e('Altering these settings will only change the look of your future embeds.  Previously existing embeds will not change.', 'embedly');?>
                            </p></div>
                           <div class="advanced-body dropdown-body">
                             <div class="advanced-selections">
-                              <!-- Boolean Attributes (ie. Chromeless, Card Theme, etc) -->
+                              <!-- Boolean Attributes (ie. Card Theme, etc) -->
                               <ul>
-                                <li>
-                                  <h3><?php esc_html_e('DESIGN', 'embedly');?></h3>
-                                  <input class='chrome-card-checkbox' type='checkbox' name='minimal'
-                                    <?php checked( $this->embedly_options['card_chrome'], 0);
-                                    // checked( @$this->embedly_options["card_chrome"] ?: false, false); does not work below PHP v5.3
-                                    ?> /> <?php esc_html_e('MINIMAL', 'embedly'); ?>
-                                </li>
                                 <li>
                                   <h3><?php esc_html_e('TEXT', 'embedly'); ?></h3>
                                   <input class='embedly-dark-checkbox' type='checkbox' value='checked' name='card_dark' <?php
@@ -770,7 +859,6 @@ class WP_Embedly
                           </div>
                         </div> <!-- END 'Options' Section -->
 
-
                         <!-- BEGIN TUTORIAL EXPANDER -->
                         <div class="tutorial-wrapper dropdown-wrapper">
                           <div class="tutorial-header dropdown-header">
@@ -779,99 +867,41 @@ class WP_Embedly
                           </div>
                           <div class="tutorial-body dropdown-body">
                             <div class="embedly-tutorial-container">
-                              <a id="embedly-tutorial-card" class="embedly-card"
-                                href="https://vimeo.com/140323372"
-                                data-card-controls="0" data-card-chrome="0" data-card-recommend="0"
-                                data-card-width="65%" data-card-key="5ea8d38b0bc6495d8906e33dde92fe48">
-                              </a>
+                                <p>Using the plugin is now as easy as pasting a URL into the post editor.
+                                We then do our best to find the right embed for that URL, especially if it's one of our
+                                    <strong><a href="https://embed.ly/providers" target="_blank"><?php esc_html_e('500+ providers', 'embedly'); ?></a></strong></p>
+                                <p>To learn more about how the plugin works, please visit
+                                    <strong><a href="https://wordpress.org/plugins/embedly" target="_blank">
+                                        <?php esc_html_e('our plugin page', 'embedly'); ?></a></strong></p>
+
                             </div>
                           </div>
                         </div> <!-- END 'Tutorial' Section -->
+
+                        <!-- BEGIN API KEY EXPANDER -->
+                        <div class="tutorial-wrapper dropdown-wrapper">
+                          <div class="tutorial-header dropdown-header">
+                            <a href="#"><h3><?php esc_html_e('API KEY', 'embedly'); ?>
+                            <span id="tutorial-arrow" class="dashicons dashicons-arrow-right-alt2 embedly-dropdown"></span></h3></a>
+                          </div>
+                          <div class="api-key-body dropdown-body">
+                              <div class="api-key-input-container">
+                                <p><?php esc_html_e('Are you an Embedly Cards member? Enter your API key here to utilize analytics and remove our branding', 'embedly'); ?></p>
+                                <input id='embedly-api-key' class='default-input' type="text" name="api_key" placeholder="<?php esc_attr_e('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'embedly'); ?>"
+                                    <?php $this->get_value_embedly_api_key(); ?>/>
+
+                                <p><?php esc_html_e('Learn more at', 'embedly'); ?>
+                                    <strong><a href="https://embed.ly/cards" target="_blank"><?php esc_html_e('embed.ly/cards', 'embedly') ?></strong></a></p>
+                                <p><?php esc_html_e('Already have an account? You can find your api key and view analytics', 'embedly'); ?>
+                                    <strong><a href="https://app.embed.ly" target="_blank"><?php esc_html_e('here', 'embedly') ?></strong></a></p>
+                              </div>
+                          </div>
+                        </div> <!-- END 'API KEY' Section -->
+
+
                       </div>
                     </div>
                   </form>
-                <?php  // ELSE: Key is not entered
-              } else {  ?>
-                  <!-- MODAL FOR NEW ACCOUNTS -->
-                <div class="embedly-ui">
-                  <div class="embedly-ui-header-outer-wrapper">
-                    <div class="embedly-ui-header-wrapper">
-                      <div class="embedly-ui-header">
-                        <a class="embedly-ui-logo" href="http://embed.ly" target="_blank">
-                        <?php esc_html_e('Embedly', 'embedly'); ?>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="embedly-ui-key-wrap embedly-new-user-modal">
-                    <div class="embedly_key_form embedly-ui-key-form">
-                      <div class="welcome-page-body">
-                        <!-- HERO TEXT -->
-                        <h1><?php esc_html_e('Embed content from any site!', 'embedly'); ?></h1>
-                        <section>
-                          <!-- Tutorial Video -->
-                          <div class="embedly-tutorial-container">
-                            <a id="embedly-tutorial-card" class="embedly-card"
-                              href="https://vimeo.com/140323372"
-                              data-card-controls="0" data-card-chrome="0" data-card-recommend="0"
-                              data-card-width="65%" data-card-key="5ea8d38b0bc6495d8906e33dde92fe48">
-                            </a>
-                          </div>
-                        </section>
-
-                        <section>
-                          <!-- Blurb -->
-                          <div id="embedly-welcome-blurb">
-                            <p>
-                              <span id="twitter-icon" class="dashicons dashicons-twitter"></span>
-                              Now with Twitter support! In addition to the default Wordpress embedding,
-                              you get embedding for any article, gfycat, storify, and twitch.  See our
-                              <a href="http://embed.ly/providers" target="_blank"><strong>growing list of embed providers</strong>.</a>
-                            </p>
-                              <p>Getting started? <strong>Learn more above</strong> about embedly cards for Wordpress.</p>
-                          </div>
-                        </section>
-
-                        <section>
-                          <!-- Create an embed.ly account button -->
-                          <div class="embedly-create-account-btn-wrap">
-                            <p><?php esc_html_e("Don't Have An Account?", 'embedly'); ?></p>
-                            <a id='create-account-btn' class="emb-button emb-button-long" target="_blank"><?php esc_html_e('GET STARTED HERE!', 'embedly')?></a>
-                            <p>&nbsp;</p>
-                            <p><?php esc_html_e("Already have an Embedly account?", 'embedly'); ?>
-                                <strong><a id="preexisting-user" href="https://app.embed.ly" target="_blank"><?php esc_html_e('Login', 'embedly'); ?></a></strong>
-                            </p>
-                          </div>
-                          <button id="connect-button" class="emb-button emb-button-long">
-                            <div class="inner-connect-button">
-                              <span class="inner-button-span">
-                                <img id="connect-btn-img" src=<?php echo EMBEDLY_URL . "/img/embedly-white-70-40.svg" ?>>
-                              </span>
-                              <span class="inner-button-span">
-                                ACTIVATE WITH EMBEDLY ACCOUNT
-                              </span>
-                            </div>
-                          </button>
-
-
-                          <!-- dropdown for selecting a project -->
-                          <div id="embedly-which">
-                            <p><strong>Which Project Would you Like to Connect?</strong></p>
-                            <h4>&nbsp;</h4>
-                            <ul id="embedly-which-list"></ul>
-                          </div>
-                        </section>
-                        <section>
-                          <div id="embedly-connect-failed-refresh">
-                          <p>You may need to refresh the page after connecting</p>
-                          </div>
-                        </section>
-                       </div>
-                     </div>
-                   </div>
-                </div>
-              <?php } // END if/else for new/existing account
-              ?>
                 <div id="footer">
                   <footer class="embedly-footer">
                     &copy; <?php echo date('Y') . __( ' All Rights Reserved ', 'embedly'); ?>

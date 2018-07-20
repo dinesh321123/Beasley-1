@@ -2,45 +2,35 @@
 
 Contributors: Embedly
 Tags: embed, oembed, video, image, pdf, card
-
 Requires at least: 3.8
-Tested up to: 4.5
-Stable tag: 4.0.12
+Tested up to: 4.9.4
+Stable tag: 4.9.2
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The Embedly Plugin extends Wordpress's auto embed feature to give your blog more media types, video analytics, recommendation, and style options.
+The Embedly Plugin extends Wordpress's auto-embed feature to give your blog more media types and style optons.
 
 == Description ==
 
 Enhance the default Wordpress embedding to get previews for any article,
 including your own blog posts. You also get embeds for Gfycat, Twitch, Google
-Maps, and Embedly’s growing list of [300+ supported
+Maps, and Embedly’s growing list of [500+ supported
 providers](http://embed.ly/providers).
 
 You can customize the style of the embeds, to optimize for darker WP themes,
 alignment, and width. In addition, social buttons can be added around the embeds
 to make it easier to share content from your blog posts.
 
-For most music and video players embeds (YouTube, Vimeo, Instagram, SoundCloud)
-you can receive analytics on viewer behaviors. See which videos are being
-watched and for how long.
+If you have an Embedly Cards account, you can link it to the plugin with your Embedly API key.  Not only does this remove branding from the cards, it also gives you access to analytics and viewer behaviors for most popular music and video player embeds (YouTube, Vimeo, Instagram, SoundCloud).  Find out how many people viewed your embeds for how long. To learn more about Embedly Cards please visit [our website](http://embed.ly/cards).
 
-
-Using it is as simple as the default Wordpress embedding. Embed media by pasting its URL in a single line when writing a post:
-
-    This Embedly lets me embed everything great on the web!
-
-    http://instagram.com/p/w8hB9Dn7qF/
-
-    http://i.imgur.com/ywzpg.jpg
-
-    http://www.amazon.com/gp/product/B002BRZ9G0/ref=s9_pop_gw_ir01
-
-    http://azizisbored.tumblr.com/post/558456193/mtv-movie-awards-promo-who-is-aziz-ansari
+Using it is as simple as the default Wordpress embedding. Embed media by pasting its URL in a single line when writing a post
 
 The plugin automatically displays an embed of the media in the Wordpress post
 editor (for WP 4.0+).
+
+Fair Warning: This plugin generates static HTML content for your posts.  After you deactivate
+the plugin, that HTML will still remain behind in all posts where the plugin was used to create
+embeds.
 
 
 == Installation ==
@@ -60,13 +50,9 @@ Using the Plugin Manager
 
 1. Click Activate Plugin
 
-1. Go through the sign up flow. Either sign in with Embedly or sign up for an
-account. If you have an account, you’re set to start embedding. If you’re new,
-you’ll be taken through a quick sign up session and redirected back to the
-plugin.
-
 1. Create a new post and paste a URL. It will automatically turn into an embed.
 
+1. (optional) Save your Embedly API key to link your Embedly Cards account for analytics and unbranding
 
 
 Manually
@@ -103,7 +89,7 @@ Yes
 Where do I get a key?
 =
 
-You can obtain a key when sign up for an Embedly account through the plugin. You
+You can obtain a key when sign up for an Embedly account. You
 can also get your key anytime by going to your [Embedly
 account](http://app.embed.ly).
 
@@ -115,11 +101,25 @@ In the post editor, once the plugin is installed, paste in the URL you are
 trying to embed.
 
 =
+What happens after I deactivate the plugin or delete my Embedly account?
+=
+
+Cards will remain active even if you delete the plugin and/or delete your Embedly account.  This happens
+because after we generate a card for your post, it is converted into static HTML.  This HTML gets saved
+to the post.  Removing the plugin has no effect on posts that were created in the past.
+
+=
+I updated a setting for an embed but the embed didn't reflect the change?
+=
+
+Advanced Settings only affect newly generated cards.  If you wish to change the appearance of a pre-existing
+card, you will have to recreate the card in the post editor after making any settings changes.
+
+=
 Do I need a key?
 =
 
-Yes you will need a key, which can be found in your Embedly account under API
-and then Key.
+No. An Embedly API key is optional. It's only required if you have an Embedly Cards account and you want to remove embedly branding or you want to view analytics about the content embedded on your posts.
 
 =
 What is your support email?
@@ -173,16 +173,20 @@ embeds to boost SEO.
 == Screenshots ==
 
 
-1. Admin Console.
+1. Advanced Embed Settings
 
-2. Advanced Embed Settings.
+2. Writing a post and embedding.
 
-3. Writing a post and embedding.
-
-4. Sample Post.
+3. Sample Post.
 
 
 == Changelog ==
+
+= 4.7.0 =
+
+* Having an active app.embed.ly account is now optional to use the plugin! Users who want access to unbranded
+card embeds and/or analytics can elect to input their Embedly API key in the plugin settings, but users who just want
+to get started embedding no longer need to create an embedly account and activate the plugin.
 
 = 4.0.9 =
 
