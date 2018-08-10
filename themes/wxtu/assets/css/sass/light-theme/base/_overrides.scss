@@ -14,6 +14,11 @@ a:hover .highlights__community--title
 	background-color: #e97655;
 }
 
+.header__nav .mobile-nav .format-fi>ul a:active, .header__nav .mobile-nav .format-fi>ul a:hover, .header__nav .mobile-nav .format-fw>ul a:active, .header__nav .mobile-nav .format-fw>ul a:hover, .header__nav .mobile-nav .format-sp>ul a:active, .header__nav .mobile-nav .format-sp>ul a:hover, .mobile-nav .header__nav .format-fi>ul a:active, .mobile-nav .header__nav .format-fi>ul a:hover, .mobile-nav .header__nav .format-fw>ul a:active, .mobile-nav .header__nav .format-fw>ul a:hover, .mobile-nav .header__nav .format-sp>ul a:active, .mobile-nav .header__nav .format-sp>ul a:hover, .mobile-nav .sub-menu a:active, .mobile-nav .sub-menu a:hover {
+	background-color: #303030;
+	color: #fff;
+}
+
 @include bp(large) {
 
 	.main {
