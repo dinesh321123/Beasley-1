@@ -19,7 +19,6 @@ mu-plugins/post-finder/
 !/plugins/dynamic-cdn/
 !/plugins/edit-flow-hotfixes/
 !/plugins/feed-pull-mrss/
-!/plugins/getty-images/
 !/plugins/gmr-*
 !/plugins/greatermedia-*
 !/plugins/ooyala-video-browser-responsive/
