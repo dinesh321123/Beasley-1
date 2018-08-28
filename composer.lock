@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9459db9e6cee8a00ee944ae997086486",
+    "content-hash": "5c8bc786b66541395f3a5f77e3faf1f4",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -496,15 +496,15 @@
         },
         {
             "name": "wpackagist-plugin/elasticpress",
-            "version": "2.6.0",
+            "version": "2.6.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/elasticpress/",
-                "reference": "trunk"
+                "reference": "tags/2.6.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/elasticpress.zip?timestamp=1534976219",
+                "url": "https://downloads.wordpress.org/plugin/elasticpress.2.6.1.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -553,26 +553,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/feed-pull/"
-        },
-        {
-            "name": "wpackagist-plugin/getty-images",
-            "version": "3.0.9",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/getty-images/",
-                "reference": "tags/3.0.9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/getty-images.3.0.9.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/getty-images/"
         },
         {
             "name": "wpackagist-plugin/my-eyes-are-up-here",
@@ -736,15 +716,15 @@
         },
         {
             "name": "wpackagist-plugin/the-events-calendar",
-            "version": "4.6.22",
+            "version": "4.6.22.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/the-events-calendar/",
-                "reference": "tags/4.6.22"
+                "reference": "tags/4.6.22.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/the-events-calendar.4.6.22.zip",
+                "url": "https://downloads.wordpress.org/plugin/the-events-calendar.4.6.22.1.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -796,15 +776,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "8.0",
+            "version": "8.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/8.0"
+                "reference": "tags/8.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.8.0.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.8.1.zip",
                 "reference": null,
                 "shasum": null
             },

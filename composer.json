@@ -34,7 +34,6 @@
 		"wpackagist-plugin/disable-real-mime-check": "*",
 		"wpackagist-plugin/my-eyes-are-up-here":"*",
 		"wpackagist-plugin/query-monitor": "*",
-		"wpackagist-plugin/getty-images": "*",
 		"10up/wp-minions": "*",
 		"10up/post-finder": "*"
 	},
