@@ -29,7 +29,8 @@
 		"wpackagist-plugin/wp-fail2ban": "*",
 		"wpackagist-plugin/disable-real-mime-check": "*",
 		"10up/wp-minions": "*",
-		"10up/post-finder": "*"
+		"10up/post-finder": "*",
+		"humanmade/s3-uploads": "*"
 	},
 	"require-dev": {
 		"wpackagist-plugin/query-monitor": "*",
@@ -54,6 +55,9 @@
 			"mu-plugins/{$name}": [
 				"wpackagist-plugin/advanced-custom-fields",
 				"10up/post-finder"
+			],
+			"plugins/S3-Uploads-master": [
+				"humanmade/s3-uploads"
 			],
 			"plugins/{$name}/": [
 				"type:wordpress-plugin"
