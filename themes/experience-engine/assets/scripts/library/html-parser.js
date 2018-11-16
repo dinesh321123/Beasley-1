@@ -1,6 +1,8 @@
+import { removeElement } from './dom';
+
 let embedsIndex = 0;
 
-const getSecondStreetEmbedParams = ( element ) => {
+function getSecondStreetEmbedParams( element ) {
 	const { dataset } = element;
 
 	return {
@@ -9,9 +11,9 @@ const getSecondStreetEmbedParams = ( element ) => {
 		opguid: dataset.opguid,
 		routing: dataset.routing,
 	};
-};
+}
 
-const getAudioEmbedParams = ( element ) => {
+function getAudioEmbedParams( element ) {
 	const sources = {};
 	const tags = element.getElementsByTagName( 'source' );
 	for ( let i  = 0, len = tags.length; i < len; i++ ) {
@@ -22,9 +24,9 @@ const getAudioEmbedParams = ( element ) => {
 		src: element.getAttribute( 'src' ) || '',
 		sources,
 	};
-};
+}
 
-const getOmnyEmbedParams = ( element ) => {
+function getOmnyEmbedParams( element ) {
 	const { dataset } = element;
 
 	return {
@@ -33,9 +35,9 @@ const getOmnyEmbedParams = ( element ) => {
 		author: dataset.author,
 		omny: true,
 	};
-};
+}
 
-const getLazyImageParams = ( element ) => {
+function getLazyImageParams( element ) {
 	const { dataset } = element;
 
 	return {
@@ -43,13 +45,15 @@ const getLazyImageParams = ( element ) => {
 		width: dataset.width,
 		height: dataset.height,
 	};
-};
+}
 
-const getLoadMoreParams = ( element ) => ( {
-	link: element.getAttribute( 'href' ),
-} );
+function getLoadMoreParams( element ) {
+	return {
+		link: element.getAttribute( 'href' ),
+	};
+}
 
-const getLiveStreamVideo = ( element ) => {
+function getLiveStreamVideo( element ) {
 	const attrs = { adTagUrl: element.dataset.adTag };
 
 	const video = element.getElementsByTagName( 'video' )[0];
@@ -60,9 +64,9 @@ const getLiveStreamVideo = ( element ) => {
 	}
 
 	return attrs;
-};
+}
 
-const processEmbeds = ( container, type, selector, callback ) => {
+function processEmbeds( container, type, selector, callback ) {
 	const embeds = [];
 
 	const elements = container.querySelectorAll( selector );
@@ -87,10 +91,11 @@ const processEmbeds = ( container, type, selector, callback ) => {
 	}
 
 	return embeds;
-};
+}
 
-export const getStateFromContent = ( container ) => {
+export function getStateFromContent( container ) {
 	const state = {
+		scripts: {},
 		embeds: [],
 		content: '',
 	};
@@ -106,14 +111,25 @@ export const getStateFromContent = ( container ) => {
 			...processEmbeds( container, 'video', '.livestream', getLiveStreamVideo ),
 		];
 
+		// extract <script> tags
+		const scripts = container.getElementsByTagName( 'script' );
+		for ( let i = 0, len = scripts.length; i < len; i++ ) {
+			const element = scripts[i];
+			state.scripts[element.src] = element.outerHTML;
+		}
+
+		while ( scripts.length ) {
+			removeElement( scripts[0] );
+		}
+
 		// MUST follow after embeds processing
 		state.content = container.innerHTML;
 	}
 
 	return state;
-};
+}
 
-export const parseHtml = ( html ) => {
+export function parseHtml( html ) {
 	const parser = new DOMParser();
 
 	const pageDocument = parser.parseFromString( html, 'text/html' );
@@ -123,7 +139,7 @@ export const parseHtml = ( html ) => {
 	state.document = pageDocument;
 
 	return state;
-};
+}
 
 export default {
 	getStateFromContent,
