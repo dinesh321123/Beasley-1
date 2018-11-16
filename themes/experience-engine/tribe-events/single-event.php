@@ -28,7 +28,7 @@ $cost = tribe_get_cost();
 				<?php if ( filter_var( $website, FILTER_VALIDATE_URL ) ) : ?>
 					<div>
 						<span>Website:</span>
-						<a href="<?php echo esc_url( $website ); ?>" target="_blank" rel="noopener noreferrer">
+						<a href="<?php echo esc_url( $website ); ?>" target="_blank" rel="noopener">
 							View Site
 						</a>
 					</div>

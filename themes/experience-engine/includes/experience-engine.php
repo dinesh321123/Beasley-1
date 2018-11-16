@@ -181,10 +181,17 @@ if ( ! function_exists( 'bbgi_ee_get_publisher' ) ) :
 	 *
 	 * @return array Contains publisher data
 	 */
-	function bbgi_ee_get_publisher( $publisher ) {
-		$data = bbgi_ee_request( "publishers/{$publisher}" );
-		if ( is_array( $data ) && count( $data ) == 1 && is_array( $data[0] ) ) {
-			$data = $data[0];
+	function bbgi_ee_get_publisher( $publisher = null ) {
+		if ( empty( $publisher ) ) {
+			$publisher = get_option( 'ee_publisher' );
+		}
+
+		$data = false;
+		if ( $publisher ) {
+			$data = bbgi_ee_request( "publishers/{$publisher}" );
+			if ( is_array( $data ) && count( $data ) == 1 && is_array( $data[0] ) ) {
+				$data = $data[0];
+			}
 		}
 
 		return $data;
@@ -197,7 +204,11 @@ if ( ! function_exists( 'bbgi_ee_get_publisher_feeds' ) ) :
 	 *
 	 * @return array Contains publisher feeds.
 	 */
-	function bbgi_ee_get_publisher_feeds( $publisher ) {
+	function bbgi_ee_get_publisher_feeds( $publisher = null ) {
+		if ( empty( $publisher ) ) {
+			$publisher = get_option( 'ee_publisher' );
+		}
+
 		return bbgi_ee_request( "publishers/{$publisher}/feeds/" );
 	}
 endif;
@@ -208,7 +219,11 @@ if ( ! function_exists( 'bbgi_ee_get_publisher_feed' ) ) :
 	 *
 	 * @return array Containing the publisher feed.
 	 */
-	function bbgi_ee_get_publisher_feed( $publisher, $feed ) {
+	function bbgi_ee_get_publisher_feed( $feed, $publisher = null ) {
+		if ( empty( $publisher ) ) {
+			$publisher = get_option( 'ee_publisher' );
+		}
+
 		return bbgi_ee_request( "publishers/{$publisher}/feeds/{$feed}" );
 	}
 endif;

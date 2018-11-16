@@ -11,19 +11,19 @@ the_post();
 
 		?><div><?php
 			if ( ( $feed_url = ee_get_podcast_meta( null, 'feed_url' ) ) ) :
-				?><a href="<?php echo esc_url( $feed_url ); ?>" target="_blank" rel="noopener noreferrer">
+				?><a href="<?php echo esc_url( $feed_url ); ?>" target="_blank" rel="noopener">
 					Podcast Feed
 				</a><?php
 			endif;
 
 			if ( ( $itunes_url = ee_get_podcast_meta( null, 'itunes_url' ) ) ) :
-				?><a href="<?php echo esc_url( $itunes_url ); ?>" target="_blank" rel="noopener noreferrer">
+				?><a href="<?php echo esc_url( $itunes_url ); ?>" target="_blank" rel="noopener">
 					Subscribe in iTunes
 				</a><?php
 			endif;
 
 			if ( ( $google_play_url = ee_get_podcast_meta( null, 'google_play_url' ) ) ) :
-				?><a href="<?php echo esc_url( $google_play_url ); ?>" target="_blank" rel="noopener noreferrer">
+				?><a href="<?php echo esc_url( $google_play_url ); ?>" target="_blank" rel="noopener">
 					Subscribe in Google Play
 				</a><?php
 			endif;

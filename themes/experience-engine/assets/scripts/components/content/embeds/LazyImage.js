@@ -136,10 +136,14 @@ class LazyImage extends PureComponent {
 		const styles = {
 			width: `${containerWidth}px`,
 			height: `${containerHeight}px`,
-			backgroundImage: `url(${image})`,
 		};
 
-		const loader = !image ? <div className="loading" /> : false;
+		let loader = false;
+		if ( image ) {
+			styles.backgroundImage = `url(${image})`;
+		} else {
+			loader = <div className="loading" />;
+		}
 
 		return (
 			<div className="lazy-image" ref={self.boxRef} style={styles}>
