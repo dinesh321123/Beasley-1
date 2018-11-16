@@ -42,7 +42,6 @@ const getLazyImageParams = ( element ) => {
 		src: dataset.src,
 		width: dataset.width,
 		height: dataset.height,
-		aspect: dataset.aspect,
 	};
 };
 

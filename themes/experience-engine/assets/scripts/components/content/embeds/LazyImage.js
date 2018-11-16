@@ -66,7 +66,6 @@ class LazyImage extends PureComponent {
 	updateDimensions() {
 		const self = this;
 		const { container } = self;
-		const { aspect } = self.props;
 
 		let parent = container;
 		while ( parent && 1 > parent.offsetHeight ) {
@@ -74,15 +73,12 @@ class LazyImage extends PureComponent {
 		}
 
 		const { offsetWidth } = container;
-		const containerWidth = offsetWidth;
-
 		const { offsetHeight } = parent;
-		let containerHeight = offsetWidth / aspect;
-		if ( containerHeight > offsetHeight ) {
-			containerHeight = offsetHeight;
-		}
 
-		self.setState( { containerWidth, containerHeight } );
+		self.setState( {
+			containerWidth: offsetWidth,
+			containerHeight: offsetHeight,
+		} );
 	}
 
 	loadImage() {
@@ -156,7 +152,6 @@ LazyImage.propTypes = {
 	src: PropTypes.string.isRequired,
 	width: PropTypes.string.isRequired,
 	height: PropTypes.string.isRequired,
-	aspect: PropTypes.string.isRequired,
 };
 
 export default LazyImage;

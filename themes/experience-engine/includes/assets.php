@@ -74,7 +74,7 @@ if ( ! function_exists( 'ee_script_loader' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_lazy_image' ) ) :
-	function ee_the_lazy_image( $image_id, $aspect = false ) {
+	function ee_the_lazy_image( $image_id ) {
 		if ( ! $image_id ) {
 			return;
 		}
@@ -90,11 +90,10 @@ if ( ! function_exists( 'ee_the_lazy_image' ) ) :
 		}
 
 		printf(
-			'<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-aspect="%s"></div>',
+			'<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s"></div>',
 			esc_attr( $img[0] ),
 			esc_attr( $img[1] ),
-			esc_attr( $img[2] ),
-			! empty( $aspect ) ? esc_attr( $aspect ) : 16 / 10
+			esc_attr( $img[2] )
 		);
 	}
 endif;
