@@ -5,7 +5,7 @@ if ( ! $show ) :
 	return;
 endif;
 
-?><div>
+?><header class="show-header">
 	<?php get_template_part( 'partials/show/information' ); ?>
 	<?php get_template_part( 'partials/show/navigation' ); ?>
-</div>
+</header>

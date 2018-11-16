@@ -23,11 +23,17 @@
 @import 'components/player/controls';
 @import 'components/player/live-player';
 
+@import 'components/show/show-header';
+@import 'components/show/show-information';
+@import 'components/show/show-navigation';
+
+
+@import 'components/podcast/podcast-tile';
+
 @import 'components/episode/episode-info';
 @import 'components/episode/episode-content';
 @import 'components/episode/episode-tile';
 
-@import 'components/podcast/podcast-tile';
 
 @import 'components/ads/ad-title';
 @import 'components/ads/ad';

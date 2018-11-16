@@ -1,6 +1,5 @@
 .ad {
 	&.-leaderboard {
-		margin-bottom: 2rem;
 		padding: 1rem;
 
 		@media (--min-medium-viewport) {

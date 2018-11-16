@@ -5,7 +5,7 @@ if ( ! $show ) :
 	return;
 endif;
 
-?><div><?php
+?><div class="navigation content-wrap"><?php
 	if ( \GreaterMedia\Shows\uses_custom_menu( $show->ID ) ) :
 		wp_nav_menu( array(
 			'menu'      => \GreaterMedia\Shows\assigned_custom_menu_id( $show->ID ),
