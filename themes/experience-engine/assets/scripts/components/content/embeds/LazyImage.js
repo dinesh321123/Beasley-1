@@ -127,16 +127,13 @@ class LazyImage extends PureComponent {
 	render() {
 		const self = this;
 		const { container } = self;
-		const { containerWidth, containerHeight, image } = self.state;
+		const { image } = self.state;
 
 		if ( !container ) {
 			return false;
 		}
 
-		const styles = {
-			width: `${containerWidth}px`,
-			height: `${containerHeight}px`,
-		};
+		const styles = {};
 
 		let loader = false;
 		if ( image ) {

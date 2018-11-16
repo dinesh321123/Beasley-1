@@ -18,14 +18,17 @@
 	& .post-thumbnail {
 		flex: 1 0 300px;
 		margin-bottom: 1rem;
-		min-height: 156px;
-		padding-top: 56.25%;
 		position: relative;
+
+		&:before {
+			content: "";
+			display: block;
+			padding-top: calc((3 / 4) * 100%);
+			width: 100%;
+		}
 
 		@media (--min-xlarge-viewport) {
 			margin-bottom: 0;
-			overflow: hidden;
-			width: 300px;
 		}
 
 		@nest .archive-tiles & {
@@ -33,7 +36,8 @@
 			margin-bottom: 1rem;
 		}
 
-		& a {
+		& a,
+		& .lazy-image {
 			bottom: 0;
 			left: 0;
 			position: absolute;
