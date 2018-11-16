@@ -6,15 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class GreaterMediaSiteOptions {
 
-	const option_group = 'greatermedia_site_options';
-
-	/**
-	 * Contains the slug of the settings page once it's registered
-	 *
-	 * @var
-	 */
-	protected $_settings_page_hook;
-
 	/**
 	 * Instance of this class, if it has been created.
 	 *
@@ -40,33 +31,12 @@ class GreaterMediaSiteOptions {
 	 * Sets up actions and filters.
 	 */
 	protected function _init() {
-		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'bbgi_register_settings', array( $this, 'register_settings' ), 1, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
-	public function add_settings_page() {
-		$this->_settings_page_hook = add_options_page( 'Station Site', 'Station Site', 'manage_options', 'greatermedia-settings', array( $this, 'render_settings_page' ), '', 3 );
-	}
 
-	public function render_settings_page() {
-		echo '<form action="options.php" method="post" class="greatermedia-settings-form" style="max-width:750px;">';
-			settings_fields( self::option_group );
-			do_settings_sections( $this->_settings_page_hook );
-
-			/**
-			 * Allows adding additional settings sections here.
-			 *
-			 * Useful for the sections that are only enabled if theme support is enabled, we can conditionally add settings for each child theme.
-			 */
-			do_action( 'greatermedia-settings-additional-settings' );
-
-			submit_button( 'Submit' );
-		echo '</form>';
-	}
-
-
-	public function register_settings() {
+	public function register_settings( $group, $page ) {
 		// Fallback Thumbnails Section
 		add_settings_section( 'greatermedia_fallback_thumbnails', 'Fallback Thumbnails', array( $this, 'render_fallback_section_info' ), 'media' );
 
@@ -83,7 +53,6 @@ class GreaterMediaSiteOptions {
 				'advertiser',
 				'survey',
 				'show',
-				'show-episode',
 			);
 
 			// If the Post type is in the exclude list, then don't add to Media Page
@@ -99,31 +68,26 @@ class GreaterMediaSiteOptions {
 		}
 
 		// Settings Section
-		add_settings_section( 'beasley_site_settings', 'Station Site', array( $this, 'render_site_settings_section' ), $this->_settings_page_hook );
-		add_settings_section( 'beasley_social_networks', 'Social Networks', '__return_false', $this->_settings_page_hook );
+		add_settings_section( 'beasley_site_settings', 'Station Site', array( $this, 'render_site_settings_section' ), $page );
+		add_settings_section( 'beasley_social_networks', 'Social Networks', '__return_false', $page );
 
-		add_settings_field( 'gmr_livelinks_title', 'Live Links Sidebar Title', 'beasley_input_field', $this->_settings_page_hook, 'beasley_site_settings', 'name=gmr_livelinks_title' );
+		add_settings_field( 'gmr_livelinks_title', 'Live Links Sidebar Title', 'bbgi_input_field', $page, 'beasley_site_settings', 'name=gmr_livelinks_title' );
 
-		add_settings_field( 'gmr_facebook_url', 'Facebook', 'beasley_input_field', $this->_settings_page_hook, 'beasley_social_networks', 'name=gmr_facebook_url' );
-		add_settings_field( 'gmr_twitter_name', 'Twitter', 'beasley_input_field', $this->_settings_page_hook, 'beasley_social_networks', array( 'name' => 'gmr_twitter_name', 'desc' => 'Please enter username minus the @' ) );
-		add_settings_field( 'gmr_youtube_url', 'Youtube', 'beasley_input_field', $this->_settings_page_hook, 'beasley_social_networks', 'name=gmr_youtube_url' );
-		add_settings_field( 'gmr_instagram_name', 'Instagram', 'beasley_input_field', $this->_settings_page_hook, 'beasley_social_networks', 'name=gmr_instagram_name' );
+		add_settings_field( 'gmr_facebook_url', 'Facebook', 'bbgi_input_field', $page, 'beasley_social_networks', 'name=gmr_facebook_url' );
+		add_settings_field( 'gmr_twitter_name', 'Twitter', 'bbgi_input_field', $page, 'beasley_social_networks', array( 'name' => 'gmr_twitter_name', 'desc' => 'Please enter username minus the @' ) );
+		add_settings_field( 'gmr_youtube_url', 'Youtube', 'bbgi_input_field', $page, 'beasley_social_networks', 'name=gmr_youtube_url' );
+		add_settings_field( 'gmr_instagram_name', 'Instagram', 'bbgi_input_field', $page, 'beasley_social_networks', 'name=gmr_instagram_name' );
 
 		// Social URLs
-		register_setting( self::option_group, 'gmr_facebook_url', 'esc_url_raw' );
-		register_setting( self::option_group, 'gmr_twitter_name', 'sanitize_text_field' );
-		register_setting( self::option_group, 'gmr_youtube_url', 'esc_url_raw' );
-		register_setting( self::option_group, 'gmr_instagram_name', 'sanitize_text_field' );
-		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
-		register_setting( self::option_group, 'gmr_livelinks_title', 'sanitize_text_field');
-		register_setting( self::option_group, 'gmr_newssite', 'esc_attr' );
-		register_setting( self::option_group, 'gmr_livelinks_more_redirect', 'esc_attr' );
-		register_setting( self::option_group, 'gmr_liveplayer_disabled', 'esc_attr' );
-
-		/**
-		 * Allows us to register extra settings that are not necessarily always present on all child sites.
-		 */
-		do_action( 'beasley-register-settings', self::option_group, $this->_settings_page_hook );
+		register_setting( $group, 'gmr_facebook_url', 'esc_url_raw' );
+		register_setting( $group, 'gmr_twitter_name', 'sanitize_text_field' );
+		register_setting( $group, 'gmr_youtube_url', 'esc_url_raw' );
+		register_setting( $group, 'gmr_instagram_name', 'sanitize_text_field' );
+		register_setting( $group, 'gmr_site_logo', 'intval' );
+		register_setting( $group, 'gmr_livelinks_title', 'sanitize_text_field');
+		register_setting( $group, 'gmr_newssite', 'esc_attr' );
+		register_setting( $group, 'gmr_livelinks_more_redirect', 'esc_attr' );
+		register_setting( $group, 'gmr_liveplayer_disabled', 'esc_attr' );
 	}
 
 	public function render_fallback_section_info() {
@@ -158,7 +122,7 @@ class GreaterMediaSiteOptions {
 		$livelinks_more = get_option( 'gmr_livelinks_more_redirect', '' );
 		$liveplayer_disabled = get_option( 'gmr_liveplayer_disabled', '' );
 
-		$site_logo_id = GreaterMediaSiteOptionsHelperFunctions::get_site_logo_id();
+		$site_logo_id = get_option( 'gmr_site_logo', 0 );
 		self::render_image_select( 'Site Logo', 'gmr_site_logo', $site_logo_id ); ?>
 
 		<hr />
@@ -226,27 +190,3 @@ class GreaterMediaSiteOptions {
 }
 
 GreaterMediaSiteOptions::instance();
-
-function beasley_input_field( $args = array() ) {
-	$args = wp_parse_args( $args, array(
-		'type'    => 'text',
-		'name'    => '',
-		'default' => '',
-		'class'   => 'regular-text',
-		'desc'    => '',
-	) );
-
-	$value = get_option( $args['name'], $args['default'] );
-
-	printf(
-		'<input type="%s" name="%s" class="%s" value="%s">',
-		esc_attr( $args['type'] ),
-		esc_attr( $args['name'] ),
-		esc_attr( $args['class'] ),
-		esc_attr( $value )
-	);
-
-	if ( ! empty( $args['desc'] ) ) {
-		printf( '<p class="description">%s</p>', esc_html( $args['desc'] ) );
-	}
-}

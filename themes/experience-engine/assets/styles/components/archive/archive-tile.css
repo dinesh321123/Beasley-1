@@ -1,0 +1,28 @@
+.archive-tiles {
+	&.-grid {
+		align-items: flex-start;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		& > div {
+			flex: 0 1 100%;
+
+			@media (--min-medium-viewport) {
+				flex: 0 1 calc(50% - 1.5rem);
+			}
+
+			&:nth-child(odd) {
+				@media (--min-medium-viewport) {
+					padding-right: .75rem;
+				}
+			}
+
+			&:nth-child(even) {
+				@media (--min-medium-viewport) {
+					padding-left: .75rem;
+				}
+			}
+		}
+	}
+}

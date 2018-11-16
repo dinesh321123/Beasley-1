@@ -17,7 +17,6 @@ include_once GMEDIA_SHOWS_PATH . 'includes/class-ShowsCPT.php';
 include_once GMEDIA_SHOWS_PATH . 'includes/class-Metaboxes.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-support.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-live-links.php';
-require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-schedule.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-endpoints.php';
 require_once GMEDIA_SHOWS_PATH . 'includes/gmi-show-personalities.php';
 
@@ -29,14 +28,10 @@ function gmr_shows_activated() {
 	$shows_cpt->register_post_type();
 
 	load_capabilities( ShowsCPT::SHOW_CPT );
-	load_capabilities( ShowsCPT::EPISODE_CPT );
-
 	flush_rewrite_rules();
 }
 
 function gmr_shows_deactivated() {
 	unload_capabilities( ShowsCPT::SHOW_CPT );
-	unload_capabilities( ShowsCPT::EPISODE_CPT );
-
 	flush_rewrite_rules();
 }

@@ -17,7 +17,7 @@
 			</a>
 
 			<div class="entry2__thumbnail__attribution">
-				<?php image_attribution(); ?>
+				<?php bbgi_the_image_attribution(); ?>
 			</div>
 		</section>
 	<?php endif; ?>

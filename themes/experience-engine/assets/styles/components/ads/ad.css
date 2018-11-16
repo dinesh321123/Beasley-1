@@ -1,0 +1,34 @@
+.ad {
+	&.-leaderboard {
+		margin-bottom: 2rem;
+		padding: 1rem;
+
+		@media (--min-medium-viewport) {
+			background-color: var(--global-gallery);
+		}
+	}
+
+	&.-centered {
+		& .wrapper {
+			margin: 0 auto;
+			max-width: 970px;
+		}
+	}
+
+	&.-sticky {
+		& .wrapper {
+			@media (--min-large-viewport) {
+				position: sticky;
+				top: 10px;
+			}
+		}
+	}
+
+	&.-footer {
+		padding-bottom: 2.667rem;
+
+		@media (--min-large-viewport) {
+			padding-bottom: 4.111rem;
+		}
+	}
+}

@@ -13,8 +13,8 @@ class GreaterMediaKeywordAutocomplete {
 	public static function enqueue_scripts() {
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-		wp_enqueue_script(
-			GreaterMedia_Keyword_Admin::$plugin_slug . '-autocomplete-script'
+		wp_register_script(
+			'gmedia_keywords-autocomplete-script'
 			, GMKEYWORDS_URL . "assets/js/greatermedia_keywords_autocomplete{$postfix}.js"
 			, array( 'jquery', 'underscore' )
 			, GMKEYWORDS_VERSION

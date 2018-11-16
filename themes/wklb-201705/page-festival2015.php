@@ -19,7 +19,7 @@ get_header();
 		 */
 		if ( has_post_thumbnail() && ! bbgi_post_has_gallery() && ! has_post_format( 'video' ) && ! has_post_format( 'audio' )  ): ?>
 			<div class="article__thumbnail" style='background-image: url(<?php gm_post_thumbnail_url( 'gm-article-thumbnail' ); ?>)'>
-				<?php image_attribution(); ?>
+				<?php bbgi_the_image_attribution(); ?>
 			</div>
 		<?php endif; ?>
 

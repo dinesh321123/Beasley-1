@@ -1,0 +1,186 @@
+.episode-info {
+	margin: 0 auto;
+	max-width: 1071px;
+	padding: 0 1rem 2.22rem;
+
+	& .status {
+		& button {
+			background-color: transparent;
+			height: 117px;
+			width: 117px;
+		}
+
+		& svg {
+			fill: var(--brand-primary);
+			height: 45px;
+			max-height: none;
+		}
+	}
+
+	& .show-meta {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding-bottom: 1.72rem;
+
+		@media (--min-small-viewport) {
+			flex-wrap: nowrap;
+			justify-content: flex-start;
+		}
+
+		& .show {
+			flex: 0 1 100%;
+			line-height: 1;
+			margin-bottom: 1rem;
+
+			@media (--min-small-viewport) {
+				margin-bottom: 0;
+				flex: 0 1 auto;
+			}
+
+			& a {
+				color: var(--brand-primary);
+				font-size: .889rem;
+				font-weight: 600;
+				line-height: 1;
+				text-transform: uppercase;
+			}
+		}
+
+		& button {
+			color: var(--global-font-primary);
+			flex: 0 1 100%;
+
+			@media (--min-small-viewport) {
+				flex: 0 1 auto;
+			}
+		}
+
+		& > * {
+			float: left;
+
+			&:not(:first-child) {
+
+				@media (--min-small-viewport) {
+					padding-left: 1rem;
+				}
+			}
+		}
+	}
+
+	& .show-actions {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding-bottom: 1.61rem;
+
+		@media (--min-small-viewport) {
+			flex-wrap: nowrap;
+			justify-content: flex-start;
+		}
+
+		& > div {
+			padding-bottom: 1.72rem;
+
+			@media (--min-small-viewport) {
+				padding-bottom: 0;
+			}
+		}
+
+		& h1 {
+			margin-bottom: 0;
+
+			@media (--min-small-viewport) {
+				padding-left: 2.78rem;
+			}
+		}
+	}
+
+	& .episode-meta {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		font-size: .833rem;
+
+		@media (--min-small-viewport) {
+			flex-wrap: nowrap;
+		}
+
+		& > * {
+			flex: 0 1 100%;
+			padding: 0 0 1rem;
+
+			@media (--min-small-viewport) {
+				flex: 0 1 auto;
+			}
+		}
+
+		& > *:not(:first-child) {
+			@media (--min-small-viewport) {
+				padding-left: 2.78rem;
+			}
+		}
+
+		& .duration {
+			font-weight: 600;
+			width: 117px;
+
+			@media (--min-small-viewport) {
+				text-align: center;
+			}
+		}
+
+		& .btn {
+			text-align: left;
+
+			@media (--min-small-viewport) {
+				text-align: center;
+			}
+		}
+
+		& .date {
+			color: #8f8f8f;
+			font-size: .778rem;
+		}
+
+		& .share {
+			align-items: center;
+			color: #8f8f8f;
+			display: flex;
+			font-size: .778rem;
+
+			& button {
+				background: transparent;
+				border: none;
+				border-radius: 2px;
+				cursor: pointer;
+				height: 30px;
+				line-height: 1;
+				padding: .389rem 1.222rem;
+				width: 52px;
+
+				&:first-of-type {
+					margin-left: 1.445rem;
+				}
+
+				&:not(:first-of-type) {
+					margin-left: .667rem;
+				}
+			}
+
+			& svg {
+				fill: var(--global-white);
+			}
+
+			& .facebook {
+				background-color: #3F5C94;
+			}
+
+			& .twitter {
+				background-color: #2BAEE8;
+			}
+		}
+	}
+}

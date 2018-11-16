@@ -48,3 +48,10 @@ require_once( __DIR__ . '/includes/audio-shortcodes.php' );
 
 register_activation_hook( __FILE__, array( 'GMLP_Player', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'GMLP_Player', 'deactivate' ) );
+
+add_action( 'after_setup_theme', function() {
+	if ( current_theme_supports( 'legacy-live-player' ) ) {
+		GMLP_Player::init();
+		GMR_Audio_Shortcodes::init();
+	}
+} );

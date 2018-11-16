@@ -5,7 +5,7 @@
 if ( has_post_thumbnail() && ! bbgi_post_has_gallery() && ! has_post_format( 'video' ) && ! has_post_format( 'audio' )  ): ?>
 	<div class="article__thumbnail">
 		<img src="<?php gm_post_thumbnail_url( 'gm-article-thumbnail-wbt' ) ?>" alt="">
-		<?php image_attribution(); ?>
+		<?php bbgi_the_image_attribution(); ?>
 	</div>
 
 	<?php if ( ! empty( get_post( get_post_thumbnail_id() )->post_excerpt ) ) : ?>

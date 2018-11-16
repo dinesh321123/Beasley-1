@@ -8,7 +8,7 @@ class GMR_Archive_Admin {
 	 * @access public
 	 */
 	public function setup() {
-		add_action( 'beasley-register-settings', array( $this, 'init_setting' ), 10, 2 );
+		add_action( 'bbgi_register_settings', array( $this, 'init_setting' ), 10, 2 );
 		add_filter( 'the_title', array( $this, 'the_title' ), 10, 2 );
 		add_filter( 'display_post_states', array( $this, 'display_post_states' ), 10, 2 );
 		add_action( 'admin_footer-post.php', array( $this, 'add_post_status_to_dropdown' ) );
@@ -20,7 +20,12 @@ class GMR_Archive_Admin {
 	}
 
 	function init_setting( $group, $page ) {
-		add_settings_section( 'greatermedia_auto_archive_settings', 'Auto Archive Content', array( $this, 'render_section' ), $page );
+		add_settings_section( 'greatermedia_auto_archive_settings', 'Auto Archive Content', '__return_false', $page );
+		add_settings_field( 'content_auto_archive_days', 'Archive Days', 'bbgi_input_field', $page, 'greatermedia_auto_archive_settings', array(
+			'name' => GMR_AUTO_ARCHIVE_OPTION_NAME,
+			'desc' => 'Number of days after which post will be marked as archived. 0 - Never',
+		) );
+
 		register_setting( $group, 'content_auto_archive_days', array( $this, 'sanitize_days' ) );
 	}
 
@@ -47,24 +52,6 @@ class GMR_Archive_Admin {
 		}
 
 		return $days;
-	}
-
-	/**
-	 * Render setting section
-	 */
-	function render_section() {
-		$days = get_option( GMR_AUTO_ARCHIVE_OPTION_NAME, 0 );
-		?>
-		<div class="gmr__option">
-			<label for="<?php echo esc_attr( GMR_AUTO_ARCHIVE_OPTION_NAME ); ?>" class="gmr__option--label">Archive
-				Days </label>
-			<input type="number" min="0" class="" name="<?php echo esc_attr( GMR_AUTO_ARCHIVE_OPTION_NAME ); ?>"
-				   id="<?php echo esc_attr( GMR_AUTO_ARCHIVE_OPTION_NAME ); ?>"
-				   value="<?php echo esc_attr( $days ); ?>"/>
-			<div class="gmr-option__field--desc">Number of days after which post will be marked as archived. 0 - Never
-			</div>
-		</div>
-		<?php
 	}
 
 	/**

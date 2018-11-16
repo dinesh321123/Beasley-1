@@ -1,0 +1,24 @@
+.section-head {
+	background-color: var(--global-white);
+	position: relative;
+
+	& span {
+		background-color: inherit;
+		display: inline-block;
+		padding-right: 1.444rem;
+		position: relative;
+		z-index: 1;
+	}
+
+	&:after {
+		background-color: var(--global-silver-chalice);
+		content: '';
+		height: 1px;
+		left: 0;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 100%;
+		z-index: 0;
+	}
+}

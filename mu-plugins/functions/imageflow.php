@@ -54,3 +54,23 @@ function bbgi_post_thumbnail_url( $post, $use_fallback, $width, $height, $mode =
 		echo esc_url( $url );
 	}
 }
+
+function bbgi_the_image_attribution( $image_id = null ) {
+	if ( empty( $image_id ) ) {
+		$image_id = get_post_thumbnail_id();
+	}
+
+	$attribution = get_post_meta( $image_id, 'gmr_image_attribution', true );
+	if ( ! empty( $attribution ) ) {
+		$img_link = filter_var( $attribution, FILTER_VALIDATE_URL );
+		if ( $img_link ) {
+			echo '<div class="image-attribution">';
+				echo '<a href="' . esc_url( $attribution ) . '" class="image-attribution--link">Photo Credit</a>';
+			echo '</div>';
+		} else {
+			echo '<div class="image-attribution">';
+				echo wp_kses_post( $attribution );
+			echo '</div>';
+		}
+	}
+}

@@ -362,5 +362,3 @@ class GMR_Audio_Shortcodes {
 	}
 
 }
-
-GMR_Audio_Shortcodes::init();

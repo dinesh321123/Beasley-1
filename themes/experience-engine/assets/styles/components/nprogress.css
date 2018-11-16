@@ -1,0 +1,24 @@
+@import 'nprogress/nprogress.css';
+
+#nprogress {
+	& .bar {
+		background-color: var(--brand-primary);
+	}
+
+	& .spinner-icon {
+		border-top-color: var(--brand-primary);
+		border-left-color: var(--brand-primary);
+	}
+
+	& .peg {
+		box-shadow: 0 0 10px var(--brand-primary), 0 0 5px var(--brand-primary);
+	}
+}
+
+body.admin-bar #nprogress .bar {
+	top: 32px;
+}
+
+body.admin-bar #nprogress .spinner {
+	top: 47px;
+}

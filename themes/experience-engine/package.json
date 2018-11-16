@@ -1,0 +1,103 @@
+{
+	"name": "experience-engine",
+	"scripts": {
+		"analyze": "webpack app=./assets/scripts/app.js --config-name=analyze-config",
+		"build": "webpack app=./assets/scripts/app.js --config-name=dev-config",
+		"watch": "webpack --progress app=./assets/scripts/app.js --config-name=watch-config",
+		"bundle": "webpack app=./assets/scripts/app.js --config-name=prod-config"
+	},
+	"dependencies": {
+		"@10up/eslint-config": "^1.0.6",
+		"@babel/core": "^7.1.6",
+		"@babel/plugin-syntax-dynamic-import": "^7.0.0",
+		"@babel/preset-env": "^7.1.6",
+		"@babel/preset-react": "^7.0.0",
+		"babel-eslint": "^10.0.1",
+		"babel-loader": "^8.0.4",
+		"copy-webpack-plugin": "^4.6.0",
+		"css-loader": "^1.0.1",
+		"cssnano": "^4.1.7",
+		"eslint": "^5.9.0",
+		"eslint-loader": "^2.1.1",
+		"eslint-plugin-import": "^2.14.0",
+		"eslint-plugin-jsx-a11y": "^6.1.2",
+		"eslint-plugin-react": "^7.11.1",
+		"firebase": "^5.5.8",
+		"lodash.debounce": "^4.0.8",
+		"md5": "^2.2.1",
+		"mini-css-extract-plugin": "^0.4.4",
+		"nprogress": "^0.2.0",
+		"postcss-custom-media": "^7.0.7",
+		"postcss-import": "^12.0.1",
+		"postcss-loader": "^3.0.0",
+		"postcss-preset-env": "^6.4.0",
+		"prop-types": "^15.6.2",
+		"react": "^16.6.3",
+		"react-dom": "^16.6.3",
+		"react-redux": "^5.1.1",
+		"redux": "^4.0.1",
+		"redux-thunk": "^2.3.0",
+		"video.js": "^7.3.0",
+		"videojs-contrib-ads": "^6.6.1",
+		"videojs-contrib-quality-levels": "^2.0.9",
+		"videojs-hls-quality-selector": "0.0.8",
+		"videojs-ima": "^1.5.1",
+		"webpack": "^4.25.1",
+		"webpack-bundle-analyzer": "^3.0.3",
+		"webpack-cli": "^3.1.2"
+	},
+	"eslintConfig": {
+		"extends": [
+			"@10up/eslint-config",
+			"plugin:import/errors",
+			"plugin:import/warnings",
+			"plugin:react/recommended",
+			"plugin:jsx-a11y/recommended"
+		],
+		"env": {
+			"browser": true,
+			"node": true
+		},
+		"plugins": [
+			"import",
+			"react",
+			"jsx-a11y"
+		],
+		"rules": {
+			"indent": [
+				"error",
+				"tab",
+				{
+					"SwitchCase": 1
+				}
+			],
+			"jsx-a11y/label-has-for": [
+				"error",
+				{
+					"required": {
+						"every": [
+							"id"
+						]
+					}
+				}
+			],
+			"jsx-a11y/media-has-caption": 0
+		},
+		"settings": {
+			"react": {
+				"version": "16.5.2"
+			}
+		}
+	},
+	"browserslist": [
+		"Chrome > 55",
+		"Safari > 9",
+		"Explorer 11",
+		"Edge >= 15",
+		"Firefox >= 51",
+		"Android > 55",
+		"iOS > 9",
+		"Samsung >= 5",
+		"not dead"
+	]
+}

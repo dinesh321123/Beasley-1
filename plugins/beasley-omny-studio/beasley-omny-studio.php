@@ -8,6 +8,8 @@
  * Author URI:  http://10up.com/
  */
 
+new WP_Embed;
+
 define( 'OMNY_STUDIO_VERSION', '20180319.1' );
 
 function omny_init() {
@@ -41,16 +43,43 @@ function omny_init() {
 			),
 		) );
 	}
+
+	wp_embed_register_handler( 'omny', '#https://omny.fm/shows/.*#i', 'omny_render_embed' );
+}
+
+function omny_render_embed( $matches, $attr, $url ) {
+	$key = apply_filters( 'omny_embed_key', $url, $matches, $attr );
+
+	$embed = wp_cache_get( $key, 'omny' );
+	if ( empty( $embed ) ) {
+		$embed = '';
+		$response = wp_remote_get( 'https://omny.fm/oembed?url=' . urlencode( $url ) );
+		if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
+			$body = wp_remote_retrieve_body( $response );
+			if ( ! empty( $body ) ) {
+				$body = json_decode( $body, true );
+				if ( ! empty( $body['html'] ) ) {
+					$replace = sprintf(
+						'<iframe data-title="%s" data-author="%s" ',
+						! empty( $body['title'] ) ? $body['title'] : '',
+						! empty( $body['author_name'] ) ? $body['author_name'] : ''
+					);
+
+					$embed = str_replace( '<iframe ', $replace, $body['html'] );
+					$embed = apply_filters( 'omny_embed_html', $embed, $body );
+
+					wp_cache_set( $key, $embed, 'omny', HOUR_IN_SECONDS );
+				}
+			}
+		}
+	}
+
+	return $embed;
 }
 
 function omny_enqueue_scripts() {
-	wp_enqueue_script( 'playerjs', '//cdn.embed.ly/player-0.1.0.min.js', null, null, true );
-	wp_enqueue_script( 'omny', plugins_url( '/player.js', __FILE__ ), array( 'jquery', 'playerjs' ), OMNY_STUDIO_VERSION, true );
-}
-
-function omny_register_oembed( $providers ) {
-	$providers['https://omny.fm/shows/*'] = array( 'https://omny.fm/oembed', false );
-	return $providers;
+	wp_register_script( 'playerjs', '//cdn.embed.ly/player-0.1.0.min.js', null, null, true );
+	wp_register_script( 'omny', plugins_url( '/player.js', __FILE__ ), array( 'jquery', 'playerjs' ), OMNY_STUDIO_VERSION, true );
 }
 
 function omny_register_scheduled_events() {
@@ -61,7 +90,7 @@ function omny_register_scheduled_events() {
 
 function omny_register_settings( $group, $page ) {
 	add_settings_section( 'omny_settings', 'Omny Studio', '__return_false', $page );
-	add_settings_field( 'omny_token', 'Access Token', 'beasley_input_field', $page, 'omny_settings', 'name=omny_token' );
+	add_settings_field( 'omny_token', 'Access Token', 'bbgi_input_field', $page, 'omny_settings', 'name=omny_token' );
 
 	register_setting( $group, 'omny_token', 'sanitize_text_field' );
 }
@@ -315,12 +344,11 @@ function omny_get_episode_audio_url( $url, $post ) {
 
 add_action( 'init', 'omny_init' );
 add_action( 'admin_init', 'omny_register_scheduled_events' );
-add_action( 'beasley-register-settings', 'omny_register_settings', 1, 2 );
+add_action( 'bbgi_register_settings', 'omny_register_settings', 5, 2 );
 add_action( 'omny_start_import_episodes', 'omny_start_import_episodes' );
 add_action( 'omny_run_import_episodes', 'omny_run_import_episodes' );
-add_action( 'wp_enqueue_scripts', 'omny_enqueue_scripts' );
+add_action( 'wp_enqueue_scripts', 'omny_enqueue_scripts', 1 );
 
-add_filter( 'oembed_providers', 'omny_register_oembed', 100 );
 add_filter( 'beasley-episode-audio-url', 'omny_get_episode_audio_url', 10, 2 );
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {

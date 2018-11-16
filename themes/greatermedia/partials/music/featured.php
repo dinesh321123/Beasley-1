@@ -11,7 +11,7 @@ if ( $hp_featured_query->have_posts() ) : $hp_featured_query->the_post(); ?>
 	<div class="featured__article">
 		<a href="<?php the_permalink(); ?>">
 			<div class="featured__article--image" style="background-image: url(<?php bbgi_post_thumbnail_url( null, true, 608, 307 ); ?>)">
-				<?php image_attribution(); ?>
+				<?php bbgi_the_image_attribution(); ?>
 			</div>
 			<div class="featured__article--content">
 				<div class="featured__article--heading">

@@ -1,0 +1,21 @@
+.single-episode,
+.single-podcast {
+	& .archive-tiles {
+		& .type-episode {
+			& .placeholder-lazyimage {
+				display: none;
+			}
+		}
+	}
+}
+
+.single-show {
+	& .archive-tiles {
+		& .type-episode::after {
+			color: var(--global-theme-primary);
+			content: "[i] podcast";
+			display: block;
+			margin-top: .5rem;
+		}
+	}
+}

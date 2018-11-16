@@ -1,0 +1,45 @@
+.btn {
+	background-color: var(--brand-primary);
+	border: 1px solid var(--brand-primary);
+	border-radius: 70px;
+	color: var(--brand-tertiary);
+	cursor: pointer;
+	display: block;
+	font-size: .889rem;
+	font-weight: 600;
+	padding: .722rem 1.222rem;
+	text-align: center;
+
+	&.-square {
+		border-radius: 4px;
+	}
+
+	&.-empty {
+		background-color: transparent;
+		color: var(--brand-primary);
+	}
+
+	&.-secondary {
+		border-color: var(--brand-secondary);
+		color: var(--brand-secondary);
+
+		&:hover {
+			background-color: color(var(--brand-secondary) alpha(-70%));
+		}
+	}
+
+	&.-nobor {
+		border: none;
+		padding: 0;
+	}
+
+	&.-icon {
+		align-items: center;
+		display: flex;
+
+		& svg {
+			fill: var(--brand-primary);
+			margin-right: .667rem;
+		}
+	}
+}

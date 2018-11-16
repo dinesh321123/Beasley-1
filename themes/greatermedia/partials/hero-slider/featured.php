@@ -20,7 +20,7 @@ if ( $hp_featured_query->have_posts() ) :
 							<div class="featured__article--heading">
 								<?php the_title(); ?>
 							</div>
-							<?php image_attribution(); ?>
+							<?php bbgi_the_image_attribution(); ?>
 						</div>
 					</div>
 				</a>

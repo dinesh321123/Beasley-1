@@ -1,0 +1,10 @@
+.ad-title {
+	color: var(--global-font-secondary);
+	font-size: .611rem;
+	text-align: center;
+	text-transform: uppercase;
+
+	@nest .-centered & {
+		margin-bottom: .333rem;
+	}
+}

@@ -1,0 +1,43 @@
+.episode-tile {
+	align-items: center;
+	display: flex;
+	padding-bottom: 3.05rem;
+
+	& .status {
+		& button {
+			background-color: transparent;
+		}
+
+		& svg {
+			fill: var(--brand-primary);
+		}
+	}
+
+	& .meta {
+		padding-left: 1rem;
+
+		@media (--min-small-viewport) {
+			padding-left: 2.437rem;
+		}
+
+		& p {
+			color: var(--global-font-secondary);
+			margin-bottom: 0;
+		}
+
+		& a {
+			color: var(--global-font-primary);
+		}
+
+		& .duration {
+			font-size: .833rem;
+			font-weight: 600;
+		}
+
+		& .date {
+			font-size: .778rem;
+			font-weight: 100;
+			padding-left: 1.444rem;
+		}
+	}
+}

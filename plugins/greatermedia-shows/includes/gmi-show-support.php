@@ -34,6 +34,11 @@ function get_about_permalink( $show_id ) {
 	return trailingslashit( get_the_permalink( $show_id ) ) . "about/";
 }
 
+function home_link_html( $show_id, $link_text = 'Home' ) {
+	$class = '' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
+	?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo esc_url( get_permalink( $show_id ) ); ?>"><?php echo esc_html( $link_text ); ?></a></li><?php
+}
+
 function about_link_html( $show_id, $link_text = 'About' ) {
 	$class = 'about' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
 	?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo esc_url( get_about_permalink( $show_id ) ); ?>"><?php echo esc_html( $link_text ); ?></a></li><?php

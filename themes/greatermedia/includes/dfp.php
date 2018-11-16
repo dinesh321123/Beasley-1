@@ -6,7 +6,7 @@ function greatermedia_init_dfp_settings( $group, $page ) {
 	add_settings_section( 'beasley_dfp_unit_codes', 'DFP Unit Codes', '__return_false', $page );
 
 	register_setting( $group, 'dfp_network_code', 'sanitize_text_field' );
-	add_settings_field( 'dfp_network_code', 'Network Code', 'beasley_input_field', $page, 'beasley_dfp_settings', 'name=dfp_network_code' );
+	add_settings_field( 'dfp_network_code', 'Network Code', 'bbgi_input_field', $page, 'beasley_dfp_settings', 'name=dfp_network_code' );
 
 	$settings = array(
 		'dfp_targeting_market' => 'Market Targeting Value',
@@ -16,7 +16,7 @@ function greatermedia_init_dfp_settings( $group, $page ) {
 
 	foreach ( $settings as $key => $label ) {
 		register_setting( $group, $key, 'sanitize_text_field' );
-		add_settings_field( $key, $label, 'beasley_input_field', $page, 'beasley_dfp_global_targeting_settings', 'name=' . $key );
+		add_settings_field( $key, $label, 'bbgi_input_field', $page, 'beasley_dfp_global_targeting_settings', 'name=' . $key );
 	}
 
 	$settings = array(
@@ -40,10 +40,10 @@ function greatermedia_init_dfp_settings( $group, $page ) {
 
 	foreach ( $settings as $key => $label ) {
 		register_setting( $group, $key, 'sanitize_text_field' );
-		add_settings_field( $key, $label, 'beasley_input_field', $page, 'beasley_dfp_unit_codes', 'name=' . $key );
+		add_settings_field( $key, $label, 'bbgi_input_field', $page, 'beasley_dfp_unit_codes', 'name=' . $key );
 	}
 }
-add_action( 'beasley-register-settings', 'greatermedia_init_dfp_settings', 10, 2 );
+add_action( 'bbgi_register_settings', 'greatermedia_init_dfp_settings', 10, 2 );
 
 function greatermedia_is_dfp_active() {
 	$network_id = trim( get_option( 'dfp_network_code' ) );

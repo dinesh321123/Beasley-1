@@ -38,7 +38,8 @@
 		"wpackagist-plugin/debug-bar-extender": "*",
 		"wpackagist-plugin/debug-bar-remote-requests": "*",
 		"wpackagist-plugin/rewrite-rules-inspector": "*",
-		"wpackagist-plugin/user-switching": "*"
+		"wpackagist-plugin/user-switching": "*",
+		"wpackagist-plugin/fakerpress": "*"
 	},
 	"autoload": {
 		"psr-0": {
@@ -47,7 +48,8 @@
 		"files": [
 			"mu-plugins/functions/term-data-store.php",
 			"mu-plugins/functions/imageflow.php",
-			"mu-plugins/functions/post.php"
+			"mu-plugins/functions/post.php",
+			"mu-plugins/functions/settings.php"
 		]
 	},
 	"extra": {

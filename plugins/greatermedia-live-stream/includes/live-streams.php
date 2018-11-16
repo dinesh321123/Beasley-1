@@ -13,6 +13,7 @@ add_filter( 'gmr_live_player_streams', 'gmr_streams_get_public_streams' );
 add_filter( 'post_type_link', 'gmr_streams_get_stream_permalink', 10, 2 );
 add_filter( 'request', 'gmr_streams_unpack_vars' );
 add_filter( 'gmr_live_link_suggestion_post_types', 'gmr_streams_add_suggestion_post_type' );
+add_filter( 'bbgiconfig', 'gmr_update_bbgiconfig' );
 
 /**
  * Registers live stream post types in the live links suggestions post types array.
@@ -493,4 +494,9 @@ function gmr_streams_get_primary_stream_vast_url() {
 	}
 
 	return $vast_url;
+}
+
+function gmr_update_bbgiconfig( $settings ) {
+	$settings['streams'] = gmr_streams_get_public_streams();
+	return $settings;
 }

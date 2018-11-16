@@ -20,7 +20,7 @@ function gmr_register_dependencies() {
 
 	// Enqueue modernizr, so we can use feature detection for things
 	// Using the modernizr version (2.8.3) plus an extra .1, so we can bust cache if we need to add additional things later
-	wp_enqueue_script( 'modernizr', $base . '/modernizr/modernizr.min.js', array(), '2.8.3.1', false );
+	wp_register_script( 'modernizr', $base . '/modernizr/modernizr.min.js', array(), '2.8.3.1', false );
 
 	// Register scripts
 	wp_register_script( 'select2', $base . "/select2/select2{$postfix}.js", array( 'jquery' ), '3.5.2', true );

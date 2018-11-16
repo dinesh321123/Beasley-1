@@ -11,7 +11,7 @@ class SecondStreet extends \Bbgi\Module {
 	 */
 	public function register() {
 		// add action hooks
-		add_action( 'beasley-register-settings', $this( 'register_settings' ), 10, 2 );
+		add_action( 'bbgi_register_settings', $this( 'register_settings' ), 10, 2 );
 
 		// add shortcodes
 		add_shortcode( 'ss_promo', $this( 'render_shortcode' ) );
@@ -22,7 +22,7 @@ class SecondStreet extends \Bbgi\Module {
 	 * Registers Google Analytics and Tag Manager settings.
 	 *
 	 * @access public
-	 * @action beasley-register-settings
+	 * @action bbgi_register_settings
 	 * @param string $group
 	 * @param string $page
 	 */
@@ -30,7 +30,7 @@ class SecondStreet extends \Bbgi\Module {
 		$section_id = 'beasley_secondstreet_settings';
 
 		add_settings_section( $section_id, 'SecondStreet', '__return_false', $page );
-		add_settings_field( 'secondstreet_station_id', 'Station ID', 'beasley_input_field', $page, $section_id, 'name=secondstreet_station_id' );
+		add_settings_field( 'secondstreet_station_id', 'Station ID', 'bbgi_input_field', $page, $section_id, 'name=secondstreet_station_id' );
 		register_setting( $group, 'secondstreet_station_id', 'sanitize_text_field' );
 	}
 
@@ -57,12 +57,14 @@ class SecondStreet extends \Bbgi\Module {
 			return '';
 		}
 
-		return sprintf(
-			'<div src="https://embed-%s.secondstreetapp.com/Scripts/dist/embed.js" data-ss-embed="promotion" data-opguid="%s" data-routing="%s"></div>',
+		$embed = sprintf(
+			'<div class="secondstreet-embed" src="https://embed-%s.secondstreetapp.com/Scripts/dist/embed.js" data-ss-embed="promotion" data-opguid="%s" data-routing="%s"></div>',
 			esc_attr( $attributes['op_id'] ),
 			esc_attr( $attributes['op_guid'] ),
 			esc_attr( $attributes['routing'] )
 		);
+
+		return apply_filters( 'secondstreet_embed_html', $embed, $attributes );
 	}
 
 }

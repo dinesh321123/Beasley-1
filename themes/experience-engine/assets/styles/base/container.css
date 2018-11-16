@@ -1,0 +1,23 @@
+body {
+	&.locked {
+		overflow: hidden;
+	}
+}
+
+.container {
+	padding-bottom: 74px; /*height of the fixed player*/
+
+	@media(--min-medium-viewport) {
+		padding-left: 190px;
+	}
+}
+
+.content {
+	padding-bottom: 4.611rem;
+}
+
+.content-wrap {
+	margin: 0 auto;
+	max-width: 1071px;
+	padding: 0 1rem 2.22rem;
+}

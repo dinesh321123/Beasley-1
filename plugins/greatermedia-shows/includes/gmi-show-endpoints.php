@@ -53,11 +53,6 @@ function template_redirect() {
 		return;
 	}
 
-	if ( ! supports_homepage( get_the_ID() ) ) {
-		block_show_access();
-		return;
-	}
-
 	$section = get_query_var( 'show_section' );
 	if ( $section && in_array( $section, get_sections() ) ) {
 		switch( $section ) {

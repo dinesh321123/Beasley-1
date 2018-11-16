@@ -2,6 +2,11 @@
 	"concat": {
 		"files": {
 			"greatermedia/assets/js/frontend.js": [
+				"node_modules/video.js/dist/video.js",
+				"node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.js",
+				"node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.js",
+				"node_modules/videojs-contrib-ads/dist/videojs.ads.js",
+				"node_modules/videojs-ima/dist/videojs.ima.js",
 				"greatermedia/assets/js/vendor/cycle2/jquery.cycle2.js",
 				"greatermedia/assets/js/vendor/cycle2/jquery.cycle2.center.js",
 				"greatermedia/assets/js/vendor/cycle2/jquery.cycle2.swipe.js",
@@ -22,6 +27,7 @@
 				"greatermedia/assets/js/src/gallery-slider.js",
 				"greatermedia/assets/js/src/search.js",
 				"greatermedia/assets/js/src/fixed-header-player.js",
+				"greatermedia/assets/js/src/video.js",
 				"greatermedia/assets/js/src/firebase.js"
 			],
 			"greatermedia/assets/js/admin.js": [

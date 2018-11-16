@@ -1,0 +1,144 @@
+.primary-sidebar {
+	align-items: center;
+	background-color: var(--global-theme-secondary);
+	box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08);
+	display: flex;
+	overflow: auto;
+	padding: .75rem 1.1rem;
+
+	@media (--min-medium-viewport) {
+		display: block;
+		position: absolute;
+		top: 0;
+		bottom: 74px;
+		height: 100%;
+		min-height: calc(100vh - 74px); /*74px is the height of the live player.*/
+		max-width: 190px;
+		padding: 2.1rem 1.1rem;
+	}
+
+	& .logo {
+		margin: 0 auto;
+		z-index: 5;
+
+		@media (--min-medium-viewport) {
+			margin: 0;
+		}
+
+		& img {
+			max-height: 56px;
+			width: auto;
+
+			@media (--min-medium-viewport) {
+				max-height: none;
+			}
+		}
+	}
+
+	& .nav-wrap {
+		background-color: var(--global-theme-secondary);
+		box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08);
+		height: calc(100vh - 86px);
+		left: 0;
+		max-width: 82.6667vw;
+		overflow: auto;
+		padding: 3.5rem 1.1rem 0;
+		position: fixed;
+		top: 0;
+		z-index: 1;
+		width: 100%;
+
+		@media (--min-medium-viewport) {
+			box-shadow: none;
+			display: block;
+			height: auto;
+			overflow: visible;
+			position: static;
+			padding: 0;
+			top: 0;
+			width: auto;
+		}
+
+		@nest .admin-bar & {
+			top: 46px;
+		}
+
+		&[aria-hidden="true"] {
+			padding: 0;
+			width: 0;
+		}
+
+		&[aria-hidden="false"],
+		&:target {
+			display: block;
+		}
+	}
+
+	&.menu-is-active {
+		& .logo {
+			display: flex;
+			justify-content: center;
+			margin: 0;
+			width: calc(82.6667vw - 2.2rem);
+		}
+
+		& .site-menu-toggle {
+			& svg {
+				transform: rotate(45deg);
+				& path {
+					&:first-of-type {
+						stroke-dashoffset: -98px;
+					}
+
+					&:last-of-type {
+						stroke-dashoffset: -138px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.site-menu-toggle {
+	color: var(--global-theme-font-primary);
+	font-size: 20px;
+	line-height: 40px;
+	margin-right: 10px;
+	position: absolute;
+	text-decoration: none;
+	z-index: 10;
+
+	@media (--min-medium-viewport) {
+		display: none;
+	}
+
+	&:hover,
+	&:focus {
+		text-decoration: none;
+
+		& svg {
+			& path {
+				stroke: var(--global-theme-font-secondary);
+			}
+		}
+	}
+
+	& svg {
+		transition: transform 400ms;
+
+		& path {
+			fill: none;
+			transition: stroke 400ms, stroke-dasharray 400ms, stroke-dashoffset 400ms;
+			stroke: currentcolor;
+			stroke-width:3.5;
+			stroke-linecap:round;
+
+			&:first-of-type {
+				stroke-dasharray: 40 139;
+			}
+			&:last-of-type {
+				stroke-dasharray: 40 180;
+			}
+		}
+	}
+}

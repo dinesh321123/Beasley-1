@@ -8,7 +8,6 @@ class ShowsCPT {
 
 	const SHOW_CPT      = 'show';
 	const SHOW_TAXONOMY = '_shows';
-	const EPISODE_CPT   = 'show-episode';
 
 	/**
 	 * The singleton instance of the ShowsCPT class.
@@ -32,12 +31,13 @@ class ShowsCPT {
 
 			add_action( 'init', array( self::$_instance, 'register_post_type' ) );
 			add_action( 'init', array( self::$_instance, 'register_shadow_taxonomy' ) );
-			add_action( 'wp_enqueue_scripts', array( self::$_instance, 'enqueue_scripts' ) );
+			if ( ! is_admin() ) {
+				add_action( 'pre_get_posts', array( self::$_instance, 'update_show_archive_query' ) );
+			}
 
 			add_action( 'wp_ajax_gmr_show_load_live_links', array( self::$_instance, 'load_more_links' ) );
 			add_action( 'wp_ajax_nopriv_gmr_show_load_live_links', array( self::$_instance, 'load_more_links' ) );
 
-			add_filter( 'gmr_blogroll_widget_item_post_types', array( self::$_instance, 'add_episode_pt_to_blogroll_widget' ) );
 			add_filter( 'redirect_canonical', array( self::$_instance, 'check_redirect_canonical' ) );
 			add_filter( 'gmr-homepage-curation-post-types', array( self::$_instance, 'register_curration_post_type' ) );
 		}
@@ -45,6 +45,34 @@ class ShowsCPT {
 		return self::$_instance;
 	}
 
+	/**
+	 * Update main query for shows post type archive to not fetch shows without homepages.
+	 *
+	 * @access public
+	 * @param \WP_Query $query
+	 */
+	public function update_show_archive_query( $query ) {
+		if ( ! $query->is_main_query() ) {
+			return;
+		}
+
+		remove_action( 'pre_get_posts', array( self::$_instance, 'update_show_archive_query' ) );
+
+		if ( $query->is_post_type_archive( self::SHOW_CPT ) || ( $query->is_single() && $query->get( 'post_type' ) == self::SHOW_CPT ) ) {
+			// hide shows without homepage
+			$meta_query = $query->get( 'meta_query' );
+			if ( ! is_array( $meta_query ) ) {
+				$meta_query = array();
+			}
+
+			$meta_query[] = array(
+				'key'   => 'show_homepage',
+				'value' => '1',
+			);
+
+			$query->set( 'meta_query', $meta_query );
+		}
+	}
 
 	/**
 	 * Registers show post type in the curration types list.
@@ -87,18 +115,6 @@ class ShowsCPT {
 			'capability_type' => array( 'show', 'shows' ),
 			'map_meta_cap' => true,
 			'rewrite' => array( 'slug' => 'shows' )
-		) );
-
-		register_post_type( self::EPISODE_CPT, array(
-			'public'     => false,
-			'rewrite'    => false,
-			'can_export' => true,
-			'capability_type' => array( 'show_episode', 'show_episodes' ),
-			'map_meta_cap' => true,
-			'labels'     => array(
-				'name'          => __( 'Show Episodes', 'greatermedia' ),
-				'singular_name' => __( 'Show Episode', 'greatermedia' ),
-			),
 		) );
 	}
 
@@ -169,39 +185,6 @@ class ShowsCPT {
 		);
 
 		return $post_types;
-	}
-
-	/**
-	 * Registers show episode post type in the blogroll widget.
-	 *
-	 * @filter gmr_blogroll_widget_item_post_types
-	 * @param array $post_types The post types array.
-	 * @return array The post types array.
-	 */
-	public function add_episode_pt_to_blogroll_widget( $post_types ) {
-		$post_types[] = self::EPISODE_CPT;
-		return $post_types;
-	}
-
-	/**
-	 * Enqueues front end scripts.
-	 *
-	 * @access public
-	 */
-	public function enqueue_scripts() {
-		if ( is_singular( self::SHOW_CPT ) ) {
-			$show_id = get_queried_object_id();
-			$postfix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
-			wp_enqueue_script( 'greatermedia-show', GMEDIA_SHOWS_URL . 'assets/js/show' . $postfix . '.js', array( 'jquery' ), GMEDIA_SHOWS_VERSION, true );
-			wp_localize_script( 'greatermedia-show', 'gmr_show', array(
-				'ajaxurl' => add_query_arg( array(
-					'action' => 'gmr_show_load_live_links',
-					'show'   => $show_id,
-					'nonce'  => wp_create_nonce( 'show_load_more_links_' . $show_id ),
-				), admin_url( 'admin-ajax.php' ) ),
-			) );
-		}
 	}
 
 	/**

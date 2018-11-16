@@ -21,7 +21,7 @@ deploy_stage:
     name: Staging
     url: https://bbgistage.com/
   script:
-    - bash ./deploy-scripts/build.sh
+    - bash ./deploy-scripts/build-local.sh
     - bash ./deploy-scripts/deploy-stage.sh
     - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart supervisord.service'
     - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart memcached.service'

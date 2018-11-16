@@ -15,19 +15,19 @@ class Google extends \Beasley\Module {
 	 * @access public
 	 */
 	public function register() {
-		add_action( 'wp_head', array( $this, 'render_analytics_head' ), 0 );
-		add_action( 'wp_head', array( $this, 'render_gtm_head' ) );
-		add_action( 'beasley_after_body', array( $this, 'render_gtm_body' ) );
-		add_action( 'beasley-register-settings', array( $this, 'register_settings' ), 10, 2 );
+		add_action( 'wp_head', $this( 'render_analytics_head' ), 0 );
+		add_action( 'wp_head', $this( 'render_gtm_head' ) );
+		add_action( 'beasley_after_body', $this( 'render_gtm_body' ) );
+		add_action( 'bbgi_register_settings', $this( 'register_settings' ), 10, 2 );
 
-		add_filter( 'fbia_analytics_makrup', array( $this, 'get_fbia_analytics_markup' ) );
+		add_filter( 'fbia_analytics_makrup', $this( 'get_fbia_analytics_markup' ) );
 	}
 
 	/**
 	 * Registers Google Analytics and Tag Manager settings.
 	 *
 	 * @access public
-	 * @action beasley-register-settings
+	 * @action bbgi_register_settings
 	 * @param string $group
 	 * @param string $page
 	 */
@@ -46,10 +46,10 @@ class Google extends \Beasley\Module {
 
 		add_settings_section( $section_id, 'Google', '__return_false', $page );
 
-		add_settings_field( self::OPTION_GTM, 'Tag Manager Code', 'beasley_input_field', $page, $section_id, 'name=beasley_google_tag_manager&desc=GTM-xxxxxx' );
-		add_settings_field( self::OPTION_UA, 'Analytics Code', 'beasley_input_field', $page, $section_id, 'name=gmr_google_analytics&desc=UA-xxxxxx-xx' );
-		add_settings_field( self::OPTION_UA_UID, 'User ID Dimension #', 'beasley_input_field', $page, $section_id, $uid_dimension_args );
-		add_settings_field( self::OPTION_UA_AUTHOR, 'Author Dimension #', 'beasley_input_field', $page, $section_id, $author_dimension_args );
+		add_settings_field( self::OPTION_GTM, 'Tag Manager Code', 'bbgi_input_field', $page, $section_id, 'name=beasley_google_tag_manager&desc=GTM-xxxxxx' );
+		add_settings_field( self::OPTION_UA, 'Analytics Code', 'bbgi_input_field', $page, $section_id, 'name=gmr_google_analytics&desc=UA-xxxxxx-xx' );
+		add_settings_field( self::OPTION_UA_UID, 'User ID Dimension #', 'bbgi_input_field', $page, $section_id, $uid_dimension_args );
+		add_settings_field( self::OPTION_UA_AUTHOR, 'Author Dimension #', 'bbgi_input_field', $page, $section_id, $author_dimension_args );
 
 		register_setting( $group, self::OPTION_GTM, 'sanitize_text_field' );
 		register_setting( $group, self::OPTION_UA, 'sanitize_text_field' );
