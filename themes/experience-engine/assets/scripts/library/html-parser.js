@@ -115,7 +115,9 @@ export function getStateFromContent( container ) {
 		const scripts = container.getElementsByTagName( 'script' );
 		for ( let i = 0, len = scripts.length; i < len; i++ ) {
 			const element = scripts[i];
-			state.scripts[element.src] = element.outerHTML;
+			if ( element.src ) {
+				state.scripts[element.src] = element.outerHTML;
+			}
 		}
 
 		while ( scripts.length ) {

@@ -11,12 +11,14 @@ if ( ! function_exists( 'ee_get_date' ) ) :
 
 		if ( $abs_elapsed < DAY_IN_SECONDS ) {
 			$text = '';
-			if ( $abs_elapsed < HOUR_IN_SECONDS ) {
+			if ( $abs_elapsed >= HOUR_IN_SECONDS ) {
+				$number = floor( $abs_elapsed / HOUR_IN_SECONDS );
+				$text = sprintf( $number == 1 ? 'an hour' : '%s hours', $number );
+			} elseif ( $abs_elapsed >= MINUTE_IN_SECONDS ) {
 				$number = floor( $abs_elapsed / MINUTE_IN_SECONDS );
 				$text = sprintf( $number == 1 ? 'a minute' : '%d minutes', $number );
 			} else {
-				$number = floor( $abs_elapsed / HOUR_IN_SECONDS );
-				$text = sprintf( $number == 1 ? 'an hour' : '%s hours', $number );
+				return 'just now';
 			}
 
 			return sprintf( $elapsed > 0 ? '%s ago' : 'in %s', $text );
