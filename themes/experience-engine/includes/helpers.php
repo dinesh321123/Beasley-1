@@ -112,3 +112,14 @@ if ( ! function_exists( 'ee_update_the_category_list' ) ) :
 		return array( current( $categories ) );
 	}
 endif;
+
+if ( ! function_exists( 'ee_the_permalink' ) ) :
+	function ee_the_permalink() {
+		$post = get_post();
+		if ( ! empty( $post->link ) ) {
+			echo filter_var( $post->link, FILTER_VALIDATE_URL );
+		} else {
+			the_permalink( $post );
+		}
+	}
+endif;

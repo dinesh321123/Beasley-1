@@ -2,17 +2,17 @@
 	<?php get_template_part( 'partials/tile/thumbnail' ); ?>
 	<div class="meta">
 		<?php get_template_part( 'partials/tile/title' ); ?>
+
 		<div class="excerpt">
 			<?php the_excerpt(); ?>
-		</div>
+		</div><?php
 
-		<?php
+		if ( ! ee_is_jacapps() ) :
+			ee_the_latest_episode();
+		endif;
 
-			if ( ! ee_is_jacapps() ) :
-				ee_the_latest_episode();
-			endif;
-
-			?>
-			<p class="count"><?php echo esc_html( ee_get_episodes_count() ); ?> episodes</p>
-		</div>
+		?><p class="count">
+			<?php echo esc_html( ee_get_episodes_count() ); ?> episodes
+		</p>
+	</div>
 </div>

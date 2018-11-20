@@ -23,6 +23,8 @@
 @import 'components/player/controls';
 @import 'components/player/live-player';
 
+@import 'components/front-page';
+
 @import 'components/show/show-header';
 @import 'components/show/show-information';
 @import 'components/show/show-navigation';

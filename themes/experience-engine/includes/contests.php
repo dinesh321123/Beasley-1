@@ -21,7 +21,7 @@ endif;
 if ( ! function_exists( 'ee_the_contest_dates' ) ) :
 	function ee_the_contest_dates( $contest = null ) {
 		$contest = get_post( $contest );
-		if ( ! is_a( $contest, '\WP_Post' ) ) {
+		if ( ! is_a( $contest, '\WP_Post' ) || ! $contest->ID ) {
 			return;
 		}
 

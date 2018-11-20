@@ -14,6 +14,7 @@ remove_action( 'admin_print_styles', 'print_emoji_styles' );
 if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 	function ee_enqueue_front_scripts() {
 		$base = untrailingslashit( get_template_directory_uri() );
+		$min = defined( 'SCRIPT_DEBUG' ) && filter_var( SCRIPT_DEBUG, FILTER_VALIDATE_BOOLEAN ) ? '' : '.min';
 
 		wp_enqueue_style( 'ee-app', "{$base}/bundle/app.css", null, GREATERMEDIA_VERSION );
 
@@ -40,7 +41,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		/**
 		 * Player scripts
 		 */
-		wp_register_script( 'embedly-player.js', '//cdn.embed.ly/player-0.1.0.min.js', null, null, true );
+		wp_register_script( 'embedly-player.js', "//cdn.embed.ly/player-0.1.0{$min}.js", null, null, true );
 		wp_script_add_data( 'embedly-player.js', 'async', true );
 
 		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
@@ -73,28 +74,35 @@ if ( ! function_exists( 'ee_script_loader' ) ) :
 	}
 endif;
 
+if ( ! function_exists( '_ee_the_lazy_image' ) ) :
+	function _ee_the_lazy_image( $url, $width, $height ) {
+		printf(
+			ee_is_jacapps()
+				? '<img src="%s" width="%s" height="%s">'
+				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s"></div>',
+			esc_attr( $url ),
+			esc_attr( $width ),
+			esc_attr( $height )
+		);
+	}
+endif;
+
 if ( ! function_exists( 'ee_the_lazy_image' ) ) :
 	function ee_the_lazy_image( $image_id ) {
-		if ( ! $image_id ) {
-			return;
-		}
+		if ( ! empty( $image_id ) ) {
+			if ( ee_is_jacapps() ) {
+				$width = 800;
+				$height = 500;
+				$url = bbgi_get_image_url( $image_id, $width, $height );
 
-		if ( ee_is_jacapps() ) {
-			printf( '<img src="%s" width="800" height="500">', bbgi_get_image_url( $image_id, 800, 500 ) );
-			return;
+				_ee_the_lazy_image( $url, $width, $height );
+			} else {
+				$img = wp_get_attachment_image_src( $image_id, 'original' );
+				if ( ! empty( $img ) ) {
+					_ee_the_lazy_image( $img[0], $img[1], $img[2] );
+				}
+			}
 		}
-
-		$img = wp_get_attachment_image_src( $image_id, 'original' );
-		if ( empty( $img ) ) {
-			return;
-		}
-
-		printf(
-			'<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s"></div>',
-			esc_attr( $img[0] ),
-			esc_attr( $img[1] ),
-			esc_attr( $img[2] )
-		);
 	}
 endif;
 
@@ -102,9 +110,26 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 	function ee_the_lazy_thumbnail( $post = null ) {
 		$post = get_post( $post );
 
-		$thumbnail_id = get_post_thumbnail_id( $post );
-		$thumbnail_id = apply_filters( 'ee_post_thumbnail_id', $thumbnail_id, $post );
+		if ( ! empty( $post->picture ) ) {
+			$url = $post->picture['url'];
+			$parts = parse_url( $url );
+			if ( $parts['host'] == 'resize.bbgi.com' ) {
+				$query = array();
+				parse_str( $parts['query'], $query );
+				if ( ! empty( $query['url'] ) ) {
+					$url = $query['url'];
+				}
+			}
 
-		ee_the_lazy_image( $thumbnail_id );
+			$width = intval( $post->picture['width'] );
+			$height = intval( $post->picture['height'] );
+
+			_ee_the_lazy_image( $url, $width, $height );
+		} else {
+			$thumbnail_id = get_post_thumbnail_id( $post );
+			$thumbnail_id = apply_filters( 'ee_post_thumbnail_id', $thumbnail_id, $post );
+
+			ee_the_lazy_image( $thumbnail_id );
+		}
 	}
 endif;

@@ -37,7 +37,7 @@ class Site extends \Bbgi\Module {
 		// @see: https://scotthelme.co.uk/hardening-your-http-response-headers/#x-content-type-options
 		header( 'X-Content-Type-Options: nosniff' );
 		// @see: https://scotthelme.co.uk/a-new-security-header-referrer-policy/
-		header( 'Referrer-Policy: same-origin' );
+		header( 'Referrer-Policy: origin-when-cross-origin' ); // do not chance, it may prevent omny player to work properly
 		// @see: https://scotthelme.co.uk/a-new-security-header-feature-policy/
 		header( "Feature-Policy: accelerometer 'none'; camera 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; payment 'none'; usb 'none'" );
 	}

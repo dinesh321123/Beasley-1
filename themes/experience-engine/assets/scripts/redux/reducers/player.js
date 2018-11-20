@@ -22,13 +22,13 @@ import {
 } from '../actions/player';
 
 const localStorage = getStorage( 'liveplayer' );
-const { streams, publisher } = window.bbgiconfig || {};
+const { streams } = window.bbgiconfig || {};
 
 let tdplayer = null;
 let mp3player = null;
 let omnyplayer = null;
 
-const parseVolume = ( value ) => {
+function parseVolume( value ) {
 	let volume = parseInt( value, 10 );
 	if ( Number.isNaN( volume ) || 100 < volume ) {
 		volume = 100;
@@ -37,15 +37,15 @@ const parseVolume = ( value ) => {
 	}
 
 	return volume;
-};
+}
 
-const loadNowPlaying = ( station ) => {
+function loadNowPlaying( station ) {
 	if ( station && tdplayer && !omnyplayer && !mp3player ) {
 		tdplayer.NowPlayingApi.load( { numberToFetch: 10, mount: station } );
 	}
-};
+}
 
-const fullStop = () => {
+function fullStop() {
 	if ( mp3player ) {
 		mp3player.pause();
 		mp3player = null;
@@ -67,7 +67,16 @@ const fullStop = () => {
 		tdplayer.stop();
 		tdplayer.skipAd();
 	}
-};
+}
+
+function getInitialStation() {
+	let station = localStorage.getItem( 'station' );
+	if ( !streams.find( stream => stream.stream_call_letters === station ) ) {
+		station = ( streams[0] || {} ).stream_call_letters;
+	}
+
+	return station;
+}
 
 const adReset = {
 	adPlayback: false,
@@ -75,7 +84,6 @@ const adReset = {
 };
 
 const stateReset = {
-	publisher,
 	audio: '',
 	station: '',
 	cuePoint: false,
@@ -88,11 +96,12 @@ const stateReset = {
 export const DEFAULT_STATE = {
 	...stateReset,
 	status: STATUSES.LIVE_STOP,
-	station: localStorage.getItem( 'station' ) || Object.keys( streams || {} )[0] || '', // first station by default
+	station: getInitialStation(),
 	volume: parseVolume( localStorage.getItem( 'volume' ) || 100 ),
+	streams,
 };
 
-const reducer = ( state = {}, action = {} ) => {
+function reducer( state = {}, action = {} ) {
 	switch ( action.type ) {
 		case ACTION_INIT_TDPLAYER:
 			tdplayer = action.player;
@@ -110,14 +119,15 @@ const reducer = ( state = {}, action = {} ) => {
 
 		case ACTION_PLAY_STATION: {
 			const { station } = action;
+			const stream = state.streams.find( item => item.stream_call_letters === station );
 
 			fullStop();
 
 			tdplayer.playAd( 'tap', {
-				host: 'cmod.live.streamtheworld.com',
+				host: stream.stream_cmod_domain,
 				type: 'preroll',
 				format: 'vast',
-				stationId: streams[station].station_id,
+				stationId: stream.stream_tap_id,
 			} );
 
 			localStorage.setItem( 'station', station );
@@ -211,17 +221,20 @@ const reducer = ( state = {}, action = {} ) => {
 			return { ...state, adPlayback: true };
 
 		case ACTION_AD_PLAYBACK_ERROR:
-		case ACTION_AD_PLAYBACK_COMPLETE:
+		case ACTION_AD_PLAYBACK_COMPLETE: {
+			const { station, adPlayback } = state;
 			document.body.classList.remove( 'locked' );
 
 			// start station only if the ad playback is playing now
-			if ( state.adPlayback ) {
+			if ( adPlayback ) {
 				tdplayer.skipAd();
-				tdplayer.play( { station: state.station } );
-				loadNowPlaying( state.station );
 			}
 
+			tdplayer.play( { station } );
+			loadNowPlaying( station );
+
 			return { ...state, adPlayback: false };
+		}
 
 		case ACTION_AD_BREAK_SYNCED:
 			return { ...state, ...adReset, adSynced: true };
@@ -235,6 +248,6 @@ const reducer = ( state = {}, action = {} ) => {
 	}
 
 	return state;
-};
+}
 
 export default reducer;

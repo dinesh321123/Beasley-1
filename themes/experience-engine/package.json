@@ -42,7 +42,7 @@
 		"videojs-contrib-quality-levels": "^2.0.9",
 		"videojs-hls-quality-selector": "0.0.8",
 		"videojs-ima": "^1.5.1",
-		"webpack": "^4.25.1",
+		"webpack": "^4.26.0",
 		"webpack-bundle-analyzer": "^3.0.3",
 		"webpack-cli": "^3.1.2"
 	},

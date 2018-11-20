@@ -77,12 +77,15 @@
 }
 
 .preroll-player {
-	background-color: var(--color-black);
+	background-color: #000;
 	width: 640px;
 }
 
 .preroll-notification {
-
+	background-color: #000;
+	color: #fff;
+	padding: .15rem 0;
+	text-align: center;
 }
 
 .controls {
