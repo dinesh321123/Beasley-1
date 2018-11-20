@@ -143,7 +143,11 @@ add_filter( 'beasley-share-url', function() use ( $images, $current_gallery ) {
 				</h2>
 
 				<p class="swiper-sidebar-caption">
-					<?php echo esc_attr( get_the_excerpt( $images[0] ) ); ?>
+					<?php 
+						$excerpt = get_the_excerpt( $images[0] );
+						$trimmed = wp_trim_words( $excerpt, 30, '...' );
+						echo esc_attr( $trimmed ); 
+					?>
 				</p>
 
 				<button class="swiper-sidebar-expand">
