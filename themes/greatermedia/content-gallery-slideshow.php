@@ -90,7 +90,7 @@ add_filter( 'beasley-share-url', function() use ( $images, $current_gallery ) {
 					 data-index="<?php echo esc_attr( $slide_index ); ?>"
 					 data-slug="<?php echo esc_attr( $base_url ); ?>/view/<?php echo esc_attr( $image->post_name ); ?>/"
 					 data-title="<?php echo get_post_modified_time( 'U', true, $image, false ) > $april15th ? esc_attr( get_the_title( $image ) ) : ''; ?>"
-					 data-caption="<?php echo esc_attr( get_the_excerpt( $image ) ); ?>"
+					 data-caption="<?php echo esc_attr( wp_trim_words( get_the_excerpt( $image ), 30 ) ); ?>"
 					 data-source="<?php echo esc_url( $image_data[0] ); ?>"
 					 data-share="<?php echo esc_attr( $base_url ); ?>/view/<?php echo esc_attr( $image->post_name ); ?>/"
 					 <?php echo $image->post_name == $current_image_slug ? 'data-initial="true"' : ''; ?>

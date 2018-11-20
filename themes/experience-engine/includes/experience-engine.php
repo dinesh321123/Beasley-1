@@ -372,7 +372,7 @@ if ( ! function_exists( 'ee_rest_api_init' ) ) :
 			'callback' => function () {
 				$cache_index = get_option( 'ee_cache_index', 0 );
 				$cache_index ++;
-				update_option( 'ee_cache_index', $cache_index );
+				update_option( 'ee_cache_index', $cache_index, 'no' );
 
 				return rest_ensure_response( 'Cache Flushed' );
 			},
