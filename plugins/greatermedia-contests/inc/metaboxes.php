@@ -155,37 +155,59 @@ class GreaterMediaContestsMetaboxes {
 	 * Implements add_meta_boxes action
 	 */
 	public function add_meta_boxes() {
-		add_meta_box( 'contest-settings', 'Settings', array( $this, 'contest_settings_metabox' ), GMR_CONTEST_CPT, 'normal' );
+		add_meta_box( 'contest-settings-win', 'What You Win', array(
+			$this,
+			'contest_win_metabox'
+		), GMR_CONTEST_CPT, 'normal' );
+
+		add_meta_box( 'contest-settings-enter', 'How to Enter', array(
+			$this,
+			'contest_enter_metabox'
+		), GMR_CONTEST_CPT, 'normal' );
+
+		add_meta_box( 'contest-settings-rules', 'Official Contest Rules', array(
+			$this,
+			'contest_rules_metabox'
+		), GMR_CONTEST_CPT, 'normal' );
+
+		add_meta_box( 'contest-settings-restrictions', 'Restrictions', array(
+			$this,
+			'contest_restrictions_metabox'
+		), GMR_CONTEST_CPT, 'normal' );
+
 		add_meta_box( 'gallery', 'Gallery', array( $this, 'gallery_meta_box' ), GMR_CONTEST_CPT, 'side' );
 	}
 
-	public function contest_settings_metabox( WP_Post $post ) {
+	public function contest_win_metabox( WP_Post $post ) {
 		$post_id = $post->ID;
 
 		wp_nonce_field( 'contest_meta_boxes', '__contest_nonce' );
 
-		?><ul class="tabs">
-			<li class="active"><a href="#what-you-win">What You Win</a></li>
-			<li><a href="#how-to-enter">How to Enter</a></li>
-			<li><a href="#contest-rules">Official Contest Rules</a></li>
-			<li><a href="#restrictions">Restrictions</a></li>
-		</ul>
+		wp_editor( get_post_meta( $post_id, 'prizes-desc', true ), 'greatermedia_contest_prizes' );
+	}
 
-		<div id="what-you-win" class="tab active">
-			<?php wp_editor( get_post_meta( $post_id, 'prizes-desc', true ), 'greatermedia_contest_prizes' ); ?>
-		</div>
+	public function contest_enter_metabox( WP_Post $post ) {
+		$post_id = $post->ID;
 
-		<div id="how-to-enter" class="tab">
-			<?php wp_editor( get_post_meta( $post_id, 'how-to-enter-desc', true ), 'greatermedia_contest_enter' ); ?>
-		</div>
+		wp_nonce_field( 'contest_meta_boxes', '__contest_nonce' );
 
-		<div id="contest-rules" class="tab">
-			<?php wp_editor( get_post_meta( $post_id, 'rules-desc', true ), 'greatermedia_contest_rules' ); ?>
-		</div>
+		wp_editor( get_post_meta( $post_id, 'how-to-enter-desc', true ), 'greatermedia_contest_enter' );
+	}
 
-		<div id="restrictions" class="tab">
-			<?php $this->_restrictions_settings( $post ); ?>
-		</div><?php
+	public function contest_rules_metabox( WP_Post $post ) {
+		$post_id = $post->ID;
+
+		wp_nonce_field( 'contest_meta_boxes', '__contest_nonce' );
+
+		wp_editor( get_post_meta( $post_id, 'rules-desc', true ), 'greatermedia_contest_rules' );
+	}
+
+	public function contest_restrictions_metabox( WP_Post $post ) {
+		$post_id = $post->ID;
+
+		wp_nonce_field( 'contest_meta_boxes', '__contest_nonce' );
+
+		$this->_restrictions_settings( $post );
 	}
 
 	private function _restrictions_settings( WP_Post $post ) {
