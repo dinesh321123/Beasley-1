@@ -2,7 +2,6 @@
  * We use this approach to minify action names in the production bundle and have
  * human friendly actions in the dev bundle. Use "p{x}" format to create new actions.
  */
-
 export const ACTION_INIT_TDPLAYER        = 'production' === process.env.NODE_ENV ? 'p0' : 'PLAYER_INIT_TDPLAYER';
 export const ACTION_STATUS_CHANGE        = 'production' === process.env.NODE_ENV ? 'p1' : 'PLAYER_STATUS_CHANGE';
 export const ACTION_CUEPOINT_CHANGE      = 'production' === process.env.NODE_ENV ? 'p2' : 'PLAYER_CUEPOINT_CHANGE';
@@ -34,204 +33,197 @@ export const STATUSES = {
 	STATION_NOT_FOUND: 'STATION_NOT_FOUND',
 };
 
-const errorCatcher = prefix => ( e ) => {
-	const { data } = e;
-	const { errors } = data || {};
+function dispatchStatusUpdate( dispatch, status ) {
+	return () => {
+		dispatch( { type: ACTION_STATUS_CHANGE, status } );
+	};
+}
 
-	( errors || [] ).forEach( ( error ) => {
-		// eslint-disable-next-line no-console
-		console.error( `${prefix}: [${error.code}] ${error.message}` );
-	} );
-};
+function errorCatcher( prefix ) {
+	return ( e ) => {
+		const { data } = e;
+		const { errors } = data || {};
 
-export const initTdPlayer = ( modules ) => ( dispatch ) => {
-	let adPlaybackTimeout = false;
-	let adSyncedTimeout = false;
-
-	const dispatchStatusChange = ( { data } ) => {
-		dispatch( {
-			type: ACTION_STATUS_CHANGE,
-			status: data.code,
+		( errors || [] ).forEach( ( error ) => {
+			// eslint-disable-next-line no-console
+			console.error( `${prefix}: [${error.code}] ${error.message}` );
 		} );
 	};
+}
 
-	const dispatchCuePoint = ( { data } ) => {
+export function initTdPlayer( modules ) {
+	return ( dispatch ) => {
+		let adPlaybackTimeout = false;
+		let adSyncedTimeout = false;
+
+		function dispatchStatusChange( { data } ) {
+			dispatch( {
+				type: ACTION_STATUS_CHANGE,
+				status: data.code,
+			} );
+		}
+
+		function dispatchCuePoint( { data } ) {
+			dispatch( {
+				type: ACTION_CUEPOINT_CHANGE,
+				cuePoint: ( data || {} ).cuePoint || false,
+			} );
+		}
+
+		function dispatchListLoaded( { data } ) {
+			dispatch( {
+				type: ACTION_NOW_PLAYING_LOADED,
+				...data,
+			} );
+		}
+
+		function clearAdTimeout( timeout ) {
+			timeout && clearTimeout( timeout );
+			return false;
+		}
+
+		function dispatchSyncedStart() {
+			// hide after 35 seconds if it hasn't been hidden yet
+			clearAdTimeout( adSyncedTimeout );
+			adSyncedTimeout = setTimeout( () => dispatch( { type: ACTION_AD_BREAK_SYNCED_HIDE } ), 35000 );
+
+			dispatch( { type: ACTION_AD_BREAK_SYNCED } );
+		}
+
+		function dispatchPlaybackStart() {
+			// hide after 1 min if it hasn't been hidden yet
+			clearAdTimeout( adPlaybackTimeout );
+			adPlaybackTimeout = setTimeout( dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ), 60000 );
+
+			dispatch( { type: ACTION_AD_PLAYBACK_START } );
+		}
+
+		function dispatchPlaybackStop( type ) {
+			return () => {
+				adPlaybackTimeout = clearAdTimeout();
+				dispatch( { type } );
+			};
+		}
+
+		const player = new window.TDSdk( {
+			coreModules: modules,
+			configurationError: errorCatcher( 'Configuration Error' ),
+			moduleError: errorCatcher( 'Module Error' ),
+			playerReady() {
+				player.addEventListener( 'stream-status', dispatchStatusChange );
+				player.addEventListener( 'list-loaded', dispatchListLoaded );
+
+				player.addEventListener( 'track-cue-point', dispatchCuePoint );
+				player.addEventListener( 'speech-cue-point', dispatchCuePoint );
+				player.addEventListener( 'custom-cue-point', dispatchCuePoint );
+
+				player.addEventListener( 'ad-break-cue-point', dispatchCuePoint );
+				player.addEventListener( 'ad-break-cue-point-complete', dispatchCuePoint );
+				player.addEventListener( 'ad-break-synced-element', dispatchSyncedStart );
+
+				player.addEventListener( 'ad-playback-start', dispatchPlaybackStart );
+				player.addEventListener( 'ad-playback-complete', dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE ) );
+				player.addEventListener( 'ad-playback-error', dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
+
+				dispatch( { type: ACTION_INIT_TDPLAYER, player } );
+			},
+		} );
+	};
+}
+
+export function playAudio( audio, cueTitle = '', artistName = '' ) {
+	return ( dispatch ) => {
+		const player = new Audio( audio );
+
+		player.addEventListener( 'loadstart', dispatchStatusUpdate( dispatch, STATUSES.LIVE_BUFFERING ) );
+		player.addEventListener( 'pause', dispatchStatusUpdate( dispatch, STATUSES.LIVE_PAUSE ) );
+		player.addEventListener( 'playing', dispatchStatusUpdate( dispatch, STATUSES.LIVE_PLAYING ) );
+		player.addEventListener( 'ended', dispatchStatusUpdate( dispatch, STATUSES.LIVE_STOP ) );
+
+		player.addEventListener( 'loadedmetadata', () => {
+			dispatch( {
+				type: ACTION_DURATION_CHANGE,
+				duration: player.duration,
+			} );
+		} );
+
+		player.addEventListener( 'timeupdate', () => {
+			dispatch( {
+				type: ACTION_TIME_CHANGE,
+				time: player.currentTime,
+			} );
+		} );
+
+		dispatch( {
+			type: ACTION_PLAY_AUDIO,
+			player,
+			audio,
+		} );
+
 		dispatch( {
 			type: ACTION_CUEPOINT_CHANGE,
-			cuePoint: ( data || {} ).cuePoint || false,
+			cuePoint: { type: 'track', cueTitle, artistName },
 		} );
 	};
+}
 
-	const dispatchListLoaded = ( { data } ) => {
-		dispatch( {
-			type: ACTION_NOW_PLAYING_LOADED,
-			...data,
+export function playOmny( audio, cueTitle = '', artistName = '' ) {
+	return ( dispatch ) => {
+		const id = audio.replace( /\W+/g, '' );
+		if ( document.getElementById( id ) ) {
+			return;
+		}
+
+		const { playerjs } = window;
+
+		const iframe = document.createElement( 'iframe' );
+		iframe.id = id;
+		iframe.src = audio;
+		document.body.appendChild( iframe );
+
+		const player = new playerjs.Player( iframe );
+
+		player.on( 'ready', () => {
+			dispatch( { type: ACTION_PLAY_OMNY, player, audio } );
+
+			dispatch( {
+				type: ACTION_CUEPOINT_CHANGE,
+				cuePoint: { type: 'track', cueTitle, artistName },
+			} );
+
+			dispatchStatusUpdate( dispatch, STATUSES.LIVE_BUFFERING )();
+		} );
+
+		player.on( 'play', dispatchStatusUpdate( dispatch, STATUSES.LIVE_PLAYING ) );
+		player.on( 'pause', dispatchStatusUpdate( dispatch, STATUSES.LIVE_PAUSE ) );
+		player.on( 'ended', dispatchStatusUpdate( dispatch, STATUSES.LIVE_STOP ) );
+		player.on( 'error', errorCatcher( 'Omny Error' ) );
+
+		player.on( 'timeupdate', ( { seconds: time, duration } ) => {
+			dispatch( { type: ACTION_TIME_CHANGE, time, duration } );
 		} );
 	};
+}
 
-	const clearAdTimeout = ( timeout ) => {
-		timeout && clearTimeout( timeout );
-		return false;
-	};
+export function playStation( station ) {
+	return { type: ACTION_PLAY_STATION, station };
+}
 
-	const dispatchSyncedStart = () => {
-		// hide after 35 seconds if it hasn't been hidden yet
-		clearAdTimeout( adSyncedTimeout );
-		adSyncedTimeout = setTimeout( () => dispatch( { type: ACTION_AD_BREAK_SYNCED_HIDE } ), 35000 );
+export function pause() {
+	return { type: ACTION_PAUSE };
+}
 
-		dispatch( { type: ACTION_AD_BREAK_SYNCED } );
-	};
+export function resume() {
+	return { type: ACTION_RESUME };
+}
 
-	const dispatchPlaybackStart = () => {
-		// hide after 1 min if it hasn't been hidden yet
-		clearAdTimeout( adPlaybackTimeout );
-		adPlaybackTimeout = setTimeout( dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ), 60000 );
+export function setVolume( volume ) {
+	return { type: ACTION_SET_VOLUME, volume };
+}
 
-		dispatch( { type: ACTION_AD_PLAYBACK_START } );
-	};
-
-	const dispatchPlaybackStop = ( type ) => () => {
-		adPlaybackTimeout = clearAdTimeout();
-		dispatch( { type } );
-	};
-
-	const player = new window.TDSdk( {
-		coreModules: modules,
-		configurationError: errorCatcher( 'Configuration Error' ),
-		moduleError: errorCatcher( 'Module Error' ),
-		playerReady() {
-			player.addEventListener( 'stream-status', dispatchStatusChange );
-			player.addEventListener( 'list-loaded', dispatchListLoaded );
-
-			player.addEventListener( 'track-cue-point', dispatchCuePoint );
-			player.addEventListener( 'speech-cue-point', dispatchCuePoint );
-			player.addEventListener( 'custom-cue-point', dispatchCuePoint );
-
-			player.addEventListener( 'ad-break-cue-point', dispatchCuePoint );
-			player.addEventListener( 'ad-break-cue-point-complete', dispatchCuePoint );
-			player.addEventListener( 'ad-break-synced-element', dispatchSyncedStart );
-
-			player.addEventListener( 'ad-playback-start', dispatchPlaybackStart );
-			player.addEventListener( 'ad-playback-complete', dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE ) );
-			player.addEventListener( 'ad-playback-error', dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
-
-			dispatch( { type: ACTION_INIT_TDPLAYER, player } );
-		},
-	} );
-};
-
-export const playAudio = ( audio, title = '', artist = '' ) => ( dispatch ) => {
-	const dispatchStatusUpdate = ( status ) => () => {
-		dispatch( {
-			type: ACTION_STATUS_CHANGE,
-			status,
-		} );
-	};
-
-	const player = new Audio( audio );
-
-	player.addEventListener( 'loadstart', dispatchStatusUpdate( STATUSES.LIVE_BUFFERING ) );
-	player.addEventListener( 'pause', dispatchStatusUpdate( STATUSES.LIVE_PAUSE ) );
-	player.addEventListener( 'playing', dispatchStatusUpdate( STATUSES.LIVE_PLAYING ) );
-	player.addEventListener( 'ended', dispatchStatusUpdate( STATUSES.LIVE_STOP ) );
-
-	player.addEventListener( 'loadedmetadata', () => {
-		dispatch( {
-			type: ACTION_DURATION_CHANGE,
-			duration: player.duration,
-		} );
-	} );
-
-	player.addEventListener( 'timeupdate', () => {
-		dispatch( {
-			type: ACTION_TIME_CHANGE,
-			time: player.currentTime,
-		} );
-	} );
-
-	dispatch( {
-		type: ACTION_PLAY_AUDIO,
-		player,
-		audio,
-	} );
-
-	dispatch( {
-		type: ACTION_CUEPOINT_CHANGE,
-		cuePoint: {
-			type: 'track',
-			cueTitle: title,
-			artistName: artist,
-		},
-	} );
-};
-
-export const playOmny = ( audio, title = '', artist = '' ) => ( dispatch ) => {
-	const dispatchStatusUpdate = ( status ) => () => {
-		dispatch( {
-			type: ACTION_STATUS_CHANGE,
-			status,
-		} );
-	};
-
-	const { playerjs } = window;
-
-	const iframe = document.createElement( 'iframe' );
-	iframe.src = audio;
-	document.body.appendChild( iframe );
-
-	const player = new playerjs.Player( iframe );
-
-	player.on( 'ready', dispatchStatusUpdate( STATUSES.LIVE_BUFFERING ) );
-	player.on( 'play', dispatchStatusUpdate( STATUSES.LIVE_PLAYING ) );
-	player.on( 'pause', dispatchStatusUpdate( STATUSES.LIVE_PAUSE ) );
-	player.on( 'ended', dispatchStatusUpdate( STATUSES.LIVE_STOP ) );
-
-	player.on( 'timeupdate', ( e ) => {
-		dispatch( {
-			type: ACTION_TIME_CHANGE,
-			time: e.seconds,
-			duration: e.duration,
-		} );
-	} );
-
-	dispatch( {
-		type: ACTION_PLAY_OMNY,
-		player,
-		audio,
-	} );
-
-	dispatch( {
-		type: ACTION_CUEPOINT_CHANGE,
-		cuePoint: {
-			type: 'track',
-			cueTitle: title,
-			artistName: artist,
-		},
-	} );
-};
-
-export const playStation = ( station ) => ( {
-	type: ACTION_PLAY_STATION,
-	station,
-} );
-
-export const pause = () => ( {
-	type: ACTION_PAUSE,
-} );
-
-export const resume = () => ( {
-	type: ACTION_RESUME,
-} );
-
-export const setVolume = ( volume ) => ( {
-	type: ACTION_SET_VOLUME,
-	volume,
-} );
-
-export const seekPosition = ( position ) => ( {
-	type: ACTION_SEEK_POSITION,
-	position,
-} );
+export function seekPosition( position ) {
+	return { type: ACTION_SEEK_POSITION, position };
+}
 
 export default {
 	initTdPlayer,

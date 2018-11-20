@@ -16,7 +16,7 @@ const STATUS_LABELS = {
 	[STATUSES.STATION_NOT_FOUND]: 'Station not found',
 };
 
-const getCuePointInfo = ( cuePoint ) => {
+function getCuePointInfo( cuePoint ) {
 	if ( !cuePoint ) {
 		return false;
 	}
@@ -36,9 +36,9 @@ const getCuePointInfo = ( cuePoint ) => {
 	}
 
 	return info.length ? info : false;
-};
+}
 
-const Info = ( { station, status, cuePoint } ) => {
+function Info( { station, streams, status, cuePoint } ) {
 	let info = STATUS_LABELS[status] || '';
 	if ( 'LIVE_PLAYING' === status ) {
 		const pointInfo = getCuePointInfo( cuePoint );
@@ -47,24 +47,30 @@ const Info = ( { station, status, cuePoint } ) => {
 		}
 	}
 
+	const stream = streams.find( item => item.stream_call_letters === station );
+
 	return (
 		<div>
-			<b>{station}</b>
+			<b>{stream ? stream.title : station}</b>
 			<div>{info}</div>
 		</div>
 	);
-};
+}
 
 Info.propTypes = {
 	station: PropTypes.string.isRequired,
+	streams: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	status: PropTypes.string.isRequired,
 	cuePoint: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
 };
 
-const mapStateToProps = ( { player } ) => ( {
-	station: player.station,
-	status: player.status,
-	cuePoint: player.cuePoint,
-} );
+function mapStateToProps( { player } ) {
+	return {
+		station: player.station,
+		streams: player.streams,
+		status: player.status,
+		cuePoint: player.cuePoint,
+	};
+}
 
 export default connect( mapStateToProps )( Info );

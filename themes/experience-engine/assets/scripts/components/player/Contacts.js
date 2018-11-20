@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class Contacts extends PureComponent {
 
@@ -18,13 +19,21 @@ class Contacts extends PureComponent {
 
 	render() {
 		const self = this;
+		const { stream } = self.props;
+		if ( !stream ) {
+			return false;
+		}
+
+		const { title, email, phone, address, picture } = stream;
 		const { isOpen } = self.state;
-		const { address, email, phone } = self.props;
 
 		let contacts = false;
 		if ( isOpen ) {
+			const image = picture && picture.large && picture.large.url ? picture.large.url : false;
+
 			contacts = (
 				<div>
+					<img src={image} alt={title} />
 					<a href={`tel:${phone}`}>{phone}</a>
 					<a href={`mailto:${email}`}>{email}</a>
 					<span>{address}</span>
@@ -43,9 +52,17 @@ class Contacts extends PureComponent {
 }
 
 Contacts.propTypes = {
-	address: PropTypes.string.isRequired,
-	email: PropTypes.string.isRequired,
-	phone: PropTypes.string.isRequired,
+	stream: PropTypes.oneOfType( [ PropTypes.object, PropTypes.bool ] ),
 };
 
-export default Contacts;
+Contacts.defaultProps = {
+	stream: false,
+};
+
+function mapStateToProps( { player } ) {
+	return {
+		stream: player.streams.find( item => item.stream_call_letters === player.station ),
+	};
+}
+
+export default connect( mapStateToProps )( Contacts );
