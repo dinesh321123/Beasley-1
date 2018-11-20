@@ -105,7 +105,6 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 						echo '<p>', esc_html( $feed['description'] ), '</p>';
 					}
 				}
-							var_dump( $feed['type'] );
 
 				echo '<div class="ribon-items">';
 					switch ( $feed['type'] ) {
