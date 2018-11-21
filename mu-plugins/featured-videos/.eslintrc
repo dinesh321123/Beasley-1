@@ -1,0 +1,16 @@
+{
+	"extends": "airbnb/base",
+	"rules": {
+		"no-tabs": 0,
+		"class-methods-use-this": 1,
+		"max-len": 0,
+		"indent": [2, "tab", { "SwitchCase": 1 }],
+		"no-plusplus": [2, { "allowForLoopAfterthoughts": true }]
+	},
+	"globals": {
+		"document": false,
+		"window": false,
+		"navigator": false,
+		"alert": false
+	}
+}

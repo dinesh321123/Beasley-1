@@ -1,0 +1,11 @@
+.video__embed {
+	text-align: center;
+}
+
+.video__url {
+	width: 80% !important;
+}
+
+.video__preview {
+	margin-top: 1em;
+}
