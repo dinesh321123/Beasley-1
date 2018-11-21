@@ -85,6 +85,10 @@ endif;
 
 if ( ! function_exists( 'ee_update_archive_title' ) ) :
 	function ee_update_archive_title( $title ) {
+		if ( is_post_type_archive( 'tribe_events' ) ) {
+			$title = 'Events';
+		}
+
 		$parts = explode( ':', $title, 2 );
 		return array_pop( $parts );
 	}

@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts' );
+add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts', 20 );
 
 add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
@@ -52,6 +52,12 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		 */
 		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'embedly-player.js', 'td-sdk', 'es6-promise' ), GREATERMEDIA_VERSION, true );
 		wp_localize_script( 'ee-app', 'bbgiconfig', apply_filters( 'bbgiconfig', array() ) );
+
+		/**
+		 * Deregister useless scripts
+		 */
+		wp_dequeue_script( 'elasticpress-facets' );
+		wp_dequeue_style( 'elasticpress-facets' );
 	}
 endif;
 
