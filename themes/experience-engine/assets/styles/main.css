@@ -17,6 +17,7 @@
 
 @import 'components/archive/archive-title';
 @import 'components/archive/archive-tile';
+@import 'components/archive/archive-post-tile';
 @import 'components/archive/tile-episode';
 @import 'components/archive/tile-gmr_gallery';
 
@@ -36,7 +37,6 @@
 @import 'components/episode/episode-content';
 @import 'components/episode/episode-tile';
 
-
 @import 'components/ads/ad-title';
 @import 'components/ads/ad';
 
@@ -45,7 +45,5 @@
 @import 'components/loading';
 @import 'components/lazy-image';
 @import 'components/videojs';
-
-@import 'components/post';
 
 @import 'utilities/display';
