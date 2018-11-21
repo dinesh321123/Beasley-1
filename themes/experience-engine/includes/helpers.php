@@ -2,7 +2,6 @@
 
 add_filter( 'next_posts_link_attributes', 'ee_load_more_attributes' );
 add_filter( 'get_the_archive_title', 'ee_update_archive_title' );
-add_filter( 'the_category_list', 'ee_update_the_category_list', 10, 2 );
 
 if ( ! function_exists( 'ee_get_date' ) ) :
 	function ee_get_date( $timestamp, $gmt = 0 ) {
@@ -111,8 +110,8 @@ if ( ! function_exists( 'ee_the_share_buttons' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ee_update_the_category_list' ) ) :
-	function ee_update_the_category_list( $categories, $post_id ) {
+if ( ! function_exists( 'ee_filter_primary_category' ) ) :
+	function ee_filter_primary_category( $categories, $post_id ) {
 		$post = get_post( $post_id );
 		$cat_id = get_post_meta( $post->ID, '_yoast_wpseo_primary_category', true );
 		if ( $cat_id > 0 ) {

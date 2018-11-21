@@ -4,7 +4,6 @@
 
 <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php get_template_part( 'partials/show/header' ); ?>
-	<?php the_category(); ?>
 	<h1><?php the_title(); ?></h1>
 
 	<div>
@@ -20,8 +19,11 @@
 			<?php the_content(); ?>
 
 			<div>
-				<?php the_tags( '<span>Tags</span>' ); ?>
+				<?php the_category(); ?>
 			</div>
+
+			<?php get_template_part( 'partials/content/categories' ); ?>
+			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>
 
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>

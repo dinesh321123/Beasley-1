@@ -174,8 +174,6 @@ class GreaterMediaContestsMetaboxes {
 			$this,
 			'contest_restrictions_metabox'
 		), GMR_CONTEST_CPT, 'normal' );
-
-		add_meta_box( 'gallery', 'Gallery', array( $this, 'gallery_meta_box' ), GMR_CONTEST_CPT, 'side' );
 	}
 
 	public function contest_win_metabox( WP_Post $post ) {
@@ -288,23 +286,6 @@ class GreaterMediaContestsMetaboxes {
 			</td>
 		</tr>
 		</table><?php
-	}
-
-	public function gallery_meta_box( WP_Post $post ) {
-
-		$images = get_children( array(
-			'numberposts'    => 500, // do we need more?
-			'post_parent'    => $post->ID,
-			'post_type'      => 'attachment',
-			'post_mime_type' => 'image',
-			'post_status'    => 'inherit',
-		) );
-
-		?><input type="text" class="widefat" readonly disabled value="<?php echo esc_attr( '[gallery ids="' . implode( ',', array_keys( $images ) ) . '"]' ); ?>">
-		<span class="description">
-			To create a standalone gallery of the entries, copy the content of this field, create a new Gallery post, then paste it in the content for that Gallery.
-		</span><?php
-
 	}
 
 	/**
