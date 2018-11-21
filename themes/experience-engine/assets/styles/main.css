@@ -28,7 +28,7 @@
 @import 'components/show/show-header';
 @import 'components/show/show-information';
 @import 'components/show/show-navigation';
-
+@import 'components/show/show-tile';
 
 @import 'components/podcast/podcast-tile';
 
@@ -45,5 +45,7 @@
 @import 'components/loading';
 @import 'components/lazy-image';
 @import 'components/videojs';
+
+@import 'components/post';
 
 @import 'utilities/display';
