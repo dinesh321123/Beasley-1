@@ -3,7 +3,6 @@
 add_filter( 'bbgiconfig', 'ee_update_bbgiconfig', 50 );
 add_action( 'rest_api_init', 'ee_rest_api_init' );
 
-
 if ( ! function_exists( 'ee_has_publisher_information' ) ) :
 	function ee_has_publisher_information( $meta ) {
 		$value = ee_get_publisher_information( $meta );

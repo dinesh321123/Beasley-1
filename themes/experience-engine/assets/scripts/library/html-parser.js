@@ -47,6 +47,15 @@ function getLazyImageParams( element ) {
 	};
 }
 
+function getShareParams( element ) {
+	const { dataset } = element;
+
+	return {
+		url: dataset.url,
+		title: dataset.title,
+	};
+}
+
 function getLoadMoreParams( element ) {
 	return {
 		link: element.getAttribute( 'href' ),
@@ -106,7 +115,7 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'audio', '.wp-audio-shortcode', getAudioEmbedParams ),
 			...processEmbeds( container, 'audio', '.omny-embed', getOmnyEmbedParams ),
 			...processEmbeds( container, 'lazyimage', '.lazy-image', getLazyImageParams ),
-			...processEmbeds( container, 'share', '.share-buttons' ),
+			...processEmbeds( container, 'share', '.share-buttons', getShareParams ),
 			...processEmbeds( container, 'loadmore', '.load-more', getLoadMoreParams ),
 			...processEmbeds( container, 'video', '.livestream', getLiveStreamVideo ),
 		];

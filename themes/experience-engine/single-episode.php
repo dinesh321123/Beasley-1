@@ -36,7 +36,7 @@
 
 			<span class="date"><?php ee_the_date(); ?></span>
 
-			<?php get_template_part( 'partials/share' ); ?>
+			<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
 		</div>
 	</div>
 

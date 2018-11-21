@@ -97,6 +97,20 @@ if ( ! function_exists( 'ee_the_subtitle' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ee_the_share_buttons' ) ) :
+	function ee_the_share_buttons( $url = null, $title = null ) {
+		$url = filter_var( $url, FILTER_VALIDATE_URL )
+			? ' data-url="' . esc_attr( $url ) . '"'
+			: '';
+
+		$title = ! empty( $title )
+			? ' data-title="' . esc_attr( trim( $title ) ) . '"'
+			: '';
+
+		echo '<div class="share-buttons"', $url, $title, '></div>';
+	}
+endif;
+
 if ( ! function_exists( 'ee_update_the_category_list' ) ) :
 	function ee_update_the_category_list( $categories, $post_id ) {
 		$post = get_post( $post_id );
