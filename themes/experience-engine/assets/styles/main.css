@@ -20,6 +20,8 @@
 @import 'components/archive/tile-episode';
 @import 'components/archive/tile-gmr_gallery';
 
+@import 'components/contests/contest-tile';
+
 @import 'components/player/controls';
 @import 'components/player/live-player';
 
@@ -43,5 +45,7 @@
 @import 'components/loading';
 @import 'components/lazy-image';
 @import 'components/videojs';
+@import 'components/load-more';
+@import 'components/post';
 
 @import 'utilities/display';

@@ -21,6 +21,8 @@ get_header(); ?>
 	endwhile; ?>
 </div>
 
-<?php ee_load_more();
+<div class="archive-load-more">
+	<?php ee_load_more(); ?>
+</div>
 
-get_footer();
+<?php get_footer();

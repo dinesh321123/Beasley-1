@@ -1,0 +1,7 @@
+.contest {
+    display: flex;
+    flex: 0 1 100%;
+    & div {
+        flex: 0 1 50%;
+    }
+}
