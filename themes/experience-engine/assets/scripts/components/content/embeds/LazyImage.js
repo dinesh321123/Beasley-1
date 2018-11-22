@@ -31,7 +31,7 @@ class LazyImage extends PureComponent {
 		self.container = document.getElementById( placeholder );
 		self.updateDimensions();
 
-		window.addEventListener( 'scroll', self.onScroll );
+		window.addEventListener( 'scroll', self.onScroll, true );
 		window.addEventListener( 'resize', self.onResize );
 	}
 
@@ -51,7 +51,7 @@ class LazyImage extends PureComponent {
 
 	removeListeners() {
 		const self = this;
-		window.removeEventListener( 'scroll', self.onScroll );
+		window.removeEventListener( 'scroll', self.onScroll, true );
 		window.removeEventListener( 'resize', self.onResize );
 	}
 
