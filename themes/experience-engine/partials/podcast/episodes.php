@@ -1,11 +1,7 @@
 <?php
 
-$query = ee_get_show_query();
+$query = ee_get_episodes_query( null, 'paged=' . get_query_var( 'paged' ) );
 if ( $query->have_posts() ) :
-	if ( ee_is_first_page() ) :
-		ee_the_subtitle( 'Recent' );
-	endif;
-
 	?><div class="archive-tiles">
 		<?php ee_the_query_tiles( $query ); ?>
 	</div><?php

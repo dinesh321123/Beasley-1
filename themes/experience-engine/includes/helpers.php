@@ -100,6 +100,12 @@ if ( ! function_exists( 'ee_the_subtitle' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ee_the_have_no_posts' ) ) :
+	function ee_the_have_no_posts( $message = 'No items found' ) {
+		echo '<h4>', esc_html( $message ), '</h4>';
+	}
+endif;
+
 if ( ! function_exists( 'ee_the_share_buttons' ) ) :
 	function ee_the_share_buttons( $url = null, $title = null ) {
 		$url = filter_var( $url, FILTER_VALIDATE_URL )

@@ -1,12 +1,17 @@
-<?php get_header(); ?>
+<?php
 
-<?php the_post(); ?>
+get_header();
 
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php get_template_part( 'partials/show/header' ); ?>
-	<?php get_template_part( 'partials/show/featured' ); ?>
-	<?php get_template_part( 'partials/show/favorites' ); ?>
-	<?php get_template_part( 'partials/show/recent' ); ?>
-</div>
+the_post();
 
-<?php get_footer(); ?>
+echo '<div class="', join( ' ', get_post_class() ), '">';
+	if ( ee_is_first_page() ) :
+		get_template_part( 'partials/show/header' );
+		get_template_part( 'partials/show/featured' );
+		get_template_part( 'partials/show/favorites' );
+	endif;
+
+	get_template_part( 'partials/show/recent' );
+echo '</div>';
+
+get_footer();
