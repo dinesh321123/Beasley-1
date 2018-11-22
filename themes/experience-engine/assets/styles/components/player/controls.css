@@ -8,5 +8,7 @@
 
 	& svg {
 		fill: var(--brand-primary);
+		width: 22px;
+		height: 31px;
 	}
 }

@@ -135,8 +135,8 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 				}
 			}
 
-			$width = intval( $post->picture['width'] );
-			$height = intval( $post->picture['height'] );
+			$width = ! empty( $post->picture['width'] ) ? intval( $post->picture['width'] ) : 400;
+			$height = ! empty( $post->picture['height'] ) ? intval( $post->picture['height'] ) : 300;
 
 			echo _ee_the_lazy_image( $url, $width, $height );
 		} else {

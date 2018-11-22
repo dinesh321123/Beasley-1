@@ -21,6 +21,7 @@
 @import 'components/archive/tile-episode';
 @import 'components/archive/tile-gmr_gallery';
 
+@import 'components/player/preroll';
 @import 'components/player/controls';
 @import 'components/player/live-player';
 

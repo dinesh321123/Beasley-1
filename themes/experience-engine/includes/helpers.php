@@ -140,3 +140,14 @@ if ( ! function_exists( 'ee_the_permalink' ) ) :
 		}
 	}
 endif;
+
+if ( ! function_exists( 'ee_is_network_domain' ) ) :
+	function ee_is_network_domain( $url ) {
+		static $domains = null;
+		if ( is_null( $domains ) ) {
+			$domains = wp_list_pluck( get_sites(), 'domain' );
+		}
+
+		return in_array( parse_url( $url, PHP_URL_HOST ), $domains );
+	}
+endif;
