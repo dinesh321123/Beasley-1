@@ -40,7 +40,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_script_add_data( 'es6-promise', 'conditional', 'lte IE 11' );
 
 		/**
-		 * Player scripts
+		 * External libraries
 		 */
 		wp_register_script( 'embedly-player.js', "//cdn.embed.ly/player-0.1.0{$min}.js", null, null, true );
 		wp_script_add_data( 'embedly-player.js', 'async', true );
@@ -48,17 +48,35 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
 		wp_script_add_data( 'td-sdk', 'async', true );
 
+		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true );
+		wp_script_add_data( 'googletag', 'async', true );
+
 		/**
 		 * Application script
 		 */
-		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'embedly-player.js', 'td-sdk', 'es6-promise' ), GREATERMEDIA_VERSION, true );
-		wp_localize_script( 'ee-app', 'bbgiconfig', apply_filters( 'bbgiconfig', array() ) );
+$bbgiconfig = <<<EOL
+window.bbgiconfig = {};
+try {
+	window.bbgiconfig = JSON.parse( document.body.dataset.bbgiconfig );
+} catch( err ) {
+	// do nothing
+}
+EOL;
+
+		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'googletag', 'embedly-player.js', 'td-sdk', 'es6-promise' ), GREATERMEDIA_VERSION, true );
+		wp_add_inline_script( 'ee-app', $bbgiconfig, 'before' );
 
 		/**
 		 * Deregister useless scripts
 		 */
 		wp_dequeue_script( 'elasticpress-facets' );
 		wp_dequeue_style( 'elasticpress-facets' );
+	}
+endif;
+
+if ( ! function_exists( 'ee_the_bbgiconfig_attribute' ) ) :
+	function ee_the_bbgiconfig_attribute() {
+		printf( ' data-bbgiconfig="%s"', esc_attr( json_encode( apply_filters( 'bbgiconfig', array() ) ) ) );
 	}
 endif;
 

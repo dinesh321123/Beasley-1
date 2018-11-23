@@ -62,7 +62,7 @@ function getLoadMoreParams( element ) {
 	};
 }
 
-function getLiveStreamVideo( element ) {
+function getLiveStreamVideoParams( element ) {
 	const attrs = { adTagUrl: element.dataset.adTag };
 
 	const video = element.getElementsByTagName( 'video' )[0];
@@ -73,6 +73,30 @@ function getLiveStreamVideo( element ) {
 	}
 
 	return attrs;
+}
+
+function getDfpParams( element ) {
+	const { dataset } = element;
+	const { targeting } = dataset;
+
+	let keyvalues = [];
+
+	try {
+		if ( 'string' === typeof targeting && targeting ) {
+			keyvalues = JSON.parse( targeting );
+		} else if ( Array.isArray( targeting ) ) {
+			keyvalues = targeting;
+		}
+	} catch ( err ) {
+		// do nothing
+	}
+
+	return {
+		network: dataset.network,
+		unitId: dataset.unitId,
+		unitName: dataset.unitName,
+		targeting: keyvalues,
+	};
 }
 
 function processEmbeds( container, type, selector, callback ) {
@@ -111,13 +135,14 @@ export function getStateFromContent( container ) {
 
 	if ( container ) {
 		state.embeds = [
+			...processEmbeds( container, 'dfp', '.dfp-slot', getDfpParams ),
 			...processEmbeds( container, 'secondstreet', '.secondstreet-embed', getSecondStreetEmbedParams ),
 			...processEmbeds( container, 'audio', '.wp-audio-shortcode', getAudioEmbedParams ),
 			...processEmbeds( container, 'audio', '.omny-embed', getOmnyEmbedParams ),
 			...processEmbeds( container, 'lazyimage', '.lazy-image', getLazyImageParams ),
 			...processEmbeds( container, 'share', '.share-buttons', getShareParams ),
 			...processEmbeds( container, 'loadmore', '.load-more', getLoadMoreParams ),
-			...processEmbeds( container, 'video', '.livestream', getLiveStreamVideo ),
+			...processEmbeds( container, 'video', '.livestream', getLiveStreamVideoParams ),
 		];
 
 		// extract <script> tags

@@ -12,6 +12,7 @@ import Progress from '../components/player/Progress';
 import RecentSongs from '../components/player/RecentSongs';
 import Offline from '../components/player/Offline';
 import Contacts from '../components/player/Contacts';
+import Sponsor from '../components/player/Sponsor';
 
 import * as actions from '../redux/actions/player';
 
@@ -123,6 +124,7 @@ class LivePlayer extends Component {
 					<Info />
 					<Progress />
 					<Volume />
+					<Sponsor />
 				</div>
 
 				<Stations />

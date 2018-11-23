@@ -30,6 +30,28 @@ function manageScripts( load, unload ) {
 	loadAssets( Object.keys( load ) );
 }
 
+function manageBbgiConfig() {
+	let newconfig = {};
+
+	try {
+		newconfig = JSON.parse( document.body.dataset.bbgiconfig );
+
+		const { googletag } = window;
+		const { dfp } = newconfig;
+
+		if ( dfp && Array.isArray( dfp.global ) ) {
+			googletag.pubads().clearTargeting();
+			for ( let i = 0, pairs = dfp.global; i < pairs.length; i++ ) {
+				googletag.pubads().setTargeting( pairs[i][0], pairs[i][1] );
+			}
+		}
+	} catch ( err ) {
+		// do nothing
+	}
+
+	window.bbgiconfig = newconfig;
+}
+
 export default function reducer( state = {}, action = {} ) {
 	switch ( action.type ) {
 		case ACTION_INIT_PAGE:
@@ -62,6 +84,7 @@ export default function reducer( state = {}, action = {} ) {
 
 			NProgress.done();
 			manageScripts( action.scripts, state.scripts );
+			manageBbgiConfig();
 
 			return {
 				...state,
@@ -75,6 +98,8 @@ export default function reducer( state = {}, action = {} ) {
 
 		case ACTION_LOADED_PARTIAL:
 			NProgress.done();
+			manageBbgiConfig();
+
 			return {
 				...state,
 				error: '',
