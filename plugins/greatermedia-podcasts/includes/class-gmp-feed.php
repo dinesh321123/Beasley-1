@@ -5,9 +5,10 @@ class GMPFeed {
 	public static function init() {
 		if ( self::is_podcast_feed() ) {
 			add_action( 'template_redirect', array( __CLASS__, 'feed_template' ) );
-			add_action( 'rss2_item', array( __CLASS__, 'add_mrss_node_to_rss' ) );
-			add_action( 'rss2_ns', array( __CLASS__, 'add_mrss_ns_to_rss' ) );
 		}
+
+		add_action( 'rss2_item', array( __CLASS__, 'add_mrss_node_to_rss' ) );
+		add_action( 'rss2_ns', array( __CLASS__, 'add_mrss_ns_to_rss' ) );
 	}
 
 	public static function is_podcast_feed() {
