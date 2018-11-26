@@ -1,8 +1,7 @@
 <?php
 
-add_filter( 'bbgiconfig', 'ee_update_bbgiconfig', 50 );
+add_filter( 'bbgiconfig', 'ee_update_api_bbgiconfig', 50 );
 add_action( 'rest_api_init', 'ee_rest_api_init' );
-
 
 if ( ! function_exists( 'ee_has_publisher_information' ) ) :
 	function ee_has_publisher_information( $meta ) {
@@ -60,8 +59,8 @@ if ( ! function_exists( 'ee_get_publisher_information' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ee_update_bbgiconfig' ) ) :
-	function ee_update_bbgiconfig( $config ) {
+if ( ! function_exists( 'ee_update_api_bbgiconfig' ) ) :
+	function ee_update_api_bbgiconfig( $config ) {
 		$publishers_map = array();
 		foreach ( bbgi_ee_get_publisher_list() as $publisher ) {
 			$publishers_map[ $publisher['id'] ] = $publisher['title'];
@@ -81,75 +80,6 @@ if ( ! function_exists( 'ee_update_bbgiconfig' ) ) :
 		}
 
 		return $config;
-	}
-endif;
-
-if ( ! function_exists( 'ee_homepage_feeds' ) ) :
-	function ee_homepage_feeds() {
-		foreach ( bbgi_ee_get_publisher_feeds_with_content() as $feed ) {
-			// do nothing for the following feeds
-			if ( ! empty( $feed['id'] ) && ( $feed['id'] == 'feedback' || $feed['id'] == 'utilities' ) ) {
-				continue;
-			}
-
-			// do nothing for the following feeds as weel
-			if ( $feed['type'] == 'stream' ) {
-				continue;
-			}
-
-			echo '<div class="ribon">';
-
-				if ( ! empty( $feed['title'] ) ) {
-					ee_the_subtitle( $feed['title'] );
-					if ( ! empty( $feed['description'] ) ) {
-						echo '<p>', esc_html( $feed['description'] ), '</p>';
-					}
-				}
-
-				echo '<div class="ribon-items">';
-					switch ( $feed['type'] ) {
-						case 'contests':
-						case 'news':
-							$post_type = 'post';
-							if ( $feed['type'] == 'contest' ) {
-								$post_type = 'contest';
-							} elseif ( $feed['type'] == 'podcast' ) {
-								$post_type = 'episode';
-							}
-
-							foreach ( $feed['content'] as $item ) {
-								if ( $item['contentType'] == 'link' ) {
-									$post = new \stdClass();
-									$post->ID = 0;
-									$post->post_title = $item['title'];
-									$post->post_status = 'publish';
-									$post->post_type = $post_type;
-									$post->post_content = $item['excerpt'];
-									$post->post_excerpt = $item['excerpt'];
-									$post->post_date = $post->post_date_gmt = $post->post_modified = $post->post_modified_gmt = date( 'Y:m:d H:i:s', strtotime( $item['publishedAt'] ) );
-									$post->link = $item['link'];
-									$post->id = $item['id'];
-									$post->filter = 'raw';
-									if ( ! empty( $item['picture']['large'] ) ) {
-										$post->picture = $item['picture']['large'];
-									}
-
-									$post = new \WP_Post( $post );
-									setup_postdata( $post );
-									$GLOBALS['post'] = $post;
-
-									get_template_part( 'partials/tile', $post->post_type );
-								}
-							}
-							break;
-						default:
-							break;
-					}
-				echo '</div>';
-			echo '</div>';
-		}
-
-		wp_reset_postdata();
 	}
 endif;
 
@@ -249,7 +179,6 @@ if ( ! function_exists( 'bbgi_ee_get_publisher_list' ) ) :
 		return $publishers;
 	}
 endif;
-
 
 if ( ! function_exists( 'bbgi_ee_get_publisher' ) ) :
 	/**
@@ -378,5 +307,4 @@ if ( ! function_exists( 'ee_rest_api_init' ) ) :
 			},
 		) );
 	}
-
 endif;

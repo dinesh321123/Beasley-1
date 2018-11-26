@@ -1,6 +1,22 @@
 .home {
+	& .ribon {
+		margin: 0 auto;
+		max-width: 1071px;
+		padding: 0 1rem 2.22rem;
+	}
+
 	& .ribon-items {
 		display: flex;
+		overflow-x: auto;
+
+		& .hentry {
+			min-width: 300px;
+			margin-right: .5rem;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
 	}
 
 	& .post-thumbnail {

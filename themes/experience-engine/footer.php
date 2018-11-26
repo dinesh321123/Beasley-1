@@ -1,3 +1,4 @@
+				<?php get_template_part( 'partials/ads/footer' ); ?>
 			</main><?php
 
 			if ( ! ee_is_jacapps() ) :

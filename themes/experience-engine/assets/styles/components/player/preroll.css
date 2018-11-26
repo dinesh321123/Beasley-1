@@ -1,0 +1,33 @@
+.preroll-wrapper {
+	background-color: rgba(0, 0, 0, .75);
+	display: none;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 100;
+
+	&.-active {
+		display: block;
+	}
+}
+
+.preroll-container {
+	left: 50%;
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.preroll-player {
+	background-color: var(--global-black);
+	width: 640px;
+}
+
+.preroll-notification {
+	background-color: var(--global-black);
+	color: var(--global-white);
+	padding: .15rem 0;
+	text-align: center;
+}

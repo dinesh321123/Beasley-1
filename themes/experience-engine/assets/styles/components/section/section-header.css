@@ -21,4 +21,9 @@
 		width: 100%;
 		z-index: 0;
 	}
+
+	@nest .show & {
+		font-size: 1.333rem;
+		font-style: italic;
+	}
 }

@@ -77,14 +77,9 @@ export function initTdPlayer( modules ) {
 			} );
 		}
 
-		function clearAdTimeout( timeout ) {
-			timeout && clearTimeout( timeout );
-			return false;
-		}
-
 		function dispatchSyncedStart() {
 			// hide after 35 seconds if it hasn't been hidden yet
-			clearAdTimeout( adSyncedTimeout );
+			clearTimeout( adSyncedTimeout );
 			adSyncedTimeout = setTimeout( () => dispatch( { type: ACTION_AD_BREAK_SYNCED_HIDE } ), 35000 );
 
 			dispatch( { type: ACTION_AD_BREAK_SYNCED } );
@@ -92,7 +87,7 @@ export function initTdPlayer( modules ) {
 
 		function dispatchPlaybackStart() {
 			// hide after 1 min if it hasn't been hidden yet
-			clearAdTimeout( adPlaybackTimeout );
+			clearTimeout( adPlaybackTimeout );
 			adPlaybackTimeout = setTimeout( dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ), 60000 );
 
 			dispatch( { type: ACTION_AD_PLAYBACK_START } );
@@ -100,7 +95,7 @@ export function initTdPlayer( modules ) {
 
 		function dispatchPlaybackStop( type ) {
 			return () => {
-				adPlaybackTimeout = clearAdTimeout();
+				clearTimeout( adPlaybackTimeout );
 				dispatch( { type } );
 			};
 		}

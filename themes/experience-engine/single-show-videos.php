@@ -1,22 +1,16 @@
-<?php get_header(); ?>
+<?php
 
-<?php the_post(); ?>
+get_header();
 
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php get_template_part( 'partials/show/header' ); ?>
+the_post();
 
-	<?php ee_the_subtitle( 'Podcasts' ); ?>
+echo '<div class="', join( ' ', get_post_class() ), '">';
+	if ( ee_is_first_page() ) :
+		get_template_part( 'partials/show/header' );
+		ee_the_subtitle( 'Videos' );
+	endif;
 
-	<div><?php
-		$query = \GreaterMedia\Shows\get_show_video_query();
-		if ( $query->have_posts() ) :
-			?><div class="archive-tiles">
-				<?php ee_the_query_tiles( $query ); ?>
-			</div><?php
+	get_template_part( 'partials/show/videos' );
+echo '</div>';
 
-			ee_load_more( $query );
-		endif;
-	?></div>
-</div>
-
-<?php get_footer(); ?>
+get_footer();

@@ -176,29 +176,28 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 
 		// Enclosure (audio file)
 		$enclosure = get_post_meta( $episode_id, 'enclosure', true );
+		if ( empty( $enclosure ) ) {
+			$enclosure = get_post_meta( $episode_id, 'omny-audio-url', true );
+		}
 
 		// Episode duration
 		$duration = get_post_meta( $episode_id, 'duration' , true );
 		if ( empty( $duration ) ) {
-			$duration = '0:00';
+			$duration = get_post_meta( $episode_id, 'omny-duration', true );
+			if ( ! empty( $duration ) ) {
+				$duration = date( 'H:i:s', $duration );
+				if ( substr( $duration, 0, 3 ) == '00:' ) {
+					$duration = substr( $duration, 3 );
+				}
+			}
+
+			if ( empty( $duration ) ) {
+				$duration = '0:00';
+			}
 		}
 
-		// File size
-		$size = get_post_meta( $episode_id, 'filesize_raw' , true );
-		if ( ! $size || strlen( $size ) == 0 || $size == '' ) {
-			$size = GMPFeed::get_file_size( $enclosure );
-			$size = esc_html( $size['raw'] );
-		}
-
-		if ( ! $size || strlen( $size ) == 0 || $size == '' ) {
-			$size = 1;
-		}
-
-		// File MIME type (default to MP3 to ensure that there is always a value for this)
-		$mime_type = GMPFeed::get_attachment_mimetype( $enclosure );
-		if ( ! $mime_type || strlen( $mime_type ) == 0 || $mime_type == '' ) {
-			$mime_type = 'audio/mpeg';
-		}
+		// File info
+		$file_info = GMPFeed::get_file_info( $enclosure );
 
 		// Episode explicit flag
 		$ep_explicit = get_post_meta( $episode_id, 'gmp_episode_explicit' , true );
@@ -259,7 +258,7 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 		<itunes:subtitle><![CDATA[<?php echo wp_strip_all_tags( $item_itunes_subtitle ); ?>]]></itunes:subtitle>
 		<content:encoded><![CDATA[<?php echo wp_strip_all_tags( $content ); ?>]]></content:encoded>
 		<itunes:summary><![CDATA[<?php echo wp_strip_all_tags( $item_itunes_summary ); ?>]]></itunes:summary>
-		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $size ); ?>" type="<?php echo esc_attr( $mime_type ); ?>"></enclosure>
+		<enclosure url="<?php echo esc_url( $enclosure ); ?>" length="<?php echo esc_attr( $file_info['size'] ); ?>" type="<?php echo esc_attr( $file_info['mime-type'] ); ?>"></enclosure>
 		<itunes:explicit><?php echo esc_html( $explicit_flag ); ?></itunes:explicit>
 		<itunes:block><?php echo esc_html( $block_flag ); ?></itunes:block>
 		<itunes:duration><?php echo esc_html( $duration ); ?></itunes:duration>

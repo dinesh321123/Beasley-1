@@ -25,6 +25,7 @@ include __DIR__ . '/legacy-redirects/class-CMM_Legacy_Redirects.php';
 include __DIR__ . '/gmr-fallback-thumbnails/gmr-fallback-thumbnails.php';
 include __DIR__ . '/gmr-mobile-homepage-curation/gmr-mobile-homepage-curation.php';
 include __DIR__ . '/advanced-custom-fields/acf.php';
+include __DIR__ . '/featured-videos/featured-video.php';
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	include __DIR__ . '/cli/cli.php';
@@ -124,3 +125,18 @@ add_filter( 'ep_indexable_post_types', function() {
 	// Index all post types that are not excluded from search
 	return get_post_types( array( 'exclude_from_search' => false ) );
 } );
+
+function tribe( $slug_or_class = null ) {
+	$container = Tribe__Container::init();
+
+	$suppressed_modules = array();
+	if ( ! is_admin() ) {
+		$suppressed_modules = array(
+			'tec.assets',
+		);
+	}
+
+	return null === $slug_or_class || in_array( $slug_or_class, $suppressed_modules )
+		? $container
+		: $container->make( $slug_or_class );
+}

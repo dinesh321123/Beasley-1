@@ -159,6 +159,7 @@ class GreaterMediaContestsMetaboxes {
 	 * Implements add_meta_boxes action
 	 */
 	public function add_meta_boxes() {
+
 		add_meta_box(
 			'contest-settings-win',
 			'What You Win',

@@ -1,14 +1,16 @@
-<?php get_header(); ?>
+<?php
 
-<?php the_post(); ?>
+get_header();
 
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php get_template_part( 'partials/show/header' ); ?>
+the_post();
 
-	<?php ee_the_subtitle( 'Galleries' ); ?>
-	<div>
-		TBD...
-	</div>
-</div>
+echo '<div class="', join( ' ', get_post_class() ), '">';
+	if ( ee_is_first_page() ) :
+		get_template_part( 'partials/show/header' );
+		ee_the_subtitle( 'Galleries' );
+	endif;
 
-<?php get_footer(); ?>
+	get_template_part( 'partials/show/galleries' );
+echo '</div>';
+
+get_footer();

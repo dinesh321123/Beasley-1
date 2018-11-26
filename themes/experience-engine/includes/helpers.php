@@ -2,7 +2,6 @@
 
 add_filter( 'next_posts_link_attributes', 'ee_load_more_attributes' );
 add_filter( 'get_the_archive_title', 'ee_update_archive_title' );
-add_filter( 'the_category_list', 'ee_update_the_category_list', 10, 2 );
 
 if ( ! function_exists( 'ee_get_date' ) ) :
 	function ee_get_date( $timestamp, $gmt = 0 ) {
@@ -86,6 +85,10 @@ endif;
 
 if ( ! function_exists( 'ee_update_archive_title' ) ) :
 	function ee_update_archive_title( $title ) {
+		if ( is_post_type_archive( 'tribe_events' ) ) {
+			$title = 'Events';
+		}
+
 		$parts = explode( ':', $title, 2 );
 		return array_pop( $parts );
 	}
@@ -97,8 +100,28 @@ if ( ! function_exists( 'ee_the_subtitle' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ee_update_the_category_list' ) ) :
-	function ee_update_the_category_list( $categories, $post_id ) {
+if ( ! function_exists( 'ee_the_have_no_posts' ) ) :
+	function ee_the_have_no_posts( $message = 'No items found' ) {
+		echo '<h4>', esc_html( $message ), '</h4>';
+	}
+endif;
+
+if ( ! function_exists( 'ee_the_share_buttons' ) ) :
+	function ee_the_share_buttons( $url = null, $title = null ) {
+		$url = filter_var( $url, FILTER_VALIDATE_URL )
+			? ' data-url="' . esc_attr( $url ) . '"'
+			: '';
+
+		$title = ! empty( $title )
+			? ' data-title="' . esc_attr( trim( $title ) ) . '"'
+			: '';
+
+		echo '<div class="share-buttons"', $url, $title, '></div>';
+	}
+endif;
+
+if ( ! function_exists( 'ee_filter_primary_category' ) ) :
+	function ee_filter_primary_category( $categories, $post_id ) {
 		$post = get_post( $post_id );
 		$cat_id = get_post_meta( $post->ID, '_yoast_wpseo_primary_category', true );
 		if ( $cat_id > 0 ) {
@@ -121,5 +144,16 @@ if ( ! function_exists( 'ee_the_permalink' ) ) :
 		} else {
 			the_permalink( $post );
 		}
+	}
+endif;
+
+if ( ! function_exists( 'ee_is_network_domain' ) ) :
+	function ee_is_network_domain( $url ) {
+		static $domains = null;
+		if ( is_null( $domains ) ) {
+			$domains = wp_list_pluck( get_sites(), 'domain' );
+		}
+
+		return in_array( parse_url( $url, PHP_URL_HOST ), $domains );
 	}
 endif;

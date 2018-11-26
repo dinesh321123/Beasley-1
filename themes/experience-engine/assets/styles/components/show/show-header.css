@@ -1,4 +1,6 @@
 .show-header {
-	border: 1px solid var(--global-mercury);
+	border-bottom: 1px solid var(--global-mercury);
+	border-top: 1px solid var(--global-mercury);
+	margin-bottom: 3.444rem;
 	padding: 1.778rem 0;
 }

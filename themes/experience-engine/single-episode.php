@@ -30,13 +30,11 @@
 				<span class="duration"><?php echo esc_html( $duration ); ?></span>
 			<?php endif; ?>
 
-			<?php if ( ( $download = ee_get_episode_meta( null, 'download' ) ) ) : ?>
-				<a class="btn -empty -nobor" href="<?php echo esc_url( $download ); ?>" target="_blank" rel="noopener">Download</a>
-			<?php endif; ?>
+			<?php get_template_part( 'partials/episode/download' ); ?>
 
 			<span class="date"><?php ee_the_date(); ?></span>
 
-			<?php get_template_part( 'partials/share' ); ?>
+			<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
 		</div>
 	</div>
 

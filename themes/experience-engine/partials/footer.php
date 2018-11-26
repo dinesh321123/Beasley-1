@@ -1,5 +1,3 @@
-<?php get_template_part( 'partials/ads/footer' ); ?>
-
 <footer class="footer">
 	<?php if ( has_custom_logo() ) : ?>
 		<?php the_custom_logo(); ?>

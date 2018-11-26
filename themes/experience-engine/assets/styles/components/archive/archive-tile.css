@@ -1,4 +1,13 @@
 .archive-tiles {
+	margin-bottom: 1.775rem;
+	padding-bottom: 1.775rem;
+
+	& [class*="-title"] {
+		& a {
+			color: var(--global-font-primary);
+		}
+	}
+
 	&.-grid {
 		align-items: flex-start;
 		display: flex;
@@ -10,6 +19,9 @@
 
 			@media (--min-medium-viewport) {
 				flex: 0 1 calc(50% - 1.5rem);
+				&.-full-width {
+					flex: 0 1 100%;
+				}
 			}
 
 			&:nth-child(odd) {
@@ -22,6 +34,115 @@
 				@media (--min-medium-viewport) {
 					padding-left: .75rem;
 				}
+			}
+
+			&.-horizontal {
+				align-items: flex-start;
+				display: flex;
+				justify-content: space-between;
+				padding-left: 0;
+
+				& .post-thumbnail {
+					flex: 0 1 30%;
+				}
+
+				& .post-meta {
+					flex: 0 1 calc(70% - 3rem);
+				}
+
+				& .post-title h3 {
+					margin: .875rem 0;
+				}
+			}
+		}
+	}
+
+	&.-carousel {
+		align-items: flex-start;
+		display: flex;
+		left: 0;
+		overflow: auto;
+		padding-right: 4rem;
+		position: relative;
+		right: -1rem;
+		width: calc(100% + 1rem);
+
+		@media (min-width: 1373px) {
+			width: calc(100% + 4rem);
+			right: -4rem;
+		}
+
+		& > div {
+			flex: 1 0 calc(50% - 1.5rem);
+			margin-right: 1.5rem;
+			max-width: calc(50% - 1.5rem);
+			padding-bottom: 0;
+
+			@media (--min-large-viewport) {
+				flex: 0 1 calc(25% - 1.5rem);
+				max-width: calc(25% - 1.5rem);
+			}
+		}
+	}
+
+	&.-small,
+	&.-large {
+		& [class*="-tile"] {
+			flex-wrap: wrap;
+		}
+
+		& .post-thumbnail {
+			flex: 0 1 100%;
+			margin-bottom: 1rem;
+		}
+
+		& .meta,
+		& .post-thumbnail {
+			padding-left: 0;
+		}
+
+		& .placeholder-audio {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+
+			& .status button {
+				background-color: var(--brand-tertiary);
+				border-color: var(--brand-tertiary);
+			}
+		}
+	}
+
+	&.-small {
+		& > div {
+			flex: 1 0 calc(60% - 1.5rem);
+			max-width: calc(60% - 1.5rem);
+
+			@media (--min-small-viewport) {
+				flex: 1 0 calc(50% - 1.5rem);
+				max-width: calc(50% - 1.5rem);
+			}
+
+			@media (--min-large-viewport) {
+				flex: 0 1 calc(25% - 1.5rem);
+				max-width: calc(25% - 1.5rem);
+			}
+
+			&:not(:last-child) {
+				margin-right: 1.5rem;
+			}
+		}
+	}
+
+	&.-large {
+		& > div {
+			flex: 1 0 calc(100% - 1.5rem);
+			max-width: calc(100% - 1.5rem);
+
+			@media (--min-large-viewport) {
+				flex: 1 0 calc(50% - 1.5rem);
+				max-width: calc(50% - 1.5rem);
 			}
 		}
 	}

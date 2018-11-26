@@ -64,6 +64,7 @@
 			"jsx-a11y"
 		],
 		"rules": {
+			"import/no-unresolved": 0,
 			"indent": [
 				"error",
 				"tab",
