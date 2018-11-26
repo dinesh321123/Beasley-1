@@ -18,10 +18,12 @@ if ( ! function_exists( 'ee_register_dfp_settings' ) ) :
 		$settings = apply_filters( 'beasley-dfp-unit-codes-settings', array(
 			'dfp_ad_leaderboard_pos1'  => 'Header Leaderboard',
 			'dfp_ad_leaderboard_pos2'  => 'Footer Leaderboard',
-			'dfp_ad_inlist_infinite'   => 'In List (infinite)',
-			'dfp_ad_playersponsorship' => 'Player Sponsorship',
-			'dfp_ad_interstitial'      => 'Out-of-Page',
+			'dfp_ad_incontent_pos1'    => 'In Content (pos1)',
+			'dfp_ad_incontent_pos2'    => 'In Content (pos2)',
 			'dfp_ad_right_rail_pos1'   => 'Right Rail',
+			'dfp_ad_inlist_infinite'   => 'In List (infinite)',
+			'dfp_ad_interstitial'      => 'Out-of-Page',
+			'dfp_ad_playersponsorship' => 'Player Sponsorship',
 		) );
 
 		foreach ( $settings as $key => $label ) {
@@ -36,6 +38,7 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 		$fluid = array( 'fluid' );
 		$advanced = array( array( 970, 250 ), array( 970, 90 ), array( 728, 90 ), array( 320, 100 ), array( 320, 50 ) );
 		$advanced_with_fluid = array_merge( $fluid, $advanced );
+		$small = array( array( 300, 250 ) );
 
 		$sizes = array(
 			'dfp_ad_leaderboard_pos1'  => $advanced_with_fluid,
@@ -43,6 +46,8 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'dfp_ad_inlist_infinite'   => $advanced_with_fluid,
 			'dfp_ad_playersponsorship' => $fluid,
 			'dfp_ad_right_rail_pos1'   => array( array( 300, 600 ), array( 300, 250 ) ),
+			'dfp_ad_incontent_pos1'    => $small,
+			'dfp_ad_incontent_pos2'    => $small,
 		);
 
 		$player = array(
@@ -169,7 +174,7 @@ EOL;
 endif;
 
 if ( ! function_exists( 'ee_dfp_slot' ) ) :
-	function ee_dfp_slot( $slot, $sizes = false, $targeting = array() ) {
+	function ee_dfp_slot( $slot, $deprecated = false, $targeting = array(), $echo = true ) {
 		$network = get_option( 'dfp_network_code' );
 		$unit_id = get_option( $slot );
 		if ( empty( $network ) || empty( $unit_id ) ) {
@@ -181,6 +186,8 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			'dfp_ad_leaderboard_pos2',
 			'dfp_ad_inlist_infinite',
 			'dfp_ad_right_rail_pos1',
+			'dfp_ad_incontent_pos1',
+			'dfp_ad_incontent_pos2',
 		);
 
 		if ( ! is_array( $targeting ) ) {
@@ -191,13 +198,19 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			$targeting[] = array( 'remnant', 'yes' );
 		}
 
-		printf(
+		$html = sprintf(
 			'<div class="dfp-slot" data-network="%s" data-unit-id="%s" data-unit-name="%s" data-targeting="%s"></div>',
 			esc_attr( $network ),
 			esc_attr( $unit_id ),
 			esc_attr( $slot ),
 			esc_attr( json_encode( $targeting ) )
 		);
+
+		if ( $echo ) {
+			echo $html;
+		}
+
+		return $html;
 	}
 endif;
 
@@ -214,5 +227,34 @@ if ( ! function_exists( 'ee_display_dfp_outofpage' ) ) :
 				<script type="text/javascript">googletag.cmd.push(function() { googletag.display('div-gpt-ad-1484200509775-3'); });</script>
 			</div><?php
 		endif;
+	}
+endif;
+
+if ( ! function_exists( 'ee_the_content_with_ads' ) ) :
+	function ee_the_content_with_ads() {
+		$content = apply_filters( 'the_content', get_the_content() );
+		$content = str_replace( ']]>', ']]&gt;', $content );
+
+		$parts = explode( '</p>', $content );
+		$new_content = '';
+
+		$len = count( $parts );
+		for ( $i = 1; $i <= $len; $i++ ) {
+			$new_content .= $parts[ $i - 1 ] . '</p>';
+
+			if ( 2 == $i ) {
+				// in-content pos1 slot after first 2 paragraphs
+				$new_content .= ee_dfp_slot( 'dfp_ad_incontent_pos1', false, array(), false );
+			} elseif ( 0 == ( $i - 2 ) % 4 && $len > 6 ) {
+				// in-content pos2 slot after 4th paragraphs if we have more than 6 paragraphs on the page
+				$new_content .= ee_dfp_slot( 'dfp_ad_incontent_pos2', false, array(), false );
+			}
+		}
+
+		if ( $len < 2 ) {
+			$new_content .= ee_dfp_slot( 'dfp_ad_incontent_pos1', false, array(), false );
+		}
+
+		echo $new_content;
 	}
 endif;

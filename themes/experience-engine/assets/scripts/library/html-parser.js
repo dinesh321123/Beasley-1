@@ -158,16 +158,6 @@ export function getStateFromContent( container ) {
 			removeElement( scripts[0] );
 		}
 
-		// add in-content dfp ad slots on a single article page
-		const elements = container.querySelectorAll( '.incontent-ads' );
-		for ( let i = 0; i < elements.length; i++ ) {
-			const element = elements[i];
-			const { children } = element;
-			for ( let j = 0; j < children.length; j++ ) {
-				// do nothing for now
-			}
-		}
-
 		// MUST follow after embeds processing
 		state.content = container.innerHTML;
 	}
