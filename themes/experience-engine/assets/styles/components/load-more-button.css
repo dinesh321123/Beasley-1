@@ -12,6 +12,6 @@
 	&:hover,
 	&:focus {
 		outline: 0;
-		background-color: var(--brand-highlight);
+		text-decoration: underline;
 	}
 }
