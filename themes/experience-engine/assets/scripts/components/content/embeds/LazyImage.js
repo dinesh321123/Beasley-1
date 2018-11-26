@@ -124,6 +124,7 @@ class LazyImage extends PureComponent {
 		const self = this;
 		const { container } = self;
 		const { image } = self.state;
+		const { alt } = self.props;
 
 		if ( !container ) {
 			return false;
@@ -139,7 +140,7 @@ class LazyImage extends PureComponent {
 		}
 
 		return (
-			<div className="lazy-image" ref={self.boxRef} style={styles}>
+			<div className="lazy-image" ref={self.boxRef} style={styles} role="img" aria-label={alt}>
 				{loader}
 			</div>
 		);
@@ -152,6 +153,7 @@ LazyImage.propTypes = {
 	src: PropTypes.string.isRequired,
 	width: PropTypes.string.isRequired,
 	height: PropTypes.string.isRequired,
+	alt: PropTypes.string.isRequired,
 };
 
 export default LazyImage;

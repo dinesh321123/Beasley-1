@@ -44,6 +44,7 @@ function getLazyImageParams( element ) {
 		src: dataset.src,
 		width: dataset.width,
 		height: dataset.height,
+		alt: dataset.alt,
 	};
 }
 
