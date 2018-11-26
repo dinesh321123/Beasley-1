@@ -5,6 +5,7 @@
 @import 'base/typography';
 @import 'base/buttons';
 @import 'base/container';
+@import 'base/post-thumbnail';
 
 @import 'components/section/section-header';
 

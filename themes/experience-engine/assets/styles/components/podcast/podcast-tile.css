@@ -1,4 +1,61 @@
 .podcast-tile {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+
+	@media (--min-xlarge-viewport) {
+		flex-wrap: nowrap;
+	}
+
+	@nest .archive-tiles & {
+		flex-wrap: wrap;
+	}
+
+	&:not(:last-child) {
+		padding-bottom: 2.778rem;
+	}
+
+	& .post-thumbnail {
+		flex: 1 0 300px;
+		margin-bottom: 1rem;
+
+		@media (--min-xlarge-viewport) {
+			margin-bottom: 0;
+		}
+
+		@nest .archive-tiles & {
+			flex: 1 0 100%;
+			margin-bottom: 1rem;
+		}
+
+		& a,
+		& .lazy-image {
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	}
+
+	& .meta {
+		flex: 0 1 100%;
+
+		@media (--min-xlarge-viewport) {
+			padding-left: 2.444rem;
+		}
+
+		@nest .archive-tiles & {
+			flex: 1 0 100%;
+			padding-left: 0;
+		}
+	}
+
+	& .post-title {
+		& a {
+			color: var(--global-font-primary);
+		}
+	}
 
 	& .excerpt {
 		font-weight: 300;
