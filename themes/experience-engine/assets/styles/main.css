@@ -47,5 +47,6 @@
 @import 'components/lazy-image';
 @import 'components/videojs';
 @import 'components/dfp';
+@import 'components/load-more-button';
 
 @import 'utilities/display';
