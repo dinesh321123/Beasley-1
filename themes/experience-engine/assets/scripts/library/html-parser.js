@@ -164,6 +164,7 @@ export function getStateFromContent( container ) {
 			const element = elements[i];
 			const { children } = element;
 			for ( let j = 0; j < children.length; j++ ) {
+				// do nothing for now
 			}
 		}
 
