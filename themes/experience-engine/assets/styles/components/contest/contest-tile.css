@@ -4,7 +4,7 @@
         align-items: center;
         color: var(--global-dove-gray);
         display: flex;
-        font-size: 14px;
+        font-size: .875rem;
         font-weight: 500;
         text-transform: uppercase;
     }
