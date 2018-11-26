@@ -75,7 +75,7 @@ class PrimaryNav extends PureComponent {
 			}
 		}
 
-		if ( !window.matchMedia( '(min-width: 768px)' ).matches ) {
+		if ( !window.matchMedia( '(min-width: 768px)' ).matches && navRoot.parentNode.classList.contains( 'is-active' ) ) {
 			self.handleMobileNav();
 		}
 	}

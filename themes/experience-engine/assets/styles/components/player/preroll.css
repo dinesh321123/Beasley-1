@@ -21,13 +21,13 @@
 }
 
 .preroll-player {
-	background-color: var(--color-black);
+	background-color: var(--global-black);
 	width: 640px;
 }
 
 .preroll-notification {
-	background-color: var(--color-black);
-	color: var(--color-white);
+	background-color: var(--global-black);
+	color: var(--global-white);
 	padding: .15rem 0;
 	text-align: center;
 }

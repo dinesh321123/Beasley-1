@@ -22,7 +22,7 @@
 
 			<span class="date"><?php ee_the_date(); ?></span>
 		</p>
-		<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
+
 		<?php get_template_part( 'partials/tile/title' ); ?>
 	</div>
 
