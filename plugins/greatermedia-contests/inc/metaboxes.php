@@ -162,7 +162,7 @@ class GreaterMediaContestsMetaboxes {
 		add_meta_box(
 			'contest-settings-win',
 			'What You Win',
-			array( $this, 'contest_metaboxes' ),
+			array( $this, 'contest_win_metabox' ),
 			GMR_CONTEST_CPT,
 			'normal',
 			'high'
@@ -171,7 +171,7 @@ class GreaterMediaContestsMetaboxes {
 		add_meta_box(
 			'contest-settings-enter',
 			'How to Enter',
-			array( $this, 'contest_metaboxes' ),
+			array( $this, 'contest_enter_metabox' ),
 			GMR_CONTEST_CPT,
 			'normal',
 			'high'
@@ -180,7 +180,7 @@ class GreaterMediaContestsMetaboxes {
 		add_meta_box(
 			'contest-settings-rules',
 			'Official Contest Rules',
-			array( $this, 'contest_metaboxes' ),
+			array( $this, 'contest_rules_metabox' ),
 			GMR_CONTEST_CPT,
 			'normal',
 			'high'
@@ -189,7 +189,7 @@ class GreaterMediaContestsMetaboxes {
 		add_meta_box(
 			'contest-settings-restrictions',
 			'Restrictions',
-			array( $this, 'contest_metaboxes' ),
+			array( $this, 'contest_restrictions_metabox' ),
 			GMR_CONTEST_CPT,
 			'normal',
 			'high'
@@ -198,29 +198,10 @@ class GreaterMediaContestsMetaboxes {
 		add_meta_box( 'gallery', 'Gallery', array( $this, 'gallery_meta_box' ), GMR_CONTEST_CPT, 'side' );
 	}
 
-	public function contest_metaboxes( WP_Post $post, $args ) {
-		wp_nonce_field( 'contest_meta_boxes', '__contest_nonce' );
-
-		switch( $args['id'] ) {
-			case 'contest-settings-win':
-				$this->contest_win_metabox( $post );
-				break;
-			case 'contest-settings-enter':
-				$this->contest_enter_metabox( $post );
-				break;
-			case 'contest-settings-rules':
-				$this->contest_rules_metabox( $post );
-				break;
-			case 'contest-settings-restrictions':
-				$this->contest_restrictions_metabox( $post );
-				break;
-			default:
-				break;
-		}
-	}
-
 	public function contest_win_metabox( WP_Post $post ) {
 		$post_id = $post->ID;
+
+		wp_nonce_field( 'contest_meta_boxes', '__contest_nonce' );
 
 		wp_editor( get_post_meta( $post_id, 'prizes-desc', true ), 'greatermedia_contest_prizes' );
 	}

@@ -1,18 +1,5 @@
 (function ($) {
 	$(document).ready(function () {
-		$('#contest-settings ul.tabs a').click(function() {
-			$('#contest-settings ul.tabs li.active').removeClass('active');
-			$(this).parent().addClass('active');
-
-			$('#contest-settings div.tab.active').removeClass('active');
-			$('#contest-settings').find($(this).attr('href')).addClass('active');
-			return false;
-		});
-	});
-})(jQuery);
-
-(function ($) {
-	$(document).ready(function () {
 		$('.mis-pub-radio').each(function() {
 			var $this = $(this),
 				$switchSelect = $this.find('.radio-select'),
