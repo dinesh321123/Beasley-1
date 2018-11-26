@@ -16,7 +16,9 @@
 
 			<?php get_template_part( 'partials/featured-media' ); ?>
 
-			<?php the_content(); ?>
+			<div class="incontent-ads">
+				<?php the_content(); ?>
+			</div>
 
 			<div>
 				<?php the_category(); ?>

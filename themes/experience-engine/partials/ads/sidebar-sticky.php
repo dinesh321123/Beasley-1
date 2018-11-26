@@ -1,7 +1,6 @@
-
 <div class="ad -sticky">
 	<div class="wrapper">
 		<p class="ad-title">Advertisement</p>
-		<img src="https://placehold.it/300x600" alt="Sticky sidebar ad placeholder">
+		<?php do_action( 'dfp_tag', 'dfp_ad_right_rail_pos1' ); ?>
 	</div>
 </div>

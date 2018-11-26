@@ -3,27 +3,87 @@ import PropTypes from 'prop-types';
 
 class Dfp extends PureComponent {
 
+	constructor( props ) {
+		super( props );
+
+		const self = this;
+
+		self.slot = false;
+		self.interval = false;
+
+		self.onVisibilityChange = self.handleVisibilityChange.bind( self );
+		self.refreshSlot = self.refreshSlot.bind( self );
+	}
+
 	componentDidMount() {
 		const self = this;
+
+		self.registerSlot();
+		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
+			self.startInterval();
+			document.addEventListener( 'visibilitychange', self.onVisibilityChange );
+		}
+	}
+
+	componentWillUnmount() {
+		const self = this;
+
+		self.destroySlot();
+		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
+			self.stopInterval();
+			document.removeEventListener( 'visibilitychange', self.onVisibilityChange );
+		}
+	}
+
+	handleVisibilityChange() {
+		const self = this;
+
+		if ( 'hidden' === document.visibilityState ) {
+			self.stopInterval();
+		} else if ( !self.interval ) {
+			self.startInterval();
+		}
+	}
+
+	startInterval() {
+		const self = this;
+		self.interval = setInterval( self.refreshSlot, 20000 ); // 20 sec
+	}
+
+	stopInterval() {
+		const self = this;
+		clearInterval( self.interval );
+		self.interval = false;
+	}
+
+	registerSlot() {
+		const self = this;
 		const { placeholder, network, unitId, unitName, targeting } = self.props;
-		const { googletag } = window;
+		const { googletag, bbgiconfig } = window;
 
 		googletag.cmd.push( () => {
-			const size = window.bbgiconfig.dfp.sizes[unitName];
-			const slot = googletag.defineSlot( `/${network}/${unitId}`, size, placeholder );
+			const size = bbgiconfig.dfp.sizes[unitName];
+			const slot = googletag
+				.defineSlot( `/${network}/${unitId}`, size, placeholder )
+				.addService( googletag.pubads() );
 
 			let sizeMapping = false;
-			if ( 'dfp_ad_leaderboard_pos1' === unitName ) {
+			if ( 'dfp_ad_leaderboard_pos1' === unitName || 'dfp_ad_inlist_infinite' === unitName ) {
 				sizeMapping = googletag.sizeMapping()
-					.addSize( [1024, 200], [[970, 66], [970, 90], [728, 90]] )
-					.addSize( [768, 200], [728, 90] )
-					.addSize( [0, 0], [[320, 50], [320, 100]] )
+					.addSize( [970, 200], ['fluid', [970, 250], [970, 90], [728, 90]] )
+					.addSize( [729, 200], ['fluid', [728, 90]] )
+					.addSize( [0, 0], ['fluid', [320, 100], [320, 50]] )
 					.build();
 			} else if ( 'dfp_ad_leaderboard_pos2' === unitName ) {
 				sizeMapping = googletag.sizeMapping()
-					.addSize( [1024, 200], [[970, 90], [728, 90]] )
-					.addSize( [768, 200], [728, 90] )
-					.addSize( [0, 0], [[320, 50], [320, 100]] )
+					.addSize( [970, 200], [[970, 250], [970, 90], [728, 90]] )
+					.addSize( [729, 200], [728, 90] )
+					.addSize( [0, 0], [[320, 100], [320, 50]] )
+					.build();
+			} else if ( 'dfp_ad_right_rail_pos1' === unitName ) {
+				sizeMapping = googletag.sizeMapping()
+					.addSize( [1060, 200], [[300, 600], [300, 250]] )
+					.addSize( [0, 0], [] )
 					.build();
 			}
 
@@ -35,14 +95,22 @@ class Dfp extends PureComponent {
 				slot.setTargeting( targeting[i][0], targeting[i][1] );
 			}
 
-			slot.addService( googletag.pubads() );
 			googletag.display( slot );
 
 			self.slot = slot;
 		} );
 	}
 
-	componentWillUnmount() {
+	refreshSlot() {
+		const { slot } = this;
+		const { googletag } = window;
+
+		if ( slot ) {
+			googletag.pubads().refresh( [slot] );
+		}
+	}
+
+	destroySlot() {
 		const { slot } = this;
 		if ( slot ) {
 			const { googletag } = window;

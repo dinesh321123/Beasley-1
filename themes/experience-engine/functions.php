@@ -27,3 +27,4 @@ require_once __DIR__ . '/includes/jacapps.php';
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/emebeds.php';
 require_once __DIR__ . '/includes/dfp.php';
+require_once __DIR__ . '/includes/homepage.php';
