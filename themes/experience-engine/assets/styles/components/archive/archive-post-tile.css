@@ -1,5 +1,6 @@
 .podcast-tile,
-.show-tile {
+.show-tile,
+.contest-tile {
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;

@@ -10,6 +10,9 @@
 
 			@media (--min-medium-viewport) {
 				flex: 0 1 calc(50% - 1.5rem);
+				&.-full-width {
+					flex: 0 1 100%;
+				}
 			}
 
 			&:nth-child(odd) {
@@ -21,6 +24,25 @@
 			&:nth-child(even) {
 				@media (--min-medium-viewport) {
 					padding-left: .75rem;
+				}
+			}
+
+			&.-horizontal {
+				align-items: flex-start;
+				display: flex;
+				justify-content: space-between;
+				padding-left: 0;
+
+				& .post-thumbnail {
+					flex: 0 1 30%;
+				}
+
+				& .post-meta {
+					flex: 0 1 calc(70% - 3rem);
+				}
+
+				& .post-title h3 {
+					margin: .875rem 0;
 				}
 			}
 		}
