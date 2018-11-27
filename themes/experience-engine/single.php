@@ -18,10 +18,6 @@
 
 			<?php ee_the_content_with_ads(); ?>
 
-			<div>
-				<?php the_category(); ?>
-			</div>
-
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>
