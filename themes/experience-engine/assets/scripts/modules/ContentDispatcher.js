@@ -105,7 +105,7 @@ class ContentDispatcher extends Component {
 
 		const extraBlocks = [];
 		Object.keys( partials ).forEach( ( key ) => {
-			extraBlocks.push( <ContentBlock key={key} {...partials[key]} /> );
+			extraBlocks.push( <ContentBlock key={key} {...partials[key]} partial /> );
 		} );
 
 		return (

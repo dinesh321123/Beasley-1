@@ -74,11 +74,17 @@ if ( ! function_exists( 'ee_get_dfp_global_targeting' ) ) :
 				? untrailingslashit( current( explode( '?', $_SERVER['REQUEST_URI'], 2 ) ) ) // strip query part and trailing slash of the current uri
 				: 'home';
 
+			$genre = ee_get_publisher_information( 'genre' );
+			$genre = is_array( $genre ) ? trim( strtolower( implode( ',', $genre ) ) ) : '';
+
+			$market = ee_get_publisher_information( 'location' );
+			$market = is_string( $market ) ? trim( strtolower( $market ) ) : '';
+
 			$targeting = array(
 				array( 'cdomain', parse_url( home_url( '/' ), PHP_URL_HOST ) ),
 				array( 'cpage', $cpage ),
-				array( 'genre', trim( strtolower( implode( ',', ee_get_publisher_information( 'genre' ) ) ) ) ),
-				array( 'market', trim( strtolower( ee_get_publisher_information( 'location' ) ) ) ),
+				array( 'genre', $genre ),
+				array( 'market', $market ),
 			);
 
 			if ( is_singular() ) {

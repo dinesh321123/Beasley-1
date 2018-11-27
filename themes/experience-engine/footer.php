@@ -1,3 +1,4 @@
+					</div>
 				<?php get_template_part( 'partials/ads/footer' ); ?>
 			</main><?php
 

@@ -6,12 +6,23 @@
 	cursor: pointer;
 	font-weight: 600;
 	font-size: 1rem;
-	padding: .8rem 4rem;
+	min-width: 210px;
+	padding: .8rem 0;
+	text-align: center;
 	transition: background-color 300ms ease-in-out;
 
 	&:hover,
 	&:focus {
 		outline: 0;
 		text-decoration: underline;
+	}
+
+	& .loading {
+		min-height: 1.4rem;
+
+		&::after {
+			border-bottom-color: var(--global-white);
+			border-left-color: var(--global-white);
+		}
 	}
 }

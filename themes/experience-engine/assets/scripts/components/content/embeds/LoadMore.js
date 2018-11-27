@@ -29,15 +29,20 @@ class LoadMore extends PureComponent {
 
 	render() {
 		const self = this;
+		const { loading } = self.state;
 		const { partialKeys, placeholder } = self.props;
 		if ( -1 < partialKeys.indexOf( placeholder ) ) {
 			return false;
 		}
 
+		const label = loading ? <div className="loading" /> : 'Load More';
+
 		return (
-			<button className="load-more" onClick={self.onLoadClick}>
-				Load More
-			</button>
+			<div className="load-more-wrapper content-wrap">
+				<button className="load-more" onClick={self.onLoadClick}>
+					{label}
+				</button>
+			</div>
 		);
 	}
 

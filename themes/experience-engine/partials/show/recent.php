@@ -1,6 +1,6 @@
 <?php
 
-$query = ee_get_show_query();
+$query = \GreaterMedia\Shows\get_show_main_query( 12 );
 if ( $query->have_posts() ) :
 	if ( ee_is_first_page() ) :
 		ee_the_subtitle( 'Recent' );

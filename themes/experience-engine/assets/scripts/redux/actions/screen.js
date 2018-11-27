@@ -76,7 +76,7 @@ export function loadPartialPage( url, placeholder ) {
 		}
 
 		function onSuccess( data ) {
-			const parsed = parseHtml( data );
+			const parsed = parseHtml( data, '#inner-content' );
 			dispatch( { type: ACTION_LOADED_PARTIAL, ...parsed, placeholder } );
 		}
 

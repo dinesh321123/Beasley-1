@@ -131,7 +131,7 @@ function get_show_podcast_ids() {
  *
  * @return \WP_Query
  */
-function get_show_podcast_query() {
+function get_show_podcast_query( $per_page = 10 ) {
 	$possible_parents = get_show_podcast_ids();
 	if ( ! empty( $possible_parents ) ) {
 		$current_page = get_query_var( 'paged', 1 );
@@ -140,7 +140,7 @@ function get_show_podcast_query() {
 			'post_type'       => \GMP_CPT::EPISODE_POST_TYPE,
 			'post_parent__in' => $possible_parents,
 			'paged'           => $current_page,
-			'posts_per_page'  => get_option( 'posts_per_page', 10 ),
+			'posts_per_page'  => $per_page,
 		);
 
 		$podcast_query = new \WP_Query( $podcast_args );
@@ -156,13 +156,15 @@ function get_show_podcast_query() {
  *
  * @return \WP_Query
  */
-function get_show_video_query() {
+function get_show_video_query( $per_page = 10 ) {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 	$current_page = get_query_var( 'paged', 1 );
 
 	$video_args = array(
-		'post_type' => 'post',
-		'tax_query' => array(
+		'post_type'      => 'post',
+		'paged'          => $current_page,
+		'posts_per_page' => $per_page,
+		'tax_query'      => array(
 			'relation' => 'AND',
 			array(
 				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
@@ -175,7 +177,6 @@ function get_show_video_query() {
 				'terms'    => array( 'post-format-video' ),
 			),
 		),
-		'paged' => $current_page,
 	);
 
 	$video_query = new \WP_Query( $video_args );
@@ -188,14 +189,16 @@ function get_show_video_query() {
  *
  * @return \WP_Query
  */
-function get_show_gallery_query() {
+function get_show_gallery_query( $per_page = 10 ) {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 	$current_page = get_query_var( 'paged', 1 );
 
 	$album_args = array(
-		'post_type' => 'albums', // todo is this post type coming from migration scripts? Need to dynamically grab this post type if we can
-		'post_parent' => 0,
-		'tax_query' => array(
+		'post_type'      => 'albums', // todo is this post type coming from migration scripts? Need to dynamically grab this post type if we can
+		'post_parent'    => 0,
+		'paged'          => $current_page,
+		'posts_per_page' => $per_page,
+		'tax_query'      => array(
 			'relation' => 'AND',
 			array(
 				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
@@ -203,7 +206,6 @@ function get_show_gallery_query() {
 				'terms' => $show_term->term_taxonomy_id,
 			)
 		),
-		'paged' => $current_page,
 	);
 
 	$album_query = new \WP_Query( $album_args );
@@ -334,7 +336,7 @@ function get_show_live_links_archive_query() {
 	return $query;
 }
 
-function get_show_main_query() {
+function get_show_main_query( $per_page = 10 ) {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 	$current_page = get_query_var( 'paged' ) ?: 1;
 
@@ -346,7 +348,7 @@ function get_show_main_query() {
 	$show_args = array(
 		'post_type'      => $post_types,
 		'paged'          => $current_page,
-		'posts_per_page' => get_option( 'posts_per_page', 10 ),
+		'posts_per_page' => $per_page,
 		'tax_query'      => array(
 			'relation' => 'AND',
 			array(

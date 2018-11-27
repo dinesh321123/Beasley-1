@@ -166,11 +166,11 @@ export function getStateFromContent( container ) {
 	return state;
 }
 
-export function parseHtml( html ) {
+export function parseHtml( html, selector = '#content' ) {
 	const parser = new DOMParser();
 
 	const pageDocument = parser.parseFromString( html, 'text/html' );
-	const content = pageDocument.querySelector( '#content' );
+	const content = pageDocument.querySelector( selector );
 
 	const state = getStateFromContent( content );
 	state.document = pageDocument;

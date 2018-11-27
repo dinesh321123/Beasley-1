@@ -66,21 +66,3 @@ if ( ! function_exists( 'ee_get_show_meta' ) ) :
 		return false;
 	}
 endif;
-
-if ( ! function_exists( 'ee_get_show_query' ) ) :
-	function ee_get_show_query() {
-		return \GreaterMedia\Shows\get_show_main_query();
-	}
-endif;
-
-if ( ! function_exists( 'ee_get_show_favorites' ) ) :
-	function ee_get_show_favorites() {
-		return \GreaterMedia\Shows\get_show_favorites_query();
-	}
-endif;
-
-if ( ! function_exists( 'ee_get_show_featured' ) ) :
-	function ee_get_show_featured() {
-		return \GreaterMedia\Shows\get_show_featured_query();
-	}
-endif;

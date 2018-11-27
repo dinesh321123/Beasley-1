@@ -15,3 +15,4 @@
 		?><div class="container">
 			<main id="content" class="content">
 				<?php get_template_part( 'partials/ads/leaderboard' ); ?>
+					<div id="inner-content">
