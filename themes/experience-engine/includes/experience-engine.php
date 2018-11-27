@@ -192,7 +192,7 @@ if ( ! function_exists( 'bbgi_ee_get_publisher' ) ) :
 		}
 
 		$data = false;
-		if ( $publisher ) {
+		if ( ! empty( $publisher ) ) {
 			$data = bbgi_ee_request( "publishers/{$publisher}" );
 			if ( is_wp_error( $data ) ) {
 				$data = array();
@@ -218,12 +218,15 @@ if ( ! function_exists( 'bbgi_ee_get_publisher_feeds' ) ) :
 			$publisher = get_option( 'ee_publisher' );
 		}
 
-		$feeds = bbgi_ee_request( "publishers/{$publisher}/feeds/" );
-		if ( is_wp_error( $feeds ) ) {
-			$feeds = array();
+		$data = array();
+		if ( ! empty( $publisher ) ) {
+			$data = bbgi_ee_request( "publishers/{$publisher}/feeds/" );
+			if ( is_wp_error( $data ) ) {
+				$data = array();
+			}
 		}
 
-		return $feeds;
+		return $data;
 	}
 endif;
 
@@ -233,12 +236,15 @@ if ( ! function_exists( 'bbgi_ee_get_publisher_feeds_with_content' ) ) :
 			$publisher = get_option( 'ee_publisher' );
 		}
 
-		$content = bbgi_ee_request( "experience/channels/{$publisher}/feeds/content/" );
-		if ( is_wp_error( $content ) ) {
-			$content = array();
+		$data = array();
+		if ( ! empty( $publisher ) ) {
+			$data = bbgi_ee_request( "experience/channels/{$publisher}/feeds/content/" );
+			if ( is_wp_error( $data ) ) {
+				$data = array();
+			}
 		}
 
-		return $content;
+		return $data;
 	}
 endif;
 
@@ -253,12 +259,15 @@ if ( ! function_exists( 'bbgi_ee_get_publisher_feed' ) ) :
 			$publisher = get_option( 'ee_publisher' );
 		}
 
-		$feed = bbgi_ee_request( "publishers/{$publisher}/feeds/{$feed}" );
-		if ( is_wp_error( $feed ) ) {
-			$feed = array();
+		$data = array();
+		if ( ! empty( $data ) ) {
+			$data = bbgi_ee_request( "publishers/{$publisher}/feeds/{$feed}" );
+			if ( is_wp_error( $data ) ) {
+				$data = array();
+			}
 		}
 
-		return $feed;
+		return $data;
 	}
 endif;
 
