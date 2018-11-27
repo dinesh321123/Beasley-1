@@ -495,15 +495,15 @@
         },
         {
             "name": "wpackagist-plugin/public-post-preview",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/public-post-preview/",
-                "reference": "tags/2.7.0"
+                "reference": "tags/2.8.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/public-post-preview.2.7.0.zip",
+                "url": "https://downloads.wordpress.org/plugin/public-post-preview.2.8.0.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -535,15 +535,15 @@
         },
         {
             "name": "wpackagist-plugin/safe-redirect-manager",
-            "version": "1.9",
+            "version": "1.9.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/safe-redirect-manager/",
-                "reference": "tags/1.9"
+                "reference": "tags/1.9.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/safe-redirect-manager.1.9.zip",
+                "url": "https://downloads.wordpress.org/plugin/safe-redirect-manager.1.9.2.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -717,15 +717,15 @@
     "packages-dev": [
         {
             "name": "wpackagist-plugin/debug-bar",
-            "version": "0.9",
+            "version": "1.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/debug-bar/",
-                "reference": "tags/0.9"
+                "reference": "tags/1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/debug-bar.0.9.zip",
+                "url": "https://downloads.wordpress.org/plugin/debug-bar.1.0.zip",
                 "reference": null,
                 "shasum": null
             },
