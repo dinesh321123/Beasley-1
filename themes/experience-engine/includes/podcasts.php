@@ -168,10 +168,17 @@ endif;
 if ( ! function_exists( 'ee_update_episode_thumbnail' ) ) :
 	function ee_update_episode_thumbnail( $thumbnail_id, $post ) {
 		$episode = get_post( $post );
-		if ( is_a( $episode, '\WP_Post' ) && $episode->post_type == 'episode' && ! $thumbnail_id && $episode->post_parent ) {
-			$podcast = get_post( $episode->post_parent );
-			if ( is_a( $podcast, '\WP_Post' ) && $podcast->post_type == 'podcast' && has_post_thumbnail( $podcast ) ) {
-				$thumbnail_id = get_post_thumbnail_id( $podcast );
+		if ( is_a( $episode, '\WP_Post' ) && $episode->post_type == 'episode' ) {
+			$image = false;
+			if ( $thumbnail_id ) {
+				$image = wp_get_attachment_image_src( $thumbnail_id );
+			}
+
+			if ( ! $image && $episode->post_parent ) {
+				$podcast = get_post( $episode->post_parent );
+				if ( is_a( $podcast, '\WP_Post' ) && $podcast->post_type == 'podcast' && has_post_thumbnail( $podcast ) ) {
+					$thumbnail_id = get_post_thumbnail_id( $podcast );
+				}
 			}
 		}
 
