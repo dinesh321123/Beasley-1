@@ -38,7 +38,6 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 		$fluid = array( 'fluid' );
 		$advanced = array( array( 970, 250 ), array( 970, 90 ), array( 728, 90 ), array( 320, 100 ), array( 320, 50 ) );
 		$advanced_with_fluid = array_merge( $fluid, $advanced );
-		$small = array( array( 300, 250 ) );
 
 		$sizes = array(
 			'dfp_ad_leaderboard_pos1'  => $advanced_with_fluid,
@@ -46,8 +45,8 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'dfp_ad_inlist_infinite'   => $advanced_with_fluid,
 			'dfp_ad_playersponsorship' => $fluid,
 			'dfp_ad_right_rail_pos1'   => array( array( 300, 600 ), array( 300, 250 ) ),
-			'dfp_ad_incontent_pos1'    => $small,
-			'dfp_ad_incontent_pos2'    => $small,
+			'dfp_ad_incontent_pos1'    => array( array( 1, 1 ), array( 300, 250 ) ),
+			'dfp_ad_incontent_pos2'    => array( array( 300, 250 ) ),
 		);
 
 		$player = array(

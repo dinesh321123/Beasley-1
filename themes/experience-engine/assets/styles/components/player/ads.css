@@ -31,3 +31,7 @@
 	padding: .15rem 0;
 	text-align: center;
 }
+
+.sponsor {
+	min-width: 150px;
+}
