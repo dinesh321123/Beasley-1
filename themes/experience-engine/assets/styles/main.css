@@ -33,6 +33,8 @@
 @import 'components/show/show-navigation';
 @import 'components/show/show-tile';
 
+@import 'components/gallery/listicle';
+
 @import 'components/contest/contest-tile';
 
 @import 'components/podcast/podcast-tile';

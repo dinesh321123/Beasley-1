@@ -1,0 +1,38 @@
+.gallery-listicle,
+.gallery-listicle-item {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.gallery-listicle-item {
+	border-bottom: 1px solid var(--global-silver);
+	margin-bottom: 2rem;
+	padding-bottom: 2rem;
+
+	& .placeholder-dfp {
+		margin-top: 1rem;
+	}
+
+	& .placeholder-lazyimage {
+		padding-top: 75%;
+		position: relative;
+	}
+
+	& .lazy-image {
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	& h4,
+	& p {
+		margin: 0;
+	}
+
+	& h3 {
+		margin: .5rem 0;
+	}
+}
