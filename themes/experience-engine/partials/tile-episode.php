@@ -7,6 +7,8 @@
 	<?php endif; ?>
 
 	<div class="meta">
+		<?php get_template_part( 'partials/tile/title' ); ?>
+
 		<div class="episode-meta">
 			<?php if ( ( $duration = ee_get_episode_meta( null, 'duration' ) ) ) : ?>
 				<span class="duration">
@@ -21,9 +23,9 @@
 			<?php get_template_part( 'partials/episode/download' ); ?>
 
 			<span class="date"><?php ee_the_date(); ?></span>
-		</div>
 
-		<?php get_template_part( 'partials/tile/title' ); ?>
+			<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
+		</div>
 	</div>
 
 	<p class="type">

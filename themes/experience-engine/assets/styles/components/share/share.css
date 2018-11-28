@@ -1,0 +1,37 @@
+.share {
+	align-items: center;
+	color: #8f8f8f;
+	display: flex;
+	font-size: .778rem;
+
+	& button {
+		background: transparent;
+		border: none;
+		border-radius: 2px;
+		cursor: pointer;
+		height: 30px;
+		line-height: 1;
+		padding: .389rem 1.222rem;
+		width: 52px;
+
+		&:first-of-type {
+			margin-left: 1.445rem;
+		}
+
+		&:not(:first-of-type) {
+			margin-left: .667rem;
+		}
+	}
+
+	& svg {
+		fill: var(--global-white);
+	}
+
+	& .facebook {
+		background-color: #3F5C94;
+	}
+
+	& .twitter {
+		background-color: #2BAEE8;
+	}
+}

@@ -3,6 +3,23 @@
 	display: flex;
 	padding-bottom: 3.05rem;
 
+	&:hover {
+		& .meta [class*="share"] {
+			@media (--min-medium-viewport) {
+				display: inline-flex;
+			}
+		}
+	}
+
+	& .post-thumbnail {
+		display: flex;
+		justify-content: flex-start;
+	}
+
+	& .post-title h3 {
+		margin-bottom: .278rem;
+	}
+
 	& .status {
 		& button {
 			background-color: transparent;
@@ -14,6 +31,7 @@
 	}
 
 	& .meta {
+		color: var(--global-dove-gray);
 		padding-left: 1rem;
 
 		@media (--min-small-viewport) {
@@ -32,19 +50,29 @@
 		& .duration {
 			font-size: .833rem;
 			font-weight: 600;
+
+			& svg {
+				transform: translateY(.08rem); /* visually center icon */
+			}
 		}
 
 		& .date {
 			font-size: .778rem;
 			font-weight: 100;
-			padding-left: 1.444rem;
+			padding-left: 1.278rem;
 		}
 
 		& .download {
 			color: var(--brand-primary);
 			display: inline;
 			font-size: .778rem;
-			padding-left: 1.444rem;
+			padding-left: 1.278rem;
+		}
+
+		& [class*="share"] {
+			display: none;
+			padding-left: 1.278rem;
+			position: absolute;
 		}
 	}
 }

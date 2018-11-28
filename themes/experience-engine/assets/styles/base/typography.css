@@ -43,15 +43,22 @@ h6 {
 	font-weight: 600;
 }
 
-
 h1 {
-	font-size: 2.78rem;
+	font-size: 1.778rem;
 	line-height: 1.28;
+
+	@media (--min-medium-viewport) {
+		font-size: 2.78rem;
+	}
 }
 
 h2 {
-	font-size: 1.8889rem;
+	font-size: 1.778rem;
 	line-height: 1.353;
+
+	@media (--min-medium-viewport) {
+		font-size: 1.889rem;
+	}
 }
 
 h3 {
@@ -60,8 +67,12 @@ h3 {
 }
 
 h4 {
-	font-size: 1.2222222rem;
+	font-size: .889rem;
 	line-height: 1.3636;
+
+	@media (--min-medium-viewport) {
+		font-size: 1.2222222rem;
+	}
 }
 
 h5 {

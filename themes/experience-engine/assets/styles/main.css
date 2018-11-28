@@ -38,6 +38,8 @@
 
 @import 'components/gallery/listicle';
 
+@import 'components/share/share';
+
 @import 'components/contest/contest-tile';
 
 @import 'components/podcast/podcast-tile';
