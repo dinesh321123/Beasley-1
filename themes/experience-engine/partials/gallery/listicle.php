@@ -26,7 +26,7 @@ $ads_interval = filter_var( get_field( 'images_per_ad', $current_gallery ), FILT
 	'default'   => 3,
 ) ) );
 
-$april15th = strtotime( '2018-04-15' );
+$current_gallery_url = trailingslashit( get_permalink( $current_gallery->ID ) );
 $current_image_slug = get_query_var( 'view' );
 
 echo '<ul class="gallery-listicle">';
@@ -37,15 +37,32 @@ echo '<ul class="gallery-listicle">';
 			continue;
 		endif;
 
+		$title = get_the_title( $image );
+
 		echo '<li class="gallery-listicle-item">';
 			echo $image_html;
 
 			echo '<div>';
-				echo '<h3>', esc_html( get_the_title( $image ) ), '</h3>';
-
+				echo '<h3>', esc_html( $title ), '</h3>';
 				$attribution = trim( get_post_meta( $image->ID, 'gmr_image_attribution', true ) );
 				if ( ! empty( $attribution ) ) :
 					echo '<h4>', esc_html( $attribution ), '</h4>';
+				endif;
+
+				if ( $sponsored_image != $image->ID ) :
+					if ( ! get_field( 'hide_download_link', $current_gallery ) ) :
+						echo '<p>';
+							echo '<a href="', esc_url( wp_get_attachment_image_url( $image->ID, 'full' ) ), '" class="-download" download target="_blank" rel="noopener">download</a>';
+						echo '</p>';
+					endif;
+
+					if ( ! get_field( 'hide_social_share', $current_gallery ) ) :
+						$url = get_field( 'share_photos', $current_gallery )
+							? $current_gallery_url . 'view/' . urlencode( $image->post_name ) . '/'
+							: $current_gallery_url;
+
+						ee_the_share_buttons( $url, $title );
+					endif;
 				endif;
 
 				echo '<p>', get_the_excerpt( $image ), '</p>';
