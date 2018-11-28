@@ -7,7 +7,7 @@
 	<?php endif; ?>
 
 	<div class="meta">
-		<p>
+		<div>
 			<?php if ( ( $duration = ee_get_episode_meta( null, 'duration' ) ) ) : ?>
 				<span class="duration">
 					<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none">
@@ -21,7 +21,7 @@
 			<?php get_template_part( 'partials/episode/download' ); ?>
 
 			<span class="date"><?php ee_the_date(); ?></span>
-		</p>
+		</div>
 
 		<?php get_template_part( 'partials/tile/title' ); ?>
 	</div>
