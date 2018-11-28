@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function Controls( { status, play, pause, resume } ) {
 	return (
-		<div className={`status ${status}`}>
+		<div className={`live-player-status status ${status}`}>
 			<button type="button" className="play-btn" onClick={play} aria-label="Play">
 				<svg viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg">
 					<path d="M16.1836 12.0055L0.910156 23.124L0.910156 0.887031L16.1836 12.0055Z" />

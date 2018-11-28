@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import ContactIcon from '../icons/ContactIcon';
 
 class Contacts extends PureComponent {
 
@@ -32,11 +33,11 @@ class Contacts extends PureComponent {
 			const image = picture && picture.large && picture.large.url ? picture.large.url : false;
 
 			contacts = (
-				<div>
-					<img src={image} alt={title} />
-					<a href={`tel:${phone}`}>{phone}</a>
-					<a href={`mailto:${email}`}>{email}</a>
-					<span>{address}</span>
+				<div className="live-player-modal">
+					<p className="live-player-modal-image"><img src={image} alt={title} /></p>
+					<p className="live-player-modal-text"><a href={`tel:${phone}`}><strong>{phone}</strong></a></p>
+					<p className="live-player-modal-text"><a href={`mailto:${email}`}><strong>{email}</strong></a></p>
+					<p className="live-player-modal-text">{address}</p>
 				</div>
 			);
 		}
@@ -44,7 +45,11 @@ class Contacts extends PureComponent {
 		return (
 			<Fragment>
 				{contacts}
-				<button onClick={self.onToggle}>Contacts</button>
+				<div className="live-player-contacts -center -section">
+					<button className="live-player-control-button -icon-highlight" onClick={self.onToggle}>
+						<ContactIcon />
+					</button>
+				</div>
 			</Fragment>
 		);
 	}

@@ -50,9 +50,14 @@ function Info( { station, streams, status, cuePoint } ) {
 	const stream = streams.find( item => item.stream_call_letters === station );
 
 	return (
-		<div>
-			<b>{stream ? stream.title : station}</b>
-			<div>{info}</div>
+		<div className="live-player-info">
+			<div className="live-player-info-meta">
+				<strong>
+					{stream ? stream.title : station}
+					<span className="live-player-info-live">{'Live'}</span>
+				</strong>
+				<span>{info}</span>
+			</div>
 		</div>
 	);
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import RecentIcon from '../icons/recentIcon';
 
 const RecentSongs = ( { songs } ) => {
-	if ( !Array.isArray( songs ) || !songs.length ) {
+	/* if ( !Array.isArray( songs ) || !songs.length ) {
 		return false;
-	}
+	} */
 
 	const items = songs.map( ( song ) => {
 		let time = false;
@@ -30,11 +31,13 @@ const RecentSongs = ( { songs } ) => {
 	} );
 
 	return (
-		<div>
-			<div>Recent Songs:</div>
-			<ul>
-				{items}
-			</ul>
+		<div className="live-player-recents">
+			<button className="live-player-control-button">
+				<RecentIcon />
+			</button>
+
+			{ items && items }
+			
 		</div>
 	);
 };
