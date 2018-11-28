@@ -17,9 +17,11 @@
 	& .placeholder-lazyimage {
 		padding-top: 75%;
 		position: relative;
+		background-color: var(--global-mercury);
 	}
 
 	& .lazy-image {
+		background-size: contain;
 		bottom: 0;
 		left: 0;
 		position: absolute;
