@@ -10,7 +10,6 @@ echo '<div class="', join( ' ', get_post_class() ), '">';
 			get_template_part( 'partials/show/header' );
 			get_template_part( 'partials/show/featured' );
 			get_template_part( 'partials/show/favorites' );
-			do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
 		endif;
 
 		get_template_part( 'partials/show/recent' );
