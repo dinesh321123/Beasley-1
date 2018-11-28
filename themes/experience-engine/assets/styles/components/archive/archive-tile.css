@@ -8,6 +8,10 @@
 		}
 	}
 
+	& .type {
+		display: none;
+	}
+
 	&.-grid {
 		align-items: flex-start;
 		display: flex;
