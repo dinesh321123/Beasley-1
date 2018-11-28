@@ -59,9 +59,9 @@
 			right: 0;
 			top: 0;
 		}
-    }
-    
-    & .post-title {
+	}
+
+	& .post-title {
 		& a {
 			color: var(--global-font-primary);
 		}

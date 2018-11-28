@@ -8,23 +8,3 @@
 		}
 	}
 }
-
-.single-show {
-	& .archive-tiles {
-		& .type-episode {
-			& .post-title {
-				& h3 {
-					margin: 0;
-
-					&::after {
-						color: var(--global-theme-primary);
-						content: "[i] podcast";
-						display: block;
-						font-size: 1rem;
-						font-weight: 100;
-					}
-				}
-			}
-		}
-	}
-}

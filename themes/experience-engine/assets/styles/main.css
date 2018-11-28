@@ -21,6 +21,9 @@
 @import 'components/archive/archive-post-tile';
 @import 'components/archive/tile-episode';
 @import 'components/archive/tile-gmr_gallery';
+@import 'components/archive/tile-tribe_events';
+@import 'components/archive/tile-contest';
+@import 'components/archive/tile-video';
 
 @import 'components/player/ads';
 @import 'components/player/controls';

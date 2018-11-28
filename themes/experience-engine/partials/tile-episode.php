@@ -7,7 +7,7 @@
 	<?php endif; ?>
 
 	<div class="meta">
-		<p>
+		<p class="episode-meta">
 			<?php if ( ( $duration = ee_get_episode_meta( null, 'duration' ) ) ) : ?>
 				<span class="duration">
 					<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none">

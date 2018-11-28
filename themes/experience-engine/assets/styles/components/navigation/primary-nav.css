@@ -88,7 +88,7 @@
 
 		&:before {
 			background-color: var(--brand-primary);
-			content: '';
+			content: "";
 			height: 100%;
 			left: 0;
 			max-height: 25px;

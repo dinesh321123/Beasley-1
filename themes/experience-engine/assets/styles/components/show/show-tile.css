@@ -1,7 +1,7 @@
 .show-tile {
-    & .timeslot {
-        font-size: 1rem;
-        color: var(--global-font-secondary);
-        font-weight: 500;
-    }
+	& .timeslot {
+		font-size: 1rem;
+		color: var(--global-font-secondary);
+		font-weight: 500;
+	}
 }
