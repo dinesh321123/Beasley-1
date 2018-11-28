@@ -3,6 +3,13 @@
 	<head <?php language_attributes(); ?>>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			:root {
+				--brand-primary: #ff0000;
+				--brand-secondary: #ffe964;
+				--brand-tertiary: #ffffff;
+			}
+		</style>
 		<?php wp_head(); ?>
 	</head>
 	<body <?php body_class(); ?><?php ee_the_bbgiconfig_attribute(); ?>><?php

@@ -61,6 +61,7 @@ const coreConfig = ( options = {} ) => ( {
 
 								// https://github.com/csstools/postcss-preset-env#usage
 								const envOptions = {
+									// importFrom: 'assets/styles/global/variables.css',
 									features: {
 										'nesting-rules': true,
 									},
@@ -68,9 +69,9 @@ const coreConfig = ( options = {} ) => ( {
 
 								return [
 									require( 'postcss-import' )( importOptions ),
+									// require( 'postcss-svg' )( { importFrom: 'assets/styles/global/variables.css' } ),
 									require( 'postcss-preset-env' )( envOptions ),
 									require( 'postcss-custom-media' )(),
-									require( 'postcss-svg' )(),
 									...( plugins || [] ),
 								];
 							},
