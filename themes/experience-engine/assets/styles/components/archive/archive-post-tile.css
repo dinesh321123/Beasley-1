@@ -5,6 +5,10 @@
 	display: flex;
 	flex-wrap: wrap;
 
+	& .type {
+		display: none;
+	}
+
 	& .meta {
 		flex: 0 1 100%;
 

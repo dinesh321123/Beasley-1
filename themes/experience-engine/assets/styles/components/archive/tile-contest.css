@@ -1,8 +1,0 @@
-.single-show {
-	& .archive-tiles {
-		& .type-contest h3::after {
-			/* background-image: url("../../../images/contests.svg" param(--color, var(--brand-primary)));
-			content: 'contest'; */
-		}
-	}
-}
