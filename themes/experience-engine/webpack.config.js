@@ -83,6 +83,9 @@ const coreConfig = ( options = {} ) => ( {
 		new MiniCssExtractPlugin(),
 
 		new CopyWebpackPlugin( [
+			// core-js
+			'node_modules/core-js/client/core.min.js',
+
 			// video.js
 			'node_modules/video.js/dist/video-js.min.css',
 			'node_modules/video.js/dist/video.min.js',

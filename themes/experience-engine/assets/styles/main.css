@@ -32,9 +32,9 @@
 @import 'components/show/show-navigation';
 @import 'components/show/show-tile';
 
-@import 'components/gallery/listicle';
-
 @import 'components/share/share';
+
+@import 'components/gallery/listicle';
 
 @import 'components/contest/contest-tile';
 
@@ -53,6 +53,5 @@
 @import 'components/lazy-image';
 @import 'components/videojs';
 @import 'components/load-more-button';
-@import 'components/social-share';
 
 @import 'utilities/display';

@@ -36,7 +36,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		/**
 		 * Polyfills
 		 */
-		wp_register_script( 'es6-promise', '//cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js', null, null );
+		wp_register_script( 'es6-promise', "{$base}/bundle/core.min.js", null, null );
 		wp_script_add_data( 'es6-promise', 'conditional', 'lte IE 11' );
 
 		/**

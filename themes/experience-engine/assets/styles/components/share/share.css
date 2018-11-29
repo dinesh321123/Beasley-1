@@ -28,10 +28,18 @@
 	}
 
 	& .facebook {
-		background-color: #3F5C94;
+		background-color: rgb(63, 92, 148);
+
+		&:hover {
+			background-color: rgba(63, 92, 148, .9);
+		}
 	}
 
 	& .twitter {
-		background-color: #2BAEE8;
+		background-color: rgb(43, 174, 232);
+
+		&:hover {
+			background-color: rgba(43, 174, 232, .9);
+		}
 	}
 }
