@@ -39,7 +39,7 @@ echo '<ul class="gallery-listicle">';
 
 		$title = get_the_title( $image );
 
-		echo '<li class="gallery-listicle-item">';
+		echo '<li class="gallery-listicle-item', $current_image_slug == $image->post_name ? ' scroll-to' : '', '">';
 			echo $image_html;
 
 			echo '<div>';

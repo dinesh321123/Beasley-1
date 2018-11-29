@@ -1,3 +1,5 @@
+<?php ee_setup_gallery_view_metadata(); // must be called before get_header(); ?>
+
 <?php get_header(); ?>
 
 <?php the_post(); ?>
