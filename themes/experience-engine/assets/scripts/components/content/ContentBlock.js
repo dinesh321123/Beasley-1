@@ -9,6 +9,7 @@ import LazyImage from './embeds/LazyImage';
 import Share from './embeds/Share';
 import LoadMore from './embeds/LoadMore';
 import Video from './embeds/Video';
+import EmbedVideo from './embeds/EmbedVideo';
 import Dfp from './embeds/Dfp';
 
 const mapping = {
@@ -18,6 +19,7 @@ const mapping = {
 	share: Share,
 	loadmore: LoadMore,
 	video: Video,
+	embedvideo: EmbedVideo,
 	dfp: Dfp,
 };
 

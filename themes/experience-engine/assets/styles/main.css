@@ -50,7 +50,7 @@
 @import 'components/nprogress';
 @import 'components/modal';
 @import 'components/loading';
-@import 'components/lazy-image';
+@import 'components/lazyload';
 @import 'components/videojs';
 @import 'components/load-more-button';
 

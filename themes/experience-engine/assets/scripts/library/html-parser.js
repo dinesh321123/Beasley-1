@@ -37,9 +37,7 @@ function getOmnyEmbedParams( element ) {
 	};
 }
 
-function getLazyImageParams( element ) {
-	const { dataset } = element;
-
+function getLazyImageParams( { dataset } ) {
 	return {
 		src: dataset.src,
 		width: dataset.width,
@@ -48,9 +46,7 @@ function getLazyImageParams( element ) {
 	};
 }
 
-function getShareParams( element ) {
-	const { dataset } = element;
-
+function getShareParams( { dataset } ) {
 	return {
 		url: dataset.url,
 		title: dataset.title,
@@ -76,8 +72,15 @@ function getLiveStreamVideoParams( element ) {
 	return attrs;
 }
 
-function getDfpParams( element ) {
-	const { dataset } = element;
+function getEmbedVideoParams( { dataset } ) {
+	return {
+		title: dataset.title,
+		thumbnail: dataset.thumbnail,
+		html: dataset.html,
+	};
+}
+
+function getDfpParams( { dataset } ) {
 	const { targeting } = dataset;
 
 	let keyvalues = [];
@@ -144,6 +147,7 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'share', '.share-buttons', getShareParams ),
 			...processEmbeds( container, 'loadmore', '.load-more', getLoadMoreParams ),
 			...processEmbeds( container, 'video', '.livestream', getLiveStreamVideoParams ),
+			...processEmbeds( container, 'embedvideo', '.youtube', getEmbedVideoParams ),
 		];
 
 		// extract <script> tags
