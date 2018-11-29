@@ -90,7 +90,17 @@ endif;
 
 if ( ! function_exists( 'ee_the_bbgiconfig_attribute' ) ) :
 	function ee_the_bbgiconfig_attribute() {
-		printf( ' data-bbgiconfig="%s"', esc_attr( json_encode( apply_filters( 'bbgiconfig', array() ) ) ) );
+		$theme = get_theme_mod( 'ee_theme_version', '-dark' );
+		$theme = sanitize_html_class( $theme );
+		$themeData = array (
+			'theme' => $theme,
+			'brand' => array (
+				'primary'   => '#ff0000',
+				'secondary' => '#ffe964',
+				'tertiary'  => '#ffffff',
+			),
+		);
+		printf( ' data-bbgiconfig="%s"', esc_attr( json_encode( apply_filters( 'bbgiconfig', array( 'themeData' => $themeData ) ) ) ) );
 	}
 endif;
 

@@ -12,24 +12,19 @@
 	--global-font-family-primary: 'Libre Franklin', sans-serif;
 	--global-font-primary: #202124;
 	--global-font-secondary: #8f8f8f;
-}
 
-.-dark {
-	--global-theme-primary: #1a1a1a;
-	--global-theme-secondary: #282828;
-
-	--global-theme-font-primary: var(--global-white);
-	--global-theme-font-secondary: #a5a5a5;
-	--global-theme-font-tertiary: var(--global-dove-gray);
-}
-
-.-light {
+	/* Light is default theme */
 	--global-theme-primary: #f1f1f1;
 	--global-theme-secondary: #fcfcfc;
 
 	--global-theme-font-primary: #444444;
 	--global-theme-font-secondary: var(--global-font-primary);
 	--global-theme-font-tertiary: var(--global-dove-gray);
+
+	/* Set default brand colors */
+	--brand-primary: red;
+	--brand-secondaary: green;
+	--brand-tertiary: blue;
 }
 
 @custom-media --min-xlarge-viewport (min-width: 1060px);
