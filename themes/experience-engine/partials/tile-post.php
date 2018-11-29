@@ -1,7 +1,9 @@
 <?php
-	$is_video = in_array( 'format-video', get_post_class() ) || in_array( 'has-featured-video', get_post_class() );
-?>
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+
+$classes = get_post_class();
+$is_video = in_array( 'format-video', $classes ) || in_array( 'has-featured-video', $classes );
+
+?><div id="post-<?php the_ID(); ?>" class="<?php echo esc_attr( join( ' ', $classes ) ) ?>">
 	<?php get_template_part( 'partials/tile/thumbnail' ); ?>
 	<?php get_template_part( 'partials/tile/title' ); ?>
 

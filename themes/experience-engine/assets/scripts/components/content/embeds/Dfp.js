@@ -1,6 +1,8 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import { isInViewport } from '../../../library/dom';
+
 class Dfp extends PureComponent {
 
 	constructor( props ) {
@@ -10,15 +12,22 @@ class Dfp extends PureComponent {
 
 		self.slot = false;
 		self.interval = false;
+		self.displayed = false;
 
 		self.onVisibilityChange = self.handleVisibilityChange.bind( self );
 		self.refreshSlot = self.refreshSlot.bind( self );
+		self.tryDisplaySlot = self.tryDisplaySlot.bind( self );
 	}
 
 	componentDidMount() {
 		const self = this;
 
+		window.addEventListener( 'scroll', self.tryDisplaySlot, true );
+		window.addEventListener( 'resize', self.tryDisplaySlot );
+
 		self.registerSlot();
+		self.tryDisplaySlot();
+
 		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
 			self.startInterval();
 			document.addEventListener( 'visibilitychange', self.onVisibilityChange );
@@ -28,11 +37,19 @@ class Dfp extends PureComponent {
 	componentWillUnmount() {
 		const self = this;
 
+		self.removeListeners();
 		self.destroySlot();
+
 		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
 			self.stopInterval();
 			document.removeEventListener( 'visibilitychange', self.onVisibilityChange );
 		}
+	}
+
+	removeListeners() {
+		const self = this;
+		window.removeEventListener( 'scroll', self.tryDisplaySlot, true );
+		window.removeEventListener( 'resize', self.tryDisplaySlot );
 	}
 
 	handleVisibilityChange() {
@@ -95,17 +112,15 @@ class Dfp extends PureComponent {
 				slot.setTargeting( targeting[i][0], targeting[i][1] );
 			}
 
-			googletag.display( slot );
-
 			self.slot = slot;
 		} );
 	}
 
 	refreshSlot() {
-		const { slot } = this;
+		const { slot, displayd } = this;
 		const { googletag } = window;
 
-		if ( slot ) {
+		if ( slot && displayd ) {
 			googletag.pubads().refresh( [slot] );
 		}
 	}
@@ -116,6 +131,22 @@ class Dfp extends PureComponent {
 			const { googletag } = window;
 			googletag.destroySlots( [slot] );
 		}
+	}
+
+	tryDisplaySlot() {
+		window.requestAnimationFrame( () => {
+			const self = this;
+			const { placeholder } = self.props;
+			const container = document.getElementById( placeholder );
+			const { googletag } = window;
+
+			if ( self.slot && isInViewport( container, 0, 100 ) ) {
+				self.removeListeners();
+				googletag.cmd.push( () => {
+					googletag.display( self.slot );
+				} );
+			}
+		} );
 	}
 
 	render() {
