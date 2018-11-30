@@ -62,7 +62,7 @@
 			border-style: solid;
 			border-width: 15px 0 15px 26px;
 			border-color: transparent;
-			border-left-color: #fff;
+			border-left-color: var(--global-white);
 			box-sizing: border-box;
 			content: "";
 			display: block;
