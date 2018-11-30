@@ -1,6 +1,7 @@
 <?php
 
 add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts', 20 );
+add_action( 'wp_head', 'ee_load_polyfills', 0 );
 
 add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
@@ -34,12 +35,6 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_add_inline_script( 'google-webfont', 'var WebFontConfig = ' . wp_json_encode( $webfont ), 'before' );
 		wp_script_add_data( 'google-webfont', 'async', true );
 		wp_script_add_data( 'google-webfont', 'noscript', '<link href="//fonts.googleapis.com/css?family=Libre+Franklin:300,400,500,600,700" rel="stylesheet">' );
-
-		/**
-		 * Polyfills
-		 */
-		wp_register_script( 'es6-promise', "{$base}/bundle/core.min.js", null, null );
-		wp_script_add_data( 'es6-promise', 'conditional', 'IE' );
 
 		/**
 		 * External libraries
@@ -85,6 +80,23 @@ EOL;
 		 */
 		wp_dequeue_script( 'elasticpress-facets' );
 		wp_dequeue_style( 'elasticpress-facets' );
+	}
+endif;
+
+if ( ! function_exists( 'ee_load_polyfills' ) ) :
+	function ee_load_polyfills() {
+		$base = untrailingslashit( get_template_directory_uri() );
+
+		?><script id="polyfills">
+			(function() {
+				if (!Array.prototype.find) {
+					var s = document.createElement('script');
+					s.src = '<?php echo $base; ?>/bundle/core.min.js';
+					var p = document.getElementById('polyfills')
+					p.parentNode.replaceChild(s, p);
+				}
+			})();
+		</script><?php
 	}
 endif;
 
