@@ -41,14 +41,8 @@ if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 			} );
 
 			add_filter( 'wpseo_og_og_image', function( $content ) use ( $dimension_width, $dimension_height ) {
-				if ( ! empty( $dimension_width ) ) {
-					echo '<meta property="og:image:width" content="', esc_attr( $dimension_width ), '">', "\n";
-				}
-
-				if ( ! empty( $dimension_height ) ) {
-					echo '<meta property="og:image:height" content="', esc_attr( $dimension_height ), '">', "\n";
-				}
-
+				! empty( $dimension_width )  && printf( '<meta property="og:image:width" content="%s">', esc_attr( $dimension_width ) );
+				! empty( $dimension_height ) && printf( '<meta property="og:image:height" content="%s">', esc_attr( $dimension_height ) );
 				return $content;
 			} );
 
@@ -57,12 +51,13 @@ if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 			} );
 		endif;
 
-		add_filter( 'wpseo_canonical', function() use ( $view, $current_gallery ) {
-			return sprintf(
-				'%s/view/%s/',
-				untrailingslashit( get_permalink( $current_gallery->ID ) ),
-				urlencode( $view )
-			);
-		} );
+		$permalink = untrailingslashit( get_permalink( $current_gallery->ID ) );
+		$new_url = sprintf( '%s/view/%s/', $permalink, urlencode( $view ) );
+		$replace_url = function() use ( $new_url ) {
+			return $new_url;
+		};
+
+		add_filter( 'wpseo_og_og_url', $replace_url );
+		add_filter( 'wpseo_canonical', $replace_url );
 	}
 endif;
