@@ -92,6 +92,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig_attribute' ) ) :
 	function ee_the_bbgiconfig_attribute() {
 		$theme = get_theme_mod( 'ee_theme_version', '-dark' );
 		$theme = sanitize_html_class( $theme );
+
 		$themeData = array (
 			'theme' => $theme,
 			'brand' => array (
@@ -100,7 +101,12 @@ if ( ! function_exists( 'ee_the_bbgiconfig_attribute' ) ) :
 				'tertiary'  => '#ffffff',
 			),
 		);
-		printf( ' data-bbgiconfig="%s"', esc_attr( json_encode( apply_filters( 'bbgiconfig', array( 'themeData' => $themeData ) ) ) ) );
+
+		$config = array(
+			'themeData' => $themeData,
+		);
+
+		printf( ' data-bbgiconfig="%s"', esc_attr( json_encode( apply_filters( 'bbgiconfig', $config ) ) ) );
 	}
 endif;
 

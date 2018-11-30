@@ -1,8 +1,8 @@
 <?php
 
-namespace Beasley\Integration;
+namespace Bbgi\Integration;
 
-class Google extends \Beasley\Module {
+class Google extends \Bbgi\Module {
 
 	const OPTION_GTM       = 'beasley_google_tag_manager';
 	const OPTION_UA        = 'gmr_google_analytics';
