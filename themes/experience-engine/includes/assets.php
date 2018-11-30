@@ -72,7 +72,7 @@ try {
 }
 EOL;
 
-		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'googletag', 'embedly-player.js', 'td-sdk', 'es6-promise' ), GREATERMEDIA_VERSION, true );
+		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'googletag', 'embedly-player.js', 'td-sdk' ), GREATERMEDIA_VERSION, true );
 		wp_add_inline_script( 'ee-app', $bbgiconfig, 'before' );
 
 		/**
