@@ -25,7 +25,6 @@ class Dfp extends PureComponent {
 		window.addEventListener( 'scroll', self.tryDisplaySlot, true );
 		window.addEventListener( 'resize', self.tryDisplaySlot );
 
-		self.registerSlot();
 		self.tryDisplaySlot();
 
 		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
@@ -112,6 +111,8 @@ class Dfp extends PureComponent {
 				slot.setTargeting( targeting[i][0], targeting[i][1] );
 			}
 
+			googletag.display( slot );
+
 			self.slot = slot;
 		} );
 	}
@@ -129,7 +130,10 @@ class Dfp extends PureComponent {
 		const { slot } = this;
 		if ( slot ) {
 			const { googletag } = window;
-			googletag.destroySlots( [slot] );
+
+			googletag.cmd.push( () => {
+				googletag.destroySlots( [slot] );
+			} );
 		}
 	}
 
@@ -138,13 +142,10 @@ class Dfp extends PureComponent {
 			const self = this;
 			const { placeholder } = self.props;
 			const container = document.getElementById( placeholder );
-			const { googletag } = window;
 
-			if ( self.slot && isInViewport( container, 0, 100 ) ) {
+			if ( !self.slot && isInViewport( container, 0, 100 ) ) {
 				self.removeListeners();
-				googletag.cmd.push( () => {
-					googletag.display( self.slot );
-				} );
+				self.registerSlot();
 			}
 		} );
 	}
