@@ -1,11 +1,11 @@
 <div id="post-<?php the_ID(); ?>" <?php post_class( 'podcast-tile' ); ?>>
 	<?php get_template_part( 'partials/tile/thumbnail' ); ?>
 	<div class="meta">
-		<?php get_template_part( 'partials/tile/title' ); ?>
+		<?php get_template_part( 'partials/tile/title' ); ?> <?php //Podcast tile title must remain within meta to ensure layout is properly set on single episode page ?>
 
-		<div class="excerpt">
+		<?php if( get_the_excerpt() ): ?><div class="excerpt">
 			<?php the_excerpt(); ?>
-		</div><?php
+		</div><?php endif;
 
 		if ( ! ee_is_jacapps() ) :
 			ee_the_latest_episode();

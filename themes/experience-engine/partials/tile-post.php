@@ -1,6 +1,6 @@
 <?php
 
-$classes = get_post_class();
+$classes = get_post_class( 'post-tile' );
 $is_video = in_array( 'format-video', $classes ) || in_array( 'has-featured-video', $classes );
 
 ?><div id="post-<?php the_ID(); ?>" class="<?php echo esc_attr( join( ' ', $classes ) ) ?>">

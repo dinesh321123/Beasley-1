@@ -7,7 +7,7 @@ if ( ee_is_first_page() ):
 endif;
 
 if ( have_posts() ) :
-	echo '<div class="archive-tiles -grid content-wrap">';
+	echo '<div class="archive-tiles -grid -large content-wrap">';
 		while ( have_posts() ) :
 			the_post();
 			get_template_part( 'partials/tile', get_post_type() );
