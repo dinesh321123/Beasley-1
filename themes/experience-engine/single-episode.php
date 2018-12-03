@@ -25,9 +25,7 @@
 		?>
 			<h1>
 				<span><?php the_title(); ?></span>
-				<?php if ( ( $download = ee_get_episode_meta( null, 'download' ) ) ) : ?>
-					<a class="btn -empty" href="<?php echo esc_url( $download ); ?>" target="_blank" rel="noopener">Download</a>
-				<?php endif; ?>
+				<?php ee_the_episode_download(); ?>
 			</h1>
 		</div>
 
@@ -36,10 +34,8 @@
 				<span class="duration"><?php echo esc_html( $duration ); ?></span>
 			<?php endif; ?>
 
-			<?php get_template_part( 'partials/episode/download' ); ?>
-
+			<?php ee_the_episode_download( 'download -nobor' ); ?>
 			<span class="date"><?php ee_the_date(); ?></span>
-
 			<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
 		</div>
 	</div>

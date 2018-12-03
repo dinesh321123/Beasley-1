@@ -20,10 +20,8 @@
 				</span>
 			<?php endif; ?>
 
-			<?php get_template_part( 'partials/episode/download' ); ?>
-
+			<?php ee_the_episode_download( 'download -nobor' ); ?>
 			<span class="date"><?php ee_the_date(); ?></span>
-
 			<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
 		</div>
 	</div>
