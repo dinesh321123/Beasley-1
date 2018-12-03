@@ -50,7 +50,13 @@ class Countdown extends Component {
 		const hours = Math.floor( total / HOUR_IN_MILLISECONDS ) % 24;
 		const days = Math.floor( total / DAY_IN_MILLISECONDS );
 
-		const remaining = { days, hours, minutes, seconds };
+		const remaining = {
+			days: 0 < days ? days : 0,
+			hours: 0 < hours ? hours : 0,
+			minutes: 0 < minutes ? minutes : 0,
+			seconds: 0 < seconds ? seconds : 0,
+		};
+
 		if ( updateState ) {
 			self.setState( remaining );
 		}

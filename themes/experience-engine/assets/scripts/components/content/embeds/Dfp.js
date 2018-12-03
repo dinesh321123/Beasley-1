@@ -77,6 +77,10 @@ class Dfp extends PureComponent {
 		const { placeholder, network, unitId, unitName, targeting } = self.props;
 		const { googletag, bbgiconfig } = window;
 
+		if ( !unitId ) {
+			return;
+		}
+
 		googletag.cmd.push( () => {
 			const size = bbgiconfig.dfp.sizes[unitName];
 			const slot = googletag
