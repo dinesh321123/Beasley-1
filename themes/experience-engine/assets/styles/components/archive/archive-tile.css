@@ -27,22 +27,22 @@
 				}
 			}
 
-			&:nth-child(odd) {
-				@media (--min-medium-viewport) {
-					padding-right: .75rem;
-				}
-			}
-
-			&:nth-child(even) {
-				@media (--min-medium-viewport) {
-					padding-left: .75rem;
-				}
-			}
-
 			&.-horizontal {
 				align-items: flex-start;
 				display: flex;
 				padding-left: 0;
+
+				&:nth-child(odd) {
+					@media (--min-medium-viewport) {
+						padding-right: .75rem;
+					}
+				}
+
+				&:nth-child(even) {
+					@media (--min-medium-viewport) {
+						padding-left: .75rem;
+					}
+				}
 
 				& .post-thumbnail {
 					@media (--min-medium-viewport) {
@@ -105,18 +105,6 @@
 		& .post-thumbnail {
 			padding-left: 0;
 		}
-
-		& .placeholder-audio {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translateX(-50%) translateY(-50%);
-
-			& .status button {
-				background-color: var(--brand-tertiary);
-				border-color: var(--brand-tertiary);
-			}
-		}
 	}
 
 	&.-small {
@@ -141,9 +129,11 @@
 	}
 
 	&.-large {
+		justify-content: space-between;
+
 		& > div {
-			flex: 1 0 calc(100% - 1.5rem);
-			max-width: calc(100% - 1.5rem);
+			flex: 1 0 100%;
+			max-width: 100%;
 
 			@media (--min-large-viewport) {
 				flex: 1 0 calc(50% - 1.5rem);
@@ -155,6 +145,18 @@
 
 .single-show {
 	& .archive-tiles {
+		& .placeholder-audio {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+
+			& .status button {
+				background-color: var(--brand-tertiary);
+				border-color: var(--brand-tertiary);
+			}
+		}
+
 		& .type {
 				align-items: center;
 				color: var(--brand-primary);
@@ -163,11 +165,21 @@
 				font-size: 1rem;
 				font-weight: 700;
 				line-height: 1;
+				margin-bottom: 0;
 				padding-top: 1.333rem;
 
 				& svg {
 					margin-right: .611rem;
 				}
+		}
+
+		& .post-title {
+			hyphens: auto;
+			word-wrap: break-word;
+
+			& h3 {
+				margin-bottom: 0;
+			}
 		}
 
 		& .type-tribe_events,
@@ -180,12 +192,6 @@
 		& .type-episode {
 			& .episode-meta {
 				display: none;
-			}
-
-			& .post-title {
-				& h3 {
-					margin: 0;
-				}
 			}
 		}
 	}
