@@ -95,6 +95,25 @@
 			@media (--min-small-viewport) {
 				padding-left: 2.78rem;
 			}
+
+			& span {
+				display: block;
+				padding-bottom: 1rem;
+
+				@media (--min-medium-viewport) {
+					display: inline;
+					padding-bottom: 0;
+				}
+			}
+
+			& .btn {
+
+				@media (--min-medium-viewport) {
+					display: inline-block;
+					margin-left: 1rem;
+					transform: translateY(-7px); /* Visually centers the button in text */
+				}
+			}
 		}
 	}
 
@@ -143,44 +162,6 @@
 		& .date {
 			color: #8f8f8f;
 			font-size: .778rem;
-		}
-
-		& .share {
-			align-items: center;
-			color: #8f8f8f;
-			display: flex;
-			font-size: .778rem;
-
-			& button {
-				background: transparent;
-				border: none;
-				border-radius: 2px;
-				cursor: pointer;
-				height: 30px;
-				line-height: 1;
-				padding: .389rem 1.222rem;
-				width: 52px;
-
-				&:first-of-type {
-					margin-left: 1.445rem;
-				}
-
-				&:not(:first-of-type) {
-					margin-left: .667rem;
-				}
-			}
-
-			& svg {
-				fill: var(--global-white);
-			}
-
-			& .facebook {
-				background-color: #3F5C94;
-			}
-
-			& .twitter {
-				background-color: #2BAEE8;
-			}
 		}
 	}
 }

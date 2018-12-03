@@ -7,4 +7,6 @@ if ( $query->have_posts() ) :
 	?><div class="archive-tiles -small -carousel">
 		<?php ee_the_query_tiles( $query ); ?>
 	</div><?php
+
+	do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
 endif;

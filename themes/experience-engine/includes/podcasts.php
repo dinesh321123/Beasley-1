@@ -185,3 +185,12 @@ if ( ! function_exists( 'ee_update_episode_thumbnail' ) ) :
 		return $thumbnail_id;
 	}
 endif;
+
+if ( ! function_exists( 'ee_the_episode_download' ) ) :
+	function ee_the_episode_download( $classes = '' ) {
+		$download = ee_get_episode_meta( null, 'download' );
+		if ( $download ) {
+			echo '<a class="btn -empty ', esc_attr( $classes ), '" href="', esc_url( $download ), '" target="_blank" rel="noopener">Download</a>';
+		}
+	}
+endif;

@@ -7,7 +7,7 @@
 		"bundle": "webpack app=./assets/scripts/app.js --config-name=prod-config"
 	},
 	"dependencies": {
-		"@10up/eslint-config": "^1.0.6",
+		"@10up/eslint-config": "^1.0.8",
 		"@babel/core": "^7.1.6",
 		"@babel/plugin-syntax-dynamic-import": "^7.0.0",
 		"@babel/preset-env": "^7.1.6",
@@ -15,18 +15,21 @@
 		"babel-eslint": "^10.0.1",
 		"babel-loader": "^8.0.4",
 		"copy-webpack-plugin": "^4.6.0",
+		"core-js": "^2.5.7",
 		"css-loader": "^1.0.1",
+		"css-vars-ponyfill": "^1.15.3",
 		"cssnano": "^4.1.7",
 		"eslint": "^5.9.0",
 		"eslint-loader": "^2.1.1",
 		"eslint-plugin-import": "^2.14.0",
 		"eslint-plugin-jsx-a11y": "^6.1.2",
 		"eslint-plugin-react": "^7.11.1",
-		"firebase": "^5.5.8",
+		"firebase": "^5.6.0",
 		"lodash.debounce": "^4.0.8",
 		"md5": "^2.2.1",
 		"mini-css-extract-plugin": "^0.4.4",
 		"nprogress": "^0.2.0",
+		"perfume.js": "^2.0.0",
 		"postcss-custom-media": "^7.0.7",
 		"postcss-import": "^12.0.1",
 		"postcss-loader": "^3.0.0",
@@ -42,7 +45,7 @@
 		"videojs-contrib-quality-levels": "^2.0.9",
 		"videojs-hls-quality-selector": "0.0.8",
 		"videojs-ima": "^1.5.1",
-		"webpack": "^4.26.0",
+		"webpack": "^4.26.1",
 		"webpack-bundle-analyzer": "^3.0.3",
 		"webpack-cli": "^3.1.2"
 	},
@@ -65,6 +68,7 @@
 		],
 		"rules": {
 			"import/no-unresolved": 0,
+			"require-jsdoc": 0,
 			"indent": [
 				"error",
 				"tab",

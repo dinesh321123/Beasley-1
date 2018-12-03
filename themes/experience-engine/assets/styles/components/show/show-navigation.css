@@ -32,6 +32,46 @@
 				padding-bottom: 0;
 			}
 		}
+
+		&.current-menu-item,
+		&:hover,
+		&:focus-within {
+			position: relative;
+
+			& a::after {
+				width: 100%;
+			}
+
+			&:last-child {
+				& a::after {
+					@media (--min-large-viewport) {
+						width: calc(100% + 2.611rem);
+					}
+				}
+			}
+
+			& a,
+			& a:focus,
+			& a:hover {
+				color: var(--brand-primary);
+				display: block;
+				outline: none;
+				text-decoration: none;
+
+				&::after {
+					background-color: var(--brand-primary);
+					bottom: -1.778rem;
+					content: "";
+					height: 2px;
+					left: 0;
+					position: absolute;
+
+					@media (--min-large-viewport) {
+						left: calc(-2.611rem / 2);
+					}
+				}
+			}
+		}
 	}
 
 	& a {

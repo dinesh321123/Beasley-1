@@ -36,8 +36,11 @@ add_action( 'wp_loaded', function() {
 		new \Bbgi\Site(),
 		new \Bbgi\Seo(),
 		new \Bbgi\Settings(),
+		new \Bbgi\Shortcodes(),
 		new \Bbgi\Media\Video(),
 		new \Bbgi\Image\Attributes(),
+		new \Bbgi\Image\ThumbnailColumn(),
+		new \Bbgi\Integration\Google(),
 	);
 
 	if ( current_theme_supports( 'secondstreet' ) ) {

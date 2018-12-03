@@ -1,6 +1,8 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import { isInViewport } from '../../../library/dom';
+
 class Dfp extends PureComponent {
 
 	constructor( props ) {
@@ -10,15 +12,21 @@ class Dfp extends PureComponent {
 
 		self.slot = false;
 		self.interval = false;
+		self.displayed = false;
 
 		self.onVisibilityChange = self.handleVisibilityChange.bind( self );
 		self.refreshSlot = self.refreshSlot.bind( self );
+		self.tryDisplaySlot = self.tryDisplaySlot.bind( self );
 	}
 
 	componentDidMount() {
 		const self = this;
 
-		self.registerSlot();
+		window.addEventListener( 'scroll', self.tryDisplaySlot, true );
+		window.addEventListener( 'resize', self.tryDisplaySlot );
+
+		self.tryDisplaySlot();
+
 		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
 			self.startInterval();
 			document.addEventListener( 'visibilitychange', self.onVisibilityChange );
@@ -28,11 +36,19 @@ class Dfp extends PureComponent {
 	componentWillUnmount() {
 		const self = this;
 
+		self.removeListeners();
 		self.destroySlot();
+
 		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
 			self.stopInterval();
 			document.removeEventListener( 'visibilitychange', self.onVisibilityChange );
 		}
+	}
+
+	removeListeners() {
+		const self = this;
+		window.removeEventListener( 'scroll', self.tryDisplaySlot, true );
+		window.removeEventListener( 'resize', self.tryDisplaySlot );
 	}
 
 	handleVisibilityChange() {
@@ -60,6 +76,10 @@ class Dfp extends PureComponent {
 		const self = this;
 		const { placeholder, network, unitId, unitName, targeting } = self.props;
 		const { googletag, bbgiconfig } = window;
+
+		if ( !unitId ) {
+			return;
+		}
 
 		googletag.cmd.push( () => {
 			const size = bbgiconfig.dfp.sizes[unitName];
@@ -102,10 +122,10 @@ class Dfp extends PureComponent {
 	}
 
 	refreshSlot() {
-		const { slot } = this;
+		const { slot, displayd } = this;
 		const { googletag } = window;
 
-		if ( slot ) {
+		if ( slot && displayd ) {
 			googletag.pubads().refresh( [slot] );
 		}
 	}
@@ -114,8 +134,24 @@ class Dfp extends PureComponent {
 		const { slot } = this;
 		if ( slot ) {
 			const { googletag } = window;
-			googletag.destroySlots( [slot] );
+
+			googletag.cmd.push( () => {
+				googletag.destroySlots( [slot] );
+			} );
 		}
+	}
+
+	tryDisplaySlot() {
+		window.requestAnimationFrame( () => {
+			const self = this;
+			const { placeholder } = self.props;
+			const container = document.getElementById( placeholder );
+
+			if ( !self.slot && isInViewport( container, 0, 100 ) ) {
+				self.removeListeners();
+				self.registerSlot();
+			}
+		} );
 	}
 
 	render() {

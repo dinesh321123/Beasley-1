@@ -3,8 +3,6 @@
 add_action( 'customize_register', 'ee_register_customizer' );
 add_action( 'bbgi_register_settings', 'ee_register_settings', 1, 2 );
 
-add_filter( 'body_class', 'ee_update_body_class' );
-
 if ( ! function_exists( 'ee_register_settings' ) ) :
 	function ee_register_settings( $group, $page ) {
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $page );
@@ -94,12 +92,4 @@ if ( ! function_exists( 'ee_register_customizer' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ee_update_body_class' ) ) :
-	function ee_update_body_class( $classes ) {
-		$theme = get_theme_mod( 'ee_theme_version', '-dark' );
-		$theme = sanitize_html_class( $theme );
-		$classes[] = $theme;
 
-		return $classes;
-	}
-endif;

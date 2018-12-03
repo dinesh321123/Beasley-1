@@ -20,7 +20,6 @@
 @import 'components/archive/archive-tile';
 @import 'components/archive/archive-post-tile';
 @import 'components/archive/tile-episode';
-@import 'components/archive/tile-gmr_gallery';
 
 @import 'components/player/ads';
 @import 'components/player/controls';
@@ -32,6 +31,10 @@
 @import 'components/show/show-information';
 @import 'components/show/show-navigation';
 @import 'components/show/show-tile';
+
+@import 'components/share/share';
+
+@import 'components/gallery/listicle';
 
 @import 'components/contest/contest-tile';
 
@@ -47,7 +50,7 @@
 @import 'components/nprogress';
 @import 'components/modal';
 @import 'components/loading';
-@import 'components/lazy-image';
+@import 'components/lazyload';
 @import 'components/videojs';
 @import 'components/load-more-button';
 

@@ -8,11 +8,14 @@
 		}
 	}
 
+	& .type {
+		display: none;
+	}
+
 	&.-grid {
 		align-items: flex-start;
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
 
 		& > div {
 			flex: 0 1 100%;
@@ -39,11 +42,13 @@
 			&.-horizontal {
 				align-items: flex-start;
 				display: flex;
-				justify-content: space-between;
 				padding-left: 0;
 
 				& .post-thumbnail {
-					flex: 0 1 30%;
+					@media (--min-medium-viewport) {
+						flex: 0 1 30%;
+						margin-right: 2.444rem;
+					}
 				}
 
 				& .post-meta {
@@ -143,6 +148,44 @@
 			@media (--min-large-viewport) {
 				flex: 1 0 calc(50% - 1.5rem);
 				max-width: calc(50% - 1.5rem);
+			}
+		}
+	}
+}
+
+.single-show {
+	& .archive-tiles {
+		& .type {
+				align-items: center;
+				color: var(--brand-primary);
+				display: flex;
+				flex: 0 1 100%;
+				font-size: 1rem;
+				font-weight: 700;
+				line-height: 1;
+				padding-top: 1.333rem;
+
+				& svg {
+					margin-right: .611rem;
+				}
+		}
+
+		& .type-tribe_events,
+		& .type-contest {
+			& .meta {
+				display: none;
+			}
+		}
+
+		& .type-episode {
+			& .episode-meta {
+				display: none;
+			}
+
+			& .post-title {
+				& h3 {
+					margin: 0;
+				}
 			}
 		}
 	}

@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 
+import { isInViewport } from '../../../library/dom';
+
 class LazyImage extends PureComponent {
 
 	constructor( props ) {
@@ -86,7 +88,7 @@ class LazyImage extends PureComponent {
 
 		// do nothing if the image is not in the viewport or close to it
 		const { containerWidth, containerHeight } = self.state;
-		if ( !self.isInViewport( containerWidth, containerHeight ) ) {
+		if ( !isInViewport( self.container, containerWidth, containerHeight ) ) {
 			return;
 		}
 
@@ -107,17 +109,6 @@ class LazyImage extends PureComponent {
 				self.setState( { image: imageSrc } );
 			}
 		};
-	}
-
-	isInViewport( containerWidth, containerHeight ) {
-		const bounding = this.container.getBoundingClientRect();
-		const { top, left, bottom, right } = bounding;
-
-		const { documentElement } = document;
-		const innerHeight = ( window.innerHeight || documentElement.clientHeight ) + containerHeight;
-		const innerWidth = ( window.innerWidth || documentElement.clientWidth ) + containerWidth;
-
-		return -containerHeight <= top && -containerWidth <= left && bottom <= innerHeight && right <= innerWidth;
 	}
 
 	render() {

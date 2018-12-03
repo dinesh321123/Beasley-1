@@ -9,7 +9,10 @@ import LazyImage from './embeds/LazyImage';
 import Share from './embeds/Share';
 import LoadMore from './embeds/LoadMore';
 import Video from './embeds/Video';
+import EmbedVideo from './embeds/EmbedVideo';
 import Dfp from './embeds/Dfp';
+import Cta from './embeds/Cta';
+import Countdown from './embeds/Countdown';
 
 const mapping = {
 	secondstreet: SecondStreetEmbed,
@@ -18,7 +21,10 @@ const mapping = {
 	share: Share,
 	loadmore: LoadMore,
 	video: Video,
+	embedvideo: EmbedVideo,
 	dfp: Dfp,
+	cta: Cta,
+	countdown: Countdown,
 };
 
 function ContentBlock( { content, embeds, partial } ) {

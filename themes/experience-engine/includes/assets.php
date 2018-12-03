@@ -1,21 +1,24 @@
 <?php
 
 add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts', 20 );
+add_action( 'wp_head', 'ee_load_polyfills', 0 );
 
 add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
 add_filter( 'fvideos_show_video', 'ee_fvideos_show_video', 10, 2 );
 add_filter( 'tribe_events_assets_should_enqueue_frontend', '__return_false' );
 
-remove_action('wp_head', 'print_emoji_detection_script', 7);
-remove_action('wp_print_styles', 'print_emoji_styles');
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
 if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 	function ee_enqueue_front_scripts() {
+		$is_script_debug = defined( 'SCRIPT_DEBUG' ) && filter_var( SCRIPT_DEBUG, FILTER_VALIDATE_BOOLEAN );
+
 		$base = untrailingslashit( get_template_directory_uri() );
-		$min = defined( 'SCRIPT_DEBUG' ) && filter_var( SCRIPT_DEBUG, FILTER_VALIDATE_BOOLEAN ) ? '' : '.min';
+		$min = $is_script_debug ? '' : '.min';
 
 		wp_enqueue_style( 'ee-app', "{$base}/bundle/app.css", null, GREATERMEDIA_VERSION );
 
@@ -34,12 +37,6 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_script_add_data( 'google-webfont', 'noscript', '<link href="//fonts.googleapis.com/css?family=Libre+Franklin:300,400,500,600,700" rel="stylesheet">' );
 
 		/**
-		 * Polyfills
-		 */
-		wp_register_script( 'es6-promise', '//cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js', null, null );
-		wp_script_add_data( 'es6-promise', 'conditional', 'lte IE 11' );
-
-		/**
 		 * External libraries
 		 */
 		wp_register_script( 'embedly-player.js', "//cdn.embed.ly/player-0.1.0{$min}.js", null, null, true );
@@ -50,6 +47,18 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
 		wp_script_add_data( 'googletag', 'async', true );
+
+		if ( $is_script_debug ) {
+			$perfume = array(
+				'firstPaint'           => true,
+				'firstContentfulPaint' => true,
+				'firstInputDelay'      => true,
+			);
+
+			// @see: https://zizzamia.github.io/perfume/
+			wp_enqueue_script( 'perfume', "{$base}/bundle/perfume.umd.min.js", null, null, false );
+			wp_add_inline_script( 'perfume', 'var perfumeInfo = new Perfume(' . json_encode( $perfume ) . ')', 'after' );
+		}
 
 		/**
 		 * Application script
@@ -63,7 +72,7 @@ try {
 }
 EOL;
 
-		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'googletag', 'embedly-player.js', 'td-sdk', 'es6-promise' ), GREATERMEDIA_VERSION, true );
+		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'googletag', 'embedly-player.js', 'td-sdk' ), GREATERMEDIA_VERSION, true );
 		wp_add_inline_script( 'ee-app', $bbgiconfig, 'before' );
 
 		/**
@@ -74,9 +83,42 @@ EOL;
 	}
 endif;
 
+if ( ! function_exists( 'ee_load_polyfills' ) ) :
+	function ee_load_polyfills() {
+		$base = untrailingslashit( get_template_directory_uri() );
+
+		?><script id="polyfills">
+			(function() {
+				if (!Array.prototype.find) {
+					var s = document.createElement('script');
+					s.src = '<?php echo $base; ?>/bundle/core.min.js';
+					var p = document.getElementById('polyfills')
+					p.parentNode.replaceChild(s, p);
+				}
+			})();
+		</script><?php
+	}
+endif;
+
 if ( ! function_exists( 'ee_the_bbgiconfig_attribute' ) ) :
 	function ee_the_bbgiconfig_attribute() {
-		printf( ' data-bbgiconfig="%s"', esc_attr( json_encode( apply_filters( 'bbgiconfig', array() ) ) ) );
+		$theme = get_theme_mod( 'ee_theme_version', '-dark' );
+		$theme = sanitize_html_class( $theme );
+
+		$themeData = array (
+			'theme' => $theme,
+			'brand' => array (
+				'primary'   => '#ff0000',
+				'secondary' => '#ffe964',
+				'tertiary'  => '#ffffff',
+			),
+		);
+
+		$config = array(
+			'themeData' => $themeData,
+		);
+
+		printf( ' data-bbgiconfig="%s"', esc_attr( json_encode( apply_filters( 'bbgiconfig', $config ) ) ) );
 	}
 endif;
 
