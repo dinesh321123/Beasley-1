@@ -28,19 +28,16 @@ get_header(); ?>
 					<header class="podcast__header">
 						<h2 class="content__heading" itemprop="headline"><?php the_title(); ?></h2>
 
-						<a class="podcast__rss" href="<?php echo esc_url( $feed_url ) ?>" target="_blank">Podcast
-							Feed</a>
+						<a class="podcast__rss" href="<?php echo esc_url( $feed_url ) ?>" target="_blank">Podcast Feed</a>
 						<?php
 						if ( $itunes_url != '' ) {
 							?>
-							<a class="podcast__subscribe" href="<?php echo esc_url( $itunes_url ); ?>" target="_blank">Subscribe
-								in iTunes</a>
+							<a class="podcast__subscribe" href="<?php echo esc_url( $itunes_url ); ?>" target="_blank">Apple Podcasts</a>
 						<?php
 						}
 						if ( $google_play_url != '' ) {
 							?>
-							<a class="podcast__subscribe" href="<?php echo esc_url( $google_play_url ); ?>" target="_blank">Subscribe
-								in Google Play</a>
+							<a class="podcast__subscribe" href="<?php echo esc_url( $google_play_url ); ?>" target="_blank">Google Podcasts</a>
 						<?php
 						}
 						?>
