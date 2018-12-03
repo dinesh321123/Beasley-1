@@ -1,4 +1,6 @@
 .home {
+	& .cta,
+	& .countdown,
 	& .ribon {
 		margin: 0 auto;
 		max-width: 1071px;
@@ -43,5 +45,67 @@
 
 	& .type-post {
 		width: 400px;
+	}
+
+	& .countdown,
+	& .cta {
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+		padding-top: calc((9 / 25) * 100%);
+		position: relative;
+	}
+
+	& .countdown-content,
+	& .cta-content {
+		left: 50%;
+		position: absolute;
+		text-align: center;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	& .countdown-title,
+	& .cta-title {
+		font-size: 2rem;
+	}
+
+	& .cta-button {
+		display: inline-block;
+		padding: .5rem 1rem;
+	}
+
+	& .countdown-timer {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 2rem;
+
+		& .time {
+			background-color: var(--global-mine-shaft);
+			color: var(--global-white);
+			display: block;
+			font-size: 3rem;
+			font-family: monospace;
+			font-weight: 700;
+			padding: .25rem 0;
+
+			&::after {
+				content: ':';
+				margin: 0 .25rem;
+			}
+
+			&:first-child {
+				padding-left: .5rem;
+			}
+
+			&:last-child {
+				padding-right: .5rem;
+
+				&::after {
+					content: '';
+					margin: 0;
+				}
+			}
+		}
 	}
 }

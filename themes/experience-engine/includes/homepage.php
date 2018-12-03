@@ -3,52 +3,82 @@
 if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 	function ee_homepage_feeds() {
 		$feeds = array();
+		$supported_types = array(
+			'events'   => 'ee_render_homepage_standard_feed',
+			'contests' => 'ee_render_homepage_standard_feed',
+			'news'     => 'ee_render_homepage_standard_feed',
+			'video'    => 'ee_render_homepage_standard_feed',
+			'podcast'  => 'ee_render_homepage_standard_feed',
+			'cta'      => 'ee_render_homepage_cta_feed',
+		);
+
 		foreach ( bbgi_ee_get_publisher_feeds_with_content() as $feed ) {
 			if ( ! empty( $feed['id'] ) && ( $feed['id'] == 'feedback' || $feed['id'] == 'utilities' ) ) {
 				continue;
 			}
 
-			if ( ! in_array( $feed['type'], array( 'events', 'contests', 'news', 'video', 'podcast' ) ) ) {
-				continue;
+			if ( isset( $supported_types[ $feed['type'] ] ) ) {
+				$feeds[] = $feed;
 			}
-
-			$feeds[] = $feed;
 		}
 
 		$count = count( $feeds );
-		for ( $index = 1; $index <= $count; $index++ ) {
-			$feed = $feeds[ $index - 1 ];
-			if ( empty( $feed['content'] ) || ! is_array( $feed['content'] ) ) {
-				continue;
-			}
-
-			echo '<div class="ribon">';
-				if ( ! empty( $feed['title'] ) ) {
-					ee_the_subtitle( $feed['title'] );
-					if ( ! empty( $feed['description'] ) ) {
-						echo '<p>', esc_html( $feed['description'] ), '</p>';
-					}
-				}
-
-				echo '<div class="ribon-items">';
-					foreach ( $feed['content'] as $item ) {
-						if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
-							$post = ee_setup_post_from_feed_item( $item, $feed );
-							get_template_part( 'partials/tile', $post->post_type );
-						}
-					}
-				echo '</div>';
-			echo '</div>';
-
-			// below first two ribbons, then after 5th ribbon and every 3 ribbons thereafter.
-			if ( $index < $count ) {
-				if ( ( $index == 2 ) || ( $index > 2 && ( $index - 2 ) % 3 == 0 ) ) {
-					do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
-				}
+		for ( $i = 0; $i < $count; $i++ ) {
+			$feed = $feeds[ $i ];
+			if ( ! empty( $feed['content'] ) && is_array( $feed['content'] ) ) {
+				call_user_func( $supported_types[ $feed['type'] ], $feed, $count );
 			}
 		}
 
 		wp_reset_postdata();
+	}
+endif;
+
+if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
+	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
+		static $index = 1;
+
+		echo '<div class="ribon">';
+			if ( ! empty( $feed['title'] ) ) {
+				ee_the_subtitle( $feed['title'] );
+				if ( ! empty( $feed['description'] ) ) {
+					echo '<p>', esc_html( $feed['description'] ), '</p>';
+				}
+			}
+
+			echo '<div class="ribon-items">';
+				foreach ( $feed['content'] as $item ) {
+					if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
+						$post = ee_setup_post_from_feed_item( $item, $feed );
+						get_template_part( 'partials/tile', $post->post_type );
+					}
+				}
+			echo '</div>';
+		echo '</div>';
+
+		// below first two ribbons, then after 5th ribbon and every 3 ribbons thereafter.
+		if ( $index < $feeds_count ) {
+			if ( ( $index == 2 ) || ( $index > 2 && ( $index - 2 ) % 3 == 0 ) ) {
+				do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
+			}
+		}
+
+		$index++;
+	}
+endif;
+
+if ( ! function_exists( 'ee_render_homepage_cta_feed' ) ) :
+	function ee_render_homepage_cta_feed( $feed ) {
+		foreach ( $feed['content'] as $item ) {
+			$type = explode( '-', $item['contentType'] );
+			if ( $type[0] == 'cta' || $type[0] == 'countdown' ) {
+				printf(
+					'<div class="%s" data-payload="%s"></div>',
+					esc_attr( $type[0] ),
+					esc_attr( json_encode( $item ) )
+				);
+			}
+		}
 	}
 endif;
 

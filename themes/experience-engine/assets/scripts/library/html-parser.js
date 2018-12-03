@@ -103,6 +103,23 @@ function getDfpParams( { dataset } ) {
 	};
 }
 
+function getCtaParams( { dataset } ) {
+	const { payload } = dataset;
+	const params = {};
+
+	try {
+		if ( 'string' === typeof payload && payload ) {
+			params.payload = JSON.parse( payload );
+		} else if ( 'object' === typeof payload ) {
+			params.payload = payload;
+		}
+	} catch( err ) {
+		// do nothing
+	}
+
+	return params;
+}
+
 function processEmbeds( container, type, selector, callback ) {
 	const embeds = [];
 
@@ -148,6 +165,8 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'loadmore', '.load-more', getLoadMoreParams ),
 			...processEmbeds( container, 'video', '.livestream', getLiveStreamVideoParams ),
 			...processEmbeds( container, 'embedvideo', '.youtube', getEmbedVideoParams ),
+			...processEmbeds( container, 'cta', '.cta', getCtaParams ),
+			...processEmbeds( container, 'countdown', '.countdown', getCtaParams ),
 		];
 
 		// extract <script> tags

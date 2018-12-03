@@ -16,14 +16,15 @@ if ( ! function_exists( 'ee_register_dfp_settings' ) ) :
 		add_settings_field( 'dfp_network_code', 'Network Code', 'bbgi_input_field', $page, 'beasley_dfp_settings', 'name=dfp_network_code' );
 
 		$settings = apply_filters( 'beasley-dfp-unit-codes-settings', array(
-			'dfp_ad_leaderboard_pos1'  => 'Header Leaderboard',
-			'dfp_ad_leaderboard_pos2'  => 'Footer Leaderboard',
-			'dfp_ad_incontent_pos1'    => 'In Content (pos1)',
-			'dfp_ad_incontent_pos2'    => 'In Content (pos2)',
-			'dfp_ad_right_rail_pos1'   => 'Right Rail',
-			'dfp_ad_inlist_infinite'   => 'In List (infinite)',
-			'dfp_ad_interstitial'      => 'Out-of-Page',
-			'dfp_ad_playersponsorship' => 'Player Sponsorship',
+			'dfp_ad_leaderboard_pos1'         => 'Header Leaderboard',
+			'dfp_ad_leaderboard_pos2'         => 'Footer Leaderboard',
+			'dfp_ad_incontent_pos1'           => 'In Content (pos1)',
+			'dfp_ad_incontent_pos2'           => 'In Content (pos2)',
+			'dfp_ad_right_rail_pos1'          => 'Right Rail',
+			'dfp_ad_inlist_infinite'          => 'In List (infinite)',
+			'dfp_ad_interstitial'             => 'Out-of-Page',
+			'dfp_ad_playersponsorship'        => 'Player Sponsorship',
+			'dfp_ad_homepage_countdown_clock' => 'Countdown Clock',
 		) );
 
 		foreach ( $settings as $key => $label ) {
@@ -40,13 +41,14 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 		$advanced_with_fluid = array_merge( $fluid, $advanced );
 
 		$sizes = array(
-			'dfp_ad_leaderboard_pos1'  => $advanced_with_fluid,
-			'dfp_ad_leaderboard_pos2'  => $advanced,
-			'dfp_ad_inlist_infinite'   => $advanced_with_fluid,
-			'dfp_ad_playersponsorship' => $fluid,
-			'dfp_ad_right_rail_pos1'   => array( array( 300, 600 ), array( 300, 250 ) ),
-			'dfp_ad_incontent_pos1'    => array( array( 1, 1 ), array( 300, 250 ) ),
-			'dfp_ad_incontent_pos2'    => array( array( 300, 250 ) ),
+			'dfp_ad_leaderboard_pos1'         => $advanced_with_fluid,
+			'dfp_ad_leaderboard_pos2'         => $advanced,
+			'dfp_ad_inlist_infinite'          => $advanced_with_fluid,
+			'dfp_ad_playersponsorship'        => $fluid,
+			'dfp_ad_right_rail_pos1'          => array( array( 300, 600 ), array( 300, 250 ) ),
+			'dfp_ad_incontent_pos1'           => array( array( 1, 1 ), array( 300, 250 ) ),
+			'dfp_ad_incontent_pos2'           => array( array( 300, 250 ) ),
+			'dfp_ad_homepage_countdown_clock' => array( array( 320, 50 ) ),
 		);
 
 		$player = array(
@@ -55,10 +57,17 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'unitName' => 'dfp_ad_playersponsorship',
 		);
 
+		$countdown = array(
+			'network'  => get_option( 'dfp_network_code' ),
+			'unitId'   => get_option( 'dfp_ad_homepage_countdown_clock' ),
+			'unitName' => 'dfp_ad_homepage_countdown_clock',
+		);
+
 		$config['dfp'] = array(
-			'global' => ee_get_dfp_global_targeting(),
-			'sizes'  => $sizes,
-			'player' => $player,
+			'global'    => ee_get_dfp_global_targeting(),
+			'sizes'     => $sizes,
+			'player'    => $player,
+			'countdown' => $countdown,
 		);
 
 		return $config;
