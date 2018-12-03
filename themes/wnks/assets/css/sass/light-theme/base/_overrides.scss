@@ -25,6 +25,12 @@ a:hover .highlights__community--title
 
 }
 
-.swiper-sidebar-meta {
-    display: block;
+.swiper-sidebar {
+    @media (max-width: 767px) {
+        flex-direction: column;
+    }
+
+    .swiper-sidebar-meta {
+        display: block;
+    }
 }
