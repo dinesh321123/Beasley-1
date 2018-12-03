@@ -22,8 +22,14 @@
 				ee_the_episode_player();
 			endif;
 
-			the_title( '<h1>', '</h1>' );
-		?></div>
+		?>
+			<h1>
+				<span><?php the_title(); ?></span>
+				<?php if ( ( $download = ee_get_episode_meta( null, 'download' ) ) ) : ?>
+					<a class="btn -empty" href="<?php echo esc_url( $download ); ?>" target="_blank" rel="noopener">Download</a>
+				<?php endif; ?>
+			</h1>
+		</div>
 
 		<div class="episode-meta">
 			<?php if ( ( $duration = ee_get_episode_meta( null, 'duration' ) ) ) : ?>

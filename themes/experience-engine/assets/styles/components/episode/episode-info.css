@@ -95,6 +95,25 @@
 			@media (--min-small-viewport) {
 				padding-left: 2.78rem;
 			}
+
+			& span {
+				display: block;
+				padding-bottom: 1rem;
+
+				@media (--min-medium-viewport) {
+					display: inline;
+					padding-bottom: 0;
+				}
+			}
+
+			& .btn {
+
+				@media (--min-medium-viewport) {
+					display: inline-block;
+					margin-left: 1rem;
+					transform: translateY(-7px); /* Visually centers the button in text */
+				}
+			}
 		}
 	}
 
