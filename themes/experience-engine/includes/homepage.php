@@ -99,7 +99,7 @@ if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 		$post->ID = 0;
 		$post->post_title = $item['title'];
 		$post->post_status = 'publish';
-		$post->post_type = ee_is_network_domain( $item['link'] ) ? $post_type : 'external';
+		$post->post_type = ee_is_network_domain( $item['link'] ) || $post_type == 'episode' ? $post_type : 'external';
 		$post->post_content = $item['excerpt'];
 		$post->post_excerpt = $item['excerpt'];
 		$post->post_date = $post->post_date_gmt = $post->post_modified = $post->post_modified_gmt = date( 'Y:m:d H:i:s', strtotime( $item['publishedAt'] ) );

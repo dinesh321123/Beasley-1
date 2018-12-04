@@ -37,17 +37,26 @@ endif;
 
 if ( ! function_exists( 'ee_get_episode_player' ) ) :
 	function ee_get_episode_player( $episode = null ) {
-		$matches = array();
 		$episode = get_post( $episode );
+		if ( ! is_a( $episode, '\WP_Post' ) ) {
+			return null;
+		}
 
-		if (
-			is_a( $episode, '\WP_Post' )
-			&& preg_match( '#\[(embed|audio).*?\].*?\[\/(embed|audio)\]#i', $episode->post_content, $matches )
-			&& $matches[1] == $matches[2]
-		) {
+		$shortcode = false;
+		if ( ! empty( $episode->media ) && ! empty( $episode->media['url'] ) ) {
+			$url = explode( '?', $episode->media['url'] );
+			$shortcode = sprintf( '[audio mp3="%s"][/audio]', esc_attr( current( $url ) ) );
+		}
+
+		if ( ! $shortcode && preg_match( '#\[(embed|audio).*?\].*?\[\/(embed|audio)\]#i', $episode->post_content, $matches ) && $matches[1] == $matches[2] ) {
+			$shortcode = $matches[0];
+		}
+
+		if ( $shortcode ) {
 			remove_filter( 'the_content', 'wpautop' );
-			$content = apply_filters( 'the_content', $matches[0] );
+			$content = apply_filters( 'the_content', $shortcode );
 			add_filter( 'the_content', 'wpautop' );
+			error_log( $shortcode );
 
 			return $content;
 		}
@@ -100,6 +109,12 @@ if ( ! function_exists( 'ee_get_episode_meta' ) ) :
 
 		switch ( $meta_key ) {
 			case 'duration':
+				if ( ! empty( $episode->media ) && ! empty( $episode->media['duration'] ) ) {
+					return preg_match( '/00\:(\d{2}\:\d{2})/', $episode->media['duration'], $matches )
+						? $matches[1]
+						: $episode->media['duration'];
+				}
+
 				$duration = intval( get_post_meta( $episode->ID, 'duration', true ) );
 				if ( ! $duration ) {
 					$duration = intval( get_post_meta( $episode->ID, 'omny-duration', true ) );
@@ -117,7 +132,15 @@ if ( ! function_exists( 'ee_get_episode_meta' ) ) :
 				return $duration;
 
 			case 'download':
-				$download = get_post_meta( $episode->ID, 'omny-audio-url', true );
+				$download = false;
+				if ( ! empty( $episode->media ) && ! empty( $episode->media['url'] ) ) {
+					$download = $episode->media['url'];
+				}
+
+				if ( ! filter_var( $download, FILTER_VALIDATE_URL ) ) {
+					$download = get_post_meta( $episode->ID, 'omny-audio-url', true );
+				}
+
 				if ( filter_var( $download, FILTER_VALIDATE_URL ) ) {
 					$download = add_query_arg( 'download', 'true', $download );
 					return $download;

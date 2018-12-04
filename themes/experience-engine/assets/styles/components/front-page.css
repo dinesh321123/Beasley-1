@@ -40,11 +40,36 @@
 			position: absolute;
 			right: 0;
 			top: 0;
+			z-index: 5;
 		}
 	}
 
 	& .type-post {
 		width: 400px;
+	}
+
+	& .episode-tile {
+		display: block;
+
+		& .meta {
+			padding-left: 0;
+		}
+	}
+
+	& .episode-meta {
+		display: none;
+	}
+
+	& .placeholder-audio {
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 10;
+
+		& .status button {
+			background-color: var(--global-white);
+		}
 	}
 
 	& .countdown,
