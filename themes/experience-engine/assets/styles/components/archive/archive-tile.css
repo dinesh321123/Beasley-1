@@ -196,3 +196,20 @@
 		}
 	}
 }
+
+.single-podcast {
+	& #inner-content {
+		&  > .podcast {
+			& .episode-tile:first-child {
+				& .episode-meta::before {
+					color: #5fa5d8;
+					content: "Latest";
+					font-style: italic;
+					font-size: .833rem;
+					font-weight: 600;
+					margin-right: 1.278rem;
+				}
+			}
+		}
+	}
+}

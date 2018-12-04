@@ -1,6 +1,6 @@
 <?php
 
-$query = \GreaterMedia\Shows\get_show_podcast_query();
+$query = \GreaterMedia\Shows\get_show_podcast_query( 16 );
 if ( $query->have_posts() ) :
 	?><div class="archive-tiles -grid -small">
 		<?php ee_the_query_tiles( $query ); ?>
