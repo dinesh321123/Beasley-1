@@ -56,7 +56,6 @@ if ( ! function_exists( 'ee_get_episode_player' ) ) :
 			remove_filter( 'the_content', 'wpautop' );
 			$content = apply_filters( 'the_content', $shortcode );
 			add_filter( 'the_content', 'wpautop' );
-			error_log( $shortcode );
 
 			return $content;
 		}
