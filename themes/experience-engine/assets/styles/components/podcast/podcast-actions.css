@@ -1,0 +1,48 @@
+.podcast-actions {
+	display: flex;
+	margin-bottom: 1.111rem;
+
+	@media (--min-large-viewport) {
+		margin-bottom: 2.05rem;
+	}
+
+	& span {
+		display: flex;
+		flex-wrap: wrap;
+
+		& > *:not(:first-child) {
+			@media (--min-large-viewport) {
+				margin-left: .833rem;
+			}
+		}
+
+		& > * {
+			flex: 0 1 calc(100%);
+			margin-bottom: 1.111rem;
+			max-width: calc(100%);
+
+			@media (--min-large-viewport) {
+				margin-bottom: 0;
+				max-width: none;
+				flex: auto;
+			}
+		}
+	}
+
+
+	& .btn.-nobor {
+		color: var(--global-mine-shaft);
+		display: block;
+		text-align: center;
+
+		@media (--min-large-viewport) {
+			text-align: left;
+		}
+
+		&:hover,
+		&:active,
+		&:focus {
+			text-decoration: underline;
+		}
+	}
+}

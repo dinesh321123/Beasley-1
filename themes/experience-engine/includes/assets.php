@@ -27,7 +27,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		 */
 		$webfont = array(
 			'google' => array(
-				'families' => array( 'Libre+Franklin:300,400,500,600,700' ),
+				'families' => array( 'Libre+Franklin:300,400,500,600,700|Open+Sans:600' ),
 			),
 		);
 

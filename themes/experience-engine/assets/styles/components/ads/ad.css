@@ -16,6 +16,12 @@
 	}
 
 	&.-sticky {
+		display: none;
+
+		@media (--min-xlarge-viewport) {
+			display: block;
+		}
+
 		& .wrapper {
 			@media (--min-large-viewport) {
 				position: sticky;

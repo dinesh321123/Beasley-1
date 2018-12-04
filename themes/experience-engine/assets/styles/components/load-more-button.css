@@ -1,3 +1,9 @@
+.placeholder-loadmore {
+	&:empty {
+		display: none;
+	}
+}
+
 .load-more {
 	background-color: var(--brand-primary);
 	border: 0;

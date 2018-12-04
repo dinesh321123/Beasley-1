@@ -1,7 +1,7 @@
 .episode-tile {
 	align-items: center;
 	display: flex;
-	padding-bottom: 3.05rem;
+	padding-bottom: 2.22rem;
 
 	&:hover {
 		& .meta [class*="share"] {

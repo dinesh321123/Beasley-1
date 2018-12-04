@@ -39,6 +39,8 @@
 @import 'components/contest/contest-tile';
 
 @import 'components/podcast/podcast-tile';
+@import 'components/podcast/podcast-header';
+@import 'components/podcast/podcast-actions';
 
 @import 'components/episode/episode-info';
 @import 'components/episode/episode-content';
