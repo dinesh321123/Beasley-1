@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<?php wp_head(); ?>
 	</head>
-	<body <?php body_class(); ?><?php ee_the_bbgiconfig_attribute(); ?>><?php
+	<body <?php body_class(); ?>><?php
 		do_action( 'beasley_after_body' );
 
 		if ( ! ee_is_jacapps() ) :

@@ -30,11 +30,11 @@ function manageScripts( load, unload ) {
 	loadAssets( Object.keys( load ) );
 }
 
-function manageBbgiConfig() {
+function manageBbgiConfig( pageDocument ) {
 	let newconfig = {};
 
 	try {
-		newconfig = JSON.parse( document.body.dataset.bbgiconfig );
+		newconfig = JSON.parse( pageDocument.getElementById( 'bbgiconfig' ).innerHTML );
 
 		const { googletag } = window;
 		const { dfp } = newconfig;
@@ -84,7 +84,7 @@ export default function reducer( state = {}, action = {} ) {
 
 			NProgress.done();
 			manageScripts( action.scripts, state.scripts );
-			manageBbgiConfig();
+			manageBbgiConfig( pageDocument );
 
 			return {
 				...state,
@@ -96,9 +96,11 @@ export default function reducer( state = {}, action = {} ) {
 			};
 		}
 
-		case ACTION_LOADED_PARTIAL:
+		case ACTION_LOADED_PARTIAL: {
+			const { document: pageDocument } = action;
+
 			NProgress.done();
-			manageBbgiConfig();
+			manageBbgiConfig( pageDocument );
 
 			return {
 				...state,
@@ -111,6 +113,7 @@ export default function reducer( state = {}, action = {} ) {
 					},
 				},
 			};
+		}
 
 		case ACTION_LOAD_ERROR:
 			return {

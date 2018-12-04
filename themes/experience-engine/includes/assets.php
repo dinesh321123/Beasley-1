@@ -2,6 +2,7 @@
 
 add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts', 20 );
 add_action( 'wp_head', 'ee_load_polyfills', 0 );
+add_action( 'beasley_after_body', 'ee_the_bbgiconfig' );
 
 add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
@@ -66,7 +67,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 $bbgiconfig = <<<EOL
 window.bbgiconfig = {};
 try {
-	window.bbgiconfig = JSON.parse( document.body.dataset.bbgiconfig );
+	window.bbgiconfig = JSON.parse( document.getElementById( 'bbgiconfig' ).innerHTML );
 } catch( err ) {
 	// do nothing
 }
@@ -100,8 +101,8 @@ if ( ! function_exists( 'ee_load_polyfills' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ee_the_bbgiconfig_attribute' ) ) :
-	function ee_the_bbgiconfig_attribute() {
+if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
+	function ee_the_bbgiconfig() {
 		$theme = get_theme_mod( 'ee_theme_version', '-dark' );
 		$theme = sanitize_html_class( $theme );
 
@@ -118,7 +119,10 @@ if ( ! function_exists( 'ee_the_bbgiconfig_attribute' ) ) :
 			'themeData' => $themeData,
 		);
 
-		printf( ' data-bbgiconfig="%s"', esc_attr( json_encode( apply_filters( 'bbgiconfig', $config ) ) ) );
+		printf(
+			'<script id="bbgiconfig" type="application/json">%s</script>',
+			json_encode( apply_filters( 'bbgiconfig', $config ) )
+		);
 	}
 endif;
 

@@ -1,7 +1,6 @@
 <?php
 
 add_filter( 'bbgiconfig', 'ee_update_api_bbgiconfig', 50 );
-add_action( 'rest_api_init', 'ee_rest_api_init' );
 
 if ( ! function_exists( 'ee_has_publisher_information' ) ) :
 	function ee_has_publisher_information( $meta ) {
@@ -83,6 +82,19 @@ if ( ! function_exists( 'ee_update_api_bbgiconfig' ) ) :
 	}
 endif;
 
+if ( ! function_exists( '_bbgi_ee_request' ) ) :
+	function _bbgi_ee_request( $path, $args = array() ) {
+		$args['headers'] = array( 'Content-Type' => 'application/json' );
+		if ( empty( $args['method'] ) ) {
+			$args['method'] = 'GET';
+		}
+
+		$host = untrailingslashit( EE_API_HOST ) . '/v1/' . $path;
+
+		return wp_remote_request( $host, $args );
+	}
+endif;
+
 if ( ! function_exists( 'bbgi_ee_request' ) ) :
 	/**
 	 * Wrapper for wp_remote_request
@@ -100,17 +112,7 @@ if ( ! function_exists( 'bbgi_ee_request' ) ) :
 		$response    = wp_cache_get( $path, "experience_engine_api-{$cache_index}" );
 
 		if ( empty( $response ) ) {
-			if ( empty( $args['method'] ) ) {
-				$args['method'] = 'GET';
-			}
-
-			//Add the API Header
-			$args['headers'] = array(
-				'Content-Type' => 'application/json',
-			);
-
-			$host = untrailingslashit( EE_API_HOST ) . '/v1/' . $path;
-			$request = wp_remote_request( $host, $args );
+			$request = _bbgi_ee_request( $path, $args );
 			if ( is_wp_error( $request ) ) {
 				return $request;
 			}
@@ -300,20 +302,5 @@ if ( ! function_exists( 'bbgi_ee_get_genres' ) ) :
 		}
 
 		return $genres;
-	}
-endif;
-
-if ( ! function_exists( 'ee_rest_api_init' ) ) :
-	function ee_rest_api_init() {
-		register_rest_route( 'experience_engine/v1', '/purge-cache/', array(
-			'methods'  => 'GET',
-			'callback' => function () {
-				$cache_index = get_option( 'ee_cache_index', 0 );
-				$cache_index ++;
-				update_option( 'ee_cache_index', $cache_index, 'no' );
-
-				return rest_ensure_response( 'Cache Flushed' );
-			},
-		) );
 	}
 endif;
