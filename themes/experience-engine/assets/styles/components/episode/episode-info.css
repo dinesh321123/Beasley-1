@@ -14,6 +14,7 @@
 			fill: var(--brand-primary);
 			height: 45px;
 			max-height: none;
+			width: 57px;
 		}
 	}
 
@@ -61,7 +62,6 @@
 			float: left;
 
 			&:not(:first-child) {
-
 				@media (--min-small-viewport) {
 					padding-left: 1rem;
 				}
@@ -82,9 +82,14 @@
 		}
 
 		& > div {
+			display: flex;
+			flex: 0 1 100%;
+			justify-content: center;
 			padding-bottom: 1.72rem;
 
 			@media (--min-small-viewport) {
+				display: block;
+				flex-basis: auto;
 				padding-bottom: 0;
 			}
 		}
@@ -122,46 +127,52 @@
 		display: flex;
 		flex-wrap: wrap;
 		font-size: .833rem;
+		justify-content: space-between;
 
-		@media (--min-small-viewport) {
-			flex-wrap: nowrap;
+		@media (--min-medium-viewport) {
+			justify-content: flex-start;
 		}
 
 		& > * {
 			flex: 0 1 100%;
+			min-width: 117px;
 			padding: 0 0 1rem;
+			text-align: center;
 
 			@media (--min-small-viewport) {
 				flex: 0 1 auto;
 			}
-		}
 
-		& > *:not(:first-child) {
-			@media (--min-small-viewport) {
-				padding-left: 2.78rem;
+			&:last-child {
+				@media (--min-large-viewport) {
+					padding-left: 4rem;
+				}
 			}
 		}
 
 		& .duration {
+			color: var(--global-dove-gray);
+			font-family: var(--global-font-family-secondary);
 			font-weight: 600;
-			width: 117px;
-
-			@media (--min-small-viewport) {
-				text-align: center;
-			}
 		}
 
 		& .btn {
-			text-align: left;
-
-			@media (--min-small-viewport) {
-				text-align: center;
-			}
+			font-family: var(--global-font-family-secondary);
+			font-weight: 600;
 		}
 
 		& .date {
 			color: #8f8f8f;
 			font-size: .778rem;
+		}
+
+		& .share {
+			justify-content: center;
+			flex-wrap: wrap;
+
+			& .facebook {
+				margin-left: 0;
+			}
 		}
 	}
 }

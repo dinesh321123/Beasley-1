@@ -31,10 +31,11 @@
 		padding: 0 0 .778rem;
 
 		@media (--min-large-viewport) {
-			justify-content: normal;
+			justify-content: flex-start;
 		}
 
 		& svg {
+			fill: var(--brand-primary);
 			margin-right: .611rem;
 		}
 	}

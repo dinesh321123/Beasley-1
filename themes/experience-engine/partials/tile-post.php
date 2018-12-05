@@ -9,7 +9,7 @@ $is_video = in_array( 'format-video', $classes ) || in_array( 'has-featured-vide
 
 	<?php if( true === $is_video ): ?>
 		<p class="type">
-			<svg width="7" height="12" fill="var(--brand-primary)">
+			<svg width="7" height="12">
 				<path d="M7 6L.25 11.196V.804L7 6z"/>
 			</svg>
 			video

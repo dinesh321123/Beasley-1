@@ -3,7 +3,7 @@
 	<?php get_template_part( 'partials/tile/title' ); ?>
 
 	<p class="type">
-		<svg width="13" height="14" fill="var(--brand-primary)">
+		<svg width="13" height="14">
 			<path fill-rule="evenodd" d="M11.817.985H3.119v8.697h8.698V.985zM3.119 0a.985.985 0 0 0-.984.985v8.697c0 .544.44.985.984.985h8.698c.544 0 .985-.441.985-.985V.985A.985.985 0 0 0 11.817 0H3.119z" clip-rule="evenodd"/>
 			<mask id="a" width="10" height="11" x="0" y="3" maskUnits="userSpaceOnUse">
 				<path d="M0 3.938h9.846v9.845H0V3.938z"/>

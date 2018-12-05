@@ -6,6 +6,7 @@ if ( ! $show ) :
 endif;
 
 ?><div class="social">
+	<p>Social</p>
 	<?php if ( ( $facebook_url = ee_get_show_meta( $show, 'facebook' ) ) ): ?>
 		<a href="<?php echo esc_url( $facebook_url ); ?>" target="_blank" rel="noopener" aria-label="Visit this show's Facebook page">
 			<svg xmlns="http://www.w3.org/2000/svg" width="8" height="17">
@@ -22,7 +23,7 @@ endif;
 		</a>
 	<?php endif; ?>
 
-	<?php if ( ( !$instagram_url = ee_get_show_meta( $show, 'instagram' ) ) ): ?>
+	<?php if ( ( $instagram_url = ee_get_show_meta( $show, 'instagram' ) ) ): ?>
 		<a href="<?php echo esc_url( $instagram_url ); ?>" target="_blank" rel="noopener" aria-label="Visit this show's Instagram page">
 		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
 			<path d="M11.585 0h-7.17C1.981 0 0 1.898 0 4.231v6.87c0 2.334 1.98 4.232 4.415 4.232h7.17c2.434 0 4.415-1.898 4.415-4.231v-6.87C16 1.897 14.02 0 11.585 0zm2.995 11.102c0 1.583-1.344 2.87-2.995 2.87h-7.17c-1.652.001-2.995-1.287-2.995-2.87v-6.87c0-1.584 1.343-2.872 2.995-2.872h7.17c1.651 0 2.995 1.288 2.995 2.871v6.87z"/>

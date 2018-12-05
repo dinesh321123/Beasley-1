@@ -35,7 +35,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_enqueue_script( 'google-webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js', null, null, false );
 		wp_add_inline_script( 'google-webfont', 'var WebFontConfig = ' . wp_json_encode( $webfont ), 'before' );
 		wp_script_add_data( 'google-webfont', 'async', true );
-		wp_script_add_data( 'google-webfont', 'noscript', '<link href="//fonts.googleapis.com/css?family=Libre+Franklin:300,400,500,600,700" rel="stylesheet">' );
+		wp_script_add_data( 'google-webfont', 'noscript', '<link href="//fonts.googleapis.com/css?family=Libre+Franklin:300,400,500,600,700|Open+Sans:600" rel="stylesheet">' );
 
 		/**
 		 * External libraries

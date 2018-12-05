@@ -109,8 +109,26 @@
 
 	&.-small {
 		& > div {
-			flex: 1 0 calc(60% - 1.5rem);
-			max-width: calc(60% - 1.5rem);
+			@nest .-grid & {
+				flex: 0 1 100%;
+
+				&:nth-child(2n) {
+					@media (--min-small-viewport) {
+						margin-right: 0;
+					}
+				}
+
+				&:nth-child(4n) {
+					@media (--min-medium-viewport) {
+						margin-right: 0;
+					}
+				}
+			}
+
+			@nest .-carousel & {
+				flex: 1 0 calc(60% - 1.5rem);
+				max-width: calc(60% - 1.5rem);
+			}
 
 			@media (--min-small-viewport) {
 				flex: 1 0 calc(50% - 1.5rem);
@@ -122,8 +140,20 @@
 				max-width: calc(25% - 1.5rem);
 			}
 
-			&:not(:last-child) {
-				margin-right: 1.5rem;
+			&:not(:nth-child(2n)) {
+				@media (--min-small-viewport) {
+					margin-right: 3rem;
+				}
+
+				@media (--min-large-viewport) {
+					margin-right: 0;
+				}
+			}
+
+			&:not(:nth-child(4n)) {
+				@media (--min-large-viewport) {
+					margin-right: 2rem;
+				}
 			}
 		}
 	}
@@ -169,6 +199,7 @@
 				padding-top: 1.333rem;
 
 				& svg {
+					fill: var(--brand-primary);
 					margin-right: .611rem;
 				}
 		}
@@ -199,10 +230,10 @@
 
 .single-podcast {
 	& #inner-content {
-		&  > .podcast {
+		& > .podcast {
 			& .episode-tile:first-child {
 				& .episode-meta::before {
-					color: #5fa5d8;
+					color: var(--brand-secondary);
 					content: "Latest";
 					font-style: italic;
 					font-size: .833rem;
