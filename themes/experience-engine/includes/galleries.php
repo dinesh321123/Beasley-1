@@ -61,3 +61,15 @@ if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 		add_filter( 'wpseo_canonical', $replace_url );
 	}
 endif;
+
+if ( ! function_exists( 'ee_get_galleries_query' ) ) :
+	function ee_get_galleries_query( $album = null, $args = array() ) {
+		$album = get_post( $album );
+		$args = wp_parse_args( $args );
+
+		return new \WP_Query( array_merge( $args, array(
+			'post_type'   => 'gmr_gallery',
+			'post_parent' => $album->ID,
+		) ) );
+	}
+endif;

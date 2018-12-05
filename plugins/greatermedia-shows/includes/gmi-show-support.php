@@ -102,28 +102,63 @@ function get_show_endpoint_pagination_links( \WP_Query $query ) {
 	return paginate_links( $args );
 }
 
+function _get_show_children_ids( $type ) {
+	$show_id = get_the_ID();
+	$key = 'show-children-ids-' . $show_id . $type;
+
+	$ids = wp_cache_get( $key, 'bbgi:show' );
+	if ( empty( $ids ) ) {
+		$query = new \WP_Query();
+		$show = \TDS\get_related_term( $show_id );
+
+		$args = array(
+			'post_type'      => $type,
+			'posts_per_page' => 500,
+			'fields'         => 'ids',
+			'tax_query'      => array(
+				array(
+					'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+					'field' => 'term_taxonomy_id',
+					'terms' => $show->term_taxonomy_id,
+				),
+			),
+		);
+
+		$ids = $query->query( $args );
+		wp_cache_set( $key, $ids, 'bbgi:show' );
+	}
+
+	return $ids;
+}
+
 /**
  * Returns podcast ids associated with the current show.
  */
 function get_show_podcast_ids() {
-	$show_podcasts = new \WP_Query();
-	$show_term = \TDS\get_related_term( get_the_ID() );
+	return _get_show_children_ids( \GMP_CPT::PODCAST_POST_TYPE );
+}
 
-	// could possibly add some caching of these parent IDs (podcast-parent-ids-<term_slug>) and then nuke the key and regen whenever any parent podcast with the terms is edited/created/deleted
-	$show_podcasts_args = array(
-		'post_type'      => \GMP_CPT::PODCAST_POST_TYPE,
-		'posts_per_page' => 500,
-		'fields'         => 'ids',
-		'tax_query'      => array(
-			array(
-				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
-				'field' => 'term_taxonomy_id',
-				'terms' => $show_term->term_taxonomy_id,
-			),
-		),
-	);
+function get_show_album_ids() {
+	return _get_show_children_ids( 'gmr_album' );
+}
 
-	return  $show_podcasts->query( $show_podcasts_args );
+function _get_show_children_query( $type, $parents, $per_page ) {
+	if ( ! empty( $parents ) ) {
+		$current_page = get_query_var( 'paged', 1 );
+
+		$args = array(
+			'post_type'       => $type,
+			'post_parent__in' => $parents,
+			'paged'           => $current_page,
+			'posts_per_page'  => $per_page,
+		);
+
+		$query = new \WP_Query( $args );
+
+		return $query;
+	} else {
+		return new \WP_Query();
+	}
 }
 
 /**
@@ -132,23 +167,8 @@ function get_show_podcast_ids() {
  * @return \WP_Query
  */
 function get_show_podcast_query( $per_page = 10 ) {
-	$possible_parents = get_show_podcast_ids();
-	if ( ! empty( $possible_parents ) ) {
-		$current_page = get_query_var( 'paged', 1 );
-
-		$podcast_args = array(
-			'post_type'       => \GMP_CPT::EPISODE_POST_TYPE,
-			'post_parent__in' => $possible_parents,
-			'paged'           => $current_page,
-			'posts_per_page'  => $per_page,
-		);
-
-		$podcast_query = new \WP_Query( $podcast_args );
-
-		return $podcast_query;
-	} else {
-		return new \WP_Query();
-	}
+	$parents = get_show_podcast_ids();
+	return _get_show_children_query( \GMP_CPT::EPISODE_POST_TYPE, $parents, $per_page );
 }
 
 /**
@@ -190,27 +210,8 @@ function get_show_video_query( $per_page = 10 ) {
  * @return \WP_Query
  */
 function get_show_gallery_query( $per_page = 10 ) {
-	$show_term = \TDS\get_related_term( get_the_ID() );
-	$current_page = get_query_var( 'paged', 1 );
-
-	$album_args = array(
-		'post_type'      => 'albums', // todo is this post type coming from migration scripts? Need to dynamically grab this post type if we can
-		'post_parent'    => 0,
-		'paged'          => $current_page,
-		'posts_per_page' => $per_page,
-		'tax_query'      => array(
-			'relation' => 'AND',
-			array(
-				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
-				'field' => 'term_taxonomy_id',
-				'terms' => $show_term->term_taxonomy_id,
-			)
-		),
-	);
-
-	$album_query = new \WP_Query( $album_args );
-
-	return $album_query;
+	$parents = get_show_album_ids();
+	return _get_show_children_query( 'gmr_gallery', $parents, $per_page );
 }
 
 function get_show_events() {
