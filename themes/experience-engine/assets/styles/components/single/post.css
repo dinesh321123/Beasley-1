@@ -62,11 +62,26 @@
 .post-content {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+
+    @media(--min-medium-viewport) {
+        flex-direction: row;
+    }
 }
 
 .post-article {
-    flex: 0 1 calc(73% - 2.5rem)
+    flex: 0 1 100%;
+
+     @media(--min-medium-viewport) {
+         flex: 0 1 calc(73% - 2.5rem);
+     }
 }
+
 .post-sidebar {
-    flex: 0 1 27%;
+    margin-top: 3.5rem;
+    flex: 0 1 100%;
+
+    @media(--min-medium-viewport) {
+        flex: 0 1 27%;
+    }
 }
