@@ -22,7 +22,8 @@
 		text-align: left;
 		width: 100%;
 
-		&:hover {
+		&:hover,
+		&:focus {
 			background-color: rgba(255, 255, 255, .05);
 		}
 	}
@@ -41,7 +42,7 @@
 			right: 0;
 			top: 0;
 
-			&:before {
+			&::before {
 				border: none;
 				border-bottom: 2px solid var(--brand-secondary);
 				border-right: 2px solid var(--brand-secondary);
@@ -54,7 +55,8 @@
 				width: 8px;
 			}
 
-			&:hover {
+			&:hover,
+			&:focus {
 				background-color: rgba(255, 255, 255, .05);
 			}
 
@@ -77,7 +79,7 @@
 		}
 
 		& .current-menu-item {
-			&:before {
+			&::before {
 				max-height: 23px;
 			}
 		}
@@ -86,9 +88,9 @@
 	& .current-menu-item {
 		position: relative;
 
-		&:before {
+		&::before {
 			background-color: var(--brand-primary);
-			content: '';
+			content: "";
 			height: 100%;
 			left: 0;
 			max-height: 25px;

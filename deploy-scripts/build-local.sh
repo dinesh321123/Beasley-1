@@ -18,10 +18,6 @@ npm install
 npm run build
 popd || exit 1
 
-pushd themes/greatermedia || exit 1
-composer install
-popd || exit 1
-
 pushd themes/experience-engine || exit 1
 npm install
 npm run build

@@ -35,3 +35,10 @@
 .sponsor {
 	min-width: 150px;
 }
+
+.content-wrap {
+	& .placeholder-dfp {
+		margin-bottom: 1.775rem;
+		padding-bottom: 1.775rem;
+	}
+}

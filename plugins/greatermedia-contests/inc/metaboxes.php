@@ -24,7 +24,7 @@ class GreaterMediaContestsMetaboxes {
 			return;
 		}
 
-		$post = get_post();
+		$post         = get_post();
 		$contest_type = get_post_meta( $post->ID, 'contest_type', true );
 		switch ( $contest_type ) {
 			case 'onair':
@@ -36,26 +36,30 @@ class GreaterMediaContestsMetaboxes {
 			case 'online':
 			default:
 				$contest_type_label = 'Online';
-				$contest_type = 'online';
+				$contest_type       = 'online';
 				break;
 		}
 
 
-		?><div id="contest-type" class="misc-pub-section misc-pub-gmr-contest mis-pub-radio">
-			Contest Type:
-			<span class="post-pub-section-value radio-value"><?php echo esc_html( $contest_type_label ); ?></span>
-			<a href="#" class="edit-radio hide-if-no-js" style="display: inline;"><span aria-hidden="true">Edit</span></a>
+		?>
+		<div id="contest-type" class="misc-pub-section misc-pub-gmr-contest mis-pub-radio">
+		Contest Type:
+		<span class="post-pub-section-value radio-value"><?php echo esc_html( $contest_type_label ); ?></span>
+		<a href="#" class="edit-radio hide-if-no-js" style="display: inline;"><span aria-hidden="true">Edit</span></a>
 
-			<div class="radio-select hide-if-js">
-				<label><input type="radio" name="contest_type" value="online"<?php checked( $contest_type, 'online' ); ?>> Online</label><br>
-				<label><input type="radio" name="contest_type" value="onair"<?php checked( $contest_type, 'onair' ); ?>> On Air</label><br>
-				<label><input type="radio" name="contest_type" value="both"<?php checked( $contest_type, 'both' ); ?>> On Air &amp; Online</label><br>
+		<div class="radio-select hide-if-js">
+			<label><input type="radio" name="contest_type" value="online"<?php checked( $contest_type, 'online' ); ?>>
+				Online</label><br>
+			<label><input type="radio" name="contest_type" value="onair"<?php checked( $contest_type, 'onair' ); ?>> On
+				Air</label><br>
+			<label><input type="radio" name="contest_type" value="both"<?php checked( $contest_type, 'both' ); ?>> On
+				Air &amp; Online</label><br>
 
-				<p>
-					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
-					<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
-				</p>
-			</div>
+			<p>
+				<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
+				<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
+			</p>
+		</div>
 		</div><?php
 	}
 
@@ -79,7 +83,7 @@ class GreaterMediaContestsMetaboxes {
 
 		if ( $post && GMR_CONTEST_CPT === $post->post_type ) {
 			$base_path = trailingslashit( GREATER_MEDIA_CONTESTS_URL );
-			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+			$postfix   = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
 			wp_enqueue_style( 'datetimepicker' );
 			wp_enqueue_style( 'font-awesome' );
@@ -120,7 +124,7 @@ class GreaterMediaContestsMetaboxes {
 
 		$args['type'] = 'time';
 		$args['name'] = $name . '[time]';
-		$args['id'] = $args['id'] . '_time';
+		$args['id']   = $args['id'] . '_time';
 		if ( $date ) {
 			$args['value'] = date( 'H:i', $date );
 		}
@@ -155,113 +159,146 @@ class GreaterMediaContestsMetaboxes {
 	 * Implements add_meta_boxes action
 	 */
 	public function add_meta_boxes() {
-		add_meta_box( 'contest-settings', 'Settings', array( $this, 'contest_settings_metabox' ), GMR_CONTEST_CPT, 'normal' );
+		add_meta_box(
+			'contest-settings-win',
+			'What You Win',
+			array( $this, 'contest_win_metabox' ),
+			GMR_CONTEST_CPT,
+			'normal',
+			'high'
+		);
+
+		add_meta_box(
+			'contest-settings-enter',
+			'How to Enter',
+			array( $this, 'contest_enter_metabox' ),
+			GMR_CONTEST_CPT,
+			'normal',
+			'high'
+		);
+
+		add_meta_box(
+			'contest-settings-rules',
+			'Official Contest Rules',
+			array( $this, 'contest_rules_metabox' ),
+			GMR_CONTEST_CPT,
+			'normal',
+			'high'
+		);
+
+		add_meta_box(
+			'contest-settings-restrictions',
+			'Restrictions',
+			array( $this, 'contest_restrictions_metabox' ),
+			GMR_CONTEST_CPT,
+			'normal',
+			'high'
+		);
+
 	}
 
-	public function contest_settings_metabox( WP_Post $post ) {
+	public function contest_win_metabox( WP_Post $post ) {
 		$post_id = $post->ID;
 
 		wp_nonce_field( 'contest_meta_boxes', '__contest_nonce' );
 
-		?><ul class="tabs">
-			<li class="active"><a href="#what-you-win">What You Win</a></li>
-			<li><a href="#how-to-enter">How to Enter</a></li>
-			<li><a href="#contest-rules">Official Contest Rules</a></li>
-			<li><a href="#restrictions">Restrictions</a></li>
-		</ul>
+		wp_editor( get_post_meta( $post_id, 'prizes-desc', true ), 'greatermedia_contest_prizes' );
+	}
 
-		<div id="what-you-win" class="tab active">
-			<?php wp_editor( get_post_meta( $post_id, 'prizes-desc', true ), 'greatermedia_contest_prizes' ); ?>
-		</div>
+	public function contest_enter_metabox( WP_Post $post ) {
+		$post_id = $post->ID;
 
-		<div id="how-to-enter" class="tab">
-			<?php wp_editor( get_post_meta( $post_id, 'how-to-enter-desc', true ), 'greatermedia_contest_enter' ); ?>
-		</div>
+		wp_editor( get_post_meta( $post_id, 'how-to-enter-desc', true ), 'greatermedia_contest_enter' );
+	}
 
-		<div id="contest-rules" class="tab">
-			<?php wp_editor( get_post_meta( $post_id, 'rules-desc', true ), 'greatermedia_contest_rules' ); ?>
-		</div>
+	public function contest_rules_metabox( WP_Post $post ) {
+		$post_id = $post->ID;
 
-		<div id="restrictions" class="tab">
-			<?php $this->_restrictions_settings( $post ); ?>
-		</div><?php
+		wp_editor( get_post_meta( $post_id, 'rules-desc', true ), 'greatermedia_contest_rules' );
+	}
+
+	public function contest_restrictions_metabox( WP_Post $post ) {
+		$post_id = $post->ID;
+
+		$this->_restrictions_settings( $post );
 	}
 
 	private function _restrictions_settings( WP_Post $post ) {
-		$post_status = get_post_status_object( $post->post_status );
+		$post_status     = get_post_status_object( $post->post_status );
 		$datetime_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
 		$started = get_post_meta( $post->ID, 'contest-start', true );
-		$ended = get_post_meta( $post->ID, 'contest-end', true );
+		$ended   = get_post_meta( $post->ID, 'contest-end', true );
 
 		$is_secret = get_post_meta( $post->ID, 'secret', true );
 		$is_secret = filter_var( $is_secret, FILTER_VALIDATE_BOOLEAN );
 
 		$offset = get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
 
-		?><table class="form-table">
-			<tr>
-				<th scope="row"><label for="greatermedia_contest_start">Start date</label></th>
-				<td>
-					<?php if ( ! $post_status->public ) : ?>
-						<?php $this->render_date_field( array(
-							'post_id' => $post->ID,
-							'id'      => 'greatermedia_contest_start',
-							'name'    => 'greatermedia_contest_start',
-							'value'   => get_post_meta( $post->ID, 'contest-start', true )
-						) ); ?>
-					<?php else : ?>
-						<b>
-							<?php if ( ! empty( $started ) ) : ?>
-								<?php echo date( $datetime_format, $started + $offset ); ?>
-							<?php else : ?>
-								&#8212;
-							<?php endif; ?>
-						</b>
-
+		?>
+		<table class="form-table">
+		<tr>
+			<th scope="row"><label for="greatermedia_contest_start">Start date</label></th>
+			<td>
+				<?php if ( ! $post_status->public ) : ?>
+					<?php $this->render_date_field( array(
+						'post_id' => $post->ID,
+						'id'      => 'greatermedia_contest_start',
+						'name'    => 'greatermedia_contest_start',
+						'value'   => get_post_meta( $post->ID, 'contest-start', true )
+					) ); ?>
+				<?php else : ?>
+					<b>
 						<?php if ( ! empty( $started ) ) : ?>
-							<small style="margin-left:2em;">
-								(server time is <?php echo date( $datetime_format, current_time( 'timestamp' ) ); ?>)
-							</small>
+							<?php echo date( $datetime_format, $started + $offset ); ?>
+						<?php else : ?>
+							&#8212;
 						<?php endif; ?>
+					</b>
+
+					<?php if ( ! empty( $started ) ) : ?>
+						<small style="margin-left:2em;">
+							(server time is <?php echo date( $datetime_format, current_time( 'timestamp' ) ); ?>)
+						</small>
 					<?php endif; ?>
-				</td>
-			</tr>
+				<?php endif; ?>
+			</td>
+		</tr>
 
-			<tr>
-				<th scope="row"><label for="greatermedia_contest_end">End date</label></th>
-				<td>
-					<?php if ( ! $post_status->public ) : ?>
-						<?php $this->render_date_field( array(
-							'post_id' => $post->ID,
-							'id'      => 'greatermedia_contest_end',
-							'name'    => 'greatermedia_contest_end',
-							'value'   => get_post_meta( $post->ID, 'contest-end', true ),
-						) ); ?>
-					<?php else : ?>
-						<b>
-							<?php if ( ! empty( $ended ) ) : ?>
-								<?php echo date( $datetime_format, $ended + $offset ); ?>
-							<?php else : ?>
-								&#8212;
-							<?php endif; ?>
-						</b>
-
-						<?php if ( empty( $started ) && ! empty( $ended ) ) : ?>
-							<small style="margin-left:2em;">
-								(server time is <?php echo date( $datetime_format, current_time( 'timestamp' ) ); ?>)
-							</small>
+		<tr>
+			<th scope="row"><label for="greatermedia_contest_end">End date</label></th>
+			<td>
+				<?php if ( ! $post_status->public ) : ?>
+					<?php $this->render_date_field( array(
+						'post_id' => $post->ID,
+						'id'      => 'greatermedia_contest_end',
+						'name'    => 'greatermedia_contest_end',
+						'value'   => get_post_meta( $post->ID, 'contest-end', true ),
+					) ); ?>
+				<?php else : ?>
+					<b>
+						<?php if ( ! empty( $ended ) ) : ?>
+							<?php echo date( $datetime_format, $ended + $offset ); ?>
+						<?php else : ?>
+							&#8212;
 						<?php endif; ?>
+					</b>
+
+					<?php if ( empty( $started ) && ! empty( $ended ) ) : ?>
+						<small style="margin-left:2em;">
+							(server time is <?php echo date( $datetime_format, current_time( 'timestamp' ) ); ?>)
+						</small>
 					<?php endif; ?>
-				</td>
-			</tr>
+				<?php endif; ?>
+			</td>
+		</tr>
 		<tr>
 			<th scope="row"><label for="content_is_secret">Make this contest secret</label></th>
 			<td>
 				<input type="hidden" name="content_is_secret"
-					   value="0"/>
+				       value="0"/>
 				<input type="checkbox" value="1" <?php checked( $is_secret ); ?> id="content_is_secret"
-					   name="content_is_secret"/>
+				       name="content_is_secret"/>
 			</td>
 		</tr>
 		</table><?php
@@ -303,7 +340,7 @@ class GreaterMediaContestsMetaboxes {
 		update_post_meta( $post_id, 'contest_type', filter_input( INPUT_POST, 'contest_type' ) );
 
 		$offset = get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
-		$dates = array(
+		$dates  = array(
 			'contest-start' => 'greatermedia_contest_start',
 			'contest-end'   => 'greatermedia_contest_end',
 		);

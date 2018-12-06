@@ -3,14 +3,21 @@
 get_header();
 
 the_post();
-echo '<div class="', join( ' ', get_post_class() ), '">';
+
+?><div <?php post_class(); ?>><?php
 	if ( ee_is_first_page() ) :
 		get_template_part( 'partials/show/header' );
 		get_template_part( 'partials/podcast/header' );
-		get_template_part( 'partials/podcast/meta' );
+
+		?><div class="content-wrap">
+			<?php get_template_part( 'partials/podcast/actions' ); ?>
+		</div><?php
 	endif;
 
-	get_template_part( 'partials/podcast/episodes' );
-echo '</div>';
+	?><div class="episode-content content-wrap">
+		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
+		<?php get_template_part( 'partials/podcast/episodes' ); ?>
+	</div>
+</div><?php
 
 get_footer();

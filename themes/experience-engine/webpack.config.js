@@ -68,8 +68,8 @@ const coreConfig = ( options = {} ) => ( {
 
 								return [
 									require( 'postcss-import' )( importOptions ),
-									require( 'postcss-custom-media' )(),
 									require( 'postcss-preset-env' )( envOptions ),
+									require( 'postcss-custom-media' )(),
 									...( plugins || [] ),
 								];
 							},
@@ -83,6 +83,12 @@ const coreConfig = ( options = {} ) => ( {
 		new MiniCssExtractPlugin(),
 
 		new CopyWebpackPlugin( [
+			// core-js
+			'node_modules/core-js/client/core.min.js',
+			
+			// Perfume.js
+			'node_modules/perfume.js/dist/perfume.umd.min.js',
+
 			// video.js
 			'node_modules/video.js/dist/video-js.min.css',
 			'node_modules/video.js/dist/video.min.js',

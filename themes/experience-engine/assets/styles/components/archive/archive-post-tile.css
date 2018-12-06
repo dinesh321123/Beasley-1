@@ -1,9 +1,13 @@
 .podcast-tile,
 .show-tile,
 .contest-tile {
-    align-items: center;
+	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
+
+	& .type {
+		display: none;
+	}
 
 	& .meta {
 		flex: 0 1 100%;
@@ -35,7 +39,7 @@
 		margin-bottom: 1rem;
 		position: relative;
 
-		&:before {
+		&::before {
 			content: "";
 			display: block;
 			padding-top: calc((3 / 4) * 100%);
@@ -59,9 +63,9 @@
 			right: 0;
 			top: 0;
 		}
-    }
-    
-    & .post-title {
+	}
+
+	& .post-title {
 		& a {
 			color: var(--global-font-primary);
 		}

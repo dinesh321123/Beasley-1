@@ -1,6 +1,7 @@
 .ad {
 	&.-leaderboard {
 		padding: 1rem;
+		margin-bottom: 3.333rem;
 
 		@media (--min-medium-viewport) {
 			background-color: var(--global-gallery);
@@ -15,6 +16,12 @@
 	}
 
 	&.-sticky {
+		display: none;
+
+		@media (--min-xlarge-viewport) {
+			display: block;
+		}
+
 		& .wrapper {
 			@media (--min-large-viewport) {
 				position: sticky;

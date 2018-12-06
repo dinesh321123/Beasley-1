@@ -1,7 +1,38 @@
 .episode-tile {
 	align-items: center;
 	display: flex;
-	padding-bottom: 3.05rem;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding-bottom: 2.22rem;
+
+	@media (--min-small-viewport) {
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+	}
+
+	&:hover,
+	&:focus,
+	&:focus-within {
+		& .meta [class*="share"] {
+			@media (--min-medium-viewport) {
+				display: inline-flex;
+			}
+		}
+	}
+
+	& .post-thumbnail {
+		display: flex;
+		justify-content: flex-start;
+		margin-bottom: 1rem;
+
+		@media (--min-medium-viewport) {
+			margin-bottom: 0;
+		}
+	}
+
+	& .post-title h3 {
+		margin-bottom: .278rem;
+	}
 
 	& .status {
 		& button {
@@ -14,10 +45,23 @@
 	}
 
 	& .meta {
-		padding-left: 1rem;
+		color: var(--global-dove-gray);
+		display: flex;
+		flex: 0 1 100%;
+		flex-wrap: wrap;
 
 		@media (--min-small-viewport) {
 			padding-left: 2.437rem;
+		}
+
+		& .post-title {
+			flex-basis: 100%;
+		}
+
+		& .episode-meta {
+			align-items: flex-end;
+			display: flex;
+			flex-basis: 100%;
 		}
 
 		& p {
@@ -30,21 +74,36 @@
 		}
 
 		& .duration {
+			font-family: var(--global-font-family-secondary);
 			font-size: .833rem;
 			font-weight: 600;
+			white-space: nowrap;
+
+			& svg {
+				transform: translateY(.08rem); /* visually center icon */
+			}
 		}
 
 		& .date {
 			font-size: .778rem;
 			font-weight: 100;
-			padding-left: 1.444rem;
+			padding-left: 1.278rem;
+			white-space: nowrap;
 		}
 
 		& .download {
 			color: var(--brand-primary);
 			display: inline;
+			font-family: var(--global-font-family-secondary);
 			font-size: .778rem;
-			padding-left: 1.444rem;
+			padding-left: 1.278rem;
+			white-space: nowrap;
+		}
+
+		& [class*="share"] {
+			display: none;
+			height: 1.167rem;
+			padding-left: 1rem;
 		}
 	}
 }

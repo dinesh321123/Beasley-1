@@ -37,6 +37,20 @@ class ContentDispatcher extends Component {
 		self.props.init();
 	}
 
+	componentDidUpdate() {
+		const element = document.querySelector( '.scroll-to' );
+		if ( element ) {
+			let top = element.offsetTop;
+
+			const wpadminbar = document.querySelector( '#wpadminbar' );
+			if ( wpadminbar ) {
+				top -= wpadminbar.offsetHeight;
+			}
+
+			setTimeout( () => window.scrollTo( 0, top ), 500 );
+		}
+	}
+
 	componentWillUnmount() {
 		window.removeEventListener( 'click', this.onClick );
 		window.removeEventListener( 'popstate', this.onPageChange );

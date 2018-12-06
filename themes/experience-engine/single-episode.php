@@ -22,18 +22,20 @@
 				ee_the_episode_player();
 			endif;
 
-			the_title( '<h1>', '</h1>' );
-		?></div>
+		?>
+			<h1>
+				<span><?php the_title(); ?></span>
+				<?php ee_the_episode_download(); ?>
+			</h1>
+		</div>
 
 		<div class="episode-meta">
 			<?php if ( ( $duration = ee_get_episode_meta( null, 'duration' ) ) ) : ?>
 				<span class="duration"><?php echo esc_html( $duration ); ?></span>
 			<?php endif; ?>
 
-			<?php get_template_part( 'partials/episode/download' ); ?>
-
+			<?php ee_the_episode_download( 'download -nobor' ); ?>
 			<span class="date"><?php ee_the_date(); ?></span>
-
 			<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
 		</div>
 	</div>

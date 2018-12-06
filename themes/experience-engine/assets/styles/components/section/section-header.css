@@ -10,9 +10,9 @@
 		z-index: 1;
 	}
 
-	&:after {
+	&::after {
 		background-color: var(--global-silver-chalice);
-		content: '';
+		content: "";
 		height: 1px;
 		left: 0;
 		position: absolute;

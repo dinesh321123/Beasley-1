@@ -1,8 +1,8 @@
 <?php
 
-$query = \GreaterMedia\Shows\get_show_gallery_query( 12 );
+$query = \GreaterMedia\Shows\get_show_gallery_query( 16 );
 if ( $query->have_posts() ) :
-	?><div class="archive-tiles">
+	?><div class="archive-tiles -grid -small">
 		<?php ee_the_query_tiles( $query ); ?>
 	</div><?php
 

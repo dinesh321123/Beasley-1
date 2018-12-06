@@ -20,7 +20,7 @@ class PrimaryNavWalker extends \Walker_Nav_Menu {
 		parent::start_el( $element, $item, $depth, $args, $id );
 
 		if ( in_array( 'menu-item-has-children', $item->classes ) ) {
-			$element .= '<button class="sub-menu-activator" aria-haspopup="true"></button>';
+			$element .= '<button class="sub-menu-activator" aria-haspopup="true" aria-label="Open Submenu"></button>';
 		}
 
 		if ( in_array( 'menu-item-toggle', $item->classes ) ) {
