@@ -21,6 +21,9 @@
 @import 'components/archive/archive-post-tile';
 @import 'components/archive/tile-episode';
 
+@import 'components/single/post';
+@import 'components/single/post-share-buttons';
+
 @import 'components/player/ads';
 @import 'components/player/controls';
 @import 'components/player/live-player';
