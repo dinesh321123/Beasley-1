@@ -5,3 +5,22 @@
 	position: absolute !important;
 	width: 1px;
 }
+
+.skip-links > a {
+	background: var(--brand-primary);
+	color: var(--global-theme-font-primary);
+	display: block;
+	font-family: var(--global-font-family-secondary);
+	font-weight: 100;
+	left: -999em;
+	padding: 5px 10px;
+	position: absolute;
+	text-align: center;
+	text-decoration: none;
+	top: -999em;
+
+	&:focus {
+		position: static;
+		text-decoration: none;
+	}
+}

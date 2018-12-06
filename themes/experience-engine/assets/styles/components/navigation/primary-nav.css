@@ -22,7 +22,8 @@
 		text-align: left;
 		width: 100%;
 
-		&:hover {
+		&:hover,
+		&:focus {
 			background-color: rgba(255, 255, 255, .05);
 		}
 	}
@@ -54,7 +55,8 @@
 				width: 8px;
 			}
 
-			&:hover {
+			&:hover,
+			&:focus {
 				background-color: rgba(255, 255, 255, .05);
 			}
 

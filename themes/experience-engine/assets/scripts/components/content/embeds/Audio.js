@@ -88,11 +88,11 @@ class AudioEmbed extends Component {
 
 	render() {
 		const self = this;
-		const { pause, resume } = self.props;
+		const { pause, resume, title } = self.props;
 
 		return (
 			<Fragment>
-				<Controls status={self.getStatus()} play={self.onPlayClick} pause={pause} resume={resume} />
+				<Controls status={self.getStatus()} title={title} play={self.onPlayClick} pause={pause} resume={resume} />
 			</Fragment>
 		);
 	}
