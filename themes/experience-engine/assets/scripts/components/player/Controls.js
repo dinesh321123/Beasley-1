@@ -31,13 +31,14 @@ function Controls( { status, title, play, pause, resume } ) {
 
 Controls.propTypes = {
 	status: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
+	title: PropTypes.string,
 	play: PropTypes.func,
 	pause: PropTypes.func,
 	resume: PropTypes.func,
 };
 
 Controls.defaultProps = {
+	title: '',
 	play: () => { },
 	pause: () => { },
 	resume: () => { },
