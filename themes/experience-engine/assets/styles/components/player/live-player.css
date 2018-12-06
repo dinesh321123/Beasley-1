@@ -1,4 +1,153 @@
 .live-player {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	z-index: 10;
+	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2), 
+				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
+}
+
+.live-player-volume {
+	align-self: center;
+	line-height: 0;
+}
+
+.live-player-contacts {
+	display: flex;
+	line-height: 0;
+	min-width: 89px;
+	justify-content: center;
+	border-left: 1px solid rgba(229, 229, 229, 0.4);
+
+	& .live-player-control-button {
+		align-self: center;
+	}
+}
+
+.live-player-station {
+	display: flex;
+	min-width: 194px;
+	justify-content: center;
+	border-left: 1px solid rgba(229, 229, 229, 0.4);
+
+	& .live-player-control-button {
+		align-self: center;
+		line-height: 1;
+		height: auto;
+		color: var(--global-theme-font-tertiary);
+	}
+}
+
+.live-player-control-button {
+	background: none;
+	border: 0;
+	padding: 0;
+	height: 20px;
+
+	& svg {
+		fill: var(--global-theme-font-tertiary);
+	}
+}
+
+.offline {
+	background: var(--global-theme-primary);
+	min-height: 58px;
+	display: flex;
+	justify-content: flex-start;
+	padding: 0 3rem;
+	position:relative;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+
+	&:before {
+		content: '';
+		display: block;
+		position: absolute;
+		bottom: -10px;
+		width: 0;
+		height: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		border-left: 10px solid transparent;
+  		border-right: 10px solid transparent;
+		border-top: 10px solid var(--global-theme-primary);
+	}
+
+	& .offline-title,
+	& .offline-description {
+		align-self: center;
+	}
+
+	& .offline-title {
+		color: var(--brand-primary);
+		font-weight: 500;
+		margin-right: 1rem;
+	}
+
+	& .offline-description {
+		color: var(--global-theme-font-primary);
+	}
+}
+
+.controls {
+	align-content: center;
+	background-color: var(--global-theme-secondary);
+	display: flex;
+	justify-content: space-between;
+	min-height: 84px;
+
+	& .controls-wrap {
+		display: flex;
+	}
+}
+
+.play-btn,
+.pause-btn,
+.resume-btn,
+.loading-btn {
+	display: none;
+}
+
+.LIVE_PAUSE .resume-btn,
+.LIVE_PLAYING .pause-btn,
+.LIVE_STOP .play-btn,
+.LIVE_FAILED .play-btn,
+.LIVE_BUFFERING .loading-btn,
+.LIVE_CONNECTING .loading-btn,
+.LIVE_RECONNECTING .loading-btn,
+.STREAM_GEO_BLOCKED .play-btn,
+.STATION_NOT_FOUND .play-btn {
+	align-items: center;
+	background-color: var(--brand-primary);
+	cursor: pointer;
+	display: flex;
+	height: 52px;
+	justify-content: center;
+	width: 52px;
+	border-width: 1px;
+	border-color: var(--global-divider);
+	margin: 0 1rem;
+
+	&.btn-offline {
+		opacity: 0.7;
+		cursor: not-allowed;
+
+		& svg {
+			transform: translateX(0);
+		}
+	}
+
+	& svg {
+		fill: var(--brand-tertiary);
+		transform: translateX(10%);
+	}
+}
+
+.live-player-status {
+	align-self: center;
+}
+
+/* .live-player {
 	background-color: var(--global-theme-secondary);
 	bottom: 0;
 	left: 0;
@@ -73,11 +222,17 @@
 		display: flex;
 		align-items: center;
 		flex: 0 1 436px;
+		order: 2;
+
+		@media(--min-medium-viewport) {
+			order: 0;
+		}
 	}
 
 	& .live-player-info-meta {
 		color: var(--global-theme-font-primary);
 		padding: 0 1.5rem;
+
 		& strong {
 			font-size: 1rem;
 		}
@@ -103,18 +258,30 @@
 	& .live-player-user-controls {
 		display: flex;
 		justify-content: center;
-		flex: 0 1 626px;
+		order: 1;
+		
+		@media(--min-medium-viewport) {
+			flex: 0 1 626px;
+			order: 0;
+		}
 	}
 
 	& .live-player-recents {
-		display: flex;
-		align-items: center;
+		display: none;
+		@media(--min-medium-viewport) {
+			display: flex;
+			align-items: center;
+		}
 	}
 
 	& .live-player-volume {
-		display: flex;
-		align-items: center;
-		position: relative;
+		display: none;
+
+		@media(--min-medium-viewport) {
+			display: flex;
+			align-items: center;
+			position: relative;
+		}
 
 		& .live-player-audio-input {
 			position: absolute;
@@ -126,20 +293,35 @@
 	}
 
 	& .live-player-station {
-		flex: 0 1 186px;
-		font-size: 15px;
-		font-weight: 600;
+		display: none;
+
+		@media(--min-medium-viewport) {
+			display: inline-flex;
+			flex: 0 1 186px;
+			font-size: 15px;
+			font-weight: 600;
+		}
 	}
 
 	& .live-player-contacts {
 		flex: 0 1 89px;
+		order: 3;
+
+		@media(--min-medium-viewport) {
+			order: 0;
+		}
 	}
 
 	& .live-player-sponsor {
-		flex: 0 1 361px;
-		border-left: 0;
-		justify-content: flex-end;
-		padding: 0 1.5rem;
+		display: none;
+
+		@media(--min-medium-viewport) {
+			display: inline-flex;
+			flex: 0 1 361px;
+			border-left: 0;
+			justify-content: flex-end;
+			padding: 0 1.5rem;
+		}
 
 		& .live-player-sponsor-text {
 			text-transform: uppercase;
@@ -206,7 +388,9 @@
 }
 
 .play-btn {
-	margin: 0 2rem;
+	@media(--min-medium-viewport) {
+		margin: 0 2rem;
+	}
 }
 
 .play-btn,
@@ -229,16 +413,24 @@
 	background-color: var(--brand-primary);
 	cursor: pointer;
 	display: flex;
-	height: 64px;
+	height: 48px;
 	justify-content: center;
-	width: 64px;
+	width: 48px;
 	border-width: 1px;
 	border-color: var(--global-divider);
 
+	@media(--min-medium-viewport) {
+		height: 64px;
+		width: 64px;
+	}
+
 	& svg {
 		fill: var(--brand-tertiary);
-		max-height: 31px;
+		max-height: 26px;
 		transform: translateX(10%);
+		@media(--min-medium-viewport) {
+			max-height: 31px;
+		}
 	}
 }
 
@@ -260,6 +452,10 @@
 	display: flex;
 	min-height: 84px;
 	position: relative;
+	padding: 12px 0 12px 12px;
+	@media(--min-medium-viewport) {
+		padding: 0;
+	}
 }
 
 .wp-audio-shortcode,
@@ -277,4 +473,4 @@ iframe[src^="https://omny.fm"] {
 .offline-title {
 	color: var(--global-theme-font-primary);
 	font-weight: 600;
-}
+} */

@@ -8,11 +8,11 @@ import Stations from '../components/player/Stations';
 import Controls from '../components/player/Controls';
 import Info from '../components/player/Info';
 import Volume from '../components/player/Volume';
-import Progress from '../components/player/Progress';
+//import Progress from '../components/player/Progress';
 import RecentSongs from '../components/player/RecentSongs';
 import Offline from '../components/player/Offline';
 import Contacts from '../components/player/Contacts';
-import Sponsor from '../components/player/Sponsor';
+// import Sponsor from '../components/player/Sponsor';
 
 import * as actions from '../redux/actions/player';
 
@@ -102,7 +102,7 @@ class LivePlayer extends Component {
 		} = props;
 
 		let notification = false;
-		if ( !online ) {
+		if ( online ) {
 			notification = <Offline />;
 		}
 
@@ -120,24 +120,18 @@ class LivePlayer extends Component {
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
 				<div className="controls">
+
 					<Info />
 					
-					<div className="live-player-user-controls">
+					<div className="controls-wrap">
 						<RecentSongs />
-						<Controls status={status} play={() => play( station )} pause={pause} resume={resume} />
+						<Controls online={ online } status={status} play={() => play( station )} pause={pause} resume={resume} />
 						<Volume />
 					</div>
-					<Progress />
-					<div className="live-player-sponsor -center">
-						<p className="live-player-sponsor-text">Sponsored: <strong>Planet Fitness</strong></p>
-					</div>
-					<Sponsor />
+					
 					<Stations />
 					<Contacts />
 				</div>
-				
-				
-				
 			</Fragment>
 		);
 

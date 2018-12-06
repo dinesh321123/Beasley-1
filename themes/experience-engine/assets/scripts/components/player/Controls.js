@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Controls( { status, play, pause, resume } ) {
+function Controls( { status, play, pause, resume, online } ) {
 	return (
 		<div className={`live-player-status status ${status}`}>
-			<button type="button" className="play-btn" onClick={play} aria-label="Play">
-				<svg viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg">
-					<path d="M16.1836 12.0055L0.910156 23.124L0.910156 0.887031L16.1836 12.0055Z" />
-				</svg>
+			<button type="button" className={ `play-btn ${ 'btn-offline' }` } onClick={play} aria-label="Play">
+				{ ! online ? (
+					<svg viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg">
+						<path d="M16.1836 12.0055L0.910156 23.124L0.910156 0.887031L16.1836 12.0055Z" />
+					</svg>
+				) : (
+					<svg className="offline-btn" width="6" height="31" viewBox="0 0 6 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<rect x="0.359375" y="0.160156" width="5.28" height="20.7138" fill="white"/>
+						<rect x="0.359375" y="25.2402" width="5.28" height="5.28" fill="white"/>
+					</svg>
+				) }
+				
 			</button>
 
 			<button type="button" className="pause-btn" onClick={pause}  aria-label="Pause">
@@ -34,6 +42,7 @@ Controls.propTypes = {
 	play: PropTypes.func,
 	pause: PropTypes.func,
 	resume: PropTypes.func,
+	online: PropTypes.bool
 };
 
 Controls.defaultProps = {
