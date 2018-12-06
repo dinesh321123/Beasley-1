@@ -37,9 +37,7 @@
 			<div>
 				<div>
 					<!-- Featured Media -->
-					<figure class="post-thumbnail">
-						<?php get_template_part( 'partials/featured-media' ); ?>
-					</figure>
+					<?php get_template_part( 'partials/featured-media' ); ?>
 
 					<div class="post-content-wrap">
 						<div class="post-thumbnail-caption">
