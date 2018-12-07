@@ -11,6 +11,7 @@
 			<div class="entry2__thumbnail--end-date">
 				<?php $end_date = get_post_meta( get_the_ID(), 'contest-end', true ); ?>
 				<?php if ( ! empty( $end_date ) ) : ?>
+					<?php $end_date += get_option( 'gmt_offset' ) * HOUR_IN_SECONDS; ?>
 					<?php if ( $end_date > current_time( 'timestamp', 1 ) ) : ?>
 						<div class="entry2__thumbnail--day-of-week">Ends <?php echo date( 'l', $end_date ); ?></div>
 						<div class="entry2__thumbnail--month-and-day"><?php echo date( 'M j', $end_date ); ?></div>
