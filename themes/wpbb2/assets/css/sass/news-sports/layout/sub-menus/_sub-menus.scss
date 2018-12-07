@@ -1,0 +1,34 @@
+.header__nav .sub-menu,
+.header__account--links.sub-menu,
+.ui-menu {
+	border-bottom-color: $color-red-dark;
+}
+
+.header__nav .sub-menu li.active > a,
+.header__nav .sub-menu li:hover > a,
+.header__nav > ul > li > ul > li.active > a:hover {
+	background-color: $color-red;
+	color: white;
+}
+
+.mobile-nav {
+	.mobile-menu-submenu-header {
+		background-color: $color-red;
+	}
+
+	.show-subnavigation {
+		border-left-color: $color-gray-medium;
+	}
+}
+
+.header__nav .sub-menu,
+.header__account--links.sub-menu,
+.ui-menu {
+
+	a {
+
+		&:hover {
+			background-color: $color-red;
+		}
+	}
+}

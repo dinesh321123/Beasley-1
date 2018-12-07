@@ -1,0 +1,62 @@
+/**
+ * Root of the parent theme's asset folder
+ */
+$asset_root: "../../../../themes/greatermedia/assets/";
+
+// Color from parent theme
+$cardinal: #d22228;
+$light-gray: #d0d2d3;
+$gray: #929497;
+$medium-gray: #404041;
+$dark-gray: #282827;
+$highlights-bg: #5a5a5a;
+$highlights-heading: #ffffff;
+
+// child theme specific colors to use
+//
+// @author Allen Moore
+// @since 0.1.0
+//
+
+// The Fanatic Colors:
+$color-gray: $gray;
+$color-gray-light: #e3e4e5;
+$color-gray-medium-light: $medium-gray;
+$color-gray-medium-lighter: #6d6f70;
+$color-gray-medium: #58595b;
+$color-gray-medium-dark: #303030;
+$color-gray-dark: #221f1f;
+
+$color-red: #db261d;
+$color-red-dark: #580f0c;
+
+$primary-bg: #ffffff;
+$primary-border: #b8babc;
+$primary-text: $color-gray-medium;
+$primary-heading: #000000;
+$primary-link: $color-red;
+$primary-link-hover: darken($primary-link, 9%);
+$liveplayer-bg: $primary-bg;
+$liveplayer-color: #404041;
+$secondary-bg: $color-gray-light;
+$header-bg: $color-gray-light;
+$header-nav-border: $color-red-dark;
+$header-search-bg: $color-gray-medium-light;
+
+$gallery-bg: $color-gray;
+$gallery-text: #ffffff;
+$gallery-thumbs-bg: $color-gray-medium;
+$gallery-border: $primary-border;
+$gallery-grid-border: $gray;
+$gallery-grid-text: $gray;
+
+$btn-bg: $color-red;
+$btn-hover: $color-red-dark;
+$btn-inactive: $light-gray;
+
+$show-highlights-bg: $color-gray-light;
+
+$social-color: #000000;
+$social-hover: $color-red;
+
+$breaking-news-bg: $color-red;
