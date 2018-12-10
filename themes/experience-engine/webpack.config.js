@@ -110,7 +110,6 @@ function coreConfig( options = {} ) {
 		},
 		plugins: [
 			new MiniCssExtractPlugin(),
-			new ModuleConcatenationPlugin(),
 			new CopyWebpackPlugin( copyPluginArgs ),
 		],
 		optimization: {
@@ -120,12 +119,17 @@ function coreConfig( options = {} ) {
 }
 
 function development() {
-	return {
+	config = {
 		...coreConfig(),
 		name: 'dev-config',
 		mode: 'development',
 		devtool: 'eval',
 	};
+
+	const concatenation = new ModuleConcatenationPlugin();
+	config.plugins.push( concatenation );
+
+	return config;
 }
 
 function watch() {
@@ -147,11 +151,16 @@ function production() {
 		},
 	};
 
-	return {
+	const config = {
 		...coreConfig( options ),
 		name: 'prod-config',
 		mode: 'production',
 	};
+
+	const concatenation = new ModuleConcatenationPlugin();
+	config.plugins.push( concatenation );
+
+	return config;
 }
 
 function analyze() {
