@@ -49,6 +49,9 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
 		wp_script_add_data( 'googletag', 'async', true );
 
+		wp_register_script( 'firebase-app', '//www.gstatic.com/firebasejs/5.7.0/firebase-app.js', null, null, true );
+		wp_register_script( 'firebase-auth', '//www.gstatic.com/firebasejs/5.7.0/firebase-auth.js', null, null, true );
+
 		if ( $is_script_debug ) {
 			$perfume = array(
 				'firstPaint'           => true,
@@ -73,7 +76,7 @@ try {
 }
 EOL;
 
-		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'googletag', 'embedly-player.js', 'td-sdk' ), GREATERMEDIA_VERSION, true );
+		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'firebase-app', 'firebase-auth', 'googletag', 'embedly-player.js', 'td-sdk' ), GREATERMEDIA_VERSION, true );
 		wp_add_inline_script( 'ee-app', $bbgiconfig, 'before' );
 
 		/**
