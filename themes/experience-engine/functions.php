@@ -25,7 +25,7 @@ require_once __DIR__ . '/includes/shows.php';
 require_once __DIR__ . '/includes/class-primary-nav-walker.php';
 require_once __DIR__ . '/includes/jacapps.php';
 require_once __DIR__ . '/includes/settings.php';
-require_once __DIR__ . '/includes/emebeds.php';
+require_once __DIR__ . '/includes/embeds.php';
 require_once __DIR__ . '/includes/dfp.php';
 require_once __DIR__ . '/includes/homepage.php';
 require_once __DIR__ . '/includes/galleries.php';
