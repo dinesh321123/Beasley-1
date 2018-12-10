@@ -50,7 +50,8 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_script_add_data( 'googletag', 'async', true );
 
 		wp_register_script( 'firebase-app', '//www.gstatic.com/firebasejs/5.7.0/firebase-app.js', null, null, true );
-		wp_register_script( 'firebase-auth', '//www.gstatic.com/firebasejs/5.7.0/firebase-auth.js', null, null, true );
+		wp_register_script( 'firebase-auth', '//www.gstatic.com/firebasejs/5.7.0/firebase-auth.js', array( 'firebase-app' ), null, true );
+		wp_register_script( 'firebase-database', '//www.gstatic.com/firebasejs/5.7.0/firebase-database.js', array( 'firebase-app' ), null, true );
 
 		if ( $is_script_debug ) {
 			$perfume = array(
@@ -76,7 +77,16 @@ try {
 }
 EOL;
 
-		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", array( 'firebase-app', 'firebase-auth', 'googletag', 'embedly-player.js', 'td-sdk' ), GREATERMEDIA_VERSION, true );
+		$deps = array(
+			'firebase-app',
+			'firebase-auth',
+			'firebase-database',
+			'googletag',
+			'embedly-player.js',
+			'td-sdk',
+		);
+
+		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", $deps, GREATERMEDIA_VERSION, true );
 		wp_add_inline_script( 'ee-app', $bbgiconfig, 'before' );
 
 		/**
