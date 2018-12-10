@@ -15,7 +15,7 @@ class EmbedVideo extends PureComponent {
 		const iframe = fragment.querySelector( 'iframe' );
 		if ( iframe ) {
 			const parts = iframe.src.split( '?' );
-			iframe.src = src = parts[0] + '?' + ( parts[1] || '' ) + '&rel=0&showinfo=0&autoplay=1';
+			iframe.src = src = `${parts[0]}?${( parts[1] || '' )}&rel=0&showinfo=0&autoplay=1`;
 			html = iframe.outerHTML;
 		}
 
