@@ -147,7 +147,7 @@ class Dfp extends PureComponent {
 			const { placeholder } = self.props;
 			const container = document.getElementById( placeholder );
 
-			if ( !self.slot && isInViewport( container, 0, 100 ) ) {
+			if ( container && !self.slot && isInViewport( container, 0, 100 ) ) {
 				self.removeListeners();
 				self.registerSlot();
 			}
