@@ -45,7 +45,7 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 				}
 			}
 
-			echo '<div class="archive-tiles -grid -small">';
+			echo '<div class="archive-tiles -carousel -small">';
 				foreach ( $feed['content'] as $item ) {
 					if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
 						$post = ee_setup_post_from_feed_item( $item, $feed );
