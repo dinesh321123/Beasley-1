@@ -37,15 +37,14 @@ endif;
 if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
 		static $index = 1;
+		$size = $index === 1 ? '-large' : '-small';
 		echo '<div class="content-wrap">';
 			if ( ! empty( $feed['title'] ) ) {
 				ee_the_subtitle( $feed['title'] );
-				if ( ! empty( $feed['description'] ) ) {
-					echo '<p>', esc_html( $feed['description'] ), '</p>';
-				}
+				// echo '<a class="archive-link" href="#">See All</a>'
 			}
 
-			echo '<div class="archive-tiles -carousel -small">';
+			echo '<div class="archive-tiles -carousel ' . esc_attr( $size ) .'">';
 				foreach ( $feed['content'] as $item ) {
 					if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
 						$post = ee_setup_post_from_feed_item( $item, $feed );

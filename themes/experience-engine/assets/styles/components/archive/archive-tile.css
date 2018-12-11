@@ -173,7 +173,8 @@
 }
 
 .single-show,
-.search-results {
+.search-results,
+.home {
 	& .archive-tiles {
 		& .placeholder-audio {
 			position: absolute;
