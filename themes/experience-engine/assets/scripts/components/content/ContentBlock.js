@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-import DelayedComponent from './DelayedEmbed';
 import AudioEmbed from './embeds/Audio';
 import SecondStreetEmbed from './embeds/SecondStreet';
 import LazyImage from './embeds/LazyImage';
@@ -27,31 +26,59 @@ const mapping = {
 	countdown: Countdown,
 };
 
-function ContentBlock( { content, embeds, partial } ) {
-	const portal = ReactDOM.createPortal(
-		<div dangerouslySetInnerHTML={{ __html: content }} />,
-		document.getElementById( partial ? 'inner-content' : 'content' )
-	);
+class ContentBlock extends Component {
 
-	const embedComponents = embeds.map( ( embed ) => {
+	static createEmbed( embed ) {
 		const { type, params } = embed;
 		const { placeholder } = params;
 
-		let component = mapping[type] || false;
-		if ( component ) {
-			component = React.createElement( component, params );
-			component = React.createElement( DelayedComponent, { key: placeholder, placeholder }, component );
+		const component = mapping[type] || false;
+		if ( !component ) {
+			return false;
 		}
 
-		return component;
-	} );
+		const container = document.getElementById( placeholder );
+		if ( !container ) {
+			return false;
+		}
 
-	return (
-		<Fragment>
-			{portal}
-			{embedComponents}
-		</Fragment>
-	);
+		return ReactDOM.createPortal(
+			React.createElement( component, params ),
+			container,
+		);
+	}
+
+	constructor( props ) {
+		super( props );
+
+		const self = this;
+		self.state = { ready: false };
+	}
+
+	componentDidMount() {
+		this.setState( { ready: true } );
+	}
+
+	render() {
+		const self = this;
+		const { content, embeds, partial } = self.props;
+		const { ready } = self.state;
+
+		const portal = ReactDOM.createPortal(
+			<div dangerouslySetInnerHTML={{ __html: content }} />,
+			document.getElementById( partial ? 'inner-content' : 'content' )
+		);
+
+		const embedComponents = ready ? embeds.map( ContentBlock.createEmbed ) : false;
+
+		return (
+			<Fragment>
+				{portal}
+				{embedComponents}
+			</Fragment>
+		);
+	}
+
 }
 
 ContentBlock.propTypes = {

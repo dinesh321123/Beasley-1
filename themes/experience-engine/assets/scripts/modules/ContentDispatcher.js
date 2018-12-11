@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -112,22 +112,21 @@ class ContentDispatcher extends Component {
 
 	render() {
 		const { content, embeds, partials } = this.props;
+		const blocks = [];
 
 		if ( !content || !content.length ) {
 			return false;
 		}
 
-		const extraBlocks = [];
+		blocks.push(
+			<ContentBlock key={window.location.href} content={content} embeds={embeds} />,
+		);
+
 		Object.keys( partials ).forEach( ( key ) => {
-			extraBlocks.push( <ContentBlock key={key} {...partials[key]} partial /> );
+			blocks.push( <ContentBlock key={key} {...partials[key]} partial /> );
 		} );
 
-		return (
-			<Fragment>
-				<ContentBlock content={content} embeds={embeds} />
-				{extraBlocks}
-			</Fragment>
-		);
+		return blocks;
 	}
 
 }
@@ -141,16 +140,20 @@ ContentDispatcher.propTypes = {
 	update: PropTypes.func.isRequired,
 };
 
-const mapStateToProps= ( { screen } ) => ( {
-	content: screen.content,
-	embeds: screen.embeds,
-	partials: screen.partials,
-} );
+function mapStateToProps( { screen } ) {
+	return {
+		content: screen.content,
+		embeds: screen.embeds,
+		partials: screen.partials,
+	};
+}
 
-const mapDispatchToProps = ( dispatch ) => bindActionCreators( {
-	init: initPage,
-	load: loadPage,
-	update: updatePage,
-}, dispatch );
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( {
+		init: initPage,
+		load: loadPage,
+		update: updatePage,
+	}, dispatch );
+}
 
 export default connect( mapStateToProps, mapDispatchToProps )( ContentDispatcher );
