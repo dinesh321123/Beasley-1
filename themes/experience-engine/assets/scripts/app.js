@@ -1,9 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import cssVars from 'css-vars-ponyfill';
 
 import createStore from './redux/store';
+
+import IntersectionObserverContext, { Observable } from './context/intersection-observer';
 
 import ContentDispatcher from './modules/ContentDispatcher';
 import ModalDispatcher from './modules/ModalDispatcher';
@@ -17,8 +19,6 @@ import '../styles/main.css';
 let theme = {};
 const { bbgiconfig } = window;
 const { themeData } = bbgiconfig;
-const root = document.createElement( 'div' );
-document.body.appendChild( root );
 
 if ( '-dark' === themeData.theme ) {
 	theme = {
@@ -43,17 +43,35 @@ cssVars( {
 	variables: fullTheme,
 } );
 
+class Application extends PureComponent {
+
+	constructor( props ) {
+		super( props );
+
+		this.observer = new Observable();
+	}
+
+	render() {
+		return (
+			<IntersectionObserverContext.Provider value={this.observer}>
+				<ContentDispatcher />
+				<ModalDispatcher />
+				<LivePlayer />
+				<PrimaryNav />
+				<UserNav />
+				<SearchForm />
+			</IntersectionObserverContext.Provider>
+		);
+	}
+
+}
+
+const root = document.createElement( 'div' );
+document.body.appendChild( root );
 
 const app = (
 	<Provider store={createStore()}>
-		<Fragment>
-			<ContentDispatcher />
-			<ModalDispatcher />
-			<LivePlayer />
-			<PrimaryNav />
-			<UserNav />
-			<SearchForm />
-		</Fragment>
+		<Application />
 	</Provider>
 );
 

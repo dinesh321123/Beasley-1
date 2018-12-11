@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { isInViewport } from '../../../library/dom';
+import IntersectionObserverContext from '../../../context/intersection-observer';
 
 class Dfp extends PureComponent {
 
@@ -16,16 +16,14 @@ class Dfp extends PureComponent {
 
 		self.onVisibilityChange = self.handleVisibilityChange.bind( self );
 		self.refreshSlot = self.refreshSlot.bind( self );
-		self.tryDisplaySlot = self.tryDisplaySlot.bind( self );
 	}
 
 	componentDidMount() {
 		const self = this;
+		const { placeholder } = self.props;
 
-		window.addEventListener( 'scroll', self.tryDisplaySlot, true );
-		window.addEventListener( 'resize', self.tryDisplaySlot );
-
-		self.tryDisplaySlot();
+		self.container = document.getElementById( placeholder );
+		self.context.observe( self.container, self.tryDisplaySlot.bind( self ) );
 
 		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
 			self.startInterval();
@@ -36,19 +34,13 @@ class Dfp extends PureComponent {
 	componentWillUnmount() {
 		const self = this;
 
-		self.removeListeners();
+		self.context.unobserve( self.container );
 		self.destroySlot();
 
 		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
 			self.stopInterval();
 			document.removeEventListener( 'visibilitychange', self.onVisibilityChange );
 		}
-	}
-
-	removeListeners() {
-		const self = this;
-		window.removeEventListener( 'scroll', self.tryDisplaySlot, true );
-		window.removeEventListener( 'resize', self.tryDisplaySlot );
 	}
 
 	handleVisibilityChange() {
@@ -144,11 +136,10 @@ class Dfp extends PureComponent {
 	tryDisplaySlot() {
 		window.requestAnimationFrame( () => {
 			const self = this;
-			const { placeholder } = self.props;
-			const container = document.getElementById( placeholder );
 
-			if ( container && !self.slot && isInViewport( container, 0, 100 ) ) {
-				self.removeListeners();
+			self.context.unobserve( self.container );
+
+			if ( !self.slot ) {
 				self.registerSlot();
 			}
 		} );
@@ -171,5 +162,7 @@ Dfp.propTypes = {
 Dfp.defaultProps = {
 	targeting: [],
 };
+
+Dfp.contextType = IntersectionObserverContext;
 
 export default Dfp;

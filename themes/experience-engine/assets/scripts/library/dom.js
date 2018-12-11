@@ -93,22 +93,10 @@ export function unloadScripts( scripts = [] ) {
 	}
 }
 
-export function isInViewport( container, containerWidth, containerHeight ) {
-	const bounding = container.getBoundingClientRect();
-	const { top, left, bottom, right } = bounding;
-
-	const { documentElement } = document;
-	const innerHeight = ( window.innerHeight || documentElement.clientHeight ) + containerHeight;
-	const innerWidth = ( window.innerWidth || documentElement.clientWidth ) + containerWidth;
-
-	return -containerHeight <= top && -containerWidth <= left && bottom <= innerHeight && right <= innerWidth;
-}
-
 export default {
 	removeChildren,
 	removeElement,
 	dispatchEvent,
 	loadAssets,
 	unloadScripts,
-	isInViewport,
 };
