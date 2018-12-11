@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 import md5 from 'md5';
-
-import 'firebase/auth';
 
 import { showSignInModal, showSignUpModal } from '../redux/actions/modal';
 
@@ -43,11 +42,11 @@ class UserNav extends Component {
 	}
 
 	handleSignIn() {
-		this.props.dispatch( showSignInModal() );
+		this.props.showSignIn();
 	}
 
 	handleSignUp() {
-		this.props.dispatch( showSignUpModal() );
+		this.props.showSignUp();
 	}
 
 	handleSignOut() {
@@ -55,9 +54,7 @@ class UserNav extends Component {
 	}
 
 	renderLoadingState() {
-		return (
-			<div>Loading...</div>
-		);
+		return <div className="loading" />;
 	}
 
 	renderSignedInState() {
@@ -124,7 +121,15 @@ class UserNav extends Component {
 }
 
 UserNav.propTypes = {
-	dispatch: PropTypes.func.isRequired,
+	showSignIn: PropTypes.func.isRequired,
+	showSignUp: PropTypes.func.isRequired,
 };
 
-export default connect()( UserNav );
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( {
+		showSignIn: showSignInModal,
+		showSignUp: showSignUpModal,
+	}, dispatch );
+}
+
+export default connect( null, mapDispatchToProps )( UserNav );

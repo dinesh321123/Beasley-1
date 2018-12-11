@@ -24,12 +24,10 @@ class Firebase extends \Bbgi\Module {
 		$text_callback = array( $this, 'render_text_setting' );
 
 		$fields = array(
-			'apiKey'            => 'API Key',
-			'authDomain'        => 'Auth Domain',
-			'databaseURL'       => 'Database URL',
-			'projectId'         => 'Project ID',
-			'storageBucket'     => 'Storage Bucket',
-			'messagingSenderId' => 'Messaging Sender ID',
+			'projectId'   => 'Project ID',
+			'apiKey'      => 'API Key',
+			'authDomain'  => 'Auth Domain',
+			'databaseURL' => 'Database URL',
 		);
 
 		add_settings_section( 'beasley_firebase', 'Firebase', '__return_false', 'media' );
@@ -61,12 +59,10 @@ class Firebase extends \Bbgi\Module {
 	 */
 	public function populate_settings( $settings ) {
 		$settings['firebase'] =  array(
-			'apiKey'            => get_option( 'beasley_firebase_apiKey' ),
-			'authDomain'        => get_option( 'beasley_firebase_authDomain' ),
-			'databaseURL'       => get_option( 'beasley_firebase_databaseURL' ),
-			'projectId'         => get_option( 'beasley_firebase_projectId' ),
-			'storageBucket'     => get_option( 'beasley_firebase_storageBucket' ),
-			'messagingSenderId' => get_option( 'beasley_firebase_messagingSenderId' ),
+			'apiKey'      => get_option( 'beasley_firebase_apiKey' ),
+			'authDomain'  => get_option( 'beasley_firebase_authDomain' ),
+			'databaseURL' => get_option( 'beasley_firebase_databaseURL' ),
+			'projectId'   => get_option( 'beasley_firebase_projectId' ),
 		);
 
 		return $settings;

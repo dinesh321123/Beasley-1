@@ -11,6 +11,7 @@
 		<div class="entry2__event--details">
 			<?php $end_date = get_post_meta( get_the_ID(), 'contest-end', true ); ?>
 			<?php if ( ! empty( $end_date ) ) : ?>
+				<?php $end_date += get_option( 'gmt_offset' ) * HOUR_IN_SECONDS; ?>
 				Ends <?php echo date( 'l', $end_date ); ?>, <?php echo date( 'M j', $end_date ); ?><br>
 			<?php endif; ?>
 

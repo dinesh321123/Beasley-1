@@ -244,11 +244,8 @@ if ( ! function_exists( 'ee_display_dfp_outofpage' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ee_the_content_with_ads' ) ) :
-	function ee_the_content_with_ads() {
-		$content = apply_filters( 'the_content', get_the_content() );
-		$content = str_replace( ']]>', ']]&gt;', $content );
-
+if ( ! function_exists( 'ee_add_ads_to_content' ) ) :
+	function ee_add_ads_to_content( $content ) {
 		$parts = explode( '</p>', $content );
 		$new_content = '';
 
@@ -269,6 +266,14 @@ if ( ! function_exists( 'ee_the_content_with_ads' ) ) :
 			$new_content .= ee_dfp_slot( 'dfp_ad_incontent_pos1', false, array(), false );
 		}
 
-		echo $new_content;
+		return $new_content;
+	}
+endif;
+
+if ( ! function_exists( 'ee_the_content_with_ads' ) ) :
+	function ee_the_content_with_ads() {
+		add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
+		the_content();
+		remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 	}
 endif;

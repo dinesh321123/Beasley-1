@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 
 class OAuthButtons extends PureComponent {
 

@@ -19,6 +19,7 @@
 
 		& > div {
 			flex: 0 1 100%;
+			padding-bottom: 2.222rem;
 
 			@media (--min-medium-viewport) {
 				flex: 0 1 calc(50% - 1.5rem);
@@ -173,7 +174,8 @@
 	}
 }
 
-.single-show {
+.single-show,
+.search-results {
 	& .archive-tiles {
 		& .placeholder-audio {
 			position: absolute;

@@ -1,7 +1,13 @@
 <?php
 
-add_filter( 'embed_oembed_html', 'ee_update_embed_oembed_html', 10, 4 );
-add_filter( 'fvideos_video_html', 'ee_update_fvideos_video_html', 10, 2 );
+add_action( 'beasley_after_body', 'ee_setup_embed_filters' );
+
+if ( ! function_exists( 'ee_setup_embed_filters' ) ) :
+	function ee_setup_embed_filters() {
+		add_filter( 'embed_oembed_html', 'ee_update_embed_oembed_html', 10, 4 );
+		add_filter( 'fvideos_video_html', 'ee_update_fvideos_video_html', 10, 2 );
+	}
+endif;
 
 if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 	function ee_update_embed_oembed_html( $html, $url, $attr, $post_ID ) {
@@ -20,7 +26,15 @@ if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 			$html = ee_oembed_youtube_html( $data );
 		}
 
-		return $html;
+		// we need to make sure that wpautop filter doesn't mess everything up here, so we need to inject embed code later
+		$placeholder = '<div><!-- ' . sha1( $html ) . ' --></div>';
+		$replace_filter = function( $content ) use ( $placeholder, $html ) {
+			return str_replace( $placeholder, $html, $content );
+		};
+
+		add_filter( 'the_content', $replace_filter, 150 );
+
+		return $placeholder;
 	}
 endif;
 
