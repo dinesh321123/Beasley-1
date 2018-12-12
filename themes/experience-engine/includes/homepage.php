@@ -40,8 +40,11 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 		$size = $index === 1 ? '-large' : '-small';
 		echo '<div class="content-wrap">';
 			if ( ! empty( $feed['title'] ) ) {
-				ee_the_subtitle( $feed['title'] );
-				// echo '<a class="archive-link" href="#">See All</a>'
+				if ( $index <= 1 ) {
+					ee_the_subtitle( $feed['title'] );
+				} else {
+					ee_the_subtitle( $feed['title'], 'true' );
+				}
 			}
 
 			echo '<div class="archive-tiles -carousel ' . esc_attr( $size ) .'">';
