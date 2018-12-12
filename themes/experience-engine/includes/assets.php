@@ -163,8 +163,10 @@ endif;
 
 if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 	function _ee_the_lazy_image( $url, $width, $height, $alt = '' ) {
-		return sprintf(
-			ee_is_jacapps()
+		$is_jacapps = ee_is_jacapps();
+
+		$image = sprintf(
+			$is_jacapps
 				? '<img src="%s" width="%s" height="%s">'
 				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-alt="%s"></div>',
 			esc_attr( $url ),
@@ -172,6 +174,10 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 			esc_attr( $height ),
 			esc_attr( $alt )
 		);
+
+		$image = apply_filters( '_ee_the_lazy_image', $image, $is_jacapps, $url, $width, $height, $alt );
+
+		return $image;
 	}
 endif;
 

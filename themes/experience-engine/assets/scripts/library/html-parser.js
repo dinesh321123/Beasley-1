@@ -43,6 +43,7 @@ function getLazyImageParams( { dataset } ) {
 		width: dataset.width,
 		height: dataset.height,
 		alt: dataset.alt,
+		tracking: dataset.tracking,
 	};
 }
 

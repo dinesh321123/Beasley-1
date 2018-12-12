@@ -73,3 +73,108 @@ if ( ! function_exists( 'ee_get_galleries_query' ) ) :
 		) ) );
 	}
 endif;
+
+if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
+	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false ) {
+		static $urls = array();
+
+		$image_html = ee_the_lazy_image( $image->ID, false );
+		if ( empty( $image_html ) ) {
+			return false;
+		}
+
+		$title = get_the_title( $image );
+		$attribution = trim( get_post_meta( $image->ID, 'gmr_image_attribution', true ) );
+		if ( empty( $urls[ $gallery->ID ] ) ) {
+			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $gallery->ID ) );
+		}
+
+		ob_start();
+
+		echo $image_html;
+
+		echo '<div>';
+			echo '<h3>', esc_html( $title ), '</h3>';
+			if ( ! empty( $attribution ) ) :
+				echo '<h4>', esc_html( $attribution ), '</h4>';
+			endif;
+
+			if ( ! $is_sponsored ) :
+				if ( ! get_field( 'hide_download_link', $gallery ) ) :
+					echo '<p>';
+						echo '<a href="', esc_url( wp_get_attachment_image_url( $image->ID, 'full' ) ), '" class="-download" download target="_blank" rel="noopener">download</a>';
+					echo '</p>';
+				endif;
+
+				if ( ! get_field( 'hide_social_share', $gallery ) ) :
+					$url = get_field( 'share_photos', $gallery )
+						? $urls[ $gallery->ID ] . 'view/' . urlencode( $image->post_name ) . '/'
+						: $urls[ $gallery->ID ];
+
+					ee_the_share_buttons( $url, $title );
+				endif;
+			endif;
+
+			echo '<p>', get_the_excerpt( $image ), '</p>';
+		echo '</div>';
+
+		return ob_get_clean();
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_gallery_html' ) ) :
+	function ee_get_gallery_html( $gallery, $ids ) {
+		$sponsored_image = get_field( 'sponsored_image', $gallery );
+		if ( ! empty( $sponsored_image ) ) {
+			array_unshift( $ids, $sponsored_image );
+		}
+
+		$images = array_values( array_filter( array_map( 'get_post', array_values( $ids ) ) ) );
+		if ( empty( $images ) ) {
+			return false;
+		}
+
+		$image_slug = get_query_var( 'view' );
+
+		$ads_interval = filter_var( get_field( 'images_per_ad', $gallery ), FILTER_VALIDATE_INT, array( 'options' => array(
+			'min_range' => 1,
+			'max_range' => 100,
+			'default'   => 3,
+		) ) );
+
+		ob_start();
+
+		$gallery_url = trailingslashit( get_permalink( $gallery->ID ) );
+		$tracking = function( $html ) use ( $gallery_url ) {
+			return str_replace( '<div ', '<div data-tracking="' . esc_attr( $gallery_url ) . '" ', $html );
+		};
+
+		add_filter( '_ee_the_lazy_image', $tracking );
+
+		echo '<ul class="gallery-listicle">';
+
+		foreach ( $images as $index => $image ) {
+			$html = ee_get_gallery_image_html(
+				$image,
+				$gallery,
+				$sponsored_image == $image->ID
+			);
+
+			if ( ! empty( $html ) ) {
+				echo '<li class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
+					echo $html;
+
+					if ( $index > 0 && $index % $ads_interval == 0 ) :
+						do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
+					endif;
+				echo '</li>';
+			}
+		}
+
+		echo '</ul>';
+
+		remove_filter( '_ee_the_lazy_image', $tracking );
+
+		return ob_get_clean();
+	}
+endif;

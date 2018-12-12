@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import IntersectionObserverContext from '../../../context/intersection-observer';
+import { pageview } from '../../../library/google-analytics';
 
 class LazyImage extends PureComponent {
 
@@ -9,8 +10,12 @@ class LazyImage extends PureComponent {
 		super( props );
 
 		const self = this;
+
+		self.loading = false;
 		self.boxRef = React.createRef();
 		self.state = { image: '' };
+
+		self.onIntersectionChange = self.handleIntersectionChange.bind( self );
 	}
 
 	componentDidMount() {
@@ -18,11 +23,29 @@ class LazyImage extends PureComponent {
 		const { placeholder } = self.props;
 
 		self.container = document.getElementById( placeholder );
-		self.context.observe( self.container, self.loadImage.bind( self ) );
+		self.context.observe( self.container, self.onIntersectionChange );
 	}
 
 	componentWillUnmount() {
 		this.context.unobserve( this.container );
+	}
+
+	handleIntersectionChange() {
+		const self = this;
+		const { tracking } = self.props;
+
+		// disable intersection observing if we don't need to track image views
+		if ( !tracking ) {
+			self.context.unobserve( self.container );
+		} else {
+			pageview( document.title, tracking );
+		}
+
+		// load image
+		if ( !self.loading ) {
+			self.loading = true;
+			self.loadImage();
+		}
 	}
 
 	getDimensions() {
@@ -59,12 +82,6 @@ class LazyImage extends PureComponent {
 
 	loadImage() {
 		const self = this;
-
-		// disable intersection tracking
-		self.context.unobserve( self.container );
-
-		// set temporary low quality image
-		self.setState( { image: self.getImageUrl( 5 ) } );
 
 		// load image and update state
 		const imageSrc = self.getImageUrl();
@@ -107,6 +124,11 @@ LazyImage.propTypes = {
 	width: PropTypes.string.isRequired,
 	height: PropTypes.string.isRequired,
 	alt: PropTypes.string.isRequired,
+	tracking: PropTypes.string,
+};
+
+LazyImage.defaultProps = {
+	tracking: '',
 };
 
 LazyImage.contextType = IntersectionObserverContext;
