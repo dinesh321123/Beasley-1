@@ -1,5 +1,6 @@
 import { removeChildren, dispatchEvent } from '../../library/dom';
 import { getStateFromContent, parseHtml } from '../../library/html-parser';
+import { pageview } from '../../library/google-analytics';
 
 /**
  * We use this approach to minify action names in the production bundle and have
@@ -48,6 +49,7 @@ export function loadPage( url ) {
 			dispatch( { type: ACTION_LOADED_PAGE, ...parsed } );
 
 			window.scrollTo( 0, 0 );
+			pageview( pageDocument.title, url );
 		}
 
 		fetch( url )
@@ -78,6 +80,7 @@ export function loadPartialPage( url, placeholder ) {
 		function onSuccess( data ) {
 			const parsed = parseHtml( data, '#inner-content' );
 			dispatch( { type: ACTION_LOADED_PARTIAL, ...parsed, placeholder } );
+			pageview( parsed.document.title, url );
 		}
 
 		fetch( url )

@@ -1218,3 +1218,27 @@ function beasley_suppress_empty_search( $where, \WP_Query $query ) {
 	return $where;
 }
 add_filter( 'posts_where', 'beasley_suppress_empty_search', 10, 2 );
+
+function beasley_google_onload_code() {
+	$onload = <<<EOL
+document.addEventListener("DOMContentLoaded", function() {
+	jQuery( document ).on( 'pjax:end', function () {
+		ga( 'set', 'location', window.location.href );
+		ga( 'send', 'pageview' );
+	} );
+
+	var \$body = jQuery( 'body' );
+
+	\$body.on( 'inlineAudioPlaying.gmr', function () {
+		ga( 'send', 'event', 'audio', 'Inline audio playing' );
+	} );
+
+	\$body.on( 'liveStreamPlaying.gmr', function () {
+		ga( 'send', 'event', 'audio', 'Live stream playing' );
+	} );
+});
+EOL;
+
+	return $onload;
+}
+add_filter( 'bbgi_google_onload_code', 'beasley_google_onload_code' );

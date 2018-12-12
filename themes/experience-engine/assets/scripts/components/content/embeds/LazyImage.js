@@ -43,18 +43,31 @@ class LazyImage extends PureComponent {
 		};
 	}
 
-	loadImage() {
+	getImageUrl( quality = null ) {
 		const self = this;
-
-		self.context.unobserve( self.container );
-
-		// build image URL
 		const { src, width, height } = self.props;
 		const { containerWidth, containerHeight } = self.getDimensions();
 		const anchor = width > height ? 'middlecenter' : 'leftop';
-		const imageSrc = `${src.split( '?' )[0]}?maxwidth=${containerWidth}&maxheight=${containerHeight}&anchor=${anchor}`;
+
+		let imageSrc = `${src.split( '?' )[0]}?maxwidth=${containerWidth}&maxheight=${containerHeight}&anchor=${anchor}`;
+		if ( 0 < quality ) {
+			imageSrc += `&quality=${quality}`;
+		}
+
+		return imageSrc;
+	}
+
+	loadImage() {
+		const self = this;
+
+		// disable intersection tracking
+		self.context.unobserve( self.container );
+
+		// set temporary low quality image
+		self.setState( { image: self.getImageUrl( 5 ) } );
 
 		// load image and update state
+		const imageSrc = self.getImageUrl();
 		const imageLoader = new Image();
 		imageLoader.src = imageSrc;
 		imageLoader.onload = () => {
