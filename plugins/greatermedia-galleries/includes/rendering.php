@@ -158,6 +158,11 @@ class GreaterMediaGallery {
 		}
 
 		$post = get_queried_object();
+		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids );
+		if ( ! empty( $content ) ) {
+			return $content;
+		}
+
 		$sponsored_image = get_field( 'sponsored_image', $post );
 
 		$image = current( $ids );

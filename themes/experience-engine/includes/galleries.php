@@ -1,5 +1,7 @@
 <?php
 
+add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 3 );
+
 if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 	function ee_setup_gallery_view_metadata() {
 		if ( ! class_exists( '\GreaterMediaGallery' ) ) {
@@ -164,7 +166,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 				echo '<li class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
 					echo $html;
 
-					if ( $index > 0 && $index % $ads_interval == 0 ) :
+					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
 						do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
 					endif;
 				echo '</li>';
@@ -176,5 +178,26 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 		remove_filter( '_ee_the_lazy_image', $tracking );
 
 		return ob_get_clean();
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_incontent_gallery' ) ) :
+	function ee_update_incontent_gallery( $html, $gallery, $ids ) {
+		// do not render gallery if it has been called before <body> tag
+		if ( ! did_action( 'beasley_after_body' ) ) {
+			return '<!-- -->';
+		}
+
+		$html = ee_get_gallery_html( $gallery, $ids );
+
+		// we need to to inject embed code later
+		$placeholder = '<div><!-- gallery:' . sha1( $html ) . ' --></div>';
+		$replace_filter = function( $content ) use ( $placeholder, $html ) {
+			return str_replace( $placeholder, $html, $content );
+		};
+
+		add_filter( 'the_content', $replace_filter, 150 );
+
+		return $placeholder;
 	}
 endif;
