@@ -67,11 +67,11 @@ class ContentDispatcher extends Component {
 		const carousels = document.querySelectorAll( '.swiper-container' );
 
 		const scripts = [
-			'//cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/js/swiper.min.js',
+			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/js/swiper.min.js',
 		];
 
 		const styles = [
-			'//cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css',
+			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css',
 		];
 
 
@@ -89,10 +89,10 @@ class ContentDispatcher extends Component {
 		const carousels = document.querySelectorAll( '.swiper-container' );
 
 		if ( carousels ) {
-			carousels.forEach( carousel => {
-				const count = carousel.classList.contains( '-large' ) ? 2.2 : 4.2;
+			for ( let i = 0, len = carousels.length; i < len; i++ ) {
+				const count = carousels[i].classList.contains( '-large' ) ? 2.2 : 4.2;
 
-				new Swiper(carousel, { // eslint-disable-line
+				new Swiper(carousels[i], { // eslint-disable-line
 					slidesPerView: count,
 					spaceBetween: 36,
 					freeMode: true,
@@ -110,7 +110,7 @@ class ContentDispatcher extends Component {
 						prevEl: '.swiper-button-prev',
 					},
 				} );
-			} );
+			}
 		}
 	}
 
