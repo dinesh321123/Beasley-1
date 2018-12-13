@@ -89,9 +89,10 @@ if ( ! function_exists( '_bbgi_ee_request' ) ) :
 			$args['method'] = 'GET';
 		}
 
-		$host = untrailingslashit( EE_API_HOST ) . '/v1/' . $path;
+		$host = get_site_option( 'ee_host', 'https://experience.bbgi.com/' );
+		$url = untrailingslashit( $host ) . '/v1/' . $path;
 
-		return wp_remote_request( $host, $args );
+		return wp_remote_request( $url, $args );
 	}
 endif;
 

@@ -40,6 +40,7 @@ add_action( 'wp_loaded', function() {
 		new \Bbgi\Media\Video(),
 		new \Bbgi\Image\Attributes(),
 		new \Bbgi\Image\ThumbnailColumn(),
+		new \Bbgi\Integration\ExperienceEngine(),
 		new \Bbgi\Integration\Google(),
 		new \Bbgi\Integration\Firebase(),
 	);
