@@ -47,13 +47,18 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 				}
 			}
 
-			echo '<div class="archive-tiles -carousel ' . esc_attr( $size ) .'">';
-				foreach ( $feed['content'] as $item ) {
-					if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
-						$post = ee_setup_post_from_feed_item( $item, $feed );
-						get_template_part( 'partials/tile', $post->post_type );
+			echo '<div class="archive-tiles -carousel swiper-container ' . esc_attr( $size ) .'">';
+				echo '<div class="swiper-wrapper">';
+					foreach ( $feed['content'] as $item ) {
+						echo '<div class="swiper-slide">';
+							if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
+								$post = ee_setup_post_from_feed_item( $item, $feed );
+								get_template_part( 'partials/tile', $post->post_type );
+							}
+						echo '</div>';
 					}
-				}
+					echo '</div>';
+				echo '<div class="swiper-button-prev"></div><div class="swiper-button-next"></div>';
 			echo '</div>';
 		echo '</div>';
 

@@ -47,10 +47,16 @@ if ( ! function_exists( 'ee_the_date' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_query_tiles' ) ) :
-	function ee_the_query_tiles( $query ) {
+	function ee_the_query_tiles( $query, $carousel = false ) {
 		while ( $query->have_posts() ) {
 			$query->the_post();
-			get_template_part( 'partials/tile', get_post_type() );
+			if ( $carousel ) {
+				echo '<div class="swiper-slide">';
+					get_template_part( 'partials/tile', get_post_type() );
+				echo '</div>';
+			} else {
+				get_template_part( 'partials/tile', get_post_type() );
+			}
 		}
 
 		wp_reset_postdata();

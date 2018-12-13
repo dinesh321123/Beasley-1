@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import ContentBlock from '../components/content/ContentBlock';
 import { initPage, loadPage, updatePage } from '../redux/actions/screen';
+import { loadAssets, unloadScripts } from '../library/dom';
 
 const specialPages = [
 	'/wp-admin/',
@@ -20,6 +21,8 @@ class ContentDispatcher extends Component {
 		const self = this;
 		self.onClick = self.handleClick.bind( self );
 		self.onPageChange = self.handlePageChange.bind( self );
+		self.handleSliders = self.handleSliders.bind( self );
+		self.handleSliderLoad = self.handleSliderLoad.bind( self );
 	}
 
 	componentDidMount() {
@@ -35,9 +38,11 @@ class ContentDispatcher extends Component {
 
 		// load current page into the state
 		self.props.init();
+		self.handleSliderLoad();
 	}
 
 	componentDidUpdate() {
+		const self = this;
 		const element = document.querySelector( '.scroll-to' );
 		if ( element ) {
 			let top = element.offsetTop;
@@ -49,11 +54,64 @@ class ContentDispatcher extends Component {
 
 			setTimeout( () => window.scrollTo( 0, top ), 500 );
 		}
+		self.handleSliderLoad();
 	}
 
 	componentWillUnmount() {
 		window.removeEventListener( 'click', this.onClick );
 		window.removeEventListener( 'popstate', this.onPageChange );
+	}
+
+	handleSliderLoad() {
+		const self = this;
+		const carousels = document.querySelectorAll( '.swiper-container' );
+
+		const scripts = [
+			'//cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/js/swiper.min.js',
+		];
+
+		const styles = [
+			'//cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css',
+		];
+
+
+		if ( carousels.length ) {
+			loadAssets( scripts, styles )
+				.then( self.handleSliders.bind( self ) )
+				.catch( error => console.error( error ) ); // eslint-disable-line no-console
+		} else {
+			unloadScripts( scripts );
+			unloadScripts( styles );
+		}
+	}
+
+	handleSliders() {
+		const carousels = document.querySelectorAll( '.swiper-container' );
+
+		if ( carousels ) {
+			carousels.forEach( carousel => {
+				const count = carousel.classList.contains( '-large' ) ? 2.2 : 4.2;
+
+				new Swiper(carousel, { // eslint-disable-line
+					slidesPerView: count,
+					spaceBetween: 36,
+					freeMode: true,
+					breakpoints: {
+						900: {
+							slidesPerView: 2.2,
+						},
+						480: {
+							slidesPerView: 1.2,
+							spaceBetween: 27,
+						}
+					},
+					navigation: {
+						nextEl: '.swiper-button-next',
+						prevEl: '.swiper-button-prev',
+					},
+				} );
+			} );
+		}
 	}
 
 	handleClick( e ) {
