@@ -41,14 +41,11 @@ add_action( 'wp_loaded', function() {
 		new \Bbgi\Image\Attributes(),
 		new \Bbgi\Image\ThumbnailColumn(),
 		new \Bbgi\Integration\Google(),
+		new \Bbgi\Integration\Firebase(),
 	);
 
 	if ( current_theme_supports( 'secondstreet' ) ) {
 		$modules[] = new \Bbgi\Integration\SecondStreet();
-	}
-
-	if ( current_theme_supports( 'firebase' ) ) {
-		$modules[] = new \Bbgi\Integration\Firebase();
 	}
 
 	foreach ( $modules as $module ) {

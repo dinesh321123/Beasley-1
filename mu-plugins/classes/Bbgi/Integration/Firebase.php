@@ -4,49 +4,22 @@ namespace Bbgi\Integration;
 
 class Firebase extends \Bbgi\Module {
 
+	private static $_fields = array(
+		'firebase_projectId'  => 'Project ID',
+		'firebase_apiKey'     => 'API Key',
+		'firebase_authDomain' => 'Auth Domain',
+	);
+
 	/**
 	 * Registers module.
 	 *
 	 * @access public
 	 */
 	public function register() {
-		add_action( 'admin_init', $this( 'register_settings' ), 9 );
 		add_filter( 'bbgiconfig', $this( 'populate_settings' ) );
-	}
 
-	/**
-	 * Registers Firebase settings.
-	 *
-	 * @access public
-	 * @action admin_init
-	 */
-	public function register_settings() {
-		$text_callback = array( $this, 'render_text_setting' );
-
-		$fields = array(
-			'projectId'   => 'Project ID',
-			'apiKey'      => 'API Key',
-			'authDomain'  => 'Auth Domain',
-			'databaseURL' => 'Database URL',
-		);
-
-		add_settings_section( 'beasley_firebase', 'Firebase', '__return_false', 'media' );
-
-		foreach ( $fields as $key => $label ) {
-			$full_key = "beasley_firebase_{$key}";
-			add_settings_field( $full_key, $label, $text_callback, 'media', 'beasley_firebase', $full_key );
-			register_setting( 'media', $full_key, 'sanitize_text_field' );
-		}
-	}
-
-	/**
-	 * Renders a setting field.
-	 *
-	 * @access public
-	 * @param string $name The field name.
-	 */
-	public function render_text_setting( $name ) {
-		?><input type="text" class="regular-text" name="<?php echo esc_attr( $name ); ?>" value="<?php echo esc_attr( get_option( $name ) ); ?>"><?php
+        add_action( 'wpmu_options'       , $this( 'show_network_settings' ) );
+        add_action( 'update_wpmu_options', $this( 'save_network_settings' ) );
 	}
 
 	/**
@@ -59,13 +32,46 @@ class Firebase extends \Bbgi\Module {
 	 */
 	public function populate_settings( $settings ) {
 		$settings['firebase'] =  array(
-			'apiKey'      => get_option( 'beasley_firebase_apiKey' ),
-			'authDomain'  => get_option( 'beasley_firebase_authDomain' ),
-			'databaseURL' => get_option( 'beasley_firebase_databaseURL' ),
-			'projectId'   => get_option( 'beasley_firebase_projectId' ),
+			'apiKey'     => get_site_option( 'firebase_apiKey' ),
+			'authDomain' => get_site_option( 'firebase_authDomain' ),
+			'projectId'  => get_site_option( 'firebase_projectId' ),
 		);
 
 		return $settings;
 	}
+
+	/**
+	 * Saves network settings.
+	 *
+	 * @access public
+	 * @action update_wpmu_options
+	 */
+    public function save_network_settings() {
+        foreach ( self::$_fields as $id => $label ) {
+			$value = filter_input( INPUT_POST, $id );
+			$value = sanitize_text_field( $value );
+            update_site_option( $id, $value );
+        }
+    }
+
+	/**
+	 * Shows network settings
+	 *
+	 * @access public
+	 * @action wpmu_options
+	 */
+    public function show_network_settings() {
+		?><h2>Firebase Settings</h2>
+        <table id="menu" class="form-table">
+            <?php foreach ( self::$_fields as $id => $label ) : ?>
+				<tr>
+					<th scope="row"><?php echo esc_html( $label ); ?></th>
+					<td>
+						<input type="text" class="regular-text" name="<?php echo esc_attr( $id ); ?>" value="<?php echo esc_attr( get_site_option( $id ) ); ?>">
+					</td>
+				</tr>
+            <?php endforeach; ?>
+        </table><?php
+    }
 
 }
