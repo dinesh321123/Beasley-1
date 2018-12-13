@@ -49,7 +49,7 @@ export function loadPage( url ) {
 			dispatch( { type: ACTION_LOADED_PAGE, ...parsed } );
 
 			window.scrollTo( 0, 0 );
-			pageview( pageDocument.title, url );
+			pageview( pageDocument.title, window.location.href );
 		}
 
 		fetch( url )
