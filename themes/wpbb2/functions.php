@@ -25,3 +25,11 @@ function wpbb2_scripts_styles() {
 	wp_enqueue_style( 'wpbb', get_stylesheet_directory_uri() . "/assets/css/wpbb{$postfix}.css", array(), GREATERMEDIA_VERSION );
 }
 add_action( 'wp_enqueue_scripts', 'wpbb2_scripts_styles', 20 );
+
+function wpbb2_hide_frontend() {
+	if ( ! is_user_logged_in() ) {
+		status_header( 404 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'wpbb2_hide_frontend' );
