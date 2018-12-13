@@ -80,16 +80,25 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false ) {
 		static $urls = array();
 
+		if ( empty( $urls[ $gallery->ID ] ) ) {
+			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $gallery->ID ) );
+		}
+
+		$image_full_url = $urls[ $gallery->ID ] . 'view/' . urlencode( $image->post_name ) . '/';
+		$tracking = function( $html ) use ( $image_full_url ) {
+			return str_replace( '<div ', '<div data-tracking="' . esc_attr( $image_full_url ) . '" ', $html );
+		};
+
+		add_filter( '_ee_the_lazy_image', $tracking );
 		$image_html = ee_the_lazy_image( $image->ID, false );
+		remove_filter( '_ee_the_lazy_image', $tracking );
+
 		if ( empty( $image_html ) ) {
 			return false;
 		}
 
 		$title = get_the_title( $image );
 		$attribution = trim( get_post_meta( $image->ID, 'gmr_image_attribution', true ) );
-		if ( empty( $urls[ $gallery->ID ] ) ) {
-			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $gallery->ID ) );
-		}
 
 		ob_start();
 
@@ -109,10 +118,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 				endif;
 
 				if ( ! get_field( 'hide_social_share', $gallery ) ) :
-					$url = get_field( 'share_photos', $gallery )
-						? $urls[ $gallery->ID ] . 'view/' . urlencode( $image->post_name ) . '/'
-						: $urls[ $gallery->ID ];
-
+					$url = get_field( 'share_photos', $gallery ) ? $image_full_url : $urls[ $gallery->ID ];
 					ee_the_share_buttons( $url, $title );
 				endif;
 			endif;
@@ -146,13 +152,6 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 
 		ob_start();
 
-		$gallery_url = trailingslashit( get_permalink( $gallery->ID ) );
-		$tracking = function( $html ) use ( $gallery_url ) {
-			return str_replace( '<div ', '<div data-tracking="' . esc_attr( $gallery_url ) . '" ', $html );
-		};
-
-		add_filter( '_ee_the_lazy_image', $tracking );
-
 		echo '<ul class="gallery-listicle">';
 
 		foreach ( $images as $index => $image ) {
@@ -174,8 +173,6 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 		}
 
 		echo '</ul>';
-
-		remove_filter( '_ee_the_lazy_image', $tracking );
 
 		return ob_get_clean();
 	}

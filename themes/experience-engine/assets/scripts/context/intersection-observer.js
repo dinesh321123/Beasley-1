@@ -18,10 +18,10 @@ export class Observable {
 	handleIntersection( entries ) {
 		for ( let i = 0, len = entries.length; i < len; i++ ) {
 			const entry = entries[i];
-			if ( 0 < entry.intersectionRatio ) {
+			if ( entry.isIntersecting ) {
 				const callback = this.entries.get( entry.target );
 				if ( 'function' === typeof callback ) {
-					callback();
+					callback( entry );
 				}
 			}
 		}
