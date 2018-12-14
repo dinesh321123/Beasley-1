@@ -1,7 +1,7 @@
 import { ACTION_SHOW_MODAL, ACTION_HIDE_MODAL } from '../actions/modal';
 
 export const DEFAULT_STATE = {
-	modal: null,
+	modal: 'CLOSED',
 	payload: {},
 };
 

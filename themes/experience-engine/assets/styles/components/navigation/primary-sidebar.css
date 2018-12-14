@@ -3,7 +3,6 @@
 	background-color: var(--global-theme-secondary);
 	box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08);
 	display: flex;
-	overflow: auto;
 	padding: .75rem 1.1rem;
 
 	@media (--min-medium-viewport) {
@@ -140,5 +139,25 @@
 				stroke-dasharray: 40 180;
 			}
 		}
+	}
+}
+
+.primary-sidebar {
+	background-color: var(--global-theme-secondary);
+	height: 100%;
+	max-width: 190px;
+	padding: 2.1rem 1.1rem;
+	min-height: 100vh;
+	position: relative;
+
+	@media screen and (min-height: 680px) and (min-width: 831px) {
+        position: fixed;
+		top: 32px;
+    }
+
+	& .primary-sidebar-inside {
+		position: relative;
+		height: 100%;
+		z-index: 2;
 	}
 }

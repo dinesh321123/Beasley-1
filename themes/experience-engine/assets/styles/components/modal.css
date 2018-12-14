@@ -6,25 +6,155 @@
 	right: 0;
 	top: 0;
 	z-index: 95;
-}
 
-.modal-content {
-	background-color: rgb(255, 255, 255);
-	left: 50%;
-	padding: 2rem;
-	position: absolute;
-	top: 50%;
-	transform: translate(-50%, -50%);
-}
+	& .button {
+		align-items: center;
+		background: none;
+		border: 0;
+		color: var(--global-white);
+		cursor: pointer;
+		font-size: 1rem;
+		margin-bottom: 1rem;
+		width: 100%;
 
-.modal-close {
-	position: absolute;
-	right: 20px;
-	top: 20px;
-}
+		@media(--min-medium-viewport) {
+			width: auto;
+		}
 
-.modal-header {
-	font-size: 2rem;
-	font-weight: bold;
-	margin-bottom: 1rem;
+		&:hover,
+		&:focus {
+			outline: 0;
+			opacity: 0.9;
+		} 
+		
+	}
+
+	& .button + .button {
+		@media(--min-large-viewport) {
+			margin-bottom: 0;
+			width: auto;
+		}
+	}
+
+	& .auth-button {
+		border-radius: 25px;
+		display: inline-flex;
+		justify-content: center;
+		margin-right: 1rem;
+		padding: 12px 48px;
+
+		& svg {
+			margin-right: .5rem;
+		}
+
+		&.-twitter {
+            background: var(--social-twiiter);
+        }
+
+        &.-facebook {
+            background: var(--social-facebook);
+        }
+
+        &.-google {
+            background: var(--social-google);
+        }
+	}
+
+	& .modal-form {
+		&.-form-sign-in {
+			& .-sign-in {
+				margin-right: 1rem;
+			}
+		}
+	}
+
+	& .modal-header {
+		display: flex;
+		font-size: 2rem;
+		font-weight: bold;
+		justify-content: space-between;
+		margin-bottom: 1rem;
+
+		& h3 {
+			margin-bottom: 0;
+		}
+	}
+
+	& .modal-close {
+		position: absolute;
+		right: 2rem;
+		width: auto;
+	}
+
+	& .modal-content {
+		background-color: rgb(255, 255, 255);
+		max-width: 700px;
+		left: 50%;
+		padding: 2rem;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: calc(100% - 2.5rem);
+
+		@media(--min-medium-viewport) {
+			width: 100%;
+		}
+
+	}
+
+	& .modal-form-group-inline {
+		display: flex;
+		justify-content: space-between;
+
+		& .modal-form-group {
+			width: 48%;
+		}
+
+	}
+
+	& .modal-form-group {
+		display: block;
+		margin-bottom: 1rem;
+
+		& .modal-form-label {
+			display: block;
+			font-size: .875rem;
+			font-weight: 600;
+			margin-bottom: .5rem;
+		}
+	}
+
+	& .modal-form-field {
+		border: 1px solid var(--global-black);
+		font-size: 1rem;
+		height: 42px;
+		padding: .5rem;
+		width: 100%;
+
+		&:focus {
+			outline: 0;
+			border-color: var(--global-mine-shaft)
+		}
+	}
+
+	& .modal-form-radio {
+		display: inline-block;
+		margin-right: 1rem;
+		font-size: 1rem;
+
+		& label {
+			padding-left: .5rem;
+		}
+	}
+
+	& .modal-form-actions {
+		margin: 1rem 0 2rem 0;
+	}
+
+	& .-sign-in,
+	& .-forgot-password {
+		background: var(--brand-primary);
+		border-radius: 25px;
+		padding: 12px 68px;
+	}
 }

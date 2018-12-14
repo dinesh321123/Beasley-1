@@ -58,51 +58,57 @@ class SignUp extends PureComponent {
 
 		return (
 			<Fragment>
-				<Header>Sign Up</Header>
+				<Header>
+					<h3>Sign Up</h3>
+				</Header>
 
 				<Alert message={error} />
 
-				<form onSubmit={self.onFormSubmit}>
-					<div>
-						<label htmlFor="user-email">Email</label>
-						<input type="email" id="user-email" name="email" value={email} onChange={self.onFieldChange} />
+				<form className="modal-form -form-sign-up" onSubmit={self.onFormSubmit}>
+					<div className="modal-form-group-inline">
+						<div className="modal-form-group">
+							<label className="modal-form-label" htmlFor="user-firstname">First Name</label>
+							<input className="modal-form-field" type="text" id="user-firstname" name="firstname" value={firstname} onChange={self.onFieldChange} placeholder="Your name" />
+						</div>
+						<div className="modal-form-group">
+							<label className="modal-form-label" htmlFor="user-lastname">Last Name</label>
+							<input className="modal-form-field" type="text" id="user-lastname" name="lastname" value={lastname} onChange={self.onFieldChange} placeholder="Your surname" />
+						</div>
 					</div>
-					<div>
-						<label htmlFor="user-password">Password</label>
-						<input type="password" id="user-password" name="password" value={password} onChange={self.onFieldChange} />
+					<div className="modal-form-group">
+						<label className="modal-form-label" htmlFor="user-email">Email</label>
+						<input className="modal-form-field" type="email" id="user-email" name="email" value={email} onChange={self.onFieldChange} placeholder="yourname@yourdomain.com" />
 					</div>
-					<div>
-						<label htmlFor="user-firstname">First Name</label>
-						<input type="text" id="user-firstname" name="firstname" value={firstname} onChange={self.onFieldChange} />
+					<div className="modal-form-group">
+						<label className="modal-form-label" htmlFor="user-password">Password</label>
+						<input className="modal-form-field" type="password" id="user-password" name="password" value={password} onChange={self.onFieldChange} placeholder="Your password" />
 					</div>
-					<div>
-						<label htmlFor="user-lastname">Last Name</label>
-						<input type="text" id="user-lastname" name="lastname" value={lastname} onChange={self.onFieldChange} />
+					<div className="modal-form-group">
+						<label className="modal-form-label" htmlFor="user-zip">Zip</label>
+						<input className="modal-form-field" type="text" id="user-zip" name="zip" value={zip} onChange={self.onFieldChange} placeholder="90210" />
 					</div>
-					<div>
-						<label htmlFor="user-zip">Zip</label>
-						<input type="text" id="user-zip" name="zip" value={zip} onChange={self.onFieldChange} />
+					<div className="modal-form-group">
+						<label className="modal-form-label" htmlFor="user-bday">Birthday</label>
+						<input className="modal-form-field" type="date" id="user-bday" name="bday" value={bday} onChange={self.onFieldChange} placeholder="Enter your birthday" />
 					</div>
-					<div>
-						<label htmlFor="user-bday">Birthday</label>
-						<input type="date" id="user-bday" name="bday" value={bday} onChange={self.onFieldChange} />
-					</div>
-					<div>
-						<label htmlFor="user-gender-male">Gender</label>
-						<div>
+					<div className="modal-form-group">
+						<label className="modal-form-label" htmlFor="user-gender-male">Gender</label>
+						<div className="modal-form-radio">
 							<input type="radio" id="user-gender-male" name="gender" value="male" checked={'male' === gender} onChange={self.onFieldChange} />
 							<label htmlFor="user-gender-male">Male</label>
 						</div>
-						<div>
+						<div className="modal-form-radio">
 							<input type="radio" id="user-gender-female" name="gender" value="female" checked={'female' === gender} onChange={self.onFieldChange} />
 							<label htmlFor="user-gender-female">Female</label>
 						</div>
 					</div>
-					<div>
-						<button type="submit">Sign Up</button>
+					<div className="modal-form-actions">
+						<button className="button -sign-in" type="submit">Sign Up</button>
 					</div>
 				</form>
-
+				<h5 className="section-head">
+					<span>Or sign up with</span>
+				</h5>
 				<OAuthButtons />
 			</Fragment>
 		);

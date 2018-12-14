@@ -50,21 +50,39 @@ class RestorePassword extends PureComponent {
 
 	render() {
 		const self = this;
-		const { email, message, success } = self.state;
+		const { 
+			email,
+			message,
+			success 
+		} = self.state;
 
 		return (
 			<Fragment>
-				<Header>Restore Password</Header>
+				<Header>
+					<h3>Restore Password</h3>
+				</Header>
 
 				<Alert message={message} type={success ? 'info' : 'error'} />
 
-				<form onSubmit={self.onFormSubmit}>
-					<div>
-						<label htmlFor="user-email">Email</label>
-						<input type="email" id="user-email" name="email" value={email} onChange={self.onFieldChange} />
+				<form className="modal-form" onSubmit={self.onFormSubmit}>
+					<div className="modal-form-group">
+						<label className="modal-form-label" htmlFor="user-email">
+							Email
+						</label>
+						<input 
+							className="modal-form-field"
+							type="email"
+							id="user-email"
+							name="email"
+							value={email}
+							onChange={self.onFieldChange}
+							placeholder="yourname@yourddomain.com" 
+						/>
 					</div>
-					<div>
-						<button type="submit">Restore</button>
+					<div className="modal-form-actions">
+						<button className="button -sign-in" type="submit">
+							Restore
+						</button>
 					</div>
 				</form>
 			</Fragment>
