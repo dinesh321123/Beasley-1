@@ -77,7 +77,7 @@ if ( ! function_exists( 'ee_get_galleries_query' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
-	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false ) {
+	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false ) {
 		static $urls = array();
 
 		if ( empty( $urls[ $gallery->ID ] ) ) {
@@ -89,9 +89,13 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 			return str_replace( '<div ', '<div data-tracking="' . esc_attr( $image_full_url ) . '" ', $html );
 		};
 
-		add_filter( '_ee_the_lazy_image', $tracking );
-		$image_html = ee_the_lazy_image( $image->ID, false );
-		remove_filter( '_ee_the_lazy_image', $tracking );
+		if ( ! $is_first ) {
+			add_filter( '_ee_the_lazy_image', $tracking );
+			$image_html = ee_the_lazy_image( $image->ID, false );
+			remove_filter( '_ee_the_lazy_image', $tracking );
+		} else {
+			$image_html = ee_the_lazy_image( $image->ID, false );
+		}
 
 		if ( empty( $image_html ) ) {
 			return false;
@@ -158,7 +162,8 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 			$html = ee_get_gallery_image_html(
 				$image,
 				$gallery,
-				$sponsored_image == $image->ID
+				$sponsored_image == $image->ID,
+				$index == 0
 			);
 
 			if ( ! empty( $html ) ) {
