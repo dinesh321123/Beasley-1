@@ -1,4 +1,4 @@
-.post {
+.single-post {
 
     & .post-title {
         margin: 3rem 0;
@@ -74,7 +74,7 @@
     }
 
     & .post-author-description {
-        color: var(--global-theme-font-secondary);
+        color: var(--global-theme-font-primary);
         font-size: 1.3rem;
         font-style: italic;
         font-weight: 300;
@@ -87,6 +87,7 @@
 
         & li {
             font-size: .875rem;
+            font-weight: 600;
             display: inline-block;
 
             &:after {
@@ -135,26 +136,11 @@
 .post-content {
     display: flex;
     flex-direction: column;
+    font-size: 1.111rem;
+    line-height: 2.1;
     justify-content: space-between;
 
     @media(--min-xlarge-viewport) {
         flex-direction: row;
-    }
-}
-
-.post-article {
-    flex: 0 1 100%;
-
-     @media(--min-xlarge-viewport) {
-         flex: 0 1 calc(73% - 2.5rem);
-     }
-}
-
-.post-sidebar {
-    flex: 0 1 100%;
-    margin-top: 3.5rem;
-
-    @media(--min-xlarge-viewport) {
-        flex: 0 1 27%;
     }
 }
