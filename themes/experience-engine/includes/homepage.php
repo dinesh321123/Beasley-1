@@ -65,7 +65,7 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 		// below first two ribbons, then after 5th ribbon and every 3 ribbons thereafter.
 		if ( $index < $feeds_count ) {
 			if ( ( $index == 2 ) || ( $index > 2 && ( $index - 2 ) % 3 == 0 ) ) {
-				do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
+				do_action( 'dfp_tag', 'in-list' );
 			}
 		}
 

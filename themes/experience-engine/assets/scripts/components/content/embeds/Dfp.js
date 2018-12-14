@@ -25,7 +25,7 @@ class Dfp extends PureComponent {
 		self.container = document.getElementById( placeholder );
 		self.context.observe( self.container, self.tryDisplaySlot.bind( self ) );
 
-		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
+		if ( 'right-rail' === self.props.unitName ) {
 			self.startInterval();
 			document.addEventListener( 'visibilitychange', self.onVisibilityChange );
 		}
@@ -37,7 +37,7 @@ class Dfp extends PureComponent {
 		self.context.unobserve( self.container );
 		self.destroySlot();
 
-		if ( 'dfp_ad_right_rail_pos1' === self.props.unitName ) {
+		if ( 'right-rail' === self.props.unitName ) {
 			self.stopInterval();
 			document.removeEventListener( 'visibilitychange', self.onVisibilityChange );
 		}
@@ -66,7 +66,7 @@ class Dfp extends PureComponent {
 
 	registerSlot() {
 		const self = this;
-		const { placeholder, network, unitId, unitName, targeting } = self.props;
+		const { placeholder, unitId, unitName, targeting } = self.props;
 		const { googletag, bbgiconfig } = window;
 
 		if ( !unitId ) {
@@ -76,23 +76,23 @@ class Dfp extends PureComponent {
 		googletag.cmd.push( () => {
 			const size = bbgiconfig.dfp.sizes[unitName];
 			const slot = googletag
-				.defineSlot( `/${network}/${unitId}`, size, placeholder )
+				.defineSlot( unitId, size, placeholder )
 				.addService( googletag.pubads() );
 
 			let sizeMapping = false;
-			if ( 'dfp_ad_leaderboard_pos1' === unitName || 'dfp_ad_inlist_infinite' === unitName ) {
+			if ( 'top-leaderboard' === unitName || 'in-list' === unitName ) {
 				sizeMapping = googletag.sizeMapping()
 					.addSize( [970, 200], ['fluid', [970, 250], [970, 90], [728, 90]] )
 					.addSize( [729, 200], ['fluid', [728, 90]] )
 					.addSize( [0, 0], ['fluid', [320, 100], [320, 50]] )
 					.build();
-			} else if ( 'dfp_ad_leaderboard_pos2' === unitName ) {
+			} else if ( 'bottom-leaderboard' === unitName ) {
 				sizeMapping = googletag.sizeMapping()
 					.addSize( [970, 200], [[970, 250], [970, 90], [728, 90]] )
 					.addSize( [729, 200], [728, 90] )
 					.addSize( [0, 0], [[320, 100], [320, 50]] )
 					.build();
-			} else if ( 'dfp_ad_right_rail_pos1' === unitName ) {
+			} else if ( 'right-rail' === unitName ) {
 				sizeMapping = googletag.sizeMapping()
 					.addSize( [1060, 200], [[300, 600], [300, 250]] )
 					.addSize( [0, 0], [] )
@@ -153,7 +153,6 @@ class Dfp extends PureComponent {
 
 Dfp.propTypes = {
 	placeholder: PropTypes.string.isRequired,
-	network: PropTypes.string.isRequired,
 	unitId: PropTypes.string.isRequired,
 	unitName: PropTypes.string.isRequired,
 	targeting: PropTypes.arrayOf( PropTypes.array ),

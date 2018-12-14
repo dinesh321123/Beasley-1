@@ -11,5 +11,5 @@ if ( $query->have_posts() ) :
 		<div class="swiper-button-prev"></div><div class="swiper-button-next"></div>
 	</div><?php
 
-	do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
+	do_action( 'dfp_tag', 'in-list' );
 endif;

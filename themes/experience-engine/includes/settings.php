@@ -49,7 +49,7 @@ endif;
 
 if ( ! function_exists( 'ee_render_publisher_select' ) ) :
 	function ee_render_publisher_select( $args ) {
-		$publishers = bbgi_ee_get_publisher_list();
+		$publishers = \Bbgi\Module::get( 'experience-engine' )->get_publisher_list();
 
 		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
 			<option value="">—</option>

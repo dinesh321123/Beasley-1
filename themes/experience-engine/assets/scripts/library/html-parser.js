@@ -97,7 +97,6 @@ function getDfpParams( { dataset } ) {
 	}
 
 	return {
-		network: dataset.network,
 		unitId: dataset.unitId,
 		unitName: dataset.unitName,
 		targeting: keyvalues,
