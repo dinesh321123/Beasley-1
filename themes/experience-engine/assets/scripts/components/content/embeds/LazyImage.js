@@ -34,10 +34,11 @@ class LazyImage extends PureComponent {
 		const self = this;
 		const { tracking } = self.props;
 
-		// disable intersection observing if we don't need to track image views
-		if ( !tracking ) {
-			self.context.unobserve( self.container );
-		} else {
+		// disable intersection observing
+		self.context.unobserve( self.container );
+
+		// track virtual page view if it's needed
+		if ( tracking ) {
 			pageview( document.title, tracking );
 		}
 
