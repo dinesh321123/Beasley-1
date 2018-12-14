@@ -1,0 +1,123 @@
+.feed-cta {
+	& .content-wrap {
+		align-items: center;
+		background-color: var(--global-theme-primary);
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding: 2.22rem 1.111rem 0;
+
+		@media (--min-medium-viewport) {
+			justify-content: space-between;
+		}
+
+		&:hover,
+		&:focus-within {
+			& .waveform {
+				& rect {
+					animation-name: waveform;
+					animation-duration: 1s;
+					animation-iteration-count: infinite;
+					animation-timing-function: ease-in-out;
+				}
+			}
+		}
+	}
+
+	& .meta {
+		align-items: center;
+		color: var(--global-theme-font-primary);
+		display: flex;
+		flex: 0 1 100%;
+		flex-wrap: wrap;
+		padding-bottom: 2.222rem;
+
+		@media (--min-medium-viewport) {
+			flex: 0 1 auto;
+			flex-wrap: nowrap;
+		}
+
+		& h3 {
+			font-weight: 700;
+			margin-bottom: .444rem;
+		}
+
+		& p {
+			font-size: .889rem;
+			margin-bottom: 0;
+		}
+
+		& img {
+			margin-bottom: .444rem;
+
+			@media (--min-medium-viewport) {
+				flex: 0 1 auto;
+			}
+		}
+
+		& .copy {
+			flex: 0 1 100%;
+			@media (--min-medium-viewport) {
+				flex: 0 1 auto;
+				padding-left: 2.556rem;
+			}
+		}
+	}
+
+	& .action {
+		align-items: center;
+		display: flex;
+		flex: 0 1 100%;
+		/* min-width: 385px; min width here to ensure the waveform fits within the action div. */
+		min-height: 123px;
+		padding-bottom: 2.222rem;
+		position: relative;
+		width: 100%;
+
+		@media (--min-medium-viewport) {
+			flex: 0 1 385px;
+			/* width: 385px; */
+		}
+
+		& .waveform {
+			fill: var(--brand-secondary);
+			height: 123px;
+			position: absolute;
+			width: 100%;
+			left: -1.111rem;
+			transform: scale(1.2);
+
+			@media (--min-medium-viewport) {
+				left: 0;
+				transform: scale(1);
+				max-width: 385px;
+			}
+		}
+
+		& .btn {
+			box-shadow: 0 0 0 5px var(--global-theme-primary);
+			z-index: 5;
+
+			@media (--min-medium-viewport) {
+				margin-left: 3.5rem;
+			}
+
+			&:hover,
+			&:focus {
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+@keyframes waveform {
+	0% {
+		transform: translateY(0) scaleY(1);
+	}
+	25% {
+		transform: translateY(-10%) scaleY(1.1);
+	}
+	75% {
+		transform: translateY(10%) scaleY(.9);
+	}
+}
