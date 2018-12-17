@@ -1,6 +1,6 @@
-.live-cta {
+.placeholder-streamcta {
 	& .content-wrap {
-		background-size: cover;
+		background-size: contain;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;

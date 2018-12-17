@@ -120,16 +120,20 @@ AudioEmbed.defaultProps = {
 	sources: {},
 };
 
-const mapStateToProps = ( { player } ) => ( {
-	audio: player.audio,
-	status: player.status,
-} );
+function mapStateToProps( { player } ) {
+	return {
+		audio: player.audio,
+		status: player.status,
+	};
+}
 
-const mapDispatchToProps = ( dispatch ) => bindActionCreators( {
-	playAudio: actions.playAudio,
-	playOmny: actions.playOmny,
-	pause: actions.pause,
-	resume: actions.resume,
-}, dispatch );
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( {
+		playAudio: actions.playAudio,
+		playOmny: actions.playOmny,
+		pause: actions.pause,
+		resume: actions.resume,
+	}, dispatch );
+}
 
 export default connect( mapStateToProps, mapDispatchToProps )( AudioEmbed );

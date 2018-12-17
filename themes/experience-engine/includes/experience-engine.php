@@ -57,12 +57,19 @@ endif;
 
 if ( ! function_exists( 'ee_update_api_bbgiconfig' ) ) :
 	function ee_update_api_bbgiconfig( $config ) {
+		$publisher_id = get_option( 'ee_publisher' );
+
+		$publisher = array();
 		$publishers_map = array();
 		$ee = \Bbgi\Module::get( 'experience-engine' );
-		foreach ( $ee->get_publisher_list() as $publisher ) {
-			$publishers_map[ $publisher['id'] ] = $publisher['title'];
+		foreach ( $ee->get_publisher_list() as $item ) {
+			$publishers_map[ $item['id'] ] = $item['title'];
+			if ( $item['id'] == $publisher_id ) {
+				$publisher = $item;
+			}
 		}
 
+		$config['publisher'] = $publisher;
 		$config['publishers'] = $publishers_map;
 		$config['locations'] = $ee->get_locations();
 		$config['genres'] = $ee->get_genres();

@@ -1,1 +1,0 @@
-<div id="live-cta" class="live-cta"></div>

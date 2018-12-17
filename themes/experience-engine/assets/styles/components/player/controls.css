@@ -11,4 +11,42 @@
 		width: 22px;
 		height: 31px;
 	}
+
+	& .play-btn,
+	& .pause-btn,
+	& .resume-btn,
+	& .loading-btn {
+		display: none;
+	}
+
+	& .loading-btn {
+		& .loading::after {
+			border-left-color: var(--brand-tertiary);
+			border-bottom-color: var(--brand-tertiary);
+		}
+	}
+}
+
+.LIVE_PAUSE .resume-btn,
+.LIVE_PLAYING .pause-btn,
+.LIVE_STOP .play-btn,
+.LIVE_FAILED .play-btn,
+.LIVE_BUFFERING .loading-btn,
+.LIVE_CONNECTING .loading-btn,
+.LIVE_RECONNECTING .loading-btn,
+.STREAM_GEO_BLOCKED .play-btn,
+.STATION_NOT_FOUND .play-btn {
+	align-items: center;
+	background-color: var(--brand-primary);
+	cursor: pointer;
+	display: flex;
+	height: 64px;
+	justify-content: center;
+	width: 64px;
+
+	& svg {
+		fill: var(--brand-tertiary);
+		max-height: 31px;
+		transform: translateX(10%);
+	}
 }
