@@ -23,7 +23,9 @@ if ( have_posts() ) :
 		echo '</div>';
 	endif;
 
-	ee_load_more();
+	echo '<div class="content-wrap">';
+		ee_load_more();
+	echo '</div>';
 else :
 	echo '<div class="content-wrap">';
 		ee_the_have_no_posts();
