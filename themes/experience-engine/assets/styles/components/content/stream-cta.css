@@ -1,4 +1,6 @@
 .placeholder-streamcta {
+	padding-bottom: 2.222rem;
+
 	& .content-wrap {
 		background-size: contain;
 		display: flex;
