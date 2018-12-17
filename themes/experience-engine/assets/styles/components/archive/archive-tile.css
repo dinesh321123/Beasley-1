@@ -12,6 +12,31 @@
 		display: none;
 	}
 
+	&.-list {
+		& > div {
+			display: flex;
+			flex-wrap: wrap;
+
+			@media (--min-small-viewport) {
+				flex-wrap: nowrap;
+			}
+
+			& .post-thumbnail {
+				@media (--min-small-viewport) {
+					flex: 1 0 30%;
+					margin-bottom: 0;
+					max-width: 30%;
+				}
+			}
+
+			& .meta {
+				@media (--min-small-viewport) {
+					margin-left: 2.444rem;
+				}
+			}
+		}
+	}
+
 	&.-grid {
 		align-items: flex-start;
 		display: flex;
@@ -23,42 +48,6 @@
 
 			@media (--min-medium-viewport) {
 				flex: 0 1 calc(50% - 1.5rem);
-				&.-full-width {
-					flex: 0 1 100%;
-				}
-			}
-
-			&.-horizontal {
-				align-items: flex-start;
-				display: flex;
-				padding-left: 0;
-
-				&:nth-child(odd) {
-					@media (--min-medium-viewport) {
-						padding-right: .75rem;
-					}
-				}
-
-				&:nth-child(even) {
-					@media (--min-medium-viewport) {
-						padding-left: .75rem;
-					}
-				}
-
-				& .post-thumbnail {
-					@media (--min-medium-viewport) {
-						flex: 0 1 30%;
-						margin-right: 2.444rem;
-					}
-				}
-
-				& .post-meta {
-					flex: 0 1 calc(70% - 3rem);
-				}
-
-				& .post-title h3 {
-					margin: .875rem 0;
-				}
 			}
 		}
 	}
@@ -240,8 +229,7 @@
 			}
 		}
 
-		& .type-tribe_events,
-		& .type-contest {
+		& .type-tribe_events {
 			& .meta {
 				display: none;
 			}
@@ -249,6 +237,12 @@
 
 		& .type-episode {
 			& .episode-meta {
+				display: none;
+			}
+		}
+
+		& .type-contest {
+			& .contest-dates {
 				display: none;
 			}
 		}

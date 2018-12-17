@@ -7,12 +7,21 @@ if ( ee_is_first_page() ):
 endif;
 
 if ( have_posts() ) :
-	echo '<div class="archive-tiles -grid -large content-wrap">';
-		while ( have_posts() ) :
-			the_post();
-			get_template_part( 'partials/tile', get_post_type() );
-		endwhile;
-	echo '</div>';
+	if ('contest' === get_post_type()):
+		echo '<div class="archive-tiles -list content-wrap">';
+			while ( have_posts() ) :
+				the_post();
+				get_template_part( 'partials/tile', get_post_type() );
+			endwhile;
+		echo '</div>';
+	else:
+		echo '<div class="archive-tiles -grid -large content-wrap">';
+			while ( have_posts() ) :
+				the_post();
+				get_template_part( 'partials/tile', get_post_type() );
+			endwhile;
+		echo '</div>';
+	endif;
 
 	ee_load_more();
 else :
