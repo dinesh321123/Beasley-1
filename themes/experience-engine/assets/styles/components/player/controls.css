@@ -1,3 +1,16 @@
+.controls {
+	align-content: center;
+	background-color: var(--global-theme-secondary);
+	display: flex;
+	justify-content: space-between;
+	min-height: 84px;
+
+	& .controls-wrap {
+		display: flex;
+	}
+}
+
+
 .status {
 	& button {
 		background: transparent;

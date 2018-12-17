@@ -1,1 +1,1 @@
-<div id="live-player"></div>
+<div id="live-player" class="live-player"></div>

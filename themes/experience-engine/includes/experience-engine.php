@@ -62,7 +62,7 @@ if ( ! function_exists( 'ee_update_api_bbgiconfig' ) ) :
 		$publisher = array();
 		$publishers_map = array();
 		$ee = \Bbgi\Module::get( 'experience-engine' );
-		foreach ( $ee->get_publisher_list() as $item ) {
+		foreach ( $ee->get_publisher_list() as $publisher ) {
 			$publishers_map[ $item['id'] ] = $item['title'];
 			if ( $item['id'] == $publisher_id ) {
 				$publisher = $item;

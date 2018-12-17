@@ -1,21 +1,9 @@
-#live-player {
-	position: fixed;
+.live-player {
 	bottom: 0;
-	right: 0;
 	left: 0;
-	background-color: #efefef;
-	border-top: 1px solid #ddd;
-	padding: 20px;
-	max-height: 74px;
-	z-index: 50;
-}
-
-.cue-point-title {
-
-}
-
-.cue-point-artist {
-
+	right: 0;
+	position: fixed;
+	z-index: 10;
 }
 
 .cue-point-title + .cue-point-artist:before {
