@@ -9,12 +9,12 @@ import Controls from '../components/player/Controls';
 import Info from '../components/player/Info';
 import Volume from '../components/player/Volume';
 
-// import Progress from '../components/player/Progress';
+import Progress from '../components/player/Progress';
 import RecentSongs from '../components/player/RecentSongs';
 import Offline from '../components/player/Offline';
 import Contacts from '../components/player/Contacts';
 
-// import Sponsor from '../components/player/Sponsor';
+import Sponsor from '../components/player/Sponsor';
 
 import * as actions from '../redux/actions/player';
 
@@ -128,6 +128,8 @@ class LivePlayer extends Component {
 						<RecentSongs />
 						<Controls status={status} play={() => play( station )} pause={pause} resume={resume} />
 						<Volume />
+						<Progress />
+						<Sponsor />
 						<Stations />
 						<Contacts />
 					</div>
