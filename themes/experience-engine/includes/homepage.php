@@ -106,41 +106,80 @@ endif;
 
 if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 	function ee_setup_post_from_feed_item( $item, $feed ) {
-		$post_type = 'post';
-		if ( $feed['type'] == 'contest' ) {
-			$post_type = 'contest';
-		} elseif ( $feed['type'] == 'podcast' ) {
-			$post_type = 'episode';
-		} elseif ( $feed['type'] == 'events' ) {
-			$post_type = 'tribe_events';
+		$post = ee_get_post_by_link( $item['link'] );
+		if ( ! is_a( $post, '\WP_Post' ) ) {
+			$post_type = 'post';
+			if ( $feed['type'] == 'contest' ) {
+				$post_type = 'contest';
+			} elseif ( $feed['type'] == 'podcast' ) {
+				$post_type = 'episode';
+			} elseif ( $feed['type'] == 'events' ) {
+				$post_type = 'tribe_events';
+			}
+
+			$post = new \stdClass();
+			$post->filter = 'raw';
+
+			$post->ID = 0;
+			$post->post_title = $item['title'];
+			$post->post_status = 'publish';
+			$post->post_type = ee_is_network_domain( $item['link'] ) || $post_type == 'episode' ? $post_type : 'external';
+			$post->post_content = $item['excerpt'];
+			$post->post_excerpt = $item['excerpt'];
+			$post->post_date = $post->post_date_gmt = $post->post_modified = $post->post_modified_gmt = date( 'Y:m:d H:i:s', strtotime( $item['publishedAt'] ) );
+
+			$post->id = $item['id'];
+			$post->link = $item['link'];
+
+			if ( ! empty( $item['picture']['large'] ) ) {
+				$post->picture = $item['picture']['large'];
+			}
+
+			if ( ! empty( $item['media'] ) ) {
+				$post->media = $item['media'];
+			}
+
+			$post = new \WP_Post( $post );
 		}
 
-		$post = new \stdClass();
-		$post->filter = 'raw';
-
-		$post->ID = 0;
-		$post->post_title = $item['title'];
-		$post->post_status = 'publish';
-		$post->post_type = ee_is_network_domain( $item['link'] ) || $post_type == 'episode' ? $post_type : 'external';
-		$post->post_content = $item['excerpt'];
-		$post->post_excerpt = $item['excerpt'];
-		$post->post_date = $post->post_date_gmt = $post->post_modified = $post->post_modified_gmt = date( 'Y:m:d H:i:s', strtotime( $item['publishedAt'] ) );
-
-		$post->id = $item['id'];
-		$post->link = $item['link'];
-
-		if ( ! empty( $item['picture']['large'] ) ) {
-			$post->picture = $item['picture']['large'];
-		}
-
-		if ( ! empty( $item['media'] ) ) {
-			$post->media = $item['media'];
-		}
-
-		$post = new \WP_Post( $post );
 		setup_postdata( $post );
 		$GLOBALS['post'] = $post;
 
 		return $post;
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_post_by_link' ) ) :
+	function ee_get_post_by_link( $link ) {
+		$key = 'ee:post-by-link:' . $link;
+		$post_id = wp_cache_get( $key );
+		if ( $post_id === false ) {
+			$wp = new \WP();
+			$query = new \WP_Query();
+
+			$url = $_SERVER['REQUEST_URI'];
+			$_SERVER['REQUEST_URI'] = $link;
+
+			$wp->parse_request();
+			$ids = $query->query( array_merge( $wp->query_vars, array(
+				'ignore_sticky_posts' => true,
+				'posts_per_page'      => 1,
+				'fields'              => 'ids',
+			) ) );
+
+			$_SERVER['REQUEST_URI'] = $url;
+
+			$post_id = current( $ids );
+			wp_cache_set( $key, $post_id );
+		}
+
+		if ( ! empty( $post_id ) ) {
+			$post = get_post( $post_id );
+			if ( is_a( $post, '\WP_Post' ) ) {
+				return $post;
+			}
+		}
+
+		return false;
 	}
 endif;
