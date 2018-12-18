@@ -1,8 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import firebase from 'firebase';
 
 import Header from './elements/Header';
 import Alert from './elements/Alert';
+import trapHOC from '@10up/react-focus-trap-hoc';
 
 class RestorePassword extends PureComponent {
 
@@ -19,6 +21,14 @@ class RestorePassword extends PureComponent {
 
 		self.onFieldChange = self.handleFieldChange.bind( self );
 		self.onFormSubmit = self.handleFormSubmit.bind( self );
+	}
+
+	componentDidMount() {
+		this.props.activateTrap();
+	}
+
+	componentWillUnmount() {
+		this.props.deactivateTrap();
 	}
 
 	handleFieldChange( e ) {
@@ -91,4 +101,9 @@ class RestorePassword extends PureComponent {
 
 }
 
-export default RestorePassword;
+RestorePassword.propTypes = {
+	activateTrap: PropTypes.func.isRequired,
+	deactivateTrap: PropTypes.func.isRequired
+};
+
+export default trapHOC()( RestorePassword );

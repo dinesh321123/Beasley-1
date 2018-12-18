@@ -1,10 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import md5 from 'md5';
 
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
+import trapHOC from '@10up/react-focus-trap-hoc';
 
 class SignUp extends PureComponent {
 
@@ -26,6 +28,14 @@ class SignUp extends PureComponent {
 
 		self.onFieldChange = self.handleFieldChange.bind( self );
 		self.onFormSubmit = self.handleFormSubmit.bind( self );
+	}
+
+	componentDidMount() {
+		this.props.activateTrap();
+	}
+
+	componentWillUnmount() {
+		this.props.deactivateTrap();
 	}
 
 	handleFieldChange( e ) {
@@ -116,4 +126,9 @@ class SignUp extends PureComponent {
 
 }
 
-export default SignUp;
+SignUp.propTypes = {
+	activateTrap: PropTypes.func.isRequired,
+	deactivateTrap: PropTypes.func.isRequired
+};
+
+export default trapHOC()( SignUp );

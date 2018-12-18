@@ -9,6 +9,7 @@ import { showRestoreModal } from '../../redux/actions/modal';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
+import trapHOC from '@10up/react-focus-trap-hoc';
 
 class SignIn extends PureComponent {
 
@@ -26,6 +27,14 @@ class SignIn extends PureComponent {
 		self.onFieldChange = self.handleFieldChange.bind( self );
 		self.onFormSubmit = self.handleFormSubmit.bind( self );
 		self.onRestoreClick = self.handleRestoreClick.bind( self );
+	}
+
+	componentDidMount() {
+		this.props.activateTrap();
+	}
+
+	componentWillUnmount() {
+		this.props.deactivateTrap();
 	}
 
 	handleFieldChange( e ) {
@@ -108,8 +117,10 @@ class SignIn extends PureComponent {
 SignIn.propTypes = {
 	restore: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
+	activateTrap: PropTypes.func.isRequired,
+	deactivateTrap: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = ( dispatch ) => bindActionCreators( { restore: showRestoreModal }, dispatch );
 
-export default connect( null, mapDispatchToProps )( SignIn );
+export default connect( null, mapDispatchToProps )( trapHOC()( SignIn ) );

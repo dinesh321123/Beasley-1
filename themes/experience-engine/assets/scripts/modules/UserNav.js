@@ -76,7 +76,7 @@ class UserNav extends Component {
 					<button className="user-nav-button" type="button" onClick={this.onSignOut}>Log Out</button>
 				</div>
 				<div className="user-nav-image">
-					<img src={photo} width="30" height="30" alt={displayName} />
+					<img src={photo} alt={displayName} />
 				</div>
 			</Fragment>
 		);
@@ -87,18 +87,18 @@ class UserNav extends Component {
 
 		return (
 			<div className="user-nav-logged-out">
-				<button className="user-nav-button -with-icon" type="button" onClick={self.onSignIn}>
+				<button className="user-nav-button -with-icon" aria-label="Sign In to Your Account" type="button" onClick={self.onSignIn}>
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 563.43 563.43" aria-labelledby="sign-in-button-title sign-in-button-desc">
-						<title id="sign-in-button-title"></title>
-						<desc id="sign-in-button-desc"></desc>
+						<title id="sign-in-button-title">Sign In</title>
+						<desc id="sign-in-button-desc">Arrow indicating entrance</desc>
 						<path d="M331.685 425.378c-7.478 7.479-7.478 19.584 0 27.043 7.479 7.478 19.584 7.478 27.043 0l131.943-131.962c3.979-3.979 5.681-9.276 5.412-14.479.269-5.221-1.434-10.499-5.412-14.477L358.728 159.56c-7.459-7.478-19.584-7.478-27.043 0-7.478 7.478-7.478 19.584 0 27.042l100.272 100.272H19.125C8.568 286.875 0 295.443 0 306s8.568 19.125 19.125 19.125h412.832L331.685 425.378zM535.5 38.25H153c-42.247 0-76.5 34.253-76.5 76.5v76.5h38.25v-76.5c0-21.114 17.117-38.25 38.25-38.25h382.5c21.133 0 38.25 17.136 38.25 38.25v382.5c0 21.114-17.117 38.25-38.25 38.25H153c-21.133 0-38.25-17.117-38.25-38.25v-76.5H76.5v76.5c0 42.247 34.253 76.5 76.5 76.5h382.5c42.247 0 76.5-34.253 76.5-76.5v-382.5c0-42.247-34.253-76.5-76.5-76.5z"/>
 					</svg>
 					Sign In
 				</button>
-				<button className="user-nav-button -with-icon" type="button" onClick={self.onSignUp} aria-labelledby="sign-up-button-title sign-up-button-desc">
+				<button className="user-nav-button -with-icon" aria-label="Sign Up for An Account" type="button" onClick={self.onSignUp} aria-labelledby="sign-up-button-title sign-up-button-desc">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 563.43 563.43">
-						<title id="sign-up-button-title"></title>
-						<desc id="sign-up-button-desc"></desc>
+						<title id="sign-up-button-title">Sign Up</title>
+						<desc id="sign-up-button-desc">User icon indicating creation of account</desc>
 						<path d="M280.79 314.559c83.266 0 150.803-67.538 150.803-150.803S364.055 13.415 280.79 13.415 129.987 80.953 129.987 163.756s67.537 150.803 150.803 150.803zm0-261.824c61.061 0 111.021 49.959 111.021 111.021s-49.96 111.02-111.021 111.02-111.021-49.959-111.021-111.021 49.959-111.02 111.021-111.02zM19.891 550.015h523.648c11.102 0 19.891-8.789 19.891-19.891 0-104.082-84.653-189.198-189.198-189.198H189.198C85.116 340.926 0 425.579 0 530.124c0 11.102 8.789 19.891 19.891 19.891zm169.307-169.307h185.034c75.864 0 138.313 56.436 148.028 129.524H41.17c9.714-72.625 72.164-129.524 148.028-129.524z"/>
 						
 					</svg>

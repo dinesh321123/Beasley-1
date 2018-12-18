@@ -1,5 +1,5 @@
 .user-nav {
-    background: var(--global-theme-secondary);
+    background-color: var(--global-theme-secondary);
     border-top: 1px solid #E8E8E8;
     display: flex;
     justify-content: space-between;
@@ -8,13 +8,15 @@
     max-width: 190px;
     padding: 1.1rem;
     position: fixed;
-	top: calc(100% - 176px);
+    bottom: 74px;
     z-index: 10;
 
     & .user-nav-image {
         align-self: center;
         & img {
             border-radius: 50%;
+            width: 30px;
+            height: 30px;
         }
     }
 
@@ -32,7 +34,7 @@
         box-shadow: none;
         cursor: pointer;
         color: var(--global-theme-font-tertiary);
-        font-size: 11px;
+        font-size: .687rem;
         padding: 0;
 
         &:hover,
