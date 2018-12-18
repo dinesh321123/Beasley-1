@@ -1,0 +1,6 @@
+.back-to-top {
+	bottom: 6rem;
+	position: fixed;
+	right: 3rem;
+	z-index: 80;
+}

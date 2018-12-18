@@ -64,5 +64,6 @@
 @import 'components/lazyload';
 @import 'components/videojs';
 @import 'components/load-more-button';
+@import 'components/back-to-top';
 
 @import 'utilities/display';

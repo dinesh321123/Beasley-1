@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import cssVars from 'css-vars-ponyfill';
@@ -13,6 +13,7 @@ import LivePlayer from './modules/LivePlayer';
 import PrimaryNav from './modules/PrimaryNav';
 import UserNav from './modules/UserNav';
 import SearchForm from './modules/SearchForm';
+import BackToTop from './components/BackToTop';
 
 import '../styles/main.css';
 
@@ -53,14 +54,18 @@ class Application extends PureComponent {
 
 	render() {
 		return (
-			<IntersectionObserverContext.Provider value={this.observer}>
-				<ContentDispatcher />
-				<ModalDispatcher />
-				<LivePlayer />
-				<PrimaryNav />
-				<UserNav />
-				<SearchForm />
-			</IntersectionObserverContext.Provider>
+			<Fragment>
+				<IntersectionObserverContext.Provider value={this.observer}>
+					<ContentDispatcher />
+					<ModalDispatcher />
+					<LivePlayer />
+					<PrimaryNav />
+					<UserNav />
+					<SearchForm />
+				</IntersectionObserverContext.Provider>
+
+				<BackToTop />
+			</Fragment>
 		);
 	}
 
