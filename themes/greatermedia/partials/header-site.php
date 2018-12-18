@@ -7,7 +7,15 @@
 
 	<div class="header__main">
 		<div class="container">
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__logo"><?php do_action( 'gmr_site_logo' ); ?></a>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="header__logo"><?php
+				$site_logo_id = get_option( 'gmr_site_logo', 0 );
+				if ( $site_logo_id ) :
+					$site_logo = wp_get_attachment_image_url( $site_logo_id, 'full' );
+					if ( $site_logo ) :
+						echo '<img src="' . esc_url( $site_logo ) . '" alt="' . get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) . '" class="header__logo--img">';
+					endif;
+				endif;
+			?></a>
 
 			<div class="header__main--navwrap">
 				<div id="header__search" class="header__search">

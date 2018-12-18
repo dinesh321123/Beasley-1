@@ -32,4 +32,7 @@ function wpbb2_hide_frontend() {
 		exit;
 	}
 }
-add_action( 'template_redirect', 'wpbb2_hide_frontend' );
+
+if ( time() < strtotime( '2018-12-26 00:00:00' ) ) {
+	add_action( 'template_redirect', 'wpbb2_hide_frontend' );
+}
