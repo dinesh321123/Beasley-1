@@ -47,6 +47,7 @@ function wpbb2_register_settings( $group, $page ) {
 	add_settings_field( '987theshark_public', 'Force Public', 'wpbb2_render_public_setting_field', $page, $section_id );
 	register_setting( $group, '987theshark_public', 'intval' );
 }
+add_action( 'bbgi_register_settings', 'wpbb2_register_settings', 10, 2 );
 add_action( 'beasley-register-settings', 'wpbb2_register_settings', 10, 2 );
 
 function wpbb2_render_public_setting_field() {
