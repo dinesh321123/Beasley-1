@@ -13,7 +13,6 @@ if ( file_exists( __DIR__ . '/../.version.php' ) ) {
 }
 
 define( 'GREATERMEDIA_VERSION', $version ); // using this constant for backward compatibility
-define( 'EE_API_HOST', 'https://experience.bbgi.com/' ); // EE API host
 
 require_once __DIR__ . '/includes/theme.php';
 require_once __DIR__ . '/includes/experience-engine.php';

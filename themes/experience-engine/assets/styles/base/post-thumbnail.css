@@ -1,18 +1,21 @@
 .post-thumbnail {
 	position: relative;
 
-		&::before {
-			content: "";
-			display: block;
-			padding-top: calc((3 / 4) * 100%);
-			width: 100%;
-		}
+	&::before {
+		content: "";
+		display: block;
+		padding-top: calc((3 / 4) * 100%);
+		width: 100%;
+	}
 
-		& .lazy-image {
-			bottom: 0;
-			left: 0;
-			position: absolute;
-			right: 0;
-			top: 0;
-		}
+	& a,
+	& .placeholder-lazyimage,
+	& .lazy-image {
+		display: block;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
 }

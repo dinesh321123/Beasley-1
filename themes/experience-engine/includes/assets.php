@@ -51,7 +51,8 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 		wp_register_script( 'firebase-app', '//www.gstatic.com/firebasejs/5.7.0/firebase-app.js', null, null, true );
 		wp_register_script( 'firebase-auth', '//www.gstatic.com/firebasejs/5.7.0/firebase-auth.js', array( 'firebase-app' ), null, true );
-		wp_register_script( 'firebase-database', '//www.gstatic.com/firebasejs/5.7.0/firebase-database.js', array( 'firebase-app' ), null, true );
+
+		wp_register_script( 'intersection-observer', '//polyfill.io/v2/polyfill.min.js?features=IntersectionObserver', null, null, true );
 
 		if ( $is_script_debug ) {
 			$perfume = array(
@@ -80,10 +81,10 @@ EOL;
 		$deps = array(
 			'firebase-app',
 			'firebase-auth',
-			'firebase-database',
 			'googletag',
 			'embedly-player.js',
 			'td-sdk',
+			'intersection-observer',
 		);
 
 		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", $deps, GREATERMEDIA_VERSION, true );
@@ -160,8 +161,10 @@ endif;
 
 if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 	function _ee_the_lazy_image( $url, $width, $height, $alt = '' ) {
-		return sprintf(
-			ee_is_jacapps()
+		$is_jacapps = ee_is_jacapps();
+
+		$image = sprintf(
+			$is_jacapps
 				? '<img src="%s" width="%s" height="%s">'
 				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-alt="%s"></div>',
 			esc_attr( $url ),
@@ -169,6 +172,10 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 			esc_attr( $height ),
 			esc_attr( $alt )
 		);
+
+		$image = apply_filters( '_ee_the_lazy_image', $image, $is_jacapps, $url, $width, $height, $alt );
+
+		return $image;
 	}
 endif;
 

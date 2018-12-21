@@ -54,7 +54,7 @@ if ( ! function_exists( 'ee_rest_save_user' ) ) :
 		$authorization = $request->get_param( 'authorization' );
 
 		$path = 'user?authorization=' . urlencode( $authorization );
-		$response = _bbgi_ee_request( $path, array( 'method' => 'PUT' ) );
+		$response = \Bbgi\Module::get( 'experience-engine' )->send_request( $path, array( 'method' => 'PUT' ) );
 
 		return rest_ensure_response( 'OK' );
 	}
@@ -66,7 +66,7 @@ if ( ! function_exists( 'ee_rest_get_user' ) ) :
 		$authorization = $request->get_param( 'authorization' );
 
 		$path = 'user?authorization=' . urlencode( $authorization );
-		$response = _bbgi_ee_request( $path );
+		$response = \Bbgi\Module::get( 'experience-engine' )->send_request( $path );
 		if ( ! is_wp_error( $response ) ) {
 			if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
 				$response = wp_remote_retrieve_body( $response );
@@ -96,7 +96,7 @@ if ( ! function_exists( 'ee_rest_get_feeds_content' ) ) :
 			urlencode( $authorization )
 		);
 
-		$response = _bbgi_ee_request( $path );
+		$response = \Bbgi\Module::get( 'experience-engine' )->send_request( $path );
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}

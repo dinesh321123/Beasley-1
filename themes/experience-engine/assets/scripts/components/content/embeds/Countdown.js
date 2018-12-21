@@ -65,7 +65,7 @@ class Countdown extends Component {
 	}
 
 	getSponsor() {
-		const { network, unitId, unitName } = window.bbgiconfig.dfp.countdown;
+		const { unitId, unitName } = window.bbgiconfig.dfp.countdown;
 		const { placeholder } = this.props;
 
 		const params = {
@@ -75,7 +75,7 @@ class Countdown extends Component {
 
 		// we use createElement to make sure we don't add empty spaces here, thus DFP can properly collapse it when nothing to show here
 		return React.createElement( 'div', params, [
-			<Dfp key="sponsor" placeholder={params.id} network={network} unitId={unitId} unitName={unitName} />,
+			<Dfp key="sponsor" placeholder={params.id} unitId={unitId} unitName={unitName} />,
 		] );
 	}
 

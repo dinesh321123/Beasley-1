@@ -46,7 +46,7 @@ img {
 	@include bp(large) {
 		@include outer-container(970px);
 		padding-right: 340px;
-		min-height: 800px;
+		min-height: 1404px;
 	}
 
 	/*@include bp(x-large) {

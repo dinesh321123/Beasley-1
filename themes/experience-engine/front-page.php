@@ -1,7 +1,9 @@
-<?php get_header(); ?>
+<?php
 
-<div>
-	<?php ee_homepage_feeds( bbgi_ee_get_publisher_feeds_with_content() ); ?>
-</div>
+get_header();
 
-<?php get_footer(); ?>
+$ee = \Bbgi\Module::get( 'experience-engine' );
+$feeds = $ee->get_publisher_feeds_with_content();
+ee_homepage_feeds( $feeds );
+
+get_footer();

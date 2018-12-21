@@ -31,30 +31,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	include __DIR__ . '/cli/cli.php';
 }
 
-add_action( 'wp_loaded', function() {
-	$modules = array(
-		new \Bbgi\Site(),
-		new \Bbgi\Seo(),
-		new \Bbgi\Settings(),
-		new \Bbgi\Shortcodes(),
-		new \Bbgi\Media\Video(),
-		new \Bbgi\Image\Attributes(),
-		new \Bbgi\Image\ThumbnailColumn(),
-		new \Bbgi\Integration\Google(),
-	);
-
-	if ( current_theme_supports( 'secondstreet' ) ) {
-		$modules[] = new \Bbgi\Integration\SecondStreet();
-	}
-
-	if ( current_theme_supports( 'firebase' ) ) {
-		$modules[] = new \Bbgi\Integration\Firebase();
-	}
-
-	foreach ( $modules as $module ) {
-		$module->register();
-	}
-}, 0 );
+add_action( 'wp_loaded', array( \Bbgi\Module::class, 'register_modules' ), 0 );
 
 // Allows overriding options with constants
 add_filter( 'configure_smtp__options', function( $options ) {

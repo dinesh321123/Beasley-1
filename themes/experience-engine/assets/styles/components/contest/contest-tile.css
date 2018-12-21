@@ -1,20 +1,19 @@
 .contest-tile {
- 
-    & .contest-dates {
-        align-items: center;
-        color: var(--global-dove-gray);
-        display: flex;
-        font-size: .875rem;
-        font-weight: 500;
-        text-transform: uppercase;
-    }
+	& .contest-dates {
+		align-items: center;
+		color: var(--global-dove-gray);
+		display: flex;
+		font-size: .875rem;
+		font-weight: 500;
+		text-transform: uppercase;
+	}
 
-    & .contest-dates-icon {
-        height: 15px;
-        margin-right: .5rem;
-        width: 15px;
-        & svg path {
-            fill: var(--global-dove-gray);
-        }
-    }
+	& .contest-dates-icon {
+		height: 15px;
+		margin-right: .5rem;
+		width: 15px;
+		& svg path {
+			fill: var(--global-dove-gray);
+		}
+	}
 }

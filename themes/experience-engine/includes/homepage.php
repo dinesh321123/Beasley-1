@@ -10,6 +10,7 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 			'video'    => 'ee_render_homepage_standard_feed',
 			'podcast'  => 'ee_render_homepage_standard_feed',
 			'cta'      => 'ee_render_homepage_cta_feed',
+			'stream'   => 'ee_render_homepage_stream',
 		);
 
 		foreach ( $feeds as $feed ) {
@@ -37,30 +38,40 @@ endif;
 if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
 		static $index = 1;
-
-		echo '<div class="ribon">';
+		$size = $index === 1 ? '-large' : '-small';
+		echo '<div class="content-wrap">';
 			if ( ! empty( $feed['title'] ) ) {
-				ee_the_subtitle( $feed['title'] );
-				if ( ! empty( $feed['description'] ) ) {
-					echo '<p>', esc_html( $feed['description'] ), '</p>';
+				if ( $index <= 1 ) {
+					ee_the_subtitle( $feed['title'] );
+				} else {
+					ee_the_subtitle( $feed['title'], 'true' );
 				}
 			}
 
-			echo '<div class="ribon-items">';
-				foreach ( $feed['content'] as $item ) {
-					if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
-						$post = ee_setup_post_from_feed_item( $item, $feed );
-						get_template_part( 'partials/tile', $post->post_type );
+			echo '<div class="archive-tiles -carousel swiper-container ' . esc_attr( $size ) .'">';
+				echo '<div class="swiper-wrapper">';
+					foreach ( $feed['content'] as $item ) {
+						echo '<div class="swiper-slide">';
+							if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
+								$post = ee_setup_post_from_feed_item( $item, $feed );
+								get_template_part( 'partials/tile', $post->post_type );
+							}
+						echo '</div>';
 					}
-				}
+					echo '</div>';
+				echo '<div class="swiper-button-prev"></div><div class="swiper-button-next"></div>';
 			echo '</div>';
 		echo '</div>';
 
 		// below first two ribbons, then after 5th ribbon and every 3 ribbons thereafter.
 		if ( $index < $feeds_count ) {
 			if ( ( $index == 2 ) || ( $index > 2 && ( $index - 2 ) % 3 == 0 ) ) {
-				do_action( 'dfp_tag', 'dfp_ad_inlist_infinite' );
+				do_action( 'dfp_tag', 'in-list' );
 			}
+		}
+
+		if ( $index == 4 ) {
+			echo '<div class="discovery-cta"></div>';
 		}
 
 		$index++;
@@ -78,6 +89,17 @@ if ( ! function_exists( 'ee_render_homepage_cta_feed' ) ) :
 					esc_attr( json_encode( $item ) )
 				);
 			}
+		}
+	}
+endif;
+
+if ( ! function_exists( 'ee_render_homepage_stream' ) ) :
+	function ee_render_homepage_stream( $feed ) {
+		foreach ( $feed['content'] as $item ) {
+			printf(
+				'<div class="stream-cta" data-payload="%s"></div>',
+				esc_attr( json_encode( $item ) )
+			);
 		}
 	}
 endif;

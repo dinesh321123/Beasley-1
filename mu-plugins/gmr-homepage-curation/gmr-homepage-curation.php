@@ -20,7 +20,7 @@ function load() {
 	}
 }
 
-add_action ( 'after_setup_theme', __NAMESPACE__ . '\load' );
+add_action ( 'after_setup_theme', __NAMESPACE__ . '\load', 50 );
 
 /**
  * Loads the specified template with variables scoped to the template.

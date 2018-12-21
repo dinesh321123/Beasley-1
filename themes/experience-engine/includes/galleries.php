@@ -1,5 +1,7 @@
 <?php
 
+add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 3 );
+
 if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 	function ee_setup_gallery_view_metadata() {
 		if ( ! class_exists( '\GreaterMediaGallery' ) ) {
@@ -71,5 +73,133 @@ if ( ! function_exists( 'ee_get_galleries_query' ) ) :
 			'post_type'   => 'gmr_gallery',
 			'post_parent' => $album->ID,
 		) ) );
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
+	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false ) {
+		static $urls = array();
+
+		if ( empty( $urls[ $gallery->ID ] ) ) {
+			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $gallery->ID ) );
+		}
+
+		$image_full_url = $urls[ $gallery->ID ] . 'view/' . urlencode( $image->post_name ) . '/';
+		$tracking = function( $html ) use ( $image_full_url ) {
+			return str_replace( '<div ', '<div data-tracking="' . esc_attr( $image_full_url ) . '" ', $html );
+		};
+
+		if ( ! $is_first ) {
+			add_filter( '_ee_the_lazy_image', $tracking );
+			$image_html = ee_the_lazy_image( $image->ID, false );
+			remove_filter( '_ee_the_lazy_image', $tracking );
+		} else {
+			$image_html = ee_the_lazy_image( $image->ID, false );
+		}
+
+		if ( empty( $image_html ) ) {
+			return false;
+		}
+
+		$title = get_the_title( $image );
+		$attribution = trim( get_post_meta( $image->ID, 'gmr_image_attribution', true ) );
+
+		ob_start();
+
+		echo $image_html;
+
+		echo '<div>';
+			echo '<h3>', esc_html( $title ), '</h3>';
+			if ( ! empty( $attribution ) ) :
+				echo '<h4>', esc_html( $attribution ), '</h4>';
+			endif;
+
+			if ( ! $is_sponsored ) :
+				if ( ! get_field( 'hide_download_link', $gallery ) ) :
+					echo '<p>';
+						echo '<a href="', esc_url( wp_get_attachment_image_url( $image->ID, 'full' ) ), '" class="-download" download target="_blank" rel="noopener">download</a>';
+					echo '</p>';
+				endif;
+
+				if ( ! get_field( 'hide_social_share', $gallery ) ) :
+					$url = get_field( 'share_photos', $gallery ) ? $image_full_url : $urls[ $gallery->ID ];
+					ee_the_share_buttons( $url, $title );
+				endif;
+			endif;
+
+			echo '<p>', get_the_excerpt( $image ), '</p>';
+		echo '</div>';
+
+		return ob_get_clean();
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_gallery_html' ) ) :
+	function ee_get_gallery_html( $gallery, $ids ) {
+		$sponsored_image = get_field( 'sponsored_image', $gallery );
+		if ( ! empty( $sponsored_image ) ) {
+			array_unshift( $ids, $sponsored_image );
+		}
+
+		$images = array_values( array_filter( array_map( 'get_post', array_values( $ids ) ) ) );
+		if ( empty( $images ) ) {
+			return false;
+		}
+
+		$image_slug = get_query_var( 'view' );
+
+		$ads_interval = filter_var( get_field( 'images_per_ad', $gallery ), FILTER_VALIDATE_INT, array( 'options' => array(
+			'min_range' => 1,
+			'max_range' => 100,
+			'default'   => 3,
+		) ) );
+
+		ob_start();
+
+		echo '<ul class="gallery-listicle">';
+
+		foreach ( $images as $index => $image ) {
+			$html = ee_get_gallery_image_html(
+				$image,
+				$gallery,
+				$sponsored_image == $image->ID,
+				$index == 0
+			);
+
+			if ( ! empty( $html ) ) {
+				echo '<li class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
+					echo $html;
+
+					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
+						do_action( 'dfp_tag', 'in-list' );
+					endif;
+				echo '</li>';
+			}
+		}
+
+		echo '</ul>';
+
+		return ob_get_clean();
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_incontent_gallery' ) ) :
+	function ee_update_incontent_gallery( $html, $gallery, $ids ) {
+		// do not render gallery if it has been called before <body> tag
+		if ( ! did_action( 'beasley_after_body' ) ) {
+			return '<!-- -->';
+		}
+
+		$html = ee_get_gallery_html( $gallery, $ids );
+
+		// we need to to inject embed code later
+		$placeholder = '<div><!-- gallery:' . sha1( $html ) . ' --></div>';
+		$replace_filter = function( $content ) use ( $placeholder, $html ) {
+			return str_replace( $placeholder, $html, $content );
+		};
+
+		add_filter( 'the_content', $replace_filter, 150 );
+
+		return $placeholder;
 	}
 endif;

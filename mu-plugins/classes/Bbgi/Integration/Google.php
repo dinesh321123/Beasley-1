@@ -140,25 +140,7 @@ EOL;
 	 * @action wp_head
 	 */
 	public function render_analytics_head() {
-		$onload = <<<EOL
-document.addEventListener("DOMContentLoaded", function() {
-	jQuery( document ).on( 'pjax:end', function () {
-		ga( 'set', 'location', window.location.href );
-		ga( 'send', 'pageview' );
-	} );
-
-	var \$body = jQuery( 'body' );
-
-	\$body.on( 'inlineAudioPlaying.gmr', function () {
-		ga( 'send', 'event', 'audio', 'Inline audio playing' );
-	} );
-
-	\$body.on( 'liveStreamPlaying.gmr', function () {
-		ga( 'send', 'event', 'audio', 'Live stream playing' );
-	} );
-});
-EOL;
-
+		$onload = apply_filters( 'bbgi_google_onload_code', '' );
 		echo $this->get_analytics_code( $onload );
 	}
 

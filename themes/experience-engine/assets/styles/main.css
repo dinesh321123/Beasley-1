@@ -23,6 +23,8 @@
 
 @import 'components/single/post';
 @import 'components/single/post-share-buttons';
+@import 'components/content/stream-cta';
+@import 'components/content/discovery';
 @import 'components/search/search-header';
 
 @import 'components/player/ads';
@@ -59,5 +61,6 @@
 @import 'components/lazyload';
 @import 'components/videojs';
 @import 'components/load-more-button';
+@import 'components/back-to-top';
 
 @import 'utilities/display';
