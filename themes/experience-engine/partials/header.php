@@ -1,5 +1,4 @@
 <div class="primary-sidebar">
-	<div class="primary-sidebar-inside">
 		<a href="#primary-menu" id="js-menu-toggle" class="site-menu-toggle">
 			<span class="screen-reader-text">
 				Primary Menu
@@ -26,5 +25,4 @@
 
 			<div id="user-nav" class="user-nav"></div>
 		</div>
-	</div>
 </div>

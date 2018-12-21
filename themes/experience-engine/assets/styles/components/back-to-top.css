@@ -10,7 +10,7 @@
 	position: fixed;
 	right: 1rem;
 	text-align: center;
-	transition: opacity .3s 0s, visibility 0s .3s, background-color .3s 0s;
+	transition: opacity .3s 0s;
 	width: 40px;
 	visibility: hidden;
 	z-index: 80;
@@ -18,7 +18,7 @@
 	&.-show,
 	&.-fadeout,
 	&:hover {
-		transition: opacity .3s 0s, visibility 0s 0s, background-color .3s 0s;
+		transition: opacity .3s 0s;
 	}
 
 	&.-show {
