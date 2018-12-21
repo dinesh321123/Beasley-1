@@ -16,7 +16,7 @@
 	&::before {
     	border-left: 10px solid transparent;
   		border-right: 10px solid transparent;
-		border-top: 10px solid #ECECEC;
+		border-top: 10px solid var(--global-mercury);
     	bottom: -10px;
 		content: '';
 		display: block;
