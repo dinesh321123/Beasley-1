@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import cssVars from 'css-vars-ponyfill';
 
 import createStore from './redux/store';
 
@@ -16,33 +15,6 @@ import SearchForm from './modules/SearchForm';
 import BackToTop from './components/BackToTop';
 
 import '../styles/main.css';
-
-let theme = {};
-const { bbgiconfig } = window;
-const { themeData } = bbgiconfig;
-
-if ( '-dark' === themeData.theme ) {
-	theme = {
-		'--global-theme-primary': '#1a1a1a',
-		'--global-theme-secondary': '#282828',
-
-		'--global-theme-font-primary': 'var(--global-white)',
-		'--global-theme-font-secondary': '#a5a5a5',
-		'--global-theme-font-tertiary': 'var(--global-dove-gray)',
-	};
-}
-
-const brand = {
-	'--brand-primary': themeData.brand.primary,
-	'--brand-secondary': themeData.brand.secondary,
-	'--brand-tertiary': themeData.brand.tertiary,
-};
-
-const fullTheme = { ...theme, ...brand };
-
-cssVars( {
-	variables: fullTheme,
-} );
 
 class Application extends PureComponent {
 

@@ -26,16 +26,32 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		/**
 		 * Google WebFont scripts
 		 */
-		$webfont = array(
-			'google' => array(
-				'families' => array( 'Libre Franklin:300,400,500,600,700', 'Open Sans:600' ),
-			),
-		);
-
+		$webfont = [ 'google' => [ 'families' => [ 'Libre Franklin:300,400,500,600,700', 'Open Sans:600' ] ] ];
 		wp_enqueue_script( 'google-webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js', null, null, false );
 		wp_add_inline_script( 'google-webfont', 'var WebFontConfig = ' . wp_json_encode( $webfont ), 'before' );
 		wp_script_add_data( 'google-webfont', 'async', true );
 		wp_script_add_data( 'google-webfont', 'noscript', '<link href="//fonts.googleapis.com/css?family=Libre+Franklin:300,400,500,600,700|Open+Sans:600" rel="stylesheet">' );
+
+		/**
+		 * CSS vars polyfill
+		 */
+		$vars = [
+			'--brand-primary'   => '#ff0000',
+			'--brand-secondary' => '#ffe964',
+			'--brand-tertiary'  => '#ffffff',
+		];
+
+		if ( get_theme_mod( 'ee_theme_version', '-dark' ) == '-dark' ) {
+			$vars['--global-theme-primary'] = '#1a1a1a';
+			$vars['--global-theme-secondary'] = '#282828';
+			$vars['--global-theme-font-primary'] = 'var(--global-white)';
+			$vars['--global-theme-font-secondary'] = '#a5a5a5';
+			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
+		}
+
+		wp_enqueue_script( 'css-vars-ponyfill', 'https://unpkg.com/css-vars-ponyfill@1.16.1/dist/css-vars-ponyfill.min.js', null, null, false );
+		wp_script_add_data( 'css-vars-ponyfill', 'async', true );
+		wp_script_add_data( 'css-vars-ponyfill', 'onload', 'cssVars(' . wp_json_encode( [ 'variables' => $vars ] ) . ')' );
 
 		/**
 		 * External libraries
@@ -117,25 +133,9 @@ endif;
 
 if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
-		$theme = get_theme_mod( 'ee_theme_version', '-dark' );
-		$theme = sanitize_html_class( $theme );
-
-		$themeData = array (
-			'theme' => $theme,
-			'brand' => array (
-				'primary'   => '#ff0000',
-				'secondary' => '#ffe964',
-				'tertiary'  => '#ffffff',
-			),
-		);
-
-		$config = array(
-			'themeData' => $themeData,
-		);
-
 		printf(
 			'<script id="bbgiconfig" type="application/json">%s</script>',
-			json_encode( apply_filters( 'bbgiconfig', $config ) )
+			json_encode( apply_filters( 'bbgiconfig', array() ) )
 		);
 	}
 endif;
@@ -153,6 +153,13 @@ if ( ! function_exists( 'ee_script_loader' ) ) :
 		$noscript = $wp_scripts->get_data( $handler, 'noscript' );
 		if ( $noscript ) {
 			$tag .= sprintf( '<noscript>%s</noscript>', $noscript );
+		}
+
+		$onload = $wp_scripts->get_data( $handler, 'onload' );
+		if ( $onload ) {
+			$onload = esc_attr( $onload );
+			$tag = str_replace( " src=\"{$src}\"", " src=\"{$src}\" onload=\"{$onload}\"", $tag );
+			$tag = str_replace( " src='{$src}'", " src=\"{$src}\" onload=\"{$onload}\"", $tag );
 		}
 
 		return $tag;

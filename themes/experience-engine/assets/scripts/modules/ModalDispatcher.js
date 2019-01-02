@@ -3,40 +3,28 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { hideModal, SIGNIN_MODAL, SIGNUP_MODAL, RESTORE_MODAL } from '../redux/actions/modal';
+import { hideModal, SIGNIN_MODAL, SIGNUP_MODAL, RESTORE_MODAL, COMPLETE_SIGNUP_MODAL } from '../redux/actions/modal';
 
 import SignInModal from '../components/modals/SignIn';
 import SignUpModal from '../components/modals/SignUp';
 import RestoreModal from '../components/modals/RestorePassword';
+import CompleteSignup from '../components/modals/CompleteSignup';
+
 class ModalDispatcher extends Component {
 
-	constructor(){
+	constructor() {
 		super();
 
-		this.modalRef = React.createRef();
-		this.handleEscapeKeyDown = this.handleEscapeKeyDown.bind( this );
-		this.handleClickOutside = this.handleClickOutside.bind( this );
+		const self = this;
+		self.modalRef = React.createRef();
+
+		self.handleEscapeKeyDown = self.handleEscapeKeyDown.bind( self );
+		self.handleClickOutside = self.handleClickOutside.bind( self );
 	}
 
-	componentDidMount(){
-	
+	componentDidMount() {
 		document.addEventListener( 'mousedown', this.handleClickOutside, false );
 		document.addEventListener( 'keydown', this.handleEscapeKeyDown, false );
-		
-	}
-
-	handleClickOutside( e ) {
-		if( this.modalRef.current && this.modalRef.current.contains( e.target ) ) {
-			return;
-		}
-
-		this.props.close();
-	}
-
-	handleEscapeKeyDown( e ) {
-		if( 27 === e.keyCode ) {
-			this.props.close();
-		}
 	}
 
 	componentWillUnmount() {
@@ -44,9 +32,25 @@ class ModalDispatcher extends Component {
 		document.removeEventListener( 'keydown', this.handleEscapeKeyDown, false );
 	}
 
-	render() {
+	handleClickOutside( e ) {
+		const self = this;
+		const { modal } = self.props;
+		const { current: ref } = self.modalRef;
 
-		const { modal, payload, close } = this.props;
+		if ( 'CLOSED' !== modal && ( !ref || !ref.contains( e.target ) ) ) {
+			self.props.close();
+		}
+	}
+
+	handleEscapeKeyDown( e ) {
+		if ( 27 === e.keyCode ) {
+			this.props.close();
+		}
+	}
+
+	render() {
+		const self = this;
+		const { modal, payload, close } = self.props;
 		let component = false;
 
 		switch( modal ) {
@@ -59,13 +63,16 @@ class ModalDispatcher extends Component {
 			case RESTORE_MODAL:
 				component = <RestoreModal close={close} {...payload} />;
 				break;
+			case COMPLETE_SIGNUP_MODAL:
+				component = <CompleteSignup close={close} {...payload } />;
+				break;
 			default:
 				return false;
 		}
 
 		return(
 			<div className={`modal ${( modal || '' ).toLowerCase()}`}>
-				<div ref={this.modalRef} className="modal-content">
+				<div ref={self.modalRef} className="modal-content">
 					<button type="button" className="button modal-close" aria-label="Close Modal" onClick={close}>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982" aria-labelledby="close-modal-title close-modal-desc" width="13" height="13">
 							<title id="close-modal-title">Close Modal</title>
@@ -91,8 +98,12 @@ ModalDispatcher.defaultProps = {
 	payload: {},
 };
 
-const mapStateToProps = ( { modal } ) => ( { ...modal } );
+function mapStateToProps( { modal } ) {
+	return { ...modal };
+}
 
-const mapDispatchToProps = ( dispatch ) => bindActionCreators( { close: hideModal }, dispatch );
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( { close: hideModal }, dispatch );
+}
 
 export default connect( mapStateToProps, mapDispatchToProps )( ModalDispatcher );

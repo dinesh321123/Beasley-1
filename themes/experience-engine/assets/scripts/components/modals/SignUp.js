@@ -2,11 +2,16 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import md5 from 'md5';
+import trapHOC from '@10up/react-focus-trap-hoc';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
-import trapHOC from '@10up/react-focus-trap-hoc';
+
+import { saveUser } from '../../library/experience-engine';
+import { suppressUserCheck } from '../../redux/actions/auth';
 
 class SignUp extends PureComponent {
 
@@ -45,7 +50,7 @@ class SignUp extends PureComponent {
 
 	handleFormSubmit( e ) {
 		const self = this;
-		const { email, password, firstname, lastname } = self.state;
+		const { email, password, firstname, lastname, zip, gender, bday } = self.state;
 		const auth = firebase.auth();
 
 		const emailAddress = email.trim().toLowerCase();
@@ -56,8 +61,14 @@ class SignUp extends PureComponent {
 
 		e.preventDefault();
 
+		self.props.suppressUserCheck();
 		auth.createUserWithEmailAndPassword( emailAddress, password )
-			.then( response => response.user.updateProfile( userData ) )
+			.then( ( response ) => {
+				const { user } = response;
+
+				user.getIdToken().then( ( token ) => saveUser( emailAddress, zip, gender, bday, token ) );
+				user.updateProfile( userData );
+			} )
 			.then( () => self.props.close() )
 			.catch( error => self.setState( { error: error.message } ) );
 	}
@@ -128,7 +139,12 @@ class SignUp extends PureComponent {
 
 SignUp.propTypes = {
 	activateTrap: PropTypes.func.isRequired,
-	deactivateTrap: PropTypes.func.isRequired
+	deactivateTrap: PropTypes.func.isRequired,
+	suppressUserCheck: PropTypes.func.isRequired,
 };
 
-export default trapHOC()( SignUp );
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( { suppressUserCheck }, dispatch );
+}
+
+export default connect( null, mapDispatchToProps )( trapHOC()( SignUp ) );

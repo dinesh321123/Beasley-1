@@ -17,11 +17,6 @@ if ( ! function_exists( 'ee_get_publisher_information' ) ) :
 			$publisher_info = \Bbgi\Module::get( 'experience-engine' )->get_publisher();
 		}
 
-		// temporarily return # for itunes_app and play_app
-		if ( $meta == 'itunes_app' || $meta == 'play_app' ) {
-			return '#';
-		}
-
 		if ( empty( $publisher_info ) || empty( $publisher_info[ $meta ] ) ) {
 			return false;
 		}

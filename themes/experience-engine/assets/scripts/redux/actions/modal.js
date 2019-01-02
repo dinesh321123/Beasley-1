@@ -9,24 +9,40 @@ export const ACTION_HIDE_MODAL = 'production' === process.env.NODE_ENV ? 'm1' : 
 export const SIGNIN_MODAL = 'SIGNIN-MODAL';
 export const SIGNUP_MODAL = 'SIGNUP-MODAL';
 export const RESTORE_MODAL = 'RESTORE-MODAL';
+export const COMPLETE_SIGNUP_MODAL = 'COMPLETE-SIGNUP-MODAL';
 
-const showModal = ( modal, payload ) => ( {
-	type: ACTION_SHOW_MODAL,
-	modal,
-	payload,
-} );
+function showModal( modal, payload ) {
+	return {
+		type: ACTION_SHOW_MODAL,
+		modal,
+		payload,
+	};
+}
 
-export const hideModal = () => ( { type: ACTION_HIDE_MODAL } );
+export function hideModal() {
+	return { type: ACTION_HIDE_MODAL };
+}
 
-export const showSignInModal = ( payload = {} ) => showModal( SIGNIN_MODAL, payload );
+export function showSignInModal( payload = {} ) {
+	return showModal( SIGNIN_MODAL, payload );
+}
 
-export const showSignUpModal = ( payload = {} ) => showModal( SIGNUP_MODAL, payload );
+export function showSignUpModal( payload = {} ) {
+	return showModal( SIGNUP_MODAL, payload );
+}
 
-export const showRestoreModal = ( payload = {} ) => showModal( RESTORE_MODAL, payload );
+export function showRestoreModal( payload = {} ) {
+	return showModal( RESTORE_MODAL, payload );
+}
+
+export function showCompleteSignupModal( payload = {} ) {
+	return showModal( COMPLETE_SIGNUP_MODAL, payload );
+}
 
 export default {
 	hideModal,
 	showSignInModal,
 	showSignUpModal,
 	showRestoreModal,
+	showCompleteSignupModal,
 };

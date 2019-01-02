@@ -73,12 +73,12 @@ class SignIn extends PureComponent {
 				<form className="modal-form -form-sign-in" onSubmit={self.onFormSubmit}>
 					<div className="modal-form-group">
 						<label className="modal-form-label" htmlFor="user-email">Email</label>
-						<input 
+						<input
 							className="modal-form-field"
 							type="email" id="user-email"
 							name="email" value={email}
 							onChange={self.onFieldChange}
-							placeholder="Your email address" 
+							placeholder="Your email address"
 						/>
 					</div>
 					<div className="modal-form-group">
@@ -90,12 +90,12 @@ class SignIn extends PureComponent {
 							name="password"
 							value={password}
 							onChange={self.onFieldChange}
-							placeholder="Your password" 
+							placeholder="Your password"
 						/>
 					</div>
 					<div className="modal-form-actions">
 						<button className="button -sign-in" type="submit">Sign In</button>
-						<button 
+						<button
 							className="button -forgot-password"
 							type="button"
 							onClick={self.onRestoreClick}
@@ -118,9 +118,11 @@ SignIn.propTypes = {
 	restore: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
 	activateTrap: PropTypes.func.isRequired,
-	deactivateTrap: PropTypes.func.isRequired
+	deactivateTrap: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = ( dispatch ) => bindActionCreators( { restore: showRestoreModal }, dispatch );
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( { restore: showRestoreModal }, dispatch );
+}
 
 export default connect( null, mapDispatchToProps )( trapHOC()( SignIn ) );

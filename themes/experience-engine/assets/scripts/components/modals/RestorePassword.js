@@ -60,10 +60,10 @@ class RestorePassword extends PureComponent {
 
 	render() {
 		const self = this;
-		const { 
+		const {
 			email,
 			message,
-			success 
+			success
 		} = self.state;
 
 		return (
@@ -79,14 +79,14 @@ class RestorePassword extends PureComponent {
 						<label className="modal-form-label" htmlFor="user-email">
 							Email
 						</label>
-						<input 
+						<input
 							className="modal-form-field"
 							type="email"
 							id="user-email"
 							name="email"
 							value={email}
 							onChange={self.onFieldChange}
-							placeholder="yourname@yourddomain.com" 
+							placeholder="yourname@yourddomain.com"
 						/>
 					</div>
 					<div className="modal-form-actions">
@@ -103,7 +103,7 @@ class RestorePassword extends PureComponent {
 
 RestorePassword.propTypes = {
 	activateTrap: PropTypes.func.isRequired,
-	deactivateTrap: PropTypes.func.isRequired
+	deactivateTrap: PropTypes.func.isRequired,
 };
 
 export default trapHOC()( RestorePassword );

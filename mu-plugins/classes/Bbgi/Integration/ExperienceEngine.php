@@ -16,6 +16,7 @@ class ExperienceEngine extends \Bbgi\Module {
 	public function register() {
 		add_action( 'wpmu_options', $this( 'show_network_settings' ) );
 		add_action( 'update_wpmu_options', $this( 'save_network_settings' ) );
+		add_filter( 'bbgiconfig', $this( 'update_bbgiconfig' ) );
 	}
 
 	/**
@@ -79,16 +80,23 @@ class ExperienceEngine extends \Bbgi\Module {
 		return get_option( 'ee_publisher' );
 	}
 
+	protected function _get_host() {
+		$host = get_site_option( 'ee_host' );
+		if ( ! filter_var( $host, FILTER_VALIDATE_URL ) ) {
+			$host = 'https://experience.bbgi.com/';
+		}
+
+		return untrailingslashit( $host ) . '/v1/';
+	}
+
 	public function send_request( $path, $args = array() ) {
+		$host = $this->_get_host();
 		$args['headers'] = array( 'Content-Type' => 'application/json' );
 		if ( empty( $args['method'] ) ) {
 			$args['method'] = 'GET';
 		}
 
-		$host = get_site_option( 'ee_host', 'https://experience.bbgi.com/' );
-		$url = untrailingslashit( $host ) . '/v1/' . $path;
-
-		return wp_remote_request( $url, $args );
+		return wp_remote_request( $host . $path, $args );
 	}
 
 	public function do_request( $path, $args = array() ) {
@@ -221,6 +229,11 @@ class ExperienceEngine extends \Bbgi\Module {
 		}
 
 		return '';
+	}
+
+	public function update_bbgiconfig( $config ) {
+		$config['eeapi'] = $this->_get_host();
+		return $config;
 	}
 
 }
