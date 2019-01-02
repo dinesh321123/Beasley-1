@@ -1,77 +1,46 @@
 <?php get_header(); ?>
 
-<div class="content-wrap">
-	<?php the_post(); ?>
+<?php the_post(); ?>
 
-	<div class="post-content">
-		<article id="post-<?php the_ID(); ?>" <?php post_class('post-article'); ?>>
+<div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
+	<?php get_template_part( 'partials/show/header' ); ?>
 
-			<!-- Header -->
-			<header class="post-header">
+	<header class="post-info">
 
-				<?php get_template_part( 'partials/show/header' ); ?>
+		<h1>
+			<?php the_title(); ?>
+		</h1>
 
-				<h1 class="post-title">
-					<?php the_title(); ?>
-				</h1>
+		<div class="post-meta">
+			<?php get_template_part( 'partials/content/meta' ); ?>
+		</div>
 
-				<div class="post-meta">
-					<div class="post-meta-author">
-							<div class="post-author-name">
-								<div class="post-author-data">
-									<?php echo get_avatar( get_the_author_meta( 'ID' ), 40 ); ?>
-									<?php the_author_meta( 'display_name' ); ?>
-								</div>
-								
-								<div class="post-meta-date">
-									<?php ee_the_date(); ?>
-								</div>
-							</div>
-					</div>
+	</header>
 
-					<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
+	<div class="episode-content content-wrap">
+			
+		<div class="description">
+			<?php get_template_part( 'partials/featured-media' ); ?>
+			<?php ee_the_content_with_ads(); ?>
 
+			<?php if( is_single() ) : ?>
+				<div class="profile">
+					<?php echo get_the_author_meta( 'description' ); ?>
 				</div>
-			</header>
+			<?php endif; ?>
+				
+			<?php get_template_part( 'partials/content/categories' ); ?>
+			<?php get_template_part( 'partials/content/tags' ); ?>
+		</div>
 
-			<div>
-				<div>
-					<!-- Featured Media -->
-					<?php get_template_part( 'partials/featured-media' ); ?>
-
-					<div class="post-content-wrap">
-						<div class="post-thumbnail-caption">
-							<?php echo get_the_post_thumbnail_caption( get_the_ID() ); ?>
-						</div>
-					</div>
-
-					<div class="post-content-wrap">
-
-						<?php ee_the_content_with_ads(); ?>
-
-						<div class="post-author-description">
-							<?php echo get_the_author_meta( 'description' ); ?>
-						</div>
-
-						<!-- Categories -->
-						<?php get_template_part( 'partials/content/categories' ); ?>
-
-						<!-- Tags -->
-						<?php get_template_part( 'partials/content/tags' ); ?>
-					</div>
-				</div>
-			</div>
-		</article>
-
-		<!-- Sidebar -->
-		<aside class="post-sidebar">
-			<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
-		</aside>
+		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
+			
 	</div>
 
-	<!-- Related Articles -->
-	<?php get_template_part( 'partials/related-articles' ); ?>
-
+	<div class="content-wrap">
+		<?php get_template_part( 'partials/related-articles' ); ?>
+	</div>
+		
 </div>
 
 <?php get_footer(); ?>
