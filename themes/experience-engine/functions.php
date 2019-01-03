@@ -28,4 +28,3 @@ require_once __DIR__ . '/includes/embeds.php';
 require_once __DIR__ . '/includes/dfp.php';
 require_once __DIR__ . '/includes/homepage.php';
 require_once __DIR__ . '/includes/galleries.php';
-require_once __DIR__ . '/includes/rest-api.php';

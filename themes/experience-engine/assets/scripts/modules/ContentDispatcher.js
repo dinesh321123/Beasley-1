@@ -74,7 +74,6 @@ class ContentDispatcher extends Component {
 			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css',
 		];
 
-
 		if ( carousels.length ) {
 			loadAssets( scripts, styles )
 				.then( self.handleSliders.bind( self ) )
@@ -177,7 +176,8 @@ class ContentDispatcher extends Component {
 		}
 
 		blocks.push(
-			<ContentBlock key={window.location.href} content={content} embeds={embeds} />,
+			// the composed ke is needed to make sure we use a new ContentBlock component when we replace the content of the current page
+			<ContentBlock key={`${window.location.href}-${content.length}`} content={content} embeds={embeds} />,
 		);
 
 		Object.keys( partials ).forEach( ( key ) => {

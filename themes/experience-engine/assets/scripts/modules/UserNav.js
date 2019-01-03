@@ -8,6 +8,7 @@ import md5 from 'md5';
 
 import { showSignInModal, showSignUpModal, showCompleteSignupModal } from '../redux/actions/modal';
 import { setUser, setToken, resetUser } from '../redux/actions/auth';
+import { loadPage } from '../redux/actions/screen';
 
 class UserNav extends Component {
 
@@ -63,6 +64,15 @@ class UserNav extends Component {
 				.then( json => {
 					if ( 'user information has not been set' === json.Error ) {
 						self.props.showCompleteSignup();
+					} else if ( document.body.classList.contains( 'home' ) ) {
+						self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content`, {
+							suppressHistory: true,
+							fetchParams: {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+								body: `format=raw&authorization=${encodeURIComponent( token )}`,
+							},
+						} );
 					}
 				} );
 		}
@@ -159,6 +169,7 @@ UserNav.propTypes = {
 	showSignIn: PropTypes.func.isRequired,
 	showSignUp: PropTypes.func.isRequired,
 	showCompleteSignup: PropTypes.func.isRequired,
+	loadPage: PropTypes.func.isRequired,
 	setUser: PropTypes.func.isRequired,
 	setToken: PropTypes.func.isRequired,
 	resetUser: PropTypes.func.isRequired,
@@ -181,6 +192,7 @@ function mapDispatchToProps( dispatch ) {
 		setUser,
 		resetUser,
 		setToken,
+		loadPage,
 	}, dispatch );
 }
 

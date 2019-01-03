@@ -23,7 +23,7 @@ export function initPage() {
 	return { type: ACTION_INIT_PAGE, ...parsed };
 }
 
-export function loadPage( url ) {
+export function loadPage( url, options = {} ) {
 	return ( dispatch ) => {
 		const { history, location, pageXOffset, pageYOffset } = window;
 
@@ -38,21 +38,22 @@ export function loadPage( url ) {
 			const parsed = parseHtml( data );
 			const pageDocument = parsed.document;
 
-			history.replaceState( { ...history.state, pageXOffset, pageYOffset }, document.title, location.href );
-			history.pushState( { data, pageXOffset: 0, pageYOffset: 0 }, pageDocument.title, url );
+			if ( !options.suppressHistory ) {
+				history.replaceState( { ...history.state, pageXOffset, pageYOffset }, document.title, location.href );
+				history.pushState( { data, pageXOffset: 0, pageYOffset: 0 }, pageDocument.title, url );
 
-			dispatchEvent( 'pushstate' );
+				dispatchEvent( 'pushstate' );
+				pageview( pageDocument.title, window.location.href );
 
-			document.title = pageDocument.title;
-			document.body.className = pageDocument.body.className;
+				document.title = pageDocument.title;
+				document.body.className = pageDocument.body.className;
+			}
 
 			dispatch( { type: ACTION_LOADED_PAGE, ...parsed } );
-
 			window.scrollTo( 0, 0 );
-			pageview( pageDocument.title, window.location.href );
 		}
 
-		fetch( url )
+		fetch( url, options.fetchParams || {} )
 			.then( response => response.text() )
 			.then( onSuccess )
 			.catch( onError );

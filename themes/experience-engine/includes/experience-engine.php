@@ -1,6 +1,7 @@
 <?php
 
 add_filter( 'bbgiconfig', 'ee_update_api_bbgiconfig', 50 );
+add_filter( 'ee_feeds_content_html', 'ee_feeds_content_html', 10, 2 );
 
 if ( ! function_exists( 'ee_has_publisher_information' ) ) :
 	function ee_has_publisher_information( $meta ) {
@@ -79,5 +80,17 @@ if ( ! function_exists( 'ee_update_api_bbgiconfig' ) ) :
 		}
 
 		return $config;
+	}
+endif;
+
+if ( ! function_exists( 'ee_feeds_content_html' ) ) :
+	function ee_feeds_content_html( $html, $response ) {
+		ob_start();
+
+		get_header();
+		ee_homepage_feeds( $response );
+		get_footer();
+
+		return ob_get_clean();
 	}
 endif;

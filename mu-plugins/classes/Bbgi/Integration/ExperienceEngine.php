@@ -16,6 +16,8 @@ class ExperienceEngine extends \Bbgi\Module {
 	public function register() {
 		add_action( 'wpmu_options', $this( 'show_network_settings' ) );
 		add_action( 'update_wpmu_options', $this( 'save_network_settings' ) );
+		add_action( 'rest_api_init', $this( 'init_rest_api' ) );
+
 		add_filter( 'bbgiconfig', $this( 'update_bbgiconfig' ) );
 	}
 
@@ -233,7 +235,84 @@ class ExperienceEngine extends \Bbgi\Module {
 
 	public function update_bbgiconfig( $config ) {
 		$config['eeapi'] = $this->_get_host();
+		$config['wpapi'] = rest_url( '/experience_engine/v1/' );
+
 		return $config;
+	}
+
+	public function init_rest_api() {
+		$namespace = 'experience_engine/v1';
+
+		register_rest_route( $namespace, '/purge-cache', array(
+			'methods'  => \WP_REST_Server::READABLE,
+			'callback' => $this( 'rest_purge_cache' ),
+		) );
+
+		$authorization = array(
+			'authorization' => array(
+				'type'              => 'string',
+				'required'          => true,
+				'validate_callback' => function( $value ) {
+					return strlen( $value ) > 0;
+				},
+			),
+		);
+
+		register_rest_route( $namespace, 'feeds-content', array(
+			'methods'  => \WP_REST_Server::CREATABLE,
+			'callback' => $this( 'rest_get_feeds_content' ),
+			'args'     => array_merge( $authorization, array(
+				'format' => array(
+					'type'     => 'string',
+					'required' => false,
+				),
+			) ),
+		) );
+	}
+
+	public function rest_purge_cache() {
+		update_option( 'ee_cache_index', time(), 'no' );
+		return rest_ensure_response( 'Cache Flushed' );
+	}
+
+	public function rest_get_feeds_content( $request ) {
+		$publisher = get_option( 'ee_publisher' );
+		if ( empty( $publisher ) ) {
+			return new \WP_Error( 404, 'Not Found' );
+		}
+
+		$request = rest_ensure_request( $request );
+		$authorization = $request->get_param( 'authorization' );
+
+		$path = sprintf(
+			'experience/channels/%s/feeds/content/?authorization=%s',
+			urlencode( $publisher ),
+			urlencode( $authorization )
+		);
+
+		$response = $this->send_request( $path );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		if ( wp_remote_retrieve_response_code( $response ) != 200 ) {
+			return new \WP_Error( 401, 'Authorization failed' );
+		}
+
+		$response = wp_remote_retrieve_body( $response );
+		$response = json_decode( $response, true );
+
+		$data = apply_filters( 'ee_feeds_content_html', '', $response );
+		if ( $request->get_param( 'format' ) == 'raw' ) {
+			// @todo: find a better way to send html data
+			header( 'content-type: text/html' );
+			echo $data;
+			exit;
+		}
+
+		return rest_ensure_response( array(
+			'html' => $data,
+		) );
 	}
 
 }

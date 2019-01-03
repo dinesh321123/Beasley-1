@@ -168,6 +168,7 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			$targeting[] = array( 'remnant', 'yes' );
 		}
 
+		$targeting = apply_filters( 'dfp_single_targeting', $targeting, $slot );
 		$html = sprintf(
 			'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s"></div>',
 			esc_attr( $unit_id ),

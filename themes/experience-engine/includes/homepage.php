@@ -24,14 +24,18 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 		}
 
 		$count = count( $supported_feeds );
-		for ( $i = 0; $i < $count; $i++ ) {
-			$feed = $supported_feeds[ $i ];
-			if ( ! empty( $feed['content'] ) && is_array( $feed['content'] ) ) {
-				call_user_func( $supported_types[ $feed['type'] ], $feed, $count );
+		if ( $count > 0 ) {
+			for ( $i = 0; $i < $count; $i++ ) {
+				$feed = $supported_feeds[ $i ];
+				if ( ! empty( $feed['content'] ) && is_array( $feed['content'] ) ) {
+					call_user_func( $supported_types[ $feed['type'] ], $feed, $count );
+				}
 			}
-		}
 
-		wp_reset_postdata();
+			wp_reset_postdata();
+		} else {
+			ee_render_discovery_cta();
+		}
 	}
 endif;
 
@@ -71,10 +75,16 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 		}
 
 		if ( $index == 4 ) {
-			echo '<div class="discovery-cta"></div>';
+			ee_render_discovery_cta();
 		}
 
 		$index++;
+	}
+endif;
+
+if ( ! function_exists( 'ee_render_discovery_cta' ) ) :
+	function ee_render_discovery_cta() {
+		echo '<div class="discovery-cta"></div>';
 	}
 endif;
 
@@ -154,7 +164,9 @@ if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 		$key = 'ee:post-by-link:' . $link;
 		$post_id = wp_cache_get( $key );
 		if ( $post_id === false ) {
-			$wp = new \WP();
+			// @todo: find a better way to get post by its link
+
+			/*$wp = new \WP();
 			$query = new \WP_Query();
 
 			$url = $_SERVER['REQUEST_URI'];
@@ -170,7 +182,7 @@ if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 			$_SERVER['REQUEST_URI'] = $url;
 
 			$post_id = current( $ids );
-			wp_cache_set( $key, $post_id );
+			wp_cache_set( $key, $post_id );*/
 		}
 
 		if ( ! empty( $post_id ) ) {
