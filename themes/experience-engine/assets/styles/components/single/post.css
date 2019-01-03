@@ -1,4 +1,4 @@
-.single {
+.single-post {
 
     & .post-categories {
         list-style-type: none;
@@ -97,7 +97,7 @@
         }
     }
 
-    & > .meta {
+    & .meta {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
