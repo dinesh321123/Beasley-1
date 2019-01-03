@@ -2,17 +2,18 @@ import React from 'react';
 
 function Discovery() {
 	const { bbgiconfig } = window;
-	const { publisher } = bbgiconfig;
-	const { picture, title } = publisher;
+	const { publisher, theme } = bbgiconfig || {};
+	const { title } = publisher || {};
+	const { logo } = theme || {};
 
-	const logo = picture && picture.url
-		? <img src={picture.url} alt={title} />
+	const logoImage = logo && logo.url
+		? <img src={logo.url} alt={title} />
 		: false;
 
 	return (
 		<div className="content-wrap">
 			<div className="meta">
-				{logo}
+				{logoImage}
 
 				<div className="copy">
 					<h3>Personalize your feed</h3>

@@ -133,9 +133,25 @@ endif;
 
 if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
+		$config = array();
+
+		$custom_logo_id = get_theme_mod( 'custom_logo' );
+		if ( $custom_logo_id ) {
+			$image = wp_get_attachment_image_src( $custom_logo_id, 'original' );
+			if ( is_array( $image ) && ! empty( $image ) ) {
+				$config['theme'] = array(
+					'logo' => array(
+						'url'    => $image[0],
+						'width'  => $image[1],
+						'height' => $image[2],
+					),
+				);
+			}
+		}
+
 		printf(
 			'<script id="bbgiconfig" type="application/json">%s</script>',
-			json_encode( apply_filters( 'bbgiconfig', array() ) )
+			json_encode( apply_filters( 'bbgiconfig', $config ) )
 		);
 	}
 endif;
