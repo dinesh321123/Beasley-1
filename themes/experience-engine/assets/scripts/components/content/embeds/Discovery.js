@@ -1,14 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function Discovery() {
+import LazyImage from './LazyImage';
+
+function Discovery( { placeholder } ) {
 	const { bbgiconfig } = window;
 	const { publisher, theme } = bbgiconfig || {};
 	const { title } = publisher || {};
 	const { logo } = theme || {};
 
-	const logoImage = logo && logo.url
-		? <img src={logo.url} alt={title} />
-		: false;
+	let logoImage = false;
+	if ( logo && logo.url ) {
+		const id = `${placeholder}-image`;
+		const { url, width, height } = logo;
+
+		logoImage = (
+			<div id={id} className="image">
+				<LazyImage placeholder={id} src={url} width={width} height={height} alt={title} />
+			</div>
+		);
+	}
 
 	return (
 		<div className="content-wrap">
@@ -61,5 +72,9 @@ function Discovery() {
 		</div>
 	);
 }
+
+Discovery.propTypes = {
+	placeholder: PropTypes.string.isRequired,
+};
 
 export default Discovery;

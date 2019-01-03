@@ -24,6 +24,20 @@
 		}
 	}
 
+	& .image {
+		height: 120px;
+		position: relative;
+		width: 160px;
+
+		& .lazy-image {
+			height: 100%;
+			left: 0;
+			position: absolute;
+			top: 0;
+			width: 100%;
+		}
+	}
+
 	& .meta {
 		align-items: center;
 		color: var(--global-theme-font-primary);
