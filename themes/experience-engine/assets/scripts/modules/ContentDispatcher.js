@@ -115,6 +115,8 @@ class ContentDispatcher extends Component {
 
 	handleClick( e ) {
 		const self = this;
+		const { load, token } = self.props;
+
 		const { target } = e;
 		let linkNode = target;
 
@@ -153,8 +155,20 @@ class ContentDispatcher extends Component {
 		e.preventDefault();
 		e.stopPropagation();
 
-		// fetch next page
-		self.props.load( link );
+		// load user homepage if token is not empty and the next page is a homepage
+		// otherwise just load the next page
+		if ( `${origin}/` === link.split( /[?#]/ )[0] && token.length ) {
+			load( link, {
+				fetchUrlOverride: `${window.bbgiconfig.wpapi}feeds-content`,
+				fetchParams: {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+					body: `format=raw&authorization=${encodeURIComponent( token )}`,
+				},
+			} );
+		} else {
+			load( link );
+		}
 	}
 
 	handlePageChange( event ) {
@@ -190,6 +204,7 @@ class ContentDispatcher extends Component {
 }
 
 ContentDispatcher.propTypes = {
+	token: PropTypes.string.isRequired,
 	content: PropTypes.string.isRequired,
 	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	partials: PropTypes.shape( {} ).isRequired,
@@ -198,11 +213,12 @@ ContentDispatcher.propTypes = {
 	update: PropTypes.func.isRequired,
 };
 
-function mapStateToProps( { screen } ) {
+function mapStateToProps( { screen, auth } ) {
 	return {
 		content: screen.content,
 		embeds: screen.embeds,
 		partials: screen.partials,
+		token: auth.token,
 	};
 }
 

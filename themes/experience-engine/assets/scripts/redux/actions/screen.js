@@ -53,7 +53,7 @@ export function loadPage( url, options = {} ) {
 			window.scrollTo( 0, 0 );
 		}
 
-		fetch( url, options.fetchParams || {} )
+		fetch( options.fetchUrlOverride || url, options.fetchParams || {} )
 			.then( response => response.text() )
 			.then( onSuccess )
 			.catch( onError );

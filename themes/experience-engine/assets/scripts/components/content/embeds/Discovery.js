@@ -16,7 +16,7 @@ function Discovery( { placeholder } ) {
 
 		logoImage = (
 			<div id={id} className="image">
-				<LazyImage placeholder={id} src={url} width={width} height={height} alt={title} />
+				<LazyImage placeholder={id} src={url} width={`${width}`} height={`${height}`} alt={title} />
 			</div>
 		);
 	}
