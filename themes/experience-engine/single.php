@@ -11,9 +11,11 @@
 			<?php the_title(); ?>
 		</h1>
 
-		<div class="post-meta">
-			<?php get_template_part( 'partials/content/meta' ); ?>
-		</div>
+		<?php if( is_singular( 'post' ) ) : ?>
+			<div class="post-meta">
+				<?php get_template_part( 'partials/content/meta' ); ?>
+			</div>
+		<?php endif; ?>
 
 	</header>
 
@@ -23,7 +25,7 @@
 			<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php ee_the_content_with_ads(); ?>
 
-			<?php if( is_single() ) : ?>
+			<?php if( is_singular( 'post' ) ) : ?>
 				<div class="profile">
 					<?php echo get_the_author_meta( 'description' ); ?>
 				</div>

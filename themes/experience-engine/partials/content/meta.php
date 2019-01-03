@@ -1,7 +1,7 @@
 <div class="meta">
 	<div class="author-meta">
 		<?php $avatar = get_avatar( get_the_author_meta( 'ID' ), 40 ); ?>
-		<?php if( is_single() && $avatar ) : ?>
+		<?php if( is_singular( 'post' ) && $avatar ) : ?>
 			<span class="author-avatar">
 				<?php echo $avatar ?>
 			</span>

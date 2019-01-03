@@ -40,6 +40,7 @@
 
 @import 'components/single/single-content';
 @import 'components/single/post';
+@import 'components/single/events';
 
 @import 'components/share/share';
 

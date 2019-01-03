@@ -8,36 +8,36 @@ $cost = tribe_get_cost();
 ?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php get_template_part( 'partials/show/header' ); ?>
 
-	<div>
-		<a href="<?php echo esc_url( tribe_get_events_link() ); ?>">
-			<?php echo esc_html( tribe_get_event_label_plural() ); ?>
-		</a>
-	</div>
+	<div class="event-info">
 
-	<?php tribe_the_notices(); ?>
+		<?php tribe_the_notices(); ?>
 
-	<h1><?php the_title(); ?></h1>
+		<div class="events-link">
+			<a href="<?php echo esc_url( tribe_get_events_link() ); ?>">
+				<?php echo esc_html( tribe_get_event_label_plural() ); ?>
+			</a>
+		</div>
 
-	<div>
-		<div>
+		<h1><?php the_title(); ?></h1>
+
+		<div class="event-date">
 			<?php echo tribe_events_event_schedule_details(); ?>
 		</div>
 
 		<?php if ( ! empty( $website ) || ! empty( $cost ) ) : ?>
-			<div>
-				<?php if ( filter_var( $website, FILTER_VALIDATE_URL ) ) : ?>
-					<div>
-						<span>Website:</span>
-						<a href="<?php echo esc_url( $website ); ?>" target="_blank" rel="noopener">
-							View Site
-						</a>
+			<div class="event-meta">
+				<?php if ( $cost ) : ?>
+					<div class="event-cost">
+						<strong>Cost: </strong>
+						<?php echo " $" . $cost; ?>
 					</div>
 				<?php endif; ?>
 
-				<?php if ( $cost ) : ?>
-					<div>
-						<span>Cost:</span>
-						<?php echo $cost; ?>
+				<?php if ( filter_var( $website, FILTER_VALIDATE_URL ) ) : ?>
+					<div class="event-website">
+						<a href="<?php echo esc_url( $website ); ?>" target="_blank" rel="noopener">
+							View Event Site
+						</a>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -49,14 +49,12 @@ $cost = tribe_get_cost();
 		</div>
 	</div>
 
-	<div>
-		<div>
+	<div class="entry-content content-wrap">
+		<div class="description">
 			<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php the_content(); ?>
 
-			<div>
-				<?php the_tags( '<span>Tags</span>' ); ?>
-			</div>
+			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>
 
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
