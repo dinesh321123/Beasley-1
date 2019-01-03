@@ -40,7 +40,7 @@
 		</div>
 	</div>
 
-	<div class="episode-content content-wrap">
+	<div class="entry-content content-wrap">
 		<div class="description"><?php
 			if ( ! ee_is_jacapps() ) :
 				add_filter( 'the_content', 'strip_shortcodes', 1 );

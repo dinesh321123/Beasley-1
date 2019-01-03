@@ -17,7 +17,7 @@
 
 	</header>
 
-	<div class="episode-content content-wrap">
+	<div class="entry-content content-wrap">
 			
 		<div class="description">
 			<?php get_template_part( 'partials/featured-media' ); ?>

@@ -38,7 +38,8 @@
 @import 'components/show/show-navigation';
 @import 'components/show/show-tile';
 
-@import 'components/single/posts';
+@import 'components/single/single-content';
+@import 'components/single/post';
 
 @import 'components/share/share';
 
@@ -51,7 +52,6 @@
 @import 'components/podcast/podcast-actions';
 
 @import 'components/episode/episode-info';
-@import 'components/episode/episode-content';
 @import 'components/episode/episode-tile';
 
 @import 'components/ads/ad-title';

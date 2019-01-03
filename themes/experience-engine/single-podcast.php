@@ -14,7 +14,7 @@ the_post();
 		</div><?php
 	endif;
 
-	?><div class="episode-content content-wrap">
+	?><div class="entry-content content-wrap">
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
 		<?php get_template_part( 'partials/podcast/episodes' ); ?>
 	</div>

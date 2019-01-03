@@ -1,5 +1,6 @@
 /* Grid Fallbacks */
-.episode-content {
+
+.entry-content {
 	display: flex;
 	flex-wrap: wrap;
 
@@ -28,7 +29,7 @@
 }
 /* End Grid Fallbacks */
 
-.episode-content {
+.entry-content {
 	& .episodes,
 	& > .archive-tiles,
 	& > .podcast-tiles {
