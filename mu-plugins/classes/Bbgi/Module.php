@@ -44,6 +44,7 @@ abstract class Module {
 			'experience-engine' => new \Bbgi\Integration\ExperienceEngine(),
 			'google'            => new \Bbgi\Integration\Google(),
 			'firebase'          => new \Bbgi\Integration\Firebase(),
+			'dfp'               => new \Bbgi\Integration\Dfp(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {

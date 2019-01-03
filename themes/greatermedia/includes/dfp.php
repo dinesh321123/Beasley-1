@@ -373,6 +373,7 @@ function greatermedia_display_dfp_slot( $slot, $sizes = false, $single_targeting
 		$html .= '<script type="text/javascript">googletag.beasley.targeting=' . json_encode( $targeting ) . ';</script>';
 	}
 
+	$single_targeting = apply_filters( 'dfp_single_targeting', $single_targeting, $slot );
 	$html .= '<div class="' . $class . '" data-dfp-slot="' . esc_attr( $slot ) . '" data-sizes="' . esc_attr( json_encode( $sizes ) ) . '" data-targeting="' . esc_attr( json_encode( $single_targeting ) ) . '"></div>';
 
 	if ( $echo ) {

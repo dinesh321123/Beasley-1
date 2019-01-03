@@ -15,12 +15,10 @@ a:hover .highlights__community--title
 }
 
 @include bp(large) {
-
     .main {
-        background-image: url("../../images/wallpaper.jpg");
+        background-image: url("../../images/wallpaper-2018-12-19.jpg");
         background-position: top center;
         background-repeat: no-repeat;
-				background-color: #000000;
+		background-color: #000000;
     }
-
 }
