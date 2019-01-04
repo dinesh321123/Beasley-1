@@ -146,7 +146,13 @@ if ( ! function_exists( 'ee_the_permalink' ) ) :
 	function ee_the_permalink() {
 		$post = get_post();
 		if ( ! empty( $post->link ) ) {
-			echo filter_var( $post->link, FILTER_VALIDATE_URL );
+			$url = $post->link;
+			$parts = parse_url( $url );
+			if ( parse_url( home_url(), PHP_URL_HOST ) != $parts['host'] && ee_is_network_domain( $url ) ) {
+				$url = home_url( '/' . $parts['host'] . $parts['path'] );
+			}
+
+			echo filter_var( $url, FILTER_VALIDATE_URL );
 		} else {
 			the_permalink( $post );
 		}

@@ -170,11 +170,6 @@ if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_post_by_omny_audio' ) ) :
-	/**
-	 *
-	 * @global \wpdb $wpdb
-	 * @param type $audio
-	 */
 	function ee_get_post_by_omny_audio( $audio ) {
 		global $wpdb;
 
@@ -207,10 +202,14 @@ if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 	function ee_get_post_by_link( $link ) {
 		global $wp_rewrite;
 
+		$request = parse_url( $link );
+		if ( $request['host'] != parse_url( home_url(), PHP_URL_HOST ) ) {
+			return false;
+		}
+
 		$key = 'ee:post-by-link:' . $link;
 		$post_id = wp_cache_get( $key );
 		if ( $post_id === false ) {
-			$request = parse_url( $link );
 			$request_path = trim( $request['path'], '/' );
 
 			$rewrite = $wp_rewrite->wp_rewrite_rules();
