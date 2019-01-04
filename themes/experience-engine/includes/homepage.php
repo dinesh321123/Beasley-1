@@ -116,13 +116,23 @@ endif;
 
 if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 	function ee_setup_post_from_feed_item( $item, $feed ) {
-		$post = ee_get_post_by_link( $item['link'] );
+		$post = false;
+		switch ( $feed['type'] ) {
+			case 'podcast':
+				$post = ee_get_post_by_omny_audio( $item['media']['url'] );
+				break;
+			default:
+				$post = ee_get_post_by_link( $item['link'] );
+				break;
+		}
+
 		if ( ! is_a( $post, '\WP_Post' ) ) {
 			$post_type = 'post';
 			if ( $feed['type'] == 'contest' ) {
 				$post_type = 'contest';
 			} elseif ( $feed['type'] == 'podcast' ) {
 				$post_type = 'episode';
+				error_log( var_export( $item, true ) );
 			} elseif ( $feed['type'] == 'events' ) {
 				$post_type = 'tribe_events';
 			}
@@ -156,6 +166,40 @@ if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 		$GLOBALS['post'] = $post;
 
 		return $post;
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_post_by_omny_audio' ) ) :
+	/**
+	 *
+	 * @global \wpdb $wpdb
+	 * @param type $audio
+	 */
+	function ee_get_post_by_omny_audio( $audio ) {
+		global $wpdb;
+
+		$audio = explode( '?', $audio );
+		$audio = current( $audio );
+
+		$key = 'ee:post-by-audio:' . $audio;
+		$post_id = wp_cache_get( $key );
+		if ( $post_id === false ) {
+			$audio = esc_sql( $audio );
+
+			$post_id = $wpdb->get_var( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'omny-audio-url' AND meta_value LIKE '{$audio}%'" );
+			$post_id = intval( $post_id );
+
+			wp_cache_set( $key, $post_id, DAY_IN_SECONDS );
+		}
+
+		if ( $post_id > 0 ) {
+			$post = get_post( $post_id );
+			if ( is_a( $post, '\WP_Post' ) ) {
+				return $post;
+			}
+		}
+
+		return false;
 	}
 endif;
 
