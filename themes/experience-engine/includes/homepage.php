@@ -205,28 +205,39 @@ endif;
 
 if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 	function ee_get_post_by_link( $link ) {
+		global $wp_rewrite;
+
 		$key = 'ee:post-by-link:' . $link;
 		$post_id = wp_cache_get( $key );
 		if ( $post_id === false ) {
-			// @todo: find a better way to get post by its link
+			$request = parse_url( $link );
+			$request_path = trim( $request['path'], '/' );
 
-			/*$wp = new \WP();
-			$query = new \WP_Query();
+			$rewrite = $wp_rewrite->wp_rewrite_rules();
+			foreach ( $rewrite as $match => $query ) {
+				if ( preg_match( "#^{$match}#", $request_path, $matches ) || preg_match( "#^{$match}#", urldecode( $request_path ), $matches ) ) {
+					$query = parse_url( $query, PHP_URL_QUERY );
+					$query = addslashes( \WP_MatchesMapRegex::apply( $query, $matches ) );
 
-			$url = $_SERVER['REQUEST_URI'];
-			$_SERVER['REQUEST_URI'] = $link;
+					parse_str( $query, $query_vars );
+					if ( ! emptY( $query_vars ) ) {
+						$query = new \WP_Query();
+						$posts = $query->query( array_merge( $query_vars, array(
+							'ignore_sticky_posts' => true,
+							'posts_per_page'      => 1,
+							'fields'              => 'ids',
+						) ) );
 
-			$wp->parse_request();
-			$ids = $query->query( array_merge( $wp->query_vars, array(
-				'ignore_sticky_posts' => true,
-				'posts_per_page'      => 1,
-				'fields'              => 'ids',
-			) ) );
+						if ( ! empty( $posts ) ) {
+							$post_id = current( $posts );
+						}
+						break;
+					}
+				}
+			}
 
-			$_SERVER['REQUEST_URI'] = $url;
-
-			$post_id = current( $ids );
-			wp_cache_set( $key, $post_id );*/
+			$post_id = intval( $post_id );
+			wp_cache_set( $key, $post_id, HOUR_IN_SECONDS );
 		}
 
 		if ( ! empty( $post_id ) ) {
