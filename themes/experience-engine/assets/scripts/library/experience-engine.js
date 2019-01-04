@@ -1,5 +1,16 @@
+function __api( strings, ...params ) {
+	let url = window.bbgiconfig.eeapi;
+	strings.forEach( ( string, i ) => {
+		url += string + encodeURIComponent( params[i] || '' );
+	} );
+
+	return url;
+}
+
 export function saveUser( email, zipcode, gender, dateofbirth, token ) {
-	const url = `${window.bbgiconfig.eeapi}user?authorization=${encodeURIComponent( token )}`;
+	const { publisher } = window.bbgiconfig;
+	const { id: channel } = publisher || {};
+
 	const params = {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
@@ -11,11 +22,18 @@ export function saveUser( email, zipcode, gender, dateofbirth, token ) {
 		} ),
 	};
 
-	return fetch( url, params ).catch( ( error ) => {
-		console.error( error ); // eslint-disable-line no-console
-	} );
+	return fetch( __api`user?authorization=${token}`, params )
+		.then( () => fetch( __api`experience/channels/${channel}?authorization=${token}`, { method: 'PUT' } ) )
+		.catch( ( error ) => {
+			console.error( error ); // eslint-disable-line no-console
+		} );
+}
+
+export function getUser( token ) {
+	return fetch( __api`user?authorization=${token}` ).then( response => response.json() );
 }
 
 export default {
 	saveUser,
+	getUser,
 };

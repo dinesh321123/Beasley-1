@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import md5 from 'md5';
 
+import { getUser } from '../library/experience-engine';
+
 import { showSignInModal, showSignUpModal, showCompleteSignupModal } from '../redux/actions/modal';
 import { setUser, setToken, resetUser } from '../redux/actions/auth';
 import { loadPage } from '../redux/actions/screen';
@@ -44,7 +46,9 @@ class UserNav extends Component {
 
 		if ( user ) {
 			self.props.setUser( user );
-			user.getIdToken().then( self.onIdToken ).catch( data => console.error( data ) ); // eslint-disable-line no-console
+			user.getIdToken()
+				.then( self.onIdToken )
+				.catch( data => console.error( data ) ); // eslint-disable-line no-console
 		} else {
 			self.props.resetUser();
 		}
@@ -59,22 +63,20 @@ class UserNav extends Component {
 		self.props.setToken( token );
 
 		if ( !suppressUserCheck ) {
-			return fetch( `${window.bbgiconfig.eeapi}user?authorization=${encodeURIComponent( token )}` )
-				.then( response => response.json() )
-				.then( json => {
-					if ( 'user information has not been set' === json.Error ) {
-						self.props.showCompleteSignup();
-					} else if ( document.body.classList.contains( 'home' ) ) {
-						self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content`, {
-							suppressHistory: true,
-							fetchParams: {
-								method: 'POST',
-								headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-								body: `format=raw&authorization=${encodeURIComponent( token )}`,
-							},
-						} );
-					}
-				} );
+			return getUser( token ).then( json => {
+				if ( 'user information has not been set' === json.Error ) {
+					self.props.showCompleteSignup();
+				} else if ( document.body.classList.contains( 'home' ) ) {
+					self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content`, {
+						suppressHistory: true,
+						fetchParams: {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+							body: `format=raw&authorization=${encodeURIComponent( token )}`,
+						},
+					} );
+				}
+			} );
 		}
 	}
 
