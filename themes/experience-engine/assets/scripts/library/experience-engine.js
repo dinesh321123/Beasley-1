@@ -33,7 +33,17 @@ export function getUser( token ) {
 	return fetch( __api`user?authorization=${token}` ).then( response => response.json() );
 }
 
+export function discovery( channel, token, filters ) {
+	const { keyword, type, location, genre, brand } = filters;
+	const url = __api`discovery/?media_type=${type}&genre=${genre}&location=${location}&brand=${brand}&keyword=${keyword}&channel=${channel}&authorization=${token}`;
+
+	return fetch( url ).catch( ( error ) => {
+		console.log( error ); //eslint-disable-line no-console
+	} );
+}
+
 export default {
 	saveUser,
 	getUser,
+	discovery,
 };
