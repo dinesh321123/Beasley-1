@@ -112,7 +112,7 @@ class BackToTop extends PureComponent {
 
 		return (
 			<button className={classes} aria-label="Back to top" onClick={self.onBackToTop}>
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18">
 					<path fill="#FFF" d="M8 2.8l8 7.9-2.4 2.4-5.5-5.5-5.6 5.6L0 10.7z" />
 				</svg>
 			</button>
