@@ -1,4 +1,4 @@
-import { ACTION_SHOW_MODAL, ACTION_HIDE_MODAL } from '../actions/modal';
+import { DISCOVER_MODAL, ACTION_SHOW_MODAL, ACTION_HIDE_MODAL } from '../actions/modal';
 
 export const DEFAULT_STATE = {
 	modal: 'CLOSED',
@@ -8,7 +8,10 @@ export const DEFAULT_STATE = {
 function reducer( state = {}, action = {} ) {
 	switch ( action.type ) {
 		case ACTION_SHOW_MODAL:
-			document.body.classList.add( 'locked' );
+			if ( action.modal !== DISCOVER_MODAL ) {
+				document.body.classList.add( 'locked' );
+			}
+
 			return {
 				...state,
 				modal: action.modal,

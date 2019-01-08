@@ -1,42 +1,42 @@
-@import 'global/variables';
+@import "global/variables";
 
-@import 'base/normalize';
-@import 'base/a11y';
-@import 'base/typography';
-@import 'base/buttons';
-@import 'base/container';
-@import 'base/post-thumbnail';
+@import "base/normalize";
+@import "base/a11y";
+@import "base/typography";
+@import "base/buttons";
+@import "base/container";
+@import "base/post-thumbnail";
 
-@import 'components/section/section-header';
+@import "components/section/section-header";
 
-@import 'components/navigation/primary-sidebar';
-@import 'components/navigation/search-form';
-@import 'components/navigation/primary-nav';
-@import 'components/navigation/user-nav';
+@import "components/navigation/primary-sidebar";
+@import "components/navigation/search-form";
+@import "components/navigation/primary-nav";
+@import "components/navigation/user-nav";
 
-@import 'components/footer/footer';
+@import "components/footer/footer";
 
-@import 'components/archive/archive-title';
-@import 'components/archive/archive-tile';
-@import 'components/archive/archive-post-tile';
-@import 'components/archive/tile-episode';
+@import "components/archive/archive-title";
+@import "components/archive/archive-tile";
+@import "components/archive/archive-post-tile";
+@import "components/archive/tile-episode";
 
-@import 'components/content/stream-cta';
-@import 'components/content/discovery';
+@import "components/content/stream-cta";
+@import "components/content/discovery";
 
-@import 'components/search/search-header';
+@import "components/search/search-header";
 
-@import 'components/player/ads';
-@import 'components/player/controls';
-@import 'components/player/live-player';
-@import 'components/player/offline';
+@import "components/player/ads";
+@import "components/player/controls";
+@import "components/player/live-player";
+@import "components/player/offline";
 
-@import 'components/front-page';
+@import "components/front-page";
 
-@import 'components/show/show-header';
-@import 'components/show/show-information';
-@import 'components/show/show-navigation';
-@import 'components/show/show-tile';
+@import "components/show/show-header";
+@import "components/show/show-information";
+@import "components/show/show-navigation";
+@import "components/show/show-tile";
 
 @import 'components/single/single-content';
 @import 'components/single/post';
@@ -44,26 +44,27 @@
 
 @import 'components/share/share';
 
-@import 'components/gallery/listicle';
+@import "components/gallery/listicle";
 
-@import 'components/contest/contest-tile';
+@import "components/contest/contest-tile";
 
-@import 'components/podcast/podcast-tile';
-@import 'components/podcast/podcast-header';
-@import 'components/podcast/podcast-actions';
+@import "components/podcast/podcast-tile";
+@import "components/podcast/podcast-header";
+@import "components/podcast/podcast-actions";
 
 @import 'components/episode/episode-info';
 @import 'components/episode/episode-tile';
 
-@import 'components/ads/ad-title';
-@import 'components/ads/ad';
+@import "components/ads/ad-title";
+@import "components/ads/ad";
+@import "components/discover/discover-modal";
 
-@import 'components/nprogress';
-@import 'components/modal';
-@import 'components/loading';
-@import 'components/lazyload';
-@import 'components/videojs';
-@import 'components/load-more-button';
-@import 'components/back-to-top';
+@import "components/nprogress";
+@import "components/modal";
+@import "components/loading";
+@import "components/lazyload";
+@import "components/videojs";
+@import "components/load-more-button";
+@import "components/back-to-top";
 
-@import 'utilities/display';
+@import "utilities/display";

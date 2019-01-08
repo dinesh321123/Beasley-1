@@ -6,7 +6,10 @@
 	right: 0;
 	top: 0;
 	z-index: 95;
+}
 
+.modal,
+.discover-modal {
 	& .button {
 		align-items: center;
 		background: none;
@@ -25,10 +28,22 @@
 		&:focus {
 			outline: 0;
 			opacity: 0.7;
-		} 
-		
+		}
 	}
 
+	& .modal-close {
+		position: absolute;
+		right: 2rem;
+		width: auto;
+
+		&:hover,
+		&:focus {
+			opacity: 0.7;
+		}
+	}
+}
+
+.modal {
 	& .button + .button {
 		@media(--min-large-viewport) {
 			margin-bottom: 0;
@@ -85,17 +100,6 @@
 
 		& b {
 			color: var(--global-alert);
-		}
-	}
-
-	& .modal-close {
-		position: absolute;
-		right: 2rem;
-		width: auto;
-
-		&:hover,
-		&:focus {
-			opacity: 0.7;
 		}
 	}
 

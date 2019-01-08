@@ -16,6 +16,10 @@ body {
 	padding-bottom: 4.611rem;
 }
 
+#inner-content {
+	position: relative;
+}
+
 .content-wrap {
 	margin: 0 auto;
 	max-width: 1071px;
