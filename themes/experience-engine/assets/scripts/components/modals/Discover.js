@@ -42,6 +42,7 @@ class Discover extends PureComponent {
 
 	handleFilterChange( filters ) {
 		// @todo: pull feeds based on filters
+		console.log( filters );
 	}
 
 	render() {
