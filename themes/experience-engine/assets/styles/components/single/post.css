@@ -5,9 +5,9 @@
         padding-left: 0;
 
         & li {
+            display: inline-block;
             font-size: .875rem;
             font-weight: 600;
-            display: inline-block;
 
             &:after {
                 color: var(--brand-primary);

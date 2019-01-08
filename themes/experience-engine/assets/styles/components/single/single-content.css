@@ -96,7 +96,7 @@
 
     & a {
         color: inherit;
-        margin-left: 4px;
+        margin-left: .250rem;
 
         &:first-child {
             margin-left: 0;
@@ -109,7 +109,7 @@
 }
 
 .post-thumbnail-caption {
-    color: var(--global-theme-font-secondary);
+	color: var(--global-theme-font-secondary);
 	font-size: .875rem;
-    margin: .5rem 0 0 0;
+	margin: .5rem 0 0 0;
 }
