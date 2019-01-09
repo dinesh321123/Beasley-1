@@ -59,6 +59,9 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_register_script( 'embedly-player.js', "//cdn.embed.ly/player-0.1.0{$min}.js", null, null, true );
 		wp_script_add_data( 'embedly-player.js', 'async', true );
 
+		wp_register_script( 'iframe-resizer', '//cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.min.js', null, null );
+		wp_script_add_data( 'iframe-resizer', 'async', true );
+
 		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
 		wp_script_add_data( 'td-sdk', 'async', true );
 
@@ -101,6 +104,7 @@ EOL;
 			'embedly-player.js',
 			'td-sdk',
 			'intersection-observer',
+			'iframe-resizer',
 		);
 
 		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", $deps, GREATERMEDIA_VERSION, true );
