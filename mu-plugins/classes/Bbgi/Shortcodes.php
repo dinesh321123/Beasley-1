@@ -59,9 +59,7 @@ class Shortcodes extends \Bbgi\Module {
 
 		$embed = <<<EOL
 <style>#contestframe {width: 100%;}</style>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.min.js"></script>
-<iframe id="contestframe" src="https://contests.bbgi.com/landing?contest={$contest}&brand={$brand}" frameborder="0" scrolling="no"></iframe>
-<script type="text/javascript">iFrameResize({log:true, autoResize: true})</script>
+<iframe id="contestframe" src="https://contests.bbgi.com/landing?contest={$contest}&brand={$brand}" frameborder="0" scrolling="no" onload="iFrameResize({log:true, autoResize: true})"></iframe>
 EOL;
 
 		return $embed;

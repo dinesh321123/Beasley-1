@@ -136,6 +136,7 @@ function greatermedia_scripts_styles() {
 
 	wp_enqueue_script( 'imasdk', '//imasdk.googleapis.com/js/sdkloader/ima3.js', null, null );
 	wp_enqueue_script( 'firebase', '//www.gstatic.com/firebasejs/3.6.9/firebase.js', null, null );
+	wp_enqueue_script( 'iframe-resizer', '//cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.min.js', null, null );
 
 	wp_enqueue_script( 'greatermedia', "{$baseurl}/assets/js/frontend{$postfix}.js", array( 'modernizr', 'jquery', 'jquery-waypoints', 'underscore', 'classlist-polyfill', 'firebase' ), GREATERMEDIA_VERSION, true );
 	wp_localize_script( 'greatermedia', 'platformConfig', apply_filters( 'bbgiconfig', array() ) );
