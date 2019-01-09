@@ -376,6 +376,10 @@ class BlogData {
 	public static function PostDataExtractor( $single_result ) {
 		$metas = get_metadata( 'post', $single_result->ID, '', true );
 		$media = get_attached_media( 'image', $single_result->ID );
+		foreach ( $media as $attachment ) {
+			$attachment->alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
+			$attachment->attribution = get_post_meta( $attachment->ID, 'gmr_image_attribution', true );
+		}
 
 		$featured_src = '';
 		$featured_id = get_post_thumbnail_id( $single_result->ID );
@@ -409,6 +413,8 @@ class BlogData {
 			$attachments = array_filter( array_map( 'get_post', $attachments ) );
 			foreach ( $attachments as $attachment ) {
 				$attachment->guid = wp_get_attachment_image_url( $attachment->ID, 'full' );
+				$attachment->alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
+				$attachment->attribution = get_post_meta( $attachment->ID, 'gmr_image_attribution', true );
 			}
 		}
 
@@ -757,7 +763,7 @@ class BlogData {
 	 *
 	 * @return int|object
 	 */
-	public static function ImportMedia( $post_id, $filename, $original_id = 0 ) {
+	public static function ImportMedia( $post_id, $filename, $original_id = 0, $original_post = null ) {
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/media.php';
@@ -801,8 +807,15 @@ class BlogData {
 					$file_array['tmp_name'] = '';
 				}
 
+				$post_data = array();
+				if ( is_a( $original_post, '\WP_Post' ) ) {
+					$post_data['post_title'] = $original_post->post_title;
+					$post_data['post_content'] = $original_post->post_content;
+					$post_data['post_excerpt'] = $original_post->post_excerpt;
+				}
+
 				// do the validation and storage stuff
-				$id = media_handle_sideload( $file_array, $post_id, null );
+				$id = media_handle_sideload( $file_array, $post_id, null, $post_data );
 
 				// If error storing permanently, unlink
 				if ( is_wp_error( $id ) ) {
@@ -833,10 +846,15 @@ class BlogData {
 		if ( ! empty( $original_id ) ) {
 			switch_to_blog( self::$content_site_id );
 			$attribution = get_post_meta( $original_id, 'gmr_image_attribution', true );
+			$alttext = get_post_meta( $original_id, '_wp_attachment_image_alt', true );
 			restore_current_blog();
 
 			if ( ! empty( $attribution ) ) {
-				add_post_meta( $id, 'gmr_image_attribution', $attribution );
+				update_post_meta( $id, 'gmr_image_attribution', $attribution );
+			}
+
+			if ( ! empty( $alttext ) ) {
+				update_post_meta( $id, '_wp_attachment_image_alt', $alttext );
 			}
 		}
 
@@ -855,7 +873,7 @@ class BlogData {
 		$imported = array();
 		foreach ( $attachments as $attachment ) {
 			$filename = esc_url_raw( $attachment->guid );
-			$id = self::ImportMedia( $post_id, $filename, $attachment->ID );
+			$id = self::ImportMedia( $post_id, $filename, $attachment->ID, $attachment );
 			if ( is_numeric( $id ) ) {
 				$imported[] = $id;
 			}
