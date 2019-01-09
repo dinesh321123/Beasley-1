@@ -16,7 +16,7 @@ a:hover .highlights__community--title {
 @include bp(large) {
 	.main {
 		background-attachment: fixed;
-		background-image: url("../../images/kdwn-wallpaper-2018-v2.jpg");
+		background-image: url("../../images/201901/KDWN NEW SKIN.jpg");
 		background-position: top center;
 		background-repeat: no-repeat;
 	}
@@ -52,7 +52,7 @@ body {
 
 .header__main.headroom {
 	background-color: transparent;
-	background-image: url(../../images/KDWN-Top-Nav.jpg);
+	background-image: url(../../images/201901/KDWN-header-MOBILE.jpg);
 	background-position: top center;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -62,9 +62,9 @@ body {
 @media screen and (min-width: 768px)  {
 	.header__main.headroom {
 		background-color: transparent;
-		background-image: url(../../images/KDWN-Top-Nav.jpg);
+		background-image: url(../../images/201901/KDWN-header-DESKTOP.jpg);
 		background-position: top center;
-		background-size: auto;
+		background-size: cover;
 	}
 }
 
