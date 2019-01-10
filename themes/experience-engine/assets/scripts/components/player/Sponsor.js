@@ -10,7 +10,7 @@ function Sponsor() {
 
 	const params = {
 		id: placeholder,
-		className: 'sponsor',
+		className: 'controls-sponsor',
 	};
 
 	// we use createElement to make sure we don't add empty spaces here, thus DFP can properly collapse it when nothing to show here

@@ -122,13 +122,16 @@ class LivePlayer extends Component {
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
 				<div className="controls">
-					
-					<Info />
-					<div className="controls-wrap">
+					<div className="control-section">
+						<Info />
+					</div>
+					<div className="control-section -centered">
 						<RecentSongs />
 						<Controls status={status} play={() => play( station )} pause={pause} resume={resume} />
 						<Volume />
 						<Progress />
+					</div>
+					<div className="control-section">
 						<Sponsor />
 						<Stations />
 						<Contacts />

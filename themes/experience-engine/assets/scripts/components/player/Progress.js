@@ -51,7 +51,7 @@ class Progress extends PureComponent {
 		}
 
 		return (
-			<div>
+			<div className="controls-progress">
 				<span>{Progress.format( time )}</span>
 				<input type="range" min="0" max={duration} value={time} onChange={self.onSeek} />
 				<span>{Progress.format( duration )}</span>
