@@ -213,6 +213,7 @@
 
 .swiper-sidebar-title {
 	margin-top: 0;
+	margin-bottom: 14px;
 }
 
 .swiper-sidebar-meta {
@@ -237,8 +238,8 @@
 		left: 0 !important;
 	}
 	.swiper-sidebar-text {
-		flex-basis: calc(100% - 140px);
-		max-width: calc(100% - 140px);
+		flex-basis: 95%;
+		max-width: 95%;
 	}
 	#js-swiper-sidebar-title,
 	#js-swiper-sidebar-caption {
