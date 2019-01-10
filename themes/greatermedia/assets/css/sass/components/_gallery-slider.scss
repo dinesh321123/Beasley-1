@@ -234,9 +234,6 @@
 /* Sidebar mobile */
 @media (max-width: 767px) {
 	.swiper-sidebar {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
 		left: 0 !important;
 	}
 	.swiper-sidebar-text {
