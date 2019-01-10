@@ -67,7 +67,6 @@
 	transition: 300ms all ease-in-out;
 	opacity: 1;
 	overflow: hidden;
-
 	bottom: 0;
 	padding: 40px 20px 10px 20px;
 	height: 96px;
@@ -77,8 +76,7 @@
 		right: 0;
 		top: 0;
 		height: 100%;
-
-		padding: 30px;
+		padding: 20px 30px;
 	}
 
 	&.hidden {
@@ -211,6 +209,10 @@
 	@include bp(medium) {
 		display: block;
 	}
+}
+
+.swiper-sidebar-title {
+	margin-top: 0;
 }
 
 .swiper-sidebar-meta {
