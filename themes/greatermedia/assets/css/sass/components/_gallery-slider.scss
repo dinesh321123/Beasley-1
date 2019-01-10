@@ -215,10 +215,7 @@
 
 .swiper-sidebar-meta {
 	margin-top: 20px;
-	display: none;
-	@include bp(medium) {
-		display: block;
-	}
+	display: block;
 }
 
 .swiper-sidebar .social__link {
