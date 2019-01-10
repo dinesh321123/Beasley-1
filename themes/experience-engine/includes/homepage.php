@@ -132,7 +132,6 @@ if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 				$post_type = 'contest';
 			} elseif ( $feed['type'] == 'podcast' ) {
 				$post_type = 'episode';
-				error_log( var_export( $item, true ) );
 			} elseif ( $feed['type'] == 'events' ) {
 				$post_type = 'tribe_events';
 			}

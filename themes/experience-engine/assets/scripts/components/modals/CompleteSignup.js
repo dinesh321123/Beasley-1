@@ -42,13 +42,13 @@ class CompleteSignup extends PureComponent {
 	handleFormSubmit( e ) {
 		const self = this;
 		const { zip, gender, bday } = self.state;
-		const { user, token, close } = self.props;
+		const { user, close } = self.props;
 
 		e.preventDefault();
 
-		if ( user && token ) {
+		if ( user ) {
 			const { email } = user;
-			saveUser( email, zip, gender, bday, token ).then( close );
+			saveUser( email, zip, gender, bday ).then( close );
 		}
 	}
 
@@ -99,14 +99,10 @@ CompleteSignup.propTypes = {
 	activateTrap: PropTypes.func.isRequired,
 	deactivateTrap: PropTypes.func.isRequired,
 	user: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
-	token: PropTypes.string.isRequired,
 };
 
 function mapStateToProps( { auth } ) {
-	return {
-		user: auth.user || false,
-		token: auth.token,
-	};
+	return { user: auth.user || false };
 }
 
 export default connect( mapStateToProps )( trapHOC()( CompleteSignup ) );

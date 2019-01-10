@@ -66,7 +66,7 @@ class SignUp extends PureComponent {
 			.then( ( response ) => {
 				const { user } = response;
 
-				user.getIdToken().then( ( token ) => saveUser( emailAddress, zip, gender, bday, token ) );
+				saveUser( emailAddress, zip, gender, bday );
 				user.updateProfile( userData );
 			} )
 			.then( () => self.props.close() )

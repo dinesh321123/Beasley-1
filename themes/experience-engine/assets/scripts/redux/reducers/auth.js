@@ -1,13 +1,11 @@
 import {
 	ACTION_SET_USER,
-	ACTION_SET_TOKEN,
 	ACTION_RESET_USER,
 	ACTION_SUPPRESS_USER_CHECK,
 } from '../actions/auth';
 
 export const DEFAULT_STATE = {
 	user: null,
-	token: '',
 	suppressUserCheck: false,
 };
 
@@ -17,12 +15,6 @@ function reducer( state = {}, action = {} ) {
 			return {
 				...state,
 				user: action.user,
-			};
-
-		case ACTION_SET_TOKEN:
-			return {
-				...state,
-				token: action.token,
 			};
 
 		case ACTION_RESET_USER:

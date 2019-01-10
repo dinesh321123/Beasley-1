@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import firebase from 'firebase';
 
 import ContentBlock from '../components/content/ContentBlock';
 import { initPage, loadPage, updatePage } from '../redux/actions/screen';
@@ -115,7 +116,7 @@ class ContentDispatcher extends Component {
 
 	handleClick( e ) {
 		const self = this;
-		const { load, token } = self.props;
+		const { load } = self.props;
 
 		const { target } = e;
 		let linkNode = target;
@@ -157,15 +158,23 @@ class ContentDispatcher extends Component {
 
 		// load user homepage if token is not empty and the next page is a homepage
 		// otherwise just load the next page
-		if ( `${origin}/` === link.split( /[?#]/ )[0] && token.length ) {
-			load( link, {
-				fetchUrlOverride: `${window.bbgiconfig.wpapi}feeds-content`,
-				fetchParams: {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-					body: `format=raw&authorization=${encodeURIComponent( token )}`,
-				},
-			} );
+		const auth = firebase.auth();
+		if ( `${origin}/` === link.split( /[?#]/ )[0] && auth.currentUser ) {
+			auth.currentUser
+				.getIdToken()
+				.then( token => {
+					load( link, {
+						fetchUrlOverride: `${window.bbgiconfig.wpapi}feeds-content`,
+						fetchParams: {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+							body: `format=raw&authorization=${encodeURIComponent( token )}`,
+						},
+					} );
+				} )
+				.catch( () => {
+					load( link );
+				} );
 		} else {
 			load( link );
 		}
@@ -204,7 +213,6 @@ class ContentDispatcher extends Component {
 }
 
 ContentDispatcher.propTypes = {
-	token: PropTypes.string.isRequired,
 	content: PropTypes.string.isRequired,
 	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	partials: PropTypes.shape( {} ).isRequired,
@@ -213,12 +221,11 @@ ContentDispatcher.propTypes = {
 	update: PropTypes.func.isRequired,
 };
 
-function mapStateToProps( { screen, auth } ) {
+function mapStateToProps( { screen } ) {
 	return {
 		content: screen.content,
 		embeds: screen.embeds,
 		partials: screen.partials,
-		token: auth.token,
 	};
 }
 

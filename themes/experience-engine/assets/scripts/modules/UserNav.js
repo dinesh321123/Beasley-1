@@ -9,7 +9,7 @@ import md5 from 'md5';
 import { getUser } from '../library/experience-engine';
 
 import { showSignInModal, showSignUpModal, showCompleteSignupModal } from '../redux/actions/modal';
-import { setUser, setToken, resetUser } from '../redux/actions/auth';
+import { setUser, resetUser } from '../redux/actions/auth';
 import { loadPage } from '../redux/actions/screen';
 
 class UserNav extends Component {
@@ -60,10 +60,8 @@ class UserNav extends Component {
 		const self = this;
 		const { suppressUserCheck } = self.props;
 
-		self.props.setToken( token );
-
 		if ( !suppressUserCheck ) {
-			return getUser( token ).then( json => {
+			return getUser().then( json => {
 				if ( 'user information has not been set' === json.Error ) {
 					self.props.showCompleteSignup();
 				} else if ( document.body.classList.contains( 'home' ) ) {
@@ -173,7 +171,6 @@ UserNav.propTypes = {
 	showCompleteSignup: PropTypes.func.isRequired,
 	loadPage: PropTypes.func.isRequired,
 	setUser: PropTypes.func.isRequired,
-	setToken: PropTypes.func.isRequired,
 	resetUser: PropTypes.func.isRequired,
 	user: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
 	suppressUserCheck: PropTypes.bool.isRequired,
@@ -193,7 +190,6 @@ function mapDispatchToProps( dispatch ) {
 		showCompleteSignup: showCompleteSignupModal,
 		setUser,
 		resetUser,
-		setToken,
 		loadPage,
 	}, dispatch );
 }
