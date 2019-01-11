@@ -41,6 +41,7 @@
 @import 'components/single/single-content';
 @import 'components/single/post';
 @import 'components/single/events';
+@import 'components/single/album';
 
 @import 'components/share/share';
 

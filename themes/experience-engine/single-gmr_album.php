@@ -6,25 +6,28 @@
 	<?php if ( ee_is_first_page() ) : ?>
 		<?php get_template_part( 'partials/show/header' ); ?>
 
-		<div class="content-wrap">
-			<h1><?php the_title(); ?></h1>
+		<div class="content-wrap album-header">
+			<h1 class="album-title"><?php the_title(); ?></h1>
+			<?php if ( ee_is_first_page() ) :
+				get_template_part( 'partials/content/meta' );
+				get_template_part( 'partials/featured-media' );
+				// ee_the_content_with_ads();
+			endif; ?>
 		</div>
 	<?php endif; ?>
 
-	<div class="content-wrap"><?php
-		get_template_part( 'partials/ads/sidebar-sticky' );
+	<div class="entry-content content-wrap"><?php
 
 		if ( ee_is_first_page() ) :
-			get_template_part( 'partials/content/meta' );
-			get_template_part( 'partials/featured-media' );
-			ee_the_content_with_ads();
+
+			get_template_part( 'partials/ads/sidebar-sticky' );
 
 			ee_the_subtitle( 'Galleries' );
 		endif;
 
 		$query = ee_get_galleries_query( null, 'paged=' . get_query_var( 'paged' ) );
 		if ( $query->have_posts() ) :
-			?><div class="archive-tiles">
+			?><div class="archive-tiles -grid -large">
 				<?php ee_the_query_tiles( $query ); ?>
 			</div><?php
 
