@@ -11,7 +11,6 @@
 			<?php if ( ee_is_first_page() ) :
 				get_template_part( 'partials/content/meta' );
 				get_template_part( 'partials/featured-media' );
-				// ee_the_content_with_ads();
 			endif; ?>
 		</div>
 	<?php endif; ?>
