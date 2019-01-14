@@ -43,10 +43,12 @@
 				<?php get_template_part( 'partials/content/tags' ); ?>
 
 			</div>
+
+			<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
 			
 		</div>
 
-		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
+		
 
 	</div>
 
