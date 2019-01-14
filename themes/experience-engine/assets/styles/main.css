@@ -6,6 +6,7 @@
 @import "base/buttons";
 @import "base/container";
 @import "base/post-thumbnail";
+@import "base/wp";
 
 @import "components/section/section-header";
 
@@ -55,6 +56,8 @@
 
 @import 'components/episode/episode-info';
 @import 'components/episode/episode-tile';
+
+@import 'components/events/event';
 
 @import "components/ads/ad-title";
 @import "components/ads/ad";
