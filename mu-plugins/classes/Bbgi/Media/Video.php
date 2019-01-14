@@ -297,6 +297,21 @@ class Video extends \Bbgi\Module {
 			return '';
 		}
 
+		if ( ! filter_var( $tagUrl, FILTER_VALIDATE_URL ) ) {
+			$network_id = trim( get_option( 'dfp_network_code' ) );
+			$tagUrl = add_query_arg( array(
+				'env'                     => 'vp',
+				'gdfp_req'                => '1',
+				'unviewed_position_start' => '1',
+				'output'                  => 'xml_vmap1',
+				'correlator'              => '',
+				'ad_rule'                 => '1',
+				'cmsid'                   => urlencode( $event_id ),
+				'vid'                     => urlencode( $video_id ),
+				'iu'                      => urlencode( "/{$network_id}/{$tagUrl}" ),
+			), 'http://pubads.g.doubleclick.net/gampad/ads' );
+		}
+
 		$cust_params = array();
 
 		if ( ! empty( $event_id ) ) {
@@ -317,21 +332,6 @@ class Video extends \Bbgi\Module {
 
 		$cust_params = implode( '&', $cust_params );
 		$cust_params = urlencode( $cust_params );
-
-		if ( ! filter_var( $tagUrl, FILTER_VALIDATE_URL ) ) {
-			$network_id = trim( get_option( 'dfp_network_code' ) );
-			$tagUrl = add_query_arg( array(
-				'env'                     => 'vp',
-				'gdfp_req'                => '1',
-				'unviewed_position_start' => '1',
-				'output'                  => 'xml_vmap1',
-				'correlator'              => '',
-				'ad_rule'                 => '1',
-				'cmsid'                   => urlencode( $event_id ),
-				'vid'                     => urlencode( $video_id ),
-				'iu'                      => urlencode( "/{$network_id}/{$tagUrl}" ),
-			), 'http://pubads.g.doubleclick.net/gampad/ads' );
-		}
 
 		return add_query_arg( 'cust_params', $cust_params, $tagUrl );
 	}
