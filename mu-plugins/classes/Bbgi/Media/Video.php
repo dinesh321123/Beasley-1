@@ -293,32 +293,47 @@ class Video extends \Bbgi\Module {
 	 */
 	public function get_ad_tag_url( $event_id, $video_id ) {
 		$tagUrl = trim( get_option( 'livestream_ad_tag_url' ) );
-		if ( filter_var( $tagUrl, FILTER_VALIDATE_URL ) ) {
-			$cust_params = array();
-
-			if ( ! empty( $event_id ) ) {
-				$cust_params[] = 'livestreameventid=' . urlencode( $event_id );
-			}
-
-			if ( ! empty( $video_id ) ) {
-				$cust_params[] = 'livestreamvideoid=' . urlencode( $video_id );
-			}
-
-			if ( function_exists( 'greatermedia_get_global_targeting' ) ) {
-				foreach ( greatermedia_get_global_targeting() as $targeting ) {
-					if ( is_array( $targeting ) && count( $targeting ) == 2 ) {
-						$cust_params[] = sprintf( '%s=%s', $targeting[0], urlencode( $targeting[1] ) );
-					}
-				}
-			}
-
-			$cust_params = implode( '&', $cust_params );
-			$cust_params = urlencode( $cust_params );
-
-			return add_query_arg( 'cust_params', $cust_params, $tagUrl );
+		if ( empty( $tagUrl ) ) {
+			return '';
 		}
 
-		return '';
+		$cust_params = array();
+
+		if ( ! empty( $event_id ) ) {
+			$cust_params[] = 'livestreameventid=' . urlencode( $event_id );
+		}
+
+		if ( ! empty( $video_id ) ) {
+			$cust_params[] = 'livestreamvideoid=' . urlencode( $video_id );
+		}
+
+		if ( function_exists( 'greatermedia_get_global_targeting' ) ) {
+			foreach ( greatermedia_get_global_targeting() as $targeting ) {
+				if ( is_array( $targeting ) && count( $targeting ) == 2 ) {
+					$cust_params[] = sprintf( '%s=%s', $targeting[0], urlencode( $targeting[1] ) );
+				}
+			}
+		}
+
+		$cust_params = implode( '&', $cust_params );
+		$cust_params = urlencode( $cust_params );
+
+		if ( ! filter_var( $tagUrl, FILTER_VALIDATE_URL ) ) {
+			$network_id = trim( get_option( 'dfp_network_code' ) );
+			$tagUrl = add_query_arg( array(
+				'env'                     => 'vp',
+				'gdfp_req'                => '1',
+				'unviewed_position_start' => '1',
+				'output'                  => 'xml_vmap1',
+				'correlator'              => '',
+				'ad_rule'                 => '1',
+				'cmsid'                   => urlencode( $event_id ),
+				'vid'                     => urlencode( $video_id ),
+				'iu'                      => urlencode( "/{$network_id}/{$tagUrl}" ),
+			), 'http://pubads.g.doubleclick.net/gampad/ads' );
+		}
+
+		return add_query_arg( 'cust_params', $cust_params, $tagUrl );
 	}
 
 }
