@@ -1,0 +1,33 @@
+.tribe-events-notices {
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+
+    @media(--min-medium-viewport) {
+        margin-left: 1rem;
+        display: inline-block;
+    }
+
+    & ul {
+        list-style-type: none;
+        padding-left: 0;
+
+        @media(--min-medium-viewport) {
+            margin: .5rem 0;
+        }
+    }
+
+    & li {
+        border: 1px solid var(--brand-primary);
+        border-radius: 25px;
+        color: var(--brand-primary);
+        display: inline-block;
+        padding: .5rem 2rem;
+    }
+}
+
+.event-title {
+    @media(--min-medium-viewport) {
+        display: flex;
+    } 
+}

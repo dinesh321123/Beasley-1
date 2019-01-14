@@ -56,6 +56,8 @@
 @import 'components/episode/episode-info';
 @import 'components/episode/episode-tile';
 
+@import 'components/events/event';
+
 @import "components/ads/ad-title";
 @import "components/ads/ad";
 @import "components/discover/discover-modal";
