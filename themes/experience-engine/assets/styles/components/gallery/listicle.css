@@ -43,4 +43,19 @@
 	& h3 {
 		margin: .5rem 0;
 	}
+
+	& .gallery-meta {
+		@media(--min-medium-viewport) {
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+
+	& .gallery-share {
+		margin-top: 1rem;
+
+		& button:first-child {
+			margin-left: 0;
+		}
+	}
 }

@@ -1,5 +1,6 @@
 .single-post,
-.page {
+.page,
+.single-gmr_gallery {
 
     & .post-categories {
         list-style-type: none;
