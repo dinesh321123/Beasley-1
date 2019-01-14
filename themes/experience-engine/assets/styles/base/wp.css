@@ -1,0 +1,11 @@
+.wp-block-table {
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    min-width: 240px;
+    width: 100%;
+
+    & td {
+        border: 1px solid currentColor;
+        padding: .5em;
+    }
+}

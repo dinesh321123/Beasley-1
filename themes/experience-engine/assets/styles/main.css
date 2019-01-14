@@ -6,6 +6,7 @@
 @import "base/buttons";
 @import "base/container";
 @import "base/post-thumbnail";
+@import "base/wp";
 
 @import "components/section/section-header";
 
