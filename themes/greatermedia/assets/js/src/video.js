@@ -23,10 +23,6 @@
 
 		var adTagUrl = $parent.data( 'adTag' );
 		if ( adTagUrl ) {
-			adTagUrl += '&url=' + encodeURIComponent( window.location.href );
-			adTagUrl += '&description_url=' + encodeURIComponent( window.location.href );
-			adTagUrl += '&sz=' + el.offsetWidth + 'x' + el.offsetHeight;
-
 			player.ima( { id: id, adTagUrl: adTagUrl } );
 
 			var wrapper = document.getElementById( id );
