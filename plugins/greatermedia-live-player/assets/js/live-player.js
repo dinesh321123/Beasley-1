@@ -1052,7 +1052,7 @@
 			stopInlineAudioInterval();
 		} else {
 			playingLiveAudio = false;
-			player.pause();
+			player.stop();
 			stopLiveStreamInterval();
 		}
 

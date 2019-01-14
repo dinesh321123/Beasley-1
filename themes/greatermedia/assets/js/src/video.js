@@ -23,6 +23,18 @@
 
 		var adTagUrl = $parent.data( 'adTag' );
 		if ( adTagUrl ) {
+			if ( adTagUrl.indexOf( 'sz=' ) < 1 ) {
+				adTagUrl += '&sz=' + el.offsetWidth + 'x' + el.offsetHeight;
+			}
+
+			if ( adTagUrl.indexOf( 'url=' ) < 1 ) {
+				adTagUrl += '&url=' + encodeURIComponent( window.location.href );
+			}
+
+			if ( adTagUrl.indexOf( 'description_url=' ) < 1 ) {
+				adTagUrl += '&description_url=' + encodeURIComponent( window.location.href );
+			}
+
 			player.ima( { id: id, adTagUrl: adTagUrl } );
 
 			var wrapper = document.getElementById( id );
