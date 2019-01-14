@@ -10,15 +10,16 @@ $cost = tribe_get_cost();
 
 	<div class="event-info">
 
-		<?php tribe_the_notices(); ?>
-
 		<div class="events-link">
 			<a href="<?php echo esc_url( tribe_get_events_link() ); ?>">
 				<?php echo esc_html( tribe_get_event_label_plural() ); ?>
 			</a>
 		</div>
 
-		<h1><?php the_title(); ?></h1>
+		<h1 class="event-title">
+			<?php the_title(); ?>
+			<?php tribe_the_notices(); ?>
+		</h1>
 
 		<div class="event-date">
 			<?php echo tribe_events_event_schedule_details(); ?>

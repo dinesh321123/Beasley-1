@@ -4,37 +4,58 @@
 
 <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php get_template_part( 'partials/show/header' ); ?>
-	<div class="content-wrap">
-		<h1><?php the_title(); ?></h1>
 
-		<div>
-			<?php get_template_part( 'partials/content/meta' ); ?>
-			<?php get_template_part( 'partials/featured-media' ); ?>
+		<header class="post-info">
 
-			<?php the_content(); ?>
+			<h1>
+				<?php the_title(); ?>
+			</h1>
 
-			<?php if ( ( $contest_prize = trim( get_post_meta( get_the_ID(), 'prizes-desc', true ) ) ) ) : ?>
-				<div>
-					<?php ee_the_subtitle( 'What you win:' ); ?>
-					<?php echo wpautop( do_shortcode( $contest_prize ) ); ?>
-				</div>
-			<?php endif; ?>
+			<div class="post-meta">
+				<?php get_template_part( 'partials/content/meta' ); ?>
+			</div>
 
-			<?php if ( ( $enter = trim( get_post_meta( get_the_ID(), 'how-to-enter-desc', true ) ) ) ) : ?>
-				<div>
-					<?php ee_the_subtitle( 'How to enter:' ); ?>
-					<?php echo wpautop( do_shortcode( $enter ) ); ?>
-				</div>
-			<?php endif; ?>
+		</header>
 
-			<?php get_template_part( 'partials/content/categories' ); ?>
-			<?php get_template_part( 'partials/content/tags' ); ?>
+		<div class="entry-content content-wrap">
+
+			<div class="description">
+
+				<?php get_template_part( 'partials/featured-media' ); ?>
+
+				<?php the_content(); ?>
+
+				<?php if ( ( $contest_prize = trim( get_post_meta( get_the_ID(), 'prizes-desc', true ) ) ) ) : ?>
+					<div>
+						<?php ee_the_subtitle( 'What you win:' ); ?>
+						<?php echo wpautop( do_shortcode( $contest_prize ) ); ?>
+					</div>
+				<?php endif; ?>
+
+				<?php if ( ( $enter = trim( get_post_meta( get_the_ID(), 'how-to-enter-desc', true ) ) ) ) : ?>
+					<div>
+						<?php ee_the_subtitle( 'How to enter:' ); ?>
+						<?php echo wpautop( do_shortcode( $enter ) ); ?>
+					</div>
+				<?php endif; ?>
+
+				<?php get_template_part( 'partials/content/categories' ); ?>
+				<?php get_template_part( 'partials/content/tags' ); ?>
+
+			</div>
+
+			<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
+			
 		</div>
 
-		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
+		
+
 	</div>
 
-	<?php get_template_part( 'partials/related-articles' ); ?>
+	<div class="content-wrap">
+		<?php get_template_part( 'partials/related-articles' ); ?>
+	</div>
+
 </div>
 
 <?php get_footer(); ?>
