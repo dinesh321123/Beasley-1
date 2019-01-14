@@ -1,6 +1,7 @@
 .single-post,
 .page,
 .single-gmr_gallery {
+.single-contest {
 
     & .post-categories {
         list-style-type: none;
