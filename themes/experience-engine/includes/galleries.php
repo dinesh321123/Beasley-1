@@ -109,31 +109,29 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 		echo $image_html;
 
 		echo '<div class="gallery-meta">';
-			echo '<div class="gallery-caption">';
-				echo '<h3>', esc_html( $title ), '</h3>';
+			echo '<div class="wrapper">';
+				echo '<div class="caption">';
+					echo '<h3>', esc_html( $title ), '</h3>';
+					echo '<p class="excerpt">', get_the_excerpt( $image ), '</p>';
+				echo '</div>';
+
+				echo '<div class="share-wrap">';
+
+					if ( ! $is_sponsored ) :
+						if ( ! get_field( 'hide_social_share', $gallery ) ) :
+							$url = get_field( 'share_photos', $gallery ) ? $image_full_url : $urls[ $gallery->ID ];
+							echo '<span class="label">'. __( 'Share' ) .'</span>';
+							ee_the_share_buttons( $url, $title );
+						endif;
+					endif;
+
+				echo '</div>';
+				
+			echo '</div>';	
+
 				if ( ! empty( $attribution ) ) :
-					echo '<h4>', esc_html( $attribution ), '</h4>';
+					echo '<small class="attribution">', esc_html( $attribution ), '</small>';
 				endif;
-
-				echo '<p class="gallery-excerpt">', get_the_excerpt( $image ), '</p>';
-			echo '</div>';
-
-			echo '<div class="gallery-share">';
-
-				if ( ! $is_sponsored ) :
-					if ( ! get_field( 'hide_download_link', $gallery ) ) :
-						echo '<p>';
-							echo '<a href="', esc_url( wp_get_attachment_image_url( $image->ID, 'full' ) ), '" class="-download" download target="_blank" rel="noopener">download</a>';
-						echo '</p>';
-					endif;
-
-					if ( ! get_field( 'hide_social_share', $gallery ) ) :
-						$url = get_field( 'share_photos', $gallery ) ? $image_full_url : $urls[ $gallery->ID ];
-						ee_the_share_buttons( $url, $title );
-					endif;
-				endif;
-
-			echo '</div>';
 
 		echo '</div>';
 
