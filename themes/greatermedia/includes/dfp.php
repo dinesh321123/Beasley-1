@@ -227,7 +227,7 @@ function greatermedia_dfp_footer() {
 						} else if ('dfp_ad_sidegallery' == slots[i][4]) {
 							sizeMapping = googletag.sizeMapping()
 								.addSize([768, 200], [300, 250])
-								.addSize([0, 0], [])
+								.addSize([0, 0], [300, 250])
 								.build();
 						} else if ($(document.getElementById(slots[i][2])).parents('.widget_gmr-dfp-widget').length > 0) {
 							sizeMapping = googletag.sizeMapping()
