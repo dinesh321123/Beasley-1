@@ -6,7 +6,6 @@
 	<?php get_template_part( 'partials/show/header' ); ?>
 
 	<header class="post-info">
-
 		<h1>
 			<?php the_title(); ?>
 		</h1>
@@ -16,11 +15,9 @@
 				<?php get_template_part( 'partials/content/meta' ); ?>
 			</div>
 		<?php endif; ?>
-
 	</header>
 
 	<div class="entry-content content-wrap">
-			
 		<div class="description">
 			<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php ee_the_content_with_ads(); ?>
@@ -36,13 +33,9 @@
 		</div>
 
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
-			
 	</div>
 
-	<div class="content-wrap">
-		<?php get_template_part( 'partials/related-articles' ); ?>
-	</div>
-		
+	<?php get_template_part( 'partials/related-articles' ); ?>
 </div>
 
 <?php get_footer(); ?>

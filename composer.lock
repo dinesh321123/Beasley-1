@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "76ac11f2563121092340689722e39d22",
+    "content-hash": "c2ed3da573ed42477c418391ceb34c10",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -395,15 +395,15 @@
         },
         {
             "name": "wpackagist-plugin/edit-flow",
-            "version": "0.8.2",
+            "version": "0.9",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/edit-flow/",
-                "reference": "tags/0.8.2"
+                "reference": "tags/0.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/edit-flow.0.8.2.zip",
+                "url": "https://downloads.wordpress.org/plugin/edit-flow.0.9.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -635,15 +635,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "9.3",
+            "version": "9.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/9.3"
+                "reference": "tags/9.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.9.3.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.9.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -692,26 +692,6 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/wp-fail2ban/"
-        },
-        {
-            "name": "wpackagist-plugin/yet-another-related-posts-plugin",
-            "version": "4.4",
-            "source": {
-                "type": "svn",
-                "url": "https://plugins.svn.wordpress.org/yet-another-related-posts-plugin/",
-                "reference": "tags/4.4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/yet-another-related-posts-plugin.4.4.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "wordpress-plugin",
-            "homepage": "https://wordpress.org/plugins/yet-another-related-posts-plugin/"
         }
     ],
     "packages-dev": [

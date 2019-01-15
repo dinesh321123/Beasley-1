@@ -169,3 +169,23 @@ if ( ! function_exists( 'ee_is_network_domain' ) ) :
 		return in_array( parse_url( $url, PHP_URL_HOST ), $domains );
 	}
 endif;
+
+if ( ! function_exists( 'ee_get_related_articles' ) ) :
+	function ee_get_related_articles() {
+		if ( ! function_exists( 'ep_find_related' ) ) {
+			return array();
+		}
+
+		$post_id = get_queried_object_id();
+		$key = 'ee-related-articles-' . $post_id;
+		$related_articles = wp_cache_get( $key );
+		if ( $related_articles === false ) {
+			$related_articles = ep_find_related( $post_id, 5 );
+			if ( ! empty( $related_articles ) ) {
+				wp_cache_set( $key, $related_articles, '', 15 * MINUTE_IN_SECONDS );
+			}
+		}
+
+		return $related_articles;
+	}
+endif;
