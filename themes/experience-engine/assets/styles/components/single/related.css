@@ -1,0 +1,16 @@
+.related-articles {
+    & .post {
+        margin-bottom: 3rem;
+
+        & .post-details {
+            flex: 1;
+            margin-left: 2rem;
+
+            & .post-date {
+                color: var(--global-theme-font-tertiary);
+                font-size: .875rem;
+                margin-bottom: 1rem;
+            }
+        }
+    }
+}
