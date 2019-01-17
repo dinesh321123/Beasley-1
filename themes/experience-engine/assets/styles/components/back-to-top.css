@@ -15,7 +15,7 @@
 	transition: opacity .3s 0s;
 	width: 40px;
 	visibility: hidden;
-	z-index: 80;
+	z-index: 5;
 
 	&.-show,
 	&.-fadeout,

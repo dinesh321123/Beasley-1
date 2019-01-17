@@ -57,7 +57,7 @@ class Stations extends Component {
 		/* eslint-enable */
 
 		return (
-			<div>
+			<div className="live-player-modal">
 				{stations}
 			</div>
 		);

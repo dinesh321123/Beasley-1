@@ -27,10 +27,11 @@
 
 @import "components/search/search-header";
 
-@import "components/player/ads";
-@import "components/player/controls";
-@import "components/player/live-player";
-@import "components/player/offline";
+@import 'components/player/ads';
+@import 'components/player/controls';
+@import 'components/player/live-player';
+@import 'components/player/offline';
+@import 'components/player/range-slider';
 
 @import "components/front-page";
 

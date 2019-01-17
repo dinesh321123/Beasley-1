@@ -1,0 +1,83 @@
+.controls-volume {
+
+  & input[type=range] {
+    -webkit-appearance: none;
+    margin: 4.5px 0;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-slider-runnable-track {
+      background: var(--brand-primary);
+      cursor: pointer;
+      width: 100%;
+      height: 2px;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background: var(--brand-primary);
+      border-radius: 50px;
+      cursor: pointer;
+      height: 11px;
+      margin-top: -4.5px;
+      width: 11px;
+    }
+
+    &:focus::-webkit-slider-runnable-track {
+      background: var(--brand-primary);
+    }
+
+    &::-moz-range-track {
+      background: var(--brand-primary);
+      cursor: pointer;
+      height: 2px;
+      width: 100%;
+    }
+
+    &::-moz-range-thumb {
+      background: var(--brand-primary);
+      border-radius: 50px;
+      cursor: pointer;
+      height: 11px;
+      width: 11px;
+    }
+
+    &::-ms-track {
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+      cursor: pointer;
+      height: 2px;
+      width: 100%;
+    }
+
+    &::-ms-fill-lower {
+      background: var(--brand-primary);
+    }
+
+    &::-ms-fill-upper {
+      background: var(--brand-primary);
+    }
+
+    &::-ms-thumb {
+      cursor: pointer;
+      background: var(--brand-primary);
+      border-radius: 50px;
+      height: 11px;
+      height: 2px; /* Fix for MS */
+      width: 11px;
+    }
+
+    &:focus::-ms-fill-lower {
+      background: var(--brand-primary);
+    }
+
+    &:focus::-ms-fill-upper {
+      background: var(--brand-primary);
+    }
+
+  }
+}

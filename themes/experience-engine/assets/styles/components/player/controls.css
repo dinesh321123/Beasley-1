@@ -1,7 +1,8 @@
 .controls {
-	display: flex;
 	background-color: var(--global-theme-secondary);
-	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2), inset 0px 2px 0px rgba(255, 255, 255, 0.25);
+	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2), 
+				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
+	display: flex;
 	min-height: 84px;
 	position: relative;
 
@@ -12,31 +13,56 @@
 	& .control-section {
 		align-items: center;
 		display: flex;
-		width: 100%;
+
+		@media(--min-medium-viewport) {
+			width: 100%;
+		}
 
 		&:first-child {
 			padding-left: 1rem;
+			overflow: hidden;
+			@media(--max-medium-viewport) {
+				order: 2;
+				width: 100%;
+			}
+		}
+
+		&:nth-child(2) {
+			@media(--max-medium-viewport) {
+				padding-left: 1rem;
+				order: 1;
+			}
+		}
+
+		&:last-child {
+			@media(--max-medium-viewport) {
+				max-width: 50px;
+				order: 3;
+				width: 100%;
+			}
 		}
 
 		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
 			background: transparent;
 			border: 0;
 			cursor: pointer;
+			height: 100%;
 			padding: 0;
 			width: 100%;
-			height: 100%;
 		}
 
 		&.-centered {
-			justify-content: center;
+			@media(--min-medium-viewport) {
+				justify-content: center;
+			}
 		}
 	}
 
 	& .controls-info {
-		width: 100%;
+		color: var(--global-theme-font-primary);
 		font-size: 1rem;
-		color: #3C4043;
-
+		width: 100%;
+		
 		& strong {
 			font-weight: 600;
 			margin-right: .5rem;
@@ -47,33 +73,54 @@
 			color: var(--brand-primary);
 			font-size: .738rem;
 			font-weight: 500;
-			padding: .1rem .25rem;
-			text-transform: uppercase;
 			letter-spacing: 0.01em;
 			line-height: 1.2;
+			padding: .1rem .25rem;
+			text-transform: uppercase;
 		}
 
 		& p {
-			display: flex;
 			align-items: center;
+			display: flex;
 			margin-bottom: 0;
+			white-space: nowrap;
 		}
 	}
 
 	& .controls-contact {
-		max-width: 89px;
-		width: 100%;
 		height: 100%;
+		max-width: 89px;
+		position: relative;
+		width: 100%;
 	}
 
 	& .controls-sponsor {
-		display: block !important;
+		display: none;
+
+		@media(--min-medium-viewport) {
+			display: block !important; /* Overrding ad */
+		}
 	}
 
 	& .controls-recent {
 
 		& button {
-			display: flex;
+			display: none;
+
+			@media(--min-medium-viewport) {
+				display: flex;
+			}
+
+			& svg rect {
+				fill: var(--global-theme-font-primary);
+				transition: fill 300ms ease-in-out;
+			}
+
+			&:hover {
+				& svg rect {
+					fill: var(--brand-primary)
+				}
+			}
 		}
 
 		& .controls-recent-songs {
@@ -82,28 +129,83 @@
 	}
 
 	& .controls-volume {
+		display: flex;
 		height: 22px;
+		position: relative;
+
+		& button {
+			display: none;
+
+			@media(--min-medium-viewport) {
+				display: block;
+			}
+			
+			& svg path[fill] {
+				fill: var(--global-theme-font-primary);
+			}
+
+			& svg path[stroke] {
+				stroke: var(--global-theme-font-primary);
+			}
+
+		}
+
+		& button:hover {
+			& svg path {
+				transition: fill 300ms ease-in-out,
+							stroke 300ms ease-in-out;
+			}
+
+			& svg path[fill] {
+				fill: var(--brand-primary);
+			}
+			& svg path[stroke] {
+				stroke: var(--brand-primary);
+			}
+		}
+
+		& button:focus {
+			outline: 0;
+		}
 		
 		& .controls-volume-slider {
-			display: none;
+			left: 3rem;
+			opacity: 0;
+			position: absolute;
+			transition: visibility 250ms ease-in-out,
+						opacity 250ms ease-in-out;
+			top: -0.5rem;
+			visibility: hidden;
+			width: 82px;
+
+			&.-volume-visible {
+				opacity: 1;
+				visibility: visible;
+			}
 		}
 	}
 
 	& .controls-station {
-		max-width: 215px;
-		width: 100%;
+		display: none;
 		height: 100%;
+		max-width: 215px;
+		position: relative;
+		width: 100%;
+
+		@media(--min-medium-viewport) {
+			display: block;
+		}
 
 		& button {
 			background: transparent;
-			color: #737373;
-			font-weight: 600;
-			text-transform: uppercase;
+			color: var(--global-theme-font-primary);
 			font-size: 1rem;
+			font-weight: 600;
 			transition: color 300ms ease-in-out;
+			text-transform: uppercase;
 
 			&:hover {
-				color: #000;
+				color: var(--global-black);
 			}
 
 			& svg {
@@ -114,10 +216,10 @@
 				
 				&:after {
 					content: '/';
+					color: var(--brand-tertiary);
 					display: inline;
-					padding: 0 .5rem;
-					color: #4898D3;
 					font-weight: 600;
+					padding: 0 .5rem;
 				}
 			}
 		}
@@ -132,7 +234,10 @@
 		border: 2px solid var(--brand-primary);
 		border-radius: 50%;
 		padding: 0;
-		margin: 0 2rem;
+		
+		@media(--min-medium-viewport) {
+			margin: 0 2rem;
+		}
 	}
 
 	& svg {
