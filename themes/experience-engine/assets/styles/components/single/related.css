@@ -7,10 +7,20 @@
             margin-left: 2rem;
 
             & .post-date {
+                display: none;
                 color: var(--global-theme-font-tertiary);
                 font-size: .875rem;
                 margin-bottom: 1rem;
             }
+        }
+    }
+}
+
+.single-post,
+.single-contest {
+    & .related-articles {
+        & .post-date {
+            display: block;
         }
     }
 }
