@@ -8,14 +8,17 @@ import {
 	ACTION_LOADED_PAGE,
 	ACTION_LOADED_PARTIAL,
 	ACTION_LOAD_ERROR,
+	ACTION_HIDE_SPLASH_SCREEN,
 } from '../actions/screen';
 
 export const DEFAULT_STATE = {
+	url: false,
 	scripts: {},
 	embeds: [],
 	content: '',
 	partials: {},
 	error: '',
+	splashScreen: true,
 };
 
 function manageScripts( load, unload ) {
@@ -52,7 +55,16 @@ function manageBbgiConfig( pageDocument ) {
 	window.bbgiconfig = newconfig;
 }
 
-export default function reducer( state = {}, action = {} ) {
+function hideSplashScreen() {
+	setTimeout( () => {
+		const splashScreen = document.getElementById( 'splash-screen' );
+		if ( splashScreen ) {
+			splashScreen.parentNode.removeChild( splashScreen );
+		}
+	}, 2000 );
+}
+
+function reducer( state = {}, action = {} ) {
 	switch ( action.type ) {
 		case ACTION_INIT_PAGE:
 			manageScripts( action.scripts, state.scripts );
@@ -67,9 +79,14 @@ export default function reducer( state = {}, action = {} ) {
 		case ACTION_LOADING_PARTIAL:
 		case ACTION_LOADING_PAGE:
 			NProgress.start();
-			break;
+			return { ...state, url: action.url };
 
 		case ACTION_LOADED_PAGE: {
+			// do not accept action if user goes to another page before current page is loaded
+			if ( state.url !== action.url ) {
+				return;
+			}
+
 			const { document: pageDocument } = action;
 			if ( pageDocument ) {
 				const barId = 'wpadminbar';
@@ -85,6 +102,7 @@ export default function reducer( state = {}, action = {} ) {
 			NProgress.done();
 			manageScripts( action.scripts, state.scripts );
 			manageBbgiConfig( pageDocument );
+			hideSplashScreen();
 
 			return {
 				...state,
@@ -97,10 +115,16 @@ export default function reducer( state = {}, action = {} ) {
 		}
 
 		case ACTION_LOADED_PARTIAL: {
+			// do not accept action if user goes to another page before current page is loaded
+			if ( state.url !== action.url ) {
+				return;
+			}
+
 			const { document: pageDocument } = action;
 
 			NProgress.done();
 			manageBbgiConfig( pageDocument );
+			hideSplashScreen();
 
 			return {
 				...state,
@@ -116,10 +140,11 @@ export default function reducer( state = {}, action = {} ) {
 		}
 
 		case ACTION_LOAD_ERROR:
-			return {
-				...state,
-				error: action.error,
-			};
+			return { ...state, error: action.error };
+	
+		case ACTION_HIDE_SPLASH_SCREEN:
+			hideSplashScreen();
+			return { ...state, splashScreen: false };
 
 		default:
 			// do nothing
@@ -128,3 +153,5 @@ export default function reducer( state = {}, action = {} ) {
 
 	return state;
 }
+
+export default reducer;

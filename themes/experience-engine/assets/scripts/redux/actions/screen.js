@@ -6,12 +6,13 @@ import { pageview } from '../../library/google-analytics';
  * We use this approach to minify action names in the production bundle and have
  * human friendly actions in the dev bundle. Use "s{x}" format to create new actions.
  */
-export const ACTION_INIT_PAGE       = 'production' === process.env.NODE_ENV ? 's0' : 'PAGE_INIT';
-export const ACTION_LOADING_PAGE    = 'production' === process.env.NODE_ENV ? 's1' : 'PAGE_LOADING';
-export const ACTION_LOADED_PAGE     = 'production' === process.env.NODE_ENV ? 's2' : 'PAGE_LOADED';
-export const ACTION_LOADING_PARTIAL = 'production' === process.env.NODE_ENV ? 's3' : 'PARTIAL_LOADING';
-export const ACTION_LOADED_PARTIAL  = 'production' === process.env.NODE_ENV ? 's4' : 'PARTIAL_LOADED';
-export const ACTION_LOAD_ERROR      = 'production' === process.env.NODE_ENV ? 's5' : 'LOADING_ERROR';
+export const ACTION_INIT_PAGE          = 'production' === process.env.NODE_ENV ? 's0' : 'PAGE_INIT';
+export const ACTION_LOADING_PAGE       = 'production' === process.env.NODE_ENV ? 's1' : 'PAGE_LOADING';
+export const ACTION_LOADED_PAGE        = 'production' === process.env.NODE_ENV ? 's2' : 'PAGE_LOADED';
+export const ACTION_LOADING_PARTIAL    = 'production' === process.env.NODE_ENV ? 's3' : 'PARTIAL_LOADING';
+export const ACTION_LOADED_PARTIAL     = 'production' === process.env.NODE_ENV ? 's4' : 'PARTIAL_LOADED';
+export const ACTION_LOAD_ERROR         = 'production' === process.env.NODE_ENV ? 's5' : 'LOADING_ERROR';
+export const ACTION_HIDE_SPLASH_SCREEN = 'production' === process.env.NODE_ENV ? 's6' : 'HIDE_SPLASH_SCREEN';
 
 export function initPage() {
 	const content = document.getElementById( 'content' );
@@ -49,7 +50,7 @@ export function loadPage( url, options = {} ) {
 				document.body.className = pageDocument.body.className;
 			}
 
-			dispatch( { type: ACTION_LOADED_PAGE, ...parsed } );
+			dispatch( { type: ACTION_LOADED_PAGE, url, ...parsed } );
 			window.scrollTo( 0, 0 );
 		}
 
@@ -80,7 +81,7 @@ export function loadPartialPage( url, placeholder ) {
 
 		function onSuccess( data ) {
 			const parsed = parseHtml( data, '#inner-content' );
-			dispatch( { type: ACTION_LOADED_PARTIAL, ...parsed, placeholder } );
+			dispatch( { type: ACTION_LOADED_PARTIAL, url, ...parsed, placeholder } );
 			pageview( parsed.document.title, url );
 		}
 
@@ -91,9 +92,14 @@ export function loadPartialPage( url, placeholder ) {
 	};
 }
 
+export function hideSplashScreen() {
+	return { type: ACTION_HIDE_SPLASH_SCREEN };
+}
+
 export default {
 	initPage,
 	loadPage,
 	updatePage,
 	loadPartialPage,
+	hideSplashScreen,
 };

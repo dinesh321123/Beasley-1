@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"foxsports/assets/css/foxsports.css": "foxsports/assets/css/sass/foxsports_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "foxsports/assets/css/",
+		"src": ["foxsports.css"],
+		"dest": "foxsports/assets/css/",
+		"ext": ".min.css"
+	}
+}

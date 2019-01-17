@@ -1,0 +1,99 @@
+/**
+ * Root of the parent theme's asset folder
+ */
+$asset_root: "../../../../themes/greatermedia/assets/";
+
+// Parent theme color variables
+//
+// @author 10up
+// @since 0.1.0
+//
+$black: #000000;
+$white: #ffffff;
+$cardinal: #002f54;
+$heath: #561015;
+$coffee-bean: #270e10;
+$extra-light-gray: #f1f1f3;
+$light-gray: #d0d2d3;
+$gray: #929497;
+$medium-gray: #404041;
+$medium-dark-gray: #6d6e70;
+$dark-gray: #282827;
+$darker-gray: #191919;
+$yellow: #f5ed7f;
+$highlights-bg: #5a5a5a;
+$highlights-heading: #ffffff;
+
+// WMTR colors
+//
+// @author 10up
+// @since 0.1.0
+//
+$color-text-black: $black;
+$color-text-white: $white;
+$color-text-gray: $medium-gray;
+$color-text-red: $cardinal;
+$color-text-yellow: $yellow;
+
+$color-gray: $gray;
+$color-gray-extra-light: $extra-light-gray;
+$color-gray-light: #f2f2f2;
+$color-gray-medium-light: $medium-gray;
+$color-gray-medium: #58595B;
+$color-gray-medium-dark: #303030;
+$color-gray-darker: $darker-gray;
+
+$primary-bg: #fff;
+$primary-text: $color-text-gray;
+$primary-heading: $color-text-gray;
+$primary-link: $color-text-red;
+$primary-link-hover: darken($color-text-red, 9%);
+$primary-border: $light-gray;
+
+$secondary-bg: $color-gray-medium-dark;
+$secondary-text: $color-text-white;
+$secondary-heading: $gray;
+$secondary-link: $light-gray;
+$secondary-link-hover: darken($color-text-red, 9%);
+$secondary-border: $dark-gray;
+
+// Section Variables
+$header-bg: #270e10;
+$header-border: $dark-gray;
+$header-nav-bg: $cardinal;
+$header-search-bg: $color-gray-medium-light;
+
+$liveplayer-bg: $color-gray-light;
+$liveplayer-color: #404041;
+
+$featured-primary-bg: $heath;
+$featured-secondary-bg: #270e10;
+
+$highlights-text: $gray;
+$highlights-link: $dark-gray;
+
+$gallery-bg: $color-gray-medium-light;
+$gallery-text: $light-gray;
+$gallery-thumbs-bg: $color-gray-medium-dark;
+$gallery-border: #58595b;
+$gallery-grid-border: $gray !default;
+$gallery-grid-text: $gray !default;
+$gallery-featured-bg: #f2f2f2;
+
+$footer-text: $gray;
+
+$btn-bg: $cardinal;
+$btn-hover: $yellow;
+$btn-active: $black;
+$btn-muted: $gray;
+$btn-muted-hover: $cardinal;
+$btn-muted-active: $black;
+$btn-inactive: $light-gray;
+
+$social-color: $medium-gray;
+$social-hover: $cardinal;
+
+$form-bg: $light-gray;
+$form-text: $dark-gray;
+
+$breaking-news-bg: $cardinal;

@@ -35,23 +35,9 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		/**
 		 * CSS vars polyfill
 		 */
-		$vars = [
-			'--brand-primary'   => '#ff0000',
-			'--brand-secondary' => '#ffe964',
-			'--brand-tertiary'  => '#ffffff',
-		];
-
-		if ( get_theme_mod( 'ee_theme_version', '-dark' ) == '-dark' ) {
-			$vars['--global-theme-primary'] = '#1a1a1a';
-			$vars['--global-theme-secondary'] = '#282828';
-			$vars['--global-theme-font-primary'] = 'var(--global-white)';
-			$vars['--global-theme-font-secondary'] = '#a5a5a5';
-			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
-		}
-
 		wp_enqueue_script( 'css-vars-ponyfill', 'https://unpkg.com/css-vars-ponyfill@1.16.1/dist/css-vars-ponyfill.min.js', null, null, false );
 		wp_script_add_data( 'css-vars-ponyfill', 'async', true );
-		wp_script_add_data( 'css-vars-ponyfill', 'onload', 'cssVars(' . wp_json_encode( [ 'variables' => $vars ] ) . ')' );
+		wp_script_add_data( 'css-vars-ponyfill', 'onload', 'cssVars(' . wp_json_encode( [ 'variables' => ee_get_css_colors() ] ) . ')' );
 
 		/**
 		 * External libraries
@@ -115,6 +101,26 @@ EOL;
 		 */
 		wp_dequeue_script( 'elasticpress-facets' );
 		wp_dequeue_style( 'elasticpress-facets' );
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_css_colors' ) ) :
+	function ee_get_css_colors() {
+		$vars = [
+			'--brand-primary'   => '#ff0000',
+			'--brand-secondary' => '#ffe964',
+			'--brand-tertiary'  => '#ffffff',
+		];
+
+		if ( get_theme_mod( 'ee_theme_version', '-dark' ) == '-dark' ) {
+			$vars['--global-theme-primary'] = '#1a1a1a';
+			$vars['--global-theme-secondary'] = '#282828';
+			$vars['--global-theme-font-primary'] = 'var(--global-white)';
+			$vars['--global-theme-font-secondary'] = '#a5a5a5';
+			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
+		}
+
+		return $vars;
 	}
 endif;
 
