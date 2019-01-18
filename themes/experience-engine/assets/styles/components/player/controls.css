@@ -1,13 +1,13 @@
 .controls {
 	background-color: var(--global-theme-secondary);
-	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2), 
+	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
 				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
 	display: flex;
 	min-height: 84px;
 	position: relative;
 
 	& .control-border {
-		border-left: 1px solid #E5E5E5;
+		border-left: 1px solid var(--global-mercury);
 	}
 
 	& .control-section {
@@ -62,13 +62,13 @@
 		color: var(--global-theme-font-primary);
 		font-size: 1rem;
 		width: 100%;
-		
+
 		& strong {
 			font-weight: 600;
 			margin-right: .5rem;
 		}
 
-		& span {
+		& .live {
 			border: 1px solid var(--brand-primary);
 			color: var(--brand-primary);
 			font-size: .738rem;
@@ -77,6 +77,10 @@
 			line-height: 1.2;
 			padding: .1rem .25rem;
 			text-transform: uppercase;
+		}
+
+		& span:not(.live) {
+			text-transform: initial;
 		}
 
 		& p {
@@ -116,7 +120,8 @@
 				transition: fill 300ms ease-in-out;
 			}
 
-			&:hover {
+			&:hover,
+			&:focus {
 				& svg rect {
 					fill: var(--brand-primary)
 				}
@@ -139,7 +144,7 @@
 			@media(--min-medium-viewport) {
 				display: block;
 			}
-			
+
 			& svg path[fill] {
 				fill: var(--global-theme-font-primary);
 			}
@@ -150,7 +155,8 @@
 
 		}
 
-		& button:hover {
+		& button:hover,
+		& button:focus {
 			& svg path {
 				transition: fill 300ms ease-in-out,
 							stroke 300ms ease-in-out;
@@ -167,7 +173,7 @@
 		& button:focus {
 			outline: 0;
 		}
-		
+
 		& .controls-volume-slider {
 			left: 3rem;
 			opacity: 0;
@@ -188,7 +194,8 @@
 	& .controls-station {
 		display: none;
 		height: 100%;
-		max-width: 215px;
+		max-width: 261px;
+		padding: 0 1.4375rem;
 		position: relative;
 		width: 100%;
 
@@ -204,19 +211,22 @@
 			transition: color 300ms ease-in-out;
 			text-transform: uppercase;
 
-			&:hover {
-				color: var(--global-black);
+			&:hover,
+			&:focus {
+				color: var(--global-theme-font-secondary);
 			}
 
 			& svg {
 				margin-left: .5rem;
+				fill: var(--brand-secondary);
+				stroke: var(--brand-secondary);
 			}
 
 			& .controls-station-title {
-				
+
 				&:after {
 					content: '/';
-					color: var(--brand-tertiary);
+					color: var(--global-theme-font-tertiary);
 					display: inline;
 					font-weight: 600;
 					padding: 0 .5rem;
@@ -234,7 +244,7 @@
 		border: 2px solid var(--brand-primary);
 		border-radius: 50%;
 		padding: 0;
-		
+
 		@media(--min-medium-viewport) {
 			margin: 0 2rem;
 		}
