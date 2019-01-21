@@ -131,6 +131,12 @@
 		& .controls-recent-songs {
 			display: none;
 		}
+
+		&.-open {
+			& .controls-recent-songs {
+				display: block;
+			}
+		}
 	}
 
 	& .controls-volume {

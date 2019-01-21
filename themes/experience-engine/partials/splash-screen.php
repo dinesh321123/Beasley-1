@@ -11,28 +11,28 @@ $color = $colors['--brand-primary'];
 		}
 
 		#splash-screen {
-			position: fixed;
-			left: 0;
-			top: 0;
-			right: 0;
-			bottom: 0;
 			background-color: #fff;
+			bottom: 0;
+			left: 0;
+			position: fixed;
+			right: 0;
+			top: 0;
 			z-index: 999999;
 		}
 
 		.splash-screen-logo {
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			width: 250px;
-			height: 250px;
-			transform: translate(-50%, -50%);
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: contain;
 			<?php if ( $custom_logo_id ) : ?>
 			background-image: url(<?php echo esc_url( bbgi_get_image_url( $custom_logo_id, 250, 250, 'crop', true ) ); ?>);
 			<?php endif; ?>
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: contain;
+			height: 250px;
+			left: 50%;
+			position: absolute;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 250px;
 		}
 
 		.splash-screen-progress {

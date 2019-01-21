@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class RecentSongs extends PureComponent {
+
 	constructor( props ) {
 		super( props );
 
@@ -18,10 +19,12 @@ class RecentSongs extends PureComponent {
 
 	render() {
 		const self = this;
+		const { isOpen } = self.state;
 		const { songs } = self.props;
 		if ( !Array.isArray( songs ) || !songs.length ) {
 			return false;
 		}
+
 		const items = songs.map( ( song ) => {
 			let time = false;
 			if ( 0 < song.cueTimeStart ) {
@@ -45,7 +48,7 @@ class RecentSongs extends PureComponent {
 		} );
 
 		return (
-			<div className="controls-recent">
+			<div className={`controls-recent${isOpen ? ' -open' : ''}`}>
 				<button onClick={self.onToggle}>
 					<svg width="29" height="6" viewBox="0 0 28 6" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<rect width="6" height="6" rx="3" fill="#EB108B"/>
@@ -69,12 +72,17 @@ class RecentSongs extends PureComponent {
 			</div>
 		);
 	}
+
 }
 
 RecentSongs.propTypes = {
 	songs: PropTypes.arrayOf( PropTypes.object ).isRequired,
 };
 
-const mapStateToProps = ( { player } ) => ( { songs: player.songs } );
+function mapStateToProps( { player } ) {
+	return {
+		songs: player.songs,
+	};
+}
 
 export default connect( mapStateToProps )( RecentSongs );
