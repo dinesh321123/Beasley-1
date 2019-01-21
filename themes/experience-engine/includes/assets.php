@@ -145,7 +145,7 @@ if ( ! function_exists( 'ee_the_custom_logo' ) ) :
 	function ee_the_custom_logo( $size = 'full' ) {
 		$site_logo_id = get_option( 'gmr_site_logo', 0 );
 		if ( $site_logo_id ) {
-			$site_logo = bbgi_get_image_url( $site_logo_id, 150, 150 );
+			$site_logo = bbgi_get_image_url( $site_logo_id, 150, 150, false );
 			if ( $site_logo ) {
 				echo '<a href="', esc_url( home_url() ), '" class="custom-logo-link" rel="home" itemprop="url">';
 					echo '<img src="' . esc_url( $site_logo ) . '" alt="' . get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) . '" class="custom-logo" itemprop="logo">';
