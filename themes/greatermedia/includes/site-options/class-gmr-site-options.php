@@ -71,6 +71,7 @@ class GreaterMediaSiteOptions {
 		add_settings_section( 'beasley_site_settings', 'Station Site', array( $this, 'render_site_settings_section' ), $page );
 		add_settings_section( 'beasley_social_networks', 'Social Networks', '__return_false', $page );
 
+		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $page, 'beasley_site_settings', 'name=gmr_site_logo' );
 		add_settings_field( 'gmr_livelinks_title', 'Live Links Sidebar Title', 'bbgi_input_field', $page, 'beasley_site_settings', 'name=gmr_livelinks_title' );
 
 		add_settings_field( 'gmr_facebook_url', 'Facebook', 'bbgi_input_field', $page, 'beasley_social_networks', 'name=gmr_facebook_url' );
@@ -121,13 +122,8 @@ class GreaterMediaSiteOptions {
 		$news_site = get_option( 'gmr_newssite', '' );
 		$livelinks_more = get_option( 'gmr_livelinks_more_redirect', '' );
 		$liveplayer_disabled = get_option( 'gmr_liveplayer_disabled', '' );
-
-		$site_logo_id = get_option( 'gmr_site_logo', 0 );
-		self::render_image_select( 'Site Logo', 'gmr_site_logo', $site_logo_id ); ?>
-
-		<hr />
-
-		<h4><?php _e( 'Station Type', 'greatermedia' ); ?></h4>
+		
+		?><h4>Station Type</h4>
 
 		<div class="gmr__option">
 			<input type="checkbox" name="gmr_newssite" id="gmr_newssite" value="1" <?php checked( 1 == esc_attr( $news_site ) ); ?>><label for="gmr_newssite" class="gmr__option--label-inline"><?php _e( 'News/Sports Station', 'greatermedia' ); ?></label>
@@ -136,7 +132,7 @@ class GreaterMediaSiteOptions {
 
 		<hr />
 
-		<h4><?php _e( 'Live Player and Live Links', 'greatermedia' ); ?></h4>
+		<h4>Live Player and Live Links</h4>
 
 		<div class="gmr__option">
 			<input type="checkbox" name="gmr_liveplayer_disabled" id="gmr_liveplayer_disabled" value="1" <?php checked( 1 == esc_attr( $liveplayer_disabled ) ); ?> /><label for="gmr_liveplayer_disabled" class="gmr__option--label-inline"><?php _e( 'Disable the Live Player', 'greatermedia' ); ?></label>
@@ -162,29 +158,6 @@ class GreaterMediaSiteOptions {
 
 		wp_enqueue_script( 'gmr-options-admin', "{$baseurl}/assets/js/admin{$postfix}.js", array( 'jquery' ), GREATERMEDIA_VERSION, 'all' );
 		wp_enqueue_style( 'gmr-options-admin', "{$baseurl}/assets/css/greater_media_admin{$postfix}.css", array(), GREATERMEDIA_VERSION );
-	}
-
-	public static function render_image_select( $label, $name, $image_id = 0 ) {
-		$image_src = wp_get_attachment_image_src( $image_id, 'thumbnail' );
-		$image_src = is_array( $image_src ) ? reset( $image_src ): '';
-
-		if ( empty( $image_src ) ) {
-			$image_src = get_template_directory_uri() . '/images/admin-no-logo.png';
-		}
-
-		?>
-		<div class="gmr__option image-select-parent">
-			<label for="<?php echo esc_attr( $name ); ?>" class="gmr__option--label"><?php echo esc_html( $label ); ?></label>
-			<input class="image-id-input" type="hidden" name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $name ); ?>" value="<?php echo intval( $image_id ); ?>"/>
-			<div class="gmr-image-preview gmr__option--preview">
-				<img src="<?php echo esc_url( $image_src ); ?>"/>
-			</div>
-			<div class="gmr-image-buttons">
-				<div class="button select-image">Select Image</div>
-				<div class="button remove-image">Remove Image</div>
-			</div>
-		</div>
-	<?php
 	}
 
 }

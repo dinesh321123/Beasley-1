@@ -1,7 +1,5 @@
 <footer id="footer" class="footer">
-	<?php if ( has_custom_logo() ) : ?>
-		<?php the_custom_logo(); ?>
-	<?php endif; ?>
+	<?php ee_the_custom_logo(); ?>
 	<div class="footer-meta">
 		<?php get_template_part( 'partials/footer/download-app' ); ?>
 		<?php get_template_part( 'partials/footer/newsletter' ); ?>

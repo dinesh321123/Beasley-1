@@ -112,7 +112,7 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 			'--brand-tertiary'  => '#ffffff',
 		];
 
-		if ( get_theme_mod( 'ee_theme_version', '-dark' ) == '-dark' ) {
+		if ( get_option( 'ee_theme_version', '-dark' ) == '-dark' ) {
 			$vars['--global-theme-primary'] = '#1a1a1a';
 			$vars['--global-theme-secondary'] = '#282828';
 			$vars['--global-theme-font-primary'] = 'var(--global-white)';
@@ -141,11 +141,25 @@ if ( ! function_exists( 'ee_load_polyfills' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ee_the_custom_logo' ) ) :
+	function ee_the_custom_logo( $size = 'full' ) {
+		$site_logo_id = get_option( 'gmr_site_logo', 0 );
+		if ( $site_logo_id ) {
+			$site_logo = bbgi_get_image_url( $site_logo_id, 150, 150 );
+			if ( $site_logo ) {
+				echo '<a href="', esc_url( home_url() ), '" class="custom-logo-link" rel="home" itemprop="url">';
+					echo '<img src="' . esc_url( $site_logo ) . '" alt="' . get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) . '" class="custom-logo" itemprop="logo">';
+				echo '</a>';
+			}
+		}
+	}
+endif;
+
 if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
 		$config = array();
 
-		$custom_logo_id = get_theme_mod( 'custom_logo' );
+		$custom_logo_id = get_option( 'gmr_site_logo' );
 		if ( $custom_logo_id ) {
 			$image = wp_get_attachment_image_src( $custom_logo_id, 'original' );
 			if ( is_array( $image ) && ! empty( $image ) ) {

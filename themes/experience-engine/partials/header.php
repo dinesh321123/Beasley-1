@@ -11,9 +11,7 @@
 	</a>
 
 	<div class="logo" itemscope itemtype="http://schema.org/Organization">
-		<?php if ( has_custom_logo() ) : ?>
-			<?php the_custom_logo(); ?>
-		<?php endif; ?>
+		<?php ee_the_custom_logo(); ?>
 		<span class="screen-reader-text"><?php wp_title(); ?></span>
 	</div>
 

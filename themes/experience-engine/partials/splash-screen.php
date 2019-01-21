@@ -1,6 +1,6 @@
 <?php
 
-$custom_logo_id = get_theme_mod( 'custom_logo' );
+$custom_logo_id = get_option( 'gmr_site_logo', 0 );
 $colors = ee_get_css_colors();
 $color = $colors['--brand-primary'];
 

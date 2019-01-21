@@ -1,11 +1,22 @@
 <?php
 
-add_action( 'customize_register', 'ee_register_customizer' );
 add_action( 'bbgi_register_settings', 'ee_register_settings', 1, 2 );
 
 if ( ! function_exists( 'ee_register_settings' ) ) :
 	function ee_register_settings( $group, $page ) {
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $page );
+
+		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $page, 'ee_site_settings', 'name=gmr_site_logo' );
+
+		add_settings_field( 'ee_theme_version', 'Theme Version', 'bbgi_select_field', $page, 'ee_site_settings', array(
+			'name'    => 'ee_theme_version',
+			'default' => '-dark',
+			'class'   => 'regular-text',
+			'options' => array(
+				'-light' => 'Light',
+				'-dark'  => 'Dark',
+			),
+		) );
 
 		add_settings_field( 'ee_newsletter_signup_page', 'Newsletter Signup Page', 'wp_dropdown_pages', $page, 'ee_site_settings', array(
 			'name'              => 'ee_newsletter_signup_page',
@@ -19,7 +30,9 @@ if ( ! function_exists( 'ee_register_settings' ) ) :
 			'selected' => get_option( 'ee_publisher' ),
 		) );
 
+		register_setting( $group, 'gmr_site_logo', 'intval' );
 		register_setting( $group, 'ee_newsletter_signup_page', 'intval' );
+		register_setting( $group, 'ee_theme_version', 'sanitize_text_field' );
 		register_setting( $group, 'ee_publisher', 'sanitize_text_field' );
 	}
 endif;
@@ -63,33 +76,3 @@ if ( ! function_exists( 'ee_render_publisher_select' ) ) :
 		</select><?php
 	}
 endif;
-
-if ( ! function_exists( 'ee_register_customizer' ) ) :
-	function ee_register_customizer( $wp_customize ) {
-		$wp_customize->add_section( 'beasley_theme_options', array(
-			'title'       => 'Theme Options',
-			'priority'    => 1,
-			'capability'  => 'edit_theme_options',
-			'description' => 'Select the theme version',
-		) );
-
-		$wp_customize->add_setting( 'ee_theme_version', array(
-			'default'    => '-dark',
-			'type'       => 'theme_mod',
-			'capability' => 'edit_theme_options',
-			'transport'  => 'refresh',
-		) );
-
-		$wp_customize->add_control( 'ee_theme_version', array(
-			'type'    => 'radio',
-			'label'   => 'Theme Version',
-			'section' => 'beasley_theme_options',
-			'choices' => array(
-				'-light' => 'Light',
-				'-dark'  => 'Dark',
-			),
-		) );
-	}
-endif;
-
-
