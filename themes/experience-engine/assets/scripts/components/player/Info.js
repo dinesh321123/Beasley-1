@@ -52,12 +52,10 @@ function Info( { station, streams, status, cuePoint } ) {
 	return (
 		<div className="controls-info">
 			<p>
-				{ stream ? (
-					<strong>{ stream.title }</strong>
-				) : (
-					<strong>{ station }</strong>
-				) }
-				<span>Live</span>
+				<strong>{stream ? stream.title : station}</strong>
+				{'LIVE_PLAYING' === status && (
+					<span className="live">Live</span>
+				)}
 			</p>
 			<p>{info}</p>
 		</div>
