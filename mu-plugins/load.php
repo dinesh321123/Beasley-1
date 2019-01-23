@@ -27,10 +27,6 @@ include __DIR__ . '/gmr-mobile-homepage-curation/gmr-mobile-homepage-curation.ph
 include __DIR__ . '/advanced-custom-fields/acf.php';
 include __DIR__ . '/featured-videos/featured-video.php';
 
-if ( defined( 'WP_CLI' ) && WP_CLI ) {
-	include __DIR__ . '/cli/cli.php';
-}
-
 add_action( 'wp_loaded', array( \Bbgi\Module::class, 'register_modules' ), 0 );
 
 // Allows overriding options with constants

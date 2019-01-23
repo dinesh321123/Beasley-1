@@ -1,8 +1,0 @@
-{
-    "name": "beasley/cli",
-    "description": "WP CLI commands for Beasley",
-    "minimum-stability": "dev",
-    "require": {
-        "league/csv": "^9.0@dev"
-    }
-}
