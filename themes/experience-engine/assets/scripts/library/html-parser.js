@@ -120,6 +120,12 @@ function getPayloadParams( { dataset } ) {
 	return params;
 }
 
+function getFavoritesParams( { dataset } ) {
+	return {
+		keyword: dataset.keyword,
+	};
+}
+
 function processEmbeds( container, type, selector, callback ) {
 	const embeds = [];
 
@@ -169,6 +175,7 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'countdown', '.countdown', getPayloadParams ),
 			...processEmbeds( container, 'streamcta', '.stream-cta', getPayloadParams ),
 			...processEmbeds( container, 'discovery', '.discovery-cta', getPayloadParams ),
+			...processEmbeds( container, 'favorites', '.add-to-favorites', getFavoritesParams ),
 		];
 
 		// extract <script> tags

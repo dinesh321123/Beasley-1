@@ -13,7 +13,7 @@
 						<?php echo esc_html( get_the_title( $podcast_id ) ); ?>
 					</a>
 				</p>
-				<?php get_template_part( 'partials/add-to-favorite' ); ?>
+				<?php ee_add_to_favorites( get_post_field( 'post_name', $podcast_id ) ); ?>
 			</div>
 		<?php endif; ?>
 

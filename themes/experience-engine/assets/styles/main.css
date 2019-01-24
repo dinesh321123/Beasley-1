@@ -72,5 +72,6 @@
 @import "components/videojs";
 @import "components/load-more-button";
 @import "components/back-to-top";
+@import "components/favorites";
 
 @import "utilities/display";

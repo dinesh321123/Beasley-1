@@ -13,7 +13,7 @@ endif;
 	<?php endif; ?>
 	<div class="meta">
 		<h2><?php echo esc_html( get_the_title( $show ) ); ?></h2>
-		<?php get_template_part( 'partials/add-to-favorite' ); ?>
+		<?php ee_add_to_favorites( get_post_field( 'post_name', $show ) ); ?>
 		<?php if ( ( $showtime = ee_get_show_meta( $show, 'show-time' ) ) ) : ?>
 			<p>
 				<?php echo esc_html( $showtime ); ?>

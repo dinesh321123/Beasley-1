@@ -85,6 +85,11 @@ export function deleteFeed( feedId ) {
 		.then( token => fetch( __api`experience/channels/${channel}/feeds/${feedId}/?authorization=${token}`, params ) );
 }
 
+export function searchKeywords( keyword ) {
+	return fetch( __api`experience/channels/${getChannel()}/keywords/${keyword}` )
+		.then( response => response.json() );
+}
+
 export default {
 	saveUser,
 	getUser,
@@ -92,4 +97,5 @@ export default {
 	getFeeds,
 	modifyFeeds,
 	deleteFeed,
+	searchKeywords,
 };

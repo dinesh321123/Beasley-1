@@ -69,7 +69,9 @@
 		font-size: .889rem;
 	}
 
-	& p {
-		padding-left: 1.333rem;
+	& .meta {
+		& .placeholder-favorites:not(:empty) {
+			padding-right: 1.333rem;
+		}
 	}
 }
