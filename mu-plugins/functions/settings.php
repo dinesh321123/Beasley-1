@@ -125,3 +125,9 @@ function bbgi_image_field( $args ) {
 		</script><?php
 	}
 }
+
+function bbgi_settings_section_info( $message ) {
+	return function() use ( $message ) {
+		echo '<p>' . esc_html( $message ) . '</p>';
+	};
+}

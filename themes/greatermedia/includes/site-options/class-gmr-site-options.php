@@ -37,36 +37,6 @@ class GreaterMediaSiteOptions {
 
 
 	public function register_settings( $group, $page ) {
-		// Fallback Thumbnails Section
-		add_settings_section( 'greatermedia_fallback_thumbnails', 'Fallback Thumbnails', array( $this, 'render_fallback_section_info' ), 'media' );
-
-		$callback = array( $this, 'render_fallback_image_field' );
-		$types = get_post_types( array( 'public' => true ), 'object' );
-
-		// Sort the Post types in the UI
-		ksort( $types, SORT_ASC );
-
-		foreach ( $types as $type => $type_object ) {
-			// Post types to exclude
-			$exclude = array(
-				'listener_submissions',
-				'advertiser',
-				'survey',
-				'show',
-			);
-
-			// If the Post type is in the exclude list, then don't add to Media Page
-			if ( true === in_array( $type_object->name, $exclude ) ) {
-				continue;
-			}
-
-			if ( post_type_supports( $type, 'thumbnail' ) ) {
-				$option_name = "{$type}_fallback";
-				add_settings_field( $option_name, $type_object->label, $callback, 'media', 'greatermedia_fallback_thumbnails', array( 'option_name' => $option_name ) );
-				register_setting( 'media', $option_name, 'intval' );
-			}
-		}
-
 		// Settings Section
 		add_settings_section( 'beasley_site_settings', 'Station Site', array( $this, 'render_site_settings_section' ), $page );
 		add_settings_section( 'beasley_social_networks', 'Social Networks', '__return_false', $page );
@@ -89,33 +59,6 @@ class GreaterMediaSiteOptions {
 		register_setting( $group, 'gmr_newssite', 'esc_attr' );
 		register_setting( $group, 'gmr_livelinks_more_redirect', 'esc_attr' );
 		register_setting( $group, 'gmr_liveplayer_disabled', 'esc_attr' );
-	}
-
-	public function render_fallback_section_info() {
-		echo '<p>Select fallback images which will be used as thumbnails when original thumbnail of a post will not be selected.</p>';
-	}
-
-	public function render_fallback_image_field( $args ) {
-		$name = $args['option_name'];
-
-		$image = '';
-		$image_id = intval( get_option( $name ) );
-		if ( $image_id ) {
-			$image = current( (array) wp_get_attachment_image_src( $image_id, 'medium' ) );
-		}
-
-		$img_id = $name . '-fallback-image';
-		$input_id = $img_id . '-id';
-		echo '<input id="', esc_attr( $input_id ), '" name="', esc_attr( $name ), '" type="hidden" value="', esc_attr( $image_id ), '">';
-		echo '<img id="', esc_attr( $img_id ), '" src="', esc_attr( $image ), '" style="width:100px;height:auto">';
-		echo '<div>';
-			echo '<a href="#" class="select-fallback-image button button-primary" data-img="#', esc_attr( $img_id ), '" data-input="#', esc_attr( $input_id ), '">';
-				echo 'Choose Image';
-			echo '</a> ';
-			echo '<a href="#" class="remove-fallback-image button" data-img="#', esc_attr( $img_id ), '" data-input="#', esc_attr( $input_id ), '" style="', ! $image_id ? 'display:none' : '', '">';
-				echo 'Remove Image';
-			echo '</a>';
-		echo '</div>';
 	}
 
 	public function render_site_settings_section() {

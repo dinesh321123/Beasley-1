@@ -257,6 +257,9 @@ endif;
 if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 	function ee_the_lazy_thumbnail( $post = null ) {
 		$post = get_post( $post );
+		if ( ! is_a( $post, '\WP_Post' ) ) {
+			return;
+		}
 
 		if ( ! empty( $post->picture ) ) {
 			$url = $post->picture['url'];
@@ -276,6 +279,12 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 		} else {
 			$thumbnail_id = get_post_thumbnail_id( $post );
 			$thumbnail_id = apply_filters( 'ee_post_thumbnail_id', $thumbnail_id, $post );
+			if ( ! $thumbnail_id && ! is_singular() ) {
+				$fallback_id = get_option( "{$post->post_type}_fallback" );
+				if ( $fallback_id ) {
+					$thumbnail_id = $fallback_id;
+				}
+			}
 
 			$html = ee_the_lazy_image( $thumbnail_id, false );
 

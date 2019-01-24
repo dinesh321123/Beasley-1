@@ -575,15 +575,15 @@
         },
         {
             "name": "wpackagist-plugin/the-events-calendar",
-            "version": "4.7.3",
+            "version": "4.7.4",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/the-events-calendar/",
-                "reference": "tags/4.7.3"
+                "reference": "tags/4.7.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/the-events-calendar.4.7.3.zip",
+                "url": "https://downloads.wordpress.org/plugin/the-events-calendar.4.7.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -615,15 +615,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "9.4",
+            "version": "9.5",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/9.4"
+                "reference": "tags/9.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.9.4.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.9.5.zip",
                 "reference": null,
                 "shasum": null
             },
