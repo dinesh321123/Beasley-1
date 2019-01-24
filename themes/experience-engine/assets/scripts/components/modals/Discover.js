@@ -67,23 +67,23 @@ class Discover extends Component {
 			} );
 	}
 
+	hasFeed( id ) {
+		return !!this.props.selectedFeeds.find( item => item.id === id );
+	}
+
 	handleAdd( id ) {
 		const self = this;
-		const selectedFeeds = { ...self.props.selectedFeeds };
+		const feedsArray = [];
 
-		if ( selectedFeeds[id] ) {
+		if ( self.hasFeed( id ) ) {
 			return;
 		}
 
-		selectedFeeds[id] = id;
-
-		const feedsArray = [];
-		Object.keys( selectedFeeds ).forEach( ( feed ) => {
-			feedsArray.push( {
-				id: feed,
-				sortorder: feedsArray.length + 1,
-			} );
+		self.props.selectedFeeds.forEach( ( { id } ) => {
+			feedsArray.push( { id, sortorder: feedsArray.length + 1 } );
 		} );
+
+		feedsArray.push( { id, sortorder: feedsArray.length + 1 } );
 
 		self.needReload = true;
 		self.props.modifyUserFeeds( feedsArray );
@@ -91,14 +91,10 @@ class Discover extends Component {
 
 	handleRemove( id ) {
 		const self = this;
-		const selectedFeeds = { ...self.props.selectedFeeds };
-
-		if ( !selectedFeeds[id] ) {
-			return;
+		if ( self.hasFeed( id ) ) {
+			self.needReload = true;
+			self.props.deleteUserFeed( id );
 		}
-
-		self.needReload = true;
-		self.props.deleteUserFeed( id );
 	}
 
 	handleClose() {
@@ -125,14 +121,24 @@ class Discover extends Component {
 	render() {
 		const self = this;
 		const { error, filteredFeeds, loading } = self.state;
-		const { selectedFeeds } = self.props;
 
 		let items = <div className="loading" />;
 		if ( !loading ) {
 			if ( 0 < filteredFeeds.length ) {
 				items = filteredFeeds.map( ( item ) => {
 					const { id, title, picture, type } = item;
-					return <FeedItem key={id} id={id} title={title} picture={picture} type={type} onAdd={self.onAdd} onRemove={self.onRemove} added={!!selectedFeeds[item.id]} />;
+
+					return (
+						<FeedItem 
+							key={id}
+							id={id}
+							title={title}
+							picture={picture}
+							type={type}
+							onAdd={self.onAdd}
+							onRemove={self.onRemove}
+							added={self.hasFeed( item.id )} />
+					);
 				} );
 			} else {
 				items = <i>No feeds found...</i>;
@@ -162,7 +168,7 @@ class Discover extends Component {
 }
 
 Discover.propTypes = {
-	selectedFeeds: PropTypes.shape( {} ).isRequired,
+	selectedFeeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	activateTrap: PropTypes.func.isRequired,
 	deactivateTrap: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
@@ -172,12 +178,7 @@ Discover.propTypes = {
 };
 
 function mapStateToProps( { auth } ) {
-	const selectedFeeds = {};
-	auth.feeds.forEach( item => {
-		selectedFeeds[item.id] = item.id;
-	} );
-
-	return { selectedFeeds };
+	return { selectedFeeds: auth.feeds };
 }
 
 function mapDispatchToProps( dispatch ) {

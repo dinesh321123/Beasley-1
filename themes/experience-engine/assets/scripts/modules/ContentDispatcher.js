@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import ContentBlock from '../components/content/ContentBlock';
 import { initPage, loadPage, updatePage } from '../redux/actions/screen';
 import { loadAssets, unloadScripts } from '../library/dom';
+import { untrailingslashit } from '../library/strings';
 
 const specialPages = [
 	'/wp-admin/',
@@ -159,7 +160,7 @@ class ContentDispatcher extends Component {
 		// load user homepage if token is not empty and the next page is a homepage
 		// otherwise just load the next page
 		const auth = firebase.auth();
-		if ( `${origin}/` === link.split( /[?#]/ )[0] && auth.currentUser ) {
+		if ( untrailingslashit( origin ) === untrailingslashit( link.split( /[?#]/ )[0] ) && auth.currentUser ) {
 			auth.currentUser
 				.getIdToken()
 				.then( token => {
