@@ -279,7 +279,11 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 		} else {
 			$thumbnail_id = get_post_thumbnail_id( $post );
 			$thumbnail_id = apply_filters( 'ee_post_thumbnail_id', $thumbnail_id, $post );
+<<<<<<< HEAD
 			if ( ! $thumbnail_id && ! is_singular() ) {
+=======
+			if ( ! $thumbnail_id && ( ! is_singular() || is_singular( 'show' ) ) ) {
+>>>>>>> feature/ee/fallback-images
 				$fallback_id = get_option( "{$post->post_type}_fallback" );
 				if ( $fallback_id ) {
 					$thumbnail_id = $fallback_id;
