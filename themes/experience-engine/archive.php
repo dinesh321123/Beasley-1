@@ -4,6 +4,7 @@ get_header();
 
 if ( ee_is_first_page() ):
 	get_template_part( 'partials/archive/title' );
+	get_template_part( 'partials/archive/meta' );
 endif;
 
 if ( have_posts() ) :

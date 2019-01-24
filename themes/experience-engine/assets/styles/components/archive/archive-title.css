@@ -1,7 +1,7 @@
 .archive-title {
 	align-items: center;
 	display: flex;
-	padding-bottom: 2.222rem;
+	padding-bottom: 0;
 
 	& svg {
 		fill: var(--brand-primary);

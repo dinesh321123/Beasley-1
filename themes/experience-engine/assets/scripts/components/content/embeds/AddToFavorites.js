@@ -14,8 +14,8 @@ class AddToFavorites extends PureComponent {
 		const self = this;
 
 		self.state = {
-			hidden: true,
-			feed: '',
+			hidden: !props.feedId,
+			feed: props.feedId,
 		};
 
 		self.onAddClick = self.handleAddClick.bind( self );
@@ -81,6 +81,7 @@ class AddToFavorites extends PureComponent {
 
 	render() {
 		const self = this;
+		const { classes, addLabel, removeLabel } = self.props;
 
 		const { hidden } = self.state;
 		if ( hidden ) {
@@ -89,21 +90,21 @@ class AddToFavorites extends PureComponent {
 
 		if ( self.hasFeed() ) {
 			return (
-				<button className="btn -empty -nobor -icon" onClick={self.onRemoveClick}>
+				<button className={`btn ${classes}`} onClick={self.onRemoveClick}>
 					<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
 						<path fillRule="evenodd" clipRule="evenodd" d="M8.5 0h-2v6.5H0v2h6.5V15h2V8.5H15v-2H8.5V0z"/>
 					</svg>
-					Remove from my feed
+					{removeLabel}
 				</button>
 			);
 		}
 
 		return (
-			<button className="btn -empty -nobor -icon" onClick={self.onAddClick}>
+			<button className={`btn ${classes}`} onClick={self.onAddClick}>
 				<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
 					<path fillRule="evenodd" clipRule="evenodd" d="M8.5 0h-2v6.5H0v2h6.5V15h2V8.5H15v-2H8.5V0z"/>
 				</svg>
-				Add to my feed
+				{addLabel}
 			</button>
 		);
 	}
@@ -112,13 +113,21 @@ class AddToFavorites extends PureComponent {
 
 AddToFavorites.propTypes = {
 	selectedFeeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	feedId: PropTypes.string,
 	keyword: PropTypes.string,
+	classes: PropTypes.string,
+	addLabel: PropTypes.string,
+	removeLabel: PropTypes.string,
 	modifyUserFeeds: PropTypes.func.isRequired,
 	deleteUserFeed: PropTypes.func.isRequired,
 };
 
 AddToFavorites.defaultProps = {
+	feedId: '',
 	keyword: '',
+	classes: '-empty -nobor -icon',
+	addLabel: 'Add to my feed',
+	removeLabel: 'Remove from my feed',
 };
 
 function mapStateToProps( { auth } ) {
