@@ -12,7 +12,9 @@ import CloseButton from './elements/Close';
 import FeedItem from './discovery/Feed';
 import DiscoveryFilters from './discovery/Filters';
 
-import { discovery, getFeeds, modifyFeeds, deleteFeed } from '../../library/experience-engine';
+import { discovery } from '../../library/experience-engine';
+
+import { modifyUserFeeds, deleteUserFeed } from '../../redux/actions/auth';
 import { loadPage } from '../../redux/actions/screen';
 
 class Discover extends Component {
@@ -29,7 +31,6 @@ class Discover extends Component {
 			loading: true,
 			error: '',
 			filteredFeeds: [],
-			selectedFeeds: {},
 		};
 
 		self.onFilterChange = self.handleFilterChange.bind( self );
@@ -40,16 +41,6 @@ class Discover extends Component {
 
 	componentDidMount() {
 		const self = this;
-
-		getFeeds().then( ( items ) => {
-			const selectedFeeds = {};
-
-			items.forEach( ( item ) => {
-				selectedFeeds[item.id] = item.id;
-			} );
-
-			self.setState( { selectedFeeds } );
-		} );
 
 		self.props.activateTrap();
 		self.handleFilterChange();
@@ -78,7 +69,7 @@ class Discover extends Component {
 
 	handleAdd( id ) {
 		const self = this;
-		const selectedFeeds = { ...self.state.selectedFeeds };
+		const selectedFeeds = { ...self.props.selectedFeeds };
 
 		if ( selectedFeeds[id] ) {
 			return;
@@ -94,26 +85,20 @@ class Discover extends Component {
 			} );
 		} );
 
-		modifyFeeds( feedsArray ).then( () => {
-			self.needReload = true;
-			self.setState( { selectedFeeds } );
-		} );
+		self.needReload = true;
+		self.props.modifyUserFeeds( feedsArray );
 	}
 
 	handleRemove( id ) {
 		const self = this;
-		const selectedFeeds = { ...self.state.selectedFeeds };
+		const selectedFeeds = { ...self.props.selectedFeeds };
 
 		if ( !selectedFeeds[id] ) {
 			return;
 		}
 
-		delete selectedFeeds[id];
-
-		deleteFeed( id ).then( () => {
-			self.needReload = true;
-			self.setState( { selectedFeeds } );
-		} );
+		self.needReload = true;
+		self.props.deleteUserFeed( id );
 	}
 
 	handleClose() {
@@ -139,7 +124,8 @@ class Discover extends Component {
 
 	render() {
 		const self = this;
-		const { error, filteredFeeds, selectedFeeds, loading } = self.state;
+		const { error, filteredFeeds, loading } = self.state;
+		const { selectedFeeds } = self.props;
 
 		let items = <div className="loading" />;
 		if ( !loading ) {
@@ -176,13 +162,30 @@ class Discover extends Component {
 }
 
 Discover.propTypes = {
+	selectedFeeds: PropTypes.shape( {} ).isRequired,
 	activateTrap: PropTypes.func.isRequired,
 	deactivateTrap: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
+	loadPage: PropTypes.func.isRequired,
+	modifyUserFeeds: PropTypes.func.isRequired,
+	deleteUserFeed: PropTypes.func.isRequired,
 };
 
-function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( { loadPage }, dispatch );
+function mapStateToProps( { auth } ) {
+	const selectedFeeds = {};
+	auth.feeds.forEach( item => {
+		selectedFeeds[item.id] = item.id;
+	} );
+
+	return { selectedFeeds };
 }
 
-export default connect( null, mapDispatchToProps )( trapHOC()( Discover ) );
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( {
+		loadPage,
+		modifyUserFeeds,
+		deleteUserFeed,
+	}, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( trapHOC()( Discover ) );
