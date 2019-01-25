@@ -6,6 +6,8 @@ add_action( 'init', 'ee_register_nav_menus' );
 remove_action( 'wp_head', 'wp_generator' );
 remove_action( 'do_pings', 'do_all_pings' );
 
+add_filter( 'pre_get_posts','ee_update_search_query' );
+
 if ( ! function_exists( 'ee_setup_theme' ) ) :
 	function ee_setup_theme() {
 		add_theme_support( 'custom-logo' );
@@ -28,5 +30,15 @@ if ( ! function_exists( 'ee_register_nav_menus' ) ) :
 			'about-nav'   => 'Footer: About Menu',
 			'connect-nav' => 'Footer: Connect Menu',
 		) );
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_search_query' ) ) :
+	function ee_update_search_query( $query ) {
+		if ( $query->is_search() ) {
+			$query->set( 'posts_per_page', 12 );
+		}
+
+		return $query;
 	}
 endif;
