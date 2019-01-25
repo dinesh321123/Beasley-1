@@ -83,8 +83,8 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_LOADED_PAGE: {
 			// do not accept action if user goes to another page before current page is loaded
-			if ( state.url !== action.url ) {
-				return;
+			if ( state.url !== action.url && !action.force ) {
+				return state;
 			}
 
 			const { document: pageDocument } = action;
@@ -117,7 +117,7 @@ function reducer( state = {}, action = {} ) {
 		case ACTION_LOADED_PARTIAL: {
 			// do not accept action if user goes to another page before current page is loaded
 			if ( state.url !== action.url ) {
-				return;
+				return state;
 			}
 
 			const { document: pageDocument } = action;

@@ -119,11 +119,11 @@ function coreConfig( options = {} ) {
 }
 
 function development() {
-	config = {
+	const config = {
 		...coreConfig(),
 		name: 'dev-config',
 		mode: 'development',
-		devtool: 'eval',
+		devtool: 'inline-source-map',
 	};
 
 	const concatenation = new ModuleConcatenationPlugin();
@@ -137,7 +137,7 @@ function watch() {
 		...coreConfig(),
 		name: 'watch-config',
 		mode: 'development',
-		devtool: 'eval',
+		devtool: 'inline-source-map',
 		watch: true,
 	};
 }

@@ -67,7 +67,11 @@ export function updatePage( data ) {
 
 	document.body.className = pageDocument.body.className;
 
-	return { type: ACTION_LOADED_PAGE, ...parsed };
+	return {
+		type: ACTION_LOADED_PAGE,
+		force: true,
+		...parsed,
+	};
 }
 
 export function loadPartialPage( url, placeholder ) {
