@@ -5,8 +5,7 @@
 
 .featured__article:hover .featured__article--heading,
 .featured__content--block:hover .featured__content--title,
-a:hover .highlights__community--title
-{
+a:hover .highlights__community--title {
 	color: #ed2024;
 }
 
@@ -15,12 +14,10 @@ a:hover .highlights__community--title
 }
 
 @include bp(large) {
-
-    .main {
-        background-image: url("../../images/koas-wallpaper-2017.jpg");
-        background-position: top center;
-        background-repeat: no-repeat;
-				background-color: #cc0000;
-    }
-
+	.main {
+		background-image: url("../../images/koas-wallpaper-2019.jpg");
+		background-position: top center;
+		background-repeat: no-repeat;
+		background-color: #000000;
+	}
 }
