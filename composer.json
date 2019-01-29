@@ -30,13 +30,8 @@
 	},
 	"require-dev": {
 		"wpackagist-plugin/query-monitor": "*",
-		"wpackagist-plugin/debug-bar": "*",
-		"wpackagist-plugin/debug-bar-cron": "*",
-		"wpackagist-plugin/debug-bar-extender": "*",
-		"wpackagist-plugin/debug-bar-remote-requests": "*",
 		"wpackagist-plugin/rewrite-rules-inspector": "*",
-		"wpackagist-plugin/user-switching": "*",
-		"wpackagist-plugin/fakerpress": "*"
+		"wpackagist-plugin/user-switching": "*"
 	},
 	"autoload": {
 		"psr-0": {

@@ -37,20 +37,14 @@ function getOmnyEmbedParams( element ) {
 	};
 }
 
-function getLazyImageParams( { dataset } ) {
-	return {
-		src: dataset.src,
-		width: dataset.width,
-		height: dataset.height,
-		alt: dataset.alt,
-		tracking: dataset.tracking,
-	};
-}
+function getDatasetParams( ...list ) {
+	return ( { dataset } ) => {
+		const params = {};
+		for ( let i = 0, len = list.length; i < len; i++ ) {
+			params[list[i]] = dataset[list[i]];
+		}
 
-function getShareParams( { dataset } ) {
-	return {
-		url: dataset.url,
-		title: dataset.title,
+		return params;
 	};
 }
 
@@ -71,14 +65,6 @@ function getLiveStreamVideoParams( element ) {
 	}
 
 	return attrs;
-}
-
-function getEmbedVideoParams( { dataset } ) {
-	return {
-		title: dataset.title,
-		thumbnail: dataset.thumbnail,
-		html: dataset.html,
-	};
 }
 
 function getDfpParams( { dataset } ) {
@@ -103,26 +89,22 @@ function getDfpParams( { dataset } ) {
 	};
 }
 
-function getPayloadParams( { dataset } ) {
-	const { payload } = dataset;
-	const params = {};
+function getPayloadParams( flattern = false ) {
+	return ( { dataset } ) => {
+		const { payload } = dataset;
+		const params = {};
 
-	try {
-		if ( 'string' === typeof payload && payload ) {
-			params.payload = JSON.parse( payload );
-		} else if ( 'object' === typeof payload ) {
-			params.payload = payload;
+		try {
+			if ( 'string' === typeof payload && payload ) {
+				params.payload = JSON.parse( payload );
+			} else if ( 'object' === typeof payload ) {
+				params.payload = payload;
+			}
+		} catch( err ) {
+			// do nothing
 		}
-	} catch( err ) {
-		// do nothing
-	}
 
-	return params;
-}
-
-function getFavoritesParams( { dataset } ) {
-	return {
-		keyword: dataset.keyword,
+		return flattern ? params.payload : params;
 	};
 }
 
@@ -135,7 +117,7 @@ function processEmbeds( container, type, selector, callback ) {
 		const extraAttributes = callback ? callback( element ) : {};
 		const placeholder = document.createElement( 'div' );
 
-		placeholder.setAttribute( 'id', `__cd-${++embedsIndex}` );
+		placeholder.setAttribute( 'id', extraAttributes.id || `__cd-${++embedsIndex}` );
 		placeholder.classList.add( 'placeholder' );
 		placeholder.classList.add( `placeholder-${type}` );
 
@@ -166,16 +148,17 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'secondstreet', '.secondstreet-embed', getSecondStreetEmbedParams ),
 			...processEmbeds( container, 'audio', '.wp-audio-shortcode', getAudioEmbedParams ),
 			...processEmbeds( container, 'audio', '.omny-embed', getOmnyEmbedParams ),
-			...processEmbeds( container, 'lazyimage', '.lazy-image', getLazyImageParams ),
-			...processEmbeds( container, 'share', '.share-buttons', getShareParams ),
+			...processEmbeds( container, 'lazyimage', '.lazy-image', getDatasetParams( 'src', 'width', 'height', 'alt', 'tracking' ) ),
+			...processEmbeds( container, 'share', '.share-buttons', getDatasetParams( 'url', 'title' ) ),
 			...processEmbeds( container, 'loadmore', '.load-more', getLoadMoreParams ),
 			...processEmbeds( container, 'video', '.livestream', getLiveStreamVideoParams ),
-			...processEmbeds( container, 'embedvideo', '.youtube', getEmbedVideoParams ),
-			...processEmbeds( container, 'cta', '.cta', getPayloadParams ),
-			...processEmbeds( container, 'countdown', '.countdown', getPayloadParams ),
-			...processEmbeds( container, 'streamcta', '.stream-cta', getPayloadParams ),
-			...processEmbeds( container, 'discovery', '.discovery-cta', getPayloadParams ),
-			...processEmbeds( container, 'favorites', '.add-to-favorites', getFavoritesParams ),
+			...processEmbeds( container, 'embedvideo', '.youtube', getDatasetParams( 'title', 'thumbnail', 'html' ) ),
+			...processEmbeds( container, 'cta', '.cta', getPayloadParams() ),
+			...processEmbeds( container, 'countdown', '.countdown', getPayloadParams() ),
+			...processEmbeds( container, 'streamcta', '.stream-cta', getPayloadParams( true ) ),
+			...processEmbeds( container, 'discovery', '.discovery-cta', getPayloadParams() ),
+			...processEmbeds( container, 'favorites', '.add-to-favorites', getDatasetParams( 'keyword' ) ),
+			...processEmbeds( container, 'editfeed', '.edit-feed', getDatasetParams( 'feed', 'title' ) ),
 		];
 
 		// extract <script> tags

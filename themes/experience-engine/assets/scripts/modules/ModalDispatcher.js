@@ -11,6 +11,7 @@ import {
 	RESTORE_MODAL,
 	COMPLETE_SIGNUP_MODAL,
 	DISCOVER_MODAL,
+	EDIT_FEED_MODAL,
 } from '../redux/actions/modal';
 
 import CloseButton from '../components/modals/elements/Close';
@@ -19,6 +20,7 @@ import SignUpModal from '../components/modals/SignUp';
 import RestoreModal from '../components/modals/RestorePassword';
 import DiscoverModal from '../components/modals/Discover';
 import CompleteSignup from '../components/modals/CompleteSignup';
+import EditFeedModal from '../components/modals/EditFeed';
 
 class ModalDispatcher extends Component {
 
@@ -84,6 +86,9 @@ class ModalDispatcher extends Component {
 				return ReactDOM.createPortal( component, document.getElementById( 'inner-content' ) );
 			case COMPLETE_SIGNUP_MODAL:
 				component = <CompleteSignup close={close} {...payload } />;
+				break;
+			case EDIT_FEED_MODAL:
+				component = <EditFeedModal close={close} {...payload} />;
 				break;
 			default:
 				return false;

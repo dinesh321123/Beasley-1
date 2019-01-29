@@ -97,6 +97,9 @@ class UserNav extends Component {
 
 	handleSignOut() {
 		firebase.auth().signOut();
+		if ( UserNav.isHomepage() ) {
+			window.location.reload();
+		}
 	}
 
 	renderLoadingState() {

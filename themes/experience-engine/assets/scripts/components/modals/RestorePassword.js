@@ -1,10 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
+import trapHOC from '@10up/react-focus-trap-hoc';
 
 import Header from './elements/Header';
 import Alert from './elements/Alert';
-import trapHOC from '@10up/react-focus-trap-hoc';
 
 class RestorePassword extends PureComponent {
 

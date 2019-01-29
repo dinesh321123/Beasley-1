@@ -81,29 +81,43 @@ class AddToFavorites extends PureComponent {
 
 	render() {
 		const self = this;
-		const { classes, addLabel, removeLabel } = self.props;
+		const { classes, addLabel, removeLabel, showIcon } = self.props;
 
 		const { hidden } = self.state;
 		if ( hidden ) {
 			return false;
 		}
 
+		let icon = false;
+
 		if ( self.hasFeed() ) {
-			return (
-				<button className={`btn ${classes}`} onClick={self.onRemoveClick}>
+			if ( showIcon ) {
+				icon = (
 					<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
 						<path fillRule="evenodd" clipRule="evenodd" d="M8.5 0h-2v6.5H0v2h6.5V15h2V8.5H15v-2H8.5V0z"/>
 					</svg>
+				);
+			}
+			
+			return (
+				<button className={`btn ${classes}`} onClick={self.onRemoveClick}>
+					{icon}
 					{removeLabel}
 				</button>
 			);
 		}
 
-		return (
-			<button className={`btn ${classes}`} onClick={self.onAddClick}>
+		if ( showIcon ) {
+			icon = (
 				<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
 					<path fillRule="evenodd" clipRule="evenodd" d="M8.5 0h-2v6.5H0v2h6.5V15h2V8.5H15v-2H8.5V0z"/>
 				</svg>
+			);
+		}
+		
+		return (
+			<button className={`btn ${classes}`} onClick={self.onAddClick}>
+				{icon}
 				{addLabel}
 			</button>
 		);
@@ -118,6 +132,7 @@ AddToFavorites.propTypes = {
 	classes: PropTypes.string,
 	addLabel: PropTypes.string,
 	removeLabel: PropTypes.string,
+	showIcon: PropTypes.bool,
 	modifyUserFeeds: PropTypes.func.isRequired,
 	deleteUserFeed: PropTypes.func.isRequired,
 };
@@ -128,6 +143,7 @@ AddToFavorites.defaultProps = {
 	classes: '-empty -nobor -icon',
 	addLabel: 'Add to my feed',
 	removeLabel: 'Remove from my feed',
+	showIcon: true,
 };
 
 function mapStateToProps( { auth } ) {

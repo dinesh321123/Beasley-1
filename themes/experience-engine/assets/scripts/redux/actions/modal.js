@@ -11,6 +11,7 @@ export const SIGNUP_MODAL = 'SIGNUP-MODAL';
 export const RESTORE_MODAL = 'RESTORE-MODAL';
 export const COMPLETE_SIGNUP_MODAL = 'COMPLETE-SIGNUP-MODAL';
 export const DISCOVER_MODAL = 'DISCOVER-MODAL';
+export const EDIT_FEED_MODAL = 'EDIT-FEED-MODAL';
 
 function showModal( modal, payload ) {
 	return {
@@ -44,6 +45,10 @@ export function showDiscoverModal( payload = {} ) {
 	return showModal( DISCOVER_MODAL, payload );
 }
 
+export function showEditFeedModal( payload = {} ) {
+	return showModal( EDIT_FEED_MODAL, payload );
+}
+
 export default {
 	hideModal,
 	showSignInModal,
@@ -51,4 +56,5 @@ export default {
 	showRestoreModal,
 	showCompleteSignupModal,
 	showDiscoverModal,
+	showEditFeedModal,
 };

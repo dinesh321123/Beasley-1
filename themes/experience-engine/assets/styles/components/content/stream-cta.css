@@ -19,6 +19,7 @@
 			height: 100%;
 			z-index: 0;
 		}
+
 		@media (--min-medium-viewport) {
 			border-radius: 5px;
 
@@ -38,10 +39,15 @@
 	& .meta {
 		padding-bottom: 2.444rem;
 
+		& .actions {
+			display: flex;
+		}
+
 		& .btn {
 			background-color: var(--global-white);
 			border-color: var(--global-white);
 			color: var(--brand-primary);
+			margin-right: .5rem;
 		}
 	}
 

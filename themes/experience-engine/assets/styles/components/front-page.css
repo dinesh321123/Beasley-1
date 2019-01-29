@@ -75,4 +75,27 @@
 			}
 		}
 	}
+
+	& #inner-content {
+		& .content-wrap {
+			position: relative;
+		}
+
+		& .placeholder-editfeed {
+			background-color: var(--global-white);		
+			position: absolute;
+			right: 0;
+			top: .3rem;
+			z-index: 10;
+
+			& button {
+				background-color: transparent;
+				border: none;
+				color: var(--brand-primary);
+				cursor: pointer;
+				font-style: italic;
+				font-weight: bold;
+			}
+		}
+	}
 }

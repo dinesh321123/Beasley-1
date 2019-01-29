@@ -15,6 +15,7 @@ import Countdown from './embeds/Countdown';
 import StreamCta from './embeds/StreamCta';
 import Discovery from './embeds/Discovery';
 import AddToFavorites from './embeds/AddToFavorites';
+import EditFeed from './embeds/EditFeed';
 
 const mapping = {
 	secondstreet: SecondStreetEmbed,
@@ -30,6 +31,7 @@ const mapping = {
 	streamcta: StreamCta,
 	discovery: Discovery,
 	favorites: AddToFavorites,
+	editfeed: EditFeed,
 };
 
 class ContentBlock extends Component {
