@@ -12,7 +12,7 @@ function EditFeed( { loggedIn, showModal, feed, title, feeds, className } ) {
 	}
 
 	return loggedIn 
-		? <button className={className} onClick={() => showModal( { feed, title } )}>Edit</button>
+		? <button className={className} onClick={() => showModal( { feed, title } )} aria-label={`Edit ${title} Feed`}>Edit</button>
 		: false;
 }
 

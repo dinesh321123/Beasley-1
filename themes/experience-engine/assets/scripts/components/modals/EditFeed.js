@@ -72,15 +72,11 @@ class EditFeed extends PureComponent {
 	shiftFeeds( shift ) {
 		const self = this;
 		const { feed, feeds } = self.props;
-		const newfeeds = [];
 
-		for ( let i = 0, len = feeds.length; i < len; i++ ) {
-			const item = feeds[i];
-			newfeeds.push( {
-				id: item.id,
-				sortorder: i * 10 - ( item.id === feed ? shift : 0 ),
-			} );
-		}
+		const newfeeds = feeds.map( ( item, i ) => ( {
+			id: item.id,
+			sortorder: i * 10 - ( item.id === feed ? shift : 0 ),
+		} ) );
 
 		newfeeds.sort( EditFeed.sortFeeds );
 		for ( let i = 0, len = newfeeds.length; i < len; i++ ) {
@@ -141,22 +137,23 @@ class EditFeed extends PureComponent {
 	render() {
 		const self = this;
 		const { title, feed } = self.props;
+		const label = title || feed || 'Feed';
 
 		return (
 			<Fragment>
-				<Header>{title || feed || 'Feed'}</Header>
+				<Header>{label}</Header>
 
 				<div>
-					<button className="btn" onClick={self.onMoveToTopClick}>Move To Top</button>
-					<button className="btn" onClick={self.onMoveUpClick}>Move Up</button>
-					<button className="btn" onClick={self.onMoveDownClick}>Move Down</button>
-					<button className="btn" onClick={self.onMoveToBottomClick}>Move To Bottom</button>
+					<button className="btn" onClick={self.onMoveToTopClick} aria-label={`Move ${label} To Top`}>Move To Top</button>
+					<button className="btn" onClick={self.onMoveUpClick} aria-label={`Move Up ${label}`}>Move Up</button>
+					<button className="btn" onClick={self.onMoveDownClick} aria-label={`Move Down ${label} To Top`}>Move Down</button>
+					<button className="btn" onClick={self.onMoveToBottomClick} aria-label={`Move ${label} To Bottom`}>Move To Bottom</button>
 				</div>
 
 				<hr />
 
 				<div>
-					<button className="btn" onClick={self.onDeleteClick}>Delete</button>
+					<button className="btn" onClick={self.onDeleteClick} aria-label={`Delete ${label}`}>Delete</button>
 				</div>
 			</Fragment>
 		);
@@ -180,12 +177,7 @@ EditFeed.defaultProps = {
 };
 
 function mapStateToProps( { auth } ) {
-	const { feeds } = auth;
-	const items = [];
-	for ( let i = 0, len = feeds.length; i < len; i++ ) {
-		items.push( Object.assign( {}, feeds[i] ) );
-	}
-
+	const items = auth.feeds.map( item => Object.assign( {}, item ) );
 	items.sort( EditFeed.sortFeeds );
 
 	return { feeds: items };
