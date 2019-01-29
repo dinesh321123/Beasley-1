@@ -15,10 +15,10 @@ export default function() {
 	}
 
 	const rootReducer = combineReducers( {
-		player: playerReducer,
 		modal: modalReducer,
 		screen: screenReducer,
 		auth: authReducer,
+		player: playerReducer, // must go after screen reducer
 	} );
 
 	const defaultState = {

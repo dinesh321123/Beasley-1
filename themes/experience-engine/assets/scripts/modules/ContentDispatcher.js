@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import firebase from 'firebase';
+import md5 from 'md5';
 
 import ContentBlock from '../components/content/ContentBlock';
 import { initPage, loadPage, updatePage } from '../redux/actions/screen';
@@ -201,7 +202,7 @@ class ContentDispatcher extends Component {
 
 		blocks.push(
 			// the composed ke is needed to make sure we use a new ContentBlock component when we replace the content of the current page
-			<ContentBlock key={`${window.location.href}-${content.length}`} content={content} embeds={embeds} />,
+			<ContentBlock key={`${window.location.href}-${md5( content )}`} content={content} embeds={embeds} />,
 		);
 
 		Object.keys( partials ).forEach( ( key ) => {

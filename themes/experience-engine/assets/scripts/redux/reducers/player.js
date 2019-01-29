@@ -1,4 +1,5 @@
 import { getStorage } from '../../library/local-storage';
+import { ACTION_LOADED_PAGE, ACTION_LOADED_PARTIAL } from '../actions/screen';
 import {
 	ACTION_INIT_TDPLAYER,
 	ACTION_STATUS_CHANGE,
@@ -69,13 +70,9 @@ function fullStop() {
 	}
 }
 
-function getInitialStation() {
-	let station = localStorage.getItem( 'station' );
-	if ( !streams.find( stream => stream.stream_call_letters === station ) ) {
-		station = ( streams[0] || {} ).stream_call_letters;
-	}
-
-	return station;
+function getInitialStation( streamsList ) {
+	const station = localStorage.getItem( 'station' );
+	return streamsList.find( stream => stream.stream_call_letters === station );
 }
 
 const adReset = {
@@ -93,10 +90,12 @@ const stateReset = {
 	...adReset,
 };
 
+let initialStation = getInitialStation( streams );
+
 export const DEFAULT_STATE = {
 	...stateReset,
 	status: STATUSES.LIVE_STOP,
-	station: getInitialStation(),
+	station: ( initialStation || streams[0] || {} ).stream_call_letters,
 	volume: parseVolume( localStorage.getItem( 'volume' ) || 100 ),
 	streams,
 };
@@ -241,6 +240,20 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_AD_BREAK_SYNCED_HIDE:
 			return { ...state, ...adReset };
+
+		case ACTION_LOADED_PAGE:
+		case ACTION_LOADED_PARTIAL: {
+			const newstate = { ...state, streams: window.bbgiconfig.streams || [] };
+
+			if ( !initialStation ) {
+				initialStation = getInitialStation( newstate.streams );
+				if ( initialStation ) {
+					newstate.station = initialStation.stream_call_letters;
+				}
+			}
+
+			return newstate;
+		}
 
 		default:
 			// do nothing

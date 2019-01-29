@@ -169,7 +169,12 @@ class ExperienceEngine extends \Bbgi\Module {
 		$data = array();
 		$publisher = $this->_get_publisher_key();
 		if ( ! empty( $publisher ) ) {
-			$data = $this->do_request( "experience/channels/{$publisher}/feeds/content/" );
+			$url = "experience/channels/{$publisher}/feeds/content/";
+			if ( ! empty( $_REQUEST ) ) {
+				$url .= '?authorization=' . urlencode( $_REQUEST['authorization'] );
+			}
+
+			$data = $this->do_request( $url );
 			if ( is_wp_error( $data ) ) {
 				$data = array();
 			}
