@@ -162,6 +162,10 @@ if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 
 			$post->id = $item['id'];
 			$post->link = $item['link'];
+			if ( ! ee_is_current_domain( $item['link'] ) && ee_is_network_domain( $item['link'] ) ) {
+				$parts = explode( '://', $item['link'], 2 );
+				$post->link = home_url( '/' . end( $parts ) );
+			}
 
 			if ( ! empty( $item['picture']['large'] ) ) {
 				$post->picture = $item['picture']['large'];

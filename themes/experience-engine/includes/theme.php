@@ -2,8 +2,12 @@
 
 add_action( 'after_setup_theme', 'ee_setup_theme' );
 add_action( 'init', 'ee_register_nav_menus' );
+add_action( 'wp_head', 'wp_enqueue_scripts', 2 );
+add_action( 'wp_head', '_wp_render_title_tag', 2 );
 
 remove_action( 'wp_head', 'wp_generator' );
+remove_action( 'wp_head', 'wp_enqueue_scripts', 1 );
+remove_action( 'wp_head', '_wp_render_title_tag', 1 );
 remove_action( 'do_pings', 'do_all_pings' );
 
 add_filter( 'pre_get_posts','ee_update_search_query' );

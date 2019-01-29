@@ -159,6 +159,12 @@ if ( ! function_exists( 'ee_the_permalink' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ee_is_current_domain' ) ) :
+	function ee_is_current_domain( $url ) {
+		return parse_url( $url, PHP_URL_HOST ) == parse_url( home_url(), PHP_URL_HOST );
+	}
+endif;
+
 if ( ! function_exists( 'ee_is_network_domain' ) ) :
 	function ee_is_network_domain( $url ) {
 		static $domains = null;

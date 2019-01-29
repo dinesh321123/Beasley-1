@@ -1,8 +1,11 @@
-<?php get_header(); ?>
+<?php
 
-<?php the_post(); ?>
+get_header();
 
-<div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
+ee_switch_to_article_blog();
+the_post(); 
+
+?><div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
 	<?php get_template_part( 'partials/show/header' ); ?>
 
 	<header class="post-info">
@@ -33,9 +36,12 @@
 		</div>
 
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
-	</div>
+	</div><?php
+	
+	if ( ! ms_is_switched() ) :
+		get_template_part( 'partials/related-articles' );	
+	endif;
+?></div><?php
 
-	<?php get_template_part( 'partials/related-articles' ); ?>
-</div>
-
-<?php get_footer(); ?>
+restore_current_blog();
+get_footer();

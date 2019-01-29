@@ -277,6 +277,16 @@ class Video extends \Bbgi\Module {
 			}
 		}
 
+		if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
+			$domain = parse_url( $_SERVER['HTTP_REFERER'], PHP_URL_HOST );
+			$domains = wp_list_pluck( get_sites(), 'domain' );
+			if ( in_array( $domain, $domains ) ) {
+				$scheme = parse_url( $_SERVER['HTTP_REFERER'], PHP_URL_SCHEME );
+				header( 'Access-Control-Allow-Origin: ' . $scheme . '://' . $domain );
+				header( 'Access-Control-Allow-Credentials: true' );
+			}
+		}
+
 		echo wp_remote_retrieve_body( $response );
 		exit;
 	}
