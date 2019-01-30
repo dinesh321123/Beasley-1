@@ -7,7 +7,7 @@ use function GreaterMedia\MobileHomepageCuration\recent_homepage_query;
 add_action( 'init', __NAMESPACE__ . '\register' );
 // Register feed.
 function register() {
-	add_feed( 'current_homepage', __NAMESPACE__ . '\render' );
+	add_feed( 'current_mobile_homepage', __NAMESPACE__ . '\render' );
 	add_action( 'pre_get_posts', __NAMESPACE__ . '\filter_query' );
 }
 
@@ -27,7 +27,7 @@ function filter_query( $query ) {
 	}
 
 	// Bail if it's not our feed.
-	if ( ! $query->is_feed( 'current_homepage' ) ) {
+	if ( ! $query->is_feed( 'current_mobile_homepage' ) ) {
 		return;
 	}
 
@@ -37,19 +37,19 @@ function filter_query( $query ) {
 	}
 	// Change the feed query.
 	$post_ids                    = array();
-	$GLOBALS['current_homepage'] = array();
+	$GLOBALS['current_mobile_homepage'] = array();
 
 	if ( in_array( 'featured', $types ) ) {
-		$GLOBALS['current_homepage']['featured'] = explode( ',', recent_homepage_query( 'featured_meta_box' ) );
-		$post_ids                                = array_merge( $post_ids, $GLOBALS['current_homepage']['featured'] );
+		$GLOBALS['current_mobile_homepage']['featured'] = explode( ',', recent_homepage_query( 'featured_meta_box' ) );
+		$post_ids                                = array_merge( $post_ids, $GLOBALS['current_mobile_homepage']['featured'] );
 	}
 	if ( in_array( 'dont_miss', $types ) ) {
-		$GLOBALS['current_homepage']['dont_miss'] = explode( ',', recent_homepage_query( 'dont_miss_meta_box' ) );
-		$post_ids                                 = array_merge( $post_ids, $GLOBALS['current_homepage']['dont_miss'] );
+		$GLOBALS['current_mobile_homepage']['dont_miss'] = explode( ',', recent_homepage_query( 'dont_miss_meta_box' ) );
+		$post_ids                                 = array_merge( $post_ids, $GLOBALS['current_mobile_homepage']['dont_miss'] );
 	}
 	if ( in_array( 'events', $types ) ) {
-		$GLOBALS['current_homepage']['events'] = explode( ',', recent_homepage_query( 'events_meta_box' ) );
-		$post_ids                              = array_merge( $post_ids, $GLOBALS['current_homepage']['events'] );
+		$GLOBALS['current_mobile_homepage']['events'] = explode( ',', recent_homepage_query( 'events_meta_box' ) );
+		$post_ids                              = array_merge( $post_ids, $GLOBALS['current_mobile_homepage']['events'] );
 	}
 
 

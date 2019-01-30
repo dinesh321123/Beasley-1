@@ -8,7 +8,7 @@ use function GreaterMedia\MobileHomepageCuration\load_template;
 add_action( 'init', __NAMESPACE__ . '\register' );
 // Register feed.
 function register() {
-	add_feed( 'current_homepage_featured', __NAMESPACE__ . '\render' );
+	add_feed( 'current_mobile_homepage_featured', __NAMESPACE__ . '\render' );
 	add_action( 'pre_get_posts', __NAMESPACE__ . '\filter_query' );
 }
 
@@ -29,7 +29,7 @@ function filter_query( $query ) {
 	}
 
 	// Bail if it's not our feed.
-	if ( ! $query->is_feed( 'current_homepage_featured' ) ) {
+	if ( ! $query->is_feed( 'current_mobile_homepage_featured' ) ) {
 		return;
 	}
 
