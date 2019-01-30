@@ -102,6 +102,12 @@ add_filter( 'ep_indexable_post_types', function() {
 	return get_post_types( array( 'exclude_from_search' => false ) );
 } );
 
+add_filter( 'ep_post_sync_args', function( $args ) {
+	// remove redundant information
+	unset( $args['comment_count'], $args['comment_status'], $args['ping_status'] );
+	return $args;
+} );
+
 function tribe( $slug_or_class = null ) {
 	$container = Tribe__Container::init();
 
