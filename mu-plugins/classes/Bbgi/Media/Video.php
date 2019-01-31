@@ -28,9 +28,6 @@ class Video extends \Bbgi\Module {
 		add_action( 'wp_loaded', $this( 'setup_embeds' ) );
 		add_action( 'wp_loaded', $this( 'setup_shortcodes' ) );
 		add_action( 'bbgi_register_settings', $this( 'register_settings' ), 10, 2 );
-
-		add_action( 'wp_ajax_livestream_m3u8_proxy', $this( 'livestream_m3u8_proxy' ) );
-		add_action( 'wp_ajax_nopriv_livestream_m3u8_proxy', $this( 'livestream_m3u8_proxy' ) );
 	}
 
 	/**
@@ -217,13 +214,11 @@ class Video extends \Bbgi\Module {
 		}
 
 		$timestamp = round( microtime( true ) * 1000 );
-		$proxy = $srouce = add_query_arg( array(
+		$source = add_query_arg( array(
 			'timestamp' => $timestamp,
 			'clientId'  => get_option( 'livestream_client_id' ),
 			'token'     => hash_hmac( "md5", "{$key}:readonly:{$timestamp}", $key ),
 		), $json['m3u8'] );
-
-		// $proxy = admin_url( '/admin-ajax.php?action=livestream_m3u8_proxy&url=' . rawurlencode( $srouce ) );
 
 		return sprintf(
 			'<div class="livestream livestream-oembed" data-ad-tag="%s">' .
@@ -232,7 +227,7 @@ class Video extends \Bbgi\Module {
 			esc_attr( $this->get_ad_tag_url( $event_id, $video_id ) ),
 			esc_attr( $this->_get_embed_id() ),
 			! empty( $json['thumbnailUrl'] ) ? esc_attr( $json['thumbnailUrl'] ) : '',
-			esc_url_raw( $proxy )
+			esc_url_raw( $source )
 		);
 	}
 
@@ -244,51 +239,6 @@ class Video extends \Bbgi\Module {
 	 */
 	protected function _get_embed_id() {
 		return 'ls_embed_' . rand( 1, getrandmax() );
-	}
-
-	/**
-	 * Proxies request to Livestream server.
-	 *
-	 * @access public
-	 * @action wp_ajax_livestream_m3u8_proxy
-	 * @action wp_ajax_nopriv_livestream_m3u8_proxy
-	 */
-	public function livestream_m3u8_proxy() {
-		$url = filter_input( INPUT_GET, 'url', FILTER_VALIDATE_URL );
-		if ( ! $url ) {
-			status_header( 404 );
-			exit;
-		}
-
-		$response = wp_remote_get( $url );
-		if ( is_wp_error( $response ) ) {
-			status_header( 400 );
-			exit;
-		}
-
-		$headers = wp_remote_retrieve_headers( $response );
-		foreach ( $headers as $header => $values ) {
-			if ( ! is_array( $values ) ) {
-				$values = array( $values );
-			}
-
-			foreach ( $values as $value ) {
-				header( sprintf( '%s: %s', $header, $value ) );
-			}
-		}
-
-		if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
-			$domain = parse_url( $_SERVER['HTTP_REFERER'], PHP_URL_HOST );
-			$domains = wp_list_pluck( get_sites(), 'domain' );
-			if ( in_array( $domain, $domains ) ) {
-				$scheme = parse_url( $_SERVER['HTTP_REFERER'], PHP_URL_SCHEME );
-				header( 'Access-Control-Allow-Origin: ' . $scheme . '://' . $domain );
-				header( 'Access-Control-Allow-Credentials: true' );
-			}
-		}
-
-		echo wp_remote_retrieve_body( $response );
-		exit;
 	}
 
 	/**
