@@ -8,19 +8,19 @@ if ( !class_exists( "Breaking_News" ) ) {
 	class Breaking_News {
 
 		public function __construct() {
-	    	add_action( 'post_submitbox_misc_actions', array( $this, 'add_meta_checkbox' ) );
-	    	add_action( 'save_post', array( $this, 'save_breaking_news_meta_option' ) );
-	    	add_action( 'send_breaking_news_notices', array( $this, 'send_breaking_news_notices' ) );
-	    	add_action( 'show_breaking_news_banner', array( $this, 'show_breaking_news_banner' ) );
-	    	add_action( 'show_latest_breaking_news_item', array( $this, 'show_breaking_news_banner' ) );
-	    }
+			add_action( 'post_submitbox_misc_actions', array( $this, 'add_meta_checkbox' ) );
+			add_action( 'save_post', array( $this, 'save_breaking_news_meta_option' ) );
+			add_action( 'send_breaking_news_notices', array( $this, 'send_breaking_news_notices' ) );
+			add_action( 'show_breaking_news_banner', array( $this, 'show_breaking_news_banner' ) );
+			add_action( 'show_latest_breaking_news_item', array( $this, 'show_breaking_news_banner' ) );
+		}
 
 		/**
 		 * Add meta meta fields to the post edit page.
 		 *
 		 * @return void
 		 */
-	    public static function add_meta_checkbox() {
+		public static function add_meta_checkbox() {
 			global $post;
 
 			if ( 'post' !== get_post_type() ) {
@@ -171,31 +171,32 @@ if ( !class_exists( "Breaking_News" ) ) {
 			// Nothing yet
 		}
 
-	    /**
-	     * Sanitize a boolean option.
-	     *
-	     * @param  int|string $input
-	     * @return int
-	     */
-	    public static function sanitize_boolean( $input ) {
-	        $new_input = 0;
-	        if( $input === 'on' ) {
-	        	$input = 1; // account for browsers POSTing input values as "on"
-	        }
-	        $input = absint( intval( $input ) );
+		/**
+		 * Sanitize a boolean option.
+		 *
+		 * @param  int|string $input
+		 * @return int
+		 */
+		public static function sanitize_boolean( $input ) {
+			$new_input = 0;
+			if( $input === 'on' ) {
+				$input = 1; // account for browsers POSTing input values as "on"
+			}
+			$input = absint( intval( $input ) );
 
-	        if ( in_array( $input, array( 0, 1 ) ) ) {
-	            $new_input = $input;
-	        }
+			if ( in_array( $input, array( 0, 1 ) ) ) {
+				$new_input = $input;
+			}
 
-	        return $new_input;
-	    }
+			return $new_input;
+		}
 
-	    public static function init() {
-	        if ( ! isset( $this ) || null === $this ) {
-	            new self;
-	        }
-	    }
+		public static function init() {
+			static $instance = null;
+			if ( is_null( $instance ) ) {
+				$instance = new \Breaking_News();
+			}
+		}
 	}
 
 	Breaking_News::init();

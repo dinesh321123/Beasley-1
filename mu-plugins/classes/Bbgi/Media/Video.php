@@ -302,27 +302,8 @@ class Video extends \Bbgi\Module {
 	 * @return string
 	 */
 	public function get_ad_tag_url( $event_id, $video_id ) {
-		$tagUrl = trim( get_option( 'livestream_ad_tag_url' ) );
-		if ( empty( $tagUrl ) ) {
-			return '';
-		}
-
-		if ( ! filter_var( $tagUrl, FILTER_VALIDATE_URL ) ) {
-			$network_id = trim( get_option( 'dfp_network_code' ) );
-			$tagUrl = add_query_arg( array(
-				'env'                     => 'vp',
-				'gdfp_req'                => '1',
-				'unviewed_position_start' => '1',
-				'output'                  => 'xml_vmap1',
-				'correlator'              => '',
-				'ad_rule'                 => '1',
-				'cmsid'                   => urlencode( $event_id ),
-				'vid'                     => urlencode( $video_id ),
-				'iu'                      => urlencode( "/{$network_id}/{$tagUrl}" ),
-			), 'http://pubads.g.doubleclick.net/gampad/ads' );
-		}
-
 		$cust_params = array();
+		$originalTagUrl = $tagUrl = trim( get_option( 'livestream_ad_tag_url' ) );
 
 		if ( ! empty( $event_id ) ) {
 			$cust_params[] = 'livestreameventid=' . urlencode( $event_id );
@@ -332,18 +313,39 @@ class Video extends \Bbgi\Module {
 			$cust_params[] = 'livestreamvideoid=' . urlencode( $video_id );
 		}
 
-		if ( function_exists( 'greatermedia_get_global_targeting' ) ) {
-			foreach ( greatermedia_get_global_targeting() as $targeting ) {
-				if ( is_array( $targeting ) && count( $targeting ) == 2 ) {
-					$cust_params[] = sprintf( '%s=%s', $targeting[0], urlencode( $targeting[1] ) );
-				}
+		$global_targeting = \Bbgi\Integration\Dfp::get_global_targeting();
+		foreach ( $global_targeting as $targeting ) {
+			if ( is_array( $targeting ) && count( $targeting ) == 2 ) {
+				$cust_params[] = sprintf( '%s=%s', $targeting[0], urlencode( $targeting[1] ) );
 			}
+		}
+
+		if ( ! filter_var( $tagUrl, FILTER_VALIDATE_URL ) ) {
+			$network_id = trim( get_option( 'dfp_network_code' ) );
+			$iu = apply_filters( 'livestream_ad_tag_iu', "/{$network_id}/{$tagUrl}" );
+
+			$tagUrl = add_query_arg( array(
+				'env'                     => 'vp',
+				'gdfp_req'                => '1',
+				'unviewed_position_start' => '1',
+				'output'                  => 'vast',
+				'gdfp_req'                => '1',
+				'correlator'              => '',
+				'ad_rule'                 => '0',
+				'sz'                      => '920x508',
+				'cmsid'                   => urlencode( $event_id ),
+				'vid'                     => urlencode( $video_id ),
+				'iu'                      => urlencode( $iu ),
+			), 'https://pubads.g.doubleclick.net/gampad/live/ads' );
 		}
 
 		$cust_params = implode( '&', $cust_params );
 		$cust_params = urlencode( $cust_params );
 
-		return add_query_arg( 'cust_params', $cust_params, $tagUrl );
+		$tagUrl = add_query_arg( 'cust_params', $cust_params, $tagUrl );
+		$tagUrl = apply_filters( 'livestream_ad_tag_url', $tagUrl, $originalTagUrl );
+
+		return $tagUrl;
 	}
 
 }
