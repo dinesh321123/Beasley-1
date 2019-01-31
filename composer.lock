@@ -655,15 +655,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-fail2ban",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-fail2ban/",
-                "reference": "tags/4.0.1"
+                "reference": "tags/4.0.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-fail2ban.4.0.1.zip",
+                "url": "https://downloads.wordpress.org/plugin/wp-fail2ban.4.0.2.zip",
                 "reference": null,
                 "shasum": null
             },
