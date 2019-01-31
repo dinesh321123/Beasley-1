@@ -217,13 +217,13 @@ class Video extends \Bbgi\Module {
 		}
 
 		$timestamp = round( microtime( true ) * 1000 );
-		$srouce = add_query_arg( array(
+		$proxy = $srouce = add_query_arg( array(
 			'timestamp' => $timestamp,
 			'clientId'  => get_option( 'livestream_client_id' ),
-			'token'     => hash_hmac( "md5", "{$key}:playback:{$timestamp}", $key ),
+			'token'     => hash_hmac( "md5", "{$key}:readonly:{$timestamp}", $key ),
 		), $json['m3u8'] );
 
-		$proxy = admin_url( '/admin-ajax.php?action=livestream_m3u8_proxy&url=' . rawurlencode( $srouce ) );
+		// $proxy = admin_url( '/admin-ajax.php?action=livestream_m3u8_proxy&url=' . rawurlencode( $srouce ) );
 
 		return sprintf(
 			'<div class="livestream livestream-oembed" data-ad-tag="%s">' .
