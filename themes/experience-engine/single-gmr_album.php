@@ -1,8 +1,11 @@
-<?php get_header(); ?>
+<?php
 
-<?php the_post(); ?>
+get_header();
 
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+ee_switch_to_article_blog();
+the_post(); 
+
+?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php if ( ee_is_first_page() ) : ?>
 		<?php get_template_part( 'partials/show/header' ); ?>
 
@@ -16,11 +19,8 @@
 	<?php endif; ?>
 
 	<div class="entry-content content-wrap"><?php
-
 		if ( ee_is_first_page() ) :
-
 			get_template_part( 'partials/ads/sidebar-sticky' );
-
 			ee_the_subtitle( 'Galleries' );
 		endif;
 
@@ -35,6 +35,7 @@
 			ee_the_have_no_posts();
 		endif;
 	?></div>
-</div>
+</div><?php
 
-<?php get_footer(); ?>
+restore_current_blog();
+get_footer();

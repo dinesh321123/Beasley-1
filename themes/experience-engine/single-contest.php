@@ -1,8 +1,11 @@
-<?php get_header(); ?>
+<?php
 
-<?php the_post(); ?>
+get_header();
 
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+ee_switch_to_article_blog();
+the_post(); 
+
+?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php get_template_part( 'partials/show/header' ); ?>
 
 	<header class="post-info">
@@ -42,6 +45,7 @@
 	</div>
 
 	<?php get_template_part( 'partials/related-articles' ); ?>
-</div>
+</div><?php
 
-<?php get_footer(); ?>
+restore_current_blog();
+get_footer();
