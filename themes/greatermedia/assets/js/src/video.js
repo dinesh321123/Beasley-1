@@ -49,40 +49,40 @@
 		};
 
 		player.src( videoArgs );
-		player.hlsQualitySelector();
+		// player.hlsQualitySelector();
 
-		var adTagUrl = $parent.data( 'adTag' );
-		if ( adTagUrl ) {
-			if ( adTagUrl.indexOf( 'sz=' ) < 1 ) {
-				adTagUrl += '&sz=' + el.offsetWidth + 'x' + el.offsetHeight;
-			}
+		// var adTagUrl = $parent.data( 'adTag' );
+		// if ( adTagUrl ) {
+		// 	if ( adTagUrl.indexOf( 'sz=' ) < 1 ) {
+		// 		adTagUrl += '&sz=' + el.offsetWidth + 'x' + el.offsetHeight;
+		// 	}
 
-			if ( adTagUrl.indexOf( 'url=' ) < 1 ) {
-				adTagUrl += '&url=' + encodeURIComponent( window.location.href );
-			}
+		// 	if ( adTagUrl.indexOf( 'url=' ) < 1 ) {
+		// 		adTagUrl += '&url=' + encodeURIComponent( window.location.href );
+		// 	}
 
-			if ( adTagUrl.indexOf( 'description_url=' ) < 1 ) {
-				adTagUrl += '&description_url=' + encodeURIComponent( window.location.href );
-			}
+		// 	if ( adTagUrl.indexOf( 'description_url=' ) < 1 ) {
+		// 		adTagUrl += '&description_url=' + encodeURIComponent( window.location.href );
+		// 	}
 
-			player.ima( {
-				id: id,
-				adTagUrl: adTagUrl,
-				showCountdown: true
-			} );
+		// 	player.ima( {
+		// 		id: id,
+		// 		adTagUrl: adTagUrl,
+		// 		showCountdown: true
+		// 	} );
 
-			var wrapper = document.getElementById( id );
-			if ( wrapper ) {
-				// Initialize the ad container when the video player is clicked, but only the
-				// first time it's clicked.
-				var initAdDisplayContainer = function() {
-					player.ima.initializeAdDisplayContainer();
-					wrapper.removeEventListener( startEvent, initAdDisplayContainer );
-				};
+		// 	var wrapper = document.getElementById( id );
+		// 	if ( wrapper ) {
+		// 		// Initialize the ad container when the video player is clicked, but only the
+		// 		// first time it's clicked.
+		// 		var initAdDisplayContainer = function() {
+		// 			player.ima.initializeAdDisplayContainer();
+		// 			wrapper.removeEventListener( startEvent, initAdDisplayContainer );
+		// 		};
 
-				wrapper.addEventListener( startEvent, initAdDisplayContainer );
-			}
-		}
+		// 		wrapper.addEventListener( startEvent, initAdDisplayContainer );
+		// 	}
+		// }
 	}
 
 	var __ready = function() {
