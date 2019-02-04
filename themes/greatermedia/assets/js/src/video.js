@@ -86,7 +86,7 @@
 	}
 
 	var __ready = function() {
-		$( '.livestream-oembed .video-js[data-src]' ).each( function() {
+		$( '.livestream-oembed .video-js' ).each( function() {
 			try {
 				livestreamVideo( this );
 			} catch( err ) {
