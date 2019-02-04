@@ -7,8 +7,10 @@ stages:
 # Define paths that should be cached between jobs. Good use cases are things like node_modules_cache and .composer-cache
 cache:
   paths:
-    - .composer-cache # Composer
-    - node_modules_cache
+    - vendor/
+    - themes/node_modules/
+    - themes/greatermedia/vendor/
+    - plugins/greatermedia-content-syndication/vendor/
 
 #test:
 #  stage: test
