@@ -35,13 +35,13 @@ class RecentSongs extends PureComponent {
 					hour12: true,
 				} );
 
-				time = <span>{time}</span>;
+				time = <span className="time-played">{time}</span>;
 			}
 
 			return (
 				<li key={song.cueTimeStart}>
-					<span className="cue-point-title">{song.cueTitle}</span>
 					<span className="cue-point-artist">{song.artistName}</span>
+					<span className="cue-point-title">{song.cueTitle}</span>
 					{time}
 				</li>
 			);
@@ -64,7 +64,7 @@ class RecentSongs extends PureComponent {
 				</button>
 
 				<div className="controls-recent-songs">
-					<div>Recent Songs:</div>
+					<h5>Recently played</h5>
 					<ul>
 						{items}
 					</ul>

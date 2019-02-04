@@ -36,7 +36,7 @@ class Contacts extends PureComponent {
 					<img src={image} alt={title} />
 					<p><a href={`tel:${phone}`}>{phone}</a></p>
 					<p><a href={`mailto:${email}`}>{email}</a></p>
-					<address>{address}</address>
+					<p>{address}</p>
 				</div>
 			);
 		}
