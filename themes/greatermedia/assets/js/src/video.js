@@ -43,9 +43,9 @@
 		var id = el.id;
 		var player = videojs( el, videojsOptions );
 		var videoArgs = {
-			//src: $this.data( 'src' ),
-			//type: 'application/x-mpegURL',
-			//withCredentials: true
+			src: $this.data( 'src' ),
+			type: 'application/x-mpegURL',
+			withCredentials: true
 		};
 
 		player.src( videoArgs );
@@ -86,7 +86,7 @@
 	}
 
 	var __ready = function() {
-		$( '.livestream-oembed .video-js' ).each( function() {
+		$( '.livestream-oembed .video-js[data-src]' ).each( function() {
 			try {
 				livestreamVideo( this );
 			} catch( err ) {

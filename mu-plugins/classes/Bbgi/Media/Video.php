@@ -224,9 +224,7 @@ class Video extends \Bbgi\Module {
 
 		return sprintf(
 			'<div class="livestream livestream-oembed" data-ad-tag="%s">' .
-				'<video id="%s" class="video-js vjs-default-skin" controls preload="auto" poster="%s">' . 
-					'<source src="%s" type="application/x-mpegURL">' .
-				'</video>' .
+				'<video id="%s" class="video-js vjs-default-skin" controls preload="auto" poster="%s" data-src="%s"></video>' .
 			'</div>',
 			esc_attr( $this->get_ad_tag_url( $event_id, $video_id ) ),
 			esc_attr( $this->_get_embed_id() ),
