@@ -220,6 +220,8 @@ class Video extends \Bbgi\Module {
 			'token'     => hash_hmac( "md5", "{$key}:readonly:{$timestamp}", $key ),
 		), $json['m3u8'] );
 
+		wp_enqueue_script( 'videojs-contrib-hls', '//unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js', null, null, true );
+
 		return sprintf(
 			'<div class="livestream livestream-oembed" data-ad-tag="%s">' .
 				'<video id="%s" class="video-js vjs-default-skin" controls preload="auto" poster="%s">' . 
