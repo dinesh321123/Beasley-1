@@ -13,6 +13,7 @@
 	& .control-section {
 		align-items: center;
 		display: flex;
+		position: relative;
 
 		@media(--min-medium-viewport) {
 			width: 100%;
@@ -136,6 +137,73 @@
 			& .controls-recent-songs {
 				display: block;
 			}
+		}
+	}
+
+	& .controls-recent-songs {
+		background: var(--global-theme-secondary);
+		bottom: 102px; /*Height of the live player bar + 18px*/
+		box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
+					inset 0px 2px 0px rgba(255, 255, 255, 0.25);
+		color: var(--global-theme-font-primary);
+		max-height: 312px;
+		max-width: 342px;
+		overflow: auto;
+		padding: 2rem;
+		position: absolute;
+		right: calc(50% - 72px);
+		width: 100%;
+		z-index: 100;
+
+		&::after {
+			border: solid transparent;
+			border-top-color: var(--global-theme-secondary);
+			border-width: 8px;
+			content: " ";
+			height: 0;
+			left: 50%;
+			margin-left: -8px;
+			pointer-events: none;
+			position: absolute;
+			top: 100%;
+			width: 0;
+		}
+
+		& h5 {
+			color: var(--brand-secondary);
+			text-transform: uppercase;
+		}
+
+		& ul {
+			list-style: none;
+			padding: 0;
+		}
+
+		& li {
+			padding-bottom: 1rem;
+		}
+
+		& .cue-point-artist,
+		& .cue-point-title {
+			&::before {
+				content: "";
+			}
+		}
+
+		& .cue-point-artist {
+			display: block;
+			clear: both;
+			font-weight: 600;
+		}
+
+		& .cue-point-title {
+			display: inline-block;
+		}
+
+		& .time-played {
+			color: var(--global-theme-font-tertiary);
+			font-size: .875rem;
+			padding-left: .675rem;
 		}
 	}
 

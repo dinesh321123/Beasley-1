@@ -1,7 +1,8 @@
 .controls-volume {
 
   & input[type=range] {
-    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
     margin: 4.5px 0;
     width: 100%;
 
