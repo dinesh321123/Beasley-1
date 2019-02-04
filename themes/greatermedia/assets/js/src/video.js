@@ -32,8 +32,6 @@
 		return false;
 	}
 
-	console.log( 'DETECT IE: ', detectIE() );
-
 	var livestreamVideo = function( el ) {
 		var $this = $( el );
 		var $parent = $this.parents( '.livestream-oembed' );
@@ -42,14 +40,12 @@
 			? { techOrder: ['flash', 'html5'] }
 			: {};
 
-		console.log( 'videojs options: ', videojsOptions );
-
 		var id = el.id;
 		var player = videojs( el, videojsOptions );
 		var videoArgs = {
-			src: $this.data( 'src' ),
-			type: 'application/x-mpegURL',
-			withCredentials: true
+			//src: $this.data( 'src' ),
+			//type: 'application/x-mpegURL',
+			//withCredentials: true
 		};
 
 		player.src( videoArgs );
