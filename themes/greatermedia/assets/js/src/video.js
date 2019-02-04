@@ -32,6 +32,8 @@
 		return false;
 	}
 
+	console.log( 'DETECT IE: ', detectIE() );
+
 	var livestreamVideo = function( el ) {
 		var $this = $( el );
 		var $parent = $this.parents( '.livestream-oembed' );
@@ -39,6 +41,8 @@
 		var videojsOptions = detectIE()
 			? { techOrder: ['flash', 'html5'] }
 			: {};
+
+		console.log( 'videojs options: ', videojsOptions );
 
 		var id = el.id;
 		var player = videojs( el, videojsOptions );
