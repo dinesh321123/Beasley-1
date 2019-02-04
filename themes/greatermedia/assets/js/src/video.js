@@ -11,7 +11,7 @@
 		var $parent = $this.parents( '.livestream-oembed' );
 
 		var id = el.id;
-		var player = videojs( el );
+		var player = videojs( el, { techOrder: ['flash', 'html5'] } );
 		var videoArgs = {
 			src: $this.data( 'src' ),
 			type: 'application/x-mpegURL',
@@ -35,7 +35,11 @@
 				adTagUrl += '&description_url=' + encodeURIComponent( window.location.href );
 			}
 
-			player.ima( { id: id, adTagUrl: adTagUrl } );
+			player.ima( {
+				id: id,
+				adTagUrl: adTagUrl,
+				showCountdown: true
+			} );
 
 			var wrapper = document.getElementById( id );
 			if ( wrapper ) {
