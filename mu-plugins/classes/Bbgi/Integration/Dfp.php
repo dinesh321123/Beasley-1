@@ -4,6 +4,8 @@ namespace Bbgi\Integration;
 
 class Dfp extends \Bbgi\Module {
 
+	private static $_sensitive_types = array( 'post', 'gmr_gallery' );
+
 	/**
 	 * Registers this module.
 	 *
@@ -37,13 +39,15 @@ class Dfp extends \Bbgi\Module {
 			'ui_off_text'       => '',
 		);
 
-		$location[] = array(
-			array(
-				'param'    => 'post_type',
-				'operator' => '==',
-				'value'    => 'post',
-			),
-		);
+		foreach ( self::$_sensitive_types as $type ) {
+			$location[] = array(
+				array(
+					'param'    => 'post_type',
+					'operator' => '==',
+					'value'    => $type,
+				),
+			);
+		}
 
 		acf_add_local_field_group( array(
 			'key'                   => 'group_dfp_settings',
@@ -69,10 +73,12 @@ class Dfp extends \Bbgi\Module {
 	 * @return array
 	 */
 	public function update_single_targeting( $targeting ) {
-		if ( is_single() ) {
-			$field = get_field( 'sensitive_content', get_queried_object_id() );
-			if ( filter_var( $field, FILTER_VALIDATE_BOOLEAN ) ) {
-				$targeting[] = array( 'sensitive', 'yes' );
+		foreach ( self::$_sensitive_types as $type ) {
+			if ( is_singular( $type ) ) {
+				$field = get_field( 'sensitive_content', get_queried_object_id() );
+				if ( filter_var( $field, FILTER_VALIDATE_BOOLEAN ) ) {
+					$targeting[] = array( 'sensitive', 'yes' );
+				}
 			}
 		}
 
