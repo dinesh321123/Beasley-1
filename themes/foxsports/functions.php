@@ -48,7 +48,6 @@ function foxsports_register_settings( $group, $page ) {
 	register_setting( $group, 'foxsportsradiocharlotte_public', 'intval' );
 }
 add_action( 'bbgi_register_settings', 'foxsports_register_settings', 10, 2 );
-add_action( 'bbgi_register_settings', 'foxsports_register_settings', 10, 2 );
 
 function foxsports_render_public_setting_field() {
 	$value = get_option( 'foxsportsradiocharlotte_public' );
