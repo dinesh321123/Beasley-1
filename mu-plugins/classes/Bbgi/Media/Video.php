@@ -64,7 +64,7 @@ class Video extends \Bbgi\Module {
 	 * Registers Livestream video settings.
 	 *
 	 * @access public
-	 * @action beasley-register-settings
+	 * @action bbgi_register_settings
 	 * @param string $group
 	 * @param string $page
 	 */
