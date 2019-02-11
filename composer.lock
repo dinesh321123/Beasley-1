@@ -415,7 +415,7 @@
         },
         {
             "name": "wpackagist-plugin/elasticpress",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/elasticpress/",
@@ -423,7 +423,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/elasticpress.zip?timestamp=1544550098",
+                "url": "https://downloads.wordpress.org/plugin/elasticpress.zip?timestamp=1549647337",
                 "reference": null,
                 "shasum": null
             },
