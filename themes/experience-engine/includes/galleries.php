@@ -118,9 +118,15 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 				echo '<div class="share-wrap">';
 
 					if ( ! $is_sponsored ) :
+						if ( ! get_field( 'hide_download_link', $gallery ) ) :
+							echo '<p>';
+								echo '<a href="', esc_url( wp_get_attachment_image_url( $image->ID, 'full' ) ), '" class="-download" download target="_blank" rel="noopener">download</a>';
+							echo '</p>';
+						endif;
+
 						if ( ! get_field( 'hide_social_share', $gallery ) ) :
 							$url = get_field( 'share_photos', $gallery ) ? $image_full_url : $urls[ $gallery->ID ];
-							echo '<span class="label">'. __( 'Share' ) .'</span>';
+							echo '<span class="label">Share</span>';
 							ee_the_share_buttons( $url, $title );
 						endif;
 					endif;
