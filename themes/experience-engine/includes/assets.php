@@ -107,9 +107,9 @@ endif;
 if ( ! function_exists( 'ee_get_css_colors' ) ) :
 	function ee_get_css_colors() {
 		$vars = [
-			'--brand-primary'   => '#ff0000',
-			'--brand-secondary' => '#ffe964',
-			'--brand-tertiary'  => '#ffffff',
+			'--brand-primary'   => get_option( 'ee_theme_primary_color', '#ff0000' ),
+			'--brand-secondary' => get_option( 'ee_theme_secondary_color', '#ffe964' ),
+			'--brand-tertiary'  => get_option( 'ee_theme_tertiary_color', '#ffffff' ),
 		];
 
 		if ( get_option( 'ee_theme_version', '-dark' ) == '-dark' ) {
