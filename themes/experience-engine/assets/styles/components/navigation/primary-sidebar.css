@@ -19,7 +19,7 @@
 
 	& .logo {
 		margin: 0 auto;
-		z-index: 5;
+		z-index: 9;
 
 		@media (--min-medium-viewport) {
 			margin: 0;
@@ -45,7 +45,7 @@
 		padding: 3.5rem 1.1rem 0;
 		position: fixed;
 		top: 0;
-		z-index: 1;
+		z-index: 8;
 		width: 100%;
 
 		@media (--min-medium-viewport) {
