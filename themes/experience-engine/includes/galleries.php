@@ -118,7 +118,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 				echo '<div class="share-wrap">';
 
 					if ( ! $is_sponsored ) :
-						if ( ! get_field( 'hide_download_link', $gallery ) ) :
+						if ( false === get_field( 'hide_download_link', $gallery ) ) :
 							echo '<p>';
 								echo '<a href="', esc_url( wp_get_attachment_image_url( $image->ID, 'full' ) ), '" class="-download" download target="_blank" rel="noopener">download</a>';
 							echo '</p>';
