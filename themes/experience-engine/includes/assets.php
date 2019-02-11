@@ -255,7 +255,7 @@ if ( ! function_exists( 'ee_the_lazy_image' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
-	function ee_the_lazy_thumbnail( $post = null ) {
+	function ee_the_lazy_thumbnail( $post = null, $force = false ) {
 		$post = get_post( $post );
 		if ( ! is_a( $post, '\WP_Post' ) ) {
 			return;
@@ -279,7 +279,13 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 		} else {
 			$thumbnail_id = get_post_thumbnail_id( $post );
 			$thumbnail_id = apply_filters( 'ee_post_thumbnail_id', $thumbnail_id, $post );
-			if ( ! $thumbnail_id && ( ! is_singular() || is_singular( 'show' ) ) ) {
+
+			$thumbnail = false;
+			if ( $thumbnail_id ) {
+				$thumbnail = get_post( $thumbnail_id );
+			}
+
+			if ( ! is_a( $thumbnail, '\WP_Post' ) && ( ! is_singular() || is_singular( 'show' ) || $force ) ) {
 				$fallback_id = get_option( "{$post->post_type}_fallback" );
 				if ( $fallback_id ) {
 					$thumbnail_id = $fallback_id;
