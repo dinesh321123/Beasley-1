@@ -126,8 +126,10 @@
 		}
 
 		& .social {
+			align-items: center;
 			display: flex;
 			justify-content: space-between;
+			max-width: calc(100% / 2);
 
 			& li {
 				display: inline;

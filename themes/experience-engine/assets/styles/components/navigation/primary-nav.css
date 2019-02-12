@@ -15,16 +15,25 @@
 		color: var(--global-theme-font-primary);
 		cursor: pointer;
 		display: block;
-		font-size: .77778rem;
+		font-size: 0.875rem;
+		font-weight: 500;
 		outline: none;
-		padding: 1rem 1.1rem;
+		padding: 0.687rem 1.1rem;
 		text-decoration: none;
 		text-align: left;
 		width: 100%;
 
 		&:hover,
 		&:focus {
-			background-color: rgba(255, 255, 255, .05);
+			color: var(--brand-primary);
+		}
+	}
+
+	& .menu {
+		& > .menu-item:not(.menu-item-has-children):first-child {
+			& button {
+				text-transform: uppercase;
+			}
 		}
 	}
 
@@ -37,7 +46,7 @@
 			cursor: pointer;
 			display: block;
 			outline: none;
-			padding: 1.2rem;
+			padding: 1.15rem;
 			position: absolute;
 			right: 0;
 			top: 0;
@@ -48,11 +57,11 @@
 				border-right: 2px solid var(--brand-secondary);
 				content: " ";
 				display: block;
-				height: 8px;
+				height: 5px;
 				transform: rotate(45deg);
 				transform-origin: 50%;
 				transition: transform 300ms ease;
-				width: 8px;
+				width: 5px;
 			}
 
 			&:hover,
@@ -73,9 +82,12 @@
 			display: block;
 		}
 
+		& button,
 		& a {
-			color: var(--global-theme-font-secondary);
-			font-size: .66667rem;
+			color: var(--global-theme-font-tertiary);
+			font-size: 0.75rem;
+			font-weight: 300;
+			padding: 0.5rem 1.1rem;
 		}
 
 		& .current-menu-item {

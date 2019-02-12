@@ -1,16 +1,22 @@
 .search-form {
-	margin: 2rem 1.1rem 1.6667rem;
+	margin: 1.375rem 1.1rem 1.6667rem;
 	position: relative;
 
 	& input[type="search"] {
 		background-color: transparent;
 		border: none;
-		border-bottom: 1px solid var(--global-theme-font-tertiary);
+		border-bottom: 1px solid var(--global-mercury);
 		color: var(--global-theme-font-tertiary);
 		font-size: .7778rem;
 		font-weight: 500;
 		padding: .6667rem 0 .6667rem 1.2778rem;
 		width: 100%;
+
+		&::-webkit-input-placeholder {
+			color: var(--global-silver-chalice);
+			font-size: 0.875rem;
+			font-weight: 500;
+		}
 	}
 
 	& button[type="submit"] {

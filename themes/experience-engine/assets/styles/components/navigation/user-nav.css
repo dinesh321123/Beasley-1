@@ -1,6 +1,6 @@
 .user-nav {
     background-color: var(--global-theme-secondary);
-    border-top: 1px solid var(--global-theme-font-tertiary);
+    border-top: 1px solid var(--global-mercury);
     justify-content: space-between;
     padding: 1.1rem 0;
     z-index: 10;
@@ -43,19 +43,20 @@
         border: 0;
         box-shadow: none;
         cursor: pointer;
-        color: var(--global-theme-font-tertiary);
+        color: var(--global-theme-font-primary);
         font-size: .687rem;
         padding: 0;
+        text-align: left;
 
         &:hover,
         &:focus {
-            color: var(--global-theme-font-primary);
+            color: var(--brand-primary);
             outline: 0;
         }
 
         &.-with-icon {
             display: inline-flex;
-            font-size: 1rem;
+            font-size: .875rem;
             margin-bottom: 0.8rem;
 
             & svg {
