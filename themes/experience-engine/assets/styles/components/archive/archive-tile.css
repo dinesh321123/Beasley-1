@@ -258,7 +258,10 @@
 	& [id="wnks-concerts-events"] {
 		& .archive-tiles {
 			& .post-date {
+				color: var(--global-silver-chalice);
 				display: block;
+				font-size: 0.875rem;
+				margin-bottom: 0.5rem;
 			}
 		}
 	}
