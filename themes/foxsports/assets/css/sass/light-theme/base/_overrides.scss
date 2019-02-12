@@ -216,3 +216,11 @@ a:hover .highlights__community--title {color:#eaba1a;}
   border-color: #c00000;
   color: #fff !important;
 }
+
+@include bp(large) {
+	.main {
+		background-image: url("../../images/FOX_Takeover-Skin.jpg");
+		background-repeat: no-repeat;
+		background-position: top center;
+	}
+}
