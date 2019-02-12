@@ -254,6 +254,14 @@
 			}
 		}
 	}
+
+	& [id="wnks-concerts-events"] {
+		& .archive-tiles {
+			& .post-date {
+				display: block;
+			}
+		}
+	}
 }
 
 .single-podcast {
