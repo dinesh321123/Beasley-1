@@ -43,6 +43,7 @@
 		& .sub-menu-activator {
 			background: none;
 			border: none;
+			border-color: var(--global-black);
 			cursor: pointer;
 			display: block;
 			outline: none;
@@ -51,11 +52,11 @@
 			right: 0;
 			top: 0;
 
-			&::before {
+			&:before {
 				border: none;
 				border-bottom: 2px solid var(--brand-secondary);
 				border-right: 2px solid var(--brand-secondary);
-				content: " ";
+				content: "";
 				display: block;
 				height: 5px;
 				transform: rotate(45deg);
