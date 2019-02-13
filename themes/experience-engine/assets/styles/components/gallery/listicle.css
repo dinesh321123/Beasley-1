@@ -45,21 +45,25 @@
 	}
 
 	& .gallery-meta {
-		
-		& .wrapper {
-			@media(--min-medium-viewport) {
-				display: flex;
-				justify-content: space-between;
-			}
-		}
 
 		& .share-wrap {
 			align-items: center;
 			display: flex;
-			margin-top: 1rem;
+			justify-content: space-between;
+			margin: 1rem 0;
 
-			@media(--min-medium-viewport) {
-				margin-top: 0;
+			& .share-download-button {
+				border: 1px solid var(--brand-primary);
+				border-radius: 70px;
+				display: block;
+				font-size: 1rem;
+				padding: 0.5rem 1.5rem;
+				text-decoration: none;
+			}
+
+			& .share-wrap-icons {
+				align-items: center;
+				display: flex;
 			}
 
 			& .label {
