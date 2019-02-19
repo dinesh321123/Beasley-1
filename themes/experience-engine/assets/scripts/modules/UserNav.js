@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -114,7 +114,7 @@ class UserNav extends Component {
 		}
 
 		return (
-			<Fragment>
+			<div className="user-logged-in">
 				<div className="user-nav-info">
 					<span className="user-nav-name">{displayName}</span>
 					<button className="user-nav-button" type="button" onClick={this.onSignOut}>Log Out</button>
@@ -122,7 +122,7 @@ class UserNav extends Component {
 				<div className="user-nav-image">
 					<img src={photo} alt={displayName} />
 				</div>
-			</Fragment>
+			</div>
 		);
 	}
 
@@ -130,7 +130,7 @@ class UserNav extends Component {
 		const self = this;
 
 		return (
-			<div className="user-nav-logged-out">
+			<div className="user-nav-logged-out -logged-out">
 				<button className="user-nav-button -with-icon" aria-label="Sign In to Your Account" type="button" onClick={self.onSignIn}>
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 563.43 563.43" aria-labelledby="sign-in-button-title sign-in-button-desc">
 						<title id="sign-in-button-title">Sign In</title>

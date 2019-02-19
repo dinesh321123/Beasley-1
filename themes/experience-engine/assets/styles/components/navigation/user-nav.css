@@ -31,11 +31,22 @@
     }
 
     & .user-nav-info {
+
+        & button {
+            display: block;
+        }
+
         & span {
             color: var(--global-theme-font-primary);
+            display: block;
             font-size: .875rem;
             font-weight: 600;
         }
+    }
+
+    & .user-logged-in {
+        flex-direction: row;
+        justify-content: space-between;
     }
 
     & .user-nav-button {

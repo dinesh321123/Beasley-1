@@ -110,6 +110,11 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 
 		echo '<div class="gallery-meta">';
 			echo '<div class="wrapper">';
+
+				if ( ! empty( $attribution ) ) :
+					echo '<small class="attribution">', esc_html( $attribution ), '</small>';
+				endif;
+
 				echo '<div class="caption">';
 					echo '<h3>', esc_html( $title ), '</h3>';
 
@@ -136,10 +141,6 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 				echo '<p class="excerpt">', get_the_excerpt( $image ), '</p>';
 				
 			echo '</div>';	
-
-				if ( ! empty( $attribution ) ) :
-					echo '<small class="attribution">', esc_html( $attribution ), '</small>';
-				endif;
 
 		echo '</div>';
 
