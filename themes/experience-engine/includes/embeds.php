@@ -26,7 +26,7 @@ if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 			$html = ee_oembed_youtube_html( $data );
 		}
 
-		// we need to make sure that wpautop filter doesn't mess everything up here, so we need to inject embed code later
+		// we need to make sure that wpautop filter doesn't mess up everything here, so we need to inject embed code later
 		$placeholder = '<div><!-- ' . sha1( $html ) . ' --></div>';
 		$replace_filter = function( $content ) use ( $placeholder, $html ) {
 			return str_replace( $placeholder, $html, $content );
