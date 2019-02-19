@@ -73,5 +73,6 @@
 @import "components/load-more-button";
 @import "components/back-to-top";
 @import "components/favorites";
+@import "components/formats/post-format";
 
 @import "utilities/display";

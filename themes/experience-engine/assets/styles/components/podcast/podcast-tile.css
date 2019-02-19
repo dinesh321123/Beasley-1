@@ -93,12 +93,16 @@
 
 	& .status {
 		float: left;
-		padding-right: .667rem;
+		padding-right: .75rem;
 
 		& button {
 			background-color: transparent;
 			height: 24px;
 			width: 24px;
+
+			@media (--min-medium-viewport) {
+				margin: 0;
+			}
 		}
 
 		& svg {
@@ -130,7 +134,7 @@
 
 		@media (min-width: 1170px) {
 			display: inline;
-			padding-left: 1.389rem;
+			padding-left: 1.75rem;
 			padding-top: 0;
 		}
 	}

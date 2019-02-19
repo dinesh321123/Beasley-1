@@ -64,7 +64,7 @@ class Video extends \Bbgi\Module {
 	 * Registers Livestream video settings.
 	 *
 	 * @access public
-	 * @action beasley-register-settings
+	 * @action bbgi_register_settings
 	 * @param string $group
 	 * @param string $page
 	 */
@@ -220,6 +220,8 @@ class Video extends \Bbgi\Module {
 			'token'     => hash_hmac( "md5", "{$key}:readonly:{$timestamp}", $key ),
 		), $json['m3u8'] );
 
+		wp_enqueue_script( 'videojs-contrib-hls', '//unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js', null, null, true );
+
 		return sprintf(
 			'<div class="livestream livestream-oembed" data-ad-tag="%s">' .
 				'<video id="%s" class="video-js vjs-default-skin" controls preload="auto" poster="%s" data-src="%s"></video>' .
@@ -252,12 +254,8 @@ class Video extends \Bbgi\Module {
 	 * @return string
 	 */
 	public function get_ad_tag_url( $event_id, $video_id ) {
-		$tagUrl = trim( get_option( 'livestream_ad_tag_url' ) );
-		if ( empty( $tagUrl ) ) {
-			return '';
-		}
-
 		$cust_params = array();
+		$originalTagUrl = $tagUrl = trim( get_option( 'livestream_ad_tag_url' ) );
 
 		if ( ! empty( $event_id ) ) {
 			$cust_params[] = 'livestreameventid=' . urlencode( $event_id );
@@ -267,19 +265,17 @@ class Video extends \Bbgi\Module {
 			$cust_params[] = 'livestreamvideoid=' . urlencode( $video_id );
 		}
 
-		if ( function_exists( 'greatermedia_get_global_targeting' ) ) {
-			foreach ( greatermedia_get_global_targeting() as $targeting ) {
-				if ( is_array( $targeting ) && count( $targeting ) == 2 ) {
-					$cust_params[] = sprintf( '%s=%s', $targeting[0], urlencode( $targeting[1] ) );
-				}
+		$global_targeting = \Bbgi\Integration\Dfp::get_global_targeting();
+		foreach ( $global_targeting as $targeting ) {
+			if ( is_array( $targeting ) && count( $targeting ) == 2 ) {
+				$cust_params[] = sprintf( '%s=%s', $targeting[0], urlencode( $targeting[1] ) );
 			}
 		}
 
-		$cust_params = implode( '&', $cust_params );
-		$cust_params = urlencode( $cust_params );
-
 		if ( ! filter_var( $tagUrl, FILTER_VALIDATE_URL ) ) {
 			$network_id = trim( get_option( 'dfp_network_code' ) );
+			$iu = apply_filters( 'livestream_ad_tag_iu', "/{$network_id}/{$tagUrl}" );
+
 			$tagUrl = add_query_arg( array(
 				'env'                     => 'vp',
 				'gdfp_req'                => '1',
@@ -291,11 +287,17 @@ class Video extends \Bbgi\Module {
 				'sz'                      => '920x508',
 				'cmsid'                   => urlencode( $event_id ),
 				'vid'                     => urlencode( $video_id ),
-				'iu'                      => "/{$network_id}/{$tagUrl}",
+				'iu'                      => urlencode( $iu ),
 			), 'https://pubads.g.doubleclick.net/gampad/live/ads' );
 		}
 
-		return add_query_arg( 'cust_params', $cust_params, $tagUrl );
+		$cust_params = implode( '&', $cust_params );
+		$cust_params = urlencode( $cust_params );
+
+		$tagUrl = add_query_arg( 'cust_params', $cust_params, $tagUrl );
+		$tagUrl = apply_filters( 'livestream_ad_tag_url', $tagUrl, $originalTagUrl );
+
+		return $tagUrl;
 	}
 
 }

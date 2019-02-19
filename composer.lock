@@ -335,15 +335,15 @@
         },
         {
             "name": "wpackagist-plugin/advanced-custom-fields",
-            "version": "5.7.10",
+            "version": "5.7.12",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/advanced-custom-fields/",
-                "reference": "tags/5.7.10"
+                "reference": "tags/5.7.12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.5.7.10.zip",
+                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.5.7.12.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -415,15 +415,15 @@
         },
         {
             "name": "wpackagist-plugin/elasticpress",
-            "version": "2.7.0",
+            "version": "2.8.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/elasticpress/",
-                "reference": "trunk"
+                "reference": "tags/2.8.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/elasticpress.zip?timestamp=1544550098",
+                "url": "https://downloads.wordpress.org/plugin/elasticpress.2.8.1.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -575,15 +575,15 @@
         },
         {
             "name": "wpackagist-plugin/the-events-calendar",
-            "version": "4.7.4",
+            "version": "4.8.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/the-events-calendar/",
-                "reference": "tags/4.7.4"
+                "reference": "tags/4.8.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/the-events-calendar.4.7.4.zip",
+                "url": "https://downloads.wordpress.org/plugin/the-events-calendar.4.8.1.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -615,15 +615,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "9.5",
+            "version": "9.6",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/9.5"
+                "reference": "tags/9.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.9.5.zip",
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.9.6.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -677,15 +677,15 @@
     "packages-dev": [
         {
             "name": "wpackagist-plugin/query-monitor",
-            "version": "3.2.2",
+            "version": "3.3.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/query-monitor/",
-                "reference": "tags/3.2.2"
+                "reference": "tags/3.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/query-monitor.3.2.2.zip",
+                "url": "https://downloads.wordpress.org/plugin/query-monitor.3.3.1.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -717,15 +717,15 @@
         },
         {
             "name": "wpackagist-plugin/user-switching",
-            "version": "1.4.0",
+            "version": "1.4.2",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/user-switching/",
-                "reference": "tags/1.4.0"
+                "reference": "tags/1.4.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/user-switching.1.4.0.zip",
+                "url": "https://downloads.wordpress.org/plugin/user-switching.1.4.2.zip",
                 "reference": null,
                 "shasum": null
             },

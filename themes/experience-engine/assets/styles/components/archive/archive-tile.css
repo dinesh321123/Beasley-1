@@ -35,6 +35,12 @@
 				}
 			}
 		}
+
+		& .contest-tile {
+			& .meta {
+				flex: 0 1 auto;
+			}
+		}
 	}
 
 	&.-grid {
@@ -130,6 +136,10 @@
 			margin-bottom: 1rem;
 		}
 
+		& .post-date {
+			display: none;
+		}
+
 		& .meta,
 		& .post-thumbnail {
 			padding-left: 0;
@@ -189,6 +199,7 @@
 
 .single-show,
 .search-results,
+.archive,
 .home {
 	& .archive-tiles {
 		& .placeholder-audio {
@@ -225,6 +236,8 @@
 			word-wrap: break-word;
 
 			& h3 {
+				font-size: 1.375rem;
+				font-weight: 600;
 				margin-bottom: 0;
 			}
 		}
@@ -244,6 +257,17 @@
 		& .type-contest {
 			& .contest-dates {
 				display: none;
+			}
+		}
+	}
+
+	& [id="wnks-concerts-events"] {
+		& .archive-tiles {
+			& .post-date {
+				color: var(--global-silver-chalice);
+				display: block;
+				font-size: 0.875rem;
+				margin-bottom: 0.5rem;
 			}
 		}
 	}

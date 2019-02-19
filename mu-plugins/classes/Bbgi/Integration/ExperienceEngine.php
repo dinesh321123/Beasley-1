@@ -62,7 +62,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		}
 
 		$cache_control = explode( ',', $response_headers['cache-control'] );
-		$cache_time    = 0;
+		$cache_time = 0;
 		foreach ( $cache_control as $control_string ) {
 			$control_string = strtolower( trim( $control_string ) );
 			$parts = explode( '=', $control_string );
@@ -75,7 +75,12 @@ class ExperienceEngine extends \Bbgi\Module {
 			}
 		}
 
-		return absint( $cache_time );
+		$cache_time = absint( $cache_time );
+		if ( $cache_time < 5 * MINUTE_IN_SECONDS ) {
+			$cache_time = 5 * MINUTE_IN_SECONDS;
+		}
+
+		return $cache_time;
 	}
 
 	protected function _get_publisher_key() {

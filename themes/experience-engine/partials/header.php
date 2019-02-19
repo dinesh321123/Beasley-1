@@ -11,7 +11,7 @@
 	</a>
 
 	<div class="logo" itemscope itemtype="http://schema.org/Organization">
-		<?php ee_the_custom_logo(); ?>
+		<?php ee_the_custom_logo( 130, 130 ); ?>
 		<span class="screen-reader-text"><?php wp_title(); ?></span>
 	</div>
 

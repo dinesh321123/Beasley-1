@@ -1,6 +1,6 @@
 <?php
 
-add_filter( 'omny_embed_html', 'ee_update_omny_embed' );
+add_filter( 'omny_embed_html', 'ee_update_omny_embed', 10, 2 );
 add_filter( 'ee_post_thumbnail_id', 'ee_update_episode_thumbnail', 10, 2 );
 
 if ( ! function_exists( 'ee_get_episodes_query' ) ) :
@@ -37,18 +37,19 @@ endif;
 
 if ( ! function_exists( 'ee_get_episode_player' ) ) :
 	function ee_get_episode_player( $episode = null ) {
+		global $ee_feed_now;
+
 		$episode = get_post( $episode );
 		if ( ! is_a( $episode, '\WP_Post' ) ) {
 			return null;
 		}
 
-		$shortcode = false;
 		if ( ! empty( $episode->media ) && ! empty( $episode->media['url'] ) ) {
 			$url = explode( '?', $episode->media['url'] );
-			$shortcode = sprintf( '[audio mp3="%s"][/audio]', esc_attr( current( $url ) ) );
+			return ee_get_lazy_audio( current( $url ), $episode->post_title, ! empty( $ee_feed_now['title'] ) ? $ee_feed_now['title'] : '' );
 		}
 
-		if ( ! $shortcode && preg_match( '#\[(embed|audio).*?\].*?\[\/(embed|audio)\]#i', $episode->post_content, $matches ) && $matches[1] == $matches[2] ) {
+		if ( preg_match( '#\[(embed|audio).*?\].*?\[\/(embed|audio)\]#i', $episode->post_content, $matches ) && $matches[1] == $matches[2] ) {
 			$shortcode = $matches[0];
 		}
 
@@ -179,7 +180,12 @@ if ( ! function_exists( 'ee_get_podcast_meta' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_update_omny_embed' ) ) :
-	function ee_update_omny_embed( $embed ) {
+	function ee_update_omny_embed( $embed, $args ) {
+		$audio = get_post_meta( get_the_ID(), 'omny-audio-url', true );
+		if ( filter_var( $audio, FILTER_VALIDATE_URL ) ) {
+			return ee_get_lazy_audio( $audio, $args['title'], $args['author_name'] );
+		}
+
 		$embed = str_replace( 'iframe', 'div', $embed );
 		$embed = str_replace( '<div ', '<div class="omny-embed" ', $embed );
 
@@ -214,5 +220,16 @@ if ( ! function_exists( 'ee_the_episode_download' ) ) :
 		if ( $download ) {
 			echo '<a class="btn -empty ', esc_attr( $classes ), '" href="', esc_url( $download ), '" target="_blank" rel="noopener">Download</a>';
 		}
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_lazy_audio' ) ) :
+	function ee_get_lazy_audio( $url, $title, $author ) {
+		return sprintf( 
+			'<div class="lazy-audio" data-src="%s" data-title="%s" data-author="%s"></div>',
+			esc_attr( $url ),
+			esc_attr( $title ),
+			esc_attr( $author )
+		);
 	}
 endif;

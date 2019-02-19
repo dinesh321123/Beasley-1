@@ -77,12 +77,26 @@
 				content: " ";
 				display: block;
 				height: 8px;
-				position: relative;
-				top: -2px;
+				pointer-events: none;
+				position: absolute;
+				right: calc(100% - 90px);
+				top: 12px;
 				transform: rotate(45deg);
 				transform-origin: 50%;
 				transition: transform 300ms ease;
 				width: 8px;
+			}
+
+			&.select-location {
+
+				&::after {
+					right: calc(100% - 115px);
+				}
+
+				& select {
+					max-width: 115px;
+					min-width: 115px;
+				}
 			}
 		}
 	}
@@ -93,6 +107,8 @@
 		border: none;
 		font-size: 0.889rem;
 		font-weight: 600;
+		max-width: 90px;
+		min-width: 90px;
 		width: 100%;
 	}
 

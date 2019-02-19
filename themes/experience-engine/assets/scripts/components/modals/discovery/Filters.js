@@ -52,21 +52,21 @@ class DiscoveryFilters extends PureComponent {
 		return (
 			<div className="filters">
 				<div className="content-wrap">
-					<div className="select">
+					<div className="select select-brand">
 						<select name="brand" value={brand} onChange={self.onFilterChange}>
 							<option value="">All Brands</option>
 							{Object.keys( publishers ).map( ( item, i ) => <option key={`brand-${i}`} value={item}>{publishers[item]}</option> )}
 						</select>
 					</div>
 
-					<div className="select">
+					<div className="select select-location">
 						<select name="location" value={location} onChange={self.onFilterChange}>
 							<option value="">All Locations</option>
 							{locations.map( ( item, i ) => <option key={`location-${i}`}>{item}</option> )}
 						</select>
 					</div>
 
-					<div className="select">
+					<div className="select select-types">
 						<select name="type" value={type} onChange={self.onFilterChange}>
 							<option>All Types</option>
 							<option value="events">Events</option>
@@ -77,7 +77,7 @@ class DiscoveryFilters extends PureComponent {
 						</select>
 					</div>
 
-					<div className="select">
+					<div className="select select-genres">
 						<select name="genre" value={genre} onChange={self.onFilterChange}>
 							<option value="">All Genres</option>
 							{genres.map( ( item, i ) => <option key={`genre-${i}`}>{item}</option> )}

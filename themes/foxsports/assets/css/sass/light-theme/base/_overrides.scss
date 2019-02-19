@@ -157,7 +157,13 @@
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
 }
 
-.home__featured .featured__article a:hover .featured__article--content {background-color: #620000;}
+.home__featured {background-color: $orient;}
+
+.home__featured .featured__article--content {background-color: $prussian-blue;}
+.home__featured .featured__article a:hover .featured__article--content {background-color: $orient;}
+
+.home__featured .featured__content--block {background-color: $prussian-blue;}
+.home__featured .featured__content--block:hover {background-color: $orient;}
 
 .featured__article:hover .featured__article--heading {color: #fff;}
 

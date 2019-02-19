@@ -1,5 +1,9 @@
 <?php
 
+if ( ms_is_switched() ) :
+	return;
+endif;
+
 $related_articles = ee_get_related_articles();
 if ( empty( $related_articles ) ) :
 	return;

@@ -4,7 +4,7 @@
 	box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08);
 	display: flex;
 	overflow: auto;
-	padding: .75rem 1.1rem;
+	padding: .6rem 1.1rem;
 
 	@media (--min-medium-viewport) {
 		bottom: 74px;
@@ -19,14 +19,14 @@
 
 	& .logo {
 		margin: 0 auto;
-		z-index: 5;
+		z-index: 9;
 
 		@media (--min-medium-viewport) {
 			margin: 0;
 		}
 
 		& img {
-			max-height: 56px;
+			max-height: 60px;
 			width: auto;
 
 			@media (--min-medium-viewport) {
@@ -45,7 +45,7 @@
 		padding: 3.5rem 1.1rem 0;
 		position: fixed;
 		top: 0;
-		z-index: 1;
+		z-index: 8;
 		width: 100%;
 
 		@media (--min-medium-viewport) {
@@ -102,7 +102,6 @@
 .site-menu-toggle {
 	color: var(--global-theme-font-primary);
 	font-size: 20px;
-	line-height: 40px;
 	margin-right: 10px;
 	position: absolute;
 	text-decoration: none;
@@ -129,7 +128,7 @@
 		& path {
 			fill: none;
 			transition: stroke 400ms, stroke-dasharray 400ms, stroke-dashoffset 400ms;
-			stroke: currentcolor;
+			stroke: var(--global-silver-chalice);
 			stroke-width:3.5;
 			stroke-linecap:round;
 

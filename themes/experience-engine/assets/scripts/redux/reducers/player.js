@@ -150,7 +150,7 @@ function reducer( state = {}, action = {} ) {
 			} else if ( omnyplayer ) {
 				omnyplayer.pause();
 			} else if ( tdplayer ) {
-				tdplayer.pause();
+				tdplayer.stop();
 			}
 			return { ...state, ...adReset };
 

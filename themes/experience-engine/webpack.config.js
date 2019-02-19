@@ -11,14 +11,13 @@ function coreConfig( options = {} ) {
 		// core-js
 		'node_modules/core-js/client/core.min.js',
 
-		// Perfume.js
-		'node_modules/perfume.js/dist/perfume.umd.min.js',
-
-		// video.js
+		// video.js & videojs-flash
 		'node_modules/video.js/dist/video-js.min.css',
 		'node_modules/video.js/dist/video.min.js',
+		'node_modules/videojs-flash/dist/videojs-flash.min.js',
 
-		// videojs-contrib-quality-levels & videojs-hls-quality-selector
+		// videojs-contrib-hls & videojs-contrib-quality-levels & videojs-hls-quality-selector
+		'node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.min.js',
 		'node_modules/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js',
 		'node_modules/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js',
 
@@ -49,8 +48,13 @@ function coreConfig( options = {} ) {
 			loader: 'babel-loader',
 			options: {
 				cacheDirectory: true,
-				presets: ['@babel/preset-react', '@babel/preset-env'],
-				plugins: ['@babel/plugin-syntax-dynamic-import'],
+				presets: [
+					'@babel/preset-react',
+					'@babel/preset-env',
+				],
+				plugins: [
+					'@babel/plugin-syntax-dynamic-import',
+				],
 			},
 		},
 	};
@@ -104,6 +108,8 @@ function coreConfig( options = {} ) {
 		},
 		externals: {
 			firebase: 'firebase',
+			react: 'React',
+			'react-dom': 'ReactDOM',
 		},
 		module: {
 			rules: [eslintRule, babelRule, cssRule],

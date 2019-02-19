@@ -240,56 +240,24 @@ class GreaterMediaContestsMetaboxes {
 		<tr>
 			<th scope="row"><label for="greatermedia_contest_start">Start date</label></th>
 			<td>
-				<?php if ( ! $post_status->public ) : ?>
-					<?php $this->render_date_field( array(
-						'post_id' => $post->ID,
-						'id'      => 'greatermedia_contest_start',
-						'name'    => 'greatermedia_contest_start',
-						'value'   => get_post_meta( $post->ID, 'contest-start', true )
-					) ); ?>
-				<?php else : ?>
-					<b>
-						<?php if ( ! empty( $started ) ) : ?>
-							<?php echo date( $datetime_format, $started + $offset ); ?>
-						<?php else : ?>
-							&#8212;
-						<?php endif; ?>
-					</b>
-
-					<?php if ( ! empty( $started ) ) : ?>
-						<small style="margin-left:2em;">
-							(server time is <?php echo date( $datetime_format, current_time( 'timestamp' ) ); ?>)
-						</small>
-					<?php endif; ?>
-				<?php endif; ?>
+				<?php $this->render_date_field( array(
+					'post_id' => $post->ID,
+					'id'      => 'greatermedia_contest_start',
+					'name'    => 'greatermedia_contest_start',
+					'value'   => get_post_meta( $post->ID, 'contest-start', true )
+				) ); ?>
 			</td>
 		</tr>
 
 		<tr>
 			<th scope="row"><label for="greatermedia_contest_end">End date</label></th>
 			<td>
-				<?php if ( ! $post_status->public ) : ?>
-					<?php $this->render_date_field( array(
-						'post_id' => $post->ID,
-						'id'      => 'greatermedia_contest_end',
-						'name'    => 'greatermedia_contest_end',
-						'value'   => get_post_meta( $post->ID, 'contest-end', true ),
-					) ); ?>
-				<?php else : ?>
-					<b>
-						<?php if ( ! empty( $ended ) ) : ?>
-							<?php echo date( $datetime_format, $ended + $offset ); ?>
-						<?php else : ?>
-							&#8212;
-						<?php endif; ?>
-					</b>
-
-					<?php if ( empty( $started ) && ! empty( $ended ) ) : ?>
-						<small style="margin-left:2em;">
-							(server time is <?php echo date( $datetime_format, current_time( 'timestamp' ) ); ?>)
-						</small>
-					<?php endif; ?>
-				<?php endif; ?>
+				<?php $this->render_date_field( array(
+					'post_id' => $post->ID,
+					'id'      => 'greatermedia_contest_end',
+					'name'    => 'greatermedia_contest_end',
+					'value'   => get_post_meta( $post->ID, 'contest-end', true ),
+				) ); ?>
 			</td>
 		</tr>
 		<tr>

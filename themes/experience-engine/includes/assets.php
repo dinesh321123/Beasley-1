@@ -59,17 +59,14 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 		wp_register_script( 'intersection-observer', '//polyfill.io/v2/polyfill.min.js?features=IntersectionObserver', null, null, true );
 
-		if ( $is_script_debug ) {
-			$perfume = array(
-				'firstPaint'           => true,
-				'firstContentfulPaint' => true,
-				'firstInputDelay'      => true,
-			);
+		$react_version = '16';
+		$react_mode = $is_script_debug ? 'development' : 'production.min';
 
-			// @see: https://zizzamia.github.io/perfume/
-			wp_enqueue_script( 'perfume', "{$base}/bundle/perfume.umd.min.js", null, null, false );
-			wp_add_inline_script( 'perfume', 'var perfumeInfo = new Perfume(' . json_encode( $perfume ) . ')', 'after' );
-		}
+		wp_register_script( 'react', "//unpkg.com/react@{$react_version}/umd/react.{$react_mode}.js", null, null, true );
+		wp_script_add_data( 'react', 'crossorigin', true );
+
+		wp_register_script( 'react-dom', "//unpkg.com/react-dom@{$react_version}/umd/react-dom.{$react_mode}.js", null, null, true );
+		wp_script_add_data( 'react-dom', 'crossorigin', true );
 
 		/**
 		 * Application script
@@ -84,6 +81,8 @@ try {
 EOL;
 
 		$deps = array(
+			'react',
+			'react-dom',
 			'firebase-app',
 			'firebase-auth',
 			'googletag',
@@ -107,9 +106,9 @@ endif;
 if ( ! function_exists( 'ee_get_css_colors' ) ) :
 	function ee_get_css_colors() {
 		$vars = [
-			'--brand-primary'   => '#ff0000',
-			'--brand-secondary' => '#ffe964',
-			'--brand-tertiary'  => '#ffffff',
+			'--brand-primary'   => get_option( 'ee_theme_primary_color', '#ff0000' ),
+			'--brand-secondary' => get_option( 'ee_theme_secondary_color', '#ffe964' ),
+			'--brand-tertiary'  => get_option( 'ee_theme_tertiary_color', '#ffffff' ),
 		];
 
 		if ( get_option( 'ee_theme_version', '-dark' ) == '-dark' ) {
@@ -142,13 +141,20 @@ if ( ! function_exists( 'ee_load_polyfills' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_custom_logo' ) ) :
-	function ee_the_custom_logo( $size = 'full' ) {
+	function ee_the_custom_logo( $base_w = 150, $base_h = 150 ) {
 		$site_logo_id = get_option( 'gmr_site_logo', 0 );
 		if ( $site_logo_id ) {
-			$site_logo = bbgi_get_image_url( $site_logo_id, 150, 150, false );
+			$site_logo = bbgi_get_image_url( $site_logo_id, $base_w, $base_h, false );
 			if ( $site_logo ) {
+				$alt = get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' );
+				$site_logo_2x = bbgi_get_image_url( $site_logo_id, 2 * $base_w, 2 * $base_h, false );
 				echo '<a href="', esc_url( home_url() ), '" class="custom-logo-link" rel="home" itemprop="url">';
-					echo '<img src="' . esc_url( $site_logo ) . '" alt="' . get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' ) . '" class="custom-logo" itemprop="logo">';
+					printf(
+						'<img src="%s" srcset="%s 2x" alt="%s" class="custom-logo" itemprop="logo">',
+						esc_url( $site_logo ),
+						esc_url( $site_logo_2x ),
+						esc_attr( $alt )
+					);
 				echo '</a>';
 			}
 		}
@@ -200,6 +206,12 @@ if ( ! function_exists( 'ee_script_loader' ) ) :
 			$onload = esc_attr( $onload );
 			$tag = str_replace( " src=\"{$src}\"", " src=\"{$src}\" onload=\"{$onload}\"", $tag );
 			$tag = str_replace( " src='{$src}'", " src=\"{$src}\" onload=\"{$onload}\"", $tag );
+		}
+
+		$crossorigin = $wp_scripts->get_data( $handler, 'crossorigin' );
+		if ( $crossorigin ) {
+			$tag = str_replace( " src=\"{$src}\"", " src=\"{$src}\" crossorigin", $tag );
+			$tag = str_replace( " src='{$src}'", " src=\"{$src}\" crossorigin", $tag );
 		}
 
 		return $tag;
@@ -255,7 +267,7 @@ if ( ! function_exists( 'ee_the_lazy_image' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
-	function ee_the_lazy_thumbnail( $post = null ) {
+	function ee_the_lazy_thumbnail( $post = null, $force = false ) {
 		$post = get_post( $post );
 		if ( ! is_a( $post, '\WP_Post' ) ) {
 			return;
@@ -279,7 +291,13 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 		} else {
 			$thumbnail_id = get_post_thumbnail_id( $post );
 			$thumbnail_id = apply_filters( 'ee_post_thumbnail_id', $thumbnail_id, $post );
-			if ( ! $thumbnail_id && ( ! is_singular() || is_singular( 'show' ) ) ) {
+
+			$thumbnail = false;
+			if ( $thumbnail_id ) {
+				$thumbnail = get_post( $thumbnail_id );
+			}
+
+			if ( ! is_a( $thumbnail, '\WP_Post' ) && ( ! is_singular() || is_singular( 'show' ) || $force ) ) {
 				$fallback_id = get_option( "{$post->post_type}_fallback" );
 				if ( $fallback_id ) {
 					$thumbnail_id = $fallback_id;

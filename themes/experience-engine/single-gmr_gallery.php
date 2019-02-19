@@ -1,10 +1,12 @@
-<?php ee_setup_gallery_view_metadata(); // must be called before get_header(); ?>
+<?php 
 
-<?php get_header(); ?>
+ee_setup_gallery_view_metadata(); // must be called before get_header(); 
+get_header();
 
-<?php the_post(); ?>
+ee_switch_to_article_blog();
+the_post(); 
 
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php get_template_part( 'partials/show/header' ); ?>
 
 	<header class="post-info">
@@ -15,13 +17,10 @@
 		<div class="post-meta">
 			<?php get_template_part( 'partials/content/meta' ); ?>
 		</div>
-
 	</header>
 
 	<div class="entry-content content-wrap">
-
 		<div class="description">
-				
 			<?php get_template_part( 'partials/featured-media' ); ?>
 
 			<?php the_content(); ?>
@@ -32,9 +31,8 @@
 		</div>
 
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
-
 	</div>
+</div><?php
 
-</div>
-
-<?php get_footer(); ?>
+restore_current_blog();
+get_footer();
