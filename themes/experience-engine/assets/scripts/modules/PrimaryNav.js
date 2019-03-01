@@ -36,7 +36,7 @@ class PrimaryNav extends PureComponent {
 
 		siteMenuToggle.addEventListener( 'click', self.handleMobileNav );
 
-		if ( window.matchMedia( '(min-width: 768px)' ).matches ) {
+		if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 			navRoot.parentNode.setAttribute( 'aria-hidden', false );
 		}
 	}
@@ -75,7 +75,7 @@ class PrimaryNav extends PureComponent {
 			}
 		}
 
-		if ( !window.matchMedia( '(min-width: 768px)' ).matches && navRoot.parentNode.classList.contains( 'is-active' ) ) {
+		if ( !window.matchMedia( '(min-width: 900px)' ).matches && navRoot.parentNode.classList.contains( 'is-active' ) ) {
 			self.handleMobileNav();
 		}
 	}
@@ -129,7 +129,7 @@ class PrimaryNav extends PureComponent {
 		window.requestAnimationFrame( () => {
 			container.parentNode.classList.remove( 'menu-is-active' );
 
-			if ( window.matchMedia( '(min-width: 768px)' ).matches ) {
+			if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 				container.setAttribute( 'aria-hidden', false );
 			} else {
 				container.setAttribute( 'aria-hidden', true );
