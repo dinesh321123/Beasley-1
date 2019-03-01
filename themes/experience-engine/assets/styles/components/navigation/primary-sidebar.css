@@ -21,7 +21,7 @@
 		text-align: center;
 		width: 100%;
 
-		@media (--min-medium-viewport) {
+		@media (--min-large-viewport) {
 			max-width: calc(190px - 2.2rem);
 			position: fixed;
 			width: 100%;
