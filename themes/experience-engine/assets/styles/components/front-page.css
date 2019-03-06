@@ -1,6 +1,8 @@
 .home {
 	& .section-head {
+		font-size: 1.5rem;
 		font-style: italic;
+		font-weight: 600;
 	}
 
 	& .content-wrap + div:not(.content-wrap) {
@@ -76,13 +78,20 @@
 		}
 	}
 
+	& #inner-content > .content-wrap {
+		@media (--min-medium-viewport) {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+
 	& #inner-content {
 		& .content-wrap {
 			position: relative;
 		}
 
 		& .placeholder-editfeed {
-			background-color: var(--global-white);		
+			background-color: var(--global-white);	
 			position: absolute;
 			right: 0;
 			top: .3rem;
@@ -93,8 +102,14 @@
 				border: none;
 				color: var(--brand-primary);
 				cursor: pointer;
-				font-style: italic;
-				font-weight: bold;
+				font-size: 0.812rem;
+				font-weight: 600;
+				letter-spacing: 0.0025rem;
+				text-align: right;
+				text-transform: uppercase;
+				padding: 0 0 0 1rem;
+				position: relative;
+				top: -3px;
 			}
 		}
 	}

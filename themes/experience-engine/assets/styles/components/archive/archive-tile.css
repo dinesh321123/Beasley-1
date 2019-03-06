@@ -235,11 +235,16 @@
 		& .post-title {
 			hyphens: auto;
 			word-wrap: break-word;
+			padding: 0.812rem 0.812rem 0.812rem 0;
 
 			& h3 {
 				font-size: 1.375rem;
-				font-weight: 600;
+				
 				margin-bottom: 0;
+
+				& a {
+					font-weight: 600;
+				}
 			}
 		}
 

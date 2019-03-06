@@ -1,0 +1,45 @@
+.carousel {
+
+    @media(--max-medium-viewport) {
+        margin-right: -1.3rem;
+    }
+
+    & .flickity-prev-next-button.previous {
+        left: -60px;
+    }
+
+    & .flickity-prev-next-button.next {
+        right: -60px;
+    }
+
+  &.large {
+    
+    & .carousel-cell {
+      width: calc(75% - 5px);
+      margin-right: 10px;
+
+      @media(min-width: 768px) {
+        width: calc(50% - 5px);
+      }
+
+    }
+    
+  }
+  
+  &.small {
+
+    & .carousel-cell {
+      width: calc(75% - 10px);
+      margin-right: 10px;
+
+      @media(min-width: 768px) {
+        width: calc(25% - 10px);
+      }
+
+      & .post-title h3 {
+          font-size: 1.125rem;
+      }
+
+    }
+  }
+}

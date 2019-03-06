@@ -69,14 +69,14 @@ class ContentDispatcher extends Component {
 
 	handleSliderLoad() {
 		const self = this;
-		const carousels = document.querySelectorAll( '.swiper-container' );
+		const carousels = document.querySelectorAll( '.carousel' );
 
 		const scripts = [
-			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/js/swiper.min.js',
+			'https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js',
 		];
 
 		const styles = [
-			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css',
+			'https://unpkg.com/flickity@2/dist/flickity.min.css',
 		];
 
 		if ( carousels.length ) {
@@ -90,31 +90,39 @@ class ContentDispatcher extends Component {
 	}
 
 	handleSliders() {
-		const carousels = document.querySelectorAll( '.swiper-container' );
+		const carousels = document.querySelectorAll( '.carousel' );
+		const breakpoint = window.matchMedia( '(min-width: 768px)' ).matches;
+		
+		if( carousels.length > 0 ) { // eslint-disable-line
+			carousels.forEach( carousel => {
+				const isLarge = carousel.classList.contains( 'large' );
+				let config;
 
-		if ( carousels ) {
-			for ( let i = 0, len = carousels.length; i < len; i++ ) {
-				const count = carousels[i].classList.contains( '-large' ) ? 2.2 : 4.2;
+				if( breakpoint ) {
+					config = {
+						draggable: false,
+						cellAlign: 'left',
+						contain: true,
+						pageDots: false,
+						groupCells: isLarge ? 2 : 4,
+						selectedAttraction: 0.01,
+						friction: 0.15
+					};
+				} else {
+					config = {
+						draggable: true,
+						cellAlign: 'left',
+						contain: true,
+						pageDots: false,
+						freeScroll: true,
+						freeScrollFriction: 0.02,
+						prevNextButtons: false,
+					};
+				}
 
-				new Swiper(carousels[i], { // eslint-disable-line
-					slidesPerView: count,
-					spaceBetween: 36,
-					freeMode: true,
-					breakpoints: {
-						900: {
-							slidesPerView: 2.2,
-						},
-						480: {
-							slidesPerView: 1.2,
-							spaceBetween: 27,
-						}
-					},
-					navigation: {
-						nextEl: '.swiper-button-next',
-						prevEl: '.swiper-button-prev',
-					},
-				} );
-			}
+				const flkty = new Flickity( carousel, config ); // eslint-disable-line
+
+			} );
 		}
 	}
 

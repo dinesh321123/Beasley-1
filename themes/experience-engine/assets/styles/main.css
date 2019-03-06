@@ -77,5 +77,6 @@
 @import "components/favorites";
 @import "components/formats/post-format";
 @import "components/breaking-news";
+@import "components/flickity";
 
 @import "utilities/display";
