@@ -104,7 +104,7 @@ class ContentDispatcher extends Component {
 						cellAlign: 'left',
 						contain: true,
 						pageDots: false,
-						groupCells: isLarge ? 2 : 4,
+						groupCells: isLarge ? 4 : 6,
 						selectedAttraction: 0.01,
 						friction: 0.15
 					};
