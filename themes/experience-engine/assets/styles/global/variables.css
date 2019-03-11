@@ -33,6 +33,8 @@
 	--brand-tertiary: blue;
 }
 
+@custom-media --min-vxlarge-viewport (min-width: 1360px);
+@custom-media --min-vlarge-viewport (min-width: 1200px);
 @custom-media --min-xlarge-viewport (min-width: 1060px);
 @custom-media --min-large-viewport (min-width: 900px);
 @custom-media --min-medium-viewport (min-width: 768px);

@@ -1,45 +1,60 @@
 .carousel {
 
-    @media(--max-medium-viewport) {
+	@media(--max-medium-viewport) {
         margin-right: -1.3rem;
     }
 
     & .flickity-prev-next-button.previous {
-        left: -60px;
+		visibility: hidden;
+
+		@media(--min-vxlarge-viewport) {
+			visibility: visible;
+		}
+
+		@media(--min-vxlarge-viewport) {
+			left: -60px;
+		}
+        
     }
 
     & .flickity-prev-next-button.next {
-        right: -60px;
+		visibility: hidden;
+
+		@media(--min-vxlarge-viewport) {
+			visibility: visible;
+		}
+
+		@media(--min-vxlarge-viewport) {
+			right: -60px;
+		}
     }
 
-  &.large {
-    
-    & .carousel-cell {
-      width: calc(75% - 5px);
-      margin-right: 10px;
+	&.large {
+		
+		& .carousel-cell {
+		width: calc(75% - 5px);
+		margin-right: 5px;
 
-      @media(min-width: 768px) {
-        width: calc(50% - 5px);
-      }
+		@media(--min-medium-viewport) {
+			width: calc(25% - 5px);
+		}
 
-    }
-    
-  }
+		}
+	}
   
-  &.small {
+	&.small {
 
-    & .carousel-cell {
-      width: calc(75% - 10px);
-      margin-right: 10px;
+		& .carousel-cell {
+			width: calc(75% - 10px);
+			margin-right: 5px;
 
-      @media(min-width: 768px) {
-        width: calc(25% - 10px);
-      }
+			@media(--min-medium-viewport) {
+				width: calc(16.66% - 5px);
+			}
 
-      & .post-title h3 {
-          font-size: 1.125rem;
-      }
-
-    }
-  }
+			& .post-title h3 {
+				font-size: 1.125rem;
+			}
+		}
+	}
 }

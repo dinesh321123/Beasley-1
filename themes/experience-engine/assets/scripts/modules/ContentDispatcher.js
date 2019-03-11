@@ -100,7 +100,7 @@ class ContentDispatcher extends Component {
 
 				if( breakpoint ) {
 					config = {
-						draggable: false,
+						draggable: true,
 						cellAlign: 'left',
 						contain: true,
 						pageDots: false,
