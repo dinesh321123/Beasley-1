@@ -91,20 +91,37 @@ class ContentDispatcher extends Component {
 
 	handleSliders() {
 		const carousels = document.querySelectorAll( '.carousel' );
-		const breakpoint = window.matchMedia( '(min-width: 768px)' ).matches;
-		
+		const minMed = window.matchMedia( '(min-width: 768px)' ).matches;
+		const minXL = window.matchMedia( '(min-width: 1024px)' ).matches;
+		const dyanmicContainerWidth = carousels[0].offsetWidth;
+		const containerWidth = 1071;
+		const countLg = 4;
+		const countSm = 6;
+
 		if( carousels.length > 0 ) { // eslint-disable-line
 			carousels.forEach( carousel => {
-				const isLarge = carousel.classList.contains( 'large' );
+				const slides = carousel.querySelectorAll( '.carousel-cell' );
+				const isLarge = carousel.classList.contains( '-large' );
+				let count = isLarge ? countLg : countSm;
+				const cellWidth = ( 1 / count ) * containerWidth;
+				if ( !minXL ) {
+					const dynamicCount = dyanmicContainerWidth / cellWidth;
+					count = dynamicCount;
+				}
+				slides.forEach( slide => {
+					slide.style.width = `${cellWidth}px`;
+				} );
+
 				let config;
 
-				if( breakpoint ) {
+				if( minMed ) {
+					console.log( count );
 					config = {
 						draggable: true,
 						cellAlign: 'left',
 						contain: true,
 						pageDots: false,
-						groupCells: isLarge ? 4 : 6,
+						groupCells: count,
 						selectedAttraction: 0.01,
 						friction: 0.15
 					};
