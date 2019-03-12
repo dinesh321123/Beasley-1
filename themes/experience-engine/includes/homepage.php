@@ -9,7 +9,7 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 			'news'      => 'ee_render_homepage_standard_feed',
 			'video'     => 'ee_render_homepage_standard_feed',
 			'podcast'   => 'ee_render_homepage_standard_feed',
-			'countdown' => 'ee_render_homepage_payloadable_feed', 
+			'countdown' => 'ee_render_homepage_payloadable_feed',
 			'cta'       => 'ee_render_homepage_payloadable_feed',
 			'stream'    => 'ee_render_homepage_stream',
 		);
@@ -69,7 +69,7 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 				}
 			}
 
-			echo '<div class="archive-tiles carousel ' . esc_attr( $size ) .'">';
+			echo '<div class="archive-tiles carousel -' . esc_attr( $size ) .'">';
 				foreach ( $feed['content'] as $item ) {
 					echo '<div class="carousel-cell">';
 						if ( $item['contentType'] == 'link' || $item['contentType'] == 'podcast' ) {
@@ -79,7 +79,7 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 					echo '</div>';
 				}
 			echo '</div>';
-		
+
 		echo '</div>';
 
 		// below first two ribbons, then after 5th ribbon and every 3 ribbons thereafter.
@@ -249,7 +249,7 @@ if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 								unset( $query_vars[ $type ] );
 							}
 						}
-						
+
 						$query = new \WP_Query();
 						$posts = $query->query( array_merge( $query_vars, array(
 							'ignore_sticky_posts' => true,
