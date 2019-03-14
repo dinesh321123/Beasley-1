@@ -12,9 +12,11 @@
 		display: none;
 	}
 
-	& .episode-tile {
-		& .status button svg {
-			fill: var(--global-white);
+	&:not(.-carousel) {
+		& .episode-tile {
+			& .status button svg {
+				fill: var(--global-white);
+			}
 		}
 	}
 
@@ -72,12 +74,22 @@
 			font-size: 1rem;
 		}
 
-		& .episode-tile {
-			padding-bottom: 0;
-
-			& .status button svg {
-				fill: var(--global-white);
+		&.-large {
+			& .swiper-button-next,
+			& .swiper-button-prev {
+				width: 76px;
 			}
+		}
+
+		&.-small {
+			& .swiper-button-next,
+			& .swiper-button-prev {
+				width: 43px;
+			}
+		}
+
+		& .episode-tile {
+				padding-bottom: 0;
 		}
 
 		& .swiper-button-prev {
@@ -99,11 +111,12 @@
 
 		& .swiper-button-prev,
 		& .swiper-button-next {
-			border-radius: 50%;
+			background-image: none;
+			bottom: 0;
 			display: none;
-			padding: 1.5rem;
-			top: 50%;
-			transform: translateY(-50%);
+			height: 100%;
+			margin-top: 0;
+			top: 0;
 			transition: opacity 300ms ease;
 
 			@media (--min-medium-viewport) {
@@ -114,7 +127,6 @@
 			&::after {
 				background-position: center;
 				background-repeat: no-repeat;
-				background-size: 25%;
 				content: "";
 				position: absolute;
 				width: 100%;
@@ -126,8 +138,8 @@
 
 			&::before {
 				background-color: var(--global-white);
-				border-radius: 50%;
-				box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3), 0 0 4px rgba(0, 0, 0, 0.2);
+				height: 100%;
+				opacity: 0.8;
 			}
 		}
 

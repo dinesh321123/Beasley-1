@@ -77,4 +77,6 @@
 @import "components/formats/post-format";
 @import "components/breaking-news";
 
+@import "page/home";
+
 @import "utilities/display";
