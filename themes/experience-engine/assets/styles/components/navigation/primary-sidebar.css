@@ -22,13 +22,12 @@
 		width: 100%;
 
 		@media (--min-medium-viewport) {
-			height: calc(100% - 176px);
+			height: 100%;
 			margin-right: -1rem;
 			margin-left: -1rem;
-			max-height: calc(100% - 176px);
 			max-width: 188px;
 			overflow-x: hidden;
-			overflow-y: auto;
+			overflow-y: visible;
 			padding: 0 1rem;
 			position: fixed;
 			width: 100%;
