@@ -85,7 +85,7 @@ class CompleteSignup extends PureComponent {
 						</div>
 					</div>
 					<div className="modal-form-actions">
-						<button className="button -sign-in" type="submit">Save</button>
+						<button className="btn -sign-in" type="submit">Save</button>
 					</div>
 				</form>
 			</Fragment>

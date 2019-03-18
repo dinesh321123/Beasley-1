@@ -1,6 +1,7 @@
 :root {
 	--global-black: #000000;
 	--global-mine-shaft: #333333;
+	--global-tundora: #444444;
 	--global-dove-gray: #737373;
 	--global-silver: #cccbcb;
 	--global-silver-chalice: #a5a5a5;
@@ -24,7 +25,7 @@
 	--global-theme-primary: #f1f1f1;
 	--global-theme-secondary: #fcfcfc;
 
-	--global-theme-font-primary: #444444;
+	--global-theme-font-primary: var(--global-tundora);
 	--global-theme-font-secondary: var(--global-font-primary);
 	--global-theme-font-tertiary: var(--global-dove-gray);
 

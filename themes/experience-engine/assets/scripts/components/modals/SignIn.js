@@ -66,39 +66,50 @@ class SignIn extends PureComponent {
 
 				<Alert message={message} />
 
-				<form className="modal-form -form-sign-in" onSubmit={self.onFormSubmit}>
-					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-email">Email</label>
-						<input
-							className="modal-form-field"
-							type="email" id="user-email"
-							name="email" value={email}
-							onChange={self.onFieldChange}
-							placeholder="Your email address"
-						/>
+				<div className="signin-options">
+					<div className="option">
+						<p className="p-label"><em>Sign in with:</em></p>
+						<OAuthButtons />
 					</div>
-					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-password">Password</label>
-						<input
-							className="modal-form-field"
-							type="password"
-							id="user-password"
-							name="password"
-							value={password}
-							onChange={self.onFieldChange}
-							placeholder="Your password"
-						/>
+					<div className="option">
+						<form className="modal-form -form-sign-in" onSubmit={self.onFormSubmit}>
+							<div className="modal-form-group">
+								<label className="modal-form-label" htmlFor="user-email">Email</label>
+								<input
+									className="modal-form-field"
+									type="email" id="user-email"
+									name="email" value={email}
+									onChange={self.onFieldChange}
+									placeholder="your@emailaddress.com"
+								/>
+							</div>
+							<div className="modal-form-group">
+								<label className="modal-form-label" htmlFor="user-password">Password</label>
+								<input
+									className="modal-form-field"
+									type="password"
+									id="user-password"
+									name="password"
+									value={password}
+									onChange={self.onFieldChange}
+									placeholder="Your password"
+								/>
+							</div>
+							<div className="modal-form-actions">
+								<button className="btn -sign-in" type="submit">Sign In</button>
+								<button className="btn -empty -nobor -forgot-password" type="button" onClick={restore}>Forgot Password</button>
+							</div>
+						</form>
 					</div>
-					<div className="modal-form-actions">
-						<button className="button -sign-in" type="submit">Sign In</button>
-						<button className="button -forgot-password" type="button" onClick={restore}>Forgot Password</button>
-						<button className="button -sign-up" type="button" onClick={signup}>Sign Up</button>
+				</div>
+
+				<div className="register">
+					<h3>Not yet a member?</h3>
+					<div className="blurb">
+						<p>Sing up to Kiss 95.1 today for exclusive content and start listening live today!</p>
+						<button className="btn -sign-up -empty" type="button" onClick={signup}>Sign Up</button>
 					</div>
-				</form>
-				<h5 className="section-head">
-					<span>Or sign in with</span>
-				</h5>
-				<OAuthButtons />
+				</div>
 			</Fragment>
 		);
 	}

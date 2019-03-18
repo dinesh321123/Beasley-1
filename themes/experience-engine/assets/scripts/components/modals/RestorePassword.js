@@ -2,9 +2,13 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import trapHOC from '@10up/react-focus-trap-hoc';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Header from './elements/Header';
 import Alert from './elements/Alert';
+
+import { showSignInModal } from '../../redux/actions/modal';
 
 class RestorePassword extends PureComponent {
 
@@ -65,6 +69,7 @@ class RestorePassword extends PureComponent {
 			message,
 			success
 		} = self.state;
+		const { signin } = self.props;
 
 		return (
 			<Fragment>
@@ -89,10 +94,10 @@ class RestorePassword extends PureComponent {
 							placeholder="yourname@yourddomain.com"
 						/>
 					</div>
-					<div className="modal-form-actions">
-						<button className="button -sign-in" type="submit">
-							Restore
-						</button>
+
+					<div className="modal-form-actions -signup -restore">
+						<button className="btn -sign-in" type="submit">Restore</button>
+						<p><strong>Already a member?</strong> <button className="btn -empty -nobor -sign-in" type="button" onClick={signin}>Sign In</button></p>
 					</div>
 				</form>
 			</Fragment>
@@ -104,6 +109,12 @@ class RestorePassword extends PureComponent {
 RestorePassword.propTypes = {
 	activateTrap: PropTypes.func.isRequired,
 	deactivateTrap: PropTypes.func.isRequired,
+	signin: PropTypes.func.isRequired,
 };
 
-export default trapHOC()( RestorePassword );
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( {
+		signin: showSignInModal,
+	}, dispatch );
+}
+export default connect( null, mapDispatchToProps )( trapHOC()( RestorePassword ) );
