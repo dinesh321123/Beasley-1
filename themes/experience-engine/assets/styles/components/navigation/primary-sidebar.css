@@ -179,14 +179,14 @@ body.-lock {
 	overflow: hidden;
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-	html{
-		overflow: hidden;
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { //this is specifically to remove the shake on the nav when scrolling in IE.
+	html {
 		height: 100%;
+		overflow: hidden;
 	}
 
-	body{
-		overflow: auto;
+	body {
 		height: 100%;
+		overflow: auto;
 	}
 }
