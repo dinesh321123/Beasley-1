@@ -112,10 +112,6 @@
 			}
 		}
 
-		& .primary-sidebar-navigation {
-
-		}
-
 		& .site-menu-toggle {
 			& svg {
 				transform: rotate(45deg);
@@ -179,14 +175,16 @@ body.-lock {
 	overflow: hidden;
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { //this is specifically to remove the shake on the nav when scrolling in IE.
-	html {
-		height: 100%;
-		overflow: hidden;
-	}
-
-	body {
+body {
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { //this is specifically to remove the shake on the nav when scrolling in IE.
 		height: 100%;
 		overflow: auto;
+	}
+}
+
+html {
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { //this is specifically to remove the shake on the nav when scrolling in IE.
+		height: 100%;
+		overflow: hidden;
 	}
 }
