@@ -10,8 +10,6 @@
 		</svg>
 	</a>
 
-	<div id="user-nav" class="user-nav"></div>
-
 	<div class="primary-sidebar-navigation">
 		<div class="logo" itemscope itemtype="http://schema.org/Organization">
 			<?php ee_the_custom_logo( 130, 130 ); ?>
@@ -23,7 +21,10 @@
 				<?php echo get_search_form(); ?>
 				<?php get_template_part( 'partials/primary', 'navigation' ); ?>
 			</nav>
+			
+			<div id="user-nav" class="user-nav"></div>
 		</div>
+		
 	</div>
 	
 </div>

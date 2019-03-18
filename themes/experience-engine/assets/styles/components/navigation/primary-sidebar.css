@@ -22,10 +22,10 @@
 		width: 100%;
 
 		@media (--min-medium-viewport) {
-			height: calc(100% - 176px);
+			height: calc(100% - 75px);
 			margin-right: -1rem;
 			margin-left: -1rem;
-			max-height: calc(100% - 176px);
+			max-height: calc(100% - 75px);
 			max-width: 188px;
 			overflow-x: hidden;
 			overflow-y: auto;
