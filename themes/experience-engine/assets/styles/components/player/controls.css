@@ -339,10 +339,13 @@
 		}
 
 		& button {
+			align-items: center;
 			background: transparent;
 			color: var(--global-theme-font-primary);
+			display: flex;
 			font-size: 0.875rem;
 			font-weight: 600;
+			justify-content: center;
 			transition: color 250ms ease-in-out;
 			text-align: left;
 			text-transform: uppercase;
