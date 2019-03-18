@@ -12,11 +12,11 @@
 
     @media(--min-large-viewport) {
         bottom: 74px;
-        margin: 0 -1.1rem;
-        min-width: 190px;
+        margin-left: -1.1rem;
+        margin-right: -1.1rem;
+        max-width: 190px;
         padding: 1.1rem;
-        position: relative;
-        transform: translateY(420px) translate3d(0,0,0);
+        position: fixed;
         width: 100%
     }
 
