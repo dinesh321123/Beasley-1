@@ -176,14 +176,14 @@ body.-lock {
 }
 
 body {
-	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { //this is specifically to remove the shake on the nav when scrolling in IE.
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { /* this is specifically to remove the shake on the nav when scrolling in IE. */
 		height: 100%;
 		overflow: auto;
 	}
 }
 
 html {
-	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { //this is specifically to remove the shake on the nav when scrolling in IE.
+	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { /* this is specifically to remove the shake on the nav when scrolling in IE. */
 		height: 100%;
 		overflow: hidden;
 	}
