@@ -13,7 +13,7 @@
 		min-width: 190px;
 		min-height: calc(100vh - 74px); /*74px is the height of the live player.*/
 		padding: 1.375rem 1.1rem;
-		position: absolute;
+		position: fixed;
 		top: 0;
 	}
 
@@ -180,10 +180,18 @@ body {
 		height: 100%;
 		overflow: auto;
 	}
+	@supports (-ms-ime-align:auto) {
+		height: 100%;
+		overflow: auto;
+	}
 }
 
 html {
 	@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { /* this is specifically to remove the shake on the nav when scrolling in IE. */
+		height: 100%;
+		overflow: hidden;
+	}
+	@supports (-ms-ime-align:auto) {
 		height: 100%;
 		overflow: hidden;
 	}
