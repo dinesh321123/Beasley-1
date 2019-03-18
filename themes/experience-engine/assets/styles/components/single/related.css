@@ -1,31 +1,47 @@
 .related-articles {
-    & .post {
-        margin-bottom: 3rem;
+	& .post {
+		margin-bottom: 1rem;
 
-        & .post-title {
-            @media (--min-large-viewport) {
-                max-width: 375px;
-            }
-            
-        }
+		@media (--min-small-viewport) {
+			margin-bottom: 3rem;
+		}
 
-        & .post-details {
-            flex: 1;
-            margin-left: 2rem;
+		& .post-thumbnail {
+			flex: 0 1 100%;
+			margin-bottom: 1rem;
 
-            & .post-date {
-                color: var(--global-theme-font-tertiary);
-                font-size: .875rem;
-                margin-bottom: 1rem;
-            }
-        }
-    }
+			@media (--min-small-viewport) {
+				flex: auto;
+				margin-bottom: 0;
+			}
+		}
+
+		& .post-title {
+			@media (--min-large-viewport) {
+				max-width: 375px;
+			}
+		}
+
+		& .post-details {
+			flex: 1;
+
+			@media (--min-small-viewport) {
+				margin-left: 2rem;
+			}
+
+			& .post-date {
+				color: var(--global-theme-font-tertiary);
+				font-size: .875rem;
+				margin-bottom: 1rem;
+			}
+		}
+	}
 }
 
 .archive {
-    & .archive-tiles {
-        & .post-date {
-            display: none;
-        }
-    }
+	& .archive-tiles {
+		& .post-date {
+			display: none;
+		}
+	}
 }
