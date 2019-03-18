@@ -2,6 +2,13 @@
     & .post {
         margin-bottom: 3rem;
 
+        & .post-title {
+            @media (--min-large-viewport) {
+                max-width: 375px;
+            }
+            
+        }
+
         & .post-details {
             flex: 1;
             margin-left: 2rem;
