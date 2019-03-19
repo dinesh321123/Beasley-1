@@ -63,7 +63,7 @@
 
 		& .controls-station,
 		& .controls-contact {
-			button {
+			& button {
 				padding: 1rem;
 			}
 		}
