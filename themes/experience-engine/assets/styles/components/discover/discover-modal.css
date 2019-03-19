@@ -80,7 +80,7 @@
 				pointer-events: none;
 				position: absolute;
 				right: calc(100% - 90px);
-				top: 4px;
+				top: 8px;
 				transform: rotate(45deg);
 				transform-origin: 50%;
 				transition: transform 300ms ease;
@@ -94,7 +94,6 @@
 			}
 
 			&.select-location {
-
 				&::after {
 					right: calc(100% - 115px);
 				}
@@ -116,6 +115,25 @@
 		max-width: 90px;
 		min-width: 90px;
 		width: 100%;
+	}
+
+	& input[type="search"] {
+		padding-top: 0;
+		position: relative;
+		top: -4px;
+
+		@media(--min-xlarge-viewport) {
+			padding-top: .6667rem;
+			top: 0;
+		}
+	}
+
+	& button[type="submit"] {
+		top: -7px;
+
+		@media(--min-xlarge-viewport) {
+			top: 0;
+		}
 	}
 
 	& .post-thumbnail {
