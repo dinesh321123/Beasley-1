@@ -45,14 +45,19 @@
 		margin: 0 auto;
 		max-width: 1071px;
 		padding: 0 1rem 2.22rem;
+
+		h1 {
+			font-size: 2.38rem;
+			line-height: 1.355;
+		}
 	}
 
 	& .profile {
 		color: inherit;
-		font-size: 1.3rem;
+		font-size: 1rem;
 		font-style: italic;
-		font-weight: 300;
-		line-height: 1.5;
+		font-weight: 100;
+		line-height: 1.611;
 	}
 
 	& .post-meta {
@@ -68,7 +73,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		margin-bottom: 1rem;
-		
+
 		@media(--min-medium-viewport) {
 			align-items: center;
 			flex-direction: row;
@@ -79,7 +84,7 @@
 			display: flex;
 			flex-direction: row;
 			font-size: 1rem;
-			
+
 			& .author-meta-date:first-child {
 				padding-left: 0;
 

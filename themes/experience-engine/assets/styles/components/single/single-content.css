@@ -76,7 +76,10 @@
 .post-tags {
 	display: flex;
 	justify-content: space-between;
-	margin-bottom: 3rem;
+
+	@media (--min-large-viewport) {
+		margin-bottom: 3rem;
+	}
 
 	& .post-tag-label {
 		color: var(--global-theme-font-primary);
