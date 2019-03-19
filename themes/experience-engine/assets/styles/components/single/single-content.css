@@ -76,9 +76,10 @@
 .post-tags {
 	display: flex;
 	justify-content: space-between;
+	margin-bottom: 3rem;
 
 	@media (--min-large-viewport) {
-		margin-bottom: 3rem;
+		margin-bottom: 0;
 	}
 
 	& .post-tag-label {
