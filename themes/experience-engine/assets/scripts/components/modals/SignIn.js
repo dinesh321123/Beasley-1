@@ -57,11 +57,12 @@ class SignIn extends PureComponent {
 		const self = this;
 		const { email, password, message } = self.state;
 		const { restore, signup } = self.props;
+		const { title } = window.bbgiconfig.publisher;
 
 		return (
 			<Fragment>
 				<Header>
-					<h3>Sign In</h3>
+					<h3>Sign In to {title}</h3>
 				</Header>
 
 				<Alert message={message} />
@@ -106,7 +107,7 @@ class SignIn extends PureComponent {
 				<div className="register">
 					<h3>Not yet a member?</h3>
 					<div className="blurb">
-						<p>Sing up to Kiss 95.1 today for exclusive content and start listening live today!</p>
+						<p>Sing up to {title} today for exclusive content and start listening live today!</p>
 						<button className="btn -sign-up -empty" type="button" onClick={signup}>Sign Up</button>
 					</div>
 				</div>
