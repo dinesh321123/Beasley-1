@@ -93,8 +93,15 @@ class LazyImage extends PureComponent {
 			}
 		}
 
-		let imageSrc = `${src.split( '?' )[0]}?${maxwidth}=${containerWidth}&${maxheight}=${containerHeight}&anchor=${anchor}${mode}`;
-		if ( 0 < quality ) {
+		let multiplier = +window.devicePixelRatio;
+		if ( 1 > multiplier ) {
+			multiplier = 1;
+		} else if ( 2 < multiplier ) {
+			multiplier = 2;
+		}
+
+		let imageSrc = `${src.split( '?' )[0]}?${maxwidth}=${Math.round( containerWidth * multiplier )}&${maxheight}=${Math.round( containerHeight * multiplier )}&anchor=${anchor}${mode}`;
+		if ( quality && 0 < quality ) {
 			imageSrc += `&quality=${quality}`;
 		}
 
