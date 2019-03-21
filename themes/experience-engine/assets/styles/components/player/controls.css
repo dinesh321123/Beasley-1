@@ -374,7 +374,7 @@
 			visibility: hidden;
 			will-change: visibility, opacity;
 
-			button {
+			& button {
 				justify-content: left;
 			}
 		}
