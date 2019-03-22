@@ -11,7 +11,7 @@ the_post();
 			<h1 class="album-title"><?php the_title(); ?></h1>
 			<?php if ( ee_is_first_page() ) :
 				get_template_part( 'partials/content/meta' );
-				get_template_part( 'partials/featured-media' );
+				get_template_part( 'partials/featured-media', 'autoheight' );
 			endif; ?>
 		</div>
 	<?php endif; ?>
