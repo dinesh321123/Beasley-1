@@ -1,6 +1,6 @@
 <?php if ( has_post_thumbnail() ) : ?>
 	<div class="post-thumbnail-wrapper">
-		<div class="post-thumbnail featured-media"><?php 
+		<div class="post-thumbnail featured-media -autoheight"><?php 
 			$callback = function( $html ) {
 				return str_replace( '<div ', '<div data-autoheight="1" ', $html );
 			};
