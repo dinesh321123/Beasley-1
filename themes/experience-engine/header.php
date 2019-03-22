@@ -8,7 +8,7 @@
 			add_action( 'wp_head', 'restore_current_blog', 1 );
 			ee_switch_to_article_blog();
 		endif;
-		
+
 		wp_head();
 
 	?></head>
@@ -30,5 +30,8 @@
 		?><div class="container">
 			<main id="content" class="content">
 				<?php do_action( 'show_breaking_news_banner' ); ?>
-				<?php get_template_part( 'partials/ads/leaderboard' ); ?>
+				<?php
+				if ( ! ee_is_jacapps() ) :
+					get_template_part( 'partials/ads/leaderboard' );
+				endif; ?>
 				<div id="inner-content">

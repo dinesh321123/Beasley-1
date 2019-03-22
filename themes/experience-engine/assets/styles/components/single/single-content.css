@@ -26,6 +26,7 @@
 		flex: 0 1 100%;
 		order: 2;
 	}
+
 }
 /* End Grid Fallbacks */
 
@@ -120,4 +121,14 @@
 	color: var(--global-font-secondary);
 	font-size: .875rem;
 	margin: .5rem 0 0 0;
+}
+
+.jacapps .entry-content {
+	@media (--min-xlarge-viewport) {
+		grid-template-columns: 100%;
+	}
+}
+
+.jacapps .related-articles {
+	display: none;
 }

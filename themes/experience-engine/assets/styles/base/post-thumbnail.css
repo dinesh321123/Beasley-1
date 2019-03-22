@@ -25,3 +25,13 @@
 		width: 100%;
 	}
 }
+
+.jacapps .post-thumbnail {
+	&::before {
+		content: normal;
+		display: block;
+		padding-top: 0;
+		width: 100%;
+	}
+
+}
