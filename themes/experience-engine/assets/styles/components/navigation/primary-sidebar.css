@@ -102,6 +102,19 @@
 	}
 
 	&.menu-is-active {
+		& .primary-sidebar-navigation::before {
+			background-color: var(--global-theme-secondary);
+			content: '';
+			display: block;
+			height: 100%;
+			left: 0;
+			max-height: 5rem;
+			position: fixed;
+			top: 0;
+			width: 82.6667vw;
+			z-index: 9;
+		}
+
 		& .logo {
 			display: flex;
 			justify-content: center;
