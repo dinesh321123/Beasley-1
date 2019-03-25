@@ -173,8 +173,10 @@
 	}
 }
 body.-lock {
+	height: 100%;
 	overflow: hidden;
-	position: relative;
+	position: fixed;
+	width: 100%;
 }
 
 body {
