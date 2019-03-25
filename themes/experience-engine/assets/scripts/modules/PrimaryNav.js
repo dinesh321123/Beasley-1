@@ -150,11 +150,23 @@ class PrimaryNav extends PureComponent {
 
 			if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 				container.setAttribute( 'aria-hidden', false );
+				if ( container.classList.contains( 'is-active' ) ) {
+					container.classList.remove( 'is-active' );
+				}
+
+				if ( container.parentNode.parentNode.classList.contains( 'menu-is-active' ) ) {
+					container.parentNode.parentNode.classList.remove( 'menu-is-active' );
+				}
+
+				if ( document.body.classList.contains( '-lock' ) ) {
+					document.body.classList.remove( '-lock' );
+				}
+
 			} else {
 				if ( !container.classList.contains( 'is-active' ) ){
 					container.setAttribute( 'aria-hidden', true );
 				}
-				if( container.classList.contains( 'is-active' ) && ww !== initialWw ) {
+				if ( container.classList.contains( 'is-active' ) && ww !== initialWw ) {
 					container.classList.toggle( 'is-active' );
 					container.parentNode.parentNode.classList.toggle( 'menu-is-active' );
 					document.body.classList.toggle( '-lock' );
