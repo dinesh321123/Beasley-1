@@ -18,7 +18,10 @@ class PrimaryNav extends PureComponent {
 		const self = this;
 
 		self.primaryNavRef = React.createRef();
-		self.state = { navHtml: navRoot.innerHTML };
+		self.state = {
+			navHtml: navRoot.innerHTML,
+			initialWw: window.innerWidth,
+		};
 
 		self.handleSubMenu = self.handleSubMenu.bind( self );
 		self.handleMobileNav = self.handleMobileNav.bind( self );
@@ -141,13 +144,15 @@ class PrimaryNav extends PureComponent {
 
 	onResize() {
 		const container = navRoot.parentNode;
+		const ww = window.innerWidth;
+		const { initialWw } = this.state;
 		window.requestAnimationFrame( () => {
 
 			if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 				container.setAttribute( 'aria-hidden', false );
 			} else {
 				container.setAttribute( 'aria-hidden', true );
-				if( container.classList.contains( 'is-active' ) ) {
+				if( container.classList.contains( 'is-active' ) && ww !== initialWw ) {
 					container.classList.toggle( 'is-active' );
 					container.parentNode.parentNode.classList.toggle( 'menu-is-active' );
 					document.body.classList.toggle( '-lock' );
