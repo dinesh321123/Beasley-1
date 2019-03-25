@@ -95,7 +95,7 @@ class PrimaryNav extends PureComponent {
 		if ( 'BUTTON' === target.nodeName.toUpperCase() ) {
 			if ( menuItem.classList.contains( 'menu-item-discovery' ) ) {
 				const { signedIn, showDiscover, showSignin } = self.props;
-		
+
 				if ( signedIn ) {
 					showDiscover();
 				} else {
@@ -142,12 +142,17 @@ class PrimaryNav extends PureComponent {
 	onResize() {
 		const container = navRoot.parentNode;
 		window.requestAnimationFrame( () => {
-			container.parentNode.classList.remove( 'menu-is-active' );
 
 			if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 				container.setAttribute( 'aria-hidden', false );
 			} else {
 				container.setAttribute( 'aria-hidden', true );
+				if( container.classList.contains( 'is-active' ) ) {
+					container.classList.toggle( 'is-active' );
+					container.parentNode.parentNode.classList.toggle( 'menu-is-active' );
+					document.body.classList.toggle( '-lock' );
+					container.setAttribute( 'aria-hidden', 'false' === container.getAttribute( 'aria-hidden' ) );
+				}
 			}
 		} );
 	}
