@@ -151,7 +151,9 @@ class PrimaryNav extends PureComponent {
 			if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 				container.setAttribute( 'aria-hidden', false );
 			} else {
-				container.setAttribute( 'aria-hidden', true );
+				if ( !container.classList.contains( 'is-active' ) ){
+					container.setAttribute( 'aria-hidden', true );
+				}
 				if( container.classList.contains( 'is-active' ) && ww !== initialWw ) {
 					container.classList.toggle( 'is-active' );
 					container.parentNode.parentNode.classList.toggle( 'menu-is-active' );
