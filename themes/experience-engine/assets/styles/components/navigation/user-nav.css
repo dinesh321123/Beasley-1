@@ -72,3 +72,19 @@
 		}
 	}
 }
+
+/* Show/hide functionality when the user-nav is disabled */
+.hidden-user-nav {
+	& .user-nav {
+		border-top: none;
+		visibility: hidden;
+	}
+
+	& .placeholder-discovery {
+		display: none;
+	}
+
+	& .menu-item-discovery {
+		display: none;
+	}
+}
