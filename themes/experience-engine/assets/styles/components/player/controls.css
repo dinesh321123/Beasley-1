@@ -65,6 +65,11 @@
 			}
 		}
 
+		& .controls-contact {
+			margin-left: auto;
+			margin-right: auto;
+		}
+
 		& .audio-sponsor--text {
 			display: block !important;
 		}
