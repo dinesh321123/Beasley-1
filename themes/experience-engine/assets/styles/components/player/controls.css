@@ -50,6 +50,10 @@
 			}
 		}
 
+		&:last-of-type {
+			justify-content: flex-end;
+		}
+
 		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
 			background: transparent;
 			border: 0;
@@ -63,11 +67,6 @@
 			& button {
 				padding: 1rem;
 			}
-		}
-
-		& .controls-contact {
-			margin-left: auto;
-			margin-right: auto;
 		}
 
 		& .audio-sponsor--text {
