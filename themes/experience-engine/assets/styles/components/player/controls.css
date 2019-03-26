@@ -21,7 +21,6 @@
 	& .control-section {
 		align-items: center;
 		display: flex;
-		justify-content: flex-end;
 		position: relative;
 
 		@media(--min-medium-viewport) {
