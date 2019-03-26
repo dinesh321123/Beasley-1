@@ -38,9 +38,7 @@
 
 		&:nth-child(2) {
 			@media(--max-medium-viewport) {
-				padding-left: 1rem;
 				order: 1;
-				width: 100%;
 			}
 		}
 
