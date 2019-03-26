@@ -71,10 +71,38 @@ class LazyImage extends PureComponent {
 		const self = this;
 		const { src, width, height } = self.props;
 		const { containerWidth, containerHeight } = self.getDimensions();
-		const anchor = width > height ? 'middlecenter' : 'leftop';
 
-		let imageSrc = `${src.split( '?' )[0]}?maxwidth=${containerWidth}&maxheight=${containerHeight}&anchor=${anchor}`;
-		if ( 0 < quality ) {
+		const imageWidth = +width;
+		const imageHeight = +height;
+		const anchor = imageWidth > imageHeight ? 'middlecenter' : 'leftop';
+
+		let maxheight = 'maxheight';
+		let maxwidth = 'maxwidth';
+		let mode = '';
+
+		if ( 400 > +containerWidth || 400 > +containerHeight ) {
+			if ( imageWidth > imageHeight ) {
+				if ( 2 < ( imageWidth / imageHeight ) ) {
+					maxheight = 'height';
+					mode = '&mode=crop';
+				}
+			} else {
+				if ( 2 < ( imageHeight / imageWidth ) ) {
+					maxwidth = 'width';
+					mode = '&mode=crop';
+				}
+			}
+		}
+
+		let multiplier = window.devicePixelRatio;
+		if ( 1 > multiplier ) {
+			multiplier = 1;
+		} else if ( 2 < multiplier ) {
+			multiplier = 2;
+		}
+
+		let imageSrc = `${src.split( '?' )[0]}?${maxwidth}=${Math.round( containerWidth * multiplier )}&${maxheight}=${Math.round( containerHeight * multiplier )}&anchor=${anchor}${mode}`;
+		if ( quality && 0 < quality ) {
 			imageSrc += `&quality=${quality}`;
 		}
 

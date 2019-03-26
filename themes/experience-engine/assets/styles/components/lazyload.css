@@ -32,6 +32,26 @@
 	}
 }
 
+.jacapps .non-lazy-image {
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	position: relative;
+
+	& .non-lazy-image-attribution {
+		background-color: rgba(0, 0, 0, .4);
+		border-radius: 3px;
+		bottom: .75rem;
+		color: var(--global-white);
+		display: none;
+		font-size: .9rem;
+		padding: .15rem .5rem;
+		position: absolute;
+		left: .75rem;
+		display: inline-block
+	}
+}
+
 .lazy-video {
 	background-color: var(--global-black);
 	background-position: center;

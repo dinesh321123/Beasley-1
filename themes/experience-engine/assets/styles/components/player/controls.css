@@ -373,6 +373,10 @@
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
 			will-change: visibility, opacity;
+
+			& button {
+				justify-content: left;
+			}
 		}
 
 		&.-open {

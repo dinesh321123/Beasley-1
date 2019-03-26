@@ -223,7 +223,7 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 
 		$image = sprintf(
 			$is_jacapps
-				? '<img src="%s" width="%s" height="%s" alt="%s"><div>%s</dvi>'
+				? '<div class="non-lazy-image"><img src="%s" width="%s" height="%s" alt="%s"><div class="non-lazy-image-attribution">%s</div></div>'
 				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-alt="%s" data-attribution="%s"></div>',
 			esc_attr( $url ),
 			esc_attr( $width ),

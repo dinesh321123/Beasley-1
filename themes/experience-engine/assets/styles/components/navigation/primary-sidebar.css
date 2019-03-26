@@ -33,6 +33,10 @@
 			position: fixed;
 			width: 100%;
 		}
+
+		@media (--min-large-viewport) {
+			text-align: left;
+		}
 	}
 
 	& .custom-logo-link {
@@ -65,7 +69,7 @@
 		left: 0;
 		max-width: 82.6667vw;
 		overflow: auto;
-		padding: 3.5rem 1.1rem 0;
+		padding: 3.5rem 1.1rem 5.6rem;
 		position: fixed;
 		top: 0;
 		z-index: 8;
@@ -78,7 +82,7 @@
 			max-width: 33.3333vw;
 			overflow: visible;
 			position: static;
-			padding: 0;
+			padding: 0 0 10.5rem 0;
 			top: 0;
 			width: auto;
 		}
@@ -99,6 +103,19 @@
 	}
 
 	&.menu-is-active {
+		& .primary-sidebar-navigation::before {
+			background-color: var(--global-theme-secondary);
+			content: '';
+			display: block;
+			height: 100%;
+			left: 0;
+			max-height: 5rem;
+			position: fixed;
+			top: 0;
+			width: 82.6667vw;
+			z-index: 9;
+		}
+
 		& .logo {
 			display: flex;
 			justify-content: center;
@@ -170,7 +187,10 @@
 	}
 }
 body.-lock {
+	height: 100%;
 	overflow: hidden;
+	position: fixed;
+	width: 100%;
 }
 
 body {

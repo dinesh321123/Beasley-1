@@ -106,6 +106,11 @@ class Settings extends \Bbgi\Module {
 			'selected' => get_option( 'ee_publisher' ),
 		);
 
+		$ee_login_disabled_args = array(
+			'name'     => 'ee_login',
+			'selected' => 'disabled' === get_option( 'ee_login', '' ),
+		);
+
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
 
@@ -113,6 +118,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field( 'ee_theme_version', 'Theme Version', 'bbgi_select_field', $this->_settings_page_hook, 'ee_site_settings', $theme_version_args );
 		add_settings_field( 'ee_newsletter_signup_page', 'Newsletter Signup Page', 'wp_dropdown_pages', $this->_settings_page_hook, 'ee_site_settings', $newsletter_args );
 		add_settings_field( 'ee_publisher', 'Publisher', array( $this, 'render_publisher_select' ), $this->_settings_page_hook, 'ee_site_settings', $publisher_args );
+		add_settings_field( 'ee_login', 'EE Login Options', array( $this, 'render_ee_login' ), $this->_settings_page_hook, 'ee_site_settings', $ee_login_disabled_args );
 
 		add_settings_field( 'ee_theme_primary_color', 'Primary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_primary_color&default=#ff0000' );
 		add_settings_field( 'ee_theme_secondary_color', 'Secondary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_secondary_color&default=#ffe964' );
@@ -122,7 +128,8 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_newsletter_signup_page', 'intval' );
 		register_setting( self::option_group, 'ee_theme_version', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_publisher', 'sanitize_text_field' );
-	
+		register_setting( self::option_group, 'ee_login', 'sanitize_text_field' );
+
 		register_setting( self::option_group, 'ee_theme_primary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_secondary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_tertiary_color', 'sanitize_text_field' );
@@ -135,7 +142,7 @@ class Settings extends \Bbgi\Module {
 
 	/**
 	 * Renders fallback image selection field.
-	 * 
+	 *
 	 * @access public
 	 * @param array $args
 	 */
@@ -152,7 +159,7 @@ class Settings extends \Bbgi\Module {
 
 		$img_id = $name . '-fallback-image';
 		$input_id = $img_id . '-id';
-		
+
 		echo '<input id="', esc_attr( $input_id ), '" name="', esc_attr( $name ), '" type="hidden" value="', esc_attr( $image_id ), '">';
 		echo '<img id="', esc_attr( $img_id ), '" src="', esc_attr( $image ), '" style="width:100px;height:auto">';
 		echo '<div>';
@@ -167,7 +174,7 @@ class Settings extends \Bbgi\Module {
 		if ( $render_script ) {
 			$render_script = false;
 			wp_enqueue_media();
-			
+
 			?><script>
 				(function ($) {
 					$(document).ready(function () {
@@ -250,6 +257,18 @@ class Settings extends \Bbgi\Module {
 					<?php echo esc_html( $publisher['title'] ); ?>
 				</option>
 			<?php endforeach; ?>
+		</select><?php
+	}
+
+	public function render_ee_login( $args ) {
+
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+			<option value="">Login Enabled</option>
+			<option
+					value="disabled"
+					<?php selected( $args['selected'], true ); ?>>
+					Login Disabled
+			</option>
 		</select><?php
 	}
 

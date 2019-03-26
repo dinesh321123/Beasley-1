@@ -18,7 +18,10 @@ class PrimaryNav extends PureComponent {
 		const self = this;
 
 		self.primaryNavRef = React.createRef();
-		self.state = { navHtml: navRoot.innerHTML };
+		self.state = {
+			navHtml: navRoot.innerHTML,
+			initialWw: window.innerWidth,
+		};
 
 		self.handleSubMenu = self.handleSubMenu.bind( self );
 		self.handleMobileNav = self.handleMobileNav.bind( self );
@@ -95,7 +98,7 @@ class PrimaryNav extends PureComponent {
 		if ( 'BUTTON' === target.nodeName.toUpperCase() ) {
 			if ( menuItem.classList.contains( 'menu-item-discovery' ) ) {
 				const { signedIn, showDiscover, showSignin } = self.props;
-		
+
 				if ( signedIn ) {
 					showDiscover();
 				} else {
@@ -141,13 +144,34 @@ class PrimaryNav extends PureComponent {
 
 	onResize() {
 		const container = navRoot.parentNode;
+		const ww = window.innerWidth;
+		const { initialWw } = this.state;
 		window.requestAnimationFrame( () => {
-			container.parentNode.classList.remove( 'menu-is-active' );
 
 			if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 				container.setAttribute( 'aria-hidden', false );
+				if ( container.classList.contains( 'is-active' ) ) {
+					container.classList.remove( 'is-active' );
+				}
+
+				if ( container.parentNode.parentNode.classList.contains( 'menu-is-active' ) ) {
+					container.parentNode.parentNode.classList.remove( 'menu-is-active' );
+				}
+
+				if ( document.body.classList.contains( '-lock' ) ) {
+					document.body.classList.remove( '-lock' );
+				}
+
 			} else {
-				container.setAttribute( 'aria-hidden', true );
+				if ( !container.classList.contains( 'is-active' ) ){
+					container.setAttribute( 'aria-hidden', true );
+				}
+				if ( container.classList.contains( 'is-active' ) && ww !== initialWw ) {
+					container.classList.toggle( 'is-active' );
+					container.parentNode.parentNode.classList.toggle( 'menu-is-active' );
+					document.body.classList.toggle( '-lock' );
+					container.setAttribute( 'aria-hidden', 'false' === container.getAttribute( 'aria-hidden' ) );
+				}
 			}
 		} );
 	}
