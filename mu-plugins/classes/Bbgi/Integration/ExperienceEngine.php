@@ -185,7 +185,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		$publisher = $this->_get_publisher_key();
 		if ( ! empty( $publisher ) ) {
 			$url = "experience/channels/{$publisher}/feeds/content/";
-			if ( ! empty( $_REQUEST ) ) {
+			if ( ! empty( $_REQUEST['authorization'] ) ) {
 				$url .= '?authorization=' . urlencode( $_REQUEST['authorization'] );
 			}
 
