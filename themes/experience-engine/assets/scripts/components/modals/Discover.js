@@ -104,7 +104,7 @@ class Discover extends Component {
 			const auth = firebase.auth();
 
 			auth.currentUser.getIdToken().then( ( token ) => {
-				self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content`, {
+				self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
 					suppressHistory: true,
 					fetchParams: {
 						method: 'POST',
@@ -129,7 +129,7 @@ class Discover extends Component {
 					const { id, title, picture, type } = item;
 
 					return (
-						<FeedItem 
+						<FeedItem
 							key={id}
 							id={id}
 							title={title}

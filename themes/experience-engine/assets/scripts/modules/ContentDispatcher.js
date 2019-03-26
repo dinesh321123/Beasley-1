@@ -180,7 +180,7 @@ class ContentDispatcher extends Component {
 				.getIdToken()
 				.then( token => {
 					load( link, {
-						fetchUrlOverride: `${window.bbgiconfig.wpapi}feeds-content`,
+						fetchUrlOverride: `${window.bbgiconfig.wpapi}feeds-content?device=other`,
 						fetchParams: {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

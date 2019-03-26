@@ -103,6 +103,16 @@ class ExperienceEngine extends \Bbgi\Module {
 			$args['method'] = 'GET';
 		}
 
+		// Append the device parameter to indicate this request is from the website
+		if ( false === stripos( $path, '?' ) ) {
+			$path .= '?';
+		}
+		else {
+			$path .= '&';
+		}
+
+		$path .= 'device=other';
+
 		return wp_remote_request( $host . $path, $args );
 	}
 
