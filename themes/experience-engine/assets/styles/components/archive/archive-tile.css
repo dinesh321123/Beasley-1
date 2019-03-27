@@ -16,6 +16,20 @@
 		fill: var(--global-white);
 	}
 
+	&:not(.-carousel) {
+		& .episode-tile {
+			& .status button svg {
+				fill: var(--global-white);
+			}
+		}
+	}
+
+	& .episode-tile {
+		& .status button svg {
+			fill: var(--brand-primary);
+		}
+	}
+
 	&.-list {
 		& > div {
 			display: flex;
@@ -76,6 +90,7 @@
 			padding-bottom: 2.2rem;
 		}
 
+<<<<<<< HEAD
 		& .episode-tile {
 			padding-bottom: 0;
 
@@ -84,6 +99,22 @@
 			}
 		}
 
+=======
+		&.-small {
+			& .swiper-button-next,
+			& .swiper-button-prev {
+				width: 43px;
+			}
+		}
+
+		& .episode-tile {
+				padding-bottom: 0;
+				& .status button svg {
+					fill: var(--brand-primary);
+				}
+		}
+
+>>>>>>> cdab14c1324c8bbb3290599646fabe455eb41857
 		& .swiper-button-prev {
 			background: linear-gradient(90deg, var(--global-white) 47.93%, rgba(255, 255, 255, 0) 100%);
 			left: 0;
