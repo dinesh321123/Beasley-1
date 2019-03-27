@@ -87,4 +87,8 @@
 	& .menu-item-discovery {
 		display: none;
 	}
+
+	& .placeholder-favorites {
+		display: none;
+	}
 }
