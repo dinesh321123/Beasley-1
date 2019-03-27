@@ -220,6 +220,10 @@
 			& .status button {
 				background-color: var(--brand-tertiary);
 				border-color: var(--brand-tertiary);
+
+				& svg {
+					fill: var(--brand-primary);
+				}
 			}
 		}
 
