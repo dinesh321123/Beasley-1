@@ -6,7 +6,7 @@ import trapHOC from '@10up/react-focus-trap-hoc';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 
-import { saveUser } from '../../library/experience-engine';
+import { saveUser, validateDate } from '../../library/experience-engine';
 
 class CompleteSignup extends PureComponent {
 
@@ -45,6 +45,14 @@ class CompleteSignup extends PureComponent {
 		const { user, close } = self.props;
 
 		e.preventDefault();
+
+		// @TODO :: This currently breaks on date specific inputs. We could consider just removing the date input type and using a text input.
+		if( false === validateDate( bday ) ) {
+			self.setState( { error: 'Please ensure date is in MM/DD/YYYY format' } );
+			return false;
+		} else {
+			self.setState( { error: '' } );
+		}
 
 		if ( user ) {
 			const { email } = user;
