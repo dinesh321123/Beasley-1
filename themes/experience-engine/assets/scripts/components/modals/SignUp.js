@@ -45,7 +45,6 @@ class SignUp extends PureComponent {
 
 		self.onFieldChange = self.handleFieldChange.bind( self );
 		self.onFormSubmit = self.handleFormSubmit.bind( self );
-		self.handleInputMask = self.handleInputMask.bind( self );
 	}
 
 	componentDidMount() {
