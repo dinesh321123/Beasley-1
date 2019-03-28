@@ -448,7 +448,7 @@
 	}
 
 	& svg {
-		fill: var(--brand-tertiary);
+		fill: var(--global-white);
 		max-height: 31px;
 		transform: translateX(10%);
 	}
