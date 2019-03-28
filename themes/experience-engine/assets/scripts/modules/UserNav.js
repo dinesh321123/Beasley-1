@@ -76,7 +76,7 @@ class UserNav extends Component {
 					self.props.showCompleteSignup();
 					self.props.hideSplashScreen();
 				} else if ( UserNav.isHomepage() ) {
-					self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content`, {
+					self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
 						suppressHistory: true,
 						fetchParams: {
 							method: 'POST',

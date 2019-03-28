@@ -103,6 +103,16 @@ class ExperienceEngine extends \Bbgi\Module {
 			$args['method'] = 'GET';
 		}
 
+		// Append the device parameter to indicate this request is from the website
+		if ( false === stripos( $path, '?' ) ) {
+			$path .= '?';
+		}
+		else {
+			$path .= '&';
+		}
+
+		$path .= 'device=other';
+
 		return wp_remote_request( $host . $path, $args );
 	}
 
@@ -175,7 +185,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		$publisher = $this->_get_publisher_key();
 		if ( ! empty( $publisher ) ) {
 			$url = "experience/channels/{$publisher}/feeds/content/";
-			if ( ! empty( $_REQUEST ) ) {
+			if ( ! empty( $_REQUEST['authorization'] ) ) {
 				$url .= '?authorization=' . urlencode( $_REQUEST['authorization'] );
 			}
 
