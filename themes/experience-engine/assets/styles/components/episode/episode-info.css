@@ -4,6 +4,7 @@
 	padding: 0 1rem 2.22rem;
 
 	& .status {
+
 		& button {
 			background-color: transparent;
 			border: 1px solid var(--brand-primary);
@@ -12,13 +13,14 @@
 		}
 
 		&.LIVE_PAUSE {
-			& svg rect {
+			& button svg rect {
 				fill: var(--brand-primary);
 			}
 		}
 
-		&.LIVE_PLAYING {
-			& svg {
+		&.LIVE_PLAYING,
+		&.LIVE_STOP {
+			& button svg {
 				fill: var(--brand-primary);
 				height: 45px;
 				max-height: none;
