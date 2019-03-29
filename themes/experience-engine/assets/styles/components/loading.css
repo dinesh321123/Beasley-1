@@ -1,8 +1,11 @@
 .loading {
 	color: transparent !important;
+	left: -2px;
 	min-height: .8rem;
+	min-width: .8rem;
 	pointer-events: none;
 	position: relative;
+	top: -2px;
 }
 
 .loading::after {
