@@ -9,17 +9,21 @@
 			border: 1px solid var(--brand-primary);
 			height: 117px;
 			width: 117px;
+		}
 
+		&.LIVE_PAUSE {
 			& svg rect {
 				fill: var(--brand-primary);
 			}
 		}
 
-		& svg {
-			fill: var(--brand-primary);
-			height: 45px;
-			max-height: none;
-			width: 57px;
+		&.LIVE_PLAYING {
+			& svg {
+				fill: var(--brand-primary);
+				height: 45px;
+				max-height: none;
+				width: 57px;
+			}
 		}
 	}
 
