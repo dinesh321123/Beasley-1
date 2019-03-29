@@ -18,7 +18,6 @@
 			}
 		}
 
-		&.LIVE_PLAYING,
 		&.LIVE_STOP {
 			& button svg {
 				fill: var(--brand-primary);
