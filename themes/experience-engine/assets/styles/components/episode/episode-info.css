@@ -18,7 +18,8 @@
 			}
 		}
 
-		&.LIVE_STOP {
+		&.LIVE_STOP,
+		&.LIVE_PAUSE {
 			& button svg {
 				fill: var(--brand-primary);
 				height: 45px;
