@@ -158,6 +158,10 @@ class ContentDispatcher extends Component {
 		const link = linkNode.getAttribute( 'href' );
 		const linkOrigin = link.substring( 0, origin.length );
 
+		if ( link.match( /\.(pdf|doc|docx)$/ ) ) {
+			return;
+		}
+
 		// return if different origin or a relative link that doesn't start from forward slash
 		if ( ( origin !== linkOrigin && !link.match( /^\/\w+/ ) ) ) {
 			return;
