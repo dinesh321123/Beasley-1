@@ -326,6 +326,10 @@
 	& .episode-tile {
 		& .status button svg {
 			fill: var(--brand-primary);
+
+			& rect {
+				fill: var(--brand-primary);
+			}
 		}
 	}
 }
