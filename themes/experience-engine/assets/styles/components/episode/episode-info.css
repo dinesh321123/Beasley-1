@@ -12,7 +12,7 @@
 			width: 117px;
 		}
 
-		&.LIVE_PAUSE {
+		&.LIVE_PLAYING {
 			& button svg rect {
 				fill: var(--brand-primary);
 			}
