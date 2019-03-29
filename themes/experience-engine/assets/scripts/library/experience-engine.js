@@ -95,6 +95,32 @@ export function searchKeywords( keyword ) {
 		.then( response => response.json() );
 }
 
+
+export function validateDate( dateString ) {
+	// First check for the pattern
+	if( !/^\d{1,2}\/\d{1,2}\/\d{4}$/.test( dateString ) )
+		return false;
+
+	// Parse the date parts to integers
+	const parts = dateString.split( '/' );
+	const year = parseInt( parts[2], 10 );
+	const month = parseInt( parts[0], 10 );
+	const day = parseInt( parts[1], 10 );
+
+	// Check the ranges of month and year
+	if( 1000 > year || 3000 < year || 0 == month || 12 < month )
+		return false;
+
+	const monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+
+	// Adjust for leap years
+	if( 0 == year % 400 || ( 0 != year % 100 && 0 == year % 4 ) )
+		monthLength[1] = 29;
+
+	// Check the range of the day
+	return 0 < day && day <= monthLength[month - 1];
+}
+
 export default {
 	saveUser,
 	getUser,
@@ -103,4 +129,5 @@ export default {
 	modifyFeeds,
 	deleteFeed,
 	searchKeywords,
+	validateDate,
 };

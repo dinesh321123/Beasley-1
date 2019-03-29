@@ -10,17 +10,27 @@ import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
 
-import { saveUser } from '../../library/experience-engine';
+import { saveUser, validateDate } from '../../library/experience-engine';
 
 import { showSignInModal } from '../../redux/actions/modal';
 import { suppressUserCheck, setDisplayName } from '../../redux/actions/auth';
 
 class SignUp extends PureComponent {
 
+	static createMask( value ) {
+		return value.toString().replace( /(\d{4})(\d{2})(\d{2})/, '$1/$2/$3' );
+	}
+
+	static isMS() {
+		const { userAgent } = window.navigator;
+		return document.documentMode || !!userAgent.match( /Edge/i );
+	}
+
 	constructor( props ) {
 		super( props );
 
 		const self = this;
+		this.hiddenBday = React.createRef();
 
 		self.state = {
 			email: '',
@@ -64,6 +74,18 @@ class SignUp extends PureComponent {
 		e.preventDefault();
 
 		self.props.suppressUserCheck();
+
+		if ( false === validateDate( bday ) ) {
+			self.setState( { error: 'Please ensure date is in MM/DD/YYYY format' } );
+			return false;
+		} else if ( ! emailAddress ) {
+			self.setState( { error: 'Please enter a valid email address. '} );
+		} else if ( ! password ) {
+			self.setState( { error: 'Please enter a password.' } );
+		} else {
+			self.setState( { error: '' } );
+		}
+
 		auth.createUserWithEmailAndPassword( emailAddress, password )
 			.then( ( response ) => {
 				const { user } = response;
@@ -121,7 +143,7 @@ class SignUp extends PureComponent {
 						</div>
 						<div className="modal-form-group">
 							<label className="modal-form-label" htmlFor="user-bday">Birthday</label>
-							<input className="modal-form-field" type="date" id="user-bday" name="bday" value={bday} onChange={self.onFieldChange} placeholder="Enter your birthday" />
+							<input className="modal-form-field" type="text" id="user-bday" name="bday" value={bday} onChange={self.onFieldChange} placeholder="mm/dd/yyyy" />
 						</div>
 					</div>
 

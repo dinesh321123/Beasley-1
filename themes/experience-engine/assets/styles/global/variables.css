@@ -30,9 +30,9 @@
 	--global-theme-font-tertiary: var(--global-dove-gray);
 
 	/* Set default brand colors */
-	--brand-primary: red;
-	--brand-secondary: green;
-	--brand-tertiary: blue;
+	--brand-primary: #ed1d25;
+	--brand-secondary: #06834f;
+	--brand-tertiary: #2baee8;
 }
 
 @custom-media --min-xlarge-viewport (min-width: 1060px);

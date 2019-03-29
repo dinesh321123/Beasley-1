@@ -17,6 +17,7 @@ import SearchForm from './modules/SearchForm';
 import BackToTop from './components/BackToTop';
 
 import ErrorBoundary from './components/ErrorBoundary';
+import { isSafari } from './library/browser';
 
 class Application extends PureComponent {
 
@@ -27,6 +28,11 @@ class Application extends PureComponent {
 	}
 
 	render() {
+
+		if( isSafari() ) {
+			document.body.classList.add( 'is-safari' );
+		}
+
 		return (
 			<Fragment>
 				<IntersectionObserverContext.Provider value={this.observer}>
