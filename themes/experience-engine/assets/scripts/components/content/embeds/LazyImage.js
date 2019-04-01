@@ -68,6 +68,10 @@ class LazyImage extends PureComponent {
 	}
 
 	getImageUrl( quality = null ) {
+		if ( ! quality ) {
+			quality = 95;
+		}
+
 		const self = this;
 		const { src, width, height } = self.props;
 		const { containerWidth, containerHeight } = self.getDimensions();
