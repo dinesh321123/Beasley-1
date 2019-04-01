@@ -5,8 +5,6 @@
 
 	& .custom-logo-link {
 		display: block;
-		margin: 0 auto;
-		max-width: 1280px;
 		padding-bottom: 2.111rem;
 
 		& img {
@@ -59,8 +57,6 @@
 	display: grid;
 	gap: 4.444rem;
 	grid-row-gap: 4.444rem;
-	margin: 0 auto;
-	max-width: 1280px;
 
 	@media (--min-small-viewport) {
 		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
