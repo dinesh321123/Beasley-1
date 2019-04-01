@@ -31,3 +31,12 @@
 		display: flex;
 	} 
 }
+
+
+.single-tribe_events {
+	& .event-date {
+		& .sep {
+			font-size: 1.5rem;
+		}
+	}
+}

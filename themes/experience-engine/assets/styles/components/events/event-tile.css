@@ -11,7 +11,7 @@
 
 	& .sep {
 		border-right: 2px solid var(--global-silver);
-		font-size: 1rem;
+		font-size: 0.875rem;
 		margin: 0 1rem;
 
 		&::before {
