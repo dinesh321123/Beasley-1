@@ -110,6 +110,8 @@ class LazyImage extends PureComponent {
 			imageSrc += `&quality=${quality}`;
 		}
 
+		imageSrc += '&zoom=1.5';
+
 		return imageSrc;
 	}
 
