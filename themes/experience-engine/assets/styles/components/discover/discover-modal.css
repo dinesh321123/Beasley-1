@@ -5,6 +5,7 @@
 	margin-top: -3.333rem;
 	min-height: calc(100vh - 3.333rem);
 	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 	position: absolute;
 	top: 0;
 	width: 100%;
