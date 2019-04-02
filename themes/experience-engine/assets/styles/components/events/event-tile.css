@@ -12,7 +12,11 @@
 	& .sep {
 		border-right: 2px solid var(--global-silver);
 		font-size: inherit;
-		margin: 0 1rem;
+		margin: 0 0.5rem;
+
+		@media(--min-small-viewport) {
+			margin: 0 1rem;
+		}
 
 		&::before {
 			content: " ";
