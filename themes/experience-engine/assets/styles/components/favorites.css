@@ -1,3 +1,4 @@
 .placeholder-favorites {
-	display: inline-block;
+	align-items: center;
+	display: flex;
 }
