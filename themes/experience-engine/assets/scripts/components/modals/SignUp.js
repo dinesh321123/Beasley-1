@@ -143,7 +143,7 @@ class SignUp extends PureComponent {
 						</div>
 						<div className="modal-form-group">
 							<label className="modal-form-label" htmlFor="user-bday">Birthday</label>
-							<input className="modal-form-field" type="text" id="user-bday" name="bday" value={bday} onChange={self.onFieldChange} placeholder="mm/dd/yyyy" />
+							<input className="modal-form-field" type={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? 'text' : 'date' } id="user-bday" name="bday" value={bday} onChange={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? self.handleInputMask : self.onFieldChange } placeholder={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? 'yyyy/mm/dd' : 'Enter your birthday' } />
 						</div>
 					</div>
 
