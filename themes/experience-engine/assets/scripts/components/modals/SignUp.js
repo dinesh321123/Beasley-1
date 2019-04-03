@@ -21,6 +21,21 @@ class SignUp extends PureComponent {
 		return value.toString().replace( /(\d{4})(\d{2})(\d{2})/, '$1/$2/$3' );
 	}
 
+	static detectSupportedDevices( browsers ) {
+		const { userAgent } = window.navigator;
+		const iOSChrome = isIOS() && !userAgent.match( /Chrome/i );
+		const iOSSafari = isIOS() && isWebKit() && !userAgent.match( /CriOS/i );
+		const iOSFireFox = isIOS() && isFireFox();
+
+		/* Dont fallback on supported or partially supported browsers */
+
+		if( 'supported' === browsers ) {
+			return !isChrome() && !iOSSafari && !iOSFireFox && !iOSChrome;
+		} else {
+			return;
+		}
+	}
+
 	static isMS() {
 		const { userAgent } = window.navigator;
 		return document.documentMode || !!userAgent.match( /Edge/i );
