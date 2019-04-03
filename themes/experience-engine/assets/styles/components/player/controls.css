@@ -21,7 +21,6 @@
 	& .control-section {
 		align-items: center;
 		display: flex;
-		justify-content: flex-end;
 		position: relative;
 
 		@media(--min-medium-viewport) {
@@ -39,9 +38,7 @@
 
 		&:nth-child(2) {
 			@media(--max-medium-viewport) {
-				padding-left: 1rem;
 				order: 1;
-				width: 100%;
 			}
 		}
 
@@ -51,6 +48,10 @@
 				order: 3;
 				width: 100%;
 			}
+		}
+
+		&:last-of-type {
+			justify-content: flex-end;
 		}
 
 		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
