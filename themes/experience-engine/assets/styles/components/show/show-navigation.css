@@ -26,13 +26,6 @@
 			}
 		}
 
-		&:last-child,
-		&:nth-last-child(2) {
-			& a {
-				padding-bottom: 0;
-			}
-		}
-
 		&.current-menu-item,
 		&:hover,
 		&:focus-within {

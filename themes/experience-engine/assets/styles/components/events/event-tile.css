@@ -8,4 +8,19 @@
 		margin-top: 1.2rem;
 		text-transform: uppercase;
 	}
+
+	& .sep {
+		border-right: 2px solid var(--global-silver);
+		font-size: inherit;
+		margin: 0 0.5rem;
+
+		@media(--min-small-viewport) {
+			margin: 0 1rem;
+		}
+
+		&::before {
+			content: " ";
+			display: inline-block;
+		}
+	}
 }
