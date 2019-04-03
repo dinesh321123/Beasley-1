@@ -168,7 +168,8 @@
 				display: block;
 			}
 
-			&::before {
+			&::before,
+			&::after {
 				background-position: center;
 				background-repeat: no-repeat;
 				content: "";
