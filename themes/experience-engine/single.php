@@ -3,9 +3,16 @@
 get_header();
 
 ee_switch_to_article_blog();
-the_post(); 
+the_post();
 
 ?><div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
+
+	<?php if ( ee_get_current_show() ) { ?>
+		<div class="content-wrap">
+			<?php get_template_part( 'partials/show/header' ); ?>
+		</div>
+	<?php } ?>
+
 	<header class="post-info">
 		<h1>
 			<?php the_title(); ?>
@@ -28,14 +35,14 @@ the_post();
 					<?php echo get_the_author_meta( 'description' ); ?>
 				</div>
 			<?php endif; ?>
-				
+
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>
 
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
 	</div>
-	
+
 	<?php get_template_part( 'partials/related-articles' );	?>
 </div><?php
 

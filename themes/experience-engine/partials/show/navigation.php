@@ -15,6 +15,7 @@ endif;
 		?><ul>
 			<?php \GreaterMedia\Shows\home_link_html( $show->ID ); ?>
 			<?php \GreaterMedia\Shows\about_link_html( $show->ID ); ?>
+			<?php \GreaterMedia\Shows\article_link_html( $show->ID ); ?>
 			<?php \GreaterMedia\Shows\podcasts_link_html( $show->ID ); ?>
 			<?php \GreaterMedia\Shows\galleries_link_html( $show->ID ); ?>
 			<?php \GreaterMedia\Shows\videos_link_html( $show->ID ); ?>
