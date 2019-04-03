@@ -2,6 +2,7 @@
 
 add_action( 'beasley_after_body', 'ee_setup_embed_filters' );
 add_filter( 'bbgi_livestream_video_html', 'ee_update_livestream_html', 10, 3 );
+add_filter( 'embed_oembed_html', 'ee_responsive_oembed_html', 10, 3 );
 
 if ( ! function_exists( 'ee_setup_embed_filters' ) ) :
 	function ee_setup_embed_filters() {
@@ -76,3 +77,33 @@ if ( ! function_exists( 'ee_update_livestream_html' ) ) :
 		return $html;
 	}
 endif;
+
+/**
+ * Adds a responsive embed wrapper around oEmbed content
+ *
+ * @param string $html The oEmbed markup
+ * @param string $url  The URL being embedded
+ * @param array  $attr An array of attributes
+ * @return string      Updated embed markup
+ */
+function ee_responsive_oembed_html( $html, $url, $attr ) {
+	$classes = array();
+
+	// Add these classes to all embeds.
+	$classes_all = array(
+		'responsive-media',
+	);
+
+	// Check for different providers and add appropriate classes.
+	if ( false !== strpos( $url, 'vimeo.com' ) ) {
+		$classes[] = 'vimeo';
+	}
+
+	if ( false !== strpos( $url, 'youtube.com' ) ) {
+		$classes[] = 'youtube';
+	}
+
+	$classes = array_merge( $classes, $classes_all );
+
+	return '<div class="' . esc_attr( implode( $classes, ' ' ) ) . '">' . $html . '</div>';
+}

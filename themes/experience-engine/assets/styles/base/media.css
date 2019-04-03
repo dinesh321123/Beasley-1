@@ -1,0 +1,22 @@
+/* We wrap all oembeds in this this extra
+ * <div class="responsive-media">
+ * See: includes/embeds.php
+*/
+.responsive-media {
+	height: 0;
+	max-width: 100%;
+	padding-bottom: 56.25%; 
+	position: relative; 
+	overflow: hidden; 
+
+	& embed,
+	& iframe,
+	& object {
+		height: 100%;
+		left: 0;
+		position: absolute; 
+		top: 0;  
+		width: 100%; 
+	}
+
+}
