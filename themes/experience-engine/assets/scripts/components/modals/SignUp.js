@@ -11,6 +11,7 @@ import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
 
 import { saveUser, validateDate } from '../../library/experience-engine';
+import { isChrome, isFireFox, isIOS, isWebKit } from '../../library/browser';
 
 import { showSignInModal } from '../../redux/actions/modal';
 import { suppressUserCheck, setDisplayName } from '../../redux/actions/auth';
