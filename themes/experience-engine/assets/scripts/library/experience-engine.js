@@ -98,7 +98,7 @@ export function searchKeywords( keyword ) {
 
 export function validateDate( dateString ) {
 	// First check for the pattern
-	if( !/^\d{4}\/|-\d{1,2}\/|-\d{1,2}$/.test( dateString ) )
+	if( !/^\d{1,2}\/|-\d{1,2}\/|-\d{4}$/.test( dateString ) )
 		return false;
 
 	// Parse the date parts to integers
@@ -110,9 +110,9 @@ export function validateDate( dateString ) {
 		parts = dateString.split( '/' );
 	}
 
-	const year = parseInt( parts[0], 10 );
-	const month = parseInt( parts[1], 10 );
-	const day = parseInt( parts[2], 10 );
+	const year = parseInt( parts[2], 10 );
+	const month = parseInt( parts[0], 10 );
+	const day = parseInt( parts[1], 10 );
 
 	// Check the ranges of month and year
 	if( 1000 > year || 3000 < year || 0 == month || 12 < month )

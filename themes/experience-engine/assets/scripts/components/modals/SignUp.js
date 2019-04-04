@@ -19,7 +19,7 @@ import { suppressUserCheck, setDisplayName } from '../../redux/actions/auth';
 class SignUp extends PureComponent {
 
 	static createMask( value ) {
-		return value.toString().replace( /(\d{4})(\d{2})(\d{2})/, '$1/$2/$3' );
+		return value.toString().replace( /(\d{2})(\d{2})(\d{4})/, '$1/$2/$3' );
 	}
 
 	static detectSupportedDevices( browsers ) {
@@ -165,7 +165,7 @@ class SignUp extends PureComponent {
 						</div>
 						<div className="modal-form-group">
 							<label className="modal-form-label" htmlFor="user-bday">Birthday</label>
-							<input className="modal-form-field" type={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? 'text' : 'date' } id="user-bday" name="bday" value={bday} onChange={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? self.handleInputMask : self.onFieldChange } placeholder={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? 'yyyy/mm/dd' : 'Enter your birthday' } />
+							<input className="modal-form-field" type={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? 'text' : 'date' } id="user-bday" name="bday" value={bday} onChange={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? self.handleInputMask : self.onFieldChange } placeholder={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? 'mm/dd/yyyy' : 'Enter your birthday' } />
 						</div>
 					</div>
 
