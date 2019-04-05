@@ -18,6 +18,28 @@ textarea {
 
 h1,
 h2,
+h3 {
+	font-weight: 700;
+
+	& a {
+		font-weight: 700;
+	}
+}
+
+body a {
+	color: var(--brand-primary);
+	font-weight: 500;
+	text-decoration: none;
+
+	&:hover,
+	&:focus,
+	&:active {
+		text-decoration: underline;
+	}
+}
+
+h1,
+h2,
 h3,
 h4,
 h5,
@@ -25,16 +47,6 @@ h6 {
 	font-family: var(--global-font-family-primary);
 	line-height: 1.1;
 	margin-top: 0;
-}
-
-h1,
-h2,
-h3 {
-	font-weight: 700;
-
-	& > a {
-		font-weight: 700;
-	}
 }
 
 h4,
@@ -68,7 +80,7 @@ h3 {
 }
 
 h4 {
-	font-size: .889rem;
+	font-size: 0.889rem;
 	line-height: 1.3636;
 
 	@media (--min-medium-viewport) {
@@ -84,19 +96,7 @@ h5 {
 h6 {
 	font-size: 1rem;
 	line-height: 1.33333;
-	margin-bottom: .278rem;
-}
-
-a {
-	color: var(--brand-primary);
-	font-weight: 500;
-	text-decoration: none;
-
-	&:hover,
-	&:focus,
-	&:active {
-		text-decoration: underline;
-	}
+	margin-bottom: 0.278rem;
 }
 
 p {
@@ -121,7 +121,7 @@ address {
 }
 
 pre {
-	background: #eeeeee;
+	background: #eee;
 	font-family: "Courier 10 Pitch", Courier, monospace;
 	font-size: 1.25em;
 	line-height: 1.6;
@@ -140,7 +140,7 @@ var {
 
 abbr,
 acronym {
-	border-bottom: 1px dotted #666666;
+	border-bottom: 1px dotted #666;
 	cursor: help;
 }
 
@@ -164,7 +164,7 @@ sup {
 }
 
 sub {
-	top: .5ex;
+	top: 0.5ex;
 }
 
 small {

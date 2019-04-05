@@ -1,3 +1,11 @@
+.archive {
+	& .archive-tiles {
+		& .post-date {
+			display: none;
+		}
+	}
+}
+
 .related-articles {
 	& .post {
 		margin-bottom: 1rem;
@@ -31,17 +39,9 @@
 
 			& .post-date {
 				color: var(--global-theme-font-tertiary);
-				font-size: .875rem;
+				font-size: 0.875rem;
 				margin-bottom: 1rem;
 			}
-		}
-	}
-}
-
-.archive {
-	& .archive-tiles {
-		& .post-date {
-			display: none;
 		}
 	}
 }

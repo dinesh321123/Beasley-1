@@ -5,9 +5,9 @@
 	color: var(--brand-tertiary);
 	cursor: pointer;
 	display: block;
-	font-size: .889rem;
+	font-size: 0.889rem;
 	font-weight: 600;
-	padding: .722rem 1.222rem;
+	padding: 0.722rem 1.222rem;
 	text-align: center;
 
 	&.-square {
@@ -39,7 +39,7 @@
 
 		& svg {
 			fill: var(--brand-primary);
-			margin-right: .667rem;
+			margin-right: 0.667rem;
 		}
 	}
 }

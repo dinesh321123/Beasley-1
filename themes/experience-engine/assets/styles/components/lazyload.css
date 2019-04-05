@@ -13,22 +13,22 @@
 
 		&::after {
 			height: 1.6rem;
-			margin-left: -.8rem;
-			margin-top: -.8rem;
+			margin-left: -0.8rem;
+			margin-top: -0.8rem;
 			width: 1.6rem;
 		}
 	}
 
 	& .lazy-image-attribution {
-		background-color: rgba(0, 0, 0, .4);
+		background-color: rgba(0, 0, 0, 0.4);
 		border-radius: 3px;
-		bottom: .75rem;
+		bottom: 0.75rem;
 		color: var(--global-white);
 		display: none;
-		font-size: .9rem;
-		padding: .15rem .5rem;
+		font-size: 0.9rem;
+		padding: 0.15rem 0.5rem;
 		position: absolute;
-		right: .75rem;
+		right: 0.75rem;
 	}
 }
 
@@ -39,16 +39,15 @@
 	position: relative;
 
 	& .non-lazy-image-attribution {
-		background-color: rgba(0, 0, 0, .4);
+		background-color: rgba(0, 0, 0, 0.4);
 		border-radius: 3px;
-		bottom: .75rem;
+		bottom: 0.75rem;
 		color: var(--global-white);
-		display: none;
-		font-size: .9rem;
-		padding: .15rem .5rem;
+		font-size: 0.9rem;
+		padding: 0.15rem 0.5rem;
 		position: absolute;
-		left: .75rem;
-		display: inline-block
+		left: 0.75rem;
+		display: inline-block;
 	}
 }
 
@@ -104,13 +103,13 @@
 		}
 
 		& .icon {
-			fill: #ffffff;
+			fill: var(--global-white);
 		}
 	}
 
 	&:hover .shape,
 	& button:focus .shape {
-		fill: #ff0000;
+		fill: var(--global-alert);
 		fill-opacity: 1;
 	}
 }

@@ -46,7 +46,7 @@
 			cursor: pointer;
 			display: block;
 			outline: none;
-			padding: 0.8rem 1.1rem;;
+			padding: 0.8rem 1.1rem;
 			position: absolute;
 			right: 0;
 			top: 0;
@@ -66,10 +66,10 @@
 
 			&:hover,
 			&:focus {
-				background-color: rgba(255, 255, 255, .05);
+				background-color: rgba(255, 255, 255, 0.05);
 			}
 
-			&.is-active:before {
+			&.is-active::before {
 				transform: rotate(-135deg);
 			}
 		}

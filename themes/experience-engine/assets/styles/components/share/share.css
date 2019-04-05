@@ -2,7 +2,7 @@
 	align-items: center;
 	color: #8f8f8f;
 	display: flex;
-	font-size: .778rem;
+	font-size: 0.778rem;
 
 	& button {
 		background: transparent;
@@ -11,7 +11,7 @@
 		cursor: pointer;
 		height: 30px;
 		line-height: 1;
-		padding: .389rem 1.222rem;
+		padding: 0.389rem 1.222rem;
 		width: 52px;
 
 		&:first-of-type {
@@ -19,7 +19,7 @@
 		}
 
 		&:not(:first-of-type) {
-			margin-left: .667rem;
+			margin-left: 0.667rem;
 		}
 	}
 
@@ -31,7 +31,7 @@
 		background-color: rgb(63, 92, 148);
 
 		&:hover {
-			background-color: rgba(63, 92, 148, .9);
+			background-color: rgba(63, 92, 148, 0.9);
 		}
 	}
 
@@ -39,7 +39,7 @@
 		background-color: rgb(43, 174, 232);
 
 		&:hover {
-			background-color: rgba(43, 174, 232, .9);
+			background-color: rgba(43, 174, 232, 0.9);
 		}
 	}
 }

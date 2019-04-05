@@ -1,21 +1,18 @@
 :root {
-	--global-black: #000000;
-	--global-mine-shaft: #333333;
-	--global-tundora: #444444;
+	--global-black: #000;
+	--global-mine-shaft: #333;
+	--global-tundora: #444;
 	--global-dove-gray: #737373;
 	--global-silver: #cccbcb;
 	--global-silver-chalice: #a5a5a5;
 	--global-mercury: #e5e5e5;
 	--global-gallery: #f0f0f0;
-	--global-white: #ffffff;
-	--global-alabaster: #FCFCFC;
-
+	--global-white: #fff;
+	--global-alabaster: #fcfcfc;
 	--social-twiiter: #55acee;
 	--social-facebook: #3b5999;
 	--social-google: #dd4b39;
-
-	--global-alert: #ff0000;
-
+	--global-alert: #f00;
 	--global-font-family-primary: "Libre Franklin", sans-serif;
 	--global-font-family-secondary: "Open Sans", sans-serif;
 	--global-font-primary: #202124;
@@ -24,7 +21,6 @@
 	/* Light is default theme */
 	--global-theme-primary: #f1f1f1;
 	--global-theme-secondary: #fcfcfc;
-
 	--global-theme-font-primary: var(--global-tundora);
 	--global-theme-font-secondary: var(--global-font-primary);
 	--global-theme-font-tertiary: var(--global-dove-gray);
@@ -40,4 +36,3 @@
 @custom-media --min-medium-viewport (min-width: 768px);
 @custom-media --min-small-viewport (min-width: 480px);
 @custom-media --max-medium-viewport (max-width: 768px);
-

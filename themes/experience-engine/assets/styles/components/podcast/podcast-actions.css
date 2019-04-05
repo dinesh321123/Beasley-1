@@ -12,7 +12,7 @@
 
 		& > *:not(:first-child) {
 			@media (--min-large-viewport) {
-				margin-left: .833rem;
+				margin-left: 0.833rem;
 			}
 		}
 
@@ -32,7 +32,6 @@
 			}
 		}
 	}
-
 
 	& .btn.-nobor {
 		color: var(--global-mine-shaft);

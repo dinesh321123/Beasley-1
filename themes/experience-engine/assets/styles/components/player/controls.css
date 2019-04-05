@@ -1,7 +1,8 @@
 .controls {
 	background-color: #efefef;
-	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
-				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
+	box-shadow:
+		inset 0 -2px 2px rgba(0, 0, 0, 0.2),
+		inset 0 2px 0 rgba(255, 255, 255, 0.25);
 	display: flex;
 	min-height: 75px;
 	position: relative;
@@ -24,21 +25,22 @@
 		justify-content: flex-end;
 		position: relative;
 
-		@media(--min-medium-viewport) {
+		@media (--min-medium-viewport) {
 			width: 100%;
 		}
 
 		&:first-child {
 			padding-left: 1rem;
 			overflow: hidden;
-			@media(--max-medium-viewport) {
+
+			@media (--max-medium-viewport) {
 				order: 2;
 				width: 100%;
 			}
 		}
 
 		&:nth-child(2) {
-			@media(--max-medium-viewport) {
+			@media (--max-medium-viewport) {
 				padding-left: 1rem;
 				order: 1;
 				width: 100%;
@@ -46,7 +48,7 @@
 		}
 
 		&:last-child {
-			@media(--max-medium-viewport) {
+			@media (--max-medium-viewport) {
 				max-width: 60px;
 				order: 3;
 				width: 100%;
@@ -73,7 +75,7 @@
 		}
 
 		&.-centered {
-			@media(--min-medium-viewport) {
+			@media (--min-medium-viewport) {
 				justify-content: center;
 			}
 		}
@@ -89,7 +91,6 @@
 		& input[type="range"] {
 			width: 100%;
 		}
-
 	}
 
 	& .controls-info {
@@ -99,17 +100,17 @@
 
 		& strong {
 			font-weight: 600;
-			margin-right: .5rem;
+			margin-right: 0.5rem;
 		}
 
 		& .live {
 			border: 1px solid var(--brand-primary);
 			color: var(--brand-primary);
-			font-size: .738rem;
+			font-size: 0.738rem;
 			font-weight: 500;
 			letter-spacing: 0.01em;
 			line-height: 1.2;
-			padding: .1rem .25rem;
+			padding: 0.1rem 0.25rem;
 			text-transform: uppercase;
 		}
 
@@ -153,17 +154,16 @@
 	& .controls-sponsor {
 		display: none;
 
-		@media(--min-medium-viewport) {
+		@media (--min-medium-viewport) {
 			display: block !important; /* Overrding ad */
 		}
 	}
 
 	& .controls-recent {
-
 		& button {
 			display: none;
 
-			@media(--min-medium-viewport) {
+			@media (--min-medium-viewport) {
 				display: flex;
 			}
 
@@ -175,7 +175,7 @@
 			&:hover,
 			&:focus {
 				& svg rect {
-					fill: var(--brand-primary)
+					fill: var(--brand-primary);
 				}
 			}
 		}
@@ -192,7 +192,7 @@
 
 			& h5 {
 				font-size: 1rem;
-				color: var(--brand-secondary)
+				color: var(--brand-secondary);
 			}
 
 			& ul li:last-child {
@@ -210,9 +210,10 @@
 
 	& .controls-recent-songs {
 		background: var(--global-theme-secondary);
-		bottom: 102px; /*Height of the live player bar + 18px*/
-		box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
-					inset 0px 2px 0px rgba(255, 255, 255, 0.25);
+		bottom: 102px; /* Height of the live player bar + 18px */
+		box-shadow:
+			inset 0 -2px 2px rgba(0, 0, 0, 0.2),
+			inset 0 2px 0 rgba(255, 255, 255, 0.25);
 		color: var(--global-theme-font-primary);
 		max-height: 312px;
 		max-width: 342px;
@@ -283,7 +284,7 @@
 		& button {
 			display: none;
 
-			@media(--min-medium-viewport) {
+			@media (--min-medium-viewport) {
 				display: block;
 			}
 

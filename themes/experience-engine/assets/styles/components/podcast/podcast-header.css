@@ -3,7 +3,7 @@
 
 	& .post-thumbnail {
 		flex: 1 0 300px;
-		margin-bottom: .778rem;
+		margin-bottom: 0.778rem;
 
 		@media (--min-large-viewport) {
 			margin-bottom: 0;
@@ -28,7 +28,7 @@
 		justify-content: center;
 		line-height: 1;
 		margin-bottom: 0;
-		padding: 0 0 .778rem;
+		padding: 0 0 0.778rem;
 
 		@media (--min-large-viewport) {
 			justify-content: flex-start;
@@ -36,7 +36,7 @@
 
 		& svg {
 			fill: var(--brand-primary);
-			margin-right: .611rem;
+			margin-right: 0.611rem;
 		}
 	}
 
@@ -51,7 +51,7 @@
 	& .count {
 		color: var(--global-dove-gray);
 		font-family: var(--global-font-family-secondary);
-		font-size: .833rem;
+		font-size: 0.833rem;
 		font-weight: 600;
 		margin: 0;
 		padding: 0;

@@ -45,11 +45,10 @@
 	}
 
 	& h3 {
-		margin: .5rem 0;
+		margin: 0.5rem 0;
 	}
 
 	& .gallery-meta {
-
 		& .share-wrap {
 			align-items: center;
 			display: flex;
@@ -85,11 +84,9 @@
 		& .attribution {
 			color: var(--global-theme-font-tertiary);
 			display: block;
-			font-size: .875rem;
+			font-size: 0.875rem;
 			font-weight: 400;
 			margin: 1rem 0;
 		}
-
 	}
-
 }

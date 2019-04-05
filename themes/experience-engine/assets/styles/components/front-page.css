@@ -8,27 +8,23 @@
 	}
 
 	& .cta,
-	& .countdown  {
-		margin: 0 auto;
-		max-width: 1071px;
-		padding: 2.222rem 1rem;
-	}
-
-	& .placeholder-cta,
-	& .placeholder-countdown {
-		padding-bottom: 2.222rem;
-	}
-
-	& .cta,
 	& .countdown {
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
 		border-radius: 0;
+		margin: 0 auto;
+		max-width: 1071px;
+		padding: 2.222rem 1rem;
 
 		@media (--min-medium-viewport) {
 			border-radius: 5px;
 		}
+	}
+
+	& .placeholder-cta,
+	& .placeholder-countdown {
+		padding-bottom: 2.222rem;
 	}
 
 	& .cta-content,
@@ -52,21 +48,21 @@
 			font-size: 3rem;
 			font-family: monospace;
 			font-weight: 700;
-			padding: .25rem 0;
+			padding: 0.25rem 0;
 
 			&::after {
 				content: ":";
-				margin: 0 .25rem;
+				margin: 0 0.25rem;
 			}
 
 			&:first-child {
 				border-radius: 5px 0 0 5px;
-				padding-left: .5rem;
+				padding-left: 0.5rem;
 			}
 
 			&:last-child {
 				border-radius: 0 5px 5px 0;
-				padding-right: .5rem;
+				padding-right: 0.5rem;
 
 				&::after {
 					content: "";
@@ -82,10 +78,10 @@
 		}
 
 		& .placeholder-editfeed {
-			background-color: var(--global-white);		
+			background-color: var(--global-white);
 			position: absolute;
 			right: 0;
-			top: .3rem;
+			top: 0.3rem;
 			z-index: 10;
 
 			& button {

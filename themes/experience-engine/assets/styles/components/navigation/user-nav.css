@@ -11,14 +11,14 @@
 		flex-direction: column;
 	}
 
-	@media(--min-large-viewport) {
+	@media (--min-large-viewport) {
 		bottom: 74px;
 		margin-left: -1.1rem;
 		margin-right: -1.1rem;
 		max-width: 190px;
 		padding: 1.1rem;
 		position: fixed;
-		width: 100%
+		width: 100%;
 	}
 
 	& .user-nav-image {
@@ -36,7 +36,7 @@
 
 		& span {
 			color: var(--global-theme-font-primary);
-			font-size: .875rem;
+			font-size: 0.875rem;
 			font-weight: 600;
 		}
 	}
@@ -47,7 +47,7 @@
 		box-shadow: none;
 		cursor: pointer;
 		color: var(--global-theme-font-primary);
-		font-size: .687rem;
+		font-size: 0.687rem;
 		padding: 0;
 		text-align: left;
 
@@ -59,14 +59,14 @@
 
 		&.-with-icon {
 			display: inline-flex;
-			font-size: .875rem;
+			font-size: 0.875rem;
 			margin-bottom: 0.8rem;
 
 			& svg {
 				display: inline-block;
 				fill: var(--global-theme-font-primary);
 				height: 18px;
-				margin-right: .5rem;
+				margin-right: 0.5rem;
 				width: 16px;
 			}
 		}

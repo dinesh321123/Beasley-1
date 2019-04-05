@@ -4,7 +4,8 @@
 		"analyze": "webpack app=./assets/scripts/app.js --config-name=analyze-config",
 		"build": "webpack app=./assets/scripts/app.js --config-name=dev-config",
 		"watch": "webpack --progress app=./assets/scripts/app.js --config-name=watch-config",
-		"bundle": "webpack app=./assets/scripts/app.js --config-name=prod-config"
+		"bundle": "webpack app=./assets/scripts/app.js --config-name=prod-config",
+		"lint-css": "stylelint ./assets/styles/**/**/*.css"
 	},
 	"dependencies": {
 		"@10up/eslint-config": "^1.0.8",
@@ -92,5 +93,9 @@
 		"iOS > 9",
 		"Samsung >= 5",
 		"not dead"
-	]
+	],
+	"devDependencies": {
+		"stylelint": "^9.10.1",
+		"stylelint-config-standard": "^18.2.0"
+	}
 }

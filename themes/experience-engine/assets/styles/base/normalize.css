@@ -3,7 +3,7 @@
 /* Document
 	 ========================================================================== */
 * {
-	 box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /**
@@ -56,10 +56,13 @@ hr {
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 
+/* stylelint-disable */
 pre {
 	font-family: monospace, monospace; /* 1 */
 	font-size: 1em; /* 2 */
 }
+
+/* stylelint-enable */
 
 /* Text-level semantics
 	 ========================================================================== */
@@ -97,12 +100,15 @@ strong {
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 
+/* stylelint-disable */
 code,
 kbd,
 samp {
 	font-family: monospace, monospace; /* 1 */
 	font-size: 1em; /* 2 */
 }
+
+/* stylelint-enable */
 
 /**
  * Add the correct font size in all browsers.

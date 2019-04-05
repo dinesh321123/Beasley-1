@@ -22,7 +22,7 @@
 		}
 	}
 
-	& button[type="submit"]{
+	& button[type="submit"] {
 		height: 22px;
 		width: 22px;
 

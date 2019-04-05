@@ -26,8 +26,8 @@
 		flex: 0 1 100%;
 		order: 2;
 	}
-
 }
+
 /* End Grid Fallbacks */
 
 .entry-content {
@@ -105,7 +105,7 @@
 
 	& a {
 		color: inherit;
-		margin-left: .250rem;
+		margin-left: 0.25rem;
 
 		&:first-child {
 			margin-left: 0;
@@ -117,10 +117,11 @@
 	margin-bottom: 2rem;
 }
 
-.post-thumbnail-caption, .jacapps .featured-media div {
+.post-thumbnail-caption,
+.jacapps .featured-media div {
 	color: var(--global-font-secondary);
-	font-size: .875rem;
-	margin: .5rem 0 0 0;
+	font-size: 0.875rem;
+	margin: 0.5rem 0 0 0;
 }
 
 .jacapps .entry-content {

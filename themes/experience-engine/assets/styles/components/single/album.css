@@ -1,24 +1,24 @@
 .single-gmr_album {
 	& .album-header {
 		&.album-title {
-			margin-bottom: .25rem;
+			margin-bottom: 0.25rem;
 		}
 
 		& .meta {
 			align-items: center;
 			display: flex;
-			font-size: .889rem;
+			font-size: 0.889rem;
 			flex-wrap: wrap;
 
-			@media(--min-medium-viewport) {
+			@media (--min-medium-viewport) {
 				flex-wrap: nowrap;
 				padding-bottom: 1.8125rem;
 			}
 
 			& > *:not(.author-meta) {
-				padding-bottom: .889rem;
+				padding-bottom: 0.889rem;
 
-				@media(--min-medium-viewport) {
+				@media (--min-medium-viewport) {
 					padding-bottom: 0;
 				}
 			}
@@ -29,14 +29,14 @@
 			display: flex;
 			flex-wrap: wrap;
 
-			@media(--min-medium-viewport) {
+			@media (--min-medium-viewport) {
 				flex-wrap: nowrap;
 			}
 
 			& > * {
-				margin-bottom: .889rem;
+				margin-bottom: 0.889rem;
 
-				@media(--min-medium-viewport) {
+				@media (--min-medium-viewport) {
 					margin-bottom: 0;
 				}
 			}

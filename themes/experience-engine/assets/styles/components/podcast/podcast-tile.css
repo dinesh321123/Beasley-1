@@ -87,13 +87,13 @@
 		line-height: 1.5;
 
 		& p:last-of-type {
-			margin-bottom: .667rem;
+			margin-bottom: 0.667rem;
 		}
 	}
 
 	& .status {
 		float: left;
-		padding-right: .75rem;
+		padding-right: 0.75rem;
 
 		& button {
 			background-color: transparent;
@@ -115,7 +115,7 @@
 	& .latest,
 	& .count {
 		font-family: var(--global-font-family-secondary);
-		font-size: .833rem;
+		font-size: 0.833rem;
 		font-weight: 600;
 		margin: 0;
 	}
