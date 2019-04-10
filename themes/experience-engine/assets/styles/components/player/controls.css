@@ -1,5 +1,5 @@
 .controls {
-	background-color: #efefef;
+	background-color: var(--global-theme-secondary);
 	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
 				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
 	display: flex;
@@ -460,5 +460,12 @@
 		width: 13px;
 		height: 23px;
 		transform: none;
+	}
+}
+
+.-light {
+
+	& .controls {
+		background-color: #efefef;
 	}
 }
