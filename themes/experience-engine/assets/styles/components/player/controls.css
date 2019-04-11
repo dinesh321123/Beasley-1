@@ -466,6 +466,6 @@
 .-light {
 
 	& .controls {
-		background-color: #efefef;
+		background-color: var(--global-gallery);
 	}
 }
