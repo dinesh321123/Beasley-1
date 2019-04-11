@@ -196,3 +196,36 @@
 		}
 	}
 }
+
+.episodes,
+.podcast {
+	& .archive-tiles {
+
+		& .episode-tile {
+			& .status {
+	
+				&.LIVE_PLAYING {
+					& button svg rect {
+						fill: var(--global-white);
+					}
+				}
+	
+				&.LIVE_BUFFERING {
+					& .loading-btn {
+						& .loading::after {
+							border-left-color: var(--global-white);
+							border-bottom-color: var(--global-white);
+						}
+					}
+				}
+	
+				&.LIVE_STOP,
+				&.LIVE_PAUSE {
+					& button svg {
+						fill: var(--global-white);
+					}
+				}
+			}
+		}
+	}
+}

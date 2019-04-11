@@ -51,6 +51,13 @@
 		}
 	}
 
+	& .episodes {
+		
+		& .status button svg {
+			fill: var(--global-white);
+		}
+	}
+
 	&.-list {
 		& > div {
 			display: flex;
