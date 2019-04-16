@@ -770,6 +770,7 @@ class BlogData {
 
 		$tmp = download_url( $filename );
 		if ( is_wp_error( $tmp ) ) {
+			self::log( "ImportMedia( $post_id / $original_id ), Failed to Download $filename : " . $tmp->get_error_message() );
 			return $tmp;
 		}
 
@@ -803,6 +804,8 @@ class BlogData {
 
 				// If error storing temporarily, unlink
 				if ( is_wp_error( $tmp ) ) {
+					// NOTE: Appears to be an invalid code path - if $tmp is a WP_Error,
+					// we already return early.
 					@unlink( $file_array['tmp_name'] );
 					$file_array['tmp_name'] = '';
 				}
@@ -819,6 +822,7 @@ class BlogData {
 
 				// If error storing permanently, unlink
 				if ( is_wp_error( $id ) ) {
+					self::log( "ImportMedia( $post_id / $original_id ), Media Sideload Failed $filename : " . $id->get_error_message() );
 					@unlink( $file_array['tmp_name'] );
 				} else {
 					// Try to migrate the post attachment to S3 if it failed for whatever reason
