@@ -59,7 +59,12 @@ class Contacts extends PureComponent {
 
 		let contacts = false;
 		if ( isOpen ) {
-			const image = picture && picture.large && picture.large.url ? picture.large.url : false;
+			let config = window.bbgiconfig;
+			let image  = config && config.theme && config.theme.logo && config.theme.logo.url;
+
+			if ( ! image ) {
+				image = picture && picture.large && picture.large.url ? picture.large.url : false;
+			}
 
 			contacts = (
 				<Fragment>
