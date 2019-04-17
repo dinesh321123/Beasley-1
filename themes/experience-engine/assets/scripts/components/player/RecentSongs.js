@@ -51,6 +51,7 @@ class RecentSongs extends PureComponent {
 		const self = this;
 		const { isOpen } = self.state;
 		const { songs } = self.props;
+
 		if ( !Array.isArray( songs ) || !songs.length ) {
 			return false;
 		}

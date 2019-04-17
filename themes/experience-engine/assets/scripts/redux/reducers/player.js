@@ -86,7 +86,6 @@ const stateReset = {
 	cuePoint: false,
 	time: 0,
 	duration: 0,
-	songs: [],
 	...adReset,
 };
 
@@ -105,6 +104,8 @@ function reducer( state = {}, action = {} ) {
 		case ACTION_INIT_TDPLAYER:
 			tdplayer = action.player;
 			tdplayer.setVolume( state.volume / 100 );
+
+			loadNowPlaying( state.station );
 			break;
 
 		case ACTION_PLAY_AUDIO:
@@ -247,7 +248,7 @@ function reducer( state = {}, action = {} ) {
 				.filter( item => 'stream' === item.type && 0 < ( item.content || [] ).length )
 				.map( item => item.content[0] );
 
-			const newstate = { 
+			const newstate = {
 				...state,
 				streams: newstreams.length ? newstreams : DEFAULT_STATE.streams,
 			};
