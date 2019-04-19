@@ -46,7 +46,7 @@
 		max-width: 1071px;
 		padding: 0 1rem 2.22rem;
 
-		h1 {
+		& h1 {
 			font-size: 2.38rem;
 			line-height: 1.355;
 		}
