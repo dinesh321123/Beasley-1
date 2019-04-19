@@ -16,6 +16,7 @@ endif;
 
 if ( ! function_exists( 'ee_setup_jacapps' ) ) :
 	function ee_setup_jacapps() {
+
 		if ( ! ee_is_jacapps() ) {
 			return;
 		}
