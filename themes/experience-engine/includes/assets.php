@@ -42,9 +42,9 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		 * External libraries
 		 */
 
-		//wp_register_script( 'embedly-platform', "//cdn.embed.ly/player-0.1.0{$min}.js", null, null, true );
-		//wp_script_add_data( 'embedly-platform', 'async', true );
-		//wp_enqueue_script( 'embedly-platform' );
+		wp_register_script( 'embedly-platform', "//cdn.embed.ly/player-0.1.0{$min}.js", null, null, true );
+		wp_script_add_data( 'embedly-platform', 'async', true );
+		wp_enqueue_script( 'embedly-platform' );
 
 		wp_register_script( 'iframe-resizer', '//cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.min.js', null, null );
 		wp_script_add_data( 'iframe-resizer', 'async', true );
@@ -88,7 +88,7 @@ EOL;
 			'firebase-app',
 			'firebase-auth',
 			'googletag',
-			'embedly-player.js',
+			'embedly-platform',
 			'td-sdk',
 			'intersection-observer',
 			'iframe-resizer',
