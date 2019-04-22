@@ -54,6 +54,18 @@ function getLoadMoreParams( element ) {
 	};
 }
 
+function getEmbedlyParams( element ) {
+	const embedlyTitleElement = element.children[0];
+	const embedlyTitleAElement = embedlyTitleElement.children[0];
+	const embedlyParagraphElement = 'undefined' !== typeof element.children[1] ? element.children[1] : '';
+
+	return {
+		url: embedlyTitleAElement.href,
+		title: embedlyTitleElement.textContent,
+		description: embedlyParagraphElement.innerText,
+	};
+}
+
 function getDfpParams( { dataset } ) {
 	const { targeting } = dataset;
 
@@ -99,6 +111,7 @@ function processEmbeds( container, type, selector, callback ) {
 	const embeds = [];
 
 	const elements = container.querySelectorAll( selector );
+
 	for ( let i = 0, len = elements.length; i < len; i++ ) {
 		const element = elements[i];
 		const extraAttributes = callback ? callback( element ) : {};
@@ -147,6 +160,8 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'discovery', '.discovery-cta', getPayloadParams() ),
 			...processEmbeds( container, 'favorites', '.add-to-favorites', getDatasetParams( 'keyword' ) ),
 			...processEmbeds( container, 'editfeed', '.edit-feed', getDatasetParams( 'feed', 'title' ) ),
+			...processEmbeds( container, 'embedly', '.embedly-card-prerender', getEmbedlyParams ),
+
 		];
 
 		// extract <script> tags

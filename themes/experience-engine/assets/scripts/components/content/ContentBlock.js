@@ -17,6 +17,7 @@ import StreamCta from './embeds/StreamCta';
 import Discovery from './embeds/Discovery';
 import AddToFavorites from './embeds/AddToFavorites';
 import EditFeed from './embeds/EditFeed';
+import Embedly from './embeds/Embedly';
 
 const mapping = {
 	secondstreet: SecondStreetEmbed,
@@ -33,6 +34,7 @@ const mapping = {
 	discovery: Discovery,
 	favorites: AddToFavorites,
 	editfeed: EditFeed,
+	embedly: Embedly,
 };
 
 class ContentBlock extends Component {
