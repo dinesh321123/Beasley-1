@@ -942,14 +942,29 @@ class BlogData {
 	private static function updateImageCaption( $new_id, $old_id ) {
 		if ( self::$content_site_id ) {
 			switch_to_blog( self::$content_site_id );
+
 			$old_post = get_post( $old_id, ARRAY_A );
+			$old_alt  = get_post_meta( $old_id, '_wp_attachment_image_alt', true );
+			$old_attr = get_post_meta( $old_id, 'gmr_image_attribution', true );
+
 			restore_current_blog();
 
 			if ( ! empty( $old_post ) ) {
 				$new_post = get_post( $new_id, ARRAY_A );
 				if ( ! empty( $new_post ) ) {
 					$new_post['post_excerpt'] = $old_post['post_excerpt'];
+					$new_post['post_title']   = $old_post['post_title'];
+					$new_post['post_content'] = $old_post['post_content'];
+
 					wp_update_post( $new_post );
+
+					if ( ! empty( $old_alt ) ) {
+						update_post_meta( $new_id, '_wp_attachment_image_alt', $old_alt );
+					}
+
+					if ( ! empty( $old_attr ) ) {
+						update_post_meta( $new_id, 'gmr_image_attribution', $old_attr );
+					}
 				}
 			}
 		}
