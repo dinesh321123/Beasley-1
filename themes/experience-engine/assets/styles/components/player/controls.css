@@ -3,7 +3,7 @@
 	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
 				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
 	display: flex;
-	min-height: 75px;
+	height: 75px;
 	position: relative;
 	padding-left: 1rem;
 

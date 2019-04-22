@@ -27,10 +27,6 @@
 		grid-column: 1;
 		width: 100%;
 
-		@media(--min-medium-viewport) {
-			width: auto;
-		}
-
 		& p {
 			line-height: 1.6;
 		}
