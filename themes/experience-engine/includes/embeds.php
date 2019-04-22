@@ -116,10 +116,17 @@ endif;
 function ee_responsive_oembed_html( $html, $url, $attr ) {
 	$classes = array();
 
-	// Add these classes to all embeds.
-	$classes_all = array(
-		'responsive-media',
-	);
+	if ( false !== stripos( $html, 'embedly-card' ) ) {
+		$classes_all = array(
+			'embedly-responsive-media',
+		);
+	}
+	else {
+		// Add these classes to all embeds except embedly
+		$classes_all = array(
+			'responsive-media',
+		);
+	}
 
 	// Check for different providers and add appropriate classes.
 	if ( false !== strpos( $url, 'vimeo.com' ) ) {
