@@ -14,6 +14,12 @@ add_filter( 'embed_oembed_html', 'ee_prepare_embedly_content', 10, 4 );
  */
 if ( ! function_exists( 'ee_prepare_embedly_content' ) ) :
 	function ee_prepare_embedly_content( $cached_html, $url, $attr, $post_id ) {
+
+		// Do the default action for jacapps pages
+		if ( ee_is_jacapps() ) {
+			return $cached_html;
+		}
+
 		$cached_html = str_ireplace(
 			'<blockquote class="embedly-card"',
 			'<blockquote class="embedly-card-prerender"',
