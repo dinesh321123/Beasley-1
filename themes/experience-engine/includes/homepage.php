@@ -9,7 +9,7 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 			'news'      => 'ee_render_homepage_standard_feed',
 			'video'     => 'ee_render_homepage_standard_feed',
 			'podcast'   => 'ee_render_homepage_standard_feed',
-			'countdown' => 'ee_render_homepage_payloadable_feed', 
+			'countdown' => 'ee_render_homepage_payloadable_feed',
 			'cta'       => 'ee_render_homepage_payloadable_feed',
 			// 'stream'    => 'ee_render_homepage_stream', // uncomment if we need stream CTAs on the homepage
 		);
@@ -251,7 +251,7 @@ if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 								unset( $query_vars[ $type ] );
 							}
 						}
-						
+
 						$query = new \WP_Query();
 						$posts = $query->query( array_merge( $query_vars, array(
 							'ignore_sticky_posts' => true,
@@ -281,3 +281,30 @@ if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 		return false;
 	}
 endif;
+
+/**
+ * Excludes content marked for exclusion from homepage from the main
+ * feed. This is controlled via the 'Keep off Homepage' Metabox .
+ *
+ * @param $query The WP Query
+ * @return void
+ */
+function ee_customize_homepage_rss_feed( $query ) {
+	if ( $query->is_main_query() && $query->is_feed ) {
+		$query->set( 'meta_query', [
+			'relation' => 'OR',
+			[
+				'key'     => 'keep-off-homepage',
+				'compare' => 'NOT EXISTS',
+			],
+			[
+				'key'     => 'keep-off-homepage',
+				'value'   => 0,
+				'compare' => '=',
+				'type'    => 'NUMERIC',
+			],
+		] );
+	}
+}
+
+add_action( 'pre_get_posts', 'ee_customize_homepage_rss_feed' );
