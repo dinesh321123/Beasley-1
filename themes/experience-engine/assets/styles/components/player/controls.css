@@ -7,6 +7,10 @@
 	position: relative;
 	padding-left: 1rem;
 
+	@media(--max-medium-viewport) {
+		padding-left: 0;
+	}
+
 	& button {
 		&:focus,
 		&:hover {
@@ -20,38 +24,63 @@
 
 	& .control-section {
 		align-items: center;
+		box-sizing: border-box;
 		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
 		position: relative;
-
-		@media(--min-medium-viewport) {
-			width: 100%;
-		}
+		width: 100%;
 
 		&:first-child {
-			padding-left: 1rem;
+			flex: 2 0px;
+			margin-left: 1rem;
+			order: 2;
 			overflow: hidden;
-			@media(--max-medium-viewport) {
-				order: 2;
-				width: 100%;
+
+			@media(--min-medium-viewport) {
+				flex: 1 100%;
+				margin-left: 0;
+				max-width: 250px;
+				order: 1;
+			}
+
+			@media(--min-xlarge-viewport) {
+				max-width: 350px;
 			}
 		}
 
 		&:nth-child(2) {
-			@media(--max-medium-viewport) {
-				order: 1;
+			flex: 1 100%;
+			margin-left: 1rem;
+			margin-right: 1rem;
+			max-width: 54px;
+			order: 1;
+
+			@media(--min-medium-viewport) {
+				flex: 2 0px;
+				max-width: none;
+				order: 2;
 			}
 		}
 
 		&:last-child {
-			@media(--max-medium-viewport) {
-				max-width: 60px;
-				order: 3;
-				width: 100%;
-			}
-		}
+			flex: 1 100%;
+			max-width: 70px;
+			order: 3;
 
-		&:last-of-type {
-			justify-content: flex-end;
+			@media(--min-medium-viewport) {
+				flex: 1 18%;
+				justify-content: flex-end;
+				max-width: none;
+			}
+
+			@media(--min-large-viewport) {
+				flex: 1 23%;
+			}
+
+			@media(--min-xlarge-viewport) {
+				flex: 1 28%;
+			}
 		}
 
 		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
@@ -132,6 +161,10 @@
 		position: relative;
 		width: 100%;
 
+		@media(--min-medium-viewport) {
+			width: 20%;
+		}
+
 		& svg path {
 			fill: var(--brand-primary);
 		}
@@ -154,7 +187,7 @@
 	& .controls-sponsor {
 		display: none;
 
-		@media(--min-medium-viewport) {
+		@media(--min-xlarge-viewport) {
 			display: block !important; /* Overrding ad */
 		}
 	}
@@ -337,12 +370,16 @@
 	& .controls-station {
 		display: none;
 		height: 100%;
-		max-width: 180px;
+		max-width: 150px;
 		position: relative;
-		width: 100%;
+		width: 50%;
 
 		@media(--min-medium-viewport) {
 			display: block;
+		}
+
+		@media(--min-xlarge-viewport) {
+			max-width: 170px;
 		}
 
 		& button {
