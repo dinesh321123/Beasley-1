@@ -17,33 +17,20 @@
 	height: 0;
 	max-width: 100%;
 	overflow: hidden;
-	position: relative;
 	padding-bottom: 56.25%;
+	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
-
-	@media screen and (min-width: 640px) {
-		max-width: 640px;
-		left: 50%;
-		padding: 0;
-		transform: translate(-50%, -50%);
-	}
 }
 
 .preroll-player {
 	background-color: var(--global-black);
-	height: 100%;
-	left: 0;
-	padding-left: 2%;
-	padding-right: 2%;
+	height: 96%;
+	left: 2%;
 	position: absolute;
+	right: 2%;
 	top: 0;
-	width: 100%;
-
-	@media screen and (min-width: 640px) {
-		padding-left: 0;
-		padding-right: 0;
-	}
+	width: 96%;
 }
 
 .preroll-notification {

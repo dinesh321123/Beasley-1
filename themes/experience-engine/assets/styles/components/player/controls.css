@@ -44,8 +44,13 @@
 				order: 1;
 			}
 
+			@media(--min-large-viewport) {
+				flex: 1 28%;
+				max-width: none;
+			}
+
 			@media(--min-xlarge-viewport) {
-				max-width: 350px;
+				flex: 1 100%;
 			}
 		}
 
@@ -58,8 +63,12 @@
 
 			@media(--min-medium-viewport) {
 				flex: 2 0px;
-				max-width: none;
+				max-width: 200px;
 				order: 2;
+			}
+
+			@media(--min-xlarge-viewport) {
+				flex: 1 100%;
 			}
 		}
 
@@ -79,7 +88,7 @@
 			}
 
 			@media(--min-xlarge-viewport) {
-				flex: 1 28%;
+				flex: 1 100%;
 			}
 		}
 
@@ -152,6 +161,14 @@
 			display: flex;
 			margin-bottom: 0;
 			white-space: nowrap;
+
+			&:nth-of-type(2) {
+				display: inline-block;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				width: 98%;
+			}
 		}
 	}
 
@@ -378,8 +395,8 @@
 			display: block;
 		}
 
-		@media(--min-xlarge-viewport) {
-			max-width: 170px;
+		@media(--min-xxlarge-viewport) {
+			max-width: 180px;
 		}
 
 		& button {

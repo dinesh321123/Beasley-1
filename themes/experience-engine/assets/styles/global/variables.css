@@ -36,6 +36,7 @@
 	--brand-tertiary: #2baee8;
 }
 
+@custom-media --min-xxlarge-viewport (min-width: 1240px);
 @custom-media --min-xlarge-viewport (min-width: 1060px);
 @custom-media --min-large-viewport (min-width: 900px);
 @custom-media --min-medium-viewport (min-width: 768px);
