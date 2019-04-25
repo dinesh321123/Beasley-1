@@ -129,12 +129,20 @@ function ee_responsive_oembed_html( $html, $url, $attr ) {
 	}
 
 	// Check for different providers and add appropriate classes.
-	if ( false !== strpos( $url, 'vimeo.com' ) ) {
+	if ( false !== strpos( $html, 'vimeo.com' ) ) {
 		$classes[] = 'vimeo';
 	}
 
 	if ( false !== strpos( $url, 'youtube.com' ) ) {
 		$classes[] = 'youtube';
+	}
+
+	if ( false !== strpos( $url, 'instagram.com' ) ) {
+		$classes[] = 'instagram';
+	}
+
+	if ( false !== strpos( $url, 'twitter.com' ) ) {
+		$classes[] = 'twitter';
 	}
 
 	$classes = array_merge( $classes, $classes_all );
