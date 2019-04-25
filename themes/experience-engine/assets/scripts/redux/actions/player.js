@@ -20,6 +20,10 @@ export const ACTION_AD_PLAYBACK_COMPLETE = 'production' === process.env.NODE_ENV
 export const ACTION_AD_PLAYBACK_ERROR    = 'production' === process.env.NODE_ENV ? 'pf' : 'PLAYER_AD_PLAYBACK_ERROR';
 export const ACTION_AD_BREAK_SYNCED      = 'production' === process.env.NODE_ENV ? 'pg' : 'PLAYER_AD_BREAK_SYNCED';
 export const ACTION_AD_BREAK_SYNCED_HIDE = 'production' === process.env.NODE_ENV ? 'ph' : 'PLAYER_AD_BREAK_SYNCED_HIDE';
+export const ACTION_STREAM_START         = 'production' === process.env.NODE_ENV ? 'pi' : 'PLAYER_STREAM_START';
+export const ACTION_STREAM_STOP          = 'production' === process.env.NODE_ENV ? 'pj' : 'PLAYER_STREAM_STOP';
+export const ACTION_AUDIO_START          = 'production' === process.env.NODE_ENV ? 'pk' : 'PLAYER_AUDIO_START';
+export const ACTION_AUDIO_STOP           = 'production' === process.env.NODE_ENV ? 'pl' : 'PLAYER_AUDIO_STOP';
 
 export const STATUSES = {
 	LIVE_PAUSE: 'LIVE_PAUSE',
@@ -60,6 +64,20 @@ export function initTdPlayer( modules ) {
 			dispatch( {
 				type: ACTION_STATUS_CHANGE,
 				status: data.code,
+			} );
+		}
+
+		function dispatchStreamStart( { data } ) {
+			dispatch( {
+				type: ACTION_STREAM_START,
+				data: data,
+			} );
+		}
+
+		function dispatchStreamStop( { data } ) {
+			dispatch( {
+				type: ACTION_STREAM_STOP,
+				data: data,
 			} );
 		}
 
@@ -120,6 +138,9 @@ export function initTdPlayer( modules ) {
 				player.addEventListener( 'ad-playback-complete', dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE ) );
 				player.addEventListener( 'ad-playback-error', dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
 
+				player.addEventListener( 'stream-start', dispatchStreamStart );
+				player.addEventListener( 'stream-stop', dispatchStreamStop );
+
 				dispatch( { type: ACTION_INIT_TDPLAYER, player } );
 			},
 		} );
@@ -128,12 +149,25 @@ export function initTdPlayer( modules ) {
 
 export function playAudio( audio, cueTitle = '', artistName = '' ) {
 	return ( dispatch ) => {
+		function dispatchAudioStart() {
+			dispatch( { type: ACTION_AUDIO_START } );
+		}
+
+		function dispatchAudioStop() {
+			dispatch( { type: ACTION_AUDIO_STOP } );
+		}
+
 		const player = new Audio( audio );
 
 		player.addEventListener( 'loadstart', dispatchStatusUpdate( dispatch, STATUSES.LIVE_BUFFERING ) );
 		player.addEventListener( 'pause', dispatchStatusUpdate( dispatch, STATUSES.LIVE_PAUSE ) );
 		player.addEventListener( 'playing', dispatchStatusUpdate( dispatch, STATUSES.LIVE_PLAYING ) );
 		player.addEventListener( 'ended', dispatchStatusUpdate( dispatch, STATUSES.LIVE_STOP ) );
+
+		player.addEventListener( 'play', dispatchAudioStart );
+		player.addEventListener( 'pause', dispatchAudioStop );
+		player.addEventListener( 'ended', dispatchAudioStop );
+		player.addEventListener( 'abort', dispatchAudioStop );
 
 		player.addEventListener( 'loadedmetadata', () => {
 			dispatch( {

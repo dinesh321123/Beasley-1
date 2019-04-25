@@ -164,6 +164,12 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
 		$config = array(
 			'cssvars' => array( 'variables' => ee_get_css_colors() ),
+
+			/** Live Streaming Intervals */
+			'intervals'  => [
+				'live_streaming' => absint( get_option( 'gmr_live_streaming_interval', 1 ) ),
+				'inline_audio'   => absint( get_option( 'gmr_inline_audio_interval', 1 ) ),
+			],
 		);
 
 		$custom_logo_id = get_option( 'gmr_site_logo' );
