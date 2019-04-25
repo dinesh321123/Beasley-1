@@ -64,6 +64,10 @@ iframe[src^="https://omny.fm"] {
 	}
 }
 
+.live-player-modal--contact {
+	font-size: 1rem;
+}
+
 .-light {
 
 	& .live-player-modal {
