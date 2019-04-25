@@ -3,7 +3,7 @@
 		<?php ee_the_lazy_thumbnail( null, true ); ?>
 		<?php if( has_post_format( 'video', $post->ID ) ) : ?>
 			<div class="post-video-overlay">
-				<?php $label_id = uniqid(); ?>
+				<?php $label_id = 'label-' . uniqid(); ?>
 				<svg viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg" role="img"
 					aria-labelledby="<?php echo esc_attr( $label_id ); ?> video-icon-desc">
 					<title id="<?php echo esc_attr( $label_id ); ?>">Video Icon</title>

@@ -2,7 +2,7 @@
 	<?php get_template_part( 'partials/tile/thumbnail' ); ?>
 	<?php get_template_part( 'partials/tile/title' ); ?>
 
-	<?php $mask_id = uniqid(); ?>
+	<?php $mask_id = 'mask-' . uniqid(); ?>
 
 	<p class="type">
 		<svg width="13" height="14">
