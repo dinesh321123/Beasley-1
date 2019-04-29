@@ -33,7 +33,8 @@
       outline: none;
     }
 
-    &::-moz-range-track {
+    &::-moz-range-track,
+	&::-ms-track {
       width: 100%;
       height: 2px;
       background: #D1D1D1;
@@ -41,7 +42,8 @@
       border-radius: 3px;
     }
 
-    &::-moz-range-thumb {
+    &::-moz-range-thumb,
+	&::-ms-thumb {
       border: none;
       height: 16px;
       width: 16px;
