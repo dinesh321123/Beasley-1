@@ -18,7 +18,8 @@
       border-radius: 1px;
     }
 
-    &::-webkit-slider-thumb {
+    &::-webkit-slider-thumb,
+	&::-ms-thumb {
       -webkit-appearance: none;
       border: none;
       height: 10px;
@@ -33,8 +34,7 @@
       outline: none;
     }
 
-    &::-moz-range-track,
-	&::-ms-track {
+    &::-moz-range-track {
       width: 100%;
       height: 2px;
       background: #D1D1D1;
@@ -42,8 +42,7 @@
       border-radius: 3px;
     }
 
-    &::-moz-range-thumb,
-	&::-ms-thumb {
+    &::-moz-range-thumb {
       border: none;
       height: 16px;
       width: 16px;
