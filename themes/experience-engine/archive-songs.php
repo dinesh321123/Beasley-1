@@ -21,6 +21,23 @@ $query_params = [
 
 $endpoint = 'https://nowplaying.bbgi.com/' . esc_attr( $call_sign ) . '/list?' . http_build_query( $query_params );
 
+$stream_query = new WP_Query( [
+	'post_type'           => GMR_LIVE_STREAM_CPT,
+	'meta_key'            => 'call_sign',
+	'meta_value'          => $call_sign,
+	'posts_per_page'      => 1,
+	'ignore_sticky_posts' => 1,
+	'no_found_rows'       => true,
+	'fields'              => 'ids',
+] );
+
+$streams = $stream_query->posts;
+
+if ( ! empty( $streams ) ) {
+	$description = get_post_meta( $streams[0], 'description', true );
+} else {
+	$description = $call_sign;
+}
 ?>
 
 	<div class="container">
@@ -30,6 +47,7 @@ $endpoint = 'https://nowplaying.bbgi.com/' . esc_attr( $call_sign ) . '/list?' .
 			<div class="song-archive-prerender"
 				data-callsign="<?php echo esc_attr( $call_sign ); ?>"
 				data-endpoint="<?php echo esc_url( $endpoint ); ?>"
+				data-description="<?php echo esc_attr( $description ); ?>"
 				>
 
 			</div>

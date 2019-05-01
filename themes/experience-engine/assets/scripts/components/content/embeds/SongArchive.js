@@ -22,6 +22,7 @@ class SongArchive extends PureComponent {
 		this.state = {
 			loading: true,
 			songs: [],
+			now: Math.floor( ( new Date() ).getTime() / 1000 ),
 		};
 	}
 
@@ -36,24 +37,28 @@ class SongArchive extends PureComponent {
 
 		return (
 			<div className="song-archive">
-				<h3>Recently Played Songs on { this.props.callsign }</h3>
+				<h3>Recently Played Songs on { this.props.description }</h3>
 
 				{ this.state.loading ?
 					<p>Loading ...</p>
 					:
-					<ul>
-						{ this.state.songs.map( ( song ) => {
-							return (
-								<li key={ song.id }>
-									[<span className="song-time">{ song.timestamp }</span>]
-									&nbsp;
-									<span className="song-title">{ song.title }</span>
-									&nbsp;
-									(<span className="song-artist">{ song.artist }</span>)
-								</li>
-							);
-						} ) }
-					</ul>
+					<div>
+						<p>{ this.state.now }</p>
+
+						<ul>
+							{ this.state.songs.map( ( song ) => {
+								return (
+									<li key={ song.id }>
+										[<span className="song-time">{ song.timestamp }</span>]
+										&nbsp;
+										<span className="song-title">{ song.title }</span>
+										&nbsp;
+										(<span className="song-artist">{ song.artist }</span>)
+									</li>
+								);
+							} ) }
+						</ul>
+					</div>
 				}
 			</div>
 		);
@@ -74,13 +79,15 @@ class SongArchive extends PureComponent {
 }
 
 SongArchive.propTypes = {
-	callsign: PropTypes.string,
-	endpoint: PropTypes.string,
+	callsign    : PropTypes.string,
+	endpoint    : PropTypes.string,
+	description : PropTypes.string,
 };
 
 SongArchive.defaultProps = {
-	callsign: '',
-	endpoint: '',
+	callsign    : '',
+	endpoint    : '',
+	description : '',
 };
 
 export default SongArchive;

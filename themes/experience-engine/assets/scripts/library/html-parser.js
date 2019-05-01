@@ -77,8 +77,9 @@ function getSongArchiveParams( element ) {
 	const { dataset } = element;
 
 	return {
-		callsign: dataset.callsign,
-		endpoint: dataset.endpoint,
+		callsign    : dataset.callsign,
+		endpoint    : dataset.endpoint,
+		description : dataset.description,
 	};
 }
 
