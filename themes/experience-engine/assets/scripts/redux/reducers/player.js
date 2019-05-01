@@ -116,6 +116,8 @@ function reducer( state = {}, action = {} ) {
 			tdplayer.setVolume( state.volume / 100 );
 
 			loadNowPlaying( state.station );
+
+			window.tdplayer = tdplayer;
 			break;
 
 		case ACTION_PLAY_AUDIO:
