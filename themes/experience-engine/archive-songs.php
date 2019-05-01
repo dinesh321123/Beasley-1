@@ -2,86 +2,37 @@
 /**
  * Songs Archive Template
  *
- * This template takes the Call Sign queried and checks if a Live stream
- * exists for it. If yes, then the Live Stream Player API is used to
- * render a list of recently played songs
+ * This template takes the Call Sign queried and uses the Now Playing
+ * endpoint to show a list of recent songs. This template renders a
+ * placeholder that is filled in by the SongArchive React component.
  *
  * @package Experience Engine
  * @since   1.0.0
  */
 
-get_header(); ?>
+get_header();
+
+$call_sign = get_query_var( GMR_LIVE_STREAM_CPT );
+
+$query_params = [
+	'limit'  => 100,
+	'offset' => 0,
+];
+
+$endpoint = 'https://nowplaying.bbgi.com/' . esc_attr( $call_sign ) . '/list?' . http_build_query( $query_params );
+
+?>
 
 	<div class="container">
 
 		<section class="content">
 
-			<h2 class="content__heading">
-				Recently Played
-				<?php $call_sign = get_query_var( GMR_LIVE_STREAM_CPT ); ?>
-				<?php if ( ! empty( $call_sign ) && ! is_numeric( $call_sign ) ) : ?>
-					<?php
-					$stream_query = new WP_Query( array(
-						'post_type'           => GMR_LIVE_STREAM_CPT,
-						'meta_key'            => 'call_sign',
-						'meta_value'          => $call_sign,
-						'posts_per_page'      => 1,
-						'ignore_sticky_posts' => 1,
-						'no_found_rows'       => true,
-						'fields'              => 'ids',
-					) );
-					if ( $stream_query->have_posts() ) {
-						$stream_query->the_post();
-						$description = get_post_meta( get_the_ID(), 'description', true );
+			<div class="song-archive-prerender"
+				data-callsign="<?php echo esc_attr( $call_sign ); ?>"
+				data-endpoint="<?php echo esc_url( $endpoint ); ?>"
+				>
 
-						if ( !empty( $description ) ){
-							echo 'on ' . esc_html( $description );
-						} else{
-							echo 'on ' . esc_html( $call_sign );
-						}
-					} else {
-						echo 'Error: Call Sign( ' . esc_html( $call_sign ) . ' ) not found';
-					}
-					wp_reset_postdata();
-					?>
-				<?php endif; ?>
-			</h2>
-
-			<!-- list songs -->
-			<div class="songs__group songs__group--new-date">
-			   <!--<div class="songs__group--date">May 2, 2018</div>
-			   <ul class="songs__group--list">
-			      <li class="song__item">
-			         <div class="song__time">
-			            08:10 AM
-			         </div>
-			         <div class="song__meta">
-			            <span class="song__title">Refugee</span>
-			            <span class="song__artist">
-			            — Tom Petty			</span>
-			         </div>
-			      </li>
-			   </ul>-->
 			</div>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-			<script>
-				var currentDateOfLoop;
-				jQuery.get( "https://nowplaying.bbgi.com/<?php echo esc_js($call_sign); ?>/list?limit=100&offset=0", function( data ) {
-					_.each(data, function(song){
-						var songDate = moment(song.timestamp * 1000);
-						if (!currentDateOfLoop || (currentDateOfLoop.format('MM/DD/YY') != songDate.format('MM/DD/YY'))){
-							currentDateOfLoop = songDate;
-							jQuery('.songs__group').append('<div class="songs__group--date"></div><ul class="songs__group--list"></ul>');
-							jQuery('.songs__group--date').last().text(currentDateOfLoop.format('MMM D, YYYY'));
-						}
-						jQuery('.songs__group--list').last().append('<li class="song__item"><div class="song__time"></div><div class="song__meta"><span class="song__title"></span><span class="song__artist"></span></div></li>');
-						jQuery('.song__time').last().text(songDate.format('hh:mm A'));
-						jQuery('.song__title').last().text(song.title);
-						jQuery('.song__artist').last().text(' — ' + song.artist);
-					});
-				});
-			</script>
-			<!-- end list songs -->
 
 		</section>
 

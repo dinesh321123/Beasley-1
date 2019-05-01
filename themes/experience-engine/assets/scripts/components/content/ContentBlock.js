@@ -18,6 +18,7 @@ import Discovery from './embeds/Discovery';
 import AddToFavorites from './embeds/AddToFavorites';
 import EditFeed from './embeds/EditFeed';
 import Embedly from './embeds/Embedly';
+import SongArchive from './embeds/SongArchive';
 
 const mapping = {
 	secondstreet: SecondStreetEmbed,
@@ -35,6 +36,7 @@ const mapping = {
 	favorites: AddToFavorites,
 	editfeed: EditFeed,
 	embedly: Embedly,
+	songarchive: SongArchive,
 };
 
 class ContentBlock extends Component {
