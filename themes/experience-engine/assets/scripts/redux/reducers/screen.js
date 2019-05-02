@@ -102,11 +102,11 @@ function reducer( state = {}, action = {} ) {
 					}
 				}
 			}
-
+			hideSplashScreen();
 			NProgress.done();
 			manageScripts( action.scripts, state.scripts );
 			manageBbgiConfig( pageDocument );
-			hideSplashScreen();
+
 
 			return {
 				...state,
@@ -125,10 +125,9 @@ function reducer( state = {}, action = {} ) {
 			}
 
 			const { document: pageDocument } = action;
-
+			hideSplashScreen();
 			NProgress.done();
 			manageBbgiConfig( pageDocument );
-			hideSplashScreen();
 
 			return {
 				...state,
