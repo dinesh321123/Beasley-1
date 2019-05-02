@@ -127,10 +127,11 @@ class LivePlayer extends Component {
 
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
+				<ErrorBoundary>
+					<Progress />
+				</ErrorBoundary>
+
 				<div className="controls">
-					<ErrorBoundary>
-						<Progress />
-					</ErrorBoundary>
 					<div className="control-section">
 						<ErrorBoundary>
 							<Info />

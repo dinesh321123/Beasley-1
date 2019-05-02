@@ -53,5 +53,7 @@ add_action( 'after_setup_theme', function() {
 	if ( current_theme_supports( 'legacy-live-player' ) ) {
 		GMLP_Player::init();
 		GMR_Audio_Shortcodes::init();
+	} else {
+		add_action( 'admin_init', [ 'GMLP_Player', 'register_settings' ], 9 );
 	}
 } );

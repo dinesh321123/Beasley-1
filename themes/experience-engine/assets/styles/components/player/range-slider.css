@@ -18,7 +18,15 @@
       border-radius: 1px;
     }
 
-    &::-webkit-slider-thumb {
+	&::-ms-track {
+	  background: #D1D1D1;
+	  box-sizing: border-box;
+	  border: none;
+	  height: 2px;
+	}
+
+    &::-webkit-slider-thumb,
+	&::-ms-thumb {
       -webkit-appearance: none;
       border: none;
       height: 10px;
@@ -28,6 +36,11 @@
       margin-top: -3.5px;
       z-index: 400;
     }
+
+	&::-ms-thumb {
+		border: 0;
+		margin-top: 0;
+	}
 
     &:focus {
       outline: none;

@@ -13,7 +13,7 @@ html {
 }
 
 .container {
-	padding-bottom: 74px; /*height of the fixed player*/
+	padding-bottom: 50px; /*height of the fixed player*/
 
 	@media(--min-large-viewport) {
 		padding-left: 190px;

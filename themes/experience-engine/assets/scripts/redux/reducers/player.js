@@ -1,4 +1,5 @@
 import { getStorage } from '../../library/local-storage';
+import { sendLiveStreamPlaying, sendInlineAudioPlaying } from '../../library/google-analytics';
 import { ACTION_SET_USER_FEEDS, ACTION_UPDATE_USER_FEEDS, ACTION_RESET_USER } from '../actions/auth';
 import {
 	ACTION_INIT_TDPLAYER,
@@ -19,6 +20,10 @@ import {
 	ACTION_AD_PLAYBACK_ERROR,
 	ACTION_AD_BREAK_SYNCED,
 	ACTION_AD_BREAK_SYNCED_HIDE,
+	ACTION_STREAM_START,
+	ACTION_STREAM_STOP,
+	ACTION_AUDIO_START,
+	ACTION_AUDIO_STOP,
 	STATUSES,
 } from '../actions/player';
 
@@ -28,6 +33,9 @@ const { streams } = window.bbgiconfig || {};
 let tdplayer = null;
 let mp3player = null;
 let omnyplayer = null;
+
+let liveStreamInterval  = 0;
+let inlineAudioInterval = 0;
 
 function parseVolume( value ) {
 	let volume = parseInt( value, 10 );
@@ -100,12 +108,16 @@ export const DEFAULT_STATE = {
 };
 
 function reducer( state = {}, action = {} ) {
+	let interval;
+
 	switch ( action.type ) {
 		case ACTION_INIT_TDPLAYER:
 			tdplayer = action.player;
 			tdplayer.setVolume( state.volume / 100 );
 
 			loadNowPlaying( state.station );
+
+			window.tdplayer = tdplayer;
 			break;
 
 		case ACTION_PLAY_AUDIO:
@@ -215,6 +227,38 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_NOW_PLAYING_LOADED:
 			return { ...state, songs: action.list };
+
+		case ACTION_STREAM_START:
+			interval = window.bbgiconfig.intervals.live_streaming;
+
+			if ( 0 < interval ) {
+				clearInterval( liveStreamInterval );
+
+				liveStreamInterval = setInterval( function() {
+					sendLiveStreamPlaying();
+				}, interval * 60 * 1000 );
+			}
+			break;
+
+		case ACTION_STREAM_STOP:
+			clearInterval( liveStreamInterval );
+			break;
+
+		case ACTION_AUDIO_START:
+			interval = window.bbgiconfig.intervals.inline_audio;
+
+			if ( 0 < interval ) {
+				clearInterval( inlineAudioInterval );
+
+				inlineAudioInterval = setInterval( function() {
+					sendInlineAudioPlaying();
+				}, interval * 60 * 1000 );
+			}
+			break;
+
+		case ACTION_AUDIO_STOP:
+			clearInterval( inlineAudioInterval );
+			break;
 
 		case ACTION_AD_PLAYBACK_START:
 			document.body.classList.add( 'locked' );

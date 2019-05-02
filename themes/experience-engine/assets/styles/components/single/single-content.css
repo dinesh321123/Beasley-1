@@ -16,9 +16,13 @@
 		}
 	}
 
+	& .description {
+		padding-right: 3.8%;
+		flex: 0 1 67%;
+	}
+
 	& .ad {
-		flex: 0 1 300px;
-		max-width: 600px;
+		flex: 0 1 29.15%;
 		order: 1;
 	}
 

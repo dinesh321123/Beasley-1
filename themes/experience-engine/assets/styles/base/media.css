@@ -2,21 +2,39 @@
  * <div class="responsive-media">
  * See: includes/embeds.php
 */
-.responsive-media {
+.responsive-media:not(.twitter):not(.instagram) {
 	height: 0;
 	max-width: 100%;
-	padding-bottom: 56.25%; 
-	position: relative; 
-	overflow: hidden; 
+	overflow: hidden;
+	padding-bottom: 56.25%;
+	position: relative;
 
 	& embed,
 	& iframe,
-	& object {
+	& object,
+	& twitter- {
 		height: 100%;
 		left: 0;
-		position: absolute; 
-		top: 0;  
-		width: 100%; 
+		max-width: none;
+		position: absolute;
+		top: 0;
+		width: 100%;
 	}
 
+	& .wp-embedded-content {
+		clip: unset !important;
+	}
+
+}
+
+.responsive-media.twitter,
+.responsive-media.instagram {
+
+	& iframe,
+	& twitter-widget {
+		margin-left: auto !important;
+		margin-right: auto !important;
+		max-width: 100% !important;
+		width: 100% !important;
+	}
 }

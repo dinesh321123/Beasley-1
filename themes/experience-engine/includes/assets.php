@@ -107,9 +107,13 @@ endif;
 if ( ! function_exists( 'ee_get_css_colors' ) ) :
 	function ee_get_css_colors() {
 		$vars = [
-			'--brand-primary'   => get_option( 'ee_theme_primary_color', '#ff0000' ),
-			'--brand-secondary' => get_option( 'ee_theme_secondary_color', '#ffe964' ),
-			'--brand-tertiary'  => get_option( 'ee_theme_tertiary_color', '#ffffff' ),
+			'--brand-primary'                => get_option( 'ee_theme_primary_color', '#ff0000' ),
+			'--brand-secondary'              => get_option( 'ee_theme_secondary_color', '#ffe964' ),
+			'--brand-tertiary'               => get_option( 'ee_theme_tertiary_color', '#ffffff' ),
+			'--brand-background-color'       => get_option( 'ee_theme_background_color', '#ffffff' ),
+			'--brand-button-color'           => get_option( 'ee_theme_button_color', '#ffe964' ),
+			'--brand-text-color'             => get_option( 'ee_theme_text_color', '#000000' ),
+			'--brand-sponsorship-text-color' => get_option( 'ee_theme_sponsorship_color', '#000000' ),
 		];
 
 		if ( get_option( 'ee_theme_version', '-dark' ) == '-dark' ) {
@@ -164,6 +168,12 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
 		$config = array(
 			'cssvars' => array( 'variables' => ee_get_css_colors() ),
+
+			/** Live Streaming Intervals */
+			'intervals'  => [
+				'live_streaming' => absint( get_option( 'gmr_live_streaming_interval', 1 ) ),
+				'inline_audio'   => absint( get_option( 'gmr_inline_audio_interval', 1 ) ),
+			],
 		);
 
 		$custom_logo_id = get_option( 'gmr_site_logo' );

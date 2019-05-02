@@ -66,6 +66,23 @@ function getEmbedlyParams( element ) {
 	};
 }
 
+/**
+ * Extracts the attributes passed by the Song Archive template
+ * placeholder and returns them.
+ *
+ * @param element The song archive pre-render DOM element
+ * @return object
+ */
+function getSongArchiveParams( element ) {
+	const { dataset } = element;
+
+	return {
+		callsign    : dataset.callsign,
+		endpoint    : dataset.endpoint,
+		description : dataset.description,
+	};
+}
+
 function getDfpParams( { dataset } ) {
 	const { targeting } = dataset;
 
@@ -161,6 +178,7 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'favorites', '.add-to-favorites', getDatasetParams( 'keyword' ) ),
 			...processEmbeds( container, 'editfeed', '.edit-feed', getDatasetParams( 'feed', 'title' ) ),
 			...processEmbeds( container, 'embedly', '.embedly-card-prerender', getEmbedlyParams ),
+			...processEmbeds( container, 'songarchive', '.song-archive-prerender', getSongArchiveParams ),
 
 		];
 

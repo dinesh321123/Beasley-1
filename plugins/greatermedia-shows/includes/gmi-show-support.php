@@ -122,7 +122,7 @@ function get_show_endpoint_pagination_links( \WP_Query $query ) {
 
 function _get_show_children_ids( $type ) {
 	$show_id = get_the_ID();
-	$key = 'show-children-ids-' . $show_id . $type;
+	$key = GMEDIA_SHOWS_VERSION . 'show-children-ids-' . $show_id . $type;
 
 	$ids = wp_cache_get( $key, 'bbgi:show' );
 	if ( empty( $ids ) ) {
@@ -146,6 +146,7 @@ function _get_show_children_ids( $type ) {
 		wp_cache_set( $key, $ids, 'bbgi:show' );
 	}
 
+	//error_log( var_export( $ids, true ) );
 	return $ids;
 }
 

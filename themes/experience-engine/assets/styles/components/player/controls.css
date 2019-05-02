@@ -3,9 +3,13 @@
 	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
 				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
 	display: flex;
-	min-height: 75px;
+	height: 75px;
 	position: relative;
 	padding-left: 1rem;
+
+	@media(--max-medium-viewport) {
+		padding-left: 0;
+	}
 
 	& button {
 		&:focus,
@@ -20,38 +24,76 @@
 
 	& .control-section {
 		align-items: center;
+		box-sizing: border-box;
 		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
 		position: relative;
-
-		@media(--min-medium-viewport) {
-			width: 100%;
-		}
+		width: 100%;
 
 		&:first-child {
-			padding-left: 1rem;
+			flex: 2 0px;
+			order: 2;
 			overflow: hidden;
-			@media(--max-medium-viewport) {
-				order: 2;
-				width: 100%;
+
+			@media(--min-medium-viewport) {
+				flex: 1 100%;
+				margin-left: 0;
+				max-width: 250px;
+				order: 1;
+			}
+
+			@media(--min-large-viewport) {
+				flex: 1 28%;
+				max-width: none;
+			}
+
+			@media(--min-xlarge-viewport) {
+				flex: 1 100%;
 			}
 		}
 
 		&:nth-child(2) {
-			@media(--max-medium-viewport) {
-				order: 1;
+			flex: 1 100%;
+			margin-left: 1rem;
+			margin-right: 1rem;
+			max-width: 54px;
+			order: 1;
+
+			@media(--min-medium-viewport) {
+				flex: 2 0px;
+				max-width: 210px;
+				order: 2;
+			}
+
+			@media(--min-xlarge-viewport) {
+				flex: 1 100%;
+			}
+
+			@media(--min-xxlarge-viewport) {
+				max-width: 700px;
 			}
 		}
 
 		&:last-child {
-			@media(--max-medium-viewport) {
-				max-width: 60px;
-				order: 3;
-				width: 100%;
-			}
-		}
+			flex: 1 100%;
+			max-width: 70px;
+			order: 3;
 
-		&:last-of-type {
-			justify-content: flex-end;
+			@media(--min-medium-viewport) {
+				flex: 1 18%;
+				justify-content: flex-end;
+				max-width: none;
+			}
+
+			@media(--min-large-viewport) {
+				flex: 1 23%;
+			}
+
+			@media(--min-xlarge-viewport) {
+				flex: 1 100%;
+				min-width: 416px;
+			}
 		}
 
 		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
@@ -111,7 +153,9 @@
 			letter-spacing: 0.01em;
 			line-height: 1.2;
 			padding: .1rem .25rem;
+			position: relative;
 			text-transform: uppercase;
+			top: -1px;
 		}
 
 		& span:not(.live) {
@@ -120,9 +164,12 @@
 
 		& p {
 			align-items: center;
-			display: flex;
+			display: inline-block;
 			margin-bottom: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
 			white-space: nowrap;
+			width: 98%;
 		}
 	}
 
@@ -131,6 +178,10 @@
 		max-width: 89px;
 		position: relative;
 		width: 100%;
+
+		@media(--min-medium-viewport) {
+			width: 20%;
+		}
 
 		& svg path {
 			fill: var(--brand-primary);
@@ -154,7 +205,7 @@
 	& .controls-sponsor {
 		display: none;
 
-		@media(--min-medium-viewport) {
+		@media(--min-xlarge-viewport) {
 			display: block !important; /* Overrding ad */
 		}
 	}
@@ -337,12 +388,16 @@
 	& .controls-station {
 		display: none;
 		height: 100%;
-		max-width: 180px;
+		max-width: 150px;
 		position: relative;
-		width: 100%;
+		width: 50%;
 
 		@media(--min-medium-viewport) {
 			display: block;
+		}
+
+		@media(--min-xxlarge-viewport) {
+			max-width: 180px;
 		}
 
 		& button {
