@@ -65,7 +65,7 @@ function hideSplashScreen() {
 		if ( 'function' === typeof window['cssVars'] ) {
 			window['cssVars']( window.bbgiconfig.cssvars );
 		}
-	}, 2000 );
+	}, 250 );
 }
 
 function reducer( state = {}, action = {} ) {
@@ -145,7 +145,7 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_LOAD_ERROR:
 			return { ...state, error: action.error };
-	
+
 		case ACTION_HIDE_SPLASH_SCREEN:
 			hideSplashScreen();
 			return { ...state, splashScreen: false };
