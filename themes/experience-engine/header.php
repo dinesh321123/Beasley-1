@@ -23,7 +23,9 @@
 		do_action( 'beasley_after_body' );
 
 		if ( ! ee_is_jacapps() ) :
-			get_template_part( 'partials/splash-screen' );
+			if ( isset( $_GET['disable_splash'] ) ) {
+				get_template_part( 'partials/splash-screen' );
+			}
 			get_template_part( 'partials/header' );
 		endif;
 
