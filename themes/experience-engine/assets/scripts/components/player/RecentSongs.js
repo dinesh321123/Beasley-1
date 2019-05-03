@@ -50,7 +50,7 @@ class RecentSongs extends PureComponent {
 	render() {
 		const self = this;
 		const { isOpen } = self.state;
-		const { songs } = self.props;
+		const { songs, colors } = self.props;
 
 		if ( !Array.isArray( songs ) || !songs.length ) {
 			return false;
@@ -91,15 +91,15 @@ class RecentSongs extends PureComponent {
 			<div ref={self.recentSongsModalRef} className={`controls-recent${isOpen ? ' -open' : ''}`}>
 				<button onClick={self.onToggle}>
 					<svg width="29" height="6" viewBox="0 0 28 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<rect width="6" height="6" rx="3" fill="#EB108B"/>
-						<rect width="6" height="6" rx="3" fill="#4898D3"/>
-						<rect width="6" height="6" rx="3" fill="#707070"/>
-						<rect x="11" width="6" height="6" rx="3" fill="#EB108B"/>
-						<rect x="11" width="6" height="6" rx="3" fill="#4898D3"/>
-						<rect x="11" width="6" height="6" rx="3" fill="#707070"/>
-						<rect x="22" width="6" height="6" rx="3" fill="#EB108B"/>
-						<rect x="22" width="6" height="6" rx="3" fill="#4898D3"/>
-						<rect x="22" width="6" height="6" rx="3" fill="#707070"/>
+						<rect width="6" height="6" rx="3" fill="#EB108B" style={colors}/>
+						<rect width="6" height="6" rx="3" fill="#4898D3" style={colors}/>
+						<rect width="6" height="6" rx="3" fill="#707070" style={colors}/>
+						<rect x="11" width="6" height="6" rx="3" fill="#EB108B" style={colors}/>
+						<rect x="11" width="6" height="6" rx="3" fill="#4898D3" style={colors}/>
+						<rect x="11" width="6" height="6" rx="3" fill="#707070" style={colors}/>
+						<rect x="22" width="6" height="6" rx="3" fill="#EB108B" style={colors}/>
+						<rect x="22" width="6" height="6" rx="3" fill="#4898D3" style={colors}/>
+						<rect x="22" width="6" height="6" rx="3" fill="#707070" style={colors}/>
 					</svg>
 				</button>
 

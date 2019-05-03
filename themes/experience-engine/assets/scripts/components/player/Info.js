@@ -55,7 +55,7 @@ class Info extends Component {
 
 	renderStation() {
 		const self = this;
-		const { station, streams, status, cuePoint } = self.props;
+		const { station, streams, status, cuePoint, colors } = self.props;
 
 		let info = STATUS_LABELS[status] || '';
 		if ( 'LIVE_PLAYING' === status ) {
@@ -68,7 +68,7 @@ class Info extends Component {
 		const stream = streams.find( item => item.stream_call_letters === station );
 	
 		return (
-			<div className="controls-info">
+			<div className="controls-info" style={colors}>
 				<p>
 					<strong>{stream ? stream.title : station}</strong>
 					{'LIVE_PLAYING' === status && (
