@@ -1,0 +1,32 @@
+.song-archive {
+	padding: 0 15px;
+
+	@media ( --min-large-viewport ) {
+		padding: 0;
+	}
+
+	& ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	& li {
+		padding: 5px 0;
+	}
+
+	& .song-time {
+		color: var( --global-theme-font-tertiary );
+		font-size: .875rem;
+		margin-right: 7px;
+	}
+
+	& .song-title {
+		font-weight: 600;
+		margin: 0 7px;
+	}
+
+	& .song-artist {
+		font-size: .875rem;
+		margin-left: 7px;
+	}
+}

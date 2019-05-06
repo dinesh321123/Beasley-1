@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 const $ = window.jQuery;
 
@@ -43,17 +44,17 @@ class SongArchive extends PureComponent {
 					<p>Loading ...</p>
 					:
 					<div>
-						<p>{ this.state.now }</p>
+						<h4>{ moment.unix( this.state.now ).format( 'MMM D, YYYY' ) }</h4>
 
 						<ul>
 							{ this.state.songs.map( ( song ) => {
 								return (
 									<li key={ song.id }>
-										[<span className="song-time">{ song.timestamp }</span>]
+										<span className="song-time">{ moment.unix( song.timestamp ).format( 'HH:mm A' ) }</span>
 										&nbsp;
 										<span className="song-title">{ song.title }</span>
-										&nbsp;
-										(<span className="song-artist">{ song.artist }</span>)
+										&mdash;
+										<span className="song-artist">{ song.artist }</span>
 									</li>
 								);
 							} ) }
