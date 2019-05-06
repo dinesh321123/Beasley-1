@@ -235,7 +235,7 @@ class GMR_Show_Metaboxes {
 				'post_type' => $this->_get_curation_post_types(),
 				'meta_key'  => '_thumbnail_id',
 			),
-			'limit' => 3,
+			'limit' => 10,
 		);
 
 		?>
