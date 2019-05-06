@@ -7,8 +7,11 @@ import { connect } from 'react-redux';
 import { removeChildren } from '../library/dom';
 import { showSignInModal, showDiscoverModal } from '../redux/actions/modal';
 
+import { isWindowsBrowser } from '../library/browser';
+
 const navRoot = document.getElementById( 'js-primary-nav' );
 const siteMenuToggle = document.getElementById( 'js-menu-toggle' );
+const sidebarContainer = document.querySelector( '.primary-sidebar-navigation' );
 
 class PrimaryNav extends PureComponent {
 
@@ -27,6 +30,7 @@ class PrimaryNav extends PureComponent {
 		self.handleMobileNav = self.handleMobileNav.bind( self );
 		self.onPageChange = self.handlePageChange.bind( self );
 		self.onResize = self.onResize.bind( self );
+		self.detectScrollbar = self.detectScrollbar.bind( self );
 
 		removeChildren( navRoot );
 	}
@@ -45,6 +49,10 @@ class PrimaryNav extends PureComponent {
 
 		if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 			navRoot.parentNode.setAttribute( 'aria-hidden', false );
+		}
+
+		if ( isWindowsBrowser() ) {
+			self.detectScrollbar();
 		}
 	}
 
@@ -142,6 +150,16 @@ class PrimaryNav extends PureComponent {
 		container.setAttribute( 'aria-hidden', 'false' === container.getAttribute( 'aria-hidden' ) );
 	}
 
+	detectScrollbar() {
+		const hasScrollbar = sidebarContainer.scrollHeight > sidebarContainer.clientHeight;
+
+		if ( hasScrollbar ) {
+			sidebarContainer.classList.add( 'has-scrollbar' );
+		} else {
+			sidebarContainer.classList.remove( 'has-scrollbar' );
+		}
+	}
+
 	onResize() {
 		const container = navRoot.parentNode;
 		const ww = window.innerWidth;
@@ -160,6 +178,10 @@ class PrimaryNav extends PureComponent {
 
 				if ( document.body.classList.contains( '-lock' ) ) {
 					document.body.classList.remove( '-lock' );
+				}
+
+				if ( isWindowsBrowser() ) {
+					this.detectScrollbar();
 				}
 
 			} else {

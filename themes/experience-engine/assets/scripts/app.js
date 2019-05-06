@@ -17,7 +17,7 @@ import SearchForm from './modules/SearchForm';
 import BackToTop from './components/BackToTop';
 
 import ErrorBoundary from './components/ErrorBoundary';
-import { isSafari } from './library/browser';
+import { isSafari, isWindowsBrowser } from './library/browser';
 
 class Application extends PureComponent {
 
@@ -31,6 +31,10 @@ class Application extends PureComponent {
 
 		if( isSafari() ) {
 			document.body.classList.add( 'is-safari' );
+		}
+
+		if ( isWindowsBrowser() ) {
+			document.body.classList.add( 'is-windows' );
 		}
 
 		return (

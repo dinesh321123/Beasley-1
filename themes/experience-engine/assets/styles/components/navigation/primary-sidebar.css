@@ -36,6 +36,19 @@
 		@media (--min-large-viewport) {
 			text-align: left;
 		}
+
+		/* Windows Only */
+		@nest .is-windows &.has-scrollbar {
+			@media (--min-large-viewport) {
+				padding-right: 16px;
+				overflow-y: hidden;
+			}
+
+			&:hover {
+				padding-right: 0;
+				overflow-y: auto;
+			}
+		}
 	}
 
 	& .custom-logo-link {
