@@ -1,6 +1,6 @@
 .ad {
 	&.-leaderboard {
-		margin-bottom: 3.333rem;
+		margin-bottom: 1.59rem;
 
 		@media (--min-medium-viewport) {
 			background-color: var(--global-gallery);
