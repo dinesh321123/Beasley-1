@@ -14,6 +14,7 @@ class RecentSongs extends PureComponent {
 		self.onToggle = self.handleToggleClick.bind( self );
 		self.handleEscapeKeyDown = self.handleEscapeKeyDown.bind( self );
 		self.handleUserEventOutside = self.handleUserEventOutside.bind( self );
+		self.handleViewMoreClick = self.handleViewMoreClick.bind( self );
 	}
 
 	componentDidMount() {
@@ -45,6 +46,10 @@ class RecentSongs extends PureComponent {
 		if ( 27 === e.keyCode ) {
 			this.setState( { isOpen: false } );
 		}
+	}
+
+	handleViewMoreClick() {
+		this.setState( { isOpen: false } );
 	}
 
 	render() {
@@ -108,7 +113,7 @@ class RecentSongs extends PureComponent {
 					<ul>
 						{items}
 					</ul>
-					<a href={viewMoreLink}>View More</a>
+					<a href={viewMoreLink} onClick={this.handleViewMoreClick}>View More</a>
 				</div>
 			</div>
 		);
