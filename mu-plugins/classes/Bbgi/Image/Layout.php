@@ -99,13 +99,25 @@ class Layout extends \Bbgi\Module {
 
 		$feature_image_preference = self::sanitize_feature_image_preference( $feature_image_preference );
 
+		$supported = apply_filters( 'bbgi_supported_featured_image_layouts', array( 'poster', 'top', 'inline' ) );
+
 		$html .= wp_nonce_field( 'feature_image_preference_meta_boxes', '__feature_image_preference_nonce', true, false );
 		$html .= '<div class="feature-image-preference-wrap">';
 		$html .= '<label for="fip_status" class="screen-reader-text">Feature Image Preference</label>';
 		$html .= '<fieldset id="fip_status"' . $tab_index_attribute . ">\n";
-		$html .= '<p><input type="radio" name="fip_status" value="poster" ' . checked( 'poster', $feature_image_preference, false ) . ' /> Poster</p>';
-		$html .= '<p><input type="radio" name="fip_status" value="top" ' . ( empty( $feature_image_preference ) ? 'checked="checked"' : checked( 'top', $feature_image_preference, false ) ) . ' /> Top</p>';
-		$html .= '<p><input type="radio" name="fip_status" value="inline" ' . checked( 'inline', $feature_image_preference, false ) . ' /> Inline</p>';
+
+		if ( in_array( 'poster', $supported ) ) {
+			$html .= '<p><input type="radio" name="fip_status" value="poster" ' . checked( 'poster', $feature_image_preference, false ) . ' /> Poster</p>';
+		}
+
+		if ( in_array( 'top', $supported ) ) {
+			$html .= '<p><input type="radio" name="fip_status" value="top" ' . ( empty( $feature_image_preference ) ? 'checked="checked"' : checked( 'top', $feature_image_preference, false ) ) . ' /> Top</p>';
+		}
+	
+		if ( in_array( 'inline', $supported ) ) {
+			$html .= '<p><input type="radio" name="fip_status" value="inline" ' . checked( 'inline', $feature_image_preference, false ) . ' /> Inline</p>';
+		}
+
 		$html .= '<p><input type="radio" name="fip_status" value="none" ' . checked( 'none', $feature_image_preference, false ) . ' /> None</p>';
 		$html .= '<input type="hidden" id="hidden_feature_image_preference" name="hidden_feature_image_preference" value="' . esc_attr( $feature_image_preference ) . '" />';
 		$html .= '</fieldset>';

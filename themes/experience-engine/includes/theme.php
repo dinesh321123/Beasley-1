@@ -4,14 +4,15 @@ add_action( 'after_setup_theme', 'ee_setup_theme' );
 add_action( 'init', 'ee_register_nav_menus' );
 add_action( 'wp_head', 'wp_enqueue_scripts', 2 );
 add_action( 'wp_head', '_wp_render_title_tag', 2 );
-add_filter( 'body_class', 'ee_login_body_class' );
 
 remove_action( 'wp_head', 'wp_generator' );
 remove_action( 'wp_head', 'wp_enqueue_scripts', 1 );
 remove_action( 'wp_head', '_wp_render_title_tag', 1 );
 remove_action( 'do_pings', 'do_all_pings' );
 
+add_filter( 'body_class', 'ee_login_body_class' );
 add_filter( 'pre_get_posts','ee_update_main_query' );
+add_filter( 'bbgi_supported_featured_image_layouts', 'ee_supported_featured_image_layouts' );
 
 if ( ! function_exists( 'ee_setup_theme' ) ) :
 	function ee_setup_theme() {
@@ -69,7 +70,6 @@ endif;
 
 if ( ! function_exists( 'ee_login_body_class' ) ) :
 	function ee_login_body_class( $classes ) {
-
 		if ( 'disabled' === get_option( 'ee_login', '' ) ) {
 			$classes[] = 'hidden-user-nav';
 		}
@@ -105,3 +105,9 @@ if ( ! function_exists( 'add_embedly_global_script' ) ) :
 	}
 endif;
 add_action( 'wp_head' , 'add_embedly_global_script' );
+
+if ( ! function_exists( 'ee_supported_featured_image_layouts' ) ) :
+	function ee_supported_featured_image_layouts() {
+		return array( 'top', 'inline' );
+	}
+endif;
