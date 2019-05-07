@@ -42,7 +42,6 @@ require_once __DIR__ . '/includes/mega-menu/mega-menu-walker.php';
 require_once __DIR__ . '/includes/mega-menu/mega-menu-mobile-walker.php';
 require_once __DIR__ . '/includes/category-options.php';
 require_once __DIR__ . '/includes/class-favicon.php';
-require_once __DIR__ . '/includes/flexible-feature-images/gmr-flexible-feature-images.php';
 require_once __DIR__ . '/includes/auction-nudge/gmr-auction-nudge.php';
 require_once __DIR__ . '/includes/class-gm-tinymce.php';
 require_once __DIR__ . '/includes/dfp.php';

@@ -7,13 +7,17 @@ the_post();
 
 ?><div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
 
-	<?php if ( ee_get_current_show() ) { ?>
+	<?php if ( ee_get_current_show() ) : ?>
 		<div class="content-wrap">
 			<?php get_template_part( 'partials/show/header' ); ?>
 		</div>
-	<?php } ?>
+	<?php endif; ?>
 
 	<header class="post-info">
+		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
+			<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
+		<?php endif; ?>
+
 		<h1>
 			<?php the_title(); ?>
 		</h1>
@@ -27,10 +31,12 @@ the_post();
 
 	<div class="entry-content content-wrap">
 		<div class="description">
-			<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
+			<?php if ( bbgi_featured_image_layout_is( null, 'inline' ) ) : ?>
+				<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
+			<?php endif; ?>
 			<?php ee_the_content_with_ads(); ?>
 
-			<?php if( is_singular( 'post' ) ) : ?>
+			<?php if ( is_singular( 'post' ) ) : ?>
 				<div class="profile">
 					<?php echo get_the_author_meta( 'description' ); ?>
 				</div>

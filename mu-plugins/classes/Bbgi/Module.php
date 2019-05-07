@@ -41,6 +41,7 @@ abstract class Module {
 			'video'             => new \Bbgi\Media\Video(),
 			'image-attributes'  => new \Bbgi\Image\Attributes(),
 			'thumbnail-column'  => new \Bbgi\Image\ThumbnailColumn(),
+			'flexible-images'   => new \Bbgi\Image\Layout(),
 			'experience-engine' => new \Bbgi\Integration\ExperienceEngine(),
 			'google'            => new \Bbgi\Integration\Google(),
 			'firebase'          => new \Bbgi\Integration\Firebase(),

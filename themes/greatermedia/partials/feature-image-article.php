@@ -6,7 +6,7 @@ if ( has_post_thumbnail() && ! bbgi_post_has_gallery() && ! has_post_format( 'vi
 	$width = 512;
 	$height = 342;
 
-	if ( \Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'poster' ) ) {
+	if ( \bbgi_featured_image_layout_is( get_the_ID(), 'poster' ) ) {
 		$width = 970;
 		$height = 545;
 	}

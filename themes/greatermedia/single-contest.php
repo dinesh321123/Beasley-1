@@ -14,7 +14,7 @@ get_header(); ?>
 
 			<?php while ( have_posts() ) : the_post(); ?>
 
-				<?php Greater_Media\Flexible_Feature_Images\feature_image_preference_is( get_the_ID(), 'poster' ) ? get_template_part( 'partials/feature-image-contest' ) : ''; ?>
+				<?php bbgi_featured_image_layout_is( get_the_ID(), 'poster' ) ? get_template_part( 'partials/feature-image-contest' ) : ''; ?>
 
 				<section class="content">
 					<?php get_template_part( 'partials/contest', get_post_meta( $post->ID, 'contest_type', true ) ); ?>
