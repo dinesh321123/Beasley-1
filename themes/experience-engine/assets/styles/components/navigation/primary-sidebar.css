@@ -167,6 +167,10 @@
 	text-decoration: none;
 	z-index: 10;
 
+	/* IE11 Fix */
+	height: 57px;
+	top: 14px;
+
 	@media (--min-large-viewport) {
 		display: none;
 	}
