@@ -37,9 +37,11 @@ class UserNav extends Component {
 
 	componentDidMount() {
 		const { firebase: config } = window.bbgiconfig;
+		console.log( 'UserNav mounted' );
 
 		if ( config.projectId ) {
 			firebase.initializeApp( config );
+			window.console.log( 'firebase initialized', config );
 
 			const auth = firebase.auth();
 			auth.onAuthStateChanged( this.onAuthStateChanged );
@@ -48,6 +50,7 @@ class UserNav extends Component {
 
 	handleAuthStateChanged( user ) {
 		const self = this;
+		window.console.log( 'handleAuthStateChanged', user );
 
 		if ( user ) {
 			self.props.setUser( user );
