@@ -49,6 +49,16 @@ export function saveUser( email, zipcode, gender, dateofbirth ) {
 }
 
 /**
+ * Checks if User has previously saved Profile information. Returns a
+ * promise that results to a boolean.
+ *
+ * @return Promise
+ */
+export function userHasProfile() {
+	return getUser().then( result => ! result.Error );
+}
+
+/**
  * Checks if the current user has registered the specified channel. Uses
  * the EE API GET /channels/{channel}. Resolves a promise chain to a
  * boolean.

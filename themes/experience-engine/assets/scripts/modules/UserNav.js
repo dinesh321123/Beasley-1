@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import md5 from 'md5';
 
-import { getUser, ensureUserHasCurrentChannel } from '../library/experience-engine';
+import {
+	getUser,
+	ensureUserHasCurrentChannel,
+	userHasProfile
+} from '../library/experience-engine';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
@@ -27,82 +31,108 @@ class UserNav extends Component {
 
 		self.state = {
 			loading: true,
-			firstCallSkipped: false,
+			didLogin: false,
 		};
 
-		self.onAuthStateChanged = self.handleAuthStateChanged.bind( self );
 		self.onSignIn = self.handleSignIn.bind( self );
 		self.onSignOut = self.handleSignOut.bind( self );
-		self.onIdToken = self.handleIdToken.bind( self );
+
+		self.didAuthStateChange = self.didAuthStateChange.bind( self );
+		self.finishLoading      = self.finishLoading.bind( self );
 	}
 
 	componentDidMount() {
 		const { firebase: config } = window.bbgiconfig;
-		console.log( 'UserNav mounted' );
 
 		if ( config.projectId ) {
 			firebase.initializeApp( config );
-			window.console.log( 'firebase initialized', config );
 
 			const auth = firebase.auth();
-			auth.onAuthStateChanged( this.onAuthStateChanged );
-		}
-	}
-
-	handleAuthStateChanged( user ) {
-		const self = this;
-		window.console.log( 'handleAuthStateChanged', user );
-
-		if ( user ) {
-			self.props.setUser( user );
-			if ( ! UserNav.isHomepage() ) {
-				self.props.hideSplashScreen();
-			}
-
-			user.getIdToken()
-				.then( self.onIdToken )
-				.catch( data => console.error( data ) ); // eslint-disable-line no-console
+			auth.onAuthStateChanged( this.didAuthStateChange );
 		} else {
-			self.props.resetUser();
-			self.props.hideSplashScreen();
+			console.error( 'Firebase Project ID not found in bbgiconfig.' );
 		}
-
-		self.setState( { loading: false } );
 	}
 
-	handleIdToken( token ) {
-		const self = this;
-		const { suppressUserCheck } = self.props;
+	/**
+	 * If user logged in, load page using logged-in lifecycle
+	 * If user logged out after login, reset user
+	 * Else load as if not logged in - load page using logged-out lifecycle
+	 */
+	didAuthStateChange( user ) {
+		if ( user ) {
+			this.setState( { didLogin: true } );
+			this.loadAsLoggedIn( user );
+		} else if ( ! this.state.didLogin ) {
+			this.loadAsNotLoggedIn();
+		} else {
+			this.props.resetUser();
+			this.finishLoading();
+		}
+	}
 
-		if ( !suppressUserCheck ) {
-			return getUser().then( json => {
-				if ( 'user information has not been set' === json.Error ) {
-					self.props.showCompleteSignup();
-					self.props.hideSplashScreen();
+	/**
+	 * The Logged In page lifecyles has 2 extra checks.
+	 *
+	 * 1. Check if User has a valid Channel, if not initialize it.
+	 * 2. Check if User has Profile data, if not show Profile Modal.
+	 */
+	loadAsLoggedIn( user ) {
+		const self = this;
+
+		this.props.setUser( user );
+		this.setState( { loading: false } );
+
+		ensureUserHasCurrentChannel()
+			.then( () => {
+				if ( UserNav.isHomepage() ) {
+					self.loadHomepage( user );
 				} else {
-					ensureUserHasCurrentChannel()
-						.then( () => {
-							if ( UserNav.isHomepage() ) {
-								self.loadHomepage( token );
-							}
-						} );
+					self.finishLoading();
 				}
 			} );
-		}
+
+		userHasProfile().then( ( result ) => {
+			if ( ! result ) {
+				self.props.showCompleteSignup();
+			}
+		} );
+	}
+
+	/**
+	 * If Not logged in the page content is already loaded, just hide the
+	 * splash screen.
+	 */
+	loadAsNotLoggedIn() {
+		this.setState( { loading: false } );
+		this.props.hideSplashScreen();
+	}
+
+	/**
+	 * Helper to complete loading stage.
+	 */
+	finishLoading() {
+		this.props.hideSplashScreen();
+		this.setState( { loading: false } );
 	}
 
 	/**
 	 * Loads the Homepage feeds from the EE API proxy.
 	 */
-	loadHomepage( token ) {
-		return this.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
-			suppressHistory: true,
-			fetchParams: {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-				body: `format=raw&authorization=${encodeURIComponent( token )}`,
-			},
-		} );
+	loadHomepage( user ) {
+		const self = this;
+
+		return user.getIdToken()
+			.then( ( token ) => {
+				return self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
+					suppressHistory: true,
+					fetchParams: {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+						body: `format=raw&authorization=${encodeURIComponent( token )}`,
+					},
+				} );
+			} );
 	}
 
 	handleSignIn() {

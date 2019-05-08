@@ -84,7 +84,7 @@ class CompleteSignup extends PureComponent {
 		if ( user ) {
 			saveUser( email, zip, gender, bday ).then( () => {
 				close();
-				//window.location.reload();
+				window.location.reload();
 			} );
 		}
 	}
