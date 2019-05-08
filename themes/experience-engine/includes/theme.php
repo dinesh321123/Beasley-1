@@ -30,6 +30,12 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 		add_post_type_support( 'post', 'flexible-feature-image' );
 		add_post_type_support( 'tribe_events', 'flexible-feature-image' );
 		add_post_type_support( 'contest', 'flexible-feature-image' );
+		add_post_type_support( 'post', 'timed-content' );
+		add_post_type_support( 'gmr_gallery', 'timed-content' );
+		add_post_type_support( 'gmr_album', 'timed-content' );
+		add_post_type_support( 'episode', 'timed-content' );
+		add_post_type_support( 'tribe_events', 'timed-content' );
+		add_post_type_support( 'contest', 'timed-content' );
 	}
 endif;
 
