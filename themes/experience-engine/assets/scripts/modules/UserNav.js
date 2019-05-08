@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import md5 from 'md5';
 
-import { getUser } from '../library/experience-engine';
+import { getUser, ensureUserHasCurrentChannel } from '../library/experience-engine';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
@@ -27,6 +27,7 @@ class UserNav extends Component {
 
 		self.state = {
 			loading: true,
+			firstCallSkipped: false,
 		};
 
 		self.onAuthStateChanged = self.handleAuthStateChanged.bind( self );
@@ -37,9 +38,11 @@ class UserNav extends Component {
 
 	componentDidMount() {
 		const { firebase: config } = window.bbgiconfig;
+		console.log( 'UserNav mounted' );
 
 		if ( config.projectId ) {
 			firebase.initializeApp( config );
+			window.console.log( 'firebase initialized', config );
 
 			const auth = firebase.auth();
 			auth.onAuthStateChanged( this.onAuthStateChanged );
@@ -47,7 +50,13 @@ class UserNav extends Component {
 	}
 
 	handleAuthStateChanged( user ) {
+		if ( ! this.state.firstCallSkipped ) {
+			this.setState( { firstCallSkipped: true } );
+			return;
+		}
+
 		const self = this;
+		window.console.log( 'handleAuthStateChanged', user );
 
 		if ( user ) {
 			self.props.setUser( user );
@@ -75,18 +84,30 @@ class UserNav extends Component {
 				if ( 'user information has not been set' === json.Error ) {
 					self.props.showCompleteSignup();
 					self.props.hideSplashScreen();
-				} else if ( UserNav.isHomepage() ) {
-					self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
-						suppressHistory: true,
-						fetchParams: {
-							method: 'POST',
-							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-							body: `format=raw&authorization=${encodeURIComponent( token )}`,
-						},
-					} );
+				} else {
+					ensureUserHasCurrentChannel()
+						.then( () => {
+							if ( UserNav.isHomepage() ) {
+								self.loadHomepage( token );
+							}
+						} );
 				}
 			} );
 		}
+	}
+
+	/**
+	 * Loads the Homepage feeds from the EE API proxy.
+	 */
+	loadHomepage( token ) {
+		return this.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
+			suppressHistory: true,
+			fetchParams: {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				body: `format=raw&authorization=${encodeURIComponent( token )}`,
+			},
+		} );
 	}
 
 	handleSignIn() {
