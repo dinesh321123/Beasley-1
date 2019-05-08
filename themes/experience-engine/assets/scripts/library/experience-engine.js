@@ -48,6 +48,75 @@ export function saveUser( email, zipcode, gender, dateofbirth ) {
 	} );
 }
 
+/**
+ * Checks if the current user has registered the specified channel. Uses
+ * the EE API GET /channels/{channel}. Resolves a promise chain to a
+ * boolean.
+ *
+ * @param string channel The channel to check
+ * @return Promise
+ */
+export function userHasChannel( channel ) {
+	return getToken().then( ( token ) => {
+		return fetch( __api`experience/channels/${channel}?authorization=${token}`, { method: 'GET' } )
+			.then( response => response.json() )
+			.then( result => ! result.Error );
+	} );
+}
+
+/**
+ * Checks if the current publisher channel has been registered with the
+ * current user.
+ *
+ * @return Promise
+ */
+export function userHasCurrentChannel() {
+	const channel = getChannel();
+	return userHasChannel( channel );
+}
+
+/**
+ * Checks if the current user is registered with the current channel. If
+ * not, adds the channel to the user.
+ *
+ * @return Promise
+ */
+export function ensureUserHasCurrentChannel() {
+	return userHasCurrentChannel()
+		.then( ( result ) => {
+			if ( result) {
+				return true;
+			} else {
+				return addCurrentChannelToUser();
+			}
+		} )
+		.catch( () => {
+			return false;
+		} );
+}
+
+/**
+ * Adds the specified channel to the current user
+ *
+ * @param string channel The channel to add
+ * @return Promise
+ */
+export function addChannelToUser( channel ) {
+	return getToken().then( ( token ) => {
+		return fetch( __api`experience/channels/${channel}?authorization=${token}`, { method: 'PUT' } );
+	} );
+}
+
+/**
+ * Adds the current publisher channel to the current user
+ *
+ * @return Promise
+ */
+export function addCurrentChannelToUser() {
+	const channel = getChannel();
+	return addChannelToUser( channel );
+}
+
 export function getUser() {
 	return getToken()
 		.then( token => fetch( __api`user?authorization=${token}` ) )

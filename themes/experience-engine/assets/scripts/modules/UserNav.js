@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import md5 from 'md5';
 
-import { getUser } from '../library/experience-engine';
+import { getUser, ensureUserHasCurrentChannel } from '../library/experience-engine';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
@@ -75,18 +75,30 @@ class UserNav extends Component {
 				if ( 'user information has not been set' === json.Error ) {
 					self.props.showCompleteSignup();
 					self.props.hideSplashScreen();
-				} else if ( UserNav.isHomepage() ) {
-					self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
-						suppressHistory: true,
-						fetchParams: {
-							method: 'POST',
-							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-							body: `format=raw&authorization=${encodeURIComponent( token )}`,
-						},
-					} );
+				} else {
+					ensureUserHasCurrentChannel()
+						.then( () => {
+							if ( UserNav.isHomepage() ) {
+								self.loadHomepage( token );
+							}
+						} );
 				}
 			} );
 		}
+	}
+
+	/**
+	 * Loads the Homepage feeds from the EE API proxy.
+	 */
+	loadHomepage( token ) {
+		return this.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
+			suppressHistory: true,
+			fetchParams: {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+				body: `format=raw&authorization=${encodeURIComponent( token )}`,
+			},
+		} );
 	}
 
 	handleSignIn() {
