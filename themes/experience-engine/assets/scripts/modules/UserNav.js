@@ -27,6 +27,7 @@ class UserNav extends Component {
 
 		self.state = {
 			loading: true,
+			firstCallSkipped: false,
 		};
 
 		self.onAuthStateChanged = self.handleAuthStateChanged.bind( self );
@@ -49,6 +50,11 @@ class UserNav extends Component {
 	}
 
 	handleAuthStateChanged( user ) {
+		if ( ! this.state.firstCallSkipped ) {
+			this.setState( { firstCallSkipped: true } );
+			return;
+		}
+
 		const self = this;
 		window.console.log( 'handleAuthStateChanged', user );
 
