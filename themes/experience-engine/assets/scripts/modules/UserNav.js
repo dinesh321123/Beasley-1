@@ -50,11 +50,6 @@ class UserNav extends Component {
 	}
 
 	handleAuthStateChanged( user ) {
-		if ( ! this.state.firstCallSkipped ) {
-			this.setState( { firstCallSkipped: true } );
-			return;
-		}
-
 		const self = this;
 		window.console.log( 'handleAuthStateChanged', user );
 
