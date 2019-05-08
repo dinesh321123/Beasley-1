@@ -107,7 +107,7 @@ class SignUp extends PureComponent {
 		} else {
 			self.setState( { error: '' } );
 		}
-		
+
 		auth.createUserWithEmailAndPassword( emailAddress, password )
 			.then( ( response ) => {
 				const { user } = response;

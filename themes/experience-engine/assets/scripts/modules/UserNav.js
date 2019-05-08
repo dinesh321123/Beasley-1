@@ -121,7 +121,7 @@ class UserNav extends Component {
 		return (
 			<Fragment>
 				<div className="user-nav-info">
-					<span className="user-nav-name">{displayName}</span>
+					<span className="user-nav-name" data-uid={ user.uid }>{displayName}</span>
 					<button className="user-nav-button" type="button" onClick={self.onSignOut}>Log Out</button>
 				</div>
 				<div className="user-nav-image">

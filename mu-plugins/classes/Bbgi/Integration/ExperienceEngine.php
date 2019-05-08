@@ -271,7 +271,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		$authorization = array(
 			'authorization' => array(
 				'type'              => 'string',
-				'required'          => true,
+				'required'          => false,
 				'validate_callback' => function( $value ) {
 					return strlen( $value ) > 0;
 				},
@@ -304,11 +304,18 @@ class ExperienceEngine extends \Bbgi\Module {
 		$request = rest_ensure_request( $request );
 		$authorization = $request->get_param( 'authorization' );
 
-		$path = sprintf(
-			'experience/channels/%s/feeds/content/?authorization=%s',
-			urlencode( $publisher ),
-			urlencode( $authorization )
-		);
+		if ( ! empty( $authorization ) ) {
+			$path = sprintf(
+				'experience/channels/%s/feeds/content/?authorization=%s',
+				urlencode( $publisher ),
+				urlencode( $authorization )
+			);
+		} else {
+			$path = sprintf(
+				'experience/channels/%s/feeds/content/',
+				urlencode( $publisher )
+			);
+		}
 
 		$response = $this->send_request( $path );
 		if ( is_wp_error( $response ) ) {

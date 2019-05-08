@@ -98,8 +98,9 @@ export function searchKeywords( keyword ) {
 
 export function validateDate( dateString ) {
 	// First check for the pattern
-	if( !/^\d{1,2}\/|-\d{1,2}\/|-\d{4}$/.test( dateString ) )
+	if( !/^\d{1,2}\/|-\d{1,2}\/|-\d{4}$/.test( dateString ) ) {
 		return false;
+	}
 
 	// Parse the date parts to integers
 	let parts;
@@ -115,8 +116,9 @@ export function validateDate( dateString ) {
 	const day = parseInt( parts[1], 10 );
 
 	// Check the ranges of month and year
-	if( 1000 > year || 3000 < year || 0 == month || 12 < month )
+	if( 1000 > year || 3000 < year || 0 == month || 12 < month ) {
 		return false;
+	}
 
 	const monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
@@ -126,6 +128,44 @@ export function validateDate( dateString ) {
 
 	// Check the range of the day
 	return 0 < day && day <= monthLength[month - 1];
+}
+
+/**
+ * Returns a boolean depending on whether the email is valid.
+ *
+ * Props: https://stackoverflow.com/a/46181
+ *
+ * @param email The input string
+ * @return bool
+ */
+export function validateEmail( email ) {
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test( String( email ).toLowerCase() );
+}
+
+/**
+ * Returns a boolean depending on whether the specified zipcode is a
+ * valid US Zipcode.
+ *
+ * @param zipcode The input string
+ * @return bool
+ */
+export function validateZipcode( zipcode ) {
+	if ( zipcode ) {
+		return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test( zipcode );
+	} else {
+		return false;
+	}
+}
+
+/**
+ * Checks if gender field is valid.
+ *
+ * @param string The input string
+ * @return bool
+ */
+export function validateGender( gender ) {
+	return ! ! gender;
 }
 
 export default {

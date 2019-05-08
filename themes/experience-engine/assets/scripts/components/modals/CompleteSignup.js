@@ -6,7 +6,13 @@ import trapHOC from '@10up/react-focus-trap-hoc';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 
-import { saveUser, validateDate } from '../../library/experience-engine';
+import {
+	saveUser,
+	validateDate,
+	validateEmail,
+	validateZipcode,
+	validateGender,
+} from '../../library/experience-engine';
 
 class CompleteSignup extends PureComponent {
 
@@ -16,6 +22,7 @@ class CompleteSignup extends PureComponent {
 		const self = this;
 
 		self.state = {
+			email: '',
 			zip: '',
 			gender: '',
 			bday: '',
@@ -41,28 +48,56 @@ class CompleteSignup extends PureComponent {
 
 	handleFormSubmit( e ) {
 		const self = this;
-		const { zip, gender, bday } = self.state;
+		let { zip, gender, bday, email } = self.state;
 		const { user, close } = self.props;
 
+		/* Convert bday since validateDate expects date in mm/dd/yyyy format */
+		if ( bday && -1 !== bday.indexOf( '-' ) ) {
+			bday = bday.split( '-' ).reverse().join( '/' );
+		}
+
 		e.preventDefault();
+
+		if ( false === validateEmail( email ) ) {
+			self.setState( { error: 'Please enter a valid email address.' } );
+			return false;
+		}
+
+		if ( false === validateZipcode( zip ) ) {
+			self.setState( { error: 'Please enter a valid US Zipcode.' } );
+			return false;
+		}
 
 		// @TODO :: This currently breaks on date specific inputs. We could consider just removing the date input type and using a text input.
 		if( false === validateDate( bday ) ) {
 			self.setState( { error: 'Please ensure date is in MM/DD/YYYY format' } );
 			return false;
-		} else {
-			self.setState( { error: '' } );
 		}
 
+		if ( false === validateGender( gender ) ) {
+			self.setState( { error: 'Please select your gender.' } )
+			return false;
+		}
+
+		self.setState( { error: '' } );
+
 		if ( user ) {
-			const { email } = user;
-			saveUser( email, zip, gender, bday ).then( close );
+			saveUser( email, zip, gender, bday ).then( () => {
+				close();
+				//window.location.reload();
+			} );
 		}
 	}
 
 	render() {
 		const self = this;
-		const { zip, gender, bday, error } = self.state;
+		let { email, zip, gender, bday, error } = self.state;
+		let { user } = this.props;
+
+		/** If Firebase gave us an email use it as the default */
+		if ( ! email && user.email ) {
+			this.setState( { email: user.email } );
+		}
 
 		return (
 			<Fragment>
@@ -73,6 +108,10 @@ class CompleteSignup extends PureComponent {
 				<Alert message={error} />
 
 				<form className="modal-form -form-sign-up" onSubmit={self.onFormSubmit}>
+					<div className="modal-form-group">
+						<label className="modal-form-label" htmlFor="user-email">Email</label>
+						<input className="modal-form-field" type="text" id="user-email" name="email" value={email} onChange={self.onFieldChange} placeholder="" />
+					</div>
 					<div className="modal-form-group">
 						<label className="modal-form-label" htmlFor="user-zip">Zip</label>
 						<input className="modal-form-field" type="text" id="user-zip" name="zip" value={zip} onChange={self.onFieldChange} placeholder="90210" />
@@ -96,6 +135,7 @@ class CompleteSignup extends PureComponent {
 						<button className="btn -sign-in" type="submit">Save</button>
 					</div>
 				</form>
+
 			</Fragment>
 		);
 	}
