@@ -87,6 +87,14 @@
 		z-index: 8;
 		width: 100%;
 
+		@nest .is-windows & {
+			overflow: hidden;
+
+			&.is-active {
+				overflow: auto;
+			}
+		}
+
 		@media (--min-medium-viewport) {
 			max-width: 33.3333vw;
 		}
