@@ -92,11 +92,13 @@ class UserNav extends Component {
 				}
 			} );
 
-		userHasProfile().then( ( result ) => {
-			if ( ! result ) {
-				self.props.showCompleteSignup();
-			}
-		} );
+		if ( ! this.props.suppressUserCheck ) {
+			userHasProfile().then( ( result ) => {
+				if ( ! result ) {
+					self.props.showCompleteSignup();
+				}
+			} );
+		}
 	}
 
 	/**

@@ -10,7 +10,14 @@ import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
 
-import { saveUser, validateDate } from '../../library/experience-engine';
+import {
+	saveUser,
+	validateDate,
+	validateEmail,
+	validateZipcode,
+	validateGender,
+} from '../../library/experience-engine';
+
 import { isChrome, isFireFox, isIOS, isWebKit } from '../../library/browser';
 
 import { showSignInModal } from '../../redux/actions/modal';
@@ -96,6 +103,31 @@ class SignUp extends PureComponent {
 		e.preventDefault();
 
 		self.props.suppressUserCheck();
+
+		if ( ! firstname ) {
+			self.setState( { error: 'Please enter your first name.' } );
+			return false;
+		}
+
+		if ( ! lastname ) {
+			self.setState( { error: 'Please enter your last name.' } );
+			return false;
+		}
+
+		if ( false === validateEmail( email ) ) {
+			self.setState( { error: 'Please enter a valid email address.' } );
+			return false;
+		}
+
+		if ( false === validateZipcode( zip ) ) {
+			self.setState( { error: 'Please enter a valid US Zipcode.' } );
+			return false;
+		}
+
+		if ( false === validateGender( gender ) ) {
+			self.setState( { error: 'Please select your gender.' } )
+			return false;
+		}
 
 		if( SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ) {
 			if( false === validateDate( bday ) ) {
