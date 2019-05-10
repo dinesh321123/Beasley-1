@@ -70,7 +70,7 @@ class CompleteSignup extends PureComponent {
 
 		// @TODO :: This currently breaks on date specific inputs. We could consider just removing the date input type and using a text input.
 		if( false === validateDate( bday ) ) {
-			self.setState( { error: 'Please ensure date is in MM/DD/YYYY format' } );
+			self.setState( { error: 'Please ensure date is in MM/DD/YYYY format.' } );
 			return false;
 		}
 
@@ -118,7 +118,7 @@ class CompleteSignup extends PureComponent {
 					</div>
 					<div className="modal-form-group">
 						<label className="modal-form-label" htmlFor="user-bday">Birthday</label>
-						<input className="modal-form-field" type="date" id="user-bday" name="bday" value={bday} onChange={self.onFieldChange} placeholder="Enter your birthday" />
+						<input className="modal-form-field" type="text" id="user-bday" name="bday" value={bday} onChange={self.onFieldChange} placeholder="Enter your birthday" />
 					</div>
 					<div className="modal-form-group">
 						<label className="modal-form-label" htmlFor="user-gender-male">Gender</label>
