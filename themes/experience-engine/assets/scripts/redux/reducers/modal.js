@@ -14,6 +14,8 @@ function reducer( state = {}, action = {} ) {
 				document.addEventListener( 'ontouchmove', ( e ) => {
 					e.preventDefault();
 				} );
+
+				window.dispatchEvent( new Event( 'resize' ) );
 			}
 
 			return {
@@ -27,6 +29,8 @@ function reducer( state = {}, action = {} ) {
 			document.removeEventListener( 'ontouchmove', () => {
 				return true;
 			} );
+
+			window.dispatchEvent( new Event( 'resize' ) );
 			return { ...DEFAULT_STATE };
 		default:
 			// do nothing

@@ -50,7 +50,7 @@ class ModalDispatcher extends Component {
 		const { modal } = self.props;
 		const { current: ref } = self.modalRef;
 
-		if ( 'CLOSED' !== modal && DISCOVER_MODAL !== modal && ( !ref || !ref.contains( e.target ) ) ) {
+		if ( 'CLOSED' !== modal && DISCOVER_MODAL !== modal && COMPLETE_SIGNUP_MODAL !== modal && ( !ref || !ref.contains( e.target ) ) ) {
 			self.props.close();
 		}
 	}
@@ -98,7 +98,9 @@ class ModalDispatcher extends Component {
 		return (
 			<div className={`modal ${( modal || '' ).toLowerCase()}`}>
 				<div ref={self.modalRef} className="modal-content">
-					<CloseButton close={close} />
+					{ modal !== COMPLETE_SIGNUP_MODAL &&
+						<CloseButton close={close} />
+					}
 					<ErrorBoundary>
 						{component}
 					</ErrorBoundary>
