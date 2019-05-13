@@ -27,25 +27,16 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 		add_theme_support( 'secondstreet' );
 		add_theme_support( 'homepage-curation' );
 
-<<<<<<< HEAD
-		add_post_type_support( 'post', 'flexible-feature-image' );
-		add_post_type_support( 'tribe_events', 'flexible-feature-image' );
-		add_post_type_support( 'contest', 'flexible-feature-image' );
-=======
->>>>>>> feature/timed-content
 		add_post_type_support( 'post', 'timed-content' );
 		add_post_type_support( 'gmr_gallery', 'timed-content' );
 		add_post_type_support( 'gmr_album', 'timed-content' );
 		add_post_type_support( 'episode', 'timed-content' );
 		add_post_type_support( 'tribe_events', 'timed-content' );
 		add_post_type_support( 'contest', 'timed-content' );
-<<<<<<< HEAD
-=======
 
 		add_post_type_support( 'post', 'flexible-feature-image' );
 		add_post_type_support( 'tribe_events', 'flexible-feature-image' );
 		add_post_type_support( 'contest', 'flexible-feature-image' );
->>>>>>> feature/timed-content
 	}
 endif;
 
