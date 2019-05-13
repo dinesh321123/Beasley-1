@@ -12,7 +12,7 @@
 		height: 100%;
 		min-width: 190px;
 		min-height: calc(100vh - 74px); /*74px is the height of the live player.*/
-		padding: 1.375rem 1.1rem;
+		padding: 0 1.1rem 1.375rem;
 		position: fixed;
 		top: 0;
 	}
@@ -28,7 +28,7 @@
 			max-width: 188px;
 			overflow-x: hidden;
 			overflow-y: visible;
-			padding: 0 1rem;
+			padding: 1.375rem 1rem 0;
 			position: fixed;
 			width: 100%;
 		}
@@ -86,6 +86,14 @@
 		top: 0;
 		z-index: 8;
 		width: 100%;
+
+		@nest .is-windows & {
+			overflow: hidden;
+
+			&.is-active {
+				overflow: auto;
+			}
+		}
 
 		@media (--min-medium-viewport) {
 			max-width: 33.3333vw;

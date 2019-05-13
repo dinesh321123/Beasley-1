@@ -5,6 +5,14 @@ export const DEFAULT_STATE = {
 	payload: {},
 };
 
+function resizeWindow() {
+	try {
+		window.dispatchEvent( new Event( 'resize' ) );
+	} catch (e) {
+		// no-op
+	}
+}
+
 function reducer( state = {}, action = {} ) {
 	switch ( action.type ) {
 		case ACTION_SHOW_MODAL:
@@ -14,6 +22,8 @@ function reducer( state = {}, action = {} ) {
 				document.addEventListener( 'ontouchmove', ( e ) => {
 					e.preventDefault();
 				} );
+
+				resizeWindow();
 			}
 
 			return {
@@ -27,6 +37,8 @@ function reducer( state = {}, action = {} ) {
 			document.removeEventListener( 'ontouchmove', () => {
 				return true;
 			} );
+
+			resizeWindow();
 			return { ...DEFAULT_STATE };
 		default:
 			// do nothing
