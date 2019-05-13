@@ -5,6 +5,14 @@ export const DEFAULT_STATE = {
 	payload: {},
 };
 
+function resizeWindow() {
+	try {
+		window.dispatchEvent( new Event( 'resize' ) );
+	} catch (e) {
+		// no-op
+	}
+}
+
 function reducer( state = {}, action = {} ) {
 	switch ( action.type ) {
 		case ACTION_SHOW_MODAL:
@@ -15,7 +23,7 @@ function reducer( state = {}, action = {} ) {
 					e.preventDefault();
 				} );
 
-				window.dispatchEvent( new Event( 'resize' ) );
+				resizeWindow();
 			}
 
 			return {
@@ -30,7 +38,7 @@ function reducer( state = {}, action = {} ) {
 				return true;
 			} );
 
-			window.dispatchEvent( new Event( 'resize' ) );
+			resizeWindow();
 			return { ...DEFAULT_STATE };
 		default:
 			// do nothing
