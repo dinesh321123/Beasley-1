@@ -164,10 +164,10 @@ class LivePlayer extends Component {
 							<ErrorBoundary>
 								<Volume colors={buttonsFillStyle} />
 							</ErrorBoundary>
-							<ErrorBoundary>
-								<Progress className="-desktop" />
-							</ErrorBoundary>
 						</div>
+						<ErrorBoundary>
+							<Progress className="-desktop" />
+						</ErrorBoundary>
 					</div>
 					<div className="control-section">
 						<ErrorBoundary>
