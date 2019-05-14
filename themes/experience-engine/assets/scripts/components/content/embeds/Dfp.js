@@ -22,7 +22,8 @@ class Dfp extends PureComponent {
 		const { placeholder } = self.props;
 
 		self.container = document.getElementById( placeholder );
-		self.context.observe( self.container, self.tryDisplaySlot.bind( self ) );
+		// self.context.observe( self.container, self.tryDisplaySlot.bind( self ) );
+		self.tryDisplaySlot();
 
 		if ( 'right-rail' === self.props.unitName ) {
 			self.startInterval();
@@ -33,7 +34,7 @@ class Dfp extends PureComponent {
 	componentWillUnmount() {
 		const self = this;
 
-		self.context.unobserve( self.container );
+		// self.context.unobserve( self.container );
 		self.destroySlot();
 
 		if ( 'right-rail' === self.props.unitName ) {
