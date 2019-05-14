@@ -55,7 +55,7 @@ class Progress extends PureComponent {
 				<span className="time -desktop">{Progress.format( time )}</span>
 				<div className="ee-range-input -progress">
 					<input type="range" min="0" max={duration} value={time} onChange={self.onSeek} />
-					<p className="pre-bar" style={{ width: `${document.body.offsetWidth * time / duration}px`}} />
+					<p className="pre-bar" style={{ width: `${100 * time / duration}%`}} />
 				</div>
 				<span className="time -desktop">{Progress.format( duration )}</span>
 			</div>
