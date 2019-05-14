@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import { STATUSES } from '../../redux/actions/player';
 
+import Progress from './Progress';
+
 const STATUS_LABELS = {
 	[STATUSES.LIVE_PAUSE]: 'Paused',
 	[STATUSES.LIVE_PLAYING]: 'On Air',
@@ -42,12 +44,16 @@ class Info extends Component {
 
 	renderAudio() {
 		const self = this;
-		const { cuePoint } = self.props;
+		const { cuePoint, time, duration  } = self.props;
 		const info = Info.getCuePointInfo( cuePoint );
 	
 		return (
 			<div className="controls-info">
-				<p><strong>{info[0] || ''}</strong></p>
+				<p>
+					<strong>{info[0] || ''}</strong>
+					<span className="time -mobile -current">{Progress.format( time )}</span>
+					<span className="time -mobile -total">{Progress.format( duration )}</span>
+				</p>
 				<p>{info[1] || ''}</p>
 			</div>
 		);
@@ -93,6 +99,8 @@ Info.propTypes = {
 	streams: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	status: PropTypes.string.isRequired,
 	cuePoint: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
+	time: PropTypes.number,
+	duration: PropTypes.number
 };
 
 function mapStateToProps( { player } ) {
@@ -101,6 +109,8 @@ function mapStateToProps( { player } ) {
 		streams: player.streams,
 		status: player.status,
 		cuePoint: player.cuePoint,
+		time: player.time,
+		duration: player.duration
 	};
 }
 

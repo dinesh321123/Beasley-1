@@ -22,7 +22,8 @@
 		border-left: 1px solid var(--global-mercury);
 	}
 
-	& .control-section {
+	& .control-section,
+	& .controls-wrapper {
 		align-items: center;
 		box-sizing: border-box;
 		display: flex;
@@ -136,17 +137,20 @@
 		}
 	}
 
+	& .controls-wrapper:first-child {
+		overflow: visible;
+	}
+
 	& .controls-progress {
 		left: 0;
 		position: absolute;
-		top: 0;
+		bottom: 8px;
 		width: 100%;
 		z-index: 9;
 
 		& input[type="range"] {
 			width: 100%;
 		}
-
 	}
 
 	& .controls-info {
@@ -271,6 +275,28 @@
 			& .controls-recent-songs {
 				opacity: 1;
 				visibility: visible;
+			}
+		}
+	}
+
+	& .controls-rewind {
+		margin-left: -50px;
+
+		& button {
+			& svg path {
+				fill: var(--global-theme-font-primary);
+				transition: fill 250ms ease-in-out;
+			}
+
+			&:hover,
+			&:focus {
+				& svg path {
+					fill: var(--brand-primary)
+				}
+			}
+
+			@media(--min-medium-viewport) {
+				display: none;
 			}
 		}
 	}
@@ -459,8 +485,67 @@
 		}
 	}
 
+	& .time {
+		font-size: .875rem;
+
+		@media(--min-medium-viewport) {
+			display: none;
+		}
+
+		&.-current {
+			color: var(--brand-primary);
+		}
+
+		&.-total {
+			&:before {
+				content: "|";
+				margin: 0 5px;
+			}
+		}
+	}
+
 }
 
+.controls-progress {
+	&.-mobile {
+		display: block;
+
+		@media(--min-medium-viewport) {
+			display: none;
+		}
+	}
+
+	&.-desktop {
+		display: none;
+
+		@media(--min-medium-viewport) {
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: space-between;
+		}
+
+		& .-progress {
+			align-self: center;
+			margin: 0 10px;
+			position: relative;
+			width: 100%;
+		}
+	}
+
+	& .time {
+		display: none;
+
+		&.-desktop {
+			@media(--min-medium-viewport) {
+				align-items: center;
+				color: var(--global-theme-font-primary);
+				display: inline-flex;
+				font-size: .675rem;
+				margin-top: 3px;
+			}
+		}
+	}
+}
 
 .status {
 	& button {
@@ -512,6 +597,10 @@
 	height: 54px;
 	justify-content: center;
 	width: 54px;
+
+	@media(--min-medium-viewport) {
+		margin-top: -40px;
+	}
 
 	&:focus,
 	&:hover {

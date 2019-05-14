@@ -8,6 +8,7 @@ import Stations from '../components/player/Stations';
 import Controls from '../components/player/Controls';
 import Info from '../components/player/Info';
 import Volume from '../components/player/Volume';
+import Rewind from '../components/player/Rewind';
 
 import Progress from '../components/player/Progress';
 import RecentSongs from '../components/player/RecentSongs';
@@ -143,7 +144,7 @@ class LivePlayer extends Component {
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
 				<ErrorBoundary>
-					<Progress />
+					<Progress className="-mobile" />
 				</ErrorBoundary>
 
 				<div className="controls" style={ controlsStyle }>
@@ -153,6 +154,17 @@ class LivePlayer extends Component {
 						</ErrorBoundary>
 					</div>
 					<div className="control-section -centered">
+						<div className="controls-wrapper -centered">
+							<ErrorBoundary>
+								<RecentSongs />
+							</ErrorBoundary>
+							<ErrorBoundary>
+								<Controls status={status} play={() => play( station )} pause={pause} resume={resume} />
+							</ErrorBoundary>
+							<ErrorBoundary>
+								<Volume />
+							</ErrorBoundary>
+						</div>
 						<ErrorBoundary>
 							<RecentSongs colors={buttonsFillStyle} />
 						</ErrorBoundary>
@@ -162,8 +174,14 @@ class LivePlayer extends Component {
 						<ErrorBoundary>
 							<Volume colors={buttonsFillStyle} />
 						</ErrorBoundary>
+						<ErrorBoundary>
+							<Progress className="-desktop" />
+						</ErrorBoundary>
 					</div>
 					<div className="control-section">
+						<ErrorBoundary>
+							<Rewind />
+						</ErrorBoundary>
 						<ErrorBoundary>
 							<Sponsor />
 						</ErrorBoundary>
