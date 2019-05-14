@@ -156,27 +156,18 @@ class LivePlayer extends Component {
 					<div className="control-section -centered">
 						<div className="controls-wrapper -centered">
 							<ErrorBoundary>
-								<RecentSongs />
+								<RecentSongs colors={buttonsFillStyle} />
 							</ErrorBoundary>
 							<ErrorBoundary>
-								<Controls status={status} play={() => play( station )} pause={pause} resume={resume} />
+								<Controls status={status} play={() => play( station )} pause={pause} resume={resume} colors={buttonsBackgroundStyle} />
 							</ErrorBoundary>
 							<ErrorBoundary>
-								<Volume />
+								<Volume colors={buttonsFillStyle} />
+							</ErrorBoundary>
+							<ErrorBoundary>
+								<Progress className="-desktop" />
 							</ErrorBoundary>
 						</div>
-						<ErrorBoundary>
-							<RecentSongs colors={buttonsFillStyle} />
-						</ErrorBoundary>
-						<ErrorBoundary>
-							<Controls status={status} play={() => play( station )} pause={pause} resume={resume} colors={buttonsBackgroundStyle} />
-						</ErrorBoundary>
-						<ErrorBoundary>
-							<Volume colors={buttonsFillStyle} />
-						</ErrorBoundary>
-						<ErrorBoundary>
-							<Progress className="-desktop" />
-						</ErrorBoundary>
 					</div>
 					<div className="control-section">
 						<ErrorBoundary>
