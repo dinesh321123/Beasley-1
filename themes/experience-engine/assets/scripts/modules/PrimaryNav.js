@@ -132,7 +132,7 @@ class PrimaryNav extends PureComponent {
 				showSignin();
 			}
 
-			return
+			return;
 		}
 
 		const toggler = menuItem.querySelector( '.sub-menu-activator' );

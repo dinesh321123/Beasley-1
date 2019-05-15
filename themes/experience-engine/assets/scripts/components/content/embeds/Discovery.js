@@ -12,19 +12,17 @@ class Discovery extends PureComponent {
 	constructor( props ) {
 		super( props );
 
-		const self = this;
 		self.handleClick = self.handleClick.bind( self );
 	}
 
 	handleClick() {
 		const self = this;
-		const { signedIn, showDiscover, showSignin } = self.props;
+		const discoveryMenuItem = document.querySelector( '#menu-item-discovery button' );
 
-		if ( signedIn ) {
-			showDiscover();
-		} else {
-			showSignin();
+		if ( discoveryMenuItem ) {
+			discoveryMenuItem.click();
 		}
+
 	}
 
 	render() {
