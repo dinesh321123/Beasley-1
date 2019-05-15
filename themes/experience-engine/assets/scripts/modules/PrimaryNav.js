@@ -108,7 +108,8 @@ class PrimaryNav extends PureComponent {
 		const { primaryNavRef } = self;
 		const container = primaryNavRef.current;
 
-		if ( 'BUTTON' === target.nodeName.toUpperCase() ) {
+		if ( 'BUTTON' === target.nodeName.toUpperCase() &&
+			target.parentNode.classList.contains( 'menu-item-discovery' ) ) {
 			const {
 				setNavigationCurrent,
 				showDiscover,
@@ -130,7 +131,8 @@ class PrimaryNav extends PureComponent {
 			} else {
 				showSignin();
 			}
-			return;
+
+			return
 		}
 
 		const toggler = menuItem.querySelector( '.sub-menu-activator' );
