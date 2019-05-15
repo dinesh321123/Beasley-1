@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const $ = window.jQuery;
 
@@ -29,9 +29,6 @@ class SongArchive extends PureComponent {
 
 	/**
 	 * TODO: FE
-	 *
-	 * 1. Render the list of songs as per the designs.
-	 * 2. Update Timestamp to use Moment or another time library
 	 * 3. Update loading text to reuse existing Loader
 	 */
 	render() {
@@ -44,13 +41,13 @@ class SongArchive extends PureComponent {
 					<p>Loading ...</p>
 					:
 					<div>
-						<h4>{ moment.unix( this.state.now ).format( 'MMM D, YYYY' ) }</h4>
+						<h4>{ dayjs( this.state.now ).format( 'MMM D, YYYY' ) }</h4>
 
 						<ul>
 							{ this.state.songs.map( ( song ) => {
 								return (
 									<li key={ song.id }>
-										<span className="song-time">{ moment.unix( song.timestamp ).format( 'HH:mm A' ) }</span>
+										<span className="song-time">{ dayjs( song.timestamp ).format( 'HH:mm A' ) }</span>
 										&nbsp;
 										<span className="song-title">{ song.title }</span>
 										&mdash;
