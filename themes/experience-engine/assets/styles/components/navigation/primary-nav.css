@@ -112,7 +112,8 @@
 			width: 3px;
 		}
 
-		& > a {
+		& > a,
+		& > button:first-child {
 			color: var(--brand-primary);
 		}
 	}

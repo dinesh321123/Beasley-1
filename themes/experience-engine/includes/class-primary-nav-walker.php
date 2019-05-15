@@ -8,6 +8,7 @@ class PrimaryNavWalker extends \Walker_Nav_Menu {
 		$newhome = new \WP_Post( new \stdClass );
 		$discovery = new \WP_Post( new \stdClass );
 
+		$newhome->ID = 'home';
 		$newhome->post_title = $newhome->title = 'Home';
 		$newhome->url = $home;
 		$newhome->post_type = $discovery->post_type = 'nav_menu_item';
@@ -26,6 +27,7 @@ class PrimaryNavWalker extends \Walker_Nav_Menu {
 			$newhome->classes[] = 'current_page_item';
 		}
 
+		$discovery->ID = 'discovery';
 		$discovery->post_title = $discovery->title = 'Discovery';
 		$discovery->url = '#';
 		$discovery->classes[] = 'menu-item-discovery';
