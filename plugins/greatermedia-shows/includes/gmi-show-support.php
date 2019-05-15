@@ -229,8 +229,23 @@ function get_show_video_query( $per_page = 10 ) {
  * @return \WP_Query
  */
 function get_show_gallery_query( $per_page = 10 ) {
-	$parents = get_show_album_ids();
-	return _get_show_children_query( 'gmr_gallery', $parents, $per_page );
+	$show_term = \TDS\get_related_term( get_the_ID() );
+	$current_page = get_query_var( 'paged', 1 );
+
+	$args = array(
+		'post_type'      => 'gmr_gallery',
+		'paged'          => $current_page,
+		'posts_per_page' => $per_page,
+		'tax_query'      => array(
+			array(
+				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+				'field' => 'term_taxonomy_id',
+				'terms' => $show_term->term_taxonomy_id,
+			),
+		),
+	);
+
+	return new \WP_Query( $args );
 }
 
 function get_show_events() {
