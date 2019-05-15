@@ -7,6 +7,8 @@ ee_switch_to_article_blog();
 the_post(); 
 
 ?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<?php get_template_part( 'partials/show/header' ); ?>
+
 	<header class="post-info">
 		<h1>
 			<?php the_title(); ?>
