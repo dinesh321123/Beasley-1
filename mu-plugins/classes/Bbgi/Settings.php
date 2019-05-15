@@ -130,8 +130,6 @@ class Settings extends \Bbgi\Module {
 
 		add_settings_field( 'ee_theme_text_color', 'Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_text_color&default=#000000' );
 
-		add_settings_field( 'ee_theme_sponsorship_text_color', 'Sponsorship Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_sponsorship_text_color&default=#000000' );
-
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_newsletter_signup_page', 'intval' );
 		register_setting( self::option_group, 'ee_theme_version', 'sanitize_text_field' );
@@ -144,7 +142,6 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_theme_background_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_button_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_text_color', 'sanitize_text_field' );
-		register_setting( self::option_group, 'ee_theme_sponsorship_text_color', 'sanitize_text_field' );
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
