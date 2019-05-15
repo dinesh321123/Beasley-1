@@ -53,12 +53,12 @@ function about_link_html( $show_id, $link_text = 'About' ) {
  * @return void
  */
 function article_link_html( $show_id, $link_text = 'Articles' ) {
-	if ( is_single() && get_post_type() !== 'show' ) {
-?><li class="current-menu-item">
-		<a href="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>">
-			<?php echo esc_html( $link_text ); ?>
-		</a>
-	</li><?php
+	if ( is_singular() && get_post_type() === 'post' ) {
+		?><li class="current-menu-item">
+			<a href="<?php echo esc_url( get_permalink( get_the_ID() ) ); ?>">
+				<?php echo esc_html( $link_text ); ?>
+			</a>
+		</li><?php
 	}
 }
 
@@ -68,8 +68,15 @@ function get_galleries_permalink( $show_id ) {
 
 function galleries_link_html( $show_id, $link_text = 'Galleries' ) {
 	if ( supports_galleries( $show_id ) ) {
-		$class = 'galleries' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
-		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo esc_url( get_galleries_permalink( $show_id ) ); ?>"><?php echo esc_html( $link_text ); ?></a></li><?php
+		$class = 'galleries' == get_query_var( 'show_section' ) || ( is_singular() && get_post_type() === 'gmr_gallery' )
+			? 'current-menu-item'
+			: '';
+
+		?><li class="<?php echo esc_attr( $class ); ?>">
+			<a href="<?php echo esc_url( get_galleries_permalink( $show_id ) ); ?>">
+				<?php echo esc_html( $link_text ); ?>
+			</a>
+		</li><?php
 	}
 }
 
@@ -79,8 +86,15 @@ function get_podcasts_permalink( $show_id ) {
 
 function podcasts_link_html( $show_id, $link_text = 'Podcasts' ) {
 	if ( supports_podcasts( $show_id ) ) {
-		$class = 'podcasts' == get_query_var( 'show_section' ) ? 'current-menu-item' : '';
-		?><li class="<?php echo esc_attr( $class ); ?>"><a href="<?php echo esc_url( get_podcasts_permalink( $show_id ) ); ?>"><?php echo esc_html( $link_text ); ?></a></li><?php
+		$class = 'podcasts' == get_query_var( 'show_section' ) || ( is_singular() && get_post_type() === 'episode' )
+			? 'current-menu-item'
+			: '';
+
+		?><li class="<?php echo esc_attr( $class ); ?>">
+			<a href="<?php echo esc_url( get_podcasts_permalink( $show_id ) ); ?>">
+				<?php echo esc_html( $link_text ); ?>
+			</a>
+		</li><?php
 	}
 }
 
