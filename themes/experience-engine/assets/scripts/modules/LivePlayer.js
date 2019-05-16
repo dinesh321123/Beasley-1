@@ -174,7 +174,7 @@ class LivePlayer extends Component {
 							<Rewind />
 						</ErrorBoundary>
 						<ErrorBoundary>
-							<Sponsor className="controls-sponsor" minWidth="769" />
+							<Sponsor className="controls-sponsor" minWidth="1025" />
 						</ErrorBoundary>
 						<ErrorBoundary>
 							<Stations colors={buttonsFillStyle} textColors={textStyle} />
@@ -185,7 +185,7 @@ class LivePlayer extends Component {
 					</div>
 				</div>
 
-				<Sponsor className="sponsor-mobile" maxWidth="768" />
+				<Sponsor className="sponsor-mobile" maxWidth="1024" />
 			</Fragment>
 		);
 
