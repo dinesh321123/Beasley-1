@@ -128,8 +128,6 @@ class LivePlayer extends Component {
 		buttonsFillStyle.stroke = customColors['--brand-button-color'] || customColors['--global-theme-secondary'];
 		textStyle.color = customColors['--brand-text-color'] || customColors['--global-theme-secondary'];
 
-		console.log( customColors );
-
 		const children = (
 			<Fragment>
 				{notification}
