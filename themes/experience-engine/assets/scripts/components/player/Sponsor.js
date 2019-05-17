@@ -1,29 +1,76 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Dfp from '../content/embeds/Dfp';
 
-function Sponsor( { className, minWidth, maxWidth } ) {
-	if ( 0 < minWidth && ! window.matchMedia( `(min-width: ${minWidth}px)` ).matches ) {
+class Sponsor extends PureComponent {
+
+	constructor( props ) {
+		super( props );
+
+		const self = this;
+		self.state = { render: this.getRender() };
+
+		self.onResize = self.handleResize.bind( self );
+		self.onRef = self.handleSlotRef.bind( self );
+	}
+
+	componentDidMount() {
+		window.addEventListener( 'resize', this.onResize );
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener( 'resize', this.onResize );
+	}
+
+	getRender() {
+		const { minWidth, maxWidth } = this.props;
+
+		if ( 0 < minWidth && window.matchMedia( `(min-width: ${minWidth}px)` ).matches ) {
+			return true;
+		}
+
+		if ( 0 < maxWidth && window.matchMedia( `(max-width: ${maxWidth}px)` ).matches ) {
+			return true;
+		}
+
 		return false;
 	}
 
-	if ( 0 < maxWidth && ! window.matchMedia( `(max-width: ${maxWidth}px)` ).matches ) {
-		return false;
+	handleResize() {
+		const self = this;
+		window.requestAnimationFrame( () => {
+			const render = self.getRender();
+			if ( render != self.state.render ) {
+				self.setState( { render } );
+			}
+		} );
 	}
 
-	// backward compatibility with the legacy theme to make sure that everything keeps working correctly
-	const placeholder = 'div-gpt-ad-1487117572008-0';
-	const { unitId, unitName } = window.bbgiconfig.dfp.player;
-	const params = {
-		id: placeholder,
-		className,
-	};
+	handleSlotRef( dfp ) {
+		if ( dfp ) {
+			setTimeout( dfp.refreshSlot.bind( dfp ), 50 );
+		}
+	}
 
-	// we use createElement to make sure we don't add empty spaces here, thus DFP can properly collapse it when nothing to show here
-	return React.createElement( 'div', params, [
-		<Dfp key="sponsor" placeholder={placeholder} unitId={unitId} unitName={unitName} />,
-	] );
+	render() {
+		const self = this;
+		const { render } = self.state;
+		if ( ! render ) {
+			return false;
+		}
+
+		// backward compatibility with the legacy theme to make sure that everything keeps working correctly
+		const id = 'div-gpt-ad-1487117572008-0';
+		const { unitId, unitName } = window.bbgiconfig.dfp.player;
+		const { className } = self.props;
+	
+		// we use createElement to make sure we don't add empty spaces here, thus DFP can properly collapse it when nothing to show here
+		return React.createElement( 'div', { id, className }, [
+			<Dfp key="sponsor" ref={self.onRef} placeholder={id} unitId={unitId} unitName={unitName} />,
+		] );
+	}
+
 }
 
 Sponsor.propTypes = {
