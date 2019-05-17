@@ -1,8 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import LazyImage from '../../content/embeds/LazyImage';
 import SvgIcon from '../../SvgIcon';
+import trapHOC from '@10up/react-focus-trap-hoc';
+
+import { updateNotice } from '../../../redux/actions/screen';
 
 class Feed extends PureComponent {
 
@@ -12,6 +17,15 @@ class Feed extends PureComponent {
 		const self = this;
 		self.handleAdd = self.handleAdd.bind( self );
 		self.handleRemove = self.handleRemove.bind( self );
+		self.hideNotice = self.hideNotice.bind( self );
+	}
+
+	hideNotice() {
+		setTimeout( () => {
+			this.props.updateNotice( {
+				isOpen: false
+			} );
+		}, 2000 );
 	}
 
 	handleAdd() {
@@ -20,6 +34,13 @@ class Feed extends PureComponent {
 
 		self.setState( { loading: true } );
 		self.props.onAdd( id );
+
+		self.props.updateNotice( {
+			message: 'Feed added to your homepage',
+			isOpen: true
+		} );
+
+		self.hideNotice();
 	}
 
 	handleRemove() {
@@ -28,6 +49,13 @@ class Feed extends PureComponent {
 
 		self.setState( { loading: true } );
 		self.props.onRemove( id );
+
+		self.props.updateNotice( {
+			message: 'Feed removed from your homepage',
+			isOpen: true
+		} );
+
+		self.hideNotice();
 	}
 
 	render() {
@@ -74,10 +102,23 @@ Feed.propTypes = {
 	added: PropTypes.bool.isRequired,
 	onAdd: PropTypes.func.isRequired,
 	onRemove: PropTypes.func.isRequired,
+	updateNotice: PropTypes.func.isRequired,
 };
 
 Feed.defaultProps = {
 	picture: {},
 };
 
-export default Feed;
+function mapStateToProps( { screen } ) {
+	return {
+		notice: screen.notice
+	};
+}
+
+function mapDispatchToProps( dispatch ) {
+	return bindActionCreators( {
+		updateNotice,
+	}, dispatch );
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( trapHOC()( Feed ) );

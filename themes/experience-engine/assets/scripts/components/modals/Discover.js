@@ -8,6 +8,7 @@ import trapHOC from '@10up/react-focus-trap-hoc';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import CloseButton from './elements/Close';
+import Notification from '../Notification';
 
 import FeedItem from './discovery/Feed';
 import DiscoveryFilters from './discovery/Filters';
@@ -121,6 +122,7 @@ class Discover extends Component {
 	render() {
 		const self = this;
 		const { error, filteredFeeds, loading } = self.state;
+		const { notice } = self.props;
 
 		let items = <div className="loading" />;
 		if ( !loading ) {
@@ -155,6 +157,8 @@ class Discover extends Component {
 						<h2>Discover</h2>
 					</Header>
 
+					{notice.isOpen && <Notification message={notice.message} />}
+
 					<Alert message={error} />
 
 					<div className="archive-tiles -small -grid">
@@ -177,8 +181,11 @@ Discover.propTypes = {
 	deleteUserFeed: PropTypes.func.isRequired,
 };
 
-function mapStateToProps( { auth } ) {
-	return { selectedFeeds: auth.feeds };
+function mapStateToProps( { auth, screen } ) {
+	return {
+		selectedFeeds: auth.feeds,
+		notice: screen.notice
+	};
 }
 
 function mapDispatchToProps( dispatch ) {

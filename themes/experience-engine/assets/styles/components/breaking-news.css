@@ -19,3 +19,10 @@ body.-dark {
         background: var(--global-theme-secondary);
     }
 }
+
+.notification-banner {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
