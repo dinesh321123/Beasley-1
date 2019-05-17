@@ -240,13 +240,6 @@
 				fill: var(--global-theme-font-primary);
 				transition: fill 250ms ease-in-out;
 			}
-
-			&:hover,
-			&:focus {
-				& svg rect {
-					fill: var(--brand-primary) !important; /* Use important to override color settings*/
-				}
-			}
 		}
 
 		& .controls-recent-songs {
@@ -394,14 +387,6 @@
 			& svg path {
 				transition: fill 250ms ease-in-out,
 							stroke 250ms ease-in-out;
-				fill: var(--brand-primary) !important; /* Use important to override color settings */
-			}
-
-			& svg path[fill] {
-				fill: var(--brand-primary) !important; /* Use important to override color settings */
-			}
-			& svg path[stroke] {
-				stroke: var(--brand-primary) !important; /* Use important to override color settings */;
 			}
 		}
 
