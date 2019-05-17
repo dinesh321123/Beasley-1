@@ -154,7 +154,7 @@ class LivePlayer extends Component {
 					<div className="control-section -centered">
 						<div className="controls-wrapper -centered">
 							<ErrorBoundary>
-								<RecentSongs colors={buttonsFillStyle} />
+								<RecentSongs colors={customColors} />
 							</ErrorBoundary>
 							<ErrorBoundary>
 								<Controls status={status} play={() => play( station )} pause={pause} resume={resume} colors={buttonsBackgroundStyle} />
@@ -175,10 +175,10 @@ class LivePlayer extends Component {
 							<Sponsor className="controls-sponsor" minWidth="1060" />
 						</ErrorBoundary>
 						<ErrorBoundary>
-							<Stations colors={buttonsFillStyle} textColors={textStyle} />
+							<Stations colors={customColors} />
 						</ErrorBoundary>
 						<ErrorBoundary>
-							<Contacts colors={buttonsFillStyle} />
+							<Contacts colors={customColors} />
 						</ErrorBoundary>
 					</div>
 				</div>
