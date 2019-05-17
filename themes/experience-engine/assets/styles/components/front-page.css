@@ -88,6 +88,10 @@
 			top: .3rem;
 			z-index: 5;
 
+			& .edit-feed-controls {
+				display: flex;
+			}
+
 			& button {
 				background-color: transparent;
 				border: none;
