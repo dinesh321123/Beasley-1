@@ -63,10 +63,10 @@ class Sponsor extends PureComponent {
 		// backward compatibility with the legacy theme to make sure that everything keeps working correctly
 		const id = 'div-gpt-ad-1487117572008-0';
 		const { unitId, unitName } = window.bbgiconfig.dfp.player;
-		const { className } = self.props;
+		const { className, style } = self.props;
 	
 		// we use createElement to make sure we don't add empty spaces here, thus DFP can properly collapse it when nothing to show here
-		return React.createElement( 'div', { id, className }, [
+		return React.createElement( 'div', { id, className, style }, [
 			<Dfp key="sponsor" ref={self.onRef} placeholder={id} unitId={unitId} unitName={unitName} />,
 		] );
 	}
