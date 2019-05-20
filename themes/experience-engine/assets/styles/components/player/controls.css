@@ -140,6 +140,14 @@
 		overflow: visible;
 	}
 
+	& .controls-wrapper {
+		transition: margin-top 250ms ease-in-out;
+	}
+
+	& .controls-wrapper.-podcast {
+		margin-top: -35px;
+	}
+
 	& .controls-progress {
 		left: 0;
 		position: absolute;
@@ -500,12 +508,14 @@
 	}
 
 	&.-desktop {
-		display: none;
+		transition: opacity 2s ease-in-out;
+		opacity: 0;
 
 		@media(--min-medium-viewport) {
 			display: flex;
 			flex-flow: row nowrap;
 			justify-content: space-between;
+			opacity: 1;
 		}
 
 		& .-progress {
@@ -582,10 +592,6 @@
 	justify-content: center;
 	width: 54px;
 
-	@media(--min-medium-viewport) {
-		margin-top: -40px;
-	}
-
 	&:focus,
 	&:hover {
 		outline: 0;
@@ -615,5 +621,19 @@
 
 	& .controls-recent-songs {
 		background-color: var(--global-gallery);
+	}
+}
+
+.-live.LIVE_PAUSE .resume-btn,
+.-live.LIVE_PLAYING .pause-btn,
+.-live.LIVE_STOP .play-btn,
+.-live.LIVE_FAILED .play-btn,
+.-live.LIVE_BUFFERING .loading-btn,
+.-live.LIVE_CONNECTING .loading-btn,
+.-live.LIVE_RECONNECTING .loading-btn,
+.-live.STREAM_GEO_BLOCKED .play-btn,
+.-live.STATION_NOT_FOUND .play-btn {
+	@media(--min-medium-viewport) {
+		margin-top: 0;
 	}
 }

@@ -108,6 +108,7 @@ class LivePlayer extends Component {
 			play,
 			pause,
 			resume,
+			duration,
 		} = props;
 
 		let notification = false;
@@ -120,6 +121,7 @@ class LivePlayer extends Component {
 		const buttonsBackgroundStyle = {};
 		const buttonsFillStyle = {};
 		const textStyle = {};
+		const progressClass = ! duration ? '-live' : '-podcast';
 
 		customColors = JSON.parse( customColors );
 		controlsStyle.backgroundColor = customColors['--brand-background-color'] || customColors['--global-theme-secondary'];
@@ -152,12 +154,12 @@ class LivePlayer extends Component {
 						</ErrorBoundary>
 					</div>
 					<div className="control-section -centered">
-						<div className="controls-wrapper -centered">
+						<div className={`controls-wrapper -centered ${progressClass}`}>
 							<ErrorBoundary>
 								<RecentSongs colors={customColors} />
 							</ErrorBoundary>
 							<ErrorBoundary>
-								<Controls status={status} play={() => play( station )} pause={pause} resume={resume} colors={buttonsBackgroundStyle} />
+								<Controls status={status} play={() => play( station )} pause={pause} resume={resume} colors={buttonsBackgroundStyle} progressClass={progressClass} />
 							</ErrorBoundary>
 							<ErrorBoundary>
 								<Volume colors={buttonsFillStyle} />
@@ -203,6 +205,7 @@ LivePlayer.propTypes = {
 	play: PropTypes.func.isRequired,
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
+	duration: PropTypes.number.isRequired,
 };
 
 function mapStateToProps( { player } ) {
@@ -211,6 +214,7 @@ function mapStateToProps( { player } ) {
 		status: player.status,
 		adPlayback: player.adPlayback,
 		adSynced: player.adSynced,
+		duration: player.duration
 	};
 }
 
