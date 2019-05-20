@@ -123,6 +123,7 @@ class Discover extends Component {
 		const self = this;
 		const { error, filteredFeeds, loading } = self.state;
 		const { notice } = self.props;
+		const noticeClass = !notice.isOpen ? '' : '-visible';
 
 		let items = <div className="loading" />;
 		if ( !loading ) {
@@ -157,7 +158,7 @@ class Discover extends Component {
 						<h2>Discover</h2>
 					</Header>
 
-					{notice.isOpen && <Notification message={notice.message} />}
+					<Notification message={notice.message} noticeClass={noticeClass} />
 
 					<Alert message={error} />
 

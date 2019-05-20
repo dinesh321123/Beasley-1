@@ -23,7 +23,8 @@ class Feed extends PureComponent {
 	hideNotice() {
 		setTimeout( () => {
 			this.props.updateNotice( {
-				isOpen: false
+				message: this.props.notice.message,
+				isOpen: false,
 			} );
 		}, 2000 );
 	}
@@ -103,6 +104,7 @@ Feed.propTypes = {
 	onAdd: PropTypes.func.isRequired,
 	onRemove: PropTypes.func.isRequired,
 	updateNotice: PropTypes.func.isRequired,
+	notice: PropTypes.object.isRequired,
 };
 
 Feed.defaultProps = {

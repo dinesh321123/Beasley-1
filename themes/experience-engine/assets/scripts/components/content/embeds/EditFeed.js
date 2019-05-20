@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { modifyUserFeeds, deleteUserFeed } from '../../../redux/actions/auth';
+import HomepageOrderingContext from '../../../context/homepage-ordering';
+import { deleteUserFeed } from '../../../redux/actions/auth';
+import { updateNotice } from '../../../redux/actions/screen';
+
+import Notification from '../../Notification';
 
 class EditFeed extends Component {
 
@@ -11,26 +15,39 @@ class EditFeed extends Component {
 		super( props );
 
 		const self = this;
-		self.move = self.move.bind( self );
 		self.onRemove = self.handleRemove.bind( self );
 		self.onMoveUp = self.handleMoveUp.bind( self );
 		self.onMoveDown = self.handleMoveDown.bind( self );
+		self.hideNotice = self.hideNotice.bind( self );
 	}
 
 	handleMoveDown() {
-		this.move( 'down' );
+		const self = this;
+
+		self.context.moveDown( self.props.feed );
+
+		self.props.updateNotice( {
+			message: 'Feed moved down',
+			isOpen: true
+		} );
+
+		self.hideNotice();
 	}
 
 	handleMoveUp() {
-		this.move( 'up' );
-	}
+		const self = this;
+		self.context.moveUp( self.props.feed );
 
-	move( direction ) {
-		console.log( `move ${direction}` );
+		updateNotice( {
+			message: 'Feed moved up',
+			isOpen: true
+		} );
+
+		self.hideNotice();
 	}
 
 	handleRemove() {
-		const { feed, deleteFeed } = this.props;
+		const { feed, deleteFeed, updateNotice, hideNotice } = this.props;
 
 		deleteFeed( feed );
 
@@ -38,11 +55,28 @@ class EditFeed extends Component {
 		if ( container ) {
 			container.classList.add( '-hidden' );
 		}
+
+		updateNotice( {
+			message: 'Feed removed from your homepage',
+			isOpen: true
+		} );
+
+		hideNotice();
+	}
+
+	hideNotice() {
+		setTimeout( () => {
+			this.props.updateNotice( {
+				message: this.props.notice.message,
+				isOpen: false
+			} );
+		}, 2000 );
 	}
 
 	render() {
 		const self = this;
-		const { loggedIn, className } = self.props;
+		const { loggedIn, className, notice } = self.props;
+		const noticeClass = !notice.isOpen ? '' : '-visible';
 
 		if ( ! loggedIn ) {
 			return false;
@@ -50,7 +84,8 @@ class EditFeed extends Component {
 
 		return (
 			<div className="edit-feed-controls">
-				<button className={className} aria-label="Move Down Feed" onClick={self.onMoveUp}>
+				<Notification message={notice.message} noticeClass={noticeClass} />
+				<button className={className} aria-label="Move Down Feed" onClick={self.onMoveDown}>
 					<svg width="14" height="9" aria-labelledby="move-down-modal-title move-down-modal-desc"  xmlns="http://www.w3.org/2000/svg">
 						<title id="move-down-modal-title">Move Down</title>
 						<path d="M12.88 2.275L7.276 7.88a.38.38 0 0 1-.552 0L1.12 2.275a.38.38 0 0 1 0-.554l.601-.6a.38.38 0 0 1 .554 0L7 5.846l4.726-4.727a.38.38 0 0 1 .553 0l.601.601a.38.38 0 0 1 0 .554z" fill="currentColor" stroke="currentColor" strokeWidth=".5"/>
@@ -82,8 +117,10 @@ EditFeed.propTypes = {
 	feeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	title: PropTypes.string,
 	className: PropTypes.string,
-	modifyFeeds: PropTypes.func.isRequired,
 	deleteFeed: PropTypes.func.isRequired,
+	updateNotice: PropTypes.func.isRequired,
+	hideNotice: PropTypes.func,
+	notice: PropTypes.object.isRequired,
 };
 
 EditFeed.defaultProps = {
@@ -91,17 +128,20 @@ EditFeed.defaultProps = {
 	className: '',
 };
 
-function mapStateToProps( { auth } ) {
+EditFeed.contextType = HomepageOrderingContext;
+
+function mapStateToProps( { auth, screen } ) {
 	return {
 		loggedIn: !!auth.user,
 		feeds: auth.feeds,
+		notice: screen.notice,
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
 	return bindActionCreators( {
-		modifyFeeds: modifyUserFeeds,
 		deleteFeed: deleteUserFeed,
+		updateNotice
 	}, dispatch );
 }
 

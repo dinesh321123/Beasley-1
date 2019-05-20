@@ -14,6 +14,7 @@ import {
 
 export const DEFAULT_STATE = {
 	url: false,
+	isHome: false,
 	scripts: {},
 	embeds: [],
 	content: '',
@@ -118,6 +119,7 @@ function reducer( state = {}, action = {} ) {
 				scripts: action.scripts,
 				embeds: action.embeds,
 				content: action.content,
+				isHome: action.isHome,
 				error: '',
 				partials: {},
 			};

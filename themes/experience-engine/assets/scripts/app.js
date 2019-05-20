@@ -23,20 +23,18 @@ class Application extends PureComponent {
 
 	constructor( props ) {
 		super( props );
-
 		this.observer = new Observable();
 	}
 
-	render() {
-
-		if( isSafari() ) {
+	componentDidMount() {
+		if ( isSafari() ) {
 			document.body.classList.add( 'is-safari' );
-		}
-
-		if ( isWindowsBrowser() ) {
+		} else if ( isWindowsBrowser() ) {
 			document.body.classList.add( 'is-windows' );
 		}
+	}
 
+	render() {
 		return (
 			<Fragment>
 				<IntersectionObserverContext.Provider value={this.observer}>
