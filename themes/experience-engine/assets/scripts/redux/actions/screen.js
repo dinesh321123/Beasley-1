@@ -13,6 +13,7 @@ export const ACTION_LOADING_PARTIAL    = 'production' === process.env.NODE_ENV ?
 export const ACTION_LOADED_PARTIAL     = 'production' === process.env.NODE_ENV ? 's4' : 'PARTIAL_LOADED';
 export const ACTION_LOAD_ERROR         = 'production' === process.env.NODE_ENV ? 's5' : 'LOADING_ERROR';
 export const ACTION_HIDE_SPLASH_SCREEN = 'production' === process.env.NODE_ENV ? 's6' : 'HIDE_SPLASH_SCREEN';
+export const ACTION_UPDATE_NOTICE      = 'production' === process.env.NODE_ENV ? 's7' : 'UPDATE_NOTICE ';
 
 export function initPage() {
 	const content = document.getElementById( 'content' );
@@ -50,7 +51,13 @@ export function loadPage( url, options = {} ) {
 				document.body.className = pageDocument.body.className;
 			}
 
-			dispatch( { type: ACTION_LOADED_PAGE, url, ...parsed } );
+			dispatch( {
+				type: ACTION_LOADED_PAGE,
+				url,
+				...parsed,
+				isHome: pageDocument.body.classList.contains( 'home' ),
+			} );
+
 			window.scrollTo( 0, 0 );
 		}
 
@@ -100,10 +107,20 @@ export function hideSplashScreen() {
 	return { type: ACTION_HIDE_SPLASH_SCREEN };
 }
 
+export function updateNotice( { isOpen, message } ) {
+	return {
+		type: ACTION_UPDATE_NOTICE,
+		force: true,
+		isOpen,
+		message
+	};
+}
+
 export default {
 	initPage,
 	loadPage,
 	updatePage,
 	loadPartialPage,
 	hideSplashScreen,
+	updateNotice
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Controls( { status, title, play, pause, resume, colors } ) {
+function Controls( { status, title, play, pause, resume, colors, progressClass } ) {
 	return (
-		<div className={`status ${status}`}>
+		<div className={`status ${status} ${progressClass}`}>
 			<button type="button" className="play-btn" onClick={play} aria-label={`Play ${title}`} style={colors}>
 				<svg viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg">
 					<path d="M16.1836 12.0055L0.910156 23.124L0.910156 0.887031L16.1836 12.0055Z" />
@@ -36,7 +36,8 @@ Controls.propTypes = {
 	play: PropTypes.func,
 	pause: PropTypes.func,
 	resume: PropTypes.func,
-	colors: PropTypes.object
+	colors: PropTypes.object,
+	progressClass: PropTypes.string,
 };
 
 Controls.defaultProps = {

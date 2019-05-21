@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import ErrorBoundary from '../ErrorBoundary';
+import Homepage from './Homepage';
+
 import AudioEmbed from './embeds/Audio';
 import SecondStreetEmbed from './embeds/SecondStreet';
 import LazyImage from './embeds/LazyImage';
@@ -76,22 +78,19 @@ class ContentBlock extends Component {
 
 	render() {
 		const self = this;
-		const { content, embeds, partial } = self.props;
+		const { content, embeds, partial, isHome } = self.props;
 		const { ready } = self.state;
 
-		const portal = ReactDOM.createPortal(
+		let portal = ReactDOM.createPortal(
 			<div dangerouslySetInnerHTML={{ __html: content }} />,
 			document.getElementById( partial ? 'inner-content' : 'content' )
 		);
 
 		const embedComponents = ready ? embeds.map( ContentBlock.createEmbed ) : false;
 
-		return (
-			<Fragment>
-				{portal}
-				{embedComponents}
-			</Fragment>
-		);
+		return isHome
+			? <Homepage>{portal}{embedComponents}</Homepage>
+			: <Fragment>{portal}{embedComponents}</Fragment>;
 	}
 
 }
@@ -100,10 +99,12 @@ ContentBlock.propTypes = {
 	content: PropTypes.string.isRequired,
 	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	partial: PropTypes.bool,
+	isHome: PropTypes.bool,
 };
 
 ContentBlock.defaultProps = {
 	partial: false,
+	isHome: false,
 };
 
 export default ContentBlock;

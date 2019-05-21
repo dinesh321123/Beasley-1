@@ -2,8 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Close( { close } ) {
+	const didClick = function() {
+		const beforeClose = window.beforeBeasleyModalClose;
+
+		if ( beforeClose ) {
+			const result = beforeClose();
+
+			if ( result ) {
+				close();
+			}
+		} else {
+			close();
+		}
+	};
+
 	return (
-		<button type="button" className="button modal-close" aria-label="Close Modal" onClick={close}>
+		<button type="button" className="button modal-close" aria-label="Close Modal" onClick={didClick}>
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 212.982 212.982" aria-labelledby="close-modal-title close-modal-desc" width="13" height="13">
 				<title id="close-modal-title">Close Modal</title>
 				<desc id="close-modal-desc">

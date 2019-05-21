@@ -84,9 +84,13 @@
 		& .placeholder-editfeed {
 			background-color: var(--global-white);		
 			position: absolute;
-			right: 0;
+			right: 10px;
 			top: .3rem;
-			z-index: 10;
+			z-index: 5;
+
+			& .edit-feed-controls {
+				display: flex;
+			}
 
 			& button {
 				background-color: transparent;

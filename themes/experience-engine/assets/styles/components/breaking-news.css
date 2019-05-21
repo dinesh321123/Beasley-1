@@ -19,3 +19,16 @@ body.-dark {
         background: var(--global-theme-secondary);
     }
 }
+
+.notification-banner {
+	position: fixed;
+	left: 0;
+	opacity: 0;
+	transition: opacity 1s;
+	top: 0;
+	width: 100%;
+
+	&.-visible {
+		opacity: 1;
+	}
+}
