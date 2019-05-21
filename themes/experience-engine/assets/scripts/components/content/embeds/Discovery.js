@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import LazyImage from './LazyImage';
+//import PrimaryNav from './modules/PrimaryNav';
+
 
 import { showSignInModal, showDiscoverModal } from '../../../redux/actions/modal';
 
@@ -12,17 +14,29 @@ class Discovery extends PureComponent {
 	constructor( props ) {
 		super( props );
 
+		const self = this;
 		self.handleClick = self.handleClick.bind( self );
 	}
 
 	handleClick() {
 		const self = this;
-		const discoveryMenuItem = document.querySelector( '#menu-item-discovery button' );
+		const { signedIn, showDiscover, showSignin } = self.props;
+		const menuItems = document.querySelectorAll( '#menu-ee-primary li' );
+		const discoveryWrapper = document.querySelector( '#menu-item-discovery' )
 
-		if ( discoveryMenuItem ) {
-			discoveryMenuItem.click();
+		for ( var i = 0; i < menuItems.length; i++ ) {
+			menuItems[i].classList.remove( 'current-menu-item' );
 		}
 
+		if ( ! discoveryWrapper.classList.contains( 'current-menu-item' ) ) {
+			discoveryWrapper.classList.add( 'current-menu-item' );
+		}
+
+		if ( signedIn ) {
+			showDiscover();
+		} else {
+			showSignin();
+		}
 	}
 
 	render() {

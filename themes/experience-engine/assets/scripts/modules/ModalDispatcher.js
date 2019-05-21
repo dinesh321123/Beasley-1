@@ -51,9 +51,24 @@ class ModalDispatcher extends Component {
 		const { navigation } = self.props;
 		const { current: currentMenuItem, previous: previousMenuItem } = navigation;
 		const current = document.getElementById( currentMenuItem );
-		current.classList.remove( 'current-menu-item' );
 		const previous = document.getElementById( previousMenuItem );
-		previous.classList.add( 'current-menu-item' );
+
+		// If Discovery was toggled by a non-menu item and a current item doesn't exist, deselect all items
+		const menuItems = document.querySelectorAll( '#menu-ee-primary li' );
+
+		for ( var i = 0; i < menuItems.length; i++ ) {
+			menuItems[i].classList.remove( 'current-menu-item' );
+		}
+
+		if ( previous ) {
+			previous.classList.add( 'current-menu-item' );
+		}
+		else {
+			// If Discovery was toggled by a non-menu item and a previous item doesn't appear, select 'Home'
+			const homeButton = document.getElementById( 'menu-item-home' );
+			homeButton.classList.add( 'current-menu-item' );
+		}
+
 		self.props.navigationRevert();
 	}
 
