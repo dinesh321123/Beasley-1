@@ -61,6 +61,7 @@ class CompleteSignup extends PureComponent {
 				}
 
 				window.beforeBeasleyModalClose = null;
+				self.props.close();
 
 				/* return true to allow modal to close */
 				return true;
