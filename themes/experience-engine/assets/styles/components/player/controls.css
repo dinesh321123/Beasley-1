@@ -412,6 +412,17 @@
 			visibility: hidden;
 			width: 82px;
 
+			& input[type="range"]::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				border: none;
+				height: 10px;
+				width: 10px;
+				border-radius: 50%;
+				background: var(--brand-primary);
+				margin-top: -3.5px;
+				z-index: 400;
+			}
+
 			&.-volume-visible {
 				opacity: 1;
 				visibility: visible;
