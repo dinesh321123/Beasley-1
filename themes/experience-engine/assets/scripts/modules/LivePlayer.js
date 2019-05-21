@@ -171,7 +171,7 @@ class LivePlayer extends Component {
 					</div>
 					<div className="control-section">
 						<ErrorBoundary>
-							<Rewind />
+							<Rewind progressClass={progressClass} />
 						</ErrorBoundary>
 						<ErrorBoundary>
 							<Sponsor className="controls-sponsor" minWidth="1060" />

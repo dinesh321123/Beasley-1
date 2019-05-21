@@ -282,6 +282,14 @@
 	}
 
 	& .controls-rewind {
+		display: none;
+
+		&.-podcast {
+			@media(--min-medium-viewport) {
+				display: block;
+			}
+		}
+
 		& button {
 			& svg path {
 				fill: var(--global-theme-font-primary);
