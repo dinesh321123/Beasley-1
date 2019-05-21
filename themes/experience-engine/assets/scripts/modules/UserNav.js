@@ -32,6 +32,7 @@ class UserNav extends Component {
 		self.state = {
 			loading: true,
 			didLogin: false,
+			didRedirect: false,
 		};
 
 		self.onSignIn = self.handleSignIn.bind( self );
@@ -43,12 +44,23 @@ class UserNav extends Component {
 
 	componentDidMount() {
 		const { firebase: config } = window.bbgiconfig;
+		const self = this;
 
 		if ( config.projectId ) {
 			firebase.initializeApp( config );
 
 			const auth = firebase.auth();
+
 			auth.onAuthStateChanged( this.didAuthStateChange );
+			auth.getRedirectResult()
+				.then( ( result ) => {
+					if ( result.user ) {
+						self.setState( { didRedirect: true } );
+					}
+				} )
+				.catch( ( err ) => {
+					console.error( err );
+				} );
 		} else {
 			console.error( 'Firebase Project ID not found in bbgiconfig.' );
 		}
@@ -83,21 +95,25 @@ class UserNav extends Component {
 		this.props.setUser( user );
 		this.setState( { loading: false } );
 
-		ensureUserHasCurrentChannel()
-			.then( () => {
-				if ( UserNav.isHomepage() ) {
-					self.loadHomepage( user );
-				} else {
-					self.finishLoading();
-				}
-			} );
+		if ( this.state.didRedirect ) {
+			ensureUserHasCurrentChannel()
+				.then( () => {
+					if ( UserNav.isHomepage() ) {
+						self.loadHomepage( user );
+					} else {
+						self.finishLoading();
+					}
+				} );
 
-		if ( ! this.props.suppressUserCheck ) {
 			userHasProfile().then( ( result ) => {
 				if ( ! result ) {
 					self.props.showCompleteSignup();
 				}
 			} );
+		} else if ( UserNav.isHomepage() ) {
+			self.loadHomepage( user );
+		} else {
+			self.finishLoading();
 		}
 	}
 

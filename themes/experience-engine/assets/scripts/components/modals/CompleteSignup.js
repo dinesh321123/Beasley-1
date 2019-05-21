@@ -5,6 +5,8 @@ import trapHOC from '@10up/react-focus-trap-hoc';
 
 import Header from './elements/Header';
 import Alert from './elements/Alert';
+import UserNav from './../../modules/UserNav';
+import firebase from 'firebase';
 
 import {
 	saveUser,
@@ -35,6 +37,38 @@ class CompleteSignup extends PureComponent {
 
 	componentDidMount() {
 		this.props.activateTrap();
+
+		const self = this;
+
+		/**
+		 * The following sets a trap for the Complete Signup modal. The
+		 * first time the Close button is clicked we show a warning. The
+		 * second time we close the modal and signout the user.
+		 */
+		window.beforeBeasleyModalClose = function() {
+			/* First time close button was clicked */
+			self.setState( {
+				didTryClose: true,
+				error: 'You must complete your profile information before you can login. Click close to continue as a non-member.'
+			} );
+
+			/* Second time close button was clicked */
+			window.beforeBeasleyModalClose = function() {
+				firebase.auth().signOut();
+
+				if ( UserNav.isHomepage() ) {
+					window.location.reload();
+				}
+
+				window.beforeBeasleyModalClose = null;
+
+				/* return true to allow modal to close */
+				return true;
+			}
+
+			/* return false to force modal to ignore close click */
+			return false;
+		}
 	}
 
 	componentWillUnmount() {

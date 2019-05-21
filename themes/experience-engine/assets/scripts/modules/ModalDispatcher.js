@@ -130,9 +130,7 @@ class ModalDispatcher extends Component {
 		return (
 			<div className={`modal ${( modal || '' ).toLowerCase()}`}>
 				<div ref={self.modalRef} className="modal-content">
-					{ modal !== COMPLETE_SIGNUP_MODAL &&
-						<CloseButton close={close} />
-					}
+					<CloseButton close={close} />
 					<ErrorBoundary>
 						{component}
 					</ErrorBoundary>
