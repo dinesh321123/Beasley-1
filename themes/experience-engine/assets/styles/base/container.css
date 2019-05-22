@@ -5,6 +5,7 @@ html {
 		overflow: hidden;
 		-webkit-overflow-scrolling: auto;
 		height: 100%;
+		max-width: 100%;
 	}
 
 	&.is-safari.locked {
