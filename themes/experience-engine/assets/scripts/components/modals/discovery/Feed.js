@@ -31,13 +31,13 @@ class Feed extends PureComponent {
 
 	handleAdd() {
 		const self = this;
-		const { id } = self.props;
+		const { id, title } = self.props;
 
 		self.setState( { loading: true } );
 		self.props.onAdd( id );
 
 		self.props.updateNotice( {
-			message: 'Feed added to your homepage',
+			message: `<span class="title">${title}</span> has been added to your homepage`,
 			isOpen: true
 		} );
 
@@ -46,13 +46,13 @@ class Feed extends PureComponent {
 
 	handleRemove() {
 		const self = this;
-		const { id } = self.props;
+		const { id, title } = self.props;
 
 		self.setState( { loading: true } );
 		self.props.onRemove( id );
 
 		self.props.updateNotice( {
-			message: 'Feed removed from your homepage',
+			message: `<span class="title">${title}</span> has been removed from your homepage`,
 			isOpen: true
 		} );
 
