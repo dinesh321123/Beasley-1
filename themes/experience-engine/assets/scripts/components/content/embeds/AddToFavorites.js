@@ -100,7 +100,7 @@ class AddToFavorites extends PureComponent {
 		if ( self.hasFeed() ) {
 			if ( showIcon ) {
 				icon = (
-					<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+					<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
 						<rect y="6.61502" x="0" fill="none" id="svg_2" height="2" width="15"/>
 					</svg>
 				);
