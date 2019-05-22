@@ -126,6 +126,15 @@ class PrimaryNav extends PureComponent {
 			// Set this as the Current Menu Item (despite being Modal and !onPageChange)
 			setNavigationCurrent( menuItem.id );
 			menuItem.classList.add( 'current-menu-item' );
+
+			// Deselect the mobile menu (if open)
+			const mobileMenuToggle = document.getElementById( 'js-menu-toggle' );
+			const mobileMenuToggleStyle = window.getComputedStyle( mobileMenuToggle );
+
+			if ( 'none' !== mobileMenuToggleStyle.display ) {
+				mobileMenuToggle.click();
+			}
+
 			if ( signedIn ) {
 				showDiscover();
 			} else {
