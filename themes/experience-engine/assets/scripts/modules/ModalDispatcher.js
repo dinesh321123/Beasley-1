@@ -49,8 +49,7 @@ class ModalDispatcher extends Component {
 	handleMenuCurrentItem() {
 		const self = this;
 		const { navigation } = self.props;
-		const { current: currentMenuItem, previous: previousMenuItem } = navigation;
-		const current = document.getElementById( currentMenuItem );
+		const { previous: previousMenuItem } = navigation;
 		const previous = document.getElementById( previousMenuItem );
 
 		// If Discovery was toggled by a non-menu item and a current item doesn't exist, deselect all items

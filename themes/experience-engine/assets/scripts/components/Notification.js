@@ -1,11 +1,11 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const Notification = ( { message, noticeClass } ) => {
 	return (
 		<div className={`breaking-news-banner notification-banner -fade ${noticeClass}`}>
 			<div className="breaking-news-banner__inner">
-				<span className="breaking-news-banner__excerpt">{message}</span>
+				<span className="breaking-news-banner__excerpt" dangerouslySetInnerHTML={{__html: message}}></span>
 			</div>
 		</div>
 	);

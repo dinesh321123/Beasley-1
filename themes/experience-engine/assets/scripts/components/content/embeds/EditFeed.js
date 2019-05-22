@@ -27,7 +27,7 @@ class EditFeed extends Component {
 		self.context.moveDown( self.props.feed );
 
 		self.props.updateNotice( {
-			message: 'Feed moved down',
+			message: `<span className="title">${self.props.title}</span> has been moved down`,
 			isOpen: true
 		} );
 
@@ -39,7 +39,7 @@ class EditFeed extends Component {
 		self.context.moveUp( self.props.feed );
 
 		updateNotice( {
-			message: 'Feed moved up',
+			message: `<span className="title">${self.props.title}</span> has been moved up`,
 			isOpen: true
 		} );
 
@@ -47,7 +47,7 @@ class EditFeed extends Component {
 	}
 
 	handleRemove() {
-		const { feed, deleteFeed, updateNotice, hideNotice } = this.props;
+		const { feed, deleteFeed, updateNotice, title } = this.props;
 
 		deleteFeed( feed );
 
@@ -57,11 +57,11 @@ class EditFeed extends Component {
 		}
 
 		updateNotice( {
-			message: 'Feed removed from your homepage',
+			message: `<span class="title">${title}</span> has been removed from your homepage`,
 			isOpen: true
 		} );
 
-		hideNotice();
+		this.hideNotice();
 	}
 
 	hideNotice() {

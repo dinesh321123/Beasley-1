@@ -5,6 +5,8 @@
 	display: flex;
 	overflow: auto;
 	padding: .6rem 1.1rem;
+	position: relative;
+	z-index: 5;
 
 	@media (--min-large-viewport) {
 		bottom: 74px;

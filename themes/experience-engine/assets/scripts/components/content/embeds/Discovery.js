@@ -22,7 +22,7 @@ class Discovery extends PureComponent {
 		const self = this;
 		const { signedIn, showDiscover, showSignin } = self.props;
 		const menuItems = document.querySelectorAll( '#menu-ee-primary li' );
-		const discoveryWrapper = document.querySelector( '#menu-item-discovery' )
+		const discoveryWrapper = document.querySelector( '#menu-item-discovery' );
 
 		for ( var i = 0; i < menuItems.length; i++ ) {
 			menuItems[i].classList.remove( 'current-menu-item' );
