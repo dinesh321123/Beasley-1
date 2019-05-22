@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Close( props ) {
-	const close = props.close;
 	const didClick = function() {
 		const beforeClose = window.beforeBeasleyModalClose;
 
@@ -10,10 +9,10 @@ function Close( props ) {
 			const result = beforeClose();
 
 			if ( result ) {
-				close();
+				props.close();
 			}
 		} else {
-			close();
+			props.close();
 		}
 	};
 
