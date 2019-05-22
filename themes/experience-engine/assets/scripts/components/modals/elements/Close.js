@@ -30,7 +30,6 @@ class Close extends PureComponent {
 	didClick() {
 		const beforeClose = window.beforeBeasleyModalClose;
 		const close = this.props.close;
-		console.log( 'close', this.props );
 
 		if ( beforeClose ) {
 			const result = beforeClose();

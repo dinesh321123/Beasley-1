@@ -145,7 +145,7 @@ class ModalDispatcher extends Component {
 		return (
 			<div className={`modal ${( modal || '' ).toLowerCase()}`}>
 				<div ref={self.modalRef} className="modal-content">
-					<CloseButton close={close} />
+					<CloseButton close={this.props.close} />
 					<ErrorBoundary>
 						{component}
 					</ErrorBoundary>
