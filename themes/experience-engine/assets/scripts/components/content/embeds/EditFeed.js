@@ -27,7 +27,7 @@ class EditFeed extends Component {
 		self.context.moveDown( self.props.feed );
 
 		self.props.updateNotice( {
-			message: `<span className="title">${self.props.title}</span> has been moved down`,
+			message: `<span class="title">${self.props.title}</span> has been moved down`,
 			isOpen: true
 		} );
 
@@ -39,7 +39,7 @@ class EditFeed extends Component {
 		self.context.moveUp( self.props.feed );
 
 		updateNotice( {
-			message: `<span className="title">${self.props.title}</span> has been moved up`,
+			message: `<span class="title">${self.props.title}</span> has been moved up`,
 			isOpen: true
 		} );
 
