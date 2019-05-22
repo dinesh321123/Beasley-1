@@ -74,6 +74,7 @@ class CompleteSignup extends PureComponent {
 
 	componentWillUnmount() {
 		this.props.deactivateTrap();
+		window.beforeBeasleyModalClose = null;
 	}
 
 	handleFieldChange( e ) {

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Close( { close } ) {
+function Close( props ) {
+	const close = props.close;
 	const didClick = function() {
 		const beforeClose = window.beforeBeasleyModalClose;
 
