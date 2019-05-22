@@ -73,8 +73,10 @@ class Feed extends PureComponent {
 			? <button onClick={self.handleRemove} aria-label={`Remove ${title} from your feed`}><span>&#45;</span></button>
 			: <button onClick={self.handleAdd} aria-label={`Add ${title} to your feed`}><span>&#43;</span></button>;
 
+		const tileClass= added ? '-added' : '';
+
 		return (
-			<div className={`${type} post-tile`}>
+			<div className={`${type} post-tile ${tileClass}`}>
 				<div className="post-thumbnail">
 					<div id={placholder} className="placeholder placeholder-lazyimage">
 						{lazyImage}

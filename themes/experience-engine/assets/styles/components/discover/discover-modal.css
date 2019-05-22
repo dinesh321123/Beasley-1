@@ -179,4 +179,8 @@
 			}
 		}
 	}
+
+	& .-added .post-thumbnail button {
+		opacity: 1;
+	}
 }
