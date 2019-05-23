@@ -120,8 +120,11 @@ function ee_responsive_oembed_html( $html, $url, $attr ) {
 		$classes_all = array(
 			'embedly-responsive-media',
 		);
-	}
-	else {
+	} else if ( false !== stripos( $html, 'facebook.com' ) ) {
+		$classes_all = array(
+			'embedly-responsive-media',
+		);
+	} else {
 		// Add these classes to all embeds except embedly
 		$classes_all = array(
 			'responsive-media',
