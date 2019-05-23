@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class RecentSongs extends PureComponent {
@@ -134,10 +133,6 @@ class RecentSongs extends PureComponent {
 	}
 
 }
-
-RecentSongs.propTypes = {
-	songs: PropTypes.arrayOf( PropTypes.object ).isRequired,
-};
 
 function mapStateToProps( { player } ) {
 	return {
