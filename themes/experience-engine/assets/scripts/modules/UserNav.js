@@ -59,7 +59,7 @@ class UserNav extends Component {
 					}
 				} )
 				.catch( ( err ) => {
-					console.error( err );
+					console.error( 'Authentication Error', err );
 				} );
 		} else {
 			console.error( 'Firebase Project ID not found in bbgiconfig.' );
@@ -96,20 +96,18 @@ class UserNav extends Component {
 		this.setState( { loading: false } );
 
 		if ( this.state.didRedirect ) {
-			ensureUserHasCurrentChannel()
-				.then( () => {
-					if ( UserNav.isHomepage() ) {
-						self.loadHomepage( user );
-					} else {
+			userHasProfile()
+				.then( ( result ) => {
+					if ( ! result ) {
 						self.finishLoading();
+						self.props.showCompleteSignup();
+					} else {
+						self.loadHomepage( user );
 					}
+				} )
+				.catch( () => {
+					self.finishLoading();
 				} );
-
-			userHasProfile().then( ( result ) => {
-				if ( ! result ) {
-					self.props.showCompleteSignup();
-				}
-			} );
 		} else if ( UserNav.isHomepage() ) {
 			self.loadHomepage( user );
 		} else {
