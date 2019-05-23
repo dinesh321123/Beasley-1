@@ -31,6 +31,8 @@ class PrimaryNav extends PureComponent {
 		self.onPageChange = self.handlePageChange.bind( self );
 		self.onResize = self.onResize.bind( self );
 		self.detectScrollbar = self.detectScrollbar.bind( self );
+		self.handleEscapeKey = self.handleEscapeKey.bind( self );
+		self.handleClickOutSide = self.handleClickOutSide.bind( self );
 
 		removeChildren( navRoot );
 	}
@@ -46,6 +48,8 @@ class PrimaryNav extends PureComponent {
 		container.addEventListener( 'click', self.handleSubMenu );
 
 		siteMenuToggle.addEventListener( 'click', self.handleMobileNav );
+		document.addEventListener( 'keydown', self.handleEscapeKey, false );
+		document.addEventListener( 'click', self.handleClickOutSide, false );
 
 		if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 			navRoot.parentNode.setAttribute( 'aria-hidden', false );
@@ -171,19 +175,45 @@ class PrimaryNav extends PureComponent {
 	}
 
 	handleMobileNav( e ) {
-		if ( e ) {
-			e.preventDefault();
-			e.stopPropagation();
-		}
+		e.preventDefault();
 
 		const container = navRoot.parentNode;
-		container.classList.toggle( 'is-active' );
-		container.parentNode.parentNode.classList.toggle( 'menu-is-active' );
-		document.body.classList.toggle( '-lock' );
-		container.setAttribute(
-			'aria-hidden',
-			'false' === container.getAttribute( 'aria-hidden' )
-		);
+
+		if( !container.classList.contains( 'is-active' ) ) {
+			container.classList.add( 'is-active' );
+			container.parentNode.parentNode.classList.add( 'menu-is-active' );
+			document.body.classList.add( '-lock' );
+			container.setAttribute( 'aria-hidden', false );
+		} else {
+			container.classList.remove( 'is-active' );
+			container.parentNode.parentNode.classList.remove( 'menu-is-active' );
+			document.body.classList.remove( '-lock' );
+			container.setAttribute( 'aria-hidden', true );
+		}
+	}
+
+	handleEscapeKey( e ) {
+		const { keyCode } = e;
+		const container = navRoot.parentNode;
+
+		if( 27 === keyCode ) {
+			container.classList.remove( 'is-active' );
+			container.parentNode.parentNode.classList.remove( 'menu-is-active' );
+			document.body.classList.remove( '-lock' );
+			container.setAttribute( 'aria-hidden', true );
+		}
+	}
+
+	handleClickOutSide( e ) {
+		const { target } = e;
+		const container = navRoot.parentNode;
+
+		if( target !== siteMenuToggle && !container.contains( target ) ) {
+			container.classList.remove( 'is-active' );
+			container.parentNode.parentNode.classList.remove( 'menu-is-active' );
+			document.body.classList.remove( '-lock' );
+			container.setAttribute( 'aria-hidden', true );
+		}
 	}
 
 	detectScrollbar() {
