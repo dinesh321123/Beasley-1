@@ -55,8 +55,8 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
 		wp_script_add_data( 'googletag', 'async', true );
 
-		wp_register_script( 'firebase-app', '//www.gstatic.com/firebasejs/5.7.0/firebase-app.js', null, null, true );
-		wp_register_script( 'firebase-auth', '//www.gstatic.com/firebasejs/5.7.0/firebase-auth.js', array( 'firebase-app' ), null, true );
+		wp_register_script( 'firebase-app', '//www.gstatic.com/firebasejs/6.0.2/firebase-app.js', null, null, true );
+		wp_register_script( 'firebase-auth', '//www.gstatic.com/firebasejs/6.0.2/firebase-auth.js', array( 'firebase-app' ), null, true );
 
 		wp_register_script( 'intersection-observer', '//polyfill.io/v2/polyfill.min.js?features=IntersectionObserver', null, null, true );
 
