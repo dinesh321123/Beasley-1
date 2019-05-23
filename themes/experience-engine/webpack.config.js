@@ -137,7 +137,7 @@ function production() {
 	const config = {
 		...coreConfig( options ),
 		name: 'prod-config',
-		mode: 'development',
+		mode: 'production',
 	};
 
 	const concatenation = new ModuleConcatenationPlugin();

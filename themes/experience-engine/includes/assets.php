@@ -62,7 +62,6 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 		$react_version = '16';
 		$react_mode = $is_script_debug ? 'development' : 'production.min';
-		$react_mode = 'development';
 
 		wp_register_script( 'react', "//unpkg.com/react@{$react_version}/umd/react.{$react_mode}.js", null, null, true );
 		wp_script_add_data( 'react', 'crossorigin', true );
