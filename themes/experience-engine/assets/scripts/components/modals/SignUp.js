@@ -145,7 +145,10 @@ class SignUp extends PureComponent {
 
 				self.props.setDisplayName( userData.displayName );
 			} )
-			.then( () => self.props.close() )
+			.then( () => {
+				self.props.close();
+				window.location.reload();
+			} )
 			.catch( error => self.setState( { error: error.message } ) );
 	}
 
