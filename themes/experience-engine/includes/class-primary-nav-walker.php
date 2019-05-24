@@ -33,7 +33,11 @@ class PrimaryNavWalker extends \Walker_Nav_Menu {
 		$discovery->classes[] = 'menu-item-discovery';
 
 		$newelements = array( $newhome, $discovery );
-		$newelements = array_merge( $newelements, $elements );
+		foreach ( $elements as $index => $element ) {
+			if ( trailingslashit( $element->url ) !== $home ) {
+				$newelements[ $index ] = $element;
+			}
+		}
 
 		return parent::walk( $newelements, $max_depth, ...$args );
 	}

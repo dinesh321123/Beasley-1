@@ -124,20 +124,16 @@ class SignUp extends PureComponent {
 			return false;
 		}
 
+		if ( false === validateDate( bday ) ) {
+			self.setState( { error: 'Please ensure date is in MM/DD/YYYY format' } );
+			return false;
+		} else {
+			self.setState( { error: '' } );
+		}
+
 		if ( false === validateGender( gender ) ) {
 			self.setState( { error: 'Please select your gender.' } )
 			return false;
-		}
-
-		if( SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ) {
-			if( false === validateDate( bday ) ) {
-				self.setState( { error: 'Please ensure date is in MM/DD/YYYY format' } );
-				return false;
-			} else {
-				self.setState( { error: '' } );
-			}
-		} else {
-			self.setState( { error: '' } );
 		}
 
 		auth.createUserWithEmailAndPassword( emailAddress, password )
@@ -197,7 +193,14 @@ class SignUp extends PureComponent {
 						</div>
 						<div className="modal-form-group">
 							<label className="modal-form-label" htmlFor="user-bday">Birthday</label>
-							<input className="modal-form-field" type={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? 'text' : 'date' } id="user-bday" name="bday" value={bday} onChange={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? self.handleInputMask : self.onFieldChange } placeholder={ SignUp.detectSupportedDevices( 'supported' ) || SignUp.isMS() ? 'mm/dd/yyyy' : 'Enter your birthday' } />
+							<input
+								className="modal-form-field"
+								type="text"
+								id="user-bday"
+								name="bday"
+								value={bday}
+								onChange={ self.onFieldChange }
+								placeholder="mm/dd/yyyy" />
 						</div>
 					</div>
 
