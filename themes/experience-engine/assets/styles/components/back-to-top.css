@@ -18,7 +18,7 @@
 	z-index: 5;
 	font-size: 10px;
 
-	@media(--min-large-viewport) {
+	@media(--min-xlarge-viewport) {
 		bottom: 6.5rem;
 	}
 
