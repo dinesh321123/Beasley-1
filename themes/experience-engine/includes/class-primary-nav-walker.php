@@ -35,7 +35,7 @@ class PrimaryNavWalker extends \Walker_Nav_Menu {
 		$newelements = array( $newhome, $discovery );
 		foreach ( $elements as $index => $element ) {
 			if ( trailingslashit( $element->url ) !== $home ) {
-				$newelements[ $index ] = $element;
+				array_push( $newelements, $element );
 			}
 		}
 
