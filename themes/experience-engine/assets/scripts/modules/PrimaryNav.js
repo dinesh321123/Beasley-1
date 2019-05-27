@@ -131,13 +131,13 @@ class PrimaryNav extends PureComponent {
 			setNavigationCurrent( menuItem.id );
 			menuItem.classList.add( 'current-menu-item' );
 
-			/* Deselect the mobile menu (if open)
+			// Deselect the mobile menu (if open)
 			const mobileMenuToggle = document.getElementById( 'js-menu-toggle' );
 			const mobileMenuToggleStyle = window.getComputedStyle( mobileMenuToggle );
 
 			if ( 'none' !== mobileMenuToggleStyle.display ) {
 				mobileMenuToggle.click();
-			} */
+			}
 
 			if ( signedIn ) {
 				showDiscover();
