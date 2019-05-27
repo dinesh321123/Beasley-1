@@ -32,7 +32,7 @@ class PrimaryNav extends PureComponent {
 		self.onResize = self.onResize.bind( self );
 		self.detectScrollbar = self.detectScrollbar.bind( self );
 		self.handleEscapeKey = self.handleEscapeKey.bind( self );
-		// self.handleClickOutSide = self.handleClickOutSide.bind( self );
+		self.handleClickOutSide = self.handleClickOutSide.bind( self );
 
 		removeChildren( navRoot );
 	}
@@ -49,7 +49,7 @@ class PrimaryNav extends PureComponent {
 
 		siteMenuToggle.addEventListener( 'click', self.handleMobileNav );
 		document.addEventListener( 'keydown', self.handleEscapeKey );
-		// document.addEventListener( 'click', self.handleClickOutSide );
+		document.addEventListener( 'click', self.handleClickOutSide );
 
 		if ( window.matchMedia( '(min-width: 900px)' ).matches ) {
 			navRoot.parentNode.setAttribute( 'aria-hidden', false );
