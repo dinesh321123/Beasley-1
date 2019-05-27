@@ -14,8 +14,18 @@ the_post();
 	<?php endif; ?>
 
 	<header class="post-info">
-		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
+		<?php if ( ee_get_current_show() ) : ?>
+
+			<?php if ( bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
+
+				<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
+
+			<?php endif; ?>
+
+		<?php elseif ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
+
 			<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
+
 		<?php endif; ?>
 
 		<h1>
