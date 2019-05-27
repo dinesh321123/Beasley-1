@@ -12,7 +12,7 @@
 	}
 
 	@media(--min-large-viewport) {
-		bottom: 74px;
+		bottom: 100px;
 		margin-left: -1.1rem;
 		margin-right: -1.1rem;
 		max-width: 190px;
@@ -21,7 +21,11 @@
 		width: 100%
 	}
 
-	& .user-nav-image {
+	@media(--min-xlarge-viewport) {
+		bottom: 74px;
+	}
+
+		& .user-nav-image {
 		align-self: center;
 
 		& img {

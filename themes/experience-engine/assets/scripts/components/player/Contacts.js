@@ -86,7 +86,7 @@ class Contacts extends PureComponent {
 		}
 
 		return (
-			<div ref={self.contactModalRef} className={`controls-contact control-border ${isOpen ? ' -open' : ''}`} style={modalStyle}>
+			<div ref={self.contactModalRef} className={`controls-contact control-border ${isOpen ? ' -open' : ''}`}>
 				<button onClick={self.onToggle}>
 					<svg width="22" height="22" viewBox="0 0 22 22" fill="none" role="img" aria-labelledby="contact-icon-title contact-icon-desc" xmlns="http://www.w3.org/2000/svg">
 						<title id="contact-icon-title">Contacts</title>
