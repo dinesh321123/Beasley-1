@@ -30,6 +30,10 @@
 		endif;
 
 		?><div class="container">
+			<div class="new-test-range-input">
+				<span>Test Input</span>
+				<input type="range" />
+			</div>
 			<main id="content" class="content">
 				<?php do_action( 'show_breaking_news_banner' ); ?>
 				<?php
