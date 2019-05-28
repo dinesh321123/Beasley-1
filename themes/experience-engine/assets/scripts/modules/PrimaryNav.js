@@ -191,27 +191,51 @@ class PrimaryNav extends PureComponent {
 	}
 
 	handleEscapeKey( e ) {
+		if( e ) {
 
-		if( 27 === e.keyCode ) {
+			if( 27 === e.keyCode ) {
+				e.preventDefault();
+				e.stopPropagation();
 
-			if ( ! window.matchMedia( '(min-width: 900px)' ).matches ) {
-				siteMenuToggle.click();
-			} else {
-				return false;
+				if ( ! window.matchMedia( '(min-width: 900px)' ).matches ) {
+					const container = navRoot.parentNode;
+					container.classList.remove( 'is-active' );
+					container.parentNode.parentNode.classList.remove( 'menu-is-active' );
+					document.body.classList.remove( '-lock' );
+					container.setAttribute(
+						'aria-hidden',
+						'true'
+					);
+				} else {
+					return false;
+				}
 			}
 		}
+
 	}
 
 	handleClickOutSide( e ) {
 		const container = navRoot.parentNode;
 
-		if ( e.target !== siteMenuToggle && !container.contains( e.target ) ) {
-			if ( ! window.matchMedia( '(min-width: 900px)' ).matches ) {
-				siteMenuToggle.click();
-			} else {
-				return false;
+		if( e ) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			if ( e.target !== siteMenuToggle && !container.contains( e.target ) ) {
+				if ( ! window.matchMedia( '(min-width: 900px)' ).matches ) {
+					container.classList.remove( 'is-active' );
+					container.parentNode.parentNode.classList.remove( 'menu-is-active' );
+					document.body.classList.remove( '-lock' );
+					container.setAttribute(
+						'aria-hidden',
+						'true'
+					);
+				} else {
+					return false;
+				}
 			}
 		}
+
 	}
 
 	detectScrollbar() {
