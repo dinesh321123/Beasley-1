@@ -8,6 +8,12 @@ the_post();
 ?><div id="post-<?php the_ID(); ?>" <?php post_class( 'single' ); ?>>
 
 	<?php if ( ee_get_current_show() ) : ?>
+		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) ) : ?>
+			<header class="post-info">
+				<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
+			</header>
+		<?php endif; ?>
+
 		<div class="content-wrap">
 			<?php get_template_part( 'partials/show/header' ); ?>
 		</div>
