@@ -31,8 +31,7 @@ class Discovery extends PureComponent {
 		}
 
 		if ( navWrapper ) {
-			navWrapper.remove( 'is-active' );
-			navWrapper.setAttribute( 'aria-hidden', 'true' );
+			navWrapper.classList.remove( 'is-active' );
 		}
 
 		if ( signedIn ) {
