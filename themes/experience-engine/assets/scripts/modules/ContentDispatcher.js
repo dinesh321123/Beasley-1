@@ -219,9 +219,9 @@ class ContentDispatcher extends Component {
 
 	handlePageChange(event) {
 		if (event && event.state) {
-			const { uuid, pageXOffset, pageYOffset } = event.state;
+			const { uuid = null, pageXOffset, pageYOffset } = event.state;
 			// @note: Grab `data` from redux based off of `uuid` from event.state
-			const { data } = this.props.history[uuid];
+			const { data = "" } = this.props.history[uuid];
 			// update content state
 			this.props.updatePage(data);
 			// scroll to the top of the page and remove modal (one way or other)
