@@ -9,16 +9,18 @@ import {
 	ACTION_LOADED_PARTIAL,
 	ACTION_LOAD_ERROR,
 	ACTION_HIDE_SPLASH_SCREEN,
+	ACTION_HISTORY_HTML_SNAPSHOT
 } from '../actions/screen';
 
 export const DEFAULT_STATE = {
-	url: false,
-	scripts: {},
-	embeds: [],
 	content: '',
-	partials: {},
+	embeds: [],
 	error: '',
+	history: [],
+	partials: {},
+	scripts: {},
 	splashScreen: true,
+	url: false
 };
 
 function manageScripts( load, unload ) {
@@ -75,9 +77,9 @@ function reducer( state = {}, action = {} ) {
 
 			return {
 				...state,
-				embeds: action.embeds,
 				content: action.content,
-				scripts: action.scripts,
+				embeds: action.embeds,
+				scripts: action.scripts
 			};
 
 		case ACTION_LOADING_PARTIAL:
@@ -110,11 +112,11 @@ function reducer( state = {}, action = {} ) {
 
 			return {
 				...state,
-				scripts: action.scripts,
-				embeds: action.embeds,
 				content: action.content,
+				embeds: action.embeds,
 				error: '',
 				partials: {},
+				scripts: action.scripts
 			};
 		}
 
@@ -137,18 +139,30 @@ function reducer( state = {}, action = {} ) {
 					...state.partials,
 					[action.placeholder]: {
 						content: action.content,
-						embeds: action.embeds,
-					},
-				},
+						embeds: action.embeds
+					}
+				}
 			};
 		}
 
 		case ACTION_LOAD_ERROR:
 			return { ...state, error: action.error };
-	
+
 		case ACTION_HIDE_SPLASH_SCREEN:
 			hideSplashScreen();
 			return { ...state, splashScreen: false };
+
+		case ACTION_HISTORY_HTML_SNAPSHOT:
+			return {
+				...state,
+				history: {
+					...state.history,
+					[action.uuid]: {
+						id: action.uuid,
+						data: action.data
+					}
+				}
+			};
 
 		default:
 			// do nothing

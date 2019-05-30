@@ -8,18 +8,19 @@ import md5 from 'md5';
 import ErrorBoundary from '../components/ErrorBoundary';
 import ContentBlock from '../components/content/ContentBlock';
 
-import { initPage, loadPage, updatePage } from '../redux/actions/screen';
+import {
+	initPage,
+	initPageHistory,
+	loadPage,
+	updatePage
+} from '../redux/actions/screen';
+
 import { loadAssets, unloadScripts } from '../library/dom';
 import { untrailingslashit } from '../library/strings';
 
-const specialPages = [
-	'/wp-admin/',
-	'/wp-signup.php',
-	'/wp-login.php',
-];
+const specialPages = ['/wp-admin/', '/wp-signup.php', '/wp-login.php'];
 
 class ContentDispatcher extends Component {
-
 	constructor( props ) {
 		super( props );
 
@@ -38,15 +39,19 @@ class ContentDispatcher extends Component {
 
 		// replace current state with proper markup
 		const { history, location, pageXOffset, pageYOffset } = window;
-		const state = { data: document.documentElement.outerHTML, pageXOffset, pageYOffset };
-
-		var isFirefox = -1 < window.navigator.userAgent.toLowerCase().indexOf( 'firefox' );
-		if ( ! isFirefox ) {
-			history.replaceState( state, document.title, location.href );
-		}
+		// @temp unique identifier
+		const uuid = Math.floor( Date.now() / 1000 );
+		const data = document.documentElement.outerHTML;
+		const state = {
+			uuid,
+			pageXOffset,
+			pageYOffset
+		};
+		history.replaceState( state, document.title, location.href );
 
 		// load current page into the state
-		self.props.init();
+		self.props.initPage();
+		self.props.initPageHistory( uuid, data );
 		self.handleSliderLoad();
 	}
 
@@ -76,11 +81,11 @@ class ContentDispatcher extends Component {
 		const carousels = document.querySelectorAll( '.swiper-container' );
 
 		const scripts = [
-			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/js/swiper.min.js',
+			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/js/swiper.min.js'
 		];
 
 		const styles = [
-			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css',
+			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css'
 		];
 
 		if ( carousels.length ) {
@@ -101,7 +106,9 @@ class ContentDispatcher extends Component {
 				const count = carousels[i].classList.contains( '-large' ) ? 2.2 : 4.2;
 				const group = carousels[i].classList.contains( '-large' ) ? 2 : 4;
 
-				new Swiper(carousels[i], { // eslint-disable-line
+				// @note This comes from handleSliderLoad
+				// eslint-disable-next-line no-undef
+				new Swiper( carousels[i], {
 					slidesPerView: count + 2,
 					slidesPerGroup: group + 2,
 					spaceBetween: 36,
@@ -109,26 +116,26 @@ class ContentDispatcher extends Component {
 					breakpoints: {
 						1680: {
 							slidesPerView: count + 1,
-							slidesPerGroup: count + 1,
+							slidesPerGroup: count + 1
 						},
 						1280: {
 							slidesPerView: count,
-							slidesPerGroup: group,
+							slidesPerGroup: group
 						},
 						900: {
 							slidesPerView: 2.2,
-							slidesPerGroup: 2,
+							slidesPerGroup: 2
 						},
 						480: {
 							slidesPerView: 1.2,
 							slidesPerGroup: 1,
-							spaceBetween: 27,
+							spaceBetween: 27
 						}
 					},
 					navigation: {
 						nextEl: '.swiper-button-next',
-						prevEl: '.swiper-button-prev',
-					},
+						prevEl: '.swiper-button-prev'
+					}
 				} );
 			}
 		}
@@ -136,7 +143,7 @@ class ContentDispatcher extends Component {
 
 	handleClick( e ) {
 		const self = this;
-		const { load } = self.props;
+		const { loadPage } = self.props;
 
 		const { target } = e;
 		let linkNode = target;
@@ -167,7 +174,7 @@ class ContentDispatcher extends Component {
 		}
 
 		// return if different origin or a relative link that doesn't start from forward slash
-		if ( ( origin !== linkOrigin && !link.match( /^\/\w+/ ) ) ) {
+		if ( origin !== linkOrigin && !link.match( /^\/\w+/ ) ) {
 			return;
 		}
 
@@ -183,32 +190,40 @@ class ContentDispatcher extends Component {
 		// load user homepage if token is not empty and the next page is a homepage
 		// otherwise just load the next page
 		const auth = firebase.auth();
-		if ( untrailingslashit( origin ) === untrailingslashit( link.split( /[?#]/ )[0] ) && auth.currentUser ) {
+		if (
+			untrailingslashit( origin ) === untrailingslashit( link.split( /[?#]/ )[0] ) &&
+			auth.currentUser
+		) {
 			auth.currentUser
 				.getIdToken()
 				.then( token => {
-					load( link, {
-						fetchUrlOverride: `${window.bbgiconfig.wpapi}feeds-content?device=other`,
+					loadPage( link, {
+						fetchUrlOverride: `${
+							window.bbgiconfig.wpapi
+						}feeds-content?device=other`,
 						fetchParams: {
 							method: 'POST',
 							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-							body: `format=raw&authorization=${encodeURIComponent( token )}`,
-						},
+							body: `format=raw&authorization=${encodeURIComponent( token )}`
+						}
 					} );
 				} )
 				.catch( () => {
-					load( link );
+					loadPage( link );
 				} );
 		} else {
-			load( link );
+			loadPage( link );
 		}
 	}
 
 	handlePageChange( event ) {
+		console.dir( 'handlePageChange => event' );
 		if ( event && event.state ) {
-			const { data, pageXOffset, pageYOffset } = event.state;
+			const { uuid, pageXOffset, pageYOffset } = event.state;
+			// @jerome: Grab `data` from redux based off of `uuid` from event.state
+			const { data } = this.props.history[uuid];
 			// update content state
-			this.props.update( data );
+			this.props.updatePage( data );
 			// scroll to the top of the page
 			setTimeout( () => window.scrollTo( pageXOffset, pageYOffset ), 100 );
 		}
@@ -229,7 +244,7 @@ class ContentDispatcher extends Component {
 			</ErrorBoundary>
 		);
 
-		Object.keys( partials ).forEach( ( key ) => {
+		Object.keys( partials ).forEach( key => {
 			blocks.push(
 				<ErrorBoundary key={key}>
 					<ContentBlock {...partials[key]} partial />
@@ -239,32 +254,41 @@ class ContentDispatcher extends Component {
 
 		return blocks;
 	}
-
 }
 
 ContentDispatcher.propTypes = {
 	content: PropTypes.string.isRequired,
 	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	history: PropTypes.arrayOf( PropTypes.object ),
 	partials: PropTypes.shape( {} ).isRequired,
-	init: PropTypes.func.isRequired,
-	load: PropTypes.func.isRequired,
-	update: PropTypes.func.isRequired,
+	initPage: PropTypes.func.isRequired,
+	initPageHistory: PropTypes.func.isRequired,
+	loadPage: PropTypes.func.isRequired,
+	updatePage: PropTypes.func.isRequired
 };
 
 function mapStateToProps( { screen } ) {
 	return {
+		history: screen.history,
 		content: screen.content,
 		embeds: screen.embeds,
-		partials: screen.partials,
+		partials: screen.partials
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		init: initPage,
-		load: loadPage,
-		update: updatePage,
-	}, dispatch );
+	return bindActionCreators(
+		{
+			initPage,
+			initPageHistory,
+			loadPage,
+			updatePage
+		},
+		dispatch
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( ContentDispatcher );
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)( ContentDispatcher );

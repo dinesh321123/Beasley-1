@@ -6,26 +6,38 @@ import { pageview } from '../../library/google-analytics';
  * We use this approach to minify action names in the production bundle and have
  * human friendly actions in the dev bundle. Use "s{x}" format to create new actions.
  */
-export const ACTION_INIT_PAGE          = 'production' === process.env.NODE_ENV ? 's0' : 'PAGE_INIT';
-export const ACTION_LOADING_PAGE       = 'production' === process.env.NODE_ENV ? 's1' : 'PAGE_LOADING';
-export const ACTION_LOADED_PAGE        = 'production' === process.env.NODE_ENV ? 's2' : 'PAGE_LOADED';
-export const ACTION_LOADING_PARTIAL    = 'production' === process.env.NODE_ENV ? 's3' : 'PARTIAL_LOADING';
-export const ACTION_LOADED_PARTIAL     = 'production' === process.env.NODE_ENV ? 's4' : 'PARTIAL_LOADED';
-export const ACTION_LOAD_ERROR         = 'production' === process.env.NODE_ENV ? 's5' : 'LOADING_ERROR';
-export const ACTION_HIDE_SPLASH_SCREEN = 'production' === process.env.NODE_ENV ? 's6' : 'HIDE_SPLASH_SCREEN';
+export const ACTION_INIT_PAGE =
+	'production' === process.env.NODE_ENV ? 's0' : 'PAGE_INIT';
+export const ACTION_LOADING_PAGE =
+	'production' === process.env.NODE_ENV ? 's1' : 'PAGE_LOADING';
+export const ACTION_LOADED_PAGE =
+	'production' === process.env.NODE_ENV ? 's2' : 'PAGE_LOADED';
+export const ACTION_LOADING_PARTIAL =
+	'production' === process.env.NODE_ENV ? 's3' : 'PARTIAL_LOADING';
+export const ACTION_LOADED_PARTIAL =
+	'production' === process.env.NODE_ENV ? 's4' : 'PARTIAL_LOADED';
+export const ACTION_LOAD_ERROR =
+	'production' === process.env.NODE_ENV ? 's5' : 'LOADING_ERROR';
+export const ACTION_HIDE_SPLASH_SCREEN =
+	'production' === process.env.NODE_ENV ? 's6' : 'HIDE_SPLASH_SCREEN';
+export const ACTION_HISTORY_HTML_SNAPSHOT =
+	'production' === process.env.NODE_ENV ? 's7' : 'HTML_STATE';
 
 export function initPage() {
 	const content = document.getElementById( 'content' );
 	const parsed = getStateFromContent( content );
-
 	// clean up content block for now, it will be poplated in the render function
 	removeChildren( content );
 
 	return { type: ACTION_INIT_PAGE, ...parsed };
 }
 
+export function initPageHistory( uuid, data ) {
+	return { type: ACTION_HISTORY_HTML_SNAPSHOT, uuid, data };
+}
+
 export function loadPage( url, options = {} ) {
-	return ( dispatch ) => {
+	return dispatch => {
 		const { history, location, pageXOffset, pageYOffset } = window;
 
 		dispatch( { type: ACTION_LOADING_PAGE, url } );
@@ -39,9 +51,21 @@ export function loadPage( url, options = {} ) {
 			const parsed = parseHtml( data );
 			const pageDocument = parsed.document;
 
+			// @temp unique identifier
+			const uuid = Math.floor( Date.now() / 1000 );
+
 			if ( !options.suppressHistory ) {
-				history.replaceState( { ...history.state, pageXOffset, pageYOffset }, document.title, location.href );
-				history.pushState( { data, pageXOffset: 0, pageYOffset: 0 }, pageDocument.title, url );
+				history.replaceState(
+					{ ...history.state, pageXOffset, pageYOffset },
+					document.title,
+					location.href
+				);
+				history.pushState(
+					{ uuid, pageXOffset: 0, pageYOffset: 0 },
+					pageDocument.title,
+					url
+				);
+				dispatch( { type: ACTION_HISTORY_HTML_SNAPSHOT, uuid, data } );
 
 				dispatchEvent( 'pushstate' );
 				pageview( pageDocument.title, window.location.href );
@@ -70,12 +94,12 @@ export function updatePage( data ) {
 	return {
 		type: ACTION_LOADED_PAGE,
 		force: true,
-		...parsed,
+		...parsed
 	};
 }
 
 export function loadPartialPage( url, placeholder ) {
-	return ( dispatch ) => {
+	return dispatch => {
 		dispatch( { type: ACTION_LOADING_PARTIAL, url } );
 
 		function onError( error ) {
@@ -102,8 +126,9 @@ export function hideSplashScreen() {
 
 export default {
 	initPage,
+	initPageHistory,
 	loadPage,
 	updatePage,
 	loadPartialPage,
-	hideSplashScreen,
+	hideSplashScreen
 };
