@@ -1,107 +1,116 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import firebase from 'firebase';
-import md5 from 'md5';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import firebase from "firebase";
+import md5 from "md5";
 
-import ErrorBoundary from '../components/ErrorBoundary';
-import ContentBlock from '../components/content/ContentBlock';
+import ErrorBoundary from "../components/ErrorBoundary";
+import ContentBlock from "../components/content/ContentBlock";
 
-import { initPage, loadPage, updatePage } from '../redux/actions/screen';
-import { loadAssets, unloadScripts } from '../library/dom';
-import { untrailingslashit } from '../library/strings';
+import { hideModal } from "../redux/actions/modal";
 
-const specialPages = [
-	'/wp-admin/',
-	'/wp-signup.php',
-	'/wp-login.php',
-];
+import {
+	initPage,
+	initPageHistory,
+	loadPage,
+	updatePage
+} from "../redux/actions/screen";
+
+import { loadAssets, unloadScripts } from "../library/dom";
+import { untrailingslashit } from "../library/strings";
+
+const specialPages = ["/wp-admin/", "/wp-signup.php", "/wp-login.php"];
 
 class ContentDispatcher extends Component {
-
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
 		const self = this;
-		self.onClick = self.handleClick.bind( self );
-		self.onPageChange = self.handlePageChange.bind( self );
-		self.handleSliders = self.handleSliders.bind( self );
-		self.handleSliderLoad = self.handleSliderLoad.bind( self );
+		self.onClick = self.handleClick.bind(self);
+		self.onPageChange = self.handlePageChange.bind(self);
+		self.handleSliders = self.handleSliders.bind(self);
+		self.handleSliderLoad = self.handleSliderLoad.bind(self);
 	}
 
 	componentDidMount() {
 		const self = this;
 
-		window.addEventListener( 'click', self.onClick );
-		window.addEventListener( 'popstate', self.onPageChange );
+		window.addEventListener("click", self.onClick);
+		window.addEventListener("popstate", self.onPageChange);
 
 		// replace current state with proper markup
 		const { history, location, pageXOffset, pageYOffset } = window;
-		const state = { data: document.documentElement.outerHTML, pageXOffset, pageYOffset };
-
-		var isFirefox = -1 < window.navigator.userAgent.toLowerCase().indexOf( 'firefox' );
-		if ( ! isFirefox ) {
-			history.replaceState( state, document.title, location.href );
-		}
+		// @temp unique identifier
+		const uuid = Math.floor(Date.now() / 1000);
+		const data = document.documentElement.outerHTML;
+		const state = {
+			uuid,
+			pageXOffset,
+			pageYOffset
+		};
+		history.replaceState(state, document.title, location.href);
 
 		// load current page into the state
-		self.props.init();
+		self.props.initPage();
+		self.props.initPageHistory(uuid, data);
 		self.handleSliderLoad();
 	}
 
 	componentDidUpdate() {
 		const self = this;
-		const element = document.querySelector( '.scroll-to' );
-		if ( element ) {
+		const element = document.querySelector(".scroll-to");
+		if (element) {
 			let top = element.offsetTop;
 
-			const wpadminbar = document.querySelector( '#wpadminbar' );
-			if ( wpadminbar ) {
+			const wpadminbar = document.querySelector("#wpadminbar");
+			if (wpadminbar) {
 				top -= wpadminbar.offsetHeight;
 			}
 
-			setTimeout( () => window.scrollTo( 0, top ), 500 );
+			setTimeout(() => window.scrollTo(0, top), 500);
 		}
 		self.handleSliderLoad();
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener( 'click', this.onClick );
-		window.removeEventListener( 'popstate', this.onPageChange );
+		window.removeEventListener("click", this.onClick);
+		window.removeEventListener("popstate", this.onPageChange);
 	}
 
 	handleSliderLoad() {
 		const self = this;
-		const carousels = document.querySelectorAll( '.swiper-container' );
+		const carousels = document.querySelectorAll(".swiper-container");
 
 		const scripts = [
-			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/js/swiper.min.js',
+			"https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/js/swiper.min.js"
 		];
 
 		const styles = [
-			'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css',
+			"https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.2/css/swiper.min.css"
 		];
 
-		if ( carousels.length ) {
-			loadAssets( scripts, styles )
-				.then( self.handleSliders.bind( self ) )
-				.catch( error => console.error( error ) ); // eslint-disable-line no-console
+		if (carousels.length) {
+			loadAssets(scripts, styles)
+				.then(self.handleSliders.bind(self))
+				.catch(error => console.error(error)); // eslint-disable-line no-console
 		} else {
-			unloadScripts( scripts );
-			unloadScripts( styles );
+			unloadScripts(scripts);
+			unloadScripts(styles);
 		}
 	}
 
 	handleSliders() {
-		const carousels = document.querySelectorAll( '.swiper-container' );
+		const carousels = document.querySelectorAll(".swiper-container");
 
-		if ( carousels ) {
-			for ( let i = 0, len = carousels.length; i < len; i++ ) {
-				const count = carousels[i].classList.contains( '-large' ) ? 2.2 : 4.2;
-				const group = carousels[i].classList.contains( '-large' ) ? 2 : 4;
+		if (carousels) {
+			for (let i = 0, len = carousels.length; i < len; i++) {
+				const count = carousels[i].classList.contains("-large") ? 2.2 : 4.2;
+				const group = carousels[i].classList.contains("-large") ? 2 : 4;
 
-				new Swiper(carousels[i], { // eslint-disable-line
+				// @note This comes from handleSliderLoad
+				// eslint-disable-next-line no-undef
+				new Swiper(carousels[i], {
 					slidesPerView: count + 2,
 					slidesPerGroup: group + 2,
 					spaceBetween: 36,
@@ -109,70 +118,70 @@ class ContentDispatcher extends Component {
 					breakpoints: {
 						1680: {
 							slidesPerView: count + 1,
-							slidesPerGroup: count + 1,
+							slidesPerGroup: count + 1
 						},
 						1280: {
 							slidesPerView: count,
-							slidesPerGroup: group,
+							slidesPerGroup: group
 						},
 						900: {
 							slidesPerView: 2.2,
-							slidesPerGroup: 2,
+							slidesPerGroup: 2
 						},
 						480: {
 							slidesPerView: 1.2,
 							slidesPerGroup: 1,
-							spaceBetween: 27,
+							spaceBetween: 27
 						}
 					},
 					navigation: {
-						nextEl: '.swiper-button-next',
-						prevEl: '.swiper-button-prev',
-					},
-				} );
+						nextEl: ".swiper-button-next",
+						prevEl: ".swiper-button-prev"
+					}
+				});
 			}
 		}
 	}
 
-	handleClick( e ) {
+	handleClick(e) {
 		const self = this;
-		const { load } = self.props;
+		const { loadPage } = self.props;
 
 		const { target } = e;
 		let linkNode = target;
 
 		// find if a click has been made by an anchor or an element that is a child of an anchor
-		while ( linkNode && 'A' !== linkNode.nodeName.toUpperCase() ) {
+		while (linkNode && "A" !== linkNode.nodeName.toUpperCase()) {
 			linkNode = linkNode.parentElement;
 		}
 
 		// do nothing if anchor is not found
-		if ( !linkNode ) {
+		if (!linkNode) {
 			return;
 		}
 
 		// do nothing if this link has to be opened in a new window
-		if ( '_blank' === linkNode.getAttribute( 'target' ) ) {
+		if ("_blank" === linkNode.getAttribute("target")) {
 			return;
 		}
 
 		const { location } = window;
 		const { origin } = location;
 
-		const link = linkNode.getAttribute( 'href' );
-		const linkOrigin = link.substring( 0, origin.length );
+		const link = linkNode.getAttribute("href");
+		const linkOrigin = link.substring(0, origin.length);
 
-		if ( link.match( /\.(pdf|doc|docx)$/ ) ) {
+		if (link.match(/\.(pdf|doc|docx)$/)) {
 			return;
 		}
 
 		// return if different origin or a relative link that doesn't start from forward slash
-		if ( ( origin !== linkOrigin && !link.match( /^\/\w+/ ) ) ) {
+		if (origin !== linkOrigin && !link.match(/^\/\w+/)) {
 			return;
 		}
 
 		// return if it is an admin link or a link to a special page
-		if ( specialPages.find( url => -1 < link.indexOf( url ) ) ) {
+		if (specialPages.find(url => -1 < link.indexOf(url))) {
 			return;
 		}
 
@@ -183,34 +192,43 @@ class ContentDispatcher extends Component {
 		// load user homepage if token is not empty and the next page is a homepage
 		// otherwise just load the next page
 		const auth = firebase.auth();
-		if ( untrailingslashit( origin ) === untrailingslashit( link.split( /[?#]/ )[0] ) && auth.currentUser ) {
+		if (
+			untrailingslashit(origin) === untrailingslashit(link.split(/[?#]/)[0]) &&
+			auth.currentUser
+		) {
 			auth.currentUser
 				.getIdToken()
-				.then( token => {
-					load( link, {
-						fetchUrlOverride: `${window.bbgiconfig.wpapi}feeds-content?device=other`,
+				.then(token => {
+					loadPage(link, {
+						fetchUrlOverride: `${
+							window.bbgiconfig.wpapi
+						}feeds-content?device=other`,
 						fetchParams: {
-							method: 'POST',
-							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-							body: `format=raw&authorization=${encodeURIComponent( token )}`,
-						},
-					} );
-				} )
-				.catch( () => {
-					load( link );
-				} );
+							method: "POST",
+							headers: { "Content-Type": "application/x-www-form-urlencoded" },
+							body: `format=raw&authorization=${encodeURIComponent(token)}`
+						}
+					});
+				})
+				.catch(() => {
+					loadPage(link);
+				});
 		} else {
-			load( link );
+			loadPage(link);
 		}
 	}
 
-	handlePageChange( event ) {
-		if ( event && event.state ) {
-			const { data, pageXOffset, pageYOffset } = event.state;
+	handlePageChange(event) {
+		console.dir("handlePageChange => event");
+		if (event && event.state) {
+			const { uuid, pageXOffset, pageYOffset } = event.state;
+			// @jerome: Grab `data` from redux based off of `uuid` from event.state
+			const { data } = this.props.history[uuid];
 			// update content state
-			this.props.update( data );
+			this.props.updatePage(data);
 			// scroll to the top of the page
-			setTimeout( () => window.scrollTo( pageXOffset, pageYOffset ), 100 );
+			setTimeout(() => window.scrollTo(pageXOffset, pageYOffset), 100);
+			this.props.hideModal();
 		}
 	}
 
@@ -218,55 +236,66 @@ class ContentDispatcher extends Component {
 		const { content, embeds, partials, isHome } = this.props;
 		const blocks = [];
 
-		if ( !content || !content.length ) {
+		if (!content || !content.length) {
 			return false;
 		}
 
 		blocks.push(
 			// the composed ke is needed to make sure we use a new ContentBlock component when we replace the content of the current page
-			<ErrorBoundary key={`${window.location.href}-${md5( content )}`}>
+			<ErrorBoundary key={`${window.location.href}-${md5(content)}`}>
 				<ContentBlock content={content} embeds={embeds} isHome={isHome} />,
 			</ErrorBoundary>
 		);
 
-		Object.keys( partials ).forEach( ( key ) => {
+		Object.keys(partials).forEach(key => {
 			blocks.push(
 				<ErrorBoundary key={key}>
 					<ContentBlock {...partials[key]} partial />
 				</ErrorBoundary>
 			);
-		} );
+		});
 
 		return blocks;
 	}
-
 }
 
 ContentDispatcher.propTypes = {
 	content: PropTypes.string.isRequired,
-	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
-	partials: PropTypes.shape( {} ).isRequired,
-	init: PropTypes.func.isRequired,
-	load: PropTypes.func.isRequired,
-	update: PropTypes.func.isRequired,
+	embeds: PropTypes.arrayOf(PropTypes.object).isRequired,
+	history: PropTypes.arrayOf(PropTypes.object),
+	partials: PropTypes.shape({}).isRequired,
+	hideModal: PropTypes.func.isRequired,
+	initPage: PropTypes.func.isRequired,
+	initPageHistory: PropTypes.func.isRequired,
 	isHome: PropTypes.bool.isRequired,
+	loadPage: PropTypes.func.isRequired,
+	updatePage: PropTypes.func.isRequired
 };
 
-function mapStateToProps( { screen } ) {
+function mapStateToProps({ screen }) {
 	return {
+		history: screen.history,
 		content: screen.content,
 		embeds: screen.embeds,
-		partials: screen.partials,
 		isHome: screen.isHome,
+		partials: screen.partials
 	};
 }
 
-function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		init: initPage,
-		load: loadPage,
-		update: updatePage,
-	}, dispatch );
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			hideModal,
+			initPage,
+			initPageHistory,
+			loadPage,
+			updatePage
+		},
+		dispatch
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( ContentDispatcher );
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(ContentDispatcher);
