@@ -19,7 +19,6 @@ import { modifyUserFeeds, deleteUserFeed } from '../../redux/actions/auth';
 import { loadPage } from '../../redux/actions/screen';
 
 class Discover extends Component {
-
 	constructor( props ) {
 		super( props );
 
@@ -104,15 +103,18 @@ class Discover extends Component {
 		if ( self.needReload && document.body.classList.contains( 'home' ) ) {
 			const auth = firebase.auth();
 
-			auth.currentUser.getIdToken().then( ( token ) => {
-				self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
-					suppressHistory: true,
-					fetchParams: {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-						body: `format=raw&authorization=${encodeURIComponent( token )}`,
+			auth.currentUser.getIdToken().then( token => {
+				self.props.loadPage(
+					`${window.bbgiconfig.wpapi}feeds-content?device=other`,
+					{
+						suppressHistory: true,
+						fetchParams: {
+							method: 'POST',
+							headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+							body: `format=raw&authorization=${encodeURIComponent( token )}`,
+						},
 					},
-				} );
+				);
 			} );
 		}
 
@@ -128,7 +130,7 @@ class Discover extends Component {
 		let items = <div className="loading" />;
 		if ( !loading ) {
 			if ( 0 < filteredFeeds.length ) {
-				items = filteredFeeds.map( ( item ) => {
+				items = filteredFeeds.map( item => {
 					const { id, title, picture, type } = item;
 
 					return (
@@ -140,7 +142,8 @@ class Discover extends Component {
 							type={type}
 							onAdd={self.onAdd}
 							onRemove={self.onRemove}
-							added={self.hasFeed( item.id )} />
+							added={self.hasFeed( item.id )}
+						/>
 					);
 				} );
 			} else {
@@ -162,14 +165,11 @@ class Discover extends Component {
 
 					<Alert message={error} />
 
-					<div className="archive-tiles -small -grid">
-						{items}
-					</div>
+					<div className="archive-tiles -small -grid">{items}</div>
 				</div>
 			</Fragment>
 		);
 	}
-
 }
 
 Discover.propTypes = {
@@ -185,16 +185,22 @@ Discover.propTypes = {
 function mapStateToProps( { auth, screen } ) {
 	return {
 		selectedFeeds: auth.feeds,
-		notice: screen.notice
+		notice: screen.notice,
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		loadPage,
-		modifyUserFeeds,
-		deleteUserFeed,
-	}, dispatch );
+	return bindActionCreators(
+		{
+			loadPage,
+			modifyUserFeeds,
+			deleteUserFeed,
+		},
+		dispatch,
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( trapHOC()( Discover ) );
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)( trapHOC()( Discover ) );

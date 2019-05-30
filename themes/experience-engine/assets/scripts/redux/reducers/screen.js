@@ -1,6 +1,6 @@
-import NProgress from "nprogress";
+import NProgress from 'nprogress';
 
-import { loadAssets, unloadScripts } from "../../library/dom";
+import { loadAssets, unloadScripts } from '../../library/dom';
 import {
 	ACTION_INIT_PAGE,
 	ACTION_LOADING_PARTIAL,
@@ -10,13 +10,13 @@ import {
 	ACTION_LOAD_ERROR,
 	ACTION_UPDATE_NOTICE,
 	ACTION_HIDE_SPLASH_SCREEN,
-	ACTION_HISTORY_HTML_SNAPSHOT
-} from "../actions/screen";
+	ACTION_HISTORY_HTML_SNAPSHOT,
+} from '../actions/screen';
 
 export const DEFAULT_STATE = {
-	content: "",
+	content: '',
 	embeds: [],
-	error: "",
+	error: '',
 	history: [],
 	isHome: false,
 	partials: {},
@@ -25,38 +25,38 @@ export const DEFAULT_STATE = {
 	url: false,
 	notice: {
 		isOpen: false,
-		message: ""
-	}
+		message: '',
+	},
 };
 
-function manageScripts(load, unload) {
+function manageScripts( load, unload ) {
 	// remove scripts loaded on the previous page
-	unloadScripts(Object.keys(unload));
+	unloadScripts( Object.keys( unload ) );
 
 	// a workaround to make sure Facebook embeds work properly
 	delete window.FB;
 	window.FB = null;
 
 	// load scripts for the new page
-	loadAssets(Object.keys(load));
+	loadAssets( Object.keys( load ) );
 }
 
-function manageBbgiConfig(pageDocument) {
+function manageBbgiConfig( pageDocument ) {
 	let newconfig = {};
 
 	try {
-		newconfig = JSON.parse(pageDocument.getElementById("bbgiconfig").innerHTML);
+		newconfig = JSON.parse( pageDocument.getElementById( 'bbgiconfig' ).innerHTML );
 
 		const { googletag } = window;
 		const { dfp } = newconfig;
 
-		if (dfp && Array.isArray(dfp.global)) {
+		if ( dfp && Array.isArray( dfp.global ) ) {
 			googletag.pubads().clearTargeting();
-			for (let i = 0, pairs = dfp.global; i < pairs.length; i++) {
-				googletag.pubads().setTargeting(pairs[i][0], pairs[i][1]);
+			for ( let i = 0, pairs = dfp.global; i < pairs.length; i++ ) {
+				googletag.pubads().setTargeting( pairs[i][0], pairs[i][1] );
 			}
 		}
-	} catch (err) {
+	} catch ( err ) {
 		// do nothing
 	}
 
@@ -64,28 +64,28 @@ function manageBbgiConfig(pageDocument) {
 }
 
 function hideSplashScreen() {
-	setTimeout(() => {
-		const splashScreen = document.getElementById("splash-screen");
-		if (splashScreen) {
-			splashScreen.parentNode.removeChild(splashScreen);
+	setTimeout( () => {
+		const splashScreen = document.getElementById( 'splash-screen' );
+		if ( splashScreen ) {
+			splashScreen.parentNode.removeChild( splashScreen );
 		}
 
-		if ("function" === typeof window["cssVars"]) {
-			window["cssVars"](window.bbgiconfig.cssvars);
+		if ( 'function' === typeof window['cssVars'] ) {
+			window['cssVars']( window.bbgiconfig.cssvars );
 		}
-	}, 250);
+	}, 250 );
 }
 
-function reducer(state = {}, action = {}) {
-	switch (action.type) {
+function reducer( state = {}, action = {} ) {
+	switch ( action.type ) {
 		case ACTION_INIT_PAGE:
-			manageScripts(action.scripts, state.scripts);
+			manageScripts( action.scripts, state.scripts );
 
 			return {
 				...state,
 				content: action.content,
 				embeds: action.embeds,
-				scripts: action.scripts
+				scripts: action.scripts,
 			};
 
 		case ACTION_LOADING_PARTIAL:
@@ -95,58 +95,58 @@ function reducer(state = {}, action = {}) {
 
 		case ACTION_LOADED_PAGE: {
 			// do not accept action if user goes to another page before current page is loaded
-			if (state.url !== action.url && !action.force) {
+			if ( state.url !== action.url && !action.force ) {
 				return state;
 			}
 
 			const { document: pageDocument } = action;
-			if (pageDocument) {
-				const barId = "wpadminbar";
-				const wpadminbar = document.getElementById(barId);
-				if (wpadminbar) {
-					const newbar = pageDocument.getElementById(barId);
-					if (newbar) {
-						wpadminbar.parentNode.replaceChild(newbar, wpadminbar);
+			if ( pageDocument ) {
+				const barId = 'wpadminbar';
+				const wpadminbar = document.getElementById( barId );
+				if ( wpadminbar ) {
+					const newbar = pageDocument.getElementById( barId );
+					if ( newbar ) {
+						wpadminbar.parentNode.replaceChild( newbar, wpadminbar );
 					}
 				}
 			}
 			hideSplashScreen();
 			NProgress.done();
-			manageScripts(action.scripts, state.scripts);
-			manageBbgiConfig(pageDocument);
+			manageScripts( action.scripts, state.scripts );
+			manageBbgiConfig( pageDocument );
 
 			return {
 				...state,
 				content: action.content,
 				isHome: action.isHome,
 				embeds: action.embeds,
-				error: "",
+				error: '',
 				partials: {},
-				scripts: action.scripts
+				scripts: action.scripts,
 			};
 		}
 
 		case ACTION_LOADED_PARTIAL: {
 			// do not accept action if user goes to another page before current page is loaded
-			if (state.url !== action.url) {
+			if ( state.url !== action.url ) {
 				return state;
 			}
 
 			const { document: pageDocument } = action;
 			hideSplashScreen();
 			NProgress.done();
-			manageBbgiConfig(pageDocument);
+			manageBbgiConfig( pageDocument );
 
 			return {
 				...state,
-				error: "",
+				error: '',
 				partials: {
 					...state.partials,
 					[action.placeholder]: {
 						content: action.content,
-						embeds: action.embeds
-					}
-				}
+						embeds: action.embeds,
+					},
+				},
 			};
 		}
 
@@ -160,7 +160,7 @@ function reducer(state = {}, action = {}) {
 		case ACTION_UPDATE_NOTICE: {
 			const notice = {
 				isOpen: action.isOpen,
-				message: action.message
+				message: action.message,
 			};
 
 			return { ...state, notice: notice };
@@ -173,9 +173,9 @@ function reducer(state = {}, action = {}) {
 					...state.history,
 					[action.uuid]: {
 						id: action.uuid,
-						data: action.data
-					}
-				}
+						data: action.data,
+					},
+				},
 			};
 
 		default:

@@ -39,51 +39,6 @@
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.2.1"
   },
-  "eslintConfig": {
-    "extends": [
-      "@10up/eslint-config",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:react/recommended",
-      "plugin:jsx-a11y/recommended"
-    ],
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "plugins": [
-      "import",
-      "react",
-      "jsx-a11y"
-    ],
-    "rules": {
-      "import/no-unresolved": 0,
-      "require-jsdoc": 0,
-      "indent": [
-        "error",
-        "tab",
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "jsx-a11y/label-has-for": [
-        "error",
-        {
-          "required": {
-            "every": [
-              "id"
-            ]
-          }
-        }
-      ],
-      "jsx-a11y/media-has-caption": 0
-    },
-    "settings": {
-      "react": {
-        "version": "16.5.2"
-      }
-    }
-  },
   "browserslist": [
     "Chrome > 55",
     "Safari > 9",

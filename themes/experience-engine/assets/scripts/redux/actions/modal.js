@@ -1,10 +1,13 @@
+/* eslint-disable sort-keys */
 /**
  * We use this approach to minify action names in the production bundle and have
  * human friendly actions in the dev bundle. Use "m{x}" format to create new actions.
  */
 
-export const ACTION_SHOW_MODAL = 'production' === process.env.NODE_ENV ? 'm0' : 'MODAL_SHOW';
-export const ACTION_HIDE_MODAL = 'production' === process.env.NODE_ENV ? 'm1' : 'MODAL_HIDE';
+export const ACTION_SHOW_MODAL =
+	'production' === process.env.NODE_ENV ? 'm0' : 'MODAL_SHOW';
+export const ACTION_HIDE_MODAL =
+	'production' === process.env.NODE_ENV ? 'm1' : 'MODAL_HIDE';
 
 export const SIGNIN_MODAL = 'SIGNIN-MODAL';
 export const SIGNUP_MODAL = 'SIGNUP-MODAL';
@@ -51,10 +54,10 @@ export function showEditFeedModal( payload = {} ) {
 
 export default {
 	hideModal,
-	showSignInModal,
-	showSignUpModal,
-	showRestoreModal,
 	showCompleteSignupModal,
 	showDiscoverModal,
 	showEditFeedModal,
+	showRestoreModal,
+	showSignInModal,
+	showSignUpModal,
 };

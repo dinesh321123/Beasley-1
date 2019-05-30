@@ -11,7 +11,7 @@ import {
 	RESTORE_MODAL,
 	COMPLETE_SIGNUP_MODAL,
 	DISCOVER_MODAL,
-	EDIT_FEED_MODAL
+	EDIT_FEED_MODAL,
 } from '../redux/actions/modal';
 
 import { setNavigationRevert } from '../redux/actions/navigation';
@@ -61,8 +61,7 @@ class ModalDispatcher extends Component {
 
 		if ( previous ) {
 			previous.classList.add( 'current-menu-item' );
-		}
-		else {
+		} else {
 			// If Discovery was toggled by a non-menu item and a previous item doesn't appear, select 'Home'
 			const homeButton = document.getElementById( 'menu-item-home' );
 			homeButton.classList.add( 'current-menu-item' );
@@ -129,7 +128,7 @@ class ModalDispatcher extends Component {
 
 				return ReactDOM.createPortal(
 					component,
-					document.getElementById( 'inner-content' )
+					document.getElementById( 'inner-content' ),
 				);
 			case COMPLETE_SIGNUP_MODAL:
 				component = (
@@ -160,12 +159,12 @@ ModalDispatcher.propTypes = {
 	modal: PropTypes.string,
 	payload: PropTypes.shape( {} ),
 	close: PropTypes.func.isRequired,
-	navigationRevert: PropTypes.func.isRequired
+	navigationRevert: PropTypes.func.isRequired,
 };
 
 ModalDispatcher.defaultProps = {
 	modal: 'CLOSED',
-	payload: {}
+	payload: {},
 };
 
 function mapStateToProps( { modal, navigation } ) {
@@ -175,11 +174,11 @@ function mapStateToProps( { modal, navigation } ) {
 function mapDispatchToProps( dispatch ) {
 	return bindActionCreators(
 		{ close: hideModal, navigationRevert: setNavigationRevert },
-		dispatch
+		dispatch,
 	);
 }
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps
+	mapDispatchToProps,
 )( ModalDispatcher );

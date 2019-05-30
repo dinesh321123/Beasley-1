@@ -11,7 +11,6 @@ import Alert from './elements/Alert';
 import { showSignInModal } from '../../redux/actions/modal';
 
 class RestorePassword extends PureComponent {
-
 	constructor( props ) {
 		super( props );
 
@@ -47,15 +46,17 @@ class RestorePassword extends PureComponent {
 
 		e.preventDefault();
 
-		auth.sendPasswordResetEmail( email, { url: window.location.href } )
+		auth
+			.sendPasswordResetEmail( email, { url: window.location.href } )
 			.then( () => {
 				self.setState( {
 					success: true,
 					email: '',
-					message: 'Please, check your inbox. An email has been sent to you with instructions how to reset your password.',
+					message:
+						'Please, check your inbox. An email has been sent to you with instructions how to reset your password.',
 				} );
 			} )
-			.catch( ( error ) => {
+			.catch( error => {
 				self.setState( {
 					message: error.message,
 				} );
@@ -64,11 +65,7 @@ class RestorePassword extends PureComponent {
 
 	render() {
 		const self = this;
-		const {
-			email,
-			message,
-			success
-		} = self.state;
+		const { email, message, success } = self.state;
 		const { signin } = self.props;
 
 		return (
@@ -96,14 +93,24 @@ class RestorePassword extends PureComponent {
 					</div>
 
 					<div className="modal-form-actions -signup -restore">
-						<button className="btn -sign-in" type="submit">Restore</button>
-						<p><strong>Already a member?</strong> <button className="btn -empty -nobor -sign-in" type="button" onClick={signin}>Sign In</button></p>
+						<button className="btn -sign-in" type="submit">
+							Restore
+						</button>
+						<p>
+							<strong>Already a member?</strong>{' '}
+							<button
+								className="btn -empty -nobor -sign-in"
+								type="button"
+								onClick={signin}
+							>
+								Sign In
+							</button>
+						</p>
 					</div>
 				</form>
 			</Fragment>
 		);
 	}
-
 }
 
 RestorePassword.propTypes = {
@@ -113,8 +120,14 @@ RestorePassword.propTypes = {
 };
 
 function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		signin: showSignInModal,
-	}, dispatch );
+	return bindActionCreators(
+		{
+			signin: showSignInModal,
+		},
+		dispatch,
+	);
 }
-export default connect( null, mapDispatchToProps )( trapHOC()( RestorePassword ) );
+export default connect(
+	null,
+	mapDispatchToProps,
+)( trapHOC()( RestorePassword ) );

@@ -1,6 +1,14 @@
+/* eslint-disable sort-keys */
 import { getStorage } from '../../library/local-storage';
-import { sendLiveStreamPlaying, sendInlineAudioPlaying } from '../../library/google-analytics';
-import { ACTION_SET_USER_FEEDS, ACTION_UPDATE_USER_FEEDS, ACTION_RESET_USER } from '../actions/auth';
+import {
+	sendLiveStreamPlaying,
+	sendInlineAudioPlaying,
+} from '../../library/google-analytics';
+import {
+	ACTION_SET_USER_FEEDS,
+	ACTION_UPDATE_USER_FEEDS,
+	ACTION_RESET_USER,
+} from '../actions/auth';
 import {
 	ACTION_INIT_TDPLAYER,
 	ACTION_STATUS_CHANGE,
@@ -34,7 +42,7 @@ let tdplayer = null;
 let mp3player = null;
 let omnyplayer = null;
 
-let liveStreamInterval  = 0;
+let liveStreamInterval = 0;
 let inlineAudioInterval = 0;
 
 function parseVolume( value ) {
@@ -131,7 +139,9 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_PLAY_STATION: {
 			const { station } = action;
-			const stream = state.streams.find( item => item.stream_call_letters === station );
+			const stream = state.streams.find(
+				item => item.stream_call_letters === station,
+			);
 
 			fullStop();
 
@@ -289,7 +299,9 @@ function reducer( state = {}, action = {} ) {
 		case ACTION_UPDATE_USER_FEEDS:
 		case ACTION_SET_USER_FEEDS: {
 			const newstreams = ( action.feeds || [] )
-				.filter( item => 'stream' === item.type && 0 < ( item.content || [] ).length )
+				.filter(
+					item => 'stream' === item.type && 0 < ( item.content || [] ).length,
+				)
 				.map( item => item.content[0] );
 
 			const newstate = {

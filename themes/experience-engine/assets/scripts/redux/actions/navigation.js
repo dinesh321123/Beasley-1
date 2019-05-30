@@ -17,5 +17,5 @@ export function setNavigationRevert() {
 
 export default {
 	setNavigationCurrent,
-	setNavigationRevert
+	setNavigationRevert,
 };

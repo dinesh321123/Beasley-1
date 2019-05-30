@@ -9,17 +9,19 @@ import md5 from 'md5';
 import {
 	getUser,
 	ensureUserHasCurrentChannel,
-	userHasProfile
+	userHasProfile,
 } from '../library/experience-engine';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
-import { showSignInModal, showCompleteSignupModal } from '../redux/actions/modal';
+import {
+	showSignInModal,
+	showCompleteSignupModal,
+} from '../redux/actions/modal';
 import { setUser, resetUser } from '../redux/actions/auth';
 import { loadPage, hideSplashScreen } from '../redux/actions/screen';
 
 class UserNav extends Component {
-
 	static isHomepage() {
 		return document.body.classList.contains( 'home' );
 	}
@@ -30,16 +32,16 @@ class UserNav extends Component {
 		const self = this;
 
 		self.state = {
-			loading: true,
 			didLogin: false,
 			didRedirect: false,
+			loading: true,
 		};
 
 		self.onSignIn = self.handleSignIn.bind( self );
 		self.onSignOut = self.handleSignOut.bind( self );
 
 		self.didAuthStateChange = self.didAuthStateChange.bind( self );
-		self.finishLoading      = self.finishLoading.bind( self );
+		self.finishLoading = self.finishLoading.bind( self );
 	}
 
 	componentDidMount() {
@@ -52,16 +54,19 @@ class UserNav extends Component {
 			const auth = firebase.auth();
 
 			auth.onAuthStateChanged( this.didAuthStateChange );
-			auth.getRedirectResult()
-				.then( ( result ) => {
+			auth
+				.getRedirectResult()
+				.then( result => {
 					if ( result.user ) {
 						self.setState( { didRedirect: true } );
 					}
 				} )
-				.catch( ( err ) => {
+				.catch( err => {
+					// eslint-disable-next-line no-console
 					console.error( 'Authentication Error', err );
 				} );
 		} else {
+			// eslint-disable-next-line no-console
 			console.error( 'Firebase Project ID not found in bbgiconfig.' );
 		}
 	}
@@ -75,7 +80,7 @@ class UserNav extends Component {
 		if ( user ) {
 			this.setState( { didLogin: true } );
 			this.loadAsLoggedIn( user );
-		} else if ( ! this.state.didLogin ) {
+		} else if ( !this.state.didLogin ) {
 			this.loadAsNotLoggedIn();
 		} else {
 			this.props.resetUser();
@@ -97,8 +102,8 @@ class UserNav extends Component {
 
 		if ( this.state.didRedirect ) {
 			userHasProfile()
-				.then( ( result ) => {
-					if ( ! result ) {
+				.then( result => {
+					if ( !result ) {
 						self.finishLoading();
 						self.props.showCompleteSignup();
 					} else {
@@ -138,17 +143,20 @@ class UserNav extends Component {
 	loadHomepage( user ) {
 		const self = this;
 
-		return user.getIdToken()
-			.then( ( token ) => {
-				return self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
+		/* eslint-disable sort-keys */
+		return user.getIdToken().then( token => {
+			return self.props.loadPage(
+				`${window.bbgiconfig.wpapi}feeds-content?device=other`,
+				{
 					suppressHistory: true,
 					fetchParams: {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 						body: `format=raw&authorization=${encodeURIComponent( token )}`,
 					},
-				} );
-			} );
+				},
+			);
+		} );
 	}
 
 	handleSignIn() {
@@ -183,8 +191,16 @@ class UserNav extends Component {
 		return (
 			<Fragment>
 				<div className="user-nav-info">
-					<span className="user-nav-name" data-uid={ user.uid }>{displayName}</span>
-					<button className="user-nav-button" type="button" onClick={self.onSignOut}>Log Out</button>
+					<span className="user-nav-name" data-uid={user.uid}>
+						{displayName}
+					</span>
+					<button
+						className="user-nav-button"
+						type="button"
+						onClick={self.onSignOut}
+					>
+						Log Out
+					</button>
 				</div>
 				<div className="user-nav-image">
 					<img src={photo} alt={displayName} />
@@ -198,11 +214,16 @@ class UserNav extends Component {
 
 		return (
 			<div className="user-nav-logged-out">
-				<button className="user-nav-button -with-icon" aria-label="Sign In to Your Account" type="button" onClick={self.onSignIn}>
+				<button
+					className="user-nav-button -with-icon"
+					aria-label="Sign In to Your Account"
+					type="button"
+					onClick={self.onSignIn}
+				>
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 563.43 563.43">
 						<title id="sign-in-button-title">Sign In</title>
 						<desc id="sign-in-button-desc">User icon indicating entrance</desc>
-						<path d="M280.79 314.559c83.266 0 150.803-67.538 150.803-150.803S364.055 13.415 280.79 13.415 129.987 80.953 129.987 163.756s67.537 150.803 150.803 150.803zm0-261.824c61.061 0 111.021 49.959 111.021 111.021s-49.96 111.02-111.021 111.02-111.021-49.959-111.021-111.021 49.959-111.02 111.021-111.02zM19.891 550.015h523.648c11.102 0 19.891-8.789 19.891-19.891 0-104.082-84.653-189.198-189.198-189.198H189.198C85.116 340.926 0 425.579 0 530.124c0 11.102 8.789 19.891 19.891 19.891zm169.307-169.307h185.034c75.864 0 138.313 56.436 148.028 129.524H41.17c9.714-72.625 72.164-129.524 148.028-129.524z"/>
+						<path d="M280.79 314.559c83.266 0 150.803-67.538 150.803-150.803S364.055 13.415 280.79 13.415 129.987 80.953 129.987 163.756s67.537 150.803 150.803 150.803zm0-261.824c61.061 0 111.021 49.959 111.021 111.021s-49.96 111.02-111.021 111.02-111.021-49.959-111.021-111.021 49.959-111.02 111.021-111.02zM19.891 550.015h523.648c11.102 0 19.891-8.789 19.891-19.891 0-104.082-84.653-189.198-189.198-189.198H189.198C85.116 340.926 0 425.579 0 530.124c0 11.102 8.789 19.891 19.891 19.891zm169.307-169.307h185.034c75.864 0 138.313 56.436 148.028 129.524H41.17c9.714-72.625 72.164-129.524 148.028-129.524z" />
 					</svg>
 					Sign In
 				</button>
@@ -232,40 +253,46 @@ class UserNav extends Component {
 
 		return ReactDOM.createPortal(
 			React.createElement( ErrorBoundary, {}, component ),
-			container
+			container,
 		);
 	}
-
 }
 
 UserNav.propTypes = {
-	showSignIn: PropTypes.func.isRequired,
-	showCompleteSignup: PropTypes.func.isRequired,
+	hideSplashScreen: PropTypes.func.isRequired,
 	loadPage: PropTypes.func.isRequired,
-	setUser: PropTypes.func.isRequired,
 	resetUser: PropTypes.func.isRequired,
-	user: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
+	setUser: PropTypes.func.isRequired,
+	showCompleteSignup: PropTypes.func.isRequired,
+	showSignIn: PropTypes.func.isRequired,
 	suppressUserCheck: PropTypes.bool.isRequired,
+	user: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
 	userDisplayName: PropTypes.string.isRequired,
 };
 
 function mapStateToProps( { auth } ) {
 	return {
+		suppressUserCheck: auth.suppressUserCheck,
 		user: auth.user || false,
 		userDisplayName: auth.displayName,
-		suppressUserCheck: auth.suppressUserCheck,
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		showSignIn: showSignInModal,
-		showCompleteSignup: showCompleteSignupModal,
-		setUser,
-		resetUser,
-		loadPage,
-		hideSplashScreen,
-	}, dispatch );
+	return bindActionCreators(
+		{
+			hideSplashScreen,
+			loadPage,
+			resetUser,
+			setUser,
+			showCompleteSignup: showCompleteSignupModal,
+			showSignIn: showSignInModal,
+		},
+		dispatch,
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( UserNav );
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)( UserNav );

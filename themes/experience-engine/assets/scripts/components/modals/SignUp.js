@@ -24,7 +24,6 @@ import { showSignInModal } from '../../redux/actions/modal';
 import { suppressUserCheck, setDisplayName } from '../../redux/actions/auth';
 
 class SignUp extends PureComponent {
-
 	static createMask( value ) {
 		return value.toString().replace( /(\d{2})(\d{2})(\d{4})/, '$1/$2/$3' );
 	}
@@ -37,7 +36,7 @@ class SignUp extends PureComponent {
 
 		/* Dont fallback on supported or partially supported browsers */
 
-		if( 'supported' === browsers ) {
+		if ( 'supported' === browsers ) {
 			return !isChrome() && !iOSSafari && !iOSFireFox && !iOSChrome;
 		} else {
 			return;
@@ -91,7 +90,15 @@ class SignUp extends PureComponent {
 
 	handleFormSubmit( e ) {
 		const self = this;
-		const { email, password, firstname, lastname, zip, gender, bday } = self.state;
+		const {
+			email,
+			password,
+			firstname,
+			lastname,
+			zip,
+			gender,
+			bday,
+		} = self.state;
 		const auth = firebase.auth();
 
 		const emailAddress = email.trim().toLowerCase();
@@ -104,12 +111,12 @@ class SignUp extends PureComponent {
 
 		self.props.suppressUserCheck();
 
-		if ( ! firstname ) {
+		if ( !firstname ) {
 			self.setState( { error: 'Please enter your first name.' } );
 			return false;
 		}
 
-		if ( ! lastname ) {
+		if ( !lastname ) {
 			self.setState( { error: 'Please enter your last name.' } );
 			return false;
 		}
@@ -132,12 +139,13 @@ class SignUp extends PureComponent {
 		}
 
 		if ( false === validateGender( gender ) ) {
-			self.setState( { error: 'Please select your gender.' } )
+			self.setState( { error: 'Please select your gender.' } );
 			return false;
 		}
 
-		auth.createUserWithEmailAndPassword( emailAddress, password )
-			.then( ( response ) => {
+		auth
+			.createUserWithEmailAndPassword( emailAddress, password )
+			.then( response => {
 				const { user } = response;
 
 				saveUser( emailAddress, zip, gender, bday );
@@ -154,7 +162,16 @@ class SignUp extends PureComponent {
 
 	render() {
 		const self = this;
-		const { email, password, firstname, lastname, zip, gender, bday, error } = self.state;
+		const {
+			email,
+			password,
+			firstname,
+			lastname,
+			zip,
+			gender,
+			bday,
+			error,
+		} = self.state;
 		const { signin } = self.props;
 
 		return (
@@ -165,68 +182,149 @@ class SignUp extends PureComponent {
 
 				<Alert message={error} />
 
-				<p className="p-label"><em>Register with:</em></p>
+				<p className="p-label">
+					<em>Register with:</em>
+				</p>
 				<OAuthButtons horizontal />
 
 				<form className="modal-form -form-sign-up" onSubmit={self.onFormSubmit}>
 					<div className="modal-form-group-inline">
 						<div className="modal-form-group">
-							<label className="modal-form-label" htmlFor="user-firstname">First Name</label>
-							<input className="modal-form-field" type="text" id="user-firstname" name="firstname" value={firstname} onChange={self.onFieldChange} placeholder="Your name" />
+							<label className="modal-form-label" htmlFor="user-firstname">
+								First Name
+							</label>
+							<input
+								className="modal-form-field"
+								type="text"
+								id="user-firstname"
+								name="firstname"
+								value={firstname}
+								onChange={self.onFieldChange}
+								placeholder="Your name"
+							/>
 						</div>
 						<div className="modal-form-group">
-							<label className="modal-form-label" htmlFor="user-lastname">Last Name</label>
-							<input className="modal-form-field" type="text" id="user-lastname" name="lastname" value={lastname} onChange={self.onFieldChange} placeholder="Your surname" />
+							<label className="modal-form-label" htmlFor="user-lastname">
+								Last Name
+							</label>
+							<input
+								className="modal-form-field"
+								type="text"
+								id="user-lastname"
+								name="lastname"
+								value={lastname}
+								onChange={self.onFieldChange}
+								placeholder="Your surname"
+							/>
 						</div>
 					</div>
 					<div className="modal-form-group-inline">
 						<div className="modal-form-group">
-							<label className="modal-form-label" htmlFor="user-email">Email</label>
-							<input className="modal-form-field" type="email" id="user-email" name="email" value={email} onChange={self.onFieldChange} placeholder="yourname@yourdomain.com" />
+							<label className="modal-form-label" htmlFor="user-email">
+								Email
+							</label>
+							<input
+								className="modal-form-field"
+								type="email"
+								id="user-email"
+								name="email"
+								value={email}
+								onChange={self.onFieldChange}
+								placeholder="yourname@yourdomain.com"
+							/>
 						</div>
 						<div className="modal-form-group">
-							<label className="modal-form-label" htmlFor="user-password">Password</label>
-							<input className="modal-form-field" type="password" id="user-password" name="password" value={password} onChange={self.onFieldChange} placeholder="Your password" />
+							<label className="modal-form-label" htmlFor="user-password">
+								Password
+							</label>
+							<input
+								className="modal-form-field"
+								type="password"
+								id="user-password"
+								name="password"
+								value={password}
+								onChange={self.onFieldChange}
+								placeholder="Your password"
+							/>
 						</div>
 					</div>
 					<div className="modal-form-group-inline">
 						<div className="modal-form-group">
-							<label className="modal-form-label" htmlFor="user-zip">Zip</label>
-							<input className="modal-form-field" type="text" id="user-zip" name="zip" value={zip} onChange={self.onFieldChange} placeholder="90210" />
+							<label className="modal-form-label" htmlFor="user-zip">
+								Zip
+							</label>
+							<input
+								className="modal-form-field"
+								type="text"
+								id="user-zip"
+								name="zip"
+								value={zip}
+								onChange={self.onFieldChange}
+								placeholder="90210"
+							/>
 						</div>
 						<div className="modal-form-group">
-							<label className="modal-form-label" htmlFor="user-bday">Birthday</label>
+							<label className="modal-form-label" htmlFor="user-bday">
+								Birthday
+							</label>
 							<input
 								className="modal-form-field"
 								type="text"
 								id="user-bday"
 								name="bday"
 								value={bday}
-								onChange={ self.onFieldChange }
-								placeholder="mm/dd/yyyy" />
+								onChange={self.onFieldChange}
+								placeholder="mm/dd/yyyy"
+							/>
 						</div>
 					</div>
 
 					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-gender-male">Gender</label>
+						<label className="modal-form-label" htmlFor="user-gender-male">
+							Gender
+						</label>
 						<div className="modal-form-radio">
-							<input type="radio" id="user-gender-male" name="gender" value="male" checked={'male' === gender} onChange={self.onFieldChange} />
+							<input
+								type="radio"
+								id="user-gender-male"
+								name="gender"
+								value="male"
+								checked={'male' === gender}
+								onChange={self.onFieldChange}
+							/>
 							<label htmlFor="user-gender-male">Male</label>
 						</div>
 						<div className="modal-form-radio">
-							<input type="radio" id="user-gender-female" name="gender" value="female" checked={'female' === gender} onChange={self.onFieldChange} />
+							<input
+								type="radio"
+								id="user-gender-female"
+								name="gender"
+								value="female"
+								checked={'female' === gender}
+								onChange={self.onFieldChange}
+							/>
 							<label htmlFor="user-gender-female">Female</label>
 						</div>
 					</div>
 					<div className="modal-form-actions -signup">
-						<button className="btn -sign-up" type="submit">Sign Up</button>
-						<p><strong>Already a member?</strong> <button className="btn -empty -nobor -sign-in" type="button" onClick={signin}>Sign In</button></p>
+						<button className="btn -sign-up" type="submit">
+							Sign Up
+						</button>
+						<p>
+							<strong>Already a member?</strong>{' '}
+							<button
+								className="btn -empty -nobor -sign-in"
+								type="button"
+								onClick={signin}
+							>
+								Sign In
+							</button>
+						</p>
 					</div>
 				</form>
 			</Fragment>
 		);
 	}
-
 }
 
 SignUp.propTypes = {
@@ -238,11 +336,17 @@ SignUp.propTypes = {
 };
 
 function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		suppressUserCheck,
-		setDisplayName,
-		signin: showSignInModal,
-	}, dispatch );
+	return bindActionCreators(
+		{
+			suppressUserCheck,
+			setDisplayName,
+			signin: showSignInModal,
+		},
+		dispatch,
+	);
 }
 
-export default connect( null, mapDispatchToProps )( trapHOC()( SignUp ) );
+export default connect(
+	null,
+	mapDispatchToProps,
+)( trapHOC()( SignUp ) );

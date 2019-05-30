@@ -1,40 +1,63 @@
+/* eslint-disable sort-keys */
 /**
  * We use this approach to minify action names in the production bundle and have
  * human friendly actions in the dev bundle. Use "p{x}" format to create new actions.
  */
-export const ACTION_INIT_TDPLAYER        = 'production' === process.env.NODE_ENV ? 'p0' : 'PLAYER_INIT_TDPLAYER';
-export const ACTION_STATUS_CHANGE        = 'production' === process.env.NODE_ENV ? 'p1' : 'PLAYER_STATUS_CHANGE';
-export const ACTION_CUEPOINT_CHANGE      = 'production' === process.env.NODE_ENV ? 'p2' : 'PLAYER_CUEPOINT_CHANGE';
-export const ACTION_SET_VOLUME           = 'production' === process.env.NODE_ENV ? 'p3' : 'PLAYER_SET_VOLUME';
-export const ACTION_PLAY_AUDIO           = 'production' === process.env.NODE_ENV ? 'p4' : 'PLAYER_PLAY_AUDIO';
-export const ACTION_PLAY_STATION         = 'production' === process.env.NODE_ENV ? 'p5' : 'PLAYER_PLAY_STATION';
-export const ACTION_PLAY_OMNY            = 'production' === process.env.NODE_ENV ? 'p6' : 'PLAYER_PLAY_OMNY';
-export const ACTION_PAUSE                = 'production' === process.env.NODE_ENV ? 'p7' : 'PLAYER_PAUSE';
-export const ACTION_RESUME               = 'production' === process.env.NODE_ENV ? 'p8' : 'PLAYER_RESUME';
-export const ACTION_DURATION_CHANGE      = 'production' === process.env.NODE_ENV ? 'p9' : 'PLAYER_DURATION_CHANGE';
-export const ACTION_TIME_CHANGE          = 'production' === process.env.NODE_ENV ? 'pa' : 'PLAYER_TIME_CHANGE';
-export const ACTION_SEEK_POSITION        = 'production' === process.env.NODE_ENV ? 'pb' : 'PLAYER_SEEK_POSITION';
-export const ACTION_NOW_PLAYING_LOADED   = 'production' === process.env.NODE_ENV ? 'pc' : 'PLAYER_NOW_PLAYING_LOADED';
-export const ACTION_AD_PLAYBACK_START    = 'production' === process.env.NODE_ENV ? 'pd' : 'PLAYER_AD_PLAYBACK_START';
-export const ACTION_AD_PLAYBACK_COMPLETE = 'production' === process.env.NODE_ENV ? 'pe' : 'PLAYER_AD_PLAYBACK_COMPLETE';
-export const ACTION_AD_PLAYBACK_ERROR    = 'production' === process.env.NODE_ENV ? 'pf' : 'PLAYER_AD_PLAYBACK_ERROR';
-export const ACTION_AD_BREAK_SYNCED      = 'production' === process.env.NODE_ENV ? 'pg' : 'PLAYER_AD_BREAK_SYNCED';
-export const ACTION_AD_BREAK_SYNCED_HIDE = 'production' === process.env.NODE_ENV ? 'ph' : 'PLAYER_AD_BREAK_SYNCED_HIDE';
-export const ACTION_STREAM_START         = 'production' === process.env.NODE_ENV ? 'pi' : 'PLAYER_STREAM_START';
-export const ACTION_STREAM_STOP          = 'production' === process.env.NODE_ENV ? 'pj' : 'PLAYER_STREAM_STOP';
-export const ACTION_AUDIO_START          = 'production' === process.env.NODE_ENV ? 'pk' : 'PLAYER_AUDIO_START';
-export const ACTION_AUDIO_STOP           = 'production' === process.env.NODE_ENV ? 'pl' : 'PLAYER_AUDIO_STOP';
+export const ACTION_INIT_TDPLAYER =
+	'production' === process.env.NODE_ENV ? 'p0' : 'PLAYER_INIT_TDPLAYER';
+export const ACTION_STATUS_CHANGE =
+	'production' === process.env.NODE_ENV ? 'p1' : 'PLAYER_STATUS_CHANGE';
+export const ACTION_CUEPOINT_CHANGE =
+	'production' === process.env.NODE_ENV ? 'p2' : 'PLAYER_CUEPOINT_CHANGE';
+export const ACTION_SET_VOLUME =
+	'production' === process.env.NODE_ENV ? 'p3' : 'PLAYER_SET_VOLUME';
+export const ACTION_PLAY_AUDIO =
+	'production' === process.env.NODE_ENV ? 'p4' : 'PLAYER_PLAY_AUDIO';
+export const ACTION_PLAY_STATION =
+	'production' === process.env.NODE_ENV ? 'p5' : 'PLAYER_PLAY_STATION';
+export const ACTION_PLAY_OMNY =
+	'production' === process.env.NODE_ENV ? 'p6' : 'PLAYER_PLAY_OMNY';
+export const ACTION_PAUSE =
+	'production' === process.env.NODE_ENV ? 'p7' : 'PLAYER_PAUSE';
+export const ACTION_RESUME =
+	'production' === process.env.NODE_ENV ? 'p8' : 'PLAYER_RESUME';
+export const ACTION_DURATION_CHANGE =
+	'production' === process.env.NODE_ENV ? 'p9' : 'PLAYER_DURATION_CHANGE';
+export const ACTION_TIME_CHANGE =
+	'production' === process.env.NODE_ENV ? 'pa' : 'PLAYER_TIME_CHANGE';
+export const ACTION_SEEK_POSITION =
+	'production' === process.env.NODE_ENV ? 'pb' : 'PLAYER_SEEK_POSITION';
+export const ACTION_NOW_PLAYING_LOADED =
+	'production' === process.env.NODE_ENV ? 'pc' : 'PLAYER_NOW_PLAYING_LOADED';
+export const ACTION_AD_PLAYBACK_START =
+	'production' === process.env.NODE_ENV ? 'pd' : 'PLAYER_AD_PLAYBACK_START';
+export const ACTION_AD_PLAYBACK_COMPLETE =
+	'production' === process.env.NODE_ENV ? 'pe' : 'PLAYER_AD_PLAYBACK_COMPLETE';
+export const ACTION_AD_PLAYBACK_ERROR =
+	'production' === process.env.NODE_ENV ? 'pf' : 'PLAYER_AD_PLAYBACK_ERROR';
+export const ACTION_AD_BREAK_SYNCED =
+	'production' === process.env.NODE_ENV ? 'pg' : 'PLAYER_AD_BREAK_SYNCED';
+export const ACTION_AD_BREAK_SYNCED_HIDE =
+	'production' === process.env.NODE_ENV ? 'ph' : 'PLAYER_AD_BREAK_SYNCED_HIDE';
+export const ACTION_STREAM_START =
+	'production' === process.env.NODE_ENV ? 'pi' : 'PLAYER_STREAM_START';
+export const ACTION_STREAM_STOP =
+	'production' === process.env.NODE_ENV ? 'pj' : 'PLAYER_STREAM_STOP';
+export const ACTION_AUDIO_START =
+	'production' === process.env.NODE_ENV ? 'pk' : 'PLAYER_AUDIO_START';
+export const ACTION_AUDIO_STOP =
+	'production' === process.env.NODE_ENV ? 'pl' : 'PLAYER_AUDIO_STOP';
 
 export const STATUSES = {
-	LIVE_PAUSE: 'LIVE_PAUSE',
-	LIVE_PLAYING: 'LIVE_PLAYING',
-	LIVE_STOP: 'LIVE_STOP',
-	LIVE_FAILED: 'LIVE_FAILED',
 	LIVE_BUFFERING: 'LIVE_BUFFERING',
 	LIVE_CONNECTING: 'LIVE_CONNECTING',
+	LIVE_FAILED: 'LIVE_FAILED',
+	LIVE_PAUSE: 'LIVE_PAUSE',
+	LIVE_PLAYING: 'LIVE_PLAYING',
 	LIVE_RECONNECTING: 'LIVE_RECONNECTING',
-	STREAM_GEO_BLOCKED: 'STREAM_GEO_BLOCKED',
+	LIVE_STOP: 'LIVE_STOP',
 	STATION_NOT_FOUND: 'STATION_NOT_FOUND',
+	STREAM_GEO_BLOCKED: 'STREAM_GEO_BLOCKED',
 };
 
 function dispatchStatusUpdate( dispatch, status ) {
@@ -44,11 +67,11 @@ function dispatchStatusUpdate( dispatch, status ) {
 }
 
 function errorCatcher( prefix ) {
-	return ( e ) => {
+	return e => {
 		const { data } = e;
 		const { errors } = data || {};
 
-		( errors || [] ).forEach( ( error ) => {
+		( errors || [] ).forEach( error => {
 			// eslint-disable-next-line no-console
 			console.error( `${prefix}: [${error.code}] ${error.message}` );
 		} );
@@ -56,7 +79,7 @@ function errorCatcher( prefix ) {
 }
 
 export function initTdPlayer( modules ) {
-	return ( dispatch ) => {
+	return dispatch => {
 		let adPlaybackTimeout = false;
 		let adSyncedTimeout = false;
 
@@ -98,7 +121,10 @@ export function initTdPlayer( modules ) {
 		function dispatchSyncedStart() {
 			// hide after 35 seconds if it hasn't been hidden yet
 			clearTimeout( adSyncedTimeout );
-			adSyncedTimeout = setTimeout( () => dispatch( { type: ACTION_AD_BREAK_SYNCED_HIDE } ), 35000 );
+			adSyncedTimeout = setTimeout(
+				() => dispatch( { type: ACTION_AD_BREAK_SYNCED_HIDE } ),
+				35000,
+			);
 
 			dispatch( { type: ACTION_AD_BREAK_SYNCED } );
 		}
@@ -106,7 +132,10 @@ export function initTdPlayer( modules ) {
 		function dispatchPlaybackStart() {
 			// hide after 1 min if it hasn't been hidden yet
 			clearTimeout( adPlaybackTimeout );
-			adPlaybackTimeout = setTimeout( dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ), 60000 );
+			adPlaybackTimeout = setTimeout(
+				dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ),
+				60000,
+			);
 
 			dispatch( { type: ACTION_AD_PLAYBACK_START } );
 		}
@@ -119,8 +148,8 @@ export function initTdPlayer( modules ) {
 		}
 
 		const player = new window.TDSdk( {
-			coreModules: modules,
 			configurationError: errorCatcher( 'Configuration Error' ),
+			coreModules: modules,
 			moduleError: errorCatcher( 'Module Error' ),
 			playerReady() {
 				player.addEventListener( 'stream-status', dispatchStatusChange );
@@ -131,12 +160,21 @@ export function initTdPlayer( modules ) {
 				player.addEventListener( 'custom-cue-point', dispatchCuePoint );
 
 				player.addEventListener( 'ad-break-cue-point', dispatchCuePoint );
-				player.addEventListener( 'ad-break-cue-point-complete', dispatchCuePoint );
+				player.addEventListener(
+					'ad-break-cue-point-complete',
+					dispatchCuePoint,
+				);
 				player.addEventListener( 'ad-break-synced-element', dispatchSyncedStart );
 
 				player.addEventListener( 'ad-playback-start', dispatchPlaybackStart );
-				player.addEventListener( 'ad-playback-complete', dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE ) );
-				player.addEventListener( 'ad-playback-error', dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
+				player.addEventListener(
+					'ad-playback-complete',
+					dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE ),
+				);
+				player.addEventListener(
+					'ad-playback-error',
+					dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ),
+				);
 
 				player.addEventListener( 'stream-start', dispatchStreamStart );
 				player.addEventListener( 'stream-stop', dispatchStreamStop );
@@ -148,7 +186,7 @@ export function initTdPlayer( modules ) {
 }
 
 export function playAudio( audio, cueTitle = '', artistName = '' ) {
-	return ( dispatch ) => {
+	return dispatch => {
 		function dispatchAudioStart() {
 			dispatch( { type: ACTION_AUDIO_START } );
 		}
@@ -159,10 +197,22 @@ export function playAudio( audio, cueTitle = '', artistName = '' ) {
 
 		const player = new Audio( audio );
 
-		player.addEventListener( 'loadstart', dispatchStatusUpdate( dispatch, STATUSES.LIVE_BUFFERING ) );
-		player.addEventListener( 'pause', dispatchStatusUpdate( dispatch, STATUSES.LIVE_PAUSE ) );
-		player.addEventListener( 'playing', dispatchStatusUpdate( dispatch, STATUSES.LIVE_PLAYING ) );
-		player.addEventListener( 'ended', dispatchStatusUpdate( dispatch, STATUSES.LIVE_STOP ) );
+		player.addEventListener(
+			'loadstart',
+			dispatchStatusUpdate( dispatch, STATUSES.LIVE_BUFFERING ),
+		);
+		player.addEventListener(
+			'pause',
+			dispatchStatusUpdate( dispatch, STATUSES.LIVE_PAUSE ),
+		);
+		player.addEventListener(
+			'playing',
+			dispatchStatusUpdate( dispatch, STATUSES.LIVE_PLAYING ),
+		);
+		player.addEventListener(
+			'ended',
+			dispatchStatusUpdate( dispatch, STATUSES.LIVE_STOP ),
+		);
 
 		player.addEventListener( 'play', dispatchAudioStart );
 		player.addEventListener( 'pause', dispatchAudioStop );
@@ -197,7 +247,7 @@ export function playAudio( audio, cueTitle = '', artistName = '' ) {
 }
 
 export function playOmny( audio, cueTitle = '', artistName = '' ) {
-	return ( dispatch ) => {
+	return dispatch => {
 		const id = audio.replace( /\W+/g, '' );
 		if ( document.getElementById( id ) ) {
 			return;
@@ -256,11 +306,11 @@ export function seekPosition( position ) {
 
 export default {
 	initTdPlayer,
-	playAudio,
-	playStation,
-	playOmny,
 	pause,
+	playAudio,
+	playOmny,
+	playStation,
 	resume,
-	setVolume,
 	seekPosition,
+	setVolume,
 };

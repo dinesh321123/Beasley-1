@@ -29,11 +29,11 @@ export const isWindowsBrowser = () => {
 
 	return browser.satisfies( {
 		windows: {
-			'ie': '>10',
-			'edge': '>15',
-			'chrome': '>68',
-			'firefox': '>48',
-			'safari': '>5'
-		}
+			ie: '>10',
+			edge: '>15',
+			chrome: '>68',
+			firefox: '>48',
+			safari: '>5',
+		},
 	} );
 };

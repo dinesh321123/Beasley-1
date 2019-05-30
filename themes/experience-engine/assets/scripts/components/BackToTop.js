@@ -8,7 +8,6 @@ const OFFSET_OPACITY = 1200;
 const SCROLL_DURATION = 700;
 
 class BackToTop extends PureComponent {
-
 	constructor( props ) {
 		super( props );
 
@@ -16,8 +15,8 @@ class BackToTop extends PureComponent {
 		self.scrolling = false;
 
 		self.state = {
-			show: false,
 			fadeOut: false,
+			show: false,
 		};
 
 		self.onBackToTop = self.handleBackToTop.bind( self );
@@ -67,12 +66,12 @@ class BackToTop extends PureComponent {
 	easeInOutQuad( t, b, c, d ) {
 		t /= d / 2;
 		if ( 1 > t ) {
-			return c / 2 * t * t + b;
+			return ( c / 2 ) * t * t + b;
 		}
 
 		t--;
 
-		return -c / 2 * ( t * ( t - 2 ) - 1 ) + b;
+		return ( -c / 2 ) * ( t * ( t - 2 ) - 1 ) + b;
 	}
 
 	handleBackToTop() {
@@ -86,7 +85,10 @@ class BackToTop extends PureComponent {
 			}
 
 			const progress = timestamp - currentTime;
-			const val = Math.max( self.easeInOutQuad( progress, start, -start, SCROLL_DURATION ), 0 );
+			const val = Math.max(
+				self.easeInOutQuad( progress, start, -start, SCROLL_DURATION ),
+				0,
+			);
 
 			window.scrollTo( 0, val );
 			if ( progress < SCROLL_DURATION ) {
@@ -111,14 +113,17 @@ class BackToTop extends PureComponent {
 		}
 
 		return (
-			<button className={classes} aria-label="Back to top" onClick={self.onBackToTop}>
+			<button
+				className={classes}
+				aria-label="Back to top"
+				onClick={self.onBackToTop}
+			>
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18">
 					<path fill="#FFF" d="M8 2.8l8 7.9-2.4 2.4-5.5-5.5-5.6 5.6L0 10.7z" />
 				</svg>
 			</button>
 		);
 	}
-
 }
 
 export default BackToTop;

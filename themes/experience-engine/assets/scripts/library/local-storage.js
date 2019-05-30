@@ -7,7 +7,7 @@ export function getStorage( namespace ) {
 		},
 		setItem( key, value ) {
 			localStorage.setItem( `${namespace}:${key}`, value );
-		}
+		},
 	};
 }
 

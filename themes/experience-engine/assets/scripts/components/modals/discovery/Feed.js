@@ -10,7 +10,6 @@ import trapHOC from '@10up/react-focus-trap-hoc';
 import { updateNotice } from '../../../redux/actions/screen';
 
 class Feed extends PureComponent {
-
 	constructor( props ) {
 		super( props );
 
@@ -38,7 +37,7 @@ class Feed extends PureComponent {
 
 		self.props.updateNotice( {
 			message: `<span class="title">${title}</span> has been added to your homepage`,
-			isOpen: true
+			isOpen: true,
 		} );
 
 		self.hideNotice();
@@ -53,7 +52,7 @@ class Feed extends PureComponent {
 
 		self.props.updateNotice( {
 			message: `<span class="title">${title}</span> has been removed from your homepage`,
-			isOpen: true
+			isOpen: true,
 		} );
 
 		self.hideNotice();
@@ -65,15 +64,32 @@ class Feed extends PureComponent {
 
 		const placholder = `${id}-thumbnail`;
 		const image = ( picture.original || picture.large || {} ).url;
-		const lazyImage = image
-			? <LazyImage placeholder={placholder} src={image} width="300" height="300" alt={title} />
-			: false;
+		const lazyImage = image ? (
+			<LazyImage
+				placeholder={placholder}
+				src={image}
+				width="300"
+				height="300"
+				alt={title}
+			/>
+		) : (
+			false
+		);
 
-		const button = added
-			? <button onClick={self.handleRemove} aria-label={`Remove ${title} from your feed`}><span>&#45;</span></button>
-			: <button onClick={self.handleAdd} aria-label={`Add ${title} to your feed`}><span>&#43;</span></button>;
+		const button = added ? (
+			<button
+				onClick={self.handleRemove}
+				aria-label={`Remove ${title} from your feed`}
+			>
+				<span>&#45;</span>
+			</button>
+		) : (
+			<button onClick={self.handleAdd} aria-label={`Add ${title} to your feed`}>
+				<span>&#43;</span>
+			</button>
+		);
 
-		const tileClass= added ? '-added' : '';
+		const tileClass = added ? '-added' : '';
 
 		return (
 			<div className={`${type} post-tile ${tileClass}`}>
@@ -89,12 +105,16 @@ class Feed extends PureComponent {
 				</div>
 
 				<div className="feed-item-type">
-					{ type && <p className="type"><SvgIcon type={type} />{type}</p> }
+					{type && (
+						<p className="type">
+							<SvgIcon type={type} />
+							{type}
+						</p>
+					)}
 				</div>
 			</div>
 		);
 	}
-
 }
 
 Feed.propTypes = {
@@ -115,14 +135,20 @@ Feed.defaultProps = {
 
 function mapStateToProps( { screen } ) {
 	return {
-		notice: screen.notice
+		notice: screen.notice,
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		updateNotice,
-	}, dispatch );
+	return bindActionCreators(
+		{
+			updateNotice,
+		},
+		dispatch,
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( trapHOC()( Feed ) );
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)( trapHOC()( Feed ) );

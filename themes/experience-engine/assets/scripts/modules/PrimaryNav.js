@@ -23,7 +23,7 @@ class PrimaryNav extends PureComponent {
 		self.primaryNavRef = React.createRef();
 		self.state = {
 			navHtml: navRoot.innerHTML,
-			initialWw: window.innerWidth
+			initialWw: window.innerWidth,
 		};
 
 		self.handleSubMenu = self.handleSubMenu.bind( self );
@@ -113,13 +113,15 @@ class PrimaryNav extends PureComponent {
 		const { primaryNavRef } = self;
 		const container = primaryNavRef.current;
 
-		if ( 'BUTTON' === target.nodeName.toUpperCase() &&
-			target.parentNode.classList.contains( 'menu-item-discovery' ) ) {
+		if (
+			'BUTTON' === target.nodeName.toUpperCase() &&
+			target.parentNode.classList.contains( 'menu-item-discovery' )
+		) {
 			const {
 				setNavigationCurrent,
 				showDiscover,
 				showSignin,
-				signedIn
+				signedIn,
 			} = self.props;
 
 			// Remove "current-menu-item" from any / all.
@@ -158,13 +160,13 @@ class PrimaryNav extends PureComponent {
 		if ( subMenu ) {
 			subMenu.setAttribute(
 				'aria-hidden',
-				subMenu.classList.contains( 'is-active' )
+				subMenu.classList.contains( 'is-active' ),
 			);
 			subMenu.classList.toggle( 'is-active' );
 		}
 
 		const actives = container.querySelectorAll(
-			'.menu-item-has-children .is-active'
+			'.menu-item-has-children .is-active',
 		);
 		for ( let i = 0; i < actives.length; i++ ) {
 			const element = actives[i];
@@ -187,15 +189,13 @@ class PrimaryNav extends PureComponent {
 		document.body.classList.toggle( '-lock' );
 		container.setAttribute(
 			'aria-hidden',
-			'false' === container.getAttribute( 'aria-hidden' )
+			'false' === container.getAttribute( 'aria-hidden' ),
 		);
 	}
 
 	handleEscapeKey( e ) {
-
-		if( 27 === e.keyCode ) {
-
-			if ( ! window.matchMedia( '(min-width: 900px)' ).matches ) {
+		if ( 27 === e.keyCode ) {
+			if ( !window.matchMedia( '(min-width: 900px)' ).matches ) {
 				siteMenuToggle.click();
 			} else {
 				return false;
@@ -206,16 +206,13 @@ class PrimaryNav extends PureComponent {
 	handleClickOutSide( event ) {
 		const container = navRoot.parentNode;
 
-		if ( event && ! container.contains( event.target ) ) {
+		if ( event && !container.contains( event.target ) ) {
 			// @TODO move this repeated code into a function.
-			if ( ! window.matchMedia( '(min-width: 900px)' ).matches ) {
+			if ( !window.matchMedia( '(min-width: 900px)' ).matches ) {
 				container.classList.remove( 'is-active' );
 				container.parentNode.parentNode.classList.remove( 'menu-is-active' );
 				document.body.classList.remove( '-lock' );
-				container.setAttribute(
-					'aria-hidden',
-					'true'
-				);
+				container.setAttribute( 'aria-hidden', 'true' );
 			} else {
 				return false;
 			}
@@ -223,7 +220,8 @@ class PrimaryNav extends PureComponent {
 	}
 
 	detectScrollbar() {
-		const hasScrollbar = sidebarContainer.scrollHeight > sidebarContainer.clientHeight;
+		const hasScrollbar =
+			sidebarContainer.scrollHeight > sidebarContainer.clientHeight;
 
 		if ( hasScrollbar ) {
 			sidebarContainer.classList.add( 'has-scrollbar' );
@@ -256,7 +254,6 @@ class PrimaryNav extends PureComponent {
 				if ( isWindowsBrowser() ) {
 					this.detectScrollbar();
 				}
-
 			} else {
 				if ( !container.classList.contains( 'is-active' ) ) {
 					container.setAttribute( 'aria-hidden', true );
@@ -267,7 +264,7 @@ class PrimaryNav extends PureComponent {
 					document.body.classList.toggle( '-lock' );
 					container.setAttribute(
 						'aria-hidden',
-						'false' === container.getAttribute( 'aria-hidden' )
+						'false' === container.getAttribute( 'aria-hidden' ),
 					);
 				}
 			}
@@ -284,7 +281,7 @@ class PrimaryNav extends PureComponent {
 				ref={self.primaryNavRef}
 				dangerouslySetInnerHTML={{ __html: navHtml }}
 			/>,
-			document.getElementById( 'js-primary-nav' )
+			document.getElementById( 'js-primary-nav' ),
 		);
 	}
 }
@@ -293,12 +290,12 @@ PrimaryNav.propTypes = {
 	signedIn: PropTypes.bool.isRequired,
 	showDiscover: PropTypes.func.isRequired,
 	showSignin: PropTypes.func.isRequired,
-	setNavigationCurrent: PropTypes.func.isRequired
+	setNavigationCurrent: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( { auth } ) {
 	return {
-		signedIn: !!auth.user
+		signedIn: !!auth.user,
 	};
 }
 
@@ -306,7 +303,7 @@ function mapDispatchToProps( dispatch ) {
 	const actions = {
 		showSignin: showSignInModal,
 		showDiscover: showDiscoverModal,
-		setNavigationCurrent: setNavigationCurrent
+		setNavigationCurrent: setNavigationCurrent,
 	};
 
 	return bindActionCreators( actions, dispatch );
@@ -314,5 +311,5 @@ function mapDispatchToProps( dispatch ) {
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps
+	mapDispatchToProps,
 )( PrimaryNav );

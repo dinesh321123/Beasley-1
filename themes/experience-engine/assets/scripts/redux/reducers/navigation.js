@@ -1,11 +1,11 @@
 import {
 	ACTION_NAVIGATION_SET_CURRENT,
-	ACTION_NAVIGATION_SET_REVERT
+	ACTION_NAVIGATION_SET_REVERT,
 } from '../actions/navigation';
 
 export const DEFAULT_STATE = {
 	current: 'menu-item-home',
-	previous: null
+	previous: null,
 };
 
 function reducer( state = {}, action = {} ) {

@@ -17,7 +17,6 @@ import {
 } from '../../library/experience-engine';
 
 class CompleteSignup extends PureComponent {
-
 	constructor( props ) {
 		super( props );
 
@@ -49,7 +48,8 @@ class CompleteSignup extends PureComponent {
 			/* First time close button was clicked */
 			self.setState( {
 				didTryClose: true,
-				error: 'You must complete your profile information before you can login. Click close to continue as a non-member.'
+				error:
+					'You must complete your profile information before you can login. Click close to continue as a non-member.',
 			} );
 
 			/* Second time close button was clicked */
@@ -65,11 +65,11 @@ class CompleteSignup extends PureComponent {
 
 				/* return true to allow modal to close */
 				return true;
-			}
+			};
 
 			/* return false to force modal to ignore close click */
 			return false;
-		}
+		};
 	}
 
 	componentWillUnmount() {
@@ -89,7 +89,10 @@ class CompleteSignup extends PureComponent {
 
 		/* Convert bday since validateDate expects date in mm/dd/yyyy format */
 		if ( bday && -1 !== bday.indexOf( '-' ) ) {
-			bday = bday.split( '-' ).reverse().join( '/' );
+			bday = bday
+				.split( '-' )
+				.reverse()
+				.join( '/' );
 		}
 
 		e.preventDefault();
@@ -105,13 +108,13 @@ class CompleteSignup extends PureComponent {
 		}
 
 		// @TODO :: This currently breaks on date specific inputs. We could consider just removing the date input type and using a text input.
-		if( false === validateDate( bday ) ) {
+		if ( false === validateDate( bday ) ) {
 			self.setState( { error: 'Please ensure date is in MM/DD/YYYY format.' } );
 			return false;
 		}
 
 		if ( false === validateGender( gender ) ) {
-			self.setState( { error: 'Please select your gender.' } )
+			self.setState( { error: 'Please select your gender.' } );
 			return false;
 		}
 
@@ -131,7 +134,7 @@ class CompleteSignup extends PureComponent {
 		let { user } = this.props;
 
 		/** If Firebase gave us an email use it as the default */
-		if ( ! email && user.email ) {
+		if ( !email && user.email ) {
 			this.setState( { email: user.email } );
 		}
 
@@ -145,37 +148,83 @@ class CompleteSignup extends PureComponent {
 
 				<form className="modal-form -form-sign-up" onSubmit={self.onFormSubmit}>
 					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-email">Email</label>
-						<input className="modal-form-field" type="text" id="user-email" name="email" value={email} onChange={self.onFieldChange} placeholder="" />
+						<label className="modal-form-label" htmlFor="user-email">
+							Email
+						</label>
+						<input
+							className="modal-form-field"
+							type="text"
+							id="user-email"
+							name="email"
+							value={email}
+							onChange={self.onFieldChange}
+							placeholder=""
+						/>
 					</div>
 					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-zip">Zip</label>
-						<input className="modal-form-field" type="text" id="user-zip" name="zip" value={zip} onChange={self.onFieldChange} placeholder="90210" />
+						<label className="modal-form-label" htmlFor="user-zip">
+							Zip
+						</label>
+						<input
+							className="modal-form-field"
+							type="text"
+							id="user-zip"
+							name="zip"
+							value={zip}
+							onChange={self.onFieldChange}
+							placeholder="90210"
+						/>
 					</div>
 					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-bday">Birthday</label>
-						<input className="modal-form-field" type="text" id="user-bday" name="bday" value={bday} onChange={self.onFieldChange} placeholder="Enter your birthday" />
+						<label className="modal-form-label" htmlFor="user-bday">
+							Birthday
+						</label>
+						<input
+							className="modal-form-field"
+							type="text"
+							id="user-bday"
+							name="bday"
+							value={bday}
+							onChange={self.onFieldChange}
+							placeholder="Enter your birthday"
+						/>
 					</div>
 					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-gender-male">Gender</label>
+						<label className="modal-form-label" htmlFor="user-gender-male">
+							Gender
+						</label>
 						<div className="modal-form-radio">
-							<input type="radio" id="user-gender-male" name="gender" value="male" checked={'male' === gender} onChange={self.onFieldChange} />
+							<input
+								type="radio"
+								id="user-gender-male"
+								name="gender"
+								value="male"
+								checked={'male' === gender}
+								onChange={self.onFieldChange}
+							/>
 							<label htmlFor="user-gender-male">Male</label>
 						</div>
 						<div className="modal-form-radio">
-							<input type="radio" id="user-gender-female" name="gender" value="female" checked={'female' === gender} onChange={self.onFieldChange} />
+							<input
+								type="radio"
+								id="user-gender-female"
+								name="gender"
+								value="female"
+								checked={'female' === gender}
+								onChange={self.onFieldChange}
+							/>
 							<label htmlFor="user-gender-female">Female</label>
 						</div>
 					</div>
 					<div className="modal-form-actions">
-						<button className="btn -sign-in" type="submit">Save</button>
+						<button className="btn -sign-in" type="submit">
+							Save
+						</button>
 					</div>
 				</form>
-
 			</Fragment>
 		);
 	}
-
 }
 
 CompleteSignup.propTypes = {

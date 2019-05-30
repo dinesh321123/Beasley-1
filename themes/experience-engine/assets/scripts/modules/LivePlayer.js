@@ -23,7 +23,6 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import * as actions from '../redux/actions/player';
 
 class LivePlayer extends Component {
-
 	constructor( props ) {
 		super( props );
 
@@ -75,14 +74,13 @@ class LivePlayer extends Component {
 			}
 		}, 500 );
 
-
-		window.addEventListener( 'online',  self.onOnline );
+		window.addEventListener( 'online', self.onOnline );
 		window.addEventListener( 'offline', self.onOffline );
 	}
 
 	componentWillUnmount() {
 		const self = this;
-		window.removeEventListener( 'online',  self.onOnline );
+		window.removeEventListener( 'online', self.onOnline );
 		window.removeEventListener( 'offline', self.onOffline );
 	}
 
@@ -114,7 +112,7 @@ class LivePlayer extends Component {
 		} = props;
 
 		let notification = false;
-		if ( ! online ) {
+		if ( !online ) {
 			notification = <Offline />;
 		}
 
@@ -123,14 +121,24 @@ class LivePlayer extends Component {
 		const buttonsBackgroundStyle = {};
 		const buttonsFillStyle = {};
 		const textStyle = {};
-		const progressClass = ! duration ? '-live' : '-podcast';
+		const progressClass = !duration ? '-live' : '-podcast';
 
 		customColors = JSON.parse( customColors );
-		controlsStyle.backgroundColor = customColors['--brand-background-color'] || customColors['--global-theme-secondary'];
-		buttonsBackgroundStyle.backgroundColor = customColors['--brand-button-color'] || customColors['--global-theme-secondary'];
-		buttonsFillStyle.fill = customColors['--brand-button-color'] || customColors['--global-theme-secondary'];
-		buttonsFillStyle.stroke = customColors['--brand-button-color'] || customColors['--global-theme-secondary'];
-		textStyle.color = customColors['--brand-text-color'] || customColors['--global-theme-secondary'];
+		controlsStyle.backgroundColor =
+			customColors['--brand-background-color'] ||
+			customColors['--global-theme-secondary'];
+		buttonsBackgroundStyle.backgroundColor =
+			customColors['--brand-button-color'] ||
+			customColors['--global-theme-secondary'];
+		buttonsFillStyle.fill =
+			customColors['--brand-button-color'] ||
+			customColors['--global-theme-secondary'];
+		buttonsFillStyle.stroke =
+			customColors['--brand-button-color'] ||
+			customColors['--global-theme-secondary'];
+		textStyle.color =
+			customColors['--brand-text-color'] ||
+			customColors['--global-theme-secondary'];
 
 		const isIos = isIOS();
 
@@ -140,8 +148,11 @@ class LivePlayer extends Component {
 
 				<div className={`preroll-wrapper${adPlayback ? ' -active' : ''}`}>
 					<div className="preroll-container">
-						<div id="td_container" className="preroll-player"></div>
-						<div className="preroll-notification">Live stream will be available after this brief ad from our sponsors</div>
+						<div id="td_container" className="preroll-player" />
+						<div className="preroll-notification">
+							Live stream will be available after this brief ad from our
+							sponsors
+						</div>
 					</div>
 				</div>
 
@@ -151,7 +162,7 @@ class LivePlayer extends Component {
 					<Progress className="-mobile" />
 				</ErrorBoundary>
 
-				<div className="controls" style={ controlsStyle }>
+				<div className="controls" style={controlsStyle}>
 					<div className="control-section">
 						<ErrorBoundary>
 							<Info colors={textStyle} />
@@ -198,14 +209,17 @@ class LivePlayer extends Component {
 				</div>
 
 				<ErrorBoundary>
-					<Sponsor className="sponsor-mobile" maxWidth="1059" style={ controlsStyle } />
+					<Sponsor
+						className="sponsor-mobile"
+						maxWidth="1059"
+						style={controlsStyle}
+					/>
 				</ErrorBoundary>
 			</Fragment>
 		);
 
 		return ReactDOM.createPortal( children, container );
 	}
-
 }
 
 LivePlayer.propTypes = {
@@ -226,17 +240,23 @@ function mapStateToProps( { player } ) {
 		status: player.status,
 		adPlayback: player.adPlayback,
 		adSynced: player.adSynced,
-		duration: player.duration
+		duration: player.duration,
 	};
 }
 
 function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		initPlayer: actions.initTdPlayer,
-		play: actions.playStation,
-		pause: actions.pause,
-		resume: actions.resume,
-	}, dispatch );
+	return bindActionCreators(
+		{
+			initPlayer: actions.initTdPlayer,
+			play: actions.playStation,
+			pause: actions.pause,
+			resume: actions.resume,
+		},
+		dispatch,
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( LivePlayer );
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)( LivePlayer );

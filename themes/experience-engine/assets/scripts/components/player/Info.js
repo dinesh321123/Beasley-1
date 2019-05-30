@@ -14,45 +14,55 @@ const STATUS_LABELS = {
 	[STATUSES.LIVE_BUFFERING]: 'Buffering...',
 	[STATUSES.LIVE_CONNECTING]: 'Live stream connection in progress...',
 	[STATUSES.LIVE_RECONNECTING]: 'Reconnecting live stream...',
-	[STATUSES.STREAM_GEO_BLOCKED]: 'Sorry, this content is not available in your area',
+	[STATUSES.STREAM_GEO_BLOCKED]:
+		'Sorry, this content is not available in your area',
 	[STATUSES.STATION_NOT_FOUND]: 'Station not found',
 };
 
 class Info extends Component {
-
 	static getCuePointInfo( cuePoint ) {
 		if ( !cuePoint ) {
 			return false;
 		}
-	
+
 		let info = [];
 		const { artistName, cueTitle, type } = cuePoint;
 		if ( 'ad' === type ) {
 			return false;
 		}
-	
+
 		if ( cueTitle && cueTitle.length ) {
-			info.push( <span key="cue-title" className="cue-point-title">{cueTitle}</span> );
+			info.push(
+				<span key="cue-title" className="cue-point-title">
+					{cueTitle}
+				</span>,
+			);
 		}
-	
+
 		if ( artistName && artistName.length ) {
-			info.push( <span key="cue-artist" className="cue-point-artist">{artistName}</span> );
+			info.push(
+				<span key="cue-artist" className="cue-point-artist">
+					{artistName}
+				</span>,
+			);
 		}
-	
+
 		return info.length ? info : false;
 	}
 
 	renderAudio() {
 		const self = this;
-		const { cuePoint, time, duration  } = self.props;
+		const { cuePoint, time, duration } = self.props;
 		const info = Info.getCuePointInfo( cuePoint );
-	
+
 		return (
 			<div className="controls-info">
 				<p>
 					<strong>{info[0] || ''}</strong>
 					<span className="time -mobile -current">{Progress.format( time )}</span>
-					<span className="time -mobile -total">{Progress.format( duration )}</span>
+					<span className="time -mobile -total">
+						{Progress.format( duration )}
+					</span>
 				</p>
 				<p>{info[1] || ''}</p>
 			</div>
@@ -70,16 +80,14 @@ class Info extends Component {
 				info = pointInfo;
 			}
 		}
-	
+
 		const stream = streams.find( item => item.stream_call_letters === station );
-	
+
 		return (
 			<div className="controls-info" style={colors}>
 				<p>
 					<strong>{stream ? stream.title : station}</strong>
-					{'LIVE_PLAYING' === status && (
-						<span className="live">Live</span>
-					)}
+					{'LIVE_PLAYING' === status && <span className="live">Live</span>}
 				</p>
 				<p>{info}</p>
 			</div>
@@ -91,7 +99,6 @@ class Info extends Component {
 		const { station } = self.props;
 		return station ? self.renderStation() : self.renderAudio();
 	}
-
 }
 
 Info.propTypes = {
@@ -100,7 +107,7 @@ Info.propTypes = {
 	status: PropTypes.string.isRequired,
 	cuePoint: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
 	time: PropTypes.number,
-	duration: PropTypes.number
+	duration: PropTypes.number,
 };
 
 function mapStateToProps( { player } ) {
@@ -110,7 +117,7 @@ function mapStateToProps( { player } ) {
 		status: player.status,
 		cuePoint: player.cuePoint,
 		time: player.time,
-		duration: player.duration
+		duration: player.duration,
 	};
 }
 
