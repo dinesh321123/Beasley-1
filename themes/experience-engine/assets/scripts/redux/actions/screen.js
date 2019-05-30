@@ -21,7 +21,7 @@ export const ACTION_LOAD_ERROR =
 export const ACTION_HIDE_SPLASH_SCREEN =
 	'production' === process.env.NODE_ENV ? 's6' : 'HIDE_SPLASH_SCREEN';
 export const ACTION_HISTORY_HTML_SNAPSHOT =
-	'production' === process.env.NODE_ENV ? 's7' : 'HTML_STATE';
+	'production' === process.env.NODE_ENV ? 's10' : 'HTML_STATE';
 
 export function initPage() {
 	const content = document.getElementById( 'content' );
