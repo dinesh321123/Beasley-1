@@ -9,7 +9,6 @@ import ErrorBoundary from "../components/ErrorBoundary";
 import ContentBlock from "../components/content/ContentBlock";
 
 import { hideModal } from "../redux/actions/modal";
-
 import {
 	initPage,
 	initPageHistory,
@@ -219,14 +218,13 @@ class ContentDispatcher extends Component {
 	}
 
 	handlePageChange(event) {
-		console.dir("handlePageChange => event");
 		if (event && event.state) {
 			const { uuid, pageXOffset, pageYOffset } = event.state;
-			// @jerome: Grab `data` from redux based off of `uuid` from event.state
+			// @note: Grab `data` from redux based off of `uuid` from event.state
 			const { data } = this.props.history[uuid];
 			// update content state
 			this.props.updatePage(data);
-			// scroll to the top of the page
+			// scroll to the top of the page and remove modal (one way or other)
 			setTimeout(() => window.scrollTo(pageXOffset, pageYOffset), 100);
 			this.props.hideModal();
 		}
