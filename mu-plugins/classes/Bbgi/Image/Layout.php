@@ -71,8 +71,8 @@ class Layout extends \Bbgi\Module {
 		} else if ( 'inline' === $feature_image_preference ) {
 			return 'Inline';
         }
-        
-        return 'Top';
+
+        return 'Inline';
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Layout extends \Bbgi\Module {
 		if ( in_array( 'top', $supported ) ) {
 			$html .= '<p><input type="radio" name="fip_status" value="top" ' . ( empty( $feature_image_preference ) ? 'checked="checked"' : checked( 'top', $feature_image_preference, false ) ) . ' /> Top</p>';
 		}
-	
+
 		if ( in_array( 'inline', $supported ) ) {
 			$html .= '<p><input type="radio" name="fip_status" value="inline" ' . checked( 'inline', $feature_image_preference, false ) . ' /> Inline</p>';
 		}
