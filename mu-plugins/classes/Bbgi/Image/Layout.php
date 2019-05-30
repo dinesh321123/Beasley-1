@@ -111,11 +111,15 @@ class Layout extends \Bbgi\Module {
 		}
 
 		if ( in_array( 'top', $supported ) ) {
-			$html .= '<p><input type="radio" name="fip_status" value="top" ' . ( empty( $feature_image_preference ) ? 'checked="checked"' : checked( 'top', $feature_image_preference, false ) ) . ' /> Top</p>';
+			$html .= '<p><input type="radio" name="fip_status" value="top" ' . ( empty( $feature_image_preference ) ? '' : checked( 'top', $feature_image_preference, false ) ) . ' /> Top</p>';
 		}
 
 		if ( in_array( 'inline', $supported ) ) {
-			$html .= '<p><input type="radio" name="fip_status" value="inline" ' . checked( 'inline', $feature_image_preference, false ) . ' /> Inline</p>';
+			if ( empty( $feature_image_preference ) ) {
+				$html .= '<p><input type="radio" name="fip_status" value="inline" checked=checked /> Inline</p>';
+			} else {
+				$html .= '<p><input type="radio" name="fip_status" value="inline" ' . checked( 'inline', $feature_image_preference, false ) . ' /> Inline</p>';
+			}
 		}
 
 		$html .= '<p><input type="radio" name="fip_status" value="none" ' . checked( 'none', $feature_image_preference, false ) . ' /> None</p>';
