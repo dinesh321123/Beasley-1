@@ -8,6 +8,7 @@ import md5 from 'md5';
 import ErrorBoundary from '../components/ErrorBoundary';
 import ContentBlock from '../components/content/ContentBlock';
 
+import { hideModal } from '../redux/actions/modal';
 import {
 	initPage,
 	initPageHistory,
@@ -217,15 +218,15 @@ class ContentDispatcher extends Component {
 	}
 
 	handlePageChange( event ) {
-		console.dir( 'handlePageChange => event' );
 		if ( event && event.state ) {
 			const { uuid, pageXOffset, pageYOffset } = event.state;
-			// @jerome: Grab `data` from redux based off of `uuid` from event.state
+			// @note: Grab `data` from redux based off of `uuid` from event.state
 			const { data } = this.props.history[uuid];
 			// update content state
 			this.props.updatePage( data );
-			// scroll to the top of the page
+			// scroll to the top of the page and remove modal (one way or other)
 			setTimeout( () => window.scrollTo( pageXOffset, pageYOffset ), 100 );
+			this.props.hideModal();
 		}
 	}
 
@@ -261,6 +262,7 @@ ContentDispatcher.propTypes = {
 	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	history: PropTypes.arrayOf( PropTypes.object ),
 	partials: PropTypes.shape( {} ).isRequired,
+	hideModal: PropTypes.func.isRequired,
 	initPage: PropTypes.func.isRequired,
 	initPageHistory: PropTypes.func.isRequired,
 	loadPage: PropTypes.func.isRequired,
@@ -279,6 +281,7 @@ function mapStateToProps( { screen } ) {
 function mapDispatchToProps( dispatch ) {
 	return bindActionCreators(
 		{
+			hideModal,
 			initPage,
 			initPageHistory,
 			loadPage,
