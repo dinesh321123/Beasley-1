@@ -26,13 +26,8 @@ function coreConfig( options = {} ) {
 			loader: 'babel-loader',
 			options: {
 				cacheDirectory: true,
-				presets: [
-					'@babel/preset-react',
-					'@babel/preset-env',
-				],
-				plugins: [
-					'@babel/plugin-syntax-dynamic-import',
-				],
+				presets: ['@babel/preset-react', '@babel/preset-env'],
+				plugins: ['@babel/plugin-syntax-dynamic-import'],
 			},
 		},
 	};
@@ -92,9 +87,7 @@ function coreConfig( options = {} ) {
 		module: {
 			rules: [eslintRule, babelRule, cssRule],
 		},
-		plugins: [
-			new MiniCssExtractPlugin(),
-		],
+		plugins: [new MiniCssExtractPlugin()],
 		optimization: {
 			noEmitOnErrors: true,
 		},
@@ -128,9 +121,7 @@ function watch() {
 function production() {
 	const options = {
 		postcss: {
-			plugins: [
-				require( 'cssnano' )(),
-			],
+			plugins: [require( 'cssnano' )()],
 		},
 	};
 
@@ -159,9 +150,4 @@ function analyze() {
 	return config;
 }
 
-module.exports = [
-	development(),
-	watch(),
-	production(),
-	analyze(),
-];
+module.exports = [development(), watch(), production(), analyze()];

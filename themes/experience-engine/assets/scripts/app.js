@@ -1,12 +1,17 @@
 import '../styles/main.css';
 
+import es6promise from 'es6-promise';
+import 'isomorphic-unfetch';
+
 import React, { PureComponent, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import createStore from './redux/store';
 
-import IntersectionObserverContext, { Observable } from './context/intersection-observer';
+import IntersectionObserverContext, {
+	Observable,
+} from './context/intersection-observer';
 
 import ContentDispatcher from './modules/ContentDispatcher';
 import ModalDispatcher from './modules/ModalDispatcher';
@@ -19,8 +24,9 @@ import BackToTop from './components/BackToTop';
 import ErrorBoundary from './components/ErrorBoundary';
 import { isSafari, isWindowsBrowser } from './library/browser';
 
-class Application extends PureComponent {
+es6promise.polyfill();
 
+class Application extends PureComponent {
 	constructor( props ) {
 		super( props );
 		this.observer = new Observable();
@@ -51,7 +57,7 @@ class Application extends PureComponent {
 						<PrimaryNav />
 					</ErrorBoundary>
 					<ErrorBoundary>
-						<UserNav suppressUserCheck={ false } />
+						<UserNav suppressUserCheck={false} />
 					</ErrorBoundary>
 					<ErrorBoundary>
 						<SearchForm />
@@ -64,7 +70,6 @@ class Application extends PureComponent {
 			</Fragment>
 		);
 	}
-
 }
 
 const root = document.createElement( 'div' );
