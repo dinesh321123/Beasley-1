@@ -1,6 +1,7 @@
 import { removeChildren, dispatchEvent } from '../../library/dom';
 import { getStateFromContent, parseHtml } from '../../library/html-parser';
 import { pageview } from '../../library/google-analytics';
+import slugify from '../../library/slugify';
 /**
  * We use this approach to minify action names in the production bundle and have
  * human friendly actions in the dev bundle. Use "s{x}" format to create new actions.
@@ -22,7 +23,7 @@ export const ACTION_HIDE_SPLASH_SCREEN =
 export const ACTION_UPDATE_NOTICE =
 	'production' === process.env.NODE_ENV ? 's7' : 'UPDATE_NOTICE ';
 export const ACTION_HISTORY_HTML_SNAPSHOT =
-	'production' === process.env.NODE_ENV ? 's10' : 'HTML_STATE';
+	'production' === process.env.NODE_ENV ? 's10' : 'HISTORY_HTML_SNAPSHOT';
 
 export function initPage() {
 	const content = document.getElementById( 'content' );
@@ -33,11 +34,12 @@ export function initPage() {
 	return { type: ACTION_INIT_PAGE, ...parsed };
 }
 
-export function initPageHistory( uuid, data ) {
+export function initPageLoaded( uuid, data ) {
 	return { type: ACTION_HISTORY_HTML_SNAPSHOT, uuid, data };
 }
 
 export function loadPage( url, options = {} ) {
+	const urlSlugified = slugify( url );
 	return dispatch => {
 		const { history, location, pageXOffset, pageYOffset } = window;
 
@@ -52,8 +54,13 @@ export function loadPage( url, options = {} ) {
 			const parsed = parseHtml( data );
 			const pageDocument = parsed.document;
 
-			// @temp unique identifier
-			const uuid = Math.floor( Date.now() / 1000 );
+			dispatch( {
+				type: ACTION_LOADED_PAGE,
+				url,
+				...parsed,
+				isHome: pageDocument.body.classList.contains( 'home' ),
+				data,
+			} );
 
 			if ( !options.suppressHistory ) {
 				history.replaceState(
@@ -62,11 +69,15 @@ export function loadPage( url, options = {} ) {
 					location.href,
 				);
 				history.pushState(
-					{ uuid, pageXOffset: 0, pageYOffset: 0 },
+					{ uuid: urlSlugified, pageXOffset: 0, pageYOffset: 0 },
 					pageDocument.title,
 					url,
 				);
-				dispatch( { type: ACTION_HISTORY_HTML_SNAPSHOT, uuid, data } );
+				dispatch( {
+					type: ACTION_HISTORY_HTML_SNAPSHOT,
+					uuid: urlSlugified,
+					data,
+				} );
 
 				dispatchEvent( 'pushstate' );
 				pageview( pageDocument.title, window.location.href );
@@ -74,13 +85,6 @@ export function loadPage( url, options = {} ) {
 				document.title = pageDocument.title;
 				document.body.className = pageDocument.body.className;
 			}
-
-			dispatch( {
-				type: ACTION_LOADED_PAGE,
-				url,
-				...parsed,
-				isHome: pageDocument.body.classList.contains( 'home' ),
-			} );
 
 			window.scrollTo( 0, 0 );
 		}
@@ -143,7 +147,7 @@ export function updateNotice( { isOpen, message } ) {
 export default {
 	hideSplashScreen,
 	initPage,
-	initPageHistory,
+	initPageLoaded,
 	loadPage,
 	loadPartialPage,
 	updateNotice,
