@@ -26,6 +26,7 @@ deploy_stage:
     - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart supervisord.service'
     - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart memcached.service'
     - ssh beanstalk@54.87.4.54 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
+    - ssh beanstalk@54.87.4.54 'sudo  bash /usr/local/sbin/rebuilddb.sh'
   only:
     - stage
 
