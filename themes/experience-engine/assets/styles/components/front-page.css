@@ -86,7 +86,7 @@
 			position: absolute;
 			right: 10px;
 			top: .3rem;
-			z-index: 5;
+			z-index: 4;
 
 			& .edit-feed-controls {
 				display: flex;
