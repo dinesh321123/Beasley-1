@@ -81,6 +81,8 @@
 @import "components/breaking-news";
 @import "components/song-archive";
 
+@import "components/player/range-slider-cb";
+
 @import "page/home";
 
 @import "utilities/display";

@@ -50,11 +50,17 @@ class Volume extends PureComponent {
 
 	render() {
 		const self = this;
-		const { volume, audio, setVolume, colors } = self.props;
+		const { audio, setVolume, colors } = self.props;
 		const { showVolume } = self.state;
+		let { volume } = self.props;
 
 		if ( audio && audio.length && 0 === audio.indexOf( 'https://omny.fm/' ) ) {
 			return false;
+		}
+
+		// Max volume is 82
+		if ( 82 < volume ) {
+			volume = 82;
 		}
 
 		return (
@@ -72,7 +78,10 @@ class Volume extends PureComponent {
 				<div className="ee-range-input">
 					<div className={`ee-range-input-slider ${showVolume ? '-volume-visible' : ''}`} aria-hidden={ !showVolume }>
 						<label className="screen-reader-text" htmlFor="audio-volume">Volume:</label>
-						<input type="range" id="audio-volume" min="0" max="82" step="1" value={volume} onChange={( e ) => setVolume( e.target.value )} />
+						<div className="new-test-range-input">
+							<label className="screen-reader-text" htmlFor="audio-volume">Volume:</label>
+							<input type="range" min="0" max="82" step="1" value={volume} onChange={( e ) => setVolume( e.target.value )} />
+						</div>
 						<p className="pre-bar" style={{ width: `${volume}px`}} />
 					</div>
 				</div>
