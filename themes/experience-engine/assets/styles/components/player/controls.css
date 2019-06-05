@@ -253,7 +253,7 @@
 
 		& .controls-recent-songs {
 			background-color: var(--global-theme-secondary);
-			bottom: 75px;
+			bottom: 65px;
 			font-size: 1rem;
 			left: -115px;
 			opacity: 0;
