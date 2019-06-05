@@ -79,7 +79,7 @@
 	& .nav-wrap {
 		background-color: var(--global-theme-secondary);
 		box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08);
-		height: calc(100vh - 74px);
+		height: calc(100vh - 122px);
 		left: 0;
 		max-width: 82.6667vw;
 		overflow: auto;
