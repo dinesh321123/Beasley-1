@@ -177,6 +177,12 @@ class PrimaryNav extends PureComponent {
 			'.menu-item-has-children .is-active',
 		);
 
+		let parentMenu = menuItem.closest( '.sub-menu' );
+
+		if ( ! parentMenu ) {
+			shouldClose = true;
+		}
+
 		if ( shouldClose ) {
 			self.closeMenus( actives, subMenu, toggler );
 		}
