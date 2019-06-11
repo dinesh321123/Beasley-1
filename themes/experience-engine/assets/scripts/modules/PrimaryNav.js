@@ -170,6 +170,7 @@ class PrimaryNav extends PureComponent {
 				subMenu.classList.contains( 'is-active' ),
 			);
 			subMenu.classList.toggle( 'is-active' );
+			shouldClose = true;
 		}
 
 		const actives = container.querySelectorAll(
