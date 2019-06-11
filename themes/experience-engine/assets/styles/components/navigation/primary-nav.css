@@ -88,6 +88,11 @@
 			font-size: 0.75rem;
 			font-weight: 300;
 			padding: 0.5rem 1.1rem;
+
+			&:focus,
+			&:active {
+				color: var(--brand-primary);
+			}
 		}
 
 		& .current-menu-item {

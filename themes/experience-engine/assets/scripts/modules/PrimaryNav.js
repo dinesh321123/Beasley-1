@@ -33,6 +33,7 @@ class PrimaryNav extends PureComponent {
 		self.detectScrollbar = self.detectScrollbar.bind( self );
 		self.handleEscapeKey = self.handleEscapeKey.bind( self );
 		self.handleClickOutSide = self.handleClickOutSide.bind( self );
+		self.closeMenus = self.closeMenus.bind( self );
 
 		removeChildren( navRoot );
 	}
@@ -116,6 +117,8 @@ class PrimaryNav extends PureComponent {
 		const { primaryNavRef } = self;
 		const container = primaryNavRef.current;
 
+		let shouldClose = false;
+
 		if (
 			'BUTTON' === target.nodeName.toUpperCase() &&
 			target.parentNode.classList.contains( 'menu-item-discovery' )
@@ -157,6 +160,7 @@ class PrimaryNav extends PureComponent {
 		const toggler = menuItem.querySelector( '.sub-menu-activator' );
 		if ( toggler ) {
 			toggler.classList.toggle( 'is-active' );
+			shouldClose = true;
 		}
 
 		const subMenu = menuItem.querySelector( '.sub-menu' );
@@ -171,12 +175,9 @@ class PrimaryNav extends PureComponent {
 		const actives = container.querySelectorAll(
 			'.menu-item-has-children .is-active',
 		);
-		for ( let i = 0; i < actives.length; i++ ) {
-			const element = actives[i];
-			if ( element !== toggler && element !== subMenu ) {
-				element.classList.remove( 'is-active' );
-				element.setAttribute( 'aria-hidden', true );
-			}
+
+		if ( shouldClose ) {
+			self.closeMenus( actives, subMenu, toggler );
 		}
 	}
 
@@ -210,7 +211,7 @@ class PrimaryNav extends PureComponent {
 					document.body.classList.remove( '-lock' );
 					container.setAttribute(
 						'aria-hidden',
-						'true'
+						'true',
 					);
 				} else {
 					return false;
@@ -231,7 +232,7 @@ class PrimaryNav extends PureComponent {
 				document.body.classList.remove( '-lock' );
 				container.setAttribute(
 					'aria-hidden',
-					'true'
+					'true',
 				);
 			} else {
 				return false;
@@ -289,6 +290,16 @@ class PrimaryNav extends PureComponent {
 				}
 			}
 		} );
+	}
+
+	closeMenus( actives, subMenu, toggler ) {
+		for ( let i = 0; i < actives.length; i++ ) {
+			const element = actives[i];
+			if ( element !== toggler && element !== subMenu ) {
+				element.classList.remove( 'is-active' );
+				element.setAttribute( 'aria-hidden', true );
+			}
+		}
 	}
 
 	render() {
