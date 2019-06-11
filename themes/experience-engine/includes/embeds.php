@@ -148,6 +148,10 @@ function ee_responsive_oembed_html( $html, $url, $attr ) {
 		$classes[] = 'twitter';
 	}
 
+	if ( false !== strpos( $html , 'wp-embedded-content') ) {
+		$classes[] = 'beasley';
+	}
+
 	$classes = array_merge( $classes, $classes_all );
 
 	return '<div class="' . esc_attr( implode( $classes, ' ' ) ) . '">' . $html . '</div>';

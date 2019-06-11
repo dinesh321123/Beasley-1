@@ -2,7 +2,7 @@
  * <div class="responsive-media">
  * See: includes/embeds.php
 */
-.responsive-media:not(.twitter):not(.instagram) {
+.responsive-media:not(.twitter):not(.instagram):not(.beasley) {
 	height: 0;
 	max-width: 100%;
 	overflow: hidden;
@@ -28,7 +28,8 @@
 }
 
 .responsive-media.twitter,
-.responsive-media.instagram {
+.responsive-media.instagram,
+.responsive-media.beasley {
 
 	& iframe,
 	& twitter-widget {
