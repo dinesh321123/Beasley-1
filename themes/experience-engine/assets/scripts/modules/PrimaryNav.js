@@ -80,6 +80,8 @@ class PrimaryNav extends PureComponent {
 		const { primaryNavRef } = self;
 		const { setNavigationCurrent, hideModal } = self.props;
 		const container = primaryNavRef.current;
+		let linkToActivate;
+		let parent;
 
 		const { href, pathname } = window.location;
 
@@ -89,6 +91,7 @@ class PrimaryNav extends PureComponent {
 
 		for ( let i = 0; i < previouslySelected.length; i++ ) {
 			previouslySelected[i].classList.remove( 'current-menu-item' );
+			parent = previouslySelected[i].parentNode;
 		}
 
 		const links = container.querySelectorAll( '.menu-item > a' );
@@ -98,6 +101,7 @@ class PrimaryNav extends PureComponent {
 			if ( href === link || pathname === link ) {
 				element.parentNode.classList.add( 'current-menu-item' );
 				setNavigationCurrent( element.parentNode.id );
+				linkToActivate = element;
 			}
 		}
 
@@ -107,6 +111,12 @@ class PrimaryNav extends PureComponent {
 		) {
 			self.handleMobileNav();
 		}
+
+		if ( parent.classList.contains( 'sub-menu' ) && parent.contains( linkToActivate ) ) {
+			return;
+		}
+
+		self.closeMenus();
 	}
 
 	handleSubMenu( e ) {
@@ -116,8 +126,6 @@ class PrimaryNav extends PureComponent {
 		const self = this;
 		const { primaryNavRef } = self;
 		const container = primaryNavRef.current;
-
-		let shouldClose = false;
 
 		if (
 			'BUTTON' === target.nodeName.toUpperCase() &&
@@ -160,7 +168,6 @@ class PrimaryNav extends PureComponent {
 		const toggler = menuItem.querySelector( '.sub-menu-activator' );
 		if ( toggler ) {
 			toggler.classList.toggle( 'is-active' );
-			shouldClose = true;
 		}
 
 		const subMenu = menuItem.querySelector( '.sub-menu' );
@@ -170,21 +177,6 @@ class PrimaryNav extends PureComponent {
 				subMenu.classList.contains( 'is-active' ),
 			);
 			subMenu.classList.toggle( 'is-active' );
-			shouldClose = true;
-		}
-
-		const actives = container.querySelectorAll(
-			'.menu-item-has-children .is-active',
-		);
-
-		let parentMenu = menuItem.closest( '.sub-menu' );
-
-		if ( ! parentMenu ) {
-			shouldClose = true;
-		}
-
-		if ( shouldClose ) {
-			self.closeMenus( actives, subMenu, toggler );
 		}
 	}
 
@@ -299,13 +291,23 @@ class PrimaryNav extends PureComponent {
 		} );
 	}
 
-	closeMenus( actives, subMenu, toggler ) {
+	closeMenus() {
+		const container = this.primaryNavRef.current;
+		const actives = container.querySelectorAll(
+			'.menu-item-has-children .is-active',
+		);
+
+		const currentMenu = document.querySelector( `.${this.props.currentMenu}` );
+
 		for ( let i = 0; i < actives.length; i++ ) {
 			const element = actives[i];
-			if ( element !== toggler && element !== subMenu ) {
-				element.classList.remove( 'is-active' );
-				element.setAttribute( 'aria-hidden', true );
+
+			if ( element.contains( currentMenu ) ) {
+				continue;
 			}
+
+			element.classList.remove( 'is-active' );
+			element.setAttribute( 'aria-hidden', true );
 		}
 	}
 
@@ -329,11 +331,13 @@ PrimaryNav.propTypes = {
 	showDiscover: PropTypes.func.isRequired,
 	showSignin: PropTypes.func.isRequired,
 	setNavigationCurrent: PropTypes.func.isRequired,
+	currentMenu: PropTypes.string.isRequired,
 };
 
-function mapStateToProps( { auth } ) {
+function mapStateToProps( { auth, navigation } ) {
 	return {
 		signedIn: !!auth.user,
+		currentMenu: navigation.current,
 	};
 }
 
