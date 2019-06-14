@@ -65,7 +65,13 @@ class Countdown extends Component {
 	}
 
 	getSponsor() {
-		const { unitId, unitName } = window.bbgiconfig.dfp.countdown;
+		const { unitName } = window.bbgiconfig.dfp.countdown;
+		let unitId = null;
+
+		if ( this.props && this.props.payload && this.props.payload.sponsorshipAdunit ) {
+			unitId = this.props.payload.sponsorshipAdunit;
+		}
+
 		const { placeholder } = this.props;
 
 		const params = {
