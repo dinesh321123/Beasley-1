@@ -47,13 +47,14 @@ add_action( 'wp_head', 'wrif_chartbeat_header' );
  */
 function wrif_dave_and_chuck_geo_redirect() {
 	if ( in_category( 'dave-chuck-the-freak' ) || ( 'dave-and-chuck' === get_page_uri() ) ) {
-		?><script>
-		var geotargetlyredirect1525180397350 = document.createElement('script');
-		geotargetlyredirect1525180397350.setAttribute('type','text/javascript');
-		geotargetlyredirect1525180397350.async = 1;
-		geotargetlyredirect1525180397350.setAttribute('src', '//geotargetly-1a441.appspot.com/georedirect?id=-LBQpUQq5yDhYiCS_8JG&refurl='+document.referrer);
-		document.getElementsByTagName('head')[0].appendChild(geotargetlyredirect1525180397350);
-		</script><?php
+		?><style id='georedirect1525180397350style'>body{opacity:0.0 !important;}</style>
+          <script>(function(g,e,o,t,l,y,s){
+          s = function(){g.getElementById('georedirect1525180397350style').innerHTML='body{opacity:1.0 !important;}';};
+          var l=g.getElementsByTagName(e)[0],y=g.createElement(e); y.async=true;
+          y.src='//geotargetly-1a441.appspot.com/georedirect?id=-LBQpUQq5yDhYiCS_8JG&refurl='+g.referrer+'&winurl='+encodeURIComponent(window.location);
+          l.parentNode.insertBefore(y,l); georedirect1525180397350loaded = function(redirect){var to=0;if(redirect){to=500};setTimeout(function(){s();}, to)};
+          setTimeout(function(){s();}, 3000);})(document,'script','style','head');
+          </script><?php
 	}
 }
 add_action( 'wp_head', 'wrif_dave_and_chuck_geo_redirect', 0 );

@@ -119,15 +119,17 @@ class Countdown extends Component {
 		return (
 			<div className="countdown" style={blockStyle}>
 				<div className="countdown-content">
-					<h2 className="countdown-title">
-						{titleText}
-					</h2>
+					<div className="countdown-wrapper">
+						<h2 className="countdown-title">
+							{titleText}
+						</h2>
 
-					<div className="countdown-timer">
-						<div className="time" title="Days">{( '0' + days ).slice( -2 )}</div>
-						<div className="time" title="Hours">{( '0' + hours ).slice( -2 )}</div>
-						<div className="time" title="Minutes">{( '0' + minutes ).slice( -2 )}</div>
-						<div className="time" title="Seconds">{( '0' + seconds ).slice( -2 )}</div>
+						<div className="countdown-timer">
+							<div className="time" title="Days">{( '0' + days ).slice( -2 )}</div>
+							<div className="time" title="Hours">{( '0' + hours ).slice( -2 )}</div>
+							<div className="time" title="Minutes">{( '0' + minutes ).slice( -2 )}</div>
+							<div className="time" title="Seconds">{( '0' + seconds ).slice( -2 )}</div>
+						</div>
 					</div>
 
 					{self.getSponsor()}
