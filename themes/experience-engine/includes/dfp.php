@@ -17,13 +17,14 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 		$advanced_with_fluid = array_merge( $fluid, $advanced );
 
 		$sizes = array(
-			'top-leaderboard'    => $advanced_with_fluid,
-			'bottom-leaderboard' => $advanced,
-			'in-list'            => $advanced_with_fluid,
-			'player-sponsorship' => $fluid,
-			'right-rail'         => array( array( 300, 600 ), array( 300, 250 ) ),
-			'in-content'         => array( array( 1, 1 ), array( 300, 250 ) ),
-			'countdown'          => array( array( 320, 50 ) ),
+			'top-leaderboard'          => $advanced_with_fluid,
+			'bottom-leaderboard'       => $advanced,
+			'in-list'                  => $advanced_with_fluid,
+			'in-list-infinite-gallery' => $advanced_with_fluid,
+			'player-sponsorship'       => $fluid,
+			'right-rail'               => array( array( 300, 600 ), array( 300, 250 ) ),
+			'in-content'               => array( array( 1, 1 ), array( 300, 250 ) ),
+			'countdown'                => array( array( 320, 50 ) ),
 		);
 
 		$player = array(
@@ -118,6 +119,12 @@ endif;
 if ( ! function_exists( 'ee_dfp_slot' ) ) :
 	function ee_dfp_slot( $slot, $deprecated = false, $targeting = array(), $echo = true ) {
 		$unit_id = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( $slot );
+
+		/* if no in-list-infinite-gallery config fallback to in-list */
+		if ( empty( $unit_id ) && $slot === 'in-list-infinite-gallery' ) {
+			$unit_id = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( 'in-list' );
+		}
+
 		if ( empty( $unit_id ) ) {
 			return;
 		}
@@ -126,7 +133,7 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			$targeting = array();
 		}
 
-		$remnant_slots = array( 'top-leaderboard', 'bottom-leaderboard', 'in-list', 'right-rail', 'in-content' );
+		$remnant_slots = array( 'top-leaderboard', 'bottom-leaderboard', 'in-list', 'in-list-infinite-gallery', 'right-rail', 'in-content' );
 		if ( in_array( $slot, $remnant_slots ) ) {
 			$targeting[] = array( 'remnant', 'yes' );
 		}

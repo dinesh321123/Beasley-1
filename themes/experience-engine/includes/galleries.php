@@ -126,12 +126,12 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 						endif;
 
 					echo '</div>';
-					
+
 				echo '</div>';
 
 				echo '<p class="excerpt">', get_the_excerpt( $image ), '</p>';
-				
-			echo '</div>';	
+
+			echo '</div>';
 
 		echo '</div>';
 
@@ -176,7 +176,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 					echo $html;
 
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
-						do_action( 'dfp_tag', 'in-list' );
+						do_action( 'dfp_tag', 'in-list-infinite-gallery' );
 					endif;
 				echo '</li>';
 			}
