@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Dfp from './Dfp';
+import CountdownTicker from './CountdownTicker';
 
 const SECOND_IN_MILLISECONDS = 1000;
 const MINUTE_IN_MILLISECONDS = SECOND_IN_MILLISECONDS * 60;
@@ -18,7 +19,7 @@ class Countdown extends Component {
 		self.state = self.getTimeRemaining( false );
 		self.interval = null;
 
-		self.getTimeRemaining = self.getTimeRemaining.bind( self );
+		self.getTimeRemaining   = self.getTimeRemaining.bind( self );
 	}
 
 	componentDidMount() {
@@ -97,10 +98,13 @@ class Countdown extends Component {
 			title,
 			background,
 			link,
+			timeColor,
+			timeBackground
 		} = payload;
 
 		const { color, image } = background;
 		const blockStyle = {};
+		const timeStyle = {};
 
 		if ( color ) {
 			blockStyle.backgroundColor = color;
@@ -108,6 +112,14 @@ class Countdown extends Component {
 
 		if ( image ) {
 			blockStyle.backgroundImage = `url(${image})`;
+		}
+
+		if ( timeColor ) {
+			timeStyle.color = timeColor;
+		}
+
+		if ( timeBackground ) {
+			timeStyle.background = timeBackground;
 		}
 
 		const titleText = link
@@ -124,11 +136,26 @@ class Countdown extends Component {
 							{titleText}
 						</h2>
 
+						<div className="countdown-labels" style={timeStyle}>
+							<div id="countdown-label-day" className="countdown-labels day">Days</div>
+							<div id="countdown-label-hour" className="countdown-labels hour">Hours</div>
+							<div id="countdown-label-minute" className="countdown-labels minute">Minutes</div>
+							<div id="countdown-label-second" className="countdown-labels second">Seconds</div>
+						</div>
+
 						<div className="countdown-timer">
-							<div className="time" title="Days">{( '0' + days ).slice( -2 )}</div>
-							<div className="time" title="Hours">{( '0' + hours ).slice( -2 )}</div>
-							<div className="time" title="Minutes">{( '0' + minutes ).slice( -2 )}</div>
-							<div className="time" title="Seconds">{( '0' + seconds ).slice( -2 )}</div>
+							<div className="time" title="Days">
+								<CountdownTicker number={days} timeStyle={timeStyle} />
+							</div>
+							<div className="time" title="Hours">
+								<CountdownTicker number={hours} timeStyle={timeStyle} />
+							</div>
+							<div className="time" title="Minutes">
+								<CountdownTicker number={minutes} timeStyle={timeStyle} />
+							</div>
+							<div className="time" title="Seconds">
+								<CountdownTicker number={seconds} timeStyle={timeStyle} />
+							</div>
 						</div>
 					</div>
 
@@ -143,6 +170,7 @@ class Countdown extends Component {
 Countdown.propTypes = {
 	placeholder: PropTypes.string.isRequired,
 	payload: PropTypes.oneOfType( [PropTypes.bool, PropTypes.object] ),
+	timeStyle: PropTypes.object,
 };
 
 Countdown.defaultProps = {
