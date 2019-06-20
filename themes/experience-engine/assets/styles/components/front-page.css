@@ -51,10 +51,10 @@
 	}
 
 	& .countdown-content {
-		display: flex;
-		flex-direction: column;
+		display: block;
 
 		@media (--min-medium-viewport) {
+			display: flex;
 			flex-direction: row;
 		}
 	}
@@ -73,8 +73,12 @@
 	& .countdown-labels {
 		display: flex;
 		margin: auto auto .25rem;
-		max-width: 385px;
+		max-width: 325px;
 		width: 100%;
+
+		@media (--min-medium-viewport) {
+			max-width: 385px;
+		}
 
 		& div {
 			font-size: .875rem;
