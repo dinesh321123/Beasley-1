@@ -73,7 +73,8 @@
 	& .countdown-labels {
 		display: flex;
 		margin: auto auto .25rem;
-		width: 385px;
+		max-width: 385px;
+		width: 100%;
 
 		& div {
 			font-size: .875rem;
@@ -113,7 +114,11 @@
 				height: 100%;
 				margin: 0 2px;
 				position: relative;
-				width: 32px;
+				width: 22px;
+
+				@media (--min-medium-viewport) {
+					width: 32px;
+				}
 			}
 
 			& .tick > div {
