@@ -176,7 +176,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 					echo $html;
 
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
-						do_action( 'dfp_tag', 'in-list-infinite-gallery' );
+						do_action( 'dfp_tag', 'in-list-gallery' );
 					endif;
 				echo '</li>';
 			}

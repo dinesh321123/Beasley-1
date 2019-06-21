@@ -102,18 +102,16 @@ class Dfp extends PureComponent {
 
 					.build();
 
-			} else if ( 'in-list-infinite-gallery' === unitName ) {
+			} else if ( 'in-list-gallery' === unitName ) {
 
 				sizeMapping = googletag.sizeMapping()
-					// does not display on small screens
+
+					// does not display on very small screens
 					.addSize( [0, 0], [] )
 
-					.addSize( [300, 0], [[320, 50], [320, 100], 'fluid'] )
-					.addSize( [900, 0], [[300, 250], [320, 50], [320, 100], 'fluid'] )
-					.addSize( [1060, 0], [[300, 250], [320, 50], [320, 100], 'fluid'] )
-					.addSize( [1238, 0], [[728, 90], 'fluid'] )
-					.addSize( [1480, 0], [[728, 90], [970, 90], [970, 250], 'fluid'] )
-					.addSize( [1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'] )
+					// accepts common small screen banner formats
+					.addSize( [300, 0], [[300, 250]] )
+					.addSize( [320, 0], [[300, 250], [320, 50], [320, 100]] )
 
 					.build();
 
