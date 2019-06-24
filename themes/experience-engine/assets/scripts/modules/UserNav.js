@@ -187,7 +187,7 @@ class UserNav extends Component {
 			photo = `//www.gravatar.com/avatar/${md5( user.email )}.jpg?s=100`;
 		}
 
-		if ( -1 !== photo.indexOf( 'gravatar.com' ) ) {
+		if ( photo && -1 !== photo.indexOf( 'gravatar.com' ) ) {
 			photo += '&d=mp';
 		}
 

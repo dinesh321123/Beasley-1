@@ -56,7 +56,13 @@ class Discovery extends PureComponent {
 
 			logoImage = (
 				<div id={id} className="image">
-					<LazyImage placeholder={id} src={url} width={`${width}`} height={`${height}`} alt={title || ''} />
+					<LazyImage
+						crop={ false }
+						placeholder={id}
+						src={url}
+						width={`${width}`}
+						height={`${height}`}
+						alt={title || ''} />
 				</div>
 			);
 		}
