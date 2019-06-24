@@ -1242,3 +1242,16 @@ EOL;
 	return $onload;
 }
 add_filter( 'bbgi_google_onload_code', 'beasley_google_onload_code' );
+
+/**
+ * Sorts search results in Chronological order to show recent results
+ * first.
+ */
+function beasley_sort_search_results_by_recent( $query ) {
+	if ( $query->is_main_query() && $query->is_search() ) {
+		$query->set( 'orderby', 'post_date' );
+		$query->set( 'order', 'DESC' );
+	}
+}
+
+add_action( 'pre_get_posts', 'beasley_sort_search_results_by_recent' );
