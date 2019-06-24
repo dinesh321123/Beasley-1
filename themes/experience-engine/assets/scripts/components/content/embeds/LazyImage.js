@@ -94,12 +94,16 @@ class LazyImage extends PureComponent {
 			if ( imageWidth > imageHeight ) {
 				if ( 2 < ( imageWidth / imageHeight ) ) {
 					maxheight = 'height';
-					mode = '&mode=crop';
+					if ( this.props.crop ) {
+						mode = '&mode=crop';
+					}
 				}
 			} else {
 				if ( 2 < ( imageHeight / imageWidth ) ) {
 					maxwidth = 'width';
-					mode = '&mode=crop';
+					if ( this.props.crop ) {
+						mode = '&mode=crop';
+					}
 				}
 			}
 		}
