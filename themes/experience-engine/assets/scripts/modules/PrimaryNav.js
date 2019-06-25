@@ -8,7 +8,7 @@ import { removeChildren } from '../library/dom';
 import { showSignInModal, showDiscoverModal, hideModal } from '../redux/actions/modal';
 import { setNavigationCurrent } from '../redux/actions/navigation';
 
-import { isWindowsBrowser } from '../library/browser';
+import { isWindowsBrowser, isSafari } from '../library/browser';
 
 const navRoot = document.getElementById( 'js-primary-nav' );
 const siteMenuToggle = document.getElementById( 'js-menu-toggle' );
@@ -58,6 +58,11 @@ class PrimaryNav extends PureComponent {
 
 		if ( isWindowsBrowser() ) {
 			self.detectScrollbar();
+		}
+
+		// Fix for login link in Safari
+		if ( isSafari() ) {
+			sidebarContainer.classList.add( 'is-safari' );
 		}
 	}
 
