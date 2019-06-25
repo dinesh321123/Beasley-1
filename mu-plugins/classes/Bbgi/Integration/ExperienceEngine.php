@@ -244,6 +244,9 @@ class ExperienceEngine extends \Bbgi\Module {
 
 		if ( is_array( $data ) && ! empty( $data ) ) {
 			foreach ( $data as $config ) {
+				if ( ! is_array( $config ) ) {
+					$config = (array) $config;
+				}
 				if ( $config['region'] == $slot ) {
 					return sprintf( '/%s/%s', $config['publisherId'], $config['adUnitId'] );
 				}
