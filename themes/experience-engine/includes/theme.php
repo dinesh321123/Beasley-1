@@ -92,3 +92,23 @@ if ( ! function_exists( 'ee_supported_featured_image_layouts' ) ) :
 		return array( 'top', 'inline' );
 	}
 endif;
+
+/**
+ * Helper function to get the post id from options or transient cache
+ *
+ * @param $query_arg
+ *
+ * @return int post id if found
+ */
+function get_post_with_keyword( $query_arg ) {
+	$query_arg = strtolower( $query_arg );
+	if( class_exists('GreaterMedia_Keyword_Admin') ) {
+		$saved_keyword = GreaterMedia_Keyword_Admin::get_keyword_options( GreaterMedia_Keyword_Admin::$plugin_slug . '_option_name' );
+		$saved_keyword = GreaterMedia_Keyword_Admin::array_map_r( 'sanitize_text_field', $saved_keyword );
+
+		if( $query_arg != '' && array_key_exists( $query_arg, $saved_keyword ) ) {
+			return $saved_keyword[$query_arg]['post_id'];
+		}
+	}
+	return 0;
+}
