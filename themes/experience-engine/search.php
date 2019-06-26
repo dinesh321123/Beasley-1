@@ -22,7 +22,7 @@ if ( have_posts() ) :
 			$keyword = intval( get_post_with_keyword( $search_query ) );
 
 			if ( ! empty( $keyword ) ) {
-				echo '<h4>Keyword: ' . esc_html( $search_query ) . '</h4>';
+				echo "<h4>Here's what we found for '" . esc_html( $search_query ) . "'</h4>";
 				echo '<div class="archive-tiles archive-keyword-tiles -grid -small">';
 
 				setup_postdata( $keyword );
