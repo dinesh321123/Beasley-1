@@ -27,6 +27,8 @@
 		"wpackagist-plugin/disable-real-mime-check": "*",
 		"wpackagist-plugin/query-monitor": "*",
 		"wpackagist-plugin/rewrite-rules-inspector": "*",
+		"wpackagist-plugin/debug-bar": "*",
+		"wpackagist-plugin/debug-bar-elasticpress": "*",
 		"10up/wp-minions": "*",
 		"10up/post-finder": "*"
 	},
