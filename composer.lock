@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1815048f1d2e9eb030b54f6155dbb7e",
+    "content-hash": "eb8125ac87f6f27e71bf054440eca9a6",
     "packages": [
         {
             "name": "10up/post-finder",

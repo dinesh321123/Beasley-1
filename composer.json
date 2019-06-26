@@ -12,7 +12,7 @@
 		"wpackagist-plugin/fb-instant-articles": "*",
 		"wpackagist-plugin/duplicate-post": "*",
 		"wpackagist-plugin/edit-flow": "*",
-		"wpackagist-plugin/elasticpress": "*",
+		"wpackagist-plugin/elasticpress": "3.0.3",
 		"wpackagist-plugin/feed-pull": "*",
 		"wpackagist-plugin/public-post-preview": "*",
 		"wpackagist-plugin/restricted-site-access": "*",
