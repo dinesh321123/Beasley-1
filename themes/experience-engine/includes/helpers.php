@@ -143,6 +143,12 @@ endif;
 if ( ! function_exists( 'ee_the_permalink' ) ) :
 	function ee_the_permalink() {
 		$post = get_post();
+
+		if ( ! empty( get_post_meta( $post->ID, 'fp_syndicated_post', true ) ) ) {
+			the_permalink( $post );
+			return;
+		}
+
 		if ( ! empty( $post->link ) ) {
 			$url = $post->link;
 			$parts = parse_url( $url );
