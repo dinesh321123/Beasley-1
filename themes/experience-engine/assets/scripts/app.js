@@ -23,8 +23,10 @@ import BackToTop from './components/BackToTop';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import { isSafari, isWindowsBrowser } from './library/browser';
+import './library/geotargetly';
 
 es6promise.polyfill();
+
 
 class Application extends PureComponent {
 	constructor( props ) {

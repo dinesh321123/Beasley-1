@@ -166,6 +166,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
 		$config = array(
 			'cssvars' => array( 'variables' => ee_get_css_colors() ),
+			'geotargetly' => filter_var( get_option( 'ee_geotargetly_enabled', false ), FILTER_VALIDATE_BOOLEAN ),
 
 			/** Live Streaming Intervals */
 			'intervals'  => [
