@@ -16,7 +16,7 @@ add_filter( 'gmr-show-curation-post-types', 'gmr_contest_register_curration_post
 add_filter( 'manage_' . GMR_CONTEST_CPT . '_posts_columns', 'gmr_contests_filter_contest_columns_list' );
 add_filter( 'post_row_actions', 'gmr_contests_filter_contest_actions', PHP_INT_MAX, 2 );
 add_filter( 'gmr_live_link_suggestion_post_types', 'gmr_contests_extend_live_link_suggestion_post_types' );
-add_filter( 'pre_get_posts', 'gmr_filter_expired_contests' );
+add_filter( 'pre_get_posts', 'gmr_filter_expired_contests', 10000 );
 
 /**
  * Enqueues admin styles.
