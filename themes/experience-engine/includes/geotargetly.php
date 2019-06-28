@@ -61,7 +61,11 @@ function ee_current_page_needs_geotargetly() {
 				is_single() && get_query_var( 'show' ) === 'dave-and-chuck'
 			) ||
 			(
-				/* Sub Nav page of D&C */
+				/* D&C Category Archive */
+				is_archive() && is_category( 'dave-chuck-the-freak' )
+			) ||
+			(
+				/* Sub Pages of D&C Show Page */
 				stripos( $request, '/shows/dave-and-chuck/' ) !== false
 			)
 		);
