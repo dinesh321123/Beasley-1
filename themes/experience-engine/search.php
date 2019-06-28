@@ -25,7 +25,9 @@ if ( have_posts() ) :
 				echo "<h4>Here's what we found for '" . esc_html( $search_query ) . "'</h4>";
 				echo '<div class="archive-tiles archive-keyword-tiles -grid -small">';
 
-				setup_postdata( $keyword );
+				global $post;
+				$post = get_post( $keyword );
+				setup_postdata( $post );
 				get_template_part( 'partials/tile', get_post_type() );
 				wp_reset_postdata();
 
