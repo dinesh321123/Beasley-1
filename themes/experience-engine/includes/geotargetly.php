@@ -54,7 +54,7 @@ function ee_current_page_needs_geotargetly() {
 		(
 			(
 				/* Post tagged with D&C category */
-				is_single() && in_category( 'dave-chuck-the-freak' )
+				is_single() && in_category( [ 'dave-chuck-the-freak', 'dave-and-chuck-the-freak' ] )
 			) ||
 			(
 				/* D&C Show Page */
@@ -62,7 +62,7 @@ function ee_current_page_needs_geotargetly() {
 			) ||
 			(
 				/* D&C Category Archive */
-				is_archive() && is_category( 'dave-chuck-the-freak' )
+				is_archive() && is_category( [ 'dave-chuck-the-freak', 'dave-and-chuck-the-freak' ] )
 			) ||
 			(
 				/* Sub Pages of D&C Show Page */
