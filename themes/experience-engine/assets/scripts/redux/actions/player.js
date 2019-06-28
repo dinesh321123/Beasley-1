@@ -134,7 +134,7 @@ export function initTdPlayer( modules ) {
 			clearTimeout( adPlaybackTimeout );
 			adPlaybackTimeout = setTimeout(
 				dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ),
-				60000,
+				70000,
 			);
 
 			dispatch( { type: ACTION_AD_PLAYBACK_START } );
