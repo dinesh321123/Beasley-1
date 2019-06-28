@@ -8,7 +8,7 @@ history.pushState = ( f => function pushState(){
 history.replaceState = ( f => function replaceState(){
 	var ret = f.apply( this, arguments );
 	window.dispatchEvent( new Event( 'replaceState' ) );
-	window.dispatchEvent( new Event( 'locationchange' ) );
+	//window.dispatchEvent( new Event( 'locationchange' ) );
 	return ret;
 } )( history.replaceState );
 
@@ -16,14 +16,12 @@ window.addEventListener( 'popstate',()=>{
 	window.dispatchEvent( new Event( 'locationchange' ) );
 } );
 
-if ( window.bbgiconfig.geotargetly ) {
-	window.addEventListener( 'locationchange', function() {
-		if ( window.geotargetly ) {
-			try {
-				window.geotargetly( document, 'script', 'style', 'head' );
-			} catch ( e ) {
-				// no-op
-			}
+window.addEventListener( 'locationchange', function() {
+	if ( window.bbgiconfig.geotargetly && window.geotargetly ) {
+		try {
+			window.geotargetly( document, 'script', 'style', 'head' );
+		} catch ( e ) {
+			// no-op
 		}
-	} );
-}
+	}
+} );

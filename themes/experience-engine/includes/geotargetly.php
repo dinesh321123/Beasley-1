@@ -15,8 +15,11 @@ function ee_is_geotargetly_enabled() {
  * Outputs Geo Targetly Embed Code if,
  *
  * 1. Geo Targetly Enabled in Station Settings
- * 2. Current Page Needs Geo Targetly
- * 3. Geo Targetly Embed Code provided in Station Settings
+ * 2. Geo Targetly Embed Code provided in Station Settings
+ *
+ * We must output this even if the requested route does not have
+ * geotargetly because we need to load the geotargetly global JS
+ * function for subsequent page loads.
  */
 function ee_geotargetly_if() {
 	if ( ee_is_geotargetly_enabled() ) {
@@ -28,6 +31,17 @@ function ee_geotargetly_if() {
 			echo "\n\n";
 		}
 	}
+}
+
+function ee_current_page_needs_geotargetly() {
+	global $wp;
+	$request = trailingslashit( '/' . $wp->request );
+
+	return ee_is_geotargetly_enabled() &&
+		(
+			in_category( 'dave-chuck-the-freak' ) ||
+			( stripos( $request, '/shows/dave-and-chuck/' ) !== false )
+		);
 }
 
 add_action( 'wp_head', 'ee_geotargetly_if', 0 );
