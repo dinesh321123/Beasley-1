@@ -152,7 +152,12 @@ if ( ! function_exists( 'ee_get_episode_meta' ) ) :
 					$download = $episode->media['url'];
 				}
 
-				// Check for enclosure metadata which is set by either Omny or an external rss feed pull
+				// Check for omny-audio-url metadata which is set by Omny
+				if ( ! filter_var( $download, FILTER_VALIDATE_URL ) ) {
+					$download = get_post_meta( $episode->ID, 'omny-audio-url', true );
+				}
+
+				// Check for enclosure metadata which is set by an external rss feed pull
 				if ( ! filter_var( $download, FILTER_VALIDATE_URL ) ) {
 					$download = get_post_meta( $episode->ID, 'enclosure', true );
 				}

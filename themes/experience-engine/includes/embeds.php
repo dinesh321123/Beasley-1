@@ -41,8 +41,8 @@ endif;
 
 if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 	function ee_update_embed_oembed_html( $html, $url, $attr, $post_ID ) {
+
 		$data = wp_cache_get( $url, 'ee:oembed' );
-		$data = '';
 		if ( empty( $data ) ) {
 			$data = _wp_oembed_get_object()->get_data( $url );
 			wp_cache_set( $url, $data, 'ee:oembed' );
@@ -53,7 +53,9 @@ if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 			if ( $fb_connect ) {
 				$html = preg_replace( '#<script.*?>.*?</script>#i', '<script src="' . esc_attr( $fb_connect ) . '"></script>', $html );
 			}
-		} elseif ( $data->provider_name == 'YouTube' ) {
+		} elseif ( $data->provider_name == 'YouTube' &&
+				// When Embedly wraps YouTube or embeds, it can cause double the pain when trying to embed YouTube code within Embedly code
+				false === stripos( $data->html, 'embedly' ) ) {
 			$html = ee_oembed_youtube_html( $data );
 		}
 
@@ -137,7 +139,8 @@ function ee_responsive_oembed_html( $html, $url, $attr ) {
 		$classes[] = 'vimeo';
 	}
 
-	if ( false !== strpos( $url, 'youtube.com' ) ) {
+	// Only add the YouTube class if this isn't an Embedly card or we'll get weird results
+	if ( false !== strpos( $url, 'youtube.com' ) && false === stripos( $html, 'embedly' ) ) {
 		$classes[] = 'youtube';
 	}
 
