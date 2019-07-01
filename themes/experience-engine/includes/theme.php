@@ -58,8 +58,6 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 
 		if ( $query->is_search() ) {
 			$query->set( 'posts_per_page', 12 );
-			$query->set( 'orderby', 'post_date' );
-			$query->set( 'order', 'DESC' );
 		} elseif ( $query->is_tag() ) {
 			$post_type = $query->get( 'post_type' );
 			if ( ! is_array( $post_type ) ) {
