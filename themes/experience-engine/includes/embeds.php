@@ -48,6 +48,8 @@ if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 			wp_cache_set( $url, $data, 'ee:oembed' );
 		}
 
+		var_dump($data);
+
 		if ( $data->provider_name == 'Facebook' && preg_match( '#[^\'"]+connect.facebook.net[^\'"]+#i', $html, $matches ) ) {
 			$fb_connect = filter_var( $matches[0], FILTER_VALIDATE_URL );
 			if ( $fb_connect ) {
