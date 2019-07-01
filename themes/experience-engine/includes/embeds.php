@@ -41,7 +41,8 @@ endif;
 
 if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 	function ee_update_embed_oembed_html( $html, $url, $attr, $post_ID ) {
-		$data = wp_cache_get( $url, 'ee:oembed' );
+		//$data = wp_cache_get( $url, 'ee:oembed' );
+		$data = '';
 		if ( empty( $data ) ) {
 			$data = _wp_oembed_get_object()->get_data( $url );
 			wp_cache_set( $url, $data, 'ee:oembed' );
