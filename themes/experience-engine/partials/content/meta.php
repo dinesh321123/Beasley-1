@@ -7,7 +7,7 @@
 					<?php if ( $avatar ) : ?>
 						<?php echo $avatar ?>
 					<?php else: ?>
-						<img class="avatar avatar-40 photo" src="http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g"
+						<img class="avatar avatar-40 photo" src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g"
 							 height="40" width="40" alt="Placeholder Shilloutte User Image">
 					<?php endif; ?>
 				<?php endif; ?>

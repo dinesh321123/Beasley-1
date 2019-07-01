@@ -69,15 +69,27 @@ class Dfp extends PureComponent {
 		const { placeholder, unitId, unitName, targeting } = self.props;
 		const { googletag, bbgiconfig } = window;
 
+		// If Adblocker is enabled googletag will be absent
+		if ( ! googletag ) {
+			return;
+		}
+
 		if ( !unitId ) {
 			return;
 		}
 
 		googletag.cmd.push( () => {
-			const size = bbgiconfig.dfp.sizes[unitName];
-			const slot = googletag
-				.defineSlot( unitId, size, placeholder )
-				.addService( googletag.pubads() );
+			let size = bbgiconfig.dfp.sizes[unitName];
+			let slot = googletag
+				.defineSlot( unitId, size, placeholder );
+
+			// If Slot was already defined this will be null
+			// Ignored to fix the exception
+			if ( ! slot ) {
+				return false;
+			}
+
+			slot.addService( googletag.pubads() );
 
 			let sizeMapping = false;
 			if ( 'top-leaderboard' === unitName ) {

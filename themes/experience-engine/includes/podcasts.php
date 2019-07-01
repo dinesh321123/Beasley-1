@@ -152,8 +152,20 @@ if ( ! function_exists( 'ee_get_episode_meta' ) ) :
 					$download = $episode->media['url'];
 				}
 
+				// Check for enclosure metadata which is set by either Omny or an external rss feed pull
 				if ( ! filter_var( $download, FILTER_VALIDATE_URL ) ) {
-					$download = get_post_meta( $episode->ID, 'omny-audio-url', true );
+					$download = get_post_meta( $episode->ID, 'enclosure', true );
+				}
+
+				// If neither Omny or external rss feed pull, check for audio shortcode in content and use that URL.
+				if ( ! filter_var( $download, FILTER_VALIDATE_URL ) ) {
+
+					$pattern = '/\[audio mp3="([!#$&-;=?-\[\]_a-z~]+)"\]/im';
+					$matches = array();
+
+					if ( preg_match_all( $pattern, $episode->post_content, $matches ) ) {
+						$download = $matches[1][0];
+					}
 				}
 
 				if ( filter_var( $download, FILTER_VALIDATE_URL ) ) {
@@ -240,7 +252,7 @@ endif;
 
 if ( ! function_exists( 'ee_get_lazy_audio' ) ) :
 	function ee_get_lazy_audio( $url, $title, $author ) {
-		return sprintf( 
+		return sprintf(
 			'<div class="lazy-audio" data-src="%s" data-title="%s" data-author="%s"></div>',
 			esc_attr( $url ),
 			esc_attr( $title ),

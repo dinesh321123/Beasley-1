@@ -52,7 +52,7 @@
 	}
 
 	& .episodes {
-		
+
 		& .status button svg {
 			fill: var(--global-white);
 		}
@@ -356,4 +356,11 @@
 			}
 		}
 	}
+}
+
+.archive-keyword-tiles {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
 }

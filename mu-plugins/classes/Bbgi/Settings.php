@@ -111,8 +111,20 @@ class Settings extends \Bbgi\Module {
 			'selected' => 'disabled' === get_option( 'ee_login', '' ),
 		);
 
+		$ee_geotargetly_enabled_args = [
+			'name' => 'ee_geotargetly_enabled',
+		];
+
+		$ee_geotargetly_embed_code_args = [
+			'name' => 'ee_geotargetly_embed_code',
+		];
+
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
+
+		add_settings_section( 'ee_geotargetly', 'Geo Targetly', '__return_false', $this->_settings_page_hook );
+		add_settings_field( 'ee_geotargetly_enabled', 'Geo Targetly Enabled', 'bbgi_checkbox_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_enabled_args );
+		add_settings_field( 'ee_geotargetly_embed_code', 'Geo Targetly Embed Code', 'bbgi_textarea_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_embed_code_args );
 
 		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=gmr_site_logo' );
 		add_settings_field( 'ee_theme_version', 'Theme Version', 'bbgi_select_field', $this->_settings_page_hook, 'ee_site_settings', $theme_version_args );
@@ -142,6 +154,12 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_theme_background_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_button_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_text_color', 'sanitize_text_field' );
+
+		register_setting( self::option_group, 'ee_geotargetly_enabled', 'sanitize_text_field' );
+
+		// Note: No Sanitization with the assumption that the GeoTargetly embed code is XSS safe
+		// Not for use with untrusted JS code
+		register_setting( self::option_group, 'ee_geotargetly_embed_code', '' );
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
