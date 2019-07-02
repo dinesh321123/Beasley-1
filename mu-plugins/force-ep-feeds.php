@@ -13,4 +13,4 @@ function beasley_force_ep_on_feeds( $query ) {
 	return $query;
 }
 
-add_action( 'pre_get_posts', 'beasley_force_ep_on_feeds' );
+//add_action( 'pre_get_posts', 'beasley_force_ep_on_feeds' );
