@@ -45,14 +45,6 @@
 	}
 }
 
-.featured-media.-autoheight {
-	& .placeholder-lazyimage {
-		&::before {
-			padding-top: 50%;
-		}
-	}
-}
-
 .jacapps .post-thumbnail {
 	&::before {
 		content: normal;
