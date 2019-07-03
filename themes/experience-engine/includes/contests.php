@@ -25,18 +25,18 @@ if ( ! function_exists( 'ee_the_contest_dates' ) ) :
 			return;
 		}
 
-		$now = current_time( 'timestamp' );
+		$now = current_time( 'timestamp', 1 );
 		$starts = ee_get_contest_meta( $contest, 'starts' );
 		$ends = ee_get_contest_meta( $contest, 'ends' );
 
 		$label = false;
 		if ( $starts > 0 && $now < $starts ) {
-			$label = 'Starts ' . ee_get_date( $starts );
+			$label = 'Starts ' . ee_get_date( $starts, 1 );
 		} elseif ( $ends > 0 ) {
 			if ( $ends < $now ) {
 				$label = 'Ended';
 			} else {
-				$label = 'Ends ' . ee_get_date( $ends );
+				$label = 'Ends ' . ee_get_date( $ends, 1 );
 			}
 		}
 
