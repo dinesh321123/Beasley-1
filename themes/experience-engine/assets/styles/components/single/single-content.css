@@ -31,6 +31,10 @@
 		order: 2;
 	}
 
+	iframe {
+		width: 100%;
+	}
+
 }
 /* End Grid Fallbacks */
 
