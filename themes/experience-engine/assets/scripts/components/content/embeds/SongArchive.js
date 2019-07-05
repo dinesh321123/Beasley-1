@@ -41,21 +41,27 @@ class SongArchive extends PureComponent {
 					<p>Loading ...</p>
 					:
 					<div>
-						<h4>{ dayjs.unix( this.state.now ).format( 'MMM D, YYYY' ) }</h4>
 
-						<ul>
-							{ this.state.songs.map( ( song ) => {
-								return (
-									<li key={ song.id }>
-										<span className="song-time">{ dayjs.unix( song.timestamp ).format( 'h:mm A' ) }</span>
-										&nbsp;
-										<span className="song-title">{ song.title }</span>
-										&mdash;
-										<span className="song-artist">{ song.artist }</span>
-									</li>
-								);
-							} ) }
-						</ul>
+						{ this.state.days.map( ( day ) => {
+							return (
+								<div key={ day }>
+									<h4>{ day }</h4>
+									<ul>
+										{ this.state.songCollectionByDay.get( day ).map( ( song ) => {
+											return (
+												<li key={ song.id }>
+													<span className="song-time">{ dayjs.unix( song.timestamp ).format( 'h:mm A' ) }</span>
+													&nbsp;
+													<span className="song-title">{ song.title }</span>
+													&mdash;
+													<span className="song-artist">{ song.artist }</span>
+												</li>
+											);
+										} ) }
+									</ul>
+								</div>
+							);
+						} ) }
 					</div>
 				}
 			</div>
@@ -67,10 +73,18 @@ class SongArchive extends PureComponent {
 
 		$.get( this.props.endpoint )
 			.then( ( result ) => {
-				self.setState( { loading: false, songs: result } );
+
+				const days = [ ...new Set( result.map( song => dayjs.unix( song.timestamp ).format( 'MMMM D, YYYY' ) ) ) ];
+
+				let songCollectionByDay = new Map();
+				days.map( day => songCollectionByDay.set( day, [] ) );
+
+				result.map( song => songCollectionByDay.get( dayjs.unix( song.timestamp ).format( 'MMMM D, YYYY' ) ).push( song ) );
+
+				self.setState( { loading: false, days: days, songCollectionByDay: songCollectionByDay } );
 			} )
 			.fail( () => {
-				self.setState( { loading: false, songs: [] } );
+				self.setState( { loading: false, days: [], songCollectionByDay: [] } );
 			} );
 	}
 

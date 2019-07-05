@@ -15,7 +15,7 @@ get_header();
 $call_sign = get_query_var( GMR_LIVE_STREAM_CPT );
 
 $query_params = [
-	'limit'  => 100,
+	'limit'  => 200,
 	'offset' => 0,
 ];
 
