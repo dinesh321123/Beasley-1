@@ -5,7 +5,8 @@ namespace Bbgi\Integration;
 class ExperienceEngine extends \Bbgi\Module {
 
 	private static $_fields = array(
-		'ee_host' => 'API host',
+		'ee_host'           => 'API host',
+		'ee_hp_cache_token' => 'Homepage Cache Clear Token',
 	);
 
 	/**
