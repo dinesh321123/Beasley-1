@@ -341,6 +341,69 @@ if ( is_array( $_COOKIE) && ! empty( $_COOKIE ) ) {
 	}
 }
 
+// Beasley Customization Start ------------------------------------------
+
+/**
+ * Returns a boolean based on whether the current URL is a Beasley XML feed.
+ *
+ * @return bool
+ */
+function is_beasley_feed() {
+	if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
+		$path         = $_SERVER['REQUEST_URI'];
+		$query_string = $_SERVER['QUERY_STRING'];
+		parse_str( $query_string, $query_params );
+
+		if ( strpos( $path, '/feed/' ) !== false ) {
+			/* Matches Feed suffixes: /category/foo/feed/ */
+			return true;
+		} else if ( ! empty( $query_params['feed'] ) ) {
+			/* Matches custom Homepage feeds: /?feed=custom_homepage */
+			return true;
+		} else {
+			/* Not a feed */
+			return false;
+		}
+	} else {
+		/* If request uri header is absent don't match */
+		return false;
+	}
+}
+
+/**
+ * Returns a boolean if the current URL has a ?nocache=true Query parameter
+ *
+ * @return bool
+ */
+function is_beasley_cache_disabled() {
+	if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
+		$query_string = $_SERVER['QUERY_STRING'];
+		parse_str( $query_string, $query_params );
+
+		if ( ! empty( $query_params['nocache'] ) && $query_params['nocache'] === 'true' ) {
+			/* Matches ?nocache=true */
+			return true;
+		} else {
+			/* Continue caching as normal -- nocache is absent */
+			return false;
+		}
+	} else {
+		/* If request uri header is absent don't match */
+		return false;
+	}
+}
+
+/*
+ * If current route is a Beasley RSS Feed and has nocache=true, then
+ * exit early to bypass batcache.
+ */
+if ( is_beasley_feed() && is_beasley_cache_disabled() ) {
+	header( 'X-Beasley-Cache: bypass' );
+	return;
+}
+
+// Beasley Customization End ------------------------------------------
+
 if ( ! include_once( WP_CONTENT_DIR . '/object-cache.php' ) )
 	return;
 
