@@ -23,7 +23,7 @@ endif;
 		</div>
 		
 		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
-			<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
+			<?php get_template_part( 'partials/featured-media' ); ?>
 		<?php endif; ?>
 
 		<h1 class="event-title">
@@ -65,7 +65,7 @@ endif;
 	<div class="entry-content content-wrap">
 		<div class="description">
 			<?php if ( bbgi_featured_image_layout_is( null, 'inline' ) ) : ?>
-				<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
+				<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php endif; ?>
 
 			<?php the_content(); ?>
