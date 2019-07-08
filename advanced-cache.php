@@ -534,20 +534,20 @@ if ( isset($batcache->cache['time']) && ! $batcache->genlock && time() < $batcac
 
 	// Respect ETags served with feeds.
 	$three04 = false;
-	if ( isset( $SERVER['HTTP_IF_NONE_MATCH'] ) && isset( $batcache->cache['headers']['ETag'][0] ) && $_SERVER['HTTP_IF_NONE_MATCH'] == $batcache->cache['headers']['ETag'][0] )
-		$three04 = true;
-
-	// Respect If-Modified-Since.
-	elseif ( $batcache->cache_control && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
-		$client_time = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
-		if ( isset($batcache->cache['headers']['Last-Modified'][0]) )
-			$cache_time = strtotime($batcache->cache['headers']['Last-Modified'][0]);
-		else
-			$cache_time = $batcache->cache['time'];
-
-		if ( $client_time >= $cache_time )
-			$three04 = true;
-	}
+//	if ( isset( $SERVER['HTTP_IF_NONE_MATCH'] ) && isset( $batcache->cache['headers']['ETag'][0] ) && $_SERVER['HTTP_IF_NONE_MATCH'] == $batcache->cache['headers']['ETag'][0] )
+//		$three04 = true;
+//
+//	// Respect If-Modified-Since.
+//	elseif ( $batcache->cache_control && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
+//		$client_time = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+//		if ( isset($batcache->cache['headers']['Last-Modified'][0]) )
+//			$cache_time = strtotime($batcache->cache['headers']['Last-Modified'][0]);
+//		else
+//			$cache_time = $batcache->cache['time'];
+//
+//		if ( $client_time >= $cache_time )
+//			$three04 = true;
+//	}
 
 	// Use the batcache save time for Last-Modified so we can issue "304 Not Modified" but don't clobber a cached Last-Modified header.
 	if ( $batcache->cache_control && !isset($batcache->cache['headers']['Last-Modified'][0]) ) {
