@@ -637,7 +637,7 @@ function fix_all_contests_invalidator_cli( $args ) {
 		fix_incorrectly_expired_contests();
 		restore_current_blog();
 
-		WP_CLI::log( 'Unpublished contests for site ' . $site->domain );
+		WP_CLI::log( 'Fixed contests for site ' . $site->domain );
 
 	}
 
