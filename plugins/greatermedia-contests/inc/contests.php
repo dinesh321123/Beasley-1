@@ -556,7 +556,7 @@ function invalidate_expired_contests() {
 }
 
 /**
- * Add custom 1 hour cron interval.
+ * Add custom 30 minute cron interval.
  *
  * @param array $schedules Cron schedules.
  * @return array

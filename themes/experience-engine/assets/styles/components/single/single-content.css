@@ -18,12 +18,20 @@
 
 	& .description {
 		padding-right: 3.8%;
-		flex: 0 1 67%;
+		flex: 0 1 100%;
+
+		@media (--min-large-viewport) {
+			flex-basis: 67%;
+		}
 	}
 
 	& .ad {
-		flex: 0 1 29.15%;
+		flex: 0 1 100%;
 		order: 1;
+
+		@media (--min-large-viewport) {
+			flex-basis: 29.15%;
+		}
 	}
 
 	& .placeholder-loadmore {
