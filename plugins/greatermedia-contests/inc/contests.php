@@ -539,6 +539,12 @@ function invalidate_expired_contests() {
 					'type'    => 'NUMERIC',
 					'value'   => time(),
 					'compare' => '<=',
+				),
+				array(
+					'key'     => 'contest-end',
+					'type'    => 'NUMERIC',
+					'value'   => 0,
+					'compare' => '>',
 				)
 			),
 		]
