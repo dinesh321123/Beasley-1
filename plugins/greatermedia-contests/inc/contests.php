@@ -21,7 +21,7 @@ add_action( 'contest_invalidator_cron_hook', 'invalidate_expired_contests' );
 
 if ( class_exists( 'WP_CLI' ) ) {
 	WP_CLI::add_command( 'invalidate_all_contests', 'run_all_contests_invalidator_cli' );
-	WP_CLI::add_command( 'fix_incorrect_contests', 'fix_incorrectly_expired_contests' );
+	WP_CLI::add_command( 'fix_incorrect_contests', 'fix_all_contests_invalidator_cli' );
 }
 
 if ( ! wp_next_scheduled( 'contest_invalidator_cron_hook' ) ) {
