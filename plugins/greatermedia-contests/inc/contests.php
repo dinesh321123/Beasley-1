@@ -21,6 +21,7 @@ add_action( 'contest_invalidator_cron_hook', 'invalidate_expired_contests' );
 
 if ( class_exists( 'WP_CLI' ) ) {
 	WP_CLI::add_command( 'invalidate_all_contests', 'run_all_contests_invalidator_cli' );
+	WP_CLI::add_command( 'fix_incorrect_contests', 'fix_incorrectly_expired_contests' );
 }
 
 if ( ! wp_next_scheduled( 'contest_invalidator_cron_hook' ) ) {
@@ -609,4 +610,69 @@ function run_all_contests_invalidator_cli( $args ) {
 	}
 
     WP_CLI::success( $args[0] );
+}
+
+/**
+ * CLI script to Fix incorrectly expired contests on all sites
+ */
+function fix_all_contests_invalidator_cli( $args ) {
+
+	if ( ! class_exists( 'WP_CLI'  ) ) {
+		return;
+	}
+
+	$sites = get_sites( [
+		'public'	=> '1',
+	] );
+
+	foreach ( $sites as $site ) {
+
+		// Don't do this on the content factory website
+		if ( false !== stripos( $site->domain, 'content.' ) ) {
+			continue;
+		}
+
+		// Switch to the blog and change the expired contests to a draft
+		switch_to_blog( $site->blog_id );
+		fix_incorrectly_expired_contests();
+		restore_current_blog();
+
+		WP_CLI::log( 'Unpublished contests for site ' . $site->domain );
+
+	}
+
+	WP_CLI::success( $args[0] );
+}
+
+function fix_incorrectly_expired_contests() {
+	// Grab all published contests that have a contest end date in the past
+	$expired_contests_query = new \WP_Query( [
+		'post_type'	=> GMR_CONTEST_CPT,
+		'post_status' => 'draft',
+		'meta_query' => [
+			array(
+				array(
+					'key'     => 'contest-end',
+					'type'    => 'NUMERIC',
+					'value'   => 0,
+				)
+			),
+		],
+		'date_query' => [
+			array(
+				'column' => 'post_modified',
+				'after' => '2019-07-09 12:30:00'
+			)
+		]
+	] );
+
+	if ( $expired_contests_query->post_count ) {
+		foreach( $expired_contests_query->posts as $contest_post ) {
+			\WP_CLI::line( "Publishing " . $contest_post->ID );
+			wp_update_post( [
+				'ID'	=> $contest_post->ID,
+				'post_status' => 'publish'
+			] );
+		}
+	}
 }
