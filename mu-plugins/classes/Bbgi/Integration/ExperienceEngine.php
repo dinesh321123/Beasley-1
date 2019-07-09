@@ -271,6 +271,7 @@ class ExperienceEngine extends \Bbgi\Module {
 			'methods'             => 'POST',
 			'callback'            => $this( 'rest_purge_cache' ),
 			'permission_callback' => array( $this, 'check_purge_cache_permissions' ),
+			'show_in_index'       => false,
 		) );
 
 		$authorization = array(
