@@ -33,22 +33,19 @@ class Webhooks extends \Bbgi\Module {
 			return;
 		}
 
-		$url = get_option( 'ee_webhook_url', false );
+		$base_url  = get_site_option( 'ee_host', false );
+		$appkey    = get_site_option( 'ee_appkey', false );
+		$publisher = get_option( 'ee_publisher', false );
 
 		// Abort if notification URL isn't set
-		if ( ! $url ) {
+		if ( ! $base_url || ! $publisher || ! $appkey ) {
 			return;
 		}
 
+		$url = trailingslashit( $base_url ) . 'admin/publishers/' . $publisher . '/build?appkey=' . $appkey;
+
 		wp_remote_post( $url, array(
 			'blocking' => false,
-			'headers'  => array(
-				'Content-Type' => 'application/json',
-			),
-			'body'     => wp_json_encode( array(
-				'publisher' => get_option( 'ee_publisher', '' ),
-				'home_url'  => home_url( '/' ),
-			) ),
 		) );
 	}
 

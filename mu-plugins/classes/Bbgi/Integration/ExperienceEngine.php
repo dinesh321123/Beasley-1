@@ -6,7 +6,8 @@ class ExperienceEngine extends \Bbgi\Module {
 
 	private static $_fields = array(
 		'ee_host'           => 'API host',
-		'ee_hp_cache_token' => 'Homepage Cache Clear Token',
+		'ee_cache_token' => 'Cache Clear Token',
+		'ee_appkey'         => 'EE App Key',
 	);
 
 	/**
@@ -304,7 +305,7 @@ class ExperienceEngine extends \Bbgi\Module {
 	 * @return boolean
 	 */
 	public function check_purge_cache_permissions( \WP_REST_Request $request ) {
-		$token = get_site_option( 'ee_hp_cache_token', false );
+		$token = get_site_option( 'ee_cache_token', false );
 
 		if ( empty( $token ) ) {
 			return false;
