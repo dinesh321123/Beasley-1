@@ -15,7 +15,6 @@
 	display: none;
 }
 
-
 .jacapps {
 	& .wp-audio-shortcode,
 	& iframe[src^="https://omny.fm"] {
