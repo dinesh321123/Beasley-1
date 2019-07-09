@@ -24,9 +24,12 @@ if ( class_exists( 'WP_CLI' ) ) {
 	WP_CLI::add_command( 'fix_incorrect_contests', 'fix_all_contests_invalidator_cli' );
 }
 
-if ( ! wp_next_scheduled( 'contest_invalidator_cron_hook' ) ) {
-	wp_schedule_event( time(), '1hour', 'contest_invalidator_cron_hook' );
-}
+add_action( 'admin_init', function () {
+	if ( ! wp_next_scheduled( 'contest_invalidator_cron_hook' ) ) {
+		wp_schedule_event( time(), '30minute', 'contest_invalidator_cron_hook' );
+	}
+});
+
 
 /**
  * Enqueues admin styles.
@@ -531,9 +534,10 @@ function invalidate_expired_contests() {
 
 	// Grab all published contests that have a contest end date in the past
 	$expired_contests_query = new \WP_Query( [
-		'post_type'	=> GMR_CONTEST_CPT,
-		'post_status' => 'publish',
-		'meta_query' => [
+		'post_type'      => GMR_CONTEST_CPT,
+		'post_status'    => 'publish',
+		'posts_per_page' => 500,
+		'meta_query'     => [
 			array(
 				array(
 					'key'     => 'contest-end',
@@ -546,18 +550,21 @@ function invalidate_expired_contests() {
 					'type'    => 'NUMERIC',
 					'value'   => 0,
 					'compare' => '>',
-				)
+				),
 			),
-		]
+		],
 	] );
 
 	if ( $expired_contests_query->post_count ) {
 		foreach( $expired_contests_query->posts as $contest_post ) {
+			gmr_contests_log( " - Setting {$contest_post->ID} to draft" );
 			wp_update_post( [
 				'ID'	=> $contest_post->ID,
 				'post_status' => 'draft'
 			] );
 		}
+	} else {
+		gmr_contests_log( " - No contests found on this site" );
 	}
 
 }
@@ -599,6 +606,8 @@ function run_all_contests_invalidator_cli( $args ) {
 		if ( false !== stripos( $site->domain, 'content.' ) ) {
 			continue;
 		}
+
+		WP_CLI::log( 'Processing site ' . $site->domain );
 
 		// Switch to the blog and change the expired contests to a draft
 		switch_to_blog( $site->blog_id );
@@ -668,11 +677,17 @@ function fix_incorrectly_expired_contests() {
 
 	if ( $expired_contests_query->post_count ) {
 		foreach( $expired_contests_query->posts as $contest_post ) {
-			\WP_CLI::line( "Publishing " . $contest_post->ID );
+			gmr_contests_log( "Publishing " . $contest_post->ID );
 			wp_update_post( [
 				'ID'	=> $contest_post->ID,
 				'post_status' => 'publish'
 			] );
 		}
+	}
+}
+
+function gmr_contests_log( $message ) {
+	if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		\WP_CLI::log( $message );
 	}
 }
