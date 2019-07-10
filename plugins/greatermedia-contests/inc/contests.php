@@ -613,7 +613,7 @@ function fix_all_contests_invalidator_cli( $args, $opts = [] ) {
 		return;
 	}
 
-	if ( empty( $opts['after'] ) ) {
+	if ( ! empty( $opts['after'] ) ) {
 		$after = $opts['after'];
 	} else {
 		$after = '2019-07-09 22:50:00';
@@ -642,7 +642,7 @@ function fix_all_contests_invalidator_cli( $args, $opts = [] ) {
 	WP_CLI::success( $args[0] );
 }
 
-function fix_incorrectly_expired_contests() {
+function fix_incorrectly_expired_contests( $after ) {
 	// Grab all published contests that have a contest end date in the past
 	$expired_contests_query = new \WP_Query( [
 		'post_type'	=> GMR_CONTEST_CPT,
