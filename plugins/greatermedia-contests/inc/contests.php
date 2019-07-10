@@ -476,9 +476,14 @@ global $did_filter_expired_contests;
 $did_filter_expired_contests = false;
 
 function gmr_filter_expired_contests( $query ) {
+	// exit early if running via cron
+	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+		return $query;
+	}
+
 	global $did_filter_expired_contests;
 
-	if ( ! is_admin() && ( $query->is_search() || $query->is_post_type_archive( GMR_CONTEST_CPT ) ) && ! $did_filter_expired_contests ) {
+	if ( $query->is_main_query() && ! is_admin() && ( $query->is_search() || $query->is_post_type_archive( GMR_CONTEST_CPT ) ) && ! $did_filter_expired_contests ) {
 		$now           = time();
 		$query_params = array(
 			array(
@@ -602,10 +607,16 @@ function run_all_contests_invalidator_cli( $args ) {
 /**
  * CLI script to Fix incorrectly expired contests on all sites
  */
-function fix_all_contests_invalidator_cli( $args ) {
+function fix_all_contests_invalidator_cli( $args, $opts = [] ) {
 
 	if ( ! class_exists( 'WP_CLI'  ) ) {
 		return;
+	}
+
+	if ( empty( $opts['after'] ) ) {
+		$after = $opts['after'];
+	} else {
+		$after = '2019-07-09 22:50:00';
 	}
 
 	$sites = get_sites( [
@@ -621,7 +632,7 @@ function fix_all_contests_invalidator_cli( $args ) {
 
 		// Switch to the blog and change the expired contests to a draft
 		switch_to_blog( $site->blog_id );
-		fix_incorrectly_expired_contests();
+		fix_incorrectly_expired_contests( $after );
 		restore_current_blog();
 
 		WP_CLI::log( 'Fixed contests for site ' . $site->domain );
@@ -648,7 +659,7 @@ function fix_incorrectly_expired_contests() {
 		'date_query' => [
 			array(
 				'column' => 'post_modified',
-				'after' => '2019-07-09 12:30:00'
+				'after' => $after,
 			)
 		]
 	] );
