@@ -669,6 +669,7 @@ function fix_incorrectly_expired_contests( $after ) {
 	// Grab all published contests that have a contest end date in the past
 	$expired_contests_query = new \WP_Query( [
 		'post_type'	=> GMR_CONTEST_CPT,
+		'posts_per_page' => 10000,
 		'post_status' => 'draft',
 		'meta_query' => [
 			array(
