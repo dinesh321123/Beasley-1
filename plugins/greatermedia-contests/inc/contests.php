@@ -486,6 +486,29 @@ function gmr_filter_expired_contests( $query ) {
 	if ( $query->is_main_query() && ! is_admin() && ( $query->is_search() || $query->is_post_type_archive( GMR_CONTEST_CPT ) ) && ! $did_filter_expired_contests ) {
 		$now           = time();
 		$query_params = array(
+			'relation' => 'AND',
+			array(
+				'relation' => 'OR',
+				/* This is a contest with an valid end timestamp */
+				array(
+					'key'     => 'contest-end',
+					'type'    => 'NUMERIC',
+					'value'   => $now,
+					'compare' => '>',
+				),
+				/* any other post/type which matches the search query */
+				array(
+					'key'     => 'contest-end',
+					'type'    => 'NUMERIC',
+					'value'   => '',
+					'compare' => 'NOT EXISTS',
+				),
+				array(
+					'key'   => 'contest-end',
+					'type'  => 'NUMERIC',
+					'value' => 0,
+				)
+			),
 			array(
 				'relation' => 'OR',
 				array(
