@@ -18,6 +18,7 @@ add_filter( 'post_row_actions', 'gmr_contests_filter_contest_actions', PHP_INT_M
 add_filter( 'gmr_live_link_suggestion_post_types', 'gmr_contests_extend_live_link_suggestion_post_types' );
 add_filter( 'cron_schedules', 'contest_cron_intervals' );
 add_action( 'contest_invalidator_cron_hook', 'invalidate_expired_contests' );
+add_filter( 'pre_get_posts', 'gmr_filter_expired_contests', 10000 );
 
 if ( class_exists( 'WP_CLI' ) ) {
 	WP_CLI::add_command( 'invalidate_all_contests', 'run_all_contests_invalidator_cli' );
@@ -480,29 +481,6 @@ function gmr_filter_expired_contests( $query ) {
 	if ( ! is_admin() && ( $query->is_search() || $query->is_post_type_archive( GMR_CONTEST_CPT ) ) && ! $did_filter_expired_contests ) {
 		$now           = time();
 		$query_params = array(
-			'relation' => 'AND',
-			array(
-				'relation' => 'OR',
-				/* This is a contest with an valid end timestamp */
-				array(
-					'key'     => 'contest-end',
-					'type'    => 'NUMERIC',
-					'value'   => $now,
-					'compare' => '>',
-				),
-				/* any other post/type which matches the search query */
-				array(
-					'key'     => 'contest-end',
-					'type'    => 'NUMERIC',
-					'value'   => '',
-					'compare' => 'NOT EXISTS',
-				),
-				array(
-					'key'   => 'contest-end',
-					'type'  => 'NUMERIC',
-					'value' => 0,
-				)
-			),
 			array(
 				'relation' => 'OR',
 				array(
