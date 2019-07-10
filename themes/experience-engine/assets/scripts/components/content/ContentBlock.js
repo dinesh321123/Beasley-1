@@ -73,6 +73,35 @@ class ContentBlock extends Component {
 
 	componentDidMount() {
 		this.setState( { ready: true } );
+		this.bindContests();
+
+
+	}
+
+	/**
+	 * Bind contest event listeners
+	 */
+	bindContests() {
+		const contestToggler = document.getElementById( 'contest-rules-toggle' );
+
+		console.log( contestToggler );
+
+		if ( contestToggler ) {
+			contestToggler.addEventListener( 'click', this.handleContestClick );
+		}
+	}
+
+	/**
+	 * Handle 'view contest' link click
+	 */
+	handleContestClick( e ) {
+		const contestRules = document.getElementById( 'contest-rules' );
+
+		e.target.style.display = 'none';
+
+		if ( contestRules ) {
+			contestRules.style.display = 'block';
+		}
 	}
 
 	render() {

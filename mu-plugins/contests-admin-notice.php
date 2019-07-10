@@ -6,5 +6,3 @@ function contest_failure_admin_notice() {
 
 	printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
 }
-
-add_action( 'admin_notices', 'contest_failure_admin_notice' );

@@ -3,7 +3,7 @@
 get_header();
 
 ee_switch_to_article_blog();
-the_post(); 
+the_post();
 
 ?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="post-info">
@@ -40,6 +40,20 @@ the_post();
 					<?php ee_the_subtitle( 'How to enter:' ); ?>
 					<?php echo wpautop( do_shortcode( $enter ) ); ?>
 				</div>
+			<?php endif; ?>
+
+			<?php if ( ( $contest_rules = trim( get_post_meta( get_the_ID(), 'rules-desc', true ) ) ) ) : ?>
+			<div class="contest__description">
+				<p>
+					<button id="contest-rules-toggle" class="contest-attr--rules-toggler" data-toggle="collapse" data-target="#contest-rules" data-alt-text="Hide Contest Rules">
+						View contest rules
+					</button>
+				</p>
+				<div id="contest-rules" class="contest-attr--rules">
+					<h4>Contest Rules</h4>
+					<?php echo wpautop( do_shortcode( $contest_rules ) ); ?>
+				</div>
+			</div>
 			<?php endif; ?>
 
 			<?php get_template_part( 'partials/content/categories' ); ?>
