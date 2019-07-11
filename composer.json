@@ -7,6 +7,7 @@
 		}
 	],
 	"require": {
+		"humanmade/s3-uploads": "~2.0",
 		"oomphinc/composer-installers-extender": "^1.1",
 		"wpackagist-plugin/advanced-custom-fields": "*",
 		"wpackagist-plugin/fb-instant-articles": "*",
