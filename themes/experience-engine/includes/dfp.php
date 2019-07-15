@@ -159,7 +159,11 @@ if ( ! function_exists( 'ee_display_dfp_outofpage' ) ) :
 		$dfp_ad_interstitial = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( 'interstitial' );
 		if ( ! empty( $dfp_ad_interstitial ) ) :
 			?><div id="div-gpt-ad-1484200509775-3" style="height:0;overflow:hidden;width:0;">
-				<script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1484200509775-3'); });</script>
+				<script type="text/javascript">
+					var googletag = googletag || {};
+					googletag.cmd = googletag.cmd || [];
+					googletag.cmd.push(function() { googletag.display('div-gpt-ad-1484200509775-3'); });
+				</script>
 			</div><?php
 		endif;
 	}
