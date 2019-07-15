@@ -6,7 +6,7 @@ if ( $query->have_posts() ) :
 		ee_the_subtitle( 'Recent' );
 	endif;
 
-	?><div class="archive-tiles -grid -small">
+	?><div class="archive-tiles -grid <?php echo ( ee_is_jacapps() ? '-large' : '-small' ); ?>">
 		<?php ee_the_query_tiles( $query ); ?>
 	</div><?php
 

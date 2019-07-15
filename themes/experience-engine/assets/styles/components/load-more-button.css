@@ -32,3 +32,15 @@
 		}
 	}
 }
+
+.jacapps .load-more {
+	padding: 1rem;
+}
+
+.archive-tiles.-grid {
+	display: block;
+}
+
+.jacapps .post-thumbnail a {
+	position: relative;
+}
