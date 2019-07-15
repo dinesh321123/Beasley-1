@@ -98,6 +98,11 @@ endif;
 
 if ( ! function_exists( 'ee_update_livestream_html' ) ) :
 	function ee_update_livestream_html( $html, $embed_id, $url ) {
+
+		if ( ee_is_jacapps() ) {
+			return $html;
+		}
+
 		$html = sprintf(
 			'<div class="livestream" data-embedid="%s" data-src="%s"></div>',
 			esc_attr( $embed_id ),
