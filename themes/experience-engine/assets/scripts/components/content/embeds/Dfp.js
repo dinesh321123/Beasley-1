@@ -54,14 +54,12 @@ class Dfp extends PureComponent {
 	}
 
 	startInterval() {
-		window.console.log( 'startInterval' );
 		this.setState( {
 			interval: setInterval( this.refreshSlot, 20000 ), // 20 sec
 		} );
 	}
 
 	stopInterval() {
-		window.console.log( 'stopInterval' );
 		clearInterval( this.state.interval );
 		this.setState( { interval: false } );
 	}
@@ -72,7 +70,6 @@ class Dfp extends PureComponent {
 		const { googletag, bbgiconfig } = window;
 
 		if ( ! document.getElementById( placeholder ) ) {
-			window.console.log( 'no placeholder', unitId, placeholder );
 			return;
 		}
 
@@ -81,7 +78,7 @@ class Dfp extends PureComponent {
 			return;
 		}
 
-		if ( !unitId ) {
+		if ( ! unitId ) {
 			return;
 		}
 
@@ -174,18 +171,15 @@ class Dfp extends PureComponent {
 			}
 
 			googletag.display( slot );
-
 			self.setState( { slot: slot } );
 		} );
 	}
 
 	refreshSlot() {
-		window.console.log( 'refreshSlot', this.props.unitId, this.props.placeholder );
 		const { slot } = this.state;
 		const { googletag } = window;
 
 		if ( slot ) {
-			window.console.log( 'trigger refresh', slot );
 			googletag.pubads().refresh( [slot] );
 		}
 	}
@@ -195,9 +189,9 @@ class Dfp extends PureComponent {
 		if ( slot ) {
 			const { googletag } = window;
 
-			googletag.cmd.push( () => {
+			if ( googletag && googletag.destroySlots ) {
 				googletag.destroySlots( [slot] );
-			} );
+			}
 		}
 	}
 

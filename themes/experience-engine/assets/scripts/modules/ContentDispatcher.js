@@ -107,6 +107,10 @@ class ContentDispatcher extends Component {
 				const count = carousels[i].classList.contains( '-large' ) ? 2.2 : 4.2;
 				const group = carousels[i].classList.contains( '-large' ) ? 2 : 4;
 
+				if ( ! window.Swiper ) {
+					continue;
+				}
+
 				// @note This comes from handleSliderLoad
 				// eslint-disable-next-line no-undef
 				new Swiper( carousels[i], {

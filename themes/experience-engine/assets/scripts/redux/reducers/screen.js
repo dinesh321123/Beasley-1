@@ -76,6 +76,19 @@ function hideSplashScreen() {
 	}, 2000 );
 }
 
+function updateCorrelator() {
+	let { googletag } = window;
+
+	/* Extra safety as updateCorrelator is a deprecated function in DFP */
+	try {
+		if ( googletag && googletag.apiReady && googletag.pubads().updateCorrelator ) {
+			googletag.pubads().updateCorrelator();
+		}
+	} catch ( e ) {
+		// no-op
+	}
+}
+
 function reducer( state = {}, action = {} ) {
 	switch ( action.type ) {
 		case ACTION_INIT_PAGE:
@@ -98,6 +111,8 @@ function reducer( state = {}, action = {} ) {
 			if ( state.url !== action.url && !action.force ) {
 				return state;
 			}
+
+			updateCorrelator();
 
 			const { document: pageDocument } = action;
 			if ( pageDocument ) {
