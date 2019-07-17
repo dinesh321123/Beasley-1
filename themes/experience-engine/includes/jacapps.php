@@ -49,7 +49,7 @@ endif;
 
 if ( ! function_exists( 'ee_jacapps_enqueue_scripts' ) ) :
 	function ee_jacapps_enqueue_scripts() {
-		//wp_dequeue_script( 'ee-app' );
+		wp_dequeue_script( 'ee-app' );
 		wp_enqueue_script( 'iframe-resizer' );
 		wp_enqueue_script( 'embedly-player.js' );
 		wp_enqueue_script( 'wp-embed', '', [], false, true );
