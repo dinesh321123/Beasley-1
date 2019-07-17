@@ -84,8 +84,6 @@ class ContentBlock extends Component {
 	bindContests() {
 		const contestToggler = document.getElementById( 'contest-rules-toggle' );
 
-		console.log( contestToggler );
-
 		if ( contestToggler ) {
 			contestToggler.addEventListener( 'click', this.handleContestClick );
 		}

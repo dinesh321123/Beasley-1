@@ -10,8 +10,10 @@ class Dfp extends PureComponent {
 
 		const self = this;
 
-		self.slot = false;
-		self.interval = false;
+		self.state = {
+			slot     : false,
+			interval : false,
+		};
 
 		self.onVisibilityChange = self.handleVisibilityChange.bind( self );
 		self.refreshSlot = self.refreshSlot.bind( self );
@@ -22,7 +24,6 @@ class Dfp extends PureComponent {
 		const { placeholder } = self.props;
 
 		self.container = document.getElementById( placeholder );
-		// self.context.observe( self.container, self.tryDisplaySlot.bind( self ) );
 		self.tryDisplaySlot();
 
 		if ( 'right-rail' === self.props.unitName ) {
@@ -34,7 +35,6 @@ class Dfp extends PureComponent {
 	componentWillUnmount() {
 		const self = this;
 
-		// self.context.unobserve( self.container );
 		self.destroySlot();
 
 		if ( 'right-rail' === self.props.unitName ) {
@@ -54,20 +54,27 @@ class Dfp extends PureComponent {
 	}
 
 	startInterval() {
-		const self = this;
-		self.interval = setInterval( self.refreshSlot, 20000 ); // 20 sec
+		window.console.log( 'startInterval' );
+		this.setState( {
+			interval: setInterval( this.refreshSlot, 20000 ), // 20 sec
+		} );
 	}
 
 	stopInterval() {
-		const self = this;
-		clearInterval( self.interval );
-		self.interval = false;
+		window.console.log( 'stopInterval' );
+		clearInterval( this.state.interval );
+		this.setState( { interval: false } );
 	}
 
 	registerSlot() {
 		const self = this;
 		const { placeholder, unitId, unitName, targeting } = self.props;
 		const { googletag, bbgiconfig } = window;
+
+		if ( ! document.getElementById( placeholder ) ) {
+			window.console.log( 'no placeholder', unitId, placeholder );
+			return;
+		}
 
 		// If Adblocker is enabled googletag will be absent
 		if ( ! googletag ) {
@@ -168,21 +175,23 @@ class Dfp extends PureComponent {
 
 			googletag.display( slot );
 
-			self.slot = slot;
+			self.setState( { slot: slot } );
 		} );
 	}
 
 	refreshSlot() {
-		const { slot } = this;
+		window.console.log( 'refreshSlot', this.props.unitId, this.props.placeholder );
+		const { slot } = this.state;
 		const { googletag } = window;
 
 		if ( slot ) {
+			window.console.log( 'trigger refresh', slot );
 			googletag.pubads().refresh( [slot] );
 		}
 	}
 
 	destroySlot() {
-		const { slot } = this;
+		const { slot } = this.state;
 		if ( slot ) {
 			const { googletag } = window;
 
@@ -193,15 +202,9 @@ class Dfp extends PureComponent {
 	}
 
 	tryDisplaySlot() {
-		window.requestAnimationFrame( () => {
-			const self = this;
-
-			self.context.unobserve( self.container );
-
-			if ( !self.slot ) {
-				self.registerSlot();
-			}
-		} );
+		if ( ! this.state.slot ) {
+			this.registerSlot();
+		}
 	}
 
 	render() {

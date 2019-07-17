@@ -182,7 +182,7 @@ endif;
 
 if ( ! function_exists( 'ee_get_related_articles' ) ) :
 	function ee_get_related_articles() {
-		if ( ! function_exists( 'ep_find_related' ) ) {
+		if ( ! function_exists( 'ep_find_related' ) || ! function_exists( 'ep_related_posts_formatted_args' ) ) {
 			return array();
 		}
 

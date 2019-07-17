@@ -8,6 +8,11 @@ if ( ! function_exists( 'ee_is_jacapps' ) ) :
 
 		if ( $jacapps_pos === null ) {
 			$jacapps_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'jacapps' );
+
+			// Allow way to toggle jacapps through URL querystring
+			if ( isset( $_GET['jacapps'] ) ) {
+				$jacapps_pos = 1;
+			}
 		}
 
 		return false !== $jacapps_pos;
@@ -47,6 +52,8 @@ if ( ! function_exists( 'ee_jacapps_enqueue_scripts' ) ) :
 		//wp_dequeue_script( 'ee-app' );
 		wp_enqueue_script( 'iframe-resizer' );
 		wp_enqueue_script( 'embedly-player.js' );
+		wp_enqueue_script( 'wp-embed', '', [], false, true );
+
 	}
 endif;
 
