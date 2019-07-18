@@ -29,6 +29,8 @@ export const DEFAULT_STATE = {
 	},
 };
 
+let locationHref = window.location.href;
+
 function manageScripts( load, unload ) {
 	// remove scripts loaded on the previous page
 	unloadScripts( Object.keys( unload ) );
@@ -77,15 +79,18 @@ function hideSplashScreen() {
 }
 
 function updateCorrelator() {
-	let { googletag } = window;
+	if ( window.location.href !== locationHref ) {
+		let { googletag } = window;
+		locationHref      = window.location.href;
 
-	/* Extra safety as updateCorrelator is a deprecated function in DFP */
-	try {
-		if ( googletag && googletag.apiReady && googletag.pubads().updateCorrelator ) {
-			googletag.pubads().updateCorrelator();
+		/* Extra safety as updateCorrelator is a deprecated function in DFP */
+		try {
+			if ( googletag && googletag.apiReady && googletag.pubads().updateCorrelator ) {
+				googletag.pubads().updateCorrelator();
+			}
+		} catch ( e ) {
+			// no-op
 		}
-	} catch ( e ) {
-		// no-op
 	}
 }
 

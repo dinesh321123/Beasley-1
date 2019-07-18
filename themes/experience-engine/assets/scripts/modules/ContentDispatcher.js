@@ -235,6 +235,16 @@ class ContentDispatcher extends Component {
 		}
 	}
 
+	shouldComponentUpdate( nextProps, nextState ) {
+		const currentContent = this.props.content || '';
+		const nextContent    = nextProps.content || '';
+
+		const currentHash = md5( currentContent );
+		const nextHash    = md5( nextContent );
+
+		return currentHash !== nextHash;
+	}
+
 	render() {
 		const { content, embeds, partials, isHome } = this.props;
 		const blocks = [];
