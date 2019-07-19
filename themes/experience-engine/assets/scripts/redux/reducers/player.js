@@ -4,6 +4,7 @@ import {
 	sendLiveStreamPlaying,
 	sendInlineAudioPlaying,
 } from '../../library/google-analytics';
+import { isAudioAdOnly } from '../../library/strings';
 import {
 	ACTION_SET_USER_FEEDS,
 	ACTION_UPDATE_USER_FEEDS,
@@ -271,7 +272,9 @@ function reducer( state = {}, action = {} ) {
 			break;
 
 		case ACTION_AD_PLAYBACK_START:
-			document.body.classList.add( 'locked' );
+			if ( !isAudioAdOnly() ) {
+				document.body.classList.add( 'locked' );
+			}
 			return { ...state, adPlayback: true };
 
 		case ACTION_AD_PLAYBACK_ERROR:
