@@ -69,7 +69,7 @@ function hideSplashScreen() {
 	}, 2000 );
 }
 
-function updateTargeting() {
+export function updateTargeting() {
 	if ( window.location.href !== targetingHref ) {
 		let { googletag } = window;
 		targetingHref     = window.location.href;
@@ -77,7 +77,7 @@ function updateTargeting() {
 		const { dfp } = window.bbgiconfig;
 
 		if ( dfp && Array.isArray( dfp.global ) ) {
-			googletag.pubads().clearTargeting();
+			//googletag.pubads().clearTargeting();
 
 			for ( let i = 0, pairs = dfp.global; i < pairs.length; i++ ) {
 				googletag.pubads().setTargeting( pairs[i][0], pairs[i][1] );
@@ -86,19 +86,24 @@ function updateTargeting() {
 	}
 }
 
-function updateCorrelator() {
-	if ( window.location.href !== locationHref ) {
-		let { googletag } = window;
-		locationHref      = window.location.href;
+export function clearTargeting() {
+	let googletag = window.googletag;
 
-		/* Extra safety as updateCorrelator is a deprecated function in DFP */
-		try {
-			if ( googletag && googletag.apiReady && googletag.pubads().updateCorrelator ) {
-				googletag.pubads().updateCorrelator();
-			}
-		} catch ( e ) {
-			// no-op
+	if ( googletag && googletag.apiReady ) {
+		googletag.pubads().clearTargeting();
+	}
+}
+
+export function updateCorrelator() {
+	let { googletag } = window;
+
+	/* Extra safety as updateCorrelator is a deprecated function in DFP */
+	try {
+		if ( googletag && googletag.apiReady && googletag.pubads().updateCorrelator ) {
+			googletag.pubads().updateCorrelator();
 		}
+	} catch ( e ) {
+		// no-op
 	}
 }
 
@@ -116,6 +121,8 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_LOADING_PARTIAL:
 		case ACTION_LOADING_PAGE:
+			updateCorrelator();
+			clearTargeting();
 			NProgress.start();
 			return { ...state, url: action.url };
 
@@ -128,7 +135,6 @@ function reducer( state = {}, action = {} ) {
 			const { document: pageDocument } = action;
 
 			manageBbgiConfig( pageDocument );
-			updateCorrelator();
 			updateTargeting();
 
 			if ( pageDocument ) {
