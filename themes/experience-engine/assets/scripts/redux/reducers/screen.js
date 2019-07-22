@@ -30,6 +30,7 @@ export const DEFAULT_STATE = {
 };
 
 let locationHref = window.location.href;
+let targetingHref = window.location.href;
 
 function manageScripts( load, unload ) {
 	// remove scripts loaded on the previous page
@@ -48,16 +49,6 @@ function manageBbgiConfig( pageDocument ) {
 
 	try {
 		newconfig = JSON.parse( pageDocument.getElementById( 'bbgiconfig' ).innerHTML );
-
-		const { googletag } = window;
-		const { dfp } = newconfig;
-
-		if ( dfp && Array.isArray( dfp.global ) ) {
-			googletag.pubads().clearTargeting();
-			for ( let i = 0, pairs = dfp.global; i < pairs.length; i++ ) {
-				googletag.pubads().setTargeting( pairs[i][0], pairs[i][1] );
-			}
-		}
 	} catch ( err ) {
 		// do nothing
 	}
@@ -76,6 +67,23 @@ function hideSplashScreen() {
 			window['cssVars']( window.bbgiconfig.cssvars );
 		}
 	}, 2000 );
+}
+
+function updateTargeting() {
+	if ( window.location.href !== targetingHref ) {
+		let { googletag } = window;
+		targetingHref     = window.location.href;
+
+		const { dfp } = window.bbgiconfig;
+
+		if ( dfp && Array.isArray( dfp.global ) ) {
+			googletag.pubads().clearTargeting();
+
+			for ( let i = 0, pairs = dfp.global; i < pairs.length; i++ ) {
+				googletag.pubads().setTargeting( pairs[i][0], pairs[i][1] );
+			}
+		}
+	}
 }
 
 function updateCorrelator() {
@@ -117,9 +125,12 @@ function reducer( state = {}, action = {} ) {
 				return state;
 			}
 
-			updateCorrelator();
-
 			const { document: pageDocument } = action;
+
+			manageBbgiConfig( pageDocument );
+			updateCorrelator();
+			updateTargeting();
+
 			if ( pageDocument ) {
 				const barId = 'wpadminbar';
 				const wpadminbar = document.getElementById( barId );
@@ -133,7 +144,6 @@ function reducer( state = {}, action = {} ) {
 
 			NProgress.done();
 			manageScripts( action.scripts, state.scripts );
-			manageBbgiConfig( pageDocument );
 			hideSplashScreen();
 
 			return {
