@@ -87,13 +87,6 @@ export function loadPage( url, options = {} ) {
 				document.body.className = pageDocument.body.className;
 			}
 
-			dispatch( {
-				type: ACTION_LOADED_PAGE,
-				url,
-				...parsed,
-				isHome: pageDocument.body.classList.contains( 'home' ),
-			} );
-
 			window.scrollTo( 0, 0 );
 		}
 

@@ -29,9 +29,6 @@ export const DEFAULT_STATE = {
 	},
 };
 
-let locationHref = window.location.href;
-let targetingHref = window.location.href;
-
 function manageScripts( load, unload ) {
 	// remove scripts loaded on the previous page
 	unloadScripts( Object.keys( unload ) );
@@ -70,18 +67,13 @@ function hideSplashScreen() {
 }
 
 export function updateTargeting() {
-	if ( window.location.href !== targetingHref ) {
-		let { googletag } = window;
-		targetingHref     = window.location.href;
+	let { googletag } = window;
 
-		const { dfp } = window.bbgiconfig;
+	const { dfp } = window.bbgiconfig;
 
-		if ( dfp && Array.isArray( dfp.global ) ) {
-			//googletag.pubads().clearTargeting();
-
-			for ( let i = 0, pairs = dfp.global; i < pairs.length; i++ ) {
-				googletag.pubads().setTargeting( pairs[i][0], pairs[i][1] );
-			}
+	if ( dfp && Array.isArray( dfp.global ) ) {
+		for ( let i = 0, pairs = dfp.global; i < pairs.length; i++ ) {
+			googletag.pubads().setTargeting( pairs[i][0], pairs[i][1] );
 		}
 	}
 }
