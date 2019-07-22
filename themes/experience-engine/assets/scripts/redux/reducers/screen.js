@@ -113,8 +113,11 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_LOADING_PARTIAL:
 		case ACTION_LOADING_PAGE:
-			updateCorrelator();
-			clearTargeting();
+			if ( window.location.href !== action.url ) {
+				updateCorrelator();
+				clearTargeting();
+			}
+
 			NProgress.start();
 			return { ...state, url: action.url };
 
