@@ -61,11 +61,6 @@ class Webhooks extends \Bbgi\Module {
 			return false;
 		}
 
-		/* don't webhook when importing */
-		if ( defined( 'WP_IMPORTING' ) ) {
-			return false;
-		}
-
 		/** don't webhook bulk edit requests */
 		if ( isset( $_REQUEST['bulk_edit'] ) ) {
 			return false;
