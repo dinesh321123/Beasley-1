@@ -24,8 +24,8 @@ class Webhooks extends \Bbgi\Module {
 	 * @action delete_post ($post_id)
 	 */
 	public function do_webhook( $post_id ) {
-		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ) {
-			return;
+		if ( ! $this->needs_webhook( $post_id ) ) {
+			return false;
 		}
 
 		$post = get_post( $post_id );
@@ -47,6 +47,59 @@ class Webhooks extends \Bbgi\Module {
 		wp_remote_post( $url, array(
 			'blocking' => false,
 		) );
+	}
+
+	/**
+	 * Determines if the specified post & context needs a webhook push.
+	 *
+	 * @param int $post_id The post id.
+	 * @return bool
+	 */
+	public function needs_webhook( $post_id ) {
+		/* autosaves don't need webhook */
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return false;
+		}
+
+		/* don't webhook when importing */
+		if ( defined( 'WP_IMPORTING' ) ) {
+			return false;
+		}
+
+		/** don't webhook bulk edit requests */
+		if ( isset( $_REQUEST['bulk_edit'] ) ) {
+			return false;
+		}
+
+		$supported = $this->get_supported_post_types();
+		$post_type = get_post_type( $post_id );
+
+		return in_array( $post_type, $supported, true );
+	}
+
+	/**
+	 * Webhook is only supported for the following post types.
+	 *
+	 * @return array
+	 */
+	public function get_supported_post_types() {
+		return [
+			'post',
+			'page',
+			'attachment',
+			'gmr_gallery',
+			'gmr_album',
+			'episode',
+			'tribe_events',
+			'subscription',
+			'content-kit',
+			'contest',
+			'songs',
+			'show',
+			'gmr_homepage',
+			'gmr_mobile_homepage',
+			'podcast',
+		];
 	}
 
 }
