@@ -32,3 +32,4 @@ require_once __DIR__ . '/includes/galleries.php';
 require_once __DIR__ . '/includes/rewrites.php';
 require_once __DIR__ . '/includes/events.php';
 require_once __DIR__ . '/includes/geotargetly.php';
+require_once __DIR__ . '/includes/lytics.php';
