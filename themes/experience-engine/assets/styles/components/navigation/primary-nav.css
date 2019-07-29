@@ -9,7 +9,8 @@
 	}
 
 	& a,
-	& button:first-child {
+	& button:first-child,
+	& .sub-menu a {
 		background: none;
 		border: none;
 		color: var(--global-theme-font-primary);
@@ -122,4 +123,25 @@
 			color: var(--brand-primary);
 		}
 	}
+}
+
+.-dark .primary-nav .sub-menu {
+	& button,
+	& a {
+		color: var(--global-theme-font-tertiary-light);
+
+		&:hover,
+		&:focus {
+			color: var(--brand-primary);
+		}
+	}
+
+	& .current-menu-item {
+		position: relative;
+
+		& > a,
+		& > button:first-child {
+				color: var(--brand-primary);
+			}
+		}
 }

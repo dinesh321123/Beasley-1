@@ -29,6 +29,7 @@
 	--global-theme-font-primary: var(--global-tundora);
 	--global-theme-font-secondary: var(--global-font-primary);
 	--global-theme-font-tertiary: var(--global-dove-gray);
+	--global-theme-font-tertiary-light: #bbbbbb;
 
 	/* Set default brand colors */
 	--brand-primary: red;
