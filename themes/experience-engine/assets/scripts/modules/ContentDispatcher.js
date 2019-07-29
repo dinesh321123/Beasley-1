@@ -239,8 +239,20 @@ class ContentDispatcher extends Component {
 		const currentContent = this.props.content || '';
 		const nextContent    = nextProps.content || '';
 
-		const currentHash = md5( currentContent );
-		const nextHash    = md5( nextContent );
+		let currentEmbeds = this.props.embeds || [];
+		let nextEmbeds = nextProps.embeds || [];
+
+		currentEmbeds = JSON.stringify( currentEmbeds );
+		nextEmbeds    = JSON.stringify( nextEmbeds );
+
+		let currentPartials = this.props.partials || [];
+		let nextPartials = nextProps.partials || [];
+
+		currentPartials = JSON.stringify( currentPartials );
+		nextPartials    = JSON.stringify( nextPartials );
+
+		const currentHash = md5( currentContent + currentEmbeds + currentPartials );
+		const nextHash    = md5( nextContent + nextEmbeds + nextPartials );
 
 		return currentHash !== nextHash;
 	}
