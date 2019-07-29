@@ -235,6 +235,7 @@ class ContentDispatcher extends Component {
 		}
 	}
 
+	/*
 	shouldComponentUpdate( nextProps, nextState ) {
 		const currentContent = this.props.content || '';
 		const nextContent    = nextProps.content || '';
@@ -256,6 +257,7 @@ class ContentDispatcher extends Component {
 
 		return currentHash !== nextHash;
 	}
+	*/
 
 	render() {
 		const { content, embeds, partials, isHome } = this.props;
