@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
+import { mapAuthErrorCodeToFriendlyMessage } from '../../library/friendly-error-messages';
 
 import {
 	saveUser,
@@ -349,25 +350,6 @@ function mapDispatchToProps( dispatch ) {
 		},
 		dispatch,
 	);
-}
-
-function mapAuthErrorCodeToFriendlyMessage( error ) {
-	switch( error.code ) {
-		case 'auth/email-already-in-use':
-			return 'We are sorry, but an account with that email address already exists. Sign in or use Forgot Password to reset your password.';
-			break;
-		case 'auth/invalid-email':
-			return 'Whoops! You have not entered a valid email address.';
-			break;
-		case 'auth/operation-not-allowed':
-			return 'Whoops! Registration using email accounts has been disabled on this site. Please use a social login.';
-			break;
-		case 'auth/weak-password':
-			return 'Whoops! Your password must be 6 characters or longer.';
-			break;
-		default:
-			return 'Whoops! We are sorry, but there is a problem with your sign up. Please try again later or use try a social login.';
-	}
 }
 
 export default connect(
