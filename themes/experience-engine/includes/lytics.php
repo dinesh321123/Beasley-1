@@ -44,7 +44,7 @@ function lytics_og_tags() {
 
         // Publish author user account
         echo "\n";
-        echo "<meta name=\"lytics:author\" content=\"" . get_the_author_meta( 'display_name', $post->post_author ) . "\"/>";
+        echo "<meta name=\"lytics:author\" content=\"" . get_the_author_meta( 'user_login', $post->post_author ) . "\"/>";
 
     }
 }
