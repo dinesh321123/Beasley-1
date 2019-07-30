@@ -60,7 +60,7 @@ class SignIn extends PureComponent {
 						document.body.innerHTML = '';
 					} );
 			} )
-			.catch( error => self.setState( { message: error.message } ) );
+			.catch( error => self.setState( { message: mapAuthErrorCodeToFriendlyMessage( error ) } ) );
 	}
 
 	render() {
@@ -140,6 +140,25 @@ function mapDispatchToProps( dispatch ) {
 		signup: showSignUpModal,
 		restore: showRestoreModal,
 	}, dispatch );
+}
+
+function mapAuthErrorCodeToFriendlyMessage( error ) {
+	switch( error.code ) {
+		case 'auth/invalid-email':
+			return 'We are sorry, but we can\'t find that email address. Please try another or register a new account.';
+			break;
+		case 'auth/user-disabled':
+			return 'Whoops! Your user account has been disabled. Please register a new account if you wish to sign in.';
+			break;
+		case 'auth/user-not-found':
+			return 'Whoops! Your user account was not found. Please register a new account if you wish to sign in.';
+			break;
+		case 'auth/wrong-password':
+			return 'Whoops! The password you entered was incorrect. Please try again or click Forgot Password below to reset it.';
+			break;
+		default:
+			return 'Whoops! We are sorry, but we can not log you in at this time. Please try again or click Forgot Password below.';
+	}
 }
 
 export default connect( null, mapDispatchToProps )( trapHOC()( SignIn ) );
