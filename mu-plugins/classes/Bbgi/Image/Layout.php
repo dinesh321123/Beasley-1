@@ -68,6 +68,8 @@ class Layout extends \Bbgi\Module {
 			return 'None';
 		} else if ( 'poster' === $feature_image_preference ) {
 			return 'Poster';
+		} else if ( 'top' === $feature_image_preference ) {
+        			return 'Top';
 		} else if ( 'inline' === $feature_image_preference ) {
 			return 'Inline';
         }

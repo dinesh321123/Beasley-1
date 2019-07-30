@@ -35,6 +35,7 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 		add_post_type_support( 'contest', 'timed-content' );
 
 		add_post_type_support( 'post', 'flexible-feature-image' );
+		add_post_type_support( 'page', 'flexible-feature-image' );
 		add_post_type_support( 'tribe_events', 'flexible-feature-image' );
 		add_post_type_support( 'contest', 'flexible-feature-image' );
 	}
