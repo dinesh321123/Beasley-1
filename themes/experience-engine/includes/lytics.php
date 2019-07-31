@@ -30,11 +30,11 @@ function lytics_og_tags() {
         $filtered_topics = array();
         foreach($topics as $key=>$value){
             if ( $value != 'Uncategorized' ) {
-                $filtered_topics[] = preg_replace( "/[^A-Za-z0-9? ]/", "", $value );
+                $filtered_topics[] = preg_replace( '/[^A-Za-z0-9? ]/', '', $value );
             }
         }
 
-        $filtered_topics = implode( ", ", $filtered_topics);
+        $filtered_topics = str_replace( ' amp ', ' and ', implode( ', ', $filtered_topics ) );
 
         // Publish Lytics topics
         if ( ! empty( $filtered_topics ) ) {
