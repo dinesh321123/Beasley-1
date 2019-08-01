@@ -48,7 +48,13 @@ class Enclosure {
 		update_post_meta( $post_id, 'enclosure', $mp3 );
 
 		if ( $this->is_local_enclosure( $mp3 ) ) {
-			$metadata = $this->get_audio_metadata( $mp3 );
+			$attachment_id = $this->get_id_from_url( $mp3 );
+
+			if ( ! empty( $attachment_id ) ) {
+				$metadata = wp_get_attachment_metadata( $attachment_id );
+			} else {
+				$metadata = $this->get_audio_metadata( $mp3 );
+			}
 
 			if ( isset( $metadata['length_formatted'] ) ) {
 				update_post_meta( $post_id, 'duration', esc_html( $metadata['length_formatted'] ) );
