@@ -769,6 +769,7 @@ class BlogData {
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 
 		$tmp = download_url( $filename );
+
 		if ( is_wp_error( $tmp ) ) {
 			self::log( "ImportMedia( $post_id / $original_id ), Failed to Download $filename : " . $tmp->get_error_message() );
 			return $tmp;
@@ -863,6 +864,16 @@ class BlogData {
 		}
 
 		self::log( "Media file (%s) has been imported...", $filename );
+
+		/**
+		 * Removes temporary download file if it exists. This was causing
+		 * disk space to fill up on prod.
+		 *
+		 * https://tenup.teamwork.com/#/tasks/18632495
+		 */
+		if ( file_exists( $tmp ) && is_file( $tmp ) ) {
+			@unlink( $tmp );
+		}
 
 		return $id;
 	}
