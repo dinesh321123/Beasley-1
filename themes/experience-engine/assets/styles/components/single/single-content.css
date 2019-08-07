@@ -44,6 +44,16 @@
 	}
 
 }
+
+/**
+ * Fix overflow in iframes for ios Safari
+ * @see https://github.com/scottjehl/Device-Bugs/issues/7
+ */
+.is-safari .entry-content iframe {
+	min-width: 100% !important; /* Override embedly's inline styles */
+	width: 1px;
+}
+
 /* End Grid Fallbacks */
 
 .entry-content {
