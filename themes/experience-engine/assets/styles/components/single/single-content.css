@@ -51,7 +51,7 @@
  */
 .is-safari .entry-content iframe.embedly-embed {
 	min-width: 100% !important; /* Override embedly's inline styles */
-	width: 1px;@nest .is-safari 
+	width: 1px;
 }
 
 /* End Grid Fallbacks */
