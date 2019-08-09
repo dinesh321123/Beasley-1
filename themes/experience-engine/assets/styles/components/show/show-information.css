@@ -1,4 +1,5 @@
 .information {
+	align-items: justify-start;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -44,6 +45,7 @@
 		align-items: center;
 		display: flex;
 		flex-shrink: 0;
+		margin-top: 1.3rem;
 
 		& p {
 			color: var(--global-dove-gray);

@@ -68,11 +68,34 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		margin-bottom: 1rem;
+		margin-bottom: 0.5rem;
+		margin-top: 0.5rem;
 
-		@media(--min-medium-viewport) {
+		/*
+		 * Remove margin bottom from title in order
+		 * to better align with comps
+		 */
+		& h2 {
+			margin-bottom: 0;
+		}
+
+		/*
+		 * Wrapper added to group fave and time
+		 * and flex display. For center alignment, remove
+		 * the margin from the <p>
+		 */
+		& .meta-fave-time {
 			align-items: center;
-			flex-direction: row;
+			display: flex;
+			justify-content: center;
+
+			@media(--min-medium-viewport) {
+				justify-content: left;
+
+				& p {
+					margin-bottom: 0;
+				}
+			}
 		}
 
 		& .author-meta {

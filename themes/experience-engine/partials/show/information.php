@@ -5,7 +5,8 @@ if ( ! $show ) :
 	return;
 endif;
 
-?><div class="information content-wrap">
+?>
+<div class="information content-wrap">
 	<?php if ( ( $logo = ee_get_show_meta( $show, 'logo' ) ) ) : ?>
 		<div class="thumbnail">
 			<?php ee_the_lazy_image( $logo ); ?>
@@ -13,12 +14,14 @@ endif;
 	<?php endif; ?>
 	<div class="meta">
 		<h2><?php echo esc_html( get_the_title( $show ) ); ?></h2>
-		<?php ee_add_to_favorites( get_post_field( 'post_name', $show ) ); ?>
-		<?php if ( ( $showtime = ee_get_show_meta( $show, 'show-time' ) ) ) : ?>
-			<p>
-				<?php echo esc_html( $showtime ); ?>
-			</p>
-		<?php endif; ?>
+		<div class="meta-fave-time">
+			<?php ee_add_to_favorites( get_post_field( 'post_name', $show ) ); ?>
+			<?php if ( ( $showtime = ee_get_show_meta( $show, 'show-time' ) ) ) : ?>
+				<p>
+					<?php echo esc_html( $showtime ); ?>
+				</p>
+			<?php endif; ?>
+		</div>
 	</div>
 	<?php get_template_part( 'partials/show/social' ); ?>
 </div>
