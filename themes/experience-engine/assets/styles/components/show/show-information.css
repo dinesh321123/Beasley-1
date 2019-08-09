@@ -1,5 +1,5 @@
 .information {
-	align-items: justify-start;
+	align-items: flex-start;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;

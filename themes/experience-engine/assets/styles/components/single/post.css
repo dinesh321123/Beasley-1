@@ -74,7 +74,7 @@
 		/* Remove margin bottom from title in order to better
 		align with comps */
 		& h2 {
-			margin-bottom: 0;
+			margin-bottom: 1rem;
 		}
 
 		/* Wrapper added to group fave and time and flex display.
@@ -84,7 +84,7 @@
 			display: flex;
 			justify-content: center;
 
-			@media(--min-medium-viewport) {
+			@media(--min-large-viewport) {
 				justify-content: left;
 
 				& p {
