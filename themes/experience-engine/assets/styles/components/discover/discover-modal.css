@@ -2,8 +2,6 @@
 	background-color: var(--global-white);
 	height: 100%;
 	left: 0;
-	margin-top: -3.333rem;
-	min-height: calc(100vh - 3.333rem);
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
 	position: absolute;
