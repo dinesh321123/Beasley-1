@@ -71,19 +71,14 @@
 		margin-bottom: 0.5rem;
 		margin-top: 0.5rem;
 
-		/*
-		 * Remove margin bottom from title in order
-		 * to better align with comps
-		 */
+		/* Remove margin bottom from title in order to better
+		align with comps */
 		& h2 {
 			margin-bottom: 0;
 		}
 
-		/*
-		 * Wrapper added to group fave and time
-		 * and flex display. For center alignment, remove
-		 * the margin from the <p>
-		 */
+		/* Wrapper added to group fave and time and flex display.
+		For center alignment, remove the margin from the <p> */
 		& .meta-fave-time {
 			align-items: center;
 			display: flex;
