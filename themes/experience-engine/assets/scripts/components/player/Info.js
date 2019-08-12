@@ -24,21 +24,21 @@ class Info extends Component {
 		if ( !cuePoint ) {
 			return false;
 		}
-	
+
 		let info = [];
 		const { artistName, cueTitle, type } = cuePoint;
 		if ( 'ad' === type ) {
 			return false;
 		}
-	
+
 		if ( cueTitle && cueTitle.length ) {
 			info.push( <span key="cue-title" className="cue-point-title">{cueTitle}</span> );
 		}
-	
+
 		if ( artistName && artistName.length ) {
 			info.push( <span key="cue-artist" className="cue-point-artist">{artistName}</span> );
 		}
-	
+
 		return info.length ? info : false;
 	}
 
@@ -46,7 +46,7 @@ class Info extends Component {
 		const self = this;
 		const { cuePoint, time, duration  } = self.props;
 		const info = Info.getCuePointInfo( cuePoint );
-	
+
 		return (
 			<div className="controls-info">
 				<p>
@@ -70,9 +70,9 @@ class Info extends Component {
 				info = pointInfo;
 			}
 		}
-	
+
 		const stream = streams.find( item => item.stream_call_letters === station );
-	
+
 		return (
 			<div className="controls-info" style={colors}>
 				<p>
@@ -100,7 +100,7 @@ Info.propTypes = {
 	status: PropTypes.string.isRequired,
 	cuePoint: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
 	time: PropTypes.number,
-	duration: PropTypes.number
+	duration: PropTypes.number,
 };
 
 function mapStateToProps( { player } ) {
@@ -110,7 +110,7 @@ function mapStateToProps( { player } ) {
 		status: player.status,
 		cuePoint: player.cuePoint,
 		time: player.time,
-		duration: player.duration
+		duration: player.duration,
 	};
 }
 

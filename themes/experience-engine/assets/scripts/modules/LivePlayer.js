@@ -164,7 +164,7 @@ class LivePlayer extends Component {
 								<RecentSongs colors={customColors} />
 							</ErrorBoundary>
 							<ErrorBoundary>
-								<Controls 
+								<Controls
 									status={status}
 									play={() => play( station )}
 									pause={pause}
@@ -227,7 +227,7 @@ function mapStateToProps( { player } ) {
 		status: player.status,
 		adPlayback: player.adPlayback,
 		adSynced: player.adSynced,
-		duration: player.duration
+		duration: player.duration,
 	};
 }
 

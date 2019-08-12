@@ -57,6 +57,10 @@ class Contacts extends PureComponent {
 			return false;
 		}
 
+		const textStyle = {
+			color: colors['--brand-text-color'] || colors['--global-theme-secondary'],
+		};
+
 		const buttonsFillStyle = {
 			fill:
 				colors['--brand-button-color'] || colors['--global-theme-secondary'],
@@ -88,12 +92,12 @@ class Contacts extends PureComponent {
 				<Fragment>
 					<img src={image} alt={title} />
 					<p>
-						<a href={`tel:${phone}`}>{phone}</a>
+						<a href={`tel:${phone}`} style={textStyle}>{phone}</a>
 					</p>
 					<p>
-						<a href={`mailto:${email}`}>{email}</a>
+						<a href={`mailto:${email}`} style={textStyle}>{email}</a>
 					</p>
-					<p>{address}</p>
+					<p style={textStyle}>{address}</p>
 				</Fragment>
 			);
 		}

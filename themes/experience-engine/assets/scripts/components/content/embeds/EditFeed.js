@@ -28,7 +28,7 @@ class EditFeed extends Component {
 
 		self.props.updateNotice( {
 			message: `<span class="title">${self.props.title}</span> has been moved down`,
-			isOpen: true
+			isOpen: true,
 		} );
 
 		self.hideNotice();
@@ -40,7 +40,7 @@ class EditFeed extends Component {
 
 		updateNotice( {
 			message: `<span class="title">${self.props.title}</span> has been moved up`,
-			isOpen: true
+			isOpen: true,
 		} );
 
 		self.hideNotice();
@@ -58,7 +58,7 @@ class EditFeed extends Component {
 
 		updateNotice( {
 			message: `<span class="title">${title}</span> has been removed from your homepage`,
-			isOpen: true
+			isOpen: true,
 		} );
 
 		this.hideNotice();
@@ -68,7 +68,7 @@ class EditFeed extends Component {
 		setTimeout( () => {
 			this.props.updateNotice( {
 				message: this.props.notice.message,
-				isOpen: false
+				isOpen: false,
 			} );
 		}, 2000 );
 	}
@@ -141,7 +141,7 @@ function mapStateToProps( { auth, screen } ) {
 function mapDispatchToProps( dispatch ) {
 	return bindActionCreators( {
 		deleteFeed: deleteUserFeed,
-		updateNotice
+		updateNotice,
 	}, dispatch );
 }
 

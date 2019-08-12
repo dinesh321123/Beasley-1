@@ -60,7 +60,7 @@ Rewind.propTypes = {
 };
 
 const mapStateToProps = ( { player } ) => ( {
-	currentTime: player.time
+	currentTime: player.time,
 } );
 
 const mapDispatchToProps = ( dispatch ) => bindActionCreators( { seek: seekPosition }, dispatch );

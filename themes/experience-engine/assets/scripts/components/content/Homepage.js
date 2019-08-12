@@ -25,7 +25,7 @@ class Homepage extends Component {
 		const self = this;
 		self.childrenContext = {
 			moveUp: self.reorderFeeds.bind( self, 15 ),
-			moveDown: self.reorderFeeds.bind( self, -15 )
+			moveDown: self.reorderFeeds.bind( self, -15 ),
 		};
 	}
 
@@ -80,7 +80,7 @@ class Homepage extends Component {
 
 			return {
 				id: item.id,
-				sortorder: index * 10 + delta - ( item.id === feed ? shift : 0 )
+				sortorder: index * 10 + delta - ( item.id === feed ? shift : 0 ),
 			};
 		} );
 
@@ -112,7 +112,7 @@ Homepage.propTypes = {
 	children: PropTypes.node.isRequired,
 	feeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	deleteFeed: PropTypes.func.isRequired,
-	modifyFeeds: PropTypes.func.isRequired
+	modifyFeeds: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( { auth } ) {
@@ -120,7 +120,7 @@ function mapStateToProps( { auth } ) {
 	feeds.sort( Homepage.sortFeeds );
 
 	return {
-		feeds
+		feeds,
 	};
 }
 
@@ -128,13 +128,13 @@ function mapDispatchToProps( dispatch ) {
 	return bindActionCreators(
 		{
 			deleteFeed: deleteUserFeed,
-			modifyFeeds: modifyUserFeeds
+			modifyFeeds: modifyUserFeeds,
 		},
-		dispatch
+		dispatch,
 	);
 }
 
 export default connect(
 	mapStateToProps,
-	mapDispatchToProps
+	mapDispatchToProps,
 )( Homepage );

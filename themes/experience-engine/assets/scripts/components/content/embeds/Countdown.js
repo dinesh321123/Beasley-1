@@ -99,7 +99,7 @@ class Countdown extends Component {
 			background,
 			link,
 			timeColor,
-			timeBackground
+			timeBackground,
 		} = payload;
 
 		const { color, image } = background;
