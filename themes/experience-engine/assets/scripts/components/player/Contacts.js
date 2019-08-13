@@ -83,6 +83,14 @@ class Contacts extends PureComponent {
 			let image =
 				config && config.theme && config.theme.logo && config.theme.logo.url;
 
+			let telOutput;
+			let smsOutput;
+			let mailToOutput;
+
+			if ( phone ) {
+				telOutput = <p>Phone: <a href={`tel:${phone}`} style={textStyle}>{phone}</a></p>;
+			}
+
 
 			if ( !image ) {
 				image =
@@ -94,8 +102,8 @@ class Contacts extends PureComponent {
 			contacts = (
 				<Fragment>
 					<img src={image} alt={title} />
-					<p><a href={`tel:${phone}`} style={textStyle}>{phone}</a></p>
-					<p><a href={`sms://${text}`} style={textStyle}>{text}</a></p>
+					{telOutput}
+					<p>Text: <a href={`sms://${text}`} style={textStyle}>{text}</a></p>
 					<p><a href={`mailto:${email}`} style={textStyle}>{email}</a></p>
 					<p style={textStyle}>{address}</p>
 				</Fragment>
