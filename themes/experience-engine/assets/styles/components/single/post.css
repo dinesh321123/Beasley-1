@@ -85,7 +85,7 @@
 			justify-content: center;
 
 			@media(--min-large-viewport) {
-				justify-content: left;
+				justify-content: flex-start;
 
 				& p {
 					margin-bottom: 0;
