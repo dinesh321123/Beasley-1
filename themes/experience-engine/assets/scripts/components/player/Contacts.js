@@ -94,10 +94,10 @@ class Contacts extends PureComponent {
 				<Fragment>
 					<img src={image} alt={title} />
 					{phone &&
-						<p>Phone: <a href={`tel:${phone}`} style={textStyle}>{phone}</a></p>
+						<p style={textStyle}>Phone: <a href={`tel:${phone}`} style={textStyle}>{phone}</a></p>
 					}
 					{text &&
-						<p>Text: <a href={`sms://${text}`} style={textStyle}>{text}</a></p>
+						<p style={textStyle}>Text: <a href={`sms://${text}`} style={textStyle}>{text}</a></p>
 					}
 					{email &&
 						<p><a href={`mailto:${email}`} style={textStyle}>{email}</a></p>
