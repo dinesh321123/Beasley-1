@@ -7,7 +7,7 @@ class Webhooks extends \Bbgi\Module {
 	/**
 	 * Pending webhook data
 	 */
-	public $pending = false;
+	public $pending = [];
 
 	/**
 	 * Registers this module.
@@ -63,12 +63,15 @@ class Webhooks extends \Bbgi\Module {
 		remove_action( 'shutdown', [ $this, 'do_shutdown' ] );
 
 		if ( ! empty( $this->pending ) ) {
-			$this->do_webhook(
-				$this->pending['post_id'],
-				$this->pending['opts']
-			);
+			foreach( $this->pending as $pending_webhook ) {
+				$this->do_webhook(
+					$pending_webhook['post_id'],
+					$pending_webhook['opts']
+				);
+			}
+			
 
-			$this->pending = false;
+			$this->pending = [];
 
 			return true;
 		} else {
@@ -84,8 +87,10 @@ class Webhooks extends \Bbgi\Module {
 	 * @return bool
 	 */
 	public function do_lazy_webhook( $post_id, $opts = [] ) {
-		if ( empty( $this->pending ) ) {
-			$this->pending = [
+		$site_id = get_current_blog_id();
+
+		if ( ! isset( $this->pending[ $site_id ] ) ) {
+			$this->pending[ $site_id ] = [
 				'post_id' => $post_id,
 				'opts'    => $opts,
 			];
