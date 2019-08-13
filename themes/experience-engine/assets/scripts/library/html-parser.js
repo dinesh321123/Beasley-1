@@ -134,7 +134,7 @@ function processEmbeds( container, type, selector, callback ) {
 		const extraAttributes = callback ? callback( element ) : {};
 		const placeholder = document.createElement( 'div' );
 
-		if ( 'audio' === type && !element.closest( '.description' ) ) {
+		if ( 'audio' === type && element.closest( '.description' ) ) {
 			continue;
 		}
 
