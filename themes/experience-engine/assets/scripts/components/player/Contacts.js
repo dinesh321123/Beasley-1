@@ -72,14 +72,19 @@ class Contacts extends PureComponent {
 			background: colors['--brand-background-color'],
 		};
 
-		const { title, email, phone, address, picture } = stream;
+		const { title, email, phone, text, address, picture } = stream;
 		const { isOpen } = self.state;
 
 		let contacts = false;
 		if ( isOpen ) {
-			let config = window.bbgiconfig;
+
+			const config = window.bbgiconfig;
+			const tel = ( '' !== phone ) ? `<p><a href="tel:${phone}" style="${textStyle}">${phone}</a></p>` : '';
+			const sms = ( '' !== text ) ? `<p><a href="sms://${text}" style="${textStyle}">${text}</a></p>` : '';
+			const mailto = ( '' !== email ) ? `<p><a href="mailto:${email}" style="${textStyle}">${email}</a></p>` : '';
 			let image =
 				config && config.theme && config.theme.logo && config.theme.logo.url;
+
 
 			if ( !image ) {
 				image =
@@ -91,12 +96,9 @@ class Contacts extends PureComponent {
 			contacts = (
 				<Fragment>
 					<img src={image} alt={title} />
-					<p>
-						<a href={`tel:${phone}`} style={textStyle}>{phone}</a>
-					</p>
-					<p>
-						<a href={`mailto:${email}`} style={textStyle}>{email}</a>
-					</p>
+					{tel}
+					{sms}
+					{mailto}
 					<p style={textStyle}>{address}</p>
 				</Fragment>
 			);
