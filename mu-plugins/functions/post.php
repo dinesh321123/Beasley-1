@@ -20,6 +20,17 @@ function bbgi_featured_image_layout_is( $post = null, $feature_image_preference 
 	}
 
 	$preference = get_post_meta( $post->ID, 'post_feature_image_preference', true );
+
+	/*
+	 * Default to inline if no preference is present in post meta. Poster
+	 * is deprecated, and will display as 'inline'.
+	 */
+	if ( empty( $preference ) ) {
+		$preference = 'inline';
+	} else if ( $preference === 'poster' ) {
+		$preference = 'inline';
+	}
+
 	if ( $preference ) {
 		return $feature_image_preference === $preference;
 	}
