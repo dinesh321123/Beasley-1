@@ -23,6 +23,9 @@ function getAudioEmbedParams( element ) {
 	return {
 		src: element.getAttribute( 'src' ) || '',
 		sources,
+		title: element.dataset.title,
+		author: element.dataset.author,
+		tracktype: element.dataset.tracktype || '',
 	};
 }
 

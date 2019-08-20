@@ -95,8 +95,6 @@ function getInitialStation( streamsList ) {
 function lyticsTrack( action, params ) {
 	if ( window.googletag && window.googletag.cmd ) {
 		window.googletag.cmd.push( () => {
-			console.log( action, params );
-
 			if ( 'undefined' === typeof window.LyticsTrackAudio ) {
 				return;
 			}

@@ -44,6 +44,8 @@ if ( ! function_exists( 'ee_get_episode_player' ) ) :
 			return null;
 		}
 
+		$podcast = get_post( $episode->post_parent );
+
 		if ( ! empty( $episode->media ) && ! empty( $episode->media['url'] ) ) {
 			$url = explode( '?', $episode->media['url'] );
 			return ee_get_lazy_audio(
@@ -54,10 +56,10 @@ if ( ! function_exists( 'ee_get_episode_player' ) ) :
 			);
 		}
 
+
 		if ( $episode->ID ) {
 			$audio = get_post_meta( $episode->ID, 'omny-audio-url', true );
 			if ( filter_var( $audio, FILTER_VALIDATE_URL ) ) {
-				$podcast = get_post( $episode->post_parent );
 				$author = '';
 				if ( is_a( $podcast, '\WP_Post' ) ) {
 					$author = $podcast->post_title;
@@ -77,6 +79,16 @@ if ( ! function_exists( 'ee_get_episode_player' ) ) :
 			remove_filter( 'the_content', 'wpautop' );
 			$content = apply_filters( 'the_content', $shortcode );
 			add_filter( 'the_content', 'wpautop' );
+
+			$content = str_replace(
+				'<audio',
+				sprintf(
+					'<audio data-tracktype="podcast" data-title="%s" data-author="%s"',
+					$episode->post_title,
+					$podcast->post_title
+				),
+				$content
+			);
 
 			return $content;
 		}
