@@ -97,7 +97,7 @@ function lyticsTrack( action, params ) {
 		window.googletag.cmd.push( () => {
 			console.log( action, params );
 
-			if ( 'undefined' === window.LyticsTrackAudio ) {
+			if ( 'undefined' === typeof window.LyticsTrackAudio ) {
 				return;
 			}
 
