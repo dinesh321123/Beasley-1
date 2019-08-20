@@ -104,7 +104,7 @@ function lyticsTrack( action, params ) {
 				window.LyticsTrackAudio.set_podcastPayload( {
 					type: 'podcast',
 					name: params.artistName,
-					episose: params.cueTitle,
+					episode: params.cueTitle,
 				}, () => {
 					window.LyticsTrackAudio.playPodcast();
 				} );
