@@ -68,13 +68,13 @@ class AudioEmbed extends Component {
 
 	handlePlayClick() {
 		const self = this;
-		const { omny, title, author, playAudio, playOmny } = self.props;
+		const { omny, title, author, playAudio, playOmny, tracktype } = self.props;
 		const src = self.getPlayableSource();
 
 		if ( omny ) {
-			playOmny( src, title, author );
+			playOmny( src, title, author, tracktype );
 		} else {
-			playAudio( src, self.getTitle(), author );
+			playAudio( src, self.getTitle(), author, tracktype );
 		}
 	}
 

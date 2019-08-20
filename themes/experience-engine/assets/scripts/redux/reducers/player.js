@@ -92,6 +92,36 @@ function getInitialStation( streamsList ) {
 	return streamsList.find( stream => stream.stream_call_letters === station );
 }
 
+function lyticsTrack( action, params ) {
+	if ( window.googletag && window.googletag.cmd ) {
+		window.googletag.cmd.push( () => {
+			console.log( action, params );
+
+			if ( 'undefined' === window.LyticsTrackAudio ) {
+				return;
+			}
+
+			if ( 'play' === action && window.LyticsTrackAudio.set_podcastPayload ) {
+				window.LyticsTrackAudio.set_podcastPayload( {
+					type: 'podcast',
+					name: params.artistName,
+					episose: params.cueTitle,
+				}, () => {
+					window.LyticsTrackAudio.playPodcast();
+				} );
+			}
+
+			if ( 'pause' === action && window.LyticsTrackAudio.pausePodcast ) {
+				window.LyticsTrackAudio.pausePodcast();
+			}
+
+			if ( 'end' === action && window.LyticsTrackAudio.endOfPodcast ) {
+				window.LyticsTrackAudio.endOfPodcast();
+			}
+		} );
+	}
+}
+
 const adReset = {
 	adPlayback: false,
 	adSynced: false,
@@ -100,6 +130,7 @@ const adReset = {
 const stateReset = {
 	audio: '',
 	station: '',
+	trackType: '',
 	cuePoint: false,
 	time: 0,
 	duration: 0,
@@ -136,7 +167,7 @@ function reducer( state = {}, action = {} ) {
 			mp3player.volume = state.volume / 100;
 			mp3player.play();
 
-			return { ...state, ...stateReset, audio: action.audio };
+			return { ...state, ...stateReset, audio: action.audio, trackType: action.trackType };
 
 		case ACTION_PLAY_STATION: {
 			const { station } = action;
@@ -166,7 +197,7 @@ function reducer( state = {}, action = {} ) {
 			// Omny doesn't support sound provider, thus we can't change/control volume :(
 			// omnyplayer.setVolume( state.volume );
 
-			return { ...state, ...stateReset, audio: action.audio };
+			return { ...state, ...stateReset, audio: action.audio, trackType: action.trackType };
 
 		case ACTION_PAUSE:
 			if ( mp3player ) {
@@ -176,6 +207,11 @@ function reducer( state = {}, action = {} ) {
 			} else if ( tdplayer ) {
 				tdplayer.stop();
 			}
+
+			if ( 'podcast' === state.trackType ) {
+				lyticsTrack( 'pause', state.cuePoint );
+			}
+
 			return { ...state, ...adReset };
 
 		case ACTION_RESUME:
@@ -186,6 +222,11 @@ function reducer( state = {}, action = {} ) {
 			} else if ( tdplayer ) {
 				tdplayer.resume();
 			}
+
+			if ( 'podcast' === state.trackType ){
+				lyticsTrack( 'play', state.cuePoint );
+			}
+
 			return { ...state, ...adReset };
 
 		case ACTION_STATUS_CHANGE:
@@ -209,6 +250,11 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_CUEPOINT_CHANGE:
 			loadNowPlaying( state.station );
+
+			if ( 'podcast' === state.trackType ) {
+				lyticsTrack( 'play', action.cuePoint );
+			}
+
 			return { ...state, ...adReset, cuePoint: action.cuePoint };
 
 		case ACTION_DURATION_CHANGE:

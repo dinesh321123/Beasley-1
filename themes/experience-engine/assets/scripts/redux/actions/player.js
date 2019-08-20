@@ -185,7 +185,7 @@ export function initTdPlayer( modules ) {
 	};
 }
 
-export function playAudio( audio, cueTitle = '', artistName = '' ) {
+export function playAudio( audio, cueTitle = '', artistName = '', trackType = 'live' ) {
 	return dispatch => {
 		function dispatchAudioStart() {
 			dispatch( { type: ACTION_AUDIO_START } );
@@ -237,6 +237,7 @@ export function playAudio( audio, cueTitle = '', artistName = '' ) {
 			type: ACTION_PLAY_AUDIO,
 			player,
 			audio,
+			trackType,
 		} );
 
 		dispatch( {
@@ -246,7 +247,7 @@ export function playAudio( audio, cueTitle = '', artistName = '' ) {
 	};
 }
 
-export function playOmny( audio, cueTitle = '', artistName = '' ) {
+export function playOmny( audio, cueTitle = '', artistName = '', trackType = 'live'  ) {
 	return dispatch => {
 		const id = audio.replace( /\W+/g, '' );
 		if ( document.getElementById( id ) ) {
@@ -263,7 +264,7 @@ export function playOmny( audio, cueTitle = '', artistName = '' ) {
 		const player = new playerjs.Player( iframe );
 
 		player.on( 'ready', () => {
-			dispatch( { type: ACTION_PLAY_OMNY, player, audio } );
+			dispatch( { type: ACTION_PLAY_OMNY, player, audio, trackType } );
 
 			dispatch( {
 				type: ACTION_CUEPOINT_CHANGE,

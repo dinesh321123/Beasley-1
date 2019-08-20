@@ -46,7 +46,12 @@ if ( ! function_exists( 'ee_get_episode_player' ) ) :
 
 		if ( ! empty( $episode->media ) && ! empty( $episode->media['url'] ) ) {
 			$url = explode( '?', $episode->media['url'] );
-			return ee_get_lazy_audio( current( $url ), $episode->post_title, ! empty( $ee_feed_now['title'] ) ? $ee_feed_now['title'] : '' );
+			return ee_get_lazy_audio(
+				current( $url ),
+				$episode->post_title,
+				! empty( $ee_feed_now['title'] ) ? $ee_feed_now['title'] : '',
+				'podcast'
+			);
 		}
 
 		if ( $episode->ID ) {
@@ -60,7 +65,7 @@ if ( ! function_exists( 'ee_get_episode_player' ) ) :
 					$author = $ee_feed_now['title'];
 				}
 
-				return ee_get_lazy_audio( $audio, $episode->post_title, $author );
+				return ee_get_lazy_audio( $audio, $episode->post_title, $author, 'podcast' );
 			}
 		}
 
@@ -256,12 +261,13 @@ if ( ! function_exists( 'ee_the_episode_download' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_lazy_audio' ) ) :
-	function ee_get_lazy_audio( $url, $title, $author ) {
+	function ee_get_lazy_audio( $url, $title, $author, $track_type = 'live' ) {
 		return sprintf(
-			'<div class="lazy-audio" data-src="%s" data-title="%s" data-author="%s"></div>',
+			'<div class="lazy-audio" data-src="%s" data-title="%s" data-author="%s" data-tracktype="%s"></div>',
 			esc_attr( $url ),
 			esc_attr( $title ),
-			esc_attr( $author )
+			esc_attr( $author ),
+			esc_attr( $track_type )
 		);
 	}
 endif;
