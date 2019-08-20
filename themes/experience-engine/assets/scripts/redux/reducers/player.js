@@ -95,6 +95,7 @@ function getInitialStation( streamsList ) {
 function lyticsTrack( action, params ) {
 	if ( window.googletag && window.googletag.cmd ) {
 		window.googletag.cmd.push( () => {
+
 			if ( 'undefined' === typeof window.LyticsTrackAudio ) {
 				return;
 			}
@@ -136,6 +137,7 @@ const stateReset = {
 };
 
 let initialStation = getInitialStation( streams );
+let userInteraction = false;
 
 export const DEFAULT_STATE = {
 	...stateReset,
@@ -250,6 +252,7 @@ function reducer( state = {}, action = {} ) {
 			loadNowPlaying( state.station );
 
 			if ( 'podcast' === state.trackType ) {
+				userInteraction = false;
 				lyticsTrack( 'play', action.cuePoint );
 			}
 
@@ -269,7 +272,7 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_SEEK_POSITION: {
 			const { position } = action;
-
+			userInteraction = true;
 			if ( mp3player ) {
 				mp3player.currentTime = position;
 				return Object.assign( {}, state, { time: +position } );
@@ -313,6 +316,9 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_AUDIO_STOP:
 			clearInterval( inlineAudioInterval );
+			if ( 'podcast' === state.trackType && 1 >= Math.abs( state.duration - state.time ) && !userInteraction ) {
+				lyticsTrack( 'end', state.cuePoint );
+			}
 			break;
 
 		case ACTION_AD_PLAYBACK_START:
