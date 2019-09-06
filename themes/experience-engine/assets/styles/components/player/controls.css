@@ -162,7 +162,6 @@
 	}
 
 	& .controls-info {
-		color: var(--global-theme-font-primary);
 		font-size: 0.875rem;
 		width: 100%;
 
@@ -370,8 +369,8 @@
 		}
 
 		& .time-played {
-			color: var(--global-theme-font-tertiary);
 			font-size: .875rem;
+			opacity: 0.7;
 			padding-left: .675rem;
 		}
 	}
@@ -552,7 +551,6 @@
 		&.-desktop {
 			@media(--min-medium-viewport) {
 				align-items: center;
-				color: var(--global-theme-font-primary);
 				display: inline-flex;
 				font-size: .675rem;
 				margin-top: 3px;
