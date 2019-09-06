@@ -68,7 +68,7 @@ Progress.propTypes = {
 	time: PropTypes.number.isRequired,
 	duration: PropTypes.number.isRequired,
 	seek: PropTypes.func.isRequired,
-	colors: PropTypes.string,
+	colors: PropTypes.object,
 };
 
 const mapStateToProps = ( { player } ) => ( {
