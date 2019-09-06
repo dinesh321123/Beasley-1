@@ -44,14 +44,14 @@ class Progress extends PureComponent {
 
 	render() {
 		const self = this;
-		const { time, duration, className } = self.props;
+		const { time, duration, className, colors } = self.props;
 
 		if ( 0 >= duration ) {
 			return false;
 		}
 
 		return (
-			<div className={`controls-progress ${className}`}>
+			<div className={`controls-progress ${className}`} style={colors}>
 				<span className="time -desktop">{Progress.format( time )}</span>
 				<div className="ee-range-input -progress">
 					<input type="range" min="0" max={duration} value={time} onChange={self.onSeek} />
@@ -68,6 +68,7 @@ Progress.propTypes = {
 	time: PropTypes.number.isRequired,
 	duration: PropTypes.number.isRequired,
 	seek: PropTypes.func.isRequired,
+	colors: PropTypes.string,
 };
 
 const mapStateToProps = ( { player } ) => ( {

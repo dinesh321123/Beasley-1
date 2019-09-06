@@ -149,7 +149,7 @@ class LivePlayer extends Component {
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
 				<ErrorBoundary>
-					<Progress className="-mobile" />
+					<Progress className="-mobile" colors={textStyle} />
 				</ErrorBoundary>
 
 				<div className="controls" style={ controlsStyle }>
@@ -179,7 +179,7 @@ class LivePlayer extends Component {
 							</ErrorBoundary>
 						</div>
 						<ErrorBoundary>
-							<Progress className="-desktop" />
+							<Progress className="-desktop" colors={textStyle} />
 						</ErrorBoundary>
 					</div>
 					<div className="control-section">
