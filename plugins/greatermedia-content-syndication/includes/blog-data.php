@@ -19,6 +19,28 @@ class BlogData {
 	public static $content_site_id;
 
 	/**
+	 * Returns the old attachment id meta key. Keyed on content site id to
+	 * address,
+	 *
+	 * https://tenup.teamwork.com/#/tasks/18643043?c=8629088
+	 */
+	public static function get_attachment_old_id_key() {
+		self::get_content_site_id(); // Kludge: Not a getter?
+		return "syndication_" . self::$content_site_id . '_attachment_old_id';
+	}
+
+	/**
+	 * Returns the old attachment url meta key. Keyed on content site id to
+	 * address,
+	 *
+	 * https://tenup.teamwork.com/#/tasks/18643043?c=8629088
+	 */
+	public static function get_attachment_old_url_key() {
+		self::get_content_site_id(); // Kludge: Not a getter?
+		return "syndication_" . self::$content_site_id . '_attachment_old_url';
+	}
+
+	/**
 	 * Did we use the "Syndicate Now" Button
 	 *
 	 * @var bool
@@ -664,7 +686,7 @@ class BlogData {
 					$class = array();
 					if ( isset( $attrs['class'] ) && preg_match( '#wp-image-(\d+)#i', $attrs['class'], $class ) ) {
 						$attachment = get_posts( array(
-							'meta_key'   => 'syndication_attachment_old_id',
+							'meta_key'   => self::get_attachment_old_id_key(),
 							'meta_value' => $class[1],
 							'post_type'  => 'attachment',
 						) );
@@ -779,13 +801,13 @@ class BlogData {
 		$original_id = intval( $original_id );
 		if ( empty( $original_id ) ) {
 			$meta_query_args = array(
-				'meta_key'   => 'syndication_attachment_old_url',
+				'meta_key'   => self::get_attachment_old_url_key(),
 				'meta_value' => $filename,
 				'post_type'  => 'attachment',
 			);
 		} else {
 			$meta_query_args = array(
-				'meta_key'   => 'syndication_attachment_old_id',
+				'meta_key'   => self::get_attachment_old_id_key(),
 				'meta_value' => $original_id,
 				'post_type'  => 'attachment',
 			);
@@ -835,8 +857,8 @@ class BlogData {
 			}
 
 			if ( ! is_wp_error( $id ) ) {
-				update_post_meta( $id, 'syndication_attachment_old_id', $original_id );
-				update_post_meta( $id, 'syndication_attachment_old_url', esc_url_raw( $filename ) );
+				update_post_meta( $id, self::get_attachment_old_id_key(), $original_id );
+				update_post_meta( $id, self::get_attachment_old_url_key(), esc_url_raw( $filename ) );
 
 				self::updateImageCaption( $id, $original_id );
 			}
@@ -918,7 +940,7 @@ class BlogData {
 				$old_ids = explode( ",", $gallery["ids"] );
 				foreach ( $gallery['src'] as $index => $image_src ) {
 					$meta_query_args = array(
-						'meta_key'   => 'syndication_attachment_old_url',
+						'meta_key'   => self::get_attachment_old_url_key(),
 						'meta_value' => esc_url_raw( $image_src ),
 						'post_type'  => 'attachment',
 					);
