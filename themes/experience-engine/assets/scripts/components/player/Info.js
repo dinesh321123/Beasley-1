@@ -44,11 +44,15 @@ class Info extends Component {
 
 	renderAudio() {
 		const self = this;
-		const { cuePoint, time, duration  } = self.props;
+		const { cuePoint, time, duration, colors  } = self.props;
 		const info = Info.getCuePointInfo( cuePoint );
 
+		const textStyle = {
+			color: colors['--brand-text-color'] || colors['--global-theme-secondary'],
+		};
+
 		return (
-			<div className="controls-info">
+			<div className="controls-info" style={colors}>
 				<p>
 					<strong>{info[0] || ''}</strong>
 					<span className="time -mobile -current">{Progress.format( time )}</span>
