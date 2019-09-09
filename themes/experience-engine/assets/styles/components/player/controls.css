@@ -63,7 +63,7 @@
 
 			@media(--min-medium-viewport) {
 				flex: 2 0px;
-				max-width: 210px;
+				max-width: 320px;
 				order: 2;
 			}
 
