@@ -43,54 +43,83 @@ export function loadPage( url, options = {} ) {
 	const urlSlugified = slugify( url );
 	return dispatch => {
 		const { history, location, pageXOffset, pageYOffset } = window;
+		let redirecting = false;
 
 		dispatch( { type: ACTION_LOADING_PAGE, url } );
 
 		function onError( error ) {
 			// eslint-disable-next-line no-console
-			console.error( error );
+			console.error( error.stack );
 			dispatch( { type: ACTION_LOAD_ERROR, error } );
 		}
 
 		function onSuccess( data ) {
-			const parsed = parseHtml( data );
-			const pageDocument = parsed.document;
+			if ( ! redirecting ) {
+				const parsed = parseHtml( data );
+				const pageDocument = parsed.document;
 
-			dispatch( {
-				type: ACTION_LOADED_PAGE,
-				url,
-				...parsed,
-				isHome: pageDocument.body.classList.contains( 'home' ),
-			} );
-
-			if ( !options.suppressHistory ) {
-				history.replaceState(
-					{ ...history.state, pageXOffset, pageYOffset },
-					document.title,
-					location.href,
-				);
-				history.pushState(
-					{ uuid: urlSlugified, pageXOffset: 0, pageYOffset: 0 },
-					pageDocument.title,
-					url,
-				);
 				dispatch( {
-					type: ACTION_HISTORY_HTML_SNAPSHOT,
-					uuid: urlSlugified,
-					data,
+					type: ACTION_LOADED_PAGE,
+					url,
+					...parsed,
+					isHome: pageDocument.body.classList.contains( 'home' ),
 				} );
 
-				dispatchEvent( 'pushstate' );
-				pageview( pageDocument.title, window.location.href );
+				if ( !options.suppressHistory ) {
+					history.replaceState(
+						{ ...history.state, pageXOffset, pageYOffset },
+						document.title,
+						location.href,
+					);
+					history.pushState(
+						{ uuid: urlSlugified, pageXOffset: 0, pageYOffset: 0 },
+						pageDocument.title,
+						url,
+					);
+					dispatch( {
+						type: ACTION_HISTORY_HTML_SNAPSHOT,
+						uuid: urlSlugified,
+						data,
+					} );
 
-				document.title = pageDocument.title;
-				document.body.className = pageDocument.body.className;
+					dispatchEvent( 'pushstate' );
+					pageview( pageDocument.title, window.location.href );
+
+					document.title = pageDocument.title;
+					document.body.className = pageDocument.body.className;
+				}
+
+				window.scrollTo( 0, 0 );
 			}
 
-			window.scrollTo( 0, 0 );
 		}
 
-		fetch( options.fetchUrlOverride || url, options.fetchParams || {} )
+		/**
+		 * If the fetch response is anything different than basic (very likely a opaqueredirect)
+		 * we force a full page refresh. 'basic' response type is the only request we can safely use to proceed
+		 * with our load page logic.
+		 *
+		 * @param {*} response
+		 */
+		const maybeRedirect = ( response ) => {
+			if ( 'basic' !== response.type ) {
+				window.location.href = response.url;
+				redirecting = true;
+			}
+			return response;
+		};
+
+		/**
+		 * Given external redirects were not properly implemented within the hybrid theme approach. (see https://tenup.teamwork.com/#/tasks/18645110).
+		 * A little hack was implemented to get them working. We do a fetch request with 'redirect: "manual"' which
+		 * means fetch will not follow the redirect, if present. Then we check if the response was indeed a redirect
+		 * (opaqueredirect, or to be more generic anything different than basic).
+		 * In that case we simply force a full page refresh to let the server properly handle redirects.
+		 */
+		fetch( options.fetchUrlOverride || url, options.fetchParams || {
+			redirect: 'manual',
+		} )
+			.then( maybeRedirect )
 			.then( response => response.text() )
 			.then( onSuccess )
 			.catch( onError );
