@@ -325,7 +325,7 @@ class BlogData {
 			'order' => 'DESC',
 		);
 
-		$start_date = apply_filters( 'beasley_syndication_query_start_date', '' );
+		$start_date = apply_filters( 'beasley_syndication_query_start_date', $start_date );
 
 		if ( $start_date == '' ) {
 			$last_queried = get_post_meta( $subscription_id, 'syndication_last_performed', true );
