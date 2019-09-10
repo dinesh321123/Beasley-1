@@ -163,17 +163,17 @@ function fpmrss_extract_media_player( SimpleXMLElement $element ) {
  * Fetches thumbnail image for a media item.
  *
  * @global SimpleXMLElement $fpmrss_feed_item The current SimpleXML element.
- * @global array $fpmrss_feed_thumbnails The array of feed thumbnails to import.
  *
  * @param int $post_id Newly imported post id.
  * @param int $feed_id The feed id.
  */
 function fpmrss_fetch_media_data( $post_id, $feed_id ) {
-	global $fpmrss_feed_item, $fpmrss_feed_thumbnails;
+	global $fpmrss_feed_item;
 
 	if ( is_wp_error( $post_id ) ) {
 		return;
 	}
+
 	// do nothing if an xml element is not caught
 	if ( ! $fpmrss_feed_item ) {
 		return;
@@ -194,15 +194,10 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 		wp_update_post( array( 'ID' => $post_id, 'post_parent' => $podcast ) );
 	}
 
-	// init feed thumbnails array if it isn't
-	if ( ! is_array( $fpmrss_feed_thumbnails ) ) {
-		$fpmrss_feed_thumbnails = array();
-	}
-
 	// fetch thumbnail
 	$thumbnail = fpmrss_extract_media_thumbnail( $fpmrss_feed_item );
 	if ( $thumbnail ) {
-		$fpmrss_feed_thumbnails[] = array( $thumbnail, $post_id );
+		fpmrss_import_thumbnails( array( array( $thumbnail, $post_id ) ) );
 	}
 
 	// fetch player
@@ -255,24 +250,6 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 
 add_action( 'fp_handled_post', 'fpmrss_fetch_media_data', 10, 2 );
 
-/**
- * Lauches async task to import thumbnails.
- *
- * @global array $fpmrss_feed_thumbnails The array of feed thumbnails to import.
- */
-function fpmrss_launch_async_thumbnails_import() {
-	global $fpmrss_feed_thumbnails;
-
-	// do nothing if feed thumbnails array if empty
-	if ( empty( $fpmrss_feed_thumbnails ) ) {
-		return;
-	}
-
-	// try to launch async task if available, otherwise schedule single event
-	wp_schedule_single_event( current_time( 'timestamp', 1 ), 'fpmrss_import_thumbnails', array( $fpmrss_feed_thumbnails ) );
-}
-
-add_action( 'fp_post_feed_pull', 'fpmrss_launch_async_thumbnails_import' );
 
 /**
  * Performs thumbnails import.
@@ -280,9 +257,9 @@ add_action( 'fp_post_feed_pull', 'fpmrss_launch_async_thumbnails_import' );
  * @param array $thumbnails Array of arrays of thumbnail urls and post ids.
  */
 function fpmrss_import_thumbnails( $thumbnails ) {
-	require_once ABSPATH . 'wp-admin/includes/image.php';
-	require_once ABSPATH . 'wp-admin/includes/media.php';
-	require_once ABSPATH . 'wp-admin/includes/file.php';
+	include_once ABSPATH . 'wp-admin/includes/image.php';
+	include_once ABSPATH . 'wp-admin/includes/media.php';
+	include_once ABSPATH . 'wp-admin/includes/file.php';
 
 	foreach ( $thumbnails as $thumbnail ) {
 		$thumbnail_id = fpmrss_download_image( $thumbnail[0], $thumbnail[1] );
