@@ -133,13 +133,16 @@ endif;
 if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 	function ee_setup_post_from_feed_item( $item, $feed ) {
 		$post = false;
-		switch ( $feed['type'] ) {
-			case 'podcast':
-				$post = ee_get_post_by_omny_audio( $item['media']['url'] );
-				break;
-			default:
-				$post = ee_get_post_by_link( $item['link'] );
-				break;
+
+		if ( ! isset( $item['override'] ) || ! $item['override'] ) {
+			switch ( $feed['type'] ) {
+				case 'podcast':
+					$post = ee_get_post_by_omny_audio( $item['media']['url'] );
+					break;
+				default:
+					$post = ee_get_post_by_link( $item['link'] );
+					break;
+			}
 		}
 
 		if ( ! is_a( $post, '\WP_Post' ) ) {
