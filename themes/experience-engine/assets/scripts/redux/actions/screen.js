@@ -3,6 +3,7 @@ import { removeChildren, dispatchEvent } from '../../library/dom';
 import { getStateFromContent, parseHtml } from '../../library/html-parser';
 import { pageview } from '../../library/google-analytics';
 import slugify from '../../library/slugify';
+import { isIE11 } from '../../library/browser';
 /**
  * We use this approach to minify action names in the production bundle and have
  * human friendly actions in the dev bundle. Use "s{x}" format to create new actions.
@@ -102,6 +103,10 @@ export function loadPage( url, options = {} ) {
 		 * @param {*} response
 		 */
 		const maybeRedirect = ( response ) => {
+			if ( isIE11() ) {
+				return response;
+			}
+
 			if ( 'basic' !== response.type ) {
 				window.location.href = response.url;
 				redirecting = true;
@@ -117,7 +122,7 @@ export function loadPage( url, options = {} ) {
 		 * In that case we simply force a full page refresh to let the server properly handle redirects.
 		 */
 		fetch( options.fetchUrlOverride || url, options.fetchParams || {
-			redirect: 'manual',
+			redirect: isIE11() ? 'follow' : 'manual', // IE11 does not support this work around.
 		} )
 			.then( maybeRedirect )
 			.then( response => response.text() )

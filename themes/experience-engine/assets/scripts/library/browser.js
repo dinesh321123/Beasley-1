@@ -24,6 +24,17 @@ export const isWebKit = () => {
 	return !!userAgent.match( /WebKit/i );
 };
 
+export const isIE11 = () => {
+	let ie = 0;
+	try {
+		ie = navigator.userAgent.match( /(MSIE |Trident.*rv[ :])([0-9]+)/ )[ 2 ];
+	}
+	catch( e ) {
+		// do nothing
+	}
+	return 11 == ie;
+};
+
 export const isWindowsBrowser = () => {
 	const browser = Bowser.getParser( window.navigator.userAgent );
 
