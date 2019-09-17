@@ -24,6 +24,7 @@ import BackToTop from './components/BackToTop';
 import ErrorBoundary from './components/ErrorBoundary';
 import { isSafari, isWindowsBrowser } from './library/browser';
 import './library/geotargetly';
+import './polyfills/closest';
 
 es6promise.polyfill();
 
