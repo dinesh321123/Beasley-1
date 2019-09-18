@@ -18,7 +18,9 @@ class Webhooks extends \Bbgi\Module {
 		add_action( 'save_post', array( $this, 'do_save_post_webhook' ) );
 		add_action( 'wp_trash_post', array( $this, 'do_trash_post_webhook' ) );
 		add_action( 'delete_post', array( $this, 'do_delete_post_webhook' ) );
+		add_action( 'transition_post_status', [ $this, 'do_transition_from_publish' ], 10, 3 );
 		add_action( 'shutdown', [ $this, 'do_shutdown' ] );
+
 
 		$this->debug = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'WEBHOOKS_LOG_ENABLE' ) && WEBHOOKS_LOG_ENABLE );
 	}
@@ -50,7 +52,7 @@ class Webhooks extends \Bbgi\Module {
 
 
 	/**
-	 * Helper to trigger save webhook and unregister self.
+	 * Triggers webhook on save.
 	 *
 	 * @param int $post_id The Post id that changed
 	 */
@@ -59,7 +61,7 @@ class Webhooks extends \Bbgi\Module {
 	}
 
 	/**
-	 * Helper to trigger trash webhook and unregister self.
+	 * Triggers webhook on trash.
 	 *
 	 * @param int $post_id The Post id that changed
 	 */
@@ -68,7 +70,7 @@ class Webhooks extends \Bbgi\Module {
 	}
 
 	/**
-	 * Helper to trigger delete webhook and unregister self.
+	 *  Triggers webhook on delete.
 	 *
 	 * @param int $post_id The Post id that changed
 	 */
@@ -77,13 +79,31 @@ class Webhooks extends \Bbgi\Module {
 	}
 
 	/**
+	 * Triggers webhook when transition to a publish status to a non-publish status.
+	 *
+	 * @param string   $new_status The new post status.
+	 * @param string   $old_status The old post status.
+	 *
+	 * @param \WP_Post $post The Post id that changed
+	 */
+	public function do_transition_from_publish( $new_status, $old_status, $post ) {
+		// if we're transitioning from publish to anything else we need to call the webhook.
+		if ( $new_status !== 'publish' && $old_status === 'publish' ) {
+			$this->do_lazy_webhook( $post->ID, [
+				'source'         => 'transition_status',
+				'only_published' => false,
+			] );
+		}
+
+	}
+
+
+	/**
 	 * Triggers any pending webhook before shutdown.
 	 *
 	 * @return bool
 	 */
 	public function do_shutdown() {
-		remove_action( 'shutdown', [ $this, 'do_shutdown' ] );
-
 		if ( ! empty( $this->pending ) ) {
 			foreach( $this->pending as $site_id => $pending_webhook ) {
 				$this->log( 'do_webhook' , [ 'site_id' => $site_id ] );
@@ -107,14 +127,16 @@ class Webhooks extends \Bbgi\Module {
 	 *
 	 * @param int $post_id The post that changed.
 	 * @param array $opts The change context
+	 *
 	 * @return bool
 	 */
 	public function do_lazy_webhook( $post_id, $opts = [] ) {
 		$site_id = get_current_blog_id();
+		$only_published = isset( $opts['only_published' ] ) ? $opts['only_published' ] : true;
 
 		$this->log( 'do_lazy_webook called.', [ 'post_id' => $post_id, 'opts' => $opts ] );
 
-		if ( ! isset( $this->pending[ $site_id ] ) && $this->needs_webhook( $post_id ) ) {
+		if ( ! isset( $this->pending[ $site_id ] ) && $this->needs_webhook( $post_id, $only_published ) ) {
 			$publisher = get_option( 'ee_publisher', false );
 
 			$this->pending[ $site_id ] = [
@@ -193,10 +215,11 @@ class Webhooks extends \Bbgi\Module {
 	/**
 	 * Determines if the specified post & context needs a webhook push.
 	 *
-	 * @param int $post_id The post id.
+	 * @param int $post_id         The post id.
+	 * @param bool $only_published Only fires if post is published.
 	 * @return bool
 	 */
-	public function needs_webhook( $post_id ) {
+	public function needs_webhook( $post_id, $only_published = true ) {
 		/* autosaves don't need webhook */
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return false;
@@ -209,7 +232,7 @@ class Webhooks extends \Bbgi\Module {
 
 		$post = get_post( $post_id );
 
-		if ( $post->post_status !== 'publish' ) {
+		if ( $only_published && $post->post_status !== 'publish' ) {
 			return false;
 		}
 
