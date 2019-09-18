@@ -51,19 +51,20 @@ function fpmrss_get_media_group( SimpleXMLElement $element ) {
  * Extracts media thumbnail from an RSS element.
  *
  * @param SimpleXMLElement $element Current RSS element.
+ * @param string           $media_field which media field to use.
  *
  * @return string Thumbnail URL on success, otherwise FALSE.
  */
-function fpmrss_extract_media_thumbnail( SimpleXMLElement $element ) {
+function fpmrss_extract_media_thumbnail( SimpleXMLElement $element, $media_field = 'thumbnail' ) {
 	$group = fpmrss_get_media_group( $element );
 	if ( ! is_a( $group, 'SimpleXMLElement' ) ) {
 		$group = $element;
 	}
 
 	$thumbnail_url = false;
-	$thumbnails    = $group->xpath( 'media:thumbnail' );
+	$thumbnails    = $group->xpath( 'media:' . $media_field );
 	if ( empty( $thumbnails ) && $element != $group ) {
-		$thumbnails = $element->xpath( 'media:thumbnail' );
+		$thumbnails = $element->xpath( 'media:' . $media_field );
 	}
 
 	if ( empty( $thumbnails ) ) {
@@ -179,6 +180,8 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 		return;
 	}
 
+
+
 	// set show
 	$show = get_post_meta( $feed_id, 'fpmrss-show', true );
 	if ( $show && function_exists( 'TDS\get_related_term' ) ) {
@@ -188,14 +191,17 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 		}
 	}
 
+
 	//set podcast
 	$podcast = get_post_meta( $feed_id, 'fpmrss-podcast', true );
 	if ( $podcast && 'episode' === get_post_type( $post_id ) ) {
 		wp_update_post( array( 'ID' => $post_id, 'post_parent' => $podcast ) );
 	}
 
+	$media_field = get_post_meta( $feed_id, 'fpmrss-featured-image', true );
+
 	// fetch thumbnail
-	$thumbnail = fpmrss_extract_media_thumbnail( $fpmrss_feed_item );
+	$thumbnail = fpmrss_extract_media_thumbnail( $fpmrss_feed_item, $media_field );
 	if ( $thumbnail ) {
 		fpmrss_import_thumbnails( array( array( $thumbnail, $post_id ) ) );
 	}
@@ -540,6 +546,7 @@ function fpmrss_render_ooyala_metabox( $post ) {
 function fpmrss_render_fetch_metabox( $post ) {
 	$url_field   = get_post_meta( $post->ID, 'fpmrss-content-url', true );
 	$xpath_field = get_post_meta( $post->ID, 'fpmrss-content-xpath', true );
+	$media_field = get_post_meta( $post->ID, 'fpmrss-featured-image', true );
 
 	echo '<p>';
 	echo '<label>';
@@ -553,6 +560,11 @@ function fpmrss_render_fetch_metabox( $post ) {
 	echo '<b>Content XPath</b><br>';
 	echo '<input type="text" class="widefat" name="fpmrss-content-xpath" value="', esc_attr( $xpath_field ), '"><br>';
 	echo '<span class="description">Enter xpath to extract content from remote page.</span>';
+	echo '</label>';
+	echo '</p>';
+	echo '<b>Featured Image</b><br>';
+	echo '<input type="text" class="widefat" name="fpmrss-featured-image" value="', esc_attr( $media_field ), '"><br>';
+	echo '<span class="description">Which image use as featured. Defaults to thumbnail (media:thumbnail).</span>';
 	echo '</label>';
 	echo '</p>';
 }
@@ -609,7 +621,8 @@ function fpmrss_save_settings( $post_id ) {
 			'fpmrss-show',
 			'fpmrss-podcast',
 			'fpmrss-content-url',
-			'fpmrss-content-xpath'
+			'fpmrss-content-xpath',
+			'fpmrss-featured-image'
 		);
 		foreach ( $fields as $field ) {
 			$value = wp_kses_post( filter_input( INPUT_POST, $field ) );
