@@ -56,10 +56,19 @@
 	position: relative;
 
 }
-
+.jacapps .podcast-tile .post-thumbnail a,
+.jacapps .podcast-tile .post-thumbnail .lazy-image,
+.jacapps .show-tile .post-thumbnail a,
+.jacapps .show-tile .post-thumbnail .lazy-image,
+.jacapps .contest-tile .post-thumbnail a,
+.jacapps .contest-tile .post-thumbnail .lazy-image,
+.jacapps .event-tile .post-thumbnail a,
+.jacapps .event-tile .post-thumbnail .lazy-image
+.jacapps .event-tile .post-thumbnail a,
 .jacapps .post-thumbnail a {
 	position: relative;
 }
+
 
 .jacapps .event-tile .post-thumbnail::before {
 	display: none;
