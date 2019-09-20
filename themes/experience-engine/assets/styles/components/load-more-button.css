@@ -33,14 +33,11 @@
 	}
 }
 
-.jacapps .load-more {
-	padding: 1rem;
-}
-
 .jacapps .archive-tiles.-grid {
 	display: block;
 }
 
-.jacapps .post-thumbnail a {
-	position: relative;
+.jacapps .load-more {
+	padding-left: 1rem;
+	padding-right: 1rem;
 }

@@ -1,10 +1,8 @@
 <div data-post-id="post-<?php the_ID(); ?>" <?php post_class( 'episode-tile' ); ?>>
-	<?php if ( ! ee_is_jacapps() ) : ?>
-		<div class="post-thumbnail">
-			<?php ee_the_lazy_thumbnail(); ?>
-			<?php ee_the_episode_player(); ?>
-		</div>
-	<?php endif; ?>
+	<div class="post-thumbnail">
+		<?php ee_the_lazy_thumbnail(); ?>
+		<?php ee_the_episode_player(); ?>
+	</div>
 
 	<div class="meta">
 		<?php get_template_part( 'partials/tile/title' ); ?>

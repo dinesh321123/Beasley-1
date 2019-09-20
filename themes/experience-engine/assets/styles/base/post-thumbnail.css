@@ -56,3 +56,11 @@
 	position: relative;
 
 }
+
+.jacapps .post-thumbnail a {
+	position: relative;
+}
+
+.jacapps .event-tile .post-thumbnail::before {
+	display: none;
+}
