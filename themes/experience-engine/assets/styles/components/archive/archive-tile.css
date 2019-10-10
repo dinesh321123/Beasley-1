@@ -24,6 +24,21 @@
 		}
 	}
 
+	/* Override when in archive carousel */
+	& .podcast-tile {
+		& .excerpt {
+			display: none;
+		}
+		@media (--min-small-viewport) {
+			width: 100%;
+		}
+		@media (--min-xlarge-viewport) {
+			& .excerpt {
+				display: block;
+			}
+		}
+	}
+
 	& .episode-tile {
 		& .status {
 
@@ -278,6 +293,17 @@
 				& svg {
 					fill: var(--brand-primary);
 				}
+			}
+		}
+
+		/* Revert placeholder for full podcast-tile */
+		& .podcast-tile {
+			& .placeholder-audio {
+				margin-top: 10px;
+				position: relative;
+				top: auto;
+				left: auto;
+				transform: translateX(0) translateY(0);
 			}
 		}
 
