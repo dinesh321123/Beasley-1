@@ -24,6 +24,21 @@
 		}
 	}
 
+	/* Override when in archive carousel */
+	& .podcast-tile {
+		& .excerpt {
+			display: none;
+		}
+		@media (--min-small-viewport) {
+			width: auto;
+		}
+		@media (--min-xlarge-viewport) {
+			& .excerpt {
+				display: block;
+			}
+		}
+	}
+
 	& .episode-tile {
 		& .status {
 
