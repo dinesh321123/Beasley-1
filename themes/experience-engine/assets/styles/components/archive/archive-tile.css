@@ -265,12 +265,14 @@
 .archive,
 .home {
 	& .archive-tiles {
-		& .placeholder-audio {
+		& :not(.episode-tile) .placeholder-audio {
 			position: absolute;
 			top: 50%;
 			left: 50%;
 			transform: translateX(-50%) translateY(-50%);
+		}
 
+		& .placeholder-audio {
 			& .status button {
 				background-color: var(--brand-tertiary);
 				border-color: var(--brand-tertiary);
