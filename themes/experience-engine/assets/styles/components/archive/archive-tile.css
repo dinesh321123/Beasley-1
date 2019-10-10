@@ -280,14 +280,12 @@
 .archive,
 .home {
 	& .archive-tiles {
-		& div:not(.podcast-tile) .placeholder-audio {
+		& .placeholder-audio {
 			position: absolute;
 			top: 50%;
 			left: 50%;
 			transform: translateX(-50%) translateY(-50%);
-		}
 
-		& .placeholder-audio {
 			& .status button {
 				background-color: var(--brand-tertiary);
 				border-color: var(--brand-tertiary);
@@ -295,6 +293,16 @@
 				& svg {
 					fill: var(--brand-primary);
 				}
+			}
+		}
+
+		/* Revert placeholder for full podcast-tile */
+		& .podcast-tile {
+			& .placeholder-audio {
+				position: relative;
+				top: auto;
+				left: auto;
+				transform: translateX(0) translateY(0);
 			}
 		}
 
