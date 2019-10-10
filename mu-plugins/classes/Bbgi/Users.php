@@ -23,6 +23,7 @@ class Users extends \Bbgi\Module {
 		add_action( 'personal_options_update', [ $this, 'save_fields' ] );
 		add_action( 'edit_user_profile_update', [ $this,'save_fields'] );
 		add_action( 'restrict_manage_users', [ $this, 'filter_users_dropdown' ], 99 );
+		add_action( 'restrict_manage_network_users', [ $this, 'filter_users_dropdown' ], 99 );
 		add_action( 'pre_get_users', [ $this, 'filter_dropdown' ] );
 	}
 
@@ -36,18 +37,24 @@ class Users extends \Bbgi\Module {
 	 * @return mixed
 	 */
 	public function filter_authenticate( $user, $username, $password ) {
-		if ( is_a( $user, \WP_User::class ) ) {
-			$is_user_disabled = get_user_meta( $user->ID, self::USER_DISABLED_META, true );
-
-			if ( $is_user_disabled ) {
-				return new \WP_Error(
-					'bbgi_disabled_user',
-					esc_html__( 'This user account has been disabled by an administrator', 'beasley' )
-				);
-			}
+		if ( is_a( $user, \WP_User::class ) && $this->is_user_disabled( $user->ID ) ) {
+			return new \WP_Error(
+				'bbgi_disabled_user',
+				esc_html__( 'This user account has been disabled by an administrator', 'beasley' )
+			);
 		}
 
 		return $user;
+	}
+
+	/**
+	 * Returns whether the user is disabled or not.
+	 *
+	 * @param integer $user_id User id.
+	 * @return boolean
+	 */
+	public function is_user_disabled( $user_id ) {
+		return (bool) get_user_meta( $user_id, self::USER_DISABLED_META, true );
 	}
 
 	/**
@@ -61,9 +68,6 @@ class Users extends \Bbgi\Module {
 		if ( ! current_user_can( 'manage_network_users' ) || $user->ID === get_current_user_id() ) {
 			return;
 		}
-
-		$is_user_disabled = (bool) get_user_meta( $user->ID, self::USER_DISABLED_META, true );
-
 		?>
 		<h3><?php esc_html_e( 'Beasley Security', 'beasley' ); ?></h3>
 		<?php wp_nonce_field( 'beasley_security', 'bbgi_user_settings_nonce' ); ?>
@@ -82,7 +86,7 @@ class Users extends \Bbgi\Module {
 									id="<?php echo esc_attr( self::USER_DISABLED_META ); ?>"
 									name="<?php echo esc_attr( self::USER_DISABLED_META ); ?>"
 									value="1"
-									<?php checked( $is_user_disabled )?>
+									<?php checked( $this->is_user_disabled( $user->ID ) )?>
 							/>
 							<?php esc_html_e( 'Disabling an user will prevent it from logging in on the site', 'beasley' ); ?>
 						</label>
