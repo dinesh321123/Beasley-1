@@ -30,7 +30,7 @@
 			display: none;
 		}
 		@media (--min-small-viewport) {
-			width: auto;
+			width: 100%;
 		}
 		@media (--min-xlarge-viewport) {
 			& .excerpt {
@@ -299,6 +299,7 @@
 		/* Revert placeholder for full podcast-tile */
 		& .podcast-tile {
 			& .placeholder-audio {
+				margin-top: 10px;
 				position: relative;
 				top: auto;
 				left: auto;
