@@ -203,7 +203,7 @@ if ( ! function_exists( 'ee_get_post_by_omny_audio' ) ) :
 		if ( $post_id === false ) {
 			$audio = esc_sql( $audio );
 
-			$post_id = $wpdb->get_var( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'omny-audio-url' AND meta_value LIKE '{$audio}%'" );
+			$post_id = $wpdb->get_var( "SELECT post_id FROM {$wpdb->postmeta} WHERE (meta_key = 'omny-audio-url' OR meta_key='enclosure') AND meta_value LIKE '{$audio}%'" );
 			$post_id = intval( $post_id );
 
 			wp_cache_set( $key, $post_id, DAY_IN_SECONDS );
