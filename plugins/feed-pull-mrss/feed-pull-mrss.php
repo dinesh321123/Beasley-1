@@ -72,6 +72,10 @@ function fpmrss_extract_media_thumbnail( SimpleXMLElement $element, $media_field
 		$thumbnails = $element->xpath( 'itunes:image' );
 	}
 
+	if ( empty( $thumbnails ) ) {
+		$thumbnails = $element->xpath( $media_field );
+	}
+
 	if ( ! empty( $thumbnails ) ) {
 		$max_width = 0;
 		foreach ( $thumbnails as $thumbnail ) {
