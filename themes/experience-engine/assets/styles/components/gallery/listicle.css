@@ -15,6 +15,7 @@
 	}
 
 	& .placeholder-lazyimage {
+		overflow: hidden;
 		position: relative;
 		background-color: var(--global-mercury);
 
