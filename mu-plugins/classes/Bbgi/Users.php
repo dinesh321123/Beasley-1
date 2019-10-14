@@ -92,6 +92,11 @@ class Users extends \Bbgi\Module {
 
 		// check if the user didn't login in the past 60 days.
 		$last_login = $this->get_last_login( $user_id );
+		//  if the user does not have last login data so we can't disable it.
+		if ( ! $last_login ) {
+			return false;
+		}
+
 		$today      = time();
 		$diff       = date_diff( date_create( date( 'Y-m-d', $today ) ), date_create( date( 'Y-m-d', $last_login ) ) );
 
