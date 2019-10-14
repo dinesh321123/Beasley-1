@@ -306,7 +306,7 @@ class Users extends \Bbgi\Module {
 			$value      = esc_html__( 'Never', 'beasley' );
 
 			if ( $last_login ) {
-				$value = date_i18n( 'Y/m/d', $last_login );
+				$value = date_i18n( 'Y/m/d H:i:s', $last_login );
 			}
 		}
 
