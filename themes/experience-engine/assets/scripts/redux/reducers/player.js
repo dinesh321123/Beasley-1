@@ -150,6 +150,8 @@ export const DEFAULT_STATE = {
 function reducer( state = {}, action = {} ) {
 	let interval;
 
+	console.log( 'action type', action.type );
+
 	switch ( action.type ) {
 		case ACTION_INIT_TDPLAYER:
 			tdplayer = action.player;
@@ -175,7 +177,13 @@ function reducer( state = {}, action = {} ) {
 				item => item.stream_call_letters === station,
 			);
 
+			console.log( 'streaming info' );
+			console.log( stream.stream_cmod_domain );
+			console.log( stream.stream_tap_id );
+
 			fullStop();
+
+			console.log( 'make it rain' );
 
 			tdplayer.playAd( 'tap', {
 				host: stream.stream_cmod_domain,
@@ -329,15 +337,8 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_AD_PLAYBACK_ERROR:
 		case ACTION_AD_PLAYBACK_COMPLETE: {
-			const { station, adPlayback } = state;
-			document.body.classList.remove( 'locked' );
+			const { station } = state;
 
-			// start station only if the ad playback is playing now
-			if ( adPlayback ) {
-				tdplayer.skipAd();
-			}
-
-			tdplayer.play( { station } );
 			loadNowPlaying( station );
 
 			return { ...state, adPlayback: false };
