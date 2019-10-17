@@ -140,7 +140,7 @@ export function initTdPlayer( modules ) {
 			// hide after 1 min if it hasn't been hidden yet
 			clearTimeout( adPlaybackTimeout );
 			adPlaybackTimeout = setTimeout(
-				() => dispatch( { type: ACTION_AD_PLAYBACK_ERROR } ),
+				() => dispatchPlaybackStop( { type: ACTION_AD_PLAYBACK_ERROR } ),
 				70000,
 			);
 
