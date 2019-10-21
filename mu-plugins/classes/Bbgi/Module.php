@@ -47,6 +47,7 @@ abstract class Module {
 			'firebase'          => new \Bbgi\Integration\Firebase(),
 			'dfp'               => new \Bbgi\Integration\Dfp(),
 			'facebook'          => new \Bbgi\Integration\Facebook(),
+			'feed-pull'         => new \Bbgi\Integration\FeedPull(),
 			'webhooks'          => new \Bbgi\Webhooks(),
 			'enclosure'         => new \Bbgi\Media\Enclosure(),
 			'users'             => new \Bbgi\Users(),
