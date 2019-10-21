@@ -158,3 +158,8 @@
 .jacapps .related-articles {
 	display: none;
 }
+
+/* General fixes for external feeds */
+.file .element-invisible {
+	visibility: hidden;
+}
