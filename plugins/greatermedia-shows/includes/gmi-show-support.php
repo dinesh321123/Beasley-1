@@ -157,7 +157,7 @@ function _get_show_children_ids( $type ) {
 		);
 
 		$ids = $query->query( $args );
-		wp_cache_set( $key, $ids, 'bbgi:show' );
+		wp_cache_set( $key, $ids, 'bbgi:show', HOUR_IN_SECONDS );
 	}
 
 	return $ids;
