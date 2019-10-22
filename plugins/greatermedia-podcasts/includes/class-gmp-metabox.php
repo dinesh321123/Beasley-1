@@ -119,6 +119,29 @@ class GMP_Meta {
 	}
 
 	/**
+	 * Flush any related cache
+	 *
+	 * @param $post_id The id of the post to flush the cache for.
+	 */
+	protected function flush_cache( $post_id ) {
+		$tax_input = filter_input( INPUT_POST, 'tax_input', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+
+		if ( isset( $tax_input['_shows'] ) && ! empty( $tax_input['_shows'] ) ) {
+
+			foreach ( $tax_input['_shows'] as $show_term_id ) {
+				$show_term_id = absint( $show_term_id );
+				$show_term    = get_term( $show_term_id, '_shows' );
+				$show         = TDS\get_related_post( $show_term );
+
+				if ( is_a( $show, \WP_Post::class ) ) {
+					$key = 'show-children-ids-' . $show->ID . GMP_CPT::PODCAST_POST_TYPE;
+					wp_cache_delete( $key, 'bbgi:show' );
+				}
+			}
+		}
+	}
+
+	/**
 	 * Save the meta when the post is saved for Episodes.
 	 *
 	 * @param $post_id
@@ -167,7 +190,7 @@ class GMP_Meta {
 		$podcast_feed = esc_url_raw( $_POST['gmp_podcast_feed'] );
 		update_post_meta( $post_id, 'gmp_podcast_feed', esc_url_raw( $podcast_feed ) );
 
-
+		$this->flush_cache( $post_id );
 	}
 
 
