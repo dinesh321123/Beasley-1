@@ -41,6 +41,7 @@ module.exports = {
 		'no-unreachable': 0,
 		'no-unused-vars': 0,
 		'no-useless-escape': 0,
+		'camelcase': 0,
 		// @note: override @10up/eslint-config
 		'require-jsdoc': 0,
 		// @note: Turning this off, confirming this is WordPress standard

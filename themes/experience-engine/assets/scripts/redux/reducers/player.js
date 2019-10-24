@@ -58,6 +58,7 @@ function parseVolume( value ) {
 }
 
 function loadNowPlaying( station ) {
+	console.log( 'station', station );
 	if ( station && tdplayer && !omnyplayer && !mp3player ) {
 		tdplayer.NowPlayingApi.load( { numberToFetch: 10, mount: station } );
 	}

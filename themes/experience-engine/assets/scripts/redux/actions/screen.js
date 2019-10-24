@@ -30,6 +30,7 @@ export const ACTION_HISTORY_HTML_SNAPSHOT =
 export function initPage() {
 	const content = document.getElementById( 'content' );
 	const parsed = getStateFromContent( content );
+
 	// clean up content block for now, it will be poplated in the render function
 	removeChildren( content );
 
