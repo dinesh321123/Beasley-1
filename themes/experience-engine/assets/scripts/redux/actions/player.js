@@ -285,8 +285,8 @@ export function playOmny( audio, cueTitle = '', artistName = '', trackType = 'li
 	};
 }
 
-export function playStation( station ) {
-	return { type: ACTION_PLAY_STATION, station };
+export function playStation( stream_mount_key ) {
+	return { type: ACTION_PLAY_STATION, station: stream_mount_key };
 }
 
 export function pause() {

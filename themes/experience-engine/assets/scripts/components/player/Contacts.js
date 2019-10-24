@@ -153,7 +153,7 @@ Contacts.defaultProps = {
 function mapStateToProps( { player } ) {
 	return {
 		stream: player.streams.find(
-			item => item.stream_call_letters === player.station,
+			item => item.stream_mount_key === player.station,
 		),
 	};
 }

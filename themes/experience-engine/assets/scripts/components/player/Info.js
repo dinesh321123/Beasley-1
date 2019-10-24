@@ -75,7 +75,7 @@ class Info extends Component {
 			}
 		}
 
-		const stream = streams.find( item => item.stream_call_letters === station );
+		const stream = streams.find( item => item.stream_mount_key === station );
 
 		return (
 			<div className="controls-info" style={colors}>

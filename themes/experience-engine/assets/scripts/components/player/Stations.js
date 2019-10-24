@@ -33,9 +33,9 @@ class Stations extends Component {
 		document.removeEventListener( 'keydown', this.handleEscapeKeyDown, false );
 	}
 
-	handlePlayClick( { stream_call_letters } ) {
+	handlePlayClick( stream ) {
 		this.setState( { isOpen: false } );
-		this.props.play( stream_call_letters );
+		this.props.play( stream );
 	}
 
 	handleToggleClick() {
@@ -67,7 +67,7 @@ class Stations extends Component {
 
 		/* eslint-disable camelcase */
 		streams.forEach( ( stream ) => {
-			const { title, stream_call_letters, picture } = stream;
+			const { title, stream_mount_key, picture } = stream;
 			const { large, original } = picture || {};
 			const { url } = large || original || {};
 
@@ -77,11 +77,11 @@ class Stations extends Component {
 			}
 
 			stations.push(
-				<div key={stream_call_letters}>
+				<div key={stream_mount_key}>
 					<button
 						type="button"
 						className="control-station-button"
-						onClick={() => this.handlePlayClick( stream )}
+						onClick={() => this.handlePlayClick( stream_mount_key )}
 						style={textStyle}
 					>
 						{logo}
@@ -171,7 +171,7 @@ function mapStateToProps( { player } ) {
 	const { streams, station } = player;
 
 	return {
-		stream: streams.find( item => item.stream_call_letters === station ),
+		stream: streams.find( item => item.stream_mount_key === station ),
 		streams,
 	};
 }

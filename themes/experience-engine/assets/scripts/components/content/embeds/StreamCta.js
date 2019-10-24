@@ -20,7 +20,7 @@ function StreamCta( props ) {
 		title,
 		subtitle,
 		picture,
-		stream_call_letters: stream,
+		stream_mount_key: stream,
 	} = props;
 
 	const styles = {};
@@ -61,7 +61,7 @@ StreamCta.propTypes = {
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
 	picture: PropTypes.shape( {} ),
-	'stream_call_letters': PropTypes.string.isRequired,
+	stream_mount_key: PropTypes.string.isRequired,
 };
 
 StreamCta.defaultProps = {

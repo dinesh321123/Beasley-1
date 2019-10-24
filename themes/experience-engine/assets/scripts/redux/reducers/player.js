@@ -60,7 +60,8 @@ function parseVolume( value ) {
 function loadNowPlaying( station ) {
 	console.log( 'station', station );
 	if ( station && tdplayer && !omnyplayer && !mp3player ) {
-		tdplayer.NowPlayingApi.load( { numberToFetch: 10, mount: station } );
+		console.log( 'now playing station', station );
+		tdplayer.NowPlayingApi.load( { numberToFetch: 10, mount: 'WPBBFM' } );
 	}
 }
 
@@ -90,7 +91,7 @@ function fullStop() {
 
 function getInitialStation( streamsList ) {
 	const station = localStorage.getItem( 'station' );
-	return streamsList.find( stream => stream.stream_call_letters === station );
+	return streamsList.find( stream => stream.stream_mount_key === station );
 }
 
 function lyticsTrack( action, params ) {
@@ -143,7 +144,7 @@ let userInteraction = false;
 export const DEFAULT_STATE = {
 	...stateReset,
 	status: STATUSES.LIVE_STOP,
-	station: ( initialStation || streams[0] || {} ).stream_call_letters,
+	station: ( initialStation || streams[0] || {} ).stream_mount_key,
 	volume: parseVolume( localStorage.getItem( 'volume' ) || 100 ),
 	streams,
 };
@@ -172,9 +173,12 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_PLAY_STATION: {
 			const { station } = action;
+			console.log( station );
 			const stream = state.streams.find(
-				item => item.stream_call_letters === station,
+				item => item.stream_mount_key === station,
 			);
+
+			console.log( stream );
 
 			fullStop();
 
@@ -366,7 +370,7 @@ function reducer( state = {}, action = {} ) {
 			if ( !initialStation ) {
 				initialStation = getInitialStation( newstate.streams );
 				if ( initialStation ) {
-					newstate.station = initialStation.stream_call_letters;
+					newstate.station = initialStation.stream_mount_key;
 				}
 			}
 
