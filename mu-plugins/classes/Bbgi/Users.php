@@ -55,7 +55,7 @@ class Users extends \Bbgi\Module {
 	 * @return mixed
 	 */
 	public function filter_authenticate( $user, $username, $password ) {
-		if ( is_a( $user, \WP_User::class ) && $this->is_user_disabled( $user->ID ) ) {
+		if ( is_a( $user, \WP_User::class ) && ( $this->is_user_disabled( $user->ID ) || $this->maybe_disable_user( $user->ID ) ) ) {
 			return new \WP_Error(
 				'bbgi_disabled_user',
 				esc_html__( 'This user account has been disabled by an administrator', 'beasley' )
@@ -84,14 +84,20 @@ class Users extends \Bbgi\Module {
 	 * @return boolean
 	 */
 	public function is_user_disabled( $user_id ) {
-		$disabled = (bool) get_user_meta( $user_id, self::USER_DISABLED_META, true );
+		return (bool) get_user_meta( $user_id, self::USER_DISABLED_META, true );
+	}
 
-		if ( $disabled ) {
-			return true;
-		}
-
+	/**
+	 * Maybe disable a given user.
+	 *
+	 * @param integer $user_id User id.
+	 *
+	 * @return Boolean
+	 */
+	public function maybe_disable_user( $user_id ) {
 		// check if the user didn't login in the past 60 days.
 		$last_login = $this->get_last_login( $user_id );
+
 		//  if the user does not have last login data so we can't disable it.
 		if ( ! $last_login ) {
 			return false;
