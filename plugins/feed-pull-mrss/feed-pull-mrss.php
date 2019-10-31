@@ -48,6 +48,22 @@ function fpmrss_get_media_group( SimpleXMLElement $element ) {
 }
 
 /**
+ * Check if the player URL is valid
+ *
+ * @param string $url
+ *
+ * @return boolean
+ */
+function is_valid_player_url( $url ) {
+	// a player can't be a image.
+	if ( preg_match('/.*(\.jpg|jpeg|png)/', $url ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
  * Extracts media thumbnail from an RSS element.
  *
  * @param SimpleXMLElement $element Current RSS element.
@@ -184,8 +200,6 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 		return;
 	}
 
-
-
 	// set show
 	$show = get_post_meta( $feed_id, 'fpmrss-show', true );
 	if ( $show && function_exists( 'TDS\get_related_term' ) ) {
@@ -212,7 +226,7 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 
 	// fetch player
 	$player = fpmrss_extract_media_player( $fpmrss_feed_item );
-	if ( $player ) {
+	if ( $player && is_valid_player_url( $player ) ) {
 		// check if redirect header exists for a video
 		if ( filter_var( $player, FILTER_VALIDATE_URL ) ) {
 			$response = wp_remote_head( $player );
@@ -369,7 +383,7 @@ function fpmrss_generate_image_name( $image ) {
  */
 function fpmrss_update_content( $content ) {
 	$player = get_post_meta( get_the_ID(), 'gmr-player', true );
-	if ( ! empty( $player ) ) {
+	if ( ! empty( $player ) && is_valid_player_url( $player ) ) {
 		if ( filter_var( $player, FILTER_VALIDATE_URL ) ) {
 			$player = "[embed]{$player}[/embed]";
 		}
@@ -379,7 +393,7 @@ function fpmrss_update_content( $content ) {
 	return $content;
 }
 
-add_action( 'the_content', 'fpmrss_update_content', 1 );
+add_filter( 'the_content', 'fpmrss_update_content', 1 );
 
 /**
  * Filters ooyala player arguments to set proper player id.
