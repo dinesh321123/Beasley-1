@@ -58,13 +58,12 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 		wp_register_script( 'intersection-observer', '//polyfill.io/v2/polyfill.min.js?features=IntersectionObserver', null, null, true );
 
-		$react_version = '16';
 		$react_mode = $is_script_debug ? 'development' : 'production.min';
 
-		wp_register_script( 'react', "//unpkg.com/react@{$react_version}/umd/react.{$react_mode}.js", null, null, true );
+		wp_register_script( 'react', "//cdnjs.cloudflare.com/ajax/libs/react/16.10.2/umd/react.production.min.js", null, null, true );
 		wp_script_add_data( 'react', 'crossorigin', true );
 
-		wp_register_script( 'react-dom', "//unpkg.com/react-dom@{$react_version}/umd/react-dom.{$react_mode}.js", null, null, true );
+		wp_register_script( 'react-dom', "//cdnjs.cloudflare.com/ajax/libs/react-dom/16.10.2/umd/react-dom.production.min.js", null, null, true );
 		wp_script_add_data( 'react-dom', 'crossorigin', true );
 
 		/**
