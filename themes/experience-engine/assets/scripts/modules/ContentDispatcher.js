@@ -223,14 +223,14 @@ class ContentDispatcher extends Component {
 
 	handlePageChange( event ) {
 		if ( event && event.state ) {
-			const { uuid, pageXOffset, pageYOffset } = event.state;
+			const { uuid } = event.state;
 			// @jerome may not be needed and above can get const
 			// const { location } = window;
 			// const uuidOverride = slugify( location.href );
 			const { data } = this.props.history[uuid];
 			this.props.updatePage( data );
 			// scroll to the top of the page and remove modal (one way or other)
-			setTimeout( () => window.scrollTo( pageXOffset, pageYOffset ), 100 );
+			setTimeout( () => window.scrollTo( 0, 0 ), 100 );
 			this.props.hideModal();
 		}
 	}
