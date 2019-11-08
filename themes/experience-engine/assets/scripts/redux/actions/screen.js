@@ -50,7 +50,6 @@ export function loadPage( url, options = {} ) {
 
 		function onError( error ) {
 			// eslint-disable-next-line no-console
-			console.error( error.stack );
 			dispatch( { type: ACTION_LOAD_ERROR, error } );
 		}
 
@@ -90,12 +89,16 @@ export function loadPage( url, options = {} ) {
 					document.body.className = pageDocument.body.className;
 				}
 
-				// Get content container
-				const [ bodyEl ] = document.getElementsByTagName( 'body' );
+				// If not in mobile view, scroll up
+				if ( 900 <= window.innerWidth ) {
 
-				// Scroll to top of content
-				if( bodyEl ) {
-					bodyEl.scrollIntoView();
+					// Get content container
+					const content = document.getElementById( 'content' );
+
+					// Scroll to top of content
+					if( content ) {
+						content.scrollIntoView( true );
+					}
 				}
 			}
 
