@@ -59,18 +59,12 @@ export function loadPage( url, options = {} ) {
 				const parsed = parseHtml( data );
 				const pageDocument = parsed.document;
 
-				// Store all promises
-				const promises = [];
-
-				// Push dispatch to promises
-				promises.push(
-					dispatch( {
-						type: ACTION_LOADED_PAGE,
-						url,
-						...parsed,
-						isHome: pageDocument.body.classList.contains( 'home' ),
-					} ),
-				);
+				dispatch( {
+					type: ACTION_LOADED_PAGE,
+					url,
+					...parsed,
+					isHome: pageDocument.body.classList.contains( 'home' ),
+				} );
 
 				if ( !options.suppressHistory ) {
 					history.replaceState(
@@ -83,15 +77,11 @@ export function loadPage( url, options = {} ) {
 						pageDocument.title,
 						url,
 					);
-
-					// Push dispatch to promises
-					promises.push(
-						dispatch( {
-							type: ACTION_HISTORY_HTML_SNAPSHOT,
-							uuid: urlSlugified,
-							data,
-						} ),
-					);
+					dispatch( {
+						type: ACTION_HISTORY_HTML_SNAPSHOT,
+						uuid: urlSlugified,
+						data,
+					} );
 
 					dispatchEvent( 'pushstate' );
 					pageview( pageDocument.title, window.location.href );
@@ -100,9 +90,13 @@ export function loadPage( url, options = {} ) {
 					document.body.className = pageDocument.body.className;
 				}
 
-				// Now wait for promises to return
-				return Promise.all( promises );
+				// Get content container
+				const content = document.getElementById( 'content' );
 
+				// Scroll to top of content
+				if( content ) {
+					content.scrollIntoView();
+				}
 			}
 
 		}
@@ -139,7 +133,6 @@ export function loadPage( url, options = {} ) {
 			.then( maybeRedirect )
 			.then( response => response.text() )
 			.then( onSuccess )
-			.then( () => window.scrollTo( 0, 0 ) )
 			.catch( onError );
 	};
 }
