@@ -59,12 +59,18 @@ export function loadPage( url, options = {} ) {
 				const parsed = parseHtml( data );
 				const pageDocument = parsed.document;
 
-				dispatch( {
-					type: ACTION_LOADED_PAGE,
-					url,
-					...parsed,
-					isHome: pageDocument.body.classList.contains( 'home' ),
-				} );
+				// Store all promises
+				const promises = [];
+
+				// Push dispatch to promises
+				promises.push(
+					dispatch( {
+						type: ACTION_LOADED_PAGE,
+						url,
+						...parsed,
+						isHome: pageDocument.body.classList.contains( 'home' ),
+					} ),
+				);
 
 				if ( !options.suppressHistory ) {
 					history.replaceState(
@@ -77,11 +83,15 @@ export function loadPage( url, options = {} ) {
 						pageDocument.title,
 						url,
 					);
-					dispatch( {
-						type: ACTION_HISTORY_HTML_SNAPSHOT,
-						uuid: urlSlugified,
-						data,
-					} );
+
+					// Push dispatch to promises
+					promises.push(
+						dispatch( {
+							type: ACTION_HISTORY_HTML_SNAPSHOT,
+							uuid: urlSlugified,
+							data,
+						} ),
+					);
 
 					dispatchEvent( 'pushstate' );
 					pageview( pageDocument.title, window.location.href );
@@ -90,7 +100,9 @@ export function loadPage( url, options = {} ) {
 					document.body.className = pageDocument.body.className;
 				}
 
-				window.scrollTo( 0, 0 );
+				// Now wait for promises to return
+				return Promise.all( promises );
+
 			}
 
 		}
@@ -127,6 +139,7 @@ export function loadPage( url, options = {} ) {
 			.then( maybeRedirect )
 			.then( response => response.text() )
 			.then( onSuccess )
+			.then( () => window.scrollTo( 0, 0 ) )
 			.catch( onError );
 	};
 }
