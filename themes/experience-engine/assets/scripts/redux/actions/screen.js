@@ -91,11 +91,11 @@ export function loadPage( url, options = {} ) {
 				}
 
 				// Get content container
-				const content = document.getElementById( 'content' );
+				const [ bodyEl ] = document.getElementsByTagName( 'body' );
 
 				// Scroll to top of content
-				if( content ) {
-					content.scrollIntoView();
+				if( bodyEl ) {
+					bodyEl.scrollIntoView();
 				}
 			}
 
