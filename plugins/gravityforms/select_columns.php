@@ -43,15 +43,11 @@ class GFSelectColumns {
 	 */
 	public static function select_columns_page() {
 
-		$form_id = $_GET['id'];
+		$form_id = absint( $_GET['id'] );
 		if ( empty( $form_id ) ) {
 			echo __( 'Oops! We could not locate your form. Please try again.', 'gravityforms' );
 			exit;
 		}
-
-		// Reading form metadata
-		$form = RGFormsModel::get_form_meta( $form_id );
-
 		?>
 		<html>
 		<head>
@@ -229,6 +225,21 @@ class GFSelectColumns {
 
 					$inputs = $field->get_entry_inputs();
 
+					$input_type = GFFormsModel::get_input_type( $field );
+
+					$display = ! in_array( $input_type, array( 'list', 'repeater' ) );
+
+					/**
+					 * Allows fields to be added or removed from the select columns UI on the entry list.
+					 *
+					 * @since 2.4
+					 *
+					 * @param bool     $display Whether the field will be available for selection.
+					 * @param GF_Field $field
+					 * @param array    $form
+					 */
+					$display = gf_apply_filters( array( 'gform_display_field_select_columns_entry_list', $form_id, $field->id ), $display, $field, $form );
+
 					if ( is_array( $inputs ) ) {
 						foreach ( $inputs as $input ) {
 							if ( rgar( $input, 'isHidden' ) ) {
@@ -241,7 +252,7 @@ class GFSelectColumns {
 							<?php
 							}
 						}
-					} else if ( ! $field->displayOnly && ! in_array( $field->id, $field_ids ) && RGFormsModel::get_input_type( $field ) != 'list' ) {
+					} else if ( ! $field->displayOnly && ! in_array( $field->id, $field_ids ) && $display ) {
 						?>
 						<li id="<?php echo $field->id ?>"><?php echo esc_html( GFCommon::get_label( $field ) ); ?></li>
 					<?php
@@ -284,8 +295,6 @@ class GFSelectColumns {
 
 		return $form;
 	}
-
-
 }
 
 GFSelectColumns::select_columns_page();
