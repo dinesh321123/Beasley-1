@@ -7,7 +7,6 @@
 		}
 	],
 	"require": {
-		"humanmade/s3-uploads": "~2.0",
 		"oomphinc/composer-installers-extender": "^1.1",
 		"wpackagist-plugin/advanced-custom-fields": "^5.8.6",
 		"wpackagist-plugin/fb-instant-articles": "^4.2.0",
@@ -33,7 +32,8 @@
     "wpackagist-plugin/wp-newrelic":"^1.3",
     "wpackagist-plugin/classic-editor":"^1.5",
 		"10up/wp-minions": "^4.1.0",
-		"10up/post-finder": "^0.3.0"
+		"10up/post-finder": "^0.3.0",
+		"humanmade/s3-uploads": "^2.1"
 	},
 	"require-dev": {
 		"wpackagist-plugin/user-switching": "^1.5.3"
