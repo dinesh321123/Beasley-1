@@ -31,7 +31,6 @@
     "wpackagist-plugin/debug-bar-elasticpress": "*",
     "wpackagist-plugin/wp-newrelic":"^1.3",
     "wpackagist-plugin/classic-editor":"^1.5",
-    "wpackagist-plugin/embedly":"^4.9.2",
     "10up/wp-minions": "^4.1.0",
     "10up/post-finder": "^0.3.0",
     "humanmade/s3-uploads": "^2.1"
