@@ -26,7 +26,6 @@ mu-plugins/post-finder/
 !/plugins/gravityforms/
 !/plugins/user-role-editor-pro/
 !/plugins/configure-smtp/
-!/plugins/wp-newrelic/
 
 themes/index.php
 themes/twentyfourteen
