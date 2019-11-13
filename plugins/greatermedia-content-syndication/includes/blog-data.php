@@ -25,7 +25,6 @@ class BlogData {
 	 * https://tenup.teamwork.com/#/tasks/18643043?c=8629088
 	 */
 	public static function get_attachment_old_id_key() {
-		self::get_content_site_id(); // Kludge: Not a getter?
 		return "syndication_" . self::$content_site_id . '_attachment_old_id';
 	}
 
@@ -36,7 +35,6 @@ class BlogData {
 	 * https://tenup.teamwork.com/#/tasks/18643043?c=8629088
 	 */
 	public static function get_attachment_old_url_key() {
-		self::get_content_site_id(); // Kludge: Not a getter?
 		return "syndication_" . self::$content_site_id . '_attachment_old_url';
 	}
 
