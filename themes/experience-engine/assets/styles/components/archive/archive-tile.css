@@ -125,6 +125,17 @@
 
 		&.-small [class$="-title"] h3 {
 			font-size: 1rem;
+
+			& a {
+				font-weight: 400;
+			}
+
+			@media (--min-medium-viewport) {
+
+				& a {
+					font-weight: 700;
+				}
+			}
 		}
 
 		&.-large {
@@ -329,9 +340,21 @@
 			word-wrap: break-word;
 
 			& h3 {
-				font-size: 1.375rem;
+				font-size: 1rem;
 				font-weight: 600;
 				margin-bottom: 0;
+
+				& a {
+					font-weight: 400;
+				}
+
+				@media (--min-medium-viewport) {
+					font-size: 1.375rem;
+
+					& a {
+						font-weight: 700;
+					}
+				}
 			}
 		}
 
