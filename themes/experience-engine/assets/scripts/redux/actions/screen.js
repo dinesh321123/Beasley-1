@@ -89,16 +89,12 @@ export function loadPage( url, options = {} ) {
 					document.body.className = pageDocument.body.className;
 				}
 
-				// If not in mobile view, scroll up
-				if ( 900 <= window.innerWidth ) {
+				// Get content container
+				const content = document.getElementById( 'content' );
 
-					// Get content container
-					const content = document.getElementById( 'content' );
-
-					// Scroll to top of content
-					if( content ) {
-						content.scrollIntoView( true );
-					}
+				// Scroll to top of content
+				if( content ) {
+					content.scrollIntoView( true );
 				}
 			}
 
