@@ -2,7 +2,7 @@
 	& .event-dates {
 		align-items: center;
 		color: var(--global-dove-gray);
-		display: flex;
+		display: block;
 		font-size: .875rem;
 		font-weight: 500;
 		margin-top: 1.2rem;
@@ -10,8 +10,9 @@
 	}
 
 	& .sep {
-		border-right: 2px solid var(--global-silver);
-		font-size: inherit;
+		display: block;
+		font-size: 0;
+		height: 5px;
 		margin: 0 0.5rem;
 
 		@media(--min-small-viewport) {
