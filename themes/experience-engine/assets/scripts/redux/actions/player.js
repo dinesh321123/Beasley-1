@@ -84,7 +84,6 @@ export function initTdPlayer( modules ) {
 		let adSyncedTimeout = false;
 
 		function dispatchStatusChange( { data } ) {
-			console.log( 'dispatchStatusChange(): ', data );
 			dispatch( {
 				type: ACTION_STATUS_CHANGE,
 				status: data.code,
@@ -92,7 +91,6 @@ export function initTdPlayer( modules ) {
 		}
 
 		function dispatchStreamStart( { data } ) {
-			console.log( 'dispatchStreamStart(): ', data );
 			dispatch( {
 				type: ACTION_STREAM_START,
 				data: data,
@@ -100,7 +98,6 @@ export function initTdPlayer( modules ) {
 		}
 
 		function dispatchStreamStop( { data } ) {
-			console.log( 'dispatchStreamStop(): ', data );
 			dispatch( {
 				type: ACTION_STREAM_STOP,
 				data: data,
@@ -108,7 +105,6 @@ export function initTdPlayer( modules ) {
 		}
 
 		function dispatchCuePoint( { data } ) {
-			console.log( 'dispatchCuePoint(): ', data );
 			dispatch( {
 				type: ACTION_CUEPOINT_CHANGE,
 				cuePoint: ( data || {} ).cuePoint || false,
@@ -116,7 +112,6 @@ export function initTdPlayer( modules ) {
 		}
 
 		function dispatchListLoaded( { data } ) {
-			console.log( 'dispatchListLoaded(): ', data );
 			dispatch( {
 				type: ACTION_NOW_PLAYING_LOADED,
 				...data,
@@ -124,7 +119,6 @@ export function initTdPlayer( modules ) {
 		}
 
 		function dispatchSyncedStart() {
-			console.log( 'dispatchSyncedStart(): ', adSyncedTimeout );
 			// hide after 35 seconds if it hasn't been hidden yet
 			clearTimeout( adSyncedTimeout );
 			adSyncedTimeout = setTimeout(
@@ -136,7 +130,6 @@ export function initTdPlayer( modules ) {
 		}
 
 		function dispatchPlaybackStart() {
-			console.log( 'dispatchPlaybackStart(): ', adPlaybackTimeout );
 			// hide after 1 min if it hasn't been hidden yet
 			clearTimeout( adPlaybackTimeout );
 			adPlaybackTimeout = setTimeout(
@@ -164,7 +157,7 @@ export function initTdPlayer( modules ) {
 						tdplayer.skipAd();
 					}
 
-					if( player .station ) {
+					if( player.station ) {
 						tdplayer.play( { station: player.station } );
 					}
 				}
