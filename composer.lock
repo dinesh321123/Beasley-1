@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "26f53ff65f86d6d40767353f0a0db540",
+    "content-hash": "27fb63f0a80ea38bd7dc4ef209c23fb3",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -103,16 +103,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.115.2",
+            "version": "3.118.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "15792196be1b3b1b5663bca7b6cd021d005e2265"
+                "reference": "e4600c22cb69c94d1aa65bf91af5c225f2a109fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/15792196be1b3b1b5663bca7b6cd021d005e2265",
-                "reference": "15792196be1b3b1b5663bca7b6cd021d005e2265",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e4600c22cb69c94d1aa65bf91af5c225f2a109fd",
+                "reference": "e4600c22cb69c94d1aa65bf91af5c225f2a109fd",
                 "shasum": ""
             },
             "require": {
@@ -182,7 +182,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-11-11T19:22:34+00:00"
+            "time": "2019-11-18T19:13:19+00:00"
         },
         {
             "name": "composer/installers",
@@ -496,16 +496,16 @@
         },
         {
             "name": "humanmade/s3-uploads",
-            "version": "2.1.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humanmade/S3-Uploads.git",
-                "reference": "f17559cba87e0a0a0191a747f62c74dbde60208d"
+                "reference": "bc1df42517c1ccbfbfc61fe4802008d22948a9b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humanmade/S3-Uploads/zipball/f17559cba87e0a0a0191a747f62c74dbde60208d",
-                "reference": "f17559cba87e0a0a0191a747f62c74dbde60208d",
+                "url": "https://api.github.com/repos/humanmade/S3-Uploads/zipball/bc1df42517c1ccbfbfc61fe4802008d22948a9b8",
+                "reference": "bc1df42517c1ccbfbfc61fe4802008d22948a9b8",
                 "shasum": ""
             },
             "require": {
@@ -529,7 +529,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2019-04-16T05:09:44+00:00"
+            "time": "2019-11-18T16:44:45+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",
@@ -790,15 +790,15 @@
         },
         {
             "name": "wpackagist-plugin/advanced-custom-fields",
-            "version": "5.8.6",
+            "version": "5.8.7",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/advanced-custom-fields/",
-                "reference": "tags/5.8.6"
+                "reference": "tags/5.8.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.5.8.6.zip"
+                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.5.8.7.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -916,15 +916,15 @@
         },
         {
             "name": "wpackagist-plugin/elasticpress",
-            "version": "3.2.2",
+            "version": "3.2.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/elasticpress/",
-                "reference": "tags/3.2.2"
+                "reference": "tags/3.2.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/elasticpress.3.2.2.zip"
+                "url": "https://downloads.wordpress.org/plugin/elasticpress.3.2.3.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -1096,15 +1096,15 @@
         },
         {
             "name": "wpackagist-plugin/the-events-calendar",
-            "version": "4.9.10",
+            "version": "4.9.11",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/the-events-calendar/",
-                "reference": "tags/4.9.10"
+                "reference": "tags/4.9.11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/the-events-calendar.4.9.10.zip"
+                "url": "https://downloads.wordpress.org/plugin/the-events-calendar.4.9.11.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -1140,9 +1140,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.12.5.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.12.5.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
