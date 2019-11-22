@@ -191,7 +191,7 @@
 		}
 
 		& .placeholder-editfeed {
-			background-color: var(--global-white);		
+			background-color: var(--global-white);
 			position: absolute;
 			right: 10px;
 			top: .3rem;
