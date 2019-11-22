@@ -323,23 +323,6 @@
 			}
 		}
 
-		& .type {
-				align-items: center;
-				color: var(--brand-primary);
-				display: flex;
-				flex: 0 1 100%;
-				font-size: 1rem;
-				font-weight: 700;
-				line-height: 1;
-				margin-bottom: 0;
-				padding-top: 1.333rem;
-
-				& svg {
-					fill: var(--brand-primary);
-					margin-right: .611rem;
-				}
-		}
-
 		& .post-title {
 			hyphens: auto;
 			word-wrap: break-word;
@@ -366,6 +349,26 @@
 		& .type-episode {
 			& .episode-meta {
 				display: none;
+			}
+		}
+
+		@media (--min-medium-viewport) {
+
+			& .type {
+				align-items: center;
+				color: var(--brand-primary);
+				display: flex;
+				flex: 0 1 100%;
+				font-size: 1rem;
+				font-weight: 700;
+				line-height: 1;
+				margin-bottom: 0;
+				padding-top: 1.333rem;
+
+				& svg {
+					fill: var(--brand-primary);
+					margin-right: .611rem;
+				}
 			}
 		}
 	}
