@@ -4,7 +4,11 @@
 	}
 
 	& .content-wrap + div:not(.content-wrap) {
-		padding-bottom: 3.889rem;
+		padding-bottom: 1rem;
+
+		@media (--min-medium-viewport) {
+			padding-bottom: 3.889rem;
+		}
 	}
 
 	& .cta,
