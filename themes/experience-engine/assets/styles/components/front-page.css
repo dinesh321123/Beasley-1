@@ -4,7 +4,11 @@
 	}
 
 	& .content-wrap + div:not(.content-wrap) {
-		padding-bottom: 3.889rem;
+		padding-bottom: 1rem;
+
+		@media (--min-medium-viewport) {
+			padding-bottom: 3.889rem;
+		}
 	}
 
 	& .cta,
@@ -191,7 +195,7 @@
 		}
 
 		& .placeholder-editfeed {
-			background-color: var(--global-white);		
+			background-color: var(--global-white);
 			position: absolute;
 			right: 10px;
 			top: .3rem;

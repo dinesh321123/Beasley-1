@@ -34,10 +34,14 @@ html {
 .content-wrap {
 	margin: 0 auto;
 	max-width: 1071px;
-	padding: 0 1.3rem 2.22rem;
+	padding: 0 1.3rem 1rem;
 	width: 100%;
 
 	& .archive-tiles:last-child {
 		padding-bottom: 0;
+	}
+
+	@media(--min-medium-viewport) {
+		padding: 0 1.3rem 2.22rem;
 	}
 }
