@@ -51,6 +51,7 @@ abstract class Module {
 			'webhooks'          => new \Bbgi\Webhooks(),
 			'enclosure'         => new \Bbgi\Media\Enclosure(),
 			'users'             => new \Bbgi\Users(),
+			'redirects'         => new \Bbgi\Redirects(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {
