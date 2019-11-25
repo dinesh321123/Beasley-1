@@ -4,10 +4,11 @@ import LazyImage from './LazyImage';
 
 const RelatedPost = ( { id, url, title, primary_image, published } ) => {
 	const date = new Date( published );
+	const targetUrl = `https://${url}`;
 	return (
 		<div id={`post-${id}`} className={['post-tile post'].join( ' ' )}>
 			<div className="post-thumbnail">
-				<a href={`https://${url}`} id={`thumbnail-${id}`}>
+				<a href={targetUrl} id={`thumbnail-${id}`}>
 					<LazyImage
 						crop={ false }
 						placeholder={`thumbnail-${id}`}
@@ -27,7 +28,7 @@ const RelatedPost = ( { id, url, title, primary_image, published } ) => {
 				</div>
 				<div className="post-title">
 					<h3>
-						<a href={`https://${url}`}>
+						<a href={targetUrl}>
 							{title}
 						</a>
 					</h3>
