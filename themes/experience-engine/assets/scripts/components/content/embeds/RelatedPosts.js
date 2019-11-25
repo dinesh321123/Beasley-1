@@ -2,33 +2,40 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import LazyImage from './LazyImage';
 
-const RelatedPost = ( { id, url, title, primary_image, published } ) => (
-	<div id={`post-${id}`} className={['post-tile post'].join( ' ' )}>
-		<div className="post-thumbnail">
-			<a href={`https://${url}`} id={`thumbnail-${id}`}>
-				<LazyImage
-					crop={ false }
-					placeholder={`thumbnail-${id}`}
-					src={primary_image}
-					width={310}
-					height={205}
-					alt={title || ''} />
-			</a>
-		</div>
-		<div className="post-details">
-			<div className="post-date">
-				{published}
+const RelatedPost = ( { id, url, title, primary_image, published } ) => {
+	const date = new Date( published );
+	return (
+		<div id={`post-${id}`} className={['post-tile post'].join( ' ' )}>
+			<div className="post-thumbnail">
+				<a href={`https://${url}`} id={`thumbnail-${id}`}>
+					<LazyImage
+						crop={ false }
+						placeholder={`thumbnail-${id}`}
+						src={primary_image}
+						width={310}
+						height={205}
+						alt={title || ''} />
+				</a>
 			</div>
-			<div className="post-title">
-				<h3>
-					<a href={`https://${url}`}>
-						{title}
-					</a>
-				</h3>
+			<div className="post-details">
+				<div className="post-date">
+					{date.toLocaleDateString( 'en-US', {
+						day: 'numeric',
+						month: 'long',
+						year: 'numeric',
+					} )}
+				</div>
+				<div className="post-title">
+					<h3>
+						<a href={`https://${url}`}>
+							{title}
+						</a>
+					</h3>
+				</div>
 			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 RelatedPost.propTypes = {
 	id: PropTypes.string.isRequired,
