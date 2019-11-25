@@ -1,6 +1,7 @@
 <?php
 
 add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts', 20 );
+
 add_action( 'wp_head', 'ee_load_polyfills', 0 );
 add_action( 'beasley_after_body', 'ee_the_bbgiconfig' );
 

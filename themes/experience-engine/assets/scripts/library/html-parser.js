@@ -187,6 +187,7 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'editfeed', '.edit-feed', getDatasetParams( 'feed', 'title' ) ),
 			...processEmbeds( container, 'embedly', '.embedly-card-prerender', getEmbedlyParams ),
 			...processEmbeds( container, 'songarchive', '.song-archive-prerender', getSongArchiveParams ),
+			...processEmbeds( container, 'relatedposts', '.related-articles', getDatasetParams( 'postid', 'categories', 'posttype', 'posttitle', 'url' ) ),
 
 		];
 

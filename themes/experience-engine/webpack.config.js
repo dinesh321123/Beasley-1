@@ -27,7 +27,7 @@ function coreConfig( options = {} ) {
 			options: {
 				cacheDirectory: true,
 				presets: ['@babel/preset-react', '@babel/preset-env'],
-				plugins: ['@babel/plugin-syntax-dynamic-import'],
+				plugins: ['@babel/transform-runtime', '@babel/plugin-syntax-dynamic-import'],
 			},
 		},
 	};

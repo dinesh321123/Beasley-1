@@ -21,6 +21,7 @@ import AddToFavorites from './embeds/AddToFavorites';
 import EditFeed from './embeds/EditFeed';
 import Embedly from './embeds/Embedly';
 import SongArchive from './embeds/SongArchive';
+import RelatedPosts from './embeds/RelatedPosts';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -39,6 +40,7 @@ const mapping = {
 	share: Share,
 	songarchive: SongArchive,
 	streamcta: StreamCta,
+	relatedposts: RelatedPosts,
 };
 
 class ContentBlock extends Component {

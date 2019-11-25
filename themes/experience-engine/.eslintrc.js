@@ -43,6 +43,7 @@ module.exports = {
 		'no-useless-escape': 0,
 		// @note: override @10up/eslint-config
 		'require-jsdoc': 0,
+		'camelcase': 0,
 		// @note: Turning this off, confirming this is WordPress standard
 		// 'sort-keys': [1, 'asc', { caseSensitive: true, natural: false }],
 		indent: [
