@@ -24,15 +24,15 @@ class Redirects extends \Bbgi\Module {
 	 * @return void
 	 */
 	public function register() {
-		add_filter( 'post_link', [ $this, 'expand_redirect' ] );
-		add_filter( 'page_link', [ $this, 'expand_redirect' ] );
-		add_filter( 'post_type_link', [ $this, 'expand_redirect' ] );
-		add_filter( 'category_link', [ $this, 'expand_redirect' ] );
+		add_filter( 'post_link', [ $this, 'expand_redirect' ], 10, 2 );
+		add_filter( 'page_link', [ $this, 'expand_redirect' ], 10, 2);
+		add_filter( 'post_type_link', [ $this, 'expand_redirect' ], 10, 2 );
+		add_filter( 'term_link', [ $this, 'expand_redirect' ] );
 		add_filter( 'author_link', [ $this, 'expand_redirect' ] );
 		add_filter( 'day_link', [ $this, 'expand_redirect' ] );
 		add_filter( 'month_link', [ $this, 'expand_redirect' ] );
 		add_filter( 'year_link', [ $this, 'expand_redirect' ] );
-		add_filter( 'nav_menu_link_attributes', [ $this, 'expand_nav_menu_links_redirects' ] );
+		add_filter( 'nav_menu_link_attributes', [ $this, 'expand_nav_menu_links_redirects' ], 10, 2 );
 
 		// maybe expand links in the_content
 	}
@@ -48,6 +48,10 @@ class Redirects extends \Bbgi\Module {
 	 * @return mixed
 	 */
 	public function match_redirect( $url ) {
+		if ( ! class_exists( 'SRM_Redirect' ) ) {
+			return $url;
+		}
+
 		$redirects = srm_get_redirects();
 
 		// If we have no redirects, there is no need to continue
@@ -164,22 +168,44 @@ class Redirects extends \Bbgi\Module {
 	}
 
 	/**
-	 * Expand the url if there's a redirect avaliable
+	 * Returns the yoast redirect if set.
 	 *
-	 * @param string $url The url to be expanded.
+	 * @param \WP_Post $post
 	 *
 	 * @return string
 	 */
-	public function expand_redirect( $url ) {
+	public function get_yoast_redirect( $post ) {
+		$new_url = get_post_meta( $post->ID, '_yoast_wpseo_redirect', true );
+
+		if ( empty( $new_url ) ) {
+			return false;
+		}
+
+		$new_url = home_url( $new_url );
+
+		$this->redirects_map[ $url ] = $new_url;
+
+		return $new_url;
+	}
+
+	/**
+	 * Expand the url if there's a redirect avaliable
+	 *
+	 * @param string $url The url to be expanded.
+	 * @param \WP_Post|mixed $post The post object.
+	 *
+	 * @return string
+	 */
+	public function expand_redirect( $url,$post = null ) {
 		if ( $this->has_cached_redirect( $url ) ) {
 			return $this->get_cached_redirect( $url );
 		}
 
-		if ( ! class_exists( 'SRM_Redirect' ) ) {
-			return $url;
+		if ( ! is_null( $post ) && is_a( $post, \WP_Post::class ) ) {
+			$matched_redirect = $this->get_yoast_redirect( $post );
+		} else {
+			$matched_redirect = $this->match_redirect( $url );
 		}
-
-		$matched_redirect = $this->match_redirect( $url );
 
 		if ( $matched_redirect ) {
 			return $matched_redirect;
@@ -192,22 +218,26 @@ class Redirects extends \Bbgi\Module {
 	 * Expand nav menu links
 	 *
 	 * @param array $atts
+	 * @param \WP_Post $item
 	 *
 	 * @return array
 	 */
-	public function expand_nav_menu_links_redirects( $atts ) {
+	public function expand_nav_menu_links_redirects( $atts, \WP_Post $item ) {
 		$url = $atts['href'];
 
-		$new_url = false;
-
 		if ( $this->has_cached_redirect( $url ) ) {
-			$new_url = $this->get_cached_redirect( $url );
-		} else if ( class_exists( 'SRM_Redirect' ) ) {
-			$new_url = $this->match_redirect( $url );
+			return $this->get_cached_redirect( $url );
 		}
 
-		if ( $new_url ) {
-			$atts['href'] = $new_url;
+		if ( 'post_type' === $item->type && intval( $item->object_id ) > 0 ) {
+			$post = get_post( $item->object_id );
+			$matched_redirect = $this->get_yoast_redirect( $post );
+		} else {
+			$matched_redirect = $this->match_redirect( $url );
+		}
+
+		if ( $matched_redirect ) {
+			$atts['href'] = $matched_redirect;
 		}
 
 		return $atts;
