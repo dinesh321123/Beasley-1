@@ -33,8 +33,6 @@ class Redirects extends \Bbgi\Module {
 		add_filter( 'month_link', [ $this, 'expand_redirect' ] );
 		add_filter( 'year_link', [ $this, 'expand_redirect' ] );
 		add_filter( 'nav_menu_link_attributes', [ $this, 'expand_nav_menu_links_redirects' ], 10, 2 );
-
-		// maybe expand links in the_content
 	}
 
 	/**
@@ -201,9 +199,13 @@ class Redirects extends \Bbgi\Module {
 			return $this->get_cached_redirect( $url );
 		}
 
+		$matched_redirect = false;
+
 		if ( ! is_null( $post ) && is_a( $post, \WP_Post::class ) ) {
 			$matched_redirect = $this->get_yoast_redirect( $post );
-		} else {
+		}
+
+		if ( ! $matched_redirect ) {
 			$matched_redirect = $this->match_redirect( $url );
 		}
 
@@ -229,10 +231,14 @@ class Redirects extends \Bbgi\Module {
 			return $this->get_cached_redirect( $url );
 		}
 
+		$matched_redirect = false;
+
 		if ( 'post_type' === $item->type && intval( $item->object_id ) > 0 ) {
 			$post = get_post( $item->object_id );
 			$matched_redirect = $this->get_yoast_redirect( $post );
-		} else {
+		}
+
+		if ( ! $matched_redirect ) {
 			$matched_redirect = $this->match_redirect( $url );
 		}
 
