@@ -95,7 +95,7 @@ const RelatedPosts = ( { posttype, posttitle, categories, url } ) => {
 		}
 
 		fetchPosts();
-	}, [ postsEndpointURL], setLoading, setRelatedPosts );
+	}, [postsEndpointURL, setLoading, setRelatedPosts] );
 
 	if ( loading ) {
 		return <div>Loading...</div>;
