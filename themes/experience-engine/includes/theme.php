@@ -28,6 +28,7 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 		add_theme_support( 'homepage-curation' );
 
 		add_post_type_support( 'post', 'timed-content' );
+		add_post_type_support( 'page', 'timed-content' );
 		add_post_type_support( 'gmr_gallery', 'timed-content' );
 		add_post_type_support( 'gmr_album', 'timed-content' );
 		add_post_type_support( 'episode', 'timed-content' );
