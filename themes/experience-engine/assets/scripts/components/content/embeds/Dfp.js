@@ -87,6 +87,7 @@ class Dfp extends PureComponent {
 			let slot = googletag
 				.defineSlot( unitId, size, placeholder );
 
+
 			// If Slot was already defined this will be null
 			// Ignored to fix the exception
 			if ( ! slot ) {
@@ -94,6 +95,27 @@ class Dfp extends PureComponent {
 			}
 
 			slot.addService( googletag.pubads() );
+
+			if ( 'player-sponsorship' === unitName ) {
+
+				// reference to sponsor slot
+				const sponsorSlot = slot;
+
+				// listen to slot loading
+				googletag.pubads().addEventListener( 'slotOnload', function( event ) {
+
+					// get current loaded slot id
+					const idLoaded = event.slot.getSlotElementId();
+
+					// compare against sponsor slot id
+					if ( idLoaded === sponsorSlot.getSlotElementId() ) {
+						console.log( 'sponsor loaded' );
+					}
+
+				} );
+			}
+
+
 
 			let sizeMapping = false;
 			if ( 'top-leaderboard' === unitName ) {
