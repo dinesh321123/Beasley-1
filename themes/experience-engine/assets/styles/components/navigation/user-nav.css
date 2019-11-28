@@ -12,20 +12,16 @@
 	}
 
 	@media(--min-large-viewport) {
-		bottom: 122px;
+		bottom: 74px;
 		margin-left: -1.1rem;
 		margin-right: -1.1rem;
 		max-width: 190px;
 		padding: 1.1rem;
 		position: fixed;
-		width: 100%
+		width: 100%;
 	}
 
-	@media(--min-xlarge-viewport) {
-		bottom: 74px;
-	}
-
-		& .user-nav-image {
+	& .user-nav-image {
 		align-self: center;
 
 		& img {
@@ -74,6 +70,20 @@
 				width: 16px;
 			}
 		}
+	}
+}
+
+/* When a sponsor loads in the LivePlayer we can apply
+helpful tweaks to positioning and heights to account for it.
+also found in /assets/styles/components/navigation/primary-sidebar.css */
+.station-has-sponsor .user-nav {
+
+	@media(--min-large-viewport) {
+		bottom: 122px;
+	}
+
+	@media(--min-xlarge-viewport) {
+		bottom: 74px;
 	}
 }
 

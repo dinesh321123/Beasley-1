@@ -23,7 +23,7 @@
 		width: 100%;
 
 		@media (--min-large-viewport) {
-			height: calc(100% - 190px);
+			height: calc(100% - 142px);
 			margin-right: -1rem;
 			margin-left: -1rem;
 			max-width: 188px;
@@ -33,10 +33,6 @@
 			position: fixed;
 			text-align: left;
 			width: 100%;
-		}
-
-		@media (--min-xlarge-viewport) {
-			height: calc(100% - 142px);
 		}
 
 		/* Windows Only */
@@ -173,6 +169,20 @@
 				}
 			}
 		}
+	}
+}
+
+/* When a sponsor loads in the LivePlayer we can apply
+helpful tweaks to positioning and heights to account for it.
+also found in /assets/styles/components/navigation/user-nav.css */
+.station-has-sponsor .primary-sidebar .primary-sidebar-navigation {
+
+	@media (--min-large-viewport) {
+		height: calc(100% - 190px);
+	}
+
+	@media (--min-xlarge-viewport) {
+		height: calc(100% - 142px);
 	}
 }
 

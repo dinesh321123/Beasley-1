@@ -53,51 +53,16 @@ class Sponsor extends PureComponent {
 		}
 	}
 
-	/**
-	 * @function maybeAddSponsorBodyClass
-	 * Utility to add a class to the body, if the station contains
-	 * a sponsor placement in the live player section. Very helpful
-	 * to determine if nav height should be adjusted.
-	 *
-	 * @param {boolean} shouldAddClass - Should body add sponsor class
-	 */
-	maybeAddSponsorBodyClass( shouldAddClass ) {
-
-		// Check mobile sponsor only, since this ad only affects
-		// the live player height
-		if( 'sponsor-mobile' !== this.props.className ) {
-			return;
-		}
-
-		// Store sponsor class
-		const sponsorClass = 'station-has-sponsor';
-
-		// Store body reference
-		const appBody = document.getElementsByTagName( 'body' )[ 0 ];
-
-		// If false, remove class
-		if ( ! shouldAddClass ) {
-			return appBody.classList.remove( sponsorClass );
-		}
-
-		// If true, add class
-		return appBody.classList.add( sponsorClass );
-	}
 
 	render() {
 		const self = this;
 		const { render } = self.state;
 		if ( ! render ) {
-
-			// Need to tell body sponsor is not loading
-			this.maybeAddSponsorBodyClass( false );
 			return false;
 		}
 
-		// Need to tell body a sponsor is loading
-		this.maybeAddSponsorBodyClass( true );
-
 		// backward compatibility with the legacy theme to make sure that everything keeps working correctly
+		// this id is also compared in /assets/scripts/components/content/embeds/Dfp.js
 		const id = 'div-gpt-ad-1487117572008-0';
 		const { unitId, unitName } = window.bbgiconfig.dfp.player;
 		const { className, style } = self.props;
