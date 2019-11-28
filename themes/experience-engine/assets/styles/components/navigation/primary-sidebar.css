@@ -23,7 +23,7 @@
 		width: 100%;
 
 		@media (--min-large-viewport) {
-			height: calc(100% - 142px);
+			height: calc(100% - 144px);
 			margin-right: -1rem;
 			margin-left: -1rem;
 			max-width: 188px;
@@ -178,11 +178,11 @@ also found in /assets/styles/components/navigation/user-nav.css */
 .station-has-sponsor .primary-sidebar .primary-sidebar-navigation {
 
 	@media (--min-large-viewport) {
-		height: calc(100% - 190px);
+		height: calc(100% - 192px);
 	}
 
 	@media (--min-xlarge-viewport) {
-		height: calc(100% - 142px);
+		height: calc(100% - 144px);
 	}
 }
 
