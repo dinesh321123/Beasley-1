@@ -5,6 +5,12 @@
 	justify-content: center;
 	text-align: center;
 
+	@media (--max-medium-viewport) {
+		& .meta h2 {
+			margin-bottom: 0;
+		}
+	}
+
 	@media (--min-large-viewport) {
 		flex-wrap: nowrap;
 		justify-content: space-between;
@@ -33,11 +39,10 @@
 	& .meta {
 		flex-basis: 100%;
 		flex-grow: 1;
-		padding: 0 1rem 2.222rem;
+		padding: 0 1rem 0;
 
 		@media (--min-large-viewport) {
 			flex-basis: auto;
-			padding-bottom: 0;
 		}
 	}
 

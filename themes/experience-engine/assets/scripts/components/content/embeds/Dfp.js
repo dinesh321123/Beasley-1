@@ -30,6 +30,47 @@ class Dfp extends PureComponent {
 			self.startInterval();
 			document.addEventListener( 'visibilitychange', self.onVisibilityChange );
 		}
+
+		// Fire sponsored ad utility to determine if
+		// a sponsor ad will in fact load in the player
+		this.maybeLoadedPlayerSponsorAd();
+	}
+
+	/**
+	 * @function maybeLoadedPlayerSponsorAd
+	 * This is a small utility that listens for the specific
+	 * sponsor ad slot in the player element. Due to the fixed
+	 * CSS nature of the interface, when a Player Sponsor loads
+	 * the height of certain elements (ie. nav and signin) needs
+	 * to be adjusted dynamically. This utility can help add to the
+	 * body to enable accurate CSS settings.
+	 */
+	maybeLoadedPlayerSponsorAd() {
+
+		// Make sure that googletag.cmd exists.
+		window.googletag = window.googletag || {};
+		window.googletag.cmd = window.googletag.cmd || [];
+
+		// Don't assume readiness, instead, push to queue
+		window.googletag.cmd.push( () => {
+
+			// listen for ad slot loading
+			window.googletag.pubads().addEventListener( 'slotOnload', function( event ) {
+
+				// get current loaded slot id
+				const idLoaded = event.slot.getSlotElementId();
+
+				// compare against sponsor slot id
+				// this value is fixed and can be found in
+				// /assets/scripts/components/player/Sponsor.js
+				if ( 'div-gpt-ad-1487117572008-0' === idLoaded ) {
+
+					// Add class to body
+					document.getElementsByTagName( 'body' )[ 0 ].classList.add( 'station-has-sponsor' );
+				}
+
+			} );
+		} );
 	}
 
 	componentWillUnmount() {
@@ -87,6 +128,7 @@ class Dfp extends PureComponent {
 			let slot = googletag
 				.defineSlot( unitId, size, placeholder );
 
+
 			// If Slot was already defined this will be null
 			// Ignored to fix the exception
 			if ( ! slot ) {
@@ -94,6 +136,10 @@ class Dfp extends PureComponent {
 			}
 
 			slot.addService( googletag.pubads() );
+
+
+
+
 
 			let sizeMapping = false;
 			if ( 'top-leaderboard' === unitName ) {
