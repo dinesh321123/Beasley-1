@@ -61,7 +61,7 @@ const RelatedPosts = ( { posttype, posttitle, categories, url } ) => {
 				const result = await fetch( endpointURL ).then( r => r.json() );
 				let transformedURL = result.url;
 
-				if ( 'undefined' !== typeof window.jstag && 'undefined' !== window.jstag.ckieGet ) {
+				if ( 'undefined' !== typeof window.jstag && 'undefined' !== typeof window.jstag.ckieGet ) {
 					const seerid = window.jstag.ckieGet( 'seerid' );
 					if ( seerid ) {
 						transformedURL = transformedURL.replace( '{userid}', seerid );
