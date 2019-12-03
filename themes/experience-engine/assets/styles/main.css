@@ -81,6 +81,7 @@
 @import "components/formats/post-format";
 @import "components/breaking-news";
 @import "components/song-archive";
+@import "components/loading-ajax-content";
 
 @import "components/player/range-slider-cb";
 
