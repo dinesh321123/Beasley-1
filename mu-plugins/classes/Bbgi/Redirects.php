@@ -195,7 +195,7 @@ class Redirects extends \Bbgi\Module {
 	 * @return string
 	 */
 	public function expand_redirect( $url, $post = null ) {
-		if ( ! apply_filters( 'bbgi_expand_redirects', true ) ) {
+		if ( ! apply_filters( 'bbgi_expand_redirects', true ) || is_feed() ) {
 			return $url;
 		}
 
