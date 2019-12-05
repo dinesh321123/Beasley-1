@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import LazyImage from './LazyImage';
+import LoadingAjaxContent from '../../LoadingAjaxContent';
 
 const RelatedPost = ( { id, url, title, primary_image, published } ) => {
 	const date = new Date( published );
@@ -98,7 +99,7 @@ const RelatedPosts = ( { posttype, posttitle, categories, url } ) => {
 	}, [postsEndpointURL, setLoading, setRelatedPosts] );
 
 	if ( loading ) {
-		return <div>Loading...</div>;
+		return <LoadingAjaxContent displayText="Loading Related Posts..." />;
 	}
 
 	if ( relatedPosts && 0 < relatedPosts.length ) {
