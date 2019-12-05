@@ -181,7 +181,7 @@ class Redirects extends \Bbgi\Module {
 
 		$new_url = home_url( $new_url );
 
-		$this->redirects_map[ $url ] = $new_url;
+		$this->redirects_map[ $new_url ] = $new_url;
 
 		return $new_url;
 	}
@@ -194,7 +194,11 @@ class Redirects extends \Bbgi\Module {
 	 *
 	 * @return string
 	 */
-	public function expand_redirect( $url,$post = null ) {
+	public function expand_redirect( $url, $post = null ) {
+		if ( ! apply_filters( 'bbgi_expand_redirects', true ) ) {
+			return $url;
+		}
+
 		if ( $this->has_cached_redirect( $url ) ) {
 			return $this->get_cached_redirect( $url );
 		}
