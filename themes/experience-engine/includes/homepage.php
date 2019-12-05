@@ -1,5 +1,7 @@
 <?php
 
+$homepage_feed_row_count = 1;
+
 if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 	function ee_homepage_feeds( $feeds ) {
 		$supported_feeds = array();
@@ -53,16 +55,16 @@ endif;
 
 if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
-		static $index = 1;
+		global $homepage_feed_row_count;
 		global $ee_feed_now;
 
 		$ee_feed_now = $feed;
-		$size = $index === 1 ? '-large' : '-small';
+		$size = $homepage_feed_row_count === 1 ? '-large' : '-small';
 		echo '<div id="', esc_attr( $feed['id'] ), '" class="content-wrap">';
 			ee_edit_feed_button( $feed );
 
 			if ( ! empty( $feed['title'] ) ) {
-				if ( $index <= 1 ) {
+				if ( $homepage_feed_row_count <= 1 ) {
 					ee_the_subtitle( $feed['title'] );
 				} else {
 					ee_the_subtitle( $feed['title'], 'true' );
@@ -85,17 +87,25 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 		echo '</div>';
 
 		// below first two ribbons, then after 5th ribbon and every 3 ribbons thereafter.
-		if ( $index < $feeds_count ) {
-			if ( ( $index == 2 ) || ( $index > 2 && ( $index - 2 ) % 3 == 0 ) ) {
+		// if the index matches the feeds_count AND is divisible by 3, then we have to ignore
+		// to prevent doubling an advert with the footer ad
+		if ( $homepage_feed_row_count < $feeds_count ) {
+			if (
+				( 2 === $homepage_feed_row_count ) ||
+				(
+					$homepage_feed_row_count > 2 &&
+					( $homepage_feed_row_count - 2 ) % 3 == 0
+				)
+			) {
 				do_action( 'dfp_tag', 'in-list' );
 			}
 		}
 
-		if ( $index == 4 ) {
+		if ( 4 === $homepage_feed_row_count ) {
 			ee_render_discovery_cta();
 		}
 
-		$index++;
+		$homepage_feed_row_count++;
 	}
 endif;
 
@@ -107,13 +117,17 @@ endif;
 
 if ( ! function_exists( 'ee_render_homepage_payloadable_feed' ) ) :
 	function ee_render_homepage_payloadable_feed( $feed ) {
+        global $homepage_feed_row_count;
+
 		foreach ( $feed['content'] as $item ) {
 			if ( $item['contentType'] == 'cta' || $item['contentType'] == 'countdown' ) {
 				printf(
 					'<div class="%s" data-payload="%s"></div>',
 					esc_attr( $item['contentType'] ),
 					esc_attr( json_encode( $item ) )
-				);
+                );
+
+                $homepage_feed_row_count++;
 			}
 		}
 	}
