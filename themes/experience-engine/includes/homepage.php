@@ -85,8 +85,17 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 		echo '</div>';
 
 		// below first two ribbons, then after 5th ribbon and every 3 ribbons thereafter.
+		// if the index matches the feeds_count AND is divisible by 3, then we have to ignore
+		// to prevent doubling an advert with the footer ad
 		if ( $index < $feeds_count ) {
-			if ( ( $index == 2 ) || ( $index > 2 && ( $index - 2 ) % 3 == 0 ) ) {
+			if (
+				( $index == 2 ) ||
+				(
+					$index > 2 &&
+					( $index - 2 ) % 3 == 0 &&
+					$index !== $feeds_count
+				)
+			) {
 				do_action( 'dfp_tag', 'in-list' );
 			}
 		}
