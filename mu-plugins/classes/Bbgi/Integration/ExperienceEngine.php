@@ -5,9 +5,10 @@ namespace Bbgi\Integration;
 class ExperienceEngine extends \Bbgi\Module {
 
 	private static $_fields = array(
-		'ee_host'           => 'API host',
-		'ee_cache_token' => 'Cache Clear Token',
-		'ee_appkey'         => 'EE App Key',
+		'ee_host'             => 'API host',
+		'ee_cache_token'      => 'Cache Clear Token',
+		'ee_appkey'           => 'EE App Key',
+		'ee_notification_key' => 'EE Notification App Key',
 	);
 
 	/**

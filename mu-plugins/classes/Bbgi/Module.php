@@ -52,6 +52,7 @@ abstract class Module {
 			'enclosure'         => new \Bbgi\Media\Enclosure(),
 			'users'             => new \Bbgi\Users(),
 			'redirects'         => new \Bbgi\Redirects(),
+			'notifications'     => new \Bbgi\Integration\PushNotifications(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {
