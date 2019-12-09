@@ -4,6 +4,7 @@ import { getStateFromContent, parseHtml } from '../../library/html-parser';
 import { pageview } from '../../library/google-analytics';
 import slugify from '../../library/slugify';
 import { isIE11 } from '../../library/browser';
+import { trailingslashit } from '../../library/strings';
 /**
  * We use this approach to minify action names in the production bundle and have
  * human friendly actions in the dev bundle. Use "s{x}" format to create new actions.
@@ -126,7 +127,7 @@ export function loadPage( url, options = {} ) {
 		 * (opaqueredirect, or to be more generic anything different than basic).
 		 * In that case we simply force a full page refresh to let the server properly handle redirects.
 		 */
-		fetch( options.fetchUrlOverride || url, options.fetchParams || {
+		fetch( trailingslashit( options.fetchUrlOverride || url ), options.fetchParams || {
 			redirect: isIE11() ? 'follow' : 'manual', // IE11 does not support this work around.
 		} )
 			.then( maybeRedirect )

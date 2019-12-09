@@ -7,6 +7,10 @@ export function untrailingslashit( url ) {
 	return newurl;
 }
 
+export function trailingslashit( url ) {
+	return untrailingslashit( url ) + '/';
+}
+
 export function isAudioAdOnly() {
 	const { currentAdModule } = window.tdplayer.MediaPlayer.adManager || false;
 
@@ -23,5 +27,6 @@ export function isAudioAdOnly() {
 
 export default {
 	untrailingslashit,
+	trailingslashit,
 	isAudioAdOnly,
 };
