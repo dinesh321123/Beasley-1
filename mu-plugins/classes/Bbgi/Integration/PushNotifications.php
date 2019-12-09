@@ -54,7 +54,7 @@ class PushNotifications extends \Bbgi\Module {
 					'admin.php?page=%s&post_id=%d',
 					self::MENU_SLUG,
 					$post_id
-					)
+				)
 			),
 			'send_notifications'
 		);
@@ -160,9 +160,9 @@ class PushNotifications extends \Bbgi\Module {
 				$args = array_merge(
 					$args,
 					[
-						'title'       => get_the_title( $post ),
+						'title'       => strip_tags( get_the_title( $post ) ),
 						'imageurl'    => $image_url ? $image_url : '',
-						'description' => apply_filters( 'the_excerpt', get_the_excerpt( $post ) ),
+						'description' => strip_tags( apply_filters( 'the_excerpt', get_the_excerpt( $post ) ) ),
 						'link'        => get_permalink( $post ),
 					]
 				);
@@ -234,7 +234,7 @@ class PushNotifications extends \Bbgi\Module {
 			<h1><?php esc_html_e( 'Notifications', 'bbgi' ); ?></h1>
 
 			<?php if ( $iframe_url ) : ?>
-				<iframe src="<?php echo esc_url( $iframe_url ); ?>" style="width: 100%; height: 80vh;"></iframe>
+				<iframe src="<?php echo esc_url( $iframe_url ); ?>" style="width: 100%; height: 100vh;"></iframe>
 			<?php else: ?>
 				<p><?php esc_html_e( 'Unable to connect to the notification service.', 'bbgi' ); ?></p>
 			<?php endif; ?>
