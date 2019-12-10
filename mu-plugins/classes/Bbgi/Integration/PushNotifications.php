@@ -19,8 +19,20 @@ class PushNotifications extends \Bbgi\Module {
 	public function register() {
 		$this->register_custom_cap();
 		add_filter( 'post_row_actions', [ $this, 'send_notification_link' ], 10, 2 );
+		add_filter( 'page_row_actions', [ $this, 'send_notification_link' ], 10, 2 );
 		add_action( 'admin_menu', [ $this, 'register_notification_menu' ] );
 		add_action( 'add_meta_boxes', [ $this, 'register_meta_box' ] );
+	}
+
+	/**
+	 * Get post types whiltelist
+	 *
+	 * @return array
+	 */
+	public function get_post_types_whitelist() {
+		$blacklist = [ 'fp_feed', 'subscription' ];
+
+		return array_diff( get_post_types(), $blacklist );
 	}
 
 	/**
@@ -29,13 +41,13 @@ class PushNotifications extends \Bbgi\Module {
 	 * @return void
 	 */
 	public function register_custom_cap() {
-		$roles = [ 'administrator', 'editor' ];
+		$roles = [ 'administrator' ];
 
 		foreach ( $roles as $role ) {
 			$role_obj = get_role( $role );
 
 			if ( is_a( $role_obj, \WP_Role::class ) ) {
-				$role_obj->add_cap( 'send_notifications', true );
+				$role_obj->add_cap( 'send_notifications', false );
 			}
 		}
 	}
@@ -76,7 +88,10 @@ class PushNotifications extends \Bbgi\Module {
 	 * @return array
 	 */
 	public function send_notification_link( $actions, \WP_Post $post ) {
-		if ( $this->can_send_notifications( $post->ID ) ) {
+
+
+		if ( $this->can_send_notifications( $post->ID ) &&
+		    in_array( get_post_type( $post ), $this->get_post_types_whitelist(), true ) ) {
 			$actions['send_notification'] = sprintf(
 				'<a href="%s">%s</a>',
 				esc_url( $this->get_send_notifications_url( $post->ID ) ),
@@ -114,7 +129,7 @@ class PushNotifications extends \Bbgi\Module {
 			'bbgi-notifications-metabox',
 			esc_html__( 'Push Notifications', 'bbgi' ),
 			[ $this, 'render_metabox' ],
-			get_post_types(),
+			$this->get_post_types_whitelist(),
 			'side'
 		);
 	}
