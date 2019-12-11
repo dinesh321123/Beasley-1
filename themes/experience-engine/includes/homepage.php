@@ -24,14 +24,29 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 			if ( isset( $supported_types[ $feed['type'] ] ) ) {
 				$supported_feeds[] = $feed;
 			}
-		}
+        }
 
-		$count = count( $supported_feeds );
+        // Count the general supported feeds
+        $count = count( $supported_feeds );
+
+        // Store a count for supported feeds that actually contain content
+        $count_with_content = 0;
+
 		if ( $count > 0 ) {
-			for ( $i = 0; $i < $count; $i++ ) {
-				$feed = $supported_feeds[ $i ];
+
+            // Now update for an accurate count of rows that actually contain content
+            for ( $i = 0; $i < $count; $i++ ) {
+                $feed = $supported_feeds[ $i ];
 				if ( ! empty( $feed['content'] ) && is_array( $feed['content'] ) ) {
-					call_user_func( $supported_types[ $feed['type'] ], $feed, $count );
+					$count_with_content++;
+				}
+            }
+
+            // And finally loop through the available rows and call associated functions
+			for ( $i = 0; $i < $count; $i++ ) {
+                $feed = $supported_feeds[ $i ];
+				if ( ! empty( $feed['content'] ) && is_array( $feed['content'] ) ) {
+					call_user_func( $supported_types[ $feed['type'] ], $feed, $count_with_content );
 				}
 			}
 
@@ -57,9 +72,6 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
 		global $homepage_feed_row_count;
         global $ee_feed_now;
-
-        echo $homepage_feed_row_count;
-        echo $feeds_count;
 
 		$ee_feed_now = $feed;
 		$size = $homepage_feed_row_count === 1 ? '-large' : '-small';
