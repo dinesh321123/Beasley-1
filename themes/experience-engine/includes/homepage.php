@@ -56,7 +56,10 @@ endif;
 if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
 		global $homepage_feed_row_count;
-		global $ee_feed_now;
+        global $ee_feed_now;
+
+        echo $homepage_feed_row_count;
+        echo $feeds_count;
 
 		$ee_feed_now = $feed;
 		$size = $homepage_feed_row_count === 1 ? '-large' : '-small';
