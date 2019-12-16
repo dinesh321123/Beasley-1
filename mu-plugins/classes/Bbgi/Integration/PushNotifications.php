@@ -175,9 +175,9 @@ class PushNotifications extends \Bbgi\Module {
 				$args = array_merge(
 					$args,
 					[
-						'title'       => strip_tags( get_the_title( $post ) ),
+						'title'       => html_entity_decode( strip_tags( get_the_title( $post ) ) ),
 						'imageurl'    => $image_url ? $image_url : '',
-						'description' => strip_tags( apply_filters( 'the_excerpt', get_the_excerpt( $post ) ) ),
+						'description' => html_entity_decode( strip_tags( apply_filters( 'the_excerpt', get_the_excerpt( $post ) ) ) ),
 						'link'        => get_permalink( $post ),
 					]
 				);
