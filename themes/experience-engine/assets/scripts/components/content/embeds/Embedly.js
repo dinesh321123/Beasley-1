@@ -1,26 +1,25 @@
-import React, { PureComponent } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-class Embedly extends PureComponent {
+const Embedly = ( { url, title, description } ) => {
+	const embedRef = useRef( null );
 
-	constructor( props ) {
-		super( props );
-	}
+	useEffect( () => {
+		if ( window.embedly && embedRef && embedRef.current ) {
+			window.embedly( 'card', embedRef.current );
+		}
+	}, [url] );
 
-	render() {
+	return (
+		<div className="embedly-wrapper">
+			<blockquote ref={embedRef} className="embedly-card" data-card-controls="1" data-card-align="center" data-card-theme="light">
+				<h4><a href={url}>{title}</a></h4>
+				<p>{description}</p>
+			</blockquote>
+		</div>
+	);
+};
 
-		return (
-			<div className="embedly-wrapper">
-				<blockquote className="embedly-card" data-card-controls="1" data-card-align="center" data-card-theme="light">
-					<h4><a href={this.props.url}>{this.props.title}</a></h4>
-					<p>{this.props.description}</p>
-				</blockquote>
-				<script async src="//cdn.embedly.com/widgets/platform.js" charset="UTF-8"></script>
-			</div>
-		);
-	}
-
-}
 
 Embedly.propTypes = {
 	url: PropTypes.string,

@@ -121,6 +121,11 @@ export function loadPage( url, options = {} ) {
 		};
 
 		const fetchUrl = options.fetchUrlOverride || url;
+		let trailingslash = true;
+
+		if ( 'undefined' !== typeof options.trailingslash ) {
+			trailingslash = !!options.trailingslash;
+		}
 
 		/**
 		 * Given external redirects were not properly implemented within the hybrid theme approach. (see https://tenup.teamwork.com/#/tasks/18645110).
@@ -129,7 +134,7 @@ export function loadPage( url, options = {} ) {
 		 * (opaqueredirect, or to be more generic anything different than basic).
 		 * In that case we simply force a full page refresh to let the server properly handle redirects.
 		 */
-		fetch( trailingslashit( fetchUrl ), options.fetchParams || {
+		fetch( trailingslash ? trailingslashit( fetchUrl ) : fetchUrl, options.fetchParams || {
 			redirect: isIE11() ? 'follow' : 'manual', // IE11 does not support this work around.
 		} )
 			.then( maybeRedirect )

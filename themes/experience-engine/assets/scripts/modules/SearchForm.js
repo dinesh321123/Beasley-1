@@ -35,7 +35,7 @@ class SearchForm extends PureComponent {
 		const formData = new FormData( target );
 		const search = formData.get( 's' );
 		if ( search && search.length ) {
-			this.props.loadPage( `${url}?s=${encodeURIComponent( search )}` );
+			this.props.loadPage( `${url}?s=${encodeURIComponent( search )}`, { trailingslash: false } );
 			target.querySelector( 'input[name="s"]' ).value = '';
 		}
 	}
