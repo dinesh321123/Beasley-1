@@ -23,6 +23,13 @@ include trailingslashit( VISUAL_SHORTCODE_PATH ) . 'inc/dashicon-xref.php';
 
 function visual_shortcode_main() {
 	add_action( 'admin_init', 'visual_shortcode_init' );
+
+	add_shortcode(
+		'time-restricted',
+		function( $atts, $content ) {
+			return do_shortcode( $content );
+		}
+	);
 }
 
 function visual_shortcode_init() {
