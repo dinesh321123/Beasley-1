@@ -167,9 +167,20 @@ class Users extends \Bbgi\Module {
 									value="1"
 									<?php checked( $this->is_user_disabled( $user->ID ) )?>
 							/>
-							<?php esc_html_e( 'Disabling an user will prevent it from logging in on the site', 'beasley' ); ?>
+							<?php esc_html_e( 'Disabling an user will prevent it from logging in on the site.', 'beasley' ); ?>
 						</label>
-
+						<br />
+						<p class="description" id="<?php echo esc_attr( self::USER_DISABLED_META ); ?>">
+							<?php
+								echo esc_html(
+									sprintf(
+										'Re-enabling an user will give him another %s days to log in.',
+										self::INACTIVITY_THRESHOLD
+									),
+									'bbgi'
+								);
+							?>
+						</p>
 					</fieldset>
 
 				</td>
@@ -194,7 +205,13 @@ class Users extends \Bbgi\Module {
 			return;
 		}
 
-		$is_user_disabled = filter_input( INPUT_POST, self::USER_DISABLED_META, FILTER_SANITIZE_NUMBER_INT );
+		$was_user_disabled = $this->is_user_disabled( $user_id );
+		$is_user_disabled  = filter_input( INPUT_POST, self::USER_DISABLED_META, FILTER_SANITIZE_NUMBER_INT );
+
+		if ( $was_user_disabled && ! $is_user_disabled ) {
+			// reset last login to today.
+			$this->set_last_login( $user_id );
+		}
 
 		update_user_meta( $user_id, self::USER_DISABLED_META, $is_user_disabled );
 	}
