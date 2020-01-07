@@ -174,7 +174,7 @@ class Users extends \Bbgi\Module {
 							<?php
 								echo esc_html(
 									sprintf(
-										'Re-enabling an user will give him another %s days to log in.',
+										'Re-enabling an user will grant another %s days to log in.',
 										self::INACTIVITY_THRESHOLD
 									),
 									'bbgi'
