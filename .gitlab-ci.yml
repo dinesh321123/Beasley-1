@@ -10,10 +10,10 @@ cache:
     - .composer-cache # Composer
     - node_modules_cache
 
-#test:
-#  stage: test
-#  script:
-#    - 10up-scripts
+test:
+  stage: test
+  script:
+    - 10up-scripts
 
 deploy_stage:
   stage: deploy

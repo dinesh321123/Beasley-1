@@ -3,6 +3,9 @@
 # Print commands to the screen
 set -x
 
+# Catch Errors
+set -euo pipefail
+
 composer install
 
 pushd plugins/greatermedia-content-syndication || exit 1
