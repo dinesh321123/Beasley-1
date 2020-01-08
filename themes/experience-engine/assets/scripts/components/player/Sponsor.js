@@ -53,7 +53,6 @@ class Sponsor extends PureComponent {
 		}
 	}
 
-
 	render() {
 		const self = this;
 		const { render } = self.state;
@@ -72,7 +71,6 @@ class Sponsor extends PureComponent {
 			<Dfp key="sponsor" ref={self.onRef} placeholder={id} unitId={unitId} unitName={unitName} />,
 		] );
 	}
-
 }
 
 Sponsor.propTypes = {

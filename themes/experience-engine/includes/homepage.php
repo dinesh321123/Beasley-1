@@ -1,7 +1,7 @@
 <?php
 
 $homepage_feed_row_count = 1;
-
+$standard_feeds_count = 1;
 if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 	function ee_homepage_feeds( $feeds ) {
 		$supported_feeds = array();
@@ -30,7 +30,7 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
         $count = count( $supported_feeds );
 
         // Store a count for supported feeds that actually contain content
-        $count_with_content = 0;
+		$count_with_content = 0;
 
 		if ( $count > 0 ) {
 
@@ -69,12 +69,13 @@ if ( ! function_exists( 'ee_edit_feed_button' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
-	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
+	function ee_render_homepage_standard_feed( $feed, $feeds_count, $is_featured ) {
 		global $homepage_feed_row_count;
+		global $standard_feeds_count;
         global $ee_feed_now;
 
 		$ee_feed_now = $feed;
-		$size = $homepage_feed_row_count === 1 ? '-large' : '-small';
+		$size = $standard_feeds_count === 1 ? '-large' : '-small';
 		echo '<div id="', esc_attr( $feed['id'] ), '" class="content-wrap">';
 			ee_edit_feed_button( $feed );
 
@@ -121,6 +122,7 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 		}
 
 		$homepage_feed_row_count++;
+		$standard_feeds_count++;
 	}
 endif;
 

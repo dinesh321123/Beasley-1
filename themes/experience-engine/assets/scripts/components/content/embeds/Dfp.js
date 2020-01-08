@@ -68,7 +68,6 @@ class Dfp extends PureComponent {
 					// Add class to body
 					document.getElementsByTagName( 'body' )[ 0 ].classList.add( 'station-has-sponsor' );
 				}
-
 			} );
 		} );
 	}
@@ -128,7 +127,6 @@ class Dfp extends PureComponent {
 			let slot = googletag
 				.defineSlot( unitId, size, placeholder );
 
-
 			// If Slot was already defined this will be null
 			// Ignored to fix the exception
 			if ( ! slot ) {
@@ -136,10 +134,6 @@ class Dfp extends PureComponent {
 			}
 
 			slot.addService( googletag.pubads() );
-
-
-
-
 
 			let sizeMapping = false;
 			if ( 'top-leaderboard' === unitName ) {
