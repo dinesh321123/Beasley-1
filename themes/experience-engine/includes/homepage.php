@@ -69,7 +69,7 @@ if ( ! function_exists( 'ee_edit_feed_button' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
-	function ee_render_homepage_standard_feed( $feed, $feeds_count, $is_featured ) {
+	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
 		global $homepage_feed_row_count;
 		global $standard_feeds_count;
         global $ee_feed_now;
