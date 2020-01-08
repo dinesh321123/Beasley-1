@@ -152,6 +152,7 @@ export function initTdPlayer( modules ) {
 				// If there is a tdplayer and player in state
 				// then continue this portion
 				if( tdplayer && player ) {
+					console.log( player );
 
 					if ( player.adPlayback ) {
 						tdplayer.skipAd();
@@ -192,11 +193,28 @@ export function initTdPlayer( modules ) {
 				player.addEventListener( 'ad-playback-start', dispatchPlaybackStart );
 				player.addEventListener(
 					'ad-playback-complete',
-					dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE ),
+					dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE )
 				);
 				player.addEventListener(
 					'ad-playback-error',
-					dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR ),
+
+					() => {
+						/*
+						* the beforeStreamStart function may be injected onto the window
+						* object from google tag manager. This function provides a callback
+						* when it is completed. Currently we are using it to play a preroll
+						* from kubient when there is no preroll provided by triton. To ensure
+						* that we do not introduce unforeseen issues we return the original
+						* ACTION_AD_PLAYBACK_ERROR type.
+						* */
+						if ( window.beforeStreamStart ) {
+							window.beforeStreamStart( ( result ) => {
+								dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
+							} );
+						} else {
+							dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
+						}
+					}
 				);
 
 				player.addEventListener( 'stream-start', dispatchStreamStart );
@@ -207,6 +225,9 @@ export function initTdPlayer( modules ) {
 		} );
 	};
 }
+
+
+
 
 export function playAudio( audio, cueTitle = '', artistName = '', trackType = 'live' ) {
 	return dispatch => {

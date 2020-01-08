@@ -150,8 +150,6 @@ export const DEFAULT_STATE = {
 function reducer( state = {}, action = {} ) {
 	let interval;
 
-	console.log( 'action type', action.type );
-
 	switch ( action.type ) {
 		case ACTION_INIT_TDPLAYER:
 			tdplayer = action.player;
@@ -258,6 +256,9 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_CUEPOINT_CHANGE:
 			loadNowPlaying( state.station );
+
+			//todo remove me
+			console.log( 'cue point', action.cuePoint );
 
 			if ( 'podcast' === state.trackType ) {
 				userInteraction = false;
