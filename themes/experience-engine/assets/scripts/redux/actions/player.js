@@ -144,30 +144,35 @@ export function initTdPlayer( modules ) {
 
 			return () => {
 				const { tdplayer } = window; // Global player
-				const { player } = getState(); // player from state
+				try {
+					const { player } = getState(); // player from state
 
-				// Update DOM
-				document.body.classList.remove( 'locked' );
+					// Update DOM
+					document.body.classList.remove( 'locked' );
 
-				// If there is a tdplayer and player in state
-				// then continue this portion
-				if( tdplayer && player ) {
-					console.log( player );
+					// If there is a tdplayer and player in state
+					// then continue this portion
+					if( tdplayer && player ) {
+						console.log( player );
 
-					if ( player.adPlayback ) {
-						tdplayer.skipAd();
+						if ( player.adPlayback ) {
+							tdplayer.skipAd();
+						}
+
+						if( player.station ) {
+							tdplayer.play( { station: player.station } );
+						}
 					}
 
-					if( player.station ) {
-						tdplayer.play( { station: player.station } );
-					}
+					// Clear existing timeout
+					clearTimeout( adPlaybackTimeout );
+
+					// Finalize dispatch
+					dispatch( { type } );
+				} catch( e ) {
+					console.log( 'unable to call get state', e );
 				}
 
-				// Clear existing timeout
-				clearTimeout( adPlaybackTimeout );
-
-				// Finalize dispatch
-				dispatch( { type } );
 			};
 		}
 
@@ -193,7 +198,7 @@ export function initTdPlayer( modules ) {
 				player.addEventListener( 'ad-playback-start', dispatchPlaybackStart );
 				player.addEventListener(
 					'ad-playback-complete',
-					dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE )
+					dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE ),
 				);
 				player.addEventListener(
 					'ad-playback-error',
@@ -214,7 +219,7 @@ export function initTdPlayer( modules ) {
 						} else {
 							dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
 						}
-					}
+					},
 				);
 
 				player.addEventListener( 'stream-start', dispatchStreamStart );
