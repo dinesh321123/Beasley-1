@@ -176,19 +176,13 @@ export function initTdPlayer( player ) {
 };
 
 export function playAudio( audio, cueTitle = '', artistName = '', trackType = 'live' ) {
-	return ( dispatch, getState ) => {
+	return dispatch => {
 		function dispatchAudioStart() {
 			dispatch( { type: ACTION_AUDIO_START } );
 		}
 
 		function dispatchAudioStop() {
 			dispatch( { type: ACTION_AUDIO_STOP } );
-		}
-
-		const { player: currentPlayer } = getState();
-
-		if ( 'function' === typeof currentPlayer.stop ) {
-			currentPlayer.stop();
 		}
 
 		const player = new Audio( audio );

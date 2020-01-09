@@ -82,10 +82,7 @@ function fullStop() {
 	}
 
 	if ( tdplayer ) {
-		// moved this to playAudio action creator to a void a redux deadlock.
-		// ideally we should implement redux saga to handle such side effects.
-		// calling tdplayer.stop trigger dispatchPlaybackStop which calls getState while still in the reducer.
-		// tdplayer.stop()
+		tdplayer.stop();
 		tdplayer.skipAd();
 	}
 }
