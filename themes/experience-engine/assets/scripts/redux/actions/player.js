@@ -60,13 +60,7 @@ export const STATUSES = {
 	STREAM_GEO_BLOCKED: 'STREAM_GEO_BLOCKED',
 };
 
-function dispatchStatusUpdate( dispatch, status ) {
-	return () => {
-		dispatch( { type: ACTION_STATUS_CHANGE, status } );
-	};
-}
-
-function errorCatcher( prefix ) {
+export function errorCatcher( prefix ) {
 	return e => {
 		const { data } = e;
 		const { errors } = data || {};
@@ -78,156 +72,108 @@ function errorCatcher( prefix ) {
 	};
 }
 
-export function initTdPlayer( modules ) {
-	return ( dispatch, getState ) => {
-		let adPlaybackTimeout = false;
-		let adSyncedTimeout = false;
-
-		function dispatchStatusChange( { data } ) {
-			dispatch( {
-				type: ACTION_STATUS_CHANGE,
-				status: data.code,
-			} );
-		}
-
-		function dispatchStreamStart( { data } ) {
-			dispatch( {
-				type: ACTION_STREAM_START,
-				data: data,
-			} );
-		}
-
-		function dispatchStreamStop( { data } ) {
-			dispatch( {
-				type: ACTION_STREAM_STOP,
-				data: data,
-			} );
-		}
-
-		function dispatchCuePoint( { data } ) {
-			dispatch( {
-				type: ACTION_CUEPOINT_CHANGE,
-				cuePoint: ( data || {} ).cuePoint || false,
-			} );
-		}
-
-		function dispatchListLoaded( { data } ) {
-			dispatch( {
-				type: ACTION_NOW_PLAYING_LOADED,
-				...data,
-			} );
-		}
-
-		function dispatchSyncedStart() {
-			// hide after 35 seconds if it hasn't been hidden yet
-			clearTimeout( adSyncedTimeout );
-			adSyncedTimeout = setTimeout(
-				() => dispatch( { type: ACTION_AD_BREAK_SYNCED_HIDE } ),
-				35000,
-			);
-
-			dispatch( { type: ACTION_AD_BREAK_SYNCED } );
-		}
-
-		function dispatchPlaybackStart() {
-			// hide after 1 min if it hasn't been hidden yet
-			clearTimeout( adPlaybackTimeout );
-			adPlaybackTimeout = setTimeout(
-				() => dispatchPlaybackStop( { type: ACTION_AD_PLAYBACK_ERROR } ),
-				70000,
-			);
-
-			dispatch( { type: ACTION_AD_PLAYBACK_START } );
-		}
-
-		function dispatchPlaybackStop( type ) {
-
-			return () => {
-				const { tdplayer } = window; // Global player
-				const { player } = getState(); // player from state
-
-				// Update DOM
-				document.body.classList.remove( 'locked' );
-
-				// If there is a tdplayer and player in state
-				// then continue this portion
-				if( tdplayer && player ) {
-					console.log( player );
-
-					if ( player.adPlayback ) {
-						tdplayer.skipAd();
-					}
-
-					if( player.station ) {
-						tdplayer.play( { station: player.station } );
-					}
-				}
-
-				// Clear existing timeout
-				clearTimeout( adPlaybackTimeout );
-
-				// Finalize dispatch
-				dispatch( { type } );
-			};
-		}
-
-		const player = new window.TDSdk( {
-			configurationError: errorCatcher( 'Configuration Error' ),
-			coreModules: modules,
-			moduleError: errorCatcher( 'Module Error' ),
-			playerReady() {
-				player.addEventListener( 'stream-status', dispatchStatusChange );
-				player.addEventListener( 'list-loaded', dispatchListLoaded );
-
-				player.addEventListener( 'track-cue-point', dispatchCuePoint );
-				player.addEventListener( 'speech-cue-point', dispatchCuePoint );
-				player.addEventListener( 'custom-cue-point', dispatchCuePoint );
-
-				player.addEventListener( 'ad-break-cue-point', dispatchCuePoint );
-				player.addEventListener(
-					'ad-break-cue-point-complete',
-					dispatchCuePoint,
-				);
-				player.addEventListener( 'ad-break-synced-element', dispatchSyncedStart );
-
-				player.addEventListener( 'ad-playback-start', dispatchPlaybackStart );
-				player.addEventListener(
-					'ad-playback-complete',
-					dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE )
-				);
-				player.addEventListener(
-					'ad-playback-error',
-
-					() => {
-						/*
-						* the beforeStreamStart function may be injected onto the window
-						* object from google tag manager. This function provides a callback
-						* when it is completed. Currently we are using it to play a preroll
-						* from kubient when there is no preroll provided by triton. To ensure
-						* that we do not introduce unforeseen issues we return the original
-						* ACTION_AD_PLAYBACK_ERROR type.
-						* */
-						if ( window.beforeStreamStart ) {
-							window.beforeStreamStart( ( result ) => {
-								dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
-							} );
-						} else {
-							dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
-						}
-					}
-				);
-
-				player.addEventListener( 'stream-start', dispatchStreamStart );
-				player.addEventListener( 'stream-stop', dispatchStreamStop );
-
-				dispatch( { type: ACTION_INIT_TDPLAYER, player } );
-			},
-		} );
+export function dispatchStatusUpdate( dispatch, status ) {
+	return () => {
+		dispatch( { type: ACTION_STATUS_CHANGE, status } );
 	};
 }
 
+export function dispatchStatusChange( { data } ) {
+	return {
+		type: ACTION_STATUS_CHANGE,
+		status: data.code,
+	};
+}
 
+export function dispatchStreamStart( { data } ) {
+	return {
+		type: ACTION_STREAM_START,
+		data: data,
+	};
+}
 
+export function dispatchStreamStop( { data } ) {
+	return {
+		type: ACTION_STREAM_STOP,
+		data: data,
+	};
+}
+
+export function dispatchCuePoint( { data } ) {
+	return {
+		type: ACTION_CUEPOINT_CHANGE,
+		cuePoint: ( data || {} ).cuePoint || false,
+	};
+}
+
+export function dispatchListLoaded( { data } ) {
+	return {
+		type: ACTION_NOW_PLAYING_LOADED,
+		...data,
+	};
+}
+
+let adSyncedTimeout = false;
+let adPlaybackTimeout = false;
+
+export const dispatchSyncedStart = () => dispatch => {
+	// hide after 35 seconds if it hasn't been hidden yet
+	clearTimeout( adSyncedTimeout );
+
+	adSyncedTimeout = setTimeout(
+		() => dispatch( { type: ACTION_AD_BREAK_SYNCED_HIDE } ),
+		35000,
+	);
+
+	dispatch( { type: ACTION_AD_BREAK_SYNCED } );
+};
+
+export const dispatchPlaybackStart =() => dispatch => {
+
+	// hide after 1 min if it hasn't been hidden yet
+	clearTimeout( adPlaybackTimeout );
+	adPlaybackTimeout = setTimeout(
+		() => dispatchPlaybackStop( { type: ACTION_AD_PLAYBACK_ERROR } ),
+		70000,
+	);
+
+	dispatch( { type: ACTION_AD_PLAYBACK_START } );
+};
+
+export const dispatchPlaybackStop = ( type ) => ( dispatch, getState ) => {
+
+	return () => {
+		const { tdplayer } = window; // Global player
+		const { player } = getState(); // player from state
+
+		// Update DOM
+		document.body.classList.remove( 'locked' );
+
+		// If there is a tdplayer and player in state
+		// then continue this portion
+		if( tdplayer && player ) {
+			console.log( player );
+
+			if ( player.adPlayback ) {
+				tdplayer.skipAd();
+			}
+
+			if( player.station ) {
+				tdplayer.play( { station: player.station } );
+			}
+		}
+
+		// Clear existing timeout
+		clearTimeout( adPlaybackTimeout );
+
+		// Finalize dispatch
+		dispatch( { type } );
+	};
+};
+
+export function initTdPlayer( player ) {
+	return { type: ACTION_INIT_TDPLAYER, player };
+};
 
 export function playAudio( audio, cueTitle = '', artistName = '', trackType = 'live' ) {
 	return dispatch => {
