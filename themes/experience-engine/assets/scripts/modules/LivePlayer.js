@@ -71,7 +71,7 @@ class LivePlayer extends Component {
 		// parsed by browser, and only then start initializing the player
 		const tdinterval = setInterval( () => {
 			if ( window.TDSdk ) {
-				this.setUpPlayer( tdmodules );
+				this.props.initPlayer( tdmodules );
 				clearInterval( tdinterval );
 			}
 		}, 500 );
@@ -87,74 +87,6 @@ class LivePlayer extends Component {
 		window.removeEventListener( 'offline', self.onOffline );
 	}
 
-	setUpPlayer( modules ) {
-		const {
-			dispatchStatusChange,
-			dispatchListLoaded,
-			dispatchCuePoint,
-			dispatchSyncedStart,
-			dispatchPlaybackStart,
-			dispatchPlaybackStop,
-			dispatchStreamStart,
-			dispatchStreamStop,
-			initPlayer,
-		} = this.props;
-
-		const player = new window.TDSdk( {
-			configurationError: actions.errorCatcher( 'Configuration Error' ),
-			coreModules: modules,
-			moduleError: actions.errorCatcher( 'Module Error' ),
-			playerReady() {
-				initPlayer( player );
-
-				player.addEventListener( 'stream-status', dispatchStatusChange );
-				player.addEventListener( 'list-loaded', dispatchListLoaded );
-
-				player.addEventListener( 'track-cue-point', dispatchCuePoint );
-				player.addEventListener( 'speech-cue-point', dispatchCuePoint );
-				player.addEventListener( 'custom-cue-point', dispatchCuePoint );
-
-				player.addEventListener( 'ad-break-cue-point', dispatchCuePoint );
-				player.addEventListener(
-					'ad-break-cue-point-complete',
-					dispatchCuePoint,
-				);
-				player.addEventListener( 'ad-break-synced-element', dispatchSyncedStart );
-
-				player.addEventListener( 'ad-playback-start', dispatchPlaybackStart );
-				player.addEventListener(
-					'ad-playback-complete',
-					dispatchPlaybackStop( actions.ACTION_AD_PLAYBACK_COMPLETE ),
-				);
-				player.addEventListener(
-					'ad-playback-error',
-
-					() => {
-						/*
-						* the beforeStreamStart function may be injected onto the window
-						* object from google tag manager. This function provides a callback
-						* when it is completed. Currently we are using it to play a preroll
-						* from kubient when there is no preroll provided by triton. To ensure
-						* that we do not introduce unforeseen issues we return the original
-						* ACTION_AD_PLAYBACK_ERROR type.
-						* */
-						if ( window.beforeStreamStart ) {
-							window.beforeStreamStart( ( result ) => {
-								dispatchPlaybackStop( actions.ACTION_AD_PLAYBACK_ERROR )( );
-							} );
-						} else {
-							dispatchPlaybackStop( actions.ACTION_AD_PLAYBACK_ERROR )( );
-						}
-					},
-				);
-
-				player.addEventListener( 'stream-start', dispatchStreamStart );
-				player.addEventListener( 'stream-stop', dispatchStreamStop );
-
-
-			},
-		} );
-	}
 	handleOnline() {
 		this.setState( { online: true } );
 	}
@@ -287,14 +219,6 @@ LivePlayer.propTypes = {
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
 	duration: PropTypes.number.isRequired,
-	dispatchStatusChange: PropTypes.func.isRequired,
-	dispatchListLoaded: PropTypes.func.isRequired,
-	dispatchCuePoint: PropTypes.func.isRequired,
-	dispatchSyncedStart: PropTypes.func.isRequired,
-	dispatchPlaybackStart: PropTypes.func.isRequired,
-	dispatchPlaybackStop: PropTypes.func.isRequired,
-	dispatchStreamStart: PropTypes.func.isRequired,
-	dispatchStreamStop: PropTypes.func.isRequired,
 };
 
 function mapStateToProps( { player } ) {
@@ -310,15 +234,6 @@ function mapStateToProps( { player } ) {
 function mapDispatchToProps( dispatch ) {
 	return bindActionCreators( {
 		initPlayer: actions.initTdPlayer,
-		dispatchStatusUpdate: actions.dispatchStatusUpdate,
-		dispatchStatusChange: actions.dispatchStatusChange,
-		dispatchStreamStart: actions.dispatchStreamStart,
-		dispatchStreamStop: actions.dispatchStreamStop,
-		dispatchCuePoint: actions.dispatchCuePoint,
-		dispatchListLoaded: actions.dispatchListLoaded,
-		dispatchSyncedStart: actions.dispatchSyncedStart,
-		dispatchPlaybackStart: actions.dispatchPlaybackStart,
-		dispatchPlaybackStop: actions.dispatchPlaybackStop,
 		play: actions.playStation,
 		pause: actions.pause,
 		resume: actions.resume,
