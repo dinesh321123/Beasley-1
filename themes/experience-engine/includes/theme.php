@@ -25,6 +25,7 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 		add_theme_support( 'html5', array( 'search-form' ) );
 
 		add_theme_support( 'secondstreet' );
+		add_theme_support( 'mymelo' );
 		add_theme_support( 'homepage-curation' );
 
 		add_post_type_support( 'post', 'timed-content' );
