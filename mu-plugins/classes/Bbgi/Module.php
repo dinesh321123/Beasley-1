@@ -59,6 +59,11 @@ abstract class Module {
 			self::$_modules['secondstreet'] = new \Bbgi\Integration\SecondStreet();
 		}
 
+		if ( current_theme_supports( 'mymelo' ) ) {
+			self::$_modules['mymelo'] = new \Bbgi\Integration\MyMelo();
+		}
+
+
 		foreach ( self::$_modules as $module ) {
 			$module->register();
 		}
