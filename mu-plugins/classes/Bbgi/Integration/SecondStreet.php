@@ -66,5 +66,4 @@ class SecondStreet extends \Bbgi\Module {
 
 		return apply_filters( 'secondstreet_embed_html', $embed, $attributes );
 	}
-
 }
