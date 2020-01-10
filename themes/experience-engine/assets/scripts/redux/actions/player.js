@@ -162,13 +162,12 @@ export function initTdPlayer( modules ) {
 						if( player.station ) {
 							tdplayer.play( { station: player.station } );
 						}
+						// Clear existing timeout
+						clearTimeout( adPlaybackTimeout );
+
+						// Finalize dispatch
+						dispatch( { type } );
 					}
-
-					// Clear existing timeout
-					clearTimeout( adPlaybackTimeout );
-
-					// Finalize dispatch
-					dispatch( { type } );
 				} catch( e ) {
 					console.log( 'unable to call get state', e );
 				}
