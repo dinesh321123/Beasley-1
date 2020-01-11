@@ -161,9 +161,9 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			);
 
 			$html .= '<script>
-				window.addEventListener( "load", function() {
+				// window.addEventListener( "load", function() {
 					window.googletag = window.googletag || { cmd: [] };
-					if ( googletag.apiReady ) {
+					// if ( googletag.apiReady ) {
 
 						let sizes = [728, 90];
 						if (
@@ -188,8 +188,8 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 							googletag.enableServices();
 							googletag.display( "' . esc_attr( $slot ) . '" );
 						} );
-					}
-				} );
+					// }
+				// } );
 			</script>';
 		}
 
