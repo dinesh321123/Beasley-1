@@ -31,7 +31,6 @@
 			<main id="content" class="content">
 				<?php do_action( 'show_breaking_news_banner' ); ?>
 				<?php
-				if ( ! ee_is_jacapps() ) :
 					get_template_part( 'partials/ads/leaderboard' );
-				endif; ?>
+				?>
 				<div id="inner-content">
