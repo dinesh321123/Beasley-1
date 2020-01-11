@@ -161,35 +161,32 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			);
 
 			$html .= '<script>
-				// window.addEventListener( "load", function() {
 					window.googletag = window.googletag || { cmd: [] };
-					// if ( googletag.apiReady ) {
+					window.jacappsAdSizes = window.jacappsAdSizes || [728, 90];
 
-						let sizes = [728, 90];
-						if (
-							window.bbgiconfig &&
-							window.bbgiconfig.dfp &&
-							window.bbgiconfig.dfp.sizes &&
-							window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ]
-						) {
-								sizes = window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ];
+					if (
+						window.bbgiconfig &&
+						window.bbgiconfig.dfp &&
+						window.bbgiconfig.dfp.sizes &&
+						window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ]
+					) {
+						window.jacappsAdSizes = window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ];
+					}
+
+					googletag.cmd.push( function() {
+						googletag.defineSlot( "' . esc_attr( $unit_id ) . '", window.jacappsAdSizes, "' . esc_attr( $slot ) . '" )
+						.addService( googletag.pubads() )';
+
+						forEach( $targeting as $value ) {
+							$html .= '.setTargeting( "' . $value[ 0 ] . '", "' . $value[ 1 ] . '" )';
 						}
 
-						googletag.cmd.push( function() {
-							googletag.defineSlot( "' . esc_attr( $unit_id ) . '", sizes, "' . esc_attr( $slot ) . '" )
-							.addService( googletag.pubads() )';
+					$html .= ';
+						googletag.pubads().enableSingleRequest();
+						googletag.enableServices();
+						googletag.display( "' . esc_attr( $slot ) . '" );
+					} );
 
-							forEach( $targeting as $value ) {
-								$html .= '.setTargeting( "' . $value[ 0 ] . '", "' . $value[ 1 ] . '" )';
-							}
-
-						$html .= ';
-							googletag.pubads().enableSingleRequest();
-							googletag.enableServices();
-							googletag.display( "' . esc_attr( $slot ) . '" );
-						} );
-					// }
-				// } );
 			</script>';
 		}
 
