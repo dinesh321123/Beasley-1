@@ -161,7 +161,7 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			);
 
 			$html .= '<script>
-				window.addEventListener( "load", function() {
+				window.addEventListener( "DOMContentLoaded", function() {
 					window.googletag = window.googletag || { cmd: [] };
 					if ( googletag.apiReady ) {
 
