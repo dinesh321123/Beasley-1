@@ -73,7 +73,7 @@ class MyMelo extends \Bbgi\Module {
 			};
 		</script>
 		<div id="mymelo-div" style="height: 850px"></div>
-		<script src="https://platform.mymelo.com/client/widget.js" defer></script>
+		<script src="https://platform.mymelo.com/client/widget.js"></script>
 EOL;
 
 		return $embed;
