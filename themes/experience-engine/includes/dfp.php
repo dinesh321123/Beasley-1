@@ -155,14 +155,18 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 		// So fallback for jacapps is to add the script inline for display adds
 		// along with an alternative DFP slot
 		if ( ee_is_jacapps() ) {
+
+			$uuid = $slot . '_' . wp_generate_uuid4();
+
 			$html = sprintf(
 				'<div class="dfp-slot" id="%s"></div>',
-				esc_attr( $slot )
+				esc_attr( $uuid )
 			);
 
 			$html .= '<script>
+				window.addEventListener("load", function() {
 					window.googletag = window.googletag || { cmd: [] };
-					window.jacappsAdSizes = window.jacappsAdSizes || [728, 90];
+					var jacappsAdSizes = [];
 
 					if (
 						window.bbgiconfig &&
@@ -170,11 +174,11 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 						window.bbgiconfig.dfp.sizes &&
 						window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ]
 					) {
-						window.jacappsAdSizes = window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ];
+						jacappsAdSizes = window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ];
 					}
 
 					googletag.cmd.push( function() {
-						googletag.defineSlot( "' . esc_attr( $unit_id ) . '", window.jacappsAdSizes, "' . esc_attr( $slot ) . '" )
+						googletag.defineSlot( "' . esc_attr( $unit_id ) . '", jacappsAdSizes, "' . esc_attr( $uuid ) . '" )
 						.addService( googletag.pubads() )';
 
 						forEach( $targeting as $value ) {
@@ -182,10 +186,12 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 						}
 
 					$html .= ';
-						googletag.pubads().enableSingleRequest();
+						// googletag.pubads().enableSingleRequest();
 						googletag.enableServices();
-						googletag.display( "' . esc_attr( $slot ) . '" );
+						googletag.display( "' . esc_attr( $uuid ) . '" );
 					} );
+
+				});
 
 			</script>';
 		}
