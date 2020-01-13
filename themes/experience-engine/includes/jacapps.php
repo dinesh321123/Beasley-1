@@ -49,9 +49,30 @@ endif;
 
 if ( ! function_exists( 'ee_jacapps_enqueue_scripts' ) ) :
 	function ee_jacapps_enqueue_scripts() {
+
+/**
+ * Application script
+ * jacapps needs the overarching config now that ads
+ * will be initialized. There are specific globals that
+ * we need access to.
+ */
+$bbgiconfig = <<<EOL
+window.bbgiconfig = {};
+try {
+	window.bbgiconfig = JSON.parse( document.getElementById( 'bbgiconfig' ).innerHTML );
+} catch( err ) {
+	// do nothing
+}
+EOL;
+
 		wp_dequeue_script( 'ee-app' );
 		wp_enqueue_script( 'iframe-resizer' );
 		wp_enqueue_script( 'embedly-player.js' );
+
+		// Need googletag for ads in jacapps
+		wp_enqueue_script( 'googletag' );
+		wp_script_add_data( 'googletag', 'async', true );
+		wp_add_inline_script( 'googletag', $bbgiconfig, 'before' );
 		wp_enqueue_script( 'wp-embed', '', [], false, true );
 
 	}

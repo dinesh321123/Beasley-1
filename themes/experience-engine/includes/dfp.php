@@ -139,12 +139,56 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 		}
 
 		$targeting = apply_filters( 'dfp_single_targeting', $targeting, $slot );
-		$html = sprintf(
-			'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s"></div>',
-			esc_attr( $unit_id ),
-			esc_attr( $slot ),
-			esc_attr( json_encode( $targeting ) )
-		);
+
+		// When not jacapps, render react ready attributes
+		if( ! ee_is_jacapps() ) {
+			$html = sprintf(
+				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s"></div>',
+				esc_attr( $unit_id ),
+				esc_attr( $slot ),
+				esc_attr( json_encode( $targeting ) )
+			);
+		}
+
+		// When is jacapps, render standard div and script for display
+		// We do this since the ad units are currently embedded in the react app
+		// So fallback for jacapps is to add the script inline for display adds
+		// along with an alternative DFP slot
+		if ( ee_is_jacapps() ) {
+			$html = sprintf(
+				'<div class="dfp-slot" id="%s"></div>',
+				esc_attr( $slot )
+			);
+
+			$html .= '<script>
+					window.googletag = window.googletag || { cmd: [] };
+					window.jacappsAdSizes = window.jacappsAdSizes || [728, 90];
+
+					if (
+						window.bbgiconfig &&
+						window.bbgiconfig.dfp &&
+						window.bbgiconfig.dfp.sizes &&
+						window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ]
+					) {
+						window.jacappsAdSizes = window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ];
+					}
+
+					googletag.cmd.push( function() {
+						googletag.defineSlot( "' . esc_attr( $unit_id ) . '", window.jacappsAdSizes, "' . esc_attr( $slot ) . '" )
+						.addService( googletag.pubads() )';
+
+						forEach( $targeting as $value ) {
+							$html .= '.setTargeting( "' . $value[ 0 ] . '", "' . $value[ 1 ] . '" )';
+						}
+
+					$html .= ';
+						googletag.pubads().enableSingleRequest();
+						googletag.enableServices();
+						googletag.display( "' . esc_attr( $slot ) . '" );
+					} );
+
+			</script>';
+		}
 
 		if ( $echo ) {
 			echo $html;
