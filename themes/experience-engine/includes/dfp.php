@@ -158,42 +158,45 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 
 			$uuid = $slot . '_' . wp_generate_uuid4();
 
-			$html = sprintf(
-				'<div class="dfp-slot" id="%s"></div>',
-				esc_attr( $uuid )
-			);
+			$html = '<script>
+				window.googletag = window.googletag || { cmd: [] };
 
-			$html .= '<script>
-				window.addEventListener("load", function() {
-					window.googletag = window.googletag || { cmd: [] };
-					var jacappsAdSizes = [];
+				googletag.cmd.push( function() {
 
-					if (
-						window.bbgiconfig &&
-						window.bbgiconfig.dfp &&
-						window.bbgiconfig.dfp.sizes &&
-						window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ]
-					) {
-						jacappsAdSizes = window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ];
-					}
+					var jacappsAdSizes = [[320,100], [320,50]];
 
-					googletag.cmd.push( function() {
-						googletag.defineSlot( "' . esc_attr( $unit_id ) . '", jacappsAdSizes, "' . esc_attr( $uuid ) . '" )
+					var jacappsMapping = googletag.sizeMapping()
+						.addSize( [0, 0], jacappsAdSizes ) //other
+						.build();
+
+					googletag.defineSlot("' . esc_attr( $unit_id ) . '", jacappsAdSizes, "' . esc_attr( $uuid ) . '")
+						.defineSizeMapping( jacappsMapping )
 						.addService( googletag.pubads() )';
 
 						forEach( $targeting as $value ) {
-							$html .= '.setTargeting( "' . $value[ 0 ] . '", "' . $value[ 1 ] . '" )';
+							$html .= '.setTargeting("' . $value[ 0 ] . '", "' . $value[ 1 ] . '")';
 						}
 
 					$html .= ';
-						// googletag.pubads().enableSingleRequest();
-						googletag.enableServices();
-						googletag.display( "' . esc_attr( $uuid ) . '" );
-					} );
 
-				});
+					googletag.pubads().enableSingleRequest();
+					googletag.enableServices();
 
+					console.log( "fired ad for ' . esc_attr( $unit_id ) . ' / ' . esc_attr( $uuid ) . '" );
+				} );
 			</script>';
+
+			$html .= sprintf(
+				'<div class="dfp-slot" id="%s">
+					<script>
+						googletag.cmd.push( function() {
+							googletag.display("' . esc_attr( $uuid ) . '");
+							console.log( "display ad ' . esc_attr( $unit_id ) . ' / ' . esc_attr( $uuid ) . '" );
+						} );
+					</script>
+				</div>',
+				esc_attr( $uuid )
+			);
 		}
 
 		if ( $echo ) {
