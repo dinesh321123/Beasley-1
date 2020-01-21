@@ -488,7 +488,13 @@ class SyndicationCPT {
 			<select name="subscription_source" id="subscription_source" class="subscription_source_select2"
 			        style="width:300px;">
 				<option value="">Content Factory</option>
-				<?php foreach ( $sites as $site ) : ?>
+				<?php
+					foreach ( $sites as $site ) :
+						// do not show current site as a possible source.
+						if ( (int) $site->blog_id === get_current_blog_id() ) {
+							continue;
+						}
+				?>
 					<option <?php selected( $site->blog_id, $subscription_source ); ?>
 						value="<?php echo esc_attr( $site->blog_id ); ?>">
 						<?php echo esc_html( get_blog_details( $site->blog_id )->blogname ); ?>

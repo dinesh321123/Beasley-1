@@ -305,6 +305,12 @@ class BlogData {
 			self::log( "Switch to default source site : %d", self::$content_site_id );
 		}
 
+		if ( (int) self::$content_site_id === (int) get_current_blog_id() ) {
+			self::log( "Stopping syndication, source site equal to destination" );
+
+			return [ 'max_pages' => 0, 'found_posts' => 0 ];
+		}
+
 		// Should only be the first time - only pull in 10 posts: https://basecamp.com/1778700/projects/8324102/todos/315096975#comment_546418020
 		// Avoids cases where we try and pull in the entire history of posts and it locks up
 		$posts_per_page = defined( 'WP_CLI' ) && WP_CLI ? 500 : 10;
