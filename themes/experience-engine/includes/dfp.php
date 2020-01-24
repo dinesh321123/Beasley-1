@@ -181,8 +181,6 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 
 					googletag.pubads().enableSingleRequest();
 					googletag.enableServices();
-
-					console.log( "fired ad for ' . esc_attr( $unit_id ) . ' / ' . esc_attr( $uuid ) . '" );
 				} );
 			</script>';
 
@@ -191,7 +189,6 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 					<script>
 						googletag.cmd.push( function() {
 							googletag.display("' . esc_attr( $uuid ) . '");
-							console.log( "display ad ' . esc_attr( $unit_id ) . ' / ' . esc_attr( $uuid ) . '" );
 						} );
 					</script>
 				</div>',
