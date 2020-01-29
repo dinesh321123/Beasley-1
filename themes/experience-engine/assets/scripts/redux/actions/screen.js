@@ -84,7 +84,8 @@ export function loadPage( url, options = {} ) {
 					} );
 
 					dispatchEvent( 'pushstate' );
-					pageview( pageDocument.title, window.location.href );
+					// when we call fetch(url) pageview is already counting for the new page.
+					// pageview( pageDocument.title, window.location.href );
 
 					document.title = pageDocument.title;
 					document.body.className = pageDocument.body.className;
