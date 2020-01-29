@@ -188,6 +188,7 @@ export function getStateFromContent( container ) {
 			...processEmbeds( container, 'embedly', '.embedly-card-prerender', getEmbedlyParams ),
 			...processEmbeds( container, 'songarchive', '.song-archive-prerender', getSongArchiveParams ),
 			...processEmbeds( container, 'relatedposts', '.related-articles', getDatasetParams( 'postid', 'categories', 'posttype', 'posttitle', 'url' ) ),
+			...processEmbeds( container, 'ga', '.ga-info', getDatasetParams( 'title', 'contentgroup1', 'contentgroup2', 'dimensionkey', 'dimensionvalue' ) ),
 
 		];
 

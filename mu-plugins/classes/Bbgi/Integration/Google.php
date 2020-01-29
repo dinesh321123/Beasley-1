@@ -15,7 +15,8 @@ class Google extends \Bbgi\Module {
 	 * @access public
 	 */
 	public function register() {
-		add_action( 'wp_head', $this( 'render_analytics_head' ), 0 );
+		add_action( 'wp_head', $this( 'render_inline_ga_code' ), 0 );
+		add_action( 'bbgi_ga_placeholder', $this( 'prepare_ga_placeholder' ) );
 		add_action( 'wp_head', $this( 'render_gtm_head' ) );
 		add_action( 'beasley_after_body', $this( 'render_gtm_body' ) );
 		add_action( 'bbgi_register_settings', $this( 'register_settings' ), 10, 2 );
@@ -58,22 +59,25 @@ class Google extends \Bbgi\Module {
 	}
 
 	/**
-	 * Assembles Google Analytics code and returns it.
+	 * Returns analytics data.
 	 *
-	 * @access public
-	 * @param string $extra
-	 * @return string
+	 * @return array
 	 */
-	public function get_analytics_code( $extra = '' ) {
+	public function get_analytics_data() {
 		$google_analytics = trim( get_option( self::OPTION_UA ) );
 		if ( empty( $google_analytics ) ) {
-			return;
+			return [];
 		}
 
-		$google_uid_dimension = absint( get_option( self::OPTION_UA_UID ) );
-		$google_author_dimension = absint( get_option( self::OPTION_UA_AUTHOR ) );
+		$data = [
+			'google_uid_dimension'    => absint( get_option( self::OPTION_UA_UID ) ),
+			'google_author_dimension' => absint( get_option( self::OPTION_UA_AUTHOR ) ),
+			'title'					  => wp_title( '&raquo;', false ),
+			'shows'                   => '',
+			'category'                => '',
+			'author'                  => 'non-author',
+		];
 
-		$shows = $category = $author = false;
 		if ( is_singular() ) {
 			$post = get_queried_object();
 
@@ -83,39 +87,113 @@ class Google extends \Bbgi\Module {
 				'fields'  => 'slugs',
 			);
 
-			$shows = implode( ', ', wp_get_post_terms( $post->ID, '_shows', $args ) );
-			$category = implode( ', ', wp_get_post_terms( $post->ID, 'category', $args ) );
-			$author = get_the_author_meta( 'login', $post->post_author );
+			$data['shows'] = implode( ', ', wp_get_post_terms( $post->ID, '_shows', $args ) );
+			$data['category'] = implode( ', ', wp_get_post_terms( $post->ID, 'category', $args ) );
+			$data['author'] = get_the_author_meta( 'login', $post->post_author );
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Generates the GA placeholder
+	 *
+	 * @return void
+	 */
+	public function prepare_ga_placeholder() {
+
+		$data = $this->get_analytics_data();
+
+		if ( empty( $data ) ) {
+			return;
+		}
+
+		echo sprintf(
+			'<div class="ga-info"
+				  data-title="%s"
+				  data-contentgroup1="%s"
+				  data-contentgroup2="%s"
+				  data-dimensionkey="%s"
+				  data-dimensionvalue="%s"></div>',
+				  esc_attr( $data['title'] ),
+				  esc_attr( $data['shows'] ),
+				  esc_attr( $data['category'] ),
+				  esc_attr( sprintf( 'dimension%s', $data['google_author_dimension'] ) ),
+				  esc_attr( $data['author'] )
+		);
+	}
+
+	/**
+	 * Renders the inline GA code.
+	 *
+	 * It only renders the minimal stuff and delegates handling events to React.
+	 *
+	 * @return void
+	 */
+	public function render_inline_ga_code() {
+		$onload = apply_filters( 'bbgi_google_onload_code', '' );
+		echo $this->get_analytics_code( $onload, false );
+	}
+
+	/**
+	 * Render the GA placeholder
+	 *
+	 * @return void
+	 */
+	public static function render_ga_placeholder() {
+		do_action( 'bbgi_ga_placeholder' );
+	}
+
+	/**
+	 * Assembles Google Analytics code and returns it.
+	 *
+	 * @access public
+	 * @param string $extra
+	 * @return string
+	 */
+	public function get_analytics_code( $extra = '', $inline_pageview = true ) {
+		$data = $this->get_analytics_data();
+
+		if ( empty( $data ) ) {
+			return '';
 		}
 
 		$script  = '<script>';
 
 		$script .= "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');";
-		$script .= sprintf( "var googleUidDimension = '%s';", esc_js( $google_uid_dimension ) );
+		$script .= sprintf( "var googleUidDimension = '%s';", esc_js( $data['google_uid_dimension'] ) );
 
-		$script .= sprintf( "ga('create', '%s', 'auto');", esc_js( $google_analytics ) );
+		$script .= sprintf( "ga('create', '%s', 'auto');", esc_js( $data['google_analytics'] ) );
 		$script .= "ga('require', 'displayfeatures');";
 
-		if ( ! empty( $shows ) ) {
-			$script .= sprintf( "ga( 'set', 'contentGroup1', '%s');", esc_js( $shows ) );
-		}
-
-		if ( ! empty( $category ) ) {
-			$script .= sprintf( "ga( 'set', 'contentGroup2', '%s');", esc_js( $category ) );
-		}
-
-		if ( ! empty( $author ) && ! empty( $google_author_dimension ) ) {
-			$script .= sprintf( "ga( 'set', 'dimension%s', '%s');", esc_js( $google_author_dimension ), esc_js( $author ) );
+		if ( $inline_pageview ) {
+			$this->render_inline_targeting_values( $data );
 		}
 
 		$script .= $extra;
 
-		$script .= "ga('send', 'pageview');";
+		if ( $inline_pageview ) {
+			$script .= "ga('send', 'pageview');";
+		}
+
 		$script .= '</script>';
 
 		return $script;
 	}
 
+	public function render_inline_targeting_values( $data ) {
+		if ( ! empty( $data['shows'] ) ) {
+			$script .= sprintf( "ga( 'set', 'contentGroup1', '%s');", esc_js( $data['shows'] ) );
+		}
+
+		if ( ! empty( $data['category'] ) ) {
+			$script .= sprintf( "ga( 'set', 'contentGroup2', '%s');", esc_js( $data['category'] ) );
+		}
+
+		if ( ! empty( $data['author'] ) && ! empty( $data['google_author_dimension'] ) ) {
+			$script .= sprintf( "ga( 'set', 'dimension%s', '%s');", esc_js( $data['google_author_dimension'] ), esc_js( $data['author'] ) );
+		}
+	}
 	/**
 	 * Returns Google Analytics code for FB instant articles.
 	 *

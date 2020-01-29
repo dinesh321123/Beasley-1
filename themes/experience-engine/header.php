@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
-	<head <?php language_attributes(); ?>>
+	<head <?php
+
+use Bbgi\Integration\Google;
+
+language_attributes(); ?>>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1"><?php
 
@@ -29,8 +33,14 @@
 
 		?><div class="container">
 			<main id="content" class="content">
+				<?php
+					if ( class_exists( Google::class ) ) {
+						Google::render_ga_placeholder();
+					}
+				?>
 				<?php do_action( 'show_breaking_news_banner' ); ?>
 				<?php
 					get_template_part( 'partials/ads/leaderboard' );
 				?>
 				<div id="inner-content">
+
