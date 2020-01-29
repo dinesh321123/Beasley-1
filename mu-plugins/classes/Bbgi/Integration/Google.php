@@ -69,12 +69,15 @@ class Google extends \Bbgi\Module {
 		if ( empty( $google_analytics ) ) {
 			return [];
 		}
+		global $wp;
+		$current_url = home_url( add_query_arg( array(), $wp->request ) );
 
 		$data = [
 			'google_analytics'        => trim( get_option( self  ::OPTION_UA ) ),
 			'google_uid_dimension'    => absint( get_option( self::OPTION_UA_UID ) ),
 			'google_author_dimension' => absint( get_option( self::OPTION_UA_AUTHOR ) ),
 			'title'                   => wp_title( '&raquo;', false ),
+			'url'					  => $current_url,
 			'shows'                   => '',
 			'category'                => '',
 			'author'                  => 'non-author',
@@ -113,11 +116,13 @@ class Google extends \Bbgi\Module {
 		echo sprintf(
 			'<div class="ga-info"
 				  data-title="%s"
+				  data-url="%s"
 				  data-contentgroup1="%s"
 				  data-contentgroup2="%s"
 				  data-dimensionkey="%s"
 				  data-dimensionvalue="%s"></div>',
 				  esc_attr( $data['title'] ),
+				  esc_attr( $data['url'] ),
 				  esc_attr( $data['shows'] ),
 				  esc_attr( $data['category'] ),
 				  esc_attr( sprintf( 'dimension%s', $data['google_author_dimension'] ) ),
