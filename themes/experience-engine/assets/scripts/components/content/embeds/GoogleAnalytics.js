@@ -8,7 +8,7 @@ import { pageview } from '../../../library/google-analytics';
 const GoogleAnalytics = ( { title, contentgroup1, contentgroup2, dimensionkey, dimensionvalue } ) => {
 	useEffect( () => {
 		pageview( title, window.location.href, { contentgroup1, contentgroup2, dimensionkey, dimensionvalue } );
-	}, [ window.location.href ] );
+	}, [] );
 
 	return <></>;
 };
