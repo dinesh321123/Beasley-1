@@ -65,14 +65,16 @@ class Google extends \Bbgi\Module {
 	 */
 	public function get_analytics_data() {
 		$google_analytics = trim( get_option( self::OPTION_UA ) );
+
 		if ( empty( $google_analytics ) ) {
 			return [];
 		}
 
 		$data = [
+			'google_analytics'        => trim( get_option( self  ::OPTION_UA ) ),
 			'google_uid_dimension'    => absint( get_option( self::OPTION_UA_UID ) ),
 			'google_author_dimension' => absint( get_option( self::OPTION_UA_AUTHOR ) ),
-			'title'					  => wp_title( '&raquo;', false ),
+			'title'                   => wp_title( '&raquo;', false ),
 			'shows'                   => '',
 			'category'                => '',
 			'author'                  => 'non-author',
