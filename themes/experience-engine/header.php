@@ -1,10 +1,9 @@
+<?php
+use Bbgi\Integration\Google;
+?>
 <!doctype html>
 <html lang="en">
-	<head <?php
-
-use Bbgi\Integration\Google;
-
-language_attributes(); ?>>
+	<head <?php language_attributes(); ?>>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<meta name="viewport" content="width=device-width, initial-scale=1"><?php
 

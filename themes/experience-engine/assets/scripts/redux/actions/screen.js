@@ -84,7 +84,6 @@ export function loadPage( url, options = {} ) {
 					} );
 
 					dispatchEvent( 'pushstate' );
-					// pageview( pageDocument.title, window.location.href );
 
 					document.title = pageDocument.title;
 					document.body.className = pageDocument.body.className;

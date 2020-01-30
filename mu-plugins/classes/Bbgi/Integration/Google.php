@@ -109,7 +109,7 @@ class Google extends \Bbgi\Module {
 
 		$data = $this->get_analytics_data();
 
-		if ( empty( $data ) ) {
+		if ( empty( $data ) || ! apply_filters( 'bbgi_render_ga_placeholder', true ) ) {
 			return;
 		}
 
