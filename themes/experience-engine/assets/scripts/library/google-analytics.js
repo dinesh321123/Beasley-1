@@ -5,8 +5,8 @@ export function pageview( title, location, targeting = null ) {
 	}
 
 	if ( targeting ) {
-		ga( 'set', 'contentGroup1', targeting.contengroup1 || '' );
-		ga( 'set', 'contentGroup2', targeting.contengroup2 || '' );
+		ga( 'set', 'contentGroup1', targeting.contentgroup1 || '' );
+		ga( 'set', 'contentGroup2', targeting.contentgroup2 || '' );
 
 		if ( targeting.dimensionkey ) {
 			ga( 'set', targeting.dimensionkey, targeting.dimensionvalue );
