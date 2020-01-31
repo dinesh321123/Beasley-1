@@ -44,3 +44,19 @@
 	display: flex;
 	justify-content: center;
 }
+
+/*
+This was added specifically when viewing the ?jacapps versions
+of the pages. Ads were not centered and had no bottom margins.
+Ad iframes were inheriting a full width css declaration likely
+added for embeds (ie. YouTube). It works for none ?jacapps pages
+as well.
+*/
+.dfp-slot {
+	margin-bottom: 2em; /* Used to match paragraph spacing */
+	text-align: center;
+
+	& iframe {
+		width: auto;
+	}
+}
