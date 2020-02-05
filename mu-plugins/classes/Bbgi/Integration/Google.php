@@ -139,7 +139,7 @@ class Google extends \Bbgi\Module {
 	 */
 	public function render_inline_ga_code() {
 		$onload = apply_filters( 'bbgi_google_onload_code', '' );
-		echo $this->get_analytics_code( $onload, false );
+		echo $this->get_analytics_code( $onload, apply_filters( 'bbgi_google_inline_page_view', false ) );
 	}
 
 	/**
