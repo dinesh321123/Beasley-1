@@ -1,8 +1,20 @@
-export function pageview( title, location ) {
+export function pageview( title, location, targeting = null ) {
 	const { ga } = window;
-	if ( ga ) {
-		ga( 'send', { hitType: 'pageview', title, location } );
+	if ( ! ga ) {
+		return;
 	}
+
+	if ( targeting ) {
+		ga( 'set', 'contentGroup1', targeting.contentgroup1 || '' );
+		ga( 'set', 'contentGroup2', targeting.contentgroup2 || '' );
+
+		if ( targeting.dimensionkey ) {
+			ga( 'set', targeting.dimensionkey, targeting.dimensionvalue );
+		}
+	}
+
+	ga( 'send', { hitType: 'pageview', title, location } );
+
 }
 
 /**

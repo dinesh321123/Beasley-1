@@ -22,6 +22,7 @@ import EditFeed from './embeds/EditFeed';
 import Embedly from './embeds/Embedly';
 import SongArchive from './embeds/SongArchive';
 import RelatedPosts from './embeds/RelatedPosts';
+import GoogleAnalytics from './embeds/GoogleAnalytics';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -41,6 +42,7 @@ const mapping = {
 	songarchive: SongArchive,
 	streamcta: StreamCta,
 	relatedposts: RelatedPosts,
+	ga: GoogleAnalytics,
 };
 
 class ContentBlock extends Component {

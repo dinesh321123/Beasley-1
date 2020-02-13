@@ -3,21 +3,17 @@
 		align-items: center;
 		color: var(--global-dove-gray);
 		display: block;
-		font-size: .875rem;
+		font-size: 12px;
 		font-weight: 500;
 		margin-top: 1.2rem;
-		text-transform: uppercase;
+		text-transform: normal;
 	}
 
 	& .sep {
-		display: block;
+		display: inline-block;
 		font-size: 0;
 		height: 5px;
-		margin: 0 0.5rem;
-
-		@media(--min-small-viewport) {
-			margin: 0 1rem;
-		}
+		width: 5px;
 
 		&::before {
 			content: " ";

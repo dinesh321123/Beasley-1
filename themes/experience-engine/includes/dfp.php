@@ -155,39 +155,45 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 		// So fallback for jacapps is to add the script inline for display adds
 		// along with an alternative DFP slot
 		if ( ee_is_jacapps() ) {
-			$html = sprintf(
-				'<div class="dfp-slot" id="%s"></div>',
-				esc_attr( $slot )
-			);
 
-			$html .= '<script>
-					window.googletag = window.googletag || { cmd: [] };
-					window.jacappsAdSizes = window.jacappsAdSizes || [728, 90];
+			$uuid = $slot . '_' . wp_generate_uuid4();
 
-					if (
-						window.bbgiconfig &&
-						window.bbgiconfig.dfp &&
-						window.bbgiconfig.dfp.sizes &&
-						window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ]
-					) {
-						window.jacappsAdSizes = window.bbgiconfig.dfp.sizes[ "' . esc_attr( $slot ) . '" ];
-					}
+			$html = '<script>
+				window.googletag = window.googletag || { cmd: [] };
 
-					googletag.cmd.push( function() {
-						googletag.defineSlot( "' . esc_attr( $unit_id ) . '", window.jacappsAdSizes, "' . esc_attr( $slot ) . '" )
+				googletag.cmd.push( function() {
+
+					var jacappsAdSizes = [[320,100], [320,50]];
+
+					var jacappsMapping = googletag.sizeMapping()
+						.addSize( [0, 0], jacappsAdSizes ) //other
+						.build();
+
+					googletag.defineSlot("' . esc_attr( $unit_id ) . '", jacappsAdSizes, "' . esc_attr( $uuid ) . '")
+						.defineSizeMapping( jacappsMapping )
 						.addService( googletag.pubads() )';
 
 						forEach( $targeting as $value ) {
-							$html .= '.setTargeting( "' . $value[ 0 ] . '", "' . $value[ 1 ] . '" )';
+							$html .= '.setTargeting("' . $value[ 0 ] . '", "' . $value[ 1 ] . '")';
 						}
 
 					$html .= ';
-						googletag.pubads().enableSingleRequest();
-						googletag.enableServices();
-						googletag.display( "' . esc_attr( $slot ) . '" );
-					} );
 
+					googletag.pubads().enableSingleRequest();
+					googletag.enableServices();
+				} );
 			</script>';
+
+			$html .= sprintf(
+				'<div class="dfp-slot" id="%s">
+					<script>
+						googletag.cmd.push( function() {
+							googletag.display("' . esc_attr( $uuid ) . '");
+						} );
+					</script>
+				</div>',
+				esc_attr( $uuid )
+			);
 		}
 
 		if ( $echo ) {

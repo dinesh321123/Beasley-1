@@ -1,3 +1,6 @@
+<?php
+use Bbgi\Integration\Google;
+?>
 <!doctype html>
 <html lang="en">
 	<head <?php language_attributes(); ?>>
@@ -29,8 +32,14 @@
 
 		?><div class="container">
 			<main id="content" class="content">
+				<?php
+					if ( class_exists( Google::class ) ) {
+						Google::render_ga_placeholder();
+					}
+				?>
 				<?php do_action( 'show_breaking_news_banner' ); ?>
 				<?php
 					get_template_part( 'partials/ads/leaderboard' );
 				?>
 				<div id="inner-content">
+

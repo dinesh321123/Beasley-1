@@ -35,6 +35,9 @@ add_theme_support( 'firebase' );
 add_theme_support( 'legacy-live-player' );
 add_theme_support( 'html5', array( 'search-form' ) );
 
+// enable GA
+add_filter( 'bbgi_google_inline_page_view', '__return_true' );
+
 require_once __DIR__ . '/includes/liveplayer/class-liveplayer.php';
 require_once __DIR__ . '/includes/site-options/class-gmr-site-options.php';
 require_once __DIR__ . '/includes/mega-menu/mega-menu-admin.php';

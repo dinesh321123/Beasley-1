@@ -87,8 +87,12 @@ if ( ! function_exists( 'ee_homepage_feeds_content_html' ) ) :
 	function ee_homepage_feeds_content_html( $html, $response ) {
 		global $wp_query;
 
-		// we need to make sure that WP things that this page is homepage
+		// we need to make sure that WP thinks that this page is homepage
 		$wp_query->is_home = true;
+
+		// We don't want to render the Google Analytics placeholder component for homepage feeds
+		// as the page view is already triggered on initial load.
+		add_filter( 'bbgi_render_ga_placeholder', '__return_false' );
 
 		ob_start();
 
