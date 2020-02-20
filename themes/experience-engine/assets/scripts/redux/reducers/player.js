@@ -181,14 +181,33 @@ function reducer( state = {}, action = {} ) {
 
 			fullStop();
 
-			console.log( 'make it rain' );
+			console.log( 'triton check for ad availability' );
 
-			tdplayer.playAd( 'tap', {
+			let adConfig = {
 				host: stream.stream_cmod_domain,
 				type: 'preroll',
 				format: 'vast',
 				stationId: stream.stream_tap_id,
-			} );
+			};
+
+			/***
+			 * Sends demographic tracking information to triton.
+			 */
+			if ( window.authwatcher && window.authwatcher.lastLoggedInUser ) {
+				if (  'undefined' !== typeof window.authwatcher.lastLoggedInUser.demographicsset ) {
+					if ( window.authwatcher.lastLoggedInUser.demographicsset ) {
+						console.log( 'triton','params sent' );
+						adConfig['trackingParameters'] = {
+							postalcode: window.authwatcher.lastLoggedInUser.zipcode,
+							gender: window.authwatcher.lastLoggedInUser.gender,
+							dob: window.authwatcher.lastLoggedInUser.dateofbirth,
+						};
+					}
+				}
+			}
+
+
+			tdplayer.playAd( 'tap', adConfig );
 
 			localStorage.setItem( 'station', station );
 
