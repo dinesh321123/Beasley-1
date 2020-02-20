@@ -69,15 +69,13 @@ class Google extends \Bbgi\Module {
 		if ( empty( $google_analytics ) ) {
 			return [];
 		}
-		global $wp;
-		$current_url = home_url( add_query_arg( array(), $wp->request ) );
 
 		$data = [
 			'google_analytics'        => trim( get_option( self  ::OPTION_UA ) ),
 			'google_uid_dimension'    => absint( get_option( self::OPTION_UA_UID ) ),
 			'google_author_dimension' => absint( get_option( self::OPTION_UA_AUTHOR ) ),
 			'title'                   => wp_title( '&raquo;', false ),
-			'url'					  => $current_url,
+			'url'					  => esc_url( home_url( $_SERVER['REQUEST_URI'] ) ),
 			'shows'                   => '',
 			'category'                => '',
 			'author'                  => 'non-author',
