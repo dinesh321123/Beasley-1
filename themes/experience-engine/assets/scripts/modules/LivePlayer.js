@@ -47,6 +47,9 @@ class LivePlayer extends Component {
 			id: 'MediaPlayer',
 			playerId: 'td_container',
 			techPriority: ['Html5'],
+			idSync: {
+				station: this.props.station
+			},
 			geoTargeting: {
 				desktop: { isActive: false },
 				iOS: { isActive: false },

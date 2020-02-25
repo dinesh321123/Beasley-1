@@ -188,6 +188,7 @@ function reducer( state = {}, action = {} ) {
 				type: 'preroll',
 				format: 'vast',
 				stationId: stream.stream_tap_id,
+				trackingParameters: {}
 			};
 
 			/***
@@ -197,7 +198,7 @@ function reducer( state = {}, action = {} ) {
 				if (  'undefined' !== typeof window.authwatcher.lastLoggedInUser.demographicsset ) {
 					if ( window.authwatcher.lastLoggedInUser.demographicsset ) {
 						console.log( 'triton','params sent' );
-						adConfig['trackingParameters'] = {
+						adConfig.trackingParameters =  {... adConfig.trackingParameters,
 							postalcode: window.authwatcher.lastLoggedInUser.zipcode,
 							gender: window.authwatcher.lastLoggedInUser.gender,
 							dob: window.authwatcher.lastLoggedInUser.dateofbirth,
@@ -206,6 +207,7 @@ function reducer( state = {}, action = {} ) {
 				}
 			}
 
+			adConfig.trackingParameters = { ...adConfig.trackingParameters, dist: 'beasleyweb'};
 
 			tdplayer.playAd( 'tap', adConfig );
 
