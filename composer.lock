@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdd0b7d63258ab93143e16cecd936e09",
+    "content-hash": "919ddd53e0135f7bda0f189d8a37b592",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -1197,15 +1197,15 @@
         },
         {
             "name": "wpackagist-plugin/wordpress-seo",
-            "version": "13.1",
+            "version": "12.5.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wordpress-seo/",
-                "reference": "tags/13.1"
+                "reference": "tags/12.5.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.13.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/wordpress-seo.12.5.1.zip"
             },
             "require": {
                 "composer/installers": "~1.0"

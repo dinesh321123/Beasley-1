@@ -20,7 +20,7 @@
 		"wpackagist-plugin/the-events-calendar": "^4.9.13",
 		"wpackagist-plugin/wordpress-importer": "^0.6.4",
 		"wpackagist-plugin/wp-crontrol": "^1.7.1",
-		"wpackagist-plugin/wordpress-seo": "^13.1",
+		"wpackagist-plugin/wordpress-seo": "12.5.1",
 		"wpackagist-plugin/safe-redirect-manager": "^1.9.3",
 		"wpackagist-plugin/simple-local-avatars": "^2.1.1",
 		"wpackagist-plugin/wp-fail2ban": "^4.2.7.1",
