@@ -27,11 +27,9 @@
 		font-weight: 600;
 
 		& .sep {
-			border-right: 2px solid var(--global-silver);
 			font-size: 1rem;
-			width: 5px;
-
 			&::before {
+				 width: 1rem;
 				content: " ";
 				display: inline-block;
 			}
