@@ -161,8 +161,12 @@ class PushNotifications extends \Bbgi\Module {
 	 * @return array
 	 */
 	public function get_sts_params( $post_id = false ) {
+
+
+		$ee_publisher = get_option( 'ee_publisher');
+
 		$args = [
-			'callletters' => get_option( 'ee_publisher'),
+			'callletters' => $ee_publisher ? $ee_publisher : 'NCT',
 			'user'        => wp_get_current_user()->user_login,
 			'userip'      => $_SERVER['REMOTE_ADDR'],
 		];
@@ -179,6 +183,7 @@ class PushNotifications extends \Bbgi\Module {
 						'imageurl'    => $image_url ? $image_url : '',
 						'description' => html_entity_decode( strip_tags( apply_filters( 'the_excerpt', get_the_excerpt( $post ) ) ) ),
 						'link'        => get_permalink( $post ),
+						'contentid'	  => $post->post_name
 					]
 				);
 			}
@@ -188,7 +193,7 @@ class PushNotifications extends \Bbgi\Module {
 	}
 
 	/**
-	 * Calls the STS service to get the iframe URL.
+	 * Calls the STS (EE Security Token Service) service to get the iframe URL.
 	 *
 	 * @param array $params The security token service params.
 	 *
