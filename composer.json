@@ -4,7 +4,20 @@
 		{
 			"type": "composer",
 			"url": "https://wpackagist.org"
-		}
+		},
+    {
+      "type": "package",
+      "package": {
+        "name": "secondstreet/second-street-promotion",
+        "type": "wordpress-plugin",
+        "version": "dev-master",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/secondstreet/second-street-promotion.git",
+          "reference": "master"
+        }
+      }
+    }
 	],
 	"require": {
 		"oomphinc/composer-installers-extender": "^1.1",
@@ -33,7 +46,8 @@
     "wpackagist-plugin/classic-editor":"^1.5",
     "10up/wp-minions": "^4.1.0",
     "10up/post-finder": "^0.3.0",
-    "humanmade/s3-uploads": "^2.1"
+    "humanmade/s3-uploads": "^2.1",
+    "secondstreet/second-street-promotion": "dev-master"
 	},
 	"require-dev": {
 		"wpackagist-plugin/user-switching": "^1.5.3"
