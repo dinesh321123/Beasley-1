@@ -211,6 +211,7 @@ class PushNotifications extends \Bbgi\Module {
 					'Content-Type' => 'application/json'
 				],
 				'body' => wp_json_encode( $params ),
+				'timeout'     => 30,
 			]
 		);
 
