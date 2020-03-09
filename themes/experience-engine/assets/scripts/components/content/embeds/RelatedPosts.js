@@ -2,14 +2,32 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import LazyImage from './LazyImage';
 import LoadingAjaxContent from '../../LoadingAjaxContent';
+import slugify from '../../../library/slugify';
 
 const RelatedPost = ( { id, url, title, primary_image, published } ) => {
 	const date = new Date( published );
 	const targetUrl = `https://${url}`;
+
+	function handleClick( e ) {
+
+		e.preventDefault();
+
+		window.ga( 'send', {
+			hitType: 'event',
+			eventCategory: 'YouMightAlsoLike',
+			eventAction: 'click',
+			eventLabel: `${url}`,
+			hitCallback: () => {
+				window.location.href = url;
+			},
+		} );
+	}
+
+
 	return (
 		<div id={`post-${id}`} className={['post-tile post'].join( ' ' )}>
 			<div className="post-thumbnail">
-				<a href={targetUrl} id={`thumbnail-${id}`}>
+				<a href="#"  onClick={handleClick} id={`thumbnail-${id}`}>
 					<LazyImage
 						crop={ false }
 						placeholder={`thumbnail-${id}`}
@@ -29,7 +47,7 @@ const RelatedPost = ( { id, url, title, primary_image, published } ) => {
 				</div>
 				<div className="post-title">
 					<h3>
-						<a href={targetUrl}>
+						<a href="#" onClick={handleClick}>
 							{title}
 						</a>
 					</h3>

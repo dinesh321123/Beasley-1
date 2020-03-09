@@ -44,6 +44,7 @@ module.exports = {
 		// @note: override @10up/eslint-config
 		'require-jsdoc': 0,
 		'camelcase': 0,
+
 		// @note: Turning this off, confirming this is WordPress standard
 		// 'sort-keys': [1, 'asc', { caseSensitive: true, natural: false }],
 		indent: [
@@ -62,5 +63,6 @@ module.exports = {
 			},
 		],
 		'jsx-a11y/media-has-caption': 0,
+		'jsx-a11y/anchor-is-valid': 0
 	},
 };
