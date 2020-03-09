@@ -16,9 +16,9 @@ const RelatedPost = ( { id, url, title, primary_image, published } ) => {
 			hitType: 'event',
 			eventCategory: 'YouMightAlsoLike',
 			eventAction: 'click',
-			eventLabel: `${url}`,
+			eventLabel: `${targetUrl}`,
 			hitCallback: () => {
-				window.location.href = url;
+				window.location.href = targetUrl;
 			},
 		} );
 	}
