@@ -58,6 +58,10 @@ function* yieldLoadedPage( action ) {
 	const urlSlugified = slugify( url );
 	const pageDocument = parsedHtml.document;
 
+	// Test var to determine if isAdmin
+	// Useful for adding body classes for example
+	let isAdmin = false;
+
 	// Screen store from state
 	const screenStore = yield select( ( { screen } ) => screen );
 
@@ -72,6 +76,9 @@ function* yieldLoadedPage( action ) {
 		const barId = 'wpadminbar';
 		const wpadminbar = document.getElementById( barId );
 		if ( wpadminbar ) {
+
+			// True, we are loading an admin page
+			isAdmin = true;
 			const newbar = pageDocument.getElementById( barId );
 			if ( newbar ) {
 				wpadminbar.parentNode.replaceChild( newbar, wpadminbar );
@@ -107,6 +114,11 @@ function* yieldLoadedPage( action ) {
 
 	document.title = pageDocument.title;
 	document.body.className = pageDocument.body.className;
+
+	// If admin, need to add admin-bar class
+	if( isAdmin ) {
+		document.body.classList.add( 'admin-bar' );
+	}
 }
 
 

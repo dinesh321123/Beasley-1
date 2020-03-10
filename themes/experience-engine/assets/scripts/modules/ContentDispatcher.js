@@ -232,7 +232,7 @@ ContentDispatcher.propTypes = {
 	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
 	partials: PropTypes.shape( {} ).isRequired,
 	initPage: PropTypes.func.isRequired,
-	isHome: PropTypes.bool.isRequired,
+	isHome: PropTypes.bool,
 	initPageLoaded: PropTypes.func.isRequired,
 	fetchPage: PropTypes.func.isRequired,
 	fetchFeedsContent: PropTypes.func.isRequired,
