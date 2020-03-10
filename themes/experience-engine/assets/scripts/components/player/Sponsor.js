@@ -75,8 +75,8 @@ class Sponsor extends PureComponent {
 
 Sponsor.propTypes = {
 	className: PropTypes.string.isRequired,
-	minWidth: PropTypes.number,
-	maxWidth: PropTypes.number,
+	minWidth: PropTypes.oneOfType( [PropTypes.number, PropTypes.string] ),
+	maxWidth: PropTypes.oneOfType( [PropTypes.number, PropTypes.string] ),
 };
 
 Sponsor.defaultProps = {

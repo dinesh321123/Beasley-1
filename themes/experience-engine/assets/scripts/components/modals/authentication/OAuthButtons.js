@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
+
+import { firebase, firebaseAuth } from '../../../library/firebase';
 
 class OAuthButtons extends PureComponent {
 
@@ -14,7 +15,7 @@ class OAuthButtons extends PureComponent {
 	}
 
 	login( provider ) {
-		firebase.auth().signInWithRedirect( provider ).catch( error => {
+		firebaseAuth.signInWithRedirect( provider ).catch( error => {
 			console.error( error.message ); // eslint-disable-line no-console
 		} );
 	}

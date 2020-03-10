@@ -7,9 +7,8 @@
 
 namespace Bbgi;
 
-use SRM_Redirect;
-
 class Redirects extends \Bbgi\Module {
+	use Util;
 
 	/**
 	 * Caches the found redirects in a given request
@@ -214,7 +213,7 @@ class Redirects extends \Bbgi\Module {
 		}
 
 		if ( $matched_redirect ) {
-			return $matched_redirect;
+			return $this->is_absolute_url( $matched_redirect ) ? $matched_redirect : home_url( $matched_redirect );
 		}
 
 		return $url;
@@ -229,6 +228,10 @@ class Redirects extends \Bbgi\Module {
 	 * @return array
 	 */
 	public function expand_nav_menu_links_redirects( $atts, \WP_Post $item ) {
+		if ( ! apply_filters( 'bbgi_expand_redirects', true ) ) {
+			return $atts;
+		}
+
 		$url = $atts['href'];
 
 		if ( $this->has_cached_redirect( $url ) ) {
@@ -247,7 +250,7 @@ class Redirects extends \Bbgi\Module {
 		}
 
 		if ( $matched_redirect ) {
-			$atts['href'] = $matched_redirect;
+			$atts['href'] = $this->is_absolute_url( $matched_redirect ) ? $matched_redirect : home_url( $matched_redirect );
 		}
 
 		return $atts;

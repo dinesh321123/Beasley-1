@@ -6,7 +6,7 @@ import trapHOC from '@10up/react-focus-trap-hoc';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import UserNav from './../../modules/UserNav';
-import firebase from 'firebase';
+import { firebaseAuth } from '../../library/firebase';
 
 import {
 	saveUser,
@@ -54,7 +54,7 @@ class CompleteSignup extends PureComponent {
 
 			/* Second time close button was clicked */
 			window.beforeBeasleyModalClose = function() {
-				firebase.auth().signOut();
+				firebaseAuth.signOut();
 
 				if ( UserNav.isHomepage() ) {
 					window.location.reload();

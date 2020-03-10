@@ -1,34 +1,31 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import IntersectionObserverContext from '../../../context/intersection-observer';
+import { IntersectionObserverContext } from '../../../context/intersection-observer';
 
 class Dfp extends PureComponent {
 
 	constructor( props ) {
 		super( props );
 
-		const self = this;
-
-		self.state = {
+		this.state = {
 			slot     : false,
 			interval : false,
 		};
 
-		self.onVisibilityChange = self.handleVisibilityChange.bind( self );
-		self.refreshSlot = self.refreshSlot.bind( self );
+		this.onVisibilityChange = this.handleVisibilityChange.bind( this );
+		this.refreshSlot = this.refreshSlot.bind( this );
 	}
 
 	componentDidMount() {
-		const self = this;
-		const { placeholder } = self.props;
+		const { placeholder } = this.props;
 
-		self.container = document.getElementById( placeholder );
-		self.tryDisplaySlot();
+		this.container = document.getElementById( placeholder );
+		this.tryDisplaySlot();
 
-		if ( 'right-rail' === self.props.unitName ) {
-			self.startInterval();
-			document.addEventListener( 'visibilitychange', self.onVisibilityChange );
+		if ( 'right-rail' === this.props.unitName ) {
+			this.startInterval();
+			document.addEventListener( 'visibilitychange', this.onVisibilityChange );
 		}
 
 		// Fire sponsored ad utility to determine if
@@ -73,23 +70,19 @@ class Dfp extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		const self = this;
+		this.destroySlot();
 
-		self.destroySlot();
-
-		if ( 'right-rail' === self.props.unitName ) {
-			self.stopInterval();
-			document.removeEventListener( 'visibilitychange', self.onVisibilityChange );
+		if ( 'right-rail' === this.props.unitName ) {
+			this.stopInterval();
+			document.removeEventListener( 'visibilitychange', this.onVisibilityChange );
 		}
 	}
 
 	handleVisibilityChange() {
-		const self = this;
-
 		if ( 'hidden' === document.visibilityState ) {
-			self.stopInterval();
-		} else if ( !self.interval ) {
-			self.startInterval();
+			this.stopInterval();
+		} else if ( !this.interval ) {
+			this.startInterval();
 		}
 	}
 
@@ -105,8 +98,7 @@ class Dfp extends PureComponent {
 	}
 
 	registerSlot() {
-		const self = this;
-		const { placeholder, unitId, unitName, targeting } = self.props;
+		const { placeholder, unitId, unitName, targeting } = this.props;
 		const { googletag, bbgiconfig } = window;
 
 		if ( ! document.getElementById( placeholder ) ) {
@@ -211,7 +203,7 @@ class Dfp extends PureComponent {
 			}
 
 			googletag.display( slot );
-			self.setState( { slot: slot } );
+			this.setState( { slot: slot } );
 		} );
 	}
 

@@ -1,23 +1,24 @@
 /* eslint-disable sort-keys */
-import { getStorage } from '../../library/local-storage';
 import {
-	sendLiveStreamPlaying,
-	sendInlineAudioPlaying,
-} from '../../library/google-analytics';
-import { isAudioAdOnly } from '../../library/strings';
+	livePlayerLocalStorage,
+	getInitialStation,
+	parseVolume,
+	getNewsStreamsFromFeeds,
+} from '../utilities/';
+
+// Auth action imports
 import {
 	ACTION_SET_USER_FEEDS,
 	ACTION_UPDATE_USER_FEEDS,
 	ACTION_RESET_USER,
 } from '../actions/auth';
+
+// Player action imports
 import {
-	ACTION_INIT_TDPLAYER,
+	ACTION_SET_PLAYER,
 	ACTION_STATUS_CHANGE,
 	ACTION_CUEPOINT_CHANGE,
 	ACTION_SET_VOLUME,
-	ACTION_PLAY_AUDIO,
-	ACTION_PLAY_STATION,
-	ACTION_PLAY_OMNY,
 	ACTION_PAUSE,
 	ACTION_RESUME,
 	ACTION_DURATION_CHANGE,
@@ -29,369 +30,229 @@ import {
 	ACTION_AD_PLAYBACK_ERROR,
 	ACTION_AD_BREAK_SYNCED,
 	ACTION_AD_BREAK_SYNCED_HIDE,
-	ACTION_STREAM_START,
-	ACTION_STREAM_STOP,
-	ACTION_AUDIO_START,
-	ACTION_AUDIO_STOP,
+	ACTION_SET_PLAYER_TYPE,
 	STATUSES,
+	ACTION_PLAY,
 } from '../actions/player';
 
-const localStorage = getStorage( 'liveplayer' );
+// Destructure streams from window global
 const { streams } = window.bbgiconfig || {};
 
-let tdplayer = null;
-let mp3player = null;
-let omnyplayer = null;
-
-let liveStreamInterval = 0;
-let inlineAudioInterval = 0;
-
-function parseVolume( value ) {
-	let volume = parseInt( value, 10 );
-	if ( Number.isNaN( volume ) || 100 < volume ) {
-		volume = 100;
-	} else if ( 0 > volume ) {
-		volume = 0;
-	}
-
-	return volume;
-}
-
-function loadNowPlaying( station ) {
-	if ( station && tdplayer && !omnyplayer && !mp3player ) {
-		tdplayer.NowPlayingApi.load( { numberToFetch: 10, mount: station } );
-	}
-}
-
-function fullStop() {
-	if ( mp3player ) {
-		mp3player.pause();
-		mp3player = null;
-	}
-
-	if ( omnyplayer ) {
-		omnyplayer.off( 'ready' );
-		omnyplayer.off( 'play' );
-		omnyplayer.off( 'pause' );
-		omnyplayer.off( 'ended' );
-		omnyplayer.off( 'timeupdate' );
-
-		omnyplayer.pause();
-		omnyplayer.elem.parentNode.removeChild( omnyplayer.elem );
-		omnyplayer = null;
-	}
-
-	if ( tdplayer ) {
-		tdplayer.stop();
-		tdplayer.skipAd();
-	}
-}
-
-function getInitialStation( streamsList ) {
-	const station = localStorage.getItem( 'station' );
-	return streamsList.find( stream => stream.stream_call_letters === station );
-}
-
-function lyticsTrack( action, params ) {
-	if ( window.googletag && window.googletag.cmd ) {
-		window.googletag.cmd.push( () => {
-
-			if ( 'undefined' === typeof window.LyticsTrackAudio ) {
-				return;
-			}
-
-			if ( 'play' === action && window.LyticsTrackAudio.set_podcastPayload ) {
-				window.LyticsTrackAudio.set_podcastPayload( {
-					type: 'podcast',
-					name: params.artistName,
-					episode: params.cueTitle,
-				}, () => {
-					window.LyticsTrackAudio.playPodcast();
-				} );
-			}
-
-			if ( 'pause' === action && window.LyticsTrackAudio.pausePodcast ) {
-				window.LyticsTrackAudio.pausePodcast();
-			}
-
-			if ( 'end' === action && window.LyticsTrackAudio.endOfPodcast ) {
-				window.LyticsTrackAudio.endOfPodcast();
-			}
-		} );
-	}
-}
-
+// Helper object to reset some state
+// Good for re-use in the reducers
 const adReset = {
 	adPlayback: false,
 	adSynced: false,
 };
 
-const stateReset = {
+// Default state object
+export const DEFAULT_STATE = {
 	audio: '',
-	station: '',
 	trackType: '',
 	cuePoint: false,
 	time: 0,
 	duration: 0,
+	playerType: null, // Store player type (omny, mp3, td)
+	userInteraction: false, // Store userInteraction state
+	status: STATUSES.LIVE_STOP,
+	station: ( getInitialStation( streams ) || streams[0] || {} ).stream_call_letters,
+	volume: parseVolume( livePlayerLocalStorage.getItem( 'volume' ) || 100 ),
+	streams,
 	...adReset,
 };
 
-let initialStation = getInitialStation( streams );
-let userInteraction = false;
-
-export const DEFAULT_STATE = {
-	...stateReset,
-	status: STATUSES.LIVE_STOP,
-	station: ( initialStation || streams[0] || {} ).stream_call_letters,
-	volume: parseVolume( localStorage.getItem( 'volume' ) || 100 ),
-	streams,
-};
-
+// Reducer
 function reducer( state = {}, action = {} ) {
-	let interval;
 
 	switch ( action.type ) {
-		case ACTION_INIT_TDPLAYER:
-			tdplayer = action.player;
-			tdplayer.setVolume( state.volume / 100 );
 
-			loadNowPlaying( state.station );
+		// Catches in Saga Middleware
+		case ACTION_SET_PLAYER: {
+			const { playerType, player } = action.payload;
 
-			window.tdplayer = tdplayer;
-			break;
-
-		case ACTION_PLAY_AUDIO:
-			fullStop();
-
-			mp3player = action.player;
-			mp3player.volume = state.volume / 100;
-			mp3player.play();
-
-			return { ...state, ...stateReset, audio: action.audio, trackType: action.trackType };
-
-		case ACTION_PLAY_STATION: {
-			const { station } = action;
-			const stream = state.streams.find(
-				item => item.stream_call_letters === station,
-			);
-
-			console.log( 'streaming info' );
-			console.log( stream.stream_cmod_domain );
-			console.log( stream.stream_tap_id );
-
-			fullStop();
-
-			console.log( 'triton check for ad availability' );
-
-			let adConfig = {
-				host: stream.stream_cmod_domain,
-				type: 'preroll',
-				format: 'vast',
-				stationId: stream.stream_tap_id,
-				trackingParameters: {}
+			return {
+				...state,
+				playerType,
+				player,
+			};
+		}
+		case ACTION_PLAY: {
+			const { source, trackType } = action.payload;
+			const newState = {
+				...state,
+				station: '',
+				audio: '',
+				trackType: '',
 			};
 
-			/***
-			 * Sends demographic tracking information to triton.
-			 */
-			if ( window.authwatcher && window.authwatcher.lastLoggedInUser ) {
-				if (  'undefined' !== typeof window.authwatcher.lastLoggedInUser.demographicsset ) {
-					if ( window.authwatcher.lastLoggedInUser.demographicsset ) {
-						console.log( 'triton','params sent' );
-						adConfig.trackingParameters =  {... adConfig.trackingParameters,
-							postalcode: window.authwatcher.lastLoggedInUser.zipcode,
-							gender: window.authwatcher.lastLoggedInUser.gender,
-							dob: window.authwatcher.lastLoggedInUser.dateofbirth,
-						};
-					}
-				}
+			if ( 'tdplayer' === state.playerType ) {
+				newState.station = source;
+			} else if ( ['mp3player', 'omnyplayer'].includes( state.playerType ) ) {
+				newState.audio = source;
+				newState.trackType = trackType;
 			}
 
-			adConfig.trackingParameters = { ...adConfig.trackingParameters, dist: 'beasleyweb'};
-
-			tdplayer.playAd( 'tap', adConfig );
-
-			localStorage.setItem( 'station', station );
-
-			return { ...state, ...stateReset, station };
+			return newState;
 		}
-
-		case ACTION_PLAY_OMNY:
-			fullStop();
-
-			omnyplayer = action.player;
-			omnyplayer.play();
-			// Omny doesn't support sound provider, thus we can't change/control volume :(
-			// omnyplayer.setVolume( state.volume );
-
-			return { ...state, ...stateReset, audio: action.audio, trackType: action.trackType };
-
+		// Catches in Saga Middleware
 		case ACTION_PAUSE:
-			if ( mp3player ) {
-				mp3player.pause();
-			} else if ( omnyplayer ) {
-				omnyplayer.pause();
-			} else if ( tdplayer ) {
-				tdplayer.stop();
-			}
+			return {
+				...state,
+				...adReset,
+			};
 
-			if ( 'podcast' === state.trackType ) {
-				lyticsTrack( 'pause', state.cuePoint );
-			}
-
-			return { ...state, ...adReset };
-
+		// Catches in Saga Middleware
 		case ACTION_RESUME:
-			if ( mp3player ) {
-				mp3player.play();
-			} else if ( omnyplayer ) {
-				omnyplayer.play();
-			} else if ( tdplayer ) {
-				tdplayer.resume();
-			}
-
-			if ( 'podcast' === state.trackType ){
-				lyticsTrack( 'play', state.cuePoint );
-			}
-
-			return { ...state, ...adReset };
+			return {
+				...state,
+				...adReset,
+			};
 
 		case ACTION_STATUS_CHANGE:
-			return { ...state, status: action.status };
+			return {
+				...state,
+				status: action.status,
+			};
 
+		// Catches in Saga Middleware
 		case ACTION_SET_VOLUME: {
 			const volume = parseVolume( action.volume );
-			localStorage.setItem( 'volume', volume );
-
-			const value = volume / 100;
-			if ( mp3player ) {
-				mp3player.volume = value;
-			} else if ( omnyplayer ) {
-				// omnyplayer.setVolume( volume );
-			} else if ( tdplayer ) {
-				tdplayer.setVolume( value );
-			}
-
-			return { ...state, volume };
+			return {
+				...state,
+				volume,
+			};
 		}
 
+		// Catches in Saga Middleware
 		case ACTION_CUEPOINT_CHANGE:
-			loadNowPlaying( state.station );
+			return {
+				...state,
+				...adReset,
+				cuePoint: action.cuePoint,
+				userInteraction: false,
+			};
 
-			//todo remove me
-			console.log( 'cue point', action.cuePoint );
-
-			if ( 'podcast' === state.trackType ) {
-				userInteraction = false;
-				lyticsTrack( 'play', action.cuePoint );
-			}
-
-			return { ...state, ...adReset, cuePoint: action.cuePoint };
-
+		// adding console for logging purposes
 		case ACTION_DURATION_CHANGE:
-			return { ...state, duration: +action.duration };
+			return {
+				...state,
+				duration: +action.duration, // +converts to number unary plus
+			};
 
 		case ACTION_TIME_CHANGE: {
-			const override = { time: +action.time };
-			if ( action.duration ) {
-				override.duration = +action.duration;
+			let override = {};
+
+			// Destructure from action
+			const {
+				time,
+				duration,
+			} = action;
+
+			// If time
+			if( action.time ) {
+				// +converts to number unary plus
+				override.time = +time;
 			}
 
-			return { ...state, ...override };
+			// If duration
+			if( action.duration ) {
+				// +converts to number unary plus
+				override.duration = +duration;
+			}
+
+			return {
+				...state,
+				...override,
+			};
 		}
 
+		// Catches in Saga Middleware
 		case ACTION_SEEK_POSITION: {
-			const { position } = action;
-			userInteraction = true;
-			if ( mp3player ) {
-				mp3player.currentTime = position;
-				return Object.assign( {}, state, { time: +position } );
-			} else if ( omnyplayer ) {
-				omnyplayer.setCurrentTime( position );
-				return Object.assign( {}, state, { time: +position } );
+			// Destructure for playerType check
+			const { playerType } = state;
+
+			// Set initialUpdate userInteraction to true
+			// This will always happen here
+			let stateUpdate = {
+				userIneraction: true,
+			};
+
+			// If mp3player or omnyplayer defined
+			if (
+				'mp3player' === playerType ||
+				'omnyplayer' === playerType
+			) {
+				stateUpdate.time = +action.position;
 			}
-			break;
+			return {
+				...state,
+				...stateUpdate,
+			};
 		}
 
 		case ACTION_NOW_PLAYING_LOADED:
-			return { ...state, songs: action.list };
+			return {
+				...state,
+				songs: action.list,
+			};
 
-		case ACTION_STREAM_START:
-			interval = window.bbgiconfig.intervals.live_streaming;
-
-			if ( 0 < interval ) {
-				clearInterval( liveStreamInterval );
-
-				liveStreamInterval = setInterval( function() {
-					sendLiveStreamPlaying();
-				}, interval * 60 * 1000 );
-			}
-			break;
-
-		case ACTION_STREAM_STOP:
-			clearInterval( liveStreamInterval );
-			break;
-
-		case ACTION_AUDIO_START:
-			interval = window.bbgiconfig.intervals.inline_audio;
-
-			if ( 0 < interval ) {
-				clearInterval( inlineAudioInterval );
-
-				inlineAudioInterval = setInterval( function() {
-					sendInlineAudioPlaying();
-				}, interval * 60 * 1000 );
-			}
-			break;
-
-		case ACTION_AUDIO_STOP:
-			clearInterval( inlineAudioInterval );
-			if ( 'podcast' === state.trackType && 1 >= Math.abs( state.duration - state.time ) && !userInteraction ) {
-				lyticsTrack( 'end', state.cuePoint );
-			}
-			break;
-
+		//Catches in Saga Middleware
 		case ACTION_AD_PLAYBACK_START:
-			if ( !isAudioAdOnly() ) {
-				document.body.classList.add( 'locked' );
-			}
-			return { ...state, adPlayback: true };
+			return {
+				...state,
+				adPlayback: true,
+			};
 
+		//Catches in Saga Middleware
 		case ACTION_AD_PLAYBACK_ERROR:
 		case ACTION_AD_PLAYBACK_COMPLETE: {
-			const { station } = state;
-
-			loadNowPlaying( station );
-
-			return { ...state, adPlayback: false };
+			return {
+				...state,
+				adPlayback: false,
+			};
 		}
 
 		case ACTION_AD_BREAK_SYNCED:
-			return { ...state, ...adReset, adSynced: true };
+			return {
+				...state,
+				...adReset,
+				adSynced: true,
+			};
 
 		case ACTION_AD_BREAK_SYNCED_HIDE:
-			return { ...state, ...adReset };
+			return {
+				...state,
+				...adReset,
+			};
 
 		case ACTION_UPDATE_USER_FEEDS:
 		case ACTION_SET_USER_FEEDS: {
-			const newstreams = ( action.feeds || [] )
-				.filter(
-					item => 'stream' === item.type && 0 < ( item.content || [] ).length,
-				)
-				.map( item => item.content[0] );
+			// Set newstreams from action.feeds
+			const newstreams = getNewsStreamsFromFeeds( action.feeds );
+			let initialStation = getInitialStation( streams );
 
+			// Create new state object
 			const newstate = {
 				...state,
 				streams: newstreams.length ? newstreams : DEFAULT_STATE.streams,
 			};
 
+			// If no initialStation, define one
 			if ( !initialStation ) {
+
+				// Set initialStation
 				initialStation = getInitialStation( newstate.streams );
-				if ( initialStation ) {
+
+				// If one returned and has stream_call_letters
+				if (
+					initialStation &&
+					initialStation.stream_call_letters
+				) {
+
+					// Update newState object
 					newstate.station = initialStation.stream_call_letters;
 				}
 			}
-
 			return newstate;
 		}
 
@@ -402,12 +263,15 @@ function reducer( state = {}, action = {} ) {
 				streams: DEFAULT_STATE.streams,
 			};
 
-		default:
-			// do nothing
-			break;
-	}
+		case ACTION_SET_PLAYER_TYPE:
+			return {
+				...state,
+				playerType: action.payload,
+			};
 
-	return state;
+		default:
+			return state;
+	}
 }
 
 export default reducer;

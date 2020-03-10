@@ -1,10 +1,10 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
 import trapHOC from '@10up/react-focus-trap-hoc';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { firebaseAuth } from '../../library/firebase';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 
@@ -42,11 +42,10 @@ class RestorePassword extends PureComponent {
 	handleFormSubmit( e ) {
 		const self = this;
 		const { email } = self.state;
-		const auth = firebase.auth();
 
 		e.preventDefault();
 
-		auth
+		firebaseAuth
 			.sendPasswordResetEmail( email, { url: window.location.href } )
 			.then( () => {
 				self.setState( {

@@ -2,8 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import firebase from 'firebase';
 
+import { firebaseAuth } from '../../library/firebase';
 import { showRestoreModal, showSignUpModal } from '../../redux/actions/modal';
 import {
 	ensureUserHasCurrentChannel,
@@ -48,11 +48,10 @@ class SignIn extends PureComponent {
 	handleFormSubmit( e ) {
 		const self = this;
 		const { email, password } = self.state;
-		const auth = firebase.auth();
 
 		e.preventDefault();
 
-		auth.signInWithEmailAndPassword( email, password )
+		firebaseAuth.signInWithEmailAndPassword( email, password )
 			.then( () => {
 				ensureUserHasCurrentChannel()
 					.then( () => {

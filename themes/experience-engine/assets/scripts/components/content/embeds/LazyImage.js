@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import IntersectionObserverContext from '../../../context/intersection-observer';
+import { IntersectionObserverContext } from '../../../context/intersection-observer';
 import { pageview } from '../../../library/google-analytics';
 
 class LazyImage extends PureComponent {
@@ -9,21 +9,19 @@ class LazyImage extends PureComponent {
 	constructor( props ) {
 		super( props );
 
-		const self = this;
+		this.loading = false;
+		this.boxRef = React.createRef();
+		this.state = { image: '' };
 
-		self.loading = false;
-		self.boxRef = React.createRef();
-		self.state = { image: '' };
-
-		self.onIntersectionChange = self.handleIntersectionChange.bind( self );
+		this.onIntersectionChange = this.handleIntersectionChange.bind( this );
 	}
 
 	componentDidMount() {
-		const self = this;
-		const { placeholder } = self.props;
 
-		self.container = document.getElementById( placeholder );
-		self.context.observe( self.container, self.onIntersectionChange );
+		const { placeholder } = this.props;
+
+		this.container = document.getElementById( placeholder );
+		this.context.observe( this.container, this.onIntersectionChange );
 	}
 
 	componentWillUnmount() {
@@ -31,11 +29,10 @@ class LazyImage extends PureComponent {
 	}
 
 	handleIntersectionChange() {
-		const self = this;
-		const { tracking } = self.props;
+		const { tracking } = this.props;
 
 		// disable intersection observing
-		self.context.unobserve( self.container );
+		this.context.unobserve( this.container );
 
 		// track virtual page view if it's needed
 		if ( tracking ) {
@@ -43,15 +40,14 @@ class LazyImage extends PureComponent {
 		}
 
 		// load image
-		if ( !self.loading ) {
-			self.loading = true;
-			self.loadImage();
+		if ( !this.loading ) {
+			this.loading = true;
+			this.loadImage();
 		}
 	}
 
 	getDimensions() {
-		const self = this;
-		const { container } = self;
+		const { container } = this;
 
 		let parent = container;
 		while ( parent && 1 > parent.offsetHeight ) {
@@ -72,9 +68,8 @@ class LazyImage extends PureComponent {
 			quality = 95;
 		}
 
-		const self = this;
-		let { src, width, height } = self.props;
-		const { containerWidth, containerHeight } = self.getDimensions();
+		let { src, width, height } = this.props;
+		const { containerWidth, containerHeight } = this.getDimensions();
 
 		// Kludge: Temporary fix for incorrectly cached image URLs in EE API
 		src = src.replace(
@@ -126,11 +121,10 @@ class LazyImage extends PureComponent {
 	}
 
 	loadImage() {
-		const self = this;
-		const { autoheight } = self.props;
+		const { autoheight } = this.props;
 
 		// load image and update state
-		const imageSrc = self.getImageUrl();
+		const imageSrc = this.getImageUrl();
 		const imageLoader = new Image();
 
 		imageLoader.src = imageSrc;
@@ -140,27 +134,26 @@ class LazyImage extends PureComponent {
 				const { width, height } = imageLoader;
 				// only for landscape images
 				if ( width > height ) {
-					const { containerWidth, containerHeight } = self.getDimensions();
+					const { containerWidth, containerHeight } = this.getDimensions();
 					const containerAspect = containerHeight / containerWidth;
 					const imageAspect = height / width;
 					if ( containerAspect > imageAspect ) {
-						const { container } = self;
+						const { container } = this;
 						container.style.maxHeight = `${containerHeight * imageAspect / containerAspect}px`;
 					}
 				}
 			}
 
 			// check if component is still mounted
-			if ( self.boxRef.current ) {
-				self.setState( { image: imageSrc } );
+			if ( this.boxRef.current ) {
+				this.setState( { image: imageSrc } );
 			}
 		};
 	}
 
 	render() {
-		const self = this;
-		const { image } = self.state;
-		const { alt, attribution } = self.props;
+		const { image } = this.state;
+		const { alt, attribution } = this.props;
 
 		const styles = {};
 
@@ -175,7 +168,7 @@ class LazyImage extends PureComponent {
 		}
 
 		return (
-			<div className="lazy-image" ref={self.boxRef} style={styles} role="img" aria-label={alt}>
+			<div className="lazy-image" ref={this.boxRef} style={styles} role="img" aria-label={alt}>
 				{child}
 			</div>
 		);

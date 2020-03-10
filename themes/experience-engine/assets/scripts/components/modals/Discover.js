@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import firebase from 'firebase';
 import trapHOC from '@10up/react-focus-trap-hoc';
 
+import { firebaseAuth } from '../../library/firebase';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import CloseButton from './elements/Close';
@@ -16,19 +15,17 @@ import DiscoveryFilters from './discovery/Filters';
 import { discovery } from '../../library/experience-engine';
 
 import { modifyUserFeeds, deleteUserFeed } from '../../redux/actions/auth';
-import { loadPage } from '../../redux/actions/screen';
+import { fetchFeedsContent } from '../../redux/actions/screen';
 
 class Discover extends Component {
 
 	constructor( props ) {
 		super( props );
 
-		const self = this;
+		this.needReload = false;
+		this.scrollYPos = 0;
 
-		self.needReload = false;
-		self.scrollYPos = 0;
-
-		self.state = {
+		this.state = {
 			loading: true,
 			error: '',
 			pageNum: 1,
@@ -39,28 +36,24 @@ class Discover extends Component {
 			pendingScrollY: 0,
 		};
 
-		self.onFilterChange   = self.handleFilterChange.bind( self );
-		self.onAdd            = self.handleAdd.bind( self );
-		self.onRemove         = self.handleRemove.bind( self );
-		self.onClose          = self.handleClose.bind( self );
-		self.didLoadMoreClick = self.didLoadMoreClick.bind( self );
+		this.onFilterChange   = this.handleFilterChange.bind( this );
+		this.onAdd            = this.handleAdd.bind( this );
+		this.onRemove         = this.handleRemove.bind( this );
+		this.onClose          = this.handleClose.bind( this );
+		this.didLoadMoreClick = this.didLoadMoreClick.bind( this );
 	}
 
 	componentDidMount() {
-		const self = this;
+		this.props.activateTrap();
+		this.handleFilterChange();
 
-		self.props.activateTrap();
-		self.handleFilterChange();
-
-		self.scrollYPos = window.pageYOffset;
+		this.scrollYPos = window.pageYOffset;
 		window.scroll( 0, 0 );
 	}
 
 	componentWillUnmount() {
-		const self = this;
-
-		self.props.deactivateTrap();
-		window.scroll( 0, self.scrollYPos );
+		this.props.deactivateTrap();
+		window.scroll( 0, this.scrollYPos );
 	}
 
 	handleFilterChange( filters = {} ) {
@@ -80,50 +73,38 @@ class Discover extends Component {
 	}
 
 	handleAdd( id ) {
-		const self = this;
 		const feedsArray = [];
 
-		if ( self.hasFeed( id ) ) {
+		if ( this.hasFeed( id ) ) {
 			return;
 		}
 
-		self.props.selectedFeeds.forEach( ( { id } ) => {
+		this.props.selectedFeeds.forEach( ( { id } ) => {
 			feedsArray.push( { id, sortorder: feedsArray.length + 1 } );
 		} );
 
 		feedsArray.push( { id, sortorder: feedsArray.length + 1 } );
 
-		self.needReload = true;
-		self.props.modifyUserFeeds( feedsArray );
+		this.needReload = true;
+		this.props.modifyUserFeeds( feedsArray );
 	}
 
 	handleRemove( id ) {
-		const self = this;
-		if ( self.hasFeed( id ) ) {
-			self.needReload = true;
-			self.props.deleteUserFeed( id );
+		if ( this.hasFeed( id ) ) {
+			this.needReload = true;
+			this.props.deleteUserFeed( id );
 		}
 	}
 
 	handleClose() {
-		const self = this;
 
-		if ( self.needReload && document.body.classList.contains( 'home' ) ) {
-			const auth = firebase.auth();
-
-			auth.currentUser.getIdToken().then( ( token ) => {
-				self.props.loadPage( `${window.bbgiconfig.wpapi}feeds-content?device=other`, {
-					suppressHistory: true,
-					fetchParams: {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-						body: `format=raw&authorization=${encodeURIComponent( token )}`,
-					},
-				} );
+		if ( this.needReload && document.body.classList.contains( 'home' ) ) {
+			firebaseAuth.currentUser.getIdToken().then( ( token ) => {
+				this.props.fetchFeedsContent( token );
 			} );
 		}
 
-		self.props.close();
+		this.props.close();
 	}
 
 	/**
@@ -164,13 +145,11 @@ class Discover extends Component {
 	}
 
 	render() {
-		const self = this;
-		const { error, loading } = self.state;
-		const { notice } = self.props;
+		const { error, loading, pageNum, pageSize } = this.state;
+		const { notice } = this.props;
 		const noticeClass = !notice.isOpen ? '' : '-visible';
 
-		let { filteredFeeds }       = self.state;
-		const { pageNum, pageSize } = self.state;
+		let { filteredFeeds }       = this.state;
 		let totalPages              = filteredFeeds.length / pageSize;
 		let hasNextPage             = pageNum < totalPages;
 
@@ -192,9 +171,9 @@ class Discover extends Component {
 							title={title}
 							picture={picture}
 							type={type}
-							onAdd={self.onAdd}
-							onRemove={self.onRemove}
-							added={self.hasFeed( item.id )} />
+							onAdd={this.onAdd}
+							onRemove={this.onRemove}
+							added={this.hasFeed( item.id )} />
 					);
 				} );
 			} else {
@@ -204,8 +183,8 @@ class Discover extends Component {
 
 		return (
 			<Fragment>
-				<CloseButton close={self.onClose} />
-				<DiscoveryFilters onChange={self.onFilterChange} />
+				<CloseButton close={this.onClose} />
+				<DiscoveryFilters onChange={this.onFilterChange} />
 
 				<div className="content-wrap">
 					<Header>
@@ -244,24 +223,23 @@ Discover.propTypes = {
 	activateTrap: PropTypes.func.isRequired,
 	deactivateTrap: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
-	loadPage: PropTypes.func.isRequired,
+	fetchFeedsContent: PropTypes.func.isRequired,
 	modifyUserFeeds: PropTypes.func.isRequired,
 	deleteUserFeed: PropTypes.func.isRequired,
+	notice: PropTypes.shape( {
+		isOpen: PropTypes.bool,
+		message: PropTypes.string,
+	} ).isRequired,
 };
 
-function mapStateToProps( { auth, screen } ) {
-	return {
+export default connect(
+	( { auth, screen } ) => ( {
 		selectedFeeds: auth.feeds,
 		notice: screen.notice,
-	};
-}
-
-function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		loadPage,
+	} ),
+	{
+		fetchFeedsContent,
 		modifyUserFeeds,
 		deleteUserFeed,
-	}, dispatch );
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( trapHOC()( Discover ) );
+	},
+)( trapHOC()( Discover ) );

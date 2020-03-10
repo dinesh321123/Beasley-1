@@ -1,11 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
 import md5 from 'md5';
 import trapHOC from '@10up/react-focus-trap-hoc';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { firebaseAuth } from '../../library/firebase';
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
@@ -101,7 +101,6 @@ class SignUp extends PureComponent {
 			gender,
 			bday,
 		} = self.state;
-		const auth = firebase.auth();
 
 		const emailAddress = email.trim().toLowerCase();
 		const userData = {
@@ -145,7 +144,7 @@ class SignUp extends PureComponent {
 			return false;
 		}
 
-		auth
+		firebaseAuth
 			.createUserWithEmailAndPassword( emailAddress, password )
 			.then( response => {
 				const { user } = response;

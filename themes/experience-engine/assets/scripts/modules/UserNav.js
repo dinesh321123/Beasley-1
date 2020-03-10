@@ -1,25 +1,21 @@
 import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
 import md5 from 'md5';
 
+import { firebaseAuth } from '../library/firebase';
 import {
-	getUser,
 	ensureUserHasCurrentChannel,
 	userHasProfile,
 } from '../library/experience-engine';
-
 import ErrorBoundary from '../components/ErrorBoundary';
-
 import {
 	showSignInModal,
 	showCompleteSignupModal,
 } from '../redux/actions/modal';
 import { setUser, resetUser } from '../redux/actions/auth';
-import { loadPage, hideSplashScreen } from '../redux/actions/screen';
+import { fetchFeedsContent, hideSplashScreen } from '../redux/actions/screen';
 
 class UserNav extends Component {
 	static isHomepage() {
@@ -29,36 +25,28 @@ class UserNav extends Component {
 	constructor( props ) {
 		super( props );
 
-		const self = this;
-
-		self.state = {
+		this.state = {
 			didLogin: false,
 			didRedirect: false,
 			loading: true,
 		};
 
-		self.onSignIn = self.handleSignIn.bind( self );
-		self.onSignOut = self.handleSignOut.bind( self );
+		this.onSignIn = this.handleSignIn.bind( this );
+		this.onSignOut = this.handleSignOut.bind( this );
 
-		self.didAuthStateChange = self.didAuthStateChange.bind( self );
-		self.finishLoading = self.finishLoading.bind( self );
+		this.didAuthStateChange = this.didAuthStateChange.bind( this );
+		this.finishLoading = this.finishLoading.bind( this );
 	}
 
 	componentDidMount() {
 		const { firebase: config } = window.bbgiconfig;
-		const self = this;
-
 		if ( config.projectId ) {
-			firebase.initializeApp( config );
-
-			const auth = firebase.auth();
-
-			auth.onAuthStateChanged( this.didAuthStateChange );
-			auth
+			firebaseAuth.onAuthStateChanged( this.didAuthStateChange );
+			firebaseAuth
 				.getRedirectResult()
 				.then( result => {
 					if ( result.user ) {
-						self.setState( { didRedirect: true } );
+						this.setState( { didRedirect: true } );
 					}
 				} )
 				.catch( err => {
@@ -95,8 +83,6 @@ class UserNav extends Component {
 	 * 2. Check if User has Profile data, if not show Profile Modal.
 	 */
 	loadAsLoggedIn( user ) {
-		const self = this;
-
 		this.props.setUser( user );
 		this.setState( { loading: false } );
 
@@ -104,22 +90,22 @@ class UserNav extends Component {
 			userHasProfile()
 				.then( result => {
 					if ( !result ) {
-						self.finishLoading();
-						self.props.showCompleteSignup();
+						this.finishLoading();
+						this.props.showCompleteSignup();
 					} else {
 						ensureUserHasCurrentChannel()
 							.then( ( result ) => {
-								self.loadHomepage( user );
+								this.loadHomepage( user );
 							} );
 					}
 				} )
 				.catch( () => {
-					self.finishLoading();
+					this.finishLoading();
 				} );
 		} else if ( UserNav.isHomepage() ) {
-			self.loadHomepage( user );
+			this.loadHomepage( user );
 		} else {
-			self.finishLoading();
+			this.finishLoading();
 		}
 	}
 
@@ -144,22 +130,7 @@ class UserNav extends Component {
 	 * Loads the Homepage feeds from the EE API proxy.
 	 */
 	loadHomepage( user ) {
-		const self = this;
-
-		/* eslint-disable sort-keys */
-		return user.getIdToken().then( token => {
-			return self.props.loadPage(
-				`${window.bbgiconfig.wpapi}feeds-content?device=other`,
-				{
-					suppressHistory: true,
-					fetchParams: {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-						body: `format=raw&authorization=${encodeURIComponent( token )}`,
-					},
-				},
-			);
-		} );
+		return user.getIdToken().then( this.props.fetchFeedsContent );
 	}
 
 	handleSignIn() {
@@ -167,7 +138,7 @@ class UserNav extends Component {
 	}
 
 	handleSignOut() {
-		firebase.auth().signOut();
+		firebaseAuth.signOut();
 		if ( UserNav.isHomepage() ) {
 			window.location.reload();
 		}
@@ -178,8 +149,7 @@ class UserNav extends Component {
 	}
 
 	renderSignedInState( user ) {
-		const self = this;
-		const { userDisplayName } = self.props;
+		const { userDisplayName } = this.props;
 
 		const displayName = user.displayName || userDisplayName || user.email;
 		let photo = user.photoURL;
@@ -200,7 +170,7 @@ class UserNav extends Component {
 					<button
 						className="user-nav-button"
 						type="button"
-						onClick={self.onSignOut}
+						onClick={this.onSignOut}
 					>
 						Log Out
 					</button>
@@ -213,15 +183,13 @@ class UserNav extends Component {
 	}
 
 	renderSignedOutState() {
-		const self = this;
-
 		return (
 			<div className="user-nav-logged-out">
 				<button
 					className="user-nav-button -with-icon"
 					aria-label="Sign In to Your Account"
 					type="button"
-					onClick={self.onSignIn}
+					onClick={this.onSignIn}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 563.43 563.43">
 						<title id="sign-in-button-title">Sign In</title>
@@ -240,18 +208,17 @@ class UserNav extends Component {
 			return false;
 		}
 
-		const self = this;
-		const { loading } = self.state;
-		const { user } = self.props;
+		const { loading } = this.state;
+		const { user } = this.props;
 		const container = document.getElementById( 'user-nav' );
 
 		let component = false;
 		if ( loading ) {
-			component = self.renderLoadingState();
+			component = this.renderLoadingState();
 		} else if ( user ) {
-			component = self.renderSignedInState( user );
+			component = this.renderSignedInState( user );
 		} else {
-			component = self.renderSignedOutState();
+			component = this.renderSignedOutState();
 		}
 
 		return ReactDOM.createPortal(
@@ -263,7 +230,7 @@ class UserNav extends Component {
 
 UserNav.propTypes = {
 	hideSplashScreen: PropTypes.func.isRequired,
-	loadPage: PropTypes.func.isRequired,
+	fetchFeedsContent: PropTypes.func.isRequired,
 	resetUser: PropTypes.func.isRequired,
 	setUser: PropTypes.func.isRequired,
 	showCompleteSignup: PropTypes.func.isRequired,
@@ -273,29 +240,18 @@ UserNav.propTypes = {
 	userDisplayName: PropTypes.string.isRequired,
 };
 
-function mapStateToProps( { auth } ) {
-	return {
+export default connect(
+	( { auth } ) => ( {
 		suppressUserCheck: auth.suppressUserCheck,
 		user: auth.user || false,
 		userDisplayName: auth.displayName,
-	};
-}
-
-function mapDispatchToProps( dispatch ) {
-	return bindActionCreators(
-		{
-			hideSplashScreen,
-			loadPage,
-			resetUser,
-			setUser,
-			showCompleteSignup: showCompleteSignupModal,
-			showSignIn: showSignInModal,
-		},
-		dispatch,
-	);
-}
-
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
+	} ),
+	{
+		hideSplashScreen,
+		fetchFeedsContent,
+		resetUser,
+		setUser,
+		showCompleteSignup: showCompleteSignupModal,
+		showSignIn: showSignInModal,
+	},
 )( UserNav );

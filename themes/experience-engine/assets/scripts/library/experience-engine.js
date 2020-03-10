@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import { firebaseAuth } from '../library/firebase';
 
 function getChannel() {
 	const { publisher } = window.bbgiconfig;
@@ -12,12 +12,11 @@ function getToken( token = null ) {
 		return Promise.resolve( token );
 	}
 
-	const auth = firebase.auth();
-	if ( !auth.currentUser ) {
+	if ( !firebaseAuth.currentUser ) {
 		return Promise.reject();
 	}
 
-	return auth.currentUser.getIdToken().catch( error => console.error( error ) ); // eslint-disable-line no-console
+	return firebaseAuth.currentUser.getIdToken().catch( error => console.error( error ) ); // eslint-disable-line no-console
 }
 
 function __api( strings, ...params ) {

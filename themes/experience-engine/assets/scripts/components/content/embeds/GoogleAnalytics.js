@@ -25,7 +25,7 @@ GoogleAnalytics.propTypes = {
 	url: PropTypes.string.isRequired,
 	contentgroup1: PropTypes.string,
 	contentgroup2: PropTypes.string,
-	dimensionkey: PropTypes.number,
+	dimensionkey: PropTypes.string,
 	dimensionvalue: PropTypes.string,
 };
 
