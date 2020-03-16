@@ -77,7 +77,7 @@ class Page extends Module {
 	 * @return \WP_REST_Response
 	 */
 	public function get_page( \WP_REST_Request $request ) {
-		$url       = $request->get_param( 'url' );
+		$url = $this->is_absolute_url( $request->get_param( 'url' ) ) ? $request->get_param( 'url' ) : home_url( $request->get_param( 'url' ) );
 
 		$response = [
 			'status'    => '',
