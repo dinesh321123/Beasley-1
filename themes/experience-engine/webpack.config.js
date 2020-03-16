@@ -1,11 +1,12 @@
-const path = require( 'path' );
-const webpack = require( 'webpack' );
+const path = require('path');
+const webpack = require('webpack');
 
-const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-const { BundleAnalyzerPlugin } = require( 'webpack-bundle-analyzer' );
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 const { ModuleConcatenationPlugin } = webpack.optimize;
 
-function coreConfig( options = {} ) {
+function coreConfig(options = {}) {
 	const eslintRule = {
 		test: /\.js$/,
 		enforce: 'pre',
@@ -14,7 +15,7 @@ function coreConfig( options = {} ) {
 			loader: 'eslint-loader',
 			options: {
 				failOnWarning: false,
-				failOnError: true,
+				failOnError: false,
 			},
 		},
 	};
@@ -24,11 +25,11 @@ function coreConfig( options = {} ) {
 		test: /\.js$/,
 		// exclude: /node_modules/,
 		include: [
-			path.resolve( __dirname, 'assets/scripts' ),
+			path.resolve(__dirname, 'assets/scripts'),
 			// swiper needs babel transpiling for dom7 and ssr-window
-			path.resolve( __dirname, 'node_modules/swiper' ),
-			path.resolve( __dirname, 'node_modules/dom7' ),
-			path.resolve( __dirname, 'node_modules/ssr-window' ),
+			path.resolve(__dirname, 'node_modules/swiper'),
+			path.resolve(__dirname, 'node_modules/dom7'),
+			path.resolve(__dirname, 'node_modules/ssr-window'),
 		],
 		use: {
 			loader: 'babel-loader',
@@ -45,7 +46,10 @@ function coreConfig( options = {} ) {
 						},
 					],
 				],
-				plugins: ['@babel/transform-runtime', '@babel/plugin-syntax-dynamic-import'],
+				plugins: [
+					'@babel/transform-runtime',
+					'@babel/plugin-syntax-dynamic-import',
+				],
 			},
 		},
 	};
@@ -63,7 +67,7 @@ function coreConfig( options = {} ) {
 				loader: 'postcss-loader',
 				options: {
 					ident: 'postcss',
-					plugins( loader ) {
+					plugins(loader) {
 						const { postcss } = options;
 						const { plugins } = postcss || {};
 
@@ -79,10 +83,10 @@ function coreConfig( options = {} ) {
 						};
 
 						return [
-							require( 'postcss-import' )( importOptions ),
-							require( 'postcss-preset-env' )( envOptions ),
-							require( 'postcss-custom-media' )(),
-							...( plugins || [] ),
+							require('postcss-import')(importOptions),
+							require('postcss-preset-env')(envOptions),
+							require('postcss-custom-media')(),
+							...(plugins || []),
 						];
 					},
 				},
@@ -91,9 +95,9 @@ function coreConfig( options = {} ) {
 	};
 
 	return {
-		entry: [ './assets/scripts/index.js' ],
+		entry: ['./assets/scripts/index.js'],
 		output: {
-			path: path.resolve( __dirname, 'bundle' ),
+			path: path.resolve(__dirname, 'bundle'),
 			filename: 'app.js',
 			chunkFilename: '[name].js',
 			publicPath: '/wp-content/themes/experience-engine/bundle/',
@@ -117,7 +121,7 @@ function development() {
 	};
 
 	const concatenation = new ModuleConcatenationPlugin();
-	config.plugins.push( concatenation );
+	config.plugins.push(concatenation);
 
 	return config;
 }
@@ -135,18 +139,18 @@ function watch() {
 function production() {
 	const options = {
 		postcss: {
-			plugins: [require( 'cssnano' )()],
+			plugins: [require('cssnano')()],
 		},
 	};
 
 	const config = {
-		...coreConfig( options ),
+		...coreConfig(options),
 		name: 'prod-config',
 		mode: 'production',
 	};
 
 	const concatenation = new ModuleConcatenationPlugin();
-	config.plugins.push( concatenation );
+	config.plugins.push(concatenation);
 
 	return config;
 }
@@ -159,7 +163,7 @@ function analyze() {
 	};
 
 	const analyzer = new BundleAnalyzerPlugin();
-	config.plugins.push( analyzer );
+	config.plugins.push(analyzer);
 
 	return config;
 }

@@ -3,15 +3,15 @@ import { ACTION_PLAYER_END } from '../../actions/player';
 import { lyticsTrack } from '../../utilities';
 
 function* yieldEnd() {
-	const playerStore = yield select( ( { player } ) => player );
+	const playerStore = yield select(({ player }) => player);
 
-	if ( 'tdplayer' === playerStore.playerType ) {
+	if (playerStore.playerType === 'tdplayer') {
 		const { liveStreamInterval = null } = window;
 
-		if ( liveStreamInterval ) {
-			yield call( [ window, 'clearInterval' ], liveStreamInterval );
+		if (liveStreamInterval) {
+			yield call([window, 'clearInterval'], liveStreamInterval);
 		}
-	} else if ( 'mp3player' === playerStore.playerType ) {
+	} else if (playerStore.playerType === 'mp3player') {
 		const {
 			trackType,
 			duration,
@@ -20,26 +20,25 @@ function* yieldEnd() {
 			userInteraction,
 		} = playerStore;
 
-		let { inlineAudioInterval = null } = window;
+		const { inlineAudioInterval = null } = window;
 
 		// Clear interval
-		if( inlineAudioInterval ) {
-			yield call( [ window, 'clearInterval' ], inlineAudioInterval );
+		if (inlineAudioInterval) {
+			yield call([window, 'clearInterval'], inlineAudioInterval);
 		}
 
 		// Checks then call lyticsTrack
 		if (
 			trackType &&
-			'podcast' === trackType &&
-			1 >= Math.abs( duration - time ) &&
-			! userInteraction
+			trackType === 'podcast' &&
+			Math.abs(duration - time) <= 1 &&
+			!userInteraction
 		) {
-			yield call( lyticsTrack, 'end', cuePoint );
+			yield call(lyticsTrack, 'end', cuePoint);
 		}
 	}
-
 }
 
 export default function* watchEnd() {
-	yield takeLatest( [ACTION_PLAYER_END], yieldEnd );
+	yield takeLatest([ACTION_PLAYER_END], yieldEnd);
 }

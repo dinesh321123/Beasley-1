@@ -5,9 +5,7 @@ import { call, takeLatest, select } from 'redux-saga/effects';
 import { loadNowPlaying } from '../../utilities';
 
 // Import action constant(s)
-import {
-	ACTION_SET_PLAYER,
-} from '../../actions/player';
+import { ACTION_SET_PLAYER } from '../../actions/player';
 
 /**
  * @function yieldSetPlayer
@@ -15,24 +13,18 @@ import {
  * Generator runs whenever ACTION_SET_PLAYER is dispatched
  */
 function* yieldSetPlayer() {
-	const playerStore = yield select( ( { player } ) => player );
+	const playerStore = yield select(({ player }) => player);
 
 	// Destructure
-	const {
-		volume,
-		player,
-	} = playerStore;
+	const { volume, player } = playerStore;
 
 	// makes that whenever a new player is set, we recalculate the current volume.
-	if (
-		player &&
-		'function' === typeof player.setVolume
-	) {
-		yield call( [ player, 'setVolume' ], ( volume / 100 ) );
+	if (player && typeof player.setVolume === 'function') {
+		yield call([player, 'setVolume'], volume / 100);
 	}
 
 	// Call loadNowPlaying
-	yield call( loadNowPlaying, playerStore );
+	yield call(loadNowPlaying, playerStore);
 }
 
 /**
@@ -41,5 +33,5 @@ function* yieldSetPlayer() {
  * Generator used to bind action and callback
  */
 export default function* watchSetPlayer() {
-	yield takeLatest( [ACTION_SET_PLAYER], yieldSetPlayer );
+	yield takeLatest([ACTION_SET_PLAYER], yieldSetPlayer);
 }

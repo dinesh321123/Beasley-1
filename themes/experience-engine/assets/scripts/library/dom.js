@@ -1,6 +1,6 @@
-export function removeChildren( element ) {
-	while ( element && element.firstChild ) {
-		element.removeChild( element.firstChild );
+export function removeChildren(element) {
+	while (element && element.firstChild) {
+		element.removeChild(element.firstChild);
 	}
 }
 
@@ -8,55 +8,55 @@ export function removeChildren( element ) {
  * Small polyfill for .closest that supports IE9+
  */
 export function closestPolyfill() {
-	if ( ! Element.prototype.matches ) {
-		Element.prototype.matches = Element.prototype.msMatchesSelector ||
+	if (!Element.prototype.matches) {
+		Element.prototype.matches =
+			Element.prototype.msMatchesSelector ||
 			Element.prototype.webkitMatchesSelector;
 	}
 
-	if ( ! Element.prototype.closest ) {
-		Element.prototype.closest = function( s ) {
-			var el = this;
+	if (!Element.prototype.closest) {
+		Element.prototype.closest = s => {
+			let el = this;
 
 			do {
-				if ( el.matches( s ) ) return el;
+				if (el.matches(s)) return el;
 				el = el.parentElement || el.parentNode;
-			}
-			while ( null !== el && 1 === el.nodeType );
+			} while (el !== null && el.nodeType === 1);
 			return null;
 		};
 	}
 }
 
-export function removeElement( element ) {
-	element.parentNode.removeChild( element );
+export function removeElement(element) {
+	element.parentNode.removeChild(element);
 }
 
-export function dispatchEvent( type ) {
+export function dispatchEvent(type) {
 	let event = false;
 
-	if ( 'function' === typeof( Event ) ) {
-		event = new Event( type );
+	if (typeof Event === 'function') {
+		event = new Event(type);
 	} else {
 		// ie11 compatibility
-		event = document.createEvent( 'Event' );
-		event.initEvent( type, true, true );
+		event = document.createEvent('Event');
+		event.initEvent(type, true, true);
 	}
 
-	if ( window.dispatchEvent ) {
-		window.dispatchEvent( event );
-	} else if ( window.fireEvent ) {
-		window.fireEvent( event );
+	if (window.dispatchEvent) {
+		window.dispatchEvent(event);
+	} else if (window.fireEvent) {
+		window.fireEvent(event);
 	}
 }
 
-function loadScript( src ) {
-	return new Promise( ( resolve, reject ) => {
-		const id = src.replace( /\W+/g, '' );
-		if ( document.getElementById( id ) ) {
+function loadScript(src) {
+	return new Promise((resolve, reject) => {
+		const id = src.replace(/\W+/g, '');
+		if (document.getElementById(id)) {
 			return resolve();
 		}
 
-		const element = document.createElement( 'script' );
+		const element = document.createElement('script');
 
 		element.id = id;
 		element.src = src;
@@ -69,18 +69,18 @@ function loadScript( src ) {
 			reject();
 		};
 
-		document.head.appendChild( element );
-	} );
+		document.head.appendChild(element);
+	});
 }
 
-function loadStyle( src ) {
-	return new Promise( ( resolve, reject ) => {
-		const id = src.replace( /\W+/g, '' );
-		if ( document.getElementById( id ) ) {
+function loadStyle(src) {
+	return new Promise((resolve, reject) => {
+		const id = src.replace(/\W+/g, '');
+		if (document.getElementById(id)) {
 			return resolve();
 		}
 
-		const element  = document.createElement( 'link' );
+		const element = document.createElement('link');
 
 		element.id = id;
 		element.rel = 'stylesheet';
@@ -96,22 +96,19 @@ function loadStyle( src ) {
 			reject();
 		};
 
-		document.head.appendChild( element );
-	} );
+		document.head.appendChild(element);
+	});
 }
 
-export function loadAssets( scripts = [], styles = [] ) {
-	return Promise.all( [
-		...scripts.map( loadScript ),
-		...styles.map( loadStyle ),
-	] );
+export function loadAssets(scripts = [], styles = []) {
+	return Promise.all([...scripts.map(loadScript), ...styles.map(loadStyle)]);
 }
 
-export function unloadScripts( scripts = [] ) {
-	for ( let i = 0, len = scripts.length; i < len; i++ ) {
-		const element = document.getElementById( scripts[i].replace( /\W+/g, '' ) );
-		if ( element ) {
-			removeElement( element );
+export function unloadScripts(scripts = []) {
+	for (let i = 0, len = scripts.length; i < len; i++) {
+		const element = document.getElementById(scripts[i].replace(/\W+/g, ''));
+		if (element) {
+			removeElement(element);
 		}
 	}
 }

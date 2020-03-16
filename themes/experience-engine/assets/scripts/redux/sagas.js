@@ -24,7 +24,7 @@ import {
  * Root saga that watches for side effects.
  */
 export default function* rootSaga() {
-	yield all( [
+	yield all([
 		watchSetPlayer(),
 		watchStart(),
 		watchPlay(),
@@ -43,5 +43,5 @@ export default function* rootSaga() {
 		watchLoadedPage(),
 		watchLoadedPartial(),
 		watchHideSplashScreen(),
-	] );
+	]);
 }

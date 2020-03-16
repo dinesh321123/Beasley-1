@@ -2,7 +2,7 @@ import Bowser from 'bowser';
 
 export const isSafari = () => {
 	const { userAgent } = window.navigator;
-	return /^((?!chrome|android).)*safari/i.test( userAgent );
+	return /^((?!chrome|android).)*safari/i.test(userAgent);
 };
 
 export const isChrome = () => {
@@ -11,34 +11,34 @@ export const isChrome = () => {
 
 export const isFireFox = () => {
 	const { userAgent } = window.navigator;
-	return -1 > userAgent.toLowerCase().indexOf( 'firefox' );
+	return userAgent.toLowerCase().indexOf('firefox') < -1;
 };
 
 export const isIOS = () => {
 	const { userAgent } = window.navigator;
-	return !!userAgent.match( /iPad/i ) || !!userAgent.match( /iPhone/i );
+	return !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
 };
 
 export const isWebKit = () => {
 	const { userAgent } = window.navigator;
-	return !!userAgent.match( /WebKit/i );
+	return !!userAgent.match(/WebKit/i);
 };
 
 export const isIE11 = () => {
 	let ie = 0;
 	try {
-		ie = navigator.userAgent.match( /(MSIE |Trident.*rv[ :])([0-9]+)/ )[ 2 ];
-	}
-	catch( e ) {
+		// eslint-disable-next-line
+		ie = navigator.userAgent.match(/(MSIE |Trident.*rv[ :])([0-9]+)/)[2];
+	} catch (e) {
 		// do nothing
 	}
-	return 11 == ie;
+	return Number(ie) === 11;
 };
 
 export const isWindowsBrowser = () => {
-	const browser = Bowser.getParser( window.navigator.userAgent );
+	const browser = Bowser.getParser(window.navigator.userAgent);
 
-	return browser.satisfies( {
+	return browser.satisfies({
 		windows: {
 			ie: '>10',
 			edge: '>15',
@@ -46,5 +46,5 @@ export const isWindowsBrowser = () => {
 			firefox: '>48',
 			safari: '>5',
 		},
-	} );
+	});
 };

@@ -1,4 +1,4 @@
-import { livePlayerLocalStorage } from '..';
+import livePlayerLocalStorage from './livePlayerLocalStorage';
 
 /**
  * @function getInitialStation
@@ -8,7 +8,7 @@ import { livePlayerLocalStorage } from '..';
  * @param {Array} streamsList Array of streams
  * @returns {String|Undefined} First match || undefined
  */
-export default function getInitialStation( streamsList ) {
-	const station = livePlayerLocalStorage.getItem( 'station' );
-	return streamsList.find( stream => stream.stream_call_letters === station );
+export default function getInitialStation(streamsList) {
+	const station = livePlayerLocalStorage.getItem('station');
+	return streamsList.find(stream => stream.stream_call_letters === station);
 }

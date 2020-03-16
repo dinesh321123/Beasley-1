@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'md5';
 import trapHOC from '@10up/react-focus-trap-hoc';
@@ -26,37 +26,36 @@ import { showSignInModal } from '../../redux/actions/modal';
 import { suppressUserCheck, setDisplayName } from '../../redux/actions/auth';
 
 class SignUp extends PureComponent {
-	static createMask( value ) {
-		return value.toString().replace( /(\d{2})(\d{2})(\d{4})/, '$1/$2/$3' );
+	static createMask(value) {
+		return value.toString().replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
 	}
 
-	static detectSupportedDevices( browsers ) {
+	static detectSupportedDevices(browsers) {
 		const { userAgent } = window.navigator;
-		const iOSChrome = isIOS() && !userAgent.match( /Chrome/i );
-		const iOSSafari = isIOS() && isWebKit() && !userAgent.match( /CriOS/i );
+		const iOSChrome = isIOS() && !userAgent.match(/Chrome/i);
+		const iOSSafari = isIOS() && isWebKit() && !userAgent.match(/CriOS/i);
 		const iOSFireFox = isIOS() && isFireFox();
 
 		/* Dont fallback on supported or partially supported browsers */
 
-		if ( 'supported' === browsers ) {
+		if (browsers === 'supported') {
 			return !isChrome() && !iOSSafari && !iOSFireFox && !iOSChrome;
-		} else {
-			return;
 		}
+
+		return false;
 	}
 
 	static isMS() {
 		const { userAgent } = window.navigator;
-		return document.documentMode || !!userAgent.match( /Edge/i );
+		return document.documentMode || !!userAgent.match(/Edge/i);
 	}
 
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
-		const self = this;
 		this.hiddenBday = React.createRef();
 
-		self.state = {
+		this.state = {
 			email: '',
 			password: '',
 			firstname: '',
@@ -67,9 +66,9 @@ class SignUp extends PureComponent {
 			error: '',
 		};
 
-		self.onFieldChange = self.handleFieldChange.bind( self );
-		self.onFormSubmit = self.handleFormSubmit.bind( self );
-		self.handleInputMask = self.handleInputMask.bind( self );
+		this.onFieldChange = this.handleFieldChange.bind(this);
+		this.onFormSubmit = this.handleFormSubmit.bind(this);
+		this.handleInputMask = this.handleInputMask.bind(this);
 	}
 
 	componentDidMount() {
@@ -80,18 +79,17 @@ class SignUp extends PureComponent {
 		this.props.deactivateTrap();
 	}
 
-	handleFieldChange( e ) {
+	handleFieldChange(e) {
 		const { target } = e;
-		this.setState( { [target.name]: target.value } );
+		this.setState({ [target.name]: target.value });
 	}
 
-	handleInputMask( e ) {
+	handleInputMask(e) {
 		const { target } = e;
-		this.setState( { [target.name]: SignUp.createMask( target.value ) } );
+		this.setState({ [target.name]: SignUp.createMask(target.value) });
 	}
 
-	handleFormSubmit( e ) {
-		const self = this;
+	handleFormSubmit(e) {
 		const {
 			email,
 			password,
@@ -100,73 +98,72 @@ class SignUp extends PureComponent {
 			zip,
 			gender,
 			bday,
-		} = self.state;
+		} = this.state;
 
 		const emailAddress = email.trim().toLowerCase();
 		const userData = {
 			displayName: `${firstname} ${lastname}`,
-			photoURL: `//www.gravatar.com/avatar/${md5( emailAddress )}.jpg?s=100`,
+			photoURL: `//www.gravatar.com/avatar/${md5(emailAddress)}.jpg?s=100`,
 		};
 
 		e.preventDefault();
 
-		self.props.suppressUserCheck();
+		this.props.suppressUserCheck();
 
-		if ( !firstname ) {
-			self.setState( { error: 'Please enter your first name.' } );
+		if (!firstname) {
+			this.setState({ error: 'Please enter your first name.' });
 			return false;
 		}
 
-		if ( !lastname ) {
-			self.setState( { error: 'Please enter your last name.' } );
+		if (!lastname) {
+			this.setState({ error: 'Please enter your last name.' });
 			return false;
 		}
 
-		if ( false === validateEmail( email ) ) {
-			self.setState( { error: 'Please enter a valid email address.' } );
+		if (validateEmail(email) === false) {
+			this.setState({ error: 'Please enter a valid email address.' });
 			return false;
 		}
 
-		if ( false === validateZipcode( zip ) ) {
-			self.setState( { error: 'Please enter a valid US Zipcode.' } );
+		if (validateZipcode(zip) === false) {
+			this.setState({ error: 'Please enter a valid US Zipcode.' });
 			return false;
 		}
 
-		if ( false === validateDate( bday ) ) {
-			self.setState( { error: 'Please ensure date is in MM/DD/YYYY format' } );
-			return false;
-		} else {
-			self.setState( { error: '' } );
-		}
-
-		if ( false === validateGender( gender ) ) {
-			self.setState( { error: 'Please select your gender.' } );
+		if (validateDate(bday) === false) {
+			this.setState({ error: 'Please ensure date is in MM/DD/YYYY format' });
 			return false;
 		}
+		this.setState({ error: '' });
 
-		firebaseAuth
-			.createUserWithEmailAndPassword( emailAddress, password )
-			.then( response => {
+		if (validateGender(gender) === false) {
+			this.setState({ error: 'Please select your gender.' });
+			return false;
+		}
+
+		return firebaseAuth
+			.createUserWithEmailAndPassword(emailAddress, password)
+			.then(response => {
 				const { user } = response;
 
-				saveUser( emailAddress, zip, gender, bday );
-				user.updateProfile( userData );
+				saveUser(emailAddress, zip, gender, bday);
+				user.updateProfile(userData);
 
-				self.props.setDisplayName( userData.displayName );
-			} )
-			.then( () => {
-				ensureUserHasCurrentChannel()
-					.then( () => {
-						self.props.close();
-						window.location.reload();
-						document.body.innerHTML = '';
-					} );
-			} )
-			.catch( error => self.setState( { error: mapAuthErrorCodeToFriendlyMessage( error ) } ) );
+				this.props.setDisplayName(userData.displayName);
+			})
+			.then(() => {
+				ensureUserHasCurrentChannel().then(() => {
+					this.props.close();
+					window.location.reload();
+					document.body.innerHTML = '';
+				});
+			})
+			.catch(error =>
+				this.setState({ error: mapAuthErrorCodeToFriendlyMessage(error) }),
+			);
 	}
 
 	render() {
-		const self = this;
 		const {
 			email,
 			password,
@@ -176,11 +173,11 @@ class SignUp extends PureComponent {
 			gender,
 			bday,
 			error,
-		} = self.state;
-		const { signin } = self.props;
+		} = this.state;
+		const { signin } = this.props;
 
 		return (
-			<Fragment>
+			<>
 				<Header>
 					<h3>Sign Up for Exclusive Access</h3>
 				</Header>
@@ -192,7 +189,7 @@ class SignUp extends PureComponent {
 				</p>
 				<OAuthButtons horizontal />
 
-				<form className="modal-form -form-sign-up" onSubmit={self.onFormSubmit}>
+				<form className="modal-form -form-sign-up" onSubmit={this.onFormSubmit}>
 					<div className="modal-form-group-inline">
 						<div className="modal-form-group">
 							<label className="modal-form-label" htmlFor="user-firstname">
@@ -204,7 +201,7 @@ class SignUp extends PureComponent {
 								id="user-firstname"
 								name="firstname"
 								value={firstname}
-								onChange={self.onFieldChange}
+								onChange={this.onFieldChange}
 								placeholder="Your name"
 							/>
 						</div>
@@ -218,7 +215,7 @@ class SignUp extends PureComponent {
 								id="user-lastname"
 								name="lastname"
 								value={lastname}
-								onChange={self.onFieldChange}
+								onChange={this.onFieldChange}
 								placeholder="Your surname"
 							/>
 						</div>
@@ -234,7 +231,7 @@ class SignUp extends PureComponent {
 								id="user-email"
 								name="email"
 								value={email}
-								onChange={self.onFieldChange}
+								onChange={this.onFieldChange}
 								placeholder="yourname@yourdomain.com"
 							/>
 						</div>
@@ -248,7 +245,7 @@ class SignUp extends PureComponent {
 								id="user-password"
 								name="password"
 								value={password}
-								onChange={self.onFieldChange}
+								onChange={this.onFieldChange}
 								placeholder="Your password"
 							/>
 						</div>
@@ -264,7 +261,7 @@ class SignUp extends PureComponent {
 								id="user-zip"
 								name="zip"
 								value={zip}
-								onChange={self.onFieldChange}
+								onChange={this.onFieldChange}
 								placeholder="90210"
 							/>
 						</div>
@@ -278,7 +275,7 @@ class SignUp extends PureComponent {
 								id="user-bday"
 								name="bday"
 								value={bday}
-								onChange={self.onFieldChange}
+								onChange={this.onFieldChange}
 								placeholder="mm/dd/yyyy"
 							/>
 						</div>
@@ -294,8 +291,8 @@ class SignUp extends PureComponent {
 								id="user-gender-male"
 								name="gender"
 								value="male"
-								checked={'male' === gender}
-								onChange={self.onFieldChange}
+								checked={gender === 'male'}
+								onChange={this.onFieldChange}
 							/>
 							<label htmlFor="user-gender-male">Male</label>
 						</div>
@@ -305,8 +302,8 @@ class SignUp extends PureComponent {
 								id="user-gender-female"
 								name="gender"
 								value="female"
-								checked={'female' === gender}
-								onChange={self.onFieldChange}
+								checked={gender === 'female'}
+								onChange={this.onFieldChange}
 							/>
 							<label htmlFor="user-gender-female">Female</label>
 						</div>
@@ -327,12 +324,13 @@ class SignUp extends PureComponent {
 						</p>
 					</div>
 				</form>
-			</Fragment>
+			</>
 		);
 	}
 }
 
 SignUp.propTypes = {
+	close: PropTypes.func.isRequired,
 	activateTrap: PropTypes.func.isRequired,
 	deactivateTrap: PropTypes.func.isRequired,
 	suppressUserCheck: PropTypes.func.isRequired,
@@ -340,7 +338,7 @@ SignUp.propTypes = {
 	setDisplayName: PropTypes.func.isRequired,
 };
 
-function mapDispatchToProps( dispatch ) {
+function mapDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
 			suppressUserCheck,
@@ -351,7 +349,4 @@ function mapDispatchToProps( dispatch ) {
 	);
 }
 
-export default connect(
-	null,
-	mapDispatchToProps,
-)( trapHOC()( SignUp ) );
+export default connect(null, mapDispatchToProps)(trapHOC()(SignUp));

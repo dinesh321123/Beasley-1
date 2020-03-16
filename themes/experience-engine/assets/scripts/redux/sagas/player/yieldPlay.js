@@ -1,4 +1,4 @@
-import { call, takeLatest, select, put } from 'redux-saga/effects';
+import { call, takeLatest, select } from 'redux-saga/effects';
 import { livePlayerLocalStorage } from '../../utilities';
 import { ACTION_PLAY } from '../../actions/player';
 
@@ -12,24 +12,23 @@ import { ACTION_PLAY } from '../../actions/player';
  * @param {String} station station id value
  * @returns {Function} method that tests matching station in an object
  */
-const getStreamByStation = station =>
-	( { stream_call_letters } ) =>
-		stream_call_letters === station;
+const getStreamByStation = station => ({ stream_call_letters }) =>
+	stream_call_letters === station;
 
 /**
  * @function yieldPlay
  * Generator runs whenever ACTION_PLAY_AUDIO is dispatched
  */
-function* yieldPlay( action ) {
+function* yieldPlay(action) {
 	const { source } = action.payload;
 
 	// Player store from state
-	const playerStore = yield select( ( { player } ) => player );
+	const playerStore = yield select(({ player }) => player);
 	const { player, streams } = playerStore;
 
-	if ( 'tdplayer' === playerStore.playerType ) {
+	if (playerStore.playerType === 'tdplayer') {
 		// Find matching stream
-		const stream = yield call( [ streams, 'find' ], getStreamByStation( source ) );
+		const stream = yield call([streams, 'find'], getStreamByStation(source));
 		// Destructure from window
 		const {
 			authwatcher, // Triton
@@ -48,11 +47,11 @@ function* yieldPlay( action ) {
 
 		// Call triton, must live here since it modifies the adConfig object
 		// before being sent to the player API
-		if ( authwatcher && authwatcher.lastLoggedInUser ) {
-			if ( 'undefined' !== typeof authwatcher.lastLoggedInUser.demographicsset ) {
-				if ( authwatcher.lastLoggedInUser.demographicsset ) {
+		if (authwatcher && authwatcher.lastLoggedInUser) {
+			if (typeof authwatcher.lastLoggedInUser.demographicsset !== 'undefined') {
+				if (authwatcher.lastLoggedInUser.demographicsset) {
 					// eslint-disable-next-line no-console
-					console.log( 'triton','params sent' );
+					console.log('triton', 'params sent');
 					adConfig.trackingParameters = {
 						...adConfig.trackingParameters,
 						postalcode: authwatcher.lastLoggedInUser.zipcode,
@@ -64,27 +63,19 @@ function* yieldPlay( action ) {
 		}
 
 		// Call tdplayer.playAd
-		if (
-			stream && 'function' === typeof player.playAd
-		) {
-			yield call(
-				[ player, 'playAd' ],
-				'tap',
-				adConfig,
-			);
+		if (stream && typeof player.playAd === 'function') {
+			yield call([player, 'playAd'], 'tap', adConfig);
 		}
 
 		// Call livePlayerLocalStorage
 		if (
-			livePlayerLocalStorage && 'function' === typeof livePlayerLocalStorage.setItem
+			livePlayerLocalStorage &&
+			typeof livePlayerLocalStorage.setItem === 'function'
 		) {
-			yield call( [ livePlayerLocalStorage, 'setItem' ], 'station', source );
+			yield call([livePlayerLocalStorage, 'setItem'], 'station', source);
 		}
-	} else if (
-		player &&
-		'function' === typeof player.play
-	) {
-		yield call( [ player, 'play' ] );
+	} else if (player && typeof player.play === 'function') {
+		yield call([player, 'play']);
 	}
 }
 
@@ -93,5 +84,5 @@ function* yieldPlay( action ) {
  * Generator used to bind action and callback
  */
 export default function* watchPlay() {
-	yield takeLatest( [ACTION_PLAY], yieldPlay );
+	yield takeLatest([ACTION_PLAY], yieldPlay);
 }

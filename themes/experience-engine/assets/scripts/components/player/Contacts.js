@@ -1,24 +1,23 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Contacts extends PureComponent {
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
-		const self = this;
-		self.state = { isOpen: false };
-		self.contactModalRef = React.createRef();
+		this.state = { isOpen: false };
+		this.contactModalRef = React.createRef();
 
-		self.onToggle = self.handleToggleClick.bind( self );
-		self.handleEscapeKeyDown = self.handleEscapeKeyDown.bind( self );
-		self.handleUserEventOutside = self.handleUserEventOutside.bind( self );
+		this.onToggle = this.handleToggleClick.bind(this);
+		this.handleEscapeKeyDown = this.handleEscapeKeyDown.bind(this);
+		this.handleUserEventOutside = this.handleUserEventOutside.bind(this);
 	}
 
 	componentDidMount() {
-		document.addEventListener( 'mousedown', this.handleUserEventOutside, false );
-		document.addEventListener( 'scroll', this.handleUserEventOutside, false );
-		document.addEventListener( 'keydown', this.handleEscapeKeyDown, false );
+		document.addEventListener('mousedown', this.handleUserEventOutside, false);
+		document.addEventListener('scroll', this.handleUserEventOutside, false);
+		document.addEventListener('keydown', this.handleEscapeKeyDown, false);
 	}
 
 	componentWillUnmount() {
@@ -27,33 +26,31 @@ class Contacts extends PureComponent {
 			this.handleUserEventOutside,
 			false,
 		);
-		document.removeEventListener( 'scroll', this.handleUserEventOutside, false );
-		document.removeEventListener( 'keydown', this.handleEscapeKeyDown, false );
+		document.removeEventListener('scroll', this.handleUserEventOutside, false);
+		document.removeEventListener('keydown', this.handleEscapeKeyDown, false);
 	}
 
 	handleToggleClick() {
-		this.setState( prevState => ( { isOpen: !prevState.isOpen } ) );
+		this.setState(prevState => ({ isOpen: !prevState.isOpen }));
 	}
 
-	handleUserEventOutside( e ) {
-		const self = this;
-		const { current: ref } = self.contactModalRef;
+	handleUserEventOutside(e) {
+		const { current: ref } = this.contactModalRef;
 
-		if ( !ref || !ref.contains( e.target ) ) {
-			self.setState( { isOpen: false } );
+		if (!ref || !ref.contains(e.target)) {
+			this.setState({ isOpen: false });
 		}
 	}
 
-	handleEscapeKeyDown( e ) {
-		if ( 27 === e.keyCode ) {
-			this.setState( { isOpen: false } );
+	handleEscapeKeyDown(e) {
+		if (e.keyCode === 27) {
+			this.setState({ isOpen: false });
 		}
 	}
 
 	render() {
-		const self = this;
-		const { stream, colors } = self.props;
-		if ( !stream ) {
+		const { stream, colors } = this.props;
+		if (!stream) {
 			return false;
 		}
 
@@ -73,17 +70,16 @@ class Contacts extends PureComponent {
 		};
 
 		const { title, email, phone, text, address, picture } = stream;
-		const { isOpen } = self.state;
+		const { isOpen } = this.state;
 
 		let contacts = false;
-		if ( isOpen ) {
-
+		if (isOpen) {
 			const config = window.bbgiconfig;
 
 			let image =
 				config && config.theme && config.theme.logo && config.theme.logo.url;
 
-			if ( !image ) {
+			if (!image) {
 				image =
 					picture && picture.large && picture.large.url
 						? picture.large.url
@@ -91,25 +87,42 @@ class Contacts extends PureComponent {
 			}
 
 			contacts = (
-				<Fragment>
+				<>
 					<img src={image} alt={title} />
-					{phone &&
-						<p style={textStyle}>Phone: <a href={`tel:${phone}`} style={textStyle}>{phone}</a></p>
-					}
-					{text &&
-						<p style={textStyle}>Text: <a href={`sms://${text}`} style={textStyle}>{text}</a></p>
-					}
-					{email &&
-						<p><a href={`mailto:${email}`} style={textStyle}>{email}</a></p>
-					}
+					{phone && (
+						<p style={textStyle}>
+							Phone:{' '}
+							<a href={`tel:${phone}`} style={textStyle}>
+								{phone}
+							</a>
+						</p>
+					)}
+					{text && (
+						<p style={textStyle}>
+							Text:{' '}
+							<a href={`sms://${text}`} style={textStyle}>
+								{text}
+							</a>
+						</p>
+					)}
+					{email && (
+						<p>
+							<a href={`mailto:${email}`} style={textStyle}>
+								{email}
+							</a>
+						</p>
+					)}
 					<p style={textStyle}>{address}</p>
-				</Fragment>
+				</>
 			);
 		}
 
 		return (
-			<div ref={self.contactModalRef} className={`controls-contact control-border ${isOpen ? ' -open' : ''}`}>
-				<button onClick={self.onToggle}>
+			<div
+				ref={this.contactModalRef}
+				className={`controls-contact control-border ${isOpen ? ' -open' : ''}`}
+			>
+				<button onClick={this.onToggle} type="button">
 					<svg
 						width="22"
 						height="22"
@@ -139,16 +152,21 @@ class Contacts extends PureComponent {
 }
 
 Contacts.propTypes = {
-	stream: PropTypes.oneOfType( [
-		PropTypes.object, PropTypes.bool,
-	] ),
+	colors: PropTypes.shape({
+		'--global-theme-secondary': PropTypes.string,
+		'--brand-button-color': PropTypes.string,
+		'--brand-background-color': PropTypes.string,
+		'--brand-text-color': PropTypes.string,
+	}),
+	stream: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
 };
 
 Contacts.defaultProps = {
+	colors: {},
 	stream: false,
 };
 
-function mapStateToProps( { player } ) {
+function mapStateToProps({ player }) {
 	return {
 		stream: player.streams.find(
 			item => item.stream_call_letters === player.station,
@@ -156,4 +174,4 @@ function mapStateToProps( { player } ) {
 	};
 }
 
-export default connect( mapStateToProps )( Contacts );
+export default connect(mapStateToProps)(Contacts);

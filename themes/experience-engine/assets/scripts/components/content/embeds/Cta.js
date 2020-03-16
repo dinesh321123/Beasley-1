@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Cta( { payload } ) {
-	if ( !payload ) {
+function Cta({ payload }) {
+	if (!payload) {
 		return false;
 	}
 
@@ -16,7 +16,7 @@ function Cta( { payload } ) {
 	} = payload;
 
 	let button = false;
-	if ( buttonText ) {
+	if (buttonText) {
 		const buttonStyle = {
 			color: buttonTextColor,
 			backgroundColor: buttonColor,
@@ -32,11 +32,11 @@ function Cta( { payload } ) {
 	const { color, image } = background;
 	const blockStyle = {};
 
-	if ( color ) {
+	if (color) {
 		blockStyle.backgroundColor = color;
 	}
 
-	if ( image ) {
+	if (image) {
 		blockStyle.backgroundImage = `url(${image})`;
 	}
 
@@ -51,7 +51,7 @@ function Cta( { payload } ) {
 }
 
 Cta.propTypes = {
-	payload: PropTypes.oneOfType( [PropTypes.bool, PropTypes.object] ),
+	payload: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 };
 
 Cta.defaultProps = {

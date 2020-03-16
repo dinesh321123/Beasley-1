@@ -20,22 +20,20 @@ import screenReducer, {
 import rootSaga from './sagas';
 
 export default function() {
-
 	let composeEnhancers = compose;
-	if ( 'production' !== process.env.NODE_ENV ) {
+	if (process.env.NODE_ENV !== 'production') {
 		composeEnhancers =
 			window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || composeEnhancers;
 	}
 
-
-	const rootReducer = combineReducers( {
+	const rootReducer = combineReducers({
 		auth: authReducer,
 		modal: modalReducer,
 		navigation: navigationReducer,
 		screen: screenReducer,
 		// eslint-disable-next-line sort-keys
 		player: playerReducer, // must go after screen reducer
-	} );
+	});
 
 	const defaultState = {
 		auth: AUTH_DEFAULT_STATE,
@@ -51,15 +49,10 @@ export default function() {
 	const store = createStore(
 		rootReducer,
 		defaultState,
-		composeEnhancers(
-			applyMiddleware(
-				thunk,
-				sagaMiddleware,
-			),
-		),
+		composeEnhancers(applyMiddleware(thunk, sagaMiddleware)),
 	);
 
-	sagaMiddleware.run( rootSaga );
+	sagaMiddleware.run(rootSaga);
 
 	return store;
 }

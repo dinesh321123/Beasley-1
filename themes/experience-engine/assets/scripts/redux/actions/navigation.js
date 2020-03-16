@@ -1,17 +1,15 @@
-export const ACTION_NAVIGATION_SET_CURRENT =
-	'production' === process.env.NODE_ENV ? 'n0' : 'SET_NAVIGATION_CURRENT';
-export const ACTION_NAVIGATION_SET_REVERT =
-	'production' === process.env.NODE_ENV ? 'n1' : 'SET_NAVIGATION_REVERT';
+export const ACTION_NAVIGATION_SET_CURRENT = 'SET_NAVIGATION_CURRENT';
+export const ACTION_NAVIGATION_SET_REVERT = 'SET_NAVIGATION_REVERT';
 
-export function setNavigationCurrent( menu ) {
+export function setNavigationCurrent(menu) {
 	return dispatch => {
-		dispatch( { type: ACTION_NAVIGATION_SET_CURRENT, menu } );
+		dispatch({ type: ACTION_NAVIGATION_SET_CURRENT, menu });
 	};
 }
 
 export function setNavigationRevert() {
 	return dispatch => {
-		dispatch( { type: ACTION_NAVIGATION_SET_REVERT } );
+		dispatch({ type: ACTION_NAVIGATION_SET_REVERT });
 	};
 }
 

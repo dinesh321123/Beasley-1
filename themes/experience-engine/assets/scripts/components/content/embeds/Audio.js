@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -7,34 +7,37 @@ import * as actions from '../../../redux/actions/player';
 import Controls from '../../player/Controls';
 
 class AudioEmbed extends Component {
+	constructor(props) {
+		super(props);
 
-	constructor( props ) {
-		super( props );
-
-		const self = this;
-		self.onPlayClick = self.handlePlayClick.bind( self );
+		this.onPlayClick = this.handlePlayClick.bind(this);
 	}
 
 	getTitle() {
 		const { src, title, sources } = this.props;
-		const extractTitle = url => url
-			.split( '/' ).pop() // take file name from URL
-			.split( '?' ).shift() // drop query parameters
-			.split( '.' ).shift() // drop file extension
-			.split( '_' ).join( ' ' ); // replace underscores with white spaces
+		const extractTitle = url =>
+			url
+				.split('/')
+				.pop() // take file name from URL
+				.split('?')
+				.shift() // drop query parameters
+				.split('.')
+				.shift() // drop file extension
+				.split('_')
+				.join(' '); // replace underscores with white spaces
 
-		if ( title ) {
+		if (title) {
 			return title;
 		}
 
-		if ( src ) {
-			return extractTitle( src );
+		if (src) {
+			return extractTitle(src);
 		}
 
-		if ( sources ) {
-			const keys = Object.keys( sources );
-			if ( keys && keys.length ) {
-				return extractTitle( keys.shift() );
+		if (sources) {
+			const keys = Object.keys(sources);
+			if (keys && keys.length) {
+				return extractTitle(keys.shift());
 			}
 		}
 
@@ -43,23 +46,23 @@ class AudioEmbed extends Component {
 
 	getPlayableSource() {
 		const { src, sources } = this.props;
-		const urls = Object.keys( sources );
-		const audio = document.createElement( 'audio' );
+		const urls = Object.keys(sources);
+		const audio = document.createElement('audio');
 
 		let maybe = false;
-		for ( let i = 0, len = urls.length; i < len; i++ ) {
+		for (let i = 0, len = urls.length; i < len; i++) {
 			const url = urls[i];
-			const playable = audio.canPlayType( sources[url] );
-			if ( 'probably' === playable ) {
+			const playable = audio.canPlayType(sources[url]);
+			if (playable === 'probably') {
 				return url;
 			}
 
-			if ( 'maybe' === playable && false === maybe ) {
+			if (playable === 'maybe' && maybe === false) {
 				maybe = url;
 			}
 		}
 
-		if ( maybe ) {
+		if (maybe) {
 			return maybe;
 		}
 
@@ -67,36 +70,38 @@ class AudioEmbed extends Component {
 	}
 
 	handlePlayClick() {
-		const self = this;
-		const { omny, title, author, playAudio, playOmny, tracktype } = self.props;
-		const src = self.getPlayableSource();
+		const { omny, title, author, playAudio, playOmny, tracktype } = this.props;
+		const src = this.getPlayableSource();
 
-		if ( omny ) {
-			playOmny( src, title, author, tracktype );
+		if (omny) {
+			playOmny(src, title, author, tracktype);
 		} else {
-			playAudio( src, self.getTitle(), author, tracktype );
+			playAudio(src, this.getTitle(), author, tracktype);
 		}
 	}
 
 	getStatus() {
-		const self = this;
-		const { audio, status } = self.props;
-		const src = self.getPlayableSource();
+		const { audio, status } = this.props;
+		const src = this.getPlayableSource();
 
 		return audio === src ? status : actions.STATUSES.LIVE_STOP;
 	}
 
 	render() {
-		const self = this;
-		const { pause, resume, title } = self.props;
+		const { pause, resume, title } = this.props;
 
 		return (
-			<Fragment>
-				<Controls status={self.getStatus()} title={title} play={self.onPlayClick} pause={pause} resume={resume} />
-			</Fragment>
+			<>
+				<Controls
+					status={this.getStatus()}
+					title={title}
+					play={this.onPlayClick}
+					pause={pause}
+					resume={resume}
+				/>
+			</>
 		);
 	}
-
 }
 
 AudioEmbed.propTypes = {
@@ -106,11 +111,12 @@ AudioEmbed.propTypes = {
 	omny: PropTypes.bool,
 	title: PropTypes.string,
 	author: PropTypes.string,
-	sources: PropTypes.shape( {} ),
+	sources: PropTypes.shape({}),
 	playAudio: PropTypes.func.isRequired,
 	playOmny: PropTypes.func.isRequired,
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
+	tracktype: PropTypes.string.isRequired,
 };
 
 AudioEmbed.defaultProps = {
@@ -120,20 +126,23 @@ AudioEmbed.defaultProps = {
 	sources: {},
 };
 
-function mapStateToProps( { player } ) {
+function mapStateToProps({ player }) {
 	return {
 		audio: player.audio,
 		status: player.status,
 	};
 }
 
-function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		playAudio: actions.playAudio,
-		playOmny: actions.playOmny,
-		pause: actions.pause,
-		resume: actions.resume,
-	}, dispatch );
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			playAudio: actions.playAudio,
+			playOmny: actions.playOmny,
+			pause: actions.pause,
+			resume: actions.resume,
+		},
+		dispatch,
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( AudioEmbed );
+export default connect(mapStateToProps, mapDispatchToProps)(AudioEmbed);

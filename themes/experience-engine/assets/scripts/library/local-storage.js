@@ -1,12 +1,12 @@
 const { localStorage } = window;
 
-export function getStorage( namespace ) {
+export function getStorage(namespace) {
 	return {
-		getItem( key ) {
-			return localStorage.getItem( `${namespace}:${key}` );
+		getItem(key) {
+			return localStorage.getItem(`${namespace}:${key}`);
 		},
-		setItem( key, value ) {
-			localStorage.setItem( `${namespace}:${key}`, value );
+		setItem(key, value) {
+			localStorage.setItem(`${namespace}:${key}`, value);
 		},
 	};
 }

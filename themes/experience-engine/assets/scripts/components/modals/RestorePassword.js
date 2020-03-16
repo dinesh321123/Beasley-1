@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import trapHOC from '@10up/react-focus-trap-hoc';
 import { connect } from 'react-redux';
@@ -11,19 +11,17 @@ import Alert from './elements/Alert';
 import { showSignInModal } from '../../redux/actions/modal';
 
 class RestorePassword extends PureComponent {
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
-		const self = this;
-
-		self.state = {
+		this.state = {
 			email: '',
 			message: '',
 			success: false,
 		};
 
-		self.onFieldChange = self.handleFieldChange.bind( self );
-		self.onFormSubmit = self.handleFormSubmit.bind( self );
+		this.onFieldChange = this.handleFieldChange.bind(this);
+		this.onFormSubmit = this.handleFormSubmit.bind(this);
 	}
 
 	componentDidMount() {
@@ -34,48 +32,46 @@ class RestorePassword extends PureComponent {
 		this.props.deactivateTrap();
 	}
 
-	handleFieldChange( e ) {
+	handleFieldChange(e) {
 		const { target } = e;
-		this.setState( { [target.name]: target.value } );
+		this.setState({ [target.name]: target.value });
 	}
 
-	handleFormSubmit( e ) {
-		const self = this;
-		const { email } = self.state;
+	handleFormSubmit(e) {
+		const { email } = this.state;
 
 		e.preventDefault();
 
 		firebaseAuth
-			.sendPasswordResetEmail( email, { url: window.location.href } )
-			.then( () => {
-				self.setState( {
+			.sendPasswordResetEmail(email, { url: window.location.href })
+			.then(() => {
+				this.setState({
 					success: true,
 					email: '',
 					message:
 						'Please, check your inbox. An email has been sent to you with instructions how to reset your password.',
-				} );
-			} )
-			.catch( error => {
-				self.setState( {
+				});
+			})
+			.catch(error => {
+				this.setState({
 					message: error.message,
-				} );
-			} );
+				});
+			});
 	}
 
 	render() {
-		const self = this;
-		const { email, message, success } = self.state;
-		const { signin } = self.props;
+		const { email, message, success } = this.state;
+		const { signin } = this.props;
 
 		return (
-			<Fragment>
+			<>
 				<Header>
 					<h3>Restore Password</h3>
 				</Header>
 
 				<Alert message={message} type={success ? 'info' : 'error'} />
 
-				<form className="modal-form" onSubmit={self.onFormSubmit}>
+				<form className="modal-form" onSubmit={this.onFormSubmit}>
 					<div className="modal-form-group">
 						<label className="modal-form-label" htmlFor="user-email">
 							Email
@@ -86,7 +82,7 @@ class RestorePassword extends PureComponent {
 							id="user-email"
 							name="email"
 							value={email}
-							onChange={self.onFieldChange}
+							onChange={this.onFieldChange}
 							placeholder="yourname@yourddomain.com"
 						/>
 					</div>
@@ -107,7 +103,7 @@ class RestorePassword extends PureComponent {
 						</p>
 					</div>
 				</form>
-			</Fragment>
+			</>
 		);
 	}
 }
@@ -118,7 +114,7 @@ RestorePassword.propTypes = {
 	signin: PropTypes.func.isRequired,
 };
 
-function mapDispatchToProps( dispatch ) {
+function mapDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
 			signin: showSignInModal,
@@ -126,7 +122,4 @@ function mapDispatchToProps( dispatch ) {
 		dispatch,
 	);
 }
-export default connect(
-	null,
-	mapDispatchToProps,
-)( trapHOC()( RestorePassword ) );
+export default connect(null, mapDispatchToProps)(trapHOC()(RestorePassword));

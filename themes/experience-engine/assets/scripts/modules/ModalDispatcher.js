@@ -26,73 +26,67 @@ import CompleteSignup from '../components/modals/CompleteSignup';
 import EditFeedModal from '../components/modals/EditFeed';
 
 class ModalDispatcher extends Component {
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
-		const self = this;
-		self.modalRef = React.createRef();
+		this.modalRef = React.createRef();
 
-		self.handleEscapeKeyDown = self.handleEscapeKeyDown.bind( self );
-		self.handleClickOutside = self.handleClickOutside.bind( self );
+		this.handleEscapeKeyDown = this.handleEscapeKeyDown.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
 	}
 
 	componentDidMount() {
-		document.addEventListener( 'mousedown', this.handleClickOutside, false );
-		document.addEventListener( 'keydown', this.handleEscapeKeyDown, false );
+		document.addEventListener('mousedown', this.handleClickOutside, false);
+		document.addEventListener('keydown', this.handleEscapeKeyDown, false);
 	}
 
 	componentWillUnmount() {
-		document.removeEventListener( 'mousedown', this.handleClickOutside, false );
-		document.removeEventListener( 'keydown', this.handleEscapeKeyDown, false );
+		document.removeEventListener('mousedown', this.handleClickOutside, false);
+		document.removeEventListener('keydown', this.handleEscapeKeyDown, false);
 	}
 
 	handleMenuCurrentItem() {
-		const self = this;
-		const { navigation } = self.props;
+		const { navigation } = this.props;
 		const { previous: previousMenuItem } = navigation;
-		const previous = document.getElementById( previousMenuItem );
+		const previous = document.getElementById(previousMenuItem);
 
 		// If Discovery was toggled by a non-menu item and a current item doesn't exist, deselect all items
-		const menuItems = document.querySelectorAll( '#menu-ee-primary li' );
+		const menuItems = document.querySelectorAll('#menu-ee-primary li');
 
-		for ( var i = 0; i < menuItems.length; i++ ) {
-			menuItems[i].classList.remove( 'current-menu-item' );
+		for (let i = 0; i < menuItems.length; i++) {
+			menuItems[i].classList.remove('current-menu-item');
 		}
 
-		if ( previous ) {
-			previous.classList.add( 'current-menu-item' );
+		if (previous) {
+			previous.classList.add('current-menu-item');
 		} else {
 			// If Discovery was toggled by a non-menu item and a previous item doesn't appear, select 'Home'
-			const homeButton = document.getElementById( 'menu-item-home' );
-			homeButton.classList.add( 'current-menu-item' );
+			const homeButton = document.getElementById('menu-item-home');
+			homeButton.classList.add('current-menu-item');
 		}
 
-		self.props.navigationRevert();
+		this.props.navigationRevert();
 	}
 
-	handleClickOutside( e ) {
-		const self = this;
-		const { modal } = self.props;
-		const { current: ref } = self.modalRef;
+	handleClickOutside(e) {
+		const { modal } = this.props;
+		const { current: ref } = this.modalRef;
 
 		if (
-			'CLOSED' !== modal &&
+			modal !== 'CLOSED' &&
 			DISCOVER_MODAL !== modal &&
 			COMPLETE_SIGNUP_MODAL !== modal &&
-			( !ref || !ref.contains( e.target ) )
+			(!ref || !ref.contains(e.target))
 		) {
-			self.props.close();
-			self.handleMenuCurrentItem();
+			this.props.close();
+			this.handleMenuCurrentItem();
 		}
 	}
 
-	handleEscapeKeyDown( e ) {
+	handleEscapeKeyDown(e) {
 		const { modal } = this.props;
 
-		if (
-			27 === e.keyCode &&
-			COMPLETE_SIGNUP_MODAL !== modal
-		) {
+		if (e.keyCode === 27 && COMPLETE_SIGNUP_MODAL !== modal) {
 			this.props.close();
 			this.handleMenuCurrentItem();
 		}
@@ -104,12 +98,12 @@ class ModalDispatcher extends Component {
 	}
 
 	render() {
-		const self = this;
-		const { modal, payload } = self.props;
+		const { modal, payload } = this.props;
 
 		let component = false;
 
-		switch ( modal ) {
+		/* eslint-disable react/jsx-props-no-spreading */
+		switch (modal) {
 			case SIGNIN_MODAL:
 				component = (
 					<SignInModal close={() => this.handleClose()} {...payload} />
@@ -127,14 +121,14 @@ class ModalDispatcher extends Component {
 				break;
 			case DISCOVER_MODAL:
 				component = (
-					<div className="discover-modal" ref={self.modalRef}>
+					<div className="discover-modal" ref={this.modalRef}>
 						<DiscoverModal close={() => this.handleClose()} {...payload} />
 					</div>
 				);
 
 				return ReactDOM.createPortal(
 					component,
-					document.getElementById( 'inner-content' ),
+					document.getElementById('inner-content'),
 				);
 			case COMPLETE_SIGNUP_MODAL:
 				component = (
@@ -149,10 +143,11 @@ class ModalDispatcher extends Component {
 			default:
 				return false;
 		}
+		/* eslint-enable */
 
 		return (
-			<div className={`modal ${( modal || '' ).toLowerCase()}`}>
-				<div ref={self.modalRef} className="modal-content">
+			<div className={`modal ${(modal || '').toLowerCase()}`}>
+				<div ref={this.modalRef} className="modal-content">
 					<CloseButton close={() => this.handleClose()} />
 					<ErrorBoundary>{component}</ErrorBoundary>
 				</div>
@@ -163,9 +158,12 @@ class ModalDispatcher extends Component {
 
 ModalDispatcher.propTypes = {
 	modal: PropTypes.string,
-	payload: PropTypes.shape( {} ),
+	payload: PropTypes.shape({}),
 	close: PropTypes.func.isRequired,
 	navigationRevert: PropTypes.func.isRequired,
+	navigation: PropTypes.shape({
+		previous: PropTypes.string,
+	}).isRequired,
 };
 
 ModalDispatcher.defaultProps = {
@@ -173,18 +171,15 @@ ModalDispatcher.defaultProps = {
 	payload: {},
 };
 
-function mapStateToProps( { modal, navigation } ) {
+function mapStateToProps({ modal, navigation }) {
 	return { ...modal, navigation };
 }
 
-function mapDispatchToProps( dispatch ) {
+function mapDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{ close: hideModal, navigationRevert: setNavigationRevert },
 		dispatch,
 	);
 }
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)( ModalDispatcher );
+export default connect(mapStateToProps, mapDispatchToProps)(ModalDispatcher);

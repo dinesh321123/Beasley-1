@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import trapHOC from '@10up/react-focus-trap-hoc';
@@ -18,9 +18,8 @@ import { modifyUserFeeds, deleteUserFeed } from '../../redux/actions/auth';
 import { fetchFeedsContent } from '../../redux/actions/screen';
 
 class Discover extends Component {
-
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
 		this.needReload = false;
 		this.scrollYPos = 0;
@@ -36,11 +35,11 @@ class Discover extends Component {
 			pendingScrollY: 0,
 		};
 
-		this.onFilterChange   = this.handleFilterChange.bind( this );
-		this.onAdd            = this.handleAdd.bind( this );
-		this.onRemove         = this.handleRemove.bind( this );
-		this.onClose          = this.handleClose.bind( this );
-		this.didLoadMoreClick = this.didLoadMoreClick.bind( this );
+		this.onFilterChange = this.handleFilterChange.bind(this);
+		this.onAdd = this.handleAdd.bind(this);
+		this.onRemove = this.handleRemove.bind(this);
+		this.onClose = this.handleClose.bind(this);
+		this.didLoadMoreClick = this.didLoadMoreClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -48,60 +47,59 @@ class Discover extends Component {
 		this.handleFilterChange();
 
 		this.scrollYPos = window.pageYOffset;
-		window.scroll( 0, 0 );
+		window.scroll(0, 0);
 	}
 
 	componentWillUnmount() {
 		this.props.deactivateTrap();
-		window.scroll( 0, this.scrollYPos );
+		window.scroll(0, this.scrollYPos);
 	}
 
-	handleFilterChange( filters = {} ) {
-		discovery( filters )
-			.then( response => response.json() )
-			.then( feeds => {
-				this.setState( {
+	handleFilterChange(filters = {}) {
+		discovery(filters)
+			.then(response => response.json())
+			.then(feeds => {
+				this.setState({
 					pageNum: 1,
 					filteredFeeds: feeds,
 					loading: false,
-				} );
-			} );
+				});
+			});
 	}
 
-	hasFeed( id ) {
-		return !!this.props.selectedFeeds.find( item => item.id === id );
+	hasFeed(id) {
+		return !!this.props.selectedFeeds.find(item => item.id === id);
 	}
 
-	handleAdd( id ) {
+	handleAdd(id) {
 		const feedsArray = [];
 
-		if ( this.hasFeed( id ) ) {
+		if (this.hasFeed(id)) {
 			return;
 		}
 
-		this.props.selectedFeeds.forEach( ( { id } ) => {
-			feedsArray.push( { id, sortorder: feedsArray.length + 1 } );
-		} );
+		this.props.selectedFeeds.forEach(({ id }) => {
+			feedsArray.push({ id, sortorder: feedsArray.length + 1 });
+		});
 
-		feedsArray.push( { id, sortorder: feedsArray.length + 1 } );
+		feedsArray.push({ id, sortorder: feedsArray.length + 1 });
 
 		this.needReload = true;
-		this.props.modifyUserFeeds( feedsArray );
+		this.props.modifyUserFeeds(feedsArray);
 	}
 
-	handleRemove( id ) {
-		if ( this.hasFeed( id ) ) {
+	handleRemove(id) {
+		if (this.hasFeed(id)) {
 			this.needReload = true;
-			this.props.deleteUserFeed( id );
+			this.props.deleteUserFeed(id);
 		}
 	}
 
 	handleClose() {
-
-		if ( this.needReload && document.body.classList.contains( 'home' ) ) {
-			firebaseAuth.currentUser.getIdToken().then( ( token ) => {
-				this.props.fetchFeedsContent( token );
-			} );
+		if (this.needReload && document.body.classList.contains('home')) {
+			firebaseAuth.currentUser.getIdToken().then(token => {
+				this.props.fetchFeedsContent(token);
+			});
 		}
 
 		this.props.close();
@@ -112,12 +110,12 @@ class Discover extends Component {
 	 * update
 	 */
 	didLoadMoreClick() {
-		this.setState( {
-			pageNum: this.state.pageNum + 1,
-			pendingPageNum: this.state.pageNum + 1,
+		this.setState(({ pageNum }) => ({
+			pageNum: pageNum + 1,
+			pendingPageNum: pageNum + 1,
 			pendingScrollX: window.scrollX,
 			pendingScrollY: window.scrollY,
-		} );
+		}));
 
 		return false;
 	}
@@ -129,17 +127,20 @@ class Discover extends Component {
 	 * that atleast one element with the new pageNum was rendered.
 	 */
 	componentDidUpdate() {
-		if ( this.state.pendingPageNum ) {
-			let el = document.querySelector( '[data-pagenum="' + this.state.pendingPageNum + '"]' );
+		if (this.state.pendingPageNum) {
+			const el = document.querySelector(
+				`[data-pagenum="${this.state.pendingPageNum}"]`,
+			);
 
-			if ( el ) {
-				window.scrollTo( this.state.pendingScrollX, this.state.pendingScrollY );
+			if (el) {
+				window.scrollTo(this.state.pendingScrollX, this.state.pendingScrollY);
 
-				this.setState( {
+				// eslint-disable-next-line react/no-did-update-set-state
+				this.setState({
 					pendingPageNum: 0,
 					pendingScrollX: 0,
 					pendingScrollY: 0,
-				} );
+				});
 			}
 		}
 	}
@@ -149,40 +150,41 @@ class Discover extends Component {
 		const { notice } = this.props;
 		const noticeClass = !notice.isOpen ? '' : '-visible';
 
-		let { filteredFeeds }       = this.state;
-		let totalPages              = filteredFeeds.length / pageSize;
-		let hasNextPage             = pageNum < totalPages;
+		let { filteredFeeds } = this.state;
+		const totalPages = filteredFeeds.length / pageSize;
+		const hasNextPage = pageNum < totalPages;
 
-		if ( 0 < filteredFeeds.length ) {
-			filteredFeeds = filteredFeeds.slice( 0, pageSize * pageNum );
+		if (filteredFeeds.length > 0) {
+			filteredFeeds = filteredFeeds.slice(0, pageSize * pageNum);
 		}
 
 		let items = <div className="loading" />;
-		if ( !loading ) {
-			if ( 0 < filteredFeeds.length ) {
-				items = filteredFeeds.map( ( item, index ) => {
+		if (!loading) {
+			if (filteredFeeds.length > 0) {
+				items = filteredFeeds.map((item, index) => {
 					const { id, title, picture, type } = item;
 
 					return (
 						<FeedItem
 							key={id}
 							id={id}
-							pageNum={ Math.floor( ( index + 1 ) / pageSize ) + 1 }
+							pageNum={Math.floor((index + 1) / pageSize) + 1}
 							title={title}
 							picture={picture}
 							type={type}
 							onAdd={this.onAdd}
 							onRemove={this.onRemove}
-							added={this.hasFeed( item.id )} />
+							added={this.hasFeed(item.id)}
+						/>
 					);
-				} );
+				});
 			} else {
 				items = <i>No feeds found...</i>;
 			}
 		}
 
 		return (
-			<Fragment>
+			<>
 				<CloseButton close={this.onClose} />
 				<DiscoveryFilters onChange={this.onFilterChange} />
 
@@ -195,51 +197,48 @@ class Discover extends Component {
 
 					<Alert message={error} />
 
-					<div className="archive-tiles -small -grid">
-						{items}
-					</div>
+					<div className="archive-tiles -small -grid">{items}</div>
 				</div>
 
-				{ ! loading && hasNextPage &&
+				{!loading && hasNextPage && (
 					<div className="load-more-feeds">
 						<button
 							type="button"
 							className="btn load-more-button"
 							aria-label="Load More Feeds"
-							onClick={this.didLoadMoreClick}>
+							onClick={this.didLoadMoreClick}
+						>
 							Load More
 						</button>
 					</div>
-				}
-
-			</Fragment>
+				)}
+			</>
 		);
 	}
-
 }
 
 Discover.propTypes = {
-	selectedFeeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	selectedFeeds: PropTypes.arrayOf(PropTypes.object).isRequired,
 	activateTrap: PropTypes.func.isRequired,
 	deactivateTrap: PropTypes.func.isRequired,
 	close: PropTypes.func.isRequired,
 	fetchFeedsContent: PropTypes.func.isRequired,
 	modifyUserFeeds: PropTypes.func.isRequired,
 	deleteUserFeed: PropTypes.func.isRequired,
-	notice: PropTypes.shape( {
+	notice: PropTypes.shape({
 		isOpen: PropTypes.bool,
 		message: PropTypes.string,
-	} ).isRequired,
+	}).isRequired,
 };
 
 export default connect(
-	( { auth, screen } ) => ( {
+	({ auth, screen }) => ({
 		selectedFeeds: auth.feeds,
 		notice: screen.notice,
-	} ),
+	}),
 	{
 		fetchFeedsContent,
 		modifyUserFeeds,
 		deleteUserFeed,
 	},
-)( trapHOC()( Discover ) );
+)(trapHOC()(Discover));

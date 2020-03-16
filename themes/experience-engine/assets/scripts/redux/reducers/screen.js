@@ -33,9 +33,8 @@ export const DEFAULT_STATE = {
  * @param {Object} state State object
  * @param {Object} action Dispatched action
  */
-function reducer( state = {}, action = {} ) {
-	switch ( action.type ) {
-
+function reducer(state = {}, action = {}) {
+	switch (action.type) {
 		// Catch in Sagas
 		case ACTION_SET_SCREEN_STATE:
 			return {
@@ -54,7 +53,7 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_LOADED_PAGE: {
 			// do not accept action if user goes to another page before current page is loaded
-			if ( state.url !== action.url && !action.force ) {
+			if (state.url !== action.url && !action.force) {
 				return state;
 			}
 
@@ -71,7 +70,7 @@ function reducer( state = {}, action = {} ) {
 
 		case ACTION_LOADED_PARTIAL: {
 			// do not accept action if user goes to another page before current page is loaded
-			if ( state.url !== action.url ) {
+			if (state.url !== action.url) {
 				return state;
 			}
 

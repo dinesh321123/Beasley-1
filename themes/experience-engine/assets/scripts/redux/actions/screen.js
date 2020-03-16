@@ -1,10 +1,8 @@
 import {
 	removeChildren,
-	dispatchEvent,
 	getStateFromContent,
 	parseHtml,
 	pageview,
-	slugify,
 } from '../../library';
 
 export const ACTION_SET_SCREEN_STATE = 'SET_SCREEN_STATE';
@@ -22,11 +20,11 @@ export const ACTION_HISTORY_HTML_SNAPSHOT = 'HISTORY_HTML_SNAPSHOT';
  * Parses the current content blocks for redux.
  */
 export function initPage() {
-	const content = document.getElementById( 'content' );
-	const parsed = getStateFromContent( content );
+	const content = document.getElementById('content');
+	const parsed = getStateFromContent(content);
 
 	// clean up content block for now, it will be poplated in the render function
-	removeChildren( content );
+	removeChildren(content);
 
 	return {
 		type: ACTION_INIT_PAGE,
@@ -44,7 +42,7 @@ export function initPage() {
  * @param {string} uuid A slugifyed representation of the url
  * @param {string} html The html of the page.
  */
-export function initPageLoaded( uuid, html ) {
+export function initPageLoaded(uuid, html) {
 	return { type: ACTION_HISTORY_HTML_SNAPSHOT, uuid, html };
 }
 
@@ -54,8 +52,11 @@ export function initPageLoaded( uuid, html ) {
  * @param {string} token Firease ID token
  * @param {string} url   Optional URL to associate the feeds content to.
  */
-export const fetchFeedsContent = ( token, url = 'feeds-content' ) => async dispatch => {
-	dispatch( { type: ACTION_LOADING_PAGE, url } );
+export const fetchFeedsContent = (
+	token,
+	url = 'feeds-content',
+) => async dispatch => {
+	dispatch({ type: ACTION_LOADING_PAGE, url });
 
 	try {
 		const response = await fetch(
@@ -63,12 +64,12 @@ export const fetchFeedsContent = ( token, url = 'feeds-content' ) => async dispa
 			{
 				method: 'POST',
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-				body: `authorization=${encodeURIComponent( token )}`,
+				body: `authorization=${encodeURIComponent(token)}`,
 			},
-		).then( res => res.json() );
+		).then(res => res.json());
 
-		const parsedHtml = parseHtml( response.html );
-		dispatch( {
+		const parsedHtml = parseHtml(response.html);
+		dispatch({
 			type: ACTION_LOADED_PAGE,
 			url,
 			response,
@@ -76,10 +77,9 @@ export const fetchFeedsContent = ( token, url = 'feeds-content' ) => async dispa
 				suppressHistory: true,
 			},
 			parsedHtml,
-
-		} );
-	} catch( error ) {
-		dispatch( { type: ACTION_LOAD_ERROR, error } );
+		});
+	} catch (error) {
+		dispatch({ type: ACTION_LOAD_ERROR, error });
 	}
 };
 
@@ -88,47 +88,49 @@ export const fetchFeedsContent = ( token, url = 'feeds-content' ) => async dispa
  *
  * @param {string} url
  */
-export const fetchPage = ( url, options = {} ) => async dispatch => {
-	const pageEndpoint = `${window.bbgiconfig.wpapi}\page?url=${encodeURIComponent( url )}`;
+export const fetchPage = (url, options = {}) => async dispatch => {
+	const pageEndpoint = `${
+		window.bbgiconfig.wpapi
+	}\page?url=${encodeURIComponent(url)}`; // eslint-disable-line no-useless-escape
 
 	try {
-		dispatch( { type: ACTION_LOADING_PAGE, url } );
+		dispatch({ type: ACTION_LOADING_PAGE, url });
 
-		const response = await fetch( pageEndpoint ).then( response => response.json() );
+		const response = await fetch(pageEndpoint).then(response =>
+			response.json(),
+		);
 		const { redirect } = response;
 
 		// redirects.
-		if ( [301, 302, 303,307, 308].includes( response.status ) ) {
-			if ( redirect.url && ! redirect.internal ) {
+		if ([301, 302, 303, 307, 308].includes(response.status)) {
+			if (redirect.url && !redirect.internal) {
 				window.location.href = response.redirect;
 			} else {
 				// internal redirect
-				dispatch( fetchPage( redirect.url, options ) );
+				dispatch(fetchPage(redirect.url, options));
 			}
 
 			return;
 		}
 
 		// unsuccessful status code.
-		if ( 200 !== response.status && 201 !== response.status ) {
-			dispatch( { type: ACTION_LOAD_ERROR } );
+		if (response.status !== 200 && response.status !== 201) {
+			dispatch({ type: ACTION_LOAD_ERROR });
 			return;
 		}
-		const parsedHtml = parseHtml( response.html );
+		const parsedHtml = parseHtml(response.html);
 
-		dispatch( {
+		dispatch({
 			type: ACTION_LOADED_PAGE,
 			url,
 			response,
 			options,
-			isHome: parsedHtml.document.body.classList.contains( 'home' ),
+			isHome: parsedHtml.document.body.classList.contains('home'),
 			parsedHtml,
-
-		} );
-	} catch( error ) {
-		dispatch( { type: ACTION_LOAD_ERROR, error } );
+		});
+	} catch (error) {
+		dispatch({ type: ACTION_LOAD_ERROR, error });
 	}
-
 };
 
 /**
@@ -137,26 +139,26 @@ export const fetchPage = ( url, options = {} ) => async dispatch => {
  * @param {string} url
  * @param {*} placeholder
  */
-export function loadPartialPage( url, placeholder ) {
+export function loadPartialPage(url, placeholder) {
 	return dispatch => {
-		dispatch( { type: ACTION_LOADING_PARTIAL, url } );
+		dispatch({ type: ACTION_LOADING_PARTIAL, url });
 
-		function onError( error ) {
+		function onError(error) {
 			// eslint-disable-next-line no-console
-			console.error( error );
-			dispatch( { type: ACTION_LOAD_ERROR, error } );
+			console.error(error);
+			dispatch({ type: ACTION_LOAD_ERROR, error });
 		}
 
-		function onSuccess( data ) {
-			const parsed = parseHtml( data, '#inner-content' );
-			dispatch( { type: ACTION_LOADED_PARTIAL, url, ...parsed, placeholder } );
-			pageview( parsed.document.title, url );
+		function onSuccess(data) {
+			const parsed = parseHtml(data, '#inner-content');
+			dispatch({ type: ACTION_LOADED_PARTIAL, url, ...parsed, placeholder });
+			pageview(parsed.document.title, url);
 		}
 
-		fetch( url )
-			.then( response => response.text() )
-			.then( onSuccess )
-			.catch( onError );
+		fetch(url)
+			.then(response => response.text())
+			.then(onSuccess)
+			.catch(onError);
 	};
 }
 
@@ -170,7 +172,7 @@ export function hideSplashScreen() {
 /**
  * Updates the Notice component message.
  */
-export function updateNotice( { isOpen, message } ) {
+export function updateNotice({ isOpen, message }) {
 	return {
 		type: ACTION_UPDATE_NOTICE,
 		force: true,

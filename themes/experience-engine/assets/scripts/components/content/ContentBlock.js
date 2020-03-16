@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -46,89 +46,93 @@ const mapping = {
 };
 
 class ContentBlock extends Component {
-	static createEmbed( embed ) {
+	static createEmbed(embed) {
 		const { type, params } = embed;
 		const { placeholder } = params;
 
 		const component = mapping[type] || false;
-		if ( !component ) {
+		if (!component) {
 			return false;
 		}
 
-		const container = document.getElementById( placeholder );
-		if ( !container ) {
+		const container = document.getElementById(placeholder);
+		if (!container) {
 			return false;
 		}
 
-		const element = React.createElement( component, params );
+		const element = React.createElement(component, params);
 
 		return ReactDOM.createPortal(
-			React.createElement( ErrorBoundary, {}, element ),
+			React.createElement(ErrorBoundary, {}, element),
 			container,
 		);
 	}
 
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
-		const self = this;
-		self.state = { ready: false };
+		this.state = { ready: false };
 	}
 
 	componentDidMount() {
-		this.setState( { ready: true } );
+		this.setState({ ready: true });
 		this.bindContests();
-
-
 	}
 
 	/**
 	 * Bind contest event listeners
 	 */
 	bindContests() {
-		const contestToggler = document.getElementById( 'contest-rules-toggle' );
+		const contestToggler = document.getElementById('contest-rules-toggle');
 
-		if ( contestToggler ) {
-			contestToggler.addEventListener( 'click', this.handleContestClick );
+		if (contestToggler) {
+			contestToggler.addEventListener('click', this.handleContestClick);
 		}
 	}
 
 	/**
 	 * Handle 'view contest' link click
 	 */
-	handleContestClick( e ) {
-		const contestRules = document.getElementById( 'contest-rules' );
+	handleContestClick(e) {
+		const contestRules = document.getElementById('contest-rules');
 
 		e.target.style.display = 'none';
 
-		if ( contestRules ) {
+		if (contestRules) {
 			contestRules.style.display = 'block';
 		}
 	}
 
 	render() {
-		const self = this;
-		const { content, embeds, partial, isHome } = self.props;
-		const { ready } = self.state;
+		const { content, embeds, partial, isHome } = this.props;
+		const { ready } = this.state;
 
-		let portal = ReactDOM.createPortal(
+		const portal = ReactDOM.createPortal(
 			<div dangerouslySetInnerHTML={{ __html: content }} />,
-			document.getElementById( partial ? 'inner-content' : 'content' ),
+			document.getElementById(partial ? 'inner-content' : 'content'),
 		);
 
 		const embedComponents = ready
-			? embeds.map( ContentBlock.createEmbed )
+			? embeds.map(ContentBlock.createEmbed)
 			: false;
 
-		return isHome
-			? <Homepage>{portal}{embedComponents}</Homepage>
-			: <Fragment>{portal}{embedComponents}</Fragment>;
+		return isHome ? (
+			<Homepage>
+				{portal}
+				{embedComponents}
+			</Homepage>
+		) : (
+			<>
+				{portal}
+				{embedComponents}
+			</>
+		);
 	}
 }
 
 ContentBlock.propTypes = {
 	content: PropTypes.string.isRequired,
-	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	embeds: PropTypes.arrayOf(PropTypes.object).isRequired,
 	partial: PropTypes.bool,
 	isHome: PropTypes.bool,
 };

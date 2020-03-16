@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Alert = ( { message, type } ) => {
-	if ( !message || !message.length ) {
+const Alert = ({ message, type }) => {
+	if (!message || !message.length) {
 		return false;
 	}
 

@@ -12,24 +12,24 @@ export const DEFAULT_STATE = {
 
 function resizeWindow() {
 	try {
-		window.dispatchEvent( new Event( 'resize' ) );
-	} catch ( e ) {
+		window.dispatchEvent(new Event('resize'));
+	} catch (e) {
 		// no-op
 	}
 }
 
-function reducer( state = {}, action = {} ) {
-	switch ( action.type ) {
+function reducer(state = {}, action = {}) {
+	switch (action.type) {
 		case ACTION_SHOW_MODAL:
 			if (
 				action.modal !== DISCOVER_MODAL &&
 				action.modal !== COMPLETE_SIGNUP_MODAL
 			) {
-				document.documentElement.classList.add( 'locked' );
-				document.body.classList.add( 'locked' );
-				document.addEventListener( 'ontouchmove', e => {
+				document.documentElement.classList.add('locked');
+				document.body.classList.add('locked');
+				document.addEventListener('ontouchmove', e => {
 					e.preventDefault();
-				} );
+				});
 
 				resizeWindow();
 			}
@@ -40,11 +40,11 @@ function reducer( state = {}, action = {} ) {
 				payload: action.payload,
 			};
 		case ACTION_HIDE_MODAL:
-			document.documentElement.classList.remove( 'locked' );
-			document.body.classList.remove( 'locked' );
-			document.removeEventListener( 'ontouchmove', () => {
+			document.documentElement.classList.remove('locked');
+			document.body.classList.remove('locked');
+			document.removeEventListener('ontouchmove', () => {
 				return true;
-			} );
+			});
 
 			resizeWindow();
 			return { ...DEFAULT_STATE };

@@ -2,9 +2,9 @@
  * @function clearTargeting
  */
 export default function clearTargeting() {
-	let googletag = window.googletag;
+	const { googletag } = window;
 
-	if ( googletag && googletag.apiReady ) {
+	if (googletag && googletag.apiReady) {
 		googletag.pubads().clearTargeting();
 	}
 }

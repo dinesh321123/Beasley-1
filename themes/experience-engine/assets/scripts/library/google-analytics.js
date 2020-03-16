@@ -1,20 +1,19 @@
-export function pageview( title, location, targeting = null ) {
+export function pageview(title, location, targeting = null) {
 	const { ga } = window;
-	if ( ! ga ) {
+	if (!ga) {
 		return;
 	}
 
-	if ( targeting ) {
-		ga( 'set', 'contentGroup1', targeting.contentgroup1 || '' );
-		ga( 'set', 'contentGroup2', targeting.contentgroup2 || '' );
+	if (targeting) {
+		ga('set', 'contentGroup1', targeting.contentgroup1 || '');
+		ga('set', 'contentGroup2', targeting.contentgroup2 || '');
 
-		if ( targeting.dimensionkey ) {
-			ga( 'set', targeting.dimensionkey, targeting.dimensionvalue );
+		if (targeting.dimensionkey) {
+			ga('set', targeting.dimensionkey, targeting.dimensionvalue);
 		}
 	}
 
-	ga( 'send', { hitType: 'pageview', title, location } );
-
+	ga('send', { hitType: 'pageview', title, location });
 }
 
 /**
@@ -22,15 +21,15 @@ export function pageview( title, location, targeting = null ) {
  *
  * @param opts The ga event opts
  */
-export function sendToGA( opts ) {
-	if ( -1 !== location.search.indexOf( 'gadebug=1' ) ) {
-		window.console.log( 'sendToGA', opts );
+export function sendToGA(opts) {
+	if (location.search.indexOf('gadebug=1') !== -1) {
+		window.console.log('sendToGA', opts);
 	}
 
 	const { ga } = window;
 
-	if ( ga ) {
-		ga( 'send', opts );
+	if (ga) {
+		ga('send', opts);
 	}
 }
 
@@ -38,22 +37,22 @@ export function sendToGA( opts ) {
  * Sends a Live stream playing event to GA
  */
 export function sendLiveStreamPlaying() {
-	sendToGA( {
-		hitType       : 'event',
-		eventCategory : 'audio',
-		eventAction   : 'Live stream playing',
-	} );
+	sendToGA({
+		hitType: 'event',
+		eventCategory: 'audio',
+		eventAction: 'Live stream playing',
+	});
 }
 
 /**
  * Sends a Inline audio playing event to GA
  */
 export function sendInlineAudioPlaying() {
-	sendToGA( {
-		hitType       : 'event',
-		eventCategory : 'audio',
-		eventAction   : 'Inline audio playing',
-	} );
+	sendToGA({
+		hitType: 'event',
+		eventCategory: 'audio',
+		eventAction: 'Inline audio playing',
+	});
 }
 
 export default {

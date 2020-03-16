@@ -6,14 +6,14 @@
  * @param {String} station Station identifier
  * @param {Object} player Player instance
  */
-export default function loadNowPlaying( { station = null, player = null, playerType = null } ) {
-
+export default function loadNowPlaying({
+	station = null,
+	player = null,
+	playerType = null,
+}) {
 	// If not tdplayer type, abandon
 	// Only tdplayer contains the NowPlayingApi
-	if (
-		!playerType ||
-		'tdplayer' !== playerType
-	) {
+	if (!playerType || playerType !== 'tdplayer') {
 		return;
 	}
 
@@ -24,8 +24,8 @@ export default function loadNowPlaying( { station = null, player = null, playerT
 		station &&
 		player &&
 		player.NowPlayingApi &&
-		'function' === typeof player.NowPlayingApi.load
+		typeof player.NowPlayingApi.load === 'function'
 	) {
-		player.NowPlayingApi.load( { numberToFetch: 10, mount: station } );
+		player.NowPlayingApi.load({ numberToFetch: 10, mount: station });
 	}
 }

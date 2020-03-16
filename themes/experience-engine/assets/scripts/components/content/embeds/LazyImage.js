@@ -5,42 +5,40 @@ import { IntersectionObserverContext } from '../../../context/intersection-obser
 import { pageview } from '../../../library/google-analytics';
 
 class LazyImage extends PureComponent {
-
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
 		this.loading = false;
 		this.boxRef = React.createRef();
 		this.state = { image: '' };
 
-		this.onIntersectionChange = this.handleIntersectionChange.bind( this );
+		this.onIntersectionChange = this.handleIntersectionChange.bind(this);
 	}
 
 	componentDidMount() {
-
 		const { placeholder } = this.props;
 
-		this.container = document.getElementById( placeholder );
-		this.context.observe( this.container, this.onIntersectionChange );
+		this.container = document.getElementById(placeholder);
+		this.context.observe(this.container, this.onIntersectionChange);
 	}
 
 	componentWillUnmount() {
-		this.context.unobserve( this.container );
+		this.context.unobserve(this.container);
 	}
 
 	handleIntersectionChange() {
 		const { tracking } = this.props;
 
 		// disable intersection observing
-		this.context.unobserve( this.container );
+		this.context.unobserve(this.container);
 
 		// track virtual page view if it's needed
-		if ( tracking ) {
-			pageview( document.title, tracking );
+		if (tracking) {
+			pageview(document.title, tracking);
 		}
 
 		// load image
-		if ( !this.loading ) {
+		if (!this.loading) {
 			this.loading = true;
 			this.loadImage();
 		}
@@ -50,7 +48,7 @@ class LazyImage extends PureComponent {
 		const { container } = this;
 
 		let parent = container;
-		while ( parent && 1 > parent.offsetHeight ) {
+		while (parent && parent.offsetHeight < 1) {
 			parent = parent.parentNode;
 		}
 
@@ -63,12 +61,14 @@ class LazyImage extends PureComponent {
 		};
 	}
 
-	getImageUrl( quality = null ) {
-		if ( ! quality ) {
+	getImageUrl(quality = null) {
+		if (!quality) {
 			quality = 95;
 		}
 
-		let { src, width, height } = this.props;
+		let { src } = this.props;
+		const { width, height } = this.props;
+
 		const { containerWidth, containerHeight } = this.getDimensions();
 
 		// Kludge: Temporary fix for incorrectly cached image URLs in EE API
@@ -85,33 +85,35 @@ class LazyImage extends PureComponent {
 		let maxwidth = 'maxwidth';
 		let mode = '';
 
-		if ( 400 > +containerWidth || 400 > +containerHeight ) {
-			if ( imageWidth > imageHeight ) {
-				if ( 2 < ( imageWidth / imageHeight ) ) {
+		if (+containerWidth < 400 || +containerHeight < 400) {
+			if (imageWidth > imageHeight) {
+				if (imageWidth / imageHeight > 2) {
 					maxheight = 'height';
-					if ( this.props.crop ) {
+					if (this.props.crop) {
 						mode = '&mode=crop';
 					}
 				}
-			} else {
-				if ( 2 < ( imageHeight / imageWidth ) ) {
-					maxwidth = 'width';
-					if ( this.props.crop ) {
-						mode = '&mode=crop';
-					}
+			} else if (imageHeight / imageWidth > 2) {
+				maxwidth = 'width';
+				if (this.props.crop) {
+					mode = '&mode=crop';
 				}
 			}
 		}
 
 		let multiplier = window.devicePixelRatio;
-		if ( 1 > multiplier ) {
+		if (multiplier < 1) {
 			multiplier = 1;
-		} else if ( 2 < multiplier ) {
+		} else if (multiplier > 2) {
 			multiplier = 2;
 		}
 
-		let imageSrc = `${src.split( '?' )[0]}?${maxwidth}=${Math.round( containerWidth * multiplier )}&${maxheight}=${Math.round( containerHeight * multiplier )}&anchor=${anchor}${mode}`;
-		if ( quality && 0 < quality ) {
+		let imageSrc = `${src.split('?')[0]}?${maxwidth}=${Math.round(
+			containerWidth * multiplier,
+		)}&${maxheight}=${Math.round(
+			containerHeight * multiplier,
+		)}&anchor=${anchor}${mode}`;
+		if (quality && quality > 0) {
 			imageSrc += `&quality=${quality}`;
 		}
 
@@ -130,23 +132,24 @@ class LazyImage extends PureComponent {
 		imageLoader.src = imageSrc;
 		imageLoader.onload = () => {
 			// adjust height of container if it is needed
-			if ( autoheight ) {
+			if (autoheight) {
 				const { width, height } = imageLoader;
 				// only for landscape images
-				if ( width > height ) {
+				if (width > height) {
 					const { containerWidth, containerHeight } = this.getDimensions();
 					const containerAspect = containerHeight / containerWidth;
 					const imageAspect = height / width;
-					if ( containerAspect > imageAspect ) {
+					if (containerAspect > imageAspect) {
 						const { container } = this;
-						container.style.maxHeight = `${containerHeight * imageAspect / containerAspect}px`;
+						container.style.maxHeight = `${(containerHeight * imageAspect) /
+							containerAspect}px`;
 					}
 				}
 			}
 
 			// check if component is still mounted
-			if ( this.boxRef.current ) {
-				this.setState( { image: imageSrc } );
+			if (this.boxRef.current) {
+				this.setState({ image: imageSrc });
 			}
 		};
 	}
@@ -158,9 +161,9 @@ class LazyImage extends PureComponent {
 		const styles = {};
 
 		let child = false;
-		if ( image ) {
+		if (image) {
 			styles.backgroundImage = `url(${image})`;
-			if ( attribution ) {
+			if (attribution) {
 				child = <div className="lazy-image-attribution">{attribution}</div>;
 			}
 		} else {
@@ -168,12 +171,17 @@ class LazyImage extends PureComponent {
 		}
 
 		return (
-			<div className="lazy-image" ref={this.boxRef} style={styles} role="img" aria-label={alt}>
+			<div
+				className="lazy-image"
+				ref={this.boxRef}
+				style={styles}
+				role="img"
+				aria-label={alt}
+			>
 				{child}
 			</div>
 		);
 	}
-
 }
 
 LazyImage.propTypes = {

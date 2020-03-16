@@ -1,8 +1,6 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
 import { lyticsTrack } from '../../utilities';
-import {
-	ACTION_RESUME,
-} from '../../actions/player';
+import { ACTION_RESUME } from '../../actions/player';
 
 /**
  * @function yieldResume
@@ -10,34 +8,29 @@ import {
  */
 function* yieldResume() {
 	// Get player from state
-	const playerStore = yield select( ( { player } ) => player );
+	const playerStore = yield select(({ player }) => player);
 
 	// Destructure from playerStore in state
-	const {
-		trackType,
-		cuePoint,
-		player,
-	} = playerStore;
+	const { trackType, cuePoint, player } = playerStore;
 
 	// If player
-	if ( player ) {
-
+	if (player) {
 		// If has play (omny mp3)
-		if ( 'function' === typeof player.play ) {
-			yield call( [ player, 'play' ] );
+		if (typeof player.play === 'function') {
+			yield call([player, 'play']);
 
-		// If has resume (tdplayer)
-		} else if ( 'function' === typeof player.resume ) {
-			yield call( [ player, 'resume' ] );
+			// If has resume (tdplayer)
+		} else if (typeof player.resume === 'function') {
+			yield call([player, 'resume']);
 		}
 	}
 
 	if (
 		cuePoint &&
-		'podcast' === trackType &&
-		'function' === typeof lyticsTrack
+		trackType === 'podcast' &&
+		typeof lyticsTrack === 'function'
 	) {
-		yield call( lyticsTrack, 'play', cuePoint );
+		yield call(lyticsTrack, 'play', cuePoint);
 	}
 }
 
@@ -46,6 +39,5 @@ function* yieldResume() {
  * Generator used to bind action and callback
  */
 export default function* watchResume() {
-	yield takeLatest( [ACTION_RESUME], yieldResume );
+	yield takeLatest([ACTION_RESUME], yieldResume);
 }
-

@@ -5,4 +5,4 @@ import { getStorage } from '../../../library/local-storage';
 // namespaced with liveplayer. Will return an
 // object with a get and set using the namespace
 // as a prefix shortcut
-export default getStorage( 'liveplayer' );
+export default getStorage('liveplayer');

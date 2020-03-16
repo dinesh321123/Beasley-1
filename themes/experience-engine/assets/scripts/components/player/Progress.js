@@ -6,76 +6,89 @@ import { bindActionCreators } from 'redux';
 import { seekPosition } from '../../redux/actions/player';
 
 class Progress extends PureComponent {
-
-	static format( time ) {
+	static format(time) {
 		const HOUR_IN_SECONDS = 3600;
 		const MINUTE_IN_SECONDS = 60;
 
-		const hours = Math.floor( time / HOUR_IN_SECONDS );
-		const minutes = Math.floor( ( time % HOUR_IN_SECONDS ) / MINUTE_IN_SECONDS );
-		const seconds = Math.floor( time % MINUTE_IN_SECONDS );
+		const hours = Math.floor(time / HOUR_IN_SECONDS);
+		const minutes = Math.floor((time % HOUR_IN_SECONDS) / MINUTE_IN_SECONDS);
+		const seconds = Math.floor(time % MINUTE_IN_SECONDS);
 
-		const toFixed = ( value ) => 2 === value.toString().length ? value : `0${value}`;
-		let result = `${toFixed( minutes )}:${toFixed( seconds )}`;
-		if ( 0 < hours ) {
-			result = `${toFixed( hours )}:${result}`;
+		const toFixed = value =>
+			value.toString().length === 2 ? value : `0${value}`;
+		let result = `${toFixed(minutes)}:${toFixed(seconds)}`;
+		if (hours > 0) {
+			result = `${toFixed(hours)}:${result}`;
 		}
 
 		return result;
 	}
 
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
-		const self = this;
-		self.onSeek = self.handleSeekPosition.bind( self );
+		this.onSeek = this.handleSeekPosition.bind(this);
 	}
 
-	handleSeekPosition( e ) {
+	handleSeekPosition(e) {
 		const { target } = e;
 
-		let time = parseFloat( target.value );
-		if ( Number.isNaN( time ) ) {
+		let time = parseFloat(target.value);
+		if (Number.isNaN(time)) {
 			time = 0;
 		}
 
-		this.props.seek( time );
+		this.props.seek(time);
 	}
 
 	render() {
-		const self = this;
-		const { time, duration, className, colors } = self.props;
+		const { time, duration, className, colors } = this.props;
 
-		if ( 0 >= duration ) {
+		if (duration <= 0) {
 			return false;
 		}
 
 		return (
 			<div className={`controls-progress ${className}`} style={colors}>
-				<span className="time -desktop">{Progress.format( time )}</span>
+				<span className="time -desktop">{Progress.format(time)}</span>
 				<div className="ee-range-input -progress">
-					<input type="range" min="0" max={duration} value={time} onChange={self.onSeek} />
-					<p className="pre-bar" style={{ width: `${100 * time / duration}%`}} />
+					<input
+						type="range"
+						min="0"
+						max={duration}
+						value={time}
+						onChange={this.onSeek}
+					/>
+					<p
+						className="pre-bar"
+						style={{ width: `${(100 * time) / duration}%` }}
+					/>
 				</div>
-				<span className="time -desktop">{Progress.format( duration )}</span>
+				<span className="time -desktop">{Progress.format(duration)}</span>
 			</div>
 		);
 	}
-
 }
 
 Progress.propTypes = {
 	time: PropTypes.number.isRequired,
 	duration: PropTypes.number.isRequired,
 	seek: PropTypes.func.isRequired,
-	colors: PropTypes.object,
+	colors: PropTypes.shape({}),
+	className: PropTypes.string,
 };
 
-const mapStateToProps = ( { player } ) => ( {
+Progress.defaultProps = {
+	colors: {},
+	className: '',
+};
+
+const mapStateToProps = ({ player }) => ({
 	time: player.time,
 	duration: player.duration,
-} );
+});
 
-const mapDispatchToProps = ( dispatch ) => bindActionCreators( { seek: seekPosition }, dispatch );
+const mapDispatchToProps = dispatch =>
+	bindActionCreators({ seek: seekPosition }, dispatch);
 
-export default connect( mapStateToProps, mapDispatchToProps )( Progress );
+export default connect(mapStateToProps, mapDispatchToProps)(Progress);

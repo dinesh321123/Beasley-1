@@ -1,42 +1,51 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class CountdownTicker extends Component {
-	render() {
-		const { number, timeStyle } = this.props;
+const CountdownTicker = ({ number, timeStyle }) => {
+	const newNumber = `0${number}`.slice(-2);
 
-		const newNumber = ( '0' + number ).slice( -2 );
-
-		return (
-			<Fragment>
-				<div className="tick">
-					<div className="up">
-						<div className="shadow"></div>
-						<div className="inn" style={timeStyle}>{newNumber[0]}</div>
-					</div>
-					<div className="down">
-						<div className="shadow"></div>
-						<div className="inn" style={timeStyle}>{newNumber[0]}</div>
+	return (
+		<>
+			<div className="tick">
+				<div className="up">
+					<div className="shadow" />
+					<div className="inn" style={timeStyle}>
+						{newNumber[0]}
 					</div>
 				</div>
-				<div className="tick">
-					<div className="up">
-						<div className="shadow"></div>
-						<div className="inn" style={timeStyle}>{newNumber[1]}</div>
-					</div>
-					<div className="down">
-						<div className="shadow"></div>
-						<div className="inn" style={timeStyle}>{newNumber[1]}</div>
+				<div className="down">
+					<div className="shadow" />
+					<div className="inn" style={timeStyle}>
+						{newNumber[0]}
 					</div>
 				</div>
-			</Fragment>
-		);
-	}
-}
+			</div>
+			<div className="tick">
+				<div className="up">
+					<div className="shadow" />
+					<div className="inn" style={timeStyle}>
+						{newNumber[1]}
+					</div>
+				</div>
+				<div className="down">
+					<div className="shadow" />
+					<div className="inn" style={timeStyle}>
+						{newNumber[1]}
+					</div>
+				</div>
+			</div>
+		</>
+	);
+};
 
 CountdownTicker.propTypes = {
 	number: PropTypes.number,
-	timeStyle: PropTypes.object,
+	timeStyle: PropTypes.shape({}),
+};
+
+CountdownTicker.defaultProps = {
+	number: 0,
+	timeStyle: PropTypes.shape({}),
 };
 
 export default CountdownTicker;

@@ -8,132 +8,135 @@ import { modifyUserFeeds, deleteUserFeed } from '../../../redux/actions/auth';
 import { showSignInModal } from '../../../redux/actions/modal';
 
 class AddToFavorites extends PureComponent {
+	constructor(props) {
+		super(props);
 
-	constructor( props ) {
-		super( props );
-
-		const self = this;
-
-		self.state = {
+		this.state = {
 			hidden: !props.feedId,
 			feed: props.feedId,
 		};
 
-		self.onAddClick = self.handleAddClick.bind( self );
-		self.onRemoveClick = self.handleRemoveClick.bind( self );
+		this.onAddClick = this.handleAddClick.bind(this);
+		this.onRemoveClick = this.handleRemoveClick.bind(this);
 	}
 
 	componentDidMount() {
-		const self = this;
-		const { keyword } = self.props;
-		if ( !keyword ) {
+		const { keyword } = this.props;
+		if (!keyword) {
 			return;
 		}
 
-		searchKeywords( keyword )
-			.then( ( feeds ) => {
-				if ( Array.isArray( feeds ) && feeds.length ) {
+		searchKeywords(keyword)
+			.then(feeds => {
+				if (Array.isArray(feeds) && feeds.length) {
 					const newState = { hidden: false };
-					for ( let i = 0, len = feeds.length; i < len; i++ ) {
-						if ( feeds[i].id ) {
+					for (let i = 0, len = feeds.length; i < len; i++) {
+						if (feeds[i].id) {
 							newState.feed = feeds[i].id;
 							break;
 						}
 					}
 
-					self.setState( newState );
+					this.setState(newState);
 				}
-			} )
-			.catch( () => ( {} ) );
+			})
+			.catch(() => ({}));
 	}
 
 	hasFeed() {
-		const self = this;
-		const { feed } = self.state;
+		const { feed } = this.state;
 
-		return !!self.props.selectedFeeds.find( item => item.id === feed );
+		return !!this.props.selectedFeeds.find(item => item.id === feed);
 	}
 
 	handleAddClick() {
-		const self = this;
 		const feedsArray = [];
-		const { signedIn, showSignIn } = self.props;
+		const { signedIn, showSignIn } = this.props;
 
-		if ( ! signedIn ) {
+		if (!signedIn) {
 			showSignIn();
 			return;
 		}
 
-		self.props.selectedFeeds.forEach( ( item ) => {
-			feedsArray.push( { 
+		this.props.selectedFeeds.forEach(item => {
+			feedsArray.push({
 				id: item.id,
 				sortorder: feedsArray.length + 1,
-			} );
-		} );
+			});
+		});
 
-		feedsArray.push( { 
-			id: self.state.feed,
+		feedsArray.push({
+			id: this.state.feed,
 			sortorder: feedsArray.length + 1,
-		} );
+		});
 
-		self.props.modifyUserFeeds( feedsArray );
+		this.props.modifyUserFeeds(feedsArray);
 	}
 
 	handleRemoveClick() {
-		const self = this;
-		if ( self.hasFeed() ) {
-			self.props.deleteUserFeed( self.state.feed );
+		if (this.hasFeed()) {
+			this.props.deleteUserFeed(this.state.feed);
 		}
 	}
 
 	render() {
-		const self = this;
-		const { classes, addLabel, removeLabel, showIcon } = self.props;
+		const { classes, addLabel, removeLabel, showIcon } = this.props;
 
-		const { hidden } = self.state;
-		if ( hidden ) {
+		const { hidden } = this.state;
+		if (hidden) {
 			return false;
 		}
 
 		let icon = false;
 
-		if ( self.hasFeed() ) {
-			if ( showIcon ) {
+		if (this.hasFeed()) {
+			if (showIcon) {
 				icon = (
 					<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
-						<rect y="6.61502" x="0" id="svg_2" height="2" width="15"/>
+						<rect y="6.61502" x="0" id="svg_2" height="2" width="15" />
 					</svg>
 				);
 			}
-			
+
 			return (
-				<button className={`btn ${classes}`} onClick={self.onRemoveClick}>
+				<button
+					className={`btn ${classes}`}
+					onClick={this.onRemoveClick}
+					type="button"
+				>
 					{icon}
 					{removeLabel}
 				</button>
 			);
 		}
 
-		if ( showIcon ) {
+		if (showIcon) {
 			icon = (
 				<svg width="15" height="15" xmlns="http://www.w3.org/2000/svg">
-					<path fillRule="evenodd" clipRule="evenodd" d="M8.5 0h-2v6.5H0v2h6.5V15h2V8.5H15v-2H8.5V0z"/>
+					<path
+						fillRule="evenodd"
+						clipRule="evenodd"
+						d="M8.5 0h-2v6.5H0v2h6.5V15h2V8.5H15v-2H8.5V0z"
+					/>
 				</svg>
 			);
 		}
-		
+
 		return (
-			<button className={`btn ${classes}`} onClick={self.onAddClick}>
+			<button
+				className={`btn ${classes}`}
+				onClick={this.onAddClick}
+				type="button"
+			>
 				{icon}
 				{addLabel}
 			</button>
 		);
 	}
-
 }
 
 AddToFavorites.propTypes = {
-	selectedFeeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	selectedFeeds: PropTypes.arrayOf(PropTypes.object).isRequired,
 	feedId: PropTypes.string,
 	keyword: PropTypes.string,
 	classes: PropTypes.string,
@@ -155,19 +158,22 @@ AddToFavorites.defaultProps = {
 	showIcon: true,
 };
 
-function mapStateToProps( { auth } ) {
+function mapStateToProps({ auth }) {
 	return {
 		signedIn: !!auth.user,
 		selectedFeeds: auth.feeds,
 	};
 }
 
-function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		modifyUserFeeds,
-		deleteUserFeed,
-		showSignIn: showSignInModal,
-	}, dispatch );
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			modifyUserFeeds,
+			deleteUserFeed,
+			showSignIn: showSignInModal,
+		},
+		dispatch,
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( AddToFavorites );
+export default connect(mapStateToProps, mapDispatchToProps)(AddToFavorites);

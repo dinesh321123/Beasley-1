@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,20 +10,17 @@ import {
 	userHasProfile,
 } from '../library/experience-engine';
 import ErrorBoundary from '../components/ErrorBoundary';
-import {
-	showSignInModal,
-	showCompleteSignupModal,
-} from '../redux/actions/modal';
-import { setUser, resetUser } from '../redux/actions/auth';
-import { fetchFeedsContent, hideSplashScreen } from '../redux/actions/screen';
+import * as modalActions from '../redux/actions/modal';
+import * as authActions from '../redux/actions/auth';
+import * as screenActions from '../redux/actions/screen';
 
 class UserNav extends Component {
 	static isHomepage() {
-		return document.body.classList.contains( 'home' );
+		return document.body.classList.contains('home');
 	}
 
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
 		this.state = {
 			didLogin: false,
@@ -31,31 +28,31 @@ class UserNav extends Component {
 			loading: true,
 		};
 
-		this.onSignIn = this.handleSignIn.bind( this );
-		this.onSignOut = this.handleSignOut.bind( this );
+		this.onSignIn = this.handleSignIn.bind(this);
+		this.onSignOut = this.handleSignOut.bind(this);
 
-		this.didAuthStateChange = this.didAuthStateChange.bind( this );
-		this.finishLoading = this.finishLoading.bind( this );
+		this.didAuthStateChange = this.didAuthStateChange.bind(this);
+		this.finishLoading = this.finishLoading.bind(this);
 	}
 
 	componentDidMount() {
 		const { firebase: config } = window.bbgiconfig;
-		if ( config.projectId ) {
-			firebaseAuth.onAuthStateChanged( this.didAuthStateChange );
+		if (config.projectId) {
+			firebaseAuth.onAuthStateChanged(this.didAuthStateChange);
 			firebaseAuth
 				.getRedirectResult()
-				.then( result => {
-					if ( result.user ) {
-						this.setState( { didRedirect: true } );
+				.then(result => {
+					if (result.user) {
+						this.setState({ didRedirect: true });
 					}
-				} )
-				.catch( err => {
+				})
+				.catch(err => {
 					// eslint-disable-next-line no-console
-					console.error( 'Authentication Error', err );
-				} );
+					console.error('Authentication Error', err);
+				});
 		} else {
 			// eslint-disable-next-line no-console
-			console.error( 'Firebase Project ID not found in bbgiconfig.' );
+			console.error('Firebase Project ID not found in bbgiconfig.');
 		}
 	}
 
@@ -64,14 +61,17 @@ class UserNav extends Component {
 	 * If user logged out after login, reset user
 	 * Else load as if not logged in - load page using logged-out lifecycle
 	 */
-	didAuthStateChange( user ) {
-		if ( user ) {
-			this.setState( { didLogin: true } );
-			this.loadAsLoggedIn( user );
-		} else if ( !this.state.didLogin ) {
+	didAuthStateChange(user) {
+		const { didLogin } = this.state;
+		const { resetUser } = this.props;
+
+		if (user) {
+			this.setState({ didLogin: true });
+			this.loadAsLoggedIn(user);
+		} else if (!didLogin) {
 			this.loadAsNotLoggedIn();
 		} else {
-			this.props.resetUser();
+			resetUser();
 			this.finishLoading();
 		}
 	}
@@ -82,28 +82,30 @@ class UserNav extends Component {
 	 * 1. Check if User has a valid Channel, if not initialize it.
 	 * 2. Check if User has Profile data, if not show Profile Modal.
 	 */
-	loadAsLoggedIn( user ) {
-		this.props.setUser( user );
-		this.setState( { loading: false } );
+	loadAsLoggedIn(user) {
+		const { setUser, showCompleteSignup } = this.props;
+		const { didRedirect } = this.state;
 
-		if ( this.state.didRedirect ) {
+		setUser(user);
+		this.setState({ loading: false });
+
+		if (didRedirect) {
 			userHasProfile()
-				.then( result => {
-					if ( !result ) {
+				.then(result => {
+					if (!result) {
 						this.finishLoading();
-						this.props.showCompleteSignup();
+						showCompleteSignup();
 					} else {
-						ensureUserHasCurrentChannel()
-							.then( ( result ) => {
-								this.loadHomepage( user );
-							} );
+						ensureUserHasCurrentChannel().then(() => {
+							this.loadHomepage(user);
+						});
 					}
-				} )
-				.catch( () => {
+				})
+				.catch(() => {
 					this.finishLoading();
-				} );
-		} else if ( UserNav.isHomepage() ) {
-			this.loadHomepage( user );
+				});
+		} else if (UserNav.isHomepage()) {
+			this.loadHomepage(user);
 		} else {
 			this.finishLoading();
 		}
@@ -114,32 +116,36 @@ class UserNav extends Component {
 	 * splash screen.
 	 */
 	loadAsNotLoggedIn() {
-		this.setState( { loading: false } );
-		this.props.hideSplashScreen();
+		const { hideSplashScreen } = this.props;
+		this.setState({ loading: false });
+		hideSplashScreen();
 	}
 
 	/**
 	 * Helper to complete loading stage.
 	 */
 	finishLoading() {
-		this.props.hideSplashScreen();
-		this.setState( { loading: false } );
+		const { hideSplashScreen } = this.props;
+		hideSplashScreen();
+		this.setState({ loading: false });
 	}
 
 	/**
 	 * Loads the Homepage feeds from the EE API proxy.
 	 */
-	loadHomepage( user ) {
-		return user.getIdToken().then( this.props.fetchFeedsContent );
+	loadHomepage(user) {
+		const { fetchFeedsContent } = this.props;
+		return user.getIdToken().then(fetchFeedsContent);
 	}
 
 	handleSignIn() {
-		this.props.showSignIn();
+		const { showSignIn } = this.props;
+		showSignIn();
 	}
 
 	handleSignOut() {
 		firebaseAuth.signOut();
-		if ( UserNav.isHomepage() ) {
+		if (UserNav.isHomepage()) {
 			window.location.reload();
 		}
 	}
@@ -148,21 +154,21 @@ class UserNav extends Component {
 		return <div className="loading" />;
 	}
 
-	renderSignedInState( user ) {
+	renderSignedInState(user) {
 		const { userDisplayName } = this.props;
 
 		const displayName = user.displayName || userDisplayName || user.email;
 		let photo = user.photoURL;
-		if ( ( !photo || !photo.length ) && user.email ) {
-			photo = `//www.gravatar.com/avatar/${md5( user.email )}.jpg?s=100`;
+		if ((!photo || !photo.length) && user.email) {
+			photo = `//www.gravatar.com/avatar/${md5(user.email)}.jpg?s=100`;
 		}
 
-		if ( photo && -1 !== photo.indexOf( 'gravatar.com' ) ) {
+		if (photo && photo.indexOf('gravatar.com') !== -1) {
 			photo += '&d=mp';
 		}
 
 		return (
-			<Fragment>
+			<>
 				<div className="user-nav-info">
 					<span className="user-nav-name" data-uid={user.uid}>
 						{displayName}
@@ -178,7 +184,7 @@ class UserNav extends Component {
 				<div className="user-nav-image">
 					<img src={photo} alt={displayName} />
 				</div>
-			</Fragment>
+			</>
 		);
 	}
 
@@ -204,25 +210,25 @@ class UserNav extends Component {
 
 	render() {
 		const { firebase: config } = window.bbgiconfig;
-		if ( !config.projectId ) {
+		if (!config.projectId) {
 			return false;
 		}
 
 		const { loading } = this.state;
 		const { user } = this.props;
-		const container = document.getElementById( 'user-nav' );
+		const container = document.getElementById('user-nav');
 
 		let component = false;
-		if ( loading ) {
+		if (loading) {
 			component = this.renderLoadingState();
-		} else if ( user ) {
-			component = this.renderSignedInState( user );
+		} else if (user) {
+			component = this.renderSignedInState(user);
 		} else {
 			component = this.renderSignedOutState();
 		}
 
 		return ReactDOM.createPortal(
-			React.createElement( ErrorBoundary, {}, component ),
+			React.createElement(ErrorBoundary, {}, component),
 			container,
 		);
 	}
@@ -235,23 +241,22 @@ UserNav.propTypes = {
 	setUser: PropTypes.func.isRequired,
 	showCompleteSignup: PropTypes.func.isRequired,
 	showSignIn: PropTypes.func.isRequired,
-	suppressUserCheck: PropTypes.bool.isRequired,
-	user: PropTypes.oneOfType( [PropTypes.object, PropTypes.bool] ).isRequired,
+	user: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
 	userDisplayName: PropTypes.string.isRequired,
 };
 
 export default connect(
-	( { auth } ) => ( {
+	({ auth }) => ({
 		suppressUserCheck: auth.suppressUserCheck,
 		user: auth.user || false,
 		userDisplayName: auth.displayName,
-	} ),
+	}),
 	{
-		hideSplashScreen,
-		fetchFeedsContent,
-		resetUser,
-		setUser,
-		showCompleteSignup: showCompleteSignupModal,
-		showSignIn: showSignInModal,
+		hideSplashScreen: screenActions.hideSplashScreen,
+		fetchFeedsContent: screenActions.fetchFeedsContent,
+		resetUser: authActions.resetUser,
+		setUser: authActions.setUser,
+		showCompleteSignup: modalActions.showCompleteSignupModal,
+		showSignIn: modalActions.showSignInModal,
 	},
-)( UserNav );
+)(UserNav);

@@ -8,7 +8,7 @@ import Controls from '../../player/Controls';
 
 import * as actions from '../../../redux/actions/player';
 
-function StreamCta( props ) {
+function StreamCta(props) {
 	const {
 		audio,
 		station,
@@ -24,13 +24,12 @@ function StreamCta( props ) {
 	} = props;
 
 	const styles = {};
-	if ( picture && picture.large && picture.large.url ) {
+	if (picture && picture.large && picture.large.url) {
 		styles.backgroundImage = `url("${picture.large.url}")`;
 	}
 
-	const playerStatus = !audio && stream === station
-		? status
-		: actions.STATUSES.LIVE_STOP;
+	const playerStatus =
+		!audio && stream === station ? status : actions.STATUSES.LIVE_STOP;
 
 	return (
 		<div className="content-wrap" style={styles}>
@@ -43,7 +42,12 @@ function StreamCta( props ) {
 			</div>
 
 			<div className="action">
-				<Controls status={playerStatus} play={() => play( stream )} pause={pause} resume={resume} />
+				<Controls
+					status={playerStatus}
+					play={() => play(stream)}
+					pause={pause}
+					resume={resume}
+				/>
 				<p>Play Live</p>
 			</div>
 		</div>
@@ -60,15 +64,19 @@ StreamCta.propTypes = {
 	id: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	subtitle: PropTypes.string.isRequired,
-	picture: PropTypes.shape( {} ),
-	'stream_call_letters': PropTypes.string.isRequired,
+	picture: PropTypes.shape({
+		large: PropTypes.shape({
+			url: PropTypes.string,
+		}),
+	}),
+	stream_call_letters: PropTypes.string.isRequired,
 };
 
 StreamCta.defaultProps = {
 	picture: {},
 };
 
-function mapStateToProps( { player } ) {
+function mapStateToProps({ player }) {
 	return {
 		audio: player.audio,
 		status: player.status,
@@ -76,12 +84,15 @@ function mapStateToProps( { player } ) {
 	};
 }
 
-function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		play: actions.playStation,
-		pause: actions.pause,
-		resume: actions.resume,
-	}, dispatch );
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			play: actions.playStation,
+			pause: actions.pause,
+			resume: actions.resume,
+		},
+		dispatch,
+	);
 }
 
-export default connect( mapStateToProps, mapDispatchToProps )( StreamCta );
+export default connect(mapStateToProps, mapDispatchToProps)(StreamCta);

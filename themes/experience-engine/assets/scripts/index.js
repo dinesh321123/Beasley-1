@@ -12,13 +12,13 @@ import './library/geotargetly';
 import '../styles/main.css';
 import { closestPolyfill } from './library';
 
-closestPolyfill();
-
 import createStore from './redux/store';
 import App from './app';
 
-const root = document.createElement( 'div' );
-document.body.appendChild( root );
+closestPolyfill();
+
+const root = document.createElement('div');
+document.body.appendChild(root);
 
 ReactDOM.render(
 	<Provider store={createStore()}>

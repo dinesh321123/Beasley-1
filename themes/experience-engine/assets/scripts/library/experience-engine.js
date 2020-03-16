@@ -1,4 +1,13 @@
-import { firebaseAuth } from '../library/firebase';
+import { firebaseAuth } from './firebase';
+
+function __api(strings, ...params) {
+	let url = window.bbgiconfig.eeapi;
+	strings.forEach((string, i) => {
+		url += string + encodeURIComponent(params[i] || '');
+	});
+
+	return url;
+}
 
 function getChannel() {
 	const { publisher } = window.bbgiconfig;
@@ -7,47 +16,46 @@ function getChannel() {
 	return channel || '';
 }
 
-function getToken( token = null ) {
-	if ( token ) {
-		return Promise.resolve( token );
+function getToken(token = null) {
+	if (token) {
+		return Promise.resolve(token);
 	}
 
-	if ( !firebaseAuth.currentUser ) {
+	if (!firebaseAuth.currentUser) {
 		return Promise.reject();
 	}
 
-	return firebaseAuth.currentUser.getIdToken().catch( error => console.error( error ) ); // eslint-disable-line no-console
+	return firebaseAuth.currentUser
+		.getIdToken()
+		.catch(error => console.error(error)); // eslint-disable-line no-console
 }
 
-function __api( strings, ...params ) {
-	let url = window.bbgiconfig.eeapi;
-	strings.forEach( ( string, i ) => {
-		url += string + encodeURIComponent( params[i] || '' );
-	} );
-
-	return url;
+export function getUser() {
+	return getToken()
+		.then(token => fetch(__api`user?authorization=${token}`))
+		.then(response => response.json());
 }
 
-export function saveUser( email, zipcode, gender, dateofbirth ) {
+export function saveUser(email, zipcode, gender, dateofbirth) {
 	const channel = getChannel();
 	const params = {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify( {
+		body: JSON.stringify({
 			zipcode,
-			gender: 'male' === gender ? 'M' : 'F',
+			gender: gender === 'male' ? 'M' : 'F',
 			dateofbirth,
 			email,
-		} ),
+		}),
 	};
 
-	return getToken().then( token => {
-		return fetch( __api`user?authorization=${token}`, params ).then( () =>
-			fetch( __api`experience/channels/${channel}?authorization=${token}`, {
+	return getToken().then(token => {
+		return fetch(__api`user?authorization=${token}`, params).then(() =>
+			fetch(__api`experience/channels/${channel}?authorization=${token}`, {
 				method: 'PUT',
-			} ),
+			}),
 		);
-	} );
+	});
 }
 
 /**
@@ -57,7 +65,7 @@ export function saveUser( email, zipcode, gender, dateofbirth ) {
  * @return Promise
  */
 export function userHasProfile() {
-	return getUser().then( result => !result.Error );
+	return getUser().then(result => !result.Error);
 }
 
 /**
@@ -68,14 +76,14 @@ export function userHasProfile() {
  * @param string channel The channel to check
  * @return Promise
  */
-export function userHasChannel( channel ) {
-	return getToken().then( token => {
-		return fetch( __api`experience/channels/${channel}?authorization=${token}`, {
+export function userHasChannel(channel) {
+	return getToken().then(token => {
+		return fetch(__api`experience/channels/${channel}?authorization=${token}`, {
 			method: 'GET',
-		} )
-			.then( response => response.json() )
-			.then( result => !result.Error );
-	} );
+		})
+			.then(response => response.json())
+			.then(result => !result.Error);
+	});
 }
 
 /**
@@ -86,7 +94,17 @@ export function userHasChannel( channel ) {
  */
 export function userHasCurrentChannel() {
 	const channel = getChannel();
-	return userHasChannel( channel );
+	return userHasChannel(channel);
+}
+
+/**
+ * Adds the current publisher channel to the current user
+ *
+ * @return Promise
+ */
+export function addCurrentChannelToUser() {
+	const channel = getChannel();
+	return addChannelToUser(channel);
 }
 
 /**
@@ -97,16 +115,15 @@ export function userHasCurrentChannel() {
  */
 export function ensureUserHasCurrentChannel() {
 	return userHasCurrentChannel()
-		.then( result => {
-			if ( result ) {
+		.then(result => {
+			if (result) {
 				return true;
-			} else {
-				return addCurrentChannelToUser();
 			}
-		} )
-		.catch( () => {
+			return addCurrentChannelToUser();
+		})
+		.catch(() => {
 			return false;
-		} );
+		});
 }
 
 /**
@@ -115,62 +132,46 @@ export function ensureUserHasCurrentChannel() {
  * @param string channel The channel to add
  * @return Promise
  */
-export function addChannelToUser( channel ) {
-	return getToken().then( token => {
-		return fetch( __api`experience/channels/${channel}?authorization=${token}`, {
+export function addChannelToUser(channel) {
+	return getToken().then(token => {
+		return fetch(__api`experience/channels/${channel}?authorization=${token}`, {
 			method: 'PUT',
-		} );
-	} );
+		});
+	});
 }
 
-/**
- * Adds the current publisher channel to the current user
- *
- * @return Promise
- */
-export function addCurrentChannelToUser() {
-	const channel = getChannel();
-	return addChannelToUser( channel );
-}
-
-export function getUser() {
-	return getToken()
-		.then( token => fetch( __api`user?authorization=${token}` ) )
-		.then( response => response.json() );
-}
-
-export function discovery( filters ) {
+export function discovery(filters) {
 	const channel = getChannel();
 	const { keyword, type, location, genre, brand } = filters;
 
-	return getToken().then( token =>
+	return getToken().then(token =>
 		fetch(
 			__api`discovery/?media_type=${type}&genre=${genre}&location=${location}&brand=${brand}&keyword=${keyword}&channel=${channel}&authorization=${token}`,
 		),
 	);
 }
 
-export function getFeeds( jwt = null ) {
+export function getFeeds(jwt = null) {
 	const channel = getChannel();
 
-	return getToken( jwt )
-		.then( token =>
+	return getToken(jwt)
+		.then(token =>
 			fetch(
 				__api`experience/channels/${channel}/feeds/content/?authorization=${token}`,
 			),
 		)
-		.then( response => response.json() );
+		.then(response => response.json());
 }
 
-export function modifyFeeds( feeds ) {
+export function modifyFeeds(feeds) {
 	const channel = getChannel();
 	const params = {
 		method: 'PUT',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify( feeds ),
+		body: JSON.stringify(feeds),
 	};
 
-	return getToken().then( token =>
+	return getToken().then(token =>
 		fetch(
 			__api`experience/channels/${channel}/feeds/?authorization=${token}`,
 			params,
@@ -178,11 +179,11 @@ export function modifyFeeds( feeds ) {
 	);
 }
 
-export function deleteFeed( feedId ) {
+export function deleteFeed(feedId) {
 	const channel = getChannel();
 	const params = { method: 'DELETE' };
 
-	return getToken().then( token =>
+	return getToken().then(token =>
 		fetch(
 			__api`experience/channels/${channel}/feeds/${feedId}/?authorization=${token}`,
 			params,
@@ -190,45 +191,45 @@ export function deleteFeed( feedId ) {
 	);
 }
 
-export function searchKeywords( keyword ) {
+export function searchKeywords(keyword) {
 	return fetch(
 		__api`experience/channels/${getChannel()}/keywords/${keyword}/`,
-	).then( response => response.json() );
+	).then(response => response.json());
 }
 
-export function validateDate( dateString ) {
+export function validateDate(dateString) {
 	// @note: Leaving this is without disabling it.
 	// First check for the pattern
-	if ( !/^\d{1,2}\/|-\d{1,2}\/|-\d{4}$/.test( dateString ) ) {
+	if (!/^\d{1,2}\/|-\d{1,2}\/|-\d{4}$/.test(dateString)) {
 		return false;
 	}
 
 	// Parse the date parts to integers
 	let parts;
 
-	if ( dateString.includes( '-' ) ) {
-		parts = dateString.split( '-' );
+	if (dateString.includes('-')) {
+		parts = dateString.split('-');
 	} else {
-		parts = dateString.split( '/' );
+		parts = dateString.split('/');
 	}
 
-	const year = parseInt( parts[2], 10 );
-	const month = parseInt( parts[0], 10 );
-	const day = parseInt( parts[1], 10 );
+	const year = parseInt(parts[2], 10);
+	const month = parseInt(parts[0], 10);
+	const day = parseInt(parts[1], 10);
 
 	// Check the ranges of month and year
-	if ( 1000 > year || 3000 < year || 0 == month || 12 < month ) {
+	if (year < 1000 || year > 3000 || month === 0 || month > 12) {
 		return false;
 	}
 
 	const monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 	// Adjust for leap years
-	if ( 0 == year % 400 || ( 0 != year % 100 && 0 == year % 4 ) )
+	if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0))
 		monthLength[1] = 29;
 
 	// Check the range of the day
-	return 0 < day && day <= monthLength[month - 1];
+	return day > 0 && day <= monthLength[month - 1];
 }
 
 /**
@@ -239,9 +240,9 @@ export function validateDate( dateString ) {
  * @param email The input string
  * @return bool
  */
-export function validateEmail( email ) {
-	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	return re.test( String( email ).toLowerCase() );
+export function validateEmail(email) {
+	const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(String(email).toLowerCase());
 }
 
 /**
@@ -251,12 +252,11 @@ export function validateEmail( email ) {
  * @param zipcode The input string
  * @return bool
  */
-export function validateZipcode( zipcode ) {
-	if ( zipcode ) {
-		return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test( zipcode );
-	} else {
-		return false;
+export function validateZipcode(zipcode) {
+	if (zipcode) {
+		return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipcode);
 	}
+	return false;
 }
 
 /**
@@ -265,7 +265,7 @@ export function validateZipcode( zipcode ) {
  * @param string The input string
  * @return bool
  */
-export function validateGender( gender ) {
+export function validateGender(gender) {
 	return !!gender;
 }
 

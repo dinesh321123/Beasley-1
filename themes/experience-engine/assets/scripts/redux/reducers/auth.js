@@ -15,8 +15,8 @@ export const DEFAULT_STATE = {
 	user: null,
 };
 
-function reducer( state = {}, action = {} ) {
-	switch ( action.type ) {
+function reducer(state = {}, action = {}) {
+	switch (action.type) {
 		case ACTION_SET_USER:
 			return { ...state, user: action.user };
 		case ACTION_RESET_USER:
@@ -28,16 +28,16 @@ function reducer( state = {}, action = {} ) {
 			return {
 				...state,
 				feeds: action.feeds
-					.filter( item => !!item.sortorder )
-					.map( item => ( {
+					.filter(item => !!item.sortorder)
+					.map(item => ({
 						id: item.id,
 						sortorder: item.sortorder,
-					} ) ),
+					})),
 			};
 		case ACTION_DELETE_USER_FEED:
 			return {
 				...state,
-				feeds: state.feeds.filter( item => item.id !== action.feed ),
+				feeds: state.feeds.filter(item => item.id !== action.feed),
 			};
 		case ACTION_SET_DISPLAY_NAME:
 			return { ...state, displayName: action.name };

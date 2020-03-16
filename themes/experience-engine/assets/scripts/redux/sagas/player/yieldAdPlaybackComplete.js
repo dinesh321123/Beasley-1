@@ -12,11 +12,10 @@ import {
  */
 function* yieldAdPlaybackComplete() {
 	// Player store from state
-	const playerStore = yield select( ( { player } ) => player );
+	const playerStore = yield select(({ player }) => player);
 
 	// Call loadNowPlaying
-	yield call( loadNowPlaying, playerStore );
-
+	yield call(loadNowPlaying, playerStore);
 }
 
 /**
@@ -24,5 +23,8 @@ function* yieldAdPlaybackComplete() {
  * Generator used to bind action and callback
  */
 export default function* watchAdPlaybackComplete() {
-	yield takeLatest( [ ACTION_AD_PLAYBACK_COMPLETE, ACTION_AD_PLAYBACK_ERROR ], yieldAdPlaybackComplete );
+	yield takeLatest(
+		[ACTION_AD_PLAYBACK_COMPLETE, ACTION_AD_PLAYBACK_ERROR],
+		yieldAdPlaybackComplete,
+	);
 }

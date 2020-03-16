@@ -15,13 +15,13 @@ import { isSafari, isWindowsBrowser } from './library/browser';
  * The App's entry point.
  */
 const App = () => {
-	useEffect( () => {
-		if ( isSafari() ) {
-			document.body.classList.add( 'is-safari' );
-		} else if ( isWindowsBrowser() ) {
-			document.body.classList.add( 'is-windows' );
+	useEffect(() => {
+		if (isSafari()) {
+			document.body.classList.add('is-safari');
+		} else if (isWindowsBrowser()) {
+			document.body.classList.add('is-windows');
 		}
-	}, [] );
+	}, []);
 
 	return (
 		<IntersectionObserverProvider>

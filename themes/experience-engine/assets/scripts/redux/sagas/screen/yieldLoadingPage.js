@@ -1,9 +1,6 @@
 import { call, takeLatest } from 'redux-saga/effects';
 import NProgress from 'nprogress';
-import {
-	updateCorrelator,
-	clearTargeting,
-} from '../../utilities';
+import { updateCorrelator, clearTargeting } from '../../utilities';
 import {
 	ACTION_LOADING_PAGE,
 	ACTION_LOADING_PARTIAL,
@@ -17,25 +14,26 @@ import {
  * @param { Object } action Dispatched action
  * @param { Object } action.url url from action
  */
-function* yieldLoadingPage( { url } ) {
-	if ( window.location.href !== url ) {
-
+function* yieldLoadingPage({ url }) {
+	if (window.location.href !== url) {
 		// Call updateCorrelator
-		yield call( updateCorrelator );
+		yield call(updateCorrelator);
 
 		// Call clearTargeting
-		yield call( clearTargeting );
+		yield call(clearTargeting);
 	}
 
 	// Call NProgress start
-	yield call( [ NProgress, 'start' ] );
+	yield call([NProgress, 'start']);
 }
-
 
 /**
  * @function watchLoadingPage
  * Generator used to bind action and callback
  */
 export default function* watchLoadingPage() {
-	yield takeLatest( [ ACTION_LOADING_PARTIAL, ACTION_LOADING_PAGE ], yieldLoadingPage );
+	yield takeLatest(
+		[ACTION_LOADING_PARTIAL, ACTION_LOADING_PAGE],
+		yieldLoadingPage,
+	);
 }

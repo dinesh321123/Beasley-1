@@ -55,7 +55,7 @@ const PLAYERS_REGISTRY = {
  * explicitly called in order to clear the global timeout if
  * this was called directly.
  */
-export function adPlaybackStop( actionType ) {
+export function adPlaybackStop(actionType) {
 	return {
 		type: ACTION_AD_PLAYBACK_STOP,
 		payload: {
@@ -98,7 +98,7 @@ export function adBreakSyncedHide() {
  * statusUpdate action creator
  * @param {String} status
  */
-export function statusUpdate( status ) {
+export function statusUpdate(status) {
 	return {
 		type: ACTION_STATUS_CHANGE,
 		status,
@@ -109,10 +109,10 @@ export function statusUpdate( status ) {
  * cuePoint action creator
  * @param {Object} data - Payload from player event
  */
-export function cuePoint( cuePoint = {} ) {
+export function cuePoint(cuePointData = {}) {
 	return {
 		type: ACTION_CUEPOINT_CHANGE,
-		cuePoint,
+		cuePoint: cuePointData,
 	};
 }
 
@@ -120,19 +120,18 @@ export function cuePoint( cuePoint = {} ) {
  * nowPlayingLoaded action creator
  * @param {Object} data - Payload from player event
  */
-export function nowPlayingLoaded( data ) {
+export function nowPlayingLoaded(data) {
 	return {
 		type: ACTION_NOW_PLAYING_LOADED,
 		...data,
 	};
 }
 
-
 /**
  * durationChange action creator
  * @param {String} duration - Payload from player
  */
-export function durationChange( duration ) {
+export function durationChange(duration) {
 	return {
 		type: ACTION_DURATION_CHANGE,
 		duration,
@@ -144,7 +143,7 @@ export function durationChange( duration ) {
  * @param {String} time - Payload from player
  * @param {String|null} duration - Payload from player
  */
-export function timeChange( time, duration = null ) {
+export function timeChange(time, duration = null) {
 	return {
 		type: ACTION_TIME_CHANGE,
 		time,
@@ -202,7 +201,7 @@ export function resume() {
  *
  * @param {Object} player - player object reference
  */
-export function setPlayer( player, playerType ) {
+export function setPlayer(player, playerType) {
 	return {
 		type: ACTION_SET_PLAYER,
 		payload: { player, playerType },
@@ -213,7 +212,7 @@ export function setPlayer( player, playerType ) {
  * setVolume action creator
  * @param {String} volume
  */
-export function setVolume( volume ) {
+export function setVolume(volume) {
 	return {
 		type: ACTION_SET_VOLUME,
 		volume,
@@ -224,10 +223,26 @@ export function setVolume( volume ) {
  * seekPosition action creator
  * @param {String} position
  */
-export function seekPosition( position ) {
+export function seekPosition(position) {
 	return {
 		type: ACTION_SEEK_POSITION,
 		position,
+	};
+}
+
+/**
+ * errorCatcher outputs helper console messages
+ * @param {String} prefix
+ */
+function errorCatcher(prefix = '') {
+	return e => {
+		const { data } = e;
+		const { errors = [] } = data;
+
+		errors.forEach(error =>
+			// eslint-disable-next-line no-console
+			console.error(`${prefix}: [${error.code}] ${error.message}`),
+		);
 	};
 }
 
@@ -236,89 +251,79 @@ export function seekPosition( position ) {
  *
  * @param {*} modules
  */
-export function initTdPlayer( modules ) {
-	return ( dispatch ) => {
+export function initTdPlayer(modules) {
+	return dispatch => {
 		let adSyncedTimeout = false;
 
 		function dispatchSyncedStart() {
 			// hide after 35 seconds if it hasn't been hidden yet
-			clearTimeout( adSyncedTimeout );
-			adSyncedTimeout = setTimeout(
-				() => dispatch( adBreakSyncedHide() ),
-				35000,
-			);
-			dispatch( adBreakSynced() );
+			clearTimeout(adSyncedTimeout);
+			adSyncedTimeout = setTimeout(() => dispatch(adBreakSyncedHide()), 35000);
+			dispatch(adBreakSynced());
 		}
 
-		PLAYERS_REGISTRY.tdPlayer = new window.TDSdk( {
-			configurationError: errorCatcher( 'Configuration Error' ),
+		PLAYERS_REGISTRY.tdPlayer = new window.TDSdk({
+			configurationError: errorCatcher('Configuration Error'),
 			coreModules: modules,
-			moduleError: errorCatcher( 'Module Error' ),
-		} );
+			moduleError: errorCatcher('Module Error'),
+		});
 
-
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'stream-status', ( { data } ) => dispatch( statusUpdate( data.code ) ) );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'list-loaded', ( { data } ) => dispatch( nowPlayingLoaded( data ) ) );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'track-cue-point', ( { data } ) => dispatch( cuePoint( data.cuePoint || {} ) ) );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'speech-cue-point', ( { data } ) => dispatch( cuePoint( data.cuePoint || {} ) ) );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'custom-cue-point', ( { data } ) => dispatch( cuePoint( data.cuePoint || {} ) ) );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'ad-break-cue-point', ( { data } ) => dispatch( cuePoint( data.cuePoint || {} ) ) );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'ad-break-cue-point-complete', () => dispatch( cuePoint() ) );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'ad-break-synced-element', dispatchSyncedStart );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'ad-playback-start', () => dispatch( adPlaybackStart() ) ); // used to dispatchPlaybackStart
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'ad-playback-complete', () => dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE ) ) ); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE )
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'stream-start', () => dispatch( start() ) );
-		PLAYERS_REGISTRY.tdPlayer.addEventListener( 'stream-stop', () => dispatch( end() ) );
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('stream-status', ({ data }) =>
+			dispatch(statusUpdate(data.code)),
+		);
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('list-loaded', ({ data }) =>
+			dispatch(nowPlayingLoaded(data)),
+		);
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('track-cue-point', ({ data }) =>
+			dispatch(cuePoint(data.cuePoint || {})),
+		);
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('speech-cue-point', ({ data }) =>
+			dispatch(cuePoint(data.cuePoint || {})),
+		);
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('custom-cue-point', ({ data }) =>
+			dispatch(cuePoint(data.cuePoint || {})),
+		);
 		PLAYERS_REGISTRY.tdPlayer.addEventListener(
-			'ad-playback-error',
-			() => {
-				/*
-				 * the beforeStreamStart function may be injected onto the window
-				 * object from google tag manager. This function provides a callback
-				 * when it is completed. Currently we are using it to play a preroll
-				 * from kubient when there is no preroll provided by triton. To ensure
-				 * that we do not introduce unforeseen issues we return the original
-				 * ACTION_AD_PLAYBACK_ERROR type.
-				 * */
-				if ( window.beforeStreamStart ) {
-					window.beforeStreamStart( () => dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) ) ); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
-				} else {
-					dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) ); // used to dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
-				}
-			},
+			'ad-break-cue-point',
+			({ data }) => dispatch(cuePoint(data.cuePoint || {})),
 		);
-	};
-}
-
-
-/**
- * doPlayOmny action creator
- * @param {Object} player
- * @param {*} audio
- * @param {*} trackType
- */
-function doPlayOmny( player, audio, trackType ) {
-	return {
-		type: ACTION_PLAY_OMNY,
-		player,
-		audio,
-		trackType,
-	};
-}
-
-/**
- * errorCatcher outputs helper console messages
- * @param {String} prefix
- */
-function errorCatcher( prefix = '' ) {
-	return e => {
-		const { data } = e;
-		const { errors = [] } = data;
-
-		errors.forEach( error =>
-			// eslint-disable-next-line no-console
-			console.error( `${prefix}: [${error.code}] ${error.message}` ),
+		PLAYERS_REGISTRY.tdPlayer.addEventListener(
+			'ad-break-cue-point-complete',
+			() => dispatch(cuePoint()),
 		);
+		PLAYERS_REGISTRY.tdPlayer.addEventListener(
+			'ad-break-synced-element',
+			dispatchSyncedStart,
+		);
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('ad-playback-start', () =>
+			dispatch(adPlaybackStart()),
+		); // used to dispatchPlaybackStart
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('ad-playback-complete', () =>
+			dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_COMPLETE)),
+		); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE )
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('stream-start', () =>
+			dispatch(start()),
+		);
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('stream-stop', () =>
+			dispatch(end()),
+		);
+		PLAYERS_REGISTRY.tdPlayer.addEventListener('ad-playback-error', () => {
+			/*
+			 * the beforeStreamStart function may be injected onto the window
+			 * object from google tag manager. This function provides a callback
+			 * when it is completed. Currently we are using it to play a preroll
+			 * from kubient when there is no preroll provided by triton. To ensure
+			 * that we do not introduce unforeseen issues we return the original
+			 * ACTION_AD_PLAYBACK_ERROR type.
+			 * */
+			if (window.beforeStreamStart) {
+				window.beforeStreamStart(() =>
+					dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
+				); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
+			} else {
+				dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)); // used to dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
+			}
+		});
 	};
 }
 
@@ -328,20 +333,32 @@ function errorCatcher( prefix = '' ) {
  * @param {*} dispatch
  * @param {*} src The audio source
  */
-function setUpAudioPlayer( dispatch, src ) {
-	PLAYERS_REGISTRY.audioPlayer = new Audio( src );
+function setUpAudioPlayer(dispatch, src) {
+	PLAYERS_REGISTRY.audioPlayer = new Audio(src);
 
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'loadstart', () => dispatch( statusUpdate( STATUSES.LIVE_BUFFERING ) ) );
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'pause', () => dispatch( statusUpdate( STATUSES.LIVE_PAUSE ) ) );
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'playing', () => dispatch( statusUpdate( STATUSES.LIVE_PLAYING ) ) );
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'ended', () => {
-		dispatch( statusUpdate( STATUSES.LIVE_STOP ) );
-	} );
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'play', () => dispatch( start() ) );
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'pause', () => dispatch( end() ) );
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'abort', () => dispatch( end() ) );
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'loadedmetadata', () => dispatch( durationChange( PLAYERS_REGISTRY.audioPlayer.duration ) ) );
-	PLAYERS_REGISTRY.audioPlayer.addEventListener( 'timeupdate', () => dispatch( timeChange( PLAYERS_REGISTRY.audioPlayer.currentTime ) ) );
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('loadstart', () =>
+		dispatch(statusUpdate(STATUSES.LIVE_BUFFERING)),
+	);
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('pause', () =>
+		dispatch(statusUpdate(STATUSES.LIVE_PAUSE)),
+	);
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('playing', () =>
+		dispatch(statusUpdate(STATUSES.LIVE_PLAYING)),
+	);
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('ended', () => {
+		dispatch(statusUpdate(STATUSES.LIVE_STOP));
+	});
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('play', () =>
+		dispatch(start()),
+	);
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('pause', () => dispatch(end()));
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('abort', () => dispatch(end()));
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('loadedmetadata', () =>
+		dispatch(durationChange(PLAYERS_REGISTRY.audioPlayer.duration)),
+	);
+	PLAYERS_REGISTRY.audioPlayer.addEventListener('timeupdate', () =>
+		dispatch(timeChange(PLAYERS_REGISTRY.audioPlayer.currentTime)),
+	);
 }
 
 /**
@@ -349,49 +366,19 @@ function setUpAudioPlayer( dispatch, src ) {
  *
  * @param {string} source The audio source file.
  */
-function setUpOmnyPlayer( source ) {
-	const id = source.replace( /\W+/g, '' );
-	if ( document.getElementById( id ) ) {
+function setUpOmnyPlayer(source) {
+	const id = source.replace(/\W+/g, '');
+	if (document.getElementById(id)) {
 		return;
 	}
 
-	const iframe = document.createElement( 'iframe' );
+	const iframe = document.createElement('iframe');
 	iframe.id = id;
 	iframe.src = source;
-	document.body.appendChild( iframe );
+	document.body.appendChild(iframe);
 
-	PLAYERS_REGISTRY.omnyPlayer = new playerjs.Player( iframe );
+	PLAYERS_REGISTRY.omnyPlayer = new playerjs.Player(iframe);
 }
-
-/**
- * Action Creator for playing an audio file.
- *
- * @param {*} src The audio source.
- * @param {*} cueTitle
- * @param {*} artistName
- * @param {*} trackType
- */
-export const playAudio = ( src, cueTitle = '', artistName = '', trackType = 'live' ) => dispatch =>
-	play( 'mp3player', src, cueTitle, artistName, trackType )( dispatch );
-
-/**
- * playStation action creator
- * @param {String} station
- */
-export const playStation = ( station ) => dispatch =>
-	play( 'tdplayer', station )( dispatch );
-
-
-/**
- * Action Creator for playing an audio file using the omnyplayer.
- *
- * @param {*} src The audio source.
- * @param {*} cueTitle
- * @param {*} artistName
- * @param {*} trackType
- */
-export const playOmny = ( src, cueTitle = '', artistName = '', trackType = 'live' ) => dispatch =>
-	play( 'omnyplayer', src, cueTitle, artistName, trackType )( dispatch );
 
 /**
  * Low-level play action creator
@@ -403,65 +390,119 @@ export const playOmny = ( src, cueTitle = '', artistName = '', trackType = 'live
  * @param {*} artistName
  * @param {*} trackType
  */
-const play = ( playerType, source, cueTitle = '', artistName = '', trackType = '' ) => dispatch => {
+const play = (
+	playerType,
+	source,
+	cueTitle = '',
+	artistName = '',
+	trackType = '',
+) => dispatch => {
 	// make sure to stop any running player.
-	dispatch( stop() );
+	dispatch(stop());
 
-	if ( 'tdplayer' === playerType ) {
+	if (playerType === 'tdplayer') {
 		// reset time and duration.
-		dispatch( timeChange( 0 ) );
-		dispatch( durationChange( 0 ) );
+		dispatch(timeChange(0));
+		dispatch(durationChange(0));
 		// set the appropriate player.
-		dispatch( setPlayer( PLAYERS_REGISTRY.tdPlayer, 'tdplayer' ) );
+		dispatch(setPlayer(PLAYERS_REGISTRY.tdPlayer, 'tdplayer'));
 		// play.
-		dispatch( {
+		dispatch({
 			type: ACTION_PLAY,
 			payload: {
 				source,
 			},
-		} );
-	} else if ( 'mp3player' === playerType ) {
-		if ( null === PLAYERS_REGISTRY.audioPlayer ){
-			setUpAudioPlayer( dispatch, source );
+		});
+	} else if (playerType === 'mp3player') {
+		if (PLAYERS_REGISTRY.audioPlayer === null) {
+			setUpAudioPlayer(dispatch, source);
 		} else {
 			PLAYERS_REGISTRY.audioPlayer.src = source;
 		}
-		dispatch( setPlayer( PLAYERS_REGISTRY.audioPlayer, 'mp3player' ) );
-		dispatch( {
+		dispatch(setPlayer(PLAYERS_REGISTRY.audioPlayer, 'mp3player'));
+		dispatch({
 			type: ACTION_PLAY,
 			payload: {
 				source,
 				trackType,
 			},
-		} );
-		dispatch( cuePoint( { type: 'track', cueTitle, artistName } ) );
-	} else if( 'omnyplayer' === playerType ) {
-		if ( null === PLAYERS_REGISTRY.audioPlayer ) {
+		});
+		dispatch(cuePoint({ type: 'track', cueTitle, artistName }));
+	} else if (playerType === 'omnyplayer') {
+		if (PLAYERS_REGISTRY.audioPlayer === null) {
 			setUpOmnyPlayer();
 		}
 
-		dispatch( setPlayer( PLAYERS_REGISTRY.omnyPlayer, 'omnyplayer' ) );
+		dispatch(setPlayer(PLAYERS_REGISTRY.omnyPlayer, 'omnyplayer'));
 
 		// all events are removed when stopping the omny player so we need to recreate them.
-		PLAYERS_REGISTRY.omnyPlayer.on( 'ready', () => {
-			dispatch( {
+		PLAYERS_REGISTRY.omnyPlayer.on('ready', () => {
+			dispatch({
 				type: ACTION_PLAY,
 				payload: {
 					source,
 					trackType,
 				},
-			} );
-			dispatch( cuePoint( { type: 'track', cueTitle, artistName } ) );
-			dispatch( statusUpdate( STATUSES.LIVE_BUFFERING ) );
-		} );
+			});
+			dispatch(cuePoint({ type: 'track', cueTitle, artistName }));
+			dispatch(statusUpdate(STATUSES.LIVE_BUFFERING));
+		});
 
-		PLAYERS_REGISTRY.omnyPlayer.on( 'play', () => dispatch( statusUpdate( STATUSES.LIVE_PLAYING ) ) );
-		PLAYERS_REGISTRY.omnyPlayer.on( 'pause', () => dispatch( statusUpdate( STATUSES.LIVE_PAUSE ) ) );
-		PLAYERS_REGISTRY.omnyPlayer.on( 'ended', () => dispatch( statusUpdate( STATUSES.LIVE_STOP ) ) );
-		PLAYERS_REGISTRY.omnyPlayer.on( 'error', ()=> errorCatcher( 'Omny Error' ) );
-		PLAYERS_REGISTRY.omnyPlayer.on( 'timeupdate', ( { seconds: time, duration } ) => dispatch( timeChange( time, duration ) ) );
+		PLAYERS_REGISTRY.omnyPlayer.on('play', () =>
+			dispatch(statusUpdate(STATUSES.LIVE_PLAYING)),
+		);
+		PLAYERS_REGISTRY.omnyPlayer.on('pause', () =>
+			dispatch(statusUpdate(STATUSES.LIVE_PAUSE)),
+		);
+		PLAYERS_REGISTRY.omnyPlayer.on('ended', () =>
+			dispatch(statusUpdate(STATUSES.LIVE_STOP)),
+		);
+		PLAYERS_REGISTRY.omnyPlayer.on('error', () => errorCatcher('Omny Error'));
+		PLAYERS_REGISTRY.omnyPlayer.on(
+			'timeupdate',
+			({ seconds: time, duration }) => dispatch(timeChange(time, duration)),
+		);
 	}
 };
+
+/**
+ * Action Creator for playing an audio file.
+ *
+ * @param {*} src The audio source.
+ * @param {*} cueTitle
+ * @param {*} artistName
+ * @param {*} trackType
+ */
+export const playAudio = (
+	src,
+	cueTitle = '',
+	artistName = '',
+	trackType = 'live',
+) => dispatch =>
+	play('mp3player', src, cueTitle, artistName, trackType)(dispatch);
+
+/**
+ * playStation action creator
+ * @param {String} station
+ */
+export const playStation = station => dispatch =>
+	play('tdplayer', station)(dispatch);
+
+/**
+ * Action Creator for playing an audio file using the omnyplayer.
+ *
+ * @param {*} src The audio source.
+ * @param {*} cueTitle
+ * @param {*} artistName
+ * @param {*} trackType
+ */
+export const playOmny = (
+	src,
+	cueTitle = '',
+	artistName = '',
+	trackType = 'live',
+) => dispatch =>
+	play('omnyplayer', src, cueTitle, artistName, trackType)(dispatch);
 
 export default {
 	setPlayer,

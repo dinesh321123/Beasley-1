@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -23,37 +23,35 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import * as actions from '../redux/actions/player';
 
 class LivePlayer extends Component {
+	constructor(props) {
+		super(props);
 
-	constructor( props ) {
-		super( props );
-
-		this.container = document.getElementById( 'live-player' );
+		this.container = document.getElementById('live-player');
 		this.state = { online: window.navigator.onLine };
 
-		this.onOnline = this.handleOnline.bind( this );
-		this.onOffline = this.handleOffline.bind( this );
-		this.handlePlay = this.handlePlay.bind( this );
+		this.onOnline = this.handleOnline.bind(this);
+		this.onOffline = this.handleOffline.bind(this);
+		this.handlePlay = this.handlePlay.bind(this);
 	}
 
 	componentDidMount() {
 		// TDSdk is loaded asynchronously, so we need to wait till its loaded and
 		// parsed by browser, and only then start initializing the player
-		const tdinterval = setInterval( () => {
-			if ( window.TDSdk ) {
+		const tdinterval = setInterval(() => {
+			if (window.TDSdk) {
 				// this.props.initPlayer( tdmodules );
 				this.setUpPlayer();
-				clearInterval( tdinterval );
+				clearInterval(tdinterval);
 			}
-		}, 500 );
+		}, 500);
 
-
-		window.addEventListener( 'online',  this.onOnline );
-		window.addEventListener( 'offline', this.onOffline );
+		window.addEventListener('online', this.onOnline);
+		window.addEventListener('offline', this.onOffline);
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener( 'online',  this.onOnline );
-		window.removeEventListener( 'offline', this.onOffline );
+		window.removeEventListener('online', this.onOnline);
+		window.removeEventListener('offline', this.onOffline);
 	}
 
 	/**
@@ -65,7 +63,7 @@ class LivePlayer extends Component {
 		// @see: https://userguides.tritondigital.com/spc/tdplay2/
 		const tdmodules = [];
 
-		tdmodules.push( {
+		tdmodules.push({
 			id: 'MediaPlayer',
 			playerId: 'td_container',
 			techPriority: ['Html5'],
@@ -77,39 +75,39 @@ class LivePlayer extends Component {
 				iOS: { isActive: false },
 				android: { isActive: false },
 			},
-		} );
+		});
 
-		tdmodules.push( {
+		tdmodules.push({
 			id: 'NowPlayingApi',
-		} );
+		});
 
-		tdmodules.push( {
+		tdmodules.push({
 			id: 'TargetSpot',
-		} );
+		});
 
-		tdmodules.push( {
+		tdmodules.push({
 			id: 'SyncBanners',
 			elements: [{ id: 'sync-banner', width: 320, height: 50 }],
-		} );
+		});
 
-		this.props.initTdPlayer( tdmodules );
+		initTdPlayer(tdmodules);
 	}
 
 	handleOnline() {
-		this.setState( { online: true } );
+		this.setState({ online: true });
 	}
 
 	handleOffline() {
-		this.setState( { online: false } );
+		this.setState({ online: false });
 	}
 
 	handlePlay() {
 		const { station, playStation } = this.props;
-		playStation( station );
+		playStation(station);
 	}
 
 	render() {
-		if ( !this.container ) {
+		if (!this.container) {
 			return false;
 		}
 
@@ -127,35 +125,54 @@ class LivePlayer extends Component {
 		} = this.props;
 
 		let notification = false;
-		if ( ! online ) {
+		if (!online) {
 			notification = <Offline />;
 		}
 
-		const progressClass = ! duration ? '-live' : '-podcast';
+		const progressClass = !duration ? '-live' : '-podcast';
 		let { customColors } = this.container.dataset;
 		const controlsStyle = {};
 		const buttonsBackgroundStyle = {};
 		const buttonsFillStyle = {};
 		const textStyle = {};
 
-		customColors = JSON.parse( customColors );
-		controlsStyle.backgroundColor = customColors['--brand-background-color'] || customColors['--global-theme-secondary'];
-		buttonsBackgroundStyle.backgroundColor = customColors['--brand-button-color'] || customColors['--global-theme-secondary'];
-		buttonsFillStyle.fill = customColors['--brand-button-color'] || customColors['--global-theme-secondary'];
-		buttonsFillStyle.stroke = customColors['--brand-button-color'] || customColors['--global-theme-secondary'];
-		textStyle.color = customColors['--brand-text-color'] || customColors['--global-theme-secondary'];
+		customColors = JSON.parse(customColors);
+		controlsStyle.backgroundColor =
+			customColors['--brand-background-color'] ||
+			customColors['--global-theme-secondary'];
+		buttonsBackgroundStyle.backgroundColor =
+			customColors['--brand-button-color'] ||
+			customColors['--global-theme-secondary'];
+		buttonsFillStyle.fill =
+			customColors['--brand-button-color'] ||
+			customColors['--global-theme-secondary'];
+		buttonsFillStyle.stroke =
+			customColors['--brand-button-color'] ||
+			customColors['--global-theme-secondary'];
+		textStyle.color =
+			customColors['--brand-text-color'] ||
+			customColors['--global-theme-secondary'];
 
 		const isIos = isIOS();
 
 		const children = (
 			<ErrorBoundary>
-				<Fragment>
+				<>
 					{notification}
 
-					<div className={`preroll-wrapper${adPlayback && !isAudioAdOnly( { player, playerType } ) ? ' -active' : ''}`}>
+					<div
+						className={`preroll-wrapper${
+							adPlayback && !isAudioAdOnly({ player, playerType })
+								? ' -active'
+								: ''
+						}`}
+					>
 						<div className="preroll-container">
-							<div id="td_container" className="preroll-player"></div>
-							<div className="preroll-notification">Live stream will be available after this brief ad from our sponsors</div>
+							<div id="td_container" className="preroll-player" />
+							<div className="preroll-notification">
+								Live stream will be available after this brief ad from our
+								sponsors
+							</div>
 						</div>
 					</div>
 
@@ -163,7 +180,7 @@ class LivePlayer extends Component {
 
 					<Progress className="-mobile" colors={textStyle} />
 
-					<div className="controls" style={ controlsStyle }>
+					<div className="controls" style={controlsStyle}>
 						<div className="control-section">
 							<Info colors={textStyle} />
 						</div>
@@ -194,14 +211,17 @@ class LivePlayer extends Component {
 						</div>
 					</div>
 
-					<Sponsor className="sponsor-mobile" maxWidth="1059" style={ controlsStyle } />
-				</Fragment>
+					<Sponsor
+						className="sponsor-mobile"
+						maxWidth="1059"
+						style={controlsStyle}
+					/>
+				</>
 			</ErrorBoundary>
 		);
 
-		return ReactDOM.createPortal( children, this.container );
+		return ReactDOM.createPortal(children, this.container);
 	}
-
 }
 
 LivePlayer.propTypes = {
@@ -214,13 +234,12 @@ LivePlayer.propTypes = {
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
 	duration: PropTypes.number.isRequired,
-	player: PropTypes.object,
-	playerType: PropTypes.string,
+	player: PropTypes.shape({}).isRequired,
+	playerType: PropTypes.string.isRequired,
 };
 
-
 export default connect(
-	( {player} ) => ( {
+	({ player }) => ({
 		player: player.player,
 		playerType: player.playerType,
 		station: player.station,
@@ -228,10 +247,11 @@ export default connect(
 		adPlayback: player.adPlayback,
 		adSynced: player.adSynced,
 		duration: player.duration,
-	} ), {
+	}),
+	{
 		initTdPlayer: actions.initTdPlayer,
 		playStation: actions.playStation,
 		pause: actions.pause,
 		resume: actions.resume,
 	},
-)( LivePlayer );
+)(LivePlayer);

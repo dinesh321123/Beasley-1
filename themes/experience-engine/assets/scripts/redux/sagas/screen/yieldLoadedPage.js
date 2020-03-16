@@ -5,7 +5,11 @@ import {
 	manageBbgiConfig,
 	updateTargeting,
 } from '../../utilities';
-import { ACTION_LOADED_PAGE, ACTION_HISTORY_HTML_SNAPSHOT, ACTION_HIDE_SPLASH_SCREEN } from '../../actions/screen';
+import {
+	ACTION_LOADED_PAGE,
+	ACTION_HISTORY_HTML_SNAPSHOT,
+	ACTION_HIDE_SPLASH_SCREEN,
+} from '../../actions/screen';
 import { slugify, dispatchEvent } from '../../../library';
 
 /**
@@ -13,11 +17,11 @@ import { slugify, dispatchEvent } from '../../../library';
  */
 function scrollIntoView() {
 	// Get content container
-	const content = document.getElementById( 'content' );
+	const content = document.getElementById('content');
 
 	// Scroll to top of content
-	if( content ) {
-		content.scrollIntoView( true );
+	if (content) {
+		content.scrollIntoView(true);
 	}
 }
 
@@ -27,22 +31,18 @@ function scrollIntoView() {
  * @param {string} url The URL to update history with
  * @param {object} pageDocument
  */
-function updateHistory( url, title ) {
+function updateHistory(url, title) {
 	const { history, location, pageXOffset, pageYOffset } = window;
-	const uuid = slugify( url );
+	const uuid = slugify(url);
 
 	history.replaceState(
 		{ ...history.state, pageXOffset, pageYOffset },
 		document.title,
 		location.href,
 	);
-	history.pushState(
-		{ uuid, pageXOffset: 0, pageYOffset: 0 },
-		title,
-		url,
-	);
+	history.pushState({ uuid, pageXOffset: 0, pageYOffset: 0 }, title, url);
 
-	dispatchEvent( 'pushstate' );
+	dispatchEvent('pushstate');
 }
 
 /**
@@ -52,10 +52,10 @@ function updateHistory( url, title ) {
  *
  * @param { Object } action Dispatched action
  */
-function* yieldLoadedPage( action ) {
+function* yieldLoadedPage(action) {
 	const { url, response, options, parsedHtml } = action;
 
-	const urlSlugified = slugify( url );
+	const urlSlugified = slugify(url);
 	const pageDocument = parsedHtml.document;
 
 	// Test var to determine if isAdmin
@@ -63,69 +63,67 @@ function* yieldLoadedPage( action ) {
 	let isAdmin = false;
 
 	// Screen store from state
-	const screenStore = yield select( ( { screen } ) => screen );
+	const screenStore = yield select(({ screen }) => screen);
 
 	// Update BBGI Config
-	yield call( manageBbgiConfig, pageDocument );
+	yield call(manageBbgiConfig, pageDocument);
 
 	// Update Ad Targeting
-	yield call( updateTargeting );
+	yield call(updateTargeting);
 
 	// Fix WP Admin Bar
-	if ( pageDocument ) {
+	if (pageDocument) {
 		const barId = 'wpadminbar';
-		const wpadminbar = document.getElementById( barId );
-		if ( wpadminbar ) {
-
+		const wpadminbar = document.getElementById(barId);
+		if (wpadminbar) {
 			// True, we are loading an admin page
 			isAdmin = true;
-			const newbar = pageDocument.getElementById( barId );
-			if ( newbar ) {
-				wpadminbar.parentNode.replaceChild( newbar, wpadminbar );
+			const newbar = pageDocument.getElementById(barId);
+			if (newbar) {
+				wpadminbar.parentNode.replaceChild(newbar, wpadminbar);
 			}
 		}
 	}
 
 	// dispatch history html snapshot
-	yield put( {
+	yield put({
 		type: ACTION_HISTORY_HTML_SNAPSHOT,
 		uuid: urlSlugified,
 		data: response.html,
-	} );
+	});
 
 	// Start the loading progress bar.
-	yield call( [ NProgress, 'done' ] );
+	yield call([NProgress, 'done']);
 
 	// Update Scripts.
-	yield call( manageScripts, parsedHtml.scripts, screenStore.scripts );
+	yield call(manageScripts, parsedHtml.scripts, screenStore.scripts);
 
 	// make sure the user scroll bar is into view.
-	yield call( scrollIntoView );
+	yield call(scrollIntoView);
 
 	// make sure to hide splash screen.
-	yield put( { type: ACTION_HIDE_SPLASH_SCREEN } );
+	yield put({ type: ACTION_HIDE_SPLASH_SCREEN });
 
 	// last step is update history, return early if it's not needed.
-	if ( options.suppressHistory ) {
+	if (options.suppressHistory) {
 		return;
 	}
 
-	yield call( updateHistory, url, pageDocument.title );
+	yield call(updateHistory, url, pageDocument.title);
 
 	document.title = pageDocument.title;
 	document.body.className = pageDocument.body.className;
 
 	// If admin, need to add admin-bar class
-	if( isAdmin ) {
-		document.body.classList.add( 'admin-bar' );
+	if (isAdmin) {
+		document.body.classList.add('admin-bar');
 	}
 }
-
 
 /**
  * @function watchLoadedPage
  * Generator used to bind action and callback
  */
 export default function* watchLoadedPage() {
-	yield takeLatest( [ ACTION_LOADED_PAGE ], yieldLoadedPage );
+	yield takeLatest([ACTION_LOADED_PAGE], yieldLoadedPage);
 }

@@ -1,7 +1,5 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
-import {
-	ACTION_SEEK_POSITION,
-} from '../../actions/player';
+import { ACTION_SEEK_POSITION } from '../../actions/player';
 
 /**
  * @function yieldSeekPosition
@@ -10,25 +8,21 @@ import {
  * @param {Object} action Dispathed action
  * @param {Object} action.position Position from dispatched action
  */
-function* yieldSeekPosition( { position } ) {
+function* yieldSeekPosition({ position }) {
 	// Get player from state
-	const playerStore = yield select( ( { player } ) => player );
+	const playerStore = yield select(({ player }) => player);
 
 	// Destructure player and type
-	const {
-		player,
-		playerType,
-	} = playerStore;
+	const { player, playerType } = playerStore;
 
 	// If mp3player
-	if ( 'mp3player' === playerType ) {
+	if (playerType === 'mp3player') {
 		player.currentTime = position;
 
-	// If omnyplayer
-	} else if ( 'omnyplayer' === playerType ) {
-		yield call( [ player, 'setCurrentTime' ], position );
+		// If omnyplayer
+	} else if (playerType === 'omnyplayer') {
+		yield call([player, 'setCurrentTime'], position);
 	}
-
 }
 
 /**
@@ -36,5 +30,5 @@ function* yieldSeekPosition( { position } ) {
  * Generator used to bind action and callback
  */
 export default function* watchSetVolume() {
-	yield takeLatest( [ACTION_SEEK_POSITION], yieldSeekPosition );
+	yield takeLatest([ACTION_SEEK_POSITION], yieldSeekPosition);
 }

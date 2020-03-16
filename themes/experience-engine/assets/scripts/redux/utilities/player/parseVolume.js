@@ -5,11 +5,11 @@
  * @param {Number} value - default 50
  * @returns {Number} volume
  */
-export default function parseVolume( value = 50 ) {
-	let volume = parseInt( value, 10 );
-	if ( Number.isNaN( volume ) || 100 < volume ) {
+export default function parseVolume(value = 50) {
+	let volume = parseInt(value, 10);
+	if (Number.isNaN(volume) || volume > 100) {
 		volume = 100;
-	} else if ( 0 > volume ) {
+	} else if (volume < 0) {
 		volume = 0;
 	}
 	return volume;

@@ -4,7 +4,7 @@ import {
 	getInitialStation,
 	parseVolume,
 	getNewsStreamsFromFeeds,
-} from '../utilities/';
+} from '../utilities';
 
 // Auth action imports
 import {
@@ -55,17 +55,15 @@ export const DEFAULT_STATE = {
 	playerType: null, // Store player type (omny, mp3, td)
 	userInteraction: false, // Store userInteraction state
 	status: STATUSES.LIVE_STOP,
-	station: ( getInitialStation( streams ) || streams[0] || {} ).stream_call_letters,
-	volume: parseVolume( livePlayerLocalStorage.getItem( 'volume' ) || 100 ),
+	station: (getInitialStation(streams) || streams[0] || {}).stream_call_letters,
+	volume: parseVolume(livePlayerLocalStorage.getItem('volume') || 100),
 	streams,
 	...adReset,
 };
 
 // Reducer
-function reducer( state = {}, action = {} ) {
-
-	switch ( action.type ) {
-
+function reducer(state = {}, action = {}) {
+	switch (action.type) {
 		// Catches in Saga Middleware
 		case ACTION_SET_PLAYER: {
 			const { playerType, player } = action.payload;
@@ -85,9 +83,9 @@ function reducer( state = {}, action = {} ) {
 				trackType: '',
 			};
 
-			if ( 'tdplayer' === state.playerType ) {
+			if (state.playerType === 'tdplayer') {
 				newState.station = source;
-			} else if ( ['mp3player', 'omnyplayer'].includes( state.playerType ) ) {
+			} else if (['mp3player', 'omnyplayer'].includes(state.playerType)) {
 				newState.audio = source;
 				newState.trackType = trackType;
 			}
@@ -116,7 +114,7 @@ function reducer( state = {}, action = {} ) {
 
 		// Catches in Saga Middleware
 		case ACTION_SET_VOLUME: {
-			const volume = parseVolume( action.volume );
+			const volume = parseVolume(action.volume);
 			return {
 				...state,
 				volume,
@@ -140,22 +138,19 @@ function reducer( state = {}, action = {} ) {
 			};
 
 		case ACTION_TIME_CHANGE: {
-			let override = {};
+			const override = {};
 
 			// Destructure from action
-			const {
-				time,
-				duration,
-			} = action;
+			const { time, duration } = action;
 
 			// If time
-			if( action.time ) {
+			if (action.time) {
 				// +converts to number unary plus
 				override.time = +time;
 			}
 
 			// If duration
-			if( action.duration ) {
+			if (action.duration) {
 				// +converts to number unary plus
 				override.duration = +duration;
 			}
@@ -173,15 +168,12 @@ function reducer( state = {}, action = {} ) {
 
 			// Set initialUpdate userInteraction to true
 			// This will always happen here
-			let stateUpdate = {
+			const stateUpdate = {
 				userIneraction: true,
 			};
 
 			// If mp3player or omnyplayer defined
-			if (
-				'mp3player' === playerType ||
-				'omnyplayer' === playerType
-			) {
+			if (playerType === 'mp3player' || playerType === 'omnyplayer') {
 				stateUpdate.time = +action.position;
 			}
 			return {
@@ -196,14 +188,14 @@ function reducer( state = {}, action = {} ) {
 				songs: action.list,
 			};
 
-		//Catches in Saga Middleware
+		// Catches in Saga Middleware
 		case ACTION_AD_PLAYBACK_START:
 			return {
 				...state,
 				adPlayback: true,
 			};
 
-		//Catches in Saga Middleware
+		// Catches in Saga Middleware
 		case ACTION_AD_PLAYBACK_ERROR:
 		case ACTION_AD_PLAYBACK_COMPLETE: {
 			return {
@@ -228,8 +220,8 @@ function reducer( state = {}, action = {} ) {
 		case ACTION_UPDATE_USER_FEEDS:
 		case ACTION_SET_USER_FEEDS: {
 			// Set newstreams from action.feeds
-			const newstreams = getNewsStreamsFromFeeds( action.feeds );
-			let initialStation = getInitialStation( streams );
+			const newstreams = getNewsStreamsFromFeeds(action.feeds);
+			let initialStation = getInitialStation(streams);
 
 			// Create new state object
 			const newstate = {
@@ -238,17 +230,12 @@ function reducer( state = {}, action = {} ) {
 			};
 
 			// If no initialStation, define one
-			if ( !initialStation ) {
-
+			if (!initialStation) {
 				// Set initialStation
-				initialStation = getInitialStation( newstate.streams );
+				initialStation = getInitialStation(newstate.streams);
 
 				// If one returned and has stream_call_letters
-				if (
-					initialStation &&
-					initialStation.stream_call_letters
-				) {
-
+				if (initialStation && initialStation.stream_call_letters) {
 					// Update newState object
 					newstate.station = initialStation.stream_call_letters;
 				}

@@ -8,8 +8,8 @@ export const DEFAULT_STATE = {
 	previous: null,
 };
 
-function reducer( state = {}, action = {} ) {
-	switch ( action.type ) {
+function reducer(state = {}, action = {}) {
+	switch (action.type) {
 		case ACTION_NAVIGATION_SET_CURRENT:
 			return { ...state, current: action.menu, previous: state.current };
 		case ACTION_NAVIGATION_SET_REVERT:
