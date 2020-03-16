@@ -46,8 +46,6 @@ module.exports = {
 		'no-plusplus': 0,
 		'react/destructuring-assignment': 0,
 		'camelcase': 0,
-		'jsx-a11y/media-has-caption': 0,
-		'jsx-a11y/anchor-is-valid': 0,
 		'no-restricted-globals': 0,
 		'no-shadow': 0,
 		'no-tabs': 0,
@@ -80,5 +78,5 @@ module.exports = {
 		}],
 		'prettier/prettier': [ 'error', { useTabs: true, tabWidth: 2, singleQuote: true, printWidth: 80, trailingComma: "all" } ],
 		"react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-	},
-};
+	}
+}

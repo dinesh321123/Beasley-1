@@ -2,17 +2,15 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import LazyImage from './LazyImage';
 import LoadingAjaxContent from '../../LoadingAjaxContent';
-import slugify from '../../../library/slugify';
 
 const RelatedPost = ({ id, url, title, primary_image, published }) => {
 	const date = new Date(published);
 	const targetUrl = `https://${url}`;
 
-	function handleClick( e ) {
-
+	function handleClick(e) {
 		e.preventDefault();
 
-		window.ga( 'send', {
+		window.ga('send', {
 			hitType: 'event',
 			eventCategory: 'YouMightAlsoLike',
 			eventAction: 'click',
@@ -20,14 +18,13 @@ const RelatedPost = ({ id, url, title, primary_image, published }) => {
 			hitCallback: () => {
 				window.location.href = targetUrl;
 			},
-		} );
+		});
 	}
-
 
 	return (
 		<div id={`post-${id}`} className={['post-tile post'].join(' ')}>
 			<div className="post-thumbnail">
-				<a href="#"  onClick={handleClick} id={`thumbnail-${id}`}>
+				<a href={targetUrl} onClick={handleClick} id={`thumbnail-${id}`}>
 					<LazyImage
 						crop={false}
 						placeholder={`thumbnail-${id}`}
@@ -48,7 +45,7 @@ const RelatedPost = ({ id, url, title, primary_image, published }) => {
 				</div>
 				<div className="post-title">
 					<h3>
-						<a href="#" onClick={handleClick}>
+						<a href={targetUrl} onClick={handleClick}>
 							{title}
 						</a>
 					</h3>

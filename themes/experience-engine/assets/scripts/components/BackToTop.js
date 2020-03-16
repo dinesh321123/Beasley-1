@@ -11,16 +11,15 @@ class BackToTop extends PureComponent {
 	constructor(props) {
 		super(props);
 
-		const self = this;
-		self.scrolling = false;
+		this.scrolling = false;
 
-		self.state = {
+		this.state = {
 			fadeOut: false,
 			show: false,
 		};
 
-		self.onBackToTop = self.handleBackToTop.bind(self);
-		self.onScroll = self.handleScroll.bind(self);
+		this.onBackToTop = this.handleBackToTop.bind(this);
+		this.onScroll = this.handleScroll.bind(this);
 	}
 
 	componentDidMount() {
@@ -33,12 +32,11 @@ class BackToTop extends PureComponent {
 	}
 
 	handleScroll() {
-		const self = this;
-		if (self.scrolling) {
+		if (this.scrolling) {
 			return;
 		}
 
-		self.scrolling = true;
+		this.scrolling = true;
 
 		window.requestAnimationFrame(() => {
 			const params = {};
@@ -56,10 +54,10 @@ class BackToTop extends PureComponent {
 			}
 
 			if (Object.keys(params).length > 0) {
-				self.setState(params);
+				this.setState(params);
 			}
 
-			self.scrolling = false;
+			this.scrolling = false;
 		});
 	}
 
@@ -75,7 +73,6 @@ class BackToTop extends PureComponent {
 	}
 
 	handleBackToTop() {
-		const self = this;
 		const start = window.scrollY || document.documentElement.scrollTop;
 		let currentTime = null;
 
@@ -86,7 +83,7 @@ class BackToTop extends PureComponent {
 
 			const progress = timestamp - currentTime;
 			const val = Math.max(
-				self.easeInOutQuad(progress, start, -start, SCROLL_DURATION),
+				this.easeInOutQuad(progress, start, -start, SCROLL_DURATION),
 				0,
 			);
 
@@ -100,8 +97,7 @@ class BackToTop extends PureComponent {
 	}
 
 	render() {
-		const self = this;
-		const { show, fadeOut } = self.state;
+		const { show, fadeOut } = this.state;
 		let classes = 'back-to-top';
 
 		if (show) {
@@ -116,7 +112,7 @@ class BackToTop extends PureComponent {
 			<button
 				className={classes}
 				aria-label="Back to top"
-				onClick={self.onBackToTop}
+				onClick={this.onBackToTop}
 				type="button"
 			>
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18">
