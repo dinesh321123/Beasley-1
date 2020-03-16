@@ -195,7 +195,7 @@ class ContentDispatcher extends Component {
 			firebaseAuth.currentUser
 				.getIdToken()
 				.then(token => {
-					fetchFeedsContent(token, link);
+					fetchFeedsContent(token, link, { supressHistory: false });
 				})
 				.catch(() => {
 					fetchPage(link);

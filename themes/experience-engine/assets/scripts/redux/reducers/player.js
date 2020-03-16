@@ -52,7 +52,8 @@ export const DEFAULT_STATE = {
 	cuePoint: false,
 	time: 0,
 	duration: 0,
-	playerType: null, // Store player type (omny, mp3, td)
+	player: {},
+	playerType: '', // Store player type (omny, mp3, td)
 	userInteraction: false, // Store userInteraction state
 	status: STATUSES.LIVE_STOP,
 	station: (getInitialStation(streams) || streams[0] || {}).stream_call_letters,

@@ -51,10 +51,12 @@ export function initPageLoaded(uuid, html) {
  *
  * @param {string} token Firease ID token
  * @param {string} url   Optional URL to associate the feeds content to.
+ * @param {object} Options
  */
 export const fetchFeedsContent = (
 	token,
-	url = 'feeds-content',
+	url = '',
+	options = { suppressHistory: true },
 ) => async dispatch => {
 	dispatch({ type: ACTION_LOADING_PAGE, url });
 
@@ -73,9 +75,8 @@ export const fetchFeedsContent = (
 			type: ACTION_LOADED_PAGE,
 			url,
 			response,
-			options: {
-				suppressHistory: true,
-			},
+			options,
+			isHome: true,
 			parsedHtml,
 		});
 	} catch (error) {
@@ -87,6 +88,7 @@ export const fetchFeedsContent = (
  * Fetches a page by calling the page endpoint.
  *
  * @param {string} url
+ * @param {object} Options
  */
 export const fetchPage = (url, options = {}) => async dispatch => {
 	const pageEndpoint = `${

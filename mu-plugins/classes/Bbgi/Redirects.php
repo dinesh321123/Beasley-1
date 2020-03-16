@@ -46,7 +46,7 @@ class Redirects extends \Bbgi\Module {
 	 */
 	public function match_redirect( $url ) {
 		if ( ! class_exists( 'SRM_Redirect' ) ) {
-			return $url;
+			return false;
 		}
 
 		$redirects = srm_get_redirects();

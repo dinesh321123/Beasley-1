@@ -60,7 +60,7 @@ function reducer(state = {}, action = {}) {
 			return {
 				...state,
 				content: action.parsedHtml.content,
-				isHome: action.parsedHtml.isHome,
+				isHome: action.isHome,
 				embeds: action.parsedHtml.embeds,
 				error: '',
 				partials: {},

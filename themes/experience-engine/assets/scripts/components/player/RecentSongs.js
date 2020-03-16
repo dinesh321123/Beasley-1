@@ -212,12 +212,14 @@ RecentSongs.propTypes = {
 		'--brand-background-color': PropTypes.string,
 		'--brand-text-color': PropTypes.string,
 	}),
-	songs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+	songs: PropTypes.arrayOf(PropTypes.shape({})),
 };
 
 RecentSongs.defaultProps = {
 	colors: {},
+	songs: [],
 };
+
 function mapStateToProps({ player }) {
 	return {
 		songs: player.songs,

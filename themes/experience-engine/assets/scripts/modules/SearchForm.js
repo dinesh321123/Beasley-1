@@ -47,6 +47,6 @@ SearchForm.propTypes = {
 	fetchPage: PropTypes.func.isRequired,
 };
 
-export default connect(null, { screenActions: screenActions.fetchPage })(
+export default connect(null, { fetchPage: screenActions.fetchPage })(
 	SearchForm,
 );

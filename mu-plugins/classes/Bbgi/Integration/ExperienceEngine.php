@@ -102,6 +102,7 @@ class ExperienceEngine extends \Bbgi\Module {
 	public function send_request( $path, $args = array() ) {
 		$host = $this->_get_host();
 		$args['headers'] = array( 'Content-Type' => 'application/json' );
+		$args['timeout'] = 30;
 		if ( empty( $args['method'] ) ) {
 			$args['method'] = 'GET';
 		}
