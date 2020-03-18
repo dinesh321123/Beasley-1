@@ -1,3 +1,5 @@
+const sass = require('node-sass');
+
 module.exports = function (grunt) {
 	var config = {
 		pkg: grunt.file.readJSON('package.json'),
@@ -15,6 +17,7 @@ module.exports = function (grunt) {
 		},
 		sass: {
 			options: {
+				implementation: sass,
 				require: 'sass-globbing',
 				sourceMap: true,
 				precision: 5
