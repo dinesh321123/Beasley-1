@@ -1,7 +1,6 @@
 import livePlayerLocalStorage from './livePlayerLocalStorage';
 
 /**
- * @function getInitialStation
  * Returns a matching stream if local storage
  * station value matches the stream.stream_call_letters
  *

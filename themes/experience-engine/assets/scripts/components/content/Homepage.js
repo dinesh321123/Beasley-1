@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import HomepageOrderingContext from '../../context/homepage-ordering';
+import { HomepageOrderingContext } from '../../context';
 import { modifyUserFeeds } from '../../redux/actions/auth';
 
 class Homepage extends Component {
@@ -45,13 +45,6 @@ class Homepage extends Component {
 				i++;
 			}
 		});
-
-		// es6
-		// document.querySelectorAll( '#inner-content > div' ).forEach( ( child, i ) => {
-		// 	if ( child && ! child.style.order ) {
-		// 		child.style.order = i * 10 + 1;
-		// 	}
-		// } );
 
 		// ie11
 		let innerContent = document.querySelectorAll('#inner-content > div');

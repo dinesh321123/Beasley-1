@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 
-import IntersectionObserverProvider from './context/intersection-observer';
-import ContentDispatcher from './modules/ContentDispatcher';
-import ModalDispatcher from './modules/ModalDispatcher';
-import LivePlayer from './modules/LivePlayer';
-import PrimaryNav from './modules/PrimaryNav';
-import UserNav from './modules/UserNav';
-import SearchForm from './modules/SearchForm';
+import { IntersectionObserverProvider } from './context';
+import {
+	ContentDispatcher,
+	ModalDispatcher,
+	LivePlayer,
+	PrimaryNav,
+	UserNav,
+	SearchForm,
+} from './modules';
 import BackToTop from './components/BackToTop';
 import ErrorBoundary from './components/ErrorBoundary';
-import { isSafari, isWindowsBrowser } from './library/browser';
+import { isSafari, isWindowsBrowser } from './library';
 
 /**
  * The App's entry point.

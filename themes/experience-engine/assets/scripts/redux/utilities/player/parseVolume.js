@@ -1,5 +1,4 @@
 /**
- * @function parseVolume
  * Returns a parsed number from 0 to 100
  *
  * @param {Number} value - default 50

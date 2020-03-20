@@ -1,5 +1,4 @@
 /**
- * @function lyticsTrack
  * Used to interact with the LyticsTrackAudio window object
  * which is provided by the GTM implementation.
  *

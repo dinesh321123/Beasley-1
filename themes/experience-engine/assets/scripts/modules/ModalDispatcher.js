@@ -17,14 +17,19 @@ import {
 import { setNavigationRevert } from '../redux/actions/navigation';
 
 import ErrorBoundary from '../components/ErrorBoundary';
-import CloseButton from '../components/modals/elements/Close';
-import SignInModal from '../components/modals/SignIn';
-import SignUpModal from '../components/modals/SignUp';
-import RestoreModal from '../components/modals/RestorePassword';
-import DiscoverModal from '../components/modals/Discover';
-import CompleteSignup from '../components/modals/CompleteSignup';
-import EditFeedModal from '../components/modals/EditFeed';
+import {
+	CloseButton,
+	SignInModal,
+	SignUpModal,
+	RestoreModal,
+	DiscoverModal,
+	CompleteSignup,
+	EditFeedModal,
+} from '../components/modals';
 
+/**
+ * Component responsible for handling modals.
+ */
 class ModalDispatcher extends Component {
 	constructor(props) {
 		super(props);

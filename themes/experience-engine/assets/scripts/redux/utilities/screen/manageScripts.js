@@ -1,11 +1,5 @@
 import { loadAssets, unloadScripts } from '../../../library/dom';
 
-/**
- * @function manageScripts
- *
- * @param {*} load
- * @param {*} unload
- */
 export default function manageScripts(load, unload) {
 	// remove scripts loaded on the previous page
 	unloadScripts(Object.keys(unload));

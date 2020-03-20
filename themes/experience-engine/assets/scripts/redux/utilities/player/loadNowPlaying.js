@@ -1,5 +1,4 @@
 /**
- * @function loadNowPlaying
  * Used to load a configuration to the NowPlaying API
  * TODO: Is this asynchronous??? Need docs
  *

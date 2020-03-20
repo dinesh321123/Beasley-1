@@ -1,5 +1,4 @@
 /**
- * @function getNewsStreamsFromFeeds
  * Helper method to return News Streams
  *
  * @param {Array} feeds An array of feeds

@@ -46,7 +46,6 @@ function updateHistory(url, title) {
 }
 
 /**
- * @function yieldLoadedPage
  * Generator runs whenever [ ACTION_LOADED_PAGE ]
  * is dispatched
  *
@@ -121,7 +120,6 @@ function* yieldLoadedPage(action) {
 }
 
 /**
- * @function watchLoadedPage
  * Generator used to bind action and callback
  */
 export default function* watchLoadedPage() {

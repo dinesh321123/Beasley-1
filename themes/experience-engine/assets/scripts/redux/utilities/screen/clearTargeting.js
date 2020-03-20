@@ -1,6 +1,3 @@
-/**
- * @function clearTargeting
- */
 export default function clearTargeting() {
 	const { googletag } = window;
 

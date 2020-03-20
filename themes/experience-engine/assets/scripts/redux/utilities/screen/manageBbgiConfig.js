@@ -1,8 +1,3 @@
-/**
- * @function manageBbgiConfig
- *
- * @param {*} pageDocument
- */
 export default function manageBbgiConfig(pageDocument) {
 	let newconfig = {};
 

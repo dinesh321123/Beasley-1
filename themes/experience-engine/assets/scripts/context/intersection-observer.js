@@ -47,7 +47,7 @@ export const observer = new Observable();
  *
  * This intersection observer notifies whenever a elements gets into view.
  */
-const IntersectionObserverProvider = ({ children }) => {
+export const IntersectionObserverProvider = ({ children }) => {
 	return (
 		<IntersectionObserverContext.Provider value={observer}>
 			{children}

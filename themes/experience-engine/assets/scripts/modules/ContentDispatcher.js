@@ -4,22 +4,19 @@ import { connect } from 'react-redux';
 import Swiper from 'swiper';
 import md5 from 'md5';
 
-import { firebaseAuth } from '../library/firebase';
 import ContentBlock from '../components/content/ContentBlock';
 import {
 	initPage,
-	initPageLoaded,
 	fetchPage,
 	fetchFeedsContent,
 } from '../redux/actions/screen';
-import { untrailingslashit } from '../library/strings';
-import slugify from '../library/slugify';
+import { firebaseAuth, untrailingslashit } from '../library';
 
 const specialPages = ['/wp-admin/', '/wp-signup.php', '/wp-login.php'];
 
 /**
- * The ContentDispatcher component is responsible for catching click on intenral links
- * and trigger the page loading logic.
+ * The ContentDispatcher component is responsible for catching click on
+ * internal links and trigger the page loading logic.
  */
 class ContentDispatcher extends Component {
 	constructor(props) {
@@ -30,31 +27,17 @@ class ContentDispatcher extends Component {
 		this.handleSliderLoad = this.handleSliderLoad.bind(this);
 	}
 
+	/**
+	 * Inits the current page and handle a few other things on first load.
+	 */
 	componentDidMount() {
-		const { initPage, initPageLoaded } = this.props;
+		const { initPage } = this.props;
 
 		window.addEventListener('click', this.onClick);
 		window.addEventListener('popstate', this.onPageChange);
 
-		// replace current state with proper markup
-		const { history, location, pageXOffset, pageYOffset } = window;
-		const uuid = slugify(location.href);
-		const html = document.documentElement.outerHTML;
-
-		history.replaceState(
-			{
-				uuid,
-				pageXOffset,
-				pageYOffset,
-			},
-			document.title,
-			location.href,
-		);
-
 		// load current page into the state
 		initPage();
-		initPageLoaded(uuid, html);
-
 		this.handleSliderLoad();
 	}
 
@@ -90,7 +73,7 @@ class ContentDispatcher extends Component {
 	}
 
 	/**
-	 * Setup the sliders with Swiper.js
+	 * Setup the sliders with Swiper.js for the homepage feeds.
 	 */
 	handleSliders() {
 		const carousels = document.querySelectorAll('.swiper-container');
@@ -137,9 +120,15 @@ class ContentDispatcher extends Component {
 	}
 
 	/**
-	 * Handle the click links and if it's an internal links trigger the page loading process.
+	 * Handle the click links and if it's an internal links trigger the
+	 * page loading process.
 	 *
-	 * @param {event} e
+	 * If the user is logged in and the click is for the homepage, the feed will be fetched
+	 * from Experience Engine by calling fetchFeeedsContent.
+	 *
+	 * @see assets/js/redux/actions/screen.js
+	 *
+	 * @param {event} e The event object.
 	 */
 	handleClick(e) {
 		const { fetchPage, fetchFeedsContent } = this.props;
@@ -186,7 +175,7 @@ class ContentDispatcher extends Component {
 		e.preventDefault();
 		e.stopPropagation();
 
-		// load user homepage if token is not empty and the next page is a homepage
+		// load user homepage if token is not empty and the next page is the homepage
 		// otherwise just load the next page
 		if (
 			untrailingslashit(origin) === untrailingslashit(link.split(/[?#]/)[0]) &&
@@ -195,12 +184,15 @@ class ContentDispatcher extends Component {
 			firebaseAuth.currentUser
 				.getIdToken()
 				.then(token => {
+					// we don't want to supressHistory here as we want to update the URL to the homepage.
 					fetchFeedsContent(token, link, { supressHistory: false });
 				})
 				.catch(() => {
+					// fallback to loading regular homepage if fetchFeedsContent fails.
 					fetchPage(link);
 				});
 		} else {
+			// if it's a regular internal page (not homepage) just fetch the page as usual.
 			fetchPage(link);
 		}
 	}
@@ -238,7 +230,6 @@ ContentDispatcher.propTypes = {
 	partials: PropTypes.shape({}).isRequired,
 	initPage: PropTypes.func.isRequired,
 	isHome: PropTypes.bool,
-	initPageLoaded: PropTypes.func.isRequired,
 	fetchPage: PropTypes.func.isRequired,
 	fetchFeedsContent: PropTypes.func.isRequired,
 };
@@ -256,7 +247,6 @@ export default connect(
 	}),
 	{
 		initPage,
-		initPageLoaded,
 		fetchPage,
 		fetchFeedsContent,
 	},

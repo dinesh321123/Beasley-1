@@ -27,7 +27,6 @@ export const DEFAULT_STATE = {
 };
 
 /**
- * @function reducer
  * Screen Reducer
  *
  * @param {Object} state State object

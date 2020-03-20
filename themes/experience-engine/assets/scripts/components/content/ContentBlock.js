@@ -45,7 +45,17 @@ const mapping = {
 	ga: GoogleAnalytics,
 };
 
+/**
+ * The ContentBlock component maps an "embed placeholder" to a React component.
+ *
+ * It passes all attributes gathered by 'parseHtml' via props.
+ */
 class ContentBlock extends Component {
+	/**
+	 * An embed is created as a react component rendered into its placeholder using React portal
+	 *
+	 * @param {object} embed
+	 */
 	static createEmbed(embed) {
 		const { type, params } = embed;
 		const { placeholder } = params;
@@ -116,6 +126,7 @@ class ContentBlock extends Component {
 			? embeds.map(ContentBlock.createEmbed)
 			: false;
 
+		// The Homepage component exposes a few methods via the context api to allow editing feeds.
 		return isHome ? (
 			<Homepage>
 				{portal}

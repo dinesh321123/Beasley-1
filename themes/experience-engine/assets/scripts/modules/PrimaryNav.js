@@ -12,7 +12,7 @@ import {
 } from '../redux/actions/modal';
 import { setNavigationCurrent } from '../redux/actions/navigation';
 
-import { isWindowsBrowser, isSafari } from '../library/browser';
+import { isWindowsBrowser, isSafari } from '../library';
 
 const navRoot = document.getElementById('js-primary-nav');
 const siteMenuToggle = document.getElementById('js-menu-toggle');

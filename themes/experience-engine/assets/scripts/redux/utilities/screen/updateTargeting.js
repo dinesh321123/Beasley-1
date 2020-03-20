@@ -1,6 +1,3 @@
-/**
- * @function updateTargeting
- */
 export default function updateTargeting() {
 	const { googletag } = window;
 

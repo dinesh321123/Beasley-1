@@ -1,6 +1,3 @@
-/**
- * @function updateCorrelator
- */
 export default function updateCorrelator() {
 	const { googletag } = window;
 

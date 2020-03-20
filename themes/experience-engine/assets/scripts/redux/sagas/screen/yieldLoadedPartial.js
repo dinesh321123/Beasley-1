@@ -7,7 +7,6 @@ import {
 } from '../../actions/screen';
 
 /**
- * @function yieldLoadedPartial
  * Generator runs whenever [ ACTION_LOADED_PARTIAL ]
  * is dispatched
  *

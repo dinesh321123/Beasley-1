@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Displays a notification message at the top of the page.
+ *
+ * @param {object} props
+ */
 const Notification = ({ message, noticeClass }) => {
 	return (
 		<div

@@ -7,7 +7,7 @@ import * as screenActions from '../redux/actions/screen';
 /**
  * Renders an empty component that listens to the SearchForm input.
  *
- * This component does not mount or render anything into the dom, so it
+ * This component does not mount or render anything into the dom.
  *
  * @param {object} props
  */

@@ -7,7 +7,6 @@ import {
 } from '../../actions/screen';
 
 /**
- * @function yieldLoadingPage
  * Generator runs whenever [ ACTION_INIT_PAGE ]
  * is dispatched
  *
@@ -28,7 +27,6 @@ function* yieldLoadingPage({ url }) {
 }
 
 /**
- * @function watchLoadingPage
  * Generator used to bind action and callback
  */
 export default function* watchLoadingPage() {

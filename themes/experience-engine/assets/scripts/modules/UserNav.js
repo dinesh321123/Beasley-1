@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'md5';
 
-import { firebaseAuth } from '../library/firebase';
 import {
 	ensureUserHasCurrentChannel,
 	userHasProfile,
-} from '../library/experience-engine';
+	firebaseAuth,
+} from '../library';
 import ErrorBoundary from '../components/ErrorBoundary';
 import * as modalActions from '../redux/actions/modal';
 import * as authActions from '../redux/actions/auth';

@@ -2,7 +2,6 @@ import { call, takeLatest } from 'redux-saga/effects';
 import { ACTION_HIDE_SPLASH_SCREEN } from '../../actions/screen';
 
 /**
- * @function yieldHideSplashScreen
  * Generator runs whenever [ ACTION_HIDE_SPLASH_SCREEN ]
  * is dispatched
  *
@@ -22,7 +21,6 @@ function* yieldHideSplashScreen(action) {
 }
 
 /**
- * @function watchHideSplashScreen
  * Generator used to bind action and callback
  */
 export default function* watchHideSplashScreen() {

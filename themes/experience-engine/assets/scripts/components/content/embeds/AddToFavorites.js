@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { searchKeywords } from '../../../library/experience-engine';
+import { searchKeywords } from '../../../library';
 import { modifyUserFeeds, deleteUserFeed } from '../../../redux/actions/auth';
 import { showSignInModal } from '../../../redux/actions/modal';
 
