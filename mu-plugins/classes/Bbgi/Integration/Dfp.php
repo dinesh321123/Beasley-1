@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * Module responsible for managing Google Doubleclick for Publishers
+ *
+ * Registers ACF metabox (checkbox) for marking content as sensitive
+ * Updates Single Targeting to denote sensitve content if meta is present.
+ */
 namespace Bbgi\Integration;
 
 class Dfp extends \Bbgi\Module {
@@ -90,7 +95,7 @@ class Dfp extends \Bbgi\Module {
 		if ( ! is_null( $targeting ) ) {
 			return $targeting;
 		}
-	
+
 		$cpage = ! is_home() && ! is_front_page()
 			? untrailingslashit( current( explode( '?', $_SERVER['REQUEST_URI'], 2 ) ) ) // strip query part and trailing slash of the current uri
 			: 'home';
@@ -143,7 +148,7 @@ class Dfp extends \Bbgi\Module {
 
 		$targeting = apply_filters( 'dfp_global_targeting', $targeting );
 
-		return $targeting;	
+		return $targeting;
 	}
 
 }

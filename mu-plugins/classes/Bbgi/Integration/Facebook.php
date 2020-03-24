@@ -1,4 +1,10 @@
 <?php
+/**
+ * Module responsible for adding Facebook pixel.
+ * Also registers Facebook setting for setting pixel ID.
+ *
+ * @package Bbgi
+ */
 
 namespace Bbgi\Integration;
 

@@ -38,13 +38,6 @@ export const STATUSES = {
 };
 
 /**
- * Holds reference to all players
- */
-window.tdplayer = null;
-window.audioplayer = null;
-window.omnyplayer = null;
-
-/**
  * playbackStop action creator
  * @param {*} actionType
  * @returns {Object} action payload
@@ -404,7 +397,7 @@ const play = (
 			},
 		});
 	} else if (playerType === 'mp3player') {
-		if (window.audioplayer === null) {
+		if (typeof window.audioplayer === 'undefined') {
 			setUpAudioPlayer(dispatch, source);
 		} else {
 			window.audioplayer.src = source;
@@ -419,7 +412,7 @@ const play = (
 		});
 		dispatch(cuePoint({ type: 'track', cueTitle, artistName }));
 	} else if (playerType === 'omnyplayer') {
-		if (window.audioplayer === null) {
+		if (typeof window.audioplayer === 'undefined') {
 			setUpOmnyPlayer();
 		}
 

@@ -1,4 +1,12 @@
 <?php
+/**
+ * Module responsible for Google Analytics (GA) and Tag Manager (GTM)
+ *
+ * Analytics code is assembled with post data and added to a placeholder div via
+ * data attributes. This allows React to handle submission to Google.
+ *
+ * GTM is embedded via iframe directly after the closing body tag.
+ */
 
 namespace Bbgi\Integration;
 

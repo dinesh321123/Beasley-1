@@ -1,4 +1,14 @@
 <?php
+/**
+ * Registers multiple shortcodes
+ * * Age Restricted
+ * * Login Restricted
+ * * LiveFyre Well
+ * * LiveFyre Poll
+ * * LiveFyre App
+ * * Iframe
+ * * BBGI Contest
+ */
 
 namespace Bbgi;
 

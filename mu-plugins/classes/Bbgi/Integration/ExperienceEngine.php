@@ -1,4 +1,7 @@
 <?php
+/**
+ * API for interacting with Expression Engine
+ */
 
 namespace Bbgi\Integration;
 

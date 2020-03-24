@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Abstract class for modules
+ */
 namespace Bbgi;
 
 abstract class Module {

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Sets up settings page and shortcode for Second Street
+ */
 
 namespace Bbgi\Integration;
 

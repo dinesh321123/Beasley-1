@@ -1,4 +1,8 @@
 <?php
+/**
+ * Registers "Station Settings" admin page
+ * wp-admin/options-general.php?page=greatermedia-settings 
+ */
 
 namespace Bbgi;
 

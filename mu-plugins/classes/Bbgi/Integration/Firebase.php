@@ -1,4 +1,9 @@
 <?php
+/**
+ * MOdule responsible for registering network settings for Firebase
+ *
+ * @pacakge Bbgi
+ */
 
 namespace Bbgi\Integration;
 

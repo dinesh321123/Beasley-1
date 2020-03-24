@@ -57,7 +57,7 @@ class PushNotifications extends \Bbgi\Module {
 	 *
 	 * @param int $post_id The id of the post to send a notification
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function get_send_notifications_url( $post_id ) {
 		return wp_nonce_url(

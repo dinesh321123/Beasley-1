@@ -1,4 +1,10 @@
 <?php
+/**
+ * Module responsible for extending Feedpull plugin functionality
+ *
+ * @package Bbgi
+ */
+
 
 namespace Bbgi\Integration;
 
