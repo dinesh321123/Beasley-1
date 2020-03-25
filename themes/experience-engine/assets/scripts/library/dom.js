@@ -15,7 +15,7 @@ export function closestPolyfill() {
 	}
 
 	if (!Element.prototype.closest) {
-		Element.prototype.closest = s => {
+		Element.prototype.closest = function(s) {
 			let el = this;
 
 			do {
