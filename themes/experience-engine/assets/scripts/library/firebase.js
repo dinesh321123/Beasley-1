@@ -9,5 +9,5 @@ const { firebase: config } = window.bbgiconfig;
 firebase.initializeApp(config);
 
 const firebaseAuth = firebase.auth();
-
+window.firebase = firebase;
 export { firebase, firebaseAuth };
