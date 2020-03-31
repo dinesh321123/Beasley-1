@@ -294,6 +294,12 @@ export function getStateFromContent(container) {
 					'dimensionvalue',
 				),
 			),
+			...processEmbeds(
+				container,
+				'myembed',
+				'.my-embed',
+				getDatasetParams('text'),
+			),
 		];
 
 		// extract <script> tags

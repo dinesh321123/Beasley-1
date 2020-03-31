@@ -65,11 +65,8 @@ the_post();
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
 	</div>
 
-	<div class="my-embed">
-		<h3>It did not work</h3>
-		<script>
-			document.querySelector( '.my-embed > h3' ).innerHTML = 'It works!';
-		</script>
+	<div class="my-embed" data-text="it works">
+		<h3>It does not work</h3>
 	</div>
 	<?php get_template_part( 'partials/related-articles' );	?>
 </div><?php
