@@ -20,6 +20,7 @@ class FeedPull extends \Bbgi\Module {
 		add_filter( 'fp_post_args', [ $this, 'handle_authors' ] );
 		add_filter( 'fp_post_author_id_lookup', '__return_false' ); // we'll handle authors ourselves.
 		add_filter( 'the_author_display_name', [ $this, 'maybe_show_byline'] );
+		add_filter( 'wp_kses_allowed_html', [ $this, 'allowed_html' ], 10, 2 );
 	}
 
 	/**
@@ -71,5 +72,38 @@ class FeedPull extends \Bbgi\Module {
 		}
 
 		return $author_meta;
+	}
+
+	/**
+	 * Whitelists some tags that a couple feeds requires.
+	 *
+	 * We need to specifically whiltelist all attributes as well.
+	 *
+	 * @see https://tenup.teamwork.com/#/tasks/18726023?c=8741445
+	 *
+	 * @param array $tags Array of allowed tags.
+	 * @param string $context ontext to judge allowed tags by.
+	 * @return void
+	 */
+	public function allowed_html( $tags, $context ) {
+		if ( 'post' === $context ) {
+			$tags['iframe'] = array(
+				'src'             => true,
+				'height'          => true,
+				'width'           => true,
+				'frameborder'     => true,
+				'allowfullscreen' => true,
+			);
+
+			$tags['style'] = array(
+				'type'  => true,
+				'media' => true,
+				'nonce' => true,
+				'title' => true,
+				'scope' => true,
+			);
+		}
+
+		return $tags;
 	}
 }
