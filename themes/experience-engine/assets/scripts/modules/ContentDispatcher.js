@@ -200,7 +200,7 @@ class ContentDispatcher extends Component {
 
 	onPageChange(e) {
 		const { fetchPage } = this.props;
-		fetchPage(document.location.href);
+		fetchPage(document.location.href, { suppressHistory: true });
 	}
 
 	render() {
