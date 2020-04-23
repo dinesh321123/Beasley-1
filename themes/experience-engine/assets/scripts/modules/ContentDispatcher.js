@@ -180,7 +180,9 @@ class ContentDispatcher extends Component {
 	}
 
 	onPageChange(e) {
-		this.loadPage(window.location.href, { suppressHistory: true });
+		if (window.location.href.indexOf('#') === -1) {
+			this.loadPage(window.location.href, { suppressHistory: true });
+		}
 	}
 
 	/**
