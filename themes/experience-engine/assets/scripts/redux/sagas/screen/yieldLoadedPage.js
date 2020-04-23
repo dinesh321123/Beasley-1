@@ -103,13 +103,6 @@ function* yieldLoadedPage(action) {
 	// make sure to hide splash screen.
 	yield put({ type: ACTION_HIDE_SPLASH_SCREEN });
 
-	// last step is update history, return early if it's not needed.
-	if (options.suppressHistory) {
-		return;
-	}
-
-	yield call(updateHistory, url, pageDocument.title);
-
 	document.title = pageDocument.title;
 	document.body.className = pageDocument.body.className;
 
@@ -117,6 +110,13 @@ function* yieldLoadedPage(action) {
 	if (isAdmin) {
 		document.body.classList.add('admin-bar');
 	}
+
+	// last step is update history, return early if it's not needed.
+	if (options.suppressHistory) {
+		return;
+	}
+
+	yield call(updateHistory, url, pageDocument.title);
 }
 
 /**
