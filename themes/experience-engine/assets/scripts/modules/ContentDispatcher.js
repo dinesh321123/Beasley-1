@@ -35,7 +35,9 @@ class ContentDispatcher extends Component {
 		const { initPage } = this.props;
 
 		window.addEventListener('click', this.onClick);
-		window.addEventListener('popstate', this.onPageChange);
+		// a zero timeout ensures that the callback runs when the new history state is in place.
+		// https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
+		window.addEventListener('popstate', () => setTimeout(this.onPageChange, 0));
 
 		// load current page into the state
 		initPage();
@@ -132,8 +134,6 @@ class ContentDispatcher extends Component {
 	 * @param {event} e The event object.
 	 */
 	handleClick(e) {
-		const { fetchPage, fetchFeedsContent } = this.props;
-
 		const { target } = e;
 		let linkNode = target;
 
@@ -176,31 +176,41 @@ class ContentDispatcher extends Component {
 		e.preventDefault();
 		e.stopPropagation();
 
+		this.loadPage(link);
+	}
+
+	onPageChange(e) {
+		this.loadPage(window.location.href, { suppressHistory: true });
+	}
+
+	/**
+	 * Uses the appropriate action creator to fetch the page based on the URL.
+	 *
+	 * @param {String} url
+	 */
+	loadPage(url, options = {}) {
+		const { fetchPage, fetchFeedsContent } = this.props;
+		const { origin } = window.location;
+
 		// load user homepage if token is not empty and the next page is the homepage
 		// otherwise just load the next page
 		if (
-			untrailingslashit(origin) === untrailingslashit(link.split(/[?#]/)[0]) &&
+			untrailingslashit(origin) === untrailingslashit(url.split(/[?#]/)[0]) &&
 			firebaseAuth.currentUser
 		) {
 			firebaseAuth.currentUser
 				.getIdToken()
 				.then(token => {
-					// we don't want to supressHistory here as we want to update the URL to the homepage.
-					fetchFeedsContent(token, link, { supressHistory: false });
+					fetchFeedsContent(token, url, options);
 				})
 				.catch(() => {
 					// fallback to loading regular homepage if fetchFeedsContent fails.
-					fetchPage(link);
+					fetchPage(url, options);
 				});
 		} else {
 			// if it's a regular internal page (not homepage) just fetch the page as usual.
-			fetchPage(link);
+			fetchPage(url, options);
 		}
-	}
-
-	onPageChange(e) {
-		const { fetchPage } = this.props;
-		fetchPage(document.location.href, { suppressHistory: true });
 	}
 
 	render() {
