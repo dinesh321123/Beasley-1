@@ -35,7 +35,7 @@
 @import 'components/player/live-player';
 @import 'components/player/offline';
 @import 'components/player/range-slider';
-
+@import 'components/SecondStreet';
 @import "components/front-page";
 
 @import "components/show/show-header";

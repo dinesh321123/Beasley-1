@@ -117,6 +117,11 @@ function* yieldLoadedPage(action) {
 	}
 
 	yield call(updateHistory, url, pageDocument.title);
+
+	// call lytics send if it exists
+	if (window.jstag) {
+		window.jstag.send();
+	}
 }
 
 /**

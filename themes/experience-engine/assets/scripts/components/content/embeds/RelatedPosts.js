@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import LazyImage from './LazyImage';
 import LoadingAjaxContent from '../../LoadingAjaxContent';
 
-const RelatedPost = ({ id, url, title, primary_image, published }) => {
+const RelatedPost = ({
+	id,
+	url,
+	title,
+	primary_image,
+	published,
+	test_name,
+}) => {
 	const date = new Date(published);
 	const targetUrl = `https://${url}`;
 
@@ -13,7 +20,7 @@ const RelatedPost = ({ id, url, title, primary_image, published }) => {
 		window.ga('send', {
 			hitType: 'event',
 			eventCategory: 'YouMightAlsoLike',
-			eventAction: 'click',
+			eventAction: `click test ${test_name}`,
 			eventLabel: `${targetUrl}`,
 			hitCallback: () => {
 				window.location.href = targetUrl;
@@ -61,12 +68,14 @@ RelatedPost.propTypes = {
 	title: PropTypes.string.isRequired,
 	primary_image: PropTypes.string.isRequired,
 	published: PropTypes.string.isRequired,
+	test_name: PropTypes.string.isRequired,
 };
 
 const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 	const [postsEndpointURL, setPostsEndpointURL] = useState('');
 	const [relatedPosts, setRelatedPosts] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [testName, setTestName] = useState('not defined');
 	const { bbgiconfig } = window;
 
 	const endpointURL = `${bbgiconfig.eeapi}publishers/${
@@ -79,6 +88,15 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 			try {
 				setLoading(true);
 				const result = await fetch(endpointURL).then(r => r.json());
+				setTestName(result.testname);
+
+				window.ga('send', {
+					hitType: 'event',
+					eventCategory: 'YouMightAlsoLike',
+					eventAction: `displayed`,
+					eventLabel: `test ${result.testname}`,
+				});
+
 				let transformedURL = result.url;
 
 				if (
@@ -99,7 +117,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 		}
 
 		fetchPostsEndpoint();
-	}, [setLoading, setPostsEndpointURL, endpointURL]);
+	}, [setLoading, setPostsEndpointURL, endpointURL, setTestName]);
 
 	useEffect(() => {
 		async function fetchPosts() {
@@ -145,6 +163,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 							title={relatedPost.title}
 							primary_image={relatedPost.primary_image}
 							published={relatedPost.published}
+							test_name={testName}
 						/>
 					))}
 				</div>

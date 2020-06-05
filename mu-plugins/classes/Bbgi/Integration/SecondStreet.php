@@ -60,6 +60,7 @@ class SecondStreet extends \Bbgi\Module {
 			return '';
 		}
 
+
 		$embed = sprintf(
 			'<div class="secondstreet-embed" src="https://embed-%s.secondstreetapp.com/Scripts/dist/embed.js" data-ss-embed="promotion" data-opguid="%s" data-routing="%s"></div>',
 			esc_attr( $attributes['op_id'] ),
