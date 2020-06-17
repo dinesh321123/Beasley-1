@@ -50,6 +50,7 @@ the_post();
 			<?php if ( bbgi_featured_image_layout_is( null, 'inline' ) ) : ?>
 				<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php endif; ?>
+			<div class="stnplayer"></div>
 			<?php ee_the_content_with_ads(); ?>
 
 			<?php if ( is_singular( 'post' ) ) : ?>
