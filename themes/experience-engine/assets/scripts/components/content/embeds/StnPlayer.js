@@ -26,7 +26,7 @@ class StnPlayer extends PureComponent {
 		stn_barker_script.setAttribute('type', 'text/javascript');
 		stn_barker_script.setAttribute(
 			'src',
-			'//embed.sendtonews.com/player3/embedcode.js?fk=8LDhIo9r&cid=10462&offsetx=0&offsety=0&floatwidth=400&floatposition=bottom-right',
+			'//embed.sendtonews.com/player3/embedcode.js?fk=8LDhIo9r&cid=10462&offsetx=0&offsety=75&floatwidth=400&floatposition=bottom-right',
 		);
 		stn_barker_script.setAttribute('data-type', 's2nScript');
 
