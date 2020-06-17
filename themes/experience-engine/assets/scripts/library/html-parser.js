@@ -247,6 +247,18 @@ export function getStateFromContent(container) {
 			),
 			...processEmbeds(
 				container,
+				'stnbarker',
+				'.stnbarker',
+				getPayloadParams(),
+			),
+			...processEmbeds(
+				container,
+				'stnplayer',
+				'.stnplayer',
+				getPayloadParams(),
+			),
+			...processEmbeds(
+				container,
 				'favorites',
 				'.add-to-favorites',
 				getDatasetParams('keyword'),

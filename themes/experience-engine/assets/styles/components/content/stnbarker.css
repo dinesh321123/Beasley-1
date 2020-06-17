@@ -1,0 +1,23 @@
+.placeholder-stnbarker {
+	margin: 2.22rem 1.11rem 2.22rem 1.11rem;
+}
+
+/*
+&
+.content-wrap {
+	align-items: center;
+	background-color: var(--global-theme-primary);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding: 2.22rem 1.111rem 0;
+
+@media (--min-medium-viewport) {
+	justify-content: space-between
+
+;
+}
+
+}
+}
+*/
