@@ -156,14 +156,7 @@ class Dfp extends PureComponent {
 
 					// accepts common small screen banner formats
 					.addSize([300, 0], [[300, 250]])
-					.addSize(
-						[320, 0],
-						[
-							[300, 250],
-							[320, 50],
-							[320, 100],
-						],
-					)
+					.addSize([320, 0], [[300, 250]])
 
 					.build();
 			} else if (unitName === 'bottom-leaderboard') {

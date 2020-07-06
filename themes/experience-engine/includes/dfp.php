@@ -20,7 +20,7 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'top-leaderboard'    => $advanced_with_fluid,
 			'bottom-leaderboard' => $advanced,
 			'in-list'            => $advanced_with_fluid,
-			'in-list-gallery'    => $advanced_with_fluid,
+			'in-list-gallery'    => array( array( 1, 1 ), array( 300, 250 ) ),
 			'player-sponsorship' => $fluid,
 			'right-rail'         => array( array( 300, 600 ), array( 300, 250 ) ),
 			'in-content'         => array( array( 1, 1 ), array( 300, 250 ) ),

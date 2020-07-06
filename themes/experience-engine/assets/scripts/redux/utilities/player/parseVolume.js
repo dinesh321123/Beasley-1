@@ -8,8 +8,8 @@ export default function parseVolume(value = 50) {
 	let volume = parseInt(value, 10);
 	if (Number.isNaN(volume) || volume > 100) {
 		volume = 100;
-	} else if (volume < 0) {
-		volume = 0;
+	} else if (volume < 10) {
+		volume = 10;
 	}
 	return volume;
 }

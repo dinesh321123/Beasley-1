@@ -21,7 +21,7 @@ function* yieldSetVolume({ volume }) {
 	const getVolume = parseVolume(volume);
 
 	// Set volume percentage
-	const setVolume = volume / 100;
+	let setVolume = volume / 100;
 
 	// If livePlayerLocalStorage
 	if (
@@ -40,6 +40,9 @@ function* yieldSetVolume({ volume }) {
 		playerType === 'tdplayer' &&
 		typeof player.setVolume === 'function'
 	) {
+		if (setVolume <= 0.1) {
+			setVolume = 0.1;
+		}
 		yield call([player, 'setVolume'], setVolume);
 	}
 }
