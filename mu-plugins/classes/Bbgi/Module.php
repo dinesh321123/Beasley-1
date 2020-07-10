@@ -67,6 +67,10 @@ abstract class Module {
 		}
 
 
+		if ( current_theme_supports( 'feature_video' ) ) {
+			self::$_modules['feature_video'] = new \Bbgi\Integration\FeatureVideo();
+		}
+
 		foreach ( self::$_modules as $module ) {
 			$module->register();
 		}
