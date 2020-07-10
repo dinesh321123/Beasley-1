@@ -122,7 +122,7 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 		}
 
 		if ( 2 === $homepage_feed_row_count ) {
-			ee_render_stn_barker();
+			ee_render_barker();
 		}
 
 		$homepage_feed_row_count++;
@@ -137,9 +137,10 @@ if ( ! function_exists( 'ee_render_discovery_cta' ) ) :
 endif;
 
 
-if ( ! function_exists( 'ee_render_stn_barker' ) ) :
-	function ee_render_stn_barker() {
-		echo '<div class="stnbarker"></div>';
+if ( ! function_exists('ee_render_barker') ) :
+	function ee_render_barker() {
+		$value = apply_filters( 'barker_filter', '' );
+		echo $value;
 	}
 endif;
 

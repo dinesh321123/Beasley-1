@@ -28,6 +28,7 @@
 @import "components/content/discovery";
 @import "components/content/stnbarker";
 @import "components/content/stnplayer";
+@import "components/content/verizonplayer";
 @import "components/content/wp-content";
 
 @import "components/search/search-header";
