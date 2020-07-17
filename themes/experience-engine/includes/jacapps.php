@@ -30,6 +30,7 @@ if ( ! function_exists( 'ee_setup_jacapps' ) ) :
 		add_filter( 'body_class', 'ee_jacapps_body_class' );
 		add_filter( 'omny_embed_key', 'ee_update_jacapps_omny_key' );
 		add_filter( 'secondstreet_embed_html', 'ee_update_jacapps_secondstreet_html', 10, 2 );
+		add_filter( 'secondstreetpref_html', 'ee_update_jacapps_secondstreet_html', 10, 2 );
 
 		remove_filter( 'omny_embed_html', 'ee_update_omny_embed' );
 	}
@@ -88,5 +89,12 @@ if ( ! function_exists( 'ee_update_jacapps_secondstreet_html' ) ) :
 	function ee_update_jacapps_secondstreet_html( $embed, $atts ) {
 		$url = 'https://embed-' . rawurlencode( $atts['op_id'] ) . '.secondstreetapp.com/Scripts/dist/embed.js';
 		return '<script src="' . esc_url( $url ) . '" data-ss-embed="promotion" data-opguid="' . esc_attr( $atts['op_guid'] ) . '" data-routing="' . esc_attr( $atts['routing'] ) . '"></script>';
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_jacapps_secondstreetpref_html' ) ) :
+	function ee_update_jacapps_secondstreetpref_html( $embed, $atts ) {
+		$url = 'https://embed.secondstreetapp.com/Scripts/dist/preferences.js';
+		return '<script src="' . esc_url( $url ) . '" data-ss-embed="preferences" data-organization-id="' . esc_attr( $atts['organization_id'] ) . '"></script>';
 	}
 endif;

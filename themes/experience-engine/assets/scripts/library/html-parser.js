@@ -29,6 +29,14 @@ function getVerizonEmbedParams(element) {
 	};
 }
 
+function getSecondStreetPrefEmbedParams(element) {
+	const { dataset } = element;
+
+	return {
+		orgid: dataset.orgid,
+	};
+}
+
 function getAudioEmbedParams(element) {
 	const sources = {};
 	const tags = element.getElementsByTagName('source');
@@ -195,6 +203,12 @@ export function getStateFromContent(container) {
 				'secondstreet',
 				'.secondstreet-embed',
 				getSecondStreetEmbedParams,
+			),
+			...processEmbeds(
+				container,
+				'secondstreetprefcenter',
+				'.secondstreet-prefcenter',
+				getSecondStreetPrefEmbedParams,
 			),
 			...processEmbeds(
 				container,
