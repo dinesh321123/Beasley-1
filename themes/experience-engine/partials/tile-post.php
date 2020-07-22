@@ -11,13 +11,4 @@ $is_video = in_array( 'format-video', $classes ) || in_array( 'has-featured-vide
 		</div>
 		<?php get_template_part( 'partials/tile/title' ); ?>
 	</div>
-
-	<?php if( true === $is_video ): ?>
-		<p class="type">
-			<svg width="7" height="12">
-				<path d="M7 6L.25 11.196V.804L7 6z"/>
-			</svg>
-			video
-		</p>
-	<?php endif; ?>
 </div>
