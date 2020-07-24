@@ -18,6 +18,15 @@ if ( ! function_exists( 'ee_get_contest_meta' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ee_the_contest_dates_if_enabled' ) ) :
+	function ee_the_contest_dates_if_enabled( $contest = null ) {
+		$contest_show_dates_setting = get_option( 'contest_show_dates_setting', 'hide' );
+		if  ( $contest_show_dates_setting === 'show' ) {
+			ee_the_contest_dates($contest);
+		}
+	}
+endif;
+
 if ( ! function_exists( 'ee_the_contest_dates' ) ) :
 	function ee_the_contest_dates( $contest = null ) {
 		$contest = get_post( $contest );

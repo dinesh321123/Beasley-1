@@ -3,6 +3,6 @@
 
 	<div class="meta">
 		<?php get_template_part( 'partials/tile/title' ); ?>
-		<?php ee_the_contest_dates(); ?>
+		<?php ee_the_contest_dates_if_enabled(); ?>
 	</div>
 </div>

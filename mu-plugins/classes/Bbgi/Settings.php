@@ -128,6 +128,11 @@ class Settings extends \Bbgi\Module {
 			'name' => 'ee_geotargetly_embed_code',
 		];
 
+		$contest_show_dates_args = array(
+				'name'     => 'contest_show_dates_setting',
+				'selected' => get_option( 'contest_show_dates_setting', 'hide' ),
+		);
+
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
 
@@ -158,6 +163,9 @@ class Settings extends \Bbgi\Module {
 
 		add_settings_field( 'ee_theme_text_color', 'Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_text_color&default=#000000' );
 
+		add_settings_section( 'contest_section', 'Contests', '__return_false', $this->_settings_page_hook );
+		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
+
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_newsletter_signup_page', 'intval' );
 		register_setting( self::option_group, 'ee_theme_version', 'sanitize_text_field' );
@@ -181,6 +189,8 @@ class Settings extends \Bbgi\Module {
 		// Note: No Sanitization with the assumption that the GeoTargetly embed code is XSS safe
 		// Not for use with untrusted JS code
 		register_setting( self::option_group, 'ee_geotargetly_embed_code', '' );
+
+		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -341,4 +351,15 @@ class Settings extends \Bbgi\Module {
 		</select><?php
 	}
 
-}
+	public function render_contest_show_dates( $args ) {
+    		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+    		<option value="hide"
+    				<?php selected( $args['selected'], 'hide' ); ?>
+    		>Hide</option>
+    		<option value="show"
+    				<?php selected( $args['selected'], 'show' ); ?>
+    		>Show</option>
+
+    		</select><?php
+    	}
+	}
