@@ -8,7 +8,6 @@ class BlogData {
 
 	public static $taxonomies = array(
 		'category'      =>  'single',
-		'post_tag'      =>  'multiple',
 		'collection'    =>  'single',
 	);
 
