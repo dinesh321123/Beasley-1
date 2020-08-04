@@ -1,5 +1,10 @@
 # Beasley WordPress
 
+## Branching
+
+- The `stage-archive` branch contains `stage` code from Aug. 4, 2020 and previous for archival purposes only.
+- `stage2` is a new, clean branch from `master` in use for deploying to staging starting Aug. 4, 2020.
+
 
 ## Themes
 The primary theme used throughout the Beasley properties is Experience Engine. You can can find docs specific to the theme can be found in the [Experience Enginge theme](themes/experience-engine/README.md)
