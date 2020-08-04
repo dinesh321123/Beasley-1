@@ -121,6 +121,10 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 			ee_render_discovery_cta();
 		}
 
+		if ( 2 === $homepage_feed_row_count ) {
+			ee_render_barker();
+		}
+
 		$homepage_feed_row_count++;
 		$standard_feeds_count++;
 	}
@@ -131,6 +135,16 @@ if ( ! function_exists( 'ee_render_discovery_cta' ) ) :
 		echo '<div class="discovery-cta"></div>';
 	}
 endif;
+
+
+if ( ! function_exists('ee_render_barker') ) :
+	function ee_render_barker() {
+		$value = apply_filters( 'barker_filter', '' );
+		echo $value;
+	}
+endif;
+
+
 
 if ( ! function_exists( 'ee_render_homepage_payloadable_feed' ) ) :
 	function ee_render_homepage_payloadable_feed( $feed ) {

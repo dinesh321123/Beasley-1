@@ -24,6 +24,9 @@ import Embedly from './embeds/Embedly';
 import SongArchive from './embeds/SongArchive';
 import RelatedPosts from './embeds/RelatedPosts';
 import GoogleAnalytics from './embeds/GoogleAnalytics';
+import StnBarker from './embeds/StnBarker';
+import StnPlayer from './embeds/StnPlayer';
+import VerizonPlayer from './embeds/VerizonPlayer';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -45,6 +48,9 @@ const mapping = {
 	streamcta: StreamCta,
 	relatedposts: RelatedPosts,
 	ga: GoogleAnalytics,
+	stnbarker: StnBarker,
+	stnplayer: StnPlayer,
+	verizonplayer: VerizonPlayer,
 };
 
 /**

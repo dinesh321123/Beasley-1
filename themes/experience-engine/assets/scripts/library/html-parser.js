@@ -21,6 +21,22 @@ function getSecondStreetPrefEmbedParams(element) {
 	};
 }
 
+function getStnEmbedParams(element) {
+	const { dataset } = element;
+
+	return {
+		fk: dataset.fk,
+	};
+}
+
+function getVerizonEmbedParams(element) {
+	const { dataset } = element;
+
+	return {
+		pid: dataset.pid,
+	};
+}
+
 function getAudioEmbedParams(element) {
 	const sources = {};
 	const tags = element.getElementsByTagName('source');
@@ -258,6 +274,14 @@ export function getStateFromContent(container) {
 				'discovery',
 				'.discovery-cta',
 				getPayloadParams(),
+			),
+			...processEmbeds(container, 'stnbarker', '.stnbarker', getStnEmbedParams),
+			...processEmbeds(container, 'stnplayer', '.stnplayer', getStnEmbedParams),
+			...processEmbeds(
+				container,
+				'verizonplayer',
+				'.verizonplayer',
+				getVerizonEmbedParams,
 			),
 			...processEmbeds(
 				container,
