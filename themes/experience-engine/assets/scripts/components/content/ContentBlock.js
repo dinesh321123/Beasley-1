@@ -121,18 +121,28 @@ class ContentBlock extends Component {
 		}
 	}
 
+	updateStateToMapEmbeds() {
+		const { ready, shouldMapEmbeds } = this.state;
+		if (ready && !shouldMapEmbeds) {
+			this.setState({ ready: true, shouldMapEmbeds: true });
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		this.updateStateToMapEmbeds();
+	}
+
 	render() {
 		const { content, embeds, partial, isHome } = this.props;
-		const { ready } = this.state;
+		const { ready, shouldMapEmbeds } = this.state;
 
 		const portal = ReactDOM.createPortal(
 			<div dangerouslySetInnerHTML={{ __html: content }} />,
 			document.getElementById(partial ? 'inner-content' : 'content'),
 		);
 
-		const embedComponents = ready
-			? embeds.map(ContentBlock.createEmbed)
-			: false;
+		const embedComponents =
+			ready && shouldMapEmbeds ? embeds.map(ContentBlock.createEmbed) : false;
 
 		// The Homepage component exposes a few methods via the context api to allow editing feeds.
 		return isHome ? (
