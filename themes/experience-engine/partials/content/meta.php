@@ -22,8 +22,23 @@
 			<?php ee_the_date(); ?>
 		</span>
 	</div>
+
+	<?php $sponsored_by = ee_get_sponsored_by(get_the_id()) ?>
+	<?php if ( $sponsored_by !== '' ) : ?>
+		<?php $sponsor_url = ee_get_sponsor_url(get_the_id()) ?>
+		<div class="sponsor-meta">
+			<?php if ( $sponsor_url === '' ) : ?>
+				<?php echo esc_html_e( $sponsored_by, 'bbgi' ); ?>
+			<?php else : ?>
+				<a class="sponsor-meta" href='<?php echo $sponsor_url ?>' target='_blank'><?php echo esc_html_e( $sponsored_by, 'bbgi' ); ?></a>
+			<?php endif; ?>
+		</div>
+	<?php endif; ?>
+
 	<div class="share-wrap-icons">
 		<span class="label">Share</span>
 		<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
 	</div>
+
+
 </div>

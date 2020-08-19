@@ -159,6 +159,14 @@
 	display: none;
 }
 
+.sponsor-meta {
+		  color: rgba(68, 68, 68, 0.6);
+		  font-weight: 500;
+		  font-size: .9rem;
+		  padding-bottom: .75rem;
+}
+
+
 /* General fixes for external feeds */
 .file .element-invisible {
 	visibility: hidden;

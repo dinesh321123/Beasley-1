@@ -18,7 +18,7 @@
 				<section class="entry-content" itemprop="articleBody">
 					<?php the_content(); ?>
 				</section>
-				
+
 				<?php get_template_part( 'partials/article', 'footer' ); ?>
 			</article>
 		</section>

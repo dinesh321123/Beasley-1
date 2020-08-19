@@ -56,6 +56,7 @@ abstract class Module {
 			'users'             => new \Bbgi\Users(),
 			'redirects'         => new \Bbgi\Redirects(),
 			'page-endpoint'     => new \Bbgi\Endpoints\Page(),
+			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {

@@ -222,3 +222,23 @@ if ( ! function_exists( 'ee_add_to_favorites' ) ) :
 		echo '<div class="add-to-favorites" data-keyword="', esc_attr( $keyword ), '"></div>';
 	}
 endif;
+
+if ( ! function_exists( 'ee_get_sponsored_by' ) ) :
+	function ee_get_sponsored_by( $post_id ) {
+		$post = get_post( $post_id );
+		$sponsored_by = get_post_meta( $post->ID, 'sponsor_name', true );
+		if ($sponsored_by !== '') {
+			$sponsored_by = 'Sponsored by ' . $sponsored_by;
+		}
+		return $sponsored_by;
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_sponsor_url' ) ) :
+	function ee_get_sponsor_url( $post_id ) {
+		$post = get_post( $post_id );
+		$sponsored_url = get_post_meta( $post->ID, 'sponsor_url', true );
+		return $sponsored_url;
+	}
+endif;
+
