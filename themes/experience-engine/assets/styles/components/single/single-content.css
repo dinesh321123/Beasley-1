@@ -160,10 +160,14 @@
 }
 
 .sponsor-meta {
-		  color: rgba(68, 68, 68, 0.6);
-		  font-weight: 500;
-		  font-size: .9rem;
-		  padding-bottom: .75rem;
+	font-family: var(--global-font-family-primary);
+  	color: rgba(68, 68, 68, 1);
+  	font-weight: 600;
+  	padding-bottom: .8rem;
+}
+
+.pad-top-75rem {
+	padding-top: .8rem;
 }
 
 

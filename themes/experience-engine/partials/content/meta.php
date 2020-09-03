@@ -23,10 +23,20 @@
 		</span>
 	</div>
 
+	<div class="share-wrap-icons">
+		<span class="label">Share</span>
+		<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
+	</div>
+
 	<?php $sponsored_by = ee_get_sponsored_by(get_the_id()) ?>
 	<?php if ( $sponsored_by !== '' ) : ?>
 		<?php $sponsor_url = ee_get_sponsor_url(get_the_id()) ?>
-		<div class="sponsor-meta">
+			<?php if ( ! is_singular( 'contest' ) ) : ?>
+				<div class="sponsor-meta pad-top-75rem">
+			<?php else : ?>
+				<div class="sponsor-meta">
+			<?php endif; ?>
+
 			<?php if ( $sponsor_url === '' ) : ?>
 				<?php echo esc_html_e( $sponsored_by, 'bbgi' ); ?>
 			<?php else : ?>
@@ -34,11 +44,5 @@
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
-
-	<div class="share-wrap-icons">
-		<span class="label">Share</span>
-		<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
-	</div>
-
 
 </div>

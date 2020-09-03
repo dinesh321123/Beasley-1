@@ -77,7 +77,7 @@ class Sponsorship extends \Bbgi\Module {
                                        				'label'             => 'Sponsor Name',
                                        				'name'              => 'sponsor_name',
                                        				'type'              => 'text',
-                                       				'instructions'      => 'Entering a sponsor name will override author credit.',
+                                       				'instructions'      => 'Sponsored By will appear by default.',
                                        				'required'          => 0,
                                        				'conditional_logic' => 0,
                                        				'message'           => '',
