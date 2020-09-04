@@ -152,13 +152,16 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 
 		$targeting = apply_filters( 'dfp_single_targeting', $targeting, $slot );
 
+		$dfp_ad_lazy_loading_flag = get_option( 'ad_lazy_loading_enabled', 'off' );
+
 		// When not jacapps, render react ready attributes
-		if( ! ee_is_jacapps() ) {
+		if ( ! ee_is_jacapps() ) {
 			$html = sprintf(
-				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s"></div>',
+				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s" isLazyLoadingEnabled="%s"></div>',
 				esc_attr( $unit_id ),
 				esc_attr( $slot ),
-				esc_attr( json_encode( $targeting ) )
+				esc_attr( json_encode( $targeting ) ),
+				esc_attr( $dfp_ad_lazy_loading_flag )
 			);
 		}
 

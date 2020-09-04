@@ -123,6 +123,10 @@ class Dfp extends PureComponent {
 
 			slot.addService(googletag.pubads());
 
+			if (this.props.isLazyLoadingEnabled === 'on') {
+				googletag.pubads().enableLazyLoad();
+			}
+
 			let sizeMapping = false;
 			if (unitName === 'top-leaderboard') {
 				sizeMapping = googletag
@@ -256,10 +260,12 @@ Dfp.propTypes = {
 	unitId: PropTypes.string.isRequired,
 	unitName: PropTypes.string.isRequired,
 	targeting: PropTypes.arrayOf(PropTypes.array),
+	isLazyLoadingEnabled: PropTypes.string,
 };
 
 Dfp.defaultProps = {
 	targeting: [],
+	isLazyLoadingEnabled: 'on',
 };
 
 Dfp.contextType = IntersectionObserverContext;
