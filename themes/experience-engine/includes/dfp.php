@@ -93,12 +93,20 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
 			);
 		}
 
+		$dfp_ad_lazy_loading_flag = get_option( 'ad_lazy_loading_enabled', 'off' );
+		if  ( $dfp_ad_lazy_loading_flag === 'on' ) {
+			$dfp_ad_lazy_loading_flag = esc_js('var ad_lazy_loading_enabled = true;');
+		} else{
+			$dfp_ad_lazy_loading_flag = '';
+		}
+
 		$script = <<<EOL
 var googletag = googletag || {};
 googletag.cmd = googletag.cmd || [];
 
 googletag.cmd.push(function() {
 	{$dfp_ad_interstitial}
+	{$dfp_ad_lazy_loading_flag}
 
 	googletag.pubads().collapseEmptyDivs(true);
 
@@ -106,6 +114,10 @@ googletag.cmd.push(function() {
 		for (var i = 0, pairs = window.bbgiconfig.dfp.global || []; i < pairs.length; i++) {
 			googletag.pubads().setTargeting(pairs[i][0], pairs[i][1]);
 		}
+	}
+
+	if (ad_lazy_loading_enabled) {
+		googletag.pubads().enableLazyLoad();
 	}
 
 	googletag.enableServices();
@@ -252,3 +264,4 @@ if ( ! function_exists( 'ee_the_content_with_ads' ) ) :
 		remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 	}
 endif;
+
