@@ -93,12 +93,18 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
 			);
 		}
 
-		$dfp_ad_lazy_loading_flag = get_option( 'ad_lazy_loading_enabled', 'off' );
-		if  ( $dfp_ad_lazy_loading_flag === 'on' ) {
-			$dfp_ad_lazy_loading_flag = esc_js('var ad_lazy_loading_enabled = true;');
-		} else{
-			$dfp_ad_lazy_loading_flag = '';
-		}
+		$dfp_ad_lazy_loading = get_option( 'ad_lazy_loading_enabled', 'off' );
+		if  ( $dfp_ad_lazy_loading === 'on' ) {
+        	$dfp_ad_lazy_loading = "		googletag.pubads().enableLazyLoad({
+        		fetchMarginPercent: 0,
+				renderMarginPercent: 0,
+				mobileScaling: 0.0,
+			});
+			console.log('Ad Lazy Loading interstitial ENABLED (PHP)');
+			";
+        } else {
+        	$dfp_ad_lazy_loading = "console.log('Ad Lazy Loading interstitial DISABLED (PHP)');";
+        }
 
 		$script = <<<EOL
 var googletag = googletag || {};
@@ -106,7 +112,6 @@ googletag.cmd = googletag.cmd || [];
 
 googletag.cmd.push(function() {
 	{$dfp_ad_interstitial}
-	{$dfp_ad_lazy_loading_flag}
 
 	googletag.pubads().collapseEmptyDivs(true);
 
@@ -116,9 +121,7 @@ googletag.cmd.push(function() {
 		}
 	}
 
-	if (ad_lazy_loading_enabled) {
-		googletag.pubads().enableLazyLoad();
-	}
+	{$dfp_ad_lazy_loading}
 
 	googletag.enableServices();
 });
@@ -157,7 +160,7 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 		// When not jacapps, render react ready attributes
 		if ( ! ee_is_jacapps() ) {
 			$html = sprintf(
-				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s" isLazyLoadingEnabled="%s"></div>',
+				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s" data-lazy-loading="%s"></div>',
 				esc_attr( $unit_id ),
 				esc_attr( $slot ),
 				esc_attr( json_encode( $targeting ) ),

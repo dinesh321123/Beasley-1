@@ -172,7 +172,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
 
 		add_settings_section( 'ad_lazy_loading_section', 'Ad Lazy Loading', '__return_false', $this->_settings_page_hook );
-		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading Enabled', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_lazy_loading_section', $ad_lazy_loading_enabled_args);
+		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_lazy_loading_section', $ad_lazy_loading_enabled_args);
 
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_newsletter_signup_page', 'intval' );
