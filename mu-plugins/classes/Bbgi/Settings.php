@@ -174,6 +174,18 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'ad_lazy_loading_section', 'Ad Lazy Loading', '__return_false', $this->_settings_page_hook );
 		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_lazy_loading_section', $ad_lazy_loading_enabled_args);
 
+		add_settings_section( 'item_counts_section', 'Item Counts', '__return_false', $this->_settings_page_hook );
+		add_settings_field( 'ee_featured_item_count_setting', 'Featured Item Count', 'bbgi_input_field', $this->_settings_page_hook, 'item_counts_section', array(
+			'name' => 'ee_featured_item_count_setting',
+			'default' => '10',
+			'desc' => 'Number of items which will be displayed in the Featured Section. Commonly set to 10',
+		) );
+		add_settings_field( 'ee_dont_miss_item_count_setting', "Don't Miss Item Count", 'bbgi_input_field', $this->_settings_page_hook, 'item_counts_section', array(
+			'name' => 'ee_dont_miss_item_count_setting',
+			'default' => '10',
+			'desc' => "Number of items which will be displayed in the Don't Miss Section. Commonly set to 10",
+		) );
+
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_newsletter_signup_page', 'intval' );
 		register_setting( self::option_group, 'ee_theme_version', 'sanitize_text_field' );
@@ -201,6 +213,9 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'ad_lazy_loading_enabled', 'sanitize_text_field');
+
+		register_setting(self::option_group, 'ee_featured_item_count_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'ee_dont_miss_item_count_setting', 'sanitize_text_field');
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.

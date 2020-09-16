@@ -123,6 +123,7 @@ googletag.cmd.push(function() {
 
 	{$dfp_ad_lazy_loading}
 
+	googletag.pubads().enableSingleRequest();  // MFP 09/16/2020 - Brad is having mixed results without this flag.
 	googletag.enableServices();
 });
 EOL;
