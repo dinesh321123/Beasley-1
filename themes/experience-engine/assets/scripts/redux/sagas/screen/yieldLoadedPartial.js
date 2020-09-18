@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import NProgress from 'nprogress';
-import { manageBbgiConfig } from '../../utilities';
+import { manageBbgiConfig, updateTargeting } from '../../utilities';
 import {
 	ACTION_LOADED_PARTIAL,
 	ACTION_HIDE_SPLASH_SCREEN,
@@ -21,6 +21,9 @@ function* yieldLoadedPartial(action) {
 
 	// Update BBGI Config
 	yield call(manageBbgiConfig, pageDocument);
+
+	// Update Ad Targeting
+	yield call(updateTargeting);
 
 	// make sure to hide splash screen.
 	yield put({ type: ACTION_HIDE_SPLASH_SCREEN });
