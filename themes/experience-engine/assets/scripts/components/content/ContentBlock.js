@@ -14,6 +14,7 @@ import LoadMore from './embeds/LoadMore';
 import LivestreamVideo from './embeds/LivestreamVideo';
 import EmbedVideo from './embeds/EmbedVideo';
 import Dfp from './embeds/Dfp';
+import DfpFollowup from './embeds/DfpFollowup';
 import Cta from './embeds/Cta';
 import Countdown from './embeds/Countdown';
 import StreamCta from './embeds/StreamCta';
@@ -33,6 +34,7 @@ const mapping = {
 	countdown: Countdown,
 	cta: Cta,
 	dfp: Dfp,
+	dfpfollowup: DfpFollowup,
 	discovery: Discovery,
 	editfeed: EditFeed,
 	embedly: Embedly,

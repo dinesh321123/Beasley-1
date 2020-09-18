@@ -95,13 +95,7 @@ class Dfp extends PureComponent {
 	}
 
 	registerSlot() {
-		const {
-			placeholder,
-			unitId,
-			unitName,
-			targeting,
-			isLazyLoadingEnabled,
-		} = this.props;
+		const { placeholder, unitId, unitName, targeting } = this.props;
 		const { googletag, bbgiconfig } = window;
 
 		if (!document.getElementById(placeholder)) {
@@ -128,17 +122,6 @@ class Dfp extends PureComponent {
 			}
 
 			slot.addService(googletag.pubads());
-
-			if (isLazyLoadingEnabled === 'on') {
-				console.log(`Ad Lazy Loading ${unitName} ENABLED (JS)`);
-				googletag.pubads().enableLazyLoad({
-					fetchMarginPercent: 0,
-					renderMarginPercent: 0,
-					mobileScaling: 0.0,
-				});
-			} else {
-				console.log(`Ad Lazy Loading ${unitName} DISABLED (JS)`);
-			}
 
 			let sizeMapping = false;
 			if (unitName === 'top-leaderboard') {
@@ -230,7 +213,9 @@ class Dfp extends PureComponent {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
 			}
 
-			googletag.display(slot);
+			// MFP 09/17/2020 - Added a refresh() that fires as last embed of first content block.
+			//                - Calls to display should not be required.
+			// googletag.display(slot);
 			this.setState({ slot });
 
 			return true;
@@ -273,7 +258,6 @@ Dfp.propTypes = {
 	unitId: PropTypes.string.isRequired,
 	unitName: PropTypes.string.isRequired,
 	targeting: PropTypes.arrayOf(PropTypes.array),
-	isLazyLoadingEnabled: PropTypes.string.isRequired,
 };
 
 Dfp.defaultProps = {

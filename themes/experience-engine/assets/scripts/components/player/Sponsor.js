@@ -76,7 +76,6 @@ class Sponsor extends PureComponent {
 				placeholder={id}
 				unitId={unitId}
 				unitName={unitName}
-				isLazyLoadingEnabled="off"
 			/>,
 		]);
 	}

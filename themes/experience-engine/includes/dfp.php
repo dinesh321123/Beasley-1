@@ -100,10 +100,10 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
 				renderMarginPercent: 0,
 				mobileScaling: 0.0,
 			});
-			console.log('Ad Lazy Loading interstitial ENABLED (PHP)');
+			console.log('Ad Lazy Loading ENABLED');
 			";
         } else {
-        	$dfp_ad_lazy_loading = "console.log('Ad Lazy Loading interstitial DISABLED (PHP)');";
+        	$dfp_ad_lazy_loading = "console.log('Ad Lazy Loading DISABLED');";
         }
 
 		$script = <<<EOL
@@ -111,8 +111,6 @@ var googletag = googletag || {};
 googletag.cmd = googletag.cmd || [];
 
 googletag.cmd.push(function() {
-	{$dfp_ad_interstitial}
-
 	googletag.pubads().collapseEmptyDivs(true);
 
 	if (window.bbgiconfig && window.bbgiconfig.dfp) {
@@ -123,8 +121,12 @@ googletag.cmd.push(function() {
 
 	{$dfp_ad_lazy_loading}
 
+	googletag.pubads().disableInitialLoad(); // MFP 09/17/2020 - display() will only register the ad slot. No ad content will be loaded until a second action is taken. We will send a refresh() after all slots are defined.
 	googletag.pubads().enableSingleRequest();  // MFP 09/16/2020 - Brad is having mixed results without this flag.
 	googletag.enableServices();
+
+	// MFP 09/17/2020 - Slot Configuration Should Be Done After enableServices()
+	{$dfp_ad_interstitial}
 });
 EOL;
 
@@ -156,16 +158,13 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 
 		$targeting = apply_filters( 'dfp_single_targeting', $targeting, $slot );
 
-		$dfp_ad_lazy_loading_flag = get_option( 'ad_lazy_loading_enabled', 'off' );
-
 		// When not jacapps, render react ready attributes
 		if ( ! ee_is_jacapps() ) {
 			$html = sprintf(
-				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s" data-lazy-loading="%s"></div>',
+				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s" ></div>',
 				esc_attr( $unit_id ),
 				esc_attr( $slot ),
-				esc_attr( json_encode( $targeting ) ),
-				esc_attr( $dfp_ad_lazy_loading_flag )
+				esc_attr( json_encode( $targeting ) )
 			);
 		}
 

@@ -238,6 +238,14 @@ class ContentDispatcher extends Component {
 			blocks.push(<ContentBlock key={key} {...partials[key]} partial />);
 		});
 
+		// First time through, add a DfpRefresh component to the page
+		if (blocks.length === 1) {
+			blocks[0].props.embeds.push({
+				type: 'dfpfollowup',
+				params: { placeholder: 'content' },
+			});
+		}
+
 		return blocks;
 	}
 }

@@ -131,7 +131,6 @@ function getDfpParams({ dataset }) {
 		unitId: dataset.unitId,
 		unitName: dataset.unitName,
 		targeting: keyvalues,
-		isLazyLoadingEnabled: dataset.lazyLoading,
 	};
 }
 
