@@ -157,8 +157,10 @@ function register_meta_boxes( $homepage ) {
 
 function render_source_meta_box( $homepage, $metabox ) {
 	// Can hook into these to change the limit for each curated area
-	$homepage_curation_featured_limit = apply_filters( 'gmr-homepage-featured-limit', 6, $homepage );
-	$homepage_curation_community_limit = apply_filters( 'gmr-homepage-community-limit', 3, $homepage );
+	$ee_featured_item_count_setting = (int)get_option( 'ee_featured_item_count_setting', '10' );
+	$homepage_curation_featured_limit  = apply_filters( 'gmr-homepage-featured-limit', $ee_featured_item_count_setting, $homepage );
+	$ee_dont_miss_item_count_setting = (int)get_option( 'ee_dont_miss_item_count_setting', '10' );
+	$homepage_curation_community_limit = apply_filters( 'gmr-homepage-community-limit', $ee_dont_miss_item_count_setting, $homepage );
 	$homepage_curation_events_limit = apply_filters( 'gmr-homepage-events-limit', 2, $homepage );
 
 	$post_picker_args = array (
