@@ -145,7 +145,13 @@ class Google extends \Bbgi\Module {
 	 */
 	public function render_inline_ga_code() {
 		$onload = apply_filters( 'bbgi_google_onload_code', '' );
-		echo $this->get_analytics_code( $onload, apply_filters( 'bbgi_google_inline_page_view', false ) );
+
+		if ( function_exists( 'ee_is_jacapps' ) && ee_is_jacapps() ) {
+			echo $this->get_analytics_code( $onload,  true );
+		} else {
+			echo $this->get_analytics_code( $onload, apply_filters( 'bbgi_google_inline_page_view', false ) );
+		}
+
 	}
 
 	/**
@@ -180,7 +186,7 @@ class Google extends \Bbgi\Module {
 		$script .= "ga('require', 'displayfeatures');";
 
 		if ( $inline_pageview ) {
-			$this->render_inline_targeting_values( $data );
+			$script .= $this->render_inline_targeting_values( $data );
 		}
 
 		$script .= $extra;
@@ -195,6 +201,8 @@ class Google extends \Bbgi\Module {
 	}
 
 	public function render_inline_targeting_values( $data ) {
+		$script = '';
+
 		if ( ! empty( $data['shows'] ) ) {
 			$script .= sprintf( "ga( 'set', 'contentGroup1', '%s');", esc_js( $data['shows'] ) );
 		}
@@ -206,6 +214,8 @@ class Google extends \Bbgi\Module {
 		if ( ! empty( $data['author'] ) && ! empty( $data['google_author_dimension'] ) ) {
 			$script .= sprintf( "ga( 'set', 'dimension%s', '%s');", esc_js( $data['google_author_dimension'] ), esc_js( $data['author'] ) );
 		}
+
+		return $script;
 	}
 	/**
 	 * Returns Google Analytics code for FB instant articles.
