@@ -125,6 +125,8 @@ googletag.cmd.push(function() {
 	googletag.pubads().enableSingleRequest();  // MFP 09/16/2020 - Brad is having mixed results without this flag.
 	googletag.enableServices();
 
+	let window.dfp_needs_refresh = true; // MFP 10/02/2020 - Set explicit flag for controlling initial dfp refresh.
+
 	// MFP 09/17/2020 - Slot Configuration Should Be Done After enableServices()
 	{$dfp_ad_interstitial}
 });

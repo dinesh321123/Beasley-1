@@ -8,28 +8,22 @@ import { ACTION_HIDE_SPLASH_SCREEN } from '../../actions/screen';
  * @param { Object } action Dispatched action
  */
 function* yieldHideSplashScreen(action) {
-	// Call Google Ads Refresh If There Is A Splashscreen.
-	// We Only Want To Refresh Here When Page Originates From WordPress, Otherwise React Handles The Google Ads Refresh
-	const splashScreen = document.getElementById('splash-screen');
-	if (splashScreen) {
-		const { googletag } = window;
-		if (googletag) {
+	// Call Google Ads Refresh If dfp_needs_refresh Flag Is Set
+	// NOTE: We Only Want To Refresh Here ON Initial Load When Page Originates From WordPress, Otherwise React Handles The Google Ads Refresh
+	yield call(() => {
+		const splashScreen = document.getElementById('splash-screen');
+		const { googletag, dfp_needs_refresh } = window;
+		if (dfp_needs_refresh) {
+			window.dfp_needs_refresh = false;
 			googletag.cmd.push(() => {
 				googletag.pubads().refresh(); // Refresh ALL Slots
 			});
 		}
-	}
 
-	yield call(
-		[window, 'setTimeout'],
-		() => {
-			const splashScreen = document.getElementById('splash-screen');
-			if (splashScreen) {
-				splashScreen.parentNode.removeChild(splashScreen);
-			}
-		},
-		0,
-	);
+		if (splashScreen) {
+			splashScreen.parentNode.removeChild(splashScreen);
+		}
+	});
 }
 
 /**
