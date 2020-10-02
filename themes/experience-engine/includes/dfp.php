@@ -109,6 +109,7 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
 		$script = <<<EOL
 var googletag = googletag || {};
 googletag.cmd = googletag.cmd || [];
+dfp_needs_refresh = true; // MFP 10/02/2020 - Set explicit flag for controlling initial dfp refresh.
 
 googletag.cmd.push(function() {
 	googletag.pubads().collapseEmptyDivs(true);
@@ -124,8 +125,6 @@ googletag.cmd.push(function() {
 	googletag.pubads().disableInitialLoad(); // MFP 09/17/2020 - display() will only register the ad slot. No ad content will be loaded until a second action is taken. We will send a refresh() after all slots are defined.
 	googletag.pubads().enableSingleRequest();  // MFP 09/16/2020 - Brad is having mixed results without this flag.
 	googletag.enableServices();
-
-	let window.dfp_needs_refresh = true; // MFP 10/02/2020 - Set explicit flag for controlling initial dfp refresh.
 
 	// MFP 09/17/2020 - Slot Configuration Should Be Done After enableServices()
 	{$dfp_ad_interstitial}
