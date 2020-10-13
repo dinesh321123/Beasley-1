@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Yoast SEO customizations
+ */
 namespace Bbgi;
 
 class Seo extends \Bbgi\Module {

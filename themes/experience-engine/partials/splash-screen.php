@@ -4,7 +4,9 @@ $custom_logo_id = get_option( 'gmr_site_logo', 0 );
 $colors = ee_get_css_colors();
 $color = $colors['--brand-primary'];
 
-?><div id="splash-screen">
+?>
+
+<div id="splash-screen">
 	<style>
 		html, body {
 			overflow: hidden;
@@ -22,7 +24,7 @@ $color = $colors['--brand-primary'];
 
 		.splash-screen-logo {
 			<?php if ( $custom_logo_id ) : ?>
-			background-image: url(<?php echo esc_url( bbgi_get_image_url( $custom_logo_id, 250, 250, 'crop', true ) ); ?>);
+				background-image: url(<?php echo esc_url( bbgi_get_image_url( $custom_logo_id, 250, 250, 'crop', true ) ); ?>);
 			<?php endif; ?>
 			background-position: center;
 			background-repeat: no-repeat;
@@ -33,7 +35,7 @@ $color = $colors['--brand-primary'];
 			top: 50%;
 			transform: translate(-50%, -50%);
 			width: 250px;
-		}
+		}	
 
 		.splash-screen-progress {
 			bottom: 0;
@@ -71,11 +73,13 @@ $color = $colors['--brand-primary'];
 			from { left: -5%; width: 5%; }
 			to { left: 130%; width: 100%;}
 		}
+
 		@keyframes decrease {
 			from { left: -80%; width: 80%; }
 			to { left: 110%; width: 10%;}
 		}
 	</style>
+	
 	<div class="splash-screen-logo">
 		<div class="splash-screen-progress">
 			<div class="splash-screen-line"></div>

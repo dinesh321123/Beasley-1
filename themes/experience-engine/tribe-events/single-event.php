@@ -21,6 +21,10 @@ endif;
 				<?php echo esc_html( tribe_get_event_label_plural() ); ?>
 			</a>
 		</div>
+		
+		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
+			<?php get_template_part( 'partials/featured-media' ); ?>
+		<?php endif; ?>
 
 		<h1 class="event-title">
 			<?php the_title(); ?>
@@ -60,7 +64,10 @@ endif;
 
 	<div class="entry-content content-wrap">
 		<div class="description">
-			<?php get_template_part( 'partials/featured-media' ); ?>
+			<?php if ( bbgi_featured_image_layout_is( null, 'inline' ) ) : ?>
+				<?php get_template_part( 'partials/featured-media' ); ?>
+			<?php endif; ?>
+
 			<?php the_content(); ?>
 
 			<?php get_template_part( 'partials/content/tags' ); ?>

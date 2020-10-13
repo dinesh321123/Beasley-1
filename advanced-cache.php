@@ -41,7 +41,7 @@ function vary_cache_on_function($function) {
 
 class batcache {
 	// This is the base configuration. You can edit these variables or move them into your wp-config.php file.
-	var $max_age =  600; // Expire batcache items aged this many seconds (zero to disable batcache)
+	var $max_age =  60; // Expire batcache items aged this many seconds (zero to disable batcache)
 
 	var $remote  =    0; // Zero disables sending buffers to remote datacenters (req/sec is never sent)
 
@@ -73,7 +73,7 @@ class batcache {
 	var $genlock = false;
 	var $do = false;
 
-	function batcache( $settings ) {
+	function __construct( $settings ) {
 		if ( is_array( $settings ) ) foreach ( $settings as $k => $v )
 			$this->$k = $v;
 	}
@@ -341,6 +341,69 @@ if ( is_array( $_COOKIE) && ! empty( $_COOKIE ) ) {
 	}
 }
 
+// Beasley Customization Start ------------------------------------------
+
+/**
+ * Returns a boolean based on whether the current URL is a Beasley XML feed.
+ *
+ * @return bool
+ */
+function is_beasley_feed() {
+	if ( ! empty( $_SERVER['REQUEST_URI'] ) ) {
+		$path         = $_SERVER['REQUEST_URI'];
+		$query_string = $_SERVER['QUERY_STRING'];
+		parse_str( $query_string, $query_params );
+
+		if ( strpos( $path, '/feed/' ) !== false ) {
+			/* Matches Feed suffixes: /category/foo/feed/ */
+			return true;
+		} else if ( ! empty( $query_params['feed'] ) ) {
+			/* Matches custom Homepage feeds: /?feed=custom_homepage */
+			return true;
+		} else {
+			/* Not a feed */
+			return false;
+		}
+	} else {
+		/* If request uri header is absent don't match */
+		return false;
+	}
+}
+
+/**
+ * Returns a boolean if the current URL has a ?nocache=true Query parameter
+ *
+ * @return bool
+ */
+function is_beasley_cache_disabled() {
+	if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
+		$query_string = $_SERVER['QUERY_STRING'];
+		parse_str( $query_string, $query_params );
+
+		if ( ! empty( $query_params['nocache'] ) && $query_params['nocache'] === 'true' ) {
+			/* Matches ?nocache=true */
+			return true;
+		} else {
+			/* Continue caching as normal -- nocache is absent */
+			return false;
+		}
+	} else {
+		/* If request uri header is absent don't match */
+		return false;
+	}
+}
+
+/*
+ * If current route is a Beasley RSS Feed and has nocache=true, then
+ * exit early to bypass batcache.
+ */
+if ( is_beasley_feed() && is_beasley_cache_disabled() ) {
+	header( 'X-Beasley-Cache: bypass' );
+	return;
+}
+
+// Beasley Customization End ------------------------------------------
+
 if ( ! include_once( WP_CONTENT_DIR . '/object-cache.php' ) )
 	return;
 
@@ -471,20 +534,20 @@ if ( isset($batcache->cache['time']) && ! $batcache->genlock && time() < $batcac
 
 	// Respect ETags served with feeds.
 	$three04 = false;
-	if ( isset( $SERVER['HTTP_IF_NONE_MATCH'] ) && isset( $batcache->cache['headers']['ETag'][0] ) && $_SERVER['HTTP_IF_NONE_MATCH'] == $batcache->cache['headers']['ETag'][0] )
-		$three04 = true;
-
-	// Respect If-Modified-Since.
-	elseif ( $batcache->cache_control && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
-		$client_time = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
-		if ( isset($batcache->cache['headers']['Last-Modified'][0]) )
-			$cache_time = strtotime($batcache->cache['headers']['Last-Modified'][0]);
-		else
-			$cache_time = $batcache->cache['time'];
-
-		if ( $client_time >= $cache_time )
-			$three04 = true;
-	}
+//	if ( isset( $SERVER['HTTP_IF_NONE_MATCH'] ) && isset( $batcache->cache['headers']['ETag'][0] ) && $_SERVER['HTTP_IF_NONE_MATCH'] == $batcache->cache['headers']['ETag'][0] )
+//		$three04 = true;
+//
+//	// Respect If-Modified-Since.
+//	elseif ( $batcache->cache_control && isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ) {
+//		$client_time = strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+//		if ( isset($batcache->cache['headers']['Last-Modified'][0]) )
+//			$cache_time = strtotime($batcache->cache['headers']['Last-Modified'][0]);
+//		else
+//			$cache_time = $batcache->cache['time'];
+//
+//		if ( $client_time >= $cache_time )
+//			$three04 = true;
+//	}
 
 	// Use the batcache save time for Last-Modified so we can issue "304 Not Modified" but don't clobber a cached Last-Modified header.
 	if ( $batcache->cache_control && !isset($batcache->cache['headers']['Last-Modified'][0]) ) {

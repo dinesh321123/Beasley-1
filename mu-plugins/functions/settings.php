@@ -24,6 +24,58 @@ function bbgi_input_field( $args = array() ) {
 	}
 }
 
+function bbgi_checkbox_field( $args = array() ) {
+	$args = wp_parse_args( $args, array(
+		'type'    => 'checkbox',
+		'name'    => '',
+		'default' => false,
+		'class'   => 'regular-text',
+		'desc'    => '',
+	) );
+
+	$value   = get_option( $args['name'], $args['default'] );
+	$value   = filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+	$checked = $value ? 'checked' : '';
+
+	printf(
+		'<input type="%s" name="%s" class="%s" %s>',
+		esc_attr( $args['type'] ),
+		esc_attr( $args['name'] ),
+		esc_attr( $args['class'] ),
+		esc_attr( $checked )
+	);
+
+	if ( ! empty( $args['desc'] ) ) {
+		printf( '<p class="description">%s</p>', esc_html( $args['desc'] ) );
+	}
+}
+
+function bbgi_textarea_field( $args = array() ) {
+	$args = wp_parse_args( $args, array(
+		'name'    => '',
+		'default' => '',
+		'class'   => 'regular-text',
+		'desc'    => '',
+		'rows'    => '8',
+		'cols'    => '50',
+	) );
+
+	$value = get_option( $args['name'], $args['default'] );
+
+	printf(
+		'<textarea name="%s" rows="%s" cols="%s" class="%s">%s</textarea>',
+		esc_attr( $args['name'] ),
+		esc_attr( $args['rows'] ),
+		esc_attr( $args['cols'] ),
+		esc_attr( $args['class'] ),
+		esc_attr( $value )
+	);
+
+	if ( ! empty( $args['desc'] ) ) {
+		printf( '<p class="description">%s</p>', esc_html( $args['desc'] ) );
+	}
+}
+
 function bbgi_select_field( $args ) {
 	$args = wp_parse_args( $args, array(
 		'name'    => '',

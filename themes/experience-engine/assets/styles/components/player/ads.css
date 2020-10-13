@@ -14,15 +14,23 @@
 }
 
 .preroll-container {
-	left: 50%;
-	position: absolute;
+	height: 0;
+	max-width: 100%;
+	overflow: hidden;
+	padding-bottom: 56.25%;
+	position: relative;
 	top: 50%;
-	transform: translate(-50%, -50%);
+	transform: translateY(-50%);
 }
 
 .preroll-player {
 	background-color: var(--global-black);
-	width: 640px;
+	height: 96%;
+	left: 2%;
+	position: absolute;
+	right: 2%;
+	top: 0;
+	width: 96%;
 }
 
 .preroll-notification {
@@ -41,4 +49,13 @@
 		margin-bottom: 1.775rem;
 		padding-bottom: 1.775rem;
 	}
+}
+
+.sponsor-mobile {
+	background-color: var(--global-theme-secondary);
+	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
+				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
+	display: flex;
+	justify-content: center;
+	padding: 0.5rem 0.5rem 0.875rem 0.5rem;
 }

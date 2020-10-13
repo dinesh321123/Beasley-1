@@ -1,3 +1,6 @@
+<?php
+use Bbgi\Integration\Google;
+?>
 <!doctype html>
 <html lang="en">
 	<head <?php language_attributes(); ?>>
@@ -8,7 +11,7 @@
 			add_action( 'wp_head', 'restore_current_blog', 1 );
 			ee_switch_to_article_blog();
 		endif;
-		
+
 		wp_head();
 
 	?></head>
@@ -29,6 +32,14 @@
 
 		?><div class="container">
 			<main id="content" class="content">
+				<?php
+					if ( class_exists( Google::class ) ) {
+						Google::render_ga_placeholder();
+					}
+				?>
 				<?php do_action( 'show_breaking_news_banner' ); ?>
-				<?php get_template_part( 'partials/ads/leaderboard' ); ?>
+				<?php
+					get_template_part( 'partials/ads/leaderboard' );
+				?>
 				<div id="inner-content">
+

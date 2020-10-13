@@ -143,6 +143,12 @@ endif;
 if ( ! function_exists( 'ee_the_permalink' ) ) :
 	function ee_the_permalink() {
 		$post = get_post();
+
+		if ( ! empty( get_post_meta( $post->ID, 'fp_syndicated_post', true ) ) ) {
+			the_permalink( $post );
+			return;
+		}
+
 		if ( ! empty( $post->link ) ) {
 			$url = $post->link;
 			$parts = parse_url( $url );
@@ -183,17 +189,23 @@ if ( ! function_exists( 'ee_get_related_articles' ) ) :
 		$post_id = get_queried_object_id();
 		$key = 'ee-related-' . $post_id;
 		$related_articles = wp_cache_get( $key );
+
 		if ( $related_articles === false ) {
 			$remove_filter = false;
-			if ( ! has_filter( 'ep_formatted_args', 'ep_related_posts_formatted_args' ) ) {
-				$remove_filter = true;
-				add_filter( 'ep_formatted_args', 'ep_related_posts_formatted_args', 10, 2 );
+
+			if ( function_exists( 'ep_related_posts_formatted_args' ) ) {
+				if ( ! has_filter( 'ep_formatted_args', 'ep_related_posts_formatted_args' ) ) {
+					$remove_filter = true;
+					add_filter( 'ep_formatted_args', 'ep_related_posts_formatted_args', 10, 2 );
+				}
 			}
 
 			$related_articles = ep_find_related( $post_id, 5 );
 
-			if ( $remove_filter ) {
-				remove_filter( 'ep_formatted_args', 'ep_related_posts_formatted_args', 10, 2 );
+			if ( function_exists( 'ep_related_posts_formatted_args' ) ) {
+				if ( $remove_filter ) {
+					remove_filter( 'ep_formatted_args', 'ep_related_posts_formatted_args', 10, 2 );
+				}
 			}
 
 			if ( ! empty( $related_articles ) ) {
@@ -210,3 +222,23 @@ if ( ! function_exists( 'ee_add_to_favorites' ) ) :
 		echo '<div class="add-to-favorites" data-keyword="', esc_attr( $keyword ), '"></div>';
 	}
 endif;
+
+if ( ! function_exists( 'ee_get_sponsored_by' ) ) :
+	function ee_get_sponsored_by( $post_id ) {
+		$post = get_post( $post_id );
+		$sponsored_by = get_post_meta( $post->ID, 'sponsor_name', true );
+		if ($sponsored_by !== '') {
+			$sponsored_by = 'Sponsored by ' . $sponsored_by;
+		}
+		return $sponsored_by;
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_sponsor_url' ) ) :
+	function ee_get_sponsor_url( $post_id ) {
+		$post = get_post( $post_id );
+		$sponsored_url = get_post_meta( $post->ID, 'sponsor_url', true );
+		return $sponsored_url;
+	}
+endif;
+

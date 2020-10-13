@@ -7,6 +7,8 @@ ee_switch_to_article_blog();
 the_post(); 
 
 ?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<?php get_template_part( 'partials/show/header' ); ?>
+
 	<header class="post-info">
 		<h1>
 			<?php the_title(); ?>
@@ -19,7 +21,7 @@ the_post();
 
 	<div class="entry-content content-wrap">
 		<div class="description">
-			<?php get_template_part( 'partials/featured-media' ); ?>
+			<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
 
 			<?php the_content(); ?>
 			<?php get_template_part( 'partials/gallery/listicle' ); ?>

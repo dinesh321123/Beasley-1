@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Abstract class for modules
+ */
 namespace Bbgi;
 
 abstract class Module {
@@ -41,15 +43,25 @@ abstract class Module {
 			'video'             => new \Bbgi\Media\Video(),
 			'image-attributes'  => new \Bbgi\Image\Attributes(),
 			'thumbnail-column'  => new \Bbgi\Image\ThumbnailColumn(),
+			'flexible-images'   => new \Bbgi\Image\Layout(),
 			'experience-engine' => new \Bbgi\Integration\ExperienceEngine(),
 			'google'            => new \Bbgi\Integration\Google(),
 			'firebase'          => new \Bbgi\Integration\Firebase(),
 			'dfp'               => new \Bbgi\Integration\Dfp(),
 			'facebook'          => new \Bbgi\Integration\Facebook(),
+			'feed-pull'         => new \Bbgi\Integration\FeedPull(),
+			'notifications'     => new \Bbgi\Integration\PushNotifications(),
+			'webhooks'          => new \Bbgi\Webhooks(),
+			'enclosure'         => new \Bbgi\Media\Enclosure(),
+			'users'             => new \Bbgi\Users(),
+			'redirects'         => new \Bbgi\Redirects(),
+			'page-endpoint'     => new \Bbgi\Endpoints\Page(),
+			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {
 			self::$_modules['secondstreet'] = new \Bbgi\Integration\SecondStreet();
+			self::$_modules['secondstreetpref'] = new \Bbgi\Integration\SecondStreetPreferenceCenter();
 		}
 
 		foreach ( self::$_modules as $module ) {

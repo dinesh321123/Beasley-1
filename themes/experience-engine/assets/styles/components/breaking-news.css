@@ -19,3 +19,23 @@ body.-dark {
         background: var(--global-theme-secondary);
     }
 }
+
+.notification-banner {
+	box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08);
+	font-weight: 600;
+	position: fixed;
+	left: 0;
+	transition: top 1s;
+	top: -100px;
+	width: 100%;
+	z-index: 10;
+
+	&.-visible {
+		top: 0;
+	}
+
+	& .title {
+		color: var( --brand-secondary );
+		font-weight: 400;
+	}
+}

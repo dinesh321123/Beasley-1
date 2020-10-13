@@ -154,7 +154,7 @@ class GreaterMedia_Keyword_Admin {
 			$linked_content = isset( $_POST['linked_content'] ) ? intval( $_POST['linked_content'] ) : 0;
 			$keyword = isset( $_POST['keyword'] )? sanitize_text_field( $_POST['keyword'] ) : '';
 			$keyword_key = strtolower( $keyword );
-			
+
 			if( $keyword == '' ) {
 				echo '<div id="message" class="error"><p>Keyword can&rsquo;t be empty.</p></div>';
 				return false;
@@ -164,10 +164,14 @@ class GreaterMedia_Keyword_Admin {
 				echo '<div id="message" class="error"><p>Keyword ' . esc_html( $keyword ) . ' already used.</p></div>';
 				return false;
 			}
-			
+
 			if( ! $linked_content ) {
 				echo '<div id="message" class="error"><p>Please select a post.</p></div>';
 				return false;
+			}
+
+			if ( empty( $pairs ) || ! is_array( $pairs ) ) {
+				$pairs = [];
 			}
 
 			$pairs[$keyword_key] = array(

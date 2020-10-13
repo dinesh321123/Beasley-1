@@ -2,45 +2,57 @@ import { removeElement } from './dom';
 
 let embedsIndex = 0;
 
-function getSecondStreetEmbedParams( element ) {
+function getSecondStreetEmbedParams(element) {
 	const { dataset } = element;
 
 	return {
-		script: element.getAttribute( 'src' ),
+		script: element.getAttribute('src'),
 		embed: dataset.ssEmbed,
 		opguid: dataset.opguid,
 		routing: dataset.routing,
 	};
 }
 
-function getAudioEmbedParams( element ) {
-	const sources = {};
-	const tags = element.getElementsByTagName( 'source' );
-	for ( let i  = 0, len = tags.length; i < len; i++ ) {
-		sources[tags[i].getAttribute( 'src' )] = tags[i].getAttribute( 'type' );
-	}
-
-	return {
-		src: element.getAttribute( 'src' ) || '',
-		sources,
-	};
-}
-
-function getOmnyEmbedParams( element ) {
+function getSecondStreetPrefEmbedParams(element) {
 	const { dataset } = element;
 
 	return {
-		src: element.getAttribute( 'src' ),
-		title: dataset.title,
-		author: dataset.author,
-		omny: true,
+		orgid: dataset.orgid,
 	};
 }
 
-function getDatasetParams( ...list ) {
-	return ( { dataset } ) => {
+function getAudioEmbedParams(element) {
+	const sources = {};
+	const tags = element.getElementsByTagName('source');
+	for (let i = 0, len = tags.length; i < len; i++) {
+		sources[tags[i].getAttribute('src')] = tags[i].getAttribute('type');
+	}
+
+	return {
+		src: element.getAttribute('src') || '',
+		sources,
+		title: element.dataset.title,
+		author: element.dataset.author,
+		tracktype: element.dataset.tracktype || '',
+	};
+}
+
+function getOmnyEmbedParams(element) {
+	const { dataset } = element;
+
+	return {
+		src: element.getAttribute('src'),
+		title: dataset.title,
+		author: dataset.author,
+		omny: true,
+		tracktype: dataset.tracktype,
+	};
+}
+
+function getDatasetParams(...list) {
+	return ({ dataset }) => {
 		const params = {};
-		for ( let i = 0, len = list.length; i < len; i++ ) {
+		for (let i = 0, len = list.length; i < len; i++) {
 			params[list[i]] = dataset[list[i]];
 		}
 
@@ -48,24 +60,54 @@ function getDatasetParams( ...list ) {
 	};
 }
 
-function getLoadMoreParams( element ) {
+function getLoadMoreParams(element) {
 	return {
-		link: element.getAttribute( 'href' ),
+		link: element.getAttribute('href'),
 	};
 }
 
-function getDfpParams( { dataset } ) {
+function getEmbedlyParams(element) {
+	const embedlyTitleElement = element.children[0];
+	const embedlyTitleAElement = embedlyTitleElement.children[0];
+	const embedlyParagraphElement =
+		typeof element.children[1] !== 'undefined' ? element.children[1] : '';
+
+	return {
+		url: embedlyTitleAElement.href,
+		title: embedlyTitleElement.textContent,
+		description: embedlyParagraphElement.innerText,
+	};
+}
+
+/**
+ * Extracts the attributes passed by the Song Archive template
+ * placeholder and returns them.
+ *
+ * @param element The song archive pre-render DOM element
+ * @return object
+ */
+function getSongArchiveParams(element) {
+	const { dataset } = element;
+
+	return {
+		callsign: dataset.callsign,
+		endpoint: dataset.endpoint,
+		description: dataset.description,
+	};
+}
+
+function getDfpParams({ dataset }) {
 	const { targeting } = dataset;
 
 	let keyvalues = [];
 
 	try {
-		if ( 'string' === typeof targeting && targeting ) {
-			keyvalues = JSON.parse( targeting );
-		} else if ( Array.isArray( targeting ) ) {
+		if (typeof targeting === 'string' && targeting) {
+			keyvalues = JSON.parse(targeting);
+		} else if (Array.isArray(targeting)) {
 			keyvalues = targeting;
 		}
-	} catch ( err ) {
+	} catch (err) {
 		// do nothing
 	}
 
@@ -76,18 +118,18 @@ function getDfpParams( { dataset } ) {
 	};
 }
 
-function getPayloadParams( flattern = false ) {
-	return ( { dataset } ) => {
+function getPayloadParams(flattern = false) {
+	return ({ dataset }) => {
 		const { payload } = dataset;
 		const params = {};
 
 		try {
-			if ( 'string' === typeof payload && payload ) {
-				params.payload = JSON.parse( payload );
-			} else if ( 'object' === typeof payload ) {
+			if (typeof payload === 'string' && payload) {
+				params.payload = JSON.parse(payload);
+			} else if (typeof payload === 'object') {
 				params.payload = payload;
 			}
-		} catch( err ) {
+		} catch (err) {
 			// do nothing
 		}
 
@@ -95,71 +137,190 @@ function getPayloadParams( flattern = false ) {
 	};
 }
 
-function processEmbeds( container, type, selector, callback ) {
+function processEmbeds(container, type, selector, callback) {
 	const embeds = [];
 
-	const elements = container.querySelectorAll( selector );
-	for ( let i = 0, len = elements.length; i < len; i++ ) {
+	const elements = container.querySelectorAll(selector);
+
+	for (let i = 0, len = elements.length; i < len; i++) {
 		const element = elements[i];
-		const extraAttributes = callback ? callback( element ) : {};
-		const placeholder = document.createElement( 'div' );
+		const extraAttributes = callback ? callback(element) : {};
+		const placeholder = document.createElement('div');
 
-		placeholder.setAttribute( 'id', extraAttributes.id || `__cd-${++embedsIndex}` );
-		placeholder.classList.add( 'placeholder' );
-		placeholder.classList.add( `placeholder-${type}` );
+		if (type === 'audio' && element.closest('.description')) {
+			continue;
+		}
 
-		embeds.push( {
+		placeholder.setAttribute(
+			'id',
+			extraAttributes.id || `__cd-${++embedsIndex}`,
+		);
+		placeholder.classList.add('placeholder');
+		placeholder.classList.add(`placeholder-${type}`);
+
+		embeds.push({
 			type,
 			params: {
-				placeholder: placeholder.getAttribute( 'id' ),
+				placeholder: placeholder.getAttribute('id'),
 				...extraAttributes,
 			},
-		} );
+		});
 
-		element.parentNode.replaceChild( placeholder, element );
+		element.parentNode.replaceChild(placeholder, element);
 	}
 
 	return embeds;
 }
 
-export function getStateFromContent( container ) {
+export function getStateFromContent(container) {
 	const state = {
 		scripts: {},
 		embeds: [],
 		content: '',
 	};
 
-	if ( container ) {
+	if (container) {
 		state.embeds = [
-			...processEmbeds( container, 'dfp', '.dfp-slot', getDfpParams ),
-			...processEmbeds( container, 'secondstreet', '.secondstreet-embed', getSecondStreetEmbedParams ),
-			...processEmbeds( container, 'audio', '.wp-audio-shortcode', getAudioEmbedParams ),
-			...processEmbeds( container, 'audio', '.lazy-audio', getDatasetParams( 'src', 'title', 'author' ) ),
-			...processEmbeds( container, 'audio', '.omny-embed', getOmnyEmbedParams ),
-			...processEmbeds( container, 'lazyimage', '.lazy-image', getDatasetParams( 'src', 'width', 'height', 'alt', 'tracking', 'attribution', 'autoheight' ) ),
-			...processEmbeds( container, 'share', '.share-buttons', getDatasetParams( 'url', 'title' ) ),
-			...processEmbeds( container, 'loadmore', '.load-more', getLoadMoreParams ),
-			...processEmbeds( container, 'livestreamvideo', '.livestream', getDatasetParams( 'embedid', 'src' ) ),
-			...processEmbeds( container, 'embedvideo', '.youtube', getDatasetParams( 'title', 'thumbnail', 'html' ) ),
-			...processEmbeds( container, 'cta', '.cta', getPayloadParams() ),
-			...processEmbeds( container, 'countdown', '.countdown', getPayloadParams() ),
-			...processEmbeds( container, 'streamcta', '.stream-cta', getPayloadParams( true ) ),
-			...processEmbeds( container, 'discovery', '.discovery-cta', getPayloadParams() ),
-			...processEmbeds( container, 'favorites', '.add-to-favorites', getDatasetParams( 'keyword' ) ),
-			...processEmbeds( container, 'editfeed', '.edit-feed', getDatasetParams( 'feed', 'title' ) ),
+			...processEmbeds(container, 'dfp', '.dfp-slot', getDfpParams),
+			...processEmbeds(
+				container,
+				'secondstreet',
+				'.secondstreet-embed',
+				getSecondStreetEmbedParams,
+			),
+			...processEmbeds(
+				container,
+				'secondstreetprefcenter',
+				'.secondstreet-prefcenter',
+				getSecondStreetPrefEmbedParams,
+			),
+			...processEmbeds(
+				container,
+				'audio',
+				'.wp-audio-shortcode',
+				getAudioEmbedParams,
+			),
+			...processEmbeds(
+				container,
+				'audio',
+				'.lazy-audio',
+				getDatasetParams('src', 'title', 'author', 'tracktype'),
+			),
+			...processEmbeds(container, 'audio', '.omny-embed', getOmnyEmbedParams),
+			...processEmbeds(
+				container,
+				'lazyimage',
+				'.lazy-image',
+				getDatasetParams(
+					'src',
+					'width',
+					'height',
+					'alt',
+					'tracking',
+					'attribution',
+					'autoheight',
+				),
+			),
+			...processEmbeds(
+				container,
+				'share',
+				'.share-buttons',
+				getDatasetParams('url', 'title'),
+			),
+			...processEmbeds(container, 'loadmore', '.load-more', getLoadMoreParams),
+			...processEmbeds(
+				container,
+				'livestreamvideo',
+				'.livestream',
+				getDatasetParams('embedid', 'src'),
+			),
+			...processEmbeds(
+				container,
+				'embedvideo',
+				'.youtube',
+				getDatasetParams('title', 'thumbnail', 'html'),
+			),
+			...processEmbeds(container, 'cta', '.cta', getPayloadParams()),
+			...processEmbeds(
+				container,
+				'countdown',
+				'.countdown',
+				getPayloadParams(),
+			),
+			...processEmbeds(
+				container,
+				'streamcta',
+				'.stream-cta',
+				getPayloadParams(true),
+			),
+			...processEmbeds(
+				container,
+				'discovery',
+				'.discovery-cta',
+				getPayloadParams(),
+			),
+			...processEmbeds(
+				container,
+				'favorites',
+				'.add-to-favorites',
+				getDatasetParams('keyword'),
+			),
+			...processEmbeds(
+				container,
+				'editfeed',
+				'.edit-feed',
+				getDatasetParams('feed', 'title'),
+			),
+			...processEmbeds(
+				container,
+				'embedly',
+				'.embedly-card-prerender',
+				getEmbedlyParams,
+			),
+			...processEmbeds(
+				container,
+				'songarchive',
+				'.song-archive-prerender',
+				getSongArchiveParams,
+			),
+			...processEmbeds(
+				container,
+				'relatedposts',
+				'.related-articles',
+				getDatasetParams(
+					'postid',
+					'categories',
+					'posttype',
+					'posttitle',
+					'url',
+				),
+			),
+			...processEmbeds(
+				container,
+				'ga',
+				'.ga-info',
+				getDatasetParams(
+					'title',
+					'url',
+					'contentgroup1',
+					'contentgroup2',
+					'dimensionkey',
+					'dimensionvalue',
+				),
+			),
 		];
 
 		// extract <script> tags
-		const scripts = container.getElementsByTagName( 'script' );
-		for ( let i = 0, len = scripts.length; i < len; i++ ) {
+		const scripts = container.getElementsByTagName('script');
+		for (let i = 0, len = scripts.length; i < len; i++) {
 			const element = scripts[i];
-			if ( element.src ) {
+			if (element.src) {
 				state.scripts[element.src] = element.outerHTML;
 			}
 		}
 
-		while ( scripts.length ) {
-			removeElement( scripts[0] );
+		while (scripts.length) {
+			removeElement(scripts[0]);
 		}
 
 		// MUST follow after embeds processing
@@ -169,13 +330,13 @@ export function getStateFromContent( container ) {
 	return state;
 }
 
-export function parseHtml( html, selector = '#content' ) {
+export function parseHtml(html, selector = '#content') {
 	const parser = new DOMParser();
 
-	const pageDocument = parser.parseFromString( html, 'text/html' );
-	const content = pageDocument.querySelector( selector );
+	const pageDocument = parser.parseFromString(html, 'text/html');
+	const content = pageDocument.querySelector(selector);
 
-	const state = getStateFromContent( content );
+	const state = getStateFromContent(content);
 	state.document = pageDocument;
 
 	return state;

@@ -5,8 +5,6 @@
 
 	& .custom-logo-link {
 		display: block;
-		margin: 0 auto;
-		max-width: 1280px;
 		padding-bottom: 2.111rem;
 
 		& img {
@@ -46,7 +44,12 @@
 	& > div {
 		flex: 0 1 100%;
 
-		@media (--min-large-viewport) {
+		@media (--min-medium-viewport) {
+			max-width: calc(50% - 4.444rem);
+			flex: 0 1 50%;
+		}
+
+		@media (--min-xlarge-viewport) {
 			max-width: calc(25% - 4.444rem);
 			flex: 0 1 25%;
 		}
@@ -57,13 +60,14 @@
 
 .footer-meta {
 	display: grid;
-	gap: 4.444rem;
-	grid-row-gap: 4.444rem;
-	margin: 0 auto;
-	max-width: 1280px;
+	grid-gap: 4.444rem;
 
-	@media (--min-small-viewport) {
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	@media (--min-medium-viewport) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (--min-large-viewport) {
+		grid-template-columns: repeat(4, 1fr);
 	}
 
 	& > div {

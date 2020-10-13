@@ -1,5 +1,7 @@
 <?php
 
+$homepage_feed_row_count = 1;
+$standard_feeds_count = 1;
 if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 	function ee_homepage_feeds( $feeds ) {
 		$supported_feeds = array();
@@ -9,7 +11,7 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 			'news'      => 'ee_render_homepage_standard_feed',
 			'video'     => 'ee_render_homepage_standard_feed',
 			'podcast'   => 'ee_render_homepage_standard_feed',
-			'countdown' => 'ee_render_homepage_payloadable_feed', 
+			'countdown' => 'ee_render_homepage_payloadable_feed',
 			'cta'       => 'ee_render_homepage_payloadable_feed',
 			// 'stream'    => 'ee_render_homepage_stream', // uncomment if we need stream CTAs on the homepage
 		);
@@ -22,14 +24,29 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 			if ( isset( $supported_types[ $feed['type'] ] ) ) {
 				$supported_feeds[] = $feed;
 			}
-		}
+        }
 
-		$count = count( $supported_feeds );
+        // Count the general supported feeds
+        $count = count( $supported_feeds );
+
+        // Store a count for supported feeds that actually contain content
+		$count_with_content = 0;
+
 		if ( $count > 0 ) {
-			for ( $i = 0; $i < $count; $i++ ) {
-				$feed = $supported_feeds[ $i ];
+
+            // Now update for an accurate count of rows that actually contain content
+            for ( $i = 0; $i < $count; $i++ ) {
+                $feed = $supported_feeds[ $i ];
 				if ( ! empty( $feed['content'] ) && is_array( $feed['content'] ) ) {
-					call_user_func( $supported_types[ $feed['type'] ], $feed, $count );
+					$count_with_content++;
+				}
+            }
+
+            // And finally loop through the available rows and call associated functions
+			for ( $i = 0; $i < $count; $i++ ) {
+                $feed = $supported_feeds[ $i ];
+				if ( ! empty( $feed['content'] ) && is_array( $feed['content'] ) ) {
+					call_user_func( $supported_types[ $feed['type'] ], $feed, $count_with_content );
 				}
 			}
 
@@ -47,22 +64,23 @@ if ( ! function_exists( 'ee_edit_feed_button' ) ) :
 			$title = $feed['title'];
 		}
 
-		// echo '<div class="edit-feed" data-feed="', esc_attr( $feed['id'] ), '" data-title="', esc_attr( $title ), '"></div>'; // uncomment if need "edit feed" button
+		echo '<div class="edit-feed" data-feed="', esc_attr( $feed['id'] ) . '" data-title="' . esc_attr( $title ) . '"></div>';
 	}
 endif;
 
 if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 	function ee_render_homepage_standard_feed( $feed, $feeds_count ) {
-		static $index = 1;
-		global $ee_feed_now;
+		global $homepage_feed_row_count;
+		global $standard_feeds_count;
+        global $ee_feed_now;
 
 		$ee_feed_now = $feed;
-		$size = $index === 1 ? '-large' : '-small';
+		$size = $standard_feeds_count === 1 ? '-large' : '-small';
 		echo '<div id="', esc_attr( $feed['id'] ), '" class="content-wrap">';
 			ee_edit_feed_button( $feed );
 
 			if ( ! empty( $feed['title'] ) ) {
-				if ( $index <= 1 ) {
+				if ( $homepage_feed_row_count <= 1 ) {
 					ee_the_subtitle( $feed['title'] );
 				} else {
 					ee_the_subtitle( $feed['title'], 'true' );
@@ -85,17 +103,26 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 		echo '</div>';
 
 		// below first two ribbons, then after 5th ribbon and every 3 ribbons thereafter.
-		if ( $index < $feeds_count ) {
-			if ( ( $index == 2 ) || ( $index > 2 && ( $index - 2 ) % 3 == 0 ) ) {
+		// if the index matches the feeds_count AND is divisible by 3, then we have to ignore
+		// to prevent doubling an advert with the footer ad
+		if ( $homepage_feed_row_count < $feeds_count ) {
+			if (
+				( 2 === $homepage_feed_row_count ) ||
+				(
+					$homepage_feed_row_count > 2 &&
+					( $homepage_feed_row_count - 2 ) % 3 == 0
+				)
+			) {
 				do_action( 'dfp_tag', 'in-list' );
 			}
 		}
 
-		if ( $index == 4 ) {
+		if ( 4 === $homepage_feed_row_count ) {
 			ee_render_discovery_cta();
 		}
 
-		$index++;
+		$homepage_feed_row_count++;
+		$standard_feeds_count++;
 	}
 endif;
 
@@ -107,13 +134,17 @@ endif;
 
 if ( ! function_exists( 'ee_render_homepage_payloadable_feed' ) ) :
 	function ee_render_homepage_payloadable_feed( $feed ) {
+        global $homepage_feed_row_count;
+
 		foreach ( $feed['content'] as $item ) {
 			if ( $item['contentType'] == 'cta' || $item['contentType'] == 'countdown' ) {
 				printf(
 					'<div class="%s" data-payload="%s"></div>',
 					esc_attr( $item['contentType'] ),
 					esc_attr( json_encode( $item ) )
-				);
+                );
+
+                $homepage_feed_row_count++;
 			}
 		}
 	}
@@ -133,13 +164,16 @@ endif;
 if ( ! function_exists( 'ee_setup_post_from_feed_item' ) ) :
 	function ee_setup_post_from_feed_item( $item, $feed ) {
 		$post = false;
-		switch ( $feed['type'] ) {
-			case 'podcast':
-				$post = ee_get_post_by_omny_audio( $item['media']['url'] );
-				break;
-			default:
-				$post = ee_get_post_by_link( $item['link'] );
-				break;
+
+		if ( ! isset( $item['override'] ) || ! $item['override'] ) {
+			switch ( $feed['type'] ) {
+				case 'podcast':
+					$post = ee_get_post_by_omny_audio( $item['media']['url'] );
+					break;
+				default:
+					$post = ee_get_post_by_link( $item['link'] );
+					break;
+			}
 		}
 
 		if ( ! is_a( $post, '\WP_Post' ) ) {
@@ -200,7 +234,7 @@ if ( ! function_exists( 'ee_get_post_by_omny_audio' ) ) :
 		if ( $post_id === false ) {
 			$audio = esc_sql( $audio );
 
-			$post_id = $wpdb->get_var( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'omny-audio-url' AND meta_value LIKE '{$audio}%'" );
+			$post_id = $wpdb->get_var( "SELECT post_id FROM {$wpdb->postmeta} WHERE (meta_key = 'omny-audio-url' OR meta_key='enclosure') AND meta_value LIKE '{$audio}%'" );
 			$post_id = intval( $post_id );
 
 			wp_cache_set( $key, $post_id, DAY_IN_SECONDS );
@@ -251,7 +285,7 @@ if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 								unset( $query_vars[ $type ] );
 							}
 						}
-						
+
 						$query = new \WP_Query();
 						$posts = $query->query( array_merge( $query_vars, array(
 							'ignore_sticky_posts' => true,
@@ -281,3 +315,30 @@ if ( ! function_exists( 'ee_get_post_by_link' ) ) :
 		return false;
 	}
 endif;
+
+/**
+ * Excludes content marked for exclusion from homepage from the main
+ * feed. This is controlled via the 'Keep off Homepage' Metabox .
+ *
+ * @param $query The WP Query
+ * @return void
+ */
+function ee_customize_homepage_rss_feed( $query ) {
+	if ( $query->is_main_query() && $query->is_feed ) {
+		$query->set( 'meta_query', [
+			'relation' => 'OR',
+			[
+				'key'     => 'keep-off-homepage',
+				'compare' => 'NOT EXISTS',
+			],
+			[
+				'key'     => 'keep-off-homepage',
+				'value'   => 0,
+				'compare' => '=',
+				'type'    => 'NUMERIC',
+			],
+		] );
+	}
+}
+
+add_action( 'pre_get_posts', 'ee_customize_homepage_rss_feed' );

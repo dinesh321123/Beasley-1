@@ -18,3 +18,14 @@
 		}
 	}
 }
+
+#contest-rules {
+	display: none;
+}
+
+#contest-rules-toggle {
+	display: inline-block;
+    background: none;
+    border: none;
+    color: var(--brand-primary);
+}

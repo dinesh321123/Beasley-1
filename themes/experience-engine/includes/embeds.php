@@ -2,6 +2,34 @@
 
 add_action( 'beasley_after_body', 'ee_setup_embed_filters' );
 add_filter( 'bbgi_livestream_video_html', 'ee_update_livestream_html', 10, 3 );
+add_filter( 'embed_oembed_html', 'ee_responsive_oembed_html', 10, 3 );
+add_filter( 'embed_oembed_html', 'ee_prepare_embedly_content', 10, 4 );
+
+/**
+ * Embedly gives the placeholder blockquote content a class of '.embedly-card' which is also used for the
+ * iFrame. In order to give it a unique identifier that isn't confused with the iFrame, this function will
+ * give it a temporary unique identifier which will allow it to be rendered through React correctly.
+ *
+ * This will provide a solution that is backwards-compatible with existing Embedly content
+ */
+if ( ! function_exists( 'ee_prepare_embedly_content' ) ) :
+	function ee_prepare_embedly_content( $cached_html, $url, $attr, $post_id ) {
+
+		// Do the default action for jacapps pages or admin pages.
+		if ( ee_is_jacapps() || is_admin() ) {
+			return $cached_html;
+		}
+
+		$cached_html = str_ireplace(
+			'<blockquote class="embedly-card"',
+			'<blockquote class="embedly-card-prerender"',
+			$cached_html
+		);
+
+		return $cached_html;
+	}
+endif;
+
 
 if ( ! function_exists( 'ee_setup_embed_filters' ) ) :
 	function ee_setup_embed_filters() {
@@ -13,7 +41,9 @@ endif;
 
 if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 	function ee_update_embed_oembed_html( $html, $url, $attr, $post_ID ) {
+
 		$data = wp_cache_get( $url, 'ee:oembed' );
+
 		if ( empty( $data ) ) {
 			$data = _wp_oembed_get_object()->get_data( $url );
 			wp_cache_set( $url, $data, 'ee:oembed' );
@@ -24,7 +54,9 @@ if ( ! function_exists( 'ee_update_embed_oembed_html' ) ) :
 			if ( $fb_connect ) {
 				$html = preg_replace( '#<script.*?>.*?</script>#i', '<script src="' . esc_attr( $fb_connect ) . '"></script>', $html );
 			}
-		} elseif ( $data->provider_name == 'YouTube' ) {
+		} elseif ( $data->provider_name == 'YouTube' &&
+				// When Embedly wraps YouTube or embeds, it can cause double the pain when trying to embed YouTube code within Embedly code
+				false === stripos( $data->html, 'embedly' ) ) {
 			$html = ee_oembed_youtube_html( $data );
 		}
 
@@ -67,6 +99,11 @@ endif;
 
 if ( ! function_exists( 'ee_update_livestream_html' ) ) :
 	function ee_update_livestream_html( $html, $embed_id, $url ) {
+
+		if ( ee_is_jacapps() ) {
+			return $html;
+		}
+
 		$html = sprintf(
 			'<div class="livestream" data-embedid="%s" data-src="%s"></div>',
 			esc_attr( $embed_id ),
@@ -76,3 +113,56 @@ if ( ! function_exists( 'ee_update_livestream_html' ) ) :
 		return $html;
 	}
 endif;
+
+/**
+ * Adds a responsive embed wrapper around oEmbed content
+ *
+ * @param string $html The oEmbed markup
+ * @param string $url  The URL being embedded
+ * @param array  $attr An array of attributes
+ * @return string      Updated embed markup
+ */
+function ee_responsive_oembed_html( $html, $url, $attr ) {
+	$classes = array();
+
+	if ( false !== stripos( $html, 'embedly-card' ) ) {
+		$classes_all = array(
+			'embedly-responsive-media',
+		);
+	} else if ( false !== stripos( $html, 'facebook.com' ) ) {
+		$classes_all = array(
+			'embedly-responsive-media',
+		);
+	} else {
+		// Add these classes to all embeds except embedly
+		$classes_all = array(
+			'responsive-media',
+		);
+	}
+
+	// Check for different providers and add appropriate classes.
+	if ( false !== strpos( $html, 'vimeo.com' ) ) {
+		$classes[] = 'vimeo';
+	}
+
+	// Only add the YouTube class if this isn't an Embedly card or we'll get weird results
+	if ( false !== strpos( $url, 'youtube.com' ) && false === stripos( $html, 'embedly' ) ) {
+		$classes[] = 'youtube';
+	}
+
+	if ( false !== strpos( $url, 'instagram.com' ) ) {
+		$classes[] = 'instagram';
+	}
+
+	if ( false !== strpos( $url, 'twitter.com' ) ) {
+		$classes[] = 'twitter';
+	}
+
+	if ( false !== strpos( $html , 'wp-embedded-content') ) {
+		$classes[] = 'beasley';
+	}
+
+	$classes = array_merge( $classes, $classes_all );
+
+	return '<div class="' . esc_attr( implode( $classes, ' ' ) ) . '">' . $html . '</div>';
+}

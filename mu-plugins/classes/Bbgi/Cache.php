@@ -1,4 +1,7 @@
 <?php
+/**
+ * Wrapper for WP_Cache
+ */
 
 namespace Bbgi;
 

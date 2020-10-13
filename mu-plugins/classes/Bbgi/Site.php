@@ -1,4 +1,7 @@
 <?php
+/**
+ * Adds additional headers to requests
+ */
 
 namespace Bbgi;
 

@@ -1,10 +1,13 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 import ErrorBoundary from '../ErrorBoundary';
+import Homepage from './Homepage';
+
 import AudioEmbed from './embeds/Audio';
 import SecondStreetEmbed from './embeds/SecondStreet';
+import SecondStreetPreferenceCenterEmbed from './embeds/SecondStreetPreferenceCenter';
 import LazyImage from './embeds/LazyImage';
 import Share from './embeds/Share';
 import LoadMore from './embeds/LoadMore';
@@ -17,89 +20,149 @@ import StreamCta from './embeds/StreamCta';
 import Discovery from './embeds/Discovery';
 import AddToFavorites from './embeds/AddToFavorites';
 import EditFeed from './embeds/EditFeed';
+import Embedly from './embeds/Embedly';
+import SongArchive from './embeds/SongArchive';
+import RelatedPosts from './embeds/RelatedPosts';
+import GoogleAnalytics from './embeds/GoogleAnalytics';
 
 const mapping = {
-	secondstreet: SecondStreetEmbed,
 	audio: AudioEmbed,
-	lazyimage: LazyImage,
-	share: Share,
-	loadmore: LoadMore,
-	livestreamvideo: LivestreamVideo,
-	embedvideo: EmbedVideo,
-	dfp: Dfp,
-	cta: Cta,
 	countdown: Countdown,
-	streamcta: StreamCta,
+	cta: Cta,
+	dfp: Dfp,
 	discovery: Discovery,
-	favorites: AddToFavorites,
 	editfeed: EditFeed,
+	embedly: Embedly,
+	embedvideo: EmbedVideo,
+	favorites: AddToFavorites,
+	lazyimage: LazyImage,
+	livestreamvideo: LivestreamVideo,
+	loadmore: LoadMore,
+	secondstreet: SecondStreetEmbed,
+	secondstreetprefcenter: SecondStreetPreferenceCenterEmbed,
+	share: Share,
+	songarchive: SongArchive,
+	streamcta: StreamCta,
+	relatedposts: RelatedPosts,
+	ga: GoogleAnalytics,
 };
 
+/**
+ * The ContentBlock component maps an "embed placeholder" to a React component.
+ *
+ * It passes all attributes gathered by 'parseHtml' via props.
+ */
 class ContentBlock extends Component {
-
-	static createEmbed( embed ) {
+	/**
+	 * An embed is created as a react component rendered into its placeholder using React portal
+	 *
+	 * @param {object} embed
+	 */
+	static createEmbed(embed) {
 		const { type, params } = embed;
 		const { placeholder } = params;
 
 		const component = mapping[type] || false;
-		if ( !component ) {
+		if (!component) {
 			return false;
 		}
 
-		const container = document.getElementById( placeholder );
-		if ( !container ) {
+		const container = document.getElementById(placeholder);
+		if (!container) {
 			return false;
 		}
 
-		const element = React.createElement( component, params );
+		const element = React.createElement(component, params);
 
 		return ReactDOM.createPortal(
-			React.createElement( ErrorBoundary, {}, element ),
+			React.createElement(ErrorBoundary, {}, element),
 			container,
 		);
 	}
 
-	constructor( props ) {
-		super( props );
+	constructor(props) {
+		super(props);
 
-		const self = this;
-		self.state = { ready: false };
+		this.state = { ready: false };
 	}
 
 	componentDidMount() {
-		this.setState( { ready: true } );
+		this.setState({ ready: true });
+		this.bindContests();
+	}
+
+	/**
+	 * Bind contest event listeners
+	 */
+	bindContests() {
+		const contestToggler = document.getElementById('contest-rules-toggle');
+
+		if (contestToggler) {
+			contestToggler.addEventListener('click', this.handleContestClick);
+		}
+	}
+
+	/**
+	 * Handle 'view contest' link click
+	 */
+	handleContestClick(e) {
+		const contestRules = document.getElementById('contest-rules');
+
+		e.target.style.display = 'none';
+
+		if (contestRules) {
+			contestRules.style.display = 'block';
+		}
+	}
+
+	updateStateToMapEmbeds() {
+		const { ready, shouldMapEmbeds } = this.state;
+		if (ready && !shouldMapEmbeds) {
+			this.setState({ ready: true, shouldMapEmbeds: true });
+		}
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		this.updateStateToMapEmbeds();
 	}
 
 	render() {
-		const self = this;
-		const { content, embeds, partial } = self.props;
-		const { ready } = self.state;
+		const { content, embeds, partial, isHome } = this.props;
+		const { ready, shouldMapEmbeds } = this.state;
 
 		const portal = ReactDOM.createPortal(
 			<div dangerouslySetInnerHTML={{ __html: content }} />,
-			document.getElementById( partial ? 'inner-content' : 'content' )
+			document.getElementById(partial ? 'inner-content' : 'content'),
 		);
 
-		const embedComponents = ready ? embeds.map( ContentBlock.createEmbed ) : false;
+		const embedComponents =
+			ready && shouldMapEmbeds ? embeds.map(ContentBlock.createEmbed) : false;
 
-		return (
-			<Fragment>
+		// The Homepage component exposes a few methods via the context api to allow editing feeds.
+		return isHome ? (
+			<Homepage>
 				{portal}
 				{embedComponents}
-			</Fragment>
+			</Homepage>
+		) : (
+			<>
+				{portal}
+				{embedComponents}
+			</>
 		);
 	}
-
 }
 
 ContentBlock.propTypes = {
 	content: PropTypes.string.isRequired,
-	embeds: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	embeds: PropTypes.arrayOf(PropTypes.object).isRequired,
 	partial: PropTypes.bool,
+	isHome: PropTypes.bool,
 };
 
 ContentBlock.defaultProps = {
 	partial: false,
+	isHome: false,
 };
 
 export default ContentBlock;

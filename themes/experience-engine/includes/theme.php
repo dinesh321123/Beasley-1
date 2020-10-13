@@ -10,7 +10,9 @@ remove_action( 'wp_head', 'wp_enqueue_scripts', 1 );
 remove_action( 'wp_head', '_wp_render_title_tag', 1 );
 remove_action( 'do_pings', 'do_all_pings' );
 
+add_filter( 'body_class', 'ee_login_body_class' );
 add_filter( 'pre_get_posts','ee_update_main_query' );
+add_filter( 'bbgi_supported_featured_image_layouts', 'ee_supported_featured_image_layouts' );
 
 if ( ! function_exists( 'ee_setup_theme' ) ) :
 	function ee_setup_theme() {
@@ -24,6 +26,19 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 
 		add_theme_support( 'secondstreet' );
 		add_theme_support( 'homepage-curation' );
+
+		add_post_type_support( 'post', 'timed-content' );
+		add_post_type_support( 'page', 'timed-content' );
+		add_post_type_support( 'gmr_gallery', 'timed-content' );
+		add_post_type_support( 'gmr_album', 'timed-content' );
+		add_post_type_support( 'episode', 'timed-content' );
+		add_post_type_support( 'tribe_events', 'timed-content' );
+		add_post_type_support( 'contest', 'timed-content' );
+
+		add_post_type_support( 'post', 'flexible-feature-image' );
+		add_post_type_support( 'page', 'flexible-feature-image' );
+		add_post_type_support( 'tribe_events', 'flexible-feature-image' );
+		add_post_type_support( 'contest', 'flexible-feature-image' );
 	}
 endif;
 
@@ -61,3 +76,39 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 		return $query;
 	}
 endif;
+
+if ( ! function_exists( 'ee_login_body_class' ) ) :
+	function ee_login_body_class( $classes ) {
+		if ( 'disabled' === get_option( 'ee_login', '' ) ) {
+			$classes[] = 'hidden-user-nav';
+		}
+
+		return $classes;
+	}
+endif;
+
+if ( ! function_exists( 'ee_supported_featured_image_layouts' ) ) :
+	function ee_supported_featured_image_layouts() {
+		return array( 'top', 'inline' );
+	}
+endif;
+
+/**
+ * Helper function to get the post id from options or transient cache
+ *
+ * @param $query_arg
+ *
+ * @return int post id if found
+ */
+function get_post_with_keyword( $query_arg ) {
+	$query_arg = strtolower( $query_arg );
+	if( class_exists('GreaterMedia_Keyword_Admin') ) {
+		$saved_keyword = GreaterMedia_Keyword_Admin::get_keyword_options( GreaterMedia_Keyword_Admin::$plugin_slug . '_option_name' );
+		$saved_keyword = GreaterMedia_Keyword_Admin::array_map_r( 'sanitize_text_field', $saved_keyword );
+
+		if( $query_arg != '' && array_key_exists( $query_arg, $saved_keyword ) ) {
+			return $saved_keyword[$query_arg]['post_id'];
+		}
+	}
+	return 0;
+}

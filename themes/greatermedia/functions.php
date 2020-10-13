@@ -35,6 +35,9 @@ add_theme_support( 'firebase' );
 add_theme_support( 'legacy-live-player' );
 add_theme_support( 'html5', array( 'search-form' ) );
 
+// enable GA
+add_filter( 'bbgi_google_inline_page_view', '__return_true' );
+
 require_once __DIR__ . '/includes/liveplayer/class-liveplayer.php';
 require_once __DIR__ . '/includes/site-options/class-gmr-site-options.php';
 require_once __DIR__ . '/includes/mega-menu/mega-menu-admin.php';
@@ -42,7 +45,6 @@ require_once __DIR__ . '/includes/mega-menu/mega-menu-walker.php';
 require_once __DIR__ . '/includes/mega-menu/mega-menu-mobile-walker.php';
 require_once __DIR__ . '/includes/category-options.php';
 require_once __DIR__ . '/includes/class-favicon.php';
-require_once __DIR__ . '/includes/flexible-feature-images/gmr-flexible-feature-images.php';
 require_once __DIR__ . '/includes/auction-nudge/gmr-auction-nudge.php';
 require_once __DIR__ . '/includes/class-gm-tinymce.php';
 require_once __DIR__ . '/includes/dfp.php';

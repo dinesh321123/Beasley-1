@@ -1,11 +1,17 @@
 <?php
+/**
+ * API for interacting with Expression Engine
+ */
 
 namespace Bbgi\Integration;
 
 class ExperienceEngine extends \Bbgi\Module {
 
 	private static $_fields = array(
-		'ee_host' => 'API host',
+		'ee_host'             => 'API host',
+		'ee_cache_token'      => 'Cache Clear Token',
+		'ee_appkey'           => 'EE App Key',
+		'ee_notification_key' => 'EE Notification App Key',
 	);
 
 	/**
@@ -99,9 +105,20 @@ class ExperienceEngine extends \Bbgi\Module {
 	public function send_request( $path, $args = array() ) {
 		$host = $this->_get_host();
 		$args['headers'] = array( 'Content-Type' => 'application/json' );
+		$args['timeout'] = 30;
 		if ( empty( $args['method'] ) ) {
 			$args['method'] = 'GET';
 		}
+
+		// Append the device parameter to indicate this request is from the website
+		if ( false === stripos( $path, '?' ) ) {
+			$path .= '?';
+		}
+		else {
+			$path .= '&';
+		}
+
+		$path .= 'device=other';
 
 		return wp_remote_request( $host . $path, $args );
 	}
@@ -175,7 +192,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		$publisher = $this->_get_publisher_key();
 		if ( ! empty( $publisher ) ) {
 			$url = "experience/channels/{$publisher}/feeds/content/";
-			if ( ! empty( $_REQUEST ) ) {
+			if ( ! empty( $_REQUEST['authorization'] ) ) {
 				$url .= '?authorization=' . urlencode( $_REQUEST['authorization'] );
 			}
 
@@ -234,6 +251,9 @@ class ExperienceEngine extends \Bbgi\Module {
 
 		if ( is_array( $data ) && ! empty( $data ) ) {
 			foreach ( $data as $config ) {
+				if ( ! is_array( $config ) ) {
+					$config = (array) $config;
+				}
 				if ( $config['region'] == $slot ) {
 					return sprintf( '/%s/%s', $config['publisherId'], $config['adUnitId'] );
 				}
@@ -254,14 +274,16 @@ class ExperienceEngine extends \Bbgi\Module {
 		$namespace = 'experience_engine/v1';
 
 		register_rest_route( $namespace, '/purge-cache', array(
-			'methods'  => \WP_REST_Server::READABLE,
-			'callback' => $this( 'rest_purge_cache' ),
+			'methods'             => 'POST',
+			'callback'            => $this( 'rest_purge_cache' ),
+			'permission_callback' => array( $this, 'check_purge_cache_permissions' ),
+			'show_in_index'       => false,
 		) );
 
 		$authorization = array(
 			'authorization' => array(
 				'type'              => 'string',
-				'required'          => true,
+				'required'          => false,
 				'validate_callback' => function( $value ) {
 					return strlen( $value ) > 0;
 				},
@@ -271,17 +293,42 @@ class ExperienceEngine extends \Bbgi\Module {
 		register_rest_route( $namespace, 'feeds-content', array(
 			'methods'  => \WP_REST_Server::CREATABLE,
 			'callback' => $this( 'rest_get_feeds_content' ),
-			'args'     => array_merge( $authorization, array(
-				'format' => array(
-					'type'     => 'string',
-					'required' => false,
-				),
-			) ),
+			'args'     => array_merge( $authorization, [] ),
 		) );
 	}
 
+	/**
+	 * Checks if the current request has permissions to purge cache
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return boolean
+	 */
+	public function check_purge_cache_permissions( \WP_REST_Request $request ) {
+		$token = get_site_option( 'ee_cache_token', false );
+
+		if ( empty( $token ) ) {
+			return false;
+		}
+
+		if ( $token === $request->get_header( 'Authorization' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function rest_purge_cache() {
+		// Clear EE Cache
 		update_option( 'ee_cache_index', time(), 'no' );
+
+		// Clear specific page caches
+		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
+			$home = trailingslashit( get_option( 'home' ) );
+			batcache_clear_url( $home );
+			batcache_clear_url( $home . 'feed/' );
+		}
+
 		return rest_ensure_response( 'Cache Flushed' );
 	}
 
@@ -294,11 +341,18 @@ class ExperienceEngine extends \Bbgi\Module {
 		$request = rest_ensure_request( $request );
 		$authorization = $request->get_param( 'authorization' );
 
-		$path = sprintf(
-			'experience/channels/%s/feeds/content/?authorization=%s',
-			urlencode( $publisher ),
-			urlencode( $authorization )
-		);
+		if ( ! empty( $authorization ) ) {
+			$path = sprintf(
+				'experience/channels/%s/feeds/content/?authorization=%s',
+				urlencode( $publisher ),
+				urlencode( $authorization )
+			);
+		} else {
+			$path = sprintf(
+				'experience/channels/%s/feeds/content/',
+				urlencode( $publisher )
+			);
+		}
 
 		$response = $this->send_request( $path );
 		if ( is_wp_error( $response ) ) {
@@ -313,16 +367,11 @@ class ExperienceEngine extends \Bbgi\Module {
 		$response = json_decode( $response, true );
 
 		$data = apply_filters( 'ee_feeds_content_html', '', $response );
-		if ( $request->get_param( 'format' ) == 'raw' ) {
-			// @todo: find a better way to send html data
-			header( 'content-type: text/html' );
-			echo $data;
-			exit;
-		}
 
-		return rest_ensure_response( array(
-			'html' => $data,
-		) );
+		return rest_ensure_response( [
+			'status'    => 200,
+			'html'      => $data,
+		] );
 	}
 
 }

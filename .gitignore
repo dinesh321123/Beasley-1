@@ -22,11 +22,10 @@ mu-plugins/post-finder/
 !/plugins/getty-images/
 !/plugins/gmr-*
 !/plugins/greatermedia-*
-!/plugins/S3-Uploads-master
 !/plugins/gravityforms/
 !/plugins/user-role-editor-pro/
 !/plugins/configure-smtp/
-!/plugins/wp-newrelic/
+!/plugins/embedly
 
 themes/index.php
 themes/twentyfourteen

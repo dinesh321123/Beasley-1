@@ -1,4 +1,7 @@
 <?php
+/**
+ * Sets up settings page and shortcode for Second Street
+ */
 
 namespace Bbgi\Integration;
 
@@ -56,6 +59,7 @@ class SecondStreet extends \Bbgi\Module {
 		if ( ! empty( $attributes['stationid'] ) && get_option( 'secondstreet_station_id' ) != $attributes['stationid'] ) {
 			return '';
 		}
+
 
 		$embed = sprintf(
 			'<div class="secondstreet-embed" src="https://embed-%s.secondstreetapp.com/Scripts/dist/embed.js" data-ss-embed="promotion" data-opguid="%s" data-routing="%s"></div>',

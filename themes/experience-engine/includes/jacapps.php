@@ -8,6 +8,11 @@ if ( ! function_exists( 'ee_is_jacapps' ) ) :
 
 		if ( $jacapps_pos === null ) {
 			$jacapps_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'jacapps' );
+
+			// Allow way to toggle jacapps through URL querystring
+			if ( isset( $_GET['jacapps'] ) ) {
+				$jacapps_pos = 1;
+			}
 		}
 
 		return false !== $jacapps_pos;
@@ -20,11 +25,12 @@ if ( ! function_exists( 'ee_setup_jacapps' ) ) :
 			return;
 		}
 
-		add_action( 'wp_enqueue_scripts', 'ee_jacapps_enqueue_scripts', 99 );
+		add_action( 'wp_print_scripts', 'ee_jacapps_enqueue_scripts', 99 );
 
 		add_filter( 'body_class', 'ee_jacapps_body_class' );
 		add_filter( 'omny_embed_key', 'ee_update_jacapps_omny_key' );
 		add_filter( 'secondstreet_embed_html', 'ee_update_jacapps_secondstreet_html', 10, 2 );
+		add_filter( 'secondstreetpref_html', 'ee_update_jacapps_secondstreet_html', 10, 2 );
 
 		remove_filter( 'omny_embed_html', 'ee_update_omny_embed' );
 	}
@@ -44,7 +50,32 @@ endif;
 
 if ( ! function_exists( 'ee_jacapps_enqueue_scripts' ) ) :
 	function ee_jacapps_enqueue_scripts() {
+
+/**
+ * Application script
+ * jacapps needs the overarching config now that ads
+ * will be initialized. There are specific globals that
+ * we need access to.
+ */
+$bbgiconfig = <<<EOL
+window.bbgiconfig = {};
+try {
+	window.bbgiconfig = JSON.parse( document.getElementById( 'bbgiconfig' ).innerHTML );
+} catch( err ) {
+	// do nothing
+}
+EOL;
+
 		wp_dequeue_script( 'ee-app' );
+		wp_enqueue_script( 'iframe-resizer' );
+		wp_enqueue_script( 'embedly-player.js' );
+
+		// Need googletag for ads in jacapps
+		wp_enqueue_script( 'googletag' );
+		wp_script_add_data( 'googletag', 'async', true );
+		wp_add_inline_script( 'googletag', $bbgiconfig, 'before' );
+		wp_enqueue_script( 'wp-embed', '', [], false, true );
+
 	}
 endif;
 
@@ -58,5 +89,12 @@ if ( ! function_exists( 'ee_update_jacapps_secondstreet_html' ) ) :
 	function ee_update_jacapps_secondstreet_html( $embed, $atts ) {
 		$url = 'https://embed-' . rawurlencode( $atts['op_id'] ) . '.secondstreetapp.com/Scripts/dist/embed.js';
 		return '<script src="' . esc_url( $url ) . '" data-ss-embed="promotion" data-opguid="' . esc_attr( $atts['op_guid'] ) . '" data-routing="' . esc_attr( $atts['routing'] ) . '"></script>';
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_jacapps_secondstreetpref_html' ) ) :
+	function ee_update_jacapps_secondstreetpref_html( $embed, $atts ) {
+		$url = 'https://embed.secondstreetapp.com/Scripts/dist/preferences.js';
+		return '<script src="' . esc_url( $url ) . '" data-ss-embed="preferences" data-organization-id="' . esc_attr( $atts['organization_id'] ) . '"></script>';
 	}
 endif;

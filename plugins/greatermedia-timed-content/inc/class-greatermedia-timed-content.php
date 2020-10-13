@@ -335,7 +335,7 @@ class GreaterMediaTimedContent extends VisualShortcode {
 
 		$now_gmt = intval( gmdate( 'U' ) );
 		if ( ( $now_gmt > $show ) && ( $hide > $now_gmt ) ) {
-			return $content;
+			return do_shortcode( $content );
 		} else {
 			return '';
 		}

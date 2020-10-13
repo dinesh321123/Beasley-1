@@ -57,11 +57,18 @@ if ( ! class_exists( 'GFWidget' ) ) {
 
 			extract( $args );
 			echo $before_widget;
+
 			/**
-			 * Filters the widget title
-			 * @param string $instance['title'] The title
+			 * Filters the widget title.
+			 *
+			 * @since 2.4.10 Added the $instance and $id_base args.
+			 * @since unknown
+			 *
+			 * @param string $title    The widget title.
+			 * @param array  $instance Saved database values for the widget.
+			 * @param mixed  $id_base  The widget ID.
 			 */
-			$title = apply_filters( 'widget_title', $instance['title'] );
+			$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
 			if ( $title ) {
 				echo $before_title . $title . $after_title;
@@ -145,7 +152,7 @@ if ( ! class_exists( 'GFWidget' ) ) {
 			</p>
 			<p id="<?php echo esc_attr( $this->get_field_id( 'advanced' ) ); ?>" class="gf_widget_advanced" style="display:none;">
 				<input type="checkbox" name="<?php echo esc_attr( $this->get_field_name( 'ajax' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'ajax' ) ); ?>" <?php checked( rgar( $instance, 'ajax' ) ); ?> value="1" />
-				<label for="<?php echo esc_attr( $this->get_field_id( 'ajax' ) ); ?>"><?php esc_html_e( 'Enable AJAX', 'gravityforms' ); ?></label><br />
+				<label for="<?php echo esc_attr( $this->get_field_id( 'ajax' ) ); ?>"><?php esc_html_e( 'Enable Ajax', 'gravityforms' ); ?></label><br />
 				<input type="checkbox" name="<?php echo esc_attr( $this->get_field_name( 'disable_scripts' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'disable_scripts' ) ); ?>" <?php checked( rgar( $instance, 'disable_scripts' ) ); ?> value="1" />
 				<label for="<?php echo esc_attr( $this->get_field_id( 'disable_scripts' ) ); ?>"><?php esc_html_e( 'Disable script output', 'gravityforms' ); ?></label><br />
 				<label for="<?php echo esc_attr( $this->get_field_id( 'tabindex' ) ); ?>"><?php esc_html_e( 'Tab Index Start', 'gravityforms' ); ?>: </label>

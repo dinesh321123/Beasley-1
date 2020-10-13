@@ -1,6 +1,6 @@
 <div class="download">
 	<h6>Download our app</h6>
-	<p>Listen Live to KISS and listen to Dave & Chuck 24/7 with our app!</p>
+	<p>Download the app to LISTEN LIVE wherever you are and connect with us like never before!</p>
 
 	<?php if ( ee_has_publisher_information( 'ios' ) ) : ?>
 		<a href="<?php echo esc_url( ee_get_publisher_information( 'ios' ) ); ?>" aria-label="Download on the App Store" target="_blank" rel="noopener">

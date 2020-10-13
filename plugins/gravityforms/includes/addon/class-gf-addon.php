@@ -140,7 +140,7 @@ abstract class GFAddOn {
 		if ( $index !== false ) {
 			self::$_registered_addons['active'][ $index ] = $class;
 		} else {
-			self::$_registered_addons['active'][] = $class;			
+			self::$_registered_addons['active'][] = $class;
 		}
 
 		//Mark overridden classes as inactive.
@@ -202,10 +202,15 @@ abstract class GFAddOn {
 
 		add_filter( 'gform_logging_supported', array( $this, 'set_logging_supported' ) );
 
+		add_action( 'gform_post_upgrade', array( $this, 'post_gravityforms_upgrade' ), 10, 3 );
+
+		// Get minimum requirements state.
+		$meets_requirements = $this->meets_minimum_requirements();
+
 		if ( RG_CURRENT_PAGE == 'admin-ajax.php' ) {
 
 			//If gravity forms is supported, initialize AJAX
-			if ( $this->is_gravityforms_supported() ) {
+			if ( $this->is_gravityforms_supported() && $meets_requirements['meets_requirements'] ) {
 				$this->init_ajax();
 			}
 		} elseif ( is_admin() ) {
@@ -214,11 +219,10 @@ abstract class GFAddOn {
 
 		} else {
 
-			if ( $this->is_gravityforms_supported() ) {
+			if ( $this->is_gravityforms_supported() && $meets_requirements['meets_requirements'] ) {
 				$this->init_frontend();
 			}
 		}
-
 
 	}
 
@@ -231,12 +235,19 @@ abstract class GFAddOn {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10, 0 );
 
 		// message enforcing min version of Gravity Forms
-		if ( isset( $this->_min_gravityforms_version ) && RG_CURRENT_PAGE == 'plugins.php' && false === $this->_enable_rg_autoupgrade ) {
-			add_action( 'after_plugin_row_' . $this->_path, array( $this, 'plugin_row' ) );
+		if ( isset( $this->_min_gravityforms_version ) && RG_CURRENT_PAGE == 'plugins.php' ) {
+			add_action( 'after_plugin_row_' . $this->_path, array( $this, 'plugin_row' ), 10, 2 );
 		}
 
 		// STOP HERE IF GRAVITY FORMS IS NOT SUPPORTED
 		if ( isset( $this->_min_gravityforms_version ) && ! $this->is_gravityforms_supported( $this->_min_gravityforms_version ) ) {
+			return;
+		}
+
+		// STOP HERE IF CANNOT PASS MINIMUM REQUIREMENTS CHECK.
+		$meets_requirements = $this->meets_minimum_requirements();
+		if ( ! $meets_requirements['meets_requirements'] ) {
+			$this->failed_requirements_init();
 			return;
 		}
 
@@ -267,10 +278,15 @@ abstract class GFAddOn {
 		}
 
 
-		// Members plugin integration
-		if ( self::has_members_plugin() ) {
-			add_filter( 'members_get_capabilities', array( $this, 'members_get_capabilities' ) );
+		// Members plugin integration.
+		if ( $this->has_members_plugin( ) ) {
+			add_action( 'members_register_cap_groups', array( $this, 'members_register_cap_group' ), 11 );
+			add_action( 'members_register_caps', array( $this, 'members_register_caps' ), 11 );
 		}
+
+		// User Role Editor integration.
+		add_filter( 'ure_capabilities_groups_tree', array( $this, 'filter_ure_capabilities_groups_tree' ), 11 );
+		add_filter( 'ure_custom_capability_groups', array( $this, 'filter_ure_custom_capability_groups' ), 10, 2 );
 
 		// Results page
 		if ( $this->method_is_overridden( 'get_results_page_config' ) ) {
@@ -292,6 +308,7 @@ abstract class GFAddOn {
 		// No conflict scripts
 		add_filter( 'gform_noconflict_scripts', array( $this, 'register_noconflict_scripts' ) );
 		add_filter( 'gform_noconflict_styles', array( $this, 'register_noconflict_styles' ) );
+		add_action( 'gform_enqueue_scripts', array( $this, 'enqueue_scripts' ), 10, 2 );
 
 	}
 
@@ -327,6 +344,245 @@ abstract class GFAddOn {
 	}
 
 
+	//--------------  Minimum Requirements Check  ---------------
+
+	/**
+	 * Override this function to provide a list of requirements needed to use Add-On.
+	 *
+	 * Custom requirements can be defined by adding a callback to the minimum requirements array.
+	 * A custom requirement receives and should return an array with two parameters:
+	 *   bool  $meets_requirements If the custom requirements check passed.
+	 *   array $errors             An array of error messages to present to the user.
+	 *
+	 * Following is an example of the array that is expected to be returned by this function:
+	 * @example https://gist.github.com/JeffMatson/a8d23e16e333e5116060906c6f091aa7
+	 *
+	 * @since  2.2
+	 * @access public
+	 *
+	 * @return array
+	 */
+	public function minimum_requirements() {
+
+		return array();
+
+	}
+
+	/**
+	 * Performs a check to see if WordPress environment meets minimum requirements need to use Add-On.
+	 *
+	 * @since  2.2
+	 * @access public
+	 *
+	 * @uses GFAddOn::minimum_requirements()
+	 * @uses GFAddOn::get_slug()
+	 *
+	 * @return bool|array
+	 */
+	public function meets_minimum_requirements() {
+
+		// Get minimum requirements.
+		$requirements = $this->minimum_requirements();
+
+		// Prepare response.
+		$meets_requirements = array( 'meets_requirements' => true, 'errors' => array() );
+
+		// If no minimum requirements are defined, return.
+		if ( empty( $requirements ) ) {
+			return $meets_requirements;
+		}
+
+		// Loop through requirements.
+		foreach ( $requirements as $requirement_type => $requirement ) {
+
+			// If requirement is a callback, run it.
+			if ( is_callable( $requirement ) ) {
+				$meets_requirements = call_user_func( $requirement, $meets_requirements );
+				continue;
+			}
+
+			// Set requirement type to lowercase.
+			$requirement_type = strtolower( $requirement_type );
+
+			// Run base requirement checks.
+			switch ( $requirement_type ) {
+
+				case 'add-ons':
+
+					// Initialize active Add-Ons array.
+					$active_addons = array();
+
+					// Loop through active Add-Ons.
+					foreach ( self::$_registered_addons['active'] as $active_addon ) {
+
+						// Get Add-On instance.
+						$active_addon = call_user_func( array( $active_addon, 'get_instance' ) );
+
+						// Add to active Add-Ons array.
+						$active_addons[ $active_addon->get_slug() ] = array(
+							'slug'    => $active_addon->get_slug(),
+							'title'   => $active_addon->_title,
+							'version' => $active_addon->_version,
+						);
+
+					}
+
+					// Loop through Add-Ons.
+					foreach ( $requirement as $addon_slug => $addon_requirements ) {
+
+						// If Add-On requirements is not an array, set Add-On slug to requirements value.
+						if ( ! is_array( $addon_requirements ) ) {
+							$addon_slug = $addon_requirements;
+						}
+
+						// If Add-On is not active, set error.
+						if ( ! isset( $active_addons[ $addon_slug ] ) ) {
+
+							// Get Add-On name.
+							$addon_name = rgar( $addon_requirements, 'name' ) ? $addon_requirements['name'] : $addon_slug;
+
+							$meets_requirements['meets_requirements'] = false;
+							$meets_requirements['errors'][]           = sprintf( esc_html__( 'Required Gravity Forms Add-On is missing: %s.', 'gravityforms' ), $addon_name );
+							continue;
+
+						}
+
+						// If Add-On does not meet minimum version, set error.
+						if ( rgar( $addon_requirements, 'version' ) && ! version_compare( $active_addons[ $addon_slug ]['version'], $addon_requirements['version'], '>=' ) ) {
+							$meets_requirements['meets_requirements'] = false;
+							$meets_requirements['errors'][]           = sprintf( esc_html__( 'Required Gravity Forms Add-On "%s" does not meet minimum version requirement: %s.', 'gravityforms' ), $active_addons[ $addon_slug ]['title'], $addon_requirements['version'] );
+							continue;
+						}
+					}
+
+					break;
+
+				case 'plugins':
+
+					// Loop through plugins.
+					foreach ( $requirement as $plugin_path => $plugin_name ) {
+
+						// If plugin name is not defined, set plugin path to name.
+						if ( is_int( $plugin_path ) ) {
+							$plugin_path = $plugin_name;
+						}
+
+						// If plugin is not active, set error.
+						if ( ! is_plugin_active( $plugin_path ) ) {
+							$meets_requirements['meets_requirements'] = false;
+							$meets_requirements['errors'][]           = sprintf( esc_html__( 'Required WordPress plugin is missing: %s.', 'gravityforms' ), $plugin_name );
+							continue;
+						}
+					}
+
+				case 'php':
+
+					// Check version.
+					if ( rgar( $requirement, 'version' ) && ! version_compare( PHP_VERSION, $requirement['version'], '>=' ) ) {
+						$meets_requirements['meets_requirements'] = false;
+						$meets_requirements['errors'][]           = sprintf( esc_html__( 'Current PHP version (%s) does not meet minimum PHP version requirement (%s).', 'gravityforms' ), PHP_VERSION, $requirement['version'] );
+					}
+
+					// Check extensions.
+					if ( rgar( $requirement, 'extensions' ) ) {
+
+						// Loop through extensions.
+						foreach ( $requirement['extensions'] as $extension => $extension_requirements ) {
+
+							// If extension requirements is not an array, set extension name to requirements value.
+							if ( ! is_array( $extension_requirements ) ) {
+								$extension = $extension_requirements;
+							}
+
+							// If PHP extension is not loaded, set error.
+							if ( ! extension_loaded( $extension ) ) {
+								$meets_requirements['meets_requirements'] = false;
+								$meets_requirements['errors'][]           = sprintf( esc_html__( 'Required PHP extension missing: %s', 'gravityforms' ), $extension );
+								continue;
+							}
+
+							// If PHP extension does not meet minimum version, set error.
+							if ( rgar( $extension_requirements, 'version' ) && ! version_compare( phpversion( $extension ), $extension_requirements['version'], '>=' ) ) {
+								$meets_requirements['meets_requirements'] = false;
+								$meets_requirements['errors'][]           = sprintf( esc_html__( 'Required PHP extension "%s" does not meet minimum version requirement: %s.', 'gravityforms' ), $extension, $extension_requirements['version'] );
+								continue;
+							}
+
+						}
+
+					}
+
+					// Check functions.
+					if ( rgar( $requirement, 'functions' ) ) {
+
+						// Loop through functions.
+						foreach ( $requirement['functions'] as $function ) {
+							if ( ! function_exists( $function ) ) {
+								$meets_requirements['meets_requirements'] = false;
+								$meets_requirements['errors'][]           = sprintf( esc_html__( 'Required PHP function missing: %s', 'gravityforms' ), $function );
+							}
+						}
+
+					}
+
+					break;
+
+				case 'wordpress':
+
+					// Check version.
+					if ( rgar( $requirement, 'version' ) && ! version_compare( get_bloginfo( 'version' ), $requirement['version'], '>=' ) ) {
+						$meets_requirements['meets_requirements'] = false;
+						$meets_requirements['errors'][]           = sprintf( esc_html__( 'Current WordPress version (%s) does not meet minimum WordPress version requirement (%s).', 'gravityforms' ), get_bloginfo( 'version' ), $requirement['version'] );
+					}
+
+					break;
+
+			}
+
+		}
+
+		return $meets_requirements;
+
+	}
+
+	/**
+	 * Register failed requirements page under Gravity Forms settings.
+	 *
+	 * @since  2.2
+	 * @access public
+	 *
+	 * @uses GFAddOn::current_user_can_any()
+	 * @uses GFAddOn::get_short_title()
+	 * @uses GFAddOn::plugin_settings_title()
+	 * @uses GFCommon::get_base_path()
+	 * @uses RGForms::add_settings_page()
+	 */
+	public function failed_requirements_init() {
+
+		// Get failed requirements.
+		$failed_requirements = $this->meets_minimum_requirements();
+
+		// Prepare errors list.
+		$errors = '';
+		foreach ( $failed_requirements['errors'] as $error ) {
+			$errors .= sprintf( '<li>%s</li>', esc_html( $error ) );
+		}
+
+		// Prepare error message.
+		$error_message = sprintf(
+			'%s<br />%s<ol>%s</ol>',
+			sprintf( esc_html__( '%s is not able to run because your WordPress environment has not met the minimum requirements.', 'gravityforms' ), $this->_title ),
+			sprintf( esc_html__( 'Please resolve the following issues to use %s:', 'gravityforms' ), $this->get_short_title() ),
+			$errors
+		);
+
+		// Add error message.
+		if ( $this->is_form_list() || $this->is_entry_list() || $this->is_form_settings() || $this->is_plugin_settings() || GFForms::get_page() === 'system_status' ) {
+			GFCommon::add_error_message( $error_message );
+		}
+
+	}
+
 	//--------------  Setup  ---------------
 
 	/**
@@ -357,6 +613,26 @@ abstract class GFAddOn {
 		return;
 	}
 
+
+	/**
+	 * Gets called when Gravity Forms upgrade process is completed. This function is intended to be used internally, override the upgrade() function to execute database update scripts.
+	 * @param $db_version - Current Gravity Forms database version
+	 * @param $previous_db_version - Previous Gravity Forms database version
+	 * @param $force_upgrade - True if this is a request to force an upgrade. False if this is a standard upgrade (due to version change)
+	 */
+	public function post_gravityforms_upgrade( $db_version, $previous_db_version, $force_upgrade ){
+
+		// Forcing Upgrade
+		if( $force_upgrade ){
+
+			$installed_version = get_option( 'gravityformsaddon_' . $this->_slug . '_version' );
+
+			$this->upgrade( $installed_version );
+			update_option( 'gravityformsaddon_' . $this->_slug . '_version', $this->_version );
+
+		}
+
+	}
 
 	//--------------  Script enqueuing  ---------------
 
@@ -392,50 +668,55 @@ abstract class GFAddOn {
 	 * Override this function to provide a list of scripts to be enqueued.
 	 * When overriding this function, be sure to call parent::scripts() to ensure the base class scripts are enqueued.
 	 * Following is an example of the array that is expected to be returned by this function:
-	 *<pre>
+	 * <pre>
 	 * <code>
 	 *
 	 *    array(
-	 *        array(  "handle" => 'maskedinput',
-	 *                "src" => GFCommon::get_base_url() . '/js/jquery.maskedinput-1.3.min.js',
-	 *                "version" => GFCommon::$version,
-	 *                "deps" => array("jquery"),
-	 *                "in_footer" => false,
-	 *
-	 *                //Determines where the script will be enqueued. The script will be enqueued if any of the conditions match
-	 *                "enqueue" => array(
-	 *                                    //admin_page - Specified one or more pages (known pages) where the script is supposed to be enqueued.
-	 *                                    //To enqueue scripts in the front end (public website), simply don't define this setting
-	 *                                    array("admin_page" => array("form_settings", 'plugin_settings') ),
-	 *
-	 *                                    //tab - Specifies a form settings or plugin settings tab in which the script is supposed to be enqueued. If none is specified, the script will be enqueued in any of the form settings or plugin_settings page
-	 *                                    array("tab" => 'signature'),
-	 *
-	 *                                    //query - Specifies a set of query string ($_GET) values. If all specified query string values match the current requested page, the script will be enqueued
-	 *                                    array("query" => 'page=gf_edit_forms&view=settings&id=_notempty_')
-	 *
-	 *                                    //post - Specifies a set of post ($_POST) values. If all specified posted values match the current request, the script will be enqueued
-	 *                                    array("post" => 'posted_field=val')
-	 *
-	 *                                    )
-	 *            ),
 	 *        array(
-	 *            "handle" => 'super_signature_script',
-	 *            "src" => $this->get_base_url() . '/super_signature/ss.js',
-	 *            "version" => $this->_version,
-	 *            "deps" => array("jquery"),
-	 *            "callback" => array($this, 'localize_scripts'),
-	 *            "strings" => array(
-	 *                               // Accessible in JavaScript using the global variable "[script handle]_strings"
-	 *                               "stringKey1" => __("The string", 'gravityforms'),
-	 *                               "stringKey2" => __("Another string.", 'gravityforms')
-	 *                               )
-	 *            "enqueue" => array(
-	 *                                //field_types - Specifies one or more field types that requires this script. The script will only be enqueued if the current form has a field of any of the specified field types. Only applies when a current form is available.
-	 *                                array("field_types" => array("signature"))
-	 *                                )
+	 *            'handle'    => 'maskedinput',
+	 *            'src'       => GFCommon::get_base_url() . '/js/jquery.maskedinput-1.3.min.js',
+	 *            'version'   => GFCommon::$version,
+	 *            'deps'      => array( 'jquery' ),
+	 *            'in_footer' => false,
+	 *
+	 *            // Determines where the script will be enqueued. The script will be enqueued if any of the conditions match.
+	 *            'enqueue'   => array(
+	 *                // admin_page - Specified one or more pages (known pages) where the script is supposed to be enqueued.
+	 *                // To enqueue scripts in the front end (public website), simply don't define this setting.
+	 *                array( 'admin_page' => array( 'form_settings', 'plugin_settings' ) ),
+	 *
+	 *                // tab - Specifies a form settings or plugin settings tab in which the script is supposed to be enqueued.
+	 *                // If none are specified, the script will be enqueued in any of the form settings or plugin_settings page
+	 *                array( 'tab' => 'signature'),
+	 *
+	 *                // query - Specifies a set of query string ($_GET) values.
+	 *                // If all specified query string values match the current requested page, the script will be enqueued
+	 *                array( 'query' => 'page=gf_edit_forms&view=settings&id=_notempty_' )
+	 *
+	 *                // post - Specifies a set of post ($_POST) values.
+	 *                // If all specified posted values match the current request, the script will be enqueued
+	 *                array( 'post' => 'posted_field=val' )
+	 *            )
+	 *        ),
+	 *        array(
+	 *            'handle'   => 'super_signature_script',
+	 *            'src'      => $this->get_base_url() . '/super_signature/ss.js',
+	 *            'version'  => $this->_version,
+	 *            'deps'     => array( 'jquery'),
+	 *            'callback' => array( $this, 'localize_scripts' ),
+	 *            'strings'  => array(
+	 *                // Accessible in JavaScript using the global variable "[script handle]_strings"
+	 *                'stringKey1' => __( 'The string', 'gravityforms' ),
+	 *                'stringKey2' => __( 'Another string.', 'gravityforms' )
+	 *            )
+	 *            "enqueue"  => array(
+	 *                // field_types - Specifies one or more field types that requires this script.
+	 *                // The script will only be enqueued if the current form has a field of any of the specified field types.
+	 *                // Only applies when a current form is available.
+	 *                array( 'field_types' => array( 'signature' ) )
+	 *            )
 	 *        )
-	 *  );
+	 *    );
 	 *
 	 * </code>
 	 * </pre>
@@ -483,6 +764,15 @@ abstract class GFAddOn {
 			array(
 				'handle'   => 'gaddon_fieldmap_js',
 				'src'      => GFAddOn::get_gfaddon_base_url() . "/js/gaddon_fieldmap{$min}.js",
+				'version'  => GFCommon::$version,
+				'deps'     => array( 'jquery', 'gaddon_repeater' ),
+				'enqueue'  => array(
+					array( 'admin_page' => array( 'form_settings' ) ),
+				)
+			),
+			array(
+				'handle'   => 'gaddon_genericmap_js',
+				'src'      => GFAddOn::get_gfaddon_base_url() . "/js/gaddon_genericmap{$min}.js",
 				'version'  => GFCommon::$version,
 				'deps'     => array( 'jquery', 'gaddon_repeater' ),
 				'enqueue'  => array(
@@ -619,7 +909,7 @@ abstract class GFAddOn {
 		if ( empty( $enqueue_conditions ) ) {
 			return false;
 		}
-		
+
 		foreach ( $enqueue_conditions as $condition ) {
 			if ( is_callable( $condition ) ) {
 				$callback_matches = call_user_func( $condition, $form, $is_ajax );
@@ -628,7 +918,7 @@ abstract class GFAddOn {
 				}
 			} else {
 				$query_matches      = isset( $condition['query'] ) ? $this->_request_condition_matches( $_GET, $condition['query'] ) : true;
-				$post_matches       = isset( $condition['post'] ) ? $this->_request_condition_matches( $_POST, $condition['query'] ) : true;
+				$post_matches       = isset( $condition['post'] ) ? $this->_request_condition_matches( $_POST, $condition['post'] ) : true;
 				$admin_page_matches = isset( $condition['admin_page'] ) ? $this->_page_condition_matches( $condition['admin_page'], rgar( $condition, 'tab' ) ) : true;
 				$field_type_matches = isset( $condition['field_types'] ) ? $this->_field_condition_matches( $condition['field_types'], $form ) : true;
 
@@ -763,9 +1053,16 @@ abstract class GFAddOn {
 			$field_types = array( $field_types );
 		}
 
+		/* @var GF_Field[] $fields */
 		$fields = GFAPI::get_fields_by_type( $form, $field_types );
 		if ( count( $fields ) > 0 ) {
-			return true;
+			foreach ( $fields as $field ) {
+				if ( $field->is_administrative() && ! $field->allowsPrepopulate && ! GFForms::get_page() ) {
+					continue;
+				}
+
+				return true;
+			}
 		}
 
 		return false;
@@ -873,7 +1170,10 @@ abstract class GFAddOn {
 	}
 
 
-	//--------------  Members plugin integration  --------------------------------------
+
+
+
+	// # PERMISSIONS ---------------------------------------------------------------------------------------------------
 
 	/**
 	 * Checks whether the Members plugin is installed and activated.
@@ -885,26 +1185,140 @@ abstract class GFAddOn {
 	 * @return bool
 	 */
 	public function has_members_plugin() {
-		return function_exists( 'members_get_capabilities' );
+		return GFForms::has_members_plugin();
 	}
 
 	/**
-	 * Not intended to be overridden or called directly by Add-Ons.
+	 * Register the Gravity Forms Add-Ons capabilities group with the Members plugin.
 	 *
-	 * @ignore
+	 * @since  2.4
+	 * @access public
+	 */
+	public function members_register_cap_group() {
+
+		members_register_cap_group(
+			'gravityforms_addons',
+			array(
+				'label' => esc_html__( 'GF Add-Ons', 'gravityforms' ),
+				'icon'  => 'dashicons-gravityforms',
+				'caps'  => array(),
+			)
+		);
+
+	}
+
+	/**
+	 * Register the Add-On capabilities and their human readable labels with the Members plugin.
 	 *
-	 * @param $caps
+	 * @since  2.4
+	 * @access public
+	 *
+	 * @uses   GFAddOn::get_short_title()
+	 */
+	public function members_register_caps() {
+
+        // Get capabilities.
+        $caps = $this->get_members_caps();
+
+		// If no capabilities were found, exit.
+		if ( empty( $caps ) ) {
+			return;
+		}
+
+		// Register capabilities.
+		foreach ( $caps as $cap => $label ) {
+			members_register_cap(
+				$cap,
+				array(
+					'label' => sprintf( '%s: %s', $this->get_short_title(), $label ),
+					'group' => 'gravityforms_addons',
+				)
+			);
+		}
+
+	}
+
+	/**
+	 * Get Add-On capabilities and their human readable labels.
+	 *
+	 * @since  2.4
+	 * @access public
 	 *
 	 * @return array
 	 */
-	public function members_get_capabilities( $caps ) {
-		return array_merge( $caps, $this->_capabilities );
+	public function get_members_caps() {
+
+		// Initialize capabilities array.
+		$caps = array();
+
+		// Add capabilities.
+		if ( ! empty( $this->_capabilities_form_settings ) && is_string( $this->_capabilities_form_settings ) ) {
+			$caps[ $this->_capabilities_form_settings ] = esc_html__( 'Form Settings', 'gravityforms' );
+		}
+		if ( ! empty( $this->_capabilities_uninstall ) && is_string( $this->_capabilities_uninstall ) ) {
+			$caps[ $this->_capabilities_uninstall ] = esc_html__( 'Uninstall', 'gravityforms' );
+		}
+		if ( ! empty( $this->_capabilities_plugin_page ) && is_string( $this->_capabilities_plugin_page ) ) {
+			$caps[ $this->_capabilities_plugin_page ] = esc_html__( 'Add-On Page', 'gravityforms' );
+		}
+		if ( ! empty( $this->_capabilities_settings_page ) && is_string( $this->_capabilities_settings_page ) ) {
+			$caps[ $this->_capabilities_settings_page ] = esc_html__( 'Add-On Settings', 'gravityforms' );
+		}
+
+		return $caps;
+
 	}
 
-	//--------------  Permissions: Capabilities and Roles  ----------------------------
+	/**
+	 * Register Gravity Forms Add-Ons capabilities group with User Role Editor plugin.
+	 *
+	 * @since  2.4
+	 *
+	 * @param array $groups Existing capabilities groups.
+	 *
+	 * @return array
+	 */
+	public static function filter_ure_capabilities_groups_tree( $groups = array() ) {
+
+		$groups['gravityforms_addons'] = array(
+			'caption' => esc_html__( 'Gravity Forms Add-Ons', 'gravityforms' ),
+			'parent'  => 'gravityforms',
+			'level'   => 3,
+		);
+
+		return $groups;
+
+	}
 
 	/**
-	 *  Checks whether the current user is assigned to a capability or role.
+	 * Register Gravity Forms capabilities with Gravity Forms group in User Role Editor plugin.
+	 *
+	 * @since  2.4
+	 *
+	 * @param array  $groups Current capability groups.
+	 * @param string $cap_id Capability identifier.
+	 *
+	 * @return array
+	 */
+	public function filter_ure_custom_capability_groups( $groups = array(), $cap_id = '' ) {
+
+		// Get Add-On capabilities.
+		$caps = $this->_capabilities;
+
+		// If capability belongs to Add-On, register it to group.
+		if ( in_array( $cap_id, $caps, true ) ) {
+			$groups[] = 'gravityforms_addons';
+		}
+
+		return $groups;
+
+	}
+
+	/**
+	 * Checks whether the current user is assigned to a capability or role.
+	 *
+	 * @since  Unknown
+	 * @access public
 	 *
 	 * @param string|array $caps An string or array of capabilities to check
 	 *
@@ -1039,6 +1453,9 @@ abstract class GFAddOn {
 
 		$display = rgar( $field, 'hidden' ) || rgar( $field, 'type' ) == 'hidden' ? 'style="display:none;"' : '';
 
+		// Prepare setting description.
+		$description = rgar( $field, 'description' ) ? '<span class="gf_settings_description">' . $field['description'] . '</span>' : null;
+
 		?>
 
 		<tr id="gaddon-setting-row-<?php echo $field['name'] ?>" <?php echo $display; ?>>
@@ -1046,7 +1463,10 @@ abstract class GFAddOn {
 				<?php $this->single_setting_label( $field ); ?>
 			</th>
 			<td>
-				<?php $this->single_setting( $field ); ?>
+				<?php
+					$this->single_setting( $field );
+					echo $description;
+				?>
 			</td>
 		</tr>
 
@@ -1290,13 +1710,13 @@ abstract class GFAddOn {
 	public function get_save_success_message( $sections ) {
 		$save_button = $this->get_save_button( $sections );
 
-		return isset( $save_button['messages']['success'] ) ? $save_button['messages']['success'] : esc_html__( 'Settings updated', 'gravityforms' );
+		return isset( $save_button['messages']['success'] ) ? $save_button['messages']['success'] : sprintf( esc_html__( '%s settings updated.', 'gravityforms' ), $this->get_short_title() );
 	}
 
 	public function get_save_error_message( $sections ) {
 		$save_button = $this->get_save_button( $sections );
 
-		return isset( $save_button['messages']['error'] ) ? $save_button['messages']['error'] : esc_html__( 'There was an error while saving your settings', 'gravityforms' );
+		return isset( $save_button['messages']['error'] ) ? $save_button['messages']['error'] : esc_html__( 'There was an error while saving your settings.', 'gravityforms' );
 	}
 
 	public function get_save_button( $sections ) {
@@ -1331,6 +1751,11 @@ abstract class GFAddOn {
 		$default_value       = rgar( $field, 'value' ) ? rgar( $field, 'value' ) : rgar( $field, 'default_value' );
 		$value               = $this->get_setting( $field['name'], $default_value );
 
+		// Add autocomplete attribute for password inputs.
+		if ( 'password' === $field['input_type'] ) {
+			$attributes['autocomplete'] = 'autocomplete="off"';
+		}
+
 		$html    = '';
 
 		$html .= '<input
@@ -1339,7 +1764,7 @@ abstract class GFAddOn {
                     value="' . esc_attr( htmlspecialchars( $value, ENT_QUOTES ) ) . '" ' .
 		         implode( ' ', $attributes ) .
 		         ' />';
-		         
+
 		$html .= rgar( $field, 'after_input' );
 
 		$feedback_callback = rgar( $field, 'feedback_callback' );
@@ -1386,25 +1811,25 @@ abstract class GFAddOn {
 		$html    = '';
 
 		if ( rgar( $field, 'use_editor' ) ) {
-			
+
 			$html .= '<span class="mt-gaddon-editor mt-_gaddon_setting_'. $field['name'] .'"></span>';
-			
+
 			ob_start();
-			
+
 			wp_editor( $value, '_gaddon_setting_'. $field['name'], array( 'autop' => false, 'editor_class' => 'merge-tag-support mt-wp_editor mt-manual_position mt-position-right' ) );
-			
+
 			$html .= ob_get_contents();
 			ob_end_clean();
-			
+
 		} else {
-			
+
 			$html .= '<textarea
                     name="_gaddon_setting_' . $name . '" ' .
 		         implode( ' ', $attributes ) .
 		         '>' .
 			         esc_textarea( $value ) .
 		         '</textarea>';
-			
+
 		}
 
 		if ( $this->field_failed_validation( $field ) ) {
@@ -1485,7 +1910,7 @@ abstract class GFAddOn {
 				if ( $is_first_choice ){
 					$error_icon = $this->field_failed_validation( $field ) ? $this->get_error_icon( $field ) : '';
 				}
-				
+
 				// Add icon to choice if choices have icon
 				if ( $have_icon ) {
 					$choice['icon'] = rgar( $choice, 'icon' ) ? $choice['icon'] : 'fa-cog';
@@ -1516,11 +1941,11 @@ abstract class GFAddOn {
 	 *
 	 * @return string - The markup of an individual checkbox item
 	 */
-	public function checkbox_item( $choice, $horizontal_class, $attributes, $value, $tooltip, $error_icon='' ) {
-		
+	public function checkbox_item( $choice, $horizontal_class, $attributes, $value, $tooltip, $error_icon = '' ) {
+
 		$hidden_field_value = $value == '1' ? '1' : '0';
 		$icon_class         = rgar( $choice, 'icon' ) ? ' gaddon-setting-choice-visual' : '';
-	
+
 		$checkbox_item  = '<div id="gaddon-setting-checkbox-choice-' . $choice['id'] . '" class="gaddon-setting-checkbox' . $horizontal_class . $icon_class . '">';
 		$checkbox_item .= '<input type=hidden name="_gaddon_setting_' . esc_attr( $choice['name'] ) . '" value="' . $hidden_field_value . '" />';
 
@@ -1546,28 +1971,28 @@ abstract class GFAddOn {
 	 * @return string - The markup of an individual checkbox input and its associated label
 	 */
 	public function checkbox_input( $choice, $attributes, $value, $tooltip ) {
-		
+
 		$icon_tag = '';
-		
+
 		if ( rgar( $choice, 'icon' ) ) {
-			
+
 			/* Get the defined icon. */
 			$icon = rgar( $choice, 'icon' ) ? $choice['icon'] : 'fa-cog';
-			
+
 			/* Set icon tag based on icon type. */
 			if ( filter_var( $icon, FILTER_VALIDATE_URL ) ) {
 				$icon_tag = '<img src="' . esc_attr( $icon ) .'" />';
 			} else {
 				$icon_tag = '<i class="fa ' . esc_attr( $icon ) .'"></i>';
 			}
-			
+
 			$icon_tag .= '<br />';
 
 		}
 
 		$markup  = '<input type = "checkbox" ' . implode( ' ', $attributes ) . ' ' . checked( $value, '1', false ) . ' />';
 		$markup .= '<label for="' . esc_attr( $choice['id'] ) . '"><span>' . $icon_tag . esc_html( $choice['label'] ) . $tooltip . '</span></label>';
-		
+
 
 		return $markup;
 	}
@@ -1591,10 +2016,10 @@ abstract class GFAddOn {
 		$have_icon        = $this->choices_have_icon( rgar( $field, 'choices' ) );
 		$horizontal       = rgar( $field, 'horizontal' ) || $have_icon ? ' gaddon-setting-inline' : '';
 		$html             = '';
-		
+
 		if ( is_array( $field['choices'] ) ) {
-			
-			
+
+
 			foreach ( $field['choices'] as $i => $choice ) {
 
 				if ( rgempty( 'id', $choice ) ) {
@@ -1605,19 +2030,19 @@ abstract class GFAddOn {
 				$tooltip           = $this->maybe_get_tooltip( $choice );
 				$radio_value       = isset( $choice['value'] ) ? $choice['value'] : $choice['label'];
 				$checked           = checked( $selected_value, $radio_value, false );
-				
+
 				if ( $have_icon ) {
-					
+
 					/* Get the defined icon. */
 					$icon = rgar( $choice, 'icon' ) ? $choice['icon'] : 'fa-cog';
-					
+
 					/* Set icon tag based on icon type. */
 					if ( filter_var( $icon, FILTER_VALIDATE_URL ) ) {
 						$icon_tag = '<img src="' . esc_attr( $icon ) .'" />';
 					} else {
 						$icon_tag = '<i class="fa ' . esc_attr( $icon ) .'"></i>';
 					}
-					
+
 					$html .= '<div id="gaddon-setting-radio-choice-' . $choice['id'] . '" class="gaddon-setting-radio gaddon-setting-choice-visual' . $horizontal . '">';
 	                $html .= '<input type="radio" name="_gaddon_setting_' . esc_attr( $field['name'] ) . '" ' .
 					         'value="' . $radio_value . '" ' . implode( ' ', $choice_attributes ) . ' ' . $checked . ' />';
@@ -1625,9 +2050,9 @@ abstract class GFAddOn {
 					$html .= '<span>' . $icon_tag . '<br />' . esc_html( $choice['label'] ) . $tooltip . '</span>';
 	                $html .= '</label>';
 	                $html .= '</div>';
-					
+
 				} else {
-				
+
 					$html .= '<div id="gaddon-setting-radio-choice-' . $choice['id'] . '" class="gaddon-setting-radio' . $horizontal . '">';
 					$html .= '<label for="' . esc_attr( $choice['id'] ) . '">';
 	                $html .= '<input type="radio" name="_gaddon_setting_' . esc_attr( $field['name'] ) . '" ' .
@@ -1635,11 +2060,11 @@ abstract class GFAddOn {
 					$html .= '<span>' . esc_html( $choice['label'] ) . $tooltip . '</span>';
 	                $html .= '</label>';
 	                $html .= '</div>';
-	                
+
 				}
-                
+
 			}
-			
+
 		}
 
 		if ( $this->field_failed_validation( $field ) ) {
@@ -1652,26 +2077,26 @@ abstract class GFAddOn {
 
 		return $html;
 	}
-	
+
 	/**
 	 * Determines if any of the available settings choices have an icon.
-	 * 
+	 *
 	 * @access public
 	 * @param array $choices (default: array())
 	 * @return bool
 	 */
 	public function choices_have_icon( $choices = array() ) {
-		
+
 		$have_icon = false;
-		
+
 		foreach ( $choices as $choice ) {
 			if ( rgar( $choice, 'icon' ) ) {
 				$have_icon = true;
 			}
 		}
-		
+
 		return $have_icon;
-		
+
 	}
 
 	/***
@@ -1689,12 +2114,21 @@ abstract class GFAddOn {
 		$value         = $this->get_setting( $field['name'], rgar( $field, 'default_value' ) );
 		$name          = '' . esc_attr( $field['name'] );
 
-		$html = sprintf(
-			'<select name="%1$s" %2$s>%3$s</select>',
-			'_gaddon_setting_' . $name, implode( ' ', $attributes ), $this->get_select_options( $field['choices'], $value )
-		);
-		
-		$html .= rgar( $field, 'after_select' );
+		// If no choices were provided and there is a no choices message, display it.
+		if ( ( empty( $field['choices'] ) || ! rgar( $field, 'choices' ) ) && rgar( $field, 'no_choices' ) ) {
+
+			$html = $field['no_choices'];
+
+		} else {
+
+			$html = sprintf(
+				'<select name="%1$s" %2$s>%3$s</select>',
+				'_gaddon_setting_' . $name, implode( ' ', $attributes ), $this->get_select_options( $field['choices'], $value )
+			);
+
+			$html .= rgar( $field, 'after_select' );
+
+		}
 
 		if ( $this->field_failed_validation( $field ) ) {
 			$html .= $this->get_error_icon( $field );
@@ -1709,14 +2143,14 @@ abstract class GFAddOn {
 
 	/**
 	 * Renders and initializes a drop down field with a input field for custom input based on the $field array.
-	 * 
+	 *
 	 * @param array $field - Field array containing the configuration options of this field
 	 * @param bool  $echo  = true - true to echo the output to the screen, false to simply return the contents as a string
-	 * 
+	 *
 	 * @return string The HTML for the field
 	 */
 	public function settings_select_custom( $field, $echo = true ) {
-		
+
 		/* Prepare select field */
 		$select_field             = $field;
 		$select_field_value       = $this->get_setting( $select_field['name'], rgar( $select_field, 'default_value' ) );
@@ -1732,11 +2166,11 @@ abstract class GFAddOn {
 		/* Loop through select choices and make sure option for custom exists */
 		$has_gf_custom = false;
 		foreach ( $select_field['choices'] as $choice ) {
-			
+
 			if ( rgar( $choice, 'name' ) == 'gf_custom' || rgar( $choice, 'value' ) == 'gf_custom' ) {
 				$has_gf_custom = true;
 			}
-			
+
 			/* If choice has choices, check inside those choices. */
 			if ( rgar( $choice, 'choices' ) ) {
 				foreach ( $choice['choices'] as $subchoice ) {
@@ -1745,7 +2179,7 @@ abstract class GFAddOn {
 					}
 				}
 			}
-			
+
 		}
 		if ( ! $has_gf_custom ) {
 			$select_field['choices'][] = array(
@@ -1753,17 +2187,17 @@ abstract class GFAddOn {
 				'value' => 'gf_custom'
 			);
 		}
-		
+
 		/* If select value is "gf_custom", hide the select field and display the input field. */
 		if ( $select_field_value == 'gf_custom' || ( count( $select_field['choices'] ) == 1 && $select_field['choices'][0]['value'] == 'gf_custom' ) ) {
 			$select_field['style'] = 'display:none;';
 		} else {
 			$input_field_display   = ' style="display:none;"';
 		}
-								
+
 		/* Add select field */
 		$html = $this->settings_select( $select_field, false );
-		
+
 		/* Add input field */
 		$html .= '<div class="gaddon-setting-select-custom-container"'. $input_field_display .'>';
 		$html .= count( $select_field['choices'] ) > 1 ? '<a href="#" class="select-custom-reset">Reset</a>' : '';
@@ -1775,15 +2209,15 @@ abstract class GFAddOn {
 		}
 
 		return $html;
-		
+
 	}
 
 	/**
 	 * Prepares an HTML string of options for a drop down field.
-	 * 
+	 *
 	 * @param array  $choices - Array containing all the options for the drop down field
 	 * @param string $selected_value - The value currently selected for the field
-	 * 
+	 *
 	 * @return string The HTML for the select options
 	 */
 	public function get_select_options( $choices, $selected_value ) {
@@ -1812,11 +2246,11 @@ abstract class GFAddOn {
 
 	/**
 	 * Prepares an HTML string for a single drop down field option.
-	 * 
+	 *
 	 * @access protected
 	 * @param array  $choice - Array containing the settings for the drop down option
 	 * @param string $selected_value - The value currently selected for the field
-	 * 
+	 *
 	 * @return string The HTML for the select choice
 	 */
 	public function get_select_option( $choice, $selected_value ) {
@@ -1830,34 +2264,203 @@ abstract class GFAddOn {
 	}
 
 
+
+
+
 	//------------- Field Map Field Type --------------------------
 
+	/**
+	 * Renders and initializes a generic map field based on the $field array whose choices are populated by the fields to be mapped.
+	 *
+	 * @since  2.2
+	 * @access public
+	 *
+	 * @uses GFAddOn::field_failed_validation()
+	 * @uses GFCommon::get_base_url()
+	 * @uses GFAddOn::get_current_forn()
+	 * @uses GFAddOn::get_error_icon()
+	 * @uses GFAddOn::get_mapping_field()
+	 * @uses GFAddOn::settings_hidden()
+	 *
+	 * @param array $field Field array containing the configuration options of this field.
+	 * @param bool  $echo  Determines if field contents should automatically be displayed. Defaults to true.
+	 *
+	 * @return string The HTML for the field
+	 */
+	public function settings_generic_map( $field, $echo = true ) {
+
+		// Initialize return HTML string.
+		$html = '';
+
+		// Shift field map choices to key property.
+		if ( isset( $field['field_map' ] ) ) {
+			$field['key_choices'] = $field['field_map'];
+		}
+
+		// Shift legacy title properties.
+		foreach ( array( 'key', 'value' ) as $type ) {
+			if ( isset( $field[ $type . '_field_title' ] ) ) {
+				$field[ $type . '_field' ]['title'] = $field[ $type . '_field_title' ];
+				unset( $field[ $type . '_field_title' ] );
+			}
+		}
+
+		// Set merge tags state to false if not defined.
+		if ( ! rgar( $field, 'merge_tags' ) ) {
+			$field['merge_tags'] = false;
+		}
+
+		// Initialize field objects for child fields.
+		$value_field = $key_field = $custom_key_field = $custom_value_field = $field;
+
+		// Define custom placeholder.
+		$custom_placeholder = 'gf_custom';
+
+		// Define key field properties.
+		$key_field['name']    .= '_key';
+		$key_field['choices']  = rgar( $field, 'key_choices' ) ? $field['key_choices'] : rgars( $field, 'key_field/choices' );
+		$key_field['class']    = 'key key_{i}';
+
+		// Define custom key field properties.
+		$custom_key_field['name']        .= '_custom_key_{i}';
+		$custom_key_field['class']        = 'custom_key custom_key_{i}';
+		$custom_key_field['value']        = '{custom_key}';
+		$custom_key_field['placeholder']  = rgars( $field, 'key_field/placeholder' ) ? $field['key_field']['placeholder'] : esc_html__( 'Custom Key', 'gravityforms' );
+
+		// Define value field properties.
+		$value_field['name']   .= '_custom_value';
+		$value_field['choices'] = rgar( $field, 'value_choices' ) ? $field['value_choices'] : rgars( $field, 'value_field/choices' );
+		$value_field['class']   = 'value value_{i}';
+
+		// Define custom value field properties.
+		$custom_value_field['name']        .= '_custom_value_{i}';
+		$custom_value_field['class']        = 'custom_value custom_value_{i}';
+		$custom_value_field['value']        = '{custom_value}';
+		$custom_value_field['placeholder']  = rgars( $field, 'value_field/placeholder' ) ? $field['value_field']['placeholder'] : esc_html__( 'Custom Value', 'gravityforms' );
+
+		// Get key/field column titles.
+		$key_field_title   = rgars( $field, 'key_field/title' ) ? $field['key_field']['title'] : esc_html__( 'Key', 'gravityforms' );
+		$value_field_title = rgars( $field, 'value_field/title' ) ? $field['value_field']['title'] : esc_html__( 'Value', 'gravityforms' );
+
+		// Remove unneeded field properties.
+		$unneeded_props = array( 'field_map', 'key_choices', 'value_choices', 'placeholders', 'callback' );
+		foreach ( $unneeded_props as $unneeded_prop ) {
+			unset( $field[ $unneeded_prop ] );
+			unset( $key_field[ $unneeded_prop ] );
+			unset( $value_field[ $unneeded_prop ] );
+			unset( $custom_key_field[ $unneeded_prop ] );
+			unset( $custom_value_field[ $unneeded_prop ] );
+		}
+
+		// If field failed validation, display error icon.
+		if ( $this->field_failed_validation( $field ) ) {
+			$html .= $this->get_error_icon( $field );
+		}
+
+		// Display hidden field containing dynamic field map value.
+		$html .= $this->settings_hidden( $field, false );
+
+		// Display map table.
+		$html .= '
+            <table class="settings-field-map-table" cellspacing="0" cellpadding="0">
+            	<thead>
+					<tr>
+						<th>' . $key_field_title . '</th>
+						<th>' . $value_field_title . '</th>
+					</tr>
+				</thead>
+                <tbody class="repeater">
+	                <tr>
+	                    ' . $this->get_mapping_field( 'key', $key_field, $custom_key_field ) .
+							$this->get_mapping_field( 'value', $value_field, $custom_value_field ) . '
+						<td>
+							{buttons}
+						</td>
+	                </tr>
+                </tbody>
+            </table>';
+
+		// Get generic map limit.
+		$limit = empty( $field['limit'] ) ? 0 : $field['limit'];
+
+		// Initialize generic map via Javascript.
+		$html .= "
+			<script type=\"text/javascript\">
+			jQuery( document ).ready( function() {
+				var genericMap". esc_attr( $field['name'] ) ." = new GFGenericMap({
+					'baseURL':        '". GFCommon::get_base_url() ."',
+					'fieldId':        '". esc_attr( $field['name'] ) ."',
+					'fieldName':      '". $field['name'] ."',
+					'keyFieldName':   '". $key_field['name'] ."',
+					'valueFieldName': '". $value_field['name'] ."',
+					'mergeTags':      " . var_export( $field['merge_tags'], true ) . ",
+					'limit':          '". $limit . "'
+				});
+			});
+			</script>";
+
+		// If automatic display is enabled, echo field HTML.
+		if ( $echo ) {
+			echo $html;
+		}
+
+		return $html;
+
+	}
+
+	/**
+	 * Renders and initializes a field map field based on the $field array whose choices are populated by the fields to be mapped.
+	 *
+	 * @since  unknown
+	 * @access public
+	 *
+	 * @uses GFAddOn::field_map_table_header()
+	 * @uses GFAddOn::get_mapped_field_name()
+	 * @uses GFAddOn::get_required_indicator()
+	 * @uses GFAddOn::maybe_get_tooltip()
+	 * @uses GFAddOn::setting_dependency_met()
+	 * @uses GFAddOn::settings_field_map_select()
+	 *
+	 * @param array $field Field array containing the configuration options of this field.
+	 * @param bool  $echo  Determines if field contents should automatically be displayed. Defaults to true.
+	 *
+	 * @return string The HTML for the field
+	 */
 	public function settings_field_map( $field, $echo = true ) {
 
-		$html      = '';
+		// Initialize return HTML string.
+		$html = '';
+
+		// Get field map choices.
 		$field_map = rgar( $field, 'field_map' );
 
+		// If no field map choices exist, return HTML.
 		if ( empty( $field_map ) ) {
 			return $html;
 		}
 
+		// Get current form ID.
 		$form_id = rgget( 'id' );
 
-
+		// Display field map table header.
 		$html .= '<table class="settings-field-map-table" cellspacing="0" cellpadding="0">' .
 						$this->field_map_table_header() .
                 	'<tbody>';
 
+		// Loop through field map choices.
 		foreach ( $field['field_map'] as $child_field ) {
 
+			// If field map choice does not meet the dependencies required to be displayed, skip it.
 			if ( ! $this->setting_dependency_met( rgar( $child_field, 'dependency' ) ) ) {
 				continue;
 			}
 
+			// Get field map choice name, tooltip and required indicator.
 			$child_field['name'] = $this->get_mapped_field_name( $field, $child_field['name'] );
 			$tooltip             = $this->maybe_get_tooltip( $child_field );
 			$required            = rgar( $child_field, 'required' ) ? ' ' . $this->get_required_indicator( $child_field ) : '';
 
+			// Display field map choice row.
 			$html .= '
                 <tr>
                     <td>
@@ -1867,48 +2470,178 @@ abstract class GFAddOn {
 			         $this->settings_field_map_select( $child_field, $form_id ) .
 			         '</td>
             </tr>';
+
 		}
 
+		// Close field map table.
 		$html .= '
                 </tbody>
             </table>';
 
+		// If automatic display is enabled, echo field HTML.
 		if ( $echo ) {
 			echo $html;
 		}
 
 		return $html;
+
 	}
 
-	public function field_map_table_header() {
-		return '<thead>
-					<tr>
-						<th>' . $this->field_map_title() . '</th>
-						<th>' . esc_html__( 'Form Field', 'gravityforms' ) . '</th>
-					</tr>
-				</thead>';
+	/**
+	 * Renders and initializes a dynamic field map field based on the $field array whose choices are populated by the fields to be mapped.
+	 *
+	 * @since  1.9.5.13
+	 * @access public
+	 *
+	 * @uses GFAddOn::field_failed_validation()
+	 * @uses GFAddOn::get_current_form()
+	 * @uses GFAddOn::get_error_icon()
+	 * @uses GFAddOn::get_mapping_field()
+	 * @uses GFAddOn::settings_field_map_select()
+	 * @uses GFAddOn::settings_hidden()
+	 * @uses GFAddOn::settings_select()
+	 * @uses GFAddOn::settings_text()
+	 * @uses GFCommon::get_base_url()
+	 *
+	 * @param array $field Field array containing the configuration options of this field.
+	 * @param bool  $echo  Determines if field contents should automatically be displayed. Defaults to true.
+	 *
+	 * @return string The HTML for the field
+	 */
+	public function settings_dynamic_field_map( $field, $echo = true ) {
+
+		// Initialize return HTML string.
+		$html = '';
+
+		// Initialize field objects for child fields.
+		$value_field = $key_field = $custom_key_field = $field;
+
+		// Get current form object.
+		$form = $this->get_current_form();
+
+		// Change disable custom property to enable custom key property.
+		if ( isset( $field['disabled_custom'] ) ) {
+			$field['enable_custom_key'] = ! rgar( $field, 'disabled_custom' );
+			unset( $field['disabled_custom'] );
+		}
+
+		// Define key field properties.
+		$key_field['name']    .= '_key';
+		$key_field['choices']  = isset( $field['field_map'] ) ? $field['field_map'] : null;
+		$key_field['class']    = 'key key_{i}';
+		$key_field['title']    = rgar( $field, 'key_field_title' );
+
+		// Define custom key field properties.
+		$custom_key_field['name']  .= '_custom_key_{i}';
+		$custom_key_field['class']  = 'custom_key custom_key_{i}';
+		$custom_key_field['value']  = '{custom_key}';
+
+		// Define custom key value.
+		$custom_key = 'gf_custom';
+
+		// Define value field properties.
+		$value_field['name']  .= '_custom_value';
+		$value_field['class']  = 'value value_{i}';
+		$value_field['title']  = rgar( $field, 'value_field_title' );
+
+		// Remove unneeded field properties.
+		unset( $field['field_map'], $value_field['field_map'], $key_field['field_map'], $custom_key_field['field_map'] );
+
+		// If field failed validation, display error icon.
+		if ( $this->field_failed_validation( $field ) ) {
+			$html .= $this->get_error_icon( $field );
+		}
+
+		$header = '';
+		if ( ! empty( $key_field['title'] ) || ! empty ( $value_field['title'] ) ) {
+			$header = '<th>' . $key_field['title'] . '</th>' .'
+					   <th>' . $value_field['title'] . '</th>';
+
+		}
+
+		// Display dynamic field map table.
+		$html .= '
+            <table class="settings-field-map-table" cellspacing="0" cellpadding="0">
+            	' . $header . '
+                <tbody class="repeater">
+	                <tr>
+	                    '. $this->get_mapping_field( 'key', $key_field, $custom_key_field ) .'
+	                    <td>' .
+			                $this->settings_field_map_select( $value_field, $form['id'] ) . '
+						</td>
+						<td>
+							{buttons}
+						</td>
+	                </tr>
+                </tbody>
+            </table>';
+
+		// Display hidden field containing dynamic field map value.
+		$html .= $this->settings_hidden( $field, false );
+
+		// Get dynamic field map limit.
+		$limit = empty( $field['limit'] ) ? 0 : $field['limit'];
+
+		// Initialize dynamic field map via Javascript.
+		$html .= "
+			<script type=\"text/javascript\">
+				var dynamicFieldMap". esc_attr( $field['name'] ) ." = new gfieldmap({
+					'baseURL':      '". GFCommon::get_base_url() ."',
+					'fieldId':      '". esc_attr( $field['name'] ) ."',
+					'fieldName':    '". $field['name'] ."',
+					'keyFieldName': '". $key_field['name'] ."',
+					'limit':        '". $limit . "'
+				});
+			</script>";
+
+		// If automatic display is enabled, echo field HTML.
+		if ( $echo ) {
+			echo $html;
+		}
+
+		return $html;
+
 	}
 
+	/**
+	 * Renders a field select field for field maps.
+	 *
+	 * @since  unknown
+	 * @access public
+	 *
+	 * @uses GFAddOn::get_field_map_choices()
+	 * @uses GF_Field::get_form_editor_field_title()
+	 *
+	 * @param array $field    Field array containing the configuration options of this field.
+	 * @param int   $form_id  Form ID to retrieve fields from.
+	 *
+	 * @return string The HTML for the field
+	 */
 	public function settings_field_map_select( $field, $form_id ) {
 
-		$field_type          = rgempty( 'field_type', $field ) ? null : $field['field_type'];
+		// Get field types to only display.
+		$field_type = rgempty( 'field_type', $field ) ? null : $field['field_type'];
+
+		// Get field types to exclude.
 		$exclude_field_types = rgempty( 'exclude_field_types', $field ) ? null : $field['exclude_field_types'];
 
+		// Get form field choices based on field type inclusions/exclusions.
 		$field['choices'] = $this->get_field_map_choices( $form_id, $field_type, $exclude_field_types );
 
+		// If no choices were found, return error.
 		if ( empty( $field['choices'] ) || ( count( $field['choices'] ) == 1 && rgblank( $field['choices'][0]['value'] ) ) ) {
-			
+
 			if ( ( ! is_array( $field_type ) && ! rgblank( $field_type ) ) || ( is_array( $field_type ) && count( $field_type ) == 1 ) ) {
-			
+
 				$type = is_array( $field_type ) ? $field_type[0] : $field_type;
 				$type = ucfirst( GF_Fields::get( $type )->get_form_editor_field_title() );
-				
+
 				return sprintf( __( 'Please add a %s field to your form.', 'gravityforms' ), $type );
-				
+
 			}
 
 		}
-		
+
 		// Set default value.
 		$field['default_value'] = $this->get_default_field_select_field( $field );
 
@@ -1916,28 +2649,198 @@ abstract class GFAddOn {
 
 	}
 
-	public function field_map_title() {
-		return esc_html__( 'Field', 'gravityforms' );
+	/**
+	 * Prepares the markup for mapping field key and value fields.
+	 *
+	 * @since  2.2
+	 * @access public
+	 *
+	 * @uses GFAddOn::get_current_form()
+	 * @uses GFAddOn::get_field_map_choices()
+	 *
+	 * @param string $type The field type being prepared; key or value.
+	 * @param array  $select_field The drop down field properties.
+	 * @param array  $text_field   The text field properties.
+	 *
+	 * @return string
+	 */
+	public function get_mapping_field( $type, $select_field, $text_field ) {
+
+		// If use form fields as choices flag is set, add as choices.
+		if ( isset( $select_field['choices'] ) && ! is_array( $select_field['choices'] ) && 'form_fields' === strtolower( $select_field['choices'] ) ) {
+
+			// Set choices to form fields.
+			$select_field['choices'] = $this->get_field_map_choices( rgget( 'id' ) );
+
+		}
+
+		// If field has no choices, display custom field only.
+		if ( empty( $select_field['choices'] ) ) {
+
+			// Set field value to custom key.
+			$select_field['value'] = 'gf_custom';
+
+			// Display field row.
+			return sprintf(
+				'<td>%s<div class="custom-%s-container">%s</div></td>',
+				$this->settings_hidden( $select_field, false ),
+				$type,
+				$this->settings_text( $text_field, false )
+			);
+
+		} else {
+
+			// Set initial additional classes.
+			$additional_classes = array();
+
+			// Set has custom key flag.
+			$has_gf_custom = false;
+
+			// Loop through key field choices.
+			foreach ( $select_field['choices'] as $choice ) {
+
+				// If choice name or value is the custom key, set custom key flag to true and exit loop.
+				if ( rgar( $choice, 'name' ) == 'gf_custom' || rgar( $choice, 'value' ) == 'gf_custom' ) {
+					$has_gf_custom = true;
+					break;
+				}
+
+				// If choice has sub-choices, check for custom key option.
+				if ( rgar( $choice, 'choices' ) ) {
+
+					// Loop through sub-choices.
+					foreach ( $choice['choices'] as $subchoice ) {
+
+						// If sub-choice name or value is the custom key, set custom key flag to true and exit loop.
+						if ( rgar( $subchoice, 'name' ) == 'gf_custom' || rgar( $subchoice, 'value' ) == 'gf_custom' ) {
+							$has_gf_custom = true;
+							break;
+						}
+					}
+
+				}
+
+			}
+
+			// If custom key option is not found and we're allowed to add it, add it.
+			if ( ! $has_gf_custom ) {
+
+				if ( $type == 'key' ) {
+
+					$enable_custom = rgars( $select_field, 'key_field/custom_value' ) ? (bool) $select_field['key_field']['custom_value'] : ! (bool) rgar( $select_field, 'disable_custom' );
+					$enable_custom = isset( $select_field['enable_custom_key'] ) ? (bool) $select_field['enable_custom_key'] : $enable_custom;
+					$label         = esc_html__( 'Add Custom Key', 'gravityforms' );
+
+				} else {
+
+					// Add merge tag class.
+					if ( rgars( $select_field, 'value_field/merge_tags' ) ) {
+						$additional_classes[] = 'supports-merge-tags';
+					}
+
+					$enable_custom = rgars( $select_field, 'value_field/custom_value' ) ? (bool) $select_field['value_field']['custom_value'] : (bool) rgars( $select_field, 'enable_custom_value' );
+					$label         = esc_html__( 'Add Custom Value', 'gravityforms' );
+
+				}
+
+				if ( $enable_custom ) {
+					$select_field['choices'][] = array(
+						'label' => $label,
+						'value' => 'gf_custom'
+					);
+				}
+
+			}
+
+			// Display field row.
+			return sprintf(
+				'<th>%s<div class="custom-%s-container %s">%s<a href="#" class="custom-%s-reset">%s</a></div></th>',
+				$this->settings_select( $select_field, false ),
+				$type,
+				implode( ' ', $additional_classes ),
+				$this->settings_text( $text_field, false ),
+				$type,
+				esc_html__( 'Reset', 'gravityforms' )
+			);
+
+		}
+
 	}
 
+	/**
+	 * Heading row for field map table.
+	 *
+	 * @since  2.2
+	 * @access public
+	 *
+	 * @uses GFAddOn::field_map_title()
+	 *
+	 * @return string
+	 */
+	public function field_map_table_header() {
+
+		return '<thead>
+					<tr>
+						<th>' . $this->field_map_title() . '</th>
+						<th>' . esc_html__( 'Form Field', 'gravityforms' ) . '</th>
+					</tr>
+				</thead>';
+
+	}
+
+	/**
+	 * Heading for field map field column.
+	 *
+	 * @since  2.2
+	 * @access public
+	 *
+	 * @used-by GFAddOn::field_map_table_header()
+	 *
+	 * @return string
+	 */
+	public function field_map_title() {
+
+		return esc_html__( 'Field', 'gravityforms' );
+
+	}
+
+	/**
+	 * Get field map choices for specific form.
+	 *
+	 * @since  unknown
+	 * @access public
+	 *
+	 * @uses GFCommon::get_label()
+	 * @uses GFFormsModel::get_entry_meta()
+	 * @uses GFFormsModel::get_form_meta()
+	 * @uses GF_Field::get_entry_inputs()
+	 * @uses GF_Field::get_form_editor_field_title()
+	 * @uses GF_Field::get_input_type()
+	 *
+	 * @param int          $form_id             Form ID to display fields for.
+	 * @param array|string $field_type          Field types to only include as choices. Defaults to null.
+	 * @param array|string $exclude_field_types Field types to exclude from choices. Defaults to null.
+	 *
+	 * @return array
+	 */
 	public static function get_field_map_choices( $form_id, $field_type = null, $exclude_field_types = null ) {
 
-		$form = RGFormsModel::get_form_meta( $form_id );
+		$form = GFFormsModel::get_form_meta( $form_id );
 
 		$fields = array();
 
-		// Setup first choice 
+		// Setup first choice
 		if ( rgblank( $field_type ) || ( is_array( $field_type ) && count( $field_type ) > 1 ) ) {
-			
+
 			$first_choice_label = __( 'Select a Field', 'gravityforms' );
-			
+
 		} else {
-			
+
 			$type = is_array( $field_type ) ? $field_type[0] : $field_type;
 			$type = ucfirst( GF_Fields::get( $type )->get_form_editor_field_title() );
-			
+
 			$first_choice_label = sprintf( __( 'Select a %s Field', 'gravityforms' ), $type );
-			
+
 		}
 
 		$fields[] = array( 'value' => '', 'label' => $first_choice_label );
@@ -1985,45 +2888,45 @@ abstract class GFAddOn {
 					if ( $input_type == 'address' ) {
 						$fields[] = array(
 							'value' => $field->id,
-							'label' => GFCommon::get_label( $field ) . ' (' . esc_html__( 'Full', 'gravityforms' ) . ')'
+							'label' => strip_tags( GFCommon::get_label( $field ) . ' (' . esc_html__( 'Full', 'gravityforms' ) . ')' )
 						);
 					}
 					//If this is a name field, add full name to the list
 					if ( $input_type == 'name' ) {
 						$fields[] = array(
 							'value' => $field->id,
-							'label' => GFCommon::get_label( $field ) . ' (' . esc_html__( 'Full', 'gravityforms' ) . ')'
+							'label' => strip_tags( GFCommon::get_label( $field ) . ' (' . esc_html__( 'Full', 'gravityforms' ) . ')' )
 						);
 					}
 					//If this is a checkbox field, add to the list
 					if ( $input_type == 'checkbox' ) {
 						$fields[] = array(
 							'value' => $field->id,
-							'label' => GFCommon::get_label( $field ) . ' (' . esc_html__( 'Selected', 'gravityforms' ) . ')'
+							'label' => strip_tags( GFCommon::get_label( $field ) . ' (' . esc_html__( 'Selected', 'gravityforms' ) . ')' )
 						);
 					}
 
 					foreach ( $inputs as $input ) {
 						$fields[] = array(
 							'value' => $input['id'],
-							'label' => GFCommon::get_label( $field, $input['id'] )
+							'label' => strip_tags( GFCommon::get_label( $field, $input['id'] ) )
 						);
 					}
 				} elseif ( $input_type == 'list' && $field->enableColumns && $field_is_valid_type && ! $exclude_field ) {
 					$fields[] = array(
 						'value' => $field->id,
-						'label' => GFCommon::get_label( $field ) . ' (' . esc_html__( 'Full', 'gravityforms' ) . ')'
+						'label' => strip_tags( GFCommon::get_label( $field ) . ' (' . esc_html__( 'Full', 'gravityforms' ) . ')' )
 					);
 					$col_index = 0;
 					foreach ( $field->choices as $column ) {
 						$fields[] = array(
 							'value' => $field->id . '.' . $col_index,
-							'label' => GFCommon::get_label( $field ) . ' (' . esc_html( rgar( $column, 'text' ) ) . ')',
+							'label' => strip_tags( GFCommon::get_label( $field ) . ' (' . esc_html( rgar( $column, 'text' ) ) . ')' ),
 						);
 						$col_index ++;
 					}
 				} elseif ( ! $field->displayOnly && $field_is_valid_type && ! $exclude_field ) {
-					$fields[] = array( 'value' => $field->id, 'label' => GFCommon::get_label( $field ) );
+					$fields[] = array( 'value' => $field->id, 'label' => strip_tags( GFCommon::get_label( $field ) ) );
 				}
 			}
 		}
@@ -2040,185 +2943,177 @@ abstract class GFAddOn {
 		 */
 		$fields = apply_filters( 'gform_addon_field_map_choices', $fields, $form_id, $field_type, $exclude_field_types );
 
-		$callable = array( get_called_class(), 'get_instance' );
-		if ( is_callable( $callable ) ) {
-			$addon = call_user_func( $callable );
-			$slug  = $addon->get_slug();
+		if ( function_exists( 'get_called_class' ) ) {
+			$callable = array( get_called_class(), 'get_instance' );
+			if ( is_callable( $callable ) ) {
+				$add_on = call_user_func( $callable );
+				$slug   = $add_on->get_slug();
 
-			$fields = apply_filters( "gform_{$slug}_field_map_choices", $fields, $form_id, $field_type, $exclude_field_types );
+				$fields = apply_filters( "gform_{$slug}_field_map_choices", $fields, $form_id, $field_type, $exclude_field_types );
+			}
 		}
 
  		return $fields;
 	}
 
+	/**
+	 * Get input name for field map field.
+	 *
+	 * @since  unknown
+	 * @access public
+	 *
+	 * @used-by GFAddOn::settings_field_map()
+	 * @used-by GFAddOn::validate_field_map_settings()
+	 *
+	 * @param array  $parent_field Field map field.
+	 * @param string $field_name   Child field.
+	 *
+	 * @return string
+	 */
 	public function get_mapped_field_name( $parent_field, $field_name ) {
+
 		return "{$parent_field['name']}_{$field_name}";
-	}
-
-	public static function get_field_map_fields( $feed, $field_name ) {
-
-		$fields = array();
-		$prefix = "{$field_name}_";
-
-		foreach ( $feed['meta'] as $name => $value ) {
-			if ( strpos( $name, $prefix ) === 0 ) {
-				$name          = str_replace( $prefix, '', $name );
-				$fields[ $name ] = $value;
-			}
-		}
-
-		return $fields;
-	}
-
-	public static function get_dynamic_field_map_fields( $feed, $field_name ) {
-
-		$fields = array();
-		$dynamic_fields = $feed['meta'][$field_name];
-
-		if ( ! empty( $dynamic_fields ) ) {
-			
-			foreach ( $dynamic_fields as $dynamic_field ) {
-			
-				$field_key = ( $dynamic_field['key'] == 'gf_custom' ) ? $dynamic_field['custom_key'] : $dynamic_field['key'];
-				$fields[$field_key] = $dynamic_field['value'];
-				
-			}
-			
-		}
-
-		return $fields;
-	}
-
-
-	//----------------------------------------------------------------
-
-
-	public function settings_dynamic_field_map( $field, $echo = true ) {
-
-		$html = '';
-		$value_field = $key_field = $custom_key_field = $field;
-		$form = $this->get_current_form();
-
-		/* Setup key field drop down */
-		$key_field['choices']  = ( isset( $field['field_map'] ) ) ? $field['field_map'] : null;
-		$key_field['name']    .= '_key';
-		$key_field['class']    = 'key key_{i}';
-		$key_field['style']    = 'width:200px;';
-
-		/* Setup custom key text field */
-		$custom_key_field['name']  .= '_custom_key_{i}';
-		$custom_key_field['class']  = 'custom_key custom_key_{i}';
-		$custom_key_field['style']  = 'width:200px;max-width:90%;';
-		$custom_key_field['value']  = '{custom_key}';
-
-		/* Setup value drop down */
-		$value_field['name']  .= '_custom_value';
-		$value_field['class']  = 'value value_{i}';
-		
-		/* Remove unneeded values */
-		unset( $field['field_map'] );
-		unset( $value_field['field_map'] );
-		unset( $key_field['field_map'] );
-		unset( $custom_key_field['field_map'] );
-
-		//add on errors set when validation fails
-		if ( $this->field_failed_validation( $field ) ) {
-			$html .= $this->get_error_icon( $field );
-		}
-
-		/* Build key cell based on available field map choices */
-		if ( empty( $key_field['choices'] ) ) {
-			
-			/* Set key field value to "gf_custom" so custom key is used. */
-			$key_field['value'] = 'gf_custom';
-			
-			/* Build HTML string */
-			$key_field_html = '<td>' .
-                $this->settings_hidden( $key_field, false ) . '
-                <div class="custom-key-container">
-                    ' . $this->settings_text( $custom_key_field, false ) . '
-				</div>
-            </td>';			
-			
-		} else {
-			
-			/* Ensure field map array has a custom key option. */
-			$has_gf_custom = false;
-			foreach ( $key_field['choices'] as $choice ) {
-				if ( rgar( $choice, 'name' ) == 'gf_custom' || rgar( $choice, 'value' ) == 'gf_custom' ) {
-					$has_gf_custom = true;
-				}
-				if ( rgar( $choice, 'choices' ) ) {
-					foreach ( $choice['choices'] as $subchoice ) {
-						if ( rgar( $subchoice, 'name' ) == 'gf_custom' || rgar( $subchoice, 'value' ) == 'gf_custom' ) {
-							$has_gf_custom = true;
-						}
-					}					
-				}
-			}
-			if ( ! $has_gf_custom && ! rgar( $field, 'disable_custom' ) ) {
-				$key_field['choices'][] = array(
-					'label' => esc_html__( 'Add Custom Key', 'gravityforms' ),
-					'value' => 'gf_custom'
-				);
-			}
-			
-			/* Build HTML string */
-			$key_field_html = '<th>' .
-                $this->settings_select( $key_field, false ) . '
-                <div class="custom-key-container">
-                    <a href="#" class="custom-key-reset">Reset</a>' .
-                    $this->settings_text( $custom_key_field, false ) . '
-				</div>
-            </th>';
-			
-		}
-
-		$html .= '
-            <table class="settings-field-map-table" cellspacing="0" cellpadding="0">
-                <tbody class="repeater">
-	                <tr>
-	                    '. $key_field_html .'
-	                    <td>' .
-			                $this->settings_field_map_select( $value_field, $form['id'] ) . '
-						</td>
-						<td>
-							{buttons}
-						</td>
-	                </tr>
-                </tbody>
-            </table>';
-
-		$html .= $this->settings_hidden( $field, false );
-
-		$limit = empty( $field['limit'] ) ? 0 : $field['limit'];
-
-		$html .= "
-			<script type=\"text/javascript\">
-			
-				var dynamicFieldMap". esc_attr( $field['name'] ) ." = new gfieldmap({
-					
-					'baseURL':      '". GFCommon::get_base_url() ."',
-					'fieldId':      '". esc_attr( $field['name'] ) ."',
-					'fieldName':    '". $field['name'] ."',
-					'keyFieldName': '". $key_field['name'] ."',
-					'limit':        '". $limit . "'
-										
-				});
-			
-			</script>";
-
-		if ( $echo ) {
-			echo $html;
-		}
-
-		return $html;
 
 	}
 
 	/**
+	 * Get mapped key/value pairs for standard field map.
+	 *
+	 * @since  unknown
+	 * @access public
+	 *
+	 * @param array  $feed       Feed object.
+	 * @param string $field_name Field map field name.
+	 *
+	 * @return array
+	 */
+	public static function get_field_map_fields( $feed, $field_name ) {
+
+		// Initialize return fields array.
+		$fields = array();
+
+		// Get prefix for mapped field map keys.
+		$prefix = "{$field_name}_";
+
+		// Loop through feed meta.
+		foreach ( $feed['meta'] as $name => $value ) {
+
+			// If field name matches prefix, add value to return array.
+			if ( strpos( $name, $prefix ) === 0 ) {
+				$name            = str_replace( $prefix, '', $name );
+				$fields[ $name ] = $value;
+			}
+
+		}
+
+		return $fields;
+
+	}
+
+	/**
+	 * Get mapped key/value pairs for dynamic field map.
+	 *
+	 * @since  1.9.9.9
+	 * @access public
+	 *
+	 * @param array  $feed       Feed object.
+	 * @param string $field_name Dynamic field map field name.
+	 *
+	 * @return array
+	 */
+	public static function get_dynamic_field_map_fields( $feed, $field_name ) {
+
+		// Initialize return fields array.
+		$fields = array();
+
+		// Get dynamic field map field.
+		$dynamic_fields = rgars( $feed, 'meta/' . $field_name );
+
+		// If dynamic field map field is found, loop through mapped fields and add to array.
+		if ( ! empty( $dynamic_fields ) ) {
+
+			// Loop through mapped fields.
+			foreach ( $dynamic_fields as $dynamic_field ) {
+
+				// Get mapped key or replace with custom value.
+				$field_key = 'gf_custom' === $dynamic_field['key'] ? $dynamic_field['custom_key'] : $dynamic_field['key'];
+
+				// Add mapped field to return array.
+				$fields[ $field_key ] = $dynamic_field['value'];
+
+			}
+
+		}
+
+		return $fields;
+
+	}
+
+	/**
+	 * Get mapped key/value pairs for generic map.
+	 *
+	 * @since  2.2
+	 * @access public
+	 *
+	 * @param array  $feed       Feed object or settings array.
+	 * @param string $field_name Generic map field name.
+	 * @param array  $form       Form object. Defaults to empty array.
+	 * @param array  $entry      Entry object. Defaults to empty array.
+	 *
+	 * @uses GFCommon::replace_variables()
+	 *
+	 * @return array
+	 */
+	public function get_generic_map_fields( $feed, $field_name, $form = array(), $entry = array() ) {
+
+		// Initialize return fields array.
+		$fields = array();
+
+		// Get generic map field.
+		$generic_fields = rgar( $feed, 'meta' ) ? rgars( $feed, 'meta/' . $field_name ) : rgar( $feed, $field_name );
+
+		// If generic map field is found, loop through mapped fields and add to array.
+		if ( ! empty( $generic_fields ) ) {
+
+			// Loop through mapped fields.
+			foreach ( $generic_fields as $generic_field ) {
+
+				// Get mapped key or replace with custom value.
+				$field_key = 'gf_custom' === $generic_field['key'] ? $generic_field['custom_key'] : $generic_field['key'];
+
+				// Get mapped field choice or replace with custom value.
+				if ( 'gf_custom' === $generic_field['value'] ) {
+
+					// If form isn't set, use custom value. Otherwise, replace merge tags.
+					$field_value = empty( $form ) ? $generic_field['custom_value'] : GFCommon::replace_variables( $generic_field['custom_value'], $form, $entry, false, false, false, 'text' );
+
+				} else {
+
+					// If form isn't set, use value. Otherwise, get field value.
+					$field_value = empty( $form ) ? $generic_field['value'] : $this->get_field_value( $form, $entry, $generic_field['value'] );
+
+				}
+
+				// Add mapped field to return array.
+				$fields[ $field_key ] = $field_value;
+
+			}
+
+		}
+
+		return $fields;
+
+	}
+
+
+
+
+
+	//------------ Field Select Field Type ------------------------
+
+	/**
 	 * Renders and initializes a drop down field based on the $field array whose choices are populated by the form's fields.
-	 * 
+	 *
 	 * @param array $field - Field array containing the configuration options of this field
 	 * @param bool  $echo  = true - true to echo the output to the screen, false to simply return the contents as a string
 	 *
@@ -2281,7 +3176,7 @@ abstract class GFAddOn {
 		return $field;
 
 	}
-	
+
 	/**
 	 * Returns the field to be selected by default for field select fields based on matching labels.
 	 *
@@ -2291,12 +3186,20 @@ abstract class GFAddOn {
 	 * @return string|null
 	 */
 	public function get_default_field_select_field( $field ) {
-		
+
+		// Prepare field name.
+		$field_name = str_replace( '.', '_', $field['name'] );
+
+		// If field's value is already set, return it.
+		if ( $this->get_setting( $field_name ) ) {
+			return $this->get_setting( $field_name );
+		}
+
 		// If field's default value is not an array and not empty, return it.
 		if ( ! rgempty( 'default_value', $field ) && ! is_array( $field['default_value'] ) ) {
 			return $field['default_value'];
 		}
-		
+
 		// Set default value if auto populate is not disabled.
 		if ( rgar( $field, 'auto_mapping' ) !== false ) {
 
@@ -2329,10 +3232,10 @@ abstract class GFAddOn {
 
 			// Convert all auto-population choices to lowercase.
 			$default_value_choices = array_map( 'strtolower', $default_value_choices );
-			
+
 			// Loop through fields.
 			foreach ( $field['choices'] as $choice ) {
-				
+
 				// If choice value is empty, skip it.
 				if ( rgblank( $choice['value'] ) ) {
 					continue;
@@ -2342,18 +3245,18 @@ abstract class GFAddOn {
 				if ( in_array( strtolower( $choice['label'] ), $default_value_choices ) ) {
 					return $choice['value'];
 				}
-				
+
 			}
-			
+
 		}
-		
-		return null;	
-		
+
+		return null;
+
 	}
 
 	/**
 	 * Retrieve an array of form fields formatted for select, radio and checkbox settings fields.
-	 * 
+	 *
 	 * @access public
 	 * @param array $form - The form object
 	 * @param array $args - Additional settings to check for (field and input types to include, callback for applicable input type)
@@ -2378,6 +3281,12 @@ abstract class GFAddOn {
 
 		foreach ( $form['fields'] as $field ) {
 
+			if ( ! empty( $args['field_types'] ) && ! in_array( $field->type, $args['field_types'] ) ) {
+
+				continue;
+
+			}
+
 			$input_type               = GFFormsModel::get_input_type( $field );
 			$is_applicable_input_type = empty( $args['input_types'] ) || in_array( $input_type, $args['input_types'] );
 
@@ -2389,7 +3298,7 @@ abstract class GFAddOn {
 				continue;
 			}
 
-			if ( ! empty( $args['property'] ) && ( ! isset( $field->$args['property'] ) || $field->$args['property'] != $args['property_value'] ) ) {
+			if ( ! empty( $args['property'] ) && ( ! isset( $field->{$args['property']} ) || $field->{$args['property']} != $args['property_value'] ) ) {
 				continue;
 			}
 
@@ -2451,7 +3360,7 @@ abstract class GFAddOn {
 
 	/**
 	 * Renders and initializes a checkbox field that displays a select field when checked based on the $field array.
-	 * 
+	 *
 	 * @access public
 	 * @param array $field - Field array containing the configuration options of this field
 	 * @param bool  $echo  = true - true to echo the output to the screen, false to simply return the contents as a string
@@ -2473,7 +3382,7 @@ abstract class GFAddOn {
 			'%s <span id="%s" class="%s">%s %s</span>',
 			$this->settings_checkbox( $checkbox_field, false ),
 			$select_field['name'] . 'Span',
-			$is_enabled ? '' : 'hidden',
+			$is_enabled ? '' : 'gf_invisible',
 			$this->settings_select( $select_field, false ),
 			$this->maybe_get_tooltip( $select_field )
 		);
@@ -2527,9 +3436,12 @@ abstract class GFAddOn {
 					'onchange'      => sprintf( "( function( $, elem ) {
 						$( elem ).parents( 'td' ).css( 'position', 'relative' );
 						if( $( elem ).prop( 'checked' ) ) {
-							$( '%1\$s' ).fadeIn();
+							$( '%1\$s' ).css( 'visibility', 'visible' );
+							$( '%1\$s' ).fadeTo( 400, 1 );
 						} else {
-							$( '%1\$s' ).fadeOut();
+							$( '%1\$s' ).fadeTo( 400, 0, function(){
+								$( '%1\$s' ).css( 'visibility', 'hidden' );   
+							} );
 						}
 					} )( jQuery, this );",
 						"#{$select_field['name']}Span" )
@@ -2594,8 +3506,9 @@ abstract class GFAddOn {
 			'gaddon_no_output_field_properties',
 			array(
 				'default_value', 'label', 'choices', 'feedback_callback', 'checked', 'checkbox_label', 'value', 'type',
-				'validation_callback', 'required', 'hidden', 'tooltip', 'dependency', 'messages', 'name', 'args', 'exclude_field_types',
-				'field_type', 'after_input', 'input_type', 'icon', 'save_callback',
+				'validation_callback', 'required', 'hidden', 'tooltip', 'dependency', 'messages', 'name', 'args',
+				'exclude_field_types', 'field_type', 'after_input', 'input_type', 'icon', 'save_callback',
+				'enable_custom_value', 'enable_custom_key', 'merge_tags', 'key_field', 'value_field', 'callback',
 			), $field
 		);
 
@@ -2890,7 +3803,7 @@ abstract class GFAddOn {
 		if ( ! is_array( rgar( $field, 'choices' ) ) ) {
 			return;
 		}
-		
+
 		$select_value = rgar( $settings, $field['name'] );
 		$custom_value = rgar( $settings, $field['name'] . '_custom' );
 
@@ -3177,7 +4090,7 @@ abstract class GFAddOn {
 	public function get_field( $name, $settings ) {
 		foreach ( $settings as $section ) {
 			for ( $i = 0; $i < count( $section['fields'] ); $i ++ ) {
-				if ( $section['fields'][ $i ]['name'] == $name ) {
+				if ( rgar( $section['fields'][ $i ], 'name' ) == $name ) {
 					return $section['fields'][ $i ];
 				}
 			}
@@ -3355,9 +4268,7 @@ abstract class GFAddOn {
 	public function form_settings_init() {
 		$view    = rgget( 'view' );
 		$subview = rgget( 'subview' );
-		if ( $this->current_user_can_any( $this->_capabilities_form_settings ) ) {
-			add_action( 'gform_form_settings_menu', array( $this, 'add_form_settings_menu' ), 10, 2 );
-		}
+		add_filter( 'gform_form_settings_menu', array( $this, 'add_form_settings_menu' ), 10, 2 );
 
 		if ( rgget( 'page' ) == 'gf_edit_forms' && $view == 'settings' && $subview == $this->_slug && $this->current_user_can_any( $this->_capabilities_form_settings ) ) {
 			require_once( GFCommon::get_base_path() . '/tooltips.php' );
@@ -3768,8 +4679,8 @@ abstract class GFAddOn {
 	 * Not intended to be overridden or called directly by add-ons.
 	 */
 	public function app_tab_page() {
-		$page        = rgget( 'page' );
-		$current_tab = rgget( 'view' );
+		$page        = sanitize_text_field( rgget( 'page' ) );
+		$current_tab = sanitize_text_field( rgget( 'view' ) );
 
 		if ( $page == $this->_slug . '_settings' ) {
 
@@ -3848,7 +4759,7 @@ abstract class GFAddOn {
 	 *
 	 * @param $form
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function get_form_settings( $form ) {
 		return rgar( $form, $this->_slug );
@@ -3867,7 +4778,7 @@ abstract class GFAddOn {
 	 */
 	public function add_form_settings_menu( $tabs, $form_id ) {
 
-		$tabs[] = array( 'name' => $this->_slug, 'label' => $this->get_short_title(), 'query' => array( 'fid' => null ) );
+		$tabs[] = array( 'name' => $this->_slug, 'label' => $this->get_short_title(), 'query' => array( 'fid' => null ), 'capabilities' => $this->_capabilities_form_settings );
 
 		return $tabs;
 	}
@@ -4082,7 +4993,7 @@ abstract class GFAddOn {
 		 */
 		$setting_tabs = apply_filters( 'gform_addon_app_settings_menu_' . $this->_slug, $setting_tabs );
 
-		if ( $this->current_user_can_any( $this->_capabilities_uninstall ) ) {
+		if ( $this->current_user_can_uninstall() ) {
 			$setting_tabs[] = array( 'name' => 'uninstall', 'label' => esc_html__( 'Uninstall', 'gravityforms' ), 'callback' => array( $this, 'app_settings_uninstall_tab' ) );
 		}
 
@@ -4106,7 +5017,7 @@ abstract class GFAddOn {
 		<?php
 
 		} else {
-			if ( $this->current_user_can_any( $this->_capabilities_uninstall ) && ( ! function_exists( 'is_multisite' ) || ! is_multisite() || is_super_admin() ) ) {
+			if ( $this->current_user_can_uninstall() ) {
 			?>
 			<form action="" method="post">
 				<?php wp_nonce_field( 'uninstall', 'gf_addon_uninstall' ) ?>
@@ -4146,9 +5057,8 @@ abstract class GFAddOn {
 	 * @param string $message
 	 */
 	public function app_tab_page_header( $tabs, $current_tab, $title, $message = '' ) {
-		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG || isset( $_GET['gform_debug'] ) ? '' : '.min';
-		// register admin styles
-		wp_register_style( 'gform_admin', GFCommon::get_base_url() . "/css/admin{$min}.css" );
+
+		// Print admin styles
 		wp_print_styles( array( 'jquery-ui-styles', 'gform_admin' ) );
 
 		?>
@@ -4179,7 +5089,7 @@ abstract class GFAddOn {
 		</ul>
 
 		<div id="gform_tab_container" class="gform_tab_container">
-		<div class="gform_tab_content" id="tab_<?php echo $current_tab ?>">
+		<div class="gform_tab_content" id="tab_<?php echo esc_attr( $current_tab ) ?>">
 
 	<?php
 	}
@@ -4197,13 +5107,6 @@ abstract class GFAddOn {
 		<br class="clear" style="clear: both;" />
 
 		</div> <!-- / wrap -->
-
-		<script type="text/javascript">
-			// JS fix for keep content contained on tabs with less content
-			jQuery(document).ready(function ($) {
-				$('#gform_tab_container').css('minHeight', jQuery('#gform_tabs').height() + 100);
-			});
-		</script>
 
 	<?php
 	}
@@ -4393,7 +5296,7 @@ abstract class GFAddOn {
 		?>
 		<form action="" method="post">
 			<?php wp_nonce_field( 'uninstall', 'gf_addon_uninstall' ) ?>
-			<?php if ( $this->current_user_can_any( $this->_capabilities_uninstall ) ) { ?>
+			<?php if ( $this->current_user_can_uninstall() ) { ?>
 
 				<div class="hr-divider"></div>
 
@@ -4444,7 +5347,7 @@ abstract class GFAddOn {
 	 */
 	public function uninstall_addon() {
 
-		if ( ! $this->current_user_can_any( $this->_capabilities_uninstall ) ) {
+		if ( ! $this->current_user_can_uninstall() ) {
 			die( esc_html__( "You don't have adequate permission to uninstall this add-on: " . $this->_title, 'gravityforms' ) );
 		}
 
@@ -4454,22 +5357,24 @@ abstract class GFAddOn {
 		}
 
 		global $wpdb;
-		$lead_meta_table = GFFormsModel::get_lead_meta_table_name();
 
 		$forms        = GFFormsModel::get_forms();
 		$all_form_ids = array();
 
 		// remove entry meta
+		$meta_table = version_compare( GFFormsModel::get_database_version(), '2.3-dev-1', '<' ) ? GFFormsModel::get_lead_meta_table_name() : GFFormsModel::get_entry_meta_table_name();
+		remove_filter( 'query', array( 'GFForms', 'filter_query' ) );
 		foreach ( $forms as $form ) {
 			$all_form_ids[] = $form->id;
 			$entry_meta     = $this->get_entry_meta( array(), $form->id );
 			if ( is_array( $entry_meta ) ) {
 				foreach ( array_keys( $entry_meta ) as $meta_key ) {
-					$sql = $wpdb->prepare( "DELETE from $lead_meta_table WHERE meta_key=%s", $meta_key );
+					$sql = $wpdb->prepare( "DELETE from $meta_table WHERE meta_key=%s", $meta_key );
 					$wpdb->query( $sql );
 				}
 			}
 		}
+		add_filter( 'query', array( 'GFForms', 'filter_query' ) );
 
 		//remove form settings
 		if ( ! empty( $all_form_ids ) ) {
@@ -4519,13 +5424,19 @@ abstract class GFAddOn {
 	 *
 	 * Not intended to be overridden or called directly by Add-Ons.
 	 *
-	 * @ignore
+	 * @since Unknown
+	 * @since 2.4.15  Update to improve multisite updates.
+	 *
+	 * @param string $plugin_name The plugin filename.  Immediately overwritten.
+	 * @param array  $plugin_data An array of plugin data.
 	 */
-	public function plugin_row() {
-		if ( ! self::is_gravityforms_supported( $this->_min_gravityforms_version ) ) {
+	public function plugin_row( $plugin_name, $plugin_data ) {
+		if ( false === $this->_enable_rg_autoupgrade && ! self::is_gravityforms_supported( $this->_min_gravityforms_version ) ) {
 			$message = $this->plugin_message();
 			self::display_plugin_message( $message, true );
 		}
+
+		GFForms::maybe_display_update_notification( $plugin_name, $plugin_data, $this->get_slug(), $this->_version );
 	}
 
 	/**
@@ -4534,7 +5445,7 @@ abstract class GFAddOn {
 	 * Override this method to display a custom message.
 	 */
 	public function plugin_message() {
-		$message = sprintf( esc_html__( 'Gravity Forms %s is required. Activate it now or %spurchase it today!%s', 'gravityforms' ), $this->_min_gravityforms_version, "<a href='http://www.gravityforms.com'>", '</a>' );
+		$message = sprintf( esc_html__( 'Gravity Forms %s is required. Activate it now or %spurchase it today!%s', 'gravityforms' ), $this->_min_gravityforms_version, "<a href='https://www.gravityforms.com'>", '</a>' );
 
 		return $message;
 	}
@@ -4849,7 +5760,7 @@ abstract class GFAddOn {
 	 *
 	 * @param array $entry
 	 * @param string $field_id
-	 * @param object $field
+	 * @param GF_Field_List $field
 	 *
 	 * @return string
 	 */
@@ -4857,10 +5768,10 @@ abstract class GFAddOn {
 
 		return $field->get_value_export( $entry, $field_id );
 	}
-	
+
 	/**
 	 * Returns the field ID of the first field of the desired type.
-	 * 
+	 *
 	 * @access public
 	 * @param string $field_type
 	 * @param int $subfield_id (default: null)
@@ -4868,40 +5779,40 @@ abstract class GFAddOn {
 	 * @return string
 	 */
 	public function get_first_field_by_type( $field_type, $subfield_id = null, $form_id = null, $return_first_only = true ) {
-		
+
 		/* Get the current form ID. */
 		if ( rgblank( $form_id ) ) {
-			
+
 			$form_id = rgget( 'id' );
-			
+
 		}
-		
+
 		/* Get the form. */
 		$form = GFAPI::get_form( $form_id );
-		
+
 		/* Get the request field type for the form. */
 		$fields = GFAPI::get_fields_by_type( $form, array( $field_type ) );
-		
+
 		if ( count( $fields ) == 0 || ( count( $fields ) > 1 && $return_first_only ) ) {
-			
+
 			return null;
-			
+
 		} else {
-			
+
 			if ( rgblank( $subfield_id ) ) {
-				
+
 				return $fields[0]->id;
-				
+
 			} else {
-				
+
 				return $fields[0]->id . '.' . $subfield_id;
-				
+
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	//--------------- Notes ------------------
 	/**
 	 * Override this function to specify a custom avatar (i.e. the payment gateway logo) for entry notes created by the Add-On
@@ -4936,7 +5847,7 @@ abstract class GFAddOn {
 
 		return $name !== $base_class;
 	}
-	
+
 	/**
 	 * Returns the url of the root folder of the current Add-On.
 	 *
@@ -5018,11 +5929,9 @@ abstract class GFAddOn {
 	}
 
 	public function table_exists( $table_name ) {
-		global $wpdb;
 
-		$count = $wpdb->get_var( "SHOW TABLES LIKE '{$table_name}'" );
+		return GFCommon::table_exists( $table_name );
 
-		return ! empty( $count );
 	}
 
 	/**
@@ -5055,6 +5964,18 @@ abstract class GFAddOn {
 	 */
 	public function get_short_title() {
 		return isset( $this->_short_title ) ? $this->_short_title : $this->_title;
+	}
+
+	/**
+	 * Return this plugin's version.
+	 *
+	 * @since  2.0
+	 * @access public
+	 *
+	 * @return string
+	 */
+	public function get_version() {
+		return $this->_version;
 	}
 
 	/**
@@ -5328,6 +6249,35 @@ abstract class GFAddOn {
 	}
 
 	/**
+	 * Returns the path for the add-on.
+	 *
+	 * @since 2.2
+	 */
+	public function get_path() {
+		return $this->_path;
+	}
+
+	/**
+	 * Get all or a specific capability for Add-On.
+	 *
+	 * @since  2.2.5.27
+	 * @access public
+	 *
+	 * @param string $capability Capability to return.
+	 *
+	 * @return string|array
+	 */
+	public function get_capabilities( $capability = '' ) {
+
+		if ( rgblank( $capability ) ) {
+			return $this->_capabilities;
+		}
+
+		return isset( $this->{'_capabilities_' . $capability} ) ? $this->{'_capabilities_' . $capability} : array();
+
+	}
+
+	/**
 	 * Initializing translations.
 	 *
 	 * @since 2.0.7
@@ -5336,4 +6286,18 @@ abstract class GFAddOn {
 		GFCommon::load_gf_text_domain( $this->_slug, plugin_basename( dirname( $this->_full_path ) ) );
 	}
 
+	/***
+	 * Determines if the current user has the proper cabalities to uninstall this add-on
+	 * Add-ons that have been network activated can only be uninstalled by a network admin.
+	 *
+	 * @since 2.3.1.12
+	 * @access public
+	 *
+	 * @return bool True if current user can uninstall this add-on. False otherwise
+	 */
+	public function current_user_can_uninstall(){
+
+		return GFCommon::current_user_can_uninstall( $this->_capabilities_uninstall, $this->_path );
+
+	}
 }

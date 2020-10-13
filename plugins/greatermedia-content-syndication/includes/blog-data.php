@@ -8,7 +8,6 @@ class BlogData {
 
 	public static $taxonomies = array(
 		'category'      =>  'single',
-		'post_tag'      =>  'multiple',
 		'collection'    =>  'single',
 	);
 
@@ -17,6 +16,26 @@ class BlogData {
 	public static $syndication_id;
 
 	public static $content_site_id;
+
+	/**
+	 * Returns the old attachment id meta key. Keyed on content site id to
+	 * address,
+	 *
+	 * https://tenup.teamwork.com/#/tasks/18643043?c=8629088
+	 */
+	public static function get_attachment_old_id_key() {
+		return "syndication_" . self::$content_site_id . '_attachment_old_id';
+	}
+
+	/**
+	 * Returns the old attachment url meta key. Keyed on content site id to
+	 * address,
+	 *
+	 * https://tenup.teamwork.com/#/tasks/18643043?c=8629088
+	 */
+	public static function get_attachment_old_url_key() {
+		return "syndication_" . self::$content_site_id . '_attachment_old_url';
+	}
 
 	/**
 	 * Did we use the "Syndicate Now" Button
@@ -285,6 +304,12 @@ class BlogData {
 			self::log( "Switch to default source site : %d", self::$content_site_id );
 		}
 
+		if ( (int) self::$content_site_id === (int) get_current_blog_id() ) {
+			self::log( "Stopping syndication, source site equal to destination" );
+
+			return [ 'max_pages' => 0, 'found_posts' => 0 ];
+		}
+
 		// Should only be the first time - only pull in 10 posts: https://basecamp.com/1778700/projects/8324102/todos/315096975#comment_546418020
 		// Avoids cases where we try and pull in the entire history of posts and it locks up
 		$posts_per_page = defined( 'WP_CLI' ) && WP_CLI ? 500 : 10;
@@ -303,7 +328,7 @@ class BlogData {
 			'order' => 'DESC',
 		);
 
-		$start_date = apply_filters( 'beasley_syndication_query_start_date', '' );
+		$start_date = apply_filters( 'beasley_syndication_query_start_date', $start_date );
 
 		if ( $start_date == '' ) {
 			$last_queried = get_post_meta( $subscription_id, 'syndication_last_performed', true );
@@ -664,7 +689,7 @@ class BlogData {
 					$class = array();
 					if ( isset( $attrs['class'] ) && preg_match( '#wp-image-(\d+)#i', $attrs['class'], $class ) ) {
 						$attachment = get_posts( array(
-							'meta_key'   => 'syndication_attachment_old_id',
+							'meta_key'   => self::get_attachment_old_id_key(),
 							'meta_value' => $class[1],
 							'post_type'  => 'attachment',
 						) );
@@ -769,7 +794,9 @@ class BlogData {
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 
 		$tmp = download_url( $filename );
+
 		if ( is_wp_error( $tmp ) ) {
+			self::log( "ImportMedia( $post_id / $original_id ), Failed to Download $filename : " . $tmp->get_error_message() );
 			return $tmp;
 		}
 
@@ -777,13 +804,13 @@ class BlogData {
 		$original_id = intval( $original_id );
 		if ( empty( $original_id ) ) {
 			$meta_query_args = array(
-				'meta_key'   => 'syndication_attachment_old_url',
+				'meta_key'   => self::get_attachment_old_url_key(),
 				'meta_value' => $filename,
 				'post_type'  => 'attachment',
 			);
 		} else {
 			$meta_query_args = array(
-				'meta_key'   => 'syndication_attachment_old_id',
+				'meta_key'   => self::get_attachment_old_id_key(),
 				'meta_value' => $original_id,
 				'post_type'  => 'attachment',
 			);
@@ -803,6 +830,8 @@ class BlogData {
 
 				// If error storing temporarily, unlink
 				if ( is_wp_error( $tmp ) ) {
+					// NOTE: Appears to be an invalid code path - if $tmp is a WP_Error,
+					// we already return early.
 					@unlink( $file_array['tmp_name'] );
 					$file_array['tmp_name'] = '';
 				}
@@ -819,6 +848,7 @@ class BlogData {
 
 				// If error storing permanently, unlink
 				if ( is_wp_error( $id ) ) {
+					self::log( "ImportMedia( $post_id / $original_id ), Media Sideload Failed $filename : " . $id->get_error_message() );
 					@unlink( $file_array['tmp_name'] );
 				} else {
 					// Try to migrate the post attachment to S3 if it failed for whatever reason
@@ -830,8 +860,8 @@ class BlogData {
 			}
 
 			if ( ! is_wp_error( $id ) ) {
-				update_post_meta( $id, 'syndication_attachment_old_id', $original_id );
-				update_post_meta( $id, 'syndication_attachment_old_url', esc_url_raw( $filename ) );
+				update_post_meta( $id, self::get_attachment_old_id_key(), $original_id );
+				update_post_meta( $id, self::get_attachment_old_url_key(), esc_url_raw( $filename ) );
 
 				self::updateImageCaption( $id, $original_id );
 			}
@@ -859,6 +889,16 @@ class BlogData {
 		}
 
 		self::log( "Media file (%s) has been imported...", $filename );
+
+		/**
+		 * Removes temporary download file if it exists. This was causing
+		 * disk space to fill up on prod.
+		 *
+		 * https://tenup.teamwork.com/#/tasks/18632495
+		 */
+		if ( file_exists( $tmp ) && is_file( $tmp ) ) {
+			@unlink( $tmp );
+		}
 
 		return $id;
 	}
@@ -903,7 +943,7 @@ class BlogData {
 				$old_ids = explode( ",", $gallery["ids"] );
 				foreach ( $gallery['src'] as $index => $image_src ) {
 					$meta_query_args = array(
-						'meta_key'   => 'syndication_attachment_old_url',
+						'meta_key'   => self::get_attachment_old_url_key(),
 						'meta_value' => esc_url_raw( $image_src ),
 						'post_type'  => 'attachment',
 					);
@@ -938,14 +978,29 @@ class BlogData {
 	private static function updateImageCaption( $new_id, $old_id ) {
 		if ( self::$content_site_id ) {
 			switch_to_blog( self::$content_site_id );
+
 			$old_post = get_post( $old_id, ARRAY_A );
+			$old_alt  = get_post_meta( $old_id, '_wp_attachment_image_alt', true );
+			$old_attr = get_post_meta( $old_id, 'gmr_image_attribution', true );
+
 			restore_current_blog();
 
 			if ( ! empty( $old_post ) ) {
 				$new_post = get_post( $new_id, ARRAY_A );
 				if ( ! empty( $new_post ) ) {
 					$new_post['post_excerpt'] = $old_post['post_excerpt'];
+					$new_post['post_title']   = $old_post['post_title'];
+					$new_post['post_content'] = $old_post['post_content'];
+
 					wp_update_post( $new_post );
+
+					if ( ! empty( $old_alt ) ) {
+						update_post_meta( $new_id, '_wp_attachment_image_alt', $old_alt );
+					}
+
+					if ( ! empty( $old_attr ) ) {
+						update_post_meta( $new_id, 'gmr_image_attribution', $old_attr );
+					}
 				}
 			}
 		}

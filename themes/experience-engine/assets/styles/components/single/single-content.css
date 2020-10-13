@@ -16,17 +16,44 @@
 		}
 	}
 
+	& .description {
+		padding-right: 3.8%;
+		flex: 0 1 100%;
+
+		@media (--min-large-viewport) {
+			flex-basis: 67%;
+		}
+	}
+
 	& .ad {
-		flex: 0 1 300px;
-		max-width: 600px;
+		flex: 0 1 100%;
 		order: 1;
+
+		@media (--min-large-viewport) {
+			flex-basis: 29.15%;
+		}
 	}
 
 	& .placeholder-loadmore {
 		flex: 0 1 100%;
 		order: 2;
 	}
+
+	& iframe {
+		width: 100%;
+	}
+
 }
+
+/**
+ * Fix overflow in iframes for ios Safari
+ * @see https://github.com/scottjehl/Device-Bugs/issues/7
+ */
+.is-safari .entry-content iframe.embedly-embed {
+	min-width: 100% !important; /* Override embedly's inline styles */
+	width: 1px;
+}
+
 /* End Grid Fallbacks */
 
 .entry-content {
@@ -44,12 +71,16 @@
 
 	@media (--min-xlarge-viewport) {
 		display: grid;
-		grid-column-gap: 2.333rem;
+		grid-column-gap: calc( 2.333rem - 20px );
 		grid-row-gap: 2.889rem;
 		grid-template-columns: calc(100% - 300px) 300px;
 		grid-template-rows: repeat(3, auto);
 
-		@nest .podcast &{
+		@nest .podcast & {
+			grid-template-rows: auto;
+		}
+
+		@nest .single & {
 			grid-template-rows: auto;
 		}
 	}
@@ -77,6 +108,10 @@
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 3rem;
+
+	@media (--min-large-viewport) {
+		margin-bottom: 1.5rem;
+	}
 
 	& .post-tag-label {
 		color: var(--global-theme-font-primary);
@@ -108,8 +143,35 @@
 	margin-bottom: 2rem;
 }
 
-.post-thumbnail-caption {
+.post-thumbnail-caption, .jacapps .featured-media div {
 	color: var(--global-font-secondary);
 	font-size: .875rem;
 	margin: .5rem 0 0 0;
+}
+
+.jacapps .entry-content {
+	@media (--min-xlarge-viewport) {
+		grid-template-columns: 100%;
+	}
+}
+
+.jacapps .related-articles {
+	display: none;
+}
+
+.sponsor-meta {
+	font-family: var(--global-font-family-primary);
+  	color: rgba(68, 68, 68, 1);
+  	font-weight: 600;
+  	padding-bottom: .8rem;
+}
+
+.pad-top-75rem {
+	padding-top: .8rem;
+}
+
+
+/* General fixes for external feeds */
+.file .element-invisible {
+	visibility: hidden;
 }

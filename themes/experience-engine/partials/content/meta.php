@@ -7,7 +7,7 @@
 					<?php if ( $avatar ) : ?>
 						<?php echo $avatar ?>
 					<?php else: ?>
-						<img class="avatar avatar-40 photo" src="http://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g"
+						<img class="avatar avatar-40 photo" src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g"
 							 height="40" width="40" alt="Placeholder Shilloutte User Image">
 					<?php endif; ?>
 				<?php endif; ?>
@@ -22,8 +22,27 @@
 			<?php ee_the_date(); ?>
 		</span>
 	</div>
+
 	<div class="share-wrap-icons">
 		<span class="label">Share</span>
 		<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
 	</div>
+
+	<?php $sponsored_by = ee_get_sponsored_by(get_the_id()) ?>
+	<?php if ( $sponsored_by !== '' ) : ?>
+		<?php $sponsor_url = ee_get_sponsor_url(get_the_id()) ?>
+			<?php if ( ! is_singular( 'contest' ) ) : ?>
+				<div class="sponsor-meta pad-top-75rem">
+			<?php else : ?>
+				<div class="sponsor-meta">
+			<?php endif; ?>
+
+			<?php if ( $sponsor_url === '' ) : ?>
+				<?php echo esc_html_e( $sponsored_by, 'bbgi' ); ?>
+			<?php else : ?>
+				<a class="sponsor-meta" href='<?php echo $sponsor_url ?>' target='_blank'><?php echo esc_html_e( $sponsored_by, 'bbgi' ); ?></a>
+			<?php endif; ?>
+		</div>
+	<?php endif; ?>
+
 </div>

@@ -5,11 +5,16 @@ html {
 		overflow: hidden;
 		-webkit-overflow-scrolling: auto;
 		height: 100%;
+		max-width: 100%;
+	}
+
+	&.is-safari.locked {
+		overflow: initial;
 	}
 }
 
 .container {
-	padding-bottom: 74px; /*height of the fixed player*/
+	padding-bottom: 50px; /*height of the fixed player*/
 
 	@media(--min-large-viewport) {
 		padding-left: 190px;
@@ -29,10 +34,14 @@ html {
 .content-wrap {
 	margin: 0 auto;
 	max-width: 1071px;
-	padding: 0 1.3rem 2.22rem;
+	padding: 0 1.3rem 1rem;
 	width: 100%;
 
 	& .archive-tiles:last-child {
 		padding-bottom: 0;
+	}
+
+	@media(--min-medium-viewport) {
+		padding: 0 1.3rem 2.22rem;
 	}
 }

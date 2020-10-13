@@ -5,7 +5,5 @@ if ( ! ee_is_first_page() ) :
 endif;
 
 ?><div class="ad -footer -centered">
-	<div class="wrapper">
-		<?php do_action( 'dfp_tag', 'bottom-leaderboard', false, array( array( 'pos', 2 ) ) ); ?>
-	</div>
+	<?php do_action( 'dfp_tag', 'bottom-leaderboard', false, array( array( 'pos', 2 ) ) ); ?>
 </div>

@@ -4,7 +4,11 @@
 	}
 
 	& .content-wrap + div:not(.content-wrap) {
-		padding-bottom: 3.889rem;
+		padding-bottom: 1rem;
+
+		@media (--min-medium-viewport) {
+			padding-bottom: 3.889rem;
+		}
 	}
 
 	& .cta,
@@ -12,6 +16,12 @@
 		margin: 0 auto;
 		max-width: 1071px;
 		padding: 2.222rem 1rem;
+	}
+
+	& .countdown {
+		padding-top: 13px;
+		padding-bottom: 14px;
+		max-width: 970px;
 	}
 
 	& .placeholder-cta,
@@ -40,38 +50,141 @@
 		display: inline-block;
 	}
 
+	& .countdown-title {
+		margin-bottom: 0;
+	}
+
+	& .countdown-content {
+		display: block;
+
+		@media (--min-medium-viewport) {
+			display: flex;
+			flex-direction: row;
+		}
+	}
+
+	& .countdown-wrapper,
+	& .countdown-sponsor {
+		flex: 1 0 50%;
+	}
+
+	& .countdown-sponsor {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	& .countdown-labels {
+		display: flex;
+		margin: auto auto .25rem;
+		max-width: 325px;
+		width: 100%;
+
+		@media (--min-medium-viewport) {
+			max-width: 385px;
+		}
+
+		& div {
+			font-size: .875rem;
+			margin: 0 1rem;
+			justify-content: center;
+		}
+	}
+
 	& .countdown-timer {
 		display: flex;
 		justify-content: center;
 		margin-bottom: 2rem;
 
+		@media (--min-medium-viewport) {
+			margin-bottom: 0;
+		}
+
 		& .time {
-			background-color: var(--brand-primary);
 			color: var(--global-white);
-			display: block;
-			font-size: 3rem;
+			display: flex;
+			font-size: 2.5rem;
 			font-family: monospace;
 			font-weight: 700;
 			padding: .25rem 0;
 
 			&::after {
 				content: ":";
-				margin: 0 .25rem;
+				margin: 0;
 			}
 
-			&:first-child {
-				border-radius: 5px 0 0 5px;
-				padding-left: .5rem;
+			&:last-child::after {
+				content: none;
 			}
 
-			&:last-child {
-				border-radius: 0 5px 5px 0;
-				padding-right: .5rem;
+			& .tick {
+				display: block;
+				height: 100%;
+				margin: 0 2px;
+				position: relative;
+				width: 22px;
 
-				&::after {
-					content: "";
-					margin: 0;
+				@media (--min-medium-viewport) {
+					width: 32px;
 				}
+			}
+
+			& .tick > div {
+				position: absolute;
+				height: 50%;
+				left: 0;
+				overflow: hidden;
+				width: 100%;
+				z-index: 5;
+
+				&.up {
+					transform-origin: 50% 100%;
+					top: 0;
+
+					&:after {
+						content: "";
+						position: absolute;
+						top: 27px;
+						left: 0;
+						z-index: 5;
+						width: 100%;
+						height: 3px;
+						background-color: rgba(0,0,0,.4);
+					}
+
+					& .inn {
+						top: 0;
+					}
+				}
+
+				&.down {
+					transform-origin: 50% 0%;
+					bottom: 0;
+
+					& .inn {
+						bottom: 0;
+					}
+				}
+			}
+
+			& div .shadow {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				z-index: 6;
+			}
+
+			& div .inn {
+				position: absolute;
+				left: 0;
+				z-index: 1;
+				width: 100%;
+				height: 200%;
+				color: #ccc;
+				text-shadow: 0 1px 2px #000;
+				text-align: center;
+				background-color: #333;
+				border-radius: 6px;
 			}
 		}
 	}
@@ -82,11 +195,15 @@
 		}
 
 		& .placeholder-editfeed {
-			background-color: var(--global-white);		
+			background-color: var(--global-white);
 			position: absolute;
-			right: 0;
+			right: 10px;
 			top: .3rem;
-			z-index: 10;
+			z-index: 4;
+
+			& .edit-feed-controls {
+				display: flex;
+			}
 
 			& button {
 				background-color: transparent;
@@ -95,6 +212,10 @@
 				cursor: pointer;
 				font-style: italic;
 				font-weight: bold;
+
+				&:focus {
+					outline: 1px dotted var( --global-font-primary );
+				}
 			}
 		}
 	}

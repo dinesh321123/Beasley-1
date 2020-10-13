@@ -20,6 +20,7 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'top-leaderboard'    => $advanced_with_fluid,
 			'bottom-leaderboard' => $advanced,
 			'in-list'            => $advanced_with_fluid,
+			'in-list-gallery'    => array( array( 1, 1 ), array( 300, 250 ) ),
 			'player-sponsorship' => $fluid,
 			'right-rail'         => array( array( 300, 600 ), array( 300, 250 ) ),
 			'in-content'         => array( array( 1, 1 ), array( 300, 250 ) ),
@@ -92,13 +93,24 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
 			);
 		}
 
+		$dfp_ad_lazy_loading = get_option( 'ad_lazy_loading_enabled', 'off' );
+		if  ( $dfp_ad_lazy_loading === 'on' ) {
+        	$dfp_ad_lazy_loading = "		googletag.pubads().enableLazyLoad({
+        		fetchMarginPercent: 0,
+				renderMarginPercent: 0,
+				mobileScaling: 0.0,
+			});
+			console.log('Ad Lazy Loading ENABLED');
+			";
+        } else {
+        	$dfp_ad_lazy_loading = "console.log('Ad Lazy Loading DISABLED');";
+        }
+
 		$script = <<<EOL
 var googletag = googletag || {};
 googletag.cmd = googletag.cmd || [];
 
 googletag.cmd.push(function() {
-	{$dfp_ad_interstitial}
-
 	googletag.pubads().collapseEmptyDivs(true);
 
 	if (window.bbgiconfig && window.bbgiconfig.dfp) {
@@ -107,7 +119,14 @@ googletag.cmd.push(function() {
 		}
 	}
 
+	{$dfp_ad_lazy_loading}
+
+	googletag.pubads().disableInitialLoad(); // MFP 09/17/2020 - display() will only register the ad slot. No ad content will be loaded until a second action is taken. We will send a refresh() after all slots are defined.
+	googletag.pubads().enableSingleRequest();  // MFP 09/16/2020 - Brad is having mixed results without this flag.
 	googletag.enableServices();
+
+	// MFP 09/17/2020 - Slot Configuration Should Be Done After enableServices()
+	{$dfp_ad_interstitial}
 });
 EOL;
 
@@ -118,6 +137,12 @@ endif;
 if ( ! function_exists( 'ee_dfp_slot' ) ) :
 	function ee_dfp_slot( $slot, $deprecated = false, $targeting = array(), $echo = true ) {
 		$unit_id = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( $slot );
+
+		/* if no in-list-gallery config fallback to in-list */
+		if ( empty( $unit_id ) && $slot === 'in-list-gallery' ) {
+			$unit_id = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( 'in-list' );
+		}
+
 		if ( empty( $unit_id ) ) {
 			return;
 		}
@@ -126,18 +151,68 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			$targeting = array();
 		}
 
-		$remnant_slots = array( 'top-leaderboard', 'bottom-leaderboard', 'in-list', 'right-rail', 'in-content' );
+		$remnant_slots = array( 'top-leaderboard', 'bottom-leaderboard', 'in-list', 'in-list-gallery', 'right-rail', 'in-content' );
 		if ( in_array( $slot, $remnant_slots ) ) {
 			$targeting[] = array( 'remnant', 'yes' );
 		}
 
 		$targeting = apply_filters( 'dfp_single_targeting', $targeting, $slot );
-		$html = sprintf(
-			'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s"></div>',
-			esc_attr( $unit_id ),
-			esc_attr( $slot ),
-			esc_attr( json_encode( $targeting ) )
-		);
+
+		// When not jacapps, render react ready attributes
+		if ( ! ee_is_jacapps() ) {
+			$html = sprintf(
+				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s" ></div>',
+				esc_attr( $unit_id ),
+				esc_attr( $slot ),
+				esc_attr( json_encode( $targeting ) )
+			);
+		}
+
+		// When is jacapps, render standard div and script for display
+		// We do this since the ad units are currently embedded in the react app
+		// So fallback for jacapps is to add the script inline for display adds
+		// along with an alternative DFP slot
+		if ( ee_is_jacapps() ) {
+
+			$uuid = $slot . '_' . wp_generate_uuid4();
+
+			$html = '<script>
+				window.googletag = window.googletag || { cmd: [] };
+
+				googletag.cmd.push( function() {
+
+					var jacappsAdSizes = [[320,100], [320,50]];
+
+					var jacappsMapping = googletag.sizeMapping()
+						.addSize( [0, 0], jacappsAdSizes ) //other
+						.build();
+
+					googletag.defineSlot("' . esc_attr( $unit_id ) . '", jacappsAdSizes, "' . esc_attr( $uuid ) . '")
+						.defineSizeMapping( jacappsMapping )
+						.addService( googletag.pubads() )';
+
+						forEach( $targeting as $value ) {
+							$html .= '.setTargeting("' . $value[ 0 ] . '", "' . $value[ 1 ] . '")';
+						}
+
+					$html .= ';
+
+					googletag.pubads().enableSingleRequest();
+					googletag.enableServices();
+				} );
+			</script>';
+
+			$html .= sprintf(
+				'<div class="dfp-slot" id="%s">
+					<script>
+						googletag.cmd.push( function() {
+							googletag.display("' . esc_attr( $uuid ) . '");
+						} );
+					</script>
+				</div>',
+				esc_attr( $uuid )
+			);
+		}
 
 		if ( $echo ) {
 			echo $html;
@@ -152,7 +227,11 @@ if ( ! function_exists( 'ee_display_dfp_outofpage' ) ) :
 		$dfp_ad_interstitial = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( 'interstitial' );
 		if ( ! empty( $dfp_ad_interstitial ) ) :
 			?><div id="div-gpt-ad-1484200509775-3" style="height:0;overflow:hidden;width:0;">
-				<script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1484200509775-3'); });</script>
+				<script type="text/javascript">
+					var googletag = googletag || {};
+					googletag.cmd = googletag.cmd || [];
+					googletag.cmd.push(function() { googletag.display('div-gpt-ad-1484200509775-3'); });
+				</script>
 			</div><?php
 		endif;
 	}
@@ -191,3 +270,4 @@ if ( ! function_exists( 'ee_the_content_with_ads' ) ) :
 		remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 	}
 endif;
+

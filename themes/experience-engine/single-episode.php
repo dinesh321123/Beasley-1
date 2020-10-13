@@ -3,6 +3,8 @@
 <?php the_post(); ?>
 
 <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+	<?php get_template_part( 'partials/show/header' ); ?>
+
 	<div class="episode-info">
 		<?php if ( ( $podcast_id = get_post_field( 'post_parent' ) ) > 0 ) : ?>
 			<div class="show-meta">

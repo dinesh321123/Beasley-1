@@ -21,8 +21,7 @@
 				"greatermedia/assets/js/src/hero-slider.js",
 				"greatermedia/assets/js/src/gallery-slider.js",
 				"greatermedia/assets/js/src/search.js",
-				"greatermedia/assets/js/src/fixed-header-player.js",
-				"greatermedia/assets/js/src/firebase.js"
+				"greatermedia/assets/js/src/fixed-header-player.js"
 			],
 			"greatermedia/assets/js/admin.js": [
 				"greatermedia/assets/js/src/admin.js"

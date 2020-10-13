@@ -1,4 +1,8 @@
 <?php
+/**
+ * Registers "Station Settings" admin page
+ * wp-admin/options-general.php?page=greatermedia-settings
+ */
 
 namespace Bbgi;
 
@@ -106,26 +110,95 @@ class Settings extends \Bbgi\Module {
 			'selected' => get_option( 'ee_publisher' ),
 		);
 
+		$ee_login_disabled_args = array(
+			'name'     => 'ee_login',
+			'selected' => 'disabled' === get_option( 'ee_login', '' ),
+		);
+
+		$ee_geotargetly_enabled_args = [
+			'name' => 'ee_geotargetly_enabled',
+		];
+
+		$ee_geotargetly_embed_code_args = [
+			'name' => 'ee_geotargetly_embed_code',
+		];
+
+		$contest_show_dates_args = array(
+				'name'     => 'contest_show_dates_setting',
+				'selected' => get_option( 'contest_show_dates_setting', 'hide' ),
+		);
+
+		$ad_lazy_loading_enabled_args = array(
+				'name'     => 'ad_lazy_loading_enabled',
+				'selected' => get_option( 'ad_lazy_loading_enabled', 'off' ),
+		);
+
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
+
+		add_settings_section( 'ee_geotargetly', 'Geo Targetly', '__return_false', $this->_settings_page_hook );
+		add_settings_field( 'ee_geotargetly_enabled', 'Geo Targetly Enabled', 'bbgi_checkbox_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_enabled_args );
+		add_settings_field( 'ee_geotargetly_embed_code', 'Geo Targetly Embed Code', 'bbgi_textarea_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_embed_code_args );
 
 		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=gmr_site_logo' );
 		add_settings_field( 'ee_theme_version', 'Theme Version', 'bbgi_select_field', $this->_settings_page_hook, 'ee_site_settings', $theme_version_args );
 		add_settings_field( 'ee_newsletter_signup_page', 'Newsletter Signup Page', 'wp_dropdown_pages', $this->_settings_page_hook, 'ee_site_settings', $newsletter_args );
 		add_settings_field( 'ee_publisher', 'Publisher', array( $this, 'render_publisher_select' ), $this->_settings_page_hook, 'ee_site_settings', $publisher_args );
+		add_settings_field( 'ee_login', 'EE Login Options', array( $this, 'render_ee_login' ), $this->_settings_page_hook, 'ee_site_settings', $ee_login_disabled_args );
 
 		add_settings_field( 'ee_theme_primary_color', 'Primary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_primary_color&default=#ff0000' );
 		add_settings_field( 'ee_theme_secondary_color', 'Secondary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_secondary_color&default=#ffe964' );
 		add_settings_field( 'ee_theme_tertiary_color', 'Tertiary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_tertiary_color&default=#ffffff' );
 
+		add_settings_field( 'ee_theme_background_color', 'Background Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_background_color&default=#ffffff' );
+
+		add_settings_field( 'ee_theme_button_color', 'Button Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_button_color&default=#ffe964' );
+
+		add_settings_field( 'ee_theme_text_color', 'Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_text_color&default=#000000' );
+
+		add_settings_section( 'contest_section', 'Contests', '__return_false', $this->_settings_page_hook );
+		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
+
+		add_settings_section( 'ad_lazy_loading_section', 'Ad Lazy Loading', '__return_false', $this->_settings_page_hook );
+		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_lazy_loading_section', $ad_lazy_loading_enabled_args);
+
+		add_settings_section( 'item_counts_section', 'Item Counts', '__return_false', $this->_settings_page_hook );
+		add_settings_field( 'ee_featured_item_count_setting', 'Featured Item Count', 'bbgi_input_field', $this->_settings_page_hook, 'item_counts_section', array(
+			'name' => 'ee_featured_item_count_setting',
+			'default' => '10',
+			'desc' => 'Number of items which will be displayed in the Featured Section. Commonly set to 10',
+		) );
+		add_settings_field( 'ee_dont_miss_item_count_setting', "Don't Miss Item Count", 'bbgi_input_field', $this->_settings_page_hook, 'item_counts_section', array(
+			'name' => 'ee_dont_miss_item_count_setting',
+			'default' => '10',
+			'desc' => "Number of items which will be displayed in the Don't Miss Section. Commonly set to 10",
+		) );
+
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_newsletter_signup_page', 'intval' );
 		register_setting( self::option_group, 'ee_theme_version', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_publisher', 'sanitize_text_field' );
-	
+		register_setting( self::option_group, 'ee_login', 'sanitize_text_field' );
+
 		register_setting( self::option_group, 'ee_theme_primary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_secondary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_tertiary_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_background_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_button_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_text_color', 'sanitize_text_field' );
+
+		register_setting( self::option_group, 'ee_geotargetly_enabled', 'sanitize_text_field' );
+
+		// Note: No Sanitization with the assumption that the GeoTargetly embed code is XSS safe
+		// Not for use with untrusted JS code
+		register_setting( self::option_group, 'ee_geotargetly_embed_code', '' );
+
+		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
+
+		register_setting(self::option_group, 'ad_lazy_loading_enabled', 'sanitize_text_field');
+
+		register_setting(self::option_group, 'ee_featured_item_count_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'ee_dont_miss_item_count_setting', 'sanitize_text_field');
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -135,7 +208,7 @@ class Settings extends \Bbgi\Module {
 
 	/**
 	 * Renders fallback image selection field.
-	 * 
+	 *
 	 * @access public
 	 * @param array $args
 	 */
@@ -152,7 +225,7 @@ class Settings extends \Bbgi\Module {
 
 		$img_id = $name . '-fallback-image';
 		$input_id = $img_id . '-id';
-		
+
 		echo '<input id="', esc_attr( $input_id ), '" name="', esc_attr( $name ), '" type="hidden" value="', esc_attr( $image_id ), '">';
 		echo '<img id="', esc_attr( $img_id ), '" src="', esc_attr( $image ), '" style="width:100px;height:auto">';
 		echo '<div>';
@@ -167,7 +240,7 @@ class Settings extends \Bbgi\Module {
 		if ( $render_script ) {
 			$render_script = false;
 			wp_enqueue_media();
-			
+
 			?><script>
 				(function ($) {
 					$(document).ready(function () {
@@ -253,4 +326,40 @@ class Settings extends \Bbgi\Module {
 		</select><?php
 	}
 
+	public function render_ee_login( $args ) {
+
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+			<option value="">Login Enabled</option>
+			<option
+					value="disabled"
+					<?php selected( $args['selected'], true ); ?>>
+					Login Disabled
+			</option>
+		</select><?php
+	}
+
+	public function render_contest_show_dates( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="hide"
+				<?php selected( $args['selected'], 'hide' ); ?>
+		>Hide</option>
+		<option value="show"
+				<?php selected( $args['selected'], 'show' ); ?>
+		>Show</option>
+
+		</select><?php
+	}
+
+
+	public function render_ad_lazy_loading_enabled( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="on"
+				<?php selected( $args['selected'], 'on' ); ?>
+		>On</option>
+		<option value="off"
+				<?php selected( $args['selected'], 'off' ); ?>
+		>Off</option>
+
+		</select><?php
+	}
 }

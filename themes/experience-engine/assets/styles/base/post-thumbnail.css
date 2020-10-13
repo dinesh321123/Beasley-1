@@ -25,3 +25,49 @@
 		width: 100%;
 	}
 }
+
+.post-thumbnail.-autoheight {
+	&::before {
+		padding-top: 0;
+		display: none;
+	}
+
+	& .placeholder-lazyimage {
+		height: auto;
+		position: relative;
+
+		&::before {
+			content: "";
+			display: block;
+			padding-top: calc((3 / 4) * 100%);
+			width: 100%;
+		}
+	}
+}
+
+.jacapps .post-thumbnail {
+	&::before {
+		content: normal;
+		display: block;
+		padding-top: 0;
+		width: 100%;
+	}
+
+}
+.jacapps .podcast-tile .post-thumbnail a,
+.jacapps .podcast-tile .post-thumbnail .lazy-image,
+.jacapps .show-tile .post-thumbnail a,
+.jacapps .show-tile .post-thumbnail .lazy-image,
+.jacapps .contest-tile .post-thumbnail a,
+.jacapps .contest-tile .post-thumbnail .lazy-image,
+.jacapps .event-tile .post-thumbnail a,
+.jacapps .event-tile .post-thumbnail .lazy-image
+.jacapps .event-tile .post-thumbnail a,
+.jacapps .post-thumbnail a {
+	position: relative;
+}
+
+
+.jacapps .event-tile .post-thumbnail::before {
+	display: none;
+}

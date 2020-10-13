@@ -1,10 +1,11 @@
 .ad {
 	&.-leaderboard {
 		padding: 1rem;
-		margin-bottom: 3.333rem;
+		margin-bottom: 10px;
 
 		@media (--min-medium-viewport) {
 			background-color: var(--global-gallery);
+			margin-bottom: 1.59rem;
 		}
 	}
 
@@ -42,4 +43,8 @@
 .placeholder-dfp {
 	display: flex;
 	justify-content: center;
+}
+
+.gallery-listicle .placeholder-dfp > :first-child {
+	width: 320px;
 }

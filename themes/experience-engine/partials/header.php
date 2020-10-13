@@ -12,7 +12,7 @@
 
 	<div class="primary-sidebar-navigation">
 		<div class="logo" itemscope itemtype="http://schema.org/Organization">
-			<?php ee_the_custom_logo( 130, 130 ); ?>
+			<?php ee_the_custom_logo( 154, 88 ); ?>
 			<span class="screen-reader-text"><?php wp_title(); ?></span>
 		</div>
 
@@ -25,5 +25,5 @@
 			<div id="user-nav" class="user-nav"></div>
 		</div>
 	</div>
-	
+
 </div>

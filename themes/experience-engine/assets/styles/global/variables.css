@@ -1,6 +1,7 @@
 :root {
 	--global-black: #000000;
 	--global-mine-shaft: #333333;
+	--global-tundora: #444444;
 	--global-dove-gray: #737373;
 	--global-silver: #cccbcb;
 	--global-silver-chalice: #a5a5a5;
@@ -8,6 +9,7 @@
 	--global-gallery: #f0f0f0;
 	--global-white: #ffffff;
 	--global-alabaster: #FCFCFC;
+	--global-gallery: #EFEFEF;
 
 	--social-twiiter: #55acee;
 	--social-facebook: #3b5999;
@@ -24,9 +26,10 @@
 	--global-theme-primary: #f1f1f1;
 	--global-theme-secondary: #fcfcfc;
 
-	--global-theme-font-primary: #444444;
+	--global-theme-font-primary: var(--global-tundora);
 	--global-theme-font-secondary: var(--global-font-primary);
 	--global-theme-font-tertiary: var(--global-dove-gray);
+	--global-theme-font-tertiary-light: #bbbbbb;
 
 	/* Set default brand colors */
 	--brand-primary: red;
@@ -34,6 +37,7 @@
 	--brand-tertiary: blue;
 }
 
+@custom-media --min-xxlarge-viewport (min-width: 1240px);
 @custom-media --min-xlarge-viewport (min-width: 1060px);
 @custom-media --min-large-viewport (min-width: 900px);
 @custom-media --min-medium-viewport (min-width: 768px);

@@ -135,9 +135,11 @@ function recent_homepage_query( $meta_key ) {
 
 	$limit = 0;
 	if ( 'featured_meta_box' == $meta_key ) {
-		$limit = apply_filters( 'gmr-homepage-featured-limit', 6, $homepage );
+		$ee_featured_item_count_setting = (int)get_option( 'ee_featured_item_count_setting', '10' );
+		$limit = apply_filters( 'gmr-homepage-featured-limit', $ee_featured_item_count_setting, $homepage );
 	} elseif ( 'dont_miss_meta_box' == $meta_key ) {
-		$limit = apply_filters( 'gmr-homepage-community-limit', 3, $homepage );
+		$ee_dont_miss_item_count_setting = (int)get_option( 'ee_dont_miss_item_count_setting', '10' );
+		$limit = apply_filters( 'gmr-homepage-community-limit', $ee_dont_miss_item_count_setting, $homepage );
 	} elseif ( 'events_meta_box' == $meta_key ) {
 		$limit = apply_filters( 'gmr-homepage-events-limit', 2, $homepage );
 	}

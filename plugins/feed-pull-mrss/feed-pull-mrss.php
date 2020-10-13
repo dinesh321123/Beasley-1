@@ -48,27 +48,48 @@ function fpmrss_get_media_group( SimpleXMLElement $element ) {
 }
 
 /**
+ * Check if the player URL is valid
+ *
+ * @param string $url
+ *
+ * @return boolean
+ */
+function is_valid_player_url( $url ) {
+	// a player can't be a image.
+	if ( preg_match('/.*(\.jpg|jpeg|png)/', $url ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
  * Extracts media thumbnail from an RSS element.
  *
  * @param SimpleXMLElement $element Current RSS element.
+ * @param string           $media_field which media field to use.
  *
  * @return string Thumbnail URL on success, otherwise FALSE.
  */
-function fpmrss_extract_media_thumbnail( SimpleXMLElement $element ) {
+function fpmrss_extract_media_thumbnail( SimpleXMLElement $element, $media_field = 'thumbnail' ) {
 	$group = fpmrss_get_media_group( $element );
 	if ( ! is_a( $group, 'SimpleXMLElement' ) ) {
 		$group = $element;
 	}
 
 	$thumbnail_url = false;
-	$thumbnails    = $group->xpath( 'media:thumbnail' );
+	$thumbnails    = $group->xpath( 'media:' . $media_field );
 	if ( empty( $thumbnails ) && $element != $group ) {
-		$thumbnails = $element->xpath( 'media:thumbnail' );
+		$thumbnails = $element->xpath( 'media:' . $media_field );
 	}
 
 	if ( empty( $thumbnails ) ) {
 		//Fetch itunes image from feed if present
 		$thumbnails = $element->xpath( 'itunes:image' );
+	}
+
+	if ( empty( $thumbnails ) ) {
+		$thumbnails = $element->xpath( $media_field );
 	}
 
 	if ( ! empty( $thumbnails ) ) {
@@ -163,17 +184,17 @@ function fpmrss_extract_media_player( SimpleXMLElement $element ) {
  * Fetches thumbnail image for a media item.
  *
  * @global SimpleXMLElement $fpmrss_feed_item The current SimpleXML element.
- * @global array $fpmrss_feed_thumbnails The array of feed thumbnails to import.
  *
  * @param int $post_id Newly imported post id.
  * @param int $feed_id The feed id.
  */
 function fpmrss_fetch_media_data( $post_id, $feed_id ) {
-	global $fpmrss_feed_item, $fpmrss_feed_thumbnails;
+	global $fpmrss_feed_item;
 
 	if ( is_wp_error( $post_id ) ) {
 		return;
 	}
+
 	// do nothing if an xml element is not caught
 	if ( ! $fpmrss_feed_item ) {
 		return;
@@ -188,26 +209,24 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 		}
 	}
 
+
 	//set podcast
 	$podcast = get_post_meta( $feed_id, 'fpmrss-podcast', true );
 	if ( $podcast && 'episode' === get_post_type( $post_id ) ) {
 		wp_update_post( array( 'ID' => $post_id, 'post_parent' => $podcast ) );
 	}
 
-	// init feed thumbnails array if it isn't
-	if ( ! is_array( $fpmrss_feed_thumbnails ) ) {
-		$fpmrss_feed_thumbnails = array();
-	}
+	$media_field = get_post_meta( $feed_id, 'fpmrss-featured-image', true );
 
 	// fetch thumbnail
-	$thumbnail = fpmrss_extract_media_thumbnail( $fpmrss_feed_item );
+	$thumbnail = fpmrss_extract_media_thumbnail( $fpmrss_feed_item, $media_field );
 	if ( $thumbnail ) {
-		$fpmrss_feed_thumbnails[] = array( $thumbnail, $post_id );
+		fpmrss_import_thumbnails( array( array( $thumbnail, $post_id ) ) );
 	}
 
 	// fetch player
 	$player = fpmrss_extract_media_player( $fpmrss_feed_item );
-	if ( $player ) {
+	if ( $player && is_valid_player_url( $player ) ) {
 		// check if redirect header exists for a video
 		if ( filter_var( $player, FILTER_VALIDATE_URL ) ) {
 			$response = wp_remote_head( $player );
@@ -255,24 +274,6 @@ function fpmrss_fetch_media_data( $post_id, $feed_id ) {
 
 add_action( 'fp_handled_post', 'fpmrss_fetch_media_data', 10, 2 );
 
-/**
- * Lauches async task to import thumbnails.
- *
- * @global array $fpmrss_feed_thumbnails The array of feed thumbnails to import.
- */
-function fpmrss_launch_async_thumbnails_import() {
-	global $fpmrss_feed_thumbnails;
-
-	// do nothing if feed thumbnails array if empty
-	if ( empty( $fpmrss_feed_thumbnails ) ) {
-		return;
-	}
-
-	// try to launch async task if available, otherwise schedule single event
-	wp_schedule_single_event( current_time( 'timestamp', 1 ), 'fpmrss_import_thumbnails', array( $fpmrss_feed_thumbnails ) );
-}
-
-add_action( 'fp_post_feed_pull', 'fpmrss_launch_async_thumbnails_import' );
 
 /**
  * Performs thumbnails import.
@@ -280,9 +281,9 @@ add_action( 'fp_post_feed_pull', 'fpmrss_launch_async_thumbnails_import' );
  * @param array $thumbnails Array of arrays of thumbnail urls and post ids.
  */
 function fpmrss_import_thumbnails( $thumbnails ) {
-	require_once ABSPATH . 'wp-admin/includes/image.php';
-	require_once ABSPATH . 'wp-admin/includes/media.php';
-	require_once ABSPATH . 'wp-admin/includes/file.php';
+	include_once ABSPATH . 'wp-admin/includes/image.php';
+	include_once ABSPATH . 'wp-admin/includes/media.php';
+	include_once ABSPATH . 'wp-admin/includes/file.php';
 
 	foreach ( $thumbnails as $thumbnail ) {
 		$thumbnail_id = fpmrss_download_image( $thumbnail[0], $thumbnail[1] );
@@ -382,7 +383,7 @@ function fpmrss_generate_image_name( $image ) {
  */
 function fpmrss_update_content( $content ) {
 	$player = get_post_meta( get_the_ID(), 'gmr-player', true );
-	if ( ! empty( $player ) ) {
+	if ( ! empty( $player ) && is_valid_player_url( $player ) ) {
 		if ( filter_var( $player, FILTER_VALIDATE_URL ) ) {
 			$player = "[embed]{$player}[/embed]";
 		}
@@ -392,7 +393,7 @@ function fpmrss_update_content( $content ) {
 	return $content;
 }
 
-add_action( 'the_content', 'fpmrss_update_content', 1 );
+add_filter( 'the_content', 'fpmrss_update_content', 1 );
 
 /**
  * Filters ooyala player arguments to set proper player id.
@@ -563,6 +564,7 @@ function fpmrss_render_ooyala_metabox( $post ) {
 function fpmrss_render_fetch_metabox( $post ) {
 	$url_field   = get_post_meta( $post->ID, 'fpmrss-content-url', true );
 	$xpath_field = get_post_meta( $post->ID, 'fpmrss-content-xpath', true );
+	$media_field = get_post_meta( $post->ID, 'fpmrss-featured-image', true );
 
 	echo '<p>';
 	echo '<label>';
@@ -576,6 +578,11 @@ function fpmrss_render_fetch_metabox( $post ) {
 	echo '<b>Content XPath</b><br>';
 	echo '<input type="text" class="widefat" name="fpmrss-content-xpath" value="', esc_attr( $xpath_field ), '"><br>';
 	echo '<span class="description">Enter xpath to extract content from remote page.</span>';
+	echo '</label>';
+	echo '</p>';
+	echo '<b>Featured Image</b><br>';
+	echo '<input type="text" class="widefat" name="fpmrss-featured-image" value="', esc_attr( $media_field ), '"><br>';
+	echo '<span class="description">Which image use as featured. Defaults to thumbnail (media:thumbnail).</span>';
 	echo '</label>';
 	echo '</p>';
 }
@@ -632,7 +639,8 @@ function fpmrss_save_settings( $post_id ) {
 			'fpmrss-show',
 			'fpmrss-podcast',
 			'fpmrss-content-url',
-			'fpmrss-content-xpath'
+			'fpmrss-content-xpath',
+			'fpmrss-featured-image'
 		);
 		foreach ( $fields as $field ) {
 			$value = wp_kses_post( filter_input( INPUT_POST, $field ) );

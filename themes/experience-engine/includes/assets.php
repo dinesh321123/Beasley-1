@@ -1,7 +1,7 @@
 <?php
 
 add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts', 20 );
-add_action( 'wp_head', 'ee_load_polyfills', 0 );
+
 add_action( 'beasley_after_body', 'ee_the_bbgiconfig' );
 
 add_filter( 'wp_audio_shortcode_library', '__return_false' );
@@ -21,7 +21,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		$base = untrailingslashit( get_template_directory_uri() );
 		$min = $is_script_debug ? '' : '.min';
 
-		wp_enqueue_style( 'ee-app', "{$base}/bundle/app.css", null, GREATERMEDIA_VERSION );
+		wp_enqueue_style( 'ee-app', "{$base}/bundle/main.css", null, GREATERMEDIA_VERSION );
 
 		/**
 		 * Google WebFont scripts
@@ -30,46 +30,22 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_enqueue_script( 'google-webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js', null, null, false );
 		wp_add_inline_script( 'google-webfont', 'var WebFontConfig = ' . wp_json_encode( $webfont ), 'before' );
 		wp_script_add_data( 'google-webfont', 'async', true );
-		wp_script_add_data( 'google-webfont', 'noscript', '<link href="//fonts.googleapis.com/css?family=Libre+Franklin:300,400,500,600,700|Open+Sans:600" rel="stylesheet">' );
+		wp_script_add_data( 'google-webfont', 'noscript', '<link href="//fonts.googleapis.com/css?family=Libre+Franklin:300,400,500,600,700%7COpen+Sans:600" rel="stylesheet">' );
 
-		/**
-		 * CSS vars polyfill
-		 */
-		wp_enqueue_script( 'css-vars-ponyfill', 'https://unpkg.com/css-vars-ponyfill@1.16.1/dist/css-vars-ponyfill.min.js', null, null, false );
-		wp_script_add_data( 'css-vars-ponyfill', 'async', true );
-
-		/**
-		 * External libraries
-		 */
-		wp_register_script( 'embedly-player.js', "//cdn.embed.ly/player-0.1.0{$min}.js", null, null, true );
-		wp_script_add_data( 'embedly-player.js', 'async', true );
-
+		// This is being used in Content Shortcodes https://gitlab.10up.com/beasley/beasley/blob/master/mu-plugins/classes/Bbgi/Shortcodes.php
 		wp_register_script( 'iframe-resizer', '//cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.min.js', null, null );
 		wp_script_add_data( 'iframe-resizer', 'async', true );
 
+		// Triton Player SDK
+		// Documentation: https://userguides.tritondigital.com/spc/tdplay2/
 		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
 		wp_script_add_data( 'td-sdk', 'async', true );
 
+		// Google Tag Manager
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
 		wp_script_add_data( 'googletag', 'async', true );
 
-		wp_register_script( 'firebase-app', '//www.gstatic.com/firebasejs/5.7.0/firebase-app.js', null, null, true );
-		wp_register_script( 'firebase-auth', '//www.gstatic.com/firebasejs/5.7.0/firebase-auth.js', array( 'firebase-app' ), null, true );
-
-		wp_register_script( 'intersection-observer', '//polyfill.io/v2/polyfill.min.js?features=IntersectionObserver', null, null, true );
-
-		$react_version = '16';
-		$react_mode = $is_script_debug ? 'development' : 'production.min';
-
-		wp_register_script( 'react', "//unpkg.com/react@{$react_version}/umd/react.{$react_mode}.js", null, null, true );
-		wp_script_add_data( 'react', 'crossorigin', true );
-
-		wp_register_script( 'react-dom', "//unpkg.com/react-dom@{$react_version}/umd/react-dom.{$react_mode}.js", null, null, true );
-		wp_script_add_data( 'react-dom', 'crossorigin', true );
-
-		/**
-		 * Application script
-		 */
+		// TODO: refactor this to use wp_localize_script.
 $bbgiconfig = <<<EOL
 window.bbgiconfig = {};
 try {
@@ -80,23 +56,15 @@ try {
 EOL;
 
 		$deps = array(
-			'react',
-			'react-dom',
-			'firebase-app',
-			'firebase-auth',
 			'googletag',
-			'embedly-player.js',
 			'td-sdk',
-			'intersection-observer',
 			'iframe-resizer',
 		);
 
 		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", $deps, GREATERMEDIA_VERSION, true );
 		wp_add_inline_script( 'ee-app', $bbgiconfig, 'before' );
 
-		/**
-		 * Deregister useless scripts
-		 */
+		// Deregister useless scripts
 		wp_dequeue_script( 'elasticpress-facets' );
 		wp_dequeue_style( 'elasticpress-facets' );
 	}
@@ -105,9 +73,13 @@ endif;
 if ( ! function_exists( 'ee_get_css_colors' ) ) :
 	function ee_get_css_colors() {
 		$vars = [
-			'--brand-primary'   => get_option( 'ee_theme_primary_color', '#ff0000' ),
-			'--brand-secondary' => get_option( 'ee_theme_secondary_color', '#ffe964' ),
-			'--brand-tertiary'  => get_option( 'ee_theme_tertiary_color', '#ffffff' ),
+			'--brand-primary'                => get_option( 'ee_theme_primary_color', '#ff0000' ),
+			'--brand-secondary'              => get_option( 'ee_theme_secondary_color', '#ffe964' ),
+			'--brand-tertiary'               => get_option( 'ee_theme_tertiary_color', '#ffffff' ),
+			'--brand-background-color'       => get_option( 'ee_theme_background_color', '#ffffff' ),
+			'--brand-button-color'           => get_option( 'ee_theme_button_color', '#ffe964' ),
+			'--brand-text-color'             => get_option( 'ee_theme_text_color', '#000000' ),
+			'--brand-sponsorship-text-color' => get_option( 'ee_theme_sponsorship_color', '#000000' ),
 		];
 
 		if ( get_option( 'ee_theme_version', '-dark' ) == '-dark' ) {
@@ -119,21 +91,6 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 		}
 
 		return $vars;
-	}
-endif;
-
-if ( ! function_exists( 'ee_load_polyfills' ) ) :
-	function ee_load_polyfills() {
-		?><script id="polyfills">
-			(function() {
-				if (!Array.prototype.find) {
-					var s = document.createElement('script');
-					s.src = 'https://unpkg.com/core-js@2.6.2/client/core.min.js';
-					var p = document.getElementById('polyfills')
-					p.parentNode.replaceChild(s, p);
-				}
-			})();
-		</script><?php
 	}
 endif;
 
@@ -162,6 +119,13 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
 		$config = array(
 			'cssvars' => array( 'variables' => ee_get_css_colors() ),
+			'geotargetly' => ee_current_page_needs_geotargetly(),
+
+			/** Live Streaming Intervals */
+			'intervals'  => [
+				'live_streaming' => absint( get_option( 'gmr_live_streaming_interval', 1 ) ),
+				'inline_audio'   => absint( get_option( 'gmr_inline_audio_interval', 1 ) ),
+			],
 		);
 
 		$custom_logo_id = get_option( 'gmr_site_logo' );
@@ -223,7 +187,7 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 
 		$image = sprintf(
 			$is_jacapps
-				? '<img src="%s" width="%s" height="%s" alt="%s"><div>%s</dvi>'
+				? '<div class="non-lazy-image"><img src="%s" width="%s" height="%s" alt="%s"><div class="non-lazy-image-attribution">%s</div></div>'
 				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-alt="%s" data-attribution="%s"></div>',
 			esc_attr( $url ),
 			esc_attr( $width ),

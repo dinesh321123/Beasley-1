@@ -1,31 +1,30 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import firebase from 'firebase';
 
+import trapHOC from '@10up/react-focus-trap-hoc';
+import { firebaseAuth } from '../../library/firebase';
 import { showRestoreModal, showSignUpModal } from '../../redux/actions/modal';
+import { ensureUserHasCurrentChannel } from '../../library/experience-engine';
 
 import Header from './elements/Header';
 import Alert from './elements/Alert';
 import OAuthButtons from './authentication/OAuthButtons';
-import trapHOC from '@10up/react-focus-trap-hoc';
+import { mapAuthErrorCodeToFriendlyMessage } from '../../library/friendly-error-messages';
 
 class SignIn extends PureComponent {
+	constructor(props) {
+		super(props);
 
-	constructor( props ) {
-		super( props );
-
-		const self = this;
-
-		self.state = {
+		this.state = {
 			email: '',
 			password: '',
 			message: '',
 		};
 
-		self.onFieldChange = self.handleFieldChange.bind( self );
-		self.onFormSubmit = self.handleFormSubmit.bind( self );
+		this.onFieldChange = this.handleFieldChange.bind(this);
+		this.onFormSubmit = this.handleFormSubmit.bind(this);
 	}
 
 	componentDidMount() {
@@ -36,73 +35,118 @@ class SignIn extends PureComponent {
 		this.props.deactivateTrap();
 	}
 
-	handleFieldChange( e ) {
+	handleFieldChange(e) {
 		const { target } = e;
-		this.setState( { [target.name]: target.value } );
+		this.setState({ [target.name]: target.value });
 	}
 
-	handleFormSubmit( e ) {
-		const self = this;
-		const { email, password } = self.state;
-		const auth = firebase.auth();
+	handleFormSubmit(e) {
+		const { email, password } = this.state;
 
 		e.preventDefault();
 
-		auth.signInWithEmailAndPassword( email, password )
-			.then( self.props.close )
-			.catch( error => self.setState( { message: error.message } ) );
+		firebaseAuth
+			.signInWithEmailAndPassword(email, password)
+			.then(() => {
+				ensureUserHasCurrentChannel().then(() => {
+					this.props.close();
+					window.location.reload();
+					document.body.innerHTML = '';
+				});
+			})
+			.catch(error =>
+				this.setState({ message: mapAuthErrorCodeToFriendlyMessage(error) }),
+			);
 	}
 
 	render() {
-		const self = this;
-		const { email, password, message } = self.state;
-		const { restore, signup } = self.props;
+		const { email, password, message } = this.state;
+		const { restore, signup } = this.props;
+		const { title } = window.bbgiconfig.publisher;
 
 		return (
-			<Fragment>
+			<>
 				<Header>
-					<h3>Sign In</h3>
+					<h3>Sign In to {title}</h3>
 				</Header>
 
 				<Alert message={message} />
 
-				<form className="modal-form -form-sign-in" onSubmit={self.onFormSubmit}>
-					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-email">Email</label>
-						<input
-							className="modal-form-field"
-							type="email" id="user-email"
-							name="email" value={email}
-							onChange={self.onFieldChange}
-							placeholder="Your email address"
-						/>
+				<div className="signin-options">
+					<div className="option">
+						<p className="p-label">
+							<em>Sign in with:</em>
+						</p>
+						<OAuthButtons />
 					</div>
-					<div className="modal-form-group">
-						<label className="modal-form-label" htmlFor="user-password">Password</label>
-						<input
-							className="modal-form-field"
-							type="password"
-							id="user-password"
-							name="password"
-							value={password}
-							onChange={self.onFieldChange}
-							placeholder="Your password"
-						/>
+					<div className="option">
+						<form
+							className="modal-form -form-sign-in"
+							onSubmit={this.onFormSubmit}
+						>
+							<div className="modal-form-group">
+								<label className="modal-form-label" htmlFor="user-email">
+									Email
+								</label>
+								<input
+									className="modal-form-field"
+									type="email"
+									id="user-email"
+									name="email"
+									value={email}
+									onChange={this.onFieldChange}
+									placeholder="your@emailaddress.com"
+								/>
+							</div>
+							<div className="modal-form-group">
+								<label className="modal-form-label" htmlFor="user-password">
+									Password
+								</label>
+								<input
+									className="modal-form-field"
+									type="password"
+									id="user-password"
+									name="password"
+									value={password}
+									onChange={this.onFieldChange}
+									placeholder="Your password"
+								/>
+							</div>
+							<div className="modal-form-actions">
+								<button className="btn -sign-in" type="submit">
+									Sign In
+								</button>
+								<button
+									className="btn -empty -nobor -forgot-password"
+									type="button"
+									onClick={restore}
+								>
+									Forgot Password
+								</button>
+							</div>
+						</form>
 					</div>
-					<div className="modal-form-actions">
-						<button className="button -sign-in" type="submit">Sign In</button>
-						<button className="button -forgot-password" type="button" onClick={restore}>Forgot Password</button>
-						<button className="button -sign-up" type="button" onClick={signup}>Sign Up</button>
+				</div>
+
+				<div className="register">
+					<h3>Not yet a member?</h3>
+					<div className="blurb">
+						<p>
+							Sign up to {title} to personalize your experience, customize your
+							homepage and discover new content!
+						</p>
+						<button
+							className="btn -sign-up -empty"
+							type="button"
+							onClick={signup}
+						>
+							Sign Up
+						</button>
 					</div>
-				</form>
-				<h5 className="section-head">
-					<span>Or sign in with</span>
-				</h5>
-				<OAuthButtons />
-			</Fragment>
+				</div>
+			</>
 		);
 	}
-
 }
 
 SignIn.propTypes = {
@@ -113,11 +157,14 @@ SignIn.propTypes = {
 	deactivateTrap: PropTypes.func.isRequired,
 };
 
-function mapDispatchToProps( dispatch ) {
-	return bindActionCreators( {
-		signup: showSignUpModal,
-		restore: showRestoreModal,
-	}, dispatch );
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			signup: showSignUpModal,
+			restore: showRestoreModal,
+		},
+		dispatch,
+	);
 }
 
-export default connect( null, mapDispatchToProps )( trapHOC()( SignIn ) );
+export default connect(null, mapDispatchToProps)(trapHOC()(SignIn));

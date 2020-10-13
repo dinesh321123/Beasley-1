@@ -2,12 +2,12 @@
 	background-color: var(--global-white);
 	height: 100%;
 	left: 0;
-	margin-top: -3.333rem;
 	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 	position: absolute;
 	top: 0;
 	width: 100%;
-	z-index: 1; 
+	z-index: 5;
 
 	& .modal-header {
 		font-style: italic;
@@ -80,13 +80,13 @@
 				pointer-events: none;
 				position: absolute;
 				right: calc(100% - 90px);
-				top: 4px;
+				top: 8px;
 				transform: rotate(45deg);
 				transform-origin: 50%;
 				transition: transform 300ms ease;
 				width: 4px;
 
-				@media(--min-medium-viewport) {
+				@media(--min-xlarge-viewport) {
 					height: 8px;
 					top: 12px;
 					width: 8px;
@@ -94,7 +94,6 @@
 			}
 
 			&.select-location {
-
 				&::after {
 					right: calc(100% - 115px);
 				}
@@ -111,11 +110,34 @@
 		appearance: none;
 		background-color: transparent;
 		border: none;
-		font-size: 0.889rem;
+		font-size: 1rem;
 		font-weight: 600;
 		max-width: 90px;
 		min-width: 90px;
 		width: 100%;
+
+		@media(--min-medium-viewport) {
+			font-size: 0.889rem;
+		}
+	}
+
+	& input[type="search"] {
+		padding-top: 0;
+		position: relative;
+		top: -4px;
+
+		@media(--min-xlarge-viewport) {
+			padding-top: .6667rem;
+			top: 0;
+		}
+	}
+
+	& button[type="submit"] {
+		top: -7px;
+
+		@media(--min-xlarge-viewport) {
+			top: 0;
+		}
 	}
 
 	& .post-thumbnail {
@@ -155,4 +177,12 @@
 			}
 		}
 	}
+
+	& .-added .post-thumbnail button {
+		opacity: 1;
+	}
+}
+
+.load-more-button {
+	margin: 0 auto;
 }

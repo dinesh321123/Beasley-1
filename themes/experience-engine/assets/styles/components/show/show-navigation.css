@@ -26,13 +26,6 @@
 			}
 		}
 
-		&:last-child,
-		&:nth-last-child(2) {
-			& a {
-				padding-bottom: 0;
-			}
-		}
-
 		&.current-menu-item,
 		&:hover,
 		&:focus-within {
@@ -83,6 +76,10 @@
 
 		@media (--min-large-viewport) {
 			padding-bottom: 0;
+		}
+		@media (--max-medium-viewport) {
+			font-size: 14px;
+			padding-bottom: 0.75rem;
 		}
 	}
 }

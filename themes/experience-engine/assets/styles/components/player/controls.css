@@ -1,11 +1,15 @@
 .controls {
-	background-color: #efefef;
+	background-color: var(--global-theme-secondary);
 	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
 				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
 	display: flex;
-	min-height: 75px;
+	height: 75px;
 	position: relative;
 	padding-left: 1rem;
+
+	@media(--max-medium-viewport) {
+		padding-left: 0;
+	}
 
 	& button {
 		&:focus,
@@ -18,38 +22,74 @@
 		border-left: 1px solid var(--global-mercury);
 	}
 
-	& .control-section {
+	& .control-section,
+	& .controls-wrapper {
 		align-items: center;
+		box-sizing: border-box;
 		display: flex;
-		justify-content: flex-end;
+		flex-flow: row wrap;
+		justify-content: space-between;
 		position: relative;
-
-		@media(--min-medium-viewport) {
-			width: 100%;
-		}
+		width: 100%;
 
 		&:first-child {
-			padding-left: 1rem;
+			flex: 2 0px;
+			order: 2;
 			overflow: hidden;
-			@media(--max-medium-viewport) {
-				order: 2;
-				width: 100%;
+
+			@media(--min-medium-viewport) {
+				flex: 1 100%;
+				margin-left: 0;
+				max-width: 250px;
+				order: 1;
+			}
+
+			@media(--min-large-viewport) {
+				flex: 1 28%;
+				max-width: none;
+			}
+
+			@media(--min-xlarge-viewport) {
+				flex: 1 100%;
 			}
 		}
 
 		&:nth-child(2) {
-			@media(--max-medium-viewport) {
-				padding-left: 1rem;
-				order: 1;
-				width: 100%;
+			flex: 1 100%;
+			margin-left: 1rem;
+			margin-right: 1rem;
+			max-width: 54px;
+			order: 1;
+
+			@media(--min-medium-viewport) {
+				flex: 2 0px;
+				max-width: 320px;
+				order: 2;
+			}
+
+			@media(--min-xlarge-viewport) {
+				flex: 0 0 auto;
 			}
 		}
 
 		&:last-child {
-			@media(--max-medium-viewport) {
-				max-width: 60px;
-				order: 3;
-				width: 100%;
+			flex: 1 100%;
+			flex-flow: row nowrap;
+			max-width: 70px;
+			order: 3;
+
+			@media(--min-medium-viewport) {
+				flex: 1 18%;
+				justify-content: flex-end;
+				max-width: none;
+			}
+
+			@media(--min-large-viewport) {
+				flex: 1 23%;
+			}
+
+			@media(--min-xlarge-viewport) {
+				flex: 1 100%;
 			}
 		}
 
@@ -58,8 +98,27 @@
 			border: 0;
 			cursor: pointer;
 			height: 100%;
-			padding: 0;
 			width: 100%;
+		}
+
+		& .controls-station,
+		& .controls-contact {
+			& button {
+				padding: 1rem;
+			}
+
+			& .control-station-button {
+				padding: 0;
+
+				& img {
+					max-height: 51px;
+					width: auto;
+				}
+
+				& span {
+					padding: 1rem;
+				}
+			}
 		}
 
 		& .audio-sponsor--text {
@@ -73,21 +132,33 @@
 		}
 	}
 
+	& .controls-wrapper:first-child {
+		overflow: visible;
+	}
+
+	& .controls-wrapper {
+		transition: margin-top 250ms ease-in-out;
+	}
+
+	& .controls-wrapper.-podcast {
+		@media(--min-medium-viewport) {
+			margin-top: -35px;
+		}
+	}
+
 	& .controls-progress {
 		left: 0;
 		position: absolute;
-		top: 0;
+		bottom: 8px;
 		width: 100%;
 		z-index: 9;
 
 		& input[type="range"] {
 			width: 100%;
 		}
-		
 	}
 
 	& .controls-info {
-		color: var(--global-theme-font-primary);
 		font-size: 0.875rem;
 		width: 100%;
 
@@ -104,7 +175,9 @@
 			letter-spacing: 0.01em;
 			line-height: 1.2;
 			padding: .1rem .25rem;
+			position: relative;
 			text-transform: uppercase;
+			top: -1px;
 		}
 
 		& span:not(.live) {
@@ -113,9 +186,12 @@
 
 		& p {
 			align-items: center;
-			display: flex;
+			display: inline-block;
 			margin-bottom: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
 			white-space: nowrap;
+			width: 98%;
 		}
 	}
 
@@ -124,6 +200,10 @@
 		max-width: 89px;
 		position: relative;
 		width: 100%;
+
+		@media(--min-medium-viewport) {
+			width: 20%;
+		}
 
 		& svg path {
 			fill: var(--brand-primary);
@@ -147,7 +227,7 @@
 	& .controls-sponsor {
 		display: none;
 
-		@media(--min-medium-viewport) {
+		@media(--min-xlarge-viewport) {
 			display: block !important; /* Overrding ad */
 		}
 	}
@@ -165,18 +245,11 @@
 				fill: var(--global-theme-font-primary);
 				transition: fill 250ms ease-in-out;
 			}
-
-			&:hover,
-			&:focus {
-				& svg rect {
-					fill: var(--brand-primary)
-				}
-			}
 		}
 
 		& .controls-recent-songs {
-			background-color: #efefef;
-			bottom: 75px;
+			background-color: var(--global-theme-secondary);
+			bottom: 65px;
 			font-size: 1rem;
 			left: -115px;
 			opacity: 0;
@@ -192,12 +265,49 @@
 			& ul li:last-child {
 				padding-bottom: 0;
 			}
+
+			& > a {
+				color: inherit;
+				display: inline-block;
+				margin-bottom: 20px;
+				text-decoration: underline;
+			}
 		}
 
 		&.-open {
 			& .controls-recent-songs {
 				opacity: 1;
 				visibility: visible;
+			}
+		}
+	}
+
+	& .controls-rewind {
+		display: none;
+
+		&.-podcast {
+			display: block;
+
+			@media(--min-medium-viewport) {
+				display: none;
+			}
+		}
+
+		& button {
+			& svg path {
+				fill: var(--global-theme-font-primary);
+				transition: fill 250ms ease-in-out;
+			}
+
+			&:hover,
+			&:focus {
+				& svg path {
+					fill: var(--brand-primary)
+				}
+			}
+
+			@media(--min-medium-viewport) {
+				display: none;
 			}
 		}
 	}
@@ -216,20 +326,6 @@
 		right: calc(50% - 72px);
 		width: 100%;
 		z-index: 100;
-
-		&::after {
-			border: solid transparent;
-			border-top-color: var(--global-theme-secondary);
-			border-width: 8px;
-			content: " ";
-			height: 0;
-			left: 50%;
-			margin-left: -8px;
-			pointer-events: none;
-			position: absolute;
-			top: 100%;
-			width: 0;
-		}
 
 		& h5 {
 			color: var(--brand-secondary);
@@ -263,8 +359,8 @@
 		}
 
 		& .time-played {
-			color: var(--global-theme-font-tertiary);
 			font-size: .875rem;
+			opacity: 0.7;
 			padding-left: .675rem;
 		}
 	}
@@ -273,6 +369,7 @@
 		display: flex;
 		height: 22px;
 		position: relative;
+		z-index: 1;
 
 		& button {
 			display: none;
@@ -297,13 +394,6 @@
 				transition: fill 250ms ease-in-out,
 							stroke 250ms ease-in-out;
 			}
-
-			& svg path[fill] {
-				fill: var(--brand-primary);
-			}
-			& svg path[stroke] {
-				stroke: var(--brand-primary);
-			}
 		}
 
 		& button:focus {
@@ -320,6 +410,17 @@
 			visibility: hidden;
 			width: 82px;
 
+			& input[type="range"]::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				border: none;
+				height: 10px;
+				width: 10px;
+				border-radius: 50%;
+				background: var(--brand-primary);
+				margin-top: -3.5px;
+				z-index: 400;
+			}
+
 			&.-volume-visible {
 				opacity: 1;
 				visibility: visible;
@@ -330,12 +431,16 @@
 	& .controls-station {
 		display: none;
 		height: 100%;
-		max-width: 180px;
+		max-width: 150px;
 		position: relative;
-		width: 100%;
+		width: 50%;
 
 		@media(--min-medium-viewport) {
 			display: block;
+		}
+
+		@media(--min-xxlarge-viewport) {
+			max-width: 180px;
 		}
 
 		& button {
@@ -352,7 +457,7 @@
 
 			&:hover,
 			&:focus {
-				color: var(--global-theme-font-secondary);
+				color: var(--global-theme-font-secondary) !important; /* Use important to override color settings */
 			}
 
 			& svg {
@@ -367,6 +472,10 @@
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
 			will-change: visibility, opacity;
+
+			& button {
+				justify-content: left;
+			}
 		}
 
 		&.-open {
@@ -377,8 +486,68 @@
 		}
 	}
 
+	& .time {
+		font-size: .875rem;
+
+		@media(--min-medium-viewport) {
+			display: none;
+		}
+
+		&.-current {
+			color: var(--brand-primary);
+		}
+
+		&.-total {
+			&:before {
+				content: "|";
+				margin: 0 5px;
+			}
+		}
+	}
+
 }
 
+.controls-progress {
+	&.-mobile {
+		display: block;
+
+		@media(--min-medium-viewport) {
+			display: none;
+		}
+	}
+
+	&.-desktop {
+		transition: opacity 2s ease-in-out;
+		opacity: 0;
+
+		@media(--min-medium-viewport) {
+			display: flex;
+			flex-flow: row nowrap;
+			justify-content: space-between;
+			opacity: 1;
+		}
+
+		& .-progress {
+			align-self: center;
+			margin: 0 10px;
+			position: relative;
+			width: 100%;
+		}
+	}
+
+	& .time {
+		display: none;
+
+		&.-desktop {
+			@media(--min-medium-viewport) {
+				align-items: center;
+				display: inline-flex;
+				font-size: .675rem;
+				margin-top: 3px;
+			}
+		}
+	}
+}
 
 .status {
 	& button {
@@ -389,6 +558,20 @@
 
 		@media(--min-medium-viewport) {
 			margin: 0 2rem;
+		}
+	}
+
+	&.-is-ios {
+		@media(--min-medium-viewport) {
+			margin: 0 1rem;
+		}
+
+		& button {
+			margin: 0;
+
+			@media(--min-xlarge-viewport) {
+				margin: 0 2rem;
+			}
 		}
 	}
 
@@ -449,5 +632,30 @@
 		width: 13px;
 		height: 23px;
 		transform: none;
+	}
+}
+
+.-light {
+
+	& .controls {
+		background-color: var(--global-gallery);
+	}
+
+	& .controls-recent-songs {
+		background-color: var(--global-gallery);
+	}
+}
+
+.-live.LIVE_PAUSE .resume-btn,
+.-live.LIVE_PLAYING .pause-btn,
+.-live.LIVE_STOP .play-btn,
+.-live.LIVE_FAILED .play-btn,
+.-live.LIVE_BUFFERING .loading-btn,
+.-live.LIVE_CONNECTING .loading-btn,
+.-live.LIVE_RECONNECTING .loading-btn,
+.-live.STREAM_GEO_BLOCKED .play-btn,
+.-live.STATION_NOT_FOUND .play-btn {
+	@media(--min-medium-viewport) {
+		margin-top: 0;
 	}
 }
