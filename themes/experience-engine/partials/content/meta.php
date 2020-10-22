@@ -1,6 +1,7 @@
 <div class="meta">
 	<div class="author-meta">
-		<?php if ( ! is_singular( 'contest' ) ) : ?>
+		<?php $contest_is_singular = is_singular( 'contest' ); ?>
+		<?php if ( ! $contest_is_singular ) : ?>
 			<span class="author-avatar">
 				<?php if ( is_singular() ) : ?>
 					<?php $avatar = get_avatar( get_the_author_meta( 'ID' ), 40 ); ?>
@@ -28,21 +29,5 @@
 		<?php ee_the_share_buttons( get_permalink(), get_the_title() ); ?>
 	</div>
 
-	<?php $sponsored_by = ee_get_sponsored_by(get_the_id()) ?>
-	<?php if ( $sponsored_by !== '' ) : ?>
-		<?php $sponsor_url = ee_get_sponsor_url(get_the_id()) ?>
-			<?php if ( ! is_singular( 'contest' ) ) : ?>
-				<div class="sponsor-meta pad-top-75rem">
-			<?php else : ?>
-				<div class="sponsor-meta">
-			<?php endif; ?>
-
-			<?php if ( $sponsor_url === '' ) : ?>
-				<?php echo esc_html_e( $sponsored_by, 'bbgi' ); ?>
-			<?php else : ?>
-				<a class="sponsor-meta" href='<?php echo $sponsor_url ?>' target='_blank'><?php echo esc_html_e( $sponsored_by, 'bbgi' ); ?></a>
-			<?php endif; ?>
-		</div>
-	<?php endif; ?>
-
+	<?php ee_the_sponsored_by_div( get_the_id(), !$contest_is_singular ); ?>
 </div>

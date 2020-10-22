@@ -124,6 +124,25 @@ if ( ! function_exists( 'ee_the_share_buttons' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ee_the_sponsored_by_div' ) ) :
+	function ee_the_sponsored_by_div( $the_id = null, $add_padding = false ) {
+		$sponsored_by = ee_get_sponsored_by($the_id);
+	    if ( $sponsored_by !== '' ) {
+			$sponsor_url = ee_get_sponsor_url($the_id);
+
+			$div_start = $add_padding
+				? '<div class="sponsor-meta pad-top-75rem">'
+				: '<div class="sponsor-meta">';
+
+			$sponsored_by = $sponsor_url === ''
+				? $div_start . $sponsored_by . '</div>'
+				: $div_start . '<a class="sponsor-meta" href="' . $sponsor_url . '" target="_blank" >' . $sponsored_by . '</a></div>';
+		}
+
+		echo $sponsored_by;
+	}
+endif;
+
 if ( ! function_exists( 'ee_filter_primary_category' ) ) :
 	function ee_filter_primary_category( $categories, $post_id ) {
 		$post = get_post( $post_id );
@@ -230,7 +249,7 @@ if ( ! function_exists( 'ee_get_sponsored_by' ) ) :
 		if ($sponsored_by !== '') {
 			$sponsored_by = 'Sponsored by ' . $sponsored_by;
 		}
-		return $sponsored_by;
+		return esc_attr( trim($sponsored_by));
 	}
 endif;
 
@@ -238,7 +257,7 @@ if ( ! function_exists( 'ee_get_sponsor_url' ) ) :
 	function ee_get_sponsor_url( $post_id ) {
 		$post = get_post( $post_id );
 		$sponsored_url = get_post_meta( $post->ID, 'sponsor_url', true );
-		return $sponsored_url;
+		return esc_attr( trim($sponsored_url));
 	}
 endif;
 

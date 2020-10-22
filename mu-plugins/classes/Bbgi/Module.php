@@ -62,6 +62,7 @@ abstract class Module {
 		if ( current_theme_supports( 'secondstreet' ) ) {
 			self::$_modules['secondstreet'] = new \Bbgi\Integration\SecondStreet();
 			self::$_modules['secondstreetpref'] = new \Bbgi\Integration\SecondStreetPreferenceCenter();
+			self::$_modules['secondstreetsignup'] = new \Bbgi\Integration\SecondStreetSignup();
 		}
 
 		if ( current_theme_supports( 'feature_video' ) ) {

@@ -8,6 +8,7 @@ import Homepage from './Homepage';
 import AudioEmbed from './embeds/Audio';
 import SecondStreetEmbed from './embeds/SecondStreet';
 import SecondStreetPreferenceCenterEmbed from './embeds/SecondStreetPreferenceCenter';
+import SecondStreetSignupEmbed from './embeds/SecondStreetSignup';
 import LazyImage from './embeds/LazyImage';
 import Share from './embeds/Share';
 import LoadMore from './embeds/LoadMore';
@@ -43,6 +44,7 @@ const mapping = {
 	loadmore: LoadMore,
 	secondstreet: SecondStreetEmbed,
 	secondstreetprefcenter: SecondStreetPreferenceCenterEmbed,
+	secondstreetsignup: SecondStreetSignupEmbed,
 	share: Share,
 	songarchive: SongArchive,
 	streamcta: StreamCta,
