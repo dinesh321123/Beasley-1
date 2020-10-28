@@ -87,6 +87,12 @@ function getEmbedlyParams(element) {
 	};
 }
 
+function getInstagramParams(element) {
+	return {
+		content: element.innerHTML,
+	};
+}
+
 /**
  * Extracts the attributes passed by the Song Archive template
  * placeholder and returns them.
@@ -290,6 +296,12 @@ export function getStateFromContent(container) {
 				'embedly',
 				'.embedly-card-prerender',
 				getEmbedlyParams,
+			),
+			...processEmbeds(
+				container,
+				'instagram',
+				'.instagram.responsive-media',
+				getInstagramParams,
 			),
 			...processEmbeds(
 				container,

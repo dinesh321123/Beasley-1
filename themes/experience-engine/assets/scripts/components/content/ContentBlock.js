@@ -25,6 +25,7 @@ import Embedly from './embeds/Embedly';
 import SongArchive from './embeds/SongArchive';
 import RelatedPosts from './embeds/RelatedPosts';
 import GoogleAnalytics from './embeds/GoogleAnalytics';
+import Instagram from './embeds/Instagram';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -47,6 +48,7 @@ const mapping = {
 	streamcta: StreamCta,
 	relatedposts: RelatedPosts,
 	ga: GoogleAnalytics,
+	instagram: Instagram,
 };
 
 /**
