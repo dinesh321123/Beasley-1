@@ -25,7 +25,13 @@ import Embedly from './embeds/Embedly';
 import SongArchive from './embeds/SongArchive';
 import RelatedPosts from './embeds/RelatedPosts';
 import GoogleAnalytics from './embeds/GoogleAnalytics';
+<<<<<<< themes/experience-engine/assets/scripts/components/content/ContentBlock.js
 import Instagram from './embeds/Instagram';
+=======
+import StnBarker from './embeds/StnBarker';
+import StnPlayer from './embeds/StnPlayer';
+import VerizonPlayer from './embeds/VerizonPlayer';
+>>>>>>> themes/experience-engine/assets/scripts/components/content/ContentBlock.js
 
 const mapping = {
 	audio: AudioEmbed,
@@ -49,6 +55,9 @@ const mapping = {
 	relatedposts: RelatedPosts,
 	ga: GoogleAnalytics,
 	instagram: Instagram,
+	stnbarker: StnBarker,
+	stnplayer: StnPlayer,
+	verizonplayer: VerizonPlayer,
 };
 
 /**
