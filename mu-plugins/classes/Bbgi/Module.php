@@ -57,6 +57,7 @@ abstract class Module {
 			'redirects'         => new \Bbgi\Redirects(),
 			'page-endpoint'     => new \Bbgi\Endpoints\Page(),
 			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
+			'facebook-oembed'		=> new \Bbgi\Integration\FacebookOEmbed()
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {

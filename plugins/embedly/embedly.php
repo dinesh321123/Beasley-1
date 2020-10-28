@@ -152,10 +152,12 @@ class WP_Embedly
         //));
 
         // action establishes embed.ly the provider of embeds
+
         add_action('plugins_loaded', array(
             $this,
             'add_embedly_providers'
         ));
+
     }
 
 
@@ -415,14 +417,8 @@ class WP_Embedly
      **/
     function add_embedly_providers()
     {
-        // if user entered valid key, override providers, else, do nothing
-        //if ($this->valid_key()) {
-        // delete all current oembed providers
-        add_filter('oembed_providers', '__return_empty_array');
-        // add embedly provider
         $provider_uri = $this->build_uri_with_options();
         wp_oembed_add_provider('#https?://[^\s]+#i', $provider_uri, true);
-        //}
     }
 
 
@@ -888,9 +884,9 @@ class WP_Embedly
                                 <input id='embedly-api-key' class='default-input' type="text" name="api_key" placeholder="<?php esc_attr_e('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'embedly'); ?>"
                                     <?php $this->get_value_embedly_api_key(); ?>/>
 
-                                <p><?php esc_html_e('Learn more at', 'embedly'); ?> 
+                                <p><?php esc_html_e('Learn more at', 'embedly'); ?>
                                     <strong><a href="https://embed.ly/cards" target="_blank"><?php esc_html_e('embed.ly/cards', 'embedly') ?></strong></a></p>
-                                <p><?php esc_html_e('Already have an account? You can find your api key and view analytics', 'embedly'); ?> 
+                                <p><?php esc_html_e('Already have an account? You can find your api key and view analytics', 'embedly'); ?>
                                     <strong><a href="https://app.embed.ly" target="_blank"><?php esc_html_e('here', 'embedly') ?></strong></a></p>
                               </div>
                           </div>
