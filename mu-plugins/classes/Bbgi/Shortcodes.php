@@ -12,6 +12,8 @@
 
 namespace Bbgi;
 
+use WP_Query;
+
 class Shortcodes extends \Bbgi\Module {
 
 	public function register() {
@@ -25,10 +27,49 @@ class Shortcodes extends \Bbgi\Module {
 
 		add_shortcode( 'iframe', $this( 'handle_iframe_shortcode' ) );
 		add_shortcode( 'bbgi-contest', $this( 'handle_national_contest_shortcode' ) );
+		add_shortcode( 'inlink', $this( 'handle_inlink_shortcode' ) );
 	}
 
 	public function suppress_shortcode( $atts, $content = null ) {
 		return $content;
+	}
+
+	public function handle_inlink_shortcode( $atts ) {
+
+		$atts = shortcode_atts( array(
+				'id'	=> '',
+				'text'	=> '',
+				'hideifdoesnotexist'	=>	'false'
+		), $atts, 'inlink');
+
+		$url = '';
+		$result = '';
+
+		if ($atts['id']) {
+				$query = new WP_Query(
+						array(
+								'post_status' => 'publish',
+								'meta-key' => 'syndication_old_name',
+								'meta_value' => $atts['id']
+						)
+				);
+
+				while ( $query->have_posts()) {
+					$query->the_post();
+					$url = get_the_permalink();
+					break;
+				}
+
+				wp_reset_postdata();
+		}
+
+		if ( $atts['hideifdoesnotexist'] === 'false' && ! $url ) {
+			$result = $atts['text'];
+		} else if ($url) {
+			$result = sprintf('<a href="%s">%s</a>', $url, $atts['text']);
+		}
+
+		return $result;
 	}
 
 	public function handle_iframe_shortcode( $atts, $content = null ) {
