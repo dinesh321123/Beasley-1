@@ -13,8 +13,8 @@ class FacebookOEmbed extends \Bbgi\Module {
 	public function register()
 	{
 
-		add_filter('oembed_providers', '__return_empty_array', 1);
 		wp_oembed_add_provider('#https?://(www\.)?instagr(\.am|am\.com)/(p|tv)/.*#i', 'https://graph.facebook.com/v8.0/instagram_oembed', true);
+		wp_oembed_add_provider('#https?://(www\.)?instagr(\.am|am\.com)/p/.*#i', 'https://graph.facebook.com/v8.0/instagram_oembed', true);
 		wp_oembed_add_provider('#https?://www\.facebook\.com/.*/posts/.*#i', 'https://graph.facebook.com/v8.0/oembed_post', true);
 		wp_oembed_add_provider('#https?://www\.facebook\.com/.*/activity/.*#i', 'https://graph.facebook.com/v8.0/oembed_post', true);
 		wp_oembed_add_provider('#https?://www\.facebook\.com/.*/photos/.*#i', 'https://graph.facebook.com/v8.0/oembed_post', true);
@@ -28,6 +28,7 @@ class FacebookOEmbed extends \Bbgi\Module {
 		wp_oembed_add_provider('#https?://www\.facebook\.com/watch/?\?v=\d+#i', 'https://graph.facebook.com/v8.0/oembed_video', true);
 
 		add_filter('oembed_fetch_url', $this( 'facebook_oembed_key' ),10, 3);
+
 	}
 
 	/**
