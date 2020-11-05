@@ -13,13 +13,14 @@ function* yieldHideSplashScreen(action) {
 	yield call(() => {
 		const splashScreen = document.getElementById('splash-screen');
 		const { googletag, dfp_needs_refresh } = window;
-		const interstitialAdDiv = window.top.document.getElementById(
-			'div-gpt-ad-1484200509775-3',
-		);
 
 		if (dfp_needs_refresh) {
 			window.dfp_needs_refresh = false;
 			googletag.cmd.push(() => {
+				const interstitialAdDiv = window.top.document.getElementById(
+					'div-gpt-ad-1484200509775-3',
+				);
+
 				if (interstitialAdDiv) {
 					// Open Div To Full Screen So That Lazy Ad Can Show
 					interstitialAdDiv.style.cssText =
@@ -29,9 +30,6 @@ function* yieldHideSplashScreen(action) {
 				// Refresh All Ads
 				googletag.pubads().refresh(); // Refresh ALL Slots
 			});
-		} else if (interstitialAdDiv) {
-			// Hide Div To So That Lazy Ad Will Not Show
-			interstitialAdDiv.style.cssText = 'height:0;overflow:hidden;width:0;';
 		}
 
 		if (splashScreen) {
