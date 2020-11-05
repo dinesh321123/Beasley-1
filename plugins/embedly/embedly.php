@@ -152,10 +152,12 @@ class WP_Embedly
         //));
 
         // action establishes embed.ly the provider of embeds
+
         add_action('plugins_loaded', array(
             $this,
             'add_embedly_providers'
         ));
+
     }
 
 
