@@ -26,6 +26,9 @@ import SongArchive from './embeds/SongArchive';
 import RelatedPosts from './embeds/RelatedPosts';
 import GoogleAnalytics from './embeds/GoogleAnalytics';
 import Instagram from './embeds/Instagram';
+import StnBarker from './embeds/StnBarker';
+import StnPlayer from './embeds/StnPlayer';
+import VerizonPlayer from './embeds/VerizonPlayer';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -49,6 +52,9 @@ const mapping = {
 	relatedposts: RelatedPosts,
 	ga: GoogleAnalytics,
 	instagram: Instagram,
+	stnbarker: StnBarker,
+	stnplayer: StnPlayer,
+	verizonplayer: VerizonPlayer,
 };
 
 /**

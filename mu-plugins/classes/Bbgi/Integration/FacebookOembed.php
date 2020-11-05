@@ -8,8 +8,8 @@
 namespace Bbgi\Integration;
 
 
-class FacebookOEmbed extends \Bbgi\Module
-{
+class FacebookOEmbed extends \Bbgi\Module {
+
 	public function register()
 	{
 
@@ -27,11 +27,7 @@ class FacebookOEmbed extends \Bbgi\Module
 		wp_oembed_add_provider('#https?://www\.facebook\.com/video\.php.*#i', 'https://graph.facebook.com/v8.0/oembed_video', true);
 		wp_oembed_add_provider('#https?://www\.facebook\.com/watch/?\?v=\d+#i', 'https://graph.facebook.com/v8.0/oembed_video', true);
 
-		wp_oembed_remove_provider('#https?://((m|www)\.)?youtube\.com/watch.*#i');
-		wp_oembed_remove_provider('#https?://((m|www)\.)?youtube\.com/playlist.*#i');
-		wp_oembed_remove_provider('#https?://youtu\.be/.*#i');
-
-		add_filter('oembed_fetch_url', $this('facebook_oembed_key'), 10, 3);
+		add_filter('oembed_fetch_url', $this( 'facebook_oembed_key' ),10, 3);
 
 	}
 
