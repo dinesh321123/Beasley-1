@@ -100,16 +100,20 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
 				renderMarginPercent: 0,
 				mobileScaling: 0.0,
 			});
+			ad_lazy_loading_enabled = true; // Explicit flag for indicating whether Lazy Load is enabled
 			console.log('Ad Lazy Loading ENABLED');
 			";
         } else {
-        	$dfp_ad_lazy_loading = "console.log('Ad Lazy Loading DISABLED');";
+        	$dfp_ad_lazy_loading = "
+        		ad_lazy_loading_enabled = false; // Explicit flag for indicating whether Lazy Load is enabled
+        		console.log('Ad Lazy Loading DISABLED');
+			";
         }
 
 		$script = <<<EOL
 var googletag = googletag || {};
 googletag.cmd = googletag.cmd || [];
-dfp_needs_refresh = true; // MFP 10/02/2020 - Set explicit flag for controlling initial dfp refresh.
+dfp_needs_refresh = true; // Explicit flag for controlling initial dfp refresh.
 
 googletag.cmd.push(function() {
 	googletag.pubads().collapseEmptyDivs(true);

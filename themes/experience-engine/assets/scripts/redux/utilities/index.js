@@ -9,3 +9,4 @@ export { default as manageBbgiConfig } from './screen/manageBbgiConfig';
 export { default as updateTargeting } from './screen/updateTargeting';
 export { default as clearTargeting } from './screen/clearTargeting';
 export { default as updateCorrelator } from './screen/updateCorrelator';
+export { default as updateInterstitialAdDiv } from './screen/updateInterstitialAdDiv';

@@ -1,5 +1,6 @@
 import { call, takeLatest } from 'redux-saga/effects';
 import { ACTION_HIDE_SPLASH_SCREEN } from '../../actions/screen';
+import { updateInterstitialAdDiv } from '../../utilities';
 
 /**
  * Generator runs whenever [ ACTION_HIDE_SPLASH_SCREEN ]
@@ -17,16 +18,7 @@ function* yieldHideSplashScreen(action) {
 		if (dfp_needs_refresh) {
 			window.dfp_needs_refresh = false;
 			googletag.cmd.push(() => {
-				const interstitialAdDiv = window.top.document.getElementById(
-					'div-gpt-ad-1484200509775-3',
-				);
-
-				if (interstitialAdDiv) {
-					// Open Div To Full Screen So That Lazy Ad Can Show
-					interstitialAdDiv.style.cssText =
-						'bottom: 0; height: 100%; left: 0; position: fixed; right: 0; top: 0; width: 100%; z-index: 9000003;';
-				}
-
+				updateInterstitialAdDiv();
 				// Refresh All Ads
 				googletag.pubads().refresh(); // Refresh ALL Slots
 			});
