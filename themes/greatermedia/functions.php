@@ -105,7 +105,7 @@ function greatermedia_setup() {
 
 	// Embed providers
 	wp_embed_register_handler( 'pinterest', '~https?\:\/\/\w+\.pinterest\.com\/pin\/(\d+)\/?~i', 'greatermedia_pinterest_handler' );
-	wp_embed_register_handler( 'facebook', '~https?\:\/\/\w+\.facebook\.com\/\w+\/posts\/(\d+)\/?~i', 'greatermedia_facebook_handler' );
+	//wp_embed_register_handler( 'facebook', '~https?\:\/\/\w+\.facebook\.com\/\w+\/posts\/(\d+)\/?~i', 'greatermedia_facebook_handler' );
 }
 
 add_action( 'after_setup_theme', 'greatermedia_setup' );
@@ -1116,12 +1116,12 @@ function greatermedia_wpseo_save_compare_data() {
 /**
  * Ignore all graph.facebook.com calls
  */
-add_action( 'pre_http_request', 'greatermedia_facebook_graph_http_request', 10, 3 );
+//add_action( 'pre_http_request', 'greatermedia_facebook_graph_http_request', 10, 3 );
 
 function greatermedia_facebook_graph_http_request( $response, $r, $url ) {
 
 	$host = @parse_url( $url, PHP_URL_HOST );
-	if ( 'graph.facebook.com' === $host ) {
+	if ( 'graph.facebook.com' === $host && ! strpo( $url, 'oembed_post' ) ) {
 		return true;
 	}
 
