@@ -45,6 +45,8 @@ class Shortcodes extends \Bbgi\Module {
 				)
 		);
 
+		$query->set( 'no_found_rows', true );
+
 		while ( $query->have_posts()) {
 			$query->the_post();
 			$url = get_the_permalink();
