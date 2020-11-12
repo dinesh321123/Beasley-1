@@ -41,7 +41,7 @@ class Shortcodes extends \Bbgi\Module {
 				array(
 						'post_status' => 'publish',
 						'meta-key' => 'syndication_old_name',
-						'meta_value' => $atts['id']
+						'meta_value' => $syndication_old_name
 				)
 		);
 
