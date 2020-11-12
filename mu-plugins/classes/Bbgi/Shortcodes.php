@@ -34,6 +34,29 @@ class Shortcodes extends \Bbgi\Module {
 		return $content;
 	}
 
+	public function get_inlink_url( $syndication_old_name ) {
+		$url = '';
+
+		$query = new WP_Query(
+				array(
+						'post_status' => 'publish',
+						'meta-key' => 'syndication_old_name',
+						'meta_value' => $atts['id']
+				)
+		);
+
+		while ( $query->have_posts()) {
+			$query->the_post();
+			$url = get_the_permalink();
+			break;
+		}
+
+		wp_reset_postdata();
+
+		return $url;
+	}
+
+
 	public function handle_inlink_shortcode( $atts ) {
 
 		$atts = shortcode_atts( array(
@@ -46,21 +69,12 @@ class Shortcodes extends \Bbgi\Module {
 		$result = '';
 
 		if ($atts['id']) {
-				$query = new WP_Query(
-						array(
-								'post_status' => 'publish',
-								'meta-key' => 'syndication_old_name',
-								'meta_value' => $atts['id']
-						)
-				);
 
-				while ( $query->have_posts()) {
-					$query->the_post();
-					$url = get_the_permalink();
-					break;
-				}
-
-				wp_reset_postdata();
+			$url = wp_cache_get( $atts['id'], 'bbgi:inlinking' );
+			if ( empty( $ids ) ) {
+				$url = $this->get_inlink_url( $atts['id'] );
+				wp_cache_set( $atts['id'], $url, 'bbgi:inlinking', MINUTE_IN_SECONDS * 15 );
+			}
 		}
 
 		if ( $atts['hideifdoesnotexist'] === 'false' && ! $url ) {
