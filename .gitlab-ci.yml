@@ -36,6 +36,8 @@ deploy_prod:
     url: https://sites.greatermedia.com/
   script:
     - bash ./deploy-scripts/build.sh
+    # preprod should always be up to date with production
+    - bash ./deploy-scripts/deploy-preprod.sh
     - bash ./deploy-scripts/deploy-prod.sh
     - bash ./deploy-scripts/sync-jobs-to-web.sh # Sync all code first, before updating version timestamp to avoid cache issues
     - ssh beanstalk@52.0.13.41 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
