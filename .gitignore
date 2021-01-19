@@ -18,6 +18,7 @@ mu-plugins/post-finder/
 !/plugins/breaking-news/
 !/plugins/dynamic-cdn/
 !/plugins/edit-flow-hotfixes/
+!/plugins/feed-pull/
 !/plugins/feed-pull-mrss/
 !/plugins/getty-images/
 !/plugins/gmr-*
