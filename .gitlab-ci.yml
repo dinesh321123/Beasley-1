@@ -15,6 +15,22 @@ test:
   script:
     - 10up-scripts
 
+test_only:
+  stage: deploy
+  environment:
+    name: Staging
+    url: https://bbgistage.com/
+  before_script:
+    - curl -O https://getcomposer.org/download/2.0.8/composer.phar
+    - chmod +x composer.phar
+    - mv composer.phar /usr/local/bin/composer
+    - echo "Composer updated, showing version"
+    - composer -V
+  script:
+    - bash ./deploy-scripts/build.sh
+  only:
+    - composer-test-only
+
 deploy_stage:
   stage: deploy
   environment:
