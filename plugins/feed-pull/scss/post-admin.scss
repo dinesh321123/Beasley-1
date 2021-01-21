@@ -1,0 +1,105 @@
+#titlediv .inside {
+	display: none
+}
+
+#fp_content_details,
+#fp_source_details {
+
+	input[type=text] {
+		display: block;
+		width: 100%;
+	}
+
+	label {
+		display: block;
+	}
+
+	.field-description {
+		font-style: italic;
+	}
+
+}
+
+#visibility, #preview-action {
+	display: none;
+}
+
+.misc-pub-fp-last-pulled {
+	label {
+		background: url("../../img/feed-document.png") no-repeat top left;
+		padding-left: 25px;
+	}
+}
+
+#fp_source_details {
+	.custom-namespaces-description {
+		font-style: italic;
+	}
+}
+
+#fp_log {
+	ul {
+		.status {
+			color: green;
+		}
+
+		.error {
+			color: red;
+		}
+
+		.warning {
+			color: yellow;
+		}
+	}
+}
+
+#fp_manual_pull {
+	.button-container {
+		line-height: 28px;
+
+		#fp-spinner {
+			vertical-align: middle;
+			opacity: 0;
+			margin-left: .3em;
+		}
+	}
+}
+
+#fp_field_mapping {
+	input[type=button] {
+		width: 70px;
+		font-size: 12px;
+	}
+
+	.button-wrapper {
+		padding-right: .3em;
+		margin-top: .3em;
+	}
+}
+
+#fp_field_mapping, #fp_source_details {
+	table {
+		&.hide {
+			display: none;
+		}
+
+		width: 100%;
+		font-size: inherit;
+
+		input[type=text] {
+			width: 100%;
+		}
+
+		.req {
+			background-color: #efefef;
+		}
+
+		td, th {
+			padding: .3em;
+			text-align: center;
+			&.action {
+				text-align: right;
+			}
+		}
+	}
+}
