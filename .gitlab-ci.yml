@@ -20,12 +20,6 @@ deploy_stage:
   environment:
     name: Staging
     url: https://bbgistage.com/
-  before_script:
-    - curl -O https://getcomposer.org/download/2.0.8/composer.phar
-    - chmod +x composer.phar
-    - mv composer.phar /usr/local/bin/composer
-    - echo "Composer updated, showing version"
-    - composer -V
   script:
     - bash ./deploy-scripts/build.sh
     - bash ./deploy-scripts/deploy-stage.sh
@@ -40,12 +34,6 @@ deploy_prod:
   environment:
     name: Production
     url: https://sites.greatermedia.com/
-  before_script:
-    - curl -O https://getcomposer.org/download/2.0.8/composer.phar
-    - chmod +x composer.phar
-    - mv composer.phar /usr/local/bin/composer
-    - echo "Composer updated, showing version"
-    - composer -V
   script:
     - bash ./deploy-scripts/build.sh
     - bash ./deploy-scripts/deploy-prod.sh
