@@ -136,9 +136,19 @@ if ( ! function_exists( 'ee_the_sponsored_by_div' ) ) :
 
 			$sponsored_by = $sponsor_url === ''
 				? $div_start . $sponsored_by . '</div>'
-				: $div_start . '<a class="sponsor-meta" href="' . $sponsor_url . '" target="_blank" >' . $sponsored_by . '</a></div>';
+				: $div_start . '<a class="sponsor-meta" href="' . $sponsor_url . '" rel="sponsored" target="_blank" >' . $sponsored_by . '</a></div>';
 		}
 
+		echo $sponsored_by;
+	}
+endif;
+
+if ( ! function_exists( 'ee_the_sponsored_by_thumbnail_overlay' ) ) :
+	function ee_the_sponsored_by_thumbnail_overlay( $the_id = null) {
+		$sponsored_by = ee_get_sponsored_by($the_id);
+		if ( $sponsored_by !== '' ) {
+			$sponsored_by = '<div class="post-sponsor-overlay">Sponsored</div>';
+		}
 		echo $sponsored_by;
 	}
 endif;

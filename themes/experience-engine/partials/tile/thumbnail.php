@@ -12,5 +12,6 @@
 				</svg>
 			</div>
 		<?php endif; ?>
+		<?php ee_the_sponsored_by_thumbnail_overlay( $post->ID ); ?>
 	</a>
 </div>
