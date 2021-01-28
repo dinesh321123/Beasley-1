@@ -138,6 +138,13 @@ if ( ! function_exists( 'ee_the_subheader_logo' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ee_the_beasley_logo' ) ) :
+	function ee_the_beasley_logo() {
+		echo '<a href="https://bbgi.com" target="_blank">
+			<img src="', get_template_directory_uri(), '/assets/images/large-BMG60YearsLogo.png" style="max-height: 150px; max-width: 150px;" alt="Beasley Media Group">
+		</a>';
+	}
+endif;
 
 if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
