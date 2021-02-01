@@ -14,7 +14,7 @@
 		<div class="logo" itemscope itemtype="http://schema.org/Organization">
 			<?php ee_the_custom_logo( 154, 88 ); ?>
 			<?php ee_the_subheader_logo( 'desktop', 154, 88 ); ?>
-			<?php ee_the_subheader_logo( 'mobile', 154, 88 ); ?>
+			<?php ee_the_subheader_logo( 'mobile', 462, 88 ); ?>
 			<span class="screen-reader-text"><?php wp_title(); ?></span>
 		</div>
 
