@@ -87,7 +87,12 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 				}
 			}
 
-			echo '<div class="archive-tiles -carousel swiper-container ' . esc_attr( $size ) .'">';
+			$first_swiper = '';
+			if ($homepage_feed_row_count == 1) {
+				$first_swiper = ' first-swiper';
+			}
+
+			echo '<div class="archive-tiles -carousel swiper-container ' . esc_attr( $size ) . esc_attr( $first_swiper ) .'">';
 				echo '<div class="swiper-wrapper">';
 					foreach ( $feed['content'] as $item ) {
 						echo '<div class="swiper-slide">';
@@ -98,6 +103,9 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 						echo '</div>';
 					}
 					echo '</div>';
+				if ($homepage_feed_row_count == 1) {
+					echo '<div class="swiper-button-fake-next"></div>';
+				}
 				echo '<div class="swiper-button-prev"></div><div class="swiper-button-next"></div>';
 			echo '</div>';
 		echo '</div>';
