@@ -102,7 +102,7 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
 							}
 						echo '</div>';
 					}
-					echo '</div>';
+				echo '</div>';
 				if ($homepage_feed_row_count == 1) {
 					echo '<div class="swiper-button-fake-next"></div>';
 				}
