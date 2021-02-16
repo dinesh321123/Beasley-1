@@ -155,11 +155,9 @@ class FP_Pull {
 			'cache_results' => false,
 		);
 
-		/* Comment out for DEBUG TEST ONLY
 		if ( ! empty( $source_feed_id ) ) {
 			$args['p'] = (int) $source_feed_id;
 		}
-		*/
 
 		$source_feeds = new WP_Query( $args );
 
