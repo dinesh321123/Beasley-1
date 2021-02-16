@@ -31,6 +31,7 @@ class FP_Pull {
 			$this->_feed_log[$source_feed_id] = array();
 		}
 
+		$message = date('Y-m-d H:i:s ') . $message;
 		$this->_feed_log[$source_feed_id][] = array(
 			'message' => sanitize_text_field( $message ),
 			'type' => sanitize_text_field( $type ),
@@ -393,7 +394,7 @@ class FP_Pull {
 							$this->log( sprintf( __( 'Xpath to source field returns nothing for %s', 'feed-pull' ), sanitize_text_field( $field['source_field'] ) ), $source_feed_id, 'warning', $new_post_id );
 							continue;
 						}
-					
+
 						if ( count( $values ) > 1 ) {
 							$pre_filter_meta_value = array();
 
@@ -436,7 +437,7 @@ class FP_Pull {
 						}
 					}
 				}
-				
+
 				do_action( 'fp_handled_post', $new_post_id, $source_feed_id );
 			}
 
