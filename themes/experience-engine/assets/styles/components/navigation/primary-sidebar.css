@@ -128,6 +128,20 @@
 		}
 	}
 
+	& .desktop-subheader-logo-link {
+	    display: none;
+		@media (--min-large-viewport) {
+			display: block;
+		}
+  	}
+
+	& .mobile-subheader-logo-link {
+	    display: block;
+		@media (--min-large-viewport) {
+			display: none;
+		}
+	}
+
 	&.menu-is-active {
 		& .primary-sidebar-navigation::before {
 			background-color: var(--global-theme-secondary);
@@ -153,6 +167,11 @@
 				width: calc(33.3333vw - 2.2rem);
 			}
 		}
+
+		& .mobile-subheader-logo-link,
+		& .mobile-subheader-logo-link {
+		    display: none;
+	    }
 
 		& .site-menu-toggle {
 			& svg {

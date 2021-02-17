@@ -136,11 +136,19 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
 
+		add_settings_section( 'opacity_section', 'Play Button Opacity', '__return_false', $this->_settings_page_hook );
+		add_settings_field('play_opacity_setting', 'Opacity', 'bbgi_input_field', $this->_settings_page_hook, 'opacity_section', 'name=play_opacity_setting&default=0.8');
+		add_settings_field('play_hover_opacity_setting', 'Hover Opacity', 'bbgi_input_field', $this->_settings_page_hook, 'opacity_section', 'name=play_hover_opacity_setting&default=1');
+		add_settings_field('play_live_hover_opacity_setting', 'Live Play Hover Opacity', 'bbgi_input_field', $this->_settings_page_hook, 'opacity_section', 'name=play_live_hover_opacity_setting&default=0.8');
+
 		add_settings_section( 'ee_geotargetly', 'Geo Targetly', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'ee_geotargetly_enabled', 'Geo Targetly Enabled', 'bbgi_checkbox_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_enabled_args );
 		add_settings_field( 'ee_geotargetly_embed_code', 'Geo Targetly Embed Code', 'bbgi_textarea_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_embed_code_args );
 
 		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=gmr_site_logo' );
+		add_settings_field( 'ee_subheader_mobile_logo', 'Mobile Subheader Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=ee_subheader_mobile_logo' );
+		add_settings_field( 'ee_subheader_desktop_logo', 'Desktop Subheader Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=ee_subheader_desktop_logo' );
+
 		add_settings_field( 'ee_theme_version', 'Theme Version', 'bbgi_select_field', $this->_settings_page_hook, 'ee_site_settings', $theme_version_args );
 		add_settings_field( 'ee_newsletter_signup_page', 'Newsletter Signup Page', 'wp_dropdown_pages', $this->_settings_page_hook, 'ee_site_settings', $newsletter_args );
 		add_settings_field( 'ee_publisher', 'Publisher', array( $this, 'render_publisher_select' ), $this->_settings_page_hook, 'ee_site_settings', $publisher_args );
@@ -175,6 +183,8 @@ class Settings extends \Bbgi\Module {
 		) );
 
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
+		register_setting( self::option_group, 'ee_subheader_mobile_logo', 'intval' );
+		register_setting( self::option_group, 'ee_subheader_desktop_logo', 'intval' );
 		register_setting( self::option_group, 'ee_newsletter_signup_page', 'intval' );
 		register_setting( self::option_group, 'ee_theme_version', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_publisher', 'sanitize_text_field' );
@@ -192,6 +202,10 @@ class Settings extends \Bbgi\Module {
 		// Note: No Sanitization with the assumption that the GeoTargetly embed code is XSS safe
 		// Not for use with untrusted JS code
 		register_setting( self::option_group, 'ee_geotargetly_embed_code', '' );
+
+		register_setting(self::option_group, 'play_opacity_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'play_hover_opacity_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'play_live_hover_opacity_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
 

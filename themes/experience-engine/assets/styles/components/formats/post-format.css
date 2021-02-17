@@ -14,6 +14,13 @@
         top: 50%;
         transform: translateY(-50%);
         width: 64px;
+	    opacity: var(--brand-play-opacity);
+
+		&:focus,
+		&:hover {
+			 outline: 0;
+			 opacity: var(--brand-play-hover-opacity);
+		 }
 
         & svg {
             fill: var(--brand-primary);

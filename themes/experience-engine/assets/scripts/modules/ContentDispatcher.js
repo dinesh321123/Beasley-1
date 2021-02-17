@@ -87,7 +87,8 @@ class ContentDispatcher extends Component {
 				const group = carousels[i].classList.contains('-large') ? 2 : 4;
 
 				// eslint-disable-next-line no-new
-				new Swiper(carousels[i], {
+				const swiper = new Swiper(carousels[i], {
+					init: false,
 					slidesPerView: count + 2,
 					slidesPerGroup: group + 2,
 					spaceBetween: 36,
@@ -118,6 +119,20 @@ class ContentDispatcher extends Component {
 						prevEl: '.swiper-button-prev',
 					},
 				});
+
+				swiper.on('init', () => {
+					const fakenextButton = swiper.el.querySelectorAll(
+						'.swiper-button-fake-next',
+					);
+					if (fakenextButton && fakenextButton.length > 0) {
+						fakenextButton[0].onclick = () => {
+							console.log('alternate click');
+							swiper.slideTo(0, 200, false);
+						};
+					}
+				});
+
+				swiper.init();
 			}
 		}
 	}

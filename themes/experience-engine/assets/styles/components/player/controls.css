@@ -613,11 +613,12 @@
 	height: 54px;
 	justify-content: center;
 	width: 54px;
+	opacity: var(--brand-play-opacity);
 
 	&:focus,
 	&:hover {
 		outline: 0;
-		opacity: 0.8;
+		opacity: var(--brand-play-hover-opacity);
 	}
 
 	& svg {
@@ -628,6 +629,14 @@
 }
 
 .LIVE_PLAYING .pause-btn {
+	opacity: 1;
+
+	&:focus,
+	&:hover {
+		 outline: 0;
+		 opacity: var(--brand-play-live-hover-opacity);
+    }
+
 	& svg {
 		width: 13px;
 		height: 23px;
@@ -658,4 +667,31 @@
 	@media(--min-medium-viewport) {
 		margin-top: 0;
 	}
+}
+
+.control-section .-podcast.LIVE_PAUSE .resume-btn,
+.control-section .-podcast.LIVE_PLAYING .pause-btn,
+.control-section .-podcast.LIVE_STOP .play-btn,
+.control-section .-podcast.LIVE_FAILED .play-btn,
+.control-section .-podcast.LIVE_BUFFERING .loading-btn,
+.control-section .-podcast.LIVE_CONNECTING .loading-btn,
+.control-section .-podcast.LIVE_RECONNECTING .loading-btn,
+.control-section .-podcast.STREAM_GEO_BLOCKED .play-btn,
+.control-section .-podcast.STATION_NOT_FOUND .play-btn
+.control-section .-live.LIVE_PAUSE .resume-btn,
+.control-section .-live.LIVE_PLAYING .pause-btn,
+.control-section .-live.LIVE_STOP .play-btn,
+.control-section .-live.LIVE_FAILED .play-btn,
+.control-section .-live.LIVE_BUFFERING .loading-btn,
+.control-section .-live.LIVE_CONNECTING .loading-btn,
+.control-section .-live.LIVE_RECONNECTING .loading-btn,
+.control-section .-live.STREAM_GEO_BLOCKED .play-btn,
+.control-section .-live.STATION_NOT_FOUND .play-btn {
+	opacity: 1;
+
+	&:focus,
+	&:hover {
+		 outline: 0;
+		 opacity: var(--brand-play-live-hover-opacity);
+	 }
 }
