@@ -365,7 +365,7 @@
 		}
 
 		& .post-title {
-			hyphens: auto;
+			hyphens: manual;
 			word-wrap: anywhere;
 
 			& h3 {
