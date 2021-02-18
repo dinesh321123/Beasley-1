@@ -42,6 +42,6 @@ html {
 	}
 
 	@media(--min-medium-viewport) {
-		padding: 0 1.3rem 2.22rem;
+		padding: 0 1.3rem 1.5rem;
 	}
 }

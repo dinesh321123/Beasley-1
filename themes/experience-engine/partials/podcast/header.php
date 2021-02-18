@@ -9,6 +9,9 @@
 			podcast
 		</p>
 		<h1><?php the_title(); ?></h1>
+		<div class="count">
+			<?php the_content() ?>
+		</div>
 		<p class="count">
 			<?php echo esc_html( ee_get_episodes_count() ); ?> episodes
 		</p>
