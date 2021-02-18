@@ -12,8 +12,10 @@
 		<div>
 			<?php the_content(); ?>
 		</div>
-		<p class="count">
-			<?php echo esc_html( ee_get_episodes_count() ); ?> episodes
-		</p>
+		<div>
+			<p class="count">
+				<?php echo esc_html( ee_get_episodes_count() ); ?> episodes
+			</p>
+		</div>
 	</div>
 </div>
