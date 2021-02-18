@@ -12,7 +12,7 @@
 		<div>
 			<?php the_content(); ?>
 		</div>
-		<div style="clear: left;">
+		<div style="padding-top: .5rem; clear: left;">
 			<p class="count">
 				<?php echo esc_html( ee_get_episodes_count() ); ?> episodes
 			</p>
