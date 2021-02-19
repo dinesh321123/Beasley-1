@@ -191,7 +191,11 @@ class LivePlayer extends Component {
 
 							<Controls
 								status={status}
-								play={this.handlePlay}
+								play={
+									adPlayback && isAudioAdOnly({ player, playerType })
+										? null
+										: this.handlePlay
+								}
 								pause={pause}
 								resume={resume}
 								colors={buttonsBackgroundStyle}

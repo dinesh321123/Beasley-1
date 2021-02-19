@@ -43,7 +43,7 @@ export function isAudioAdOnly({ player, playerType }) {
 	let currentAdModule = null;
 
 	// If not tdplayer, abandon
-	if (playerType === 'tdplayer') {
+	if (playerType !== 'tdplayer') {
 		return false;
 	}
 
@@ -55,9 +55,11 @@ export function isAudioAdOnly({ player, playerType }) {
 	// eslint-disable-next-line no-prototype-builtins
 	if (currentAdModule && currentAdModule.hasOwnProperty('html5Node')) {
 		const regEx = new RegExp(/\.mp3$/);
-		const adUrl = currentAdModule.html5Node.currentSrc || false;
+		const adUrl = currentAdModule.html5Node
+			? currentAdModule.html5Node.currentSrc || false
+			: false;
 
-		return regEx.test(adUrl);
+		return adUrl ? regEx.test(adUrl) : false;
 	}
 
 	return false;
