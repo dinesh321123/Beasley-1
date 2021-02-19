@@ -80,7 +80,7 @@ endif;
 if ( ! function_exists( 'ee_login_body_class' ) ) :
 	function ee_login_body_class( $classes ) {
 		if ( 'disabled' === get_option( 'ee_login', '' ) ) {
-			$classes[] = 'hidden-user-nav';
+			// $classes[] = 'hidden-user-nav';
 		}
 
 		return $classes;
