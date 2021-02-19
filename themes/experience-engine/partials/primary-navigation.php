@@ -8,5 +8,5 @@ wp_nav_menu( array(
 	'theme_location' => 'primary-nav',
 	'depth'          => 2,
 	'item_spacing'   => 'discard',
-	'walker'         => get_option( 'ee_login' ) === 'disabled' ? '' : new \PrimaryNavWalker(),
+	'walker'         => new \PrimaryNavWalker(),
 ) );
