@@ -16,9 +16,15 @@ export default function updateInterstitialAdDiv() {
 			// Put in watchdog to revert style should Google not create children in 3.5 seconds
 			setTimeout(() => {
 				console.log('Checking whether Interstital has content.');
-				if (interstitialAdDiv.children.length === 0) {
+				const nonScriptInterstitialChildren = interstitialAdDiv.querySelectorAll(
+					':not(script)',
+				);
+				console.log(
+					`Interstitial Div has ${nonScriptInterstitialChildren.length} non-script children.`,
+				);
+				if (nonScriptInterstitialChildren.length === 0) {
 					console.log(
-						`Reverting Interstital style to ${copyOfInterstitialStyle}`,
+						`Reverting Interstital style to ${copyOfInterstitialStyle}.`,
 					);
 					interstitialAdDiv.style.cssText = copyOfInterstitialStyle;
 				}
