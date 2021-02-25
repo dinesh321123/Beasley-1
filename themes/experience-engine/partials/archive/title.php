@@ -5,6 +5,7 @@ echo '<div class="archive-title content-wrap">';
 	the_archive_title( '<h1>', '</h1>' );
 echo '</div>';
 
-if (strpos($_SERVER['REQUEST_URI'], '/category/') !== false) {
+if (strpos($_SERVER['REQUEST_URI'], '/category/') !== false
+    && strpos($_SERVER['REQUEST_URI'], '/events/') === false ) {
 	the_archive_description('<div class="content-wrap" style="padding-bottom: 0">', '</div>');
 }
