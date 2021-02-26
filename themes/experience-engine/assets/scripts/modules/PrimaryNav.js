@@ -280,6 +280,7 @@ class PrimaryNav extends PureComponent {
 		}
 
 		if (
+			parent &&
 			parent.classList.contains('sub-menu') &&
 			parent.contains(linkToActivate)
 		) {
@@ -290,6 +291,7 @@ class PrimaryNav extends PureComponent {
 	}
 
 	closeMenus() {
+		document.body.classList.remove('-lock');
 		const container = this.primaryNavRef.current;
 		const actives = container.querySelectorAll(
 			'.menu-item-has-children .is-active',
