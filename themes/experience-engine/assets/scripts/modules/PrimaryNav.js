@@ -65,9 +65,7 @@ class PrimaryNav extends PureComponent {
 			sidebarContainer.classList.add('is-safari');
 		}
 
-		console.log('componentDidMount()');
 		document.body.classList.remove('-lock');
-		console.log('removed lock');
 	}
 
 	componentWillUnmount() {
@@ -288,9 +286,6 @@ class PrimaryNav extends PureComponent {
 			parent.classList.contains('sub-menu') &&
 			parent.contains(linkToActivate)
 		) {
-			console.log(
-				'Remove lock because parent has submenu, but dont close menus',
-			);
 			document.body.classList.remove('-lock');
 			return;
 		}
@@ -299,7 +294,6 @@ class PrimaryNav extends PureComponent {
 	}
 
 	closeMenus() {
-		console.log('Closing Menus');
 		document.body.classList.remove('-lock');
 		const container = this.primaryNavRef.current;
 		const actives = container.querySelectorAll(
