@@ -64,6 +64,8 @@ class PrimaryNav extends PureComponent {
 		if (isSafari()) {
 			sidebarContainer.classList.add('is-safari');
 		}
+
+		document.body.classList.remove('-lock');
 	}
 
 	componentWillUnmount() {
