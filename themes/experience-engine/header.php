@@ -12,6 +12,30 @@ use Bbgi\Integration\Google;
 			ee_switch_to_article_blog();
 		endif;
 
+
+		function filter_parsely_page( $parselyPage, $post, $parselyOptions )
+		{
+			if (is_front_page()) {
+				$parselyPage['type'] = 'index';
+				$parselyPage['title'] = '';
+				$parselyPage['thumbnailUrl'] = '';
+				$parselyPage['articleSection'] = '';
+				$parselyPage['keywords'] = '';
+			} elseif (is_category()) {
+				global $wp;
+				$parselyPage['url'] = home_url( add_query_arg( [], $wp->request ) );
+				$parselyPage['type'] = 'index';
+				$parselyPage['title'] = '';
+				$parselyPage['thumbnailUrl'] = '';
+				$parselyPage['articleSection'] = '';
+				$parselyPage['keywords'] = '';
+			}
+
+			return $parselyPage;
+		}
+
+		add_filter( 'after_set_parsely_page', 'filter_parsely_page', 10, 3 );
+
 		wp_head();
 
 	?></head>
