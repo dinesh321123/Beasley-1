@@ -7,7 +7,11 @@ set -x
 set -euo pipefail
 
 # activate and display the node version set in the .nvmrc file
+# nvm is very verbose so hide nvm use output
+set +x
 nvm use
+set -x
+
 node --version
 
 composer install --no-dev -o
