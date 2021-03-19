@@ -6,6 +6,10 @@ set -x
 # Catch Errors
 set -euo pipefail
 
+# activate and display the node version set in the .nvmrc file
+nvm use
+node --version
+
 composer install --no-dev -o
 
 pushd plugins/greatermedia-content-syndication || exit 1
