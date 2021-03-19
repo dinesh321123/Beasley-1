@@ -26,6 +26,7 @@ readme.txt
 *phpcs.xml
 *.editorconfig
 .composer-cache
+.nvmrc
 
 # Specific to wp-content based delpoys
 uploads
