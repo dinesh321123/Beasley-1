@@ -22,10 +22,8 @@ class Dfp extends PureComponent {
 		this.container = document.getElementById(placeholder);
 		this.tryDisplaySlot();
 
-		if (this.props.unitName === 'right-rail') {
-			this.startInterval();
-			document.addEventListener('visibilitychange', this.onVisibilityChange);
-		}
+		this.startInterval();
+		document.addEventListener('visibilitychange', this.onVisibilityChange);
 
 		// Fire sponsored ad utility to determine if
 		// a sponsor ad will in fact load in the player
@@ -69,10 +67,8 @@ class Dfp extends PureComponent {
 	componentWillUnmount() {
 		this.destroySlot();
 
-		if (this.props.unitName === 'right-rail') {
-			this.stopInterval();
-			document.removeEventListener('visibilitychange', this.onVisibilityChange);
-		}
+		this.stopInterval();
+		document.removeEventListener('visibilitychange', this.onVisibilityChange);
 	}
 
 	handleVisibilityChange() {
