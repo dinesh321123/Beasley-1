@@ -68,8 +68,7 @@ export function sendBidToGA(bid) {
 		console.log('BID send to Google Analytics');
 		window.ga('set', 'userId', bid);
 		window.ga('send', 'event', 'useridentified', 'user-id available');
-	}
-	catch (err) {
+	} catch (err) {
 		console.log('error sending authentication event', err);
 	}
 }

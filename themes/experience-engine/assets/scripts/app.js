@@ -5,7 +5,7 @@ import {
 	ModalDispatcher,
 	LivePlayer,
 	PrimaryNav,
-	UserNav, 
+	UserNav,
 	SearchForm,
 } from './modules';
 import BackToTop from './components/BackToTop';
@@ -23,7 +23,7 @@ const App = () => {
 		} else if (isWindowsBrowser()) {
 			document.body.classList.add('is-windows');
 		}
-		uniqueUserId()
+		uniqueUserId();
 	}, []);
 	return (
 		<IntersectionObserverProvider>
