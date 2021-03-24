@@ -55,6 +55,25 @@ export function sendInlineAudioPlaying() {
 	});
 }
 
+/**
+ * Sends a Inline audio playing event to GA
+ */
+export function sendBidToGA(bid) {
+	const { ga } = window;
+	if (!ga) {
+		console.log('Google Analytics not configured for this site.');
+		return;
+	}
+	try {
+		console.log('BID send to Google Analytics');
+		window.ga('set', 'userId', bid);
+		window.ga('send', 'event', 'useridentified', 'user-id available');
+	}
+	catch (err) {
+		console.log('error sending authentication event', err);
+	}
+}
+
 export default {
 	pageview,
 };
