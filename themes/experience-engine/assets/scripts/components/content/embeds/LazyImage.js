@@ -27,7 +27,7 @@ class LazyImage extends PureComponent {
 	}
 
 	handleIntersectionChange() {
-		const { tracking } = this.props;
+		const { tracking, referrer } = this.props;
 
 		// disable intersection observing
 		this.context.unobserve(this.container);
@@ -35,6 +35,14 @@ class LazyImage extends PureComponent {
 		// track virtual page view if it's needed
 		if (tracking) {
 			pageview(document.title, tracking);
+
+			if (window.PARSELY) {
+				// eslint-disable-next-line no-undef
+				PARSELY.beacon.trackPageView({
+					url: tracking,
+					urlref: referrer,
+				});
+			}
 		}
 
 		// load image
@@ -191,6 +199,7 @@ LazyImage.propTypes = {
 	height: PropTypes.string.isRequired,
 	alt: PropTypes.string.isRequired,
 	tracking: PropTypes.string,
+	referrer: PropTypes.string,
 	attribution: PropTypes.string,
 	autoheight: PropTypes.string,
 	crop: PropTypes.bool,
@@ -198,6 +207,7 @@ LazyImage.propTypes = {
 
 LazyImage.defaultProps = {
 	tracking: '',
+	referrer: '',
 	attribution: '',
 	autoheight: '',
 	crop: true,

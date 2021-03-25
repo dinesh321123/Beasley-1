@@ -258,6 +258,7 @@ export function getStateFromContent(container) {
 					'height',
 					'alt',
 					'tracking',
+					'referrer',
 					'attribution',
 					'autoheight',
 				),
