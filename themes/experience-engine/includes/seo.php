@@ -52,3 +52,10 @@ add_filter( 'wpseo_opengraph_author_facebook', 'ee_update_opengraph_article_auth
  * Enable article:published_time for custom post types
  */
 add_filter( 'wpseo_opengraph_show_publish_date', '__return_true' );
+
+/**
+ * Turn off WordPress core 5.5+ native sitemaps. Newer versions of Yoast will
+ * also do this.
+ */
+
+add_filter( 'wp_sitemaps_enabled', '__return_false' );
