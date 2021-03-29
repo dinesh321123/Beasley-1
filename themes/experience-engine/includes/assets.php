@@ -171,6 +171,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 		$config = array(
 			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_css_opacities()) ),
 			'geotargetly' => ee_current_page_needs_geotargetly(),
+			'related_article_title' => get_option( 'related_article_title', 'You May Also Like' ),
 
 			/** Live Streaming Intervals */
 			'intervals'  => [

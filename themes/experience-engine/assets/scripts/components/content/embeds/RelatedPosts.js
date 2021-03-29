@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import LazyImage from './LazyImage';
 import LoadingAjaxContent from '../../LoadingAjaxContent';
+import { slugify } from '../../../library';
 
 const RelatedPost = ({
 	id,
@@ -97,19 +98,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 					eventLabel: `test ${result.testname}`,
 				});
 
-				let transformedURL = result.url;
-
-				if (
-					typeof window.jstag !== 'undefined' &&
-					typeof window.jstag.ckieGet !== 'undefined'
-				) {
-					const seerid = window.jstag.ckieGet('seerid');
-					if (seerid) {
-						transformedURL = transformedURL.replace('{userid}', seerid);
-					}
-				}
-
-				setPostsEndpointURL(transformedURL);
+				setPostsEndpointURL(result.url);
 			} catch (e) {
 				setLoading(false);
 				setPostsEndpointURL('');
@@ -124,7 +113,25 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 			if (postsEndpointURL) {
 				try {
 					const result = await fetch(postsEndpointURL).then(r => r.json());
-					setRelatedPosts(result.data);
+					if (
+						// If We Did Not Pull From Parsley
+						postsEndpointURL.toLowerCase().indexOf('api.parsely.com') === -1
+					) {
+						setRelatedPosts(result.data);
+					} else {
+						setRelatedPosts(
+							result.data.map(relatedPost => {
+								return {
+									id: slugify(relatedPost.url.replace('http://', '')),
+									url: relatedPost.url.replace('http://', ''),
+									title: relatedPost.title,
+									primary_image: relatedPost.image_url.replace('http://', ''),
+									published: relatedPost.pub_date,
+									test_name: relatedPost.tags,
+								};
+							}),
+						);
+					}
 					setLoading(false);
 				} catch (e) {
 					setLoading(false);
@@ -151,7 +158,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 		return (
 			<div className="related-articles content-wrap">
 				<h2 className="section-head">
-					<span>You Might Also Like</span>
+					<span>{bbgiconfig.related_article_title}</span>
 				</h2>
 
 				<div className="archive-tiles -list">
