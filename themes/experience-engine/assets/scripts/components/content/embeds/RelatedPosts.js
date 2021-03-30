@@ -118,14 +118,22 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 						postsEndpointURL.toLowerCase().indexOf('api.parsely.com') === -1
 					) {
 						setRelatedPosts(result.data);
-					} else {
+					} else if (result.data) {
 						setRelatedPosts(
 							result.data.map(relatedPost => {
 								return {
-									id: slugify(relatedPost.url.replace('http://', '')),
-									url: relatedPost.url.replace('http://', ''),
+									id: slugify(
+										relatedPost.url
+											? relatedPost.url.replace('http://', '')
+											: '',
+									),
+									url: relatedPost.url
+										? relatedPost.url.replace('http://', '')
+										: '',
 									title: relatedPost.title,
-									primary_image: relatedPost.image_url.replace('http://', ''),
+									primary_image: relatedPost.image_url
+										? relatedPost.image_url.replace('http://', '')
+										: '',
 									published: relatedPost.pub_date,
 									test_name: relatedPost.tags,
 								};
