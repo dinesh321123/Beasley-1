@@ -16,11 +16,12 @@
 			}
 		}
 
-		& .post-title {
-			@media (--min-large-viewport) {
-				max-width: 375px;
-			}
-		}
+		& div.post-thumbnail {
+		    min-width: 150px;
+		    min-height: 150px;
+		    max-width: 150px;
+		    max-height: 150px;
+	    }
 
 		& .post-details {
 			flex: 1;

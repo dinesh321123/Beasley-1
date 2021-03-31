@@ -37,8 +37,8 @@ const RelatedPost = ({
 						crop={false}
 						placeholder={`thumbnail-${id}`}
 						src={primary_image}
-						width={310}
-						height={205}
+						width={150}
+						height={150}
 						alt={title || ''}
 					/>
 				</a>
@@ -82,7 +82,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 	const endpointURL = `${bbgiconfig.eeapi}publishers/${
 		bbgiconfig.publisher.id
 	}/recommendations?categories=${categories ||
-		''}&posttype=${posttype}&url=${encodeURIComponent(url)}`;
+		''}&posttype=${posttype}&url=https%3A%2F%2Fwmmr.com%2F2021%2F03%2F29%2Fperry-farrell-lollapalooza-2021-in-person-event%2F`;
 
 	useEffect(() => {
 		async function fetchPostsEndpoint() {
