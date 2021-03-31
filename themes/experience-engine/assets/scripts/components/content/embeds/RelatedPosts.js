@@ -82,7 +82,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 	const endpointURL = `${bbgiconfig.eeapi}publishers/${
 		bbgiconfig.publisher.id
 	}/recommendations?categories=${categories ||
-		''}&posttype=${posttype}&url=https%3A%2F%2Fwmmr.com%2F2021%2F03%2F29%2Fperry-farrell-lollapalooza-2021-in-person-event%2F`;
+		''}&posttype=${posttype}&url=${encodeURIComponent(url)}`;
 
 	useEffect(() => {
 		async function fetchPostsEndpoint() {

@@ -1,14 +1,13 @@
 .related-articles {
 	& .post {
-		margin-bottom: 1rem;
+		margin-bottom: 1.3rem;
 
-		@media (--min-small-viewport) {
-			margin-bottom: 3rem;
+		@media (--min-large-viewport) {
+			margin-bottom: 2rem;
 		}
 
 		& .post-thumbnail {
 			flex: 0 1 100%;
-			margin-bottom: 1rem;
 
 			@media (--min-small-viewport) {
 				flex: auto;
@@ -25,8 +24,9 @@
 
 		& .post-details {
 			flex: 1;
+		    margin-left: 1.3rem;
 
-			@media (--min-small-viewport) {
+			@media (--min-large-viewport) {
 				margin-left: 2rem;
 			}
 
