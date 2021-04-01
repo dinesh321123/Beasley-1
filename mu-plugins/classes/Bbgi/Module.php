@@ -59,7 +59,8 @@ abstract class Module {
 			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
 			'facebook-oembed'	=> new \Bbgi\Integration\FacebookOEmbed(),
 			'mapbox' 			=> new \Bbgi\Integration\Mapbox(),
-			'hsform'			=> new \Bbgi\Integration\HubspotForm()
+			'hsform'			=> new \Bbgi\Integration\HubspotForm(),
+			'feature_video'		=> new \Bbgi\Integration\FeatureVideo(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {

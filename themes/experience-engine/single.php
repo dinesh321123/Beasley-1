@@ -1,5 +1,12 @@
 <?php
 
+if ( ! function_exists('ee_render_incontent_video') ) :
+	function ee_render_incontent_video() {
+		$value = apply_filters( 'incontentvideo_filter', '' );
+		echo $value;
+	}
+endif;
+
 get_header();
 
 ee_switch_to_article_blog();
@@ -50,6 +57,11 @@ the_post();
 			<?php if ( bbgi_featured_image_layout_is( null, 'inline' ) ) : ?>
 				<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php endif; ?>
+
+			<?php if ( ee_older_than_2019() ) : ?>
+				<?php ee_render_incontent_video(); ?>
+			<?php endif; ?>
+
 			<?php ee_the_content_with_ads(); ?>
 
 			<?php if ( is_singular( 'post' ) ) : ?>

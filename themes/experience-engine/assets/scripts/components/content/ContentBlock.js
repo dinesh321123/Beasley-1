@@ -28,6 +28,8 @@ import GoogleAnalytics from './embeds/GoogleAnalytics';
 import Instagram from './embeds/Instagram';
 import MapBox from './embeds/MapBox';
 import HubspotForm from './embeds/HubspotForm';
+import StnBarker from './embeds/StnBarker';
+import StnPlayer from './embeds/StnPlayer';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -52,6 +54,8 @@ const mapping = {
 	ga: GoogleAnalytics,
 	instagram: Instagram,
 	mapbox: MapBox,
+	stnbarker: StnBarker,
+	stnplayer: StnPlayer,
 	hubspotform: HubspotForm,
 };
 

@@ -115,6 +115,11 @@ class Settings extends \Bbgi\Module {
 			'selected' => 'disabled' === get_option( 'ee_login', '' ),
 		);
 
+		$feature_video_provider_disabled_args = array(
+				'name'     => 'feature_video_provider',
+				'selected' => get_option( 'feature_video_provider', 'none' ),
+		);
+
 		$ee_geotargetly_enabled_args = [
 			'name' => 'ee_geotargetly_enabled',
 		];
@@ -144,6 +149,11 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'ee_geotargetly', 'Geo Targetly', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'ee_geotargetly_enabled', 'Geo Targetly Enabled', 'bbgi_checkbox_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_enabled_args );
 		add_settings_field( 'ee_geotargetly_embed_code', 'Geo Targetly Embed Code', 'bbgi_textarea_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_embed_code_args );
+
+		add_settings_section('feature_video', 'Feature Video', '__return_false', $this->_settings_page_hook);
+		add_settings_field('feature_video_provider', 'Feature Video Provider', array($this, 'render_feature_video_provider'), $this->_settings_page_hook, 'feature_video', $feature_video_provider_disabled_args);
+		add_settings_field('stn_barker_id', 'STN Barker ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_barker_id');
+		add_settings_field('stn_inarticle_id', 'STN In Article ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_inarticle_id');
 
 		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=gmr_site_logo' );
 		add_settings_field( 'ee_subheader_mobile_logo', 'Mobile Subheader Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=ee_subheader_mobile_logo' );
@@ -192,6 +202,10 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_theme_version', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_publisher', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_login', 'sanitize_text_field' );
+
+		register_setting(self::option_group, 'feature_video_provider', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_barker_id', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_inarticle_id', 'sanitize_text_field');
 
 		register_setting( self::option_group, 'ee_theme_primary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_secondary_color', 'sanitize_text_field' );
@@ -378,6 +392,22 @@ class Settings extends \Bbgi\Module {
 		<option value="off"
 				<?php selected( $args['selected'], 'off' ); ?>
 		>Off</option>
+
+		</select><?php
+	}
+
+	public function render_feature_video_provider( $args ) {
+
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="none"
+				<?php selected( $args['selected'], 'none' ); ?>
+		>None</option>
+		<option value="stn"
+				<?php selected( $args['selected'], 'stn' ); ?>
+		>STN</option>
+		<option value="verizon"
+				<?php selected( $args['selected'], 'verizon' ); ?>
+		>Verizon</option>
 
 		</select><?php
 	}

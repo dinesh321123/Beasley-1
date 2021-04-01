@@ -172,6 +172,14 @@ function getHubspotFormParams(element) {
 	};
 }
 
+function getStnEmbedParams(element) {
+	const { dataset } = element;
+
+	return {
+		fk: dataset.fk,
+	};
+}
+
 function processEmbeds(container, type, selector, callback) {
 	const embeds = [];
 
@@ -363,6 +371,8 @@ export function getStateFromContent(container) {
 				'.hsform',
 				getHubspotFormParams,
 			),
+			...processEmbeds(container, 'stnbarker', '.stnbarker', getStnEmbedParams),
+			...processEmbeds(container, 'stnplayer', '.stnplayer', getStnEmbedParams),
 		];
 
 		// extract <script> tags

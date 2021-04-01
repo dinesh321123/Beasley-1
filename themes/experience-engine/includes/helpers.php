@@ -44,6 +44,13 @@ if ( ! function_exists( 'ee_the_date' ) ) :
 	}
 endif;
 
+if (! function_exists( 'ee_older_than_2019' ) ) :
+	function ee_older_than_2019( $post = null ) {
+		$post = get_post( $post );
+		return strtotime($post->post_date_gmt) < strtotime('1/1/2019');
+	}
+endif;
+
 if ( ! function_exists( 'ee_the_query_tiles' ) ) :
 	function ee_the_query_tiles( $query, $carousel = false ) {
 		while ( $query->have_posts() ) {
