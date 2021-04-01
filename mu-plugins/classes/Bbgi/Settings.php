@@ -405,10 +405,6 @@ class Settings extends \Bbgi\Module {
 		<option value="stn"
 				<?php selected( $args['selected'], 'stn' ); ?>
 		>STN</option>
-		<option value="verizon"
-				<?php selected( $args['selected'], 'verizon' ); ?>
-		>Verizon</option>
-
 		</select><?php
 	}
 }
