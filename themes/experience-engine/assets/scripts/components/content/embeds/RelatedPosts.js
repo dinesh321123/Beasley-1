@@ -37,7 +37,7 @@ const RelatedPost = ({
 						crop={false}
 						placeholder={`thumbnail-${id}`}
 						src={primary_image}
-						width={150}
+						width={200}
 						height={150}
 						alt={title || ''}
 					/>
