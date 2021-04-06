@@ -37,8 +37,8 @@ const RelatedPost = ({
 						crop={false}
 						placeholder={`thumbnail-${id}`}
 						src={primary_image}
-						width={200}
-						height={150}
+						width={188}
+						height={141}
 						alt={title || ''}
 					/>
 				</a>
@@ -122,17 +122,11 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 						setRelatedPosts(
 							result.data.map(relatedPost => {
 								return {
-									id: slugify(
-										relatedPost.url
-											? relatedPost.url.replace('http://', '')
-											: '',
-									),
-									url: relatedPost.url
-										? relatedPost.url.replace('http://', '')
-										: '',
+									id: slugify(relatedPost.url ? relatedPost.url : ''),
+									url: relatedPost.url ? relatedPost.url : '',
 									title: relatedPost.title,
 									primary_image: relatedPost.image_url
-										? relatedPost.image_url.replace('http://', '')
+										? relatedPost.image_url.replace('-150x150', '')
 										: '',
 									published: relatedPost.pub_date,
 									test_name: relatedPost.tags,
