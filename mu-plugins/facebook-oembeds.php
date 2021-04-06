@@ -1,18 +1,16 @@
 <?php
-/**
- * Module responsible for registering facebook and instagram embed.
+/*
+ * Plugin Name: Facebook Oembeds
+ * Description: Restores Facebook and Instagram Oembed Functionality
+ * Author: BBGI
+ * Author URI: http://bbgi.com
  *
- * @package Bbgi
  */
 
-namespace Bbgi\Integration;
-
-
-class FacebookOEmbed extends \Bbgi\Module
+class FacebookOEmbed
 {
-	public function register()
-	{
 
+	public function __construct() {
 		wp_oembed_add_provider('#https?://(www\.)?instagr(\.am|am\.com)/(p|tv)/.*#i', 'https://graph.facebook.com/v8.0/instagram_oembed', true);
 		wp_oembed_add_provider('#https?://(www\.)?instagr(\.am|am\.com)/p/.*#i', 'https://graph.facebook.com/v8.0/instagram_oembed', true);
 		wp_oembed_add_provider('#https?://www\.facebook\.com/.*/posts/.*#i', 'https://graph.facebook.com/v8.0/oembed_post', true);
@@ -31,20 +29,21 @@ class FacebookOEmbed extends \Bbgi\Module
 		wp_oembed_remove_provider('#https?://((m|www)\.)?youtube\.com/playlist.*#i');
 		wp_oembed_remove_provider('#https?://youtu\.be/.*#i');
 
-		add_filter('oembed_fetch_url', $this('facebook_oembed_key'), 10, 3);
-
+		add_filter('oembed_fetch_url', Array($this, 'facebook_oembed_key'), 10, 3);
 	}
 
 	/**
 	 * Adds the `autoplay` query string argument to embedded YouTube videos
 	 */
-	public function facebook_oembed_key( $provider, $url, $args ) {
-
-		if (strpos($provider, 'facebook')!==FALSE) {
+	public function facebook_oembed_key($provider, $url, $args)
+	{
+		if (strpos($provider, 'facebook') !== FALSE) {
 			$provider = add_query_arg('access_token', '630094690674746|c1dd1026f85476db1e53ea7ddf739fae', $provider);
 		}
 
 		return $provider;
-
 	}
 }
+
+new FacebookOEmbed();
+

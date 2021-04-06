@@ -110,6 +110,10 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 
 	useEffect(() => {
 		async function fetchPosts() {
+			const normalizeUrl = urlToNormalize => {
+				return urlToNormalize.replace('https://', '').replace('http://', '');
+			};
+
 			if (postsEndpointURL) {
 				try {
 					const result = await fetch(postsEndpointURL).then(r => r.json());
@@ -123,7 +127,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 							result.data.map(relatedPost => {
 								return {
 									id: slugify(relatedPost.url ? relatedPost.url : ''),
-									url: relatedPost.url ? relatedPost.url : '',
+									url: relatedPost.url ? normalizeUrl(relatedPost.url) : '',
 									title: relatedPost.title,
 									primary_image: relatedPost.image_url
 										? relatedPost.image_url.replace('-150x150', '')
