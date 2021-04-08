@@ -90,7 +90,7 @@ class Dfp extends PureComponent {
 
 		if (!addedSlotListeners) {
 			window.addedSlotListeners = true;
-			googletag.cmd.push(function() {
+			googletag.cmd.push(() => {
 				googletag
 					.pubads()
 					.addEventListener('impressionViewable', impressionViewableHandler);
@@ -321,7 +321,9 @@ class Dfp extends PureComponent {
 
 			if (slotStatsObject[slotID].timeVisible >= 30000) {
 				slotStatsObject[slotID].timeVisible = 0;
-				googletag.pubads().refresh([slot], { changeCorrelator: false });
+				googletag.cmd.push(() => {
+					googletag.pubads().refresh([slot], { changeCorrelator: false });
+				});
 			}
 		}
 	}
