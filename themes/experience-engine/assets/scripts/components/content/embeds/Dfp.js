@@ -1,7 +1,57 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
 import { IntersectionObserverContext } from '../../../context/intersection-observer';
+
+const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
+const SlotUpdateTimeInterval = 5000;
+const getSlotStatsObject = () => {
+	let { slotStatsObject } = window;
+	if (!slotStatsObject) {
+		console.log(`Creating slotStatsObject in slotVisibilityChangedHandler `);
+		window.slotStatsObject = {};
+		slotStatsObject = window.slotStatsObject;
+	}
+	return slotStatsObject;
+};
+
+const impressionViewableHandler = event => {
+	const { slot } = event;
+	const slotStatsObject = getSlotStatsObject();
+
+	console.log(`impressionViewableHandler FIRED`);
+
+	const slotID = slot.getSlotElementId();
+	if (typeof slotStatsObject[slotID] === 'undefined') {
+		slotStatsObject[slotID] = {
+			viewPercentage: 100,
+			timeVisible: 0,
+		};
+	} else {
+		slotStatsObject[slotID].viewPercentage = 100;
+	}
+};
+
+const slotVisibilityChangedHandler = event => {
+	let { inViewPercentage } = event;
+	const { slot } = event;
+	const slotStatsObject = getSlotStatsObject();
+
+	console.log(`slotVisibilityChangedHandler FIRED`);
+
+	if (typeof event.inViewPercentage === 'undefined') {
+		inViewPercentage = 100;
+	}
+
+	const slotID = slot.getSlotElementId();
+	if (typeof slotStatsObject[slotID] === 'undefined') {
+		slotStatsObject[slotID] = {
+			viewPercentage: inViewPercentage,
+			timeVisible: 0,
+		};
+	} else {
+		slotStatsObject[slotID].viewPercentage = inViewPercentage;
+	}
+};
 
 class Dfp extends PureComponent {
 	constructor(props) {
@@ -17,17 +67,41 @@ class Dfp extends PureComponent {
 	}
 
 	componentDidMount() {
+		const { googletag, addedSlotListeners } = window;
 		const { placeholder } = this.props;
 
 		this.container = document.getElementById(placeholder);
 		this.tryDisplaySlot();
 
-		this.startInterval();
-		document.addEventListener('visibilitychange', this.onVisibilityChange);
+		if (placeholder !== playerSponsorDivID) {
+			this.startInterval();
+			document.addEventListener('visibilitychange', this.onVisibilityChange);
+		}
 
 		// Fire sponsored ad utility to determine if
 		// a sponsor ad will in fact load in the player
 		this.maybeLoadedPlayerSponsorAd();
+
+		// If Ad Blocker is enabled googletag will be absent
+		if (!googletag) {
+			console.log(`NO googletag FOUND IN DFP COMPONENT DID MOUNT`);
+			return;
+		}
+
+		if (!addedSlotListeners) {
+			window.addedSlotListeners = true;
+			googletag.cmd.push(function() {
+				googletag
+					.pubads()
+					.addEventListener('impressionViewable', impressionViewableHandler);
+				googletag
+					.pubads()
+					.addEventListener(
+						'slotVisibilityChanged',
+						slotVisibilityChangedHandler,
+					);
+			});
+		}
 	}
 
 	/**
@@ -54,7 +128,7 @@ class Dfp extends PureComponent {
 				// compare against sponsor slot id
 				// this value is fixed and can be found in
 				// /assets/scripts/components/player/Sponsor.js
-				if (idLoaded === 'div-gpt-ad-1487117572008-0') {
+				if (idLoaded === playerSponsorDivID) {
 					// Add class to body
 					document
 						.getElementsByTagName('body')[0]
@@ -65,10 +139,13 @@ class Dfp extends PureComponent {
 	}
 
 	componentWillUnmount() {
+		const { placeholder } = this.props;
 		this.destroySlot();
 
-		this.stopInterval();
-		document.removeEventListener('visibilitychange', this.onVisibilityChange);
+		if (placeholder !== playerSponsorDivID) {
+			this.stopInterval();
+			document.removeEventListener('visibilitychange', this.onVisibilityChange);
+		}
 	}
 
 	handleVisibilityChange() {
@@ -81,7 +158,7 @@ class Dfp extends PureComponent {
 
 	startInterval() {
 		this.setState({
-			interval: setInterval(this.refreshSlot, 20000), // 20 sec
+			interval: setInterval(this.refreshSlot, SlotUpdateTimeInterval),
 		});
 	}
 
@@ -110,6 +187,7 @@ class Dfp extends PureComponent {
 		googletag.cmd.push(() => {
 			const size = bbgiconfig.dfp.sizes[unitName];
 			const slot = googletag.defineSlot(unitId, size, placeholder);
+			console.log(`CREATED SLOT ${slot.getSlotElementId()} for ID ${unitId}`);
 
 			// If Slot was already defined this will be null
 			// Ignored to fix the exception
@@ -212,6 +290,7 @@ class Dfp extends PureComponent {
 			// MFP 09/17/2020 - Added a refresh() that fires as last embed of first content block.
 			//                - Calls to display should not be required.
 			// googletag.display(slot);
+
 			this.setState({ slot });
 
 			return true;
@@ -219,11 +298,31 @@ class Dfp extends PureComponent {
 	}
 
 	refreshSlot() {
-		const { slot } = this.state;
 		const { googletag } = window;
+		const { slot } = this.state;
+		const slotStatsObject = getSlotStatsObject();
 
 		if (slot) {
-			googletag.pubads().refresh([slot]);
+			console.log(`refresh() ${slot.getSlotElementId()}`);
+			const slotID = slot.getSlotElementId();
+			if (typeof slotStatsObject[slotID] === 'undefined') {
+				console.log(`Creating new stat item for ${slotID}`);
+				slotStatsObject[slotID] = {
+					slot,
+					viewPercentage: 0,
+					timeVisible: 0,
+				};
+			} else if (slotStatsObject[slotID].viewPercentage > 50) {
+				slotStatsObject[slotID].timeVisible += SlotUpdateTimeInterval;
+				console.log(
+					`Stat item for ${slotID} has was incremented to ${slotStatsObject[slotID].timeVisible} seconds of viewability`,
+				);
+			}
+
+			if (slotStatsObject[slotID].timeVisible >= 30000) {
+				slotStatsObject[slotID].timeVisible = 0;
+				googletag.pubads().refresh([slot], { changeCorrelator: false });
+			}
 		}
 	}
 
