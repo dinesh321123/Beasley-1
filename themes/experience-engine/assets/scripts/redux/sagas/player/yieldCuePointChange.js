@@ -1,5 +1,5 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
-import { lyticsTrack, loadNowPlaying } from '../../utilities';
+import { loadNowPlaying } from '../../utilities';
 import { ACTION_CUEPOINT_CHANGE } from '../../actions/player';
 
 /**
@@ -16,21 +16,6 @@ function* yieldCuePointChange({ cuePoint }) {
 
 	// Call loadNowPlaying
 	yield call(loadNowPlaying, playerStore);
-
-	// Destructure
-	const { trackType } = playerStore;
-
-	// If action passes cuePoint
-	// If trackType in state is podcast
-	// If lyticsTrack has a play method
-	if (
-		cuePoint &&
-		trackType === 'podcast' &&
-		typeof lyticsTrack.play === 'function'
-	) {
-		// Call lyticsTrack
-		yield call(lyticsTrack, 'play', cuePoint);
-	}
 }
 
 /**
