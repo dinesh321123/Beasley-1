@@ -46,11 +46,11 @@
 }
 
 .fadeInAnimation {
-	animation: fadeIn 2s;
-	-webkit-animation: fadeIn 2s;
-	-moz-animation: fadeIn 2s;
-	-o-animation: fadeIn 2s;
-	-ms-animation: fadeIn 2s;
+	animation: fadeIn 0.75s;
+	-webkit-animation: fadeIn 0.75s;
+	-moz-animation: fadeIn 0.75s;
+	-o-animation: fadeIn 0.75s;
+	-ms-animation: fadeIn 0.75s;
 }
 
 @keyframes fadeIn {
@@ -79,11 +79,11 @@
 }
 
 .fadeOutAnimation {
-	animation: fadeOut 2s;
-	-webkit-animation: fadeOut 2s;
-	-moz-animation: fadeOut 2s;
-	-o-animation: fadeOut 2s;
-	-ms-animation: fadeOut 2s;
+	animation: fadeOut 0.75s;
+	-webkit-animation: fadeOut 0.75s;
+	-moz-animation: fadeOut 0.75s;
+	-o-animation: fadeOut 0.75s;
+	-ms-animation: fadeOut 0.75s;
 }
 
 @keyframes fadeOut {

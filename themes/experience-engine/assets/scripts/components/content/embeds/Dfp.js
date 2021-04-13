@@ -30,9 +30,6 @@ const impressionViewableHandler = event => {
 	} else {
 		slotStatsObject[slotID].viewPercentage = 100;
 	}
-
-	document.getElementById(slotID).classList.add('fadeInAnimation');
-	document.getElementById(slotID).style.opacity = '1';
 };
 
 const slotVisibilityChangedHandler = event => {
@@ -65,6 +62,9 @@ const slotRenderEndedHandler = event => {
 		const slotID = slot.getSlotElementId();
 		console.log(`Size - ${size}`);
 		document.getElementById(slotID).style.height = `${size[1]}px`;
+
+		document.getElementById(slotID).classList.add('fadeInAnimation');
+		document.getElementById(slotID).style.opacity = '1';
 	}
 };
 
@@ -349,7 +349,7 @@ class Dfp extends PureComponent {
 				document.getElementById(slotID).classList.add('fadeOutAnimation');
 				setTimeout(() => {
 					this.refreshSlot();
-				}, 1000);
+				}, 100);
 			}
 		}
 	}
