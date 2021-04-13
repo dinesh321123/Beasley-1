@@ -45,6 +45,72 @@
 	justify-content: center;
 }
 
+.fadeInAnimation {
+	animation: fadeIn 2s;
+	-webkit-animation: fadeIn 2s;
+	-moz-animation: fadeIn 2s;
+	-o-animation: fadeIn 2s;
+	-ms-animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+	0% {opacity:0;}
+	100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+	0% {opacity:0;}
+	100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+	0% {opacity:0;}
+	100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+	0% {opacity:0;}
+	100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+	0% {opacity:0;}
+	100% {opacity:1;}
+}
+
+.fadeOutAnimation {
+	animation: fadeOut 2s;
+	-webkit-animation: fadeOut 2s;
+	-moz-animation: fadeOut 2s;
+	-o-animation: fadeOut 2s;
+	-ms-animation: fadeOut 2s;
+}
+
+@keyframes fadeOut {
+	0% {opacity:1;}
+	100% {opacity:0;}
+}
+
+@-moz-keyframes fadeOut {
+	0% {opacity:1;}
+	100% {opacity:0;}
+}
+
+@-webkit-keyframes fadeOut {
+	0% {opacity:1;}
+	100% {opacity:0;}
+}
+
+@-o-keyframes fadeOut {
+	0% {opacity:1;}
+	100% {opacity:0;}
+}
+
+@-ms-keyframes fadeOut {
+	0% {opacity:1;}
+	100% {opacity:0;}
+}
+
 .gallery-listicle .placeholder-dfp > :first-child {
 	width: 320px;
 }
