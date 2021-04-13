@@ -59,12 +59,17 @@ const slotRenderEndedHandler = event => {
 
 	console.log(`slotRenderEndedHandler FIRED`);
 	if (!isEmpty && size && size[1]) {
+		const imageHeight = size[1];
 		const slotID = slot.getSlotElementId();
-		console.log(`Size - ${size}`);
-		document.getElementById(slotID).style.height = `${size[1]}px`;
-
-		document.getElementById(slotID).classList.add('fadeInAnimation');
-		document.getElementById(slotID).style.opacity = '1';
+		const slotElement = document.getElementById(slotID);
+		const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
+		console.log(`Padding Bottom String: ${padBottomStr}`);
+		const padBottom =
+			padBottomStr.indexOf('px') > -1 ? padBottomStr.replace('px', '') : '0';
+		console.log(`Padding Bottom: ${padBottom}`);
+		slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
+		slotElement.classList.add('fadeInAnimation');
+		slotElement.style.opacity = '1';
 	}
 };
 
