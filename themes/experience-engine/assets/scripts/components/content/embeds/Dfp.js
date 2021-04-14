@@ -59,9 +59,15 @@ const slotRenderEndedHandler = event => {
 	const { slot, isEmpty, size } = event;
 
 	console.log(`slotRenderEndedHandler FIRED`);
-	if (!isEmpty && size && size[1]) {
+	const slotID = slot.getSlotElementId();
+	if (
+		!isEmpty &&
+		size &&
+		size[1] &&
+		slotID !== playerSponsorDivID &&
+		slotID !== interstitialDivID
+	) {
 		const imageHeight = size[1];
-		const slotID = slot.getSlotElementId();
 		const slotElement = document.getElementById(slotID);
 		const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
 		console.log(`Padding Bottom String: ${padBottomStr}`);
