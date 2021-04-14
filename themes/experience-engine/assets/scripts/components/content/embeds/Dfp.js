@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { IntersectionObserverContext } from '../../../context/intersection-observer';
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
+const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 const SlotUpdateTimeInterval = 5000;
 
 const getSlotStatsObject = () => {
@@ -83,7 +84,10 @@ class Dfp extends PureComponent {
 			interval: false,
 		};
 
-		if (placeholder !== playerSponsorDivID) {
+		if (
+			placeholder !== playerSponsorDivID &&
+			placeholder !== interstitialDivID
+		) {
 			document.getElementById(placeholder).classList.add('fadeInAnimation');
 		}
 
@@ -93,13 +97,16 @@ class Dfp extends PureComponent {
 	}
 
 	componentDidMount() {
-		const { googletag, addedSlotListeners } = window;
+		const { googletag } = window;
 		const { placeholder } = this.props;
 
 		this.container = document.getElementById(placeholder);
 		this.tryDisplaySlot();
 
-		if (placeholder !== playerSponsorDivID) {
+		if (
+			placeholder !== playerSponsorDivID &&
+			placeholder !== interstitialDivID
+		) {
 			this.startInterval();
 			document.addEventListener('visibilitychange', this.onVisibilityChange);
 		}
@@ -114,7 +121,7 @@ class Dfp extends PureComponent {
 			return;
 		}
 
-		if (!addedSlotListeners) {
+		if (!window.addedSlotListeners) {
 			window.addedSlotListeners = true;
 			googletag.cmd.push(() => {
 				googletag
@@ -171,7 +178,10 @@ class Dfp extends PureComponent {
 		const { placeholder } = this.props;
 		this.destroySlot();
 
-		if (placeholder !== playerSponsorDivID) {
+		if (
+			placeholder !== playerSponsorDivID &&
+			placeholder !== interstitialDivID
+		) {
 			this.stopInterval();
 			document.removeEventListener('visibilitychange', this.onVisibilityChange);
 		}
