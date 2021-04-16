@@ -88,8 +88,12 @@ class Dfp extends PureComponent {
 			slot: false,
 			interval: false,
 			isRotateAdsEnabled: bbgiconfig.ad_rotation_enabled !== 'off',
-			slotPollMillisecs: slotPollSecs ? slotPollSecs * 1000 : 5000,
-			slotRefreshMillisecs: slotRefreshSecs ? slotRefreshSecs * 1000 : 30000,
+			slotPollMillisecs:
+				slotPollSecs && slotPollSecs >= 1 ? slotPollSecs * 1000 : 5000,
+			slotRefreshMillisecs:
+				slotRefreshSecs && slotRefreshSecs >= 15
+					? slotRefreshSecs * 1000
+					: 30000,
 		};
 
 		if (isNotPlayerOrInterstitial(placeholder)) {
