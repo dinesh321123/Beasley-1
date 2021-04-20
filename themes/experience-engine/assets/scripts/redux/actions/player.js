@@ -453,9 +453,9 @@ export const playAudio = (
  * playStation action creator
  * @param {String} station
  */
-export const playStation = station => dispatch =>
+export const playStation = station => dispatch => {
 	play('tdplayer', station)(dispatch);
-
+};
 /**
  * Action Creator for playing an audio file using the omnyplayer.
  *
