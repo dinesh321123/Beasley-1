@@ -51,11 +51,6 @@ const slotVisibilityChangedHandler = event => {
 
 	const placeholder = slot.getSlotElementId();
 	getSlotStat(placeholder).viewPercentage = inViewPercentage;
-
-	// FOR DEBUG
-	if (placeholder === interstitialDivID) {
-		console.log(`Interstitial Vis: ${inViewPercentage}`);
-	}
 };
 
 const slotRenderEndedHandler = event => {
