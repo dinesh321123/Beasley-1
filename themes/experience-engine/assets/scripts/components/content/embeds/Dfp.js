@@ -71,7 +71,6 @@ const slotRenderEndedHandler = event => {
 
 class Dfp extends PureComponent {
 	constructor(props) {
-		const { placeholder } = props;
 		const { bbgiconfig } = window;
 		super(props);
 
@@ -95,10 +94,6 @@ class Dfp extends PureComponent {
 					? slotRefreshSecs * 1000
 					: 30000,
 		};
-
-		if (isNotPlayerOrInterstitial(placeholder)) {
-			document.getElementById(placeholder).style.opacity = 0;
-		}
 
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
 		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
@@ -381,7 +376,7 @@ class Dfp extends PureComponent {
 				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
-				googletag.pubads().refresh([slot], { changeCorrelator: false });
+				googletag.pubads().refresh([slot]);
 			});
 		}
 	}
