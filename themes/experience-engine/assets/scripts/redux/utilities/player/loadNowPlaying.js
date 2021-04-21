@@ -25,6 +25,6 @@ export default function loadNowPlaying({
 		player.NowPlayingApi &&
 		typeof player.NowPlayingApi.load === 'function'
 	) {
-		player.NowPlayingApi.load({ numberToFetch: 10, mount: station });
+		player.NowPlayingApi.load({ numberToFetch: 10, mount: station, hd: true });
 	}
 }

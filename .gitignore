@@ -20,7 +20,6 @@ mu-plugins/post-finder/
 !/plugins/edit-flow-hotfixes/
 !/plugins/feed-pull/
 !/plugins/feed-pull-mrss/
-!/plugins/getty-images/
 !/plugins/gmr-*
 !/plugins/greatermedia-*
 !/plugins/gravityforms/

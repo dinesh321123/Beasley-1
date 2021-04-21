@@ -58,9 +58,7 @@ the_post();
 				<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php endif; ?>
 
-			<?php if ( ee_older_than_2019() ) : ?>
-				<?php ee_render_incontent_video(); ?>
-			<?php endif; ?>
+			<?php ee_render_incontent_video(); ?>
 
 			<?php ee_the_content_with_ads(); ?>
 
