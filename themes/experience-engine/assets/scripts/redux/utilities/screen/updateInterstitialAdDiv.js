@@ -7,28 +7,15 @@ export default function updateInterstitialAdDiv() {
 		);
 
 		if (interstitialAdDiv) {
-			const copyOfInterstitialStyle = `${interstitialAdDiv.style.cssText}`;
+			const nonScriptInterstitialChildren = interstitialAdDiv.querySelectorAll(
+				':not(script)',
+			);
 
-			// Open Div To Full Screen So That Lazy Ad Can Show
-			interstitialAdDiv.style.cssText =
-				'bottom: 0; height: 100%; left: 0; position: fixed; right: 0; top: 0; width: 100%; z-index: 9000003;';
-
-			// Put in watchdog to revert style should Google not create children in 3.5 seconds
-			setTimeout(() => {
-				console.log('Checking whether Interstital has content.');
-				const nonScriptInterstitialChildren = interstitialAdDiv.querySelectorAll(
-					':not(script)',
-				);
-				console.log(
-					`Interstitial Div has ${nonScriptInterstitialChildren.length} non-script children.`,
-				);
-				if (nonScriptInterstitialChildren.length === 0) {
-					console.log(
-						`Reverting Interstital style to ${copyOfInterstitialStyle}.`,
-					);
-					interstitialAdDiv.style.cssText = copyOfInterstitialStyle;
-				}
-			}, 3500);
+			// If Interstitial Div Is Empty, Open Interstial Div Full Screen So That Lazy Load Can Occur
+			if (nonScriptInterstitialChildren.length === 0) {
+				interstitialAdDiv.style.cssText =
+					'bottom: 0; height: 100%; left: 0; position: fixed; right: 0; top: 0; width: 100%; z-index: 9000003;';
+			}
 		}
 	}
 }
