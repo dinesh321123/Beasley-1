@@ -1,7 +1,7 @@
 export default function updateCorrelator() {
-	const { googletag } = window;
-
+	// const { googletag } = window;
 	/* Extra safety as updateCorrelator is a deprecated function in DFP */
+	/*
 	try {
 		if (
 			googletag &&
@@ -13,4 +13,5 @@ export default function updateCorrelator() {
 	} catch (e) {
 		// no-op
 	}
+	*/
 }
