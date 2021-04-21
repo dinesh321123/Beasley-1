@@ -18,6 +18,7 @@ import {
 	watchHideSplashScreen,
 	watchPlay,
 	watchEnd,
+	watchUniqueUserId,
 } from './sagas/';
 
 /**
@@ -43,5 +44,6 @@ export default function* rootSaga() {
 		watchLoadedPage(),
 		watchLoadedPartial(),
 		watchHideSplashScreen(),
+		watchUniqueUserId(),
 	]);
 }

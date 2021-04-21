@@ -1,0 +1,127 @@
+.lazy-image {
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	position: relative;
+	background-color: var( --global-mercury );
+
+	& .loading {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: 0;
+
+		&::after {
+			height: 1.6rem;
+			margin-left: -.8rem;
+			margin-top: -.8rem;
+			width: 1.6rem;
+		}
+	}
+
+	& .lazy-image-attribution {
+		background-color: rgba(0, 0, 0, .4);
+		border-radius: 3px;
+		bottom: .75rem;
+		color: var(--global-white);
+		display: none;
+		font-size: .9rem;
+		padding: .15rem .5rem;
+		position: absolute;
+		right: .75rem;
+	}
+}
+
+.jacapps .non-lazy-image {
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	position: relative;
+
+	& .non-lazy-image-attribution {
+		background-color: rgba(0, 0, 0, .4);
+		border-radius: 3px;
+		bottom: .75rem;
+		color: var(--global-white);
+		display: none;
+		font-size: .9rem;
+		padding: .15rem .5rem;
+		position: absolute;
+		left: .75rem;
+		display: inline-block
+	}
+}
+
+.lazy-video, .jacapps div[class$="-oembed"] {
+	background-color: var(--global-black);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	border: none;
+	cursor: pointer;
+	display: block;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 0 0 56.25% 0;
+	position: relative;
+	width: 100%;
+
+	& iframe,
+	& picture,
+	& img {
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+
+	& img {
+		object-fit: contain;
+		object-position: 50% 50%;
+	}
+
+	& button {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		height: 48px;
+		left: 50%;
+		padding: 0;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 68px;
+		z-index: 1;
+
+		&:focus {
+			outline: none;
+		}
+
+		& .shape {
+			fill: #212121;
+			fill-opacity: 0.8;
+		}
+
+		& .icon {
+			fill: #ffffff;
+		}
+	}
+
+	&:hover .shape,
+	& button:focus .shape {
+		fill: #ff0000;
+		fill-opacity: 1;
+	}
+}
+
+.post-thumbnail {
+	& .lazy-video {
+		left: 0;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+}

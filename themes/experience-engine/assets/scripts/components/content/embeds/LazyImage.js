@@ -34,6 +34,8 @@ class LazyImage extends PureComponent {
 
 		// track virtual page view if it's needed
 		if (tracking) {
+			console.log('Console tracking Image URL from Lazyimage.js :', tracking);
+			console.log('Console document title from Lazyimage.js :', document.title);
 			pageview(document.title, tracking);
 		}
 

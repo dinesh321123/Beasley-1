@@ -61,6 +61,7 @@ module.exports = {
 		'global-require': 0,
 		'import/no-dynamic-require': 0,
 		'indent': [2, 'tab', { 'SwitchCase': 1 }],
+		//'indent': 0,
 		'react/jsx-indent': [2, 'tab'],
 		'react/jsx-filename-extension': 0,
 		'react/no-danger': 0,
@@ -77,6 +78,7 @@ module.exports = {
 			},
 		}],
 		'prettier/prettier': [ 'error', { useTabs: true, tabWidth: 2, singleQuote: true, printWidth: 80, trailingComma: "all" } ],
+		//'prettier/prettier': 0,
 		"react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
 	}
 }

@@ -22,3 +22,6 @@ export { default as watchLoadingPage } from './screen/yieldLoadingPage';
 export { default as watchLoadedPage } from './screen/yieldLoadedPage';
 export { default as watchLoadedPartial } from './screen/yieldLoadedPartial';
 export { default as watchHideSplashScreen } from './screen/yieldHideSplashScreen';
+
+// UniqueUserID
+export { default as watchUniqueUserId } from './uniqueuserid/yieldUniqueUserId';

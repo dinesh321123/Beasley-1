@@ -8,3 +8,4 @@ export * from './html-parser';
 export * from './local-storage';
 export { default as slugify } from './slugify';
 export * from './strings';
+export * from './uniqueuserid';

@@ -1,0 +1,47 @@
+body,
+html {
+	&.locked {
+		position: fixed;
+		overflow: hidden;
+		-webkit-overflow-scrolling: auto;
+		height: 100%;
+		max-width: 100%;
+	}
+
+	&.is-safari.locked {
+		overflow: initial;
+	}
+}
+
+.container {
+	padding-bottom: 50px; /*height of the fixed player*/
+
+	@media(--min-large-viewport) {
+		padding-left: 190px;
+	}
+}
+
+.content {
+	padding-bottom: 4.611rem;
+}
+
+#inner-content {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.content-wrap {
+	margin: 0 auto;
+	max-width: 1071px;
+	padding: 0 1.3rem 1rem;
+	width: 100%;
+
+	& .archive-tiles:last-child {
+		padding-bottom: 0;
+	}
+
+	@media(--min-medium-viewport) {
+		padding: 0 1.3rem 1.5rem;
+	}
+}

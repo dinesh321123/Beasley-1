@@ -1,0 +1,141 @@
+.podcast-tile {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+
+	@media (--min-small-viewport) {
+		float: left;
+		width: calc(50% - 2rem);
+	}
+
+	@media (--min-xlarge-viewport) {
+		flex-wrap: nowrap;
+		float: none;
+		width: auto;
+	}
+
+	&:nth-child(2n + 1) {
+		@media (--min-small-viewport) {
+			margin-left: 2rem;
+		}
+
+		@media (--min-xlarge-viewport) {
+			margin-left: 0;
+		}
+	}
+
+	@nest .archive-tiles & {
+		flex-wrap: wrap;
+
+		&:nth-child(2n + 1) {
+			margin-left: 0;
+		}
+	}
+
+	&:not(:last-child) {
+		padding-bottom: 2.778rem;
+	}
+
+	& .post-thumbnail {
+		flex: 0 1 100%;
+		margin-bottom: 1rem;
+
+		@media (--min-xlarge-viewport) {
+			margin-bottom: 0;
+			max-width: 300px;
+			width: 100%;
+		}
+
+		@nest .archive-tiles & {
+			flex: 1 0 100%;
+			margin-bottom: 1rem;
+			max-width: none;
+		}
+
+		& a,
+		& .lazy-image {
+			bottom: 0;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	}
+
+	& .meta {
+		flex: 0 1 100%;
+
+		@media (--min-xlarge-viewport) {
+			padding-left: 2.444rem;
+		}
+
+		@nest .archive-tiles & {
+			flex: 1 0 100%;
+			padding-left: 0;
+		}
+	}
+
+	& .post-title {
+		& a {
+			color: var(--global-font-primary);
+		}
+	}
+
+	& .excerpt {
+		font-weight: 300;
+		font-size: 1rem;
+		line-height: 1.5;
+
+		& p:last-of-type {
+			margin-bottom: .667rem;
+		}
+	}
+
+	& .status {
+		float: left;
+		padding-right: .75rem;
+
+		& button {
+			background-color: transparent;
+			height: 24px;
+			width: 24px;
+
+			@media (--min-medium-viewport) {
+				margin: 0;
+			}
+		}
+
+		& svg {
+			fill: var(--brand-primary);
+			height: 9px;
+			width: 12px;
+		}
+	}
+
+	& .latest,
+	& .count {
+		font-family: var(--global-font-family-secondary);
+		font-size: .833rem;
+		font-weight: 600;
+		margin: 0;
+	}
+
+	& .latest {
+		display: inline;
+		color: var(--brand-primary);
+	}
+
+	& .count {
+		display: block;
+		color: var(--global-font-secondary);
+		font-weight: 600;
+		text-transform: uppercase;
+		padding-top: 1rem;
+
+		@media (min-width: 1170px) {
+			display: inline;
+			padding-left: 1.75rem;
+			padding-top: 0;
+		}
+	}
+}

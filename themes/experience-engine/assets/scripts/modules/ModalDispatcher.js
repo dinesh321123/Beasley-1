@@ -106,7 +106,6 @@ class ModalDispatcher extends Component {
 		const { modal, payload } = this.props;
 
 		let component = false;
-
 		/* eslint-disable react/jsx-props-no-spreading */
 		switch (modal) {
 			case SIGNIN_MODAL:

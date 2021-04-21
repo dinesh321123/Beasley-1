@@ -18,6 +18,9 @@ import screenReducer, {
 	DEFAULT_STATE as SCREEN_DEFAULT_STATE,
 } from './reducers/screen';
 import rootSaga from './sagas';
+import uniqueuseridReducer, {
+	DEFAULT_STATE as UNIQUEUSERID_DEFAULT_STATE,
+} from './reducers/uniqueuserid';
 
 export default function() {
 	let composeEnhancers = compose;
@@ -31,6 +34,7 @@ export default function() {
 		modal: modalReducer,
 		navigation: navigationReducer,
 		screen: screenReducer,
+		uniqueuserid: uniqueuseridReducer,
 		// eslint-disable-next-line sort-keys
 		player: playerReducer, // must go after screen reducer
 	});
@@ -40,6 +44,7 @@ export default function() {
 		modal: MODAL_DEFAULT_STATE,
 		navigation: NAVIGATION_DEFAULT_STATE,
 		screen: SCREEN_DEFAULT_STATE,
+		uniqueuserid: UNIQUEUSERID_DEFAULT_STATE,
 		// eslint-disable-next-line sort-keys
 		player: PLAYER_DEFAULT_STATE, // mimic rootReducer order
 	};
@@ -53,6 +58,6 @@ export default function() {
 	);
 
 	sagaMiddleware.run(rootSaga);
-
+	// console.log('All states from store.js:', store.getState());
 	return store;
 }

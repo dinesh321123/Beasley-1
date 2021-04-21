@@ -28,6 +28,7 @@ mu-plugins/post-finder/
 !/plugins/configure-smtp/
 !/plugins/embedly
 !/plugins/wp-parsely
+!/plugins/affiliate-marketing-cpt
 
 themes/index.php
 themes/twentyfourteen

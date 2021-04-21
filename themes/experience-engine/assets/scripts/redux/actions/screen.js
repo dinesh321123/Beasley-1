@@ -94,7 +94,7 @@ export const fetchPage = (url, options = {}) => async dispatch => {
 	const pageEndpoint = `${
 		window.bbgiconfig.wpapi
 	}\page?url=${encodeURIComponent(url)}`; // eslint-disable-line no-useless-escape
-
+	// console.log('fetchPage function from screen.js action', pageEndpoint);
 	try {
 		dispatch({ type: ACTION_LOADING_PAGE, url });
 

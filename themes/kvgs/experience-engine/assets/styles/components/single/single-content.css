@@ -1,0 +1,177 @@
+/* Grid Fallbacks */
+
+.entry-content {
+	display: flex;
+	flex-wrap: wrap;
+
+	& .episodes,
+	& > .archive-tiles,
+	& > .podcast-tiles {
+		max-width: calc(100% - 320px);
+		flex: 0 1 100%;
+		order: 0;
+
+		@media (--min-xlarge-viewport) {
+			padding-right: 20px;
+		}
+	}
+
+	& .description {
+		padding-right: 3.8%;
+		flex: 0 1 100%;
+
+		@media (--min-large-viewport) {
+			flex-basis: 67%;
+		}
+	}
+
+	& .ad {
+		flex: 0 1 100%;
+		order: 1;
+
+		@media (--min-large-viewport) {
+			flex-basis: 29.15%;
+		}
+	}
+
+	& .placeholder-loadmore {
+		flex: 0 1 100%;
+		order: 2;
+	}
+
+	& iframe {
+		width: 100%;
+	}
+
+}
+
+/**
+ * Fix overflow in iframes for ios Safari
+ * @see https://github.com/scottjehl/Device-Bugs/issues/7
+ */
+.is-safari .entry-content iframe.embedly-embed {
+	min-width: 100% !important; /* Override embedly's inline styles */
+	width: 1px;
+}
+
+/* End Grid Fallbacks */
+
+.entry-content {
+	& .episodes,
+	& > .archive-tiles,
+	& > .podcast-tiles {
+		@supports (display: grid) {
+			max-width: none;
+		}
+	}
+
+	& .episode-tile:last-child {
+		padding-bottom: 0;
+	}
+
+	@media (--min-xlarge-viewport) {
+		display: grid;
+		grid-column-gap: calc( 2.333rem - 20px );
+		grid-row-gap: 2.889rem;
+		grid-template-columns: calc(100% - 300px) 300px;
+		grid-template-rows: repeat(3, auto);
+
+		@nest .podcast & {
+			grid-template-rows: auto;
+		}
+
+		@nest .single & {
+			grid-template-rows: auto;
+		}
+	}
+
+	& .description {
+		grid-column: 1;
+
+		& p {
+			line-height: 1.6;
+		}
+	}
+
+	& .episodes,
+	& .podcast-tiles {
+		grid-column: 1;
+	}
+
+	& .ad {
+		grid-column: 2;
+		grid-row: 1 / -1;
+	}
+}
+
+.post-tags {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 3rem;
+
+	@media (--min-large-viewport) {
+		margin-bottom: 1.5rem;
+	}
+
+	& .post-tag-label {
+		color: var(--global-theme-font-primary);
+		font-weight: 600;
+		font-size: 1rem;
+		flex: 0 1 auto;
+		text-transform: uppercase;
+	}
+
+	& .post-tag-items {
+		color: var(--global-theme-font-secondary);
+		font-size: 1rem;
+		flex: 0 1 auto;
+		text-transform: capitalize;
+		width: calc(90% - 2rem);
+	}
+
+	& a {
+		color: inherit;
+		margin-left: .250rem;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}
+
+.post-thumbnail-wrapper {
+	margin-bottom: 2rem;
+}
+
+.post-thumbnail-caption, .jacapps .featured-media div {
+	color: var(--global-font-secondary);
+	font-size: .875rem;
+	margin: .5rem 0 0 0;
+}
+
+.jacapps .entry-content {
+	@media (--min-xlarge-viewport) {
+		grid-template-columns: 100%;
+	}
+}
+
+.jacapps .related-articles {
+	display: none;
+}
+
+.sponsor-meta {
+	font-family: var(--global-font-family-primary);
+  	color: rgba(68, 68, 68, 1);
+  	font-weight: 600;
+  	padding-bottom: .8rem;
+}
+
+.pad-top-75rem {
+	padding-top: .8rem;
+}
+
+
+/* General fixes for external feeds */
+.file .element-invisible {
+	visibility: hidden;
+}

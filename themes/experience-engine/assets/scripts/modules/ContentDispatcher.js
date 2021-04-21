@@ -233,7 +233,7 @@ class ContentDispatcher extends Component {
 	render() {
 		const { content, embeds, partials, isHome } = this.props;
 		const blocks = [];
-
+		// console.log('ContentDispatcher.js Component called here: ', content);
 		if (!content || !content.length) {
 			return null;
 		}
@@ -270,17 +270,17 @@ ContentDispatcher.propTypes = {
 ContentDispatcher.defaultProps = {
 	isHome: false,
 };
-
-export default connect(
-	({ screen }) => ({
+function mapStateToProps({ screen }) {
+	return {
 		content: screen.content,
 		embeds: screen.embeds,
 		isHome: screen.isHome,
 		partials: screen.partials,
-	}),
-	{
-		initPage,
-		fetchPage,
-		fetchFeedsContent,
-	},
-)(ContentDispatcher);
+	};
+}
+
+export default connect(mapStateToProps, {
+	initPage,
+	fetchPage,
+	fetchFeedsContent,
+})(ContentDispatcher);

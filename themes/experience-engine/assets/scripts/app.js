@@ -11,7 +11,8 @@ import {
 import BackToTop from './components/BackToTop';
 import ErrorBoundary from './components/ErrorBoundary';
 import { isSafari, isWindowsBrowser } from './library';
-import { uniqueUserId } from './library/uniqueuserid';
+// import { uniqueUserId } from './library/uniqueuserid';
+// import UniqueUserid from './components/UniqueUserid';
 
 /**
  * The App's entry point.
@@ -23,7 +24,7 @@ const App = () => {
 		} else if (isWindowsBrowser()) {
 			document.body.classList.add('is-windows');
 		}
-		uniqueUserId();
+		// uniqueUserId();
 	}, []);
 	return (
 		<IntersectionObserverProvider>
