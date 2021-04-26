@@ -346,9 +346,6 @@ class Dfp extends PureComponent {
 			const slotStat = getSlotStat(placeholder);
 			if (slotStat.viewPercentage > 50) {
 				slotStat.timeVisible += slotPollMillisecs;
-				console.log(
-					`Stat item for ${placeholder} has was incremented to ${slotStat.timeVisible} milliseconds of viewability`,
-				);
 			}
 
 			if (slotStat.timeVisible >= slotRefreshMillisecs) {
