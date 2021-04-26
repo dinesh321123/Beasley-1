@@ -30,6 +30,7 @@ import MapBox from './embeds/MapBox';
 import HubspotForm from './embeds/HubspotForm';
 import StnBarker from './embeds/StnBarker';
 import StnPlayer from './embeds/StnPlayer';
+import BrandedContent from './embeds/BrandedContent';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -57,6 +58,7 @@ const mapping = {
 	stnbarker: StnBarker,
 	stnplayer: StnPlayer,
 	hubspotform: HubspotForm,
+	dmlbranded: BrandedContent,
 };
 
 /**

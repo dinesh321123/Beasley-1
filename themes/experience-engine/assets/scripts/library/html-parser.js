@@ -373,6 +373,12 @@ export function getStateFromContent(container) {
 			),
 			...processEmbeds(container, 'stnbarker', '.stnbarker', getStnEmbedParams),
 			...processEmbeds(container, 'stnplayer', '.stnplayer', getStnEmbedParams),
+			...processEmbeds(
+				container,
+				'dmlbranded',
+				'.dmlbranded',
+				getDatasetParams('stackid', 'layout'),
+			),
 		];
 
 		// extract <script> tags
