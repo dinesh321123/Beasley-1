@@ -6,6 +6,7 @@
 		@media (--min-medium-viewport) {
 			background-color: var(--global-gallery);
 			margin-bottom: 1.59rem;
+			height: 122px;
 		}
 	}
 
