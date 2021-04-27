@@ -9,7 +9,7 @@
 		}
 
 		@media (--min-xxlarge-viewport) {
-			height: 122px;
+			min-height: 122px;
 		}
 	}
 
