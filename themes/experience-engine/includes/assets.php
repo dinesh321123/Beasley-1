@@ -62,7 +62,8 @@ EOL;
 		$deps = array(
 			'googletag',
 			'td-sdk',
-			'iframe-resizer'
+			'iframe-resizer',
+			'branded-content-scripts'
 		);
 
 		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", $deps, GREATERMEDIA_VERSION, true );
