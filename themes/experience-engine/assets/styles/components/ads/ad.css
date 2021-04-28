@@ -12,7 +12,7 @@
 			min-height: 122px;
 		}
 
-		@media (--max-large-viewport) {
+		@media (--max-xlarge-viewport) {
 			min-height: 82px;
 		}
 
