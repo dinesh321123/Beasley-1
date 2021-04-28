@@ -11,6 +11,11 @@
 		@media (--min-xxlarge-viewport) {
 			min-height: 122px;
 		}
+
+		@media (--max-large-viewport) {
+			min-height: 82px;
+		}
+
 	}
 
 	&.-centered {
