@@ -51,6 +51,24 @@ if (! function_exists( 'ee_older_than_2019' ) ) :
 	}
 endif;
 
+if (! function_exists( 'ee_category_exists' ) ) :
+	function ee_category_exists( $post = null ) {
+		$post = get_post( $post );
+		$category_match = false;
+		$category_to_match = 'sports';
+		$categories = get_the_category( $post );
+
+		foreach ( $categories as $category ) {
+			if  ( $category->slug === $category_to_match ) {
+				$category_match = true;
+				break;
+			}
+		}
+
+		return $category_match;
+	}
+endif;
+
 if ( ! function_exists( 'ee_the_query_tiles' ) ) :
 	function ee_the_query_tiles( $query, $carousel = false ) {
 		while ( $query->have_posts() ) {

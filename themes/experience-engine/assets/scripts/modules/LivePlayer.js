@@ -170,7 +170,7 @@ class LivePlayer extends Component {
 				>
 					<div className="preroll-container">
 						<div id="td_container" className="preroll-player" />
-						<div className="preroll-notification">
+						<div className="preroll-notification -hidden">
 							Live stream will be available after this brief ad from our
 							sponsors
 						</div>

@@ -58,7 +58,9 @@ the_post();
 				<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php endif; ?>
 
-			<?php ee_render_incontent_video(); ?>
+			<?php if ( ee_category_exists() ) : ?>
+				<?php ee_render_incontent_video(); ?>
+			<?php endif; ?>
 
 			<?php ee_the_content_with_ads(); ?>
 
