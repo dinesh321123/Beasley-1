@@ -28,6 +28,7 @@ mu-plugins/post-finder/
 !/plugins/embedly
 !/plugins/wp-parsely
 !/plugins/semrush-seo-writing-assistant
+!/plugins/affiliate-marketing-cpt
 
 themes/index.php
 themes/twentyfourteen

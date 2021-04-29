@@ -13,7 +13,7 @@ add_action( 'template_include', __NAMESPACE__ . '\filter_template' );
  * @return array
  */
 function get_sections() {
-	return array( 'about', 'podcasts', 'galleries', 'videos', 'live-links' );
+	return array( 'about', 'podcasts', 'galleries', 'affiliate_marketing', 'videos', 'live-links' );
 }
 
 /**
