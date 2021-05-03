@@ -38,38 +38,51 @@ const getSlotStat = placeholder => {
 const impressionViewableHandler = event => {
 	const { slot } = event;
 	const placeholder = slot.getSlotElementId();
-	getSlotStat(placeholder).viewPercentage = 100;
+	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+		getSlotStat(placeholder).viewPercentage = 100;
+	}
 };
 
 const slotVisibilityChangedHandler = event => {
-	let { inViewPercentage } = event;
 	const { slot } = event;
 
-	if (typeof event.inViewPercentage === 'undefined') {
-		inViewPercentage = 100;
-	}
-
 	const placeholder = slot.getSlotElementId();
-	getSlotStat(placeholder).viewPercentage = inViewPercentage;
+	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+		getSlotStat(placeholder).viewPercentage =
+			typeof event.inViewPercentage === 'undefined'
+				? 100
+				: event.inViewPercentage;
+	}
 };
 
 const slotRenderEndedHandler = event => {
 	const { slot, isEmpty, size } = event;
 
 	const placeholder = slot.getSlotElementId();
-	if (placeholder && !isEmpty) {
-		if (size && size[1] && isNotPlayerOrInterstitial(placeholder)) {
-			const imageHeight = size[1];
+	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+		if (isEmpty) {
+			// Set Visible Time To Huge Arbitrary Value So That Next Poll Will Trigger A Refresh
+			// NOTE: Minimum Poll Interval Is Set In DFP Constructor To Be Much Longer Than
+			// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
+			getSlotStat(placeholder).timeVisible = 1000000;
+		} else {
 			const slotElement = document.getElementById(placeholder);
-			const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
-			const padBottom =
-				padBottomStr.indexOf('px') > -1 ? padBottomStr.replace('px', '') : '0';
-			slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
+
+			// Adjust Container Div Height
+			if (size && size[1]) {
+				const imageHeight = size[1];
+				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
+				const padBottom =
+					padBottomStr.indexOf('px') > -1
+						? padBottomStr.replace('px', '')
+						: '0';
+				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
+			}
+
 			slotElement.classList.add('fadeInAnimation');
 			slotElement.style.opacity = '1';
+			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
 		}
-
-		getSlotStat(placeholder).timeVisible = 0; // Reset the timeout
 	}
 };
 
@@ -87,12 +100,14 @@ class Dfp extends PureComponent {
 			10,
 		);
 
+		// Initialize State. NOTE: Ensure that Minimum Poll Intervavl Is Much Longer Than
+		// 	Round Trip to Ad Server. Initially we enforce 5 second minimum.
 		this.state = {
 			slot: false,
 			interval: false,
 			isRotateAdsEnabled: bbgiconfig.ad_rotation_enabled !== 'off',
 			slotPollMillisecs:
-				slotPollSecs && slotPollSecs >= 1 ? slotPollSecs * 1000 : 5000,
+				slotPollSecs && slotPollSecs >= 5 ? slotPollSecs * 1000 : 5000,
 			slotRefreshMillisecs:
 				slotRefreshSecs && slotRefreshSecs >= 15
 					? slotRefreshSecs * 1000
