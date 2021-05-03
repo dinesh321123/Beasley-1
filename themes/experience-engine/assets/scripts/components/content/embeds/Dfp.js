@@ -57,15 +57,19 @@ const slotRenderEndedHandler = event => {
 	const { slot, isEmpty, size } = event;
 
 	const placeholder = slot.getSlotElementId();
-	if (!isEmpty && size && size[1] && isNotPlayerOrInterstitial(placeholder)) {
-		const imageHeight = size[1];
-		const slotElement = document.getElementById(placeholder);
-		const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
-		const padBottom =
-			padBottomStr.indexOf('px') > -1 ? padBottomStr.replace('px', '') : '0';
-		slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
-		slotElement.classList.add('fadeInAnimation');
-		slotElement.style.opacity = '1';
+	if (placeholder && !isEmpty) {
+		if (size && size[1] && isNotPlayerOrInterstitial(placeholder)) {
+			const imageHeight = size[1];
+			const slotElement = document.getElementById(placeholder);
+			const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
+			const padBottom =
+				padBottomStr.indexOf('px') > -1 ? padBottomStr.replace('px', '') : '0';
+			slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
+			slotElement.classList.add('fadeInAnimation');
+			slotElement.style.opacity = '1';
+		}
+
+		getSlotStat(placeholder).timeVisible = 0; // Reset the timeout
 	}
 };
 
@@ -349,7 +353,6 @@ class Dfp extends PureComponent {
 			}
 
 			if (slotStat.timeVisible >= slotRefreshMillisecs) {
-				slotStat.timeVisible = 0;
 				const placeholderClasslist = document.getElementById(placeholder)
 					.classList;
 				placeholderClasslist.remove('fadeInAnimation');
@@ -357,7 +360,7 @@ class Dfp extends PureComponent {
 				placeholderClasslist.add('fadeOutAnimation');
 				setTimeout(() => {
 					this.refreshSlot();
-				}, 50);
+				}, 100);
 			}
 		}
 	}
@@ -369,11 +372,11 @@ class Dfp extends PureComponent {
 
 		if (slot) {
 			googletag.cmd.push(() => {
+				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
+				googletag.pubads().refresh([slot]);
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
-				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
-				googletag.pubads().refresh([slot]);
 			});
 		}
 	}
