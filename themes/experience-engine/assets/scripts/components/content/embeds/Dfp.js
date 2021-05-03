@@ -45,7 +45,6 @@ const impressionViewableHandler = event => {
 
 const slotVisibilityChangedHandler = event => {
 	const { slot } = event;
-
 	const placeholder = slot.getSlotElementId();
 	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
 		getSlotStat(placeholder).viewPercentage =
@@ -60,14 +59,16 @@ const slotRenderEndedHandler = event => {
 
 	const placeholder = slot.getSlotElementId();
 	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+		const slotElement = document.getElementById(placeholder);
 		if (isEmpty) {
-			// Set Visible Time To Huge Arbitrary Value So That Next Poll Will Trigger A Refresh
-			// NOTE: Minimum Poll Interval Is Set In DFP Constructor To Be Much Longer Than
-			// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
-			getSlotStat(placeholder).timeVisible = 1000000;
+			// If Slot Is Visible
+			if (slotElement.offsetParent !== null) {
+				// Set Visible Time To Huge Arbitrary MSec Value So That Next Poll Will Trigger A Refresh
+				// NOTE: Minimum Poll Interval Is Set In DFP Constructor To Be Much Longer Than
+				// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
+				getSlotStat(placeholder).timeVisible = 10000000;
+			}
 		} else {
-			const slotElement = document.getElementById(placeholder);
-
 			// Adjust Container Div Height
 			if (size && size[1]) {
 				const imageHeight = size[1];
@@ -368,11 +369,13 @@ class Dfp extends PureComponent {
 			}
 
 			if (slotStat.timeVisible >= slotRefreshMillisecs) {
-				const placeholderClasslist = document.getElementById(placeholder)
-					.classList;
-				placeholderClasslist.remove('fadeInAnimation');
-				placeholderClasslist.remove('fadeOutAnimation');
-				placeholderClasslist.add('fadeOutAnimation');
+				const placeholderElement = document.getElementById(placeholder);
+				if (placeholderElement.style.opacity === '1') {
+					const placeholderClasslist = placeholderElement.classList;
+					placeholderClasslist.remove('fadeInAnimation');
+					placeholderClasslist.remove('fadeOutAnimation');
+					placeholderClasslist.add('fadeOutAnimation');
+				}
 				setTimeout(() => {
 					this.refreshSlot();
 				}, 100);
