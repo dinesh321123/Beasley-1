@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { isIOS, isAudioAdOnly } from '../library';
 
 import {
-	Stations,
 	Controls,
 	Info,
 	Volume,
@@ -14,8 +13,8 @@ import {
 	Progress,
 	RecentSongs,
 	Offline,
-	Contacts,
 	Sponsor,
+	PlayerAd,
 } from '../components/player';
 
 import ErrorBoundary from '../components/ErrorBoundary';
@@ -182,40 +181,36 @@ class LivePlayer extends Component {
 				<Progress className="-mobile" colors={textStyle} />
 
 				<div className="controls" style={controlsStyle}>
+					<div className={`button-holder ${progressClass}`}>
+						<Controls
+							status={status}
+							play={
+								adPlayback && isAudioAdOnly({ player, playerType })
+									? null
+									: this.handlePlay
+							}
+							pause={pause}
+							resume={resume}
+							colors={buttonsBackgroundStyle}
+							isIos={isIos}
+							progressClass={progressClass}
+						/>
+					</div>
+					<Rewind progressClass={progressClass} />
 					<div className="control-section">
 						<Info colors={textStyle} />
 					</div>
-					<div className="control-section -centered">
-						<div className={`controls-wrapper -centered ${progressClass}`}>
-							<RecentSongs colors={customColors} />
-
-							<Controls
-								status={status}
-								play={
-									adPlayback && isAudioAdOnly({ player, playerType })
-										? null
-										: this.handlePlay
-								}
-								pause={pause}
-								resume={resume}
-								colors={buttonsBackgroundStyle}
-								isIos={isIos}
-								progressClass={progressClass}
-							/>
-
-							<Volume colors={buttonsFillStyle} />
-						</div>
-
+					<div className="button-holder full-width">
+						<RecentSongs colors={customColors} />
 						<Progress className="-desktop" colors={textStyle} />
+						<Volume colors={buttonsFillStyle} />
 					</div>
-					<div className="control-section">
-						<Rewind progressClass={progressClass} />
-						<Sponsor className="controls-sponsor" minWidth={1060} />
-						<Stations colors={customColors} />
-						<Contacts colors={customColors} />
-					</div>
+					<PlayerAd
+						className="player-ad"
+						minWidth="1400"
+						style={controlsStyle}
+					/>
 				</div>
-
 				<Sponsor
 					className="sponsor-mobile"
 					maxWidth="1059"

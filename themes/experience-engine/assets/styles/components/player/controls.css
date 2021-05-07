@@ -3,9 +3,8 @@
 	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
 				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
 	display: flex;
-	height: 75px;
+	height: 90px;
 	position: relative;
-	padding-left: 1rem;
 
 	@media(--max-medium-viewport) {
 		padding-left: 0;
@@ -17,6 +16,28 @@
 			outline: 0;
 		}
 	}
+
+	& .full-width {
+		width: 100%;
+    }
+
+	& .button-holder {
+	  align-items: center;
+	  box-sizing: border-box;
+	  display: flex;
+	  flex-flow: row wrap;
+	  justify-content: space-between;
+	  position: relative;
+
+      & button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
+		  background: transparent;
+		  border: 0;
+		  cursor: pointer;
+		  height: 100%;
+		  width: 100%;
+		  text-align: left;
+	  }
+    }
 
 	& .control-border {
 		border-left: 1px solid var(--global-mercury);
@@ -80,7 +101,6 @@
 
 			@media(--min-medium-viewport) {
 				flex: 1 18%;
-				justify-content: flex-end;
 				max-width: none;
 			}
 
@@ -89,7 +109,7 @@
 			}
 
 			@media(--min-xlarge-viewport) {
-				flex: 1 100%;
+				flex: 1 23%;
 			}
 		}
 
@@ -131,6 +151,11 @@
 			}
 		}
 	}
+
+	& .player-ad {
+	  float: right;
+	  width: 970px;
+  	}
 
 	& .controls-wrapper:first-child {
 		overflow: visible;
@@ -174,7 +199,8 @@
 			font-weight: 500;
 			letter-spacing: 0.01em;
 			line-height: 1.2;
-			padding: .1rem .25rem;
+			padding: 1px 1px;
+			margin-bottom: 5px;
 			position: relative;
 			text-transform: uppercase;
 			top: -1px;
@@ -187,7 +213,7 @@
 		& p {
 			align-items: center;
 			display: inline-block;
-			margin-bottom: 0;
+			margin-bottom: 1px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -370,6 +396,9 @@
 		height: 22px;
 		position: relative;
 		z-index: 1;
+	  min-width: 140px;
+	  width: 100% !important;
+
 
 		& button {
 			display: none;
@@ -401,14 +430,14 @@
 		}
 
 		& .ee-range-input-slider {
-			left: 3rem;
+	        left: 2rem;
+		  	right: 1rem;
 			opacity: 0;
 			position: absolute;
 			transition: visibility 250ms ease-in-out,
 						opacity 250ms ease-in-out;
 			top: 8px;
 			visibility: hidden;
-			width: 82px;
 
 			& input[type="range"]::-webkit-slider-thumb {
 				-webkit-appearance: none;
@@ -557,7 +586,7 @@
 		padding: 0;
 
 		@media(--min-medium-viewport) {
-			margin: 0 2rem;
+			margin: 0 1rem;
 		}
 	}
 
