@@ -157,6 +157,7 @@ class Settings extends \Bbgi\Module {
 
 		add_settings_section('feature_video', 'Feature Video', '__return_false', $this->_settings_page_hook);
 		add_settings_field('feature_video_provider', 'Feature Video Provider', array($this, 'render_feature_video_provider'), $this->_settings_page_hook, 'feature_video', $feature_video_provider_disabled_args);
+		add_settings_field('stn_cid', 'STN CID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_cid');
 		add_settings_field('stn_barker_id', 'STN Barker ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_barker_id');
 		add_settings_field('stn_inarticle_id', 'STN In Article ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_inarticle_id');
 
@@ -213,6 +214,7 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_login', 'sanitize_text_field' );
 
 		register_setting(self::option_group, 'feature_video_provider', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_cid', 'sanitize_text_field');
 		register_setting(self::option_group, 'stn_barker_id', 'sanitize_text_field');
 		register_setting(self::option_group, 'stn_inarticle_id', 'sanitize_text_field');
 

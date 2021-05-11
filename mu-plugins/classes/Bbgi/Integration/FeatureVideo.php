@@ -8,12 +8,14 @@ namespace Bbgi\Integration;
 class FeatureVideo extends \Bbgi\Module {
 	public function stn_barker_callback() {
 		$stn_barker_id = get_option( 'stn_barker_id', '' );
-		return sprintf( '<div class="stnbarker" data-fk="%s"></div>', $stn_barker_id ) ;
+		$stn_cid = get_option( 'stn_cid', '' );
+		return sprintf( '<div class="stnbarker" data-fk="%s" data-cid="%s"></div>', $stn_barker_id, $stn_cid );
 	}
 
 	public function stn_incontent_callback() {
 		$stn_inarticle_id = get_option( 'stn_inarticle_id', '' );
-		return sprintf( '<div class="stnplayer" data-fk="%s"></div>', $stn_inarticle_id );
+		$stn_cid = get_option( 'stn_cid', '' );
+		return sprintf( '<div class="stnplayer" data-fk="%s" data-cid="%s"></div>', $stn_inarticle_id, $stn_cid );
 	}
 
 	/**

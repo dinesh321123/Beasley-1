@@ -11,7 +11,7 @@ class StnPlayer extends PureComponent {
 
 	componentDidMount() {
 		console.log('mounted');
-		const { placeholder, fk } = this.props;
+		const { placeholder, fk, cid } = this.props;
 
 		const container = document.getElementById(placeholder);
 		if (!container) {
@@ -26,7 +26,7 @@ class StnPlayer extends PureComponent {
 		stn_barker_script.setAttribute('type', 'text/javascript');
 		stn_barker_script.setAttribute(
 			'src',
-			`//embed.sendtonews.com/player3/embedcode.js?fk=${fk}&cid=10462&offsetx=0&offsety=75&floatwidth=400&floatposition=bottom-right`,
+			`//embed.sendtonews.com/player3/embedcode.js?fk=${fk}&cid=${cid}&offsetx=0&offsety=75&floatwidth=400&floatposition=bottom-right`,
 		);
 		stn_barker_script.setAttribute('data-type', 's2nScript');
 
@@ -42,6 +42,7 @@ class StnPlayer extends PureComponent {
 StnPlayer.propTypes = {
 	placeholder: PropTypes.string.isRequired,
 	fk: PropTypes.string.isRequired,
+	cid: PropTypes.string.isRequired,
 };
 
 export default connect()(StnPlayer);
