@@ -60,13 +60,14 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 
 		if ( $query->is_search() ) {
 			$query->set( 'posts_per_page', 12 );
-		} elseif ( $query->is_tag() ) {
+		} elseif ( $query->is_tag() || $query->is_category() ) {
 			$post_type = $query->get( 'post_type' );
 			if ( ! is_array( $post_type ) ) {
 				$post_type = array( $post_type );
 			}
 
 			$post_type[] = 'gmr_gallery';
+			$post_type[] = 'affiliate_marketing';
 			$post_type[] = 'gmr_album';
 			$post_type[] = 'contest';
 

@@ -14,7 +14,7 @@ class SyndicationCPT {
 	 */
 	private static $filter_nonce = 'filter-syndication-nonce';
 
-	public static $supported_subscriptions = array( 'post', 'content-kit', 'contest', 'survey', 'gmr_gallery' );
+	public static $supported_subscriptions = array( 'post', 'content-kit', 'contest', 'survey', 'gmr_gallery', 'affiliate_marketing' );
 
 	/**
 	 * The post statuses that are supported during syndication

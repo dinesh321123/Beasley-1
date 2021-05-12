@@ -5,12 +5,9 @@
 	padding: 0;
 }
 
-.post-tags-am {
+.post-tags {
 	& .post-tag-label {
 		color: #444444;
-	}
-	& .post-tag-items {
-		color: #202124;
 	}
 }
 
@@ -36,6 +33,18 @@
 		margin-top: 1rem;
 	}
 
+	& .am_imagecode {
+		text-align: center;
+
+		& .placeholder-lazyimage::before {
+			padding-top: 0px;
+		}
+
+		& .lazy-image {
+			display: none;
+		}
+	}
+
 	& .placeholder-lazyimage {
 		overflow: hidden;
 		position: relative;
@@ -55,6 +64,7 @@
 
 	& .lazy-image {
 		background-size: contain;
+		background-color: transparent;
 		height: 100%;
 		left: 0;
 		position: absolute;

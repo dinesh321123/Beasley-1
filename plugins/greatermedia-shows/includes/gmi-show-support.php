@@ -88,7 +88,7 @@ function get_affiliate_marketing_permalink( $show_id ) {
 	return trailingslashit( get_the_permalink( $show_id ) ) . "affiliate_marketing/";
 }
 
-function affiliate_marketing_link_html( $show_id, $link_text = 'Affiliate Marketing' ) {
+function affiliate_marketing_link_html( $show_id, $link_text = 'Must Haves' ) {
 	if ( supports_affiliate_marketing( $show_id ) ) {
 		$class = 'affiliate_marketing' == get_query_var( 'show_section' ) || ( is_singular() && get_post_type() === 'affiliate_marketing' )
 			? 'current-menu-item'
@@ -439,7 +439,10 @@ function get_show_main_query( $per_page = 10 ) {
 	if ( class_exists( '\GreaterMediaGalleryCPT' ) ) {
 		$post_types[] = \GreaterMediaGalleryCPT::GALLERY_POST_TYPE;
 	}
-
+	if ( class_exists( '\AffiliateMarketingCPT' ) ) {
+		$post_types[] = \AffiliateMarketingCPT::AFFILIATE_MARKETING_POST_TYPE;
+	}
+	
 	$show_args = array(
 		'post_type'      => $post_types,
 		'paged'          => $current_page,

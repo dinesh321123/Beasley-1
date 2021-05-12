@@ -13,6 +13,7 @@ class AffiliateMarketingCPT {
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'affiliate_cpt' ), 0 );
 
+		add_filter( 'gmr-homepage-curation-post-types', array( __CLASS__, 'extend_curration_post_types' ) );
 		add_filter( 'gmr-show-curation-post-types', array( __CLASS__, 'extend_curration_post_types' ) );
 	}
 	/**
@@ -62,71 +63,10 @@ class AffiliateMarketingCPT {
 			'menu_position'      => 29,
 			'menu_icon'           => 'dashicons-networking',
 			'supports'           => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail' ),
-			'taxonomies'         => array( 'am_category', 'am_tag' ),
+			'taxonomies'         => array( 'category', 'post_tag' ),
 			'show_in_rest'       => true
 		);
 		register_post_type( self::AFFILIATE_MARKETING_POST_TYPE, $args );
-
-		// Add new taxonomy, make it hierarchical (like categories)
-		$labels = array(
-			'name'              => _x( 'Categories', 'taxonomy general name', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'singular_name'     => _x( 'Category', 'taxonomy singular name', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'search_items'      => __( 'Search Categories', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'all_items'         => __( 'All Categories', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'parent_item'       => __( 'Parent Category', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'parent_item_colon' => __( 'Parent Category:', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'edit_item'         => __( 'Edit Category', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'update_item'       => __( 'Update Category', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'add_new_item'      => __( 'Add New Category', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'new_item_name'     => __( 'New Category Name', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'menu_name'         => __( 'Category', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-		);
-	
-		$args = array(
-			'hierarchical'      => true,
-			'labels'            => $labels,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'query_var'         => true,
-			'rewrite'           => array( 'slug' => 'am_category' ),
-		);
-	
-		register_taxonomy( 'am_category', array( self::AFFILIATE_MARKETING_POST_TYPE ), $args );
-	
-		unset( $args );
-		unset( $labels );
-	
-		// Add new taxonomy, NOT hierarchical (like tags)
-		$labels = array(
-			'name'                       => _x( 'Tags', 'taxonomy general name', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'singular_name'              => _x( 'Tag', 'taxonomy singular name', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'search_items'               => __( 'Search Tags', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'popular_items'              => __( 'Popular Tags', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'all_items'                  => __( 'All Tags', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'parent_item'                => null,
-			'parent_item_colon'          => null,
-			'edit_item'                  => __( 'Edit Tag', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'update_item'                => __( 'Update Tag', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'add_new_item'               => __( 'Add New Tag', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'new_item_name'              => __( 'New Tag Name', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'separate_items_with_commas' => __( 'Separate tags with commas', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'add_or_remove_items'        => __( 'Add or remove tags', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'choose_from_most_used'      => __( 'Choose from the most used tags', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'not_found'                  => __( 'No tags found.', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-			'menu_name'                  => __( 'Tags', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-		);
-	
-		$args = array(
-			'hierarchical'          => false,
-			'labels'                => $labels,
-			'show_ui'               => true,
-			'show_admin_column'     => true,
-			'update_count_callback' => '_update_post_term_count',
-			'query_var'             => true,
-			'rewrite'               => array( 'slug' => 'am_tag' ),
-		);
-	
-		register_taxonomy( 'am_tag', self::AFFILIATE_MARKETING_POST_TYPE, $args );
 
 		/*
 		* Create custom metabox in right side
