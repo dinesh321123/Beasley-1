@@ -53,13 +53,21 @@ endif;
 
 if (! function_exists( 'ee_category_exists' ) ) :
 	function ee_category_exists( $post = null ) {
+		$allowedCategorySetting =  get_option( 'stn_categories', '' );
+
+		if ( ! $allowedCategorySetting ) {
+			return true;
+		}
+
+		$allowedCategories = explode( ',', $allowedCategorySetting );
+
 		$post = get_post( $post );
 		$category_match = false;
-		$category_to_match = 'sports';
+
 		$categories = get_the_category( $post );
 
 		foreach ( $categories as $category ) {
-			if  ( $category->slug === $category_to_match ) {
+			if  ( in_array( $category->slug, $allowedCategories ) ) {
 				$category_match = true;
 				break;
 			}
