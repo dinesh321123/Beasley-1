@@ -252,7 +252,10 @@ class Dfp extends PureComponent {
 		}
 
 		googletag.cmd.push(() => {
-			const size = bbgiconfig.dfp.sizes[unitName];
+			let size = bbgiconfig.dfp.sizes[unitName];
+			if (unitName === 'staging_test_adhesion') {
+				size = ['fluid', [970, 90], [728, 90]];
+			}
 			const slot = googletag.defineSlot(unitId, size, placeholder);
 
 			// If Slot was already defined this will be null
@@ -308,6 +311,17 @@ class Dfp extends PureComponent {
 					// accepts common desktop banner formats
 					.addSize([300, 0], [[320, 50], [320, 100], 'fluid'])
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
+
+					.build();
+			} else if (unitName === 'staging_test_adhesion') {
+				console.log('PLAYER AD');
+				sizeMapping = googletag
+					.sizeMapping()
+					// does not display on small screens
+					.addSize([0, 0], [])
+
+					// accepts only two sizes
+					.addSize([1400, 0], [[728, 90], [970, 90], 'fluid'])
 
 					.build();
 			} else if (unitName === 'right-rail') {

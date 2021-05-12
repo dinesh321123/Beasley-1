@@ -20,6 +20,8 @@ import {
 import ErrorBoundary from '../components/ErrorBoundary';
 
 import * as actions from '../redux/actions/player';
+// import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
+// import {durationChange, setPlayer, STATUSES, statusUpdate, timeChange} from '../redux/actions/player';
 
 class LivePlayer extends Component {
 	constructor(props) {
@@ -191,6 +193,7 @@ class LivePlayer extends Component {
 							}
 							pause={pause}
 							resume={resume}
+							customColors={customColors}
 							colors={buttonsBackgroundStyle}
 							isIos={isIos}
 							progressClass={progressClass}
@@ -201,9 +204,17 @@ class LivePlayer extends Component {
 						<Info colors={textStyle} />
 					</div>
 					<div className="button-holder full-width">
-						<RecentSongs colors={customColors} />
-						<Progress className="-desktop" colors={textStyle} />
-						<Volume colors={buttonsFillStyle} />
+						<div>
+							<RecentSongs
+								className={` ${progressClass} `}
+								colors={customColors}
+							/>
+							<Progress
+								className={` -desktop ${progressClass} `}
+								colors={textStyle}
+							/>
+							<Volume colors={buttonsFillStyle} />
+						</div>
 					</div>
 					<PlayerAd
 						className="player-ad"

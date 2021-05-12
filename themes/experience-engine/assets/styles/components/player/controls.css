@@ -171,10 +171,15 @@
 		}
 	}
 
+	& .-podcast {
+		@media(--min-medium-viewport) {
+			margin-top: -5px;
+		}
+    }
+
 	& .controls-progress {
 		left: 0;
-		position: absolute;
-		bottom: 8px;
+		position: relative;
 		width: 100%;
 		z-index: 9;
 
@@ -258,10 +263,15 @@
 		}
 	}
 
+	& .controls-recent.-podcast {
+		  display: none;
+    }
+
 	& .controls-recent {
 
 		& button {
 			display: none;
+		    margin-bottom: .5rem;
 
 			@media(--min-medium-viewport) {
 				display: flex;
@@ -558,9 +568,9 @@
 
 		& .-progress {
 			align-self: center;
-			margin: 0 10px;
+			margin: 0 10px 0 0;
 			position: relative;
-			width: 100%;
+			width: 84px;
 		}
 	}
 
@@ -573,6 +583,7 @@
 				display: inline-flex;
 				font-size: .675rem;
 				margin-top: 3px;
+				margin-right: 10px;
 			}
 		}
 	}
@@ -609,6 +620,31 @@
 		width: 22px;
 		height: 31px;
 	}
+
+	& .radio-mode-btn {
+	    display: none;
+
+		& svg.LIVE_PAUSE,
+		& svg.LIVE_STOP,
+		& svg.LIVE_FAILED,
+		& svg.STREAM_GEO_BLOCKED,
+		& svg.STATION_NOT_FOUND {
+			  display: initial;
+			  fill: var(--brand-text-color);
+			  margin-left: 1rem;
+		  }
+  	}
+
+	& svg.LIVE_PAUSE.radio-mode-btn,
+	& svg.LIVE_STOP.radio-mode-btn,
+	& svg.LIVE_FAILED.radio-mode-btn,
+	& svg.STREAM_GEO_BLOCKED.radio-mode-btn,
+	& svg.STATION_NOT_FOUND.radio-mode-btn {
+	    display: initial;
+	    fill: var(--brand-text-color);
+	    margin-left: 1rem;
+  	}
+
 
 	& .play-btn,
 	& .pause-btn,

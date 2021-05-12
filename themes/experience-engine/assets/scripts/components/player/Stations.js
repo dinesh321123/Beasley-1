@@ -39,7 +39,13 @@ class Stations extends Component {
 	}
 
 	handleToggleClick() {
-		this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+		const { streams } = this.props;
+
+		if (streams.length === 1) {
+			this.props.play(streams[0].stream_call_letters);
+		} else {
+			this.setState(prevState => ({ isOpen: !prevState.isOpen }));
+		}
 	}
 
 	handleUserEventOutside(e) {
