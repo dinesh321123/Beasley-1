@@ -13,6 +13,7 @@ function Controls({
 	isIos,
 	progressClass,
 }) {
+	// TODO - IOS Special Style was removed from controls.css. Remove osClass once it is determined that we will never need OS Specific logic again.
 	const osClass = isIos ? '-is-ios' : '';
 	const stationControl =
 		progressClass === '-podcast' ? <Stations colors={customColors} /> : false;

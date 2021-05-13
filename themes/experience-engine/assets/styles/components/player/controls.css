@@ -18,7 +18,7 @@
 	}
 
 	& .full-width {
-		width: 100%;
+		margin-right: 1rem;
     }
 
 	& .button-holder {
@@ -39,8 +39,9 @@
 	  }
     }
 
-	& .control-border {
-		border-left: 1px solid var(--global-mercury);
+	& .control-listenlive {
+		margin-left: .25rem;
+		width: 3rem;
 	}
 
 	& .control-section,
@@ -319,7 +320,6 @@
 
 	& .controls-rewind {
 		display: none;
-	    align-items: center;
 
 		&.-podcast {
 			display: block;
@@ -329,8 +329,11 @@
 			}
 		}
 
+		& p {
+		margin-bottom: 0;
+		  }
+
 		& button {
-		    align-items: center;
 			& svg path {
 				fill: var(--global-theme-font-primary);
 				transition: fill 250ms ease-in-out;
@@ -403,13 +406,15 @@
 	}
 
 	& .controls-volume {
-		display: flex;
+		  display: none;
 		height: 22px;
 		position: relative;
 		z-index: 1;
-	  min-width: 140px;
-	  width: 100% !important;
+	  min-width: 120px;
 
+@media(--min-medium-viewport) {
+	display: flex;
+}
 
 		& button {
 			display: none;
@@ -543,6 +548,7 @@
 }
 
 .controls-progress {
+display: none;
 	&.-mobile {
 		display: block;
 
@@ -580,7 +586,7 @@
 				font-size: .675rem;
 				margin-top: 3px;
 				margin-right: 10px;
-				width: 1.5rem;
+				width: 2.2rem;
 			}
 		}
 	}
@@ -608,21 +614,7 @@
 		border: 2px solid var(--brand-primary);
 		border-radius: 50%;
 		padding: 0;
-	    margin: 0 1rem;
-	}
-
-	&.-is-ios {
-		@media(--min-medium-viewport) {
-			margin: 0 1rem;
-		}
-
-		& button {
-			margin: 0;
-
-			@media(--min-xlarge-viewport) {
-				margin: 0 2rem;
-			}
-		}
+	    margin: 0 .75rem;
 	}
 
 	& svg {
@@ -630,31 +622,6 @@
 		width: 22px;
 		height: 31px;
 	}
-
-	& .radio-mode-btn {
-	    display: none;
-
-		& svg.LIVE_PAUSE,
-		& svg.LIVE_STOP,
-		& svg.LIVE_FAILED,
-		& svg.STREAM_GEO_BLOCKED,
-		& svg.STATION_NOT_FOUND {
-			  display: initial;
-			  fill: var(--brand-text-color);
-			  margin-left: 1rem;
-		  }
-  	}
-
-	& svg.LIVE_PAUSE.radio-mode-btn,
-	& svg.LIVE_STOP.radio-mode-btn,
-	& svg.LIVE_FAILED.radio-mode-btn,
-	& svg.STREAM_GEO_BLOCKED.radio-mode-btn,
-	& svg.STATION_NOT_FOUND.radio-mode-btn {
-	    display: initial;
-	    fill: var(--brand-text-color);
-	    margin-left: 1rem;
-  	}
-
 
 	& .play-btn,
 	& .pause-btn,

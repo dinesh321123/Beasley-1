@@ -124,7 +124,8 @@ class Stations extends Component {
 		return (
 			<div
 				ref={this.stationModalRef}
-				className={`controls-station control-border${isOpen ? ' -open' : ''}`}
+				className={`controls-station control-listenlive${isOpen ? ' -open' : ''}
+				`}
 			>
 				<button
 					onClick={this.onToggle}
