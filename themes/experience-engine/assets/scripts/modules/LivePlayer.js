@@ -199,9 +199,10 @@ class LivePlayer extends Component {
 							progressClass={progressClass}
 						/>
 					</div>
-					<Rewind progressClass={progressClass} />
+					<div />
 					<div className="control-section">
 						<Info colors={textStyle} />
+						<Rewind progressClass={progressClass} />
 					</div>
 					<div className="button-holder full-width">
 						<div>

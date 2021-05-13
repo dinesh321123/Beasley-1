@@ -66,8 +66,10 @@ class PlayerAd extends PureComponent {
 		// this id is also compared in /assets/scripts/components/content/embeds/Dfp.js
 		const id = 'div-gpt-ad-player-0';
 		// const { unitId, unitName } = window.bbgiconfig.dfp.player;
-		const unitId = '/26918149/staging_test_adhesion';
-		const unitName = 'staging_test_adhesion';
+		// const unitId = '/26918149/staging_test_adhesion';
+		// const unitName = 'staging_test_adhesion';
+		const unitId = '/26918149/WMMR_FM_InList_infinite';
+		const unitName = 'in-list';
 		const { className, style } = this.props;
 
 		// we use createElement to make sure we don't add empty spaces here, thus DFP can properly collapse it when nothing to show here
