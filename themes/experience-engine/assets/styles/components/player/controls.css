@@ -272,14 +272,14 @@
 
 		& .controls-recent-songs {
 			background-color: var(--global-theme-secondary);
-			bottom: 65px;
+			bottom: 90px;
 			font-size: 1rem;
 			left: -115px;
 			opacity: 0;
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
 			will-change: visibility, opacity;
-		    width: 240px;
+		    width: 250px;
 
 			& h5 {
 				font-size: 1rem;
