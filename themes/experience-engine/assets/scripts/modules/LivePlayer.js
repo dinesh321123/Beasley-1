@@ -180,7 +180,9 @@ class LivePlayer extends Component {
 
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
-				<Progress className="-mobile" colors={textStyle} />
+				<div className="top-progress-holder">
+					<Progress className="-mobile" colors={textStyle} />
+				</div>
 
 				<div className="controls" style={controlsStyle}>
 					<div className={`button-holder ${progressClass}`}>
@@ -202,6 +204,8 @@ class LivePlayer extends Component {
 					<div />
 					<div className="control-section">
 						<Info colors={textStyle} />
+					</div>
+					<div className="button-holder">
 						<Rewind progressClass={progressClass} />
 					</div>
 					<div className="button-holder full-width">

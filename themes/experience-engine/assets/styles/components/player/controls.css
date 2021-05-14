@@ -29,7 +29,7 @@
 	  justify-content: space-between;
 	  position: relative;
 
-      & button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
+      & button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn, .listenlive-btn) {
 		  background: transparent;
 		  border: 0;
 		  cursor: pointer;
@@ -38,11 +38,6 @@
 		  text-align: left;
 	  }
     }
-
-	& .control-listenlive {
-		margin-left: .25rem;
-		width: 3rem;
-	}
 
 	& .control-section,
 	& .controls-wrapper {
@@ -53,11 +48,17 @@
 		justify-content: space-between;
 		position: relative;
 		width: 100%;
+	  	min-width: 0;
+	  	overflow: hidden;
+	  	text-overflow: ellipsis;
+	  	margin-right: 10px;
 
 		&:first-child {
 			flex: 2 0px;
 			order: 2;
 			overflow: hidden;
+		 	min-width: 0;
+		 	text-overflow: ellipsis;
 
 			@media(--min-medium-viewport) {
 				flex: 1 100%;
@@ -76,29 +77,16 @@
 			}
 		}
 
-		&:nth-child(2) {
-			flex: 1 100%;
-			margin-left: 1rem;
-			margin-right: 1rem;
-			max-width: 54px;
-			order: 1;
-
-			@media(--min-medium-viewport) {
-				flex: 2 0px;
-				max-width: 320px;
-				order: 2;
-			}
-
-			@media(--min-xlarge-viewport) {
-				flex: 0 0 auto;
-			}
-		}
 
 		&:last-child {
 			flex: 1 100%;
 			flex-flow: row nowrap;
 			max-width: 70px;
 			order: 3;
+		 	min-width: 0;
+		 	overflow: hidden;
+		 	text-overflow: ellipsis;
+
 
 			@media(--min-medium-viewport) {
 				flex: 1 18%;
@@ -114,7 +102,7 @@
 			}
 		}
 
-		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
+		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn, .listenlive-btn) {
 			background: transparent;
 			border: 0;
 			cursor: pointer;
@@ -189,7 +177,7 @@
 
 	& .controls-info {
 		font-size: 0.875rem;
-		width: 100%;
+	  	width: 100%;
 
 		& strong {
 			font-weight: 600;
@@ -291,7 +279,7 @@
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
 			will-change: visibility, opacity;
-		    width: 320px;
+		    width: 240px;
 
 			& h5 {
 				font-size: 1rem;
@@ -330,8 +318,9 @@
 		}
 
 		& p {
-		margin-bottom: 0;
-		  }
+			display: none;
+			margin-bottom: 0;
+	    }
 
 		& button {
 			& svg path {
@@ -483,6 +472,14 @@
 			max-width: 180px;
 		}
 
+		& button.listenlive-btn {
+			border: none;
+			  margin-left: .5rem;
+			  padding-top: .25rem;
+			  width: 54px;
+			  font-size: .75rem;
+		  }
+
 		& button {
 			align-items: center;
 			background: transparent;
@@ -592,20 +589,10 @@ display: none;
 	}
 }
 
-.ee-range-input.-progress input[type="range"] {
-	  margin-left: 80px;
-
-	  @media(--min-medium-viewport) {
-		  margin-left: 0;
-	  }
-  }
-
-.ee-range-input.-progress p {
-	margin-left: 80px;
-
-	@media(--min-medium-viewport) {
-		margin-left: 0;
-	}
+.top-progress-holder {
+	width: calc(100% - 78px);
+	margin-left: 78px;
+	position: absolute;
 }
 
 .status {

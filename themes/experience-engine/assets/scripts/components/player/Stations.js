@@ -124,10 +124,11 @@ class Stations extends Component {
 		return (
 			<div
 				ref={this.stationModalRef}
-				className={`controls-station control-listenlive${isOpen ? ' -open' : ''}
+				className={`controls-station ${isOpen ? ' -open' : ''}
 				`}
 			>
 				<button
+					className="listenlive-btn"
 					onClick={this.onToggle}
 					aria-label="Open Stations Selector"
 					style={textStyle}
