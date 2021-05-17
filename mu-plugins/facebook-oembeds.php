@@ -38,7 +38,7 @@ class FacebookOEmbed
 	public function facebook_oembed_key($provider, $url, $args)
 	{
 		if (strpos($provider, 'facebook') !== FALSE) {
-			$provider = add_query_arg('access_token', '630094690674746|c1dd1026f85476db1e53ea7ddf739fae', $provider);
+			$provider = add_query_arg('access_token', '630094690674746|59063038dd01a127313576d82e4da4d4', $provider);
 		}
 
 		return $provider;
