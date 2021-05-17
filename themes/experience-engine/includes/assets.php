@@ -95,6 +95,26 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
 		}
 
+		if ( get_option( 'ee_theme_version', '-light' ) == '-light' ) {
+			$vars['--global-black'] = '#000000';
+			$vars['--global-mine-shaft'] = '#333333';
+			$vars['--global-tundora'] = '#444444';
+			$vars['--global-dove-gray'] = '#737373';
+			$vars['--global-silver'] = '#cccbcb';
+			$vars['--global-silver-chalice'] = '#a5a5a5';
+			$vars['--global-mercury'] = '#e5e5e5';
+			$vars['--global-gallery'] = '#f0f0f0';
+			$vars['--global-white'] = '#ffffff';
+			$vars['--global-alabaster'] = '#FCFCFC';
+			$vars['--global-gallery'] = '#EFEFEF';
+	
+			$vars['--global-theme-primary'] = '#f1f1f1';
+			$vars['--global-theme-secondary'] = '#fcfcfc';
+			$vars['--global-theme-font-primary'] = 'var(--global-tundora)';
+			$vars['--global-theme-font-secondary'] = 'var(--global-font-primary)';
+			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
+		}
+
 		return $vars;
 	}
 endif;
@@ -206,6 +226,25 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'<script id="bbgiconfig" type="application/json">%s</script>',
 			json_encode( apply_filters( 'bbgiconfig', $config ) )
 		);
+	}
+endif;
+
+if ( ! function_exists( 'ee_gmr_site_logo' ) ) :
+	function ee_gmr_site_logo() {
+		$custom_logo_id = get_option( 'gmr_site_logo' );
+		if ( $custom_logo_id ) {
+			$image = wp_get_attachment_image_src( $custom_logo_id, 'original' );
+			if ( is_array( $image ) && ! empty( $image ) ) {
+				$config['theme'] = array(
+					'logo' => array(
+						'url'    => $image[0],
+						'width'  => $image[1],
+						'height' => $image[2],
+					),
+				);
+			}
+		}
+		return $config;
 	}
 endif;
 

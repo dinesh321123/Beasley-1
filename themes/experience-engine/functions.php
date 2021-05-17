@@ -35,3 +35,4 @@ require_once __DIR__ . '/includes/events.php';
 require_once __DIR__ . '/includes/geotargetly.php';
 require_once __DIR__ . '/includes/lytics.php';
 require_once __DIR__ . '/includes/parsely.php';
+require_once __DIR__ . '/includes/amp-function.php';
