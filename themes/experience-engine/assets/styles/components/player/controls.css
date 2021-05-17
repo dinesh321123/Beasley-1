@@ -509,6 +509,7 @@
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
 			will-change: visibility, opacity;
+		    z-index: -1;
 
 			& button {
 				justify-content: left;
