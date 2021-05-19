@@ -13,7 +13,6 @@ import {
 	Progress,
 	RecentSongs,
 	Offline,
-	Sponsor,
 	PlayerAd,
 } from '../components/player';
 
@@ -227,11 +226,6 @@ class LivePlayer extends Component {
 						style={controlsStyle}
 					/>
 				</div>
-				<Sponsor
-					className="sponsor-mobile"
-					maxWidth="1059"
-					style={controlsStyle}
-				/>
 			</ErrorBoundary>
 		);
 
