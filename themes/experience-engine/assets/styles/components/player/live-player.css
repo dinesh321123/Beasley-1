@@ -31,7 +31,7 @@
 	padding: 2rem;
 	position: absolute;
 	left: 0;
-	width: 299px;
+	width: 320px;
 	z-index: 100;
 
 	& > *:not(:last-child) {
@@ -56,6 +56,20 @@
 	& img {
 		max-width: 50%;
 		height: auto;
+	}
+
+	& .control-station-button {
+	  	padding: 0;
+	  	margin-left: 0;
+	  	margin-right: 0;
+
+		& img {
+		  	width: auto;
+	  	}
+
+		& span {
+		  	padding: 1rem;
+	  	}
 	}
 }
 

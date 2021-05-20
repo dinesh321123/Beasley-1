@@ -62,6 +62,8 @@ class Volume extends PureComponent {
 		if (volume > 82) {
 			volume = 82;
 		}
+		// Thumb is 10px so adjust prebar width
+		const prebarwidth = 1 + volume - volume * (10 / 82);
 
 		return (
 			<div ref={this.volumeRef} className="controls-volume">
@@ -134,7 +136,7 @@ class Volume extends PureComponent {
 								onChange={e => setVolume(e.target.value)}
 							/>
 						</div>
-						<p className="pre-bar" style={{ width: `${volume}px` }} />
+						<p className="pre-bar" style={{ width: `${prebarwidth}px` }} />
 					</div>
 				</div>
 			</div>

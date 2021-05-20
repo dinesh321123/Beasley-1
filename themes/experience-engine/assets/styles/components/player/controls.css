@@ -115,19 +115,6 @@
 			& button {
 				padding: 1rem;
 			}
-
-			& .control-station-button {
-				padding: 0;
-
-				& img {
-					max-height: 51px;
-					width: auto;
-				}
-
-				& span {
-					padding: 1rem;
-				}
-			}
 		}
 
 		& .audio-sponsor--text {
@@ -279,7 +266,7 @@
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
 			will-change: visibility, opacity;
-		    width: 250px;
+		    width: 252px;
 
 			& h5 {
 				font-size: 1rem;
@@ -395,15 +382,17 @@
 	}
 
 	& .controls-volume {
-		  display: none;
+	  	display: none;
 		height: 22px;
 		position: relative;
 		z-index: 1;
-	  min-width: 120px;
+	  	min-width: 120px;
+	    margin-top: 4px;
+	  	margin-bottom: 4px;
 
-@media(--min-medium-viewport) {
-	display: flex;
-}
+		@media(--min-medium-viewport) {
+			display: flex;
+		}
 
 		& button {
 			display: none;
