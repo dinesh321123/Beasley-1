@@ -29,6 +29,7 @@ require_once __DIR__ . '/includes/embeds.php';
 require_once __DIR__ . '/includes/dfp.php';
 require_once __DIR__ . '/includes/homepage.php';
 require_once __DIR__ . '/includes/galleries.php';
+require_once __DIR__ . '/includes/listiclecpt.php';
 require_once __DIR__ . '/includes/rewrites.php';
 require_once __DIR__ . '/includes/events.php';
 require_once __DIR__ . '/includes/geotargetly.php';

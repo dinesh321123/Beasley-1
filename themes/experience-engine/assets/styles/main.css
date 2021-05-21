@@ -54,6 +54,8 @@
 @import "components/gallery/archive";
 @import "components/gallery/listicle";
 
+@import "components/listicle_cpt/listicle_cpt";
+
 @import "components/contest/contest-tile";
 
 @import "components/podcast/podcast-tile";
