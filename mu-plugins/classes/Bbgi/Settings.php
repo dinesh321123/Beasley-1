@@ -115,6 +115,11 @@ class Settings extends \Bbgi\Module {
 			'selected' => 'disabled' === get_option( 'ee_login', '' ),
 		);
 
+		$feature_video_provider_disabled_args = array(
+				'name'     => 'feature_video_provider',
+				'selected' => get_option( 'feature_video_provider', 'none' ),
+		);
+
 		$ee_geotargetly_enabled_args = [
 			'name' => 'ee_geotargetly_enabled',
 		];
@@ -133,6 +138,11 @@ class Settings extends \Bbgi\Module {
 				'selected' => get_option( 'ad_lazy_loading_enabled', 'off' ),
 		);
 
+		$ad_rotation_enabled_args = array(
+				'name'     => 'ad_rotation_enabled',
+				'selected' => get_option( 'ad_rotation_enabled', 'on' ),
+		);
+
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
 
@@ -144,6 +154,13 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'ee_geotargetly', 'Geo Targetly', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'ee_geotargetly_enabled', 'Geo Targetly Enabled', 'bbgi_checkbox_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_enabled_args );
 		add_settings_field( 'ee_geotargetly_embed_code', 'Geo Targetly Embed Code', 'bbgi_textarea_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_embed_code_args );
+
+		add_settings_section('feature_video', 'Feature Video', '__return_false', $this->_settings_page_hook);
+		add_settings_field('feature_video_provider', 'Feature Video Provider', array($this, 'render_feature_video_provider'), $this->_settings_page_hook, 'feature_video', $feature_video_provider_disabled_args);
+		add_settings_field('stn_cid', 'STN CID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_cid');
+		add_settings_field('stn_barker_id', 'STN Barker ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_barker_id');
+		add_settings_field('stn_inarticle_id', 'STN In Article ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_inarticle_id');
+		add_settings_field('stn_categories', 'STN Allowed Categories', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_categories');
 
 		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=gmr_site_logo' );
 		add_settings_field( 'ee_subheader_mobile_logo', 'Mobile Subheader Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=ee_subheader_mobile_logo' );
@@ -167,8 +184,12 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'contest_section', 'Contests', '__return_false', $this->_settings_page_hook );
 		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
 
-		add_settings_section( 'ad_lazy_loading_section', 'Ad Lazy Loading', '__return_false', $this->_settings_page_hook );
-		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_lazy_loading_section', $ad_lazy_loading_enabled_args);
+		add_settings_section( 'ad_settings_section', 'Ad Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading Enabled', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_lazy_loading_enabled_args);
+		add_settings_field('ad_rotation_enabled', 'Ad Rotation Enabled (Note: Ads on Right Rail will ALWAYS rotate)', array($this, 'render_ad_rotation_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_rotation_enabled_args);
+		add_settings_field('ad_rotation_polling_sec_setting', 'Poll Interval Seconds (5 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_polling_sec_setting&default=5');
+		add_settings_field('ad_rotation_refresh_sec_setting', 'Refresh Interval Seconds (30 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_refresh_sec_setting&default=30');
+
 
 		add_settings_section( 'item_counts_section', 'Item Counts', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'ee_featured_item_count_setting', 'Featured Item Count', 'bbgi_input_field', $this->_settings_page_hook, 'item_counts_section', array(
@@ -182,6 +203,9 @@ class Settings extends \Bbgi\Module {
 			'desc' => "Number of items which will be displayed in the Don't Miss Section. Commonly set to 10",
 		) );
 
+		add_settings_section( 'related_article_section', 'Related Articles', '__return_false', $this->_settings_page_hook );
+		add_settings_field( 'related_article_title', 'Title Text', 'bbgi_input_field', $this->_settings_page_hook, 'related_article_section', 'name=related_article_title&default=You May Also Like' );
+
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_subheader_mobile_logo', 'intval' );
 		register_setting( self::option_group, 'ee_subheader_desktop_logo', 'intval' );
@@ -189,6 +213,12 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_theme_version', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_publisher', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_login', 'sanitize_text_field' );
+
+		register_setting(self::option_group, 'feature_video_provider', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_cid', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_barker_id', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_inarticle_id', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_categories', 'sanitize_text_field');
 
 		register_setting( self::option_group, 'ee_theme_primary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_secondary_color', 'sanitize_text_field' );
@@ -210,9 +240,14 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'ad_lazy_loading_enabled', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_rotation_enabled', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_rotation_polling_sec_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_rotation_refresh_sec_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'ee_featured_item_count_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ee_dont_miss_item_count_setting', 'sanitize_text_field');
+
+		register_setting(self::option_group, 'related_article_title', 'sanitize_text_field');
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -374,6 +409,30 @@ class Settings extends \Bbgi\Module {
 				<?php selected( $args['selected'], 'off' ); ?>
 		>Off</option>
 
+		</select><?php
+	}
+
+	public function render_ad_rotation_enabled( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="on"
+				<?php selected( $args['selected'], 'on' ); ?>
+		>On</option>
+		<option value="off"
+				<?php selected( $args['selected'], 'off' ); ?>
+		>Off</option>
+
+		</select><?php
+	}
+
+	public function render_feature_video_provider( $args ) {
+
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="none"
+				<?php selected( $args['selected'], 'none' ); ?>
+		>None</option>
+		<option value="stn"
+				<?php selected( $args['selected'], 'stn' ); ?>
+		>STN</option>
 		</select><?php
 	}
 }

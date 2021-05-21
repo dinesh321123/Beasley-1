@@ -243,6 +243,7 @@ class BlogData {
 					$single_post['attachments'],
 					$single_post['gallery_attachments'],
 					$single_post['galleries'],
+					$single_post['am_metas'],
 					$single_post['term_tax'],
 					$force
 				);
@@ -443,6 +444,27 @@ class BlogData {
 			}
 		}
 
+		$am_metas = array();
+		if ( 'affiliate_marketing' == $single_result->post_type ) {
+			$am_metas['am_item_photo'] = self::am_get_metavalue( 'am_item_photo', $single_result->ID  );
+			$am_metas['am_item_photo'] = array_filter( array_map( 'get_post', $am_metas['am_item_photo'] ) );
+			foreach ( $am_metas['am_item_photo'] as $am_meta_item_photo ) {
+				$am_meta_item_photo->guid = wp_get_attachment_image_url( $am_meta_item_photo->ID, 'full' );
+				$am_meta_item_photo->alt = get_post_meta( $am_meta_item_photo->ID, '_wp_attachment_image_alt', true );
+				$am_meta_item_photo->attribution = get_post_meta( $am_meta_item_photo->ID, 'gmr_image_attribution', true );
+			}
+			$am_metas['am_item_imagetype'] = self::am_get_metavalue( 'am_item_imagetype', $single_result->ID  );
+			$am_metas['am_item_imagecode'] = self::am_get_metavalue( 'am_item_imagecode', $single_result->ID  );
+			$am_metas['am_item_order'] = self::am_get_metavalue( 'am_item_order', $single_result->ID  );
+			$am_metas['am_item_unique_order'] = self::am_get_metavalue( 'am_item_unique_order', $single_result->ID  );
+			$am_metas['am_item_name'] = self::am_get_metavalue( 'am_item_name', $single_result->ID  );
+			$am_metas['am_item_description'] = self::am_get_metavalue( 'am_item_description', $single_result->ID );
+			$am_metas['am_item_buttontext'] = self::am_get_metavalue( 'am_item_buttontext', $single_result->ID  );
+			$am_metas['am_item_buttonurl'] = self::am_get_metavalue( 'am_item_buttonurl', $single_result->ID  );
+			$am_metas['am_item_getitnowfromname'] = self::am_get_metavalue( 'am_item_getitnowfromname', $single_result->ID  );
+			$am_metas['am_item_getitnowfromurl'] = self::am_get_metavalue( 'am_item_getitnowfromurl', $single_result->ID  );
+		}
+
 		$term_tax = array();
 		$taxonomies = get_object_taxonomies( $single_result );
 		foreach ( $taxonomies as $taxonomy ) {
@@ -454,10 +476,20 @@ class BlogData {
 			'post_metas'          => $metas,
 			'attachments'         => $media,
 			'gallery_attachments' => $attachments,
+			'am_metas'			  => $am_metas,
 			'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
 			'galleries'           => $galleries,
 			'term_tax'            => $term_tax
 		);
+	}
+
+	public static function am_get_metavalue( $value, $postid ) {
+		$field = get_post_meta( $postid, $value, true );
+		if ( ! empty( $field ) ) {
+			return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -471,7 +503,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax, $force_update = false ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries,$am_metas, $term_tax, $force_update = false ) {
 		if ( ! $post ) {
 			return;
 		}
@@ -517,6 +549,17 @@ class BlogData {
 				'_pingme',
 				'_encloseme',
 				'syndication-detached',
+				'am_item_name',
+				'am_item_description',
+				'am_item_photo',
+				'am_item_imagetype',
+				'am_item_imagecode',
+				'am_item_order',
+				'am_item_unique_order',
+				'am_item_buttontext',
+				'am_item_buttonurl',
+				'am_item_getitnowfromname',
+				'am_item_getitnowfromurl'
 			);
 
 			foreach ( $metas as $meta_key => $meta_value ) {
@@ -647,6 +690,34 @@ class BlogData {
 						add_post_meta( $post_id, 'gallery-image', $attachment );
 					}
 				}
+			}
+
+			if ( 'affiliate_marketing' == $post_type ) {
+				delete_post_meta( $post_id, 'am_item_name' );
+				delete_post_meta( $post_id, 'am_item_photo' );
+				delete_post_meta( $post_id, 'am_item_imagetype' );
+				delete_post_meta( $post_id, 'am_item_imagecode' );
+				delete_post_meta( $post_id, 'am_item_order' );
+				delete_post_meta( $post_id, 'am_item_unique_order' );
+				delete_post_meta( $post_id, 'am_item_description' );
+				delete_post_meta( $post_id, 'am_item_buttontext' );
+				delete_post_meta( $post_id, 'am_item_buttonurl' );
+				delete_post_meta( $post_id, 'am_item_getitnowfromname' );
+				delete_post_meta( $post_id, 'am_item_getitnowfromurl' );
+				
+				update_post_meta( $post_id, 'am_item_name', $am_metas['am_item_name'] );
+				
+				$am_item_photo_import = self::ImportAttachedImages( $post_id, $am_metas['am_item_photo'] );
+				update_post_meta( $post_id, 'am_item_photo', $am_item_photo_import );
+				update_post_meta( $post_id, 'am_item_imagetype', $am_metas['am_item_imagetype'] );
+				update_post_meta( $post_id, 'am_item_imagecode', $am_metas['am_item_imagecode'] );
+				update_post_meta( $post_id, 'am_item_order', $am_metas['am_item_order'] );
+				update_post_meta( $post_id, 'am_item_unique_order', $am_metas['am_item_unique_order'] );
+				update_post_meta( $post_id, 'am_item_description', $am_metas['am_item_description'] );
+				update_post_meta( $post_id, 'am_item_buttontext', $am_metas['am_item_buttontext'] );
+				update_post_meta( $post_id, 'am_item_buttonurl', $am_metas['am_item_buttonurl'] );
+				update_post_meta( $post_id, 'am_item_getitnowfromname', $am_metas['am_item_getitnowfromname'] );
+				update_post_meta( $post_id, 'am_item_getitnowfromurl', $am_metas['am_item_getitnowfromurl'] );
 			}
 		}
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "659019009437584c777c725b3289c932",
+    "content-hash": "c83aa51e8917d4717d9c5ef5dcc75e20",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -48,6 +48,10 @@
             "keywords": [
                 "wordpress"
             ],
+            "support": {
+                "issues": "https://github.com/10up/post-finder/issues",
+                "source": "https://github.com/10up/post-finder"
+            },
             "time": "2017-07-05T21:15:47+00:00"
         },
         {
@@ -314,6 +318,10 @@
                 "zend",
                 "zikula"
             ],
+            "support": {
+                "issues": "https://github.com/composer/installers/issues",
+                "source": "https://github.com/composer/installers/tree/v1.10.0"
+            },
             "time": "2021-01-14T11:07:16+00:00"
         },
         {
@@ -432,6 +440,10 @@
             "keywords": [
                 "promise"
             ],
+            "support": {
+                "issues": "https://github.com/guzzle/promises/issues",
+                "source": "https://github.com/guzzle/promises/tree/1.4.0"
+            },
             "time": "2020-09-30T07:37:28+00:00"
         },
         {
@@ -503,6 +515,10 @@
                 "uri",
                 "url"
             ],
+            "support": {
+                "issues": "https://github.com/guzzle/psr7/issues",
+                "source": "https://github.com/guzzle/psr7/tree/1.7.0"
+            },
             "time": "2020-09-30T07:37:11+00:00"
         },
         {
@@ -540,6 +556,10 @@
             "keywords": [
                 "wordpress"
             ],
+            "support": {
+                "issues": "https://github.com/humanmade/s3-uploads/issues",
+                "source": "https://github.com/humanmade/s3-uploads"
+            },
             "time": "2019-04-16T05:09:44+00:00"
         },
         {
@@ -597,6 +617,10 @@
                 "json",
                 "jsonpath"
             ],
+            "support": {
+                "issues": "https://github.com/jmespath/jmespath.php/issues",
+                "source": "https://github.com/jmespath/jmespath.php/tree/2.6.0"
+            },
             "time": "2020-07-31T21:01:56+00:00"
         },
         {
@@ -761,6 +785,10 @@
                 "queue",
                 "rabbitmq"
             ],
+            "support": {
+                "issues": "https://github.com/php-amqplib/php-amqplib/issues",
+                "source": "https://github.com/php-amqplib/php-amqplib/tree/v2.12.1"
+            },
             "time": "2020-09-25T18:34:58+00:00"
         },
         {
@@ -852,6 +880,10 @@
                 "x.509",
                 "x509"
             ],
+            "support": {
+                "issues": "https://github.com/phpseclib/phpseclib/issues",
+                "source": "https://github.com/phpseclib/phpseclib/tree/2.0.30"
+            },
             "time": "2020-12-17T05:42:04+00:00"
         },
         {
@@ -902,6 +934,9 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/master"
+            },
             "time": "2016-08-06T14:39:51+00:00"
         },
         {
@@ -942,6 +977,10 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
+            "support": {
+                "issues": "https://github.com/ralouphie/getallheaders/issues",
+                "source": "https://github.com/ralouphie/getallheaders/tree/develop"
+            },
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
@@ -1428,6 +1467,24 @@
             },
             "type": "wordpress-plugin",
             "homepage": "https://wordpress.org/plugins/fb-instant-articles/"
+        },
+        {
+            "name": "wpackagist-plugin/getty-images",
+            "version": "4.0.6",
+            "source": {
+                "type": "svn",
+                "url": "https://plugins.svn.wordpress.org/getty-images/",
+                "reference": "tags/4.0.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://downloads.wordpress.org/plugin/getty-images.4.0.6.zip"
+            },
+            "require": {
+                "composer/installers": "~1.0"
+            },
+            "type": "wordpress-plugin",
+            "homepage": "https://wordpress.org/plugins/getty-images/"
         },
         {
             "name": "wpackagist-plugin/public-post-preview",

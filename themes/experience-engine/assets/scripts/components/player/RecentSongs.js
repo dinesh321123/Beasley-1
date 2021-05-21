@@ -55,7 +55,7 @@ class RecentSongs extends PureComponent {
 
 	render() {
 		const { isOpen } = this.state;
-		const { songs, colors } = this.props;
+		const { songs, colors, className } = this.props;
 
 		if (!Array.isArray(songs) || !songs.length) {
 			return false;
@@ -111,7 +111,7 @@ class RecentSongs extends PureComponent {
 		return (
 			<div
 				ref={this.recentSongsModalRef}
-				className={`controls-recent${isOpen ? ' -open' : ''}`}
+				className={`controls-recent${isOpen ? ' -open' : ''} ${className}`}
 			>
 				<button onClick={this.onToggle} type="button">
 					<svg
@@ -213,11 +213,13 @@ RecentSongs.propTypes = {
 		'--brand-text-color': PropTypes.string,
 	}),
 	songs: PropTypes.arrayOf(PropTypes.shape({})),
+	className: PropTypes.string,
 };
 
 RecentSongs.defaultProps = {
 	colors: {},
 	songs: [],
+	className: '',
 };
 
 function mapStateToProps({ player }) {

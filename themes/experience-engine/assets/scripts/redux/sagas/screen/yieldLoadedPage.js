@@ -10,7 +10,7 @@ import {
 	ACTION_HISTORY_HTML_SNAPSHOT,
 	ACTION_HIDE_SPLASH_SCREEN,
 } from '../../actions/screen';
-import { slugify, dispatchEvent } from '../../../library';
+import { slugify, dispatchEvent, updateCanonicalUrl } from '../../../library';
 
 /**
  * Scrolls to the top of content.
@@ -67,6 +67,8 @@ function* yieldLoadedPage(action) {
 	// Update BBGI Config
 	yield call(manageBbgiConfig, pageDocument);
 
+	updateCanonicalUrl(url);
+
 	// Update Ad Targeting
 	yield call(updateTargeting);
 
@@ -117,11 +119,6 @@ function* yieldLoadedPage(action) {
 	}
 
 	yield call(updateHistory, url, pageDocument.title);
-
-	// call lytics send if it exists
-	if (window.jstag) {
-		window.jstag.send();
-	}
 }
 
 /**

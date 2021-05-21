@@ -95,6 +95,7 @@ class GMR_Show_Metaboxes {
 
 		$has_homepage = \GreaterMedia\Shows\supports_homepage( get_the_ID() );
 		$supports_galleries = \GreaterMedia\Shows\supports_galleries( get_the_ID() );
+		$supports_affiliate_marketing = \GreaterMedia\Shows\supports_affiliate_marketing( get_the_ID() );
 		$supports_podcasts = \GreaterMedia\Shows\supports_podcasts( get_the_ID() );
 		$supports_videos = \GreaterMedia\Shows\supports_videos( get_the_ID() );
 		$uses_custom_menu = \GreaterMedia\Shows\uses_custom_menu( get_the_ID() );
@@ -125,6 +126,22 @@ class GMR_Show_Metaboxes {
 			<div class="radio-select hide-if-js">
 				<label for="show-homepage-supports-galleries-no"><input type="radio" name="show_homepage_galleries" id="show-homepage-supports-galleries-no" value="0"<?php checked( $supports_galleries, false ) ?>> No</label><br>
 				<label for="show-homepage-supports-galleries-yes"><input type="radio" name="show_homepage_galleries" id="show-homepage-supports-galleries-yes" value="1"<?php checked( $supports_galleries, true ) ?>> Yes</label><br>
+
+				<p>
+					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
+					<a href="#" class="cancel-radio hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel' ) ?></a>
+				</p>
+			</div>
+		</div>
+
+		<div id="show-homepage-supports-affiliate-marketing" class="misc-pub-section misc-pub-gmr mis-pub-radio">
+			Supports Affiliate Marketing:
+			<span class="post-pub-section-value radio-value"><?php echo $supports_affiliate_marketing ? 'Yes' : 'No'; ?></span>
+			<a href="#" class="edit-radio hide-if-no-js" style="display: inline;"><span aria-hidden="true">Edit</span></a>
+
+			<div class="radio-select hide-if-js">
+				<label for="show-homepage-supports-affiliate-marketing-no"><input type="radio" name="show_homepage_affiliate_marketing" id="show-homepage-supports-affiliate-marketing-no" value="0"<?php checked( $supports_affiliate_marketing, false ) ?>> No</label><br>
+				<label for="show-homepage-supports-affiliate-marketing-yes"><input type="radio" name="show_homepage_affiliate_marketing" id="show-homepage-supports-affiliate-marketing-yes" value="1"<?php checked( $supports_affiliate_marketing, true ) ?>> Yes</label><br>
 
 				<p>
 					<a href="#" class="save-radio hide-if-no-js button"><?php esc_html_e( 'OK' ) ?></a>
@@ -381,6 +398,7 @@ class GMR_Show_Metaboxes {
 
 		$homepage_support = filter_input( INPUT_POST, 'show_homepage', FILTER_VALIDATE_BOOLEAN );
 		$gallery_support = filter_input( INPUT_POST, 'show_homepage_galleries', FILTER_VALIDATE_BOOLEAN );
+		$affiliate_marketing_support = filter_input( INPUT_POST, 'show_homepage_affiliate_marketing', FILTER_VALIDATE_BOOLEAN );
 		$podcast_support = filter_input( INPUT_POST, 'show_homepage_podcasts', FILTER_VALIDATE_BOOLEAN );
 		$video_support = filter_input( INPUT_POST, 'show_homepage_videos', FILTER_VALIDATE_BOOLEAN );
 		$uses_custom_menu = filter_input( INPUT_POST, 'show_homepage_custom_menu', FILTER_VALIDATE_BOOLEAN );
@@ -390,6 +408,7 @@ class GMR_Show_Metaboxes {
 
 		if ( $homepage_support ) {
 			update_post_meta( $post_id, 'show_homepage_galleries', $gallery_support );
+			update_post_meta( $post_id, 'show_homepage_affiliate_marketing', $affiliate_marketing_support );
 			update_post_meta( $post_id, 'show_homepage_podcasts', $podcast_support );
 			update_post_meta( $post_id, 'show_homepage_videos', $video_support );
 			update_post_meta( $post_id, 'show_homepage_custom_menu', $uses_custom_menu );
@@ -398,6 +417,7 @@ class GMR_Show_Metaboxes {
 		} else {
 			// Impossible to support these if homepage support is turned off
 			update_post_meta( $post_id, 'show_homepage_galleries', false );
+			update_post_meta( $post_id, 'show_homepage_affiliate_marketing', false );
 			update_post_meta( $post_id, 'show_homepage_podcasts', false );
 			update_post_meta( $post_id, 'show_homepage_videos', false );
 			update_post_meta( $post_id, 'show_homepage_custom_menu', false );

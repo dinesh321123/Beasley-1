@@ -3,9 +3,8 @@
 	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
 				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
 	display: flex;
-	height: 75px;
+	height: 90px;
 	position: relative;
-	padding-left: 1rem;
 
 	@media(--max-medium-viewport) {
 		padding-left: 0;
@@ -18,24 +17,48 @@
 		}
 	}
 
-	& .control-border {
-		border-left: 1px solid var(--global-mercury);
-	}
+	& .full-width {
+		margin-right: 1rem;
+    }
+
+	& .button-holder {
+	  align-items: center;
+	  box-sizing: border-box;
+	  display: flex;
+	  flex-flow: row wrap;
+	  justify-content: space-between;
+	  position: relative;
+
+      & button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn, .listenlive-btn) {
+		  background: transparent;
+		  border: 0;
+		  cursor: pointer;
+		  height: 100%;
+		  width: 100%;
+		  text-align: left;
+	  }
+    }
 
 	& .control-section,
 	& .controls-wrapper {
 		align-items: center;
 		box-sizing: border-box;
 		display: flex;
-		flex-flow: row wrap;
+		flex-flow: row nowrap;
 		justify-content: space-between;
 		position: relative;
 		width: 100%;
+	  	min-width: 0;
+	  	overflow: hidden;
+	  	text-overflow: ellipsis;
+	  	margin-right: 10px;
 
 		&:first-child {
 			flex: 2 0px;
 			order: 2;
 			overflow: hidden;
+		 	min-width: 0;
+		 	text-overflow: ellipsis;
 
 			@media(--min-medium-viewport) {
 				flex: 1 100%;
@@ -54,33 +77,19 @@
 			}
 		}
 
-		&:nth-child(2) {
-			flex: 1 100%;
-			margin-left: 1rem;
-			margin-right: 1rem;
-			max-width: 54px;
-			order: 1;
-
-			@media(--min-medium-viewport) {
-				flex: 2 0px;
-				max-width: 320px;
-				order: 2;
-			}
-
-			@media(--min-xlarge-viewport) {
-				flex: 0 0 auto;
-			}
-		}
 
 		&:last-child {
 			flex: 1 100%;
 			flex-flow: row nowrap;
 			max-width: 70px;
 			order: 3;
+		 	min-width: 0;
+		 	overflow: hidden;
+		 	text-overflow: ellipsis;
+
 
 			@media(--min-medium-viewport) {
 				flex: 1 18%;
-				justify-content: flex-end;
 				max-width: none;
 			}
 
@@ -89,11 +98,11 @@
 			}
 
 			@media(--min-xlarge-viewport) {
-				flex: 1 100%;
+				flex: 1 23%;
 			}
 		}
 
-		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
+		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn, .listenlive-btn) {
 			background: transparent;
 			border: 0;
 			cursor: pointer;
@@ -105,19 +114,6 @@
 		& .controls-contact {
 			& button {
 				padding: 1rem;
-			}
-
-			& .control-station-button {
-				padding: 0;
-
-				& img {
-					max-height: 51px;
-					width: auto;
-				}
-
-				& span {
-					padding: 1rem;
-				}
 			}
 		}
 
@@ -131,6 +127,11 @@
 			}
 		}
 	}
+
+	& .player-ad {
+	  float: right;
+	  width: 970px;
+  	}
 
 	& .controls-wrapper:first-child {
 		overflow: visible;
@@ -146,10 +147,13 @@
 		}
 	}
 
+	& .-podcast {
+		margin-top: -5px;
+    }
+
 	& .controls-progress {
 		left: 0;
-		position: absolute;
-		bottom: 8px;
+		position: relative;
 		width: 100%;
 		z-index: 9;
 
@@ -160,7 +164,7 @@
 
 	& .controls-info {
 		font-size: 0.875rem;
-		width: 100%;
+	  	width: 100%;
 
 		& strong {
 			font-weight: 600;
@@ -174,7 +178,8 @@
 			font-weight: 500;
 			letter-spacing: 0.01em;
 			line-height: 1.2;
-			padding: .1rem .25rem;
+			padding: 1px 1px;
+			margin: 0 5px 5px 0;
 			position: relative;
 			text-transform: uppercase;
 			top: -1px;
@@ -187,7 +192,7 @@
 		& p {
 			align-items: center;
 			display: inline-block;
-			margin-bottom: 0;
+			margin-bottom: 1px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -232,10 +237,15 @@
 		}
 	}
 
+	& .controls-recent.-podcast {
+		  display: none;
+    }
+
 	& .controls-recent {
 
 		& button {
 			display: none;
+		    margin-bottom: .5rem;
 
 			@media(--min-medium-viewport) {
 				display: flex;
@@ -249,13 +259,14 @@
 
 		& .controls-recent-songs {
 			background-color: var(--global-theme-secondary);
-			bottom: 65px;
+			bottom: 90px;
 			font-size: 1rem;
 			left: -115px;
 			opacity: 0;
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
 			will-change: visibility, opacity;
+		    width: 252px;
 
 			& h5 {
 				font-size: 1rem;
@@ -292,6 +303,11 @@
 				display: none;
 			}
 		}
+
+		& p {
+			display: none;
+			margin-bottom: 0;
+	    }
 
 		& button {
 			& svg path {
@@ -366,10 +382,17 @@
 	}
 
 	& .controls-volume {
-		display: flex;
+	  	display: none;
 		height: 22px;
 		position: relative;
 		z-index: 1;
+	  	min-width: 120px;
+	    margin-top: 4px;
+	  	margin-bottom: 4px;
+
+		@media(--min-medium-viewport) {
+			display: flex;
+		}
 
 		& button {
 			display: none;
@@ -401,14 +424,14 @@
 		}
 
 		& .ee-range-input-slider {
-			left: 3rem;
+	        left: 2rem;
+		  	right: 1rem;
 			opacity: 0;
 			position: absolute;
 			transition: visibility 250ms ease-in-out,
 						opacity 250ms ease-in-out;
 			top: 8px;
 			visibility: hidden;
-			width: 82px;
 
 			& input[type="range"]::-webkit-slider-thumb {
 				-webkit-appearance: none;
@@ -429,19 +452,22 @@
 	}
 
 	& .controls-station {
-		display: none;
+		display: block;
 		height: 100%;
 		max-width: 150px;
 		position: relative;
-		width: 50%;
-
-		@media(--min-medium-viewport) {
-			display: block;
-		}
 
 		@media(--min-xxlarge-viewport) {
 			max-width: 180px;
 		}
+
+		& button.listenlive-btn {
+			border: none;
+			  margin-left: .5rem;
+			  padding-top: .25rem;
+			  width: 54px;
+			  font-size: .75rem;
+		  }
 
 		& button {
 			align-items: center;
@@ -472,6 +498,7 @@
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
 			will-change: visibility, opacity;
+		    z-index: -1;
 
 			& button {
 				justify-content: left;
@@ -508,6 +535,7 @@
 }
 
 .controls-progress {
+display: none;
 	&.-mobile {
 		display: block;
 
@@ -517,7 +545,7 @@
 	}
 
 	&.-desktop {
-		transition: opacity 2s ease-in-out;
+		transition: opacity 250ms ease-in-out;
 		opacity: 0;
 
 		@media(--min-medium-viewport) {
@@ -529,9 +557,9 @@
 
 		& .-progress {
 			align-self: center;
-			margin: 0 10px;
+			margin: 0 10px 0 0;
 			position: relative;
-			width: 100%;
+			width: 84px;
 		}
 	}
 
@@ -544,9 +572,17 @@
 				display: inline-flex;
 				font-size: .675rem;
 				margin-top: 3px;
+				margin-right: 10px;
+				width: 2.2rem;
 			}
 		}
 	}
+}
+
+.top-progress-holder {
+	width: calc(100% - 78px);
+	margin-left: 78px;
+	position: absolute;
 }
 
 .status {
@@ -555,24 +591,7 @@
 		border: 2px solid var(--brand-primary);
 		border-radius: 50%;
 		padding: 0;
-
-		@media(--min-medium-viewport) {
-			margin: 0 2rem;
-		}
-	}
-
-	&.-is-ios {
-		@media(--min-medium-viewport) {
-			margin: 0 1rem;
-		}
-
-		& button {
-			margin: 0;
-
-			@media(--min-xlarge-viewport) {
-				margin: 0 2rem;
-			}
-		}
+	    margin: 0 .75rem;
 	}
 
 	& svg {

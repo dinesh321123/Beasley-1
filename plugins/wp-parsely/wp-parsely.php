@@ -4,7 +4,7 @@ Plugin Name: Parse.ly
 Plugin URI: http://www.parsely.com/
 Description: This plugin makes it a snap to add Parse.ly tracking code to your WordPress blog.
 Author: Mike Sukmanowsky ( mike@parsely.com )
-Version: 2.2
+Version: 2.2.1
 Requires at least: 4.0.0
 Author URI: http://www.parsely.com/
 License: GPL2
@@ -48,7 +48,7 @@ class Parsely {
 	 *
 	 * @codeCoverageIgnoreStart
 	 */
-	const VERSION         = '2.2';
+	const VERSION         = '2.2.1';
 	const MENU_SLUG       = 'parsely';             // Defines the page param passed to options-general.php.
 	const MENU_TITLE      = 'Parse.ly';            // Text to be used for the menu as seen in Settings sub-menu.
 	const MENU_PAGE_TITLE = 'Parse.ly > Settings'; // Text shown in <title></title> when the settings screen is viewed.
@@ -112,20 +112,7 @@ class Parsely {
 			array( $this, 'add_plugin_meta_links' )
 		);
 
-		/**
-		 * Adds 10 minute cron interval
-		 *
-		 * @param array $schedules WP schedules array.
-		 */
-		function wpparsely_add_cron_interval( $schedules ) {
-			$schedules['everytenminutes'] = array(
-				'interval' => 600, // time in seconds.
-				'display'  => 'Every 10 Minutes',
-			);
-			return $schedules;
-		}
-
-		add_filter( 'cron_schedules', 'wpparsely_add_cron_interval' );
+		add_filter( 'cron_schedules', [ $this, 'wpparsely_add_cron_interval' ] );
 		add_action( 'parsely_bulk_metas_update', array( $this, 'bulk_update_posts' ) );
 		// inserting parsely code.
 		add_action( 'wp_head', array( $this, 'insert_parsely_page' ) );
@@ -134,22 +121,36 @@ class Parsely {
 		add_action( 'instant_articles_compat_registry_analytics', array( $this, 'insert_parsely_tracking_fbia' ) );
 		add_action( 'template_redirect', array( $this, 'parsely_add_amp_actions' ) );
 		if ( ! defined( 'WP_PARSELY_TESTING' ) ) {
-			/**
-			 * Initialize parsely WordPress style
-			 */
-			function wp_parsely_style_init() {
-				wp_enqueue_style( 'wp-parsely-style', plugins_url( 'wp-parsely.css', __FILE__ ), array(), filemtime( get_stylesheet_directory() ) );
-			}
-
-			/**
-			 * Make sure that jquery exists
-			 */
-			function ensure_jquery_exists() {
-				wp_enqueue_script( 'jquery' );
-			}
-			add_action( 'wp_enqueue_scripts', 'wp_parsely_style_init' );
-			add_action( 'wp_enqueue_scripts', 'ensure_jquery_exists' );
+			add_action( 'wp_enqueue_scripts', [ $this, 'wp_parsely_style_init' ] );
+			add_action( 'wp_enqueue_scripts', [ $this, 'ensure_jquery_exists' ] );
 		}
+	}
+
+	/**
+	 * Adds 10 minute cron interval
+	 *
+	 * @param array $schedules WP schedules array.
+	 */
+	public function wpparsely_add_cron_interval( $schedules ) {
+		$schedules['everytenminutes'] = array(
+			'interval' => 600, // time in seconds.
+			'display'  => 'Every 10 Minutes',
+		);
+		return $schedules;
+	}
+
+	/**
+	 * Initialize parsely WordPress style
+	 */
+	public function wp_parsely_style_init() {
+		wp_enqueue_style( 'wp-parsely-style', plugins_url( 'wp-parsely.css', __FILE__ ), array(), filemtime( get_stylesheet_directory() ) );
+	}
+
+	/**
+	 * Make sure that jquery exists
+	 */
+	public function ensure_jquery_exists() {
+		wp_enqueue_script( 'jquery' );
 	}
 
 	/**
@@ -620,7 +621,7 @@ class Parsely {
 				'Value passed for use_top_level_cats must be either "true" or "false".'
 			);
 		} else {
-			$input['use_top_level_cats'] = 'true' === $input['use_top_level_cats'] ? true : false;
+			$input['use_top_level_cats'] = 'true' === $input['use_top_level_cats'];
 		}
 
 		// Child categories as tags.
@@ -631,7 +632,7 @@ class Parsely {
 				'Value passed for cats_as_tags must be either "true" or "false".'
 			);
 		} else {
-			$input['cats_as_tags'] = 'true' === $input['cats_as_tags'] ? true : false;
+			$input['cats_as_tags'] = 'true' === $input['cats_as_tags'];
 		}
 
 		// Track authenticated users.
@@ -642,7 +643,7 @@ class Parsely {
 				'Value passed for track_authenticated_users must be either "true" or "false".'
 			);
 		} else {
-			$input['track_authenticated_users'] = 'true' === $input['track_authenticated_users'] ? true : false;
+			$input['track_authenticated_users'] = 'true' === $input['track_authenticated_users'];
 		}
 
 		// Lowercase tags.
@@ -653,7 +654,7 @@ class Parsely {
 				'Value passed for lowercase_tags must be either "true" or "false".'
 			);
 		} else {
-			$input['lowercase_tags'] = 'true' === $input['lowercase_tags'] ? true : false;
+			$input['lowercase_tags'] = 'true' === $input['lowercase_tags'];
 		}
 
 		if ( 'true' !== $input['force_https_canonicals'] && 'false' !== $input['force_https_canonicals'] ) {
@@ -663,7 +664,7 @@ class Parsely {
 				'Value passed for force_https_canonicals must be either "true" or "false".'
 			);
 		} else {
-			$input['force_https_canonicals'] = 'true' === $input['force_https_canonicals'] ? true : false;
+			$input['force_https_canonicals'] = 'true' === $input['force_https_canonicals'];
 		}
 
 		if ( 'true' !== $input['disable_javascript'] && 'false' !== $input['disable_javascript'] ) {
@@ -673,7 +674,7 @@ class Parsely {
 				'Value passed for disable_javascript must be either "true" or "false".'
 			);
 		} else {
-			$input['disable_javascript'] = 'true' === $input['disable_javascript'] ? true : false;
+			$input['disable_javascript'] = 'true' === $input['disable_javascript'];
 		}
 
 		if ( 'true' !== $input['disable_amp'] && 'false' !== $input['disable_amp'] ) {
@@ -683,7 +684,7 @@ class Parsely {
 				'Value passed for disable_amp must be either "true" or "false".'
 			);
 		} else {
-			$input['disable_amp'] = 'true' === $input['disable_amp'] ? true : false;
+			$input['disable_amp'] = 'true' === $input['disable_amp'];
 		}
 
 		if ( ! empty( $input['metadata_secret'] ) ) {
@@ -693,14 +694,11 @@ class Parsely {
 					'metadata_secret',
 					'Metadata secret is incorrect. Please contact Parse.ly support!'
 				);
-			} else {
+			} elseif ( 'true' === $input['parsely_wipe_metadata_cache'] ) {
+				delete_post_meta_by_key( 'parsely_metadata_last_updated' );
 
-				if ( 'true' === $input['parsely_wipe_metadata_cache'] ) {
-					delete_post_meta_by_key( 'parsely_metadata_last_updated' );
-
-					wp_schedule_event( time() + 100, 'everytenminutes', 'parsely_bulk_metas_update' );
-					$input['parsely_wipe_metadata_cache'] = false;
-				}
+				wp_schedule_event( time() + 100, 'everytenminutes', 'parsely_bulk_metas_update' );
+				$input['parsely_wipe_metadata_cache'] = false;
 			}
 		}
 
@@ -819,10 +817,13 @@ class Parsely {
 			'@type'    => 'WebPage',
 		);
 		$current_url  = $this->get_current_url();
-		if ( in_array( get_post_type( $post ), $parsely_options['track_post_types'], true ) && 'publish' === $post->post_status ) {
+		if ( is_front_page() || ( 'page' === get_option( 'show_on_front' ) && ! get_option( 'page_on_front' ) ) ) {
+			$parsely_page['headline'] = $this->get_clean_parsely_page_value( get_bloginfo( 'name', 'raw' ) );
+			$parsely_page['url']      = home_url();
+		} elseif ( in_array( get_post_type( $post ), $parsely_options['track_post_types'], true ) && 'publish' === $post->post_status ) {
 			$authors  = $this->get_author_names( $post );
 			$category = $this->get_category_name( $post, $parsely_options );
-			$post_id  = $parsely_options['content_id_prefix'] . (string) get_the_ID();
+			$post_id  = $parsely_options['content_id_prefix'] . get_the_ID();
 
 			if ( has_post_thumbnail( $post ) ) {
 				$image_id  = get_post_thumbnail_id( $post );
@@ -886,6 +887,7 @@ class Parsely {
 			$parsely_page['publisher'] = array(
 				'@type' => 'Organization',
 				'name'  => get_bloginfo( 'name' ),
+				'logo'     => $parsely_options['logo'],
 			);
 			$parsely_page['keywords']  = $tags;
 		} elseif ( in_array( get_post_type(), $parsely_options['track_page_types'], true ) && 'publish' === $post->post_status ) {
@@ -919,9 +921,6 @@ class Parsely {
 			}
 			$parsely_page['headline'] = $this->get_clean_parsely_page_value( 'Tagged - ' . $tag );
 			$parsely_page['url']      = $current_url;
-		} elseif ( is_front_page() ) {
-			$parsely_page['headline'] = $this->get_clean_parsely_page_value( get_bloginfo( 'name', 'raw' ) );
-			$parsely_page['url']      = home_url();
 		}
 		$parsely_page = apply_filters( 'after_set_parsely_page', $parsely_page, $post, $parsely_options );
 		return $parsely_page;
@@ -1018,7 +1017,7 @@ class Parsely {
 
 		for ( $i = 0; $i < 100; $i++ ) {
 			$post_id = array_pop( $ids );
-			if ( is_null( $post_id ) ) {
+			if ( null === $post_id ) {
 				wp_clear_scheduled_hook( 'parsely_bulk_metas_update' );
 				break;
 			}
@@ -1238,8 +1237,7 @@ class Parsely {
 
 		// get_site_icon_url returns an empty string if one isn't found,
 		// which is what we want to use as the default anyway.
-		$site_icon_url = get_site_icon_url();
-		return $site_icon_url;
+		return get_site_icon_url();
 	}
 
 	/**
@@ -1251,9 +1249,9 @@ class Parsely {
 	private function get_host_from_url( $url ) {
 		if ( preg_match( '/^https?:\/\/( [^\/]+ )\/.*$/', $url, $matches ) ) {
 			return $matches[1];
-		} else {
-			return $url;
 		}
+
+		return $url;
 	}
 
 	/**
@@ -1514,9 +1512,9 @@ class Parsely {
 			$val = wp_strip_all_tags( $val );
 			$val = trim( $val );
 			return $val;
-		} else {
-			return $val;
 		}
+
+		return $val;
 	}
 
 
@@ -1545,9 +1543,9 @@ class Parsely {
 			$permalink        = apply_filters( 'wp_parsely_permalink', $permalink, $post );
 			$parsed_canonical = wp_parse_url( $permalink );
 			// handle issue if wp_parse_url doesn't return good host & path data, fallback to page url as a last resort.
-			if ( isset( $parsed_canonical['host'] ) && isset( $parsed_canonical['path'] ) ) {
+			if ( isset( $parsed_canonical['host'], $parsed_canonical['path'] ) ) {
 				$canonical = $scheme . $parsed_canonical['host'] . $parsed_canonical['path'];
-			} elseif ( isset( $_SERVER['HTTP_HOST'] ) && isset( $_SERVER['REQUEST_URI'] ) ) { // Input var okay.
+			} elseif ( isset( $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'] ) ) { // Input var okay.
 				$canonical = $scheme . sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) . sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ); // Input var okay.
 			}
 
@@ -1578,8 +1576,7 @@ class Parsely {
 		ob_start();
 		ob_end_clean();
 		if ( preg_match_all( '/<img.+src=[\'"]( [^\'"]+ )[\'"].*>/i', $post->post_content, $matches ) ) {
-			$first_img = $matches[1][0];
-			return $first_img;
+			return $matches[1][0];
 		}
 		return '';
 	}

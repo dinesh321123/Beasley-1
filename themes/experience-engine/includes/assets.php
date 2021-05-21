@@ -36,6 +36,10 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_register_script( 'iframe-resizer', '//cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.min.js', null, null );
 		wp_script_add_data( 'iframe-resizer', 'async', true );
 
+		// DML Branded Content
+		wp_register_script( 'branded-content-scripts', '//c.go-fet.ch/a/embed.js', null, null, true);
+		wp_script_add_data( 'branded-content-scripts', 'async', true );
+
 		// Triton Player SDK
 		// Documentation: https://userguides.tritondigital.com/spc/tdplay2/
 		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
@@ -59,6 +63,7 @@ EOL;
 			'googletag',
 			'td-sdk',
 			'iframe-resizer',
+			'branded-content-scripts'
 		);
 
 		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", $deps, GREATERMEDIA_VERSION, true );
@@ -191,6 +196,10 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 		$config = array(
 			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_css_opacities()) ),
 			'geotargetly' => ee_current_page_needs_geotargetly(),
+			'related_article_title' => get_option( 'related_article_title', 'You May Also Like' ),
+			'ad_rotation_enabled' => get_option( 'ad_rotation_enabled', 'on' ),
+			'ad_rotation_polling_sec_setting' => get_option( 'ad_rotation_polling_sec_setting', '5' ),
+			'ad_rotation_refresh_sec_setting' => get_option( 'ad_rotation_refresh_sec_setting', '30' ),
 
 			/** Live Streaming Intervals */
 			'intervals'  => [

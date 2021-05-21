@@ -67,6 +67,7 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 			}
 
 			$post_type[] = 'gmr_gallery';
+			$post_type[] = 'affiliate_marketing';
 			$post_type[] = 'gmr_album';
 			$post_type[] = 'contest';
 

@@ -1,7 +1,5 @@
 .new-test-range-input {
 	background: transparent;
-	height: 7px;
-	margin-top: -6px;
 
 	@media all and (-ms-high-contrast:none) {
 		display: block;
@@ -9,16 +7,17 @@
 
 	/* Safari, Chrome */
 	& input[type=range]{
+	  	position: absolute;
 		appearance: none;
 		background: transparent;
 		cursor: pointer;
-		height: 16px;
+		height: 3px;
 		width: 82px;
 	}
 
 	& input[type=range]::-webkit-slider-runnable-track {
 		width: 82px;
-		height: 2px;
+		height: 3px;
 		background: #ddd;
 		border: none;
 		border-radius: 3px;
@@ -45,7 +44,7 @@
 	/* FireFox */
 	& input[type=range]::-moz-range-track {
 		width: 82px;
-		height: 2px;
+		height: 3px;
 		border: none;
 		border-radius: 3px;
 	}
@@ -71,7 +70,7 @@
 	/* IE */
 	& input[type=range]::-ms-track {
 		width: 82px;
-		height: 2px;
+		height: 3px;
 
 		/*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
 		background: transparent;
@@ -112,5 +111,7 @@
 
 	& + .pre-bar {
 		background: var(--brand-button-color);
+	  	height: 3px;
+	  	position: absolute;
 	}
 }

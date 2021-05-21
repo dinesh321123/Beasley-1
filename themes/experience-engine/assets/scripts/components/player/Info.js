@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { STATUSES } from '../../redux/actions/player';
-
-import Progress from './Progress';
 
 const STATUS_LABELS = {
 	[STATUSES.LIVE_PAUSE]: 'Paused',
@@ -51,17 +48,13 @@ class Info extends Component {
 	}
 
 	renderAudio() {
-		const { cuePoint, time, duration, colors } = this.props;
+		const { cuePoint, colors } = this.props;
 		const info = Info.getCuePointInfo(cuePoint);
 
 		return (
 			<div className="controls-info" style={colors}>
 				<p>
 					<strong>{info[0] || ''}</strong>
-					<span className="time -mobile -current">{Progress.format(time)}</span>
-					<span className="time -mobile -total">
-						{Progress.format(duration)}
-					</span>
 				</p>
 				<p>{info[1] || ''}</p>
 			</div>
@@ -84,8 +77,8 @@ class Info extends Component {
 		return (
 			<div className="controls-info" style={colors}>
 				<p>
-					<strong>{stream ? stream.title : station}</strong>
 					{status === 'LIVE_PLAYING' && <span className="live">Live</span>}
+					<strong>{stream ? stream.title : station}</strong>
 				</p>
 				<p>{info}</p>
 			</div>
@@ -109,14 +102,10 @@ Info.propTypes = {
 	streams: PropTypes.arrayOf(PropTypes.object).isRequired,
 	status: PropTypes.string.isRequired,
 	cuePoint: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
-	time: PropTypes.number,
-	duration: PropTypes.number,
 };
 
 Info.defaultProps = {
 	colors: {},
-	time: 0,
-	duration: 0,
 };
 
 function mapStateToProps({ player }) {
