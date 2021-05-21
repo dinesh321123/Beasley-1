@@ -200,6 +200,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'ad_rotation_enabled' => get_option( 'ad_rotation_enabled', 'on' ),
 			'ad_rotation_polling_sec_setting' => get_option( 'ad_rotation_polling_sec_setting', '5' ),
 			'ad_rotation_refresh_sec_setting' => get_option( 'ad_rotation_refresh_sec_setting', '30' ),
+			'ad_vid_rotation_refresh_sec_setting' => get_option( 'ad_vid_rotation_refresh_sec_setting', '60' ),
 
 			/** Live Streaming Intervals */
 			'intervals'  => [

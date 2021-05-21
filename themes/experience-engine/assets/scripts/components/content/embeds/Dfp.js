@@ -29,6 +29,7 @@ const getSlotStat = placeholder => {
 		slotStatsObject[placeholder] = {
 			viewPercentage: 0,
 			timeVisible: 0,
+			isVideo: false,
 		};
 	}
 
@@ -83,6 +84,17 @@ const slotRenderEndedHandler = event => {
 			slotElement.classList.add('fadeInAnimation');
 			slotElement.style.opacity = '1';
 			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
+			const slotHTML = slot.getHtml();
+			if (slotHTML) {
+				const formattedSlotHTML = slotHTML
+					.toLowerCase()
+					.split(' ')
+					.join('');
+				getSlotStat(placeholder).isVideo =
+					formattedSlotHTML && formattedSlotHTML.indexOf('<video') > -1;
+			} else {
+				getSlotStat(placeholder).isVideo = false;
+			}
 		}
 	}
 };
@@ -100,6 +112,10 @@ class Dfp extends PureComponent {
 			bbgiconfig.ad_rotation_refresh_sec_setting,
 			10,
 		);
+		const slotVideoRefreshSecs = parseInt(
+			bbgiconfig.ad_vid_rotation_refresh_sec_setting,
+			10,
+		);
 
 		// Initialize State. NOTE: Ensure that Minimum Poll Intervavl Is Much Longer Than
 		// 	Round Trip to Ad Server. Initially we enforce 5 second minimum.
@@ -113,6 +129,10 @@ class Dfp extends PureComponent {
 				slotRefreshSecs && slotRefreshSecs >= 15
 					? slotRefreshSecs * 1000
 					: 30000,
+			slotVideoRefreshMillisecs:
+				slotVideoRefreshSecs && slotVideoRefreshSecs >= 30
+					? slotVideoRefreshSecs * 1000
+					: 60000,
 		};
 
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
@@ -336,7 +356,12 @@ class Dfp extends PureComponent {
 
 	updateSlotVisibleTimeStat() {
 		const { placeholder } = this.props;
-		const { slot, slotPollMillisecs, slotRefreshMillisecs } = this.state;
+		const {
+			slot,
+			slotPollMillisecs,
+			slotRefreshMillisecs,
+			slotVideoRefreshMillisecs,
+		} = this.state;
 
 		if (slot) {
 			const slotStat = getSlotStat(placeholder);
@@ -344,7 +369,11 @@ class Dfp extends PureComponent {
 				slotStat.timeVisible += slotPollMillisecs;
 			}
 
-			if (slotStat.timeVisible >= slotRefreshMillisecs) {
+			const msecThreshold =
+				slotStat.isVideo === true
+					? slotVideoRefreshMillisecs
+					: slotRefreshMillisecs;
+			if (slotStat.timeVisible >= msecThreshold) {
 				const placeholderElement = document.getElementById(placeholder);
 				if (placeholderElement.style.opacity === '1') {
 					const placeholderClasslist = placeholderElement.classList;
