@@ -27,6 +27,7 @@ mu-plugins/post-finder/
 !/plugins/configure-smtp/
 !/plugins/embedly
 !/plugins/wp-parsely
+!/plugins/amp
 !/plugins/semrush-seo-writing-assistant
 !/plugins/affiliate-marketing-cpt
 
