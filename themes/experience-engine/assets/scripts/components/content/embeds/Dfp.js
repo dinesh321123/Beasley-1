@@ -86,15 +86,17 @@ const slotRenderEndedHandler = event => {
 			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
 			const slotHTML = slot.getHtml();
 			if (slotHTML) {
-				const formattedSlotHTML = slotHTML
-					.toLowerCase()
-					.split(' ')
-					.join('');
-				getSlotStat(placeholder).isVideo =
-					formattedSlotHTML && formattedSlotHTML.indexOf('<video') > -1;
+				// const formattedSlotHTML = slotHTML
+				//	.toLowerCase()
+				//	.split(' ')
+				//	.join('');
+
+				// console.log(`AD HTML - ${formattedSlotHTML}`);
+				getSlotStat(placeholder).isVideo = slotHTML.indexOf('mixpo') > -1;
 			} else {
 				getSlotStat(placeholder).isVideo = false;
 			}
+			console.log(`IsVideo - ${getSlotStat(placeholder).isVideo}`);
 		}
 	}
 };
