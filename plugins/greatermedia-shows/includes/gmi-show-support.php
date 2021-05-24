@@ -10,6 +10,11 @@ function supports_galleries( $show_id ) {
 	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage_galleries', true ), FILTER_VALIDATE_BOOLEAN );
 }
 
+function supports_listiclecpt( $show_id ) {
+	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage_listiclecpt', true ), FILTER_VALIDATE_BOOLEAN );
+}
+
+
 function supports_podcasts( $show_id ) {
 	return (bool) filter_var( get_post_meta( $show_id, 'show_homepage_podcasts', true ), FILTER_VALIDATE_BOOLEAN );
 }
@@ -74,6 +79,24 @@ function galleries_link_html( $show_id, $link_text = 'Galleries' ) {
 
 		?><li class="<?php echo esc_attr( $class ); ?>">
 			<a href="<?php echo esc_url( get_galleries_permalink( $show_id ) ); ?>">
+				<?php echo esc_html( $link_text ); ?>
+			</a>
+		</li><?php
+	}
+}
+
+function get_listiclecpt_permalink( $show_id ) {
+	return trailingslashit( get_the_permalink( $show_id ) ) . "listicle/";
+}
+
+function listiclecpt_link_html( $show_id, $link_text = 'Listicle' ) {
+	if ( supports_listiclecpt( $show_id ) ) {
+		$class = 'listicle' == get_query_var( 'show_section' ) || ( is_singular() && get_post_type() === 'listicle_cpt' )
+			? 'current-menu-item'
+			: '';
+
+		?><li class="<?php echo esc_attr( $class ); ?>">
+			<a href="<?php echo esc_url( get_listiclecpt_permalink( $show_id ) ); ?>">
 				<?php echo esc_html( $link_text ); ?>
 			</a>
 		</li><?php
@@ -261,6 +284,31 @@ function get_show_gallery_query( $per_page = 10 ) {
 	return new \WP_Query( $args );
 }
 
+/**
+ * Gets an instance of WP_Query that corresponds to the current page of the listicle endpoints for shows
+ *
+ * @return \WP_Query
+ */
+function get_show_listiclecpt_query( $per_page = 10 ) {
+	$show_term = \TDS\get_related_term( get_the_ID() );
+	$current_page = get_query_var( 'paged', 1 );
+	
+	$args = array(
+		'post_type'      => 'listicle_cpt',
+		'paged'          => $current_page,
+		'posts_per_page' => $per_page,
+		'tax_query'      => array(
+			array(
+				'taxonomy' => \ShowsCPT::SHOW_TAXONOMY,
+				'field' => 'term_taxonomy_id',
+				'terms' => $show_term->term_taxonomy_id,
+			),
+		),
+	);
+
+	return new \WP_Query( $args );
+}
+
 function get_show_events() {
 	$show_term = \TDS\get_related_term( get_the_ID() );
 
@@ -391,6 +439,9 @@ function get_show_main_query( $per_page = 10 ) {
 	$post_types = array( 'post' );
 	if ( class_exists( '\GreaterMediaGalleryCPT' ) ) {
 		$post_types[] = \GreaterMediaGalleryCPT::GALLERY_POST_TYPE;
+	}
+	if ( class_exists( '\ListicleCPT' ) ) {
+		$post_types[] = \ListicleCPT::LISTICLE_POST_TYPE;
 	}
 
 	$show_args = array(

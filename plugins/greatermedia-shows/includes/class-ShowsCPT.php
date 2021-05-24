@@ -181,6 +181,7 @@ class ShowsCPT {
 			'tribe_events',
 			'survey',
 			'gmr_gallery',
+			'listicle_cpt',
 			'gmr_album',
 		);
 

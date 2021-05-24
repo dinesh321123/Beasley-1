@@ -243,6 +243,7 @@ class BlogData {
 					$single_post['attachments'],
 					$single_post['gallery_attachments'],
 					$single_post['galleries'],
+					$single_post['listicle_metas'],
 					$single_post['term_tax'],
 					$force
 				);
@@ -442,6 +443,12 @@ class BlogData {
 				$attachment->attribution = get_post_meta( $attachment->ID, 'gmr_image_attribution', true );
 			}
 		}
+		$listicle_metas = array();
+		if ( 'listicle_cpt' == $single_result->post_type ) {
+			$listicle_metas['cpt_item_name'] = self::listicle_ge_metavalue( 'cpt_item_name', $single_result->ID  );
+			$listicle_metas['cpt_item_description'] = self::listicle_ge_metavalue( 'cpt_item_description', $single_result->ID );
+			$listicle_metas['cpt_item_order'] = self::listicle_ge_metavalue( 'cpt_item_order', $single_result->ID  );
+		}
 
 		$term_tax = array();
 		$taxonomies = get_object_taxonomies( $single_result );
@@ -454,10 +461,20 @@ class BlogData {
 			'post_metas'          => $metas,
 			'attachments'         => $media,
 			'gallery_attachments' => $attachments,
+			'listicle_metas' 	  => $listicle_metas,
 			'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
 			'galleries'           => $galleries,
 			'term_tax'            => $term_tax
 		);
+	}
+
+	public static function listicle_ge_metavalue( $value, $postid ) {
+		$field = get_post_meta( $postid, $value, true );
+		if ( ! empty( $field ) ) {
+			return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -471,7 +488,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $term_tax, $force_update = false ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $listicle_metas, $term_tax, $force_update = false ) {
 		if ( ! $post ) {
 			return;
 		}
@@ -517,6 +534,9 @@ class BlogData {
 				'_pingme',
 				'_encloseme',
 				'syndication-detached',
+				'cpt_item_name',
+				'cpt_item_description',
+				'cpt_item_order',
 			);
 
 			foreach ( $metas as $meta_key => $meta_value ) {
@@ -647,6 +667,15 @@ class BlogData {
 						add_post_meta( $post_id, 'gallery-image', $attachment );
 					}
 				}
+			}
+			if ( 'listicle_cpt' == $post_type ) {
+				delete_post_meta( $post_id, 'cpt_item_name' );
+				delete_post_meta( $post_id, 'cpt_item_order' );
+				delete_post_meta( $post_id, 'cpt_item_description' );
+				
+				update_post_meta( $post_id, 'cpt_item_name', $listicle_metas['cpt_item_name'] );
+				update_post_meta( $post_id, 'cpt_item_order', $listicle_metas['cpt_item_order'] );
+				update_post_meta( $post_id, 'cpt_item_description', $listicle_metas['cpt_item_description'] );
 			}
 		}
 
