@@ -190,6 +190,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('ad_rotation_polling_sec_setting', 'Poll Interval Seconds (5 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_polling_sec_setting&default=5');
 		add_settings_field('ad_rotation_refresh_sec_setting', 'Refresh Interval Seconds (30 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_refresh_sec_setting&default=30');
 		add_settings_field('ad_vid_rotation_refresh_sec_setting', 'Video Refresh Interval Seconds (60 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_vid_rotation_refresh_sec_setting&default=60');
+		add_settings_field('vid_ad_html_tag_csv_setting', 'CSV of HTML tags which indicate Video', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=vid_ad_html_tag_csv_setting&default=mixpo');
 
 		add_settings_section( 'item_counts_section', 'Item Counts', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'ee_featured_item_count_setting', 'Featured Item Count', 'bbgi_input_field', $this->_settings_page_hook, 'item_counts_section', array(
@@ -244,6 +245,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ad_rotation_polling_sec_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rotation_refresh_sec_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_vid_rotation_refresh_sec_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'vid_ad_html_tag_csv_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'ee_featured_item_count_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ee_dont_miss_item_count_setting', 'sanitize_text_field');

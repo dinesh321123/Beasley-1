@@ -57,6 +57,9 @@ const slotVisibilityChangedHandler = event => {
 
 const slotRenderEndedHandler = event => {
 	const { slot, isEmpty, size } = event;
+	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
+		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
+		: null;
 
 	const placeholder = slot.getSlotElementId();
 	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
@@ -85,17 +88,14 @@ const slotRenderEndedHandler = event => {
 			slotElement.style.opacity = '1';
 			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
 			const slotHTML = slot.getHtml();
-			if (slotHTML) {
-				// const formattedSlotHTML = slotHTML
-				//	.toLowerCase()
-				//	.split(' ')
-				//	.join('');
-
-				// console.log(`AD HTML - ${formattedSlotHTML}`);
-				getSlotStat(placeholder).isVideo = slotHTML.indexOf('mixpo') > -1;
-			} else {
-				getSlotStat(placeholder).isVideo = false;
+			let isVideo = false;
+			if (slotHTML && htmlVidTagArray) {
+				htmlVidTagArray.forEach(tag => {
+					isVideo = isVideo || slotHTML.indexOf(tag) > -1;
+				});
 			}
+			getSlotStat(placeholder).isVideo = isVideo;
+
 			console.log(`IsVideo - ${getSlotStat(placeholder).isVideo}`);
 		}
 	}
