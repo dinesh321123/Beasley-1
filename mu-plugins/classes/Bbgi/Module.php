@@ -58,6 +58,7 @@ abstract class Module {
 			'page-endpoint'     => new \Bbgi\Endpoints\Page(),
 			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
 			'facebook-oembed'	=> new \Bbgi\Integration\FacebookOEmbed(),
+			'notification-to-firebase'	=> new \Bbgi\Integration\NotificationToFirebase(),
 			'mapbox' 			=> new \Bbgi\Integration\Mapbox(),
 			'hsform'			=> new \Bbgi\Integration\HubspotForm()
 		);
