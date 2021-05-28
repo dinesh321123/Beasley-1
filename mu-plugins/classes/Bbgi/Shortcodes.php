@@ -116,7 +116,8 @@ class Shortcodes extends \Bbgi\Module {
 
 		ob_start();
 
-		?><div id="iframe-<?php echo esc_attr( $uniqid ); ?>" class="intrinsic-container <?php echo sanitize_html_class( $class ); ?> iframe-embed" <?php echo $style; ?>>
+
+		?><div id="iframe-<?php echo esc_attr( $uniqid ); ?>" class="intrinsic-container contentiframe <?php echo sanitize_html_class( $class ); ?> iframe-embed" <?php echo $style; ?>>
 			<iframe frameborder="0" src="<?php echo esc_attr( $atts['src'] ) ?>" scrolling="<?php echo esc_attr( $atts['scrolling'] ) ?>" seamless="seamless"<?php echo $style; ?>></iframe>
 		</div><?php
 
