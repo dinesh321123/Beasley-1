@@ -85,12 +85,12 @@ function galleries_link_html( $show_id, $link_text = 'Galleries' ) {
 }
 
 function get_affiliate_marketing_permalink( $show_id ) {
-	return trailingslashit( get_the_permalink( $show_id ) ) . "affiliate_marketing/";
+	return trailingslashit( get_the_permalink( $show_id ) ) . "musthaves/";
 }
 
 function affiliate_marketing_link_html( $show_id, $link_text = 'Must Haves' ) {
 	if ( supports_affiliate_marketing( $show_id ) ) {
-		$class = 'affiliate_marketing' == get_query_var( 'show_section' ) || ( is_singular() && get_post_type() === 'affiliate_marketing' )
+		$class = 'musthaves' == get_query_var( 'show_section' ) || ( is_singular() && get_post_type() === 'affiliate_marketing' )
 			? 'current-menu-item'
 			: '';
 

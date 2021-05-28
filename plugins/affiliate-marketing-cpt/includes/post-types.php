@@ -47,7 +47,13 @@ class AffiliateMarketingCPT {
 			'filter_items_list'     => _x( 'Filter affiliate marketing list', 'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
 			'items_list_navigation' => _x( 'Affiliate marketing list navigation', 'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
 			'items_list'            => _x( 'Affiliate marketing list', 'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ),
-		);     
+		);
+		$rewrite = array(
+			'slug'                => 'musthaves',
+			'with_front'          => true,
+			'pages'               => true,
+			'feeds'               => true,
+		);
 		$args = array(
 			'labels'             => $labels,
 			'description'        => 'Affiliate marketing custom post type.',
@@ -56,8 +62,9 @@ class AffiliateMarketingCPT {
 			'show_ui'            => true,
 			'show_in_menu'       => true,
 			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'affiliate_marketing' ),
-			'capability_type'    => 'post',
+			'rewrite'            => $rewrite,
+			'capability_type'    => array( 'affiliatemarket', 'affiliatemarketing' ),
+			'map_meta_cap'        => true,
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => 29,

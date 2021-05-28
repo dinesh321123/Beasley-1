@@ -130,6 +130,10 @@
 			color: var(--brand-primary);
 			margin: 0.5rem 0 1rem;
 			text-transform: capitalize;
+			font-size: 18px;
+			& a{
+				font-weight: 300;
+			}
 		}
 		& p{
 			margin-bottom:1rem;
@@ -147,6 +151,8 @@
 				color: #fff;
 				padding: 8px 20px;
 				border-radius: 8px;
+				font-size: 18px;
+				font-weight: 300;
 			}
 		}
 		& .share-wrap{
@@ -172,4 +178,17 @@
 		}
 	}
 
+}
+
+.get-it-now-meta {
+	& a {
+	font-weight: 300;
+	}
+}
+
+.am_imagecode {
+	& img {
+		width: 400px;
+		height: auto;
+	}
 }
