@@ -565,15 +565,22 @@ display: none;
 
 	& .time {
 		display: none;
+	    align-items: center;
+	    font-size: .675rem;
+	    margin-top: 3px;
+	    margin-right: 10px;
 
-		&.-desktop {
+		&.-desktop4digits {
 			@media(--min-medium-viewport) {
-				align-items: center;
 				display: inline-flex;
-				font-size: .675rem;
-				margin-top: 3px;
-				margin-right: 10px;
-				width: 2.2rem;
+				width: 1.75rem;
+			}
+		}
+
+		&.-desktop6digits {
+			@media(--min-medium-viewport) {
+				display: inline-flex;
+				width: 2.75rem;
 			}
 		}
 	}
@@ -586,6 +593,8 @@ display: none;
 }
 
 .status {
+    min-width: 80px;
+
 	& button {
 		background: transparent;
 		border: 2px solid var(--brand-primary);
