@@ -130,10 +130,6 @@
 			color: var(--brand-primary);
 			margin: 0.5rem 0 1rem;
 			text-transform: capitalize;
-			font-size: 18px;
-			& a{
-				font-weight: 300;
-			}
 		}
 		& p{
 			margin-bottom:1rem;
@@ -188,7 +184,7 @@
 
 .am_imagecode {
 	& img {
-		width: 400px;
+		max-width: 400px;
 		height: auto;
 	}
 }
