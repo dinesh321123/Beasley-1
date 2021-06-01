@@ -25,6 +25,7 @@ class Shortcodes extends \Bbgi\Module {
 		add_shortcode( 'livefyre-poll', $suppress );
 		add_shortcode( 'livefyre-app', $suppress );
 
+		add_shortcode( 'sendtonews', $this( 'handle_sendtonews_shortcode') );
 		add_shortcode( 'iframe', $this( 'handle_iframe_shortcode' ) );
 		add_shortcode( 'bbgi-contest', $this( 'handle_national_contest_shortcode' ) );
 		add_shortcode( 'inlink', $this( 'handle_inlink_shortcode' ) );
@@ -66,6 +67,15 @@ class Shortcodes extends \Bbgi\Module {
 		return $url;
 	}
 
+	public function handle_sendtonews_shortcode( $atts ) {
+		$atts = shortcode_atts( array(
+				'key'	=> '',
+				'type'	=> 'float'
+		), $atts, 'sendtonews' );
+
+		$stn_cid = get_option( 'stn_cid', '' );
+		return sprintf( '<div class="stnplayer" data-key="%s" data-cid="%s"></div>', $atts['key'], $stn_cid );
+	}
 
 	public function handle_inlink_shortcode( $atts ) {
 

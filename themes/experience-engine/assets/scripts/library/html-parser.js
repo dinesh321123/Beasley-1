@@ -178,6 +178,7 @@ function getStnEmbedParams(element) {
 	return {
 		fk: dataset.fk,
 		cid: dataset.cid,
+		videokey: dataset.key,
 	};
 }
 

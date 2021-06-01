@@ -4,6 +4,7 @@ import {
 	manageScripts,
 	manageBbgiConfig,
 	updateTargeting,
+	renderSendToNews,
 } from '../../utilities';
 import {
 	ACTION_LOADED_PAGE,
@@ -119,6 +120,8 @@ function* yieldLoadedPage(action) {
 	}
 
 	yield call(updateHistory, url, pageDocument.title);
+
+	yield call(renderSendToNews);
 }
 
 /**

@@ -1,0 +1,7 @@
+/*!
+ * jQuery Plugins SCSS master stylesheet asset.
+ *
+ * @author STN Video <wpadmin@stnvideo.com>
+ * @package SendtoNews
+ * @version 1.0.0
+ */.sendtonews-modal .media-frame-content .spinner-container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.sendtonews-modal .media-frame-content .stories-spinner{border:8px solid #e0e0e0;border-top:8px solid #0d3b62;border-radius:50%;width:60px;height:60px;-webkit-animation:spin 1s linear infinite;animation:spin 1s linear infinite}.sendtonews-modal .media-frame-content .load-more-shown{position:relative;height:150px}.sendtonews-modal .media-frame-content .load-more-hidden{display:none}@-webkit-keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.sendtonews-modal .media-frame-content .ajax-forms-inputs-overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:none}
