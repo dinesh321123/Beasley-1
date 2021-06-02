@@ -648,6 +648,13 @@ class BlogData {
 					}
 				}
 			}
+
+			$get_array_posttype = \Bbgi\Integration\NotificationToFirebase::get_posttype_list();
+			if ( in_array( $post_type, $get_array_posttype ) )
+			{
+				$get_array_posttype = \Bbgi\Integration\NotificationToFirebase::send_notification( $post_id );
+				// echo "<pre>", print_r( $get_array_posttype ), "</pre>"; exit;			
+			}
 		}
 
 		clean_post_cache( $post_id );
