@@ -222,7 +222,7 @@ class LivePlayer extends Component {
 					</div>
 					<PlayerAd
 						className="player-ad"
-						minWidth="1400"
+						minWidth="1350"
 						style={controlsStyle}
 					/>
 				</div>

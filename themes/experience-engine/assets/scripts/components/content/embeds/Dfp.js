@@ -302,7 +302,7 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// accepts only two sizes
-					.addSize([1400, 0], [[728, 90], [970, 90], 'fluid'])
+					.addSize([1350, 0], [[728, 90], [970, 90], 'fluid'])
 
 					.build();
 			} else if (unitName === 'right-rail') {
