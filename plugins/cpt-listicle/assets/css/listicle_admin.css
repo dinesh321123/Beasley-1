@@ -56,3 +56,6 @@
   border-bottom: 1px solid #ddd;
   padding-bottom: 12px;
 }
+#listicle_meta_box a#add_gform{
+  display: none;
+}

@@ -7,12 +7,10 @@
 		$document.on('click', '.content-delete', function(e) {
 			e.preventDefault();
 				if (
-					jQuery('.content-row').length > 1 &&
+					$('.content-row').length > 1 &&
 					confirm('Are you sure you want to delete this content?')
 				) {
-					// e.preventDefault();
-					jQuery(this).parents('.content-row').remove();
-					//jQuery('html').stop().animate({ });
+					$(this).parents('.content-row').remove();
 				}
 		});
 		
@@ -32,13 +30,56 @@
 				contentRow += '<div class="cpt-form-group"><label  class="cptformtitle" for="' + contentID + '">Description</label><textarea name="cpt_item_description[]" class="tinytext" id="' + contentID + '" rows="10"></textarea></div>';
 				contentRow += '</div>';
 				
-				jQuery('.content-row').eq(jQuery('.content-row').length - 1).after(contentRow);
-				tinymce.init({ selector: '#' + contentID , branding: false });
+				$('.content-row').eq($('.content-row').length - 1).after(contentRow);
+				wp.editor.initialize( contentID, 
+					{ 
+						tinymce: {
+							wpautop  : true,
+							theme    : 'modern',
+							skin     : 'lightgray',
+							language : 'en',
+							formats  : {
+								alignleft  : [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'left' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'alignleft' }
+								],
+								aligncenter: [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'center' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'aligncenter' }
+								],
+								alignright : [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'right' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'alignright' }
+								],
+								strikethrough: { inline: 'del' }
+							},
+							relative_urls       : false,
+							remove_script_host  : false,
+							convert_urls        : false,
+							browser_spellcheck  : true,
+							fix_list_elements   : true,
+							entities            : '38,amp,60,lt,62,gt',
+							entity_encoding     : 'raw',
+							keep_styles         : false,
+							paste_webkit_styles : 'font-weight font-style color',
+							preview_styles      : 'font-family font-size font-weight font-style text-decoration text-transform',
+							tabfocus_elements   : ':prev,:next',
+							plugins    : 'charmap,hr,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpeditimage,wpgallery,wplink,wpdialogs,wpview',
+							resize     : 'vertical',
+							menubar    : false,
+							indent     : false,
+							toolbar1: 'formatselect bold italic | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | wp_more | spellchecker | fullscreen | wp_adv',
+							// toolbar1   : 'bold, italic, strikethrough, bullist, numlist, blockquote, hr, alignleft, aligncenter, alignright, link, unlink, wp_more, spellchecker, fullscreen, wp_adv',
+							toolbar2   : 'underline, alignjustify, forecolor, pastetext, removeformat, charmap, outdent,indent,undo,redo,wp_help',
+							toolbar3   : '',
+							toolbar4   : '',
+							body_class : 'id post-type-post post-status-publish post-format-standard',
+							wpeditimage_disable_captions: false,
+							wpeditimage_html5_captions  : true
+						},
+						quicktags   : true,
+						mediaButtons: true
+					} );
 		});
-		/* $(".am_item_imagetype").click(function() {
-			$('#' + $(this).val() + '_' + $(this).attr('data-postid')).hide();
-			$('#' + $(this).attr('data-type-hide') + '_' + $(this).attr('data-postid')).show();
-		});
-		*/ 
 	});
 })(jQuery);
