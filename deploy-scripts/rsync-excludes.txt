@@ -33,3 +33,6 @@ uploads
 upgrade
 
 /themes/.version.php
+
+# Sendtonews plugin generates this folder in wp-content, don't delete it
+/wpmvc
