@@ -39,14 +39,13 @@ class NotificationToFirebase extends \Bbgi\Module
 	 */
 	public function send_notification( $post_id, $post_type = null ) {
 		$permalink = get_permalink( $post_id );
-		echo $permalink, '<br>', urlencode_deep($permalink) ;
+		// echo $permalink, '<br>', urlencode_deep($permalink) ;
 
 		$url = get_site_url(
 			null, 
 			'wp-json/experience_engine/v1/page?url='. urlencode_deep($permalink) 
 		); 
-		echo '<br>', $url; 
-		exit;
+		// echo '<br>', $url; exit;
 		// echo "<pre>", print_r($_POST), "</pre>"; exit;
 	}
 
