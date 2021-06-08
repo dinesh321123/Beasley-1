@@ -157,6 +157,7 @@ class LivePlayer extends Component {
 
 		const isIos = isIOS();
 
+		const volumeControl = isIos ? null : <Volume colors={buttonsFillStyle} />;
 		const children = (
 			<ErrorBoundary>
 				{notification}
@@ -217,7 +218,7 @@ class LivePlayer extends Component {
 								className={` -desktop ${progressClass} `}
 								colors={textStyle}
 							/>
-							<Volume colors={buttonsFillStyle} />
+							{volumeControl}
 						</div>
 					</div>
 					<PlayerAd
