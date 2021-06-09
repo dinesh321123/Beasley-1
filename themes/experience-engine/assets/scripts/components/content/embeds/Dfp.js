@@ -86,6 +86,7 @@ const slotRenderEndedHandler = event => {
 
 			slotElement.classList.add('fadeInAnimation');
 			slotElement.style.opacity = '1';
+			slotElement.style.display = null;
 			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
 			const slotHTML = slot.getHtml();
 			let isVideo = false;
@@ -295,7 +296,6 @@ class Dfp extends PureComponent {
 
 					.build();
 			} else if (unitName === 'adhesion') {
-				console.log('PLAYER AD');
 				sizeMapping = googletag
 					.sizeMapping()
 					// does not display on small screens
@@ -389,7 +389,7 @@ class Dfp extends PureComponent {
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder } = this.props;
+		const { placeholder, unitName } = this.props;
 		const { slot } = this.state;
 
 		if (slot) {
@@ -399,6 +399,9 @@ class Dfp extends PureComponent {
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
+				if (unitName === 'adhesion') {
+					placeholderElement.style.display = 'none';
+				}
 			});
 		}
 	}
