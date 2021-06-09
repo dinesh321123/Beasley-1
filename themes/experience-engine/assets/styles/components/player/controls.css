@@ -174,14 +174,13 @@
 		& .live {
 			border: 1px solid var(--brand-primary);
 			color: var(--brand-primary);
-			font-size: .738rem;
+			font-size: .7rem;
 			font-weight: 500;
 			letter-spacing: 0.01em;
-			margin-right: 0.5rem;
-			padding: 0.07rem 0.25rem;
+			margin: 0 0.5rem 1px 0;
+			padding: 0 0.1rem;
 			position: relative;
 			text-transform: uppercase;
-			top: -1px;
 		}
 
 		& span:not(.live) {
