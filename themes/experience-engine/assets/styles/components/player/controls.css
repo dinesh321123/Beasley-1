@@ -148,7 +148,7 @@
 	}
 
 	& .-podcast {
-		margin-top: -5px;
+		margin-top: -10px;
     }
 
 	& .controls-progress {
@@ -177,9 +177,8 @@
 			font-size: .738rem;
 			font-weight: 500;
 			letter-spacing: 0.01em;
-			line-height: 1.2;
-			padding: 1px 1px;
-			margin: 0 5px 5px 0;
+			margin-right: 0.5rem;
+			padding: 0.07rem 0.25rem;
 			position: relative;
 			text-transform: uppercase;
 			top: -1px;
@@ -600,7 +599,7 @@ display: none;
 		border: 2px solid var(--brand-primary);
 		border-radius: 50%;
 		padding: 0;
-	    margin: 0 .75rem;
+	    margin: 0 .75rem .25rem 1rem
 	}
 
 	& svg {

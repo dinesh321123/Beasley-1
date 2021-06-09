@@ -15,8 +15,13 @@ export const isFireFox = () => {
 };
 
 export const isIOS = () => {
-	const { userAgent } = window.navigator;
-	return !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
+	const { userAgent, platform } = window.navigator;
+	return (
+		!!userAgent.match(/iPad/i) ||
+		!!userAgent.match(/iPhone/i) ||
+		!!platform.match(/iPad/i) ||
+		!!platform.match(/iPhone/i)
+	);
 };
 
 export const isWebKit = () => {
