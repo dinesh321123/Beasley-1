@@ -259,7 +259,7 @@
 			background-color: var(--global-theme-secondary);
 			bottom: 90px;
 			font-size: 1rem;
-			left: -115px;
+			right: -1rem;
 			opacity: 0;
 			transition: opacity 250ms ease-in-out, visibility 250ms ease-in-out;
 			visibility: hidden;
