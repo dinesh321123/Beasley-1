@@ -244,6 +244,7 @@ class BlogData {
 					$single_post['gallery_attachments'],
 					$single_post['galleries'],
 					$single_post['am_metas'],
+					$single_post['am_item_photo_attachment'],
 					$single_post['term_tax'],
 					$force
 				);
@@ -445,14 +446,30 @@ class BlogData {
 		}
 
 		$am_metas = array();
+		$am_metas_photo_array = array();
 		if ( 'affiliate_marketing' == $single_result->post_type ) {
 			$am_metas['am_item_photo'] = self::am_get_metavalue( 'am_item_photo', $single_result->ID  );
+
+			foreach ( $am_metas['am_item_photo'] as $am_item_photoid ) {
+				$am_item_postdata = get_post( $am_item_photoid );
+				$am_metas_photo_array[] = isset( $am_item_photoid ) && $am_item_photoid != "" ? $am_item_postdata : "" ;
+			}
+			
+			foreach ( $am_metas_photo_array as $am_meta_item_val ) {
+				if( ! empty ($am_meta_item_val) ) {
+					$am_meta_item_val->guid = wp_get_attachment_image_url( $am_meta_item_val->ID, 'full' );
+					$am_meta_item_val->alt = get_post_meta( $am_meta_item_val->ID, '_wp_attachment_image_alt', true );
+					$am_meta_item_val->attribution = get_post_meta( $am_meta_item_val->ID, 'gmr_image_attribution', true );
+				}
+			}
+			
 			$am_metas['am_item_photo'] = array_filter( array_map( 'get_post', $am_metas['am_item_photo'] ) );
 			foreach ( $am_metas['am_item_photo'] as $am_meta_item_photo ) {
 				$am_meta_item_photo->guid = wp_get_attachment_image_url( $am_meta_item_photo->ID, 'full' );
 				$am_meta_item_photo->alt = get_post_meta( $am_meta_item_photo->ID, '_wp_attachment_image_alt', true );
 				$am_meta_item_photo->attribution = get_post_meta( $am_meta_item_photo->ID, 'gmr_image_attribution', true );
-			}
+			} 
+
 			$am_metas['am_item_imagetype'] = self::am_get_metavalue( 'am_item_imagetype', $single_result->ID  );
 			$am_metas['am_item_imagecode'] = self::am_get_metavalue( 'am_item_imagecode', $single_result->ID  );
 			$am_metas['am_item_order'] = self::am_get_metavalue( 'am_item_order', $single_result->ID  );
@@ -461,9 +478,11 @@ class BlogData {
 			$am_metas['am_item_description'] = self::am_get_metavalue( 'am_item_description', $single_result->ID );
 			$am_metas['am_item_buttontext'] = self::am_get_metavalue( 'am_item_buttontext', $single_result->ID  );
 			$am_metas['am_item_buttonurl'] = self::am_get_metavalue( 'am_item_buttonurl', $single_result->ID  );
+			$am_metas['am_item_getitnowtext'] = self::am_get_metavalue( 'am_item_getitnowtext', $single_result->ID  );
 			$am_metas['am_item_getitnowfromname'] = self::am_get_metavalue( 'am_item_getitnowfromname', $single_result->ID  );
 			$am_metas['am_item_getitnowfromurl'] = self::am_get_metavalue( 'am_item_getitnowfromurl', $single_result->ID  );
 		}
+		// echo "<pre>", print_r( $am_metas['am_item_photo'] ), "</pre>"; exit;
 
 		$term_tax = array();
 		$taxonomies = get_object_taxonomies( $single_result );
@@ -477,6 +496,7 @@ class BlogData {
 			'attachments'         => $media,
 			'gallery_attachments' => $attachments,
 			'am_metas'			  => $am_metas,
+			'am_item_photo_attachment'			  => $am_metas_photo_array,
 			'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
 			'galleries'           => $galleries,
 			'term_tax'            => $term_tax
@@ -503,7 +523,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries,$am_metas, $term_tax, $force_update = false ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries,$am_metas, $am_item_photo_attachment, $term_tax, $force_update = false ) {
 		if ( ! $post ) {
 			return;
 		}
@@ -558,6 +578,7 @@ class BlogData {
 				'am_item_unique_order',
 				'am_item_buttontext',
 				'am_item_buttonurl',
+				'am_item_getitnowtext',
 				'am_item_getitnowfromname',
 				'am_item_getitnowfromurl'
 			);
@@ -702,12 +723,23 @@ class BlogData {
 				delete_post_meta( $post_id, 'am_item_description' );
 				delete_post_meta( $post_id, 'am_item_buttontext' );
 				delete_post_meta( $post_id, 'am_item_buttonurl' );
+				delete_post_meta( $post_id, 'am_item_getitnowtext' );
 				delete_post_meta( $post_id, 'am_item_getitnowfromname' );
 				delete_post_meta( $post_id, 'am_item_getitnowfromurl' );
 				
 				update_post_meta( $post_id, 'am_item_name', $am_metas['am_item_name'] );
-				
-				$am_item_photo_import = self::ImportAttachedImages( $post_id, $am_metas['am_item_photo'] );
+				// $am_item_photo_import = self::ImportAttachedImages( $post_id, $am_metas['am_item_photo'] );
+				// $am_item_photo_import = self::ImportAttachedImages( $post_id, $am_item_photo_attachment );
+				$am_item_photo_import = array();
+				foreach ( $am_item_photo_attachment as $am_item_photo_abject ) {
+					if( !empty($am_item_photo_abject) && isset( $am_item_photo_abject->ID ) && $am_item_photo_abject->ID != "" ){
+						$filename = esc_url_raw( $am_item_photo_abject->guid );
+							$id = self::ImportMedia( $post_id, $filename, $am_item_photo_abject->ID, $am_item_photo_abject );
+							$am_item_photo_import[] = is_numeric( $id ) ? $id : "" ;
+					} else {
+						$am_item_photo_import[] = "";
+					}
+				}
 				update_post_meta( $post_id, 'am_item_photo', $am_item_photo_import );
 				update_post_meta( $post_id, 'am_item_imagetype', $am_metas['am_item_imagetype'] );
 				update_post_meta( $post_id, 'am_item_imagecode', $am_metas['am_item_imagecode'] );
@@ -716,6 +748,7 @@ class BlogData {
 				update_post_meta( $post_id, 'am_item_description', $am_metas['am_item_description'] );
 				update_post_meta( $post_id, 'am_item_buttontext', $am_metas['am_item_buttontext'] );
 				update_post_meta( $post_id, 'am_item_buttonurl', $am_metas['am_item_buttonurl'] );
+				update_post_meta( $post_id, 'am_item_getitnowtext', $am_metas['am_item_getitnowtext'] );
 				update_post_meta( $post_id, 'am_item_getitnowfromname', $am_metas['am_item_getitnowfromname'] );
 				update_post_meta( $post_id, 'am_item_getitnowfromurl', $am_metas['am_item_getitnowfromurl'] );
 			}

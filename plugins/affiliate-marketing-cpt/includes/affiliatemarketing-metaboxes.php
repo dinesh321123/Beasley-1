@@ -254,7 +254,7 @@ class AffiliateMarketingCPTMetaboxes {
 		}
 		if ( isset( $_POST['am_item_photo'] ) ) {
 			$filecontents =  $_POST['am_item_photo'] ;
-			var_dump($filecontents);
+			// var_dump($filecontents);
 			update_post_meta( $post_id, 'am_item_photo', $filecontents );
 		}
 		$itemCount = count($_POST['am_item_name']);
