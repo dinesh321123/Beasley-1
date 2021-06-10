@@ -48,8 +48,8 @@ class AffiliateMarketingCPTMetaboxes {
 	public static function add_meta_box( $post_type ) {
 		$post_types = array( AffiliateMarketingCPT::AFFILIATE_MARKETING_POST_TYPE );
 		if ( in_array( $post_type, $post_types ) ) {
-			add_meta_box( 'am_meta_box', 'Items', array( __CLASS__, 'render_items_metabox' ), $post_type, 'normal', 'low' );
-			add_meta_box( 'am_footer_meta_box', 'Footer Description', array( __CLASS__, 'render_footer_metabox' ), $post_type, 'normal', 'low' );
+			add_meta_box( 'am_meta_box', 'Items', array( __CLASS__, 'render_items_metabox' ), $post_type, 'normal', 'high' );
+			add_meta_box( 'am_footer_meta_box', 'Footer Description', array( __CLASS__, 'render_footer_metabox' ), $post_type, 'normal', 'high' );
 		}
 	}
 
@@ -107,10 +107,10 @@ class AffiliateMarketingCPTMetaboxes {
 			?>
 			<div class="content-row am-content-row">
 				<?php 
-					if( $i !== 0 && $i > 0 ){
+					// if( $i !== 0 && $i > 0 ){
 				?>
 					<a class="content-delete" href="#" style="color:#a00;float:right;margin-top: 3px;text-decoration:none;font-size:20px;"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="-64 0 512 512" width="25px"><path d="m256 80h-32v-48h-64v48h-32v-80h128zm0 0" fill="#62808c"/><path d="m304 512h-224c-26.507812 0-48-21.492188-48-48v-336h320v336c0 26.507812-21.492188 48-48 48zm0 0" fill="#e76e54"/><path d="m384 160h-384v-64c0-17.671875 14.328125-32 32-32h320c17.671875 0 32 14.328125 32 32zm0 0" fill="#77959e"/><path d="m260 260c-6.246094-6.246094-16.375-6.246094-22.625 0l-41.375 41.375-41.375-41.375c-6.25-6.246094-16.378906-6.246094-22.625 0s-6.246094 16.375 0 22.625l41.375 41.375-41.375 41.375c-6.246094 6.25-6.246094 16.378906 0 22.625s16.375 6.246094 22.625 0l41.375-41.375 41.375 41.375c6.25 6.246094 16.378906 6.246094 22.625 0s6.246094-16.375 0-22.625l-41.375-41.375 41.375-41.375c6.246094-6.25 6.246094-16.378906 0-22.625zm0 0" fill="#fff"/></svg></a>
-				<?php } ?>
+				<?php // } ?>
 				<h3 class="am-item-title">Item</h3>
 				<div class="am-form-group">
 					<label class="ammetatitle" for="am_item_name_<?php echo $i; ?>"><?php _e( 'Name', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?> </label>
@@ -193,12 +193,17 @@ class AffiliateMarketingCPTMetaboxes {
 			<?php
 			}
 			?>
-		<p><a class="button" href="#" id="add_content">Add new item</a></p>
+		<p>
+			<input name="total_count_items" id="total_count_items" type="hidden" value="<?php echo count($contents);?>" />
+			<a class="button" href="#" id="add_content">Add new item</a>
+		</p>
 		<script>
 			var startingContent = <?php echo count($contents) - 1; ?>;
 			jQuery('#add_content').click(function(e) {
 				e.preventDefault();
 				startingContent++;
+				var total_count_items = startingContent+1;
+				jQuery('#total_count_items').val(total_count_items); 
 				var contentID = 'am_item_description_' + startingContent;
 				var am_item_name = 'am_item_name_' + startingContent;
 				var am_item_photo = 'am_item_photo_' + startingContent;
@@ -218,11 +223,13 @@ class AffiliateMarketingCPTMetaboxes {
 			});
 			jQuery(document).on('click', '.content-delete', function(e) {
 				e.preventDefault();
-				if (
-					jQuery('.content-row').length > 1 &&
-					confirm('Are you sure you want to delete this task?')
-				) {
-					jQuery(this).parents('.content-row').remove();
+				if( jQuery('.content-row').length==1 ){
+					alert("One Item is required in Item box.");
+				} else
+				{
+					if (confirm('Are you sure you want to delete this item?')) {
+						jQuery(this).parents('.content-row').remove();
+					}
 				}
 			});
 		</script>
@@ -243,7 +250,7 @@ class AffiliateMarketingCPTMetaboxes {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['repeatable_editor_repeatable_editor_nonce'] ) || ! wp_verify_nonce( $_POST['repeatable_editor_repeatable_editor_nonce'], '_repeatable_editor_repeatable_editor_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;
-
+		
 		if ( isset( $_POST['am_item_name'] ) ) {
 			$am_item_name = $_POST['am_item_name'];
 			update_post_meta( $post_id, 'am_item_name', $am_item_name );
@@ -257,13 +264,15 @@ class AffiliateMarketingCPTMetaboxes {
 			// var_dump($filecontents);
 			update_post_meta( $post_id, 'am_item_photo', $filecontents );
 		}
-		$itemCount = count($_POST['am_item_name']);
+		$itemCount = $_POST['total_count_items'];
 		$am_item_imagetype = array();
 		for ($x = 0; $x < $itemCount; $x++) {
-			$am_item_imagetype[] = $_POST['am_item_imagetype_'.$x];
+			if( isset($_POST['am_item_imagetype_'.$x]) && $_POST['am_item_imagetype_'.$x] != "" ) {
+				$am_item_imagetype[] = $_POST['am_item_imagetype_'.$x];
+			}
 		}
 		
-		if ( isset( $am_item_imagetype ) ) {
+		if ( !empty($am_item_imagetype) && isset( $am_item_imagetype ) ) {
 			update_post_meta( $post_id, 'am_item_imagetype', $am_item_imagetype );
 		}
 		if ( isset( $_POST['am_item_imagecode'] ) ) {
