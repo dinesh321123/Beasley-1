@@ -96,8 +96,6 @@ const slotRenderEndedHandler = event => {
 				});
 			}
 			getSlotStat(placeholder).isVideo = isVideo;
-
-			console.log(`IsVideo - ${getSlotStat(placeholder).isVideo}`);
 		}
 	}
 };
@@ -358,7 +356,7 @@ class Dfp extends PureComponent {
 	}
 
 	updateSlotVisibleTimeStat() {
-		const { placeholder } = this.props;
+		const { placeholder, unitName } = this.props;
 		const {
 			slot,
 			slotPollMillisecs,
@@ -368,7 +366,14 @@ class Dfp extends PureComponent {
 
 		if (slot) {
 			const slotStat = getSlotStat(placeholder);
-			if (slotStat.viewPercentage > 50) {
+
+			if (unitName === 'adhesion') {
+				const playerElement = document.getElementById('live-player');
+				// adhesion ads should be showing when screen > 1350
+				if (playerElement && playerElement.offsetWidth > 1350) {
+					slotStat.timeVisible += slotPollMillisecs;
+				}
+			} else if (slotStat.viewPercentage > 50) {
 				slotStat.timeVisible += slotPollMillisecs;
 			}
 
