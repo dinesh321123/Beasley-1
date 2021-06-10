@@ -11,7 +11,17 @@
   width:100%;
   margin-bottom:5px;
 }
-.am-form-group input[type=text], .am-form-group select, .am-form-group textarea{
+.am-form-group select {
+    padding: 0px 6px 6px 6px;
+    font-size: 1em;
+    box-shadow: rgb(0 0 0 / 7%) 0px 1px 2px inset;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 0px;
+    height:30px;
+    width:100%;
+    margin:0;
+}
+.am-form-group input[type=text], .am-form-group textarea{
     padding: 6px;
     font-size: 1em;
     box-shadow: rgb(0 0 0 / 7%) 0px 1px 2px inset;
