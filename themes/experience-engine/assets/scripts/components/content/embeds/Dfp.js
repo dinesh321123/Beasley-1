@@ -407,7 +407,7 @@ class Dfp extends PureComponent {
 				placeholderElement.classList.remove('fadeOutAnimation');
 				if (unitName === 'adhesion') {
 					// placeholderElement.style.display = 'none';
-					placeholderElement.style.width = '0';
+					placeholderElement.style.width = '10px';
 				}
 			});
 		}
