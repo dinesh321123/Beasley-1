@@ -67,9 +67,11 @@ const slotRenderEndedHandler = event => {
 		if (isEmpty) {
 			// If Slot Is Visible
 			if (slotElement.offsetParent !== null) {
+				// Trick Slot to pull new Ad on next poll.
 				// Set Visible Time To Huge Arbitrary MSec Value So That Next Poll Will Trigger A Refresh
 				// NOTE: Minimum Poll Interval Is Set In DFP Constructor To Be Much Longer Than
 				// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
+				getSlotStat(placeholder).viewPercentage = 100;
 				getSlotStat(placeholder).timeVisible = 10000000;
 			}
 		} else {
@@ -86,7 +88,7 @@ const slotRenderEndedHandler = event => {
 
 			slotElement.classList.add('fadeInAnimation');
 			slotElement.style.opacity = '1';
-			slotElement.style.display = null;
+			slotElement.style.display = null; // Undo Adhesion Ad Display That Was Set To None So That Player Would Collapse.
 			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
 			const slotHTML = slot.getHtml();
 			let isVideo = false;
