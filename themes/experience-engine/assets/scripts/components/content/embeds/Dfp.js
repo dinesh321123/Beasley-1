@@ -75,7 +75,6 @@ const slotRenderEndedHandler = event => {
 			}
 		} else {
 			// Adjust Container Div Height
-			slotElement.style.display = null;
 			if (size && size[1]) {
 				const imageHeight = size[1];
 				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
@@ -406,7 +405,6 @@ class Dfp extends PureComponent {
 				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
 				if (unitName === 'adhesion') {
-					// placeholderElement.style.display = 'none';
 					placeholderElement.style.width = '10px';
 				}
 			});
