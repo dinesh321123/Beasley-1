@@ -75,6 +75,7 @@ const slotRenderEndedHandler = event => {
 			}
 		} else {
 			// Adjust Container Div Height
+			slotElement.style.display = null;
 			if (size && size[1]) {
 				const imageHeight = size[1];
 				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
@@ -346,10 +347,6 @@ class Dfp extends PureComponent {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
 			}
 
-			if (unitName === 'adhesion') {
-				slot.setCollapseEmptyDiv(true);
-			}
-
 			this.setState({ slot });
 			return true;
 		});
@@ -398,7 +395,7 @@ class Dfp extends PureComponent {
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder } = this.props;
+		const { placeholder, unitName } = this.props;
 		const { slot } = this.state;
 
 		if (slot) {
@@ -408,6 +405,9 @@ class Dfp extends PureComponent {
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
+				if (unitName === 'adhesion') {
+					placeholderElement.style.display = 'none';
+				}
 			});
 		}
 	}
