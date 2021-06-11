@@ -293,16 +293,18 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
-			} else if (unitName === 'adhesion') {
-				sizeMapping = googletag
-					.sizeMapping()
-					// does not display on small screens
-					.addSize([0, 0], [])
+				/*
+				} else if (unitName === 'adhesion') {
+					sizeMapping = googletag
+						.sizeMapping()
+						// does not display on small screens
+						.addSize([0, 0], [])
 
-					// accepts only two sizes
-					.addSize([1350, 0], [[728, 90], [970, 90], 'fluid'])
+						// accepts only two sizes
+						.addSize([1350, 0], [[728, 90], [970, 90], 'fluid'])
 
-					.build();
+						.build();
+				*/
 			} else if (unitName === 'right-rail') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -394,15 +396,19 @@ class Dfp extends PureComponent {
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder } = this.props;
+		const { placeholder, unitName } = this.props;
 		const { slot } = this.state;
 
 		if (slot) {
 			googletag.cmd.push(() => {
+				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
 				googletag.pubads().refresh([slot]);
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
+				if (unitName === 'adhesion') {
+					placeholderElement.style.width = '10px';
+				}
 			});
 		}
 	}
