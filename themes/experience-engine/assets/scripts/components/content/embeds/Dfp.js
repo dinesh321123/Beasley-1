@@ -394,19 +394,15 @@ class Dfp extends PureComponent {
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder, unitName } = this.props;
+		const { placeholder } = this.props;
 		const { slot } = this.state;
 
 		if (slot) {
 			googletag.cmd.push(() => {
-				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
 				googletag.pubads().refresh([slot]);
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
-				if (unitName === 'adhesion') {
-					placeholderElement.style.width = '10px';
-				}
 			});
 		}
 	}
