@@ -4,10 +4,24 @@ import { IntersectionObserverContext } from '../../../context/intersection-obser
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
+const playerAdhesionDivID = 'div-gpt-ad-player-0';
 const isNotPlayerOrInterstitial = placeholder => {
 	return (
 		placeholder !== playerSponsorDivID && placeholder !== interstitialDivID
 	);
+};
+
+let resetAdContainerWidthTimeout;
+const changeAdhesionAdContainerWidth = (placeholder, newWidthInt) => {
+	if (resetAdContainerWidthTimeout) {
+		clearTimeout(resetAdContainerWidthTimeout);
+	}
+
+	resetAdContainerWidthTimeout = setTimeout(() => {
+		const slotElement = document.getElementById(placeholder);
+		slotElement.style.width = `${newWidthInt}px`;
+		slotElement.style.transition = 'width .4s';
+	}, 1500);
 };
 
 const getSlotStatsCollectionObject = () => {
@@ -75,7 +89,8 @@ const slotRenderEndedHandler = event => {
 			}
 		} else {
 			// Adjust Container Div Height
-			if (size && size[1]) {
+			if (size && size[0] && size[1]) {
+				const imageWidth = size[0];
 				const imageHeight = size[1];
 				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
 				const padBottom =
@@ -83,9 +98,15 @@ const slotRenderEndedHandler = event => {
 						? padBottomStr.replace('px', '')
 						: '0';
 				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
+				// Adjust Width Of Adhesion Ad
+				if (placeholder === playerAdhesionDivID) {
+					changeAdhesionAdContainerWidth(placeholder, imageWidth);
+				}
 			}
 
-			slotElement.classList.add('fadeInAnimation');
+			if (placeholder !== playerAdhesionDivID) {
+				slotElement.classList.add('fadeInAnimation');
+			}
 			slotElement.style.opacity = '1';
 			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
 			const slotHTML = slot.getHtml();
@@ -385,7 +406,9 @@ class Dfp extends PureComponent {
 					const placeholderClasslist = placeholderElement.classList;
 					placeholderClasslist.remove('fadeInAnimation');
 					placeholderClasslist.remove('fadeOutAnimation');
-					placeholderClasslist.add('fadeOutAnimation');
+					if (unitName !== 'adhesion') {
+						placeholderClasslist.add('fadeOutAnimation');
+					}
 				}
 				setTimeout(() => {
 					this.refreshSlot();
@@ -404,10 +427,11 @@ class Dfp extends PureComponent {
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
 				googletag.pubads().refresh([slot]);
 				const placeholderElement = document.getElementById(placeholder);
-				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
 				if (unitName === 'adhesion') {
-					placeholderElement.style.width = '10px';
+					changeAdhesionAdContainerWidth(placeholder, 1);
+				} else {
+					placeholderElement.style.opacity = '0';
 				}
 			});
 		}
