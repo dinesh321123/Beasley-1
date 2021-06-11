@@ -12,7 +12,11 @@ const isNotPlayerOrInterstitial = placeholder => {
 };
 
 let resetAdContainerWidthTimeout;
-const changeAdhesionAdContainerWidth = (placeholder, newWidthInt) => {
+const changeAdhesionAdContainerWidth = (
+	placeholder,
+	newWidthInt = 1,
+	mSecDelay = 1500,
+) => {
 	if (resetAdContainerWidthTimeout) {
 		clearTimeout(resetAdContainerWidthTimeout);
 	}
@@ -21,7 +25,7 @@ const changeAdhesionAdContainerWidth = (placeholder, newWidthInt) => {
 		const slotElement = document.getElementById(placeholder);
 		slotElement.style.width = `${newWidthInt}px`;
 		slotElement.style.transition = 'width .4s';
-	}, 1500);
+	}, mSecDelay);
 };
 
 const getSlotStatsCollectionObject = () => {
@@ -100,7 +104,7 @@ const slotRenderEndedHandler = event => {
 				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
 				// Adjust Width Of Adhesion Ad
 				if (placeholder === playerAdhesionDivID) {
-					changeAdhesionAdContainerWidth(placeholder, imageWidth);
+					changeAdhesionAdContainerWidth(placeholder, imageWidth, 1);
 				}
 			}
 
@@ -429,7 +433,7 @@ class Dfp extends PureComponent {
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.classList.remove('fadeOutAnimation');
 				if (unitName === 'adhesion') {
-					changeAdhesionAdContainerWidth(placeholder, 1);
+					changeAdhesionAdContainerWidth(placeholder, 1, 2000);
 				} else {
 					placeholderElement.style.opacity = '0';
 				}
