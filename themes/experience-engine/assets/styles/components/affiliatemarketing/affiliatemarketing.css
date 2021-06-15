@@ -139,8 +139,17 @@
 			margin-top: 0.5rem;
 			justify-content: space-between;
 			flex-wrap: wrap;
+			flex-direction: column;
+			@media (--min-medium-viewport) {
+				flex-direction: row;
+			}
 			& .shop-now-button-meta{
-				margin-left: auto;
+				margin-left: 0;
+				margin-top: 20px;
+				@media (--min-medium-viewport) {
+					margin-left: auto;
+					margin-top: 0px;
+				}
 			}
 			& .shop-now-button{
 				background: var(--brand-primary);

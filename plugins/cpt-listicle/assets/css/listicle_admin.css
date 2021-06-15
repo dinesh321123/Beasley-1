@@ -1,0 +1,61 @@
+.cpt-form-group{
+  margin-bottom:15px;
+}
+.cpt-form-group label{
+  font-size: 1em;
+  font-weight: bold;
+  margin-right: 4px;
+  color:#444;
+  line-height:1.4;
+  display:block;
+  width:100%;
+  margin-bottom:5px;
+}
+.cpt-form-group input[type=text], .cpt-form-group select, .cpt-form-group textarea{
+    padding: 6px;
+    font-size: 1em;
+    box-shadow: rgb(0 0 0 / 7%) 0px 1px 2px inset;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 0px;
+    height:30px;
+    width:100%;
+    margin:0;
+}
+.cpt-form-group textarea{
+  min-height:100px;
+}
+.cpt-form-group .upload-preview{margin-left:10px;}
+.cpt-form-group div.mce-panel{
+  box-shadow: rgb(0 0 0 / 7%) 0px 1px 2px inset;
+  border: 1px solid rgb(221, 221, 221);
+}
+#add_content{
+  background: #3373ab;
+    color: #fff;
+    height: 42px;
+    line-height: 40px;
+    padding: 0 20px;
+    border-radius: 0;
+    font-size: 16px;
+    border-color: #3373ab;
+    margin-top: 15px;
+}
+#add_content:hover, #add_content:focus{
+  background:#1e4b73;
+  border-color:#1e4b73;
+}
+.cpt-content-row{
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin: 25px 0;
+}
+.cpt-item-title{
+  color: #3373ab;
+  margin-top:0;font-size:16px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+}
+#listicle_meta_box a#add_gform{
+  display: none;
+}

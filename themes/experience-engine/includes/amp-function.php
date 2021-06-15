@@ -8,10 +8,10 @@ if ( ! function_exists( 'ee_enqueue_front_css' ) ) :
 		$site_colors = ee_get_css_colors();
 	?>
 		html {
-			background: <?php echo $site_colors['--brand-background-color']; ?>;;
+			background: white;
 		}
 		header.amp-wp-header {
-			background-color: <?php echo $site_colors['--global-theme-secondary']; ?>;
+			background-color: white;
 		}
 		header.amp-wp-header a {
 		}
