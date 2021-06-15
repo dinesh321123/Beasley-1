@@ -77,8 +77,8 @@ class Info extends Component {
 		return (
 			<div className="controls-info" style={colors}>
 				<p>
-					{status === 'LIVE_PLAYING' && <span className="live">Live</span>}
 					<strong>{stream ? stream.title : station}</strong>
+					{status === 'LIVE_PLAYING' && <span className="live">Live</span>}
 				</p>
 				<p>{info}</p>
 			</div>
