@@ -250,6 +250,13 @@ class ExperienceEngine extends \Bbgi\Module {
 		}
 
 		if ( is_array( $data ) && ! empty( $data ) ) {
+
+			/* echo '<script>';
+			echo 'console.log("MIKE TEST START")';
+			echo 'console.log('. json_encode( $data ) .')';
+			echo 'console.log("MIKE TEST END")';
+			echo '</script>'; */
+
 			foreach ( $data as $config ) {
 				if ( ! is_array( $config ) ) {
 					$config = (array) $config;

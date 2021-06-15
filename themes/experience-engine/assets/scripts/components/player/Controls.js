@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Stations from './Stations';
 
 function Controls({
 	status,
@@ -7,11 +8,15 @@ function Controls({
 	play,
 	pause,
 	resume,
+	customColors,
 	colors,
 	isIos,
 	progressClass,
 }) {
+	// TODO - IOS Special Style was removed from controls.css. Remove osClass once it is determined that we will never need OS Specific logic again.
 	const osClass = isIos ? '-is-ios' : '';
+	const stationControl =
+		progressClass === '-podcast' ? <Stations colors={customColors} /> : false;
 	return (
 		<div className={`status ${status} ${osClass} ${progressClass}`}>
 			<button
@@ -64,6 +69,8 @@ function Controls({
 			>
 				<div className="loading" />
 			</button>
+
+			{stationControl}
 		</div>
 	);
 }
@@ -74,6 +81,7 @@ Controls.propTypes = {
 	play: PropTypes.func,
 	pause: PropTypes.func,
 	resume: PropTypes.func,
+	customColors: PropTypes.shape({}),
 	colors: PropTypes.shape({}),
 	isIos: PropTypes.bool,
 	progressClass: PropTypes.string,
@@ -84,6 +92,7 @@ Controls.defaultProps = {
 	play: () => {},
 	pause: () => {},
 	resume: () => {},
+	customColors: {},
 	colors: {},
 	isIos: false,
 	progressClass: '',

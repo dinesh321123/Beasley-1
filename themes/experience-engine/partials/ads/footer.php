@@ -7,3 +7,4 @@ endif;
 ?><div class="ad -footer -centered">
 	<?php do_action( 'dfp_tag', 'bottom-leaderboard', false, array( array( 'pos', 2 ) ) ); ?>
 </div>
+

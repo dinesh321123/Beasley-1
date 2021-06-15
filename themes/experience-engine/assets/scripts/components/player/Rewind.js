@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { seekPosition } from '../../redux/actions/player';
+import Progress from './Progress';
 
 class Rewind extends PureComponent {
 	/**
@@ -35,10 +36,19 @@ class Rewind extends PureComponent {
 	 * @returns {*}
 	 */
 	render() {
-		const { progressClass } = this.props;
+		const { currentTime, duration, progressClass } = this.props;
 
 		return (
 			<div className={`controls-rewind ${progressClass}`}>
+				<p>
+					<span className="time -mobile -current">
+						{Progress.format(currentTime)}
+					</span>
+					<span className="time -mobile -total">
+						{Progress.format(duration)}
+					</span>
+				</p>
+
 				<button
 					className="rewind"
 					aria-label="Rewind fifteen seconds"
@@ -64,6 +74,7 @@ class Rewind extends PureComponent {
 
 Rewind.propTypes = {
 	currentTime: PropTypes.number.isRequired,
+	duration: PropTypes.number.isRequired,
 	seek: PropTypes.func.isRequired,
 	progressClass: PropTypes.string,
 };
@@ -74,6 +85,7 @@ Rewind.defaultProps = {
 
 const mapStateToProps = ({ player }) => ({
 	currentTime: player.time,
+	duration: player.duration,
 });
 
 const mapDispatchToProps = dispatch =>

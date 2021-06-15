@@ -4,10 +4,28 @@ import { IntersectionObserverContext } from '../../../context/intersection-obser
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
+const playerAdhesionDivID = 'div-gpt-ad-player-0';
 const isNotPlayerOrInterstitial = placeholder => {
 	return (
 		placeholder !== playerSponsorDivID && placeholder !== interstitialDivID
 	);
+};
+
+let resetAdContainerWidthTimeout;
+const changeAdhesionAdContainerWidth = (
+	placeholder,
+	newWidthInt = 1,
+	mSecDelay = 1500,
+) => {
+	if (resetAdContainerWidthTimeout) {
+		clearTimeout(resetAdContainerWidthTimeout);
+	}
+
+	resetAdContainerWidthTimeout = setTimeout(() => {
+		const slotElement = document.getElementById(placeholder);
+		slotElement.style.width = `${newWidthInt}px`;
+		slotElement.style.transition = 'width .4s';
+	}, mSecDelay);
 };
 
 const getSlotStatsCollectionObject = () => {
@@ -29,6 +47,7 @@ const getSlotStat = placeholder => {
 		slotStatsObject[placeholder] = {
 			viewPercentage: 0,
 			timeVisible: 0,
+			isVideo: false,
 		};
 	}
 
@@ -56,6 +75,9 @@ const slotVisibilityChangedHandler = event => {
 
 const slotRenderEndedHandler = event => {
 	const { slot, isEmpty, size } = event;
+	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
+		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
+		: null;
 
 	const placeholder = slot.getSlotElementId();
 	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
@@ -63,6 +85,7 @@ const slotRenderEndedHandler = event => {
 		if (isEmpty) {
 			// If Slot Is Visible
 			if (slotElement.offsetParent !== null) {
+				// Trick Slot to pull new Ad on next poll.
 				// Set Visible Time To Huge Arbitrary MSec Value So That Next Poll Will Trigger A Refresh
 				// NOTE: Minimum Poll Interval Is Set In DFP Constructor To Be Much Longer Than
 				// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
@@ -70,7 +93,8 @@ const slotRenderEndedHandler = event => {
 			}
 		} else {
 			// Adjust Container Div Height
-			if (size && size[1]) {
+			if (size && size[0] && size[1]) {
+				const imageWidth = size[0];
 				const imageHeight = size[1];
 				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
 				const padBottom =
@@ -78,11 +102,25 @@ const slotRenderEndedHandler = event => {
 						? padBottomStr.replace('px', '')
 						: '0';
 				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
+				// Adjust Width Of Adhesion Ad
+				if (placeholder === playerAdhesionDivID) {
+					changeAdhesionAdContainerWidth(placeholder, imageWidth, 1);
+				}
 			}
 
-			slotElement.classList.add('fadeInAnimation');
+			if (placeholder !== playerAdhesionDivID) {
+				slotElement.classList.add('fadeInAnimation');
+			}
 			slotElement.style.opacity = '1';
 			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
+			const slotHTML = slot.getHtml();
+			let isVideo = false;
+			if (slotHTML && htmlVidTagArray) {
+				htmlVidTagArray.forEach(tag => {
+					isVideo = isVideo || slotHTML.indexOf(tag) > -1;
+				});
+			}
+			getSlotStat(placeholder).isVideo = isVideo;
 		}
 	}
 };
@@ -100,6 +138,10 @@ class Dfp extends PureComponent {
 			bbgiconfig.ad_rotation_refresh_sec_setting,
 			10,
 		);
+		const slotVideoRefreshSecs = parseInt(
+			bbgiconfig.ad_vid_rotation_refresh_sec_setting,
+			10,
+		);
 
 		// Initialize State. NOTE: Ensure that Minimum Poll Intervavl Is Much Longer Than
 		// 	Round Trip to Ad Server. Initially we enforce 5 second minimum.
@@ -113,6 +155,10 @@ class Dfp extends PureComponent {
 				slotRefreshSecs && slotRefreshSecs >= 15
 					? slotRefreshSecs * 1000
 					: 30000,
+			slotVideoRefreshMillisecs:
+				slotVideoRefreshSecs && slotVideoRefreshSecs >= 30
+					? slotVideoRefreshSecs * 1000
+					: 60000,
 		};
 
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
@@ -142,10 +188,6 @@ class Dfp extends PureComponent {
 			document.addEventListener('visibilitychange', this.onVisibilityChange);
 		}
 
-		// Fire sponsored ad utility to determine if
-		// a sponsor ad will in fact load in the player
-		this.maybeLoadedPlayerSponsorAd();
-
 		// If Ad Blocker is enabled googletag will be absent
 		if (!googletag) {
 			throw Error(`NO googletag FOUND IN DFP COMPONENT DID MOUNT`);
@@ -169,40 +211,6 @@ class Dfp extends PureComponent {
 					.addEventListener('slotRenderEnded', slotRenderEndedHandler);
 			});
 		}
-	}
-
-	/**
-	 * @function maybeLoadedPlayerSponsorAd
-	 * This is a small utility that listens for the specific
-	 * sponsor ad slot in the player element. Due to the fixed
-	 * CSS nature of the interface, when a Player Sponsor loads
-	 * the height of certain elements (ie. nav and signin) needs
-	 * to be adjusted dynamically. This utility can help add to the
-	 * body to enable accurate CSS settings.
-	 */
-	maybeLoadedPlayerSponsorAd() {
-		// Make sure that googletag.cmd exists.
-		window.googletag = window.googletag || {};
-		window.googletag.cmd = window.googletag.cmd || [];
-
-		// Don't assume readiness, instead, push to queue
-		window.googletag.cmd.push(() => {
-			// listen for ad slot loading
-			window.googletag.pubads().addEventListener('slotOnload', event => {
-				// get current loaded slot id
-				const idLoaded = event.slot.getSlotElementId();
-
-				// compare against sponsor slot id
-				// this value is fixed and can be found in
-				// /assets/scripts/components/player/Sponsor.js
-				if (idLoaded === playerSponsorDivID) {
-					// Add class to body
-					document
-						.getElementsByTagName('body')[0]
-						.classList.add('station-has-sponsor');
-				}
-			});
-		});
 	}
 
 	componentWillUnmount() {
@@ -310,6 +318,18 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
+				/*
+				} else if (unitName === 'adhesion') {
+					sizeMapping = googletag
+						.sizeMapping()
+						// does not display on small screens
+						.addSize([0, 0], [])
+
+						// accepts only two sizes
+						.addSize([1350, 0], [[728, 90], [970, 90], 'fluid'])
+
+						.build();
+				*/
 			} else if (unitName === 'right-rail') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -359,22 +379,40 @@ class Dfp extends PureComponent {
 	}
 
 	updateSlotVisibleTimeStat() {
-		const { placeholder } = this.props;
-		const { slot, slotPollMillisecs, slotRefreshMillisecs } = this.state;
+		const { placeholder, unitName } = this.props;
+		const {
+			slot,
+			slotPollMillisecs,
+			slotRefreshMillisecs,
+			slotVideoRefreshMillisecs,
+		} = this.state;
 
 		if (slot) {
 			const slotStat = getSlotStat(placeholder);
-			if (slotStat.viewPercentage > 50) {
+
+			if (unitName === 'adhesion') {
+				const playerElement = document.getElementById('live-player');
+				// adhesion ads should be showing when screen > 1350
+				if (playerElement && playerElement.offsetWidth > 1350) {
+					slotStat.timeVisible += slotPollMillisecs;
+				}
+			} else if (slotStat.viewPercentage > 50) {
 				slotStat.timeVisible += slotPollMillisecs;
 			}
 
-			if (slotStat.timeVisible >= slotRefreshMillisecs) {
+			const msecThreshold =
+				slotStat.isVideo === true
+					? slotVideoRefreshMillisecs
+					: slotRefreshMillisecs;
+			if (slotStat.timeVisible >= msecThreshold) {
 				const placeholderElement = document.getElementById(placeholder);
 				if (placeholderElement.style.opacity === '1') {
 					const placeholderClasslist = placeholderElement.classList;
 					placeholderClasslist.remove('fadeInAnimation');
 					placeholderClasslist.remove('fadeOutAnimation');
-					placeholderClasslist.add('fadeOutAnimation');
+					if (unitName !== 'adhesion') {
+						placeholderClasslist.add('fadeOutAnimation');
+					}
 				}
 				setTimeout(() => {
 					this.refreshSlot();
@@ -385,7 +423,7 @@ class Dfp extends PureComponent {
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder } = this.props;
+		const { placeholder, unitName } = this.props;
 		const { slot } = this.state;
 
 		if (slot) {
@@ -393,8 +431,12 @@ class Dfp extends PureComponent {
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
 				googletag.pubads().refresh([slot]);
 				const placeholderElement = document.getElementById(placeholder);
-				placeholderElement.style.opacity = '0';
 				placeholderElement.classList.remove('fadeOutAnimation');
+				if (unitName === 'adhesion') {
+					changeAdhesionAdContainerWidth(placeholder, 1, 2000);
+				} else {
+					placeholderElement.style.opacity = '0';
+				}
 			});
 		}
 	}

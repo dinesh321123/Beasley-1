@@ -25,13 +25,13 @@
 
 .live-player-modal {
 	background: var(--global-theme-secondary);
-	bottom: 75px;
+	bottom:80px;
 	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
 				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
 	padding: 2rem;
 	position: absolute;
-	right: 0;
-	width: 299px;
+	left: 0;
+	width: 320px;
 	z-index: 100;
 
 	& > *:not(:last-child) {
@@ -56,6 +56,20 @@
 	& img {
 		max-width: 50%;
 		height: auto;
+	}
+
+	& .control-station-button {
+	  	padding: 0;
+	  	margin-left: 0;
+	  	margin-right: 0;
+
+		& img {
+		  	width: auto;
+	  	}
+
+		& span {
+		  	padding: 1rem;
+	  	}
 	}
 }
 

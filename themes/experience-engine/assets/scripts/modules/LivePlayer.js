@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { isIOS, isAudioAdOnly } from '../library';
 
 import {
-	Stations,
 	Controls,
 	Info,
 	Volume,
@@ -14,13 +13,14 @@ import {
 	Progress,
 	RecentSongs,
 	Offline,
-	Contacts,
-	Sponsor,
+	PlayerAd,
 } from '../components/player';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
 import * as actions from '../redux/actions/player';
+// import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
+// import {durationChange, setPlayer, STATUSES, statusUpdate, timeChange} from '../redux/actions/player';
 
 class LivePlayer extends Component {
 	constructor(props) {
@@ -157,6 +157,7 @@ class LivePlayer extends Component {
 
 		const isIos = isIOS();
 
+		const volumeControl = isIos ? null : <Volume colors={buttonsFillStyle} />;
 		const children = (
 			<ErrorBoundary>
 				{notification}
@@ -179,48 +180,53 @@ class LivePlayer extends Component {
 
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
-				<Progress className="-mobile" colors={textStyle} />
+				<div className="top-progress-holder">
+					<Progress className="-mobile" colors={textStyle} />
+				</div>
 
 				<div className="controls" style={controlsStyle}>
+					<div className={`button-holder ${progressClass}`}>
+						<Controls
+							status={status}
+							play={
+								adPlayback && isAudioAdOnly({ player, playerType })
+									? null
+									: this.handlePlay
+							}
+							pause={pause}
+							resume={resume}
+							customColors={customColors}
+							colors={buttonsBackgroundStyle}
+							isIos={isIos}
+							progressClass={progressClass}
+						/>
+					</div>
+					<div />
 					<div className="control-section">
 						<Info colors={textStyle} />
 					</div>
-					<div className="control-section -centered">
-						<div className={`controls-wrapper -centered ${progressClass}`}>
-							<RecentSongs colors={customColors} />
-
-							<Controls
-								status={status}
-								play={
-									adPlayback && isAudioAdOnly({ player, playerType })
-										? null
-										: this.handlePlay
-								}
-								pause={pause}
-								resume={resume}
-								colors={buttonsBackgroundStyle}
-								isIos={isIos}
-								progressClass={progressClass}
-							/>
-
-							<Volume colors={buttonsFillStyle} />
-						</div>
-
-						<Progress className="-desktop" colors={textStyle} />
-					</div>
-					<div className="control-section">
+					<div className="button-holder">
 						<Rewind progressClass={progressClass} />
-						<Sponsor className="controls-sponsor" minWidth={1060} />
-						<Stations colors={customColors} />
-						<Contacts colors={customColors} />
 					</div>
+					<div className="button-holder full-width">
+						<div>
+							<RecentSongs
+								className={` ${progressClass} `}
+								colors={customColors}
+							/>
+							<Progress
+								className={` -desktop ${progressClass} `}
+								colors={textStyle}
+							/>
+							{volumeControl}
+						</div>
+					</div>
+					<PlayerAd
+						className="player-ad"
+						minWidth="1350"
+						style={controlsStyle}
+					/>
 				</div>
-
-				<Sponsor
-					className="sponsor-mobile"
-					maxWidth="1059"
-					style={controlsStyle}
-				/>
 			</ErrorBoundary>
 		);
 
