@@ -17,7 +17,7 @@ $cpt_post_object = get_queried_object();
 			$cpt_item_order = array();
 			endif;
 
-echo ee_get_affiliatemarketing_html(
+echo ee_get_listiclecpt_html(
 	$cpt_post_object,
 	$cpt_item_name,
 	$cpt_item_description,

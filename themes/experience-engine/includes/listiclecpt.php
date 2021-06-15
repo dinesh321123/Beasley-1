@@ -1,7 +1,7 @@
 <?php
 
-if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
-	function ee_get_affiliatemarketing_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order ) {
+if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
+	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order ) {
 		$cpt_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($cpt_post_object);
 
