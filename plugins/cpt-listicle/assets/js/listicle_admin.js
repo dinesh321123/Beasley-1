@@ -6,12 +6,14 @@
 		*/
 		$document.on('click', '.content-delete', function(e) {
 			e.preventDefault();
-				if (
-					$('.content-row').length > 1 &&
-					confirm('Are you sure you want to delete this content?')
-				) {
+			if( $( '.content-row' ).length === 1 ) {
+				alert("One Item required in Item box");
+			} else
+			{
+				if ( confirm('Are you sure you want to delete this item?') ) {
 					$(this).parents('.content-row').remove();
 				}
+			}
 		});
 		
 		/*

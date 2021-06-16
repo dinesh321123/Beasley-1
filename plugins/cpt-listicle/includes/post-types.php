@@ -99,7 +99,7 @@ class ListicleCPT {
 			),
 			'fields'                => array(
 				array(
-					'key'           => 'field_hide_social_share_am',
+					'key'           => 'field_hide_social_share_listicle',
 					'label'         => 'Hide Social Share',
 					'name'          => 'hide_social_share',
 					'type'          => 'true_false',
@@ -111,7 +111,7 @@ class ListicleCPT {
 					'ui_off_text'   => '',
 				),
 				array(
-					'key'           => 'field_share_photos_am',
+					'key'           => 'field_share_photos_listicle',
 					'label'         => 'Share Individual Photos',
 					'name'          => 'share_photos',
 					'type'          => 'true_false',
@@ -123,7 +123,7 @@ class ListicleCPT {
 					'ui_off_text'   => '',
 				),
 				array(
-					'key'           => 'field_images_per_ad_am',
+					'key'           => 'field_images_per_ad_listicle',
 					'label'         => 'Ads Interval',
 					'name'          => 'images_per_ad',
 					'type'          => 'number',

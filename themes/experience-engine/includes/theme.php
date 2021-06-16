@@ -30,6 +30,7 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 		add_post_type_support( 'post', 'timed-content' );
 		add_post_type_support( 'page', 'timed-content' );
 		add_post_type_support( 'gmr_gallery', 'timed-content' );
+		add_post_type_support( 'listicle_cpt', 'timed-content' );
 		add_post_type_support( 'gmr_album', 'timed-content' );
 		add_post_type_support( 'episode', 'timed-content' );
 		add_post_type_support( 'tribe_events', 'timed-content' );
@@ -67,13 +68,22 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 			}
 
 			$post_type[] = 'gmr_gallery';
+			$post_type[] = 'listicle_cpt';
 			$post_type[] = 'affiliate_marketing';
 			$post_type[] = 'gmr_album';
 			$post_type[] = 'contest';
 
 			$query->set( 'post_type', $post_type );
-		}
+		} elseif ( $query->is_category() ) {
+			$post_type = $query->get( 'post_type' );
+			if ( ! is_array( $post_type ) ) {
+				$post_type = array( $post_type );
+			}
+			$post_type[] = 'listicle_cpt';
+			$post_type[] = 'affiliate_marketing';
 
+			$query->set( 'post_type', $post_type );
+		}
 		return $query;
 	}
 endif;
