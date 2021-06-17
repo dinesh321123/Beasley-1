@@ -62,6 +62,18 @@ class Stations extends Component {
 		}
 	}
 
+	shouldRender(stream, streams) {
+		if (!stream) {
+			return true;
+		}
+
+		if (streams && streams.length > 1) {
+			return true;
+		}
+
+		return false;
+	}
+
 	renderStations(textStyle) {
 		const { isOpen } = this.state;
 		if (!isOpen) {
@@ -101,8 +113,12 @@ class Stations extends Component {
 	}
 
 	render() {
-		const { stream, colors } = this.props;
+		const { stream, streams, colors } = this.props;
 		const { isOpen } = this.state;
+
+		if (!this.shouldRender(stream, streams)) {
+			return false;
+		}
 
 		const textStyle = {
 			color: colors['--brand-text-color'] || colors['--global-theme-secondary'],
@@ -114,11 +130,7 @@ class Stations extends Component {
 
 		let label = 'Listen Live';
 		if (stream) {
-			label = (
-				<span>
-					<span className="controls-station-title">Saved Stations</span>
-				</span>
-			);
+			label = 'Select Station';
 		}
 
 		return (
