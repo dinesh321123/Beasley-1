@@ -72,6 +72,14 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 			$post_type[] = 'contest';
 
 			$query->set( 'post_type', $post_type );
+		} elseif ( $query->is_category() ) {
+			$post_type = $query->get( 'post_type' );
+			if ( ! is_array( $post_type ) ) {
+				$post_type = array( $post_type );
+			}
+			$post_type[] = 'affiliate_marketing';
+
+			$query->set( 'post_type', $post_type );
 		}
 
 		return $query;
