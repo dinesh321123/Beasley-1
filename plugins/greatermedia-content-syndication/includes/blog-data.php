@@ -243,6 +243,7 @@ class BlogData {
 					$single_post['attachments'],
 					$single_post['gallery_attachments'],
 					$single_post['galleries'],
+					$single_post['listicle_metas'],
 					$single_post['am_metas'],
 					$single_post['am_item_photo_attachment'],
 					$single_post['term_tax'],
@@ -445,6 +446,13 @@ class BlogData {
 			}
 		}
 
+		$listicle_metas = array();
+		if ( 'listicle_cpt' == $single_result->post_type ) {
+			$listicle_metas['cpt_item_name'] = self::listicle_ge_metavalue( 'cpt_item_name', $single_result->ID  );
+			$listicle_metas['cpt_item_description'] = self::listicle_ge_metavalue( 'cpt_item_description', $single_result->ID );
+			$listicle_metas['cpt_item_order'] = self::listicle_ge_metavalue( 'cpt_item_order', $single_result->ID  );
+		}
+
 		$am_metas = array();
 		$am_metas_photo_array = array();
 		if ( 'affiliate_marketing' == $single_result->post_type ) {
@@ -495,12 +503,22 @@ class BlogData {
 			'post_metas'          => $metas,
 			'attachments'         => $media,
 			'gallery_attachments' => $attachments,
+			'listicle_metas' 	  => $listicle_metas,
 			'am_metas'			  => $am_metas,
 			'am_item_photo_attachment'			  => $am_metas_photo_array,
 			'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
 			'galleries'           => $galleries,
 			'term_tax'            => $term_tax
 		);
+	}
+
+	public static function listicle_ge_metavalue( $value, $postid ) {
+		$field = get_post_meta( $postid, $value, true );
+		if ( ! empty( $field ) ) {
+			return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
+		} else {
+			return false;
+		}
 	}
 
 	public static function am_get_metavalue( $value, $postid ) {
@@ -523,7 +541,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries,$am_metas, $am_item_photo_attachment, $term_tax, $force_update = false ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $listicle_metas,$am_metas, $am_item_photo_attachment, $term_tax, $force_update = false ) {
 		if ( ! $post ) {
 			return;
 		}
@@ -713,6 +731,16 @@ class BlogData {
 				}
 			}
 
+			if ( 'listicle_cpt' == $post_type ) {
+				delete_post_meta( $post_id, 'cpt_item_name' );
+				delete_post_meta( $post_id, 'cpt_item_order' );
+				delete_post_meta( $post_id, 'cpt_item_description' );
+				
+				update_post_meta( $post_id, 'cpt_item_name', $listicle_metas['cpt_item_name'] );
+				update_post_meta( $post_id, 'cpt_item_order', $listicle_metas['cpt_item_order'] );
+				update_post_meta( $post_id, 'cpt_item_description', $listicle_metas['cpt_item_description'] );
+			}
+			
 			if ( 'affiliate_marketing' == $post_type ) {
 				delete_post_meta( $post_id, 'am_item_name' );
 				delete_post_meta( $post_id, 'am_item_photo' );

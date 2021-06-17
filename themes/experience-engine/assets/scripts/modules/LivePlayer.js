@@ -19,6 +19,7 @@ import {
 import ErrorBoundary from '../components/ErrorBoundary';
 
 import * as actions from '../redux/actions/player';
+import Stations from '../components/player/Stations';
 // import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
 // import {durationChange, setPlayer, STATUSES, statusUpdate, timeChange} from '../redux/actions/player';
 
@@ -195,11 +196,11 @@ class LivePlayer extends Component {
 							}
 							pause={pause}
 							resume={resume}
-							customColors={customColors}
 							colors={buttonsBackgroundStyle}
 							isIos={isIos}
 							progressClass={progressClass}
 						/>
+						<Stations colors={customColors} />
 					</div>
 					<div />
 					<div className="control-section">

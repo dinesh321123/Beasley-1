@@ -39,6 +39,14 @@
 	  }
     }
 
+	& div.button-holder.-live {
+		margin-top: -10px;
+	}
+
+	& div.button-holder.-podcast {
+		margin-top: -10px;
+	}
+
 	& .control-section,
 	& .controls-wrapper {
 		align-items: center;
@@ -146,9 +154,6 @@
 		}
 	}
 
-	& .-podcast {
-		margin-top: -10px;
-    }
 
 	& .controls-progress {
 		left: 0;
@@ -460,10 +465,11 @@
 
 		& button.listenlive-btn {
 			border: none;
-			  margin-left: 1rem;
-			  padding-top: .25rem;
+			  margin: 0 0 1rem 1rem;
+			  padding: .25rem 0 .5rem 0;
 			  width: 54px;
 			  font-size: .75rem;
+	  		  text-align: center;
 		  }
 
 		& button {
@@ -597,7 +603,7 @@ display: none;
 		border: 2px solid var(--brand-primary);
 		border-radius: 50%;
 		padding: 0;
-	    margin: 0 .75rem .25rem 1rem
+	    margin: 0 .75rem 0 1rem
 	}
 
 	& svg {
