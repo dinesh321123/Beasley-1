@@ -25,7 +25,7 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'right-rail'         => array( array( 300, 600 ), array( 300, 250 ) ),
 			'in-content'         => array( array( 1, 1 ), array( 300, 250 ) ),
 			'countdown'          => array( array( 320, 50 ) ),
-			'adhesion'           => array( array( 'fluid' ), array( 970, 90 ), array( 728, 90 ) ),
+			'adhesion'           => array( array( 970, 90 ), array( 728, 90 ) ),
 		);
 
 		$player = array(
