@@ -700,24 +700,16 @@ display: none;
 	}
 }
 
-.control-section .-podcast.LIVE_PAUSE .resume-btn,
-.control-section .-podcast.LIVE_PLAYING .pause-btn,
-.control-section .-podcast.LIVE_STOP .play-btn,
-.control-section .-podcast.LIVE_FAILED .play-btn,
-.control-section .-podcast.LIVE_BUFFERING .loading-btn,
-.control-section .-podcast.LIVE_CONNECTING .loading-btn,
-.control-section .-podcast.LIVE_RECONNECTING .loading-btn,
-.control-section .-podcast.STREAM_GEO_BLOCKED .play-btn,
-.control-section .-podcast.STATION_NOT_FOUND .play-btn
-.control-section .-live.LIVE_PAUSE .resume-btn,
-.control-section .-live.LIVE_PLAYING .pause-btn,
-.control-section .-live.LIVE_STOP .play-btn,
-.control-section .-live.LIVE_FAILED .play-btn,
-.control-section .-live.LIVE_BUFFERING .loading-btn,
-.control-section .-live.LIVE_CONNECTING .loading-btn,
-.control-section .-live.LIVE_RECONNECTING .loading-btn,
-.control-section .-live.STREAM_GEO_BLOCKED .play-btn,
-.control-section .-live.STATION_NOT_FOUND .play-btn {
+.button-holder > div.status.LIVE_PAUSE > button.resume-btn,
+.button-holder > div.status.LIVE_PLAYING > button.pause-btn,
+.button-holder > div.status.LIVE_STOP > button.play-btn,
+.button-holder > div.status.LIVE_FAILED > button.play-btn,
+.button-holder > div.status.LIVE_BUFFERING > button.loading-btn,
+.button-holder > div.status.LIVE_CONNECTING > button.loading-btn,
+.button-holder > div.status.LIVE_RECONNECTING > button.loading-btn,
+.button-holder > div.status.STREAM_GEO_BLOCKED > button.play-btn,
+.button-holder > div.status.STATION_NOT_FOUND > button.play-btn
+{
 	opacity: 1;
 
 	&:focus,
