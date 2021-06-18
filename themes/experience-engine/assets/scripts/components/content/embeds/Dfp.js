@@ -24,7 +24,7 @@ const changeAdhesionAdContainerWidth = (
 	resetAdContainerWidthTimeout = setTimeout(() => {
 		const slotElement = document.getElementById(placeholder);
 		slotElement.style.width = `${newWidthInt}px`;
-		slotElement.style.transition = 'width .4s';
+		slotElement.style.transition = 'all .5s ease-in-out';
 	}, mSecDelay);
 };
 
