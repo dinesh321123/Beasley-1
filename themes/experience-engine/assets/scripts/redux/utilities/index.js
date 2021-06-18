@@ -10,3 +10,4 @@ export { default as clearTargeting } from './screen/clearTargeting';
 export { default as updateCorrelator } from './screen/updateCorrelator';
 export { default as updateInterstitialAdDiv } from './screen/updateInterstitialAdDiv';
 export { default as renderSendToNews } from './screen/renderSendToNews';
+export { default as handleInjectos } from './screen/handleInjectos';
