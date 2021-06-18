@@ -318,18 +318,25 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
-				/*
-				} else if (unitName === 'adhesion') {
-					sizeMapping = googletag
-						.sizeMapping()
-						// does not display on small screens
-						.addSize([0, 0], [])
+			} else if (unitName === 'adhesion') {
+				sizeMapping = googletag
+					.sizeMapping()
+					// does not display on small screens
+					.addSize([0, 0], [])
 
-						// accepts only two sizes
-						.addSize([1350, 0], [[728, 90], [970, 90], 'fluid'])
+					// restrict to smaller ad
+					.addSize([1280, 0], [[728, 90]])
 
-						.build();
-				*/
+					// accepts both sizes
+					.addSize(
+						[1400, 0],
+						[
+							[728, 90],
+							[970, 90],
+						],
+					)
+
+					.build();
 			} else if (unitName === 'right-rail') {
 				sizeMapping = googletag
 					.sizeMapping()
