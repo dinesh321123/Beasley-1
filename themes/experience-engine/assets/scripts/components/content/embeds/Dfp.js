@@ -325,7 +325,7 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// restrict to smaller ad
-					.addSize([1280, 0], [[728, 90]])
+					.addSize([1250, 0], [[728, 90]])
 
 					// accepts both sizes
 					.addSize(
