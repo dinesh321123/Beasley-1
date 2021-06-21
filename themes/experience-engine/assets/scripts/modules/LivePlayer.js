@@ -159,6 +159,10 @@ class LivePlayer extends Component {
 		const isIos = isIOS();
 
 		const volumeControl = isIos ? null : <Volume colors={buttonsFillStyle} />;
+		const adhesionAdControl = isIos ? null : (
+			<PlayerAd className="player-ad" minWidth="1250" style={controlsStyle} />
+		);
+
 		const children = (
 			<ErrorBoundary>
 				{notification}
@@ -222,11 +226,7 @@ class LivePlayer extends Component {
 							{volumeControl}
 						</div>
 					</div>
-					<PlayerAd
-						className="player-ad"
-						minWidth="1250"
-						style={controlsStyle}
-					/>
+					{adhesionAdControl}
 				</div>
 			</ErrorBoundary>
 		);
