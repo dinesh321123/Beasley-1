@@ -243,7 +243,13 @@ class Dfp extends PureComponent {
 	}
 
 	registerSlot() {
-		const { placeholder, unitId, unitName, targeting } = this.props;
+		const {
+			placeholder,
+			unitId,
+			unitName,
+			targeting,
+			shouldMapSizes,
+		} = this.props;
 		const { googletag, bbgiconfig } = window;
 
 		if (!document.getElementById(placeholder)) {
@@ -318,7 +324,7 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
-			} else if (unitName === 'adhesion') {
+			} else if (unitName === 'adhesion' && shouldMapSizes) {
 				sizeMapping = googletag
 					.sizeMapping()
 					// does not display on 0 width
@@ -399,8 +405,11 @@ class Dfp extends PureComponent {
 
 			if (unitName === 'adhesion') {
 				const playerElement = document.getElementById('live-player');
-				// adhesion ads should be showing when screen > 1250
-				if (playerElement && playerElement.offsetWidth > 1250) {
+				// adhesion ads are enabled when screen > window.playerAdThreshold (1250 or 1350)
+				if (
+					playerElement &&
+					playerElement.offsetWidth > window.playerAdThreshold
+				) {
 					slotStat.timeVisible += slotPollMillisecs;
 				}
 			} else if (slotStat.viewPercentage > 50) {
@@ -478,10 +487,12 @@ Dfp.propTypes = {
 	unitId: PropTypes.string.isRequired,
 	unitName: PropTypes.string.isRequired,
 	targeting: PropTypes.arrayOf(PropTypes.array),
+	shouldMapSizes: PropTypes.bool,
 };
 
 Dfp.defaultProps = {
 	targeting: [],
+	shouldMapSizes: true,
 };
 
 Dfp.contextType = IntersectionObserverContext;

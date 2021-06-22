@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isIOS, isAudioAdOnly } from '../library';
+import { isIOS, isSafari, isAudioAdOnly } from '../library';
 
 import {
 	Controls,
@@ -109,6 +109,18 @@ class LivePlayer extends Component {
 		playStation(station);
 	}
 
+	getPlayerAdThreshold() {
+		const windowWidth = window.innerWidth;
+		const playerAdThreshold = windowWidth > 1350 || isSafari() ? 1350 : 1250;
+		// Save To Window For Use In DFP Events
+		window.playerAdThreshold = playerAdThreshold;
+		return playerAdThreshold;
+	}
+
+	getShouldMapSizes(playerAdThreshold) {
+		return playerAdThreshold === 1250;
+	}
+
 	render() {
 		if (!this.container) {
 			return null;
@@ -156,12 +168,11 @@ class LivePlayer extends Component {
 			customColors['--brand-text-color'] ||
 			customColors['--global-theme-secondary'];
 
-		const isIos = isIOS();
+		const playerAdThreshold = this.getPlayerAdThreshold();
+		const shouldMapSizes = this.getShouldMapSizes(playerAdThreshold);
 
+		const isIos = isIOS();
 		const volumeControl = isIos ? null : <Volume colors={buttonsFillStyle} />;
-		const adhesionAdControl = isIos ? null : (
-			<PlayerAd className="player-ad" minWidth="1250" style={controlsStyle} />
-		);
 
 		const children = (
 			<ErrorBoundary>
@@ -226,7 +237,12 @@ class LivePlayer extends Component {
 							{volumeControl}
 						</div>
 					</div>
-					{adhesionAdControl}
+					<PlayerAd
+						className="player-ad"
+						minWidth={playerAdThreshold}
+						style={controlsStyle}
+						shouldMapSizes={shouldMapSizes}
+					/>
 				</div>
 			</ErrorBoundary>
 		);
