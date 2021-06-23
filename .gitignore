@@ -30,6 +30,7 @@ mu-plugins/post-finder/
 !/plugins/amp
 !/plugins/semrush-seo-writing-assistant
 !/plugins/affiliate-marketing-cpt
+!/plugins/cpt-listicle
 !/plugins/sendtonews
 
 themes/index.php

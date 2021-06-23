@@ -1,5 +1,4 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
-import { lyticsTrack } from '../../utilities';
 import { ACTION_RESUME } from '../../actions/player';
 
 /**
@@ -11,7 +10,7 @@ function* yieldResume() {
 	const playerStore = yield select(({ player }) => player);
 
 	// Destructure from playerStore in state
-	const { trackType, cuePoint, player } = playerStore;
+	const { player } = playerStore;
 
 	// If player
 	if (player) {
@@ -23,14 +22,6 @@ function* yieldResume() {
 		} else if (typeof player.resume === 'function') {
 			yield call([player, 'resume']);
 		}
-	}
-
-	if (
-		cuePoint &&
-		trackType === 'podcast' &&
-		typeof lyticsTrack === 'function'
-	) {
-		yield call(lyticsTrack, 'play', cuePoint);
 	}
 }
 
