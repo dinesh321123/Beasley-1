@@ -13,7 +13,7 @@ use SendtoNews\Models\Settings;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.0
+ * @version 1.0.1.1
  */
 class AdminController extends Controller
 {
@@ -64,7 +64,7 @@ class AdminController extends Controller
     /**
      * Display the Settings menu page.
      * @since 0.1.0
-     * 
+     *
      * @global SendtoNews\Main $sendtonews
      */
     public function view_settings()
@@ -180,7 +180,7 @@ class AdminController extends Controller
      * @since 0.1.0
      *
      * @global SendtoNews\Main $sendtonews
-     * 
+     *
      * @return boolean Flag indicating save operation success.
      */
     public function save()

@@ -10,7 +10,7 @@ use WPMVC\MVC\Controller;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.0
+ * @version 1.0.1.1
  */
 class oEmbedController extends Controller
 {
@@ -25,7 +25,7 @@ class oEmbedController extends Controller
         {
             require_once ABSPATH . WPINC . '/embed.php';
         }
-        
+
         // Whitelist STN Video as an oEmbed service.
         wp_oembed_add_provider( '#https?://embed.sendtonews\.com/.*#i', 'https://embed.sendtonews.com/services/oembed', true );
     }
