@@ -13,7 +13,7 @@ use SendtoNews\Models\Settings;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.0
+ * @version 1.0.1.1
  */
 class Main extends Bridge
 {
@@ -21,9 +21,21 @@ class Main extends Bridge
      * Declaration of public WordPress hooks.
      * @since 0.1.0
      * @since 0.1.1 Introduced oEmbed Support.
+     * @since 1.0.1 Suppress undesired calls from triggering the plugin.
      */
     public function init()
     {
+        if (
+            ( defined( 'DOING_CRON' )    && DOING_CRON )    || // Avoid Cron calls.
+            ( defined( 'WP_CLI' )        && WP_CLI )        || // Avoid WP-CLI calls
+            ( defined( 'WP_INSTALLING' ) && WP_INSTALLING ) || // Avoid wp-install calls.
+            ( function_exists( 'wp_doing_cron' ) && wp_doing_cron() ) // Avoid Cron calls.
+        )
+        {
+            // Bail on undesired calls.
+            return;
+        }
+
         // Check for old STN Video oEmbed plugin.
         if ( ! function_exists( 's2n_oembed_provider' ) )
         {
@@ -59,25 +71,18 @@ class Main extends Bridge
      * @since 0.1.1 Use S2N_PLAYER_SELECTOR_BASENAME for plugin_basename.
      * @since 0.4.0 Use API Verification Method.
      * @since 0.9.0 Update API Verification to throttle requests.
+     * @since 1.0.1 Suppress WP-CLI calls from triggering the plugin.
      *
      * @global SendtoNews\Main $sendtonews
      */
     public function on_admin()
     {
         if (
-            ( defined( 'DOING_AJAX' )     && DOING_AJAX )     || // Avoid Ajax calls.
-            ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || // Avoid Autosave calls.
-            ( defined( 'DOING_CRON' )     && DOING_CRON )     || // Avoid Cron calls.
-            ( defined( 'IFRAME_REQUEST' ) && IFRAME_REQUEST ) || // Avoid iFrame calls.
-            ( defined( 'REST_REQUEST' )   && REST_REQUEST )   || // Avoid REST API calls.
-            ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) || // Avoid XML-RPC calls.
-            ( defined( 'WP_INSTALLING' )  && WP_INSTALLING )  || // Avoid wp-install calls.
-            ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) ||
-            ( function_exists( 'wp_doing_cron' ) && wp_doing_cron() ) ||
-            ( function_exists( 'wp_is_json_request' )  && wp_is_json_request() )  ||
-            ( function_exists( 'wp_is_jsonp_request' ) && wp_is_jsonp_request() ) ||
-            ( function_exists( 'wp_is_xml_request' )   && wp_is_xml_request() )   ||
-            ( ! is_user_logged_in() )
+            ( defined( 'DOING_CRON' )    && DOING_CRON )    || // Avoid Cron calls.
+            ( defined( 'WP_CLI' )        && WP_CLI )        || // Avoid WP-CLI calls
+            ( defined( 'WP_INSTALLING' ) && WP_INSTALLING ) || // Avoid wp-install calls.
+            ( function_exists( 'wp_doing_cron' ) && wp_doing_cron() ) || // Avoid Cron calls.
+            ( ! is_user_logged_in() ) // Avoid Non-logged-in calls.
         )
         {
             // Bail on undesired calls.
@@ -87,7 +92,7 @@ class Main extends Bridge
         global $sendtonews;
 
         // Save the settings menu if there's any request information.
-        $sendtonews->{'_c_void_AdminController@save'}();
+        $sendtonews->{ '_c_void_AdminController@save' }();
 
         // Register the 'Settings' menu item for STN Video.
         $this->add_action( 'admin_menu', 'AdminController@menu' );
@@ -96,18 +101,18 @@ class Main extends Bridge
         $this->add_filter( 'plugin_action_links_' . S2N_PLAYER_SELECTOR_BASENAME, 'AdminController@plugin_links' );
 
         // Handle plugin verification.
-        $verified = $sendtonews->{'_c_return_AdminController@verified'}();
+        $verified = $sendtonews->{ '_c_return_AdminController@verified' }();
 
         if ( ! $verified )
         {
             // Check to verify the API authenticaion.
-            $verified = $sendtonews->{'_c_void_AdminController@verify'}();
+            $verified = $sendtonews->{ '_c_void_AdminController@verify' }();
         }
 
         if ( $verified )
         {
             // Plugin version used to register custom scripts.
-            $version = $this->config->get('version');
+            $version = $this->config->get( 'version' );
 
             // Register custom styles.
             $this->add_asset( 'css/oneui.css', false, [], 'all', true, $version, 'sendtonews-oneui' );
