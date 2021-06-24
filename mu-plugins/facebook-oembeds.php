@@ -7,7 +7,7 @@
  *
  */
 
-class RupeshFacebookOEmbed
+class FacebookOEmbed
 {
 
 	public function __construct() {
