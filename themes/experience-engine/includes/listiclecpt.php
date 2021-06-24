@@ -45,7 +45,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 									echo $amItemImageType;
 
 									if( isset( $cpt_item_description[$index] ) && $cpt_item_description[$index] !== "" ) {
-									echo '<div>', $cpt_item_description[$index],'</div>';
+									echo '<div>', apply_filters('the_content', $cpt_item_description[$index]),'</div>';
 								}
 							echo '</div>';
 						echo '</div>';
