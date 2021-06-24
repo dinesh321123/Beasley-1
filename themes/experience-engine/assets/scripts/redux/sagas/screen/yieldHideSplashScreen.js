@@ -1,6 +1,10 @@
 import { call, takeLatest } from 'redux-saga/effects';
 import { ACTION_HIDE_SPLASH_SCREEN } from '../../actions/screen';
-import { renderSendToNews, updateInterstitialAdDiv } from '../../utilities';
+import {
+	renderSendToNews,
+	updateInterstitialAdDiv,
+	handleInjectos,
+} from '../../utilities';
 
 /**
  * Generator runs whenever [ ACTION_HIDE_SPLASH_SCREEN ]
@@ -29,6 +33,7 @@ function* yieldHideSplashScreen(action) {
 		}
 
 		renderSendToNews();
+		handleInjectos();
 	});
 }
 

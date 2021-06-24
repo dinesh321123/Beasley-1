@@ -5,6 +5,7 @@ import {
 	manageBbgiConfig,
 	updateTargeting,
 	renderSendToNews,
+	handleInjectos,
 } from '../../utilities';
 import {
 	ACTION_LOADED_PAGE,
@@ -122,6 +123,8 @@ function* yieldLoadedPage(action) {
 	yield call(updateHistory, url, pageDocument.title);
 
 	yield call(renderSendToNews);
+
+	yield call(handleInjectos);
 }
 
 /**

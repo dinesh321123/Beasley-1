@@ -24,7 +24,7 @@ const changeAdhesionAdContainerWidth = (
 	resetAdContainerWidthTimeout = setTimeout(() => {
 		const slotElement = document.getElementById(placeholder);
 		slotElement.style.width = `${newWidthInt}px`;
-		slotElement.style.transition = 'width .4s';
+		slotElement.style.transition = 'all .5s ease-in-out';
 	}, mSecDelay);
 };
 
@@ -243,7 +243,13 @@ class Dfp extends PureComponent {
 	}
 
 	registerSlot() {
-		const { placeholder, unitId, unitName, targeting } = this.props;
+		const {
+			placeholder,
+			unitId,
+			unitName,
+			targeting,
+			shouldMapSizes,
+		} = this.props;
 		const { googletag, bbgiconfig } = window;
 
 		if (!document.getElementById(placeholder)) {
@@ -318,18 +324,25 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
-				/*
-				} else if (unitName === 'adhesion') {
-					sizeMapping = googletag
-						.sizeMapping()
-						// does not display on small screens
-						.addSize([0, 0], [])
+			} else if (unitName === 'adhesion' && shouldMapSizes) {
+				sizeMapping = googletag
+					.sizeMapping()
+					// does not display on 0 width
+					.addSize([0, 0], [])
 
-						// accepts only two sizes
-						.addSize([1350, 0], [[728, 90], [970, 90], 'fluid'])
+					// Div visibility is controlled in react so always show at small ad when at least 1 pixel wide
+					.addSize([1, 0], [[728, 90]])
 
-						.build();
-				*/
+					// accepts both sizes
+					.addSize(
+						[1400, 0],
+						[
+							[728, 90],
+							[970, 90],
+						],
+					)
+
+					.build();
 			} else if (unitName === 'right-rail') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -392,8 +405,11 @@ class Dfp extends PureComponent {
 
 			if (unitName === 'adhesion') {
 				const playerElement = document.getElementById('live-player');
-				// adhesion ads should be showing when screen > 1350
-				if (playerElement && playerElement.offsetWidth > 1350) {
+				// adhesion ads are enabled when screen > window.playerAdThreshold (1250 or 1350)
+				if (
+					playerElement &&
+					playerElement.offsetWidth > window.playerAdThreshold
+				) {
 					slotStat.timeVisible += slotPollMillisecs;
 				}
 			} else if (slotStat.viewPercentage > 50) {
@@ -471,10 +487,12 @@ Dfp.propTypes = {
 	unitId: PropTypes.string.isRequired,
 	unitName: PropTypes.string.isRequired,
 	targeting: PropTypes.arrayOf(PropTypes.array),
+	shouldMapSizes: PropTypes.bool,
 };
 
 Dfp.defaultProps = {
 	targeting: [],
+	shouldMapSizes: true,
 };
 
 Dfp.contextType = IntersectionObserverContext;

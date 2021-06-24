@@ -7,6 +7,7 @@ class PlayerAd extends PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.getWhetherShouldRender = this.getWhetherShouldRender.bind(this);
 		this.state = { shouldRender: this.getWhetherShouldRender() };
 
 		this.onResize = this.handleResize.bind(this);
@@ -60,6 +61,7 @@ class PlayerAd extends PureComponent {
 	}
 
 	render() {
+		const { shouldMapSizes } = this.props;
 		const { shouldRender } = this.state;
 		if (!shouldRender) {
 			return false;
@@ -79,6 +81,7 @@ class PlayerAd extends PureComponent {
 				placeholder={id}
 				unitId={unitId}
 				unitName={unitName}
+				shouldMapSizes={shouldMapSizes}
 			/>,
 		]);
 	}
@@ -89,12 +92,14 @@ PlayerAd.propTypes = {
 	minWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	style: PropTypes.shape({}),
+	shouldMapSizes: PropTypes.bool,
 };
 
 PlayerAd.defaultProps = {
 	minWidth: 0,
 	maxWidth: 0,
 	style: {},
+	shouldMapSizes: true,
 };
 
 export default PlayerAd;
