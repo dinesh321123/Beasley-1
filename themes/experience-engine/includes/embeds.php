@@ -158,6 +158,10 @@ function ee_responsive_oembed_html( $html, $url, $attr ) {
 		$classes[] = 'twitter';
 	}
 
+	if ( false !== strpos( $url, 'tiktok.com' ) ) {
+		$classes[] = 'tiktok';
+	}
+
 	if ( false !== strpos( $html , 'wp-embedded-content') ) {
 		$classes[] = 'beasley';
 	}
