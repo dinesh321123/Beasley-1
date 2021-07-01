@@ -11,7 +11,7 @@ use SendtoNews\Models\Settings;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.0
+ * @version 1.0.1.1
  */
 class BlockController extends Controller
 {
@@ -27,8 +27,11 @@ class BlockController extends Controller
     	// Main app object
     	global $sendtonews;
 
+        // Get version.
+        $version = $sendtonews->config->get( 'version' );
+
         // Confirm API verification.
-        $verified = $sendtonews->{'_c_return_AdminController@verified'}();
+        $verified = $sendtonews->{ '_c_return_AdminController@verified' }();
 
         // Default Block to unverified version.
         $block_script = S2N_PLAYER_SELECTOR_URL . '/assets/blocks/sendtonews/editorverify.js';
@@ -82,7 +85,7 @@ class BlockController extends Controller
             'sendtonews-block',
             $block_script,
             $block_script_dependencies,
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -114,7 +117,7 @@ class BlockController extends Controller
             'sendtonews-block',
             S2N_PLAYER_SELECTOR_URL . '/assets/blocks/sendtonews/editor.css',
             $block_style_dependencies,
-            $sendtonews->config->get( 'version' )
+            $version
         );
 
         // Register sendtonews block

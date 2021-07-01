@@ -11,7 +11,7 @@ use SendtoNews\Models\Settings;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.0
+ * @version 1.0.1.1
  */
 class ModalController extends Controller
 {
@@ -76,7 +76,7 @@ class ModalController extends Controller
 
         /*********************
          * Localize Custom Scripts
-         * 
+         *
          * Pass parameters to the scripts.
          *********************/
 
