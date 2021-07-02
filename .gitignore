@@ -33,6 +33,7 @@ mu-plugins/post-finder/
 !/plugins/cpt-listicle
 !/plugins/cpt-tag-permissions
 !/plugins/sendtonews
+!/plugins/prebidjs
 
 themes/index.php
 themes/twentyfourteen

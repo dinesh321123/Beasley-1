@@ -1,6 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { IntersectionObserverContext } from '../../../context/intersection-observer';
+// import * as pbjs from '../../../library/prebid5.1.0';
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
@@ -159,11 +160,15 @@ class Dfp extends PureComponent {
 				slotVideoRefreshSecs && slotVideoRefreshSecs >= 30
 					? slotVideoRefreshSecs * 1000
 					: 60000,
+			rubiconZoneID: bbgiconfig.ad_rubicon_zoneid_setting,
+			prebidEnabled: bbgiconfig.prebid_enabled,
 		};
 
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
 		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.refreshSlot = this.refreshSlot.bind(this);
+		this.loadPrebid = this.loadPrebid.bind(this);
+		this.refreshBid = this.refreshBid.bind(this);
 	}
 
 	isConfiguredToRunInterval() {
@@ -242,6 +247,50 @@ class Dfp extends PureComponent {
 		this.setState({ interval: false });
 	}
 
+	loadPrebid(unitID, sizes) {
+		const { prebidEnabled, rubiconZoneID } = this.state;
+		if (!prebidEnabled || !unitID || !sizes || !rubiconZoneID) {
+			return;
+		}
+
+		const pbjs = window.pbjs || {};
+		pbjs.que = pbjs.que || [];
+
+		const prebidSizes = sizes.filter(s => s !== 'fluid');
+
+		const adUnits = [
+			{
+				code: unitID,
+				mediaTypes: {
+					banner: {
+						sizes: prebidSizes,
+					},
+				},
+				bids: [
+					{
+						bidder: 'rubicon',
+						params: {
+							accountId: '18458',
+							siteId: '375130',
+							zoneId: rubiconZoneID,
+							floor: 0,
+						},
+					},
+				],
+			},
+		];
+
+		pbjs.que.push(() => {
+			pbjs.setConfig({
+				debug: 'true',
+				bidderTimeout: 1000,
+				rubicon: { singleRequest: true },
+			});
+
+			pbjs.addAdUnits(adUnits);
+		});
+	}
+
 	registerSlot() {
 		const {
 			placeholder,
@@ -264,6 +313,8 @@ class Dfp extends PureComponent {
 		if (!unitId) {
 			return;
 		}
+
+		this.loadPrebid(unitId, bbgiconfig.dfp.sizes[unitName]);
 
 		googletag.cmd.push(() => {
 			const size = bbgiconfig.dfp.sizes[unitName];
@@ -437,15 +488,49 @@ class Dfp extends PureComponent {
 		}
 	}
 
+	refreshBid(unitId, slot) {
+		const { prebidEnabled } = this.state;
+
+		if (!prebidEnabled) {
+			const { googletag } = window;
+			googletag.cmd.push(() => {
+				googletag.pubads().refresh([slot]);
+			});
+			return; // EXIT FUNCTION
+		}
+
+		const pbjs = window.pbjs || {};
+		pbjs.que = pbjs.que || [];
+
+		pbjs.que.push(() => {
+			const PREBID_TIMEOUT = 2000;
+			const { googletag } = window;
+			pbjs.requestBids({
+				timeout: PREBID_TIMEOUT,
+				adUnitCodes: [unitId],
+				bidsBackHandler: () => {
+					pbjs.setTargetingForGPTAsync([unitId]);
+					googletag.cmd.push(() => {
+						googletag.pubads().refresh([slot]);
+					});
+				},
+			});
+		});
+	}
+
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder, unitName } = this.props;
-		const { slot } = this.state;
+		const { placeholder, unitName, unitId } = this.props;
+		const { slot, rubiconZoneID } = this.state;
 
 		if (slot) {
 			googletag.cmd.push(() => {
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
-				googletag.pubads().refresh([slot]);
+				if (rubiconZoneID) {
+					this.refreshBid(unitId, slot);
+				} else {
+					googletag.pubads().refresh([slot]);
+				}
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.classList.remove('fadeOutAnimation');
 				if (unitName === 'adhesion') {
