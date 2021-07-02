@@ -66,7 +66,13 @@ class TagPermissionsMetaboxes {
 	}
 
 	public static function remove_first_space( $val ){
-		return trim( $val );
+		$val = trim($val);
+		$val = preg_replace( "/\\\+'/", "'", $val );
+ 		$val = preg_replace( '/\\\+"/', '"', $val );
+	 	$val = preg_replace( '/\\\+/', '\\', $val );
+
+		return $val;
+		// return trim( $val );
 	}
 
 	public static function is_tag_available() {
@@ -82,21 +88,24 @@ class TagPermissionsMetaboxes {
 				$new_tags_array_without_first_space = array_map( array( __CLASS__, 'remove_first_space' ), $tags_array );
 				$prior_tags_array_without_first_space = array_map( array( __CLASS__, 'remove_first_space' ), $prior_tags_array );
 
+				// print_r($tags_array);
+				// print_r($prior_tags_array);
 				if( isset( $_POST['activity'] ) && $_POST['activity'] == 'remove' ){
-					if ( ( $key = array_search( $tags_array[0], $prior_tags_array ) ) !== false) {
-						unset($prior_tags_array[$key]);
-						$merge_tag_array = $prior_tags_array;
+					if ( ( $key = array_search( $new_tags_array_without_first_space[0], $prior_tags_array_without_first_space ) ) !== false) {
+						unset($prior_tags_array_without_first_space[$key]);
+						$merge_tag_array = $prior_tags_array_without_first_space;
 					}
 				} else {
 					$merge_tag_array = array_unique( array_merge( $new_tags_array_without_first_space, $prior_tags_array_without_first_space ) );
 				}
+				//print_r($merge_tag_array);
 				$counter = 0;
 				foreach( $merge_tag_array as $tag_name ){
 					if( !empty( $tag_name ) && !ctype_space( $tag_name ) && $tag_name != "" ) {
 						$tag_status = term_exists( $tag_name, 'post_tag' );
 						if( !empty( $tag_status ) ) {
 							$available_tag_array[] = $tag_name;
-							$available_tag_html[] = '<li><button type="button" id="post_tag-check-num-'. $counter .'" class="ntdelbutton" value="'. trim($tag_name) .'"><span class="remove-tag-icon" aria-hidden="true"></span><span class="screen-reader-text">Remove term: '. trim($tag_name) .'</span></button>'. trim($tag_name) .'</li>';
+							$available_tag_html[] = '<li><button type="button" id="post_tag-check-num-'. $counter .'" class="ntdelbutton" value="'. addslashes($tag_name) .'"><span class="remove-tag-icon" aria-hidden="true"></span><span class="screen-reader-text">Remove term: '. trim($tag_name) .'</span></button>'. trim($tag_name) .'</li>';
 							$counter++;
 						} else {
 							$not_available_tag_array[] = $tag_name;
@@ -108,6 +117,7 @@ class TagPermissionsMetaboxes {
 			$output['available_tag_string'] = implode( ",", $available_tag_array );
 			$output['not_available_tag_string'] = $not_available_tag_array;
 		}
+		//print_r($output['available_tag_html']);
 		wp_send_json( $output );
 	}
 
@@ -122,7 +132,7 @@ class TagPermissionsMetaboxes {
 						<div class="ajaxtag hide-if-no-js">
 							<label class="screen-reader-text" for="new-tag-post_tag">Add New Tag</label>
 							<p>
-								<input data-wp-taxonomy="post_tag" type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip ui-autocomplete-input tag-permissions-value" size="16" autocomplete="off" aria-describedby="new-tag-post_tag-desc" value="" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="ui-id-1">
+								<input data-wp-taxonomy="post_tag" type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip ui-autocomplete-input tag-permissions-value" size="16" autocomplete="off" aria-describedby="new-tag-post_tag-desc" value="" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="ui-id-1" onkeypress="return event.keyCode != 13;" />
 							</p>
 							<input type="button" class="tag-permissions-add" value="Add">
 						</div>

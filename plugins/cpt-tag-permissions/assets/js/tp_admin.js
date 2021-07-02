@@ -13,7 +13,7 @@
 			ajaxExecuteToGetTags( tags_data, prior_tags_data, 'get' );
 		});
 		function removeTag(){
-			$(".ntdelbutton").click(function() {	
+			$(".ntdelbutton").click(function() {
 				var tags_data = $(this).val();
 				var prior_tags_data = $( '#tag_permissions_post_tag' ).val();
 				ajaxExecuteToGetTags( tags_data, prior_tags_data, 'remove' );
@@ -56,6 +56,7 @@
 			},
 			error : function(r) {
 				$('#error_msg').prev().append('<div id="errormsg"><p class="error">There was an error. Please reload the page.</p></div>');
+				removeErrorAfterSomeTime();
 			}
 		});
 	}
