@@ -247,23 +247,21 @@ class Dfp extends PureComponent {
 		this.setState({ interval: false });
 	}
 
-	loadPrebid(unitID, sizes) {
+	loadPrebid(unitID, prebidSizes) {
 		const { prebidEnabled, rubiconZoneID } = this.state;
-		if (!prebidEnabled || !unitID || !sizes || !rubiconZoneID) {
+		if (!prebidEnabled || !unitID || !prebidSizes || !rubiconZoneID) {
 			return;
 		}
 
 		const pbjs = window.pbjs || {};
 		pbjs.que = pbjs.que || [];
 
-		const prebidSizes = sizes.filter(s => s !== 'fluid');
-
 		const adUnits = [
 			{
 				code: unitID,
 				mediaTypes: {
 					banner: {
-						sizes: prebidSizes,
+						sizeConfig: prebidSizes,
 					},
 				},
 				bids: [
@@ -314,8 +312,6 @@ class Dfp extends PureComponent {
 			return;
 		}
 
-		this.loadPrebid(unitId, bbgiconfig.dfp.sizes[unitName]);
-
 		googletag.cmd.push(() => {
 			const size = bbgiconfig.dfp.sizes[unitName];
 			const slot = googletag.defineSlot(unitId, size, placeholder);
@@ -329,6 +325,7 @@ class Dfp extends PureComponent {
 			slot.addService(googletag.pubads());
 
 			let sizeMapping = false;
+			let prebidSizeConfig = false;
 			if (unitName === 'top-leaderboard') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -341,6 +338,25 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
 			} else if (unitName === 'in-list') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -352,6 +368,25 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
 			} else if (unitName === 'in-list-gallery') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -364,6 +399,18 @@ class Dfp extends PureComponent {
 					.addSize([320, 0], [[300, 250]])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [[300, 250]],
+					},
+					{
+						minViewPort: [320, 0],
+						sizes: [[300, 250]],
+					},
+				];
 			} else if (unitName === 'bottom-leaderboard') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -375,25 +422,60 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
-			} else if (unitName === 'adhesion' && shouldMapSizes) {
-				sizeMapping = googletag
-					.sizeMapping()
-					// does not display on 0 width
-					.addSize([0, 0], [])
 
-					// Div visibility is controlled in react so always show at small ad when at least 1 pixel wide
-					.addSize([1, 0], [[728, 90]])
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
+			} else if (unitName === 'adhesion') {
+				if (shouldMapSizes) {
+					sizeMapping = googletag
+						.sizeMapping()
+						// does not display on 0 width
+						.addSize([0, 0], [])
 
-					// accepts both sizes
-					.addSize(
-						[1400, 0],
-						[
+						// Div visibility is controlled in react so always show at small ad when at least 1 pixel wide
+						.addSize([1, 0], [[728, 90]])
+
+						// accepts both sizes
+						.addSize(
+							[1400, 0],
+							[
+								[728, 90],
+								[970, 90],
+							],
+						)
+						.build();
+				}
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [1, 0],
+						sizes: [[728, 90]],
+					},
+					{
+						minViewPort: [1400, 0],
+						sizes: [
 							[728, 90],
 							[970, 90],
 						],
-					)
-
-					.build();
+					},
+				];
 			} else if (unitName === 'right-rail') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -410,6 +492,17 @@ class Dfp extends PureComponent {
 					)
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [1060, 0],
+						sizes: [
+							[300, 250],
+							[300, 600],
+						],
+					},
+				];
 			} else if (unitName === 'in-content') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -425,13 +518,25 @@ class Dfp extends PureComponent {
 							[1, 1],
 						],
 					)
-
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[300, 250],
+							[1, 1],
+						],
+					},
+				];
 			}
 
 			if (sizeMapping) {
 				slot.defineSizeMapping(sizeMapping);
 			}
+
+			this.loadPrebid(unitId, prebidSizeConfig);
 
 			for (let i = 0; i < targeting.length; i++) {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
