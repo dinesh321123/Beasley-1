@@ -77,6 +77,10 @@ class NotificationToCloudflare extends \Bbgi\Module
 							'body' => wp_json_encode( $data )
 						)
 					);
+
+			$response_array = 'Cloudflare error: '. json_encode( $response );
+			error_log( $response_array );
+
 			if ( is_wp_error( $response ) ) {
 				// $error_message = $response->get_error_message(); echo "Something went wrong: $error_message";
 				add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
