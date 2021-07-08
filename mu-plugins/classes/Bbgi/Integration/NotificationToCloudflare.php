@@ -87,9 +87,11 @@ class NotificationToCloudflare extends \Bbgi\Module
 					add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
 				}
 				// $response_json = json_decode( $response['body'], true );
-				$response_json = 'Cloudflare response - '.$response['body'];
-				error_log( $response_json );
 			}
+
+			$response_json = 'Cloudflare response - '.$response['body'];
+			error_log( $response_json );
+
 			// $response_json = json_decode( $response['body'], true );
 			// $response_store = 'Page Link: ' . $permalink . ' | URL: ' . $url . ' | Response:'. $response;
 			// update_post_meta( $post_id, '_cloudflare_response_data', $response_store );
