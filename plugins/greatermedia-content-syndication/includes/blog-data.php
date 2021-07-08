@@ -649,10 +649,10 @@ class BlogData {
 				}
 			}
 
-			$get_array_posttype = \Bbgi\Integration\NotificationToFirebase::get_posttype_list();
+			$get_array_posttype = \Bbgi\Integration\NotificationToCloudflare::get_posttype_list();
 			if ( in_array( $post_type, $get_array_posttype ) )
 			{
-				$get_array_posttype = \Bbgi\Integration\NotificationToFirebase::send_notification( $post_id );
+				$get_array_posttype = \Bbgi\Integration\NotificationToCloudflare::send_notification( $post_id );
 				// echo "<pre>", print_r( $get_array_posttype ), "</pre>"; exit;			
 			}
 		}
