@@ -84,8 +84,8 @@ class NotificationToCloudflare extends \Bbgi\Module
 			if ( is_wp_error( $response ) ) {
 				// $error_message = $response->get_error_message(); echo "Something went wrong: $error_message";
 				add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
-				$response_error_message = $response->get_error_message();
-				$response_error = 'Cloudflare response error: '. $response . '' . $response_error_message;
+
+    			$response_error = 'Cloudflare response error: '.json_encode( $response );
 				error_log( $response_error );
 			} else {
 				if( isset( $response['body']['success'] ) && $response['body']['success'] == 'true' ){
@@ -96,7 +96,7 @@ class NotificationToCloudflare extends \Bbgi\Module
 				// $response_json = json_decode( $response['body'], true );
 			}
 
-			$response_json = 'Cloudflare response - '.$response;
+			$response_json = 'Cloudflare response: '. json_encode( $response );
 			error_log( $response_json );
 
 			// $response_json = json_decode( $response['body'], true );
