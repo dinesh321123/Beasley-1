@@ -44,7 +44,7 @@ class NotificationToCloudflare extends \Bbgi\Module
 	 * @return array
 	 */
 	public function get_posttype_list() {
-		return (array) apply_filters( 'notification-to-cloudflare-post-types', array( 'post', 'gmr_gallery', 'show', 'gmr_album', 'tribe_events' )  );
+		return (array) apply_filters( 'notification-to-cloudflare-post-types', array( 'post', 'gmr_gallery', 'show', 'gmr_album', 'tribe_events', 'affiliate_marketing', 'listicle_cpt' )  );
 	}
 
 	/**
