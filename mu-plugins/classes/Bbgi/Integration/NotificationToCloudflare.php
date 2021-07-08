@@ -17,6 +17,8 @@ class NotificationToCloudflare extends \Bbgi\Module
 		add_action('admin_notices', $this( 'show_error_notice' ) );
 		// add_filter( 'notification-to-cloudflare-post-types', array( __CLASS__, 'extend_curration_post_types' ) );
 
+		error_log( 'Cloudflare send notification action' );
+
 		foreach( $this->get_posttype_list() as $post_type ){
 			add_action( 'publish_'.$post_type , $this( 'send_notification' ) );
 		}
@@ -49,21 +51,23 @@ class NotificationToCloudflare extends \Bbgi\Module
 
 	/**
 	 * call this function when publish gallery
-	 * 
+	 *
 	 *  @param $post_id, $post
 	 */
 	public function send_notification( $post_id, $post_type = null ) {
+    	error_log( 'Cloudflare in send notification function.' );
+
 		$zone_id = get_option( 'bbgi_zone_id' );
 
 		if( isset( $zone_id ) && $zone_id != "" ){
 			$permalink = get_permalink( $post_id );
 			$url = get_site_url(
-				null, 
-				'wp-json/experience_engine/v1/page?url='. urlencode_deep($permalink) 
-			); 
+				null,
+				'wp-json/experience_engine/v1/page?url='. urlencode_deep($permalink)
+			);
 			$request_url = 'https://api.cloudflare.com/client/v4/zones/'.$zone_id.'/purge_cache';
 			$data = [ "files" => array( $url ) ];
-			
+
 			$response = wp_remote_post( $request_url, array(
 					'method' => 'POST',
 					'headers' => array(
