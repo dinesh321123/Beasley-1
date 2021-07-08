@@ -781,6 +781,13 @@ class BlogData {
 			}
 
 
+			$get_array_posttype = \Bbgi\Integration\NotificationToCloudflare::get_posttype_list();
+			if ( in_array( $post_type, $get_array_posttype ) )
+			{
+				$get_array_posttype = \Bbgi\Integration\NotificationToCloudflare::send_notification( $post_id );
+				// echo "<pre>", print_r( $get_array_posttype ), "</pre>"; exit;			
+			}
+
 			if ( 'show' == $post_type ) {
 				delete_post_meta( $post_id, 'gmr_featured_post_ids' );
 				delete_post_meta( $post_id, 'gmr_favorite_post_ids' );
