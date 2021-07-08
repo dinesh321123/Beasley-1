@@ -1,0 +1,12 @@
+
+(function($){$.fn.appendMany=function(items){const parent=$(this);for(let item of items){parent.append(item);}};}(jQuery));(function($){$.fn.copyToClipboard=function(text){const button=$(this);if(!button.is('button')){return;}
+button.click(function(event){event.stopPropagation();if(text){copyToClipboard(text,button);}});};function copyToClipboard(text,button){let copyPromise=null;if(navigator.clipboard&&navigator.clipboard.writeText){copyPromise=navigator.clipboard.writeText(decodeURI(text));}
+else{const copyElement=$(`<textarea style="position:fixed">${text}</textarea>`);$("body").append(copyElement);copyElement.attr('readonly','');copyElement.select();if(isiOS()){copyElement[0].setSelectionRange(0,999999);}
+document.execCommand('copy');copyElement.remove();copyPromise=Promise.resolve();}
+copyPromise.then(function(){const tooltip=$(button).tooltip().attr('data-original-title');$(button).tooltip('hide').attr('data-original-title','Copied!').tooltip('show');setTimeout(function(){$(button).tooltip('hide').attr('data-original-title',tooltip);},1500);});}}(jQuery));function isiOS(){return navigator.userAgent.match(/ipad|iphone/i);}
+function setValue(dropdown,dropdownItem){dropdown.attr("value",dropdownItem.attr("value"));const displayValue=dropdownItem.attr("display")||dropdownItem.text()
+const[displayValueArea]=dropdown.find("button .dropdown-display-area");if(displayValueArea){$(displayValueArea).text(displayValue);}
+else{dropdown.children("button").text(displayValue);}}
+(function($){$.fn.dropdown=function(){const result=this.each(function(){const dropdown=$(this);dropdown.find(".dropdown-item").click(function(){const item=$(this);const lastValue=dropdown.attr("value");const newValue=item.attr("value");if(lastValue!==newValue){setValue(dropdown,item);const handler=dropdown.attr("ondropdownchanged");if(handler){(new Function(handler)).call(dropdown[0]);}}});dropdown.find(".dropdown-item").css("cursor","pointer")
+dropdown.find(".dropdown-item:first-child").each(function(){setValue(dropdown,$(this));});});result.value=function(v){if(v){this.each(function(){const dropdown=$(this);const[value]=dropdown.find(`.dropdown-item[value='${v}']`);if(value){setValue(dropdown,$(value));}});}
+else{return this.first().attr("value");}};return result;};}(jQuery));(function($){$.fn.mobileTooltip=function(){$(this).each(function(){const target=$(this);target.tooltip();target.on('touchstart',function(){$(this).tooltip('dispose');});target.on('mousemove',function(){$(this).tooltip();});});};}(jQuery));

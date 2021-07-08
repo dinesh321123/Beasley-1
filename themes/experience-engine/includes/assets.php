@@ -36,6 +36,10 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_register_script( 'iframe-resizer', '//cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.1/iframeResizer.min.js', null, null );
 		wp_script_add_data( 'iframe-resizer', 'async', true );
 
+		// DML Branded Content
+		wp_register_script( 'branded-content-scripts', '//c.go-fet.ch/a/embed.js', null, null, true);
+		wp_script_add_data( 'branded-content-scripts', 'async', true );
+
 		// Triton Player SDK
 		// Documentation: https://userguides.tritondigital.com/spc/tdplay2/
 		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
@@ -44,6 +48,10 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		// Google Tag Manager
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
 		wp_script_add_data( 'googletag', 'async', true );
+
+		if ( function_exists( 'enqueue_prebid_scripts' ) ) {
+			enqueue_prebid_scripts();
+		}
 
 		// TODO: refactor this to use wp_localize_script.
 $bbgiconfig = <<<EOL
@@ -59,6 +67,7 @@ EOL;
 			'googletag',
 			'td-sdk',
 			'iframe-resizer',
+			'branded-content-scripts'
 		);
 
 		wp_enqueue_script( 'ee-app', "{$base}/bundle/app.js", $deps, GREATERMEDIA_VERSION, true );
@@ -87,6 +96,26 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 			$vars['--global-theme-secondary'] = '#282828';
 			$vars['--global-theme-font-primary'] = 'var(--global-white)';
 			$vars['--global-theme-font-secondary'] = '#a5a5a5';
+			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
+		}
+
+		if ( get_option( 'ee_theme_version', '-light' ) == '-light' ) {
+			$vars['--global-black'] = '#000000';
+			$vars['--global-mine-shaft'] = '#333333';
+			$vars['--global-tundora'] = '#444444';
+			$vars['--global-dove-gray'] = '#737373';
+			$vars['--global-silver'] = '#cccbcb';
+			$vars['--global-silver-chalice'] = '#a5a5a5';
+			$vars['--global-mercury'] = '#e5e5e5';
+			$vars['--global-gallery'] = '#f0f0f0';
+			$vars['--global-white'] = '#ffffff';
+			$vars['--global-alabaster'] = '#FCFCFC';
+			$vars['--global-gallery'] = '#EFEFEF';
+
+			$vars['--global-theme-primary'] = '#f1f1f1';
+			$vars['--global-theme-secondary'] = '#fcfcfc';
+			$vars['--global-theme-font-primary'] = 'var(--global-tundora)';
+			$vars['--global-theme-font-secondary'] = 'var(--global-font-primary)';
 			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
 		}
 
@@ -171,6 +200,14 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 		$config = array(
 			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_css_opacities()) ),
 			'geotargetly' => ee_current_page_needs_geotargetly(),
+			'related_article_title' => get_option( 'related_article_title', 'You May Also Like' ),
+			'ad_rotation_enabled' => get_option( 'ad_rotation_enabled', 'on' ),
+			'ad_rotation_polling_sec_setting' => get_option( 'ad_rotation_polling_sec_setting', '5' ),
+			'ad_rotation_refresh_sec_setting' => get_option( 'ad_rotation_refresh_sec_setting', '30' ),
+			'ad_vid_rotation_refresh_sec_setting' => get_option( 'ad_vid_rotation_refresh_sec_setting', '60' ),
+			'vid_ad_html_tag_csv_setting' => get_option( 'vid_ad_html_tag_csv_setting', 'mixpo' ),
+			'ad_rubicon_zoneid_setting' => get_option( 'ad_rubicon_zoneid_setting', '' ),
+			'prebid_enabled' => function_exists( 'enqueue_prebid_scripts' ),
 
 			/** Live Streaming Intervals */
 			'intervals'  => [
@@ -197,6 +234,25 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'<script id="bbgiconfig" type="application/json">%s</script>',
 			json_encode( apply_filters( 'bbgiconfig', $config ) )
 		);
+	}
+endif;
+
+if ( ! function_exists( 'ee_gmr_site_logo' ) ) :
+	function ee_gmr_site_logo() {
+		$custom_logo_id = get_option( 'gmr_site_logo' );
+		if ( $custom_logo_id ) {
+			$image = wp_get_attachment_image_src( $custom_logo_id, 'original' );
+			if ( is_array( $image ) && ! empty( $image ) ) {
+				$config['theme'] = array(
+					'logo' => array(
+						'url'    => $image[0],
+						'width'  => $image[1],
+						'height' => $image[2],
+					),
+				);
+			}
+		}
+		return $config;
 	}
 endif;
 

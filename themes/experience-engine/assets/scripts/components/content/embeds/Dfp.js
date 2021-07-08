@@ -1,75 +1,227 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
 import { IntersectionObserverContext } from '../../../context/intersection-observer';
+// import * as pbjs from '../../../library/prebid5.1.0';
+
+const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
+const interstitialDivID = 'div-gpt-ad-1484200509775-3';
+const playerAdhesionDivID = 'div-gpt-ad-player-0';
+const isNotPlayerOrInterstitial = placeholder => {
+	return (
+		placeholder !== playerSponsorDivID && placeholder !== interstitialDivID
+	);
+};
+
+let resetAdContainerWidthTimeout;
+const changeAdhesionAdContainerWidth = (
+	placeholder,
+	newWidthInt = 1,
+	mSecDelay = 1500,
+) => {
+	if (resetAdContainerWidthTimeout) {
+		clearTimeout(resetAdContainerWidthTimeout);
+	}
+
+	resetAdContainerWidthTimeout = setTimeout(() => {
+		const slotElement = document.getElementById(placeholder);
+		slotElement.style.width = `${newWidthInt}px`;
+		slotElement.style.transition = 'all .5s ease-in-out';
+	}, mSecDelay);
+};
+
+const getSlotStatsCollectionObject = () => {
+	let { slotStatsObject } = window;
+	if (!slotStatsObject) {
+		window.slotStatsObject = {};
+		slotStatsObject = window.slotStatsObject;
+	}
+	return slotStatsObject;
+};
+
+const getSlotStat = placeholder => {
+	if (!placeholder) {
+		throw Error('NULL Slot ID Param in getSlotStat()');
+	}
+
+	const slotStatsObject = getSlotStatsCollectionObject();
+	if (typeof slotStatsObject[placeholder] === 'undefined') {
+		slotStatsObject[placeholder] = {
+			viewPercentage: 0,
+			timeVisible: 0,
+			isVideo: false,
+		};
+	}
+
+	return slotStatsObject[placeholder];
+};
+
+const impressionViewableHandler = event => {
+	const { slot } = event;
+	const placeholder = slot.getSlotElementId();
+	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+		getSlotStat(placeholder).viewPercentage = 100;
+	}
+};
+
+const slotVisibilityChangedHandler = event => {
+	const { slot } = event;
+	const placeholder = slot.getSlotElementId();
+	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+		getSlotStat(placeholder).viewPercentage =
+			typeof event.inViewPercentage === 'undefined'
+				? 100
+				: event.inViewPercentage;
+	}
+};
+
+const slotRenderEndedHandler = event => {
+	const { slot, isEmpty, size } = event;
+	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
+		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
+		: null;
+
+	const placeholder = slot.getSlotElementId();
+	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+		const slotElement = document.getElementById(placeholder);
+		if (isEmpty) {
+			// If Slot Is Visible
+			if (slotElement.offsetParent !== null) {
+				// Trick Slot to pull new Ad on next poll.
+				// Set Visible Time To Huge Arbitrary MSec Value So That Next Poll Will Trigger A Refresh
+				// NOTE: Minimum Poll Interval Is Set In DFP Constructor To Be Much Longer Than
+				// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
+				getSlotStat(placeholder).timeVisible = 10000000;
+			}
+		} else {
+			// Adjust Container Div Height
+			if (size && size[0] && size[1]) {
+				const imageWidth = size[0];
+				const imageHeight = size[1];
+				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
+				const padBottom =
+					padBottomStr.indexOf('px') > -1
+						? padBottomStr.replace('px', '')
+						: '0';
+				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
+				// Adjust Width Of Adhesion Ad
+				if (placeholder === playerAdhesionDivID) {
+					changeAdhesionAdContainerWidth(placeholder, imageWidth, 1);
+				}
+			}
+
+			if (placeholder !== playerAdhesionDivID) {
+				slotElement.classList.add('fadeInAnimation');
+			}
+			slotElement.style.opacity = '1';
+			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
+			const slotHTML = slot.getHtml();
+			let isVideo = false;
+			if (slotHTML && htmlVidTagArray) {
+				htmlVidTagArray.forEach(tag => {
+					isVideo = isVideo || slotHTML.indexOf(tag) > -1;
+				});
+			}
+			getSlotStat(placeholder).isVideo = isVideo;
+		}
+	}
+};
 
 class Dfp extends PureComponent {
 	constructor(props) {
+		const { bbgiconfig } = window;
 		super(props);
 
+		const slotPollSecs = parseInt(
+			bbgiconfig.ad_rotation_polling_sec_setting,
+			10,
+		);
+		const slotRefreshSecs = parseInt(
+			bbgiconfig.ad_rotation_refresh_sec_setting,
+			10,
+		);
+		const slotVideoRefreshSecs = parseInt(
+			bbgiconfig.ad_vid_rotation_refresh_sec_setting,
+			10,
+		);
+
+		// Initialize State. NOTE: Ensure that Minimum Poll Intervavl Is Much Longer Than
+		// 	Round Trip to Ad Server. Initially we enforce 5 second minimum.
 		this.state = {
 			slot: false,
 			interval: false,
+			isRotateAdsEnabled: bbgiconfig.ad_rotation_enabled !== 'off',
+			slotPollMillisecs:
+				slotPollSecs && slotPollSecs >= 5 ? slotPollSecs * 1000 : 5000,
+			slotRefreshMillisecs:
+				slotRefreshSecs && slotRefreshSecs >= 15
+					? slotRefreshSecs * 1000
+					: 30000,
+			slotVideoRefreshMillisecs:
+				slotVideoRefreshSecs && slotVideoRefreshSecs >= 30
+					? slotVideoRefreshSecs * 1000
+					: 60000,
+			rubiconZoneID: bbgiconfig.ad_rubicon_zoneid_setting,
+			prebidEnabled: bbgiconfig.prebid_enabled,
 		};
 
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
+		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.refreshSlot = this.refreshSlot.bind(this);
+		this.loadPrebid = this.loadPrebid.bind(this);
+		this.refreshBid = this.refreshBid.bind(this);
+	}
+
+	isConfiguredToRunInterval() {
+		const { placeholder, unitName } = this.props;
+		const { isRotateAdsEnabled } = this.state;
+
+		return (
+			unitName === 'right-rail' ||
+			(isRotateAdsEnabled && isNotPlayerOrInterstitial(placeholder))
+		);
 	}
 
 	componentDidMount() {
+		const { googletag } = window;
 		const { placeholder } = this.props;
 
 		this.container = document.getElementById(placeholder);
 		this.tryDisplaySlot();
 
-		if (this.props.unitName === 'right-rail') {
+		if (this.isConfiguredToRunInterval()) {
 			this.startInterval();
 			document.addEventListener('visibilitychange', this.onVisibilityChange);
 		}
 
-		// Fire sponsored ad utility to determine if
-		// a sponsor ad will in fact load in the player
-		this.maybeLoadedPlayerSponsorAd();
-	}
+		// If Ad Blocker is enabled googletag will be absent
+		if (!googletag) {
+			throw Error(`NO googletag FOUND IN DFP COMPONENT DID MOUNT`);
+			// return;
+		}
 
-	/**
-	 * @function maybeLoadedPlayerSponsorAd
-	 * This is a small utility that listens for the specific
-	 * sponsor ad slot in the player element. Due to the fixed
-	 * CSS nature of the interface, when a Player Sponsor loads
-	 * the height of certain elements (ie. nav and signin) needs
-	 * to be adjusted dynamically. This utility can help add to the
-	 * body to enable accurate CSS settings.
-	 */
-	maybeLoadedPlayerSponsorAd() {
-		// Make sure that googletag.cmd exists.
-		window.googletag = window.googletag || {};
-		window.googletag.cmd = window.googletag.cmd || [];
-
-		// Don't assume readiness, instead, push to queue
-		window.googletag.cmd.push(() => {
-			// listen for ad slot loading
-			window.googletag.pubads().addEventListener('slotOnload', event => {
-				// get current loaded slot id
-				const idLoaded = event.slot.getSlotElementId();
-
-				// compare against sponsor slot id
-				// this value is fixed and can be found in
-				// /assets/scripts/components/player/Sponsor.js
-				if (idLoaded === 'div-gpt-ad-1487117572008-0') {
-					// Add class to body
-					document
-						.getElementsByTagName('body')[0]
-						.classList.add('station-has-sponsor');
-				}
+		if (!window.addedSlotListeners) {
+			window.addedSlotListeners = true;
+			googletag.cmd.push(() => {
+				googletag
+					.pubads()
+					.addEventListener('impressionViewable', impressionViewableHandler);
+				googletag
+					.pubads()
+					.addEventListener(
+						'slotVisibilityChanged',
+						slotVisibilityChangedHandler,
+					);
+				googletag
+					.pubads()
+					.addEventListener('slotRenderEnded', slotRenderEndedHandler);
 			});
-		});
+		}
 	}
 
 	componentWillUnmount() {
 		this.destroySlot();
 
-		if (this.props.unitName === 'right-rail') {
+		if (this.isConfiguredToRunInterval()) {
 			this.stopInterval();
 			document.removeEventListener('visibilitychange', this.onVisibilityChange);
 		}
@@ -84,8 +236,9 @@ class Dfp extends PureComponent {
 	}
 
 	startInterval() {
+		const { slotPollMillisecs } = this.state;
 		this.setState({
-			interval: setInterval(this.refreshSlot, 20000), // 20 sec
+			interval: setInterval(this.updateSlotVisibleTimeStat, slotPollMillisecs),
 		});
 	}
 
@@ -94,8 +247,56 @@ class Dfp extends PureComponent {
 		this.setState({ interval: false });
 	}
 
+	loadPrebid(unitID, prebidSizes) {
+		const { prebidEnabled, rubiconZoneID } = this.state;
+		if (!prebidEnabled || !unitID || !prebidSizes || !rubiconZoneID) {
+			return;
+		}
+
+		const pbjs = window.pbjs || {};
+		pbjs.que = pbjs.que || [];
+
+		const adUnits = [
+			{
+				code: unitID,
+				mediaTypes: {
+					banner: {
+						sizeConfig: prebidSizes,
+					},
+				},
+				bids: [
+					{
+						bidder: 'rubicon',
+						params: {
+							accountId: '18458',
+							siteId: '375130',
+							zoneId: rubiconZoneID,
+							floor: 0,
+						},
+					},
+				],
+			},
+		];
+
+		pbjs.que.push(() => {
+			pbjs.setConfig({
+				debug: 'true',
+				bidderTimeout: 1000,
+				rubicon: { singleRequest: true },
+			});
+
+			pbjs.addAdUnits(adUnits);
+		});
+	}
+
 	registerSlot() {
-		const { placeholder, unitId, unitName, targeting } = this.props;
+		const {
+			placeholder,
+			unitId,
+			unitName,
+			targeting,
+			shouldMapSizes,
+		} = this.props;
 		const { googletag, bbgiconfig } = window;
 
 		if (!document.getElementById(placeholder)) {
@@ -124,6 +325,7 @@ class Dfp extends PureComponent {
 			slot.addService(googletag.pubads());
 
 			let sizeMapping = false;
+			let prebidSizeConfig = false;
 			if (unitName === 'top-leaderboard') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -136,6 +338,25 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
 			} else if (unitName === 'in-list') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -147,6 +368,25 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
 			} else if (unitName === 'in-list-gallery') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -159,6 +399,18 @@ class Dfp extends PureComponent {
 					.addSize([320, 0], [[300, 250]])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [[300, 250]],
+					},
+					{
+						minViewPort: [320, 0],
+						sizes: [[300, 250]],
+					},
+				];
 			} else if (unitName === 'bottom-leaderboard') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -170,6 +422,60 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
+			} else if (unitName === 'adhesion') {
+				if (shouldMapSizes) {
+					sizeMapping = googletag
+						.sizeMapping()
+						// does not display on 0 width
+						.addSize([0, 0], [])
+
+						// Div visibility is controlled in react so always show at small ad when at least 1 pixel wide
+						.addSize([1, 0], [[728, 90]])
+
+						// accepts both sizes
+						.addSize(
+							[1400, 0],
+							[
+								[728, 90],
+								[970, 90],
+							],
+						)
+						.build();
+				}
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [1, 0],
+						sizes: [[728, 90]],
+					},
+					{
+						minViewPort: [1400, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+						],
+					},
+				];
 			} else if (unitName === 'right-rail') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -186,6 +492,17 @@ class Dfp extends PureComponent {
 					)
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [1060, 0],
+						sizes: [
+							[300, 250],
+							[300, 600],
+						],
+					},
+				];
 			} else if (unitName === 'in-content') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -201,40 +518,142 @@ class Dfp extends PureComponent {
 							[1, 1],
 						],
 					)
-
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[300, 250],
+							[1, 1],
+						],
+					},
+				];
 			}
 
 			if (sizeMapping) {
 				slot.defineSizeMapping(sizeMapping);
 			}
 
+			this.loadPrebid(unitId, prebidSizeConfig);
+
 			for (let i = 0; i < targeting.length; i++) {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
 			}
 
-			// MFP 09/17/2020 - Added a refresh() that fires as last embed of first content block.
-			//                - Calls to display should not be required.
-			// googletag.display(slot);
 			this.setState({ slot });
-
 			return true;
 		});
 	}
 
-	refreshSlot() {
-		const { slot } = this.state;
-		const { googletag } = window;
+	updateSlotVisibleTimeStat() {
+		const { placeholder, unitName } = this.props;
+		const {
+			slot,
+			slotPollMillisecs,
+			slotRefreshMillisecs,
+			slotVideoRefreshMillisecs,
+		} = this.state;
 
 		if (slot) {
-			googletag.pubads().refresh([slot]);
+			const slotStat = getSlotStat(placeholder);
+
+			if (unitName === 'adhesion') {
+				const playerElement = document.getElementById('live-player');
+				// adhesion ads are enabled when screen > window.playerAdThreshold (1250 or 1350)
+				if (
+					playerElement &&
+					playerElement.offsetWidth > window.playerAdThreshold
+				) {
+					slotStat.timeVisible += slotPollMillisecs;
+				}
+			} else if (slotStat.viewPercentage > 50) {
+				slotStat.timeVisible += slotPollMillisecs;
+			}
+
+			const msecThreshold =
+				slotStat.isVideo === true
+					? slotVideoRefreshMillisecs
+					: slotRefreshMillisecs;
+			if (slotStat.timeVisible >= msecThreshold) {
+				const placeholderElement = document.getElementById(placeholder);
+				if (placeholderElement.style.opacity === '1') {
+					const placeholderClasslist = placeholderElement.classList;
+					placeholderClasslist.remove('fadeInAnimation');
+					placeholderClasslist.remove('fadeOutAnimation');
+					if (unitName !== 'adhesion') {
+						placeholderClasslist.add('fadeOutAnimation');
+					}
+				}
+				setTimeout(() => {
+					this.refreshSlot();
+				}, 100);
+			}
+		}
+	}
+
+	refreshBid(unitId, slot) {
+		const { prebidEnabled } = this.state;
+
+		if (!prebidEnabled) {
+			const { googletag } = window;
+			googletag.cmd.push(() => {
+				googletag.pubads().refresh([slot]);
+			});
+			return; // EXIT FUNCTION
+		}
+
+		const pbjs = window.pbjs || {};
+		pbjs.que = pbjs.que || [];
+
+		pbjs.que.push(() => {
+			const PREBID_TIMEOUT = 2000;
+			const { googletag } = window;
+			pbjs.requestBids({
+				timeout: PREBID_TIMEOUT,
+				adUnitCodes: [unitId],
+				bidsBackHandler: () => {
+					pbjs.setTargetingForGPTAsync([unitId]);
+					googletag.cmd.push(() => {
+						googletag.pubads().refresh([slot]);
+					});
+				},
+			});
+		});
+	}
+
+	refreshSlot() {
+		const { googletag } = window;
+		const { placeholder, unitName, unitId } = this.props;
+		const { slot, rubiconZoneID } = this.state;
+
+		if (slot) {
+			googletag.cmd.push(() => {
+				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
+				if (rubiconZoneID) {
+					this.refreshBid(unitId, slot);
+				} else {
+					googletag.pubads().refresh([slot]);
+				}
+				const placeholderElement = document.getElementById(placeholder);
+				placeholderElement.classList.remove('fadeOutAnimation');
+				if (unitName === 'adhesion') {
+					changeAdhesionAdContainerWidth(placeholder, 1, 2000);
+				} else {
+					placeholderElement.style.opacity = '0';
+				}
+			});
 		}
 	}
 
 	destroySlot() {
+		const { placeholder } = this.props;
 		const { slot } = this.state;
 		if (slot) {
 			const { googletag } = window;
+			// Remove Slot Stat Property
+			delete getSlotStatsCollectionObject()[placeholder];
 
 			if (googletag && googletag.destroySlots) {
 				googletag.destroySlots([slot]);
@@ -258,10 +677,12 @@ Dfp.propTypes = {
 	unitId: PropTypes.string.isRequired,
 	unitName: PropTypes.string.isRequired,
 	targeting: PropTypes.arrayOf(PropTypes.array),
+	shouldMapSizes: PropTypes.bool,
 };
 
 Dfp.defaultProps = {
 	targeting: [],
+	shouldMapSizes: true,
 };
 
 Dfp.contextType = IntersectionObserverContext;

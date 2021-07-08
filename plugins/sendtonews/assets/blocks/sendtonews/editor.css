@@ -1,0 +1,120 @@
+/**
+ * Gutenberg block type.
+ * STN Video block for gutenberg.
+ *
+ * @author STN Video
+ * @copyright STN Video <https://www.stnvideo.com>
+ * @package SendtoNews
+ * @version 1.0.1.1
+ */
+.editor-styles-wrapper .wp-block .wp-block-sendtonews-sendtonews {
+    background-color: #eee;
+    padding: 20px 5px;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    color: #999;
+    cursor: pointer;
+}
+
+.editor-styles-wrapper .wp-block .wp-block-sendtonews-playerselector-intro,
+.editor-styles-wrapper .wp-block .wp-block-sendtonews-playerselector-input-description,
+.editor-styles-wrapper .wp-block .notice {
+    margin: 5px 0 !important;
+}
+.editor-styles-wrapper .wp-block h4.wp-block-sendtonews-playerselector-playername {
+    font-size: 20px;
+    margin: 0.5em 0;
+}
+.editor-styles-wrapper .wp-block .wp-block-sendtonews-playerselector-player-notice-text {
+	font-size: 16px;
+	margin: 0.5em 0;
+}
+.editor-styles-wrapper .wp-block .s2n-player-sample-video {
+    width: 100%;
+    display: block;
+}
+
+.editor-styles-wrapper .wp-block label {
+    font-weight: 500 !important;
+}
+
+.editor-styles-wrapper select {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
+.editor-styles-wrapper .wp-block a.components-button.is-primary {
+    color: #FFF;
+}
+
+.components-input-control__label {
+    font-weight: 400 !important;
+}
+
+.insert-player-key-type {
+    padding: 10px;
+    font-weight: 500;
+    font-size: 1.3em;
+    background-color: #0c3558;
+    border: 0;
+    border-radius: 5px;
+    color: white;
+}
+
+.insert-player-key-type-smartmatch {
+    background-color: #5c9cd4;
+    height: 15px;
+    line-height: 15px;
+    border-radius: 0 3px 3px 0;
+    opacity: 0.65;
+    padding: 10px 10px;
+    font-weight: 500;
+    font-size: 1.3em;
+    color: white;
+}
+
+.insert-player-key-type-smartmatch:disabled {
+    background-color: #12538b;
+    height: 15px;
+    line-height: 15px;
+    border-radius: 0 3px 3px 0;
+    opacity: 0.65;
+    padding: 10px 10px;
+    font-weight: 500;
+    font-size: 1.3em;
+    color: white;
+}
+
+.insert-player-key-type-smartmatch:disabled:hover {
+    background-color: #08345c;
+    height: 15px;
+    line-height: 15px;
+    border-radius: 0 3px 3px 0;
+    padding: 10px 10px;
+    font-weight: 500;
+    font-size: 1.3em;
+    color: white;
+}
+
+.media-frame-content {
+    bottom: 0;
+    overflow-x: hidden;
+}
+
+.sendtonews-smartmatch .hide-toolbar {
+    background-color: #08345c;
+    height: 100%;
+}
+
+.sendtonews-content {
+    background: #fff;
+}
+
+.s2n-player-sample .video {
+    width: 100%;
+}
+
+.s2n-player-sample-image {
+    width: 100%;
+}

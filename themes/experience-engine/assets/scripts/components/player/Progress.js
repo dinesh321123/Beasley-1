@@ -50,7 +50,15 @@ class Progress extends PureComponent {
 
 		return (
 			<div className={`controls-progress ${className}`} style={colors}>
-				<span className="time -desktop">{Progress.format(time)}</span>
+				<span
+					className={
+						time && time > 3599
+							? 'time -desktop6digits'
+							: 'time -desktop4digits'
+					}
+				>
+					{Progress.format(time)}
+				</span>
 				<div className="ee-range-input -progress">
 					<input
 						type="range"
@@ -64,7 +72,15 @@ class Progress extends PureComponent {
 						style={{ width: `${(100 * time) / duration}%` }}
 					/>
 				</div>
-				<span className="time -desktop">{Progress.format(duration)}</span>
+				<span
+					className={
+						duration && duration > 3599
+							? 'time -desktop6digits'
+							: 'time -desktop4digits'
+					}
+				>
+					{Progress.format(duration)}
+				</span>
 			</div>
 		);
 	}

@@ -44,6 +44,39 @@ if ( ! function_exists( 'ee_the_date' ) ) :
 	}
 endif;
 
+if (! function_exists( 'ee_older_than_2019' ) ) :
+	function ee_older_than_2019( $post = null ) {
+		$post = get_post( $post );
+		return strtotime($post->post_date_gmt) < strtotime('1/1/2019');
+	}
+endif;
+
+if (! function_exists( 'ee_category_exists' ) ) :
+	function ee_category_exists( $post = null ) {
+		$allowedCategorySetting =  get_option( 'stn_categories', '' );
+
+		if ( ! $allowedCategorySetting ) {
+			return true;
+		}
+
+		$allowedCategories = explode( ',', $allowedCategorySetting );
+
+		$post = get_post( $post );
+		$category_match = false;
+
+		$categories = get_the_category( $post );
+
+		foreach ( $categories as $category ) {
+			if  ( in_array( $category->slug, $allowedCategories ) ) {
+				$category_match = true;
+				break;
+			}
+		}
+
+		return $category_match;
+	}
+endif;
+
 if ( ! function_exists( 'ee_the_query_tiles' ) ) :
 	function ee_the_query_tiles( $query, $carousel = false ) {
 		while ( $query->have_posts() ) {

@@ -172,6 +172,16 @@ function getHubspotFormParams(element) {
 	};
 }
 
+function getStnEmbedParams(element) {
+	const { dataset } = element;
+
+	return {
+		fk: dataset.fk,
+		cid: dataset.cid,
+		videokey: dataset.key,
+	};
+}
+
 function processEmbeds(container, type, selector, callback) {
 	const embeds = [];
 
@@ -258,6 +268,7 @@ export function getStateFromContent(container) {
 					'height',
 					'alt',
 					'tracking',
+					'referrer',
 					'attribution',
 					'autoheight',
 				),
@@ -361,6 +372,14 @@ export function getStateFromContent(container) {
 				'hubspotform',
 				'.hsform',
 				getHubspotFormParams,
+			),
+			...processEmbeds(container, 'stnbarker', '.stnbarker', getStnEmbedParams),
+			...processEmbeds(container, 'stnplayer', '.stnplayer', getStnEmbedParams),
+			...processEmbeds(
+				container,
+				'dmlbranded',
+				'.dmlbranded',
+				getDatasetParams('stackid', 'layout'),
 			),
 		];
 

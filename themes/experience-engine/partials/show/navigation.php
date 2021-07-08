@@ -20,6 +20,8 @@ endif;
 			<?php \GreaterMedia\Shows\article_link_html( $show->ID ); ?>
 			<?php \GreaterMedia\Shows\podcasts_link_html( $show->ID ); ?>
 			<?php \GreaterMedia\Shows\galleries_link_html( $show->ID ); ?>
+			<?php \GreaterMedia\Shows\listiclecpt_link_html( $show->ID ); ?>
+			<?php \GreaterMedia\Shows\affiliate_marketing_link_html( $show->ID ); ?>
 			<?php \GreaterMedia\Shows\videos_link_html( $show->ID ); ?>
 		</ul><?php
 	endif;

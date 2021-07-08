@@ -25,14 +25,17 @@ class Shortcodes extends \Bbgi\Module {
 		add_shortcode( 'livefyre-poll', $suppress );
 		add_shortcode( 'livefyre-app', $suppress );
 
+		add_shortcode( 'sendtonews', $this( 'handle_sendtonews_shortcode') );
 		add_shortcode( 'iframe', $this( 'handle_iframe_shortcode' ) );
 		add_shortcode( 'bbgi-contest', $this( 'handle_national_contest_shortcode' ) );
 		add_shortcode( 'inlink', $this( 'handle_inlink_shortcode' ) );
+		add_shortcode( 'injecto', $this( 'handle_injecto_shortcode' ) );
 	}
 
 	public function suppress_shortcode( $atts, $content = null ) {
 		return $content;
 	}
+
 
 	public function get_inlink_url( $syndication_old_name ) {
 		$url = '';
@@ -66,6 +69,15 @@ class Shortcodes extends \Bbgi\Module {
 		return $url;
 	}
 
+	public function handle_sendtonews_shortcode( $atts ) {
+		$atts = shortcode_atts( array(
+				'key'	=> '',
+				'type'	=> 'float'
+		), $atts, 'sendtonews' );
+
+		$stn_cid = get_option( 'stn_cid', '' );
+		return sprintf( '<div class="stnplayer" data-key="%s" data-cid="%s"></div>', $atts['key'], $stn_cid );
+	}
 
 	public function handle_inlink_shortcode( $atts ) {
 
@@ -96,6 +108,28 @@ class Shortcodes extends \Bbgi\Module {
 		return $result;
 	}
 
+	public function handle_injecto_shortcode( $atts, $content ) {
+
+		$atts = shortcode_atts( array(
+				'target'	=> '',
+				'placement' => 'before'
+		), $atts, 'injecto');
+
+		$validPlacementRegions = array( 'before', 'inside', 'after' );
+
+		$placement = in_array( $atts['placement'], $validPlacementRegions ) ? $atts['placement'] : 'inside';
+		$uniqueid = wp_unique_id( 'injecto' );
+
+		$result = '';
+
+		if ($atts['target']) {
+			$result = sprintf('<div id="%s" class="injecto" style="display: none;" data-placement="%s" data-target="%s">%s</div>',
+					$uniqueid, $placement, $atts['target'], $content);
+		}
+
+		return $result;
+	}
+
 	public function handle_iframe_shortcode( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			'src'       => '',
@@ -116,7 +150,8 @@ class Shortcodes extends \Bbgi\Module {
 
 		ob_start();
 
-		?><div id="iframe-<?php echo esc_attr( $uniqid ); ?>" class="intrinsic-container <?php echo sanitize_html_class( $class ); ?> iframe-embed" <?php echo $style; ?>>
+
+		?><div id="iframe-<?php echo esc_attr( $uniqid ); ?>" class="intrinsic-container contentiframe <?php echo sanitize_html_class( $class ); ?> iframe-embed" <?php echo $style; ?>>
 			<iframe frameborder="0" src="<?php echo esc_attr( $atts['src'] ) ?>" scrolling="<?php echo esc_attr( $atts['scrolling'] ) ?>" seamless="seamless"<?php echo $style; ?>></iframe>
 		</div><?php
 

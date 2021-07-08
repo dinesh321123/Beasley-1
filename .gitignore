@@ -20,7 +20,6 @@ mu-plugins/post-finder/
 !/plugins/edit-flow-hotfixes/
 !/plugins/feed-pull/
 !/plugins/feed-pull-mrss/
-!/plugins/getty-images/
 !/plugins/gmr-*
 !/plugins/greatermedia-*
 !/plugins/gravityforms/
@@ -28,6 +27,13 @@ mu-plugins/post-finder/
 !/plugins/configure-smtp/
 !/plugins/embedly
 !/plugins/wp-parsely
+!/plugins/amp
+!/plugins/semrush-seo-writing-assistant
+!/plugins/affiliate-marketing-cpt
+!/plugins/cpt-listicle
+!/plugins/cpt-tag-permissions
+!/plugins/sendtonews
+!/plugins/prebidjs
 
 themes/index.php
 themes/twentyfourteen
@@ -49,3 +55,4 @@ themes/**/css/*.css
 themes/**/js/*.js
 themes/greatermedia/vendor/
 /themes/experience-engine/bundle/
+/wpmvc/

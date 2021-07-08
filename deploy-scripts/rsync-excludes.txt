@@ -26,9 +26,13 @@ readme.txt
 *phpcs.xml
 *.editorconfig
 .composer-cache
+.nvmrc
 
 # Specific to wp-content based delpoys
 uploads
 upgrade
 
 /themes/.version.php
+
+# Sendtonews plugin generates this folder in wp-content, don't delete it
+/wpmvc

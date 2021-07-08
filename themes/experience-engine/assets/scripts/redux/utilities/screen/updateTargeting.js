@@ -1,4 +1,5 @@
 import updateInterstitialAdDiv from './updateInterstitialAdDiv';
+import refreshAllAds from './refreshAllAds';
 
 export default function updateTargeting() {
 	const { googletag } = window;
@@ -11,7 +12,8 @@ export default function updateTargeting() {
 				for (let i = 0, pairs = dfp.global; i < pairs.length; i++) {
 					googletag.pubads().setTargeting(pairs[i][0], pairs[i][1]);
 				}
-				googletag.pubads().refresh(); // Refresh ALL Slots
+				// googletag.pubads().refresh(); // Refresh ALL Slots
+				refreshAllAds();
 			}
 		});
 	}

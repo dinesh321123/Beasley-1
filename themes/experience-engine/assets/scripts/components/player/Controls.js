@@ -11,9 +11,10 @@ function Controls({
 	isIos,
 	progressClass,
 }) {
+	// TODO - IOS Special Style was removed from controls.css. Remove osClass once it is determined that we will never need OS Specific logic again.
 	const osClass = isIos ? '-is-ios' : '';
 	return (
-		<div className={`status ${status} ${osClass} ${progressClass}`}>
+		<div className={`status ${status} ${osClass}`}>
 			<button
 				type="button"
 				className="play-btn"

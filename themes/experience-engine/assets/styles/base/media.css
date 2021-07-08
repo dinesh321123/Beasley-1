@@ -2,7 +2,7 @@
  * <div class="responsive-media">
  * See: includes/embeds.php
 */
-.responsive-media:not(.twitter):not(.instagram):not(.beasley) {
+.responsive-media:not(.twitter):not(.instagram):not(.beasley):not(.tiktok) {
 	height: 0;
 	max-width: 100%;
 	overflow: hidden;
@@ -28,6 +28,7 @@
 }
 
 .responsive-media.twitter,
+.responsive-media.tiktok,
 .responsive-media.instagram,
 .responsive-media.beasley {
 
@@ -39,3 +40,5 @@
 		width: 100% !important;
 	}
 }
+
+

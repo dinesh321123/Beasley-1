@@ -30,7 +30,13 @@ function* yieldStop() {
 	// If tdplayer
 	if (playerType === 'tdplayer') {
 		player.stop();
-		player.skipAd();
+
+		// Do NOT call skipAd() while playing audio preroll. It will trigger yieldAdPlaybackComplete which will then play stream...
+		// player.skipAd();
+
+		// After numerous stops, the current Triton API seems to not always stop() well while playing audio prerolls.
+		// Call one more stop() for good measure.
+		player.stop();
 	}
 }
 

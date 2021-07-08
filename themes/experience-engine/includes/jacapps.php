@@ -34,6 +34,7 @@ if ( ! function_exists( 'ee_setup_jacapps' ) ) :
 		add_filter( 'secondstreetsignup_html', 'ee_update_jacapps_secondstreetsignup_html', 10, 2 );
 		add_filter( 'mapbox_html', 'ee_update_jacapps_mapbox_html', 10, 2 );
 		add_filter( 'hubspotform_html', 'ee_update_jacapps_hubspotform_html', 10, 2 );
+		add_filter( 'dml-branded_html', 'ee_update_jacapps_dml_branded_content', 10, 2);
 
 		remove_filter( 'omny_embed_html', 'ee_update_omny_embed' );
 	}
@@ -72,6 +73,7 @@ EOL;
 		wp_dequeue_script( 'ee-app' );
 		wp_enqueue_script( 'iframe-resizer' );
 		wp_enqueue_script( 'embedly-player.js' );
+		wp_enqueue_script( 'branded-content-scripts' );
 
 		// Need googletag for ads in jacapps
 		wp_enqueue_script( 'googletag' );
@@ -92,6 +94,21 @@ if ( ! function_exists( 'ee_update_jacapps_secondstreet_html' ) ) :
 	function ee_update_jacapps_secondstreet_html( $embed, $atts ) {
 		$url = 'https://embed-' . rawurlencode( $atts['op_id'] ) . '.secondstreetapp.com/Scripts/dist/embed.js';
 		return '<script src="' . esc_url( $url ) . '" data-ss-embed="promotion" data-opguid="' . esc_attr( $atts['op_guid'] ) . '" data-routing="' . esc_attr( $atts['routing'] ) . '"></script>';
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_jacapps_dml_branded_content' ) ) :
+	function ee_update_jacapps_dml_branded_content( $embed, $atts ) {
+
+		$html = '';
+
+		if ($atts['layout']) {
+			$html = '<div data-stackid="' . esc_attr( $atts['stackid'] ) . '" data-layout="' . esc_attr( $atts['layout'] ) . '" class="dml-widget-container"></div>';
+		} else {
+			$html = '<div data-stackid="' . esc_attr( $atts['stackid'] ) . '" class="dml-widget-container"></div>';
+		}
+
+		return $html;
 	}
 endif;
 

@@ -86,8 +86,8 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 
 		$image_full_url = $urls[ $gallery->ID ] . 'view/' . urlencode( $image->post_name ) . '/';
 		$tracking_url = ! $is_first ? $image_full_url : '';
-		$update_lazy_image = function( $html ) use ( $tracking_url ) {
-			return str_replace( '<div ', '<div data-autoheight="1" data-tracking="' . esc_attr( $tracking_url ) . '" ', $html );
+		$update_lazy_image = function( $html ) use ( $tracking_url, $urls,  $gallery) {
+			return str_replace( '<div ', '<div data-autoheight="1" data-referrer="' . esc_attr( $urls[ $gallery->ID ] ) . '" data-tracking="' . esc_attr( $tracking_url ) . '" ', $html );
 		};
 
 		add_filter( '_ee_the_lazy_image', $update_lazy_image );

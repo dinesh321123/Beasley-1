@@ -293,21 +293,7 @@ export function initTdPlayer(modules) {
 		window.tdplayer.addEventListener('stream-start', () => dispatch(start()));
 		window.tdplayer.addEventListener('stream-stop', () => dispatch(end()));
 		window.tdplayer.addEventListener('ad-playback-error', () => {
-			/*
-			 * the beforeStreamStart function may be injected onto the window
-			 * object from google tag manager. This function provides a callback
-			 * when it is completed. Currently we are using it to play a preroll
-			 * from kubient when there is no preroll provided by triton. To ensure
-			 * that we do not introduce unforeseen issues we return the original
-			 * ACTION_AD_PLAYBACK_ERROR type.
-			 * */
-			if (window.beforeStreamStart) {
-				window.beforeStreamStart(() =>
-					dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
-				); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
-			} else {
-				dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)); // used to dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
-			}
+			dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)); // used to dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
 		});
 	};
 }
@@ -467,9 +453,9 @@ export const playAudio = (
  * playStation action creator
  * @param {String} station
  */
-export const playStation = station => dispatch =>
+export const playStation = station => dispatch => {
 	play('tdplayer', station)(dispatch);
-
+};
 /**
  * Action Creator for playing an audio file using the omnyplayer.
  *

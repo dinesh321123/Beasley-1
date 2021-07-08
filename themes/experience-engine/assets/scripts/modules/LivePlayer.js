@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isIOS, isAudioAdOnly } from '../library';
+import { isIOS, isSafari, isAudioAdOnly } from '../library';
 
 import {
-	Stations,
 	Controls,
 	Info,
 	Volume,
@@ -14,13 +13,15 @@ import {
 	Progress,
 	RecentSongs,
 	Offline,
-	Contacts,
-	Sponsor,
+	PlayerAd,
 } from '../components/player';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
 import * as actions from '../redux/actions/player';
+import Stations from '../components/player/Stations';
+// import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
+// import {durationChange, setPlayer, STATUSES, statusUpdate, timeChange} from '../redux/actions/player';
 
 class LivePlayer extends Component {
 	constructor(props) {
@@ -108,6 +109,18 @@ class LivePlayer extends Component {
 		playStation(station);
 	}
 
+	getPlayerAdThreshold() {
+		const windowWidth = window.innerWidth;
+		const playerAdThreshold = windowWidth > 1350 || isSafari() ? 1350 : 1250;
+		// Save To Window For Use In DFP Events
+		window.playerAdThreshold = playerAdThreshold;
+		return playerAdThreshold;
+	}
+
+	getShouldMapSizes(playerAdThreshold) {
+		return playerAdThreshold === 1250;
+	}
+
 	render() {
 		if (!this.container) {
 			return null;
@@ -155,7 +168,11 @@ class LivePlayer extends Component {
 			customColors['--brand-text-color'] ||
 			customColors['--global-theme-secondary'];
 
+		const playerAdThreshold = this.getPlayerAdThreshold();
+		const shouldMapSizes = this.getShouldMapSizes(playerAdThreshold);
+
 		const isIos = isIOS();
+		const volumeControl = isIos ? null : <Volume colors={buttonsFillStyle} />;
 
 		const children = (
 			<ErrorBoundary>
@@ -170,7 +187,7 @@ class LivePlayer extends Component {
 				>
 					<div className="preroll-container">
 						<div id="td_container" className="preroll-player" />
-						<div className="preroll-notification">
+						<div className="preroll-notification -hidden">
 							Live stream will be available after this brief ad from our
 							sponsors
 						</div>
@@ -179,48 +196,54 @@ class LivePlayer extends Component {
 
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
-				<Progress className="-mobile" colors={textStyle} />
+				<div className="top-progress-holder">
+					<Progress className="-mobile" colors={textStyle} />
+				</div>
 
 				<div className="controls" style={controlsStyle}>
+					<div className={`button-holder ${progressClass}`}>
+						<Controls
+							status={status}
+							play={
+								adPlayback && isAudioAdOnly({ player, playerType })
+									? null
+									: this.handlePlay
+							}
+							pause={pause}
+							resume={resume}
+							colors={buttonsBackgroundStyle}
+							isIos={isIos}
+							progressClass={progressClass}
+						/>
+						<Stations colors={customColors} />
+					</div>
+					<div />
 					<div className="control-section">
 						<Info colors={textStyle} />
 					</div>
-					<div className="control-section -centered">
-						<div className={`controls-wrapper -centered ${progressClass}`}>
-							<RecentSongs colors={customColors} />
-
-							<Controls
-								status={status}
-								play={
-									adPlayback && isAudioAdOnly({ player, playerType })
-										? null
-										: this.handlePlay
-								}
-								pause={pause}
-								resume={resume}
-								colors={buttonsBackgroundStyle}
-								isIos={isIos}
-								progressClass={progressClass}
-							/>
-
-							<Volume colors={buttonsFillStyle} />
-						</div>
-
-						<Progress className="-desktop" colors={textStyle} />
-					</div>
-					<div className="control-section">
+					<div className="button-holder">
 						<Rewind progressClass={progressClass} />
-						<Sponsor className="controls-sponsor" minWidth={1060} />
-						<Stations colors={customColors} />
-						<Contacts colors={customColors} />
 					</div>
+					<div className="button-holder full-width">
+						<div>
+							<RecentSongs
+								className={` ${progressClass} `}
+								colors={customColors}
+							/>
+							<Progress
+								className={` -desktop ${progressClass} `}
+								colors={textStyle}
+							/>
+							{volumeControl}
+						</div>
+					</div>
+					<PlayerAd
+						className="player-ad"
+						minWidth={playerAdThreshold}
+						style={controlsStyle}
+						shouldMapSizes={shouldMapSizes}
+					/>
 				</div>
-
-				<Sponsor
-					className="sponsor-mobile"
-					maxWidth="1059"
-					style={controlsStyle}
-				/>
 			</ErrorBoundary>
 		);
 

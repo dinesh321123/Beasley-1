@@ -60,7 +60,9 @@ abstract class Module {
 			'facebook-oembed'	=> new \Bbgi\Integration\FacebookOEmbed(),
 			'notification-to-cloudflare'	=> new \Bbgi\Integration\NotificationToCloudflare(),
 			'mapbox' 			=> new \Bbgi\Integration\Mapbox(),
-			'hsform'			=> new \Bbgi\Integration\HubspotForm()
+			'hsform'			=> new \Bbgi\Integration\HubspotForm(),
+			'feature_video'		=> new \Bbgi\Integration\FeatureVideo(),
+			'branded-content'	=> new \Bbgi\Integration\BrandedContent()
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {
