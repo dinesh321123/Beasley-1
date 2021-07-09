@@ -29,11 +29,13 @@ class Shortcodes extends \Bbgi\Module {
 		add_shortcode( 'iframe', $this( 'handle_iframe_shortcode' ) );
 		add_shortcode( 'bbgi-contest', $this( 'handle_national_contest_shortcode' ) );
 		add_shortcode( 'inlink', $this( 'handle_inlink_shortcode' ) );
+		add_shortcode( 'injecto', $this( 'handle_injecto_shortcode' ) );
 	}
 
 	public function suppress_shortcode( $atts, $content = null ) {
 		return $content;
 	}
+
 
 	public function get_inlink_url( $syndication_old_name ) {
 		$url = '';
@@ -101,6 +103,28 @@ class Shortcodes extends \Bbgi\Module {
 			$result = $atts['text'];
 		} else if ($url) {
 			$result = sprintf('<a href="%s">%s</a>', $url, $atts['text']);
+		}
+
+		return $result;
+	}
+
+	public function handle_injecto_shortcode( $atts, $content ) {
+
+		$atts = shortcode_atts( array(
+				'target'	=> '',
+				'placement' => 'before'
+		), $atts, 'injecto');
+
+		$validPlacementRegions = array( 'before', 'inside', 'after' );
+
+		$placement = in_array( $atts['placement'], $validPlacementRegions ) ? $atts['placement'] : 'inside';
+		$uniqueid = wp_unique_id( 'injecto' );
+
+		$result = '';
+
+		if ($atts['target']) {
+			$result = sprintf('<div id="%s" class="injecto" style="display: none;" data-placement="%s" data-target="%s">%s</div>',
+					$uniqueid, $placement, $atts['target'], $content);
 		}
 
 		return $result;

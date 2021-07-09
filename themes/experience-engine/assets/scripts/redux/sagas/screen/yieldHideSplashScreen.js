@@ -1,6 +1,11 @@
 import { call, takeLatest } from 'redux-saga/effects';
 import { ACTION_HIDE_SPLASH_SCREEN } from '../../actions/screen';
-import { renderSendToNews, updateInterstitialAdDiv } from '../../utilities';
+import {
+	renderSendToNews,
+	updateInterstitialAdDiv,
+	handleInjectos,
+} from '../../utilities';
+import refreshAllAds from '../../utilities/screen/refreshAllAds';
 
 /**
  * Generator runs whenever [ ACTION_HIDE_SPLASH_SCREEN ]
@@ -20,7 +25,8 @@ function* yieldHideSplashScreen(action) {
 			googletag.cmd.push(() => {
 				updateInterstitialAdDiv();
 				// Refresh All Ads
-				googletag.pubads().refresh(); // Refresh ALL Slots
+				// googletag.pubads().refresh(); // Refresh ALL Slots
+				refreshAllAds();
 			});
 		}
 
@@ -29,6 +35,7 @@ function* yieldHideSplashScreen(action) {
 		}
 
 		renderSendToNews();
+		handleInjectos();
 	});
 }
 

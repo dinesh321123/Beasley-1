@@ -1,6 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { IntersectionObserverContext } from '../../../context/intersection-observer';
+// import * as pbjs from '../../../library/prebid5.1.0';
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
@@ -24,7 +25,7 @@ const changeAdhesionAdContainerWidth = (
 	resetAdContainerWidthTimeout = setTimeout(() => {
 		const slotElement = document.getElementById(placeholder);
 		slotElement.style.width = `${newWidthInt}px`;
-		slotElement.style.transition = 'width .4s';
+		slotElement.style.transition = 'all .5s ease-in-out';
 	}, mSecDelay);
 };
 
@@ -159,11 +160,15 @@ class Dfp extends PureComponent {
 				slotVideoRefreshSecs && slotVideoRefreshSecs >= 30
 					? slotVideoRefreshSecs * 1000
 					: 60000,
+			rubiconZoneID: bbgiconfig.ad_rubicon_zoneid_setting,
+			prebidEnabled: bbgiconfig.prebid_enabled,
 		};
 
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
 		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.refreshSlot = this.refreshSlot.bind(this);
+		this.loadPrebid = this.loadPrebid.bind(this);
+		this.refreshBid = this.refreshBid.bind(this);
 	}
 
 	isConfiguredToRunInterval() {
@@ -242,8 +247,56 @@ class Dfp extends PureComponent {
 		this.setState({ interval: false });
 	}
 
+	loadPrebid(unitID, prebidSizes) {
+		const { prebidEnabled, rubiconZoneID } = this.state;
+		if (!prebidEnabled || !unitID || !prebidSizes || !rubiconZoneID) {
+			return;
+		}
+
+		const pbjs = window.pbjs || {};
+		pbjs.que = pbjs.que || [];
+
+		const adUnits = [
+			{
+				code: unitID,
+				mediaTypes: {
+					banner: {
+						sizeConfig: prebidSizes,
+					},
+				},
+				bids: [
+					{
+						bidder: 'rubicon',
+						params: {
+							accountId: '18458',
+							siteId: '375130',
+							zoneId: rubiconZoneID,
+							floor: 0,
+						},
+					},
+				],
+			},
+		];
+
+		pbjs.que.push(() => {
+			pbjs.setConfig({
+				debug: 'true',
+				bidderTimeout: 1000,
+				rubicon: { singleRequest: true },
+			});
+
+			pbjs.addAdUnits(adUnits);
+		});
+	}
+
 	registerSlot() {
-		const { placeholder, unitId, unitName, targeting } = this.props;
+		const {
+			placeholder,
+			unitId,
+			unitName,
+			targeting,
+			shouldMapSizes,
+		} = this.props;
 		const { googletag, bbgiconfig } = window;
 
 		if (!document.getElementById(placeholder)) {
@@ -272,6 +325,7 @@ class Dfp extends PureComponent {
 			slot.addService(googletag.pubads());
 
 			let sizeMapping = false;
+			let prebidSizeConfig = false;
 			if (unitName === 'top-leaderboard') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -284,6 +338,25 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
 			} else if (unitName === 'in-list') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -295,6 +368,25 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
 			} else if (unitName === 'in-list-gallery') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -307,6 +399,18 @@ class Dfp extends PureComponent {
 					.addSize([320, 0], [[300, 250]])
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [[300, 250]],
+					},
+					{
+						minViewPort: [320, 0],
+						sizes: [[300, 250]],
+					},
+				];
 			} else if (unitName === 'bottom-leaderboard') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -318,18 +422,60 @@ class Dfp extends PureComponent {
 					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
 
 					.build();
-				/*
-				} else if (unitName === 'adhesion') {
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+						],
+					},
+					{
+						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					},
+				];
+			} else if (unitName === 'adhesion') {
+				if (shouldMapSizes) {
 					sizeMapping = googletag
 						.sizeMapping()
-						// does not display on small screens
+						// does not display on 0 width
 						.addSize([0, 0], [])
 
-						// accepts only two sizes
-						.addSize([1350, 0], [[728, 90], [970, 90], 'fluid'])
+						// Div visibility is controlled in react so always show at small ad when at least 1 pixel wide
+						.addSize([1, 0], [[728, 90]])
 
+						// accepts both sizes
+						.addSize(
+							[1400, 0],
+							[
+								[728, 90],
+								[970, 90],
+							],
+						)
 						.build();
-				*/
+				}
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [1, 0],
+						sizes: [[728, 90]],
+					},
+					{
+						minViewPort: [1400, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+						],
+					},
+				];
 			} else if (unitName === 'right-rail') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -346,6 +492,17 @@ class Dfp extends PureComponent {
 					)
 
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [1060, 0],
+						sizes: [
+							[300, 250],
+							[300, 600],
+						],
+					},
+				];
 			} else if (unitName === 'in-content') {
 				sizeMapping = googletag
 					.sizeMapping()
@@ -361,13 +518,25 @@ class Dfp extends PureComponent {
 							[1, 1],
 						],
 					)
-
 					.build();
+
+				prebidSizeConfig = [
+					{ minViewPort: [0, 0], sizes: [] },
+					{
+						minViewPort: [300, 0],
+						sizes: [
+							[300, 250],
+							[1, 1],
+						],
+					},
+				];
 			}
 
 			if (sizeMapping) {
 				slot.defineSizeMapping(sizeMapping);
 			}
+
+			this.loadPrebid(unitId, prebidSizeConfig);
 
 			for (let i = 0; i < targeting.length; i++) {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
@@ -392,8 +561,11 @@ class Dfp extends PureComponent {
 
 			if (unitName === 'adhesion') {
 				const playerElement = document.getElementById('live-player');
-				// adhesion ads should be showing when screen > 1350
-				if (playerElement && playerElement.offsetWidth > 1350) {
+				// adhesion ads are enabled when screen > window.playerAdThreshold (1250 or 1350)
+				if (
+					playerElement &&
+					playerElement.offsetWidth > window.playerAdThreshold
+				) {
 					slotStat.timeVisible += slotPollMillisecs;
 				}
 			} else if (slotStat.viewPercentage > 50) {
@@ -421,15 +593,49 @@ class Dfp extends PureComponent {
 		}
 	}
 
+	refreshBid(unitId, slot) {
+		const { prebidEnabled } = this.state;
+
+		if (!prebidEnabled) {
+			const { googletag } = window;
+			googletag.cmd.push(() => {
+				googletag.pubads().refresh([slot]);
+			});
+			return; // EXIT FUNCTION
+		}
+
+		const pbjs = window.pbjs || {};
+		pbjs.que = pbjs.que || [];
+
+		pbjs.que.push(() => {
+			const PREBID_TIMEOUT = 2000;
+			const { googletag } = window;
+			pbjs.requestBids({
+				timeout: PREBID_TIMEOUT,
+				adUnitCodes: [unitId],
+				bidsBackHandler: () => {
+					pbjs.setTargetingForGPTAsync([unitId]);
+					googletag.cmd.push(() => {
+						googletag.pubads().refresh([slot]);
+					});
+				},
+			});
+		});
+	}
+
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder, unitName } = this.props;
-		const { slot } = this.state;
+		const { placeholder, unitName, unitId } = this.props;
+		const { slot, rubiconZoneID } = this.state;
 
 		if (slot) {
 			googletag.cmd.push(() => {
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
-				googletag.pubads().refresh([slot]);
+				if (rubiconZoneID) {
+					this.refreshBid(unitId, slot);
+				} else {
+					googletag.pubads().refresh([slot]);
+				}
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.classList.remove('fadeOutAnimation');
 				if (unitName === 'adhesion') {
@@ -471,10 +677,12 @@ Dfp.propTypes = {
 	unitId: PropTypes.string.isRequired,
 	unitName: PropTypes.string.isRequired,
 	targeting: PropTypes.arrayOf(PropTypes.array),
+	shouldMapSizes: PropTypes.bool,
 };
 
 Dfp.defaultProps = {
 	targeting: [],
+	shouldMapSizes: true,
 };
 
 Dfp.contextType = IntersectionObserverContext;

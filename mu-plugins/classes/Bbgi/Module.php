@@ -57,6 +57,7 @@ abstract class Module {
 			'redirects'         => new \Bbgi\Redirects(),
 			'page-endpoint'     => new \Bbgi\Endpoints\Page(),
 			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
+			'notification-to-cloudflare'	=> new \Bbgi\Integration\NotificationToCloudflare(),
 			'mapbox' 			=> new \Bbgi\Integration\Mapbox(),
 			'hsform'			=> new \Bbgi\Integration\HubspotForm(),
 			'feature_video'		=> new \Bbgi\Integration\FeatureVideo(),

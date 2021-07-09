@@ -30,6 +30,7 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 		add_post_type_support( 'post', 'timed-content' );
 		add_post_type_support( 'page', 'timed-content' );
 		add_post_type_support( 'gmr_gallery', 'timed-content' );
+		add_post_type_support( 'listicle_cpt', 'timed-content' );
 		add_post_type_support( 'gmr_album', 'timed-content' );
 		add_post_type_support( 'episode', 'timed-content' );
 		add_post_type_support( 'tribe_events', 'timed-content' );
@@ -60,14 +61,18 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 
 		if ( $query->is_search() ) {
 			$query->set( 'posts_per_page', 12 );
-		} elseif ( $query->is_tag()  || $query->is_category() ) {
+
+		} elseif ( $query->is_tag() || $query->is_category() ) {
+
 			$post_type = $query->get( 'post_type' );
 			if ( ! is_array( $post_type ) ) {
 				$post_type = array( $post_type );
 			}
 
 			$post_types_array = get_post_types( '', 'names' );
-			$exclude_post_type = array( 'show' );
+
+			$exclude_post_type = array( 'gmr_homepage', 'gmr_mobile_homepage', 'page', 'nav_menu_item', 'user_request', 'acf-field-group', 'acf-field', 'cmm-redirect', 'attachment', 'revision', 'custom_css', 'customize_changeset', 'oembed_cache', 'live-stream', 'songs', 'redirect_rule', 'show' );
+
 			foreach ( $post_types_array as $posttype ) {
 				if( !in_array( $posttype, $exclude_post_type ) )
 				{
@@ -76,8 +81,7 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 			} 
 			
 			$query->set( 'post_type', $post_type );
-		}
-
+		} 
 		return $query;
 	}
 endif;

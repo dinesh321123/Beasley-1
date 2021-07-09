@@ -182,6 +182,7 @@ class ShowsCPT {
 			'tribe_events',
 			'survey',
 			'gmr_gallery',
+			'listicle_cpt',
 			'affiliate_marketing',
 			'gmr_album',
 		);

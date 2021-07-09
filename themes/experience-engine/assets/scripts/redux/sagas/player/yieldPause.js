@@ -1,5 +1,4 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
-import { lyticsTrack } from '../../utilities';
 import { ACTION_PAUSE } from '../../actions/player';
 
 /**
@@ -11,7 +10,7 @@ function* yieldPause() {
 	const playerStore = yield select(({ player }) => player);
 
 	// Destructure from playerStore in state
-	const { trackType, cuePoint, player } = playerStore;
+	const { player } = playerStore;
 
 	// Simplifying, by calling the state player and
 	// sniffing for its function type, we can call
@@ -22,15 +21,6 @@ function* yieldPause() {
 		} else if (typeof player.stop === 'function') {
 			yield call([player, 'stop']);
 		}
-	}
-
-	// Call lyticsTrack
-	if (
-		cuePoint &&
-		trackType === 'podcast' &&
-		typeof lyticsTrack === 'function'
-	) {
-		yield call(lyticsTrack, 'pause', cuePoint);
 	}
 }
 

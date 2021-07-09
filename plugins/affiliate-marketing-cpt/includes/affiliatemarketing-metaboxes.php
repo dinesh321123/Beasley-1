@@ -14,6 +14,7 @@ class AffiliateMarketingCPTMetaboxes {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ) );
 		add_action( 'save_post',array( __CLASS__, 'affiliate_marketing_save') );
 		add_action( 'save_post',array( __CLASS__, 'affiliate_marketing_footer_description_save') );
+		add_post_type_support( 'affiliate_marketing', 'timed-content' );
 	}
 
 	function affiliate_marketing_yoast_to_bottom() {

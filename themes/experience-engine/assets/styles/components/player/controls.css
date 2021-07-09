@@ -29,13 +29,10 @@
 	  justify-content: space-between;
 	  position: relative;
 
-      & button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn, .listenlive-btn) {
+      & button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
 		  background: transparent;
 		  border: 0;
 		  cursor: pointer;
-		  height: 100%;
-		  width: 100%;
-		  text-align: left;
 	  }
     }
 

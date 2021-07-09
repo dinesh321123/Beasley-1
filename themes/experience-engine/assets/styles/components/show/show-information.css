@@ -6,6 +6,13 @@
 	text-align: center;
 
 	@media (--max-medium-viewport) {
+		flex-wrap: nowrap;
+		align-items: center;
+		& .meta {
+			text-align: left;
+		}
+	}
+	@media (--max-medium-viewport) {
 		& .meta h2 {
 			margin-bottom: 0;
 		}
@@ -22,6 +29,9 @@
 		flex-shrink: 0;
 		margin-bottom: 1rem;
 
+		@media (--max-medium-viewport) {
+			flex-basis: 33%;
+		}
 		@media (--min-large-viewport) {
 			flex-basis: auto;
 			margin-bottom: 0;
