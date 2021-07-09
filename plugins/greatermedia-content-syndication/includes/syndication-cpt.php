@@ -90,7 +90,9 @@ class SyndicationCPT {
 			'capabilities'      => array(),
 		);
 
-		register_taxonomy( 'collection', array( 'post', 'announcement', 'content-kit', 'gmr_gallery', 'listicle_cpt' , 'affiliate_marketing' ), $args );
+
+		register_taxonomy( 'collection', array( 'post', 'announcement', 'content-kit', 'gmr_gallery', 'listicle_cpt' , 'affiliate_marketing', 'show' ), $args );
+
 	}
 
 	public function subscription_columns_filter( $columns ) {
