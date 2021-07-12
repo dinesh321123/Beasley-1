@@ -271,7 +271,6 @@ class Dfp extends PureComponent {
 							accountId: '18458',
 							siteId: '375130',
 							zoneId: rubiconZoneID,
-							floor: 0,
 						},
 					},
 				],
