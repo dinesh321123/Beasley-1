@@ -123,12 +123,13 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ee_get_css_opacities' ) ) :
-	function ee_get_css_opacities() {
+if ( ! function_exists( 'ee_get_other_css_vars' ) ) :
+	function ee_get_other_css_vars() {
 		$vars = [
 			'--brand-play-opacity'           => get_option( 'play_opacity_setting', '0.8' ),
 			'--brand-play-hover-opacity'     => get_option( 'play_hover_opacity_setting', '1' ),
 			'--brand-play-live-hover-opacity'     => get_option( 'play_live_hover_opacity_setting', '0.8' ),
+			'--configurable-iframe-height'     => get_option( 'configurable_iframe_height', '0' ) . 'px',
 		];
 
 		return $vars;
@@ -198,7 +199,7 @@ endif;
 if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
 		$config = array(
-			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_css_opacities()) ),
+			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_other_css_vars()) ),
 			'geotargetly' => ee_current_page_needs_geotargetly(),
 			'related_article_title' => get_option( 'related_article_title', 'You May Also Like' ),
 			'ad_rotation_enabled' => get_option( 'ad_rotation_enabled', 'on' ),
@@ -208,6 +209,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'vid_ad_html_tag_csv_setting' => get_option( 'vid_ad_html_tag_csv_setting', 'mixpo' ),
 			'ad_rubicon_zoneid_setting' => get_option( 'ad_rubicon_zoneid_setting', '' ),
 			'prebid_enabled' => function_exists( 'enqueue_prebid_scripts' ),
+			'configurable_iframe_src' => get_option( 'configurable_iframe_src', '' ),
 
 			/** Live Streaming Intervals */
 			'intervals'  => [

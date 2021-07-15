@@ -169,6 +169,7 @@ class Dfp extends PureComponent {
 		this.refreshSlot = this.refreshSlot.bind(this);
 		this.loadPrebid = this.loadPrebid.bind(this);
 		this.refreshBid = this.refreshBid.bind(this);
+		this.destroySlot = this.destroySlot.bind(this);
 	}
 
 	isConfiguredToRunInterval() {
@@ -279,7 +280,6 @@ class Dfp extends PureComponent {
 
 		pbjs.que.push(() => {
 			pbjs.setConfig({
-				debug: 'true',
 				bidderTimeout: 1000,
 				rubicon: { singleRequest: true },
 			});
@@ -653,6 +653,8 @@ class Dfp extends PureComponent {
 			const { googletag } = window;
 			// Remove Slot Stat Property
 			delete getSlotStatsCollectionObject()[placeholder];
+
+			console.log(`Destroying Slot: ${placeholder}`);
 
 			if (googletag && googletag.destroySlots) {
 				googletag.destroySlots([slot]);

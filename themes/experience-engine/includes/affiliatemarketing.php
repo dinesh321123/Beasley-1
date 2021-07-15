@@ -25,8 +25,8 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 				} else {
 					$amimage_title	= '';
 				}
-				$amitembuttonurl = $am_item_buttonurl[$index] 
-				?	$amitembuttonurl = $am_item_buttonurl[$index] 
+				$amitembuttonurl = $am_item_buttonurl[$index]
+				?	$amitembuttonurl = $am_item_buttonurl[$index]
 				: $amitembuttonurl = '#';
 				echo '<li class="affiliate-marketingmeta-item', $am_image_slug == $am_tracking_code ? ' scroll-to' : '', '">';
 					// Start code for Affiliate marketing meta data
@@ -34,7 +34,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 						echo '<div class="wrapper">';
 							echo '<div class="caption">';
 								echo '<h3>', '<a href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_name_data, '</a></h3>';
-								
+
 								static $urls = array();
 
 								if ( empty( $urls[ $affiliatemarketing_post_object->ID ] ) ) {
@@ -45,9 +45,9 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								$update_lazy_image = function( $html ) use ( $tracking_url ) {
 									return str_replace( '<div ', '<div data-autoheight="1" data-tracking="' . esc_attr( $tracking_url ) . '" ', $html );
 								};
-								
+
 								add_filter( '_ee_the_lazy_image', $update_lazy_image );
-								$image_html = ee_the_lazy_image( $am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ? $current_post_id : $am_item_photo[$index], false );
+								$image_html = ee_the_lazy_image( $am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ? null : $am_item_photo[$index], false );
 								remove_filter( '_ee_the_lazy_image', $update_lazy_image );
 
 								$amItemImageType = "";
@@ -71,8 +71,8 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 										endif;
 									echo '</div>';
 								}
-								
-								
+
+
 								if( isset( $am_item_description[$index] ) && $am_item_description[$index] !== "" ) {
 									echo '<div>', $am_item_description[$index],'</div>';
 								}
@@ -93,7 +93,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 
 					/* if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
 						do_action( 'dfp_tag', 'in-list-affiliate-marketing' );
-					endif; */ 
+					endif; */
 				echo '</li>';
 			}
 		}
