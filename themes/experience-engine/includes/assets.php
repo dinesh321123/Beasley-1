@@ -209,7 +209,6 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'vid_ad_html_tag_csv_setting' => get_option( 'vid_ad_html_tag_csv_setting', 'mixpo' ),
 			'ad_rubicon_zoneid_setting' => get_option( 'ad_rubicon_zoneid_setting', '' ),
 			'prebid_enabled' => function_exists( 'enqueue_prebid_scripts' ),
-			'configurable_iframe_src' => get_option( 'configurable_iframe_src', '' ),
 
 			/** Live Streaming Intervals */
 			'intervals'  => [

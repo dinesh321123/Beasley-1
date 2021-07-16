@@ -1,6 +1,7 @@
 <?php
 $iframe_height =  get_option( 'configurable_iframe_height', '0' );
 
+// Height Setting Of 0 Means "Do Not Display"
 if ( empty( $iframe_height ) ) {
 	return;
 }
@@ -23,19 +24,18 @@ if ( empty( $iframe_height ) ) {
 
 	@media only screen and (min-width: 900px) {
 		div.configurable-iframe-holder {
-			left: 188px;
+			left: 190px;
 		}
 	}
 </style>
+
 <div class="configurable-iframe-holder">
-	<iframe id="configurable-iframe-element" width="100%" height="100%" frameborder="0" scrolling="no" style="overflow: hidden" ></iframe>
+	<?PHP
+		echo "<iframe id='configurable-iframe-element' width='100%' height='100%' frameborder='0' scrolling='no' style='overflow: hidden' src='"
+				. get_option( 'configurable_iframe_src', '0' )
+				. "' ></iframe>";
+	?>
 </div>
 
-<?PHP
-	echo "<script>";
-	echo "window.addEventListener('load', function() {";
-	echo "document.getElementById('configurable-iframe-element').setAttribute('src', window.bbgiconfig.configurable_iframe_src);";
-	echo "});";
-	echo "</script>";
-?>
+
 
