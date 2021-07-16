@@ -12,6 +12,10 @@ if ( empty( $iframe_height ) ) {
 		margin-bottom: var(--configurable-iframe-height);
 	}
 
+	button.back-to-top {
+		margin-bottom: var(--configurable-iframe-height);
+	}
+
 	div.configurable-iframe-holder {
 		position: fixed;
 		bottom: 90px;
