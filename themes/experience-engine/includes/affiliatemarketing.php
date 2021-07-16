@@ -47,7 +47,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								};
 
 								add_filter( '_ee_the_lazy_image', $update_lazy_image );
-								$image_html = ee_the_lazy_image( $am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ? null : $am_item_photo[$index], false );
+								$image_html = ee_the_lazy_image( $am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ? $current_post_id : $am_item_photo[$index], false );
 								remove_filter( '_ee_the_lazy_image', $update_lazy_image );
 
 								$amItemImageType = "";

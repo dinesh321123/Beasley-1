@@ -43,6 +43,10 @@
 		& .lazy-image {
 			display: none;
 		}
+		
+		& .non-lazy-image {
+			display: none;
+		}
 	}
 
 	& .placeholder-lazyimage {
