@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 
 class Share extends PureComponent {
 	constructor(props) {
@@ -7,6 +8,8 @@ class Share extends PureComponent {
 
 		this.onFacebookClick = this.handleFacebookClick.bind(this);
 		this.onTwitterClick = this.handleTwitterClick.bind(this);
+		this.onCopyUrlClick = this.handleCopyUrlClick.bind(this);
+		this.copyref = React.createRef();
 	}
 
 	getUrl() {
@@ -39,6 +42,19 @@ class Share extends PureComponent {
 		);
 	}
 
+	handleCopyUrlClick() {
+		const { url, title } = this.props;
+		const el = document.createElement('input');
+		el.value = `${title} ${url}`;
+		document.body.appendChild(el);
+		el.select();
+		document.execCommand('copy');
+		document.body.removeChild(el);
+		setTimeout(() => {
+			ReactTooltip.hide(this.copyref.current);
+		}, 3000);
+	}
+
 	render() {
 		return (
 			<div className="share">
@@ -62,6 +78,27 @@ class Share extends PureComponent {
 						<path d="M15.13 2.38a6.207 6.207 0 0 1-1.783.489 3.114 3.114 0 0 0 1.365-1.718c-.6.356-1.264.614-1.971.754a3.104 3.104 0 0 0-5.29 2.831 8.813 8.813 0 0 1-6.398-3.244 3.103 3.103 0 0 0 .96 4.144 3.091 3.091 0 0 1-1.405-.388v.04a3.106 3.106 0 0 0 2.49 3.043 3.11 3.11 0 0 1-1.402.053 3.107 3.107 0 0 0 2.9 2.156A6.227 6.227 0 0 1 0 11.825a8.785 8.785 0 0 0 4.758 1.395c5.71 0 8.832-4.73 8.832-8.832a8.92 8.92 0 0 0-.009-.401A6.305 6.305 0 0 0 15.13 2.38z" />
 					</svg>
 				</button>
+				<button
+					ref={this.copyref}
+					className="copyurl"
+					aria-label="Copy Url"
+					type="button"
+					data-event="click"
+					data-tip="Link Copied!"
+					data-for="copyurltooltip"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+						<path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z" />
+						<path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z" />
+					</svg>
+				</button>
+				<ReactTooltip
+					place="right"
+					effect="solid"
+					afterShow={this.onCopyUrlClick}
+					id="copyurltooltip"
+					globalEventOff="click"
+				/>
 			</div>
 		);
 	}
