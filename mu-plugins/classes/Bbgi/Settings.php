@@ -191,7 +191,10 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('ad_rotation_refresh_sec_setting', 'Refresh Interval Seconds (30 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_refresh_sec_setting&default=30');
 		add_settings_field('ad_vid_rotation_refresh_sec_setting', 'Video Refresh Interval Seconds (60 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_vid_rotation_refresh_sec_setting&default=60');
 		add_settings_field('vid_ad_html_tag_csv_setting', 'CSV of HTML tags which indicate Video', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=vid_ad_html_tag_csv_setting&default=mixpo');
-		add_settings_field('ad_rubicon_zoneid_setting', 'Rubicon Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rubicon_zoneid_setting');
+
+		add_settings_section( 'prebid_settings_section', 'Prebid Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field('ad_rubicon_zoneid_setting', 'Rubicon Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_rubicon_zoneid_setting');
+		add_settings_field('ad_appnexus_placementid_setting', 'AppNexus Placement ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_appnexus_placementid_setting');
 
 		add_settings_section( 'configurable_iframe_section', 'Configurable iFrame', '__return_false', $this->_settings_page_hook );
 		add_settings_field('configurable_iframe_height', 'iFrame Height (0 for no iFrame)', 'bbgi_input_field', $this->_settings_page_hook, 'configurable_iframe_section', 'name=configurable_iframe_height&default=0');
@@ -252,6 +255,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ad_vid_rotation_refresh_sec_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'vid_ad_html_tag_csv_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rubicon_zoneid_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_appnexus_placementid_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'configurable_iframe_height', 'sanitize_text_field');
 		register_setting(self::option_group, 'configurable_iframe_src', 'sanitize_text_field');
