@@ -794,10 +794,10 @@ class BlogData {
 				delete_post_meta( $post_id, 'logo_image' );
 
 				//Fetch Logo ID
-				$logo_image = self::ImportAttachedImages( $post_id, $show_logo_metas );
-
-				$show_featured_metas = $show_metas['show_featured_metas'];
-				$show_favorite_metas = $show_metas['show_favorite_metas'];
+				$logo_import = self::ImportAttachedImages( $post_id, $show_logo_metas );
+				
+				$show_featured_metas = isset( $show_metas['show_featured_metas'] ) ? $show_metas['show_featured_metas'] : "" ;
+				$show_favorite_metas = isset( $show_metas['show_favorite_metas'] ) ? $show_metas['show_favorite_metas'] : "" ;
 				// echo "<pre>", print_r($show_featured_metas), print_r($show_favorite_metas), print_r($show_logo_metas), "</pre>"; exit;
 				$gmr_featured_post_ids_array = array();
 				if( !empty($show_featured_metas) )
@@ -829,7 +829,11 @@ class BlogData {
 
 				update_post_meta( $post_id, 'gmr_featured_post_ids', $gmr_featured_post_ids );
 				update_post_meta( $post_id, 'gmr_favorite_post_ids', $gmr_favorite_post_ids );
-				update_post_meta( $post_id, 'logo_image', $logo_image[0] );
+				foreach ( $logo_import as $logo_attachment ) {
+					if ( is_numeric( $logo_attachment ) ) {
+						update_post_meta( $post_id, 'logo_image', $logo_attachment );
+					}
+				}
 			}
 
 			if ( 'listicle_cpt' == $post_type ) {
