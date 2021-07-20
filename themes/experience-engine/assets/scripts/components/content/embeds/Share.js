@@ -2,6 +2,19 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
+const getShareIndex = () => {
+	let { socialShareIndex } = window;
+	if (!socialShareIndex) {
+		window.socialShareIndex = 1;
+		socialShareIndex = window.socialShareIndex;
+	} else {
+		window.socialShareIndex++;
+		socialShareIndex = window.socialShareIndex;
+	}
+
+	return socialShareIndex;
+};
+
 class Share extends PureComponent {
 	constructor(props) {
 		super(props);
@@ -10,6 +23,10 @@ class Share extends PureComponent {
 		this.onTwitterClick = this.handleTwitterClick.bind(this);
 		this.onCopyUrlClick = this.handleCopyUrlClick.bind(this);
 		this.copyref = React.createRef();
+	}
+
+	componentWillUnmount() {
+		window.socialShareIndex = 0;
 	}
 
 	getUrl() {
@@ -56,6 +73,7 @@ class Share extends PureComponent {
 	}
 
 	render() {
+		const shareIndex = getShareIndex();
 		return (
 			<div className="share">
 				<button
@@ -85,7 +103,7 @@ class Share extends PureComponent {
 					type="button"
 					data-event="click"
 					data-tip="Link Copied!"
-					data-for="copyurltooltip"
+					data-for={`copyurltooltip${shareIndex}`}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
 						<path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z" />
@@ -96,7 +114,7 @@ class Share extends PureComponent {
 					place="right"
 					effect="solid"
 					afterShow={this.onCopyUrlClick}
-					id="copyurltooltip"
+					id={`copyurltooltip${shareIndex}`}
 					globalEventOff="click"
 				/>
 			</div>
