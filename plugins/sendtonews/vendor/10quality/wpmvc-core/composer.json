@@ -25,7 +25,7 @@
     },
     "autoload": {
         "files": [
-            "src/lib/functions.php"
+          "src/lib/functions.php"
         ],
         "psr-4": {
             "WPMVC\\": "src/psr4"

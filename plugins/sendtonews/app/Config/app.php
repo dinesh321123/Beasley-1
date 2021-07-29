@@ -13,7 +13,7 @@ return [
 
     'paths' => [
 
-        'base'          => __DIR__ . '/../',
+        'base'          => __DIR__ . '/app/',
         'controllers'   => __DIR__ . '/../Controllers/',
         'views'         => __DIR__ . '/../../assets/views/',
         'lang'          => __DIR__ . '/../../assets/lang/',
@@ -21,7 +21,7 @@ return [
 
     ],
 
-    'version' => '1.0.0',
+    'version' => '1.0.1.2',
 
     'autoenqueue' => [
 

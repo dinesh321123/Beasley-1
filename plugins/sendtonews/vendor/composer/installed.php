@@ -6,8 +6,8 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'a4e51beee3602433e43ad6f921bb35019891389b',
-    'name' => 'stnvideo/playerselector',
+    'reference' => 'd6b5484e78bf8ab0725bbdd665fa43934b3c1e01',
+    'name' => 'sendtonews/playerselector',
   ),
   'versions' => 
   array (
@@ -93,14 +93,14 @@
       ),
       'reference' => 'fe0936ee26643249e916849d48e3a51d5f5e278b',
     ),
-    'stnvideo/playerselector' => 
+    'sendtonews/playerselector' => 
     array (
       'pretty_version' => 'dev-master',
       'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => 'a4e51beee3602433e43ad6f921bb35019891389b',
+      'reference' => 'd6b5484e78bf8ab0725bbdd665fa43934b3c1e01',
     ),
   ),
 );

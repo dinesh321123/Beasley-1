@@ -4,15 +4,15 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140
+class ComposerStaticInit022e5873cc8cd24f658a15e060266435
 {
     public static $files = array (
-        '6f7750a5f1d239027ef483252f4ce3c7' => __DIR__ . '/..' . '/10quality/wpmvc-phpfastcache/src/lib/functions.php',
-        'c607dd5e0d3f783ee5565b107740298c' => __DIR__ . '/..' . '/10quality/wpmvc-core/src/lib/functions.php',
+        '6f7750a5f1d239027ef483252f4ce3c7' => __DIR__ . '/..',
+        'c607dd5e0d3f783ee5565b107740298c' => __DIR__ . '/..',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'W' => 
+        'W' =>
         array (
             'WPMVC\\PHPFastCache\\' => 19,
             'WPMVC\\MVC\\' => 10,
@@ -20,90 +20,90 @@ class ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140
             'WPMVC\\Commands\\' => 15,
             'WPMVC\\' => 6,
         ),
-        'T' => 
+        'T' =>
         array (
             'TenQuality\\WP\\' => 14,
         ),
-        'S' => 
+        'S' =>
         array (
             'SendtoNews\\' => 11,
         ),
-        'P' => 
+        'P' =>
         array (
             'PhpParser\\' => 10,
         ),
-        'A' => 
+        'A' =>
         array (
             'Ayuco\\' => 6,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'WPMVC\\PHPFastCache\\' => 
+        'WPMVC\\PHPFastCache\\' =>
         array (
-            0 => __DIR__ . '/..' . '/10quality/wpmvc-phpfastcache/src/psr4',
+            0 => __DIR__ . '/..',
         ),
-        'WPMVC\\MVC\\' => 
+        'WPMVC\\MVC\\' =>
         array (
-            0 => __DIR__ . '/..' . '/10quality/wpmvc-mvc/src',
+            0 => __DIR__ . '/..',
         ),
-        'WPMVC\\KLogger\\' => 
+        'WPMVC\\KLogger\\' =>
         array (
-            0 => __DIR__ . '/..' . '/10quality/wpmvc-logger/src',
+            0 => __DIR__ . '/..',
         ),
-        'WPMVC\\Commands\\' => 
+        'WPMVC\\Commands\\' =>
         array (
-            0 => __DIR__ . '/..' . '/10quality/wpmvc-commands/src',
+            0 => __DIR__ . '/vendor' . '/10quality/wpmvc-commands/src',
         ),
-        'WPMVC\\' => 
+        'WPMVC\\' =>
         array (
-            0 => __DIR__ . '/..' . '/10quality/wpmvc-core/src/psr4',
+            0 => __DIR__ . '/..',
         ),
-        'TenQuality\\WP\\' => 
+        'TenQuality\\WP\\' =>
         array (
-            0 => __DIR__ . '/..' . '/10quality/wp-file/src',
+            0 => __DIR__ . '/..',
         ),
-        'SendtoNews\\' => 
+        'SendtoNews\\' =>
         array (
-            0 => __DIR__ . '/../..' . '/app',
+            0 => __DIR__ . '/../..',
         ),
-        'PhpParser\\' => 
+        'PhpParser\\' =>
         array (
-            0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+            0 => __DIR__ . '/vendor' . '/nikic/php-parser/lib/PhpParser',
         ),
-        'Ayuco\\' => 
+        'Ayuco\\' =>
         array (
-            0 => __DIR__ . '/..' . '/10quality/ayuco/src',
+            0 => __DIR__ . '/vendor' . '/10quality/ayuco/src',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'P' => 
+        'P' =>
         array (
-            'Psr\\Log\\' => 
+            'Psr\\Log\\' =>
             array (
-                0 => __DIR__ . '/..' . '/psr/log',
+                0 => __DIR__ . '/..',
             ),
         ),
     );
 
     public static $fallbackDirsPsr0 = array (
-        0 => __DIR__ . '/../..' . '/app/Widgets',
+        0 => __DIR__ . '/../..',
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'WPMVC\\KLogger\\Logger' => __DIR__ . '/..' . '/10quality/wpmvc-logger/src/Logger.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..',
+        'WPMVC\\KLogger\\Logger' => __DIR__ . '/..',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$classMap;
 
         }, null, ClassLoader::class);
     }

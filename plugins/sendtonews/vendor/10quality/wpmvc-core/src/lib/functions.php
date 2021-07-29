@@ -62,7 +62,7 @@ if ( ! function_exists( 'assets_url' ) ) {
      *
      * @link https://codex.wordpress.org/Function_Reference/home_url
      * @link https://codex.wordpress.org/Function_Reference/network_home_url
-     * 
+     *
      * @param string $path       Asset relative path.
      * @param string $file       File location path.
      * @param string $scheme     Scheme to give the home url context. Currently 'http','https'.
@@ -135,7 +135,7 @@ if ( ! function_exists( 'get_wp_home_path' ) )
     {
         // Ensure get_home_path is available
         if ( ! function_exists( 'get_home_path' ) )
-            require_once( ABSPATH . 'wp-admin/includes/file.php' );
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
         return apply_filters(
             'home_path',
             function_exists( 'get_home_path' )
@@ -180,7 +180,7 @@ if ( ! function_exists( 'exists_bridge' ) ) {
      * @since 3.1.0
      *
      * @param string $namespace Namespace.
-     * 
+     *
      * @return bool
      */
     function exists_bridge( $namespace )
@@ -195,7 +195,7 @@ if ( ! function_exists( 'get_bridge' ) ) {
      * @since 3.1.0
      *
      * @param string $namespace Namespace.
-     * 
+     *
      * @return WPMVC\Bridge|object
      */
     function get_bridge( $namespace )
