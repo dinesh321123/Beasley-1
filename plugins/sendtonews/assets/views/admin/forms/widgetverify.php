@@ -7,7 +7,7 @@
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.0
+ * @version 1.0.1.1
  */
 ?>
 <div class="media-widget-control sendtonews-widget sendtonews-widget-verify">

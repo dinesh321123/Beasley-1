@@ -14,7 +14,7 @@ class SyndicationCPT {
 	 */
 	private static $filter_nonce = 'filter-syndication-nonce';
 
-	public static $supported_subscriptions = array( 'post', 'content-kit', 'contest', 'survey', 'gmr_gallery','listicle_cpt' , 'affiliate_marketing' );
+	public static $supported_subscriptions = array( 'post', 'content-kit', 'contest', 'survey', 'gmr_gallery','listicle_cpt' , 'affiliate_marketing', 'show' );
 
 	/**
 	 * The post statuses that are supported during syndication
@@ -90,7 +90,9 @@ class SyndicationCPT {
 			'capabilities'      => array(),
 		);
 
-		register_taxonomy( 'collection', array( 'post', 'announcement', 'content-kit', 'gmr_gallery', 'listicle_cpt' , 'affiliate_marketing' ), $args );
+
+		register_taxonomy( 'collection', array( 'post', 'announcement', 'content-kit', 'gmr_gallery', 'listicle_cpt' , 'affiliate_marketing', 'show' ), $args );
+
 	}
 
 	public function subscription_columns_filter( $columns ) {

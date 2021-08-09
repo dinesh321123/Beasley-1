@@ -1,0 +1,28 @@
+.jacapp-copy-tooltip {
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 13px;
+    opacity: 0.9;
+    padding: 8px 21px;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+    z-index: 999;
+    color: #fff;
+    background: #222;
+    border: 1px solid transparent;
+    margin-left: 10px;
+    position: relative;
+    visibility: hidden;
+}
+
+
+.jacapp-copy-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent #222 transparent transparent;
+}

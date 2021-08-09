@@ -26,7 +26,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		/**
 		 * Google WebFont scripts
 		 */
-		$webfont = [ 'google' => [ 'families' => [ 'Libre Franklin:300,400,500,600,700', 'Open Sans:600' ] ] ];
+		$webfont = [ 'google' => [ 'families' => [ 'Libre Franklin:300,400,500,600,700', 'Open Sans:600&display=swap' ] ] ];
 		wp_enqueue_script( 'google-webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js', null, null, false );
 		wp_add_inline_script( 'google-webfont', 'var WebFontConfig = ' . wp_json_encode( $webfont ), 'before' );
 		wp_script_add_data( 'google-webfont', 'async', true );
@@ -159,7 +159,7 @@ endif;
 
 if ( ! function_exists( 'ee_the_beasley_logo' ) ) :
 	function ee_the_beasley_logo() {
-		echo '<a href="https://bbgi.com" target="_blank">
+		echo '<a href="https://bbgi.com" target="_blank" rel="noopener">
 			<img src="', get_template_directory_uri(), '/assets/images/large-BMG60YearsLogo.png" style="max-height: 150px; max-width: 150px; padding-bottom: 10px;" alt="Beasley Media Group">
 		</a>';
 	}
@@ -190,7 +190,7 @@ endif;
 
 if ( ! function_exists( 'ee_the_beasley_logo' ) ) :
 	function ee_the_beasley_logo() {
-		echo '<a href="https://bbgi.com" target="_blank">
+		echo '<a href="https://bbgi.com" target="_blank" rel="noopener">
 			<img src="', get_template_directory_uri(), '/assets/images/large-BMG60YearsLogo.png" style="max-height: 150px; max-width: 150px;" alt="Beasley Media Group">
 		</a>';
 	}
