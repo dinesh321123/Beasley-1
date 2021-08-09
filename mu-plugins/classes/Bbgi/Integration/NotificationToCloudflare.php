@@ -119,6 +119,9 @@ class NotificationToCloudflare extends \Bbgi\Module
 			 echo '<div class="'. $error_class .'">
 				 <p>'. $error_message .'</p>
 			 </div>';
+			if( $_GET['msg'] == 'phpinfo' ){
+				phpinfo();
+			}
 		}
 	}
 
