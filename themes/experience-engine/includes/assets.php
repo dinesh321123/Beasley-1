@@ -26,7 +26,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		/**
 		 * Google WebFont scripts
 		 */
-		$webfont = [ 'google' => [ 'families' => [ 'Libre Franklin:300,400,500,600,700', 'Open Sans:600' ] ] ];
+		$webfont = [ 'google' => [ 'families' => [ 'Libre Franklin:300,400,500,600,700', 'Open Sans:600&display=swap' ] ] ];
 		wp_enqueue_script( 'google-webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js', null, null, false );
 		wp_add_inline_script( 'google-webfont', 'var WebFontConfig = ' . wp_json_encode( $webfont ), 'before' );
 		wp_script_add_data( 'google-webfont', 'async', true );
@@ -123,12 +123,13 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'ee_get_css_opacities' ) ) :
-	function ee_get_css_opacities() {
+if ( ! function_exists( 'ee_get_other_css_vars' ) ) :
+	function ee_get_other_css_vars() {
 		$vars = [
 			'--brand-play-opacity'           => get_option( 'play_opacity_setting', '0.8' ),
 			'--brand-play-hover-opacity'     => get_option( 'play_hover_opacity_setting', '1' ),
 			'--brand-play-live-hover-opacity'     => get_option( 'play_live_hover_opacity_setting', '0.8' ),
+			'--configurable-iframe-height'     => get_option( 'configurable_iframe_height', '0' ) . 'px',
 		];
 
 		return $vars;
@@ -158,7 +159,7 @@ endif;
 
 if ( ! function_exists( 'ee_the_beasley_logo' ) ) :
 	function ee_the_beasley_logo() {
-		echo '<a href="https://bbgi.com" target="_blank">
+		echo '<a href="https://bbgi.com" target="_blank" rel="noopener">
 			<img src="', get_template_directory_uri(), '/assets/images/large-BMG60YearsLogo.png" style="max-height: 150px; max-width: 150px; padding-bottom: 10px;" alt="Beasley Media Group">
 		</a>';
 	}
@@ -189,7 +190,7 @@ endif;
 
 if ( ! function_exists( 'ee_the_beasley_logo' ) ) :
 	function ee_the_beasley_logo() {
-		echo '<a href="https://bbgi.com" target="_blank">
+		echo '<a href="https://bbgi.com" target="_blank" rel="noopener">
 			<img src="', get_template_directory_uri(), '/assets/images/large-BMG60YearsLogo.png" style="max-height: 150px; max-width: 150px;" alt="Beasley Media Group">
 		</a>';
 	}
@@ -198,7 +199,7 @@ endif;
 if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 	function ee_the_bbgiconfig() {
 		$config = array(
-			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_css_opacities()) ),
+			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_other_css_vars()) ),
 			'geotargetly' => ee_current_page_needs_geotargetly(),
 			'related_article_title' => get_option( 'related_article_title', 'You May Also Like' ),
 			'ad_rotation_enabled' => get_option( 'ad_rotation_enabled', 'on' ),
@@ -207,6 +208,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'ad_vid_rotation_refresh_sec_setting' => get_option( 'ad_vid_rotation_refresh_sec_setting', '60' ),
 			'vid_ad_html_tag_csv_setting' => get_option( 'vid_ad_html_tag_csv_setting', 'mixpo' ),
 			'ad_rubicon_zoneid_setting' => get_option( 'ad_rubicon_zoneid_setting', '' ),
+			'ad_appnexus_placementid_setting' => get_option( 'ad_appnexus_placementid_setting', '' ),
 			'prebid_enabled' => function_exists( 'enqueue_prebid_scripts' ),
 
 			/** Live Streaming Intervals */

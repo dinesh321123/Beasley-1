@@ -43,6 +43,10 @@
 		& .lazy-image {
 			display: none;
 		}
+		
+		& .non-lazy-image {
+			display: none;
+		}
 	}
 
 	& .placeholder-lazyimage {
@@ -195,5 +199,8 @@
 	& img {
 		max-width: 400px;
 		height: auto;
+		@media (--max-medium-viewport) {
+			max-width: 100%;
+		}
 	}
 }

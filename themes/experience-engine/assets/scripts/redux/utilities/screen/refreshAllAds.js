@@ -13,7 +13,7 @@ export default function refreshAllAds() {
 	pbjs.que = pbjs.que || [];
 
 	pbjs.que.push(() => {
-		const PREBID_TIMEOUT = 2000;
+		const PREBID_TIMEOUT = 1500;
 		// pbjs.addAdUnits(adUnits);
 		pbjs.requestBids({
 			bidsBackHandler: initAdserver,
@@ -22,9 +22,7 @@ export default function refreshAllAds() {
 	});
 
 	function initAdserver() {
-		if (pbjs.initAdserverSet) return;
 		const { googletag } = window;
-		pbjs.initAdserverSet = true;
 		googletag.cmd.push(() => {
 			pbjs.que.push(() => {
 				pbjs.setTargetingForGPTAsync();

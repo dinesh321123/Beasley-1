@@ -1,13 +1,13 @@
 <div class="post-thumbnail">
-	<a href="<?php ee_the_permalink(); ?>">
+	<a href="<?php ee_the_permalink(); ?>" aria-label="Post thumbnail description link">
 		<?php ee_the_lazy_thumbnail( null, true ); ?>
 		<?php if( has_post_format( 'video', $post->ID ) ) : ?>
 			<div class="post-video-overlay">
 				<?php $label_id = 'label-' . uniqid(); ?>
 				<svg viewBox="0 0 17 24" xmlns="http://www.w3.org/2000/svg" role="img"
-					aria-labelledby="<?php echo esc_attr( $label_id ); ?> video-icon-desc">
+					aria-labelledby="<?php echo esc_attr( $label_id ); ?> video-icon-desc-<?php echo esc_attr( $label_id ); ?>">
 					<title id="<?php echo esc_attr( $label_id ); ?>">Video Icon</title>
-					<description id="video-icon-desc">A circular icon, with a red play button that symbolizes that the post is a video</description>
+					<description id="video-icon-desc-<?php echo esc_attr( $label_id ); ?>">A circular icon, with a red play button that symbolizes that the post is a video</description>
 					<path d="M16.1836 12.0055L0.910156 23.124L0.910156 0.887031L16.1836 12.0055Z"></path>
 				</svg>
 			</div>

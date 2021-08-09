@@ -34,6 +34,8 @@ mu-plugins/post-finder/
 !/plugins/cpt-tag-permissions
 !/plugins/sendtonews
 !/plugins/prebidjs
+!/plugins/now-playing-jacapps
+!/plugins/share-jacapps
 
 themes/index.php
 themes/twentyfourteen

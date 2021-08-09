@@ -746,6 +746,18 @@ var request = function request(action, data) {
 	});
 };
 
+var requestvideo = function requestvideo(action, data) {
+	return new Promise(function (resolve, reject) {
+		wp.ajax.send(action, {
+			type: 'post',
+			data: data,
+			contentType: false,
+			processData: false,
+			success: resolve,
+			error: reject
+		});
+	});
+};
 // @see wp.media.View.UploaderInline
 var mediaView = wp.media.View.extend({
 
@@ -755,7 +767,12 @@ var mediaView = wp.media.View.extend({
 
 	events: {
 		'keyup .video__url': 'onUrlChange',
-		'click .video__submit': 'addVideo'
+		'click .video__submit': 'addVideo',
+		'click .video__mediaimg': 'showMediaImg',
+		'click .s_btn_mediaimage': 'searchMediaImg',
+		'click .img-attachment': 'getSelectedMediaImg',
+		'click #upload_image': 'showUploadImage',
+		'click #select_media_library': 'showMediaLibrary',
 	},
 
 	onUrlChange: function onUrlChange() {
@@ -773,21 +790,72 @@ var mediaView = wp.media.View.extend({
 		});
 	},
 	addVideo: function addVideo() {
-		var self = this;
-		var url = self.$el.find('.video__url').val();
-		var postId = wp.media.view.settings.post.id;
+		// var $el = this.$el;
+		var self		= this;
+		var url			= self.$el.find('.video__url').val();
+		var postId		= wp.media.view.settings.post.id;
+		var $selectedImageOption = self.$el.find("input[name='image_option']:checked").val();
+		let fileName	= "";
+		let fdata		= new FormData();
+		
+		if (!$selectedImageOption) {
+			// alert( 'Select option: ',fvideo.missingImage );
+			alert( fvideo.missingImage );
+			return;
+		}
 
 		if (self.loading) {
 			return;
 		}
-
+		
 		if (!url) {
 			alert(fvideo.wrongUrl);
 			return;
 		}
+		
+		fdata.append( 'action', 'fvideos_import_embed' );
+		fdata.append( 'image_option', $selectedImageOption );
+		fdata.append( 'url', url );
+		fdata.append( 'post_id', postId );
+
+		if( $selectedImageOption == 'upload_image' ) {
+			/* File upload code*/
+			let fileInputElement = document.getElementById('custom_featured_img');
+			fileName = fileInputElement.files.length ? fileInputElement.files[0].name : '' ;
+
+			if( fileName == "" ) {
+				alert( fvideo.missingImage );
+				return false;
+			}
+			fdata.append( 'imagearr', fileInputElement.files[0], fileInputElement.files[0].name );
+		}
+		if( $selectedImageOption == 'select_media_library' ) {
+			var $mediaImageId = self.$el.find('#media_image_id');
+			
+			if(!$mediaImageId) {
+				alert( fvideo.missingMediaImage );
+				return false;
+			}
+
+			fdata.append( 'mediaImageId', $mediaImageId.val() );
+		}
+		// fdata.append('key2', 'value2');
+		/* console.log( 'Image name: ', fileInputElement.files[0].name );
+		console.log('fileInputElement.files.length: ', fileInputElement.files.length );
+		console.log( 'Form Data: ', fdata.entries() );
+		console.log( 'Form key1 data: ', fdata.getAll('key1') ); */
+		// Display the key/value pairs
+		/* for (var pair of fdata.entries()) {
+			console.log(pair[0]+ ', ' + pair[1]); console.log(' object, ', pair[1]);
+		} */
 
 		self.loading = true;
-		request('fvideos_import_embed', { url: url, post_id: postId }).then(function (imageId) {
+		// spinner load
+		var $video__submit_spinner = self.$el.find( '#video__submit_spinner' );
+			$video__submit_spinner.addClass( 'is-active' );
+		
+		requestvideo('fvideos_import_embed', fdata).then(function (imageId) {
+			$video__submit_spinner.removeClass( 'is-active' );	// remove spinner load
 			self.loading = false;
 
 			var library = self.controller.content.mode('browse').get('library');
@@ -802,10 +870,93 @@ var mediaView = wp.media.View.extend({
 				}
 			});
 		}).catch(function () {
+			$video__submit_spinner.removeClass( 'is-active' );	// remove spinner load
 			self.loading = false;
 			alert(fvideo.cannotEmbed);
 		});
-	}
+	},
+	searchMediaImg: function searchMediaImg() {
+		var $el = this.$el;
+		var $preview = $el.find('.mediaimage__preview');
+		// spinner load
+		var $s_spinner = $el.find( '#s_spinner' );
+			$s_spinner.addClass( 'is-active' );
+
+		request( 'fvideos_get_media_image', { media: 'media_show', s_mediaimage: $el.find('#s_mediaimage').val() } ).then(function (success) {
+			$preview.html( success );
+		}).catch(function ( error ) {
+			console.log( error );
+			alert(fvideo.cannotEmbedImage);
+		});
+	},
+	showMediaImg: function showMediaImg() {
+		var $el = this.$el;
+		var $preview = $el.find('.mediaimage__preview');
+		var $video__mediaimg_button = $el.find('.video__mediaimg');
+		$video__mediaimg_button.attr('disabled', 'disabled');
+		// spinner load when click on Open Media Library
+		var $image__preview_spinner = $el.find( '#image__preview_spinner' );
+			$image__preview_spinner.addClass( 'is-active' );
+
+		request( 'fvideos_get_media_image', { media: 'media_show' } ).then(function (success) {
+			$image__preview_spinner.removeClass( 'is-active' );	// remove spinner load
+			$preview.html( success );
+			$video__mediaimg_button.removeAttr('disabled');
+		}).catch(function ( error ) {
+			console.log( error );
+			alert(fvideo.cannotEmbedImage);
+		});
+	}, 
+	getSelectedMediaImg: function getSelectedMediaImg() {
+		var $el = this.$el;
+		var $imagePreview = $el.find('.image__preview');
+		var self = this;
+		var $getImageAttrId = self.$el.find('.selected-media-img').attr("image-id");
+		// spinner load when single thumbnail image
+		var $image__preview_spinner = $el.find( '#image__preview_spinner' );
+			$image__preview_spinner.addClass( 'is-active' );
+			$imagePreview.html( '' );
+
+		if( !$getImageAttrId || $getImageAttrId == "" ) {
+			alert( fvideo.missingImage );
+			return false;
+		}
+		request( 'get_selected_media_image', { imageAttrId: $getImageAttrId } ).then(function (success) {
+			$imagePreview.html( success.single_image_div );
+			self.$el.find("img").removeClass("selected-media-img");
+			self.$el.find('#media_image_id').val( $getImageAttrId );
+			$image__preview_spinner.removeClass( 'is-active' );	// remove spinner load
+		}).catch(function ( error ) {
+			console.log( error );
+			alert(fvideo.cannotEmbedImage);
+		});
+	},
+	showUploadImage: function showUploadImage() {
+		// alert( 'Select Upload image radio button' );
+		var $el = this.$el;
+		var $mediaImgLibrary = $el.find('.media__img__option');
+		var $uploadImg = $el.find('.upload__img__option');
+		var $mediaImgPreview = $el.find('.mediaimage__preview');
+		var $ImgPreview = $el.find('.image__preview');
+		
+		$uploadImg.show();
+		$mediaImgLibrary.hide();
+		$mediaImgPreview.html('');
+		$ImgPreview.html('');
+	},
+	showMediaLibrary: function showMediaLibrary() {
+		// alert('Select Media library radio button');
+		var $el = this.$el;
+		var $mediaImgLibrary = $el.find('.media__img__option');
+		var $uploadImg = $el.find('.upload__img__option');
+		var $mediaImgPreview = $el.find('.mediaimage__preview');
+		var $ImgPreview = $el.find('.image__preview');
+
+		$mediaImgLibrary.show();
+		$uploadImg.hide();
+		$mediaImgPreview.html('');
+		$ImgPreview.html('');
+	}	
 });
 
 exports.default = mediaView;

@@ -1,7 +1,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { IntersectionObserverContext } from '../../../context/intersection-observer';
-// import * as pbjs from '../../../library/prebid5.1.0';
+import { IntersectionObserverContext } from '../../../context';
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
@@ -161,6 +160,7 @@ class Dfp extends PureComponent {
 					? slotVideoRefreshSecs * 1000
 					: 60000,
 			rubiconZoneID: bbgiconfig.ad_rubicon_zoneid_setting,
+			appnexusPlacementID: bbgiconfig.ad_appnexus_placementid_setting,
 			prebidEnabled: bbgiconfig.prebid_enabled,
 		};
 
@@ -169,6 +169,10 @@ class Dfp extends PureComponent {
 		this.refreshSlot = this.refreshSlot.bind(this);
 		this.loadPrebid = this.loadPrebid.bind(this);
 		this.refreshBid = this.refreshBid.bind(this);
+		this.destroySlot = this.destroySlot.bind(this);
+		this.getPrebidBidders = this.getPrebidBidders.bind(this);
+		this.getBidderRubicon = this.getBidderRubicon.bind(this);
+		this.getBidderAppnexus = this.getBidderAppnexus.bind(this);
 	}
 
 	isConfiguredToRunInterval() {
@@ -247,9 +251,56 @@ class Dfp extends PureComponent {
 		this.setState({ interval: false });
 	}
 
+	getBidderRubicon() {
+		const { rubiconZoneID } = this.state;
+		if (!rubiconZoneID) {
+			return null;
+		}
+
+		const retval = {
+			bidder: 'rubicon',
+			params: {
+				accountId: 18458,
+				siteId: 375130,
+				zoneId: parseInt(rubiconZoneID, 10),
+			},
+		};
+
+		return retval;
+	}
+
+	getBidderAppnexus() {
+		const { appnexusPlacementID } = this.state;
+		if (!appnexusPlacementID) {
+			return null;
+		}
+
+		const retval = {
+			bidder: 'appnexus',
+			params: {
+				placementId: parseInt(appnexusPlacementID, 10),
+			},
+		};
+
+		return retval;
+	}
+
+	getPrebidBidders() {
+		const retval = [];
+
+		retval.push(this.getBidderRubicon());
+
+		return retval;
+	}
+
 	loadPrebid(unitID, prebidSizes) {
-		const { prebidEnabled, rubiconZoneID } = this.state;
-		if (!prebidEnabled || !unitID || !prebidSizes || !rubiconZoneID) {
+		const { prebidEnabled } = this.state;
+		if (!prebidEnabled || !unitID || !prebidSizes) {
+			return;
+		}
+
+		const prebidBidders = this.getPrebidBidders();
+		if (!prebidBidders || prebidBidders.length === 0) {
 			return;
 		}
 
@@ -264,23 +315,12 @@ class Dfp extends PureComponent {
 						sizeConfig: prebidSizes,
 					},
 				},
-				bids: [
-					{
-						bidder: 'rubicon',
-						params: {
-							accountId: '18458',
-							siteId: '375130',
-							zoneId: rubiconZoneID,
-							floor: 0,
-						},
-					},
-				],
+				bids: prebidBidders,
 			},
 		];
 
 		pbjs.que.push(() => {
 			pbjs.setConfig({
-				debug: 'true',
 				bidderTimeout: 1000,
 				rubicon: { singleRequest: true },
 			});
@@ -654,6 +694,8 @@ class Dfp extends PureComponent {
 			const { googletag } = window;
 			// Remove Slot Stat Property
 			delete getSlotStatsCollectionObject()[placeholder];
+
+			console.log(`Destroying Slot: ${placeholder}`);
 
 			if (googletag && googletag.destroySlots) {
 				googletag.destroySlots([slot]);

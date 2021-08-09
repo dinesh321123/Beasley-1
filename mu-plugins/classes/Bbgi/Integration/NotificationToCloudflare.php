@@ -17,6 +17,8 @@ class NotificationToCloudflare extends \Bbgi\Module
 		add_action('admin_notices', $this( 'show_error_notice' ) );
 		// add_filter( 'notification-to-cloudflare-post-types', array( __CLASS__, 'extend_curration_post_types' ) );
 
+		error_log( 'Cloudflare send notification action' );
+
 		foreach( $this->get_posttype_list() as $post_type ){
 			add_action( 'publish_'.$post_type , $this( 'send_notification' ) );
 		}
@@ -50,10 +52,12 @@ class NotificationToCloudflare extends \Bbgi\Module
 
 	/**
 	 * call this function when publish gallery
-	 * 
+	 *
 	 *  @param $post_id, $post
 	 */
 	public function send_notification( $post_id, $post_type = null ) {
+    	error_log( 'Cloudflare in send notification function.' );
+
 		$zone_id = get_option( 'bbgi_zone_id' );
 		error_log( 'Cloudflare function called 2:' );
 
@@ -62,12 +66,12 @@ class NotificationToCloudflare extends \Bbgi\Module
 
 			$permalink = get_permalink( $post_id );
 			$url = get_site_url(
-				null, 
-				'wp-json/experience_engine/v1/page?url='. urlencode_deep($permalink) 
-			); 
+				null,
+				'wp-json/experience_engine/v1/page?url='. urlencode_deep($permalink)
+			);
 			$request_url = 'https://api.cloudflare.com/client/v4/zones/'.$zone_id.'/purge_cache';
 			$data = [ "files" => array( $url ) ];
-			
+
 			$response = wp_remote_post( $request_url, array(
 					'method' => 'POST',
 					'headers' => array(
@@ -77,11 +81,16 @@ class NotificationToCloudflare extends \Bbgi\Module
 							'body' => wp_json_encode( $data )
 						)
 					);
+
 			$response_json = 'Cloudflare response 4: '. json_encode( $response );
 			error_log( $response_json );
+
 			if ( is_wp_error( $response ) ) {
 				error_log( 'Cloudflare error notice query var from is_wp_error function 5' );
 				add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
+
+    			$response_error = 'Cloudflare response error: '.json_encode( $response );
+				error_log( $response_error );
 			} else {
 				if( isset( $response['body']['success'] ) && $response['body']['success'] == 'true' ){
 					error_log( 'Cloudflare success notice query var 6' );
@@ -90,9 +99,16 @@ class NotificationToCloudflare extends \Bbgi\Module
 					error_log( 'Cloudflare error notice query var from fail condition 7' );
 					add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
 				}
+				// $response_json = json_decode( $response['body'], true );
 			}
-		} else {
-			error_log( 'Cloudflare zone_id not configured in Station settings 8' );
+
+			$response_json = 'Cloudflare response: '. json_encode( $response );
+			error_log( $response_json );
+
+			// $response_json = json_decode( $response['body'], true );
+			// $response_store = 'Page Link: ' . $permalink . ' | URL: ' . $url . ' | Response:'. $response;
+			// update_post_meta( $post_id, '_cloudflare_response_data', $response_store );
+			// get_post_meta($post_id, '_cloudflare_response_data', true);
 		}
 	}
 
