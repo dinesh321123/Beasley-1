@@ -8,7 +8,7 @@
         // Check if class exist
         if (videothumbcount) {
             let vti = 0;
-            
+
             $videoThumbDiv.each(function (el) {
                 var $currentShare = $(this);
 
@@ -43,16 +43,16 @@
             })
         }
 
-        $(".thumbnail-video-start").click(function (e) { 
+        $(".thumbnail-video-start").click(function (e) {
             e.preventDefault();
             $el = $(this);
             let $lazyVideo = $el.parent('.lazy-video');
-            
+
             let html = ``;
             if($lazyVideo) {
                 html = $lazyVideo.find('.thumbnail-video-frame-jacapp').html();
             }
-            
+
             if(html) {
                 $lazyVideo.html(html);
             }
@@ -64,6 +64,7 @@ function render($el, data, vti = 0) {
     let { src, html, title, thumbnail } = data;
 
     let webp = false;
+    if(thumbnail) {
     if (thumbnail.indexOf('i.ytimg.com') !== false) {
         webp = `
             <source
@@ -73,6 +74,7 @@ function render($el, data, vti = 0) {
                 type="image/webp"
             />
         `;
+    }
     }
 
     let replaceHtml = `
