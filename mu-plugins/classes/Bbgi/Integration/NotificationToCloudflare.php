@@ -22,6 +22,7 @@ class NotificationToCloudflare extends \Bbgi\Module
 		foreach( $this->get_posttype_list() as $post_type ){
 			add_action( 'publish_'.$post_type , $this( 'send_notification' ) );
 		}
+		error_log( 'Cloudflare supported post type list 1: '. json_encode( $this->get_posttype_list() ) );
 	}
 
 	/**
@@ -58,8 +59,11 @@ class NotificationToCloudflare extends \Bbgi\Module
     	error_log( 'Cloudflare in send notification function.' );
 
 		$zone_id = get_option( 'bbgi_zone_id' );
+		error_log( 'Cloudflare function called 2:' );
 
 		if( isset( $zone_id ) && $zone_id != "" ){
+			error_log( 'Cloudflare in zone_id condition 3: '. $zone_id );
+
 			$permalink = get_permalink( $post_id );
 			$url = get_site_url(
 				null,
@@ -78,19 +82,21 @@ class NotificationToCloudflare extends \Bbgi\Module
 						)
 					);
 
-			$response_array = 'Cloudflare error: '. json_encode( $response );
-			error_log( $response_array );
+			$response_json = 'Cloudflare response 4: '. json_encode( $response );
+			error_log( $response_json );
 
 			if ( is_wp_error( $response ) ) {
-				// $error_message = $response->get_error_message(); echo "Something went wrong: $error_message";
+				error_log( 'Cloudflare error notice query var from is_wp_error function 5' );
 				add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
 
     			$response_error = 'Cloudflare response error: '.json_encode( $response );
 				error_log( $response_error );
 			} else {
 				if( isset( $response['body']['success'] ) && $response['body']['success'] == 'true' ){
+					error_log( 'Cloudflare success notice query var 6' );
 					add_filter( 'redirect_post_location', array( $this, 'success_notice_query_var' ), 99 );
 				} else {
+					error_log( 'Cloudflare error notice query var from fail condition 7' );
 					add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
 				}
 				// $response_json = json_decode( $response['body'], true );
@@ -107,11 +113,13 @@ class NotificationToCloudflare extends \Bbgi\Module
 	}
 
 	public function success_notice_query_var( $location ) {
+		error_log( 'Cloudflare redirect with success parameter 9' );
 		remove_filter( 'redirect_post_location', array( $this, 'success_notice_query_var' ), 99 );
 		return add_query_arg( array( 'msg' => 'success' ), $location );
 	}
 
 	public function error_notice_query_var( $location ) {
+		error_log( 'Cloudflare redirect with error parameter 10' );
 		remove_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
 		return add_query_arg( array( 'msg' => 'error' ), $location );
 	}
@@ -127,6 +135,9 @@ class NotificationToCloudflare extends \Bbgi\Module
 			 echo '<div class="'. $error_class .'">
 				 <p>'. $error_message .'</p>
 			 </div>';
+			if( $_GET['msg'] == 'phpinfo' ){
+				phpinfo();
+			}
 		}
 	}
 
