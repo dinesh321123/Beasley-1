@@ -8,7 +8,6 @@ class TagPermissionsMetaboxes {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
-		
 			add_action( 'admin_menu', array( __CLASS__, 'tags_meta_box_remove' ) );
 			
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
@@ -17,6 +16,20 @@ class TagPermissionsMetaboxes {
 
 			add_action( 'wp_ajax_nopriv_is_tag_available', array( __CLASS__, 'is_tag_available' ) );
 			add_action( 'wp_ajax_is_tag_available', array( __CLASS__, 'is_tag_available' ) );
+			add_action( 'wp_ajax_nopriv_get_tags_from_database', array( __CLASS__, 'get_tags_from_database_action' ) );
+			add_action( 'wp_ajax_get_tags_from_database', array( __CLASS__, 'get_tags_from_database_action' ) );
+		}
+	public static function get_tags_from_database_action(){
+		$output = array();
+		$tags = get_tags();
+		if ( $tags ) :
+			$tags_array = array();
+				foreach ( $tags as $tag ) :
+					$tags_array[] = $tag->name;
+				endforeach; 
+			$output['tag_array'] = $tags_array;
+		endif;
+		wp_send_json( $output );
 	}
 
 	/**
@@ -28,12 +41,17 @@ class TagPermissionsMetaboxes {
 	public static function enqueue_scripts() {
 		global $typenow, $pagenow;
 		$post_types = self::tag_permissions_posttype_list();
-	   if ( in_array( $typenow, $post_types ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
-	       if ( ! current_user_can( 'manage_categories' ) ) {
-				wp_register_style('tag-permissions-admin', TAG_PERMISSIONS_URL . "assets/css/tp_admin.css", array(), TAG_PERMISSIONS_VERSION, 'all');
+		if ( ! current_user_can( 'manage_categories' ) ) {   
+			if ( in_array( $typenow, $post_types ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+	       		wp_register_style('tag-permissions-admin', TAG_PERMISSIONS_URL . "assets/css/tp_admin.css", array(), TAG_PERMISSIONS_VERSION, 'all');
 				wp_enqueue_style('tag-permissions-admin');  	
 		   		wp_enqueue_script( 'tag-permissions-admin', TAG_PERMISSIONS_URL . "assets/js/tp_admin.js", array('jquery'), TAG_PERMISSIONS_VERSION, true);
 				wp_localize_script( 'tag-permissions-admin', 'my_ajax_object', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
+
+				wp_register_style('tag-permissions-autocomplete-admin', TAG_PERMISSIONS_URL . "assets/css/awesomplete.css", array(), TAG_PERMISSIONS_VERSION, 'all');
+				wp_enqueue_style('tag-permissions-autocomplete-admin');  	
+		   		wp_enqueue_script( 'tag-permissions-autocomplete-admin', TAG_PERMISSIONS_URL . "assets/js/awesomplete.js", array('jquery'), TAG_PERMISSIONS_VERSION, true);
+				wp_localize_script( 'tag-permissions-autocomplete-admin', 'my_ajax_object', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
 		   }
 	   }
    }
@@ -43,8 +61,8 @@ class TagPermissionsMetaboxes {
 	}
 
 	public static function tags_meta_box_remove() {
-		if ( current_user_can( 'manage_categories' ) ) {
-			$id = 'tag-permissions-post_tag';
+		if ( ! current_user_can( 'manage_categories' ) ) {
+			$id = 'tagsdiv-post_tag';
 			$post_type = self::tag_permissions_posttype_list();
 			$position = 'side';
 			remove_meta_box( $id, $post_type, $position );
@@ -60,7 +78,7 @@ class TagPermissionsMetaboxes {
 		if ( ! current_user_can( 'manage_categories' ) ) {
 			$post_types = self::tag_permissions_posttype_list();
 			if ( in_array( $post_type, $post_types ) ) {
-				add_meta_box( 'tag-permissions-post_tag', 'Manage Tags', array( __CLASS__, 'render_footer_metabox' ), $post_type, 'side', 'core' );
+				add_meta_box( 'tag-permissions-post_tag', 'Tags', array( __CLASS__, 'render_tags_metabox' ), $post_type, 'side', 'core' );
 			}
 		}
 	}
@@ -72,7 +90,6 @@ class TagPermissionsMetaboxes {
 	 	$val = preg_replace( '/\\\+/', '\\', $val );
 
 		return $val;
-		// return trim( $val );
 	}
 
 	public static function is_tag_available() {
@@ -88,8 +105,6 @@ class TagPermissionsMetaboxes {
 				$new_tags_array_without_first_space = array_map( array( __CLASS__, 'remove_first_space' ), $tags_array );
 				$prior_tags_array_without_first_space = array_map( array( __CLASS__, 'remove_first_space' ), $prior_tags_array );
 
-				// print_r($tags_array);
-				// print_r($prior_tags_array);
 				if( isset( $_POST['activity'] ) && $_POST['activity'] == 'remove' ){
 					if ( ( $key = array_search( $new_tags_array_without_first_space[0], $prior_tags_array_without_first_space ) ) !== false) {
 						unset($prior_tags_array_without_first_space[$key]);
@@ -98,7 +113,6 @@ class TagPermissionsMetaboxes {
 				} else {
 					$merge_tag_array = array_unique( array_merge( $new_tags_array_without_first_space, $prior_tags_array_without_first_space ) );
 				}
-				//print_r($merge_tag_array);
 				$counter = 0;
 				foreach( $merge_tag_array as $tag_name ){
 					if( !empty( $tag_name ) && !ctype_space( $tag_name ) && $tag_name != "" ) {
@@ -117,11 +131,10 @@ class TagPermissionsMetaboxes {
 			$output['available_tag_string'] = implode( ",", $available_tag_array );
 			$output['not_available_tag_string'] = $not_available_tag_array;
 		}
-		//print_r($output['available_tag_html']);
 		wp_send_json( $output );
 	}
 
-	public static function render_footer_metabox( \WP_Post $post ) {
+	public static function render_tags_metabox( \WP_Post $post ) {
 		wp_nonce_field( '_tag_permissions_nonce', '_tag_permissions_nonce' );
 		$tags_array = get_the_tags( $post->ID );
 		$tags_string = "";
@@ -132,11 +145,10 @@ class TagPermissionsMetaboxes {
 						<div class="ajaxtag hide-if-no-js">
 							<label class="screen-reader-text" for="new-tag-post_tag">Add New Tag</label>
 							<p>
-								<input data-wp-taxonomy="post_tag" type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip ui-autocomplete-input tag-permissions-value" size="16" autocomplete="off" aria-describedby="new-tag-post_tag-desc" value="" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-owns="ui-id-1" onkeypress="return event.keyCode != 13;" />
+								<input id="tag-permissions-value" class="form-input-tip ui-autocomplete-input tag-permissions-value" data-multiple />
+								<input type="button" class="tag-permissions-add" value="Add Tag">
 							</p>
-							<input type="button" class="tag-permissions-add" value="Add">
 						</div>
-						<p class="howto" id="new-tag-post_tag-desc">Separate tags with commas</p>
 					</div>
 					<div id="error_msg">
 					</div>
