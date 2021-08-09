@@ -289,19 +289,21 @@ class Dfp extends PureComponent {
 		const retval = [];
 
 		retval.push(this.getBidderRubicon());
+		retval.push(this.getBidderAppnexus());
 
-		return retval;
+		return retval.filter(bidObj => bidObj);
 	}
 
+	// Returns whether Prebid is actually Enabled for this slot
 	loadPrebid(unitID, prebidSizes) {
 		const { prebidEnabled } = this.state;
 		if (!prebidEnabled || !unitID || !prebidSizes) {
-			return;
+			return false;
 		}
 
 		const prebidBidders = this.getPrebidBidders();
 		if (!prebidBidders || prebidBidders.length === 0) {
-			return;
+			return false;
 		}
 
 		const pbjs = window.pbjs || {};
@@ -323,10 +325,31 @@ class Dfp extends PureComponent {
 			pbjs.setConfig({
 				bidderTimeout: 1000,
 				rubicon: { singleRequest: true },
+				priceGranularity: {
+					buckets: [
+						{
+							min: 0,
+							max: 5,
+							increment: 0.01,
+						},
+						{
+							min: 5,
+							max: 20,
+							increment: 0.05,
+						},
+						{
+							min: 20,
+							max: 50,
+							increment: 0.5,
+						},
+					],
+				},
 			});
 
 			pbjs.addAdUnits(adUnits);
 		});
+
+		return true;
 	}
 
 	registerSlot() {
@@ -576,13 +599,13 @@ class Dfp extends PureComponent {
 				slot.defineSizeMapping(sizeMapping);
 			}
 
-			this.loadPrebid(unitId, prebidSizeConfig);
+			const prebidEnabled = this.loadPrebid(unitId, prebidSizeConfig);
 
 			for (let i = 0; i < targeting.length; i++) {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
 			}
 
-			this.setState({ slot });
+			this.setState({ slot, prebidEnabled });
 			return true;
 		});
 	}
@@ -654,7 +677,7 @@ class Dfp extends PureComponent {
 				timeout: PREBID_TIMEOUT,
 				adUnitCodes: [unitId],
 				bidsBackHandler: () => {
-					pbjs.setTargetingForGPTAsync([unitId]);
+					pbjs.setTargetingForGPTAsync([slot]);
 					googletag.cmd.push(() => {
 						googletag.pubads().refresh([slot]);
 					});
@@ -666,12 +689,12 @@ class Dfp extends PureComponent {
 	refreshSlot() {
 		const { googletag } = window;
 		const { placeholder, unitName, unitId } = this.props;
-		const { slot, rubiconZoneID } = this.state;
+		const { slot, prebidEnabled } = this.state;
 
 		if (slot) {
 			googletag.cmd.push(() => {
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
-				if (rubiconZoneID) {
+				if (prebidEnabled) {
 					this.refreshBid(unitId, slot);
 				} else {
 					googletag.pubads().refresh([slot]);

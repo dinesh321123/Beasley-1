@@ -78,10 +78,11 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 				{
 					$post_type[] = $posttype;
 				}
-			} 
-			
+			}
+
 			$query->set( 'post_type', $post_type );
-		} 
+		}
+
 		return $query;
 	}
 endif;
