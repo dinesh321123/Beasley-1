@@ -20,6 +20,7 @@ class NotificationToCloudflare extends \Bbgi\Module
 		foreach( $this->get_posttype_list() as $post_type ){
 			add_action( 'publish_'.$post_type , $this( 'send_notification' ) );
 		}
+		error_log( 'Cloudflare supported post type list 1: '. json_encode( $this->get_posttype_list() ) );
 	}
 
 	/**
@@ -54,8 +55,11 @@ class NotificationToCloudflare extends \Bbgi\Module
 	 */
 	public function send_notification( $post_id, $post_type = null ) {
 		$zone_id = get_option( 'bbgi_zone_id' );
+		error_log( 'Cloudflare function called 2:' );
 
 		if( isset( $zone_id ) && $zone_id != "" ){
+			error_log( 'Cloudflare in zone_id condition 3: '. $zone_id );
+
 			$permalink = get_permalink( $post_id );
 			$url = get_site_url(
 				null, 
@@ -73,32 +77,33 @@ class NotificationToCloudflare extends \Bbgi\Module
 							'body' => wp_json_encode( $data )
 						)
 					);
+			$response_json = 'Cloudflare response 4: '. json_encode( $response );
+			error_log( $response_json );
 			if ( is_wp_error( $response ) ) {
-				// $error_message = $response->get_error_message(); echo "Something went wrong: $error_message";
+				error_log( 'Cloudflare error notice query var from is_wp_error function 5' );
 				add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
 			} else {
 				if( isset( $response['body']['success'] ) && $response['body']['success'] == 'true' ){
+					error_log( 'Cloudflare success notice query var 6' );
 					add_filter( 'redirect_post_location', array( $this, 'success_notice_query_var' ), 99 );
 				} else {
+					error_log( 'Cloudflare error notice query var from fail condition 7' );
 					add_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
 				}
-				// $response_json = json_decode( $response['body'], true );
-				$response_json = 'Cloudflare response - '.$response['body'];
-				error_log( $response_json );
 			}
-			// $response_json = json_decode( $response['body'], true );
-			// $response_store = 'Page Link: ' . $permalink . ' | URL: ' . $url . ' | Response:'. $response;
-			// update_post_meta( $post_id, '_cloudflare_response_data', $response_store );
-			// get_post_meta($post_id, '_cloudflare_response_data', true);
+		} else {
+			error_log( 'Cloudflare zone_id not configured in Station settings 8' );
 		}
 	}
 
 	public function success_notice_query_var( $location ) {
+		error_log( 'Cloudflare redirect with success parameter 9' );
 		remove_filter( 'redirect_post_location', array( $this, 'success_notice_query_var' ), 99 );
 		return add_query_arg( array( 'msg' => 'success' ), $location );
 	}
 
 	public function error_notice_query_var( $location ) {
+		error_log( 'Cloudflare redirect with error parameter 10' );
 		remove_filter( 'redirect_post_location', array( $this, 'error_notice_query_var' ), 99 );
 		return add_query_arg( array( 'msg' => 'error' ), $location );
 	}
