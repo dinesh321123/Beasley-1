@@ -1,11 +1,6 @@
 (function ($) {
 	var $document = $(document);
 	$document.ready(function () {
-		/* $(".ntdelbutton").click(function() {	
-			// var remove_tag_data = current clicked tag;
-			// var prior_tags_data = $( ".tp_ntdelbutton" ).val();
-			// Then pass in ajax and unset the tag 
-		}); */
 		wp_ajaxExecuteToCallTagsRecords();
 		$(".tag-permissions-add").click(function() {
 			var tags_data = $( '.tag-permissions-value' ).val();
@@ -32,7 +27,7 @@
 		ajax.open("GET", "https://restcountries.eu/rest/v1/lang/fr", true);
 		ajax.onload = function() {
 			var list = JSON.parse(ajax.responseText).map(function(i) { return i.name; });
-			console.log( list );
+			// console.log( list );
 			new Awesomplete(document.querySelector("#myinput"),{ list: list });
 		};
 		ajax.send();
@@ -46,7 +41,7 @@
 			},
 
 			success : function( response ) {
-				console.log( response.tag_array );
+				// console.log( response.tag_array );
 				// var list = JSON.parse(ajax.responseText).map(function(i) { return i.name; });
 				new Awesomplete(document.querySelector("#tag-permissions-value"),{ list: response.tag_array });
 			},
@@ -57,6 +52,8 @@
 		});
 	}
 	function ajaxExecuteToGetTags( tags_data, prior_tags_data, activity ){
+		$( '#tag-permissions-id' ).attr('disabled', 'disabled');	// spinner load
+		$( '#tp_spinner' ).addClass( 'is-active' );
 		$.ajax({
 			type : 'POST',
 			url : (ajaxurl) ? ajaxurl : my_ajax_object.url,
@@ -68,7 +65,9 @@
 			},
 
 			success : function( response ) {
-				console.log(response);
+				// console.log(response);
+				$( '#tag-permissions-id' ).removeAttr('disabled');
+				$( '#tp_spinner' ).removeClass( 'is-active' );
 				if( response.available_tag_html ){
 					$( '#available-tagchecklist' ).empty();
 					$( '#tag_permissions_post_tag' ).val( '' );
@@ -79,7 +78,7 @@
 					removeTag();
 				}
 				if( response.not_available_tag_string && response.not_available_tag_string.length > 0 ) {
-					$( '#error_msg' ).append( '<div id="errormsg"> You dont rights to add tag '+  response.not_available_tag_string +'</div>' );
+					$( '#error_msg' ).append( '<div id="errormsg"> You dont have rights to add tag '+  response.not_available_tag_string +'</div>' );
 					removeErrorAfterSomeTime();
 				}
 			},
@@ -89,6 +88,5 @@
 			}
 		});
 	}
-
 	});
 })(jQuery);
