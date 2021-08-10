@@ -17,12 +17,20 @@ class NotificationToCloudflare extends \Bbgi\Module
 		add_action('admin_notices', $this( 'show_error_notice' ) );
 		// add_filter( 'notification-to-cloudflare-post-types', array( __CLASS__, 'extend_curration_post_types' ) );
 
-		error_log( 'Cloudflare send notification action' );
+		error_log( 'Cloudflare send notification register' );
 
-		foreach( $this->get_posttype_list() as $post_type ){
+		/* foreach( $this->get_posttype_list() as $post_type ){
 			add_action( 'publish_'.$post_type , $this( 'send_notification' ) );
-		}
-		error_log( 'Cloudflare supported post type list 1: '. json_encode( $this->get_posttype_list() ) );
+		} */
+		add_action( 'publish_post' , $this( 'send_notification' ) );
+		add_action( 'publish_gmr_gallery' , $this( 'send_notification' ) );
+		add_action( 'publish_show' , $this( 'send_notification' ) );
+		add_action( 'publish_gmr_album' , $this( 'send_notification' ) );
+		add_action( 'publish_tribe_events' , $this( 'send_notification' ) );
+		add_action( 'publish_affiliate_marketing' , $this( 'send_notification' ) );
+		add_action( 'publish_listicle_cpt' , $this( 'send_notification' ) );
+
+		// error_log( 'Cloudflare supported post type list 1: '. json_encode( $this->get_posttype_list() ) );
 	}
 
 	/**
