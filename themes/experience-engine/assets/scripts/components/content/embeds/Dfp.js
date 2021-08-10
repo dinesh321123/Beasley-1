@@ -74,7 +74,7 @@ const slotVisibilityChangedHandler = event => {
 };
 
 const slotRenderEndedHandler = event => {
-	const { slot, isEmpty, size } = event;
+	const { slot, lineItemId, isEmpty, size } = event;
 	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
 		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
 		: null;
@@ -92,10 +92,22 @@ const slotRenderEndedHandler = event => {
 				getSlotStat(placeholder).timeVisible = 10000000;
 			}
 		} else {
+			let adSize;
+			if (size) {
+				adSize = size;
+			} else if (window.pbjs) {
+				const winningBid = window.pbjs
+					.getAllWinningBids()
+					.filter(b => b.adUnitCode === lineItemId);
+				console.log(`Backup Size From PreBid: ${winningBid}`);
+				if (winningBid) {
+					adSize = [winningBid.width, winningBid.height];
+				}
+			}
 			// Adjust Container Div Height
-			if (size && size[0] && size[1]) {
-				const imageWidth = size[0];
-				const imageHeight = size[1];
+			if (adSize && adSize[0] && adSize[1]) {
+				const imageWidth = adSize[0];
+				const imageHeight = adSize[1];
 				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
 				const padBottom =
 					padBottomStr.indexOf('px') > -1
