@@ -139,18 +139,19 @@ class TagPermissionsMetaboxes {
 		$tags_array = get_the_tags( $post->ID );
 		$tags_string = "";
 		?>
-			<div class="inside">
-				<div class="tagsdiv" id="post_tag">
+			<div class="inside per_inside">
+				<div class="tagsdiv per_tagsdiv" id="post_tag">
 					<div class="jaxtag">
 						<div class="ajaxtag hide-if-no-js">
 							<label class="screen-reader-text" for="new-tag-post_tag">Add New Tag</label>
 							<p>
 								<input id="tag-permissions-value" class="form-input-tip ui-autocomplete-input tag-permissions-value" data-multiple />
-								<input type="button" class="tag-permissions-add" value="Add Tag">
+								<input type="button" class="tag-permissions-add" id="tag-permissions-id" value="Add Tag">
 							</p>
 						</div>
 					</div>
 					<div id="error_msg">
+					<span class="spinner" id="tp_spinner"></span>
 					</div>
 					<ul class="tagchecklist" id="available-tagchecklist" role="list">
 						<?php
