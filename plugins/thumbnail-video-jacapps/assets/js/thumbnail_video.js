@@ -65,16 +65,18 @@ function render($el, data, vti = 0) {
 
     let webp = false;
     if(thumbnail) {
-    if (thumbnail.indexOf('i.ytimg.com') !== false) {
-        webp = `
-            <source
-                srcSet="${thumbnail
-                    .replace('/vi/', '/vi_webp/')
-                    .replace('.jpg', '.webp')}"
-                type="image/webp"
-            />
-        `;
-    }
+        if (thumbnail.indexOf('i.ytimg.com') !== false) {
+            webp = `
+                <source
+                    srcSet="${thumbnail
+                        .replace('/vi/', '/vi_webp/')
+                        .replace('hqdefault.jpg', 'mqdefault.jpg')
+                        .replace('.jpg', '.webp')}"
+                    type="image/webp"
+                />
+            `;
+            thumbnail = thumbnail.replace('hqdefault.jpg', 'mqdefault.jpg');
+        }
     }
 
     let replaceHtml = `
