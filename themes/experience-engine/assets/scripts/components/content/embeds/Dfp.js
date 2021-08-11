@@ -81,8 +81,6 @@ const slotRenderEndedHandler = event => {
 
 	const placeholder = slot.getSlotElementId();
 
-	console.log(`slotRenderEndedHandler adUnit: ${slot.getAdUnitPath()}`);
-	console.log(`slotRenderEndedHandler isEmpty: ${isEmpty}`);
 	console.log(`slotRenderEndedHandler size: ${size}`);
 
 	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
@@ -104,7 +102,6 @@ const slotRenderEndedHandler = event => {
 				const winningBid = window.pbjs
 					.getAllWinningBids()
 					.filter(b => b.adUnitCode === slot.getAdUnitPath());
-				console.log(`Backup Size From PreBid: ${winningBid}`);
 				if (winningBid && winningBid.length > 0) {
 					adSize = [winningBid[0].width, winningBid[0].height];
 				}
