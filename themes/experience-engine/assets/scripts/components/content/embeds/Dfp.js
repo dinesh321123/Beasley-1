@@ -80,6 +80,11 @@ const slotRenderEndedHandler = event => {
 		: null;
 
 	const placeholder = slot.getSlotElementId();
+
+	console.log(`slotRenderEndedHandler lineItemId: ${lineItemId}`);
+	console.log(`slotRenderEndedHandler isEmpty: ${isEmpty}`);
+	console.log(`slotRenderEndedHandler size: ${size}`);
+
 	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
 		const slotElement = document.getElementById(placeholder);
 		if (isEmpty) {
@@ -93,17 +98,19 @@ const slotRenderEndedHandler = event => {
 			}
 		} else {
 			let adSize;
-			if (size) {
+			if (size && size.length === 2 && (size[0] !== 1 || size[1] !== 1)) {
 				adSize = size;
 			} else if (window.pbjs) {
 				const winningBid = window.pbjs
 					.getAllWinningBids()
 					.filter(b => b.adUnitCode === lineItemId);
 				console.log(`Backup Size From PreBid: ${winningBid}`);
-				if (winningBid) {
-					adSize = [winningBid.width, winningBid.height];
+				if (winningBid && winningBid.length > 0) {
+					adSize = [winningBid[0].width, winningBid[0].height];
 				}
 			}
+
+			console.log(`USING Size: ${adSize}`);
 			// Adjust Container Div Height
 			if (adSize && adSize[0] && adSize[1]) {
 				const imageWidth = adSize[0];
