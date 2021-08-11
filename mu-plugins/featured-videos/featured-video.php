@@ -192,7 +192,7 @@ function fvideos_load_more_media_image() {
 		foreach( $imgs as $imgid => $img ) {
 			$jqueryEventSelectedClass = "'selected-media-img'";
 			$html .= '<li class="mediaimg-li" >';
-				$html .= '<img class="img-attachment" src="' . $img . '" alt="" image-id="' . $imgid . '" onclick="$(this).addClass(' . $jqueryEventSelectedClass .')" />';
+				$html .= '<img class="img-attachment" src="' . $img . '" alt="" image-id="' . $imgid . '" onclick="jQuery(this).addClass(' . $jqueryEventSelectedClass .')" />';
 			$html .= '</li>';
 		}
 	}
@@ -210,7 +210,7 @@ function fvideos_get_media_image() {
 	$imgs = get_images_from_media_library( $searchMediaImage_val, $paged_mediaimage_val );
 	// print_r(count($imgs));
 	$html = '<div id="main-container-mediaimg">';
-	$html .= '<input type="text" name="paged_mediaimage" id="paged_mediaimage" class="paged_mediaimage" value="'. $paged_mediaimage_val .'" />';
+	$html .= '<input type="hidden" name="paged_mediaimage" id="paged_mediaimage" class="paged_mediaimage" value="'. $paged_mediaimage_val .'" />';
 	$html .= '<div class="media-search"> <span class="spinner" id="s_spinner"></span> <input type="text" name="s_mediaimage" id="s_mediaimage" class="s_mediaimage" placeholder="Search media items..." value="'. $searchMediaImage_val .'" /> <button type="button" class="s_btn_mediaimage button" >Search</button>
 	</div>' ;
 	if( !empty( $imgs ) && count( $imgs ) > 0 ) {
