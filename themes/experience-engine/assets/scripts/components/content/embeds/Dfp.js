@@ -98,12 +98,15 @@ const slotRenderEndedHandler = event => {
 			let adSize;
 			if (size && size.length === 2 && (size[0] !== 1 || size[1] !== 1)) {
 				adSize = size;
-			} else if (window.pbjs) {
-				const winningBid = window.pbjs
-					.getAllWinningBids()
-					.filter(b => b.adUnitCode === slot.getAdUnitPath());
-				if (winningBid && winningBid.length > 0) {
-					adSize = [winningBid[0].width, winningBid[0].height];
+			} else if (slot.getTargeting('hb_size')) {
+				const hbSizeString = slot.getTargeting('hb_size');
+				const idxOfX = hbSizeString.toLowerCase().indexOf('x');
+				if (idxOfX > -1) {
+					const widthString = hbSizeString.substr(0, idxOfX);
+					const heightString = hbSizeString.substr(idxOfX + 1);
+					adSize = [];
+					adSize[0] = parseInt(widthString, 10);
+					adSize[1] = parseInt(heightString, 10);
 				}
 			}
 
