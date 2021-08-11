@@ -100,7 +100,11 @@ const slotRenderEndedHandler = event => {
 				adSize = size;
 			} else if (slot.getTargeting('hb_size')) {
 				const hbSizeString = slot.getTargeting('hb_size');
-				const idxOfX = hbSizeString.toLowerCase().indexOf('x');
+				console.log(`Prebid Sizestring: ${hbSizeString}`);
+				const idxOfX = hbSizeString
+					.toString()
+					.toLowerCase()
+					.indexOf('x');
 				if (idxOfX > -1) {
 					const widthString = hbSizeString.substr(0, idxOfX);
 					const heightString = hbSizeString.substr(idxOfX + 1);
