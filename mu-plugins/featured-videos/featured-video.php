@@ -174,7 +174,8 @@ function get_images_from_media_library( $s_value = null, $paged_value ) {
 			$images[ $image->ID ]= $image->guid;
 		}
 	}
-    return $images;
+	$result = array( "imgs" => $images, "imgs_array" => $query_images->posts );
+    return $result;
 }
 
 function fvideos_load_more_media_image() {
@@ -188,8 +189,9 @@ function fvideos_load_more_media_image() {
 
 	$imgs = get_images_from_media_library( $searchMediaImage, $paged_mediaimage_val );
 	//print_r(count($imgs));
-	if( !empty( $imgs ) && count( $imgs ) > 0 ) {
-		foreach( $imgs as $imgid => $img ) {
+	// exit;
+	if( !empty( $imgs['imgs'] ) && count( $imgs['imgs'] ) > 0 ) {
+		foreach( $imgs['imgs'] as $imgid => $img ) {
 			$jqueryEventSelectedClass = "'selected-media-img'";
 			$html .= '<li class="mediaimg-li" >';
 				$html .= '<img class="img-attachment" src="' . $img . '" alt="" image-id="' . $imgid . '" onclick="jQuery(this).addClass(' . $jqueryEventSelectedClass .')" />';
@@ -197,7 +199,7 @@ function fvideos_load_more_media_image() {
 		}
 	}
 	
-	wp_send_json_success( array( "media_image_list" => $html, "paged_mediaimage" => $paged_mediaimage_val, "searchMediaImage_val" => $searchMediaImage_val ) );
+	wp_send_json_success( array( "media_image_list" => $html, "paged_mediaimage" => $paged_mediaimage_val, "searchMediaImage_val" => $searchMediaImage_val, "imgs_array" => json_encode( $imgs ) ) );
 }
 
 function fvideos_get_media_image() {
@@ -208,20 +210,21 @@ function fvideos_get_media_image() {
 	$paged_mediaimage_val = $paged_mediaimage ? $paged_mediaimage : '1';
 
 	$imgs = get_images_from_media_library( $searchMediaImage_val, $paged_mediaimage_val );
-	// print_r(count($imgs));
+	// print_r( $imgs['imgs'] );
+	// exit;
 	$html = '<div id="main-container-mediaimg">';
 	$html .= '<input type="hidden" name="paged_mediaimage" id="paged_mediaimage" class="paged_mediaimage" value="'. $paged_mediaimage_val .'" />';
 	$html .= '<div class="media-search"> <span class="spinner" id="s_spinner"></span> <input type="text" name="s_mediaimage" id="s_mediaimage" class="s_mediaimage" placeholder="Search media items..." value="'. $searchMediaImage_val .'" /> <button type="button" class="s_btn_mediaimage button" >Search</button>
 	</div>' ;
-	if( !empty( $imgs ) && count( $imgs ) > 0 ) {
+	if( !empty( $imgs['imgs'] ) && count( $imgs['imgs'] ) > 0 ) {
 		$html .= '<ul class="mediaimg-ul">';
-		foreach( $imgs as $imgid => $img ) {
+		foreach( $imgs['imgs'] as $imgid => $img ) {
 			$jqueryEventSelectedClass = "'selected-media-img'";
 			/* $html .= '<li class="" >';
 				$html .= '<img class="img-attachment" src="' . $img . '" alt="" image-id="' . $imgid . '" onclick="$(this).addClass(' . $jqueryEventSelectedClass .')" />';
 			$html .= '</li>'; */
 			$html .= '<li class="mediaimg-li" >';
-				$html .= '<img class="img-attachment" src="' . $img . '" alt="" image-id="' . $imgid . '" onclick="$(this).addClass(' . $jqueryEventSelectedClass .')" />';
+				$html .= '<img class="img-attachment" src="' . $img . '" alt="" image-id="' . $imgid . '" onclick="jQuery(this).addClass(' . $jqueryEventSelectedClass .')" />';
 			$html .= '</li>';
 		}
 		$html .= '</ul>';
@@ -231,8 +234,9 @@ function fvideos_get_media_image() {
 		$html .= '<div class=""><h2 class="">No items found.</h2></div>';
 	}
 	$html .= '</div>';
-	
-	wp_send_json_success( $html );
+
+	$resutl = array( "html" => $html, "imgs_array" => json_encode( $imgs ) );
+	wp_send_json_success( $resutl );
 }
 
 function get_images_li_view(){

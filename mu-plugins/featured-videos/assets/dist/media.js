@@ -892,6 +892,7 @@ var mediaView = wp.media.View.extend({
 			$paged_mediaimage.val( success.paged_mediaimage );
 			$loadmore_spinner.removeClass( 'is-active' );	// remove spinner load
 			$media_loadmore.removeAttr('disabled');
+			console.log( 'loadMoreMediaImg: ', success.imgs_array );
 			if(!success.media_image_list){
 				$media_loadmore.hide();
 			}
@@ -909,7 +910,8 @@ var mediaView = wp.media.View.extend({
 			$s_spinner.addClass( 'is-active' );
 
 		request( 'fvideos_get_media_image', { media: 'media_show', s_mediaimage: $el.find('#s_mediaimage').val() } ).then(function (success) {
-			$preview.html( success );
+			$preview.html( success.html );
+			console.log( 'searchMediaImg: ', success.imgs_array );
 		}).catch(function ( error ) {
 			console.log( error );
 			alert(fvideo.cannotEmbedImage);
@@ -926,7 +928,8 @@ var mediaView = wp.media.View.extend({
 
 		request( 'fvideos_get_media_image', { media: 'media_show' } ).then(function (success) {
 			$image__preview_spinner.removeClass( 'is-active' );	// remove spinner load
-			$preview.html( success );
+			$preview.html( success.html );
+			console.log( 'showMediaImg: ', success.imgs_array );
 			$video__mediaimg_button.removeAttr('disabled');
 		}).catch(function ( error ) {
 			console.log( error );
