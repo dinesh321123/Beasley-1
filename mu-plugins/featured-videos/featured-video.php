@@ -21,6 +21,7 @@ add_action( 'customize_controls_print_footer_scripts', 'fvideos_print_media_temp
 add_action( 'wp_ajax_fvideos_get_embed', 'fvideos_discover_oembed' );
 add_action( 'wp_ajax_fvideos_import_embed', 'fvideos_import_oembed' );
 add_action( 'wp_ajax_fvideos_get_media_image', 'fvideos_get_media_image' );
+add_action( 'wp_ajax_fvideos_load_more_media_image', 'fvideos_load_more_media_image' );
 add_action( 'wp_ajax_get_selected_media_image', 'get_selected_media_image' );
 add_action( 'plugins_loaded', 'fvideos_load_textdomain' );
 
@@ -143,17 +144,16 @@ function fvideos_discover_oembed() {
 	}
 }
 
-function get_images_from_media_library( $s_value = null ) {
-	// https://wordpress.org/support/topic/get-all-imgs-from-media-library/
+function get_images_from_media_library( $s_value = null, $paged_value ) {
 	global $wpdb;
 	$images = array();
 	$query_images_args = array(
 		'post_type'      => 'attachment',
 		'post_mime_type' => 'image',
 		'post_status'    => 'inherit',
-		'posts_per_page' => - 1,
+		'posts_per_page' => 16,
+		'paged'			 => $paged_value
 	);
-	// https://wordpress.stackexchange.com/questions/355735/wp-query-search-for-attachments-and-their-exact-title
 	
 	if( isset( $s_value ) && $s_value !="" ) {
 		$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_title LIKE %s AND post_type = 'attachment'", '%' . $wpdb->esc_like($s_value) . '%' ) );
@@ -169,6 +169,7 @@ function get_images_from_media_library( $s_value = null ) {
 		}
 	} else {
 		$query_images = new WP_Query( $query_images_args );
+		// echo '--- Page '.$paged_value.' --- ';
 		foreach ( $query_images->posts as $image) {
 			$images[ $image->ID ]= $image->guid;
 		}
@@ -176,13 +177,40 @@ function get_images_from_media_library( $s_value = null ) {
     return $images;
 }
 
+function fvideos_load_more_media_image() {
+	$html = '';
+	$searchMediaImage = filter_input( INPUT_GET, 's_mediaimage', FILTER_SANITIZE_SPECIAL_CHARS );
+	$paged_mediaimage = filter_input( INPUT_GET, 'paged_mediaimage', FILTER_SANITIZE_SPECIAL_CHARS );
+
+	$searchMediaImage_val = $searchMediaImage ? $searchMediaImage : '';
+	$paged_mediaimage_val = $paged_mediaimage ? $paged_mediaimage+1 : '1';
+	// echo "-- Passed value".$paged_mediaimage_val.' --- ';
+
+	$imgs = get_images_from_media_library( $searchMediaImage, $paged_mediaimage_val );
+	//print_r(count($imgs));
+	if( !empty( $imgs ) && count( $imgs ) > 0 ) {
+		foreach( $imgs as $imgid => $img ) {
+			$jqueryEventSelectedClass = "'selected-media-img'";
+			$html .= '<li class="mediaimg-li" >';
+				$html .= '<img class="img-attachment" src="' . $img . '" alt="" image-id="' . $imgid . '" onclick="$(this).addClass(' . $jqueryEventSelectedClass .')" />';
+			$html .= '</li>';
+		}
+	}
+	
+	wp_send_json_success( array( "media_image_list" => $html, "paged_mediaimage" => $paged_mediaimage_val, "searchMediaImage_val" => $searchMediaImage_val ) );
+}
+
 function fvideos_get_media_image() {
 	$searchMediaImage = filter_input( INPUT_GET, 's_mediaimage', FILTER_SANITIZE_SPECIAL_CHARS );
+	$paged_mediaimage = filter_input( INPUT_GET, 'paged_mediaimage', FILTER_SANITIZE_SPECIAL_CHARS );
+
 	$searchMediaImage_val = $searchMediaImage ? $searchMediaImage : '';
-	
-	$imgs = get_images_from_media_library( $searchMediaImage );
+	$paged_mediaimage_val = $paged_mediaimage ? $paged_mediaimage : '1';
+
+	$imgs = get_images_from_media_library( $searchMediaImage_val, $paged_mediaimage_val );
 	// print_r(count($imgs));
 	$html = '<div id="main-container-mediaimg">';
+	$html .= '<input type="text" name="paged_mediaimage" id="paged_mediaimage" class="paged_mediaimage" value="'. $paged_mediaimage_val .'" />';
 	$html .= '<div class="media-search"> <span class="spinner" id="s_spinner"></span> <input type="text" name="s_mediaimage" id="s_mediaimage" class="s_mediaimage" placeholder="Search media items..." value="'. $searchMediaImage_val .'" /> <button type="button" class="s_btn_mediaimage button" >Search</button>
 	</div>' ;
 	if( !empty( $imgs ) && count( $imgs ) > 0 ) {
@@ -194,15 +222,21 @@ function fvideos_get_media_image() {
 			$html .= '</li>'; */
 			$html .= '<li class="mediaimg-li" >';
 				$html .= '<img class="img-attachment" src="' . $img . '" alt="" image-id="' . $imgid . '" onclick="$(this).addClass(' . $jqueryEventSelectedClass .')" />';
-			$html .= '</li>'; 
+			$html .= '</li>';
 		}
 		$html .= '</ul>';
+		$html .= '<div style="text-align: center;"><span class="spinner" id="loadmore_spinner"></span></div>';		
+		$html .= '<div style="text-align: center;"><button type="button" id="media_loadmore" class="media_loadmore button button-secondary button-hero">Load more media images</button></div>';	
 	} else {
 		$html .= '<div class=""><h2 class="">No items found.</h2></div>';
 	}
 	$html .= '</div>';
 	
 	wp_send_json_success( $html );
+}
+
+function get_images_li_view(){
+
 }
 
 function get_selected_media_image() {

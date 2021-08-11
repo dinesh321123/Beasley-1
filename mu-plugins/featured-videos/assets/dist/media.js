@@ -769,6 +769,7 @@ var mediaView = wp.media.View.extend({
 		'keyup .video__url': 'onUrlChange',
 		'click .video__submit': 'addVideo',
 		'click .video__mediaimg': 'showMediaImg',
+		'click #media_loadmore': 'loadMoreMediaImg',
 		'click .s_btn_mediaimage': 'searchMediaImg',
 		'click .img-attachment': 'getSelectedMediaImg',
 		'click #upload_image': 'showUploadImage',
@@ -873,6 +874,31 @@ var mediaView = wp.media.View.extend({
 			$video__submit_spinner.removeClass( 'is-active' );	// remove spinner load
 			self.loading = false;
 			alert(fvideo.cannotEmbed);
+		});
+	},
+	loadMoreMediaImg: function loadMoreMediaImg() {
+		var $el = this.$el;
+		var $media_loadmore = $el.find('#media_loadmore');
+		var $previewMediaImgUl = $el.find('.mediaimg-ul');
+		var $paged_mediaimage = $el.find('#paged_mediaimage')
+		
+		$media_loadmore.attr('disabled', 'disabled');
+		// spinner load
+		var $loadmore_spinner = $el.find( '#loadmore_spinner' );
+			$loadmore_spinner.addClass( 'is-active' );
+		
+		request( 'fvideos_load_more_media_image', { media: 'media_show', s_mediaimage: $el.find('#s_mediaimage').val(), paged_mediaimage: $el.find('#paged_mediaimage').val() } ).then(function (success) {
+			$previewMediaImgUl.append( success.media_image_list );
+			$paged_mediaimage.val( success.paged_mediaimage );
+			$loadmore_spinner.removeClass( 'is-active' );	// remove spinner load
+			$media_loadmore.removeAttr('disabled');
+			if(!success.media_image_list){
+				$media_loadmore.hide();
+			}
+		}).catch(function ( error ) {
+			console.log( error );
+			alert(fvideo.cannotEmbedImage);
+			$loadmore_spinner.removeClass( 'is-active' );	// remove spinner load
 		});
 	},
 	searchMediaImg: function searchMediaImg() {
