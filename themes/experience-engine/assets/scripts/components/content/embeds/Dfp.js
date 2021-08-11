@@ -74,14 +74,14 @@ const slotVisibilityChangedHandler = event => {
 };
 
 const slotRenderEndedHandler = event => {
-	const { slot, lineItemId, isEmpty, size } = event;
+	const { slot, isEmpty, size } = event;
 	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
 		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
 		: null;
 
 	const placeholder = slot.getSlotElementId();
 
-	console.log(`slotRenderEndedHandler lineItemId: ${lineItemId}`);
+	console.log(`slotRenderEndedHandler adUnit: ${slot.getAdUnitPath()}`);
 	console.log(`slotRenderEndedHandler isEmpty: ${isEmpty}`);
 	console.log(`slotRenderEndedHandler size: ${size}`);
 
@@ -103,7 +103,7 @@ const slotRenderEndedHandler = event => {
 			} else if (window.pbjs) {
 				const winningBid = window.pbjs
 					.getAllWinningBids()
-					.filter(b => b.adUnitCode === lineItemId);
+					.filter(b => b.adUnitCode === slot.getAdUnitPath());
 				console.log(`Backup Size From PreBid: ${winningBid}`);
 				if (winningBid && winningBid.length > 0) {
 					adSize = [winningBid[0].width, winningBid[0].height];
