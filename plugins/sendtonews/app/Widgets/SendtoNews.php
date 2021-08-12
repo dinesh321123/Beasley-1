@@ -8,7 +8,7 @@ use SendtoNews\Models\Settings;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.0-RC3
+ * @version 1.0.1.1
  */
 class SendtoNews extends WP_Widget
 {
@@ -38,6 +38,7 @@ class SendtoNews extends WP_Widget
     {
         global $sendtonews;
         $this->main = $sendtonews;
+
         parent::__construct(
             'sendtonews', // Widget ID.
             'STN Video', // Widget name.
@@ -55,7 +56,7 @@ class SendtoNews extends WP_Widget
      *
      * @param integer $number Optional. The unique order number of this widget instance
      *                        compared to other instances of the same class. Default -1.
-     * 
+     *
      * @global SendtoNews\Main $sendtonews
      */
     public function _register_one( $number = -1 )
@@ -72,7 +73,7 @@ class SendtoNews extends WP_Widget
         $this->registered = true;
 
         // Confirm API verification.
-        $verified = $sendtonews->{'_c_return_AdminController@verified'}();
+        $verified = $sendtonews->{ '_c_return_AdminController@verified' }();
 
         if ( $verified )
         {
@@ -197,7 +198,7 @@ class SendtoNews extends WP_Widget
      * @since 0.1.0
      *
      * @param array $instance Widget instance.
-     * 
+     *
      * @global SendtoNews\Main $sendtonews
      */
     public function form( $instance )
@@ -213,7 +214,7 @@ class SendtoNews extends WP_Widget
         $cid = '';
 
         // Confirm API verification.
-        $verified = $sendtonews->{'_c_return_AdminController@verified'}();
+        $verified = $sendtonews->{ '_c_return_AdminController@verified' }();
 
         // Retrieve settings.
         $settings = Settings::find();
@@ -268,7 +269,7 @@ class SendtoNews extends WP_Widget
         // Update Instance
         $instance['name'] = ( ! empty( $new_instance['name'] ) ) ? $new_instance['name'] : '';
         $instance['type'] = ( ! empty( $new_instance['type'] ) ) ? $new_instance['type'] : '';
-        $instance['key'] = ( ! empty( $new_instance['key'] ) ) ? $new_instance['key'] : '';
+        $instance['key']  = ( ! empty( $new_instance['key'] ) ) ? $new_instance['key'] : '';
 
         return $instance;
     }
@@ -283,15 +284,13 @@ class SendtoNews extends WP_Widget
      *
      * @since 4.8.0
      */
-    public function enqueue_preview_scripts()
-    {
-    }
+    public function enqueue_preview_scripts() {}
 
     /**
      * Loads the required scripts and styles for the widget control.
      *
      * @since 4.8.0
-     * 
+     *
      * @global SendtoNews\Main $sendtonews
      */
     public function enqueue_admin_scripts()
@@ -302,7 +301,8 @@ class SendtoNews extends WP_Widget
         $cid      = '';
         $authcode = '';
 
-        // Retrieve settings.
+        // Retrieve version & settings.
+        $version  = $sendtonews->config->get( 'version' );
         $settings = Settings::find();
 
         // Check settings exist.
@@ -326,7 +326,7 @@ class SendtoNews extends WP_Widget
             'sendtonews-oneui',
             S2N_PLAYER_SELECTOR_URL . 'assets/css/oneui.css',
             array(),
-            $sendtonews->config->get( 'version' ),
+            $version,
             'all'
         );
 
@@ -335,7 +335,7 @@ class SendtoNews extends WP_Widget
             'sendtonews-stn',
             S2N_PLAYER_SELECTOR_URL . 'assets/css/sendtonews.css',
             array(),
-            $sendtonews->config->get( 'version' ),
+            $version,
             'all'
         );
 
@@ -344,7 +344,7 @@ class SendtoNews extends WP_Widget
             'sendtonews-stories',
             S2N_PLAYER_SELECTOR_URL . 'assets/css/stories.css',
             array(),
-            $sendtonews->config->get( 'version' ),
+            $version,
             'all'
         );
 
@@ -353,7 +353,7 @@ class SendtoNews extends WP_Widget
             'sendtonews-plugins',
             S2N_PLAYER_SELECTOR_URL . 'assets/css/jqplugins.css',
             array(),
-            $sendtonews->config->get( 'version' ),
+            $version,
             'all'
         );
 
@@ -369,7 +369,7 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -381,7 +381,7 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -393,7 +393,7 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -405,7 +405,7 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -417,9 +417,9 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
-        );        
+        );
 
         // Enqueue S2N OneUI App Script.
         wp_enqueue_script(
@@ -434,7 +434,7 @@ class SendtoNews extends WP_Widget
                 'sendtonews-oneui-jqappear',
                 'sendtonews-oneui-jscookie',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -446,7 +446,7 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -458,7 +458,7 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -470,7 +470,7 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -483,7 +483,7 @@ class SendtoNews extends WP_Widget
                 'jquery-ui-tooltip',
                 'sendtonews-plugins'
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -495,7 +495,7 @@ class SendtoNews extends WP_Widget
                 'jquery',
                 'jquery-ui-tooltip',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
@@ -520,13 +520,13 @@ class SendtoNews extends WP_Widget
                 'sendtonews-loader',
                 'sendtonews-modal',
             ),
-            $sendtonews->config->get( 'version' ),
+            $version,
             true
         );
 
         /*********************
          * Localize Custom Scripts
-         * 
+         *
          * Pass parameters to the scripts.
          *********************/
 
@@ -568,7 +568,7 @@ class SendtoNews extends WP_Widget
      * @since 0.9.1
      *
      * @hook admin_footer-{context}
-     * 
+     *
      * @global SendtoNews\Main $sendtonews
      */
     public function render_widget_overview_template()
@@ -584,7 +584,7 @@ class SendtoNews extends WP_Widget
      * @since 0.9.1
      *
      * @hook admin_footer-{context}
-     * 
+     *
      * @global SendtoNews\Main $sendtonews
      */
     public function render_smartmatch_template()
@@ -600,7 +600,7 @@ class SendtoNews extends WP_Widget
      * @since 0.9.1
      *
      * @hook admin_footer-{context}
-     * 
+     *
      * @global SendtoNews\Main $sendtonews
      */
     public function render_help_template()

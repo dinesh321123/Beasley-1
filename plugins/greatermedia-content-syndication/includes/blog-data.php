@@ -246,6 +246,8 @@ class BlogData {
 					$single_post['listicle_metas'],
 					$single_post['am_metas'],
 					$single_post['am_item_photo_attachment'],
+					$single_post['show_metas'],
+					$single_post['show_logo_metas'],
 					$single_post['term_tax'],
 					$force,
 					$single_post['page_metas']
@@ -521,6 +523,8 @@ class BlogData {
 			'listicle_metas' 	  => $listicle_metas,
 			'am_metas'			  => $am_metas,
 			'am_item_photo_attachment'			  => $am_metas_photo_array,
+			'show_metas'		  => $show_metas,
+			'show_logo_metas'	  => $show_logo_metas,
 			'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
 			'galleries'           => $galleries,
 			'term_tax'            => $term_tax,
@@ -557,7 +561,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $listicle_metas,$am_metas, $am_item_photo_attachment, $term_tax, $force_update = false, $page_metas ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $listicle_metas,$am_metas, $am_item_photo_attachment, $show_metas, $show_logo_metas, $term_tax, $force_update = false, $page_metas ) {
 		if ( ! $post ) {
 			return;
 		}
@@ -775,6 +779,7 @@ class BlogData {
 			delete_post_meta( $post_id, '_wp_page_template' );
 			update_post_meta( $post_id, '_wp_page_template',$page_metas['_wp_page_template'] );
 		}
+
 
 			if ( 'affiliate_marketing' == $post_type ) {
 				delete_post_meta( $post_id, 'am_item_name' );
