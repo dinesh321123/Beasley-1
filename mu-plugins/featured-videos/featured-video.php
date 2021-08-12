@@ -164,14 +164,18 @@ function get_images_from_media_library( $s_value = null, $paged_value ) {
 		if( count($query_images_args['post__in']) > 0 && !empty( $query_images_args['post__in'] ) )
 		{
 			foreach ( $query_images->posts as $image) {
-				$images[ $image->ID ]= $image->guid;
+				$image_guid = wp_get_attachment_url( $image->ID );
+				$images[ $image->ID ]= $image_guid;
 			}
 		}
 	} else {
 		$query_images = new WP_Query( $query_images_args );
+		// print_r( $query_images->posts );
 		// echo '--- Page '.$paged_value.' --- ';
 		foreach ( $query_images->posts as $image) {
-			$images[ $image->ID ]= $image->guid;
+			$image_guid = wp_get_attachment_url( $image->ID );
+			// $file = get_post_meta( $post->ID, '_wp_attached_file', true );
+			$images[ $image->ID ]= $image_guid;
 		}
 	}
 	$result = array( "imgs" => $images, "imgs_array" => $query_images->posts );
