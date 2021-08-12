@@ -67,14 +67,6 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 				$post_type = array( $post_type );
 			}
 
-<<<<<<<<< Temporary merge branch 1
-			$post_type[] = 'gmr_gallery';
-			$post_type[] = 'listicle_cpt';
-			$post_type[] = 'affiliate_marketing';
-			$post_type[] = 'gmr_album';
-			$post_type[] = 'contest';
-
-=========
 			$post_types_array = get_post_types( '', 'names' );
 			$exclude_post_type = array( 'gmr_homepage', 'gmr_mobile_homepage', 'page', 'nav_menu_item', 'user_request', 'acf-field-group', 'acf-field', 'cmm-redirect', 'attachment', 'revision', 'custom_css', 'customize_changeset', 'oembed_cache', 'live-stream', 'songs', 'redirect_rule' );
 			foreach ( $post_types_array as $posttype ) {
