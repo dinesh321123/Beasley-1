@@ -13,7 +13,7 @@ use SendtoNews\Models\Settings;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.1.1
+ * @version 1.0.1.2
  */
 class Main extends Bridge
 {
@@ -50,7 +50,7 @@ class Main extends Bridge
 
         // Register [sendtonews] shortcode.
         // @TODO: Migrate to [stnvideo] shortcode.
-		//$this->add_shortcode( 'sendtonews', 'ShortcodeController@show' );
+        //$this->add_shortcode( 'sendtonews', 'ShortcodeController@show' );
 
         // Register SendtoNews widget.
         // @TODO: Migrate to STNVideo widget.

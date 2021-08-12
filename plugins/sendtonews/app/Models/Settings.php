@@ -11,7 +11,7 @@ use WPMVC\MVC\Models\OptionModel as Model;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.1.1
+ * @version 1.0.1.2
  */
 class Settings extends Model
 {
@@ -28,7 +28,7 @@ class Settings extends Model
     /**
      * Field aliases and definitions.
      * @since 0.1.0
-     *
+     * 
      * @var array
      */
     protected $aliases = [

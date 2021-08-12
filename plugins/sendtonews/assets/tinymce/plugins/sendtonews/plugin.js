@@ -3,7 +3,7 @@
  *
  * @author STN Video <wpadmin@stnvideo.com>
  * @package SendtoNews
- * @version 1.0.1.1
+ * @version 1.0.1.2
  */
 
 ( function( $ ) {

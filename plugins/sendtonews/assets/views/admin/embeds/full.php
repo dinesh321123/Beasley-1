@@ -6,7 +6,7 @@
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.1.1
+ * @version 1.0.1.2
  */
 ?>
 <div class="notice notice-info inline"><h3><?php echo $name; ?></h3></div>

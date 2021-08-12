@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140
+class ComposerStaticInit022e5873cc8cd24f658a15e060266435
 {
     public static $files = array (
         '6f7750a5f1d239027ef483252f4ce3c7' => __DIR__ . '/..' . '/10quality/wpmvc-phpfastcache/src/lib/functions.php',
@@ -99,11 +99,11 @@ class ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInit9f8d719e0c1a9d7445c39c253b508140::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit022e5873cc8cd24f658a15e060266435::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -14,7 +14,6 @@ class AffiliateMarketingCPTMetaboxes {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ) );
 		add_action( 'save_post',array( __CLASS__, 'affiliate_marketing_save') );
 		add_action( 'save_post',array( __CLASS__, 'affiliate_marketing_footer_description_save') );
-		add_post_type_support( 'affiliate_marketing', 'timed-content' );
 	}
 
 	function affiliate_marketing_yoast_to_bottom() {
@@ -70,7 +69,7 @@ class AffiliateMarketingCPTMetaboxes {
 					});
 				</script>
 		</div>
-		<?php 
+		<?php
 	}
 
 	/**
@@ -86,7 +85,7 @@ class AffiliateMarketingCPTMetaboxes {
 
 		$am_item_unique_order = self::am_get_metavalue( 'am_item_unique_order' );
 		$am_item_order = self::am_get_metavalue( 'am_item_order' );
-		
+
 		$am_item_buttontext = self::am_get_metavalue( 'am_item_buttontext' );
 		$am_item_buttonurl = self::am_get_metavalue( 'am_item_buttonurl' );
 		$am_item_getitnowfromname = self::am_get_metavalue( 'am_item_getitnowfromname' );
@@ -107,7 +106,7 @@ class AffiliateMarketingCPTMetaboxes {
 			for ($i = 0; $i < count($contents); $i++) {
 			?>
 			<div class="content-row am-content-row">
-				<?php 
+				<?php
 					// if( $i !== 0 && $i > 0 ){
 				?>
 					<a class="content-delete" href="#" style="color:#a00;float:right;margin-top: 3px;text-decoration:none;font-size:20px;"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="-64 0 512 512" width="25px"><path d="m256 80h-32v-48h-64v48h-32v-80h128zm0 0" fill="#62808c"/><path d="m304 512h-224c-26.507812 0-48-21.492188-48-48v-336h320v336c0 26.507812-21.492188 48-48 48zm0 0" fill="#e76e54"/><path d="m384 160h-384v-64c0-17.671875 14.328125-32 32-32h320c17.671875 0 32 14.328125 32 32zm0 0" fill="#77959e"/><path d="m260 260c-6.246094-6.246094-16.375-6.246094-22.625 0l-41.375 41.375-41.375-41.375c-6.25-6.246094-16.378906-6.246094-22.625 0s-6.246094 16.375 0 22.625l41.375 41.375-41.375 41.375c-6.246094 6.25-6.246094 16.378906 0 22.625s16.375 6.246094 22.625 0l41.375-41.375 41.375 41.375c6.25 6.246094 16.378906 6.246094 22.625 0s6.246094-16.375 0-22.625l-41.375-41.375 41.375-41.375c6.246094-6.25 6.246094-16.378906 0-22.625zm0 0" fill="#fff"/></svg></a>
@@ -119,15 +118,15 @@ class AffiliateMarketingCPTMetaboxes {
 				</div>
 				<input name="am_item_order[]" type="hidden" value="<?php echo $i; ?>">
 				<input name="am_item_unique_order[]" type="hidden" value="<?php echo $am_item_unique_order[$i] ? $am_item_unique_order[$i] : $post->ID.'221'.mt_rand() ; ?>">
-				
+
 				<div  class="am-form-group">
 					<label class="ammetatitle" for="am_item_imagetype_<?php echo $i; ?>">
-						<?php _e( 'Image code', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?> 
+						<?php _e( 'Image code', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?>
 						<input name="am_item_imagetype_<?php echo "$i";?>" id="am_item_imagetype_<?php echo "$i";?>" type="radio" <?php echo $am_item_imagetype[$i] == "imagecode" ? 'checked' : '' ;?> value="imagecode" class="am_item_imagetype" data-postid="<?php echo $i; ?>" data-type-hide="imageurl" />
 					</label>
 					<label class="ammetatitle" for="am_item_imagetype_<?php echo $i; ?>">
 						<?php _e( 'Photo', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?>
-						<input name="am_item_imagetype_<?php echo "$i";?>" id="am_item_imagetype_imageurl_<?php echo "$i";?>" type="radio" <?php echo $am_item_imagetype[$i] == "imageurl" ? 'checked' : '' ;?> value="imageurl" class="am_item_imagetype" data-postid="<?php echo $i; ?>" data-type-hide="imagecode" /> 
+						<input name="am_item_imagetype_<?php echo "$i";?>" id="am_item_imagetype_imageurl_<?php echo "$i";?>" type="radio" <?php echo $am_item_imagetype[$i] == "imageurl" ? 'checked' : '' ;?> value="imageurl" class="am_item_imagetype" data-postid="<?php echo $i; ?>" data-type-hide="imagecode" />
 					</label>
 					<div class="imageurl" id="imageurl_<?php echo $i;?>" <?php echo $am_item_imagetype[$i] == "imageurl" || $am_item_imagetype[$i] == "" ? 'style="display:none"' : '' ; ?>>
 						<textarea name="am_item_imagecode[]" class="tinytext" id="imagecode-<?php echo $i; ?>" rows="10"><?php echo $am_item_imagetype[$i] == "imagecode" ? $am_item_imagecode[$i] : ""; ?></textarea>
@@ -153,7 +152,7 @@ class AffiliateMarketingCPTMetaboxes {
 								var contentID = 'tiny-editor-' + startingContent;
 								tinymce.init({ selector: '#' + contentID, branding: false });
 							});
-							
+
 						</script>
 				</div>
 				<div class="am-form-group">
@@ -204,7 +203,7 @@ class AffiliateMarketingCPTMetaboxes {
 				e.preventDefault();
 				startingContent++;
 				var total_count_items = startingContent+1;
-				jQuery('#total_count_items').val(total_count_items); 
+				jQuery('#total_count_items').val(total_count_items);
 				var contentID = 'am_item_description_' + startingContent;
 				var am_item_name = 'am_item_name_' + startingContent;
 				var am_item_photo = 'am_item_photo_' + startingContent;
@@ -215,9 +214,9 @@ class AffiliateMarketingCPTMetaboxes {
 				var am_item_getitnowfromname = 'am_item_getitnowfromname_' + startingContent;
 				var am_item_getitnowtext = 'am_item_getitnowtext_' + startingContent;
 				var am_item_getitnowfromurl = 'am_item_getitnowfromurl_' + startingContent;
-				
+
 					contentRow = '<div class="content-row am-content-row"><a class="content-delete" href="#" style="color:#a00;float:right;margin-top: 3px;text-decoration:none;font-size:20px;"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="-64 0 512 512" width="25px"><path d="m256 80h-32v-48h-64v48h-32v-80h128zm0 0" fill="#62808c"/><path d="m304 512h-224c-26.507812 0-48-21.492188-48-48v-336h320v336c0 26.507812-21.492188 48-48 48zm0 0" fill="#e76e54"/><path d="m384 160h-384v-64c0-17.671875 14.328125-32 32-32h320c17.671875 0 32 14.328125 32 32zm0 0" fill="#77959e"/><path d="m260 260c-6.246094-6.246094-16.375-6.246094-22.625 0l-41.375 41.375-41.375-41.375c-6.25-6.246094-16.378906-6.246094-22.625 0s-6.246094 16.375 0 22.625l41.375 41.375-41.375 41.375c-6.246094 6.25-6.246094 16.378906 0 22.625s16.375 6.246094 22.625 0l41.375-41.375 41.375 41.375c6.25 6.246094 16.378906 6.246094 22.625 0s6.246094-16.375 0-22.625l-41.375-41.375 41.375-41.375c6.246094-6.25 6.246094-16.378906 0-22.625zm0 0" fill="#fff"/></svg></a><h3 class="am-item-title">Item</h3><div class="am-form-group"><label  class="ammetatitle" for="' + am_item_name + '"><?php _e( 'Name', 'affiliate_marketing_textdomain' ); ?></label><input name="am_item_name[]" type="text" id="' + am_item_name + '" ></div><input  name="am_item_order[]" type="hidden" value="' + startingContent + '"><input  name="am_item_unique_order[]" type="hidden" value="<?php echo $post->ID.'221'.mt_rand() ; ?>"><div class="am-form-group"><label class="ammetatitle" for="' + am_item_imagetype + '"><?php _e( 'Image code', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?><input name="' + am_item_imagetype + '" id="' + am_item_imagetype + '" type="radio" value="imagecode" class="am_item_imagetype" data-postid="' + startingContent + '" data-type-hide="imageurl"></label><label class="ammetatitle" for="' + am_item_imagetype + '"><?php _e( 'Photo', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?><input name="' + am_item_imagetype + '" id="' + am_item_imagetype_imageurl + '" type="radio" checked value="imageurl" class="am_item_imagetype" data-postid="' + startingContent + '" data-type-hide="imagecode"></label><div class="imageurl" id="imageurl_' + startingContent + '" style="display:none;"><textarea name="am_item_imagecode[]" class="tinytext" id="imagecode-' + startingContent + '" rows="10"></textarea></div><div class="imagecode" id="imagecode_' + startingContent + '"><input type="hidden" value="" class="regular-text process_custom_images" id="process_custom_images" name="am_item_photo[]" max="" min="1" step="1"><button class="set_custom_images button">Upload Image</button><img class="upload-preview" src="" width="100"></div></div><div class="am-form-group"><label  class="ammetatitle" for="' + contentID + '"><?php _e( 'Description', 'affiliate_marketing_textdomain' ); ?></label><textarea name="am_item_description[]" class="tinytext" id="' + contentID + '" rows="10"></textarea></div><div class="am-form-group"><label class="ammetatitle" for="' + am_item_buttontext + '"><?php _e( 'Button Text', 'affiliate_marketing_textdomain' ); ?></label><input name="am_item_buttontext[]" type="text" value="Shop This" id="' + am_item_buttontext + '" ></div><div class="am-form-group"><label class="ammetatitle" for="' + am_item_buttonurl + '"><?php _e( 'Button URL', 'affiliate_marketing_textdomain' ); ?></label><input name="am_item_buttonurl[]" type="text" id="' + am_item_buttonurl + '" ></div><div class="am-form-group"><label class="ammetatitle" for="' + am_item_getitnowtext + '"><?php _e( 'Get it now from name', 'affiliate_marketing_textdomain' ); ?></label><select name="am_item_getitnowtext[]"><option value="Get it now here">Get it now here</option><option value="Get it now from">Get it now from</option><option value="Get It Here">Get It Here</option><option value="Buy It Now">Buy It Now</option><option value="Pick It Up Here">Pick It Up Here</option><option value="Score Yours Now">Score Yours Now</option><option value="See More Here">See More Here</option><option value="Learn More Here">Learn More Here</option><option value="Snag One Here">Snag One Here</option><option value="Grab It One Here">Grab It One Here</option><option value="Get One Here">Get One Here</option><option value="Get Yours Now">Get Yours Now</option></select></div><div class="am-form-group"><label class="ammetatitle" for="' + am_item_getitnowfromname + '"><?php _e( 'Get it now from name', 'affiliate_marketing_textdomain' ); ?></label><input name="am_item_getitnowfromname[]" type="text" id="' + am_item_getitnowfromname + '" ></div><div class="am-form-group"><label class="ammetatitle" for="' + am_item_getitnowfromurl + '"><?php _e( 'Get it now from URL', 'affiliate_marketing_textdomain' ); ?></label><input name="am_item_getitnowfromurl[]" type="text" id="' + am_item_getitnowfromurl + '" ></div></div>';
-					
+
 					jQuery('.content-row').eq(jQuery('.content-row').length - 1).after(contentRow);
 					tinymce.init({ selector: '#' + contentID , branding: false });
 					jQuery(".am_item_imagetype").click(function() {	jQuery('#' + jQuery(this).val() + '_' + jQuery(this).attr('data-postid')).hide(); jQuery('#' + jQuery(this).attr('data-type-hide') + '_' + jQuery(this).attr('data-postid')).show(); });
@@ -251,7 +250,7 @@ class AffiliateMarketingCPTMetaboxes {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['repeatable_editor_repeatable_editor_nonce'] ) || ! wp_verify_nonce( $_POST['repeatable_editor_repeatable_editor_nonce'], '_repeatable_editor_repeatable_editor_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;
-		
+
 		if ( isset( $_POST['am_item_name'] ) ) {
 			$am_item_name = $_POST['am_item_name'];
 			update_post_meta( $post_id, 'am_item_name', $am_item_name );
@@ -272,7 +271,7 @@ class AffiliateMarketingCPTMetaboxes {
 				$am_item_imagetype[] = $_POST['am_item_imagetype_'.$x];
 			}
 		}
-		
+
 		if ( !empty($am_item_imagetype) && isset( $am_item_imagetype ) ) {
 			update_post_meta( $post_id, 'am_item_imagetype', $am_item_imagetype );
 		}

@@ -63,7 +63,7 @@ class phpfastcache_files extends BasePhpFastCache implements phpfastcache_driver
          */
         if($skip == false) {
             if(!@file_exists($path)) {
-                if(!@mkdir($path,$this->__setChmodAuto())) {
+                if(!@mkdir($path,$this->__setChmodAuto(),true)) {
                     throw new Exception("PLEASE CHMOD ".$this->getPath()." - 0777 OR ANY WRITABLE PERMISSION!",92);
                 }
 

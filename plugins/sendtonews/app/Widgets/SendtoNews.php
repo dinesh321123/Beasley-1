@@ -8,7 +8,7 @@ use SendtoNews\Models\Settings;
  * @author STN Video
  * @copyright STN Video <https://www.stnvideo.com>
  * @package SendtoNews
- * @version 1.0.1.1
+ * @version 1.0.1.2
  */
 class SendtoNews extends WP_Widget
 {
@@ -56,7 +56,7 @@ class SendtoNews extends WP_Widget
      *
      * @param integer $number Optional. The unique order number of this widget instance
      *                        compared to other instances of the same class. Default -1.
-     *
+     * 
      * @global SendtoNews\Main $sendtonews
      */
     public function _register_one( $number = -1 )
@@ -198,7 +198,7 @@ class SendtoNews extends WP_Widget
      * @since 0.1.0
      *
      * @param array $instance Widget instance.
-     *
+     * 
      * @global SendtoNews\Main $sendtonews
      */
     public function form( $instance )
@@ -290,7 +290,7 @@ class SendtoNews extends WP_Widget
      * Loads the required scripts and styles for the widget control.
      *
      * @since 4.8.0
-     *
+     * 
      * @global SendtoNews\Main $sendtonews
      */
     public function enqueue_admin_scripts()
@@ -419,7 +419,7 @@ class SendtoNews extends WP_Widget
             ),
             $version,
             true
-        );
+        );        
 
         // Enqueue S2N OneUI App Script.
         wp_enqueue_script(
@@ -526,7 +526,7 @@ class SendtoNews extends WP_Widget
 
         /*********************
          * Localize Custom Scripts
-         *
+         * 
          * Pass parameters to the scripts.
          *********************/
 
@@ -568,7 +568,7 @@ class SendtoNews extends WP_Widget
      * @since 0.9.1
      *
      * @hook admin_footer-{context}
-     *
+     * 
      * @global SendtoNews\Main $sendtonews
      */
     public function render_widget_overview_template()
@@ -584,7 +584,7 @@ class SendtoNews extends WP_Widget
      * @since 0.9.1
      *
      * @hook admin_footer-{context}
-     *
+     * 
      * @global SendtoNews\Main $sendtonews
      */
     public function render_smartmatch_template()
@@ -600,7 +600,7 @@ class SendtoNews extends WP_Widget
      * @since 0.9.1
      *
      * @hook admin_footer-{context}
-     *
+     * 
      * @global SendtoNews\Main $sendtonews
      */
     public function render_help_template()
