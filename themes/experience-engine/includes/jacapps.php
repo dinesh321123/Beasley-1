@@ -35,6 +35,7 @@ if ( ! function_exists( 'ee_setup_jacapps' ) ) :
 		add_filter( 'mapbox_html', 'ee_update_jacapps_mapbox_html', 10, 2 );
 		add_filter( 'hubspotform_html', 'ee_update_jacapps_hubspotform_html', 10, 2 );
 		add_filter( 'dml-branded_html', 'ee_update_jacapps_dml_branded_content', 10, 2);
+		add_filter( 'drimify_html', 'ee_update_jacapps_drimify_html', 10, 2 );
 
 		remove_filter( 'omny_embed_html', 'ee_update_omny_embed' );
 	}
@@ -154,6 +155,33 @@ if ( ! function_exists( 'ee_update_jacapps_mapbox_html' ) ) :
 		);
 
 		return $style . $mapboxscript . $mapboxstyle . $mapboxdiv . $implementation;
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_jacapps_drimify_html' ) ) :
+	function ee_update_jacapps_drimify_html( $embed, $atts ) {
+		$drimifyscript = '<script src="https://cdn.drimify.com/js/drimifywidget.release.min.js"></script>';
+		$drimifydiv = '<div id="drimify-container-' . $atts['total_index'] . '" style="line-height:0"></div>';
+		$atts['app_style'] = 'height: 850px; ' . $atts['app_style'];
+
+		$implementation = sprintf(
+			'<script>
+				window.addEventListener("load", function() {
+					var drimifyWidget = new Drimify.Widget({
+						autofocus: true,
+						height: "600px",
+						element: "drimify-container-' . $atts['total_index'] . '",
+						engine: "%s",
+						style: "%s"
+					});
+					drimifyWidget.load();
+				});
+			</script>',
+			esc_attr( $atts['app_url']),
+			esc_attr( $atts['app_style'])
+		);
+
+		return $drimifyscript . $drimifydiv . $implementation;
 	}
 endif;
 

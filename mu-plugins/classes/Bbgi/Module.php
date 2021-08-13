@@ -61,7 +61,8 @@ abstract class Module {
 			'mapbox' 			=> new \Bbgi\Integration\Mapbox(),
 			'hsform'			=> new \Bbgi\Integration\HubspotForm(),
 			'feature_video'		=> new \Bbgi\Integration\FeatureVideo(),
-			'branded-content'	=> new \Bbgi\Integration\BrandedContent()
+			'branded-content'	=> new \Bbgi\Integration\BrandedContent(),
+			'drimify' 			=> new \Bbgi\Integration\Drimify(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {
