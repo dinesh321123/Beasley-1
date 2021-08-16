@@ -828,6 +828,8 @@ var mediaView = wp.media.View.extend({
 				alert( fvideo.missingImage );
 				return false;
 			}
+			console.log( 'File Data: ', fileInputElement.files[0] );
+			console.log( 'File Name: ', fileInputElement.files[0].name );
 			fdata.append( 'imagearr', fileInputElement.files[0], fileInputElement.files[0].name );
 		}
 		if( $selectedImageOption == 'select_media_library' ) {
@@ -870,10 +872,12 @@ var mediaView = wp.media.View.extend({
 					library.options.selection.add(image);
 				}
 			});
-		}).catch(function () {
+		}).catch(function (error) {
+			console.log( 'Embed_Array: ', error.Embed_Array );
+			console.log( 'File Array', error.File_Array );
 			$video__submit_spinner.removeClass( 'is-active' );	// remove spinner load
 			self.loading = false;
-			alert(fvideo.cannotEmbed);
+			alert( fvideo.cannotEmbed );
 		});
 	},
 	loadMoreMediaImg: function loadMoreMediaImg() {

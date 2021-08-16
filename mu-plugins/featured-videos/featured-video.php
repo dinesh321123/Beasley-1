@@ -290,24 +290,24 @@ function fvideos_import_oembed() {
 
 		if( isset( $image_option ) && $image_option == 'select_media_library' ){
 			$img_atts = wp_get_attachment_image_src($_POST['mediaImageId'], 'full');
-
+			
 			if( !empty($img_atts) ) {
 				$file_array['name'] 	= str_replace( ' ', '-', mb_strtolower( $title ) ) . '.jpg';
 				$file_array['tmp_name'] = download_url( $img_atts[0] );
 			}
-		} else { 
+		} else {
 			// removing white space
-			$imageName = preg_replace('/\s+/', '-', $_FILES['imagearr']['name'] );
+				// $imageName = preg_replace('/\s+/', '-', $_FILES['imagearr']['name'] );
 			// removing special character but keep . character because . seprate to extantion of file
-			$imageName = preg_replace('/[^A-Za-z0-9.\-]/', '', $imageName);
+				// $imageName = preg_replace('/[^A-Za-z0-9.\-]/', '', $imageName);
 			// rename file using time
-			$imageName = time().'-'.$imageName;
+			$imageName = time().'-'.$_FILES['imagearr']['name'];
 
 			// $file_array['name'] = str_replace( ' ', '-', mb_strtolower( $title ) ) . '.jpg';
 			// $file_array['tmp_name'] = download_url( $embed->thumbnail_url );
 			$file_array['name']			= $imageName;
 			$file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];
-		}
+		} 
 
 		if ( ! is_wp_error( $file_array['tmp_name'] ) ) {
 			$post_id = filter_input( INPUT_POST, 'post_id', FILTER_VALIDATE_INT );
@@ -321,5 +321,6 @@ function fvideos_import_oembed() {
 		}
 	}
 
-	wp_send_json_error();
+	$error = array( "File_Array" => $file_array, "Embed_Array" => $embed );
+	wp_send_json_error( $error );
 }
