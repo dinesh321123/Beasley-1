@@ -195,6 +195,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'prebid_settings_section', 'Prebid Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_field('ad_rubicon_zoneid_setting', 'Rubicon Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_rubicon_zoneid_setting');
 		add_settings_field('ad_appnexus_placementid_setting', 'AppNexus Placement ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_appnexus_placementid_setting');
+		add_settings_field('ad_ix_siteid_setting', 'Index Exchange Site ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_ix_siteid_setting');
 
 		add_settings_section( 'configurable_iframe_section', 'Configurable iFrame', '__return_false', $this->_settings_page_hook );
 		add_settings_field('configurable_iframe_height', 'iFrame Height (0 for no iFrame)', 'bbgi_input_field', $this->_settings_page_hook, 'configurable_iframe_section', 'name=configurable_iframe_height&default=0');
@@ -256,6 +257,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'vid_ad_html_tag_csv_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rubicon_zoneid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_appnexus_placementid_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_ix_siteid_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'configurable_iframe_height', 'sanitize_text_field');
 		register_setting(self::option_group, 'configurable_iframe_src', 'sanitize_text_field');
