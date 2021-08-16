@@ -179,6 +179,7 @@ class Dfp extends PureComponent {
 				slotVideoRefreshSecs && slotVideoRefreshSecs >= 30
 					? slotVideoRefreshSecs * 1000
 					: 60000,
+			ixSiteID: bbgiconfig.ad_ix_siteid_setting,
 			rubiconZoneID: bbgiconfig.ad_rubicon_zoneid_setting,
 			appnexusPlacementID: bbgiconfig.ad_appnexus_placementid_setting,
 			prebidEnabled: bbgiconfig.prebid_enabled,
@@ -193,6 +194,7 @@ class Dfp extends PureComponent {
 		this.getPrebidBidders = this.getPrebidBidders.bind(this);
 		this.getBidderRubicon = this.getBidderRubicon.bind(this);
 		this.getBidderAppnexus = this.getBidderAppnexus.bind(this);
+		this.getBidderIx = this.getBidderIx.bind(this);
 	}
 
 	isConfiguredToRunInterval() {
@@ -305,11 +307,28 @@ class Dfp extends PureComponent {
 		return retval;
 	}
 
+	getBidderIx() {
+		const { ixSiteID } = this.state;
+		if (!ixSiteID) {
+			return null;
+		}
+
+		const retval = {
+			bidder: 'ix',
+			params: {
+				siteId: parseInt(ixSiteID, 10),
+			},
+		};
+
+		return retval;
+	}
+
 	getPrebidBidders() {
 		const retval = [];
 
 		retval.push(this.getBidderRubicon());
 		retval.push(this.getBidderAppnexus());
+		retval.push(this.getBidderIx());
 
 		return retval.filter(bidObj => bidObj);
 	}
