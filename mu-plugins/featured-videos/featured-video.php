@@ -307,17 +307,14 @@ function fvideos_import_oembed() {
 			// $file_array['tmp_name'] = download_url( $embed->thumbnail_url );
 			$file_array['name']			= $imageName;
 			$file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];
-			echo "IN File upload condition ----- ";
-		} 
-
-		if ( ! is_wp_error( $file_array['tmp_name'] ) ) {
-			print_r( $file_array );
+		}
+		$isWpError = is_wp_error( $file_array['tmp_name'] );
+		
+		if ( ! $isWpError ) {
 			$post_id = filter_input( INPUT_POST, 'post_id', FILTER_VALIDATE_INT );
 			$image_id = media_handle_sideload( $file_array, $post_id, $title );
-			print_r( $image_id );
 			if ( is_int( $image_id ) ) {
 				$embed_array = json_decode( json_encode( $embed ), true );
-				echo "----In Success condition----";
 				update_post_meta( $image_id, 'embed', $embed_array );
 
 				wp_send_json_success( $image_id );
@@ -325,6 +322,6 @@ function fvideos_import_oembed() {
 		}
 	}
 
-	$error = array( "File_Array" => $file_array, "Embed_Array" => $embed );
+	$error = array( "File_Array" => $file_array, "Embed_Array" => $embed, "isWpError" => $isWpError, "post_value" => $_POST );
 	wp_send_json_error( $error );
 }
