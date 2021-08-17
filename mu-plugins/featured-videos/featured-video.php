@@ -297,18 +297,26 @@ function fvideos_import_oembed() {
 			}
 		} else {
 			// removing white space
-				// $imageName = preg_replace('/\s+/', '-', $_FILES['imagearr']['name'] );
+				$imageName = preg_replace('/\s+/', '-', $_FILES['imagearr']['name'] );
 			// removing special character but keep . character because . seprate to extantion of file
-				// $imageName = preg_replace('/[^A-Za-z0-9.\-]/', '', $imageName);
+				$imageName = preg_replace('/[^A-Za-z0-9.\-]/', '', $imageName);
 			// rename file using time
-			// $imageName = time().'-'.$_FILES['imagearr']['name'];
-			$imageName = $_FILES['imagearr']['name'];
-
+			$imageName = time().'-'.$_FILES['imagearr']['name'];
+			
 			// $file_array['name'] = str_replace( ' ', '-', mb_strtolower( $title ) ) . '.jpg';
 			// $file_array['tmp_name'] = download_url( $embed->thumbnail_url );
-			$file_array['name']			= $imageName;
 			// $file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];	// /tmp/1629112272-celtics400icon-0oJi4I.tmp
-			$file_array['tmp_name']		= '/tmp/pip-a-short-animated-film-by-southeastern-guide-dogs-5lnsSK.tmp';
+			// $file_array['tmp_name']		= '/tmp/pip-a-short-animated-film-by-southeastern-guide-dogs-5lnsSK.tmp';
+			
+			$uploads = wp_upload_dir();
+			$source      = $_FILES['imagearr']['tmp_name'];
+			$destination = trailingslashit( $uploads['path'] ) . $imageName;
+			echo move_uploaded_file( $source, $destination );
+			echo " ---- <br>";
+			echo "<pre>", print_r( $uploads ), print_r( $source ), print_r( $destination );
+
+			$file_array['name']		= $imageName;
+			$file_array['tmp_name'] = $destination;
 		}
 		
 		// print_r( $_FILES );
