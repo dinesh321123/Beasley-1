@@ -301,43 +301,40 @@ function fvideos_import_oembed() {
 			// removing special character but keep . character because . seprate to extantion of file
 				$imageName = preg_replace('/[^A-Za-z0-9.\-]/', '', $imageName);
 			// rename file using time
-			$imageName = time().'-'.$_FILES['imagearr']['name'];
+				$imageName = time().'-'.$_FILES['imagearr']['name'];
 			
 			// $file_array['name'] = str_replace( ' ', '-', mb_strtolower( $title ) ) . '.jpg';
 			// $file_array['tmp_name'] = download_url( $embed->thumbnail_url );
-			// $file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];	// /tmp/1629112272-celtics400icon-0oJi4I.tmp
-			// $file_array['tmp_name']		= '/tmp/pip-a-short-animated-film-by-southeastern-guide-dogs-5lnsSK.tmp';
+			// $file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];
 			
-			$uploads = wp_upload_dir();
+			/* $uploads = wp_upload_dir();
 			$source      = $_FILES['imagearr']['tmp_name'];
-			$destination = trailingslashit( $uploads['path'] ) . $imageName;
+			$destination = get_temp_dir() . $imageName;
 			echo move_uploaded_file( $source, $destination );
 			echo " ---- <br>";
 			echo "<pre>", print_r( $uploads ), print_r( $source ), print_r( $destination );
 
 			$file_array['name']		= $imageName;
-			$file_array['tmp_name'] = $destination;
+			$file_array['tmp_name'] = $destination; */
+			
+			$tempfile_name      = $_FILES['imagearr']['tmp_name'];
+			$destination 		= get_temp_dir() . $imageName;
+			move_uploaded_file( $tempfile_name, $destination );
+			
+			$file_array['name']		= $imageName;
+			$file_array['tmp_name'] = $destination; 
 		}
 		
-		// print_r( $_FILES );
 		$isWpError = is_wp_error( $file_array['tmp_name'] );
-		/* echo $isWpError;
-		echo $file_array['tmp_name'];
-		print_r( $file_array );
-		exit; */
 		if ( ! $isWpError ) {
-			echo "IN isWpError condition----- ";
-			print_r($isWpError);
-			print_r($file_array);
 			$post_id = filter_input( INPUT_POST, 'post_id', FILTER_VALIDATE_INT );
 			$image_id = media_handle_sideload( $file_array, $post_id, $title );
-			
-			print_r($image_id);
-			if ( is_int( $image_id ) ) {
-				// $embed_array = json_decode( json_encode( $embed ), true );
-				// update_post_meta( $image_id, 'embed', $embed_array );
 
-				// wp_send_json_success( $image_id );
+			if ( is_int( $image_id ) ) {
+				$embed_array = json_decode( json_encode( $embed ), true );
+				update_post_meta( $image_id, 'embed', $embed_array );
+
+				wp_send_json_success( $image_id );
 			}
 		}
 	}
