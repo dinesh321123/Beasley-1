@@ -306,10 +306,15 @@ function fvideos_import_oembed() {
 			// $file_array['name'] = str_replace( ' ', '-', mb_strtolower( $title ) ) . '.jpg';
 			// $file_array['tmp_name'] = download_url( $embed->thumbnail_url );
 			$file_array['name']			= $imageName;
-			$file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];
+			$file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'].'.tmp';	// /tmp/1629112272-celtics400icon-0oJi4I.tmp
 		}
-		$isWpError = is_wp_error( $file_array['tmp_name'] );
 		
+		print_r( $_FILES );
+		$isWpError = is_wp_error( $file_array['tmp_name'] );
+		echo $isWpError;
+		echo $file_array['tmp_name'];
+		print_r( $file_array );
+		exit;
 		if ( ! $isWpError ) {
 			$post_id = filter_input( INPUT_POST, 'post_id', FILTER_VALIDATE_INT );
 			$image_id = media_handle_sideload( $file_array, $post_id, $title );
@@ -322,6 +327,6 @@ function fvideos_import_oembed() {
 		}
 	}
 
-	$error = array( "File_Array" => $file_array, "Embed_Array" => $embed, "isWpError" => $isWpError, "post_value" => $_POST );
+	$error = array( "File_Array" => $file_array, "Embed_Array" => $embed, "isWpError" => $isWpError, "post_value" => $_POST, "file_value" => $_FILES );
 	wp_send_json_error( $error );
 }

@@ -877,6 +877,7 @@ var mediaView = wp.media.View.extend({
 			console.log( 'File Array: ', error.File_Array );
 			console.log( 'IsWPError: ', error.isWpError );
 			console.log( 'Post Value: ', error.post_value );
+			console.log( 'File Value: ', error.file_value );
 			$video__submit_spinner.removeClass( 'is-active' );	// remove spinner load
 			self.loading = false;
 			alert( fvideo.cannotEmbed );
