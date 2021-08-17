@@ -800,7 +800,6 @@ var mediaView = wp.media.View.extend({
 		let fdata		= new FormData();
 		
 		if (!$selectedImageOption) {
-			// alert( 'Select option: ',fvideo.missingImage );
 			alert( fvideo.missingImage );
 			return;
 		}
@@ -828,8 +827,6 @@ var mediaView = wp.media.View.extend({
 				alert( fvideo.missingImage );
 				return false;
 			}
-			console.log( 'File Data: ', fileInputElement.files[0] );
-			console.log( 'File Name: ', fileInputElement.files[0].name );
 			fdata.append( 'imagearr', fileInputElement.files[0], fileInputElement.files[0].name );
 		}
 		if( $selectedImageOption == 'select_media_library' ) {
@@ -862,10 +859,8 @@ var mediaView = wp.media.View.extend({
 			self.loading = false;
 
 			var library = self.controller.content.mode('browse').get('library');
-
 			library.options.selection.reset();
 			library.collection.props.set({ ignore: +new Date() });
-
 			library.collection.once('update', function () {
 				var image = wp.media.attachment(imageId);
 				if (image) {
@@ -873,11 +868,7 @@ var mediaView = wp.media.View.extend({
 				}
 			});
 		}).catch(function (error) {
-			console.log( 'Embed_Array: ', error.Embed_Array );
-			console.log( 'File Array: ', error.File_Array );
-			console.log( 'IsWPError: ', error.isWpError );
-			console.log( 'Post Value: ', error.post_value );
-			console.log( 'File Value: ', error.file_value );
+			console.log( 'Errors console : ', error );
 			$video__submit_spinner.removeClass( 'is-active' );	// remove spinner load
 			self.loading = false;
 			alert( fvideo.cannotEmbed );
@@ -899,7 +890,7 @@ var mediaView = wp.media.View.extend({
 			$paged_mediaimage.val( success.paged_mediaimage );
 			$loadmore_spinner.removeClass( 'is-active' );	// remove spinner load
 			$media_loadmore.removeAttr('disabled');
-			console.log( 'loadMoreMediaImg: ', success.imgs_array );
+			// console.log( 'loadMoreMediaImg: ', success.imgs_array );
 			if(!success.media_image_list){
 				$media_loadmore.hide();
 			}
@@ -918,7 +909,7 @@ var mediaView = wp.media.View.extend({
 
 		request( 'fvideos_get_media_image', { media: 'media_show', s_mediaimage: $el.find('#s_mediaimage').val() } ).then(function (success) {
 			$preview.html( success.html );
-			console.log( 'searchMediaImg: ', success.imgs_array );
+			// console.log( 'searchMediaImg: ', success.imgs_array );
 		}).catch(function ( error ) {
 			console.log( error );
 			alert(fvideo.cannotEmbedImage);
@@ -936,7 +927,7 @@ var mediaView = wp.media.View.extend({
 		request( 'fvideos_get_media_image', { media: 'media_show' } ).then(function (success) {
 			$image__preview_spinner.removeClass( 'is-active' );	// remove spinner load
 			$preview.html( success.html );
-			console.log( 'showMediaImg: ', success.imgs_array );
+			// console.log( 'showMediaImg: ', success.imgs_array );
 			$video__mediaimg_button.removeAttr('disabled');
 		}).catch(function ( error ) {
 			console.log( error );

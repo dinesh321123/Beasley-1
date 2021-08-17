@@ -268,10 +268,6 @@ function get_selected_media_image() {
 }
 
 function fvideos_import_oembed() {
-	/* print_r( $_REQUEST );
-	print_r( $_FILES['imagearr']['name'] );
-	wp_send_json_success( "RJ working here" );
-	wp_die(); */
 	$url = filter_input( INPUT_POST, 'url', FILTER_VALIDATE_URL );
 	
 	if ( ! $url ) {
@@ -296,29 +292,13 @@ function fvideos_import_oembed() {
 				$file_array['tmp_name'] = download_url( $img_atts[0] );
 			}
 		} else {
-			// removing white space
-				$imageName = preg_replace('/\s+/', '-', $_FILES['imagearr']['name'] );
-			// removing special character but keep . character because . seprate to extantion of file
-				$imageName = preg_replace('/[^A-Za-z0-9.\-]/', '', $imageName);
-			// rename file using time
-				$imageName = time().'-'.$_FILES['imagearr']['name'];
-			
 			// $file_array['name'] = str_replace( ' ', '-', mb_strtolower( $title ) ) . '.jpg';
 			// $file_array['tmp_name'] = download_url( $embed->thumbnail_url );
-			// $file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];
-			
-			/* $uploads = wp_upload_dir();
-			$source      = $_FILES['imagearr']['tmp_name'];
-			$destination = get_temp_dir() . $imageName;
-			echo move_uploaded_file( $source, $destination );
-			echo " ---- <br>";
-			echo "<pre>", print_r( $uploads ), print_r( $source ), print_r( $destination );
-
-			$file_array['name']		= $imageName;
-			$file_array['tmp_name'] = $destination; */
-			
-			$tempfile_name      = $_FILES['imagearr']['tmp_name'];
-			$destination 		= get_temp_dir() . $imageName;
+			$imageName				= preg_replace('/\s+/', '-', $_FILES['imagearr']['name'] );	// removing white space
+			$imageName 				= preg_replace('/[^A-Za-z0-9.\-]/', '', $imageName);	// removing special character but keep . character because . seprate to extantion of file
+			$imageName				= time().'-'.$_FILES['imagearr']['name'];	// rename file using time
+			$tempfile_name      	= $_FILES['imagearr']['tmp_name'];
+			$destination 			= get_temp_dir() . $imageName;
 			move_uploaded_file( $tempfile_name, $destination );
 			
 			$file_array['name']		= $imageName;
