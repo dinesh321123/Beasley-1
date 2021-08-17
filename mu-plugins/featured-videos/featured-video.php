@@ -310,21 +310,26 @@ function fvideos_import_oembed() {
 		}
 		
 		// print_r( $_FILES );
-		// $isWpError = is_wp_error( $file_array['tmp_name'] );
+		$isWpError = is_wp_error( $file_array['tmp_name'] );
 		/* echo $isWpError;
 		echo $file_array['tmp_name'];
 		print_r( $file_array );
 		exit; */
-		// if ( ! $isWpError ) {
+		if ( ! $isWpError ) {
+			echo "IN isWpError condition----- ";
+			print_r($isWpError);
+			print_r($file_array);
 			$post_id = filter_input( INPUT_POST, 'post_id', FILTER_VALIDATE_INT );
 			$image_id = media_handle_sideload( $file_array, $post_id, $title );
+			print_r($post_id);
+			print_r($image_id);
 			if ( is_int( $image_id ) ) {
 				$embed_array = json_decode( json_encode( $embed ), true );
 				update_post_meta( $image_id, 'embed', $embed_array );
 
 				wp_send_json_success( $image_id );
 			}
-		// }
+		}
 	}
 
 	$error = array( "File_Array" => $file_array, "Embed_Array" => $embed, "isWpError" => $isWpError, "post_value" => $_POST, "file_value" => $_FILES );
