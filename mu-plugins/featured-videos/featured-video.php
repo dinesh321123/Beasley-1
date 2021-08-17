@@ -301,12 +301,14 @@ function fvideos_import_oembed() {
 			// removing special character but keep . character because . seprate to extantion of file
 				// $imageName = preg_replace('/[^A-Za-z0-9.\-]/', '', $imageName);
 			// rename file using time
-			$imageName = time().'-'.$_FILES['imagearr']['name'];
+			// $imageName = time().'-'.$_FILES['imagearr']['name'];
+			$imageName = $_FILES['imagearr']['name'];
 
 			// $file_array['name'] = str_replace( ' ', '-', mb_strtolower( $title ) ) . '.jpg';
 			// $file_array['tmp_name'] = download_url( $embed->thumbnail_url );
 			$file_array['name']			= $imageName;
-			$file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];	// /tmp/1629112272-celtics400icon-0oJi4I.tmp
+			// $file_array['tmp_name']		= $_FILES['imagearr']['tmp_name'];	// /tmp/1629112272-celtics400icon-0oJi4I.tmp
+			$file_array['tmp_name']		= '/tmp/pip-a-short-animated-film-by-southeastern-guide-dogs-5lnsSK.tmp';
 		}
 		
 		// print_r( $_FILES );
@@ -321,13 +323,13 @@ function fvideos_import_oembed() {
 			print_r($file_array);
 			$post_id = filter_input( INPUT_POST, 'post_id', FILTER_VALIDATE_INT );
 			$image_id = media_handle_sideload( $file_array, $post_id, $title );
-			print_r($post_id);
+			
 			print_r($image_id);
 			if ( is_int( $image_id ) ) {
-				$embed_array = json_decode( json_encode( $embed ), true );
-				update_post_meta( $image_id, 'embed', $embed_array );
+				// $embed_array = json_decode( json_encode( $embed ), true );
+				// update_post_meta( $image_id, 'embed', $embed_array );
 
-				wp_send_json_success( $image_id );
+				// wp_send_json_success( $image_id );
 			}
 		}
 	}
