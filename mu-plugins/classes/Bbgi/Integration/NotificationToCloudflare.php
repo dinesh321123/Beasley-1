@@ -19,11 +19,11 @@ class NotificationToCloudflare extends \Bbgi\Module
 
 		error_log( 'Cloudflare send notification register' );
 		
-		foreach( $this->get_posttype_list() as $post_type ){
+		/* foreach( $this->get_posttype_list() as $post_type ){
 			add_action( 'publish_'.$post_type , $this->send_notification() );
-		}
-		/* add_action( 'publish_post' , $this->send_notification() );
-		add_action( 'publish_gmr_gallery' , $this( 'send_notification' ) );
+		} */
+		add_action( 'publish_post' , $this->send_notification() );
+		/* add_action( 'publish_gmr_gallery' , $this( 'send_notification' ) );
 		add_action( 'publish_show' , $this( 'send_notification' ) );
 		add_action( 'publish_gmr_album' , $this( 'send_notification' ) );
 		add_action( 'publish_tribe_events' , $this( 'send_notification' ) );
