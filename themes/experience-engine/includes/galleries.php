@@ -161,6 +161,26 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 
 		ob_start();
 
+		$total_segment = ceil( count($images) / 10 );
+		if($total_segment > 2 ) {
+			echo '
+				<script type=\'text/javascript\'>
+					function scrollToSegmentation($imageId) {
+						var listId = document.getElementById(\'gallery-listicle-image-\' + $imageId);
+						listId.scrollIntoView();
+					}
+				</script>
+			';
+			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+			for ($i=1; $i <= $total_segment; $i++) {
+				echo '<button onclick=" scrollToSegmentation('.$images[ ($i - 1) * 10 ]->ID.'); " class="btn" style="display: inline-block; color: white;">'. ( ( ($i - 1) * 10 ) + 1 ) . ' - ' . ( $i * 10 ) . '</button>';
+				if($total_segment !== $i) {
+					echo '&nbsp;&nbsp;';
+				}
+			}
+			echo "</div>";
+		}
+
 		echo '<ul class="gallery-listicle">';
 
 		foreach ( $images as $index => $image ) {
@@ -172,7 +192,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 			);
 
 			if ( ! empty( $html ) ) {
-				echo '<li class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
+				echo '<li id="gallery-listicle-image-', $image->ID ,'" class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
 					echo $html;
 
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
