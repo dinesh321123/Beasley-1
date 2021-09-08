@@ -35,6 +35,7 @@ mu-plugins/post-finder/
 !/plugins/sendtonews
 !/plugins/prebidjs
 !/plugins/now-playing-jacapps
+!/plugins/cpt-general-settings
 !/plugins/share-jacapps
 !/plugins/cpt-tag-permissions
 
