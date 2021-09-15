@@ -2,7 +2,7 @@
 /*
 Plugin Name: CPT - Listicle
 Description: Custom Post Type - Architect listicle content type with pageviews for embeds
-Version: 0.0.1
+Version: 0.0.2
 Author: Rupesh Jorkar (RJ)
 Author URI: https://bbgi.com/
 */
@@ -10,7 +10,7 @@ Author URI: https://bbgi.com/
 if ( ! defined( 'ABSPATH' ) ) {
 	die( "Please don't try to access this file directly." );
 }
-define( 'LISTICLE_CPT_VERSION', '0.0.1' );
+define( 'LISTICLE_CPT_VERSION', '0.0.2' );
 define( 'LISTICLE_CPT_URL', plugin_dir_url( __FILE__ ) );
 define( 'LISTICLE_CPT_PATH', dirname( __FILE__ ) );
 define( 'LISTICLE_CPT_TEXT_DOMAIN', 'listicle_textdomain' );
