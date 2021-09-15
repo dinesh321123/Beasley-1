@@ -138,3 +138,4 @@ Functionality and support for expiring posts.
 
 2020.12.08 Upgrade to WordPress core 4.9.16
 2021.06.04 made edit to push up...
+2021.09.10 Upgrade to WordPress Core 5.5.6
