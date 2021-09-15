@@ -514,7 +514,7 @@ function gmr_filter_expired_contests( $query ) {
 /**
  * Invalidates any expired contests
  */
-function invalidate_expired_contests() {
+function invalidate_expired_contests( $not_from_cron = false ) {
 
 	// Grab all published contests that have a contest end date in the past
 	$expired_contests_query = new \WP_Query( [
@@ -553,6 +553,28 @@ function invalidate_expired_contests() {
 			)
 		],
 	] );
+
+	if(!$not_from_cron) {
+		$expired_contests_query = new \WP_Query( [
+			'post_type'      => GMR_CONTEST_CPT,
+			'post_status'    => 'publish',
+			'posts_per_page' => 500,
+			'meta_query'     => array(
+				array(
+					'key'     => 'post_expiration',
+					'type'    => 'NUMERIC',
+					'value'   => time(),
+					'compare' => '<=',
+				),
+				array(
+					'key'     => 'post_expiration',
+					'type'    => 'NUMERIC',
+					'value'   => 0,
+					'compare' => '>',
+				),
+			),
+		] );
+	}
 
 	if ( $expired_contests_query->post_count ) {
 		foreach( $expired_contests_query->posts as $contest_post ) {
@@ -610,7 +632,7 @@ function run_all_contests_invalidator_cli( $args ) {
 
 		// Switch to the blog and change the expired contests to a draft
 		switch_to_blog( $site->blog_id );
-		invalidate_expired_contests();
+		invalidate_expired_contests(true);
 		restore_current_blog();
 
 		WP_CLI::log( 'Unpublished contests for site ' . $site->domain );
