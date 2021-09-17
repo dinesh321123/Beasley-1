@@ -66,3 +66,21 @@
   border-bottom: 1px solid #ddd;
   padding-bottom: 12px;
 }
+.dir-btn-grp{
+  float:right;
+  margin:0;
+}
+.dir-btn-grp .dir-btn{
+  font-size: 26px;
+  display: inline-block;
+  padding: 0 8px;
+  border: none;
+  background: none;
+  line-height: 1;
+  color: #000;
+  cursor: pointer;
+}
+.dir-btn-grp .dir-btn i{
+  font-size: 20px;
+  line-height:1;
+}
