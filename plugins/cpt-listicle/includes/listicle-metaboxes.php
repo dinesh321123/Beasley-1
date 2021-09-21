@@ -23,7 +23,9 @@ class ListicleCPTMetaboxes {
 	public static function enqueue_scripts() {
 		global $typenow, $pagenow;
 		if ( ListicleCPT::LISTICLE_POST_TYPE == $typenow && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
-			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+			wp_register_style('listicle-font-awesome',LISTICLE_CPT_URL . "assets/css/listicle-font-awesome.css", array(), LISTICLE_CPT_VERSION, 'all');
+			wp_enqueue_style('listicle-font-awesome');
 			wp_register_style('listicle-admin',LISTICLE_CPT_URL . "assets/css/listicle_admin.css", array(), LISTICLE_CPT_VERSION, 'all');
 			wp_enqueue_style('listicle-admin');
 			wp_enqueue_script( 'listicle-admin', LISTICLE_CPT_URL . "assets/js/listicle_admin.js", array('jquery'), LISTICLE_CPT_VERSION, true);
