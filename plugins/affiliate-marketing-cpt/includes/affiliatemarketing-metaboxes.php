@@ -33,6 +33,8 @@ class AffiliateMarketingCPTMetaboxes {
 		global $typenow, $pagenow;
 		if ( AffiliateMarketingCPT::AFFILIATE_MARKETING_POST_TYPE == $typenow && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+			wp_register_style('am-awesome-font',AFFILIATE_MARKETING_CPT_URL . "assets/css/am-font-awesome.css", array(), AFFILIATE_MARKETING_CPT_VERSION, 'all');
+			wp_enqueue_style('am-awesome-font');
 			wp_register_style('affiliate-marketing-admin',AFFILIATE_MARKETING_CPT_URL . "assets/css/am_admin.css", array(), AFFILIATE_MARKETING_CPT_VERSION, 'all');
 			wp_enqueue_style('affiliate-marketing-admin');
 			wp_enqueue_script( 'affiliate-marketing-admin', AFFILIATE_MARKETING_CPT_URL . "assets/js/am_admin.js", array('jquery'), AFFILIATE_MARKETING_CPT_VERSION, true);
