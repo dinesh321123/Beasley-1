@@ -61,6 +61,13 @@ try {
 } catch( err ) {
 	// do nothing
 }
+
+function scrollToSegmentation(item) {
+	var gotoID = document.getElementById('segment-item-' + item);
+	if(gotoID) {
+		gotoID.scrollIntoView();
+	}
+}
 EOL;
 
 		$deps = array(

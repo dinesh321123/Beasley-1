@@ -15,14 +15,6 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 
 		$total_segment = ceil( count($cpt_item_name) / 10 );
 		if($total_segment > 2 ) {
-			echo '
-				<script type=\'text/javascript\'>
-					function scrollToSegmentation($indexId) {
-						var listId = document.getElementById(\'product-listicle-image-\' + $indexId);
-						listId.scrollIntoView();
-					}
-				</script>
-			';
 			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
 			for ($i=1; $i <= $total_segment; $i++) {
 				echo '<button onclick=" scrollToSegmentation(' . ( $cpt_item_order[($i - 1) * 10] + 1 ) .'); " class="btn" style="display: inline-block; color: white;">'. ( ( ($i - 1) * 10 ) + 1 ) . ' - ' . ( $i * 10 ) . '</button>';
@@ -39,7 +31,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 			if( isset( $cpt_item_name_data ) && $cpt_item_name_data != "" ) {
 				$cpt_tracking_code = $cpt_item_order[$index]+1 ;
 				
-				echo '<li id="product-listicle-image-', $cpt_tracking_code, '" class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', '">';
+				echo '<li id="segment-item-', $cpt_tracking_code, '" class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', '">';
 					// Start code for listicle meta data
 					echo '<div class="am-meta">';
 						echo '<div class="wrapper">';
