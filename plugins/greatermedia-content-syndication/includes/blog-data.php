@@ -406,7 +406,6 @@ class BlogData {
 	// Rgister setting to store last syndication timestamp
 	public static function PostDataExtractor( $single_result ) {
 		$metas = get_metadata( 'post', $single_result->ID, '', true );
-		$metas['embed'] = isset( $metas['_thumbnail_id'][0] ) && $metas['_thumbnail_id'][0] != "" ? self::am_get_metavalue( 'embed', $metas['_thumbnail_id'][0] ) : array() ;
 		$media = get_attached_media( 'image', $single_result->ID );
 		foreach ( $media as $attachment ) {
 			$attachment->alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
@@ -663,7 +662,6 @@ class BlogData {
 				'_pingme',
 				'_encloseme',
 				'syndication-detached',
-				'embed',
 				'am_item_name',
 				'am_item_description',
 				'am_item_photo',
@@ -807,11 +805,7 @@ class BlogData {
 					}
 				}
 			}
-			
-			if( !empty ( $metas['embed'] ) ){
-				$_thumbnail_id = self::am_get_metavalue( '_thumbnail_id', $post_id );
-				update_post_meta( $_thumbnail_id, 'embed', $metas['embed'] );
-			}
+
 			if ( 'show' == $post_type ) {
 				delete_post_meta( $post_id, 'gmr_featured_post_ids' );
 				delete_post_meta( $post_id, 'gmr_favorite_post_ids' );

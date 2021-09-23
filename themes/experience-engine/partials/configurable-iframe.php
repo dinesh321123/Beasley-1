@@ -1,14 +1,8 @@
 <?php
-$IframePostType = 1;
-$current_post_object = get_queried_object();
-$hide_draftking_iframe = get_field( 'hide_draftking_iframe', $current_post_object );
-if ( isset( $hide_draftking_iframe ) && $hide_draftking_iframe == 0 ) :
-	$IframePostType = 0;
-endif;
-
 $iframe_height =  get_option( 'configurable_iframe_height', '0' );
+
 // Height Setting Of 0 Means "Do Not Display"
-if ( empty( $iframe_height ) || empty( $IframePostType ) ) {
+if ( empty( $iframe_height ) ) {
 	echo "<script type='text/javascript'>var setIFrameVisible = Function.prototype;</script>";
 	return;
 }

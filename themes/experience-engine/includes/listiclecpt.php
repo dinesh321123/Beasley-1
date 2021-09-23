@@ -13,39 +13,19 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 
 		ob_start();
 
-		$total_segment = ceil( count($cpt_item_name) / 10 );
-		if($total_segment > 2 ) {
-			echo '
-				<script type=\'text/javascript\'>
-					function scrollToSegmentation($indexId) {
-						var listId = document.getElementById(\'product-listicle-image-\' + $indexId);
-						listId.scrollIntoView();
-					}
-				</script>
-			';
-			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
-			for ($i=1; $i <= $total_segment; $i++) {
-				echo '<button onclick=" scrollToSegmentation(' . ( $cpt_item_order[($i - 1) * 10] + 1 ) .'); " class="btn" style="display: inline-block; color: white;">'. ( ( ($i - 1) * 10 ) + 1 ) . ' - ' . ( $i * 10 ) . '</button>';
-				if($total_segment !== $i) {
-					echo '&nbsp;&nbsp;';
-				}
-			}
-			echo "</div>";
-		}
-
 		echo '<ul class="listicle-main-ul-item">';
 
 		foreach ( $cpt_item_name as $index => $cpt_item_name_data ) {
 			if( isset( $cpt_item_name_data ) && $cpt_item_name_data != "" ) {
 				$cpt_tracking_code = $cpt_item_order[$index]+1 ;
-				
-				echo '<li id="product-listicle-image-', $cpt_tracking_code, '" class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', '">';
+
+				echo '<li class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', '">';
 					// Start code for listicle meta data
 					echo '<div class="am-meta">';
 						echo '<div class="wrapper">';
 							echo '<div class="caption">';
 								echo '<h3>', $cpt_item_name_data, '</h3>';
-								
+
 								static $urls = array();
 
 								if ( empty( $urls[ $cpt_post_object->ID ] ) ) {
@@ -56,7 +36,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 								$update_lazy_image = function( $html ) use ( $tracking_url ) {
 									return str_replace( '<div ', '<div data-autoheight="1" data-tracking="' . esc_attr( $tracking_url ) . '" ', $html );
 								};
-								
+
 								add_filter( '_ee_the_lazy_image', $update_lazy_image );
 								$image_html = ee_the_lazy_image( $current_post_id, false );
 								remove_filter( '_ee_the_lazy_image', $update_lazy_image );
@@ -73,7 +53,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
 						do_action( 'dfp_tag', 'in-list-gallery' );
-					endif; 
+					endif;
 				echo '</li>';
 			}
 		}

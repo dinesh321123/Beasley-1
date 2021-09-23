@@ -21,13 +21,6 @@ class Syndication_Detach_Post {
 
 		wp_nonce_field( 'detach-post-' . $post->ID, 'syndication-detach-post' );
 		$old_data = get_post_meta( $post->ID, 'syndication_old_data', true );
-		?>
-			<div class="misc-pub-section syndication-detached misc-pub-syndication-detached" style="display: none;">
-				<i class="dashicons dashicons-rss"></i>
-				<input type="text" name="syndication_detached_action" id="syndication_detached_action" value="yes" />
-				<span id="syndication-detached-value">Syndication detached action </span>
-			</div>
-		<?php 
 		if ( empty( $old_data ) ) {
 			?>
 			<div class="misc-pub-section syndication-detached misc-pub-syndication-detached">
@@ -79,10 +72,6 @@ class Syndication_Detach_Post {
 		}
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return;
-		}
-
-		if( isset( $_POST['syndication_detached_action'] ) && $_POST['syndication_detached_action'] == 'no' ) {
 			return;
 		}
 

@@ -42,12 +42,4 @@
 			background-color: rgba(43, 174, 232, .9);
 		}
 	}
-
-	& .copyurl {
-		background-color: rgb(34, 34, 34);
-
-		&:hover {
-			background-color: rgba(34, 34, 34, .9);
-		}
-	}
 }
