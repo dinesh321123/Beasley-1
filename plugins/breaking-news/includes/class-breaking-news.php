@@ -8,11 +8,17 @@ if ( !class_exists( "Breaking_News" ) ) {
 	class Breaking_News {
 
 		public function __construct() {
+			add_action( 'admin_enqueue_scripts', array( $this, 'breaking_news_enqueue_scripts' ) );
 			add_action( 'post_submitbox_misc_actions', array( $this, 'add_meta_checkbox' ) );
 			add_action( 'save_post', array( $this, 'save_breaking_news_meta_option' ) );
 			add_action( 'send_breaking_news_notices', array( $this, 'send_breaking_news_notices' ) );
 			add_action( 'show_breaking_news_banner', array( $this, 'show_breaking_news_banner' ) );
 			add_action( 'show_latest_breaking_news_item', array( $this, 'show_breaking_news_banner' ) );
+		}
+
+		public static function breaking_news_enqueue_scripts() {
+			$min = defined( 'SCRIPT_DEBUG' ) && filter_var( SCRIPT_DEBUG, FILTER_VALIDATE_BOOLEAN ) ? '' : '.min';
+			wp_enqueue_script( 'breaking-news', BREAKING_NEWS_URL."assets/js/breaking-news{$min}.js", array( 'wp-util' ), BREAKING_NEWS_VERSION, true );
 		}
 
 		/**
@@ -36,7 +42,6 @@ if ( !class_exists( "Breaking_News" ) ) {
 					<input type="checkbox" name="breaking_news_option" id="breaking_news_option" <?php checked( $is_breaking_news ); ?> /> <label for="breaking_news_option"><?php _e( 'Show Breaking News alert', 'breaking_news' ); ?></label>
 				</div>
 			</div>
-
 			<?php
 		}
 
@@ -83,26 +88,26 @@ if ( !class_exists( "Breaking_News" ) ) {
 		public function show_breaking_news_banner() {
 			global $post;
 			$breaking_post = $this->get_latest_breaking_news_item();
-			
+
 			// Bail if no post.
 			if ( ! $breaking_post ) {
-				return; 
+				return;
 			}
 
 			$post = $breaking_post;
 			setup_postdata( $post );
-			
+
 			?>
 				<a href="<?php the_permalink(); ?>">
 					<div id="breaking-news-banner" class="breaking-news-banner">
 						<div class='breaking-news-banner__inner'>
-							<span class="breaking-news-banner__title"><?php the_title(); ?>:</span> 
+							<span class="breaking-news-banner__title"><?php the_title(); ?>:</span>
 							<span class="breaking-news-banner__excerpt"><?php echo wp_kses_post( $this->get_post_excerpt( $post, 25 ) ); ?></span>
 						</div>
 					</div>
 				</a>
 			<?php
-			
+
 			wp_reset_postdata();
 		}
 

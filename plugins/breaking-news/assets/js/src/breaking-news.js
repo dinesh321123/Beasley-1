@@ -1,6 +1,3 @@
-/*! Breaking News - v0.1.0
- * http://wordpress.org/plugins
- * Copyright (c) 2021; * Licensed GPLv2+ */
 (function ($) {
 	var $document = $(document);
 	$document.ready(function () {
