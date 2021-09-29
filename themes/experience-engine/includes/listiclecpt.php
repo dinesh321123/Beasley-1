@@ -13,13 +13,34 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 
 		ob_start();
 
+		$total_segment = ceil( count($cpt_item_name) / 10 );
+		if(get_field( 'display_segmentation', $cpt_post_object->ID )) {
+			$is_desc = (get_field( 'segmentation_ordering', $cpt_post_object->ID ) != '' && get_field( 'segmentation_ordering', $cpt_post_object->ID ) == 'desc') ? 1 : 0;
+			$start_index = $is_desc ? $total_segment : 1;
+
+			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+
+			for ($i=1; $i <= $total_segment; $i++) {
+				$diff = count($cpt_item_name) - ($start_index * 10);
+				$scroll_to = $is_desc ? ( $diff < 0 ? 0 : $diff  ) : ( ($i - 1) * 10 );
+
+				$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
+				$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
+				
+				echo '<button onclick=" scrollToSegmentation(' . ( $cpt_item_order[ $scroll_to ] + 1 ) .'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
+				
+				$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
+			}
+			echo "</div>";
+		}
+
 		echo '<ul class="listicle-main-ul-item">';
 
 		foreach ( $cpt_item_name as $index => $cpt_item_name_data ) {
 			if( isset( $cpt_item_name_data ) && $cpt_item_name_data != "" ) {
 				$cpt_tracking_code = $cpt_item_order[$index]+1 ;
 
-				echo '<li class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', '">';
+				echo '<li id="segment-item-', $cpt_tracking_code, '" class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', '">';
 					// Start code for listicle meta data
 					echo '<div class="am-meta">';
 						echo '<div class="wrapper">';
