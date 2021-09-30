@@ -38,6 +38,7 @@ mu-plugins/post-finder/
 !/plugins/cpt-general-settings
 !/plugins/share-jacapps
 !/plugins/cpt-segment-navigation
+!/plugins/thumbnail-video-jacapps
 
 themes/index.php
 themes/twentyfourteen

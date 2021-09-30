@@ -54,7 +54,7 @@
 }
 
 .lazy-video, .jacapps div[class$="-oembed"] {
-	background-color: var(--global-black);
+	/* background-color: var(--global-black); */
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: contain;

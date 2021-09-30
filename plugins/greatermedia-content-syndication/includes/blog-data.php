@@ -249,8 +249,7 @@ class BlogData {
 					$single_post['show_metas'],
 					$single_post['show_logo_metas'],
 					$single_post['term_tax'],
-					$force,
-					$single_post['page_metas']
+					$force
 				);
 
 				if ( $post_id > 0 ) {
@@ -406,6 +405,7 @@ class BlogData {
 	// Rgister setting to store last syndication timestamp
 	public static function PostDataExtractor( $single_result ) {
 		$metas = get_metadata( 'post', $single_result->ID, '', true );
+		$metas['embed'] = isset( $metas['_thumbnail_id'][0] ) && $metas['_thumbnail_id'][0] != "" ? self::am_get_metavalue( 'embed', $metas['_thumbnail_id'][0] ) : array() ;
 		$media = get_attached_media( 'image', $single_result->ID );
 		foreach ( $media as $attachment ) {
 			$attachment->alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
@@ -454,20 +454,6 @@ class BlogData {
 			$listicle_metas['cpt_item_name'] = self::listicle_ge_metavalue( 'cpt_item_name', $single_result->ID  );
 			$listicle_metas['cpt_item_description'] = self::listicle_ge_metavalue( 'cpt_item_description', $single_result->ID );
 			$listicle_metas['cpt_item_order'] = self::listicle_ge_metavalue( 'cpt_item_order', $single_result->ID  );
-		}
-
-		$page_metas = array();
-		if ( 'page' == $single_result->post_type ) {
-			$page_post = get_post($single_result->ID);
-			$page_metas['_wp_page_template'] = self::am_get_metavalue( '_wp_page_template', $single_result->ID );
-			$page_metas['menu_order'] = $page_post->menu_order;
-			$page_parent_slug_var = "";
-			if ( isset( $page_post->post_parent ) && $page_post->post_parent != "" )
-			{
-				$page_parent_slug_array = get_post( $page_post->post_parent );
-				$page_parent_slug_var = $page_parent_slug_array->post_name;
-			}
-			$page_metas['post_parent'] = $page_parent_slug_var;
 		}
 
 		$am_metas = array();
@@ -569,7 +555,6 @@ class BlogData {
 			'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
 			'galleries'           => $galleries,
 			'term_tax'            => $term_tax,
-			'page_metas' 		  => $page_metas
 		);
 	}
 
@@ -602,7 +587,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $listicle_metas,$am_metas, $am_item_photo_attachment, $show_metas, $show_logo_metas, $term_tax, $force_update = false, $page_metas ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $listicle_metas,$am_metas, $am_item_photo_attachment, $show_metas, $show_logo_metas, $term_tax, $force_update = false ) {
 		if ( ! $post ) {
 			return;
 		}
@@ -640,21 +625,7 @@ class BlogData {
 			$args['post_modified'] = current_time( 'mysql' );
 			$args['post_modified_gmt'] = current_time( 'mysql', 1 );
 		}
-
-		if ( 'page' == $post_type ) {
-			$post_parent = "";
-			if ( isset( $page_metas['post_parent'] ) && $page_metas['post_parent'] != "" )
-			{
-				// $pageIdBySlug = get_page_by_path( $page_metas['post_parent'], OBJECT, 'page' );
-				$pageIdBySlug = get_page_by_path( 'the-content-factory-page', OBJECT, 'page' );
-				$post_parent = isset( $pageIdBySlug->ID ) && $pageIdBySlug->ID != "" ? $pageIdBySlug->ID : "" ;
-				echo "<pre>", print_r( $pageIdBySlug ), print_r( $page_metas['post_parent'] ), "</pre>"; exit;
-			}
-			$args['post_parent'] = $post_parent;
-			// echo "<pre>", print_r( $pageIdBySlug ), print_r( $args['post_parent'] ), "</pre>"; exit;
-			$args['menu_order'] = $page_metas['menu_order'];
-		}
-
+		
 		if ( ! empty( $metas ) ) {
 			$exclude = array(
 				'_edit_lock',
@@ -662,18 +633,7 @@ class BlogData {
 				'_pingme',
 				'_encloseme',
 				'syndication-detached',
-				'am_item_name',
-				'am_item_description',
-				'am_item_photo',
-				'am_item_imagetype',
-				'am_item_imagecode',
-				'am_item_order',
-				'am_item_unique_order',
-				'am_item_buttontext',
-				'am_item_buttonurl',
-				'am_item_getitnowtext',
-				'am_item_getitnowfromname',
-				'am_item_getitnowfromurl'
+				'embed'
 			);
 
 			foreach ( $metas as $meta_key => $meta_value ) {
@@ -806,6 +766,13 @@ class BlogData {
 				}
 			}
 
+			if( is_array($metas['embed']) && !empty ( $metas['embed'] ) ){
+				delete_post_meta( $post_id, 'embed' );
+
+				$_thumbnail_id = self::am_get_metavalue( '_thumbnail_id', $post_id );
+				update_post_meta( $_thumbnail_id, 'embed', $metas['embed'] );
+			}
+
 			if ( 'show' == $post_type ) {
 				delete_post_meta( $post_id, 'gmr_featured_post_ids' );
 				delete_post_meta( $post_id, 'gmr_favorite_post_ids' );
@@ -873,11 +840,6 @@ class BlogData {
 				update_post_meta( $post_id, 'cpt_item_order', $listicle_metas['cpt_item_order'] );
 				update_post_meta( $post_id, 'cpt_item_description', $listicle_metas['cpt_item_description'] );
 			}
-
-		if ( 'page' == $post_type ) {
-			delete_post_meta( $post_id, '_wp_page_template' );
-			update_post_meta( $post_id, '_wp_page_template',$page_metas['_wp_page_template'] );
-		}
 
 			if ( 'affiliate_marketing' == $post_type ) {
 				delete_post_meta( $post_id, 'am_item_name' );
