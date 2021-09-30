@@ -161,6 +161,28 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 
 		ob_start();
 
+		// Add segment navigation before start display the list
+		$total_segment = ceil( count($images) / 10 );
+		if(get_field( 'display_segmentation', $gallery->ID )) {
+			$is_desc = (get_field( 'segmentation_ordering', $gallery->ID ) != '' && get_field( 'segmentation_ordering', $gallery->ID ) == 'desc') ? 1 : 0;
+			$start_index = $is_desc ? $total_segment : 1;
+			
+			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+
+			for ($i=1; $i <= $total_segment; $i++) {
+				$diff = count($images) - ($start_index * 10);
+				$scroll_to = $is_desc ? ( $diff < 0 ? 0 : $diff  ) : ( ($i - 1) * 10 );
+
+				$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
+				$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
+				
+				echo '<button onclick=" scrollToSegmentation('.$images[ $scroll_to ]->ID.'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
+				
+				$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
+			}
+			echo "</div>";
+		}
+		
 		echo '<ul class="gallery-listicle">';
 
 		foreach ( $images as $index => $image ) {
@@ -172,7 +194,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 			);
 
 			if ( ! empty( $html ) ) {
-				echo '<li class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
+				echo '<li id="segment-item-', $image->ID ,'" class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
 					echo $html;
 
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :

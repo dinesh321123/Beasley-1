@@ -37,6 +37,7 @@ mu-plugins/post-finder/
 !/plugins/cpt-tag-permissions
 !/plugins/cpt-general-settings
 !/plugins/share-jacapps
+!/plugins/cpt-segment-navigation
 
 themes/index.php
 themes/twentyfourteen
