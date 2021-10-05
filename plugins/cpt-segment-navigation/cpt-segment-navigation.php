@@ -19,8 +19,8 @@ include __DIR__ . '/includes/segment-navigation-metaboxes.php';
 register_activation_hook( __FILE__, 'segment_navigation_activated' );
 register_deactivation_hook( __FILE__, 'segment_navigation_deactivated' );
 
-function tag_permissions_activated() {
+function segment_navigation_activated() {
 }
 
-function tag_permissions_deactivated() {
+function segment_navigation_deactivated() {
 }
