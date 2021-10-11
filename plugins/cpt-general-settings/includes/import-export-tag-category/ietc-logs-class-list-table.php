@@ -55,8 +55,6 @@ if(!class_exists('WP_List_Table')){
             switch($column_name){
                 case 'userid':
                 case 'type':
-                // case 'import_export':
-                    // return $item['import_export'];
                 case 'site_name':
                 case 'file':
                 case 'inserted_date':
@@ -100,22 +98,30 @@ if(!class_exists('WP_List_Table')){
         }
         function column_file($item){
             //Build row actions
-            $file_url	= GENERAL_SETTINGS_CPT_URL . "/uploads/import-export-tag-category/export/".$item['file'];
-            $actions = array(
-                'Download'    => sprintf('<a href="%s" target="_blank">Download</a>',$file_url),
-            );
+            if($item['import_export'] == 'Export'){
+                $file_url   = GENERAL_SETTINGS_CPT_URL . "/uploads/import-export-tag-category/export/".$item['file'];
+                $returnString   = sprintf('<a href="%s" target="_blank">Download CSV</a>',$file_url);
+
+            } else {
+                $file_url       = GENERAL_SETTINGS_CPT_URL . "/uploads/import-export-tag-category/import/".$item['file'];
+                $logFileUrl     = GENERAL_SETTINGS_CPT_URL . "/uploads/import-export-tag-category/logs/".$item['logfile'];
+
+                $returnString   = sprintf('<a href="%s" target="_blank">Download CSV</a> | <a href="%s" target="_blank">Download log</a>',$file_url, $logFileUrl);
+            }
+            
             //Return the title contents
-            return sprintf('%1$s %2$s',
-                /*$1%s*/ $item['file'],
-                /*$2%s*/ $this->row_actions($actions)
-            );
+            return $returnString;
+            /* return sprintf('%1$s %2$s',
+                sprintf('<a href="%s" target="_blank">Download CSV</a>',$file_url),
+                $this->row_actions($actions)
+            ); */
         }
         
         function column_userid($item){
             //Build row actions
             $actions = array(
                 // 'edit'      => sprintf('<a href="?page=%s&action=%s&edit=%s">Edit</a>',$_REQUEST['page'],'edit',$item['id']),
-                'delete'    => sprintf('<a href="?page=%s&action=%s&delete=%s">Delete</a>',$_REQUEST['page'],'delete',$item['id']),
+                'delete'    => sprintf('<a href="?page=%s&action=%s&delete=%s">Delete</a>',$_REQUEST['page'],'id',$item['id']),
             );
             //Return the title contents
             return sprintf('%1$s <span style="color:silver">(id:%2$s)</span>%3$s',
@@ -139,7 +145,7 @@ if(!class_exists('WP_List_Table')){
                 'userid'    => 'User',
                 'type'      => 'Type',
                 'site_name' => 'Network source',
-                'file'      => 'File Name',
+                'file'      => 'Download File',
                 'inserted_date'  => 'Date',
             );
             return $columns;
@@ -148,7 +154,7 @@ if(!class_exists('WP_List_Table')){
         function get_sortable_columns() {
             $sortable_columns = array(
                 'userid'         => array('userid',false),     //true means it's already sorted
-                'site_name'     => array('site',true)
+                // 'inserted_date'     => array('inserted_date',true)
             );
             return $sortable_columns;
         }

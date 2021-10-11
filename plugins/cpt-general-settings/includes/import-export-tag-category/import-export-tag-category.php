@@ -7,14 +7,12 @@ class ImportExportTagCategory {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
-		// add_action( 'init', array( __CLASS__, 'settings_cpt_init' ), 0 );
-		// add_action('plugins_loaded', array( __CLASS__, 'NetworkImExport' ), 0);
 		add_action( 'admin_init', array( __CLASS__, 'ietc_imp_exp_init' ) );
 		add_action('network_admin_notices', array( __CLASS__, 'ietc_general_admin_notice' ) ) ;
 
 		add_action('network_admin_menu', array( __CLASS__, 'ietc_admin_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'ietc_enqueue_scripts' ) );
-		/* Remove ietc_import_data, wp_ajax_ietc_export_data, ietc_imp_exp_init */ 
+		/* Remove ietc_import_data, wp_ajax_ietc_export_data */ 
 		add_action( 'wp_ajax_ietc_import_data', array( __CLASS__, 'ietc_import_data' ) );
 		add_action( 'wp_ajax_nopriv_ietc_import_data', array( __CLASS__, 'ietc_import_data' ) );
    
@@ -471,8 +469,14 @@ class ImportExportTagCategory {
 		}
    
 		if( isset($_GET['action']) && $_GET['action'] == 'delete' ) {
+			echo "Remove"; exit;
 			global $wpdb;
-			$id = $_GET['delete'];  
+			$id = $_GET['id'];
+
+			echo $sql = "SELECT * FROM {$wpdb->prefix}ietc_log WHERE id=".$id;
+			exit;
+			$result = $wpdb->get_results( $sql);
+			
 			$delete_sql = "DELETE FROM {$wpdb->prefix}ietc where id = ".$id;        
 
 			$result = $wpdb->query( $delete_sql );
