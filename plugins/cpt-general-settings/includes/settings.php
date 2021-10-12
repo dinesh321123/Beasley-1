@@ -11,6 +11,18 @@ class CommonSettings {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
+	function settings_cpt_init() {
+		// Register custom capability for Draft Kings On/Off Setting.
+		$roles = [ 'administrator' ];
+
+		foreach ( $roles as $role ) {
+			$role_obj = get_role( $role );
+
+			if ( is_a( $role_obj, \WP_Role::class ) ) {
+				$role_obj->add_cap( 'manage_draft_kings_onoff_setting', false );
+			}
+		}
+	}
 	/**
 	 * Returns array of post type.
 	 *
