@@ -121,7 +121,7 @@ if(!class_exists('WP_List_Table')){
             //Build row actions
             $actions = array(
                 // 'edit'      => sprintf('<a href="?page=%s&action=%s&edit=%s">Edit</a>',$_REQUEST['page'],'edit',$item['id']),
-                'delete'    => sprintf('<a href="?page=%s&action=%s&delete=%s">Delete</a>',$_REQUEST['page'],'id',$item['id']),
+                'delete'    => sprintf('<a href="?page=%s&action=%s&delete=%s" class="ietc-delete-confirm">Delete</a>',$_REQUEST['page'],'id',$item['id']),
             );
             //Return the title contents
             return sprintf('%1$s <span style="color:silver">(id:%2$s)</span>%3$s',

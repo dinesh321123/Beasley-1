@@ -22,8 +22,8 @@ if ( ! empty( $iframe_height ) ) :
 	include __DIR__ . '/includes/draftking-iframe-settings.php';
 endif;
 
-include __DIR__ . '/includes/settings.php';
-include __DIR__ . '/includes/import-export-tag-category/import-export-tag-category.php';	//Import export tag category network level
+include __DIR__ . '/includes/settings.php';		// Manage common settings
+include __DIR__ . '/includes/ietc.php';	//Import export tag category network level
 
 register_activation_hook( __FILE__, 'cpt_general_settings_activated' );
 register_deactivation_hook( __FILE__, 'cpt_general_settings_deactivated' );

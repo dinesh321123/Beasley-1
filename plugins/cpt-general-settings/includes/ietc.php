@@ -12,13 +12,7 @@ class ImportExportTagCategory {
 
 		add_action('network_admin_menu', array( __CLASS__, 'ietc_admin_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'ietc_enqueue_scripts' ) );
-		/* Remove ietc_import_data, wp_ajax_ietc_export_data */ 
-		add_action( 'wp_ajax_ietc_import_data', array( __CLASS__, 'ietc_import_data' ) );
-		add_action( 'wp_ajax_nopriv_ietc_import_data', array( __CLASS__, 'ietc_import_data' ) );
-   
-		add_action( 'wp_ajax_ietc_export_data', array( __CLASS__, 'ietc_export_data' ) );
-		add_action( 'wp_ajax_nopriv_ietc_export_data', array( __CLASS__, 'ietc_export_data' ) );
-
+		
 		add_action( 'wp_ajax_ietc_export_tag_category', array( __CLASS__, 'ietc_export_tag_category' ) );
 		add_action( 'wp_ajax_nopriv_ietc_export_tag_category', array( __CLASS__, 'ietc_export_tag_category' ) );
 
@@ -29,22 +23,13 @@ class ImportExportTagCategory {
    
    public static function ietc_admin_menu() {
 		add_menu_page(
-			__('Import Exoirt tag & category logs', GENERAL_SETTINGS_CPT_TEXT_DOMAIN),
-			__('Import Exoirt tag & category logs', GENERAL_SETTINGS_CPT_TEXT_DOMAIN),
+			__('Import Export tag & category', GENERAL_SETTINGS_CPT_TEXT_DOMAIN),
+			__('Import Export tag & category', GENERAL_SETTINGS_CPT_TEXT_DOMAIN),
 		   'manage_options',
 		   'ietc_logs',
 		   array( __CLASS__, 'ietc_logs_form' ),
 		   'dashicons-admin-multisite'
 		 );
-
-		/* add_submenu_page(
-			'ietc_page', 
-			__('Add New', GENERAL_SETTINGS_CPT_TEXT_DOMAIN), 
-			__('Add New', GENERAL_SETTINGS_CPT_TEXT_DOMAIN), 
-			'activate_plugins', 
-			'ietc_add_new', 
-			array( __CLASS__, 'ietc_add_new_form' ) 
-		); */
 		add_submenu_page(
 			'ietc_logs',
 			__('Logs', GENERAL_SETTINGS_CPT_TEXT_DOMAIN),
@@ -71,15 +56,6 @@ class ImportExportTagCategory {
 		);
    }
 
-   public static function ietc_listing_page() {
-	  	// echo plugin_dir_path( __FILE__ ) . 'main.php'; exit;
-		// require plugin_dir_path( __FILE__ ) . 'includes/import-export-tag-category/main.php';
-		// echo GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/main.php'; exit;
-		if (is_file( GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/main.php')) {
-		   include_once GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/main.php';
-		}
-	}
-   
 	public static function ietc_logs_form() {
 		if (is_file( GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/ietc-logs.php')) {
 			include_once GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/ietc-logs.php';
@@ -87,19 +63,22 @@ class ImportExportTagCategory {
 	}
 
 	public static function ietc_export_form() {
-		require plugin_dir_path( __FILE__ ) . 'ietc-export.php';
+		if (is_file( GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/ietc-export.php')) {
+			include_once GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/ietc-export.php';
+		}
 	}
 	public static function ietc_import_form() {
-		require plugin_dir_path( __FILE__ ) . 'ietc-import.php';
+		if (is_file( GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/ietc-import.php')) {
+			include_once GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/ietc-import.php';
+		}
 	}
    
 	public static function ietc_enqueue_scripts() {
 		global $typenow, $pagenow;
 		$admin_page = isset( $_GET['page'] ) && $_GET['page'] != "" ? $_GET['page'] : "" ;
-		if ( in_array( $admin_page, array( 'ietc_export', 'ietc_add_new', 'ietc_import' ) ) && in_array( $pagenow, array( 'admin.php' ) ) ) {
+		if ( in_array( $admin_page, array( 'ietc_export', 'ietc_logs', 'ietc_import' ) ) && in_array( $pagenow, array( 'admin.php' ) ) ) {
 			//Add the Select2 CSS file
 			wp_enqueue_style( 'general-settings-select2css', GENERAL_SETTINGS_CPT_URL .'assets/css/select2.min.css', array(),GENERAL_SETTINGS_CPT_VERSION, 'all');
-			//Add the Select2 JavaScript file
 			wp_enqueue_script( 'general-settings-select2js', GENERAL_SETTINGS_CPT_URL .'assets/js/select2.min.js', 'jquery', GENERAL_SETTINGS_CPT_VERSION);
 
 			wp_enqueue_script( 'import-export-tag-category', GENERAL_SETTINGS_CPT_URL ."assets/js/import-export-tag-category.js", array('jquery'));
@@ -108,92 +87,8 @@ class ImportExportTagCategory {
 			wp_enqueue_editor();
 		}
 	}
-	
-	public static function ietc_import_data() {
-		$file = $_POST['file']; 
-		$blog_id = $_POST['site_id'];
-		$list_id = $_POST['list_id'];
-		$taxonomy_type = $_POST['taxonomy_type'];
-		
-   
-		$file_path = GENERAL_SETTINGS_CPT_DIR_PATH.'uploads/import-export-tag-category/import/'. $file;
-		
-		if (file_exists($file_path) && !empty($file)) {
-			$message = "The file $filename exists";
-		} else {
-			$response = "The file $filename does not exist";
-			wp_send_json_error( $response );
-			exit;
-		}
-		
-		switch_to_blog( $blog_id );      
-		$row = 0;
-		$result = array();
-		$log_data = array();
-		if (($handle = fopen($file_path, "r")) !== FALSE) {
-		  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-			 
-			 $num = count($data);
-			 if($row != '0'){
-				   
-				  $name = $data[0];
-				  $slug = $data[1];
-				  $description = $data[2];
-				  
-				  $result = wp_insert_term(              
-					   $name,               
-					   $taxonomy_type,               
-					   array(               
-							'description' => $description,  
-							'slug' => $slug,
-					   )               
-				  );
-   
-				  if ( is_wp_error($result) ) {
-					   $message = $result->get_error_message();                              
-				  }
-				  else {
-					   $message = 'Created ID - '.$result['term_id'];   
-				  }
-				//  echo '<br>';              
-				  $log_data[$row] = array('type' => $taxonomy_type, 'name' => $name, 'message' => $message); 
-				  //echo $row. '. '.$type .'----'.$name.'----'. $message;
-			 }
-			$row++;         
-		}
-			// Create Log file
-			$todayDate  = date('YmdHis');
-			$date = date('Y-m-d H:i:s');
-			$myfile = fopen(GENERAL_SETTINGS_CPT_DIR_PATH . "/uploads/import-export-tag-category/logs/".$todayDate.'.txt', "w");
-			fwrite($myfile, json_encode($log_data)); /** Once the data is written it will be saved in the path given */
-			fclose($myfile); 
-
-			global $wpdb;  
-
-				$title = $_POST['title'];
-				$site = $_POST['site'];
-				$des = $_POST['des'];
-				$file = $_POST['file'];
-
-				$wpdb->insert(
-					$wpdb->base_prefix . 'ietc_import_log',
-					array(
-							'id'        => $list_id,
-							'log_filename'   => $todayDate.'.txt',
-							'inserted_date'   => $date,                          
-							)
-					);                 
-			fclose($handle);
-		}
-   
-		restore_current_blog();
-		$result = array( 'message' => 'File successfully imported', 'log_data' => $log_data );
-		wp_send_json_success( $result );
-		exit;          
-   }
 
    public static function ietc_import_tag_category() {
-	   // date('YmdHis').''.
 	   $csvFileName			=	date('YmdHis').'-'.$_FILES['csv_file']['name'];
 	   $csvFileTemp			=	$_FILES['csv_file']['tmp_name'];
 	   $blog_id				=	$_POST['network_source'];
@@ -288,9 +183,7 @@ class ImportExportTagCategory {
 		$network_type	= $_POST['network_type'];
 		$network_name	= $_POST['network_name'];
 		$user_id		= get_current_user_id();
-
-
-		switch_to_blog( $blog_id );  
+		switch_to_blog( $blog_id );
 			// Create Export file
 			$todayDate	= date('YmdHis');
 			$date		= date('Y-m-d H:i:s');
@@ -338,53 +231,6 @@ class ImportExportTagCategory {
 			);
 		$lastid = $wpdb->insert_id;
 		$result = array( 'message' => $network_name. ' - File successfully Exported', 'file_path' => $file_url, 'network_name' => $network_name, 'log_id' => $lastid );
-		wp_send_json_success( $result );
-		exit;
-   }
-   
-   public static function ietc_export_data(){
-   
-		$blog_id = $_POST['site_id'];
-		$list_id = $_POST['list_id'];
-   
-		switch_to_blog( $blog_id );  
-   
-		$args = array(
-			'hide_empty'      => false,
-		);
-   
-		// Create Export file
-			 $todayDate  = date('YmdHis');
-			 $date = date('Y-m-d H:i:s');
-			 $myfile = fopen(GENERAL_SETTINGS_CPT_DIR_PATH . "/uploads/import-export-tag-category/export/".$todayDate.'.csv', "w");
-			 $file_url = GENERAL_SETTINGS_CPT_URL . "/uploads/import-export-tag-category/export/".$todayDate.'.csv';
-			 $categories = get_categories($args); 
-			 fputcsv($myfile, array('Category Name', 'Category Slug', 'Description'));    
-			 foreach($categories as $category) {
-				  
-				  $file_row = array($category->name , $category->name, $category->description);
-				  
-				  fputcsv($myfile, $file_row);
-			 }
-			 fclose($myfile);  
-   
-			global $wpdb;  
-
-			$title = $_POST['title'];
-			$site = $_POST['site'];
-			$des = $_POST['des'];
-			$file = $_POST['file'];
-   
-			$wpdb->insert(
-				$wpdb->base_prefix . 'ietc_export_log',
-				array(
-					'id'        => $list_id,
-					'log_filename'   => $todayDate.'.csv',
-					'inserted_date'   => $date,                          
-					)
-				);
-		restore_current_blog();
-		$result = array( 'message' => 'File successfully Exported', 'file_path' => $file_url );
 		wp_send_json_success( $result );
 		exit;
    }
@@ -469,7 +315,6 @@ class ImportExportTagCategory {
 			global $wpdb;
 			$sqlQuery	= "SELECT * FROM {$wpdb->prefix}ietc_log where id = ".$del_id;
 			$sqlData	= $wpdb->get_results( $sqlQuery );
-			// echo "<pre>", print_r($sqlData[0]->import_export); exit;
 			if( !empty($sqlData[0]) ){
 				// 1 for export and 2 for import
 				$folderPath		=	isset($sqlData[0]->import_export) && $sqlData[0]->import_export == 1 ? 'export' : 'import' ;
@@ -485,6 +330,9 @@ class ImportExportTagCategory {
 				$del_sql	= "DELETE FROM {$wpdb->prefix}ietc_log WHERE id = $del_id";
 				$result		= $wpdb->get_results( $del_sql);
 				wp_redirect(site_url('wp-admin/network/admin.php?page=ietc_logs&msg=delete'));
+				exit;
+			} else {
+				wp_redirect(site_url('wp-admin/network/admin.php?page=ietc_logs&msg=error_delete'));
 				exit;
 			}
 		}
@@ -514,12 +362,18 @@ class ImportExportTagCategory {
 					 $error_message = 'New Record Insert successfully.';
 				}            
 		   } */
-			 if(isset($_GET['page']) && $_GET['page'] == 'ietc_logs'){               
-				  if(isset($_GET['msg']) && $_GET['msg'] == 'delete'){
-					   $error_class = 'notice notice-success is-dismissible';
-					   $error_message = 'Item deleted.';
-				  }            
-			 }
+			if(isset($_GET['page']) && $_GET['page'] == 'ietc_logs'){
+				if(isset($_GET['msg']) && $_GET['msg'] == 'delete'){
+					$error_class = 'notice notice-success is-dismissible';
+					$error_message = 'Item deleted.';
+				}
+			}
+			if(isset($_GET['page']) && $_GET['page'] == 'ietc_logs'){
+				if(isset($_GET['msg']) && $_GET['msg'] == 'error_delete'){
+					$error_class = 'notice notice-success is-dismissible';
+					$error_message = 'Sorry, there was an error delete item.';
+				}
+			}
    
 			 echo '<div class="'. $error_class .'">
 				   <p>'. $error_message .'</p>
@@ -528,8 +382,8 @@ class ImportExportTagCategory {
    }
    	public static function ietc_activation() {
 		global $wpdb;
-		/* $charset_collate = $wpdb->get_charset_collate();
-		$logtable = $wpdb->prefix . 'ietc_log';  // table name
+		$charset_collate	= $wpdb->get_charset_collate();
+		$logtable 			= $wpdb->prefix . 'ietc_log';  // table name
 		if($wpdb->get_var("show tables like '$logtable'") != $logtable) {
 			$sql = "CREATE TABLE IF NOT EXISTS $logtable (
 				id int(11) NOT NULL AUTO_INCREMENT,
@@ -539,31 +393,13 @@ class ImportExportTagCategory {
 				import_export int(4) NOT NULL,
 				file varchar(60) NOT NULL,
 				logfile varchar(60) NULL,
-				inserted_date varchar(250) NOT NULL,
-				updated_date varchar(250) NOT NULL,
-				PRIMARY KEY (id) ) $charset_collate";
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+				inserted_date datetime NOT NULL,
+				updated_date datetime NOT NULL,
+				PRIMARY KEY (id) ) $charset_collate;";
+				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				dbDelta( $sql );
 				// add_option( 'test_db_version', $test_db_version );
-			} */
-			$charset_collate = $wpdb->get_charset_collate();
-			$logtable = $wpdb->prefix . 'ietc_log';  // table name
-			if($wpdb->get_var("show tables like '$logtable'") != $logtable) {
-				$sql = "CREATE TABLE IF NOT EXISTS $logtable (
-					id int(11) NOT NULL AUTO_INCREMENT,
-					blog_id int(11) NOT NULL,
-					userid int(11) NOT NULL,
-					type varchar(50) NOT NULL,
-					import_export int(4) NOT NULL,
-					file varchar(60) NOT NULL,
-					logfile varchar(60) NULL,
-					inserted_date datetime NOT NULL,
-					updated_date datetime NOT NULL,
-					PRIMARY KEY (id) ) $charset_collate;";
-					require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-					dbDelta( $sql );
-					// add_option( 'test_db_version', $test_db_version );
-				}
+			}
 	   }
 }
 

@@ -5,8 +5,10 @@
     </h2>
     <hr class="wp-header-end" />    
       <div id="poststuff">    
-      <?php 
-         require plugin_dir_path( __FILE__ ) . 'ietc-logs-class-list-table.php';
+      <?php
+      if (is_file( GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/ietc-logs-class-list-table.php')) {
+         include_once GENERAL_SETTINGS_CPT_DIR_PATH . 'includes/import-export-tag-category/ietc-logs-class-list-table.php';
+		}
       ?>
       <div id="post-body" class="metabox-holder">
          <div id="post-body-content" style="position: relative;">
