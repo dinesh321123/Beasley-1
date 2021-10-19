@@ -199,6 +199,32 @@
 			}
 		});
 	});
+	
+  	$('.userfiltercls').change(function(){
+    	var getUserid=$(this).val();
+    	var getTypeid=$('.typefiltercls').val();
+    	var getNetWorkid=$('.networksourcecls').val();
+
+	    window.location.replace($('.wpBaseurl').val()+"/wp-admin/network/admin.php?page=ietc_logs&filtuserid="+getUserid+"&filttypeid="+getTypeid+"&filtnetworkid="+getNetWorkid);
+	});
+
+    $('.typefiltercls').change(function(){
+    	var getUserid=$('.userfiltercls').val();
+    	var getTypeid=$(this).val();
+    	var getNetWorkid=$('.networksourcecls').val();
+	
+		window.location.replace($('.wpBaseurl').val()+"/wp-admin/network/admin.php?page=ietc_logs&filtuserid="+getUserid+"&filttypeid="+getTypeid+"&filtnetworkid="+getNetWorkid);
+		
+    });
+
+    $('.networksourcecls').change(function(){
+    	var getUserid=$('.userfiltercls').val();
+    	var getTypeid=$('.typefiltercls').val();
+    	var getNetWorkid=$(this).val();
+	
+		window.location.replace($('.wpBaseurl').val()+"/wp-admin/network/admin.php?page=ietc_logs&filtuserid="+getUserid+"&filttypeid="+getTypeid+"&filtnetworkid="+getNetWorkid);
+		
+    });
 
 	});
 	function removeErrorAfterSomeTime(){

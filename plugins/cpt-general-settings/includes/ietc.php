@@ -75,7 +75,7 @@ class ImportExportTagCategory {
    
 	public static function ietc_enqueue_scripts() {
 		global $typenow, $pagenow;
-		$admin_page = isset( $_GET['page'] ) && $_GET['page'] != "" ? $_GET['page'] : "" ;
+		$admin_page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_STRIPPED) != "" ? filter_input(INPUT_GET, "page", FILTER_SANITIZE_STRIPPED) : "" ;
 		if ( in_array( $admin_page, array( 'ietc_export', 'ietc_logs', 'ietc_import' ) ) && in_array( $pagenow, array( 'admin.php' ) ) ) {
 			//Add the Select2 CSS file
 			wp_enqueue_style( 'general-settings-select2css', GENERAL_SETTINGS_CPT_URL .'assets/css/select2.min.css', array(),GENERAL_SETTINGS_CPT_VERSION, 'all');
@@ -91,10 +91,10 @@ class ImportExportTagCategory {
    public static function ietc_import_tag_category() {
 	   $csvFileName			=	date('YmdHis').'-'.$_FILES['csv_file']['name'];
 	   $csvFileTemp			=	$_FILES['csv_file']['tmp_name'];
-	   $blog_id				=	$_POST['network_source'];
-	   $blog_type			=	$_POST['network_type'];
-	   $blog_type_compare	=	isset($_POST['network_type']) && $_POST['network_type'] == 'post_tag' ? 'tag' : $_POST['network_type'];
-	   $network_name		=	$_POST['network_name'];
+	   $blog_id				=	filter_input(INPUT_POST, "network_source", FILTER_SANITIZE_STRIPPED);
+	   $blog_type			=	filter_input(INPUT_POST, "network_type", FILTER_SANITIZE_STRIPPED);
+	   $blog_type_compare	=	filter_input(INPUT_POST, "network_type", FILTER_SANITIZE_STRIPPED) == 'post_tag' ? 'tag' : filter_input(INPUT_POST, "network_type", FILTER_SANITIZE_STRIPPED);
+	   $network_name		=	filter_input(INPUT_POST, "network_name", FILTER_SANITIZE_STRIPPED);
 	   $user_id				=	get_current_user_id();
 		
 	   // echo "<pre>", print_r($_FILES['csv_file']) ;
@@ -179,9 +179,9 @@ class ImportExportTagCategory {
 	}
 
    public static function ietc_export_tag_category() {
-		$blog_id		= $_POST['network_source'];
-		$network_type	= $_POST['network_type'];
-		$network_name	= $_POST['network_name'];
+		$blog_id		= filter_input( INPUT_POST, 'network_source', FILTER_SANITIZE_STRIPPED);
+		$network_type	= filter_input( INPUT_POST, 'network_type', FILTER_SANITIZE_STRIPPED);
+		$network_name	= filter_input( INPUT_POST, 'network_name', FILTER_SANITIZE_STRIPPED);
 		$user_id		= get_current_user_id();
 		switch_to_blog( $blog_id );
 			// Create Export file
@@ -235,7 +235,7 @@ class ImportExportTagCategory {
 		exit;
    }
    public static function ietc_imp_exp_init(){
-		if(isset($_POST['list_publish']) && $_POST['list_publish'] != '')
+		if(filter_input( INPUT_POST, 'list_publish', FILTER_SANITIZE_STRIPPED) != '')
 		{
 			$name_file = $_FILES['fileToUpload']['name'];
 			$tmp_name = $_FILES['fileToUpload']['tmp_name'];
@@ -259,11 +259,11 @@ class ImportExportTagCategory {
 			// This code for insert data in import export table
 			global $wpdb;  
    
-			$title = $_POST['title'];
-			$site = $_POST['site'];
-			$des = $_POST['des'];
-			$file = $_POST['file'];
-			$type = $_POST['type'];
+			$title = filter_input( INPUT_POST, 'title', FILTER_SANITIZE_STRIPPED);
+			$site = filter_input( INPUT_POST, 'site', FILTER_SANITIZE_STRIPPED);
+			$des = filter_input( INPUT_POST, 'des', FILTER_SANITIZE_STRIPPED);
+			$file = filter_input( INPUT_POST, 'file', FILTER_SANITIZE_STRIPPED);
+			$type = filter_input( INPUT_POST, 'type', FILTER_SANITIZE_STRIPPED);
    
 			$wpdb->insert(
 				$wpdb->base_prefix . 'ietc',
@@ -287,14 +287,14 @@ class ImportExportTagCategory {
 				}
 			}
    
-		if(isset($_POST['list_update']) && $_POST['list_update'] != '')
+		if(filter_input( INPUT_POST, 'list_update', FILTER_SANITIZE_STRIPPED) != '')
 		{
 			 global $wpdb;
-			 $title		= $_POST['title'];          
-			 $site		= $_POST['site'];
-			 $des		= $_POST['des'];
-			 $id		= $_GET['edit'];
-			 $taxonomy_type = $_POST['taxonomy_type'];
+			 $title		= filter_input( INPUT_POST, 'title', FILTER_SANITIZE_STRIPPED);          
+			 $site		= filter_input( INPUT_POST, 'site', FILTER_SANITIZE_STRIPPED);
+			 $des		= filter_input( INPUT_POST, 'des', FILTER_SANITIZE_STRIPPED);
+			 $id		= filter_input( INPUT_POST, 'edit', FILTER_SANITIZE_STRIPPED);
+			 $taxonomy_type = filter_input( INPUT_POST, 'taxonomy_type', FILTER_SANITIZE_STRIPPED);
    
 			 if($des == ''){
 				  $des = ' ';
@@ -304,14 +304,14 @@ class ImportExportTagCategory {
 			 
 			// echo $update_sql;
 			// exit;
-			 wp_redirect(site_url('wp-admin/network/admin.php?page=ietc_page&action=edit&edit='.$_GET['edit'].'&msg=success'));
+			 wp_redirect(site_url('wp-admin/network/admin.php?page=ietc_page&action=edit&edit='.filter_input(INPUT_GET, 'edit', FILTER_SANITIZE_STRIPPED).'&msg=success'));
 			 exit;
    
 		}
    
-		if(isset($_GET['delete']) && $_GET['delete'] != ''){
+		if(filter_input( INPUT_GET, 'delete', FILTER_SANITIZE_STRIPPED) != ''){
 			// $priority=filter_input(INPUT_GET, 'delete', FILTER_VALIDATE_INT);
-			$del_id		= $_GET['delete'];
+			$del_id		=filter_input( INPUT_GET, 'delete', FILTER_SANITIZE_STRIPPED);
 			global $wpdb;
 			$sqlQuery	= "SELECT * FROM {$wpdb->prefix}ietc_log where id = ".$del_id;
 			$sqlData	= $wpdb->get_results( $sqlQuery );
@@ -340,7 +340,8 @@ class ImportExportTagCategory {
    
    public static function ietc_general_admin_notice(){
 	   global $pagenow;
-		 if ( ! isset( $_GET['msg'] ) ) {
+
+		 if (empty(filter_input( INPUT_GET, 'msg', FILTER_SANITIZE_STRIPPED))) {
 				  return;
 			   }
    
@@ -362,14 +363,16 @@ class ImportExportTagCategory {
 					 $error_message = 'New Record Insert successfully.';
 				}            
 		   } */
-			if(isset($_GET['page']) && $_GET['page'] == 'ietc_logs'){
-				if(isset($_GET['msg']) && $_GET['msg'] == 'delete'){
+
+		   
+			if(filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRIPPED)== 'ietc_logs'){
+				if(filter_input( INPUT_GET, 'msg', FILTER_SANITIZE_STRIPPED) == 'delete'){
 					$error_class = 'notice notice-success is-dismissible';
 					$error_message = 'Item deleted.';
 				}
 			}
-			if(isset($_GET['page']) && $_GET['page'] == 'ietc_logs'){
-				if(isset($_GET['msg']) && $_GET['msg'] == 'error_delete'){
+			if(filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRIPPED) == 'ietc_logs'){
+				if(filter_input( INPUT_GET, 'msg', FILTER_SANITIZE_STRIPPED) == 'error_delete'){
 					$error_class = 'notice notice-success is-dismissible';
 					$error_message = 'Sorry, there was an error delete item.';
 				}

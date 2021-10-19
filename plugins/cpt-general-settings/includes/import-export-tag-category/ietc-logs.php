@@ -17,7 +17,7 @@
                <?php
                   $wp_list_table = new Link_List_Table();
                   $wp_list_table->prepare_items();    
-                  $wp_list_table->search_box('Search', 'search');
+                  //$wp_list_table->search_box('Search', 'search');
                   $wp_list_table->display(); 
                ?>
             </form>

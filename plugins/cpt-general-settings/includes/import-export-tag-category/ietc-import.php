@@ -27,7 +27,7 @@
                                    asort($new_site_arr);                       
                                     foreach ( $new_site_arr as $site_id => $site_name ) {
                                          $subsite_id = get_object_vars($subsite)["blog_id"];
-                                         var_dump($subsite_id);
+                                         //var_dump($subsite_id);
                                          $subsite_name = get_blog_details($subsite_id)->blogname;
                                          echo '<option value="'.$site_id.'">'. ucfirst($site_name) .'</option>';                             
                                         
