@@ -1,16 +1,16 @@
-<?php 
+<?php
 
-ee_setup_gallery_view_metadata(); // must be called before get_header(); 
+ee_setup_gallery_view_metadata(); // must be called before get_header();
 get_header();
 
 ee_switch_to_article_blog();
-the_post(); 
+the_post();
 
 ?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php get_template_part( 'partials/show/header' ); ?>
 
 	<header class="post-info">
-		<h1> 
+		<h1>
 			<?php the_title(); ?>
 		</h1>
 
@@ -33,6 +33,8 @@ the_post();
 
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
 	</div>
+	<?php get_template_part( 'partials/related-articles' );	?>
+
 </div><?php
 
 restore_current_blog();

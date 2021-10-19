@@ -133,7 +133,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 										? relatedPost.image_url.replace('-150x150', '')
 										: '',
 									published: relatedPost.pub_date,
-									test_name: relatedPost.tags,
+									test_name: testName,
 								};
 							}),
 						);
