@@ -33,6 +33,7 @@ import StnBarker from './embeds/StnBarker';
 import StnPlayer from './embeds/StnPlayer';
 import BrandedContent from './embeds/BrandedContent';
 import Dimers from './embeds/Dimers';
+import DraftkingEmbed from './embeds/DraftkingEmbed';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -52,6 +53,7 @@ const mapping = {
 	secondstreetsignup: SecondStreetSignupEmbed,
 	share: Share,
 	drimify: DrimifyEmbed,
+	draftkingiframe: DraftkingEmbed,
 	songarchive: SongArchive,
 	streamcta: StreamCta,
 	relatedposts: RelatedPosts,

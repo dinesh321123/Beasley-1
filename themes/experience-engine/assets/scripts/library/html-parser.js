@@ -176,6 +176,15 @@ function getDrimifyParams(element) {
 	};
 }
 
+function getDraftkingIframeParams(element) {
+	const { dataset } = element;
+
+	return {
+		postid: dataset.postid,
+		ishidden: dataset.ishidden,
+	};
+}
+
 function getHubspotFormParams(element) {
 	const { dataset } = element;
 
@@ -401,6 +410,12 @@ export function getStateFromContent(container, pageURL) {
 				getDatasetParams('stackid', 'layout'),
 			),
 			...processEmbeds(container, 'drimify', '.drimify', getDrimifyParams),
+			...processEmbeds(
+				container,
+				'draftkingiframe',
+				'.draftking-iframe',
+				getDraftkingIframeParams,
+			),
 		];
 
 		// extract <script> tags

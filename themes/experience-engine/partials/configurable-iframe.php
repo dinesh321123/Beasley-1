@@ -2,7 +2,7 @@
 $IframePostType = 1;
 $current_post_object = get_queried_object();
 $hide_draftking_iframe = get_field( 'hide_draftking_iframe', $current_post_object );
-if ( isset( $hide_draftking_iframe ) && $hide_draftking_iframe == 0 ) :
+if ( isset( $hide_draftking_iframe ) && $hide_draftking_iframe == 0 && !is_front_page() ) :
 	$IframePostType = 0;
 endif;
 
