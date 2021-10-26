@@ -336,12 +336,24 @@ class Dfp extends PureComponent {
 		return retval;
 	}
 
+	getBidderResetDigital() {
+		const retval = {
+			bidder: 'resetdigital',
+			params: {
+				pubId: '44',
+			},
+		};
+
+		return retval;
+	}
+
 	getPrebidBidders() {
 		const retval = [];
 
 		retval.push(this.getBidderRubicon());
 		retval.push(this.getBidderAppnexus());
 		retval.push(this.getBidderIx());
+		retval.push(this.getBidderResetDigital());
 
 		return retval.filter(bidObj => bidObj);
 	}

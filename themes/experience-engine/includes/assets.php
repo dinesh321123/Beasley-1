@@ -53,6 +53,10 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 			enqueue_prebid_scripts();
 		}
 
+		if ( function_exists( 'enqueue_vimeopreroll_scripts' ) ) {
+			enqueue_vimeopreroll_scripts();
+		}
+
 		// TODO: refactor this to use wp_localize_script.
 $bbgiconfig = <<<EOL
 window.bbgiconfig = {};
