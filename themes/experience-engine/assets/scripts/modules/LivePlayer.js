@@ -177,6 +177,10 @@ class LivePlayer extends Component {
 		const volumeControl = isIos ? null : <Volume colors={buttonsFillStyle} />;
 		const gamPreroll = gamAdPlayback ? <GamPreroll /> : null;
 
+		if (gamAdPlayback) {
+			console.log('Live Player configured to render GAM preroll.');
+		}
+
 		const children = (
 			<ErrorBoundary>
 				{notification}

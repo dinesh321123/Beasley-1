@@ -216,7 +216,13 @@ class GamPreroll extends PureComponent {
 				// remaining time detection.
 				this.finalize();
 				break;
+			case window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED:
+				// This event indicates that ALL Ads have finished.
+				// This event was seen emitted from a Google example ad upon pressing a "Skip Ad" button.
+				this.finalize();
+				break;
 			default:
+				console.log(`Unhandled IMA Event - '${adEvent.type}'`);
 				break;
 		}
 	}
