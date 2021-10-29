@@ -4,6 +4,7 @@ import {
 	renderSendToNews,
 	updateInterstitialAdDiv,
 	handleInjectos,
+	initializeVimeo,
 } from '../../utilities';
 import refreshAllAds from '../../utilities/screen/refreshAllAds';
 
@@ -36,6 +37,7 @@ function* yieldHideSplashScreen(action) {
 
 		renderSendToNews();
 		handleInjectos();
+		initializeVimeo();
 	});
 }
 

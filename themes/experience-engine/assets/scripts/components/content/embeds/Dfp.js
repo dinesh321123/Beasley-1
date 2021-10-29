@@ -776,12 +776,20 @@ class Dfp extends PureComponent {
 	}
 
 	destroySlot() {
-		const { placeholder } = this.props;
-		const { slot } = this.state;
+		const { placeholder, unitId } = this.props;
+		const { slot, prebidEnabled } = this.state;
+
 		if (slot) {
 			const { googletag } = window;
 			// Remove Slot Stat Property
 			delete getSlotStatsCollectionObject()[placeholder];
+
+			if (prebidEnabled) {
+				console.log(`Removing Ad Unit From Prebid: ${unitId}`);
+				const pbjs = window.pbjs || {};
+				// pbjs.removeAdUnit(adUnitCode)
+				pbjs.removeAdUnit(unitId);
+			}
 
 			console.log(`Destroying Slot: ${placeholder}`);
 

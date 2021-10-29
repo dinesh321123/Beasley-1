@@ -55,7 +55,7 @@ class PlayerAd extends PureComponent {
 			const shouldRender = this.getWhetherShouldRender();
 			if (shouldRender !== this.state.shouldRender) {
 				console.log(
-					`Resettin Player Ad State Because Of Resize Change on ${window.location.href}`,
+					`Resetting Player Ad State Because Of Resize Change on ${window.location.href}`,
 				);
 				this.setState({ shouldRender });
 			}

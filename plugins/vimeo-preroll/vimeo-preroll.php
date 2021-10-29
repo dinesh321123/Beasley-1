@@ -13,9 +13,13 @@ function enqueue_vimeopreroll_scripts() {
 	$vimeoplayerjsurl = plugins_url( '/vimeo-player-v2-16-1.js', __FILE__ );
 	echo "<script type='text/javascript' async src='". $vimeoplayerjsurl ."'></script>";
 
+	$beasleyimajsurl = plugins_url( '/beasley-ima.js', __FILE__ );
+	echo "<script type='text/javascript' src='". $beasleyimajsurl ."'></script>";
+
 	$vimeoprerolljsurl = plugins_url( '/vimeo-preroll.js', __FILE__ );
 	echo "<script type='text/javascript' src='". $vimeoprerolljsurl ."'></script>";
 }
+
 
 
 
