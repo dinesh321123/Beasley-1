@@ -134,11 +134,13 @@ function onAdEvent(adEvent) {
 			// can perform appropriate UI actions, such as removing the timer for
 			// remaining time detection.
 			vimeoControlHolder.prerollCallBack();
+			beasleyIMACleanup();
 			break;
 		case window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED:
 			// This event indicates that ALL Ads have finished.
 			// This event was seen emitted from a Google example ad upon pressing a "Skip Ad" button.
 			vimeoControlHolder.prerollCallBack();
+			beasleyIMACleanup();
 			break;
 	}
 }
@@ -163,7 +165,12 @@ function onAdError(adErrorEvent) {
 	}
 	catch {}
 
+	beasleyIMACleanup();
+}
 
+function beasleyIMACleanup() {
+	console.log('Clearing Vimeo Control Holder');
+	vimeoControlHolder = null;
 }
 
 function onContentPauseRequested() {
