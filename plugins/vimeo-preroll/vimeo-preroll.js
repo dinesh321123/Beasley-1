@@ -12,10 +12,16 @@
 	}
 
 	const renderHTML = () => {
+		const oldVimeoPrerollWrapper = document.getElementById('vimeoPrerollWrapper');
+		if (oldVimeoPrerollWrapper) {
+			oldVimeoPrerollWrapper.remove();
+		}
+
 		const containerEl = document.getElementsByClassName('container')[0]
 		const wrapperDiv = document.createElement('div');
 		wrapperDiv.id = 'vimeoPrerollWrapper';
-		wrapperDiv.classList.add(['gamPreroll-wrapper', 'active']);
+		wrapperDiv.classList.add('preroll-wrapper');
+		//wrapperDiv.classList.add('gampreroll-shade');
 		wrapperDiv.innerHTML = `
 			<div id="vimeoPrerollContent">
 				<video id="vimeoPrerollContentElement">
@@ -27,32 +33,40 @@
 					/>
 				</video>
 			</div>
-			<div id="vimeoPrerollAdContainer" className="gam-preroll-player" />`;
+			<div id="vimeoPrerollAdContainer" class="preroll-player" style="height: 360px" />`;
 		containerEl.appendChild(wrapperDiv);
 	}
 
 	const loadVimeoPlayer = (iframe) => {
 		const vimeoplayer = new Vimeo.Player(iframe);
-		let isPlayingPreroll = false;
+		vimeoplayer.isPlayingPreroll = false;
 
-		const prerollCallback = async () => {
-			await vimeoplayer.play();
-			isPlayingPreroll = false;
-			console.log('Vimeo Playing');
-		}
+		vimeoplayer.prerollCallBack = async () => {
+			if (vimeoplayer.isPlayingPreroll) {
+				console.log('Preroll Call Back');
+				const wrapperDiv = document.getElementById('vimeoPrerollWrapper');
+				wrapperDiv.classList.remove('-active');
+				console.log('Vimeo Resumed Play in Callback after Preroll');
+				await vimeoplayer.play();
+				console.log('Signalling preroll is done');
+				vimeoplayer.isPlayingPreroll = false;
+			}
+		};
 
-		vimeoplayer.on('play', async function () {
-			console.log('Attempting to Play the video');
+		vimeoplayer.thisVimeoPlayHandler = async () => {
+			console.log('Vimeoplayer OnPlay Event');
 
-			if (!isPlayingPreroll) {
-				isPlayingPreroll = true;
-				console.log('Played And Instantly Pausing');
+			if (!vimeoplayer.isPlayingPreroll) {
+				vimeoplayer.isPlayingPreroll = true;
+				console.log('Played And Instantly Pausing for Preroll');
 				await vimeoplayer.pause();
 				console.log('Paused and now Playing Preroll');
 				/* PREROLL CODE HERE */
-				getUrlFromPrebid(prerollCallback);
+				getUrlFromPrebid(vimeoplayer);
 			}
-		});
+		};
+
+		vimeoplayer.on('play', vimeoplayer.thisVimeoPlayHandler);
 
 		vimeoplayer.on('pause', async function () {
 			console.log('Paused the video');
@@ -63,7 +77,7 @@
 		});
 	}
 
-	const getUrlFromPrebid = (prerollCallback) => {
+	const getUrlFromPrebid = (vimeoControl) => {
 		const {gampreroll} = window.bbgiconfig.dfp;
 		const videoAdUnit = {
 			code: gampreroll.unitId,
@@ -113,15 +127,18 @@
 					//		}
 					//	});
 					const videoUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${gampreroll.unitId}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360%7C640x480%7C920x508&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
-						console.log(videoUrl);
+
+					console.log(videoUrl);
 						if (videoUrl) {
-							//try {
-								playVimeoIMAAds(videoUrl, prerollCallback);
-							//} catch {
-							//	prerollCallback();
-							//}
+							try {
+								playVimeoIMAAds(videoUrl, vimeoControl);
+							} catch(err) {
+								console.log('Uncaught Error while playing preroll', err);
+								console.log('Attempting to mask error');
+								vimeoControl.prerollCallBack();
+							}
 						} else {
-							prerollCallback();
+							vimeoControl.prerollCallBack();
 						}
 					//}
 				}

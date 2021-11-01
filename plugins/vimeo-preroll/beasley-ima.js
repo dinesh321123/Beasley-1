@@ -9,12 +9,12 @@ var adDisplayContainer;
 var playButton;
 var videoContent;
 var imaIsSetUp = false;
-var prerollCallbackFunc;
+var vimeoControlHolder;
 
-window.setUpVimeoIMA = () => {
+setUpVimeoIMA = () => {
 	console.log(`Initializing IMA`);
 
-	if (!imaIsSetUp) {
+	  if (!imaIsSetUp) {
 		imaIsSetUp = true;
 		videoContent = document.getElementById('vimeoPrerollContentElement');
 		// Create the ad display container.
@@ -44,11 +44,11 @@ function createAdDisplayContainer() {
 		document.getElementById('vimeoPrerollAdContainer'), videoContent);
 }
 
-function playVimeoIMAAds(videoUrl, prerollCallbackFuncParam) {
+function playVimeoIMAAds(videoUrl, vimeoControl) {
 	console.log(`Playing IMA Ad`);
-	prerollCallbackFunc = prerollCallbackFuncParam;
+	vimeoControlHolder = vimeoControl;
 
-
+	setUpVimeoIMA();
 
 	// Request video ads.
 	var adsRequest = new window.google.ima.AdsRequest();
@@ -65,7 +65,9 @@ function playVimeoIMAAds(videoUrl, prerollCallbackFuncParam) {
 		 */
 
 		adsLoader.requestAds(adsRequest);
+}
 
+function playAds() {
 	// Initialize the container. Must be done via a user action on mobile devices.
 	videoContent.load();
 	adDisplayContainer.initialize();
@@ -102,6 +104,8 @@ function onAdsManagerLoaded(adsManagerLoadedEvent) {
 	adsManager.addEventListener(window.google.ima.AdEvent.Type.LOADED, onAdEvent);
 	adsManager.addEventListener(window.google.ima.AdEvent.Type.STARTED, onAdEvent);
 	adsManager.addEventListener(window.google.ima.AdEvent.Type.COMPLETE, onAdEvent);
+
+	playAds();
 }
 
 function onAdEvent(adEvent) {
@@ -122,26 +126,44 @@ function onAdEvent(adEvent) {
 			// This event indicates the ad has started - the video player
 			// can adjust the UI, for example display a pause button and
 			// remaining time.
+			const wrapperDiv = document.getElementById('vimeoPrerollWrapper');
+			wrapperDiv.classList.add('-active');
 			break;
 		case window.google.ima.AdEvent.Type.COMPLETE:
 			// This event indicates the ad has finished - the video player
 			// can perform appropriate UI actions, such as removing the timer for
 			// remaining time detection.
-			prerollCallbackFunc();
+			vimeoControlHolder.prerollCallBack();
 			break;
 		case window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED:
 			// This event indicates that ALL Ads have finished.
 			// This event was seen emitted from a Google example ad upon pressing a "Skip Ad" button.
-			prerollCallbackFunc();
+			vimeoControlHolder.prerollCallBack();
 			break;
 	}
 }
 
 function onAdError(adErrorEvent) {
 	// Handle the error logging.
+	console.log('IMA onAdError Event');
 	console.log(adErrorEvent.getError());
-	adsManager.destroy();
-	prerollCallbackFunc();
+
+	try {
+		console.log('Calling Callback');
+		vimeoControlHolder.prerollCallBack();
+	}
+	catch {}
+
+	try {
+		console.log('Clearing Ad Manager');
+		imaIsSetUp = false;
+		if (adsManager && adsManager.destroy) {
+			adsManager.destroy();
+		}
+	}
+	catch {}
+
+
 }
 
 function onContentPauseRequested() {
@@ -159,5 +181,3 @@ function onContentResumeRequested() {
 	// setupUIForContent();
 }
 
-// Wire UI element references and UI event listeners.
-//init();
