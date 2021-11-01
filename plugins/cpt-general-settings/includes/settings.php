@@ -11,7 +11,7 @@ class CommonSettings {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
-	function settings_cpt_init() {
+	public static function settings_cpt_init() {
 		// Register custom capability for Draft Kings On/Off Setting.
 		$roles = [ 'administrator' ];
 

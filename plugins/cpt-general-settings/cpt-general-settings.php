@@ -22,3 +22,4 @@ if ( ! empty( $iframe_height ) ) :
 endif;
 
 include __DIR__ . '/includes/settings.php';
+include __DIR__ . '/includes/embed_videourl.php';	// Code to add Embed Video URL Field in media
