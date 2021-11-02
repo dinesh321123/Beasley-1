@@ -63,6 +63,7 @@ abstract class Module {
 			'feature_video'		=> new \Bbgi\Integration\FeatureVideo(),
 			'branded-content'	=> new \Bbgi\Integration\BrandedContent(),
 			'dimers-widget'		=> new \Bbgi\Integration\Dimers(),
+			'draftking-iframe'  => new \Bbgi\Integration\DraftkingIframe(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {

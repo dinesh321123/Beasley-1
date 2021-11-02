@@ -25,9 +25,9 @@ class FacebookOEmbed
 		wp_oembed_add_provider('#https?://www\.facebook\.com/video\.php.*#i', 'https://graph.facebook.com/v8.0/oembed_video', true);
 		wp_oembed_add_provider('#https?://www\.facebook\.com/watch/?\?v=\d+#i', 'https://graph.facebook.com/v8.0/oembed_video', true);
 
-		wp_oembed_remove_provider('#https?://((m|www)\.)?youtube\.com/watch.*#i');
+		/* wp_oembed_remove_provider('#https?://((m|www)\.)?youtube\.com/watch.*#i');
 		wp_oembed_remove_provider('#https?://((m|www)\.)?youtube\.com/playlist.*#i');
-		wp_oembed_remove_provider('#https?://youtu\.be/.*#i');
+		wp_oembed_remove_provider('#https?://youtu\.be/.*#i'); */
 
 		add_filter('oembed_fetch_url', Array($this, 'facebook_oembed_key'), 10, 3);
 	}

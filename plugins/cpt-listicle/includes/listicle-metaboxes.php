@@ -23,6 +23,7 @@ class ListicleCPTMetaboxes {
 	public static function enqueue_scripts() {
 		global $typenow, $pagenow;
 		if ( ListicleCPT::LISTICLE_POST_TYPE == $typenow && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			add_filter( 'wp_default_editor', create_function( '', 'return "html";' ) );
 			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 			wp_register_style('listicle-admin',LISTICLE_CPT_URL . "assets/css/listicle_admin.css", array(), LISTICLE_CPT_VERSION, 'all');
 			wp_enqueue_style('listicle-admin');

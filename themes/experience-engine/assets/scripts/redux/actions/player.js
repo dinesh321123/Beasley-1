@@ -318,6 +318,7 @@ export function initTdPlayer(modules) {
 					dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
 				); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
 			} else {
+				console.log('Dispatching GAM Preroll Start');
 				dispatch(gamAdPlaybackStart());
 				// dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)); // used to dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
 			}

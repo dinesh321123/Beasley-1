@@ -336,12 +336,24 @@ class Dfp extends PureComponent {
 		return retval;
 	}
 
+	getBidderResetDigital() {
+		const retval = {
+			bidder: 'resetdigital',
+			params: {
+				pubId: '44',
+			},
+		};
+
+		return retval;
+	}
+
 	getPrebidBidders() {
 		const retval = [];
 
 		retval.push(this.getBidderRubicon());
 		retval.push(this.getBidderAppnexus());
 		retval.push(this.getBidderIx());
+		retval.push(this.getBidderResetDigital());
 
 		return retval.filter(bidObj => bidObj);
 	}
@@ -764,12 +776,20 @@ class Dfp extends PureComponent {
 	}
 
 	destroySlot() {
-		const { placeholder } = this.props;
-		const { slot } = this.state;
+		const { placeholder, unitId } = this.props;
+		const { slot, prebidEnabled } = this.state;
+
 		if (slot) {
 			const { googletag } = window;
 			// Remove Slot Stat Property
 			delete getSlotStatsCollectionObject()[placeholder];
+
+			if (prebidEnabled) {
+				console.log(`Removing Ad Unit From Prebid: ${unitId}`);
+				const pbjs = window.pbjs || {};
+				// pbjs.removeAdUnit(adUnitCode)
+				pbjs.removeAdUnit(unitId);
+			}
 
 			console.log(`Destroying Slot: ${placeholder}`);
 
