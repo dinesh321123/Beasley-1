@@ -60,7 +60,7 @@ class EmbedVideoURL {
 
 		$form_fields['embed_field'] = array(
 			'label' => 'Video URL',
-			'html' => "<input type='text' class='embed_field_url' name='embed_field' value='". $url ."'><input type='hidden' class='embed_field_mediaid' value='". $post->ID."' /><span class='spinner' id='embed_field_spinner'></span>",
+			'html' => "<input type='text' class='embed_field_url' name='embed_field' value='". $url ."'><input type='hidden' class='embed_field_mediaid' value='". $post->ID."' /><span class='spinner' id='embed_field_spinner'></span><textarea id='w3review' name='w3review' rows='4' cols='50' style='display: none;'>'". json_encode($embed) ."'</textarea>",
 			'input' => 'html'
 		);
 		return $form_fields;
