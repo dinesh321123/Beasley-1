@@ -45,7 +45,11 @@ class EmbedVideoURL {
 	public static function get_video_url($embed) {
 		$url	=	"";
 		if( isset($embed['provider_name']) && $embed['provider_name'] == 'YouTube' ) {
-			$url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : "";
+			$matchUrl ="";
+			preg_match( '/src="([^"]+)"/', $embed['html'], $matchUrl );
+			$youtubeMatchUrl	= isset($matchUrl[1]) && $matchUrl[1] != "" ? $matchUrl[1] : "";
+			$url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : $youtubeMatchUrl;
+			// $url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : "";
 		} else if ( isset($embed['type']) && $embed['type'] == 'video' ) {
 			$url = $embed['provider_url'].''.$embed['video_id'];
 		}
