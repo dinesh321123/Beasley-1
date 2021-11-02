@@ -1,8 +1,8 @@
 export default function initializeVimeo() {
-	console.log('Setting timeout for vimeo ima setup');
-	setTimeout(() => {
+	try {
 		window.loadVimeoPlayers();
-	}, 2000);
-
-	console.log('Set timeout for initializeVimeo()');
+		console.log('Vimeo Players Initialized');
+	} catch {
+		console.log('Vimeo Players NOT Initialized');
+	}
 }

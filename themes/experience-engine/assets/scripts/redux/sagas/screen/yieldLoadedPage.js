@@ -125,6 +125,9 @@ function* yieldLoadedPage(action) {
 	yield call(renderSendToNews);
 
 	yield call(handleInjectos);
+
+	// TODO - If Vimeo Prerolls Not Showing On Some Pages, Enable This
+	// yield call(window.loadVimeoPlayers);
 }
 
 /**

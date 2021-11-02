@@ -313,6 +313,7 @@ export function initTdPlayer(modules) {
 			 * that we do not introduce unforeseen issues we return the original
 			 * ACTION_AD_PLAYBACK_ERROR type.
 			 * */
+			console.log('ad-playback-error EVENT from Triton');
 			if (window.beforeStreamStart) {
 				window.beforeStreamStart(() =>
 					dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
