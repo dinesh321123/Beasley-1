@@ -160,8 +160,8 @@ function onAdEvent(adEvent) {
 			// This event indicates the ad has finished - the video player
 			// can perform appropriate UI actions, such as removing the timer for
 			// remaining time detection.
-			vimeoControlHolder.prerollCallback();
-			beasleyIMACleanup();
+			// vimeoControlHolder.prerollCallback();
+			// beasleyIMACleanup();
 			break;
 		case window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED:
 			// This event indicates that ALL Ads have finished.

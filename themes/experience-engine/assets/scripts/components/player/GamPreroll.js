@@ -98,6 +98,7 @@ class GamPreroll extends PureComponent {
 		this.videoContent.onended = contentEndedListener;
 
 		// Request video ads.
+		console.log('Requesting GAM Video Ad');
 		const adsRequest = new window.google.ima.AdsRequest();
 		adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${adUnitID}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360%7C640x480%7C920x508&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
 

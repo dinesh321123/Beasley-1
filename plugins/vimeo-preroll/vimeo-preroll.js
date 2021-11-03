@@ -1,10 +1,12 @@
+	var vimeoPlayerList;
 	window.loadVimeoPlayers = () => {
+		vimeoPlayerList = null;
 	    console.log('Loading Any Vimeo Player Controls For Embeds')
 		const iframeList = Array.from(document.querySelectorAll('iframe'));
 		const filteredList = iframeList.filter(iframeElement => iframeElement.src && iframeElement.src.toLowerCase().indexOf('vimeo') > -1);
 
 		if (filteredList && filteredList.length > 0) {
-			filteredList.map(filteredEl => {
+			vimeoPlayerList = filteredList.map(filteredEl => {
 				return loadVimeoPlayer(filteredEl)
 			});
 		}
@@ -32,8 +34,9 @@
 		wrapperDiv.id = 'vimeoPrerollWrapper';
 		wrapperDiv.classList.add('preroll-wrapper');
 		wrapperDiv.style.position = 'absolute';
-		wrapperDiv.style.backgroundColor = 'black';
+		wrapperDiv.style.backgroundColor = 'var(--global-theme-secondary)';
 		wrapperDiv.style.height = iFrameElement.style.height;
+		wrapperDiv.style.zIndex = '9';
 		wrapperDiv.innerHTML = `
 			<div id="vimeoPrerollContent" style="height: 0">
 				<video id="vimeoPrerollContentElement">
@@ -90,8 +93,10 @@
 
 			if (!vimeoplayer.isPlayingPreroll) {
 				vimeoplayer.isPlayingPreroll = true;
-				console.log('Played And Instantly Pausing for Preroll');
-				await vimeoplayer.pause();
+				console.log('Played And Instantly Pausing All Players for Preroll');
+				// await vimeoplayer.pause();
+				await pauseAllVimeoPlayers();
+				vimeoplayer.isPlayingPreroll = true; // Reset since it was unset during pause all players
 				console.log('Paused and now Playing Preroll');
 				/* PREROLL CODE HERE */
 				renderHTML(iFrameElement);
@@ -107,6 +112,19 @@
 
 		vimeoplayer.getVideoTitle().then(function (title) {
 			console.log('title:', title);
+		});
+
+		return vimeoplayer;
+	}
+
+	const pauseAllVimeoPlayers = () => {
+		vimeoPlayerList.map( vp => {
+			vp.isPlayingPreroll = false;
+			vp.getPaused().then(async function (paused) {
+				if (!paused) {
+					await vp.pause();
+				}
+			});
 		});
 	}
 
