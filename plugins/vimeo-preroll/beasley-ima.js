@@ -15,7 +15,7 @@ var vimeoControlHolder;
 function setUpVimeoIMA() {
 	console.log(`Initializing IMA`);
 
-	videoContent = document.getElementById('vimeoPrerollContentElement');
+	videoContent = document.getElementById('vimeoVideoElement');
 	// Create the ad display container.
 	createAdDisplayContainer();
 	// Create ads loader.
@@ -87,23 +87,31 @@ function updateSize() {
 		const containerElement = document.getElementById('vimeoPrerollAdContainer');
 		if (containerElement) {
 			const wrapperElement = document.getElementById('vimeoPrerollWrapper');
-			const vidContentElement = document.getElementById('vimeoPrerollContent');
-			const width = containerElement.clientWidth;
-			// Height Showing as 0 so compute... const height = containerElement.clientHeight;
-			const height = (width / 640) * 360;
+			let vimeoContainerWidth = containerElement.clientWidth;
+			let vimeoContainerHeight = (vimeoContainerWidth / 640) * 360;
+
+			// Make sure Vimeo height does not exceed wrapper height(which is same dimension as parent);
+			if (vimeoContainerHeight > wrapperElement.clientHeight) {
+				vimeoContainerHeight = wrapperElement.clientHeight;
+				vimeoContainerWidth = (vimeoContainerHeight / 360) * 640;
+			}
+
 			this.adsManager.resize(
-				width,
-				height,
+				vimeoContainerWidth,
+				vimeoContainerHeight,
 				window.google.ima.ViewMode.NORMAL,
 			);
+
 			const wrapperHeightString = window.getComputedStyle(wrapperElement).height;
 			const wrapperHeight =
 				wrapperHeightString.indexOf('px') > -1
 					? wrapperHeightString.replace('px', '')
 					: '0';
-			const computedTop = (parseInt(wrapperHeight, 10) - height) / 2;
-			vidContentElement.style.height = `${computedTop && computedTop > 0 ? computedTop : 0}px`;
-			console.log(`Moving Container Top to ${vidContentElement.style.height}`);
+			const computedTop = (parseInt(wrapperHeight, 10) - vimeoContainerHeight) / 2;
+			containerElement.style.paddingTop = `${computedTop && computedTop > 0 ? computedTop : 0}px`;
+
+			const computedLeft = (containerElement.clientWidth - vimeoContainerWidth) / 2;
+			containerElement.style.paddingLeft = `${computedLeft && computedLeft > 0 ? computedLeft : 0}px`;
 		}
 	}
 }

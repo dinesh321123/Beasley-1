@@ -1,3 +1,4 @@
+	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
 	var vimeoPlayerList;
 	window.loadVimeoPlayers = () => {
 		vimeoPlayerList = null;
@@ -13,7 +14,7 @@
 	}
 
 	const renderHTML = (iFrameElement) => {
-		const oldVimeoPrerollWrapper = document.getElementById('vimeoPrerollWrapper');
+		const oldVimeoPrerollWrapper = document.getElementById(VIMEOPREROLLWRAPPER);
 		if (oldVimeoPrerollWrapper) {
 			oldVimeoPrerollWrapper.remove();
 		}
@@ -22,32 +23,35 @@
 		if (document.fullscreenElement) {
 			renderFullScreenPreroll(iFrameElement);
 		} else {
-			renderVimeoWindowPreroll(iFrameElement)
+			renderVimeoPreroll(iFrameElement);
 		}
 	}
 
-	const renderVimeoWindowPreroll = (iFrameElement) => {
+	const getVimeoInnerHTML = (shouldAddFullScreenPlayerStyle) => {
+		return `<div id="vimeoPrerollContent" style="height: 0">
+			<video id="vimeoVideoElement">
+				<track
+					src="captions_en.vtt"
+					kind="captions"
+					srcLang="en"
+					label="english_captions"
+				/>
+			</video>
+		</div>
+		<div id="vimeoPrerollAdContainer" ${shouldAddFullScreenPlayerStyle ? 'class="gam-preroll-player"' : ''} />`;
+	}
+
+	const renderVimeoPreroll = (iFrameElement) => {
 		const vimeoPTag = iFrameElement.parentElement;
 		vimeoPTag.style.position = 'relative';
 		const wrapperDiv = document.createElement('div');
-		wrapperDiv.id = 'vimeoPrerollWrapper';
+		wrapperDiv.id = VIMEOPREROLLWRAPPER;
 		wrapperDiv.classList.add('preroll-wrapper');
 		wrapperDiv.style.position = 'absolute';
 		wrapperDiv.style.backgroundColor = 'var(--global-theme-secondary)';
 		wrapperDiv.style.height = iFrameElement.style.height;
 		wrapperDiv.style.zIndex = '9';
-		wrapperDiv.innerHTML = `
-			<div id="vimeoPrerollContent" style="height: 0">
-				<video id="vimeoPrerollContentElement">
-					<track
-						src="captions_en.vtt"
-						kind="captions"
-						srcLang="en"
-						label="english_captions"
-					/>
-				</video>
-			</div>
-			<div id="vimeoPrerollAdContainer"/>`;
+		wrapperDiv.innerHTML = getVimeoInnerHTML(false);
 		vimeoPTag.appendChild(wrapperDiv);
 	}
 
@@ -60,21 +64,12 @@
 		document.documentElement.appendChild(fullscreenShade);
 
 		const wrapperDiv = document.createElement('div');
-		wrapperDiv.id = 'vimeoPrerollWrapper';
+		wrapperDiv.id = VIMEOPREROLLWRAPPER;
 		wrapperDiv.classList.add('preroll-wrapper');
 		wrapperDiv.style.backgroundColor = 'black';
-		wrapperDiv.innerHTML = `
-			<div id="vimeoPrerollContent">
-				<video id="vimeoPrerollContentElement" style="height: 0;">
-					<track
-						src="captions_en.vtt"
-						kind="captions"
-						srcLang="en"
-						label="english_captions"
-					/>
-				</video>
-			</div>
-			<div id="vimeoPrerollAdContainer" class="gam-preroll-player" />`;
+		wrapperDiv.style.zIndex = '1000';
+		wrapperDiv.innerHTML = getVimeoInnerHTML(true);
+
 		iFrameElement.parentElement.appendChild(wrapperDiv);
 
 		document.exitFullscreen().then(async () => {
@@ -94,7 +89,7 @@
 		vimeoplayer.prerollCallback = async () => {
 			if (vimeoplayer.isPlayingPreroll) {
 				console.log('Preroll Call Back');
-				const wrapperDiv = document.getElementById('vimeoPrerollWrapper');
+				const wrapperDiv = document.getElementById(VIMEOPREROLLWRAPPER);
 				wrapperDiv.classList.remove('-active');
 				console.log('Vimeo Resumed Play in Callback after Preroll');
 				await vimeoplayer.play();
