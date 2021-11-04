@@ -18,12 +18,11 @@
 			oldVimeoPrerollWrapper.remove();
 		}
 
-		// Hard Coded Mode To Overlay In IFrame - May want option to show full screen in future.
-		const renderMode = 'VIMEO WINDOW';
-		if (renderMode === 'VIMEO WINDOW') {
-			renderVimeoWindowPreroll(iFrameElement)
+		//  TODO - This likely only works on Chrome. When time permits, test and support all other browsers.
+		if (document.fullscreenElement) {
+			renderFullScreenPreroll(iFrameElement);
 		} else {
-			renderFullScreenPreroll();
+			renderVimeoWindowPreroll(iFrameElement)
 		}
 	}
 
@@ -48,18 +47,25 @@
 					/>
 				</video>
 			</div>
-			<div id="vimeoPrerollAdContainer" class="vimeo-preroll-container"/>`;
+			<div id="vimeoPrerollAdContainer"/>`;
 		vimeoPTag.appendChild(wrapperDiv);
 	}
 
-	const renderFullScreenPreroll = () => {
-		const containerEl = document.getElementsByClassName('container')[0];
+	const renderFullScreenPreroll = (iFrameElement) => {
+		// Add Full black screen because exiting full screen mode briefly shows html page.
+		const fullscreenShade = document.createElement('div');
+		fullscreenShade.classList.add('preroll-wrapper');
+		fullscreenShade.style.backgroundColor = 'var(--global-black);'
+		fullscreenShade.style.display = 'block';
+		document.documentElement.appendChild(fullscreenShade);
+
 		const wrapperDiv = document.createElement('div');
 		wrapperDiv.id = 'vimeoPrerollWrapper';
 		wrapperDiv.classList.add('preroll-wrapper');
+		wrapperDiv.style.backgroundColor = 'black';
 		wrapperDiv.innerHTML = `
 			<div id="vimeoPrerollContent">
-				<video id="vimeoPrerollContentElement">
+				<video id="vimeoPrerollContentElement" style="height: 0;">
 					<track
 						src="captions_en.vtt"
 						kind="captions"
@@ -68,11 +74,20 @@
 					/>
 				</video>
 			</div>
-			<div id="vimeoPrerollAdContainer" class="vimeo-preroll-player" />`;
-		containerEl.appendChild(wrapperDiv);
+			<div id="vimeoPrerollAdContainer" class="gam-preroll-player" />`;
+		iFrameElement.parentElement.appendChild(wrapperDiv);
+
+		document.exitFullscreen().then(async () => {
+			await iFrameElement.parentElement.requestFullscreen();
+			// Remove the full black screen.
+			fullscreenShade.remove();
+		});
 	}
 
 	const loadVimeoPlayer = (iFrameElement) => {
+		// Add Class to parent for Full Screen
+	    iFrameElement.parentElement.classList.add('beasley-vimeo');
+
 		const vimeoplayer = new Vimeo.Player(iFrameElement);
 		vimeoplayer.isPlayingPreroll = false;
 
@@ -94,7 +109,7 @@
 			if (!vimeoplayer.isPlayingPreroll) {
 				vimeoplayer.isPlayingPreroll = true;
 				console.log('Played And Instantly Pausing All Players for Preroll');
-				// await vimeoplayer.pause();
+				await vimeoplayer.pause();
 				await pauseAllVimeoPlayers();
 				vimeoplayer.isPlayingPreroll = true; // Reset since it was unset during pause all players
 				console.log('Paused and now Playing Preroll');
@@ -117,15 +132,18 @@
 		return vimeoplayer;
 	}
 
-	const pauseAllVimeoPlayers = () => {
-		vimeoPlayerList.map( vp => {
+	const pauseAllVimeoPlayers = async () => {
+		await Promise.all(vimeoPlayerList.map(vp => {
 			vp.isPlayingPreroll = false;
 			vp.getPaused().then(async function (paused) {
 				if (!paused) {
-					await vp.pause();
+					return vp.pause();
+				} else {
+					return null;
 				}
 			});
-		});
+		}));
+
 	}
 
 	const getUrlFromPrebid = (vimeoControl) => {

@@ -84,10 +84,10 @@ function playAds() {
 
 function updateSize() {
 	if (adsManager) {
-		const wrapperElement = document.getElementById('vimeoPrerollWrapper');
-		const vidContentElement = document.getElementById('vimeoPrerollContent');
 		const containerElement = document.getElementById('vimeoPrerollAdContainer');
 		if (containerElement) {
+			const wrapperElement = document.getElementById('vimeoPrerollWrapper');
+			const vidContentElement = document.getElementById('vimeoPrerollContent');
 			const width = containerElement.clientWidth;
 			// Height Showing as 0 so compute... const height = containerElement.clientHeight;
 			const height = (width / 640) * 360;

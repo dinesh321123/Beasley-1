@@ -2,7 +2,7 @@
 /*
 Plugin Name: VimeoPreroll
 Plugin URI: https://bbgi.com/
-Description: This plugin adds support adding GAM prerolls to any Vimeo iframe found on page.
+Description: This plugin adds Reset Digital Prebid functionality through GAM Video Ads to any Vimeo iframe found on page.
 Version: 1.0
 Author: M Persico
 Author URI: https://bbgi.com/
