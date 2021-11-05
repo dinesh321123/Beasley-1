@@ -2,6 +2,13 @@
 	var vimeoPlayerList;
 	window.loadVimeoPlayers = () => {
 		vimeoPlayerList = null;
+		const { bbgiconfig } = window;
+
+		if (!bbgiconfig.prebid_enabled) {
+			console.log('Error: PREBID not enabled - CANNOT LOAD VIMEO PREROLLS');
+			return;
+		}
+
 	    console.log('Loading Any Vimeo Player Controls For Embeds')
 		const iframeList = Array.from(document.querySelectorAll('iframe'));
 		const filteredList = iframeList.filter(iframeElement => iframeElement.src && iframeElement.src.toLowerCase().indexOf('vimeo') > -1);
