@@ -48,7 +48,7 @@
 		wrapperDiv.id = VIMEOPREROLLWRAPPER;
 		wrapperDiv.classList.add('preroll-wrapper');
 		wrapperDiv.style.position = 'absolute';
-		wrapperDiv.style.backgroundColor = 'var(--global-theme-secondary)';
+		wrapperDiv.style.backgroundColor = 'white';
 		wrapperDiv.style.height = iFrameElement.style.height;
 		wrapperDiv.style.zIndex = '9';
 		wrapperDiv.innerHTML = getVimeoInnerHTML(false);
