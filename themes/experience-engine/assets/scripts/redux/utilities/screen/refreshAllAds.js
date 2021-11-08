@@ -38,16 +38,17 @@ export function logPrebidTargeting(pbjsInstance) {
 
 	if (targeting) {
 		Object.keys(targeting).map(tkey => {
-			console.log(
-				`Ad ID: ${tkey} Bidder: ${targeting[tkey].hb_bidder} Price: ${targeting[tkey].hb_pb}`,
-			);
+			if (targeting[tkey].hb_bidder) {
+				console.log(
+					`Ad ID: ${tkey} Bidder: ${targeting[tkey].hb_bidder} Price: ${targeting[tkey].hb_pb}`,
+				);
 
-			window.ga('send', {
-				hitType: 'event',
-				eventCategory: 'PrebidTarget',
-				eventLabel: `${targeting[tkey].hb_bidder}`,
-			});
-
+				window.ga('send', {
+					hitType: 'event',
+					eventCategory: 'PrebidTarget',
+					eventLabel: `${targeting[tkey].hb_bidder}`,
+				});
+			}
 			return tkey;
 		});
 	}
