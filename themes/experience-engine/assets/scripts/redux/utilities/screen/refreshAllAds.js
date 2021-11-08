@@ -26,8 +26,29 @@ export default function refreshAllAds() {
 		googletag.cmd.push(() => {
 			pbjs.que.push(() => {
 				pbjs.setTargetingForGPTAsync();
+				logPrebidTargeting(pbjs);
 				googletag.pubads().refresh();
 			});
+		});
+	}
+}
+
+export function logPrebidTargeting(pbjsInstance) {
+	const targeting = pbjsInstance.getAdserverTargeting();
+
+	if (targeting) {
+		Object.keys(targeting).map(tkey => {
+			console.log(
+				`Ad ID: ${tkey} Bidder: ${targeting[tkey].hb_bidder} Price: ${targeting[tkey].hb_pb}`,
+			);
+
+			window.ga('send', {
+				hitType: 'event',
+				eventCategory: 'PrebidTarget',
+				eventLabel: `${targeting[tkey].hb_bidder}`,
+			});
+
+			return tkey;
 		});
 	}
 }
