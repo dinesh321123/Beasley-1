@@ -59,31 +59,29 @@ class ExistingGallerySelection {
 		);
 		
 		if( isset( $s_value ) && $s_value !="" ) {
-			$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_title LIKE %s AND post_type = 'gmr_gallery'", '%' . $wpdb->esc_like($s_value) . '%' ) );
-			
-			// Search By Title
-			if(count($search)) {
-				$query_images_args['post__in'] = $search;
-			}
+			$sql = "SELECT DISTINCT $wpdb->posts.id FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ( $wpdb->posts.id = $wpdb->term_relationships.object_id ) LEFT JOIN $wpdb->term_relationships AS tt1 ON ( $wpdb->posts.id = tt1.object_id ) WHERE  1 = 1 AND (  $wpdb->posts.post_title LIKE %s";
 			
 			// Search By Category Name
-			if(get_cat_ID($s_value)) {
-				$query_images_args['category_name'] = $s_value;
+			if(get_cat_ID($s_value)) { 
+				$sql .= " OR tt1.term_taxonomy_id IN ( ".get_cat_ID($s_value)." )";
 			}
 			
 			// Search By Tag
 			if(term_exists($s_value, "post_tag")) {
-				$query_images_args['tax_query'] = array(
-					array(
-						'taxonomy' => 'post_tag',
-						'field'    => 'name',
-						'terms'    => $s_value,
-					),
-				);
+				$sql .= " OR $wpdb->term_relationships.term_taxonomy_id IN ( ".term_exists($s_value, "post_tag")['term_id']." )";
+			}
+
+			$sql .= " ) AND $wpdb->posts.post_type = 'gmr_gallery' AND $wpdb->posts.post_status = 'publish' GROUP  BY $wpdb->posts.id ORDER  BY $wpdb->posts.post_date DESC";
+			
+			$search = $wpdb->get_col( $wpdb->prepare( $sql, '%' . $wpdb->esc_like($s_value) . '%' ) );
+
+			// Search Query Result
+			if(count($search)) {
+				$query_images_args['post__in'] = $search;
 			}
 	
 			// If not found any result, Then don't show results
-			if(!count($search) && !get_cat_ID($s_value) && term_exists($s_value, "post_tag") == null ) {
+			if( !count($search) ) {
 				$query_images_args['post__in'] = Array(0);
 			}
 			return new WP_Query( $query_images_args );
@@ -140,7 +138,7 @@ class ExistingGallerySelection {
 				<div style="text-align: center;"><span class="spinner" id="loadmore_spinner"></span></div>
 				<div style="text-align: center;"><button type="button" id="media_loadmore" class="media_loadmore button button-secondary button-hero">Load more galleries</button></div>';
 		} else {
-			$html .= '<div class=""><h2 class="">No items found.</h2></div>';
+			$html .= '<div class="no-existing-gallery-data"><h2 class="">No existing gallery found.</h2></div>';
 		}
 		$html .= '</div>';
 	
@@ -230,7 +228,7 @@ class ExistingGallerySelection {
 							<div style="text-align: center;"><span class="spinner" id="loadmore_spinner"></span></div>
 							<div style="text-align: center;"><button type="button" id="media_loadmore" class="media_loadmore button button-secondary button-hero">Load more galleries</button></div>';
 					} else {
-						$html .= '<div class=""><h2 class="">No items found.</h2></div>';
+						$html .= '<div class="no-existing-gallery-data"><h2 class="">No existing gallery found.</h2></div>';
 					}
 					$html .= '</div>';
 	
