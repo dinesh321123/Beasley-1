@@ -62,8 +62,8 @@ class ExistingGallerySelection {
 			$sql = "SELECT DISTINCT $wpdb->posts.id FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ( $wpdb->posts.id = $wpdb->term_relationships.object_id ) LEFT JOIN $wpdb->term_relationships AS tt1 ON ( $wpdb->posts.id = tt1.object_id ) WHERE  1 = 1 AND (  $wpdb->posts.post_title LIKE %s";
 			
 			// Search By Category Name
-			if(get_cat_ID($s_value)) { 
-				$sql .= " OR tt1.term_taxonomy_id IN ( ".get_cat_ID($s_value)." )";
+			if(term_exists($s_value, 'category')) { 
+				$sql .= " OR tt1.term_taxonomy_id IN ( ".term_exists($s_value, 'category')['term_id']." )";
 			}
 			
 			// Search By Tag
