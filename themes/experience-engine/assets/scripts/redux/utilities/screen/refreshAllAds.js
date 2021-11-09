@@ -33,21 +33,23 @@ export default function refreshAllAds() {
 	}
 }
 
-export function logPrebidTargeting(pbjsInstance) {
+export function logPrebidTargeting(pbjsInstance, unitId) {
 	const targeting = pbjsInstance.getAdserverTargeting();
 
 	if (targeting) {
 		Object.keys(targeting).map(tkey => {
-			if (targeting[tkey].hb_bidder) {
+			if (targeting[tkey].hb_bidder && (!unitId || unitId === tkey)) {
 				console.log(
-					`Ad ID: ${tkey} Bidder: ${targeting[tkey].hb_bidder} Price: ${targeting[tkey].hb_pb}`,
+					`High Prebid Ad ID: ${tkey} Bidder: ${targeting[tkey].hb_bidder} Price: ${targeting[tkey].hb_pb}`,
 				);
 
 				try {
 					window.ga('send', {
 						hitType: 'event',
 						eventCategory: 'PrebidTarget',
-						eventLabel: `${targeting[tkey].hb_bidder}`,
+						eventAction: `${targeting[tkey].hb_bidder}`,
+						eventLabel: `${tkey}`,
+						eventValue: `${targeting[tkey].hb_pb}`,
 					});
 				} catch (ex) {
 					console.log(`ERROR Sending to Google Analytics: `, ex);

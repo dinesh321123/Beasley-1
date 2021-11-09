@@ -75,7 +75,7 @@ const slotVisibilityChangedHandler = event => {
 };
 
 const slotRenderEndedHandler = event => {
-	const { slot, isEmpty, size } = event;
+	const { slot, isEmpty, lineItemId, size } = event;
 	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
 		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
 		: null;
@@ -105,7 +105,9 @@ const slotRenderEndedHandler = event => {
 					window.ga('send', {
 						hitType: 'event',
 						eventCategory: 'PrebidAdShown',
-						eventLabel: `${slot.getTargeting('hb_bidder')}`,
+						eventAction: `${slot.getTargeting('hb_bidder')}`,
+						eventLabel: `${lineItemId}`,
+						eventValue: `${slot.getTargeting('hb_pb')}`,
 					});
 				} catch (ex) {
 					console.log(`ERROR Sending to Google Analytics: `, ex);
@@ -754,7 +756,7 @@ class Dfp extends PureComponent {
 				adUnitCodes: [unitId],
 				bidsBackHandler: () => {
 					pbjs.setTargetingForGPTAsync([slot]);
-					logPrebidTargeting(pbjs);
+					logPrebidTargeting(pbjs, unitId);
 					googletag.cmd.push(() => {
 						googletag.pubads().refresh([slot]);
 					});
