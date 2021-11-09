@@ -101,11 +101,15 @@ const slotRenderEndedHandler = event => {
 				adSize = size;
 			} else if (slot.getTargeting('hb_size')) {
 				console.log(`PREBID AD SHOWN - ${slot.getTargeting('hb_bidder')}`);
-				window.ga('send', {
-					hitType: 'event',
-					eventCategory: 'PrebidAdShown',
-					eventLabel: `${slot.getTargeting('hb_bidder')}`,
-				});
+				try {
+					window.ga('send', {
+						hitType: 'event',
+						eventCategory: 'PrebidAdShown',
+						eventLabel: `${slot.getTargeting('hb_bidder')}`,
+					});
+				} catch (ex) {
+					console.log(`ERROR Sending to Google Analytics: `, ex);
+				}
 				const hbSizeString = slot.getTargeting('hb_size').toString();
 				console.log(`Prebid Sizestring: ${hbSizeString}`);
 				const idxOfX = hbSizeString.toLowerCase().indexOf('x');

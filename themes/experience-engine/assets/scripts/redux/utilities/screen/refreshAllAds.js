@@ -43,11 +43,15 @@ export function logPrebidTargeting(pbjsInstance) {
 					`Ad ID: ${tkey} Bidder: ${targeting[tkey].hb_bidder} Price: ${targeting[tkey].hb_pb}`,
 				);
 
-				window.ga('send', {
-					hitType: 'event',
-					eventCategory: 'PrebidTarget',
-					eventLabel: `${targeting[tkey].hb_bidder}`,
-				});
+				try {
+					window.ga('send', {
+						hitType: 'event',
+						eventCategory: 'PrebidTarget',
+						eventLabel: `${targeting[tkey].hb_bidder}`,
+					});
+				} catch (ex) {
+					console.log(`ERROR Sending to Google Analytics: `, ex);
+				}
 			}
 			return tkey;
 		});
