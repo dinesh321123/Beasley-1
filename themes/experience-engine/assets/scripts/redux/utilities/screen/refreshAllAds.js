@@ -49,7 +49,10 @@ export function logPrebidTargeting(pbjsInstance, unitId) {
 						eventCategory: 'PrebidTarget',
 						eventAction: `${targeting[tkey].hb_bidder}`,
 						eventLabel: `${tkey}`,
-						eventValue: `${targeting[tkey].hb_pb}`,
+						eventValue: `${parseInt(
+							parseFloat(targeting[tkey].hb_pb) * 100,
+							10,
+						)}`,
 					});
 				} catch (ex) {
 					console.log(`ERROR Sending to Google Analytics: `, ex);

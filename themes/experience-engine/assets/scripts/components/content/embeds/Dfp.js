@@ -111,7 +111,10 @@ const slotRenderEndedHandler = event => {
 						eventCategory: 'PrebidAdShown',
 						eventAction: `${slot.getTargeting('hb_bidder')}`,
 						eventLabel: `${slot.getAdUnitPath()}`,
-						eventValue: `${slot.getTargeting('hb_pb')}`,
+						eventValue: `${parseInt(
+							parseFloat(slot.getTargeting('hb_pb')) * 100,
+							10,
+						)}`,
 					});
 				} catch (ex) {
 					console.log(`ERROR Sending to Google Analytics: `, ex);
