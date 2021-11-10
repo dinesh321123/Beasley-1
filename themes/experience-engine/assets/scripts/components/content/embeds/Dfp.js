@@ -75,7 +75,7 @@ const slotVisibilityChangedHandler = event => {
 };
 
 const slotRenderEndedHandler = event => {
-	const { slot, isEmpty, lineItemId, size } = event;
+	const { slot, isEmpty, size } = event;
 	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
 		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
 		: null;
@@ -100,13 +100,17 @@ const slotRenderEndedHandler = event => {
 			if (size && size.length === 2 && (size[0] !== 1 || size[1] !== 1)) {
 				adSize = size;
 			} else if (slot.getTargeting('hb_size')) {
-				console.log(`PREBID AD SHOWN - ${slot.getTargeting('hb_bidder')}`);
+				console.log(
+					`PREBID AD SHOWN - ${slot.getTargeting(
+						'hb_bidder',
+					)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
+				);
 				try {
 					window.ga('send', {
 						hitType: 'event',
 						eventCategory: 'PrebidAdShown',
 						eventAction: `${slot.getTargeting('hb_bidder')}`,
-						eventLabel: `${lineItemId}`,
+						eventLabel: `${slot.getAdUnitPath()}`,
 						eventValue: `${slot.getTargeting('hb_pb')}`,
 					});
 				} catch (ex) {

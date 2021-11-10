@@ -139,7 +139,7 @@ function onAdsManagerLoaded(adsManagerLoadedEvent) {
 
 	adsManager.addEventListener(window.google.ima.AdEvent.Type.CLICK, onAdEvent);
 	adsManager.addEventListener(window.google.ima.AdEvent.Type.VIDEO_CLICKED, onAdEvent);
-	adsManager.addEventListener(window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED, onAdEvent);
+	adsManager.addEventListener(window.google.ima.AdEvent.Type.VIDEO_ICON_CLICKED, onAdEvent);
 	playAds();
 }
 

@@ -195,7 +195,7 @@ class GamPreroll extends PureComponent {
 		);
 
 		this.adsManager.addEventListener(
-			window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
+			window.google.ima.AdEvent.Type.VIDEO_ICON_CLICKED,
 			this.onAdEvent,
 		);
 
