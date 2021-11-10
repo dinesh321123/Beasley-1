@@ -137,6 +137,9 @@ function onAdsManagerLoaded(adsManagerLoadedEvent) {
 	adsManager.addEventListener(window.google.ima.AdEvent.Type.STARTED, onAdEvent);
 	adsManager.addEventListener(window.google.ima.AdEvent.Type.COMPLETE, onAdEvent);
 
+	adsManager.addEventListener(window.google.ima.AdEvent.Type.CLICK, onAdEvent);
+	adsManager.addEventListener(window.google.ima.AdEvent.Type.VIDEO_CLICKED, onAdEvent);
+	adsManager.addEventListener(window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED, onAdEvent);
 	playAds();
 }
 
@@ -144,6 +147,7 @@ function onAdEvent(adEvent) {
 	// Retrieve the ad from the event. Some events (e.g. ALL_ADS_COMPLETED)
 	// don't have ad object associated.
 	var ad = adEvent.getAd();
+	console.log(`IMA Event - '${adEvent.type}'`);
 	switch (adEvent.type) {
 		case window.google.ima.AdEvent.Type.LOADED:
 			// This is the first event sent for an ad - it is possible to
@@ -173,6 +177,9 @@ function onAdEvent(adEvent) {
 			// This event was seen emitted from a Google example ad upon pressing a "Skip Ad" button.
 			vimeoControlHolder.prerollCallback();
 			beasleyIMACleanup();
+			break;
+		default:
+			console.log(`Unhandled IMA Event - '${adEvent.type}'`);
 			break;
 	}
 }

@@ -184,6 +184,21 @@ class GamPreroll extends PureComponent {
 			this.onAdEvent,
 		);
 
+		this.adsManager.addEventListener(
+			window.google.ima.AdEvent.Type.CLICK,
+			this.onAdEvent,
+		);
+
+		this.adsManager.addEventListener(
+			window.google.ima.AdEvent.Type.VIDEO_CLICKED,
+			this.onAdEvent,
+		);
+
+		this.adsManager.addEventListener(
+			window.google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
+			this.onAdEvent,
+		);
+
 		this.playAds();
 	}
 
@@ -193,6 +208,7 @@ class GamPreroll extends PureComponent {
 		// Retrieve the ad from the event. Some events (e.g. ALL_ADS_COMPLETED)
 		// don't have ad object associated.
 		const ad = adEvent.getAd();
+		console.log(`IMA Event - '${adEvent.type}'`);
 		switch (adEvent.type) {
 			case window.google.ima.AdEvent.Type.LOADED:
 				// This is the first event sent for an ad - it is possible to
