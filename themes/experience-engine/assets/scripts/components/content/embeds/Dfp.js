@@ -100,25 +100,8 @@ const slotRenderEndedHandler = event => {
 			if (size && size.length === 2 && (size[0] !== 1 || size[1] !== 1)) {
 				adSize = size;
 			} else if (slot.getTargeting('hb_size')) {
-				console.log(
-					`PREBID AD SHOWN - ${slot.getTargeting(
-						'hb_bidder',
-					)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
-				);
-				try {
-					window.ga('send', {
-						hitType: 'event',
-						eventCategory: 'PrebidAdShown',
-						eventAction: `${slot.getTargeting('hb_bidder')}`,
-						eventLabel: `${slot.getAdUnitPath()}`,
-						eventValue: `${parseInt(
-							parseFloat(slot.getTargeting('hb_pb')) * 100,
-							10,
-						)}`,
-					});
-				} catch (ex) {
-					console.log(`ERROR Sending to Google Analytics: `, ex);
-				}
+				// We ASSUME when an incomplete size is sent through event, we are dealing with Prebid.
+				// Compute Size From hb_size.
 				const hbSizeString = slot.getTargeting('hb_size').toString();
 				console.log(`Prebid Sizestring: ${hbSizeString}`);
 				const idxOfX = hbSizeString.toLowerCase().indexOf('x');
@@ -128,6 +111,36 @@ const slotRenderEndedHandler = event => {
 					adSize = [];
 					adSize[0] = parseInt(widthString, 10);
 					adSize[1] = parseInt(heightString, 10);
+				}
+
+				// Now Send GA Stats
+				if (
+					slot &&
+					slot.getTargeting('hb_bidder') &&
+					slot
+						.getTargeting('hb_bidder')
+						.toString()
+						.trim()
+				) {
+					console.log(
+						`PREBID AD SHOWN - ${slot.getTargeting(
+							'hb_bidder',
+						)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
+					);
+					try {
+						window.ga('send', {
+							hitType: 'event',
+							eventCategory: 'PrebidAdShown',
+							eventAction: `${slot.getTargeting('hb_bidder')}`,
+							eventLabel: `${slot.getAdUnitPath()}`,
+							eventValue: `${parseInt(
+								parseFloat(slot.getTargeting('hb_pb')) * 100,
+								10,
+							)}`,
+						});
+					} catch (ex) {
+						console.log(`ERROR Sending to Google Analytics: `, ex);
+					}
 				}
 			}
 
@@ -408,6 +421,7 @@ class Dfp extends PureComponent {
 
 		pbjs.que.push(() => {
 			pbjs.setConfig({
+				enableSendAllBids: false,
 				bidderTimeout: 1000,
 				rubicon: { singleRequest: true },
 				priceGranularity: {
@@ -762,7 +776,8 @@ class Dfp extends PureComponent {
 				timeout: PREBID_TIMEOUT,
 				adUnitCodes: [unitId],
 				bidsBackHandler: () => {
-					pbjs.setTargetingForGPTAsync([slot]);
+					// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
+					pbjs.setTargetingForGPTAsync([unitId]);
 					logPrebidTargeting(pbjs, unitId);
 					googletag.cmd.push(() => {
 						googletag.pubads().refresh([slot]);
