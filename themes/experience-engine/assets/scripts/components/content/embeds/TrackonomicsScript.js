@@ -7,11 +7,10 @@ class TrackonomicsScript extends PureComponent {
 		const trackonomicsScriptID = document.getElementById(
 			'funnel-relay-installer',
 		);
-		console.log('Post ID: ', postid);
-		console.log('Post type: ', posttype);
-		console.log('Trackonomics Script: ', trackonomicsscript);
-
 		if (trackonomicsscript === '1') {
+			console.log('Post ID: ', postid);
+			console.log('Post type: ', posttype);
+			console.log('Trackonomics Script: ', trackonomicsscript);
 			console.log('Trackonomics Script status : Show');
 			console.log(trackonomicsScriptID);
 			if (!trackonomicsScriptID) {
@@ -23,12 +22,12 @@ class TrackonomicsScript extends PureComponent {
 				script.src = `https://cdn-magiclinks.trackonomics.net/client/static/v2/bbgi_39ea5_bbgi.js1`;
 				script.async = true;
 				document.body.appendChild(script);
-			} else {
-				console.log('Trackonomics Script exist');
 			}
 		} else {
 			console.log('Trackonomics Script status : Remove');
-			trackonomicsScriptID.remove();
+			if (trackonomicsScriptID) {
+				trackonomicsScriptID.remove();
+			}
 		}
 	}
 
