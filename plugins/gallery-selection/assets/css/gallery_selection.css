@@ -1,11 +1,26 @@
 .selectgallery__preview {
-	padding-top: 10px;
+	padding: 10px;
+}
+
+.selectgallery__preview .media-search {
+	display: flex;
+    align-items: center;
+    justify-content: end;
+	padding-right: 10px;
+	font-weight: bold;
+}
+
+.selectgallery__preview #s_spinner {
+	margin-top: 0;
+}
+
+.selectgallery__preview .searchinputs {
+	font-weight: normal;
 }
 
 .selectgallery__preview ul.select-gallery-ul {
 	display: flex;
 	flex-wrap: wrap;
-	overflow-y: scroll;
 }
 
 .selectgallery__preview ul.select-gallery-ul li {

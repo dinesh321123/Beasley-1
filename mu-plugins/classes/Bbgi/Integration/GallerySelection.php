@@ -29,19 +29,35 @@ class GallerySelection extends \Bbgi\Module {
 	 */
 	public function render_shortcode( $atts ) {
 		$attributes = shortcode_atts( array(
-			'gallery_id' => ''
+			'gallery_id' => '',
+			'syndication_name' => ''
 		), $atts, 'select-gallery' );
 
-		if( empty( $attributes['gallery_id'] ) ) {
+		if( !empty( $attributes['syndication_name'] ) ) {
+			$meta_query_args = array(
+				'meta_key'    => 'syndication_old_name',
+				'meta_value'  => $attributes['syndication_name'],
+				'post_status' => 'any',
+				'post_type'   => 'gmr_gallery'
+			);
+	
+			$existing = get_posts( $meta_query_args );
+
+			if ( !empty( $existing ) ) {
+				$existing_post = current( $existing );
+				$gallery_id = intval( $existing_post->ID );
+			}
+		}
+
+		if(empty($gallery_id) && !empty( $attributes['gallery_id'] ) && !empty( get_post( $attributes['gallery_id'] ) ) ) {
+			$gallery_id = $attributes['gallery_id'];
+		}
+
+		if(empty($gallery_id)) {
 			return;
 		}
 
-		if( is_null( get_post( $attributes['gallery_id'] ) ) ){
-			return;
-	  	}
-
-		$ids = $this->get_attachment_ids_for_post( $attributes['gallery_id'] );
-		// echo "<pre>", print_r($ids), "</pre>";
+		$ids = $this->get_attachment_ids_for_post( $gallery_id, $attributes['syndication_name'] );
 
 		$post = get_queried_object();
 		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids );
@@ -84,12 +100,11 @@ class GallerySelection extends \Bbgi\Module {
 	 * @param $post
 	 * @return Array
 	 */
-	public function get_attachment_ids_for_post( $post ) {
+	public function get_attachment_ids_for_post( $post, $syndication_name ) {
 		$ids = array();
 
 		$post = get_post( $post );
-		// echo "<pre>", print_r($post). "</pre>";
-		if( $post->post_type !== 'gmr_gallery' ) {
+		if( $post->post_type !== 'gmr_gallery' || $post->post_name !== $syndication_name ) {
 			return null;
 		}
 		
@@ -112,7 +127,7 @@ class GallerySelection extends \Bbgi\Module {
 				: array();
 		}
 
-		return ! empty( $ids[ $post->ID ] )
+		return !empty( $ids[ $post->ID ] )
 			? $ids[ $post->ID ]
 			: null;
 	}
