@@ -50,6 +50,7 @@ class ExistingGallerySelection {
 	
 	public static function get_gmr_galleries_data( $paged_value, $s_value = null, $s_category = null, $s_tag = null ) {
 		global $wpdb;
+		$return_result = array(); 
 		$images = array();
 		$query_images_args = array(
 			'post_type'      => 'gmr_gallery',
@@ -59,21 +60,34 @@ class ExistingGallerySelection {
 		);
 		
 		if( ( isset( $s_value ) && $s_value !="" ) || ( isset( $s_category ) && $s_category !="" ) || ( isset( $s_tag ) && $s_tag !="" ) ) {
-			$sql = "SELECT DISTINCT $wpdb->posts.id FROM $wpdb->posts LEFT JOIN $wpdb->term_relationships ON ( $wpdb->posts.id = $wpdb->term_relationships.object_id ) LEFT JOIN $wpdb->term_relationships AS tt1 ON ( $wpdb->posts.id = tt1.object_id ) WHERE  1 = 1 AND $wpdb->posts.post_title LIKE %s";
+			$sql = "SELECT DISTINCT $wpdb->posts.id FROM $wpdb->posts";
 			
-			// Search By Category Name
+			// Join condition
 			if($s_category !== "" && $s_category !== null) {
-				$sql .= " AND tt1.term_taxonomy_id = ".$s_category." ";
+				$sql .= " LEFT JOIN $wpdb->term_relationships AS tt1 ON ( $wpdb->posts.id = tt1.object_id )";
 			}
-			
-			// Search By Tag
 			if($s_tag !== "" && $s_tag !== null) {
-				$sql .= " AND $wpdb->term_relationships.term_taxonomy_id = ".$s_tag." ";
+				$sql .= " LEFT JOIN $wpdb->term_relationships ON ( $wpdb->posts.id = $wpdb->term_relationships.object_id )";
 			}
 
-			$sql .= " AND $wpdb->posts.post_type = 'gmr_gallery' AND $wpdb->posts.post_status = 'publish' GROUP  BY $wpdb->posts.id ORDER  BY $wpdb->posts.post_date DESC";
+			$sql .= " WHERE 1=1";
 			
-			$search = $wpdb->get_col( $wpdb->prepare( $sql, '%' . $wpdb->esc_like($s_value) . '%' ) );
+			// Search By Title
+			if( isset( $s_value ) && $s_value !="" ) {
+				$sql .= " AND $wpdb->posts.post_title LIKE '%" . $wpdb->esc_like($s_value) . "%'";
+			}
+			// Search By Category Name
+			if($s_category !== "" && $s_category !== null) {
+				$sql .= " AND tt1.term_taxonomy_id = ".$s_category;
+			}
+			// Search By Tag
+			if($s_tag !== "" && $s_tag !== null) {
+				$sql .= " AND $wpdb->term_relationships.term_taxonomy_id = ".$s_tag;
+			}
+
+			$sql .= " AND $wpdb->posts.post_type = 'gmr_gallery'";
+			
+			$search = $wpdb->get_col( $sql );
 
 			// Search Query Result
 			if(count($search)) {
@@ -84,13 +98,17 @@ class ExistingGallerySelection {
 			if( !count($search) ) {
 				$query_images_args['post__in'] = Array(0);
 			}
-			return new WP_Query( $query_images_args );
+			$return_result['sql'] = $wpdb->last_query;
+			$return_result['data'] = new WP_Query( $query_images_args );
 		} else {
-			return new WP_Query( $query_images_args );
+			$return_result['data'] = new WP_Query( $query_images_args );
+			$return_result['sql'] = '';
 		}
+		return $return_result;
 	}
 
 	public static function get_gmr_gallery_data() {
+		global $wpdb;
 		$SearchTitle = filter_input( INPUT_GET, 's_title', FILTER_SANITIZE_SPECIAL_CHARS );
 		$PagedData = filter_input( INPUT_GET, 'page_number', FILTER_SANITIZE_SPECIAL_CHARS );
 		$SearchCat = filter_input( INPUT_GET, 's_category', FILTER_SANITIZE_SPECIAL_CHARS );
@@ -102,9 +120,9 @@ class ExistingGallerySelection {
 		$SearchTag_val = $SearchTag ? $SearchTag : '';
 	
 		$gallery_data = self::get_gmr_galleries_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val );
-		$html = self::prepare_html($gallery_data, $SearchTitle_val, $SearchCat_val, $SearchTag_val);
+		$html = self::prepare_html($gallery_data['data'], $SearchTitle_val, $SearchCat_val, $SearchTag_val);
 		
-		$resutl = array( "html" => $html );
+		$resutl = array( "html" => $html, "sql" => $gallery_data['sql'], "searchtitle" => $SearchTitle_val, "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val, "res" => $wpdb->get_col( $gallery_data['sql'] ) );
 		wp_send_json_success( $resutl );
 	}
 	
@@ -121,7 +139,7 @@ class ExistingGallerySelection {
 		$SearchCat_val = $SearchCat ? $SearchCat : '';
 		$SearchTag_val = $SearchTag ? $SearchTag : '';
 		
-		$gallery_data = self::get_gmr_galleries_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val );
+		$gallery_data = self::get_gmr_galleries_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val )['data'];
 
 		if( $gallery_data->found_posts > 0 ) {
 			while ( $gallery_data->have_posts() ) : $gallery_data->the_post();
@@ -159,7 +177,7 @@ class ExistingGallerySelection {
 					// Query to fetch galleries
 					$gallery_data = self::get_gmr_galleries_data(1, null, null, null);
 					
-					$html = self::prepare_html($gallery_data, null, null, null);
+					$html = self::prepare_html($gallery_data['data'], null, null, null);
 					echo $html;
 				?>
 	
