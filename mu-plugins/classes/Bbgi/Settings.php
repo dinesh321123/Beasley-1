@@ -133,6 +133,11 @@ class Settings extends \Bbgi\Module {
 				'selected' => get_option( 'contest_show_dates_setting', 'hide' ),
 		);
 
+		$ad_reset_digital_enabled_args = array(
+				'name'     => 'ad_reset_digital_enabled',
+				'selected' => get_option( 'ad_reset_digital_enabled', 'off' ),
+		);
+
 		$ad_lazy_loading_enabled_args = array(
 				'name'     => 'ad_lazy_loading_enabled',
 				'selected' => get_option( 'ad_lazy_loading_enabled', 'off' ),
@@ -196,6 +201,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('ad_rubicon_zoneid_setting', 'Rubicon Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_rubicon_zoneid_setting');
 		add_settings_field('ad_appnexus_placementid_setting', 'AppNexus Placement ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_appnexus_placementid_setting');
 		add_settings_field('ad_ix_siteid_setting', 'Index Exchange Site ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_ix_siteid_setting');
+		add_settings_field('ad_reset_digital_enabled', 'Reset Digital Enabled', array($this, 'render_ad_reset_digital_enabled'), $this->_settings_page_hook, 'prebid_settings_section', $ad_reset_digital_enabled_args);
 
 		add_settings_section( 'configurable_iframe_section', 'Configurable iFrame', '__return_false', $this->_settings_page_hook );
 		add_settings_field('configurable_iframe_height', 'iFrame Height (0 for no iFrame)', 'bbgi_input_field', $this->_settings_page_hook, 'configurable_iframe_section', 'name=configurable_iframe_height&default=0');
@@ -258,6 +264,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ad_rubicon_zoneid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_appnexus_placementid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_ix_siteid_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_reset_digital_enabled', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'configurable_iframe_height', 'sanitize_text_field');
 		register_setting(self::option_group, 'configurable_iframe_src', 'sanitize_text_field');
@@ -417,6 +424,17 @@ class Settings extends \Bbgi\Module {
 		</select><?php
 	}
 
+	public function render_ad_reset_digital_enabled( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="on"
+				<?php selected( $args['selected'], 'on' ); ?>
+		>On</option>
+		<option value="off"
+				<?php selected( $args['selected'], 'off' ); ?>
+		>Off</option>
+
+		</select><?php
+	}
 
 	public function render_ad_lazy_loading_enabled( $args ) {
 		?><select name="<?php echo esc_attr( $args['name'] ); ?>">

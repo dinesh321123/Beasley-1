@@ -222,6 +222,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'ad_rubicon_zoneid_setting' => get_option( 'ad_rubicon_zoneid_setting', '' ),
 			'ad_appnexus_placementid_setting' => get_option( 'ad_appnexus_placementid_setting', '' ),
 			'ad_ix_siteid_setting' => get_option( 'ad_ix_siteid_setting', '' ),
+			'ad_reset_digital_enabled' => get_option( 'ad_reset_digital_enabled', 'off' ),
 			'prebid_enabled' => function_exists( 'enqueue_prebid_scripts' ),
 
 			/** Live Streaming Intervals */

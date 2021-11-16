@@ -231,6 +231,7 @@ class Dfp extends PureComponent {
 			ixSiteID: bbgiconfig.ad_ix_siteid_setting,
 			rubiconZoneID: bbgiconfig.ad_rubicon_zoneid_setting,
 			appnexusPlacementID: bbgiconfig.ad_appnexus_placementid_setting,
+			resetDigitalEnabled: bbgiconfig.ad_reset_digital_enabled !== 'off',
 			prebidEnabled: bbgiconfig.prebid_enabled && !isAffiliateMarketingPage,
 		};
 	}
@@ -370,6 +371,11 @@ class Dfp extends PureComponent {
 	}
 
 	getBidderResetDigital() {
+		const { resetDigitalEnabled } = this.state;
+		if (!resetDigitalEnabled) {
+			return null;
+		}
+
 		const retval = {
 			bidder: 'resetdigital',
 			params: {
@@ -401,6 +407,7 @@ class Dfp extends PureComponent {
 
 		const prebidBidders = this.getPrebidBidders();
 		if (!prebidBidders || prebidBidders.length === 0) {
+			console.log('No Bidders Enabled - PREBID Dysfunctional');
 			return false;
 		}
 
