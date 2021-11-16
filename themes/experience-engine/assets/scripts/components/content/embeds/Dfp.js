@@ -784,10 +784,14 @@ class Dfp extends PureComponent {
 				bidsBackHandler: () => {
 					// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
 					pbjs.setTargetingForGPTAsync([unitId]);
-					logPrebidTargeting(pbjs, unitId);
+					const pbTargeting = logPrebidTargeting(pbjs, unitId);
 					googletag.cmd.push(() => {
 						googletag.pubads().refresh([slot]);
-						console.log(`Updated Slot Keys: ${slot.getTargetingKeys()}`);
+						// console.log(`Updated Slot Keys: ${slot.getTargetingKeys()}`);
+						const pbTargetKeys = Object.keys(pbTargeting);
+						pbTargetKeys.forEach(pbtk => {
+							console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
+						});
 					});
 				},
 			});

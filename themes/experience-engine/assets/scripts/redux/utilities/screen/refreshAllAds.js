@@ -35,6 +35,7 @@ export default function refreshAllAds() {
 
 export function logPrebidTargeting(pbjsInstance, unitId) {
 	const targeting = pbjsInstance.getAdserverTargeting();
+	let retval;
 
 	if (targeting) {
 		Object.keys(targeting).map(tkey => {
@@ -57,8 +58,15 @@ export function logPrebidTargeting(pbjsInstance, unitId) {
 				} catch (ex) {
 					console.log(`ERROR Sending to Google Analytics: `, ex);
 				}
+
+				// Set retval when UnitID was specified and we have a high bidder
+				if (unitId && unitId === tkey) {
+					retval = targeting[tkey];
+				}
 			}
 			return tkey;
 		});
 	}
+
+	return retval;
 }
