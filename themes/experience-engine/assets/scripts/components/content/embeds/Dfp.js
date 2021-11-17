@@ -83,7 +83,7 @@ const slotRenderEndedHandler = event => {
 	const placeholder = slot.getSlotElementId();
 
 	console.log(
-		`slotRenderEndedHandler for line item: ${lineItemId} of size: ${size}`,
+		`slotRenderEndedHandler for ${slot.getAdUnitPath()} with line item: ${lineItemId} of size: ${size}`,
 	);
 
 	// FOR DEBUG - LOG TARGETING
@@ -773,34 +773,32 @@ class Dfp extends PureComponent {
 
 	refreshBid(unitId, slot) {
 		const { prebidEnabled } = this.state;
+		const { googletag } = window;
 
 		if (!prebidEnabled) {
-			const { googletag } = window;
+			// const { googletag } = window;
 			googletag.cmd.push(() => {
 				googletag.pubads().refresh([slot]);
 			});
 			return; // EXIT FUNCTION
 		}
 
-		const pbjs = window.pbjs || {};
-		pbjs.que = pbjs.que || [];
+		googletag.cmd.push(() => {
+			const pbjs = window.pbjs || {};
+			pbjs.que = pbjs.que || [];
 
-		pbjs.que.push(() => {
-			const PREBID_TIMEOUT = 2000;
-			const { googletag } = window;
-			pbjs.requestBids({
-				timeout: PREBID_TIMEOUT,
-				adUnitCodes: [unitId],
-				bidsBackHandler: async () => {
-					// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
-					await pbjs.setTargetingForGPTAsync([unitId]);
-					const pbTargeting = logPrebidTargeting(pbjs, unitId);
-					googletag.cmd.push(() => {
+			pbjs.que.push(() => {
+				const PREBID_TIMEOUT = 2000;
+				// const {googletag} = window;
+				pbjs.requestBids({
+					timeout: PREBID_TIMEOUT,
+					adUnitCodes: [unitId],
+					bidsBackHandler: async () => {
+						// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
+						await pbjs.setTargetingForGPTAsync([unitId]);
+						const pbTargeting = logPrebidTargeting(pbjs, unitId);
+						// googletag.cmd.push(() => {
 						const pbTargetKeys = Object.keys(pbTargeting);
-						console.log(`Slot Keys Before Refresh`);
-						pbTargetKeys.forEach(pbtk => {
-							console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
-						});
 
 						// googletag.pubads().refresh([slot]);
 						googletag.pubads().refresh([slot], { changeCorrelator: false });
@@ -809,8 +807,9 @@ class Dfp extends PureComponent {
 						pbTargetKeys.forEach(pbtk => {
 							console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
 						});
-					});
-				},
+						// });
+					},
+				});
 			});
 		});
 	}
