@@ -99,10 +99,14 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 		}
 
 		$title = get_the_title( $image );
+		$is_jacapps = ee_is_jacapps();
 
 		ob_start();
 
 		echo $image_html;
+		if($is_jacapps){
+			echo '<div class="jacapps-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
+		}
 
 		echo '<div class="gallery-meta">';
 			echo '<div class="wrapper">';
@@ -166,7 +170,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 		if(get_field( 'display_segmentation', $gallery->ID )) {
 			$is_desc = (get_field( 'segmentation_ordering', $gallery->ID ) != '' && get_field( 'segmentation_ordering', $gallery->ID ) == 'desc') ? 1 : 0;
 			$start_index = $is_desc ? $total_segment : 1;
-			
+
 			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
 
 			for ($i=1; $i <= $total_segment; $i++) {
@@ -175,14 +179,14 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 
 				$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
 				$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
-				
+
 				echo '<button onclick=" scrollToSegmentation('.$images[ $scroll_to ]->ID.'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
-				
+
 				$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
 			}
 			echo "</div>";
 		}
-		
+
 		echo '<ul class="gallery-listicle">';
 
 		foreach ( $images as $index => $image ) {

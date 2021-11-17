@@ -28,8 +28,40 @@ class Google extends \Bbgi\Module {
 		add_action( 'wp_head', $this( 'render_gtm_head' ) );
 		add_action( 'beasley_after_body', $this( 'render_gtm_body' ) );
 		add_action( 'bbgi_register_settings', $this( 'register_settings' ), 10, 2 );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'jacapps_enqueue_scripts' ) );
 
 		add_filter( 'fbia_analytics_makrup', $this( 'get_fbia_analytics_markup' ) );
+	}
+
+	public function jacapps_enqueue_scripts() {
+		$current_post_type	= get_post_type( get_queried_object_id() );
+		$postfix			= ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+		if ( function_exists( 'ee_is_jacapps' ) && ee_is_jacapps() && in_array( $current_post_type, Google::allow_posttype_list_for_jacapps() ) ) {
+			$data = Google::get_analytics_data();
+
+			if ( empty( $data ) ) {
+        		return '';
+        	}
+        	if( isset($data['google_analytics']) && $data['google_analytics'] != "" ) {
+				wp_enqueue_script(
+					'enqueue-scripts-for-jacapps',
+					plugins_url( 'assets/js/google-jacapps'.$postfix.'.js', __FILE__ ),
+					array('jquery'),
+					'1.0.0',
+					true
+				);
+				wp_localize_script( 'enqueue-scripts-for-jacapps', 'GaInfoForJacapps', array( 'google_analytics' => $data['google_analytics'] ) );
+			}
+		}
+	}
+
+	/**
+	 * Returns array of post type.
+	 *
+	 * @return array
+	 */
+	public function allow_posttype_list_for_jacapps() {
+		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'affiliate_marketing', 'gmr_gallery', 'listicle_cpt' )  );
 	}
 
 	/**

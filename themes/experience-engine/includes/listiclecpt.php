@@ -26,9 +26,9 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 
 				$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
 				$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
-				
+
 				echo '<button onclick=" scrollToSegmentation(' . ( $cpt_item_order[ $scroll_to ] + 1 ) .'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
-				
+
 				$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
 			}
 			echo "</div>";
@@ -61,6 +61,11 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 								add_filter( '_ee_the_lazy_image', $update_lazy_image );
 								$image_html = ee_the_lazy_image( $current_post_id, false );
 								remove_filter( '_ee_the_lazy_image', $update_lazy_image );
+
+								$is_jacapps = ee_is_jacapps();
+								if($is_jacapps){
+									echo '<div class="jacapps-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
+								}
 
 								$amItemImageType = '<div class="am_imagecode">' . $image_html . '</div>';
 									echo $amItemImageType;
