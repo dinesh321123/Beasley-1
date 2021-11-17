@@ -19,7 +19,7 @@ class TrackonomicsScript extends PureComponent {
 				script.id = 'funnel-relay-installer';
 				script.setAttribute('data-property-id', 'PROPERTY_ID');
 				script.setAttribute('data-customer-id', 'bbgi_39ea5_bbgi');
-				script.src = `https://cdn-magiclinks.trackonomics.net/client/static/v2/bbgi_39ea5_bbgi.js1`;
+				script.src = `https://cdn-magiclinks.trackonomics.net/client/static/v2/bbgi_39ea5_bbgi.js`;
 				script.async = true;
 				document.body.appendChild(script);
 			}
