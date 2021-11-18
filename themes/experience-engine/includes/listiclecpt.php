@@ -1,7 +1,8 @@
 <?php
+add_filter( 'bbgi_listicle_cotnent', 'ee_update_incontent_listicle', 10, 5 );
 
 if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
-	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order ) {
+	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order, $source_post_object = null ) {
 		$cpt_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($cpt_post_object);
 
@@ -13,9 +14,14 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 
 		ob_start();
 
+		$checkID = $cpt_post_object->ID;
+		if( !empty($source_post_object) && $source_post_object !== null ) {
+			$checkID = $source_post_object->ID;
+		}
+
 		$total_segment = ceil( count($cpt_item_name) / 10 );
-		if(get_field( 'display_segmentation', $cpt_post_object->ID )) {
-			$is_desc = (get_field( 'segmentation_ordering', $cpt_post_object->ID ) != '' && get_field( 'segmentation_ordering', $cpt_post_object->ID ) == 'desc') ? 1 : 0;
+		if(get_field( 'display_segmentation', $checkID )) {
+			$is_desc = (get_field( 'segmentation_ordering', $checkID ) != '' && get_field( 'segmentation_ordering', $checkID ) == 'desc') ? 1 : 0;
 			$start_index = $is_desc ? $total_segment : 1;
 
 			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
@@ -85,5 +91,26 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 		}
 		echo '</ul>';
 		return ob_get_clean();
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_incontent_listicle' ) ) :
+	function ee_update_incontent_listicle( $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $source_post_object ) {
+		// do not render listicle if it has been called before <body> tag
+		if ( ! did_action( 'beasley_after_body' ) ) {
+			return '<!-- -->';
+		}
+
+		$html = ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $source_post_object );
+
+		// we need to to inject embed code later
+		$placeholder = '<div><!-- listicle:' . sha1( $html ) . ' --></div>';
+		$replace_filter = function( $content ) use ( $placeholder, $html ) {
+			return str_replace( $placeholder, $html, $content );
+		};
+
+		add_filter( 'the_content', $replace_filter, 150 );
+
+		return $placeholder;
 	}
 endif;

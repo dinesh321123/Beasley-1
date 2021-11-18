@@ -65,6 +65,7 @@ abstract class Module {
 			'dimers-widget'		=> new \Bbgi\Integration\Dimers(),
 			'select-gallery' 			=> new \Bbgi\Integration\GallerySelection(),
 			'draftking-iframe'  => new \Bbgi\Integration\DraftkingIframe(),
+			'select-listicle' 	=> new \Bbgi\Integration\ListicleSelection(),
 			'trackonomics-script'  => new \Bbgi\Integration\TrackonomicsScript(),
 		);
 
