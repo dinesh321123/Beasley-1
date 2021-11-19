@@ -26,15 +26,16 @@ export default function refreshAllAds() {
 		googletag.cmd.push(() => {
 			pbjs.que.push(() => {
 				pbjs.setTargetingForGPTAsync();
-				logPrebidTargeting(pbjs);
+				logPrebidTargeting();
 				googletag.pubads().refresh();
 			});
 		});
 	}
 }
 
-export function logPrebidTargeting(pbjsInstance, unitId) {
-	const targeting = pbjsInstance.getAdserverTargeting();
+export function logPrebidTargeting(unitId) {
+	const pbjs = window.pbjs || {};
+	const targeting = pbjs.getAdserverTargeting();
 	let retval;
 
 	if (targeting) {
