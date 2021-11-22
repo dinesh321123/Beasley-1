@@ -52,7 +52,7 @@ class GamPreroll extends PureComponent {
 		}
 	}
 
-	playPreroll(adUnitID) {
+	playPreroll(adUnitID, cdomain) {
 		const { startedPrerollFlag } = this.state;
 		if (startedPrerollFlag) {
 			return;
@@ -63,7 +63,7 @@ class GamPreroll extends PureComponent {
 		}
 
 		this.videoContent = document.getElementById('gamPrerollContentElement');
-		this.setUpIMA(adUnitID);
+		this.setUpIMA(adUnitID, cdomain);
 
 		// Mark State
 		this.setState({
@@ -73,7 +73,7 @@ class GamPreroll extends PureComponent {
 		});
 	}
 
-	setUpIMA(adUnitID) {
+	setUpIMA(adUnitID, cdomain) {
 		// Create the ad display container.
 		this.createAdDisplayContainer();
 		// Create ads loader.
@@ -100,7 +100,8 @@ class GamPreroll extends PureComponent {
 		// Request video ads.
 		console.log('Requesting GAM Video Ad');
 		const adsRequest = new window.google.ima.AdsRequest();
-		adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${adUnitID}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360%7C640x480%7C920x508&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
+		// adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${adUnitID}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360%7C640x480%7C920x508&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
+		adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${adUnitID}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360&cust_params=cdomain%3Dhttp%3A%2F%2F${cdomain}%2F&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
 
 		// Specify the linear and nonlinear slot sizes. This helps the SDK to
 		// select the correct creative if multiple are returned.
@@ -251,9 +252,15 @@ class GamPreroll extends PureComponent {
 	componentDidMount() {
 		window.addEventListener('resize', this.onResize);
 
-		const { gampreroll } = window.bbgiconfig.dfp;
+		const { global, tunerpreroll } = window.bbgiconfig.dfp;
+		// global holds a 2 dimensional array like "global":[["cdomain","wmmr.com"],["cpage","home"],["ctest",""],["genre","rock"],["market","philadelphia, pa"]]
+		const globalObj = global.reduce((acc, item) => {
+			const key = `${item[0]}`;
+			acc[key] = `${item[1]}`;
+			return acc;
+		}, {});
 
-		if (gampreroll && gampreroll.unitId) {
+		if (tunerpreroll && tunerpreroll.unitId) {
 			// Put In Delayed Guard
 			setTimeout(() => {
 				const { playingPrerollFlag } = this.state;
@@ -263,8 +270,9 @@ class GamPreroll extends PureComponent {
 			}, 3000);
 
 			// Play the preroll
-			this.playPreroll(gampreroll.unitId);
+			this.playPreroll(tunerpreroll.unitId, globalObj.cdomain);
 		} else {
+			console.log(`NOT playing GAM Preroll - no tunerpreroll.unitId found`);
 			this.finalize();
 		}
 	}

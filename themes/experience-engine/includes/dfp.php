@@ -33,9 +33,14 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'unitName' => 'adhesion',
 		);
 
-		$gampreroll = array(
-			'unitId'   => $ee->get_ad_slot_unit_id( 'gampreroll' ),
-			'unitName' => 'gampreroll',
+		$incontentpreroll = array(
+			'unitId'   => $ee->get_ad_slot_unit_id( 'in-content-preroll' ),
+			'unitName' => 'in-content-preroll',
+		);
+
+		$tunerpreroll = array(
+			'unitId'   => $ee->get_ad_slot_unit_id( 'tuner-preroll' ),
+			'unitName' => 'tuner-preroll',
 		);
 
 		$countdown = array(
@@ -47,7 +52,8 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'global'    => \Bbgi\Integration\Dfp::get_global_targeting(),
 			'sizes'     => $sizes,
 			'player'    => $player,
-			'gampreroll' => $gampreroll,
+			'incontentpreroll' => $incontentpreroll,
+			'tunerpreroll' => $tunerpreroll,
 			'countdown' => $countdown,
 		);
 
