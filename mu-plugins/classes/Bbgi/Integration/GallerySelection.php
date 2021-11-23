@@ -60,9 +60,11 @@ class GallerySelection extends \Bbgi\Module {
 		$ids = $this->get_attachment_ids_for_post( $gallery_id, $attributes['syndication_name'] );
 
 		$post = get_queried_object();
+		$gallery_object = get_post( $attributes['gallery_id'] );
 		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids );
 		if ( ! empty( $content ) ) {
-			return $content;
+			$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>".$content;
+			return $content_updated;
 		}
 
 		$sponsored_image = get_field( 'sponsored_image', $post );
@@ -92,7 +94,8 @@ class GallerySelection extends \Bbgi\Module {
 		$content .= '<small class="gallery__embed--cta">Click to see all</small>';
 		$content .= '</a></div>';
 
-		return $content;
+		$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>".$content;
+		return $content_updated;
 	}
 
 	/**
