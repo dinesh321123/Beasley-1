@@ -59,35 +59,23 @@ class ExistingListicleSelection {
 			'paged'			 => $paged_value
 		);
 
-		if( ( isset( $s_value ) && $s_value !="" ) || ( isset( $s_category ) && $s_category !="" ) || ( isset( $s_tag ) && $s_tag !="" ) ) {
-			$sql = "SELECT DISTINCT $wpdb->posts.id FROM $wpdb->posts";
+		$title_condition = isset( $s_value ) && $s_value !="" ? true : false;
+		$category_condition = isset( $s_category ) && $s_category !="" ? true : false;
+		$tag_condition = isset( $s_tag ) && $s_tag !="";
 
-			// Join condition
-			if($s_category !== "" && $s_category !== null) {
-				$sql .= " LEFT JOIN $wpdb->term_relationships AS tt1 ON ( $wpdb->posts.id = tt1.object_id )";
+		if( $title_condition || $category_condition || $tag_condition ) {
+			
+			if($category_condition && !$tag_condition) {
+				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %d AND {$wpdb->posts}.post_type = 'listicle_cpt'", '%'.$wpdb->esc_like($s_value).'%', $s_category ) );
 			}
-			if($s_tag !== "" && $s_tag !== null) {
-				$sql .= " LEFT JOIN $wpdb->term_relationships ON ( $wpdb->posts.id = $wpdb->term_relationships.object_id )";
+			else if(!$category_condition && $tag_condition) {
+				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %d AND {$wpdb->posts}.post_type = 'listicle_cpt'", '%'.$wpdb->esc_like($s_value).'%', $s_tag ) );
 			}
-
-			$sql .= " WHERE 1=1";
-
-			// Search By Title
-			if( isset( $s_value ) && $s_value !="" ) {
-				$sql .= " AND $wpdb->posts.post_title LIKE '%" . $wpdb->esc_like($s_value) . "%'";
+			else if($category_condition && $tag_condition) {
+				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) LEFT JOIN {$wpdb->term_relationships} AS tt2 ON ( {$wpdb->posts}.ID = tt2.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %d AND tt2.term_taxonomy_id = %d AND {$wpdb->posts}.post_type = 'listicle_cpt'", '%'.$wpdb->esc_like($s_value).'%', $s_category, $s_tag ) );
+			} else {
+				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_title LIKE %s AND post_type = 'listicle_cpt'", '%'.$wpdb->esc_like($s_value).'%' ) );
 			}
-			// Search By Category Name
-			if($s_category !== "" && $s_category !== null) {
-				$sql .= " AND tt1.term_taxonomy_id = ".$s_category;
-			}
-			// Search By Tag
-			if($s_tag !== "" && $s_tag !== null) {
-				$sql .= " AND $wpdb->term_relationships.term_taxonomy_id = ".$s_tag;
-			}
-
-			$sql .= " AND $wpdb->posts.post_type = 'listicle_cpt'";
-
-			$search = $wpdb->get_col( $sql );
 
 			// Search Query Result
 			if(count($search)) {

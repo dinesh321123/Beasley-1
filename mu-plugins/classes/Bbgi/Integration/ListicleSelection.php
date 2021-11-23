@@ -75,7 +75,8 @@ class ListicleSelection extends \Bbgi\Module {
 
 		$content = apply_filters( 'bbgi_listicle_cotnent', $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $post_object );
 		if ( ! empty( $content ) ) {
-			return $content;
+			$content_updated = "<h2 class=\"section-head\"><span>".$cpt_post_object->post_title."</span></h2>".$content;
+			return $content_updated;
 		}
 
 		return $content;
