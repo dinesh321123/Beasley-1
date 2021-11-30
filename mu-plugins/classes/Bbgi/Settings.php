@@ -138,6 +138,11 @@ class Settings extends \Bbgi\Module {
 				'selected' => get_option( 'ad_reset_digital_enabled', 'off' ),
 		);
 
+		$ad_confiant_enabled_args = array(
+				'name'     => 'ad_confiant_enabled',
+				'selected' => get_option( 'ad_confiant_enabled', 'off' ),
+		);
+
 		$ad_lazy_loading_enabled_args = array(
 				'name'     => 'ad_lazy_loading_enabled',
 				'selected' => get_option( 'ad_lazy_loading_enabled', 'off' ),
@@ -196,6 +201,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('ad_rotation_refresh_sec_setting', 'Refresh Interval Seconds (30 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_refresh_sec_setting&default=30');
 		add_settings_field('ad_vid_rotation_refresh_sec_setting', 'Video Refresh Interval Seconds (60 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_vid_rotation_refresh_sec_setting&default=60');
 		add_settings_field('vid_ad_html_tag_csv_setting', 'CSV of HTML tags which indicate Video', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=vid_ad_html_tag_csv_setting&default=mixpo');
+		add_settings_field('ad_confiant_enabled', 'Confiant Enabled', array($this, 'render_ad_confiant_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_confiant_enabled_args);
 
 		add_settings_section( 'prebid_settings_section', 'Prebid Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_field('ad_rubicon_zoneid_setting', 'Rubicon Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_rubicon_zoneid_setting');
@@ -265,6 +271,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ad_appnexus_placementid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_ix_siteid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_reset_digital_enabled', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_confiant_enabled', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'configurable_iframe_height', 'sanitize_text_field');
 		register_setting(self::option_group, 'configurable_iframe_src', 'sanitize_text_field');
@@ -425,6 +432,18 @@ class Settings extends \Bbgi\Module {
 	}
 
 	public function render_ad_reset_digital_enabled( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="on"
+				<?php selected( $args['selected'], 'on' ); ?>
+		>On</option>
+		<option value="off"
+				<?php selected( $args['selected'], 'off' ); ?>
+		>Off</option>
+
+		</select><?php
+	}
+
+	public function render_ad_confiant_enabled( $args ) {
 		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
 		<option value="on"
 				<?php selected( $args['selected'], 'on' ); ?>

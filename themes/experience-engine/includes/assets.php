@@ -49,6 +49,11 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
 		wp_script_add_data( 'googletag', 'async', true );
 
+		$ad_confiant_enabled = get_option( 'ad_confiant_enabled', 'off' );
+		if ( $ad_confiant_enabled == 'on') {
+			echo '<script async="" src="https://confiant-integrations.global.ssl.fastly.net/G11pdlPHJcAhH4pQnGr31X7_kbM/gpt_and_prebid/config.js"></script>';
+		}
+
 		if ( function_exists( 'enqueue_prebid_scripts' ) ) {
 			enqueue_prebid_scripts();
 		}
