@@ -59,7 +59,7 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 			$ad_reset_digital_enabled = get_option( 'ad_reset_digital_enabled', 'off' );
 			if ( $ad_reset_digital_enabled == 'on') {
-				echo '<script src="https://meta.resetdigital.co/Scripts/smart.js?px=1000164"></script>';
+				// echo '<script src="https://meta.resetdigital.co/Scripts/smart.js?px=1000164"></script>';
 			}
 		}
 
