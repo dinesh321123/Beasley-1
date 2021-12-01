@@ -244,7 +244,7 @@ class Dfp extends PureComponent {
 			ixSiteID: bbgiconfig.ad_ix_siteid_setting,
 			rubiconZoneID: bbgiconfig.ad_rubicon_zoneid_setting,
 			appnexusPlacementID: bbgiconfig.ad_appnexus_placementid_setting,
-			resetDigitalEnabled: bbgiconfig.ad_reset_digital_enabled !== 'off',
+			resetDigitalEnabled: bbgiconfig.ad_reset_digital_enabled === 'on',
 			prebidEnabled: bbgiconfig.prebid_enabled && !isAffiliateMarketingPage,
 		};
 	}
