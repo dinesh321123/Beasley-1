@@ -116,7 +116,7 @@
 				vimeoplayer.isPlayingPreroll = true; // Reset since it was unset during pause all players
 				console.log('Paused and now Playing Preroll');
 				/* PREROLL CODE HERE */
-				await sendGAPlayEvent();
+				await sendGAPlayEvent(vimeoplayer);
 				renderHTML(iFrameElement);
 				getUrlFromPrebid(vimeoplayer);
 			}
@@ -135,17 +135,17 @@
 		return vimeoplayer;
 	}
 
-	const sendGAPlayEvent = async () => {
+	const sendGAPlayEvent = async (vimeoControl) => {
 		const {global} = window.bbgiconfig.dfp;
 		// global holds a 2 dimensional array like "global":[["cdomain","wmmr.com"],["cpage","home"],["ctest",""],["genre","rock"],["market","philadelphia, pa"]]
-		const videoID = await vimeoControl.getVideoId();
-		const globalObj = global.reduce((acc, item) => {
-			const key = `${item[0]}`;
-			acc[key] = `${item[1]}`;
-			return acc;
-		}, {});
-
 		try {
+			const videoID = await vimeoControl.getVideoId();
+			const globalObj = global.reduce((acc, item) => {
+				const key = `${item[0]}`;
+				acc[key] = `${item[1]}`;
+				return acc;
+			}, {});
+
 			window.ga('send', {
 				hitType: 'event',
 				eventCategory: 'VimeoPlay',
