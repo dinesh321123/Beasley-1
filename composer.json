@@ -13,7 +13,7 @@
 	],
 	"require": {
 		"oomphinc/composer-installers-extender": "^1.1",
-		"wpackagist-plugin/advanced-custom-fields": "5.11.0",
+		"wpackagist-plugin/advanced-custom-fields": "5.11.3",
 		"wpackagist-plugin/fb-instant-articles": "^4.2.0",
 		"wpackagist-plugin/duplicate-post": "3.2.4",
 		"wpackagist-plugin/edit-flow": "0.9.4",
