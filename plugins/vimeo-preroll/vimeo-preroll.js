@@ -116,6 +116,7 @@
 				vimeoplayer.isPlayingPreroll = true; // Reset since it was unset during pause all players
 				console.log('Paused and now Playing Preroll');
 				/* PREROLL CODE HERE */
+				await sendGAPlayEvent();
 				renderHTML(iFrameElement);
 				getUrlFromPrebid(vimeoplayer);
 			}
@@ -132,6 +133,28 @@
 		});
 
 		return vimeoplayer;
+	}
+
+	const sendGAPlayEvent = async () => {
+		const {global} = window.bbgiconfig.dfp;
+		// global holds a 2 dimensional array like "global":[["cdomain","wmmr.com"],["cpage","home"],["ctest",""],["genre","rock"],["market","philadelphia, pa"]]
+		const videoID = await vimeoControl.getVideoId();
+		const globalObj = global.reduce((acc, item) => {
+			const key = `${item[0]}`;
+			acc[key] = `${item[1]}`;
+			return acc;
+		}, {});
+
+		try {
+			window.ga('send', {
+				hitType: 'event',
+				eventCategory: 'VimeoPlay',
+				eventAction: `${globalObj.cdomain}`,
+				eventLabel: `${videoID}`,
+			});
+		} catch (ex) {
+			console.log(`ERROR Sending Vimeo Play Event to Google Analytics: `, ex);
+		}
 	}
 
 	const pauseAllVimeoPlayers = async () => {
@@ -199,6 +222,7 @@
 					console.log(JSON.stringify(bids));
 
 					let videoUrl = '';
+					// NOTE: Bids Are Ignored. Change below to == in order to enable Prebid.
 					if (bids = {}) {
 						console.log('No Bids from Prebid');
 					} else {

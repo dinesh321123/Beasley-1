@@ -108,6 +108,7 @@ const slotRenderEndedHandler = event => {
 			let adSize;
 			if (size && size.length === 2 && (size[0] !== 1 || size[1] !== 1)) {
 				adSize = size;
+				console.log(`Prebid Ad Not Shown - Using Size: ${adSize}`);
 			} else if (slot.getTargeting('hb_size')) {
 				// We ASSUME when an incomplete size is sent through event, we are dealing with Prebid.
 				// Compute Size From hb_size.
@@ -154,7 +155,6 @@ const slotRenderEndedHandler = event => {
 				}
 			}
 
-			console.log(`USING Size: ${adSize}`);
 			// Adjust Container Div Height
 			if (adSize && adSize[0] && adSize[1]) {
 				const imageWidth = adSize[0];
@@ -780,14 +780,8 @@ class Dfp extends PureComponent {
 		const { slot } = this.state;
 		// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
 		window.pbjs.setTargetingForGPTAsync([unitId]);
-		const pbTargeting = logPrebidTargeting(unitId);
-		const pbTargetKeys = Object.keys(pbTargeting);
+		logPrebidTargeting(unitId);
 		googletag.pubads().refresh([slot], { changeCorrelator: false });
-
-		console.log(`Slot Keys After Refresh`);
-		pbTargetKeys.forEach(pbtk => {
-			console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
-		});
 	}
 
 	pushRefreshBidIntoGoogleTag(unitId, slot) {
