@@ -123,6 +123,18 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
 			";
         }
 
+        $dfp_ad_single_request = get_option( 'ad_single_request_enabled', 'on' );
+        if  ( $dfp_ad_single_request === 'on' ) {
+			$dfp_ad_single_request = "
+				googletag.pubads().enableSingleRequest();
+				console.log('Ad Single Request ENABLED');
+			";
+        } else {
+        	$dfp_ad_single_request = "
+				console.log('Ad Single Request DISABLED');
+			";
+        }
+
 		$script = <<<EOL
 var googletag = googletag || {};
 googletag.cmd = googletag.cmd || [];
@@ -140,7 +152,7 @@ googletag.cmd.push(function() {
 	{$dfp_ad_lazy_loading}
 
 	googletag.pubads().disableInitialLoad(); // MFP 09/17/2020 - display() will only register the ad slot. No ad content will be loaded until a second action is taken. We will send a refresh() after all slots are defined.
-	googletag.pubads().enableSingleRequest();  // MFP 09/16/2020 - Brad is having mixed results without this flag.
+	{$dfp_ad_single_request}
 	googletag.enableServices();
 
 	// MFP 09/17/2020 - Slot Configuration Should Be Done After enableServices()
@@ -214,9 +226,14 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 						}
 
 					$html .= ';
+					';
 
-					googletag.pubads().enableSingleRequest();
-					googletag.enableServices();
+					$dfp_ad_single_request = get_option( 'ad_single_request_enabled', 'on' );
+					if  ( $dfp_ad_single_request === 'on' ) {
+						$html .= 'googletag.pubads().enableSingleRequest(); ';
+					}
+
+					$html .= ' googletag.enableServices();
 				} );
 			</script>';
 

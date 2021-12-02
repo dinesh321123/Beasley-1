@@ -143,6 +143,11 @@ class Settings extends \Bbgi\Module {
 				'selected' => get_option( 'ad_confiant_enabled', 'off' ),
 		);
 
+		$ad_single_request_enabled_args = array(
+				'name'     => 'ad_single_request_enabled',
+				'selected' => get_option( 'ad_single_request_enabled', 'on' ),
+		);
+
 		$ad_lazy_loading_enabled_args = array(
 				'name'     => 'ad_lazy_loading_enabled',
 				'selected' => get_option( 'ad_lazy_loading_enabled', 'off' ),
@@ -195,6 +200,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
 
 		add_settings_section( 'ad_settings_section', 'Ad Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field('ad_single_request_enabled', 'Single Request Enabled', array($this, 'render_ad_single_request_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_single_request_enabled_args);
 		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading Enabled', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_lazy_loading_enabled_args);
 		add_settings_field('ad_rotation_enabled', 'Ad Rotation Enabled (Note: Ads on Right Rail will ALWAYS rotate)', array($this, 'render_ad_rotation_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_rotation_enabled_args);
 		add_settings_field('ad_rotation_polling_sec_setting', 'Poll Interval Seconds (5 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_polling_sec_setting&default=5');
@@ -261,6 +267,7 @@ class Settings extends \Bbgi\Module {
 
 		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
 
+		register_setting(self::option_group, 'ad_single_request_enabled', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_lazy_loading_enabled', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rotation_enabled', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rotation_polling_sec_setting', 'sanitize_text_field');
@@ -444,6 +451,18 @@ class Settings extends \Bbgi\Module {
 	}
 
 	public function render_ad_confiant_enabled( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="on"
+				<?php selected( $args['selected'], 'on' ); ?>
+		>On</option>
+		<option value="off"
+				<?php selected( $args['selected'], 'off' ); ?>
+		>Off</option>
+
+		</select><?php
+	}
+
+	public function render_ad_single_request_enabled( $args ) {
 		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
 		<option value="on"
 				<?php selected( $args['selected'], 'on' ); ?>
