@@ -34,6 +34,7 @@ function* yieldInitPage(action) {
 
 	// replace current state with proper markup
 	const { history, location, pageXOffset, pageYOffset } = window;
+	const { ad_reset_digital_enabled } = window.bbgiconfig;
 	const uuid = slugify(location.href);
 	const html = document.documentElement.outerHTML;
 
@@ -46,6 +47,10 @@ function* yieldInitPage(action) {
 		document.title,
 		location.href,
 	);
+
+	if (ad_reset_digital_enabled === 'on') {
+		window.fireResetPixel(location.href);
+	}
 
 	yield put(initPageLoaded(uuid, html));
 }

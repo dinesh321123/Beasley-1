@@ -20,6 +20,11 @@ function enqueue_prebid_scripts() {
 	echo "<script type='text/javascript' async src='". $prebidjsurl ."'></script>";
 }
 
+function enqueue_reset_digital_pixel() {
+	$resetdigitalpixelurl = plugins_url( '/reset-digital-pixel.js', __FILE__ );
+	echo "<script type='text/javascript' async src='". $resetdigitalpixelurl ."'></script>";
+}
+
 
 
 

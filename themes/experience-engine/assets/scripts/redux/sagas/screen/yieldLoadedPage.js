@@ -55,7 +55,7 @@ function updateHistory(url, title) {
  */
 function* yieldLoadedPage(action) {
 	const { url, response, options, parsedHtml } = action;
-
+	const { ad_reset_digital_enabled } = window.bbgiconfig;
 	const urlSlugified = slugify(url);
 	const pageDocument = parsedHtml.document;
 
@@ -70,6 +70,10 @@ function* yieldLoadedPage(action) {
 	yield call(manageBbgiConfig, pageDocument);
 
 	updateCanonicalUrl(url);
+
+	if (ad_reset_digital_enabled === 'on') {
+		window.fireResetPixel(url);
+	}
 
 	// Update Ad Targeting
 	yield call(updateTargeting);
@@ -125,9 +129,6 @@ function* yieldLoadedPage(action) {
 	yield call(renderSendToNews);
 
 	yield call(handleInjectos);
-
-	// TODO - If Vimeo Prerolls Not Showing On Some Pages, Enable This
-	// yield call(window.loadVimeoPlayers);
 }
 
 /**
