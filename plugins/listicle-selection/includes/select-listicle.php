@@ -48,6 +48,14 @@ class ExistingListicleSelection {
 		return date( "m / d / Y", $gmt ? $timestamp + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS : $timestamp );
 	}
 
+	public static function select_listicle_title_filter( $where, $wp_query ){
+		global $wpdb;
+		if ( $search_term = $wp_query->get( 'search_prod_title' ) ) {
+			$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql( like_escape( $search_term ) ) . '%\'';
+		}
+		return $where;
+	}
+
 	public static function get_listicles_cpt_data( $paged_value, $s_value = null, $s_category = null, $s_tag = null ) {
 		global $wpdb;
 		$return_result = array();
@@ -64,21 +72,30 @@ class ExistingListicleSelection {
 		$tag_condition = isset( $s_tag ) && $s_tag !="";
 
 		if( $title_condition || $category_condition || $tag_condition ) {
-			
-			if($category_condition && !$tag_condition) {
-				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %d AND {$wpdb->posts}.post_type = 'listicle_cpt'", '%'.$wpdb->esc_like($s_value).'%', $s_category ) );
+			$wp_query_args = array(
+				'posts_per_page' => -1,
+				'post_type' => 'listicle_cpt',
+				'post_status' => 'publish'
+			);
+			if($category_condition) {
+				$wp_query_args['cat'] = $s_category;
 			}
-			else if(!$category_condition && $tag_condition) {
-				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %d AND {$wpdb->posts}.post_type = 'listicle_cpt'", '%'.$wpdb->esc_like($s_value).'%', $s_tag ) );
+			if($tag_condition) {
+				$wp_query_args['tag_id'] = $s_tag;
 			}
-			else if($category_condition && $tag_condition) {
-				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) LEFT JOIN {$wpdb->term_relationships} AS tt2 ON ( {$wpdb->posts}.ID = tt2.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %d AND tt2.term_taxonomy_id = %d AND {$wpdb->posts}.post_type = 'listicle_cpt'", '%'.$wpdb->esc_like($s_value).'%', $s_category, $s_tag ) );
+			if($title_condition) {
+				$wp_query_args['search_prod_title'] = $s_value;
+				add_filter( 'posts_where', array( __CLASS__, 'select_listicle_title_filter'), 10, 2 );
+				$listicle_filter_result = new WP_Query($wp_query_args);
+				remove_filter( 'posts_where', array( __CLASS__, 'select_listicle_title_filter'), 10, 2 );
 			} else {
-				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_title LIKE %s AND post_type = 'listicle_cpt'", '%'.$wpdb->esc_like($s_value).'%' ) );
+				$listicle_filter_result = new WP_Query($wp_query_args);
 			}
+			$search = wp_list_pluck( $listicle_filter_result->posts, 'ID' );
 
 			// Search Query Result
 			if(count($search)) {
+				$search = array_unique($search);
 				$query_images_args['post__in'] = $search;
 			}
 
@@ -86,11 +103,11 @@ class ExistingListicleSelection {
 			if( !count($search) ) {
 				$query_images_args['post__in'] = Array(0);
 			}
-			$return_result['sql'] = $wpdb->last_query;
 			$return_result['data'] = new WP_Query( $query_images_args );
+			$return_result['searchids'] = $search;
 		} else {
 			$return_result['data'] = new WP_Query( $query_images_args );
-			$return_result['sql'] = '';
+			$return_result['searchids'] = '';
 		}
 		return $return_result;
 	}
@@ -110,7 +127,7 @@ class ExistingListicleSelection {
 		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val );
 		$html = self::prepare_html($listicle_data['data'], $SearchTitle_val, $SearchCat_val, $SearchTag_val);
 
-		$resutl = array( "html" => $html, "sql" => $listicle_data['sql'], "searchtitle" => $SearchTitle_val, "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val, "res" => $wpdb->get_col( $listicle_data['sql'] ) );
+		$resutl = array( "html" => $html, "searchids" => $listicle_data['searchids'], "searchtitle" => $SearchTitle_val, "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val );
 		wp_send_json_success( $resutl );
 	}
 
