@@ -23,6 +23,7 @@ function enqueue_prebid_scripts() {
 function enqueue_reset_digital_pixel() {
 	$resetdigitalpixelurl = plugins_url( '/reset-digital-pixel.js', __FILE__ );
 	echo "<script type='text/javascript' async src='". $resetdigitalpixelurl ."'></script>";
+	// echo "<script src='https://meta.resetdigital.co/Scripts/smart.js?px=1000164'></script>";
 }
 
 

@@ -1,4 +1,4 @@
-window.fireResetPixel = function(pageUrl) {
+window['fireResetPixel'] = function(pageUrl) {
 
 	function getPixelContainer() {
 		var pixelContainer = document.querySelector('#resetPixelContainer');
@@ -28,6 +28,7 @@ window.fireResetPixel = function(pageUrl) {
 
 		var pixel = document.createElement('img');
 
+		pixel.setAttribute('style', 'width:1px; height:1px;');
 		pixel.setAttribute('src', url);
 		pixelContainer.appendChild(pixel);
 	}
@@ -55,9 +56,16 @@ window.fireResetPixel = function(pageUrl) {
 		meta_uemail=dds[1].innerHTML;
 	}
 
-	insertPixel('https://meta.resetdigital.co/smart?px=1000164&k='+encodeURIComponent(meta_keywords)+'&t='+encodeURIComponent(meta_title)+'&d='+encodeURIComponent(meta_description)+'&email='+encodeURIComponent(meta_uemail)+'&purl='+encodeURIComponent(pageUrl))
-	insertPixel('https://bpi.rtactivate.com/tag/?id=20784&user_id=');
-	insertPixel('https://x.bidswitch.net/sync?dsp_id=447&user_id=&expires=90');
-	insertPixel('https://x.bidswitch.net/sync?ssp=resetdigital&user_id=&expires=90');
+	var docLocation = pageUrl ? pageUrl : document.location.href;
+
+	insertPixel('https://meta.resetdigital.co/smart?px=1000164&tp=gif&k='+encodeURIComponent(meta_keywords)+'&t='+encodeURIComponent(meta_title)+'&d='+encodeURIComponent(meta_description)+'&email='+encodeURIComponent(meta_uemail)+'&purl='+encodeURIComponent(docLocation));
+	insertPixel('https://bpi.rtactivate.com/tag/?id=20784&user_id=00002500A2BB4866');
+	insertPixel('https://x.bidswitch.net/sync?dsp_id=447&user_id=00002500A2BB4866&expires=90');
+	insertPixel('https://x.bidswitch.net/sync?ssp=resetdigital&user_id=00002500A2BB4866&expires=90');
 }
+
+if (typeof window['manualFireResetPixel'] == 'undefined') {
+	fireResetPixel();
+}
+
 
