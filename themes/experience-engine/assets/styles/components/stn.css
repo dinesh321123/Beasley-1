@@ -1,0 +1,22 @@
+
+.s2nSmartPlayer::before {
+	content: "Related Video";
+	font-weight: bold;
+	margin-bottom: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid lightgray;
+	display: block;
+}
+
+.s2nSmartPlayer::after {
+	content: "";
+	display: block;
+	margin-top: 1rem;
+	border-top: 1px solid lightgray;
+
+}
+
+.s2nAboveViewport {
+
+}
+
