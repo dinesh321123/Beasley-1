@@ -71,55 +71,27 @@ class ExistingGallerySelection {
 		$category_condition = isset( $s_category ) && $s_category !="" ? true : false;
 		$tag_condition = isset( $s_tag ) && $s_tag !="";
 
-		$wp_query_args = array(
-			'posts_per_page' => -1,
-			'post_type' => 'gmr_gallery',
-			'post_status' => 'publish'
-		);
-		if($category_condition) {
-			$wp_query_args['cat'] = $s_category;
-		}
-		if($tag_condition) {
-			$wp_query_args['tag_id'] = $s_tag;
-		}
-		if($title_condition) {
-			$wp_query_args['search_prod_title'] = $s_value;
-			add_filter( 'posts_where', array( __CLASS__, 'select_gallery_title_filter'), 10, 2 );
-			$gallery_filter_result = new WP_Query($wp_query_args);
-			remove_filter( 'posts_where', array( __CLASS__, 'select_gallery_title_filter'), 10, 2 );
-		} else {
-			$gallery_filter_result = new WP_Query($wp_query_args);
-		}
-		$gallery_filter_result_ids = wp_list_pluck( $gallery_filter_result->posts, 'ID' );
-
 		if( $title_condition || $category_condition || $tag_condition ) {
-			$condition = "";
-			if($category_condition && !$tag_condition) {
-				if(!$title_condition) {
-					$condition = "in condition 1 if";
-					$cat_query = new WP_Query( array( 'cat' => $s_category, 'post_type' => 'gmr_gallery', 'post_status' => 'publish' ) );
-					$search = wp_list_pluck( $cat_query->posts, 'ID' );
-				} else {
-					$condition = "in condition 1 else";
-					$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %s AND {$wpdb->posts}.post_type = 'gmr_gallery'", '%'.$wpdb->esc_like($s_value).'%', $s_category ) );
-				}
+			$wp_query_args = array(
+				'posts_per_page' => -1,
+				'post_type' => 'gmr_gallery',
+				'post_status' => 'publish'
+			);
+			if($category_condition) {
+				$wp_query_args['cat'] = $s_category;
 			}
-			else if(!$category_condition && $tag_condition) {
-				if(!$title_condition) {
-					$condition = "in condition 2 if";
-					$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) WHERE tt1.term_taxonomy_id = '11466' AND {$wpdb->posts}.post_type = 'gmr_gallery'" ) ); // Check #Facebook Tag
-				} else {
-					$condition = "in condition 2 else";
-					$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %s AND {$wpdb->posts}.post_type = 'gmr_gallery'", '%'.$wpdb->esc_like($s_value).'%', $s_tag ) );
-				}
+			if($tag_condition) {
+				$wp_query_args['tag_id'] = $s_tag;
 			}
-			else if($category_condition && $tag_condition) {
-				$condition = "in condition 3";
-				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT {$wpdb->posts}.ID FROM {$wpdb->posts} LEFT JOIN {$wpdb->term_relationships} AS tt1 ON ( {$wpdb->posts}.ID = tt1.object_id ) LEFT JOIN {$wpdb->term_relationships} AS tt2 ON ( {$wpdb->posts}.ID = tt2.object_id ) WHERE {$wpdb->posts}.post_title LIKE %s AND tt1.term_taxonomy_id = %s AND tt2.term_taxonomy_id = %s AND {$wpdb->posts}.post_type = 'gmr_gallery'", '%'.$wpdb->esc_like($s_value).'%', $s_category, $s_tag ) );
+			if($title_condition) {
+				$wp_query_args['search_prod_title'] = $s_value;
+				add_filter( 'posts_where', array( __CLASS__, 'select_gallery_title_filter'), 10, 2 );
+				$gallery_filter_result = new WP_Query($wp_query_args);
+				remove_filter( 'posts_where', array( __CLASS__, 'select_gallery_title_filter'), 10, 2 );
 			} else {
-				$condition = "in condition 4";
-				$search = $wpdb->get_col( $wpdb->prepare( "SELECT DISTINCT ID FROM {$wpdb->posts} WHERE post_title LIKE %s AND post_type = 'gmr_gallery'", '%'.$wpdb->esc_like($s_value).'%' ) );
+				$gallery_filter_result = new WP_Query($wp_query_args);
 			}
+			$search = wp_list_pluck( $gallery_filter_result->posts, 'ID' );
 
 			// Search Query Result
 			if(count($search)) {
@@ -131,15 +103,11 @@ class ExistingGallerySelection {
 			if( !count($search) ) {
 				$query_images_args['post__in'] = Array(0);
 			}
-			$return_result['sql'] = $wpdb->last_query;
-			$return_result['condition'] = $condition;
-			$return_result['custom_search_ids'] = $gallery_filter_result_ids;
+			$return_result['searchids'] = $search;
 			$return_result['data'] = new WP_Query( $query_images_args );
 		} else {
 			$return_result['data'] = new WP_Query( $query_images_args );
-			$return_result['sql'] = '';
-			$return_result['condition'] = '';
-			$return_result['custom_search_ids'] = '';
+			$return_result['searchids'] = '';
 		}
 		return $return_result;
 	}
@@ -159,7 +127,7 @@ class ExistingGallerySelection {
 		$gallery_data = self::get_gmr_galleries_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val );
 		$html = self::prepare_html($gallery_data['data'], $SearchTitle_val, $SearchCat_val, $SearchTag_val);
 		
-		$resutl = array( "html" => $html, "sql" => $gallery_data['sql'], "condition" => $gallery_data['condition'], "custom_search_ids" => $gallery_data['custom_search_ids'],"searchtitle" => $SearchTitle_val, "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val, "res" => $wpdb->get_col( $gallery_data['sql'] ) );
+		$resutl = array( "html" => $html, "searchids" => $gallery_data['searchids'],"searchtitle" => $SearchTitle_val, "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val );
 		wp_send_json_success( $resutl );
 	}
 	
