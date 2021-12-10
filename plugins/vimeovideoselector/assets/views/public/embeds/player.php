@@ -10,5 +10,9 @@
  * @version 1.0.1.2
  */
 ?>
+<?php
+	$iFrameWidth	= isset($width) && $width != "" ? $width : "100%";
+	$iFrameHeight	= isset($height) && $height != "auto" ? $height : "350px";
+?>
 
-<iframe src="https://player.vimeo.com/video/<?php echo $key; ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe>
+<iframe src="https://player.vimeo.com/video/<?php echo $key; ?>" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="" style="height:<?php echo $iFrameHeight; ?>; width:<?php echo $iFrameWidth; ?>" ></iframe>
