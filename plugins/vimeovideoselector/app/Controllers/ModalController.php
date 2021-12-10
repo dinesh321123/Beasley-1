@@ -88,38 +88,43 @@ class ModalController extends Controller
             if(!empty($_POST['search'])){
                 $args['query'] = sanitize_text_field($_POST['search']);
             }
-            $response = $client->request("/channels/$channel/videos", $args, 'GET');
+            // $response = $client->request("/channels/$channel/videos", $args, 'GET');
+            $response = $client->request("/users/$channel/videos", $args, 'GET');
             $response_body = wp_remote_retrieve_body( $response );
             if (empty($response_body['error']))
             {
                 $total_record = $response_body['total'];
-                $total_page = ceil($total_record / $per_page);
-                //  Baymen Project Gulbransen
-                echo '<div class="embed_aria video-row">';
-                foreach($response_body['data'] as $vimeoVideo){
-                    echo '<div class="video-col">';
-                    $video_id = (int) substr(parse_url($vimeoVideo['link'], PHP_URL_PATH), 1);
-                    echo $vimeoVideo['embed']['html'];
-                    echo '<div class="vimeo-embed-data">';
-					echo '<div class="data"><p class="title">'.$vimeoVideo['name'].'</p><p class="meta">from <strong>'.$vimeoVideo['user']['name'].'</strong></p></div>';
-                    // echo '<span class="insert-video" data-video_id="'.$video_id.'">Insert Video <i class="fa fa-code" style="opacity: 0.8"></i></span>';
-					// echo '<i data-video_id="'.$video_id.'" class="insert-video fa fa-code" style="opacity: 0.8"></i>';
-					echo '<img data-video_id="'.$video_id.'" class="insert-video vimeovideoselector-header-background-image" src="'.VVPS_PLAYER_SELECTOR_URL.'/assets/images/embed-vimeo-video-download-icon.png"/>';
+                if($total_record > 0){
+					$total_page = ceil($total_record / $per_page);
+					//  Baymen Project Gulbransen
+					echo '<div class="embed_aria video-row">';
+					foreach($response_body['data'] as $vimeoVideo){
+						echo '<div class="video-col">';
+						$video_id = (int) substr(parse_url($vimeoVideo['link'], PHP_URL_PATH), 1);
+						echo $vimeoVideo['embed']['html'];
+						echo '<div class="vimeo-embed-data">';
+						echo '<div class="data"><p class="title">'.$vimeoVideo['name'].'</p><p class="meta">from <strong>'.$vimeoVideo['user']['name'].'</strong></p></div>';
+						// echo '<span class="insert-video" data-video_id="'.$video_id.'">Insert Video <i class="fa fa-code" style="opacity: 0.8"></i></span>';
+						// echo '<i data-video_id="'.$video_id.'" class="insert-video fa fa-code" style="opacity: 0.8"></i>';
+						echo '<img data-video_id="'.$video_id.'" class="insert-video vimeovideoselector-header-background-image" src="'.VVPS_PLAYER_SELECTOR_URL.'/assets/images/embed-vimeo-video-download-icon.png"/>';
 
-                    echo '</div>';
-                    echo '</div>';
+						echo '</div>';
+						echo '</div>';
+					}
+					echo '</div>';	// End embed_aria video-row
+					echo '<input type="hidden" max_page="'.$total_page.'" current_page="'.$page.'" name="pagination_data">';
+					echo '<ul class="pagination">';
+					for($i=1; $i <= $total_page; $i++){
+						echo '<li><a class="nav_page '.(($page == $i) ? 'active' : '').'" data-page="all" data-page_id="'.$i.'">'.$i.'</a></li>';
+					}
+					echo '</ul>';
+                } else {
+                	echo '<p class="no-video-found" style="padding: 1em;">No results found'.((!empty($_POST['search'])) ? ' for <b>'.$args['query'].'</b>' : '').'</p>';
                 }
-                echo '</div>';	// End embed_aria video-row
-                echo '<input type="hidden" max_page="'.$total_page.'" current_page="'.$page.'" name="pagination_data">';
-                echo '<ul class="pagination">';
-                for($i=1; $i <= $total_page; $i++){
-                    echo '<li><a class="nav_page '.(($page == $i) ? 'active' : '').'" data-page="all" data-page_id="'.$i.'">'.$i.'</a></li>';
-                }
-                echo '</ul>';
             }
             else
             {
-                _e($response_body['developer_message']);
+            	echo '<p class="no-video-found" style="padding: 1em;">'.__($response_body['error']).'</p>';
             }
         }
         exit();

@@ -46,7 +46,7 @@
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php _e( 'Vimeo Channel', 'vvs' ); ?></th>
+                    <th scope="row"><?php _e( 'Vimeo UserID', 'vvs' ); ?></th>
                     <td>
                         <input id="channel" type="text" name="channel" value="<?php echo $settings->channel; ?>" class="regular-text" />
                     </td>
