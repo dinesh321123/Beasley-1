@@ -67,36 +67,41 @@ use VimeoVideoSelector\Models\Settings; ?>
             $client = new Vimeo($client_id,$client_secret,$access_token);
             $per_page = '12';
             $page = '1';
-            $response = $client->request("/channels/$channel/videos", array('per_page' => $per_page, 'page' => $page));
+            // $response = $client->request("/channels/$channel/videos", array('per_page' => $per_page, 'page' => $page));
+            $response = $client->request("/users/$channel/videos", array('per_page' => $per_page, 'page' => $page));
             $response_body = wp_remote_retrieve_body( $response );
             if (empty($response_body['error']))
             {
                 $total_record = $response_body['total'];
-                $total_page = ceil($total_record / $per_page);
-                echo '<input type="hidden" max_page="'.$total_page.'" current_page="1" name="pagination_data">';
-                echo '<div class="embed_aria video-row">';
-                foreach($response_body['data'] as $vimeoVideo){
-                    echo '<div class="video-col">';
-                    $video_id = (int) substr(parse_url($vimeoVideo['link'], PHP_URL_PATH), 1);
-                    echo $vimeoVideo['embed']['html'];
-                    echo '<div class="vimeo-embed-data">';
-					echo '<div class="data"><p class="title">'.$vimeoVideo['name'].'</p><p class="meta">from <strong>'.$vimeoVideo['user']['name'].'</strong></p></div>';
-                    // echo '<span class="insert-video" data-video_id="'.$video_id.'">Insert Video <i class="fa fa-code" style="opacity: 0.8"></i></span>';
-					// echo '<i data-video_id="'.$video_id.'" class="insert-video fa fa-code" style="opacity: 0.8"></i>';
-					echo '<img data-video_id="'.$video_id.'" class="insert-video vimeovideoselector-header-background-image" src="'.VVPS_PLAYER_SELECTOR_URL.'/assets/images/embed-vimeo-video-download-icon.png"/>';
-                    echo '</div>';
+                if($total_record > 0){
+					$total_page = ceil($total_record / $per_page);
+					echo '<input type="hidden" max_page="'.$total_page.'" current_page="1" name="pagination_data">';
+					echo '<div class="embed_aria video-row">';
+					foreach($response_body['data'] as $vimeoVideo){
+						echo '<div class="video-col">';
+						$video_id = (int) substr(parse_url($vimeoVideo['link'], PHP_URL_PATH), 1);
+						echo $vimeoVideo['embed']['html'];
+						echo '<div class="vimeo-embed-data">';
+						echo '<div class="data"><p class="title">'.$vimeoVideo['name'].'</p><p class="meta">from <strong>'.$vimeoVideo['user']['name'].'</strong></p></div>';
+						// echo '<span class="insert-video" data-video_id="'.$video_id.'">Insert Video <i class="fa fa-code" style="opacity: 0.8"></i></span>';
+						// echo '<i data-video_id="'.$video_id.'" class="insert-video fa fa-code" style="opacity: 0.8"></i>';
+						echo '<img data-video_id="'.$video_id.'" class="insert-video vimeovideoselector-header-background-image" src="'.VVPS_PLAYER_SELECTOR_URL.'/assets/images/embed-vimeo-video-download-icon.png"/>';
+						echo '</div>';
+						echo '</div>';
+					}
 					echo '</div>';
-                }
-                echo '</div>';
-                echo '<ul class="pagination">';
-                for($i=1; $i <= $total_page; $i++){
-                    echo '<li><a class="nav_page '.(($page == $i) ? 'active' : '').'" data-page="all" data-page_id="'.$i.'">'.$i.'</a></li>';
-                }
-                echo '</ul>';
+					echo '<ul class="pagination">';
+					for($i=1; $i <= $total_page; $i++){
+						echo '<li><a class="nav_page '.(($page == $i) ? 'active' : '').'" data-page="all" data-page_id="'.$i.'">'.$i.'</a></li>';
+					}
+					echo '</ul>';
+				} else {
+					echo '<p class="no-video-found" style="padding: 1em;">No results found.</p>';
+				}
             }
             else
             {
-                _e($response_body['developer_message']);
+                echo '<p class="no-video-found" style="padding: 1em;">'.__($response_body['error']).'</p>';
             }
         } ?>
         </div>
