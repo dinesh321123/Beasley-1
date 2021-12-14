@@ -36,5 +36,6 @@ class Settings extends Model
         'client_secret'      => 'field_client_secret',
         'access_token'      => 'field_access_token',
         'channel'      => 'field_channel',
+        'vvs_is_active'      => 'field_vvs_is_active',
     ];
 }
