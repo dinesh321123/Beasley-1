@@ -31,13 +31,22 @@ class AdminController extends Controller
      */
     public function menu()
     {
-        add_submenu_page(
-            'options-general.php',
+        // add_submenu_page(
+        //     'options-general.php',
+        //     __( 'Vimeo Video Settings', 'vvs' ),
+        //     __( 'Vimeo Video', 'vvs' ),
+        //     'manage_options',
+        //     self::ADMIN_MENU_SETTINGS,
+        //     [ &$this, 'view_settings' ]
+        // );
+        add_menu_page(
             __( 'Vimeo Video Settings', 'vvs' ),
             __( 'Vimeo Video', 'vvs' ),
             'manage_options',
             self::ADMIN_MENU_SETTINGS,
-            [ &$this, 'view_settings' ]
+            [ &$this, 'view_settings' ],
+            '', // Icon
+            100 // Position of the menu item in the menu.
         );
     }
 
@@ -60,6 +69,11 @@ class AdminController extends Controller
                 . __( 'Settings' )
                 . '</a>'
         ], $links );
+    }
+    public function settings_enqueue()
+    {
+        wp_enqueue_script( 'chosen_script', plugin_dir_url('vimeovideoselector') . 'vimeovideoselector/assets/js/chosen.jquery.min.js', array('jquery'), '1.8.7' );
+        wp_enqueue_style( 'chosen_style', plugin_dir_url('vimeovideoselector') . 'vimeovideoselector/assets/css/chosen.min.css', array(), '1.8.7' );
     }
 
     /**
@@ -100,7 +114,7 @@ class AdminController extends Controller
        
         if ( empty( $client_id ) || empty( $client_secret ) )
         {
-            delete_option( 'vimeovideoselector_auth_verified' );
+            delete_site_option( 'vimeovideoselector_auth_verified' );
             return false;
         }
 
@@ -111,31 +125,25 @@ class AdminController extends Controller
 
         if ( is_wp_error( $response ) )
         {
-            delete_option( 'vimeovideoselector_auth_verified' );
+            delete_site_option( 'vimeovideoselector_auth_verified' );
             return false;
         }
         else
         {
             // Retrieve remote response body.
             $response_body = wp_remote_retrieve_body( $response );
-            if ( empty( $response_body ) )
+            if ( empty( $response_body ) || !empty($response_body['error']))
             {
-                delete_option( 'vimeovideoselector_auth_verified' );
+                $vimeovideoselector->error =  __($response_body['developer_message'], 'vvs' );
+                delete_site_option( 'vimeovideoselector_auth_verified' );
                 return false;
-            }
-            if (empty($response_body['error']))
-            {
-                update_option( 'vimeovideoselector_auth_verified', true, true );
-
-                // Return success notice.
-                $vimeovideoselector->message = __( 'Settings saved.', 'vvs' );
-                return $response_body['access_token'];
             }
             else
             {
-                $vimeovideoselector->error =  __($response_body['developer_message'], 'vvs' );
-                delete_option( 'vimeovideoselector_auth_verified' );
-                return false;
+                update_site_option( 'vimeovideoselector_auth_verified', true, true );
+                // Return success notice.
+                $vimeovideoselector->message = __( 'Settings saved.', 'vvs' );
+                return $response_body['access_token'];
             }
         }
     }
@@ -148,7 +156,7 @@ class AdminController extends Controller
      */
     public function verified()
     {
-        return get_option( 'vimeovideoselector_auth_verified', false );
+        return get_site_option( 'vimeovideoselector_auth_verified', false );
     }
 
     /**
@@ -180,6 +188,7 @@ class AdminController extends Controller
             $error   = Request::input( 'error' );
             $client_id      = Request::input( 'client_id' );
             $client_secret = Request::input( 'client_secret' );
+            $vvs_is_active = $_POST['vvs_is_active'];
             $channel = Request::input( 'channel' );
 
             // Check if action already complete.
@@ -194,6 +203,7 @@ class AdminController extends Controller
                     $model->client_id      = $client_id ? $client_id : '';
                     $model->client_secret = $client_secret ? $client_secret : '';
                     $model->channel = $channel ? $channel : '';
+                    $model->vvs_is_active = $vvs_is_active ? $vvs_is_active : '';
 
                     // Trigger verify action on save.
                     $access_token = $this->verify($client_id,$client_secret);

@@ -65,7 +65,7 @@ abstract class OptionModel implements Findable, Modelable, Arrayable, JSONable, 
     public function load( $id )
     {
         $this->attributes = json_decode(
-            get_option( $this->prefix . $this->id ),
+            get_site_option( $this->prefix . $this->id ),
             true
         );
         if ( $this->attributes == null )
@@ -82,7 +82,7 @@ abstract class OptionModel implements Findable, Modelable, Arrayable, JSONable, 
     {
         if ( ! $this->is_loaded() ) return false;
         $this->fill_defaults();
-        update_option( $this->prefix . $this->id, json_encode( $this->attributes ) );
+        update_site_option( $this->prefix . $this->id, json_encode( $this->attributes ) );
         return true;
     }
     /**
@@ -94,7 +94,7 @@ abstract class OptionModel implements Findable, Modelable, Arrayable, JSONable, 
     public function delete()
     {
         if ( ! $this->is_loaded() ) return false;
-        delete_option( $this->prefix . $this->id);
+        delete_site_option( $this->prefix . $this->id);
         return true;
     }
     /**
