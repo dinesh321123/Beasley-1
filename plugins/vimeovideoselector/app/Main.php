@@ -52,6 +52,14 @@ class Main extends Bridge
      *
      * @global VimeoVideoSelector\Main $vimeovideoselector
      */
+    public function console_log($output, $with_script_tags = true) {
+    	$js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
+		if ($with_script_tags) {
+			$js_code = '<script>' . $js_code . '</script>';
+		}
+			echo $js_code;
+	}
+
     public function on_admin()
     {
         if (
@@ -81,10 +89,13 @@ class Main extends Bridge
             $this->add_action( 'network_admin_menu', 'AdminController@menu' );
         }
         $this->add_action( 'vimeovideoselector_settings_enqueue', 'AdminController@settings_enqueue' );
-        
+
 
         // Handle plugin verification.
-        $settings = Settings::find(); 
+        $settings = Settings::find();
+        $this->console_log(get_current_blog_id());
+        $this->console_log($settings->vvs_is_active);
+
         if(!empty( $settings ) && (in_array(get_current_blog_id(), $settings->vvs_is_active))){
             $verified = $vimeovideoselector->{ '_c_return_AdminController@verified' }();
             if ( $verified )
@@ -137,6 +148,6 @@ class Main extends Bridge
                     $this->add_action( 'admin_notices', 'AdminController@notice' );
                 }
             }
-        }       
+        }
     }
 }
