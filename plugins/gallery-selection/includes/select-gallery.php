@@ -70,6 +70,7 @@ class ExistingGallerySelection {
 		$title_condition = isset( $s_value ) && $s_value !="" ? true : false;
 		$category_condition = isset( $s_category ) && $s_category !="" ? true : false;
 		$tag_condition = isset( $s_tag ) && $s_tag !="";
+		$detected_flag = 0;
 
 		if( $title_condition || $category_condition || $tag_condition ) {
 			$wp_query_args = array(
@@ -77,13 +78,19 @@ class ExistingGallerySelection {
 				'post_type' => 'gmr_gallery',
 				'post_status' => 'publish'
 			);
-			if($category_condition) {
-				$wp_query_args['cat'] = $s_category;
+			if(term_exists($s_value, 'category')) {
+				if(term_exists($s_value, 'category')['term_id']) {
+					$detected_flag = 1;
+					$wp_query_args['cat'] = term_exists($s_value, 'category')['term_id'];
+				}
 			}
-			if($tag_condition) {
-				$wp_query_args['tag_id'] = $s_tag;
+			if(term_exists($s_value, "post_tag")) {
+				if(term_exists($s_value, "post_tag")['term_id']) {
+					$detected_flag = 1;
+					$wp_query_args['tag_id'] = term_exists($s_value, "post_tag")['term_id'];
+				}
 			}
-			if($title_condition) {
+			if($title_condition && $detected_flag === 0) {
 				$wp_query_args['search_prod_title'] = $s_value;
 				add_filter( 'posts_where', array( __CLASS__, 'select_gallery_title_filter'), 10, 2 );
 				$gallery_filter_result = new WP_Query($wp_query_args);
@@ -195,31 +202,11 @@ class ExistingGallerySelection {
 		$html = '
 		<div id="main-container-mediaimg">
 			<input type="hidden" name="page_number" id="page_number" class="page_number" value="1" />
-			<div class="media-search"> Category:&nbsp; <select name="s_category" id="s_category" class="searchinputs">';
-
-		// Search by category
-		$categories = get_categories();
-		$html .= '<option value=""> Any </option>';
-		foreach ( $categories as $category ) :
-			$selected = ($category->term_id == $selected_cat) ? 'selected' : '';
-			$html .= '<option value="'.$category->term_id.'" '.$selected.'> '.$category->name.' </option>';
-		endforeach;
-
-		// Search by tag
-		$html .= '</select> &nbsp;&nbsp; Tag:&nbsp; <select name="s_tag" id="s_tag" class="searchinputs">';
-		$tags = get_tags();
-		$html .= '<option value=""> Any </option>';
-		foreach ( $tags as $tag ) :
-			$selected = ($tag->term_id == $selected_tag) ? 'selected' : '';
-			$html .= '<option value="'.$tag->term_id.'"  '.$selected.'> '.$tag->name.' </option>';
-		endforeach;
-
-		$html .= '
-			</select> &nbsp;&nbsp;
-			<input type="text" name="s_title" id="s_title" class="searchinputs" placeholder="Search by title..." value="'. $searchval.'" /> &nbsp;&nbsp;
-			<button type="button" class="s_btn_mediaimage button" >Search</button> &nbsp;
-			<span class="spinner" id="s_spinner"></span>
-		</div>';
+			<div class="media-search">
+				<input type="text" name="s_title" id="s_title" class="searchinputs" placeholder="Search here" value="'. $searchval.'" /> &nbsp;&nbsp;
+				<button type="button" class="s_btn_mediaimage button" >Search</button> &nbsp;
+				<span class="spinner" id="s_spinner"></span>
+			</div>';
 	
 		if( $gallery_data->found_posts > 0 ) {
 			$html .= '<ul class="select-gallery-ul">';
