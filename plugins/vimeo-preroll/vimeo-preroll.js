@@ -149,7 +149,7 @@
 			window.ga('send', {
 				hitType: 'event',
 				eventCategory: 'VimeoPlay',
-				eventAction: `${globalObj.cdomain}`,
+				eventAction: `${globalObj.cpage}`,
 				eventLabel: `${videoID}`,
 			});
 		} catch (ex) {
@@ -247,7 +247,8 @@
 						mappedGlobalParamArray = global.map(innerArray => {
 							return `%26${innerArray[0]}%3D${innerArray[1]}`;
 						});
-						const fullCustParamsString = partialCustParamsString.concat(mappedGlobalParamArray);
+						const mappedGlobalParamString = mappedGlobalParamArray ? mappedGlobalParamArray.join('') : '';
+						const fullCustParamsString = partialCustParamsString.concat(mappedGlobalParamString);
 						// videoUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${incontentpreroll.unitId}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360%7C640x480%7C920x508&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
 						videoUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${incontentpreroll.unitId}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360${fullCustParamsString}&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
 					}
