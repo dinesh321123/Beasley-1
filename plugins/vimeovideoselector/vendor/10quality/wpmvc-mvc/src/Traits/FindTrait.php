@@ -1,8 +1,8 @@
 <?php
 
-namespace WPMVC\MVC\Traits;
+namespace WPMVCVVS\MVC\Traits;
 
-use WPMVC\MVC\Collection as Collection;
+use WPMVCVVS\MVC\Collection as Collection;
 
 /**
  * Trait related to all find functionality of a model.
@@ -10,7 +10,7 @@ use WPMVC\MVC\Collection as Collection;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 1.0.0
  */
 trait FindTrait

@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC\MVC\Contracts;
+namespace WPMVCVVS\MVC\Contracts;
 
 /**
  * Interface contract for objects that can cast to arrays.
@@ -8,7 +8,7 @@ namespace WPMVC\MVC\Contracts;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.1.6
  */
 interface Arrayable

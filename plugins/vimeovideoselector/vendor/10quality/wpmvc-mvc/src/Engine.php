@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC\MVC;
+namespace WPMVCVVS\MVC;
 
 use Exception;
 
@@ -10,7 +10,7 @@ use Exception;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.1.5
  */
 class Engine

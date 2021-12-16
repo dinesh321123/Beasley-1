@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC;
+namespace WPMVCVVS;
 
 /**
  * Resolver holds reference to any global instace created in WordPress.
@@ -9,7 +9,7 @@ namespace WPMVC;
  * @author Cami Mostajo <info@10quality.com>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC
+ * @package WPMVCVVS
  * @version 3.1.0
  */
 class Resolver
@@ -26,7 +26,7 @@ class Resolver
      * @since 3.1.0
      * 
      * @param string              $key     Instance key (namespace or other).
-     * @param WPMVC\Bridge|object &$bridge Bridge instance to keep reference of.
+     * @param WPMVCVVS\Bridge|object &$bridge Bridge instance to keep reference of.
      */
     public static function add( $key, &$bridge )
     {
@@ -39,7 +39,7 @@ class Resolver
      * 
      * @param string $key Instance key (namespace or other).
      * 
-     * @return WPMVC\Bridge|object
+     * @return WPMVCVVS\Bridge|object
      */
     public static function get( $key )
     {

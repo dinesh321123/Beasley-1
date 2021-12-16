@@ -1,22 +1,22 @@
 <?php
 
-namespace WPMVC\MVC\Models;
+namespace WPMVCVVS\MVC\Models;
 
-use WPMVC\MVC\Contracts\Modelable;
-use WPMVC\MVC\Contracts\Findable;
-use WPMVC\MVC\Contracts\Metable;
-use WPMVC\MVC\Contracts\Parentable;
-use WPMVC\MVC\Contracts\PostCastable;
-use WPMVC\MVC\Contracts\Arrayable;
-use WPMVC\MVC\Contracts\JSONable;
-use WPMVC\MVC\Contracts\Stringable;
-use WPMVC\MVC\Traits\MetaTrait;
-use WPMVC\MVC\Traits\PostCastTrait;
-use WPMVC\MVC\Traits\CastTrait;
-use WPMVC\MVC\Traits\AliasTrait;
-use WPMVC\MVC\Traits\SetterTrait;
-use WPMVC\MVC\Traits\ArrayCastTrait;
-use WPMVC\MVC\Traits\RelationshipTrait;
+use WPMVCVVS\MVC\Contracts\Modelable;
+use WPMVCVVS\MVC\Contracts\Findable;
+use WPMVCVVS\MVC\Contracts\Metable;
+use WPMVCVVS\MVC\Contracts\Parentable;
+use WPMVCVVS\MVC\Contracts\PostCastable;
+use WPMVCVVS\MVC\Contracts\Arrayable;
+use WPMVCVVS\MVC\Contracts\JSONable;
+use WPMVCVVS\MVC\Contracts\Stringable;
+use WPMVCVVS\MVC\Traits\MetaTrait;
+use WPMVCVVS\MVC\Traits\PostCastTrait;
+use WPMVCVVS\MVC\Traits\CastTrait;
+use WPMVCVVS\MVC\Traits\AliasTrait;
+use WPMVCVVS\MVC\Traits\SetterTrait;
+use WPMVCVVS\MVC\Traits\ArrayCastTrait;
+use WPMVCVVS\MVC\Traits\RelationshipTrait;
 
 /**
  * Abstract Post Model Class.
@@ -24,7 +24,7 @@ use WPMVC\MVC\Traits\RelationshipTrait;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.1.5
  */
 abstract class PostModel implements Modelable, Findable, Metable, Parentable, PostCastable, Arrayable, JSONable, Stringable

@@ -2,8 +2,8 @@
 
 namespace VimeoVideoSelector\Models;
 
-use WPMVC\MVC\Traits\FindTrait;
-use WPMVC\MVC\Models\OptionModel as Model;
+use WPMVCVVS\MVC\Traits\FindTrait;
+use WPMVCVVS\MVC\Models\OptionModel as Model;
 
 /**
  * Vimeo Video Settings model.

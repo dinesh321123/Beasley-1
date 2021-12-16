@@ -28,7 +28,7 @@
             "src/lib/functions.php"
         ],
         "psr-4": {
-            "WPMVC\\": "src/psr4"
+            "WPMVCVVS\\": "src/psr4"
         }
     },
     "minimum-stability": "dev"

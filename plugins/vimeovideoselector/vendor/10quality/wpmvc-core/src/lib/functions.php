@@ -1,13 +1,13 @@
 <?php
 
 use Ayuco\Listener;
-use WPMVC\Resolver;
-use WPMVC\Commands\SetupCommand;
-use WPMVC\Commands\AddCommand;
-use WPMVC\Commands\RegisterCommand;
-use WPMVC\Commands\CreateCommand;
-use WPMVC\Commands\SetCommand;
-use WPMVC\Commands\PrettifyCommand;
+use WPMVCVVS\Resolver;
+use WPMVCVVS\Commands\SetupCommand;
+use WPMVCVVS\Commands\AddCommand;
+use WPMVCVVS\Commands\RegisterCommand;
+use WPMVCVVS\Commands\CreateCommand;
+use WPMVCVVS\Commands\SetCommand;
+use WPMVCVVS\Commands\PrettifyCommand;
 
 /**
  * CORE WordPress functions.
@@ -15,7 +15,7 @@ use WPMVC\Commands\PrettifyCommand;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC
+ * @package WPMVCVVS
  * @version 3.1.10.1
  */
 
@@ -196,7 +196,7 @@ if ( ! function_exists( 'get_bridge' ) ) {
      *
      * @param string $namespace Namespace.
      * 
-     * @return WPMVC\Bridge|object
+     * @return WPMVCVVS\Bridge|object
      */
     function get_bridge( $namespace )
     {

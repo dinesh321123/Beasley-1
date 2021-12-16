@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC\Contracts;
+namespace WPMVCVVS\Contracts;
 
 /**
  * Plugable contract.
@@ -9,7 +9,7 @@ namespace WPMVC\Contracts;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC
+ * @package WPMVCVVS
  * @version 1.0.0
  */
 interface Plugable

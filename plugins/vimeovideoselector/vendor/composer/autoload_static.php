@@ -19,9 +19,7 @@ class ComposerStaticInit6d30a26aa6170c0152e1b24f98bbc8db
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         'c607dd5e0d3f783ee5565b107740298c' => __DIR__ . '/..' . '/10quality/wpmvc-core/src/lib/functions.php',
     );
@@ -29,8 +27,8 @@ class ComposerStaticInit6d30a26aa6170c0152e1b24f98bbc8db
     public static $prefixLengthsPsr4 = array (
 		'W' => 
         array (
-            'WPMVC\\MVC\\' => 10,
-            'WPMVC\\' => 6,
+            'WPMVCVVS\\MVC\\' => 10,
+            'WPMVCVVS\\' => 6,
         ),
         'V' => 
         array (
@@ -76,12 +74,6 @@ class ComposerStaticInit6d30a26aa6170c0152e1b24f98bbc8db
             'Psr\\Container\\' => 14,
             'Predis\\' => 7,
             'PhpParser\\' => 10,
-        ),
-        'G' => 
-        array (
-            'GuzzleHttp\\Psr7\\' => 16,
-            'GuzzleHttp\\Promise\\' => 19,
-            'GuzzleHttp\\' => 11,
         ),
         'C' => 
         array (
@@ -207,18 +199,6 @@ class ComposerStaticInit6d30a26aa6170c0152e1b24f98bbc8db
         array (
             0 => __DIR__ . '/..' . '/predis/predis/src',
         ),
-        'GuzzleHttp\\Psr7\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
-        ),
-        'GuzzleHttp\\Promise\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
-        ),
-        'GuzzleHttp\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
-        ),
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
@@ -227,11 +207,11 @@ class ComposerStaticInit6d30a26aa6170c0152e1b24f98bbc8db
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
         ),
-        'WPMVC\\MVC\\' => 
+        'WPMVCVVS\\MVC\\' => 
         array (
             0 => __DIR__ . '/..' . '/10quality/wpmvc-mvc/src',
         ),
-        'WPMVC\\' => 
+        'WPMVCVVS\\' => 
         array (
             0 => __DIR__ . '/..' . '/10quality/wpmvc-core/src/psr4',
         ),

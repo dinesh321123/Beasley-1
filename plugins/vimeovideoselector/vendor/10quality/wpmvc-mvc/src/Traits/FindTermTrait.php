@@ -1,8 +1,8 @@
 <?php
 
-namespace WPMVC\MVC\Traits;
+namespace WPMVCVVS\MVC\Traits;
 
-use WPMVC\MVC\Collection as Collection;
+use WPMVCVVS\MVC\Collection as Collection;
 
 /**
  * Trait related to all find functionality of a model.
@@ -10,7 +10,7 @@ use WPMVC\MVC\Collection as Collection;
  * @author Cami M
  * @copyright 10 Quality Studio <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.1.5
  */
 trait FindTermTrait
@@ -45,7 +45,7 @@ trait FindTermTrait
      * 
      * @param string $taxonomy Taxonomy to search for.
      * 
-     * @return \WPMVC\MVC\Collection
+     * @return \WPMVCVVS\MVC\Collection
      */
     public static function all( $taxonomy = null, $hide_empty = false )
     {

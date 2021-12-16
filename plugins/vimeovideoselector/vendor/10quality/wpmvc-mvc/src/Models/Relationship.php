@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC\MVC\Models;
+namespace WPMVCVVS\MVC\Models;
 
 /**
  * Relationship class.
@@ -8,7 +8,7 @@ namespace WPMVC\MVC\Models;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.0.4
  */
 class Relationship

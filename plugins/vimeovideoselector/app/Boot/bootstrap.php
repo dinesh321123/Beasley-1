@@ -1,5 +1,5 @@
 <?php
-use WPMVC\Config;
+use WPMVCVVS\Config;
 
 /**
  * This file will load configuration file and init Main class.

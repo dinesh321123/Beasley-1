@@ -5,7 +5,7 @@ Description: This plugin allows users to select videos from their Vimeo Video an
 Version: 1.0
 Author: Rupesh Jorkar (RJ)
 Author URI: https://bbgi.com/
-Text Domain: stnvideo
+Text Domain: vvs
 Domain Path: /assets/lang
 */
 namespace VimeoVideoSelector;

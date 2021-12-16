@@ -1,10 +1,10 @@
 <?php
 
-namespace WPMVC\MVC\Traits;
+namespace WPMVCVVS\MVC\Traits;
 
-use WPMVC\MVC\Collection;
-use WPMVC\MVC\Models\Relationship;
-use WPMVC\MVC\Models\Common\Attachment;
+use WPMVCVVS\MVC\Collection;
+use WPMVCVVS\MVC\Models\Relationship;
+use WPMVCVVS\MVC\Models\Common\Attachment;
 
 /**
  * Trait used to create relationships with models.
@@ -12,7 +12,7 @@ use WPMVC\MVC\Models\Common\Attachment;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.1.3
  */
 trait RelationshipTrait
@@ -181,7 +181,7 @@ trait RelationshipTrait
     protected function has_featured( $class = null )
     {
         if ( $class === null )
-            $class = '\WPMVC\MVC\Models\Common\Attachment';
+            $class = '\WPMVCVVS\MVC\Models\Common\Attachment';
         if ( !isset( $this->rel[Relationship::HAS_ONE][$class] ) )
             $this->rel[Relationship::HAS_ONE][$class] = new Relationship(
                 $this,

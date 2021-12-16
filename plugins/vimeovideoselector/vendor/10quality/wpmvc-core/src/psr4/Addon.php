@@ -1,10 +1,10 @@
 <?php
 
-namespace WPMVC;
+namespace WPMVCVVS;
 
 use ReflectionClass;
-use WPMVC\Contracts\Plugable;
-use WPMVC\MVC\Engine;
+use WPMVCVVS\Contracts\Plugable;
+use WPMVCVVS\MVC\Engine;
 
 /**
  * Addon abstract class.
@@ -13,7 +13,7 @@ use WPMVC\MVC\Engine;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC
+ * @package WPMVCVVS
  * @version 3.0.0
  */
 abstract class Addon implements Plugable

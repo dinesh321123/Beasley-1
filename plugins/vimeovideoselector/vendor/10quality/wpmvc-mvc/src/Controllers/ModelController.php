@@ -1,9 +1,9 @@
 <?php
 
-namespace WPMVC\MVC\Controllers;
+namespace WPMVCVVS\MVC\Controllers;
 
-use WPMVC\Request;
-use WPMVC\MVC\Controller;
+use WPMVCVVS\Request;
+use WPMVCVVS\MVC\Controller;
 
 /**
  * Model reactive controller.
@@ -12,7 +12,7 @@ use WPMVC\MVC\Controller;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.0.2
  */
 class ModelController extends Controller

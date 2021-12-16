@@ -14,6 +14,6 @@ The coding is a mix between PSR-2 and WordPress PHP guidelines.
 
 ## License
 
-**WPMVC** is free (open-source) software distributed under the terms of the MIT license.
+**WPMVCVVS** is free (open-source) software distributed under the terms of the MIT license.
 
 Maintained by [10 Quality](https://www.10quality.com/).

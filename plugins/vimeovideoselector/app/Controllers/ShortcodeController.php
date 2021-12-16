@@ -2,7 +2,7 @@
 
 namespace VimeoVideoSelector\Controllers;
 
-use WPMVC\MVC\Controller;
+use WPMVCVVS\MVC\Controller;
 use VimeoVideoSelector\Models\Settings;
 
 /**
