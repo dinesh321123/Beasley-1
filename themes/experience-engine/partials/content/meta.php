@@ -49,7 +49,7 @@
 				<?php
 					if($additional_author_name) {
 						if($is_coauthor) {
-							echo the_author_meta( 'display_name' )." <span style='color:rgba(68, 68, 68, 0.6);'>with</span> ".$additional_author_name;
+							echo "<span style='color:rgba(68, 68, 68, 0.6);'>By: </span>".get_the_author_meta( 'display_name' )." <span style='color:rgba(68, 68, 68, 0.6);'> & </span> ".$additional_author_name;
 						} else {
 							echo $additional_author_name;
 						}
