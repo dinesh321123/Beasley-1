@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC\MVC\Traits;
+namespace WPMVCVVS\MVC\Traits;
 
 /**
  * Alias trait.
@@ -9,7 +9,7 @@ namespace WPMVC\MVC\Traits;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 1.0.0
  */
 trait AliasTrait

@@ -1,10 +1,10 @@
 <?php
 
-namespace WPMVC;
+namespace WPMVCVVS;
 
-use WPMVC\Resolver;
-use WPMVC\Contracts\Plugable;
-use WPMVC\MVC\Engine;
+use WPMVCVVS\Resolver;
+use WPMVCVVS\Contracts\Plugable;
+use WPMVCVVS\MVC\Engine;
 use Exception;
 
 /**
@@ -16,7 +16,7 @@ use Exception;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC
+ * @package WPMVCVVS
  * @version 3.1.11
  */
 abstract class Bridge implements Plugable
@@ -24,14 +24,14 @@ abstract class Bridge implements Plugable
     /**
      * Main configuration file.
      * @since 1.0.0
-     * @var \WPMVC\Config
+     * @var \WPMVCVVS\Config
      */
     protected $config;
 
     /**
      * MVC engine.
      * @since 1.0.0
-     * @var \WPMVC\MVC\Engine
+     * @var \WPMVCVVS\MVC\Engine
      */
     protected $mvc;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC;
+namespace WPMVCVVS;
 
 use Exception;
 
@@ -10,7 +10,7 @@ use Exception;
  * @author Cami Mostajo <info@10quality.com>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC
+ * @package WPMVCVVS
  * @version 3.0.0
  */
 class Response

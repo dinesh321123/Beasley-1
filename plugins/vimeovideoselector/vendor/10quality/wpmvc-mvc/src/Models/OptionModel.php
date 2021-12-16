@@ -1,15 +1,15 @@
 <?php
 
-namespace WPMVC\MVC\Models;
+namespace WPMVCVVS\MVC\Models;
 
-use WPMVC\MVC\Contracts\Modelable;
-use WPMVC\MVC\Contracts\Findable;
-use WPMVC\MVC\Contracts\Arrayable;
-use WPMVC\MVC\Contracts\JSONable;
-use WPMVC\MVC\Contracts\Stringable;
-use WPMVC\MVC\Traits\GenericModelTrait;
-use WPMVC\MVC\Traits\AliasTrait;
-use WPMVC\MVC\Traits\CastTrait;
+use WPMVCVVS\MVC\Contracts\Modelable;
+use WPMVCVVS\MVC\Contracts\Findable;
+use WPMVCVVS\MVC\Contracts\Arrayable;
+use WPMVCVVS\MVC\Contracts\JSONable;
+use WPMVCVVS\MVC\Contracts\Stringable;
+use WPMVCVVS\MVC\Traits\GenericModelTrait;
+use WPMVCVVS\MVC\Traits\AliasTrait;
+use WPMVCVVS\MVC\Traits\CastTrait;
 
 /**
  * Abstract Model Class based on Wordpress Model.
@@ -17,7 +17,7 @@ use WPMVC\MVC\Traits\CastTrait;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 1.0.0
  */
 abstract class OptionModel implements Findable, Modelable, Arrayable, JSONable, Stringable
@@ -64,10 +64,7 @@ abstract class OptionModel implements Findable, Modelable, Arrayable, JSONable, 
      */
     public function load( $id )
     {
-        $this->attributes = json_decode(
-            get_site_option( $this->prefix . $this->id ),
-            true
-        );
+        $this->attributes = get_site_option( $this->prefix . $this->id );
         if ( $this->attributes == null )
             $this->attributes = array();
     }
@@ -82,7 +79,7 @@ abstract class OptionModel implements Findable, Modelable, Arrayable, JSONable, 
     {
         if ( ! $this->is_loaded() ) return false;
         $this->fill_defaults();
-        update_site_option( $this->prefix . $this->id, json_encode( $this->attributes ) );
+        update_site_option( $this->prefix . $this->id, $this->attributes );
         return true;
     }
     /**

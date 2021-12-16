@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/10quality/wpmvc-mvc/downloads)](https://packagist.org/packages/10quality/wpmvc-mvc)
 [![License](https://poser.pugx.org/10quality/wpmvc-mvc/license)](https://packagist.org/packages/10quality/wpmvc-mvc)
 
-Forked version for WPMVC.
+Forked version for WPMVCVVS.
 
 **Lightweight MVC** is a small framework that adds *Models*, *Views* and *Controllers* to your custom **Wordpress** plugin or theme.
 

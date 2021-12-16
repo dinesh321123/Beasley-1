@@ -1,19 +1,19 @@
 <?php
 
-namespace WPMVC\MVC\Models;
+namespace WPMVCVVS\MVC\Models;
 
 use WP_Term;
-use WPMVC\MVC\Contracts\Modelable;
-use WPMVC\MVC\Contracts\Findable;
-use WPMVC\MVC\Contracts\Arrayable;
-use WPMVC\MVC\Contracts\JSONable;
-use WPMVC\MVC\Contracts\Stringable;
-use WPMVC\MVC\Contracts\Metable;
-use WPMVC\MVC\Traits\AliasTrait;
-use WPMVC\MVC\Traits\CastTrait;
-use WPMVC\MVC\Traits\SetterTrait;
-use WPMVC\MVC\Traits\GetterTrait;
-use WPMVC\MVC\Traits\ArrayCastTrait;
+use WPMVCVVS\MVC\Contracts\Modelable;
+use WPMVCVVS\MVC\Contracts\Findable;
+use WPMVCVVS\MVC\Contracts\Arrayable;
+use WPMVCVVS\MVC\Contracts\JSONable;
+use WPMVCVVS\MVC\Contracts\Stringable;
+use WPMVCVVS\MVC\Contracts\Metable;
+use WPMVCVVS\MVC\Traits\AliasTrait;
+use WPMVCVVS\MVC\Traits\CastTrait;
+use WPMVCVVS\MVC\Traits\SetterTrait;
+use WPMVCVVS\MVC\Traits\GetterTrait;
+use WPMVCVVS\MVC\Traits\ArrayCastTrait;
 
 /**
  * Post Category Model.
@@ -21,7 +21,7 @@ use WPMVC\MVC\Traits\ArrayCastTrait;
  * @author Cami M
  * @copyright 10 Quality Studio <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.1.5
  */
 abstract class TermModel implements Modelable, Findable, Metable, JSONable, Stringable, Arrayable

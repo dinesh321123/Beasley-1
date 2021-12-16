@@ -1,11 +1,11 @@
 <?php
 
-namespace WPMVC\MVC;
+namespace WPMVCVVS\MVC;
 
 use ArrayObject;
-use WPMVC\MVC\Contracts\Sortable;
-use WPMVC\MVC\Contracts\JSONable;
-use WPMVC\MVC\Contracts\Stringable;
+use WPMVCVVS\MVC\Contracts\Sortable;
+use WPMVCVVS\MVC\Contracts\JSONable;
+use WPMVCVVS\MVC\Contracts\Stringable;
 
 /**
  * Holds a collection of model results.
@@ -13,7 +13,7 @@ use WPMVC\MVC\Contracts\Stringable;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 1.0.1
  */
 class Collection extends ArrayObject implements Sortable, JSONable, Stringable

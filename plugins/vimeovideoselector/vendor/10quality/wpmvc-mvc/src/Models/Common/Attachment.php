@@ -1,12 +1,12 @@
 <?php
 
-namespace WPMVC\MVC\Models\Common;
+namespace WPMVCVVS\MVC\Models\Common;
 
 use Exception;
-use WPMVC\Cache;
-use WPMVC\Log;
-use WPMVC\MVC\Traits\FindTrait;
-use WPMVC\MVC\Models\PostModel as Model;
+use WPMVCVVS\Cache;
+use WPMVCVVS\Log;
+use WPMVCVVS\MVC\Traits\FindTrait;
+use WPMVCVVS\MVC\Models\PostModel as Model;
 
 /**
  * Attachment model.
@@ -15,7 +15,7 @@ use WPMVC\MVC\Models\PostModel as Model;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.1.2
  */
 class Attachment extends Model

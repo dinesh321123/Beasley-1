@@ -2,7 +2,7 @@
 
 namespace VimeoVideoSelector;
 
-use WPMVC\Bridge;
+use WPMVCVVS\Bridge;
 use VimeoVideoSelector\Models\Settings;
 
 /**
@@ -92,9 +92,10 @@ class Main extends Bridge
 
 
         // Handle plugin verification.
+
         $settings = Settings::find();
-        $this->console_log(get_current_blog_id());
-        $this->console_log($settings->vvs_is_active);
+        // $this->console_log(get_current_blog_id());
+        // $this->console_log($settings->vvs_is_active);
 
         if(!empty( $settings ) && (in_array(get_current_blog_id(), $settings->vvs_is_active))){
             $verified = $vimeovideoselector->{ '_c_return_AdminController@verified' }();

@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC\MVC\Traits;
+namespace WPMVCVVS\MVC\Traits;
 
 /**
  * Trait related to all meta functionality of a model.
@@ -9,7 +9,7 @@ namespace WPMVC\MVC\Traits;
  * @author Cami Mostajo
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.1.2
  */
 trait MetaTrait

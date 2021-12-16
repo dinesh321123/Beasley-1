@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC;
+namespace WPMVCVVS;
 
 /**
  * Request class.
@@ -10,7 +10,7 @@ namespace WPMVC;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC
+ * @package WPMVCVVS
  * @version 3.1.11
  */
 class Request
@@ -83,7 +83,7 @@ class Request
         if ( ! is_array( $value ) ) $value = trim( $value );
         if ( is_array( $value ) ) {
             if ( $sanitize === true || ! is_callable( $sanitize ) )
-                $sanitize = apply_filters( 'wpmvc_request_sanitize_array', 'WPMVC\Request::sanitize_array' );
+                $sanitize = apply_filters( 'wpmvc_request_sanitize_array', 'WPMVCVVS\Request::sanitize_array' );
             return call_user_func_array( $sanitize, [$value] );
         } elseif ( is_numeric( $value ) ) {
             if ( strpos( $value, '.' ) !== false ) {

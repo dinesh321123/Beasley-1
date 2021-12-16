@@ -4,8 +4,8 @@ namespace VimeoVideoSelector\Controllers;
 
 require_once( __DIR__ . '/../Models/Settings.php' );
 use Vimeo\Vimeo;
-use WPMVC\Request;
-use WPMVC\MVC\Controller;
+use WPMVCVVS\Request;
+use WPMVCVVS\MVC\Controller;
 use VimeoVideoSelector\Models\Settings;
 
 /**

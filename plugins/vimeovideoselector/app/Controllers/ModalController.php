@@ -4,7 +4,7 @@ namespace VimeoVideoSelector\Controllers;
 
 require_once( __DIR__ . '/../../vendor/autoload.php' );
 use Vimeo\Vimeo;
-use WPMVC\MVC\Controller;
+use WPMVCVVS\MVC\Controller;
 use VimeoVideoSelector\Models\Settings;
 
 /**

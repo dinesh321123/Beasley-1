@@ -1,6 +1,6 @@
 <?php
 
-namespace WPMVC\MVC\Traits;
+namespace WPMVCVVS\MVC\Traits;
 
 /**
  * Generic cast to array trait.
@@ -8,7 +8,7 @@ namespace WPMVC\MVC\Traits;
  * @author Alejandro Mostajo <http://about.me/amostajo>
  * @copyright 10Quality <http://www.10quality.com>
  * @license MIT
- * @package WPMVC\MVC
+ * @package WPMVCVVS\MVC
  * @version 2.0.4
  */
 trait ArrayCastTrait
