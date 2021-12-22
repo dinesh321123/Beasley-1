@@ -56,7 +56,7 @@ if ( empty( $iframe_height ) || empty( $IframePostType ) ) {
 
 <div class="configurable-iframe-holder">
 	<?PHP
-		echo "<iframe id='configurable-iframe-element' width='100%' height='100%' frameborder='0' scrolling='no' style='overflow: hidden' src='"
+		echo "<iframe id='configurable-iframe-element' width='100%' height='100%' frameborder='0' scrolling='no' style='overflow: hidden' title='Draft King Frame' src='"
 				. get_option( 'configurable_iframe_src', '0' )
 				. "' ></iframe>";
 	?>

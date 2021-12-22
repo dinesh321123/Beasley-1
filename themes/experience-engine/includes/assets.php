@@ -82,6 +82,21 @@ function scrollToSegmentation(item) {
 		gotoID.scrollIntoView();
 	}
 }
+
+var checkTritonPixeltimes = 0;
+var checkTritonPixel = setInterval(function() {
+	checkTritonPixeltimes += 1;
+	var triton_pixel_image = document.getElementsByClassName('triton-pixel');
+	if(triton_pixel_image[0]) {
+		if(triton_pixel_image[0] && triton_pixel_image[0].tagName == "IMG") {
+			triton_pixel_image[0].alt = "Triton Pixel Image";
+		}
+		clearInterval(checkTritonPixel);
+	}
+	if(checkTritonPixeltimes > 10) {
+		clearInterval(checkTritonPixel);
+	}
+ }, 500);
 EOL;
 
 		$deps = array(
