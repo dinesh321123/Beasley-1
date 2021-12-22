@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const { ModuleConcatenationPlugin } = webpack.optimize;
 
@@ -105,7 +106,17 @@ function coreConfig(options = {}) {
 		module: {
 			rules: [eslintRule, babelRule, cssRule],
 		},
-		plugins: [new MiniCssExtractPlugin()],
+		plugins: [
+			new MiniCssExtractPlugin(),
+			new CopyPlugin({
+				patterns: [
+					{
+						from: './firebase-messaging-sw.js',
+						to: '../../../../firebase-messaging-sw.js',
+					},
+				],
+			}),
+		],
 		optimization: {
 			noEmitOnErrors: true,
 		},
