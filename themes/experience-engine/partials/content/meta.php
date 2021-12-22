@@ -16,7 +16,7 @@
 			}
 		?>
 		<?php if ( ! $contest_is_singular ) : ?>
-			<span class="author-avatar">
+			<span class="author-avatar hide-avatar">
 				<?php if ( is_singular() ) : ?>
 					<?php
 						$avatar = get_avatar( get_the_author_meta( 'ID' ), 40 );
@@ -49,7 +49,7 @@
 				<?php
 					if($additional_author_name) {
 						if($is_coauthor) {
-							echo "<span style='color:rgba(68, 68, 68, 0.6);'>By: </span>".get_the_author_meta( 'display_name' )." <span style='color:rgba(68, 68, 68, 0.6);'> & </span> ".$additional_author_name;
+							echo "<span style='color:rgba(68, 68, 68, 0.6);'>By </span>".get_the_author_meta( 'display_name' )." <span style='color:rgba(68, 68, 68, 0.6);'> and </span> ".$additional_author_name;
 						} else {
 							echo $additional_author_name;
 						}

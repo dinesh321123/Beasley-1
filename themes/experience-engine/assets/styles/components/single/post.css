@@ -34,6 +34,14 @@
 		}
 	}
 
+	& .hide-avatar {
+		height: 50px;
+	}
+
+	& .hide-avatar *{
+		display: none;
+	}
+
 	& .author-avatar .avatar {
 		border-radius: 50%;
 		margin-right: 1rem;
