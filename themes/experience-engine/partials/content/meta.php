@@ -23,20 +23,20 @@
 						if($additional_author_name) {
 							if($is_coauthor) {
 								if ( $avatar ) {
-									echo $avatar;	
+									echo $avatar;
 								} else {
 									echo '<img class="avatar avatar-40 photo" '.( $additional_author_name ? 'style="margin-right: 0.3rem;"' : '' ).' src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g" height="40" width="40" alt="Placeholder Shilloutte User Image">';
 								}
 							}
 
 							if ( $additional_author_avatar ) {
-								echo $additional_author_avatar;	
+								echo $additional_author_avatar;
 							} else {
 								echo '<img class="avatar avatar-40 photo" src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g" height="40" width="40" alt="Placeholder Shilloutte User Image">';
 							}
 						} else {
 							if ( $avatar ) {
-								echo $avatar;	
+								echo $avatar;
 							} else {
 								echo '<img class="avatar avatar-40 photo" src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g" height="40" width="40" alt="Placeholder Shilloutte User Image">';
 							}
