@@ -86,7 +86,7 @@
 @import "components/breaking-news";
 @import "components/song-archive";
 @import "components/loading-ajax-content";
-
+@import "components/stn.css";
 @import "components/player/range-slider-cb";
 
 @import "page/home";
