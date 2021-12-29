@@ -89,7 +89,7 @@ class SegmentPermissionsMetaboxes {
    }
 
 	public static function tag_permissions_posttype_list() {
-		return (array) apply_filters( 'tag-permissions-allow-post-types', array( 'listicle_cpt', 'gmr_gallery' )  );
+		return (array) apply_filters( 'tag-permissions-allow-post-types', array( 'post', 'listicle_cpt', 'gmr_gallery', 'show', 'tribe_events', 'announcement', 'contest', 'podcast', 'episode' )  );
 	}
 }
 
