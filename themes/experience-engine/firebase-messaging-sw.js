@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable no-undef */
 // firebase-messaging-sw.js
 
 console.log('FIREBASE MESSAGING SW');
