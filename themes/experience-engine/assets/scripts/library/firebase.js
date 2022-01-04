@@ -1,8 +1,11 @@
-import * as firebase from 'firebase/app';
+// import * as firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 
 // Add the Firebase products that you want to use
-import 'firebase/auth';
-import 'firebase/messaging';
+// import 'firebase/auth';
+// import 'firebase/messaging';
+import 'firebase/compat/auth';
+import 'firebase/compat/messaging';
 
 // TODO: expose this through WordPress (wp_localize_script) and not the window globals.
 const { firebase: config } = window.bbgiconfig;
@@ -41,7 +44,23 @@ firebaseMessaging
 		if (currentToken) {
 			// Send the token to your server and update the UI if necessary
 			// ...
-			console.log(`FOUND TOKEN`);
+			console.log(`FOUND TOKEN - '${currentToken}'`);
+			firebaseMessaging.onMessage(payload => {
+				console.log('[firebase-messaging-sw.js] onMessage - ', payload);
+				const title =
+					payload.notification && payload.notification.title
+						? payload.notification.title
+						: 'Beasley Media';
+				const { image } = payload;
+				const body =
+					payload.notification && payload.notification.body
+						? payload.notification.body
+						: 'Notification';
+				const notification = new Notification(title, { body, image });
+				notification.onclick = () => {
+					window.alert('Yep');
+				};
+			});
 		} else {
 			// Show permission request UI
 			console.log(
@@ -55,4 +74,4 @@ firebaseMessaging
 		// ...
 	});
 
-export { firebase, firebaseAuth, firebaseMessaging };
+export { firebase, firebaseAuth };
