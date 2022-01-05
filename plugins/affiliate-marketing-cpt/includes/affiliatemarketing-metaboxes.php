@@ -63,14 +63,9 @@ class AffiliateMarketingCPTMetaboxes {
 		?>
 		<div class="am-form-group">
 			<label class="ammetafooterdescription" for="am_footer_description"><?php _e( 'Description', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?></label>
-			<textarea name="am_footer_description" class="tinytext tiny-editor" id="am_footer_description" rows="10">
-					<?php echo $am_footer_description; ?>
-				</textarea>
-				<script type="text/javascript">
-					jQuery(document).ready(function($) {
-						tinymce.init({ selector: '#am_footer_description', branding: false });
-					});
-				</script>
+			<?php
+				wp_editor( $am_footer_description, 'am_footer_description', array('textarea_rows' => '10'));
+			?>
 		</div>
 		<?php
 	}
@@ -149,17 +144,9 @@ class AffiliateMarketingCPTMetaboxes {
 				</div>
 				<div class="am-form-group">
 					<label class="ammetatitle" for="am_item_description_<?php echo $i; ?>"><?php _e( 'Description', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?></label>
-					<textarea name="am_item_description[]" class="tinytext" id="tiny-editor-<?php echo $i; ?>" class="tiny-editor" rows="10">
-							<?php echo $contents[$i]; ?>
-						</textarea>
-						<script type="text/javascript">
-							jQuery(document).ready(function($) {
-								var startingContent = <?php echo $i; ?>;
-								var contentID = 'tiny-editor-' + startingContent;
-								tinymce.init({ selector: '#' + contentID, branding: false });
-							});
-
-						</script>
+					<?php
+						wp_editor( $contents[$i], 'tiny-editor-'.$i, array( 'textarea_name' =>'am_item_description[]', 'textarea_rows' => '10' ) );
+					?>
 				</div>
 				<div class="am-form-group">
 					<label class="ammetatitle" for="am_item_buttontext_<?php echo $i; ?>"><?php _e( 'Button Text', AFFILIATE_MARKETING_CPT_TEXT_DOMAIN ); ?> </label>
@@ -247,7 +234,55 @@ class AffiliateMarketingCPTMetaboxes {
 					contentRow += '<div class="am-form-group"><label class="ammetatitle" for="' + am_item_getitnowfromname + '"><?php _e( 'Get it now from name', 'affiliate_marketing_textdomain' ); ?></label><input name="am_item_getitnowfromname[]" type="text" id="' + am_item_getitnowfromname + '" ></div><div class="am-form-group"><label class="ammetatitle" for="' + am_item_getitnowfromurl + '"><?php _e( 'Get it now from URL', 'affiliate_marketing_textdomain' ); ?></label><input name="am_item_getitnowfromurl[]" type="text" id="' + am_item_getitnowfromurl + '" ></div></div>';
 
 				jQuery('.content-row').eq(jQuery('.content-row').length - 1).after(contentRow);
-				tinymce.init({ selector: '#' + contentID , branding: false });
+				wp.editor.initialize( contentID,
+					{
+						tinymce: {
+							wpautop  : true,
+							theme    : 'modern',
+							skin     : 'lightgray',
+							language : 'en',
+							formats  : {
+								alignleft  : [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'left' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'alignleft' }
+								],
+								aligncenter: [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'center' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'aligncenter' }
+								],
+								alignright : [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'right' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'alignright' }
+								],
+								strikethrough: { inline: 'del' }
+							},
+							relative_urls       : false,
+							remove_script_host  : false,
+							convert_urls        : false,
+							browser_spellcheck  : true,
+							fix_list_elements   : true,
+							entities            : '38,amp,60,lt,62,gt',
+							entity_encoding     : 'raw',
+							keep_styles         : false,
+							paste_webkit_styles : 'font-weight font-style color',
+							preview_styles      : 'font-family font-size font-weight font-style text-decoration text-transform',
+							tabfocus_elements   : ':prev,:next',
+							plugins    : 'charmap,hr,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpeditimage,wpgallery,wplink,wpdialogs,wpview',
+							resize     : 'vertical',
+							menubar    : false,
+							indent     : false,
+							toolbar1: 'formatselect bold italic | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | wp_more | spellchecker | fullscreen | wp_adv',
+							// toolbar1   : 'bold, italic, strikethrough, bullist, numlist, blockquote, hr, alignleft, aligncenter, alignright, link, unlink, wp_more, spellchecker, fullscreen, wp_adv',
+							toolbar2   : 'underline, alignjustify, forecolor, pastetext, removeformat, charmap, outdent,indent,undo,redo,wp_help',
+							toolbar3   : '',
+							toolbar4   : '',
+							body_class : 'id post-type-post post-status-publish post-format-standard',
+							wpeditimage_disable_captions: false,
+							wpeditimage_html5_captions  : true
+						},
+						quicktags   : true,
+						mediaButtons: true
+					} );
 				jQuery(".am_item_imagetype").click(function() {	jQuery('#' + jQuery(this).val() + '_' + jQuery(this).attr('data-postid')).hide(); jQuery('#' + jQuery(this).attr('data-type-hide') + '_' + jQuery(this).attr('data-postid')).show(); });
 				jQuery(".moveup").on("click", function() {
 					var elem	= jQuery(this).closest( "div.ajx-order-row-" + contentID );
