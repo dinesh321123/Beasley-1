@@ -118,7 +118,7 @@
 				/* PREROLL CODE HERE */
 				await sendGAPlayEvent(vimeoplayer);
 				renderHTML(iFrameElement);
-				getUrlFromPrebid(vimeoplayer);
+				await getUrlFromPrebid(vimeoplayer);
 			}
 		};
 
@@ -171,7 +171,7 @@
 
 	}
 
-	const getUrlFromPrebid = (vimeoControl) => {
+	const getUrlFromPrebid = async (vimeoControl) => {
 		const { global, incontentpreroll } = window.bbgiconfig.dfp;
 
 		if  (!incontentpreroll || !incontentpreroll.unitId) {
@@ -180,6 +180,7 @@
 			return;
 		}
 
+		/* 01/05/2022 - Disable Reset Digital
 		const videoAdUnit = {
 			code: incontentpreroll.unitId,
 			mediaTypes: {
@@ -204,14 +205,12 @@
 			pbjs.removeAdUnit(incontentpreroll.unitId);
 			console.log('Adding resetdigital Prebid Ad Unit');
 			pbjs.addAdUnits(videoAdUnit);
-
-			/*
-			pbjs.setConfig({
-				cache: {
-					url: 'https://prebid.adnxs.com/pbc/v1/cache'
-				}
-			});
-			*/
+			// Stub to set cache in event there are ever stutter problems
+			// pbjs.setConfig({
+			// cache: {
+			//		url: 'https://prebid.adnxs.com/pbc/v1/cache'
+			//	 }
+			// });
 
 			console.log('Requesting Vimeo Video Bids');
 			pbjs.requestBids({
@@ -244,7 +243,7 @@
 
 						const partialCustParamsString = `&cust_params=VimeoVideoID%3D${videoID}`;
 						// global holds a 2 dimensional array like "global":[["cdomain","wmmr.com"],["cpage","home"],["ctest",""],["genre","rock"],["market","philadelphia, pa"]]
-						mappedGlobalParamArray = global.map(innerArray => {
+						const mappedGlobalParamArray = global.map(innerArray => {
 							return `%26${innerArray[0]}%3D${innerArray[1]}`;
 						});
 						const mappedGlobalParamString = mappedGlobalParamArray ? mappedGlobalParamArray.join('') : '';
@@ -263,6 +262,28 @@
 				}
 			});
 		});
+		*/
+
+		/* 01/05/2022 - Call Default GAM Ad Unit Since We Disabled Reset Digital Above */
+		const videoID = await vimeoControl.getVideoId();
+		console.log(`Video ID is ${videoID}`);
+
+		const partialCustParamsString = `&cust_params=VimeoVideoID%3D${videoID}`;
+		// global holds a 2 dimensional array like "global":[["cdomain","wmmr.com"],["cpage","home"],["ctest",""],["genre","rock"],["market","philadelphia, pa"]]
+		const mappedGlobalParamArray = global.map(innerArray => {
+			return `%26${innerArray[0]}%3D${innerArray[1]}`;
+		});
+		const mappedGlobalParamString = mappedGlobalParamArray ? mappedGlobalParamArray.join('') : '';
+		const fullCustParamsString = partialCustParamsString.concat(mappedGlobalParamString);
+		const videoUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${incontentpreroll.unitId}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360${fullCustParamsString}&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
+
+		try {
+			playVimeoIMAAds(videoUrl, vimeoControl);
+		} catch (err) {
+			console.log('Uncaught Error while playing preroll', err);
+			console.log('Attempting to mask error');
+			await vimeoControl.prerollCallback();
+		}
 	}
 
 
