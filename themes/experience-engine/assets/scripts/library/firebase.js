@@ -46,10 +46,10 @@ firebaseMessaging
 			// ...
 			console.log(`FOUND TOKEN - '${currentToken}'`);
 			firebaseMessaging.onMessage(payload => {
-				console.log('[firebase-messaging-sw.js] onMessage - ', payload);
+				console.log('[firebase.js] onMessage - ', payload);
 				const title =
 					payload.notification && payload.notification.title
-						? payload.notification.title
+						? `FOREGROUND: ${payload.notification.title}`
 						: 'Beasley Media';
 				const { image } = payload;
 				const body =
