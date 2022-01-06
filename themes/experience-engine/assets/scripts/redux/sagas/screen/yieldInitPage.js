@@ -48,7 +48,7 @@ function* yieldInitPage(action) {
 		location.href,
 	);
 
-	if (ad_reset_digital_enabled === 'on') {
+	if (ad_reset_digital_enabled === 'on' && window.fireResetPixel) {
 		window.fireResetPixel(location.href);
 	}
 

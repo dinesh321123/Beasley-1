@@ -71,7 +71,7 @@ function* yieldLoadedPage(action) {
 
 	updateCanonicalUrl(url);
 
-	if (ad_reset_digital_enabled === 'on') {
+	if (ad_reset_digital_enabled === 'on' && window.fireResetPixel) {
 		window.fireResetPixel(url);
 	}
 
