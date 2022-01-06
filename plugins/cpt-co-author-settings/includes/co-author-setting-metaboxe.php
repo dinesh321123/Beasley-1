@@ -13,11 +13,32 @@ class CoAuthorSettingMetaboxes {
 	}
 
 	public static function load_coauthor() {
+		$roles = [ 'administrator' ];
+
+		foreach ( $roles as $role ) {
+			$role_obj = get_role( $role );
+
+			if ( is_a( $role_obj, \WP_Role::class ) ) {
+				$role_obj->add_cap( 'manage_co_author_setting', false );
+			}
+		}
 		
 		$location = array();
 		$currnet_author = $_GET['post'] ? (get_post($_GET['post']) ? get_post($_GET['post'])->post_author : 0) : 0;
 		$current_author_name = get_the_author_meta( 'display_name', $currnet_author ? $currnet_author : get_current_user_id() );
 		
+		$args = array( 'blog_id' => 0, 'fields' => array( 'display_name' ) );
+		
+		$network_users = get_users( $args );
+
+		$user_choise = array();
+		foreach ( $network_users as $user ) {
+			if( !empty($user->display_name) ) {
+				$display_name = $user->display_name;
+				$user_choise[$display_name] = $display_name;
+			}
+		}
+
 		foreach ( self::tag_permissions_posttype_list() as $type ) {
 			$location[] =
 			array(
@@ -67,9 +88,12 @@ class CoAuthorSettingMetaboxes {
 					'key'           => 'field_reported_attribution_cpt',
 					'label'         => 'Reported Attribution',
 					'name'          => 'reported_attribution_cpt',
-					'type'          => 'user',
+					'type'          => 'select',
 					'layout' => 'vertical',
+					'choices' => $user_choise,
 					'allow_null' => 1,
+					'ui' => 1,
+					'ajax' => 1,
 					'required'      => 0,
 					'default_value' => 0,
 				),
@@ -95,7 +119,12 @@ class CoAuthorSettingMetaboxes {
    }
 
 	public static function tag_permissions_posttype_list() {
-		return (array) apply_filters( 'tag-permissions-allow-post-types', array( 'post', 'listicle_cpt', 'gmr_gallery', 'show', 'gmr_album', 'tribe_events', 'announcement', 'contest', 'podcast', 'episode', 'content-kit' )  );
+		$result = array();
+
+		if(current_user_can('manage_co_author_setting')){
+			$result	= (array) apply_filters( 'co-author-post-types', array( 'post', 'listicle_cpt', 'gmr_gallery', 'show', 'gmr_album', 'tribe_events', 'announcement', 'contest', 'podcast', 'episode', 'content-kit' )  );
+		}
+		return $result;
 	}
 }
 
