@@ -1,3 +1,15 @@
+.s2nSmartPlayer {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+
+@media (--min-medium-viewport) {
+	.s2nSmartPlayer {
+		margin-left: 10%;
+		margin-right: 10%;
+	}
+}
 
 .s2nSmartPlayer::before {
 	content: "Related Video";
@@ -17,7 +29,6 @@
 }
 
 .s2nSmartPlayer[style]:not(.s2nBelowViewport) {
-
 	height: unset !important;
 }
 
