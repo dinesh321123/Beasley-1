@@ -16,7 +16,8 @@
 
 }
 
-.s2nSmartPlayer[style] {
+.s2nSmartPlayer[style]:not(.s2nBelowViewport) {
+
 	height: unset !important;
 }
 
