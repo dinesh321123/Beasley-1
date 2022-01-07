@@ -57,6 +57,8 @@ class StnPlayer extends PureComponent {
 							featuredDiv.classList.add('stn-video-thumbnail');
 							featuredDiv.appendChild(stndiv);
 							featuredDiv.appendChild(stn_barker_script);
+
+							hideCaption();
 						} else {
 							// prettier-ignore
 							const description = document.getElementsByClassName('description')[0];
