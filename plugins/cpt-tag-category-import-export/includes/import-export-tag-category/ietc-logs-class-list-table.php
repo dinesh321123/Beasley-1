@@ -2,7 +2,7 @@
 //Our class extends the WP_List_Table class, so we need to make sure that it's there
 if(!class_exists('WP_List_Table')){
    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-}   
+}
     class Link_List_Table extends WP_List_Table {
         public static function get_log_data($per_page, $page_number ) {
             global $wpdb;
@@ -17,7 +17,7 @@ if(!class_exists('WP_List_Table')){
                $getUserid=filter_input(INPUT_GET, "filtuserid", FILTER_SANITIZE_STRIPPED);
                $filter_by_user_type_site.=" AND userid=$getUserid ";
             }
-            
+
             if(!empty(filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED))) {
 
                if(filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==1){
@@ -30,14 +30,14 @@ if(!class_exists('WP_List_Table')){
                      $filter_by_user_type_site.=" AND type='tag' AND import_export=1";
                 }
             }
-            
+
             if(!empty(filter_input(INPUT_GET, "filtnetworkid", FILTER_SANITIZE_STRIPPED))) {
               $getNetworkid=filter_input(INPUT_GET, "filtnetworkid", FILTER_SANITIZE_STRIPPED);
               $filter_by_user_type_site.=" AND blog_id=$getNetworkid ";
-                
+
             }
               $sql.= $filter_by_user_type_site;
-                
+
             if ( ! empty(filter_input(INPUT_GET, "orderby", FILTER_SANITIZE_STRIPPED)) ) {
             // $sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
             //$sql .= ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' DESC';
@@ -49,7 +49,7 @@ if(!class_exists('WP_List_Table')){
 
             // echo $sql;
             $result = $wpdb->get_results( $sql, 'ARRAY_A' );
-            
+
             foreach ($result as $key => $value) {
             // Assign network name
                 $site_id = $value['blog_id'];
@@ -94,12 +94,12 @@ if(!class_exists('WP_List_Table')){
 
         /*function search_box( $text, $input_id ) {
             if ( empty( $_REQUEST['s'] ) && ! $this->has_items() ) {
-            
+
                 //return;
             }
-    
+
             $input_id = $input_id . '-search-input';
-        
+
             if ( ! empty( $_REQUEST['orderby'] ) ) {
                 echo '<input type="hidden" name="orderby" value="' . esc_attr( $_REQUEST['orderby'] ) . '" />';
             }
@@ -127,16 +127,16 @@ if(!class_exists('WP_List_Table')){
         function column_file($item){
             //Build row actions
             if($item['import_export'] == 'Export'){
-                $file_url   = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "/ietc_uploads/import-export-tag-category/export/".$item['file'];
+                $file_url   = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "ietc_uploads/import-export-tag-category/export/".$item['file'];
                 $returnString   = sprintf('<a href="%s" target="_blank">Download CSV</a>',$file_url);
 
             } else {
-                $file_url       = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "/ietc_uploads/import-export-tag-category/import/".$item['file'];
-                $logFileUrl     = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "/ietc_uploads/import-export-tag-category/logs/".$item['logfile'];
+                $file_url       = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "ietc_uploads/import-export-tag-category/import/".$item['file'];
+                $logFileUrl     = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "ietc_uploads/import-export-tag-category/logs/".$item['logfile'];
 
                 $returnString   = sprintf('<a href="%s" target="_blank">Download CSV</a> | <a href="%s" target="_blank">Download log</a>',$file_url, $logFileUrl);
             }
-            
+
             //Return the title contents
             return $returnString;
             /* return sprintf('%1$s %2$s',
@@ -144,7 +144,7 @@ if(!class_exists('WP_List_Table')){
                 $this->row_actions($actions)
             ); */
         }
-        
+
         function column_userid($item){
             //Build row actions
             $actions = array(
@@ -158,7 +158,7 @@ if(!class_exists('WP_List_Table')){
                 /*$3%s*/ $this->row_actions($actions)
             );
         }
-    
+
         function column_cb($item){
             return sprintf(
                 '<input type="checkbox" name="%1$s[]" value="%2$s" />',
@@ -194,7 +194,7 @@ if(!class_exists('WP_List_Table')){
             return $actions; */
         }
 
-        function process_bulk_action() {        
+        function process_bulk_action() {
             //Detect when a bulk action is being triggered...
         }
 
@@ -204,48 +204,48 @@ if(!class_exists('WP_List_Table')){
             global $wpdb;
                 $userLoginNames = $wpdb->get_results("SELECT ID,user_login FROM {$wpdb->prefix}users ORDER BY user_login ASC", ARRAY_A);
                 $networkSources = $wpdb->get_results("SELECT blog_id,user_login FROM {$wpdb->prefix}users ORDER BY user_login ASC", ARRAY_A);
-               
+
             ?>
               <input type='hidden' class='wpBaseurl' value="<?php echo get_bloginfo('wpurl');?>">
                 <div class="alignleft actions bulkactions">
                         <select name="user-filter" class="ewc-filter-cat userfiltercls">
-                            <option value="">Filter by User</option> 
-                            <?php 
+                            <option value="">Filter by User</option>
+                            <?php
                                 foreach($userLoginNames as $userLogin){
                             ?>
-                                <option <?php echo filter_input(INPUT_GET, "filtuserid", FILTER_SANITIZE_STRIPPED)==$userLogin['ID']?' selected ':' '?> value="<?php echo $userLogin['ID']?>"><?php echo $userLogin['user_login']?></option> 
-                            <?php 
+                                <option <?php echo filter_input(INPUT_GET, "filtuserid", FILTER_SANITIZE_STRIPPED)==$userLogin['ID']?' selected ':' '?> value="<?php echo $userLogin['ID']?>"><?php echo $userLogin['user_login']?></option>
+                            <?php
                                 }
                             ?>
                         </select>
 
                         <select name="type-filter" class="ewc-filter-cat typefiltercls">
-                            <option value="">Filter by Type</option> 
-                            
-                                <option <?php echo filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==1?' selected ':' '?> value="1">Import Category</option> 
-                                <option <?php echo filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==2?' selected ':' '?> value="2">Export Category</option> 
-                                <option <?php echo filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==3?' selected ':' '?> value="3">Import Tag</option> 
-                                <option <?php echo filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==4?' selected ':' '?> value="4">Export Tag</option> 
-                            
+                            <option value="">Filter by Type</option>
+
+                                <option <?php echo filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==1?' selected ':' '?> value="1">Import Category</option>
+                                <option <?php echo filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==2?' selected ':' '?> value="2">Export Category</option>
+                                <option <?php echo filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==3?' selected ':' '?> value="3">Import Tag</option>
+                                <option <?php echo filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==4?' selected ':' '?> value="4">Export Tag</option>
+
                         </select>
 
                          <select name="networksource-filter" class="ewc-filter-cat networksourcecls">
-                                 <option value="">Filter by Network Source</option> 
-                                 <?php 
+                                 <option value="">Filter by Network Source</option>
+                                 <?php
                                     foreach(get_sites() as $getNetworkS){
                                  ?>
-                                     <option <?php echo filter_input(INPUT_GET, "filtnetworkid", FILTER_SANITIZE_STRIPPED)==$getNetworkS->blog_id?' selected ':' '?> value="<?php echo $getNetworkS->blog_id;?>"><?php echo get_blog_details($getNetworkS->blog_id)->blogname?></option> 
-                                 <?php 
+                                     <option <?php echo filter_input(INPUT_GET, "filtnetworkid", FILTER_SANITIZE_STRIPPED)==$getNetworkS->blog_id?' selected ':' '?> value="<?php echo $getNetworkS->blog_id;?>"><?php echo get_blog_details($getNetworkS->blog_id)->blogname?></option>
+                                 <?php
                                     }
                                  ?>
                          </select>
 
                  </div>
-            <?php 
+            <?php
         }
     }
 
-        
+
         function prepare_items() {
             global $wpdb; //This is used only if making any database queries
 
@@ -253,7 +253,7 @@ if(!class_exists('WP_List_Table')){
              * First, lets decide how many records per page to show
              */
             $per_page = 4;
-            
+
             if(filter_input(INPUT_GET, "paged", FILTER_SANITIZE_STRIPPED)) {
                 $page = filter_input(INPUT_GET, "paged", FILTER_SANITIZE_STRIPPED);
             }
@@ -263,17 +263,17 @@ if(!class_exists('WP_List_Table')){
             $columns = $this->get_columns();
             $hidden = array();
             $sortable = $this->get_sortable_columns();
-            
+
             $this->_column_headers = array($columns, $hidden, $sortable);
-            
+
             /**
              * Optional. You can handle your bulk actions however you see fit. In this
              * case, we'll handle them within our package just to keep things clean.
              */
             $this->process_bulk_action();
-            
+
             $data = $this->get_log_data($per_page, $page );
-        
+
             function usort_reorder($a,$b){
 
                 $orderby = (!empty(filter_input(INPUT_GET, "orderby", FILTER_SANITIZE_STRIPPED))) ? filter_input(INPUT_GET, "orderby", FILTER_SANITIZE_STRIPPED) : 'id'; //If no sort, default to title
@@ -297,7 +297,7 @@ if(!class_exists('WP_List_Table')){
                $getUserid=filter_input(INPUT_GET, "filtuserid", FILTER_SANITIZE_STRIPPED);
                $filter_by_user_type_site.=" AND userid=$getUserid ";
             }
-            
+
             if(!empty(filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED))) {
 
                if(filter_input(INPUT_GET, "filttypeid", FILTER_SANITIZE_STRIPPED)==1){
@@ -310,18 +310,18 @@ if(!class_exists('WP_List_Table')){
                      $filter_by_user_type_site.=" AND type='tag' AND import_export=1";
                 }
             }
-            
+
             if(!empty(filter_input(INPUT_GET, "filtnetworkid", FILTER_SANITIZE_STRIPPED))) {
               $getNetworkid=filter_input(INPUT_GET, "filtnetworkid", FILTER_SANITIZE_STRIPPED);
               $filter_by_user_type_site.=" AND blog_id=$getNetworkid ";
-                
+
             }
             $sql.= $filter_by_user_type_site;
 
             $result = $wpdb->get_results( $sql);
             $total_items = count($result);
             $this->items = $data;
-            
+
             $this->set_pagination_args( array(
                 'total_items' => $total_items,                  //WE have to calculate the total number of items
                 'per_page'    => $per_page,                     //WE have to determine how many items to show on a page

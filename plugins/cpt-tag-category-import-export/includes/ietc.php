@@ -100,7 +100,7 @@ class ImportExportTagCategory {
 	   // echo "<pre>", print_r($_FILES['csv_file']) ;
 		// echo " ---------  ", print_r($_REQUEST), "</pre>";
 
-		$csvTargetFile = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. '/ietc_uploads/import-export-tag-category/import/'. basename($csvFileName);
+		$csvTargetFile = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. 'ietc_uploads/import-export-tag-category/import/'. basename($csvFileName);
 		if (move_uploaded_file($csvFileTemp, $csvTargetFile)) {
 			// echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 		}
@@ -152,8 +152,8 @@ class ImportExportTagCategory {
 		// Create Log file
 		$logFileName	= 	$network_name.'-'.date('YmdHis').'.txt';
 		$date			= 	date('Y-m-d H:i:s');
-		$logFile		= 	fopen(TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "/ietc_uploads/import-export-tag-category/logs/".$logFileName, "w");
-		$logFileURL		= 	TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "/ietc_uploads/import-export-tag-category/logs/".$logFileName;
+		$logFile		= 	fopen(TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "ietc_uploads/import-export-tag-category/logs/".$logFileName, "w");
+		$logFileURL		= 	TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "ietc_uploads/import-export-tag-category/logs/".$logFileName;
 		fwrite($logFile, json_encode($log_data)); /** Once the data is written it will be saved in the path given */
 		fclose($logFile);
 
@@ -188,9 +188,10 @@ class ImportExportTagCategory {
 			$todayDate	= date('YmdHis');
 			$date		= date('Y-m-d H:i:s');
 			//echo get_temp_dir(); exit;
-			$file_name 	= $network_name.'-'.$todayDate.'.csv';
-			$fileDirPath= fopen(TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "/ietc_uploads/import-export-tag-category/export/".$file_name, "w");
-			$file_url	= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "/ietc_uploads/import-export-tag-category/export/".$file_name;
+			$string = str_replace(' ', '', $network_name);
+			$file_name 	= $string.'-'.$todayDate.'.csv';
+			$fileDirPath= fopen(TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "ietc_uploads/import-export-tag-category/export/".$file_name, "w");
+			$file_url	= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "ietc_uploads/import-export-tag-category/export/".$file_name;
 			// $fileDirPath = fopen(get_temp_dir() . $todayDate.'.csv', "w");
 			// $file_url = get_temp_dir() . $todayDate.'.csv';
 
@@ -247,7 +248,7 @@ class ImportExportTagCategory {
 				echo $_FILES["fileToUpload"]["name"] . " already exists. ";
 			} else
 			{
-				$target_file = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. '/ietc_uploads/import-export-tag-category/import/'. basename($_FILES["fileToUpload"]["name"]);
+				$target_file = TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. 'ietc_uploads/import-export-tag-category/import/'. basename($_FILES["fileToUpload"]["name"]);
 				if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
 					// echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
 				}
@@ -320,11 +321,11 @@ class ImportExportTagCategory {
 				$folderPath		=	isset($sqlData[0]->import_export) && $sqlData[0]->import_export == 1 ? 'export' : 'import' ;
 				$fileName		=	$sqlData[0]->file;
 				$logsName	=	isset($sqlData[0]->import_export) && $sqlData[0]->import_export == 2 ? $sqlData[0]->logfile : '' ;
-				$file_path	= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. '/ietc_uploads/import-export-tag-category/' . $folderPath . '/'.$fileName;  // path of the file which need to be deleted.
+				$file_path	= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. 'ietc_uploads/import-export-tag-category/' . $folderPath . '/'.$fileName;  // path of the file which need to be deleted.
 				wp_delete_file( $file_path );
 				if(isset($logsName))
 				{
-					$logsPath	= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. '/ietc_uploads/import-export-tag-category/logs/'.$logsName;
+					$logsPath	= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. 'ietc_uploads/import-export-tag-category/logs/'.$logsName;
 					wp_delete_file( $logsPath );
 				}
 				$del_sql	= "DELETE FROM {$wpdb->prefix}ietc_log WHERE id = $del_id";
