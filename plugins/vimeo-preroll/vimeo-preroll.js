@@ -92,6 +92,7 @@
 
 		const vimeoplayer = new Vimeo.Player(iFrameElement);
 		vimeoplayer.isPlayingPreroll = false;
+		vimeoplayer.finishedPlayingPreroll = false;
 
 		vimeoplayer.prerollCallback = async () => {
 			if (vimeoplayer.isPlayingPreroll) {
@@ -102,13 +103,15 @@
 				await vimeoplayer.play();
 				console.log('Preroll Callback is done!');
 				vimeoplayer.isPlayingPreroll = false;
+				vimeoplayer.finishedPlayingPreroll = true;
 			}
 		};
 
 		vimeoplayer.thisVimeoPlayHandler = async () => {
 			console.log('Vimeoplayer OnPlay Event');
 
-			if (!vimeoplayer.isPlayingPreroll) {
+			// Play preroll if we are currently not playing preroll and have not already finished playing preroll.
+			if (!vimeoplayer.isPlayingPreroll && !vimeoplayer.finishedPlayingPreroll) {
 				vimeoplayer.isPlayingPreroll = true;
 				console.log('Played And Instantly Pausing All Players for Preroll');
 				await vimeoplayer.pause();
