@@ -1,6 +1,6 @@
 <footer id="footer" class="footer">
 	<div itemscope itemtype="http://schema.org/Organization">
-		<?php ee_the_beasley_logo(); ?>
+		<?php ee_the_custom_logo(); ?>
 	</div>
 	<div class="footer-meta">
 		<?php get_template_part( 'partials/footer/download-app' ); ?>
