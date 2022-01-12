@@ -43,6 +43,7 @@ mu-plugins/post-finder/
 !/plugins/listicle-selection
 !/plugins/cpt-co-author-settings
 !/plugins/cpt-tag-category-import-export
+!/plugins/wp-multisite-user-sync
 
 themes/index.php
 themes/twentyfourteen
