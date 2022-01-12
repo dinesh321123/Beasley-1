@@ -1,7 +1,7 @@
 <?php
 
 if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
-	function ee_get_affiliatemarketing_html( $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode,	$am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl ) {
+	function ee_get_affiliatemarketing_html( $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode,	$am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl, $am_item_type ) {
 		$am_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($affiliatemarketing_post_object);
 
@@ -28,12 +28,16 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 				$amitembuttonurl = $am_item_buttonurl[$index]
 				?	$amitembuttonurl = $am_item_buttonurl[$index]
 				: $amitembuttonurl = '#';
-				echo '<li class="affiliate-marketingmeta-item', $am_image_slug == $am_tracking_code ? ' scroll-to' : '', '">';
+				echo '<li class="affiliate-marketingmeta-item', $am_image_slug == $am_tracking_code ? ' scroll-to' : '', $am_item_type[$index] == 'header' ? ' am-header-item' : '', '">';
 					// Start code for Affiliate marketing meta data
 					echo '<div class="am-meta">';
 						echo '<div class="wrapper">';
 							echo '<div class="caption">';
-								echo '<h3>', '<a href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_name_data, '</a></h3>';
+								if($am_item_type[$index] == "header") {
+									echo '<h2><span>', $am_item_name_data, '<span></h2>';
+								} else {
+									echo '<h3>', '<a href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_name_data, '</a></h3>';
+								}
 
 								static $urls = array();
 
@@ -80,17 +84,20 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								if( isset( $am_item_description[$index] ) && $am_item_description[$index] !== "" ) {
 									echo '<div>', $am_item_description[$index],'</div>';
 								}
-								echo '<div class="shop-button">';
-									if( isset( $am_item_getitnowfromname[$index] ) && $am_item_getitnowfromname[$index] !== "" ) {
-										$get_it_now_from_url = $am_item_getitnowfromurl[$index] ? $am_item_getitnowfromurl[$index] : '#' ;
 
-										echo '<div class="get-it-now-meta">', $am_item_getitnowtext[$index], ' <a class="get-it-now-button" href="', $get_it_now_from_url, '" target="_blank" rel="noopener">', $am_item_getitnowfromname[$index], '</a></div>';
-									}
-									if( isset( $am_item_buttontext[$index] ) && $am_item_buttontext[$index] !== "" )
-									{
-										echo '<div class="shop-now-button-meta">', '<a class="shop-now-button" href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_buttontext[$index], '</a>', '</div>';
-									}
-								echo '</div>';
+								if($am_item_type[$index] !== "header") {
+									echo '<div class="shop-button">';
+										if( isset( $am_item_getitnowfromname[$index] ) && $am_item_getitnowfromname[$index] !== "" ) {
+											$get_it_now_from_url = $am_item_getitnowfromurl[$index] ? $am_item_getitnowfromurl[$index] : '#' ;
+
+											echo '<div class="get-it-now-meta">', $am_item_getitnowtext[$index], ' <a class="get-it-now-button" href="', $get_it_now_from_url, '" target="_blank" rel="noopener">', $am_item_getitnowfromname[$index], '</a></div>';
+										}
+										if( isset( $am_item_buttontext[$index] ) && $am_item_buttontext[$index] !== "" )
+										{
+											echo '<div class="shop-now-button-meta">', '<a class="shop-now-button" href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_buttontext[$index], '</a>', '</div>';
+										}
+									echo '</div>';
+								}
 							echo '</div>';
 						echo '</div>';
 					echo '</div>';
