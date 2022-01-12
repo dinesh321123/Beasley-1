@@ -12,6 +12,8 @@ cache:
 
 test:
   stage: test
+  dependencies: []
+  cache: {}
   script:
     - 10up-scripts
 
