@@ -77,11 +77,12 @@ class ImportExportTagCategory {
 		global $typenow, $pagenow;
 		$admin_page = filter_input(INPUT_GET, "page", FILTER_SANITIZE_STRIPPED) != "" ? filter_input(INPUT_GET, "page", FILTER_SANITIZE_STRIPPED) : "" ;
 		if ( in_array( $admin_page, array( 'ietc_export', 'ietc_logs', 'ietc_import' ) ) && in_array( $pagenow, array( 'admin.php' ) ) ) {
+			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 			//Add the Select2 CSS file
 			wp_enqueue_style( 'general-settings-select2css', TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL .'assets/css/select2.min.css', array(),TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_VERSION, 'all');
 			wp_enqueue_script( 'general-settings-select2js', TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL .'assets/js/select2.min.js', 'jquery', TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_VERSION);
 
-			wp_enqueue_script( 'import-export-tag-category', TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL ."assets/js/import-export-tag-category.js", array('jquery'));
+			wp_enqueue_script( 'import-export-tag-category', TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL ."assets/js/import-export-tag-category$postfix.js", array('jquery'));
 			wp_localize_script( 'import-export-tag-category', 'my_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 			wp_enqueue_media();
 			wp_enqueue_editor();

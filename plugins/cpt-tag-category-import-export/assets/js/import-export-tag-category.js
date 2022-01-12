@@ -28,11 +28,11 @@
 				    dataType: 'json',
 				    url: my_ajax_object.ajax_url,
 				   	data : {
-				   		action: "ietc_import_data", 
-				   		file: file,	
+				   		action: "ietc_import_data",
+				   		file: file,
 				   		site_id: site_id,
 				   		list_id: list_id,
-				   		taxonomy_type: taxonomy_type,				   		 
+				   		taxonomy_type: taxonomy_type,
 				   	},
 				    success: function(result){
 				    	console.log(result);
@@ -40,7 +40,7 @@
 				    		console.log(result.success);
 				    		var data = result.data;
 							var log_data = data.log_data;
-							
+
 					        $('.import-result').append('<div class="notice notice-success is-dismissible"><p>'+data.message+'</p></div></br>');
 					        $.each(log_data, function (i) {
 					        	var html = '';
@@ -48,7 +48,7 @@
 							    html = i +'. Type: '+current_row.type+' Name: '+current_row.name+' Status: '+current_row.message+'</br>';
 							    $('.show_import_log').append(html);
 							});
-					   		$( '#tp_spinner' ).removeClass( 'is-active' ); 	
+					   		$( '#tp_spinner' ).removeClass( 'is-active' );
 				    	}
 				    	else{
 				    		$('.import-result').append('<div class="error notice-error is-dismissible"><p>'+result.data+'<p></div></br>');
@@ -58,7 +58,7 @@
 			});
 		$("#export_file").on("click", function() {
 			$('.export-result').html('');
-					        
+
 			var site_id = $('.site_id').val();
 			var list_id = $('.list_id').val();
 
@@ -67,9 +67,9 @@
 			    dataType: 'json',
 			    url: my_ajax_object.ajax_url,
 			   	data : {
-			   		action: "ietc_export_data", 
-			   		site_id: site_id,	
-			   		list_id: list_id,		   					   		 
+			   		action: "ietc_export_data",
+			   		site_id: site_id,
+			   		list_id: list_id,
 			   	},
 			    success: function(result){
 			    	console.log(result);
@@ -77,7 +77,7 @@
 				    		console.log(result.success);
 				    		var data = result.data;
 				    		var log_data = data.log_data;
-				        
+
 					        $('.export-result').append('<div class="notice notice-success is-dismissible"><p>'+data.message+'<p></div></br>');
 					        window.location.href = data.file_path;
 				    	}
@@ -85,7 +85,7 @@
 			    }
 			});
 		});
-		
+
 	$("#import_tag_category").on("click", function() {
 		$('#import_msg').html('');
 		var network_source 	= $('#network_source').val();
@@ -94,11 +94,11 @@
 		// File upload code
 		var fileName	= "";
 		const fdata		= new FormData();
-		
+
 		/* File upload code*/
 		let fileInputElement = document.getElementById('csv_file');
 		fileName = fileInputElement.files.length ? fileInputElement.files[0].name : '' ;
-		
+
 		if(!network_source){
 			alert('Select network source');
 			return;
@@ -113,6 +113,12 @@
 			return;
 		}
 
+		var csv_extension = fileInputElement.files[0].name.split('.').pop().toLowerCase();
+		if($.inArray(csv_extension,['csv','']) == -1){
+			alert( "Invalid csv file" );
+			return;
+		}
+
 		$( '#import_tag_category_spinner' ).addClass( 'is-active' );
 		fdata.append( 'action', 'ietc_import_tag_category' );
 		fdata.append( 'network_source', network_source );
@@ -120,7 +126,7 @@
 		fdata.append( 'network_name', network_name );
 
 		fdata.append( 'csv_file', fileInputElement.files[0], fileInputElement.files[0].name );
-		
+
 		$.ajax({
 			type: "POST",
 			dataType: 'json',
@@ -147,7 +153,7 @@
 			}
 		});
 
-		
+
 	});
 	$("#export_tag_category").on("click", function() {
 		$('#export_msg').html('');
@@ -157,7 +163,7 @@
 		var network_name 	= $("#network_source  option:selected").text();
 
 		// alert(network_name);
-		
+
 		if(!network_source){
 			alert('Select network source');
 			$( '#export_tag_category_spinner' ).removeClass( 'is-active' );
@@ -174,7 +180,7 @@
 			dataType: 'json',
 			url: my_ajax_object.ajax_url,
 			data : {
-				action: "ietc_export_tag_category", 
+				action: "ietc_export_tag_category",
 				network_source: network_source,
 				network_type: network_type,
 				network_name: network_name,
@@ -199,7 +205,7 @@
 			}
 		});
 	});
-	
+
   	$('.userfiltercls').change(function(){
     	var getUserid=$(this).val();
     	var getTypeid=$('.typefiltercls').val();
@@ -212,18 +218,18 @@
     	var getUserid=$('.userfiltercls').val();
     	var getTypeid=$(this).val();
     	var getNetWorkid=$('.networksourcecls').val();
-	
+
 		window.location.replace($('.wpBaseurl').val()+"/wp-admin/network/admin.php?page=ietc_logs&filtuserid="+getUserid+"&filttypeid="+getTypeid+"&filtnetworkid="+getNetWorkid);
-		
+
     });
 
     $('.networksourcecls').change(function(){
     	var getUserid=$('.userfiltercls').val();
     	var getTypeid=$('.typefiltercls').val();
     	var getNetWorkid=$(this).val();
-	
+
 		window.location.replace($('.wpBaseurl').val()+"/wp-admin/network/admin.php?page=ietc_logs&filtuserid="+getUserid+"&filttypeid="+getTypeid+"&filtnetworkid="+getNetWorkid);
-		
+
     });
 
 	});
