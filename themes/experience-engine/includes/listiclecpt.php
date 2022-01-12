@@ -1,8 +1,8 @@
 <?php
-add_filter( 'bbgi_listicle_cotnent', 'ee_update_incontent_listicle', 10, 5 );
+add_filter( 'bbgi_listicle_cotnent', 'ee_update_incontent_listicle', 10, 6 );
 
 if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
-	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order, $source_post_object = null ) {
+	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object = null ) {
 		$cpt_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($cpt_post_object);
 
@@ -19,39 +19,68 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 			$checkID = $source_post_object->ID;
 		}
 
-		$total_segment = ceil( count($cpt_item_name) / 10 );
 		if(get_field( 'display_segmentation', $checkID )) {
-			$is_desc = (get_field( 'segmentation_ordering', $checkID ) != '' && get_field( 'segmentation_ordering', $checkID ) == 'desc') ? 1 : 0;
-			$start_index = $is_desc ? $total_segment : 1;
-
-			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
-
-			for ($i=1; $i <= $total_segment; $i++) {
-				$diff = count($cpt_item_name) - ($start_index * 10);
-				$scroll_to = $is_desc ? ( $diff < 0 ? 0 : $diff  ) : ( ($i - 1) * 10 );
-
-				$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
-				$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
-
-				echo '<button onclick=" scrollToSegmentation(' . ( $cpt_item_order[ $scroll_to ] + 1 ) .'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
-
-				$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
+			$segmentation_ordering_type = get_field( 'segmentation_ordering', $checkID );
+			if($segmentation_ordering_type == 'header') {
+				$header_items = array_keys( array_filter ($cpt_item_type, function ($var) { return ($var == "header"); } ) );
+				$total_segment_header = count ( $header_items );
+				
+				if($total_segment_header > 0) {
+					echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+					for ($shi=1; $shi <= $total_segment_header; $shi++) {
+						echo '<button onclick=" scrollToSegmentation( null, ' . $shi . '); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $cpt_item_name[$header_items[$shi-1]] . '</button>';
+					}
+					echo "</div>";
+				}
+			} else {
+				$segment_item_total = count ( array_filter ($cpt_item_type, function ($var) { return ($var !== "header"); } ) );
+				$total_segment = ceil( $segment_item_total / 10 );
+				$is_desc = ($segmentation_ordering_type != '' && $segmentation_ordering_type == 'desc') ? 1 : 0;
+				$start_index = $is_desc ? $total_segment : 1;
+	
+				if($total_segment > 0) {
+					echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+					for ($i=1; $i <= $total_segment; $i++) {
+						$diff = $segment_item_total - (( $i - 1 ) * 10);
+						$diff = ($diff % 10 == 0) ? $diff - 1 : $diff;
+						$scroll_to = $is_desc ? ( floor( $diff / 10 ) * 10 ) : ( ($i - 1) * 10 );
+		
+						$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
+						$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
+		
+						echo '<button onclick=" scrollToSegmentation(' . ( $scroll_to + 1 ) .'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
+						$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
+					}
+					echo "</div>";
+				}
 			}
-			echo "</div>";
 		}
 
 		echo '<ul class="listicle-main-ul-item">';
 
+		$segment_item_index = 0;
+		$segment_header_index = 0;
 		foreach ( $cpt_item_name as $index => $cpt_item_name_data ) {
 			if( isset( $cpt_item_name_data ) && $cpt_item_name_data != "" ) {
 				$cpt_tracking_code = $cpt_item_order[$index]+1 ;
+				if( $cpt_item_type[$index] == 'header' ) {
+					$segment_header_index++;
+					$segment_li_class = "segment-header-item-".$segment_header_index;
+				} else {
+					$segment_item_index++;
+					$segment_li_class = "segment-item-".$segment_item_index;
+				}
 
-				echo '<li id="segment-item-', $cpt_tracking_code, '" class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', '">';
+				echo '<li id="', $segment_li_class, '" class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', $cpt_item_type[$index] == 'header' ? ' listicle-header-item' : '', '">';
 					// Start code for listicle meta data
 					echo '<div class="am-meta">';
 						echo '<div class="wrapper">';
 							echo '<div class="caption">';
-								echo '<h3>', $cpt_item_name_data, '</h3>';
+								if($cpt_item_type[$index] == "header") {
+									echo '<h2><span>', $cpt_item_name_data, '<span></h2>';
+								} else {
+									echo '<h3>', $cpt_item_name_data, '</h3>';
+								}
 
 								static $urls = array();
 
@@ -95,13 +124,13 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_update_incontent_listicle' ) ) :
-	function ee_update_incontent_listicle( $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $source_post_object ) {
+	function ee_update_incontent_listicle( $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object ) {
 		// do not render listicle if it has been called before <body> tag
 		if ( ! did_action( 'beasley_after_body' ) ) {
 			return '<!-- -->';
 		}
 
-		$html = ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $source_post_object );
+		$html = ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object );
 
 		// we need to to inject embed code later
 		$placeholder = '<div><!-- listicle:' . sha1( $html ) . ' --></div>';
