@@ -42,8 +42,6 @@ firebaseMessaging
 	})
 	.then(currentToken => {
 		if (currentToken) {
-			// Send the token to your server and update the UI if necessary
-			// ...
 			console.log(`FOUND TOKEN - '${currentToken}'`);
 			firebaseMessaging.onMessage(payload => {
 				console.log('[firebase.js] onMessage - ', payload);
@@ -51,16 +49,47 @@ firebaseMessaging
 					payload.notification && payload.notification.title
 						? `FOREGROUND: ${payload.notification.title}`
 						: 'Beasley Media';
-				const { image } = payload;
+
+				let defaultImageUrl = '';
+				const { streams } = window.bbgiconfig;
+				if (streams && streams.length > 0) {
+					const { picture } = streams[0];
+					defaultImageUrl =
+						picture && picture.original
+							? picture.original.url
+							: defaultImageUrl;
+				}
+
+				console.log(`Default IMAGE: ${defaultImageUrl}`);
+				const imageUrl =
+					payload.notification && payload.notification.image
+						? payload.notification.image
+						: defaultImageUrl;
 				const body =
 					payload.notification && payload.notification.body
 						? payload.notification.body
 						: 'Notification';
-				const notification = new Notification(title, { body, image });
+				const notification = new Notification(title, {
+					body,
+					icon: imageUrl,
+				});
 				notification.onclick = () => {
 					window.alert('Yep');
 				};
 			});
+
+			// Register the token to the WebUsers topic
+			const { id: channel } = window.bbgiconfig.publisher;
+			fetch(
+				`${
+					window.bbgiconfig.eeapi
+				}experience/channels/${channel}/webuser/${encodeURIComponent(
+					currentToken,
+				)}`,
+				{
+					method: 'POST',
+				},
+			);
 		} else {
 			// Show permission request UI
 			console.log(
