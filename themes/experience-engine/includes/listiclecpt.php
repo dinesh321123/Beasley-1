@@ -2,9 +2,10 @@
 add_filter( 'bbgi_listicle_cotnent', 'ee_update_incontent_listicle', 10, 6 );
 
 if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
-	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object = null ) {
+	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object = null, $from_embed = false ) {
 		$cpt_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($cpt_post_object);
+		$id_pretext = $from_embed ? "embed-listicle" : "listicle";
 
 		$ads_interval = filter_var( get_field( 'images_per_ad', $cpt_post_object ), FILTER_VALIDATE_INT, array( 'options' => array(
 			'min_range' => 1,
@@ -27,8 +28,12 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 				
 				if($total_segment_header > 0) {
 					echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+					$header_index = 1;
 					for ($shi=1; $shi <= $total_segment_header; $shi++) {
-						echo '<button onclick=" scrollToSegmentation( null, ' . $shi . '); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $cpt_item_name[$header_items[$shi-1]] . '</button>';
+						if($cpt_item_name[$header_items[$shi-1]] !== "") {
+							echo '<button onclick=" scrollToSegmentation(\''.$id_pretext. '\', null, ' . $header_index . '); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $cpt_item_name[$header_items[$shi-1]] . '</button>';
+							$header_index++;
+						}
 					}
 					echo "</div>";
 				}
@@ -48,7 +53,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 						$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
 						$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
 		
-						echo '<button onclick=" scrollToSegmentation(' . ( $scroll_to + 1 ) .'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
+						echo '<button onclick=" scrollToSegmentation(\''.$id_pretext. '\', ' . ( $scroll_to + 1 ) .'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
 						$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
 					}
 					echo "</div>";
@@ -65,10 +70,10 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 				$cpt_tracking_code = $cpt_item_order[$index]+1 ;
 				if( $cpt_item_type[$index] == 'header' ) {
 					$segment_header_index++;
-					$segment_li_class = "segment-header-item-".$segment_header_index;
+					$segment_li_class = $id_pretext."-segment-header-item-".$segment_header_index;
 				} else {
 					$segment_item_index++;
-					$segment_li_class = "segment-item-".$segment_item_index;
+					$segment_li_class = $id_pretext."-segment-item-".$segment_item_index;
 				}
 
 				echo '<li id="', $segment_li_class, '" class="listicle-item', $cpt_image_slug == $cpt_tracking_code ? ' scroll-to' : '', $cpt_item_type[$index] == 'header' ? ' listicle-header-item' : '', '">';
@@ -130,7 +135,7 @@ if ( ! function_exists( 'ee_update_incontent_listicle' ) ) :
 			return '<!-- -->';
 		}
 
-		$html = ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object );
+		$html = ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object, true );
 
 		// we need to to inject embed code later
 		$placeholder = '<div><!-- listicle:' . sha1( $html ) . ' --></div>';

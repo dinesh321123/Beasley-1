@@ -76,13 +76,13 @@ try {
 	// do nothing
 }
 
-function scrollToSegmentation(item, heading_item = null) {
+function scrollToSegmentation(type, item, heading_item = null) {
 	var gotoID = null;
 	if(item) {
-		gotoID = document.getElementById('segment-item-' + item);
+		gotoID = document.getElementById(jQuery.trim(type) + '-segment-item-' + item);
 	}
 	if(heading_item) {
-		gotoID = document.getElementById('segment-header-item-' + heading_item);
+		gotoID = document.getElementById(jQuery.trim(type) + '-segment-header-item-' + heading_item);
 	}
 	if(gotoID) {
 		gotoID.scrollIntoView({
