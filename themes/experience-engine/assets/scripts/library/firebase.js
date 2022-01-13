@@ -47,7 +47,7 @@ firebaseMessaging
 				console.log('[firebase.js] onMessage - ', payload);
 
 				// Exit if Nofifications are not supported as in the case of Chrome for Android.
-				if (navigator.userAgent.indexOf('android') > -1) {
+				if (navigator.userAgent.indexOf('Android') > -1) {
 					console.log(`Exiting because Notifications are not supported.`);
 					return;
 				}
