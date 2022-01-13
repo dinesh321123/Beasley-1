@@ -144,8 +144,9 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_html' ) ) :
-	function ee_get_gallery_html( $gallery, $ids ) {
+	function ee_get_gallery_html( $gallery, $ids, $from_embed = false ) {
 		$sponsored_image = get_field( 'sponsored_image', $gallery );
+		$id_pretext = $from_embed ? "embed-gallery" : "gallery";
 		if ( ! empty( $sponsored_image ) ) {
 			array_unshift( $ids, $sponsored_image );
 		}
@@ -183,7 +184,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 					$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
 					$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
 	
-					echo '<button onclick=" scrollToSegmentation(' . ( $scroll_to + 1 ) . '); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
+					echo '<button onclick=" scrollToSegmentation(\''.$id_pretext. '\', ' . ( $scroll_to + 1 ) . '); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
 					$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
 				}
 				echo "</div>";
@@ -203,7 +204,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 
 			if ( ! empty( $html ) ) {
 				$segment_gallery_item++;
-				echo '<li id="segment-item-', $segment_gallery_item ,'" class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
+				echo '<li id="', $id_pretext, '-segment-item-', $segment_gallery_item,'" class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
 					echo $html;
 
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
@@ -226,7 +227,7 @@ if ( ! function_exists( 'ee_update_incontent_gallery' ) ) :
 			return '<!-- -->';
 		}
 
-		$html = ee_get_gallery_html( $gallery, $ids );
+		$html = ee_get_gallery_html( $gallery, $ids, true );
 
 		// we need to to inject embed code later
 		$placeholder = '<div><!-- gallery:' . sha1( $html ) . ' --></div>';

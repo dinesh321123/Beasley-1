@@ -19,7 +19,7 @@ class ExistingListicleSelection {
 
 	public static function enqueue_scripts(){
 		global $typenow, $pagenow;
-		$post_types = array( 'listicle_cpt', 'gmr_gallery' );
+		// $post_types = array( 'listicle_cpt', 'gmr_gallery' );
 		if ( !in_array( $typenow, $post_types ) ) {
 			wp_register_style('existing-listicle-selection-admin', LISTICLE_SELECTION_URL . "assets/css/listicle_selection.css", array(), LISTICLE_SELECTION_VERSION, 'all');
 			wp_enqueue_style('existing-listicle-selection-admin');
@@ -163,7 +163,7 @@ class ExistingListicleSelection {
 						<div style="width: 200px; height: 150px; display: flex;">
 							<img
 								class="img-attachment"
-								src="' . $image_src[0] . '" image-id="' . get_post_thumbnail_id() . '" />
+								src="' . ($image_src ? $image_src[0] : 'https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=200&d=mm&r=g') . '" image-id="' . get_post_thumbnail_id() . '" />
 						</div>
 						<div class="desc-main-container">
 						<div class="desc-upper-container">'.get_the_title().'</div>
@@ -220,7 +220,7 @@ class ExistingListicleSelection {
 						<div style="width: 200px; height: 150px; display: flex;">
 							<img
 								class="img-attachment"
-								src="' . $image_src[0] . '" image-id="' . get_post_thumbnail_id() . '" />
+								src="' . ($image_src ? $image_src[0] : 'https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=200&d=mm&r=g') . '" image-id="' . get_post_thumbnail_id() . '" />
 						</div>
 						<div class="desc-main-container">
 						<div class="desc-upper-container">'.get_the_title().'</div>
