@@ -45,6 +45,13 @@ firebaseMessaging
 			console.log(`FOUND TOKEN - '${currentToken}'`);
 			firebaseMessaging.onMessage(payload => {
 				console.log('[firebase.js] onMessage - ', payload);
+
+				// Exit if Nofifications are not supported as in the case of Chrome for Android.
+				if (!window.Notification) {
+					console.log(`Exiting becacuse Notifications are not supported.`);
+					return;
+				}
+
 				const title =
 					payload.notification && payload.notification.title
 						? `FOREGROUND: ${payload.notification.title}`
@@ -69,9 +76,12 @@ firebaseMessaging
 					payload.notification && payload.notification.body
 						? payload.notification.body
 						: 'Notification';
+				const link_url =
+					payload.data && payload.data.link_url ? payload.data.link_url : '';
 				const notification = new Notification(title, {
 					body,
 					icon: imageUrl,
+					click_action: link_url,
 				});
 				notification.onclick = () => {
 					window.alert('Yep');

@@ -3,6 +3,14 @@
 
 console.log('FIREBASE MESSAGING SW');
 
+/*
+function handleClick (event) {
+	event.notification.close();
+	// Open the url you set on notification.data
+	clients.openWindow(event.notification.data.link_url)
+}
+*/
+
 if (typeof importScripts === 'function') {
 	importScripts(
 		'https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js',
@@ -26,6 +34,11 @@ if (typeof importScripts === 'function') {
 	messaging.onBackgroundMessage(payload => {
 		console.log('[firebase-messaging-sw.js] onBackgroundMessage - ', payload);
 	});
+
+	/*
+	self.removeEventListener('notificationclick', handleClick);
+	self.addEventListener('notificationclick', handleClick);
+	*/
 
 	console.log('FIREBASE MESSAGING SW LOADED');
 }
