@@ -24,7 +24,7 @@ const RelatedPost = ({
 			eventAction: `click test ${test_name}`,
 			eventLabel: `${targetUrl}`,
 			hitCallback: () => {
-				window.location.href = targetUrl;
+				document.getElementById(`thumbnail-click-${id}`).click();
 			},
 		});
 	}
@@ -41,6 +41,13 @@ const RelatedPost = ({
 						height={141}
 						alt={title || ''}
 					/>
+				</a>
+				<a
+					href={targetUrl}
+					style={{ visibility: 'hidden' }}
+					id={`thumbnail-click-${id}`}
+				>
+					Go to related post
 				</a>
 			</div>
 			<div className="post-details">
