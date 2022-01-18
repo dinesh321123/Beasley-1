@@ -33,13 +33,15 @@ class AffiliateMarketingCPTMetaboxes {
 		global $typenow, $pagenow;
 		if ( AffiliateMarketingCPT::AFFILIATE_MARKETING_POST_TYPE == $typenow && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-			wp_enqueue_style('jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css');
+			wp_enqueue_media();
+			wp_enqueue_script('jquery-ui-core');
+        	wp_enqueue_script('jquery-ui-dialog');
+        	wp_enqueue_style('jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css');
 			wp_register_style('am-awesome-font',AFFILIATE_MARKETING_CPT_URL . "assets/css/am-font-awesome.css", array(), AFFILIATE_MARKETING_CPT_VERSION, 'all');
 			wp_enqueue_style('am-awesome-font');
 			wp_register_style('affiliate-marketing-admin',AFFILIATE_MARKETING_CPT_URL . "assets/css/am_admin.css", array(), AFFILIATE_MARKETING_CPT_VERSION, 'all');
 			wp_enqueue_style('affiliate-marketing-admin');
-			wp_enqueue_script( 'affiliate-marketing-admin', AFFILIATE_MARKETING_CPT_URL . "assets/js/am_admin.js", array('jquery'), AFFILIATE_MARKETING_CPT_VERSION, true);
-			wp_enqueue_media();
+			wp_enqueue_script( 'affiliate-marketing-admin', AFFILIATE_MARKETING_CPT_URL . "assets/js/am_admin.js", array('jquery', 'jquery-ui-dialog'), AFFILIATE_MARKETING_CPT_VERSION, true);
 			wp_enqueue_editor();
 		}
 	}

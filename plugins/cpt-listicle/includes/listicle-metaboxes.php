@@ -23,13 +23,15 @@ class ListicleCPTMetaboxes {
 	public static function enqueue_scripts() {
 		global $typenow, $pagenow;
 		if ( ListicleCPT::LISTICLE_POST_TYPE == $typenow && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
-			wp_enqueue_style('jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css');
+			wp_enqueue_media();
+			wp_enqueue_script('jquery-ui-core');
+        	wp_enqueue_script('jquery-ui-dialog');
+        	wp_enqueue_style('jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css');
 			add_filter( 'wp_default_editor', create_function( '', 'return "html";' ) );
 			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 			wp_register_style('listicle-admin',LISTICLE_CPT_URL . "assets/css/listicle_admin.css", array(), LISTICLE_CPT_VERSION, 'all');
 			wp_enqueue_style('listicle-admin');
-			wp_enqueue_script( 'listicle-admin', LISTICLE_CPT_URL . "assets/js/listicle_admin.js", array('jquery'), LISTICLE_CPT_VERSION, true);
-			wp_enqueue_media();
+			wp_enqueue_script( 'listicle-admin', LISTICLE_CPT_URL . "assets/js/listicle_admin.js", array('jquery', 'jquery-ui-dialog'), LISTICLE_CPT_VERSION, true);
 			wp_enqueue_editor();
 		}
 	}
