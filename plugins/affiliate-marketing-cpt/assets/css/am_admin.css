@@ -98,6 +98,9 @@
 	font: normal 25px/1 dashicons;
 	line-height: 1;
 }
+body .afm-dialog .ui-icon-closethick {
+	display: none;
+}
 #am-modal{
 	overflow: unset;
 }

@@ -91,6 +91,9 @@
 	font: normal 25px/1 dashicons;
 	line-height: 1;
 }
+body .listicle-dialog .ui-icon-closethick {
+	display: none;
+}
 #lmd-modal{
 	overflow: unset;
 }
