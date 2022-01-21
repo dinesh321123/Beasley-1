@@ -42,6 +42,7 @@ mu-plugins/post-finder/
 !/plugins/gallery-selection
 !/plugins/listicle-selection
 !/plugins/cpt-co-author-settings
+!/plugins/wp-import-export-lite
 
 themes/index.php
 themes/twentyfourteen
