@@ -32,6 +32,11 @@
 .responsive-media.instagram,
 .responsive-media.beasley {
 
+	& > div {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+
 	& iframe,
 	& twitter-widget {
 		margin-left: auto !important;
@@ -41,4 +46,7 @@
 	}
 }
 
-
+.instagram-media {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
