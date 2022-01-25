@@ -14,23 +14,41 @@ class CommonSettings {
 
 	public function required_alt_text() {
 		global $typenow, $pagenow;
-
 		if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) { ?>
 			<script type="text/javascript">
-				jQuery(document).ready(function($) {
-					jQuery('button#insert-media-button').click(function(e){
+				jQuery(document).ready(function($){
+					jQuery(document).on('click','button.button.insert-media.add_media',function(e){
 						setTimeout(function(e){
-							var button_insert = jQuery('.media-button-insert');
-							clickListener = jQuery._data(button_insert[0], 'events').click[0];
-							button_insert.off('click');
-							jQuery('.media-button-insert').click(function(e){
-								var alt_text = jQuery('input#attachment-details-alt-text').val();
-								// console.log(alt_text);
-								if ( alt_text )
+							var buttonInsertContent = jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert');
+							clickListenerContent = jQuery._data(buttonInsertContent[0], 'events').click[0];
+							buttonInsertContent.off('click');
+							jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert').click(function(e){
+								var altTextContent = jQuery('input#attachment-details-alt-text').val();
+								if ( altTextContent )
 								{
-									$('.media-button-insert').unbind("click");
-									button_insert.click(clickListener.handler);
-									button_insert.triggerHandler('click');
+									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert').unbind("click");
+									buttonInsertContent.click(clickListenerContent.handler);
+									buttonInsertContent.triggerHandler('click');
+								} else {
+									alert( 'ERROR: Please fill the Alt text.' );
+									jQuery('input#attachment-details-alt-text').focus();
+									return false;
+								}
+							});
+						},1000);
+					});
+					jQuery('a#set-post-thumbnail').click(function(e){
+						setTimeout(function(e){
+							var buttonInsertFeature = jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select');
+							clickListenerFeature = jQuery._data(buttonInsertFeature[0], 'events').click[0];
+							buttonInsertFeature.off('click');
+							jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').click(function(e){
+								var altTextFeature = jQuery('input#attachment-details-alt-text').val();
+								if ( altTextFeature )
+								{
+									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').unbind("click");
+									buttonInsertFeature.click(clickListenerFeature.handler);
+									buttonInsertFeature.triggerHandler('click');
 								} else {
 									alert( 'ERROR: Please fill the Alt text.' );
 									jQuery('input#attachment-details-alt-text').focus();
@@ -39,6 +57,41 @@ class CommonSettings {
 							});
 						},500);
 					});
+				});
+				jQuery( document ).ajaxComplete(function(event, xhr, settings) {
+					var params = {}, queries, temp, i, l;
+					// Split into key/value pairs
+					queries = settings.data.split("&");
+					// Convert the array of strings into an object
+					for ( i = 0, l = queries.length; i < l; i++ ) {
+						temp = queries[i].split('=');
+						params[temp[0]] = temp[1];
+					}
+					var data= params;
+					if(data.action == 'get-post-thumbnail-html'){
+						setTimeout(function(e){
+							jQuery('a#set-post-thumbnail').click(function(e){
+								setTimeout(function(e){
+									var buttonInsertFeatureAjax = jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select');
+									clickListenerFeatureAjax = jQuery._data(buttonInsertFeatureAjax[0], 'events').click[0];
+									buttonInsertFeatureAjax.off('click');
+									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').click(function(e){
+										var altTextFeatureAjax = jQuery('input#attachment-details-alt-text').val();
+										if ( altTextFeatureAjax )
+										{
+											jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').unbind("click");
+											buttonInsertFeatureAjax.click(clickListenerFeatureAjax.handler);
+											buttonInsertFeatureAjax.triggerHandler('click');
+										} else {
+											alert( 'ERROR: Please fill the Alt text.' );
+											jQuery('input#attachment-details-alt-text').focus();
+											return false;
+										}
+									});
+								},500);
+							});
+						},500);
+					}
 				});
 			</script>
 		<?php }
