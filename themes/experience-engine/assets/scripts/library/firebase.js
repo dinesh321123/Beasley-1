@@ -1,83 +1,61 @@
-// import * as firebase from 'firebase/app';
 import firebase from 'firebase/compat/app';
-
-// Add the Firebase products that you want to use
-// import 'firebase/auth';
-// import 'firebase/messaging';
 import 'firebase/compat/auth';
 import 'firebase/compat/messaging';
 
-// TODO: expose this through WordPress (wp_localize_script) and not the window globals.
-const { firebase: config } = window.bbgiconfig;
-
-/*
-// Firebase Configuration For WRIF Staging Web
-const firebaseConfig = {
-  apiKey: "AIzaSyDvXlmIDLb2A65S-ZF9pBpsqwHq6JHDGcg",
-  authDomain: "bbgi-experience-staging.firebaseapp.com",
-  databaseURL: "https://bbgi-experience-staging.firebaseio.com",
-  projectId: "bbgi-experience-staging",
-  storageBucket: "bbgi-experience-staging.appspot.com",
-  messagingSenderId: "3738444381",
-  appId: "1:3738444381:web:0887af7963e0de2459a3b4"
-};
- */
-
-// Mockup for Testing - TODO - Add New Settings To EE
-config.appId = '1:3738444381:web:0887af7963e0de2459a3b4';
-config.messagingSenderId = '3738444381';
+const { firebase: config, vapidKey } = window.bbgiconfig;
 
 firebase.initializeApp(config);
 
 const firebaseAuth = firebase.auth();
-const firebaseMessaging = firebase.messaging();
 window.firebase = firebase;
 
-navigator.serviceWorker
-	.register(
-		`/firebase-messaging-sw.js?firebaseConfig=${encodeURIComponent(
-			JSON.stringify(config),
-		)}`,
-	)
-	.then(swRegistration => {
-		// Get registration token. Initially this makes a network call, once retrieved
-		// subsequent calls to getToken will return from cache.
-		firebaseMessaging
-			.getToken({
-				vapidKey:
-					'BF3ajZ0tXj9Y4TsWcl2y-MpKTLxZcptUshawzQIGeg3UHZbpc-TGCtQNK39wsAoHDbntRb7ssUYa2k6hPuK4BXI',
-				serviceWorkerRegistration: swRegistration,
-			})
-			.then(currentToken => {
-				if (currentToken) {
-					console.log(`FOUND TOKEN - '${currentToken}'`);
-					firebaseMessaging.onMessage(messageHandler);
+const initializeWebPush = () => {
+	const firebaseMessaging = firebase.messaging();
+	navigator.serviceWorker
+		.register(
+			`/firebase-messaging-sw.js?firebaseConfig=${encodeURIComponent(
+				JSON.stringify(config),
+			)}`,
+		)
+		.then(swRegistration => {
+			// Get registration token. Initially this makes a network call, once retrieved
+			// subsequent calls to getToken will return from cache.
+			firebaseMessaging
+				.getToken({
+					vapidKey,
+					serviceWorkerRegistration: swRegistration,
+				})
+				.then(currentToken => {
+					if (currentToken) {
+						console.log(`FOUND TOKEN - '${currentToken}'`);
+						firebaseMessaging.onMessage(messageHandler);
 
-					// Register the token to the Beasley WebUser topic
-					const { id: channel } = window.bbgiconfig.publisher;
-					fetch(
-						`${
-							window.bbgiconfig.eeapi
-						}experience/channels/${channel}/webusertopic/${encodeURIComponent(
-							currentToken,
-						)}`,
-						{
-							method: 'POST',
-						},
-					);
-				} else {
-					// Show permission request UI
-					console.log(
-						'No registration token available. Request permission to generate one.',
-					);
+						// Register the token to the Beasley WebUser topic
+						const { id: channel } = window.bbgiconfig.publisher;
+						fetch(
+							`${
+								window.bbgiconfig.eeapi
+							}experience/channels/${channel}/webusertopic/${encodeURIComponent(
+								currentToken,
+							)}`,
+							{
+								method: 'POST',
+							},
+						);
+					} else {
+						// Show permission request UI
+						console.log(
+							'No registration token available. Request permission to generate one.',
+						);
+						// ...
+					}
+				})
+				.catch(err => {
+					console.log('An error occurred while retrieving token. ', err);
 					// ...
-				}
-			})
-			.catch(err => {
-				console.log('An error occurred while retrieving token. ', err);
-				// ...
-			});
-	});
+				});
+		});
+};
 
 const messageHandler = payload => {
 	console.log('[firebase.js] onMessage - ', payload);
@@ -123,5 +101,12 @@ const messageHandler = payload => {
 		window.alert('Yep');
 	};
 };
+
+// Init Web Push If Vars Are Configured
+if (config.appId && config.messagingSenderId && vapidKey) {
+	initializeWebPush();
+} else {
+	console.log(`Could Not Initialize Web Push. Settings are incomplete`);
+}
 
 export { firebase, firebaseAuth };
