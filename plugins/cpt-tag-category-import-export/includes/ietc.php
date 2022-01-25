@@ -151,15 +151,16 @@ class ImportExportTagCategory {
 			}
 		restore_current_blog();
 		// Create Log file
-		$logFileName	= 	$network_name.'-'.date('YmdHis').'.txt';
-		$date			= 	date('Y-m-d H:i:s');
-		$logFile		= 	fopen(TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "ietc_uploads/import-export-tag-category/logs/".$logFileName, "w");
-		$logFileURL		= 	TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "ietc_uploads/import-export-tag-category/logs/".$logFileName;
-		fwrite($logFile, json_encode($log_data)); /** Once the data is written it will be saved in the path given */
-		fclose($logFile);
+	   $filter_network_name		=	str_replace(' ', '', $network_name);
+	   $logFileName				= 	$filter_network_name.'-'.date('YmdHis').'.txt';
+	   $date					= 	date('Y-m-d H:i:s');
+	   $logFile					= 	fopen(TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "ietc_uploads/import-export-tag-category/logs/".$logFileName, "w");
+	   $logFileURL				= 	TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "ietc_uploads/import-export-tag-category/logs/".$logFileName;
+	   fwrite($logFile, json_encode($log_data)); /** Once the data is written it will be saved in the path given */
+	   fclose($logFile);
 
-		global $wpdb;
-		$wpdb->insert(
+	   global $wpdb;
+	   $wpdb->insert(
 			$wpdb->base_prefix . 'ietc_log',
 			array(
 				'blog_id'		=> $blog_id,
@@ -311,22 +312,24 @@ class ImportExportTagCategory {
 
 		}
 
-		if(filter_input( INPUT_GET, 'delete', FILTER_SANITIZE_STRIPPED) != ''){
-			// $priority=filter_input(INPUT_GET, 'delete', FILTER_VALIDATE_INT);
-			$del_id		=filter_input( INPUT_GET, 'delete', FILTER_SANITIZE_STRIPPED);
+	   $del_id = filter_input( INPUT_GET, 'delete', FILTER_SANITIZE_STRIPPED);
+
+		if( isset($del_id) && $del_id != '' ){
 			global $wpdb;
-			$sqlQuery	= "SELECT * FROM {$wpdb->prefix}ietc_log where id = ".$del_id;
-			$sqlData	= $wpdb->get_results( $sqlQuery );
+			$sqlQuery	=	"SELECT * FROM {$wpdb->prefix}ietc_log where id = ".$del_id;
+			$sqlData	=	$wpdb->get_results( $sqlQuery );
 			if( !empty($sqlData[0]) ){
 				// 1 for export and 2 for import
 				$folderPath		=	isset($sqlData[0]->import_export) && $sqlData[0]->import_export == 1 ? 'export' : 'import' ;
 				$fileName		=	$sqlData[0]->file;
-				$logsName	=	isset($sqlData[0]->import_export) && $sqlData[0]->import_export == 2 ? $sqlData[0]->logfile : '' ;
-				$file_path	= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. 'ietc_uploads/import-export-tag-category/' . $folderPath . '/'.$fileName;  // path of the file which need to be deleted.
-				wp_delete_file( $file_path );
-				if(isset($logsName))
-				{
-					$logsPath	= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. 'ietc_uploads/import-export-tag-category/logs/'.$logsName;
+				$logsName		=	isset($sqlData[0]->import_export) && $sqlData[0]->import_export == 2 ? $sqlData[0]->logfile : '' ;
+				$logsPath		=	TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. 'ietc_uploads/import-export-tag-category/logs/'.$logsName;
+				$file_path		=	TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH. 'ietc_uploads/import-export-tag-category/' . $folderPath . '/'.$fileName;  // path of the file which need to be deleted.
+
+				if(file_exists($file_path)) {
+					wp_delete_file($file_path);
+				}
+				if( file_exists($logsPath) ) {
 					wp_delete_file( $logsPath );
 				}
 				$del_sql	= "DELETE FROM {$wpdb->prefix}ietc_log WHERE id = $del_id";

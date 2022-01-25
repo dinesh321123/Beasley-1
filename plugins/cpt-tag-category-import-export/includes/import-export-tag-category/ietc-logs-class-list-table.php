@@ -252,7 +252,7 @@ if(!class_exists('WP_List_Table')){
             /**
              * First, lets decide how many records per page to show
              */
-            $per_page = 4;
+            $per_page = 10;
 
             if(filter_input(INPUT_GET, "paged", FILTER_SANITIZE_STRIPPED)) {
                 $page = filter_input(INPUT_GET, "paged", FILTER_SANITIZE_STRIPPED);
