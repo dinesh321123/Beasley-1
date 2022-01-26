@@ -98,7 +98,7 @@ const messageHandler = payload => {
 		click_action: link_url,
 	});
 	notification.onclick = () => {
-		window.alert('Yep');
+		// Need To Reference notification Object for compilation
 	};
 };
 
