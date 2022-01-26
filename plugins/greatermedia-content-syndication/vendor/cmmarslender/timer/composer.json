@@ -1,0 +1,20 @@
+{
+    "name": "cmmarslender/timer",
+    "description": "PHP Timer with optional per-item averages",
+    "type": "library",
+    "require-dev": {},
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chris Marslender",
+            "email": "chrismarslender@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Cmmarslender\\Timer\\": "includes/Cmmarslender/Timer"
+        }
+    }
+}
