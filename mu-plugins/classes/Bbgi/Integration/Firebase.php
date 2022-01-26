@@ -14,7 +14,7 @@ class Firebase extends \Bbgi\Module {
 		'firebase_apiKey'     => 'API Key',
 		'firebase_authDomain' => 'Auth Domain',
 		'firebase_appId' => 'Web App ID',
-		'firebase_messagingSenderId' => 'Project Number',
+		'firebase_messagingSenderId' => 'Sender ID',
 		'firebase_vapidKey' => 'Web Push Certificate',
 	);
 
