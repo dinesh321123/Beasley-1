@@ -13,6 +13,9 @@ class Firebase extends \Bbgi\Module {
 		'firebase_projectId'  => 'Project ID',
 		'firebase_apiKey'     => 'API Key',
 		'firebase_authDomain' => 'Auth Domain',
+		'firebase_appId' => 'Web App ID',
+		'firebase_messagingSenderId' => 'Sender ID',
+		'firebase_vapidKey' => 'Web Push Certificate',
 	);
 
 	/**
@@ -37,11 +40,13 @@ class Firebase extends \Bbgi\Module {
 	 */
 	public function populate_settings( $settings ) {
 		$settings['firebase'] =  array(
-			'apiKey'     => get_site_option( 'firebase_apiKey' ),
-			'authDomain' => get_site_option( 'firebase_authDomain' ),
-			'projectId'  => get_site_option( 'firebase_projectId' ),
+			'apiKey'     		=> get_site_option( 'firebase_apiKey' ),
+			'authDomain' 		=> get_site_option( 'firebase_authDomain' ),
+			'projectId'  		=> get_site_option( 'firebase_projectId' ),
+			'appId'		 		=> get_site_option( 'firebase_appId' ),
+            'messagingSenderId'	=> get_site_option( 'firebase_messagingSenderId' ),
 		);
-
+		$settings['vapidKey'] = get_site_option( 'firebase_vapidKey' );
 		return $settings;
 	}
 
