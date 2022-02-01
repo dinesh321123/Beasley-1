@@ -21,7 +21,6 @@ nbproject/
 # Other
 node_modules
 
-/vendor/
 /release/
 sassdoc
 scss-lint-report.xml
