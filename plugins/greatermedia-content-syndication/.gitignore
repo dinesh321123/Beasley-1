@@ -20,9 +20,6 @@ nbproject/
 
 # Other
 node_modules
-
-/vendor/*
-!/vendor/cmmarslender
 /release/
 sassdoc
 scss-lint-report.xml
