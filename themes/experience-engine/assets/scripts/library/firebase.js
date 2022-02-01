@@ -68,6 +68,7 @@ const messageHandler = payload => {
 	console.log(
 		`Preparing to show Notification for User Agent - ${navigator.userAgent}.`,
 	);
+
 	const title =
 		payload.notification && payload.notification.title
 			? `FOREGROUND: ${payload.notification.title}`
@@ -81,11 +82,8 @@ const messageHandler = payload => {
 			picture && picture.original ? picture.original.url : defaultImageUrl;
 	}
 
-	console.log(`Default IMAGE: ${defaultImageUrl}`);
 	const imageUrl =
-		payload.notification && payload.notification.image
-			? payload.notification.image
-			: defaultImageUrl;
+		payload.data && payload.data.image ? payload.data.image : defaultImageUrl;
 	const body =
 		payload.notification && payload.notification.body
 			? payload.notification.body
