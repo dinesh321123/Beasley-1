@@ -54,9 +54,9 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								$image_html = ee_the_lazy_image( $am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ? $current_post_id : $am_item_photo[$index], false );
 								remove_filter( '_ee_the_lazy_image', $update_lazy_image );
 
-								$is_jacapps = ee_is_jacapps();
-								if($is_jacapps){
-									echo '<div class="jacapps-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
+								$is_common_mobile = ee_is_common_mobile();
+								if($is_common_mobile){
+									echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
 								}
 								$amItemImageType = "";
 								if($am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ) {
@@ -117,10 +117,10 @@ endif;
 
 if ( ! function_exists( '_ee_the_affiliate_marketing_image' ) ) :
 	function _ee_the_affiliate_marketing_image( $url, $width, $height, $alt = '', $attribution = '' ) {
-		$is_jacapps = ee_is_jacapps();
+		$is_common_mobile = ee_is_common_mobile();
 
 		$image = sprintf(
-			$is_jacapps
+			$is_common_mobile
 				? '<div class="non-lazy-image"><img src="%s" width="%s" height="%s" alt="%s"><div class="non-lazy-image-attribution">%s</div></div>'
 				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-alt="%s" data-attribution="%s"></div>',
 			esc_attr( $url ),
@@ -130,7 +130,7 @@ if ( ! function_exists( '_ee_the_affiliate_marketing_image' ) ) :
 			esc_attr( $attribution )
 		);
 
-		$image = apply_filters( '_ee_the_affiliate_marketing_image', $image, $is_jacapps, $url, $width, $height, $alt );
+		$image = apply_filters( '_ee_the_affiliate_marketing_image', $image, $is_common_mobile, $url, $width, $height, $alt );
 
 		return $image;
 	}
@@ -143,7 +143,7 @@ if ( ! function_exists( 'ee_the_affiliate_marketing_image' ) ) :
 			$alt = trim( strip_tags( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) );
 			$attribution = get_post_meta( $image_id, 'gmr_image_attribution', true );
 
-			if ( ee_is_jacapps() ) {
+			if ( ee_is_common_mobile() ) {
 				$width = 800;
 				$height = 500;
 				$url = bbgi_get_image_url( $image_id, $width, $height );

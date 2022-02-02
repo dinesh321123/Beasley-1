@@ -57,7 +57,8 @@
 	}
 }
 
-.jacapps .post-thumbnail {
+.jacapps .post-thumbnail,
+.whiz .post-thumbnail {
 	&::before {
 		content: normal;
 		display: block;
@@ -75,11 +76,22 @@
 .jacapps .event-tile .post-thumbnail a,
 .jacapps .event-tile .post-thumbnail .lazy-image
 .jacapps .event-tile .post-thumbnail a,
-.jacapps .post-thumbnail a {
+.jacapps .post-thumbnail a,
+.whiz .podcast-tile .post-thumbnail a,
+.whiz .podcast-tile .post-thumbnail .lazy-image,
+.whiz .show-tile .post-thumbnail a,
+.whiz .show-tile .post-thumbnail .lazy-image,
+.whiz .contest-tile .post-thumbnail a,
+.whiz .contest-tile .post-thumbnail .lazy-image,
+.whiz .event-tile .post-thumbnail a,
+.whiz .event-tile .post-thumbnail .lazy-image
+.whiz .event-tile .post-thumbnail a,
+.whiz .post-thumbnail a {
 	position: relative;
 }
 
 
-.jacapps .event-tile .post-thumbnail::before {
+.jacapps .event-tile .post-thumbnail::before,
+.whiz .event-tile .post-thumbnail::before {
 	display: none;
 }

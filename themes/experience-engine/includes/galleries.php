@@ -99,13 +99,13 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 		}
 
 		$title = get_the_title( $image );
-		$is_jacapps = ee_is_jacapps();
+		$is_common_mobile = ee_is_common_mobile();
 
 		ob_start();
 
 		echo $image_html;
-		if($is_jacapps){
-			echo '<div class="jacapps-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
+		if($is_common_mobile){
+			echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
 		}
 
 		echo '<div class="gallery-meta">';

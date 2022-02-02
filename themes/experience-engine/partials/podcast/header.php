@@ -1,5 +1,5 @@
 <div class="information podcast-header content-wrap">
-	<?php get_template_part( 'partials/featured-media' ); ?>
+	<?php if ( ! ee_is_whiz() ) { get_template_part( 'partials/featured-media' ); } ?>
 	<div class="meta">
 		<p class="type">
 			<svg width="14" height="16">

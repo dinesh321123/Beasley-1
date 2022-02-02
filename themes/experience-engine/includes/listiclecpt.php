@@ -102,9 +102,9 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 								$image_html = ee_the_lazy_image( $current_post_id, false );
 								remove_filter( '_ee_the_lazy_image', $update_lazy_image );
 
-								$is_jacapps = ee_is_jacapps();
-								if($is_jacapps){
-									echo '<div class="jacapps-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
+								$is_common_mobile = ee_is_common_mobile();
+								if($is_common_mobile){
+									echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
 								}
 
 								$amItemImageType = '<div class="am_imagecode">' . $image_html . '</div>';

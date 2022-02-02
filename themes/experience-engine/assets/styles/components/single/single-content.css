@@ -143,19 +143,19 @@
 	margin-bottom: 2rem;
 }
 
-.post-thumbnail-caption, .jacapps .featured-media div {
+.post-thumbnail-caption, .jacapps .featured-media div, .whiz .featured-media div {
 	color: var(--global-font-secondary);
 	font-size: .875rem;
 	margin: .5rem 0 0 0;
 }
 
-.jacapps .entry-content {
+.jacapps .entry-content, .whiz .entry-content {
 	@media (--min-xlarge-viewport) {
 		grid-template-columns: 100%;
 	}
 }
 
-.jacapps .related-articles {
+.jacapps .related-articles, .whiz .related-articles {
 	display: none;
 }
 

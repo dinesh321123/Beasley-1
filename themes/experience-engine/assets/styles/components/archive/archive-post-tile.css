@@ -75,9 +75,14 @@
 .jacapps .archive-tiles .podcast-tile .meta,
 .jacapps .archive-tiles .show-tile .meta,
 .jacapps .archive-tiles .contest-tile .meta,
-.jacapps .archive-tiles .event-tile .meta {
+.jacapps .archive-tiles .event-tile .meta,
+.whiz .archive-tiles .podcast-tile .meta,
+.whiz .archive-tiles .show-tile .meta,
+.whiz .archive-tiles .contest-tile .meta,
+.whiz .archive-tiles .event-tile .meta {
 	margin-bottom: 1.5rem;
 }
-.jacapps .archive-tiles .swiper-slide {
+.jacapps .archive-tiles .swiper-slide,
+.whiz .archive-tiles .swiper-slide {
 	margin-top: 2rem;
 }

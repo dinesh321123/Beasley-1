@@ -364,10 +364,10 @@ endif;
 
 if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 	function _ee_the_lazy_image( $url, $width, $height, $alt = '', $attribution = '' ) {
-		$is_jacapps = ee_is_jacapps();
+		$is_common_mobile = ee_is_common_mobile();
 
 		$image = sprintf(
-			$is_jacapps
+			$is_common_mobile
 				? '<div class="non-lazy-image"><img src="%s" width="%s" height="%s" alt="%s"><div class="non-lazy-image-attribution">%s</div></div>'
 				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-alt="%s" data-attribution="%s"></div>',
 			esc_attr( $url ),
@@ -377,7 +377,7 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 			esc_attr( $attribution )
 		);
 
-		$image = apply_filters( '_ee_the_lazy_image', $image, $is_jacapps, $url, $width, $height, $alt );
+		$image = apply_filters( '_ee_the_lazy_image', $image, $is_common_mobile, $url, $width, $height, $alt );
 
 		return $image;
 	}
@@ -390,7 +390,7 @@ if ( ! function_exists( 'ee_the_lazy_image' ) ) :
 			$alt = trim( strip_tags( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) );
 			$attribution = get_post_meta( $image_id, 'gmr_image_attribution', true );
 
-			if ( ee_is_jacapps() ) {
+			if ( ee_is_common_mobile() ) {
 				$width = 800;
 				$height = 500;
 				$url = bbgi_get_image_url( $image_id, $width, $height );

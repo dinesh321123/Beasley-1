@@ -36,7 +36,7 @@
                     thumbnail: dataThumbnail
                 };
 
-                if ($.trim(data.html) != "" && $.trim(data.title) != "" && $.trim(data.thumbnail) != "") {
+                if ($.trim(data.title) != "" && $.trim(data.thumbnail) != "") {
                     renderVideoThumbnailMobile($currentShare, data, vti);
                     vti++;
                 }

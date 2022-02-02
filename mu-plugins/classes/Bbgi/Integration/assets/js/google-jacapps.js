@@ -10,8 +10,8 @@
 		};
 
 		$(window).scroll(function () {
-			let jacappsGaInfoTrack = $('.jacapps-ga-info.track');
-			let jacappsGaInfo =  $('.jacapps-ga-info');
+			let jacappsGaInfoTrack = $('.common-mobile-ga-info.track');
+			let jacappsGaInfo =  $('.common-mobile-ga-info');
 			if (jacappsGaInfoTrack.length) {
 				if (jacappsGaInfoTrack.isInViewport()) {
 					var GaLocation = jacappsGaInfoTrack.attr('data-location');
