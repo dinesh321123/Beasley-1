@@ -194,9 +194,14 @@ class Dfp extends PureComponent {
 		super(props);
 		const { unitId, unitName, pageURL } = props;
 		const { bbgiconfig } = window;
-		this.getIsAffiliateMarketingPage = this.getIsAffiliateMarketingPage.bind(
+		this.isAffiliateMarketingPage = this.isAffiliateMarketingPage.bind(this);
+		this.isIncontentAdOnAffiliatePage = this.isIncontentAdOnAffiliatePage.bind(
 			this,
 		);
+		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+			return;
+		}
+
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
 		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.refreshSlot = this.refreshSlot.bind(this);
@@ -224,7 +229,7 @@ class Dfp extends PureComponent {
 			10,
 		);
 
-		const isAffiliateMarketingPage = this.getIsAffiliateMarketingPage(pageURL);
+		const isAffiliateMarketingPage = this.isAffiliateMarketingPage(pageURL);
 
 		const adjustedUnitId = this.getAdjustedUnitId(unitId, unitName, pageURL);
 		console.log(`Adjusted Ad Unit: ${adjustedUnitId}`);
@@ -264,7 +269,7 @@ class Dfp extends PureComponent {
 		);
 	}
 
-	getIsAffiliateMarketingPage(pageURL) {
+	isAffiliateMarketingPage(pageURL) {
 		return (
 			pageURL.indexOf('/category/shopping/') > -1 ||
 			pageURL.indexOf('/shows/must-haves/') > -1 ||
@@ -272,10 +277,19 @@ class Dfp extends PureComponent {
 		);
 	}
 
+	isIncontentAdOnAffiliatePage(unitName, pageURL) {
+		return (
+			(unitName === 'in-list' ||
+				unitName === 'in-list-gallery' ||
+				unitName === 'in-content') &&
+			this.isAffiliateMarketingPage(pageURL)
+		);
+	}
+
 	getAdjustedUnitId(unitId, unitName, pageURL) {
 		let retval = unitId;
 		// Change Ad Unit Depending On AdName If We Are On An Affiliate Page
-		if (unitId && pageURL && this.getIsAffiliateMarketingPage(pageURL)) {
+		if (unitId && pageURL && this.isAffiliateMarketingPage(pageURL)) {
 			const nameStartIdx = unitId.lastIndexOf('/');
 			if (nameStartIdx > -1) {
 				const prefix = unitId.substring(0, nameStartIdx + 1);
@@ -299,7 +313,10 @@ class Dfp extends PureComponent {
 
 	componentDidMount() {
 		const { googletag } = window;
-		const { placeholder } = this.props;
+		const { placeholder, unitName, pageURL } = this.props;
+		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+			return;
+		}
 
 		this.container = document.getElementById(placeholder);
 		this.tryDisplaySlot();
@@ -338,6 +355,11 @@ class Dfp extends PureComponent {
 	}
 
 	componentWillUnmount() {
+		const { unitName, pageURL } = this.props;
+		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+			return;
+		}
+
 		this.destroySlot();
 
 		if (this.isConfiguredToRunInterval()) {
