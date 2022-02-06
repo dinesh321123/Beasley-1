@@ -12,12 +12,13 @@ use AmpProject\Optimizer\Exception\InvalidConfigurationValue;
  * @property bool   $preloadHeroImage           Whether to preload hero images. Defaults to true.
  * @property bool   $preloadSrcset              Whether to enable preloading of images with a srcset attribute. Defaults
  *                                              to false.
+ * @deprecated since version 0.6.0
+ * @see \AmpProject\Optimizer\Configuration\OptimizeHeroImagesConfiguration
  *
  * @package ampproject/amp-toolbox
  */
 final class PreloadHeroImageConfiguration extends BaseTransformerConfiguration
 {
-
     /**
      * Configuration key that holds the attribute that is used to store inline styles that
      * were moved to <style amp-custom>.
