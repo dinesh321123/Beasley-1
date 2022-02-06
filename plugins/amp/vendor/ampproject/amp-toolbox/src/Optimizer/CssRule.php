@@ -14,7 +14,6 @@ namespace AmpProject\Optimizer;
  */
 final class CssRule
 {
-
     /**
      * Characters to use for trimming CSS values.
      *
@@ -102,7 +101,7 @@ final class CssRule
     /**
      * Create a new CSS rule that is wrapped in a media query.
      *
-     * @param string $mediaQuery Media query to wrap the CSS rule in.
+     * @param string          $mediaQuery Media query to wrap the CSS rule in.
      * @param string|string[] $selectors  One or more selectors to use.
      * @param string|string[] $properties One or more properties to apply to the selector(s).
      * @return self CSS rule wrapped in a media query.
@@ -208,14 +207,20 @@ final class CssRule
      */
     public function canBeMerged(CssRule $that)
     {
+        // As merging rules changes the CSS ordering, it is not a safe operation to do.
+        // Therefore, we hard-code a single scenario here that we want to support (which is the most common case).
+        // This is the only merge that is being done in the Node.js amp-toolbox, so we keep this for consistency
+        // across implementations.
+
         if ($this->mediaQuery !== $that->mediaQuery) {
             return false;
         }
 
-        if (
-            count($this->properties) !== count($that->properties)
-            || array_diff($this->properties, $that->properties)
-        ) {
+        if (count($this->properties) !== 1 || count($that->properties) !== 1) {
+            return false;
+        }
+
+        if ($this->properties[0] !== 'display:none' || $that->properties[0] !== 'display:none') {
             return false;
         }
 

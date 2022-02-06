@@ -4,6 +4,8 @@ namespace AmpProject;
 
 use AmpProject\Dom\Document;
 use AmpProject\Dom\Element;
+use AmpProject\Html\Attribute;
+use AmpProject\Html\Tag;
 use DOMNode;
 
 /**
@@ -13,6 +15,12 @@ use DOMNode;
  */
 final class Amp
 {
+    /**
+     * Attribute prefix for AMP-bind data attributes.
+     *
+     * @var string
+     */
+    const BIND_DATA_ATTR_PREFIX = 'data-amp-bind-';
 
     /**
      * List of AMP attribute tags that can be appended to the <html> element.
@@ -49,14 +57,14 @@ final class Amp
     const CACHE_ROOT_URL = self::CACHE_HOST . '/';
 
     /**
-     * List of valid AMP formats.
+     * List of valid AMP HTML formats.
      *
      * @var string[]
      */
-    const FORMATS = ['AMP', 'AMP4EMAIL', 'AMP4ADS'];
+    const FORMATS = [Format::AMP, Format::AMP4ADS, Format::AMP4EMAIL];
 
     /**
-     * List of dynamic components
+     * List of dynamic components.
      *
      * This list should be kept in sync with the list of dynamic components at:
      *
@@ -109,21 +117,20 @@ final class Amp
     const RUNTIME = 'amp-runtime';
 
     // AMP classes reserved for internal use.
-    const LAYOUT_ATTRIBUTE          = 'i-amphtml-layout';
-    const NO_BOILERPLATE_ATTRIBUTE  = 'i-amphtml-no-boilerplate';
-    const LAYOUT_CLASS_PREFIX       = 'i-amphtml-layout-';
-    const LAYOUT_SIZE_DEFINED_CLASS = 'i-amphtml-layout-size-defined';
-    const SIZER_ELEMENT             = 'i-amphtml-sizer';
-    const INTRINSIC_SIZER_ELEMENT   = 'i-amphtml-intrinsic-sizer';
+    const LAYOUT_ATTRIBUTE           = 'i-amphtml-layout';
+    const NO_BOILERPLATE_ATTRIBUTE   = 'i-amphtml-no-boilerplate';
+    const LAYOUT_CLASS_PREFIX        = 'i-amphtml-layout-';
+    const LAYOUT_SIZE_DEFINED_CLASS  = 'i-amphtml-layout-size-defined';
+    const SIZER_ELEMENT              = 'i-amphtml-sizer';
+    const INTRINSIC_SIZER_ELEMENT    = 'i-amphtml-intrinsic-sizer';
+    const LAYOUT_AWAITING_SIZE_CLASS = 'i-amphtml-layout-awaiting-size';
 
     /**
-     * Maximum size of the CSS styles in bytes.
+     * Slot used by AMP for all service elements, like "i-amphtml-sizer" elements and similar.
      *
-     * @todo Max size is hard-coded for now until we ported over the generated spec into a reusable package.
-     *
-     * @var int
+     * @var string
      */
-    const MAX_CSS_BYTE_COUNT = 75000;
+    const SERVICE_SLOT = 'i-amphtml-svc';
 
     /**
      * Check if a given node is the AMP runtime script.
