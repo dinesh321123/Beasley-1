@@ -303,6 +303,9 @@ class Dfp extends PureComponent {
 					case 'right-rail':
 						retval = `${prefix}MUST_HAVES_RightRail_pos1`;
 						break;
+					case 'adhesion':
+						retval = `${prefix}MUST_HAVES_Adhesion`;
+						break;
 					default:
 						break;
 				}
