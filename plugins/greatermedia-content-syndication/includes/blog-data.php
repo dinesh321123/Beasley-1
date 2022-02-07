@@ -107,13 +107,22 @@ class BlogData {
 		$total = $syndication_id > 0 ? self::run( $syndication_id ) : 0;
 
 		// Remove syndication lock when running manually
-		delete_post_meta( $syndication_id, 'subscription_running' );
+		if($total !== -1) {
+			delete_post_meta( $syndication_id, 'subscription_running' );
+		}
+
+		$items_onhalt = get_post_meta( $syndication_id, 'subscription_items_onhalt', true );
+		if($total == 0 && $items_onhalt > 0) {
+			$total = $items_onhalt;
+			delete_post_meta( $syndication_id, 'subscription_items_onhalt' );
+		}
 
 		if ( ! is_numeric( $total ) ) {
 			self::log( "A non numerical response was received from self::run in " . __FILE__ . ":" . __LINE__ . ". Response was " . var_export( $total, true ) );
 		}
 
 		wp_send_json( array(
+			'running' => ( $total == -1 ) ? true : false, 
 			'total' => (int) $total,
 			'unique_id' => self::$syndication_uniqid,
 		) );
@@ -171,7 +180,7 @@ class BlogData {
 					// Delete the lock so the job can run again. We should also send an alert.
 					delete_post_meta( $syndication_id, 'subscription_running' );
 				}
-				return 0;
+				return -1;
 			} else {
 				self::log( "Syndication has started" );
 				add_post_meta( $syndication_id, 'subscription_running', current_time( 'timestamp', 1 ) );
@@ -278,6 +287,8 @@ class BlogData {
 
 		update_post_meta( $syndication_id, 'syndication_last_performed', intval( $last_run ) );
 		delete_post_meta( $syndication_id, 'subscription_running' );
+		add_post_meta( $syndication_id, 'subscription_items_onhalt', $total_posts);
+		self::log( "Total syndicated variable set for syndication is %s", $total_posts );
 
 		return $total_posts;
 	}
@@ -1320,6 +1331,7 @@ class BlogData {
 		$message = "[SYNDICATION:{$syndication_id} SITE:{$site_id} {$uniqid}] {$message}";
 		self::$log[] = $message;
 		syslog( LOG_ERR, $message );
+		error_log( $message );
 
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			WP_CLI::log( $message );
