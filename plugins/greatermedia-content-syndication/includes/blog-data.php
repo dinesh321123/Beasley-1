@@ -465,6 +465,7 @@ class BlogData {
 			$listicle_metas['cpt_item_name'] = self::listicle_ge_metavalue( 'cpt_item_name', $single_result->ID  );
 			$listicle_metas['cpt_item_description'] = self::listicle_ge_metavalue( 'cpt_item_description', $single_result->ID );
 			$listicle_metas['cpt_item_order'] = self::listicle_ge_metavalue( 'cpt_item_order', $single_result->ID  );
+			$listicle_metas['cpt_item_type'] = self::listicle_ge_metavalue( 'cpt_item_type', $single_result->ID  );
 		}
 
 		$am_metas = array();
@@ -503,6 +504,7 @@ class BlogData {
 			$am_metas['am_item_getitnowtext'] = self::am_get_metavalue( 'am_item_getitnowtext', $single_result->ID  );
 			$am_metas['am_item_getitnowfromname'] = self::am_get_metavalue( 'am_item_getitnowfromname', $single_result->ID  );
 			$am_metas['am_item_getitnowfromurl'] = self::am_get_metavalue( 'am_item_getitnowfromurl', $single_result->ID  );
+			$am_metas['am_item_type'] = self::am_get_metavalue( 'am_item_type', $single_result->ID  );
 		}
 
 		$show_metas				= array();
@@ -836,20 +838,24 @@ class BlogData {
 				delete_post_meta( $post_id, 'cpt_item_name' );
 				delete_post_meta( $post_id, 'cpt_item_order' );
 				delete_post_meta( $post_id, 'cpt_item_description' );
+				delete_post_meta( $post_id, 'cpt_item_type' );
 
 				update_post_meta( $post_id, 'cpt_item_name', $listicle_metas['cpt_item_name'] );
 				update_post_meta( $post_id, 'cpt_item_order', $listicle_metas['cpt_item_order'] );
 				update_post_meta( $post_id, 'cpt_item_description', $listicle_metas['cpt_item_description'] );
+				update_post_meta( $post_id, 'cpt_item_type', $listicle_metas['cpt_item_type'] );
 			}
 
 			if ( 'listicle_cpt' == $post_type ) {
 				delete_post_meta( $post_id, 'cpt_item_name' );
 				delete_post_meta( $post_id, 'cpt_item_order' );
 				delete_post_meta( $post_id, 'cpt_item_description' );
+				delete_post_meta( $post_id, 'cpt_item_type' );
 
 				update_post_meta( $post_id, 'cpt_item_name', $listicle_metas['cpt_item_name'] );
 				update_post_meta( $post_id, 'cpt_item_order', $listicle_metas['cpt_item_order'] );
 				update_post_meta( $post_id, 'cpt_item_description', $listicle_metas['cpt_item_description'] );
+				update_post_meta( $post_id, 'cpt_item_type', $listicle_metas['cpt_item_type'] );
 			}
 
 			if ( 'affiliate_marketing' == $post_type ) {
@@ -865,6 +871,7 @@ class BlogData {
 				delete_post_meta( $post_id, 'am_item_getitnowtext' );
 				delete_post_meta( $post_id, 'am_item_getitnowfromname' );
 				delete_post_meta( $post_id, 'am_item_getitnowfromurl' );
+				delete_post_meta( $post_id, 'am_item_type' );
 
 				update_post_meta( $post_id, 'am_item_name', $am_metas['am_item_name'] );
 				// $am_item_photo_import = self::ImportAttachedImages( $post_id, $am_metas['am_item_photo'] );
@@ -890,6 +897,8 @@ class BlogData {
 				update_post_meta( $post_id, 'am_item_getitnowtext', $am_metas['am_item_getitnowtext'] );
 				update_post_meta( $post_id, 'am_item_getitnowfromname', $am_metas['am_item_getitnowfromname'] );
 				update_post_meta( $post_id, 'am_item_getitnowfromurl', $am_metas['am_item_getitnowfromurl'] );
+				update_post_meta( $post_id, 'am_item_type', $am_metas['am_item_type'] );
+				
 			}
 		}
 
