@@ -3,16 +3,79 @@
 add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts', 20 );
 
 add_action( 'beasley_after_body', 'ee_the_bbgiconfig' );
+add_action( 'rss2_item', 'add_featured_data_in_rss' );
 
 add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
 add_filter( 'fvideos_show_video', 'ee_fvideos_show_video', 10, 2 );
 add_filter( 'tribe_events_assets_should_enqueue_frontend', '__return_false' );
+add_filter( 'tribe_rest_event_data', 'add_featured_data_in_tribe' );
 
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
+
+if ( ! function_exists( 'add_featured_data_in_tribe' ) ) :
+	function add_featured_data_in_tribe($event_data) {
+		$video_url = "";
+		$event_id = $event_data['id'];
+
+		$post_thumbnail = get_post_thumbnail_id( $event_id );
+		$embed = get_post_meta($post_thumbnail, 'embed', true);
+
+		if( isset($embed['provider_name']) && $embed['provider_name'] == 'YouTube' ) {
+			$matchUrl ="";
+			preg_match( '/src="([^"]+)"/', $embed['html'], $matchUrl );
+			$youtubeMatchUrl	= isset($matchUrl[1]) && $matchUrl[1] != "" ? $matchUrl[1] : "";
+			$video_url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : $youtubeMatchUrl;
+		} else if ( isset($embed['type']) && $embed['type'] == 'video' ) {
+			$video_url = $embed['provider_url'].''.$embed['video_id'];
+		}
+
+		if ( !empty( $video_url ) && isset( $embed['thumbnail_url'] ) && !empty( $embed['thumbnail_url'] ) ) {
+			$event_data['feature_video'] = [
+				"url" => $video_url,
+				"thumbnail_url" => $embed['thumbnail_url'],
+				"thumbnail_width" => $embed['thumbnail_width'],
+				"thumbnail_height" => $embed['thumbnail_height'],
+			];
+		}
+
+		return $event_data;
+	}
+endif;
+
+if ( ! function_exists( 'add_featured_data_in_rss' ) ) :
+	function add_featured_data_in_rss() {
+		global $post;
+		$video_url = "";
+
+		// Add Featured image at item end 
+		if ( has_post_thumbnail( $post->ID ) ) {
+			$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'original' );
+			if ( ! empty( $thumbnail[0] ) ) { ?>
+				<media:featureImage url="<?php echo esc_attr( $thumbnail[0] ); ?>"  width="<?php echo esc_attr( $thumbnail[1] ); ?>"  height="<?php echo esc_attr( $thumbnail[2] ); ?>" /> <?php
+			}
+		}
+
+		// Add Featured video at item end
+		$post_thumbnail = get_post_thumbnail_id($post->ID);
+		$embed = get_post_meta($post_thumbnail, 'embed', true);
+		if( isset($embed['provider_name']) && $embed['provider_name'] == 'YouTube' ) {
+			$matchUrl ="";
+			preg_match( '/src="([^"]+)"/', $embed['html'], $matchUrl );
+			$youtubeMatchUrl	= isset($matchUrl[1]) && $matchUrl[1] != "" ? $matchUrl[1] : "";
+			$video_url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : $youtubeMatchUrl;
+		} else if ( isset($embed['type']) && $embed['type'] == 'video' ) {
+			$video_url = $embed['provider_url'].''.$embed['video_id'];
+		}
+
+		if ( !empty( $video_url ) && isset( $embed['thumbnail_url'] ) && !empty( $embed['thumbnail_url'] ) ) {?>
+			<media:featureVideo url="<?php echo esc_attr( $video_url ); ?>" thumbnail_url="<?php echo esc_attr( $embed['thumbnail_url'] ); ?>"  thumbnail_width="<?php echo esc_attr( $embed['thumbnail_width'] ); ?>"  thumbnail_height="<?php echo esc_attr( $embed['thumbnail_height'] ); ?>" /> <?php
+		}
+	}
+endif;
 
 if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 	function ee_enqueue_front_scripts() {
