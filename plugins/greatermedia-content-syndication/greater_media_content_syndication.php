@@ -22,9 +22,7 @@ if ( file_exists( WP_CONTENT_DIR . '/themes/.version.php' ) ) {
 define( 'GMR_SYNDICATION_VERSION', $version );
 define( 'GMR_SYNDICATION_URL', plugins_url( '/', __FILE__ ) );
 
-$wp_debug_log_path = str_replace('/themes', '', get_theme_root());
-define( 'GMR_SYNDICATION_DEBUG_LOG_PATH', $wp_debug_log_path );
-define( 'GMR_SYNDICATION_DEBUG_LOG_DATE', "[ ".date("d-M-Y h:i:sa")." ] SyndicationLogs : " );
+define( 'GMR_SYNDICATION_DEBUG_LOG_DATE', ' PHP SyndicationLogs : ' );
 
 if ( file_exists( __DIR__ . '/custom_packages/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/custom_packages/vendor/autoload.php';
