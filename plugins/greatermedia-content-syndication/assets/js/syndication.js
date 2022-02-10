@@ -1,7 +1,5 @@
 (function ($) {
 	$(document).ready(function () {
-		var ajax_req_count = 0;
-		var callSyndicationAjaxInterval = null;
 		var $filter_metaboxes = $( '#filter_metaboxes' );
 
 		function get_subscription_loader(){
@@ -16,14 +14,6 @@
 		$("#syndicate_now").on('click', function (event) {
 			event.preventDefault();
 			var post_id = $(this).data('postid');
-			syndicate_ajax_call(post_id);
-			callSyndicationAjaxInterval = setInterval(function() {
-				syndicate_ajax_call(post_id);
-			}, 60000);
-		});
-
-		function syndicate_ajax_call(post_id) {
-			console.log("Syndication about to start with post id: ", post_id, " and request number: ", ajax_req_count);
 			$.ajax({
 				type: "post",
 				url: syndication_ajax.ajaxurl,
@@ -32,21 +22,11 @@
 					syndication_nonce: syndication_ajax.syndication_nonce
 				},
 				beforeSend: function () {
-					ajax_req_count++;
 					$('#syndication_status').html('Checking...');
 				},
 				success: function (response) {
-					let isRunning = ( response && response.running ) ? true : false;
-					if(isRunning) {
-						$('#syndication_status').html('Still running...');
-						return;
-					}
-
-					console.log("Interval cleared. ID: ", callSyndicationAjaxInterval);
-					ajax_req_count = 0;
-					clearInterval(callSyndicationAjaxInterval);
-
 					var total = response.total;
+
 					if (Math.floor(total) !== 0) {
 						$('#syndication_status').html('Imported ' + total + ' item(s). </br>Debugging ID ' + response.unique_id );
 					} else {
@@ -54,7 +34,7 @@
 					}
 				}
 			});
-		}
+		});
 
 		function init_subscription_terms() {
 			$( ".subscription_terms" ).select2( {

@@ -97,32 +97,35 @@ class BlogData {
 		// verify nonce, with predifined
 		if ( ! wp_verify_nonce( $_POST['syndication_nonce'], 'perform-syndication-nonce' ) ) {
 			self::log( "Nonce did not verify for Syndicate Now Button" );
+			error_log( GMR_SYNDICATION_DEBUG_LOG_DATE."Nonce did not verify for Syndicate Now Button"."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 			die( ':P' );
 		}
 
 		// run syndication
 		self::log( "Starting 'Syndicate Now' Process" );
+		error_log( GMR_SYNDICATION_DEBUG_LOG_DATE." - Custom Starting 'Syndicate Now' Process \n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
+
 		self::$syndicate_now = true;
 		$syndication_id = filter_input( INPUT_POST, 'syndication_id', FILTER_VALIDATE_INT );
 		$total = $syndication_id > 0 ? self::run( $syndication_id ) : 0;
 
 		// Remove syndication lock when running manually
-		if($total !== -1) {
+		// if($total !== -1) {
 			delete_post_meta( $syndication_id, 'subscription_running' );
-		}
+		// }
 
-		$items_onhalt = get_post_meta( $syndication_id, 'subscription_items_onhalt', true );
+		/* $items_onhalt = get_post_meta( $syndication_id, 'subscription_items_onhalt', true );
 		if($total == 0 && $items_onhalt > 0) {
 			$total = $items_onhalt;
 			delete_post_meta( $syndication_id, 'subscription_items_onhalt' );
-		}
+		} */
 
 		if ( ! is_numeric( $total ) ) {
 			self::log( "A non numerical response was received from self::run in " . __FILE__ . ":" . __LINE__ . ". Response was " . var_export( $total, true ) );
 		}
 
 		wp_send_json( array(
-			'running' => ( $total == -1 ) ? true : false, 
+			// 'running' => ( $total == -1 ) ? true : false,
 			'total' => (int) $total,
 			'unique_id' => self::$syndication_uniqid,
 		) );
@@ -175,14 +178,17 @@ class BlogData {
 
 			if ( $is_running ) {
 				self::log( "Syndication is running. Halting..." );
+				error_log( GMR_SYNDICATION_DEBUG_LOG_DATE." Syndication is running. Halting... ".$syndication_id."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 				$four_hours_ago = strtotime( '-4 hour' );
 				if ( $is_running <= $four_hours_ago ) {
 					// Delete the lock so the job can run again. We should also send an alert.
 					delete_post_meta( $syndication_id, 'subscription_running' );
 				}
-				return -1;
+				// return -1;
+				return 0;
 			} else {
 				self::log( "Syndication has started" );
+				error_log( GMR_SYNDICATION_DEBUG_LOG_DATE." Syndication has started ".$syndication_id."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 				add_post_meta( $syndication_id, 'subscription_running', current_time( 'timestamp', 1 ) );
 			}
 
@@ -195,6 +201,7 @@ class BlogData {
 			$result = self::_run( $syndication_id, $offset, $force );
 		} catch ( Exception $e ) {
 			self::log( "[EXCEPTION]: %s", $e->getMessage() );
+			error_log( GMR_SYNDICATION_DEBUG_LOG_DATE."[EXCEPTION]: ".$e->getMessage() ."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 		}
 
 		// self::flush_log(); // uncomment it if you need debugging log
@@ -204,6 +211,7 @@ class BlogData {
 
 	private static function _run( $syndication_id, $offset = 0, $force = false ) {
 		self::log( "Start querying content site with offset = %s...", $offset );
+		error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "Start querying content site with offset = ". $offset ."...\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 
 		// Get the current time before we start querying, so that we know next time we use this value it was the value
 		// from before querying for content
@@ -223,6 +231,7 @@ class BlogData {
 		unset( $result['found_posts'] );
 
 		self::log( "Received %s posts (%s max pages) from content site", $total_posts, $max_pages );
+		error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "Received $total_posts posts ($max_pages max pages) from content site" ."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 
 		foreach( $taxonomy_names as $taxonomy ) {
 			$taxonomy = get_taxonomy( $taxonomy );
@@ -287,8 +296,8 @@ class BlogData {
 
 		update_post_meta( $syndication_id, 'syndication_last_performed', intval( $last_run ) );
 		delete_post_meta( $syndication_id, 'subscription_running' );
-		add_post_meta( $syndication_id, 'subscription_items_onhalt', $total_posts);
-		self::log( "Total syndicated variable set for syndication is %s", $total_posts );
+		/* add_post_meta( $syndication_id, 'subscription_items_onhalt', $total_posts);
+		self::log( "Total syndicated variable set for syndication is %s", $total_posts ); */
 
 		return $total_posts;
 	}
@@ -638,7 +647,7 @@ class BlogData {
 			$args['post_modified'] = current_time( 'mysql' );
 			$args['post_modified_gmt'] = current_time( 'mysql', 1 );
 		}
-		
+
 		if ( ! empty( $metas ) ) {
 			$exclude = array(
 				'_edit_lock',
@@ -666,6 +675,7 @@ class BlogData {
 					$featured_id->get_error_message(),
 					json_encode( $featured )
 				);
+				error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "Error during import feature media for $post_title: \"$featured_id->get_error_message()\" (" . json_encode( $featured ) .")\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 			} else {
 				self::log(
 					"Imported media for %s: %s (%s)",
@@ -673,6 +683,7 @@ class BlogData {
 					$featured_id,
 					json_encode( $featured )
 				);
+				error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "Imported feature media for $post_title: \"$featured_id\" (" . json_encode( $featured ) .")\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 			}
 		}
 
@@ -764,6 +775,7 @@ class BlogData {
 			}
 
 			if ( ! is_null( $attachments ) ) {
+				error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. " Attachments - Start multiple attachments import process for Post ID $post_id" ."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 				self::ImportAttachedImages( $post_id, $attachments );
 			}
 
@@ -1044,11 +1056,13 @@ class BlogData {
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/media.php';
+		// add_filter('https_ssl_verify', '__return_false');
 
 		$tmp = download_url( $filename );
 
 		if ( is_wp_error( $tmp ) ) {
 			self::log( "ImportMedia( $post_id / $original_id ), Failed to Download $filename : " . $tmp->get_error_message() );
+			error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "ImportMedia( $post_id / $original_id ), Failed to Download $filename : " . $tmp->get_error_message() ."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 			return $tmp;
 		}
 
@@ -1097,12 +1111,15 @@ class BlogData {
 
 				// do the validation and storage stuff
 				$id = media_handle_sideload( $file_array, $post_id, null, $post_data );
+				error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "Start Import single image..." ."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 
 				// If error storing permanently, unlink
 				if ( is_wp_error( $id ) ) {
 					self::log( "ImportMedia( $post_id / $original_id ), Media Sideload Failed $filename : " . $id->get_error_message() );
+					error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "ImportMedia( $post_id / $original_id ), Media Sideload Failed $filename : " . $id->get_error_message() ."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 					@unlink( $file_array['tmp_name'] );
 				} else {
+					error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "Single image ID is $id " ."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 					// Try to migrate the post attachment to S3 if it failed for whatever reason
 					self::MigrateAttachmentToS3( $id );
 					@unlink( $file_array['tmp_name'] );
@@ -1163,6 +1180,7 @@ class BlogData {
 	 */
 	public static function ImportAttachedImages( $post_id, $attachments) {
 		$imported = array();
+		error_log( GMR_SYNDICATION_DEBUG_LOG_DATE. "Start multiple image import process for Post ID $post_id" ."\n", 3, GMR_SYNDICATION_DEBUG_LOG_PATH.'/debug.log' );
 		foreach ( $attachments as $attachment ) {
 			$filename = esc_url_raw( $attachment->guid );
 			$id = self::ImportMedia( $post_id, $filename, $attachment->ID, $attachment );
