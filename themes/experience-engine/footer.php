@@ -10,6 +10,7 @@
 				get_template_part( 'partials/configurable-iframe' );
 				get_template_part( 'partials/trackonomics-script' );
 				get_template_part( 'partials/live-player' );
+				get_template_part( 'partials/ads/bottom-adhesion' );
 			endif;
 		?></div>
 
