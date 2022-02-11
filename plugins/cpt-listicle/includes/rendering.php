@@ -30,7 +30,13 @@ class ListicleCPTFrontRendering {
 	 * @return Array
 	 */
 	function get_post_metadata_from_post( $value, $post ) {
-		$field = get_post_meta( $post->ID, $value, true );
+		$key = 'listicle-store-' . $value . '-' . $post->ID;
+		
+		$field = wp_cache_get( $key ); 
+		if ( $field === false ) {
+			$field = get_post_meta( $post->ID, $value, true );
+			wp_cache_set( $key, $field, '', 2 * MINUTE_IN_SECONDS );
+		}
 		
 		if ( ! empty( $field ) ) {
             return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
