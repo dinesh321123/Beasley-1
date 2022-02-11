@@ -136,6 +136,12 @@ function getDfpParamsFunc(pageURL) {
 	};
 }
 
+function getBottomAdhesionParams(pageURL) {
+	return {
+		pageURL,
+	};
+}
+
 function getPayloadParams(flattern = false) {
 	return ({ dataset }) => {
 		const { payload } = dataset;
@@ -254,6 +260,12 @@ export function getStateFromContent(container, pageURL) {
 				'dfp',
 				'.dfp-slot',
 				getDfpParamsFunc(pageURL),
+			),
+			...processEmbeds(
+				container,
+				'bottomadhesion',
+				'.bottom-adhesion-slot',
+				getBottomAdhesionParams(pageURL),
 			),
 			...processEmbeds(
 				container,
