@@ -51,13 +51,15 @@ class ExistingListicleSelection {
 	public static function select_listicle_title_filter( $where, $wp_query ){
 		global $wpdb;
 		if ( $search_term = $wp_query->get( 'search_prod_title' ) ) {
-			$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql( like_escape( $search_term ) ) . '%\'';
+			$where .= ' AND LOWER(' . $wpdb->posts . '.post_title) LIKE \'%' . esc_sql( like_escape( $search_term ) ) . '%\'';
 		}
 		return $where;
 	}
 
-	public static function get_listicles_cpt_data( $paged_value, $s_value = null, $s_category = null, $s_tag = null ) {
+	public static function get_listicles_cpt_data( $paged_value, $s_value = null, $s_category = null, $s_tag = null, $s_title_wo_filter = null ) {
 		global $wpdb;
+		$search = array();
+		$title_search = array();
 		$return_result = array();
 		$images = array();
 		$query_images_args = array(
@@ -90,15 +92,29 @@ class ExistingListicleSelection {
 					$wp_query_args['tag_id'] = term_exists($s_value, "post_tag")['term_id'];
 				}
 			}
-			if($title_condition && $detected_flag === 0) {
-				$wp_query_args['search_prod_title'] = $s_value;
+			if($title_condition) {
+				$wp_title_query = array(
+					'posts_per_page' => -1,
+					'post_type' => 'listicle_cpt',
+					'post_status' => 'publish',
+					'search_prod_title' => $s_title_wo_filter
+				);
 				add_filter( 'posts_where', array( __CLASS__, 'select_listicle_title_filter'), 10, 2 );
-				$listicle_filter_result = new WP_Query($wp_query_args);
+				$title_filter_listicle = new WP_Query($wp_title_query);
 				remove_filter( 'posts_where', array( __CLASS__, 'select_listicle_title_filter'), 10, 2 );
-			} else {
-				$listicle_filter_result = new WP_Query($wp_query_args);
+
+				if(count($title_filter_listicle->posts)) {
+					$title_search = wp_list_pluck( $title_filter_listicle->posts, 'ID' );
+				}	
 			}
-			$search = wp_list_pluck( $listicle_filter_result->posts, 'ID' );
+			if($detected_flag == 1) {
+				$listicle_filter_result = new WP_Query($wp_query_args);
+				$search = wp_list_pluck( $listicle_filter_result->posts, 'ID' );
+			}
+
+			if(count($title_search)) {
+				$search = array_unique( array_merge( $search, $title_search ) );
+			}
 
 			// Search Query Result
 			if(count($search)) {
@@ -131,10 +147,10 @@ class ExistingListicleSelection {
 		$SearchCat_val = $SearchCat ? $SearchCat : '';
 		$SearchTag_val = $SearchTag ? $SearchTag : '';
 
-		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val );
+		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val, $_GET['s_title'] );
 		$html = self::prepare_html($listicle_data['data'], $SearchTitle_val, $SearchCat_val, $SearchTag_val);
 
-		$resutl = array( "html" => $html, "searchids" => $listicle_data['searchids'], "searchtitle" => $SearchTitle_val, "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val );
+		$resutl = array( "html" => $html, "searchids" => $listicle_data['searchids'], "searchtitle" => $_GET['s_title'], "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val );
 		wp_send_json_success( $resutl );
 	}
 
@@ -151,7 +167,7 @@ class ExistingListicleSelection {
 		$SearchCat_val = $SearchCat ? $SearchCat : '';
 		$SearchTag_val = $SearchTag ? $SearchTag : '';
 
-		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val )['data'];
+		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val, $_GET['s_title'] )['data'];
 
 		if( $listicle_data->found_posts > 0 ) {
 			while ( $listicle_data->have_posts() ) : $listicle_data->the_post();
@@ -187,7 +203,7 @@ class ExistingListicleSelection {
 			<div class="selectlisticle__preview">
 				<?php
 					// Query to fetch listicles
-					$listicle_data = self::get_listicles_cpt_data(1, null, null, null);
+					$listicle_data = self::get_listicles_cpt_data(1, null, null, null, null);
 
 					$html = self::prepare_html($listicle_data['data'], null, null, null);
 					echo $html;
