@@ -22,8 +22,6 @@ if ( file_exists( WP_CONTENT_DIR . '/themes/.version.php' ) ) {
 define( 'GMR_SYNDICATION_VERSION', $version );
 define( 'GMR_SYNDICATION_URL', plugins_url( '/', __FILE__ ) );
 
-define( 'GMR_SYNDICATION_DEBUG_LOG_DATE', ' PHP SyndicationLogs : ' );
-
 if ( file_exists( __DIR__ . '/custom_packages/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/custom_packages/vendor/autoload.php';
 }
