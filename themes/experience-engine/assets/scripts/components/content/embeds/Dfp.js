@@ -7,6 +7,7 @@ const $ = window.jQuery;
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 const playerAdhesionDivID = 'div-gpt-ad-player-0';
+// const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
 const isNotPlayerOrInterstitial = placeholder => {
 	return (
 		placeholder !== playerSponsorDivID && placeholder !== interstitialDivID

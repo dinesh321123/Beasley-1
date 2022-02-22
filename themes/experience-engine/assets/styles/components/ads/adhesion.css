@@ -1,0 +1,21 @@
+.bottom-adhesion-container {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	z-index: 110;
+	justify-content: center;
+	background-color: var(--global-theme-secondary);
+}
+
+.bottom-adhesion-slot {
+	z-index: 100;
+}
+
+.ad-button-holder {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 20px;
+	z-index: 110;
+}
