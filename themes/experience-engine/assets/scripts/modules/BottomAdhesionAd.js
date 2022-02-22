@@ -18,6 +18,7 @@ const BottomAdhesionAd = () => {
 
 	// Exit if shouldDisplay was toggled off
 	if (!shouldDisplay) {
+		container.remove();
 		return null;
 	}
 
