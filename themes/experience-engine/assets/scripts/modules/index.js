@@ -1,3 +1,4 @@
+export { default as BottomAdhesion } from './BottomAdhesionAd';
 export { default as ContentDispatcher } from './ContentDispatcher';
 export { default as LivePlayer } from './LivePlayer';
 export { default as ModalDispatcher } from './ModalDispatcher';

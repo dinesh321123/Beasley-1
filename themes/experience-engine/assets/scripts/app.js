@@ -5,6 +5,7 @@ import {
 	ContentDispatcher,
 	ModalDispatcher,
 	LivePlayer,
+	BottomAdhesion,
 	PrimaryNav,
 	UserNav,
 	SearchForm,
@@ -31,6 +32,7 @@ const App = () => {
 				<ContentDispatcher />
 				<ModalDispatcher />
 				<LivePlayer />
+				<BottomAdhesion />
 				<PrimaryNav />
 				<UserNav suppressUserCheck={false} />
 				<SearchForm />
