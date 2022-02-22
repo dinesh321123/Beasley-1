@@ -8,9 +8,8 @@ const BottomAdhesionAd = () => {
 	const [shouldDisplay, setShouldDisplay] = useState(true);
 
 	const [pageURL] = document.location.href;
-	// backward compatibility with the legacy theme to make sure that everything keeps working correctly
 	// this id is also compared in /assets/scripts/components/content/embeds/Dfp.js
-	const id = 'bottom-adhesion-slot';
+	const id = 'div-bottom-adhesion-slot';
 
 	// const { unitId, unitName } = window.bbgiconfig.dfp.player;
 	const unitId = '/26918149/WAZZ_FM_Leaderboard_pos1';
