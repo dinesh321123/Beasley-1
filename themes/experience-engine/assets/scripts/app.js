@@ -18,6 +18,7 @@ import { isSafari, isWindowsBrowser } from './library';
  * The App's entry point.
  */
 const App = () => {
+	const { '--is_V20': isV20 } = window.bbgiconfig.cssvars.variables;
 	useEffect(() => {
 		if (isSafari()) {
 			document.body.classList.add('is-safari');
@@ -32,7 +33,7 @@ const App = () => {
 				<ContentDispatcher />
 				<ModalDispatcher />
 				<LivePlayer />
-				<BottomAdhesion />
+				{isV20 ? <BottomAdhesion /> : null}
 				<PrimaryNav />
 				<UserNav suppressUserCheck={false} />
 				<SearchForm />
