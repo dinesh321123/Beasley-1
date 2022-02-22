@@ -87,7 +87,7 @@ class ListicleCPTMetaboxes {
 					<h3 class="cpt-item-title">Item</h3>
 					<div class="cpt-form-group">
 						<label class="cptformtitle" for="cpt_item_name_<?php echo $i; ?>"><?php _e( 'Name', LISTICLE_CPT_TEXT_DOMAIN ); ?> </label>
-						<input name="cpt_item_name[]" type="text" value="<?php echo $cpt_item_name[$i]; ?>">
+						<input name="cpt_item_name[]" type="text" value="<?php echo htmlspecialchars($cpt_item_name[$i]); ?>">
 					</div>
 					<input name="cpt_item_order[]" type="hidden" value="<?php echo $i; ?>" />
 
