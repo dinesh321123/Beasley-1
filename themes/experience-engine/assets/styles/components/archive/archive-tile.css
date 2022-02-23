@@ -463,10 +463,13 @@
 }
 
 .jacapps .archive-tiles.-small .post-thumbnail,
-.jacapps .archive-tiles.-large .post-thumbnail {
+.jacapps .archive-tiles.-large .post-thumbnail,
+.whiz .archive-tiles.-small .post-thumbnail,
+.whiz .archive-tiles.-large .post-thumbnail {
 	margin-bottom: 0.5rem;
 }
 
-.jacapps.single-show .archive-tiles .post-title h3 {
+.jacapps.single-show .archive-tiles .post-title h3,
+.whiz.single-show .archive-tiles .post-title h3 {
 	margin-bottom: 1rem;
 }

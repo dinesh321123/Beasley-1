@@ -12,9 +12,6 @@
 }
 
 .single-affiliate_marketing {
-	& .placeholder-dfp {
-		display: none;
-	}
 	/* css for affiliate marketing meta page */
 	& .post-thumbnail-caption-italic {
 		color: #000;
@@ -43,7 +40,7 @@
 		& .lazy-image {
 			display: none;
 		}
-		
+
 		& .non-lazy-image {
 			display: none;
 		}

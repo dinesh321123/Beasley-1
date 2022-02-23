@@ -34,12 +34,12 @@ class Google extends \Bbgi\Module {
 	}
 
 	/**
-	 * Google Analytics for jacapps.
+	 * Google Analytics for jacapps and whiz.
 	 */
 	public function jacapps_enqueue_scripts() {
 		$current_post_type	= get_post_type( get_queried_object_id() );
 		$postfix			= ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		if ( function_exists( 'ee_is_jacapps' ) && ee_is_jacapps() && in_array( $current_post_type, Google::allow_posttype_list_for_jacapps() ) ) {
+		if ( function_exists( 'ee_is_common_mobile' ) && ee_is_common_mobile() && in_array( $current_post_type, Google::allow_posttype_list_for_common_mobile() ) ) {
 			$data = Google::get_analytics_data();
 
 			if ( empty( $data ) ) {
@@ -47,13 +47,13 @@ class Google extends \Bbgi\Module {
 			}
 			if( isset($data['google_analytics']) && $data['google_analytics'] != "" ) {
 				wp_enqueue_script(
-					'enqueue-scripts-for-jacapps',
+					'enqueue-scripts-for-common-mobile',
 					plugins_url( 'assets/js/google-jacapps'.$postfix.'.js', __FILE__ ),
 					array('jquery'),
 					'1.0.0',
 					true
 				);
-				wp_localize_script( 'enqueue-scripts-for-jacapps', 'GaInfoForJacapps', array( 'google_analytics' => $data['google_analytics'] ) );
+				wp_localize_script( 'enqueue-scripts-for-common-mobile', 'GaInfoForJacapps', array( 'google_analytics' => $data['google_analytics'] ) );
 			}
 		}
 	}
@@ -63,7 +63,7 @@ class Google extends \Bbgi\Module {
 	 *
 	 * @return array
 	 */
-	public function allow_posttype_list_for_jacapps() {
+	public function allow_posttype_list_for_common_mobile() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'affiliate_marketing', 'gmr_gallery', 'listicle_cpt' )  );
 	}
 
@@ -181,7 +181,7 @@ class Google extends \Bbgi\Module {
 	public function render_inline_ga_code() {
 		$onload = apply_filters( 'bbgi_google_onload_code', '' );
 
-		if ( function_exists( 'ee_is_jacapps' ) && ee_is_jacapps() ) {
+		if ( function_exists( 'ee_is_common_mobile' ) && ee_is_common_mobile() ) {
 			echo $this->get_analytics_code( $onload,  true );
 		} else {
 			echo $this->get_analytics_code( $onload, apply_filters( 'bbgi_google_inline_page_view', false ) );

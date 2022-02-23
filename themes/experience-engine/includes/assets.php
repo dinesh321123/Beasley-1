@@ -3,6 +3,7 @@
 add_action( 'wp_enqueue_scripts', 'ee_enqueue_front_scripts', 20 );
 
 add_action( 'beasley_after_body', 'ee_the_bbgiconfig' );
+add_action( 'rss2_item', 'add_featured_data_in_rss' );
 
 add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
@@ -13,6 +14,37 @@ remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
+
+if ( ! function_exists( 'add_featured_data_in_rss' ) ) :
+	function add_featured_data_in_rss() {
+		global $post;
+		$video_url = "";
+
+		// Add Featured image at item end
+		if ( has_post_thumbnail( $post->ID ) ) {
+			$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'original' );
+			if ( ! empty( $thumbnail[0] ) ) { ?>
+				<media:featureImage url="<?php echo esc_attr( $thumbnail[0] ); ?>"  width="<?php echo esc_attr( $thumbnail[1] ); ?>"  height="<?php echo esc_attr( $thumbnail[2] ); ?>" /> <?php
+			}
+		}
+
+		// Add Featured video at item end
+		$post_thumbnail = get_post_thumbnail_id($post->ID);
+		$embed = get_post_meta($post_thumbnail, 'embed', true);
+		if( isset($embed['provider_name']) && $embed['provider_name'] == 'YouTube' ) {
+			$matchUrl ="";
+			preg_match( '/src="([^"]+)"/', $embed['html'], $matchUrl );
+			$youtubeMatchUrl	= isset($matchUrl[1]) && $matchUrl[1] != "" ? $matchUrl[1] : "";
+			$video_url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : $youtubeMatchUrl;
+		} else if ( isset($embed['type']) && $embed['type'] == 'video' ) {
+			$video_url = $embed['provider_url'].''.$embed['video_id'];
+		}
+
+		if ( !empty( $video_url ) && isset( $embed['thumbnail_url'] ) && !empty( $embed['thumbnail_url'] ) ) {?>
+			<media:featureVideo url="<?php echo esc_attr( $video_url ); ?>" thumbnail_url="<?php echo esc_attr( $embed['thumbnail_url'] ); ?>"  thumbnail_width="<?php echo esc_attr( $embed['thumbnail_width'] ); ?>"  thumbnail_height="<?php echo esc_attr( $embed['thumbnail_height'] ); ?>" /> <?php
+		}
+	}
+endif;
 
 if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 	function ee_enqueue_front_scripts() {
@@ -364,10 +396,10 @@ endif;
 
 if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 	function _ee_the_lazy_image( $url, $width, $height, $alt = '', $attribution = '' ) {
-		$is_jacapps = ee_is_jacapps();
+		$is_common_mobile = ee_is_common_mobile();
 
 		$image = sprintf(
-			$is_jacapps
+			$is_common_mobile
 				? '<div class="non-lazy-image"><img src="%s" width="%s" height="%s" alt="%s"><div class="non-lazy-image-attribution">%s</div></div>'
 				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-alt="%s" data-attribution="%s"></div>',
 			esc_attr( $url ),
@@ -377,7 +409,7 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 			esc_attr( $attribution )
 		);
 
-		$image = apply_filters( '_ee_the_lazy_image', $image, $is_jacapps, $url, $width, $height, $alt );
+		$image = apply_filters( '_ee_the_lazy_image', $image, $is_common_mobile, $url, $width, $height, $alt );
 
 		return $image;
 	}
@@ -390,7 +422,7 @@ if ( ! function_exists( 'ee_the_lazy_image' ) ) :
 			$alt = trim( strip_tags( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) );
 			$attribution = get_post_meta( $image_id, 'gmr_image_attribution', true );
 
-			if ( ee_is_jacapps() ) {
+			if ( ee_is_common_mobile() ) {
 				$width = 800;
 				$height = 500;
 				$url = bbgi_get_image_url( $image_id, $width, $height );

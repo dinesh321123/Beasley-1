@@ -32,7 +32,7 @@
 		}
 	}
 }
-.jacapps .load-more {
+.jacapps .load-more, .whiz .load-more {
 	padding-left: 1rem;
 	padding-right: 1rem;
 }

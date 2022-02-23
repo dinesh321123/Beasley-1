@@ -7,7 +7,7 @@
 			<?php the_excerpt(); ?>
 		</div><?php endif;
 
-		if ( ! ee_is_jacapps() ) :
+		if ( ! ee_is_common_mobile() ) :
 			ee_the_latest_episode();
 		endif;
 

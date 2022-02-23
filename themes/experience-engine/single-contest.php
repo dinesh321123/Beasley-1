@@ -8,7 +8,7 @@ the_post();
 ?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="post-info">
 		<?php if ( bbgi_featured_image_layout_is( null, 'top' ) || bbgi_featured_image_layout_is( null, 'poster' ) ) : ?>
-			<?php get_template_part( 'partials/featured-media' ); ?>
+			<?php if ( ! ee_is_whiz() ) { get_template_part( 'partials/featured-media' ); } ?>
 		<?php endif; ?>
 
 		<h1>
@@ -23,7 +23,7 @@ the_post();
 	<div class="entry-content content-wrap">
 		<div class="description">
 			<?php if ( bbgi_featured_image_layout_is( null, 'inline' ) ) : ?>
-				<?php get_template_part( 'partials/featured-media' ); ?>
+				<?php if ( ! ee_is_whiz() ) { get_template_part( 'partials/featured-media' ); } ?>
 			<?php endif; ?>
 
 			<?php the_content(); ?>

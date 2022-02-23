@@ -1,6 +1,6 @@
 <header class="post-info">
 	<?php if ( bbgi_featured_image_layout_is( null, 'top' ) ) : ?>
-		<?php get_template_part( 'partials/featured-media' ); ?>
+		<?php if ( ! ee_is_whiz() ) { get_template_part( 'partials/featured-media' ); } ?>
 	<?php endif; ?>
 
 	<h1><?php the_title(); ?></h1>

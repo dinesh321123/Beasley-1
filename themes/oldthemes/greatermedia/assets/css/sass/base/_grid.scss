@@ -1,0 +1,240 @@
+// global grid variables
+$column: golden-ratio(1em, 4) !default;
+$gutter: golden-ratio(1em, 1) !default;
+$grid-columns: 4 !global;
+// this will give us a mobile first approach
+
+// add the visual grid for dev purposes
+$visual-grid: true !global;
+$visual-grid-color: #6e76ee !global;
+$visual-grid-index: front !global;
+
+// max-width for the site
+$max-width: em(1150) !global;
+$max-site-width: 1400px;
+
+// simple css effect to make images responsive and fluid while also retaining proper aspect ratio
+img {
+	display: block; // block display will remove additional padding on images
+	max-width: 100%;
+	height: auto; // this will keep images from being stretched at lower resolutions
+}
+
+#site-wrap {
+	max-width: 100%;
+	margin: 0 auto;
+	background-color: $secondary-bg;
+}
+
+// The `.page-wrap` class is being used in conjunction with the off-canvas mobile navigation. On click of the
+// `.mobile-nav--toggle` button, the contents of `.page-wrap` will be pushed to the left by a particular value. This
+.page-wrap {
+	width: 100%;
+	padding-bottom: 0;
+	@include transition(all 100ms ease-out);
+	overflow: hidden;
+	background-color: $secondary-bg;
+	@include bp(medium) {
+		min-height: 800px;
+	}
+}
+
+.container, %container {
+	@include outer-container(100%);
+	padding-right: 0;
+
+	@include bp(large) {
+		@include outer-container(970px);
+		padding-right: 340px;
+		min-height: 1404px;
+	}
+
+	/*@include bp(x-large) {
+		@include outer-container(970px);
+	}*/
+}
+
+.main, %main {
+	float: left;
+	width: 100%;
+	margin: 0;
+	background-color: $secondary-bg;
+}
+
+.main > .container {
+	background-color: $primary-bg;
+	position: relative;
+
+	@include bp(large) {
+		//margin-top: 40px;
+		padding: 20px 340px 20px 20px;
+	}
+}
+
+.post-type-archive-gmr_gallery .main > .container,
+.single-gmr_album .main > .container,
+.page-template-full-bleed .main > .container {
+	@include bp(medium) {
+		padding: 20px 20px 20px 20px;
+	}
+}
+
+.main > .container > .sidebar {
+	background-color: $primary-bg;
+	float: left;
+	width: 100%;
+
+	@include bp(large) {
+		float: none;
+		position: absolute;
+		right: 20px;
+		top: 20px;
+		width: 300px;
+	}
+
+	.player {
+		align-items: center;
+		display: flex;
+		padding: 10px;
+		border-bottom: 3px solid #000;
+	}
+
+	.play-button {
+		background: #D22228;
+		border: none;
+		border-radius: 50%;
+		float: left;
+		height: 41px;
+		margin-right: 20px;
+		padding: 3px 5px;
+		width: 41px;
+
+		&:focus {
+			box-shadow: 0 0 3px 3px #4D90FE;
+			outline: none;
+		}
+
+		svg {
+			fill: #fff;
+			height: 36px;
+			width: 36px;
+		}
+	}
+
+	.player-info {
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+
+	.social__list {
+		padding: 20px 0;
+		text-align: center;
+	}
+
+	.social__link {
+		margin: 0 5px;
+	}
+
+	.gmr-ad iframe {
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+.content, %content {
+	@include fill-parent;
+	@include omega;
+	padding: $base-line-height $gutter / 2;
+
+	@include bp(medium) {
+		padding: $base-line-height * 2 $gutter * 2;
+	}
+
+	.home & {
+		@include span-columns(4);
+		@include omega;
+		padding: $base-line-height $gutter / 2;
+
+		@include bp(medium) {
+			padding: $base-line-height $gutter * 2;
+		}
+	}
+
+	.news-site & {
+		@include bp(medium) {
+			padding: $base-line-height 1.5em;
+		}
+	}
+
+	.home.news-site & {
+		@include bp(medium) {
+			padding: $base-line-height 1.5em;
+		}
+	}
+}
+
+.jacapps, .whiz {
+	.main > .container {
+		@include bp(large) {
+			padding-right: 20px;
+		}
+	}
+
+	.main > .container > .sidebar {
+		display: none;
+	}
+}
+
+.row {
+	@include row();
+}
+
+.col__inner--right {
+	@include span-columns(4 of 4);
+
+	@include bp(small) {
+		@include span-columns(6 of 6);
+	}
+
+	@include bp(medium) {
+		@include span-columns(8 of 8);
+	}
+
+	@include bp(large) {
+		@include span-columns(4 of 12);
+		@include omega;
+	}
+
+	/*@include bp(x-large) {
+		@include span-columns(4 of 12);
+		@include omega;
+	}*/
+}
+
+.col__inner--left {
+	@include span-columns(4 of 4);
+	border-bottom: 1px solid $primary-border;
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+
+	@include bp(small) {
+		@include span-columns(6 of 6);
+	}
+
+	@include bp(medium) {
+		@include span-columns(8 of 8);
+	}
+
+	@include bp(large) {
+		border-right: 1px solid $primary-border;
+		border-bottom: none;
+		padding-right: 2em;
+		padding-bottom: 0;
+		margin-bottom: 0;
+		@include span-columns(8 of 12);
+	}
+
+	/*@include bp(x-large) {
+		@include span-columns(8 of 12);
+	}*/
+}
