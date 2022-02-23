@@ -31,7 +31,7 @@ readme.txt
 # Specific to wp-content based delpoys
 uploads
 upgrade
-
+/themes/oldthemes
 /themes/.version.php
 
 # Sendtonews plugin generates this folder in wp-content, don't delete it
