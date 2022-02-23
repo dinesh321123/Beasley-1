@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wrbq/assets/css/wrbq.css": "wrbq/assets/css/sass/wrbq_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wrbq/assets/css/",
+		"src": ["wrbq.css"],
+		"dest": "wrbq/assets/css/",
+		"ext": ".min.css"
+	}
+}

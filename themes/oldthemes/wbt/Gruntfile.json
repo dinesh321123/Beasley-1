@@ -1,0 +1,23 @@
+{
+	"concat": {
+		"src": ["wbt/assets/js/src/**.js"],
+		"dest": "wbt/assets/js/wbt.js"
+	},
+	"uglify": {
+		"files": {
+			"wbt/assets/js/wbt.min.js": ["wbt/assets/js/wbt.js"]
+		}
+	},
+	"sass": {
+		"files": {
+			"wbt/assets/css/wbt.css": "wbt/assets/css/sass/wbt_news.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wbt/assets/css/",
+		"src": ["wbt.css"],
+		"dest": "wbt/assets/css/",
+		"ext": ".min.css"
+	}
+}

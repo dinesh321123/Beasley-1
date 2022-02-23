@@ -1,0 +1,30 @@
+.featured__article--heading,
+.featured__content--title {
+	text-transform: uppercase;
+}
+
+.featured__article:hover .featured__article--heading,
+.featured__content--block:hover .featured__content--title,
+a:hover .highlights__community--title
+{
+	color: #1e73be;
+}
+
+.show__header {
+	background-color: #1e73be;
+}
+
+@include bp(large) {
+
+    .main {
+        background-image: url("../../images/wwdbam-wallpaper-2017.jpg");
+        background-position: top center;
+        background-repeat: no-repeat;
+				background-color: #000000;
+    }
+
+}
+
+.audio-more {
+	display: none;
+}

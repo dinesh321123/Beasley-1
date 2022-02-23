@@ -1,0 +1,26 @@
+.featured__article--heading,
+.featured__content--title {
+	text-transform: uppercase;
+}
+
+.featured__article:hover .featured__article--heading,
+.featured__content--block:hover .featured__content--title,
+a:hover .highlights__community--title
+{
+	color: #d81e1e;
+}
+
+.show__header {
+	background-color: #d81e1e;
+}
+
+@include bp(large) {
+
+    .main {
+        background-image: url("../../images/wkxc-wallpaper-2017.jpg");
+        background-position: top center;
+        background-repeat: no-repeat;
+				background-color: #000000;
+    }
+
+}

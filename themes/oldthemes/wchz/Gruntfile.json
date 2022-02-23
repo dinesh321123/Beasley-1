@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wchz/assets/css/wchz.css": "wchz/assets/css/sass/wchz_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wchz/assets/css/",
+		"src": ["wchz.css"],
+		"dest": "wchz/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wmgc-thebounce/assets/css/the_bounce.css": "wmgc-thebounce/assets/css/sass/the_bounce_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wmgc-thebounce/assets/css/",
+		"src": ["the_bounce.css"],
+		"dest": "wmgc-thebounce/assets/css/",
+		"ext": ".min.css"
+	}
+}

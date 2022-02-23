@@ -1,0 +1,94 @@
+body {
+	font-family: "Open Sans", sans-serif;
+}
+
+.featured__article--heading,
+.featured__content--title {
+	text-transform: uppercase;
+}
+
+.featured__article:hover .featured__article--heading,
+.featured__content--block:hover .featured__content--title {
+    color: $cardinal;
+}
+
+.highlights__community--title {
+	a:hover & {
+		color: $cardinal;
+	}
+}
+
+.header__main {
+	background-image: url("../../images/site-header-mobile.jpg");
+	background-position: top center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: #000000;
+}
+
+@media only screen and (max-width: 374px) {
+    .header__main {
+        background-image: none;
+    }
+}
+
+@include bp(medium) {
+
+	.header__main {
+		background-image: url("../../images/site-header.jpg");
+		background-position: middle center;
+		background-repeat: no-repeat;
+		background-size: cover;
+
+		.header__search {
+			background-color: rgba(255,255,255,.6);
+			padding-left: 15px;
+
+			label span {
+				color: #000;
+			}
+		}
+
+		.header__nav--list > li {
+			background-color: rgba(255,255,255,.6);
+		}
+	}
+
+  .main {
+      background-image: url("../../images/wbz-fm-wallpaper-2017.jpg");
+      background-position: top center;
+      background-repeat: no-repeat;
+			background-color: #000000;
+  }
+
+}
+
+.header__nav ul > li.active > ul > li.active {
+	background: none;
+}
+
+.format-sp a:hover .meta-text {
+	color: #fff;
+}
+
+.mobile-nav__toggle--span, .mobile-nav__toggle--span:before, .mobile-nav__toggle--span:after {
+	background-color: #ffffff;
+}
+
+.audio-more {
+	display: none;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, .type-contest .entry2__thumbnail--contest-type, .type-contest .entry2__thumbnail--end-date, .type-tribe_events .entry2__thumbnail--event-date, h1, h2, h3, h4, h5, h6, .type-contest .entry2__thumbnail--contest-type, .type-contest .entry2__thumbnail--end-date, .type-tribe_events .entry2__thumbnail--event-date, .featured__article--heading, .content__heading, .sponsors__heading {
+	font-weight: 400;
+}
+
+.widget-recent-contests__meta:hover span {
+	color: darken($cardinal, 9%);
+}
+
+@media screen and (min-width: 768px) {
+	div.widget-recent-contests ul li .widget-recent-contests__meta {
+	    font-weight: 400;
+	}
+}

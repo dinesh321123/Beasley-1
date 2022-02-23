@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wgac/assets/css/wgac.css": "wgac/assets/css/sass/wgac_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wgac/assets/css/",
+		"src": ["wgac.css"],
+		"dest": "wgac/assets/css/",
+		"ext": ".min.css"
+	}
+}

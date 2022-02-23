@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wwcn/assets/css/wwcn.css": "wwcn/assets/css/sass/wwcn_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wwcn/assets/css/",
+		"src": ["wwcn.css"],
+		"dest": "wwcn/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,0 +1,14 @@
+.slideshow-title {
+	color: $primary-heading;
+}
+/* Sidebar */
+.swiper-sidebar {
+	background: rgba(0,0,0,.7);
+	color: $gallery-text;
+
+	#js-swiper-sidebar-title,
+	#js-swiper-sidebar-caption,
+	#js-swiper-sidebar-download {
+		color: $gallery-text;
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"whsr/assets/css/whsr.css": "whsr/assets/css/sass/whsr_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "whsr/assets/css/",
+		"src": ["whsr.css"],
+		"dest": "whsr/assets/css/",
+		"ext": ".min.css"
+	}
+}

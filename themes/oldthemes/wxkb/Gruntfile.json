@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wxkb/assets/css/wxkb.css": "wxkb/assets/css/sass/wxkb_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wxkb/assets/css/",
+		"src": ["wxkb.css"],
+		"dest": "wxkb/assets/css/",
+		"ext": ".min.css"
+	}
+}

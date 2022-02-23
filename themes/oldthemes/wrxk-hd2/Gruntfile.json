@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wrxk-hd2/assets/css/wrxk_hd2.css": "wrxk-hd2/assets/css/sass/wrxk_hd2_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wrxk-hd2/assets/css/",
+		"src": ["wrxk_hd2.css"],
+		"dest": "wrxk-hd2/assets/css/",
+		"ext": ".min.css"
+	}
+}

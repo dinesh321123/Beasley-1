@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wgus/assets/css/wgus.css": "wgus/assets/css/sass/wgus_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wgus/assets/css/",
+		"src": ["wgus.css"],
+		"dest": "wgus/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,0 +1,245 @@
+@import url(//fonts.googleapis.com/css?family=Exo+2:400,600,700,800,900);
+
+.main {
+	@include bp(large) {
+		background-image: url(../../images/wben-main-bg3.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top center;
+	}
+}
+
+.mobile-nav__toggle--span, .mobile-nav__toggle--span:before, .mobile-nav__toggle--span:after {
+	background: #fff;
+}
+
+.single-gmr_gallery .gallery__paging--prev,
+.single-gmr_gallery .gallery__paging--next {
+	color: $light-gray;
+
+	&:hover {
+		color: $cardinal;
+	}
+}
+
+.home__highlights {
+	background-color: #fff !important;
+	border-bottom-color: $primary-border;
+  padding-top:0;
+}
+
+.highlights__events--more-btn {
+	&:hover {
+		color: $yellow !important;
+		border-color: $yellow;
+	}
+}
+
+.highlights__event--item {
+	background-color: #8c8c8c;
+	color: $white;
+}
+
+.highlights__event--title, .highlights__event--date {
+	color: $white;
+
+	a:hover & {
+		color: $yellow;
+	}
+}
+
+.highlights__heading {
+	color: $highlights-heading;
+}
+
+.type-contest .entry__title--tag {
+	background-color: $light-gray;
+	border-color: $light-gray;
+}
+
+.audio__progress-bar {
+	background-color: $gray;
+}
+
+.footer {
+	background-color: $primary-bg;
+}
+
+/* CUSTOM OVERRIDES BELOW */
+
+.highlights__heading {
+    color: #c01c1c;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Exo 2', sans-serif;
+}
+
+.home__featured .featured__article--content {
+    background-color: darkred;
+    color: #d0d2d3;
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+    transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    -webkit-transition: all 200ms ease-in-out;
+}
+.home__featured .featured__article a:hover .featured__article--content {
+    background-color: #b30000;
+}
+.featured__article--heading {
+    color: #eded8f;
+    font-family: 'Exo 2', sans-serif;
+}
+.header {
+    background-color: darkred;
+    background-image: url("../../images/cd-shelf-mobile.jpg");
+    background-repeat: no-repeat;
+    background-position: 0 -36px;
+}
+.header__nav { font-family: 'Exo 2', sans-serif }
+
+.home__featured .featured__content--block { background-color: darkred }
+.highlights__event--item {
+    background-color: darkred;
+    transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    -webkit-transition: all 200ms ease-in-out;
+}
+.highlights__event--item:hover {
+    background-color: #b30000;
+}
+.highlights__event--date,
+.highlights__event--title {
+    color: #eded8f;
+    font-family: 'Exo 2', sans-serif;
+}
+.featured__content--block {
+    transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    -webkit-transition: all 200ms ease-in-out;
+}
+.featured__content--block:hover {
+    background: #b30000;
+}
+.entry2__title { font-family: 'Exo 2', sans-serif }
+.content__heading,
+.sponsors__heading { font-family: 'Exo 2', sans-serif }
+.featured__content--title {
+    color: #eded8f;
+    font-family: 'Exo 2', sans-serif;
+}
+.featured__content--link {
+    display:none;
+}
+.highlights__events--more-btn {
+    background-color: #d22228;
+    border: 1px solid #d22228;
+    color: #fff!important;
+    font-weight: 800;
+}
+.contest__prize--title {
+    margin: 0 0 .25em;
+    font-size: 1.60181em;
+    color: #d22228;
+    font-family: 'Exo 2' sans-serif;
+}
+.entry__title,
+.page__title {
+    margin: 0 0 20px;
+    font-size: 1.60181em;
+    font-family: 'Exo 2' sans-serif;
+}
+
+.mobile-nav__list a {
+    background-color: #ddd;
+}
+
+.header__search--form .searchform {
+    background-color: #ddd;
+}
+
+@media screen and (min-width:768px) {
+
+		.header__logo--img {
+			max-height: 106px;
+		}
+
+    @-webkit-keyframes header_animation {
+        0% {
+            background-image: url('../../images/cd-shelf-artists-1.jpg');
+        }
+        33% {
+            background-image: url('../../images/cd-shelf-artists-2.jpg');
+        }
+        66% {
+            background-image: url('../../images/cd-shelf-artists-3.jpg');
+        }
+        100% {
+            background-image: url('../../images/cd-shelf-artists-3.jpg');
+        }
+    }
+    @keyframes header_animation {
+        0% {
+            background-image: url('../../images/cd-shelf-artists-1.jpg');
+        }
+        33% {
+            background-image: url('../../images/cd-shelf-artists-2.jpg');
+        }
+        66% {
+            background-image: url('../../images/cd-shelf-artists-3.jpg');
+        }
+        100% {
+            background-image: url('../../images/cd-shelf-artists-3.jpg');
+        }
+    }
+
+    .header__main {
+        background-image: url("../../images/cd-shelf-artists-1.jpg");
+        background-position: center top;
+        -webkit-animation-name: header_animation;
+        -webkit-animation-duration: 30s;
+        -webkit-animation-iteration-count: 5;
+        -webkit-animation-direction: normal;
+        -webkit-animation-timing-function: steps(1, end);
+        animation-name: header_animation;
+        animation-duration: 30s;
+        animation-iteration-count: 5;
+        animation-direction: normal;
+        animation-timing-function: steps(1, end);
+    }
+
+    .home__featured .featured__article--content {
+        background-color: darkred;
+        color: #d0d2d3;
+        border-bottom-left-radius: 2em;
+        border-bottom-right-radius: 2em;
+    }
+}
+
+@media screen and (min-width: 970px) {
+	.header__search {
+		color: #fff;
+    padding: 4px;
+    background-color: rgba(0,0,0,.7);
+		text-transform: uppercase;
+
+		.header__search--btn:before {
+			color: #fff;
+		}
+	}
+
+	.header__nav {
+		text-transform: uppercase;
+		font-weight: 700;
+	}
+
+	.header__nav ul li {
+		background-color: rgba(0,0,0,.7);
+		font-size: 1.2em;
+
+		a,
+		a:visited {
+			color: #ffffff;
+		}
+	}
+}

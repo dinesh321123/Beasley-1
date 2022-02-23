@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wiks/assets/css/wiks.css": "wiks/assets/css/sass/wiks_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wiks/assets/css/",
+		"src": ["wiks.css"],
+		"dest": "wiks/assets/css/",
+		"ext": ".min.css"
+	}
+}

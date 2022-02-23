@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wpen-green/assets/css/thefanatic.css": "wpen-green/assets/css/sass/thefanatic.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wpen-green/assets/css/",
+		"src": ["thefanatic.css"],
+		"dest": "wpen-green/assets/css/",
+		"ext": ".min.css"
+	}
+}

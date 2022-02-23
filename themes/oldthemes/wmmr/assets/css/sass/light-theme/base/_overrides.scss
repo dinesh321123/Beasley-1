@@ -1,0 +1,240 @@
+@import url(//fonts.googleapis.com/css?family=Oswald:400,300,700);
+
+.main {
+	background-color: #000;
+}
+
+.mobile-nav__list a {
+	color: #fff;
+}
+
+.mobile-nav__toggle--span, .mobile-nav__toggle--span:before, .mobile-nav__toggle--span:after {
+	background: #fff;
+}
+
+.mobile-nav .sub-menu a:hover, .mobile-nav .header__nav .format-fw > ul a:hover, .header__nav .mobile-nav .format-fw > ul a:hover, .mobile-nav .header__nav .format-sp > ul a:hover, .header__nav .mobile-nav .format-sp > ul a:hover, .mobile-nav .header__nav .format-fi > ul a:hover, .header__nav .mobile-nav .format-fi > ul a:hover, .mobile-nav .sub-menu a:active, .mobile-nav .header__nav .format-fw > ul a:active, .header__nav .mobile-nav .format-fw > ul a:active, .mobile-nav .header__nav .format-sp > ul a:active, .header__nav .mobile-nav .format-sp > ul a:active, .mobile-nav .header__nav .format-fi > ul a:active, .header__nav .mobile-nav .format-fi > ul a:active {
+	color: #fff;
+}
+
+.format-sp a:hover .meta-text {
+  color: #fff;
+}
+
+@include bp(large) {
+
+    .main {
+        background-image: url("../../images/main-bg.png");
+        background-position: center;
+        background-repeat: repeat-y;
+    }
+
+}
+
+.header {
+		background-color: #000;
+		background-image: url("../../images/crowd-header-bg.jpg");
+    background-repeat: repeat-x;
+    background-position: center top;
+    border-bottom: none;
+}
+
+.header__main {
+    border-top: none;
+    background-color: rgba(0, 0, 0, .3) !important;
+
+		-webkit-transition: transform 200ms linear, background-color 1s !important; /* Safari */
+    transition: transform 200ms linear, background-color 1s !important;
+
+		&.headroom--not-top {
+			background-color: rgba(0, 0, 0, .8) !important;
+		}
+}
+
+@media screen and (min-width: 970px) {
+	.header__search {
+		color: #fff;
+    padding: 4px;
+    background-color: rgba(0,0,0,.7);
+		text-transform: uppercase;
+
+		.header__search--btn:before {
+			color: #fff;
+		}
+	}
+
+	.header__nav {
+		text-transform: uppercase;
+		font-family: 'Oswald', sans-serif;
+		font-weight: 700;
+	}
+
+	.header__nav ul li {
+		background-color: rgba(0,0,0,.7);
+		font-size: 1.2em;
+
+		a,
+		a:visited {
+			color: #ffffff;
+		}
+	}
+}
+
+.header__nav .sub-menu a, .header__nav .format-fw > ul a, .header__nav .format-sp > ul a, .header__nav .format-fi > ul a, .ui-menu a {
+	padding: .5em !important;
+}
+
+.header__account ul li a:active,
+.header__account ul li a:focus,
+.header__account ul li a:hover,
+.header__account ul li:hover,
+.header__nav ul li a:active,
+.header__nav ul li a:focus,
+.header__nav ul li.active,
+.header__nav ul li.active a:hover,
+.ui-menu .ui-state-focus {
+    background-color: #f8c50f;
+}
+
+.header__account--links.sub-menu,
+.header__nav .format-fi > ul,
+.header__nav .format-fi > ul.header__account--links,
+.header__nav .format-fw > ul,
+.header__nav .format-fw > ul.header__account--links,
+.header__nav .format-sp > ul,
+.header__nav .format-sp > ul.header__account--links,
+.header__nav .sub-menu, .ui-menu {
+    position: absolute;
+    border-top: 7px solid #f8c50f;
+    color: #000;
+    min-width: 300px;
+    z-index: 5000100;
+}
+
+.home__featured {
+
+    background-color: white;
+    background-image: none;
+    border: 1px solid #eee;
+    background: url("../../images/pw_maze_white.png");
+
+    .featured__article--content {
+        background-image: -ms-linear-gradient(right, #db5b15 0%, #910101 100%);
+        background-image: -moz-linear-gradient(right, #db5b15 0%, #910101 100%);
+        background-image: -o-linear-gradient(right, #db5b15 0%, #910101 100%);
+        background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #db5b15), color-stop(1, #910101));
+        background-image: -webkit-linear-gradient(right, #db5b15 0%, #910101 100%);
+        background-image: linear-gradient(to left, #db5b15 0%, #910101 100%);
+    }
+
+    .featured__content--block {
+        background-image: -ms-linear-gradient(right, #db5b15 0%, #910101 100%);
+        background-image: -moz-linear-gradient(right, #db5b15 0%, #910101 100%);
+        background-image: -o-linear-gradient(right, #db5b15 0%, #910101 100%);
+        background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #db5b15), color-stop(1, #910101));
+        background-image: -webkit-linear-gradient(right, #db5b15 0%, #910101 100%);
+        background-image: linear-gradient(to left, #db5b15 0%, #910101 100%);
+    }
+
+    @include bp(medium) {
+        background-position: left top;
+        background-color: #561015;
+        // background-size: cover; // Leave this out unless we want big crosshatches on WMGK. If we do want that, be sure to also add this to the .show__header
+    }
+}
+
+.home__highlights {
+    background: url("../../images/pw_maze_gray.png");
+    border-bottom-color: $primary-border;
+}
+
+.single-show .home__highlights {
+    background: none;
+}
+
+.highlights__events {
+    text-decoration: none;
+}
+
+.highlights__events--more-btn {
+    background-color: #878787;
+    color: #fff!important;
+
+    &:hover {
+        color: $yellow !important;
+        border-color: $yellow;
+    }
+}
+
+.highlights__event--item {
+    background-color: rgba(0,0,0,.1);
+    color: $white;
+}
+
+.highlights__event--title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    color: #b72f2c;
+
+    a:hover & {
+        color: $yellow;
+    }
+}
+
+.highlights__event--date {
+    color: #716c6c;
+
+    a:hover & {
+        color: $yellow;
+    }
+}
+
+.highlights__heading {
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    color: #b72f2c;
+    text-shadow: 2px 2px 2px rgba(139, 128, 146, 0.4);
+}
+
+.type-contest .entry__title--tag {
+    background-color: $light-gray;
+    border-color: $light-gray;
+}
+
+.audio__progress-bar {
+    background-color: $gray;
+}
+
+.footer {
+    background-color: $primary-bg;
+}
+
+.featured__content--btn {
+    display:none!important;
+}
+
+.featured__article--heading {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 1px rgba(83, 6, 6, 1);
+    color: #fbe374;
+}
+
+.featured__content--title {
+    font-size: 1.23em;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+		text-transform: uppercase;
+    text-shadow: 2px 2px 1px rgba(83, 6, 6, 1);
+    color: #fbe374;
+}
+
+.show__header.has-thumbnail:before {
+    background-image: linear-gradient(to bottom,rgba(77,22,20,.85),rgba(51,10,10,.55));
+    background-image: -moz-linear-gradient(top,rgba(77,22,20,.85),rgba(51,10,10,.55));
+    background-image: -o-linear-gradient(top,rgba(77,22,20,.85),rgba(51,10,10,.55));
+    background-image: -ms-linear-gradient(top,rgba(77,22,20,.85),rgba(51,10,10,.55));
+    background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(77,22,20,.85)),to(rgba(51,10,10,.55)));
+    background-image: -webkit-linear-gradient(top,rgba(77,22,20,.85),rgba(51,10,10,.55));
+}

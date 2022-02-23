@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wror/assets/css/wror.css": "wror/assets/css/sass/wror_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wror/assets/css/",
+		"src": ["wror.css"],
+		"dest": "wror/assets/css/",
+		"ext": ".min.css"
+	}
+}

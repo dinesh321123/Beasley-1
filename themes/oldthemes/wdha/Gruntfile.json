@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wdha/assets/css/wdha.css": "wdha/assets/css/sass/wdha_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wdha/assets/css/",
+		"src": ["wdha.css"],
+		"dest": "wdha/assets/css/",
+		"ext": ".min.css"
+	}
+}

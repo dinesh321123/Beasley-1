@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wsfl/assets/css/wsfl.css": "wsfl/assets/css/sass/wsfl_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wsfl/assets/css/",
+		"src": ["wsfl.css"],
+		"dest": "wsfl/assets/css/",
+		"ext": ".min.css"
+	}
+}

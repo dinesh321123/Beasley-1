@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wbcn-201706/assets/css/wbcn.css": "wbcn-201706/assets/css/sass/wbcn_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wbcn-201706/assets/css/",
+		"src": ["wbcn.css"],
+		"dest": "wbcn-201706/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,0 +1,26 @@
+.featured__article--heading,
+.featured__content--title {
+	text-transform: uppercase;
+}
+
+.featured__article:hover .featured__article--heading,
+.featured__content--block:hover .featured__content--title,
+a:hover .highlights__community--title
+{
+	color: #6892ff;
+}
+
+.show__header {
+	background-color: #6892ff;
+}
+
+@include bp(large) {
+    .main {
+        background-image: url("../../images/PLAYA-Y-ARENA-3NAPLESPIER-JUNE2018.jpg");
+        background-position: top center;
+        background-repeat: no-repeat;
+		background-color: #005dac;
+		background-attachment: fixed;
+		background-size: cover;
+    }
+}

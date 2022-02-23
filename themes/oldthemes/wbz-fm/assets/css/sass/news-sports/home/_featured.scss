@@ -1,0 +1,18 @@
+.home__featured .featured__article--heading {
+	color: #fff;
+}
+
+.featured__article--heading {
+
+	.featured__article:hover & {
+		color: $color-red;
+	}
+}
+
+.featured__content--title {
+	color: white;
+
+	.featured__content--block:hover & {
+		color: $color-red;
+	}
+}

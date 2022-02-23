@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wrat/assets/css/wrat.css": "wrat/assets/css/sass/wrat_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wrat/assets/css/",
+		"src": ["wrat.css"],
+		"dest": "wrat/assets/css/",
+		"ext": ".min.css"
+	}
+}

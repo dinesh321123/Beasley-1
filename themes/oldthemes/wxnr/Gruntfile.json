@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wxnr/assets/css/wxnr.css": "wxnr/assets/css/sass/wxnr_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wxnr/assets/css/",
+		"src": ["wxnr.css"],
+		"dest": "wxnr/assets/css/",
+		"ext": ".min.css"
+	}
+}

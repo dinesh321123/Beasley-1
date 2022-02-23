@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wmgq-christmas/assets/css/wmgq.css": "wmgq-christmas/assets/css/sass/wmgq_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wmgq-christmas/assets/css/",
+		"src": ["wmgq.css"],
+		"dest": "wmgq-christmas/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wmjx/assets/css/wmjx.css": "wmjx/assets/css/sass/wmjx_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wmjx/assets/css/",
+		"src": ["wmjx.css"],
+		"dest": "wmjx/assets/css/",
+		"ext": ".min.css"
+	}
+}

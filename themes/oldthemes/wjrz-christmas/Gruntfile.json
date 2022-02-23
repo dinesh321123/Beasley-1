@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wjrz-christmas/assets/css/wjrz.css": "wjrz-christmas/assets/css/sass/wjrz_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wjrz-christmas/assets/css/",
+		"src": ["wjrz.css"],
+		"dest": "wjrz-christmas/assets/css/",
+		"ext": ".min.css"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wjbx/assets/css/wjbx.css": "wjbx/assets/css/sass/wjbx_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wjbx/assets/css/",
+		"src": ["wjbx.css"],
+		"dest": "wjbx/assets/css/",
+		"ext": ".min.css"
+	}
+}

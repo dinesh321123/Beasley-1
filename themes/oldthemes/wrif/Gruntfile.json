@@ -1,0 +1,23 @@
+{
+	"concat": {
+		"src": ["wrif/assets/js/src/wrif.js"],
+		"dest": "wrif/assets/js/wrif.js"
+	},
+	"uglify": {
+		"files": {
+			"wrif/assets/js/wrif.min.js": ["wrif/assets/js/wrif.js"]
+		}
+	},
+	"sass": {
+		"files": {
+			"wrif/assets/css/wrif.css": "wrif/assets/css/sass/wrif_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wrif/assets/css/",
+		"src": ["wrif.css"],
+		"dest": "wrif/assets/css/",
+		"ext": ".min.css"
+	}
+}

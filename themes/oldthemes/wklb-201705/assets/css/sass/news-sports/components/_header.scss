@@ -1,0 +1,30 @@
+.header__sub {
+	background-color: $color-red-dark;
+}
+
+.header__subnav li {
+
+	a:hover, a:focus, a:active {
+		color: $color-red;
+	}
+}
+
+.header__main {
+	background-color: $color-red;
+}
+
+.header__logo {
+	background-color: $color-red-dark;
+}
+
+.header__account:hover {
+
+	@include bp(medium) {
+		background-color: white;
+	}
+
+	> a,
+	.header__account--span {
+		color: black;
+	}
+}

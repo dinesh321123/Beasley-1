@@ -1,0 +1,25 @@
+{
+	"concat": {
+		"src": [
+			"wctc/assets/js/src/wctc.js"
+		],
+		"dest": "wctc/assets/js/wctc.js"
+	},
+	"uglify": {
+		"files": {
+			"wctc/assets/js/wctc.min.js": ["wctc/assets/js/wctc.js"]
+		}
+	},
+	"sass": {
+		"files": {
+			"wctc/assets/css/wctc.css": "wctc/assets/css/sass/wctc_news.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wctc/assets/css/",
+		"src": ["wctc.css"],
+		"dest": "wctc/assets/css/",
+		"ext": ".min.css"
+	}
+}

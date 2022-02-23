@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wpeg/assets/css/wpeg.css": "wpeg/assets/css/sass/wpeg_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wpeg/assets/css/",
+		"src": ["wpeg.css"],
+		"dest": "wpeg/assets/css/",
+		"ext": ".min.css"
+	}
+}

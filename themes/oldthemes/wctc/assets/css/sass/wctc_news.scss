@@ -1,0 +1,78 @@
+/**
+ * 1450 WCTC
+ * http://wordpress.org/themes
+ *
+ * Copyright (c) 2014 10up
+ * Licensed under the GPLv2+ license.
+ */
+
+@import "news-sports/base/variables";
+
+@import "../../../../greatermedia/assets/css/sass/greater_media.scss";
+
+@import "news-sports/base/grid";
+
+
+// Anything that doesn't print out CSS along with normalize and fonts
+
+// Main layout components: menu, typography, etc.
+@import "news-sports/layout/typography";
+@import "news-sports/layout/menus";
+@import "news-sports/layout/sub-menus/sub-menus";
+
+// Home
+@import "news-sports/home/featured";
+@import "news-sports/home/highlights";
+
+// Components
+@import "news-sports/components/header";
+@import "news-sports/components/search";
+@import "news-sports/components/entries";
+@import "news-sports/components/liveplayer";
+@import "news-sports/components/shows";
+@import "news-sports/components/gallery";
+@import "news-sports/components/contests";
+@import "news-sports/components/404";
+@import "news-sports/components/shows";
+@import "news-sports/base/overrides";
+
+.header {
+  background-color: #999 !important;
+  background-image: url("../../images/WCTC_header.jpg") !important;
+  background-repeat: repeat-x;
+  background-position: center top;
+  border-bottom: none;
+}
+
+.header__main {
+    border-top: none;
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.home__featured .featured__article--content {
+    background-color: #d22228;
+    color: #191919;
+}
+
+a:hover .highlights__community--title {color:#e3e4e5;}
+
+.home__featured .featured__content--block {
+    background-color: #d22228;
+    color: #191919;
+}
+
+.featured__content--block:hover {
+  background: #c00000;
+}
+
+a:hover .highlights__community--title {
+    color: #c00000;
+}
+
+a:hover .highlights__event--title, a:hover .highlights__event--date {
+    color: #e3e4e5;
+}
+
+a:hover .highlights__event--title, a:hover .highlights__event--date {
+    color: #c00000;
+}

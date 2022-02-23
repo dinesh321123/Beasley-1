@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wuks/assets/css/wuks.css": "wuks/assets/css/sass/wuks_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wuks/assets/css/",
+		"src": ["wuks.css"],
+		"dest": "wuks/assets/css/",
+		"ext": ".min.css"
+	}
+}
