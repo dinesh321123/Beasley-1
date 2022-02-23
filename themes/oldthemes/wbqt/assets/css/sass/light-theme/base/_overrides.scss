@@ -1,0 +1,136 @@
+@import url('//fonts.googleapis.com/css?family=Oswald:400,700');
+.home__featured .featured__article--content, .home__featured .featured__content--block {
+    background-image: linear-gradient(to bottom,#104da0 40%,#150a57 100%);
+}
+.featured__article--heading {
+    color: #fff;
+    font-family: 'Oswald',sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.home__featured .featured__content--title {
+    color: #fff;
+    font-family: 'Oswald',sans-serif;
+    font-size: 1.23em;
+    font-weight: 400;
+}
+.home__highlights {
+    background: url(../../images/home-highlights.png);
+}
+.highlights__heading {
+    color: #150958;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0;
+    text-shadow: 2px 2px 2px rgba(139,128,146,.3);
+}
+.highlights__events--more-btn {
+    background-color: rgba(21,9,88,.2);
+    border: 2px solid #150958;
+    color: #150958;
+    text-transform: uppercase;
+    font-weight: 400;
+    float: right;
+    margin-top: 0;
+}
+.highlights__events--more-btn:hover {
+    background-color: rgba(21,9,88,.5);
+    color: #fff;
+    border-color: #150958;
+}
+@include bp(large) {
+    .main {
+        background-size: cover;
+        background-color: #061222;
+        background-image: url(../../images/site-wrap-blue.png);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+}
+.type-contest .entry2__thumbnail--contest-type {
+    visibility: hidden!important;
+}
+.type-contest .entry2__thumbnail--end-date {
+    visibility: hidden!important;
+}
+.entry2__thumbnail__icon {
+    visibility: hidden!important;
+}
+.entry2__thumbnail__overlay {
+    opacity: 0!important;
+}
+.songs__group--date {
+    font-size: 1em!important;
+}
+.songs__group--date {
+    font-size: 1em!important;
+}
+.type-tribe_events .entry2__thumbnail--month-and-day {
+    visibility: hidden!important;
+}
+.type-tribe_events .entry2__thumbnail--day-of-week {
+    visibility: hidden!important;
+}
+.header__main.headroom {
+    background-color: #585858!important;
+		background-image: url(../../images/09_24_2018_Website_Header_min.jpg) !important;
+		background-position: top center!important;
+		background-repeat: no-repeat!important;
+		background-size: contain;
+
+		@include bp(medium) {
+		    background-size: auto;
+		}
+}
+.main {
+    background-image: url(../../images/hot_Background.jpg)!important;
+    background-attachment: fixed!important;
+    background-position: top center;
+}
+.mobile-nav__toggle--span, .mobile-nav__toggle--span::after, .mobile-nav__toggle--span::before {
+    background-color: #ffffff;
+}
+.header__nav > ul > li {
+    color: #ffffff;
+    background-color: rgba(1,1,1,0.7);
+}
+.header__nav ul li a {
+    color: #ffffff;
+}
+.header__main a, .header__main a:visited {
+    color: #ffffff;
+}
+.header__search {
+    color: #ffffff;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    text-transform: uppercase;
+    background-color: rgba(1,1,1,0.7);
+}
+.header__search:hover, .header__search:hover .header__search--btn::before {
+    color: #6699cc!important;
+}
+.ui-menu a.active, .ui-menu a:focus, .ui-menu a:hover {
+    background-color: #000033;
+    color: #ffffff!important;
+}
+.header__nav .format-fi > ul a.active, .header__nav .format-fi > ul a:focus, .header__nav .format-fi > ul a:hover, .header__nav .format-fw > ul a.active, .header__nav .format-fw > ul a:focus, .header__nav .format-fw > ul a:hover, .header__nav .format-sp > ul a.active, .header__nav .format-sp > ul a:focus, .header__nav .format-sp > ul a:hover, .header__nav .sub-menu a.active, .header__nav .sub-menu a:focus, .header__nav .sub-menu a:hover, .ui-menu a.active, .ui-menu a:focus, .ui-menu a:hover {
+    background-color: #000033;
+}
+.format-sp a:hover .meta-text {
+    color: #ffffff;
+}
+.highlights__events--more-btn {
+    color: #ffffff;
+    background-color: #003366;
+}
+.highlights__events--more-btn:focus, .highlights__events--more-btn:hover {
+    background-color: #000033;
+    border-top-color: #000033;
+    border-right-color: #000033;
+    border-bottom-color: #000033;
+    border-left-color: #000033;
+    color: #ffffff;
+}

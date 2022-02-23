@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wqyk/assets/css/wqyk.css": "wqyk/assets/css/sass/wqyk_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wqyk/assets/css/",
+		"src": ["wqyk.css"],
+		"dest": "wqyk/assets/css/",
+		"ext": ".min.css"
+	}
+}

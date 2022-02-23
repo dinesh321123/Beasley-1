@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wrxk/assets/css/wrxk.css": "wrxk/assets/css/sass/wrxk_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wrxk/assets/css/",
+		"src": ["wrxk.css"],
+		"dest": "wrxk/assets/css/",
+		"ext": ".min.css"
+	}
+}

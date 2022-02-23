@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wmjx-christmas/assets/css/wmjx_christmas.css": "wmjx-christmas/assets/css/sass/wmjx_christmas_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wmjx-christmas/assets/css/",
+		"src": ["wmjx_christmas.css"],
+		"dest": "wmjx-christmas/assets/css/",
+		"ext": ".min.css"
+	}
+}

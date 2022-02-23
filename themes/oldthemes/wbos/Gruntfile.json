@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wbos/assets/css/wbos.css": "wbos/assets/css/sass/wbos_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wbos/assets/css/",
+		"src": ["wbos.css"],
+		"dest": "wbos/assets/css/",
+		"ext": ".min.css"
+	}
+}

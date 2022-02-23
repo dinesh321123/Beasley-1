@@ -1,0 +1,16 @@
+{
+
+	"sass": {
+		"files": {
+			"wbz-fm-music/assets/css/wbz-fm-music.css": "wbz-fm-music/assets/css/sass/wbz_fm_music__light.scss"
+		}
+	},
+
+	"cssmin": {
+		"expand": true,
+		"cwd": "wbz-fm-music/assets/css/",
+		"src": ["wbz-fm-music.css"],
+		"dest": "wbz-fm-music/assets/css/",
+		"ext": ".min.css"
+	}
+}

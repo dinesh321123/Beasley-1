@@ -1,0 +1,162 @@
+.header {
+  background-color: #40b9fd !important;
+  background-image: url("../../images/WRAT_header-bkg.jpg") !important;
+  background-repeat: repeat-x;
+  background-position: center top;
+  border-bottom: none;
+}
+
+.header__main {
+    border-top: none;
+    background-color: rgba(0, 0, 0, 0) !important;
+
+		-webkit-transition: transform 200ms linear, background-color 1s !important; /* Safari */
+    transition: transform 200ms linear, background-color 1s !important;
+
+		&.headroom--not-top {
+			background-color: rgba(0, 0, 0, .8) !important;
+		}
+}
+
+/* Navigation */
+.header__nav ul li {
+    background-color: rgba(0,0,0,.5);
+}
+
+.header__main ul li a:hover, .header__main ul li:hover a, .header__main ul li a:active {
+    color: #ccc;
+}
+
+.header__main a, .header__main a:active, .header__main a:hover, .header__main a:visited {color: #fff;}
+
+.header__nav li {
+  font-weight: 600;
+}
+
+.header__nav li:hover {
+  font-weight: 600;
+}
+
+.header__nav > ul li a {
+    display: block;
+    padding: 7px;
+    text-transform: uppercase;
+}
+
+.header__account--links.sub-menu, .header__nav .format-fi > ul, .header__nav .format-fi > ul.header__account--links, .header__nav .format-fw > ul, .header__nav .format-fw > ul.header__account--links, .header__nav .format-sp > ul, .header__nav .format-sp > ul.header__account--links, .header__nav .sub-menu, .ui-menu {
+  border-top: 3px solid #828386;
+  color: #000;
+  min-width: 300px;
+  position: absolute;
+  z-index: 5000100;
+}
+
+.header__nav .sub-menu a, .header__nav .format-fw > ul a, .header__nav .format-sp > ul a, .header__nav .format-fi > ul a, .ui-menu a {
+    color: #ffffff;
+    font-size: 0.7901234568em;
+    font-weight: bold;
+    text-transform: none;
+}
+
+.header__nav .format-fi .header__nav-submenu--features li:hover p {
+    color: #fff;
+}
+
+.mobile-nav .sub-menu a:hover, .mobile-nav .header__nav .format-fw > ul a:hover, .header__nav .mobile-nav .format-fw > ul a:hover, .mobile-nav .header__nav .format-sp > ul a:hover, .header__nav .mobile-nav .format-sp > ul a:hover, .mobile-nav .header__nav .format-fi > ul a:hover, .header__nav .mobile-nav .format-fi > ul a:hover, .mobile-nav .sub-menu a:active, .mobile-nav .header__nav .format-fw > ul a:active, .header__nav .mobile-nav .format-fw > ul a:active, .mobile-nav .header__nav .format-sp > ul a:active, .header__nav .mobile-nav .format-sp > ul a:active, .mobile-nav .header__nav .format-fi > ul a:active, .header__nav .mobile-nav .format-fi > ul a:active {
+    color: #F7F845;
+}
+
+.mobile-nav .sub-menu a:link, .mobile-nav .header__nav .format-fw > ul a:link, .header__nav .mobile-nav .format-fw > ul a:link, .mobile-nav .header__nav .format-sp > ul a:link, .header__nav .mobile-nav .format-sp > ul a:link, .mobile-nav .header__nav .format-fi > ul a:link, .header__nav .mobile-nav .format-fi > ul a:link, .mobile-nav .sub-menu a:visited, .mobile-nav .header__nav .format-fw > ul a:visited, .header__nav .mobile-nav .format-fw > ul a:visited, .mobile-nav .header__nav .format-sp > ul a:visited, .header__nav .mobile-nav .format-sp > ul a:visited, .mobile-nav .header__nav .format-fi > ul a:visited, .header__nav .mobile-nav .format-fi > ul a:visited {
+    background-color: #303030;
+    color: #ffffff;
+}
+
+.format-fi .menu__featured-post--mobile a:hover p {
+    color: #F7F845;
+}
+
+/* Header search color */
+ .header__search {
+  color: #303030;
+  font-weight: bold}
+
+.header__search--btn:before {
+    color: #303030;
+    font-size: 1em;
+    content: "\e612";
+}
+
+.header__search:hover, .header__search:hover .header__search--btn::before {
+    color: #666;
+}
+
+/* Home page feature items */
+.featured__article--heading {
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 1);
+}
+
+.home__featured {
+    background: url("../../images/WRAT-body-bkg.jpg") no-repeat;
+    background-color: #000;
+}
+
+.home__featured .featured__article a:hover .featured__article--content {background-color: #1f1f1f;}
+
+.featured__article:hover .featured__article--heading {color: #fff;}
+
+.featured__content--title {
+    font-size: 1em;
+    display: block;
+    width: 100%;
+    margin: 0 auto .15em;
+    line-height: 1.25;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    color: #fff;
+}
+
+.home__featured .featured__content--meta {
+    width: 65%;
+    min-height: 4.2em;
+}
+
+.featured__content--block:hover .featured__content--title {
+    color: #fff;
+}
+
+.featured__content--block:hover {
+  background: #1f1f1f;
+}
+
+.highlights__heading {
+    margin: 0 0 0.75em;
+    line-height: 1;
+    font-size: 1.125em;
+    font-weight: lighter;
+    color: #fff;
+    vertical-align: top;
+}
+
+a:hover .highlights__community--title {color:#ffff00;}
+
+.highlights__events--more-btn {
+  background-color: #000;
+  border: 1px solid #000;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+.highlights__events--more-btn:hover {
+  background-color: #303030;
+  border-color: #303030;
+  color: #fff !important;
+}
+
+a.social__link:hover, a.social-share-link:hover {
+    color: #666;
+    border-color: #666;
+}

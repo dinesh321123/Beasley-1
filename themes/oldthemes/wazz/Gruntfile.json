@@ -1,0 +1,14 @@
+{
+	"sass": {
+		"files": {
+			"wazz/assets/css/wazz.css": "wazz/assets/css/sass/wazz_light.scss"
+		}
+	},
+	"cssmin": {
+		"expand": true,
+		"cwd": "wazz/assets/css/",
+		"src": ["wazz.css"],
+		"dest": "wazz/assets/css/",
+		"ext": ".min.css"
+	}
+}
