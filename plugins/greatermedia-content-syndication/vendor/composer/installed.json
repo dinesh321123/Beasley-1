@@ -1,0 +1,198 @@
+[
+    {
+        "name": "composer/installers",
+        "version": "v1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/composer/installers.git",
+            "reference": "9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/composer/installers/zipball/9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b",
+            "reference": "9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "replace": {
+            "roundcube/plugin-installer": "*",
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2017-08-09T07:53:48+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "Composer\\Installers\\Plugin",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\Installers\\": "src/Composer/Installers"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "https://composer.github.io/installers/",
+        "keywords": [
+            "Craft",
+            "Dolibarr",
+            "Eliasis",
+            "Hurad",
+            "ImageCMS",
+            "Kanboard",
+            "Lan Management System",
+            "MODX Evo",
+            "Mautic",
+            "Maya",
+            "OXID",
+            "Plentymarkets",
+            "Porto",
+            "RadPHP",
+            "SMF",
+            "Thelia",
+            "WolfCMS",
+            "agl",
+            "aimeos",
+            "annotatecms",
+            "attogram",
+            "bitrix",
+            "cakephp",
+            "chef",
+            "cockpit",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "dokuwiki",
+            "drupal",
+            "eZ Platform",
+            "elgg",
+            "expressionengine",
+            "fuelphp",
+            "grav",
+            "installer",
+            "itop",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lavalite",
+            "lithium",
+            "magento",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "moodle",
+            "osclass",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "puppet",
+            "reindex",
+            "roundcube",
+            "shopware",
+            "silverstripe",
+            "sydes",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "yawik",
+            "zend",
+            "zikula"
+        ]
+    },
+    {
+        "name": "cmmarslender/timer",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/cmmarslender/timer.git",
+            "reference": "e4016c4b9d9e660306b3d9a76dbc354f1cfd0ee7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/cmmarslender/timer/zipball/e4016c4b9d9e660306b3d9a76dbc354f1cfd0ee7",
+            "reference": "e4016c4b9d9e660306b3d9a76dbc354f1cfd0ee7",
+            "shasum": ""
+        },
+        "time": "2016-01-19T01:41:38+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Cmmarslender\\Timer\\": "includes/Cmmarslender/Timer"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Chris Marslender",
+                "email": "chrismarslender@gmail.com"
+            }
+        ],
+        "description": "PHP Timer with optional per-item averages"
+    },
+    {
+        "name": "cmmarslender/post-iterator",
+        "version": "2.0.1",
+        "version_normalized": "2.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/cmmarslender/post-iterator.git",
+            "reference": "5c9007614a4979183c77ea5fb009bb577d44d3a1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/cmmarslender/post-iterator/zipball/5c9007614a4979183c77ea5fb009bb577d44d3a1",
+            "reference": "5c9007614a4979183c77ea5fb009bb577d44d3a1",
+            "shasum": ""
+        },
+        "require": {
+            "cmmarslender/timer": "^1.0",
+            "composer/installers": "~1.0"
+        },
+        "require-dev": {
+            "10up/wp_mock": "dev-master"
+        },
+        "time": "2017-12-12T22:26:03+00:00",
+        "type": "wordpress-library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Cmmarslender\\PostIterator\\": "includes/Cmmarslender/PostIterator"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Chris Marslender",
+                "email": "chrismarslender@gmail.com"
+            }
+        ],
+        "description": "WPDB Based Post Iterator for WordPress"
+    }
+]

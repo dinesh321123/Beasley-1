@@ -35,9 +35,11 @@ import StnPlayer from './embeds/StnPlayer';
 import BrandedContent from './embeds/BrandedContent';
 import Dimers from './embeds/Dimers';
 import DraftkingEmbed from './embeds/DraftkingEmbed';
+import BottomAdhesionAd from '../../modules/BottomAdhesionAd';
 
 const mapping = {
 	audio: AudioEmbed,
+	bottomadhesion: BottomAdhesionAd,
 	countdown: Countdown,
 	cta: Cta,
 	dfp: Dfp,

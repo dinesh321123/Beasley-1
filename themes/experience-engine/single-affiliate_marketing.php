@@ -21,7 +21,7 @@ the_post();
 
 	<div class="entry-content content-wrap">
 		<div class="description">
-			<?php get_template_part( 'partials/featured-media', 'am-autoheight' ); ?>
+			<?php if ( ! ee_is_whiz() ) { get_template_part( 'partials/featured-media', 'am-autoheight' ); } ?>
 
 			<?php the_content(); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/affiliatemarketingcpt' ); ?>

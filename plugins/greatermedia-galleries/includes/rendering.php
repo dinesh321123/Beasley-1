@@ -87,29 +87,38 @@ class GreaterMediaGallery {
 	 */
 	public static function get_attachment_ids_for_post( $post ) {
 		static $ids = array();
+		$key = 'gmr-gallery-store-' . $post->ID;
+		
+		$gallery_ids = wp_cache_get( $key );
+		if ( $gallery_ids === false ) {
+			$post = get_post( $post );
+			if ( ! isset( $ids[ $post->ID ] ) ) {
+				$array_ids = get_post_meta( $post->ID, 'gallery-image' );
+				$array_ids = array_filter( array_map( 'intval', $array_ids ) );
 
-		$post = get_post( $post );
-		if ( ! isset( $ids[ $post->ID ] ) ) {
-			$array_ids = get_post_meta( $post->ID, 'gallery-image' );
-			$array_ids = array_filter( array_map( 'intval', $array_ids ) );
+				if ( empty( $array_ids ) && preg_match_all( '/\[gallery.*ids=.(.*).\]/', $post->post_content, $ids ) ) {
+					$array_ids = array();
+					foreach( $ids[1] as $match ) {
+						$array_id = explode( ',', $match );
+						$array_id = array_filter( array_map( 'intval', $array_id ) );
 
-			if ( empty( $array_ids ) && preg_match_all( '/\[gallery.*ids=.(.*).\]/', $post->post_content, $ids ) ) {
-				$array_ids = array();
-				foreach( $ids[1] as $match ) {
-					$array_id = explode( ',', $match );
-					$array_id = array_filter( array_map( 'intval', $array_id ) );
-
-					$array_ids = array_merge( $array_ids, $array_id );
+						$array_ids = array_merge( $array_ids, $array_id );
+					}
 				}
+
+				$ids[ $post->ID ] = is_array( $array_ids )
+					? array_values( array_filter( array_map( 'intval', $array_ids ) ) )
+					: array();
 			}
 
-			$ids[ $post->ID ] = is_array( $array_ids )
-				? array_values( array_filter( array_map( 'intval', $array_ids ) ) )
-				: array();
+			if(! empty( $ids[ $post->ID ] )) {
+				$gallery_ids = $ids[ $post->ID ];
+				wp_cache_set( $key, $gallery_ids, '', 2 * MINUTE_IN_SECONDS );
+			}
 		}
 
-		return ! empty( $ids[ $post->ID ] )
-			? $ids[ $post->ID ]
+		return ! empty( $gallery_ids )
+			? $gallery_ids
 			: null;
 	}
 

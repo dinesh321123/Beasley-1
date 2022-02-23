@@ -116,6 +116,12 @@ class GreaterMediaGalleryMetaboxes {
 			wp_update_post( $post );
 			self::add_save_post_actions();
 		}
+
+		$cache_key = 'gmr-gallery-store-' . $post_id;
+		$gallery_ids = wp_cache_get( $cache_key );
+		if ( isset($gallery_ids) && !empty($gallery_ids) ) {
+			wp_cache_delete( $cache_key );
+		}
 	}
 
 	/**

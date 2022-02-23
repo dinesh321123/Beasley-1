@@ -25,7 +25,7 @@ use Bbgi\Integration\Google;
 
 		do_action( 'beasley_after_body' );
 
-		if ( ! ee_is_jacapps() ) :
+		if ( ! ee_is_common_mobile() ) :
 			get_template_part( 'partials/splash-screen' );
 			get_template_part( 'partials/header' );
 		endif;

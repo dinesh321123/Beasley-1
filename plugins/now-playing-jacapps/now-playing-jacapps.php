@@ -10,9 +10,10 @@ License: GPL2
 */
 
 
-if ( ! function_exists( 'ee_is_jacapps' ) ) :
-	function ee_is_jacapps() {
-		static $jacapps_pos = null;
+if ( ! function_exists( 'ee_is_common_mobile_now_playing' ) ) :
+	function ee_is_common_mobile_now_playing() {
+		static $jacapps_pos = null,
+				$whiz_pos = null;
 
 		if ( $jacapps_pos === null ) {
 			$jacapps_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'jacapps' );
@@ -22,14 +23,19 @@ if ( ! function_exists( 'ee_is_jacapps' ) ) :
 				$jacapps_pos = 1;
 			}
 		}
+		if($whiz_pos === null ) {
+			$whiz_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'whiz' );
 
-		return false !== $jacapps_pos;
+			// Allow way to toggle whiz through URL querystring
+			if ( isset( $_GET['whiz'] ) ) {
+				$whiz_pos = 1;
+			}
+		}
+		return false !== $jacapps_pos || false !== $whiz_pos;
 	}
 endif;
 
-if ( ee_is_jacapps() ) {
-
-
+if ( ee_is_common_mobile_now_playing() ) {
 	$nowplayingurl = plugins_url( '/nowplaying.js', __FILE__ );
 	$dayjsurl = 'https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.6/dayjs.min.js';
 	wp_enqueue_script( 'day-js', "{$dayjsurl}", [] , null, false );

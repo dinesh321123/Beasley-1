@@ -103,3 +103,16 @@ if ( ! function_exists( 'ee_homepage_feeds_content_html' ) ) :
 		return ob_get_clean();
 	}
 endif;
+
+if ( ! function_exists( 'ee_is_v20' ) ) :
+	function ee_is_v20() {
+		static $v20_in_querystring = null;
+
+		if ( $v20_in_querystring === null ) {
+			// Allow way to toggle v20 features through URL querystring
+			$v20_in_querystring = isset( $_GET['v20'] );
+		}
+
+		return $v20_in_querystring;
+	}
+endif;

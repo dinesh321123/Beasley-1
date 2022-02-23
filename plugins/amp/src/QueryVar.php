@@ -70,4 +70,18 @@ interface QueryVar {
 	 * @var string
 	 */
 	const VERBOSE_SERVER_TIMING = 'amp_verbose_server_timing';
+
+	/**
+	 * Query parameter provided to customize.php to indicate that the preview should be loaded with an AMP URL.
+	 *
+	 * @var string
+	 */
+	const AMP_PREVIEW = 'amp_preview';
+
+	/**
+	 * Query parameter provided to Settings Screen to indicate that a scan should be automatically initiated if the results are stale.
+	 *
+	 * @var string
+	 */
+	const AMP_SCAN_IF_STALE = 'amp-scan-if-stale';
 }

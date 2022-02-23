@@ -3,7 +3,7 @@
 namespace AmpProject\Optimizer\Transformer;
 
 use AmpProject\Amp;
-use AmpProject\Attribute;
+use AmpProject\Html\Attribute;
 use AmpProject\CssLength;
 use AmpProject\Dom\Document;
 use AmpProject\Dom\Element;
@@ -17,8 +17,8 @@ use AmpProject\Optimizer\ErrorCollection;
 use AmpProject\Optimizer\Exception\InvalidArgument;
 use AmpProject\Optimizer\Exception\InvalidHtmlAttribute;
 use AmpProject\Optimizer\Transformer;
-use AmpProject\Role;
-use AmpProject\Tag;
+use AmpProject\Html\Role;
+use AmpProject\Html\Tag;
 use DOMAttr;
 use Exception;
 
@@ -39,7 +39,6 @@ use Exception;
  */
 final class ServerSideRendering implements Transformer
 {
-
     /**
      * List of layouts that support server-side rendering.
      *
@@ -54,6 +53,7 @@ final class ServerSideRendering implements Transformer
         Layout::CONTAINER,
         Layout::FILL,
         Layout::FLEX_ITEM,
+        Layout::FLUID,
         Layout::INTRINSIC,
     ];
 
@@ -249,8 +249,8 @@ final class ServerSideRendering implements Transformer
     /**
      * Apply the adequate layout to a custom element.
      *
-     * @param Element         $element  Element to apply the layout to.
      * @param Document        $document DOM document to apply the transformations to.
+     * @param Element         $element  Element to apply the layout to.
      * @param ErrorCollection $errors   Collection of errors that are collected during transformation.
      * @return Element|false Adapted element, or false if the layout could not be applied.
      */
@@ -295,7 +295,7 @@ final class ServerSideRendering implements Transformer
             $newElement = $element->cloneNode(false);
 
             // Transformed AMP validation requires layout attribute to be set.
-            // See https://github.com/ampproject/amp-toolbox/issues/959
+            // See https://github.com/ampproject/amp-toolbox/issues/959.
             if ($layout && $layout === Layout::RESPONSIVE) {
                 $newElement->setAttribute(Attribute::LAYOUT, $layout);
             }
@@ -349,7 +349,7 @@ final class ServerSideRendering implements Transformer
     {
         if ((empty($inputLayout) || $inputLayout === Layout::FIXED) && ! $inputWidth->isDefined()) {
             // These values come from AMP's runtime and can be found in
-            // https://github.com/ampproject/amphtml/blob/292dc66b8c0bb078bbe3a1bca960e8f494f7fc8f/src/layout.js#L70-L86
+            // https://github.com/ampproject/amphtml/blob/292dc66b8c0bb078bbe3a1bca960e8f494f7fc8f/src/layout.js#L70-L86.
             switch ($tagName) {
                 case Extension::ANALYTICS:
                 case Extension::PIXEL:
@@ -388,7 +388,7 @@ final class ServerSideRendering implements Transformer
             ) && ! $inputHeight->isDefined()
         ) {
             // These values come from AMP's runtime and can be found in
-            // https://github.com/ampproject/amphtml/blob/292dc66b8c0bb078bbe3a1bca960e8f494f7fc8f/src/layout.js#L70-L86
+            // https://github.com/ampproject/amphtml/blob/292dc66b8c0bb078bbe3a1bca960e8f494f7fc8f/src/layout.js#L70-L86.
             switch ($tagName) {
                 case Extension::ANALYTICS:
                 case Extension::PIXEL:
@@ -495,6 +495,10 @@ final class ServerSideRendering implements Transformer
             case Layout::FILL:
             case Layout::CONTAINER:
                 // Do nothing here.
+                break;
+            case Layout::FLUID:
+                $styles = 'width:100%;height:0;';
+                $this->addClass($element, AMP::LAYOUT_AWAITING_SIZE_CLASS);
                 break;
             case Layout::FLEX_ITEM:
                 if ($width->isDefined()) {
@@ -620,6 +624,7 @@ final class ServerSideRendering implements Transformer
         $style = empty($style) ? 'display:block' : "display:block;{$style}";
 
         $sizer = $document->createElement(Amp::SIZER_ELEMENT);
+        $sizer->setAttribute(Attribute::SLOT, AMP::SERVICE_SLOT);
         $sizer->addInlineStyle(sprintf($style, $paddingString));
 
         return $sizer;
@@ -639,6 +644,7 @@ final class ServerSideRendering implements Transformer
     private function createIntrinsicSizer(Document $document, CssLength $width, CssLength $height)
     {
         $sizer = $document->createElement(Amp::SIZER_ELEMENT);
+        $sizer->setAttribute(Attribute::SLOT, Amp::SERVICE_SLOT);
         $sizer->setAttribute(Attribute::CLASS_, Amp::SIZER_ELEMENT);
 
         $sizer_img = $document->createElement(Tag::IMG);
@@ -779,7 +785,7 @@ final class ServerSideRendering implements Transformer
                     case Attribute::SIZES:
                         if ($ampElement->hasAttribute(Attribute::DISABLE_INLINE_WIDTH)) {
                             // Don't remove sizes when disable-inline-width is set.
-                            // @see https://github.com/ampproject/amphtml/pull/27083
+                            // @see https://github.com/ampproject/amphtml/pull/27083.
                             break;
                         }
 
@@ -860,7 +866,7 @@ final class ServerSideRendering implements Transformer
         if (!$element->hasAttribute(Attribute::SRCSET) || empty($element->getAttribute(Attribute::SRCSET))) {
             // According to the Mozilla docs, a sizes attribute without a valid srcset attribute should have no effect.
             // Therefore, it should simply be stripped, without producing media queries.
-            // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-sizes
+            // @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-sizes.
             return [];
         }
 
@@ -895,6 +901,7 @@ final class ServerSideRendering implements Transformer
         // TODO: I'm not sure why I initially added this here, it looks very intentional.
         // However, it doesn't match what the NodeJS version does, which is to add padding-top
         // to the inline style of the element.
+        // phpcs:ignore Squiz.Commenting.InlineComment.InvalidEndChar
         // $this->customSizerStyles[$document->getElementId($element)] = '';
 
         return $this->extractAttributeCss(

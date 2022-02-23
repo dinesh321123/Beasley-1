@@ -52,6 +52,10 @@ $affiliatemarketing_post_object = get_queried_object();
 		if ( ! is_array( $am_item_getitnowfromurl ) ) :
 			$am_item_getitnowfromurl = array();
 		endif;
+	$am_item_type 	= \AffiliateMarketingCPTFrontRendering::get_post_metadata_from_post( 'am_item_type', $affiliatemarketing_post_object );
+		if ( ! is_array( $am_item_type ) ) :
+			$am_item_type = array();
+		endif;
 
 echo ee_get_affiliatemarketing_html(
 	$affiliatemarketing_post_object,
@@ -66,5 +70,6 @@ echo ee_get_affiliatemarketing_html(
 	$am_item_buttontext,
 	$am_item_buttonurl,
 	$am_item_getitnowfromname,
-	$am_item_getitnowfromurl
+	$am_item_getitnowfromurl,
+	$am_item_type
 );

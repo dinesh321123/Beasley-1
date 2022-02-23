@@ -3,12 +3,12 @@
 namespace AmpProject\Optimizer\Transformer;
 
 use AmpProject\Amp;
-use AmpProject\Attribute;
+use AmpProject\Html\Attribute;
 use AmpProject\Dom\Document;
 use AmpProject\Dom\Element;
 use AmpProject\Optimizer\ErrorCollection;
 use AmpProject\Optimizer\Transformer;
-use AmpProject\Tag;
+use AmpProject\Html\Tag;
 use DOMNode;
 use DOMNodeList;
 
@@ -45,7 +45,6 @@ use DOMNodeList;
  */
 final class ReorderHead implements Transformer
 {
-
     /**
      * Regular expression pattern to match resource hints pointing to an AMP resource.
      */
@@ -54,6 +53,7 @@ final class ReorderHead implements Transformer
     /*
      * Different categories of <head> tags to track and reorder.
      */
+    // phpcs:disable Squiz.Commenting.VariableComment.Missing
     private $ampResourceHints                  = [];
     private $linkIcons                         = [];
     private $linkStyleAmpRuntime               = null;

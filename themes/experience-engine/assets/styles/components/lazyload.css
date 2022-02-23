@@ -33,7 +33,8 @@
 	}
 }
 
-.jacapps .non-lazy-image {
+.jacapps .non-lazy-image,
+.whiz .non-lazy-image {
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
@@ -53,7 +54,7 @@
 	}
 }
 
-.lazy-video, .jacapps div[class$="-oembed"] {
+.lazy-video, .jacapps div[class$="-oembed"], .whiz div[class$="-oembed"] {
 	/* background-color: var(--global-black); */
 	background-position: center;
 	background-repeat: no-repeat;

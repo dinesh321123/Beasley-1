@@ -188,8 +188,8 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 
 		$targeting = apply_filters( 'dfp_single_targeting', $targeting, $slot );
 
-		// When not jacapps, render react ready attributes
-		if ( ! ee_is_jacapps() ) {
+		// When not jacapps or whiz, render react ready attributes
+		if ( ! ee_is_common_mobile() ) {
 			$html = sprintf(
 				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s" ></div>',
 				esc_attr( $unit_id ),
@@ -198,11 +198,11 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			);
 		}
 
-		// When is jacapps, render standard div and script for display
+		// When is jacapps or whiz, render standard div and script for display
 		// We do this since the ad units are currently embedded in the react app
-		// So fallback for jacapps is to add the script inline for display adds
+		// So fallback for jacapps or whiz is to add the script inline for display adds
 		// along with an alternative DFP slot
-		if ( ee_is_jacapps() ) {
+		if ( ee_is_common_mobile() ) {
 
 			$uuid = $slot . '_' . wp_generate_uuid4();
 

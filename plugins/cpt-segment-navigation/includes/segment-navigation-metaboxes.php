@@ -64,7 +64,8 @@ class SegmentPermissionsMetaboxes {
 					'layout'			=> 'horizontal', 
 					'choices'			=> array(
 						'asc'			=> 'Ascending',
-						'desc'		=> 'Descending'
+						'desc'			=> 'Descending',
+						'header'		=> 'Heading',
 					)
 				),
 			),

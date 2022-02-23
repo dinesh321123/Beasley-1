@@ -14,7 +14,6 @@ namespace AmpProject\Optimizer;
  */
 final class CssRules
 {
-
     /**
      * Internal array of CssRule objects.
      *
@@ -59,7 +58,7 @@ final class CssRules
     /**
      * Add a CSS rule to the collection.
      *
-     * @param CssRule $cssRule
+     * @param CssRule $cssRule A single CSS rule.
      * @return CssRules Adapted collection with the added CSS rule.
      */
     public function add(CssRule $cssRule)
