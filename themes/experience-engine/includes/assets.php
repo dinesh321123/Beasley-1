@@ -232,6 +232,7 @@ if ( ! function_exists( 'ee_get_other_css_vars' ) ) :
 			'--brand-play-live-hover-opacity'     	=> get_option( 'play_live_hover_opacity_setting', '0.8' ),
 			'--default-configurable-iframe-height'	=> get_option( 'configurable_iframe_height', '0' ) . 'px',
 			'--configurable-iframe-height'     		=> get_option( 'configurable_iframe_height', '0' ) . 'px',
+			'--is_V20'								=> ee_is_v20(),
 		];
 
 		return $vars;
