@@ -28,7 +28,7 @@ if ( class_exists( 'WP_CLI' ) ) {
 
 add_action( 'admin_init', function () {
 	if ( ! wp_next_scheduled( 'contest_invalidator_cron_hook' ) ) {
-		wp_schedule_event( time(), '30minute', 'contest_invalidator_cron_hook' );
+		wp_schedule_event( time(), 'contest_15minute', 'contest_invalidator_cron_hook' );
 	}
 });
 
@@ -597,10 +597,10 @@ function invalidate_expired_contests( $not_from_cron = false ) {
  * @return array
  */
 function contest_cron_intervals( $schedules ) {
-	if ( ! isset( $schedules['30minute'] ) ) {
-		$schedules['30minute'] = array(
-			'interval' => 30 * MINUTE_IN_SECONDS,
-			'display'  => 'Every 30 minutes',
+	if ( ! isset( $schedules['contest_15minute'] ) ) {
+		$schedules['contest_15minute'] = array(
+			'interval' => 15 * MINUTE_IN_SECONDS,
+			'display'  => 'Every 15 minutes',
 		);
 	}
 
