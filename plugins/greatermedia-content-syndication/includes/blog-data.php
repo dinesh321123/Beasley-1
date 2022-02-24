@@ -7,8 +7,8 @@
 class BlogData {
 
 	public static $taxonomies = array(
-		'category'      =>  'single',
-		'collection'    =>  'single',
+			'category'      =>  'single',
+			'collection'    =>  'single',
 	);
 
 	public static $log = array();
@@ -61,16 +61,16 @@ class BlogData {
 
 	public static function add_notice_for_undefined() {
 		if( !defined( 'GMR_CONTENT_SITE_ID' ) ) {
-		?>
-		<div class="error">
-			<p>
-				No Content Factory site ID is defined!
-				Using default ID <?php echo self::$content_site_id; ?>!
-				Please define GMR_CONTENT_SITE_ID in config
-			</p>
+			?>
+			<div class="error">
+				<p>
+					No Content Factory site ID is defined!
+					Using default ID <?php echo self::$content_site_id; ?>!
+					Please define GMR_CONTENT_SITE_ID in config
+				</p>
 
-		</div>
-		<?php
+			</div>
+			<?php
 		}
 	}
 
@@ -96,13 +96,11 @@ class BlogData {
 	public static function syndicate_now() {
 		// verify nonce, with predifined
 		if ( ! wp_verify_nonce( $_POST['syndication_nonce'], 'perform-syndication-nonce' ) ) {
-			// self::log( "Nonce did not verify for Syndicate Now Button" );
 			error_log( self::syndication_log_prefix()."Nonce did not verify for Syndicate Now Button"."\n" );
 			die( ':P' );
 		}
 
 		// run syndication
-		// self::log( "Starting 'Syndicate Now' Process" );
 		error_log( self::syndication_log_prefix()." Starting 'Syndicate Now' Process \n" );
 
 		self::$syndicate_now = true;
@@ -110,15 +108,7 @@ class BlogData {
 		$total = $syndication_id > 0 ? self::run( $syndication_id ) : 0;
 
 		// Remove syndication lock when running manually
-		// if($total !== -1) {
-			delete_post_meta( $syndication_id, 'subscription_running' );
-		// }
-
-		/* $items_onhalt = get_post_meta( $syndication_id, 'subscription_items_onhalt', true );
-		if($total == 0 && $items_onhalt > 0) {
-			$total = $items_onhalt;
-			delete_post_meta( $syndication_id, 'subscription_items_onhalt' );
-		} */
+		delete_post_meta( $syndication_id, 'subscription_running' );
 
 		if ( ! is_numeric( $total ) ) {
 			self::log( "A non numerical response was received from self::run in " . __FILE__ . ":" . __LINE__ . ". Response was " . var_export( $total, true ) );
@@ -129,9 +119,8 @@ class BlogData {
 		}
 
 		wp_send_json( array(
-			// 'running' => ( $total == -1 ) ? true : false,
-			'total' => (int) $total,
-			'unique_id' => self::$syndication_uniqid,
+				'total' => (int) $total,
+				'unique_id' => self::$syndication_uniqid,
 		) );
 		exit;
 	}
@@ -161,17 +150,6 @@ class BlogData {
 				return false;
 			}
 
-			// // Ensure we have a valid post.
-			// $subscription_post = get_post( $syndication_id );
-
-			// if ( ! is_a( $subscription_post, 'WP_Post' ) ) {
-			// 	return false;
-			// }
-
-			// if ( 'subscription' !== $subscription_post->post_type ) {
-			// 	return false;
-			// }
-
 			global $edit_flow, $gmrs_editflow_custom_status_disabled;
 
 			if ( ! defined( 'WP_IMPORTING' ) ) {
@@ -181,17 +159,14 @@ class BlogData {
 			$is_running = get_post_meta( $syndication_id, 'subscription_running', true );
 
 			if ( $is_running ) {
-				// self::log( "Syndication is running. Halting..." );
 				error_log( self::syndication_log_prefix()." Syndication is running. Halting... ".$syndication_id."\n" );
 				$four_hours_ago = strtotime( '-4 hour' );
 				if ( $is_running <= $four_hours_ago ) {
 					// Delete the lock so the job can run again. We should also send an alert.
 					delete_post_meta( $syndication_id, 'subscription_running' );
 				}
-				// return -1;
 				return 0;
 			} else {
-				// self::log( "Syndication has started" );
 				error_log( self::syndication_log_prefix()." Syndication has started \n" );
 				add_post_meta( $syndication_id, 'subscription_running', current_time( 'timestamp', 1 ) );
 			}
@@ -204,7 +179,6 @@ class BlogData {
 
 			$result = self::_run( $syndication_id, $offset, $force );
 		} catch ( Exception $e ) {
-			// self::log( "[EXCEPTION]: %s", $e->getMessage() );
 			error_log( self::syndication_log_prefix()."[EXCEPTION]: ".$e->getMessage() ."\n" );
 		}
 
@@ -214,7 +188,6 @@ class BlogData {
 	}
 
 	private static function _run( $syndication_id, $offset = 0, $force = false ) {
-		// self::log( "Start querying content site with offset = %s...", $offset );
 		// error_log( self::syndication_log_prefix(). "Start querying content site with offset = ". $offset ."...\n" );
 
 		// Get the current time before we start querying, so that we know next time we use this value it was the value
@@ -224,8 +197,8 @@ class BlogData {
 		$result = self::QueryContentSite( $syndication_id, '', '', $offset );
 		$taxonomy_names = SyndicationCPT::$support_default_tax;
 		$defaults = array(
-			'status'         =>  get_post_meta( $syndication_id, 'subscription_post_status', true ),
-			'last_performed' => get_post_meta( $syndication_id, 'syndication_last_performed', true ),
+				'status'         =>  get_post_meta( $syndication_id, 'subscription_post_status', true ),
+				'last_performed' => get_post_meta( $syndication_id, 'syndication_last_performed', true ),
 		);
 
 		$max_pages = $result['max_pages'];
@@ -234,7 +207,6 @@ class BlogData {
 		unset( $result['max_pages'] );
 		unset( $result['found_posts'] );
 
-		// self::log( "Received %s posts (%s max pages) from content site", $total_posts, $max_pages );
 		// error_log( self::syndication_log_prefix(). "Received $total_posts posts ($max_pages max pages) from content site" ."\n" );
 
 		foreach( $taxonomy_names as $taxonomy ) {
@@ -258,20 +230,21 @@ class BlogData {
 		foreach ( $result as $single_post ) {
 			try {
 				$post_id = self::ImportPosts(
-					$single_post['post_obj'],
-					$single_post['post_metas'],
-					$defaults,
-					$single_post['featured'],
-					$single_post['attachments'],
-					$single_post['gallery_attachments'],
-					$single_post['galleries'],
-					$single_post['listicle_metas'],
-					$single_post['am_metas'],
-					$single_post['am_item_photo_attachment'],
-					$single_post['show_metas'],
-					$single_post['show_logo_metas'],
-					$single_post['term_tax'],
-					$force
+						$single_post['post_obj'],
+						$single_post['post_metas'],
+						$defaults,
+						$single_post['featured'],
+						$single_post['attachments'],
+						$single_post['gallery_attachments'],
+						$single_post['galleries'],
+						$single_post['page_metas'],
+						$single_post['listicle_metas'],
+						$single_post['am_metas'],
+						$single_post['am_item_photo_attachment'],
+						$single_post['show_metas'],
+						$single_post['show_logo_metas'],
+						$single_post['term_tax'],
+						$force
 				);
 
 				if ( $post_id > 0 ) {
@@ -345,16 +318,16 @@ class BlogData {
 
 		// query args
 		$args = array(
-			'post_type'      => $post_type,
-			'post_status'    => SyndicationCPT::$supported_syndication_statuses,
-			'posts_per_page' => $posts_per_page,
-			'offset'         => $offset * $posts_per_page,
-			'tax_query'      => array(),
-			'date_query'     => array(
-					'column' => 'post_modified_gmt',
-			),
-			'orderby' => 'date',
-			'order' => 'DESC',
+				'post_type'      => $post_type,
+				'post_status'    => SyndicationCPT::$supported_syndication_statuses,
+				'posts_per_page' => $posts_per_page,
+				'offset'         => $offset * $posts_per_page,
+				'tax_query'      => array(),
+				'date_query'     => array(
+						'column' => 'post_modified_gmt',
+				),
+				'orderby' => 'date',
+				'order' => 'DESC',
 		);
 
 		$start_date = apply_filters( 'beasley_syndication_query_start_date', $start_date );
@@ -473,6 +446,20 @@ class BlogData {
 			}
 		}
 
+		$page_metas = array();
+		if ( 'page' == $single_result->post_type ) {
+			$page_post = get_post($single_result->ID);
+			$page_metas['_wp_page_template'] = self::am_get_metavalue( '_wp_page_template', $single_result->ID );
+			$page_metas['menu_order'] = $page_post->menu_order;
+			$page_parent_slug_var = "";
+			if ( isset( $page_post->post_parent ) && $page_post->post_parent != "" )
+			{
+				$page_parent_slug_array = get_post( $page_post->post_parent );
+				$page_parent_slug_var = $page_parent_slug_array->post_name;
+			}
+			$page_metas['post_parent'] = $page_parent_slug_var;
+		}
+
 		$listicle_metas = array();
 		if ( 'listicle_cpt' == $single_result->post_type ) {
 			$listicle_metas['cpt_item_name'] = self::listicle_ge_metavalue( 'cpt_item_name', $single_result->ID  );
@@ -567,18 +554,19 @@ class BlogData {
 		}
 
 		return array(
-			'post_obj'            => $single_result,
-			'post_metas'          => $metas,
-			'attachments'         => $media,
-			'gallery_attachments' => $attachments,
-			'listicle_metas' 	  => $listicle_metas,
-			'am_metas'			  => $am_metas,
-			'am_item_photo_attachment'			  => $am_metas_photo_array,
-			'show_metas'		  => $show_metas,
-			'show_logo_metas'	  => $show_logo_metas,
-			'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
-			'galleries'           => $galleries,
-			'term_tax'            => $term_tax,
+				'post_obj'            => $single_result,
+				'post_metas'          => $metas,
+				'attachments'         => $media,
+				'gallery_attachments' => $attachments,
+				'page_metas' 		  => $page_metas,
+				'listicle_metas' 	  => $listicle_metas,
+				'am_metas'			  => $am_metas,
+				'am_item_photo_attachment'			  => $am_metas_photo_array,
+				'show_metas'		  => $show_metas,
+				'show_logo_metas'	  => $show_logo_metas,
+				'featured'            => $featured_id ? array( $featured_id, $featured_src ) : null,
+				'galleries'           => $galleries,
+				'term_tax'            => $term_tax,
 		);
 	}
 
@@ -611,7 +599,7 @@ class BlogData {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $listicle_metas,$am_metas, $am_item_photo_attachment, $show_metas, $show_logo_metas, $term_tax, $force_update = false ) {
+	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $page_metas, $listicle_metas,$am_metas, $am_item_photo_attachment, $show_metas, $show_logo_metas, $term_tax, $force_update = false ) {
 		if ( ! $post ) {
 			return;
 		}
@@ -628,21 +616,21 @@ class BlogData {
 
 		// prepare arguments for wp_insert_post
 		$args = array(
-			'post_title'        => $post_title,
-			'post_content'      => $post->post_content,
-			'post_author'       => $post->post_author,
-			'post_type'         => $post_type,
-			'post_name'         => $post_name,
-			'post_status'       => ! empty( $post_status ) ? $post_status : $post->post_status,
-			'post_date'         => $post->post_date,
-			'post_date_gmt'     => $post->post_date_gmt,
-			'post_modified'     => $post->post_modified,
-			'post_modified_gmt' => $post->post_modified_gmt,
-			'meta_input'        => array(
-				'syndication_import'   => $post_hash,
-				'syndication_old_name' => $post_name,
-				'syndication_old_data' => serialize( array( 'id' => intval( $post->ID ), 'blog_id' => self::$content_site_id ) ),
-			),
+				'post_title'        => $post_title,
+				'post_content'      => $post->post_content,
+				'post_author'       => $post->post_author,
+				'post_type'         => $post_type,
+				'post_name'         => $post_name,
+				'post_status'       => ! empty( $post_status ) ? $post_status : $post->post_status,
+				'post_date'         => $post->post_date,
+				'post_date_gmt'     => $post->post_date_gmt,
+				'post_modified'     => $post->post_modified,
+				'post_modified_gmt' => $post->post_modified_gmt,
+				'meta_input'        => array(
+						'syndication_import'   => $post_hash,
+						'syndication_old_name' => $post_name,
+						'syndication_old_data' => serialize( array( 'id' => intval( $post->ID ), 'blog_id' => self::$content_site_id ) ),
+				),
 		);
 
 		if ( 'publish' == $post_status ) {
@@ -650,14 +638,28 @@ class BlogData {
 			$args['post_modified_gmt'] = current_time( 'mysql', 1 );
 		}
 
+		if ( 'page' == $post_type ) {
+			$post_parent = "";
+			if ( isset( $page_metas['post_parent'] ) && $page_metas['post_parent'] != "" )
+			{
+				// $pageIdBySlug = get_page_by_path( $page_metas['post_parent'], OBJECT, 'page' );
+				$pageIdBySlug = get_page_by_path( 'the-content-factory-page', OBJECT, 'page' );
+				$post_parent = isset( $pageIdBySlug->ID ) && $pageIdBySlug->ID != "" ? $pageIdBySlug->ID : "" ;
+				echo "<pre>", print_r( $pageIdBySlug ), print_r( $page_metas['post_parent'] ), "</pre>"; exit;
+			}
+			$args['post_parent'] = $post_parent;
+			// echo "<pre>", print_r( $pageIdBySlug ), print_r( $args['post_parent'] ), "</pre>"; exit;
+			$args['menu_order'] = $page_metas['menu_order'];
+		}
+
 		if ( ! empty( $metas ) ) {
 			$exclude = array(
-				'_edit_lock',
-				'_edit_last',
-				'_pingme',
-				'_encloseme',
-				'syndication-detached',
-				'embed'
+					'_edit_lock',
+					'_edit_last',
+					'_pingme',
+					'_encloseme',
+					'syndication-detached',
+					'embed'
 			);
 
 			foreach ( $metas as $meta_key => $meta_value ) {
@@ -671,30 +673,18 @@ class BlogData {
 		if ( ! is_null( $featured ) ) {
 			$featured_id = self::ImportMedia( null, $featured[1], $featured[0] );
 			if ( is_wp_error( $featured_id ) ) {
-				/* self::log(
-					"Error during import media for %s: \"%s\" (%s)",
-					$post_title,
-					$featured_id->get_error_message(),
-					json_encode( $featured )
-				); */
 				error_log( self::syndication_log_prefix(). "Error during import feature media for $post_title: \"$featured_id->get_error_message()\" (" . json_encode( $featured ) .")\n" );
 			} else {
-				/* self::log(
-					"Imported media for %s: %s (%s)",
-					$post_title,
-					$featured_id,
-					json_encode( $featured )
-				); */
 				// error_log( self::syndication_log_prefix(). "Imported feature media for $post_title: \"$featured_id\" (" . json_encode( $featured ) .")\n" );
 			}
 		}
 
 		// query to check whether post already exist
 		$meta_query_args = array(
-			'meta_key'    => 'syndication_old_name',
-			'meta_value'  => $post_name,
-			'post_status' => 'any',
-			'post_type'   => $post_type
+				'meta_key'    => 'syndication_old_name',
+				'meta_value'  => $post_name,
+				'post_status' => 'any',
+				'post_type'   => $post_type
 		);
 
 		$updated = 0;
@@ -858,14 +848,9 @@ class BlogData {
 				update_post_meta( $post_id, 'cpt_item_description', $listicle_metas['cpt_item_description'] );
 			}
 
-			if ( 'listicle_cpt' == $post_type ) {
-				delete_post_meta( $post_id, 'cpt_item_name' );
-				delete_post_meta( $post_id, 'cpt_item_order' );
-				delete_post_meta( $post_id, 'cpt_item_description' );
-
-				update_post_meta( $post_id, 'cpt_item_name', $listicle_metas['cpt_item_name'] );
-				update_post_meta( $post_id, 'cpt_item_order', $listicle_metas['cpt_item_order'] );
-				update_post_meta( $post_id, 'cpt_item_description', $listicle_metas['cpt_item_description'] );
+			if ( 'page' == $post_type ) {
+				delete_post_meta( $post_id, '_wp_page_template' );
+				update_post_meta( $post_id, '_wp_page_template',$page_metas['_wp_page_template'] );
 			}
 
 			if ( 'affiliate_marketing' == $post_type ) {
@@ -889,8 +874,8 @@ class BlogData {
 				foreach ( $am_item_photo_attachment as $am_item_photo_abject ) {
 					if( !empty($am_item_photo_abject) && isset( $am_item_photo_abject->ID ) && $am_item_photo_abject->ID != "" ){
 						$filename = esc_url_raw( $am_item_photo_abject->guid );
-							$id = self::ImportMedia( $post_id, $filename, $am_item_photo_abject->ID, $am_item_photo_abject );
-							$am_item_photo_import[] = is_numeric( $id ) ? $id : "" ;
+						$id = self::ImportMedia( $post_id, $filename, $am_item_photo_abject->ID, $am_item_photo_abject );
+						$am_item_photo_import[] = is_numeric( $id ) ? $id : "" ;
 					} else {
 						$am_item_photo_import[] = "";
 					}
@@ -948,9 +933,9 @@ class BlogData {
 					$class = array();
 					if ( isset( $attrs['class'] ) && preg_match( '#wp-image-(\d+)#i', $attrs['class'], $class ) ) {
 						$attachment = get_posts( array(
-							'meta_key'   => self::get_attachment_old_id_key(),
-							'meta_value' => $class[1],
-							'post_type'  => 'attachment',
+								'meta_key'   => self::get_attachment_old_id_key(),
+								'meta_value' => $class[1],
+								'post_type'  => 'attachment',
 						) );
 
 						if ( ! empty( $attachment ) ) {
@@ -1056,7 +1041,6 @@ class BlogData {
 		$tmp = download_url( $filename );
 
 		if ( is_wp_error( $tmp ) ) {
-			// self::log( "ImportMedia( $post_id / $original_id ), Failed to Download $filename : " . $tmp->get_error_message() );
 			error_log( self::syndication_log_prefix(). "ImportMedia( $post_id / $original_id ), Failed to Download $filename : " . $tmp->get_error_message() ."\n" );
 			return $tmp;
 		}
@@ -1065,15 +1049,15 @@ class BlogData {
 		$original_id = intval( $original_id );
 		if ( empty( $original_id ) ) {
 			$meta_query_args = array(
-				'meta_key'   => self::get_attachment_old_url_key(),
-				'meta_value' => $filename,
-				'post_type'  => 'attachment',
+					'meta_key'   => self::get_attachment_old_url_key(),
+					'meta_value' => $filename,
+					'post_type'  => 'attachment',
 			);
 		} else {
 			$meta_query_args = array(
-				'meta_key'   => self::get_attachment_old_id_key(),
-				'meta_value' => $original_id,
-				'post_type'  => 'attachment',
+					'meta_key'   => self::get_attachment_old_id_key(),
+					'meta_value' => $original_id,
+					'post_type'  => 'attachment',
 			);
 		}
 
@@ -1110,7 +1094,6 @@ class BlogData {
 
 				// If error storing permanently, unlink
 				if ( is_wp_error( $id ) ) {
-					// self::log( "ImportMedia( $post_id / $original_id ), Media Sideload Failed $filename : " . $id->get_error_message() );
 					error_log( self::syndication_log_prefix(). "ImportMedia( $post_id / $original_id ), Media Sideload Failed $filename : " . $id->get_error_message() ."\n" );
 					@unlink( $file_array['tmp_name'] );
 				} else {
@@ -1208,9 +1191,9 @@ class BlogData {
 				$old_ids = explode( ",", $gallery["ids"] );
 				foreach ( $gallery['src'] as $index => $image_src ) {
 					$meta_query_args = array(
-						'meta_key'   => self::get_attachment_old_url_key(),
-						'meta_value' => esc_url_raw( $image_src ),
-						'post_type'  => 'attachment',
+							'meta_key'   => self::get_attachment_old_url_key(),
+							'meta_value' => esc_url_raw( $image_src ),
+							'post_type'  => 'attachment',
 					);
 
 					$existing = get_posts( $meta_query_args );
@@ -1285,8 +1268,8 @@ class BlogData {
 		foreach( self::$taxonomies as $taxonomy => $type ) {
 			if( taxonomy_exists( $taxonomy ) ) {
 				$args = array(
-					'get'        => 'all',
-					'hide_empty' => false
+						'get'        => 'all',
+						'hide_empty' => false
 				);
 
 				$terms[ $taxonomy ] = get_terms( $taxonomy, $args );
@@ -1306,12 +1289,12 @@ class BlogData {
 	 */
 	public static function GetActiveSubscriptions( $args = array() ) {
 		$defaults = array(
-			'post_type'      => 'subscription',
-			'post_status'    => 'publish',
-			'meta_key'       => 'subscription_post_status',
-			'orderby'        => 'meta_value',
-			'order'          => 'ASC',
-			'posts_per_page' => 200,
+				'post_type'      => 'subscription',
+				'post_status'    => 'publish',
+				'meta_key'       => 'subscription_post_status',
+				'orderby'        => 'meta_value',
+				'order'          => 'ASC',
+				'posts_per_page' => 200,
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -1347,8 +1330,8 @@ class BlogData {
 		$uniqid = self::$syndication_uniqid;
 		$site_id = get_current_blog_id();
 		$message = func_num_args() > 1
-			? vsprintf( func_get_arg( 0 ), array_slice( func_get_args(), 1 ) )
-			: func_get_arg( 0 );
+				? vsprintf( func_get_arg( 0 ), array_slice( func_get_args(), 1 ) )
+				: func_get_arg( 0 );
 
 		$message = "[SYNDICATION:{$syndication_id} SITE:{$site_id} {$uniqid}] {$message}";
 		self::$log[] = $message;

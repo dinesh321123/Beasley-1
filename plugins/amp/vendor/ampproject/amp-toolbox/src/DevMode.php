@@ -15,7 +15,6 @@ use DOMNode;
  */
 final class DevMode
 {
-
     /**
      * Attribute name for AMP dev mode.
      *
@@ -70,7 +69,7 @@ final class DevMode
     /**
      * Get the document from the specified node.
      *
-     * @param DOMNode $node
+     * @param DOMNode $node The Node from which the document should be retrieved.
      * @return Document
      */
     private static function getDocument(DOMNode $node)

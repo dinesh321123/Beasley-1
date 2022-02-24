@@ -3,15 +3,6 @@
 namespace AmpProject\Optimizer;
 
 use AmpProject\Optimizer\Exception\UnknownConfigurationKey;
-use AmpProject\Optimizer\Transformer\AmpBoilerplate;
-use AmpProject\Optimizer\Transformer\AmpBoilerplateErrorHandler;
-use AmpProject\Optimizer\Transformer\AmpRuntimeCss;
-use AmpProject\Optimizer\Transformer\OptimizeAmpBind;
-use AmpProject\Optimizer\Transformer\PreloadHeroImage;
-use AmpProject\Optimizer\Transformer\ReorderHead;
-use AmpProject\Optimizer\Transformer\RewriteAmpUrls;
-use AmpProject\Optimizer\Transformer\ServerSideRendering;
-use AmpProject\Optimizer\Transformer\TransformedIdentifier;
 
 /**
  * Interface for a configuration object that validates and stores configuration settings.
@@ -20,7 +11,6 @@ use AmpProject\Optimizer\Transformer\TransformedIdentifier;
  */
 interface Configuration
 {
-
     /**
      * Key to use for managing the array of active transformers.
      *
@@ -31,7 +21,7 @@ interface Configuration
     /**
      * Array of known configuration keys and their default values.
      *
-     * @var string[]
+     * @var array{transformers: string[]}
      */
     const DEFAULTS = [
         self::KEY_TRANSFORMERS => self::DEFAULT_TRANSFORMERS,
@@ -43,15 +33,19 @@ interface Configuration
      * @var string[]
      */
     const DEFAULT_TRANSFORMERS = [
-        AmpBoilerplate::class,
-        ServerSideRendering::class,
-        AmpRuntimeCss::class,
-        AmpBoilerplateErrorHandler::class,
-        TransformedIdentifier::class,
-        PreloadHeroImage::class,
-        RewriteAmpUrls::class,
-        ReorderHead::class,
-        OptimizeAmpBind::class,
+        Transformer\TransformedIdentifier::class,
+        Transformer\AmpBoilerplate::class,
+        Transformer\OptimizeHeroImages::class,
+        Transformer\ServerSideRendering::class,
+        Transformer\AmpRuntimeCss::class,
+        Transformer\AmpRuntimePreloads::class,
+        Transformer\AmpBoilerplateErrorHandler::class,
+        Transformer\GoogleFontsPreconnect::class,
+        Transformer\RewriteAmpUrls::class,
+        Transformer\OptimizeViewport::class,
+        Transformer\ReorderHead::class,
+        Transformer\OptimizeAmpBind::class,
+        Transformer\MinifyHtml::class,
     ];
 
     /**

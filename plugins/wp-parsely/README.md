@@ -1,7 +1,16 @@
-# Parse.ly #
-The Parse.ly plugin real-time and historical analytics to your content through a platform designed and built for digital publishing.
+# Parse.ly
 
-## Description ##
+Stable tag: 3.1.0  
+Requires at least: 5.0  
+Tested up to: 5.8  
+Requires PHP: 7.1  
+License: GPLv2 or later  
+Tags: analytics, parse.ly, parsely, parsley  
+Contributors: parsely, hbbtstar, jblz, mikeyarce, GaryJ, parsely_mike, pauargelaguet, acicovic
+
+The Parse.ly plugin facilitates real-time and historical analytics to your content through a platform designed and built for digital publishing.
+
+## Description
 
 Designed and built for digital publishers, Parse.ly helps you understand how your audience is connecting to your content.
 
@@ -9,180 +18,164 @@ Thousands of writers, editors, site managers, and technologists already use Pars
 
 Join industry leaders -- like Mashable, Slate, News Corp, and Conde Nast -- who already use Parse.ly to bring clarity to content, audience, and analytics.
 
-**Features**
+### Features
 
-* Get started with Parse.ly right away: the plugin automatically inserts the required parsely-page tag and JavaScript on all your published pages and posts.
-* Allows you to specify the JavaScript implementation to use: standard, DOM free or asynchronous.
-* If you've purchased access to the Parse.ly API, add a widget to your site with story recommendations personalized to individual users.
+- Get started with Parse.ly right away: the plugin automatically inserts the required metadata and JavaScript on all your published pages and posts.
+- Choose what format the metadata takes, and whether logged-in users should be included in the analytics.
+- Using it in a decoupled setup? Parse.ly adds metadata to the REST API output for pages, posts and optionally other object types.
+- If you've purchased access to the Parse.ly API, add a widget to your site with article recommendations personalized to individual users.
 
-Feedback, suggestions, questions or concerns? E-mail us at [support@parsely.com](mailto:support@parsely.com) we always want to hear from you.
+Feedback, suggestions, questions or concerns? Open a new [GitHub issue](https://github.com/Parsely/wp-parsely/issues) or email us at [support@parsely.com](mailto:support@parsely.com). We always want to hear from you!
 
-## Installation ##
+## Installation
 
-1. This plug-in requires an active version of Parse.ly. We offer a free trial, [sign up here](http://www.parsely.com/trial/?utm_medium=referral&utm_source=wordpress.org&utm_content=wp-parsely)
-1. If you haven't already done so, [sign up for a trial of Parse.ly](http://www.parsely.com/trial/?utm_medium=referral&utm_source=wordpress.org&utm_content=wp-parsely)
-1. Download the plugin
-1. Upload the entire `wp-parsely` folder to your `/wp-content/plugins` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress (look for "Parse.ly")
-1. Head to the settings page for the plugin (should be /wp-admin/options-general.php?page=parsely)
-1. Set your Site ID, which is your own site domain name (e.g., `mysite.com`)
-1. Save your changes and enjoy your data!
+The plugin requires an active Parse.ly account. Parse.ly gives creators, marketers, and developers the tools to understand content performance, prove content value, and deliver tailored content experiences that drive meaningful results. [Sign up for a free demo of Parse.ly](https://www.parsely.com/getdemo?utm_medium=referral&utm_source=wordpress.org&utm_content=wp-parsely).
 
-**NOTE:** This plugin does not currently support dynamic tracking (the tracking of multiple pageviews on a single page). Some common use-cases for dynamic tracking are slideshows or articles loaded via AJAX calls in single-page applications -- situations in which new content is loaded without a full page refresh. Tracking these events requires manually implementing additional JavaScript above [the standard Parse.ly include](http://www.parsely.com/help/integration/basic/) that the plugin injects into your page source. Please consult [the Parse.ly documentation on dynamic tracking](https://www.parsely.com/help/integration/dynamic/) for instructions on implementing dynamic tracking, or contact Parse.ly support for additional assistance.
+### Install the plugin from within WordPress
 
-Feedback, suggestions, questions or concerns? E-mail us at [support@parsely.com](mailto:support@parsely.com) -- we always want to hear from you.
+1. Visit the Plugins page from your WordPress dashboard and click "Add New" at the top of the page.
+2. Search for _parse.ly_ using the search bar on the right side.
+3. Click _Install Now_ to install the plugin.
+4. After it's installed, click _Activate_ to activate the plugin on your site.
 
-## Tests ##
+### Install the plugin manually
 
-1. Follow the steps to install VirtualBox, Vagrant and `vagrant-hostsupdater` at [http://vccw.cc/](http://vccw.cc/).
-1. Navigate to the directory on your host machine to which you downloaded vccw.
-1. Within that directory, navigate to `www/wordpress/wp-content/plugins` and clone this repo -- `git clone https://github.com/Parsely/wp-parsely.git`
-1. Checkout the branch on which you've been working
-1. Navigate back up to the root of the `vccw` directory and run `vagrant up`
-1. Ssh into the Vagrant machine with `vagrant ssh`
-1. Delete extra wordpress files in /tmp with `rm -rf /tmp/wordpress*` (see this issue for context: https://github.com/wp-cli/wp-cli/issues/1938)
-1. Run the test init script, if you haven't already: `bash bin/install-wp-tests.sh wptest root <db password>`
-1. Navigate to `/var/www/wordpress/wp-content/plugins/wp-parsely` and run the test suite with the command `phpunit`
+1. Download the plugin from [WordPress.org](https://wordpress.org/plugins/wp-parsely/) or get the latest release from our [Github Releases page](https://github.com/Parsely/wp-parsely/releases).
+2. Unzip the downloaded archive.
+3. Upload the entire `wp-parsely` folder to your `/wp-content/plugins` directory.
+4. Visit the Plugins page from your WordPress dashboard and look for the newly installed Parse.ly plugin.
+5. Click _Activate_ to activate the plugin on your site.
 
+## Local development
 
-## Frequently Asked Questions ##
+To run the plugin locally or to contribute to it, please check the instructions in the [CONTRIBUTING](CONTRIBUTING.md) file.
 
-### Where do I find my Site ID? ###
+## REST API
 
-Your Site ID is your own site domain name (e.g., `mysite.com`).
+The plugin adds a `parsely` field to certain REST API responses. This can be disabled by returning `false` from the `wp_parsely_enable_rest_api_support` filter.
 
-### Why can't I see Dash code on my post when I preview? ###
-
-Dash code will only be placed on pages and posts which have been published in WordPress to ensure we don't track traffic generated while you're still writing a post/page.
-
-### How can I edit the values passed to the JSON-LD metadata? ###
-
-You can use the `after_set_parsely_page` filter, which sends three arguments: the array of metadata, the post object, and the `parselyOptions` array:
+Example:
 
 ```
-function filter_parsely_page($parselyPage, $post, $parselyOptions ) {
-  $parselyPage['articleSection'] = ; // whatever values you want Parse.ly's Section to be
-  return $parselyPage;
-}
-
-add_filter( 'after_set_parsely_page', 'filter_parsely_page', 10, 3);
+// Disable all REST API output from the Parse.ly plugin.
+add_filter( 'wp_parsely_enable_rest_api_support', '__return_false' );
 ```
 
-This filter can go anywhere in your codebase, provided it always gets loaded. We recommend putting it in your header file, so that it gets loaded with wp_head.
+The plugin adds the `parsely` field to endpoints corresponding to the Tracked Post Types and Tracked Page Types selected in the plugin settings. By default, this would be the `/wp-json/wp/v2/pages` and `/wp-json/wp/v2/posts` endpoints along with the corresponding single resource endpoints.
 
-### Is the plugin Google AMP/Facebook Instant ready?
+This choice of objects types can be further changed by using the `wp_parsely_rest_object_types` filter.
 
-It is! We are hooked into Automattic's official plugins for AMP and Facebook Instant. AMP support is enabled automatically if the Automattic AMP plugin is installed, and for Facebook Instant you just have to enable "Parsely Analytics" in the "Advanced Settings" menu of the Facebook Instant Articles plugin.
+Example:
 
-Official AMP plugin: https://wordpress.org/plugins/amp/  
-Official FB Instant plugin: https://wordpress.org/plugins/fb-instant-articles/
+```
+// Disable REST API output from pages, but enable for term archives.
+add_filter(
+	'wp_parsely_rest_object_types',
+	function( $object_types ) {
+		$object_types = array_diff( $object_types, array( 'page' ) );
+		$object_types[] = 'term';
+		return $object_types;
+	}
+);
+```
 
-### How do I create a local dev environment to make changes to the `wp-parsely` code? ###
+The `parsely` field contains the following fields:
+ - `version`, which is a string identifying the version of the REST API output; this will be updated if changes are made to the output, so consuming applications can check against it.
+ - `meta`, which is an array of metadata for the specific post, page or other object type.
+ - `rendered`, which is the rendered HTML of the metadata for the post, page or other object type. This will be a JSON-LD `<script>` tag, or a set of `<meta>` tags, depending on the format selected in the plugin settings. The decoupled code can consume and use this directly, instead of building the values from the `meta` field values.
 
-See [the wiki](https://github.com/Parsely/wp-parsely/wiki/Setting-up-a-WP-plugin-development-environment).
+The `rendered` field is a convenience field containing the HTML-formatted meta data which can be printed to a decoupled page as is.
 
-## Screenshots ##
+This can be disabled by returning `false` from the `wp_parsely_enable_rest_rendered_support` filter.
 
-#### 1. The main settings screen of the wp-parsely plugin ####
-![1. The main settings screen of the wp-parsely plugin](https://raw.githubusercontent.com/Parsely/wp-parsely/master/screenshot-1.png)
+Example:
 
-#### 2. The standard JavaScript include being inserted before `</body>` ####
-![2. The standard JavaScript include being inserted before body tag](https://raw.githubusercontent.com/Parsely/wp-parsely/master/screenshot-2.png)
+```
+// Disable rendered field output from the REST API output.
+add_filter( 'wp_parsely_enable_rest_rendered_support', '__return_false' );
+```
 
-#### 3. A sample `JSON-LD` meta tag for a home page or section page ####
-![3. A sample `JSON-LD` meta tag for a home page or section page](https://raw.githubusercontent.com/Parsely/wp-parsely/master/json-ld-section-screenshot.png)
+## Frequently Asked Questions
 
-#### 4. A sample `JSON-LD` meta tag for an article or post ####
-![4. A sample `JSON-LD` meta tag for an article or post](https://raw.githubusercontent.com/Parsely/wp-parsely/master/json-ld-screenshot.png)
+### Where do I find my Site ID?
 
-## Changelog ##
+Your Site ID is likely your own site domain name (e.g., `mysite.com`). You can find this in your Parse.ly account.
 
-### 2.0 ###
-* Changes JavaScript integration to directly load tracker bundles that are customized for your specific site ID: https://www.parse.ly/help/integration/basic/. NOTE: Sites that have custom Parse.ly video tracking configured (outside of the Parse.ly WordPress plugin) for a player listed at https://www.parse.ly/help/integration/video_v2/#supported-players should contact support@parsely.com before upgrading.
+### Why can't I see Parse.ly code on my post when I preview?
 
-### 1.14 ###
-* Updates AMP analytics implementation
-* Adds ability to use a horizontal layout of the widget (for page footers)
-* Adds itm campaign parameters to widget links for tracking performance
-* Adds option to use original or resized thumbnail in widget
-* Improves handling of missing taxonomy terms and other data
-* Improves post status check
-* Code cleanup to conform to WordPress VIP standards
+The code will only be placed on posts and pages which have been published in WordPress to ensure we don't track traffic generated while you're still writing a post or page.
 
-### 1.13 ###
-* Makes AMP integration optional
-* Adds support for publisher logo information
-* Minor bugfixes
+You may also be not tracking logged-in users, via one of the settings.
 
-### 1.12 ###
-* Adds ability to use repeated meta tags instead of ld+json tags for metadata
-* Code cleanup to conform to WordPress VIP standards
-* Minor bugfixes
+### How can I edit the values passed to the JSON-LD metadata?
 
-### 1.11 ###
-* Adds ability to use Parsely API with widget
-* Adds ability to track or not track custom page and post types
-* Adds ability to disable Javascript tracking
-* Minor bugfixes
+You can use the `wp_parsely_metadata` filter, which sends three arguments: the array of metadata, the post object, and the `parsely_options` array:
 
-### 1.10 ###
-* Adds ability to filter final JSON-LD output
-* Adds the ability to use a custom taxonomy as tags
-* Adds AMP / Facebook Instant integration with official AMP / FBIA plugins from Automattic
-* Fixes bug related to HTTPS canonicals
+    add_filter( 'wp_parsely_metadata', 'filter_parsely_metadata', 10, 3 );
+    function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
+        $parsely_metadata['articleSection'] = '...'; // Whatever values you want Parse.ly's Section to be.
+        return $parsely_metadata;
+    }
 
-### 1.9 ###
-* Ability to assign custom taxonomies as section
-* Bug fix related to adding section to tag field
+This filter can go anywhere in your codebase, provided it always gets loaded.
 
-### 1.8 ###
-* Updated documentation for installation and local development
-* Allow developers to adjust the tag list and the category reported for a post
-* Added support for themes to extend the reported authors
+### Is the plugin compatible with AMP and Facebook Instant Articles?
 
-### 1.7 ###
-* Use JSON-LD / schema.org for parsely-page data instead of proprietary format
-* Added support for multiple authors if using the Co-Authors Plus plugin https://wordpress.org/plugins/co-authors-plus/
+It is! The plugin hooks into Automattic's official plugins for [AMP](https://wordpress.org/plugins/amp/) and [Facebook Instant Articles](https://wordpress.org/plugins/fb-instant-articles/).
 
-### 1.6 ###
-* Maintenance release with multiple changes needed for WordPress VIP inclusion
-* Migrated to WP Settings API
-* Various syntax changes in line with Automattic's guidelines
-* Removed the tracker_implementation option, plugin now uses Standard implementation for all installs
-* Updated much of the copy in settings page
-* Updated screenshots
+AMP support is enabled automatically if the Automattic AMP plugin is installed.
 
-### 1.5 ###
-* Added support for new option - "Use Categories as Tags"
-* Fixed bug that caused wp-admin bar to be hidden when "Do not track authenticated in users" was selected
-* Fixed WP category logic bug that failed on users with custom post types
+For Facebook Instant Articles support, enable "Parsely Analytics" in the "Advanced Settings" menu of the Facebook Instant Articles plugin.
 
-### 1.4 ###
-* Added early support for post tags
-* Fixed permalink errors on category/author/tag pages
-* Added version output to both templates and settings pages
-* Renamed API key to Site ID to avoid confusion
+### Does the plugin support dynamic tracking?
 
-### 1.3 ###
-* Added option to not track or not track authenticated users (default is to not track authenticated users)
-* Removed async implementation option
-* Updated API key retrieval instructions
-* Added activation/deactivation hooks
-* null categories are now set to "Uncategorized"
+This plugin does not currently support dynamic tracking (the tracking of multiple pageviews on a single page).
 
-### 1.2 ###
-* Support for using top-level categories for posts instead of the first active post the plugin finds
-* parsely-page meta tag now outputs it's value using 'content' attribute instead of 'value'
-* Minor fixes to outputting to use proper WordPress functions
+Some common use-cases for dynamic tracking are slideshows or articles loaded via AJAX calls in single-page applications -- situations in which new content is loaded without a full page refresh.
 
-### 1.1 ###
-* Added ability to add prefix to content IDs
-* Ensured plugin only uses long tags `<?php` instead of `<?`
-* Security updates to prevent HTML/JavaScript injection attacks (values are now sanitized)
-* Better error checking of values for API key / implementation method
-* Bug fixes
+Tracking these events requires manually implementing additional JavaScript above [the standard Parse.ly include](http://www.parsely.com/help/integration/basic/) that the plugin injects into your page source. Please consult [the Parse.ly documentation on dynamic tracking](https://www.parsely.com/help/integration/dynamic/) for instructions on implementing dynamic tracking, or contact Parse.ly support for additional assistance.
 
-### 1.0 ###
-* Initial version
-* Support for parsely-page and JavaScript on home page and published pages and posts as well as archive pages (date/author/category/tag)
+### Cloudflare support
 
+If the site is running behind a Cloudflare DNS, their Rocket Loader technology will alter how JavaScript files are loaded. [A JavaScript file can be ignored by Rocket Loader](https://support.cloudflare.com/hc/en-us/articles/200169436-How-can-I-have-Rocket-Loader-ignore-specific-JavaScripts) by using `data-cfasync="false"`.
+
+Previous versions of this plugin would mark all scripts with that tag by default. Starting in version 3.0, that behavior has become optional and scripts won't be annotated with `data-cfasync="false"`. The previous behavior can be restored by adding the following filter:
+
+```
+add_filter( 'wp_parsely_enable_cfasync_attribute', '__return_true' );
+```
+
+## Screenshots
+
+1. Parse.ly plugin main settings for easy setup. For the plugin to start working, only the website ID is needed.  
+   ![The main settings screen of the wp-parsely plugin](.wordpress-org/screenshot-1.png)
+2. Parse.ly plugin settings that require you to submit a website recrawl request whenever you update them.  
+   ![The main settings screen of the wp-parsely plugin](.wordpress-org/screenshot-2.png)
+3. Parse.ly plugin advanced settings. To be used only if instructed by Parse.ly staff.  
+   ![The main settings screen of the wp-parsely plugin](.wordpress-org/screenshot-3.png)
+4. The settings for the Parse.ly Recommended Widget. Engage your visitors with predictive and personalized recommendations from Parse.ly.  
+   ![The settings for the Parse.ly Recommended Widget](.wordpress-org/screenshot-4.png)
+5. A view of the Parse.ly Dashboard Overview. Parse.ly offers analytics that empowers you to better understand how your content is peforming.  
+   ![The Parsely Dashboard Overview](.wordpress-org/screenshot-5.png)
+
+## Sample Parse.ly metadata
+
+The standard Parse.ly JavaScript tracker inserted before the closing `body` tag:
+
+    <script id="parsely-cfg" data-parsely-site="example.com" src="https://cdn.parsely.com/keys/example.com/p.js"></script>
+
+A sample `JSON-LD` structured data for a home page or section page:
+
+    <script type="application/ld+json">
+    {"@context":"http:\/\/schema.org","@type":"WebPage","headline":"WordPress VIP","url":"http:\/\/wpvip.com\/"}
+    </script>
+
+A sample `JSON-LD` meta tag and structured data for an article or post:
+
+    <script type="application/ld+json">
+    {"@context":"http:\/\/schema.org","@type":"NewsArticle","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/wpvip.com\/2021\/04\/09\/how-the-wordpress-gutenberg-block-editor-empowers-enterprise-content-creators\/"},"headline":"How the WordPress Gutenberg Block Editor Empowers Enterprise Content Creators","url":"http:\/\/wpvip.com\/2021\/04\/09\/how-the-wordpress-gutenberg-block-editor-empowers-enterprise-content-creators\/","thumbnailUrl":"https:\/\/wpvip.com\/wp-content\/uploads\/2021\/04\/ladyatdesk.png?w=120","image":{"@type":"ImageObject","url":"https:\/\/wpvip.com\/wp-content\/uploads\/2021\/04\/ladyatdesk.png?w=120"},"dateCreated":"2021-04-09T15:13:13Z","datePublished":"2021-04-09T15:13:13Z","dateModified":"2021-04-09T15:13:13Z","articleSection":"Gutenberg","author":[{"@type":"Person","name":"Sam Wendland"}],"creator":["Sam Wendland"],"publisher":{"@type":"Organization","name":"The Enterprise Content Management Platform | WordPress VIP","logo":"https:\/\/wpvip.com\/wp-content\/uploads\/2020\/11\/cropped-favicon-dark.png"},"keywords":[]}
+    </script>
+
+## Changelog
+
+See the [change log](https://github.com/parsely/wp-parsely/blob/trunk/CHANGELOG.md).
