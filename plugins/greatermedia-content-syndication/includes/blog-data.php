@@ -835,17 +835,6 @@ class BlogData {
 				update_post_meta( $post_id, 'cpt_item_type', $listicle_metas['cpt_item_type'] );
 			}
 
-			if ( 'listicle_cpt' == $post_type ) {
-				delete_post_meta( $post_id, 'cpt_item_name' );
-				delete_post_meta( $post_id, 'cpt_item_order' );
-				delete_post_meta( $post_id, 'cpt_item_description' );
-				delete_post_meta( $post_id, 'cpt_item_type' );
-
-				update_post_meta( $post_id, 'cpt_item_name', $listicle_metas['cpt_item_name'] );
-				update_post_meta( $post_id, 'cpt_item_order', $listicle_metas['cpt_item_order'] );
-				update_post_meta( $post_id, 'cpt_item_description', $listicle_metas['cpt_item_description'] );
-				update_post_meta( $post_id, 'cpt_item_type', $listicle_metas['cpt_item_type'] );
-			}
 
 			if ( 'affiliate_marketing' == $post_type ) {
 				delete_post_meta( $post_id, 'am_item_name' );
