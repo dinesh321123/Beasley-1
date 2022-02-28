@@ -68,7 +68,7 @@ const getSlotStat = placeholder => {
 const impressionViewableHandler = event => {
 	const { slot } = event;
 	const placeholder = slot.getSlotElementId();
-	if (placeholder && isNotAdhesionOrInterstitial(placeholder)) {
+	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
 		getSlotStat(placeholder).viewPercentage = 100;
 	}
 };
