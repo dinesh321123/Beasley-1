@@ -6,7 +6,16 @@ import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAd
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 const playerAdhesionDivID = 'div-gpt-ad-player-0';
-// const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
+const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
+
+const isNotAdhesionOrInterstitial = placeholder => {
+	return (
+		placeholder !== playerSponsorDivID &&
+		placeholder !== interstitialDivID &&
+		placeholder !== bottomAdhesionDivID
+	);
+};
+
 const isNotPlayerOrInterstitial = placeholder => {
 	return (
 		placeholder !== playerSponsorDivID && placeholder !== interstitialDivID
@@ -59,7 +68,7 @@ const getSlotStat = placeholder => {
 const impressionViewableHandler = event => {
 	const { slot } = event;
 	const placeholder = slot.getSlotElementId();
-	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+	if (placeholder && isNotAdhesionOrInterstitial(placeholder)) {
 		getSlotStat(placeholder).viewPercentage = 100;
 	}
 };
@@ -67,7 +76,7 @@ const impressionViewableHandler = event => {
 const slotVisibilityChangedHandler = event => {
 	const { slot } = event;
 	const placeholder = slot.getSlotElementId();
-	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+	if (placeholder && isNotAdhesionOrInterstitial(placeholder)) {
 		getSlotStat(placeholder).viewPercentage =
 			typeof event.inViewPercentage === 'undefined'
 				? 100
