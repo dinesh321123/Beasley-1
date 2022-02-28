@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd2a35b17d94d3aabbadff48c9babdd8",
+    "content-hash": "1a6493ce517defd94ec92b25043076ee",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -149,16 +149,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.209.30",
+            "version": "3.210.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "54c1e491b8de74360bbe94d727706db384c8d9a8"
+                "reference": "b5cd025eb804a023f4d9fe7a4f6de437b5910a13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/54c1e491b8de74360bbe94d727706db384c8d9a8",
-                "reference": "54c1e491b8de74360bbe94d727706db384c8d9a8",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b5cd025eb804a023f4d9fe7a4f6de437b5910a13",
+                "reference": "b5cd025eb804a023f4d9fe7a4f6de437b5910a13",
                 "shasum": ""
             },
             "require": {
@@ -231,7 +231,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2022-02-23T19:14:31+00:00"
+            "time": "2022-02-25T19:18:59+00:00"
         },
         {
             "name": "composer/installers",
@@ -1757,15 +1757,15 @@
         },
         {
             "name": "wpackagist-plugin/wp-fail2ban",
-            "version": "4.3.0.9",
+            "version": "4.4.0.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/wp-fail2ban/",
-                "reference": "tags/4.3.0.9"
+                "reference": "tags/4.4.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wp-fail2ban.4.3.0.9.zip"
+                "url": "https://downloads.wordpress.org/plugin/wp-fail2ban.4.4.0.3.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
