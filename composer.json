@@ -22,7 +22,7 @@
 		"wpackagist-plugin/public-post-preview": "2.9.3",
 		"wpackagist-plugin/restricted-site-access": "7.2.0",
 		"wpackagist-plugin/term-management-tools": "2.0.1",
-		"wpackagist-plugin/the-events-calendar": "5.13.0",
+		"wpackagist-plugin/the-events-calendar": "5.14.0.3",
 		"wpackagist-plugin/wordpress-importer": "^0.7",
 		"wpackagist-plugin/wp-crontrol": "1.12.0",
 		"wpackagist-plugin/wordpress-seo": "18.0",
