@@ -27,8 +27,6 @@ class LivestreamVideo extends PureComponent {
 		const self = this;
 		const { src } = self.props;
 		const lookupDomain = '//experiencefeeds.bbgi.com/LivestreamMappingFiles';
-		// const lookupDomain =
-		//	'//experiencefeeds.bbgi.com.s3-website-us-east-1.amazonaws.com/LivestreamMappingFiles';
 		const lookupURL = src
 			.replace('//livestream.com', lookupDomain)
 			.replace('/accounts/', '/account')
@@ -46,10 +44,6 @@ class LivestreamVideo extends PureComponent {
 			})
 			.then(mappingData => {
 				const newSrc = this.parseSrcTagFromEmbedTag(mappingData.embed);
-				// const newSrc = mappingData.embed.replace(
-				//	`height='720'`,
-				//	`height='360'`,
-				// );
 				if (newSrc) {
 					console.log(`Changing Livestream SRC to Vimeo: ${newSrc}`);
 					this.setState({ adjustedSrc: newSrc });
@@ -59,13 +53,14 @@ class LivestreamVideo extends PureComponent {
 			})
 			.catch(err => {
 				console.log(err.message);
-				this.setState({ adjustedSrc: src });
+				this.setState({ adjustedSrc: '' });
 			});
 	}
 
 	componentDidMount() {
-		console.log('LIVESTREAM COMPONENT DID MOUNT');
-		if (!this.state) {
+		// Exit if no state because still conducting HTTP Vimeo lookup
+		// OR if the src is a Vimeo Video as indicated by a Truthy adjustedSrc
+		if (!this.state || this.state.adjustedSrc) {
 			return;
 		}
 
@@ -78,7 +73,6 @@ class LivestreamVideo extends PureComponent {
 		);
 
 		document.head.appendChild(script);
-		// this.setAdjustedSrc();
 	}
 
 	render() {
@@ -86,6 +80,7 @@ class LivestreamVideo extends PureComponent {
 		const self = this;
 		const { embedid, src } = self.props;
 
+		// Render Nothing If Still Doing Vimeo HTTP Lookup
 		if (!this.state) {
 			return null;
 		}

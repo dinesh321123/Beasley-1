@@ -22,7 +22,10 @@
 
 	window.configureIframeToPlayVimeoPreroll = (iframeEl) => {
 		console.log(`Configure IFrame for Vimeo Preroll`);
-		loadVimeoPlayer(iframeEl);
+		if (!vimeoPlayerList) {
+			vimeoPlayerList = [];
+		}
+		vimeoPlayerList.push(loadVimeoPlayer(iframeEl));
 	}
 
 	const renderHTML = (iFrameElement) => {
