@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const VimeoReplaceLiveStream = ({ adjustedSrc }) => {
-	console.log('FIRED VimeoReplaceLiveStream');
 	VimeoReplaceLiveStream.propTypes = {
 		adjustedSrc: PropTypes.string.isRequired,
 	};
@@ -10,11 +9,8 @@ const VimeoReplaceLiveStream = ({ adjustedSrc }) => {
 	const iframeRef = useRef(null);
 
 	useEffect(() => {
-		console.log('EFFECT VimeoReplaceLiveStream');
 		registerForVimeoPreroll(iframeRef.current);
 	});
-
-	console.log(`Adjusted Src: ${adjustedSrc}`);
 
 	return (
 		<div className="lazy-video">
