@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import VimeoReplaceLiveStream from './VimeoReplaceLiveStream';
 
 class LivestreamVideo extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.setAdjustedSrc = this.setAdjustedSrc.bind(this);
-		this.state = { adjustedSrc: '' };
+		this.setAdjustedSrc();
 	}
 
 	parseSrcTagFromEmbedTag(embedTag) {
@@ -45,8 +46,16 @@ class LivestreamVideo extends PureComponent {
 			})
 			.then(mappingData => {
 				const newSrc = this.parseSrcTagFromEmbedTag(mappingData.embed);
-				console.log(`Changing Livestream SRC to Vimeo: ${newSrc}`);
-				this.setState({ adjustedSrc: newSrc });
+				// const newSrc = mappingData.embed.replace(
+				//	`height='720'`,
+				//	`height='360'`,
+				// );
+				if (newSrc) {
+					console.log(`Changing Livestream SRC to Vimeo: ${newSrc}`);
+					this.setState({ adjustedSrc: newSrc });
+				} else {
+					throw new Error(`Parse error: ${mappingData.embed}`);
+				}
 			})
 			.catch(err => {
 				console.log(err.message);
@@ -55,9 +64,8 @@ class LivestreamVideo extends PureComponent {
 	}
 
 	componentDidMount() {
-		// Exit if we have already populated state.adjustedSrc
-		const { adjustedSrc } = this.state;
-		if (adjustedSrc) {
+		console.log('LIVESTREAM COMPONENT DID MOUNT');
+		if (!this.state) {
 			return;
 		}
 
@@ -70,23 +78,28 @@ class LivestreamVideo extends PureComponent {
 		);
 
 		document.head.appendChild(script);
-		this.setAdjustedSrc();
+		// this.setAdjustedSrc();
 	}
 
 	render() {
+		console.log('LIVESTREAM RENDER');
 		const self = this;
-		const { embedid } = self.props;
+		const { embedid, src } = self.props;
+
+		if (!this.state) {
+			return null;
+		}
 		const { adjustedSrc } = this.state;
 
-		if (!adjustedSrc) {
-			return null;
+		if (adjustedSrc) {
+			return <VimeoReplaceLiveStream adjustedSrc={adjustedSrc} />;
 		}
 
 		return (
 			<div className="lazy-video">
 				<iframe
 					id={embedid}
-					src={adjustedSrc}
+					src={src}
 					title="Watch Video"
 					frameBorder="0"
 					scrolling="no"
