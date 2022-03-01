@@ -27,7 +27,6 @@ const VimeoReplaceLiveStream = ({ adjustedSrc }) => {
 };
 
 const registerForVimeoPreroll = iFrameEl => {
-	console.log('Reassigning Livestreram To Vimeo Preroll');
 	if (window.configureIframeToPlayVimeoPreroll) {
 		window.configureIframeToPlayVimeoPreroll(iFrameEl);
 	}

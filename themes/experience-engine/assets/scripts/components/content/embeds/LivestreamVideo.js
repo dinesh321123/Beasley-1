@@ -33,7 +33,6 @@ class LivestreamVideo extends PureComponent {
 			.replace('/events/', '/event')
 			.replace('/videos/', '/video')
 			.replace('/player', '.json');
-		console.log(`LiveStream LookupURL: ${lookupURL}`);
 
 		fetch(`https:${lookupURL}`)
 			.then(response => {
@@ -76,7 +75,6 @@ class LivestreamVideo extends PureComponent {
 	}
 
 	render() {
-		console.log('LIVESTREAM RENDER');
 		const self = this;
 		const { embedid, src } = self.props;
 
