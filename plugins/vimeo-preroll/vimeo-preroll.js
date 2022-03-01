@@ -20,6 +20,11 @@
 		}
 	}
 
+	window.configureIframeToPlayVimeoPreroll = (iframeEl) => {
+		console.log(`Configure IFrame for Vimeo Preroll`);
+		loadVimeoPlayer(iframeEl);
+	}
+
 	const renderHTML = (iFrameElement) => {
 		const oldVimeoPrerollWrapper = document.getElementById(VIMEOPREROLLWRAPPER);
 		if (oldVimeoPrerollWrapper) {
