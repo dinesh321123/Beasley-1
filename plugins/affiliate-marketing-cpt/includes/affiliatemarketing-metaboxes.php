@@ -405,7 +405,55 @@ class AffiliateMarketingCPTMetaboxes {
 					contentRow += '<div class="am-form-group"><label  class="ammetatitle" for="' + contentID + '"><?php _e( 'Description', 'affiliate_marketing_textdomain' ); ?></label><textarea name="am_item_description[]" class="tinytext" id="' + contentID + '" rows="10"></textarea></div>';
 
 				jQuery('.content-row').eq(jQuery('.content-row').length - 1).after(contentRow);
-				tinymce.init({ selector: '#' + contentID , branding: false });
+				wp.editor.initialize( contentID,
+					{
+						tinymce: {
+							wpautop  : true,
+							theme    : 'modern',
+							skin     : 'lightgray',
+							language : 'en',
+							formats  : {
+								alignleft  : [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'left' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'alignleft' }
+								],
+								aligncenter: [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'center' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'aligncenter' }
+								],
+								alignright : [
+									{ selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles: { textAlign: 'right' } },
+									{ selector: 'img,table,dl.wp-caption', classes: 'alignright' }
+								],
+								strikethrough: { inline: 'del' }
+							},
+							relative_urls       : false,
+							remove_script_host  : false,
+							convert_urls        : false,
+							browser_spellcheck  : true,
+							fix_list_elements   : true,
+							entities            : '38,amp,60,lt,62,gt',
+							entity_encoding     : 'raw',
+							keep_styles         : false,
+							paste_webkit_styles : 'font-weight font-style color',
+							preview_styles      : 'font-family font-size font-weight font-style text-decoration text-transform',
+							tabfocus_elements   : ':prev,:next',
+							plugins    : 'charmap,hr,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpeditimage,wpgallery,wplink,wpdialogs,wpview',
+							resize     : 'vertical',
+							menubar    : false,
+							indent     : false,
+							toolbar1: 'formatselect bold italic | bullist numlist | blockquote | alignleft aligncenter alignright | link unlink | wp_more | spellchecker | fullscreen | wp_adv',
+							// toolbar1   : 'bold, italic, strikethrough, bullist, numlist, blockquote, hr, alignleft, aligncenter, alignright, link, unlink, wp_more, spellchecker, fullscreen, wp_adv',
+							toolbar2   : 'underline, alignjustify, forecolor, pastetext, removeformat, charmap, outdent,indent,undo,redo,wp_help',
+							toolbar3   : '',
+							toolbar4   : '',
+							body_class : 'id post-type-post post-status-publish post-format-standard',
+							wpeditimage_disable_captions: false,
+							wpeditimage_html5_captions  : true
+						},
+						quicktags   : true,
+						mediaButtons: true
+					} );
 				jQuery(".am_item_imagetype").click(function() {	jQuery('#' + jQuery(this).val() + '_' + jQuery(this).attr('data-postid')).hide(); jQuery('#' + jQuery(this).attr('data-type-hide') + '_' + jQuery(this).attr('data-postid')).show(); });
 				jQuery(".moveup").on("click", function() {
 					var elem	= jQuery(this).closest( "div.ajx-order-row-" + contentID );
@@ -485,15 +533,18 @@ class AffiliateMarketingCPTMetaboxes {
 		if ( isset( $_POST['am_item_name'] ) ) {
 			$am_item_name = $_POST['am_item_name'];
 			update_post_meta( $post_id, 'am_item_name', $am_item_name );
+			self::clear_post_metadata_from_cache('am_item_name', $post_id);
 		}
 		if ( isset( $_POST['am_item_description'] ) ) {
 			$am_item_description =  $_POST['am_item_description'] ;
 			update_post_meta( $post_id, 'am_item_description', $am_item_description );
+			self::clear_post_metadata_from_cache('am_item_description', $post_id);
 		}
 		if ( isset( $_POST['am_item_photo'] ) ) {
 			$filecontents =  $_POST['am_item_photo'] ;
 			// var_dump($filecontents);
 			update_post_meta( $post_id, 'am_item_photo', $filecontents );
+			self::clear_post_metadata_from_cache('am_item_photo', $post_id);
 		}
 		$itemCount = $_POST['total_count_items'];
 		$am_item_imagetype = array();
@@ -505,44 +556,63 @@ class AffiliateMarketingCPTMetaboxes {
 
 		if ( !empty($am_item_imagetype) && isset( $am_item_imagetype ) ) {
 			update_post_meta( $post_id, 'am_item_imagetype', $am_item_imagetype );
+			self::clear_post_metadata_from_cache('am_item_imagetype', $post_id);
 		}
 		if ( isset( $_POST['am_item_imagecode'] ) ) {
 			$am_item_imagecode =  $_POST['am_item_imagecode'] ;
 			update_post_meta( $post_id, 'am_item_imagecode', $am_item_imagecode );
+			self::clear_post_metadata_from_cache('am_item_imagecode', $post_id);
 		}
 
 		if ( isset( $_POST['am_item_order'] ) ) {
 			$am_item_order =  $_POST['am_item_order'] ;
 			update_post_meta( $post_id, 'am_item_order', $am_item_order );
+			self::clear_post_metadata_from_cache('am_item_order', $post_id);
 		}
 		if ( isset( $_POST['am_item_unique_order'] ) ) {
 			$am_item_unique_order =  $_POST['am_item_unique_order'] ;
 			update_post_meta( $post_id, 'am_item_unique_order', $am_item_unique_order );
+			self::clear_post_metadata_from_cache('am_item_unique_order', $post_id);
 		}
 
 		if ( isset( $_POST['am_item_buttontext'] ) ) {
 			$am_item_buttontext =  $_POST['am_item_buttontext'] ;
 			update_post_meta( $post_id, 'am_item_buttontext', $am_item_buttontext );
+			self::clear_post_metadata_from_cache('am_item_buttontext', $post_id);
 		}
 		if ( isset( $_POST['am_item_buttonurl'] ) ) {
 			$am_item_buttonurl =  $_POST['am_item_buttonurl'] ;
 			update_post_meta( $post_id, 'am_item_buttonurl', $am_item_buttonurl );
+			self::clear_post_metadata_from_cache('am_item_buttonurl', $post_id);
 		}
 		if ( isset( $_POST['am_item_getitnowtext'] ) ) {
 			$am_item_getitnowtext =  $_POST['am_item_getitnowtext'] ;
 			update_post_meta( $post_id, 'am_item_getitnowtext', $am_item_getitnowtext );
+			self::clear_post_metadata_from_cache('am_item_getitnowtext', $post_id);
 		}
 		if ( isset( $_POST['am_item_getitnowfromname'] ) ) {
 			$am_item_getitnowfromname =  $_POST['am_item_getitnowfromname'] ;
 			update_post_meta( $post_id, 'am_item_getitnowfromname', $am_item_getitnowfromname );
+			self::clear_post_metadata_from_cache('am_item_getitnowfromname', $post_id);
 		}
 		if ( isset( $_POST['am_item_getitnowfromurl'] ) ) {
 			$am_item_getitnowfromurl =  $_POST['am_item_getitnowfromurl'] ;
 			update_post_meta( $post_id, 'am_item_getitnowfromurl', $am_item_getitnowfromurl );
+			self::clear_post_metadata_from_cache('am_item_getitnowfromurl', $post_id);
 		}
 		if ( isset( $_POST['am_item_type'] ) ) {
 			$am_item_type =  $_POST['am_item_type'] ;
 			update_post_meta( $post_id, 'am_item_type', $am_item_type );
+			self::clear_post_metadata_from_cache('am_item_type', $post_id);
+		}
+	}
+
+	function clear_post_metadata_from_cache( $value, $post_id ) {
+		$key = 'am-store-' . $value . '-' . $post_id;
+
+		$field = wp_cache_get( $key );
+		if ( isset($field) && !empty($field) ) {
+			wp_cache_delete( $key );
 		}
 	}
 

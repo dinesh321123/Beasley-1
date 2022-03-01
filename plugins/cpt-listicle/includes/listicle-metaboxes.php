@@ -147,14 +147,31 @@ class ListicleCPTMetaboxes {
 		if ( isset( $_POST['cpt_item_name'] ) ) {
 			$cpt_item_name = $_POST['cpt_item_name'];
 			update_post_meta( $post_id, 'cpt_item_name', $cpt_item_name );
+			self::clear_listicle_metadata_from_cache('cpt_item_name', $post_id);
 		}
 		if ( isset( $_POST['cpt_item_description'] ) ) {
 			$cpt_item_description =  $_POST['cpt_item_description'] ;
 			update_post_meta( $post_id, 'cpt_item_description', $cpt_item_description );
+			self::clear_listicle_metadata_from_cache('cpt_item_description', $post_id);
 		}
 		if ( isset( $_POST['cpt_item_order'] ) ) {
 			$cpt_item_order =  $_POST['cpt_item_order'] ;
 			update_post_meta( $post_id, 'cpt_item_order', $cpt_item_order );
+			self::clear_listicle_metadata_from_cache('cpt_item_order', $post_id);
+		}
+		if ( isset( $_POST['cpt_item_type'] ) ) {
+			$cpt_item_type =  $_POST['cpt_item_type'] ;
+			update_post_meta( $post_id, 'cpt_item_type', $cpt_item_type );
+			self::clear_listicle_metadata_from_cache('cpt_item_type', $post_id);
+		}
+	}
+
+	function clear_listicle_metadata_from_cache( $value, $post_id ) {
+		$key = 'listicle-store-' . $value . '-' . $post_id;
+		
+		$field = wp_cache_get( $key );
+		if ( isset($field) && !empty($field) ) {
+			wp_cache_delete( $key );
 		}
 		if ( isset( $_POST['cpt_item_type'] ) ) {
 			$cpt_item_type =  $_POST['cpt_item_type'] ;
