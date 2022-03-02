@@ -93,7 +93,7 @@ class ListicleCPTMetaboxes {
 					<h3 class="cpt-item-title"> <?php echo ($i+1)." . ".($isHeaderItem ? "Header" : "Item"); ?> </h3>
 					<div class="cpt-form-group">
 						<label class="cptformtitle" for="cpt_item_name_<?php echo $i; ?>"><?php $isHeaderItem ? _e( 'Headline', LISTICLE_CPT_TEXT_DOMAIN ) : _e( 'Name', LISTICLE_CPT_TEXT_DOMAIN ); ?> </label>
-						<input name="cpt_item_name[]" type="text" value="<?php echo $cpt_item_name[$i]; ?>">
+						<input name="cpt_item_name[]" type="text" value="<?php echo htmlspecialchars($cpt_item_name[$i]); ?>">
 					</div>
 					<input name="cpt_item_order[]" type="hidden" value="<?php echo $i; ?>" />
 					<input name="cpt_item_type[]" type="hidden" value="<?php echo ($isHeaderItem ? 'header' : 'default'); ?>" />
@@ -168,7 +168,7 @@ class ListicleCPTMetaboxes {
 
 	function clear_listicle_metadata_from_cache( $value, $post_id ) {
 		$key = 'listicle-store-' . $value . '-' . $post_id;
-		
+
 		$field = wp_cache_get( $key );
 		if ( isset($field) && !empty($field) ) {
 			wp_cache_delete( $key );
@@ -177,7 +177,7 @@ class ListicleCPTMetaboxes {
 			$cpt_item_type =  $_POST['cpt_item_type'] ;
 			update_post_meta( $post_id, 'cpt_item_type', $cpt_item_type );
 		}
-		
+
 	}
 
 	public static function get_custom_metavalue( $value ) {
