@@ -10,12 +10,26 @@ cache:
     - .composer-cache # Composer
     - node_modules_cache
 
-test:
+# run tests in parallel for performance
+
+# customize the 10up php syntax check to avoid the archive theme folder
+# https://gitlab.10up.com/10up-build/deploy-container/-/blob/master/scripts/10up-scripts
+
+test_syntax:
+  stage: test
+  script:
+    - find . -type f -name '*.php' -not -path '*/vendor/*' -not -path '*/archive-themes-nodeploy/*' -print0 | xargs -0 -n1 php -l
+  dependencies: []
+  cache: {}
+
+test_virusscan:
   stage: test
   dependencies: []
   cache: {}
   script:
-    - 10up-scripts
+    - /10up-scripts/virus-scan
+  dependencies: []
+  cache: {}
 
 deploy_stage:
   stage: deploy
