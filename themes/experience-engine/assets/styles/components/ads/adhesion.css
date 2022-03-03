@@ -1,3 +1,7 @@
+.is-IOS .bottom-adhesion-container {
+	padding-bottom: 44px;
+}
+
 .bottom-adhesion-container {
 	bottom: 0;
 	left: 0;
@@ -6,10 +10,6 @@
 	z-index: 110;
 	justify-content: center;
 	background-color: var(--global-theme-secondary);
-
-	& .is-IOS {
-		padding-bottom: 44px;
-	}
 }
 
 .bottom-adhesion-slot {
