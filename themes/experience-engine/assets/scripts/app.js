@@ -12,7 +12,7 @@ import {
 } from './modules';
 import BackToTop from './components/BackToTop';
 import ErrorBoundary from './components/ErrorBoundary';
-import { isSafari, isWindowsBrowser } from './library';
+import { isIOS, isSafari, isWindowsBrowser } from './library';
 
 /**
  * The App's entry point.
@@ -22,6 +22,9 @@ const App = () => {
 	useEffect(() => {
 		if (isSafari()) {
 			document.body.classList.add('is-safari');
+			if (isIOS()) {
+				document.body.classList.add('is-IOS');
+			}
 		} else if (isWindowsBrowser()) {
 			document.body.classList.add('is-windows');
 		}
