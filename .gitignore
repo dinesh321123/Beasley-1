@@ -47,6 +47,7 @@ mu-plugins/post-finder/
 !/plugins/vimeovideoselector
 !/plugins/wp-import-export-lite
 !/plugins/recent-posts-and-nav-menu-widget
+!/plugins/megamenu
 
 themes/index.php
 themes/twentyfourteen
