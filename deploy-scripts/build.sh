@@ -21,5 +21,7 @@ npm install
 npm run bundle
 popd || exit 1
 
-# Stop printing commands to screen
-set +x
+pushd themes/experience-engine-new || exit 1
+npm install
+npm run bundle
+popd || exit 1
