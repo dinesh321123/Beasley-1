@@ -677,7 +677,7 @@ class BlogData {
 			if ( is_wp_error( $featured_id ) ) {
 				error_log( self::syndication_log_prefix(). "Error during import feature media for $post_title: \"$featured_id->get_error_message()\" (" . json_encode( $featured ) .")\n" );
 			} else {
-				// error_log( self::syndication_log_prefix(). "Imported feature media for $post_title: \"$featured_id\" (" . json_encode( $featured ) .")\n" );
+				error_log( self::syndication_log_prefix(). "Imported feature media for $post_title: \"$featured_id\" (" . json_encode( $featured ) .")\n" );
 			}
 		}
 
@@ -733,7 +733,12 @@ class BlogData {
 			update_post_meta( $post_id, 'syndication_post_id', self::$syndication_id );
 
 			if ( ! is_wp_error( $featured_id ) && is_int( $featured_id ) ) {
-				set_post_thumbnail( $post_id, $featured_id );
+				$new_thumbnail_id = set_post_thumbnail( $post_id, $featured_id );
+				if(!$new_thumbnail_id) {
+					error_log( self::syndication_log_prefix(). "Error during Set Post Thumbnail \"$featured_id\" for post $post_title (\"$post_id\"): (" . json_encode( $featured ) .") \n" );
+				} else {
+					error_log( self::syndication_log_prefix(). "Success for Set Post Thumbnail \"$featured_id\" for $post_title (\"$post_id\"): (" . json_encode( $featured ) .") \n" );
+				}
 			}
 
 			if ( ! empty( $term_tax ) ) {
