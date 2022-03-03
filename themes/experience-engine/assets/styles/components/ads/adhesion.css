@@ -1,5 +1,7 @@
 .is-IOS .bottom-adhesion-container {
-	padding-bottom: 44px;
+	height: 100%;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
 .bottom-adhesion-container {
