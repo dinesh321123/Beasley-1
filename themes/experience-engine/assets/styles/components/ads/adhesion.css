@@ -1,5 +1,4 @@
 .is-IOS .bottom-adhesion-container {
-	height: 100%;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
 }
