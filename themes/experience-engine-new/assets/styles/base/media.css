@@ -1,0 +1,52 @@
+/* We wrap all oembeds in this this extra
+ * <div class="responsive-media">
+ * See: includes/embeds.php
+*/
+.responsive-media:not(.twitter):not(.instagram):not(.beasley):not(.tiktok) {
+	height: 0;
+	max-width: 100%;
+	overflow: hidden;
+	padding-bottom: 56.25%;
+	position: relative;
+
+	& embed,
+	& iframe,
+	& object,
+	& twitter- {
+		height: 100%;
+		left: 0;
+		max-width: none;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+
+	& .wp-embedded-content {
+		clip: unset !important;
+	}
+
+}
+
+.responsive-media.twitter,
+.responsive-media.tiktok,
+.responsive-media.instagram,
+.responsive-media.beasley {
+
+	& > div {
+		margin-left: auto !important;
+		margin-right: auto !important;
+	}
+
+	& iframe,
+	& twitter-widget {
+		margin-left: auto !important;
+		margin-right: auto !important;
+		max-width: 100% !important;
+		width: 100% !important;
+	}
+}
+
+.instagram-media {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}

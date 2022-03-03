@@ -1,0 +1,31 @@
+.contest-tile {
+	& .contest-dates {
+		align-items: center;
+		color: var(--global-dove-gray);
+		display: flex;
+		font-size: .875rem;
+		font-weight: 500;
+		margin-top: 1.2rem;
+		text-transform: uppercase;
+	}
+
+	& .contest-dates-icon {
+		height: 15px;
+		margin-right: .5rem;
+		width: 15px;
+		& svg path {
+			fill: var(--global-dove-gray);
+		}
+	}
+}
+
+#contest-rules {
+	display: none;
+}
+
+#contest-rules-toggle {
+	display: inline-block;
+    background: none;
+    border: none;
+    color: var(--brand-primary);
+}

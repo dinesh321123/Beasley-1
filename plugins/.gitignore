@@ -48,3 +48,5 @@ themes/**/css/*.css
 themes/**/js/*.js
 themes/greatermedia/vendor/
 /themes/experience-engine/bundle/
+/themes/experience-engine-new/bundle/
+/themes/experience-engine-new/bundle/app.js

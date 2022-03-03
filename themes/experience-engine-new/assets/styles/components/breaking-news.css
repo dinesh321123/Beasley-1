@@ -1,0 +1,41 @@
+.breaking-news-banner {
+    background: var(--global-alabaster);
+    border-bottom: 1px solid var(--global-mercury);
+    font-size: 1rem;
+    padding: 1rem;
+    text-align: center;
+
+    & .breaking-news-banner__title {
+        color: var(--brand-primary);
+    }
+
+    & .breaking-news-banner__excerpt {
+        color: var(--global-theme-font-primary);
+    }
+}
+
+body.-dark {
+    & .breaking-news-banner {
+        background: var(--global-theme-secondary);
+    }
+}
+
+.notification-banner {
+	box-shadow: 1px 0 3px rgba(0, 0, 0, 0.08);
+	font-weight: 600;
+	position: fixed;
+	left: 0;
+	transition: top 1s;
+	top: -100px;
+	width: 100%;
+	z-index: 10;
+
+	&.-visible {
+		top: 0;
+	}
+
+	& .title {
+		color: var( --brand-secondary );
+		font-weight: 400;
+	}
+}
