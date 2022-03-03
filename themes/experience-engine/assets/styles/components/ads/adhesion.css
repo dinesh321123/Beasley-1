@@ -6,6 +6,10 @@
 	z-index: 110;
 	justify-content: center;
 	background-color: var(--global-theme-secondary);
+
+	& .is-IOS {
+		padding-bottom: 44px;
+	}
 }
 
 .bottom-adhesion-slot {
