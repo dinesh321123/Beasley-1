@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "6a1f0ca45837cf17f6548d4c5a8b5ba8",
+=======
+    "content-hash": "9c07b7bacce9e4f9eb413e6a1ce1de25",
+>>>>>>> feature/update-s3-uploads
     "packages": [
         {
             "name": "10up/post-finder",
@@ -149,16 +153,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.212.0",
+            "version": "3.212.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d7670125548a886f90e889e08ae0ae7be4958908"
+                "reference": "e4a5f8dca671281e8e2122607a4da2a8348489bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d7670125548a886f90e889e08ae0ae7be4958908",
-                "reference": "d7670125548a886f90e889e08ae0ae7be4958908",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e4a5f8dca671281e8e2122607a4da2a8348489bf",
+                "reference": "e4a5f8dca671281e8e2122607a4da2a8348489bf",
                 "shasum": ""
             },
             "require": {
@@ -231,7 +235,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2022-03-02T19:29:21+00:00"
+            "time": "2022-03-03T19:19:37+00:00"
         },
         {
             "name": "composer/installers",
@@ -635,21 +639,21 @@
         },
         {
             "name": "humanmade/s3-uploads",
-            "version": "3.0.3",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/humanmade/S3-Uploads.git",
-                "reference": "8a1262d482366e57a02885818570db6685efad42"
+                "reference": "8ad534d49c0307dd7ee56f0ab6d18c478f83a34a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/humanmade/S3-Uploads/zipball/8a1262d482366e57a02885818570db6685efad42",
-                "reference": "8a1262d482366e57a02885818570db6685efad42",
+                "url": "https://api.github.com/repos/humanmade/S3-Uploads/zipball/8ad534d49c0307dd7ee56f0ab6d18c478f83a34a",
+                "reference": "8ad534d49c0307dd7ee56f0ab6d18c478f83a34a",
                 "shasum": ""
             },
             "require": {
                 "aws/aws-sdk-php": "~3.18",
-                "composer/installers": "~1.0"
+                "composer/installers": "~1.0 || ^2.0"
             },
             "require-dev": {
                 "humanmade/psalm-plugin-wordpress": "^1.0",
@@ -678,7 +682,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2021-07-30T15:42:32+00:00"
+            "time": "2022-03-02T11:59:49+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",
