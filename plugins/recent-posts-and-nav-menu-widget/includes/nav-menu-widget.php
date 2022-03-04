@@ -30,7 +30,7 @@ class RPMW_Nav_Menu_Widget extends WP_Widget {
 	        if ( !$menu_item->menu_item_parent )
 	        {
 	        	$parent_id = $menu_item->ID;
-	            $menu_list .= '<li class="item">';
+	            $menu_list .= '<li class="item menu-item">';
 	            $menu_list .= '<a href="'.$link.'" class="title">'.$title.'</a>';
 	        }
 	        if( $parent_id == $menu_item->menu_item_parent )
@@ -39,7 +39,7 @@ class RPMW_Nav_Menu_Widget extends WP_Widget {
 	                $submenu = true;
 	                $menu_list .= '<ul class="sub-menu">';
 	            }
-	            $menu_list .= '<li class="item">';
+	            $menu_list .= '<li class="item menu-item">';
 	            $menu_list .= '<a href="'.$link.'" class="title">'.$title.'</a>';
 	            $menu_list .= '</li>'; 
 	            if ( $menu_items[ $count + 1 ]->menu_item_parent != $parent_id && $submenu ){

@@ -22,12 +22,20 @@
 		}
 	}
 	& .container{
-		 padding-bottom:0;
-		@media(--max-medium-viewport) {
-			display:flex;
-			justify-content: space-between;
-			align-items: center;
-		}
+		  padding-bottom:0;
+		  width:100%;
+		  margin:0 auto;
+			@media(--min-xxlarge-viewport) {
+				max-width:1230px;
+			}
+			@media(--min-x2large-viewport) {
+				max-width:1290px;
+			}
+			@media(--max-medium-viewport) {
+				display:flex;
+				justify-content: space-between;
+				align-items: center;
+			}
 	}
 	&.sticky-header {
 		-webkit-transition: padding .2s;
@@ -65,12 +73,13 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		align-items: center;
-	  	padding: 20px 0 10px;
+		align-items: flex-start;
+	  	padding: 20px 0 5px;
 		@media(--max-medium-viewport) {
 			order:1;
 			width: calc(100% - 50px);
 			padding: 5px 0;
+			align-items:center;
 		}
 		& .top-right-menu {
 			  display: flex;
@@ -88,12 +97,12 @@
 				}
 				& a{
 					  display: block;
-					  height: 40px;
-					  width: 40px;
+					  height: 33px;
+					  width: 33px;
 					  background: #f5f5f5;
 					  color: #333;
 					  text-align: center;
-					  line-height: 30px;
+					  line-height: 1;
 					  border-radius: 50%;
 					  margin: 0 8px;
 					  padding:9px 0;
@@ -119,6 +128,11 @@
 			  display: flex;
 			  align-items: center;
 			  text-transform: uppercase;
+		  		& svg{
+					height:33px;
+					width:33px;
+					margin-right:3px;
+				  }
 				@media(--max-medium-viewport) {
 					font-size: 14px;
 					padding: 13px 5px;
@@ -233,7 +247,7 @@
 	& .search-form {
 		  margin: 0;
 		  position: relative;
-		  margin-right: 10px;
+		  margin-right: 20px;
 			@media(--max-medium-viewport) {
 				display:none !important;
 			}
@@ -313,6 +327,8 @@
 							&:after{
 								 font-family: 'FontAwesome';
 								 content: "\f107";
+								 font-size:18px;
+								 color: var(--brand-primary);
 							 }
 						  }
 					  }
@@ -323,8 +339,10 @@
 					  max-height: 200px;
 				}
 				& > li.mega-menu-item{
-					  padding:5px;
+					  padding:0 2px;
 						& > .mega-menu-link{
+						   padding-left:14px;
+						   padding-riht:14px;
 							@media(--max-medium-viewport) {
 								font-size: 16px;
 								text-transform: uppercase;
@@ -425,6 +443,18 @@
 							}
 						}
 					}
+				}
+				& li.current-mega-menu-item {
+					& > a{
+						  background:transparent;
+						  color:var(--brand-primary) !important;
+					  }
+				}
+				& li.current-mega-main-menu-item {
+					& > a {
+						  background:transparent;
+						  color:var(--brand-primary) !important;
+					  }
 				}
 				&:after{
 					@media(--max-medium-viewport) {

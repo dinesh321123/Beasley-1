@@ -2,14 +2,12 @@
 	<div class="container">
 		<div class="top-header">
 			<div class="brand-logo">
-				<a href="#">
-					<div class="logo" itemscope itemtype="http://schema.org/Organization">
+				<div class="logo" itemscope itemtype="http://schema.org/Organization">
 						<?php ee_the_custom_logo( 154, 88 ); ?>
 						<?php // ee_the_subheader_logo( 'desktop', 154, 88 ); ?>
 						<?php // ee_the_subheader_logo( 'mobile', 462, 88 ); ?>
 						<span class="screen-reader-text"><?php wp_title(); ?></span>
-					</div>
-				</a>
+				</div>
 			</div>
 
 			<div class="top-right-menu">
@@ -30,7 +28,7 @@
 								<p><a href="#">Mama Kin</a> &nbsp; | &nbsp; <a href="#">Aerosmith</a></p>
 							</div>
 							<div>
-								<img src="http://wmmr.beasley.test/wp-content/uploads/2022/02/listen1.jpg">
+								<img src="<?php echo get_template_directory_uri() ?>/assets/images/ad-banner-1.jpg" alt="AD Banner">
 							</div>
 						</div>
 						<hr>
@@ -55,7 +53,7 @@
 						<hr>
 						<div class="drop-add">
 							<div>
-								<img src="http://wmmr.beasley.test/wp-content/uploads/2022/02/listen2.jpg)">
+								<img src="<?php echo get_template_directory_uri() ?>/assets/images/ad-banner-2.jpg" alt="AD Banner">
 							</div>
 						</div>
 					</div>
