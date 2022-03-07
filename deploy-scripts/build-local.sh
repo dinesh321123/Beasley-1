@@ -13,7 +13,7 @@ npm install
 npm run build
 popd || exit 1
 
-pushd themes/experience-engine-new || exit 1
+pushd themes/experience-engine-v2 || exit 1
 npm install
 npm run build
 popd || exit 1
