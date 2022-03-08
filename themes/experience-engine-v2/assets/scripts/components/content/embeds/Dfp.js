@@ -6,6 +6,16 @@ import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAd
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 const playerAdhesionDivID = 'div-gpt-ad-player-0';
+const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
+
+const isNotAdhesionOrInterstitial = placeholder => {
+	return (
+		placeholder !== playerSponsorDivID &&
+		placeholder !== interstitialDivID &&
+		placeholder !== bottomAdhesionDivID
+	);
+};
+
 const isNotPlayerOrInterstitial = placeholder => {
 	return (
 		placeholder !== playerSponsorDivID && placeholder !== interstitialDivID
@@ -66,7 +76,7 @@ const impressionViewableHandler = event => {
 const slotVisibilityChangedHandler = event => {
 	const { slot } = event;
 	const placeholder = slot.getSlotElementId();
-	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+	if (placeholder && isNotAdhesionOrInterstitial(placeholder)) {
 		getSlotStat(placeholder).viewPercentage =
 			typeof event.inViewPercentage === 'undefined'
 				? 100
@@ -191,16 +201,11 @@ const slotRenderEndedHandler = event => {
 class Dfp extends PureComponent {
 	constructor(props) {
 		super(props);
-		const { unitId, unitName, pageURL } = props;
+		const { pageURL } = props;
 		const { bbgiconfig } = window;
-		this.isAffiliateMarketingPage = this.isAffiliateMarketingPage.bind(this);
-		this.isIncontentAdOnAffiliatePage = this.isIncontentAdOnAffiliatePage.bind(
+		this.getIsAffiliateMarketingPage = this.getIsAffiliateMarketingPage.bind(
 			this,
 		);
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
-			return;
-		}
-
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
 		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.refreshSlot = this.refreshSlot.bind(this);
@@ -228,15 +233,11 @@ class Dfp extends PureComponent {
 			10,
 		);
 
-		const isAffiliateMarketingPage = this.isAffiliateMarketingPage(pageURL);
-
-		const adjustedUnitId = this.getAdjustedUnitId(unitId, unitName, pageURL);
-		console.log(`Adjusted Ad Unit: ${adjustedUnitId}`);
+		const isAffiliateMarketingPage = this.getIsAffiliateMarketingPage(pageURL);
 
 		// Initialize State. NOTE: Ensure that Minimum Poll Intervavl Is Much Longer Than
 		// 	Round Trip to Ad Server. Initially we enforce 5 second minimum.
 		this.state = {
-			adjustedUnitId,
 			slot: false,
 			interval: false,
 			isRotateAdsEnabled: bbgiconfig.ad_rotation_enabled !== 'off',
@@ -268,7 +269,7 @@ class Dfp extends PureComponent {
 		);
 	}
 
-	isAffiliateMarketingPage(pageURL) {
+	getIsAffiliateMarketingPage(pageURL) {
 		return (
 			pageURL.indexOf('/category/shopping/') > -1 ||
 			pageURL.indexOf('/shows/must-haves/') > -1 ||
@@ -276,49 +277,9 @@ class Dfp extends PureComponent {
 		);
 	}
 
-	isIncontentAdOnAffiliatePage(unitName, pageURL) {
-		return (
-			(unitName === 'in-list' ||
-				unitName === 'in-list-gallery' ||
-				unitName === 'in-content') &&
-			this.isAffiliateMarketingPage(pageURL)
-		);
-	}
-
-	getAdjustedUnitId(unitId, unitName, pageURL) {
-		let retval = unitId;
-		// Change Ad Unit Depending On AdName If We Are On An Affiliate Page
-		if (unitId && pageURL && this.isAffiliateMarketingPage(pageURL)) {
-			const nameStartIdx = unitId.lastIndexOf('/');
-			if (nameStartIdx > -1) {
-				const prefix = unitId.substring(0, nameStartIdx + 1);
-				switch (unitName) {
-					case 'top-leaderboard':
-						retval = `${prefix}MUST_HAVES_Leaderboard_pos1`;
-						break;
-					case 'bottom-leaderboard':
-						retval = `${prefix}MUST_HAVES_Leaderboard_pos2`;
-						break;
-					case 'right-rail':
-						retval = `${prefix}MUST_HAVES_RightRail_pos1`;
-						break;
-					case 'adhesion':
-						retval = `${prefix}MUST_HAVES_Adhesion`;
-						break;
-					default:
-						break;
-				}
-			}
-		}
-		return retval;
-	}
-
 	componentDidMount() {
 		const { googletag } = window;
-		const { placeholder, unitName, pageURL } = this.props;
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
-			return;
-		}
+		const { placeholder } = this.props;
 
 		this.container = document.getElementById(placeholder);
 		this.tryDisplaySlot();
@@ -354,11 +315,6 @@ class Dfp extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		const { unitName, pageURL } = this.props;
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
-			return;
-		}
-
 		this.destroySlot();
 
 		if (this.isConfiguredToRunInterval()) {
@@ -525,9 +481,14 @@ class Dfp extends PureComponent {
 	}
 
 	registerSlot() {
-		const { placeholder, unitName, targeting, shouldMapSizes } = this.props;
+		const {
+			placeholder,
+			unitId,
+			unitName,
+			targeting,
+			shouldMapSizes,
+		} = this.props;
 		const { googletag, bbgiconfig } = window;
-		const { adjustedUnitId } = this.state;
 
 		if (!document.getElementById(placeholder)) {
 			return;
@@ -538,13 +499,13 @@ class Dfp extends PureComponent {
 			return;
 		}
 
-		if (!adjustedUnitId) {
+		if (!unitId) {
 			return;
 		}
 
 		googletag.cmd.push(() => {
 			const size = bbgiconfig.dfp.sizes[unitName];
-			const slot = googletag.defineSlot(adjustedUnitId, size, placeholder);
+			const slot = googletag.defineSlot(unitId, size, placeholder);
 
 			// If Slot was already defined this will be null
 			// Ignored to fix the exception
@@ -766,7 +727,7 @@ class Dfp extends PureComponent {
 				slot.defineSizeMapping(sizeMapping);
 			}
 
-			const prebidEnabled = this.loadPrebid(adjustedUnitId, prebidSizeConfig);
+			const prebidEnabled = this.loadPrebid(unitId, prebidSizeConfig);
 
 			for (let i = 0; i < targeting.length; i++) {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
@@ -825,10 +786,11 @@ class Dfp extends PureComponent {
 
 	bidsBackHandler() {
 		const { googletag } = window;
-		const { slot, adjustedUnitId } = this.state;
+		const { unitId } = this.props;
+		const { slot } = this.state;
 		// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
-		window.pbjs.setTargetingForGPTAsync([adjustedUnitId]);
-		logPrebidTargeting(adjustedUnitId);
+		window.pbjs.setTargetingForGPTAsync([unitId]);
+		logPrebidTargeting(unitId);
 		googletag.pubads().refresh([slot], { changeCorrelator: false });
 	}
 
@@ -854,14 +816,14 @@ class Dfp extends PureComponent {
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder, unitName } = this.props;
-		const { slot, prebidEnabled, adjustedUnitId } = this.state;
+		const { placeholder, unitName, unitId } = this.props;
+		const { slot, prebidEnabled } = this.state;
 
 		if (slot) {
 			googletag.cmd.push(() => {
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
 				if (prebidEnabled) {
-					this.pushRefreshBidIntoGoogleTag(adjustedUnitId, slot);
+					this.pushRefreshBidIntoGoogleTag(unitId, slot);
 				} else {
 					googletag.pubads().refresh([slot]);
 				}
@@ -877,8 +839,8 @@ class Dfp extends PureComponent {
 	}
 
 	destroySlot() {
-		const { placeholder } = this.props;
-		const { slot, prebidEnabled, adjustedUnitId } = this.state;
+		const { placeholder, unitId } = this.props;
+		const { slot, prebidEnabled } = this.state;
 
 		if (slot) {
 			const { googletag } = window;
@@ -886,10 +848,10 @@ class Dfp extends PureComponent {
 			delete getSlotStatsCollectionObject()[placeholder];
 
 			if (prebidEnabled) {
-				console.log(`Removing Ad Unit From Prebid: ${adjustedUnitId}`);
+				console.log(`Removing Ad Unit From Prebid: ${unitId}`);
 				const pbjs = window.pbjs || {};
 				// pbjs.removeAdUnit(adUnitCode)
-				pbjs.removeAdUnit(adjustedUnitId);
+				pbjs.removeAdUnit(unitId);
 			}
 
 			console.log(`Destroying Slot: ${placeholder}`);
