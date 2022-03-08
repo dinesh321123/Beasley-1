@@ -5,7 +5,7 @@ use Bbgi\Integration\Google;
 <html lang="en">
 	<head <?php language_attributes(); ?>>
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
-		<meta name="viewport" content="width=device-width, initial-scale=1"><?php
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1"><?php
 
 		if ( is_singular() && ! empty( $GLOBALS['ee_blog_id'] ) ) :
 			add_action( 'wp_head', 'restore_current_blog', 1 );

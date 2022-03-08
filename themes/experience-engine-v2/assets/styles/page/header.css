@@ -1,23 +1,23 @@
 .primary-mega-topbar {
-	background: #242525;
+	background: #202020;
 	padding: 5px 15px;
 	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
 	z-index: 1020;
-	@media(--max-medium-viewport) {
+	@media(--max-x2large-viewport) {
 		padding-right:0;
 		padding-left:10px;
 	}
 	& .brand-logo{
-		@media(--max-medium-viewport) {
+		@media(--max-x2large-viewport) {
 			margin-left:auto;
 			margin-right:auto;
 		}
 		& .custom-logo{
-		  	width:150px;
+		  	width:175px;
 			@media(--max-medium-viewport) {
-				width:140px;
+				width:165x;
 			}
 		}
 	}
@@ -31,7 +31,7 @@
 			@media(--min-x2large-viewport) {
 				max-width:1290px;
 			}
-			@media(--max-medium-viewport) {
+			@media(--max-x2large-viewport) {
 				display:flex;
 				justify-content: space-between;
 				align-items: center;
@@ -45,12 +45,15 @@
 		transition: padding .2s;
 		 padding: 0px 0px 0 15px;
 		& .custom-logo{
+			@media(--max-x2large-viewport) {
+				width:100px;
+			}
 			@media(--max-medium-viewport) {
-				max-width:80px;
+				max-width:89px;
 			}
 		}
 		& .top-header{
-			@media(--max-medium-viewport) {
+		@media(--max-x2large-viewport) {
 				padding:0 !important;
 			}
 		  }
@@ -75,7 +78,7 @@
 		justify-content: space-between;
 		align-items: flex-start;
 	  	padding: 20px 0 5px;
-		@media(--max-medium-viewport) {
+		@media(--max-x2large-viewport) {
 			order:1;
 			width: calc(100% - 50px);
 			padding: 5px 0;
@@ -92,7 +95,7 @@
 				border-right: 1px solid #ddd;
 				padding-right: 10px;
 				margin-right: 10px;
-				@media(--max-medium-viewport) {
+				@media(--max-x2large-viewport) {
 					display:none !important;
 				}
 				& a{
@@ -117,9 +120,8 @@
 		  position: relative;
 		  display: inline-block;
 		& > #listen-live-button {
-			  padding: 13px 8px;
-			  color: #000 !important;
-			  line-height: 1.5em;
+			  padding: 0px 8px;
+			  color: #fff !important;
 			  text-decoration: none;
 			  border: 1px solid var(--brand-primary);
 			  cursor: pointer;
@@ -128,15 +130,21 @@
 			  display: flex;
 			  align-items: center;
 			  text-transform: uppercase;
+		      font-size:16px;
+		      height:66px;
+		      line-height:66px;
+		      font-weight:700;
 		  		& svg{
 					height:33px;
 					width:33px;
 					margin-right:3px;
+					fill:#fff;
 				  }
 				@media(--max-medium-viewport) {
-					font-size: 14px;
-					padding: 13px 5px;
-					color: #ededed !important;
+					font-size: 11px;
+					padding: 0px 5px;
+					height: 57px;
+					line-height: 57px;
 					& svg{
 						height:25px;
 						width:25px;
@@ -147,6 +155,7 @@
 				  content: "\f107";
 				  font-family: "FontAwesome";
 				  margin-left: 5px;
+	     		  font-size:25px;
 			  }
 		  }
 		& > div {
@@ -155,7 +164,7 @@
 			  display: none;
 			  right: 0px;
 			  left: auto;
-			  top: calc(1.5em + 26px);
+			  top: 100%;
 			  border: none;
 			  background: var(--brand-primary);
 			  padding: 30px;
@@ -248,7 +257,7 @@
 		  margin: 0;
 		  position: relative;
 		  margin-right: 20px;
-			@media(--max-medium-viewport) {
+			@media(--max-x2large-viewport) {
 				display:none !important;
 			}
 		& input[type=search] {
@@ -264,32 +273,43 @@
 			   background: #ddd;
 			   border-radius: 20px;
 			   font-size:16px;
+			   height:33px;
 		  }
 		& button[type=submit] {
 			   left: auto;
 			   height: 30px;
 			   right: 7px;
 			   padding: 0;
-			   top: -10px;
+			   top: -17px;
 			   width: 30px;
 			   cursor: pointer;
 		   }
 		&:hover, &:focus, &:active{
 			& input[type=search] {
-				width: 300px;
+				width: 285px;
 				padding-left:20px;
 			}
 		}
 	  }
 	& .top-primarynav {
 		 margin: 0px;
-		@media(--max-medium-viewport) {
+		& a{
+			  font-weight:400;
+		  }
+		@media(--max-x2large-viewport) {
 			order:0;
 			width:50px;
 		}
 		& #mega-menu-wrap-primary-nav {
 			background: #252525;
+			@media(--max-x2large-viewport) {
+				background: transparent;
+			}
 		  	& .close-main-mega-menu{
+				  @media(--max-x2large-viewport) {
+					  display:none !important;
+				  }
+    			  display: block;
 				  position: absolute;
 				  top: 0;
 				  right: 0;
@@ -303,6 +323,11 @@
 				 }
 			   }
 			  & .mega-toggle-block-0 {
+				& button.mega-toggle-animated{
+					@media(--min-large-viewport) {
+						transform: scale(1.1);
+					}
+				  }
 				& .mega-toggle-animated-inner{
 					  background-color: var(--brand-primary);
 					  width: 80%;
@@ -317,8 +342,9 @@
 			  }
 			}
 			& #mega-menu-primary-nav {
-			  	padding:5px;
-				@media(--max-medium-viewport) {
+			  	padding:5px 0;
+			    background:#202020;
+				@media(--max-x2large-viewport) {
 					padding-top:50px;
 				}
 				& li.mega-menu-item-has-children {
@@ -329,6 +355,12 @@
 								 content: "\f107";
 								 font-size:18px;
 								 color: var(--brand-primary);
+								@media(--max-x2large-viewport) {
+									font-size:36px;
+									color:#fff;
+									margin-top: -8px;
+									transform: rotate(-90deg);
+								}
 							 }
 						  }
 					  }
@@ -339,32 +371,51 @@
 					  max-height: 200px;
 				}
 				& > li.mega-menu-item{
-					  padding:0 2px;
+					  padding:0;
 						& > .mega-menu-link{
 						   padding-left:14px;
-						   padding-riht:14px;
-							@media(--max-medium-viewport) {
-								font-size: 16px;
+						   padding-right:14px;
+
+							@media(--max-x2large-viewport) {
+								font-size: 19px;
 								text-transform: uppercase;
+								padding:15px 14px;
+								font-weight:600;
+								line-height:1;
+								height:unset;
 							}
 						  }
 					  &.mega-toggle-on {
 						& > a {
-							  background:transparent;
 							  color:var(--brand-primary) !important;
 						  }
+						& span.mega-indicator {
+							  &:after {
+								  content: "\f106" !important;
+							  }
+						  }
+						& > a.mega-menu-link{
+							& > span.mega-indicator{
+								&:after{
+									@media(--max-x2large-viewport) {
+										content: "\f107" !important;
+										color: var(--brand-primary);
+										transform: rotate(0deg);
+									}
+								}
+							}
+						}
 						}
 					&.mega-current-menu-item {
 						& > a.mega-menu-link{
-							  background:transparent;
 							  color:var(--brand-primary) !important;
 						  }
 					}
 				}
 				& > li.mega-menu-megamenu {
 					& > ul.mega-sub-menu{
-						  background: #252525;
-						  padding-top: 20px;
+							background: #313131;
+						    padding: 20px 30px;
 						& .recent-posts-widget-with-thumbnails{
 							display:flex;
 							& .rpwwt-widget{
@@ -374,7 +425,7 @@
 									& li{
 										  width:25%;
 									      padding-right:20px;
-											@media(--max-medium-viewport) {
+											@media(--max-x2large-viewport) {
 												width:100%;
 											}
 									  	&:last-child{
@@ -384,7 +435,7 @@
 												padding:0;
 												display: flex;
 												flex-direction: column;
-												align-items:center;
+												align-items:flex-start;
 												& img{
 													height:auto;
 													margin:10px auto 0;
@@ -400,7 +451,7 @@
 												& .rpwwt-post-title{
 													font-size:20px;
 													margin-top:10px;
-													text-align:center;
+													text-align:left;
 												  }
 											}
 									  }
@@ -419,7 +470,7 @@
 										  display: flex;
 										  flex-wrap:wrap;
 										  & ul{
-												width:33.33%;
+												width:50%;
 												& li{
 													& a{
 														padding-left:0;
@@ -446,18 +497,16 @@
 				}
 				& li.current-mega-menu-item {
 					& > a{
-						  background:transparent;
 						  color:var(--brand-primary) !important;
 					  }
 				}
 				& li.current-mega-main-menu-item {
 					& > a {
-						  background:transparent;
 						  color:var(--brand-primary) !important;
 					  }
 				}
 				&:after{
-					@media(--max-medium-viewport) {
+					@media(--max-x2large-viewport) {
 						content: '\f158';
 						font-family: 'dashicons';
 						font-size: 35px;
@@ -473,4 +522,19 @@
 			}
 		  }
 	 }
+}
+@media only screen and (min-width: 423px) and (max-width: 1300px)  {
+	.primary-mega-topbar .top-primarynav{
+		width:129px;
+	}
+	#mega-menu-wrap-primary-nav .mega-menu-toggle{
+		flex-direction: column;
+		align-items: flex-start;
+		margin-top: -15px;
+	}
+}
+@media only screen and (min-width: 900px) {
+	div.configurable-iframe-holder {
+		left: 0px !important;
+	}
 }
