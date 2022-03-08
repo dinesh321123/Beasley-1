@@ -13,7 +13,7 @@ const BottomAdhesionAd = () => {
 
 	// const { unitId, unitName } = window.bbgiconfig.dfp.player;
 	const unitId = '/26918149/WAZZ_FM_Leaderboard_pos1';
-	const unitName = 'top-leaderboard';
+	const unitName = 'adhesion';
 	const container = document.getElementById('bottom-adhesion-container');
 
 	// Exit if shouldDisplay was toggled off
@@ -25,7 +25,7 @@ const BottomAdhesionAd = () => {
 	const children = (
 		<ErrorBoundary>
 			<Dfp
-				key={`adhesion-ad-${pageURL}`}
+				key={`bottom-adhesion-ad-${pageURL}`}
 				placeholder={id}
 				unitId={unitId}
 				unitName={unitName}

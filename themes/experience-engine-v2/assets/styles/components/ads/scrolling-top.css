@@ -1,0 +1,5 @@
+.top-scrolling-container {
+	background-color: var(--global-theme-secondary);
+	overflow-y: clip;
+}
+

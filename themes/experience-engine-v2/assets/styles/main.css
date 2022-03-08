@@ -73,6 +73,7 @@
 
 @import "components/ads/ad";
 @import "components/ads/adhesion";
+@import "components/ads/scrolling-top";
 @import "components/discover/discover-modal";
 
 @import "components/nprogress";

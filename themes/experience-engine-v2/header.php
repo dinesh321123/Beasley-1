@@ -38,8 +38,5 @@ use Bbgi\Integration\Google;
 					}
 				?>
 				<?php do_action( 'show_breaking_news_banner' ); ?>
-				<?php
-					get_template_part( 'partials/ads/leaderboard' );
-				?>
 				<div id="inner-content">
 

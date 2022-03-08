@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { IntersectionObserverProvider } from './context';
 import {
+	TopScrollingAd,
 	ContentDispatcher,
 	ModalDispatcher,
 	BottomAdhesionAd,
@@ -31,6 +32,7 @@ const App = () => {
 	return (
 		<IntersectionObserverProvider>
 			<ErrorBoundary>
+				<TopScrollingAd />
 				<ContentDispatcher />
 				<ModalDispatcher />
 				<BottomAdhesionAd />

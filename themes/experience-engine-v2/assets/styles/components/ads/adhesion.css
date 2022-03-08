@@ -13,10 +13,6 @@
 	background-color: var(--global-theme-secondary);
 }
 
-.bottom-adhesion-slot {
-	z-index: 100;
-}
-
 .ad-button-holder {
 	position: absolute;
 	right: 0;

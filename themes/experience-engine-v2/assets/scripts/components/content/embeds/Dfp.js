@@ -5,38 +5,11 @@ import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAd
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
-const playerAdhesionDivID = 'div-gpt-ad-player-0';
-const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
 
-const isNotAdhesionOrInterstitial = placeholder => {
-	return (
-		placeholder !== playerSponsorDivID &&
-		placeholder !== interstitialDivID &&
-		placeholder !== bottomAdhesionDivID
-	);
-};
-
-const isNotPlayerOrInterstitial = placeholder => {
+const isNotSponsorOrInterstitial = placeholder => {
 	return (
 		placeholder !== playerSponsorDivID && placeholder !== interstitialDivID
 	);
-};
-
-let resetAdContainerWidthTimeout;
-const changeAdhesionAdContainerWidth = (
-	placeholder,
-	newWidthInt = 1,
-	mSecDelay = 1500,
-) => {
-	if (resetAdContainerWidthTimeout) {
-		clearTimeout(resetAdContainerWidthTimeout);
-	}
-
-	resetAdContainerWidthTimeout = setTimeout(() => {
-		const slotElement = document.getElementById(placeholder);
-		slotElement.style.width = `${newWidthInt}px`;
-		slotElement.style.transition = 'all .5s ease-in-out';
-	}, mSecDelay);
 };
 
 const getSlotStatsCollectionObject = () => {
@@ -68,7 +41,7 @@ const getSlotStat = placeholder => {
 const impressionViewableHandler = event => {
 	const { slot } = event;
 	const placeholder = slot.getSlotElementId();
-	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+	if (placeholder && isNotSponsorOrInterstitial(placeholder)) {
 		getSlotStat(placeholder).viewPercentage = 100;
 	}
 };
@@ -76,7 +49,7 @@ const impressionViewableHandler = event => {
 const slotVisibilityChangedHandler = event => {
 	const { slot } = event;
 	const placeholder = slot.getSlotElementId();
-	if (placeholder && isNotAdhesionOrInterstitial(placeholder)) {
+	if (placeholder && isNotSponsorOrInterstitial(placeholder)) {
 		getSlotStat(placeholder).viewPercentage =
 			typeof event.inViewPercentage === 'undefined'
 				? 100
@@ -103,7 +76,7 @@ const slotRenderEndedHandler = event => {
 		console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
 	});
 
-	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
+	if (placeholder && isNotSponsorOrInterstitial(placeholder)) {
 		const slotElement = document.getElementById(placeholder);
 		if (isEmpty) {
 			// If Slot Is Visible
@@ -167,7 +140,6 @@ const slotRenderEndedHandler = event => {
 
 			// Adjust Container Div Height
 			if (adSize && adSize[0] && adSize[1]) {
-				const imageWidth = adSize[0];
 				const imageHeight = adSize[1];
 				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
 				const padBottom =
@@ -175,15 +147,9 @@ const slotRenderEndedHandler = event => {
 						? padBottomStr.replace('px', '')
 						: '0';
 				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
-				// Adjust Width Of Adhesion Ad
-				if (placeholder === playerAdhesionDivID) {
-					changeAdhesionAdContainerWidth(placeholder, imageWidth, 1);
-				}
 			}
+			slotElement.classList.add('fadeInAnimation');
 
-			if (placeholder !== playerAdhesionDivID) {
-				slotElement.classList.add('fadeInAnimation');
-			}
 			slotElement.style.opacity = '1';
 			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
 			const slotHTML = slot.getHtml();
@@ -265,7 +231,7 @@ class Dfp extends PureComponent {
 
 		return (
 			unitName === 'right-rail' ||
-			(isRotateAdsEnabled && isNotPlayerOrInterstitial(placeholder))
+			(isRotateAdsEnabled && isNotSponsorOrInterstitial(placeholder))
 		);
 	}
 
@@ -481,13 +447,7 @@ class Dfp extends PureComponent {
 	}
 
 	registerSlot() {
-		const {
-			placeholder,
-			unitId,
-			unitName,
-			targeting,
-			shouldMapSizes,
-		} = this.props;
+		const { placeholder, unitId, unitName, targeting } = this.props;
 		const { googletag, bbgiconfig } = window;
 
 		if (!document.getElementById(placeholder)) {
@@ -633,34 +593,25 @@ class Dfp extends PureComponent {
 					},
 				];
 			} else if (unitName === 'adhesion') {
-				if (shouldMapSizes) {
-					sizeMapping = googletag
-						.sizeMapping()
-						// does not display on 0 width
-						.addSize([0, 0], [])
+				sizeMapping = googletag
+					.sizeMapping()
+					// does not display on small screens
+					.addSize([0, 0], [])
 
-						// Div visibility is controlled in react so always show at small ad when at least 1 pixel wide
-						.addSize([1, 0], [[728, 90]])
+					// accepts common desktop banner formats
+					.addSize([300, 0], [[320, 50], 'fluid'])
+					.addSize([1160, 0], [[728, 90], [970, 90], 'fluid'])
 
-						// accepts both sizes
-						.addSize(
-							[1400, 0],
-							[
-								[728, 90],
-								[970, 90],
-							],
-						)
-						.build();
-				}
+					.build();
 
 				prebidSizeConfig = [
 					{ minViewPort: [0, 0], sizes: [] },
 					{
-						minViewPort: [1, 0],
-						sizes: [[728, 90]],
+						minViewPort: [300, 0],
+						sizes: [[320, 50]],
 					},
 					{
-						minViewPort: [1400, 0],
+						minViewPort: [1160, 0],
 						sizes: [
 							[728, 90],
 							[970, 90],
@@ -750,16 +701,7 @@ class Dfp extends PureComponent {
 		if (slot) {
 			const slotStat = getSlotStat(placeholder);
 
-			if (unitName === 'adhesion') {
-				const playerElement = document.getElementById('live-player');
-				// adhesion ads are enabled when screen > window.playerAdThreshold (1250 or 1350)
-				if (
-					playerElement &&
-					playerElement.offsetWidth > window.playerAdThreshold
-				) {
-					slotStat.timeVisible += slotPollMillisecs;
-				}
-			} else if (slotStat.viewPercentage > 50) {
+			if (slotStat.viewPercentage > 50) {
 				slotStat.timeVisible += slotPollMillisecs;
 			}
 
@@ -816,7 +758,7 @@ class Dfp extends PureComponent {
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder, unitName, unitId } = this.props;
+		const { placeholder, unitId } = this.props;
 		const { slot, prebidEnabled } = this.state;
 
 		if (slot) {
@@ -829,11 +771,7 @@ class Dfp extends PureComponent {
 				}
 				const placeholderElement = document.getElementById(placeholder);
 				placeholderElement.classList.remove('fadeOutAnimation');
-				if (unitName === 'adhesion') {
-					changeAdhesionAdContainerWidth(placeholder, 1, 2000);
-				} else {
-					placeholderElement.style.opacity = '0';
-				}
+				placeholderElement.style.opacity = '0';
 			});
 		}
 	}
@@ -878,13 +816,11 @@ Dfp.propTypes = {
 	unitId: PropTypes.string.isRequired,
 	unitName: PropTypes.string.isRequired,
 	targeting: PropTypes.arrayOf(PropTypes.array),
-	shouldMapSizes: PropTypes.bool,
 	pageURL: PropTypes.string,
 };
 
 Dfp.defaultProps = {
 	targeting: [],
-	shouldMapSizes: true,
 	pageURL: '',
 };
 
