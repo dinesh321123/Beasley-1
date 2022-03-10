@@ -24,7 +24,7 @@ class CoAuthorSettingMetaboxes {
 		}
 		
 		$location = array();
-		$currnet_author = $_GET['post'] ? (get_post($_GET['post']) ? get_post($_GET['post'])->post_author : 0) : 0;
+		$currnet_author = isset($_GET['post']) ? (get_post($_GET['post']) ? get_post($_GET['post'])->post_author : 0) : 0;
 		$current_author_name = get_the_author_meta( 'display_name', $currnet_author ? $currnet_author : get_current_user_id() );
 		
 		$args = array( 'blog_id' => 0, 'fields' => array( 'display_name' ) );

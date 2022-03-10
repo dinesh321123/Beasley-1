@@ -18,15 +18,11 @@ class ExistingListicleSelection {
 	}
 
 	public static function enqueue_scripts(){
-		global $typenow, $pagenow;
-		// $post_types = array( 'listicle_cpt', 'gmr_gallery' );
-		if ( !in_array( $typenow, $post_types ) ) {
-			wp_register_style('existing-listicle-selection-admin', LISTICLE_SELECTION_URL . "assets/css/listicle_selection.css", array(), LISTICLE_SELECTION_VERSION, 'all');
-			wp_enqueue_style('existing-listicle-selection-admin');
-			wp_enqueue_script('existinglisticle', LISTICLE_SELECTION_URL . "assets/js/listicle_selection.js", array('media-views'), LISTICLE_SELECTION_VERSION, true);
-			wp_enqueue_media();
-			wp_enqueue_editor();
-		}
+		wp_register_style('existing-listicle-selection-admin', LISTICLE_SELECTION_URL . "assets/css/listicle_selection.css", array(), LISTICLE_SELECTION_VERSION, 'all');
+		wp_enqueue_style('existing-listicle-selection-admin');
+		wp_enqueue_script('existinglisticle', LISTICLE_SELECTION_URL . "assets/js/listicle_selection.js", array('media-views'), LISTICLE_SELECTION_VERSION, true);
+		wp_enqueue_media();
+		wp_enqueue_editor();
 	}
 
 	public static function custom_media_string($strings,  $post){
