@@ -10,8 +10,8 @@
 					<span class="screen-reader-text"><?php wp_title(); ?></span>
 				</div>
 				<div class="additional-logos">
-					<?php ee_the_subheader_logo( 'desktop'); ?>
-					<?php ee_the_subheader_logo( 'mobile'); ?>
+					<?php ee_the_subheader_logo( 'desktop', 154, 88 ); ?>
+					<?php ee_the_subheader_logo( 'mobile', 462, 88 ); ?>
 				</div>
 			</div>
 
