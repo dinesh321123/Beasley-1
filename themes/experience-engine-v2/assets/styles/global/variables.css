@@ -38,13 +38,15 @@
 }
 
 @custom-media --min-x2large-viewport (min-width: 1300px);
-@custom-media --max-x2large-viewport (max-width: 1300px);
+@custom-media --max-x2large-viewport (max-width: 1299px);
 @custom-media --min-xxlarge-viewport (min-width: 1240px);
 @custom-media --min-xlarge-viewport (min-width: 1060px);
 @custom-media --min-large-viewport (min-width: 900px);
 @custom-media --min-medium-viewport (min-width: 768px);
 @custom-media --min-small-viewport (min-width: 480px);
+@custom-media --max-xsmall-viewport (max-width: 400px);
 @custom-media --max-small-viewport (max-width: 480px);
-@custom-media --max-medium-viewport (max-width: 768px);
+@custom-media --max-medium-viewport (max-width: 767px);
+@custom-media --max-xlmedium-viewport (max-width: 991px);
 @custom-media --max-xlarge-viewport (max-width: 1240px);
 
