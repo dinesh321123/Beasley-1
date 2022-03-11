@@ -28,7 +28,12 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'adhesion'           => array( array( 970, 90 ), array( 728, 90 ) ),
 		);
 
-		$player = array(
+		$headerad = array(
+				'unitId'   => $ee->get_ad_slot_unit_id( 'top-leaderboard' ),
+				'unitName' => 'top-leaderboard',
+		);
+
+		$adhesionad = array(
 			'unitId'   => $ee->get_ad_slot_unit_id( 'adhesion' ),
 			'unitName' => 'adhesion',
 		);
@@ -51,7 +56,8 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 		$config['dfp'] = array(
 			'global'    => \Bbgi\Integration\Dfp::get_global_targeting(),
 			'sizes'     => $sizes,
-			'player'    => $player,
+			'headerad'  => $headerad,
+			'adhesionad'  => $adhesionad,
 			'incontentpreroll' => $incontentpreroll,
 			'tunerpreroll' => $tunerpreroll,
 			'countdown' => $countdown,

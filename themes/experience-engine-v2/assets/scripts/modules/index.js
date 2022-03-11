@@ -3,6 +3,7 @@ export { default as ContentDispatcher } from './ContentDispatcher';
 export { default as LivePlayer } from './LivePlayer';
 export { default as ModalDispatcher } from './ModalDispatcher';
 export { default as PrimaryNav } from './PrimaryNav';
+export { default as PlayerButton } from './PlayerButton';
 export { default as SearchForm } from './SearchForm';
 export { default as TopScrollingAd } from './TopScrollingAd';
 export { default as UserNav } from './UserNav';

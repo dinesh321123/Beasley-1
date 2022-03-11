@@ -6,6 +6,7 @@ import {
 	ContentDispatcher,
 	ModalDispatcher,
 	BottomAdhesionAd,
+	PlayerButton,
 	PrimaryNav,
 	UserNav,
 	SearchForm,
@@ -33,6 +34,7 @@ const App = () => {
 		<IntersectionObserverProvider>
 			<ErrorBoundary>
 				<TopScrollingAd />
+				<PlayerButton />
 				<ContentDispatcher />
 				<ModalDispatcher />
 				<BottomAdhesionAd />

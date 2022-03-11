@@ -9,7 +9,6 @@
 				get_template_part( 'partials/modals' );
 				get_template_part( 'partials/configurable-iframe' );
 				get_template_part( 'partials/trackonomics-script' );
-				get_template_part( 'partials/live-player' );
 			endif;
 		?></div>
 

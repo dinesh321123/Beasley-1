@@ -183,7 +183,21 @@ class PrimaryNav extends PureComponent {
 		}
 	}
 
+	isPlayerButtonEvent(event) {
+		const playerButtonDiv = document.getElementById('player-button-div');
+		return (
+			event &&
+			event.target &&
+			playerButtonDiv &&
+			playerButtonDiv.contains(event.target)
+		);
+	}
+
 	handleClickOutSide(event) {
+		if (this.isPlayerButtonEvent(event)) {
+			return;
+		}
+
 		if (event.target.classList.contains('mega-menu-link')) {
 			event.target.parentNode.classList.toggle('mega-toggle-on');
 		}
@@ -262,7 +276,11 @@ class PrimaryNav extends PureComponent {
 		}
 	}
 
-	handleListenliveClick() {
+	handleListenliveClick(event) {
+		if (this.isPlayerButtonEvent(event)) {
+			return;
+		}
+
 		const dropdownToggle = document.getElementById('my-listen-dropdown2');
 		const dropdownStyle = window.getComputedStyle(dropdownToggle);
 		if (dropdownStyle.display !== 'none') {
