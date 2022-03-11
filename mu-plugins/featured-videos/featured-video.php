@@ -17,7 +17,6 @@ define( 'FVIDEOS_VERSION', '1.0.0' );
 add_action( 'init', 'register_custom_cap' );
 add_action( 'wp_enqueue_media', 'fvideos_enqueue_scripts' );
 add_action( 'admin_footer', 'fvideos_print_media_templates' );
-add_action( 'wp_footer', 'fvideos_print_media_templates' );
 add_action( 'customize_controls_print_footer_scripts', 'fvideos_print_media_templates' );
 add_action( 'wp_ajax_fvideos_get_embed', 'fvideos_discover_oembed' );
 add_action( 'wp_ajax_fvideos_import_embed', 'fvideos_import_oembed' );
@@ -50,7 +49,6 @@ function register_custom_cap() {
 	if( ! current_user_can( 'manage_feature_image_with_video' ) ) {
 		remove_action( 'wp_enqueue_media', 'fvideos_enqueue_scripts' );
 		remove_action( 'admin_footer', 'fvideos_print_media_templates' );
-		remove_action( 'wp_footer', 'fvideos_print_media_templates' );
 		remove_action( 'customize_controls_print_footer_scripts', 'fvideos_print_media_templates' );
 	}
 }
