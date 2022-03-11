@@ -11,7 +11,6 @@
 				</div>
 				<div class="additional-logos">
 					<?php ee_the_subheader_logo( 'desktop', 154, 88 ); ?>
-					<?php ee_the_subheader_logo( 'mobile', 462, 88 ); ?>
 				</div>
 			</div>
 
@@ -81,6 +80,11 @@
 			<?php get_template_part( 'partials/primary', 'navigation' ); ?>
 		</nav>
 		<div class="primary-sidebar-navigation-new">
+		</div>
+	</div>
+	<div class="container">
+		<div class="additional-logos">
+			<?php ee_the_subheader_logo( 'mobile', 462, 88 ); ?>
 		</div>
 	</div>
 </div>
