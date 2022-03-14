@@ -164,23 +164,23 @@ class PrimaryNav extends PureComponent {
 		const { y } = this.state;
 		const yOffset = window.scrollY;
 		const primaryTopbar = document.querySelector('.primary-mega-topbar');
-		if (!window.matchMedia('(min-width: 1301px)').matches) {
-			if (y > yOffset) {
+		if (y > yOffset) {
+			if (!window.matchMedia('(min-width: 1301px)').matches) {
 				primaryTopbar.classList.remove('sticky-header-listenlive');
-
-				if (yOffset === 0) {
-					primaryTopbar.classList.remove('sticky-header');
-				}
-			} else if (y < yOffset) {
-				if (yOffset > 100) {
-					primaryTopbar.classList.add('sticky-header');
-				}
-				if (yOffset > 600) {
-					primaryTopbar.classList.add('sticky-header-listenlive');
-				}
 			}
-			this.setState({ y: yOffset });
+
+			if (yOffset === 0) {
+				primaryTopbar.classList.remove('sticky-header');
+			}
+		} else if (y < yOffset) {
+			if (yOffset > 100) {
+				primaryTopbar.classList.add('sticky-header');
+			}
+			if (!window.matchMedia('(min-width: 1301px)').matches && yOffset > 600) {
+				primaryTopbar.classList.add('sticky-header-listenlive');
+			}
 		}
+		this.setState({ y: yOffset });
 	}
 
 	isPlayerButtonEvent(event) {
