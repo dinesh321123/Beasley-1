@@ -1,7 +1,7 @@
 body,
 html {
 	&.locked {
-		position: fixed;
+		position: sticky;
 		overflow: hidden;
 		-webkit-overflow-scrolling: auto;
 		height: 100%;
