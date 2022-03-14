@@ -4,6 +4,17 @@ import { put, takeLatest, select, call } from 'redux-saga/effects';
 // Import action constant(s)
 import { ACTION_AD_PLAYBACK_STOP } from '../../actions/player';
 
+function breiflyShowPlayerDropdown() {
+	const listenlivecontainer = document.getElementById('my-listen-dropdown2');
+	const listenliveStyle = window.getComputedStyle(listenlivecontainer);
+	if (listenliveStyle.display !== 'block') {
+		listenlivecontainer.style.display = 'block';
+		setTimeout(() => {
+			listenlivecontainer.style.display = 'none';
+		}, 3500);
+	}
+}
+
 /**
  * @function yieldAdPlaybackStop
  * Runs whenever ACTION_AD_PLAYBACK_STOP is dispatched
@@ -22,6 +33,7 @@ function* yieldAdPlaybackStop({ payload }) {
 	const { adPlayback, station, player, playerType } = playerStore;
 
 	// Update DOM
+	yield call(breiflyShowPlayerDropdown);
 	yield call([document.body.classList, 'remove'], 'locked');
 
 	// If the current player is a tdplayer
