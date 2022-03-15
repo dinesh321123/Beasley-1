@@ -650,7 +650,6 @@ display: none;
 
 	& svg {
 		fill: var(--brand-tertiary);
-		max-height: 31px;
 	}
 }
 

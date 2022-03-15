@@ -5,6 +5,7 @@ import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAd
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
+const topScrollingDivID = 'div-top-scrolling-slot';
 
 const isNotSponsorOrInterstitial = placeholder => {
 	return (
@@ -147,6 +148,12 @@ const slotRenderEndedHandler = event => {
 						? padBottomStr.replace('px', '')
 						: '0';
 				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
+
+				// Set Margin If Ad Is Top Scrolling Ad
+				if (placeholder === topScrollingDivID) {
+					const primaryTopbar = document.querySelector('.primary-mega-topbar');
+					primaryTopbar.style.marginTop = slotElement.style.height;
+				}
 			}
 			slotElement.classList.add('fadeInAnimation');
 
