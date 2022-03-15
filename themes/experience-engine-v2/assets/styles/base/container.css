@@ -25,16 +25,13 @@ html {
 	padding-bottom: 4.611rem;
 }
 
-#content {
-	position: relative;
-	background-color: white;
-	z-index: 2;
-}
-
 #inner-content {
 	display: flex;
 	flex-direction: column;
+	padding-top: 1rem;
 	position: relative;
+	background-color: white;
+	z-index: 2;
 }
 
 .content-wrap {
