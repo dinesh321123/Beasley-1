@@ -88,8 +88,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 
 	const endpointURL = `${bbgiconfig.eeapi}publishers/${
 		bbgiconfig.publisher.id
-	}/recommendations?categories=${categories ||
-		''}&posttype=${posttype}&url=${encodeURIComponent(url)}`;
+	}/recommendations?categories=${categories || ''}&posttype=${posttype}`;
 
 	useEffect(() => {
 		async function fetchPostsEndpoint() {
@@ -97,6 +96,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 				setLoading(true);
 				const result = await fetch(endpointURL).then(r => r.json());
 				setTestName(result.testname);
+				let transformedURL = result.url;
 
 				window.ga('send', {
 					hitType: 'event',
@@ -105,7 +105,9 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 					eventLabel: `test ${result.testname}`,
 				});
 
-				setPostsEndpointURL(result.url);
+				transformedURL = transformedURL.replace('{url}', url);
+
+				setPostsEndpointURL(transformedURL);
 			} catch (e) {
 				setLoading(false);
 				setPostsEndpointURL('');
