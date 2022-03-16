@@ -8,6 +8,7 @@ class ExistingListicleSelection {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
+		global $pagenow;
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_footer', array( __CLASS__, 'listicle_print_media_templates' ) );
 		add_action( 'wp_footer', array( __CLASS__, 'listicle_print_media_templates' ) );
