@@ -15,6 +15,9 @@ class ExistingListicleSelection {
 		add_action( 'wp_ajax_get_listicle_cpt_data', array( __CLASS__, 'get_listicle_cpt_data' ) );
 		add_action( 'wp_ajax_load_more_listicle_cpt_data', array( __CLASS__, 'load_more_listicle_cpt_data' ) );
 		add_filter('media_view_strings', array( __CLASS__, 'custom_media_string'), 10, 2);
+		if ( ( $pagenow == 'post.php' || $pagenow == 'post-new.php' || $pagenow == 'admin-ajax.php' ) && is_admin() ) {
+			remove_filter('the_title', 'wptexturize');
+		}
 	}
 
 	public static function enqueue_scripts(){
