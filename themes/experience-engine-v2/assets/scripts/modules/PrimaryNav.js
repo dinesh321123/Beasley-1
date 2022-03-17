@@ -18,6 +18,7 @@ const sidebarContainer = document.querySelector(
 	'.primary-sidebar-navigation-new',
 );
 const listenliveContainer = document.getElementById('listen-live-button');
+const sButtonContainer = document.getElementById('wp-search-submit');
 
 class PrimaryNav extends PureComponent {
 	constructor(props) {
@@ -33,6 +34,7 @@ class PrimaryNav extends PureComponent {
 		this.handleOnLoadFix = this.handleOnLoadFix.bind(this);
 		this.handleClickOutSide = this.handleClickOutSide.bind(this);
 		this.handleListenliveClick = this.handleListenliveClick.bind(this);
+		this.handleSearchClick = this.handleSearchClick.bind(this);
 		this.handleScrollNavigation = this.handleScrollNavigation.bind(this);
 		this.closeMenus = this.closeMenus.bind(this);
 
@@ -62,6 +64,7 @@ class PrimaryNav extends PureComponent {
 		}
 
 		listenliveContainer.addEventListener('click', this.handleListenliveClick);
+		sButtonContainer.addEventListener('click', this.handleSearchClick);
 
 		document.body.classList.remove('-lock');
 	}
@@ -80,6 +83,7 @@ class PrimaryNav extends PureComponent {
 			'click',
 			this.handleListenliveClick,
 		);
+		sButtonContainer.removeEventListener('click', this.handleSearchClick);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -164,6 +168,13 @@ class PrimaryNav extends PureComponent {
 		const { y } = this.state;
 		const yOffset = window.scrollY;
 		const primaryTopbar = document.querySelector('.primary-mega-topbar');
+		const topAddsHeight = document.getElementById('div-top-scrolling-slot');
+		let calAddsHeight = 0;
+		if (topAddsHeight) {
+			if (!topAddsHeight.style.display) {
+				calAddsHeight = parseInt(topAddsHeight.style.height, 10);
+			}
+		}
 		if (y > yOffset) {
 			if (!window.matchMedia('(min-width: 1301px)').matches) {
 				primaryTopbar.classList.remove('sticky-header-listenlive');
@@ -173,7 +184,7 @@ class PrimaryNav extends PureComponent {
 				primaryTopbar.classList.remove('sticky-header');
 			}
 		} else if (y < yOffset) {
-			if (yOffset > 100) {
+			if (yOffset > 100 + calAddsHeight) {
 				primaryTopbar.classList.add('sticky-header');
 			}
 			if (!window.matchMedia('(min-width: 1301px)').matches && yOffset > 600) {
@@ -287,6 +298,18 @@ class PrimaryNav extends PureComponent {
 			dropdownToggle.style.display = 'none';
 		} else {
 			dropdownToggle.style.display = 'block';
+		}
+	}
+
+	handleSearchClick() {
+		const searchToggle = document.getElementsByClassName('header-search-form');
+		if (searchToggle[0]) {
+			const searchStyle = window.getComputedStyle(searchToggle[0]);
+			if (searchStyle.display !== 'none') {
+				searchToggle[0].style.display = 'none';
+			} else {
+				searchToggle[0].style.display = 'block';
+			}
 		}
 	}
 

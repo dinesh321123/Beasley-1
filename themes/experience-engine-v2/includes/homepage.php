@@ -75,7 +75,8 @@ if ( ! function_exists( 'ee_render_homepage_standard_feed' ) ) :
         global $ee_feed_now;
 
 		$ee_feed_now = $feed;
-		$size = $standard_feeds_count === 1 ? '-large' : '-small';
+		// $size = $standard_feeds_count === 1 ? '-large' : '-small'; // This code used to show Large size for first row
+		$size = '-small';
 		echo '<div id="', esc_attr( $feed['id'] ), '" class="content-wrap">';
 			ee_edit_feed_button( $feed );
 

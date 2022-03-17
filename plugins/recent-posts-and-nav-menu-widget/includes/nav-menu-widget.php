@@ -13,7 +13,7 @@ class RPMW_Nav_Menu_Widget extends WP_Widget {
 			'customize_selective_refresh' => true,
 			'show_instance_in_rest'       => true,
 		);
-		parent::__construct( 'rpmw_nav_menu', __( 'Navigation Menu Custom Widget' ), $widget_ops );
+		parent::__construct( 'rpmw_nav_menu', __( 'Navigation Menu - Two column' ), $widget_ops );
 	}
 	function get_custom_menu( $args ) {
 		$menu = wp_get_nav_menu_object( $args['menu'] );
