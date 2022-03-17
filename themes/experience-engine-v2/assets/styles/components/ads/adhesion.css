@@ -1,6 +1,7 @@
 .is-IOS .bottom-adhesion-container {
-	overflow-y: scroll;
-	-webkit-overflow-scrolling: touch;
+	position: fixed;
+	bottom: 0;
+	bottom: env(safe-area-inset-bottom);
 }
 
 .bottom-adhesion-container {
