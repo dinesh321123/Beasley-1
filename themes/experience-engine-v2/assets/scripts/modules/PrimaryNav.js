@@ -8,7 +8,7 @@ import { removeChildren } from '../library/dom';
 import { hideModal } from '../redux/actions/modal';
 import { setNavigationCurrent } from '../redux/actions/navigation';
 
-import { isSafari } from '../library';
+import { isIOS, isSafari } from '../library';
 
 const $ = window.jQuery;
 const config = window.bbgiconfig;
@@ -160,10 +160,28 @@ class PrimaryNav extends PureComponent {
 		}
 	}
 
+	handleIOSStatusBar(maxInnerHeight) {
+		let retval = maxInnerHeight;
+		if (isIOS() && isSafari()) {
+			const currentHeight = window.innerHeight;
+			const workaroundDiv = document.getElementById(
+				`div-ios-toolbar-workaround`,
+			);
+			workaroundDiv.style.height =
+				currentHeight === maxInnerHeight ? '88px' : '0px';
+
+			if (currentHeight > maxInnerHeight) {
+				retval = currentHeight;
+			}
+		}
+		return retval;
+	}
+
 	handleScrollNavigation() {
-		const { y } = this.state;
+		const { y, maxInnerHeight } = this.state;
 		const yOffset = window.scrollY;
 		const primaryTopbar = document.querySelector('.primary-mega-topbar');
+
 		if (y > yOffset) {
 			if (!window.matchMedia('(min-width: 1301px)').matches) {
 				primaryTopbar.classList.remove('sticky-header-listenlive');
@@ -180,7 +198,12 @@ class PrimaryNav extends PureComponent {
 				primaryTopbar.classList.add('sticky-header-listenlive');
 			}
 		}
-		this.setState({ y: yOffset });
+
+		const newMaxInnerHeight = this.handleIOSStatusBar(maxInnerHeight || 0);
+		this.setState({
+			y: yOffset,
+			maxInnerHeight: newMaxInnerHeight,
+		});
 	}
 
 	isPlayerButtonEvent(event) {

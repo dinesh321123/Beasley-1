@@ -1,10 +1,13 @@
-.is-IOS .bottom-adhesion-container {
-	position: fixed;
-	bottom: 0;
-	bottom: env(safe-area-inset-bottom);
+.is-IOS .div-ios-toolbar-workaround {
+	background-color: var(--global-theme-secondary);
+}
+
+.div-ios-toolbar-workaround {
+	height: 0;
 }
 
 .bottom-adhesion-container {
+	border-bottom: 1px;
 	bottom: 0;
 	left: 0;
 	right: 0;
