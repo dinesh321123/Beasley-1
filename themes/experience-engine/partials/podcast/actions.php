@@ -17,7 +17,5 @@ $google_play_url = ee_get_podcast_meta( null, 'google_play_url' );
 		<?php if ( $google_play_url ) : ?>
 			<a class="btn -empty" href="<?php echo esc_url( $google_play_url ); ?>" target="_blank" rel="noopener">Google Podcasts</a>
 		<?php endif; ?>
-
-		<?php ee_add_to_favorites( get_post_field( 'post_name' ) ); ?>
 	</span>
 </div>

@@ -13,7 +13,6 @@
 						<?php echo esc_html( get_the_title( $podcast_id ) ); ?>
 					</a>
 				</p>
-				<?php ee_add_to_favorites( get_post_field( 'post_name', $podcast_id ) ); ?>
 			</div>
 		<?php endif; ?>
 
