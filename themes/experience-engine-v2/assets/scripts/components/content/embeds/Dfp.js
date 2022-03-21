@@ -5,7 +5,7 @@ import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAd
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
-// const topScrollingDivID = 'div-top-scrolling-slot';
+const topScrollingDivID = 'div-top-scrolling-slot';
 
 const isNotSponsorOrInterstitial = placeholder => {
 	return (
@@ -55,6 +55,14 @@ const slotVisibilityChangedHandler = event => {
 			typeof event.inViewPercentage === 'undefined'
 				? 100
 				: event.inViewPercentage;
+	}
+};
+
+const adjustContentMarginForTopAd = slotElement => {
+	const contentRegion = document.getElementById('inner-content');
+
+	if (slotElement && contentRegion) {
+		contentRegion.style.marginTop = slotElement.style.height;
 	}
 };
 
@@ -150,10 +158,9 @@ const slotRenderEndedHandler = event => {
 				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
 
 				// Set Margin If Ad Is Top Scrolling Ad
-				// if (placeholder === topScrollingDivID) {
-				//	const primaryTopbar = document.querySelector('.primary-mega-topbar');
-				//	primaryTopbar.style.marginTop = slotElement.style.height;
-				// }
+				if (placeholder === topScrollingDivID) {
+					adjustContentMarginForTopAd(slotElement);
+				}
 			}
 			slotElement.classList.add('fadeInAnimation');
 
