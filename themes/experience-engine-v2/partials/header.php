@@ -1,7 +1,4 @@
-<header>
-	<?php get_template_part( 'partials/ads/top-scrolling' ); ?>
-</header>
-<div class="primary-mega-topbar">
+<header class="primary-mega-topbar">
 	<div class="container">
 		<div class="top-header">
 			<div class="brand-logo">
@@ -88,4 +85,7 @@
 			<?php ee_the_subheader_logo( 'mobile', 462, 88 ); ?>
 		</div>
 	</div>
+</header>
+<div>
+	<?php get_template_part( 'partials/ads/top-scrolling' ); ?>
 </div>

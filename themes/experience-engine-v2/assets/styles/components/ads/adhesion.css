@@ -1,7 +1,5 @@
 .is-IOS .bottom-adhesion-container {
-	position: fixed;
-	bottom: 0;
-	bottom: env(safe-area-inset-bottom);
+	-webkit-overflow-scrolling: touch;
 }
 
 .bottom-adhesion-container {
