@@ -196,7 +196,7 @@ class Webhooks extends \Bbgi\Module {
 				'wp_cron'       => defined( 'DOING_CRON' ) && DOING_CRON ? 'yes' : 'no',
 				'wp_ajax'       => defined( 'DOING_AJAX' ) && DOING_AJAX ? 'yes' : 'no',
 				'wp_minions'    => $this->is_wp_minions() ? 'yes' : 'no',
-				'post_type'    =>$post->post_type,
+				'post_type'    	=> $post->post_type,
 			],
 		];
 
@@ -240,7 +240,7 @@ class Webhooks extends \Bbgi\Module {
 		}
 
 		$supported = $this->get_supported_post_types();
-		$post_type = get_post_type( $post_id );
+		$post_type = $post->post_type;
 
 		return in_array( $post_type, $supported, true );
 	}
