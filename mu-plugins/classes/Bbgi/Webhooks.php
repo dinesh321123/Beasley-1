@@ -259,7 +259,7 @@ class Webhooks extends \Bbgi\Module {
 			'contest',
 			'gmr_homepage',
 			'gmr_mobile_homepage',
-			'affiliate_cpt',
+			'affiliate_marketing',
 			'listicle_cpt'
 		];
 	}
