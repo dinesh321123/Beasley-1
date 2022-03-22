@@ -31,7 +31,14 @@
 						</a>
 					<?php endif; ?>
 				</div>
-				<?php echo get_search_form( array('aria_label' => 'header-search-form') ); ?>
+				<?php
+					echo get_search_form(
+						array(
+							'aria_label' => 'header-search-form',
+							'for_header_section' => true
+						)
+					);
+				?>
 				<div class="listen-dropdown">
 					<div id="my-listen-dropdown2">
 						<button onclick="document.getElementById('my-listen-dropdown2').style.display = 'none';">
