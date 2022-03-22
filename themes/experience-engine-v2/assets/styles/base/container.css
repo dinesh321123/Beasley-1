@@ -14,11 +14,17 @@ html {
 }
 
 .container {
-	padding-bottom: 90px; /*height of the fixed player*/
+	padding-bottom: 0; /* account for height of the bottom adhesion ad - now set in of DFP */
 
 	@media(--min-large-viewport) {
 		/* padding-left: 190px; */
 	}
+}
+
+main {
+	background-color: white;
+	position: relative;
+	z-index: 2;
 }
 
 .content {
@@ -26,12 +32,12 @@ html {
 }
 
 #inner-content {
+	border-top-color: var(--global-silver-chalice);
+	border-top-width: 1px;
+	border-top-style: solid;
 	display: flex;
 	flex-direction: column;
 	padding-top: 1rem;
-	position: relative;
-	background-color: white;
-	z-index: 2;
 }
 
 .content-wrap {
@@ -47,4 +53,9 @@ html {
 	@media(--min-medium-viewport) {
 		padding: 0 1.3rem 1.5rem;
 	}
+}
+
+#footer {
+	position: relative;
+	z-index: 2;
 }

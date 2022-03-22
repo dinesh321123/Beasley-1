@@ -30,7 +30,7 @@ use Bbgi\Integration\Google;
 			get_template_part( 'partials/header' );
 		endif;
 
-		?><div class="container">
+		?><div id='main-container-div' class="container">
 			<main id="content" class="content">
 				<?php
 					if ( class_exists( Google::class ) ) {

@@ -6,6 +6,7 @@ import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAd
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 const topScrollingDivID = 'div-top-scrolling-slot';
+const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
 
 const isNotSponsorOrInterstitial = placeholder => {
 	return (
@@ -63,6 +64,17 @@ const adjustContentMarginForTopAd = slotElement => {
 
 	if (slotElement && contentRegion) {
 		contentRegion.style.marginTop = slotElement.style.height;
+	}
+};
+
+const adjustContentPaddingForBottomAd = slotElement => {
+	const containerElement = document.getElementById('main-container-div');
+
+	if (slotElement && containerElement) {
+		const newHeight = parseInt(slotElement.style.height, 10);
+		if (newHeight && newHeight > 25) {
+			containerElement.style.paddingBottom = `${newHeight - 25}px`;
+		}
 	}
 };
 
@@ -160,6 +172,8 @@ const slotRenderEndedHandler = event => {
 				// Set Margin If Ad Is Top Scrolling Ad
 				if (placeholder === topScrollingDivID) {
 					adjustContentMarginForTopAd(slotElement);
+				} else if (placeholder === bottomAdhesionDivID) {
+					adjustContentPaddingForBottomAd(slotElement);
 				}
 			}
 			slotElement.classList.add('fadeInAnimation');
