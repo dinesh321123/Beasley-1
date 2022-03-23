@@ -7,6 +7,7 @@ import {
 	ModalDispatcher,
 	BottomAdhesionAd,
 	PlayerButton,
+	PlayingNowInfo,
 	PrimaryNav,
 	UserNav,
 	SearchForm,
@@ -35,6 +36,7 @@ const App = () => {
 			<ErrorBoundary>
 				<TopScrollingAd />
 				<PlayerButton />
+				<PlayingNowInfo />
 				<ContentDispatcher />
 				<ModalDispatcher />
 				<BottomAdhesionAd />

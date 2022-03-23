@@ -16,9 +16,13 @@ const BottomAdhesionAd = () => {
 	const unitName = 'adhesion';
 	const container = document.getElementById('bottom-adhesion-container');
 
-	// Exit if shouldDisplay was toggled off
+	// Remove Bottom Padding and Exit if shouldDisplay was toggled off
 	if (!shouldDisplay) {
 		container.remove();
+		const mainContainer = document.getElementById('main-container-div');
+		if (mainContainer) {
+			mainContainer.style.paddingBottom = `0`;
+		}
 		return null;
 	}
 

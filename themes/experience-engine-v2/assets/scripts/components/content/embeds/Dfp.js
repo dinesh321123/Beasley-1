@@ -73,7 +73,7 @@ const adjustContentPaddingForBottomAd = slotElement => {
 	if (slotElement && containerElement) {
 		const newHeight = parseInt(slotElement.style.height, 10);
 		if (newHeight && newHeight > 25) {
-			containerElement.style.paddingBottom = `${newHeight - 25}px`;
+			containerElement.style.paddingBottom = `${newHeight - 26}px`;
 		}
 	}
 };
