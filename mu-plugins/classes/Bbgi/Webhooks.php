@@ -8,14 +8,15 @@ class Webhooks extends \Bbgi\Module {
 	 * Pending webhook data
 	 */
 	public $pending = [];
-
+	public $postdata;
 	/**
 	 * Registers this module.
 	 *
 	 * @access public
 	 */
 	public function register() {
-		add_action( 'save_post', array( $this, 'do_save_post_webhook' ) );
+		add_filter( 'pre_post_update', array($this,'get_prepost_data'), 10, 2 );
+		add_action( 'save_post', array( $this, 'do_save_post_webhook' ) , 10, 3);
 		add_action( 'wp_trash_post', array( $this, 'do_trash_post_webhook' ) );
 		add_action( 'delete_post', array( $this, 'do_delete_post_webhook' ) );
 		add_action( 'transition_post_status', [ $this, 'do_transition_from_publish' ], 10, 3 );
@@ -56,7 +57,34 @@ class Webhooks extends \Bbgi\Module {
 	 *
 	 * @param int $post_id The Post id that changed
 	 */
-	public function do_save_post_webhook( $post_id ) {
+	public function do_save_post_webhook( $post_id , $post, $update) {	
+		$post = (array)$post;	   
+		$meta = get_post_meta($post_id);	
+		$oldMeta = $this->postdata['METADATA'];	
+
+		/* remove extra fields */
+		$remove = ['ID', 'filter','METADATA','post_modified', 'post_modified_gmt'];       
+		foreach($remove as $key){
+			unset($post[$key]);
+			unset($this->postdata[$key]);
+		}
+
+		/* check post data */
+		$diff = array_diff($this->postdata, $post);	
+		$diff1 = array_diff($post, $this->postdata);	
+		
+        /* Check Meta Data */
+		$metaDiff = $this->multi_diff($meta,$oldMeta);
+		$metaDiff1 = $this->multi_diff($oldMeta, $meta);
+		
+		if(sizeof($metaDiff) > 0 || sizeof($metaDiff1) > 0){
+				$diff['METADATA'] = true;
+		}
+		
+		if(sizeof($diff) <= 0 && sizeof($diff1) <= 0){
+			return false;
+		}
+
 		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post' ] );
 	}
 
@@ -130,13 +158,14 @@ class Webhooks extends \Bbgi\Module {
 	 *
 	 * @return bool
 	 */
-	public function do_lazy_webhook( $post_id, $opts = [] ) {
+	public function do_lazy_webhook( $post_id, $opts = []) {		
 		$site_id = get_current_blog_id();
 		$only_published = isset( $opts['only_published' ] ) ? $opts['only_published' ] : true;
 
 		$this->log( 'do_lazy_webook called.', [ 'post_id' => $post_id, 'opts' => $opts ] );
 
 		if ( ! isset( $this->pending[ $site_id ] ) && $this->needs_webhook( $post_id, $only_published ) ) {
+		
 			$publisher = get_option( 'ee_publisher', false );
 
 			$this->pending[ $site_id ] = [
@@ -146,7 +175,6 @@ class Webhooks extends \Bbgi\Module {
 			];
 
 			$this->log( 'pending webook set. ', $this->pending[ $site_id ] );
-
 			return true;
 		} else {
 			return false;
@@ -267,4 +295,31 @@ class Webhooks extends \Bbgi\Module {
 		];
 	}
 
+	public function get_prepost_data( $post_ID, $postarr ) {
+		$post = (array) get_post( $post_ID );
+		$meta =  get_post_meta($post_ID);		
+		$post['METADATA'] = $meta;
+		$this->postdata = $post;		
+		return true;
+	}
+
+	public function multi_diff($array1,$array2){
+		foreach($array1 as $key => $value) {
+			if(is_array($value)) {
+				if(!isset($array2[$key])) {
+					$difference[$key] = $value;
+				} else if(!is_array($array2[$key])) {
+					$difference[$key] = $value;
+				} else {
+					$new_diff = $this->multi_diff($value, $array2[$key]);
+					if($new_diff != FALSE) {
+						$difference[$key] = $new_diff;
+					}
+				}
+			} else if(!isset($array2[$key]) || $array2[$key] != $value) {
+				$difference[$key] = $value;
+			}
+		}
+		return !isset($difference) ? [] : $difference;
+	}
 }
