@@ -11,7 +11,7 @@ const TopScrollingAd = () => {
 	const id = 'div-top-scrolling-slot';
 
 	// const { unitId, unitName } = window.bbgiconfig.dfp.headerad;
-	const unitId = '/26918149/WAZZ_FM_Leaderboard_pos1';
+	const unitId = '/26918149/TEST_NEW_APP_Banner';
 	const unitName = 'top-leaderboard';
 	const container = document.getElementById('top-scrolling-container');
 

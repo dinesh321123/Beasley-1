@@ -12,7 +12,7 @@ const BottomAdhesionAd = () => {
 	const id = 'div-bottom-adhesion-slot';
 
 	// const { unitId, unitName } = window.bbgiconfig.dfp.adhesionad;
-	const unitId = '/26918149/WAZZ_FM_Leaderboard_pos1';
+	const unitId = '/26918149/TEST_NEW_APP_Banner';
 	const unitName = 'adhesion';
 	const container = document.getElementById('bottom-adhesion-container');
 
