@@ -330,7 +330,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		//clear ee content feed values
 		$publisher = $this->_get_publisher_key();
 		$url = "experience/channels/{$publisher}/feeds/content/";
-		wp_cache_delete($url, 'ee_data');
+		wp_cache_delete($url, 'experience_engine_api-ee_data');
 
 		// Clear EE Cache
 		update_option( 'ee_cache_index', time(), 'no' );
