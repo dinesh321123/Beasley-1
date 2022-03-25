@@ -73,6 +73,11 @@ class ExperienceEngine extends \Bbgi\Module {
 			$control_string = strtolower( trim( $control_string ) );
 			$parts = explode( '=', $control_string );
 
+			if ( $parts[0] == 'no-cache') {
+				$cache_time = 86400;
+				break;
+			}
+
 			if ( $parts[0] == 's-maxage' ) {
 				$cache_time = end( $parts );
 				break;
@@ -123,9 +128,11 @@ class ExperienceEngine extends \Bbgi\Module {
 		return wp_remote_request( $host . $path, $args );
 	}
 
-	public function do_request( $path, $args = array() ) {
+	public function do_request($path, $args = array(), $cache_group = '') {
 		$cache_index = get_option( 'ee_cache_index', 0 );
-		$response = wp_cache_get( $path, "experience_engine_api-{$cache_index}" );
+		$cache_key = $cache_group ? $cache_group : $cache_index;
+
+		$response = wp_cache_get( $path, "experience_engine_api-{$cache_key}" );
 		if ( empty( $response ) ) {
 			$request = $this->send_request( $path, $args );
 			if ( is_wp_error( $request ) ) {
@@ -141,7 +148,8 @@ class ExperienceEngine extends \Bbgi\Module {
 			$response = json_decode( wp_remote_retrieve_body( $request ), true );
 			$cache_time = $this->_get_request_cache_time( $request );
 			if ( $cache_time ) {
-				wp_cache_set( $path, $response, "experience_engine_api-{$cache_index}", $cache_time );
+
+				wp_cache_set( $path, $response, "experience_engine_api-{$cache_key}", $cache_time );
 			}
 		}
 
@@ -196,7 +204,7 @@ class ExperienceEngine extends \Bbgi\Module {
 				$url .= '?authorization=' . urlencode( $_REQUEST['authorization'] );
 			}
 
-			$data = $this->do_request( $url );
+			$data = $this->do_request( $url, array(), 'ee_data');
 			if ( is_wp_error( $data ) ) {
 				$data = array();
 			}
@@ -319,6 +327,11 @@ class ExperienceEngine extends \Bbgi\Module {
 	}
 
 	public function rest_purge_cache() {
+		//clear ee content feed values
+		$publisher = $this->_get_publisher_key();
+		$url = "experience/channels/{$publisher}/feeds/content/";
+		wp_cache_delete($url, 'ee_data');
+
 		// Clear EE Cache
 		update_option( 'ee_cache_index', time(), 'no' );
 

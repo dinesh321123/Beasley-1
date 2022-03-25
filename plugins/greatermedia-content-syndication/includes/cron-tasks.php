@@ -7,7 +7,8 @@ class CronTasks {
 
 	public static function init() {
 		add_action( 'admin_init', array( __CLASS__, 'syndication_setup_schedule' ) );
-		add_action( 'syndication_five_minute_event', array( __CLASS__, 'run_syndication' ) );
+		add_filter( 'cron_schedules', array( __CLASS__, 'syndication_cron_intervals' ) );
+		add_action( 'syndication_five_minute_run_event', array( __CLASS__, 'run_syndication' ) );
 		add_action( 'gmr_do_syndication', array( __CLASS__, 'do_syndication' ) );
 		add_filter( 'ep_sync_insert_permissions_bypass', array( __CLASS__, 'ep_sync_insert_permissions_bypass' ) );
 	}
@@ -16,8 +17,12 @@ class CronTasks {
 	 * Setup hourly event to run syndication
 	 */
 	public static function syndication_setup_schedule() {
-		if ( ! wp_next_scheduled( 'syndication_five_minute_event' ) ) {
-			wp_schedule_event( self::get_time_for_syndication(), 'hourly', 'syndication_five_minute_event' );
+		// Remove old cron with recurrence as ‘hourly’	
+		wp_clear_scheduled_hook('syndication_five_minute_event');
+
+		// Change recurrence as ‘hourly’ to custom '20minute'
+		if ( ! wp_next_scheduled( 'syndication_five_minute_run_event' ) ) {
+			wp_schedule_event( self::get_time_for_syndication(), '20minute', 'syndication_five_minute_run_event' );
 		}
 	}
 
@@ -35,6 +40,22 @@ class CronTasks {
 
 	public static function do_syndication( $args ) {
 		BlogData::run( $args['subscription'] );
+	}
+
+	/**
+	 * Add custom 20 minute cron interval.
+	 *
+	 * @param array $schedules Cron schedules.
+	 * @return array
+	 */
+	public static function syndication_cron_intervals( $schedules ) {
+		if ( ! isset( $schedules['20minute'] ) ) {
+			$schedules['20minute'] = array(
+				'interval' => 20 * MINUTE_IN_SECONDS,
+				'display'  => 'Every 20 minutes',
+			);
+		}
+		return $schedules;
 	}
 
 	/**
