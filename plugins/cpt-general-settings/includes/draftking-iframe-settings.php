@@ -19,7 +19,7 @@ class DraftKingIframeSettings {
 		$result = array();
 
 		if(current_user_can('manage_draft_kings_onoff_setting')){
-			$result	= (array) apply_filters( 'draft-king-iframe-post-types', array( 'post', 'gmr_gallery', 'show', 'gmr_album', 'listicle_cpt', 'affiliate_marketing', 'tribe_events', 'contest' )  );
+			$result	= (array) apply_filters( 'draft-king-iframe-post-types', array( 'post', 'gmr_gallery', 'show', 'gmr_album', 'listicle_cpt', 'affiliate_marketing', 'tribe_events', 'contest', 'page' )  );
 		}
 		return $result;
 	}
