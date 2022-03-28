@@ -288,6 +288,13 @@ class ExperienceEngine extends \Bbgi\Module {
 			'show_in_index'       => false,
 		) );
 
+		register_rest_route( $namespace, '/purge-ee-cache', array(
+				'methods'             => 'POST',
+				'callback'            => $this( 'rest_purge_ee_cache' ),
+				'permission_callback' => array( $this, 'check_purge_cache_permissions' ),
+				'show_in_index'       => false,
+		) );
+
 		$authorization = array(
 			'authorization' => array(
 				'type'              => 'string',
@@ -327,6 +334,22 @@ class ExperienceEngine extends \Bbgi\Module {
 	}
 
 	public function rest_purge_cache() {
+		//clear ee content feed values
+		$publisher = $this->_get_publisher_key();
+		$url = "experience/channels/{$publisher}/feeds/content/";
+		wp_cache_delete($url, 'experience_engine_api-ee_data');
+
+		// Clear specific page caches
+		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
+			$home = trailingslashit( get_option( 'home' ) );
+			batcache_clear_url( $home );
+			batcache_clear_url( $home . 'feed/' );
+		}
+
+		return rest_ensure_response( 'Cache Flushed' );
+	}
+
+	public function rest_purge_ee_cache() {
 		//clear ee content feed values
 		$publisher = $this->_get_publisher_key();
 		$url = "experience/channels/{$publisher}/feeds/content/";

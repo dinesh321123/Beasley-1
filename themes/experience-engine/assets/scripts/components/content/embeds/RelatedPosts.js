@@ -88,7 +88,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 
 	const endpointURL = `${bbgiconfig.eeapi}publishers/${
 		bbgiconfig.publisher.id
-	}/recommendations?categories=${categories || ''}&posttype=${posttype}`;
+	}/recommendations?categories=${categories || ''}`;
 
 	useEffect(() => {
 		async function fetchPostsEndpoint() {
