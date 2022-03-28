@@ -34,7 +34,7 @@ class Webhooks extends \Bbgi\Module {
 	 * @return void
 	 */
 	protected function log( $message, $params = [] ) {
-		if ( $this->debug ) {
+		//if ( $this->debug ) {
 			$blog_id = get_current_blog_id();
 			$details = get_blog_details( $blog_id );
 
@@ -47,7 +47,7 @@ class Webhooks extends \Bbgi\Module {
 					print_r( $params, true )
 				)
 			);
-		}
+		//}
 	}
 
 
