@@ -15,7 +15,7 @@ class Webhooks extends \Bbgi\Module {
 	 * @access public
 	 */
 	public function register() {
-		add_action( 'save_post', array( $this, 'do_save_post_webhook' ) );
+		add_action( 'save_post', array( $this, 'do_save_post_webhook' ), 10, 2 );
 		add_action( 'wp_trash_post', array( $this, 'do_trash_post_webhook' ) );
 		add_action( 'delete_post', array( $this, 'do_delete_post_webhook' ) );
 		add_action( 'transition_post_status', [ $this, 'do_transition_from_publish' ], 10, 3 );
@@ -61,7 +61,7 @@ class Webhooks extends \Bbgi\Module {
 		if($this->is_wp_minions()){
 			$type = $post->post_type;
 		}
-		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post','post_type'=> $type ] );
+		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type ] );
 	}
 
 	/**
