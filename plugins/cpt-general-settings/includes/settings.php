@@ -24,7 +24,7 @@ class CommonSettings {
 							buttonInsertContent.off('click');
 							jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert').click(function(e){
 								var altTextContent = jQuery('input#attachment-details-alt-text').val();
-								if ( altTextContent )
+								if ( altTextContent  || jQuery('input#attachment-details-alt-text').length == 0 )
 								{
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert').unbind("click");
 									buttonInsertContent.click(clickListenerContent.handler);
@@ -44,7 +44,7 @@ class CommonSettings {
 							buttonInsertFeature.off('click');
 							jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').click(function(e){
 								var altTextFeature = jQuery('input#attachment-details-alt-text').val();
-								if ( altTextFeature )
+								if ( altTextFeature  || jQuery('input#attachment-details-alt-text').length == 0 )
 								{
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').unbind("click");
 									buttonInsertFeature.click(clickListenerFeature.handler);
@@ -77,7 +77,7 @@ class CommonSettings {
 									buttonInsertFeatureAjax.off('click');
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').click(function(e){
 										var altTextFeatureAjax = jQuery('input#attachment-details-alt-text').val();
-										if ( altTextFeatureAjax )
+										if ( altTextFeatureAjax  || jQuery('input#attachment-details-alt-text').length == 0 )
 										{
 											jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').unbind("click");
 											buttonInsertFeatureAjax.click(clickListenerFeatureAjax.handler);
