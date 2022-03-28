@@ -15,7 +15,7 @@ class Webhooks extends \Bbgi\Module {
 	 * @access public
 	 */
 	public function register() {
-		add_action( 'save_post', array( $this, 'do_save_post_webhook' ) );
+		add_action( 'save_post', array( $this, 'do_save_post_webhook' ) , 10,3 );
 		add_action( 'wp_trash_post', array( $this, 'do_trash_post_webhook' ) );
 		add_action( 'delete_post', array( $this, 'do_delete_post_webhook' ) );
 		add_action( 'transition_post_status', [ $this, 'do_transition_from_publish' ], 10, 3 );
@@ -56,8 +56,13 @@ class Webhooks extends \Bbgi\Module {
 	 *
 	 * @param int $post_id The Post id that changed
 	 */
-	public function do_save_post_webhook( $post_id ) {
-		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post' ] );
+	public function do_save_post_webhook( $post_id, $post) {
+		$this->log( 'do_webhook' , $post );
+		$type = '';
+		if($this->is_wp_minions()){
+			$type = $post->post_type;
+		}
+		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post','post_type'=> $type ] );
 	}
 
 	/**
@@ -183,9 +188,12 @@ class Webhooks extends \Bbgi\Module {
 		}
 
 		$url = trailingslashit( $base_url ) . 'admin/publishers/' . $publisher . '/build?appkey=' . $appkey;
-
+        
 		$post_type = get_post_type( $post_id );
-
+		$this->log( 'do_webhook  post_type.', $post_type );
+		if(!$post_type && isset($opts['post_type'])){
+			$post_type = $opts['post_type'];
+		}
 
 		$request_args = [
 			'blocking'        => false,

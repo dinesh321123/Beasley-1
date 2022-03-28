@@ -19,7 +19,6 @@ class CronTasks {
 	public static function syndication_setup_schedule() {
 		// Remove old cron with recurrence as ‘hourly’	
 		wp_clear_scheduled_hook('syndication_five_minute_event');
-
 		// Change recurrence as ‘hourly’ to custom '20minute'
 		if ( ! wp_next_scheduled( 'syndication_five_minute_run_event' ) ) {
 			wp_schedule_event( self::get_time_for_syndication(), '20minute', 'syndication_five_minute_run_event' );
