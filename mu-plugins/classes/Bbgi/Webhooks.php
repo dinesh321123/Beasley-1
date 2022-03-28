@@ -56,8 +56,12 @@ class Webhooks extends \Bbgi\Module {
 	 *
 	 * @param int $post_id The Post id that changed
 	 */
-	public function do_save_post_webhook( $post_id ) {
-		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post' ] );
+	public function do_save_post_webhook( $post_id, $post) {
+		$type = '';
+		if($this->is_wp_minions()){
+			$type = $post->post_type;
+		}
+		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post','post_type'=> $type ] );
 	}
 
 	/**
@@ -186,6 +190,9 @@ class Webhooks extends \Bbgi\Module {
 
 		$post_type = get_post_type( $post_id );
 
+		if(!$post_type && isset($opts['post_type'])){
+			$post_type = $opts['post_type'];
+		}
 
 		$request_args = [
 			'blocking'        => false,
