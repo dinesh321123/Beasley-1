@@ -230,19 +230,21 @@ if ( ! function_exists( 'ee_get_other_css_vars' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_custom_logo' ) ) :
-	function ee_the_custom_logo( $base_w = 150, $base_h = 150 ) {
+	function ee_the_custom_logo( $base_w = 150, $base_h = 150, $img_id = '' ) {
 		$site_logo_id = get_option( 'gmr_site_logo', 0 );
 		if ( $site_logo_id ) {
 			$site_logo = bbgi_get_image_url( $site_logo_id, $base_w, $base_h, false );
 			if ( $site_logo ) {
 				$alt = get_bloginfo( 'name' ) . ' | ' . get_bloginfo( 'description' );
 				$site_logo_2x = bbgi_get_image_url( $site_logo_id, 2 * $base_w, 2 * $base_h, false );
+				$site_logo_id = $img_id ? 'id = "'.$img_id.'"' : '';
 				echo '<a href="', esc_url( home_url() ), '" class="custom-logo-link" rel="home" itemprop="url">';
 					printf(
-						'<img src="%s" srcset="%s 2x" alt="%s" class="custom-logo" itemprop="logo">',
+						'<img src="%s" srcset="%s 2x" alt="%s" %s class="custom-logo" itemprop="logo">',
 						esc_url( $site_logo ),
 						esc_url( $site_logo_2x ),
-						esc_attr( $alt )
+						esc_attr( $alt ),
+						$site_logo_id
 					);
 				echo '</a>';
 			}

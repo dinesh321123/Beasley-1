@@ -29,6 +29,7 @@ class PrimaryNav extends PureComponent {
 			navHtml: navRoot.innerHTML,
 		};
 
+		this.onResize = this.onResize.bind(this);
 		this.handleSubMenu = this.handleSubMenu.bind(this);
 		this.onPageChange = this.handlePageChange.bind(this);
 		this.handleOnLoadFix = this.handleOnLoadFix.bind(this);
@@ -37,11 +38,13 @@ class PrimaryNav extends PureComponent {
 		this.handleSearchClick = this.handleSearchClick.bind(this);
 		this.handleScrollNavigation = this.handleScrollNavigation.bind(this);
 		this.closeMenus = this.closeMenus.bind(this);
+		this.handleSubMenuSize = this.handleSubMenuSize.bind(this);
 
 		removeChildren(navRoot);
 	}
 
 	componentDidMount() {
+		window.addEventListener('resize', this.onResize);
 		window.addEventListener('scroll', this.handleScrollNavigation);
 		window.addEventListener('popstate', this.onPageChange);
 		window.addEventListener('pushstate', this.onPageChange);
@@ -70,6 +73,7 @@ class PrimaryNav extends PureComponent {
 	}
 
 	componentWillUnmount() {
+		window.removeEventListener('resize', this.onResize);
 		window.removeEventListener('scroll', this.handleScrollNavigation);
 		window.removeEventListener('popstate', this.onPageChange);
 		window.removeEventListener('pushstate', this.onPageChange);
@@ -122,8 +126,55 @@ class PrimaryNav extends PureComponent {
 		}
 	}
 
+	handleSubMenuSize() {
+		if (window.matchMedia('(min-width: 1301px)').matches) {
+			const adEle = document.getElementById('main-custom-logo');
+			let adEleStyleHeight = '';
+			if (adEle) {
+				const adEleStyle = window.getComputedStyle(adEle);
+				adEleStyleHeight = adEleStyle.height
+					? Math.ceil(parseFloat(adEleStyle.height))
+					: 0;
+			}
+			if (adEleStyleHeight > 40) {
+				const menuLinkEl = document.querySelectorAll('.mega-menu-link');
+				adEleStyleHeight -= 10;
+				for (let i = 0; i < menuLinkEl.length; i++) {
+					const mainel = menuLinkEl[i];
+					mainel.style.height = `${adEleStyleHeight}px`;
+				}
+			}
+
+			const mainUl = document.getElementById('mega-menu-primary-nav');
+			const mainUlLeft = mainUl ? mainUl.getBoundingClientRect().left : 0;
+			const container = this.primaryNavRef.current;
+
+			const mainlinks = container.querySelectorAll(
+				'.mega-menu-item-has-children > a',
+			);
+			for (let i = 0; i < mainlinks.length; i++) {
+				const mainel = mainlinks[i];
+				const nextEl = mainel.nextElementSibling;
+				if (
+					nextEl.nodeName.toUpperCase() === 'UL' &&
+					nextEl.classList.contains('mega-sub-menu')
+				) {
+					const leftoffset = `calc(-${mainUlLeft}px + 1vw)`;
+					nextEl.style.left = leftoffset;
+					nextEl.style.width = '98vw';
+				}
+			}
+		}
+	}
+
+	onResize() {
+		this.handleSubMenuSize();
+	}
+
 	handleOnLoadFix() {
 		if (window.matchMedia('(min-width: 1301px)').matches) {
+			this.handleSubMenuSize();
+
 			const container = this.primaryNavRef.current;
 			const { href, pathname } = window.location;
 

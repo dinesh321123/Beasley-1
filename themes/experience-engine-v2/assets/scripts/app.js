@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { IntersectionObserverProvider } from './context';
 import {
 	TopScrollingAd,
+	DropDownAd,
 	ContentDispatcher,
 	ModalDispatcher,
 	BottomAdhesionAd,
@@ -37,6 +38,7 @@ const App = () => {
 				<TopScrollingAd />
 				<PlayerButton />
 				<PlayingNowInfo />
+				<DropDownAd />
 				<ContentDispatcher />
 				<ModalDispatcher />
 				<BottomAdhesionAd />

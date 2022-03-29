@@ -1,6 +1,6 @@
 export { default as BottomAdhesionAd } from './BottomAdhesionAd';
 export { default as ContentDispatcher } from './ContentDispatcher';
-export { default as LivePlayer } from './LivePlayer';
+export { default as DropDownAd } from './DropDownAd';
 export { default as ModalDispatcher } from './ModalDispatcher';
 export { default as PrimaryNav } from './PrimaryNav';
 export { default as PlayerButton } from './PlayerButton';

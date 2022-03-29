@@ -3,6 +3,9 @@
 }
 
 .bottom-adhesion-container {
+	border-top-color: var(--global-silver-chalice);
+	border-top-width: 1px;
+	border-top-style: solid;
 	bottom: 0;
 	left: 0;
 	right: 0;

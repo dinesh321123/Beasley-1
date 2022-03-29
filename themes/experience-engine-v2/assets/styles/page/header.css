@@ -412,6 +412,10 @@
 		  & > .mega-menu-link{
 			padding-left:14px;
 			padding-right:14px;
+			@media(--min-x2large-viewport) {
+				display: flex;
+				align-items: center;
+			}
 			@media(--max-x2large-viewport) {
 			  font-size: 19px;
 			  text-transform: uppercase;
@@ -458,9 +462,10 @@
 				& ul{
 				  display:flex;
 				  flex-wrap:wrap;
+				  justify-content:space-between;
 				  & li{
-					width:25%;
-					padding-right:20px;
+					width:20vw;
+					/* padding-right:20px; */
 					@media(--max-x2large-viewport) {
 					  width:100%;
 					}
@@ -475,9 +480,9 @@
 					  & img{
 						height:auto;
 						margin:10px auto 0;
-						width:auto;
-						max-height:200px;
-						min-height:200px;
+						width:100%;
+						max-height:15vw;
+						min-height:15vw;
 						@media(--max-medium-viewport) {
 						  height:auto;
 						  max-height:unset;
