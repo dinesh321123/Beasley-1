@@ -171,10 +171,14 @@ function ee_is_whiz_stn_video() {
 	let $whiz_pos = null;
 
 	if($whiz_pos === null ) {
-		$whiz_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'whiz' );
+		$whiz_pos = navigator.userAgent.toLowerCase().indexOf('whiz');
+		if($whiz_pos == -1) {
+			$whiz_pos = null;
+		}
 
-		// Allow way to toggle whiz through URL querystring
-		if ( isset( $_GET['whiz'] ) ) {
+		const $_GET = new URLSearchParams(location.search);
+		var url_pos = $_GET.has('whiz');
+		if(url_pos) {
 			$whiz_pos = 1;
 		}
 	}
