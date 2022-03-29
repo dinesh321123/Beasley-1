@@ -42,6 +42,7 @@ mu-plugins/post-finder/
 !/plugins/gallery-selection
 !/plugins/listicle-selection
 !/plugins/cpt-co-author-settings
+!/plugins/stn-jacapps
 !/plugins/cpt-tag-category-import-export
 !/plugins/wp-multisite-user-sync
 !/plugins/vimeovideoselector
