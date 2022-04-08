@@ -111,6 +111,10 @@ class CoAuthorSettingMetaboxes {
 		global $typenow, $pagenow;
 		$post_types = self::tag_permissions_posttype_list();
 		if ( in_array( $typenow, $post_types ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			wp_dequeue_script( 'select2');
+			wp_deregister_script( 'select2' );
+			wp_enqueue_style('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css');
+			wp_enqueue_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', '', '', false);
 			wp_register_style('coauthor-settings-admin', COAUTHOR_SETTINGS_URL . "assets/css/coauthor_settings.css", array(), COAUTHOR_SETTINGS_VERSION, 'all');
 			wp_enqueue_style('coauthor-settings-admin');  	
 			wp_enqueue_script( 'coauthor-settings-admin', COAUTHOR_SETTINGS_URL . "assets/js/coauthor_settings.js", array('jquery'), COAUTHOR_SETTINGS_VERSION, true);
