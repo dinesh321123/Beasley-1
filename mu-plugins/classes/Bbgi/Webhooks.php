@@ -194,11 +194,6 @@ class Webhooks extends \Bbgi\Module {
 			$post_type = $opts['post_type'];
 		}
 
-		if($post_type === 'gmr_gallery'){
-			$contentUrl = trailingslashit( $base_url ) . 'admin/publishers/' . $publisher . '/saveContents?appkey=' . $appkey;
-			$opts['post_type'] = $post_type;
-			$this->save_content($publisher, $post_id, $contentUrl, $opts);
-		}
 		$request_args = [
 			'blocking'        => false,
 			'body'            => [
@@ -216,6 +211,12 @@ class Webhooks extends \Bbgi\Module {
 		$this->log( 'calling webohook', $request_args );
 
 		wp_remote_post( $url, $request_args );
+
+		if($post_type === 'gmr_gallery'){
+			$contentUrl = trailingslashit( $base_url ) . 'admin/publishers/' . $publisher . '/saveContents?appkey=' . $appkey;
+			$opts['post_type'] = $post_type;
+			$this->save_content($publisher, $post_id, $contentUrl, $opts);
+		}
 	}
 
 	/**
@@ -282,13 +283,13 @@ class Webhooks extends \Bbgi\Module {
 			return false;
 		}
 		$guid = get_permalink($post_id);
-		
+
 		$request_args = [
 			'blocking'        => false,
 			'body'            => [
 				'post_id'       => $post_id,
 				'request_uri'   => ! empty( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : 'unknown',
-				'guid'			=>  !empty($guid) ? $guid : 'unknown',				
+				'guid'			=>  !empty($guid) ? $guid : 'unknown',
 				'post_type'    	=> $opts['post_type'],
 			],
 		];
