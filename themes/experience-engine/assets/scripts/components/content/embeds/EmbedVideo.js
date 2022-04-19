@@ -12,8 +12,7 @@ class EmbedVideo extends PureComponent {
 		let src = '';
 		const iframe = fragment.querySelector('iframe');
 		if (iframe) {
-			const parts = iframe.src.split('?');
-			src = `${parts[0]}?${parts[1] || ''}&rel=0&showinfo=0&autoplay=1`;
+			src = this.adjustEmbeddedVideoUrlSrc(iframe);
 			iframe.src = src;
 			html = iframe.outerHTML;
 		}
@@ -25,6 +24,13 @@ class EmbedVideo extends PureComponent {
 		};
 
 		this.onPlayClick = this.handlePlayClick.bind(this);
+	}
+
+	// Exclude autoplay=1 on Vimeo Video links because it causes autoplay
+	adjustEmbeddedVideoUrlSrc = iframe => {
+		const parts = iframe.src.split('?');
+		const autoPlayParam = parts[0].toLowerCase().indexOf('vimeo') === -1 ? '&autoplay=1' : '';
+		return `${parts[0]}?${parts[1] || ''}${parts[1] ? '&' : ''}rel=0&showinfo=0${autoPlayParam}`;
 	}
 
 	handlePlayClick(e) {

@@ -23,8 +23,10 @@
                 let src = '';
                 const iframe = fragment.querySelector('iframe');
                 if (iframe) {
-                    const parts = iframe.src.split('?');
-                    src = `${parts[0]}?${parts[1] || ''}&rel=0&showinfo=0&autoplay=1`;
+					const parts = iframe.src.split('?');
+					// Exclude autoplay=1 on Vimeo Video links because it causes autoplay
+					const autoPlayParam = parts[0].toLowerCase().indexOf('vimeo') === -1 ? '&autoplay=1' : '';
+					src = `${parts[0]}?${parts[1] || ''}${parts[1] ? '&' : ''}rel=0&showinfo=0${autoPlayParam}`;
                     iframe.src = src;
                     html = iframe.outerHTML;
                 }
