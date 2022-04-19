@@ -61,7 +61,7 @@ class GallerySelection extends \Bbgi\Module {
 
 		$post = get_queried_object();
 		$gallery_object = get_post( $attributes['gallery_id'] );
-		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids );
+		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids, $gallery_object );
 		if ( ! empty( $content ) ) {
 			$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>".$content;
 			return $content_updated;
