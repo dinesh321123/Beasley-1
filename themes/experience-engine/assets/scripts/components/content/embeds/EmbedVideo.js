@@ -26,6 +26,7 @@ class EmbedVideo extends PureComponent {
 		this.onPlayClick = this.handlePlayClick.bind(this);
 	}
 
+	// Exclude autoplay=1 on Vimeo Video links because it causes autoplay
 	adjustEmbeddedVideoUrlSrc = iframe => {
 		const parts = iframe.src.split('?');
 		const autoPlayParam =
