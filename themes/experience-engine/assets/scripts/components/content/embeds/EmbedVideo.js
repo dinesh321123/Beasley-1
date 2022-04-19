@@ -26,12 +26,14 @@ class EmbedVideo extends PureComponent {
 		this.onPlayClick = this.handlePlayClick.bind(this);
 	}
 
-	// Exclude autoplay=1 on Vimeo Video links because it causes autoplay
 	adjustEmbeddedVideoUrlSrc = iframe => {
 		const parts = iframe.src.split('?');
-		const autoPlayParam = parts[0].toLowerCase().indexOf('vimeo') === -1 ? '&autoplay=1' : '';
-		return `${parts[0]}?${parts[1] || ''}${parts[1] ? '&' : ''}rel=0&showinfo=0${autoPlayParam}`;
-	}
+		const autoPlayParam =
+			parts[0].toLowerCase().indexOf('vimeo') === -1 ? '&autoplay=1' : '';
+		return `${parts[0]}?${parts[1] || ''}${
+			parts[1] ? '&' : ''
+		}rel=0&showinfo=0${autoPlayParam}`;
+	};
 
 	handlePlayClick(e) {
 		e.preventDefault();
