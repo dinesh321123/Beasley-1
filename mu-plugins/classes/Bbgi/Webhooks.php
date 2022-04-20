@@ -8,6 +8,7 @@ class Webhooks extends \Bbgi\Module {
 	 * Pending webhook data
 	 */
 	public $pending = [];
+	public $postdata;
 
 	/**
 	 * Registers this module.
@@ -15,6 +16,7 @@ class Webhooks extends \Bbgi\Module {
 	 * @access public
 	 */
 	public function register() {
+		add_filter( 'pre_post_update', array($this,'get_prepost_data'), 10, 2 );
 		add_action( 'save_post', array( $this, 'do_save_post_webhook' ), 10, 2 );
 		add_action( 'wp_trash_post', array( $this, 'do_trash_post_webhook' ) );
 		add_action( 'delete_post', array( $this, 'do_delete_post_webhook' ) );
@@ -60,6 +62,30 @@ class Webhooks extends \Bbgi\Module {
 		$type = '';
 		if($this->is_wp_minions()){
 			$type = $post->post_type;
+		}
+		if($post->post_type === 'gmr_gallery'){
+			$meta = get_post_meta($post_id);  
+			$oldMeta = $this->postdata['METADATA']; 
+
+			/* remove extra fields */
+			$remove = ['ID', 'filter','METADATA','post_modified', 'post_modified_gmt'];       
+			foreach($remove as $key){
+				unset($post[$key]);
+				unset($this->postdata[$key]);
+			}
+
+			/* check post data */
+			$diff = array_diff($this->postdata, $post); 
+			$diff1 = array_diff($post, $this->postdata);    
+
+			/* Check Meta Data */
+			$metaDiff = $this->multi_diff($meta,$oldMeta);
+			$metaDiff1 = $this->multi_diff($oldMeta, $meta);
+
+			if(sizeof($metaDiff) > 0 || sizeof($metaDiff1) > 0){
+					$diff['METADATA'] = true;
+			}
+
 		}
 		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type ] );
 	}
@@ -271,5 +297,16 @@ class Webhooks extends \Bbgi\Module {
 			'listicle_cpt'
 		];
 	}
+
+	public function get_prepost_data( $post_ID, $postarr ) {
+		if($postarr['post_type'] !== 'gmr_gallery'){
+			return false;
+		}
+        $post = (array) get_post( $post_ID );
+        $meta =  get_post_meta($post_ID);       
+        $post['METADATA'] = $meta;
+        $this->postdata = $post;        
+        return true;
+    }
 
 }
