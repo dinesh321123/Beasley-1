@@ -8,8 +8,9 @@ class Webhooks extends \Bbgi\Module {
 	 * Pending webhook data
 	 */
 	public $pending = [];
-	public $postdata;
-
+	public $postdata = [];
+    public $isPrePostDone = false;
+	public $isSavePostDone = false;
 	/**
 	 * Registers this module.
 	 *
@@ -59,35 +60,55 @@ class Webhooks extends \Bbgi\Module {
 	 * @param int $post_id The Post id that changed
 	 */
 	public function do_save_post_webhook( $post_id, $post) {
+
 		$type = '';
 		if($this->is_wp_minions()){
 			$type = $post->post_type;
 		}
+		$doLazyWebhook = true;
 		if($post->post_type === 'gmr_gallery'){
+			if($this->isSavePostDone){
+				return true;
+			}
 			$meta = get_post_meta($post_id);  
+			
 			$oldMeta = $this->postdata['METADATA']; 
-
+		
+			$post = (array)$post;
+			
 			/* remove extra fields */
 			$remove = ['ID', 'filter','METADATA','post_modified', 'post_modified_gmt'];       
 			foreach($remove as $key){
 				unset($post[$key]);
 				unset($this->postdata[$key]);
 			}
-
+			
 			/* check post data */
 			$diff = array_diff($this->postdata, $post); 
 			$diff1 = array_diff($post, $this->postdata);    
-
+			
 			/* Check Meta Data */
 			$metaDiff = $this->multi_diff($meta,$oldMeta);
-			$metaDiff1 = $this->multi_diff($oldMeta, $meta);
-
+			$metaDiff1 = $this->multi_diff($oldMeta, $meta);			
+		
 			if(sizeof($metaDiff) > 0 || sizeof($metaDiff1) > 0){
-					$diff['METADATA'] = true;
+				$diff['METADATA']  = true;
 			}
-
+			
+			$this->log( 'diff' , $diff );
+			$this->log( 'diff1' , $diff1);
+			if(sizeof($diff) > 0 || sizeof($diff1) > 0){				
+				$doLazyWebhook  = false;
+			}
+			$this->isSavePostDone = true;
+			if($doLazyWebhook){
+				return true;
+			}
 		}
-		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type ] );
+
+		
+			$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type ] );			
+		
 	}
 
 	/**
@@ -299,14 +320,38 @@ class Webhooks extends \Bbgi\Module {
 	}
 
 	public function get_prepost_data( $post_ID, $postarr ) {
-		if($postarr['post_type'] !== 'gmr_gallery'){
-			return false;
+		if($this->isPrePostDone){
+			return true;
 		}
+		// if($postarr['post_type'] !== 'gmr_gallery'){
+		// 	return true;
+		// }
         $post = (array) get_post( $post_ID );
-        $meta =  get_post_meta($post_ID);       
+        $meta =  get_post_meta($post_ID); 
         $post['METADATA'] = $meta;
-        $this->postdata = $post;        
+        $this->postdata = $post;     
+		$this->isPrePostDone = true;   
         return true;
+    }
+
+	public function multi_diff($array1,$array2){
+        foreach($array1 as $key => $value) {
+            if(is_array($value)) {
+                if(!isset($array2[$key])) {
+                    $difference[$key] = $value;
+                } else if(!is_array($array2[$key])) {
+                    $difference[$key] = $value;
+                } else {
+                    $new_diff = $this->multi_diff($value, $array2[$key]);
+                    if($new_diff != FALSE) {
+                        $difference[$key] = $new_diff;
+                    }
+                }
+            } else if(!isset($array2[$key]) || $array2[$key] != $value) {
+                $difference[$key] = $value;
+            }
+        }
+        return !isset($difference) ? [] : $difference;
     }
 
 }
