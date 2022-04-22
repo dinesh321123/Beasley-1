@@ -320,12 +320,12 @@ class Webhooks extends \Bbgi\Module {
 	}
 
 	public function get_prepost_data( $post_ID, $postarr ) {
-		if($this->isPrePostDone){
+		if($postarr['post_type'] !== 'gmr_gallery'){
 			return true;
 		}
-		// if($postarr['post_type'] !== 'gmr_gallery'){
-		// 	return true;
-		// }
+		if($this->isPrePostDone){
+			return true;
+		}	
         $post = (array) get_post( $post_ID );
         $meta =  get_post_meta($post_ID); 
         $post['METADATA'] = $meta;
