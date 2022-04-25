@@ -11,6 +11,7 @@ class Webhooks extends \Bbgi\Module {
 	public $postdata = [];
     public $isPrePostDone = false;
 	public $isSavePostDone = false;
+	public $typeArray = ['gmr_gallery','post','affiliate_marketing','listicle_cpt'];
 	/**
 	 * Registers this module.
 	 *
@@ -66,7 +67,7 @@ class Webhooks extends \Bbgi\Module {
 			$type = $post->post_type;
 		}
 		$doLazyWebhook = true;
-		if($post->post_type === 'gmr_gallery'){
+		if(in_array($post->post_type, $this->typeArray)){
 			if($this->isSavePostDone){
 				return true;
 			}
@@ -320,7 +321,7 @@ class Webhooks extends \Bbgi\Module {
 	}
 
 	public function get_prepost_data( $post_ID, $postarr ) {
-		if($postarr['post_type'] !== 'gmr_gallery'){
+		if(in_array($postarr['post_type'] , $this->typeArray)){
 			return true;
 		}
 		if($this->isPrePostDone){
