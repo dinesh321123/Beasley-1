@@ -42,8 +42,6 @@ mu-plugins/post-finder/
 !/plugins/gallery-selection
 !/plugins/listicle-selection
 !/plugins/cpt-co-author-settings
-!/plugins/recent-posts-and-nav-menu-widget
-!/plugins/megamenu
 !/plugins/stn-jacapps
 
 themes/index.php
@@ -66,7 +64,4 @@ themes/**/css/*.css
 themes/**/js/*.js
 themes/greatermedia/vendor/
 /themes/experience-engine/bundle/
-/themes/experience-engine-new/bundle/
-/themes/experience-engine-new/bundle/app.js
-/themes/experience-engine-v2/bundle/
 /wpmvc/

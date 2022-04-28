@@ -1,1 +1,0 @@
-<div>[discovery-cta]</div>

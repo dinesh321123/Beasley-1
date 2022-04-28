@@ -1,8 +1,0 @@
-.placeholder-favorites {
-	display: inline-block;
-
-	@media (--min-medium-viewport) {
-		align-items: center;
-		display: flex;
-	}
-}
