@@ -87,6 +87,20 @@ const adjustContentPaddingForBottomAd = slotElement => {
 	}
 };
 
+const setSotElementHeight = (placeholder, slotElement, newAdHeight) => {
+	const padBottomPxStr = window.getComputedStyle(slotElement).paddingBottom;
+	const padBottomNumStr =
+		padBottomPxStr.indexOf('px') > -1 ? padBottomPxStr.replace('px', '') : '0';
+	slotElement.style.height = `${newAdHeight + parseInt(padBottomNumStr, 10)}px`;
+
+	// Set Margin If Ad Is Top Scrolling Ad
+	if (placeholder === topScrollingDivID) {
+		adjustContentMarginForTopAd(slotElement);
+	} else if (placeholder === bottomAdhesionDivID) {
+		adjustContentPaddingForBottomAd(slotElement);
+	}
+};
+
 const showSlotElement = slotElement => {
 	slotElement.classList.add('fadeInAnimation');
 	slotElement.style.opacity = '1';
@@ -132,8 +146,7 @@ const slotRenderEndedHandler = event => {
 				getSlotStat(placeholder).timeVisible = 10000000;
 			}
 			if (placeholder === bottomAdhesionDivID) {
-				// Set Main Content Div Bottom Padding To 0 Since No Ad
-				adjustContentPaddingForBottomAd(slotElement);
+				setSotElementHeight(placeholder, slotElement, 0);
 			}
 		} else {
 			let adSize;
@@ -188,20 +201,7 @@ const slotRenderEndedHandler = event => {
 
 			// Adjust Container Div Height
 			if (adSize && adSize[0] && adSize[1]) {
-				const imageHeight = adSize[1];
-				const padBottomStr = window.getComputedStyle(slotElement).paddingBottom;
-				const padBottom =
-					padBottomStr.indexOf('px') > -1
-						? padBottomStr.replace('px', '')
-						: '0';
-				slotElement.style.height = `${imageHeight + parseInt(padBottom, 10)}px`;
-
-				// Set Margin If Ad Is Top Scrolling Ad
-				if (placeholder === topScrollingDivID) {
-					adjustContentMarginForTopAd(slotElement);
-				} else if (placeholder === bottomAdhesionDivID) {
-					adjustContentPaddingForBottomAd(slotElement);
-				}
+				setSotElementHeight(placeholder, slotElement, adSize[1]);
 			}
 
 			showSlotElement(slotElement);
