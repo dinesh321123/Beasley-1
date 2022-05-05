@@ -39,8 +39,6 @@ function* yieldHideSplashScreen(action) {
 		renderSendToNews();
 		handleInjectos();
 		initializeVimeo();
-		window.scrollTo(0, 0);
-		console.log('Scroll to top');
 	});
 }
 

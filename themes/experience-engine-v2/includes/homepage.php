@@ -46,7 +46,7 @@ if ( ! function_exists( 'ee_homepage_feeds' ) ) :
 			for ( $i = 0; $i < $count; $i++ ) {
 
 				if ($i === 0) {
-					if (str_contains(get_site_url(), "check")) {
+					if ( strpos(get_site_url(),"check") !== false ) {
 						ee_render_checkpoint_hero();
 					}
 				}

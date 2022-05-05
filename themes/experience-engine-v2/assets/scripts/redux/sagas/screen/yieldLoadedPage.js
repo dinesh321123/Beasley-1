@@ -13,6 +13,7 @@ import {
 	ACTION_HIDE_SPLASH_SCREEN,
 } from '../../actions/screen';
 import { slugify, dispatchEvent, updateCanonicalUrl } from '../../../library';
+import resetScrollToTop from '../../utilities/player/resetScrollToTop';
 
 /**
  * Scrolls to the top of content.
@@ -129,6 +130,8 @@ function* yieldLoadedPage(action) {
 	yield call(renderSendToNews);
 
 	yield call(handleInjectos);
+
+	resetScrollToTop();
 }
 
 /**
