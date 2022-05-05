@@ -644,12 +644,12 @@
 		}
 		& li.current-mega-menu-item {
 		  & > a{
-			color:var(--brand-primary) !important;
+			color:var(--brand-text-color) !important;
 		  }
 		}
 		& li.current-mega-main-menu-item {
 		  & > a {
-			color:var(--brand-primary) !important;
+			color:var(--brand-text-color) !important;
 		  }
 		}
 		&:after{
