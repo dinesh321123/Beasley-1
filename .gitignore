@@ -45,6 +45,7 @@ mu-plugins/post-finder/
 !/plugins/recent-posts-and-nav-menu-widget
 !/plugins/megamenu
 !/plugins/stn-jacapps
+!/plugins/cpt-public-post-preview
 
 themes/index.php
 themes/twentyfourteen
