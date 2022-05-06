@@ -315,9 +315,14 @@ export function fetchPublisherInformation(metaVal) {
 			break;
 		case 'youtube':
 			if (!validateUrl(response)) {
-				response = `https://www.youtube.com/user/${encodeURIComponent(
+				response = `https://www.youtube.com/channel/${encodeURIComponent(
 					response,
 				)}`;
+			}
+			break;
+		case 'twitch':
+			if (!validateUrl(response)) {
+				response = `https://www.twitch.tv/${encodeURIComponent(response)}`;
 			}
 			break;
 		default:

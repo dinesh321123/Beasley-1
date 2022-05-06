@@ -1,5 +1,5 @@
 <div class="connect">
-	<h6>Connect</h6><?php
+	<h6>Connect?</h6><?php
 
 	if ( has_nav_menu( 'connect-nav' ) ) :
 		wp_nav_menu( array( 'theme_location' => 'connect-nav' ) );
@@ -34,6 +34,14 @@
 		<?php if ( ee_has_publisher_information( 'youtube' ) ) : ?>
 			<li>
 				<a href="<?php echo esc_url( ee_get_publisher_information( 'youtube' ) ); ?>" aria-label="Go to station's Youtube page" target="_blank" rel="noopener">
+					<svg width="20" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><title>Youtube</title><path d="M19.22 2.184C18.5 1.326 17.167.976 14.62.976H5.38C2.776.976 1.42 1.348.7 2.262 0 3.152 0 4.465 0 6.282v3.462c0 3.52.832 5.307 5.38 5.307h9.24c2.208 0 3.43-.31 4.222-1.066.812-.777 1.158-2.045 1.158-4.24V6.281c0-1.916-.054-3.236-.78-4.098zM12.84 8.49l-4.196 2.193a.644.644 0 0 1-.944-.572V5.741a.645.645 0 0 1 .943-.573l4.196 2.179a.645.645 0 0 1 .001 1.144z"/></svg>
+				</a>
+			</li>
+		<?php endif; ?>
+
+		<?php if ( ee_has_publisher_information( 'twitch' ) ) : ?>
+			<li>
+				<a href="<?php echo esc_url( ee_get_publisher_information( 'twitch' ) ); ?>" aria-label="Go to station's Twitch page" target="_blank" rel="noopener">
 					<svg width="20" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><title>Youtube</title><path d="M19.22 2.184C18.5 1.326 17.167.976 14.62.976H5.38C2.776.976 1.42 1.348.7 2.262 0 3.152 0 4.465 0 6.282v3.462c0 3.52.832 5.307 5.38 5.307h9.24c2.208 0 3.43-.31 4.222-1.066.812-.777 1.158-2.045 1.158-4.24V6.281c0-1.916-.054-3.236-.78-4.098zM12.84 8.49l-4.196 2.193a.644.644 0 0 1-.944-.572V5.741a.645.645 0 0 1 .943-.573l4.196 2.179a.645.645 0 0 1 .001 1.144z"/></svg>
 				</a>
 			</li>
