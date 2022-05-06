@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { IntersectionObserverContext } from '../../../context';
 import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAds';
 
-const $ = window.jQuery;
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 const playerAdhesionDivID = 'div-gpt-ad-player-0';
@@ -200,13 +199,10 @@ const slotRenderEndedHandler = event => {
 class Dfp extends PureComponent {
 	constructor(props) {
 		super(props);
-		const { unitId, unitName, pageURL } = props;
+		const { placeholder, unitId, unitName, pageURL } = props;
 		const { bbgiconfig } = window;
-		this.isAffiliateMarketingPage = this.isAffiliateMarketingPage.bind(this);
-		this.isIncontentAdOnAffiliatePage = this.isIncontentAdOnAffiliatePage.bind(
-			this,
-		);
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+
+		if (this.isCreationCancelled(placeholder, unitName, pageURL)) {
 			return;
 		}
 
@@ -294,6 +290,19 @@ class Dfp extends PureComponent {
 		);
 	}
 
+	isAdInEmbeddedContent(placeholder) {
+		// Embedded content detected when slot is child element of a Div with class .am-meta-item-description
+		const slotElement = document.getElementById(placeholder);
+		return !!slotElement && !!slotElement.closest('.am-meta-item-description');
+	}
+
+	isCreationCancelled(placeholder, unitName, pageURL) {
+		return (
+			this.isIncontentAdOnAffiliatePage(unitName, pageURL) ||
+			this.isAdInEmbeddedContent(placeholder)
+		);
+	}
+
 	getAdjustedUnitId(unitId, unitName, pageURL) {
 		let retval = unitId;
 		// Change Ad Unit Depending On AdName If We Are On An Affiliate Page
@@ -325,7 +334,7 @@ class Dfp extends PureComponent {
 	componentDidMount() {
 		const { googletag } = window;
 		const { placeholder, unitName, pageURL } = this.props;
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+		if (this.isCreationCancelled(placeholder, unitName, pageURL)) {
 			return;
 		}
 
@@ -360,14 +369,11 @@ class Dfp extends PureComponent {
 					.addEventListener('slotRenderEnded', slotRenderEndedHandler);
 			});
 		}
-
-		// remove in-content ads from embeded content in post
-		this.removeAdsFromEmbed();
 	}
 
 	componentWillUnmount() {
-		const { unitName, pageURL } = this.props;
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+		const { placeholder, unitName, pageURL } = this.props;
+		if (this.isCreationCancelled(placeholder, unitName, pageURL)) {
 			return;
 		}
 
@@ -929,6 +935,10 @@ class Dfp extends PureComponent {
 	}
 
 	destroySlot() {
+		if (!this.state) {
+			return;
+		}
+
 		const { placeholder } = this.props;
 		const { slot, prebidEnabled, adjustedUnitId } = this.state;
 
@@ -955,16 +965,6 @@ class Dfp extends PureComponent {
 	tryDisplaySlot() {
 		if (!this.state.slot) {
 			this.registerSlot();
-		}
-	}
-
-	removeAdsFromEmbed() {
-		if ($('.am-meta-item-description').length) {
-			$('.am-meta-item-description').each(function(index, element) {
-				$(this)
-					.find('.placeholder-dfp')
-					.remove();
-			});
 		}
 	}
 
