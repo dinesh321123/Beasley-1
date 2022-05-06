@@ -30,7 +30,7 @@ class BBGI_Public_Post_Preview {
 		$section_id = 'beasley_ppp';
 
 		add_settings_section( $section_id, 'Public Post Preview', '__return_false', $page );
-		add_settings_field( 'bbgi_ppp_hours', 'Expiration hours', 'bbgi_input_field', $page, $section_id, 'name=bbgi_ppp_hours&type=number&desc=Expiration of the preview link in hours, default = 48 Hours' );
+		add_settings_field( 'bbgi_ppp_hours', 'Expiration hours', 'bbgi_input_field', $page, $section_id, 'name=bbgi_ppp_hours&type=number&desc=Expiration of the preview link in hours, default = 168 Hours' );
 		register_setting( $group, 'bbgi_ppp_hours', 'sanitize_text_field' );
 	}
 
@@ -484,7 +484,7 @@ class BBGI_Public_Post_Preview {
 	 * @return int The time-dependent variable.
 	 */
 	private static function nonce_tick() {
-		$nonce_life = apply_filters( 'ppp_nonce_life', 2 * DAY_IN_SECONDS ); // 2 days.
+		$nonce_life = apply_filters( 'ppp_nonce_life', 7 * DAY_IN_SECONDS ); // 2 days.
 
 		return ceil( time() / ( $nonce_life / 2 ) );
 	}
