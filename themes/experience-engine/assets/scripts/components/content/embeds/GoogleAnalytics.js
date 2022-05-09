@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import { pageview } from '../../../library/google-analytics';
+import { setGAPageviewData } from '../../../redux/actions/ga';
 
 let lasturl = '';
 
@@ -14,12 +18,21 @@ const GoogleAnalytics = ({
 	contentgroup2,
 	dimensionkey,
 	dimensionvalue,
+	setGAPageviewData,
 }) => {
 	useEffect(() => {
 		// for some reason embeds are being embed twice, this ensure we don't have double page views.
 		if (lasturl !== url) {
 			lasturl = url;
 			pageview(title, url, {
+				contentgroup1,
+				contentgroup2,
+				dimensionkey,
+				dimensionvalue,
+			});
+			setGAPageviewData({
+				title,
+				url,
 				contentgroup1,
 				contentgroup2,
 				dimensionkey,
@@ -38,6 +51,7 @@ GoogleAnalytics.propTypes = {
 	contentgroup2: PropTypes.string,
 	dimensionkey: PropTypes.string,
 	dimensionvalue: PropTypes.string,
+	setGAPageviewData: PropTypes.func.isRequired,
 };
 
 GoogleAnalytics.defaultProps = {
@@ -47,4 +61,12 @@ GoogleAnalytics.defaultProps = {
 	dimensionvalue: '',
 };
 
-export default GoogleAnalytics;
+function mapDispatchToProps(dispatch) {
+	const actions = {
+		setGAPageviewData,
+	};
+
+	return bindActionCreators(actions, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(GoogleAnalytics);
