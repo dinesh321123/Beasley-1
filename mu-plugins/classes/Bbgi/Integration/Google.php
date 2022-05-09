@@ -53,7 +53,7 @@ class Google extends \Bbgi\Module {
 					'1.0.0',
 					true
 				);
-				wp_localize_script( 'enqueue-scripts-for-common-mobile', 'GaInfoForJacapps', array( 'google_analytics' => $data['google_analytics'] ) );
+				wp_localize_script( 'enqueue-scripts-for-common-mobile', 'GaInfoForJacapps', array( 'google_analytics' => $data['google_analytics'], 'google_author_dimension' => $data['google_author_dimension'] ) );
 			}
 		}
 	}
@@ -64,7 +64,7 @@ class Google extends \Bbgi\Module {
 	 * @return array
 	 */
 	public function allow_posttype_list_for_common_mobile() {
-		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'affiliate_marketing', 'gmr_gallery', 'listicle_cpt' )  );
+		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'affiliate_marketing', 'gmr_gallery', 'listicle_cpt', 'post', 'show', 'contest' )  );
 	}
 
 	/**
