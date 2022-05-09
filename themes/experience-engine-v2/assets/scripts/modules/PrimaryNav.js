@@ -413,8 +413,6 @@ class PrimaryNav extends PureComponent {
 			'.current-mega-main-menu-item',
 		);
 
-		hideModal();
-
 		for (let i = 0; i < previouslySelected.length; i++) {
 			previouslySelected[i].classList.remove('current-mega-menu-item');
 		}
@@ -449,6 +447,7 @@ class PrimaryNav extends PureComponent {
 		}
 
 		this.closeMenus();
+		hideModal();
 	}
 
 	closeMenus() {

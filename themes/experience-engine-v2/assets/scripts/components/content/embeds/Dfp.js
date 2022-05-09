@@ -301,6 +301,11 @@ class Dfp extends PureComponent {
 	}
 
 	isConfiguredToRunInterval() {
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
+			return false;
+		}
+
 		const { placeholder, unitName } = this.props;
 		const { isRotateAdsEnabled } = this.state;
 
@@ -416,12 +421,12 @@ class Dfp extends PureComponent {
 			return;
 		}
 
+		this.destroySlot();
+
 		if (this.isConfiguredToRunInterval()) {
 			this.stopInterval();
 			document.removeEventListener('visibilitychange', this.onVisibilityChange);
 		}
-
-		this.destroySlot();
 	}
 
 	handleVisibilityChange() {
