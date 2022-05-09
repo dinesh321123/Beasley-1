@@ -448,6 +448,14 @@ class PrimaryNav extends PureComponent {
 
 		this.closeMenus();
 		hideModal();
+
+		// Give the document focus
+		window.focus();
+
+		// Remove focus from any focused element
+		if (document.activeElement) {
+			document.activeElement.blur();
+		}
 	}
 
 	closeMenus() {
