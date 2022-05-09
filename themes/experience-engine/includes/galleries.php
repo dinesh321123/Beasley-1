@@ -195,7 +195,10 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 		}
 
 		if(isset($embed_gallery_object) && !empty($embed_gallery_object)) {
-			$gallery_author = get_the_author_meta( 'login', $embed_gallery_object->post_author);
+			$primary_author = get_field( 'primary_author_cpt', $embed_gallery_object );
+			$primary_author = $primary_author ? $primary_author : $embed_gallery_object->post_author;
+
+			$gallery_author = get_the_author_meta( 'login', $primary_author);
 		}
 
 		echo '<ul class="gallery-listicle">';
