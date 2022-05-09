@@ -233,20 +233,29 @@ class Dfp extends PureComponent {
 		}
 
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
-		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.hideSlot = this.hideSlot.bind(this);
 		this.showSlot = this.showSlot.bind(this);
+		this.isConfiguredToRunInterval = this.isConfiguredToRunInterval.bind(this);
+		this.startInterval = this.startInterval.bind(this);
+		this.stopInterval = this.stopInterval.bind(this);
+		this.registerSlot = this.registerSlot.bind(this);
+		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.refreshSlot = this.refreshSlot.bind(this);
-		this.loadPrebid = this.loadPrebid.bind(this);
+		this.destroySlot = this.destroySlot.bind(this);
+		this.tryDisplaySlot = this.tryDisplaySlot.bind(this);
+
 		this.pushRefreshBidIntoGoogleTag = this.pushRefreshBidIntoGoogleTag.bind(
 			this,
 		);
+
+		// Prebid Functions
+		this.loadPrebid = this.loadPrebid.bind(this);
 		this.bidsBackHandler = this.bidsBackHandler.bind(this);
-		this.destroySlot = this.destroySlot.bind(this);
 		this.getPrebidBidders = this.getPrebidBidders.bind(this);
 		this.getBidderRubicon = this.getBidderRubicon.bind(this);
 		this.getBidderAppnexus = this.getBidderAppnexus.bind(this);
 		this.getBidderIx = this.getBidderIx.bind(this);
+		this.getBidderResetDigital = this.getBidderResetDigital.bind(this);
 
 		const slotPollSecs = parseInt(
 			bbgiconfig.ad_rotation_polling_sec_setting,
@@ -361,8 +370,10 @@ class Dfp extends PureComponent {
 
 	componentDidMount() {
 		const { googletag } = window;
-		const { placeholder, unitName, pageURL } = this.props;
-		if (this.isCreationCancelled(placeholder, unitName, pageURL)) {
+		const { placeholder } = this.props;
+
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
 			return;
 		}
 
@@ -400,17 +411,17 @@ class Dfp extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		const { placeholder, unitName, pageURL } = this.props;
-		if (this.isCreationCancelled(placeholder, unitName, pageURL)) {
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
 			return;
 		}
-
-		this.destroySlot();
 
 		if (this.isConfiguredToRunInterval()) {
 			this.stopInterval();
 			document.removeEventListener('visibilitychange', this.onVisibilityChange);
 		}
+
+		this.destroySlot();
 	}
 
 	handleVisibilityChange() {
@@ -984,6 +995,7 @@ class Dfp extends PureComponent {
 	}
 
 	destroySlot() {
+		// Lack of State likely means Creation was cancelled
 		if (!this.state) {
 			return;
 		}
@@ -1012,7 +1024,7 @@ class Dfp extends PureComponent {
 	}
 
 	tryDisplaySlot() {
-		if (!this.state.slot) {
+		if (this.state && !this.state.slot) {
 			this.registerSlot();
 		}
 	}
