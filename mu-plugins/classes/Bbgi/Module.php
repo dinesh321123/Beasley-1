@@ -67,6 +67,7 @@ abstract class Module {
 			'draftking-iframe'  => new \Bbgi\Integration\DraftkingIframe(),
 			'select-gallery' 			=> new \Bbgi\Integration\GallerySelection(),
 			'select-listicle' 	=> new \Bbgi\Integration\ListicleSelection(),
+			'upload-filesize-settings'	=> new \Bbgi\Integration\UploadFileSizeSettings(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {
