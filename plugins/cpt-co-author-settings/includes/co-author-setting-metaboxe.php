@@ -120,7 +120,7 @@ class CoAuthorSettingMetaboxes {
 		$result = array();
 
 		if(current_user_can('manage_co_author_setting')){
-			$result	= (array) apply_filters( 'co-author-post-types', array( 'post', 'listicle_cpt', 'gmr_gallery', 'show', 'gmr_album', 'tribe_events', 'announcement', 'contest', 'podcast', 'episode', 'content-kit' )  );
+			$result	= (array) apply_filters( 'co-author-post-types', array( 'post', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'show', 'gmr_album', 'tribe_events', 'announcement', 'contest', 'podcast', 'episode', 'content-kit' )  );
 		}
 		return $result;
 	}
