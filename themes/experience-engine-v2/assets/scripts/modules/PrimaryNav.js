@@ -448,14 +448,6 @@ class PrimaryNav extends PureComponent {
 
 		this.closeMenus();
 		hideModal();
-
-		// Give the document focus
-		window.focus();
-
-		// Remove focus from any focused element
-		if (document.activeElement) {
-			document.activeElement.blur();
-		}
 	}
 
 	closeMenus() {
@@ -464,6 +456,11 @@ class PrimaryNav extends PureComponent {
 			for (let i = 0; i < megaMenuUl.children.length; i++) {
 				megaMenuUl.children[i].classList.remove('mega-toggle-on');
 			}
+		}
+
+		const htmlElement = document.getElementsByTagName('html');
+		if (htmlElement && htmlElement[0]) {
+			htmlElement[0].classList.remove('mega-menu-primary-nav-off-canvas-open');
 		}
 	}
 
