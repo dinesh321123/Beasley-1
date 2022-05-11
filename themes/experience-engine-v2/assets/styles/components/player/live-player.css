@@ -6,6 +6,10 @@
 	z-index: 10000;
 }
 
+.primary-mega-topbar .listen-dropdown .on-air-list ul li > span.cue-point-title {
+	padding: 0;
+}
+
 .cue-point-title + .cue-point-artist:before {
 	content: "-";
 	margin: 0 10px;

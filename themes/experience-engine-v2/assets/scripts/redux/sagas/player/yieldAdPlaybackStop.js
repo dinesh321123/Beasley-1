@@ -5,11 +5,19 @@ import { put, takeLatest, select, call } from 'redux-saga/effects';
 import { ACTION_AD_PLAYBACK_STOP } from '../../actions/player';
 import { refreshDropdownAd, hideDropdownAd } from '../../actions/dropdownad';
 
+function* hidePrerollShade() {
+	const prerollWrapper = document.querySelector('div.preroll-wrapper.-active');
+	if (prerollWrapper) {
+		yield call([prerollWrapper.classList, 'remove'], '-active');
+	}
+}
+
 function* breiflyShowPlayerDropdown() {
 	const listenlivecontainer = document.getElementById('my-listen-dropdown2');
 	const listenliveStyle = window.getComputedStyle(listenlivecontainer);
 	if (listenliveStyle.display !== 'block') {
 		yield put(refreshDropdownAd());
+		yield call(hidePrerollShade);
 		listenlivecontainer.style.display = 'block';
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 		yield delay(3500);

@@ -20,6 +20,11 @@ const STATUS_LABELS = {
 };
 
 class Info extends Component {
+	// Use Holder To Work Around Bug Where cueTitle can hold Podcast Title when stream plays.
+	lastPodcastArtist = '';
+
+	lastPodcastTitle = '';
+
 	getCuePointInfo(cuePoint) {
 		const { station } = this.props;
 
@@ -33,20 +38,32 @@ class Info extends Component {
 			return false;
 		}
 
-		if (!station && cueTitle && cueTitle.length) {
-			info.push(
-				<span key="cue-title" className="cue-point-title">
-					{cueTitle}
-				</span>,
-			);
+		// Set Holders If A Podcast
+		if (!station) {
+			this.lastPodcastArtist = artistName;
+			this.lastPodcastTitle = cueTitle;
 		}
 
-		if (artistName && artistName.length) {
-			info.push(
-				<span key="cue-artist" className="cue-point-artist">
-					{artistName}
-				</span>,
-			);
+		const isStationCuePointHoldingPodcastInfo =
+			!!station &&
+			this.lastPodcastArtist === artistName &&
+			this.lastPodcastTitle === cueTitle;
+
+		if (!isStationCuePointHoldingPodcastInfo) {
+			if (cueTitle && cueTitle.length) {
+				info.push(
+					<span key="cue-title" className="cue-point-title">
+						{cueTitle.trim()}
+					</span>,
+				);
+			}
+			if (artistName && artistName.length) {
+				info.push(
+					<span key="cue-artist" className="cue-point-artist">
+						{artistName.trim()}
+					</span>,
+				);
+			}
 		}
 
 		return info.length ? info : false;
@@ -100,13 +117,6 @@ class Info extends Component {
 	render() {
 		const { station } = this.props;
 		const children = station ? this.getStationInfo() : this.getAudioInfo();
-		/*
-		<div className="add-links">
-			<h3>Now Playing</h3>
-			<p><a href="#">Mama Kin</a> &nbsp; | &nbsp; <a href="#">Aerosmith</a></p>
-		</div>
-		*/
-
 		return ReactDOM.createPortal(children, this.container);
 	}
 }
