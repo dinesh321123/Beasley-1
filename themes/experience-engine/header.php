@@ -1,6 +1,9 @@
 <?php
 use Bbgi\Integration\Google;
 ?>
+<?php
+	header("Cache-Tag: Custom-slug, posttype", false);
+?>
 <!doctype html>
 <html lang="en">
 	<head <?php language_attributes(); ?>>
