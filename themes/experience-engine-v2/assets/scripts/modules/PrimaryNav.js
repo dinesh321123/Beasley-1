@@ -245,27 +245,29 @@ class PrimaryNav extends PureComponent {
 	}
 
 	setRightRailTopMargin() {
-		const rightRailAdContainer = document.querySelector('.ad.-sticky.wrapper');
-		if (rightRailAdContainer) {
+		const rightRailAdAside = document.querySelector('aside.ad.-sticky');
+		const rightRailAdContainer = rightRailAdAside.querySelector(
+			'aside.ad.-sticky > .wrapper',
+		);
+		if (rightRailAdAside && rightRailAdContainer) {
 			let rightRailMarginTop = 0;
-			const rightRailAdContainerStyle = window.getComputedStyle(
-				rightRailAdContainer,
-			);
-			const rightRailTop = parseInt(rightRailAdContainerStyle.top, 10);
+			const rightRailTop = rightRailAdAside.getBoundingClientRect().top;
+			console.log(`rightrailtop: ${rightRailTop}`);
 			const topAdContainer = document.getElementById('top-scrolling-container');
 			if (topAdContainer) {
-				const topAdContainerStyle = window.getComputedStyle(topAdContainer);
-				const topAdTop = parseInt(topAdContainerStyle.top, 10);
-				const topAdHeight = parseInt(topAdContainerStyle.height, 10);
+				const topAdContainerBoundingRect = topAdContainer.getBoundingClientRect();
+				const topAdTop = topAdContainerBoundingRect.top;
+				const topAdHeight = topAdContainerBoundingRect.height;
 				const pixelsScrolledPastRightRailTop =
-					window.scrollY - (topAdHeight + rightRailTop);
-				if (pixelsScrolledPastRightRailTop > topAdTop) {
+					topAdTop + topAdHeight - rightRailTop;
+				if (pixelsScrolledPastRightRailTop > topAdHeight) {
 					rightRailMarginTop = topAdTop;
-				} else {
+				} else if (pixelsScrolledPastRightRailTop > 0) {
 					rightRailMarginTop = pixelsScrolledPastRightRailTop;
 				}
 			}
 			rightRailAdContainer.style.marginTop = `${rightRailMarginTop}px`;
+			console.log(`${rightRailAdContainer.style.marginTop}`);
 		}
 	}
 
