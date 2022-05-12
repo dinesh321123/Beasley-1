@@ -244,8 +244,34 @@ class PrimaryNav extends PureComponent {
 		}
 	}
 
+	setRightRailTopMargin() {
+		const rightRailAdContainer = document.querySelector('.ad.-sticky.wrapper');
+		if (rightRailAdContainer) {
+			let rightRailMarginTop = 0;
+			const rightRailAdContainerStyle = window.getComputedStyle(
+				rightRailAdContainer,
+			);
+			const rightRailTop = parseInt(rightRailAdContainerStyle.top, 10);
+			const topAdContainer = document.getElementById('top-scrolling-container');
+			if (topAdContainer) {
+				const topAdContainerStyle = window.getComputedStyle(topAdContainer);
+				const topAdTop = parseInt(topAdContainerStyle.top, 10);
+				const topAdHeight = parseInt(topAdContainerStyle.height, 10);
+				const pixelsScrolledPastRightRailTop =
+					window.scrollY - (topAdHeight + rightRailTop);
+				if (pixelsScrolledPastRightRailTop > topAdTop) {
+					rightRailMarginTop = topAdTop;
+				} else {
+					rightRailMarginTop = pixelsScrolledPastRightRailTop;
+				}
+			}
+			rightRailAdContainer.style.marginTop = `${rightRailMarginTop}px`;
+		}
+	}
+
 	onResize() {
 		this.handleSubMenuSize();
+		this.setRightRailTopMargin();
 	}
 
 	handleOnLoadFix() {
@@ -326,6 +352,7 @@ class PrimaryNav extends PureComponent {
 			}
 		}
 		this.setState({ y: yOffset });
+		this.setRightRailTopMargin();
 	}
 
 	isPlayerButtonEvent(event) {
