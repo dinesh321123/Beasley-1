@@ -26,6 +26,7 @@ the_post();
 			<?php the_content(); ?>
 			<?php get_template_part( 'partials/gallery/listicle' ); ?>
 
+			<?php get_template_part( 'partials/footer/common', 'description' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>
