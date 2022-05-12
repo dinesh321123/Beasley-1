@@ -252,22 +252,18 @@ class PrimaryNav extends PureComponent {
 		if (rightRailAdAside && rightRailAdContainer) {
 			let rightRailMarginTop = 0;
 			const rightRailTop = rightRailAdAside.getBoundingClientRect().top;
-			console.log(`rightrailtop: ${rightRailTop}`);
 			const topAdContainer = document.getElementById('top-scrolling-container');
 			if (topAdContainer) {
 				const topAdContainerBoundingRect = topAdContainer.getBoundingClientRect();
 				const topAdTop = topAdContainerBoundingRect.top;
-				const topAdHeight = topAdContainerBoundingRect.height;
-				const pixelsScrolledPastRightRailTop =
-					topAdTop + topAdHeight - rightRailTop;
-				if (pixelsScrolledPastRightRailTop > topAdHeight) {
+				const pixelsScrolledPastRightRailTop = topAdTop - rightRailTop;
+				if (pixelsScrolledPastRightRailTop > topAdTop) {
 					rightRailMarginTop = topAdTop;
 				} else if (pixelsScrolledPastRightRailTop > 0) {
 					rightRailMarginTop = pixelsScrolledPastRightRailTop;
 				}
 			}
 			rightRailAdContainer.style.marginTop = `${rightRailMarginTop}px`;
-			console.log(`${rightRailAdContainer.style.marginTop}`);
 		}
 	}
 
