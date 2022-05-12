@@ -295,10 +295,15 @@
 	  border: 1px solid rgb(0 0 0 / 9%);
 	}
 	& .on-air-list {
-	  display: flex;
+	  display: block;
+	  width: 100%;
 	  & ul {
+		width: 49%;
 		list-style: none;
 		padding-left: 0;
+		padding-right: 10px;
+		display: inline-block;
+		vertical-align:top;
 		& li {
 		  margin-bottom:5px;
 		  & > strong {
@@ -307,13 +312,18 @@
 		  & > span {
 			color: var(--brand-text-color);
 			font-size: 14px;
-			padding-right: 10px;
+			/* padding-right: 10px; */
 			line-height: 1.2;
 			font-weight: normal;
 			text-transform: capitalize;
 		  }
 		}
 	  }
+	}
+	& .full-width-menu {
+		& ul {
+			width: 100%;
+		}
 	}
   }
   & .search-form {

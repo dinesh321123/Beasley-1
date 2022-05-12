@@ -116,7 +116,19 @@ class PrimaryNav extends PureComponent {
 			}
 
 			const items = songs.map(song => {
-				return `<li><span>${song.artistName.toLowerCase()}</span></li>`;
+				let time = ``;
+				const songTitle = song?.cueTitle ? song.cueTitle : ``;
+				const artistName = song?.artistName ? `- ${song.artistName}` : ``;
+				if (song?.cueTimeStart) {
+					time = new Date(+song.cueTimeStart);
+					time = time.toLocaleString('en-US', {
+						hour: 'numeric',
+						minute: 'numeric',
+						hour12: true,
+					});
+				}
+
+				return `<li><span>${time} ${songTitle} ${artistName}</span></li>`;
 			});
 
 			const recentlyPlayed = document.getElementById(
