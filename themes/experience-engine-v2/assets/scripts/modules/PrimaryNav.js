@@ -253,7 +253,7 @@ class PrimaryNav extends PureComponent {
 			const rightRailAsideTop = rightRailAdAside.getBoundingClientRect().top;
 			const rightRailAsideHeight = rightRailAdAside.getBoundingClientRect()
 				.height;
-			const rightRailAdContainerHeight = rightRailAdContainerHeight.getBoundingClientRect()
+			const rightRailAdContainerHeight = rightRailAdContainer.getBoundingClientRect()
 				.height;
 			const topAdContainer = document.getElementById('top-scrolling-container');
 			if (topAdContainer) {
