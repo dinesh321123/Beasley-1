@@ -250,23 +250,25 @@ class PrimaryNav extends PureComponent {
 			'aside.ad.-sticky > .wrapper',
 		);
 		if (rightRailAdAside && rightRailAdContainer) {
-			let newRightRailMarginTop = 0;
 			const rightRailAsideTop = rightRailAdAside.getBoundingClientRect().top;
 			const rightRailAsideHeight = rightRailAdAside.getBoundingClientRect()
+				.height;
+			const rightRailAdContainerHeight = rightRailAdContainerHeight.getBoundingClientRect()
 				.height;
 			const topAdContainer = document.getElementById('top-scrolling-container');
 			if (topAdContainer) {
 				const topAdContainerBoundingRect = topAdContainer.getBoundingClientRect();
 				const topAdTop = topAdContainerBoundingRect.top;
 				const pixelsScrolledPastRightRailTop = topAdTop - rightRailAsideTop;
-				if (
-					pixelsScrolledPastRightRailTop > 0 &&
-					pixelsScrolledPastRightRailTop < rightRailAsideHeight
+				if (pixelsScrolledPastRightRailTop < 0) {
+					rightRailAdContainer.style.marginTop = `0px`;
+				} else if (
+					pixelsScrolledPastRightRailTop + rightRailAdContainerHeight <
+					rightRailAsideHeight - 2
 				) {
-					newRightRailMarginTop = pixelsScrolledPastRightRailTop;
+					rightRailAdContainer.style.marginTop = `${pixelsScrolledPastRightRailTop}px`;
 				}
 			}
-			rightRailAdContainer.style.marginTop = `${newRightRailMarginTop}px`;
 		}
 	}
 
