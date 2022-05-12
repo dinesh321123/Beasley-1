@@ -9,14 +9,21 @@ function recent_section_feeds_on_show() {
 			?>
 			<item>
 				<title><?php echo get_the_title();	?></title>
-				<link><?php echo get_post_permalink();?></link>
+				<premalink><?php echo esc_url( get_post_permalink() ); ?></premalink>
 				<dc:creator><?php echo get_the_author(); ?> </dc:creator>
 				<pubDate><?php echo get_the_date(); ?></pubDate>
 				<?php // $category = get_the_category();
 				foreach(get_the_category() as $category){
-					echo '<category>'.$category->cat_name.'</category>';
+					echo '<category>' . esc_html( $category->cat_name ) . '</category>';
 				} ?>
-				<media:featureImage><?php echo get_the_post_thumbnail(); ?></media:featureImage>
+				<?php
+				if ( has_post_thumbnail( $post->ID ) ) {
+					$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'original' );
+					if ( ! empty( $thumbnail[0] ) ) { ?>
+						<media:featureImage url="<?php echo esc_attr( $thumbnail[0] ); ?>"  width="<?php echo esc_attr( $thumbnail[1] ); ?>"  height="<?php echo esc_attr( $thumbnail[2] ); ?>" > </media:featureImage> <?php
+					}
+				}
+				?>
 			</item>
 			<?php
 		}
