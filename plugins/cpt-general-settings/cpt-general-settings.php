@@ -24,3 +24,5 @@ endif;
 include __DIR__ . '/includes/embed_videourl.php';	// Code to add Embed Video URL Field in media
 
 include __DIR__ . '/includes/settings.php';
+include __DIR__ . '/includes/rendering.php';
+include __DIR__ . '/includes/footer-description-settings.php';
