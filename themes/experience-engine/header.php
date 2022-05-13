@@ -2,7 +2,20 @@
 use Bbgi\Integration\Google;
 ?>
 <?php
-	header("Cache-Tag: Custom-slug, posttype", false);
+	if ( ! is_front_page() ) {
+		global $post;
+		$currentPostType	= "";
+		$currentPostSlug	= "";
+		if ( get_post_type() ) :
+			$currentPostType = get_post_type();
+		endif;
+		if (  isset( $post->post_name ) && $post->post_name != "" ) :
+			$currentPostSlug = "-".$post->post_name;
+		endif;
+		$headerCacheTag = $currentPostType.$currentPostSlug;
+		header("Cache-Tag: $headerCacheTag", false);
+		header("Cache-BBGI-Tag: $headerCacheTag", false);
+	}
 ?>
 <!doctype html>
 <html lang="en">
