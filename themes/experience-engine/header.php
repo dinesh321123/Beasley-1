@@ -13,8 +13,8 @@ use Bbgi\Integration\Google;
 			$currentPostSlug = "-".$post->post_name;
 		endif;
 		$headerCacheTag = $currentPostType.$currentPostSlug;
-		header("Cache-Tag: $headerCacheTag", false);
-		header("Cache-BBGI-Tag: $headerCacheTag", false);
+		header("Cache-Tag: $headerCacheTag", true);
+		header("x-Cache-BBGI-Tag: $headerCacheTag", true);
 	}
 ?>
 <!doctype html>
