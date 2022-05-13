@@ -49,7 +49,7 @@
 								<?php get_template_part( 'partials/playing-now-info' ); ?>
 							</div>
 							<hr>
-							<div class="on-air-list<?php if ( !has_nav_menu( 'listen-live-nav' ) ) { echo ' full-width-menu'; } ?>" id="live-player-recently-played">
+							<div class="on-air-list ll-menu-section<?php if ( !has_nav_menu( 'listen-live-nav' ) ) { echo ' full-width-menu'; } ?>" id="live-player-recently-played">
 								<?php
 									if ( has_nav_menu( 'listen-live-nav' ) ) :
 										wp_nav_menu(
