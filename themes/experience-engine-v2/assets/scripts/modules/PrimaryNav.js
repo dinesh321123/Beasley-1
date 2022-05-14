@@ -261,12 +261,12 @@ class PrimaryNav extends PureComponent {
 				const topAdTop = topAdContainerBoundingRect.top;
 				const pixelsScrolledPastRightRailTop = topAdTop - rightRailAsideTop;
 				if (pixelsScrolledPastRightRailTop < 0) {
-					rightRailAdContainer.style.marginTop = `0px`;
+					rightRailAdContainer.style.top = `0px`;
 				} else if (
 					pixelsScrolledPastRightRailTop + rightRailAdContainerHeight <
 					rightRailAsideHeight - 2
 				) {
-					rightRailAdContainer.style.marginTop = `${pixelsScrolledPastRightRailTop}px`;
+					rightRailAdContainer.style.top = `${topAdTop}px`;
 				}
 			}
 		}
