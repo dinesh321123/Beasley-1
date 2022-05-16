@@ -10,6 +10,13 @@ function* hidePrerollShade() {
 	if (prerollWrapper) {
 		yield call([prerollWrapper.classList, 'remove'], '-active');
 	}
+
+	const gamPrerollWrapper = document.querySelector(
+		'div.gampreroll-wrapper.-active',
+	);
+	if (gamPrerollWrapper) {
+		yield call([gamPrerollWrapper.classList, 'remove'], '-active');
+	}
 }
 
 function* breiflyShowPlayerDropdown() {
