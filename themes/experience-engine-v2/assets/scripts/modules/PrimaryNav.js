@@ -251,10 +251,6 @@ class PrimaryNav extends PureComponent {
 		);
 		if (rightRailAdAside && rightRailAdContainer) {
 			const rightRailAsideTop = rightRailAdAside.getBoundingClientRect().top;
-			const rightRailAsideHeight = rightRailAdAside.getBoundingClientRect()
-				.height;
-			const rightRailAdContainerHeight = rightRailAdContainer.getBoundingClientRect()
-				.height;
 			const topAdContainer = document.getElementById('top-scrolling-container');
 			if (topAdContainer) {
 				const topAdContainerBoundingRect = topAdContainer.getBoundingClientRect();
@@ -262,10 +258,7 @@ class PrimaryNav extends PureComponent {
 				const pixelsScrolledPastRightRailTop = topAdTop - rightRailAsideTop;
 				if (pixelsScrolledPastRightRailTop < 0) {
 					rightRailAdContainer.style.top = `0px`;
-				} else if (
-					pixelsScrolledPastRightRailTop + rightRailAdContainerHeight <
-					rightRailAsideHeight - 2
-				) {
+				} else {
 					rightRailAdContainer.style.top = `${topAdTop}px`;
 				}
 			}
