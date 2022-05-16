@@ -33,6 +33,7 @@ the_post();
 
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
 	</div>
+	<?php get_template_part( 'partials/related-articles' );	?>
 </div><?php
 
 restore_current_blog();
