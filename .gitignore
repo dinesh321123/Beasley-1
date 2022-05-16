@@ -45,6 +45,9 @@ mu-plugins/post-finder/
 !/plugins/recent-posts-and-nav-menu-widget
 !/plugins/megamenu
 !/plugins/stn-jacapps
+!/plugins/cpt-public-post-preview
+
+!/plugins/wp-multisite-user-sync
 
 themes/index.php
 themes/twentyfourteen

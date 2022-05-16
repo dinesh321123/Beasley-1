@@ -8,13 +8,16 @@ class ExistingGallerySelection {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
+		global $pagenow;
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_footer', array( __CLASS__, 'gallery_print_media_templates' ) );
-		add_action( 'wp_footer', array( __CLASS__, 'gallery_print_media_templates' ) );
 		add_action( 'customize_controls_print_footer_scripts', array( __CLASS__, 'gallery_print_media_templates' ) );
 		add_action( 'wp_ajax_get_gmr_gallery_data', array( __CLASS__, 'get_gmr_gallery_data' ) );
 		add_action( 'wp_ajax_load_more_gmr_gallery_data', array( __CLASS__, 'load_more_gmr_gallery_data' ) );
 		add_filter('media_view_strings', array( __CLASS__, 'custom_media_string'), 10, 2);
+		if ( ( $pagenow == 'post.php' || $pagenow == 'post-new.php' || $pagenow == 'admin-ajax.php' ) && is_admin() ) {
+			remove_filter('the_title', 'wptexturize');
+		}
 	}
 
 	public static function enqueue_scripts(){
