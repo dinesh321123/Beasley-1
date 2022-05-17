@@ -2,7 +2,7 @@
 use Bbgi\Integration\Google;
 ?>
 <?php
-	// if ( ! is_front_page() ) {
+	if ( ! is_front_page() ) {
 		global $post;
 		$currentPostType	= "";
 		$currentPostSlug	= "";
@@ -13,14 +13,9 @@ use Bbgi\Integration\Google;
 			$currentPostSlug = "-".$post->post_name;
 		endif;
 		$headerCacheTag = $currentPostType.$currentPostSlug;
-		header("Cache-Tag: $headerCacheTag", false);
-		header("X-Cache-BBGI-Tag: $headerCacheTag", true);
-		header("Cache-BBGI-Tag: Testing", true);
-		header("X-Cache-BBGI-Tag: Testing", true);
-		header("X-Cache-BBGI-Tag-f: $headerCacheTag", false);
-		header("Cache-BBGI-Tag-f: Testing", false);
-		header("X-Cache-BBGI-Tag-f: Testing", false);
-	// }
+		header("Cache-Tag: $headerCacheTag", true);
+		header("X-Cache-BBGI-Tag: $headerCacheTag", true);		
+	}
 ?>
 <!doctype html>
 <html lang="en">
