@@ -28,7 +28,7 @@ if ( class_exists( 'WP_CLI' ) ) {
 
 add_action( 'admin_init', function () {
 	if ( ! wp_next_scheduled( 'contest_invalidator_cron_hook' ) ) {
-		wp_schedule_event( time(), '30minute', 'contest_invalidator_cron_hook' );
+		wp_schedule_event( time(), 'contest_15minute', 'contest_invalidator_cron_hook' );
 	}
 });
 
@@ -514,7 +514,7 @@ function gmr_filter_expired_contests( $query ) {
 /**
  * Invalidates any expired contests
  */
-function invalidate_expired_contests() {
+function invalidate_expired_contests( $not_from_cron = false ) {
 
 	// Grab all published contests that have a contest end date in the past
 	$expired_contests_query = new \WP_Query( [
@@ -554,6 +554,28 @@ function invalidate_expired_contests() {
 		],
 	] );
 
+	if(!$not_from_cron) {
+		$expired_contests_query = new \WP_Query( [
+			'post_type'      => GMR_CONTEST_CPT,
+			'post_status'    => 'publish',
+			'posts_per_page' => 500,
+			'meta_query'     => array(
+				array(
+					'key'     => 'post_expiration',
+					'type'    => 'NUMERIC',
+					'value'   => time(),
+					'compare' => '<=',
+				),
+				array(
+					'key'     => 'post_expiration',
+					'type'    => 'NUMERIC',
+					'value'   => 0,
+					'compare' => '>',
+				),
+			),
+		] );
+	}
+
 	if ( $expired_contests_query->post_count ) {
 		foreach( $expired_contests_query->posts as $contest_post ) {
 			gmr_contests_log( " - Setting {$contest_post->ID} to draft" );
@@ -575,10 +597,10 @@ function invalidate_expired_contests() {
  * @return array
  */
 function contest_cron_intervals( $schedules ) {
-	if ( ! isset( $schedules['30minute'] ) ) {
-		$schedules['30minute'] = array(
-			'interval' => 30 * MINUTE_IN_SECONDS,
-			'display'  => 'Every 30 minutes',
+	if ( ! isset( $schedules['contest_15minute'] ) ) {
+		$schedules['contest_15minute'] = array(
+			'interval' => 15 * MINUTE_IN_SECONDS,
+			'display'  => 'Every 15 minutes',
 		);
 	}
 
@@ -610,7 +632,7 @@ function run_all_contests_invalidator_cli( $args ) {
 
 		// Switch to the blog and change the expired contests to a draft
 		switch_to_blog( $site->blog_id );
-		invalidate_expired_contests();
+		invalidate_expired_contests(true);
 		restore_current_blog();
 
 		WP_CLI::log( 'Unpublished contests for site ' . $site->domain );
