@@ -22,7 +22,7 @@ const navRoot = document.getElementById('js-primary-mega-nav');
 const sidebarContainer = document.querySelector(
 	'.primary-sidebar-navigation-new',
 );
-const listenliveContainer = document.getElementById('listen-live-button');
+// const listenliveContainer = document.getElementById('listen-live-button');
 const sButtonContainer = document.getElementById('wp-search-submit');
 
 class PrimaryNav extends PureComponent {
@@ -71,7 +71,7 @@ class PrimaryNav extends PureComponent {
 			sidebarContainer.classList.add('is-safari');
 		}
 
-		listenliveContainer.addEventListener('click', this.handleListenliveClick);
+		// listenliveContainer.addEventListener('click', this.handleListenliveClick);
 
 		// Defend against null sButtonContainer which is occurring on some local environments including Mike's Local.
 		if (sButtonContainer) {
@@ -92,10 +92,10 @@ class PrimaryNav extends PureComponent {
 
 		document.removeEventListener('click', this.handleClickOutSide);
 
-		listenliveContainer.removeEventListener(
-			'click',
-			this.handleListenliveClick,
-		);
+		// listenliveContainer.removeEventListener(
+		//	'click',
+		//	this.handleListenliveClick,
+		// );
 		sButtonContainer.removeEventListener('click', this.handleSearchClick);
 	}
 

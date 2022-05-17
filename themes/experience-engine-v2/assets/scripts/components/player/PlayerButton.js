@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isIOS, isSafari, isAudioAdOnly } from '../library';
+import { isIOS, isSafari, isAudioAdOnly } from '../../library';
 
-import { ControlsV2, Offline, GamPreroll } from '../components/player';
+import { ControlsV2, Offline, GamPreroll } from '.';
 
-import ErrorBoundary from '../components/ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary';
 
-import * as actions from '../redux/actions/player';
+import * as actions from '../../redux/actions/player';
 
 class PlayerButton extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = { online: window.navigator.onLine };
-		this.container = document.getElementById('player-button-div');
 		this.onOnline = this.handleOnline.bind(this);
 		this.onOffline = this.handleOffline.bind(this);
 		this.handlePlay = this.handlePlay.bind(this);
@@ -110,10 +108,7 @@ class PlayerButton extends Component {
 	}
 
 	render() {
-		if (!this.container) {
-			return null;
-		}
-
+		const { customColors } = this.props;
 		const { online } = this.state;
 
 		const {
@@ -134,29 +129,28 @@ class PlayerButton extends Component {
 		}
 
 		const progressClass = !duration ? '-live' : '-podcast';
-		let { customColors } = this.container.dataset;
 		const controlsStyle = {};
 		const buttonsStyle = {};
 		const svgStyle = {};
 		const textStyle = {};
 
-		customColors = JSON.parse(customColors);
+		const customColorsObject = JSON.parse(customColors);
 		controlsStyle.backgroundColor = 'transparent';
 		buttonsStyle.backgroundColor =
-			customColors['--brand-button-color'] ||
-			customColors['--global-theme-secondary'];
+			customColorsObject['--brand-button-color'] ||
+			customColorsObject['--global-theme-secondary'];
 		buttonsStyle.border = 'none';
 		svgStyle.fill =
-			customColors['--brand-text-color'] ||
-			customColors['--global-theme-secondary'];
+			customColorsObject['--brand-text-color'] ||
+			customColorsObject['--global-theme-secondary'];
 		/*
 		svgStyle.stroke =
 			customColors['--brand-text-color'] ||
 			customColors['--global-theme-secondary'];
 		*/
 		textStyle.color =
-			customColors['--brand-text-color'] ||
-			customColors['--global-theme-secondary'];
+			customColorsObject['--brand-text-color'] ||
+			customColorsObject['--global-theme-secondary'];
 
 		const isIos = isIOS();
 		const gamPreroll = gamAdPlayback ? <GamPreroll /> : null;
@@ -209,7 +203,7 @@ class PlayerButton extends Component {
 			</ErrorBoundary>
 		);
 
-		return ReactDOM.createPortal(children, this.container);
+		return children;
 	}
 }
 
@@ -230,6 +224,7 @@ PlayerButton.propTypes = {
 	duration: PropTypes.number.isRequired,
 	player: PropTypes.shape({}).isRequired,
 	playerType: PropTypes.string.isRequired,
+	customColors: PropTypes.string.isRequired,
 };
 
 export default connect(

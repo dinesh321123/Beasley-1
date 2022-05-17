@@ -3,13 +3,11 @@ import React, { useEffect } from 'react';
 import { IntersectionObserverProvider } from './context';
 import {
 	TopScrollingAd,
-	DropDownAd,
 	ContentDispatcher,
 	ModalDispatcher,
 	BottomAdhesionAd,
-	PlayerButton,
-	PlayingNowInfo,
 	PrimaryNav,
+	ListenLive,
 	UserNav,
 	SearchForm,
 } from './modules';
@@ -36,9 +34,7 @@ const App = () => {
 		<IntersectionObserverProvider>
 			<ErrorBoundary>
 				<TopScrollingAd />
-				<PlayerButton />
-				<PlayingNowInfo />
-				<DropDownAd />
+				<ListenLive />
 				<ContentDispatcher />
 				<ModalDispatcher />
 				<BottomAdhesionAd />
