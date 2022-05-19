@@ -198,6 +198,7 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 			'--brand-header-hamburger-menu-color'				=> get_option( 'ee_theme_header_hamburger_menu_color', '#ff0000' ),
 			'--brand-breaking-news-bar-text-color'				=> get_option( 'ee_theme_breaking_news_bar_text_color', '#ff0000' ),
 			'--brand-breaking-news-bar-background-color'		=> get_option( 'ee_theme_breaking_news_bar_background_color', '#282828' ),
+			'--brand-music-control-color'		=> get_option( 'ee_theme_music_control_color', '#ffe964' ),
 			];
 
 		if ( get_option( 'ee_theme_version', '-dark' ) == '-dark' ) {

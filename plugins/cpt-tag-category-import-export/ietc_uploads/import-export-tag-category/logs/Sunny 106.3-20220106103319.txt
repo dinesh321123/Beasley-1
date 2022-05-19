@@ -1,0 +1,1 @@
+{"2":{"CSV row":2,"type":"category","name":"3","message":"Blog ID not similar","data":["15","category","3","cate","cate",""]},"3":{"CSV row":3,"type":"category","name":"1","message":"Blog ID not similar","data":["15","category","1","Uncategorized","uncategorized",""]}}
