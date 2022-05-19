@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { seekPosition } from '../../redux/actions/player';
 
-class Progress extends PureComponent {
+class PodcastScrubber extends PureComponent {
 	static format(time) {
 		const HOUR_IN_SECONDS = 3600;
 		const MINUTE_IN_SECONDS = 60;
@@ -48,6 +48,15 @@ class Progress extends PureComponent {
 			return false;
 		}
 
+		// Thumb is 10px so adjust prebar width
+		const progressPercentage = (100 * time) / duration;
+		let prebarwidth = progressPercentage - progressPercentage * (10 / duration);
+
+		// Min prebarwidth is 0
+		if (prebarwidth < 0) {
+			prebarwidth = 0;
+		}
+
 		return (
 			<div className="controls-progress">
 				<span
@@ -57,7 +66,7 @@ class Progress extends PureComponent {
 							: 'time -desktop4digits'
 					}
 				>
-					{Progress.format(time)}
+					{PodcastScrubber.format(time)}
 				</span>
 				<div className="ee-range-input -progress">
 					<input
@@ -67,10 +76,7 @@ class Progress extends PureComponent {
 						value={time}
 						onChange={this.onSeek}
 					/>
-					<p
-						className="pre-bar"
-						style={{ width: `${(100 * time) / duration}%` }}
-					/>
+					<p className="pre-bar" style={{ width: `${prebarwidth}%` }} />
 				</div>
 				<span
 					className={
@@ -79,14 +85,14 @@ class Progress extends PureComponent {
 							: 'time -desktop4digits'
 					}
 				>
-					{Progress.format(duration)}
+					{PodcastScrubber.format(duration)}
 				</span>
 			</div>
 		);
 	}
 }
 
-Progress.propTypes = {
+PodcastScrubber.propTypes = {
 	time: PropTypes.number.isRequired,
 	duration: PropTypes.number.isRequired,
 	seek: PropTypes.func.isRequired,
@@ -100,4 +106,4 @@ const mapStateToProps = ({ player }) => ({
 const mapDispatchToProps = dispatch =>
 	bindActionCreators({ seek: seekPosition }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Progress);
+export default connect(mapStateToProps, mapDispatchToProps)(PodcastScrubber);

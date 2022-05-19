@@ -62,8 +62,14 @@ class Volume extends PureComponent {
 		if (volume > 82) {
 			volume = 82;
 		}
+
 		// Thumb is 10px so adjust prebar width
-		const prebarwidth = 1 + volume - volume * (10 / 82);
+		let prebarwidth = volume - volume * (10 / 82);
+
+		// Min prebarwidth is 0
+		if (prebarwidth < 0) {
+			prebarwidth = 0;
+		}
 
 		return (
 			<div ref={this.volumeRef} className="controls-volume">
