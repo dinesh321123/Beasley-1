@@ -26,7 +26,7 @@ class PodcastScrubber extends PureComponent {
 
 	constructor(props) {
 		super(props);
-
+		this.sliderRef = React.createRef();
 		this.onSeek = this.handleSeekPosition.bind(this);
 	}
 
@@ -48,13 +48,16 @@ class PodcastScrubber extends PureComponent {
 			return false;
 		}
 
-		// Thumb is 10px so adjust prebar width
-		const progressPercentage = (100 * time) / duration;
-		let prebarwidth = progressPercentage - progressPercentage * (10 / duration);
+		// Thumb is 12px so adjust prebar width
+		const progressPercentage = time / duration;
+		const sliderWidth = this.sliderRef.current
+			? this.sliderRef.current.clientWidth
+			: 0;
+		let prebarWidth =
+			progressPercentage * sliderWidth - progressPercentage * 12;
 
-		// Min prebarwidth is 0
-		if (prebarwidth < 0) {
-			prebarwidth = 0;
+		if (prebarWidth < 0) {
+			prebarWidth = 0;
 		}
 
 		return (
@@ -70,13 +73,14 @@ class PodcastScrubber extends PureComponent {
 				</span>
 				<div className="ee-range-input -progress">
 					<input
+						ref={this.sliderRef}
 						type="range"
 						min="0"
 						max={duration}
 						value={time}
 						onChange={this.onSeek}
 					/>
-					<p className="pre-bar" style={{ width: `${prebarwidth}%` }} />
+					<p className="pre-bar" style={{ width: `${prebarWidth}px` }} />
 				</div>
 				<span
 					className={
