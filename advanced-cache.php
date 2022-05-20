@@ -1,5 +1,4 @@
 <?php
-header("Cache-BBGI-Tag-Advance: For testing", true);
 
 if ( is_readable( dirname( __FILE__ ) . '/batcache-stats.php' ) )
 	require_once dirname( __FILE__ ) . '/batcache-stats.php';
