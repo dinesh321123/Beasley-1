@@ -7,6 +7,7 @@ const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 const topScrollingDivID = 'div-top-scrolling-slot';
 const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
+const dropDownDivID = 'div-drop-down-slot';
 
 const isNotSponsorOrInterstitial = placeholder => {
 	return (
@@ -138,6 +139,13 @@ const slotRenderEndedHandler = event => {
 		const slotElement = document.getElementById(placeholder);
 		if (isEmpty) {
 			console.log('Empty Ad Returned');
+			// DropDown Ads Should Not Retain Their Realestate
+			if (placeholder === dropDownDivID) {
+				if (slotElement) {
+					slotElement.style.height = 0;
+				}
+			}
+
 			// If Slot Is Visible
 			if (slotElement.offsetParent !== null) {
 				// Trick Slot to pull new Ad on next poll.
