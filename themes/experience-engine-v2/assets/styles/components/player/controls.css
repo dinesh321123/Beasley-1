@@ -795,4 +795,43 @@
 			}
 		}
 	}
+
+	& .ll-title-with-play-btn {
+		& .button-holder {
+			& .LIVE_PAUSE .resume-btn,
+			& .LIVE_PLAYING .pause-btn,
+			& .LIVE_STOP .play-btn,
+			& .LIVE_FAILED .play-btn,
+			& .LIVE_BUFFERING .loading-btn,
+			& .LIVE_CONNECTING .loading-btn,
+			& .LIVE_RECONNECTING .loading-btn,
+			& .STREAM_GEO_BLOCKED .play-btn,
+			& .STATION_NOT_FOUND .play-btn {
+				display: block;
+			}
+
+			& button {
+				width: auto;
+				height: auto;
+				font-size: 16px;
+				color: var(--brand-text-color);
+				text-align: left;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		& .status {
+			& svg {
+				width: 22px;
+    			height: 31px;
+				margin-right: 5px;
+				padding-bottom: 3px;
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+	}
 }
