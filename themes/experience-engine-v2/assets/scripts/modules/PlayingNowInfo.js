@@ -6,6 +6,7 @@ import { STATUSES } from '../redux/actions/player';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { Stations, Volume } from '../components/player';
 import { isIOS } from '../library';
+import PlayerButton from './PlayerButton';
 
 const STATUS_LABELS = {
 	[STATUSES.LIVE_PAUSE]: 'Paused',
@@ -121,8 +122,8 @@ class Info extends Component {
 			<ErrorBoundary>
 				<div className="on-air-list ll-top-container">
 					<ul>
-						<li>
-							<strong>{title}</strong>
+						<li className="ll-title-with-play-btn">
+							<PlayerButton inDropDown customTitle={title} />
 						</li>
 						<li>{description}</li>
 					</ul>

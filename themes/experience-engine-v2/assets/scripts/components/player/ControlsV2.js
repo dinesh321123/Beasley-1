@@ -10,6 +10,7 @@ function ControlsV2({
 	buttonStyle,
 	svgStyle,
 	isIos,
+	customTitle,
 }) {
 	// TODO - IOS Special Style was removed from controls.css. Remove osClass once it is determined that we will never need OS Specific logic again.
 	const osClass = isIos ? '-is-ios' : '';
@@ -32,6 +33,7 @@ function ControlsV2({
 	c-0.8,0.5-1.5,0.1-1.5-0.9V6.9c0-1,0.7-1.4,1.5-0.9L14,9.5C14.9,10,14.9,10.8,14,11.3z"
 					/>
 				</svg>
+				{customTitle ? <strong>{customTitle}</strong> : null}
 			</button>
 
 			<button
@@ -53,6 +55,7 @@ function ControlsV2({
 	c0-0.2,0.1-0.3,0.3-0.3h1.9c0.2,0,0.3,0.1,0.3,0.3v8.8C13.8,15,13.7,15.1,13.5,15.1z"
 					/>
 				</svg>
+				{customTitle}
 			</button>
 
 			<button
@@ -72,6 +75,7 @@ function ControlsV2({
 	c-0.8,0.5-1.5,0.1-1.5-0.9V6.9c0-1,0.7-1.4,1.5-0.9L14,9.5C14.9,10,14.9,10.8,14,11.3z"
 					/>
 				</svg>
+				{customTitle}
 			</button>
 
 			<button
@@ -95,6 +99,7 @@ ControlsV2.propTypes = {
 	buttonStyle: PropTypes.shape({}),
 	svgStyle: PropTypes.shape({}),
 	isIos: PropTypes.bool,
+	customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 ControlsV2.defaultProps = {
@@ -105,6 +110,7 @@ ControlsV2.defaultProps = {
 	buttonStyle: {},
 	svgStyle: {},
 	isIos: false,
+	customTitle: null,
 };
 
 export default ControlsV2;
