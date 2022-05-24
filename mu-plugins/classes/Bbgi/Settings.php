@@ -177,6 +177,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('stn_barker_id', 'STN Barker ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_barker_id');
 		add_settings_field('stn_inarticle_id', 'STN In Article ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_inarticle_id');
 		add_settings_field('stn_categories', 'STN Allowed Categories', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_categories');
+		add_settings_field('stn_position', 'STN Paragraph Position', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_position&default=2');
 
 		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=gmr_site_logo' );
 		add_settings_field( 'ee_subheader_mobile_logo', 'Mobile Subheader Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=ee_subheader_mobile_logo' );
@@ -257,6 +258,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'stn_barker_id', 'sanitize_text_field');
 		register_setting(self::option_group, 'stn_inarticle_id', 'sanitize_text_field');
 		register_setting(self::option_group, 'stn_categories', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_position', 'sanitize_text_field');
 
 		register_setting( self::option_group, 'ee_theme_primary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_secondary_color', 'sanitize_text_field' );

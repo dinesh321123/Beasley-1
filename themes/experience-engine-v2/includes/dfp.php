@@ -290,13 +290,17 @@ if ( ! function_exists( 'ee_add_ads_to_content' ) ) :
 	function ee_add_ads_to_content( $content ) {
 		$parts = explode( '</p>', $content );
 		$new_content = '';
-		$stn_video_paragraph_position = 2;
+
+		$stn_video_paragraph_position = intval( get_option( 'stn_position', '2' ) );
 
 		$len = count( $parts );
 		for ( $i = 1; $i <= $len; $i++ ) {
 			$new_content .= $parts[ $i - 1 ] . '</p>';
 
-			if ( $stn_video_paragraph_position == $i ) {
+			if ($i == 1 && $stn_video_paragraph_position == 0) {
+				$snt_video = ee_category_exists( ) ? apply_filters( 'incontentvideo_filter', '' ) : '';
+				$new_content = $snt_video . $new_content ;
+			} elseif ( $stn_video_paragraph_position == $i ) {
 				// in-content pos1 slot after first 2 paragraphs
 				$new_content .= ee_category_exists( ) ? apply_filters( 'incontentvideo_filter', '' ) : '';
 			} elseif ( 0 == ( $i - $stn_video_paragraph_position ) % 4 && $len > 4 ) {

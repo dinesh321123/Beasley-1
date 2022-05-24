@@ -55,6 +55,8 @@ class Page extends Module {
 			$url, [
 				'timeout'   => 30,
 				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true,
+				'headers'=> ['Cache-Tag' => 'testing',
+				'X-Cache-BBGI-Tag' => 'testing for API']
 			]
 		);
 
@@ -107,6 +109,7 @@ class Page extends Module {
 			$response['redirect']['url']      = $is_absolute ? $matched_redirect : home_url( $matched_redirect );
 			$response['redirect']['internal'] = ! $is_absolute;
 			$response['status']               = 301;
+			$response['header']['X-Cache-BBGI-Tag'] = 'testing for API';
 		}
 
 		// only fetch page if there's no redirect
@@ -115,6 +118,8 @@ class Page extends Module {
 
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
+			$response['headers'] = ['Cache-Tag' => 'testing',
+			'X-Cache-BBGI-Tag' => 'testing for API'];
 		}
 
 		return rest_ensure_response( $response );

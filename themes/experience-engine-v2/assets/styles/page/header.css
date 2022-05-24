@@ -734,7 +734,7 @@
 	}
 	& .top-primarynav{
 		@media(--min-x2large-viewport) {
-			width:50%;
+			width:auto;
 		}
 	}
 }
