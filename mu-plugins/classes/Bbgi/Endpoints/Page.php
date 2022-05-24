@@ -55,6 +55,8 @@ class Page extends Module {
 			$url, [
 				'timeout'   => 30,
 				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true,
+				'Cache-Tag' => 'testing',
+				'X-Cache-BBGI-Tag' => 'testing for API'
 			]
 		);
 
