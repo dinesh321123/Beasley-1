@@ -109,7 +109,7 @@ class Page extends Module {
 			$response['redirect']['url']      = $is_absolute ? $matched_redirect : home_url( $matched_redirect );
 			$response['redirect']['internal'] = ! $is_absolute;
 			$response['status']               = 301;
-			$response['headers']['X-Cache-BBGI-Tag'] = 'testing for API';
+			$response['header']['X-Cache-BBGI-Tag'] = 'testing for API';
 		}
 
 		// only fetch page if there's no redirect
