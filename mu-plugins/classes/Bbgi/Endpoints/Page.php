@@ -55,8 +55,8 @@ class Page extends Module {
 			$url, [
 				'timeout'   => 30,
 				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true,
-				'Cache-Tag' => 'testing',
-				'X-Cache-BBGI-Tag' => 'testing for API'
+				'headers'=>['Cache-Tag' => 'testing',
+				'X-Cache-BBGI-Tag' => 'testing for API']
 			]
 		);
 
@@ -118,7 +118,7 @@ class Page extends Module {
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
 		}
-
+        $response['headers'] = wp_remote_retrieve_header($page_response);
 		return rest_ensure_response( $response );
 	}
 }
