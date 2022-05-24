@@ -206,6 +206,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field( 'ee_theme_text_color', 'Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_text_color&default=#000000' );
 		add_settings_field( 'ee_theme_breaking_news_bar_text_color', 'Breaking News Bar Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_breaking_news_bar_text_color&default=#ff0000' );
 		add_settings_field( 'ee_theme_breaking_news_bar_background_color', 'Breaking News Bar Background Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_breaking_news_bar_background_color&default=#282828' );
+		add_settings_field( 'ee_theme_music_control_color', 'Control Music Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_music_control_color&default=#ffe964' );
 
 		add_settings_section( 'contest_section', 'Contests', '__return_false', $this->_settings_page_hook );
 		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
@@ -245,6 +246,9 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'related_article_section', 'Related Articles', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'related_article_title', 'Title Text', 'bbgi_input_field', $this->_settings_page_hook, 'related_article_section', 'name=related_article_title&default=You May Also Like' );
 
+		add_settings_section( 'cloud_flare_section', 'CloudFlare Settings', '__return_false', $this->_settings_page_hook );
+        add_settings_field('cloud_flare_zoneid', 'Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'cloud_flare_section', 'name=cloud_flare_zoneid');
+
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_subheader_mobile_logo', 'intval' );
 		register_setting( self::option_group, 'ee_subheader_desktop_logo', 'intval' );
@@ -268,6 +272,7 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_theme_text_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_breaking_news_bar_text_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_breaking_news_bar_background_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_music_control_color', 'sanitize_text_field' );
 
 		register_setting( self::option_group, 'ee_theme_header_background_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_header_nav_dd_background_color', 'sanitize_text_field' );
@@ -308,6 +313,8 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ee_dont_miss_item_count_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'related_article_title', 'sanitize_text_field');
+
+		register_setting(self::option_group, 'cloud_flare_zoneid', 'sanitize_text_field');
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.

@@ -14,7 +14,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		$this->defaults[ 'plugin_slug' ]		= 'recent-posts-and-nav-menu-widget';
 		$this->defaults[ 'thumb_alt' ]			= '';
 		$this->defaults[ 'category_ids' ]		= array( 0 );
-		$this->defaults[ 'thumb_dimensions' ]	= 'large'; 
+		$this->defaults[ 'thumb_dimensions' ]	= 'large';
 		parent::__construct( $this->defaults[ 'plugin_slug' ], __( 'Recent Posts Based On Category' ), $widget_ops );
 		$this->alt_option_name = 'recent-posts-and-nav-menu-widget';
 		add_action( 'save_post',				array( $this, 'flush_widget_cache' ) );
@@ -28,7 +28,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 	public function widget( $args, $instance ) {
 		if ( ! isset( $args['widget_id'] ) ) {
 			$args['widget_id'] = $this->id;
-		}		
+		}
 		$number    = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
 		$default_title = __( 'Recent Posts' );
 		$title         = ( ! empty( $instance['title'] ) ) ? $instance['title'] : $default_title;
@@ -39,7 +39,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		if ( in_array( 0, $category_ids ) ) {
 			$category_ids = 0;
 		}
-		$query_args = array('posts_per_page' => $number, 'no_found_rows' => true,'post_status' => 'publish', 'ignore_sticky_posts' => true);
+		$query_args = array('post_type' => 'any', 'posts_per_page' => $number, 'no_found_rows' => true,'post_status' => 'publish', 'ignore_sticky_posts' => true);
 		if ($category_ids != 0 && !in_array( 0, $category_ids ) ) {
 			$query_args[ 'category__in' ] = $category_ids;
 		}
@@ -63,10 +63,10 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 				$aria_label = $title ? $title : $default_title;
 				echo '<nav aria-label="' . esc_attr( $aria_label ) . '">';
 			}
-			
+
 			echo '<ul>';
 			while ( $r->have_posts() )
-			{ 
+			{
 				$r->the_post();
 				$post_title   = get_the_title();
 				$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)' );
@@ -82,7 +82,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 						}?>
 						<span class="rpwwt-post-title"><?php echo $title; ?></span>
 					</a>
-				</li><?php 
+				</li><?php
 			}
 			echo '</ul>';
 			if ( 'html5' === $format ) {
@@ -91,7 +91,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 			echo $args['after_widget'];
 			echo '</div>';
 
-		}		
+		}
 	}
 
 	/**
@@ -132,7 +132,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		$field_ids[ 'thumb_alt' ]		= $this->get_field_id( 'thumb_alt' );
 		$field_ids[ 'thumb_dimensions' ]= $this->get_field_id( 'thumb_dimensions' );
 		$field_ids[ 'title' ]			= $this->get_field_id( 'title' );
-		
+
 		// get texts and values for image sizes dropdown
 		global $_wp_additional_image_sizes;
 		$wp_standard_image_size_labels = array();
@@ -166,7 +166,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		// get categories
 		$categories = get_categories( array( 'hide_empty' => 0, 'hierarchical' => 1 ) );
 		$number_of_cats = count( $categories );
-		
+
 		// get size (number of rows to display) of selection box: not more than 10
 		$number_of_rows = ( 10 > $number_of_cats ) ? $number_of_cats + 1 : 10;
 
@@ -244,10 +244,10 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 				$selection_element .= '>' . $pad . $cat_name . '</option>';
 				$selection_element .= "\n";
 			}
-			
+
 		}
 		$selection_element .= "</select>\n";
-		
+
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
@@ -265,7 +265,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 			<label for="<?php echo $field_ids[ 'category_ids' ];?>">
 				<?php esc_html_e( 'Show posts of selected categories only?', RPMW_TEXT_DOMAIN ); ?>
 			</label>
-			
+
 			<?php echo $selection_element; ?>
 			<em>
 				<?php printf( esc_html__( 'Click on the categories with pressed CTRL key to select multiple categories. If &#8220;%s&#8221; was selected then other selections will be ignored.', RPMW_TEXT_DOMAIN ), $label_all_cats ); ?>
@@ -320,7 +320,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 				return $i;
 			}
 		}
-		return false; 
+		return false;
 	}
 }
 function RPMW_register_recent_posts_widget_with_thumbnails () {

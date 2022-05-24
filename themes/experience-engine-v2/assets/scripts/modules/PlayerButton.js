@@ -126,6 +126,8 @@ class PlayerButton extends Component {
 			duration,
 			player,
 			playerType,
+			inDropDown,
+			customTitle,
 		} = this.props;
 
 		let notification = false;
@@ -165,6 +167,27 @@ class PlayerButton extends Component {
 			console.log('Live Player configured to render GAM preroll.');
 		}
 
+		const buttonDiv = (
+			<div className="controls" style={controlsStyle}>
+				<div className={`button-holder ${progressClass}`}>
+					<ControlsV2
+						status={status}
+						play={
+							adPlayback && isAudioAdOnly({ player, playerType })
+								? null
+								: this.handlePlay
+						}
+						pause={pause}
+						resume={resume}
+						buttonStyle={buttonsStyle}
+						svgStyle={svgStyle}
+						isIos={isIos}
+						customTitle={customTitle}
+					/>
+				</div>
+			</div>
+		);
+
 		const children = (
 			<ErrorBoundary>
 				{notification}
@@ -189,36 +212,27 @@ class PlayerButton extends Component {
 
 				<div id="sync-banner" className={adSynced ? '' : '-hidden'} />
 
-				<div className="controls" style={controlsStyle}>
-					<div className={`button-holder ${progressClass}`}>
-						<ControlsV2
-							status={status}
-							play={
-								adPlayback && isAudioAdOnly({ player, playerType })
-									? null
-									: this.handlePlay
-							}
-							pause={pause}
-							resume={resume}
-							buttonStyle={buttonsStyle}
-							svgStyle={svgStyle}
-							isIos={isIos}
-						/>
-					</div>
-				</div>
+				{buttonDiv}
 			</ErrorBoundary>
 		);
 
+		if (inDropDown) {
+			return <ErrorBoundary>{buttonDiv}</ErrorBoundary>;
+		}
 		return ReactDOM.createPortal(children, this.container);
 	}
 }
 
 PlayerButton.defaultProps = {
 	station: '',
+	inDropDown: false,
+	customTitle: null,
 };
 
 PlayerButton.propTypes = {
 	station: PropTypes.string,
+	inDropDown: PropTypes.bool,
+	customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 	status: PropTypes.string.isRequired,
 	adPlayback: PropTypes.bool.isRequired,
 	gamAdPlayback: PropTypes.bool.isRequired,

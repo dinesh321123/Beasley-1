@@ -526,68 +526,47 @@
 			}
 		}
 	}
-
 }
 
 .controls-progress {
-display: none;
-	&.-mobile {
-		display: block;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+	opacity: 1;
 
-		@media(--min-medium-viewport) {
-			display: none;
-		}
-	}
-
-	&.-desktop {
-		transition: opacity 250ms ease-in-out;
-		opacity: 0;
-
-		@media(--min-medium-viewport) {
-			display: flex;
-			flex-flow: row nowrap;
-			justify-content: space-between;
-			opacity: 1;
-		}
-
-		& .-progress {
-			align-self: center;
-			margin: 0 10px 0 0;
-			position: relative;
-			width: 84px;
-		}
+	& .-progress {
+		align-self: center;
+		margin: 0 10px 0 0;
+		position: relative;
+	    width: calc(100% - 78px);
 	}
 
 	& .time {
-		display: none;
+	    display: inline-flex;
 	    align-items: center;
 	    font-size: .675rem;
 	    margin-top: 3px;
 	    margin-right: 10px;
 
 		&.-desktop4digits {
-			@media(--min-medium-viewport) {
-				display: inline-flex;
-				width: 1.75rem;
-			}
+			width: 1.75rem;
 		}
 
 		&.-desktop6digits {
-			@media(--min-medium-viewport) {
-				display: inline-flex;
-				width: 2.75rem;
-			}
+			width: 2.75rem;
 		}
 	}
 }
 
 .top-progress-holder {
-	width: calc(100% - 78px);
-	margin-left: 78px;
-	position: absolute;
+	margin-bottom: 20px;
 }
 
-#player-button-div > div.controls > div > div > button > svg {
+#player-button-div > div.controls > div > div > button > div {
+	display: flex;
+}
+
+#player-button-div > div.controls > div > div > button > div > svg {
 	width: 100%;
 	height: 100%;
 }
@@ -711,4 +690,159 @@ display: none;
 		 outline: 0;
 		 opacity: var(--brand-play-live-hover-opacity);
 	 }
+}
+
+.ll-top-container {
+	justify-content: space-between;
+	& .ll-volume-control {
+		display: flex;
+
+		& button {
+			&:focus,
+			&:hover {
+				outline: 0;
+			}
+		}
+
+		& .button-holder {
+		align-items: center;
+		box-sizing: border-box;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: space-between;
+		position: relative;
+
+		& button:not(.play-btn, .pause-btn, .resume-btn, .loading-btn) {
+			background: transparent;
+			border: 0;
+			cursor: pointer;
+		}
+		}
+
+		& .controls-volume {
+			display: none;
+			height: 22px;
+			position: relative;
+			z-index: 1;
+			min-width: 120px;
+			margin-top: 4px;
+			margin-bottom: 4px;
+
+			@media(--min-medium-viewport) {
+				display: flex;
+			}
+
+			& button {
+				display: none;
+
+				@media(--min-medium-viewport) {
+					display: block;
+				}
+
+				& svg path[fill] {
+					fill: var(--global-theme-font-primary);
+				}
+
+				& svg path[stroke] {
+					stroke: var(--global-theme-font-primary);
+				}
+
+			}
+
+			& button:hover,
+			& button:focus {
+				& svg path {
+					transition: fill 250ms ease-in-out,
+								stroke 250ms ease-in-out;
+				}
+			}
+
+			& button:focus {
+				outline: 0;
+			}
+
+			& .ee-range-input-slider {
+				left: 2rem;
+				right: 1rem;
+				opacity: 0;
+				position: absolute;
+				transition: visibility 250ms ease-in-out,
+							opacity 250ms ease-in-out;
+				top: 8px;
+				visibility: hidden;
+
+				& input[type="range"]::-webkit-slider-thumb {
+					-webkit-appearance: none;
+					border: none;
+					height: 12px;
+					width: 12px;
+					border-radius: 50%;
+					background: var(--brand-button-color);
+					margin-top: -3.5px;
+					z-index: 400;
+				}
+
+				& input[type=range]::-webkit-slider-runnable-track {
+					  background: var(--brand-text-color);
+					  border: none;
+					  border-radius: 3px;
+				  }
+
+				&.-volume-visible {
+					opacity: 1;
+					visibility: visible;
+				}
+
+				& .pre-bar {
+					background: var(--brand-music-control-color);
+				}
+			}
+		}
+	}
+
+	& .ll-title-with-play-btn {
+		& .button-holder {
+			& .LIVE_PAUSE .resume-btn,
+			& .LIVE_PLAYING .pause-btn,
+			& .LIVE_STOP .play-btn,
+			& .LIVE_FAILED .play-btn,
+			& .LIVE_BUFFERING .loading-btn,
+			& .LIVE_CONNECTING .loading-btn,
+			& .LIVE_RECONNECTING .loading-btn,
+			& .STREAM_GEO_BLOCKED .play-btn,
+			& .STATION_NOT_FOUND .play-btn {
+				display: block;
+			}
+
+			& button {
+				width: auto;
+				height: auto;
+				font-size: 16px;
+				color: var(--brand-text-color);
+				text-align: left;
+				background-color: transparent !important;
+
+				& > div {
+					display: inline;
+					border-radius: 50%;
+					background-color: var(--brand-button-color);
+					margin-right: 5px;
+				}
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		& .status {
+			& svg {
+				width: 22px;
+    			height: 31px;
+				padding-bottom: 3px;
+				display: inline-block;
+				vertical-align: middle;
+			}
+		}
+	}
 }

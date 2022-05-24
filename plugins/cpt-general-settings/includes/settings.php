@@ -10,6 +10,21 @@ class CommonSettings {
 		add_action( 'init', array( __CLASS__, 'settings_cpt_init' ), 0 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'required_alt_text' ) );	// Script for validate Alt text from Add media button
+		add_action( 'admin_init', array( __CLASS__, 'settings_cpt_admin_init' ) );
+	}
+	public function settings_cpt_admin_init() {
+		add_filter( 'dashboard_recent_posts_query_args', array( __CLASS__, 'dashboard_recent_posts_query_args_callback' ), 10, 1 ) ;
+	}
+	public static function dashboard_recent_posts_query_args_callback( $query_args ) {
+		$query_args['post_type'] = CommonSettings::allow_recent_posts_posttype_list();
+		$query_args['posts_per_page'] = 10;
+		return $query_args;
+	}
+	/**
+	 * Returns array of post type for recent activity.
+	 */
+	public static function allow_recent_posts_posttype_list() {
+		return (array) apply_filters( 'allow-dashboard-recent-posts-for-posttypes', array( 'post', 'tribe_events', 'page', 'gmr_gallery', 'gmr_album', 'contest', 'show', 'podcast', 'episode', 'advertiser', 'listicle_cpt', 'affiliate_marketing' )  );
 	}
 
 	public function required_alt_text() {

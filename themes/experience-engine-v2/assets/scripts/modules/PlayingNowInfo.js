@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { STATUSES } from '../redux/actions/player';
 import ErrorBoundary from '../components/ErrorBoundary';
-import { Stations } from '../components/player';
+import { PodcastScrubber, Stations, Volume } from '../components/player';
+import { isIOS } from '../library';
+import PlayerButton from './PlayerButton';
 
 const STATUS_LABELS = {
 	[STATUSES.LIVE_PAUSE]: 'Paused',
@@ -99,15 +101,38 @@ class Info extends Component {
 	}
 
 	getMockup(title, description) {
+		const container = document.getElementById('player-button-div');
+		const buttonsFillStyle = {};
+
+		if (container) {
+			let { customColors } = container.dataset;
+			customColors = JSON.parse(customColors);
+			buttonsFillStyle.fill =
+				customColors['--brand-music-control-color'] ||
+				customColors['--global-theme-secondary'];
+			buttonsFillStyle.stroke =
+				customColors['--brand-music-control-color'] ||
+				customColors['--global-theme-secondary'];
+		}
+
+		const isIos = isIOS();
+		const volumeControl = isIos ? null : <Volume colors={buttonsFillStyle} />;
+
 		return (
 			<ErrorBoundary>
-				<div className="on-air-list">
+				<div className="on-air-list ll-top-container">
 					<ul>
-						<li>
-							<strong>{title}</strong>
+						<li className="ll-title-with-play-btn">
+							<PlayerButton inDropDown customTitle={title} />
 						</li>
 						<li>{description}</li>
 					</ul>
+					<div className="ll-volume-control">
+						<div className="button-holder">{volumeControl}</div>
+					</div>
+				</div>
+				<div className="top-progress-holder">
+					<PodcastScrubber />
 				</div>
 				<Stations />
 			</ErrorBoundary>
