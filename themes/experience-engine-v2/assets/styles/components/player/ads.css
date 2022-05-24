@@ -59,6 +59,7 @@
 
 	@media (--min-medium-viewport) {
 		min-width: 640px;
+		width: 46%;
 	}
 
 	@media (--max-medium-viewport) {

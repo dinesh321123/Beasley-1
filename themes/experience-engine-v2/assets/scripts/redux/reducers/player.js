@@ -55,7 +55,7 @@ export const DEFAULT_STATE = {
 	cuePoint: false,
 	time: 0,
 	duration: 0,
-	gamAdPlayback: false,
+	lastAdPlaybackTime: 0,
 	player: {},
 	playerType: '', // Store player type (omny, mp3, td)
 	userInteraction: false, // Store userInteraction state
@@ -68,6 +68,18 @@ export const DEFAULT_STATE = {
 
 // Reducer
 function reducer(state = {}, action = {}) {
+	const nowDate = new Date();
+
+	// TODO - Remove Console Logs After Preroll Timelimits Are Debugged
+	if (action.type === ACTION_AD_PLAYBACK_ERROR) {
+		console.log('Preroll complete but unsuccesful ');
+	} else if (
+		action.type === ACTION_AD_PLAYBACK_COMPLETE ||
+		action.type === ACTION_GAM_AD_PLAYBACK_COMPLETE
+	) {
+		console.log('Successful Preroll complete - updating time stamp ');
+	}
+
 	switch (action.type) {
 		// Catches in Saga Middleware
 		case ACTION_SET_PLAYER: {
@@ -208,12 +220,19 @@ function reducer(state = {}, action = {}) {
 
 		// Catches in Saga Middleware
 		case ACTION_AD_PLAYBACK_ERROR:
+			return {
+				...state,
+				adPlayback: false,
+				gamAdPlayback: false,
+			};
+
 		case ACTION_AD_PLAYBACK_COMPLETE:
 		case ACTION_GAM_AD_PLAYBACK_COMPLETE: {
 			return {
 				...state,
 				adPlayback: false,
 				gamAdPlayback: false,
+				lastAdPlaybackTime: nowDate.getTime(),
 			};
 		}
 

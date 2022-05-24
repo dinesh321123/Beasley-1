@@ -254,7 +254,7 @@ function errorCatcher(prefix = '') {
  *
  * @param {*} modules
  */
-export function initTdPlayer(modules) {
+export function initTdPlayer(modules, lastAdPlaybackTime) {
 	return dispatch => {
 		let adSyncedTimeout = false;
 
@@ -319,9 +319,17 @@ export function initTdPlayer(modules) {
 					dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
 				); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
 			} else {
-				console.log('Dispatching GAM Preroll Start');
-				dispatch(gamAdPlaybackStart());
-				// dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)); // used to dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
+				const nowDate = new Date();
+				const timeSineLastPreroll = nowDate.getTime() - lastAdPlaybackTime;
+				if (timeSineLastPreroll > 10 * 60 * 1000) {
+					console.log(
+						'Sufficient time has passed. Dispatching GAM Preroll Start',
+					);
+					dispatch(gamAdPlaybackStart());
+				} else {
+					console.log('Too Soon To Dispatch Another GAM Preroll');
+					dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR));
+				}
 			}
 		});
 	};
