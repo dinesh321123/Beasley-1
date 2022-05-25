@@ -123,7 +123,7 @@ class Page extends Module {
 			$page_response = $this->fetch_page( $url );
 			print_r((array) wp_remote_retrieve_headers( $page_response ));
 			$headers = wp_remote_retrieve_headers( $page_response );
-			print_r($headers->offsetGet('data'));
+			print_r(array_values($headers)[0]);
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
 			$response['headers'] = (array)wp_remote_retrieve_headers( $page_response );
