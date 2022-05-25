@@ -28,7 +28,6 @@ class Page extends Module {
 	 * @return void
 	 */
 	public function register_routes() {
-	;
 		register_rest_route(
 			'experience_engine/v1',
 			'page',
@@ -122,10 +121,11 @@ class Page extends Module {
 		// only fetch page if there's no redirect
 		if ( ! $matched_redirect ) {
 			$page_response = $this->fetch_page( $url );
-			print_r( wp_remote_retrieve_headers( $page_response ));
+			print_r((array) wp_remote_retrieve_headers( $page_response ));
+			$headers = wp_remote_retrieve_headers( $page_response );
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
-			$response['headers'] = wp_remote_retrieve_headers( $page_response );
+			$response['headers'] = (array)wp_remote_retrieve_headers( $page_response );
 		}
 
 		return rest_ensure_response( $response );
