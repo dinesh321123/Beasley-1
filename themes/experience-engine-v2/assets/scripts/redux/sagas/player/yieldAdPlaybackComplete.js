@@ -15,6 +15,9 @@ function* yieldAdPlaybackComplete() {
 	// Player store from state
 	const playerStore = yield select(({ player }) => player);
 
+	// Update DOM
+	yield call([document.body.classList, 'remove'], 'locked');
+
 	// Call loadNowPlaying
 	yield call(loadNowPlaying, playerStore);
 }
