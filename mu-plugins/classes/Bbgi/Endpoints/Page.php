@@ -127,7 +127,7 @@ class Page extends Module {
 			$response['status'] = $page_response['response']['code'];
 			$response['headers'] = (array)wp_remote_retrieve_headers( $page_response );
 		}
-
-		return rest_ensure_response( $response );
+        $response = rest_ensure_response( $response );
+		return  $response->set_headers((array)wp_remote_retrieve_headers( $page_response ));
 	}
 }
