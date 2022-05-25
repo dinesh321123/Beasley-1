@@ -18,6 +18,7 @@ class Page extends Module {
 	 * @return void
 	 */
 	public function register() {
+
 		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
 	}
 
@@ -27,6 +28,7 @@ class Page extends Module {
 	 * @return void
 	 */
 	public function register_routes() {
+	;
 		register_rest_route(
 			'experience_engine/v1',
 			'page',
@@ -93,7 +95,6 @@ class Page extends Module {
 				'Cache-Tag' => 'testing'
 			],
 		];
-
 		if ( ! $this->is_internal_url( $url ) ) {
 			$response['status'] = 403;
 
@@ -114,12 +115,14 @@ class Page extends Module {
 			$response['redirect']['internal'] = ! $is_absolute;
 			$response['status']               = 301;
 			$response['header']['X-Cache-BBGI-Tag'] = 'testing for API';
+			$response['headers']['X-Cache-BBGI-Tag'] = 'testing for API1';
+			print_r( wp_remote_retrieve_body( $response['header'] ));
 		}
 
 		// only fetch page if there's no redirect
 		if ( ! $matched_redirect ) {
 			$page_response = $this->fetch_page( $url );
-
+			print_r( wp_remote_retrieve_headers( $page_response ));
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
 			$response['headers'] = ['Cache-Tag' => 'testing',
