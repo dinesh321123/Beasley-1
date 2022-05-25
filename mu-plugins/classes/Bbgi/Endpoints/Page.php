@@ -118,15 +118,18 @@ class Page extends Module {
 		if ( ! $matched_redirect ) {
 			$page_response = $this->fetch_page( $url );
 			$headers = wp_remote_retrieve_headers( $page_response );
-			print_r(array_values((array)$headers)[0]);
+			$headers = array_values((array)$headers)[0];
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
 		}
         $response = rest_ensure_response( $response );
-		$response->set_headers([
-			'X-Cache-BBGI-Tag' => 'API TEsting',
-			'Cache-Tag' => 'testing'
+		if(isset($headers['x-cache-bbgi-tag'])){
+			$response->set_headers([
+				'X-Cache-BBGI-Tag' => $headers['x-cache-bbgi-tag'],
+				'Cache-Tag' => $headers['x-cache-bbgi-tag']
 		]);
+		}
+
 		return  $response;
 	}
 }
