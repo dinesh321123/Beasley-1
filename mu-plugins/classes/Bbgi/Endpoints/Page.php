@@ -88,6 +88,10 @@ class Page extends Module {
 				'url'      => '',
 			],
 			'html'      => false,
+			'headers' => [
+				'X-Cache-BBGI-Tag' => 'API TEsting',
+				'Cache-Tag' => 'testing'
+			],
 		];
 
 		if ( ! $this->is_internal_url( $url ) ) {

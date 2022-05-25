@@ -2,7 +2,10 @@
 use Bbgi\Integration\Google;
 ?>
 <?php
-	if ( ! is_front_page() ) {
+
+	if (  is_front_page() ) {
+		$headerCacheTag  = $_SERVER['HTTP_HOST'].'-'.'home';
+	} else {
 		global $post;
 		$currentPostType	= "";
 		$currentPostSlug	= "";
@@ -13,9 +16,10 @@ use Bbgi\Integration\Google;
 			$currentPostSlug = "-".$post->post_name;
 		endif;
 		$headerCacheTag = $currentPostType.$currentPostSlug;
-		header("Cache-Tag: $headerCacheTag", true);
-		header("X-Cache-BBGI-Tag: $headerCacheTag", true);		
 	}
+
+	header("Cache-Tag: $headerCacheTag" . ",content", true);
+	header("X-Cache-BBGI-Tag: $headerCacheTag", true);
 ?>
 <!doctype html>
 <html lang="en">
