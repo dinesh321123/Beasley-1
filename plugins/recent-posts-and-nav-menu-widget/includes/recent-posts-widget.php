@@ -39,7 +39,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		if ( in_array( 0, $category_ids ) ) {
 			$category_ids = 0;
 		}
-		$query_args = array('post_type' => 'any', 'posts_per_page' => $number, 'no_found_rows' => true,'post_status' => 'publish', 'ignore_sticky_posts' => true);
+		$query_args = array('posts_per_page' => $number, 'no_found_rows' => true,'post_status' => 'publish', 'ignore_sticky_posts' => true);
 		if ($category_ids != 0 && !in_array( 0, $category_ids ) ) {
 			$query_args[ 'category__in' ] = $category_ids;
 		}

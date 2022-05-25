@@ -207,7 +207,8 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 			$vars['--global-theme-font-primary'] = 'var(--global-white)';
 			$vars['--global-theme-font-secondary'] = '#a5a5a5';
 			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
-		}
+			$vars['--global-theme-footer-image'] = 'url(\'' . get_template_directory_uri() . '/assets/images/beasley-dark-logo-cropped.png\')';
+ 		}
 
 		if ( get_option( 'ee_theme_version', '-light' ) == '-light' ) {
 			$vars['--global-black'] = '#000000';
@@ -227,6 +228,7 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 			$vars['--global-theme-font-primary'] = 'var(--global-tundora)';
 			$vars['--global-theme-font-secondary'] = 'var(--global-font-primary)';
 			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
+			$vars['--global-theme-footer-image'] = 'url(\'' . get_template_directory_uri() . '/assets/images/beasley-light-logo-cropped.png\')';
 		}
 
 		return $vars;
@@ -267,14 +269,6 @@ if ( ! function_exists( 'ee_the_custom_logo' ) ) :
 				echo '</a>';
 			}
 		}
-	}
-endif;
-
-if ( ! function_exists( 'ee_the_beasley_logo' ) ) :
-	function ee_the_beasley_logo() {
-		echo '<a href="https://bbgi.com" target="_blank" rel="noopener">
-			<img src="', get_template_directory_uri(), '/assets/images/large-BMG60YearsLogo.png" style="max-height: 150px; max-width: 150px; padding-bottom: 10px;" alt="Beasley Media Group">
-		</a>';
 	}
 endif;
 

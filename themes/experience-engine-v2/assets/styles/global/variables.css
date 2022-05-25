@@ -30,6 +30,7 @@
 	--global-theme-font-secondary: var(--global-font-primary);
 	--global-theme-font-tertiary: var(--global-dove-gray);
 	--global-theme-font-tertiary-light: #bbbbbb;
+	--global-theme-footer-image: url('/wp-content/themes/experience-engine-v2/assets/images/beasley-dark-logo-cropped.png');
 
 	/* Set default brand colors */
 	--brand-primary: red;

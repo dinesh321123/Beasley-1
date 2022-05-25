@@ -453,6 +453,10 @@
 		top: 0;
 		right: 0;
 		z-index: 9;
+
+		& svg {
+			fill: var(--brand-header-hamburger-menu-color) !important;
+		}
 	  }
 	  & .mega-menu-toggle {
 		background: transparent;
@@ -497,7 +501,6 @@
 				color: var(--brand-header-navigation-link-color);
 				@media(--max-x2large-viewport) {
 				  font-size:36px;
-				  color:#fff;
 				  margin-top: -8px;
 				  transform: rotate(-90deg);
 				}
@@ -712,7 +715,7 @@
 			left: 15px;
 			top: 2px;
 			cursor: pointer;
-			color: red;
+			color:var(--brand-header-hamburger-menu-color);
 			position: absolute;
 		  }
 		}

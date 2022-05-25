@@ -33,6 +33,12 @@
 	}
 }
 
+.footer-logo {
+	max-width: 200px;
+	content: var(--global-theme-footer-image);
+	margin-bottom: 1rem;
+}
+
 /* Grid Fallbacks */
 
 .footer-meta {

@@ -1,6 +1,8 @@
 <footer id="footer" class="footer">
 	<div itemscope itemtype="http://schema.org/Organization">
-		<?php ee_the_custom_logo(); ?>
+		<a href="https://bbgi.com" target="_blank" rel="noopener">
+			<img class="footer-logo" alt="Beasley Media Group" />
+		</a>
 	</div>
 	<div class="footer-meta">
 		<?php get_template_part( 'partials/footer/download-app' ); ?>
