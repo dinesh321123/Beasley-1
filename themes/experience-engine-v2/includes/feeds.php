@@ -9,18 +9,20 @@ function recent_section_feeds_on_show() {
 			?>
 			<item>
 				<title><?php echo get_the_title();	?></title>
-				<premalink><?php echo esc_url( get_post_permalink() ); ?></premalink>
-				<dc:creator><?php echo get_the_author(); ?> </dc:creator>
+				<link href="<?php  esc_url( the_permalink_rss() ); ?>" />
+				<dc:creator><![CDATA[<?php echo get_the_author(); ?>]]> </dc:creator>
 				<pubDate><?php echo get_the_date(); ?></pubDate>
-				<?php // $category = get_the_category();
+				<?php
 				foreach(get_the_category() as $category){
-					echo '<category>' . esc_html( $category->cat_name ) . '</category>';
+					echo '<category><![CDATA[' . esc_html( $category->cat_name ) . ']]></category>';
 				} ?>
 				<?php
 				if ( has_post_thumbnail( $post->ID ) ) {
 					$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'original' );
 					if ( ! empty( $thumbnail[0] ) ) { ?>
-						<media:featureImage url="<?php echo esc_attr( $thumbnail[0] ); ?>"  width="<?php echo esc_attr( $thumbnail[1] ); ?>"  height="<?php echo esc_attr( $thumbnail[2] ); ?>" > </media:featureImage> <?php
+						<media:thumbnail url="<?php echo esc_attr( $thumbnail[0] ); ?>"  width="<?php echo esc_attr( $thumbnail[1] ); ?>"  height="<?php echo esc_attr( $thumbnail[2] ); ?>" />
+						<media:featureImage url="<?php echo esc_attr( $thumbnail[0] ); ?>"  width="<?php echo esc_attr( $thumbnail[1] ); ?>"  height="<?php echo esc_attr( $thumbnail[2] ); ?>" />
+						<?php
 					}
 				}
 				?>
