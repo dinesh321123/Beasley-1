@@ -129,9 +129,10 @@ class Page extends Module {
 			$response['headers'] = (array)wp_remote_retrieve_headers( $page_response );
 		}
         $response = rest_ensure_response( $response );
-		return  $response->set_headers([
+		$response->set_headers([
 			'X-Cache-BBGI-Tag' => 'API TEsting',
 			'Cache-Tag' => 'testing'
 		]);
+		return  $response;
 	}
 }
