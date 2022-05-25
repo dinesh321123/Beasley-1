@@ -116,7 +116,7 @@ class Page extends Module {
 			$response['status']               = 301;
 			$response['header']['X-Cache-BBGI-Tag'] = 'testing for API';
 			$response['headers']['X-Cache-BBGI-Tag'] = 'testing for API1';
-			print_r( wp_remote_retrieve_body( $response['header'] ));
+			print_r(  $response.'INNN');
 		}
 
 		// only fetch page if there's no redirect
