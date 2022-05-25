@@ -123,11 +123,15 @@ class Page extends Module {
 			$page_response = $this->fetch_page( $url );
 			print_r((array) wp_remote_retrieve_headers( $page_response ));
 			$headers = wp_remote_retrieve_headers( $page_response );
+			print_r($headers->offsetGet('data'));
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
 			$response['headers'] = (array)wp_remote_retrieve_headers( $page_response );
 		}
         $response = rest_ensure_response( $response );
-		return  $response->set_headers((array)wp_remote_retrieve_headers( $page_response ));
+		return  $response->set_headers([
+			'X-Cache-BBGI-Tag' => 'API TEsting',
+			'Cache-Tag' => 'testing'
+		]);
 	}
 }
