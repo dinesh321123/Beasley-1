@@ -88,11 +88,7 @@ class Page extends Module {
 				'internal' => false,
 				'url'      => '',
 			],
-			'html'      => false,
-			'headers' => [
-				'X-Cache-BBGI-Tag' => 'API TEsting',
-				'Cache-Tag' => 'testing'
-			],
+			'html'      => false
 		];
 		if ( ! $this->is_internal_url( $url ) ) {
 			$response['status'] = 403;
@@ -121,12 +117,10 @@ class Page extends Module {
 		// only fetch page if there's no redirect
 		if ( ! $matched_redirect ) {
 			$page_response = $this->fetch_page( $url );
-			print_r((array) wp_remote_retrieve_headers( $page_response ));
 			$headers = wp_remote_retrieve_headers( $page_response );
-			print_r(array_values($headers)[0]);
+			print_r(array_values((array)$headers)[0]);
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
-			$response['headers'] = (array)wp_remote_retrieve_headers( $page_response );
 		}
         $response = rest_ensure_response( $response );
 		$response->set_headers([
