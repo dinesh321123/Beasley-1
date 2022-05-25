@@ -180,6 +180,11 @@ class PrimaryNav extends PureComponent {
 			}
 
 			fixMegaSubMenuWidth();
+
+			// Remove scroll styles of mobile onResize window
+			const primaryTopbar = document.querySelector('.primary-mega-topbar');
+			primaryTopbar.classList.remove('sticky-header-listenlive');
+			primaryTopbar.classList.remove('sticky-header');
 		} else {
 			const facebookURL = fetchPublisherInformation('facebook');
 			const twitterURL = fetchPublisherInformation('twitter');
