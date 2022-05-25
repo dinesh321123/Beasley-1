@@ -125,8 +125,7 @@ class Page extends Module {
 			print_r( wp_remote_retrieve_headers( $page_response ));
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
-			$response['headers'] = ['Cache-Tag' => 'testing',
-			'X-Cache-BBGI-Tag' => 'testing for API'];
+			$response['headers'] = wp_remote_retrieve_headers( $page_response );
 		}
 
 		return rest_ensure_response( $response );
