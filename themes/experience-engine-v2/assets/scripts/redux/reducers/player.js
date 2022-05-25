@@ -68,18 +68,6 @@ export const DEFAULT_STATE = {
 
 // Reducer
 function reducer(state = {}, action = {}) {
-	const nowDate = new Date();
-
-	// TODO - Remove Console Logs After Preroll Timelimits Are Debugged
-	if (action.type === ACTION_AD_PLAYBACK_ERROR) {
-		console.log('Preroll complete but unsuccesful ');
-	} else if (
-		action.type === ACTION_AD_PLAYBACK_COMPLETE ||
-		action.type === ACTION_GAM_AD_PLAYBACK_COMPLETE
-	) {
-		console.log('Successful Preroll complete - updating time stamp ');
-	}
-
 	switch (action.type) {
 		// Catches in Saga Middleware
 		case ACTION_SET_PLAYER: {
@@ -212,22 +200,36 @@ function reducer(state = {}, action = {}) {
 				adPlayback: true,
 			};
 
-		case ACTION_GAM_AD_PLAYBACK_START:
+		case ACTION_GAM_AD_PLAYBACK_START: {
+			const { lastAdPlaybackTime } = state;
+			const nowDate = new Date();
+			const timeSineLastPreroll = nowDate.getTime() - lastAdPlaybackTime;
+			const shouldPlayGAMPreroll = timeSineLastPreroll > 10 * 60 * 1000; // Greater than 10 minutes
+			console.log(
+				`It has been ${timeSineLastPreroll} milliseconds since last Preroll. Playing Preroll = ${shouldPlayGAMPreroll}`,
+			);
+
 			return {
 				...state,
-				gamAdPlayback: true,
+				gamAdPlayback: shouldPlayGAMPreroll,
 			};
+		}
 
 		// Catches in Saga Middleware
-		case ACTION_AD_PLAYBACK_ERROR:
+		case ACTION_AD_PLAYBACK_ERROR: {
+			console.log('Preroll complete but unsuccesful');
+
 			return {
 				...state,
 				adPlayback: false,
 				gamAdPlayback: false,
 			};
+		}
 
 		case ACTION_AD_PLAYBACK_COMPLETE:
 		case ACTION_GAM_AD_PLAYBACK_COMPLETE: {
+			console.log('Successful Preroll complete - updating time stamp ');
+			const nowDate = new Date();
 			return {
 				...state,
 				adPlayback: false,
