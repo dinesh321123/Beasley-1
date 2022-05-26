@@ -279,6 +279,13 @@ class Webhooks extends \Bbgi\Module {
             return false;
         }
 
+		// Clear specific page caches
+		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
+			$url = get_permalink($postID);
+			$this->log( 'Batcache URL' , [ 'url' => $url ] );
+			batcache_clear_url( $url );
+		}
+
         $zone_id = get_option('cloud_flare_zoneid');
 
         if(!$zone_id){

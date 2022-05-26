@@ -55,9 +55,7 @@ class Page extends Module {
 		$page_response = wp_remote_get(
 			$url, [
 				'timeout'   => 30,
-				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true,
-				'headers'=> ['Cache-Tag' => 'testing',
-				'X-Cache-BBGI-Tag' => 'testing for API']
+				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true
 			]
 		);
 
@@ -105,13 +103,11 @@ class Page extends Module {
 
 		if ( $matched_redirect ) {
 			$is_absolute = $this->is_absolute_url( $matched_redirect );
-
 			$response['redirect']['url']      = $is_absolute ? $matched_redirect : home_url( $matched_redirect );
 			$response['redirect']['internal'] = ! $is_absolute;
 			$response['status']               = 301;
 			$response['header']['X-Cache-BBGI-Tag'] = 'testing for API';
 			$response['headers']['X-Cache-BBGI-Tag'] = 'testing for API1';
-			print_r(  $response.'INNN');
 		}
 
 		// only fetch page if there's no redirect
@@ -127,7 +123,7 @@ class Page extends Module {
 			$response->set_headers([
 				'X-Cache-BBGI-Tag' => $headers['x-cache-bbgi-tag'],
 				'Cache-Tag' => $headers['x-cache-bbgi-tag']
-		]);
+			]);
 		}
 
 		return  $response;
