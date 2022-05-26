@@ -24,7 +24,7 @@ class CommonSettings {
 	 * Returns array of post type for recent activity.
 	 */
 	public static function allow_recent_posts_posttype_list() {
-		return (array) apply_filters( 'allow-dashboard-recent-posts-for-posttypes', array( 'post', 'tribe_events', 'page', 'gmr_gallery', 'gmr_album', 'contest', 'show', 'podcast', 'episode', 'advertiser', 'listicle_cpt', 'affiliate_marketing' )  );
+		return (array) apply_filters( 'allow-dashboard-recent-posts-for-posttypes', array( 'post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing' )  );
 	}
 
 	public function required_alt_text() {
