@@ -36,6 +36,7 @@ import {
 	STATUSES,
 	ACTION_PLAY,
 } from '../actions/player';
+import getWhetherPlayGAMPreroll from '../utilities/player/getWhetherPlayGAMPreroll';
 
 // Destructure streams from window global
 const { streams } = window.bbgiconfig || {};
@@ -202,11 +203,9 @@ function reducer(state = {}, action = {}) {
 
 		case ACTION_GAM_AD_PLAYBACK_START: {
 			const { lastAdPlaybackTime } = state;
-			const nowDate = new Date();
-			const timeSineLastPreroll = nowDate.getTime() - lastAdPlaybackTime;
-			const shouldPlayGAMPreroll = timeSineLastPreroll > 10 * 60 * 1000; // Greater than 10 minutes
-			console.log(
-				`It has been ${timeSineLastPreroll} milliseconds since last Preroll. Playing Preroll = ${shouldPlayGAMPreroll}`,
+			const shouldPlayGAMPreroll = getWhetherPlayGAMPreroll(
+				action.nowTime,
+				lastAdPlaybackTime,
 			);
 
 			return {

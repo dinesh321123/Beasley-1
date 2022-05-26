@@ -73,9 +73,10 @@ export function adPlaybackStart() {
 /**
  * gamAdPlaybackStart action creator
  */
-export function gamAdPlaybackStart() {
+export function gamAdPlaybackStart(nowTime) {
 	return {
 		type: ACTION_GAM_AD_PLAYBACK_START,
+		nowTime,
 	};
 }
 
@@ -317,11 +318,11 @@ export function initTdPlayer(modules) {
 			if (window.beforeStreamStart) {
 				window.beforeStreamStart(() =>
 					dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
-				); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_ERROR )( );
+				);
 			} else {
 				console.log('Dispatching GAM Preroll Start');
-				dispatch(gamAdPlaybackStart());
-				// dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)); // used to dispatch( adPlaybackStop( ACTION_AD_PLAYBACK_ERROR ) );
+				const nowDate = new Date();
+				dispatch(gamAdPlaybackStart(nowDate.getTime()));
 			}
 		});
 	};

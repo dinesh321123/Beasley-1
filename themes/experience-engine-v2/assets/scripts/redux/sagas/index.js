@@ -15,6 +15,7 @@ export { default as watchCuePointChange } from './player/yieldCuePointChange';
 export { default as watchSeekPosition } from './player/yieldSeekPosition';
 export { default as watchAdPlaybackStart } from './player/yieldAdPlaybackStart';
 export { default as watchAdPlaybackComplete } from './player/yieldAdPlaybackComplete';
+export { default as watchGamAdPlaybackStart } from './player/yieldGamAdPlaybackStart';
 
 // Screen
 export { default as watchInitPage } from './screen/yieldInitPage';
