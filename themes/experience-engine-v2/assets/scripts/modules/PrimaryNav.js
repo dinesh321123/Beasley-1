@@ -336,7 +336,7 @@ class PrimaryNav extends PureComponent {
 		const primaryTopbar = document.querySelector('.primary-mega-topbar');
 		if (!window.matchMedia('(min-width: 1301px)').matches) {
 			if (y > yOffset) {
-				primaryTopbar.classList.remove('sticky-header-listenlive');
+				// primaryTopbar.classList.remove('sticky-header-listenlive');
 				if (yOffset === 0) {
 					primaryTopbar.classList.remove('sticky-header');
 				}
@@ -346,7 +346,7 @@ class PrimaryNav extends PureComponent {
 					primaryTopbar.classList.add('sticky-header');
 				}
 				if (yOffset > 600) {
-					primaryTopbar.classList.add('sticky-header-listenlive');
+					// primaryTopbar.classList.add('sticky-header-listenlive');
 					yOffset = this.setBreakingNewsVisibility(false);
 				}
 			}
