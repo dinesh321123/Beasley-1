@@ -95,19 +95,23 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 			try {
 				setLoading(true);
 				const result = await fetch(endpointURL).then(r => r.json());
-				setTestName(result.testname);
-				let transformedURL = result.url;
+				if (!result.url) {
+					setLoading(false);
+				} else {
+					setTestName(result.testname);
+					let transformedURL = result.url;
 
-				window.ga('send', {
-					hitType: 'event',
-					eventCategory: 'YouMightAlsoLike',
-					eventAction: `displayed`,
-					eventLabel: `test ${result.testname}`,
-				});
+					window.ga('send', {
+						hitType: 'event',
+						eventCategory: 'YouMightAlsoLike',
+						eventAction: `displayed`,
+						eventLabel: `test ${result.testname}`,
+					});
 
-				transformedURL = transformedURL.replace('{url}', url);
+					transformedURL = transformedURL.replace('{url}', url);
 
-				setPostsEndpointURL(transformedURL);
+					setPostsEndpointURL(transformedURL);
+				}
 			} catch (e) {
 				setLoading(false);
 				setPostsEndpointURL('');
