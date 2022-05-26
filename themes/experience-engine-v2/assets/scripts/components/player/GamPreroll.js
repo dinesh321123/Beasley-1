@@ -289,15 +289,15 @@ class GamPreroll extends PureComponent {
 			this.adsManager.destroy();
 		}
 
-		const { isFinalized, startedPrerollFlag } = this.state;
+		const { isFinalized, playingPrerollFlag } = this.state;
 		if (!isFinalized) {
 			console.log(
-				`GAM Preroll Actually Finalizing - startedPrerollFlag: ${startedPrerollFlag}`,
+				`GAM Preroll Actually Finalizing - playingPrerollFlag: ${playingPrerollFlag}`,
 			);
 			// Call Player Action
 			const { adPlaybackStop } = this.props;
 			// If we even started a preroll, pretend it was a success
-			if (startedPrerollFlag) {
+			if (playingPrerollFlag) {
 				adPlaybackStop(ACTION_GAM_AD_PLAYBACK_COMPLETE);
 			} else {
 				adPlaybackStop(ACTION_AD_PLAYBACK_ERROR);
