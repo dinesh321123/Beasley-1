@@ -653,10 +653,16 @@ class Dfp extends PureComponent {
 						[
 							[728, 90],
 							[970, 90],
+						],
+					)
+					.addSize(
+						[1366, 768],
+						[
+							[728, 90],
+							[970, 90],
 							[970, 250],
 						],
 					)
-
 					.build();
 
 				prebidSizeConfig = [
@@ -670,6 +676,13 @@ class Dfp extends PureComponent {
 					},
 					{
 						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+						],
+					},
+					{
+						minViewPort: [1366, 768],
 						sizes: [
 							[728, 90],
 							[970, 90],
@@ -711,6 +724,13 @@ class Dfp extends PureComponent {
 						[
 							[728, 90],
 							[970, 90],
+						],
+					)
+					.addSize(
+						[1366, 768],
+						[
+							[728, 90],
+							[970, 90],
 							[970, 250],
 						],
 					)
@@ -728,6 +748,13 @@ class Dfp extends PureComponent {
 					},
 					{
 						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+						],
+					},
+					{
+						minViewPort: [1366, 768],
 						sizes: [
 							[728, 90],
 							[970, 90],
@@ -778,6 +805,13 @@ class Dfp extends PureComponent {
 						[
 							[728, 90],
 							[970, 90],
+						],
+					)
+					.addSize(
+						[1366, 768],
+						[
+							[728, 90],
+							[970, 90],
 							[970, 250],
 						],
 					)
@@ -795,6 +829,13 @@ class Dfp extends PureComponent {
 					},
 					{
 						minViewPort: [1160, 0],
+						sizes: [
+							[728, 90],
+							[970, 90],
+						],
+					},
+					{
+						minViewPort: [1366, 768],
 						sizes: [
 							[728, 90],
 							[970, 90],
