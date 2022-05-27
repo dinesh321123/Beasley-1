@@ -649,6 +649,14 @@ class Dfp extends PureComponent {
 						],
 					)
 					.addSize(
+						[800, 0],
+						[
+							[320, 50],
+							[320, 100],
+							[728, 90],
+						],
+					)
+					.addSize(
 						[1020, 0],
 						[
 							[728, 90],
@@ -672,6 +680,14 @@ class Dfp extends PureComponent {
 						sizes: [
 							[320, 50],
 							[320, 100],
+						],
+					},
+					{
+						minViewPort: [800, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+							[728, 90],
 						],
 					},
 					{
@@ -720,6 +736,14 @@ class Dfp extends PureComponent {
 						],
 					)
 					.addSize(
+						[800, 0],
+						[
+							[320, 50],
+							[320, 100],
+							[728, 90],
+						],
+					)
+					.addSize(
 						[1020, 0],
 						[
 							[728, 90],
@@ -744,6 +768,14 @@ class Dfp extends PureComponent {
 						sizes: [
 							[320, 50],
 							[320, 100],
+						],
+					},
+					{
+						minViewPort: [800, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+							[728, 90],
 						],
 					},
 					{
@@ -801,6 +833,14 @@ class Dfp extends PureComponent {
 						],
 					)
 					.addSize(
+						[800, 0],
+						[
+							[320, 50],
+							[320, 100],
+							[728, 90],
+						],
+					)
+					.addSize(
 						[1020, 0],
 						[
 							[728, 90],
@@ -828,6 +868,14 @@ class Dfp extends PureComponent {
 						],
 					},
 					{
+						minViewPort: [800, 0],
+						sizes: [
+							[320, 50],
+							[320, 100],
+							[728, 90],
+						],
+					},
+					{
 						minViewPort: [1020, 0],
 						sizes: [
 							[728, 90],
@@ -852,6 +900,13 @@ class Dfp extends PureComponent {
 					// accepts common desktop banner formats
 					.addSize([300, 0], [[320, 50]])
 					.addSize(
+						[800, 0],
+						[
+							[320, 50],
+							[728, 90],
+						],
+					)
+					.addSize(
 						[1020, 0],
 						[
 							[728, 90],
@@ -866,6 +921,13 @@ class Dfp extends PureComponent {
 					{
 						minViewPort: [300, 0],
 						sizes: [[320, 50]],
+					},
+					{
+						minViewPort: [800, 0],
+						sizes: [
+							[320, 50],
+							[728, 90],
+						],
 					},
 					{
 						minViewPort: [1020, 0],
