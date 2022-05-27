@@ -401,7 +401,9 @@ if ( is_beasley_feed() && is_beasley_cache_disabled() ) {
 	header( 'X-Beasley-Cache: bypass' );
 	return;
 }
-
+if(strpos($_SERVER['HTTP_HOST'], 'wmmr.bbgistage') !== false){
+ return;
+}
 // Beasley Customization End ------------------------------------------
 
 if ( ! include_once( WP_CONTENT_DIR . '/object-cache.php' ) )
