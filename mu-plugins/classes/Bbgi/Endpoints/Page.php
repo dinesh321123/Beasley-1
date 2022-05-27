@@ -102,6 +102,8 @@ class Page extends Module {
 		$matched_redirect = $redirects->match_redirect( $url );
 
 		if ( $matched_redirect ) {
+			$headers = get_headers($url);
+			print_R($headers);
 			$is_absolute = $this->is_absolute_url( $matched_redirect );
 			$response['redirect']['url']      = $is_absolute ? $matched_redirect : home_url( $matched_redirect );
 			$response['redirect']['internal'] = ! $is_absolute;
