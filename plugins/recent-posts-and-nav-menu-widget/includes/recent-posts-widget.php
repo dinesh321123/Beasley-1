@@ -25,6 +25,13 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		wp_cache_delete( $this->defaults[ 'plugin_slug' ], 'widget' );
 	}
 
+	/**
+	 * Mega menu - Returns array of post type for recent post widgets.
+	 */
+	public function allow_megamenu_recent_posts_posttype() {
+		return (array) apply_filters( 'allow-megamenu-recent-posts-for-posttypes', array( 'post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing' )  );
+	}
+
 	public function widget( $args, $instance ) {
 		if ( ! isset( $args['widget_id'] ) ) {
 			$args['widget_id'] = $this->id;
@@ -39,7 +46,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		if ( in_array( 0, $category_ids ) ) {
 			$category_ids = 0;
 		}
-		$query_args = array('posts_per_page' => $number, 'no_found_rows' => true,'post_status' => 'publish', 'ignore_sticky_posts' => true);
+		$query_args = array('post_type' => $this->allow_megamenu_recent_posts_posttype(), 'posts_per_page' => $number, 'no_found_rows' => true,'post_status' => 'publish', 'ignore_sticky_posts' => true);
 		if ($category_ids != 0 && !in_array( 0, $category_ids ) ) {
 			$query_args[ 'category__in' ] = $category_ids;
 		}
@@ -123,7 +130,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		$title     = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
-		$number    = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
+		$number    = isset( $instance['number'] ) ? absint( $instance['number'] ) : 4;
 		$show_thumb = isset( $instance['show_thumb'] ) ? (bool) $instance['show_thumb'] : false;
 		$thumb_dimensions = isset( $instance[ 'thumb_dimensions' ] ) ? $instance[ 'thumb_dimensions' ] : $this->defaults[ 'thumb_dimensions' ];
 		// compute ids only once to improve performance
