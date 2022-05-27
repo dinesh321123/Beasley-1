@@ -17,7 +17,7 @@ class CommonSettings {
 	}
 	public static function dashboard_recent_posts_query_args_callback( $query_args ) {
 		$query_args['post_type'] = CommonSettings::allow_recent_posts_posttype_list();
-		$query_args['posts_per_page'] = 10;
+		$query_args['posts_per_page'] = 25;
 		return $query_args;
 	}
 	/**
