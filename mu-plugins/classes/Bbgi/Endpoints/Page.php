@@ -102,13 +102,15 @@ class Page extends Module {
 		$matched_redirect = $redirects->match_redirect( $url );
 
 		if ( $matched_redirect ) {
-			$requestHeaders = apache_request_headers($url);
- print_r($requestHeaders.'test');
+			$requestHeaders = get_headers($url,true);
+ print_R($requestHeaders);
 			$is_absolute = $this->is_absolute_url( $matched_redirect );
 			$response['redirect']['url']      = $is_absolute ? $matched_redirect : home_url( $matched_redirect );
 			$response['redirect']['internal'] = ! $is_absolute;
 			$response['status']               = 301;
-			//$headers = ['x-cache-bbgi-tag' => $requestHeaders['X-Cache-BBGI-Tag']];
+			//$headers= ['x-cache-bbgi-tag'=> $requestHeaders[array_search('java', )]]
+			$response['header']['X-Cache-BBGI-Tag'] = 'testing for API';
+			$response['headers']['X-Cache-BBGI-Tag'] = 'testing for API1';
 		}
 
 		// only fetch page if there's no redirect
