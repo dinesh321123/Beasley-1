@@ -4,7 +4,6 @@ import { put, takeLatest, select, call } from 'redux-saga/effects';
 // Import action constant(s)
 import { ACTION_AD_PLAYBACK_STOP } from '../../actions/player';
 import { refreshDropdownAd, hideDropdownAd } from '../../actions/dropdownad';
-import { sendOpenLiveStreamDD } from '../../../library';
 
 function* hidePrerollShade() {
 	const prerollWrapper = document.querySelector('div.preroll-wrapper.-active');
@@ -27,7 +26,6 @@ function* breiflyShowPlayerDropdown() {
 		yield put(refreshDropdownAd());
 		yield call(hidePrerollShade);
 		listenlivecontainer.style.display = 'block';
-		sendOpenLiveStreamDD(true);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 		yield delay(3500);
 		yield put(hideDropdownAd());

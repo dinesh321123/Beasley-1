@@ -13,7 +13,6 @@ import {
 	fetchPublisherInformation,
 	fixMegaSubMenuWidth,
 	isSafari,
-	sendOpenLiveStreamDD,
 } from '../library';
 
 const $ = window.jQuery;
@@ -524,7 +523,6 @@ class PrimaryNav extends PureComponent {
 			dropdownToggle.style.display = 'block';
 			const { refreshDropdownAd } = this.props;
 			refreshDropdownAd();
-			sendOpenLiveStreamDD();
 		}
 	}
 

@@ -59,17 +59,6 @@ export function sendInlineAudioPlaying() {
 	});
 }
 
-/**
- * Sends a Open Listen Live drop down event
- */
-export function sendOpenLiveStreamDD(fromPlayBtn = false) {
-	sendToGA({
-		hitType: 'event',
-		eventCategory: 'OpenDropDown',
-		eventAction: fromPlayBtn ? 'Play Stream' : 'Arrow Click',
-	});
-}
-
 export default {
 	pageview,
 };
