@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
 
 import * as actions from '../../../redux/actions/player';
 import Controls from '../../player/Controls';
+import { sendOpenLiveStreamDD } from '../../../library';
+import {
+	hideDropdownAd,
+	refreshDropdownAd,
+} from '../../../redux/actions/dropdownad';
 
 class AudioEmbed extends Component {
 	constructor(props) {
@@ -70,13 +75,36 @@ class AudioEmbed extends Component {
 	}
 
 	handlePlayClick() {
-		const { omny, title, author, playAudio, playOmny, tracktype } = this.props;
+		const {
+			omny,
+			title,
+			author,
+			playAudio,
+			playOmny,
+			tracktype,
+			refreshDropdownAd,
+			hideDropdownAd,
+		} = this.props;
 		const src = this.getPlayableSource();
 
 		if (omny) {
 			playOmny(src, title, author, tracktype);
 		} else {
 			playAudio(src, this.getTitle(), author, tracktype);
+		}
+
+		const listenlivecontainer = document.getElementById('my-listen-dropdown2');
+		const listenliveStyle = window.getComputedStyle(listenlivecontainer);
+
+		if (listenliveStyle.display !== 'block') {
+			refreshDropdownAd();
+			listenlivecontainer.style.display = 'block';
+			sendOpenLiveStreamDD(true);
+
+			setTimeout(() => {
+				hideDropdownAd();
+				listenlivecontainer.style.display = 'none';
+			}, 3500);
 		}
 	}
 
@@ -117,6 +145,8 @@ AudioEmbed.propTypes = {
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
 	tracktype: PropTypes.string.isRequired,
+	refreshDropdownAd: PropTypes.func.isRequired,
+	hideDropdownAd: PropTypes.func.isRequired,
 };
 
 AudioEmbed.defaultProps = {
@@ -140,6 +170,8 @@ function mapDispatchToProps(dispatch) {
 			playOmny: actions.playOmny,
 			pause: actions.pause,
 			resume: actions.resume,
+			refreshDropdownAd,
+			hideDropdownAd,
 		},
 		dispatch,
 	);
