@@ -103,12 +103,11 @@ class Page extends Module {
 
 		if ( $matched_redirect ) {
 			$requestHeaders = get_headers($url,true);
- print_R($requestHeaders);
 			$is_absolute = $this->is_absolute_url( $matched_redirect );
 			$response['redirect']['url']      = $is_absolute ? $matched_redirect : home_url( $matched_redirect );
 			$response['redirect']['internal'] = ! $is_absolute;
 			$response['status']               = 301;
-			//$headers= ['x-cache-bbgi-tag'=> $requestHeaders[array_search('java', )]]
+			$headers = ['x-cache-bbgi-tag' => $requestHeaders['X-Cache-BBGI-Tag'],'Cache-Tag' =>$requestHeaders['X-Cache-BBGI-Tag']];
 			$response['header']['X-Cache-BBGI-Tag'] = 'testing for API';
 			$response['headers']['X-Cache-BBGI-Tag'] = 'testing for API1';
 		}
