@@ -291,6 +291,13 @@ class GamPreroll extends PureComponent {
 
 		const { isFinalized, playingPrerollFlag } = this.state;
 		if (!isFinalized) {
+			// Mark State
+			this.setState({
+				startedPrerollFlag: false,
+				playingPrerollFlag: false,
+				isFinalized: true,
+			});
+
 			console.log(
 				`GAM Preroll Actually Finalizing - playingPrerollFlag: ${playingPrerollFlag}`,
 			);
@@ -302,13 +309,6 @@ class GamPreroll extends PureComponent {
 			} else {
 				adPlaybackStop(ACTION_AD_PLAYBACK_ERROR);
 			}
-
-			// Mark State
-			this.setState({
-				startedPrerollFlag: false,
-				playingPrerollFlag: false,
-				isFinalized: true,
-			});
 		}
 	}
 
