@@ -10,7 +10,7 @@ import {
 import {
 	ACTION_LOADED_PAGE,
 	ACTION_HISTORY_HTML_SNAPSHOT,
-	ACTION_HIDE_SPLASH_SCREEN,
+	hideSplashScreen,
 } from '../../actions/screen';
 import { slugify, dispatchEvent, updateCanonicalUrl } from '../../../library';
 import resetScrollToTop from '../../utilities/player/resetScrollToTop';
@@ -110,7 +110,7 @@ function* yieldLoadedPage(action) {
 	yield call(scrollIntoView);
 
 	// make sure to hide splash screen.
-	yield put({ type: ACTION_HIDE_SPLASH_SCREEN });
+	yield put(hideSplashScreen());
 
 	document.title = pageDocument.title;
 	document.body.className = pageDocument.body.className;

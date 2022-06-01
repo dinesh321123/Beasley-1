@@ -19,6 +19,9 @@ import {
 	watchHideSplashScreen,
 	watchPlay,
 	watchEnd,
+	watchAutoHideListenLive,
+	watchHideListenLive,
+	watchShowListenLive,
 } from './sagas/';
 
 /**
@@ -45,5 +48,8 @@ export default function* rootSaga() {
 		watchLoadedPage(),
 		watchLoadedPartial(),
 		watchHideSplashScreen(),
+		watchAutoHideListenLive(),
+		watchHideListenLive(),
+		watchShowListenLive(),
 	]);
 }

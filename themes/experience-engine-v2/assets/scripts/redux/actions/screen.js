@@ -16,6 +16,8 @@ export const ACTION_LOAD_ERROR = 'LOADING_ERROR';
 export const ACTION_HIDE_SPLASH_SCREEN = 'HIDE_SPLASH_SCREEN';
 export const ACTION_UPDATE_NOTICE = 'UPDATE_NOTICE ';
 export const ACTION_HISTORY_HTML_SNAPSHOT = 'HISTORY_HTML_SNAPSHOT';
+export const ACTION_HIDE_LISTEN_LIVE = 'HIDE_LISTEN_LIVE';
+export const ACTION_SHOW_LISTEN_LIVE = 'SHOW_LISTEN_LIVE';
 
 /**
  * Parses the current content blocks for redux.
@@ -179,6 +181,17 @@ export function loadPartialPage(url, placeholder) {
  */
 export function hideSplashScreen() {
 	return { type: ACTION_HIDE_SPLASH_SCREEN };
+}
+
+export function hideListenLive() {
+	return { type: ACTION_HIDE_LISTEN_LIVE };
+}
+
+export function showListenLive({ isTriggeredByStream }) {
+	return {
+		type: ACTION_SHOW_LISTEN_LIVE,
+		isTriggeredByStream,
+	};
 }
 
 /**

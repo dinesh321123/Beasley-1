@@ -8,6 +8,8 @@ import {
 	ACTION_UPDATE_NOTICE,
 	ACTION_HISTORY_HTML_SNAPSHOT,
 	ACTION_SET_SCREEN_STATE,
+	ACTION_HIDE_LISTEN_LIVE,
+	ACTION_SHOW_LISTEN_LIVE,
 } from '../actions/screen';
 
 export const DEFAULT_STATE = {
@@ -24,6 +26,8 @@ export const DEFAULT_STATE = {
 		isOpen: false,
 		message: '',
 	},
+	isListenLiveShowing: false,
+	isAllowingListenLiveAutoClose: false,
 };
 
 /**
@@ -119,6 +123,27 @@ function reducer(state = {}, action = {}) {
 					},
 				},
 			};
+
+		case ACTION_HIDE_LISTEN_LIVE: {
+			return {
+				...state,
+				isListenLiveShowing: false,
+				isAllowingListenLiveAutoClose: false,
+			};
+		}
+
+		case ACTION_SHOW_LISTEN_LIVE: {
+			const isAllowingListenLiveAutoClose =
+				!state.isListenLiveShowing && action.isTriggeredByStream;
+			console.log(
+				`isListenLiveShowing: ${state.isListenLiveShowing} isTriggeredByStream: ${action.isTriggeredByStream} isAllowingListenLiveAutoClose: ${isAllowingListenLiveAutoClose}`,
+			);
+			return {
+				...state,
+				isListenLiveShowing: true,
+				isAllowingListenLiveAutoClose,
+			};
+		}
 
 		default:
 			// do nothing

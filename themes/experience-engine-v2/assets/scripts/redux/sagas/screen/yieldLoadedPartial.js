@@ -1,10 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import NProgress from 'nprogress';
 import { manageBbgiConfig, updateTargeting } from '../../utilities';
-import {
-	ACTION_LOADED_PARTIAL,
-	ACTION_HIDE_SPLASH_SCREEN,
-} from '../../actions/screen';
+import { ACTION_LOADED_PARTIAL, hideSplashScreen } from '../../actions/screen';
 
 /**
  * Generator runs whenever [ ACTION_LOADED_PARTIAL ]
@@ -26,7 +23,7 @@ function* yieldLoadedPartial(action) {
 	yield call(updateTargeting);
 
 	// make sure to hide splash screen.
-	yield put({ type: ACTION_HIDE_SPLASH_SCREEN });
+	yield put(hideSplashScreen);
 }
 
 /**

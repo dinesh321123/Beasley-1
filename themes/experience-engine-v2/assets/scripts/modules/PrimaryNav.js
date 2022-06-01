@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import { removeChildren } from '../library/dom';
 import { hideModal } from '../redux/actions/modal';
 import { setNavigationCurrent } from '../redux/actions/navigation';
-import { refreshDropdownAd, hideDropdownAd } from '../redux/actions/dropdownad';
 
 import {
 	fetchPublisherInformation,
 	fixMegaSubMenuWidth,
 	isSafari,
 } from '../library';
+import { hideListenLive, showListenLive } from '../redux/actions/screen';
 
 const $ = window.jQuery;
 const config = window.bbgiconfig;
@@ -513,16 +513,10 @@ class PrimaryNav extends PureComponent {
 			return;
 		}
 
-		const dropdownToggle = document.getElementById('my-listen-dropdown2');
-		const dropdownStyle = window.getComputedStyle(dropdownToggle);
-		if (dropdownStyle.display !== 'none') {
-			dropdownToggle.style.display = 'none';
-			const { hideDropdownAd } = this.props;
-			hideDropdownAd();
+		if (this.props.isListenLiveShowing) {
+			this.props.hideListenLive();
 		} else {
-			dropdownToggle.style.display = 'block';
-			const { refreshDropdownAd } = this.props;
-			refreshDropdownAd();
+			this.props.showListenLive(false);
 		}
 	}
 
@@ -555,18 +549,20 @@ class PrimaryNav extends PureComponent {
 PrimaryNav.propTypes = {
 	setNavigationCurrent: PropTypes.func.isRequired,
 	hideModal: PropTypes.func.isRequired,
-	refreshDropdownAd: PropTypes.func.isRequired,
-	hideDropdownAd: PropTypes.func.isRequired,
+	showListenLive: PropTypes.func.isRequired,
+	hideListenLive: PropTypes.func.isRequired,
 	songs: PropTypes.arrayOf(PropTypes.shape({})),
+	isListenLiveShowing: PropTypes.bool.isRequired,
 };
 
 PrimaryNav.defaultProps = {
 	songs: [],
 };
 
-function mapStateToProps({ player }) {
+function mapStateToProps({ player, screen }) {
 	return {
 		songs: player.songs,
+		isListenLiveShowing: screen.isListenLiveShowing,
 	};
 }
 
@@ -574,8 +570,8 @@ function mapDispatchToProps(dispatch) {
 	const actions = {
 		setNavigationCurrent,
 		hideModal,
-		refreshDropdownAd,
-		hideDropdownAd,
+		showListenLive,
+		hideListenLive,
 	};
 
 	return bindActionCreators(actions, dispatch);

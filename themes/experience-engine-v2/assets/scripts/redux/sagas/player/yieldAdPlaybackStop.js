@@ -3,7 +3,7 @@ import { put, takeLatest, select, call } from 'redux-saga/effects';
 
 // Import action constant(s)
 import { ACTION_AD_PLAYBACK_STOP } from '../../actions/player';
-import { refreshDropdownAd, hideDropdownAd } from '../../actions/dropdownad';
+import { showListenLive } from '../../actions/screen';
 
 function* hidePrerollShade() {
 	const prerollWrapper = document.querySelector('div.preroll-wrapper.-active');
@@ -19,7 +19,8 @@ function* hidePrerollShade() {
 	}
 }
 
-function* breiflyShowPlayerDropdown() {
+/*
+function* brieflyShowPlayerDropdown() {
 	const listenlivecontainer = document.getElementById('my-listen-dropdown2');
 	const listenliveStyle = window.getComputedStyle(listenlivecontainer);
 	if (listenliveStyle.display !== 'block') {
@@ -32,6 +33,7 @@ function* breiflyShowPlayerDropdown() {
 		listenlivecontainer.style.display = 'none';
 	}
 }
+*/
 
 /**
  * @function yieldAdPlaybackStop
@@ -69,7 +71,8 @@ function* yieldAdPlaybackStop({ payload }) {
 		}
 	}
 
-	yield call(breiflyShowPlayerDropdown);
+	yield call(hidePrerollShade);
+	yield put(showListenLive({ isTriggeredByStream: true }));
 
 	// finalize dispatch
 	yield put({ type: actionType });
