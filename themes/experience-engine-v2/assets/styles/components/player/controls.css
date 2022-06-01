@@ -821,6 +821,7 @@
 				color: var(--brand-text-color);
 				text-align: left;
 				background-color: transparent !important;
+				border-radius: 0;
 
 				& > div {
 					display: inline;
