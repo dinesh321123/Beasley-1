@@ -1,7 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { ACTION_SHOW_LISTEN_LIVE } from '../../actions/screen';
 import { refreshDropdownAd } from '../../actions/dropdownad';
-import { sendOpenLLDropDown } from '../../../library';
 
 /**
  * Generator runs whenever [ ACTION_SHOW_LISTEN_LIVE ]
@@ -15,7 +14,6 @@ function* yieldShowListenLive({ isTriggeredByStream }) {
 		yield put(refreshDropdownAd());
 		listenlivecontainer.style.display = 'block';
 	}
-	sendOpenLLDropDown(isTriggeredByStream);
 }
 
 /**
