@@ -108,8 +108,6 @@ class Page extends Module {
 			$response['redirect']['internal'] = ! $is_absolute;
 			$response['status']               = 301;
 			$headers = ['x-cache-bbgi-tag' => $requestHeaders['X-Cache-BBGI-Tag'],'Cache-Tag' =>$requestHeaders['X-Cache-BBGI-Tag']];
-			$response['header']['X-Cache-BBGI-Tag'] = 'testing for API';
-			$response['headers']['X-Cache-BBGI-Tag'] = 'testing for API1';
 		}
 
 		// only fetch page if there's no redirect
