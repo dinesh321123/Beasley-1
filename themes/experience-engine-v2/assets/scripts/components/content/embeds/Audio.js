@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import * as actions from '../../../redux/actions/player';
 import Controls from '../../player/Controls';
+import { showListenLive } from '../../../redux/actions/screen';
 
 class AudioEmbed extends Component {
 	constructor(props) {
@@ -73,6 +74,7 @@ class AudioEmbed extends Component {
 		const { omny, title, author, playAudio, playOmny, tracktype } = this.props;
 		const src = this.getPlayableSource();
 
+		this.props.showListenLive({ isTriggeredByStream: true });
 		if (omny) {
 			playOmny(src, title, author, tracktype);
 		} else {
@@ -117,6 +119,7 @@ AudioEmbed.propTypes = {
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
 	tracktype: PropTypes.string.isRequired,
+	showListenLive: PropTypes.func.isRequired,
 };
 
 AudioEmbed.defaultProps = {
@@ -140,6 +143,7 @@ function mapDispatchToProps(dispatch) {
 			playOmny: actions.playOmny,
 			pause: actions.pause,
 			resume: actions.resume,
+			showListenLive,
 		},
 		dispatch,
 	);
