@@ -23,7 +23,7 @@ the_post();
 		<div class="description">
 			<?php get_template_part( 'partials/featured-media', 'autoheight' ); ?>
 
-			<?php the_content(); ?>
+			<?php ee_the_content_with_stn_only() ?>
 			<?php get_template_part( 'partials/gallery/listicle' ); ?>
 
 			<?php get_template_part( 'partials/footer/common', 'description' ); ?>

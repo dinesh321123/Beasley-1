@@ -286,34 +286,53 @@ if ( ! function_exists( 'ee_display_dfp_outofpage' ) ) :
 	}
 endif;
 
+/**
+ * Adds STN and GAM ads to content. Default behavior is to include GAM ads, but can be supressed by passing false to $renderdfp
+ *
+ * @param $content
+ * @param $renderdfp Optional. by default this is true, but if false will suppress gam ads
+ * @return string
+ */
+function ee_inject_ads($content, $renderdfp = true)
+{
+	$parts = explode('</p>', $content);
+	$new_content = '';
+
+	$stn_video_paragraph_position = intval(get_option('stn_position', '2'));
+
+	$len = count($parts);
+	for ($i = 1; $i <= $len; $i++) {
+		$new_content .= $parts[$i - 1] . '</p>';
+
+		if ($i == 1 && $stn_video_paragraph_position == 0) {
+			$snt_video = ee_category_exists() ? apply_filters('incontentvideo_filter', '') : '';
+			$new_content = $snt_video . $new_content;
+		} elseif ($stn_video_paragraph_position == $i) {
+			// in-content pos1 slot after first 2 paragraphs
+			$new_content .= ee_category_exists() ? apply_filters('incontentvideo_filter', '') : '';
+		} elseif (0 == ($i - $stn_video_paragraph_position) % 4 && $len > 4 && $renderdfp) {
+			// in-content pos2 slot after 4th paragraphs if we have more than 4 paragraphs on the page
+			$new_content .= ee_dfp_slot('in-content', false, array(), false);
+		}
+	}
+
+	if ($len < 2 && $renderdfp) {
+		$new_content .= ee_dfp_slot('in-content', false, array(), false);
+	}
+
+	return $new_content;
+}
+
+
 if ( ! function_exists( 'ee_add_ads_to_content' ) ) :
 	function ee_add_ads_to_content( $content ) {
-		$parts = explode( '</p>', $content );
-		$new_content = '';
+		return ee_inject_ads($content);
+	}
+endif;
 
-		$stn_video_paragraph_position = intval( get_option( 'stn_position', '2' ) );
-
-		$len = count( $parts );
-		for ( $i = 1; $i <= $len; $i++ ) {
-			$new_content .= $parts[ $i - 1 ] . '</p>';
-
-			if ($i == 1 && $stn_video_paragraph_position == 0) {
-				$snt_video = ee_category_exists( ) ? apply_filters( 'incontentvideo_filter', '' ) : '';
-				$new_content = $snt_video . $new_content ;
-			} elseif ( $stn_video_paragraph_position == $i ) {
-				// in-content pos1 slot after first 2 paragraphs
-				$new_content .= ee_category_exists( ) ? apply_filters( 'incontentvideo_filter', '' ) : '';
-			} elseif ( 0 == ( $i - $stn_video_paragraph_position ) % 4 && $len > 4 ) {
-				// in-content pos2 slot after 4th paragraphs if we have more than 4 paragraphs on the page
-				$new_content .= ee_dfp_slot( 'in-content', false, array(), false );
-			}
-		}
-
-		if ( $len < 2 ) {
-			$new_content .= ee_dfp_slot( 'in-content', false, array(), false );
-		}
-
-		return $new_content;
+if ( ! function_exists( 'ee_add_stn_to_content' ) ) :
+	function ee_add_stn_to_content( $content ) {
+		return ee_inject_ads($content, false);
 	}
 endif;
 
@@ -322,6 +341,14 @@ if ( ! function_exists( 'ee_the_content_with_ads' ) ) :
 		add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 		the_content();
 		remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
+	}
+endif;
+
+if ( ! function_exists( 'ee_the_content_with_stn_only' ) ) :
+	function ee_the_content_with_stn_only() {
+		add_filter( 'the_content', 'ee_add_stn_to_content', 100 );
+		the_content();
+		remove_filter( 'the_content', 'ee_add_stn_to_content', 100 );
 	}
 endif;
 
