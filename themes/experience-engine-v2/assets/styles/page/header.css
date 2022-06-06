@@ -571,6 +571,7 @@
 				& ul.mega-sub-menu{
 					  padding: 10px 10px 10px !important;
 					  float: left;
+					  width: 100%;
 					& li.widget_media_image{
 					  width: 18vw;
 					  margin-right: 4vw;
