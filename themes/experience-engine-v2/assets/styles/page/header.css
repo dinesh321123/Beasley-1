@@ -564,6 +564,39 @@
 		  & > ul.mega-sub-menu{
 			background: var(--brand-header-navigation-drop-down-background);
 			padding: 20px 30px;
+			& li.mega-menu-row{
+				& ul.mega-sub-menu{
+					  padding: 10px 10px 10px !important;
+					  float: left;
+					& li.widget_media_image{
+					  width: 18vw;
+					  margin-right: 4vw;
+					  padding:0;
+					    &:last-child{
+							margin-right:0;
+						 }
+					  	& a{
+						  padding:0 !important;
+						  }
+						& h4.mega-block-title{
+							padding-top:15px;
+						  }
+						& img{
+						  height: auto;
+						  margin: 10px auto 0;
+						  width: 100%;
+						  max-height: 13.5vw;
+						  min-height: 13.5vw;
+						  object-fit: cover;
+						  max-width: 100%;
+						  padding: 0;
+						}
+						& .wp-caption-text{
+						  display: none;
+						 }
+					}
+				  }
+			  }
 			& .recent-posts-widget-with-thumbnails{
 			  display:flex;
 			  & .rpwwt-widget{
