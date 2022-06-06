@@ -54,6 +54,9 @@ if ( ! function_exists( 'ee_setup_theme' ) ) :
 		add_post_type_support( 'page', 'flexible-feature-image' );
 		add_post_type_support( 'tribe_events', 'flexible-feature-image' );
 		add_post_type_support( 'contest', 'flexible-feature-image' );
+		add_post_type_support( 'gmr_gallery', 'flexible-feature-image' );
+		add_post_type_support( 'listicle_cpt', 'flexible-feature-image' );
+		add_post_type_support( 'affiliate_marketing', 'flexible-feature-image' );
 	}
 endif;
 
