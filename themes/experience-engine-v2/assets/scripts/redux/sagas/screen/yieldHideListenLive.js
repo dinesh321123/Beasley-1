@@ -14,7 +14,11 @@ function* yieldHideListenLive() {
 	listenlivecontainer.style.display = 'none';
 
 	const playerStore = yield select(store => store.player);
-	if (playerStore.status === STATUSES.LIVE_PLAYING) {
+	const modalStore = yield select(store => store.modal);
+	if (
+		modalStore.isShowSigninModalMode &&
+		playerStore.status === STATUSES.LIVE_PLAYING
+	) {
 		yield put(showSignInModal());
 	}
 }

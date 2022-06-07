@@ -13,8 +13,8 @@ function* yieldPlayerStatusChange() {
 		const screenStore = yield select(store => store.screen);
 		if (screenStore.isAutoClosingListenLiveMode) {
 			const delay = ms => new Promise(res => setTimeout(res, ms));
-			console.log('hiding in 5 sec');
-			yield delay(5000);
+			console.log('hiding in 3.5 sec');
+			yield delay(3500);
 			yield put(hideListenLive());
 		}
 	}
