@@ -1,8 +1,6 @@
-import { put, select, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
 import { ACTION_HIDE_LISTEN_LIVE } from '../../actions/screen';
 import { hideDropdownAd } from '../../actions/dropdownad';
-import { STATUSES } from '../../actions/player';
-import { showSignInModal } from '../../actions/modal';
 
 /**
  * Generator runs whenever [ ACTION_HIDE_LISTEN_LIVE ]
@@ -12,15 +10,6 @@ function* yieldHideListenLive() {
 	yield put(hideDropdownAd());
 	const listenlivecontainer = document.getElementById('my-listen-dropdown2');
 	listenlivecontainer.style.display = 'none';
-
-	const playerStore = yield select(store => store.player);
-	const modalStore = yield select(store => store.modal);
-	if (
-		modalStore.isShowSigninModalMode &&
-		playerStore.status === STATUSES.LIVE_PLAYING
-	) {
-		yield put(showSignInModal());
-	}
 }
 
 /**
