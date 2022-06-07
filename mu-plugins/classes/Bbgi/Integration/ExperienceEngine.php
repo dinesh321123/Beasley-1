@@ -276,6 +276,7 @@ class ExperienceEngine extends \Bbgi\Module {
 	public function update_bbgiconfig( $config ) {
 		$config['eeapi'] = $this->_get_host();
 		$config['wpapi'] = rest_url( '/experience_engine/v1/' );
+		$config['wpapi-mmrp'] = rest_url( '/megamenu_recent_posts/v1/' );
 
 		return $config;
 	}
