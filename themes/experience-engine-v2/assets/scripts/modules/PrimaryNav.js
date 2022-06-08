@@ -183,7 +183,6 @@ class PrimaryNav extends PureComponent {
 
 			// Remove scroll styles of mobile onResize window
 			const primaryTopbar = document.querySelector('.primary-mega-topbar');
-			primaryTopbar.classList.remove('sticky-header-listenlive');
 			primaryTopbar.classList.remove('sticky-header');
 		} else {
 			const facebookURL = fetchPublisherInformation('facebook');
