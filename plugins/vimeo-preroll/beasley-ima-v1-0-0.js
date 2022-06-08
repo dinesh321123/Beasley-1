@@ -1,3 +1,7 @@
+/*** Any Change To This File Must Entail A Version Change Due To Perma-Cache ***/
+/*** Includes are held in vimeo-preroll.php ***/
+/* v1-0-0 - Institute Versioning to comply with permacache */
+
 // This code is heavily based on Google's Simple IMA Example at https://github.com/googleads/googleads-ima-html5
 
 // Copyright 2013 Google Inc. All Rights Reserved.
