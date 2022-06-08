@@ -56,7 +56,9 @@ class MegamenuRecentPosts extends PureComponent {
 					endpointURL,
 					result,
 				);
-				container.innerHTML = ``;
+				if (result.error) {
+					container.innerHTML = `${result.error}`;
+				}
 			}
 		} catch (e) {
 			console.error('failed to load api');

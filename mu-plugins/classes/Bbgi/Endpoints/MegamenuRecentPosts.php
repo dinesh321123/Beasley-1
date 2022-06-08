@@ -141,7 +141,7 @@ class MegamenuRecentPosts extends Module {
 				$recent_post_result['recent_posts'][] = $post_data;
 			}
 		} else {
-			$recent_post_result = array( 'status' => null , 'error' => 'no records found' );
+			$recent_post_result = array( 'status' => null , 'error' => 'There are no recent posts at this time.' );
 		}
 		wp_reset_query();
 		return $recent_post_result;
