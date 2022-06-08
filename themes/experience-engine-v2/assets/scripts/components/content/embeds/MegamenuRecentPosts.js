@@ -18,14 +18,17 @@ class MegamenuRecentPosts extends PureComponent {
 			} = this.props;
 
 			// http://985thesportshub.beasley.test/wp-json/megamenu_recent_posts/v1/get_posts?per_page=1&cat=8&show_thumb=1&thumb_size=1
-			// const endpointURL = `${bbgiconfig.eeapi}page=${postsperpage}/recommendations?categories=${categories || ''}`;
-
 			container.innerHTML = this.renderLoder('Loading...');
 			// const endpointURL = `http://985thesportshub.beasley.test/wp-json/megamenu_recent_posts/v1/get_posts?per_page=${postsperpage}&cat=${categories}&show_thumb=${showthumb}&thumb_size=${showthumbsize}`;
 			const endpointURL = `${bbgiconfig['wpapi-mmrp']}get_posts?per_page=${postsperpage}&cat=${categories}&show_thumb=${showthumb}&thumb_size=${showthumbsize}`;
-			console.log('endpointURL : ', menuareaid, ' : ', endpointURL);
+			console.log(
+				'Menu Widget ID: ',
+				menuareaid,
+				'Endpoint URL: ',
+				endpointURL,
+			);
 			const result = await fetch(endpointURL).then(r => r.json());
-			console.log(result);
+
 			if (result.recent_posts && result.recent_posts.length) {
 				let html = `<ul>`;
 
@@ -43,10 +46,16 @@ class MegamenuRecentPosts extends PureComponent {
 					`;
 				});
 				html += `</ul>`;
-				console.log(html);
+				// console.log(html);
 				container.innerHTML = html;
 			} else {
-				console.error(result);
+				console.error(
+					'Menu Widget:',
+					menuareaid,
+					'Endpoint URL:',
+					endpointURL,
+					result,
+				);
 				container.innerHTML = ``;
 			}
 		} catch (e) {
