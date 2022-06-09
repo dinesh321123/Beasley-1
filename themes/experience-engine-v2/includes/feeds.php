@@ -9,7 +9,7 @@ function recent_section_feeds_on_show() {
 			?>
 			<item>
 				<title><?php echo get_the_title();	?></title>
-				<link href="<?php  esc_url( the_permalink_rss() ); ?>" />
+				<link><?php  esc_url( the_permalink_rss() ); ?></link>
 				<dc:creator><![CDATA[<?php echo get_the_author(); ?>]]> </dc:creator>
 				<pubDate><?php echo get_the_date(); ?></pubDate>
 				<?php
