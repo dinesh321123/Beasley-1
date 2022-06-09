@@ -1,8 +1,5 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
-import {
-	sendInlineAudioPlaying,
-	sendLiveStreamPlaying,
-} from '../../../library/google-analytics';
+import { sendInlineAudioPlaying } from '../../../library/google-analytics';
 import { ACTION_PLAYER_START } from '../../actions/player';
 
 /**
@@ -35,7 +32,9 @@ function* yieldStart() {
 				interval * 60 * 1000,
 			);
 		}
-	} else if (playerStore.playerType === 'tdplayer') {
+	}
+	/* Disable GA Stats due to high usage
+	else if (playerStore.playerType === 'tdplayer') {
 		// Get liveStreamInterval from window, default null
 		let { liveStreamInterval = null } = window;
 
@@ -56,6 +55,7 @@ function* yieldStart() {
 			);
 		}
 	}
+    */
 }
 
 /**

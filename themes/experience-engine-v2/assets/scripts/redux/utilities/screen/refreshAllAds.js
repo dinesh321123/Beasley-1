@@ -45,6 +45,7 @@ export function logPrebidTargeting(unitId) {
 					`High Prebid Ad ID: ${tkey} Bidder: ${targeting[tkey].hb_bidder} Price: ${targeting[tkey].hb_pb}`,
 				);
 
+				/* Disable GA Stats due to high usage
 				try {
 					window.ga('send', {
 						hitType: 'event',
@@ -59,6 +60,7 @@ export function logPrebidTargeting(unitId) {
 				} catch (ex) {
 					console.log(`ERROR Sending to Google Analytics: `, ex);
 				}
+			    */
 
 				// Set retval when UnitID was specified and we have a high bidder
 				if (unitId && unitId === tkey) {

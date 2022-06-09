@@ -40,6 +40,7 @@ export function sendToGA(opts) {
 /**
  * Sends a Live stream playing event to GA
  */
+/* Disable GA Stats due to high usage
 export function sendLiveStreamPlaying() {
 	sendToGA({
 		hitType: 'event',
@@ -47,6 +48,7 @@ export function sendLiveStreamPlaying() {
 		eventAction: 'Live stream playing',
 	});
 }
+*/
 
 /**
  * Sends a Inline audio playing event to GA
