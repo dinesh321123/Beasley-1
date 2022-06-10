@@ -16,10 +16,10 @@ class DashboardActivity {
 		add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 	}
 	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
-		$found				 = false;
-		$key				 = md5('bbgi_recent_published_posts');
-		$dashboard_activity_result = wp_cache_get( $key, 'bbgi', false, $found );
-		if ( $found ) {
+		$found_dashboard	= false;
+		$key				= md5('bbgi_recent_published_posts');
+		wp_cache_get( $key, 'bbgi', false, $found_dashboard );
+		if ( $found_dashboard ) {
 			wp_cache_delete($key, 'bbgi');
 		}
 	}
