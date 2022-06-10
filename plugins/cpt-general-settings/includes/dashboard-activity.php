@@ -16,10 +16,9 @@ class DashboardActivity {
 		$found				 = false;
 		$key				 = md5('bbgi_recent_published_posts');
 		$dashboard_activity_result = wp_cache_get( $key, 'bbgi', false, $found );
-		echo " Found variable: ", $found;
+		// echo " Found variable: ", $found;
 		if ( $found ) {
 			wp_cache_delete($key, 'bbgi');
-			echo " - Cache clear"; exit;
 		}
 	}
 	public function wp_init_callback() {
