@@ -10,7 +10,7 @@ class DashboardActivity {
 		add_action( 'admin_init', array( $this, 'wp_admin_init' ), 1 );
 	}
 	public function wp_admin_init() {
-		add_action( 'save_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		add_action( 'save_post_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		// add_action( 'save_post_gmr_gallery', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		// add_action( 'save_post_listicle_cpt', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		// add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
@@ -59,7 +59,7 @@ class DashboardActivity {
 			// Set the cache to expire the data after 1800 seconds = 30 min
 			// $expiration = get_site_option( 'recently_published_posts_expiration' );
 			// $value      = ( ( isset( $expiration ) && $expiration != "" ) ? $expiration : 15 );
-			wp_cache_set( $key, $dashboard_activity_result, 'bbgi', '1800' );
+			wp_cache_set( $key, $dashboard_activity_result, 'bbgi', '60' );
 		}
 		echo  $dashboard_activity_result;
 		echo '</div>';
