@@ -42,7 +42,7 @@ class DashboardActivity {
 		$found				 = false;
 		$key				 = md5('bbgi_recent_published_posts');
 		$dashboard_activity_result = wp_cache_get( $key, 'bbgi', false, $found );
-		// echo " - Found variable - ", $found, " - ";
+		echo " - Found: ", $found, " ";
 		if ( ! $found ) {
 			echo "Records from database.";
 			$dashboard_activity_result = $this->wp_dashboard_recent_published_posts(
@@ -58,7 +58,7 @@ class DashboardActivity {
 			// Set the cache to expire the data after 1800 seconds = 30 min
 			// $expiration = get_site_option( 'recently_published_posts_expiration' );
 			// $value      = ( ( isset( $expiration ) && $expiration != "" ) ? $expiration : 15 );
-			wp_cache_set( $key, $dashboard_activity_result, 'bbgi', '1800' );
+			wp_cache_set( $key, $dashboard_activity_result, 'bbgi', '60' );
 		}
 		echo  $dashboard_activity_result;
 		echo '</div>';
