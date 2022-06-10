@@ -10,16 +10,40 @@ class DashboardActivity {
 		add_action( 'admin_init', array( $this, 'wp_admin_init' ), 1 );
 	}
 	public function wp_admin_init() {
-		// add_action( 'save_post_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
-		// add_action( 'save_post_gmr_gallery', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
-		// add_action( 'save_post_listicle_cpt', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
-		add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		add_action( 'save_post_post', array( $this, 'remove_dashboard_activity_cache_result_post'), 10, 3 );
+		add_action( 'save_post_gmr_gallery', array( $this, 'remove_dashboard_activity_cache_result_gmr_gallery'), 10, 3 );
+		add_action( 'save_post_listicle_cpt', array( $this, 'remove_dashboard_activity_cache_result_listicle_cpt'), 10, 3 );
+		add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result_affiliate_marketing'), 10, 3 );
 	}
-	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
+	public function remove_dashboard_activity_cache_result_post( $post_id, $post, $update ) {
 		$found_dashboard	= false;
 		$key				= md5('bbgi_recent_published_posts');
 		$cachedata			= wp_cache_get( $key, 'bbgi', false, $found_dashboard );
 		if ( $found_dashboard ) {
+			wp_cache_delete($key, 'bbgi');
+		}
+	}
+	public function remove_dashboard_activity_cache_result_gmr_gallery( $post_id, $post, $update ) {
+		$found_dashboard_g	= false;
+		$key				= md5('bbgi_recent_published_posts');
+		$cachedata			= wp_cache_get( $key, 'bbgi', false, $found_dashboard_g );
+		if ( $found_dashboard_g ) {
+			wp_cache_delete($key, 'bbgi');
+		}
+	}
+	public function remove_dashboard_activity_cache_result_listicle_cpt( $post_id, $post, $update ) {
+		$found_dashboard_l	= false;
+		$key				= md5('bbgi_recent_published_posts');
+		$cachedata			= wp_cache_get( $key, 'bbgi', false, $found_dashboard_l );
+		if ( $found_dashboard_l ) {
+			wp_cache_delete($key, 'bbgi');
+		}
+	}
+	public function remove_dashboard_activity_cache_result_affiliate_marketing( $post_id, $post, $update ) {
+		$found_dashboard_am	= false;
+		$key				= md5('bbgi_recent_published_posts');
+		$cachedata			= wp_cache_get( $key, 'bbgi', false, $found_dashboard_am );
+		if ( $found_dashboard_am ) {
 			wp_cache_delete($key, 'bbgi');
 		}
 	}
