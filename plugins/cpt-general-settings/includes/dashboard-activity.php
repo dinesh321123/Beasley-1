@@ -7,21 +7,36 @@ class DashboardActivity {
 	function __construct()
 	{
 		add_action( 'wp_dashboard_setup', array( $this, 'wp_init_callback' ) );
-		add_action( 'admin_init', 'wp_admin_init', 1 );
+		add_action( 'admin_init', array( $this, 'wp_admin_init' ), 1 );
 	}
 	public function wp_admin_init() {
-		add_action( 'publish_post', $this->remove_dashboard_activity_result() );
+		add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 	}
-	public function remove_dashboard_activity_result() {
-		global $typenow, $pagenow;
-		echo "In function = remove_dashboard_activity_result";
-		print_r($typenow);
-		print_r($pagenow);
+	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
+		// global $typenow, $pagenow;
+		echo "Post Id = ", print_r($post_id);
+		echo " = Post = ", print_r($post);
+		echo " = Update", print_r($update);
+
+
+		// If an old book is being updated, exit
+		if ( $update ) {
+			echo "Nothing update here"; exit;
+			return;
+		}
+
+		/* echo 'In function = remove_dashboard_activity_cache_result <br>';
+		echo " = Type Now = ", print_r($typenow);
+		echo "<br>";
+		echo " Page Now = ", print_r($pagenow);
+		echo " ===== If condition start ======= ";
 		if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			print_r($typenow);
+			echo "<br>";
 			print_r($pagenow);
-			echo "In function add";
+			echo "<br>In if function add";
 		}
+		exit; */
 	}
 	public function wp_init_callback() {
 		if ( is_blog_admin() ) {
