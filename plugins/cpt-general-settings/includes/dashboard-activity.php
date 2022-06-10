@@ -13,30 +13,14 @@ class DashboardActivity {
 		add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 	}
 	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
-		// global $typenow, $pagenow;
-		echo "Post Id = ", print_r($post_id);
-		echo " = Post = ", print_r($post);
-		echo " = Update", print_r($update);
-
-
-		// If an old book is being updated, exit
-		if ( $update ) {
-			echo "Nothing update here"; exit;
-			return;
+		$found				 = false;
+		$key				 = md5('bbgi_recent_published_posts');
+		$dashboard_activity_result = wp_cache_get( $key, 'bbgi', false, $found );
+		echo " Found variable: ", $found;
+		if ( $found ) {
+			wp_cache_delete($key, 'bbgi');
+			echo " - Cache clear"; exit;
 		}
-
-		/* echo 'In function = remove_dashboard_activity_cache_result <br>';
-		echo " = Type Now = ", print_r($typenow);
-		echo "<br>";
-		echo " Page Now = ", print_r($pagenow);
-		echo " ===== If condition start ======= ";
-		if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
-			print_r($typenow);
-			echo "<br>";
-			print_r($pagenow);
-			echo "<br>In if function add";
-		}
-		exit; */
 	}
 	public function wp_init_callback() {
 		if ( is_blog_admin() ) {
