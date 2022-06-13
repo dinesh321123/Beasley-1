@@ -10,23 +10,22 @@ class DashboardActivity {
 		add_action( 'admin_init', array( $this, 'wp_admin_init' ), 1 );
 	}
 	public function wp_admin_init() {
-		// add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
-		// add_action( 'save_post_gmr_gallery', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
-		// add_action( 'save_post_listicle_cpt', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		add_action( 'save_post_gmr_gallery', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		add_action( 'save_post_listicle_cpt', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		// add_action( 'save_post_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
-		add_action( 'save_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		// add_action( 'save_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 	}
 	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
 		// bail out if this is an autosave
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
-		
-		// Only set for post_type = post !
-		if ( 'post' !== $post->post_type && 'affiliate_marketing' !== $post->post_type && 'gmr_gallery' !== $post->post_type && 'listicle_cpt' !== $post->post_type ) {
-			return;
-		}
 
+		// Only set for post_type = post !
+		/* if ( 'post' !== $post->post_type && 'affiliate_marketing' !== $post->post_type && 'gmr_gallery' !== $post->post_type && 'listicle_cpt' !== $post->post_type ) {
+			return;
+		} */
 		$found_dashboard	= false;
 		$key				= md5('bbgi_recent_published_posts');
 		$cachedata			= wp_cache_get( $key, 'bbgi', false, $found_dashboard );
@@ -70,7 +69,7 @@ class DashboardActivity {
 			// Set the cache to expire the data after 1800 seconds = 30 min
 			// $expiration = get_site_option( 'recently_published_posts_expiration' );
 			// $value      = ( ( isset( $expiration ) && $expiration != "" ) ? $expiration : 15 );
-			wp_cache_set( $key, $dashboard_activity_result, 'bbgi', '60' );
+			wp_cache_set( $key, $dashboard_activity_result, 'bbgi', '1800' );
 		}
 		echo  $dashboard_activity_result;
 		echo '</div>';
