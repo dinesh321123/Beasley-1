@@ -17,6 +17,11 @@ class DashboardActivity {
 		add_action( 'save_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 	}
 	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
+		// bail out if this is an autosave
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+		
 		// Only set for post_type = post !
 		if ( 'post' !== $post->post_type && 'affiliate_marketing' !== $post->post_type && 'gmr_gallery' !== $post->post_type && 'listicle_cpt' !== $post->post_type ) {
 			return;
