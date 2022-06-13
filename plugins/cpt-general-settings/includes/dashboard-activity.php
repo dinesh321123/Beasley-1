@@ -10,12 +10,18 @@ class DashboardActivity {
 		add_action( 'admin_init', array( $this, 'wp_admin_init' ), 1 );
 	}
 	public function wp_admin_init() {
-		add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		// add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		// add_action( 'save_post_gmr_gallery', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		// add_action( 'save_post_listicle_cpt', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		// add_action( 'save_post_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		add_action( 'save_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 	}
 	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
+		// Only set for post_type = post !
+		if ( 'post' !== $post->post_type && 'affiliate_marketing' !== $post->post_type && 'gmr_gallery' !== $post->post_type && 'listicle_cpt' !== $post->post_type ) {
+			return;
+		}
+
 		$found_dashboard	= false;
 		$key				= md5('bbgi_recent_published_posts');
 		$cachedata			= wp_cache_get( $key, 'bbgi', false, $found_dashboard );
