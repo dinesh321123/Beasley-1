@@ -41,7 +41,12 @@ class DashboardActivity {
 		var_dump($post_after);
 		echo '<b>Post Object BEFORE update:</b><br />';
 		var_dump($post_before);
-		exit;
+		$found_dashboard	= false;
+		$key				= md5('bbgi_recent_published_posts');
+		$cachedata			= wp_cache_get( $key, 'bbgi', false, $found_dashboard );
+		if ( $found_dashboard ) {
+			wp_cache_delete($key, 'bbgi');
+		}
 	}
 
 	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
