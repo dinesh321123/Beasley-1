@@ -13,9 +13,37 @@ class DashboardActivity {
 		add_action( 'save_post_affiliate_marketing', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		add_action( 'save_post_gmr_gallery', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 		add_action( 'save_post_listicle_cpt', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
-		// add_action( 'save_post_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
+		add_action( 'post_updated', array($this, 'check_values'), 10, 3 );
+		// add_action( 'save_post', array( $this, 'remove_dashboard_activity_cache_result_post'), 10, 3 );
 		// add_action( 'save_post', array( $this, 'remove_dashboard_activity_cache_result'), 10, 3 );
 	}
+	public function remove_dashboard_activity_cache_result_post( $post_id, $post, $update ) {
+		// bail out if this is an autosave
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		// Only set for post_type = post !
+		/* if ( 'post' !== $post->post_type && 'affiliate_marketing' !== $post->post_type && 'gmr_gallery' !== $post->post_type && 'listicle_cpt' !== $post->post_type ) {
+			return;
+		} */
+		$found_dashboard	= false;
+		$key				= md5('bbgi_recent_published_posts');
+		$cachedata			= wp_cache_get( $key, 'bbgi', false, $found_dashboard );
+		if ( $found_dashboard ) {
+			wp_cache_delete($key, 'bbgi');
+		}
+	}
+	public function check_values($post_ID, $post_after, $post_before){
+		echo '<pre></pre><b>Post ID:</b><br />';
+		var_dump($post_ID);
+		echo '<b>Post Object AFTER update:</b><br />';
+		var_dump($post_after);
+		echo '<b>Post Object BEFORE update:</b><br />';
+		var_dump($post_before);
+		exit;
+	}
+
 	public function remove_dashboard_activity_cache_result( $post_id, $post, $update ) {
 		// bail out if this is an autosave
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
