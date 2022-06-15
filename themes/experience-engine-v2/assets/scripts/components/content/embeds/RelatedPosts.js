@@ -86,9 +86,17 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 	const [testName, setTestName] = useState('not defined');
 	const { bbgiconfig } = window;
 
-	const endpointURL = `${bbgiconfig.eeapi}publishers/${
-		bbgiconfig.publisher.id
-	}/recommendations?categories=${categories || ''}`;
+	let cleansedCategories = '';
+
+	if (
+		categories &&
+		(categories.indexOf('shopping') > -1 ||
+			categories.indexOf('holiday-guide') > -1)
+	) {
+		cleansedCategories = categories;
+	}
+
+	const endpointURL = `${bbgiconfig.eeapi}publishers/${bbgiconfig.publisher.id}/recommendations?categories=${cleansedCategories}`;
 
 	useEffect(() => {
 		async function fetchPostsEndpoint() {
