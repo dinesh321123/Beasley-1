@@ -135,7 +135,7 @@ const slotRenderEndedHandler = event => {
 			window.bbgiAdhesionLoaded = true;
 		}
 
-		// Dropdown Ads May Have Display: None Set - Show Them
+		// Dropdown Ads May Have Display: None. Set Them To Show
 		if (placeholder === dropDownDivID) {
 			if (slotElement) {
 				slotElement.style.display = 'flex';
@@ -608,6 +608,9 @@ class Dfp extends PureComponent {
 		const { adjustedUnitId } = this.state;
 
 		if (!document.getElementById(placeholder)) {
+			console.log(
+				`NOT REGISTERRING AD BECAUSE NO PLACE HOLDER FOR - ${unitName}`,
+			);
 			return;
 		}
 
@@ -708,6 +711,7 @@ class Dfp extends PureComponent {
 					},
 				];
 			} else if (unitName === 'drop-down') {
+				console.log('Building sizes for Dropdown');
 				sizeMapping = googletag
 					.sizeMapping()
 					// does not display on small screens

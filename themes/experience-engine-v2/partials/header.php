@@ -65,9 +65,6 @@
 							<?php if ( has_nav_menu( 'listen-live-nav' ) ) : ?>
 								<hr>
 							<?php endif; ?>
-							<div>
-								<?php get_template_part( 'partials/ads/drop-down' ); ?>
-							</div>
 						</div>
 						<button id='listen-live-button'>
 							<?php get_template_part( 'partials/player-button' ); ?>
