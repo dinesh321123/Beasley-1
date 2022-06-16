@@ -134,7 +134,7 @@ class PrimaryNav extends PureComponent {
 			const recentlyPlayed = document.getElementById(
 				'live-player-recently-played',
 			);
-			if (items.length) {
+			if (recentlyPlayed && items.length) {
 				const filterItems = items.slice(0, 4);
 
 				const previousRecentlyPlayed = document.querySelectorAll(

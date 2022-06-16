@@ -140,6 +140,11 @@ class Info extends Component {
 					<PodcastScrubber />
 				</div>
 				<Stations />
+				<hr />
+				<div
+					className="on-air-list ll-menu-section full-width-menu"
+					id="live-player-recently-played"
+				/>
 				<DropDownAd />
 			</ErrorBoundary>
 		);
