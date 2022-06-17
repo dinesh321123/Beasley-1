@@ -8,6 +8,15 @@ class GeneralSettingsFrontRendering {
 	public static function init() {
 		// Register scripts
 		// add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
+		add_action('pre_get_posts', array( __CLASS__, 'testauthor_cpt_filter') );
+	}
+	function testauthor_cpt_filter($query) {
+		if ( !is_admin() && $query->is_main_query() ) {
+			if ($query->is_author()) {
+				$query->set( 'posts_per_page', 6 );
+				$query->set('post_type', array('post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing'));
+			}
+		}
 	}
 
 	/**
