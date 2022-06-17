@@ -9,6 +9,7 @@
 @import "base/wp";
 @import "base/media";
 @import "base/tables";
+@import "base/whiz";
 
 @import "components/section/section-header";
 
@@ -93,4 +94,4 @@
 
 @import "utilities/display";
 
-@import "../../node_modules/swiper/dist/css/swiper.css"
+@import "../../node_modules/swiper/dist/css/swiper.css";

@@ -73,6 +73,11 @@ class ExperienceEngine extends \Bbgi\Module {
 			$control_string = strtolower( trim( $control_string ) );
 			$parts = explode( '=', $control_string );
 
+			if ( $parts[0] == 'no-cache') {
+				$cache_time = 86400;
+				break;
+			}
+
 			if ( $parts[0] == 's-maxage' ) {
 				$cache_time = end( $parts );
 				break;
@@ -123,9 +128,12 @@ class ExperienceEngine extends \Bbgi\Module {
 		return wp_remote_request( $host . $path, $args );
 	}
 
-	public function do_request( $path, $args = array() ) {
+	public function do_request($path, $args = array(), $cache_group = '') {
 		$cache_index = get_option( 'ee_cache_index', 0 );
-		$response = wp_cache_get( $path, "experience_engine_api-{$cache_index}" );
+		$cache_key = empty($cache_group) ? $cache_index : $cache_group;
+
+		$response = wp_cache_get( $path, "experience_engine_api-{$cache_key}" );
+
 		if ( empty( $response ) ) {
 			$request = $this->send_request( $path, $args );
 			if ( is_wp_error( $request ) ) {
@@ -141,8 +149,13 @@ class ExperienceEngine extends \Bbgi\Module {
 			$response = json_decode( wp_remote_retrieve_body( $request ), true );
 			$cache_time = $this->_get_request_cache_time( $request );
 			if ( $cache_time ) {
-				wp_cache_set( $path, $response, "experience_engine_api-{$cache_index}", $cache_time );
+
+				wp_cache_set( $path, $response, "experience_engine_api-{$cache_key}", $cache_time );
 			}
+
+			error_log($this->log_prefix() . "cached contents from $path into group: experience_engine_api-{$cache_key} for $cache_time seconds\n");
+		} else {
+			error_log($this->log_prefix() . "served from cache contents from $path in group: experience_engine_api-{$cache_key}\n");
 		}
 
 		return $response;
@@ -192,11 +205,8 @@ class ExperienceEngine extends \Bbgi\Module {
 		$publisher = $this->_get_publisher_key();
 		if ( ! empty( $publisher ) ) {
 			$url = "experience/channels/{$publisher}/feeds/content/";
-			if ( ! empty( $_REQUEST['authorization'] ) ) {
-				$url .= '?authorization=' . urlencode( $_REQUEST['authorization'] );
-			}
 
-			$data = $this->do_request( $url );
+			$data = $this->do_request( $url, array(), 'ee_data');
 			if ( is_wp_error( $data ) ) {
 				$data = array();
 			}
@@ -280,6 +290,13 @@ class ExperienceEngine extends \Bbgi\Module {
 			'show_in_index'       => false,
 		) );
 
+		register_rest_route( $namespace, '/purge-ee-cache', array(
+				'methods'             => 'POST',
+				'callback'            => $this( 'rest_purge_ee_cache' ),
+				'permission_callback' => array( $this, 'check_purge_cache_permissions' ),
+				'show_in_index'       => false,
+		) );
+
 		$authorization = array(
 			'authorization' => array(
 				'type'              => 'string',
@@ -318,7 +335,32 @@ class ExperienceEngine extends \Bbgi\Module {
 		return false;
 	}
 
-	public function rest_purge_cache() {
+	public function rest_purge_cache( \WP_REST_Request $request ) {
+		//clear ee content feed values
+		$publisher = $this->_get_publisher_key();
+		$url = "experience/channels/{$publisher}/feeds/content/";
+		wp_cache_delete($url, 'experience_engine_api-ee_data');
+
+		// Clear specific page caches
+		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
+			$home = trailingslashit( get_option( 'home' ) );
+			batcache_clear_url( $home );
+			batcache_clear_url( $home . 'feed/' );
+		}
+
+		$track = $request->get_header('track-id');
+
+		error_log($this->log_prefix() . "cache purged for track: $track\n");
+
+		return rest_ensure_response( 'Cache Flushed' );
+	}
+
+	public function rest_purge_ee_cache() {
+		//clear ee content feed values
+		$publisher = $this->_get_publisher_key();
+		$url = "experience/channels/{$publisher}/feeds/content/";
+		wp_cache_delete($url, 'experience_engine_api-ee_data');
+
 		// Clear EE Cache
 		update_option( 'ee_cache_index', time(), 'no' );
 
@@ -372,6 +414,16 @@ class ExperienceEngine extends \Bbgi\Module {
 			'status'    => 200,
 			'html'      => $data,
 		] );
+	}
+
+	public function log_prefix() {
+
+		$site_id	=	get_current_blog_id();
+		$site_name	=	get_blog_option( $site_id, 'blogname' );
+
+		$result = "[EE Event SiteID:{$site_id} SiteName:$site_name] ";
+
+		return $result;
 	}
 
 }

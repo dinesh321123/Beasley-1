@@ -28,11 +28,17 @@ readme.txt
 .composer-cache
 .nvmrc
 
-# Specific to wp-content based delpoys
+# Specific to wp-content-based deploys
 uploads
 upgrade
-
+/themes/oldthemes
 /themes/.version.php
 
 # Sendtonews plugin generates this folder in wp-content, don't delete it
 /wpmvc
+
+# WP DB config - allows this to be customized across web servers
+db-config.php
+
+# skip the archive theme folder, old themes no longer in use
+/themes/archive-themes-nodeploy

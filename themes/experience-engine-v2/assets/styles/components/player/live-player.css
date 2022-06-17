@@ -1,0 +1,101 @@
+.live-player {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	z-index: 10000;
+}
+
+.primary-mega-topbar .listen-dropdown .on-air-list ul li > span.cue-point-title {
+	padding: 0;
+}
+
+.cue-point-title + .cue-point-artist:before {
+	content: "-";
+	margin: 0 10px;
+}
+
+.jacapps, .whiz {
+	& .wp-audio-shortcode,
+	& iframe[src^="https://omny.fm"] {
+		display: block;
+	}
+}
+
+.offline-title {
+	color: var(--global-theme-font-primary);
+	font-weight: 600;
+}
+
+.live-player-modal {
+	background: var(--global-theme-secondary);
+	bottom:144px;
+	box-shadow: inset 0px -2px 2px rgba(0, 0, 0, 0.2),
+				inset 0px 2px 0px rgba(255, 255, 255, 0.25);
+	padding: 2rem;
+	position: absolute;
+	left: 0;
+	width: 320px;
+	z-index: 100;
+
+	& > *:not(:last-child) {
+		margin-bottom: .875rem;
+	}
+
+	& p {
+		color: var(--global-theme-font-primary);
+		font-weight: 600;
+
+		&:last-child {
+			font-weight: normal;
+			margin-bottom: 0;
+		}
+	}
+
+	& a {
+		color: var(--global-theme-font-primary);
+		font-weight: 600;
+	}
+
+	& img {
+		max-width: 50%;
+		height: auto;
+	}
+}
+
+.control-station-button {
+	cursor: pointer;
+	border-style: none;
+	padding: 1px;
+	text-align: left;
+  	margin-left: 0;
+  	margin-right: 0;
+  	width: 100%;
+
+	align-items: center;
+	background: transparent 0 0;
+	color: var(--brand-text-color);
+	display: flex;
+	font-size: .875rem;
+	font-weight: 600;
+	transition: color .25s ease-in-out;
+	text-transform: uppercase;
+	opacity: 0.9;
+	&:hover {
+		 text-decoration: underline;
+		 opacity: 1;
+    }
+	& img {
+  		height: 50px;
+  	}
+	& span {
+	  padding: 1rem;
+    }
+}
+
+.-light {
+
+	& .live-player-modal {
+		background-color: var(--global-gallery);
+	}
+}

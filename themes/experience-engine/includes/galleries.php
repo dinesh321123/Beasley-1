@@ -144,8 +144,9 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_html' ) ) :
-	function ee_get_gallery_html( $gallery, $ids ) {
+	function ee_get_gallery_html( $gallery, $ids, $from_embed = false ) {
 		$sponsored_image = get_field( 'sponsored_image', $gallery );
+		$id_pretext = $from_embed ? "embed-gallery" : "gallery";
 		if ( ! empty( $sponsored_image ) ) {
 			array_unshift( $ids, $sponsored_image );
 		}
@@ -166,29 +167,33 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 		ob_start();
 
 		// Add segment navigation before start display the list
-		$total_segment = ceil( count($images) / 10 );
 		if(get_field( 'display_segmentation', $gallery->ID )) {
-			$is_desc = (get_field( 'segmentation_ordering', $gallery->ID ) != '' && get_field( 'segmentation_ordering', $gallery->ID ) == 'desc') ? 1 : 0;
+			$segmentation_ordering_type = get_field( 'segmentation_ordering', $gallery->ID );
+			
+			$total_segment = ceil( count($images) / 10 );
+			$is_desc = ($segmentation_ordering_type != '' && $segmentation_ordering_type == 'desc') ? 1 : 0;
 			$start_index = $is_desc ? $total_segment : 1;
 
-			echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+			if( $segmentation_ordering_type !== 'header' && $total_segment > 0 ) {
+				echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+				for ($i=1; $i <= $total_segment; $i++) {
+					$diff = count($images) - (( $i - 1 ) * 10);
+					$diff = ($diff % 10 == 0) ? $diff - 1 : $diff;
+					$scroll_to = $is_desc ? ( floor( $diff / 10 ) * 10 ) : ( ($i - 1) * 10 );
 
-			for ($i=1; $i <= $total_segment; $i++) {
-				$diff = count($images) - ($start_index * 10);
-				$scroll_to = $is_desc ? ( $diff < 0 ? 0 : $diff  ) : ( ($i - 1) * 10 );
-
-				$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
-				$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
-
-				echo '<button onclick=" scrollToSegmentation('.$images[ $scroll_to ]->ID.'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
-
-				$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
+					$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
+					$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
+	
+					echo '<button onclick=" scrollToSegmentation(\''.$id_pretext. '\', ' . ( $scroll_to + 1 ) . '); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
+					$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
+				}
+				echo "</div>";
 			}
-			echo "</div>";
 		}
 
 		echo '<ul class="gallery-listicle">';
 
+		$segment_gallery_item = 0;
 		foreach ( $images as $index => $image ) {
 			$html = ee_get_gallery_image_html(
 				$image,
@@ -198,7 +203,8 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 			);
 
 			if ( ! empty( $html ) ) {
-				echo '<li id="segment-item-', $image->ID ,'" class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
+				$segment_gallery_item++;
+				echo '<li id="', $id_pretext, '-segment-item-', $segment_gallery_item,'" class="gallery-listicle-item', $image_slug == $image->post_name ? ' scroll-to' : '', '">';
 					echo $html;
 
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
@@ -221,7 +227,7 @@ if ( ! function_exists( 'ee_update_incontent_gallery' ) ) :
 			return '<!-- -->';
 		}
 
-		$html = ee_get_gallery_html( $gallery, $ids );
+		$html = ee_get_gallery_html( $gallery, $ids, true );
 
 		// we need to to inject embed code later
 		$placeholder = '<div><!-- gallery:' . sha1( $html ) . ' --></div>';

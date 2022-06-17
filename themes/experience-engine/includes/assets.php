@@ -9,49 +9,18 @@ add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
 add_filter( 'fvideos_show_video', 'ee_fvideos_show_video', 10, 2 );
 add_filter( 'tribe_events_assets_should_enqueue_frontend', '__return_false' );
-add_filter( 'tribe_rest_event_data', 'add_featured_data_in_tribe' );
 
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
-if ( ! function_exists( 'add_featured_data_in_tribe' ) ) :
-	function add_featured_data_in_tribe($event_data) {
-		$video_url = "";
-		$event_id = $event_data['id'];
-
-		$post_thumbnail = get_post_thumbnail_id( $event_id );
-		$embed = get_post_meta($post_thumbnail, 'embed', true);
-
-		if( isset($embed['provider_name']) && $embed['provider_name'] == 'YouTube' ) {
-			$matchUrl ="";
-			preg_match( '/src="([^"]+)"/', $embed['html'], $matchUrl );
-			$youtubeMatchUrl	= isset($matchUrl[1]) && $matchUrl[1] != "" ? $matchUrl[1] : "";
-			$video_url = isset($embed['url']) && $embed['url'] != "" ? $embed['url'] : $youtubeMatchUrl;
-		} else if ( isset($embed['type']) && $embed['type'] == 'video' ) {
-			$video_url = $embed['provider_url'].''.$embed['video_id'];
-		}
-
-		if ( !empty( $video_url ) && isset( $embed['thumbnail_url'] ) && !empty( $embed['thumbnail_url'] ) ) {
-			$event_data['feature_video'] = [
-				"url" => $video_url,
-				"thumbnail_url" => $embed['thumbnail_url'],
-				"thumbnail_width" => $embed['thumbnail_width'],
-				"thumbnail_height" => $embed['thumbnail_height'],
-			];
-		}
-
-		return $event_data;
-	}
-endif;
-
 if ( ! function_exists( 'add_featured_data_in_rss' ) ) :
 	function add_featured_data_in_rss() {
 		global $post;
 		$video_url = "";
 
-		// Add Featured image at item end 
+		// Add Featured image at item end
 		if ( has_post_thumbnail( $post->ID ) ) {
 			$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'original' );
 			if ( ! empty( $thumbnail[0] ) ) { ?>
@@ -139,10 +108,19 @@ try {
 	// do nothing
 }
 
-function scrollToSegmentation(item) {
-	var gotoID = document.getElementById('segment-item-' + item);
+function scrollToSegmentation(type, item, heading_item = null) {
+	var gotoID = null;
+	if(item) {
+		gotoID = document.getElementById(jQuery.trim(type) + '-segment-item-' + item);
+	}
+	if(heading_item) {
+		gotoID = document.getElementById(jQuery.trim(type) + '-segment-header-item-' + heading_item);
+	}
 	if(gotoID) {
-		gotoID.scrollIntoView();
+		gotoID.scrollIntoView({
+			block: "start",
+			behavior: "smooth",
+		});
 	}
 }
 

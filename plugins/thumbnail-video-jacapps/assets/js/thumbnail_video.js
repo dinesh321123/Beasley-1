@@ -57,22 +57,6 @@
                 $lazyVideo.html(html);
             }
         });
-
-		let $stnPlayerDiv = $(".stnplayer");
-        let stnplayercount = $stnPlayerDiv.length;
-
-		if(stnplayercount) {
-			$stnPlayerDiv.each(function (el) {
-				var $currentShare = $(this);
-                let dataKey = $currentShare.data("key");
-                let dataCID = $currentShare.data("cid");
-                let dataType = $currentShare.data("type");
-				
-				if (dataType === "featured" && $.trim(dataKey) != "") {
-                    renderSTNVideoThumbnailMobile(dataKey, dataCID);
-                }
-            })
-		}
     });
 })(jQuery);
 
@@ -119,30 +103,4 @@ function renderVideoThumbnailMobile($el, data, vti = 0) {
         </div>
     `;
     $el.html(replaceHtml);
-}
-
-function renderSTNVideoThumbnailMobile(dataKey, dataCID = '') {
-	const html = `
-		<div class="lazy-video thumbnail-video-jacapp stn-video-jacapp">
-				<iframe style="width: 100%;height: 100%;" sandbox="allow-scripts allow-popups allow-same-origin" layout="responsive" frameborder="0" resizable src="https://embed.sendtonews.com/amp/?v=2&SC=${dataKey}&cid=${dataCID}"><img overflow layout="fill" src="https://cdnmedia.sendtonews.com/players/library/placeholder.png"></img><img placeholder layout="fill" src="https://cdnmedia.sendtonews.com/players/library/placeholder.png"></img></iframe>
-		</div>`;
-
-	const featuredDiv = document.getElementsByClassName('post-thumbnail')[0];
-	if(featuredDiv) {
-		featuredDiv.innerHTML = '';
-		featuredDiv.innerHTML = html;
-	} else {
-		const description = document.getElementsByClassName('description')[0];
-		if (description) {
-			const thumbnailDiv1 = document.createElement('div');
-			thumbnailDiv1.className = `post-thumbnail featured-media`;
-			thumbnailDiv1.innerHTML = html;
-
-			const thumbnailDiv2 = document.createElement('div');
-			thumbnailDiv2.className = `post-thumbnail-wrapper`;
-			thumbnailDiv2.appendChild(thumbnailDiv1);
-
-			description.insertBefore(thumbnailDiv2, description.firstChild);
-		}
-	}
 }

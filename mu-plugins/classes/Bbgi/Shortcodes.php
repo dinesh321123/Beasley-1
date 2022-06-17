@@ -72,11 +72,12 @@ class Shortcodes extends \Bbgi\Module {
 	public function handle_sendtonews_shortcode( $atts ) {
 		$atts = shortcode_atts( array(
 				'key'	=> '',
-				'type'	=> 'float'
+				'type'	=> 'float',
+				'fk'	=> '',
 		), $atts, 'sendtonews' );
 
 		$stn_cid = get_option( 'stn_cid', '' );
-		return sprintf( '<div class="stnplayer" data-key="%s" data-cid="%s" data-type="%s"></div>', $atts['key'], $stn_cid, $atts['type'] );
+		return sprintf( '<div class="stnplayer" data-fk="%s" data-key="%s" data-cid="%s" data-type="%s"></div>', $atts['fk'] , $atts['key'], $stn_cid, $atts['type'] );
 	}
 
 	public function handle_inlink_shortcode( $atts ) {

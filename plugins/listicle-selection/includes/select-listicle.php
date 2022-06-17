@@ -8,25 +8,24 @@ class ExistingListicleSelection {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
+		global $pagenow;
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_footer', array( __CLASS__, 'listicle_print_media_templates' ) );
-		add_action( 'wp_footer', array( __CLASS__, 'listicle_print_media_templates' ) );
 		add_action( 'customize_controls_print_footer_scripts', array( __CLASS__, 'listicle_print_media_templates' ) );
 		add_action( 'wp_ajax_get_listicle_cpt_data', array( __CLASS__, 'get_listicle_cpt_data' ) );
 		add_action( 'wp_ajax_load_more_listicle_cpt_data', array( __CLASS__, 'load_more_listicle_cpt_data' ) );
 		add_filter('media_view_strings', array( __CLASS__, 'custom_media_string'), 10, 2);
+		if ( ( $pagenow == 'post.php' || $pagenow == 'post-new.php' || $pagenow == 'admin-ajax.php' ) && is_admin() ) {
+			remove_filter('the_title', 'wptexturize');
+		}
 	}
 
 	public static function enqueue_scripts(){
-		global $typenow, $pagenow;
-		$post_types = array( 'listicle_cpt', 'gmr_gallery' );
-		if ( !in_array( $typenow, $post_types ) ) {
-			wp_register_style('existing-listicle-selection-admin', LISTICLE_SELECTION_URL . "assets/css/listicle_selection.css", array(), LISTICLE_SELECTION_VERSION, 'all');
-			wp_enqueue_style('existing-listicle-selection-admin');
-			wp_enqueue_script('existinglisticle', LISTICLE_SELECTION_URL . "assets/js/listicle_selection.js", array('media-views'), LISTICLE_SELECTION_VERSION, true);
-			wp_enqueue_media();
-			wp_enqueue_editor();
-		}
+		wp_register_style('existing-listicle-selection-admin', LISTICLE_SELECTION_URL . "assets/css/listicle_selection.css", array(), LISTICLE_SELECTION_VERSION, 'all');
+		wp_enqueue_style('existing-listicle-selection-admin');
+		wp_enqueue_script('existinglisticle', LISTICLE_SELECTION_URL . "assets/js/listicle_selection.js", array('media-views'), LISTICLE_SELECTION_VERSION, true);
+		wp_enqueue_media();
+		wp_enqueue_editor();
 	}
 
 	public static function custom_media_string($strings,  $post){
@@ -51,13 +50,15 @@ class ExistingListicleSelection {
 	public static function select_listicle_title_filter( $where, $wp_query ){
 		global $wpdb;
 		if ( $search_term = $wp_query->get( 'search_prod_title' ) ) {
-			$where .= ' AND ' . $wpdb->posts . '.post_title LIKE \'%' . esc_sql( like_escape( $search_term ) ) . '%\'';
+			$where .= ' AND LOWER(' . $wpdb->posts . '.post_title) LIKE \'%' . esc_sql( like_escape( $search_term ) ) . '%\'';
 		}
 		return $where;
 	}
 
-	public static function get_listicles_cpt_data( $paged_value, $s_value = null, $s_category = null, $s_tag = null ) {
+	public static function get_listicles_cpt_data( $paged_value, $s_value = null, $s_category = null, $s_tag = null, $s_title_wo_filter = null ) {
 		global $wpdb;
+		$search = array();
+		$title_search = array();
 		$return_result = array();
 		$images = array();
 		$query_images_args = array(
@@ -90,15 +91,29 @@ class ExistingListicleSelection {
 					$wp_query_args['tag_id'] = term_exists($s_value, "post_tag")['term_id'];
 				}
 			}
-			if($title_condition && $detected_flag === 0) {
-				$wp_query_args['search_prod_title'] = $s_value;
+			if($title_condition) {
+				$wp_title_query = array(
+					'posts_per_page' => -1,
+					'post_type' => 'listicle_cpt',
+					'post_status' => 'publish',
+					'search_prod_title' => $s_title_wo_filter
+				);
 				add_filter( 'posts_where', array( __CLASS__, 'select_listicle_title_filter'), 10, 2 );
-				$listicle_filter_result = new WP_Query($wp_query_args);
+				$title_filter_listicle = new WP_Query($wp_title_query);
 				remove_filter( 'posts_where', array( __CLASS__, 'select_listicle_title_filter'), 10, 2 );
-			} else {
-				$listicle_filter_result = new WP_Query($wp_query_args);
+
+				if(count($title_filter_listicle->posts)) {
+					$title_search = wp_list_pluck( $title_filter_listicle->posts, 'ID' );
+				}	
 			}
-			$search = wp_list_pluck( $listicle_filter_result->posts, 'ID' );
+			if($detected_flag == 1) {
+				$listicle_filter_result = new WP_Query($wp_query_args);
+				$search = wp_list_pluck( $listicle_filter_result->posts, 'ID' );
+			}
+
+			if(count($title_search)) {
+				$search = array_unique( array_merge( $search, $title_search ) );
+			}
 
 			// Search Query Result
 			if(count($search)) {
@@ -131,10 +146,10 @@ class ExistingListicleSelection {
 		$SearchCat_val = $SearchCat ? $SearchCat : '';
 		$SearchTag_val = $SearchTag ? $SearchTag : '';
 
-		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val );
+		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val, $_GET['s_title'] );
 		$html = self::prepare_html($listicle_data['data'], $SearchTitle_val, $SearchCat_val, $SearchTag_val);
 
-		$resutl = array( "html" => $html, "searchids" => $listicle_data['searchids'], "searchtitle" => $SearchTitle_val, "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val );
+		$resutl = array( "html" => $html, "searchids" => $listicle_data['searchids'], "searchtitle" => $_GET['s_title'], "pageddata" => $PagedData_val, "searchcat" => $SearchCat_val, "searchtag" => $SearchTag_val );
 		wp_send_json_success( $resutl );
 	}
 
@@ -151,7 +166,7 @@ class ExistingListicleSelection {
 		$SearchCat_val = $SearchCat ? $SearchCat : '';
 		$SearchTag_val = $SearchTag ? $SearchTag : '';
 
-		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val )['data'];
+		$listicle_data = self::get_listicles_cpt_data( $PagedData_val, $SearchTitle_val, $SearchCat_val, $SearchTag_val, $_GET['s_title'] )['data'];
 
 		if( $listicle_data->found_posts > 0 ) {
 			while ( $listicle_data->have_posts() ) : $listicle_data->the_post();
@@ -163,7 +178,7 @@ class ExistingListicleSelection {
 						<div style="width: 200px; height: 150px; display: flex;">
 							<img
 								class="img-attachment"
-								src="' . $image_src[0] . '" image-id="' . get_post_thumbnail_id() . '" />
+								src="' . ($image_src ? $image_src[0] : 'https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=200&d=mm&r=g') . '" image-id="' . get_post_thumbnail_id() . '" />
 						</div>
 						<div class="desc-main-container">
 						<div class="desc-upper-container">'.get_the_title().'</div>
@@ -187,7 +202,7 @@ class ExistingListicleSelection {
 			<div class="selectlisticle__preview">
 				<?php
 					// Query to fetch listicles
-					$listicle_data = self::get_listicles_cpt_data(1, null, null, null);
+					$listicle_data = self::get_listicles_cpt_data(1, null, null, null, null);
 
 					$html = self::prepare_html($listicle_data['data'], null, null, null);
 					echo $html;
@@ -220,7 +235,7 @@ class ExistingListicleSelection {
 						<div style="width: 200px; height: 150px; display: flex;">
 							<img
 								class="img-attachment"
-								src="' . $image_src[0] . '" image-id="' . get_post_thumbnail_id() . '" />
+								src="' . ($image_src ? $image_src[0] : 'https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=200&d=mm&r=g') . '" image-id="' . get_post_thumbnail_id() . '" />
 						</div>
 						<div class="desc-main-container">
 						<div class="desc-upper-container">'.get_the_title().'</div>

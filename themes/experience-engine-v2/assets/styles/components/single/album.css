@@ -1,0 +1,69 @@
+.single-gmr_album {
+	& .album-header {
+		&.album-title {
+			margin-bottom: .25rem;
+		}
+
+		& .meta {
+			align-items: center;
+			display: flex;
+			font-size: .889rem;
+			flex-wrap: wrap;
+
+			@media(--min-medium-viewport) {
+				flex-wrap: nowrap;
+				padding-bottom: 1.8125rem;
+			}
+
+			& > *:not(.author-meta) {
+				padding-bottom: .889rem;
+
+				@media(--min-medium-viewport) {
+					padding-bottom: 0;
+				}
+			}
+		}
+
+		& .author-meta {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+
+			@media(--min-medium-viewport) {
+				flex-wrap: nowrap;
+			}
+
+			& > * {
+				margin-bottom: .889rem;
+
+				@media(--min-medium-viewport) {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		& .author-meta-name,
+		& .author-meta-date {
+			padding-right: 1.445rem;
+		}
+
+		& .author-meta-name {
+			font-weight: 700;
+		}
+
+		& .author-avatar {
+			border-radius: 50%;
+			display: inline-block;
+			margin-right: 1.445rem;
+			max-height: 32px;
+			max-width: 32px;
+			overflow: hidden;
+		}
+
+		& .share {
+			& .facebook {
+				margin-left: 0;
+			}
+		}
+	}
+}

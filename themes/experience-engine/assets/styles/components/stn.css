@@ -11,8 +11,8 @@
 	}
 }
 
-.s2nSmartPlayer::before {
-	content: "Related Video";
+.s2nheadshow::before {
+	content: "Have you seen this?";
 	font-weight: bold;
 	margin-bottom: 1rem;
 	padding-top: 1rem;
@@ -20,12 +20,11 @@
 	display: block;
 }
 
-.s2nSmartPlayer::after {
+.s2nheadshow::after {
 	content: "";
 	display: block;
 	margin-top: 1rem;
 	border-top: 1px solid lightgray;
-
 }
 
 .s2nSmartPlayer[style]:not(.s2nBelowViewport) {

@@ -39,7 +39,7 @@
   box-shadow: rgb(0 0 0 / 7%) 0px 1px 2px inset;
   border: 1px solid rgb(221, 221, 221);
 }
-#add_content{
+#add_content, #add_header_item{
   background: #3373ab;
     color: #fff;
     height: 42px;
@@ -50,7 +50,7 @@
     border-color: #3373ab;
     margin-top: 15px;
 }
-#add_content:hover, #add_content:focus{
+#add_content:hover, #add_content:focus, #add_header_item:hover, #add_header_item:focus{
   background:#1e4b73;
   border-color:#1e4b73;
 }
@@ -83,4 +83,42 @@
 .dir-btn-grp .dir-btn i{
   font-size: 20px;
   line-height:1;
+}
+.afm-dialog{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+body .afm-dialog .ui-dialog-titlebar-close {
+	width: 30px;
+	height: 30px;
+	margin: -15px 0 0 0;
+}
+.afm-dialog .ui-dialog-titlebar-close:before {
+	font: normal 25px/1 dashicons;
+	line-height: 1;
+}
+body .afm-dialog .ui-icon-closethick {
+	display: none;
+}
+#am-modal{
+	overflow: unset;
+}
+.am-input-container{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+#am-input{
+	margin: 6px 0px;
+	width: 40%;
+	float: right;
+}
+#am-submit{
+	float: right;
+	margin: 10px 0px;
+}
+#am-note{
+	width: 100%;
+	text-align: right;
 }

@@ -15,7 +15,7 @@ class Webhooks extends \Bbgi\Module {
 	 * @access public
 	 */
 	public function register() {
-		add_action( 'save_post', array( $this, 'do_save_post_webhook' ) );
+		add_action( 'save_post', array( $this, 'do_save_post_webhook' ), 10, 2 );
 		add_action( 'wp_trash_post', array( $this, 'do_trash_post_webhook' ) );
 		add_action( 'delete_post', array( $this, 'do_delete_post_webhook' ) );
 		add_action( 'transition_post_status', [ $this, 'do_transition_from_publish' ], 10, 3 );
@@ -56,8 +56,12 @@ class Webhooks extends \Bbgi\Module {
 	 *
 	 * @param int $post_id The Post id that changed
 	 */
-	public function do_save_post_webhook( $post_id ) {
-		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post' ] );
+	public function do_save_post_webhook( $post_id, $post) {
+		$type = '';
+		if($this->is_wp_minions()){
+			$type = $post->post_type;
+		}
+		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type ] );
 	}
 
 	/**
@@ -184,6 +188,12 @@ class Webhooks extends \Bbgi\Module {
 
 		$url = trailingslashit( $base_url ) . 'admin/publishers/' . $publisher . '/build?appkey=' . $appkey;
 
+		$post_type = get_post_type( $post_id );
+
+		if(!$post_type && isset($opts['post_type'])){
+			$post_type = $opts['post_type'];
+		}
+
 		$request_args = [
 			'blocking'        => false,
 			'body'            => [
@@ -194,6 +204,7 @@ class Webhooks extends \Bbgi\Module {
 				'wp_cron'       => defined( 'DOING_CRON' ) && DOING_CRON ? 'yes' : 'no',
 				'wp_ajax'       => defined( 'DOING_AJAX' ) && DOING_AJAX ? 'yes' : 'no',
 				'wp_minions'    => $this->is_wp_minions() ? 'yes' : 'no',
+				'post_type'    	=> $post_type,
 			],
 		];
 
@@ -250,20 +261,14 @@ class Webhooks extends \Bbgi\Module {
 	public function get_supported_post_types() {
 		return [
 			'post',
-			'page',
-			'attachment',
 			'gmr_gallery',
-			'gmr_album',
 			'episode',
 			'tribe_events',
-			'subscription',
-			'content-kit',
 			'contest',
-			'songs',
-			'show',
 			'gmr_homepage',
 			'gmr_mobile_homepage',
-			'podcast',
+			'affiliate_marketing',
+			'listicle_cpt'
 		];
 	}
 

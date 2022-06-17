@@ -160,6 +160,7 @@ class Settings extends \Bbgi\Module {
 
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
+		add_settings_section( 'ee_site_header_colors', 'Header Colors', '__return_false', $this->_settings_page_hook );
 
 		add_settings_section( 'opacity_section', 'Play Button Opacity', '__return_false', $this->_settings_page_hook );
 		add_settings_field('play_opacity_setting', 'Opacity', 'bbgi_input_field', $this->_settings_page_hook, 'opacity_section', 'name=play_opacity_setting&default=0.8');
@@ -176,6 +177,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('stn_barker_id', 'STN Barker ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_barker_id');
 		add_settings_field('stn_inarticle_id', 'STN In Article ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_inarticle_id');
 		add_settings_field('stn_categories', 'STN Allowed Categories', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_categories');
+		add_settings_field('stn_position', 'STN Paragraph Position', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_position&default=2');
 
 		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=gmr_site_logo' );
 		add_settings_field( 'ee_subheader_mobile_logo', 'Mobile Subheader Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=ee_subheader_mobile_logo' );
@@ -186,6 +188,13 @@ class Settings extends \Bbgi\Module {
 		add_settings_field( 'ee_publisher', 'Publisher', array( $this, 'render_publisher_select' ), $this->_settings_page_hook, 'ee_site_settings', $publisher_args );
 		add_settings_field( 'ee_login', 'EE Login Options', array( $this, 'render_ee_login' ), $this->_settings_page_hook, 'ee_site_settings', $ee_login_disabled_args );
 
+		add_settings_field( 'ee_theme_header_background_color', 'Header Background Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_background_color&default=#202020' );
+		add_settings_field( 'ee_theme_header_nav_dd_background_color', 'Navigation Drop Down Background Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_nav_dd_background_color&default=#313131' );
+		add_settings_field( 'ee_theme_header_navigation_link_color', 'Header Navigation Link Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_navigation_link_color&default=#ff0000' );
+		add_settings_field( 'ee_theme_header_icons_color', 'Header Social Icons Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_icons_color&default=#000000' );
+		add_settings_field( 'ee_theme_header_search_color', 'Header Search Icon Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_search_color&default=#ffffff' );
+		add_settings_field( 'ee_theme_header_hamburger_menu_color', 'Header Hamburger Menu Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_hamburger_menu_color&default=#ff0000' );
+
 		add_settings_field( 'ee_theme_primary_color', 'Primary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_primary_color&default=#ff0000' );
 		add_settings_field( 'ee_theme_secondary_color', 'Secondary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_secondary_color&default=#ffe964' );
 		add_settings_field( 'ee_theme_tertiary_color', 'Tertiary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_tertiary_color&default=#ffffff' );
@@ -195,6 +204,9 @@ class Settings extends \Bbgi\Module {
 		add_settings_field( 'ee_theme_button_color', 'Button Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_button_color&default=#ffe964' );
 
 		add_settings_field( 'ee_theme_text_color', 'Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_text_color&default=#000000' );
+		add_settings_field( 'ee_theme_breaking_news_bar_text_color', 'Breaking News Bar Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_breaking_news_bar_text_color&default=#ff0000' );
+		add_settings_field( 'ee_theme_breaking_news_bar_background_color', 'Breaking News Bar Background Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_breaking_news_bar_background_color&default=#282828' );
+		add_settings_field( 'ee_theme_music_control_color', 'Control Music Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_music_control_color&default=#ffe964' );
 
 		add_settings_section( 'contest_section', 'Contests', '__return_false', $this->_settings_page_hook );
 		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
@@ -247,6 +259,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'stn_barker_id', 'sanitize_text_field');
 		register_setting(self::option_group, 'stn_inarticle_id', 'sanitize_text_field');
 		register_setting(self::option_group, 'stn_categories', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_position', 'sanitize_text_field');
 
 		register_setting( self::option_group, 'ee_theme_primary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_secondary_color', 'sanitize_text_field' );
@@ -254,6 +267,16 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_theme_background_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_button_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_text_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_breaking_news_bar_text_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_breaking_news_bar_background_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_music_control_color', 'sanitize_text_field' );
+
+		register_setting( self::option_group, 'ee_theme_header_background_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_nav_dd_background_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_icons_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_navigation_link_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_search_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_hamburger_menu_color', 'sanitize_text_field' );
 
 		register_setting( self::option_group, 'ee_geotargetly_enabled', 'sanitize_text_field' );
 

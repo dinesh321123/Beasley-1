@@ -1,0 +1,7 @@
+.post-type-archive-gmr_gallery {
+	& .type-gmr_gallery {
+		& .lazy-image-attribution {
+			display: block;
+		}
+	}
+}

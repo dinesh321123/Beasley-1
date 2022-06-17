@@ -42,6 +42,13 @@ mu-plugins/post-finder/
 !/plugins/gallery-selection
 !/plugins/listicle-selection
 !/plugins/cpt-co-author-settings
+!/plugins/recent-posts-and-nav-menu-widget
+!/plugins/megamenu
+!/plugins/stn-jacapps
+!/plugins/cpt-public-post-preview
+!/plugins/cpt-tag-category-import-export
+!/plugins/wp-multisite-user-sync
+!/plugins/vimeovideoselector
 
 themes/index.php
 themes/twentyfourteen
@@ -63,4 +70,7 @@ themes/**/css/*.css
 themes/**/js/*.js
 themes/greatermedia/vendor/
 /themes/experience-engine/bundle/
+/themes/experience-engine-new/bundle/
+/themes/experience-engine-new/bundle/app.js
+/themes/experience-engine-v2/bundle/
 /wpmvc/

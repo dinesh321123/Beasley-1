@@ -1,0 +1,10 @@
+.single-episode,
+.single-podcast {
+	& .archive-tiles {
+		& .type-episode {
+			& .placeholder-lazyimage {
+				display: none;
+			}
+		}
+	}
+}

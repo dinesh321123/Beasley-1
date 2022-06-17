@@ -17,9 +17,9 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 		$advanced_with_fluid = array_merge( $fluid, $advanced );
 
 		$sizes = array(
-			'top-leaderboard'    => $advanced_with_fluid,
+			'top-leaderboard'    => $advanced,
 			'bottom-leaderboard' => $advanced,
-			'in-list'            => $advanced_with_fluid,
+			'in-list'            => $advanced,
 			'in-list-gallery'    => array( array( 1, 1 ), array( 300, 250 ) ),
 			'player-sponsorship' => $fluid,
 			'right-rail'         => array( array( 300, 600 ), array( 300, 250 ) ),

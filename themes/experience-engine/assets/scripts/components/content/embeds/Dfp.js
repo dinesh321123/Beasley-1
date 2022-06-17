@@ -75,23 +75,31 @@ const slotVisibilityChangedHandler = event => {
 };
 
 const slotRenderEndedHandler = event => {
-	const { slot, lineItemId, isEmpty, size } = event;
+	const { slot, isEmpty, size } = event;
 	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
 		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
 		: null;
 
 	const placeholder = slot.getSlotElementId();
 
-	console.log(
-		`slotRenderEndedHandler for ${slot.getAdUnitPath()}(${placeholder}) with line item: ${lineItemId} of size: ${size}`,
-	);
+	// console.log(
+	// 	`slotRenderEndedHandler for ${slot.getAdUnitPath()}(${placeholder}) with line item: ${lineItemId} of size: ${size}`,
+	// );
 
 	// FOR DEBUG - LOG TARGETING
-	const pbTargetKeys = slot.getTargetingKeys();
-	console.log(`Slot Keys Of Rendered Ad`);
-	pbTargetKeys.forEach(pbtk => {
-		console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
-	});
+	// const pbTargetKeys = slot.getTargetingKeys();
+	// console.log(`Slot Keys Of Rendered Ad`);
+	// pbTargetKeys.forEach(pbtk => {
+	//	console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
+	// });
+
+	if (!isEmpty) {
+		if (placeholder === window.bbgiLeaderboardDivID) {
+			window.bbgiLeaderboardLoaded = true;
+		} else if (placeholder === playerAdhesionDivID) {
+			window.bbgiAdhesionLoaded = true;
+		}
+	}
 
 	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
 		const slotElement = document.getElementById(placeholder);
@@ -108,12 +116,12 @@ const slotRenderEndedHandler = event => {
 			let adSize;
 			if (size && size.length === 2 && (size[0] !== 1 || size[1] !== 1)) {
 				adSize = size;
-				console.log(`Prebid Ad Not Shown - Using Size: ${adSize}`);
+				// console.log(`Prebid Ad Not Shown - Using Size: ${adSize}`);
 			} else if (slot.getTargeting('hb_size')) {
 				// We ASSUME when an incomplete size is sent through event, we are dealing with Prebid.
 				// Compute Size From hb_size.
 				const hbSizeString = slot.getTargeting('hb_size').toString();
-				console.log(`Prebid Sizestring: ${hbSizeString}`);
+				// console.log(`Prebid Sizestring: ${hbSizeString}`);
 				const idxOfX = hbSizeString.toLowerCase().indexOf('x');
 				if (idxOfX > -1) {
 					const widthString = hbSizeString.substr(0, idxOfX);
@@ -132,11 +140,11 @@ const slotRenderEndedHandler = event => {
 						.toString()
 						.trim()
 				) {
-					console.log(
-						`PREBID AD SHOWN - ${slot.getTargeting(
-							'hb_bidder',
-						)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
-					);
+					// console.log(
+					//	`PREBID AD SHOWN - ${slot.getTargeting(
+					//		'hb_bidder',
+					//	)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
+					// );
 
 					try {
 						window.ga('send', {
@@ -191,29 +199,35 @@ const slotRenderEndedHandler = event => {
 class Dfp extends PureComponent {
 	constructor(props) {
 		super(props);
-		const { unitId, unitName, pageURL } = props;
+		const { placeholder, unitId, unitName, pageURL } = props;
 		const { bbgiconfig } = window;
-		this.isAffiliateMarketingPage = this.isAffiliateMarketingPage.bind(this);
-		this.isIncontentAdOnAffiliatePage = this.isIncontentAdOnAffiliatePage.bind(
-			this,
-		);
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+
+		if (this.isCreationCancelled(placeholder, unitName, pageURL)) {
 			return;
 		}
 
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
+		this.isConfiguredToRunInterval = this.isConfiguredToRunInterval.bind(this);
+		this.startInterval = this.startInterval.bind(this);
+		this.stopInterval = this.stopInterval.bind(this);
+		this.registerSlot = this.registerSlot.bind(this);
 		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.refreshSlot = this.refreshSlot.bind(this);
-		this.loadPrebid = this.loadPrebid.bind(this);
+		this.destroySlot = this.destroySlot.bind(this);
+		this.tryDisplaySlot = this.tryDisplaySlot.bind(this);
+
 		this.pushRefreshBidIntoGoogleTag = this.pushRefreshBidIntoGoogleTag.bind(
 			this,
 		);
+
+		// Prebid Functions
+		this.loadPrebid = this.loadPrebid.bind(this);
 		this.bidsBackHandler = this.bidsBackHandler.bind(this);
-		this.destroySlot = this.destroySlot.bind(this);
 		this.getPrebidBidders = this.getPrebidBidders.bind(this);
 		this.getBidderRubicon = this.getBidderRubicon.bind(this);
 		this.getBidderAppnexus = this.getBidderAppnexus.bind(this);
 		this.getBidderIx = this.getBidderIx.bind(this);
+		this.getBidderResetDigital = this.getBidderResetDigital.bind(this);
 
 		const slotPollSecs = parseInt(
 			bbgiconfig.ad_rotation_polling_sec_setting,
@@ -231,7 +245,7 @@ class Dfp extends PureComponent {
 		const isAffiliateMarketingPage = this.isAffiliateMarketingPage(pageURL);
 
 		const adjustedUnitId = this.getAdjustedUnitId(unitId, unitName, pageURL);
-		console.log(`Adjusted Ad Unit: ${adjustedUnitId}`);
+		// console.log(`Adjusted Ad Unit: ${adjustedUnitId}`);
 
 		// Initialize State. NOTE: Ensure that Minimum Poll Intervavl Is Much Longer Than
 		// 	Round Trip to Ad Server. Initially we enforce 5 second minimum.
@@ -259,6 +273,11 @@ class Dfp extends PureComponent {
 	}
 
 	isConfiguredToRunInterval() {
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
+			return false;
+		}
+
 		const { placeholder, unitName } = this.props;
 		const { isRotateAdsEnabled } = this.state;
 
@@ -282,6 +301,19 @@ class Dfp extends PureComponent {
 				unitName === 'in-list-gallery' ||
 				unitName === 'in-content') &&
 			this.isAffiliateMarketingPage(pageURL)
+		);
+	}
+
+	isAdInEmbeddedContent(placeholder) {
+		// Embedded content detected when slot is child element of a Div with class .am-meta-item-description
+		const slotElement = document.getElementById(placeholder);
+		return !!slotElement && !!slotElement.closest('.am-meta-item-description');
+	}
+
+	isCreationCancelled(placeholder, unitName, pageURL) {
+		return (
+			this.isIncontentAdOnAffiliatePage(unitName, pageURL) ||
+			this.isAdInEmbeddedContent(placeholder)
 		);
 	}
 
@@ -315,8 +347,10 @@ class Dfp extends PureComponent {
 
 	componentDidMount() {
 		const { googletag } = window;
-		const { placeholder, unitName, pageURL } = this.props;
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+		const { placeholder } = this.props;
+
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
 			return;
 		}
 
@@ -354,8 +388,8 @@ class Dfp extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		const { unitName, pageURL } = this.props;
-		if (this.isIncontentAdOnAffiliatePage(unitName, pageURL)) {
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
 			return;
 		}
 
@@ -557,6 +591,7 @@ class Dfp extends PureComponent {
 			let sizeMapping = false;
 			let prebidSizeConfig = false;
 			if (unitName === 'top-leaderboard') {
+				window.bbgiLeaderboardDivID = placeholder;
 				sizeMapping = googletag
 					.sizeMapping()
 
@@ -564,8 +599,21 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// accepts common desktop banner formats
-					.addSize([300, 0], [[320, 50], [320, 100], 'fluid'])
-					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
+					.addSize(
+						[300, 0],
+						[
+							[320, 50],
+							[320, 100],
+						],
+					)
+					.addSize(
+						[1160, 0],
+						[
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					)
 
 					.build();
 
@@ -594,8 +642,21 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// Same as top-leaderboard
-					.addSize([300, 0], [[320, 50], [320, 100], 'fluid'])
-					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
+					.addSize(
+						[300, 0],
+						[
+							[320, 50],
+							[320, 100],
+						],
+					)
+					.addSize(
+						[1160, 0],
+						[
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					)
 
 					.build();
 
@@ -648,8 +709,21 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// accepts common desktop banner formats
-					.addSize([300, 0], [[320, 50], [320, 100], 'fluid'])
-					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
+					.addSize(
+						[300, 0],
+						[
+							[320, 50],
+							[320, 100],
+						],
+					)
+					.addSize(
+						[1160, 0],
+						[
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					)
 
 					.build();
 
@@ -877,6 +951,11 @@ class Dfp extends PureComponent {
 	}
 
 	destroySlot() {
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
+			return;
+		}
+
 		const { placeholder } = this.props;
 		const { slot, prebidEnabled, adjustedUnitId } = this.state;
 
@@ -901,7 +980,7 @@ class Dfp extends PureComponent {
 	}
 
 	tryDisplaySlot() {
-		if (!this.state.slot) {
+		if (this.state && !this.state.slot) {
 			this.registerSlot();
 		}
 	}

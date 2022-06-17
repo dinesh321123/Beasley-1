@@ -72,8 +72,12 @@ class ListicleSelection extends \Bbgi\Module {
 		if ( ! is_array( $cpt_item_order ) ) {
 			$cpt_item_order = array();
 		}
+		$cpt_item_type 	= $this->get_post_metadata_from_post( 'cpt_item_type', $cpt_post_object );
+		if ( ! is_array( $cpt_item_type ) ) :
+			$cpt_item_type = array();
+		endif;
 
-		$content = apply_filters( 'bbgi_listicle_cotnent', $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $post_object );
+		$content = apply_filters( 'bbgi_listicle_cotnent', $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $post_object );
 		if ( ! empty( $content ) ) {
 			$content_updated = "<h2 class=\"section-head\"><span>".$cpt_post_object->post_title."</span></h2>".$content;
 			return $content_updated;

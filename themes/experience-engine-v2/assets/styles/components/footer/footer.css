@@ -1,0 +1,161 @@
+.footer {
+	background-color: var(--global-theme-primary);
+	color: var(--global-theme-font-primary);
+	padding: 2.7222rem 2.222rem;
+
+	& .custom-logo-link {
+		display: block;
+		padding-bottom: 2.111rem;
+
+		& img {
+			max-width: 121px;
+		}
+	}
+
+	& h6 {
+		font-weight: 700;
+		line-height: 1.778;
+	}
+
+	& p {
+		font-size: .889rem;
+	}
+
+	& .download {
+		& a {
+			clear: both;
+			float: left;
+
+			&:not(:last-child) {
+				padding-bottom: .778rem;
+			}
+		}
+	}
+}
+
+.footer-logo {
+	max-width: 200px;
+	content: var(--global-theme-footer-image);
+	margin-bottom: 1rem;
+}
+
+/* Grid Fallbacks */
+
+.footer-meta {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+
+	& > div {
+		flex: 0 1 100%;
+
+		@media (--min-medium-viewport) {
+			max-width: calc(50% - 4.444rem);
+			flex: 0 1 50%;
+		}
+
+		@media (--min-xlarge-viewport) {
+			max-width: calc(25% - 4.444rem);
+			flex: 0 1 25%;
+		}
+	}
+}
+
+/* End Grid Fallbacks */
+
+.footer-meta {
+	display: grid;
+	grid-gap: 4.444rem;
+
+	@media (--min-medium-viewport) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media (--min-large-viewport) {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	& > div {
+		@supports (display: grid) {
+			max-width: none;
+		}
+	}
+
+	& .about {
+		& ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		& li {
+			&:not(:last-child) {
+				& a {
+					padding-bottom: .889rem;
+				}
+			}
+		}
+
+		& a {
+			color: var(--global-theme-font-primary);
+			display: block;
+			font-size: .889rem;
+		}
+	}
+
+	& .newsletter {
+		& .btn {
+			min-width: 100%;
+		}
+	}
+
+	& .connect {
+		& ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		& a {
+			color: var(--global-theme-font-primary);
+			display: block;
+			font-size: .889rem;
+		}
+
+		& .menu {
+			padding-bottom: 2rem;
+
+			& li {
+				&:not(:last-child) {
+					& a {
+						padding-bottom: .889rem;
+					}
+				}
+			}
+		}
+
+		& .social {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+			max-width: calc(100% / 2);
+
+			& li {
+				display: inline;
+			}
+
+			& a {
+				& svg {
+					fill: var(--brand-primary);
+				}
+
+				&:hover {
+					& svg {
+						fill: var(--global-theme-font-primary);
+					}
+				}
+			}
+		}
+	}
+}

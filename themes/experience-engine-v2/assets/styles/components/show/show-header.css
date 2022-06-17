@@ -1,0 +1,10 @@
+.show-header {
+	border-bottom: 1px solid var(--global-mercury);
+	border-top: 1px solid var(--global-mercury);
+	margin-bottom: 1.59rem;
+	padding: 1.778rem 0;
+
+	@media (--max-medium-viewport) {
+		padding: 20px 0;
+	}
+}

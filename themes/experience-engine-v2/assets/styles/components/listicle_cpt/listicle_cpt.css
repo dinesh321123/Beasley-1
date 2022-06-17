@@ -1,0 +1,187 @@
+.listicle-main-ul-item,
+.listicle-item {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.post-tags {
+	& .post-tag-label {
+		color: #444444;
+	}
+}
+
+.single-affiliate_marketing {
+	/* css for affiliate marketing meta page */
+	& .post-thumbnail-caption-italic {
+		color: #000;
+		font-style: italic;
+		margin-top: 10px;
+		font-weight: 500;
+	}
+}
+
+.listicle-item {
+	border-bottom: 1px solid var(--global-silver);
+	margin-bottom: 2rem;
+	padding-bottom: 2rem;
+
+	& .placeholder-dfp {
+		margin-top: 1rem;
+	}
+
+	& .am_imagecode {
+		text-align: center;
+
+		& .placeholder-lazyimage::before {
+			padding-top: 0px;
+		}
+
+		& .lazy-image {
+			display: none;
+		}
+
+		& .non-lazy-image {
+			display: none;
+		}
+	}
+
+	& .placeholder-lazyimage {
+		overflow: hidden;
+		position: relative;
+		background-color: transparent;
+		width:100%;
+		margin:auto;
+		@media (--min-medium-viewport) {
+			width:400px;
+		}
+		&::before {
+			content: "";
+			display: block;
+			padding-top: calc((3 / 4) * 100%);
+			width: 100%;
+		}
+	}
+
+	& .lazy-image {
+		background-size: contain;
+		background-color: transparent;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+
+		& .lazy-image-attribution {
+			display: block;
+		}
+	}
+
+	& h4,
+	& p {
+		margin: 0;
+	}
+
+	& h3 {
+		margin: .5rem 0;
+	}
+
+	& .am-meta {
+
+		& .share-wrap {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+			margin: 1.25rem 0 1.5rem 0;
+
+			& .share-download-button {
+				border: 1px solid var(--brand-primary);
+				border-radius: 70px;
+				display: block;
+				font-size: 1rem;
+				padding: 0.5rem 1.5rem;
+				text-decoration: none;
+			}
+
+			& .share-wrap-icons {
+				align-items: center;
+				display: flex;
+			}
+
+			& .label {
+				color: var(--global-theme-font-tertiary);
+				display: inline-block;
+				font-size: 1rem;
+				margin-right: 1rem;
+			}
+
+			& button:first-child {
+				margin-left: 0;
+			}
+		}
+
+		& .attribution {
+			color: var(--global-theme-font-tertiary);
+			display: block;
+			font-size: .875rem;
+			font-weight: 400;
+			margin: 1rem 0;
+		}
+		& h3{
+			color: var(--brand-primary);
+			margin: 0.5rem 0 1rem;
+			text-transform: capitalize;
+		}
+		& p{
+			margin-bottom:1rem;
+		}
+		& .shop-button{
+			display: flex;
+			margin-top: 0.5rem;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			& .shop-now-button-meta{
+				margin-left: auto;
+			}
+			& .shop-now-button{
+				background: var(--brand-primary);
+				color: #fff;
+				padding: 8px 20px;
+				border-radius: 8px;
+			}
+		}
+		& .share-wrap{
+			justify-content: flex-end;
+			margin:0.5rem 0 1rem;
+			& .share{
+				margin-top: 0.5rem;
+				@media (--min-medium-viewport) {
+					margin-top: -35px;
+				}
+			}
+			& .label{
+				display: none;
+			}
+
+			& button{
+				height:40px;
+				width:40px;
+				text-align: center;
+				padding: 11px 13px;
+				border-radius:50%;
+			}
+		}
+	}
+
+}
+
+.listicle-header-item{
+	& .am-meta {
+		& h2 {
+			text-align: center;
+			margin: 0.5rem 0 1rem;
+			color: var(--brand-primary);
+			text-transform: capitalize;
+		}
+	}
+}
