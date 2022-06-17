@@ -14,7 +14,7 @@
 					<?php
 						$avatar = get_avatar( get_the_author_meta( 'ID' ), 40 );
 						if ( $avatar ) {
-							echo $avatar;	
+							echo $avatar;
 						} else {
 							echo '<img class="avatar avatar-40 photo" src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g" height="40" width="40" alt="Placeholder Shilloutte User Image">';
 						}
@@ -31,7 +31,10 @@
 							echo $additional_author_name;
 						}
 					} else {
-						the_author_meta( 'display_name' );
+						?>
+						<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" title="<?php echo esc_attr( get_the_author() ); ?>"><?php the_author(); ?></a>
+						<?php
+						// the_author_meta( 'display_name' );
 					}
 				?>
 			</span>
