@@ -32,7 +32,6 @@
 						}
 					} else {
 						echo '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="'. esc_attr( get_the_author() ) .'">', get_the_author(), '</a>';
-						// the_author_meta( 'display_name' );
 					}
 				?>
 			</span>
