@@ -244,7 +244,9 @@ export function getStateFromContent(container, pageURL) {
 	// Determine whether there are any Vimeo Videos. If so, we will not display STN.
 	const iframeElementNodelist = container.querySelectorAll('iframe');
 	const vimeoIFrameElementArray = [...iframeElementNodelist].filter(
-		el => el.src && el.src.toLowerCase().indexOf('vimeo') > -1,
+		el =>
+			(el.src && el.src.toLowerCase().indexOf('vimeo') > -1) ||
+			(el.src && el.src.toLowerCase().indexOf('livestream.com') > -1),
 	);
 
 	const state = {
