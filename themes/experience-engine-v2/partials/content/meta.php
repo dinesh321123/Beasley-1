@@ -17,7 +17,7 @@
 					<?php
 						$avatar = get_avatar( get_the_author_meta( 'ID' ), 40 );
 						if ( $avatar ) {
-							echo $avatar;	
+							echo $avatar;
 						} else {
 							echo '<img class="avatar avatar-40 photo" src="https://2.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=96&d=mm&r=g" height="40" width="40" alt="Placeholder Shilloutte User Image">';
 						}
@@ -30,7 +30,7 @@
 					if($secondary_author_name) {
 							echo "<span style='color:rgba(68, 68, 68, 0.6);'>By </span>".$primary_author_name." <span style='color:rgba(68, 68, 68, 0.6);'> and </span> ".$secondary_author_name;
 					} else {
-						the_author_meta( 'display_name', $primary_author);
+						echo '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="'. esc_attr( get_the_author() ) .'">', get_the_author(), '</a>';
 					}
 				?>
 			</span>
