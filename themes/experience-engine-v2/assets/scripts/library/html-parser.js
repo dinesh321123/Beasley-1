@@ -241,6 +241,12 @@ function processEmbeds(container, type, selector, callback) {
 }
 
 export function getStateFromContent(container, pageURL) {
+	// Determine whether there are any Vimeo Videos. If so, we will not display STN.
+	const iframeElementNodelist = container.querySelectorAll('iframe');
+	const vimeoIFrameElementArray = [...iframeElementNodelist].filter(
+		el => el.src && el.src.toLowerCase().indexOf('vimeo') > -1,
+	);
+
 	const state = {
 		scripts: {},
 		embeds: [],
@@ -383,6 +389,18 @@ export function getStateFromContent(container, pageURL) {
 				),
 			),
 			...processEmbeds(
+				document,
+				'megamenurecentposts',
+				'.megamenu-recent-posts-endpoint',
+				getDatasetParams(
+					'postsperpage',
+					'categories',
+					'showthumb',
+					'showthumbsize',
+					'menuareaid',
+				),
+			),
+			...processEmbeds(
 				container,
 				'ga',
 				'.ga-info',
@@ -408,8 +426,25 @@ export function getStateFromContent(container, pageURL) {
 				'.hsform',
 				getHubspotFormParams,
 			),
-			...processEmbeds(container, 'stnbarker', '.stnbarker', getStnEmbedParams),
-			...processEmbeds(container, 'stnplayer', '.stnplayer', getStnEmbedParams),
+			/* eslint-disable */
+			// Do not display STN when there are Vimeos on Page
+			...(vimeoIFrameElementArray.length
+				? []
+				: processEmbeds(
+						container,
+						'stnbarker',
+						'.stnbarker',
+						getStnEmbedParams,
+				  )),
+			...(vimeoIFrameElementArray.length
+				? []
+				: processEmbeds(
+						container,
+						'stnplayer',
+						'.stnplayer',
+						getStnEmbedParams,
+				  )),
+			/* eslint-enable */
 			...processEmbeds(
 				container,
 				'dmlbranded',

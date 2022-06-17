@@ -4,9 +4,12 @@
 			$contest_is_singular = is_singular( 'contest' );
 
 			// Co author Checking
-			$is_co_author_cpt = get_field( 'is_co_author_cpt', $post );
-			$additional_author_name = get_field( 'reported_attribution_cpt', $post );
-			$is_coauthor = (!empty($is_co_author_cpt) && $is_co_author_cpt[0] == 'true') ? true : false;
+			$primary_author = get_field( 'primary_author_cpt', $post );
+			$primary_author = $primary_author ? $primary_author : $post->post_author;
+			$secondary_author = get_field( 'secondary_author_cpt', $post );
+
+			$primary_author_name = $primary_author ? get_the_author_meta( 'display_name', $primary_author ) : '';
+			$secondary_author_name = $secondary_author ? get_the_author_meta( 'display_name', $secondary_author) : '';
 		?>
 		<?php if ( ! $contest_is_singular ) : ?>
 			<span class="author-avatar hide-avatar">
@@ -24,12 +27,8 @@
 
 			<span class="author-meta-name">
 				<?php
-					if($additional_author_name) {
-						if($is_coauthor) {
-							echo "<span style='color:rgba(68, 68, 68, 0.6);'>By </span>".get_the_author_meta( 'display_name' )." <span style='color:rgba(68, 68, 68, 0.6);'> and </span> ".$additional_author_name;
-						} else {
-							echo $additional_author_name;
-						}
+					if($secondary_author_name) {
+							echo "<span style='color:rgba(68, 68, 68, 0.6);'>By </span>".$primary_author_name." <span style='color:rgba(68, 68, 68, 0.6);'> and </span> ".$secondary_author_name;
 					} else {
 						echo '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="'. esc_attr( get_the_author() ) .'">', get_the_author(), '</a>';
 					}

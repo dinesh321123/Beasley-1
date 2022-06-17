@@ -40,7 +40,7 @@ class GallerySelection extends \Bbgi\Module {
 				'post_status' => 'any',
 				'post_type'   => 'gmr_gallery'
 			);
-	
+
 			$existing = get_posts( $meta_query_args );
 
 			if ( !empty( $existing ) ) {
@@ -61,7 +61,7 @@ class GallerySelection extends \Bbgi\Module {
 
 		$post = get_queried_object();
 		$gallery_object = get_post( $gallery_id );
-		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids );
+		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids, $gallery_object );
 		if ( ! empty( $content ) ) {
 			$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>".$content;
 			return $content_updated;
@@ -110,7 +110,7 @@ class GallerySelection extends \Bbgi\Module {
 		if( $post->post_type !== 'gmr_gallery' || $post->post_name !== $syndication_name ) {
 			return null;
 		}
-		
+
 		if ( ! isset( $ids[ $post->ID ] ) ) {
 			$array_ids = get_post_meta( $post->ID, 'gallery-image' );
 			$array_ids = array_filter( array_map( 'intval', $array_ids ) );

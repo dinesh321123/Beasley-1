@@ -48,26 +48,9 @@
 							<div class="drop-add">
 								<?php get_template_part( 'partials/playing-now-info' ); ?>
 							</div>
-							<hr>
-							<div class="on-air-list ll-menu-section<?php if ( !has_nav_menu( 'listen-live-nav' ) ) { echo ' full-width-menu'; } ?>" id="live-player-recently-played">
-								<?php
-									if ( has_nav_menu( 'listen-live-nav' ) ) :
-										wp_nav_menu(
-											array(
-												'container' => '',
-												'theme_location' => 'listen-live-nav',
-												'items_wrap' => '<ul id="%1$s" class="%2$s"><li><strong>'.wp_get_nav_menu_name('listen-live-nav').'</strong></li>%3$s</ul>'
-											)
-										);
-									endif;
-								?>
-							</div>
 							<?php if ( has_nav_menu( 'listen-live-nav' ) ) : ?>
 								<hr>
 							<?php endif; ?>
-							<div>
-								<?php get_template_part( 'partials/ads/drop-down' ); ?>
-							</div>
 						</div>
 						<button id='listen-live-button'>
 							<?php get_template_part( 'partials/player-button' ); ?>

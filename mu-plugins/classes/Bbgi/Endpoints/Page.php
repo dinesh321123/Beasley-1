@@ -18,6 +18,7 @@ class Page extends Module {
 	 * @return void
 	 */
 	public function register() {
+
 		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
 	}
 
@@ -54,7 +55,7 @@ class Page extends Module {
 		$page_response = wp_remote_get(
 			$url, [
 				'timeout'   => 30,
-				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true,
+				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true
 			]
 		);
 
@@ -85,9 +86,8 @@ class Page extends Module {
 				'internal' => false,
 				'url'      => '',
 			],
-			'html'      => false,
+			'html'      => false
 		];
-
 		if ( ! $this->is_internal_url( $url ) ) {
 			$response['status'] = 403;
 
@@ -102,21 +102,30 @@ class Page extends Module {
 		$matched_redirect = $redirects->match_redirect( $url );
 
 		if ( $matched_redirect ) {
+			$requestHeaders = get_headers($url,true);
 			$is_absolute = $this->is_absolute_url( $matched_redirect );
-
 			$response['redirect']['url']      = $is_absolute ? $matched_redirect : home_url( $matched_redirect );
 			$response['redirect']['internal'] = ! $is_absolute;
 			$response['status']               = 301;
+			$headers = ['x-cache-bbgi-tag' => $requestHeaders['X-Cache-BBGI-Tag'],'Cache-Tag' =>$requestHeaders['X-Cache-BBGI-Tag']];
 		}
 
 		// only fetch page if there's no redirect
 		if ( ! $matched_redirect ) {
 			$page_response = $this->fetch_page( $url );
-
+			$headers = wp_remote_retrieve_headers( $page_response );
+			$headers = array_values((array)$headers)[0];
 			$response['html']   = wp_remote_retrieve_body( $page_response );
 			$response['status'] = $page_response['response']['code'];
 		}
+        $response = rest_ensure_response( $response );
+		if(isset($headers['x-cache-bbgi-tag'])){
+			$response->set_headers([
+				'X-Cache-BBGI-Tag' => $headers['x-cache-bbgi-tag'],
+				'Cache-Tag' => $headers['x-cache-bbgi-tag']
+			]);
+		}
 
-		return rest_ensure_response( $response );
+		return  $response;
 	}
 }

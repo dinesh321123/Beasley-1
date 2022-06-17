@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { STATUSES } from '../redux/actions/player';
 import ErrorBoundary from '../components/ErrorBoundary';
-import { PodcastScrubber, Stations, Volume } from '../components/player';
+import {
+	PodcastScrubber,
+	Stations,
+	Volume,
+	DropDownAd,
+} from '../components/player';
 import { isIOS } from '../library';
 import PlayerButton from './PlayerButton';
 
@@ -135,6 +140,12 @@ class Info extends Component {
 					<PodcastScrubber />
 				</div>
 				<Stations />
+				<hr />
+				<div
+					className="on-air-list ll-menu-section full-width-menu"
+					id="live-player-recently-played"
+				/>
+				<DropDownAd />
 			</ErrorBoundary>
 		);
 	}

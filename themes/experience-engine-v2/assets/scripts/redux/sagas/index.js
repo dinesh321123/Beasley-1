@@ -23,6 +23,6 @@ export { default as watchLoadingPage } from './screen/yieldLoadingPage';
 export { default as watchLoadedPage } from './screen/yieldLoadedPage';
 export { default as watchLoadedPartial } from './screen/yieldLoadedPartial';
 export { default as watchHideSplashScreen } from './screen/yieldHideSplashScreen';
-export { default as watchAutoHideListenLive } from './screen/yieldAutoHideListenLive';
+export { default as watchAutoHideListenLive } from './screen/yieldPlayerStatusChange';
 export { default as watchHideListenLive } from './screen/yieldHideListenLive';
 export { default as watchShowListenLive } from './screen/yieldShowListenLive';

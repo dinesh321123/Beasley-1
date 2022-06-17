@@ -135,7 +135,7 @@ const slotRenderEndedHandler = event => {
 			window.bbgiAdhesionLoaded = true;
 		}
 
-		// Dropdown Ads May Have Display: None Set - Show Them
+		// Dropdown Ads May Have Display: None. Set Them To Show
 		if (placeholder === dropDownDivID) {
 			if (slotElement) {
 				slotElement.style.display = 'flex';
@@ -184,7 +184,6 @@ const slotRenderEndedHandler = event => {
 					adSize[1] = parseInt(heightString, 10);
 				}
 
-				// Now Send GA Stats
 				if (
 					slot &&
 					slot.getTargeting('hb_bidder') &&
@@ -193,12 +192,13 @@ const slotRenderEndedHandler = event => {
 						.toString()
 						.trim()
 				) {
-					// console.log(
-					//	`PREBID AD SHOWN - ${slot.getTargeting(
-					//		'hb_bidder',
-					//	)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
-					// );
+					console.log(
+						`PREBID AD SHOWN - ${slot.getTargeting(
+							'hb_bidder',
+						)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
+					);
 
+					/* Disable GA Stats due to high usage
 					try {
 						window.ga('send', {
 							hitType: 'event',
@@ -213,6 +213,7 @@ const slotRenderEndedHandler = event => {
 					} catch (ex) {
 						console.log(`ERROR Sending to Google Analytics: `, ex);
 					}
+					*/
 				}
 			}
 
@@ -607,6 +608,9 @@ class Dfp extends PureComponent {
 		const { adjustedUnitId } = this.state;
 
 		if (!document.getElementById(placeholder)) {
+			console.log(
+				`NOT REGISTERRING AD BECAUSE NO PLACE HOLDER FOR - ${unitName}`,
+			);
 			return;
 		}
 
@@ -707,6 +711,7 @@ class Dfp extends PureComponent {
 					},
 				];
 			} else if (unitName === 'drop-down') {
+				console.log('Building sizes for Dropdown');
 				sizeMapping = googletag
 					.sizeMapping()
 					// does not display on small screens

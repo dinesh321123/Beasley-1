@@ -8,7 +8,6 @@ import {
 export const DEFAULT_STATE = {
 	shouldRefreshDropdownAd: false,
 	shouldHideDropdownAd: false,
-	initialDropdownAdWasShown: false,
 };
 
 function reducer(state = {}, action = {}) {
@@ -23,7 +22,6 @@ function reducer(state = {}, action = {}) {
 			return {
 				...state,
 				shouldHideDropdownAd: false,
-				initialDropdownAdWasShown: true,
 			};
 		default:
 			// do nothing

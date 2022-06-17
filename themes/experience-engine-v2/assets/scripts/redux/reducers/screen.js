@@ -27,7 +27,7 @@ export const DEFAULT_STATE = {
 		message: '',
 	},
 	isListenLiveShowing: false,
-	isAllowingListenLiveAutoClose: false,
+	isAutoClosingListenLiveMode: false,
 };
 
 /**
@@ -128,20 +128,20 @@ function reducer(state = {}, action = {}) {
 			return {
 				...state,
 				isListenLiveShowing: false,
-				isAllowingListenLiveAutoClose: false,
+				isAutoClosingListenLiveMode: false,
 			};
 		}
 
 		case ACTION_SHOW_LISTEN_LIVE: {
-			const isAllowingListenLiveAutoClose =
+			const isAutoClosingListenLiveMode =
 				!state.isListenLiveShowing && action.isTriggeredByStream;
 			console.log(
-				`isListenLiveShowing: ${state.isListenLiveShowing} isTriggeredByStream: ${action.isTriggeredByStream} isAllowingListenLiveAutoClose: ${isAllowingListenLiveAutoClose}`,
+				`isListenLiveShowing: ${state.isListenLiveShowing} isTriggeredByStream: ${action.isTriggeredByStream} isAutoClosingListenLiveMode: ${isAutoClosingListenLiveMode}`,
 			);
 			return {
 				...state,
 				isListenLiveShowing: true,
-				isAllowingListenLiveAutoClose,
+				isAutoClosingListenLiveMode,
 			};
 		}
 

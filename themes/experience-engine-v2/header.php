@@ -1,6 +1,26 @@
 <?php
 use Bbgi\Integration\Google;
 ?>
+<?php
+
+	if (  is_front_page() ) {
+		$headerCacheTag  = $_SERVER['HTTP_HOST'].'-'.'home';
+	} else {
+		global $post;
+		$currentPostType	= "";
+		$currentPostSlug	= "";
+		if ( get_post_type() ) :
+			$currentPostType = get_post_type();
+		endif;
+		if (  isset( $post->post_name ) && $post->post_name != "" ) :
+			$currentPostSlug = "-".$post->post_name;
+		endif;
+		$headerCacheTag = $currentPostType.$currentPostSlug;
+	}
+
+	header("Cache-Tag: $headerCacheTag" . ",content", true);
+	header("X-Cache-BBGI-Tag: $headerCacheTag", true);
+?>
 <!doctype html>
 <html lang="en">
 	<head <?php language_attributes(); ?>>

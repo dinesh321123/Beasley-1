@@ -53,7 +53,7 @@ class Google extends \Bbgi\Module {
 					'1.0.0',
 					true
 				);
-				wp_localize_script( 'enqueue-scripts-for-common-mobile', 'GaInfoForJacapps', array( 'google_analytics' => $data['google_analytics'] ) );
+				wp_localize_script( 'enqueue-scripts-for-common-mobile', 'GaInfoForJacapps', array( 'google_analytics' => $data['google_analytics'], 'google_author_dimension' => $data['google_author_dimension'] ) );
 			}
 		}
 	}
@@ -64,7 +64,7 @@ class Google extends \Bbgi\Module {
 	 * @return array
 	 */
 	public function allow_posttype_list_for_common_mobile() {
-		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'affiliate_marketing', 'gmr_gallery', 'listicle_cpt' )  );
+		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'affiliate_marketing', 'gmr_gallery', 'listicle_cpt', 'post', 'show', 'contest' )  );
 	}
 
 	/**
@@ -135,7 +135,10 @@ class Google extends \Bbgi\Module {
 
 			$data['shows'] = implode( ', ', wp_get_post_terms( $post->ID, '_shows', $args ) );
 			$data['category'] = implode( ', ', wp_get_post_terms( $post->ID, 'category', $args ) );
-			$data['author'] = get_the_author_meta( 'login', $post->post_author );
+			
+			$primary_author = get_field( 'primary_author_cpt', $post );
+			$primary_author = $primary_author ? $primary_author : $post->post_author;
+			$data['author'] = get_the_author_meta( 'login', $primary_author );
 		}
 
 		return $data;

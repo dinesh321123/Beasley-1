@@ -1,6 +1,6 @@
 <?php
 
-add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 3 );
+add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 4 );
 
 if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 	function ee_setup_gallery_view_metadata() {
@@ -77,7 +77,7 @@ if ( ! function_exists( 'ee_get_galleries_query' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
-	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false ) {
+	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false, $gallery_author = '' ) {
 		static $urls = array();
 
 		if ( empty( $urls[ $gallery->ID ] ) ) {
@@ -86,8 +86,8 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 
 		$image_full_url = $urls[ $gallery->ID ] . 'view/' . urlencode( $image->post_name ) . '/';
 		$tracking_url = ! $is_first ? $image_full_url : '';
-		$update_lazy_image = function( $html ) use ( $tracking_url, $urls,  $gallery) {
-			return str_replace( '<div ', '<div data-autoheight="1" data-referrer="' . esc_attr( $urls[ $gallery->ID ] ) . '" data-tracking="' . esc_attr( $tracking_url ) . '" ', $html );
+		$update_lazy_image = function( $html ) use ( $urls,  $gallery ) {
+			return str_replace( '<div ', '<div data-autoheight="1" data-referrer="' . esc_attr( $urls[ $gallery->ID ] ) . '" ', $html );
 		};
 
 		add_filter( '_ee_the_lazy_image', $update_lazy_image );
@@ -105,7 +105,9 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 
 		echo $image_html;
 		if($is_common_mobile){
-			echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
+			echo '<div class="common-mobile-ga-info track" data-embed-author="' . esc_attr( $gallery_author ) . '" data-location="' . esc_attr( $tracking_url ) . '"></div>';
+		} else {
+			echo '<div class="ga-track-location" data-referrer="' . esc_attr( $urls[ $gallery->ID ] ) . '" data-author="' . esc_attr( $gallery_author ) .'" data-tracking="' . esc_attr( $tracking_url ) . '"></div>';
 		}
 
 		echo '<div class="gallery-meta">';
@@ -144,7 +146,8 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_html' ) ) :
-	function ee_get_gallery_html( $gallery, $ids, $from_embed = false ) {
+	function ee_get_gallery_html( $gallery, $ids, $from_embed = false, $embed_gallery_object = null ) {
+		$gallery_author = '';
 		$sponsored_image = get_field( 'sponsored_image', $gallery );
 		$id_pretext = $from_embed ? "embed-gallery" : "gallery";
 		if ( ! empty( $sponsored_image ) ) {
@@ -191,6 +194,13 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 			}
 		}
 
+		if(isset($embed_gallery_object) && !empty($embed_gallery_object)) {
+			$primary_author = get_field( 'primary_author_cpt', $embed_gallery_object );
+			$primary_author = $primary_author ? $primary_author : $embed_gallery_object->post_author;
+
+			$gallery_author = get_the_author_meta( 'login', $primary_author);
+		}
+
 		echo '<ul class="gallery-listicle">';
 
 		$segment_gallery_item = 0;
@@ -199,7 +209,8 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 				$image,
 				$gallery,
 				$sponsored_image == $image->ID,
-				$index == 0
+				$index == 0,
+				$gallery_author
 			);
 
 			if ( ! empty( $html ) ) {
@@ -221,13 +232,13 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_update_incontent_gallery' ) ) :
-	function ee_update_incontent_gallery( $html, $gallery, $ids ) {
+	function ee_update_incontent_gallery( $html, $gallery, $ids, $embed_gallery_object = null ) {
 		// do not render gallery if it has been called before <body> tag
 		if ( ! did_action( 'beasley_after_body' ) ) {
 			return '<!-- -->';
 		}
 
-		$html = ee_get_gallery_html( $gallery, $ids, true );
+		$html = ee_get_gallery_html( $gallery, $ids, true, $embed_gallery_object );
 
 		// we need to to inject embed code later
 		$placeholder = '<div><!-- gallery:' . sha1( $html ) . ' --></div>';

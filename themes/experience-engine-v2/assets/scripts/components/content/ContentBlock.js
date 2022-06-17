@@ -24,6 +24,7 @@ import EditFeed from './embeds/EditFeed';
 import Embedly from './embeds/Embedly';
 import SongArchive from './embeds/SongArchive';
 import RelatedPosts from './embeds/RelatedPosts';
+import MegamenuRecentPosts from './embeds/MegamenuRecentPosts';
 import DrimifyEmbed from './embeds/DrimifyEmbed';
 import TrackonomicsScript from './embeds/TrackonomicsScript';
 import GoogleAnalytics from './embeds/GoogleAnalytics';
@@ -60,6 +61,7 @@ const mapping = {
 	songarchive: SongArchive,
 	streamcta: StreamCta,
 	relatedposts: RelatedPosts,
+	megamenurecentposts: MegamenuRecentPosts,
 	ga: GoogleAnalytics,
 	gatracklocation: TrackLocation,
 	instagram: Instagram,

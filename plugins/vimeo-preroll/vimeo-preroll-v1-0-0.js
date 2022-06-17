@@ -1,3 +1,7 @@
+/*** Any Change To This File Must Entail A Version Change Due To Perma-Cache ***/
+/*** Includes are held in vimeo-preroll.php ***/
+/* v1-0-0 - Institute Versioning to comply with permacache */
+
 	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
 	var vimeoPlayerList;
 	window.loadVimeoPlayers = () => {
