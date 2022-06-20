@@ -145,7 +145,7 @@ const slotRenderEndedHandler = event => {
 
 	if (placeholder && isNotSponsorOrInterstitial(placeholder)) {
 		if (isEmpty) {
-			console.log('Empty Ad Returned');
+			console.log(`Empty Ad Returned for ${placeholder}`);
 			// DropDown Ads Should Not Retain Their Realestate
 			if (placeholder === dropDownDivID) {
 				if (slotElement) {
@@ -1152,8 +1152,18 @@ class Dfp extends PureComponent {
 	}
 
 	tryDisplaySlot() {
+		const { unitName } = this.props;
 		if (this.state && !this.state.slot) {
 			this.registerSlot();
+		}
+
+		if (unitName === 'drop-down') {
+			console.log(`Displaying ${unitName}`);
+			const { googletag } = window;
+			googletag.cmd.push(() => {
+				console.log('Calling googletag.display() on DropDown Ad');
+				googletag.display(dropDownDivID);
+			});
 		}
 	}
 

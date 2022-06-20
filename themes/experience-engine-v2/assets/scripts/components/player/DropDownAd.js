@@ -19,7 +19,7 @@ const DropDownAd = () => {
 	const isListenLiveShowing = useSelector(
 		state => state.screen.isListenLiveShowing,
 	);
-	if (!isListenLiveShowing && !dropDropDownAdRef.current) {
+	if (!isListenLiveShowing) {
 		console.log('NOT SHOWING DD AD');
 		return false;
 	}
