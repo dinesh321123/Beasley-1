@@ -68,6 +68,7 @@ abstract class Module {
 			'draftking-iframe'  => new \Bbgi\Integration\DraftkingIframe(),
 			'select-gallery' 			=> new \Bbgi\Integration\GallerySelection(),
 			'select-listicle' 	=> new \Bbgi\Integration\ListicleSelection(),
+			'select-am' 	=> new \Bbgi\Integration\AffiliateMarketingSelection(),
 			'upload-filesize-settings'	=> new \Bbgi\Integration\UploadFileSizeSettings(),
 		);
 

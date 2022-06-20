@@ -178,7 +178,7 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 			$start_index = $is_desc ? $total_segment : 1;
 
 			if( $segmentation_ordering_type !== 'header' && $total_segment > 0 ) {
-				echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+				echo '<div class="pagination-head-section" style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
 
 				for ($i=1; $i <= $total_segment; $i++) {
 					$diff = count($images) - (( $i - 1 ) * 10);

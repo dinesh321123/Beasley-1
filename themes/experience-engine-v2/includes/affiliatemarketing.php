@@ -1,9 +1,11 @@
 <?php
+add_filter( 'bbgi_am_cotnent', 'ee_update_incontent_am', 10, 15 );
 
 if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
-	function ee_get_affiliatemarketing_html( $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode,	$am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl, $am_item_type ) {
+	function ee_get_affiliatemarketing_html( $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode,	$am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl, $am_item_type, $source_post_object = null, $from_embed = false  ) {
 		$am_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($affiliatemarketing_post_object);
+		$id_pretext = $from_embed ? "embed-am" : "am";
 
 		$ads_interval = filter_var( get_field( 'images_per_ad', $affiliatemarketing_post_object ), FILTER_VALIDATE_INT, array( 'options' => array(
 			'min_range' => 1,
@@ -13,11 +15,67 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 
 		ob_start();
 
+		$checkID = $affiliatemarketing_post_object->ID;
+		if( !empty($source_post_object) && $source_post_object !== null ) {
+			$checkID = $source_post_object->ID;
+		}
+
+		if(get_field( 'display_segmentation', $checkID )) {
+			$segmentation_ordering_type = get_field( 'segmentation_ordering', $checkID );
+			if($segmentation_ordering_type == 'header') {
+				$header_items = array_keys( array_filter ($am_item_type, function ($var) { return ($var == "header"); } ) );
+				$total_segment_header = count ( $header_items );
+
+				if($total_segment_header > 0) {
+					echo '<div class="pagination-head-section" style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+					$header_index = 1;
+					for ($shi=1; $shi <= $total_segment_header; $shi++) {
+						if($am_item_name[$header_items[$shi-1]] !== "") {
+							echo '<button onclick=" scrollToSegmentation(\''.$id_pretext. '\', null, ' . $header_index . '); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $am_item_name[$header_items[$shi-1]] . '</button>';
+							$header_index++;
+						}
+					}
+					echo "</div>";
+				}
+			} else {
+				$segment_item_total = count ( array_filter ($am_item_type, function ($var) { return ($var !== "header"); } ) );
+				$total_segment = ceil( $segment_item_total / 10 );
+				$is_desc = ($segmentation_ordering_type != '' && $segmentation_ordering_type == 'desc') ? 1 : 0;
+				$start_index = $is_desc ? $total_segment : 1;
+
+				if($total_segment > 0) {
+					echo '<div class="pagination-head-section" style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
+
+					for ($i=1; $i <= $total_segment; $i++) {
+								$diff = $segment_item_total - (( $i - 1 ) * 10);
+								$diff = ($diff % 10 == 0) ? $diff - 1 : $diff;
+								$scroll_to = $is_desc ? ( floor( $diff / 10 ) * 10 ) : ( ($i - 1) * 10 );
+
+						$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
+						$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
+
+								echo '<button onclick=" scrollToSegmentation(\''.$id_pretext. '\', ' . ( $scroll_to + 1 ) .'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
+						$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
+					}
+					echo "</div>";
+				}
+			}
+		}
+
 		echo '<ul class="affiliate-marketingmeta">';
 
+		$segment_item_index = 0;
+		$segment_header_index = 0;
 		foreach ( $am_item_name as $index => $am_item_name_data ) {
 			if( isset( $am_item_name_data ) && $am_item_name_data != "" ) {
 				$am_tracking_code = $am_item_imagetype[$index] == 'imagecode' ? $am_item_unique_order[$index] : $am_item_order[$index]+1 ;
+				if( $am_item_type[$index] == 'header' ) {
+					$segment_header_index++;
+					$segment_li_class = $id_pretext."-segment-header-item-".$segment_header_index;
+				} else {
+					$segment_item_index++;
+					$segment_li_class = $id_pretext."-segment-item-".$segment_item_index;
+				}
 				if( isset( $am_item_photo[$index] ) && $am_item_photo[$index] !== '' )
 				{
 					$images_details = get_post( $am_item_photo[$index] );
@@ -28,7 +86,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 				$amitembuttonurl = $am_item_buttonurl[$index]
 				?	$amitembuttonurl = $am_item_buttonurl[$index]
 				: $amitembuttonurl = '#';
-				echo '<li class="affiliate-marketingmeta-item', $am_image_slug == $am_tracking_code ? ' scroll-to' : '', $am_item_type[$index] == 'header' ? ' am-header-item' : '', '">';
+				echo '<li id="', $segment_li_class, '" class="affiliate-marketingmeta-item', $am_image_slug == $am_tracking_code ? ' scroll-to' : '', $am_item_type[$index] == 'header' ? ' am-header-item' : '', '">';
 					// Start code for Affiliate marketing meta data
 					echo '<div class="am-meta">';
 						echo '<div class="wrapper">';
@@ -164,5 +222,26 @@ if ( ! function_exists( 'ee_the_affiliate_marketing_image' ) ) :
 		}
 
 		return $html;
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_incontent_am' ) ) :
+	function ee_update_incontent_am( $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode, $am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl, $am_item_type, $source_post_object ) {
+		// do not render affiliate marketing if it has been called before <body> tag
+		if ( ! did_action( 'beasley_after_body' ) ) {
+			return '<!-- -->';
+		}
+
+		$html = ee_get_affiliatemarketing_html( $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode, $am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl, $am_item_type, $source_post_object, true );
+
+		// we need to to inject embed code later
+		$placeholder = '<div><!-- affiliate marketing:' . sha1( $html ) . ' --></div>';
+		$replace_filter = function( $content ) use ( $placeholder, $html ) {
+			return str_replace( $placeholder, $html, $content );
+		};
+
+		add_filter( 'the_content', $replace_filter, 150 );
+
+		return $placeholder;
 	}
 endif;

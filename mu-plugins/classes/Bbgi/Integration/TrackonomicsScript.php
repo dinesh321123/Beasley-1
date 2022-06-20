@@ -29,6 +29,10 @@ class TrackonomicsScript extends \Bbgi\Module {
 			$trackonomicsScript = 1;
 		} */
 
+		if ( has_shortcode( $current_post_object->post_content, 'select-am' ) ) {
+			$trackonomicsScript = 1;	
+		}
+
 		$embed = sprintf(
 			'<div class="trackonomics-script" data-postid="%s" data-posttype="%s" data-trackonomicsscript="%s"></div>',
 			esc_attr( $current_post_object->ID ),

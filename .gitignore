@@ -49,6 +49,7 @@ mu-plugins/post-finder/
 !/plugins/cpt-tag-category-import-export
 !/plugins/wp-multisite-user-sync
 !/plugins/vimeovideoselector
+!/plugins/affiliate-marketing-selection
 
 themes/index.php
 themes/twentyfourteen
