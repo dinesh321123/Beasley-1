@@ -27,9 +27,16 @@
 
 			<span class="author-meta-name">
 				<?php
-					if($secondary_author_name) {
-							echo "<span style='color:rgba(68, 68, 68, 0.6);'>By </span>".$primary_author_name." <span style='color:rgba(68, 68, 68, 0.6);'> and </span> ".$secondary_author_name;
-					} else {
+					if($secondary_author_name) { ?>
+						<span style='color:rgba(68, 68, 68, 0.6);'>By </span>
+						<a href="<?php echo esc_url( home_url( '/authors/?author_id='.$primary_author ) ); ?>" title="<?php echo $primary_author_name; ?>">
+						<?php echo $primary_author_name; ?>
+					</a>
+						<span style='color:rgba(68, 68, 68, 0.6);'> and </span>
+						<a href="<?php echo esc_url( home_url( '/authors/?author_id='.$secondary_author ) ); ?>" title="<?php echo $secondary_author_name; ?>" >
+						<?php echo $secondary_author_name; ?>
+					</a>
+					<?php } else {
 						echo '<a href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="'. esc_attr( get_the_author() ) .'">', get_the_author(), '</a>';
 					}
 				?>
