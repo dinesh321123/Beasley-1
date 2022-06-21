@@ -58,10 +58,12 @@ class Webhooks extends \Bbgi\Module {
 	 */
 	public function do_save_post_webhook( $post_id, $post) {
 		$type = '';
+		$categories = '';
 		if($this->is_wp_minions()){
 			$type = $post->post_type;
+			$categories = get_the_category( $post_id );
 		}
-		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type ] );
+		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type, 'category_list' => $categories ] );
 	}
 
 	/**
@@ -191,9 +193,21 @@ class Webhooks extends \Bbgi\Module {
 		$url = trailingslashit( $base_url ) . 'admin/publishers/' . $publisher . '/build?appkey=' . $appkey;
 
 		$post_type = get_post_type( $post_id );
-
 		if(!$post_type && isset($opts['post_type'])){
 			$post_type = $opts['post_type'];
+		}
+
+		$categories = get_the_category( $post_id );
+		if (!$categories && isset($opts['category_list'])){
+			$categories = $opts['category_list'];
+		}
+
+		$categoryCSV = '';
+		foreach ( $categories as $category ) {
+			if (strlen($categoryCSV) > 0) {
+				$categoryCSV .= ',';
+			}
+			$categoryCSV .=  $category->slug;
 		}
 
 		$request_args = [
@@ -207,6 +221,7 @@ class Webhooks extends \Bbgi\Module {
 				'wp_ajax'       => defined( 'DOING_AJAX' ) && DOING_AJAX ? 'yes' : 'no',
 				'wp_minions'    => $this->is_wp_minions() ? 'yes' : 'no',
 				'post_type'    	=> $post_type,
+				'categories'	=> $categoryCSV,
 			],
 		];
 
