@@ -21,9 +21,6 @@ echo '<div class="', join( ' ', get_post_class() ), '">'; ?>
 	</div>
 
  <?php
-	/*
-	$author = get_user_by( 'slug', get_query_var( 'author_name' ) );
-	$current_page = get_query_var( 'paged' ) ?: 1; */
 	$pre_query = array(
 			'post_type' => array('post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing'),
 			// 'post_author'	=> $author_id, //Author ID
@@ -34,14 +31,12 @@ echo '<div class="', join( ' ', get_post_class() ), '">'; ?>
 					),
 			'post_status' => 'publish',
 			'paged' => get_query_var( 'paged' ),
-			'posts_per_page'=> '2',
+			'posts_per_page'=> '16',
 			'search_author_id' => $author_id
 	);
- add_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
- $author_query = new WP_Query( $pre_query );
- remove_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
-
-
+	add_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
+	$author_query = new WP_Query( $pre_query );
+	remove_filter( 'posts_where', 'searchWithAuthorID', 10, 2 );
 	// echo "<pre>", print_r($author_query->request), "</pre>";
 	if ( $author_query->have_posts() ) {
 		echo '<div class="archive-tiles content-wrap -grid -large">';
