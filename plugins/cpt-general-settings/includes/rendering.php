@@ -8,6 +8,11 @@ class GeneralSettingsFrontRendering {
 	public static function init() {
 		// Register scripts
 		// add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
+		add_filter('query_vars', array( __CLASS__, 'add_query_vars'));
+	}
+	function add_query_vars( $author_query_vars ) {
+		$author_query_vars[] = 'author_id';
+		return $author_query_vars;
 	}
 
 	/**
