@@ -109,11 +109,18 @@ class MegamenuRecentPosts extends Module {
 		if ( ! $found ) {
 			$recent_post_result = $this->megamenu_recent_post( $args, $request, $key);
 			// Set the cache to expire the data after 15 seconds
-			$getMegaMenuRecentPostsExpiration = get_site_option( 'megamenu_recent_posts_expiration' );
-			$value =  isset( $getMegaMenuRecentPostsExpiration ) && $getMegaMenuRecentPostsExpiration != "" ? $getMegaMenuRecentPostsExpiration : 15 ;
-			wp_cache_set( $key, $recent_post_result, 'bbgi', $value );
+			$getMegaMenuRecentPostsExpiration = get_site_option( 'megamenu_recent_posts_expiration', 120 );
+			wp_cache_set( $key, $recent_post_result, 'bbgi', $getMegaMenuRecentPostsExpiration );
 		}
-		return $recent_post_result;
+
+		$response = rest_ensure_response( $recent_post_result );
+		$response->set_headers([
+				'Cache-Tag' => 'content,navigation',
+				'Cloudflare-CDN-Cache-Control' => 'max-age=300',
+				'Cache-Control' => 'public, max-age=60'
+		]);
+
+		return $response;
 	}
 	public function megamenu_recent_post( $args, $request, $key ) {
 		$recent_posts_array = wp_get_recent_posts( $args );
