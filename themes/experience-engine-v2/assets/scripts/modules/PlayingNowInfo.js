@@ -39,7 +39,7 @@ class Info extends Component {
 			return false;
 		}
 
-		const info = [];
+		const retval = [];
 		const { artistName, cueTitle, type } = cuePoint;
 		if (type === 'ad') {
 			return false;
@@ -58,22 +58,30 @@ class Info extends Component {
 
 		if (!isStationCuePointHoldingPodcastInfo) {
 			if (cueTitle && cueTitle.length) {
-				info.push(
-					<span key="cue-title" className="cue-point-title">
-						{cueTitle.trim()}
-					</span>,
+				retval.push(
+					<span
+						key="cue-title"
+						className="cue-point-title"
+						dangerouslySetInnerHTML={{
+							__html: cueTitle.trim(),
+						}}
+					/>,
 				);
 			}
 			if (artistName && artistName.length) {
-				info.push(
-					<span key="cue-artist" className="cue-point-artist">
-						{artistName.trim()}
-					</span>,
+				retval.push(
+					<span
+						key="cue-artist"
+						className="cue-point-artist"
+						dangerouslySetInnerHTML={{
+							__html: artistName.trim(),
+						}}
+					/>,
 				);
 			}
 		}
 
-		return info.length ? info : false;
+		return retval.length ? retval : false;
 	}
 
 	constructor(props) {
@@ -86,7 +94,9 @@ class Info extends Component {
 		const { cuePoint } = this.props;
 		const info = this.getCuePointInfo(cuePoint);
 
-		return this.getMockup(info[0] || '', info[1] || '');
+		return info
+			? this.getControlMarkup(info[0] || null, info[1] || null)
+			: false;
 	}
 
 	getStationInfo() {
@@ -102,10 +112,10 @@ class Info extends Component {
 
 		const stream = streams.find(item => item.stream_call_letters === station);
 
-		return this.getMockup(stream ? stream.title : station, info);
+		return this.getControlMarkup(stream ? stream.title : station, info);
 	}
 
-	getMockup(title, description) {
+	getControlMarkup(title, description) {
 		const container = document.getElementById('player-button-div');
 		const buttonsFillStyle = {};
 
