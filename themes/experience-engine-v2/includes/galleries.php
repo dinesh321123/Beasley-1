@@ -91,7 +91,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 		};
 
 		add_filter( '_ee_the_lazy_image', $update_lazy_image );
-		$image_html = ee_the_lazy_image( $image->ID, false );
+		$image_html = ee_the_lazy_image( $image->ID, false, true );
 		remove_filter( '_ee_the_lazy_image', $update_lazy_image );
 
 		if ( empty( $image_html ) ) {

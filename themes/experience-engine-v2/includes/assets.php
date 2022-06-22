@@ -421,7 +421,7 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_lazy_image' ) ) :
-	function ee_the_lazy_image( $image_id, $echo = true ) {
+	function ee_the_lazy_image( $image_id, $echo = true, $remove_crop = false ) {
 		$html = '';
 		if ( ! empty( $image_id ) ) {
 			$alt = trim( strip_tags( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) );
@@ -430,9 +430,15 @@ if ( ! function_exists( 'ee_the_lazy_image' ) ) :
 			if ( ee_is_common_mobile() ) {
 				$width = 800;
 				$height = 500;
-				$url = bbgi_get_image_url( $image_id, $width, $height );
-
-				$html = _ee_the_lazy_image( $url, $width, $height, $alt, $attribution );
+				if($remove_crop) {
+					$img = wp_get_attachment_image_src( $image_id, 'original' );
+					if ( ! empty( $img ) ) {
+						$html = _ee_the_lazy_image( $img[0], $width, $height, $alt, $attribution );
+					}
+				} else {
+					$url = bbgi_get_image_url( $image_id, $width, $height );
+					$html = _ee_the_lazy_image( $url, $width, $height, $alt, $attribution );
+				}
 			} else {
 				$img = wp_get_attachment_image_src( $image_id, 'original' );
 				if ( ! empty( $img ) ) {

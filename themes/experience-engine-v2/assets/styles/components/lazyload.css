@@ -40,6 +40,11 @@
 	background-size: cover;
 	position: relative;
 
+	& img {
+		height: 500px;
+		object-fit: contain;
+	}
+
 	& .non-lazy-image-attribution {
 		background-color: rgba(0, 0, 0, .4);
 		border-radius: 3px;
