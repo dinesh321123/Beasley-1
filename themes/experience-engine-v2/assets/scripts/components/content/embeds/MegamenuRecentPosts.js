@@ -29,7 +29,7 @@ class MegamenuRecentPosts extends PureComponent {
 			);
 			const result = await fetch(endpointURL).then(r => r.json());
 
-			if (result.recent_posts && result.recent_posts.length) {
+			if (result.recent_posts && result.recent_posts.length > 0) {
 				let html = `<ul>`;
 
 				result.recent_posts.forEach(post => {
