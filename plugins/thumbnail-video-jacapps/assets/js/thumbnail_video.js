@@ -9,7 +9,7 @@
         if (videothumbcount) {
             let vti = 0;
 
-            $videoThumbDiv.each(function (el) {
+            $videoThumbDiv.each(async function (el) {
                 var $currentShare = $(this);
 
                 let dataHtml = $currentShare.data("html");
@@ -29,11 +29,13 @@
                     html = iframe.outerHTML;
                 }
 
-                const data = {
+				const isFallback = await tvj_isFallbackThumbnail(dataThumbnail);
+				const data = {
                     src: src,
                     html: html,
                     title: dataTitle,
-                    thumbnail: dataThumbnail
+                    thumbnail: dataThumbnail,
+					isFallback: isFallback
                 };
 
                 if ($.trim(data.title) != "" && $.trim(data.thumbnail) != "") {
@@ -42,39 +44,69 @@
                 }
             })
         }
-
-        $(".thumbnail-video-start").click(function (e) {
-            e.preventDefault();
-            $el = $(this);
-            let $lazyVideo = $el.parent('.lazy-video');
-
-            let html = ``;
-            if($lazyVideo) {
-                html = $lazyVideo.find('.thumbnail-video-frame-jacapp').html();
-            }
-
-            if(html) {
-                $lazyVideo.html(html);
-            }
-        });
     });
 })(jQuery);
 
+function tvj_onThumbnailStartClick(event, ele) {
+	event.preventDefault();
+	$el = $(ele);
+	let $lazyVideo = $el.parent('.lazy-video');
+	let html = ``;
+	if($lazyVideo) {
+		html = $lazyVideo.find('.thumbnail-video-frame-jacapp').html();
+	}
+	if(html) {
+		$lazyVideo.html(html);
+	}
+}
+
+async function tvj_isFallbackThumbnail(thumbnail) {
+	thumbnail = thumbnail
+		.replace('/vi/', '/vi_webp/')
+		.replace('hqdefault.jpg', 'mqdefault.jpg')
+		.replace('.jpg', '.webp');
+	const img = await this.tvj_checkImg(thumbnail);
+
+	if (img) {
+		if (img.naturalWidth === 120) {
+			return true;
+		}
+		return false;
+	} else {
+		return true;
+	}
+};
+
+async function tvj_checkImg(url) {
+	const img = new Image();
+	return new Promise((resolve, reject) => {
+		img.onload = function() {
+			resolve(img);
+		};
+		img.onerror = function() {
+			resolve();
+		};
+		img.src = url;
+	});
+};
+
 function renderVideoThumbnailMobile($el, data, vti = 0) {
-    let { src, html, title, thumbnail } = data;
+    let { src, html, title, thumbnail, isFallback } = data;
 
     let webp = false;
     if(thumbnail) {
         if (thumbnail.indexOf('i.ytimg.com') !== false) {
-            webp = `
-                <source
-                    srcSet="${thumbnail
-                        .replace('/vi/', '/vi_webp/')
-                        .replace('hqdefault.jpg', 'mqdefault.jpg')
-                        .replace('.jpg', '.webp')}"
-                    type="image/webp"
-                />
-            `;
+			let webpThumbType = 'image/jpg';
+			let webpThumbSrc = thumbnail.replace('hqdefault.jpg', 'mqdefault.jpg');
+			if (!isFallback) {
+				webpThumbType = 'image/webp';
+				webpThumbSrc = thumbnail
+					.replace('/vi/', '/vi_webp/')
+					.replace('hqdefault.jpg', 'mqdefault.jpg')
+					.replace('.jpg', '.webp');
+			}
+			webp = `<source srcSet="${webpThumbSrc}" type=${webpThumbType} />`;
+
             thumbnail = thumbnail.replace('hqdefault.jpg', 'mqdefault.jpg');
         }
     }
@@ -84,14 +116,14 @@ function renderVideoThumbnailMobile($el, data, vti = 0) {
                 <div class="thumbnail-video-frame-jacapp">
                     ${html}
                 </div>
-                <a class="thumbnail-video-start" href='${src}' aria-label='Play ${title}'>
+                <a class="thumbnail-video-start" href='${src}' aria-label='Play ${title}' onclick="tvj_onThumbnailStartClick(event, this);">
                     <picture>
                         ${webp}
                         <img src="${thumbnail}" alt="${title}" />
                     </picture>
                 </a>
 
-                <button class="thumbnail-video-start" aria-hidden="true" type="button">
+                <button class="thumbnail-video-start" aria-hidden="true" type="button" onclick="tvj_onThumbnailStartClick(event, this);">
                     <svg width="68" height="48" viewBox="0 0 68 48">
                         <path
                             class="shape"

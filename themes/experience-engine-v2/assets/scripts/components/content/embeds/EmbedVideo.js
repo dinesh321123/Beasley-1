@@ -18,6 +18,7 @@ class EmbedVideo extends PureComponent {
 		}
 
 		this.state = {
+			isFallback: false,
 			show: false,
 			html,
 			src,
@@ -25,6 +26,22 @@ class EmbedVideo extends PureComponent {
 
 		this.onPlayClick = this.handlePlayClick.bind(this);
 	}
+
+	componentDidMount = async () => {
+		let { thumbnail } = this.props;
+		thumbnail = thumbnail
+			.replace('/vi/', '/vi_webp/')
+			.replace('hqdefault.jpg', 'mqdefault.jpg')
+			.replace('.jpg', '.webp');
+		const img = await this.checkImg(thumbnail);
+		if (img) {
+			if (img.naturalWidth === 120) {
+				this.setState({ isFallback: true });
+			}
+		} else {
+			this.setState({ isFallback: true });
+		}
+	};
 
 	// Exclude autoplay=1 on Vimeo Video links because it causes autoplay
 	adjustEmbeddedVideoUrlSrc = iframe => {
@@ -43,8 +60,21 @@ class EmbedVideo extends PureComponent {
 		this.setState({ show: true });
 	}
 
+	checkImg = async url => {
+		const img = new Image();
+		return new Promise((resolve, reject) => {
+			img.onload = function() {
+				resolve(img);
+			};
+			img.onerror = function() {
+				resolve();
+			};
+			img.src = url;
+		});
+	};
+
 	render() {
-		const { show, html, src } = this.state;
+		const { show, html, src, isFallback } = this.state;
 		const { thumbnail, title } = this.props;
 
 		if (show) {
@@ -58,15 +88,16 @@ class EmbedVideo extends PureComponent {
 
 		let webp = false;
 		if (thumbnail.indexOf('i.ytimg.com') !== false) {
-			webp = (
-				<source
-					srcSet={thumbnail
-						.replace('/vi/', '/vi_webp/')
-						.replace('hqdefault.jpg', 'mqdefault.jpg')
-						.replace('.jpg', '.webp')}
-					type="image/webp"
-				/>
-			);
+			let webpThumbType = 'image/jpg';
+			let webpThumbSrc = thumbnail.replace('hqdefault.jpg', 'mqdefault.jpg');
+			if (!isFallback) {
+				webpThumbType = 'image/webp';
+				webpThumbSrc = thumbnail
+					.replace('/vi/', '/vi_webp/')
+					.replace('hqdefault.jpg', 'mqdefault.jpg')
+					.replace('.jpg', '.webp');
+			}
+			webp = <source srcSet={webpThumbSrc} type={webpThumbType} />;
 		}
 
 		return (
