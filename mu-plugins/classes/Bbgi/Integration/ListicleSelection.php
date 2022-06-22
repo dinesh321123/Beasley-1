@@ -30,7 +30,8 @@ class ListicleSelection extends \Bbgi\Module {
 	public function render_shortcode( $atts ) {
 		$attributes = shortcode_atts( array(
 			'listicle_id' => '',
-			'syndication_name' => ''
+			'syndication_name' => '',
+			'description' => ''
 		), $atts, 'select-listicle' );
 
 		if( !empty( $attributes['syndication_name'] ) ) {
@@ -79,7 +80,14 @@ class ListicleSelection extends \Bbgi\Module {
 
 		$content = apply_filters( 'bbgi_listicle_cotnent', $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $post_object );
 		if ( ! empty( $content ) ) {
-			$content_updated = "<h2 class=\"section-head\"><span>".$cpt_post_object->post_title."</span></h2>".$content;
+			$content_updated = "<h2 class=\"section-head\"><span>".$cpt_post_object->post_title."</span></h2>";
+			if( !empty( $attributes['description'] ) &&  ($attributes['description'] == 'yes') ) {
+				$the_content = apply_filters('the_content', $cpt_post_object->post_content);
+				if ( !empty($the_content) ) {
+					$content_updated .= "<div class=\"listicle-embed-description\">".$the_content."</p>";
+				}
+			}
+			$content_updated .= $content;
 			return $content_updated;
 		}
 

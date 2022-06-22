@@ -59,9 +59,9 @@ const mediaToolbarListicle = wp.media.view.Toolbar.extend({
 		jQuery('textarea#content').trigger('click');
 		if( value ) {
 			if( ! tinyMCE.activeEditor || tinyMCE.activeEditor.isHidden()) {
-				jQuery('textarea#content').val(jQuery('textarea#content').val() + '<br>[select-listicle listicle_id="'+value+'" syndication_name="'+slug+'"]');
+				jQuery('textarea#content').val(jQuery('textarea#content').val() + '<br>[select-listicle listicle_id="'+value+'" syndication_name="'+slug+'" description="yes"]');
 			} else {
-				tinyMCE.execCommand('mceInsertContent', false, '<br>[select-listicle listicle_id="'+value+'" syndication_name="'+slug+'"]<br>');
+				tinyMCE.execCommand('mceInsertContent', false, '<br>[select-listicle listicle_id="'+value+'" syndication_name="'+slug+'" description="yes"]<br>');
 			}
 			jQuery('.select-listicle-ul li').removeClass(' . $jqueryEventSelectedClass .');
 			jQuery('.select-listicle-ul li').css('box-shadow', '0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.19)');
