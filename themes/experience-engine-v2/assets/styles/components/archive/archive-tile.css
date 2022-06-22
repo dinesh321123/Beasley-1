@@ -331,6 +331,13 @@
 		margin-bottom: 1.775rem;
 	}
 }
+.archive-tiles.-list {
+	&>div { 
+		& h3>a {
+			font-weight: 400;
+		}
+	}
+}
 
 .single-show,
 .search-results,
