@@ -49,9 +49,19 @@ class SongArchive extends PureComponent {
 														{dayjs.unix(song.timestamp).format('h:mm A')}
 													</span>
 													&nbsp;
-													<span className="song-title">{song.title}</span>
+													<span
+														className="song-title"
+														dangerouslySetInnerHTML={{
+															__html: song.title,
+														}}
+													/>
 													&mdash;
-													<span className="song-artist">{song.artist}</span>
+													<span
+														className="song-artist"
+														dangerouslySetInnerHTML={{
+															__html: song.artist,
+														}}
+													/>
 												</li>
 											);
 										})}
