@@ -43,6 +43,13 @@ deploy_stage:
   only:
     - stage3
 
+notify_slack:
+  stage: test
+  script:
+    - curl -X POST --data "{\"username\":\"Gitlab Pipeline\", \"text\":\"Gitlab pipeline is about to run the Production Deployment..\"}" $SLACK_WEBHOOK
+  only:
+    - master
+
 deploy_prod:
   stage: deploy
   environment:

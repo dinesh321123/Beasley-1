@@ -142,7 +142,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 
 
 								if( isset( $am_item_description[$index] ) && $am_item_description[$index] !== "" ) {
-									echo '<div>', $am_item_description[$index],'</div>';
+									echo '<div>', apply_filters('the_content', $am_item_description[$index]),'</div>';
 								}
 
 								if($am_item_type[$index] !== "header") {
