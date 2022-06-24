@@ -341,9 +341,11 @@ class ExperienceEngine extends \Bbgi\Module {
 		$publisher = $this->_get_publisher_key();
 		$url = "experience/channels/{$publisher}/feeds/content/";
 		// wp_cache_delete($url, 'experience_engine_api-ee_data');
-		$content = $request->get_body();
+		$content = $request->get_json_params();
 
 		wp_cache_set($url, $content, 'experience_engine_api-ee_data', 120);
+
+		error_log( 'purplemoose' );
 
 		// Clear specific page caches
 		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
