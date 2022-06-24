@@ -78,6 +78,9 @@ const adjustContentPaddingForBottomAd = slotElement => {
 	const containerElement = document.getElementById('main-container-div');
 
 	if (slotElement && containerElement) {
+		// Add Top Padding So Scroll To Top Computation Has Wiggle Room
+		containerElement.style.paddingTop = '5px';
+
 		// If Slot Is Not Visible
 		if (slotElement.offsetParent === null) {
 			console.log('Slot is not visible, so setting no padding.');
