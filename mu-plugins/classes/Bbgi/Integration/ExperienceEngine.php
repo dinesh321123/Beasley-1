@@ -337,6 +337,8 @@ class ExperienceEngine extends \Bbgi\Module {
 	}
 
 	public function rest_purge_cache( \WP_REST_Request $request ) {
+		error_log( 'purpleturtle' );
+
 		//clear ee content feed values
 		$publisher = $this->_get_publisher_key();
 		$url = "experience/channels/{$publisher}/feeds/content/";
@@ -344,8 +346,6 @@ class ExperienceEngine extends \Bbgi\Module {
 		$content = $request->get_json_params();
 
 		wp_cache_set($url, $content, 'experience_engine_api-ee_data', 120);
-
-		error_log( 'purplemoose' );
 
 		// Clear specific page caches
 		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
