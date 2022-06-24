@@ -326,6 +326,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		$token = get_site_option( 'ee_cache_token', false );
 
 		if ( empty( $token ) ) {
+			error_log( $this->log_prefix() . 'check_purge_cache_permissions token missing' );
 			return false;
 		}
 
@@ -333,11 +334,12 @@ class ExperienceEngine extends \Bbgi\Module {
 			return true;
 		}
 
+		error_log( $this->log_prefix() . 'check_purge_cache_permissions token did not match authorization' );
 		return false;
 	}
 
 	public function rest_purge_cache( \WP_REST_Request $request ) {
-		error_log( 'purpleturtle' );
+		error_log( $this->log_prefix() . 'rest_purge_cache reached' );
 
 		//clear ee content feed values
 		$publisher = $this->_get_publisher_key();
