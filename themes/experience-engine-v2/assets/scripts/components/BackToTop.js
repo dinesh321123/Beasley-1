@@ -69,7 +69,7 @@ class BackToTop extends PureComponent {
 
 		t--;
 
-		return (-c / 2) * (t * (t - 2) - 1) + b;
+		return Math.floor((-c / 2) * (t * (t - 2) - 1) + b);
 	}
 
 	handleBackToTop() {
