@@ -347,7 +347,7 @@ class ExperienceEngine extends \Bbgi\Module {
 	public function test_post( \WP_REST_Request $request ) {
 		if ($request->is_json_content_type()) {
 			error_log( $this->log_prefix() . 'received json' );
-			$content = $request->get_json_params();
+			$content = $request->get_body();
 			return rest_ensure_response( wp_json_encode($content) );
 		}
 	}
