@@ -347,6 +347,8 @@ class ExperienceEngine extends \Bbgi\Module {
 		// wp_cache_delete($url, 'experience_engine_api-ee_data');
 		$content = $request->get_json_params();
 
+		error_log( $this->log_prefix() . 'received json' );
+
 		wp_cache_set($url, $content, 'experience_engine_api-ee_data', 120);
 
 		// Clear specific page caches
