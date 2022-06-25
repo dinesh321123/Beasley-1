@@ -348,7 +348,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		if ($request->is_json_content_type()) {
 			error_log( $this->log_prefix() . 'received json' );
 			$content = $request->get_body();
-			return rest_ensure_response( wp_json_encode($content) );
+			return wp_send_json($content);
 		}
 	}
 
