@@ -291,6 +291,12 @@ class ExperienceEngine extends \Bbgi\Module {
 			'show_in_index'       => false,
 		) );
 
+		register_rest_route( $namespace, '/test', array(
+				'methods'             => 'POST',
+				'callback'            => $this( 'test_post' ),
+				'show_in_index'       => false,
+		) );
+
 		register_rest_route( $namespace, '/purge-ee-cache', array(
 				'methods'             => 'POST',
 				'callback'            => $this( 'rest_purge_ee_cache' ),
@@ -336,6 +342,13 @@ class ExperienceEngine extends \Bbgi\Module {
 
 		error_log( $this->log_prefix() . 'check_purge_cache_permissions token did not match authorization' );
 		return false;
+	}
+
+	public function test_post( \WP_REST_Request $request ) {
+		if ($request->is_json_content_type()) {
+			error_log( $this->log_prefix() . 'received json' );
+			return rest_ensure_response( 'No Json' );
+		}
 	}
 
 	public function rest_purge_cache( \WP_REST_Request $request ) {
