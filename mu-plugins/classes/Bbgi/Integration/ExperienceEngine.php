@@ -345,7 +345,13 @@ class ExperienceEngine extends \Bbgi\Module {
 		$publisher = $this->_get_publisher_key();
 		$url = "experience/channels/{$publisher}/feeds/content/";
 		// wp_cache_delete($url, 'experience_engine_api-ee_data');
-		$content = $request->get_json_params();
+
+			$content = $request->get_json_params();
+
+			if (is_wp_error($content)) {
+				error_log( $this->log_prefix() . 'rest_purge_cache failed error: ' .$content->get_error_message() );
+			}
+
 
 		error_log( $this->log_prefix() . 'received json' );
 
