@@ -360,7 +360,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		$url = "experience/channels/{$publisher}/feeds/content/";
 		// wp_cache_delete($url, 'experience_engine_api-ee_data');
 
-		if ($request->is_json_content_type()) {
+		if (!$request->is_json_content_type()) {
 			error_log( $this->log_prefix() . 'received json' );
 			return rest_ensure_response( 'No Json' );
 		}
@@ -368,11 +368,9 @@ class ExperienceEngine extends \Bbgi\Module {
 
 
 		$content = $request->get_body();
-		//return wp_send_json($content);
-
 		error_log( $this->log_prefix() . 'received json' );
 
-		//wp_cache_set($url, $content, 'experience_engine_api-ee_data', 120);
+		wp_cache_set($url, $content, 'experience_engine_api-ee_data', 120);
 
 		// Clear specific page caches
 		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
