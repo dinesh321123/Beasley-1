@@ -367,11 +367,12 @@ class ExperienceEngine extends \Bbgi\Module {
 
 
 
-
+		$content = $request->get_body();
+		//return wp_send_json($content);
 
 		error_log( $this->log_prefix() . 'received json' );
 
-		wp_cache_set($url, $content, 'experience_engine_api-ee_data', 120);
+		//wp_cache_set($url, $content, 'experience_engine_api-ee_data', 120);
 
 		// Clear specific page caches
 		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
