@@ -67,7 +67,7 @@ const adjustContentMarginForTopAd = slotElement => {
 	if (slotElement && adContainerElement && contentElement) {
 		const adContainerStyle = window.getComputedStyle(adContainerElement);
 		const newContentTopMargin =
-			1 +
+			5 +
 			parseInt(slotElement.style.height, 10) +
 			parseInt(adContainerStyle.marginTop, 10);
 		contentElement.style.marginTop = `${newContentTopMargin}px`;
@@ -78,9 +78,6 @@ const adjustContentPaddingForBottomAd = slotElement => {
 	const containerElement = document.getElementById('main-container-div');
 
 	if (slotElement && containerElement) {
-		// Add Top Padding So Scroll To Top Computation Has Wiggle Room
-		containerElement.style.paddingTop = '5px';
-
 		// If Slot Is Not Visible
 		if (slotElement.offsetParent === null) {
 			console.log('Slot is not visible, so setting no padding.');
