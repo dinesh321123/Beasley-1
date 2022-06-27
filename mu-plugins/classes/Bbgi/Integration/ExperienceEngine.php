@@ -361,16 +361,17 @@ class ExperienceEngine extends \Bbgi\Module {
 		// wp_cache_delete($url, 'experience_engine_api-ee_data');
 
 		if (!$request->is_json_content_type()) {
-			error_log( $this->log_prefix() . 'received json' );
+			error_log( $this->log_prefix() . 'is not json' );
 			return rest_ensure_response( 'No Json' );
+		} else {
+			error_log( $this->log_prefix() . 'received json' );
 		}
 
-
-
 		$content = $request->get_body();
-		error_log( $this->log_prefix() . 'received json' );
+		error_log( $this->log_prefix() . substr($content, 0, 200));
+		wp_cache_set($url, json_decode($content,true), 'experience_engine_api-ee_data', 120);
+		error_log( $this->log_prefix() . 'set content' );
 
-		wp_cache_set($url, $content, 'experience_engine_api-ee_data', 120);
 
 		// Clear specific page caches
 		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
