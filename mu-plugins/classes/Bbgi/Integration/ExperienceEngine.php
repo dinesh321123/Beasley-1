@@ -128,7 +128,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		return wp_remote_request( $host . $path, $args );
 	}
 
-	public function cacheEEValue($path, $value, $group, $expires) {
+	protected function _cacheEEValue($path, $value, $group, $expires) {
 		$replace = wp_cache_replace($path, $value, $group, $expires);
 
 		if ($replace === false) {
@@ -360,7 +360,7 @@ class ExperienceEngine extends \Bbgi\Module {
 
 		$content = $request->get_body();
 
-		$this->cacheEEValue($url, json_decode($content,true), 'experience_engine_api-ee_data',86400)
+		$this->_cacheEEValue( $url, json_decode($content,true), 'experience_engine_api-ee_data',86400 );
 		error_log($this->log_prefix() . "cached pushed contents from $publisher by track: $track into group: experience_engine_api-ee_data for 86400 seconds\n");
 
 		// Clear specific page caches
