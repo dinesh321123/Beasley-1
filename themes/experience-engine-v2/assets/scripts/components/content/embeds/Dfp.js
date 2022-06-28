@@ -67,7 +67,7 @@ const adjustContentMarginForTopAd = slotElement => {
 	if (slotElement && adContainerElement && contentElement) {
 		const adContainerStyle = window.getComputedStyle(adContainerElement);
 		const newContentTopMargin =
-			5 +
+			24 +
 			parseInt(slotElement.style.height, 10) +
 			parseInt(adContainerStyle.marginTop, 10);
 		contentElement.style.marginTop = `${newContentTopMargin}px`;
