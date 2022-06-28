@@ -128,6 +128,15 @@ class ExperienceEngine extends \Bbgi\Module {
 		return wp_remote_request( $host . $path, $args );
 	}
 
+	public function cacheEEValue($path, $value, $group, $expires) {
+		$replace = wp_cache_replace($path, $value, $group, $expires);
+
+		if ($replace === false) {
+			wp_cache_add($path, $value, $group, $expires);
+		}
+
+	}
+
 	public function do_request($path, $args = array(), $cache_group = '') {
 		$cache_index = get_option( 'ee_cache_index', 0 );
 		$cache_key = empty($cache_group) ? $cache_index : $cache_group;
@@ -351,7 +360,7 @@ class ExperienceEngine extends \Bbgi\Module {
 
 		$content = $request->get_body();
 
-		wp_cache_set($url, json_decode($content,true), 'experience_engine_api-ee_data', 86400);
+		$this->cacheEEValue($url, json_decode($content,true), 'experience_engine_api-ee_data',86400)
 		error_log($this->log_prefix() . "cached pushed contents from $publisher by track: $track into group: experience_engine_api-ee_data for 86400 seconds\n");
 
 		// Clear specific page caches
