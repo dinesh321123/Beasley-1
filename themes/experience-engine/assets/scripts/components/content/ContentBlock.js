@@ -27,7 +27,6 @@ import RelatedPosts from './embeds/RelatedPosts';
 import DrimifyEmbed from './embeds/DrimifyEmbed';
 import TrackonomicsScript from './embeds/TrackonomicsScript';
 import GoogleAnalytics from './embeds/GoogleAnalytics';
-import TrackLocation from './embeds/TrackLocation';
 import Instagram from './embeds/Instagram';
 import MapBox from './embeds/MapBox';
 import HubspotForm from './embeds/HubspotForm';
@@ -61,7 +60,6 @@ const mapping = {
 	streamcta: StreamCta,
 	relatedposts: RelatedPosts,
 	ga: GoogleAnalytics,
-	gatracklocation: TrackLocation,
 	instagram: Instagram,
 	mapbox: MapBox,
 	stnbarker: StnBarker,

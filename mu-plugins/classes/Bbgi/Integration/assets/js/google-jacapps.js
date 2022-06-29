@@ -17,30 +17,15 @@
 					var GaLocation = jacappsGaInfoTrack.attr('data-location');
 					console.log('Page View URL', GaLocation);
 
-					var GaEmbedAuthor = jacappsGaInfoTrack.attr('data-embed-author');
-					console.log('Page View Embed Author', GaEmbedAuthor);
-
-					if(!GaInfoForJacapps.google_analytics || !GaInfoForJacapps.google_author_dimension){
+					if(!GaInfoForJacapps.google_analytics){
 						console.log('Please config google analytics.');
 						return;
 					}
-					if(GaLocation || GaEmbedAuthor) {
-						let setFlag = false;
+					if(GaLocation) {
+						console.log('GA send for URL', GaLocation);
 						ga('create', GaInfoForJacapps.google_analytics, 'auto');
-						if(GaLocation) {
-							setFlag = true;
-							ga('set', 'location', GaLocation);
-							console.log('GA send for URL', GaLocation);
-						}
-						if(GaEmbedAuthor && GaInfoForJacapps.google_author_dimension) {
-							setFlag = true;
-							const dimensionKey = 'dimension'+GaInfoForJacapps.google_author_dimension;
-							ga('set', dimensionKey, GaEmbedAuthor);
-							console.log('GA send for Embed Author', GaEmbedAuthor);
-						}
-						if(setFlag) {
-							ga('send', 'pageview');
-						}
+						ga('set', 'location', GaLocation);
+						ga('send', 'pageview');
 					}
 				}
 			}

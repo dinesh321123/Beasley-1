@@ -1,4 +1,4 @@
-export function pageview(title, location, targeting = null, author = null) {
+export function pageview(title, location, targeting = null) {
 	const { ga } = window;
 	if (!ga) {
 		return;
@@ -11,10 +11,6 @@ export function pageview(title, location, targeting = null, author = null) {
 		if (targeting.dimensionkey) {
 			ga('set', targeting.dimensionkey, targeting.dimensionvalue);
 		}
-	}
-
-	if (author) {
-		ga('set', author.dimensionkey, author.dimensionvalue);
 	}
 
 	ga('send', { hitType: 'pageview', title, location });

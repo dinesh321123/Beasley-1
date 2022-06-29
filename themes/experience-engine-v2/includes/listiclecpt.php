@@ -64,10 +64,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 		}
 
 		if(isset($cpt_post_object) && !empty($cpt_post_object)) {
-			$primary_author = get_field( 'primary_author_cpt', $cpt_post_object );
-			$primary_author = $primary_author ? $primary_author : $cpt_post_object->post_author;
-
-			$listicle_author = get_the_author_meta( 'login', $primary_author);
+			$listicle_author = get_the_author_meta( 'login', $cpt_post_object->post_author);
 		}
 
 		echo '<ul class="listicle-main-ul-item">';
