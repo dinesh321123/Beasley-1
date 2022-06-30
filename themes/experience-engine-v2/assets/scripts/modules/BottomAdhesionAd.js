@@ -32,6 +32,36 @@ const BottomAdhesionAd = () => {
 		return null;
 	}
 
+	const isButtonShowing = pageURL.toLowerCase().indexOf('wjbr.') === -1;
+	const buttonMarkup = !isButtonShowing ? (
+		false
+	) : (
+		<div className="ad-button-holder">
+			<button
+				type="button"
+				className="button modal-close"
+				aria-label="Close Ad"
+				onClick={() => setShouldDisplay(false)}
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 212.982 212.982"
+					aria-labelledby="close-ad-title close-ad-desc"
+					width="10"
+					height="10"
+				>
+					<title id="close-ad-title">Close Ad</title>
+					<desc id="close-ad-desc">Checkmark indicating ad close</desc>
+					<path
+						d="M131.804 106.491l75.936-75.936c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.491 81.18 30.554 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.989 6.99-6.989 18.323 0 25.312l75.937 75.936-75.937 75.937c-6.989 6.99-6.989 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0l75.937-75.937 75.937 75.937c6.989 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.322 0-25.312l-75.936-75.936z"
+						fillRule="evenodd"
+						clipRule="evenodd"
+					/>
+				</svg>
+			</button>
+		</div>
+	);
+
 	const children = (
 		<ErrorBoundary>
 			<Dfp
@@ -42,30 +72,7 @@ const BottomAdhesionAd = () => {
 				shouldMapSizes={false}
 				pageURL={pageURL}
 			/>
-			<div className="ad-button-holder">
-				<button
-					type="button"
-					className="button modal-close"
-					aria-label="Close Ad"
-					onClick={() => setShouldDisplay(false)}
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 212.982 212.982"
-						aria-labelledby="close-ad-title close-ad-desc"
-						width="10"
-						height="10"
-					>
-						<title id="close-ad-title">Close Ad</title>
-						<desc id="close-ad-desc">Checkmark indicating ad close</desc>
-						<path
-							d="M131.804 106.491l75.936-75.936c6.99-6.99 6.99-18.323 0-25.312-6.99-6.99-18.322-6.99-25.312 0L106.491 81.18 30.554 5.242c-6.99-6.99-18.322-6.99-25.312 0-6.989 6.99-6.989 18.323 0 25.312l75.937 75.936-75.937 75.937c-6.989 6.99-6.989 18.323 0 25.312 6.99 6.99 18.322 6.99 25.312 0l75.937-75.937 75.937 75.937c6.989 6.99 18.322 6.99 25.312 0 6.99-6.99 6.99-18.322 0-25.312l-75.936-75.936z"
-							fillRule="evenodd"
-							clipRule="evenodd"
-						/>
-					</svg>
-				</button>
-			</div>
+			{buttonMarkup}
 		</ErrorBoundary>
 	);
 
