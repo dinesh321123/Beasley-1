@@ -401,14 +401,13 @@ if ( is_beasley_feed() && is_beasley_cache_disabled() ) {
 	header( 'X-Beasley-Cache: bypass' );
 	return;
 }
+
 // Beasley Customization End ------------------------------------------
 
 if ( ! include_once( WP_CONTENT_DIR . '/object-cache.php' ) )
 	return;
 
 wp_cache_init(); // Note: wp-settings.php calls wp_cache_init() which clobbers the object made here.
-
-
 
 if ( ! is_object( $wp_object_cache ) )
 	return;

@@ -294,18 +294,20 @@ class Webhooks extends \Bbgi\Module {
             return false;
         }
 
+		$cloudflaretoken = get_site_option( 'ee_cloudflare_token' );
+		$zone_id = get_option('cloud_flare_zoneid');
+
+		if ( empty($cloudflaretoken) || empty($zone_id) ) {
+			error_log( 'Cloudflare not configured for this site' );
+			return false;
+		}
+
 		// Clear specific page caches
 		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
 			$url = get_permalink($postID);
 			$this->log( 'Batcache URL' , [ 'url' => $url ] );
 			batcache_clear_url( $url );
 		}
-
-        $zone_id = get_option('cloud_flare_zoneid');
-
-        if(!$zone_id){
-            return false;
-        }
 
         $post = get_post( $postID );
         $slug = $post->post_type.'-'.$post->post_name;
@@ -317,7 +319,7 @@ class Webhooks extends \Bbgi\Module {
 				'method' => 'POST',
 				'headers' => array(
 						'Content-Type' => 'application/json',
-						'Authorization' => 'Bearer _unAkz2VlqZXiW02gJq5FzrPc9QnH1nTtDkaGKny',
+						'Authorization' => 'Bearer ' . $cloudflaretoken,
 						),
 						'body' => wp_json_encode( $data )
 					)

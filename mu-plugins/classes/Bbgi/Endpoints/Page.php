@@ -55,7 +55,7 @@ class Page extends Module {
 		$page_response = wp_remote_get(
 			$url, [
 				'timeout'   => 30,
-				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true
+				'sslverify' => defined( 'WP_DEBUG') && WP_DEBUG ? false : true,
 			]
 		);
 
@@ -86,7 +86,7 @@ class Page extends Module {
 				'internal' => false,
 				'url'      => '',
 			],
-			'html'      => false
+			'html'      => false,
 		];
 		if ( ! $this->is_internal_url( $url ) ) {
 			$response['status'] = 403;

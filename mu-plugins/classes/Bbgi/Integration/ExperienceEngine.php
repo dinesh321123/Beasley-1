@@ -12,6 +12,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		'ee_cache_token'      => 'Cache Clear Token',
 		'ee_appkey'           => 'EE App Key',
 		'ee_notification_key' => 'EE Notification App Key',
+		'ee_cloudflare_token' => 'Cloudflare Cache Clear Token'
 	);
 
 	/**
@@ -447,9 +448,11 @@ class ExperienceEngine extends \Bbgi\Module {
 	}
 
 	public function clearCloudFlareHomeCache(){
+
+		$cloudflaretoken = get_site_option( 'ee_cloudflare_token' );
 		$zone_id = get_option('cloud_flare_zoneid');
 
-        if(!$zone_id){
+		if ( empty($cloudflaretoken) || empty($zone_id) ) {
             return false;
         }
 
@@ -460,7 +463,7 @@ class ExperienceEngine extends \Bbgi\Module {
 				'method' => 'POST',
 				'headers' => array(
 						'Content-Type' => 'application/json',
-						'Authorization' => 'Bearer _unAkz2VlqZXiW02gJq5FzrPc9QnH1nTtDkaGKny',
+						'Authorization' => 'Bearer ' . $cloudflaretoken,
 						),
 						'body' => wp_json_encode( $data )
 					)
@@ -472,7 +475,6 @@ class ExperienceEngine extends \Bbgi\Module {
 		if ( is_wp_error( $response ) ) {
 			error_log( 'Cloudflare error notice query var from is_wp_error function 5' );
 		}
-
 	}
 
 }
