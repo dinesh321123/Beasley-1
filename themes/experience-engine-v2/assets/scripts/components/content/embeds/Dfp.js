@@ -710,6 +710,12 @@ class Dfp extends PureComponent {
 						],
 					},
 				];
+
+				// Adjust Default Content Margin To Help With Page Shift
+				const contentElement = document.getElementById('inner-content');
+				if (contentElement) {
+					contentElement.style.marginTop = `134px`;
+				}
 			} else if (unitName === 'drop-down') {
 				console.log('Building sizes for Dropdown');
 				sizeMapping = googletag
