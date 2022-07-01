@@ -341,9 +341,27 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			}
 		}
 
+		$override_css_var = '';
+		if(ee_is_common_mobile()) {
+			$override_variables = array_merge(ee_get_css_colors(), ee_get_other_css_vars());
+			$override_css_var = '
+				<script type="text/javascript">
+					var override_variables = '.json_encode($override_variables).';
+					if( Object.keys(override_variables).length > 0 ) {
+						for (const key in override_variables) {
+							if (key && override_variables[key]) {
+								document.documentElement.style.setProperty(key, override_variables[key]);
+							}
+						}
+					}
+				</script>
+			';
+		}
+
 		printf(
-			'<script id="bbgiconfig" type="application/json">%s</script>',
-			json_encode( apply_filters( 'bbgiconfig', $config ) )
+			'<script id="bbgiconfig" type="application/json">%s</script>%s',
+			json_encode( apply_filters( 'bbgiconfig', $config ) ),
+			$override_css_var
 		);
 	}
 endif;
