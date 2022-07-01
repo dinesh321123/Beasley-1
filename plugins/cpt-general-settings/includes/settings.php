@@ -10,18 +10,6 @@ class CommonSettings {
 		add_action( 'init', array( __CLASS__, 'settings_cpt_init' ), 0 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'required_alt_text' ) );	// Script for validate Alt text from Add media button
-		/* add_action( 'admin_init', array( __CLASS__, 'settings_cpt_admin_init' ) );
-	}
-	public function settings_cpt_admin_init() {
-		add_filter( 'dashboard_recent_posts_query_args', array( __CLASS__, 'dashboard_recent_posts_query_args_callback' ), 10, 1 ) ;
-	}
-	public static function dashboard_recent_posts_query_args_callback( $query_args ) {
-		$query_args['post_type'] = CommonSettings::allow_recent_posts_posttype_list();
-		$query_args['posts_per_page'] = 25;
-		return $query_args;
-	}
-	public static function allow_recent_posts_posttype_list() {
-		return (array) apply_filters( 'allow-dashboard-recent-posts-for-posttypes', array( 'post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing' )  ); */
 	}
 
 	public function required_alt_text() {
@@ -110,16 +98,23 @@ class CommonSettings {
 	}
 
 	public static function settings_cpt_init() {
-		// Register custom capability for Draft Kings On/Off Setting.
+		// Register custom capability for Draft Kings On/Off Setting and Max mega menu
 		$roles = [ 'administrator' ];
 
 		foreach ( $roles as $role ) {
-			$role_obj = get_role( $role );
+			$role_obj = get_role($role);
 
-			if ( is_a( $role_obj, \WP_Role::class ) ) {
-				$role_obj->add_cap( 'manage_draft_kings_onoff_setting', false );
+			if (is_a($role_obj, \WP_Role::class)) {
+				$role_obj->add_cap('manage_draft_kings_onoff_setting', false);
+				$role_obj->add_cap('manage_max_mega_menu', false);
 			}
 		}
+
+		add_filter( 'megamenu_options_capability', array( __CLASS__, 'megamenu_options_capability_callback' ) );
+	}
+
+	public function megamenu_options_capability_callback() {
+		return 'manage_max_mega_menu';
 	}
 	/**
 	 * Returns array of post type.
