@@ -415,12 +415,6 @@ export function getStateFromContent(container, pageURL) {
 					'dimensionvalue',
 				),
 			),
-			...processEmbeds(
-				container,
-				'gatracklocation',
-				'.ga-track-location',
-				getDatasetParams('tracking', 'author'),
-			),
 			...processEmbeds(container, 'mapbox', '.mapbox', getMapboxParams),
 			...processEmbeds(
 				container,

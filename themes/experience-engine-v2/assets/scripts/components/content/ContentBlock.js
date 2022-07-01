@@ -28,7 +28,6 @@ import MegamenuRecentPosts from './embeds/MegamenuRecentPosts';
 import DrimifyEmbed from './embeds/DrimifyEmbed';
 import TrackonomicsScript from './embeds/TrackonomicsScript';
 import GoogleAnalytics from './embeds/GoogleAnalytics';
-import TrackLocation from './embeds/TrackLocation';
 import Instagram from './embeds/Instagram';
 import MapBox from './embeds/MapBox';
 import HubspotForm from './embeds/HubspotForm';
@@ -63,7 +62,6 @@ const mapping = {
 	relatedposts: RelatedPosts,
 	megamenurecentposts: MegamenuRecentPosts,
 	ga: GoogleAnalytics,
-	gatracklocation: TrackLocation,
 	instagram: Instagram,
 	mapbox: MapBox,
 	stnbarker: StnBarker,

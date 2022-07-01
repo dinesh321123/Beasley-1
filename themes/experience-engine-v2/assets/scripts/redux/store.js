@@ -5,7 +5,6 @@ import createSagaMiddleware from 'redux-saga';
 import authReducer, {
 	DEFAULT_STATE as AUTH_DEFAULT_STATE,
 } from './reducers/auth';
-import gaReducer, { DEFAULT_STATE as GA_DEFAULT_STATE } from './reducers/ga';
 import modalReducer, {
 	DEFAULT_STATE as MODAL_DEFAULT_STATE,
 } from './reducers/modal';
@@ -32,7 +31,6 @@ export default function() {
 
 	const rootReducer = combineReducers({
 		auth: authReducer,
-		ga: gaReducer,
 		modal: modalReducer,
 		dropdownad: dropdownadReducer,
 		navigation: navigationReducer,
@@ -43,7 +41,6 @@ export default function() {
 
 	const defaultState = {
 		auth: AUTH_DEFAULT_STATE,
-		ga: GA_DEFAULT_STATE,
 		modal: MODAL_DEFAULT_STATE,
 		dropdownad: DROPDOWNAD_DEFAULT_STATE,
 		navigation: NAVIGATION_DEFAULT_STATE,

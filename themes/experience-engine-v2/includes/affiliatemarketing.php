@@ -104,8 +104,8 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								}
 								$image_full_url = $urls[ $affiliatemarketing_post_object->ID ] . 'view/' . urlencode( $am_tracking_code ) . '/';
 								$tracking_url = ! $is_first ? $image_full_url : '';
-								$update_lazy_image = function( $html ) {
-									return str_replace( '<div ', '<div data-autoheight="1" ', $html );
+								$update_lazy_image = function( $html ) use ( $tracking_url ) {
+									return str_replace( '<div ', '<div data-autoheight="1" data-tracking="' . esc_attr( $tracking_url ) . '" ', $html );
 								};
 
 								add_filter( '_ee_the_lazy_image', $update_lazy_image );
@@ -115,8 +115,6 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								$is_common_mobile = ee_is_common_mobile();
 								if($is_common_mobile){
 									echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
-								} else {
-									echo '<div class="ga-track-location" data-tracking="' . esc_attr( $tracking_url ) . '"></div>';
 								}
 								$amItemImageType = "";
 								if($am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ) {
