@@ -10,7 +10,10 @@ export default function setPlayerVisibility() {
 			listenLiveClass[0].classList.add('no-ll');
 		}
 		const downloadApp = document.querySelector('.download');
-		downloadApp.style.display = 'none';
+
+		if (downloadApp) {
+			downloadApp.style.display = 'none';
+		}
 
 		fixMegaSubMenuWidth();
 	}

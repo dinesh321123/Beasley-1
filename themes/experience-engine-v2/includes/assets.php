@@ -414,6 +414,9 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 			esc_attr( $attribution )
 		);
 
+		if($is_common_mobile && empty($attribution)) {
+			$image = '<div class="non-lazy-image"><img src="'.esc_attr( $url ).'" width="'.esc_attr( $width ).'" height="'.esc_attr( $height ).'" alt="'.esc_attr( $alt ).'"></div>';
+		}
 		$image = apply_filters( '_ee_the_lazy_image', $image, $is_common_mobile, $url, $width, $height, $alt );
 
 		return $image;
