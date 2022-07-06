@@ -13,7 +13,7 @@ class GeneralSettingsFrontRendering {
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 	}
 	function show_404_for_disabled_feeds() {
-		if ( is_feed() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
+		if ( is_feed() && !is_post_type_archive() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
 			global $wp_query;
 
 			$wp_query->set_404();	// Mark the current query as a 404
@@ -25,7 +25,7 @@ class GeneralSettingsFrontRendering {
 	}
 
 	function restrict_feeds_posttype_list() {
-		return (array) apply_filters( 'restrict-feeds-for-posttypes', array( 'post' ) );
+		return (array) apply_filters( 'restrict-feeds-for-posttypes', array( 'post', 'affiliate_marketing', 'gmr_gallery', 'contest', 'tribe_events', 'listicle_cpt' ) );
 	}
 	function author_pre_get_posts($query) {
 		if ( !is_admin() && $query->is_main_query() ) {
