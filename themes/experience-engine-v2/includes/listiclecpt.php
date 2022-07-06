@@ -100,13 +100,13 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 								}
 								$image_full_url = $urls[ $cpt_post_object->ID ] . 'view/' . urlencode( $cpt_tracking_code ) . '/';
 								$tracking_url = ! $is_first ? $image_full_url : '';
-								$update_lazy_image = function( $html ) {
-									return str_replace( '<div ', '<div data-autoheight="1" ', $html );
-								};
+								// $update_lazy_image = function( $html ) {
+								// 	return str_replace( '<div ', '<div data-autoheight="1" ', $html );
+								// };
 
-								add_filter( '_ee_the_lazy_image', $update_lazy_image );
-								$image_html = ee_the_lazy_image( $current_post_id, false );
-								remove_filter( '_ee_the_lazy_image', $update_lazy_image );
+								// add_filter( '_ee_the_lazy_image', $update_lazy_image );
+								// $image_html = ee_the_lazy_image( $current_post_id, false );
+								// remove_filter( '_ee_the_lazy_image', $update_lazy_image );
 
 								$is_common_mobile = ee_is_common_mobile();
 								if($is_common_mobile){
@@ -115,8 +115,8 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 									echo '<div class="ga-track-location" data-author="' . esc_attr( $listicle_author ) . '" data-tracking="' . esc_attr( $tracking_url ) . '"></div>';
 								}
 
-								$amItemImageType = '<div class="am_imagecode">' . $image_html . '</div>';
-									echo $amItemImageType;
+								//  $amItemImageType = '<div class="am_imagecode">' . $image_html . '</div>';
+								// 	echo $amItemImageType;
 
 									if( isset( $cpt_item_description[$index] ) && $cpt_item_description[$index] !== "" ) {
 									echo '<div class="am-meta-item-description">', apply_filters('the_content', $cpt_item_description[$index]),'</div>';
