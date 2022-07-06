@@ -38,4 +38,11 @@
 & div .post-meta .meta .share-wrap-icons {
 	  display: none;
   }
+
+& .content-wrap {
+	& .dfp-slot {
+		margin-bottom: 1.775rem;
+		padding-bottom: 1.775rem;
+	}
+}
 }
