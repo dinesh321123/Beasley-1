@@ -13,7 +13,7 @@ const BottomAdhesionAd = () => {
 		configurableIFrameHeightNum === 0,
 	);
 
-	const [pageURL] = document.location.href;
+	const pageURL = document.location.href;
 	// this id is also compared in /assets/scripts/components/content/embeds/Dfp.js
 	const id = 'div-bottom-adhesion-slot';
 
