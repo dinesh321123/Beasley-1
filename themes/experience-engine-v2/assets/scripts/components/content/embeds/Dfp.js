@@ -161,8 +161,11 @@ const slotRenderEndedHandler = event => {
 				// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
 				getSlotStat(placeholder).timeVisible = 10000000;
 			}
-			if (placeholder === bottomAdhesionDivID) {
-				// Set Main Content Div Bottom Padding To 0 Since No Ad
+			if (
+				placeholder === topScrollingDivID ||
+				placeholder === bottomAdhesionDivID
+			) {
+				// Set Ad Height To 0 Since No Ad
 				setSotElementHeight(placeholder, slotElement, 0);
 			}
 		} else {
@@ -273,6 +276,11 @@ class Dfp extends PureComponent {
 		this.getBidderIx = this.getBidderIx.bind(this);
 		this.getBidderResetDigital = this.getBidderResetDigital.bind(this);
 
+		const initialLeaderboardAdHeight = parseInt(
+			bbgiconfig.ad_leaderboard_initial_height_setting,
+			10,
+		);
+
 		const slotPollSecs = parseInt(
 			bbgiconfig.ad_rotation_polling_sec_setting,
 			10,
@@ -298,6 +306,7 @@ class Dfp extends PureComponent {
 			slot: false,
 			interval: false,
 			isRotateAdsEnabled: bbgiconfig.ad_rotation_enabled !== 'off',
+			initialLeaderboardAdHeight,
 			slotPollMillisecs:
 				slotPollSecs && slotPollSecs >= 5 ? slotPollSecs * 1000 : 5000,
 			slotRefreshMillisecs:
@@ -605,7 +614,7 @@ class Dfp extends PureComponent {
 	registerSlot() {
 		const { placeholder, unitName, targeting } = this.props;
 		const { googletag, bbgiconfig } = window;
-		const { adjustedUnitId } = this.state;
+		const { adjustedUnitId, initialLeaderboardAdHeight } = this.state;
 
 		if (!document.getElementById(placeholder)) {
 			console.log(
@@ -714,7 +723,8 @@ class Dfp extends PureComponent {
 				// Adjust Default Content Margin To Help With Page Shift
 				const contentElement = document.getElementById('inner-content');
 				if (contentElement) {
-					contentElement.style.marginTop = `134px`;
+					contentElement.style.marginTop = `${initialLeaderboardAdHeight +
+						44}px`;
 				}
 			} else if (unitName === 'drop-down') {
 				console.log('Building sizes for Dropdown');

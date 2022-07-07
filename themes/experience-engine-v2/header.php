@@ -64,7 +64,9 @@ use Bbgi\Integration\Google;
 						Google::render_ga_placeholder();
 					}
 					if ( ee_is_whiz() ) {
+						echo '<div id="whiz-leaderboard-container">';
 						do_action( 'dfp_tag', 'top-leaderboard' );
+						echo '</div>';
 					}
 				?>
 				<div id="inner-content">
