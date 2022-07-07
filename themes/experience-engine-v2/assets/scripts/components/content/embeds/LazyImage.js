@@ -130,11 +130,34 @@ class LazyImage extends PureComponent {
 		return imageSrc;
 	}
 
+	changeContainer(width, height) {
+		const { containerWidth, containerHeight } = this.getDimensions();
+		const containerAspect = containerHeight / containerWidth;
+		const imageAspect = height / width;
+		if (containerAspect > imageAspect) {
+			const { container } = this;
+			container.style.maxHeight = `${(containerHeight * imageAspect) /
+				containerAspect}px`;
+		}
+	}
+
 	loadImage() {
 		const { autoheight } = this.props;
+		const { width, height } = this.props;
 
 		// load image and update state
 		const imageSrc = this.getImageUrl();
+
+		if (width && height) {
+			this.changeContainer(width, height);
+
+			// check if component is still mounted
+			if (this.boxRef.current) {
+				this.setState({ image: imageSrc });
+			}
+			return;
+		}
+
 		const imageLoader = new Image();
 
 		imageLoader.src = imageSrc;
@@ -144,14 +167,7 @@ class LazyImage extends PureComponent {
 				const { width, height } = imageLoader;
 				// only for landscape images
 				if (width > height) {
-					const { containerWidth, containerHeight } = this.getDimensions();
-					const containerAspect = containerHeight / containerWidth;
-					const imageAspect = height / width;
-					if (containerAspect > imageAspect) {
-						const { container } = this;
-						container.style.maxHeight = `${(containerHeight * imageAspect) /
-							containerAspect}px`;
-					}
+					this.changeContainer(width, height);
 				}
 			}
 
