@@ -56,11 +56,8 @@ use Bbgi\Integration\Google;
 					if ( class_exists( Google::class ) ) {
 						Google::render_ga_placeholder();
 					}
+					if ( ee_is_whiz() ) {
+						do_action( 'dfp_tag', 'top-leaderboard' );
+					}
 				?>
 				<div id="inner-content">
-					<?php
-						if ( ee_is_whiz() ) {
-							do_action( 'dfp_tag', 'top-leaderboard' );
-						}
-					?>
-
