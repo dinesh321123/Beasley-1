@@ -58,3 +58,9 @@ use Bbgi\Integration\Google;
 					}
 				?>
 				<div id="inner-content">
+					<?php
+						if ( ee_is_whiz() ) {
+							do_action( 'dfp_tag', 'top-leaderboard' );
+						}
+					?>
+
