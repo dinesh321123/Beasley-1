@@ -13,6 +13,7 @@ if ( ! function_exists( 'ee_is_common_mobile' ) ) :
 				$jacapps_pos = 1;
 			}
 		}
+
 		if($whiz_pos === null ) {
 			$whiz_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'whiz' );
 
@@ -21,6 +22,7 @@ if ( ! function_exists( 'ee_is_common_mobile' ) ) :
 				$whiz_pos = 1;
 			}
 		}
+
 		return false !== $jacapps_pos || false !== $whiz_pos;
 	}
 endif;

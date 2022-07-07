@@ -18,7 +18,14 @@ use Bbgi\Integration\Google;
 		$headerCacheTag = $currentPostType.$currentPostSlug;
 	}
 
-	header("Cache-Tag: $headerCacheTag" . ",content", true);
+	if (ee_is_common_mobile()) {
+		$headerCacheTag .= ',mobile';
+	} else {
+		$headerCacheTag .= ',desktop';
+	}
+	$headerCacheTag .= ',content';
+
+	header("Cache-Tag: $headerCacheTag", true);
 	header("X-Cache-BBGI-Tag: $headerCacheTag", true);
 ?>
 <!doctype html>
