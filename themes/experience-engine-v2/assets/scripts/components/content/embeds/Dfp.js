@@ -65,12 +65,21 @@ const adjustContentMarginForTopAd = slotElement => {
 	const adContainerElement = document.getElementById('top-scrolling-container');
 
 	if (slotElement && adContainerElement && contentElement) {
+		const slotStyle = window.getComputedStyle(slotElement);
+		const contentStyle = window.getComputedStyle(contentElement);
 		const adContainerStyle = window.getComputedStyle(adContainerElement);
+
+		const lastVerticalScroll = window.scrollY;
+		const lastContentTopMargin = parseInt(contentStyle.marginTop, 10);
+		const slotHeight = parseInt(slotStyle.height, 10);
+		const containerMarginTop = parseInt(adContainerStyle.marginTop, 10);
 		const newContentTopMargin =
-			24 +
-			parseInt(slotElement.style.height, 10) +
-			parseInt(adContainerStyle.marginTop, 10);
+			24 + (slotHeight || 0) + (containerMarginTop || 0);
 		contentElement.style.marginTop = `${newContentTopMargin}px`;
+
+		const newVerticalScroll =
+			lastVerticalScroll - (lastContentTopMargin - newContentTopMargin);
+		window.scrollTo(window.scrollX, newVerticalScroll);
 	}
 };
 
@@ -161,8 +170,11 @@ const slotRenderEndedHandler = event => {
 				// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
 				getSlotStat(placeholder).timeVisible = 10000000;
 			}
-			if (placeholder === bottomAdhesionDivID) {
-				// Set Main Content Div Bottom Padding To 0 Since No Ad
+			if (
+				placeholder === topScrollingDivID ||
+				placeholder === bottomAdhesionDivID
+			) {
+				// Set Ad Height To 0 Since No Ad
 				setSotElementHeight(placeholder, slotElement, 0);
 			}
 		} else {
