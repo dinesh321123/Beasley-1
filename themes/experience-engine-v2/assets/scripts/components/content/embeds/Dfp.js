@@ -78,7 +78,7 @@ const adjustContentMarginForTopAd = slotElement => {
 		contentElement.style.marginTop = `${newContentTopMargin}px`;
 
 		const newVerticalScroll =
-			lastVerticalScroll - (lastContentTopMargin - newContentTopMargin);
+			lastVerticalScroll + (newContentTopMargin - lastContentTopMargin);
 		window.scrollTo(window.scrollX, newVerticalScroll);
 	}
 };
