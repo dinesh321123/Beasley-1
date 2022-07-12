@@ -61,25 +61,26 @@ const slotVisibilityChangedHandler = event => {
 	}
 };
 
-const adjustContentMarginForTopAd = slotElement => {
+const adjustContentMarginForTopAd = newAdHeight => {
 	const contentElement = document.getElementById('inner-content');
 	const adContainerElement = document.getElementById('top-scrolling-container');
 
-	if (slotElement && adContainerElement && contentElement) {
-		const slotStyle = window.getComputedStyle(slotElement);
+	if (adContainerElement && contentElement) {
 		const contentStyle = window.getComputedStyle(contentElement);
 		const adContainerStyle = window.getComputedStyle(adContainerElement);
 
 		const lastVerticalScroll = window.scrollY;
 		const lastContentTopMargin = parseInt(contentStyle.marginTop, 10);
-		const slotHeight = parseInt(slotStyle.height, 10);
-		const containerMarginTop = parseInt(adContainerStyle.marginTop, 10);
+		const adContainerTopMargin = parseInt(adContainerStyle.marginTop, 10);
 		const newContentTopMargin =
-			24 + (slotHeight || 0) + (containerMarginTop || 0);
-		contentElement.style.marginTop = `${newContentTopMargin}px`;
-
+			24 + (newAdHeight || 0) + (adContainerTopMargin || 0);
 		const newVerticalScroll =
 			lastVerticalScroll + (newContentTopMargin - lastContentTopMargin);
+
+		console.log(
+			`New Leaderboard => Old Scroll:${lastVerticalScroll} NewScroll:${newVerticalScroll} Old Top Margin:${lastContentTopMargin} New Top Margin:${newContentTopMargin}`,
+		);
+		contentElement.style.marginTop = `${newContentTopMargin}px`;
 		window.scrollTo(window.scrollX, newVerticalScroll);
 	}
 };
@@ -98,7 +99,7 @@ const adjustContentPaddingForBottomAd = slotElement => {
 	}
 };
 
-const setSotElementHeight = (placeholder, slotElement, newAdHeight) => {
+const setSlotElementHeight = (placeholder, slotElement, newAdHeight) => {
 	const padBottomPxStr = window.getComputedStyle(slotElement).paddingBottom;
 	const padBottomNumStr =
 		padBottomPxStr.indexOf('px') > -1 ? padBottomPxStr.replace('px', '') : '0';
@@ -107,7 +108,7 @@ const setSotElementHeight = (placeholder, slotElement, newAdHeight) => {
 	slotElement.style.height = `${newAdHeight + parseInt(padBottomNumStr, 10)}px`;
 
 	if (placeholder === topScrollingDivID) {
-		adjustContentMarginForTopAd(slotElement);
+		adjustContentMarginForTopAd(newAdHeight);
 	} else if (placeholder === bottomAdhesionDivID) {
 		adjustContentPaddingForBottomAd(slotElement);
 	}
@@ -176,7 +177,7 @@ const slotRenderEndedHandler = event => {
 				placeholder === bottomAdhesionDivID
 			) {
 				// Set Ad Height To 0 Since No Ad
-				setSotElementHeight(placeholder, slotElement, 0);
+				setSlotElementHeight(placeholder, slotElement, 0);
 			}
 		} else {
 			let adSize;
@@ -232,7 +233,7 @@ const slotRenderEndedHandler = event => {
 
 			// Adjust Container Div Height
 			if (adSize && adSize[0] && adSize[1]) {
-				setSotElementHeight(placeholder, slotElement, adSize[1]);
+				setSlotElementHeight(placeholder, slotElement, adSize[1]);
 			}
 
 			showSlotElement(slotElement);
