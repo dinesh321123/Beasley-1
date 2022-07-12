@@ -2,6 +2,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { IntersectionObserverContext } from '../../../context';
 import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAds';
+import { isAndroid, isIOS } from '../../../library';
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
@@ -285,10 +286,11 @@ class Dfp extends PureComponent {
 		this.getBidderIx = this.getBidderIx.bind(this);
 		this.getBidderResetDigital = this.getBidderResetDigital.bind(this);
 
-		const initialLeaderboardAdHeight = parseInt(
-			bbgiconfig.ad_leaderboard_initial_height_setting,
-			10,
-		);
+		// Initial leaderboard height = 50 for Mobile, otherwise use setting
+		const initialLeaderboardAdHeight =
+			isAndroid() || isIOS()
+				? 50
+				: parseInt(bbgiconfig.ad_leaderboard_initial_height_setting, 10);
 
 		const slotPollSecs = parseInt(
 			bbgiconfig.ad_rotation_polling_sec_setting,
