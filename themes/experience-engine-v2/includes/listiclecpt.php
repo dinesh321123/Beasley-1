@@ -108,8 +108,8 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 									echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
 								}
 
-								//  $amItemImageType = '<div class="am_imagecode">' . $image_html . '</div>';
-								// 	echo $amItemImageType;
+								$amItemImageType = '<div class="am_imagecode">' . $image_html . '</div>';
+									echo $amItemImageType;
 
 									if( isset( $cpt_item_description[$index] ) && $cpt_item_description[$index] !== "" ) {
 									echo '<div class="am-meta-item-description">', apply_filters('the_content', $cpt_item_description[$index]),'</div>';
