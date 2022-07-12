@@ -20,6 +20,13 @@ if ( ! function_exists( 'add_featured_data_in_rss' ) ) :
 		global $post;
 		$video_url = "";
 
+		$terms = get_the_terms( $post_id, '_shows' );
+		if ( is_array( $terms ) && ! empty( $terms ) ) {
+			foreach($terms as $term){
+				echo '<show><![CDATA[' . esc_html( $term->slug ) . ']]></show>';
+			}
+		}
+
 		// Add Featured image at item end
 		if ( has_post_thumbnail( $post->ID ) ) {
 			$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'original' );
