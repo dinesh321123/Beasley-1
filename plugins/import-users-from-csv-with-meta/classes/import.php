@@ -103,17 +103,17 @@ class ACUI_Import{
 
     function admin_tabs( $current = 'homepage' ) {
         $tabs = array( 
-                'homepage' => __( 'Import', 'import-users-from-csv-with-meta' ),
+                'homepage' => __( 'Home Page', 'import-users-from-csv-with-meta' ),
                 'export' => __( 'Export', 'import-users-from-csv-with-meta' ),
-                'frontend' => __( 'Frontend', 'import-users-from-csv-with-meta' ), 
-                'cron' => __( 'Cron import', 'import-users-from-csv-with-meta' ), 
-                'columns' => __( 'Extra profile fields', 'import-users-from-csv-with-meta' ), 
-                'meta-keys' => __( 'Meta keys', 'import-users-from-csv-with-meta' ), 
-                'mail-options' => __( 'Mail options', 'import-users-from-csv-with-meta' ), 
-                'doc' => __( 'Documentation', 'import-users-from-csv-with-meta' ), 
-                'donate' => __( 'Donate/Patreon', 'import-users-from-csv-with-meta' ), 
-                'shop' => __( 'Shop', 'import-users-from-csv-with-meta' ), 
-                'help' => __( 'Hire an expert', 'import-users-from-csv-with-meta' ),
+                // 'frontend' => __( 'Frontend', 'import-users-from-csv-with-meta' ), 
+                // 'cron' => __( 'Cron import', 'import-users-from-csv-with-meta' ), 
+                // 'columns' => __( 'Extra profile fields', 'import-users-from-csv-with-meta' ), 
+                // 'meta-keys' => __( 'Meta keys', 'import-users-from-csv-with-meta' ), 
+                // 'mail-options' => __( 'Mail options', 'import-users-from-csv-with-meta' ), 
+                // 'doc' => __( 'Documentation', 'import-users-from-csv-with-meta' ), 
+                // 'donate' => __( 'Donate/Patreon', 'import-users-from-csv-with-meta' ), 
+                // 'shop' => __( 'Shop', 'import-users-from-csv-with-meta' ), 
+                // 'help' => __( 'Hire an expert', 'import-users-from-csv-with-meta' ),
                // 'new_features' => __( 'New features', 'import-users-from-csv-with-meta' )
         );
     

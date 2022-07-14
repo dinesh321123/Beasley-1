@@ -119,6 +119,7 @@ class ACUI_Batch_Exporter{
 			$row[] = $key;
 		}
 
+		$row[] = 'Site Name';
 		$this->set_columns_to_export( apply_filters( 'acui_export_columns', $row, array( 'order_fields_alphabetically' => $this->get_order_fields_alphabetically(), 'double_encapsulate_serialized_values' => $this->get_double_encapsulate_serialized_values(), 'filtered_columns' => $this->get_filtered_columns() ) ) );
     }
 
@@ -335,6 +336,9 @@ class ACUI_Batch_Exporter{
 		foreach ( $columns as $column_name ) {
 			$export_row[] = $this->format_data( $column_name );
 		}
+		$export_row[] = 'Last login';
+		$export_row[] = 'Active';
+		$export_row[] = 'Station name';
 
 		$this->fputcsv( $buffer, $export_row );
 
@@ -600,8 +604,21 @@ class ACUI_Batch_Exporter{
 			    $row = $this->maybe_fill_empty_data( $row, $user, $this->get_filtered_columns() );
 
 			$row = apply_filters( 'acui_export_data', $row, $user, array( 'columns' => $this->get_columns_to_export(), 'datetime_format' => $this->get_datetime_format(), 'order_fields_alphabetically' => $this->get_order_fields_alphabetically(), 'double_encapsulate_serialized_values' => $this->get_double_encapsulate_serialized_values(), 'filtered_columns' => $this->get_filtered_columns() ));
-			
-            $this->row_data[] = array_values( $row );
+			/* Custom meta to export */
+			// Export Last Login
+			$lastLogin = get_user_meta($userdata->ID, 'bbgi_user_last_login_meta', true);
+			$row['lastlogin'] = isset($lastLogin) && $lastLogin != "" ? date('Y-m-d H:i:s', $lastLogin) : '' ;
+			// Active user status
+			$activestatus = get_user_meta($userdata->ID, 'bbgi_is_user_disabled', true);
+			$row['activestatus'] = isset($activestatus) && $activestatus === "0" ? 'Yes' : 'No' ;
+			// Export Sites name
+			$sites = array();
+			$blogs = get_blogs_of_user( $userdata->ID, true );
+			foreach ($blogs as $key => $blog) {
+				$sites[]=$blog->blogname;
+			}
+		    $row['sites'] = implode( ' || ', $sites );
+			$this->row_data[] = array_values( $row );
 		}
 	}
 

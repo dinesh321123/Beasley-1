@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; 
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 class ACUI_Exporter{
 	private $path_csv;
@@ -85,6 +85,7 @@ class ACUI_Exporter{
 	<form id="acui_exporter">
 		<table class="form-table">
 			<tbody>
+			<?php /* ?>
 				<tr id="acui_role_wrapper" valign="top">
 					<th scope="row"><?php _e( 'Role', 'import-users-from-csv-with-meta' ); ?></th>
 					<td>
@@ -95,14 +96,15 @@ class ACUI_Exporter{
                             'show_option_none' => __( 'All roles', 'import-users-from-csv-with-meta' ),
                         )); ?>
 					</td>
-				</tr>
+				</tr> <?php */ ?>
 				<tr id="acui_columns" valign="top">
 					<th scope="row"><?php _e( 'Columns', 'import-users-from-csv-with-meta' ); ?></th>
 					<td>
-						<?php ACUIHTML()->textarea( array( 'name' => 'columns' ) ); ?>
+						<?php ACUIHTML()->textarea( array( 'name' => 'columns', 'value' => 'user_login,user_email,first_name,last_name,user_nicename,role' ) ); ?>
 						<span class="description"><?php _e( 'You can use this field to set which columns must be exported and in which order.  If you leave it empty, all columns will be exported. Use a list of fields separated by commas, for example', 'import-users-from-csv-with-meta' ); ?>: user_email,first_name,last_name</span>
 					</td>
 				</tr>
+				<?php /* ?>
 				<tr id="acui_user_created_wrapper" valign="top">
 					<th scope="row"><?php _e( 'User created', 'import-users-from-csv-with-meta' ); ?></th>
 					<td>
@@ -139,10 +141,10 @@ class ACUI_Exporter{
                 <tr id="acui_order_fields_double_encapsulate_serialized_values" valign="top">
 					<th scope="row"><?php _e( 'Double encapsulate serialized values', 'import-users-from-csv-with-meta' ); ?></th>
 					<td>
-                        <?php ACUIHTML()->checkbox( array( 'name' => 'double_encapsulate_serialized_values', 'current' => 0 ) ); ?>                    
+                        <?php ACUIHTML()->checkbox( array( 'name' => 'double_encapsulate_serialized_values', 'current' => 0 ) ); ?>
 						<span class="description"><?php _e( "Serialized values sometimes can have problems being displayed in Microsoft Excel or LibreOffice, we can double encapsulate this kind of data but you would not be able to import this data beucase instead of serialized data it would be managed as strings", 'import-users-from-csv-with-meta' ); ?></span>
 					</td>
-				</tr>
+				</tr> <?php */ ?>
 				<tr id="acui_download_csv_wrapper" valign="top">
 					<th scope="row"><?php _e( 'Download CSV file with users', 'import-users-from-csv-with-meta' ); ?></th>
 					<td>
@@ -200,11 +202,11 @@ class ACUI_Exporter{
 		if( !current_user_can( apply_filters( 'acui_capability', 'create_users' ) ) )
 			wp_die( __( 'Only users who are able to create users can export them.', 'import-users-from-csv-with-meta' ) );
 
-    
+
         $step = isset( $_POST['step'] ) ? absint( $_POST['step'] ) : 1;
-                
+
         $exporter = new ACUI_Batch_Exporter();
-               
+
         $exporter->set_page( $step );
         $exporter->set_delimiter( sanitize_text_field( $_POST['delimiter'] ) );
         $exporter->set_role( sanitize_text_field( $_POST['role'] ) );
@@ -218,7 +220,7 @@ class ACUI_Exporter{
         $exporter->set_orderby( ( isset( $_POST['orderby'] ) && !empty( $_POST['orderby'] ) ) ? sanitize_text_field( $_POST['orderby'] ) : '' );
         $exporter->set_order( ( isset( $_POST['order'] ) && !empty( $_POST['order'] ) ) ? sanitize_text_field( $_POST['order'] ) : 'ASC' );
         $exporter->load_columns();
-        
+
         $exporter->generate_file();
 
         if ( 100 <= $exporter->get_percent_complete() ) {
