@@ -37,7 +37,7 @@ the_post();
 				<?php get_template_part( 'partials/featured-media', 'am-autoheight' ); ?>
 			<?php endif; ?>
 
-			<?php the_content(); ?>
+			<?php ee_the_content_with_stn_only(); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/affiliatemarketingcpt' ); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/footer', 'description-am' ); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/footer', 'signupcode-am' ); ?>
