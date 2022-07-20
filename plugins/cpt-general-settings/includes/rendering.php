@@ -12,20 +12,16 @@ class GeneralSettingsFrontRendering {
 
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 	}
-	function show_404_for_disabled_feeds() {
-		if( is_feed() ) {
-			global $wp_query;
-			global $wp;
-			$currentURL = home_url( $wp->request );
-			$feedURL = home_url().'/feed';
 
-			if( ( $feedURL == $currentURL || is_singular() ) && in_array(get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list()) ) {
-				$wp_query->set_404();    // Mark the current query as a 404
-				status_header(404);    // Return 404 HTTP status code instead of the default 200
-				header('Content-Type: text/html; charset=utf-8');    // By default, this page returns XML, so we change the Content-Type header // Because we want to show a 404 page
-				get_template_part(404);    // Render the 404 template
-				exit();    // You should exit from the script after that
-			}
+	function show_404_for_disabled_feeds() {
+		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
+			global $wp_query;
+
+			$wp_query->set_404();	// Mark the current query as a 404
+			status_header(404);	// Return 404 HTTP status code instead of the default 200
+			header('Content-Type: text/html; charset=utf-8');	// By default, this page returns XML, so we change the Content-Type header // Because we want to show a 404 page
+			get_template_part( 404 );	// Render the 404 template
+			exit();	// You should exit from the script after that
 		}
 	}
 
