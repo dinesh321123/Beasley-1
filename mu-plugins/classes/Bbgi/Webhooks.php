@@ -22,7 +22,7 @@ class Webhooks extends \Bbgi\Module {
 		add_action( 'shutdown', [ $this, 'do_shutdown' ] );
 
 
-		$this->debug = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'WEBHOOKS_LOG_ENABLE' ) && WEBHOOKS_LOG_ENABLE );
+		$this->debug = true;//( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'WEBHOOKS_LOG_ENABLE' ) && WEBHOOKS_LOG_ENABLE );
 	}
 
 	/**
@@ -114,7 +114,9 @@ class Webhooks extends \Bbgi\Module {
 	 * @return bool
 	 */
 	public function do_shutdown() {
+		$this->log( 'shutdown called' );
 		if ( ! empty( $this->pending ) ) {
+			$this->log( 'pending is not empty');
 			foreach( $this->pending as $site_id => $pending_webhook ) {
 				$this->log( 'do_webhook' , [ 'site_id' => $site_id ] );
 				$this->do_webhook(
@@ -128,6 +130,7 @@ class Webhooks extends \Bbgi\Module {
 
 			return true;
 		} else {
+			$this->log( 'pending is empty');
 			return false;
 		}
 	}
@@ -144,7 +147,7 @@ class Webhooks extends \Bbgi\Module {
 		$site_id = get_current_blog_id();
 		$only_published = isset( $opts['only_published' ] ) ? $opts['only_published' ] : true;
 
-		$this->log( 'do_lazy_webook called.', [ 'post_id' => $post_id, 'opts' => $opts ] );
+		//$this->log( 'do_lazy_webook called.', [ 'post_id' => $post_id, 'opts' => $opts ] );
 
 		if ( ! isset( $this->pending[ $site_id ] ) && $this->needs_webhook( $post_id, $only_published ) ) {
 			$publisher = get_option( 'ee_publisher', false );
@@ -155,10 +158,11 @@ class Webhooks extends \Bbgi\Module {
 				'opts'      => $opts,
 			];
 
-			$this->log( 'pending webook set. ', $this->pending[ $site_id ] );
+			//$this->log( 'pending webhook set. ', $this->pending[ $site_id ] );
 
 			return true;
 		} else {
+			//$this->log('a pending webhook exists for site: ' . $site_id . ' or needs_webhook returned false' );
 			return false;
 		}
 	}
@@ -189,7 +193,7 @@ class Webhooks extends \Bbgi\Module {
 
 		// Abort if notification URL isn't set
 		if ( ! $base_url || ! $publisher || ! $appkey ) {
-			$this->log( 'do_webhook notification url is not set.', $debug_params );
+			//$this->log( 'do_webhook notification url is not set.', $debug_params );
 			return;
 		}
 
@@ -203,7 +207,7 @@ class Webhooks extends \Bbgi\Module {
 		$categories = get_the_category( $post_id );
 		if (!$categories && isset($opts['category_list'])){
 			$categories = $opts['category_list'];
-			$this->write_to_log( 'Categories From Ops', [ 'categories' => $categories, 'post_id' => $post_id ] );
+			//$this->write_to_log( 'Categories From Ops', [ 'categories' => $categories, 'post_id' => $post_id ] );
 		}
 
 		$categoryCSV = '';
@@ -261,17 +265,20 @@ class Webhooks extends \Bbgi\Module {
 	public function needs_webhook( $post_id, $only_published = true ) {
 		/* autosaves don't need webhook */
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			$this->log('no webhook when auto saving post');
 			return false;
 		}
 
 		/** don't webhook bulk edit requests */
 		if ( isset( $_REQUEST['bulk_edit'] ) ) {
+			$this->log('no webhook called during bulk edit');
 			return false;
 		}
 
 		$post = get_post( $post_id );
 
 		if ( $only_published && $post->post_status !== 'publish' ) {
+			$this->log('not a published post. no webhook ran');
 			return false;
 		}
 
@@ -301,7 +308,7 @@ class Webhooks extends \Bbgi\Module {
 	}
 
 	public function clearCloudFlareCache($postID, $posttype, $categories){
-		error_log('clearCloudFlareCache reached');
+		$this->log("clearCloudFlareCache", ["postId" => $postID]);
 
         if(!$postID){
             return false;
@@ -311,7 +318,8 @@ class Webhooks extends \Bbgi\Module {
 		$zone_id = get_option('cloud_flare_zoneid');
 
 		if ( empty($cloudflaretoken) || empty($zone_id) ) {
-			error_log( 'Cloudflare not configured for this site' );
+			$this->log("Cloudflare not configured for this site" );
+
 			return false;
 		}
 
@@ -333,15 +341,11 @@ class Webhooks extends \Bbgi\Module {
 		// Clear specific page caches
 		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
 			$url = get_permalink($postID);
-			$this->log( 'Batcache URL' , [ 'url' => $url ] );
+			//$this->log( 'Batcache URL' , [ 'url' => $url ] );
 			batcache_clear_url( $url );
 		}
 
-
-
-		error_log('Cloudflare Clearing Cache Tags ' . join( ",", $cache_tags));
-
-
+		$this->log( 'Cloudflare Clearing Cache Tags', $cache_tags);
 
 
 		$data = [ "tags" => $cache_tags];
@@ -356,13 +360,15 @@ class Webhooks extends \Bbgi\Module {
 					)
 				);
 
-		$response_json = 'Cloudflare response: '. json_encode( $response );
-		error_log( $response_json );
+
 
 		if ( is_wp_error( $response ) ) {
-			error_log( 'Cloudflare error notice query var from is_wp_error function' );
+			$this->log('Failed Response');
+		} else {
+			$this->log('Cloudflare Response', [ "response" => json_encode( $response )]);
 		}
 
+		return true;
     }
 
 }

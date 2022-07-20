@@ -149,7 +149,11 @@ class LazyImage extends PureComponent {
 		const imageSrc = this.getImageUrl();
 
 		if (width && height) {
-			this.changeContainer(width, height);
+			// adjust height of container if it is needed
+			// only for landscape images
+			if (autoheight && width > height) {
+				this.changeContainer(width, height);
+			}
 
 			// check if component is still mounted
 			if (this.boxRef.current) {
