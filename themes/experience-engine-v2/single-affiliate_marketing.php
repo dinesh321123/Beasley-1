@@ -37,7 +37,12 @@ the_post();
 				<?php get_template_part( 'partials/featured-media', 'am-autoheight' ); ?>
 			<?php endif; ?>
 
-			<?php ee_the_content_with_stn_only(); ?>
+			<?php if ( stripos(get_site_url(),"musthavesandfunfinds.com") == false ) : ?>
+				<?php the_content(); ?>
+			<?php else : ?>
+				<?php ee_the_content_with_stn_only(); ?>
+			<?php endif; ?>
+
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/affiliatemarketingcpt' ); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/footer', 'description-am' ); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/footer', 'signupcode-am' ); ?>
