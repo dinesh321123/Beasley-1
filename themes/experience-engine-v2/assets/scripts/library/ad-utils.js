@@ -1,5 +1,5 @@
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
-const interstitialDivID = 'div-gpt-ad-1484200509775-3';
+export const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 export const topScrollingDivID = 'div-top-scrolling-slot';
 const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
 const dropDownDivID = 'div-drop-down-slot';
