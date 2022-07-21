@@ -36,6 +36,30 @@ export const getSlotStat = placeholder => {
 	return slotStatsObject[placeholder];
 };
 
+export const registerSlotStatForRefresh = (placeholder, slot) => {
+	if (!placeholder) {
+		throw Error('NULL Placeholder Param in registerSlotStatForRefresh()');
+	}
+	if (!slot) {
+		throw Error('NULL Slot Param in registerSlotStatForRefresh()');
+	}
+
+	const placeholderExcludeArray = [
+		topScrollingDivID,
+		bottomAdhesionDivID,
+		dropDownDivID,
+	];
+	if (
+		!placeholderExcludeArray.includes(placeholder) ||
+		!getSlotStatsCollectionObject()[placeholder]
+	) {
+		console.log(`Creating slotStat for ${placeholder}`);
+		const slotStat = getSlotStat(placeholder);
+		slotStat.shouldRefresh = true;
+		slotStat.slot = slot;
+	}
+};
+
 export const impressionViewableHandler = event => {
 	const { slot } = event;
 	const placeholder = slot.getSlotElementId();

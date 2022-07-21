@@ -244,7 +244,8 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 
 					$dfp_ad_single_request = get_option( 'ad_single_request_enabled', 'on' );
 					if  ( $dfp_ad_single_request === 'on' ) {
-						$html .= 'googletag.pubads().enableSingleRequest(); ';
+						// 07/20/2022 - TURN OFF SINGLE REQUEST
+						// $html .= 'googletag.pubads().enableSingleRequest(); ';
 					}
 
 					$html .= ' googletag.enableServices();

@@ -8,6 +8,7 @@ import {
 	slotRenderEndedHandler,
 	isNotSponsorOrInterstitial,
 	getSlotStat,
+	registerSlotStatForRefresh,
 	topScrollingDivID,
 	hidePlaceholder,
 	showSlotElement,
@@ -784,6 +785,8 @@ class Dfp extends PureComponent {
 			for (let i = 0; i < targeting.length; i++) {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
 			}
+
+			registerSlotStatForRefresh(placeholder, slot);
 
 			this.setState({ slot, prebidEnabled });
 			return true;

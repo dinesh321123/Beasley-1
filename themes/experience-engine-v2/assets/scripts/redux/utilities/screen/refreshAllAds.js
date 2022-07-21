@@ -1,14 +1,17 @@
-import { topScrollingDivID, hidePlaceholder } from '../../../library/ad-utils';
+import { getSlotStatsCollectionObject } from '../../../library/ad-utils';
 
 export default function refreshAllAds() {
 	const { prebid_enabled } = window.bbgiconfig;
-	window.topAdsShown = 0;
-	hidePlaceholder(topScrollingDivID);
+
+	// Trying to keep top ad visible - no longer hide
+	// window.topAdsShown = 0;
+	// hidePlaceholder(topScrollingDivID);
 
 	if (!prebid_enabled) {
 		const { googletag } = window;
 		googletag.cmd.push(() => {
-			googletag.pubads().refresh();
+			// googletag.pubads().refresh();
+			doPubadsRefreshForAllRegisteredAds(googletag);
 		});
 		return; // EXIT FUNCTION
 	}
@@ -31,9 +34,28 @@ export default function refreshAllAds() {
 			pbjs.que.push(() => {
 				pbjs.setTargetingForGPTAsync();
 				logPrebidTargeting();
-				googletag.pubads().refresh();
+				// googletag.pubads().refresh();
+				doPubadsRefreshForAllRegisteredAds(googletag);
 			});
 		});
+	}
+
+	function doPubadsRefreshForAllRegisteredAds(googletag) {
+		const statsCollectionObject = getSlotStatsCollectionObject();
+		const statsObjectKeys = Object.keys(statsCollectionObject);
+		if (statsObjectKeys) {
+			const statsObjKeysToRefresh = statsObjectKeys.filter(
+				statsKey => statsCollectionObject[statsKey].shouldRefresh,
+			);
+			if (statsObjKeysToRefresh) {
+				const slotList = statsObjKeysToRefresh.map(
+					statsKey => statsCollectionObject[statsKey].slot,
+				);
+				if (slotList) {
+					googletag.pubads().refresh([...slotList.values()]);
+				}
+			}
+		}
 	}
 }
 
