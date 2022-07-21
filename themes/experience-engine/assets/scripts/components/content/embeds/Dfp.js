@@ -1,6 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { IntersectionObserverContext } from '../../../context';
+import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAds';
 
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 const interstitialDivID = 'div-gpt-ad-1484200509775-3';
@@ -81,7 +82,24 @@ const slotRenderEndedHandler = event => {
 
 	const placeholder = slot.getSlotElementId();
 
-	console.log(`slotRenderEndedHandler size: ${size}`);
+	// console.log(
+	// 	`slotRenderEndedHandler for ${slot.getAdUnitPath()}(${placeholder}) with line item: ${lineItemId} of size: ${size}`,
+	// );
+
+	// FOR DEBUG - LOG TARGETING
+	// const pbTargetKeys = slot.getTargetingKeys();
+	// console.log(`Slot Keys Of Rendered Ad`);
+	// pbTargetKeys.forEach(pbtk => {
+	//	console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
+	// });
+
+	if (!isEmpty) {
+		if (placeholder === window.bbgiLeaderboardDivID) {
+			window.bbgiLeaderboardLoaded = true;
+		} else if (placeholder === playerAdhesionDivID) {
+			window.bbgiAdhesionLoaded = true;
+		}
+	}
 
 	if (placeholder && isNotPlayerOrInterstitial(placeholder)) {
 		const slotElement = document.getElementById(placeholder);
@@ -98,9 +116,12 @@ const slotRenderEndedHandler = event => {
 			let adSize;
 			if (size && size.length === 2 && (size[0] !== 1 || size[1] !== 1)) {
 				adSize = size;
+				// console.log(`Prebid Ad Not Shown - Using Size: ${adSize}`);
 			} else if (slot.getTargeting('hb_size')) {
+				// We ASSUME when an incomplete size is sent through event, we are dealing with Prebid.
+				// Compute Size From hb_size.
 				const hbSizeString = slot.getTargeting('hb_size').toString();
-				console.log(`Prebid Sizestring: ${hbSizeString}`);
+				// console.log(`Prebid Sizestring: ${hbSizeString}`);
 				const idxOfX = hbSizeString.toLowerCase().indexOf('x');
 				if (idxOfX > -1) {
 					const widthString = hbSizeString.substr(0, idxOfX);
@@ -109,9 +130,39 @@ const slotRenderEndedHandler = event => {
 					adSize[0] = parseInt(widthString, 10);
 					adSize[1] = parseInt(heightString, 10);
 				}
+
+				// Now Send GA Stats
+				if (
+					slot &&
+					slot.getTargeting('hb_bidder') &&
+					slot
+						.getTargeting('hb_bidder')
+						.toString()
+						.trim()
+				) {
+					// console.log(
+					//	`PREBID AD SHOWN - ${slot.getTargeting(
+					//		'hb_bidder',
+					//	)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
+					// );
+
+					try {
+						window.ga('send', {
+							hitType: 'event',
+							eventCategory: 'PrebidAdShown',
+							eventAction: `${slot.getTargeting('hb_bidder')}`,
+							eventLabel: `${slot.getAdUnitPath()}`,
+							eventValue: `${parseInt(
+								parseFloat(slot.getTargeting('hb_pb')) * 100,
+								10,
+							)}`,
+						});
+					} catch (ex) {
+						console.log(`ERROR Sending to Google Analytics: `, ex);
+					}
+				}
 			}
 
-			console.log(`USING Size: ${adSize}`);
 			// Adjust Container Div Height
 			if (adSize && adSize[0] && adSize[1]) {
 				const imageWidth = adSize[0];
@@ -148,21 +199,35 @@ const slotRenderEndedHandler = event => {
 class Dfp extends PureComponent {
 	constructor(props) {
 		super(props);
-		const { pageURL } = props;
+		const { placeholder, unitId, unitName, pageURL } = props;
 		const { bbgiconfig } = window;
-		this.getIsAffiliateMarketingPage = this.getIsAffiliateMarketingPage.bind(
-			this,
-		);
+
+		if (this.isCreationCancelled(placeholder, unitName, pageURL)) {
+			return;
+		}
+
 		this.onVisibilityChange = this.handleVisibilityChange.bind(this);
+		this.isConfiguredToRunInterval = this.isConfiguredToRunInterval.bind(this);
+		this.startInterval = this.startInterval.bind(this);
+		this.stopInterval = this.stopInterval.bind(this);
+		this.registerSlot = this.registerSlot.bind(this);
 		this.updateSlotVisibleTimeStat = this.updateSlotVisibleTimeStat.bind(this);
 		this.refreshSlot = this.refreshSlot.bind(this);
-		this.loadPrebid = this.loadPrebid.bind(this);
-		this.refreshBid = this.refreshBid.bind(this);
 		this.destroySlot = this.destroySlot.bind(this);
+		this.tryDisplaySlot = this.tryDisplaySlot.bind(this);
+
+		this.pushRefreshBidIntoGoogleTag = this.pushRefreshBidIntoGoogleTag.bind(
+			this,
+		);
+
+		// Prebid Functions
+		this.loadPrebid = this.loadPrebid.bind(this);
+		this.bidsBackHandler = this.bidsBackHandler.bind(this);
 		this.getPrebidBidders = this.getPrebidBidders.bind(this);
 		this.getBidderRubicon = this.getBidderRubicon.bind(this);
 		this.getBidderAppnexus = this.getBidderAppnexus.bind(this);
 		this.getBidderIx = this.getBidderIx.bind(this);
+		this.getBidderResetDigital = this.getBidderResetDigital.bind(this);
 
 		const slotPollSecs = parseInt(
 			bbgiconfig.ad_rotation_polling_sec_setting,
@@ -177,11 +242,15 @@ class Dfp extends PureComponent {
 			10,
 		);
 
-		const isAffiliateMarketingPage = this.getIsAffiliateMarketingPage(pageURL);
+		const isAffiliateMarketingPage = this.isAffiliateMarketingPage(pageURL);
+
+		const adjustedUnitId = this.getAdjustedUnitId(unitId, unitName, pageURL);
+		// console.log(`Adjusted Ad Unit: ${adjustedUnitId}`);
 
 		// Initialize State. NOTE: Ensure that Minimum Poll Intervavl Is Much Longer Than
 		// 	Round Trip to Ad Server. Initially we enforce 5 second minimum.
 		this.state = {
+			adjustedUnitId,
 			slot: false,
 			interval: false,
 			isRotateAdsEnabled: bbgiconfig.ad_rotation_enabled !== 'off',
@@ -198,11 +267,17 @@ class Dfp extends PureComponent {
 			ixSiteID: bbgiconfig.ad_ix_siteid_setting,
 			rubiconZoneID: bbgiconfig.ad_rubicon_zoneid_setting,
 			appnexusPlacementID: bbgiconfig.ad_appnexus_placementid_setting,
+			resetDigitalEnabled: false, // 01/02/2022 - Disable ResetDigital: bbgiconfig.ad_reset_digital_enabled === 'on',
 			prebidEnabled: bbgiconfig.prebid_enabled && !isAffiliateMarketingPage,
 		};
 	}
 
 	isConfiguredToRunInterval() {
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
+			return false;
+		}
+
 		const { placeholder, unitName } = this.props;
 		const { isRotateAdsEnabled } = this.state;
 
@@ -212,7 +287,7 @@ class Dfp extends PureComponent {
 		);
 	}
 
-	getIsAffiliateMarketingPage(pageURL) {
+	isAffiliateMarketingPage(pageURL) {
 		return (
 			pageURL.indexOf('/category/shopping/') > -1 ||
 			pageURL.indexOf('/shows/must-haves/') > -1 ||
@@ -220,9 +295,64 @@ class Dfp extends PureComponent {
 		);
 	}
 
+	isIncontentAdOnAffiliatePage(unitName, pageURL) {
+		return (
+			(unitName === 'in-list' ||
+				unitName === 'in-list-gallery' ||
+				unitName === 'in-content') &&
+			this.isAffiliateMarketingPage(pageURL)
+		);
+	}
+
+	isAdInEmbeddedContent(placeholder) {
+		// Embedded content detected when slot is child element of a Div with class .am-meta-item-description
+		const slotElement = document.getElementById(placeholder);
+		return !!slotElement && !!slotElement.closest('.am-meta-item-description');
+	}
+
+	isCreationCancelled(placeholder, unitName, pageURL) {
+		return (
+			this.isIncontentAdOnAffiliatePage(unitName, pageURL) ||
+			this.isAdInEmbeddedContent(placeholder)
+		);
+	}
+
+	getAdjustedUnitId(unitId, unitName, pageURL) {
+		let retval = unitId;
+		// Change Ad Unit Depending On AdName If We Are On An Affiliate Page
+		if (unitId && pageURL && this.isAffiliateMarketingPage(pageURL)) {
+			const nameStartIdx = unitId.lastIndexOf('/');
+			if (nameStartIdx > -1) {
+				const prefix = unitId.substring(0, nameStartIdx + 1);
+				switch (unitName) {
+					case 'top-leaderboard':
+						retval = `${prefix}MUST_HAVES_Leaderboard_pos1`;
+						break;
+					case 'bottom-leaderboard':
+						retval = `${prefix}MUST_HAVES_Leaderboard_pos2`;
+						break;
+					case 'right-rail':
+						retval = `${prefix}MUST_HAVES_RightRail_pos1`;
+						break;
+					case 'adhesion':
+						retval = `${prefix}MUST_HAVES_Adhesion`;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+		return retval;
+	}
+
 	componentDidMount() {
 		const { googletag } = window;
 		const { placeholder } = this.props;
+
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
+			return;
+		}
 
 		this.container = document.getElementById(placeholder);
 		this.tryDisplaySlot();
@@ -258,6 +388,11 @@ class Dfp extends PureComponent {
 	}
 
 	componentWillUnmount() {
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
+			return;
+		}
+
 		this.destroySlot();
 
 		if (this.isConfiguredToRunInterval()) {
@@ -336,12 +471,29 @@ class Dfp extends PureComponent {
 		return retval;
 	}
 
+	getBidderResetDigital() {
+		const { resetDigitalEnabled } = this.state;
+		if (!resetDigitalEnabled) {
+			return null;
+		}
+
+		const retval = {
+			bidder: 'resetdigital',
+			params: {
+				pubId: '44',
+			},
+		};
+
+		return retval;
+	}
+
 	getPrebidBidders() {
 		const retval = [];
 
 		retval.push(this.getBidderRubicon());
 		retval.push(this.getBidderAppnexus());
 		retval.push(this.getBidderIx());
+		retval.push(this.getBidderResetDigital());
 
 		return retval.filter(bidObj => bidObj);
 	}
@@ -356,6 +508,7 @@ class Dfp extends PureComponent {
 
 		const prebidBidders = this.getPrebidBidders();
 		if (!prebidBidders || prebidBidders.length === 0) {
+			console.log('No Bidders Enabled - PREBID Dysfunctional');
 			return false;
 		}
 
@@ -406,14 +559,9 @@ class Dfp extends PureComponent {
 	}
 
 	registerSlot() {
-		const {
-			placeholder,
-			unitId,
-			unitName,
-			targeting,
-			shouldMapSizes,
-		} = this.props;
+		const { placeholder, unitName, targeting, shouldMapSizes } = this.props;
 		const { googletag, bbgiconfig } = window;
+		const { adjustedUnitId } = this.state;
 
 		if (!document.getElementById(placeholder)) {
 			return;
@@ -424,13 +572,13 @@ class Dfp extends PureComponent {
 			return;
 		}
 
-		if (!unitId) {
+		if (!adjustedUnitId) {
 			return;
 		}
 
 		googletag.cmd.push(() => {
 			const size = bbgiconfig.dfp.sizes[unitName];
-			const slot = googletag.defineSlot(unitId, size, placeholder);
+			const slot = googletag.defineSlot(adjustedUnitId, size, placeholder);
 
 			// If Slot was already defined this will be null
 			// Ignored to fix the exception
@@ -443,6 +591,7 @@ class Dfp extends PureComponent {
 			let sizeMapping = false;
 			let prebidSizeConfig = false;
 			if (unitName === 'top-leaderboard') {
+				window.bbgiLeaderboardDivID = placeholder;
 				sizeMapping = googletag
 					.sizeMapping()
 
@@ -450,8 +599,21 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// accepts common desktop banner formats
-					.addSize([300, 0], [[320, 50], [320, 100], 'fluid'])
-					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
+					.addSize(
+						[300, 0],
+						[
+							[320, 50],
+							[320, 100],
+						],
+					)
+					.addSize(
+						[1160, 0],
+						[
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					)
 
 					.build();
 
@@ -480,8 +642,21 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// Same as top-leaderboard
-					.addSize([300, 0], [[320, 50], [320, 100], 'fluid'])
-					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
+					.addSize(
+						[300, 0],
+						[
+							[320, 50],
+							[320, 100],
+						],
+					)
+					.addSize(
+						[1160, 0],
+						[
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					)
 
 					.build();
 
@@ -534,8 +709,21 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// accepts common desktop banner formats
-					.addSize([300, 0], [[320, 50], [320, 100], 'fluid'])
-					.addSize([1160, 0], [[728, 90], [970, 90], [970, 250], 'fluid'])
+					.addSize(
+						[300, 0],
+						[
+							[320, 50],
+							[320, 100],
+						],
+					)
+					.addSize(
+						[1160, 0],
+						[
+							[728, 90],
+							[970, 90],
+							[970, 250],
+						],
+					)
 
 					.build();
 
@@ -652,7 +840,7 @@ class Dfp extends PureComponent {
 				slot.defineSizeMapping(sizeMapping);
 			}
 
-			const prebidEnabled = this.loadPrebid(unitId, prebidSizeConfig);
+			const prebidEnabled = this.loadPrebid(adjustedUnitId, prebidSizeConfig);
 
 			for (let i = 0; i < targeting.length; i++) {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
@@ -709,46 +897,45 @@ class Dfp extends PureComponent {
 		}
 	}
 
-	refreshBid(unitId, slot) {
+	bidsBackHandler() {
+		const { googletag } = window;
+		const { slot, adjustedUnitId } = this.state;
+		// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
+		window.pbjs.setTargetingForGPTAsync([adjustedUnitId]);
+		logPrebidTargeting(adjustedUnitId);
+		googletag.pubads().refresh([slot], { changeCorrelator: false });
+	}
+
+	pushRefreshBidIntoGoogleTag(unitId, slot) {
 		const { prebidEnabled } = this.state;
 
 		if (!prebidEnabled) {
 			const { googletag } = window;
-			googletag.cmd.push(() => {
-				googletag.pubads().refresh([slot]);
-			});
+			googletag.pubads().refresh([slot]);
 			return; // EXIT FUNCTION
 		}
 
-		const pbjs = window.pbjs || {};
-		pbjs.que = pbjs.que || [];
-
-		pbjs.que.push(() => {
+		window.pbjs.que = window.pbjs.que || [];
+		window.pbjs.que.push(() => {
 			const PREBID_TIMEOUT = 2000;
-			const { googletag } = window;
-			pbjs.requestBids({
+			window.pbjs.requestBids({
 				timeout: PREBID_TIMEOUT,
 				adUnitCodes: [unitId],
-				bidsBackHandler: () => {
-					pbjs.setTargetingForGPTAsync([slot]);
-					googletag.cmd.push(() => {
-						googletag.pubads().refresh([slot]);
-					});
-				},
+				bidsBackHandler: this.bidsBackHandler,
 			});
 		});
 	}
 
 	refreshSlot() {
 		const { googletag } = window;
-		const { placeholder, unitName, unitId } = this.props;
-		const { slot, prebidEnabled } = this.state;
+		const { placeholder, unitName } = this.props;
+		const { slot, prebidEnabled, adjustedUnitId } = this.state;
 
 		if (slot) {
 			googletag.cmd.push(() => {
 				googletag.pubads().collapseEmptyDivs(); // Stop Collapsing Empty Slots
 				if (prebidEnabled) {
-					this.refreshBid(unitId, slot);
+					this.pushRefreshBidIntoGoogleTag(adjustedUnitId, slot);
 				} else {
 					googletag.pubads().refresh([slot]);
 				}
@@ -764,12 +951,25 @@ class Dfp extends PureComponent {
 	}
 
 	destroySlot() {
+		// Lack of State likely means Creation was cancelled
+		if (!this.state) {
+			return;
+		}
+
 		const { placeholder } = this.props;
-		const { slot } = this.state;
+		const { slot, prebidEnabled, adjustedUnitId } = this.state;
+
 		if (slot) {
 			const { googletag } = window;
 			// Remove Slot Stat Property
 			delete getSlotStatsCollectionObject()[placeholder];
+
+			if (prebidEnabled) {
+				console.log(`Removing Ad Unit From Prebid: ${adjustedUnitId}`);
+				const pbjs = window.pbjs || {};
+				// pbjs.removeAdUnit(adUnitCode)
+				pbjs.removeAdUnit(adjustedUnitId);
+			}
 
 			console.log(`Destroying Slot: ${placeholder}`);
 
@@ -780,7 +980,7 @@ class Dfp extends PureComponent {
 	}
 
 	tryDisplaySlot() {
-		if (!this.state.slot) {
+		if (this.state && !this.state.slot) {
 			this.registerSlot();
 		}
 	}

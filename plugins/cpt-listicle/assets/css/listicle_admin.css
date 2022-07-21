@@ -29,7 +29,7 @@
   box-shadow: rgb(0 0 0 / 7%) 0px 1px 2px inset;
   border: 1px solid rgb(221, 221, 221);
 }
-#add_content{
+#add_content, #add_header_item{
   background: #3373ab;
     color: #fff;
     height: 42px;
@@ -40,7 +40,7 @@
     border-color: #3373ab;
     margin-top: 15px;
 }
-#add_content:hover, #add_content:focus{
+#add_content:hover, #add_content:focus, #add_header_item:hover, #add_header_item:focus{
   background:#1e4b73;
   border-color:#1e4b73;
 }
@@ -76,4 +76,42 @@
 .dir-btn-grp .dir-btn i{
   font-size: 20px;
   line-height:1;
+}
+.listicle-dialog{
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+body .listicle-dialog .ui-dialog-titlebar-close {
+	width: 30px;
+	height: 30px;
+	margin: -15px 0 0 0;
+}
+.listicle-dialog .ui-dialog-titlebar-close:before {
+	font: normal 25px/1 dashicons;
+	line-height: 1;
+}
+body .listicle-dialog .ui-icon-closethick {
+	display: none;
+}
+#lmd-modal{
+	overflow: unset;
+}
+.lmd-input-container{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+#lmd-input{
+	margin: 6px 0px;
+	width: 40%;
+	float: right;
+}
+#lmd-submit{
+	float: right;
+	margin: 10px 0px;
+}
+#lmd-note{
+	width: 100%;
+	text-align: right;
 }

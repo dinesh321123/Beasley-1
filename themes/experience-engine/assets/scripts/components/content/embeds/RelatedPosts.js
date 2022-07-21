@@ -24,7 +24,7 @@ const RelatedPost = ({
 			eventAction: `click test ${test_name}`,
 			eventLabel: `${targetUrl}`,
 			hitCallback: () => {
-				window.location.href = targetUrl;
+				document.getElementById(`thumbnail-click-${id}`).click();
 			},
 		});
 	}
@@ -41,6 +41,13 @@ const RelatedPost = ({
 						height={141}
 						alt={title || ''}
 					/>
+				</a>
+				<a
+					href={targetUrl}
+					style={{ visibility: 'hidden' }}
+					id={`thumbnail-click-${id}`}
+				>
+					Go to related post
 				</a>
 			</div>
 			<div className="post-details">
@@ -81,8 +88,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 
 	const endpointURL = `${bbgiconfig.eeapi}publishers/${
 		bbgiconfig.publisher.id
-	}/recommendations?categories=${categories ||
-		''}&posttype=${posttype}&url=${encodeURIComponent(url)}`;
+	}/recommendations?categories=${categories || ''}`;
 
 	useEffect(() => {
 		async function fetchPostsEndpoint() {
@@ -90,6 +96,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 				setLoading(true);
 				const result = await fetch(endpointURL).then(r => r.json());
 				setTestName(result.testname);
+				let transformedURL = result.url;
 
 				window.ga('send', {
 					hitType: 'event',
@@ -98,7 +105,9 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 					eventLabel: `test ${result.testname}`,
 				});
 
-				setPostsEndpointURL(result.url);
+				transformedURL = transformedURL.replace('{url}', url);
+
+				setPostsEndpointURL(transformedURL);
 			} catch (e) {
 				setLoading(false);
 				setPostsEndpointURL('');
@@ -133,7 +142,7 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 										? relatedPost.image_url.replace('-150x150', '')
 										: '',
 									published: relatedPost.pub_date,
-									test_name: relatedPost.tags,
+									test_name: testName,
 								};
 							}),
 						);

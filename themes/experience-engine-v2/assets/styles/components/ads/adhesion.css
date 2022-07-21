@@ -1,0 +1,34 @@
+.is-IOS .bottom-adhesion-container {
+	-webkit-overflow-scrolling: touch;
+}
+
+.bottom-adhesion-container {
+	border-top-color: var(--global-silver-chalice);
+	border-top-width: 1px;
+	border-top-style: solid;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	z-index: 110;
+	justify-content: center;
+	background-color: var(--global-theme-secondary);
+	height: 90px;
+	@media(--max-medium-viewport) {
+		  height: 50px;
+	}
+}
+
+.ad-button-holder {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 20px;
+	z-index: 110;
+}
+
+img.triton-pixel {
+	display: none;
+	height: 0;
+	width: 0;
+}

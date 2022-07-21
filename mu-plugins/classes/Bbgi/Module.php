@@ -57,12 +57,19 @@ abstract class Module {
 			'users'             => new \Bbgi\Users(),
 			'redirects'         => new \Bbgi\Redirects(),
 			'page-endpoint'     => new \Bbgi\Endpoints\Page(),
+			'megamenu-recent-posts-endpoint'     => new \Bbgi\Endpoints\MegamenuRecentPosts(),
 			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
 			'mapbox' 			=> new \Bbgi\Integration\Mapbox(),
 			'hsform'			=> new \Bbgi\Integration\HubspotForm(),
 			'feature_video'		=> new \Bbgi\Integration\FeatureVideo(),
 			'branded-content'	=> new \Bbgi\Integration\BrandedContent(),
 			'dimers-widget'		=> new \Bbgi\Integration\Dimers(),
+			'trackonomics-script'  => new \Bbgi\Integration\TrackonomicsScript(),
+			'draftking-iframe'  => new \Bbgi\Integration\DraftkingIframe(),
+			'select-gallery' 			=> new \Bbgi\Integration\GallerySelection(),
+			'select-listicle' 	=> new \Bbgi\Integration\ListicleSelection(),
+			'select-am' 	=> new \Bbgi\Integration\AffiliateMarketingSelection(),
+			'upload-filesize-settings'	=> new \Bbgi\Integration\UploadFileSizeSettings(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {

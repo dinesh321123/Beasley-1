@@ -2,7 +2,7 @@
 $IframePostType = 1;
 $current_post_object = get_queried_object();
 $hide_draftking_iframe = get_field( 'hide_draftking_iframe', $current_post_object );
-if ( isset( $hide_draftking_iframe ) && $hide_draftking_iframe == 0 ) :
+if ( isset( $hide_draftking_iframe ) && $hide_draftking_iframe == 0 && !is_front_page() ) :
 	$IframePostType = 0;
 endif;
 
@@ -56,7 +56,7 @@ if ( empty( $iframe_height ) || empty( $IframePostType ) ) {
 
 <div class="configurable-iframe-holder">
 	<?PHP
-		echo "<iframe id='configurable-iframe-element' width='100%' height='100%' frameborder='0' scrolling='no' style='overflow: hidden' src='"
+		echo "<iframe id='configurable-iframe-element' width='100%' height='100%' frameborder='0' scrolling='no' style='overflow: hidden' title='Draft King Frame' src='"
 				. get_option( 'configurable_iframe_src', '0' )
 				. "' ></iframe>";
 	?>

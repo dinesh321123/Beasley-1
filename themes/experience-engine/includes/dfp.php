@@ -17,9 +17,9 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 		$advanced_with_fluid = array_merge( $fluid, $advanced );
 
 		$sizes = array(
-			'top-leaderboard'    => $advanced_with_fluid,
+			'top-leaderboard'    => $advanced,
 			'bottom-leaderboard' => $advanced,
-			'in-list'            => $advanced_with_fluid,
+			'in-list'            => $advanced,
 			'in-list-gallery'    => array( array( 1, 1 ), array( 300, 250 ) ),
 			'player-sponsorship' => $fluid,
 			'right-rail'         => array( array( 300, 600 ), array( 300, 250 ) ),
@@ -33,9 +33,14 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'unitName' => 'adhesion',
 		);
 
-		$gampreroll = array(
-			'unitId'   => $ee->get_ad_slot_unit_id( 'gampreroll' ),
-			'unitName' => 'gampreroll',
+		$incontentpreroll = array(
+			'unitId'   => $ee->get_ad_slot_unit_id( 'in-content-preroll' ),
+			'unitName' => 'in-content-preroll',
+		);
+
+		$tunerpreroll = array(
+			'unitId'   => $ee->get_ad_slot_unit_id( 'tuner-preroll' ),
+			'unitName' => 'tuner-preroll',
 		);
 
 		$countdown = array(
@@ -47,7 +52,8 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'global'    => \Bbgi\Integration\Dfp::get_global_targeting(),
 			'sizes'     => $sizes,
 			'player'    => $player,
-			'gampreroll' => $gampreroll,
+			'incontentpreroll' => $incontentpreroll,
+			'tunerpreroll' => $tunerpreroll,
 			'countdown' => $countdown,
 		);
 
@@ -117,6 +123,18 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
 			";
         }
 
+        $dfp_ad_single_request = get_option( 'ad_single_request_enabled', 'on' );
+        if  ( $dfp_ad_single_request === 'on' ) {
+			$dfp_ad_single_request = "
+				googletag.pubads().enableSingleRequest();
+				console.log('Ad Single Request ENABLED');
+			";
+        } else {
+        	$dfp_ad_single_request = "
+				console.log('Ad Single Request DISABLED');
+			";
+        }
+
 		$script = <<<EOL
 var googletag = googletag || {};
 googletag.cmd = googletag.cmd || [];
@@ -134,7 +152,7 @@ googletag.cmd.push(function() {
 	{$dfp_ad_lazy_loading}
 
 	googletag.pubads().disableInitialLoad(); // MFP 09/17/2020 - display() will only register the ad slot. No ad content will be loaded until a second action is taken. We will send a refresh() after all slots are defined.
-	googletag.pubads().enableSingleRequest();  // MFP 09/16/2020 - Brad is having mixed results without this flag.
+	{$dfp_ad_single_request}
 	googletag.enableServices();
 
 	// MFP 09/17/2020 - Slot Configuration Should Be Done After enableServices()
@@ -170,8 +188,8 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 
 		$targeting = apply_filters( 'dfp_single_targeting', $targeting, $slot );
 
-		// When not jacapps, render react ready attributes
-		if ( ! ee_is_jacapps() ) {
+		// When not jacapps or whiz, render react ready attributes
+		if ( ! ee_is_common_mobile() ) {
 			$html = sprintf(
 				'<div class="dfp-slot" data-unit-id="%s" data-unit-name="%s" data-targeting="%s" ></div>',
 				esc_attr( $unit_id ),
@@ -180,11 +198,11 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			);
 		}
 
-		// When is jacapps, render standard div and script for display
+		// When is jacapps or whiz, render standard div and script for display
 		// We do this since the ad units are currently embedded in the react app
-		// So fallback for jacapps is to add the script inline for display adds
+		// So fallback for jacapps or whiz is to add the script inline for display adds
 		// along with an alternative DFP slot
-		if ( ee_is_jacapps() ) {
+		if ( ee_is_common_mobile() ) {
 
 			$uuid = $slot . '_' . wp_generate_uuid4();
 
@@ -208,9 +226,14 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 						}
 
 					$html .= ';
+					';
 
-					googletag.pubads().enableSingleRequest();
-					googletag.enableServices();
+					$dfp_ad_single_request = get_option( 'ad_single_request_enabled', 'on' );
+					if  ( $dfp_ad_single_request === 'on' ) {
+						$html .= 'googletag.pubads().enableSingleRequest(); ';
+					}
+
+					$html .= ' googletag.enableServices();
 				} );
 			</script>';
 
@@ -253,7 +276,7 @@ if ( ! function_exists( 'ee_add_ads_to_content' ) ) :
 	function ee_add_ads_to_content( $content ) {
 		$parts = explode( '</p>', $content );
 		$new_content = '';
-		$stn_video_paragraph_position = 1;
+		$stn_video_paragraph_position = 2;
 
 		$len = count( $parts );
 		for ( $i = 1; $i <= $len; $i++ ) {
@@ -262,8 +285,8 @@ if ( ! function_exists( 'ee_add_ads_to_content' ) ) :
 			if ( $stn_video_paragraph_position == $i ) {
 				// in-content pos1 slot after first 2 paragraphs
 				$new_content .= ee_category_exists( ) ? apply_filters( 'incontentvideo_filter', '' ) : '';
-			} elseif ( 0 == ( $i - $stn_video_paragraph_position ) % 4 && $len > 6 ) {
-				// in-content pos2 slot after 4th paragraphs if we have more than 6 paragraphs on the page
+			} elseif ( 0 == ( $i - $stn_video_paragraph_position ) % 4 && $len > 4 ) {
+				// in-content pos2 slot after 4th paragraphs if we have more than 4 paragraphs on the page
 				$new_content .= ee_dfp_slot( 'in-content', false, array(), false );
 			}
 		}

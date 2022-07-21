@@ -133,6 +133,21 @@ class Settings extends \Bbgi\Module {
 				'selected' => get_option( 'contest_show_dates_setting', 'hide' ),
 		);
 
+		$ad_reset_digital_enabled_args = array(
+				'name'     => 'ad_reset_digital_enabled',
+				'selected' => get_option( 'ad_reset_digital_enabled', 'off' ),
+		);
+
+		$ad_confiant_enabled_args = array(
+				'name'     => 'ad_confiant_enabled',
+				'selected' => get_option( 'ad_confiant_enabled', 'off' ),
+		);
+
+		$ad_single_request_enabled_args = array(
+				'name'     => 'ad_single_request_enabled',
+				'selected' => get_option( 'ad_single_request_enabled', 'on' ),
+		);
+
 		$ad_lazy_loading_enabled_args = array(
 				'name'     => 'ad_lazy_loading_enabled',
 				'selected' => get_option( 'ad_lazy_loading_enabled', 'off' ),
@@ -145,6 +160,7 @@ class Settings extends \Bbgi\Module {
 
 		add_settings_section( 'ee_site_settings', 'Station Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_section( 'ee_site_colors', 'Brand Colors', '__return_false', $this->_settings_page_hook );
+		add_settings_section( 'ee_site_header_colors', 'Header Colors', '__return_false', $this->_settings_page_hook );
 
 		add_settings_section( 'opacity_section', 'Play Button Opacity', '__return_false', $this->_settings_page_hook );
 		add_settings_field('play_opacity_setting', 'Opacity', 'bbgi_input_field', $this->_settings_page_hook, 'opacity_section', 'name=play_opacity_setting&default=0.8');
@@ -161,6 +177,7 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('stn_barker_id', 'STN Barker ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_barker_id');
 		add_settings_field('stn_inarticle_id', 'STN In Article ID', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_inarticle_id');
 		add_settings_field('stn_categories', 'STN Allowed Categories', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_categories');
+		add_settings_field('stn_position', 'STN Paragraph Position', 'bbgi_input_field', $this->_settings_page_hook, 'feature_video', 'name=stn_position&default=2');
 
 		add_settings_field( 'gmr_site_logo', 'Site Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=gmr_site_logo' );
 		add_settings_field( 'ee_subheader_mobile_logo', 'Mobile Subheader Logo', 'bbgi_image_field', $this->_settings_page_hook, 'ee_site_settings', 'name=ee_subheader_mobile_logo' );
@@ -171,6 +188,13 @@ class Settings extends \Bbgi\Module {
 		add_settings_field( 'ee_publisher', 'Publisher', array( $this, 'render_publisher_select' ), $this->_settings_page_hook, 'ee_site_settings', $publisher_args );
 		add_settings_field( 'ee_login', 'EE Login Options', array( $this, 'render_ee_login' ), $this->_settings_page_hook, 'ee_site_settings', $ee_login_disabled_args );
 
+		add_settings_field( 'ee_theme_header_background_color', 'Header Background Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_background_color&default=#202020' );
+		add_settings_field( 'ee_theme_header_nav_dd_background_color', 'Navigation Drop Down Background Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_nav_dd_background_color&default=#313131' );
+		add_settings_field( 'ee_theme_header_navigation_link_color', 'Header Navigation Link Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_navigation_link_color&default=#ff0000' );
+		add_settings_field( 'ee_theme_header_icons_color', 'Header Social Icons Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_icons_color&default=#000000' );
+		add_settings_field( 'ee_theme_header_search_color', 'Header Search Icon Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_search_color&default=#ffffff' );
+		add_settings_field( 'ee_theme_header_hamburger_menu_color', 'Header Hamburger Menu Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_header_colors', 'name=ee_theme_header_hamburger_menu_color&default=#ff0000' );
+
 		add_settings_field( 'ee_theme_primary_color', 'Primary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_primary_color&default=#ff0000' );
 		add_settings_field( 'ee_theme_secondary_color', 'Secondary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_secondary_color&default=#ffe964' );
 		add_settings_field( 'ee_theme_tertiary_color', 'Tertiary', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_tertiary_color&default=#ffffff' );
@@ -180,22 +204,29 @@ class Settings extends \Bbgi\Module {
 		add_settings_field( 'ee_theme_button_color', 'Button Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_button_color&default=#ffe964' );
 
 		add_settings_field( 'ee_theme_text_color', 'Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_text_color&default=#000000' );
+		add_settings_field( 'ee_theme_breaking_news_bar_text_color', 'Breaking News Bar Text Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_breaking_news_bar_text_color&default=#ff0000' );
+		add_settings_field( 'ee_theme_breaking_news_bar_background_color', 'Breaking News Bar Background Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_breaking_news_bar_background_color&default=#282828' );
+		add_settings_field( 'ee_theme_music_control_color', 'Control Music Color', 'bbgi_input_field', $this->_settings_page_hook, 'ee_site_colors', 'name=ee_theme_music_control_color&default=#ffe964' );
 
 		add_settings_section( 'contest_section', 'Contests', '__return_false', $this->_settings_page_hook );
 		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
 
 		add_settings_section( 'ad_settings_section', 'Ad Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field('ad_leaderboard_initial_height_setting', 'Initial Leaderboard Height (250 is recommended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_leaderboard_initial_height_setting&default=250');
+		add_settings_field('ad_single_request_enabled', 'Single Request Enabled', array($this, 'render_ad_single_request_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_single_request_enabled_args);
 		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading Enabled', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_lazy_loading_enabled_args);
 		add_settings_field('ad_rotation_enabled', 'Ad Rotation Enabled (Note: Ads on Right Rail will ALWAYS rotate)', array($this, 'render_ad_rotation_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_rotation_enabled_args);
-		add_settings_field('ad_rotation_polling_sec_setting', 'Poll Interval Seconds (5 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_polling_sec_setting&default=5');
-		add_settings_field('ad_rotation_refresh_sec_setting', 'Refresh Interval Seconds (30 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_refresh_sec_setting&default=30');
-		add_settings_field('ad_vid_rotation_refresh_sec_setting', 'Video Refresh Interval Seconds (60 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_vid_rotation_refresh_sec_setting&default=60');
+		add_settings_field('ad_rotation_polling_sec_setting', 'Poll Interval Seconds (5 is recommended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_polling_sec_setting&default=5');
+		add_settings_field('ad_rotation_refresh_sec_setting', 'Refresh Interval Seconds (30 is recommended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_refresh_sec_setting&default=30');
+		add_settings_field('ad_vid_rotation_refresh_sec_setting', 'Video Refresh Interval Seconds (60 is recommended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_vid_rotation_refresh_sec_setting&default=60');
 		add_settings_field('vid_ad_html_tag_csv_setting', 'CSV of HTML tags which indicate Video', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=vid_ad_html_tag_csv_setting&default=mixpo');
+		add_settings_field('ad_confiant_enabled', 'Confiant Enabled', array($this, 'render_ad_confiant_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_confiant_enabled_args);
 
 		add_settings_section( 'prebid_settings_section', 'Prebid Settings', '__return_false', $this->_settings_page_hook );
 		add_settings_field('ad_rubicon_zoneid_setting', 'Rubicon Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_rubicon_zoneid_setting');
 		add_settings_field('ad_appnexus_placementid_setting', 'AppNexus Placement ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_appnexus_placementid_setting');
 		add_settings_field('ad_ix_siteid_setting', 'Index Exchange Site ID', 'bbgi_input_field', $this->_settings_page_hook, 'prebid_settings_section', 'name=ad_ix_siteid_setting');
+		add_settings_field('ad_reset_digital_enabled', 'Reset Digital Enabled', array($this, 'render_ad_reset_digital_enabled'), $this->_settings_page_hook, 'prebid_settings_section', $ad_reset_digital_enabled_args);
 
 		add_settings_section( 'configurable_iframe_section', 'Configurable iFrame', '__return_false', $this->_settings_page_hook );
 		add_settings_field('configurable_iframe_height', 'iFrame Height (0 for no iFrame)', 'bbgi_input_field', $this->_settings_page_hook, 'configurable_iframe_section', 'name=configurable_iframe_height&default=0');
@@ -216,6 +247,9 @@ class Settings extends \Bbgi\Module {
 		add_settings_section( 'related_article_section', 'Related Articles', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'related_article_title', 'Title Text', 'bbgi_input_field', $this->_settings_page_hook, 'related_article_section', 'name=related_article_title&default=You May Also Like' );
 
+		add_settings_section( 'cloud_flare_section', 'CloudFlare Settings', '__return_false', $this->_settings_page_hook );
+        add_settings_field('cloud_flare_zoneid', 'Zone ID', 'bbgi_input_field', $this->_settings_page_hook, 'cloud_flare_section', 'name=cloud_flare_zoneid');
+
 		register_setting( self::option_group, 'gmr_site_logo', 'intval' );
 		register_setting( self::option_group, 'ee_subheader_mobile_logo', 'intval' );
 		register_setting( self::option_group, 'ee_subheader_desktop_logo', 'intval' );
@@ -229,6 +263,7 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'stn_barker_id', 'sanitize_text_field');
 		register_setting(self::option_group, 'stn_inarticle_id', 'sanitize_text_field');
 		register_setting(self::option_group, 'stn_categories', 'sanitize_text_field');
+		register_setting(self::option_group, 'stn_position', 'sanitize_text_field');
 
 		register_setting( self::option_group, 'ee_theme_primary_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_secondary_color', 'sanitize_text_field' );
@@ -236,6 +271,16 @@ class Settings extends \Bbgi\Module {
 		register_setting( self::option_group, 'ee_theme_background_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_button_color', 'sanitize_text_field' );
 		register_setting( self::option_group, 'ee_theme_text_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_breaking_news_bar_text_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_breaking_news_bar_background_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_music_control_color', 'sanitize_text_field' );
+
+		register_setting( self::option_group, 'ee_theme_header_background_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_nav_dd_background_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_icons_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_navigation_link_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_search_color', 'sanitize_text_field' );
+		register_setting( self::option_group, 'ee_theme_header_hamburger_menu_color', 'sanitize_text_field' );
 
 		register_setting( self::option_group, 'ee_geotargetly_enabled', 'sanitize_text_field' );
 
@@ -249,6 +294,8 @@ class Settings extends \Bbgi\Module {
 
 		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
 
+		register_setting(self::option_group, 'ad_leaderboard_initial_height_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_single_request_enabled', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_lazy_loading_enabled', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rotation_enabled', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rotation_polling_sec_setting', 'sanitize_text_field');
@@ -258,6 +305,8 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ad_rubicon_zoneid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_appnexus_placementid_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_ix_siteid_setting', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_reset_digital_enabled', 'sanitize_text_field');
+		register_setting(self::option_group, 'ad_confiant_enabled', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'configurable_iframe_height', 'sanitize_text_field');
 		register_setting(self::option_group, 'configurable_iframe_src', 'sanitize_text_field');
@@ -266,6 +315,8 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'ee_dont_miss_item_count_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'related_article_title', 'sanitize_text_field');
+
+		register_setting(self::option_group, 'cloud_flare_zoneid', 'sanitize_text_field');
 
 		/**
 		 * Allows us to register extra settings that are not necessarily always present on all child sites.
@@ -417,6 +468,41 @@ class Settings extends \Bbgi\Module {
 		</select><?php
 	}
 
+	public function render_ad_reset_digital_enabled( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="on"
+				<?php selected( $args['selected'], 'on' ); ?>
+		>On</option>
+		<option value="off"
+				<?php selected( $args['selected'], 'off' ); ?>
+		>Off</option>
+
+		</select><?php
+	}
+
+	public function render_ad_confiant_enabled( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="on"
+				<?php selected( $args['selected'], 'on' ); ?>
+		>On</option>
+		<option value="off"
+				<?php selected( $args['selected'], 'off' ); ?>
+		>Off</option>
+
+		</select><?php
+	}
+
+	public function render_ad_single_request_enabled( $args ) {
+		?><select name="<?php echo esc_attr( $args['name'] ); ?>">
+		<option value="on"
+				<?php selected( $args['selected'], 'on' ); ?>
+		>On</option>
+		<option value="off"
+				<?php selected( $args['selected'], 'off' ); ?>
+		>Off</option>
+
+		</select><?php
+	}
 
 	public function render_ad_lazy_loading_enabled( $args ) {
 		?><select name="<?php echo esc_attr( $args['name'] ); ?>">

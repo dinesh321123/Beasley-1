@@ -9,6 +9,7 @@
 @import "base/wp";
 @import "base/media";
 @import "base/tables";
+@import "base/whiz";
 
 @import "components/section/section-header";
 
@@ -86,11 +87,11 @@
 @import "components/breaking-news";
 @import "components/song-archive";
 @import "components/loading-ajax-content";
-
+@import "components/stn.css";
 @import "components/player/range-slider-cb";
 
 @import "page/home";
 
 @import "utilities/display";
 
-@import "../../node_modules/swiper/dist/css/swiper.css"
+@import "../../node_modules/swiper/dist/css/swiper.css";

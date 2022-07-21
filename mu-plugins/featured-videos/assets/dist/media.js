@@ -121,7 +121,7 @@ exports = module.exports = __webpack_require__(3)(undefined);
 
 
 // module
-exports.push([module.i, ".video__embed {\n\ttext-align: center;\n}\n\n.video__url {\n\twidth: 80% !important;\n}\n\n.video__preview {\n\tmargin-top: 1em;\n}\n", ""]);
+exports.push([module.i, ".video__embed {\n\ttext-align: center;\n}\n\n.video__url {\n\twidth: 80% !important;\n}\n\n.video__preview {\n\tmargin-top: 1em;\n\ttext-align:center;\n\tmargin-bottom:10px;\n}\n\n.video__preview iframe{\n\theight:200px;\n\twidth:auto;\t\n}\n\n.cus_video__embed label{\n\tdisplay:inline-block;\n\twidth:90px;\n\tfont-size:17px;\n\tmargin-bottom:5px;\t\n\ttext-align:left;\t\n\tfont-weight:600;\n}\n\n.cus_video__embed{text-align:left !important;}\n.cus_video__embed .video_input{\n\tdisplay:inline-flex;\n\twidth:90%;\n\talign-items:center;\n}\n\n.cus_video__embed .video_input button{\n\twidth: 100px;\n\tmargin-left: 10px;\n\tfont-size: 30px !important;\n\tcolor:#fff !important;\n}\n\n.media-frame .embed-url input{\n\twidth:100%;\n}\n\n.embed-image{\n\tpadding:0 16px 16px;\n\tfont-size:16px;\n}\n\n.radio__img__options{\n\tmargin-bottom:20px;\n\tdisplay: flex; \n\talign-items:center;\n}\n\n.radio__img__options label {\n\tfont-size:17px;\n\tmargin-right:12px;\n\tdisplay:block;\n\tfont-weight:600;\n}\n\n.media__img__option {\n\tdisplay:flex;\n\talign-items:flex-start;\n}\n\n.media__img__option #video__mediaimg {\n\tfont-size: 16px;\n\tpadding: 7px 20px;\n\theight: auto;\n\tbackground: #d4d4d4;\n\tmargin-bottom:20px;\n\tmargin-right:20px;\n}\n\n.upload__img__option #custom_featured_img {\n\tfont-size:16px;\n\tmargin-bottom:20px;\n}\n\n.mediaimage__preview ul.mediaimg-ul {\n\tdisplay:flex;\n\tflex-wrap:wrap;\n\tmax-height:350px;\n\toverflow-y: scroll;\n}\n\n.mediaimage__preview ul.mediaimg-ul li {\n\tborder:1px solid #ddd;\n\tmargin:5px;\n\twidth:142px;\n\theight:142px;\n\tdisplay:flex;\n\talign-items:center;\n\tcursor:pointer;\n}\n\n.mediaimage__preview ul.mediaimg-ul li img {\n\tmax-width:100%;\n\tmax-height:100%;\n}\n\n.image__preview img {\n\tborder:1px solid #ddd;\n}\n\n#main-container-mediaimg .media-search {\n\ttext-align:right;\n}\n\n#image__preview_spinner {\n\tmargin-top:10px;margin-left:-8px;\n}\n\n#s_spinner {\n\tmargin-top:5px;\n}\n\n.cus_video__embed .video__submit{line-height:1.5 !important;}\n.media__img__option #video__mediaimg{color:#000;border:none;}", ""]);
 
 // exports
 
@@ -732,6 +732,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _window = window,
     fvideo = _window.fvideo,
+    FormData = _window.FormData,
     wp = _window.wp;
 
 
@@ -740,6 +741,19 @@ var request = function request(action, data) {
 		wp.ajax.send(action, {
 			type: 'GET',
 			data: data,
+			success: resolve,
+			error: reject
+		});
+	});
+};
+
+var requestvideo = function requestvideo(action, data) {
+	return new Promise(function (resolve, reject) {
+		wp.ajax.send(action, {
+			type: 'post',
+			data: data,
+			contentType: false,
+			processData: false,
 			success: resolve,
 			error: reject
 		});
@@ -755,7 +769,13 @@ var mediaView = wp.media.View.extend({
 
 	events: {
 		'keyup .video__url': 'onUrlChange',
-		'click .video__submit': 'addVideo'
+		'click .video__submit': 'addVideo',
+		'click .video__mediaimg': 'showMediaImg',
+		'click #media_loadmore': 'loadMoreMediaImg',
+		'click .s_btn_mediaimage': 'searchMediaImg',
+		'click .img-attachment': 'getSelectedMediaImg',
+		'click #upload_image': 'showUploadImage',
+		'click #select_media_library': 'showMediaLibrary'
 	},
 
 	onUrlChange: function onUrlChange() {
@@ -773,9 +793,18 @@ var mediaView = wp.media.View.extend({
 		});
 	},
 	addVideo: function addVideo() {
+		// const $el = this.$el;
 		var self = this;
 		var url = self.$el.find('.video__url').val();
 		var postId = wp.media.view.settings.post.id;
+		var $selectedImageOption = self.$el.find("input[name='image_option']:checked").val();
+		var fileName = '';
+		var fdata = new FormData();
+
+		if (!$selectedImageOption) {
+			alert(fvideo.missingImage);
+			return;
+		}
 
 		if (self.loading) {
 			return;
@@ -786,25 +815,176 @@ var mediaView = wp.media.View.extend({
 			return;
 		}
 
+		fdata.append('action', 'fvideos_import_embed');
+		fdata.append('image_option', $selectedImageOption);
+		fdata.append('url', url);
+		fdata.append('post_id', postId);
+
+		if ($selectedImageOption === 'upload_image') {
+			/* File upload code */
+			var fileInputElement = document.getElementById('custom_featured_img');
+			fileName = fileInputElement.files.length ? fileInputElement.files[0].name : '';
+
+			if (fileName === '') {
+				alert(fvideo.missingImage);
+				return;
+			}
+			fdata.append('imagearr', fileInputElement.files[0], fileInputElement.files[0].name);
+		}
+		if ($selectedImageOption === 'select_media_library') {
+			var $mediaImageId = self.$el.find('#media_image_id');
+
+			if (!$mediaImageId) {
+				alert(fvideo.missingMediaImage);
+				return;
+			}
+
+			fdata.append('mediaImageId', $mediaImageId.val());
+		}
+		// fdata.append('key2', 'value2');
+		/* console.log( 'Image name: ', fileInputElement.files[0].name );
+  console.log('fileInputElement.files.length: ', fileInputElement.files.length );
+  console.log( 'Form Data: ', fdata.entries() );
+  console.log( 'Form key1 data: ', fdata.getAll('key1') ); */
+		// Display the key/value pairs
+		/* for (var pair of fdata.entries()) {
+  	console.log(pair[0]+ ', ' + pair[1]); console.log(' object, ', pair[1]);
+  } */
+
 		self.loading = true;
-		request('fvideos_import_embed', { url: url, post_id: postId }).then(function (imageId) {
+		// spinner load
+		var $videoSubmitSpinner = self.$el.find('#video__submit_spinner');
+		$videoSubmitSpinner.addClass('is-active');
+
+		requestvideo('fvideos_import_embed', fdata).then(function (imageId) {
+			$videoSubmitSpinner.removeClass('is-active'); // remove spinner load
 			self.loading = false;
 
 			var library = self.controller.content.mode('browse').get('library');
-
 			library.options.selection.reset();
 			library.collection.props.set({ ignore: +new Date() });
-
 			library.collection.once('update', function () {
 				var image = wp.media.attachment(imageId);
 				if (image) {
 					library.options.selection.add(image);
 				}
 			});
-		}).catch(function () {
+		}).catch(function (error) {
+			console.log('Errors console : ', error);
+			$videoSubmitSpinner.removeClass('is-active'); // remove spinner load
 			self.loading = false;
 			alert(fvideo.cannotEmbed);
 		});
+	},
+	loadMoreMediaImg: function loadMoreMediaImg() {
+		var $el = this.$el;
+		var $mediaLoadmore = $el.find('#media_loadmore');
+		var $previewMediaImgUl = $el.find('.mediaimg-ul');
+		var $pagedMediaimage = $el.find('#paged_mediaimage');
+
+		$mediaLoadmore.attr('disabled', 'disabled');
+		// spinner load
+		var $loadmoreSpinner = $el.find('#loadmore_spinner');
+		$loadmoreSpinner.addClass('is-active');
+
+		request('fvideos_load_more_media_image', { media: 'media_show', s_mediaimage: $el.find('#s_mediaimage').val(), paged_mediaimage: $el.find('#paged_mediaimage').val() }).then(function (success) {
+			$previewMediaImgUl.append(success.media_image_list);
+			$pagedMediaimage.val(success.paged_mediaimage);
+			$loadmoreSpinner.removeClass('is-active'); // remove spinner load
+			$mediaLoadmore.removeAttr('disabled');
+			// console.log( 'loadMoreMediaImg: ', success.imgs_array );
+			if (!success.media_image_list) {
+				$mediaLoadmore.hide();
+			}
+		}).catch(function (error) {
+			console.log(error);
+			alert(fvideo.cannotEmbedImage);
+			$loadmoreSpinner.removeClass('is-active'); // remove spinner load
+		});
+	},
+	searchMediaImg: function searchMediaImg() {
+		var $el = this.$el;
+		var $preview = $el.find('.mediaimage__preview');
+		// spinner load
+		var $sSpinner = $el.find('#s_spinner');
+		$sSpinner.addClass('is-active');
+
+		request('fvideos_get_media_image', { media: 'media_show', s_mediaimage: $el.find('#s_mediaimage').val() }).then(function (success) {
+			$preview.html(success.html);
+			// console.log( 'searchMediaImg: ', success.imgs_array );
+		}).catch(function (error) {
+			console.log(error);
+			alert(fvideo.cannotEmbedImage);
+		});
+	},
+	showMediaImg: function showMediaImg() {
+		var $el = this.$el;
+		var $preview = $el.find('.mediaimage__preview');
+		var $videoMediaimgButton = $el.find('.video__mediaimg');
+		$videoMediaimgButton.attr('disabled', 'disabled');
+		// spinner load when click on Open Media Library
+		var $imagePreviewSpinner = $el.find('#image__preview_spinner');
+		$imagePreviewSpinner.addClass('is-active');
+
+		request('fvideos_get_media_image', { media: 'media_show' }).then(function (success) {
+			$imagePreviewSpinner.removeClass('is-active'); // remove spinner load
+			$preview.html(success.html);
+			// console.log( 'showMediaImg: ', success.imgs_array );
+			$videoMediaimgButton.removeAttr('disabled');
+		}).catch(function (error) {
+			console.log(error);
+			alert(fvideo.cannotEmbedImage);
+		});
+	},
+	getSelectedMediaImg: function getSelectedMediaImg() {
+		var $el = this.$el;
+		var $imagePreview = $el.find('.image__preview');
+		var self = this;
+		var $getImageAttrId = self.$el.find('.selected-media-img').attr('image-id');
+		// spinner load when single thumbnail image
+		var $imagePreviewSpinner = $el.find('#image__preview_spinner');
+		$imagePreviewSpinner.addClass('is-active');
+		$imagePreview.html('');
+
+		if (!$getImageAttrId || $getImageAttrId === '') {
+			alert(fvideo.missingImage);
+			return;
+		}
+		request('get_selected_media_image', { imageAttrId: $getImageAttrId }).then(function (success) {
+			$imagePreview.html(success.single_image_div);
+			self.$el.find('img').removeClass('selected-media-img');
+			self.$el.find('#media_image_id').val($getImageAttrId);
+			$imagePreviewSpinner.removeClass('is-active'); // remove spinner load
+		}).catch(function (error) {
+			console.log(error);
+			alert(fvideo.cannotEmbedImage);
+		});
+	},
+	showUploadImage: function showUploadImage() {
+		// alert( 'Select Upload image radio button' );
+		var $el = this.$el;
+		var $mediaImgLibrary = $el.find('.media__img__option');
+		var $uploadImg = $el.find('.upload__img__option');
+		var $mediaImgPreview = $el.find('.mediaimage__preview');
+		var $ImgPreview = $el.find('.image__preview');
+
+		$uploadImg.show();
+		$mediaImgLibrary.hide();
+		$mediaImgPreview.html('');
+		$ImgPreview.html('');
+	},
+	showMediaLibrary: function showMediaLibrary() {
+		// alert('Select Media library radio button');
+		var $el = this.$el;
+		var $mediaImgLibrary = $el.find('.media__img__option');
+		var $uploadImg = $el.find('.upload__img__option');
+		var $mediaImgPreview = $el.find('.mediaimage__preview');
+		var $ImgPreview = $el.find('.image__preview');
+
+		$mediaImgLibrary.show();
+		$uploadImg.hide();
+		$mediaImgPreview.html('');
+		$ImgPreview.html('');
 	}
 });
 

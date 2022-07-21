@@ -33,7 +33,10 @@ function* yieldAdPlaybackStop({ payload }) {
 
 		// If station and player.skipAd
 		if (station && typeof player.play === 'function') {
-			yield call([player, 'play'], { station });
+			yield call([player, 'play'], {
+				station,
+				trackingParameters: { dist: 'beasleyweb' },
+			});
 		}
 	}
 

@@ -14,7 +14,6 @@ class PlayerAd extends PureComponent {
 
 		this.onResize = this.handleResize.bind(this);
 		this.onSubtreeModified = this.handleSubtreeModified.bind(this);
-		this.onRef = this.handleSlotRef.bind(this);
 	}
 
 	componentDidMount() {
@@ -28,20 +27,13 @@ class PlayerAd extends PureComponent {
 	}
 
 	getWhetherShouldRender() {
-		const { minWidth, maxWidth } = this.props;
+		const { minWidth } = this.props;
 		const { unitId } = window.bbgiconfig.dfp.player;
 
 		if (unitId) {
 			if (
 				minWidth > 0 &&
 				window.matchMedia(`(min-width: ${minWidth}px)`).matches
-			) {
-				return true;
-			}
-
-			if (
-				maxWidth > 0 &&
-				window.matchMedia(`(max-width: ${maxWidth}px)`).matches
 			) {
 				return true;
 			}
@@ -55,7 +47,7 @@ class PlayerAd extends PureComponent {
 			const shouldRender = this.getWhetherShouldRender();
 			if (shouldRender !== this.state.shouldRender) {
 				console.log(
-					`Resettin Player Ad State Because Of Resize Change on ${window.location.href}`,
+					`Resetting Player Ad State Because Of Resize Change on ${window.location.href}`,
 				);
 				this.setState({ shouldRender });
 			}
@@ -69,12 +61,6 @@ class PlayerAd extends PureComponent {
 				`Resetting Player Ad State Because Page Changed To ${currentPageURL}`,
 			);
 			this.setState({ pageURL: currentPageURL });
-		}
-	}
-
-	handleSlotRef(dfp) {
-		if (dfp) {
-			setTimeout(dfp.refreshSlot.bind(dfp), 50);
 		}
 	}
 
@@ -110,14 +96,12 @@ class PlayerAd extends PureComponent {
 PlayerAd.propTypes = {
 	className: PropTypes.string.isRequired,
 	minWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-	maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	style: PropTypes.shape({}),
 	shouldMapSizes: PropTypes.bool,
 };
 
 PlayerAd.defaultProps = {
 	minWidth: 0,
-	maxWidth: 0,
 	style: {},
 	shouldMapSizes: true,
 };

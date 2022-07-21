@@ -1,0 +1,43 @@
+/*
+ Adjustmnts for Whiz:
+
+	Remove Sub-header(content wrap)
+
+	Remove share-wrap icons (ie remove Social sharing stuff)
+
+	Make 0 bottom padding on .post-info class
+
+	Title size 1.5 REM
+
+	Authors (author-meta class)
+	 .9REM
+	Align-items: flex-start
+
+	.meta
+	Margin-bottom: 0
+ */
+
+.whiz {
+  	& div.meta {
+	  margin-bottom: 0;
+	  & div.author-meta {
+	    align-items: flex-start;
+		font-size: 0.9rem;
+	  }
+  	}
+
+	& header.post-info > h1 {
+		font-size: 1.5rem;
+		margin-bottom: 0;
+	}
+
+	& header.post-info {
+		padding-bottom: 0;
+	}
+
+	& div .post-meta .meta .share-wrap-icons {
+	  display: none;
+  	}
+}
+
+

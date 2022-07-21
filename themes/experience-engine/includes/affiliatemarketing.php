@@ -1,7 +1,7 @@
 <?php
 
 if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
-	function ee_get_affiliatemarketing_html( $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode,	$am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl ) {
+	function ee_get_affiliatemarketing_html( $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode,	$am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl, $am_item_type ) {
 		$am_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($affiliatemarketing_post_object);
 
@@ -28,12 +28,16 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 				$amitembuttonurl = $am_item_buttonurl[$index]
 				?	$amitembuttonurl = $am_item_buttonurl[$index]
 				: $amitembuttonurl = '#';
-				echo '<li class="affiliate-marketingmeta-item', $am_image_slug == $am_tracking_code ? ' scroll-to' : '', '">';
+				echo '<li class="affiliate-marketingmeta-item', $am_image_slug == $am_tracking_code ? ' scroll-to' : '', $am_item_type[$index] == 'header' ? ' am-header-item' : '', '">';
 					// Start code for Affiliate marketing meta data
 					echo '<div class="am-meta">';
 						echo '<div class="wrapper">';
 							echo '<div class="caption">';
-								echo '<h3>', '<a href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_name_data, '</a></h3>';
+								if($am_item_type[$index] == "header") {
+									echo '<h2><span>', $am_item_name_data, '<span></h2>';
+								} else {
+									echo '<h3>', '<a href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_name_data, '</a></h3>';
+								}
 
 								static $urls = array();
 
@@ -50,6 +54,10 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								$image_html = ee_the_lazy_image( $am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ? $current_post_id : $am_item_photo[$index], false );
 								remove_filter( '_ee_the_lazy_image', $update_lazy_image );
 
+								$is_common_mobile = ee_is_common_mobile();
+								if($is_common_mobile){
+									echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
+								}
 								$amItemImageType = "";
 								if($am_item_imagetype[$index] == 'imagecode' && ! empty( $am_item_imagecode[$index] ) ) {
 									$amItemImageType = '<div class="am_imagecode">' . $image_html . $am_item_imagecode[$index] . '</div>';
@@ -76,17 +84,20 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								if( isset( $am_item_description[$index] ) && $am_item_description[$index] !== "" ) {
 									echo '<div>', $am_item_description[$index],'</div>';
 								}
-								echo '<div class="shop-button">';
-									if( isset( $am_item_getitnowfromname[$index] ) && $am_item_getitnowfromname[$index] !== "" ) {
-										$get_it_now_from_url = $am_item_getitnowfromurl[$index] ? $am_item_getitnowfromurl[$index] : '#' ;
 
-										echo '<div class="get-it-now-meta">', $am_item_getitnowtext[$index], ' <a class="get-it-now-button" href="', $get_it_now_from_url, '" target="_blank" rel="noopener">', $am_item_getitnowfromname[$index], '</a></div>';
-									}
-									if( isset( $am_item_buttontext[$index] ) && $am_item_buttontext[$index] !== "" )
-									{
-										echo '<div class="shop-now-button-meta">', '<a class="shop-now-button" href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_buttontext[$index], '</a>', '</div>';
-									}
-								echo '</div>';
+								if($am_item_type[$index] !== "header") {
+									echo '<div class="shop-button">';
+										if( isset( $am_item_getitnowfromname[$index] ) && $am_item_getitnowfromname[$index] !== "" ) {
+											$get_it_now_from_url = $am_item_getitnowfromurl[$index] ? $am_item_getitnowfromurl[$index] : '#' ;
+
+											echo '<div class="get-it-now-meta">', $am_item_getitnowtext[$index], ' <a class="get-it-now-button" href="', $get_it_now_from_url, '" target="_blank" rel="noopener">', $am_item_getitnowfromname[$index], '</a></div>';
+										}
+										if( isset( $am_item_buttontext[$index] ) && $am_item_buttontext[$index] !== "" )
+										{
+											echo '<div class="shop-now-button-meta">', '<a class="shop-now-button" href="', $amitembuttonurl, '" target="_blank" rel="noopener">', $am_item_buttontext[$index], '</a>', '</div>';
+										}
+									echo '</div>';
+								}
 							echo '</div>';
 						echo '</div>';
 					echo '</div>';
@@ -106,10 +117,10 @@ endif;
 
 if ( ! function_exists( '_ee_the_affiliate_marketing_image' ) ) :
 	function _ee_the_affiliate_marketing_image( $url, $width, $height, $alt = '', $attribution = '' ) {
-		$is_jacapps = ee_is_jacapps();
+		$is_common_mobile = ee_is_common_mobile();
 
 		$image = sprintf(
-			$is_jacapps
+			$is_common_mobile
 				? '<div class="non-lazy-image"><img src="%s" width="%s" height="%s" alt="%s"><div class="non-lazy-image-attribution">%s</div></div>'
 				: '<div class="lazy-image" data-src="%s" data-width="%s" data-height="%s" data-alt="%s" data-attribution="%s"></div>',
 			esc_attr( $url ),
@@ -119,7 +130,7 @@ if ( ! function_exists( '_ee_the_affiliate_marketing_image' ) ) :
 			esc_attr( $attribution )
 		);
 
-		$image = apply_filters( '_ee_the_affiliate_marketing_image', $image, $is_jacapps, $url, $width, $height, $alt );
+		$image = apply_filters( '_ee_the_affiliate_marketing_image', $image, $is_common_mobile, $url, $width, $height, $alt );
 
 		return $image;
 	}
@@ -132,7 +143,7 @@ if ( ! function_exists( 'ee_the_affiliate_marketing_image' ) ) :
 			$alt = trim( strip_tags( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) );
 			$attribution = get_post_meta( $image_id, 'gmr_image_attribution', true );
 
-			if ( ee_is_jacapps() ) {
+			if ( ee_is_common_mobile() ) {
 				$width = 800;
 				$height = 500;
 				$url = bbgi_get_image_url( $image_id, $width, $height );

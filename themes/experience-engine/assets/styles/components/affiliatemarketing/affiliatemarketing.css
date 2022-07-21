@@ -12,9 +12,6 @@
 }
 
 .single-affiliate_marketing {
-	& .placeholder-dfp {
-		display: none;
-	}
 	/* css for affiliate marketing meta page */
 	& .post-thumbnail-caption-italic {
 		color: #000;
@@ -43,7 +40,7 @@
 		& .lazy-image {
 			display: none;
 		}
-		
+
 		& .non-lazy-image {
 			display: none;
 		}
@@ -201,6 +198,17 @@
 		height: auto;
 		@media (--max-medium-viewport) {
 			max-width: 100%;
+		}
+	}
+}
+
+.am-header-item{
+	& .am-meta {
+		& h2 {
+			text-align: center;
+			margin: 0.5rem 0 1rem;
+			color: var(--brand-primary);
+			text-transform: capitalize;
 		}
 	}
 }

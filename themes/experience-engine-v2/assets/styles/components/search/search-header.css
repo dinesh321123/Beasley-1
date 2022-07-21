@@ -1,0 +1,38 @@
+.search-header {
+	border-bottom: 1px solid var(--global-mercury);
+	border-top: 1px solid var(--global-mercury);
+	margin-bottom: 3.444rem;
+	padding: 1.778rem 0;
+
+	& .content-wrap {
+		padding-bottom: 0;
+	}
+
+	& .search-form {
+		margin: 0;
+	}
+
+	& input[type="search"] {
+		border-bottom: none;
+		font-size: 1.111rem;
+		padding-left: 2.4rem;
+
+		@media (--min-large-viewport) {
+			font-size: 2rem;
+		}
+	}
+
+	& button[type="submit"]{
+		height: 22px;
+		width: 22px;
+
+		@media (--min-large-viewport) {
+			height: 34px;
+			width: 34px;
+		}
+	}
+
+	& svg {
+		transform: scale(1.5);
+	}
+}

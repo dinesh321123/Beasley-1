@@ -10,10 +10,24 @@ cache:
     - .composer-cache # Composer
     - node_modules_cache
 
-test:
+# run tests in parallel for performance
+
+# customize the 10up php syntax check to avoid the archive theme folder
+# https://gitlab.10up.com/10up-build/deploy-container/-/blob/master/scripts/10up-scripts
+
+test_syntax:
   stage: test
   script:
-    - 10up-scripts
+    - find . -type f -name '*.php' -not -path '*/vendor/*' -not -path '*/archive-themes-nodeploy/*' -print0 | xargs -0 -n1 php -l
+  dependencies: []
+  cache: {}
+
+test_virusscan:
+  stage: test
+  script:
+    - /10up-scripts/virus-scan
+  dependencies: []
+  cache: {}
 
 deploy_stage:
   stage: deploy
@@ -28,6 +42,13 @@ deploy_stage:
     - ssh beanstalk@54.87.4.54 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
   only:
     - stage3
+
+notify_slack:
+  stage: test
+  script:
+    - curl -X POST --data "{\"username\":\"Gitlab Pipeline\", \"text\":\"Gitlab pipeline is about to run the Production Deployment..\"}" $SLACK_WEBHOOK
+  only:
+    - master
 
 deploy_prod:
   stage: deploy

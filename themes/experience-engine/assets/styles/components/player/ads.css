@@ -27,6 +27,15 @@
 	 }
 }
 
+.beasley-vimeo:fullscreen {
+	background-color: var(--global-black);
+}
+
+.beasley-vimeo:fullscreen > iframe {
+	height: 100%;
+	width: 100%;
+}
+
 .gampreroll-shade {
 	background-color: rgba(0, 0, 0, .75);
 }

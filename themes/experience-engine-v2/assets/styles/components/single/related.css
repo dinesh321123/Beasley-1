@@ -1,0 +1,52 @@
+.related-articles {
+	& .post {
+		margin-bottom: 1.3rem;
+
+		@media (--min-large-viewport) {
+			margin-bottom: 2rem;
+		}
+
+		& .post-thumbnail {
+			flex: 0 1 100%;
+
+			@media (--min-small-viewport) {
+				flex: auto;
+				margin-bottom: 0;
+			}
+		}
+
+		& div.post-thumbnail {
+		    min-width: 141px;
+		    min-height: 141px;
+		    max-width: 141px;
+		    max-height: 141px;
+
+			@media (--min-small-viewport) {
+				max-width: 188px;
+			}
+	    }
+
+		& .post-details {
+			flex: 1;
+		    margin-left: 1.3rem;
+
+			@media (--min-large-viewport) {
+				margin-left: 2rem;
+			}
+
+			& .post-date {
+				color: var(--global-theme-font-tertiary);
+				font-size: .875rem;
+				margin-bottom: 1rem;
+			}
+		}
+	}
+}
+
+.archive {
+	& .archive-tiles {
+		& .post-date {
+			display: none;
+		}
+	}
+}

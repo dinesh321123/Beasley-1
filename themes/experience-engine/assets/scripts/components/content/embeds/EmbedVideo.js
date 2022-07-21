@@ -53,6 +53,7 @@ class EmbedVideo extends PureComponent {
 				<source
 					srcSet={thumbnail
 						.replace('/vi/', '/vi_webp/')
+						.replace('hqdefault.jpg', 'mqdefault.jpg')
 						.replace('.jpg', '.webp')}
 					type="image/webp"
 				/>
@@ -64,7 +65,10 @@ class EmbedVideo extends PureComponent {
 				<a href={src} aria-label={`Play ${title}`} onClick={this.onPlayClick}>
 					<picture>
 						{webp}
-						<img src={thumbnail} alt={title} />
+						<img
+							src={thumbnail.replace('hqdefault.jpg', 'mqdefault.jpg')}
+							alt={title}
+						/>
 					</picture>
 				</a>
 

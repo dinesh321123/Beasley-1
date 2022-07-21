@@ -12,6 +12,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		'ee_cache_token'      => 'Cache Clear Token',
 		'ee_appkey'           => 'EE App Key',
 		'ee_notification_key' => 'EE Notification App Key',
+		'ee_cloudflare_token' => 'Cloudflare Cache Clear Token'
 	);
 
 	/**
@@ -73,6 +74,11 @@ class ExperienceEngine extends \Bbgi\Module {
 			$control_string = strtolower( trim( $control_string ) );
 			$parts = explode( '=', $control_string );
 
+			if ( $parts[0] == 'no-cache') {
+				$cache_time = 86400;
+				break;
+			}
+
 			if ( $parts[0] == 's-maxage' ) {
 				$cache_time = end( $parts );
 				break;
@@ -123,9 +129,21 @@ class ExperienceEngine extends \Bbgi\Module {
 		return wp_remote_request( $host . $path, $args );
 	}
 
-	public function do_request( $path, $args = array() ) {
+	protected function _cacheEEValue($path, $value, $group, $expires) {
+		$replace = wp_cache_replace($path, $value, $group, $expires);
+
+		if ($replace === false) {
+			wp_cache_add($path, $value, $group, $expires);
+		}
+
+	}
+
+	public function do_request($path, $args = array(), $cache_group = '') {
 		$cache_index = get_option( 'ee_cache_index', 0 );
-		$response = wp_cache_get( $path, "experience_engine_api-{$cache_index}" );
+		$cache_key = empty($cache_group) ? $cache_index : $cache_group;
+
+		$response = wp_cache_get( $path, "experience_engine_api-{$cache_key}" );
+
 		if ( empty( $response ) ) {
 			$request = $this->send_request( $path, $args );
 			if ( is_wp_error( $request ) ) {
@@ -141,8 +159,13 @@ class ExperienceEngine extends \Bbgi\Module {
 			$response = json_decode( wp_remote_retrieve_body( $request ), true );
 			$cache_time = $this->_get_request_cache_time( $request );
 			if ( $cache_time ) {
-				wp_cache_set( $path, $response, "experience_engine_api-{$cache_index}", $cache_time );
+
+				wp_cache_set( $path, $response, "experience_engine_api-{$cache_key}", $cache_time );
 			}
+
+			error_log($this->log_prefix() . "cached contents from $path into group: experience_engine_api-{$cache_key} for $cache_time seconds\n");
+		} else {
+			error_log($this->log_prefix() . "served from cache contents from $path in group: experience_engine_api-{$cache_key}\n");
 		}
 
 		return $response;
@@ -192,11 +215,8 @@ class ExperienceEngine extends \Bbgi\Module {
 		$publisher = $this->_get_publisher_key();
 		if ( ! empty( $publisher ) ) {
 			$url = "experience/channels/{$publisher}/feeds/content/";
-			if ( ! empty( $_REQUEST['authorization'] ) ) {
-				$url .= '?authorization=' . urlencode( $_REQUEST['authorization'] );
-			}
 
-			$data = $this->do_request( $url );
+			$data = $this->do_request( $url, array(), 'ee_data');
 			if ( is_wp_error( $data ) ) {
 				$data = array();
 			}
@@ -266,6 +286,7 @@ class ExperienceEngine extends \Bbgi\Module {
 	public function update_bbgiconfig( $config ) {
 		$config['eeapi'] = $this->_get_host();
 		$config['wpapi'] = rest_url( '/experience_engine/v1/' );
+		$config['wpapi-mmrp'] = rest_url( '/megamenu_recent_posts/v1/' );
 
 		return $config;
 	}
@@ -278,6 +299,13 @@ class ExperienceEngine extends \Bbgi\Module {
 			'callback'            => $this( 'rest_purge_cache' ),
 			'permission_callback' => array( $this, 'check_purge_cache_permissions' ),
 			'show_in_index'       => false,
+		) );
+
+		register_rest_route( $namespace, '/purge-ee-cache', array(
+				'methods'             => 'POST',
+				'callback'            => $this( 'rest_purge_ee_cache' ),
+				'permission_callback' => array( $this, 'check_purge_cache_permissions' ),
+				'show_in_index'       => false,
 		) );
 
 		$authorization = array(
@@ -308,6 +336,7 @@ class ExperienceEngine extends \Bbgi\Module {
 		$token = get_site_option( 'ee_cache_token', false );
 
 		if ( empty( $token ) ) {
+			error_log( $this->log_prefix() . 'check_purge_cache_permissions token missing' );
 			return false;
 		}
 
@@ -315,10 +344,45 @@ class ExperienceEngine extends \Bbgi\Module {
 			return true;
 		}
 
+		error_log( $this->log_prefix() . 'check_purge_cache_permissions token did not match authorization' );
 		return false;
 	}
 
-	public function rest_purge_cache() {
+	public function rest_purge_cache( \WP_REST_Request $request ) {
+		//clear ee content feed values
+		$publisher = $this->_get_publisher_key();
+		$url = "experience/channels/{$publisher}/feeds/content/";
+		$track = $request->get_header('track-id');
+
+		if (!$request->is_json_content_type()) {
+			error_log($this->log_prefix() . "pushed contents from $publisher by track: $track not json\n");
+			return rest_ensure_response( 'No Json' );
+		}
+
+		$content = $request->get_body();
+
+		$this->_cacheEEValue( $url, json_decode($content,true), 'experience_engine_api-ee_data',86400 );
+		error_log($this->log_prefix() . "cached pushed contents from $publisher by track: $track into group: experience_engine_api-ee_data for 86400 seconds\n");
+
+		// Clear specific page caches
+		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {
+			$home = trailingslashit( get_option( 'home' ) );
+			batcache_clear_url( $home );
+			batcache_clear_url( $home . 'feed/' );
+			error_log( $this->log_prefix() . 'cleared batcache url ' .  $home);
+		}
+
+		$this->clearCloudFlareHomeCache();
+
+		return rest_ensure_response( 'Cache Flushed' );
+	}
+
+	public function rest_purge_ee_cache() {
+		//clear ee content feed values
+		$publisher = $this->_get_publisher_key();
+		$url = "experience/channels/{$publisher}/feeds/content/";
+		wp_cache_delete($url, 'experience_engine_api-ee_data');
+
 		// Clear EE Cache
 		update_option( 'ee_cache_index', time(), 'no' );
 
@@ -372,6 +436,46 @@ class ExperienceEngine extends \Bbgi\Module {
 			'status'    => 200,
 			'html'      => $data,
 		] );
+	}
+
+	public function log_prefix() {
+
+		$site_id	=	get_current_blog_id();
+		$site_name	=	get_blog_option( $site_id, 'blogname' );
+
+		$result = "[EE Event SiteID:{$site_id} SiteName:$site_name] ";
+
+		return $result;
+	}
+
+	public function clearCloudFlareHomeCache(){
+
+		$cloudflaretoken = get_site_option( 'ee_cloudflare_token' );
+		$zone_id = get_option('cloud_flare_zoneid');
+
+		if ( empty($cloudflaretoken) || empty($zone_id) ) {
+            return false;
+        }
+
+		$request_url = 'https://api.cloudflare.com/client/v4/zones/'.$zone_id.'/purge_cache';
+		$data = [ "tags" => [$_SERVER['HTTP_HOST'].'-'.'home'] ];
+
+		$response = wp_remote_post( $request_url, array(
+				'method' => 'POST',
+				'headers' => array(
+						'Content-Type' => 'application/json',
+						'Authorization' => 'Bearer ' . $cloudflaretoken,
+						),
+						'body' => wp_json_encode( $data )
+					)
+				);
+
+		$response_json = 'Cloudflare response 4: '. json_encode( $response );
+		error_log( $this->log_prefix() . $response_json );
+
+		if ( is_wp_error( $response ) ) {
+			error_log( 'Cloudflare error notice query var from is_wp_error function 5' );
+		}
 	}
 
 }

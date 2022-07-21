@@ -1,0 +1,11 @@
+.thumbnail-video-jacapp {
+    position: relative !important;
+}
+
+body .thumbnail-video-jacapp picture, body .thumbnail-video-jacapp img { 
+    height: auto;
+}
+
+.thumbnail-video-frame-jacapp {
+    display: none;
+}

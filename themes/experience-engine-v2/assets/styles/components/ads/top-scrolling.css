@@ -1,0 +1,23 @@
+.top-scrolling-container {
+	background-color: white;
+	position: fixed;
+	margin-top: 20px;
+	left: 0;
+	right: 0;
+	z-index: 1;
+}
+
+#div-top-scrolling-slot {
+	height: var(--ad-leaderboard-initial-height);
+	@media(--max-medium-viewport) {
+		height: 50px;
+	}
+}
+
+#inner-content {
+	margin-top: var(--inner-content-top-margin);
+	@media(--max-medium-viewport) {
+		margin-top: 94px;
+	}
+}
+

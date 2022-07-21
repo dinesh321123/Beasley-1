@@ -16,7 +16,12 @@ class DraftKingIframeSettings {
 	 * @return array
 	 */
 	public static function get_draft_king_posttype_list() {
-		return (array) apply_filters( 'draft-king-iframe-post-types', array( 'post', 'gmr_gallery', 'show', 'gmr_album', 'listicle_cpt', 'affiliate_marketing', 'tribe_events' )  );
+		$result = array();
+
+		if(current_user_can('manage_draft_kings_onoff_setting')){
+			$result	= (array) apply_filters( 'draft-king-iframe-post-types', array( 'post', 'gmr_gallery', 'show', 'gmr_album', 'listicle_cpt', 'affiliate_marketing', 'tribe_events', 'contest', 'page' )  );
+		}
+		return $result;
 	}
 
 	/**
@@ -24,7 +29,6 @@ class DraftKingIframeSettings {
 	 */
 	public static function settings_cpt_init() {
 		$location = array();
-		// $posttype_list = array( 'post', 'gmr_gallery', 'show', 'gmr_album', 'listicle_cpt', 'affiliate_marketing' );
 		foreach ( DraftKingIframeSettings::get_draft_king_posttype_list() as $type ) {
 			$location[] =
 			array(

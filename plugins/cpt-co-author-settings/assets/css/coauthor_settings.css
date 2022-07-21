@@ -1,0 +1,30 @@
+body .acf-field-post-creator-cpt {
+	border: none !important;
+	padding-bottom: 0px !important;
+}
+
+body .acf-field-is-co-author-cpt {
+	border: none !important;
+	padding-top: 0px !important;
+	padding-bottom: 2px !important;
+}
+
+body .acf-field-reported-attribution-cpt {
+	border: none !important;
+	padding-top: 2px !important;
+}
+
+.acf-field-is-co-author-cpt ul.acf-checkbox-list label {
+	display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.acf-field-is-co-author-cpt ul.acf-checkbox-list .selected {
+	background-color: white;
+}
+
+#acf-field_is_co_author_cpt-true {
+	margin-left: 10px;
+}
