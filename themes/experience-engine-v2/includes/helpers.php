@@ -5,23 +5,6 @@ add_filter( 'get_the_archive_title', 'ee_update_archive_title' );
 
 if ( ! function_exists( 'ee_get_date' ) ) :
 	function ee_get_date( $timestamp, $gmt = 0 ) {
-		$elapsed = current_time( 'timestamp', $gmt ) - $timestamp;
-		$abs_elapsed = abs( $elapsed );
-
-		if ( $abs_elapsed < DAY_IN_SECONDS ) {
-			$text = '';
-			if ( $abs_elapsed >= HOUR_IN_SECONDS ) {
-				$number = floor( $abs_elapsed / HOUR_IN_SECONDS );
-				$text = sprintf( $number == 1 ? 'an hour' : '%s hours', $number );
-			} elseif ( $abs_elapsed >= MINUTE_IN_SECONDS ) {
-				$number = floor( $abs_elapsed / MINUTE_IN_SECONDS );
-				$text = sprintf( $number == 1 ? 'a minute' : '%d minutes', $number );
-			} else {
-				return 'just now';
-			}
-
-			return sprintf( $elapsed > 0 ? '%s ago' : 'in %s', $text );
-		}
 
 		$created_offset = $gmt
 			? $timestamp + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS
