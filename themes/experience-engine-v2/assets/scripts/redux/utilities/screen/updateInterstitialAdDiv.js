@@ -1,4 +1,6 @@
 export default function updateInterstitialAdDiv() {
+	console.log('NOT making interstitial full size');
+	/* Without Single Request This May Not Be Needed
 	const { ad_lazy_loading_enabled } = window;
 
 	if (ad_lazy_loading_enabled) {
@@ -18,4 +20,5 @@ export default function updateInterstitialAdDiv() {
 			}
 		}
 	}
+	*/
 }

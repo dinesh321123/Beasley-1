@@ -10,7 +10,6 @@ import {
 	getSlotStat,
 	registerSlotStatForRefresh,
 	topScrollingDivID,
-	interstitialDivID,
 	hidePlaceholder,
 	showSlotElement,
 	getSlotStatsCollectionObject,
@@ -787,9 +786,7 @@ class Dfp extends PureComponent {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
 			}
 
-			if (placeholder !== interstitialDivID) {
-				registerSlotStatForRefresh(placeholder, slot);
-			}
+			registerSlotStatForRefresh(placeholder, slot);
 
 			this.setState({ slot, prebidEnabled });
 			return true;

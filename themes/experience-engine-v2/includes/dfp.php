@@ -140,8 +140,8 @@ if ( ! function_exists( 'ee_enqueue_dfp_scripts' ) ) :
         $dfp_ad_single_request = get_option( 'ad_single_request_enabled', 'on' );
         if  ( $dfp_ad_single_request === 'on' ) {
 			$dfp_ad_single_request = "
-				googletag.pubads().enableSingleRequest();
-				console.log('Ad Single Request ENABLED');
+				// googletag.pubads().enableSingleRequest();
+				// console.log('Ad Single Request ENABLED');
 			";
         } else {
         	$dfp_ad_single_request = "
