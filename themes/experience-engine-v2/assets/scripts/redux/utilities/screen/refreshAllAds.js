@@ -55,9 +55,8 @@ export default function refreshAllAds() {
 					googletag.pubads().refresh([...slotList.values()]);
 				}
 				// Mark Slots as shown
-				statsObjKeysToRefresh.map(statsObj => {
-					statsObj.shouldRefresh = false;
-					return statsObj;
+				statsObjKeysToRefresh.forEach(statsKey => {
+					statsCollectionObject[statsKey].shouldRefresh = false;
 				});
 			}
 		}
