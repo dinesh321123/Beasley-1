@@ -276,7 +276,7 @@ if ( ! function_exists( 'ee_get_other_css_vars' ) ) :
 
 		if (ee_is_common_mobile()) {
 			$vars['--ad-leaderboard-initial-height'] = '50px';
-			$vars['--inner-content-top-margin'] = '1rem';
+			$vars['--inner-content-top-margin'] = '.5rem';
 		}
 
 		return $vars;
