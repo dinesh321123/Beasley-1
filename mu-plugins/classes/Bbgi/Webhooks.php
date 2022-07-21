@@ -278,7 +278,7 @@ class Webhooks extends \Bbgi\Module {
 		$post = get_post( $post_id );
 
 		if ( $only_published && $post->post_status !== 'publish' ) {
-			$this->log('not a published post. no webhook ran');
+			$this->log('not a published post. no webhook ran', ["post_status" => $post->post_status]);
 			return false;
 		}
 
