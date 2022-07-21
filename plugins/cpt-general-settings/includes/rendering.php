@@ -5,6 +5,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 class GeneralSettingsFrontRendering {
 
+	function __construct()
+	{
+		$this->init();
+	}
+
 	public static function init() {
 		// Register scripts
 		// add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
@@ -71,4 +76,5 @@ class GeneralSettingsFrontRendering {
 
 }
 
-GeneralSettingsFrontRendering::init();
+// GeneralSettingsFrontRendering::init();
+new GeneralSettingsFrontRendering();
