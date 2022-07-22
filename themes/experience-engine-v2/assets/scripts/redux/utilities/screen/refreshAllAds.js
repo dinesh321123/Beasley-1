@@ -1,11 +1,15 @@
-import { doPubadsRefreshForAllRegisteredAds } from '../../../library/ad-utils';
+import {
+	doPubadsRefreshForAllRegisteredAds,
+	hidePlaceholder,
+	topScrollingDivID,
+} from '../../../library/ad-utils';
 
 export default function refreshAllAds() {
 	const { prebid_enabled } = window.bbgiconfig;
 
 	// Trying to keep top ad visible - no longer hide
 	window.topAdsShown = 0; // Reset Header Ad Counter
-	// hidePlaceholder(topScrollingDivID);
+	hidePlaceholder(topScrollingDivID);
 
 	if (!prebid_enabled) {
 		const { googletag } = window;

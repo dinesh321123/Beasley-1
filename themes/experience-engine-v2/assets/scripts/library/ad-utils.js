@@ -2,7 +2,7 @@ const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
 export const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 export const topScrollingDivID = 'div-top-scrolling-slot';
 const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
-const dropDownDivID = 'div-drop-down-slot';
+export const dropDownDivID = 'div-drop-down-slot';
 
 export const isNotSponsorOrInterstitial = placeholder => {
 	return (

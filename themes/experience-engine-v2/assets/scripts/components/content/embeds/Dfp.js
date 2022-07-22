@@ -10,6 +10,7 @@ import {
 	getSlotStat,
 	registerSlotStatForRefresh,
 	topScrollingDivID,
+	dropDownDivID,
 	hidePlaceholder,
 	showSlotElement,
 	getSlotStatsCollectionObject,
@@ -929,8 +930,28 @@ class Dfp extends PureComponent {
 	}
 
 	tryDisplaySlot() {
+		const { unitName } = this.props;
+
 		if (this.state && !this.state.slot) {
 			this.registerSlot();
+		}
+
+		if (unitName === 'drop-down') {
+			console.log(`Displaying ${unitName}`);
+			const { googletag } = window;
+			googletag.cmd.push(() => {
+				const ddSlotStat = getSlotStatsCollectionObject()[dropDownDivID];
+				if (ddSlotStat) {
+					console.log('Calling googletag.display() on DropDown Ad');
+					// googletag.display(dropDownDivID);
+
+					googletag.pubads().refresh([ddSlotStat.slot]);
+				} else {
+					console.log(
+						'Could Not Find Slot Stat For Dropdown Ad - May Not Be Configured In EE',
+					);
+				}
+			});
 		}
 	}
 

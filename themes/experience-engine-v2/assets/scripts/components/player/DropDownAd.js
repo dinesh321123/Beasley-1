@@ -19,7 +19,7 @@ const DropDownAd = () => {
 	const isListenLiveShowing = useSelector(
 		state => state.screen.isListenLiveShowing,
 	);
-	if (!isListenLiveShowing && !dropDropDownAdRef.current) {
+	if (!isListenLiveShowing) {
 		console.log('NOT SHOWING DD AD');
 		return false;
 	}
@@ -29,11 +29,12 @@ const DropDownAd = () => {
 	// this id is also compared in /assets/scripts/components/content/embeds/Dfp.js
 	const { unitId, unitName } = window.bbgiconfig.dfp.dropdown;
 
+	// **** NOTE: NO LONGER REFRESHING BECAUSE WE ADD AND REMOVE UNIT ****
 	if (shouldRefresh) {
 		if (dropDropDownAdRef.current) {
-			dropDropDownAdRef.current.refreshSlot();
+			// **** NO LONGER REFRESHING BECAUSE WE ADD AND REMOVE UNIT ****
+			// dropDropDownAdRef.current.refreshSlot();
 		}
-
 		dispatch(dropdownAdRefreshed());
 	}
 
