@@ -63,11 +63,14 @@ class Webhooks extends \Bbgi\Module {
 	public function do_save_post_webhook( $post_id, $post) {
 		$type = '';
 		$categories = '';
+		$shows = '';
+
 		if($this->is_wp_minions()){
 			$type = $post->post_type;
 			$categories = get_the_category( $post_id );
+			$shows = get_the_terms( $post_id, '_shows' );
 		}
-		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type, 'category_list' => $categories ] );
+		$this->do_lazy_webhook( $post_id, [ 'source' => 'save_post', 'post_type' => $type, 'category_list' => $categories, 'shows_list' => $shows ] );
 	}
 
 	/**
@@ -144,6 +147,14 @@ class Webhooks extends \Bbgi\Module {
 	 * @return bool
 	 */
 	public function do_lazy_webhook( $post_id, $opts = [] ) {
+
+		$host = $_SERVER['HTTP_HOST'];
+
+		if (!strpos($host, "coyote") && !strpos($host, "kdwn") && !strpos($host, "kklz") && !strpos($host, "jammin") && !strpos($host, "vgs")) {
+			$this->log('Not running vegas webhooks', ["site" => $host]);
+			return false;
+		}
+
 		$site_id = get_current_blog_id();
 		$only_published = isset( $opts['only_published' ] ) ? $opts['only_published' ] : true;
 
@@ -207,42 +218,49 @@ class Webhooks extends \Bbgi\Module {
 		$categories = get_the_category( $post_id );
 		if (!$categories && isset($opts['category_list'])){
 			$categories = $opts['category_list'];
-			//$this->write_to_log( 'Categories From Ops', [ 'categories' => $categories, 'post_id' => $post_id ] );
+		}
+
+		$shows = get_the_terms( $post_id, '_shows' );;
+		if (!$shows && isset($opts['shows_list'])){
+			$shows = $opts['shows_list'];
 		}
 
 		$categoryCSV = '';
+		if ( is_array( $categories ) && ! empty( $categories ) ) {
+			$categoryCSV = implode( ",", wp_list_pluck($categories, 'slug' ) );
+		}
 
-		if ( !empty($categories) ) {
-			foreach ( $categories as $category ) {
-				if (strlen($categoryCSV) > 0) {
-					$categoryCSV .= ',';
-				}
-				$categoryCSV .=  $category->slug;
-			}
+		$showsCSV = '';
+		if ( is_array( $shows ) && ! empty( $shows ) ) {
+			$showsCSV = implode( ",", wp_list_pluck($shows, 'slug' ) );
 		}
 
 		if ($post_type !== 'gmr_homepage') {
-			$this->clearCloudFlareCache($post_id, $post_type, $categories);
+			$this->clearCloudFlareCache($post_id, $post_type, $categories, $shows);
 		}
 
-		$request_args = [
-			'blocking'        => false,
-			'body'            => [
-				'post_id'       => $post_id,
-				'source_action' => ! empty( $opts['source'] ) ? $opts['source'] : 'unknown',
-				'request_uri'   => ! empty( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : 'unknown',
-				'wp_cli'        => defined( 'WP_CLI' ) && WP_CLI ? 'yes' : 'no',
-				'wp_cron'       => defined( 'DOING_CRON' ) && DOING_CRON ? 'yes' : 'no',
-				'wp_ajax'       => defined( 'DOING_AJAX' ) && DOING_AJAX ? 'yes' : 'no',
-				'wp_minions'    => $this->is_wp_minions() ? 'yes' : 'no',
-				'post_type'    	=> $post_type,
-				'categories'	=> $categoryCSV,
-			],
-		];
+		if ($post_type !== 'show') {
+			$request_args = [
+				'blocking'        => false,
+				'body'            => [
+					'post_id'       => $post_id,
+					'source_action' => ! empty( $opts['source'] ) ? $opts['source'] : 'unknown',
+					'request_uri'   => ! empty( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : 'unknown',
+					'wp_cli'        => defined( 'WP_CLI' ) && WP_CLI ? 'yes' : 'no',
+					'wp_cron'       => defined( 'DOING_CRON' ) && DOING_CRON ? 'yes' : 'no',
+					'wp_ajax'       => defined( 'DOING_AJAX' ) && DOING_AJAX ? 'yes' : 'no',
+					'wp_minions'    => $this->is_wp_minions() ? 'yes' : 'no',
+					'post_type'    	=> $post_type,
+					'categories'	=> $categoryCSV,
+					'shows'			=> $showsCSV,
+				],
+			];
 
-		$this->log( 'calling webhook', $request_args );
+			$this->log( 'calling webhook', $request_args );
 
-		wp_remote_post( $url, $request_args );
+			wp_remote_post( $url, $request_args );
+		}
+
 	}
 
 	/**
@@ -300,6 +318,7 @@ class Webhooks extends \Bbgi\Module {
 			'episode',
 			'tribe_events',
 			'contest',
+			'show',
 			'gmr_homepage',
 			'gmr_mobile_homepage',
 			'affiliate_marketing',
@@ -307,7 +326,7 @@ class Webhooks extends \Bbgi\Module {
 		];
 	}
 
-	public function clearCloudFlareCache($postID, $posttype, $categories){
+	public function clearCloudFlareCache($postID, $posttype, $categories, $shows){
 		$this->log("clearCloudFlareCache", ["postId" => $postID]);
 
         if(!$postID){
@@ -333,10 +352,19 @@ class Webhooks extends \Bbgi\Module {
 			}
 		}
 
-		if (!empty($posttype)) {
-			$cache_tags[] = 'archive-' . $posttype;
+		if (!empty($shows)) {
+			foreach ($shows as $show) {
+				$cache_tags[] = 'show-' . $show->slug;
+			}
 		}
 
+		if (!empty($posttype)) {
+			$cache_tags[] = 'archive-' . $posttype;
+
+			if ($posttype == 'episode') {
+				$cache_tags[] = 'podcast';
+			}
+		}
 
 		// Clear specific page caches
 		if ( function_exists( 'batcache_clear_url' ) && class_exists( 'batcache' ) ) {

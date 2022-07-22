@@ -2,6 +2,9 @@
 
 if ( ! function_exists( 'ee_get_current_show' ) ) :
 	function ee_get_current_show( $post = null ) {
+
+		// declaring shows as static will prevent additional queries from occurring additional
+		// calls to this function. They value is initialized during the first call
 		static $shows = array();
 
 		$post = get_post( $post );
@@ -13,6 +16,7 @@ if ( ! function_exists( 'ee_get_current_show' ) ) :
 			$post = get_post( $post->post_parent );
 		}
 
+		// this will not be empty if this function is called twice in a request for the same post object
 		if ( ! empty( $shows[ $post->ID ] ) ) {
 			return $shows[ $post->ID ];
 		}

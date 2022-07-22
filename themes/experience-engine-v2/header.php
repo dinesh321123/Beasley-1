@@ -3,45 +3,48 @@ use Bbgi\Integration\Google;
 ?>
 <?php
 
+	$headerCacheTag = [];
+
 	if (  is_front_page() ) {
-		$headerCacheTag  = $_SERVER['HTTP_HOST'].'-'.'home';
+		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
 	} else if (is_archive()) {
-
-
 		$obj = get_queried_object();
 
-		$headerCacheTag = "";
 
 		if (isset($obj->slug)) {
-			$currentCategorySlug = "-" . $obj->slug;
-			$headerCacheTag .= "archive" . $currentCategorySlug;
+			$headerCacheTag[] = "archive" . "-" . $obj->slug;
 		}
 
 		if (isset($wp_query->query['post_type'])) {
-			$currentPostType = $wp_query->query['post_type'];
-			if (empty($currentPostType) === false) {
-				$headerCacheTag .= ",";
-			}
-			$headerCacheTag .=  "archive-" . $currentPostType;
+			$headerCacheTag[] = "archive-" . $wp_query->query['post_type'];
+			$headerCacheTag[] = $wp_query->query['post_type'];
 		}
+
 	}  else {
 		global $post;
 		$currentPostType	= "";
 		$currentPostSlug	= "";
 		if ( get_post_type() ) :
 			$currentPostType = get_post_type();
+			$headerCacheTag[] = $currentPostType;
+
+			if ($currentPostType == "episode") {
+				$headerCacheTag[] = "podcast";
+			}
+
+
 		endif;
 		if (  isset( $post->post_name ) && $post->post_name != "" ) :
 			$currentPostSlug = "-".$post->post_name;
 		endif;
-		$headerCacheTag = $currentPostType.$currentPostSlug;
+
+		$headerCacheTag[] = $currentPostType.$currentPostSlug;
 	}
 
-	$currentCacheTag = $headerCacheTag;
-	$headerCacheTag = append_current_device_to_cache_tag($headerCacheTag);
+	append_current_device_to_cache_tag($headerCacheTag);
 
-	header("Cache-Tag: $headerCacheTag", true);
-	header("X-Cache-BBGI-Tag: $headerCacheTag", true);
+	header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
+	header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);
 ?>
 <!doctype html>
 <html lang="en">

@@ -186,15 +186,14 @@ if ( ! function_exists( 'ee_filter_primary_category' ) ) :
 endif;
 
 if ( ! function_exists( 'append_current_device_to_cache_tag' ) ) :
-	function append_current_device_to_cache_tag(string $headerCacheTag): string
+	function append_current_device_to_cache_tag(&$headerCacheTag)
 	{
 		if (ee_is_common_mobile()) {
-			$headerCacheTag .= ',mobile';
+			$headerCacheTag[] = 'mobile';
 		} else {
-			$headerCacheTag .= ',desktop';
+			$headerCacheTag[] = 'desktop';
 		}
-		$headerCacheTag .= ',content';
-		return $headerCacheTag;
+		$headerCacheTag[] = 'content';
 	}
 endif;
 
