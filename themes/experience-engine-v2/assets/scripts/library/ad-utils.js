@@ -10,6 +10,42 @@ export const isNotSponsorOrInterstitial = placeholder => {
 	);
 };
 
+const getTopAdStatCollectionObject = () => {
+	let { topAdStatsObject } = window;
+	if (!topAdStatsObject) {
+		window.topAdStatsObject = {};
+		topAdStatsObject = window.topAdStatsObject;
+	}
+	return topAdStatsObject;
+};
+
+export const getTopAdStat = pageUrl => {
+	if (!pageUrl) {
+		throw Error('NULL Url Param in getTopAdStat()');
+	}
+
+	const alphaOnlyPageUrl = pageUrl.replace(/[^a-zA-Z0-9]/g, '');
+
+	const topAdStatsObject = getTopAdStatCollectionObject();
+	if (typeof topAdStatsObject[alphaOnlyPageUrl] === 'undefined') {
+		topAdStatsObject[alphaOnlyPageUrl] = {};
+	}
+
+	return topAdStatsObject[alphaOnlyPageUrl];
+};
+
+export const setTopAdStatScrollPos = (pageUrl, scrollPos) => {
+	if (!pageUrl) {
+		throw Error('NULL Url Param in setTopAdStatScrollPos()');
+	}
+	if (!scrollPos) {
+		throw Error('NULL scrollPos Param in setTopAdStatScrollPos()');
+	}
+
+	const topAdStatsObject = getTopAdStat(pageUrl);
+	topAdStatsObject.scrollPos = scrollPos;
+};
+
 export const getSlotStatsCollectionObject = () => {
 	let { slotStatsObject } = window;
 	if (!slotStatsObject) {
@@ -126,19 +162,23 @@ const adjustContentMarginForTopAd = newAdHeight => {
 		contentElement.style.marginTop = `${newContentTopMargin}px`;
 
 		if (lastVerticalScroll <= lastContentTopMargin) {
-			console.log('NOT ADJUSTING SCROLL');
-		} else {
-			let marginDelta = newContentTopMargin - lastContentTopMargin;
+			console.log('SCROLLING BACK TO TOP');
+			window.scrollTo(window.scrollX, 0);
+		}
+		/*
+		else {
+			const marginDelta = newContentTopMargin - lastContentTopMargin;
 			// Adjust Margin Delta If Ad Had Not Been Loaded Before Now
-			if (!window.topAdsShown) {
-				marginDelta -= lastContentTopMargin - 44;
-			}
+			// if (!window.topAdsShown) {
+			//	marginDelta -= lastContentTopMargin - 44;
+			// }
 			const newVerticalScroll = lastVerticalScroll + marginDelta;
 			window.scrollTo(window.scrollX, newVerticalScroll);
 			console.log(
 				`ADJUSTED PAGE SCROLL BY ${marginDelta} TO ${newVerticalScroll} BECAUSE OF TOP AD`,
 			);
 		}
+		*/
 		window.topAdsShown++;
 	}
 };

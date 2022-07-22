@@ -4,7 +4,7 @@ export default function refreshAllAds() {
 	const { prebid_enabled } = window.bbgiconfig;
 
 	// Trying to keep top ad visible - no longer hide
-	// window.topAdsShown = 0;
+	window.topAdsShown = 0; // Reset Header Ad Counter
 	// hidePlaceholder(topScrollingDivID);
 
 	if (!prebid_enabled) {
