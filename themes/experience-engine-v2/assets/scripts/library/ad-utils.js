@@ -36,6 +36,12 @@ export const getSlotStat = placeholder => {
 	return slotStatsObject[placeholder];
 };
 
+export const placeholdersOutsideContentArray = [
+	topScrollingDivID,
+	bottomAdhesionDivID,
+	dropDownDivID,
+];
+
 export const registerSlotStatForRefresh = (placeholder, slot) => {
 	if (!placeholder) {
 		throw Error('NULL Placeholder Param in registerSlotStatForRefresh()');
@@ -44,19 +50,38 @@ export const registerSlotStatForRefresh = (placeholder, slot) => {
 		throw Error('NULL Slot Param in registerSlotStatForRefresh()');
 	}
 
-	const placeholderExcludeArray = [
-		topScrollingDivID,
-		bottomAdhesionDivID,
-		dropDownDivID,
-	];
 	if (
-		!placeholderExcludeArray.includes(placeholder) ||
+		!placeholdersOutsideContentArray.includes(placeholder) ||
 		!getSlotStatsCollectionObject()[placeholder]
 	) {
 		console.log(`Creating slotStat for ${placeholder}`);
 		const slotStat = getSlotStat(placeholder);
 		slotStat.shouldRefresh = true;
 		slotStat.slot = slot;
+	}
+};
+
+export const doPubadsRefreshForAllRegisteredAds = googletag => {
+	const statsCollectionObject = getSlotStatsCollectionObject();
+	const statsObjectKeys = Object.keys(statsCollectionObject);
+	if (statsObjectKeys) {
+		const statsObjKeysToRefresh = statsObjectKeys.filter(
+			statsKey =>
+				statsCollectionObject[statsKey].shouldRefresh ||
+				placeholdersOutsideContentArray.includes(statsKey),
+		);
+		if (statsObjKeysToRefresh) {
+			const slotList = statsObjKeysToRefresh.map(
+				statsKey => statsCollectionObject[statsKey].slot,
+			);
+			if (slotList) {
+				googletag.pubads().refresh([...slotList.values()]);
+			}
+			// Mark Slots as shown
+			statsObjKeysToRefresh.forEach(statsKey => {
+				statsCollectionObject[statsKey].shouldRefresh = false;
+			});
+		}
 	}
 };
 

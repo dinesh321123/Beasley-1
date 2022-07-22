@@ -1,4 +1,4 @@
-import { getSlotStatsCollectionObject } from '../../../library/ad-utils';
+import { doPubadsRefreshForAllRegisteredAds } from '../../../library/ad-utils';
 
 export default function refreshAllAds() {
 	const { prebid_enabled } = window.bbgiconfig;
@@ -38,28 +38,6 @@ export default function refreshAllAds() {
 				doPubadsRefreshForAllRegisteredAds(googletag);
 			});
 		});
-	}
-
-	function doPubadsRefreshForAllRegisteredAds(googletag) {
-		const statsCollectionObject = getSlotStatsCollectionObject();
-		const statsObjectKeys = Object.keys(statsCollectionObject);
-		if (statsObjectKeys) {
-			const statsObjKeysToRefresh = statsObjectKeys.filter(
-				statsKey => statsCollectionObject[statsKey].shouldRefresh,
-			);
-			if (statsObjKeysToRefresh) {
-				const slotList = statsObjKeysToRefresh.map(
-					statsKey => statsCollectionObject[statsKey].slot,
-				);
-				if (slotList) {
-					googletag.pubads().refresh([...slotList.values()]);
-				}
-				// Mark Slots as shown
-				statsObjKeysToRefresh.forEach(statsKey => {
-					statsCollectionObject[statsKey].shouldRefresh = false;
-				});
-			}
-		}
 	}
 }
 
