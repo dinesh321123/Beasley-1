@@ -3,6 +3,10 @@
  * Class ImportExportTagCategory
  */
 class ImportExportTagCategory {
+	function __construct()
+	{
+		$this->init();
+	}
 	/**
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
@@ -274,6 +278,12 @@ class ImportExportTagCategory {
 		return $result;
 	}
 
+	public function get_user_list() {
+		global $wpdb;
+		$result	= $wpdb->get_results(sprintf('SELECT * FROM '. $wpdb->prefix .'users'));
+		return $result;
+	}
+
 	public static function ietc_export_users_posts() {
 		global $wpdb;
 		$blog_id		= 0;
@@ -283,7 +293,8 @@ class ImportExportTagCategory {
 		$input_type		= filter_input( INPUT_POST, 'input_type', FILTER_SANITIZE_STRIPPED);
 		$export_from	= filter_input( INPUT_POST, 'export_from', FILTER_SANITIZE_STRIPPED);
 		$export_to		= filter_input( INPUT_POST, 'export_to', FILTER_SANITIZE_STRIPPED);
-		$users			= $wpdb->get_results(sprintf('SELECT * FROM '. $wpdb->prefix .'users'));
+		// $users		= $wpdb->get_results(sprintf('SELECT * FROM '. $wpdb->prefix .'users'));
+		$users			= ImportExportTagCategory::get_user_list();
 
 		// Create User Export file
 		$todayDate		= date('YmdHis');
@@ -292,8 +303,9 @@ class ImportExportTagCategory {
 		$fileDirPath	= fopen(TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "ietc_uploads/import-export-tag-category/export/".$file_name, "w");
 		$file_url		= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "ietc_uploads/import-export-tag-category/export/".$file_name;
 
-		if($input_type == 'post_list'){
+		if ($input_type == 'post_list'){
 			fputcsv($fileDirPath, array('Station Name', 'User Login', 'Display Name', 'Email', 'Post title', 'Permalink', 'Post date'));
+			$record_count			= 0;
 			foreach($users as $user){
 				$getBlogsdetials	= get_blogs_of_user( array( 'fields' => array( 'ID' ) ) );
 				foreach( $getBlogsdetials as $id ) {
@@ -312,7 +324,6 @@ class ImportExportTagCategory {
 							'before'	=> $to_date
 						)
 					);
-
 					/* $export_query_string = array(
 						'author' => $user->ID,
 						'post_type' => 'post',
@@ -320,7 +331,6 @@ class ImportExportTagCategory {
 					); */
 
 					$query_posts		= new WP_Query( $export_query_string );
-					// $query_posts_count	= $query_posts->found_posts; exit;
 
 					while ( $query_posts->have_posts() ) {
 						$query_posts->the_post();
@@ -331,14 +341,20 @@ class ImportExportTagCategory {
 						$file_row	= array( $station_name, $user->user_login, $user->display_name, $user->user_email, $title, $permalink, $post_date );
 						// echo "<pre>", print_r($file_row);
 						fputcsv($fileDirPath, $file_row);
-						}	// End While
-						wp_reset_postdata();
-						restore_current_blog();
+						$record_count++;
+					}	// End While
+					wp_reset_postdata();
+					restore_current_blog();
 				}	//End blog Foreach
 			}	//End User Foreach
+			if (isset($record_count) && $record_count == 0) {
+				$file_row	= array( 'No records found during this period');
+				fputcsv($fileDirPath, $file_row);
+			}
 			fclose($fileDirPath);
 		} else {
-			echo "In else condition for Post list"; exit;
+			echo "In else condition from User Post list";
+			exit;
 		}
 
 		$wpdb->insert(
@@ -369,7 +385,8 @@ class ImportExportTagCategory {
 	   $term_type		= 'user station';
 	   $user_id			= get_current_user_id();
 	   $input_type		= filter_input( INPUT_POST, 'input_type', FILTER_SANITIZE_STRIPPED);
-	   $users			= $wpdb->get_results(sprintf('SELECT * FROM '. $wpdb->prefix .'users'));
+	   // $users			= $wpdb->get_results(sprintf('SELECT * FROM '. $wpdb->prefix .'users'));
+	   $users			= ImportExportTagCategory::get_user_list();
 
 	   // Create User Export file
 	   $todayDate		= date('YmdHis');
@@ -403,7 +420,7 @@ class ImportExportTagCategory {
 		   }
 		   fclose($fileDirPath);
 	   } else {
-		   echo "In else condition for Post list"; exit;
+		   echo "In else condition for User Station list"; exit;
 	   }
 
 	   $wpdb->insert(
@@ -598,5 +615,5 @@ class ImportExportTagCategory {
 	   }
 }
 
-ImportExportTagCategory::init();
-?>
+// ImportExportTagCategory::init();
+new ImportExportTagCategory();
