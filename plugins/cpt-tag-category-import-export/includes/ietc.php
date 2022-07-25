@@ -3,10 +3,10 @@
  * Class ImportExportTagCategory
  */
 class ImportExportTagCategory {
-	function __construct()
+	/* function __construct()
 	{
 		$this->init();
-	}
+	} */
 	/**
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
@@ -615,5 +615,5 @@ class ImportExportTagCategory {
 	   }
 }
 
-// ImportExportTagCategory::init();
-new ImportExportTagCategory();
+ImportExportTagCategory::init();
+// new ImportExportTagCategory();
