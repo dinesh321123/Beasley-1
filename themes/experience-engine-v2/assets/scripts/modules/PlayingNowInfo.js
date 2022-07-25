@@ -96,7 +96,7 @@ class Info extends Component {
 
 		return info
 			? this.getControlMarkup(info[0] || null, info[1] || null)
-			: false;
+			: this.getControlMarkup(null, null);
 	}
 
 	getStationInfo() {
