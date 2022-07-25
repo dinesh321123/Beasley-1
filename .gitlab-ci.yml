@@ -3,6 +3,7 @@ image: docker.10up.com/10up-build/deploy-container:latest
 stages:
   - test
   - deploy
+  - post-deploy
 
 # Define paths that should be cached between jobs. Good use cases are things like node_modules_cache and .composer-cache
 cache:
@@ -63,5 +64,41 @@ deploy_prod:
     - bash ./deploy-scripts/sync-jobs-to-web.sh # Sync code again, with updated version timestamp (Should only update the .version)
   only:
     - master
+  when: manual
+  allow_failure: false
+
+cloudflare_purge_desktop:
+  stage: post-deploy
+  environment:
+    name: Staging
+    url: https://bbgistage.com/
+  script:
+    - bash ./deploy-scripts/purge-cf-cache.sh desktop
+  only:
+    - stage3
+  when: manual
+  allow_failure: false
+
+cloudflare_purge_content:
+  stage: post-deploy
+  environment:
+    name: Staging
+    url: https://bbgistage.com/
+  script:
+    - bash ./deploy-scripts/purge-cf-cache.sh content
+  only:
+    - stage3
+  when: manual
+  allow_failure: false
+
+cloudflare_purge_mobile:
+  stage: post-deploy
+  environment:
+    name: Staging
+    url: https://bbgistage.com/
+  script:
+    - bash ./deploy-scripts/purge-cf-cache.sh mobile
+  only:
+    - stage3
   when: manual
   allow_failure: false
