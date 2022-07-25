@@ -33,7 +33,8 @@ const DropDownAd = () => {
 	if (shouldRefresh) {
 		if (dropDropDownAdRef.current) {
 			// **** NO LONGER REFRESHING BECAUSE WE ADD AND REMOVE UNIT ****
-			// dropDropDownAdRef.current.refreshSlot();
+			console.log('Refreshing Dropdown');
+			dropDropDownAdRef.current.refreshSlot();
 		}
 		dispatch(dropdownAdRefreshed());
 	}
@@ -57,7 +58,7 @@ const DropDownAd = () => {
 				</div>
 			</div>
 			<Dfp
-				key={`drop-down-ad-${pageURL}`}
+				key="drop-down-ad"
 				ref={dropDropDownAdRef}
 				placeholder="div-drop-down-slot"
 				unitId={unitId}
