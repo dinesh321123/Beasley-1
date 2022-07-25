@@ -75,7 +75,6 @@ export const getSlotStat = placeholder => {
 export const placeholdersOutsideContentArray = [
 	topScrollingDivID,
 	bottomAdhesionDivID,
-	dropDownDivID,
 ];
 
 export const registerSlotStatForRefresh = (placeholder, slot) => {
