@@ -58,7 +58,7 @@ const DropDownAd = () => {
 				</div>
 			</div>
 			<Dfp
-				key="drop-down-ad"
+				key="drop-down-dfp"
 				ref={dropDropDownAdRef}
 				placeholder="div-drop-down-slot"
 				unitId={unitId}
