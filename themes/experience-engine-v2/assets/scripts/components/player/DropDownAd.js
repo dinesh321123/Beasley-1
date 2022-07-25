@@ -29,10 +29,8 @@ const DropDownAd = () => {
 	// this id is also compared in /assets/scripts/components/content/embeds/Dfp.js
 	const { unitId, unitName } = window.bbgiconfig.dfp.dropdown;
 
-	// **** NOTE: NO LONGER REFRESHING BECAUSE WE ADD AND REMOVE UNIT ****
 	if (shouldRefresh) {
 		if (dropDropDownAdRef.current) {
-			// **** NO LONGER REFRESHING BECAUSE WE ADD AND REMOVE UNIT ****
 			console.log('Refreshing Dropdown');
 			dropDropDownAdRef.current.refreshSlot();
 		}
