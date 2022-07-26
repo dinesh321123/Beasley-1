@@ -1,0 +1,22 @@
+.post-finder h4 {
+	clear: both;
+	display: inline-block;
+}
+
+.search h4{
+	display: block;
+}
+
+.post-finder .post-date {
+	float: right;
+	margin-right: 2em;
+	color: #aaa;
+}
+
+.post-finder .add {
+	float: right;
+}
+
+.post-finder .list {
+	float: none;
+}
