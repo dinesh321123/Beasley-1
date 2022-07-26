@@ -405,9 +405,6 @@ class Dfp extends PureComponent {
 		googletag.cmd.push(() => {
 			const size = bbgiconfig.dfp.sizes[unitName];
 			const slot = googletag.defineSlot(adjustedUnitId, size, placeholder);
-			console.log(
-				`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
-			);
 
 			// If Slot was already defined this will be null
 			// Ignored to fix the exception
@@ -791,6 +788,10 @@ class Dfp extends PureComponent {
 			}
 
 			registerSlotStatForRefresh(placeholder, slot);
+
+			console.log(
+				`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			);
 
 			this.setState({ slot, prebidEnabled });
 			return true;
