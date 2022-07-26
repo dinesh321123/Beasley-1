@@ -91,7 +91,8 @@ export const registerSlotStatForRefresh = (placeholder, slot) => {
 	) {
 		console.log(`Creating slotStat for ${placeholder}`);
 		const slotStat = getSlotStat(placeholder);
-		slotStat.shouldRefresh = true;
+		// Set refresh flag to true for all Ads except DropDown
+		slotStat.shouldRefresh = placeholder !== dropDownDivID;
 		slotStat.slot = slot;
 	}
 };

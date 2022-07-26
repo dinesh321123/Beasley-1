@@ -405,6 +405,9 @@ class Dfp extends PureComponent {
 		googletag.cmd.push(() => {
 			const size = bbgiconfig.dfp.sizes[unitName];
 			const slot = googletag.defineSlot(adjustedUnitId, size, placeholder);
+			console.log(
+				`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			);
 
 			// If Slot was already defined this will be null
 			// Ignored to fix the exception
@@ -911,8 +914,6 @@ class Dfp extends PureComponent {
 
 		if (slot) {
 			const { googletag } = window;
-			// Remove Slot Stat Property
-			delete getSlotStatsCollectionObject()[placeholder];
 
 			if (prebidEnabled) {
 				console.log(`Removing Ad Unit From Prebid: ${adjustedUnitId}`);
@@ -922,10 +923,26 @@ class Dfp extends PureComponent {
 			}
 
 			console.log(`Destroying Slot: ${placeholder}`);
-
 			if (googletag && googletag.destroySlots) {
 				googletag.destroySlots([slot]);
 			}
+
+			// Remove Slot Stat Property
+			delete getSlotStatsCollectionObject()[placeholder];
+
+			console.log(
+				`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			);
+
+			/*
+			// FOR DEBUG - SHOW ALL SLOTS
+			googletag
+				.pubads()
+				.getSlots()
+				.forEach(function(slot) {
+					console.log(slot.getSlotElementId());
+				});
+			*/
 		}
 	}
 

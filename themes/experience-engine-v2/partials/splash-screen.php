@@ -21,7 +21,9 @@ $color = $colors['--brand-primary'];
 			top: 0;
 			z-index: 999999;
 		}
-
+	</style>
+</div>
+		<!--
 		.splash-screen-logo {
 			<?php if ( $custom_logo_id ) : ?>
 				background-image: url(<?php echo esc_url( bbgi_get_image_url( $custom_logo_id, 250, 250, 'crop', true ) ); ?>);
@@ -35,7 +37,7 @@ $color = $colors['--brand-primary'];
 			top: 50%;
 			transform: translate(-50%, -50%);
 			width: 250px;
-		}	
+		}
 
 		.splash-screen-progress {
 			bottom: 0;
@@ -79,7 +81,7 @@ $color = $colors['--brand-primary'];
 			to { left: 110%; width: 10%;}
 		}
 	</style>
-	
+
 	<div class="splash-screen-logo">
 		<div class="splash-screen-progress">
 			<div class="splash-screen-line"></div>
@@ -88,3 +90,4 @@ $color = $colors['--brand-primary'];
 		</div>
 	</div>
 </div>
+-->
