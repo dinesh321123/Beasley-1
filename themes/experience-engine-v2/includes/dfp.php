@@ -165,7 +165,7 @@ googletag.cmd.push(function() {
 
 	{$dfp_ad_lazy_loading}
 
-	// googletag.pubads().disableInitialLoad(); // MFP 09/17/2020 - display() will only register the ad slot. No ad content will be loaded until a second action is taken. We will send a refresh() after all slots are defined.
+	googletag.pubads().disableInitialLoad(); // MFP 09/17/2020 - display() will only register the ad slot. No ad content will be loaded until a second action is taken. We will send a refresh() after all slots are defined.
 	{$dfp_ad_single_request}
 	googletag.enableServices();
 
