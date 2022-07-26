@@ -57,7 +57,7 @@ export const getSlotStatsCollectionObject = () => {
 
 export const getSlotStat = placeholder => {
 	if (!placeholder) {
-		throw Error('NULL Slot ID Param in getSlotStat()');
+		throw Error('NULL Placeholder Param in getSlotStat()');
 	}
 
 	const slotStatsObject = getSlotStatsCollectionObject();
@@ -77,12 +77,9 @@ export const placeholdersOutsideContentArray = [
 	bottomAdhesionDivID,
 ];
 
-export const registerSlotStatForRefresh = (placeholder, slot) => {
+export const registerSlotStatForRefresh = placeholder => {
 	if (!placeholder) {
 		throw Error('NULL Placeholder Param in registerSlotStatForRefresh()');
-	}
-	if (!slot) {
-		throw Error('NULL Slot Param in registerSlotStatForRefresh()');
 	}
 
 	if (
@@ -93,46 +90,38 @@ export const registerSlotStatForRefresh = (placeholder, slot) => {
 		const slotStat = getSlotStat(placeholder);
 		// Set refresh flag to true for all Ads except DropDown
 		slotStat.shouldRefresh = placeholder !== dropDownDivID;
-		slotStat.slot = slot;
 	}
 };
 
-const getInterstitialSlotFromGAM = googletag => {
+const getSlotsFromGAM = (googletag, placeHolderArray) => {
 	const allSlots = googletag.pubads().getSlots();
-	const interstitialSlotArray = allSlots.filter(
-		s => s.getSlotElementId() === interstitialDivID,
+	console.log(`AD STACK CURRENTLY HOLDS ${allSlots.length} ADS`);
+	return allSlots.filter(
+		s => placeHolderArray.indexOf(s.getSlotElementId()) > -1,
 	);
-	return interstitialSlotArray && interstitialSlotArray.length > 0
-		? interstitialSlotArray[0]
-		: null;
 };
 
 export const doPubadsRefreshForAllRegisteredAds = googletag => {
 	const statsCollectionObject = getSlotStatsCollectionObject();
 	const statsObjectKeys = Object.keys(statsCollectionObject);
 	if (statsObjectKeys) {
-		const statsObjKeysToRefresh = statsObjectKeys.filter(
+		const placeholdersToRefresh = statsObjectKeys.filter(
 			statsKey =>
 				statsCollectionObject[statsKey].shouldRefresh ||
 				placeholdersOutsideContentArray.includes(statsKey),
 		);
-		if (statsObjKeysToRefresh) {
-			const slotList = statsObjKeysToRefresh.map(
-				statsKey => statsCollectionObject[statsKey].slot,
-			);
-			if (slotList) {
-				const slotsToRefreshArray = [...slotList.values()];
-				const interstitialSlot = getInterstitialSlotFromGAM(googletag);
-				if (interstitialSlot) {
-					slotsToRefreshArray.push(interstitialSlot);
-				}
-				googletag.pubads().refresh(slotsToRefreshArray);
-			}
-			// Mark Slots as shown
-			statsObjKeysToRefresh.forEach(statsKey => {
-				statsCollectionObject[statsKey].shouldRefresh = false;
-			});
+		placeholdersToRefresh.push(interstitialDivID); // Add Interstitial To List Of Placeholders To Refresh
+
+		const slotList = getSlotsFromGAM(googletag, placeholdersToRefresh);
+		if (slotList) {
+			// const slotsToRefreshArray = [...slotList.values()];
+			googletag.pubads().refresh(slotList);
 		}
+
+		// Mark All Slots as shown
+		statsObjectKeys.forEach(statsKey => {
+			statsCollectionObject[statsKey].shouldRefresh = false;
+		});
 	}
 };
 

@@ -789,9 +789,9 @@ class Dfp extends PureComponent {
 
 			registerSlotStatForRefresh(placeholder, slot);
 
-			console.log(
-				`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
-			);
+			// console.log(
+			//	`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			// );
 
 			this.setState({ slot, prebidEnabled });
 			return true;
@@ -931,9 +931,9 @@ class Dfp extends PureComponent {
 			// Remove Slot Stat Property
 			delete getSlotStatsCollectionObject()[placeholder];
 
-			console.log(
-				`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
-			);
+			// console.log(
+			// 	`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			// );
 
 			/*
 			// FOR DEBUG - SHOW ALL SLOTS
