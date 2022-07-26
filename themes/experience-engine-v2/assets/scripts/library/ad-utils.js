@@ -97,6 +97,16 @@ export const registerSlotStatForRefresh = (placeholder, slot) => {
 	}
 };
 
+const getInterstitialSlotFromGAM = googletag => {
+	const allSlots = googletag.pubads().getSlots();
+	const interstitialSlotArray = allSlots.filter(
+		s => s.getSlotElementId() === interstitialDivID,
+	);
+	return interstitialSlotArray && interstitialSlotArray.length > 0
+		? interstitialSlotArray[0]
+		: null;
+};
+
 export const doPubadsRefreshForAllRegisteredAds = googletag => {
 	const statsCollectionObject = getSlotStatsCollectionObject();
 	const statsObjectKeys = Object.keys(statsCollectionObject);
@@ -111,7 +121,12 @@ export const doPubadsRefreshForAllRegisteredAds = googletag => {
 				statsKey => statsCollectionObject[statsKey].slot,
 			);
 			if (slotList) {
-				googletag.pubads().refresh([...slotList.values()]);
+				const slotsToRefreshArray = [...slotList.values()];
+				const interstitialSlot = getInterstitialSlotFromGAM(googletag);
+				if (interstitialSlot) {
+					slotsToRefreshArray.push(interstitialSlot);
+				}
+				googletag.pubads().refresh(slotsToRefreshArray);
 			}
 			// Mark Slots as shown
 			statsObjKeysToRefresh.forEach(statsKey => {
