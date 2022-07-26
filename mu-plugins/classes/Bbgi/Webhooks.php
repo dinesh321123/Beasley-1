@@ -148,17 +148,10 @@ class Webhooks extends \Bbgi\Module {
 	 */
 	public function do_lazy_webhook( $post_id, $opts = [] ) {
 
-		$host = $_SERVER['HTTP_HOST'];
-
-		if (strpos($host, "coyote") > 0 || strpos($host, "kdwn") > 0 || strpos($host, "kklz") > 0 || strpos($host, "jammin") > 0 || strpos($host, "vgs") > 0) {
-			$this->log('Not running vegas webhooks', ["site" => $host]);
-			return false;
-		}
-
 		$site_id = get_current_blog_id();
 		$only_published = isset( $opts['only_published' ] ) ? $opts['only_published' ] : true;
 
-		//$this->log( 'do_lazy_webook called.', [ 'post_id' => $post_id, 'opts' => $opts ] );
+		$this->log( 'do_lazy_webhook called.', [ 'post_id' => $post_id, 'opts' => $opts ] );
 
 		if ( ! isset( $this->pending[ $site_id ] ) && $this->needs_webhook( $post_id, $only_published ) ) {
 			$publisher = get_option( 'ee_publisher', false );
@@ -173,7 +166,7 @@ class Webhooks extends \Bbgi\Module {
 
 			return true;
 		} else {
-			//$this->log('a pending webhook exists for site: ' . $site_id . ' or needs_webhook returned false' );
+			$this->log('a pending webhook exists for site needs_webhook returned false', [ "post_id" => $post_id] );
 			return false;
 		}
 	}
@@ -204,7 +197,7 @@ class Webhooks extends \Bbgi\Module {
 
 		// Abort if notification URL isn't set
 		if ( ! $base_url || ! $publisher || ! $appkey ) {
-			//$this->log( 'do_webhook notification url is not set.', $debug_params );
+			$this->log( 'do_webhook notification url is not set.', $debug_params );
 			return;
 		}
 
