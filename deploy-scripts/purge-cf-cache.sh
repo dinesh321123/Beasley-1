@@ -28,4 +28,4 @@ while read -r line; do
 
 done\
   < \
-<(grep -i '.*|.*|Enterprise Website' ./sites.txt)
+<(grep -i '.*|.*|Enterprise Website' ./deploy-scripts/sites.txt)
