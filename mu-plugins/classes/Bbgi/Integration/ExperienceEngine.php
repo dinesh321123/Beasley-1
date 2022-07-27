@@ -164,8 +164,6 @@ class ExperienceEngine extends \Bbgi\Module {
 			}
 
 			error_log($this->log_prefix() . "cached contents from $path into group: experience_engine_api-{$cache_key} for $cache_time seconds\n");
-		} else {
-			error_log($this->log_prefix() . "served from cache contents from $path in group: experience_engine_api-{$cache_key}\n");
 		}
 
 		return $response;

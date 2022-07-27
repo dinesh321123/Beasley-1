@@ -117,9 +117,8 @@ class Webhooks extends \Bbgi\Module {
 	 * @return bool
 	 */
 	public function do_shutdown() {
-		$this->log( 'shutdown called' );
 		if ( ! empty( $this->pending ) ) {
-			$this->log( 'pending is not empty');
+			$this->log( 'shutdown called', ["pending" => "is not empty"] );
 			foreach( $this->pending as $site_id => $pending_webhook ) {
 				$this->log( 'do_webhook' , [ 'site_id' => $site_id ] );
 				$this->do_webhook(
@@ -133,7 +132,7 @@ class Webhooks extends \Bbgi\Module {
 
 			return true;
 		} else {
-			$this->log( 'pending is empty');
+			//$this->log( 'shutdown called', ["pending" => "is empty"] );
 			return false;
 		}
 	}
@@ -384,7 +383,7 @@ class Webhooks extends \Bbgi\Module {
 
 
 		if ( is_wp_error( $response ) ) {
-			$this->log('Failed Response');
+			$this->log('Cloudflare Response', ["errormessage" => $response->get_error_message()]);
 		} else {
 			$this->log('Cloudflare Response', [ "response" => json_encode( $response )]);
 		}

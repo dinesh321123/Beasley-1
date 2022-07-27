@@ -17,8 +17,46 @@ class GeneralSettingsFrontRendering {
 		add_filter('query_vars', array( __CLASS__, 'add_query_vars'));
 
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
+		add_action( 'template_redirect', array( __CLASS__,'feed_headers' ) );
 	}
+	function feed_headers(){
+		if ( !is_feed()) {
+			return;
+		}
+		$obj = get_queried_object();
+		if (  empty($obj)) {
+			$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home-feed';
+		} else if (is_archive()) {
+			if (isset($obj->slug)) {
+				$headerCacheTag[] = "archive" . "-" . $obj->slug.'-feed';
+			}
+			if (isset($wp_query->query['post_type'])) {
+				$headerCacheTag[] = "archive-" . $wp_query->query['post_type'].'-feed';
+				$headerCacheTag[] = $wp_query->query['post_type'].'-feed';
+			}
+		}  else {
+			global $post;
+			$currentPostType	= "";
+			$currentPostSlug	= "";
+			if ( get_post_type() ) :
+				$currentPostType = get_post_type();
+				$headerCacheTag[] = $currentPostType.'-feed';
+				if ($currentPostType == "episode") {
+					$headerCacheTag[] = "podcast-feed";
+				}
+			endif;
+			if (  isset( $post->post_name ) && $post->post_name != "" ) :
+				$currentPostSlug = "-".$post->post_name;
+			endif;
+			$headerCacheTag[] = $currentPostType.$currentPostSlug.'-feed';
+		}
 
+
+		header("Cache-Tag: " . implode("-feed,", $headerCacheTag) , true);
+		header("X-Cache-BBGI-Tag: " . implode("-feed,", $headerCacheTag) , true);
+
+
+	}
 	function show_404_for_disabled_feeds() {
 		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
 			global $wp_query;
