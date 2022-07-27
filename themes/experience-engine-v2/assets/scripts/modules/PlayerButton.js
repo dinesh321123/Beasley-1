@@ -23,15 +23,6 @@ class PlayerButton extends Component {
 	}
 
 	componentDidMount() {
-		// TDSdk is loaded asynchronously, so we need to wait till its loaded and
-		// parsed by browser, and only then start initializing the player
-		const tdinterval = setInterval(() => {
-			if (window.TDSdk) {
-				this.setUpPlayer();
-				clearInterval(tdinterval);
-			}
-		}, 500);
-
 		window.addEventListener('online', this.onOnline);
 		window.addEventListener('offline', this.onOffline);
 	}
@@ -44,7 +35,7 @@ class PlayerButton extends Component {
 	/**
 	 * Sets up the TdPlayer
 	 */
-	setUpPlayer() {
+	setUpPlayer(callbackToPlayStation) {
 		const { initTdPlayer } = this.props;
 
 		// @see: https://userguides.tritondigital.com/spc/tdplay2/
@@ -77,7 +68,7 @@ class PlayerButton extends Component {
 			elements: [{ id: 'sync-banner', width: 320, height: 50 }],
 		});
 
-		initTdPlayer(tdmodules);
+		initTdPlayer(tdmodules, callbackToPlayStation);
 	}
 
 	handleOnline() {
@@ -94,7 +85,13 @@ class PlayerButton extends Component {
 	 */
 	handlePlay() {
 		const { station, playStation } = this.props;
-		playStation(station);
+
+		// Load Triton If Not Done So
+		if (!window.TDSdk) {
+			this.setUpPlayer(this.handlePlay); // handlePlay() called back
+		} else {
+			playStation(station);
+		}
 	}
 
 	getPlayerAdThreshold() {
@@ -227,6 +224,7 @@ PlayerButton.defaultProps = {
 	station: '',
 	inDropDown: false,
 	customTitle: null,
+	player: {},
 };
 
 PlayerButton.propTypes = {
@@ -242,7 +240,7 @@ PlayerButton.propTypes = {
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
 	duration: PropTypes.number.isRequired,
-	player: PropTypes.shape({}).isRequired,
+	player: PropTypes.shape({}),
 	playerType: PropTypes.string.isRequired,
 };
 

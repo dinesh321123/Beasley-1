@@ -81,8 +81,8 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 		// Triton Player SDK
 		// Documentation: https://userguides.tritondigital.com/spc/tdplay2/
-		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
-		wp_script_add_data( 'td-sdk', 'async', true );
+		// wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
+		// wp_script_add_data( 'td-sdk', 'async', true );
 
 		// Google Tag Manager
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
@@ -191,7 +191,6 @@ EOL;
 
 		$deps = array(
 			'googletag',
-			'td-sdk',
 			'iframe-resizer',
 			'branded-content-scripts'
 		);
