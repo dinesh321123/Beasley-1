@@ -74,3 +74,5 @@ themes/greatermedia/vendor/
 /themes/experience-engine-new/bundle/app.js
 /themes/experience-engine-v2/bundle/
 /wpmvc/
+
+object-cache.php
