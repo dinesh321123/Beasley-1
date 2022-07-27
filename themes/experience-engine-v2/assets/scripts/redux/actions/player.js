@@ -250,7 +250,7 @@ function errorCatcher(prefix = '') {
 	};
 }
 
-function loadTritonLibrary(dispatch, modules, callbackToPlayStation) {
+function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
 	const tritonLibElementName = 'tritonPlayerLibElement';
 	if (!document.getElementById(tritonLibElementName)) {
 		const tritonIncludeScript = document.createElement('script');
@@ -262,9 +262,42 @@ function loadTritonLibrary(dispatch, modules, callbackToPlayStation) {
 			'https://sdk.listenlive.co/web/2.9/td-sdk.min.js',
 		);
 		tritonIncludeScript.onload = () => {
-			dispatch(initTdPlayer(modules, callbackToPlayStation));
+			dispatch(initTdPlayer(station, callbackToPlayStation));
 		};
 	}
+}
+
+function getTdModules(station) {
+	const tdmodules = [];
+
+	tdmodules.push({
+		id: 'MediaPlayer',
+		playerId: 'td_container',
+		techPriority: ['Html5'],
+		idSync: {
+			station,
+		},
+		geoTargeting: {
+			desktop: { isActive: false },
+			iOS: { isActive: false },
+			android: { isActive: false },
+		},
+	});
+
+	tdmodules.push({
+		id: 'NowPlayingApi',
+	});
+
+	tdmodules.push({
+		id: 'TargetSpot',
+	});
+
+	tdmodules.push({
+		id: 'SyncBanners',
+		elements: [{ id: 'sync-banner', width: 320, height: 50 }],
+	});
+
+	return tdmodules;
 }
 
 /**
@@ -272,9 +305,9 @@ function loadTritonLibrary(dispatch, modules, callbackToPlayStation) {
  *
  * @param {*} modules
  */
-export function initTdPlayer(modules, callbackToPlayStation) {
+export function initTdPlayer(station, callbackToPlayStation) {
 	return dispatch => {
-		function doInitTdPlayer(modules) {
+		function doInitTdPlayer() {
 			let adSyncedTimeout = false;
 
 			function dispatchSyncedStart() {
@@ -289,14 +322,14 @@ export function initTdPlayer(modules, callbackToPlayStation) {
 
 			window.tdplayer = new window.TDSdk({
 				configurationError: errorCatcher('Configuration Error'),
-				coreModules: modules,
+				coreModules: getTdModules(station),
 				moduleError: errorCatcher('Module Error'),
 			});
 
 			// Play Immediately If A Callback Param Was Included
 			if (callbackToPlayStation) {
 				window.tdplayer.addEventListener('player-ready', () =>
-					callbackToPlayStation(),
+					dispatch(callbackToPlayStation()),
 				);
 			}
 
@@ -357,9 +390,9 @@ export function initTdPlayer(modules, callbackToPlayStation) {
 
 		if (!window.TDSdk) {
 			// loadTritonLibrary() will recall this initTdPlayer() function when js is loaded.
-			loadTritonLibrary(dispatch, modules, callbackToPlayStation);
+			loadTritonLibrary(dispatch, station, callbackToPlayStation);
 		} else {
-			doInitTdPlayer(modules);
+			doInitTdPlayer();
 		}
 	};
 }
@@ -522,7 +555,13 @@ export const playAudio = (
  */
 export const playStation = station => dispatch => {
 	console.log(`playStation() - ${station}`);
-	play('tdplayer', station)(dispatch);
+
+	// Load Triton If We Have Not Done So Yet
+	if (!window.TDSdk) {
+		initTdPlayer(station, () => play('tdplayer', station))(dispatch);
+	} else {
+		play('tdplayer', station)(dispatch);
+	}
 };
 /**
  * Action Creator for playing an audio file using the omnyplayer.

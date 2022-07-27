@@ -32,45 +32,6 @@ class PlayerButton extends Component {
 		window.removeEventListener('offline', this.onOffline);
 	}
 
-	/**
-	 * Sets up the TdPlayer
-	 */
-	setUpPlayer(callbackToPlayStation) {
-		const { initTdPlayer } = this.props;
-
-		// @see: https://userguides.tritondigital.com/spc/tdplay2/
-		const tdmodules = [];
-
-		tdmodules.push({
-			id: 'MediaPlayer',
-			playerId: 'td_container',
-			techPriority: ['Html5'],
-			idSync: {
-				station: this.props.station,
-			},
-			geoTargeting: {
-				desktop: { isActive: false },
-				iOS: { isActive: false },
-				android: { isActive: false },
-			},
-		});
-
-		tdmodules.push({
-			id: 'NowPlayingApi',
-		});
-
-		tdmodules.push({
-			id: 'TargetSpot',
-		});
-
-		tdmodules.push({
-			id: 'SyncBanners',
-			elements: [{ id: 'sync-banner', width: 320, height: 50 }],
-		});
-
-		initTdPlayer(tdmodules, callbackToPlayStation);
-	}
-
 	handleOnline() {
 		this.setState({ online: true });
 	}
@@ -85,13 +46,7 @@ class PlayerButton extends Component {
 	 */
 	handlePlay() {
 		const { station, playStation } = this.props;
-
-		// Load Triton If Not Done So
-		if (!window.TDSdk) {
-			this.setUpPlayer(this.handlePlay); // handlePlay() called back
-		} else {
-			playStation(station);
-		}
+		playStation(station);
 	}
 
 	getPlayerAdThreshold() {
@@ -235,7 +190,6 @@ PlayerButton.propTypes = {
 	adPlayback: PropTypes.bool.isRequired,
 	gamAdPlayback: PropTypes.bool.isRequired,
 	adSynced: PropTypes.bool.isRequired,
-	initTdPlayer: PropTypes.func.isRequired,
 	playStation: PropTypes.func.isRequired,
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
@@ -256,7 +210,6 @@ export default connect(
 		duration: player.duration,
 	}),
 	{
-		initTdPlayer: actions.initTdPlayer,
 		playStation: actions.playStation,
 		pause: actions.pause,
 		resume: actions.resume,
