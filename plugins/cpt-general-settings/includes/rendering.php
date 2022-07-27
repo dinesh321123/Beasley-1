@@ -27,6 +27,7 @@ class GeneralSettingsFrontRendering {
 		if (  empty($obj)) {
 			$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home-feed';
 		} else if (is_archive()) {
+			global $wp_query;
 			if (isset($obj->slug)) {
 				$headerCacheTag[] = "archive" . "-" . $obj->slug.'-feed';
 			}
@@ -35,6 +36,7 @@ class GeneralSettingsFrontRendering {
 				$headerCacheTag[] = $wp_query->query['post_type'].'-feed';
 			}
 		}  else {
+
 			global $post;
 			$currentPostType	= "";
 			$currentPostSlug	= "";
