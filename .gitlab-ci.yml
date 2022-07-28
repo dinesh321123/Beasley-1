@@ -69,36 +69,30 @@ deploy_prod:
 
 cloudflare_purge_desktop:
   stage: post-deploy
-  environment:
-    name: Staging
-    url: https://bbgistage.com/
   script:
     - bash ./deploy-scripts/purge-cf-cache.sh desktop
   only:
     - stage3
+    - master
   when: manual
   allow_failure: false
 
 cloudflare_purge_content:
   stage: post-deploy
-  environment:
-    name: Staging
-    url: https://bbgistage.com/
   script:
     - bash ./deploy-scripts/purge-cf-cache.sh content
   only:
     - stage3
+    - master
   when: manual
   allow_failure: false
 
 cloudflare_purge_mobile:
   stage: post-deploy
-  environment:
-    name: Staging
-    url: https://bbgistage.com/
   script:
     - bash ./deploy-scripts/purge-cf-cache.sh mobile
   only:
     - stage3
+    - master
   when: manual
   allow_failure: false
