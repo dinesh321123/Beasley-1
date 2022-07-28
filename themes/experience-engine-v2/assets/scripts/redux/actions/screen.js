@@ -105,7 +105,7 @@ export const fetchPage = (url, options = {}) => async dispatch => {
 			console.log(`${station_play_link_matched[1].toUpperCase()}`);
 			// TODO: Dispatch play event with station in payload
 			dispatch(playStation(station_play_link_matched[1].toUpperCase()));
-			return;
+			// return;
 		}
 
 		dispatch({ type: ACTION_LOADING_PAGE, url });
