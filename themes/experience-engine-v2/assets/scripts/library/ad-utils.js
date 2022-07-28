@@ -113,10 +113,16 @@ export const doPubadsRefreshForAllRegisteredAds = googletag => {
 		placeholdersToRefresh.push(interstitialDivID); // Add Interstitial To List Of Placeholders To Refresh
 
 		const slotList = getSlotsFromGAM(googletag, placeholdersToRefresh);
-		if (slotList) {
-			// const slotsToRefreshArray = [...slotList.values()];
-			googletag.pubads().refresh(slotList);
-		}
+
+		// Push JS processing to next cycle for better Lighthouse Score
+		setTimeout(() => {
+			if (slotList) {
+				// const slotsToRefreshArray = [...slotList.values()];
+				googletag.cmd.push(() => {
+					googletag.pubads().refresh(slotList);
+				});
+			}
+		}, 0);
 
 		// Mark All Slots as shown
 		statsObjectKeys.forEach(statsKey => {
