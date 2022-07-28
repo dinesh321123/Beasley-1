@@ -54,7 +54,7 @@
 						</div>
 						<button id='listen-live-button'>
 							<?php get_template_part( 'partials/player-button' ); ?>
-							&nbsp;Listen Live
+							&nbsp;<span class="listen-live-button-text"></span>
 						</button>
 
 					</div>

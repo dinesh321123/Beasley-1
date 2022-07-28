@@ -194,6 +194,12 @@
 	  height:50px;
 	  line-height:50px;
 	  font-weight:700;
+	  & .listen-live-button-text:after {
+			content: "Listen Live";
+			@media(--max-medium-viewport) {
+				content: "Listen";
+			}
+		}
 	  & #player-button-div > div.controls > div > div > button {
 		height:33px;
 		width:33px;
