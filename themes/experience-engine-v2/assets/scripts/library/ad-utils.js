@@ -115,14 +115,14 @@ export const doPubadsRefreshForAllRegisteredAds = googletag => {
 		const slotList = getSlotsFromGAM(googletag, placeholdersToRefresh);
 
 		// Push JS processing to next cycle for better Lighthouse Score
-		setTimeout(() => {
-			if (slotList) {
+		if (slotList) {
+			setTimeout(() => {
 				// const slotsToRefreshArray = [...slotList.values()];
 				googletag.cmd.push(() => {
 					googletag.pubads().refresh(slotList);
 				});
-			}
-		}, 0);
+			}, 0);
+		}
 
 		// Mark All Slots as shown
 		statsObjectKeys.forEach(statsKey => {

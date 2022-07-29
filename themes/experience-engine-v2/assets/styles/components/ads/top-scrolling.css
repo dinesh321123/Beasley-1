@@ -9,6 +9,9 @@
 
 #div-top-scrolling-slot {
 	height: var(--ad-leaderboard-initial-height);
+	@media(--max-large-ads-viewport) {
+		height: 90px;
+	}
 	@media(--max-medium-viewport) {
 		height: 50px;
 	}
