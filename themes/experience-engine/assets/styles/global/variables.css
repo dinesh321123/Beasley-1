@@ -44,4 +44,3 @@
 @custom-media --min-small-viewport (min-width: 480px);
 @custom-media --max-medium-viewport (max-width: 768px);
 @custom-media --max-xlarge-viewport (max-width: 1240px);
-@custom-media --max-large-ads-viewport (max-width: 1020px);
