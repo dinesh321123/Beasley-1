@@ -20,7 +20,7 @@
 #inner-content {
 	margin-top: var(--inner-content-top-margin);
 	@media(--max-large-ads-viewport) {
-		margin-top: 144px;
+		margin-top: 134px;
 	}
 	@media(--max-medium-viewport) {
 		margin-top: 94px;
