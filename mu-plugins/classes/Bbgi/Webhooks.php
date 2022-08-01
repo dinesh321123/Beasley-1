@@ -43,15 +43,30 @@ class Webhooks extends \Bbgi\Module {
 		$blog_id = get_current_blog_id();
 		$details = get_blog_details( $blog_id );
 
-		error_log(
-			sprintf(
-				'[#%d - %s] %s - %s',
-				$blog_id,
-				$details->blogname,
-				$message,
-				print_r( $params, true )
-			)
+		$logMessage = sprintf(
+			'[#%d - %s] %s - %s',
+			$blog_id,
+			$details->blogname,
+			$message,
+			print_r( $params, true )
 		);
+
+		if ( defined( 'WP_CLI' ) && \WP_CLI ) {
+			try {
+				\WP_CLI::log( $logMessage );
+			} catch ( \Exception $e ) {
+				//do nothing here
+			}
+
+		} else if($this->is_wp_minions()){
+			try {
+				syslog( LOG_ERR, $logMessage );
+			} catch (Exception $e) {
+				error_log( "minions logging worked outside of syndications");
+			}
+		} else {
+			error_log( $logMessage );
+		}
 	}
 
 
@@ -341,6 +356,7 @@ class Webhooks extends \Bbgi\Module {
 		if ( !empty($categories)) {
 			foreach ($categories as $category) {
 				$cache_tags[] = 'archive-' . $category->slug;
+				$cache_tags[] = 'archive-' .$category->slug.'-feed';
 			}
 		}
 
@@ -352,7 +368,7 @@ class Webhooks extends \Bbgi\Module {
 
 		if (!empty($posttype)) {
 			$cache_tags[] = 'archive-' . $posttype;
-
+			$cache_tags[] =  $posttype.'-feed';
 			if ($posttype == 'episode') {
 				$cache_tags[] = 'podcast';
 			}
