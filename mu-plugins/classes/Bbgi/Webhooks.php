@@ -356,6 +356,7 @@ class Webhooks extends \Bbgi\Module {
 		if ( !empty($categories)) {
 			foreach ($categories as $category) {
 				$cache_tags[] = 'archive-' . $category->slug;
+				$cache_tags[] = 'archive-' .$category->slug.'-feed';
 			}
 		}
 
@@ -367,7 +368,7 @@ class Webhooks extends \Bbgi\Module {
 
 		if (!empty($posttype)) {
 			$cache_tags[] = 'archive-' . $posttype;
-
+			$cache_tags[] =  $posttype.'-feed';
 			if ($posttype == 'episode') {
 				$cache_tags[] = 'podcast';
 			}
