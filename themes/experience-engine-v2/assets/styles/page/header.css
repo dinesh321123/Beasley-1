@@ -198,6 +198,7 @@
 			content: "Listen Live";
 			@media(--max-medium-viewport) {
 				content: "Listen";
+				font-size: 13.5px;
 			}
 		}
 	  & #player-button-div > div.controls > div > div > button {
