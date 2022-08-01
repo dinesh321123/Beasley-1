@@ -51,6 +51,7 @@ mu-plugins/post-finder/
 !/plugins/vimeovideoselector
 !/plugins/affiliate-marketing-selection
 !/plugins/cpt-magazine
+!/plugins/miniorange-saml-20-single-sign-on
 
 themes/index.php
 themes/twentyfourteen
