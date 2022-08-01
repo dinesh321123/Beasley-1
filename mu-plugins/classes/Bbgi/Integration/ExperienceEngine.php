@@ -456,7 +456,7 @@ class ExperienceEngine extends \Bbgi\Module {
         }
 
 		$request_url = 'https://api.cloudflare.com/client/v4/zones/'.$zone_id.'/purge_cache';
-		$data = [ "tags" => [$_SERVER['HTTP_HOST'].'-'.'home', $_SERVER['HTTP_HOST'].'-'.'home-feed'] ];
+		$data = [ "tags" => [$_SERVER['HTTP_HOST'].'-'.'home', $_SERVER['HTTP_HOST'].'-home-feed'] ];
 
 		$response = wp_remote_post( $request_url, array(
 				'method' => 'POST',
