@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6945fb1d58a24524df841317bbd685c7",
+    "content-hash": "0b5ce6a3826d3c4e189de84e474c4ddb",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -149,16 +149,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.231.10",
+            "version": "3.231.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e46b7c5fcb70fadf38079755982cc1d3f0583c41"
+                "reference": "76db7b327e023c7bbce77a0bfc9fb4d559e765b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e46b7c5fcb70fadf38079755982cc1d3f0583c41",
-                "reference": "e46b7c5fcb70fadf38079755982cc1d3f0583c41",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/76db7b327e023c7bbce77a0bfc9fb4d559e765b3",
+                "reference": "76db7b327e023c7bbce77a0bfc9fb4d559e765b3",
                 "shasum": ""
             },
             "require": {
@@ -232,7 +232,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2022-07-20T18:17:18+00:00"
+            "time": "2022-08-01T18:18:21+00:00"
         },
         {
             "name": "composer/installers",
@@ -1424,15 +1424,15 @@
         },
         {
             "name": "wpackagist-plugin/advanced-custom-fields",
-            "version": "5.12.1",
+            "version": "5.12.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/advanced-custom-fields/",
-                "reference": "tags/5.12.1"
+                "reference": "tags/5.12.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.5.12.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.5.12.3.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
@@ -1876,15 +1876,15 @@
     "packages-dev": [
         {
             "name": "wpackagist-plugin/user-switching",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/user-switching/",
-                "reference": "tags/1.6.0"
+                "reference": "tags/1.7.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/user-switching.1.6.0.zip"
+                "url": "https://downloads.wordpress.org/plugin/user-switching.1.7.0.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
