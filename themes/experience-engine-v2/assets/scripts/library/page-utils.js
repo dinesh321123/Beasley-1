@@ -1,3 +1,5 @@
+let nextPageScrollPos = 0;
+
 const getPageStatStack = () => {
 	let { PageStatsArray } = window;
 	if (!PageStatsArray) {
@@ -7,7 +9,7 @@ const getPageStatStack = () => {
 	return PageStatsArray;
 };
 
-const getLastPageStat = () => {
+const getPriorPageStat = () => {
 	const pageStatsArray = getPageStatStack();
 	if (pageStatsArray && pageStatsArray.length > 0) {
 		return pageStatsArray[pageStatsArray.length - 1];
@@ -16,23 +18,31 @@ const getLastPageStat = () => {
 	return null;
 };
 
-const processLastPageStatAndRemove = () => {
+const removeTailAndProcessPrior = () => {
 	const pageStatsArray = getPageStatStack();
-	const lastPageStat = pageStatsArray.pop();
-	console.log(`Back button detected, scrolling to ${lastPageStat.scrollPos}`);
-	if (lastPageStat && lastPageStat.scrollPos) {
-		window.scrollTo(window.scrollX, lastPageStat.scrollPos);
-	}
+	const priorPageStat = pageStatsArray.pop();
+
+	console.log(
+		`Back button detected, scrolling to ${priorPageStat.scrollPos} on ${priorPageStat.pageUrl}`,
+	);
 
 	// set lastContentTopMargin holder for DFP to reference in ad-utils.js
-	if (lastPageStat && lastPageStat.contentTopMargin) {
-		window.lastContentTopMargin = lastPageStat.contentTopMargin;
+	if (priorPageStat && priorPageStat.contentTopMargin) {
+		window.lastContentTopMargin = priorPageStat.contentTopMargin;
 	} else {
 		window.lastContentTopMargin = 44;
 	}
+
+	if (priorPageStat && priorPageStat.scrollPos) {
+		// window.scrollTo(window.scrollX, priorPageStat.scrollPos);
+		nextPageScrollPos = priorPageStat.scrollPos;
+	} else {
+		nextPageScrollPos = 0;
+	}
 };
 
-const processNewPageStatAndAdd = pageUrl => {
+const processNewPageStatAndAddTail = pageUrl => {
+	console.log(`Detected New Page - Adding ${pageUrl}`);
 	if (!pageUrl) {
 		throw Error('NULL Url Param in addNewPageStat()');
 	}
@@ -49,16 +59,31 @@ const processNewPageStatAndAdd = pageUrl => {
 	if (pageStatsArray.length > 5) {
 		pageStatsArray.shift();
 	}
-	window.scrollTo(window.scrollX, 0);
+
+	window.lastContentTopMargin = 0; // Turn Off DFP Adjustment
+	// window.scrollTo(window.scrollX, 0);
+	nextPageScrollPos = 0;
 };
 
-export default function doNewPageProcessing(lastUrl, newUrl) {
-	const lastPageStat = getLastPageStat();
+export function doUpdatePageStack(leavingPageUrl, newPageUrl) {
+	console.log(`leavingPageUrl: ${leavingPageUrl}`);
+	console.log(`newPageUrl: ${newPageUrl}`);
+	const priorPageStat = getPriorPageStat();
+
+	if (priorPageStat) {
+		console.log(`Prior URL: ${priorPageStat.pageUrl}`);
+	} else {
+		console.log('No Prior Page Stat');
+	}
 
 	// If we are going back a page
-	if (lastPageStat && lastPageStat.pageUrl === lastUrl) {
-		processLastPageStatAndRemove();
+	if (priorPageStat && priorPageStat.pageUrl === newPageUrl) {
+		removeTailAndProcessPrior(priorPageStat);
 	} else {
-		processNewPageStatAndAdd(newUrl);
+		processNewPageStatAndAddTail(leavingPageUrl);
 	}
+}
+
+export function doPageStackScroll(leavingPageUrl, newPageUrl) {
+	window.scrollTo(window.scrollX, nextPageScrollPos);
 }

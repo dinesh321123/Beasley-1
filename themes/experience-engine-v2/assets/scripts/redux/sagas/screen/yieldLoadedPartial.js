@@ -10,6 +10,8 @@ import { ACTION_LOADED_PARTIAL, hideSplashScreen } from '../../actions/screen';
  * @param { Object } action Dispatched action
  */
 function* yieldLoadedPartial(action) {
+	console.log('LOADED PARTIAL');
+
 	// Destructure from action payload
 	const { document: pageDocument } = action;
 

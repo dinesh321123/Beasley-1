@@ -125,9 +125,17 @@ const adjustContentMarginForTopAd = newAdHeight => {
 
 		const lastVerticalScroll = window.scrollY;
 		// If First Time Shown, use holder variable set in page-utils
-		const lastContentTopMargin = window.topAdsShown
-			? parseInt(contentStyle.marginTop, 10)
-			: window.lastContentTopMargin;
+		const lastContentTopMargin =
+			window.topAdsShown || !window.lastContentTopMargin
+				? parseInt(contentStyle.marginTop, 10)
+				: window.lastContentTopMargin;
+
+		console.log(
+			`FOR DEBUG - contentStyle.marginTop: ${parseInt(
+				contentStyle.marginTop,
+				10,
+			)}  window.lastContentTopMargin ${window.lastContentTopMargin}`,
+		);
 
 		const adContainerTopMargin = parseInt(adContainerStyle.marginTop, 10);
 		const newContentTopMargin =
