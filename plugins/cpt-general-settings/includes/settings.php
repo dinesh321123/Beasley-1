@@ -153,6 +153,9 @@ class CommonSettings {
 	public static function allow_fontawesome_posttype_list() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'listicle_cpt', 'affiliate_marketing' )  );
 	}
+	public function allow_require_feature_img_posttype_list() {
+		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'post', 'page', 'listicle_cpt', 'affiliate_marketing' )  );
+	}
 
 	/**
 	 * Enqueues admin scripts and styles.
@@ -167,6 +170,20 @@ class CommonSettings {
 			$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 			wp_register_style('general-font-awesome',GENERAL_SETTINGS_CPT_URL . "assets/css/general-font-awesome". $postfix .".css", array(), GENERAL_SETTINGS_CPT_VERSION, 'all');
 			wp_enqueue_style('general-font-awesome');
+		}
+
+		if ( in_array( $typenow, CommonSettings::allow_require_feature_img_posttype_list() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			// wp_register_script( 'required-feature-img-admin-js', GENERAL_SETTINGS_CPT_URL . "assets/js/require-featured-image-onedit". $postfix .".js", array( 'jquery' ) );
+			wp_register_script( 'required-feature-img-admin-js', GENERAL_SETTINGS_CPT_URL . "assets/js/require-featured-image-onedit.js", array( 'jquery' ) );
+			wp_enqueue_script( 'required-feature-img-admin-js' );
+
+			wp_localize_script(
+					'required-feature-img-admin-js',
+					'passedFromServer',
+					array(
+							'jsWarningHtml' => __( '<strong>This entry has no featured image.</strong> Please set one. You need to set a featured image before publishing.', 'require-featured-image' ),
+					)
+			);
 		}
 	}
 }
