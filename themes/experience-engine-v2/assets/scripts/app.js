@@ -20,6 +20,9 @@ import { isIOS, isSafari, isWindowsBrowser } from './library';
  * The App's entry point.
  */
 const App = () => {
+	// Turn Off Auto Scroll Behavior
+	window.history.scrollRestoration = 'manual';
+
 	useEffect(() => {
 		if (isSafari()) {
 			document.body.classList.add('is-safari');

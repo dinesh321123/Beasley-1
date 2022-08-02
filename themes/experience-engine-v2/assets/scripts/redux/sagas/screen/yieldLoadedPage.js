@@ -12,8 +12,14 @@ import {
 	ACTION_HISTORY_HTML_SNAPSHOT,
 	hideSplashScreen,
 } from '../../actions/screen';
-import { slugify, dispatchEvent, updateCanonicalUrl } from '../../../library';
+import {
+	slugify,
+	dispatchEvent,
+	updateCanonicalUrl,
+	getCanonicalUrl,
+} from '../../../library';
 import resetScrollToTop from '../../utilities/player/resetScrollToTop';
+import doNewPageProcessing from '../../../library/page-utils';
 
 /**
  * Updates window.history with new url and title
@@ -57,6 +63,8 @@ function* yieldLoadedPage(action) {
 	// Update BBGI Config
 	yield call(manageBbgiConfig, pageDocument);
 
+	const lastUrl = getCanonicalUrl();
+
 	updateCanonicalUrl(url);
 
 	if (ad_reset_digital_enabled === 'on' && window.fireResetPixel) {
@@ -93,9 +101,10 @@ function* yieldLoadedPage(action) {
 	// Update Scripts.
 	yield call(manageScripts, parsedHtml.scripts, screenStore.scripts);
 
-	console.log('***Yield Loading Page and NOT scrolling to top');
+	console.log('***Yield Loading Page Adjusting Scroll');
 	// make sure the user scroll bar is into view.
 	// yield call(scrollIntoView);
+	yield call(doNewPageProcessing, lastUrl, url);
 
 	// make sure to hide splash screen.
 	yield put(hideSplashScreen());
