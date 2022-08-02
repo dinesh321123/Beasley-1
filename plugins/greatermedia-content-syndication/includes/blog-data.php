@@ -1,8 +1,4 @@
 <?php
-/**
- * Created by Eduard
- * Date: 06.11.2014 18:19
- */
 
 class BlogData {
 
@@ -139,7 +135,6 @@ class BlogData {
 
 	public static function run( $syndication_id, $offset = 0, $force = false ) {
 		$result = false;
-
 		self::$syndication_id = $syndication_id;
 		self::$log = array();
 		self::set_primary_db();
@@ -226,10 +221,11 @@ class BlogData {
 		$content_home_url = trailingslashit( home_url() );
 		restore_current_blog();
 
-		// @remove after debugging
+		$syndicated_posts = []
+
 		foreach ( $result as $single_post ) {
 			try {
-				$post_id = self::ImportPosts(
+				$imported_post = self::ImportPosts(
 						$single_post['post_obj'],
 						$single_post['post_metas'],
 						$defaults,
@@ -247,10 +243,16 @@ class BlogData {
 						$force
 				);
 
-				if ( $post_id > 0 ) {
-					array_push( $imported_post_ids, $post_id );
-					self::NormalizeLinks( $post_id, $my_home_url, $content_home_url );
-					error_log( self::syndication_log_prefix(). " Success for import of post \"".$single_post['post_obj']->post_title."\" ($post_id)" );
+				$syndicated_posts[$imported_post->post_id] = $imported_post;
+
+
+
+
+				if ( $imported_post->post_id > 0 ) {
+					$imported_post_ids[] = $imported_post->post_id;
+					self::NormalizeLinks( $imported_post->post_id, $my_home_url, $content_home_url );
+					error_log( self::syndication_log_prefix(). " Success for import of post \"".$single_post['post_obj']->post_title."\" ($imported_post->post_id)" );
+					do_action('bbgi_syndication_post_imported', $imported_post->post_id);
 				}
 			} catch( Exception $e ) {
 				self::log( "[EXCEPTION-DURING-IMPORT_POST]: %s", $e->getMessage() );
@@ -258,9 +260,11 @@ class BlogData {
 			}
 		}
 
+
+
 		$imported_post_ids = implode( ',', $imported_post_ids );
 
-		self::add_or_update( 'syndication_imported_posts', $imported_post_ids );
+
 		set_transient( 'syndication_imported_posts', $imported_post_ids, WEEK_IN_SECONDS * 4 );
 
 		// Only allow iterating past the first 10 results with wp-cli (edge case)
@@ -269,6 +273,10 @@ class BlogData {
 			if( $max_pages > $offset )  {
 				self::_run( $syndication_id, $offset );
 			}
+		}
+
+		if ( count($syndicated_posts) > 0 ) {
+			do_action('bbgi_syndication_posts_imported', $syndicated_posts );
 		}
 
 		// self::log( "Finished processing content with offset %s", $offset );
@@ -601,11 +609,15 @@ class BlogData {
 	 * @param string $featured
 	 * @param array  $attachments
 	 *
-	 * @return int|\WP_Error
+	 * @return int|\WP_Error|SyndicationPostImportDetail
 	 */
 	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $page_metas, $listicle_metas,$am_metas, $am_item_photo_attachment, $show_metas, $show_logo_metas, $term_tax, $force_update = false ) {
+
+		$return_post_detail = new SyndicationPostImportDetail();
+
+
 		if ( ! $post ) {
-			return;
+			return $return_post_detail;
 		}
 
 		self::log( 'Start importing "%s" (%s) post...', $post->post_title, $post->ID );
@@ -615,6 +627,10 @@ class BlogData {
 		$post_title = sanitize_text_field( $post->post_title );
 		$post_type = sanitize_text_field( $post->post_type );
 		$post_status = sanitize_text_field( $defaults['status'] );
+
+		$return_post_detail->status = $post_status;
+		$return_post_detail->post_type = $post_type;
+		$return_post_detail->slug = $post_name;
 
 		// create unique meta value for imported post
 		$post_hash = md5( trim( $post->post_title ) . $post->post_modified );
@@ -701,6 +717,8 @@ class BlogData {
 			$existing_post = current( $existing );
 			$post_id = intval( $existing_post->ID );
 
+			$return_post_detail->post_id = $post_id;
+
 			// update existing post only if it hasn't been updated manually
 			$detached = get_post_meta( $post_id, 'syndication-detached', true );
 			$detached = apply_filters( 'beasley_syndication_post_is_detached', filter_var( $detached, FILTER_VALIDATE_BOOLEAN ) );
@@ -724,6 +742,7 @@ class BlogData {
 		} else {
 			$post_id = wp_insert_post( $args );
 			$updated = 1;
+			$return_post_detail->post_id = $post_id;
 
 			self::log( 'New post (%s) has been created in the destination site.', $post_id );
 		}
@@ -744,6 +763,7 @@ class BlogData {
 				}
 			}
 
+			//TODO: Set return sydication detail categories and
 			if ( ! empty( $term_tax ) ) {
 				foreach ( $term_tax as $taxonomy => $terms ) {
 					if ( ! empty( $terms[0] ) && taxonomy_exists( $taxonomy ) ) {
@@ -919,7 +939,7 @@ class BlogData {
 		 */
 		do_action( 'greatermedia-post-update', $post_id, $post, $updated );
 
-		return $post_id;
+		return $return_post_detail;
 	}
 
 	/**

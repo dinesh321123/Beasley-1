@@ -29,6 +29,7 @@ if ( file_exists( __DIR__ . '/custom_packages/vendor/autoload.php' ) ) {
 }
 
 require_once __DIR__ . '/includes/syndication-cpt.php';
+require_once __DIR__ . '/includes/syndication-post-import-detail.php';
 require_once __DIR__ . '/includes/blog-data.php';
 require_once __DIR__ . '/includes/cron-tasks.php';
 require_once __DIR__ . '/includes/content-kit.php';

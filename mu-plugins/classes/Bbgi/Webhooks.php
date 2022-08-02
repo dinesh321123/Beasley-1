@@ -19,6 +19,7 @@ class Webhooks extends \Bbgi\Module {
 		add_action( 'wp_trash_post', array( $this, 'do_trash_post_webhook' ) );
 		add_action( 'delete_post', array( $this, 'do_delete_post_webhook' ) );
 		add_action( 'transition_post_status', [ $this, 'do_transition_from_publish' ], 10, 3 );
+		add_action( 'bbgi_syndication_posts_imported', [ $this, 'do_syndication_posts_imported' ], 10, 1 );
 		add_action( 'shutdown', [ $this, 'do_shutdown' ] );
 
 
@@ -39,6 +40,16 @@ class Webhooks extends \Bbgi\Module {
 		}
 	}
 
+	/**
+	 * Determines if code is executing during syndication.
+	 *
+	 * @return bool
+	 */
+	protected function is_syndication_process(): bool
+	{
+		return ( defined( 'WP_IMPORTING' ) && WP_IMPORTING );
+	}
+
 	protected function write_to_log( $message, $params = [] ) {
 		$blog_id = get_current_blog_id();
 		$details = get_blog_details( $blog_id );
@@ -51,23 +62,15 @@ class Webhooks extends \Bbgi\Module {
 			print_r( $params, true )
 		);
 
-		if ( defined( 'WP_CLI' ) && \WP_CLI ) {
-			try {
-				\WP_CLI::log( $logMessage );
-			} catch ( \Exception $e ) {
-				//do nothing here
-			}
+		error_log( "minions logging worked outside of syndications");
 
-		} else if($this->is_wp_minions()){
-			try {
-				syslog( LOG_ERR, $logMessage );
-			} catch (Exception $e) {
-				error_log( "minions logging worked outside of syndications");
-			}
-		} else {
-			error_log( $logMessage );
-		}
 	}
+
+
+	public function do_syndication_posts_imported( $syndication_post_details) {
+		//todo: call do_lazy_webhook for each SyndicationPostImportDetail in $syndication_post_details array
+	}
+
 
 
 	/**
@@ -76,6 +79,10 @@ class Webhooks extends \Bbgi\Module {
 	 * @param int $post_id The Post id that changed
 	 */
 	public function do_save_post_webhook( $post_id, $post) {
+		if ($this->is_syndication_process()) {
+			return;
+		}
+
 		$type = '';
 		$categories = '';
 		$shows = '';
@@ -94,6 +101,10 @@ class Webhooks extends \Bbgi\Module {
 	 * @param int $post_id The Post id that changed
 	 */
 	public function do_trash_post_webhook( $post_id ) {
+		if ($this->is_syndication_process()) {
+			return;
+		}
+
 		$this->do_lazy_webhook( $post_id, [ 'source' => 'wp_trash_post' ] );
 	}
 
@@ -103,6 +114,10 @@ class Webhooks extends \Bbgi\Module {
 	 * @param int $post_id The Post id that changed
 	 */
 	public function do_delete_post_webhook( $post_id ) {
+		if ($this->is_syndication_process()) {
+			return;
+		}
+
 		$this->do_lazy_webhook( $post_id, [ 'source' => 'delete_post' ] );
 	}
 
@@ -115,6 +130,10 @@ class Webhooks extends \Bbgi\Module {
 	 * @param \WP_Post $post The Post id that changed
 	 */
 	public function do_transition_from_publish( $new_status, $old_status, $post ) {
+		if ($this->is_syndication_process()) {
+			return;
+		}
+
 		// if we're transitioning from publish to anything else we need to call the webhook.
 		if ( $new_status !== 'publish' && $old_status === 'publish' ) {
 			$this->do_lazy_webhook( $post->ID, [
