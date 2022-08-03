@@ -12,7 +12,7 @@ use Bbgi\Integration\Google;
 		$current_url = home_url( add_query_arg( array(), $wp->request ) );
 		$categories = get_the_category( $post );
 		$categoriesSlug = wp_list_pluck($categories, 'slug' );
-
+		error_log('IN the archive part part of header',$categoriesSlug);
 		array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){
 			if(strpos($current_url, $value) !== false) {
 				$headerCacheTag[] =   "archive" . "-" . $value;
