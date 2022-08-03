@@ -50,7 +50,6 @@ mu-plugins/post-finder/
 !/plugins/wp-multisite-user-sync
 !/plugins/vimeovideoselector
 !/plugins/affiliate-marketing-selection
-!/plugins/cpt-magazine
 
 themes/index.php
 themes/twentyfourteen
