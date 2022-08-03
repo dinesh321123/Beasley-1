@@ -109,20 +109,6 @@ try {
 }
 
 function scrollToSegmentation(type, item, heading_item = null) {
-	var headerStyleHeight = 0;
-	var headerContainer = document.getElementsByClassName( 'header-and-news-container' );
-	if (headerContainer[0]) {
-		var headerStyle = window.getComputedStyle(headerContainer[0]);
-		headerStyleHeight = headerStyle.height ? Math.ceil(parseFloat(headerStyle.height)) : 0;
-	}
-
-	var pagiStyleHeight = 0;
-	var paginationHeadSection = document.getElementsByClassName( 'pagination-head-section' );
-	if (paginationHeadSection[0]) {
-		var pagiStyle = window.getComputedStyle(paginationHeadSection[0]);
-		pagiStyleHeight = pagiStyle.height ? Math.ceil(parseFloat(pagiStyle.height)) : 0;
-	}
-
 	var gotoID = null;
 	if(item) {
 		gotoID = document.getElementById(jQuery.trim(type) + '-segment-item-' + item);
@@ -131,13 +117,9 @@ function scrollToSegmentation(type, item, heading_item = null) {
 		gotoID = document.getElementById(jQuery.trim(type) + '-segment-header-item-' + heading_item);
 	}
 	if(gotoID) {
-		var headerOffset = ( headerStyleHeight + pagiStyleHeight );
-		var gotoIDPosition = gotoID.getBoundingClientRect().top;
-		var offsetPosition = gotoIDPosition + window.pageYOffset - headerOffset;
-	
-		window.scrollTo({
-			top: offsetPosition,
-			behavior: "smooth"
+		gotoID.scrollIntoView({
+			block: "start",
+			behavior: "smooth",
 		});
 	}
 }
