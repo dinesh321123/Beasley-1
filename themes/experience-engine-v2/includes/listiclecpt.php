@@ -47,7 +47,9 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 			echo '<div class="pagination-head-section" style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
 
 			for ($i=1; $i <= $total_segment; $i++) {
-				$scroll_to = ($i - 1) * 10;
+						$diff = $segment_item_total - (( $i - 1 ) * 10);
+						$diff = ($diff % 10 == 0) ? $diff - 1 : $diff;
+						$scroll_to = $is_desc ? ( floor( $diff / 10 ) * 10 ) : ( ($i - 1) * 10 );
 
 				$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
 				$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
