@@ -4,26 +4,29 @@ use Bbgi\Integration\Google;
 <?php
 
 	$headerCacheTag = [];
-
+	global $post;
 	if (  is_front_page() ) {
 		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
 	} else if (is_archive()) {
-		$obj = get_queried_object();
+		global $wp;
+		$current_url = home_url( add_query_arg( array(), $wp->request ) );
+		$categories = get_the_category( $post );
+		$categoriesSlug = wp_list_pluck($categories, 'slug' );
 
-
-		if (isset($obj->slug)) {
-			$headerCacheTag[] = "archive" . "-" . $obj->slug;
-		}
+		array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){
+			if(strpos($current_url, $value) !== false) {
+				$headerCacheTag[] =   "archive" . "-" . $value;
+			}
+		});
 
 		if (isset($wp_query->query['post_type'])) {
 			$headerCacheTag[] = "archive-" . $wp_query->query['post_type'];
 			$headerCacheTag[] = $wp_query->query['post_type'];
 		}
-
 	}  else {
-		global $post;
 		$currentPostType	= "";
 		$currentPostSlug	= "";
+
 		if ( get_post_type() ) :
 			$currentPostType = get_post_type();
 			$headerCacheTag[] = $currentPostType;
