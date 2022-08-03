@@ -93,6 +93,9 @@ endif;
 
 if ( ! function_exists( 'ee_load_more_attributes' ) ) :
 	function ee_load_more_attributes() {
+		if (is_archive() && is_category()) {
+			return 'class="load-more" autoload="true"';	
+		}
 		return 'class="load-more"';
 	}
 endif;
@@ -199,8 +202,8 @@ endif;
 
 
 if ( ! function_exists( 'ee_the_permalink' ) ) :
-	function ee_the_permalink() {
-		$post = get_post();
+	function ee_the_permalink( $post = null ) {
+		$post = get_post($post);
 
 		if ( ! empty( get_post_meta( $post->ID, 'fp_syndicated_post', true ) ) ) {
 			the_permalink( $post );
@@ -305,3 +308,74 @@ if ( ! function_exists( 'ee_get_sponsor_url' ) ) :
 	}
 endif;
 
+if ( ! function_exists( 'ee_get_category_posts_query' ) ) :
+	function ee_get_category_posts_query( $category = null, $exclude_posts = array(), $total_category_archive_featured = 0 ) {
+		$category_archive_per_page = 8;
+		$category_archive_current_page = get_query_var('paged');
+		$category_archive_current_page = max( 1, $category_archive_current_page );
+		$category_archive_offset_start = 20 + (5 - $total_category_archive_featured);
+		$offset = $category_archive_offset_start + (($category_archive_current_page - 2) * $category_archive_per_page);
+		$category_archive_query_params = array(
+			'post_type'   => 'any',
+			'orderby' => 'date',
+            'order'   => 'DESC',
+			'category_name'  => $category,
+			'paged'  => $category_archive_current_page,
+			'post__not_in' => $exclude_posts
+		);
+
+		if ( ee_is_first_page() ) {
+			$category_archive_query_params['posts_per_page'] = $category_archive_offset_start;
+		} else {
+			$category_archive_query_params['offset'] = $offset;
+			$category_archive_query_params['posts_per_page'] = $category_archive_per_page;
+		}
+		// echo "<pre>", print_r($category_archive_query_params), "</pre>";
+		return new \WP_Query( $category_archive_query_params );
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
+	function ee_get_category_featured_posts( $category = null ) {
+		$response = array();
+		$response['exclude_posts'] = array();
+		$response['result'] = null;
+
+		if($category == null) {
+			return $response;
+		}
+		
+		$posts = get_posts([
+			'post_type'      => 'magazine_cpt',
+			'post_status'    => 'publish',
+			'meta_query'     => [
+				[
+					'key'     => 'select_category_magazine_cpt',
+					'value'   => $category,
+				]
+			]
+		]);
+		
+		if( is_array( $posts ) && ! empty( $posts ) && ( count( $posts ) > 0 ) ) {
+			$limit = 5;
+			$post = $posts[0];
+			$meta_key = 'category_featured_post_meta_box';
+
+			$featured_posts = get_post_meta( $post->ID, $meta_key, true );
+			$featured_posts = implode( ',', array_slice( explode( ',', $featured_posts ), 0, $limit ) );
+
+			$ids = explode( ',', $featured_posts );
+			$args = array(
+				'post_type'           => 'any',
+				'post__in'            => $ids,
+				'orderby'             => 'post__in',
+				'ignore_sticky_posts' => true,
+			);
+			$query = new \WP_Query( $args );
+			$response['exclude_posts'] = $ids;
+			$response['result'] = $query;
+			return $response;
+		}
+		return $response;
+	}
+endif;
