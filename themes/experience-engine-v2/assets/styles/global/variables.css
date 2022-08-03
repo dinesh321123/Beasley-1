@@ -48,6 +48,8 @@
 @custom-media --max-xsmall-viewport (max-width: 400px);
 @custom-media --max-small-viewport (max-width: 480px);
 @custom-media --max-medium-viewport (max-width: 767px);
+@custom-media --max-xmedium-viewport (max-width: 768px);
 @custom-media --max-xlmedium-viewport (max-width: 991px);
+@custom-media --max-xl2medium-viewport (max-width: 992px);
 @custom-media --max-xlarge-viewport (max-width: 1240px);
 

@@ -1,5 +1,4 @@
-/*
-.loading {
+.ca-autoload-loading {
 	color: transparent !important;
 	left: -2px;
 	min-height: .8rem;
@@ -9,8 +8,8 @@
 	top: -2px;
 }
 
-.loading::after {
-	animation: loading 500ms infinite linear;
+.ca-autoload-loading::after {
+	animation: autoload-loading 500ms infinite linear;
 	border: .1rem solid var(--brand-primary);
 	border-radius: 50%;
 	border-right-color: transparent;
@@ -27,7 +26,7 @@
 	z-index: 1;
 }
 
-@keyframes loading {
+@keyframes autoload-loading {
 	0% {
 		transform: rotate(0deg);
 	}
@@ -36,4 +35,3 @@
 		transform: rotate(360deg);
 	}
 }
-*/
