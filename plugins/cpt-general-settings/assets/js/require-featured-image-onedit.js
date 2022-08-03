@@ -13,16 +13,16 @@ jQuery(document).ready(function($) {
 		if ($img.length === 0) {
 			return passedFromServer.jsWarningHtml;
         }
-        if (featuredImageIsTooSmall()) {
+        /* if (featuredImageIsTooSmall()) {
             return passedFromServer.jsSmallHtml;
-        }
+        } */
         return '';
     }
 
     // Contains three test "failures" at page load
     var isTooSmallTrials = [ true, true, true ];
 
-    function featuredImageIsTooSmall() {
+    /* function featuredImageIsTooSmall() {
         // A weird polling issue in Chrome made this necessary
         if (isGutenberg()) {
             var $img = $('.editor-post-featured-image').find('img');
@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
         featuredImage.src = pathToImage;
 
         return featuredImage.width < passedFromServer.width || featuredImage.height < passedFromServer.height;
-    }
+    } */
 
     function disablePublishAndWarn(message) {
         createMessageAreaIfNeeded();
