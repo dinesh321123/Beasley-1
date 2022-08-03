@@ -28,8 +28,12 @@ class SyndicationTerms
 }
 
 
+
+
 class SyndicationPostImportDetail
 {
+
+	public $type = 'syndication';
 
 	/**
 	 * @var string
@@ -42,6 +46,7 @@ class SyndicationPostImportDetail
 	private $categories = null;
 	private $shows = null;
 	private $tags = null;
+
 
 	function __construct() {
 		$this->categories = new SyndicationTerms();
@@ -58,6 +63,11 @@ class SyndicationPostImportDetail
 	 * @var int
 	 */
 	public $post_id = 0;
+
+	/**
+	 * @var int
+	 */
+	public $site_id = 0;
 
 	public function getCategories(): SyndicationTerms {
 		return $this->categories;

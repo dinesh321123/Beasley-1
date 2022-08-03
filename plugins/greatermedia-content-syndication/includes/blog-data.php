@@ -221,7 +221,7 @@ class BlogData {
 		$content_home_url = trailingslashit( home_url() );
 		restore_current_blog();
 
-		$syndicated_posts = []
+		$syndicated_posts = [];
 
 		foreach ( $result as $single_post ) {
 			try {
@@ -245,14 +245,10 @@ class BlogData {
 
 				$syndicated_posts[$imported_post->post_id] = $imported_post;
 
-
-
-
 				if ( $imported_post->post_id > 0 ) {
 					$imported_post_ids[] = $imported_post->post_id;
 					self::NormalizeLinks( $imported_post->post_id, $my_home_url, $content_home_url );
 					error_log( self::syndication_log_prefix(). " Success for import of post \"".$single_post['post_obj']->post_title."\" ($imported_post->post_id)" );
-					do_action('bbgi_syndication_post_imported', $imported_post->post_id);
 				}
 			} catch( Exception $e ) {
 				self::log( "[EXCEPTION-DURING-IMPORT_POST]: %s", $e->getMessage() );
@@ -276,7 +272,13 @@ class BlogData {
 		}
 
 		if ( count($syndicated_posts) > 0 ) {
-			do_action('bbgi_syndication_posts_imported', $syndicated_posts );
+
+			/**
+			 * Fires immediately after syndicated posts are imported.
+			 *
+			 * $param SyndicationPostImportDetail[] Array of posts imported.
+			 */
+			do_action( 'bbgi_syndication_posts_imported', $syndicated_posts );
 		}
 
 		// self::log( "Finished processing content with offset %s", $offset );
@@ -609,12 +611,12 @@ class BlogData {
 	 * @param string $featured
 	 * @param array  $attachments
 	 *
-	 * @return int|\WP_Error|SyndicationPostImportDetail
+	 * @return SyndicationPostImportDetail
 	 */
 	public static function ImportPosts( $post, $metas, $defaults, $featured, $attachments, $gallery_attachments, $galleries, $page_metas, $listicle_metas,$am_metas, $am_item_photo_attachment, $show_metas, $show_logo_metas, $term_tax, $force_update = false ) {
 
 		$return_post_detail = new SyndicationPostImportDetail();
-
+		$return_post_detail->site_id = get_current_blog_id();
 
 		if ( ! $post ) {
 			return $return_post_detail;

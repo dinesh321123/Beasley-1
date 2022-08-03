@@ -66,9 +66,15 @@ class Webhooks extends \Bbgi\Module {
 
 	}
 
-
-	public function do_syndication_posts_imported( $syndication_post_details) {
+	/**
+	 * @param \SyndicationPostImportDetail[] $syndication_post_details
+	 * @return void
+	 */
+	public function do_syndication_posts_imported(array $syndication_post_details ) {
 		//todo: call do_lazy_webhook for each SyndicationPostImportDetail in $syndication_post_details array
+
+
+
 	}
 
 
