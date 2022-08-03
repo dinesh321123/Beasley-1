@@ -31,9 +31,10 @@ class GeneralSettingsFrontRendering {
 		} else if (is_archive()) {
 			global $wp;
 			$current_url = home_url( add_query_arg( array(), $wp->request ) );
+
 			$categories = get_the_category( $post );
 			$categoriesSlug = wp_list_pluck($categories, 'slug' );
-
+			error_log('IN the archive part part of render',$categoriesSlug);
 			array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){
 				if(strpos($current_url, $value) !== false) {
 					$headerCacheTag[] =   "feed" . "-" . $value;
@@ -44,9 +45,9 @@ class GeneralSettingsFrontRendering {
 				$headerCacheTag[] = "feed-" . $wp_query->query['post_type'];
 			}
 		}  else {
-
 			$currentPostType	= "";
 			$currentPostSlug	= "";
+			error_log('IN the else part of render',$post);
 			if ( get_post_type() ) :
 				$currentPostType = get_post_type();
 				$headerCacheTag[] = 'feed-'.$currentPostType;
