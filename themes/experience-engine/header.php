@@ -1,56 +1,6 @@
 <?php
 use Bbgi\Integration\Google;
 ?>
-
-<?php
-
-$headerCacheTag = [];
-global $post;
-if (  is_front_page() ) {
-	$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
-} else if (is_archive()) {
-	global $wp;
-	$current_url = home_url( add_query_arg( array(), $wp->request ) );
-	$categories = get_the_category( $post );
-	$categoriesSlug = wp_list_pluck($categories, 'slug' );
-
-	array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){
-		error_log('IN the archive part part of header'.$value.'-',$current_url);
-			if(str_contains($current_url, $value)) {
-				error_log('IN the archive part part of header-'.$value);
-				$headerCacheTag[] =   "archive" . "-" . $value;
-			}
-	});
-
-	if (isset($wp_query->query['post_type'])) {
-		$headerCacheTag[] = "archive-" . $wp_query->query['post_type'];
-		$headerCacheTag[] = $wp_query->query['post_type'];
-	}
-}  else {
-	$currentPostType	= "";
-	$currentPostSlug	= "";
-
-	if ( get_post_type() ) :
-		$currentPostType = get_post_type();
-		$headerCacheTag[] = $currentPostType;
-
-		if ($currentPostType == "episode") {
-			$headerCacheTag[] = "podcast";
-		}
-
-
-	endif;
-	if (  isset( $post->post_name ) && $post->post_name != "" ) :
-		$currentPostSlug = "-".$post->post_name;
-	endif;
-
-	$headerCacheTag[] = $currentPostType.$currentPostSlug;
-}
-
-
-header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
-header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);
-?>
 <!doctype html>
 <html lang="en">
 	<head <?php language_attributes(); ?>>
