@@ -40,7 +40,7 @@ class GeneralSettingsFrontRendering {
 			global $wp;
 			$current_url = home_url( add_query_arg( array(), $wp->request ) );
 
-			$categories = get_the_category( $post );
+			$categories = get_the_category();
 			$categoriesSlug = wp_list_pluck($categories, 'slug' );
 			error_log('IN the archive part part of render');
 			array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){

@@ -10,12 +10,12 @@ use Bbgi\Integration\Google;
 	} else if (is_archive()) {
 		global $wp;
 		$current_url = home_url( add_query_arg( array(), $wp->request ) );
-		$categories = get_the_category( $post );
+		$categories = get_the_category();
 		$categoriesSlug = wp_list_pluck($categories, 'slug' );
 
 		array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){
 			error_log('IN the archive part part of header'.$value.'-'.$current_url);
-			if(str_contains($current_url, $value)) {
+			if(strpos($current_url, $value)) {
 				error_log('IN the archive part part of header-'.$value);
 				$headerCacheTag[] =   "archive" . "-" . $value;
 			}
