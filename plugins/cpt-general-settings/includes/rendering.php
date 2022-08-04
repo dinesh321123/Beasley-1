@@ -42,8 +42,9 @@ class GeneralSettingsFrontRendering {
 
 			$categories = get_the_category( $post );
 			$categoriesSlug = wp_list_pluck($categories, 'slug' );
-			error_log('IN the archive part part of render',$categoriesSlug);
+			error_log('IN the archive part part of render');
 			array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){
+				error_log('IN the archive part part of value'.$value);
 				if(strpos($current_url, $value) !== false) {
 					$headerCacheTag[] =   "feed" . "-" . $value;
 				}
@@ -55,7 +56,7 @@ class GeneralSettingsFrontRendering {
 		}  else {
 			$currentPostType	= "";
 			$currentPostSlug	= "";
-			error_log('IN the else part of render',$post);
+			error_log('IN the else part of render'.$post);
 			if ( get_post_type() ) :
 				$currentPostType = get_post_type();
 				$headerCacheTag[] = 'feed-'.$currentPostType;

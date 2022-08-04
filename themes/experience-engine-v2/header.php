@@ -12,11 +12,12 @@ use Bbgi\Integration\Google;
 		$current_url = home_url( add_query_arg( array(), $wp->request ) );
 		$categories = get_the_category( $post );
 		$categoriesSlug = wp_list_pluck($categories, 'slug' );
-		error_log('IN the archive part part of header',$categoriesSlug);
+		error_log('IN the archive part part of header');
 		array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){
-			if(strpos($current_url, $value) !== false) {
-				$headerCacheTag[] =   "archive" . "-" . $value;
-			}
+//			if(str_contains($current_url, $value)) {
+//				error_log('IN the archive part part of header-'.$value);
+//				$headerCacheTag[] =   "archive" . "-" . $value;
+//			}
 		});
 
 		if (isset($wp_query->query['post_type'])) {

@@ -99,6 +99,8 @@ if( $explicit && $explicit == 'on' ) {
 }
 
 header( 'Content-Type: ' . feed_content_type( 'rss-http' ) . '; charset=' . get_option( 'blog_charset' ), true );
+header("Cache-Tag: " .  'feed-'.$podcast[0]->slug , true);
+header("X-Cache-BBGI-Tag: " . 'feed-'.$podcast[0]->slug  , true);
 
 echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?>
 
