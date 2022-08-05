@@ -18,6 +18,11 @@ use Bbgi\Integration\Google;
 				$headerCacheTag[] =   "archive" . "-" . $value;
 			}
 		});
+		$obj = get_queried_object();
+
+		if (isset($obj->slug)) {
+			$headerCacheTag[] = "archive" . "-" . $obj->slug;
+		}
 
 		if (isset($wp_query->query['post_type'])) {
 			$headerCacheTag[] = "archive-" . $wp_query->query['post_type'];
@@ -47,7 +52,7 @@ use Bbgi\Integration\Google;
 	}
 
 	append_current_device_to_cache_tag($headerCacheTag);
-
+	$headerCacheTag = array_unique($headerCacheTag);
 	header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
 	header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);
 ?>
