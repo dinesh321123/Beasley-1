@@ -38,14 +38,29 @@ class GeneralSettingsFrontRendering {
 			$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
 		} else if (is_archive()) {
 			global $wp;
+			$urlCatArray = [];
+
 			$current_url = home_url( add_query_arg( array(), $wp->request ) );
+			$urlArray = wp_parse_url($current_url);
 
 			$categories = get_categories();
 			$categoriesSlug = wp_list_pluck($categories, 'slug' );
 
-			array_walk($categoriesSlug, function ($value, $key) use ($current_url, &$headerCacheTag){
-				if(strpos($current_url, $value) !== false) {
-					$headerCacheTag[] =   "feed" . "-" . $value;
+			if($urlArray['path']){
+				$pathArray = explode('/',$urlArray['path']);
+				foreach($pathArray as $key=> $val){
+					if(empty($val) || $val == 'category' || sizeof($urlCatArray) > 0){
+						unset($pathArray[$key]);
+						continue;
+					}
+					$urlCatArray =  explode(',',$val);
+				}
+			}
+
+			array_walk($categoriesSlug, function ($value, $key) use ($urlCatArray, &$headerCacheTag){
+				if(in_array($value,$urlCatArray)) {
+					error_log('IN the archive part part of header-'.$value);
+					$headerCacheTag[] =   "archive" . "-" . $value;
 				}
 			});
 
