@@ -148,7 +148,7 @@ class MegamenuRecentPosts extends Module {
 					$alttext = get_post_meta($image_id, 'wp_attachment_image_alt', true);
 					$imgsrc = get_the_post_thumbnail_url($recent_posts['ID'], 'full') . "?maxwidth=345&maxheight=259&anchor=middlecenter&quality=95&zoom=1.5";
 
-					$img = printf('<img src="%s" width="%s" height="%s" loading="lazy" alt="%s" />', $imgsrc, "345", "259", $alttext);
+					$img = sprintf('<img src="%s" width="%s" height="%s" loading="lazy" alt="%s" />', $imgsrc, "345", "259", $alttext);
 
 					$post_data['thumbnail'] = $img;
 				}
