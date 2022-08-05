@@ -11,7 +11,52 @@ class GeneralSettingsFrontRendering {
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
 
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
+		add_action( 'template_redirect', array( __CLASS__,'feed_headers' ) );
 	}
+	function feed_headers(){
+		if ( !is_feed()) {
+			return;
+		}
+		global $post;
+		global $wp_query;
+		$obj = get_queried_object();
+		if ( empty($obj) ||  $wp_query->is_feed( 'current_homepage' )) {
+			$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
+		} else if (is_archive()) {
+			$urlCatArray = explode(',',$wp_query->query['category_name']);;
+
+			$categories = get_categories();
+			$categoriesSlug = wp_list_pluck($categories, 'slug' );
+
+			array_walk($categoriesSlug, function ($value, $key) use ($urlCatArray, &$headerCacheTag){
+				if(in_array($value,$urlCatArray)) {
+					$headerCacheTag[] =   "feed" . "-" . $value;
+				}
+			});
+			$obj = get_queried_object();
+
+			if (isset($obj->slug)) {
+				$headerCacheTag[] = "archive" . "-" . $obj->slug;
+			}
+			if (isset($wp_query->query['post_type'])) {
+				$headerCacheTag[] = "feed-" . $wp_query->query['post_type'];
+			}
+		}  else {
+			$currentPostType	= "";
+			$currentPostSlug	= "";
+			if ( get_post_type() ) :
+				$currentPostType = get_post_type();
+				$headerCacheTag[] = 'feed-'.$currentPostType;
+				if ($currentPostType == "episode") {
+					$headerCacheTag[] = "feed-podcast";
+				}
+			endif;
+			if (  isset( $post->post_name ) && $post->post_name != "" ) :
+				$currentPostSlug = "-".$post->post_name;
+			endif;
+			$headerCacheTag[] = 'feed-'.$currentPostType.$currentPostSlug;
+		}
+
 
 	function show_404_for_disabled_feeds() {
 		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {

@@ -2,14 +2,23 @@
 use Bbgi\Integration\Google;
 ?>
 <?php
-
 	$headerCacheTag = [];
-
+	global $post;
 	if (  is_front_page() ) {
 		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
 	} else if (is_archive()) {
-		$obj = get_queried_object();
+		global $wp_query;
+		$urlCatArray = explode(',',$wp_query->query['category_name']);;
 
+		$categories = get_categories();
+		$categoriesSlug = wp_list_pluck($categories, 'slug' );
+
+		array_walk($categoriesSlug, function ($value, $key) use ($urlCatArray, &$headerCacheTag){
+			if(in_array($value,$urlCatArray)) {
+				$headerCacheTag[] =   "archive" . "-" . $value;
+			}
+		});
+		$obj = get_queried_object();
 
 		if (isset($obj->slug)) {
 			$headerCacheTag[] = "archive" . "-" . $obj->slug;
@@ -20,10 +29,11 @@ use Bbgi\Integration\Google;
 			$headerCacheTag[] = $wp_query->query['post_type'];
 		}
 
+
 	}  else {
-		global $post;
 		$currentPostType	= "";
 		$currentPostSlug	= "";
+
 		if ( get_post_type() ) :
 			$currentPostType = get_post_type();
 			$headerCacheTag[] = $currentPostType;
@@ -42,7 +52,7 @@ use Bbgi\Integration\Google;
 	}
 
 	append_current_device_to_cache_tag($headerCacheTag);
-
+	$headerCacheTag = array_unique($headerCacheTag);
 	header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
 	header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);
 ?>
