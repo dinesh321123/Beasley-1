@@ -143,7 +143,14 @@ class MegamenuRecentPosts extends Module {
 					// $post_data['thumbnail'] = get_the_post_thumbnail_url( $recent_posts['ID'],'full' );
 					$post_data['thumbnail_show'] = $request['show_thumb'];
 					$post_data['thumbnail_size'] = isset( $request['thumb_size'] ) && $request['thumb_size'] != "" ? $request['thumb_size'] : 'full' ;
-					$post_data['thumbnail'] = get_the_post_thumbnail( $recent_posts['ID'], 'full' );
+
+					$image_id = get_post_thumbnail_id($recent_posts['ID']);
+					$alttext = get_post_meta($image_id, 'wp_attachment_image_alt', true);
+					$imgsrc = get_the_post_thumbnail_url($recent_posts['ID'], 'full') . "?maxwidth=345&maxheight=259&anchor=middlecenter&quality=95&zoom=1.5";
+
+					$img = printf('<img src="%s" width="%s" height="%s" loading="lazy" alt="%s" />', $imgsrc, "345", "259", $alttext);
+
+					$post_data['thumbnail'] = $img;
 				}
 				$recent_post_result['recent_posts'][] = $post_data;
 			}
