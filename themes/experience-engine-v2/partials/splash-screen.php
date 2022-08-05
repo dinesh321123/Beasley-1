@@ -23,9 +23,6 @@ $color = $colors['--brand-primary'];
 		}
 
 		.splash-screen-logo {
-			// <?php if ( $custom_logo_id ) : ?>
-			//	background-image: url(<?php echo esc_url( bbgi_get_image_url( $custom_logo_id, 250, 250, 'crop', true ) ); ?>);
-			// <?php endif; ?>
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: contain;
@@ -36,7 +33,6 @@ $color = $colors['--brand-primary'];
 			transform: translate(-50%, -50%);
 			width: 250px;
 		}
-
 
 		.splash-screen-progress {
 			bottom: 0;
