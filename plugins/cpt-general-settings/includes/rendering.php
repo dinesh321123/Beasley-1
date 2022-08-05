@@ -23,7 +23,7 @@ class GeneralSettingsFrontRendering {
 		if ( empty($obj) ||  $wp_query->is_feed( 'current_homepage' )) {
 			$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
 		} else if (is_archive()) {
-			$urlCatArray = explode(',',$wp_query->query['category_name']);;
+			$urlCatArray = explode(',',$wp_query->query['category_name']);
 
 			$categories = get_categories();
 			$categoriesSlug = wp_list_pluck($categories, 'slug' );
@@ -58,6 +58,11 @@ class GeneralSettingsFrontRendering {
 		}
 
 
+		header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
+		header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);
+
+
+	}
 	function show_404_for_disabled_feeds() {
 		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
 			global $wp_query;
