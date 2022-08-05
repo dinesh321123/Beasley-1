@@ -28,7 +28,6 @@ class GeneralSettingsFrontRendering {
 		return $classes;
 	}
 	function feed_headers(){
-		echo 'in';exit;
 		if ( !is_feed()) {
 			return;
 		}
@@ -38,7 +37,7 @@ class GeneralSettingsFrontRendering {
 		if ( empty($obj) ||  $wp_query->is_feed( 'current_homepage' )) {
 			$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
 		} else if (is_archive()) {
-			$urlCatArray = explode(',',$wp_query->query['category_name']);;
+			$urlCatArray = explode(',',$wp_query->query['category_name']);
 
 			$categories = get_categories();
 			$categoriesSlug = wp_list_pluck($categories, 'slug' );
