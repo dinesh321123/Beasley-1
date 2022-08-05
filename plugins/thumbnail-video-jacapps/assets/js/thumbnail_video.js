@@ -49,7 +49,7 @@
 
 function tvj_onThumbnailStartClick(event, ele) {
 	event.preventDefault();
-	$el = $(ele);
+	$el = jQuery(ele);
 	let $lazyVideo = $el.parent('.lazy-video');
 	let html = ``;
 	if($lazyVideo) {
