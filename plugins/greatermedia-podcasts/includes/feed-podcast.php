@@ -97,10 +97,9 @@ if( $explicit && $explicit == 'on' ) {
 } else {
 	$explicit = 'No';
 }
-
 header( 'Content-Type: ' . feed_content_type( 'rss-http' ) . '; charset=' . get_option( 'blog_charset' ), true );
-header("Cache-Tag: " .  'feed-'.$podcast[0]->slug , true);
-header("X-Cache-BBGI-Tag: " . 'feed-'.$podcast[0]->slug  , true);
+header("Cache-Tag: " .  'feed-'.$podcast[0]->post_name , true);
+header("X-Cache-BBGI-Tag: " . 'feed-'.$podcast[0]->post_name  , true);
 
 echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?>
 
