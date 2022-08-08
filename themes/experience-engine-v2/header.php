@@ -52,7 +52,7 @@ use Bbgi\Integration\Google;
 	}
 
 	append_current_device_to_cache_tag($headerCacheTag);
-	$headerCacheTag = array_unique($headerCacheTag);
+	// $headerCacheTag = array_unique($headerCacheTag);
 	header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
 	header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);
 ?>
