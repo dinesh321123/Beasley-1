@@ -9,6 +9,7 @@ add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
 add_filter( 'fvideos_show_video', 'ee_fvideos_show_video', 10, 2 );
 add_filter( 'tribe_events_assets_should_enqueue_frontend', '__return_false' );
+add_action( 'wp_head', 'link_tags', 8 );
 
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
@@ -478,6 +479,14 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 		}
 	}
 endif;
+
+function link_tags () {
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://https://p1.parsely.com' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://tag.simpli.fi' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://www.googletagmanager.com' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://www.google-analytics.com' );
+}
+
 
 if ( ! function_exists( 'ee_fvideos_show_video' ) ) :
 	function ee_fvideos_show_video( $show, $post_id ) {

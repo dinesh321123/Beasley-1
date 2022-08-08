@@ -214,7 +214,38 @@ export const hidePlaceholder = placeholder => {
 	}
 };
 
+const removeAllHtmlElementsExceptForLast = elementArray => {
+	if (elementArray) {
+		const numElementsToDelete = elementArray.length - 1;
+		let idx = 0;
+		while (idx < numElementsToDelete) {
+			elementArray[idx].remove();
+			idx++;
+		}
+	}
+};
+
+const removeExtraIntegratorLinksFromHead = () => {
+	// Remove Pairs of Redundant Tags That GAM Is Injecting Into Head Upon Each Ad Refresh.
+	// NOTE: THIS IS BRITTLE AND IF GAM CHANGES THEIR LINKS WE NEED TO ADJUST
+	// Currently the links like like so:
+	// <link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=wmmr.beasley.test" as="script">
+	// <script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=wmmr.beasley.test"></script>
+	const SEARCHSTRING = 'adservice.google.com/adsid/integrator.js?';
+	const linkElements = Array.from(
+		document.querySelectorAll('head > link'),
+	).filter(el => el.href && el.href.indexOf(SEARCHSTRING) > -1);
+	const scriptElements = Array.from(
+		document.querySelectorAll('head > script'),
+	).filter(el => el.src && el.src.indexOf(SEARCHSTRING) > -1);
+
+	removeAllHtmlElementsExceptForLast(linkElements);
+	removeAllHtmlElementsExceptForLast(scriptElements);
+};
+
 export const slotRenderEndedHandler = event => {
+	removeExtraIntegratorLinksFromHead();
+
 	const { slot, isEmpty, size } = event;
 	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
 		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
