@@ -76,3 +76,4 @@ themes/greatermedia/vendor/
 /wpmvc/
 
 object-cache.php
+object-cache-actual.php
