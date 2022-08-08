@@ -40,10 +40,18 @@
   }
 
 & .content-wrap {
+   padding-left: 1rem;
+   padding-right: 1rem;
+   justify-content: center;
+
 	& .dfp-slot {
 		margin-bottom: 1.775rem;
 		padding-bottom: 1.775rem;
 	}
+
+    &.description {
+	    padding-right: 0;
+    }
 }
 
 & #inner-content {
