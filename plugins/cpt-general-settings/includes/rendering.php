@@ -36,7 +36,7 @@ class GeneralSettingsFrontRendering {
 			$obj = get_queried_object();
 
 			if (isset($obj->slug)) {
-				$headerCacheTag[] = "archive" . "-" . $obj->slug;
+				$headerCacheTag[] = "feed" . "-" . $obj->slug;
 			}
 			if (isset($wp_query->query['post_type'])) {
 				$headerCacheTag[] = "feed-" . $wp_query->query['post_type'];
@@ -57,6 +57,7 @@ class GeneralSettingsFrontRendering {
 			$headerCacheTag[] = 'feed-'.$currentPostType.$currentPostSlug;
 		}
 
+		$headerCacheTag = array_unique($headerCacheTag);
 
 		header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
 		header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);

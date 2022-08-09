@@ -31,7 +31,9 @@ use Bbgi\Integration\Google;
 		}
 
 
-	}  else {
+	} else if(is_404()){
+		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'404';
+	} else {
 		$currentPostType	= "";
 		$currentPostSlug	= "";
 
