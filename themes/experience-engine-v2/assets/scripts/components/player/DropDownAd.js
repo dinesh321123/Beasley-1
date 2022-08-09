@@ -19,6 +19,7 @@ const DropDownAd = () => {
 	const isListenLiveShowing = useSelector(
 		state => state.screen.isListenLiveShowing,
 	);
+
 	if (!isListenLiveShowing && !dropDropDownAdRef.current) {
 		console.log('NOT SHOWING DD AD');
 		return false;
@@ -31,9 +32,9 @@ const DropDownAd = () => {
 
 	if (shouldRefresh) {
 		if (dropDropDownAdRef.current) {
+			console.log('Refreshing Dropdown');
 			dropDropDownAdRef.current.refreshSlot();
 		}
-
 		dispatch(dropdownAdRefreshed());
 	}
 
@@ -56,7 +57,7 @@ const DropDownAd = () => {
 				</div>
 			</div>
 			<Dfp
-				key={`drop-down-ad-${pageURL}`}
+				key="drop-down-dfp"
 				ref={dropDropDownAdRef}
 				placeholder="div-drop-down-slot"
 				unitId={unitId}

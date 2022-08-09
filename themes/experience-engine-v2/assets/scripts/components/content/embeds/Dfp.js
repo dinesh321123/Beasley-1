@@ -8,7 +8,9 @@ import {
 	slotRenderEndedHandler,
 	isNotSponsorOrInterstitial,
 	getSlotStat,
+	registerSlotStatForRefresh,
 	topScrollingDivID,
+	// dropDownDivID,
 	hidePlaceholder,
 	showSlotElement,
 	getSlotStatsCollectionObject,
@@ -785,6 +787,12 @@ class Dfp extends PureComponent {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
 			}
 
+			registerSlotStatForRefresh(placeholder, slot);
+
+			// console.log(
+			//	`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			// );
+
 			this.setState({ slot, prebidEnabled });
 			return true;
 		});
@@ -907,8 +915,6 @@ class Dfp extends PureComponent {
 
 		if (slot) {
 			const { googletag } = window;
-			// Remove Slot Stat Property
-			delete getSlotStatsCollectionObject()[placeholder];
 
 			if (prebidEnabled) {
 				console.log(`Removing Ad Unit From Prebid: ${adjustedUnitId}`);
@@ -918,17 +924,54 @@ class Dfp extends PureComponent {
 			}
 
 			console.log(`Destroying Slot: ${placeholder}`);
-
 			if (googletag && googletag.destroySlots) {
 				googletag.destroySlots([slot]);
 			}
+
+			// Remove Slot Stat Property
+			delete getSlotStatsCollectionObject()[placeholder];
+
+			// console.log(
+			// 	`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			// );
+
+			/*
+			// FOR DEBUG - SHOW ALL SLOTS
+			googletag
+				.pubads()
+				.getSlots()
+				.forEach(function(slot) {
+					console.log(slot.getSlotElementId());
+				});
+			*/
 		}
 	}
 
 	tryDisplaySlot() {
+		// const { unitName } = this.props;
+
 		if (this.state && !this.state.slot) {
 			this.registerSlot();
 		}
+
+		/*
+		if (unitName === 'drop-down') {
+			const { googletag } = window;
+			googletag.cmd.push(() => {
+				const ddSlotStat = getSlotStatsCollectionObject()[dropDownDivID];
+				if (ddSlotStat) {
+					console.log('Calling googletag.display() on DropDown Ad');
+					googletag.display(dropDownDivID);
+
+					// googletag.pubads().refresh([ddSlotStat.slot]);
+				} else {
+					console.log(
+						'Could Not Find Slot Stat For Dropdown Ad - May Not Be Configured In EE',
+					);
+				}
+			});
+		}
+		*/
 	}
 
 	render() {

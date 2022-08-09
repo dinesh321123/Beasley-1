@@ -1,14 +1,21 @@
-import { topScrollingDivID, hidePlaceholder } from '../../../library/ad-utils';
+import {
+	doPubadsRefreshForAllRegisteredAds,
+	hidePlaceholder,
+	topScrollingDivID,
+} from '../../../library/ad-utils';
 
 export default function refreshAllAds() {
 	const { prebid_enabled } = window.bbgiconfig;
-	window.topAdsShown = 0;
+
+	// Trying to keep top ad visible - no longer hide
+	window.topAdsShown = 0; // Reset Header Ad Counter
 	hidePlaceholder(topScrollingDivID);
 
 	if (!prebid_enabled) {
 		const { googletag } = window;
 		googletag.cmd.push(() => {
-			googletag.pubads().refresh();
+			// googletag.pubads().refresh();
+			doPubadsRefreshForAllRegisteredAds(googletag);
 		});
 		return; // EXIT FUNCTION
 	}
@@ -31,7 +38,8 @@ export default function refreshAllAds() {
 			pbjs.que.push(() => {
 				pbjs.setTargetingForGPTAsync();
 				logPrebidTargeting();
-				googletag.pubads().refresh();
+				// googletag.pubads().refresh();
+				doPubadsRefreshForAllRegisteredAds(googletag);
 			});
 		});
 	}

@@ -34,6 +34,8 @@
 }
 
 .footer-logo {
+	height: 75px;
+	width: 200px;
 	max-width: 200px;
 	content: var(--global-theme-footer-image);
 	margin-bottom: 1rem;

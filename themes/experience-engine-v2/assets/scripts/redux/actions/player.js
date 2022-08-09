@@ -250,81 +250,150 @@ function errorCatcher(prefix = '') {
 	};
 }
 
+function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
+	const tritonLibElementName = 'tritonPlayerLibElement';
+	if (!document.getElementById(tritonLibElementName)) {
+		const tritonIncludeScript = document.createElement('script');
+		tritonIncludeScript.setAttribute('id', tritonLibElementName);
+		tritonIncludeScript.setAttribute('async', true);
+		document.body.appendChild(tritonIncludeScript);
+		tritonIncludeScript.setAttribute(
+			'src',
+			'https://sdk.listenlive.co/web/2.9/td-sdk.min.js',
+		);
+		tritonIncludeScript.onload = () => {
+			dispatch(initTdPlayer(station, callbackToPlayStation));
+		};
+	}
+}
+
+function getTdModules(station) {
+	const tdmodules = [];
+
+	tdmodules.push({
+		id: 'MediaPlayer',
+		playerId: 'td_container',
+		techPriority: ['Html5'],
+		idSync: {
+			station,
+		},
+		geoTargeting: {
+			desktop: { isActive: false },
+			iOS: { isActive: false },
+			android: { isActive: false },
+		},
+	});
+
+	tdmodules.push({
+		id: 'NowPlayingApi',
+	});
+
+	tdmodules.push({
+		id: 'TargetSpot',
+	});
+
+	tdmodules.push({
+		id: 'SyncBanners',
+		elements: [{ id: 'sync-banner', width: 320, height: 50 }],
+	});
+
+	return tdmodules;
+}
+
 /**
  * Initializes the TdPlayer
  *
  * @param {*} modules
  */
-export function initTdPlayer(modules) {
+export function initTdPlayer(station, callbackToPlayStation) {
 	return dispatch => {
-		let adSyncedTimeout = false;
+		function doInitTdPlayer() {
+			let adSyncedTimeout = false;
 
-		function dispatchSyncedStart() {
-			// hide after 35 seconds if it hasn't been hidden yet
-			clearTimeout(adSyncedTimeout);
-			adSyncedTimeout = setTimeout(() => dispatch(adBreakSyncedHide()), 35000);
-			dispatch(adBreakSynced());
+			function dispatchSyncedStart() {
+				// hide after 35 seconds if it hasn't been hidden yet
+				clearTimeout(adSyncedTimeout);
+				adSyncedTimeout = setTimeout(
+					() => dispatch(adBreakSyncedHide()),
+					35000,
+				);
+				dispatch(adBreakSynced());
+			}
+
+			window.tdplayer = new window.TDSdk({
+				configurationError: errorCatcher('Configuration Error'),
+				coreModules: getTdModules(station),
+				moduleError: errorCatcher('Module Error'),
+			});
+
+			// Play Immediately If A Callback Param Was Included
+			if (callbackToPlayStation) {
+				window.tdplayer.addEventListener('player-ready', () =>
+					dispatch(callbackToPlayStation()),
+				);
+			}
+
+			window.tdplayer.addEventListener('stream-status', ({ data }) =>
+				dispatch(statusUpdate(data.code)),
+			);
+			window.tdplayer.addEventListener('list-loaded', ({ data }) =>
+				dispatch(nowPlayingLoaded(data)),
+			);
+			window.tdplayer.addEventListener('track-cue-point', ({ data }) =>
+				dispatch(cuePoint(data.cuePoint || {})),
+			);
+			window.tdplayer.addEventListener('speech-cue-point', ({ data }) =>
+				dispatch(cuePoint(data.cuePoint || {})),
+			);
+			window.tdplayer.addEventListener('custom-cue-point', ({ data }) =>
+				dispatch(cuePoint(data.cuePoint || {})),
+			);
+			window.tdplayer.addEventListener('ad-break-cue-point', ({ data }) =>
+				dispatch(cuePoint(data.cuePoint || {})),
+			);
+			window.tdplayer.addEventListener('ad-break-cue-point-complete', () =>
+				dispatch(cuePoint()),
+			);
+			window.tdplayer.addEventListener(
+				'ad-break-synced-element',
+				dispatchSyncedStart,
+			);
+			window.tdplayer.addEventListener('ad-playback-start', () =>
+				dispatch(adPlaybackStart()),
+			); // used to dispatchPlaybackStart
+			window.tdplayer.addEventListener('ad-playback-complete', () =>
+				dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_COMPLETE)),
+			); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE )
+			window.tdplayer.addEventListener('stream-start', () => dispatch(start()));
+			window.tdplayer.addEventListener('stream-stop', () => dispatch(end()));
+			window.tdplayer.addEventListener('ad-playback-error', () => {
+				/*
+				 * the beforeStreamStart function may be injected onto the window
+				 * object from google tag manager. This function provides a callback
+				 * when it is completed. Currently we are using it to play a preroll
+				 * from kubient when there is no preroll provided by triton. To ensure
+				 * that we do not introduce unforeseen issues we return the original
+				 * ACTION_AD_PLAYBACK_ERROR type.
+				 * */
+				console.log('ad-playback-error EVENT from Triton');
+				if (window.beforeStreamStart) {
+					window.beforeStreamStart(() =>
+						dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
+					);
+				} else {
+					console.log('Dispatching GAM Preroll Start');
+					const nowDate = new Date();
+					dispatch(gamAdPlaybackStart(nowDate.getTime()));
+				}
+			});
 		}
 
-		window.tdplayer = new window.TDSdk({
-			configurationError: errorCatcher('Configuration Error'),
-			coreModules: modules,
-			moduleError: errorCatcher('Module Error'),
-		});
-
-		window.tdplayer.addEventListener('stream-status', ({ data }) =>
-			dispatch(statusUpdate(data.code)),
-		);
-		window.tdplayer.addEventListener('list-loaded', ({ data }) =>
-			dispatch(nowPlayingLoaded(data)),
-		);
-		window.tdplayer.addEventListener('track-cue-point', ({ data }) =>
-			dispatch(cuePoint(data.cuePoint || {})),
-		);
-		window.tdplayer.addEventListener('speech-cue-point', ({ data }) =>
-			dispatch(cuePoint(data.cuePoint || {})),
-		);
-		window.tdplayer.addEventListener('custom-cue-point', ({ data }) =>
-			dispatch(cuePoint(data.cuePoint || {})),
-		);
-		window.tdplayer.addEventListener('ad-break-cue-point', ({ data }) =>
-			dispatch(cuePoint(data.cuePoint || {})),
-		);
-		window.tdplayer.addEventListener('ad-break-cue-point-complete', () =>
-			dispatch(cuePoint()),
-		);
-		window.tdplayer.addEventListener(
-			'ad-break-synced-element',
-			dispatchSyncedStart,
-		);
-		window.tdplayer.addEventListener('ad-playback-start', () =>
-			dispatch(adPlaybackStart()),
-		); // used to dispatchPlaybackStart
-		window.tdplayer.addEventListener('ad-playback-complete', () =>
-			dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_COMPLETE)),
-		); // used to dispatchPlaybackStop( ACTION_AD_PLAYBACK_COMPLETE )
-		window.tdplayer.addEventListener('stream-start', () => dispatch(start()));
-		window.tdplayer.addEventListener('stream-stop', () => dispatch(end()));
-		window.tdplayer.addEventListener('ad-playback-error', () => {
-			/*
-			 * the beforeStreamStart function may be injected onto the window
-			 * object from google tag manager. This function provides a callback
-			 * when it is completed. Currently we are using it to play a preroll
-			 * from kubient when there is no preroll provided by triton. To ensure
-			 * that we do not introduce unforeseen issues we return the original
-			 * ACTION_AD_PLAYBACK_ERROR type.
-			 * */
-			console.log('ad-playback-error EVENT from Triton');
-			if (window.beforeStreamStart) {
-				window.beforeStreamStart(() =>
-					dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
-				);
-			} else {
-				console.log('Dispatching GAM Preroll Start');
-				const nowDate = new Date();
-				dispatch(gamAdPlaybackStart(nowDate.getTime()));
-			}
-		});
+		if (!window.TDSdk) {
+			// loadTritonLibrary() will recall this initTdPlayer() function when js is loaded.
+			loadTritonLibrary(dispatch, station, callbackToPlayStation);
+		} else {
+			doInitTdPlayer();
+		}
 	};
 }
 
@@ -406,6 +475,7 @@ const play = (
 		// set the appropriate player.
 		dispatch(setPlayer(window.tdplayer, 'tdplayer'));
 		// play.
+		console.log('Dispatching action_play');
 		dispatch({
 			type: ACTION_PLAY,
 			payload: {
@@ -484,7 +554,14 @@ export const playAudio = (
  * @param {String} station
  */
 export const playStation = station => dispatch => {
-	play('tdplayer', station)(dispatch);
+	console.log(`playStation() - ${station}`);
+
+	// Load Triton If We Have Not Done So Yet
+	if (!window.TDSdk) {
+		initTdPlayer(station, () => play('tdplayer', station))(dispatch);
+	} else {
+		play('tdplayer', station)(dispatch);
+	}
 };
 /**
  * Action Creator for playing an audio file using the omnyplayer.

@@ -8,7 +8,7 @@ import {
 	setPlayerVisibility,
 } from '../../utilities';
 import refreshAllAds from '../../utilities/screen/refreshAllAds';
-import resetScrollToTop from '../../utilities/player/resetScrollToTop';
+// import resetScrollToTop from '../../utilities/player/resetScrollToTop';
 
 /**
  * Generator runs whenever [ ACTION_HIDE_SPLASH_SCREEN ]
@@ -34,8 +34,8 @@ function* yieldHideSplashScreen(action) {
 
 		if (splashScreen) {
 			splashScreen.parentNode.removeChild(splashScreen);
-			console.log('HID SPLASH NOW SCROLL TO TOP');
-			resetScrollToTop();
+			console.log('HID SPLASH');
+			// resetScrollToTop();
 		}
 		setPlayerVisibility();
 

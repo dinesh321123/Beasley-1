@@ -1,8 +1,8 @@
 const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
-const interstitialDivID = 'div-gpt-ad-1484200509775-3';
+export const interstitialDivID = 'div-gpt-ad-1484200509775-3';
 export const topScrollingDivID = 'div-top-scrolling-slot';
 const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
-const dropDownDivID = 'div-drop-down-slot';
+export const dropDownDivID = 'div-drop-down-slot';
 
 export const isNotSponsorOrInterstitial = placeholder => {
 	return (
@@ -21,7 +21,7 @@ export const getSlotStatsCollectionObject = () => {
 
 export const getSlotStat = placeholder => {
 	if (!placeholder) {
-		throw Error('NULL Slot ID Param in getSlotStat()');
+		throw Error('NULL Placeholder Param in getSlotStat()');
 	}
 
 	const slotStatsObject = getSlotStatsCollectionObject();
@@ -34,6 +34,65 @@ export const getSlotStat = placeholder => {
 	}
 
 	return slotStatsObject[placeholder];
+};
+
+export const placeholdersOutsideContentArray = [
+	topScrollingDivID,
+	bottomAdhesionDivID,
+];
+
+export const registerSlotStatForRefresh = placeholder => {
+	if (!placeholder) {
+		throw Error('NULL Placeholder Param in registerSlotStatForRefresh()');
+	}
+
+	if (
+		!placeholdersOutsideContentArray.includes(placeholder) ||
+		!getSlotStatsCollectionObject()[placeholder]
+	) {
+		console.log(`Creating slotStat for ${placeholder}`);
+		const slotStat = getSlotStat(placeholder);
+		// Set refresh flag to true for all Ads except DropDown
+		slotStat.shouldRefresh = placeholder !== dropDownDivID;
+	}
+};
+
+const getSlotsFromGAM = (googletag, placeHolderArray) => {
+	const allSlots = googletag.pubads().getSlots();
+	console.log(`AD STACK CURRENTLY HOLDS ${allSlots.length} ADS`);
+	return allSlots.filter(
+		s => placeHolderArray.indexOf(s.getSlotElementId()) > -1,
+	);
+};
+
+export const doPubadsRefreshForAllRegisteredAds = googletag => {
+	const statsCollectionObject = getSlotStatsCollectionObject();
+	const statsObjectKeys = Object.keys(statsCollectionObject);
+	if (statsObjectKeys) {
+		const placeholdersToRefresh = statsObjectKeys.filter(
+			statsKey =>
+				statsCollectionObject[statsKey].shouldRefresh ||
+				placeholdersOutsideContentArray.includes(statsKey),
+		);
+		placeholdersToRefresh.push(interstitialDivID); // Add Interstitial To List Of Placeholders To Refresh
+
+		const slotList = getSlotsFromGAM(googletag, placeholdersToRefresh);
+
+		// Push JS processing to next cycle for better Lighthouse Score
+		if (slotList) {
+			setTimeout(() => {
+				// const slotsToRefreshArray = [...slotList.values()];
+				googletag.cmd.push(() => {
+					googletag.pubads().refresh(slotList);
+				});
+			}, 0);
+		}
+
+		// Mark All Slots as shown
+		statsObjectKeys.forEach(statsKey => {
+			statsCollectionObject[statsKey].shouldRefresh = false;
+		});
+	}
 };
 
 export const impressionViewableHandler = event => {
@@ -65,31 +124,42 @@ const adjustContentMarginForTopAd = newAdHeight => {
 		const adContainerStyle = window.getComputedStyle(adContainerElement);
 
 		const lastVerticalScroll = window.scrollY;
-		const lastContentTopMargin = parseInt(contentStyle.marginTop, 10);
+		// If First Time Shown, use holder variable set in page-utils
+		const lastContentTopMargin =
+			window.topAdsShown || !window.lastContentTopMargin
+				? parseInt(contentStyle.marginTop, 10)
+				: window.lastContentTopMargin;
+
+		console.log(
+			`FOR DEBUG - contentStyle.marginTop: ${parseInt(
+				contentStyle.marginTop,
+				10,
+			)}  window.lastContentTopMargin ${window.lastContentTopMargin}`,
+		);
+
 		const adContainerTopMargin = parseInt(adContainerStyle.marginTop, 10);
 		const newContentTopMargin =
 			24 + (newAdHeight || 0) + (adContainerTopMargin || 0);
+
+		contentElement.style.marginTop = `${newContentTopMargin}px`;
 
 		console.log(
 			`New Leaderboard => Old Scroll:${lastVerticalScroll} Old Top Margin:${lastContentTopMargin} New Top Margin:${newContentTopMargin}`,
 		);
 
-		contentElement.style.marginTop = `${newContentTopMargin}px`;
-
-		if (lastVerticalScroll <= lastContentTopMargin) {
-			console.log('NOT ADJUSTING SCROLL');
+		// Adjust Scroll
+		const marginDelta = newContentTopMargin - lastContentTopMargin;
+		if (lastVerticalScroll <= newContentTopMargin) {
+			console.log('SCROLLING BACK TO TOP BECAUSE NEW AD WOULD BE CUT OFF');
+			window.scrollTo(window.scrollX, 0);
 		} else {
-			let marginDelta = newContentTopMargin - lastContentTopMargin;
-			// Adjust Margin Delta If Ad Had Not Been Loaded Before Now
-			if (!window.topAdsShown) {
-				marginDelta -= lastContentTopMargin - 44;
-			}
 			const newVerticalScroll = lastVerticalScroll + marginDelta;
 			window.scrollTo(window.scrollX, newVerticalScroll);
 			console.log(
 				`ADJUSTED PAGE SCROLL BY ${marginDelta} TO ${newVerticalScroll} BECAUSE OF TOP AD`,
 			);
 		}
+
 		window.topAdsShown++;
 	}
 };
