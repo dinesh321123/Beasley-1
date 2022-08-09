@@ -310,7 +310,7 @@ class ImportExportTagCategory {
 			foreach($users as $user){
 				// $getBlogsdetials	= get_blogs_of_user( array( 'fields' => array( 'ID' ) ) );
 				$getBlogsdetials	= get_blogs_of_user( $user->ID );
-				echo "<pre>", print_r($getBlogsdetials), "</pre>";
+				// echo "<pre>", print_r($getBlogsdetials), "</pre>";
 				foreach( $getBlogsdetials as $id ) {
 		    		switch_to_blog( $id->userblog_id );
 					$station_name	= get_bloginfo();
@@ -334,8 +334,8 @@ class ImportExportTagCategory {
 					); */
 
 					$query_posts		= new WP_Query( $export_query_string );
-					echo $user->ID, " --- ", $query_posts->post_count, "<br>";
-					echo "<pre>", print_r($query_posts->posts), "</pre>";
+					// echo $user->ID, " --- ", $query_posts->post_count, "<br>";
+					// echo "<pre>", print_r($query_posts->posts), "</pre>";
 
 					while ( $query_posts->have_posts() ) {
 						$query_posts->the_post();
@@ -352,7 +352,7 @@ class ImportExportTagCategory {
 					restore_current_blog();
 				}	//End blog Foreach
 			}	//End User Foreach
-			echo 'Count - ', $record_count;
+			// echo 'Count - ', $record_count;
 			if (isset($record_count) && $record_count == 0) {
 				$file_row	= array( 'No records found during this period');
 				fputcsv($fileDirPath, $file_row);
