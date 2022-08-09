@@ -20,6 +20,7 @@ use Bbgi\Integration\Google;
 		});
 		$obj = get_queried_object();
 
+		//Set cache tag for shows, listicles, podcasts, episodes
 		if (isset($obj->slug)) {
 			$headerCacheTag[] = "archive" . "-" . $obj->slug;
 		}
