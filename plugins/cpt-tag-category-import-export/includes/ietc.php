@@ -306,9 +306,10 @@ class ImportExportTagCategory {
 		if ($input_type == 'post_list'){
 			fputcsv($fileDirPath, array('Station Name', 'User Login', 'Display Name', 'Email', 'Post title', 'Permalink', 'Post date'));
 			$record_count			= 0;
-			echo "<pre>", print_r($users), "</pre>";
+			// echo "<pre>", print_r($users), "</pre>";
 			foreach($users as $user){
 				$getBlogsdetials	= get_blogs_of_user( array( 'fields' => array( 'ID' ) ) );
+				echo "<pre>", print_r($getBlogsdetials), "</pre>";
 				foreach( $getBlogsdetials as $id ) {
 		    		switch_to_blog( $id->userblog_id );
 					$station_name	= get_bloginfo();
@@ -317,7 +318,7 @@ class ImportExportTagCategory {
 
 					$export_query_string	= array(
 						'author'		=> $user->ID,
-						'post_type'		=> ImportExportTagCategory::get_export_user_data_posttype_list(),
+						'post_type'		=> self::get_export_user_data_posttype_list(),
 						'post_status'	=> 'publish',
 						'date_query'	=> array(
 							'column'	=> 'post_date',
