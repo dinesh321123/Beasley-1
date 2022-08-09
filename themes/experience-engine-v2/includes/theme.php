@@ -97,6 +97,10 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 			$query->set( 'post_type', $post_type );
 		}
 
+		if( $query->is_archive() && $query->is_category() ) {
+			$query->set( 'posts_per_page', 8 );
+		}
+
 		return $query;
 	}
 endif;
