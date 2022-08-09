@@ -7,14 +7,27 @@ if ( ee_is_first_page() ):
 	get_template_part( 'partials/category/meta' );
 endif;
 
-// Getting Featured Curated posts for the category
+global $wp_query;
+$ca_query_category_values = $wp_query->query['category_name'];
+
 $category_archive_obj = get_queried_object();
-$ca_featured_curated_posts_query = ee_get_category_featured_posts( $category_archive_obj->term_id );
-$ca_featured_curated_posts = !empty($ca_featured_curated_posts_query['result']) ? $ca_featured_curated_posts_query['result']->posts : array();
-$total_ca_featured_curated = (!empty($ca_featured_curated_posts) ) ? count($ca_featured_curated_posts) : 0;
+$ca_query_category_slug = $category_archive_obj->slug;
+
+if (str_contains($ca_query_category_values, ',')) {
+	$ca_featured_curated_posts = array();
+	$total_ca_featured_curated = 0; 
+	$category_archive_posts_exlcuded = array();
+	$ca_query_category_slug = $ca_query_category_values;
+} else {
+	// Getting Featured Curated posts for the category
+	$ca_featured_curated_posts_query = ee_get_category_featured_posts( $category_archive_obj->term_id );
+	$ca_featured_curated_posts = !empty($ca_featured_curated_posts_query['result']) ? $ca_featured_curated_posts_query['result']->posts : array();
+	$total_ca_featured_curated = (!empty($ca_featured_curated_posts) ) ? count($ca_featured_curated_posts) : 0;
+	$category_archive_posts_exlcuded = $ca_featured_curated_posts_query['exclude_posts'];
+}
 
 // Getting Posts related to the category
-$category_archive_posts_query = ee_get_category_posts_query( $category_archive_obj->slug, $ca_featured_curated_posts_query['exclude_posts'], $total_ca_featured_curated );
+$category_archive_posts_query = ee_get_category_posts_query( $ca_query_category_slug, $category_archive_posts_exlcuded, $total_ca_featured_curated );
 $category_archive_posts = !empty($category_archive_posts_query) ? $category_archive_posts_query->posts : array();
 
 if (count($category_archive_posts) < 1) { ?>
