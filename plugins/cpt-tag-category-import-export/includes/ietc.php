@@ -308,7 +308,8 @@ class ImportExportTagCategory {
 			$record_count			= 0;
 			// echo "<pre>", print_r($users), "</pre>";
 			foreach($users as $user){
-				$getBlogsdetials	= get_blogs_of_user( array( 'fields' => array( 'ID' ) ) );
+				// $getBlogsdetials	= get_blogs_of_user( array( 'fields' => array( 'ID' ) ) );
+				$getBlogsdetials	= get_blogs_of_user( $user->ID );
 				echo "<pre>", print_r($getBlogsdetials), "</pre>";
 				foreach( $getBlogsdetials as $id ) {
 		    		switch_to_blog( $id->userblog_id );
