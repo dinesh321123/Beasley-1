@@ -3,14 +3,14 @@
  * Class ImportExportTagCategory
  */
 class ImportExportTagCategory {
-	/* function __construct()
+	function __construct()
 	{
 		$this->init();
-	} */
+	}
 	/**
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
-	public static function init() {
+	public function init() {
 		add_action( 'init', array( __CLASS__, 'ietc_init' ), 0 );
 		add_action( 'admin_init', array( __CLASS__, 'ietc_imp_exp_init' ) );
 		add_action('network_admin_notices', array( __CLASS__, 'ietc_general_admin_notice' ) ) ;
@@ -284,7 +284,7 @@ class ImportExportTagCategory {
 		return $result;
 	}
 
-	public static function ietc_export_users_posts() {
+	public function ietc_export_users_posts() {
 		global $wpdb;
 		$blog_id		= 0;
 		$network_name	= 'All';
@@ -294,7 +294,7 @@ class ImportExportTagCategory {
 		$export_from	= filter_input( INPUT_POST, 'export_from', FILTER_SANITIZE_STRIPPED);
 		$export_to		= filter_input( INPUT_POST, 'export_to', FILTER_SANITIZE_STRIPPED);
 		// $users		= $wpdb->get_results(sprintf('SELECT * FROM '. $wpdb->prefix .'users'));
-		$users			= ImportExportTagCategory::get_user_list();
+		$users			= self::get_user_list();
 
 		// Create User Export file
 		$todayDate		= date('YmdHis');
@@ -331,6 +331,8 @@ class ImportExportTagCategory {
 					); */
 
 					$query_posts		= new WP_Query( $export_query_string );
+					echo $user->ID, " --- ", $query_posts->post_count, "<br>";
+					echo "<pre>", print_r($query_posts->posts), "</pre>";
 
 					while ( $query_posts->have_posts() ) {
 						$query_posts->the_post();
@@ -347,6 +349,7 @@ class ImportExportTagCategory {
 					restore_current_blog();
 				}	//End blog Foreach
 			}	//End User Foreach
+			echo 'Count - ', $record_count;
 			if (isset($record_count) && $record_count == 0) {
 				$file_row	= array( 'No records found during this period');
 				fputcsv($fileDirPath, $file_row);
@@ -378,7 +381,7 @@ class ImportExportTagCategory {
 	}
 
 
-   public static function ietc_export_users_station() {
+   public function ietc_export_users_station() {
 	   global $wpdb;
 	   $blog_id			= 0;
 	   $network_name	= 'All';
@@ -615,5 +618,5 @@ class ImportExportTagCategory {
 	   }
 }
 
-ImportExportTagCategory::init();
-// new ImportExportTagCategory();
+// ImportExportTagCategory::init();
+new ImportExportTagCategory();
