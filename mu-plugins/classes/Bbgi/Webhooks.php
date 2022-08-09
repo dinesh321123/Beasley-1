@@ -364,6 +364,7 @@ class Webhooks extends \Bbgi\Module {
 		if (!empty($shows)) {
 			foreach ($shows as $show) {
 				$cache_tags[] = 'show-' . $show->slug;
+				$cache_tags[] = 'feed-' .$show->slug;
 			}
 		}
 
