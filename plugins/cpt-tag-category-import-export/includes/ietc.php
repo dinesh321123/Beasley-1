@@ -306,6 +306,7 @@ class ImportExportTagCategory {
 		if ($input_type == 'post_list'){
 			fputcsv($fileDirPath, array('Station Name', 'User Login', 'Display Name', 'Email', 'Post title', 'Permalink', 'Post date'));
 			$record_count			= 0;
+			echo "<pre>", print_r($users), "</pre>";
 			foreach($users as $user){
 				$getBlogsdetials	= get_blogs_of_user( array( 'fields' => array( 'ID' ) ) );
 				foreach( $getBlogsdetials as $id ) {
