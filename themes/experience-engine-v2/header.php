@@ -30,7 +30,9 @@ use Bbgi\Integration\Google;
 		}
 
 
-	}  else {
+	} else if(is_404()){
+		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'404';
+	} else {
 		$currentPostType	= "";
 		$currentPostSlug	= "";
 
@@ -52,7 +54,7 @@ use Bbgi\Integration\Google;
 	}
 
 	append_current_device_to_cache_tag($headerCacheTag);
-	 $headerCacheTag = array_unique($headerCacheTag);
+	$headerCacheTag = array_unique($headerCacheTag);
 	header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
 	header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);
 ?>
