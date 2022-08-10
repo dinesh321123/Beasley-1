@@ -262,9 +262,11 @@ export function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
 			'src',
 			'https://sdk.listenlive.co/web/2.9/td-sdk.min.js',
 		);
-		tritonIncludeScript.onload = () => {
-			dispatch(initTdPlayer(station, callbackToPlayStation));
-		};
+		if (dispatch && station) {
+			tritonIncludeScript.onload = () => {
+				dispatch(initTdPlayer(station, callbackToPlayStation));
+			};
+		}
 	}
 }
 
