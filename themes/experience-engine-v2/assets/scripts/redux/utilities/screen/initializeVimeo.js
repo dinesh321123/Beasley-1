@@ -1,8 +1,14 @@
+import { loadTritonLibrary } from '../../actions/player';
+
 export default function initializeVimeo() {
 	if (window.loadVimeoPlayers) {
 		try {
-			window.loadVimeoPlayers();
-			console.log('Vimeo Players Initialized for Prerolls');
+			console.log('Initializing Vimeo Players');
+			const numberOfVimeoPlayersOnPage = window.loadVimeoPlayers();
+
+			if (numberOfVimeoPlayersOnPage) {
+				loadTritonLibrary();
+			}
 		} catch {
 			console.log('Error while initializing Vimeo Prerolls');
 		}

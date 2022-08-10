@@ -250,9 +250,10 @@ function errorCatcher(prefix = '') {
 	};
 }
 
-function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
+export function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
 	const tritonLibElementName = 'tritonPlayerLibElement';
 	if (!document.getElementById(tritonLibElementName)) {
+		console.log('Loading Triton Library');
 		const tritonIncludeScript = document.createElement('script');
 		tritonIncludeScript.setAttribute('id', tritonLibElementName);
 		tritonIncludeScript.setAttribute('async', true);
@@ -557,7 +558,7 @@ export const playStation = station => dispatch => {
 	console.log(`playStation() - ${station}`);
 
 	// Load Triton If We Have Not Done So Yet
-	if (!window.TDSdk) {
+	if (!window.tdplayer) {
 		initTdPlayer(station, () => play('tdplayer', station))(dispatch);
 	} else {
 		play('tdplayer', station)(dispatch);
