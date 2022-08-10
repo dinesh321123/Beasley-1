@@ -234,12 +234,12 @@
 					$( '#export_users_spinner' ).removeClass( 'is-active' );
 					window.location.href = data.file_path;
 				} else {
-					$('#export_msg').prev().append('<div id="errormsg"><p class="error">Error in result. Please reload the page.</p></div>');
+					$('#export_msg').append('<div id="errormsg" class="notice notice-error is-dismissible"><p class="error">User Station list: error in result. Please reload the page.</p></div>');
 					$( '#export_users_spinner' ).removeClass( 'is-active' );
 				}
 			},
 			error : function(r) {
-				$('#export_msg').prev().append('<div id="errormsg"><p class="error">There was an error. Please reload the page.</p></div>');
+				$('#export_msg').append('<div id="errormsg" class="notice notice-error is-dismissible"><p class="error">User Station list: error in result. Please reload the page.</p></div>');
 				$('#export_users_spinner').removeClass('is-active');
 			}
 		});
@@ -295,12 +295,12 @@
 					$( '#export_users_spinner' ).removeClass( 'is-active' );
 					window.location.href = data.file_path;
 				} else {
-					$('#export_msg').prev().append('<div id="errormsg"><p class="error">Error in result. Please reload the page.</p></div>');
+					$('#export_msg').append('<div id="errormsg" class="notice notice-error is-dismissible"><p class="error">User Post list: error in result. Please reload the page.</p></div>');
 					$( '#export_users_spinner' ).removeClass( 'is-active' );
 				}
 			},
 			error : function(r) {
-				$('#export_msg').prev().append('<div id="errormsg"><p class="error">There was an error. Please reload the page.</p></div>');
+				$('#export_msg').append('<div id="errormsg" class="notice notice-error is-dismissible"><p class="error">User Post list: error in result. Please reload the page.</p></div>');
 				$('#export_users_spinner').removeClass('is-active');
 			}
 		});
