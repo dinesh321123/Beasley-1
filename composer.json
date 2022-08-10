@@ -44,7 +44,8 @@
 		"wpackagist-plugin/wp-ses":"1.4.6",
     "10up/wp-minions": "4.1.0",
     "10up/post-finder": "0.4.0",
-    "humanmade/s3-uploads": "3.0.4"
+    "humanmade/s3-uploads": "3.0.4",
+    "humanmade/wordpress-pecl-memcached-object-cache": "v2.1.0"
 	},
 	"require-dev": {
 		"wpackagist-plugin/user-switching": "^1.5.8"
@@ -70,5 +71,10 @@
 				"type:wordpress-plugin"
 			]
 		}
+	},
+	"scripts": {
+		"post-autoload-dump": [
+			"mv ./vendor/humanmade/wordpress-pecl-memcached-object-cache/object-cache.php ./object-cache.php"
+		]
 	}
 }
