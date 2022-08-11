@@ -250,10 +250,9 @@ function errorCatcher(prefix = '') {
 	};
 }
 
-export function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
+function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
 	const tritonLibElementName = 'tritonPlayerLibElement';
 	if (!document.getElementById(tritonLibElementName)) {
-		console.log('Loading Triton Library');
 		const tritonIncludeScript = document.createElement('script');
 		tritonIncludeScript.setAttribute('id', tritonLibElementName);
 		tritonIncludeScript.setAttribute('async', true);
@@ -262,11 +261,10 @@ export function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
 			'src',
 			'https://sdk.listenlive.co/web/2.9/td-sdk.min.js',
 		);
-		if (dispatch && station) {
-			tritonIncludeScript.onload = () => {
-				dispatch(initTdPlayer(station, callbackToPlayStation));
-			};
-		}
+		tritonIncludeScript.onload = () => {
+			console.log('Triton Library Loaded');
+			dispatch(initTdPlayer(station, callbackToPlayStation));
+		};
 	}
 }
 
@@ -560,7 +558,7 @@ export const playStation = station => dispatch => {
 	console.log(`playStation() - ${station}`);
 
 	// Load Triton If We Have Not Done So Yet
-	if (!window.tdplayer) {
+	if (!window.TDSdk) {
 		initTdPlayer(station, () => play('tdplayer', station))(dispatch);
 	} else {
 		play('tdplayer', station)(dispatch);

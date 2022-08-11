@@ -1,6 +1,7 @@
 /*** Any Change To This File Must Entail A Version Change Due To Perma-Cache ***/
 /*** Includes are held in vimeo-preroll.php ***/
 /* v1-0-0 - Institute Versioning to comply with permacache */
+/* v1-0-2 - Lazy Load Google IMA */
 
 	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
 	var vimeoPlayerList;
@@ -18,13 +19,31 @@
 		const filteredList = iframeList.filter(iframeElement => iframeElement.src && iframeElement.src.toLowerCase().indexOf('vimeo') > -1);
 
 		if (filteredList && filteredList.length > 0) {
+			loadIMALibrary();
 			vimeoPlayerList = filteredList.map(filteredEl => {
 				return loadVimeoPlayer(filteredEl)
 			});
 		}
+	}
 
-		// Return how many Vimeo players were found
-		return filteredList.length;
+	const loadIMALibrary = () => {
+		// Exit if already loaded
+		if (window.google && window.google.ima) {
+			return;
+		}
+
+		const imaLibElementName = 'imaLibElement';
+		if (!document.getElementById(imaLibElementName)) {
+			console.log('Loading IMA Library');
+			const imaIncludeScript = document.createElement('script');
+			imaIncludeScript.setAttribute('id', imaLibElementName);
+			imaIncludeScript.setAttribute('async', true);
+			document.body.appendChild(imaIncludeScript);
+			imaIncludeScript.setAttribute(
+				'src',
+				'https://imasdk.googleapis.com/js/sdkloader/ima3.js',
+			);
+		}
 	}
 
 	const renderHTML = (iFrameElement) => {
