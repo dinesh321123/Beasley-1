@@ -314,7 +314,6 @@ class ImportExportTagCategory {
 		$file_url		= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "ietc_uploads/import-export-tag-category/export/".$file_name;
 
 		fputcsv($fileDirPath, array('Station Name', 'User Login', 'Display Name', 'Email', 'Post title', 'Permalink', 'Post date'));
-		// $record_count		= 0;
 		$user_records_array		= array();
 		// echo $this->get_user_posts_list( $users ); exit;
 
@@ -344,10 +343,8 @@ class ImportExportTagCategory {
 					$title			= get_the_title();
 					$permalink		= get_the_permalink();
 					$post_date		= get_the_date();
-					$user_records_array[$title] = array('station_name' => $station_name, 'user_login' => $user->user_login, 'display_name' => $user->display_name, 'email' => $user->user_email, 'post_title' => $title, 'permalink' => $permalink, 'post_date' => $post_date);
-					/* $file_row		= array( $station_name, $user->user_login, $user->display_name, $user->user_email, $title, $permalink, $post_date );
-					fputcsv($fileDirPath, $file_row); Rupesh */
-					// $record_count++;
+
+					$user_records_array[$title.'-'.$user->ID] = array('station_name' => $station_name, 'user_login' => $user->user_login, 'display_name' => $user->display_name, 'email' => $user->user_email, 'post_title' => $title, 'permalink' => $permalink, 'post_date' => $post_date);
 				}	// End While
 				wp_reset_postdata();
 				restore_current_blog();
@@ -363,11 +360,6 @@ class ImportExportTagCategory {
 			$file_row	= array( 'No records found during this period');
 			fputcsv($fileDirPath, $file_row);
 		}
-
-		/* if (isset($record_count) && $record_count == 0) {
-			$file_row	= array( 'No records found during this period');
-			fputcsv($fileDirPath, $file_row);
-		} */
 
 		fclose($fileDirPath);
 
