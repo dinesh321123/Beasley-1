@@ -223,8 +223,6 @@ class ContentDispatcher extends Component {
 		const { fetchPage, fetchFeedsContent } = this.props;
 		const { origin } = window.location;
 
-		window.lastLoadedUrl = url;
-
 		// load user homepage if token is not empty and the next page is the homepage
 		// otherwise just load the next page
 		if (

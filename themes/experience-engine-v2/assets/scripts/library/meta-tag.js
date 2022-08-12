@@ -16,15 +16,24 @@ export function updateElementAttribute(
 }
 
 function getFirstMatchingElementAttribute(
+	parentElement,
 	elementType,
 	attributeName,
 	attributeValue,
 	valueName,
 ) {
-	const allElements = document.getElementsByTagName(elementType);
+	const allElements = parentElement.getElementsByTagName(elementType);
+	console.log(
+		`getFirstMatchingElementAttribute() - ${allElements.length} ${elementType} elements `,
+	);
 
 	for (let i = 0; i < allElements.length; i++) {
 		if (allElements[i].getAttribute(attributeName) === attributeValue) {
+			console.log(
+				`getFirstMatchingElementAttribute() - found attribute of ${attributeName}=${attributeValue} and value ${allElements[
+					i
+				].getAttribute(valueName)}`,
+			);
 			return allElements[i].getAttribute(valueName);
 		}
 	}
@@ -46,5 +55,11 @@ export function updateCanonicalUrl(url) {
 }
 
 export function getCanonicalUrl() {
-	return getFirstMatchingElementAttribute('link', 'rel', 'canonical', 'href');
+	return getFirstMatchingElementAttribute(
+		document.head,
+		'link',
+		'rel',
+		'canonical',
+		'href',
+	);
 }
