@@ -198,10 +198,18 @@ class ContentDispatcher extends Component {
 
 	onPageHistoryPop(e) {
 		const lastCanonicalUrl = getCanonicalUrl();
-		// Go Back One More If Current URL matches Canonical - Probably Caused by Second Street Mangling URL with #
-		if (window.location.href === lastCanonicalUrl) {
-			history.back();
-		} else if (window.location.href.indexOf('#') === -1) {
+		console.log(
+			`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
+		);
+
+		if (window.location.href.replace('#//', '') === lastCanonicalUrl) {
+			console.log(`Current Matched Canonical - doubling back`);
+			window.history.back();
+		} else if (window.location.href.indexOf('#') > -1) {
+			console.log('Found # - doubling back');
+			window.history.back();
+		} else {
+			console.log(`Back caused load of ${window.location.href}`);
 			this.loadPage(window.location.href, { suppressHistory: true });
 		}
 	}
@@ -214,6 +222,8 @@ class ContentDispatcher extends Component {
 	loadPage(url, options = {}) {
 		const { fetchPage, fetchFeedsContent } = this.props;
 		const { origin } = window.location;
+
+		window.lastLoadedUrl = url;
 
 		// load user homepage if token is not empty and the next page is the homepage
 		// otherwise just load the next page
