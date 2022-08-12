@@ -214,6 +214,7 @@ export const hidePlaceholder = placeholder => {
 	}
 };
 
+/*
 const removeAllHtmlElementsExceptForLast = elementArray => {
 	if (elementArray) {
 		const numElementsToDelete = elementArray.length - 1;
@@ -224,6 +225,7 @@ const removeAllHtmlElementsExceptForLast = elementArray => {
 		}
 	}
 };
+*/
 
 const removeExtraIntegratorLinksFromHead = () => {
 	// Remove Pairs of Redundant Tags That GAM Is Injecting Into Head Upon Each Ad Refresh.
@@ -231,6 +233,9 @@ const removeExtraIntegratorLinksFromHead = () => {
 	// Currently the links like like so:
 	// <link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=wmmr.beasley.test" as="script">
 	// <script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=wmmr.beasley.test"></script>
+
+	console.log('ERROR - WE ARE NOT REMOVING TAGS CREATED BY GAM');
+	/*
 	const SEARCHSTRING = 'adservice.google.com/adsid/integrator.js?';
 	const linkElements = Array.from(
 		document.querySelectorAll('head > link'),
@@ -241,6 +246,7 @@ const removeExtraIntegratorLinksFromHead = () => {
 
 	removeAllHtmlElementsExceptForLast(linkElements);
 	removeAllHtmlElementsExceptForLast(scriptElements);
+	*/
 };
 
 export const slotRenderEndedHandler = event => {
