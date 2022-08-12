@@ -89,7 +89,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 								static $urls = array();
 
 								if ( empty( $urls[ $cpt_post_object->ID ] ) ) {
-									$urls[ $cpt_post_object->ID ] = trailingslashit( get_permalink( $cpt_post_object->ID ) );
+									$urls[ $cpt_post_object->ID ] = trailingslashit( get_permalink( $from_embed ? $checkID : $cpt_post_object->ID ) );
 								}
 								$image_full_url = $urls[ $cpt_post_object->ID ] . 'view/' . urlencode( $cpt_tracking_code ) . '/';
 								$tracking_url = ! $is_first ? $image_full_url : '';

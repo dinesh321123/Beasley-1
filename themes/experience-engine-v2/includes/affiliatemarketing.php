@@ -98,7 +98,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								static $urls = array();
 
 								if ( empty( $urls[ $affiliatemarketing_post_object->ID ] ) ) {
-									$urls[ $affiliatemarketing_post_object->ID ] = trailingslashit( get_permalink( $affiliatemarketing_post_object->ID ) );
+									$urls[ $affiliatemarketing_post_object->ID ] = trailingslashit( get_permalink( $from_embed ? $checkID : $affiliatemarketing_post_object->ID ) );
 								}
 								$image_full_url = $urls[ $affiliatemarketing_post_object->ID ] . 'view/' . urlencode( $am_tracking_code ) . '/';
 								$tracking_url = ! $is_first ? $image_full_url : '';
