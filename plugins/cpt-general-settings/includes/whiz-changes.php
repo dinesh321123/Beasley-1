@@ -22,6 +22,7 @@ class WhizChanges {
 	public static function enqueue_scripts() {
 		$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
         wp_enqueue_script( 'general-whiz-script', GENERAL_SETTINGS_CPT_URL . "assets/js/whiz_script{$min}.js", array('jquery'), GENERAL_SETTINGS_CPT_VERSION, true);
+        wp_enqueue_script( 'show-on-device', GENERAL_SETTINGS_CPT_URL . "assets/js/show_on_device{$min}.js",[],GENERAL_SETTGENERAL_SETTINGS_CPT_VERSION, true);
 	}
 
     public function ee_is_common_mobile_thumbnail() {
@@ -40,7 +41,7 @@ class WhizChanges {
 			$whiz_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'whiz' );
 
 			// Allow way to toggle whiz through URL querystring
-			if ( isset( $_GET['whiz'] ) ) {
+			if ( isset( $_GET['Whiz'] ) ) {
 				$whiz_pos = 1;
 			}
 		}
