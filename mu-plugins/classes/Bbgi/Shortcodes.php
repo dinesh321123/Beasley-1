@@ -101,13 +101,13 @@ class Shortcodes extends \Bbgi\Module {
 		if (! $atts['check-on'] == 'client') {
 			foreach( $devices as $device ) {
 				if (stripos($device, $content) !== false) {
-					$return_value = sprintf('<span class="show-on-device-server" data-device="%s">%s</span>', $device, $content);
+					$return_value = sprintf('<span class="show-on-device-server" data-devices="%s">%s</span>', $device, $content);
 				}
 			}
 		}
 
 		if ( empty($return_value) ) {
-			$return_value = sprintf('<span class="show-on-device-client" style="display: none" data-device="%s">%s</span>', $atts['devices'], $content);
+			$return_value = sprintf('<span class="show-on-device-client" style="display: none" data-devices="%s">%s</span>', $atts['devices'], $content);
 		}
 
 		return $return_value;
