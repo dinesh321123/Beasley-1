@@ -38,10 +38,10 @@ class WhizChanges {
 			}
 		}
 		if($whiz_pos === null ) {
-			$whiz_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'whiz' );
+			$whiz_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'Whiz' );
 
 			// Allow way to toggle whiz through URL querystring
-			if ( isset( $_GET['Whiz'] ) ) {
+			if ( isset( $_GET['whiz'] ) ) {
 				$whiz_pos = 1;
 			}
 		}
