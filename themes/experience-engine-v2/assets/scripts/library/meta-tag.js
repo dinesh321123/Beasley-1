@@ -47,23 +47,9 @@ function getFirstMatchingElementAttribute(
 	valueName,
 ) {
 	const allElements = parentElement.getElementsByTagName(elementType);
-	console.log(
-		`getFirstMatchingElementAttribute() - ${allElements.length} ${elementType} elements `,
-	);
 
 	for (let i = 0; i < allElements.length; i++) {
-		allElements[i].attributes.forEach(elAttr =>
-			console.log(
-				`getFirstMatchingElementAttribute() - Element${i} - ${elAttr.name} -> ${elAttr.value}`,
-			),
-		);
-
 		if (allElements[i].getAttribute(attributeName) === attributeValue) {
-			console.log(
-				`getFirstMatchingElementAttribute() - found attribute of ${attributeName}=${attributeValue} and value ${allElements[
-					i
-				].getAttribute(valueName)}`,
-			);
 			return allElements[i].getAttribute(valueName);
 		}
 	}
