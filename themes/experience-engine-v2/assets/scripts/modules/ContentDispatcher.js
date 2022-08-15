@@ -10,7 +10,11 @@ import {
 	fetchPage,
 	fetchFeedsContent,
 } from '../redux/actions/screen';
-import { firebaseAuth, getCanonicalUrl, untrailingslashit } from '../library';
+import {
+	firebaseAuth,
+	getBeasleyCanonicalUrl,
+	untrailingslashit,
+} from '../library';
 
 const specialPages = ['/wp-admin/', '/wp-signup.php', '/wp-login.php'];
 
@@ -197,7 +201,7 @@ class ContentDispatcher extends Component {
 	}
 
 	onPageHistoryPop(e) {
-		const lastCanonicalUrl = getCanonicalUrl();
+		const lastCanonicalUrl = getBeasleyCanonicalUrl();
 		console.log(
 			`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
 		);

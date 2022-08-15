@@ -15,6 +15,30 @@ export function updateElementAttribute(
 	}
 }
 
+export function upsertElementAttribute(
+	parentElement,
+	elementType,
+	attributeName,
+	attributeValue,
+	valueName,
+	newValue,
+) {
+	const allElements = parentElement.getElementsByTagName(elementType);
+
+	for (let i = 0; i < allElements.length; i++) {
+		if (allElements[i].getAttribute(attributeName) === attributeValue) {
+			allElements[i].setAttribute(valueName, newValue);
+			return; // Exit Function Because Updated
+		}
+	}
+
+	// Insert New Element
+	const newElement = document.createElement(elementType);
+	newElement.setAttribute(attributeName, attributeValue);
+	newElement.setAttribute(valueName, newValue);
+	parentElement.appendChild(newElement);
+}
+
 function getFirstMatchingElementAttribute(
 	parentElement,
 	elementType,
@@ -58,14 +82,22 @@ export function updateLinkRelHref(name, value) {
 export function updateCanonicalUrl(url) {
 	updateMetaPropertyValue('og:url', url);
 	updateLinkRelHref('canonical', url);
+	upsertElementAttribute(
+		document.head,
+		'link',
+		'rel',
+		'beasley-canonical',
+		'href',
+		url,
+	);
 }
 
-export function getCanonicalUrl() {
+export function getBeasleyCanonicalUrl() {
 	return getFirstMatchingElementAttribute(
 		document.head,
 		'link',
 		'rel',
-		'canonical',
+		'beasley-canonical',
 		'href',
 	);
 }

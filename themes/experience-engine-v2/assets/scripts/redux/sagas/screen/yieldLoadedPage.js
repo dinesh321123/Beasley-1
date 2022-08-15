@@ -16,7 +16,7 @@ import {
 	slugify,
 	dispatchEvent,
 	updateCanonicalUrl,
-	getCanonicalUrl,
+	getBeasleyCanonicalUrl,
 } from '../../../library';
 // import resetScrollToTop from '../../utilities/player/resetScrollToTop';
 import { doPageStackScroll } from '../../../library/page-utils';
@@ -64,7 +64,7 @@ function* yieldLoadedPage(action) {
 	// Update BBGI Config
 	yield call(manageBbgiConfig, pageDocument);
 
-	const leavingPageUrl = getCanonicalUrl();
+	const leavingPageUrl = getBeasleyCanonicalUrl();
 	updateCanonicalUrl(url);
 
 	if (ad_reset_digital_enabled === 'on' && window.fireResetPixel) {
