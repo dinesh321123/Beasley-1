@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 	const show_on_device_elements = document.getElementsByClassName(
-		"show-on-device-elements"
+		"show-on-device-client"
 	);
 	const userAgent = navigator.userAgent.toLowerCase();
 	for (let i = 0; i < show_on_device_elements.length; i++) {
