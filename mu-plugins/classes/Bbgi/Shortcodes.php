@@ -106,7 +106,7 @@ class Shortcodes extends \Bbgi\Module {
 			}
 		}
 
-		if ( isempty($return_value) ) {
+		if ( empty($return_value) ) {
 			$return_value = sprintf('<span class="show-on-device-client" style="display: none" data-device="%s">%s</span>', $atts['devices'], $content);
 		}
 
