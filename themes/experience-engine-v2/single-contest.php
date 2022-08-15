@@ -42,7 +42,7 @@ the_post();
 				</div>
 			<?php endif; ?>
 
-			<?php echo do_shortcode( '[show-on-device device="iPad,iOs"]This contest is in no way affiliated with or endorsed by Apple.[/show-on-device]' ); ?>
+			<?php echo do_shortcode( '[show-on-device devices="iPad,iOs"]This contest is in no way affiliated with or endorsed by Apple.[/show-on-device]' ); ?>
 
 			<?php if ( ( $contest_rules = trim( get_post_meta( get_the_ID(), 'rules-desc', true ) ) ) ) : ?>
 			<div class="contest__description">
