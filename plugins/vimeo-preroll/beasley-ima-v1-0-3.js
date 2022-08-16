@@ -19,9 +19,6 @@ var vimeoControlHolder;
 function setUpVimeoIMA() {
 	console.log(`Initializing IMA`);
 
-	videoContent = document.getElementById('vimeoVideoElement');
-	// Create the ad display container.
-	createAdDisplayContainer();
 	// Create ads loader.
 	adsLoader = new window.google.ima.AdsLoader(adDisplayContainer);
 	// Listen and respond to ads loaded and error events.
@@ -40,14 +37,20 @@ function setUpVimeoIMA() {
 }
 
 function createAdDisplayContainer() {
+	videoContent = document.getElementById('vimeoVideoElement');
+
 	// We assume the adContainer is the DOM id of the element that will house
 	// the ads.
 	adDisplayContainer = new window.google.ima.AdDisplayContainer(
 		document.getElementById('vimeoPrerollAdContainer'), videoContent);
+
+	adDisplayContainer.initialize();
+	console.log(`adDisplayContainer Initialized - Event Should Be Perceived As User Interaction`);
 }
 
 function playVimeoIMAAds(videoUrl, vimeoControl) {
 	console.log(`Playing IMA Ad`);
+
 	vimeoControlHolder = vimeoControl;
 
 	setUpVimeoIMA();
@@ -72,7 +75,7 @@ function playVimeoIMAAds(videoUrl, vimeoControl) {
 function playAds() {
 	// Initialize the container. Must be done via a user action on mobile devices.
 	videoContent.load();
-	adDisplayContainer.initialize();
+	// adDisplayContainer.initialize();
 
 	try {
 		// Initialize the ads manager. Ad rules playlist will start at this time.
