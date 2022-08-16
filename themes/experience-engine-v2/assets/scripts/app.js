@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-
 import { IntersectionObserverProvider } from './context';
 import {
 	TopScrollingAd,
@@ -16,6 +15,7 @@ import {
 import BackToTop from './components/BackToTop';
 import ErrorBoundary from './components/ErrorBoundary';
 import { isIOS, isSafari, isWindowsBrowser } from './library';
+import ScreenInactive from './components/ScreenInactive';
 
 /**
  * The App's entry point.
@@ -35,6 +35,7 @@ const App = () => {
 	return (
 		<IntersectionObserverProvider>
 			<ErrorBoundary>
+				<ScreenInactive />
 				<TopScrollingAd />
 				<PlayerButton />
 				<PlayingNowInfo />
