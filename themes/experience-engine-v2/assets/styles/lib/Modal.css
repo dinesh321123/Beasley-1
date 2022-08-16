@@ -1,0 +1,93 @@
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+.modal.enter-done {
+    opacity: 1;
+    pointer-events: visible;
+}
+
+.modal.exit {
+    opacity: 0;
+}
+
+.modal-content {
+    width: 500px;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(-200px);
+}
+
+.modal.enter-done .modal-content {
+    transform: translateY(0);
+}
+
+.modal.exit .modal-content {
+    transform: translateY(-200px);
+}
+
+.modal-header,
+.modal-footer {
+    padding: 10px;
+    background-color: #282828;
+
+}
+
+.modal-title {
+    margin: 0;
+    color: white;
+    font-family: "Libre Franklin",sans-serif;
+    font-style: italic;
+    font-size: 1.2rem;
+}
+
+.modal-body {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.modal-footer{
+    text-align: right;
+}
+.modal-footer button{
+    padding: 0 8px;
+    text-decoration: none;
+    border: 1px solid red;
+    cursor: pointer;
+    border-radius: 0;
+    background: red;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    font-weight: 550;
+    color: white;
+    font-size: 15px;
+}
+.modal-body img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 270px;
+    height: 200px;
+}
+.modal-body p{
+    color: #cc1d23;
+    font-family: "Libre Franklin",sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+}
+
