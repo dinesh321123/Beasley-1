@@ -2,7 +2,7 @@
 /*** Includes are held in vimeo-preroll.php ***/
 /* v1-0-0 - Institute Versioning to comply with permacache */
 /* v1-0-2 - Lazy Load Google IMA */
-/* v1-0-3 - Put in proxy button to convince IOS IMA that user action initiated Ad Play */
+/* v1-0-4 - Put in proxy button to convince IOS IMA that user action initiated Ad Play */
 
 	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
 	var vimeoPlayerList;

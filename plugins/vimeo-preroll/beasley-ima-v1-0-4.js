@@ -1,7 +1,7 @@
 /*** Any Change To This File Must Entail A Version Change Due To Perma-Cache ***/
 /*** Includes are held in vimeo-preroll.php ***/
 /* v1-0-0 - Institute Versioning to comply with permacache */
-/* v1-0-3 - Put in proxy button to convince IOS IMA that user action initiated Ad Play */
+/* v1-0-4 - Put in proxy button to convince IOS IMA that user action initiated Ad Play */
 
 // This code is heavily based on Google's Simple IMA Example at https://github.com/googleads/googleads-ima-html5
 
