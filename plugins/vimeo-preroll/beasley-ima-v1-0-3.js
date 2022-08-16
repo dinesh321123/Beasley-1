@@ -1,6 +1,7 @@
 /*** Any Change To This File Must Entail A Version Change Due To Perma-Cache ***/
 /*** Includes are held in vimeo-preroll.php ***/
 /* v1-0-0 - Institute Versioning to comply with permacache */
+/* v1-0-3 - Put in proxy button to convince IOS IMA that user action initiated Ad Play */
 
 // This code is heavily based on Google's Simple IMA Example at https://github.com/googleads/googleads-ima-html5
 
@@ -12,7 +13,6 @@
 var adsManager;
 var adsLoader;
 var adDisplayContainer;
-var playButton;
 var videoContent;
 var vimeoControlHolder;
 
@@ -27,23 +27,24 @@ function setUpVimeoIMA() {
 		onAdsManagerLoaded, false);
 	adsLoader.addEventListener(
 		window.google.ima.AdErrorEvent.Type.AD_ERROR, onAdError, false);
+}
 
+function createIMADisplayContainer() {
+	videoContent = document.getElementById('vimeoVideoElement');
 	// An event listener to tell the SDK that our content video
 	// is completed so the SDK can play any post-roll ads.
 	var contentEndedListener = function () {
 		adsLoader.contentComplete();
 	};
 	videoContent.onended = contentEndedListener;
-}
-
-function createAdDisplayContainer() {
-	videoContent = document.getElementById('vimeoVideoElement');
 
 	// We assume the adContainer is the DOM id of the element that will house
 	// the ads.
 	adDisplayContainer = new window.google.ima.AdDisplayContainer(
 		document.getElementById('vimeoPrerollAdContainer'), videoContent);
 
+	// Initialize the container. Must be done via a user action on mobile devices.
+	videoContent.load();
 	adDisplayContainer.initialize();
 	console.log(`adDisplayContainer Initialized - Event Should Be Perceived As User Interaction`);
 }
@@ -73,10 +74,6 @@ function playVimeoIMAAds(videoUrl, vimeoControl) {
 }
 
 function playAds() {
-	// Initialize the container. Must be done via a user action on mobile devices.
-	videoContent.load();
-	// adDisplayContainer.initialize();
-
 	try {
 		// Initialize the ads manager. Ad rules playlist will start at this time.
 		adsManager.init(640, 360, window.google.ima.ViewMode.NORMAL);

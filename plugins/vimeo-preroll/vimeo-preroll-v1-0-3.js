@@ -2,6 +2,7 @@
 /*** Includes are held in vimeo-preroll.php ***/
 /* v1-0-0 - Institute Versioning to comply with permacache */
 /* v1-0-2 - Lazy Load Google IMA */
+/* v1-0-3 - Put in proxy button to convince IOS IMA that user action initiated Ad Play */
 
 	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
 	var vimeoPlayerList;
@@ -146,12 +147,26 @@
 				console.log('Paused and now Playing Preroll');
 				/* PREROLL CODE HERE */
 				renderHTML(iFrameElement);
-				createAdDisplayContainer();
+				createIMADisplayContainer();
 				await getUrlFromPrebid(vimeoplayer);
 			}
 		};
 
-		vimeoplayer.on('play', vimeoplayer.thisVimeoPlayHandler);
+		// On IOS, IMA does not consider Vimeo Events as User Interaction.
+		// Create a button to use as a proxy click event.
+		const trickIMAButton = document.createElement("button");
+		trickIMAButton.setAttribute(
+			'style',
+			'display: none',
+		);
+		trickIMAButton.onclick = () => {
+			console.log('DEBUG BUTTON CLICK');
+			vimeoplayer.thisVimeoPlayHandler();
+			console.log('PLAYED VIMEO PLAYER???');
+		}
+		iFrameElement.parentElement.appendChild(trickIMAButton);
+
+		vimeoplayer.on('play', trickIMAButton.onclick);
 
 		vimeoplayer.on('pause', async function () {
 			console.log('Paused the video');
