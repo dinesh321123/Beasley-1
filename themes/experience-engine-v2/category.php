@@ -12,6 +12,7 @@ $ca_query_category_values = $wp_query->query['category_name'];
 
 $category_archive_obj = get_queried_object();
 $ca_query_category_slug = $category_archive_obj->slug;
+$ca_stn_video_barker_id = "";
 
 if (str_contains($ca_query_category_values, ',')) {
 	$ca_featured_curated_posts = array();
@@ -24,6 +25,7 @@ if (str_contains($ca_query_category_values, ',')) {
 	$ca_featured_curated_posts = !empty($ca_featured_curated_posts_query['result']) ? $ca_featured_curated_posts_query['result']->posts : array();
 	$total_ca_featured_curated = (!empty($ca_featured_curated_posts) ) ? count($ca_featured_curated_posts) : 0;
 	$category_archive_posts_exlcuded = $ca_featured_curated_posts_query['exclude_posts'];
+	$ca_stn_video_barker_id = $ca_featured_curated_posts_query['stn_video_barker_id'];
 }
 
 // Getting Posts related to the category
@@ -46,6 +48,16 @@ if ( ee_is_first_page() ) {
 		get_template_part( 'partials/category/featured' );
 	}
 	$category_archive_posts = array_slice($category_archive_posts, 5);
+
+	$ca_stn_cid = get_option( 'stn_cid', '10462' );
+	if ( !empty($ca_stn_video_barker_id) ) { ?>
+		<div class="pre-load-cont">
+			<div class="content-wrap">
+				<h2 class="section-head"><span><?php echo $category_archive_obj->name; ?> Videos</span></h2>
+				<div class="stnbarker" data-fk="<?php echo $ca_stn_video_barker_id; ?>" data-cid="<?php echo $ca_stn_cid; ?>"></div>
+			</div>
+		</div>
+	<?php }
 }
 
 $show_ad_section_index = array(

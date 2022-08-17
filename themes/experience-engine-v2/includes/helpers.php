@@ -340,6 +340,7 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 		$response = array();
 		$response['exclude_posts'] = array();
 		$response['result'] = null;
+		$response['stn_video_barker_id'] = "";
 
 		if($category == null) {
 			return $response;
@@ -359,8 +360,11 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 		if( is_array( $posts ) && ! empty( $posts ) && ( count( $posts ) > 0 ) ) {
 			$limit = 5;
 			$post = $posts[0];
-			$meta_key = 'category_featured_post_meta_box';
 
+			$barker_key = 'stn_video_barker_id';
+			$stn_video_barker_id = get_post_meta( $post->ID, $barker_key, true );
+
+			$meta_key = 'category_featured_post_meta_box';
 			$featured_posts = get_post_meta( $post->ID, $meta_key, true );
 			$featured_posts = implode( ',', array_slice( explode( ',', $featured_posts ), 0, $limit ) );
 
@@ -372,6 +376,8 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 				'ignore_sticky_posts' => true,
 			);
 			$query = new \WP_Query( $args );
+
+			$response['stn_video_barker_id'] = $stn_video_barker_id;
 			$response['exclude_posts'] = $ids;
 			$response['result'] = $query;
 			return $response;
