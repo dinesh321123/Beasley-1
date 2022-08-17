@@ -143,7 +143,7 @@ class MagazineCPT {
 		}
 
 		/*
-		* Create custom metabox in right side
+		* Create category selection metabox after title
 		*/
 		acf_add_local_field_group( array(
 			'key'                   => 'magazine_category_selection',
@@ -177,6 +177,41 @@ class MagazineCPT {
 					'ui' 			=> 1,
 					'ajax' 			=> 1,
 					'required'      => 1,
+				),
+			),
+		) );
+
+		/*
+		* Create STN player settings metabox after title
+		*/
+		acf_add_local_field_group( array(
+			'key'                   => 'magazine_stn_player_settings',
+			'title'                 => 'STN Player Settings',
+			'menu_order'            => 1,
+			'position'              => 'acf_after_title',
+			'style'                 => 'default',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => 1,
+			'description'           => '',
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => self::MAGAZINE_POST_TYPE,
+					),
+				),
+			),
+			'fields'                => array(
+				array(
+					'key'           => 'field_stn_video_barker_id',
+					'label'         => 'STN Video Barker ID',
+					'name'          => 'stn_video_barker_id',
+					'type' => 'text',
+					'placeholder' 	=> '',
+					'required'      => 0,
 				),
 			),
 		) );
