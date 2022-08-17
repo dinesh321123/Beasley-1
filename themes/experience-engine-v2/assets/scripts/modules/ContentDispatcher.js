@@ -10,11 +10,7 @@ import {
 	fetchPage,
 	fetchFeedsContent,
 } from '../redux/actions/screen';
-import {
-	firebaseAuth,
-	getBeasleyCanonicalUrl,
-	untrailingslashit,
-} from '../library';
+import { firebaseAuth, untrailingslashit } from '../library';
 
 const specialPages = ['/wp-admin/', '/wp-signup.php', '/wp-login.php'];
 
@@ -201,6 +197,10 @@ class ContentDispatcher extends Component {
 	}
 
 	onPageHistoryPop(e) {
+		/* 2022-08-17 - THIS CODE BLOCK WAS BUILT ON FALSE PREMISE THAT SECOND STREET ONLY MODIFIED HISTORY LIKE:
+		 *   window.history.pushState(null,'','#//');
+		 * Unfortunately This Code Did Not Work Well With Actual Second Street behavior.
+
 		const lastCanonicalUrl = getBeasleyCanonicalUrl();
 		console.log(
 			`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
@@ -214,6 +214,11 @@ class ContentDispatcher extends Component {
 			window.history.back();
 		} else {
 			console.log(`Back caused load of ${window.location.href}`);
+			this.loadPage(window.location.href, { suppressHistory: true });
+		}
+		*/
+
+		if (window.location.href.indexOf('#') === -1) {
 			this.loadPage(window.location.href, { suppressHistory: true });
 		}
 	}
