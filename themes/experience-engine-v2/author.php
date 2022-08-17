@@ -2,9 +2,8 @@
 get_header();
 
 wp_reset_query();
-echo "test ";
 $author = get_queried_object();
-echo $author_id = $author->ID; exit;
+$author_id = $author->ID;
 
 $pre_query = array(
 	'post_type' => array('post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing'),
