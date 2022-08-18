@@ -31,7 +31,7 @@ class EmbedVideo extends PureComponent {
 		let { thumbnail } = this.props;
 		thumbnail = thumbnail
 			.replace('/vi/', '/vi_webp/')
-			.replace('hqdefault.jpg', 'mqdefault.jpg')
+			.replace('hqdefault.jpg', 'sddefault.jpg')
 			.replace('.jpg', '.webp');
 		const img = await this.checkImg(thumbnail);
 		if (img) {
@@ -89,12 +89,12 @@ class EmbedVideo extends PureComponent {
 		let webp = false;
 		if (thumbnail.indexOf('i.ytimg.com') !== false) {
 			let webpThumbType = 'image/jpg';
-			let webpThumbSrc = thumbnail.replace('hqdefault.jpg', 'mqdefault.jpg');
+			let webpThumbSrc = thumbnail.replace('hqdefault.jpg', 'sddefault.jpg');
 			if (!isFallback) {
 				webpThumbType = 'image/webp';
 				webpThumbSrc = thumbnail
 					.replace('/vi/', '/vi_webp/')
-					.replace('hqdefault.jpg', 'mqdefault.jpg')
+					.replace('hqdefault.jpg', 'sddefault.jpg')
 					.replace('.jpg', '.webp');
 			}
 			webp = <source srcSet={webpThumbSrc} type={webpThumbType} />;
@@ -106,7 +106,7 @@ class EmbedVideo extends PureComponent {
 					<picture>
 						{webp}
 						<img
-							src={thumbnail.replace('hqdefault.jpg', 'mqdefault.jpg')}
+							src={thumbnail.replace('hqdefault.jpg', 'sddefault.jpg')}
 							alt={title}
 						/>
 					</picture>
