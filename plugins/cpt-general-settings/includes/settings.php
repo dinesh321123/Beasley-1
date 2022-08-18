@@ -36,6 +36,10 @@ class CommonSettings {
 					var type = "<?php echo $type; ?>";
 					var lock_url = "<?php echo $lock_url; ?>";
 					var message = "<?php echo $message; ?>";
+					console.log("Custom post type: " + type);
+					console.log("Custom Name: " + name);
+					console.log("Custom Lock URL: " + lock_url);
+					console.log("Custom Message: " + message);
 					if (lock_url) {
 						jQuery(".notification-dialog p:nth-child(3)").append('<a class="button" href="'+lock_url+'">Tack Over</a>');
 					}
