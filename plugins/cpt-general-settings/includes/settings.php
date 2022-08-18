@@ -10,6 +10,41 @@ class CommonSettings {
 		add_action( 'init', array( __CLASS__, 'settings_cpt_init' ), 0 );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'required_alt_text' ) );	// Script for validate Alt text from Add media button
+		add_action('admin_footer', array( __CLASS__, 'my_admin_footer_function' ) );
+	}
+	function my_admin_footer_function() {
+		$id = get_the_ID();
+		$user_id = wp_check_post_lock( $id );
+		if ( $user_id ) {
+			$user = get_userdata( $user_id );
+			$name = $user->display_name;
+		}
+		$type =  get_post_type( $id );
+		$message = "has taken over and is currently editing";
+		$lock_url = esc_url( add_query_arg( 'get-post-lock', '1', wp_nonce_url( get_edit_post_link( $id, 'url' ), 'lock-post_' . $id ) ) );
+		if ( $user_id !='' AND $type !='') {
+			?>
+			<script type="text/javascript">
+				jQuery( document ).ready(function() {
+					var name = "<?php echo $name; ?>";
+					var type = "<?php echo $type; ?>";
+					var lock_url = "<?php echo $lock_url; ?>";
+					var message = "<?php echo $message; ?>";
+					if (lock_url) {
+						jQuery(".notification-dialog p:nth-child(3)").append('<a class="button" href="'+lock_url+'">Tack Over</a>');
+					}
+					jQuery("a.button.button-primary.wp-tab-last").css("margin-right","10px");
+					if(jQuery('.post-locked-message').length > 0){
+						if (name !='' && message !='') {
+							jQuery("p.currently-editing.wp-tab-first").text(name+' '+message);
+						}
+						if (type) {
+							jQuery(".notification-dialog p a.button:nth-child(1)").text('All '+type);
+						}
+					}
+				});
+			</script>
+		<?php }
 	}
 
 	public function required_alt_text() {
