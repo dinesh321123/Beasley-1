@@ -76,10 +76,10 @@ class LazyImage extends PureComponent {
 
 		let { src } = this.props;
 		const { width, height } = this.props;
-		console.log(`width-${width}`);
-		console.log(`height-${height}`);
-		const { containerWidth, containerHeight } = this.getDimensions();
 
+		const { containerWidth, containerHeight } = this.getDimensions();
+		console.log(`width-${containerWidth}`);
+		console.log(`height-${containerHeight}`);
 		// Kludge: Temporary fix for incorrectly cached image URLs in EE API
 		src = src.replace(
 			'b987fm.bbgistage.com/wp-content/uploads/sites/82/',
