@@ -159,14 +159,17 @@
 			'style',
 			'display: none',
 		);
-		trickIMAButton.onclick = () => {
+		trickIMAButton.onclick = (e) => {
 			console.log('DEBUG BUTTON CLICK');
 			vimeoplayer.thisVimeoPlayHandler();
 			console.log('PLAYED VIMEO PLAYER???');
 		}
 		iFrameElement.parentElement.appendChild(trickIMAButton);
 
-		vimeoplayer.on('play', trickIMAButton.onclick);
+		vimeoplayer.on('play', (e) => {
+			trickIMAButton.focus();
+			trickIMAButton.onclick(e);
+		});
 
 		vimeoplayer.on('pause', async function () {
 			console.log('Paused the video');
