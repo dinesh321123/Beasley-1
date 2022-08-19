@@ -123,6 +123,13 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 									$amItemImageType = '<div>' . '<a href="' . $amitembuttonurl . '" target="_blank" rel="noopener">' . $image_html . '</a></div>';
 								}
 
+								if ($am_item_imagetype[$index] == 'imageurl' && empty( $image_html ) ) {
+									add_filter( '_ee_the_lazy_image', $update_lazy_image );
+									$image_html = ee_the_lazy_image( $current_post_id, false );
+									remove_filter( '_ee_the_lazy_image', $update_lazy_image );
+									$amItemImageType = '<div class="am_imagecode">' .$image_html. '</div>';
+								}
+
 								if($amItemImageType != "") {
 									echo $amItemImageType;
 									echo '<div class="share-wrap">';
