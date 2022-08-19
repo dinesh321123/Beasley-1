@@ -63,7 +63,7 @@
 
 	const getVimeoInnerHTML = (shouldAddFullScreenPlayerStyle) => {
 		return `<div id="vimeoPrerollContent" style="height: 0">
-			<video id="vimeoVideoElement" >
+			<video id="vimeoVideoElement">
 				<track
 					src="captions_en.vtt"
 					kind="captions"
@@ -138,8 +138,7 @@
 		const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
 		const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
 
-		// return ipad || iphone || ipod;
-		return true;
+		return ipad || iphone || ipod;
 	}
 
 	const getVimeoPlayerForIOS = (iFrameElement, vimeoplayer) => {
