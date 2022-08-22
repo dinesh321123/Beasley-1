@@ -19,27 +19,38 @@ class CommonSettings {
 		add_action('admin_footer', array( __CLASS__, 'my_admin_footer_function' ) );
 	}
 	function my_admin_footer_function() {
-		$id = get_the_ID();
-		$user_id = wp_check_post_lock( $id );
+		$id			= get_the_ID();
+		$user_id	= wp_check_post_lock( $id );
 		if ( $user_id ) {
-			$user = get_userdata( $user_id );
-			$name = $user->display_name;
+			$user	= get_userdata( $user_id );
+			$name	= $user->display_name;
 		}
-		$type =  get_post_type( $id );
-		$message = "has taken over and is currently editing";
-		$lock_url = esc_url( add_query_arg( 'get-post-lock', '1', wp_nonce_url( get_edit_post_link( $id, 'url' ), 'lock-post_' . $id ) ) );
+		$type		=  get_post_type( $id );
+		$message	= "has taken over and is currently editing";
+		$lock_url	= esc_url( add_query_arg( 'get-post-lock', '1', wp_nonce_url( get_edit_post_link( $id, 'url' ), 'lock-post_' . $id ) ) );
+		$post		= get_post();
+		$admin_link	= admin_url( 'edit.php' );
+		$edit_link	= esc_url(add_query_arg( 'post_type', $post->post_type, $edit_link ));
+
+
 		if ( $user_id !='' AND $type !='') {
 			?>
 			<script type="text/javascript">
 				jQuery( document ).ready(function() {
-					var name = "<?php echo $name; ?>";
-					var type = "<?php echo $type; ?>";
-					var lock_url = "<?php echo $lock_url; ?>";
-					var message = "<?php echo $message; ?>";
+
+					var name		= "<?php echo $name; ?>";
+					var type		= "<?php echo $type; ?>";
+					var lock_url	= "<?php echo $lock_url; ?>";
+					var message		= "<?php echo $message; ?>";
+					var edit_link	= "<?php echo $edit_link; ?>";
+					var admin_url	= "<?php echo $admin_link; ?>";
 					console.log("Custom post type: " + type);
 					console.log("Custom Name: " + name);
 					console.log("Custom Lock URL: " + lock_url);
 					console.log("Custom Message: " + message);
+					console.log("Custom Edit link: " + edit_link);
+					console.log("Custom Message: " + admin_url);
+
 					if (lock_url) {
 						jQuery(".notification-dialog p:nth-child(3)").append('<a class="button" href="'+lock_url+'">Tack Over</a>');
 					}
@@ -48,10 +59,12 @@ class CommonSettings {
 						if (name !='' && message !='') {
 							jQuery("p.currently-editing.wp-tab-first").text(name+' '+message);
 						}
-						if (type) {
-							jQuery(".notification-dialog p a.button:nth-child(1)").text('All '+type);
-						}
 					}
+					function explode(){
+						jQuery(".notification-dialog p a.button:nth-child(1)").text('All '+type);
+						jQuery(".notification-dialog p a.button:nth-child(1)").attr("href",admin_url+edit_link)
+					}
+					setTimeout(explode, 2000);
 				});
 			</script>
 		<?php }
