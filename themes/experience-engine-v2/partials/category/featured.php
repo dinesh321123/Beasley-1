@@ -17,7 +17,7 @@ if( !empty($ca_featured_section_posts) && ( count($ca_featured_section_posts) > 
 				get_template_part( 'partials/tile/thumbnail', 'category' );
 				?>
 			</div>
-			<div class="blog-second w-40 d-sm-none">
+			<div class="blog-second w-40 px-15 d-sm-none">
 				<div class="list-grid">
 					<ul>
 						<?php
