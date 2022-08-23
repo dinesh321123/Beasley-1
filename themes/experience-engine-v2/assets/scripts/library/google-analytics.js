@@ -1,4 +1,4 @@
-export function pageview(title, location, targeting = null, author = null) {
+export function pageview(title, location, targeting = null) {
 	const { ga } = window;
 	if (!ga) {
 		return;
@@ -11,10 +11,6 @@ export function pageview(title, location, targeting = null, author = null) {
 		if (targeting.dimensionkey) {
 			ga('set', targeting.dimensionkey, targeting.dimensionvalue);
 		}
-	}
-
-	if (author) {
-		ga('set', author.dimensionkey, author.dimensionvalue);
 	}
 
 	ga('send', { hitType: 'pageview', title, location });
@@ -40,6 +36,7 @@ export function sendToGA(opts) {
 /**
  * Sends a Live stream playing event to GA
  */
+/* Disable GA Stats due to high usage
 export function sendLiveStreamPlaying() {
 	sendToGA({
 		hitType: 'event',
@@ -47,6 +44,7 @@ export function sendLiveStreamPlaying() {
 		eventAction: 'Live stream playing',
 	});
 }
+*/
 
 /**
  * Sends a Inline audio playing event to GA

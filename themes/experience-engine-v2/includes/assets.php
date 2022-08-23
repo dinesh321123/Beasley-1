@@ -9,6 +9,7 @@ add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
 add_filter( 'fvideos_show_video', 'ee_fvideos_show_video', 10, 2 );
 add_filter( 'tribe_events_assets_should_enqueue_frontend', '__return_false' );
+add_action( 'wp_head', 'link_tags', 8 );
 
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
@@ -74,8 +75,8 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 		// Triton Player SDK
 		// Documentation: https://userguides.tritondigital.com/spc/tdplay2/
-		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
-		wp_script_add_data( 'td-sdk', 'async', true );
+		// wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
+		// wp_script_add_data( 'td-sdk', 'async', true );
 
 		// Google Tag Manager
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
@@ -107,66 +108,10 @@ try {
 } catch( err ) {
 	// do nothing
 }
-
-function scrollToSegmentation(type, item, heading_item = null) {
-	var gotoID = null;
-	if(item) {
-		gotoID = document.getElementById(jQuery.trim(type) + '-segment-item-' + item);
-	}
-	if(heading_item) {
-		gotoID = document.getElementById(jQuery.trim(type) + '-segment-header-item-' + heading_item);
-	}
-	if(gotoID) {
-		gotoID.scrollIntoView({
-			block: "start",
-			behavior: "smooth",
-		});
-	}
-}
-
-// Add alt parameter to auto genrated images for lighthouse issue
-var checkTritonPixeltimes = 0;
-var checkTritonPixel = setInterval(function() {
-    checkTritonPixeltimes += 1;
-    var triton_pixel_image = document.getElementsByClassName('triton-pixel');
-    if(triton_pixel_image.length > 0) {
-        for (var idx = 0; idx < triton_pixel_image.length; idx++) {
-            if(triton_pixel_image[idx] && triton_pixel_image[idx].tagName == "IMG") {
-                triton_pixel_image[idx].alt = "";
-            }
-        }
-        clearInterval(checkTritonPixel);
-    }
-    if(checkTritonPixeltimes > 10) {
-        clearInterval(checkTritonPixel);
-    }
-}, 500);
-
-// Add alt parameter to auto genrated images for lighthouse issue
-var checkResetPixeltimes = 0;
-var checkResetPixel = setInterval(function() {
-	checkResetPixeltimes += 1;
-	var reset_pixel_image = document.getElementById('resetPixelContainer');
-	if(reset_pixel_image) {
-		var reset_pixel_image_nodes = reset_pixel_image.childNodes;
-		if(reset_pixel_image_nodes.length) {
-			for(var i=0; i<reset_pixel_image_nodes.length; i++) {
-				if (reset_pixel_image_nodes[i].tagName == 'IMG') {
-					reset_pixel_image_nodes[i].alt = "Reset Pixel Image";
-				 }
-			}
-		}
-		clearInterval(checkResetPixel);
-	}
-	if(checkResetPixeltimes > 10) {
-		clearInterval(checkResetPixel);
-	}
-}, 500);
 EOL;
 
 		$deps = array(
 			'googletag',
-			'td-sdk',
 			'iframe-resizer',
 			'branded-content-scripts'
 		);
@@ -237,13 +182,22 @@ endif;
 
 if ( ! function_exists( 'ee_get_other_css_vars' ) ) :
 	function ee_get_other_css_vars() {
+		$leaderboard_height_setting = intval( get_option( 'ad_leaderboard_initial_height_setting', '250' ) );
+		$inner_content_top_margin = $leaderboard_height_setting + 44;
 		$vars = [
 			'--brand-play-opacity'           		=> get_option( 'play_opacity_setting', '0.8' ),
 			'--brand-play-hover-opacity'     		=> get_option( 'play_hover_opacity_setting', '1' ),
 			'--brand-play-live-hover-opacity'     	=> get_option( 'play_live_hover_opacity_setting', '0.8' ),
 			'--default-configurable-iframe-height'	=> get_option( 'configurable_iframe_height', '0' ) . 'px',
 			'--configurable-iframe-height'     		=> get_option( 'configurable_iframe_height', '0' ) . 'px',
+			'--ad-leaderboard-initial-height'     	=> $leaderboard_height_setting . 'px',
+			'--inner-content-top-margin'     		=> $inner_content_top_margin . 'px',
 		];
+
+		if (ee_is_common_mobile()) {
+			$vars['--ad-leaderboard-initial-height'] = '50px';
+			$vars['--inner-content-top-margin'] = '.5rem';
+		}
 
 		return $vars;
 	}
@@ -309,6 +263,7 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			'cssvars' => array( 'variables' => array_merge(ee_get_css_colors(), ee_get_other_css_vars()) ),
 			'geotargetly' => ee_current_page_needs_geotargetly(),
 			'related_article_title' => get_option( 'related_article_title', 'You May Also Like' ),
+			'ad_leaderboard_initial_height_setting' => get_option( 'ad_leaderboard_initial_height_setting', '250' ),
 			'ad_rotation_enabled' => get_option( 'ad_rotation_enabled', 'on' ),
 			'ad_rotation_polling_sec_setting' => get_option( 'ad_rotation_polling_sec_setting', '5' ),
 			'ad_rotation_refresh_sec_setting' => get_option( 'ad_rotation_refresh_sec_setting', '30' ),
@@ -341,9 +296,27 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			}
 		}
 
+		$override_css_var = '';
+		if(ee_is_common_mobile()) {
+			$override_variables = array_merge(ee_get_css_colors(), ee_get_other_css_vars());
+			$override_css_var = '
+				<script type="text/javascript">
+					var override_variables = '.json_encode($override_variables).';
+					if( Object.keys(override_variables).length > 0 ) {
+						for (const key in override_variables) {
+							if (key && override_variables[key]) {
+								document.documentElement.style.setProperty(key, override_variables[key]);
+							}
+						}
+					}
+				</script>
+			';
+		}
+
 		printf(
-			'<script id="bbgiconfig" type="application/json">%s</script>',
-			json_encode( apply_filters( 'bbgiconfig', $config ) )
+			'<script id="bbgiconfig" type="application/json">%s</script>%s',
+			json_encode( apply_filters( 'bbgiconfig', $config ) ),
+			$override_css_var
 		);
 	}
 endif;
@@ -499,6 +472,14 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 		}
 	}
 endif;
+
+function link_tags () {
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://https://p1.parsely.com' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://tag.simpli.fi' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://www.googletagmanager.com' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://www.google-analytics.com' );
+}
+
 
 if ( ! function_exists( 'ee_fvideos_show_video' ) ) :
 	function ee_fvideos_show_video( $show, $post_id ) {

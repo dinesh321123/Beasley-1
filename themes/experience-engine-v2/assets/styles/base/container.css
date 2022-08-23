@@ -21,10 +21,21 @@ html {
 	}
 }
 
+#main-container-div {
+	padding-bottom: 90px;
+	@media(--max-medium-viewport) {
+		padding-bottom: 50px;
+	}
+}
+
 main {
 	background-color: white;
 	position: relative;
 	z-index: 2;
+}
+
+#content {
+	width: 100%;
 }
 
 .content {

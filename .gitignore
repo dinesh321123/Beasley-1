@@ -49,6 +49,7 @@ mu-plugins/post-finder/
 !/plugins/cpt-tag-category-import-export
 !/plugins/wp-multisite-user-sync
 !/plugins/vimeovideoselector
+!/plugins/affiliate-marketing-selection
 
 themes/index.php
 themes/twentyfourteen
@@ -74,3 +75,6 @@ themes/greatermedia/vendor/
 /themes/experience-engine-new/bundle/app.js
 /themes/experience-engine-v2/bundle/
 /wpmvc/
+
+object-cache.php
+object-cache-actual.php

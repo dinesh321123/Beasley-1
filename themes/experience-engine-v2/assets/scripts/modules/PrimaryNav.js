@@ -160,7 +160,31 @@ class PrimaryNav extends PureComponent {
 		}
 	}
 
+	handlepaginationFix() {
+		const headerContainer = document.getElementsByClassName(
+			'header-and-news-container',
+		);
+		const paginationHeadSection = document.querySelectorAll(
+			'.pagination-head-section',
+		);
+		if (headerContainer[0]) {
+			const pagiStyle = window.getComputedStyle(headerContainer[0]);
+			const pagiStyleHeight = pagiStyle.height
+				? Math.ceil(parseFloat(pagiStyle.height))
+				: 0;
+			if (pagiStyleHeight) {
+				if (paginationHeadSection.length) {
+					paginationHeadSection.forEach(el => {
+						el.style.top = `${pagiStyleHeight}px`;
+						el.style.color = 'pink';
+					});
+				}
+			}
+		}
+	}
+
 	handleSubMenuSize() {
+		this.handlepaginationFix();
 		if (window.matchMedia('(min-width: 1301px)').matches) {
 			const adEle = document.getElementById('main-custom-logo');
 			let adEleStyleHeight = '';
@@ -335,6 +359,7 @@ class PrimaryNav extends PureComponent {
 	}
 
 	handleScrollNavigation() {
+		this.handlepaginationFix();
 		const { y } = this.state;
 		let yOffset = window.scrollY;
 		const primaryTopbar = document.querySelector('.primary-mega-topbar');

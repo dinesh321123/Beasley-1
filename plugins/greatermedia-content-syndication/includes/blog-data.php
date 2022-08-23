@@ -725,7 +725,7 @@ class BlogData {
 			$post_id = wp_insert_post( $args );
 			$updated = 1;
 
-			// self::log( 'New post (%s) has been created in the destination site.', $post_id );
+			self::log( 'New post (%s) has been created in the destination site.', $post_id );
 		}
 
 		/**

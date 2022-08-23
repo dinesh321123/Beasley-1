@@ -25,7 +25,7 @@ class ContentDispatcher extends Component {
 		this.onClick = this.handleClick.bind(this);
 		this.handleSliders = this.handleSliders.bind(this);
 		this.handleSliderLoad = this.handleSliderLoad.bind(this);
-		this.onPageChange = this.onPageChange.bind(this);
+		this.onPageHistoryPop = this.onPageHistoryPop.bind(this);
 	}
 
 	/**
@@ -37,7 +37,9 @@ class ContentDispatcher extends Component {
 		window.addEventListener('click', this.onClick);
 		// a zero timeout ensures that the callback runs when the new history state is in place.
 		// https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
-		window.addEventListener('popstate', () => setTimeout(this.onPageChange, 0));
+		window.addEventListener('popstate', () =>
+			setTimeout(this.onPageHistoryPop, 0),
+		);
 
 		// load current page into the state
 		initPage();
@@ -61,7 +63,7 @@ class ContentDispatcher extends Component {
 
 	componentWillUnmount() {
 		window.removeEventListener('click', this.onClick);
-		window.removeEventListener('popstate', this.onPageChange);
+		window.removeEventListener('popstate', this.onPageHistoryPop);
 	}
 
 	/**
@@ -194,7 +196,28 @@ class ContentDispatcher extends Component {
 		this.loadPage(link);
 	}
 
-	onPageChange(e) {
+	onPageHistoryPop(e) {
+		/* 2022-08-17 - THIS CODE BLOCK WAS BUILT ON FALSE PREMISE THAT SECOND STREET ONLY MODIFIED HISTORY LIKE:
+		 *   window.history.pushState(null,'','#//');
+		 * Unfortunately This Code Did Not Work Well With Actual Second Street behavior.
+
+		const lastCanonicalUrl = getBeasleyCanonicalUrl();
+		console.log(
+			`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
+		);
+
+		if (window.location.href.replace('#//', '') === lastCanonicalUrl) {
+			console.log(`Current Matched Canonical - doubling back`);
+			window.history.back();
+		} else if (window.location.href.indexOf('#') > -1) {
+			console.log('Found # - doubling back');
+			window.history.back();
+		} else {
+			console.log(`Back caused load of ${window.location.href}`);
+			this.loadPage(window.location.href, { suppressHistory: true });
+		}
+		*/
+
 		if (window.location.href.indexOf('#') === -1) {
 			this.loadPage(window.location.href, { suppressHistory: true });
 		}

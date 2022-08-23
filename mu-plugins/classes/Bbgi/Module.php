@@ -57,6 +57,7 @@ abstract class Module {
 			'users'             => new \Bbgi\Users(),
 			'redirects'         => new \Bbgi\Redirects(),
 			'page-endpoint'     => new \Bbgi\Endpoints\Page(),
+			'megamenu-recent-posts-endpoint'     => new \Bbgi\Endpoints\MegamenuRecentPosts(),
 			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
 			'mapbox' 			=> new \Bbgi\Integration\Mapbox(),
 			'hsform'			=> new \Bbgi\Integration\HubspotForm(),
@@ -67,6 +68,7 @@ abstract class Module {
 			'draftking-iframe'  => new \Bbgi\Integration\DraftkingIframe(),
 			'select-gallery' 			=> new \Bbgi\Integration\GallerySelection(),
 			'select-listicle' 	=> new \Bbgi\Integration\ListicleSelection(),
+			'select-am' 	=> new \Bbgi\Integration\AffiliateMarketingSelection(),
 			'upload-filesize-settings'	=> new \Bbgi\Integration\UploadFileSizeSettings(),
 		);
 

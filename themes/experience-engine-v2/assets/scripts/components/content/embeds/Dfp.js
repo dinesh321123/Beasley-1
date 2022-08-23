@@ -2,239 +2,19 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { IntersectionObserverContext } from '../../../context';
 import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAds';
-
-const playerSponsorDivID = 'div-gpt-ad-1487117572008-0';
-const interstitialDivID = 'div-gpt-ad-1484200509775-3';
-const topScrollingDivID = 'div-top-scrolling-slot';
-const bottomAdhesionDivID = 'div-bottom-adhesion-slot';
-const dropDownDivID = 'div-drop-down-slot';
-
-const isNotSponsorOrInterstitial = placeholder => {
-	return (
-		placeholder !== playerSponsorDivID && placeholder !== interstitialDivID
-	);
-};
-
-const getSlotStatsCollectionObject = () => {
-	let { slotStatsObject } = window;
-	if (!slotStatsObject) {
-		window.slotStatsObject = {};
-		slotStatsObject = window.slotStatsObject;
-	}
-	return slotStatsObject;
-};
-
-const getSlotStat = placeholder => {
-	if (!placeholder) {
-		throw Error('NULL Slot ID Param in getSlotStat()');
-	}
-
-	const slotStatsObject = getSlotStatsCollectionObject();
-	if (typeof slotStatsObject[placeholder] === 'undefined') {
-		slotStatsObject[placeholder] = {
-			viewPercentage: 0,
-			timeVisible: 0,
-			isVideo: false,
-		};
-	}
-
-	return slotStatsObject[placeholder];
-};
-
-const impressionViewableHandler = event => {
-	const { slot } = event;
-	const placeholder = slot.getSlotElementId();
-	if (placeholder && isNotSponsorOrInterstitial(placeholder)) {
-		getSlotStat(placeholder).viewPercentage = 100;
-	}
-};
-
-const slotVisibilityChangedHandler = event => {
-	const { slot } = event;
-	const placeholder = slot.getSlotElementId();
-	if (placeholder && isNotSponsorOrInterstitial(placeholder)) {
-		getSlotStat(placeholder).viewPercentage =
-			typeof event.inViewPercentage === 'undefined'
-				? 100
-				: event.inViewPercentage;
-	}
-};
-
-const adjustContentMarginForTopAd = slotElement => {
-	const contentElement = document.getElementById('inner-content');
-	const adContainerElement = document.getElementById('top-scrolling-container');
-
-	if (slotElement && adContainerElement && contentElement) {
-		const adContainerStyle = window.getComputedStyle(adContainerElement);
-		const newContentTopMargin =
-			24 +
-			parseInt(slotElement.style.height, 10) +
-			parseInt(adContainerStyle.marginTop, 10);
-		contentElement.style.marginTop = `${newContentTopMargin}px`;
-	}
-};
-
-const adjustContentPaddingForBottomAd = slotElement => {
-	const containerElement = document.getElementById('main-container-div');
-
-	if (slotElement && containerElement) {
-		// If Slot Is Not Visible
-		if (slotElement.offsetParent === null) {
-			console.log('Slot is not visible, so setting no padding.');
-			containerElement.style.paddingBottom = '0';
-		} else {
-			containerElement.style.paddingBottom = slotElement.style.height;
-		}
-	}
-};
-
-const setSotElementHeight = (placeholder, slotElement, newAdHeight) => {
-	const padBottomPxStr = window.getComputedStyle(slotElement).paddingBottom;
-	const padBottomNumStr =
-		padBottomPxStr.indexOf('px') > -1 ? padBottomPxStr.replace('px', '') : '0';
-
-	// Set Slot Height To New Height Plus paddingBottom
-	slotElement.style.height = `${newAdHeight + parseInt(padBottomNumStr, 10)}px`;
-
-	if (placeholder === topScrollingDivID) {
-		adjustContentMarginForTopAd(slotElement);
-	} else if (placeholder === bottomAdhesionDivID) {
-		adjustContentPaddingForBottomAd(slotElement);
-	}
-};
-
-const showSlotElement = slotElement => {
-	slotElement.classList.add('fadeInAnimation');
-	slotElement.style.opacity = '1';
-};
-
-const slotRenderEndedHandler = event => {
-	const { slot, isEmpty, size } = event;
-	const htmlVidTagArray = window.bbgiconfig.vid_ad_html_tag_csv_setting
-		? window.bbgiconfig.vid_ad_html_tag_csv_setting.split(',')
-		: null;
-
-	const placeholder = slot.getSlotElementId();
-	const slotElement = document.getElementById(placeholder);
-
-	// console.log(
-	//	`slotRenderEndedHandler for ${slot.getAdUnitPath()}(${placeholder}) with line item: ${lineItemId} of size: ${size}`,
-	// );
-
-	// FOR DEBUG - LOG TARGETING
-	// const pbTargetKeys = slot.getTargetingKeys();
-	// console.log(`Slot Keys Of Rendered Ad`);
-	// pbTargetKeys.forEach(pbtk => {
-	//	console.log(`${pbtk}: ${slot.getTargeting(pbtk)}`);
-	// });
-
-	if (!isEmpty) {
-		if (placeholder === topScrollingDivID) {
-			window.bbgiLeaderboardLoaded = true;
-		} else if (placeholder === bottomAdhesionDivID) {
-			window.bbgiAdhesionLoaded = true;
-		}
-
-		// Dropdown Ads May Have Display: None. Set Them To Show
-		if (placeholder === dropDownDivID) {
-			if (slotElement) {
-				slotElement.style.display = 'flex';
-			}
-		}
-	}
-
-	if (placeholder && isNotSponsorOrInterstitial(placeholder)) {
-		if (isEmpty) {
-			console.log('Empty Ad Returned');
-			// DropDown Ads Should Not Retain Their Realestate
-			if (placeholder === dropDownDivID) {
-				if (slotElement) {
-					slotElement.style.display = 'none';
-				}
-			}
-
-			// If Slot Is Visible
-			if (slotElement.offsetParent !== null) {
-				// Trick Slot to pull new Ad on next poll.
-				// Set Visible Time To Huge Arbitrary MSec Value So That Next Poll Will Trigger A Refresh
-				// NOTE: Minimum Poll Interval Is Set In DFP Constructor To Be Much Longer Than
-				// 	Round Trip to Ad Server So That Racing/Looping Condition Is Avoided.
-				getSlotStat(placeholder).timeVisible = 10000000;
-			}
-			if (placeholder === bottomAdhesionDivID) {
-				// Set Main Content Div Bottom Padding To 0 Since No Ad
-				setSotElementHeight(placeholder, slotElement, 0);
-			}
-		} else {
-			let adSize;
-			if (size && size.length === 2 && (size[0] !== 1 || size[1] !== 1)) {
-				adSize = size;
-				// console.log(`Prebid Ad Not Shown - Using Size: ${adSize}`);
-			} else if (slot.getTargeting('hb_size')) {
-				// We ASSUME when an incomplete size is sent through event, we are dealing with Prebid.
-				// Compute Size From hb_size.
-				const hbSizeString = slot.getTargeting('hb_size').toString();
-				// console.log(`Prebid Sizestring: ${hbSizeString}`);
-				const idxOfX = hbSizeString.toLowerCase().indexOf('x');
-				if (idxOfX > -1) {
-					const widthString = hbSizeString.substr(0, idxOfX);
-					const heightString = hbSizeString.substr(idxOfX + 1);
-					adSize = [];
-					adSize[0] = parseInt(widthString, 10);
-					adSize[1] = parseInt(heightString, 10);
-				}
-
-				// Now Send GA Stats
-				if (
-					slot &&
-					slot.getTargeting('hb_bidder') &&
-					slot
-						.getTargeting('hb_bidder')
-						.toString()
-						.trim()
-				) {
-					// console.log(
-					//	`PREBID AD SHOWN - ${slot.getTargeting(
-					//		'hb_bidder',
-					//	)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
-					// );
-
-					try {
-						window.ga('send', {
-							hitType: 'event',
-							eventCategory: 'PrebidAdShown',
-							eventAction: `${slot.getTargeting('hb_bidder')}`,
-							eventLabel: `${slot.getAdUnitPath()}`,
-							eventValue: `${parseInt(
-								parseFloat(slot.getTargeting('hb_pb')) * 100,
-								10,
-							)}`,
-						});
-					} catch (ex) {
-						console.log(`ERROR Sending to Google Analytics: `, ex);
-					}
-				}
-			}
-
-			// Adjust Container Div Height
-			if (adSize && adSize[0] && adSize[1]) {
-				setSotElementHeight(placeholder, slotElement, adSize[1]);
-			}
-
-			showSlotElement(slotElement);
-
-			getSlotStat(placeholder).timeVisible = 0; // Reset Timeout So That Next Few Polls Do Not Trigger A Refresh
-			const slotHTML = slot.getHtml();
-			let isVideo = false;
-			if (slotHTML && htmlVidTagArray) {
-				htmlVidTagArray.forEach(tag => {
-					isVideo = isVideo || slotHTML.indexOf(tag) > -1;
-				});
-			}
-			getSlotStat(placeholder).isVideo = isVideo;
-		}
-	}
-};
+import {
+	impressionViewableHandler,
+	slotVisibilityChangedHandler,
+	slotRenderEndedHandler,
+	isNotSponsorOrInterstitial,
+	getSlotStat,
+	registerSlotStatForRefresh,
+	topScrollingDivID,
+	// dropDownDivID,
+	hidePlaceholder,
+	showSlotElement,
+	getSlotStatsCollectionObject,
+} from '../../../library/ad-utils';
 
 class Dfp extends PureComponent {
 	constructor(props) {
@@ -709,12 +489,6 @@ class Dfp extends PureComponent {
 						],
 					},
 				];
-
-				// Adjust Default Content Margin To Help With Page Shift
-				const contentElement = document.getElementById('inner-content');
-				if (contentElement) {
-					contentElement.style.marginTop = `134px`;
-				}
 			} else if (unitName === 'drop-down') {
 				console.log('Building sizes for Dropdown');
 				sizeMapping = googletag
@@ -1013,6 +787,12 @@ class Dfp extends PureComponent {
 				slot.setTargeting(targeting[i][0], targeting[i][1]);
 			}
 
+			registerSlotStatForRefresh(placeholder, slot);
+
+			// console.log(
+			//	`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			// );
+
 			this.setState({ slot, prebidEnabled });
 			return true;
 		});
@@ -1095,10 +875,7 @@ class Dfp extends PureComponent {
 
 	hideSlot() {
 		const { placeholder } = this.props;
-		const placeholderElement = document.getElementById(placeholder);
-		placeholderElement.classList.remove('fadeInAnimation');
-		placeholderElement.classList.remove('fadeOutAnimation');
-		placeholderElement.style.opacity = '0';
+		hidePlaceholder(placeholder);
 	}
 
 	showSlot() {
@@ -1138,8 +915,6 @@ class Dfp extends PureComponent {
 
 		if (slot) {
 			const { googletag } = window;
-			// Remove Slot Stat Property
-			delete getSlotStatsCollectionObject()[placeholder];
 
 			if (prebidEnabled) {
 				console.log(`Removing Ad Unit From Prebid: ${adjustedUnitId}`);
@@ -1149,17 +924,54 @@ class Dfp extends PureComponent {
 			}
 
 			console.log(`Destroying Slot: ${placeholder}`);
-
 			if (googletag && googletag.destroySlots) {
 				googletag.destroySlots([slot]);
 			}
+
+			// Remove Slot Stat Property
+			delete getSlotStatsCollectionObject()[placeholder];
+
+			// console.log(
+			// 	`AD STACK NOW CONTAINS ${googletag.pubads().getSlots().length} ADS`,
+			// );
+
+			/*
+			// FOR DEBUG - SHOW ALL SLOTS
+			googletag
+				.pubads()
+				.getSlots()
+				.forEach(function(slot) {
+					console.log(slot.getSlotElementId());
+				});
+			*/
 		}
 	}
 
 	tryDisplaySlot() {
+		// const { unitName } = this.props;
+
 		if (this.state && !this.state.slot) {
 			this.registerSlot();
 		}
+
+		/*
+		if (unitName === 'drop-down') {
+			const { googletag } = window;
+			googletag.cmd.push(() => {
+				const ddSlotStat = getSlotStatsCollectionObject()[dropDownDivID];
+				if (ddSlotStat) {
+					console.log('Calling googletag.display() on DropDown Ad');
+					googletag.display(dropDownDivID);
+
+					// googletag.pubads().refresh([ddSlotStat.slot]);
+				} else {
+					console.log(
+						'Could Not Find Slot Stat For Dropdown Ad - May Not Be Configured In EE',
+					);
+				}
+			});
+		}
+		*/
 	}
 
 	render() {

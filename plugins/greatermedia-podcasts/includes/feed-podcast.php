@@ -180,6 +180,10 @@ echo '<?xml version="1.0" encoding="' . get_option('blog_charset') . '"?'.'>'; ?
 			$enclosure = get_post_meta( $episode_id, 'omny-audio-url', true );
 		}
 
+		if ( empty( $enclosure ) ) {
+			$enclosure = get_post_meta( $episode_id, 'gmr-podcast-audio', true );
+		}
+
 		// Episode duration
 		$duration = get_post_meta( $episode_id, 'duration' , true );
 		if ( empty( $duration ) ) {

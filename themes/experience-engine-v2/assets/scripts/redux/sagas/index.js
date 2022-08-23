@@ -20,6 +20,7 @@ export { default as watchGamAdPlaybackStart } from './player/yieldGamAdPlaybackS
 // Screen
 export { default as watchInitPage } from './screen/yieldInitPage';
 export { default as watchLoadingPage } from './screen/yieldLoadingPage';
+export { default as watchLoadingPage2 } from './screen/yieldUpdatePageStats';
 export { default as watchLoadedPage } from './screen/yieldLoadedPage';
 export { default as watchLoadedPartial } from './screen/yieldLoadedPartial';
 export { default as watchHideSplashScreen } from './screen/yieldHideSplashScreen';

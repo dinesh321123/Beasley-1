@@ -1,5 +1,10 @@
 import Bowser from 'bowser';
 
+export const isAndroid = () => {
+	const { userAgent } = window.navigator;
+	return !!userAgent && userAgent.toLowerCase().indexOf('android') > -1;
+};
+
 export const isSafari = () => {
 	const { userAgent } = window.navigator;
 	return /^((?!chrome|android).)*safari/i.test(userAgent);

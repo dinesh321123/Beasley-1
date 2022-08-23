@@ -135,7 +135,10 @@ class Google extends \Bbgi\Module {
 
 			$data['shows'] = implode( ', ', wp_get_post_terms( $post->ID, '_shows', $args ) );
 			$data['category'] = implode( ', ', wp_get_post_terms( $post->ID, 'category', $args ) );
-			$data['author'] = get_the_author_meta( 'login', $post->post_author );
+			
+			$primary_author = get_field( 'primary_author_cpt', $post );
+			$primary_author = $primary_author ? $primary_author : $post->post_author;
+			$data['author'] = get_the_author_meta( 'login', $primary_author );
 		}
 
 		return $data;

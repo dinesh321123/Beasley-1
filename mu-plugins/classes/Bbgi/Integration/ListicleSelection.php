@@ -30,7 +30,8 @@ class ListicleSelection extends \Bbgi\Module {
 	public function render_shortcode( $atts ) {
 		$attributes = shortcode_atts( array(
 			'listicle_id' => '',
-			'syndication_name' => ''
+			'syndication_name' => '',
+			'description' => ''
 		), $atts, 'select-listicle' );
 
 		if( !empty( $attributes['syndication_name'] ) ) {
@@ -40,7 +41,7 @@ class ListicleSelection extends \Bbgi\Module {
 				'post_status' => 'any',
 				'post_type'   => 'listicle_cpt'
 			);
-	
+
 			$existing = get_posts( $meta_query_args );
 
 			if ( !empty( $existing ) ) {
@@ -56,7 +57,7 @@ class ListicleSelection extends \Bbgi\Module {
 		if(empty($listicle_id)) {
 			return;
 		}
-		
+
 		$post_object = get_queried_object();
 
 		$cpt_post_object = $this->verify_post( $listicle_id, $attributes['syndication_name'] );
@@ -79,7 +80,14 @@ class ListicleSelection extends \Bbgi\Module {
 
 		$content = apply_filters( 'bbgi_listicle_cotnent', $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $post_object );
 		if ( ! empty( $content ) ) {
-			$content_updated = "<h2 class=\"section-head\"><span>".$cpt_post_object->post_title."</span></h2>".$content;
+			$content_updated = "<h2 class=\"section-head\"><span>".$cpt_post_object->post_title."</span></h2>";
+			if( !empty( $attributes['description'] ) &&  ($attributes['description'] == 'yes') ) {
+				$the_content = apply_filters('the_content', $cpt_post_object->post_content);
+				if ( !empty($the_content) ) {
+					$content_updated .= "<div class=\"listicle-embed-description\">".$the_content."</div>";
+				}
+			}
+			$content_updated .= $content;
 			return $content_updated;
 		}
 
@@ -93,7 +101,7 @@ class ListicleSelection extends \Bbgi\Module {
 	 */
 	function get_post_metadata_from_post( $value, $post ) {
 		$field = get_post_meta( $post->ID, $value, true );
-		
+
 		if ( ! empty( $field ) ) {
             return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
         } else {
@@ -113,7 +121,7 @@ class ListicleSelection extends \Bbgi\Module {
 		if( $post->post_type !== 'listicle_cpt' || $post->post_name !== $syndication_name ) {
 			return null;
 		}
-		
+
 		if ( !empty( $post ) ) {
 			return $post;
 		}

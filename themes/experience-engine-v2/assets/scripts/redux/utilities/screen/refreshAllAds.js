@@ -1,10 +1,21 @@
+import {
+	doPubadsRefreshForAllRegisteredAds,
+	hidePlaceholder,
+	topScrollingDivID,
+} from '../../../library/ad-utils';
+
 export default function refreshAllAds() {
 	const { prebid_enabled } = window.bbgiconfig;
+
+	// Trying to keep top ad visible - no longer hide
+	window.topAdsShown = 0; // Reset Header Ad Counter
+	hidePlaceholder(topScrollingDivID);
 
 	if (!prebid_enabled) {
 		const { googletag } = window;
 		googletag.cmd.push(() => {
-			googletag.pubads().refresh();
+			// googletag.pubads().refresh();
+			doPubadsRefreshForAllRegisteredAds(googletag);
 		});
 		return; // EXIT FUNCTION
 	}
@@ -27,7 +38,8 @@ export default function refreshAllAds() {
 			pbjs.que.push(() => {
 				pbjs.setTargetingForGPTAsync();
 				logPrebidTargeting();
-				googletag.pubads().refresh();
+				// googletag.pubads().refresh();
+				doPubadsRefreshForAllRegisteredAds(googletag);
 			});
 		});
 	}
@@ -45,6 +57,7 @@ export function logPrebidTargeting(unitId) {
 					`High Prebid Ad ID: ${tkey} Bidder: ${targeting[tkey].hb_bidder} Price: ${targeting[tkey].hb_pb}`,
 				);
 
+				/* Disable GA Stats due to high usage
 				try {
 					window.ga('send', {
 						hitType: 'event',
@@ -59,6 +72,7 @@ export function logPrebidTargeting(unitId) {
 				} catch (ex) {
 					console.log(`ERROR Sending to Google Analytics: `, ex);
 				}
+			    */
 
 				// Set retval when UnitID was specified and we have a high bidder
 				if (unitId && unitId === tkey) {

@@ -12,21 +12,14 @@ import {
 	ACTION_HISTORY_HTML_SNAPSHOT,
 	hideSplashScreen,
 } from '../../actions/screen';
-import { slugify, dispatchEvent, updateCanonicalUrl } from '../../../library';
-import resetScrollToTop from '../../utilities/player/resetScrollToTop';
-
-/**
- * Scrolls to the top of content.
- */
-function scrollIntoView() {
-	// Get content container
-	const content = document.getElementById('content');
-
-	// Scroll to top of content
-	if (content) {
-		content.scrollIntoView(true);
-	}
-}
+import {
+	slugify,
+	dispatchEvent,
+	updateCanonicalUrl,
+	getBeasleyCanonicalUrl,
+} from '../../../library';
+// import resetScrollToTop from '../../utilities/player/resetScrollToTop';
+import { doPageStackScroll } from '../../../library/page-utils';
 
 /**
  * Updates window.history with new url and title
@@ -55,6 +48,7 @@ function updateHistory(url, title) {
  * @param { Object } action Dispatched action
  */
 function* yieldLoadedPage(action) {
+	console.log('LOADED FULL PAGE');
 	const { url, response, options, parsedHtml } = action;
 	const { ad_reset_digital_enabled } = window.bbgiconfig;
 	const urlSlugified = slugify(url);
@@ -70,6 +64,7 @@ function* yieldLoadedPage(action) {
 	// Update BBGI Config
 	yield call(manageBbgiConfig, pageDocument);
 
+	const leavingPageUrl = getBeasleyCanonicalUrl();
 	updateCanonicalUrl(url);
 
 	if (ad_reset_digital_enabled === 'on' && window.fireResetPixel) {
@@ -106,8 +101,11 @@ function* yieldLoadedPage(action) {
 	// Update Scripts.
 	yield call(manageScripts, parsedHtml.scripts, screenStore.scripts);
 
+	// console.log('***Yield Loading Page Adjusting Scroll');
 	// make sure the user scroll bar is into view.
-	yield call(scrollIntoView);
+	// yield call(scrollIntoView);
+	console.log('**** CALLING NEW PAGE PROCESSING ****');
+	yield call(doPageStackScroll, leavingPageUrl, url);
 
 	// make sure to hide splash screen.
 	yield put(hideSplashScreen());
@@ -131,7 +129,8 @@ function* yieldLoadedPage(action) {
 
 	yield call(handleInjectos);
 
-	resetScrollToTop();
+	console.log('***Yield Load Finished and NOT scrolling to top - UNSURE???');
+	// yield call(resetScrollToTop);
 }
 
 /**

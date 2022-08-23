@@ -4,18 +4,7 @@ add_action( 'wp_loaded', 'ee_setup_whiz' );
 
 if ( ! function_exists( 'ee_is_whiz' ) ) :
 	function ee_is_whiz() {
-		static $whiz_pos = null;
-
-		if($whiz_pos === null ) {
-			$whiz_pos = stripos( $_SERVER['HTTP_USER_AGENT'], 'whiz' );
-
-			// Allow way to toggle whiz through URL querystring
-			if ( isset( $_GET['whiz'] ) ) {
-				$whiz_pos = 1;
-			}
-		}
-
-		return false !== $whiz_pos;
+		return ee_is_common_mobile();
 	}
 endif;
 

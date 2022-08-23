@@ -7,6 +7,9 @@
 			font-weight: 600;
 		}
 	}
+	& .wp-video {
+		width: 100% !important;
+	}
 
 	& .event-info {
 		margin: 0 auto;

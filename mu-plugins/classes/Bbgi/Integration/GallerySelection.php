@@ -30,7 +30,8 @@ class GallerySelection extends \Bbgi\Module {
 	public function render_shortcode( $atts ) {
 		$attributes = shortcode_atts( array(
 			'gallery_id' => '',
-			'syndication_name' => ''
+			'syndication_name' => '',
+			'description' => ''
 		), $atts, 'select-gallery' );
 
 		if( !empty( $attributes['syndication_name'] ) ) {
@@ -40,7 +41,7 @@ class GallerySelection extends \Bbgi\Module {
 				'post_status' => 'any',
 				'post_type'   => 'gmr_gallery'
 			);
-	
+
 			$existing = get_posts( $meta_query_args );
 
 			if ( !empty( $existing ) ) {
@@ -63,7 +64,14 @@ class GallerySelection extends \Bbgi\Module {
 		$gallery_object = get_post( $gallery_id );
 		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids );
 		if ( ! empty( $content ) ) {
-			$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>".$content;
+			$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>";
+			if( !empty( $attributes['description'] ) &&  ($attributes['description'] == 'yes') ) {
+				$the_content = apply_filters('the_content', $gallery_object->post_content);
+				if ( !empty($the_content) ) {
+					$content_updated .= "<div class=\"gallery-embed-description\">".$the_content."</div>";
+				}
+			}
+			$content_updated .= $content;
 			return $content_updated;
 		}
 
@@ -94,7 +102,14 @@ class GallerySelection extends \Bbgi\Module {
 		$content .= '<small class="gallery__embed--cta">Click to see all</small>';
 		$content .= '</a></div>';
 
-		$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>".$content;
+		$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>";
+		if( !empty( $attributes['description'] ) &&  ($attributes['description'] == 'yes') ) {
+			$the_content = apply_filters('the_content', $gallery_object->post_content);
+			if ( !empty($the_content) ) {
+				$content_updated .= "<div class=\"gallery-embed-description\">".$the_content."</div>";
+			}
+		}
+		$content_updated .= $content;
 		return $content_updated;
 	}
 
@@ -110,7 +125,7 @@ class GallerySelection extends \Bbgi\Module {
 		if( $post->post_type !== 'gmr_gallery' || $post->post_name !== $syndication_name ) {
 			return null;
 		}
-		
+
 		if ( ! isset( $ids[ $post->ID ] ) ) {
 			$array_ids = get_post_meta( $post->ID, 'gallery-image' );
 			$array_ids = array_filter( array_map( 'intval', $array_ids ) );

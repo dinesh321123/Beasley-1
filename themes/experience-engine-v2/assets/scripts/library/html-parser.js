@@ -391,6 +391,18 @@ export function getStateFromContent(container, pageURL) {
 				),
 			),
 			...processEmbeds(
+				document,
+				'megamenurecentposts',
+				'.megamenu-recent-posts-endpoint',
+				getDatasetParams(
+					'postsperpage',
+					'categories',
+					'showthumb',
+					'showthumbsize',
+					'menuareaid',
+				),
+			),
+			...processEmbeds(
 				container,
 				'ga',
 				'.ga-info',
@@ -402,12 +414,6 @@ export function getStateFromContent(container, pageURL) {
 					'dimensionkey',
 					'dimensionvalue',
 				),
-			),
-			...processEmbeds(
-				container,
-				'gatracklocation',
-				'.ga-track-location',
-				getDatasetParams('tracking', 'author'),
 			),
 			...processEmbeds(container, 'mapbox', '.mapbox', getMapboxParams),
 			...processEmbeds(

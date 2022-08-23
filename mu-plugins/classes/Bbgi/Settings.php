@@ -212,12 +212,13 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('contest_show_dates_setting', 'Date Display', array($this, 'render_contest_show_dates'), $this->_settings_page_hook, 'contest_section', $contest_show_dates_args);
 
 		add_settings_section( 'ad_settings_section', 'Ad Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field('ad_leaderboard_initial_height_setting', 'Initial Leaderboard Height (250 is recommended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_leaderboard_initial_height_setting&default=250');
 		add_settings_field('ad_single_request_enabled', 'Single Request Enabled', array($this, 'render_ad_single_request_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_single_request_enabled_args);
 		add_settings_field('ad_lazy_loading_enabled', 'Lazy Loading Enabled', array($this, 'render_ad_lazy_loading_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_lazy_loading_enabled_args);
 		add_settings_field('ad_rotation_enabled', 'Ad Rotation Enabled (Note: Ads on Right Rail will ALWAYS rotate)', array($this, 'render_ad_rotation_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_rotation_enabled_args);
-		add_settings_field('ad_rotation_polling_sec_setting', 'Poll Interval Seconds (5 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_polling_sec_setting&default=5');
-		add_settings_field('ad_rotation_refresh_sec_setting', 'Refresh Interval Seconds (30 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_refresh_sec_setting&default=30');
-		add_settings_field('ad_vid_rotation_refresh_sec_setting', 'Video Refresh Interval Seconds (60 is recomended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_vid_rotation_refresh_sec_setting&default=60');
+		add_settings_field('ad_rotation_polling_sec_setting', 'Poll Interval Seconds (5 is recommended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_polling_sec_setting&default=5');
+		add_settings_field('ad_rotation_refresh_sec_setting', 'Refresh Interval Seconds (30 is recommended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_rotation_refresh_sec_setting&default=30');
+		add_settings_field('ad_vid_rotation_refresh_sec_setting', 'Video Refresh Interval Seconds (60 is recommended)', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=ad_vid_rotation_refresh_sec_setting&default=60');
 		add_settings_field('vid_ad_html_tag_csv_setting', 'CSV of HTML tags which indicate Video', 'bbgi_input_field', $this->_settings_page_hook, 'ad_settings_section', 'name=vid_ad_html_tag_csv_setting&default=mixpo');
 		add_settings_field('ad_confiant_enabled', 'Confiant Enabled', array($this, 'render_ad_confiant_enabled'), $this->_settings_page_hook, 'ad_settings_section', $ad_confiant_enabled_args);
 
@@ -293,6 +294,7 @@ class Settings extends \Bbgi\Module {
 
 		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
 
+		register_setting(self::option_group, 'ad_leaderboard_initial_height_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_single_request_enabled', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_lazy_loading_enabled', 'sanitize_text_field');
 		register_setting(self::option_group, 'ad_rotation_enabled', 'sanitize_text_field');

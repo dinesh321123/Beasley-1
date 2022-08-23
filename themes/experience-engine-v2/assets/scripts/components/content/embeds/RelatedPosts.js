@@ -15,24 +15,10 @@ const RelatedPost = ({
 	const date = new Date(published);
 	const targetUrl = `https://${url}`;
 
-	function handleClick(e) {
-		e.preventDefault();
-
-		window.ga('send', {
-			hitType: 'event',
-			eventCategory: 'YouMightAlsoLike',
-			eventAction: `click test ${test_name}`,
-			eventLabel: `${targetUrl}`,
-			hitCallback: () => {
-				document.getElementById(`thumbnail-click-${id}`).click();
-			},
-		});
-	}
-
 	return (
 		<div id={`post-${id}`} className={['post-tile post'].join(' ')}>
 			<div className="post-thumbnail">
-				<a href={targetUrl} onClick={handleClick} id={`thumbnail-${id}`}>
+				<a href={targetUrl} id={`thumbnail-${id}`}>
 					<LazyImage
 						crop={false}
 						placeholder={`thumbnail-${id}`}
@@ -41,13 +27,6 @@ const RelatedPost = ({
 						height={141}
 						alt={title || ''}
 					/>
-				</a>
-				<a
-					href={targetUrl}
-					style={{ visibility: 'hidden' }}
-					id={`thumbnail-click-${id}`}
-				>
-					Go to related post
 				</a>
 			</div>
 			<div className="post-details">
@@ -60,9 +39,7 @@ const RelatedPost = ({
 				</div>
 				<div className="post-title">
 					<h3>
-						<a href={targetUrl} onClick={handleClick}>
-							{title}
-						</a>
+						<a href={targetUrl}>{title}</a>
 					</h3>
 				</div>
 			</div>
@@ -108,13 +85,6 @@ const RelatedPosts = ({ posttype, posttitle, categories, url }) => {
 				} else {
 					setTestName(result.testname);
 					let transformedURL = result.url;
-
-					window.ga('send', {
-						hitType: 'event',
-						eventCategory: 'YouMightAlsoLike',
-						eventAction: `displayed`,
-						eventLabel: `test ${result.testname}`,
-					});
 
 					transformedURL = transformedURL.replace('{url}', url);
 

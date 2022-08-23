@@ -3,23 +3,48 @@ use Bbgi\Integration\Google;
 ?>
 <?php
 
+	$headerCacheTag = [];
+
 	if (  is_front_page() ) {
-		$headerCacheTag  = $_SERVER['HTTP_HOST'].'-'.'home';
-	} else {
+		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
+	} else if (is_archive()) {
+		$obj = get_queried_object();
+
+
+		if (isset($obj->slug)) {
+			$headerCacheTag[] = "archive" . "-" . $obj->slug;
+		}
+
+		if (isset($wp_query->query['post_type'])) {
+			$headerCacheTag[] = "archive-" . $wp_query->query['post_type'];
+			$headerCacheTag[] = $wp_query->query['post_type'];
+		}
+
+	}  else {
 		global $post;
 		$currentPostType	= "";
 		$currentPostSlug	= "";
 		if ( get_post_type() ) :
 			$currentPostType = get_post_type();
+			$headerCacheTag[] = $currentPostType;
+
+			if ($currentPostType == "episode") {
+				$headerCacheTag[] = "podcast";
+			}
+
+
 		endif;
 		if (  isset( $post->post_name ) && $post->post_name != "" ) :
 			$currentPostSlug = "-".$post->post_name;
 		endif;
-		$headerCacheTag = $currentPostType.$currentPostSlug;
+
+		$headerCacheTag[] = $currentPostType.$currentPostSlug;
 	}
 
-	header("Cache-Tag: $headerCacheTag" . ",content", true);
-	header("X-Cache-BBGI-Tag: $headerCacheTag", true);
+	append_current_device_to_cache_tag($headerCacheTag);
+
+	header("Cache-Tag: " . implode(",", $headerCacheTag) , true);
+	header("X-Cache-BBGI-Tag: " . implode(",", $headerCacheTag) , true);
 ?>
 <!doctype html>
 <html lang="en">
@@ -55,6 +80,11 @@ use Bbgi\Integration\Google;
 				<?php
 					if ( class_exists( Google::class ) ) {
 						Google::render_ga_placeholder();
+					}
+					if ( ee_is_whiz() ) {
+						echo '<div id="whiz-leaderboard-container">';
+						do_action( 'dfp_tag', 'top-leaderboard' );
+						echo '</div>';
 					}
 				?>
 				<div id="inner-content">

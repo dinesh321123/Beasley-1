@@ -28,4 +28,5 @@
     background: none;
     border: none;
     color: var(--brand-primary);
+	cursor: pointer;
 }
