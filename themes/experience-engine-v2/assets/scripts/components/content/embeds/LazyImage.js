@@ -17,7 +17,6 @@ class LazyImage extends PureComponent {
 
 	componentDidMount() {
 		const { placeholder } = this.props;
-
 		this.container = document.getElementById(placeholder);
 		this.context.observe(this.container, this.onIntersectionChange);
 	}
@@ -76,10 +75,12 @@ class LazyImage extends PureComponent {
 
 		let { src } = this.props;
 		const { width, height } = this.props;
-
+		const { innerWidth, innerHeight } = window;
+		console.log('im');
+		console.log(innerHeight);
+		console.log(innerWidth);
 		const { containerWidth, containerHeight } = this.getDimensions();
-		console.log(`width-${containerWidth}`);
-		console.log(`height-${containerHeight}`);
+
 		// Kludge: Temporary fix for incorrectly cached image URLs in EE API
 		src = src.replace(
 			'b987fm.bbgistage.com/wp-content/uploads/sites/82/',
@@ -145,7 +146,6 @@ class LazyImage extends PureComponent {
 	loadImage() {
 		const { autoheight } = this.props;
 		const { width, height } = this.props;
-
 		// load image and update state
 		const imageSrc = this.getImageUrl();
 
