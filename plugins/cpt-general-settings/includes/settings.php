@@ -3,16 +3,29 @@
  * Class CommonSettings
  */
 class CommonSettings {
+	function __construct()
+	{
+		$this->init();
+	}
 	/**
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
-	public static function init() {
+	public function init() {
 		add_action( 'init', array( __CLASS__, 'settings_cpt_init' ), 0 );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'required_alt_text' ) );	// Script for validate Alt text from Add media button
 		add_action('admin_footer', array( __CLASS__, 'my_admin_footer_function' ) );
 	}
 	function my_admin_footer_function() {
+		global $typenow, $pagenow;
+		if ( ! in_array( $typenow, $this->allow_takeover_posttype_list() ) ) {
+			return;
+			exit;
+		}
+		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			return;
+			exit;
+		}
 		$id			= get_the_ID();
 		$user_id	= wp_check_post_lock( $id );
 		if ( $user_id ) {
@@ -26,12 +39,10 @@ class CommonSettings {
 		$admin_link	= admin_url( 'edit.php' );
 		$edit_link	= esc_url(add_query_arg( 'post_type', $post->post_type, $edit_link ));
 
-
 		if ( $user_id !='' AND $type !='') {
 			?>
 			<script type="text/javascript">
 				jQuery( document ).ready(function() {
-
 					var name		= "<?php echo $name; ?>";
 					var type		= "<?php echo $type; ?>";
 					var lock_url	= "<?php echo $lock_url; ?>";
@@ -177,13 +188,17 @@ class CommonSettings {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'listicle_cpt', 'affiliate_marketing' )  );
 	}
 
+	public function allow_takeover_posttype_list() {
+		return (array) apply_filters( 'allow-takeover-for-posttypes', array( 'post', 'page', 'listicle_cpt', 'affiliate_marketing' )  );
+	}
+
 	/**
 	 * Enqueues admin scripts and styles.
 	 *
 	 * @global string $typenow The current type.
 	 * @global string $pagenow The current page.
 	 */
-	public static function enqueue_scripts() {
+	public function enqueue_scripts( $hook ) {
 		global $typenow, $pagenow;
 
 		if ( in_array( $typenow, CommonSettings::allow_fontawesome_posttype_list() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
@@ -194,4 +209,5 @@ class CommonSettings {
 	}
 }
 
-CommonSettings::init();
+// CommonSettings::init();
+new CommonSettings();
