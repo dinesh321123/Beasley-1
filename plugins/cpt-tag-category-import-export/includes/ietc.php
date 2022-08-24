@@ -390,7 +390,6 @@ class ImportExportTagCategory {
 	   $term_type		= 'user station';
 	   $user_id			= get_current_user_id();
 	   $input_type		= filter_input( INPUT_POST, 'input_type', FILTER_SANITIZE_STRIPPED);
-	   // $users			= $wpdb->get_results(sprintf('SELECT * FROM '. $wpdb->prefix .'users'));
 	   $users			= ImportExportTagCategory::get_user_list();
 
 	   if ( !empty($input_type) && $input_type != 'station_list' ) {
@@ -406,33 +405,46 @@ class ImportExportTagCategory {
 	   $fileDirPath		= fopen(TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_DIR_PATH . "ietc_uploads/import-export-tag-category/export/".$file_name, "w");
 	   $file_url		= TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL . "ietc_uploads/import-export-tag-category/export/".$file_name;
 
-	   // if($input_type == 'station_list'){
-		   fputcsv($fileDirPath, array('Username', 'Email', 'Name', 'Role', 'Last login', 'Active Status', 'Station Name'));
-		   foreach($users as $user){
-			   $userdata			= get_userdata( $user->ID );
-			   $stationName			= array();
-			   $roles				= implode(', ', $userdata->roles );
-			   $lastLoginmeta		= get_user_meta($user->ID, 'bbgi_user_last_login_meta', true);
-			   $lastlogin			= isset($lastLoginmeta) && $lastLoginmeta != "" ? date('Y-m-d H:i:s', $lastLoginmeta) : 'Never' ;
-			   $activeStatusMeta	= get_user_meta($user->ID, 'bbgi_is_user_disabled', true);
-			   $activestatus		= isset($activeStatusMeta) && $activeStatusMeta === "0" ? 'Yes' : 'No' ;
-			   $getBlogsdetials 	= get_blogs_of_user( $user->ID );
+	   fputcsv($fileDirPath, array('Username', 'Email', 'Name', 'Role', 'Last login', 'Active Status', 'Station Name'));
+	   foreach($users as $user){
+		   $userID				= $user->ID;
+		   $userdata			= get_userdata( $userID );
+		   $stationName			= array();
+		   // $roles			= implode(', ', $userdata->roles );
+		   $roles				= array();
+		   $lastLoginmeta		= get_user_meta($userID, 'bbgi_user_last_login_meta', true);
+		   $lastlogin			= isset($lastLoginmeta) && $lastLoginmeta != "" ? date('Y-m-d H:i:s', $lastLoginmeta) : 'Never' ;
+		   $activeStatusMeta	= get_user_meta($userID, 'bbgi_is_user_disabled', true);
+		   $activestatus		= isset($activeStatusMeta) && $activeStatusMeta === "0" ? 'Yes' : 'No' ;
+		   $getBlogsdetials 	= get_blogs_of_user( $userID );
 
-			   if(count($getBlogsdetials) > 0 ){
-				   foreach($getBlogsdetials as $getBlogsdetial){
-					   $stationName[] = $getBlogsdetial->domain;
-				   }
+		   if(count($getBlogsdetials) > 0 ){
+			   foreach($getBlogsdetials as $getBlogsdetial){
+				   // echo "<pre>", print_r($getBlogsdetial), "</pre>";
+				   switch_to_blog( $getBlogsdetial->userblog_id );
+				   $userdata	= get_userdata( $userID );
+				   $blogRoles	= implode(', ', $userdata->roles );
+				   $roles[]		= $blogRoles;
+				   restore_current_blog();
+				   $stationName[]	= $getBlogsdetial->domain . '( ' . $blogRoles .' ) ';
 			   }
-			   $stationName			= implode(' || ', $stationName);
-
-			   $file_row = array( $userdata->user_login, $userdata->user_email, $userdata->display_name, $roles, $lastlogin, $activestatus, $stationName );
-			   // echo "<pre>", print_r($file_row);
-			   fputcsv($fileDirPath, $file_row);
 		   }
-		   fclose($fileDirPath);
-	   /* } else {
-		   echo "In else condition for User Station list"; exit;
-	   } */
+		   // echo $userID. ' - ' . $userdata->display_name .' - Roles: ';
+		   // echo "<pre>", print_r($roles), "</pre>";
+		   // $finalRoles	= array_unique($roles);
+		   // $finalRoles	= implode(", ",array_unique($roles));
+		   // unset($roles);
+		   // echo implode(", ",$finalRoles);
+		   // echo " ------------------------ ";
+
+		   $stationName			= implode(' || ', $stationName);
+		   $finalRoles			= implode(", ",array_unique($roles));
+
+		   $file_row = array( $userdata->user_login, $userdata->user_email, $userdata->display_name, $finalRoles, $lastlogin, $activestatus, $stationName );
+		   // echo "<pre>", print_r($file_row);
+		   fputcsv($fileDirPath, $file_row);
+	   }
+	   fclose($fileDirPath);
 
 	   $wpdb->insert(
 		   $wpdb->base_prefix . 'ietc_log',
