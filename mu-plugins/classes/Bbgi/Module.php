@@ -76,6 +76,7 @@ abstract class Module {
 			self::$_modules['secondstreet'] = new \Bbgi\Integration\SecondStreet();
 			self::$_modules['secondstreetpref'] = new \Bbgi\Integration\SecondStreetPreferenceCenter();
 			self::$_modules['secondstreetsignup'] = new \Bbgi\Integration\SecondStreetSignup();
+			self::$_modules['secondstreetcontest'] = new \Bbgi\Integration\SecondStreetContest();
 		}
 
 		foreach ( self::$_modules as $module ) {

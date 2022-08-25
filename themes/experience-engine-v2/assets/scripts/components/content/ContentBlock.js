@@ -9,6 +9,7 @@ import AudioEmbed from './embeds/Audio';
 import SecondStreetEmbed from './embeds/SecondStreet';
 import SecondStreetPreferenceCenterEmbed from './embeds/SecondStreetPreferenceCenter';
 import SecondStreetSignupEmbed from './embeds/SecondStreetSignup';
+import SecondStreetContest from './embeds/SecondStreetContest';
 import LazyImage from './embeds/LazyImage';
 import Share from './embeds/Share';
 import LoadMore from './embeds/LoadMore';
@@ -53,6 +54,7 @@ const mapping = {
 	secondstreet: SecondStreetEmbed,
 	secondstreetprefcenter: SecondStreetPreferenceCenterEmbed,
 	secondstreetsignup: SecondStreetSignupEmbed,
+	secondstreetcontest: SecondStreetContest,
 	share: Share,
 	drimify: DrimifyEmbed,
 	trackonomicsscript: TrackonomicsScript,

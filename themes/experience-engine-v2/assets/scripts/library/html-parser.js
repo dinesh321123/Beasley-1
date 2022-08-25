@@ -29,6 +29,16 @@ function getSecondStreetSignupEmbedParams(element) {
 	};
 }
 
+function getSecondStreetContest(element) {
+	const { dataset } = element;
+
+	return {
+		contest_url: dataset.contest_url,
+		routing: dataset.routing,
+		contest_id: dataset.contest_id,
+	};
+}
+
 function getAudioEmbedParams(element) {
 	const sources = {};
 	const tags = element.getElementsByTagName('source');
@@ -280,6 +290,12 @@ export function getStateFromContent(container, pageURL) {
 				'secondstreetsignup',
 				'.secondstreet-signup',
 				getSecondStreetSignupEmbedParams,
+			),
+			...processEmbeds(
+				container,
+				'secondstreetcontest',
+				'.secondstreet-contest',
+				getSecondStreetContest,
 			),
 			...processEmbeds(
 				container,
