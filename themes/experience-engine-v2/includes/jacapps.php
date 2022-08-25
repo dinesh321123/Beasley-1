@@ -32,6 +32,7 @@ if ( ! function_exists( 'ee_setup_jacapps' ) ) :
 		add_filter( 'secondstreet_embed_html', 'ee_update_jacapps_secondstreet_html', 10, 2 );
 		add_filter( 'secondstreetpref_html', 'ee_update_jacapps_secondstreetpref_html', 10, 2 );
 		add_filter( 'secondstreetsignup_html', 'ee_update_jacapps_secondstreetsignup_html', 10, 2 );
+		add_filter( 'secondstreetcontest_html', 'ee_update_whiz_secondstreetcontest_html', 10, 2 );
 		add_filter( 'mapbox_html', 'ee_update_jacapps_mapbox_html', 10, 2 );
 		add_filter( 'hubspotform_html', 'ee_update_jacapps_hubspotform_html', 10, 2 );
 		add_filter( 'dml-branded_html', 'ee_update_jacapps_dml_branded_content', 10, 2);
@@ -140,6 +141,18 @@ if ( ! function_exists( 'ee_update_jacapps_secondstreetsignup_html' ) ) :
 	function ee_update_jacapps_secondstreetsignup_html( $embed, $atts ) {
 		$url = 'https://embed.secondstreetapp.com/Scripts/dist/optin.js';
 		return '<script src="' . esc_url( $url ) . '" data-ss-embed="optin" data-design-id="' . esc_attr( $atts['design_id'] ) . '"></script>';
+	}
+endif;
+
+if ( ! function_exists( 'ee_update_whiz_secondstreetcontest_html' ) ) :
+	function ee_update_whiz_secondstreetcontest_html( $embed, $atts ) {
+		$atts['routing'] = 'none';
+		$contest_url =  $atts['contest_url'] . '/' . 'shared/embedcode/embed.js';
+		if (esc_attr( $atts['contest_id'] ) != '') {
+			return '<script type="text/javascript" src="' . esc_attr( $atts['contest_url'] ) . '/shared/embedcode/talker-v1.0.0.js"></script><script src="' . esc_url( $contest_url ) . '" data-ss-embed="contest" data-routing="' . esc_attr( $atts['routing'] ) . '" data-contest-id="' . esc_attr( $atts['contest_id'] ) . '"></script>';
+		} else {
+			return '<script type="text/javascript" src="' . esc_attr( $atts['contest_url'] ) . '/shared/embedcode/talker-v1.0.0.js"></script><script src="' . esc_url( $contest_url ) . '" data-ss-embed="contest" data-routing="' . esc_attr( $atts['routing'] ) . '"></script>';
+		}
 	}
 endif;
 
