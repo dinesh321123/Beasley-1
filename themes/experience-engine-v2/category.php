@@ -14,9 +14,10 @@ $category_archive_obj = get_queried_object();
 $ca_query_category_slug = $category_archive_obj->slug;
 $ca_stn_video_barker_id = "";
 
-if (str_contains($ca_query_category_values, ',')) {
+// if (str_contains($ca_query_category_values, ',')) {
+if (strpos($ca_query_category_values, ',') !== false) {
 	$ca_featured_curated_posts = array();
-	$total_ca_featured_curated = 0; 
+	$total_ca_featured_curated = 0;
 	$category_archive_posts_exlcuded = array();
 	$ca_query_category_slug = $ca_query_category_values;
 } else {
