@@ -20,6 +20,13 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 			$checkID = $source_post_object->ID;
 		}
 
+		if($from_embed) {
+			echo "<h2 class=\"section-head\"><span>".$affiliatemarketing_post_object->post_title."</span></h2>";
+			if( isset( $affiliatemarketing_post_object->post_content ) && $affiliatemarketing_post_object->post_content !== "" ) {
+				echo "<div class=\"am-embed-description\">", apply_filters('the_content', $affiliatemarketing_post_object->post_content), "</div>";
+			}
+		}
+
 		if(get_field( 'display_segmentation', $checkID )) {
 			$segmentation_ordering_type = get_field( 'segmentation_ordering', $checkID );
 			if($segmentation_ordering_type == 'header') {
@@ -173,6 +180,10 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 		}
 
 		echo '</ul>';
+
+		if($from_embed) {
+			echo "<p>&nbsp;</p><h6><em>Please note that items are in stock and prices are accurate at the time we published this list. Have an idea for a fun theme for a gift idea list you’d like us to create?&nbsp; Drop us a line at <a href=\"mailto:shopping@bbgi.com\" data-uri=\"98cfaf73989c872d3384892acc280543\">shopping@bbgi.com</a>.&nbsp;</em></h6>";
+		}
 
 		return ob_get_clean();
 	}
