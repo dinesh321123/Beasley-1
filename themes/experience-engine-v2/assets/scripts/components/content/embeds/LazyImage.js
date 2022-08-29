@@ -75,14 +75,9 @@ class LazyImage extends PureComponent {
 
 		let { src } = this.props;
 		const { width, height } = this.props;
-		const { innerWidth, innerHeight } = window;
-
-		console.log(innerHeight);
-		console.log(innerWidth);
 
 		let { containerWidth, containerHeight } = this.getDimensions();
-		//
-		//
+
 		if (containerWidth <= 300) {
 			containerWidth = 250;
 		} else if (containerWidth > 300 && containerWidth <= 600) {
