@@ -1,5 +1,7 @@
 <?php
-
+if ( ! class_exists( 'SecondStreetWidget' ) ) :
+	return;
+endif;
 $sswPostType = 1;
 $current_post_object = get_queried_object();
 $hide_ssw = get_field( 'hide_ssw', $current_post_object );
