@@ -75,29 +75,24 @@ class LazyImage extends PureComponent {
 
 		let { src } = this.props;
 		const { width, height } = this.props;
-		const { innerWidth, innerHeight } = window;
 
-		console.log(innerHeight);
-		console.log(innerWidth);
+		const { containerWidth, containerHeight } = this.getDimensions();
 
-		let { containerWidth, containerHeight } = this.getDimensions();
+		// if (containerWidth <= 300) {
+		// 	containerWidth = 250;
+		// } else if (containerWidth > 300 && containerWidth <= 600) {
+		// 	containerWidth = 490;
+		// } else {
+		// 	containerWidth = 700;
+		// }
 		//
-		//
-		if (containerWidth <= 300) {
-			containerWidth = 250;
-		} else if (containerWidth > 300 && containerWidth <= 600) {
-			containerWidth = 490;
-		} else {
-			containerWidth = 700;
-		}
-
-		if (containerHeight <= 300) {
-			containerHeight = 190;
-		} else if (containerHeight > 300 && containerHeight <= 600) {
-			containerHeight = 360;
-		} else {
-			containerHeight = 530;
-		}
+		// if (containerHeight <= 300) {
+		// 	containerHeight = 190;
+		// } else if (containerHeight > 300 && containerHeight <= 600) {
+		// 	containerHeight = 360;
+		// } else {
+		// 	containerHeight = 530;
+		// }
 
 		// Kludge: Temporary fix for incorrectly cached image URLs in EE API
 		src = src.replace(
