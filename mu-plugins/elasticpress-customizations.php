@@ -14,6 +14,17 @@ add_action( 'pre_get_posts', function ( $query ) {
 	if ( ! is_admin() && $query->is_main_query() && $query->is_search() ) {
 		$query->set( 'orderby', 'date' );
 		$query->set( 'order', 'desc' );
+
+		$query->set('search_fields', array(
+			'post_title',
+			'post_content',
+			'post_excerpt',
+			'meta' => array(
+				'am_item_name',
+				'am_item_description',
+				'cpt_item_name',
+				'cpt_item_description',
+			)));
 	}
 }, 10, 1 );
 
