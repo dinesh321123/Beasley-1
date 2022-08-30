@@ -26,7 +26,7 @@ class SecondStreetWidget {
 		$section_id = 'beasley_secondstreet_settings';
 
 		// add_settings_section( $section_id, 'SecondStreet', '__return_false', $page );
-		add_settings_field( 'secondstreet_op_id', 'Station op_id', 'bbgi_input_field', $page, $section_id, 'name=secondstreet_op_id' );
+		add_settings_field( 'secondstreet_op_id', 'Station op_id', 'bbgi_input_field', $page, $section_id, 'name=secondstreet_op_id&default=435162' );
 		register_setting( $group, 'secondstreet_op_id', 'sanitize_text_field' );
 	}
 
