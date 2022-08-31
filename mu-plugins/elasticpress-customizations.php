@@ -24,6 +24,7 @@ add_action( 'pre_get_posts', function ( $query ) {
 				'am_item_description',
 				'cpt_item_name',
 				'cpt_item_description',
+				'gallery-image',
 			)));
 	}
 }, 10, 1 );
@@ -41,4 +42,16 @@ add_filter( 'ep_formatted_args', function ( $formatted_args, $args  ) {
 		}
 	}
 	return $formatted_args;
+}, 10, 2 );
+
+
+/**
+ * Galleries With Metadata Of 'gallery-image' hold only post-ids - join back to post table
+ */
+add_filter( 'ep_prepare_meta_data', function( $meta, $post ) {
+	if ($post->post_type === 'gmr_gallery' && $meta['gallery-image'] != null && is_array($meta['gallery-image'])) {
+		// Swap in post_excerpt for gallery-image
+		$meta['gallery-image'] = get_the_excerpt($meta['gallery-image'][0]);
+	}
+	return $meta;
 }, 10, 2 );
