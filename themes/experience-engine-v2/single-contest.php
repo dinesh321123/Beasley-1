@@ -26,6 +26,8 @@ the_post();
 				<?php get_template_part( 'partials/featured-media' ); ?>
 			<?php endif; ?>
 
+			<?php echo do_shortcode( '[show-on-device devices="iPad,iPhone"]<span class="apple-rules-whiz">This contest is in no way affiliated with or endorsed by Apple.</span>[/show-on-device]' ); ?>
+
 			<?php the_content(); ?>
 
 			<?php if ( ( $contest_prize = trim( get_post_meta( get_the_ID(), 'prizes-desc', true ) ) ) ) : ?>
@@ -41,8 +43,6 @@ the_post();
 					<?php echo wpautop( do_shortcode( $enter ) ); ?>
 				</div>
 			<?php endif; ?>
-
-			<?php echo do_shortcode( '[show-on-device devices="iPad,iPhone"]This contest is in no way affiliated with or endorsed by Apple.[/show-on-device]' ); ?>
 
 			<?php if ( ( $contest_rules = trim( get_post_meta( get_the_ID(), 'rules-desc', true ) ) ) ) : ?>
 			<div class="contest__description">
