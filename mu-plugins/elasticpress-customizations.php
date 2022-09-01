@@ -54,7 +54,7 @@ add_filter( 'ep_prepare_meta_data', function( $meta, $post ) {
 		// Swap in post_excerpts for gallery-image array elements currently holding Post IDs
 		for ($i=0; $i<count($meta['gallery-image']); $i++) {
 			if (is_numeric($meta['gallery-image'][$i])) {
-				$meta['gallery-image'][$i] = get_the_excerpt($meta['gallery-image'][$i]);
+				$meta['gallery-image'][$i] = get_the_title($meta['gallery-image'][$i]) . ' ' . get_the_excerpt($meta['gallery-image'][$i]);
 			}
 		}
 
