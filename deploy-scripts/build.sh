@@ -14,6 +14,9 @@ set -x
 
 node --version
 
+# update composer to 2.x
+composer self-update --2
+
 composer install --no-dev -o
 
 pushd themes/experience-engine || exit 1
