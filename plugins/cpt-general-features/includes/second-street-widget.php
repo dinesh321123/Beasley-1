@@ -26,8 +26,11 @@ class SecondStreetWidget {
 		$section_id = 'beasley_secondstreet_settings';
 
 		// add_settings_section( $section_id, 'SecondStreet', '__return_false', $page );
-		add_settings_field( 'secondstreet_op_id', 'Station op_id', 'bbgi_input_field', $page, $section_id, 'name=secondstreet_op_id&default=435162' );
+		add_settings_field( 'secondstreet_op_id', 'SS op_id', 'bbgi_input_field', $page, $section_id, 'name=secondstreet_op_id' );
 		register_setting( $group, 'secondstreet_op_id', 'sanitize_text_field' );
+		// 'name=secondstreet_op_id&default=435162'
+		add_settings_field( 'secondstreet_op_guid', 'SS op_guid', 'bbgi_input_field', $page, $section_id, 'name=secondstreet_op_guid' );
+		register_setting( $group, 'secondstreet_op_guid', 'sanitize_text_field' );
 	}
 
 	/**
