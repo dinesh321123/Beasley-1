@@ -20,13 +20,19 @@ if ( empty( $sswPostType ) ) {
 	return;
 }
 
-$tempContent	= get_the_content();
-$tempCheck		= '[ss-promo';
-$tempVerify		= strpos($tempContent,$tempCheck);
-$sswContent		= "";
-if($tempVerify === false) {
-	$get_op_id = get_option( 'secondstreet_op_id' ) ? get_option( 'secondstreet_op_id' ) : '435162' ;
-	$sswContent = do_shortcode('[ss-promo op_id="' . $get_op_id . '" op_guid="f7638862-0779-48d5-8725-c4ede5cdc6a9" routing="hash"]');
+$common_footer_description	= get_post_meta( $current_post_object->ID, common_footer_description, true );
+$am_footer_description		= get_post_meta( $current_post_object->ID, am_footer_description, true );
+$listicle_footer_description= get_post_meta( $current_post_object->ID, listicle_cpt_footer_description, true );
+
+
+$tempContent				= get_the_content();
+$tempCheck					= '[ss-promo';
+$tempVerify					= strpos($tempContent,$tempCheck);
+$sswContent					= "";
+$get_ss_op_id				= get_option( 'secondstreet_op_id' ) ? get_option( 'secondstreet_op_id' ) : '' ;
+$get_ss_op_guid				= get_option( 'secondstreet_op_guid' ) ? get_option( 'secondstreet_op_guid' ) : '' ;
+if( strpos($common_footer_description,$tempCheck) === false && strpos($am_footer_description,$tempCheck) === false && strpos($listicle_footer_description,$tempCheck) === false && $tempVerify === false && isset($get_ss_op_id) && isset($get_ss_op_guid) ) {
+	$sswContent = do_shortcode('[ss-promo op_id="' . $get_ss_op_id . '" op_guid="' . $get_ss_op_guid . '" routing="hash"]');
 }
 
 echo '<div class="ssw_content">', $sswContent, '</div>';
