@@ -19,7 +19,6 @@ add_action( 'pre_get_posts', function ( $query ) {
 			'post_title',
 			'post_content',
 			'post_excerpt',
-			'author_name',
 			'meta' => array(
 				'am_item_name',
 				'am_item_description',
