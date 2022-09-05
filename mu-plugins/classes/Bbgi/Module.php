@@ -70,6 +70,7 @@ abstract class Module {
 			'select-listicle' 	=> new \Bbgi\Integration\ListicleSelection(),
 			'select-am' 	=> new \Bbgi\Integration\AffiliateMarketingSelection(),
 			'upload-filesize-settings'	=> new \Bbgi\Integration\UploadFileSizeSettings(),
+			'clearcloudflarecache'     => new \Bbgi\Integration\ClearCloudFlareCache(),
 		);
 
 		if ( current_theme_supports( 'secondstreet' ) ) {
