@@ -42,7 +42,7 @@ class ClearCloudFlareCache extends \Bbgi\Module {
 	 * @return boolean
 	 */
 	public function can_send_notifications( $post_id ) {
-		return current_user_can( 'edit_post', $post_id ) && current_user_can( 'send_notifications' );
+		return current_user_can( 'edit_post', $post_id ) && current_user_can( 'manage_cache_button' );
 	}
 
 	/**

@@ -1,7 +1,6 @@
 ( function( $ ) {
 	requestFunction = (action, data) => new Promise((resolve, reject) => {
 		const { wp } = window;
-		console.log(window.wp.ajax);
 		wp.ajax.send(action, {
 			type: 'GET',
 			data,
