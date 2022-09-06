@@ -29,31 +29,28 @@ class ClearCloudFlareCache extends \Bbgi\Module {
 	 */
 	public function get_post_types_whitelist() {
 		$blacklist = [ 'fp_feed', 'subscription' ];
-
 		return array_diff( get_post_types(), $blacklist );
 	}
 
 
 
 	/**
-	 * Check if the current user can send notifications for a given post.
+	 * Check if the current user can clear cloudflare cache.
 	 *
-	 * @param int $post_id The post id.
-	 * @return boolean
 	 */
-	public function can_send_notifications( $post_id ) {
-		return current_user_can( 'edit_post', $post_id ) && current_user_can( 'manage_cache_button' );
+	public function can_send_notifications() {
+		return current_user_can( 'manage_cache_button' );
 	}
 
 	/**
-	 * Sends notification link
+	 * Clear cache link
 	 *
 	 * @return array
 	 */
 	public function clear_cache_link( $actions, \WP_Post $post ) {
 
 
-		if ( $this->can_send_notifications( $post->ID ) &&
+		if ( $this->can_send_notifications() &&
 		    in_array( get_post_type( $post ), $this->get_post_types_whitelist(), true ) ) {
 
 		}
@@ -68,14 +65,20 @@ class ClearCloudFlareCache extends \Bbgi\Module {
 
 
 
-
+	/**
+	 * Enqueues admin scripts and styles.
+	 *
+	 */
 
 	function add_script() {
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 		wp_enqueue_script('clear-cloudflare-cache', plugins_url( 'assets/js/clear-cloudflare-cache'.$postfix.'.js', __FILE__ ), array('jquery','wp-util'), '0.1.0', false);
+	}
 
-		}
-
+	/**
+	 * Clead cloudflare cache API
+	 *
+	 */
 
 	public function clear_cloudflare_cache(){
 		$postID = filter_input( INPUT_GET, 'postID', FILTER_SANITIZE_SPECIAL_CHARS );
