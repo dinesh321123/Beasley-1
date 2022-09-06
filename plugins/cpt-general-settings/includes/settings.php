@@ -180,15 +180,12 @@ class CommonSettings {
 
 	public static function settings_cpt_init() {
 		// Register custom capability for Draft Kings On/Off Setting and Max mega menu
-		$roles = [ 'administrator' ];
+		$role_obj = get_role('administrator');
 
-		foreach ( $roles as $role ) {
-			$role_obj = get_role($role);
-
-			if (is_a($role_obj, \WP_Role::class)) {
-				$role_obj->add_cap('manage_draft_kings_onoff_setting', false);
-				$role_obj->add_cap('manage_max_mega_menu', false);
-			}
+		if (is_a($role_obj, \WP_Role::class)) {
+			$role_obj->add_cap('manage_draft_kings_onoff_setting', false);
+			$role_obj->add_cap('manage_max_mega_menu', false);
+			$role_obj->add_cap('manage_cache_button', false);
 		}
 
 		add_filter( 'megamenu_options_capability', array( __CLASS__, 'megamenu_options_capability_callback' ) );
