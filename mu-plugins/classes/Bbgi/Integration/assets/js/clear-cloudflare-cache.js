@@ -15,6 +15,7 @@
 					console.log(result)
 				})
 			.catch((error) => {
+				alert('please try again');
 				console.log('Errors'+error);
 			});
 
