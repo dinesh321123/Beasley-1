@@ -154,14 +154,14 @@ class ClearCloudFlareCache extends \Bbgi\Module {
 			)
 		);
 
-
+       print_r(json_decode($response));
 
 		if ( is_wp_error( $response ) ) {
 			error_log('Cloudflare Response'.$response->get_error_message());
 			wp_send_json_success(array( "Response" => $response->get_error_message()));
 		} else {
 			error_log('Cloudflare Response'.json_encode( $response ));
-			wp_send_json_success(array( "Response" => json_encode($response)));
+			wp_send_json_success(array( "Response" => $response));
 		}
 
 	}
