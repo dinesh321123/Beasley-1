@@ -141,7 +141,6 @@ class ClearCloudFlareCache extends \Bbgi\Module {
 		}
 
 		error_log( 'Cloudflare Clearing Cache Tags'. $cache_tags);
-		wp_send_json_success(array( "Response" => $cache_tags));
 
 		$data = [ "tags" => $cache_tags];
 		$request_url = 'https://api.cloudflare.com/client/v4/zones/'.$zone_id.'/purge_cache';
