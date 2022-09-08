@@ -154,7 +154,6 @@ class ClearCloudFlareCache extends \Bbgi\Module {
 			)
 		);
 
-       print_r(json_decode($response));
 
 		if ( is_wp_error( $response ) ) {
 			error_log('Cloudflare Response'.$response->get_error_message());
