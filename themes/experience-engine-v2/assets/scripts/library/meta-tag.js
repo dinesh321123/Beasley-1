@@ -68,14 +68,7 @@ export function updateLinkRelHref(name, value) {
 export function updateCanonicalUrl(url) {
 	updateMetaPropertyValue('og:url', url);
 	updateLinkRelHref('canonical', url);
-	upsertElementAttribute(
-		document.head,
-		'link',
-		'rel',
-		'beasley-canonical',
-		'href',
-		url,
-	);
+	updateBeasleyCanonicalUrl(url);
 }
 
 export function getBeasleyCanonicalUrl() {
@@ -85,5 +78,16 @@ export function getBeasleyCanonicalUrl() {
 		'rel',
 		'beasley-canonical',
 		'href',
+	);
+}
+
+export function updateBeasleyCanonicalUrl(url) {
+	upsertElementAttribute(
+		document.head,
+		'link',
+		'rel',
+		'beasley-canonical',
+		'href',
+		url,
 	);
 }
