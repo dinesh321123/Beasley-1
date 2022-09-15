@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 class SecondStreet extends PureComponent {
 	componentDidMount() {
-		console.log('SS COMPONENT DID MOUNT');
 		const { placeholder, script, embed, opguid, routing } = this.props;
 
 		const container = document.getElementById(placeholder);
@@ -69,7 +68,6 @@ class SecondStreet extends PureComponent {
 			},
 		};
 
-		console.log('Loading SS');
 		const scriptElement = document.createElement('script');
 		scriptElement.setAttribute('async', true);
 		scriptElement.setAttribute('src', script);
@@ -82,19 +80,36 @@ class SecondStreet extends PureComponent {
 			? beasleyIframeElement.contentDocument
 			: beasleyIframeElement.contentWindow.document;
 
-		console.log('Appending Script To IFrame');
+		console.log('Appending SS Script To IFrame');
 		beasleyIFrameDoc.body.style.margin = 0;
 		beasleyIFrameDoc.body.appendChild(scriptElement);
 
+		// Observe When SS Adds Children And Assume First Child Is SS IFrame.
 		const beasleyIFrameObserver = new MutationObserver(
 			(mutations, observer) => {
 				console.log('beasleyIFrameObserver: ', mutations, observer);
 
 				const ssIFrameElement = mutations[0].addedNodes[0];
+
+				// SS Modifies History by adding same page twice and also causes the first Back() to do nothing.
+				// Our work-around is to fire this silent Back() after SS Renders which corrects our History.
+				// We observe SS IFrame Height Being Changed And After No Activity For A Second, Schedule Back() In One More Second.
+				// NOTE: These time limits are conservative because if we fire Back() too soon, it will not be Silent.
+				let ssResetHeightTimeoutHandler;
 				const ssIFrameObserver = new MutationObserver((mutations, observer) => {
 					console.log(`SSIFRAME HEIGHT: ${ssIFrameElement.clientHeight}`);
 					if (ssIFrameElement.clientHeight) {
-						beasleyIframeElement.height = ssIFrameElement.clientHeight;
+						if (ssResetHeightTimeoutHandler) {
+							window.clearTimeout(ssResetHeightTimeoutHandler);
+						}
+						ssResetHeightTimeoutHandler = setTimeout(() => {
+							console.log('Firing Final SS Cleanup');
+							ssIFrameObserver.disconnect();
+							beasleyIframeElement.height = ssIFrameElement.clientHeight;
+							setTimeout(() => {
+								window.history.back();
+							}, 1000);
+						}, 1000);
 					}
 				});
 				ssIFrameObserver.observe(ssIFrameElement, {
