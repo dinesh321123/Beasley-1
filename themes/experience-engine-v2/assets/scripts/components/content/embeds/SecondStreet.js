@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 class SecondStreet extends PureComponent {
 	componentDidMount() {
+		console.log('SS COMPONENT DID MOUNT');
 		const { placeholder, script, embed, opguid, routing } = this.props;
 
 		const container = document.getElementById(placeholder);
@@ -10,7 +11,11 @@ class SecondStreet extends PureComponent {
 			return;
 		}
 
-		window.SecondStreetSDK = {
+		const beasleyIframeElement = document.createElement('iframe');
+		beasleyIframeElement.style.width = '100%';
+		beasleyIframeElement.style.border = 0;
+		container.appendChild(beasleyIframeElement);
+		beasleyIframeElement.contentWindow.SecondStreetSDK = {
 			version: '1.0.0',
 			ready: function ready(secondstreet) {
 				[
@@ -64,15 +69,48 @@ class SecondStreet extends PureComponent {
 			},
 		};
 
-		const element = document.createElement('script');
+		console.log('Loading SS');
+		const scriptElement = document.createElement('script');
+		scriptElement.setAttribute('async', true);
+		scriptElement.setAttribute('src', script);
+		scriptElement.setAttribute('data-ss-embed', embed);
+		scriptElement.setAttribute('data-opguid', opguid);
+		scriptElement.setAttribute('data-routing', routing);
+		scriptElement.setAttribute('defer', '');
 
-		element.setAttribute('async', true);
-		element.setAttribute('src', script);
-		element.setAttribute('data-ss-embed', embed);
-		element.setAttribute('data-opguid', opguid);
-		element.setAttribute('data-routing', routing);
+		const beasleyIFrameDoc = beasleyIframeElement.contentDocument
+			? beasleyIframeElement.contentDocument
+			: beasleyIframeElement.contentWindow.document;
 
-		container.appendChild(element);
+		console.log('Appending Script To IFrame');
+		beasleyIFrameDoc.body.style.margin = 0;
+		beasleyIFrameDoc.body.appendChild(scriptElement);
+
+		const beasleyIFrameObserver = new MutationObserver(
+			(mutations, observer) => {
+				console.log('beasleyIFrameObserver: ', mutations, observer);
+
+				const ssIFrameElement = mutations[0].addedNodes[0];
+				const ssIFrameObserver = new MutationObserver((mutations, observer) => {
+					console.log(`SSIFRAME HEIGHT: ${ssIFrameElement.clientHeight}`);
+					if (ssIFrameElement.clientHeight) {
+						beasleyIframeElement.height = ssIFrameElement.clientHeight;
+					}
+				});
+				ssIFrameObserver.observe(ssIFrameElement, {
+					attributes: true,
+				});
+
+				// Once Second Street Has Added Children, We No Longer Need To Observe Beasley IFrame
+				setTimeout(() => {
+					beasleyIFrameObserver.disconnect();
+				}, 0);
+			},
+		);
+
+		beasleyIFrameObserver.observe(beasleyIFrameDoc.body, {
+			childList: true,
+		});
 	}
 
 	render() {
