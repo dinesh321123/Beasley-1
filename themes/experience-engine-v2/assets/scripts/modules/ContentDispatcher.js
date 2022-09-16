@@ -25,7 +25,7 @@ class ContentDispatcher extends Component {
 		this.onClick = this.handleClick.bind(this);
 		this.handleSliders = this.handleSliders.bind(this);
 		this.handleSliderLoad = this.handleSliderLoad.bind(this);
-		this.onPageHistoryPop = this.onPageHistoryPop.bind(this);
+		this.handlePageHistoryPop = this.handlePageHistoryPop.bind(this);
 	}
 
 	/**
@@ -35,7 +35,7 @@ class ContentDispatcher extends Component {
 		const { initPage } = this.props;
 
 		window.addEventListener('click', this.onClick);
-		window.addEventListener('popstate', this.onPageHistoryPop);
+		window.addEventListener('popstate', this.handlePageHistoryPop);
 
 		// load current page into the state
 		initPage();
@@ -59,7 +59,7 @@ class ContentDispatcher extends Component {
 
 	componentWillUnmount() {
 		window.removeEventListener('click', this.onClick);
-		window.removeEventListener('popstate', this.onPageHistoryPop);
+		window.removeEventListener('popstate', this.handlePageHistoryPop);
 	}
 
 	/**
@@ -192,14 +192,14 @@ class ContentDispatcher extends Component {
 		this.loadPage(link);
 	}
 
-	onPageHistoryPop() {
+	handlePageHistoryPop() {
 		// a zero timeout ensures that the callback runs when the new history state is in place.
 		// https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
 		setTimeout(() => {
 			if (window.location.href.indexOf('#') === -1) {
 				this.loadPage(window.location.href, { suppressHistory: true });
 			}
-		});
+		}, 0);
 	}
 
 	/**
