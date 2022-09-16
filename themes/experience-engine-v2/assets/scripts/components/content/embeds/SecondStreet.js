@@ -2,6 +2,14 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 class SecondStreet extends PureComponent {
+	getLastSecondStreetHeight() {
+		return window.lastSecondStreetHeight;
+	}
+
+	setLastSecondStreetHeight(value) {
+		window.lastSecondStreetHeight = value;
+	}
+
 	componentDidMount() {
 		const { placeholder, script, embed, opguid, routing } = this.props;
 
@@ -11,6 +19,9 @@ class SecondStreet extends PureComponent {
 		}
 
 		const beasleyIframeElement = document.createElement('iframe');
+		beasleyIframeElement.height = this.getLastSecondStreetHeight()
+			? `${this.getLastSecondStreetHeight()}px`
+			: '0';
 		beasleyIframeElement.style.width = '100%';
 		beasleyIframeElement.style.border = 0;
 		container.appendChild(beasleyIframeElement);
@@ -105,6 +116,7 @@ class SecondStreet extends PureComponent {
 						ssResetHeightTimeoutHandler = setTimeout(() => {
 							console.log('Firing Final SS Cleanup');
 							ssIFrameObserver.disconnect();
+							this.setLastSecondStreetHeight(ssIFrameElement.clientHeight);
 							beasleyIframeElement.height = ssIFrameElement.clientHeight;
 							setTimeout(() => {
 								window.history.back();
