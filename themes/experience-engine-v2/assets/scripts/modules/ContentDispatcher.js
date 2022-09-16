@@ -10,11 +10,7 @@ import {
 	fetchPage,
 	fetchFeedsContent,
 } from '../redux/actions/screen';
-import {
-	firebaseAuth,
-	getBeasleyCanonicalUrl,
-	untrailingslashit,
-} from '../library';
+import { firebaseAuth, untrailingslashit } from '../library';
 
 const specialPages = ['/wp-admin/', '/wp-signup.php', '/wp-login.php'];
 
@@ -27,15 +23,9 @@ class ContentDispatcher extends Component {
 		super(props);
 
 		this.onClick = this.handleClick.bind(this);
-
-		// a zero timeout ensures that the callback runs when the new history state is in place.
-		// https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
-		this.onPageHistoryPop = () => setTimeout(this.handlePageHistoryPop, 0);
-
-		this.onHashChange = this.handleHashchange.bind(this);
 		this.handleSliders = this.handleSliders.bind(this);
 		this.handleSliderLoad = this.handleSliderLoad.bind(this);
-		this.handlePageHistoryPop = this.handlePageHistoryPop.bind(this);
+		this.onPageHistoryPop = this.onPageHistoryPop.bind(this);
 	}
 
 	/**
@@ -46,7 +36,6 @@ class ContentDispatcher extends Component {
 
 		window.addEventListener('click', this.onClick);
 		window.addEventListener('popstate', this.onPageHistoryPop);
-		window.addEventListener('hashchange', this.onHashChange);
 
 		// load current page into the state
 		initPage();
@@ -71,7 +60,6 @@ class ContentDispatcher extends Component {
 	componentWillUnmount() {
 		window.removeEventListener('click', this.onClick);
 		window.removeEventListener('popstate', this.onPageHistoryPop);
-		window.removeEventListener('hashchange', this.onHashChange);
 	}
 
 	/**
@@ -204,35 +192,14 @@ class ContentDispatcher extends Component {
 		this.loadPage(link);
 	}
 
-	handlePageHistoryPop(e) {
-		const lastCanonicalUrl = getBeasleyCanonicalUrl();
-		console.log(
-			`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
-		);
-
-		if (
-			lastCanonicalUrl.indexOf('#//') > -1 &&
-			window.location.href === lastCanonicalUrl
-		) {
-			console.log('Found #// on equivalent urls - not loading new page');
-		} else {
-			console.log(`Back caused load of ${window.location.href}`);
-			this.loadPage(window.location.href, { suppressHistory: true });
-		}
-	}
-
-	handleHashchange(e) {
-		console.log(`HASH CHANGE - ${JSON.stringify(e)}`);
-		const lastCanonicalUrl = getBeasleyCanonicalUrl();
-
-		// If this change is merely the addition of '#//', Assume it is Second Street and schedule a history pop
-		// so that back button functions as expected.
-		if (window.location.href.replace('#//', '') === lastCanonicalUrl) {
-			setTimeout(() => {
-				console.log('Silent Back() fired for SecondStreet');
-				window.history.back();
-			}, 250);
-		}
+	onPageHistoryPop() {
+		// a zero timeout ensures that the callback runs when the new history state is in place.
+		// https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
+		setTimeout(() => {
+			if (window.location.href.indexOf('#') === -1) {
+				this.loadPage(window.location.href, { suppressHistory: true });
+			}
+		});
 	}
 
 	/**
