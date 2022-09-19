@@ -91,9 +91,10 @@ class SecondStreet extends PureComponent {
 			? beasleyIframeElement.contentDocument
 			: beasleyIframeElement.contentWindow.document;
 
-		console.log('Appending SS Script To IFrame');
-		beasleyIFrameDoc.body.style.margin = 0;
-		beasleyIFrameDoc.body.appendChild(scriptElement);
+		const beasleyIFrameDocBody = beasleyIFrameDoc.getElementsByTagName(
+			'body',
+		)[0];
+		beasleyIFrameDocBody.style.margin = 0;
 
 		// Observe When SS Adds Children And Assume First Child Is SS IFrame.
 		const beasleyIFrameObserver = new MutationObserver(
@@ -157,7 +158,9 @@ class SecondStreet extends PureComponent {
 			},
 		);
 
-		beasleyIFrameObserver.observe(beasleyIFrameDoc.body, {
+		// First Append SS JS Script, then monitor for child additions
+		beasleyIFrameDocBody.appendChild(scriptElement);
+		beasleyIFrameObserver.observe(beasleyIFrameDocBody, {
 			childList: true,
 		});
 	}
