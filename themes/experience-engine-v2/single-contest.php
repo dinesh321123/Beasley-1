@@ -65,7 +65,7 @@ $contest_rules_output = ob_get_clean(); ?>
 			<?php endif; ?>
 
 			<?php echo $contest_rules_output; ?>
-			<div style="font-size: small"><?php echo $_SERVER['HTTP_USER_AGENT'] ?></div>
+
 			<?php get_template_part( 'partials/footer/common', 'description' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
