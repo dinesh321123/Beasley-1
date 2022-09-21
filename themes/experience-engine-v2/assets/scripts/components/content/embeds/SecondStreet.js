@@ -124,7 +124,7 @@ class SecondStreet extends PureComponent {
 								'Firing SS Height Adjust Because Height Not Changed For A Half Second',
 							);
 							this.setLastSecondStreetHeight(ssIFrameElement.clientHeight);
-							beasleyIframeElement.height = ssIFrameElement.clientHeight;
+							beasleyIframeElement.height = ssIFrameElement.clientHeight + 4;
 
 							// Fire Silent Back() 1.5 Seconds after Last SS Height Adjust.
 							// NOTE - MUST FIRE After Full SS Render, But If User Quickly Clicks Back It Might Be Funky
