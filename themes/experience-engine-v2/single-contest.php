@@ -8,7 +8,7 @@ the_post();
 
 ob_start();
 if ( ( $contest_rules = trim( get_post_meta( get_the_ID(), 'rules-desc', true ) ) ) ) : ?>
-	<div class="contest__description">
+	<div id="contenttermsdescription" class="contest__description">
 		<p>
 			<button id="contest-rules-toggle" class="contest-attr--rules-toggler" data-toggle="collapse" data-target="#contest-rules" data-alt-text="Hide Contest Rules">
 				View contest rules
@@ -44,8 +44,7 @@ $contest_rules_output = ob_get_clean(); ?>
 
 			<?php
 			if (ee_is_common_mobile()) {
-				echo do_shortcode( '[show-on-device devices="iPad,iPhone"]<span class="apple-rules-whiz">This contest is in no way affiliated with or endorsed by Apple.</span>[/show-on-device]' );
-				echo $contest_rules_output;
+				echo do_shortcode( '[show-on-device devices="ios"]<span class="apple-rules-whiz"><br/>This contest is in no way affiliated with or endorsed by Apple.  <a href="#contenttermsdescription">See official contest rules</a><br/></span>[/show-on-device]' );
 			}
 			?>
 
@@ -65,12 +64,8 @@ $contest_rules_output = ob_get_clean(); ?>
 				</div>
 			<?php endif; ?>
 
-			<?php
-			if (! ee_is_common_mobile()) {
-				echo $contest_rules_output;
-			}
-			?>
-
+			<?php echo $contest_rules_output; ?>
+			<div style="font-size: small"><?php echo $_SERVER['HTTP_USER_AGENT'] ?></div>
 			<?php get_template_part( 'partials/footer/common', 'description' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>

@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function() {
 	);
 	let userAgent = navigator.userAgent.toLowerCase();
 
-	let isIpad = /Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+	let isAndroid = /android/i.test(navigator.userAgent);
 
-	if (isIpad) {
-		userAgent += ' (ipad)';
+	if (! isAndroid) {
+		userAgent += ' (ios)';
 	}
 
 	for (let i = 0; i < show_on_device_elements.length; i++) {
