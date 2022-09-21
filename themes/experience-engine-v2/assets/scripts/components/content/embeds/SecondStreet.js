@@ -114,8 +114,12 @@ class SecondStreet extends PureComponent {
 				let ssResetHeightTimeout;
 				let ssSilentBackTimeout;
 				const ssIFrameObserver = new MutationObserver((mutations, observer) => {
-					console.log(`SSIFRAME HEIGHT: ${ssIFrameElement.clientHeight}`);
 					if (ssIFrameElement.clientHeight) {
+						const newHeight = ssIFrameElement.clientHeight + 20; // Add 20 Extra To Account For SS Being Short
+						console.log(
+							`SSIFRAME HEIGHT: ${ssIFrameElement.clientHeight} - Setting Beasley Iframe Height: ${newHeight}`,
+						);
+
 						if (ssResetHeightTimeout) {
 							window.clearTimeout(ssResetHeightTimeout);
 						}
@@ -123,8 +127,8 @@ class SecondStreet extends PureComponent {
 							console.log(
 								'Firing SS Height Adjust Because Height Not Changed For A Half Second',
 							);
-							this.setLastSecondStreetHeight(ssIFrameElement.clientHeight);
-							beasleyIframeElement.height = ssIFrameElement.clientHeight + 4;
+							this.setLastSecondStreetHeight(newHeight); // Save For Next SS Render And Avoid Page Shift
+							beasleyIframeElement.height = newHeight;
 
 							// Fire Silent Back() 1.5 Seconds after Last SS Height Adjust.
 							// NOTE - MUST FIRE After Full SS Render, But If User Quickly Clicks Back It Might Be Funky
@@ -132,9 +136,12 @@ class SecondStreet extends PureComponent {
 								window.clearTimeout(ssSilentBackTimeout);
 							}
 							ssSilentBackTimeout = setTimeout(() => {
-								console.log('Firing Silent Back()');
+								console.log(
+									'Firing Silent Back() And Updating SS IFrame Height',
+								);
 								window.history.back();
 								ssIFrameObserver.disconnect();
+								ssIFrameElement.style.height = `${newHeight}px`;
 							}, 1500);
 						}, 500);
 					}
