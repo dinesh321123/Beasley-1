@@ -1,10 +1,17 @@
 import {
 	doPubadsRefreshForAllRegisteredAds,
-	hidePlaceholder,
-	topScrollingDivID,
+	// hidePlaceholder,
+	// topScrollingDivID,
 } from '../../../library/ad-utils';
 
 export default function refreshAllAds() {
+	const { googletag } = window;
+	googletag.cmd.push(() => {
+		// googletag.pubads().refresh();
+		doPubadsRefreshForAllRegisteredAds(googletag);
+	});
+
+	/* With New Caching, Ads Seem Slow. No Longer Attempting Prebid For First Ad Request. Do Only The Above Code.
 	const { prebid_enabled } = window.bbgiconfig;
 
 	// Trying to keep top ad visible - no longer hide
@@ -24,13 +31,12 @@ export default function refreshAllAds() {
 	pbjs.que = pbjs.que || [];
 
 	pbjs.que.push(() => {
-		// With New Caching, Ads Seem Slow. No Longer Request Prebid Ads During First Ad Requests.
-		// const PREBID_TIMEOUT = 1500;
-		// pbjs.requestBids({
-		//	bidsBackHandler: initAdserver,
-		//	timeout: PREBID_TIMEOUT,
-		// });
-		initAdserver();
+		const PREBID_TIMEOUT = 1500;
+		// pbjs.addAdUnits(adUnits);
+		pbjs.requestBids({
+			bidsBackHandler: initAdserver,
+			timeout: PREBID_TIMEOUT,
+		});
 	});
 
 	function initAdserver() {
@@ -44,6 +50,7 @@ export default function refreshAllAds() {
 			});
 		});
 	}
+	*/
 }
 
 export function logPrebidTargeting(unitId) {
