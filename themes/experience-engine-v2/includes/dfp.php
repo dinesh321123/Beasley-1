@@ -231,13 +231,18 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 						.addSize( [0, 0], jacappsAdSizes ) //other
 						.build();
 
-					googletag.defineSlot("' . esc_attr( $unit_id ) . '", jacappsAdSizes, "' . esc_attr( $uuid ) . '")
+					const newSlot = googletag.defineSlot("' . esc_attr( $unit_id ) . '", jacappsAdSizes, "' . esc_attr( $uuid ) . '")
 						.defineSizeMapping( jacappsMapping )
-						.addService( googletag.pubads() )';
+						.addService( googletag.pubads() )
 
-						forEach( $targeting as $value ) {
-							$html .= '.setTargeting("' . $value[ 0 ] . '", "' . $value[ 1 ] . '")';
-						}
+						if (window.bbgiconfig && window.bbgiconfig.dfp) {
+							for (var i = 0, pairs = window.bbgiconfig.dfp.global || []; i < pairs.length; i++) {
+								newSlot.setTargeting(pairs[i][0], pairs[i][1]);
+							}
+						}';
+						// forEach( $targeting as $value ) {
+						//	$html .= '.setTargeting("' . $value[ 0 ] . '", "' . $value[ 1 ] . '")';
+						// }
 
 					$html .= ';
 					';
