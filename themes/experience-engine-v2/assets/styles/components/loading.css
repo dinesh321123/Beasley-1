@@ -61,3 +61,7 @@
 	width: 1em;
 	z-index: 1;
 }
+
+#playing-now-info > div.on-air-list.ll-top-container > ul > li.ll-title-with-play-btn > div > div > div > button.loading-btn {
+	display: none;
+}
