@@ -31,7 +31,7 @@ class FooterDescriptionSettings {
 		<?php
 	}
 
-	function common_footer_description_save( $post_id ) {
+	public static function common_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_common_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_common_footer_description_nonce'], '_common_footer_description_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;

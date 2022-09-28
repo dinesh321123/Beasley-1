@@ -13,7 +13,7 @@ class GeneralSettingsFrontRendering {
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 	}
 
-	function show_404_for_disabled_feeds() {
+	public static function  show_404_for_disabled_feeds() {
 		if ( is_feed() && is_singular() && in_array( get_post_type(), GeneralSettingsFrontRendering::restrict_feeds_posttype_list() ) ) {
 			global $wp_query;
 
@@ -25,10 +25,10 @@ class GeneralSettingsFrontRendering {
 		}
 	}
 
-	function restrict_feeds_posttype_list() {
+	public static function  restrict_feeds_posttype_list() {
 		return (array) apply_filters( 'restrict-feeds-for-posttypes', array( 'post', 'affiliate_marketing', 'gmr_gallery', 'contest', 'tribe_events', 'listicle_cpt' ) );
 	}
-	function author_pre_get_posts($query) {
+	public static function author_pre_get_posts($query) {
 		if ( !is_admin() && $query->is_main_query() ) {
 			if ($query->is_author()) {
 				$query->set( 'posts_per_page', 16 );
@@ -54,7 +54,7 @@ class GeneralSettingsFrontRendering {
 	 * @param $post
 	 * @return Array
 	 */
-	function get_post_metadata_from_post( $value, $post ) {
+	public static function get_post_metadata_from_post( $value, $post ) {
 		$field = get_post_meta( $post->ID, $value, true );
 
 		if ( ! empty( $field ) ) {

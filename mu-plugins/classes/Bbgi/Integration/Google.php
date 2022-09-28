@@ -36,7 +36,7 @@ class Google extends \Bbgi\Module {
 	/**
 	 * Google Analytics for jacapps and whiz.
 	 */
-	public function jacapps_enqueue_scripts() {
+	public static function jacapps_enqueue_scripts() {
 		$current_post_type	= get_post_type( get_queried_object_id() );
 		$postfix			= ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 		if ( function_exists( 'ee_is_common_mobile' ) && ee_is_common_mobile() && in_array( $current_post_type, Google::allow_posttype_list_for_common_mobile() ) ) {
@@ -106,7 +106,7 @@ class Google extends \Bbgi\Module {
 	 *
 	 * @return array
 	 */
-	public function get_analytics_data() {
+	public static function get_analytics_data() {
 		$google_analytics = trim( get_option( self::OPTION_UA ) );
 
 		if ( empty( $google_analytics ) ) {

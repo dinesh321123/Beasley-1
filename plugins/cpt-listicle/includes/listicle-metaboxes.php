@@ -128,7 +128,7 @@ class ListicleCPTMetaboxes {
 		</div>
 		<?php
 	}
-	function listicle_cpt_footer_description_save( $post_id ) {
+	public static function listicle_cpt_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_listicle_cpt_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_listicle_cpt_footer_description_nonce'], '_listicle_cpt_footer_description_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;
@@ -139,7 +139,7 @@ class ListicleCPTMetaboxes {
 		}
 	}
 
-	function listicle_cpt_save( $post_id ) {
+	public static function listicle_cpt_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['repeatable_editor_nonce'] ) || ! wp_verify_nonce( $_POST['repeatable_editor_nonce'], '_repeatable_editor_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;
@@ -166,7 +166,7 @@ class ListicleCPTMetaboxes {
 		}
 	}
 
-	function clear_listicle_metadata_from_cache( $value, $post_id ) {
+	public static function clear_listicle_metadata_from_cache( $value, $post_id ) {
 		$key = 'listicle-store-' . $value . '-' . $post_id;
 
 		$field = wp_cache_get( $key );
