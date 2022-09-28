@@ -27,7 +27,7 @@ class ListicleCPTMetaboxes {
 			wp_enqueue_script('jquery-ui-core');
         	wp_enqueue_script('jquery-ui-dialog');
         	wp_enqueue_style('jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css');
-			add_filter( 'wp_default_editor', create_function( '', 'return "html";' ) );
+			add_filter( 'wp_default_editor', function() { return "html"; } );
 			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 			wp_register_style('listicle-admin',LISTICLE_CPT_URL . "assets/css/listicle_admin.css", array(), LISTICLE_CPT_VERSION, 'all');
 			wp_enqueue_style('listicle-admin');
