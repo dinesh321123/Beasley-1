@@ -63,7 +63,7 @@ function gmr_register_dependencies() {
 
 	wp_register_style( 'datetimepicker', $base . '/datetimepicker/jquery.datetimepicker.css', array(), '2.3.9', 'all' );
 	wp_register_style( 'parsleyjs', $base . '/parsleyjs/src/parsley.css', array(), '2.0.5', 'all' );
-	wp_register_style( 'font-awesome', $base . "/font-awesome/css/font-awesome{$postfix}.css", array(), '4.0.3', 'all' );
+//	wp_register_style( 'font-awesome', $base . "/font-awesome/css/font-awesome{$postfix}.css", array(), '4.0.3', 'all' );
 
 	// Old versions have a bug with MP3s
 	if ( ! is_admin() ) {
