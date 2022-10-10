@@ -10,7 +10,7 @@ License: GPL2
 */
 
 function enqueue_vimeopreroll_scripts() {
-	$vimeoplayerjsurl = plugins_url( '/vimeo-player-v2-16-1.js', __FILE__ );
+	$vimeoplayerjsurl = plugins_url( '/vimeo-player-v2-18-0.js', __FILE__ );
 	echo "<script type='text/javascript' async src='". $vimeoplayerjsurl ."'></script>";
 
 	$beasleyimajsurl = plugins_url( '/beasley-ima-v1-0-5.js', __FILE__ );

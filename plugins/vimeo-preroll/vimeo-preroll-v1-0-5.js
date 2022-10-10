@@ -138,6 +138,7 @@
 		const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
 		const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
 
+		console.log(`Vimeo Device - IsIpad: ${ipad}  IsIpod: ${ipod}  IsIphone: ${iphone}`);
 		return ipad || iphone || ipod;
 	}
 
@@ -153,6 +154,12 @@
 		);
 		const newIFrameElement = iFrameElement.cloneNode(true);
 		newIFrameElement.setAttribute('allow', 'autoplay; fullscreen');
+
+		// .responsive class was causing 0 height style - override style with iframe height attribute
+		const heightVal = newIFrameElement.getAttribute('height');
+		console.log(`Setting Vimeo IFrame Style Height: ${heightVal}`);
+		newIFrameElement.setAttribute('style', `height: ${heightVal}`);
+
 		newDivElement.appendChild(newIFrameElement);
 		iFrameElement.parentNode.replaceChild(newDivElement, iFrameElement);
 
