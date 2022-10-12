@@ -3,8 +3,9 @@
 	$category_archive_post = isset($category_archive_data['category_archive_post']) ? $category_archive_data['category_archive_post'] : null;
 	$cap_is_sponsored = isset($category_archive_data['cap_is_sponsored']) ? $category_archive_data['cap_is_sponsored'] : false;
 	$cap_show_icon = isset($category_archive_data['cap_show_icon']) ? $category_archive_data['cap_show_icon'] : false;
+	$ca_add_desc = isset($category_archive_data['ca_add_desc']) ? $category_archive_data['ca_add_desc'] : false;
 ?>
-<div class="post-title">
+<div class="post-title <?php if($ca_add_desc) { echo "ca-title-with-desc"; } ?>">
 	<h3>
 		<?php if($cap_is_sponsored) { ?>
 			<small>SPONSORED</small>
@@ -22,4 +23,9 @@
 			</a>
 		<?php } ?>
 	</h3>
+	<?php if($ca_add_desc) { ?>
+		<p>
+			<?php echo wp_strip_all_tags( get_the_content(null, true, $category_archive_post) ); ?>
+		</p>
+	<?php } ?>
 </div>

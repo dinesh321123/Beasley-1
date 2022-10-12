@@ -50,15 +50,6 @@ if ( ee_is_first_page() ) {
 	}
 	$category_archive_posts = array_slice($category_archive_posts, 5);
 
-	$ca_stn_cid = get_option( 'stn_cid', '10462' );
-	if ( !empty($ca_stn_video_barker_id) ) { ?>
-		<div class="pre-load-cont">
-			<div class="content-wrap">
-				<h2 class="section-head"><span><?php echo $category_archive_obj->name; ?> Videos</span></h2>
-				<div class="stnbarker" data-fk="<?php echo $ca_stn_video_barker_id; ?>" data-cid="<?php echo $ca_stn_cid; ?>"></div>
-			</div>
-		</div>
-	<?php }
 }
 
 $show_ad_section_index = array(
@@ -67,8 +58,19 @@ $show_ad_section_index = array(
 $current_ca_render_index = 1;
 while(count($category_archive_posts) > 0) {
 	if(( $current_ca_render_index == 2 ) && ee_is_first_page() ) {
+
+		$ca_stn_cid = get_option( 'stn_cid', '10462' );
+		if ( !empty($ca_stn_video_barker_id) ) { ?>
+			<div class="pre-load-cont">
+				<div class="content-wrap">
+					<h2 class="section-head"><span><?php echo $category_archive_obj->name; ?> Videos</span></h2>
+					<div class="stnbarker" data-fk="<?php echo $ca_stn_video_barker_id; ?>" data-cid="<?php echo $ca_stn_cid; ?>"></div>
+				</div>
+			</div>
+		<?php }
+
 		?>
-			<div class="content-wrap">
+			<div class="content-wrap pt-100">
 				<h2 class="section-head">
 					<span>More <?php echo $category_archive_obj->name; ?></span>
 				</h2>
@@ -78,14 +80,18 @@ while(count($category_archive_posts) > 0) {
 
 	$have_ad = null;
 	$posts_fetch = 12;
-	if( in_array($current_ca_render_index, $show_ad_section_index) ) {
-		$posts_fetch = 8;
+	if( $current_ca_render_index % 2 == 0 ) {
 		$have_ad = "advertise";
 	}
 	$display_ca_archive_posts = array_slice($category_archive_posts, 0, $posts_fetch);
 	$category_archive_posts = array_slice($category_archive_posts, $posts_fetch);
 	set_query_var( 'display_ca_archive_posts', $display_ca_archive_posts );
 	get_template_part( 'partials/category/archive', $have_ad );
+	if( $current_ca_render_index % 2 !== 0 && !($current_ca_render_index == 1 && ee_is_first_page()) ) { ?>
+		<div class="ad -footer -centered">
+			<?php do_action( 'dfp_tag', 'bottom-leaderboard', false, array( array( 'pos', 2 ) ) ); ?>
+		</div>
+	<?php }
 	$current_ca_render_index++;
 }
 ?>

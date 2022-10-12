@@ -10,11 +10,12 @@ if( !empty($ca_featured_section_posts) && ( count($ca_featured_section_posts) > 
 				<?php
 				$category_archive_data = array(
 					'category_archive_post' => $ca_featured_section_posts[0],
-					'cap_is_sponsored' 		=> false
+					'cap_is_sponsored' 		=> false,
+					'ca_add_desc' => true,
 				);
 				set_query_var( 'category_archive_data', $category_archive_data );
-				get_template_part( 'partials/tile/title', 'category' );
 				get_template_part( 'partials/tile/thumbnail', 'category' );
+				get_template_part( 'partials/tile/title', 'category' );
 				?>
 			</div>
 			<div class="blog-second w-40 px-15 d-sm-none">

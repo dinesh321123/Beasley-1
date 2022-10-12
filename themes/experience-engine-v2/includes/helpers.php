@@ -310,10 +310,10 @@ endif;
 
 if ( ! function_exists( 'ee_get_category_posts_query' ) ) :
 	function ee_get_category_posts_query( $category = null, $exclude_posts = array(), $total_category_archive_featured = 0 ) {
-		$category_archive_per_page = 8;
+		$category_archive_per_page = 24;
 		$category_archive_current_page = get_query_var('paged');
 		$category_archive_current_page = max( 1, $category_archive_current_page );
-		$category_archive_offset_start = 20 + (5 - $total_category_archive_featured);
+		$category_archive_offset_start = 48 + (5 - $total_category_archive_featured);
 		$offset = $category_archive_offset_start + (($category_archive_current_page - 2) * $category_archive_per_page);
 		$category_archive_query_params = array(
 			'post_type'   => 'any',
