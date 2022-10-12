@@ -29,7 +29,9 @@ if( !empty($display_ca_archive_posts) && ( count($display_ca_archive_posts) > 0 
 			</div>
 		</div>
 		<div class="w-33">
-			<img src="<?php echo get_template_directory_uri() ?>/assets/images/add3.jpg" class="pli-30 pt-10">
+			<div class="two-column-sticky-ad">
+				<img src="<?php echo get_template_directory_uri() ?>/assets/images/add3.jpg" class="pli-30 pt-10">
+			</div>
 		</div>
 	</div>
 </div>

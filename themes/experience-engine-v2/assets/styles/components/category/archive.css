@@ -53,6 +53,20 @@
 				margin-bottom: revert;
 			}
 		}
+		& .ca-title-with-desc {
+			padding-top: 10px;
+			& h3 {
+				margin-bottom: 7px;
+			}
+			& p {
+				text-align: justify;
+				font-size: 18px;
+				line-height: 22px;
+				height: 66px;
+				overflow: hidden;
+				margin: 0;
+			}
+		}
 	}
 	& .list-grid {
 		& ul {
@@ -159,6 +173,11 @@
 	& .d-flex {
 		display: flex;
 		flex-wrap: wrap;
+	}
+	& .two-column-sticky-ad {
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0px;
 	}
 	& .icon-link {
 		display: block;
