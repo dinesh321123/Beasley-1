@@ -1,5 +1,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { isSafari } from '../../../library';
 
 class SecondStreet extends PureComponent {
 	getLastSecondStreetHeight() {
@@ -136,10 +137,16 @@ class SecondStreet extends PureComponent {
 								window.clearTimeout(ssSilentBackTimeout);
 							}
 							ssSilentBackTimeout = setTimeout(() => {
-								console.log(
-									'Firing Silent Back() And Updating SS IFrame Height',
-								);
-								window.history.back();
+								if (isSafari()) {
+									console.log(
+										'Not Firing Silent Back For Second Street On Safari',
+									);
+								} else {
+									console.log(
+										'Firing Silent Back() And Updating SS IFrame Height',
+									);
+									window.history.back();
+								}
 								ssIFrameObserver.disconnect();
 								ssIFrameElement.style.height = `${newHeight}px`;
 							}, 1500);

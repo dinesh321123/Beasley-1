@@ -142,7 +142,7 @@
 		return ipad || iphone || ipod;
 	}
 
-	const getVimeoPlayerForIOS = (iFrameElement, vimeoplayer) => {
+	const getVimeoPlayerForIOS = (iFrameElement) => {
 		console.log('Creating Extra HTML for IOS');
 		// Add allow=autoplay to Vimeo IFrame so that play button can interact.
 		// Swap out with original - Chrome did not work when original was modified.
