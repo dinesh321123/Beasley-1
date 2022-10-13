@@ -189,6 +189,9 @@
 		// Add Class to parent for Full Screen
 	    iFrameElement.parentElement.classList.add('beasley-vimeo');
 
+		// Add Class to parent to avoid padding added by .responsive classed on some pages
+		iFrameElement.parentElement.classList.add('beasley');
+
 		const vimeoplayer = isIOS() ? getVimeoPlayerForIOS(iFrameElement) : new Vimeo.Player(iFrameElement);
 
 		vimeoplayer.isPlayingPreroll = false;
