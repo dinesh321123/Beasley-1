@@ -20,13 +20,13 @@ class SecondStreet extends PureComponent {
 
 		// Look Every Half Second For Six Times For a # in URL and do a silent back
 		const silentBackRoutine = backTries => {
-			const nextTry = backTries++;
+			const nextTry = backTries + 1;
 			console.log(`Silent Back Attempt ${backTries}`);
 			if (window.location.href.indexOf('#') > -1) {
 				window.history.back();
 			} else if (backTries < 6) {
 				setTimeout(() => {
-					console.log(`Retrying Silent Back After Attempt ${nextTry}`);
+					console.log(`Retrying Silent Back With Attempt ${nextTry}`);
 					silentBackRoutine(nextTry); // Redo if n < 5 (and pass n)
 				}, 500);
 			}
