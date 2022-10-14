@@ -121,10 +121,6 @@ class SecondStreet extends PureComponent {
 
 				const ssIFrameElement = mutations[0].addedNodes[0];
 
-				const ssIFrameContentDoc = ssIFrameElement.contentDocument
-					? ssIFrameElement.contentDocument
-					: ssIFrameElement.contentWindow.document;
-
 				// SS Modifies History by adding same page twice and also causes the first Back() to do nothing.
 				// Our work-around is to fire this silent Back() after SS Renders which corrects our History.
 				// We observe SS IFrame Height Being Changed And After No Activity For A Second, Schedule Back() In One More Second.
@@ -157,6 +153,9 @@ class SecondStreet extends PureComponent {
 								console.log(
 									'Initiating Silent Back() And Updating SS IFrame Height',
 								);
+								const ssIFrameContentDoc = ssIFrameElement.contentDocument
+									? ssIFrameElement.contentDocument
+									: ssIFrameElement.contentWindow.document;
 								silentBackRoutine(0, ssIFrameContentDoc); // Fire Off Silent Back
 								ssIFrameObserver.disconnect();
 								ssIFrameElement.style.height = `${newHeight}px`;
