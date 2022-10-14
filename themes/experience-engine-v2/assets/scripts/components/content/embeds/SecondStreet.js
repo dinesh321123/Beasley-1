@@ -18,6 +18,18 @@ class SecondStreet extends PureComponent {
 			return;
 		}
 
+		// Look Every Half Second For Six Times For a # in URL and do a silent back
+		const silentBackRoutine = backTries => {
+			console.log(`Silent Back Attempt ${backTries}`);
+			if (window.location.href.indexOf('#') > -1) {
+				window.history.back();
+			} else if (backTries < 6) {
+				setTimeout(() => {
+					silentBackRoutine(backTries++); // Redo if n < 5 (and pass n)
+				}, 500);
+			}
+		};
+
 		const beasleyIframeElement = document.createElement('iframe');
 		beasleyIframeElement.height = this.getLastSecondStreetHeight()
 			? `${this.getLastSecondStreetHeight()}px`
@@ -137,9 +149,9 @@ class SecondStreet extends PureComponent {
 							}
 							ssSilentBackTimeout = setTimeout(() => {
 								console.log(
-									'Firing Silent Back() And Updating SS IFrame Height',
+									'Initiating Silent Back() And Updating SS IFrame Height',
 								);
-								window.history.back();
+								silentBackRoutine(0); // Fire Of Silent Back
 								ssIFrameObserver.disconnect();
 								ssIFrameElement.style.height = `${newHeight}px`;
 							}, 1500);
