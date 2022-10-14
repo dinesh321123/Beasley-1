@@ -20,12 +20,14 @@ class SecondStreet extends PureComponent {
 
 		// Look Every Half Second For Six Times For a # in URL and do a silent back
 		const silentBackRoutine = backTries => {
+			const nextTry = backTries++;
 			console.log(`Silent Back Attempt ${backTries}`);
 			if (window.location.href.indexOf('#') > -1) {
 				window.history.back();
 			} else if (backTries < 6) {
 				setTimeout(() => {
-					silentBackRoutine(backTries++); // Redo if n < 5 (and pass n)
+					console.log(`Retrying Silent Back After Attempt ${nextTry}`);
+					silentBackRoutine(nextTry); // Redo if n < 5 (and pass n)
 				}, 500);
 			}
 		};
@@ -151,7 +153,7 @@ class SecondStreet extends PureComponent {
 								console.log(
 									'Initiating Silent Back() And Updating SS IFrame Height',
 								);
-								silentBackRoutine(0); // Fire Of Silent Back
+								silentBackRoutine(0); // Fire Off Silent Back
 								ssIFrameObserver.disconnect();
 								ssIFrameElement.style.height = `${newHeight}px`;
 							}, 1500);
