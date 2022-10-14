@@ -18,28 +18,28 @@ class SecondStreet extends PureComponent {
 			return;
 		}
 
-		// Look Every Half Second For Six Times For a # in URL and do a silent back
-		const silentBackRoutine = backTries => {
+		// Look Every Half Second For Six Times For Second Street Document To Be Complete and do a silent back
+		const silentBackRoutine = (backTries, ssDocument) => {
 			const nextTry = backTries + 1;
 			console.log(`Silent Back Attempt ${backTries}`);
-			if (window.location.href.indexOf('#') > -1) {
+			if (ssDocument.readyState === 'complete') {
 				window.history.back();
 			} else if (backTries < 6) {
 				setTimeout(() => {
 					console.log(`Retrying Silent Back With Attempt ${nextTry}`);
-					silentBackRoutine(nextTry); // Redo if n < 5 (and pass n)
+					silentBackRoutine(nextTry, ssDocument); // Redo if n < 5 (and pass n)
 				}, 500);
 			}
 		};
 
-		const beasleyIframeElement = document.createElement('iframe');
-		beasleyIframeElement.height = this.getLastSecondStreetHeight()
+		const beasleyIFrameElement = document.createElement('IFrame');
+		beasleyIFrameElement.height = this.getLastSecondStreetHeight()
 			? `${this.getLastSecondStreetHeight()}px`
 			: '0';
-		beasleyIframeElement.style.width = '100%';
-		beasleyIframeElement.style.border = 0;
-		container.appendChild(beasleyIframeElement);
-		beasleyIframeElement.contentWindow.SecondStreetSDK = {
+		beasleyIFrameElement.style.width = '100%';
+		beasleyIFrameElement.style.border = 0;
+		container.appendChild(beasleyIFrameElement);
+		beasleyIFrameElement.contentWindow.SecondStreetSDK = {
 			version: '1.0.0',
 			ready: function ready(secondstreet) {
 				[
@@ -93,9 +93,9 @@ class SecondStreet extends PureComponent {
 			},
 		};
 
-		const beasleyIFrameContentDoc = beasleyIframeElement.contentDocument
-			? beasleyIframeElement.contentDocument
-			: beasleyIframeElement.contentWindow.document;
+		const beasleyIFrameContentDoc = beasleyIFrameElement.contentDocument
+			? beasleyIFrameElement.contentDocument
+			: beasleyIFrameElement.contentWindow.document;
 
 		const beasleyIFrameDocBody = beasleyIFrameContentDoc.getElementsByTagName(
 			'body',
@@ -111,7 +111,7 @@ class SecondStreet extends PureComponent {
 				if (
 					!mutations ||
 					!mutations[0].addedNodes ||
-					mutations[0].addedNodes[0].nodeName !== 'IFRAME'
+					mutations[0].addedNodes[0].nodeName !== 'IFrame'
 				) {
 					console.log(
 						'Second Street Modified Beasley IFrame Without An Inner IFrame',
@@ -120,6 +120,10 @@ class SecondStreet extends PureComponent {
 				}
 
 				const ssIFrameElement = mutations[0].addedNodes[0];
+
+				const ssIFrameContentDoc = ssIFrameElement.contentDocument
+					? ssIFrameElement.contentDocument
+					: ssIFrameElement.contentWindow.document;
 
 				// SS Modifies History by adding same page twice and also causes the first Back() to do nothing.
 				// Our work-around is to fire this silent Back() after SS Renders which corrects our History.
@@ -131,7 +135,7 @@ class SecondStreet extends PureComponent {
 					if (ssIFrameElement.clientHeight) {
 						const newHeight = ssIFrameElement.clientHeight + 20; // Add 20 Extra To Account For SS Being Short
 						console.log(
-							`SSIFRAME HEIGHT: ${ssIFrameElement.clientHeight} - Setting Beasley Iframe Height: ${newHeight}`,
+							`SSIFrame HEIGHT: ${ssIFrameElement.clientHeight} - Setting Beasley IFrame Height: ${newHeight}`,
 						);
 
 						if (ssResetHeightTimeout) {
@@ -142,7 +146,7 @@ class SecondStreet extends PureComponent {
 								'Firing SS Height Adjust Because Height Not Changed For A Half Second',
 							);
 							this.setLastSecondStreetHeight(newHeight); // Save For Next SS Render And Avoid Page Shift
-							beasleyIframeElement.height = newHeight;
+							beasleyIFrameElement.height = newHeight;
 
 							// Fire Silent Back() 1.5 Seconds after Last SS Height Adjust.
 							// NOTE - MUST FIRE After Full SS Render, But If User Quickly Clicks Back It Might Be Funky
@@ -153,7 +157,7 @@ class SecondStreet extends PureComponent {
 								console.log(
 									'Initiating Silent Back() And Updating SS IFrame Height',
 								);
-								silentBackRoutine(0); // Fire Off Silent Back
+								silentBackRoutine(0, ssIFrameContentDoc); // Fire Off Silent Back
 								ssIFrameObserver.disconnect();
 								ssIFrameElement.style.height = `${newHeight}px`;
 							}, 1500);
