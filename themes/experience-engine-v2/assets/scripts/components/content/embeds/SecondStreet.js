@@ -18,21 +18,24 @@ class SecondStreet extends PureComponent {
 			return;
 		}
 
-		// Look Every Half Second For Six Times For Second Street Document To Be Complete and do a silent back
-		const silentBackRoutine = (backTries, ssDocument) => {
+		let ssIFrameDidLoadFlag = false;
+		let ssDidFinishAddingElementsFlag = false;
+
+		// Look Every Half Second For 10 Times For Second Street Document To Be Complete and do a silent back
+		const silentBackRoutine = backTries => {
 			const nextTry = backTries + 1;
 			console.log(`Silent Back Attempt ${backTries}`);
-			if (ssDocument.readyState === 'complete') {
+			if (ssIFrameDidLoadFlag && ssDidFinishAddingElementsFlag) {
 				window.history.back();
-			} else if (backTries < 6) {
+			} else if (backTries < 10) {
 				setTimeout(() => {
 					console.log(`Retrying Silent Back With Attempt ${nextTry}`);
-					silentBackRoutine(nextTry, ssDocument); // Redo if n < 5 (and pass n)
+					silentBackRoutine(nextTry); // Redo if n < 5 (and pass n)
 				}, 500);
 			}
 		};
 
-		const beasleyIFrameElement = document.createElement('IFrame');
+		const beasleyIFrameElement = document.createElement('iframe');
 		beasleyIFrameElement.height = this.getLastSecondStreetHeight()
 			? `${this.getLastSecondStreetHeight()}px`
 			: '0';
@@ -111,7 +114,7 @@ class SecondStreet extends PureComponent {
 				if (
 					!mutations ||
 					!mutations[0].addedNodes ||
-					mutations[0].addedNodes[0].nodeName !== 'IFrame'
+					mutations[0].addedNodes[0].nodeName !== 'IFRAME'
 				) {
 					console.log(
 						'Second Street Modified Beasley IFrame Without An Inner IFrame',
@@ -120,6 +123,11 @@ class SecondStreet extends PureComponent {
 				}
 
 				const ssIFrameElement = mutations[0].addedNodes[0];
+				ssIFrameElement.addEventListener('load', () => {
+					console.log('SS Loaded - Initiating Silent Back');
+					ssIFrameDidLoadFlag = true;
+					silentBackRoutine(0);
+				});
 
 				// SS Modifies History by adding same page twice and also causes the first Back() to do nothing.
 				// Our work-around is to fire this silent Back() after SS Renders which corrects our History.
@@ -150,15 +158,10 @@ class SecondStreet extends PureComponent {
 								window.clearTimeout(ssSilentBackTimeout);
 							}
 							ssSilentBackTimeout = setTimeout(() => {
-								console.log(
-									'Initiating Silent Back() And Updating SS IFrame Height',
-								);
-								const ssIFrameContentDoc = ssIFrameElement.contentDocument
-									? ssIFrameElement.contentDocument
-									: ssIFrameElement.contentWindow.document;
-								silentBackRoutine(0, ssIFrameContentDoc); // Fire Off Silent Back
+								console.log('Correcting SS IFrame Height & Finalizing');
 								ssIFrameObserver.disconnect();
 								ssIFrameElement.style.height = `${newHeight}px`;
+								ssDidFinishAddingElementsFlag = true; // This should trigger silent back within half second
 							}, 1500);
 						}, 500);
 					}
