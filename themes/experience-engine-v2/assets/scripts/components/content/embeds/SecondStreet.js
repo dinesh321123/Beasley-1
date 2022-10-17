@@ -18,23 +18,6 @@ class SecondStreet extends PureComponent {
 			return;
 		}
 
-		let ssIFrameDidLoadFlag = false;
-		let ssDidFinishAddingElementsFlag = false;
-
-		// Look Every Half Second For 10 Times For Second Street Document To Be Complete and do a silent back
-		const silentBackRoutine = backTries => {
-			const nextTry = backTries + 1;
-			console.log(`Silent Back Attempt ${backTries}`);
-			if (ssIFrameDidLoadFlag && ssDidFinishAddingElementsFlag) {
-				window.history.back();
-			} else if (backTries < 10) {
-				setTimeout(() => {
-					console.log(`Retrying Silent Back With Attempt ${nextTry}`);
-					silentBackRoutine(nextTry); // Redo if n < 5 (and pass n)
-				}, 500);
-			}
-		};
-
 		const beasleyIFrameElement = document.createElement('iframe');
 		beasleyIFrameElement.height = this.getLastSecondStreetHeight()
 			? `${this.getLastSecondStreetHeight()}px`
@@ -123,45 +106,37 @@ class SecondStreet extends PureComponent {
 				}
 
 				const ssIFrameElement = mutations[0].addedNodes[0];
-				ssIFrameElement.addEventListener('load', () => {
-					console.log('SS Loaded - Initiating Silent Back');
-					ssIFrameDidLoadFlag = true;
-					silentBackRoutine(0);
-				});
 
 				// SS Modifies History by adding same page twice and also causes the first Back() to do nothing.
-				// Our work-around is to fire this silent Back() after SS Renders which corrects our History.
+				// Our work-around is to fire a silent Back() after SS Renders which corrects our History.
 				// We observe SS IFrame Height Being Changed And After No Activity For A Second, Schedule Back() In One More Second.
 				// NOTE: These time limits are conservative because if we fire Back() too soon, it will not be Silent.
 				let ssResetHeightTimeout;
 				let ssSilentBackTimeout;
 				const ssIFrameObserver = new MutationObserver((mutations, observer) => {
 					if (ssIFrameElement.clientHeight) {
-						const newHeight = ssIFrameElement.clientHeight + 20; // Add 20 Extra To Account For SS Being Short
 						console.log(
-							`SSIFrame HEIGHT: ${ssIFrameElement.clientHeight} - Setting Beasley IFrame Height: ${newHeight}`,
+							`SS Reported IFrame HEIGHT: ${ssIFrameElement.clientHeight}`,
 						);
 
 						if (ssResetHeightTimeout) {
 							window.clearTimeout(ssResetHeightTimeout);
 						}
 						ssResetHeightTimeout = setTimeout(() => {
-							console.log(
-								'Firing SS Height Adjust Because Height Not Changed For A Half Second',
-							);
-							this.setLastSecondStreetHeight(newHeight); // Save For Next SS Render And Avoid Page Shift
-							beasleyIFrameElement.height = newHeight;
-
-							// Fire Silent Back() 1.5 Seconds after Last SS Height Adjust.
 							// NOTE - MUST FIRE After Full SS Render, But If User Quickly Clicks Back It Might Be Funky
 							if (ssSilentBackTimeout) {
 								window.clearTimeout(ssSilentBackTimeout);
 							}
 							ssSilentBackTimeout = setTimeout(() => {
-								console.log('Correcting SS IFrame Height & Finalizing');
+								const newHeight = ssIFrameElement.clientHeight + 20; // Add 20 Extra To Account For SS Being Short
+								console.log(
+									`Waited 1.5 Secs Since Last SS Element Added. Correcting SS IFrame Height To ${newHeight} & Finalizing`,
+								);
 								ssIFrameObserver.disconnect();
+								this.setLastSecondStreetHeight(newHeight); // Save For Next SS Render And Avoid Page Shift
+								beasleyIFrameElement.height = newHeight;
 								ssIFrameElement.style.height = `${newHeight}px`;
-								ssDidFinishAddingElementsFlag = true; // This should trigger silent back within half second
+								window.history.back(); // Back out of the history changes caused by SS
 							}, 1500);
 						}, 500);
 					}
