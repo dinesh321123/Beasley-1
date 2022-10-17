@@ -10,7 +10,11 @@ import {
 	fetchPage,
 	fetchFeedsContent,
 } from '../redux/actions/screen';
-import { firebaseAuth, untrailingslashit } from '../library';
+import {
+	firebaseAuth,
+	getBeasleyCanonicalUrl,
+	untrailingslashit,
+} from '../library';
 
 const specialPages = ['/wp-admin/', '/wp-signup.php', '/wp-login.php'];
 
@@ -197,7 +201,21 @@ class ContentDispatcher extends Component {
 		// https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
 		setTimeout(() => {
 			if (window.location.href.indexOf('#') === -1) {
-				this.loadPage(window.location.href, { suppressHistory: true });
+				const lastCanonicalUrl = getBeasleyCanonicalUrl();
+				console.log(
+					`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
+				);
+
+				if (
+					(lastCanonicalUrl &&
+						lastCanonicalUrl.indexOf('#') > -1 &&
+						lastCanonicalUrl.replace('#//', '') === lastCanonicalUrl) ||
+					window.location.href === lastCanonicalUrl
+				) {
+					console.log(`Current Matched Canonical - Not Loading New Page`);
+				} else {
+					this.loadPage(window.location.href, { suppressHistory: true });
+				}
 			}
 		}, 0);
 	}
