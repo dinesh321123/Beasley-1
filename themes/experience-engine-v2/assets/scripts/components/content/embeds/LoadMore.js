@@ -23,6 +23,11 @@ class LoadMore extends PureComponent {
 	componentDidMount() {
 		const { placeholder } = this.props;
 		this.container = document.getElementById(placeholder);
+
+		const autoloadOffset = document.getElementById('autoload-category-archive');
+		if (autoloadOffset) {
+			this.container = autoloadOffset;
+		}
 		this.context.observe(this.container, this.onIntersectionChange);
 	}
 
@@ -42,6 +47,9 @@ class LoadMore extends PureComponent {
 
 		// disable intersection observing
 		this.context.unobserve(this.container);
+		if (autoload) {
+			this.container.remove();
+		}
 	}
 
 	handleLoadClick() {
