@@ -17,7 +17,11 @@
 
 	    console.log('Loading Any Vimeo Player Controls For Embeds')
 		const iframeList = Array.from(document.querySelectorAll('iframe'));
-		const filteredList = iframeList.filter(iframeElement => iframeElement.src && iframeElement.src.toLowerCase().indexOf('vimeo') > -1);
+		const filteredList = iframeList.filter(
+			iframeElement => iframeElement.src &&
+			iframeElement.src.toLowerCase().indexOf('vimeo') > -1 &&
+			iframeElement.src.indexOf('?s=') === -1
+		);
 
 		if (filteredList && filteredList.length > 0) {
 			loadIMALibrary();
