@@ -70,13 +70,17 @@ while(count($category_archive_posts) > 0) {
 		<?php }
 
 		?>
-			<div class="content-wrap pt-100">
+			<div class="content-wrap<?php if(!empty($ca_stn_video_barker_id)) { echo " pt-100"; } ?>">
 				<h2 class="section-head">
 					<span>More <?php echo $category_archive_obj->name; ?></span>
 				</h2>
 			</div>
 		<?php
 	}
+
+	if( ( $current_ca_render_index == 1 && !ee_is_first_page() ) || ( $current_ca_render_index == 2 && ee_is_first_page() ) ) { ?>
+		<div id="autoload-category-archive" ></div>
+	<?php }
 
 	$have_ad = null;
 	$posts_fetch = 12;

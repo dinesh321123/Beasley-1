@@ -98,7 +98,7 @@ if ( ! function_exists( 'ee_update_main_query' ) ) :
 		}
 
 		if( $query->is_archive() && $query->is_category() ) {
-			$query->set( 'posts_per_page', 8 );
+			$query->set( 'posts_per_page', 24 );
 		}
 
 		return $query;
