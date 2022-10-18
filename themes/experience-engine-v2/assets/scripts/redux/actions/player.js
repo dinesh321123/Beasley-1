@@ -250,6 +250,7 @@ function errorCatcher(prefix = '') {
 	};
 }
 
+/*
 function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
 	const tritonLibElementName = 'tritonPlayerLibElement';
 	if (!document.getElementById(tritonLibElementName)) {
@@ -267,6 +268,7 @@ function loadTritonLibrary(dispatch, station, callbackToPlayStation) {
 		};
 	}
 }
+*/
 
 function getTdModules(station) {
 	const tdmodules = [];
@@ -306,7 +308,7 @@ function getTdModules(station) {
  *
  * @param {*} modules
  */
-export function initTdPlayer(station, callbackToPlayStation) {
+export function initTdPlayer(station) {
 	return dispatch => {
 		function doInitTdPlayer() {
 			let adSyncedTimeout = false;
@@ -326,13 +328,6 @@ export function initTdPlayer(station, callbackToPlayStation) {
 				coreModules: getTdModules(station),
 				moduleError: errorCatcher('Module Error'),
 			});
-
-			// Play Immediately If A Callback Param Was Included
-			if (callbackToPlayStation) {
-				window.tdplayer.addEventListener('player-ready', () =>
-					dispatch(callbackToPlayStation()),
-				);
-			}
 
 			window.tdplayer.addEventListener('stream-status', ({ data }) =>
 				dispatch(statusUpdate(data.code)),
@@ -387,14 +382,18 @@ export function initTdPlayer(station, callbackToPlayStation) {
 					dispatch(gamAdPlaybackStart(nowDate.getTime()));
 				}
 			});
+
+			window.tdplayer.addEventListener('player-ready', () =>
+				play('tdplayer', station)(dispatch),
+			);
 		}
 
-		if (!window.TDSdk) {
-			// loadTritonLibrary() will recall this initTdPlayer() function when js is loaded.
-			loadTritonLibrary(dispatch, station, callbackToPlayStation);
-		} else {
-			doInitTdPlayer();
-		}
+		// if (!window.TDSdk) {
+		// loadTritonLibrary() will recall this initTdPlayer() function when js is loaded.
+		//	loadTritonLibrary(dispatch, station, callbackToPlayStation);
+		// } else {
+		doInitTdPlayer();
+		// }
 	};
 }
 
@@ -558,8 +557,8 @@ export const playStation = station => dispatch => {
 	console.log(`playStation() - ${station}`);
 
 	// Load Triton If We Have Not Done So Yet
-	if (!window.TDSdk) {
-		initTdPlayer(station, () => play('tdplayer', station))(dispatch);
+	if (!window.tdplayer) {
+		initTdPlayer(station)(dispatch);
 	} else {
 		play('tdplayer', station)(dispatch);
 	}
