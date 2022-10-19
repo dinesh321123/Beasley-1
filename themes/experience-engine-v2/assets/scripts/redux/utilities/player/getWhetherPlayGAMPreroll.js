@@ -5,10 +5,16 @@
  * @param {Number} lastAdPlaybackTime - Epoch of last Preroll start
  * @returns {boolean} shouldPlayGAMPreroll - whether we should play a GAM Preroll
  */
+import { isIPhone } from '../../../library';
+
 export default function getWhetherPlayGAMPreroll(
 	nowTime = 0,
 	lastAdPlaybackTime = 0,
 ) {
+	if (isIPhone()) {
+		console.log('GAM PREROLL IS DISABLED ON iPhone');
+		return false;
+	}
 	const timeSinceLastPreroll = nowTime - lastAdPlaybackTime;
 	const shouldPlayGAMPreroll = timeSinceLastPreroll > 10 * 60 * 1000; // Greater than 10 minutes
 	console.log(
