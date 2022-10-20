@@ -153,6 +153,7 @@ export const fetchPage = (url, options = {}) => async dispatch => {
  */
 export function loadPartialPage(url, placeholder) {
 	return dispatch => {
+
 		dispatch({ type: ACTION_LOADING_PARTIAL, url });
 
 		function onError(error) {
