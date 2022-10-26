@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a388a42837eb5d7c7bdebfa27f07c12",
+    "content-hash": "faa65bc3db7c09271d3d2c36a8a2aaa9",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -161,16 +161,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.239.0",
+            "version": "3.240.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "33ae76381b77a1a2580817996dcc7b9e931ae5f4"
+                "reference": "c4eb7c0a775758cfc8506082a0ebc8736970c411"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/33ae76381b77a1a2580817996dcc7b9e931ae5f4",
-                "reference": "33ae76381b77a1a2580817996dcc7b9e931ae5f4",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c4eb7c0a775758cfc8506082a0ebc8736970c411",
+                "reference": "c4eb7c0a775758cfc8506082a0ebc8736970c411",
                 "shasum": ""
             },
             "require": {
@@ -249,9 +249,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.239.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.240.2"
             },
-            "time": "2022-10-18T18:17:00+00:00"
+            "time": "2022-10-25T18:15:27+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1246,16 +1246,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.4.1",
+            "version": "2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379"
+                "reference": "3148458748274be1546f8f2809a6c09fe66f44aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/69568e4293f4fa993f3b0e51c9723e1e17c41379",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/3148458748274be1546f8f2809a6c09fe66f44aa",
+                "reference": "3148458748274be1546f8f2809a6c09fe66f44aa",
                 "shasum": ""
             },
             "require": {
@@ -1345,7 +1345,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.4.1"
+                "source": "https://github.com/guzzle/psr7/tree/2.4.2"
             },
             "funding": [
                 {
@@ -1361,7 +1361,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-28T14:45:39+00:00"
+            "time": "2022-10-25T13:49:28+00:00"
         },
         {
             "name": "humanmade/s3-uploads",
@@ -3219,15 +3219,15 @@
         },
         {
             "name": "wpackagist-plugin/advanced-custom-fields",
-            "version": "5.12.3",
+            "version": "6.0.3",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/advanced-custom-fields/",
-                "reference": "tags/5.12.3"
+                "reference": "tags/6.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.5.12.3.zip"
+                "url": "https://downloads.wordpress.org/plugin/advanced-custom-fields.6.0.3.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
