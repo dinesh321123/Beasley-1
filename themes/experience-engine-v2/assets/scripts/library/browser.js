@@ -19,13 +19,21 @@ export const isFireFox = () => {
 	return userAgent.toLowerCase().indexOf('firefox') < -1;
 };
 
-export const isIOS = () => {
+export const isIPhone = () => {
+	const { userAgent } = window.navigator;
+	return !!userAgent.match(/iPhone/i);
+};
+
+export const isIPad = () => {
 	const { userAgent, platform, maxTouchPoints } = window.navigator;
 	return (
 		!!userAgent.match(/iPad/i) ||
-		!!userAgent.match(/iPhone/i) ||
 		(!!platform.match(/MacIntel/i) && maxTouchPoints > 1) /* iPad OS 13 */
 	);
+};
+
+export const isIOS = () => {
+	return isIPhone() || isIPad();
 };
 
 export const isWebKit = () => {

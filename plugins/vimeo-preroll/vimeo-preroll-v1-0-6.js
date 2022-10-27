@@ -16,7 +16,11 @@
 
 	    console.log('Loading Any Vimeo Player Controls For Embeds')
 		const iframeList = Array.from(document.querySelectorAll('iframe'));
-		const filteredList = iframeList.filter(iframeElement => iframeElement.src && iframeElement.src.toLowerCase().indexOf('vimeo') > -1);
+		const filteredList = iframeList.filter(
+			iframeElement => iframeElement.src &&
+			iframeElement.src.toLowerCase().indexOf('vimeo') > -1 &&
+			iframeElement.src.indexOf('?s=') === -1
+		);
 
 		if (filteredList && filteredList.length > 0) {
 			loadIMALibrary();
@@ -112,11 +116,76 @@
 		});
 	}
 
+<<<<<<<< HEAD:plugins/vimeo-preroll/vimeo-preroll-v1-0-6.js
+	// TODO - Determining OS should be single function in single place for entire App.
+	const isIOS = () => {
+		const ua = window.navigator.userAgent;
+		const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+		const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
+		const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+
+		console.log(`Vimeo Device - IsIpad: ${ipad}  IsIpod: ${ipod}  IsIphone: ${iphone}`);
+		return ipad || iphone || ipod;
+	}
+
+	const getVimeoPlayerForIOS = (iFrameElement) => {
+		console.log('Creating Extra HTML for IOS');
+		// Add allow=autoplay to Vimeo IFrame so that play button can interact.
+		// Swap out with original - Chrome did not work when original was modified.
+		// Wrap copy in div which onmouseover inits IMA.
+		const newDivElement = document.createElement('div');
+		newDivElement.setAttribute(
+			'style',
+			'position: relative',
+		);
+		const newIFrameElement = iFrameElement.cloneNode(true);
+		newIFrameElement.setAttribute('allow', 'autoplay; fullscreen');
+
+		// .responsive class was causing 0 height style - override style with iframe height attribute
+		const heightVal = newIFrameElement.getAttribute('height');
+		console.log(`Setting Vimeo IFrame Style Height: ${heightVal}`);
+		newIFrameElement.setAttribute('style', `height: ${heightVal ? heightVal : 0}px`);
+
+		newDivElement.appendChild(newIFrameElement);
+		iFrameElement.parentNode.replaceChild(newDivElement, iFrameElement);
+
+		// On IOS, IMA does not consider Vimeo Events as User Interaction.
+		// Create a button to use as a proxy click event.
+		const trickIMAButton = document.createElement("div");
+		trickIMAButton.setAttribute(
+			'style',
+			'position: absolute; bottom: 0; left: 0; width: 25%; height: 50%;',
+		);
+
+		newDivElement.appendChild(trickIMAButton);
+		const retval = new Vimeo.Player(newIFrameElement);
+
+		trickIMAButton.onclick = () => {
+			console.log('DEBUG BUTTON CLICK');
+			renderHTML(newIFrameElement);
+			createIMADisplayContainer();
+			retval.play();
+			trickIMAButton.remove(); // Delete trick button since we already played IMA Ad
+		}
+
+		return retval;
+	}
+
+========
+>>>>>>>> origin/master:plugins/vimeo-preroll/vimeo-preroll-v1-0-2.js
 	const loadVimeoPlayer = (iFrameElement) => {
 		// Add Class to parent for Full Screen
 	    iFrameElement.parentElement.classList.add('beasley-vimeo');
 
+<<<<<<<< HEAD:plugins/vimeo-preroll/vimeo-preroll-v1-0-6.js
+		// Add Class to parent to avoid padding added by .responsive classed on some pages
+		iFrameElement.parentElement.classList.add('beasley');
+
+		const vimeoplayer = isIOS() ? getVimeoPlayerForIOS(iFrameElement) : new Vimeo.Player(iFrameElement);
+
+========
 		const vimeoplayer = new Vimeo.Player(iFrameElement);
+>>>>>>>> origin/master:plugins/vimeo-preroll/vimeo-preroll-v1-0-2.js
 		vimeoplayer.isPlayingPreroll = false;
 		vimeoplayer.finishedPlayingPreroll = false;
 
