@@ -1,7 +1,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { IntersectionObserverContext } from '../../../context';
-import { logPrebidTargeting } from '../../../redux/utilities/screen/refreshAllAds';
 import {
 	impressionViewableHandler,
 	slotVisibilityChangedHandler,
@@ -849,7 +848,6 @@ class Dfp extends PureComponent {
 		const { slot, adjustedUnitId } = this.state;
 		// MFP 11/10/2021 - SLOT Param Not Working - pbjs.setTargetingForGPTAsync([slot]);
 		window.pbjs.setTargetingForGPTAsync([adjustedUnitId]);
-		logPrebidTargeting(adjustedUnitId);
 		googletag.pubads().refresh([slot], { changeCorrelator: false });
 	}
 
