@@ -83,7 +83,7 @@ class GeneralSettingsFrontRendering {
 			window.PushlySDK = window.PushlySDK || [];
 			function pushly() { window.PushlySDK.push(arguments) }
 			pushly('load', {
-			domainKey: $domainKey,
+			domainKey: ".$domainKey.",
 			sw: ".GENERAL_SETTINGS_CPT_PATH."'/assets/js/pushly-sdk-worker.js',
 		  });
 		</script>";
