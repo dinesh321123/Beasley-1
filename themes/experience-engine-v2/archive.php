@@ -1,10 +1,11 @@
 <?php
 
-get_header();
-
 if ( ee_is_first_page() ):
+	get_header();
 	get_template_part( 'partials/archive/title' );
 	get_template_part( 'partials/archive/meta' );
+else :
+	echo '<div id="inner-content">';
 endif;
 
 if ( have_posts() ) :
@@ -24,4 +25,8 @@ else :
 	echo '</div>';
 endif;
 
-get_footer();
+if ( ee_is_first_page() ):
+	get_footer();
+else:
+	echo '</div>';
+endif;;

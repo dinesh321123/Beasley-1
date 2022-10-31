@@ -24,6 +24,7 @@ else :
 		ee_the_have_no_posts();
 	echo '</div>';
 endif;
+
 if ( ee_is_first_page() ):
 	get_footer();
 else:
