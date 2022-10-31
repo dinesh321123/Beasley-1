@@ -11,8 +11,17 @@ class GeneralSettingsFrontRendering {
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
 
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
+		add_filter( 'body_class', array( __CLASS__, 'category_archive_class' )  );
 		add_action('wp_head',  array( __CLASS__,'pushly_notification_script' ) );
 		add_filter( 'after_set_parsely_page', array( __CLASS__,'filter_parsely_metadata' ), 10, 3 );
+	}
+
+	function category_archive_class( $classes ) {
+		// Set the custom class for category archive styling
+		if(is_archive() && is_category()) {
+			$classes[] = 'category-archive-page';
+		}
+		return $classes;
 	}
 
 	public static function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
