@@ -47,9 +47,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 					echo '<div class="pagination-head-section" style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
 
 					for ($i=1; $i <= $total_segment; $i++) {
-								$diff = $segment_item_total - (( $i - 1 ) * 10);
-								$diff = ($diff % 10 == 0) ? $diff - 1 : $diff;
-								$scroll_to = $is_desc ? ( floor( $diff / 10 ) * 10 ) : ( ($i - 1) * 10 );
+						$scroll_to = ($i - 1) * 10;
 
 						$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
 						$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
@@ -100,7 +98,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 								static $urls = array();
 
 								if ( empty( $urls[ $affiliatemarketing_post_object->ID ] ) ) {
-									$urls[ $affiliatemarketing_post_object->ID ] = trailingslashit( get_permalink( $affiliatemarketing_post_object->ID ) );
+									$urls[ $affiliatemarketing_post_object->ID ] = trailingslashit( get_permalink( $from_embed ? $checkID : $affiliatemarketing_post_object->ID ) );
 								}
 								$image_full_url = $urls[ $affiliatemarketing_post_object->ID ] . 'view/' . urlencode( $am_tracking_code ) . '/';
 								$tracking_url = ! $is_first ? $image_full_url : '';
@@ -123,6 +121,13 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 
 								if ($am_item_imagetype[$index] == 'imageurl' && ! empty( $image_html ) ) {
 									$amItemImageType = '<div>' . '<a href="' . $amitembuttonurl . '" target="_blank" rel="noopener">' . $image_html . '</a></div>';
+								}
+
+								if ($am_item_imagetype[$index] == 'imageurl' && empty( $image_html ) ) {
+									add_filter( '_ee_the_lazy_image', $update_lazy_image );
+									$image_html = ee_the_lazy_image( $current_post_id, false );
+									remove_filter( '_ee_the_lazy_image', $update_lazy_image );
+									$amItemImageType = '<div class="am_imagecode">' .$image_html. '</div>';
 								}
 
 								if($amItemImageType != "") {

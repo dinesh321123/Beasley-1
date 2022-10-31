@@ -2,11 +2,10 @@
 	"name": "beasley/wp-content",
   "config": {
     "platform": {
-      "php": "7.0.33"
+      "php": "7.4.30"
     },
 		"allow-plugins": {
-			"composer/installers": true,
-			"oomphinc/composer-installers-extender": true
+			"composer/installers": true
 		}
   },
 	"repositories": [
@@ -16,15 +15,16 @@
 		}
 	],
 	"require": {
-		"oomphinc/composer-installers-extender": "^1.1",
-		"wpackagist-plugin/advanced-custom-fields": "5.12.1",
+		"composer/composer": "^2.0",
+    "composer/installers": "~1.0",
+		"wpackagist-plugin/advanced-custom-fields": "6.0.3",
 		"wpackagist-plugin/fb-instant-articles": "^4.2.0",
 		"wpackagist-plugin/duplicate-post": "4.4",
 		"wpackagist-plugin/edit-flow": "0.9.6",
-		"wpackagist-plugin/elasticpress": "3.6.6",
+		"wpackagist-plugin/elasticpress": "4.2.2",
 		"wpackagist-plugin/getty-images": "4.0.13",
 		"wpackagist-plugin/public-post-preview": "2.9.3",
-		"wpackagist-plugin/restricted-site-access": "7.2.0",
+		"wpackagist-plugin/restricted-site-access": "7.3.2",
 		"wpackagist-plugin/term-management-tools": "2.0.1",
 		"wpackagist-plugin/the-events-calendar": "5.14.0.4",
 		"wpackagist-plugin/wordpress-importer": "^0.7",
@@ -44,7 +44,8 @@
 		"wpackagist-plugin/wp-ses":"1.4.6",
     "10up/wp-minions": "4.1.0",
     "10up/post-finder": "0.4.0",
-    "humanmade/s3-uploads": "3.0.4"
+    "humanmade/s3-uploads": "3.0.4",
+    "humanmade/wordpress-pecl-memcached-object-cache": "v2.1.0"
 	},
 	"require-dev": {
 		"wpackagist-plugin/user-switching": "^1.5.8"
@@ -70,5 +71,10 @@
 				"type:wordpress-plugin"
 			]
 		}
+	},
+	"scripts": {
+		"post-autoload-dump": [
+			"cp ./vendor/humanmade/wordpress-pecl-memcached-object-cache/object-cache.php ./object-cache.php"
+		]
 	}
 }

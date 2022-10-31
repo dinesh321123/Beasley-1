@@ -34,6 +34,10 @@ main {
 	z-index: 2;
 }
 
+#content {
+	width: 100%;
+}
+
 .content {
 	padding-bottom: 4.611rem;
 }

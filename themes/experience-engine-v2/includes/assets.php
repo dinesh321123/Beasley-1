@@ -9,6 +9,7 @@ add_filter( 'wp_audio_shortcode_library', '__return_false' );
 add_filter( 'script_loader_tag', 'ee_script_loader', 10, 3 );
 add_filter( 'fvideos_show_video', 'ee_fvideos_show_video', 10, 2 );
 add_filter( 'tribe_events_assets_should_enqueue_frontend', '__return_false' );
+add_action( 'wp_head', 'link_tags', 8 );
 
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
@@ -74,8 +75,8 @@ if ( ! function_exists( 'ee_enqueue_front_scripts' ) ) :
 
 		// Triton Player SDK
 		// Documentation: https://userguides.tritondigital.com/spc/tdplay2/
-		wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
-		wp_script_add_data( 'td-sdk', 'async', true );
+		// wp_register_script( 'td-sdk', '//sdk.listenlive.co/web/2.9/td-sdk.min.js', null, null, true );
+		// wp_script_add_data( 'td-sdk', 'async', true );
 
 		// Google Tag Manager
 		wp_register_script( 'googletag', '//www.googletagservices.com/tag/js/gpt.js', null, null, true ); // must be loaded in the footer
@@ -107,66 +108,10 @@ try {
 } catch( err ) {
 	// do nothing
 }
-
-function scrollToSegmentation(type, item, heading_item = null) {
-	var gotoID = null;
-	if(item) {
-		gotoID = document.getElementById(jQuery.trim(type) + '-segment-item-' + item);
-	}
-	if(heading_item) {
-		gotoID = document.getElementById(jQuery.trim(type) + '-segment-header-item-' + heading_item);
-	}
-	if(gotoID) {
-		gotoID.scrollIntoView({
-			block: "start",
-			behavior: "smooth",
-		});
-	}
-}
-
-// Add alt parameter to auto genrated images for lighthouse issue
-var checkTritonPixeltimes = 0;
-var checkTritonPixel = setInterval(function() {
-    checkTritonPixeltimes += 1;
-    var triton_pixel_image = document.getElementsByClassName('triton-pixel');
-    if(triton_pixel_image.length > 0) {
-        for (var idx = 0; idx < triton_pixel_image.length; idx++) {
-            if(triton_pixel_image[idx] && triton_pixel_image[idx].tagName == "IMG") {
-                triton_pixel_image[idx].alt = "";
-            }
-        }
-        clearInterval(checkTritonPixel);
-    }
-    if(checkTritonPixeltimes > 10) {
-        clearInterval(checkTritonPixel);
-    }
-}, 500);
-
-// Add alt parameter to auto genrated images for lighthouse issue
-var checkResetPixeltimes = 0;
-var checkResetPixel = setInterval(function() {
-	checkResetPixeltimes += 1;
-	var reset_pixel_image = document.getElementById('resetPixelContainer');
-	if(reset_pixel_image) {
-		var reset_pixel_image_nodes = reset_pixel_image.childNodes;
-		if(reset_pixel_image_nodes.length) {
-			for(var i=0; i<reset_pixel_image_nodes.length; i++) {
-				if (reset_pixel_image_nodes[i].tagName == 'IMG') {
-					reset_pixel_image_nodes[i].alt = "Reset Pixel Image";
-				 }
-			}
-		}
-		clearInterval(checkResetPixel);
-	}
-	if(checkResetPixeltimes > 10) {
-		clearInterval(checkResetPixel);
-	}
-}, 500);
 EOL;
 
 		$deps = array(
 			'googletag',
-			'td-sdk',
 			'iframe-resizer',
 			'branded-content-scripts'
 		);
@@ -527,6 +472,14 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 		}
 	}
 endif;
+
+function link_tags () {
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://https://p1.parsely.com' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://tag.simpli.fi' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://www.googletagmanager.com' );
+	echo sprintf('<link rel="%s" href="%s">', 'preconnect', 'https://www.google-analytics.com' );
+}
+
 
 if ( ! function_exists( 'ee_fvideos_show_video' ) ) :
 	function ee_fvideos_show_video( $show, $post_id ) {

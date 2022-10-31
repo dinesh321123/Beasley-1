@@ -15,7 +15,6 @@ namespace Bbgi;
 use WP_Query;
 
 class Shortcodes extends \Bbgi\Module {
-
 	public function register() {
 		$suppress = $this( 'suppress_shortcode' );
 
@@ -30,6 +29,7 @@ class Shortcodes extends \Bbgi\Module {
 		add_shortcode( 'bbgi-contest', $this( 'handle_national_contest_shortcode' ) );
 		add_shortcode( 'inlink', $this( 'handle_inlink_shortcode' ) );
 		add_shortcode( 'injecto', $this( 'handle_injecto_shortcode' ) );
+		add_shortcode( 'show-on-device', $this( 'handle_show_on_device_shortcode' ) );
 	}
 
 	public function suppress_shortcode( $atts, $content = null ) {
@@ -52,9 +52,6 @@ class Shortcodes extends \Bbgi\Module {
 					)
 				)
 		);
-
-
-
 
 		$query->set( 'no_found_rows', true );
 
@@ -79,6 +76,43 @@ class Shortcodes extends \Bbgi\Module {
 		$stn_cid = get_option( 'stn_cid', '' );
 		return sprintf( '<div class="stnplayer" data-fk="%s" data-key="%s" data-cid="%s" data-type="%s"></div>', $atts['fk'] , $atts['key'], $stn_cid, $atts['type'] );
 	}
+
+	public function handle_show_on_device_shortcode( $atts, $content = null ) {
+
+		$return_value = '';
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+		if ( empty( $content ) ) {
+			return $return_value;
+		}
+
+		$atts = shortcode_atts( array(
+				'devices'	=> 'nomatch',
+				'id'        => '',
+				'check-on'     => 'client',
+				'not'	=> 'false'
+		), $atts, 'show-on-device');
+
+		$devices = preg_split('/(\s|,)/', $atts['devices']);
+
+		if (! $atts['check-on'] == 'client') {
+			$found = false;
+			foreach( $devices as $device ) {
+				if (stripos($device, $content) !== false) {
+					$found = true;
+				}
+
+				if ($found && $atts['not'] === 'false' || !$found && $atts['not'] === 'true') {
+					$return_value = sprintf('<span class="show-on-device-server" data-devices="%s">%s</span>', $device, $content);
+				}
+			}
+		} else {
+			$return_value = sprintf('<span class="show-on-device-client" style="display: none" data-not="%s" data-devices="%s">%s</span>', $atts['not'] , $atts['devices'], $content);
+		}
+
+		return $return_value;
+	}
+
 
 	public function handle_inlink_shortcode( $atts ) {
 

@@ -65,6 +65,8 @@ function* yieldPlay(action) {
 		// Call tdplayer.playAd
 		if (stream && typeof player.playAd === 'function') {
 			yield call([player, 'playAd'], 'tap', adConfig);
+		} else {
+			console.log('Could not play - missing either Stream or PlayAd()');
 		}
 
 		// Call livePlayerLocalStorage

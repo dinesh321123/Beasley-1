@@ -23,15 +23,6 @@ class PlayerButton extends Component {
 	}
 
 	componentDidMount() {
-		// TDSdk is loaded asynchronously, so we need to wait till its loaded and
-		// parsed by browser, and only then start initializing the player
-		const tdinterval = setInterval(() => {
-			if (window.TDSdk) {
-				this.setUpPlayer();
-				clearInterval(tdinterval);
-			}
-		}, 500);
-
 		window.addEventListener('online', this.onOnline);
 		window.addEventListener('offline', this.onOffline);
 	}
@@ -39,45 +30,6 @@ class PlayerButton extends Component {
 	componentWillUnmount() {
 		window.removeEventListener('online', this.onOnline);
 		window.removeEventListener('offline', this.onOffline);
-	}
-
-	/**
-	 * Sets up the TdPlayer
-	 */
-	setUpPlayer() {
-		const { initTdPlayer } = this.props;
-
-		// @see: https://userguides.tritondigital.com/spc/tdplay2/
-		const tdmodules = [];
-
-		tdmodules.push({
-			id: 'MediaPlayer',
-			playerId: 'td_container',
-			techPriority: ['Html5'],
-			idSync: {
-				station: this.props.station,
-			},
-			geoTargeting: {
-				desktop: { isActive: false },
-				iOS: { isActive: false },
-				android: { isActive: false },
-			},
-		});
-
-		tdmodules.push({
-			id: 'NowPlayingApi',
-		});
-
-		tdmodules.push({
-			id: 'TargetSpot',
-		});
-
-		tdmodules.push({
-			id: 'SyncBanners',
-			elements: [{ id: 'sync-banner', width: 320, height: 50 }],
-		});
-
-		initTdPlayer(tdmodules);
 	}
 
 	handleOnline() {
@@ -227,6 +179,7 @@ PlayerButton.defaultProps = {
 	station: '',
 	inDropDown: false,
 	customTitle: null,
+	player: {},
 };
 
 PlayerButton.propTypes = {
@@ -237,12 +190,11 @@ PlayerButton.propTypes = {
 	adPlayback: PropTypes.bool.isRequired,
 	gamAdPlayback: PropTypes.bool.isRequired,
 	adSynced: PropTypes.bool.isRequired,
-	initTdPlayer: PropTypes.func.isRequired,
 	playStation: PropTypes.func.isRequired,
 	pause: PropTypes.func.isRequired,
 	resume: PropTypes.func.isRequired,
 	duration: PropTypes.number.isRequired,
-	player: PropTypes.shape({}).isRequired,
+	player: PropTypes.shape({}),
 	playerType: PropTypes.string.isRequired,
 };
 
@@ -258,7 +210,6 @@ export default connect(
 		duration: player.duration,
 	}),
 	{
-		initTdPlayer: actions.initTdPlayer,
 		playStation: actions.playStation,
 		pause: actions.pause,
 		resume: actions.resume,

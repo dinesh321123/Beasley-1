@@ -7,7 +7,7 @@ class GeneralSettingsFrontRendering {
 
 	public static function init() {
 		// Register scripts
-		// add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 1 );
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
 
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
@@ -54,7 +54,8 @@ class GeneralSettingsFrontRendering {
 	 * @action wp_enqueue_scripts
 	 */
 	public static function register_scripts() {
-		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+		$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+		wp_enqueue_script( 'additional-front-script', GENERAL_SETTINGS_CPT_URL . "/assets/js/front_script{$min}.js", array( 'jquery' ), GENERAL_SETTINGS_CPT_VERSION, true );
 	}
 
 	/**

@@ -96,7 +96,7 @@ class Info extends Component {
 
 		return info
 			? this.getControlMarkup(info[0] || null, info[1] || null)
-			: false;
+			: this.getControlMarkup(null, null);
 	}
 
 	getStationInfo() {
@@ -155,7 +155,7 @@ class Info extends Component {
 					className="on-air-list ll-menu-section full-width-menu"
 					id="live-player-recently-played"
 				/>
-				<DropDownAd />
+				<DropDownAd key="drop-down-ad" />
 			</ErrorBoundary>
 		);
 	}

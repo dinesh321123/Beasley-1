@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: CPT - Tag and Category import/export on Network level
-Description: Network admin can able to import/export the tag/category from network level
-Version: 0.0.1
+Description: Network admin can able to import/export the tag/category and User posts from network level
+Version: 0.0.2
 Author: Rupesh Jorkar (RJ)
 Author URI: https://bbgi.com/
 */
@@ -10,7 +10,7 @@ Author URI: https://bbgi.com/
 if ( ! defined( 'ABSPATH' ) ) {
 	die( "Please don't try to access this file directly." );
 }
-define( 'TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_VERSION', '0.0.1' );
+define( 'TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_VERSION', '0.0.2' );
 define( 'TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_URL', plugin_dir_url( __FILE__ ) );
 define( 'TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_PATH', dirname( __FILE__ ) );
 define( 'TAG_CATEGORY_IMPORT_EXPORT_BY_NETWORK_TEXT_DOMAIN', 'general_settings_textdomain' );

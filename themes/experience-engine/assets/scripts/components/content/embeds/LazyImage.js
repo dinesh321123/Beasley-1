@@ -71,7 +71,7 @@ class LazyImage extends PureComponent {
 
 	getImageUrl(quality = null) {
 		if (!quality) {
-			quality = 95;
+			quality = 70;
 		}
 
 		let { src } = this.props;
