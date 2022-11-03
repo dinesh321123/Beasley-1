@@ -87,7 +87,7 @@ class GeneralSettingsFrontRendering {
 		if ( !is_admin() && !empty($domainKey)) {
 			wp_enqueue_script( 'pushly-notification-script', "https://cdn.p-n.io/pushly-sdk.min.js?domain_key=".$domainKey, [], GENERAL_SETTINGS_CPT_VERSION );
 		}
-		wp_enqueue_script( 'additional-front-script', GENERAL_SETTINGS_CPT_URL . "/assets/js/front_script{$min}.js", array( 'jquery' ), GENERAL_SETTINGS_CPT_VERSION, true );
+		wp_enqueue_script( 'additional-front-script', GENERAL_SETTINGS_CPT_URL . "assets/js/front_script{$min}.js", array( 'jquery' ), GENERAL_SETTINGS_CPT_VERSION, true );
 
 
 
@@ -120,7 +120,7 @@ class GeneralSettingsFrontRendering {
 			function pushly() { window.PushlySDK.push(arguments) }
 			pushly('load', {
 			domainKey: '".$domainKey."',
-			sw: '".GENERAL_SETTINGS_CPT_PATH."/assets/js/pushly-sdk-worker.js',
+			sw: '".GENERAL_SETTINGS_CPT_URL."assets/js/pushly-sdk-worker.js',
 		  });
 		</script>";
 		}
