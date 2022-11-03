@@ -200,24 +200,15 @@ class ContentDispatcher extends Component {
 		// a zero timeout ensures that the callback runs when the new history state is in place.
 		// https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
 		setTimeout(() => {
-			if (window.location.href.indexOf('#') === -1) {
-				const lastCanonicalUrl = getBeasleyCanonicalUrl();
-				console.log(
-					`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
-				);
+			const lastCanonicalUrl = getBeasleyCanonicalUrl();
+			console.log(
+				`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
+			);
 
-				if (
-					(lastCanonicalUrl &&
-						lastCanonicalUrl.indexOf('#') > -1 &&
-						lastCanonicalUrl.replace('#//', '') === lastCanonicalUrl) ||
-					window.location.href === lastCanonicalUrl
-				) {
-					console.log(`Current Matched Canonical - Not Loading New Page`);
-				} else {
-					this.loadPage(window.location.href, { suppressHistory: true });
-				}
+			if (window.location.href.indexOf('#') === -1) {
+				this.loadPage(window.location.href, { suppressHistory: true });
 			}
-		}, 0);
+		});
 	}
 
 	/**
