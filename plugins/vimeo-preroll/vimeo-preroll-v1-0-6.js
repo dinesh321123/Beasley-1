@@ -136,15 +136,24 @@
 	}
 
 	// TODO - Determining OS should be single function in single place for entire App.
-	const isIOS = () => {
-		const ua = window.navigator.userAgent;
-		const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-		const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-		const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+	export const isIPhone = () => {
+		const { userAgent } = window.navigator;
+		return !!userAgent.match(/iPhone/i);
+	};
 
-		console.log(`Vimeo Device - IsIpad: ${ipad}  IsIpod: ${ipod}  IsIphone: ${iphone}`);
-		return ipad || iphone || ipod;
-	}
+	export const isIPad = () => {
+		const { userAgent } = window.navigator;
+
+		return (
+			!!userAgent.match(/iPad/i) ||
+			(!!userAgent.match(/Mac/i) &&
+				'ontouchend' in document) /* iPad OS 13+ in default desktop mode */
+		);
+	};
+
+	export const isIOS = () => {
+		return isIPhone() || isIPad();
+	};
 
 	const getVimeoPlayerForIOS = (iFrameElement) => {
 		console.log('Creating Extra HTML for IOS');

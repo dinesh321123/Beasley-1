@@ -25,10 +25,12 @@ export const isIPhone = () => {
 };
 
 export const isIPad = () => {
-	const { userAgent, platform, maxTouchPoints } = window.navigator;
+	const { userAgent } = window.navigator;
+
 	return (
 		!!userAgent.match(/iPad/i) ||
-		(!!platform.match(/MacIntel/i) && maxTouchPoints > 1) /* iPad OS 13 */
+		(!!userAgent.match(/Mac/i) &&
+			'ontouchend' in document) /* iPad OS 13+ in default desktop mode */
 	);
 };
 
