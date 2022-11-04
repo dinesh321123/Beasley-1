@@ -15,7 +15,6 @@ namespace Bbgi;
 use WP_Query;
 
 class Shortcodes extends \Bbgi\Module {
-
 	public function register() {
 		$suppress = $this( 'suppress_shortcode' );
 
@@ -54,9 +53,6 @@ class Shortcodes extends \Bbgi\Module {
 				)
 		);
 
-
-
-
 		$query->set( 'no_found_rows', true );
 
 		while ( $query->have_posts()) {
@@ -94,20 +90,24 @@ class Shortcodes extends \Bbgi\Module {
 				'devices'	=> 'nomatch',
 				'id'        => '',
 				'check-on'     => 'client',
+				'not'	=> 'false'
 		), $atts, 'show-on-device');
 
 		$devices = preg_split('/(\s|,)/', $atts['devices']);
 
 		if (! $atts['check-on'] == 'client') {
+			$found = false;
 			foreach( $devices as $device ) {
 				if (stripos($device, $content) !== false) {
+					$found = true;
+				}
+
+				if ($found && $atts['not'] === 'false' || !$found && $atts['not'] === 'true') {
 					$return_value = sprintf('<span class="show-on-device-server" data-devices="%s">%s</span>', $device, $content);
 				}
 			}
-		}
-
-		if ( empty($return_value) ) {
-			$return_value = sprintf('<span class="show-on-device-client" style="display: none" data-devices="%s">%s</span>', $atts['devices'], $content);
+		} else {
+			$return_value = sprintf('<span class="show-on-device-client" style="display: none" data-not="%s" data-devices="%s">%s</span>', $atts['not'] , $atts['devices'], $content);
 		}
 
 		return $return_value;

@@ -71,7 +71,8 @@ class AffiliateMarketingCPT {
 			'menu_icon'           => 'dashicons-networking',
 			'supports'           => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail' ),
 			'taxonomies'         => array( 'category', 'post_tag' ),
-			'show_in_rest'       => true
+			'show_in_rest'       => true,
+			'exclude_from_search' => false
 		);
 		register_post_type( self::AFFILIATE_MARKETING_POST_TYPE, $args );
 

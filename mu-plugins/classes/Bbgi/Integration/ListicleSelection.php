@@ -20,6 +20,22 @@ class ListicleSelection extends \Bbgi\Module {
 		add_shortcode( 'select-listicle', $this( 'render_shortcode' ) );
 	}
 
+	private function stringify_selected_listicle($contentVal)
+	{
+		if (is_array($contentVal) || is_object($contentVal)) {
+			if (WP_DEBUG) {
+				error_log('WARNING: LISTICLE CONTENT IS AN OBJECT OR ARRAY: ');
+				error_log(print_r($contentVal, true));
+			}
+			if( is_object($contentVal) && isset($contentVal->post_content) ) {
+				return $contentVal->post_content;
+			}
+			return print_r($contentVal, true);
+		} else {
+			return $contentVal;
+		}
+	}
+
 	/**
 	 * Renders ss-promo shortcode.
 	 *
@@ -87,7 +103,8 @@ class ListicleSelection extends \Bbgi\Module {
 					$content_updated .= "<div class=\"listicle-embed-description\">".$the_content."</div>";
 				}
 			}
-			$content_updated .= $content;
+
+			$content_updated .= $this->stringify_selected_listicle($content);
 			return $content_updated;
 		}
 

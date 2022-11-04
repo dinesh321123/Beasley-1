@@ -316,7 +316,7 @@ class BlogData {
 
 		// Should only be the first time - only pull in 10 posts: https://basecamp.com/1778700/projects/8324102/todos/315096975#comment_546418020
 		// Avoids cases where we try and pull in the entire history of posts and it locks up
-		$posts_per_page = defined( 'WP_CLI' ) && WP_CLI ? 500 : 10;
+		$posts_per_page = defined( 'WP_CLI' ) && WP_CLI ? 500 : 200;
 
 		// query args
 		$args = array(

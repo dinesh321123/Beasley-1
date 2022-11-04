@@ -23,6 +23,13 @@
 	display: none;
 }
 
+.apple-rules-whiz {
+	display: inline-block;
+	font-weight: bold;
+	font-size: smaller;
+	margin-bottom: 1rem;
+}
+
 #contest-rules-toggle {
 	display: inline-block;
     background: none;

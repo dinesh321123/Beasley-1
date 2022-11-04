@@ -28,3 +28,6 @@ include __DIR__ . '/includes/rendering.php';
 include __DIR__ . '/includes/footer-description-settings.php';
 include __DIR__ . '/includes/dashboard-activity.php';
 include __DIR__ . '/includes/whiz-changes.php' ;
+
+/** This should be removed after we confirm if logging the shutdown hook is successful */
+include __DIR__ . '/includes/shutdown-elasticsearch-log.php';

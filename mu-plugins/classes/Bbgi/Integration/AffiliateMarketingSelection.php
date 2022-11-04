@@ -20,6 +20,22 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 		add_shortcode( 'select-am', $this( 'render_shortcode' ) );
 	}
 
+	private function stringify_selected_musthave($contentVal)
+	{
+		if (is_array($contentVal) || is_object($contentVal)) {
+			if (WP_DEBUG) {
+				error_log('WARNING: MUSTHAVE CONTENT IS AN OBJECT OR ARRAY: ');
+				error_log(print_r($contentVal, true));
+			}
+			if( is_object($contentVal) && isset($contentVal->post_content) ) {
+				return $contentVal->post_content;
+			}
+			return print_r($contentVal, true);
+		} else {
+			return $contentVal;
+		}
+	}
+
 	/**
 	 * Renders ss-promo shortcode.
 	 *
@@ -121,7 +137,8 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 			if ( !empty($the_content) ) {
 				$content_updated .= "<div class=\"am-embed-description\">".$the_content."</div>";
 			}
-			$content_updated .= $content."<p>&nbsp;</p><h6><em>Please note that items are in stock and prices are accurate at the time we published this list. Have an idea for a fun theme for a gift idea list you’d like us to create?&nbsp; Drop us a line at <a href=\"mailto:shopping@bbgi.com\" data-uri=\"98cfaf73989c872d3384892acc280543\">shopping@bbgi.com</a>.&nbsp;</em></h6>";
+			$content_updated .= $this->stringify_selected_musthave($content);
+			$content_updated .= "<p>&nbsp;</p><h6><em>Please note that items are in stock and prices are accurate at the time we published this list. Have an idea for a fun theme for a gift idea list you’d like us to create?&nbsp; Drop us a line at <a href=\"mailto:shopping@bbgi.com\" data-uri=\"98cfaf73989c872d3384892acc280543\">shopping@bbgi.com</a>.&nbsp;</em></h6>";
 			return $content_updated;
 		}
 
