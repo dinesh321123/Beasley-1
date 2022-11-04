@@ -70,7 +70,8 @@ class ListicleCPT {
 			'menu_icon'           => 'dashicons-list-view',
 			'supports'           => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail' ),
 			'taxonomies'         => array( 'category', 'post_tag' ),
-			'show_in_rest'       => true
+			'show_in_rest'       => true,
+			'exclude_from_search' => false
 		);
 		register_post_type( self::LISTICLE_POST_TYPE, $args );
 

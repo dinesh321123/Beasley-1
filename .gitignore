@@ -50,6 +50,7 @@ mu-plugins/post-finder/
 !/plugins/wp-multisite-user-sync
 !/plugins/vimeovideoselector
 !/plugins/affiliate-marketing-selection
+!/plugins/miniorange-saml-20-single-sign-on
 
 themes/index.php
 themes/twentyfourteen

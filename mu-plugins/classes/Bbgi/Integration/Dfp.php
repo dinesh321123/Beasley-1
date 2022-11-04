@@ -108,7 +108,7 @@ class Dfp extends \Bbgi\Module {
 			array( 'market', trim( get_option( 'dfp_targeting_market' ) ) ),
 		);
 
-		if ( is_singular() ) {
+		if ( is_singular() || ee_is_common_mobile() ) {
 			$post_id = get_queried_object_id();
 			$targeting[] = array( 'cpostid', "{$post_id}" );
 

@@ -2,11 +2,10 @@
 	"name": "beasley/wp-content",
   "config": {
     "platform": {
-      "php": "7.0.33"
+      "php": "7.4.30"
     },
 		"allow-plugins": {
-			"composer/installers": true,
-			"oomphinc/composer-installers-extender": true
+			"composer/installers": true
 		}
   },
 	"repositories": [
@@ -16,12 +15,13 @@
 		}
 	],
 	"require": {
-		"oomphinc/composer-installers-extender": "^1.1",
-		"wpackagist-plugin/advanced-custom-fields": "5.12.3",
+		"composer/composer": "^2.0",
+    "composer/installers": "~1.0",
+		"wpackagist-plugin/advanced-custom-fields": "6.0.3",
 		"wpackagist-plugin/fb-instant-articles": "^4.2.0",
 		"wpackagist-plugin/duplicate-post": "4.4",
 		"wpackagist-plugin/edit-flow": "0.9.6",
-		"wpackagist-plugin/elasticpress": "3.6.6",
+		"wpackagist-plugin/elasticpress": "4.2.2",
 		"wpackagist-plugin/getty-images": "4.0.13",
 		"wpackagist-plugin/public-post-preview": "2.9.3",
 		"wpackagist-plugin/restricted-site-access": "7.3.2",
@@ -74,7 +74,7 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"mv ./vendor/humanmade/wordpress-pecl-memcached-object-cache/object-cache.php ./object-cache.php"
+			"cp ./vendor/humanmade/wordpress-pecl-memcached-object-cache/object-cache.php ./object-cache.php"
 		]
 	}
 }
