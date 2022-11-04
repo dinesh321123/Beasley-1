@@ -41,6 +41,7 @@ the_post();
 			<?php get_template_part( 'partials/listicle_cpt/listiclecpt' ); ?>
 
 			<?php get_template_part( 'partials/listicle_cpt/footer-description' ); ?>
+			<?php get_template_part( 'partials/footer/common', 'secondstreetwidget' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>
