@@ -136,12 +136,12 @@
 	}
 
 	// TODO - Determining OS should be single function in single place for entire App.
-	export const isIPhone = () => {
+	const isIPhone = () => {
 		const { userAgent } = window.navigator;
 		return !!userAgent.match(/iPhone/i);
 	};
 
-	export const isIPad = () => {
+	const isIPad = () => {
 		const { userAgent } = window.navigator;
 
 		return (
@@ -151,7 +151,7 @@
 		);
 	};
 
-	export const isIOS = () => {
+	const isIOS = () => {
 		return isIPhone() || isIPad();
 	};
 
