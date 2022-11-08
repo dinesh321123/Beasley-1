@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isIOS, isSafari, isAudioAdOnly } from '../library';
+import { isIOS, isAudioAdOnly } from '../library';
 
 import { ControlsV2, Offline, GamPreroll } from '../components/player';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
 import * as actions from '../redux/actions/player';
+import { STATUSES } from '../redux/actions/player';
 
 class PlayerButton extends Component {
 	constructor(props) {
@@ -49,18 +50,6 @@ class PlayerButton extends Component {
 		playStation(station);
 	}
 
-	getPlayerAdThreshold() {
-		const windowWidth = window.innerWidth;
-		const playerAdThreshold = windowWidth > 1350 || isSafari() ? 1350 : 1250;
-		// Save To Window For Use In DFP Events
-		window.playerAdThreshold = playerAdThreshold;
-		return playerAdThreshold;
-	}
-
-	getShouldMapSizes(playerAdThreshold) {
-		return playerAdThreshold === 1250;
-	}
-
 	render() {
 		if (!this.container) {
 			return null;
@@ -81,6 +70,19 @@ class PlayerButton extends Component {
 			inDropDown,
 			customTitle,
 		} = this.props;
+
+		const renderStatus =
+			adPlayback ||
+			gamAdPlayback ||
+			status === STATUSES.GETTING_STATION_INFORMATION
+				? STATUSES.LIVE_BUFFERING
+				: status;
+
+		if (status !== renderStatus) {
+			console.log(
+				`Mocking Play Button With Spin Style. Actual Status Is: ${status}`,
+			);
+		}
 
 		let notification = false;
 		if (!online) {
@@ -123,7 +125,7 @@ class PlayerButton extends Component {
 			<div className="controls" style={controlsStyle}>
 				<div className={`button-holder ${progressClass}`}>
 					<ControlsV2
-						status={status}
+						status={renderStatus}
 						play={
 							adPlayback && isAudioAdOnly({ player, playerType })
 								? null
