@@ -16,11 +16,12 @@ class PlayerButton extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { online: window.navigator.onLine };
+		this.state = { online: window.navigator.onLine, forceSpinner: false };
 		this.container = document.getElementById('player-button-div');
 		this.onOnline = this.handleOnline.bind(this);
 		this.onOffline = this.handleOffline.bind(this);
 		this.handlePlay = this.handlePlay.bind(this);
+		this.turnOffForcedSpinner = this.turnOffForcedSpinner.bind(this);
 	}
 
 	componentDidMount() {
@@ -47,7 +48,21 @@ class PlayerButton extends Component {
 	 */
 	handlePlay() {
 		const { station, playStation } = this.props;
+		this.setState({ forceSpinner: true });
 		playStation(station);
+	}
+
+	turnOffForcedSpinner() {
+		this.setState({ forceSpinner: false });
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (
+			prevState.forceSpinner &&
+			prevProps.status === STATUSES.LIVE_CONNECTING
+		) {
+			this.turnOffForcedSpinner();
+		}
 	}
 
 	render() {
@@ -55,7 +70,7 @@ class PlayerButton extends Component {
 			return null;
 		}
 
-		const { online } = this.state;
+		const { online, forceSpinner } = this.state;
 
 		const {
 			status,
@@ -71,18 +86,7 @@ class PlayerButton extends Component {
 			customTitle,
 		} = this.props;
 
-		const renderStatus =
-			adPlayback ||
-			gamAdPlayback ||
-			status === STATUSES.GETTING_STATION_INFORMATION
-				? STATUSES.LIVE_BUFFERING
-				: status;
-
-		if (status !== renderStatus) {
-			console.log(
-				`Mocking Play Button With Spin Style. Actual Status Is: ${status}`,
-			);
-		}
+		const renderStatus = forceSpinner ? STATUSES.LIVE_CONNECTING : status;
 
 		let notification = false;
 		if (!online) {
