@@ -3,6 +3,7 @@
 /* v1-0-0 - Institute Versioning to comply with permacache */
 /* v1-0-2 - Lazy Load Google IMA */
 /* v1-0-4 - Put in proxy button to convince IOS IMA that user action initiated Ad Play */
+/* v1-0-7 - Add support for newer iPads running newer IOS versions */
 
 	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
 	var vimeoPlayerList;
