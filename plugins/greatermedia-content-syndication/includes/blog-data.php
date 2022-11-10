@@ -272,13 +272,23 @@ class BlogData {
 		}
 
 		if ( count($syndicated_posts) > 0 ) {
-
+			foreach ($syndicated_posts as $post => $post_detail){
+				$categorySlugs = wp_get_post_terms($post_detail->post_id,'category',['fields'=>'slugs']);
+				$showsSlugs = wp_get_post_terms($post_detail->post_id,'_shows',['fields'=>'slugs']);
+				foreach ($categorySlugs as $slug){
+					$syndicated_posts[$post]->getCategories()->addSlug($slug);
+				}
+				foreach ($showsSlugs as $slug){
+					$syndicated_posts[$post]->getShows()->addSlug($slug);
+				}
+			}
 			/**
 			 * Fires immediately after syndicated posts are imported.
 			 *
 			 * $param SyndicationPostImportDetail[] Array of posts imported.
 			 */
 			do_action( 'bbgi_syndication_posts_imported', $syndicated_posts );
+			error_log( "syndicated posts: " .count($syndicated_posts));
 		}
 
 		// self::log( "Finished processing content with offset %s", $offset );

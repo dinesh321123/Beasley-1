@@ -61,7 +61,7 @@ class Webhooks extends \Bbgi\Module {
 			$message,
 			print_r( $params, true )
 		);
-
+		error_log( $logMessage );
 		error_log( "minions logging worked outside of syndications");
 
 	}
@@ -71,10 +71,13 @@ class Webhooks extends \Bbgi\Module {
 	 * @return void
 	 */
 	public function do_syndication_posts_imported(array $syndication_post_details ) {
-		//todo: call do_lazy_webhook for each SyndicationPostImportDetail in $syndication_post_details array
+		foreach ($syndication_post_details as $post => $post_detail){
 
-
-
+			$type = $post_detail->post_type;
+			$categories = $post_detail->getCategories()->slugs();
+			$shows = $post_detail->getShows()->slugs();
+			$this->do_lazy_webhook( $post_detail->post_id, [ 'source' => 'save_post', 'post_type' => $type, 'category_list' => $categories, 'shows_list' => $shows ] );
+		}
 	}
 
 
