@@ -63,7 +63,9 @@ while(count($category_archive_posts) > 0) {
 		if ( !empty($ca_stn_video_barker_id) ) { ?>
 			<div class="pre-load-cont">
 				<div class="content-wrap">
-					<h2 class="section-head"><span><?php echo $category_archive_obj->name; ?> Videos</span></h2>
+					<div class="section-head-container">
+						<h2 class="section-head"><span><?php echo $category_archive_obj->name; ?> Videos</span></h2>
+					</div>
 					<div class="stnbarker" data-fk="<?php echo $ca_stn_video_barker_id; ?>" data-cid="<?php echo $ca_stn_cid; ?>"></div>
 				</div>
 			</div>
@@ -71,9 +73,11 @@ while(count($category_archive_posts) > 0) {
 
 		?>
 			<div class="content-wrap<?php if(!empty($ca_stn_video_barker_id)) { echo " pt-100"; } ?>">
-				<h2 class="section-head">
-					<span>More <?php echo $category_archive_obj->name; ?></span>
-				</h2>
+				<div class="section-head-container">
+					<h2 class="section-head">
+						<span>More <?php echo $category_archive_obj->name; ?></span>
+					</h2>
+				</div>				
 			</div>
 		<?php
 	}
