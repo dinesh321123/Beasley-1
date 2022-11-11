@@ -72,7 +72,6 @@ class Webhooks extends \Bbgi\Module {
 	 */
 	public function do_syndication_posts_imported(array $syndication_post_details ) {
 		foreach ($syndication_post_details as $post => $post_detail){
-
 			$type = $post_detail->post_type;
 			$categories = $post_detail->getCategories()->slugs();
 			$shows = $post_detail->getShows()->slugs();
