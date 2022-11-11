@@ -5,7 +5,7 @@ if( !empty($display_ca_archive_posts) && ( count($display_ca_archive_posts) > 0 
 	<div class="d-flex">
 		<div class="w-67">
 			<div class="archive-tiles content-wrap -grid -large p-0">
-				<ul class="list-grid-ul">
+				<section class="list-grid-section card-2">
 					<?php
 						foreach ($display_ca_archive_posts as $key=>$archive_ca_post) {
 							$cap_sponsored_by = ee_get_sponsored_by($archive_ca_post);
@@ -15,7 +15,7 @@ if( !empty($display_ca_archive_posts) && ( count($display_ca_archive_posts) > 0 
 								'cap_is_sponsored' 		=> $cap_is_sponsored,
 								'cap_show_icon' 		=> true
 							); ?>
-							<li <?php if($cap_is_sponsored) { echo 'class="bg-red'.($key < 2 ? ' bg-red-thumbnail' : '') .'"'; }?>>
+							<article <?php if($cap_is_sponsored) { echo 'class="bg-red'.($key < 2 ? ' bg-red-thumbnail' : '') .'"'; }?>>
 								<?php
 									set_query_var( 'category_archive_data', $category_archive_data );
 									if($key < 2) {
@@ -23,14 +23,14 @@ if( !empty($display_ca_archive_posts) && ( count($display_ca_archive_posts) > 0 
 									}
 									get_template_part( 'partials/tile/title', 'category' );
 								?>
-							</li>
+							</article>
 					<?php } ?>
-				</ul>
+				</section>
 			</div>
 		</div>
 		<div class="w-33">
 			<div class="two-column-sticky-ad">
-				<img src="<?php echo get_template_directory_uri() ?>/assets/images/add3.jpg" class="pli-30 pt-10">
+				<img src="<?php echo get_template_directory_uri() ?>/assets/images/add3.jpg" class="pli-30 pt-10" alt="category archive two column side ad">
 			</div>
 		</div>
 	</div>
