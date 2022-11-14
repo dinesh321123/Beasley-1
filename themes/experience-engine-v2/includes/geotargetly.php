@@ -67,6 +67,10 @@ function ee_current_page_needs_geotargetly() {
 			(
 				/* Sub Pages of D&C Show Page */
 				stripos( $request, '/shows/dave-and-chuck/' ) !== false
+			) ||
+			(
+				/* Home Page of wordpress site with site id 114 */
+				is_home() && get_current_blog_id() === 114
 			)
 		);
 }

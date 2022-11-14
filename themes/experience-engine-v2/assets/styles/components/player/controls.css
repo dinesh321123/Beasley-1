@@ -575,7 +575,7 @@
 
 	& button {
 		background: transparent;
-		border: 2px solid var(--brand-primary);
+		border: 0;
 		border-radius: 50%;
 		padding: 0;
 	    margin: 0;
@@ -594,12 +594,14 @@
 		display: none;
 	}
 
+	  /*
 	& .loading-btn {
 		& .loading::after {
 			border-left-color: var(--brand-tertiary);
 			border-bottom-color: var(--brand-tertiary);
 		}
 	}
+	   */
 }
 
 .LIVE_PAUSE .resume-btn,
@@ -613,7 +615,7 @@
 .STATION_NOT_FOUND .play-btn {
 	align-items: center;
 	background-color: var(--brand-primary);
-	border: 1px solid var(--global-white);
+	border: 0;
 	cursor: pointer;
 	display: flex;
 	height: 54px;

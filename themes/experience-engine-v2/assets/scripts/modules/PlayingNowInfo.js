@@ -112,7 +112,10 @@ class Info extends Component {
 
 		const stream = streams.find(item => item.stream_call_letters === station);
 
-		return this.getControlMarkup(stream ? stream.title : station, info);
+		return this.getControlMarkup(
+			stream && stream.title ? stream.title : station,
+			info,
+		);
 	}
 
 	getControlMarkup(title, description) {

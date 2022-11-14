@@ -44,6 +44,20 @@ deploy_stage:
   only:
     - stage3
 
+deploy_preprod:
+  stage: deploy
+  environment:
+    name: Preprod
+    url: https://preprod.bbgistage.com/
+  script:
+    - bash ./deploy-scripts/build.sh
+    - bash ./deploy-scripts/deploy-preprod.sh
+    - ssh beanstalk@34.230.103.178 'sudo /usr/bin/systemctl restart supervisord.service'
+    - ssh beanstalk@34.230.103.178 'sudo /usr/bin/systemctl restart memcached.service'
+    - ssh beanstalk@34.230.103.178 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
+  only:
+    - preprod
+
 notify_slack:
   stage: test
   script:

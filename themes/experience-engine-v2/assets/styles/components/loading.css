@@ -1,5 +1,4 @@
-/*
-.loading {
+.ca-autoload-loading {
 	color: transparent !important;
 	left: -2px;
 	min-height: .8rem;
@@ -9,8 +8,8 @@
 	top: -2px;
 }
 
-.loading::after {
-	animation: loading 500ms infinite linear;
+.ca-autoload-loading::after {
+	animation: autoload-loading 500ms infinite linear;
 	border: .1rem solid var(--brand-primary);
 	border-radius: 50%;
 	border-right-color: transparent;
@@ -27,7 +26,7 @@
 	z-index: 1;
 }
 
-@keyframes loading {
+@keyframes autoload-loading {
 	0% {
 		transform: rotate(0deg);
 	}
@@ -36,4 +35,33 @@
 		transform: rotate(360deg);
 	}
 }
-*/
+
+.loading {
+	color: transparent !important;
+	min-height: 1em;
+	min-width: 1em;
+	pointer-events: none;
+	position: relative;
+}
+
+.loading::after {
+	animation: autoload-loading 500ms infinite linear;
+	border: .1em solid var(--brand-text-color);
+	border-radius: 50%;
+	border-right-color: transparent;
+	border-top-color: transparent;
+	content: "";
+	display: block;
+	height: 1em;
+	left: 50%;
+	margin-left: -.5em;
+	margin-top: -.5em;
+	position: absolute;
+	top: 50%;
+	width: 1em;
+	z-index: 1;
+}
+
+#playing-now-info > div.on-air-list.ll-top-container > ul > li.ll-title-with-play-btn > div > div > div > button.loading-btn {
+	display: none;
+}
