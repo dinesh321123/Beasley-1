@@ -16,7 +16,7 @@ class AffiliateMarketingCPTMetaboxes {
 		add_action( 'save_post',array( __CLASS__, 'affiliate_marketing_footer_description_save') );
 	}
 
-	function affiliate_marketing_yoast_to_bottom() {
+	public static function affiliate_marketing_yoast_to_bottom() {
 		global $typenow, $pagenow;
 		if ( AffiliateMarketingCPT::AFFILIATE_MARKETING_POST_TYPE == $typenow && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			return 'low';
@@ -516,7 +516,7 @@ class AffiliateMarketingCPTMetaboxes {
 		</script>
 		<?php
 	}
-	function affiliate_marketing_footer_description_save( $post_id ) {
+	public static function affiliate_marketing_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_am_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_am_footer_description_nonce'], '_am_footer_description_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;
@@ -527,7 +527,7 @@ class AffiliateMarketingCPTMetaboxes {
 		}
 	}
 
-	function affiliate_marketing_save( $post_id ) {
+	public static function affiliate_marketing_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['repeatable_editor_repeatable_editor_nonce'] ) || ! wp_verify_nonce( $_POST['repeatable_editor_repeatable_editor_nonce'], '_repeatable_editor_repeatable_editor_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;
@@ -609,7 +609,7 @@ class AffiliateMarketingCPTMetaboxes {
 		}
 	}
 
-	function clear_post_metadata_from_cache( $value, $post_id ) {
+	public static function clear_post_metadata_from_cache( $value, $post_id ) {
 		$key = 'am-store-' . $value . '-' . $post_id;
 
 		$field = wp_cache_get( $key );

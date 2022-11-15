@@ -23,7 +23,7 @@ class FooterDescriptionSettings {
 		$common_footer_description = !empty($common_footer_description) ? $common_footer_description : '';
 		?>
 		<div class="cpt-form-group">
-			<label class="common_footer_description" for="common_footer_description"><?php _e( 'Common Footer Description', general_settings_textdomain ); ?></label>
+			<label class="common_footer_description" for="common_footer_description"><?php _e( 'Common Footer Description', GENERAL_SETTINGS_CPT_TEXT_DOMAIN ); ?></label>
 			<?php
 			wp_editor( $common_footer_description, 'common_footer_description', array('textarea_rows' => '5'));
 			?>
@@ -31,7 +31,7 @@ class FooterDescriptionSettings {
 		<?php
 	}
 
-	function common_footer_description_save( $post_id ) {
+	public static function common_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_common_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_common_footer_description_nonce'], '_common_footer_description_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;

@@ -21,7 +21,7 @@ class Users extends \Bbgi\Module {
 	public function register() {
 		add_filter( 'authenticate', [ $this, 'filter_authenticate' ], 21, 3 ); // after wp_authenticate_username_password runs.
 		add_action( 'wp_login', [ $this, 'on_login' ], 10, 2 );
-		add_action( 'user_register', [ $this, 'on_register' ], 10, 2 );
+		// add_action( 'user_register', [ $this, 'on_register' ], 10, 2 );
 		add_action( 'show_user_profile', [ $this, 'render_fields' ] );
 		add_action( 'edit_user_profile', [ $this, 'render_fields' ] );
 		add_action( 'personal_options_update', [ $this, 'save_fields' ] );

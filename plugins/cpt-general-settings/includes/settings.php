@@ -12,7 +12,7 @@ class CommonSettings {
 		add_action( 'admin_head', array( __CLASS__, 'required_alt_text' ) );	// Script for validate Alt text from Add media button
 	}
 
-	public function required_alt_text() {
+	public static function required_alt_text() {
 		global $typenow, $pagenow;
 		if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) { ?>
 			<script type="text/javascript">
@@ -113,7 +113,7 @@ class CommonSettings {
 		add_filter( 'megamenu_options_capability', array( __CLASS__, 'megamenu_options_capability_callback' ) );
 	}
 
-	public function megamenu_options_capability_callback() {
+	public static function megamenu_options_capability_callback() {
 		return 'manage_max_mega_menu';
 	}
 	/**
@@ -124,7 +124,7 @@ class CommonSettings {
 	public static function allow_fontawesome_posttype_list() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'listicle_cpt', 'affiliate_marketing' )  );
 	}
-	public function allow_require_feature_img_posttype_list() {
+	public static function allow_require_feature_img_posttype_list() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'post', 'page', 'listicle_cpt', 'affiliate_marketing' )  );
 	}
 
