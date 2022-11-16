@@ -38,7 +38,7 @@ class TagPermissionsMetaboxes {
 	 *
 	 * @return void
 	 */
-	function tags_register_custom_cap() {
+	public static function tags_register_custom_cap() {
 		$role_obj = get_role('administrator');
 		if (is_a($role_obj, \WP_Role::class)) {
 			$role_obj->add_cap('manage_tags_permission', false);

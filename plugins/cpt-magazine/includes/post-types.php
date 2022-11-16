@@ -261,7 +261,7 @@ class MagazineCPT {
 	 * @param string $value Expecting comma separated post ids
 	 * @param array $options Field options
 	 */
-	function render_post_picker( $name, $value, $options = array() ) {
+	public static function render_post_picker( $name, $value, $options = array() ) {
 		if ( class_exists( 'NS_Post_Finder' ) ) {
 			\NS_Post_Finder::render( $name, $value, $options );
 		} else {
@@ -275,7 +275,7 @@ class MagazineCPT {
 	 * @param int $post_id The post id.
 	 * @return boolean TRUE if meta data have been saved, otherwise FALSE.
 	 */
-	function save_meta_data( $post_id ) {
+	public static function save_meta_data( $post_id ) {
 		// do nothing if it is autosave request
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return false;
