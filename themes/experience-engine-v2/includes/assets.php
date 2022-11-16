@@ -150,7 +150,7 @@ if ( ! function_exists( 'ee_get_css_colors' ) ) :
 			$vars['--global-theme-primary'] = '#1a1a1a';
 			$vars['--global-theme-secondary'] = '#282828';
 			$vars['--global-theme-font-primary'] = 'var(--global-white)';
-			$vars['--global-theme-font-secondary'] = '#a5a5a5';
+			$vars['--global-theme-font-secondary'] = '#717171';
 			$vars['--global-theme-font-tertiary'] = 'var(--global-dove-gray)';
 			$vars['--global-theme-footer-image'] = 'url(\'' . get_template_directory_uri() . '/assets/images/beasley-dark-logo-cropped.png\')';
  		}
