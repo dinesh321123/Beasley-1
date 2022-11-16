@@ -16,7 +16,7 @@ class GeneralSettingsFrontRendering {
 		add_filter( 'after_set_parsely_page', array( __CLASS__,'filter_parsely_metadata' ), 10, 3 );
 	}
 
-	function category_archive_class( $classes ) {
+	public static function category_archive_class( $classes ) {
 		// Set the custom class for category archive styling
 		if(is_archive() && is_category()) {
 			$classes[] = 'category-archive-page';
