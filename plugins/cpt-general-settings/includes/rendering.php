@@ -14,7 +14,7 @@ class GeneralSettingsFrontRendering {
 		add_filter( 'body_class', array( __CLASS__, 'category_archive_class' )  );
 	}
 
-	function category_archive_class( $classes ) {
+	public static function category_archive_class( $classes ) {
 		// Set the custom class for category archive styling
 		if(is_archive() && is_category()) {
 			$classes[] = 'category-archive-page';
