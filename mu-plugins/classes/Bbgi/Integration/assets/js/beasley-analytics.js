@@ -17,7 +17,6 @@
 
 class beasleyAnalytics {
 	analyticsProviderArray = [];
-	config;
 
 	constructor() {
 		this.loadBeasleyConfigData(window.bbgiAnalyticsConfig);
@@ -29,13 +28,11 @@ class beasleyAnalytics {
 			return;
 		}
 
-		this.config = beasleyAnalyticsConfigData;
-
 		if (beasleyAnalyticsConfigData.google_analytics_v3_enabled && beasleyAnalyticsConfigData.google_analytics) {
-			this.analyticsProviderArray.push(new beasleyAnalyticsGaV3Provider(this.config));
+			this.analyticsProviderArray.push(new beasleyAnalyticsGaV3Provider(beasleyAnalyticsConfigData));
 		}
 		if (beasleyAnalyticsConfigData.google_analytics_v4_enabled && beasleyAnalyticsConfigData.google_analytics_v4) {
-			this.analyticsProviderArray.push(new beasleyAnalyticsGaV4Provider(this.config));
+			this.analyticsProviderArray.push(new beasleyAnalyticsGaV4Provider(beasleyAnalyticsConfigData));
 		}
 	}
 
@@ -127,6 +124,13 @@ class beasleyAnalyticsGaV4Provider extends beasleyAnalyticsBaseProvider {
 
 	constructor(bbgiAnalyticsConfig) {
 		super(beasleyAnalyticsGaV4Provider.typeString, bbgiAnalyticsConfig.google_analytics_v4);
+		// <!-- Google tag (gtag.js) -->
+		// <script async src="https://www.googletagmanager.com/gtag/js?id=G-2EPYVQB125"></script> -->
+		const gaV4script = document.createElement('script');
+		gaV4script.type = 'text/javascript';
+		gaV4script.src = 'https://www.googletagmanager.com/gtag/js?id=' + bbgiAnalyticsConfig.google_analytics_v4;
+		gaV4script.async = true;
+		document.head.appendChild(gaV4script);
 	}
 
 	// Category, Action, Label, Value not in GA4 - there are prdefine and you can add custom
@@ -135,8 +139,17 @@ class beasleyAnalyticsGaV4Provider extends beasleyAnalyticsBaseProvider {
 	// https://support.google.com/analytics/answer/11403294?hl=en#zippy=%2Cgoogle-tag-manager-websites
 	// If you manually send page_view events, make sure Enhanced measurement is configured correctly to avoid double counting pageviews on history state changes. Typically, this means disabling Page changes based on browser history events under the advanced settings of the Page views section.
 
+	gtag() {
+		window.dataLayer = window.dataLayer || [];
+		dataLayer.push(arguments);
+	}
+
 	createAnalytics() {
+		// Call Super to log, but really we ignore the arguments since they were specific for V3
 		super.createAnalytics.apply(this, arguments);
+
+		this.gtag('js', new Date());
+		this.gtag('config', window.bbgiAnalyticsConfig.google_analytics_v4);
 	}
 
 	requireAnalytics() {
@@ -145,10 +158,12 @@ class beasleyAnalyticsGaV4Provider extends beasleyAnalyticsBaseProvider {
 
 	setAnalytics() {
 		super.setAnalytics.apply(this, arguments);
+		this.gtag('set', arguments);
 	}
 
 	sendEvent() {
 		super.sendEvent.apply(this, arguments);
+		this.gtag('send', arguments);
 	}
 }
 
