@@ -112,7 +112,7 @@ class GeneralSettingsFrontRendering {
 	 * @param $post
 	 * @return Array
 	 */
-	function pushly_notification_script() {
+	public static function pushly_notification_script() {
 		$domainKey    = get_option( 'pushly_domain_key');
 		if ( !is_admin() && !empty($domainKey)) {
 			echo "<script>
