@@ -3,23 +3,25 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { isIOS, isSafari, isAudioAdOnly } from '../library';
+import { isIOS, isAudioAdOnly } from '../library';
 
 import { ControlsV2, Offline, GamPreroll } from '../components/player';
 
 import ErrorBoundary from '../components/ErrorBoundary';
 
 import * as actions from '../redux/actions/player';
+import { STATUSES } from '../redux/actions/player';
 
 class PlayerButton extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { online: window.navigator.onLine };
+		this.state = { online: window.navigator.onLine, forceSpinner: false };
 		this.container = document.getElementById('player-button-div');
 		this.onOnline = this.handleOnline.bind(this);
 		this.onOffline = this.handleOffline.bind(this);
 		this.handlePlay = this.handlePlay.bind(this);
+		this.turnOffForcedSpinner = this.turnOffForcedSpinner.bind(this);
 	}
 
 	componentDidMount() {
@@ -46,19 +48,21 @@ class PlayerButton extends Component {
 	 */
 	handlePlay() {
 		const { station, playStation } = this.props;
+		this.setState({ forceSpinner: true });
 		playStation(station);
 	}
 
-	getPlayerAdThreshold() {
-		const windowWidth = window.innerWidth;
-		const playerAdThreshold = windowWidth > 1350 || isSafari() ? 1350 : 1250;
-		// Save To Window For Use In DFP Events
-		window.playerAdThreshold = playerAdThreshold;
-		return playerAdThreshold;
+	turnOffForcedSpinner() {
+		this.setState({ forceSpinner: false });
 	}
 
-	getShouldMapSizes(playerAdThreshold) {
-		return playerAdThreshold === 1250;
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (
+			prevState.forceSpinner &&
+			prevProps.status === STATUSES.LIVE_CONNECTING
+		) {
+			this.turnOffForcedSpinner();
+		}
 	}
 
 	render() {
@@ -66,7 +70,7 @@ class PlayerButton extends Component {
 			return null;
 		}
 
-		const { online } = this.state;
+		const { online, forceSpinner } = this.state;
 
 		const {
 			status,
@@ -81,6 +85,8 @@ class PlayerButton extends Component {
 			inDropDown,
 			customTitle,
 		} = this.props;
+
+		const renderStatus = forceSpinner ? STATUSES.LIVE_CONNECTING : status;
 
 		let notification = false;
 		if (!online) {
@@ -99,7 +105,7 @@ class PlayerButton extends Component {
 		buttonsStyle.backgroundColor =
 			customColors['--brand-button-color'] ||
 			customColors['--global-theme-secondary'];
-		buttonsStyle.border = 'none';
+		buttonsStyle.border = '0';
 		svgStyle.fill =
 			customColors['--brand-text-color'] ||
 			customColors['--global-theme-secondary'];
@@ -123,7 +129,7 @@ class PlayerButton extends Component {
 			<div className="controls" style={controlsStyle}>
 				<div className={`button-holder ${progressClass}`}>
 					<ControlsV2
-						status={status}
+						status={renderStatus}
 						play={
 							adPlayback && isAudioAdOnly({ player, playerType })
 								? null

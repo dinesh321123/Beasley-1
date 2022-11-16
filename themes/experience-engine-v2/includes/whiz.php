@@ -89,6 +89,17 @@ function scrollToSegmentation(type, item, heading_item = null) {
 		});
 	}
 }
+
+	if (window.loadVimeoPlayers) {
+		try {
+			window.loadVimeoPlayers();
+		} catch (err) {
+			console.log("Error while initializing Vimeo Prerolls ", err.message);
+		}
+	} else {
+		console.log("Vimeo Players NOT configured for prerolls");
+	}
+
 EOL;
 
 		wp_dequeue_script( 'ee-app' );
