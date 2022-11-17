@@ -337,36 +337,36 @@ HTML;
 	}
 
 	// Beasley Customization Start ------------------------------------------
-	function create_function( $arg, $body ) { 
-        static $cache = array(); 
+	function create_function( $arg, $body ) {
+        static $cache = array();
         static $max_cache_size = 64;
         static $sorter;
-        
+
         if ( $sorter === NULL ) {
             $sorter = function( $a, $b ) {
                 if ( $a->hits == $b->hits ) {
                     return 0;
                 }
-        
+
                 return ($a->hits < $b->hits) ? 1 : -1;
             };
         }
-        
+
         $crc = crc32($arg . "\\x00" . $body);
-        
+
         if (isset($cache[$crc])) {
             ++$cache[$crc][1];
             return $cache[$crc][0];
         }
-        
+
         if ( sizeof($cache) >= $max_cache_size ) {
             uasort($cache, $sorter);
             array_pop($cache);
         }
-        
+
         $cache[$crc] = array( $cb = eval('return function('.$arg.'){'.$body.'};'), 0 );
-        return $cb; 
-    } 
+        return $cb;
+    }
 	// Beasley Customization End ------------------------------------------
 
 
@@ -403,7 +403,7 @@ if ( is_array( $_COOKIE) && ! empty( $_COOKIE ) ) {
 	foreach ( array_keys( $_COOKIE ) as $batcache->cookie ) {
 		if ( ! in_array( $batcache->cookie, $batcache->noskip_cookies ) && ( substr( $batcache->cookie, 0, 2 ) == 'wp' || substr( $batcache->cookie, 0, 9 ) == 'wordpress' || substr( $batcache->cookie, 0, 14 ) == 'comment_author' ) ) {
 			batcache_stats( 'batcache', 'cookie_skip' );
-			// return;
+			 return;
 		}
 	}
 }
@@ -566,7 +566,7 @@ if ( $batcache->seconds < 1 || $batcache->times < 2 ) {
 		$batcache->requests = wp_cache_incr($batcache->req_key, 1, $batcache->group);
 
 		if ( $batcache->requests >= $batcache->times &&
-			time() >= $batcache->cache['time'] + $batcache->cache['max_age']
+			( is_array($batcache->cache) && time() >= $batcache->cache['time'] + $batcache->cache['max_age'])
 		) {
 			wp_cache_delete( $batcache->req_key, $batcache->group );
 			$batcache->do = true;
