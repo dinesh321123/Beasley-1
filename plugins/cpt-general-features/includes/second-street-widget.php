@@ -53,16 +53,10 @@ class SecondStreetWidget {
 		}
 
 		global $pagenow;
-		$currentPostType = get_post_type( $_GET['post'] );
 		if( ! current_user_can('manage_ssw_onoff_setting') ){
 			return;
 			exit;
 		}
-
-		/* if ( ! in_array( $currentPostType, $this->get_ssw_posttype_list() ) ) {
-			return;
-			exit;
-		} */
 
 		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 			return;
