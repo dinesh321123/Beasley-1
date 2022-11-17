@@ -403,7 +403,7 @@ if ( is_array( $_COOKIE) && ! empty( $_COOKIE ) ) {
 	foreach ( array_keys( $_COOKIE ) as $batcache->cookie ) {
 		if ( ! in_array( $batcache->cookie, $batcache->noskip_cookies ) && ( substr( $batcache->cookie, 0, 2 ) == 'wp' || substr( $batcache->cookie, 0, 9 ) == 'wordpress' || substr( $batcache->cookie, 0, 14 ) == 'comment_author' ) ) {
 			batcache_stats( 'batcache', 'cookie_skip' );
-			return;
+			 return;
 		}
 	}
 }
@@ -566,7 +566,7 @@ if ( $batcache->seconds < 1 || $batcache->times < 2 ) {
 		$batcache->requests = wp_cache_incr($batcache->req_key, 1, $batcache->group);
 
 		if ( $batcache->requests >= $batcache->times &&
-			time() >= $batcache->cache['time'] + $batcache->cache['max_age']
+			( is_array($batcache->cache) && time() >= $batcache->cache['time'] + $batcache->cache['max_age'])
 		) {
 			wp_cache_delete( $batcache->req_key, $batcache->group );
 			$batcache->do = true;
