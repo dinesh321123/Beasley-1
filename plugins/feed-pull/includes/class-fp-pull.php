@@ -36,6 +36,13 @@ class FP_Pull {
 			'type' => sanitize_text_field( $type ),
 			'post_id' => (int) $post_id,
 		);
+
+		error_log ( implode( ' ', array(
+			'Feed Pull' => "Feed Pull Logs:",
+			'message' => sanitize_text_field( $message ),
+			'type' => sanitize_text_field( $type ),
+			'post_id' => (int) $post_id,
+		) ) );
 	}
 
 	/**
@@ -156,9 +163,14 @@ class FP_Pull {
 
 		if ( ! empty( $source_feed_id ) ) {
 			$args['p'] = (int) $source_feed_id;
+			error_log ( "Feed Pull Logs: Source Feeds Query Arguments: ". print_r( $args , true ) );
+		} else {
+			error_log ( "Feed Pull Logs: Called from Cron! Source Feeds Query Arguments: ". print_r( $args , true ) );	
 		}
 
 		$source_feeds = new WP_Query( $args );
+		error_log ( "Feed Pull Logs: Source Feeds Query Results:" );
+		error_log( print_r( $source_feeds->posts, true ) );
 
 		if ( ! $source_feeds->have_posts() ) {
 			return;
