@@ -1,3 +1,5 @@
+import { isIPhone } from '../../../library';
+
 /**
  * Returns whether it has been Greater than 10 minutes since lastAdPlaybackTime(ie Preroll)
  *
@@ -9,6 +11,10 @@ export default function getWhetherPlayGAMPreroll(
 	nowTime = 0,
 	lastAdPlaybackTime = 0,
 ) {
+	if (isIPhone()) {
+		console.log('GAM PREROLL IS DISABLED ON iPhone');
+		return false;
+	}
 	const timeSinceLastPreroll = nowTime - lastAdPlaybackTime;
 	const shouldPlayGAMPreroll = timeSinceLastPreroll > 10 * 60 * 1000; // Greater than 10 minutes
 	console.log(

@@ -11,6 +11,7 @@ class GeneralSettingsFrontRendering {
 		add_action('pre_get_posts', array( __CLASS__, 'author_pre_get_posts') );
 
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
+		add_action('wp_head',  array( __CLASS__,'pushly_notification_script' ) );
 	}
 
 	function show_404_for_disabled_feeds() {
@@ -46,7 +47,14 @@ class GeneralSettingsFrontRendering {
 	 */
 	public static function register_scripts() {
 		$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
-		wp_enqueue_script( 'additional-front-script', GENERAL_SETTINGS_CPT_URL . "/assets/js/front_script{$min}.js", array( 'jquery' ), GENERAL_SETTINGS_CPT_VERSION, true );
+		$domainKey    = get_option( 'pushly_domain_key');
+		if ( !is_admin() && !empty($domainKey)) {
+			wp_enqueue_script( 'pushly-notification-script', "https://cdn.p-n.io/pushly-sdk.min.js?domain_key=".$domainKey, [], GENERAL_SETTINGS_CPT_VERSION );
+		}
+		wp_enqueue_script( 'additional-front-script', GENERAL_SETTINGS_CPT_URL . "assets/js/front_script{$min}.js", array( 'jquery' ), GENERAL_SETTINGS_CPT_VERSION, true );
+
+
+
 	}
 
 	/**
@@ -61,6 +69,24 @@ class GeneralSettingsFrontRendering {
 			return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
 		} else {
 			return false;
+		}
+	}
+	/**
+	 * Gets an array of meta data for the Affiliate Marketing
+	 * @param $post
+	 * @return Array
+	 */
+	public static function pushly_notification_script() {
+		$domainKey    = get_option( 'pushly_domain_key');
+		if ( !is_admin() && !empty($domainKey)) {
+			echo "<script>
+			window.PushlySDK = window.PushlySDK || [];
+			function pushly() { window.PushlySDK.push(arguments) }
+			pushly('load', {
+			domainKey: '".$domainKey."',
+			sw: '".GENERAL_SETTINGS_CPT_URL."assets/js/pushly-sdk-worker.js',
+		  });
+		</script>";
 		}
 	}
 
