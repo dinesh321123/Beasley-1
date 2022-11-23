@@ -20,9 +20,9 @@ if ( empty( $sswPostType ) ) {
 	return;
 }
 
-$common_footer_description	= get_post_meta( $current_post_object->ID, common_footer_description, true );
-$am_footer_description		= get_post_meta( $current_post_object->ID, am_footer_description, true );
-$listicle_footer_description= get_post_meta( $current_post_object->ID, listicle_cpt_footer_description, true );
+$common_footer_description	= get_post_meta( $current_post_object->ID, 'common_footer_description', true );
+$am_footer_description		= get_post_meta( $current_post_object->ID, 'am_footer_description', true );
+$listicle_footer_description= get_post_meta( $current_post_object->ID, 'listicle_cpt_footer_description', true );
 
 
 $tempContent				= get_the_content();

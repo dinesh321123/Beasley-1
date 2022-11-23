@@ -38,7 +38,7 @@ class SecondStreetWidget {
 	 *
 	 * @return array
 	 */
-	public function get_ssw_posttype_list() {
+	public static function get_ssw_posttype_list() {
 		$result	= (array) apply_filters( 'draft-ssw-post-types', array( 'post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing', 'page' )  );
 		return $result;
 	}
