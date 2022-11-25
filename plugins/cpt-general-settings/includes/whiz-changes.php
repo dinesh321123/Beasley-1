@@ -23,6 +23,7 @@ class WhizChanges {
 		$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
         wp_enqueue_script( 'general-whiz-script', GENERAL_SETTINGS_CPT_URL . "assets/js/whiz_script{$min}.js", array('jquery'), GENERAL_SETTINGS_CPT_VERSION, true);
         wp_enqueue_script( 'show-on-device', GENERAL_SETTINGS_CPT_URL . "assets/js/show_on_device_client{$min}.js",[],GENERAL_SETTINGS_CPT_VERSION, true);
+        wp_enqueue_script( 'audience-whiz', GENERAL_SETTINGS_CPT_URL . "assets/js/audience_whiz{$min}.js",[],GENERAL_SETTINGS_CPT_VERSION, true);
 	}
 
     public function ee_is_common_mobile_thumbnail() {
