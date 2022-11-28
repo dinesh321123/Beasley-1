@@ -110,11 +110,8 @@ add_filter( 'ep_indexable_post_types', function() {
 	// Index all post types that are not excluded from search
 	// return get_post_types( array( 'exclude_from_search' => false ) );
 	$retval = get_post_types( array( 'exclude_from_search' => false ) );
-	if ( class_exists( 'WP_CLI' ) ) {
-		WP_CLI::log('Indexable Post Types: ');
-		foreach ($retval as $epPostType) {
-			WP_CLI::log('    ' . $epPostType);
-		}
+	foreach ($retval as $epPostType) {
+		syslog( LOG_ERR, 'Indexable Post Type Filter: ' . $epPostType);
 	}
 
 	return $retval;
