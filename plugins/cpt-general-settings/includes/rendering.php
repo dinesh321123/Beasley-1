@@ -72,7 +72,9 @@ class GeneralSettingsFrontRendering {
 		}
 	}
 	/**
-	 * Set script for the Pushly Notification
+	 * Gets an array of meta data for the Affiliate Marketing
+	 * @param $post
+	 * @return Array
 	 */
 	public static function pushly_notification_script() {
 		$domainKey    = get_option( 'pushly_domain_key');
