@@ -10,7 +10,7 @@
 			const placeholder = document.createElement('div');
 			placeholder.setAttribute(
 				'id',
-				extraAttributes.id || `__cd-${(audiencei + 1)}`,
+				extraAttributes.id || `__cd-audience-${(audiencei + 1)}`,
 			);
 			placeholder.classList.add('placeholder');
 			placeholder.classList.add(`placeholder-audience`);
@@ -19,7 +19,6 @@
 
 			renderAudienceWidgetWhiz( placeholder.getAttribute('id'), extraAttributes );
 		}
-		stnvideorender();
     });
 })(jQuery);
 
@@ -37,8 +36,9 @@ function renderAudienceWidgetWhiz(placeholder, dataset) {
 		return;
 	}
 	const element = document.createElement('div');
-	element.setAttribute('widget-id', widgetid);
-	element.setAttribute('widget-type', 'app');
+	element.setAttribute('class', 'aptivada-widget');
+	element.setAttribute('data-widget-id', widgetid);
+	element.setAttribute('data-widget-type', 'app');
 	element.setAttribute(
 		'style',
 		'background:#ffffff url(https://cdn2.aptivada.com/images/iframeLoader.gif) no-repeat center; min-height:500px;',
