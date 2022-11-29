@@ -42,7 +42,12 @@ if ( ! function_exists( 'ee_get_publisher_information' ) ) :
 				break;
 			case 'youtube':
 				if ( ! filter_var( $value, FILTER_VALIDATE_URL ) ) {
-					$value = 'https://www.youtube.com/user/' . rawurlencode( $value );
+					$value = 'https://www.youtube.com/channel/' . rawurlencode( $value );
+				}
+				break;
+			case 'twitch':
+				if ( ! filter_var( $value, FILTER_VALIDATE_URL ) ) {
+					$value = 'https://www.twitch.tv/' . rawurlencode( $value );
 				}
 				break;
 		}
