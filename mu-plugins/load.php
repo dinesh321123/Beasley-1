@@ -114,12 +114,14 @@ add_filter( 'ep_indexable_post_types', function() {
 	// Remove attachment
 	unset( $retval['attachment'] );
 
+	/*
 	if ( class_exists( 'WP_CLI' ) ) {
 		WP_CLI::log('Indexable Post Types: ');
 		foreach ($retval as $epPostType) {
 			WP_CLI::log('    ' . $epPostType);
 		}
 	}
+	*/
 
 	return $retval;
 } );
