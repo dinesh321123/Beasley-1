@@ -8,17 +8,17 @@
                 editor.windowManager.open( {
                     title: tinyMCE_object.button_title,
                     body: [
-                       
+
                         {
                             type   : 'textbox',
                             name   : 'textbox',
-                            label  : 'Widget Id',
+                            label  : 'Widget URL',
                             tooltip: 'Audience IO shortcode',
                             value  : ''
                         }
                     ],
                     onsubmit: function( e ) {
-                        editor.insertContent( '[audience-promo widget-id="' + e.data.textbox + '" ]');
+                        editor.insertContent( '[audience-promo widget-url="' + e.data.textbox + '" ]');
                     }
                 });
             },
