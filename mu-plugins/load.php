@@ -28,10 +28,10 @@ include __DIR__ . '/advanced-custom-fields/acf.php';
 include __DIR__ . '/featured-videos/featured-video.php';
 
 // ElasticPress bulk indexing is called from CLI - Include Post Types We Need Indexed
-if ( class_exists( 'WP_CLI' ) ) {
+// if ( class_exists( 'WP_CLI' ) ) {
 	include __DIR__ . '/../plugins/affiliate-marketing-cpt/affiliate-marketing-cpt.php';
 	include __DIR__ . '/../plugins/cpt-listicle/listicle.php';
-}
+// }
 
 // This will force the item ordering by date instead of term relevancy
 include __DIR__ . '/elasticpress-customizations.php';
