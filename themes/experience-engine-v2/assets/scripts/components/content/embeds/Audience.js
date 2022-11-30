@@ -3,22 +3,32 @@ import PropTypes from 'prop-types';
 
 class Audience extends PureComponent {
 	componentDidMount() {
-		const { placeholder, widgetid } = this.props;
+		const { placeholder, widgetid, type } = this.props;
 
 		const container = document.getElementById(placeholder);
 		if (!container || !widgetid) {
 			return;
 		}
 
+		const script = document.createElement('script');
+		script.src = `https://campaign.aptivada.com/sdk.js`;
+		script.async = true;
+		container.appendChild(script);
+
 		const element = document.createElement('div');
-		element.setAttribute('class', 'aptivada-widget');
-		element.setAttribute('data-widget-id', widgetid);
-		element.setAttribute('data-widget-type', 'app');
-		element.setAttribute(
-			'style',
-			'background:#ffffff url(https://cdn2.aptivada.com/images/iframeLoader.gif) no-repeat center; min-height:500px;',
-		);
+		element.setAttribute('class', 'aptivada-campaign');
 		container.appendChild(element);
+
+		const customscript = document.createElement('script');
+		customscript.innerHTML = `
+			window.AptivadaAsyncInit = function(){
+				var sdk = window.Aptivada.init({
+					campaignId: ${widgetid},
+					campaignType: '${type}'
+				})
+			}
+		`;
+		container.appendChild(customscript);
 	}
 
 	render() {
@@ -29,10 +39,12 @@ class Audience extends PureComponent {
 Audience.propTypes = {
 	placeholder: PropTypes.string.isRequired,
 	widgetid: PropTypes.string,
+	type: PropTypes.string,
 };
 
 Audience.defaultProps = {
 	widgetid: '',
+	type: '',
 };
 
 export default Audience;

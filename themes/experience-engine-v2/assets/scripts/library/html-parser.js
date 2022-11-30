@@ -18,6 +18,7 @@ function getAudienceEmbedParams(element) {
 
 	return {
 		widgetid: dataset.widgetid,
+		type: dataset.type,
 	};
 }
 
