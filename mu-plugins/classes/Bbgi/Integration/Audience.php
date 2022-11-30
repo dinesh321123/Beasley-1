@@ -19,7 +19,6 @@ class Audience extends \Bbgi\Module {
 		add_filter( 'mce_buttons', $this( 'audience_register_buttons' ) );
 
 		// add shortcodes
-		add_shortcode( 'audience_promo', $this( 'audience_render_shortcode' ) );
 		add_shortcode( 'audience-promo', $this( 'audience_render_shortcode' ) );
 	}
 
@@ -76,7 +75,7 @@ class Audience extends \Bbgi\Module {
 			'widget-id' => '',
 			'widget-type' => '',
 			'widget-url' => ''
-		), $atts, 'audience' );
+		), $atts, 'audience-promo' );
 
 		if ( empty( $attributes['widget-id'] ) && $attributes['widget-url']  ) {
 			return '';
