@@ -77,7 +77,7 @@ class Audience extends \Bbgi\Module {
 			'widget-url' => ''
 		), $atts, 'audience-promo' );
 
-		if ( empty( $attributes['widget-id'] ) && $attributes['widget-url']  ) {
+		if ( empty( $attributes['widget-id'] ) && empty( $attributes['widget-url'] ) ) {
 			return '';
 		}
 
