@@ -34,6 +34,7 @@ if ( ! function_exists( 'ee_setup_whiz' ) ) :
 		add_filter( 'body_class', 'ee_whiz_body_class' );
 		add_filter( 'omny_embed_key', 'ee_update_whiz_omny_key' );
 		add_filter( 'secondstreet_embed_html', 'ee_update_whiz_secondstreet_html', 10, 2 );
+		add_filter( 'audience_embed_html', 'ee_update_whiz_audience_embed_html', 10, 2 );
 		add_filter( 'secondstreetpref_html', 'ee_update_whiz_secondstreetpref_html', 10, 2 );
 		add_filter( 'secondstreetsignup_html', 'ee_update_whiz_secondstreetsignup_html', 10, 2 );
 		add_filter( 'mapbox_html', 'ee_update_whiz_mapbox_html', 10, 2 );
@@ -157,6 +158,26 @@ if ( ! function_exists( 'ee_update_whiz_secondstreetsignup_html' ) ) :
 		return '<script src="' . esc_url( $url ) . '" data-ss-embed="optin" data-design-id="' . esc_attr( $atts['design_id'] ) . '"></script>';
 	}
 endif;
+
+if ( ! function_exists( 'ee_update_whiz_audience_embed_html' ) ) :
+	function ee_update_whiz_audience_embed_html( $embed, $atts ) {
+
+		$audiencescript = '<script async src="https://campaign.aptivada.com/sdk.js"></script>';
+		$aptivadadiv = '<div class="aptivada-campaign"></div>';
+		$implementation = sprintf('<script>
+					window.AptivadaAsyncInit = function(){
+					var sdk = window.Aptivada.init({
+						campaignId: %s,
+						campaignType: \'%s\'
+					});
+				}
+			</script>', $atts['widget-id'], $atts['widget-type']);
+
+		return $implementation . $audiencescript . $aptivadadiv;
+	}
+endif;
+
+
 
 if ( ! function_exists( 'ee_update_whiz_mapbox_html' ) ) :
 	function ee_update_whiz_mapbox_html( $embed, $atts ) {

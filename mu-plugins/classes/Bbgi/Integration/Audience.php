@@ -44,10 +44,10 @@ class Audience extends \Bbgi\Module {
         return $buttons;
     }
 
-	public function audience_tinymce_extra_vars() { 
+	public function audience_tinymce_extra_vars() {
 		?>
 		<script type="text/javascript">
-			
+
 			var tinyMCE_object = <?php echo json_encode(
 			array(
 				'button_name' => esc_html__('', 'mythemeslug'),
@@ -73,17 +73,27 @@ class Audience extends \Bbgi\Module {
 	 */
 	public function audience_render_shortcode( $atts ) {
 		$attributes = shortcode_atts( array(
-			'widget-id' => ''
-		), $atts, 'audience-promo' );
+			'widget-id' => '',
+			'widget-type' => '',
+			'widget-url' => ''
+		), $atts, 'audience' );
 
-		if ( empty( $attributes['widget-id'] ) ) {
+		if ( empty( $attributes['widget-id'] ) && $attributes['widget-url']  ) {
 			return '';
 		}
 
+		if ( ! empty($attributes['widget-url']) ) {
+			$pattern = "/#(?<type>[a-z]+)\-*(?<subtype>[a-z]*)\/(?<widgetid>[0-9]+)/";
+			preg_match($pattern, $attributes['widget-url'], $urimatches);
+
+			$attributes['widget-id'] = $urimatches['widgetid'];
+			$attributes['widget-type'] = $urimatches['type'];
+		}
+
 		$embed = sprintf(
-			'<div class="audience-embed" data-widgetid="%s"></div>',
-			esc_attr( $attributes['widget-id'] )
-		);
+			'<div class="audience-embed" data-widgetid="%s" data-type="%s"></div>',
+			esc_attr( $attributes['widget-id']),
+			esc_attr( $attributes['widget-type']));
 
 		return apply_filters( 'audience_embed_html', $embed, $attributes );
 	}
