@@ -5,7 +5,10 @@
 
 namespace Bbgi\Integration;
 
+use Bbgi\Util;
+
 class AffiliateMarketingSelection extends \Bbgi\Module {
+	use Util;
 
 	// track index of the app
 	private static $total_index = 0;
@@ -48,6 +51,11 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 			'am_id' => '',
 			'syndication_name' => ''
 		), $atts, 'select-am' );
+		
+		$post_object = get_queried_object();
+		if ( $this->is_future_date($post_object->post_type) ) {
+			return;
+		}
 
 		if( !empty( $attributes['syndication_name'] ) ) {
 			$meta_query_args = array(
@@ -73,7 +81,6 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 			return;
 		}
 
-		$post_object = get_queried_object();
 
 		$affiliatemarketing_post_object = $this->verify_post( $am_id, $attributes['syndication_name'] );
 
