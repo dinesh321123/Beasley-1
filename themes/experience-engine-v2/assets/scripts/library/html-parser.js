@@ -13,6 +13,15 @@ function getSecondStreetEmbedParams(element) {
 	};
 }
 
+function getAudienceEmbedParams(element) {
+	const { dataset } = element;
+
+	return {
+		widgetid: dataset.widgetid,
+		type: dataset.type,
+	};
+}
+
 function getSecondStreetPrefEmbedParams(element) {
 	const { dataset } = element;
 
@@ -459,6 +468,12 @@ export function getStateFromContent(container, pageURL) {
 				'trackonomicsscript',
 				'.trackonomics-script',
 				getDatasetParams('postid', 'posttype', 'trackonomicsscript'),
+			),
+			...processEmbeds(
+				container,
+				'audience',
+				'.audience-embed',
+				getAudienceEmbedParams,
 			),
 		];
 

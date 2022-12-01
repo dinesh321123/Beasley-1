@@ -36,6 +36,7 @@ import StnPlayer from './embeds/StnPlayer';
 import BrandedContent from './embeds/BrandedContent';
 import Dimers from './embeds/Dimers';
 import DraftkingEmbed from './embeds/DraftkingEmbed';
+import AudienceEmbed from './embeds/Audience';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -69,6 +70,7 @@ const mapping = {
 	hubspotform: HubspotForm,
 	dmlbranded: BrandedContent,
 	dimers: Dimers,
+	audience: AudienceEmbed,
 };
 
 /**
