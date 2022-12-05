@@ -44,6 +44,6 @@ class TrackonomicsScript extends \Bbgi\Module {
 		$content .= $embed;
 		return $content;
 		*/
-		return '';
+		return $content;
 	}
 }
