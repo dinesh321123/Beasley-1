@@ -53,7 +53,7 @@ trait Util {
 
 		$today = new \DateTime();
 		$today = $today->format("Y-m-d");
-		$effective_date = new \DateTime("2022-11-30");
+		$effective_date = new \DateTime("2022-12-06");
 		$effective_date = $effective_date->format("Y-m-d");
 
 	   	// If Current Date is Future Date
