@@ -42,7 +42,6 @@ class Redirects extends \Bbgi\Module {
 	 * @return array
 	 */
 	public function filter_allowed_redirect_hosts( $hosts ) {
-		echo "Whitelist Host Fnc.: ".$this->whitelist_host;
 		$without_www = preg_replace( '/^www\./i', '', $this->whitelist_host );
 		$with_www    = 'www.' . $without_www;
 
@@ -161,7 +160,6 @@ class Redirects extends \Bbgi\Module {
 
 				if ( is_array( $parsed_redirect ) && ! empty( $parsed_redirect['host'] ) ) {
 					$this->whitelist_host = $parsed_redirect['host'];
-					echo "Whitelist Host Arg: ".$this->whitelist_host;
 					add_filter( 'allowed_redirect_hosts', array( $this, 'filter_allowed_redirect_hosts' ) );
 				}
 
