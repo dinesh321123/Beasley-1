@@ -59,14 +59,18 @@ $current_ca_render_index = 1;
 while(count($category_archive_posts) > 0) {
 	if(( $current_ca_render_index == 2 ) && ee_is_first_page() ) {
 
-		$ca_stn_cid = get_option( 'stn_cid', '10462' );
+		$ca_stn_cid = get_option( 'stn_cid') ? get_option( 'stn_cid') : '10462';
 		if ( !empty($ca_stn_video_barker_id) ) { ?>
 			<div class="pre-load-cont">
 				<div class="content-wrap">
 					<div class="section-head-container">
-						<h2 class="section-head"><span><?php echo $category_archive_obj->name; ?> Videos</span></h2>
+						<h2 class="section-head"><span class="bigger"><?php echo $category_archive_obj->name; ?> Videos</span></h2>
 					</div>
-					<div class="stnbarker" data-fk="<?php echo $ca_stn_video_barker_id; ?>" data-cid="<?php echo $ca_stn_cid; ?>"></div>
+					<div class="d-flex">
+						<div class="w-67">
+							<div class="stnbarker" data-fk="<?php echo $ca_stn_video_barker_id; ?>" data-cid="<?php echo $ca_stn_cid; ?>"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		<?php }
@@ -75,7 +79,7 @@ while(count($category_archive_posts) > 0) {
 			<div class="content-wrap<?php if(!empty($ca_stn_video_barker_id)) { echo " pt-100"; } ?>">
 				<div class="section-head-container">
 					<h2 class="section-head">
-						<span>More <?php echo $category_archive_obj->name; ?></span>
+						<span class="bigger">More <?php echo $category_archive_obj->name; ?></span>
 					</h2>
 				</div>				
 			</div>

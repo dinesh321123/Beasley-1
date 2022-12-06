@@ -36,6 +36,11 @@
 		& span.bigger {
 			& span {
 				font-size: 46px;
+
+				@media(--max-medium-viewport) {
+					font-size: 22px;
+					vertical-align: middle;
+				}
 			}
 			@media(--max-medium-viewport) {
 				font-size: 22px;
