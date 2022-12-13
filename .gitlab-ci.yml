@@ -1,7 +1,7 @@
 image: docker.10up.com/10up-build/deploy-container:latest
 
 stages:
-  - test
+  - test-and-build
   - deploy
   - post-deploy
 
@@ -17,18 +17,30 @@ cache:
 # https://gitlab.10up.com/10up-build/deploy-container/-/blob/master/scripts/10up-scripts
 
 test_syntax:
-  stage: test
+  stage: test-and-build
   script:
     - find . -type f -name '*.php' -not -path '*/vendor/*' -not -path '*/archive-themes-nodeploy/*' -print0 | xargs -0 -n1 php -l
   dependencies: []
   cache: {}
 
 test_virusscan:
-  stage: test
+  stage: test-and-build
   script:
     - /10up-scripts/virus-scan
   dependencies: []
   cache: {}
+
+build_plugins_and_themes:
+  stage: test-and-build
+  script:
+    - bash ./deploy-scripts/build.sh
+  artifacts:
+    paths:
+      - payload
+    expire_in: 1 day
+  dependencies: []
+  cache: {}
+
 
 deploy_stage:
   stage: deploy
@@ -36,7 +48,6 @@ deploy_stage:
     name: Staging
     url: https://bbgistage.com/
   script:
-    - bash ./deploy-scripts/build.sh
     - bash ./deploy-scripts/deploy-stage.sh
     - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart supervisord.service'
     - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart memcached.service'
@@ -59,7 +70,7 @@ deploy_preprod:
     - preprod
 
 notify_slack:
-  stage: test
+  stage: test-and-build
   script:
     - curl -X POST --data "{\"username\":\"Gitlab Pipeline\", \"text\":\"Gitlab pipeline is about to run the Production Deployment..\"}" $SLACK_WEBHOOK
   only:

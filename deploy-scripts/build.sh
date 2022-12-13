@@ -29,5 +29,9 @@ npm install
 npm run bundle
 popd || exit 1
 
+# Move plugins and theme to payload
+mkdir -p payload
+rsync -ravxc plugins mu-plugins themes vendor payload/ --exclude-from=./deploy-scripts/rsync-excludes.txt
+
 # Stop printing commands to screen
 set +x
