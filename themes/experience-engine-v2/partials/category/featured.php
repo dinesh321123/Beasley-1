@@ -44,10 +44,14 @@ if( !empty($ca_featured_section_posts) && ( count($ca_featured_section_posts) > 
 					</section>
 				</div>
 			</div>
-			<img src="<?php echo get_template_directory_uri() ?>/assets/images/add2.jpg" class="d-xs-none" alt="featured section side ad">
+			<!-- <img src="<?php echo get_template_directory_uri() ?>/assets/images/add2.jpg" class="d-xs-none" alt="featured section side ad"> -->
+			<?php get_template_part( '../ads/sidebar-sticky' ); ?>
 		</div>
 		<div class="w-25 m-40 d-xs-none">
-			<img src="<?php echo get_template_directory_uri() ?>/assets/images/add1.jpg" alt="featured section bottom ad">
+			<!-- <img src="<?php echo get_template_directory_uri() ?>/assets/images/add1.jpg" alt="featured section bottom ad"> -->
+			<div class="ad -footer -centered">
+				<?php do_action( 'dfp_tag', 'bottom-leaderboard', false, array( array( 'pos', 2 ) ) ); ?>
+			</div>
 		</div>
 	</div>
 </div>
