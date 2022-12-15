@@ -263,6 +263,10 @@ class GamPreroll extends PureComponent {
 					console.log(`Ad Is Not Linear - Playing.`);
 					this.videoContent.play();
 				}
+				setTimeout(() => {
+					this.adsManager.pause();
+					console.log('Pausing Ad For Debug');
+				}, 3000);
 				break;
 			case window.google.ima.AdEvent.Type.STARTED:
 				// This event indicates the ad has started - the video player
