@@ -11,9 +11,6 @@ use Bbgi\Util;
 
 class LastUpdatedPosts extends Module {
 	use Util;
-	private static $_fields = array(
-		'megamenu_recent_posts_expiration'  => 'Megamenu Recent Posts Expiration',
-	);
 	public function register() {
 		// Register the custom rest endpoint
 		add_action( 'rest_api_init', [ $this, 'register_routes_lup' ] );
@@ -27,7 +24,7 @@ class LastUpdatedPosts extends Module {
 	public function register_routes_lup() {
 		register_rest_route(
 			'last_updated_posts/v1',
-			'last_posts',
+			'posts',
 			[
 				'methods' 	=> \WP_REST_Server::READABLE,
 				'callback'	=> [ $this, 'last_updated_posts_callback' ],
@@ -55,16 +52,17 @@ class LastUpdatedPosts extends Module {
 		$last_updated_posts_result	= array();
 		if( !empty($results) && count($results) != 0 ) {
 			$last_updated_posts_result['status'] = 200;
-			$all_posts = array();
+			$all_posts	=	array();
+			$number		=	0;
 			foreach ($results as $value) {
-				$all_posts[$value->ID] = array(
+				$all_posts[$number] = array(
 					'title' => $value->post_title,
 					'permalink' => get_permalink($value->ID),
 					'updated_date' => $value->post_modified_gmt,
 				);
+				$number++;
 			}
 			$last_updated_posts_result['last_updated_posts'] = json_encode($all_posts);
-			// $response = array( 'status' => 200 , 'error' => $last_updated_posts_result );
 		} else {
 			$last_updated_posts_result = array( 'status' => error , 'error' => 'There are no last updated posts at this time.' );
 		}
