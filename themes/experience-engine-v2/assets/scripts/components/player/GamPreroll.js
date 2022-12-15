@@ -263,10 +263,6 @@ class GamPreroll extends PureComponent {
 					console.log(`Ad Is Not Linear - Playing.`);
 					this.videoContent.play();
 				}
-				setTimeout(() => {
-					this.adsManager.pause();
-					console.log('Pausing Ad For Debug');
-				}, 3000);
 				break;
 			case window.google.ima.AdEvent.Type.STARTED:
 				// This event indicates the ad has started - the video player
@@ -384,7 +380,7 @@ class GamPreroll extends PureComponent {
 		if (isIOS()) {
 			const width = window.document.body.clientWidth;
 			const height = (width / 640) * 480;
-			const topMargin = (window.document.body.clientHeight - height) / 2;
+			const topMargin = (window.innerHeight - height) / 2;
 			return (
 				<div id="gamPrerollWrapper" className="gampreroll-wrapper -active">
 					<div id="gamPrerollContent" style={{ marginTop: topMargin }}>
