@@ -37,8 +37,6 @@ class Syndication_Detach_Post {
 			<?php
 		} else {
 			$old_data = unserialize( $old_data );
-			echo "Old Data:";
-			echo "<pre>", print_r($old_data), "</pre>";
 
 			$detached = get_post_meta( $post->ID, 'syndication-detached', true );
 			if ( $detached === 'true' ) {
