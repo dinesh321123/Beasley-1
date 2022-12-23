@@ -28,7 +28,7 @@ class GeneralSettingsFrontRendering {
 		// override primary author for parsely
 		$primary_author = get_field( 'primary_author_cpt', $post );
 		$primary_author = $primary_author ? $primary_author : $post->post_author;
-		$show_author = get_the_author_meta( 'login', $primary_author );
+		$show_author = get_the_author_meta( 'display_name', $primary_author );
 		if( !empty( $show_author ) ) {
 			$parsely_metadata['creator'] = [
 				$show_author
