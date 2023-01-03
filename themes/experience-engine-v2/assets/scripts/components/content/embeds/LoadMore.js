@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { loadPartialPage } from '../../../redux/actions/screen';
 import { IntersectionObserverContext } from '../../../context/intersection-observer';
+import updateTargeting from '../../../redux/utilities/screen/updateTargeting';
 
 class LoadMore extends PureComponent {
 	constructor(props) {
@@ -59,6 +60,7 @@ class LoadMore extends PureComponent {
 		// prevent double clicking
 		if (!loading) {
 			this.setState({ loading: true });
+			updateTargeting();
 			load(link, placeholder);
 		}
 	}
