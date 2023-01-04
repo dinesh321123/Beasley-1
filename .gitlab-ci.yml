@@ -38,11 +38,12 @@ deploy_stage:
   script:
     - bash ./deploy-scripts/build.sh
     - bash ./deploy-scripts/deploy-stage.sh
-    - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart supervisord.service'
-    - ssh beanstalk@54.87.4.54 'sudo /usr/bin/systemctl restart memcached.service'
-    - ssh beanstalk@54.87.4.54 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
+    - ssh beanstalk@34.195.141.227 'sudo /usr/bin/systemctl restart supervisord.service'
+    - ssh beanstalk@34.195.141.227 'sudo /usr/bin/systemctl restart memcached.service'
+    - ssh beanstalk@34.195.141.227 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
   only:
     - stage3
+    - feature/change-stage-ip
 
 deploy_preprod:
   stage: deploy
