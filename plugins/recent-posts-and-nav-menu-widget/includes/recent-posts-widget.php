@@ -46,6 +46,8 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 		$category_ids	= ( ! empty( $instance[ 'category_ids' ] ) ) ? array_map('absint', $instance[ 'category_ids' ] ) : array(0);
 		if ( in_array( 0, $category_ids ) ) {
 			$category_ids = 0;
+		} else {
+			$category_ids = implode( ',', $category_ids );
 		}
 		/* $query_args		= array('post_type' => $this->allow_megamenu_recent_posts_posttype(), 'posts_per_page' => $number, 'no_found_rows' => true,'post_status' => 'publish', 'ignore_sticky_posts' => true);
 		if ($category_ids != 0 && !in_array( 0, $category_ids ) ) {
@@ -79,7 +81,7 @@ class RPMW_Widget_Recent_Posts extends WP_Widget {
 						  data-showthumbsize="%s"
 						  data-menuareaid="%s"></div>',
 					$number,
-					implode( ',', $category_ids ),
+					$category_ids,
 					$show_thumb,
 					$thumbnail_size,
 					$args['widget_id']
