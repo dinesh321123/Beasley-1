@@ -21,14 +21,13 @@ class GamPreroll extends PureComponent {
 		this.adDisplayContainer = null;
 		this.videoContent = null;
 
-		// this.doStopVideoElement = this.doStopVideoElement.bind(this);
 		this.doClaimVideoElement = this.doClaimVideoElement.bind(this);
 		this.doPreroll = this.doPreroll.bind(this);
-		this.playPreroll = this.playPreroll.bind(this);
+		this.startPreroll = this.startPreroll.bind(this);
 		this.onAdsManagerLoaded = this.onAdsManagerLoaded.bind(this);
 		this.onAdEvent = this.onAdEvent.bind(this);
 		this.onAdError = this.onAdError.bind(this);
-		this.playAds = this.playAds.bind(this);
+		this.initializeAds = this.initializeAds.bind(this);
 		this.finalize = this.finalize.bind(this);
 
 		this.onResize = this.handleResize.bind(this);
@@ -41,34 +40,11 @@ class GamPreroll extends PureComponent {
 
 	updateSize() {
 		if (this.adsManager) {
-			console.log('Resizing Ad');
 			const containerElement = document.getElementById('gamPrerollAdContainer');
 			if (containerElement) {
-				console.log('Found Container for Resize');
 				const width = containerElement.clientWidth;
 				// Height Showing as 0 so compute... const height = containerElement.clientHeight;
 				const height = (width / 640) * 480;
-
-				// Resize Video Element If IOS
-				/*
-				if (isIOS()) {
-					console.log('IS IOS');
-					const vidElement = document.getElementById(
-						'gamPrerollContentElement',
-					);
-					if (vidElement) {
-						console.log('Setting Vid Dimensions');
-						// vidElement.clientHeight = height;
-						// vidElement.clientWidth = width;
-						vidElement.style.height = `${height}px`;
-						vidElement.style.width = `${width}px`;
-
-						console.log(`Vid Element Resized`);
-					}
-				}
-				 */
-
-				console.log('Resizing Ad Manager');
 				this.adsManager.resize(
 					width,
 					height,
@@ -78,7 +54,7 @@ class GamPreroll extends PureComponent {
 		}
 	}
 
-	playPreroll(adUnitID, cdomain) {
+	startPreroll(adUnitID, cdomain) {
 		const { startedPrerollFlag } = this.state;
 		if (startedPrerollFlag) {
 			return;
@@ -87,7 +63,7 @@ class GamPreroll extends PureComponent {
 		if (this.getIsIMALoaded()) {
 			// All is well - do nothing
 		} else {
-			console.log(`Unexpected Call To Play Preroll Without IMA Loaded`);
+			console.log(`Unexpected Call To StartPreroll() Without IMA Loaded`);
 			this.finalize();
 			return;
 		}
@@ -130,19 +106,7 @@ class GamPreroll extends PureComponent {
 		// Request video ads.
 		console.log('Requesting GAM Video Ad');
 		const adsRequest = new window.google.ima.AdsRequest();
-		// adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${adUnitID}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x480%7C640x480%7C920x508&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
-		adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=%2F26918149%2Fstaging_wrif_preroll&description_url=[placeholder]&tfcd=0&npa=0&sz=640x480&cust_params=cdomain%3D${cdomain}&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
-
-		// Specify the linear and nonlinear slot sizes. This helps the SDK to
-		// select the correct creative if multiple are returned.
-		/*
-		adsRequest.linearAdSlotWidth = 640;
-		adsRequest.linearAdSlotHeight = 400;
-
-		adsRequest.nonLinearAdSlotWidth = 640;
-		adsRequest.nonLinearAdSlotHeight = 150;
-		*/
-
+		adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${adUnitID}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x480&cust_params=cdomain%3D${cdomain}&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
 		this.adsLoader.requestAds(adsRequest);
 	}
 
@@ -155,7 +119,7 @@ class GamPreroll extends PureComponent {
 		);
 	}
 
-	playAds() {
+	initializeAds() {
 		// Put In Delayed Guard
 		setTimeout(() => {
 			const { playingPrerollFlag } = this.state;
@@ -241,7 +205,7 @@ class GamPreroll extends PureComponent {
 			this.onAdEvent,
 		);
 
-		this.playAds();
+		this.initializeAds();
 	}
 
 	onAdEvent(adEvent) {
@@ -330,7 +294,7 @@ class GamPreroll extends PureComponent {
 
 		if (tunerpreroll && tunerpreroll.unitId) {
 			// Play the preroll
-			this.playPreroll(tunerpreroll.unitId, globalObj.cdomain);
+			this.startPreroll(tunerpreroll.unitId, globalObj.cdomain);
 		} else {
 			console.log(`NOT playing GAM Preroll - no tunerpreroll.unitId found`);
 			this.finalize();
