@@ -61,7 +61,6 @@ deploy_preprod:
     name: Preprod
     url: https://preprod.bbgistage.com/
   script:
-    - bash ./deploy-scripts/build.sh
     - bash ./deploy-scripts/deploy-preprod.sh
     - ssh beanstalk@34.230.103.178 'sudo /usr/bin/systemctl restart supervisord.service'
     - ssh beanstalk@34.230.103.178 'sudo /usr/bin/systemctl restart memcached.service'
@@ -82,7 +81,6 @@ deploy_prod:
     name: Production
     url: https://sites.greatermedia.com/
   script:
-    - bash ./deploy-scripts/build.sh
     - bash ./deploy-scripts/deploy-prod.sh
     - bash ./deploy-scripts/sync-jobs-to-web.sh # Sync all code first, before updating version timestamp to avoid cache issues
     - ssh beanstalk@52.0.13.41 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
