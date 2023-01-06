@@ -8,7 +8,6 @@
 				get_template_part( 'partials/footer' );
 				get_template_part( 'partials/modals' );
 				get_template_part( 'partials/configurable-iframe' );
-				get_template_part( 'partials/trackonomics-script' );
 			endif;
 		?></div>
 

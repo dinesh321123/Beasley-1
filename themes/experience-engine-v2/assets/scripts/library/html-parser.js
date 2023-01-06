@@ -466,12 +466,6 @@ export function getStateFromContent(container, pageURL) {
 			),
 			...processEmbeds(
 				container,
-				'trackonomicsscript',
-				'.trackonomics-script',
-				getDatasetParams('postid', 'posttype', 'trackonomicsscript'),
-			),
-			...processEmbeds(
-				container,
 				'audience',
 				'.audience-embed',
 				getAudienceEmbedParams,
