@@ -25,6 +25,8 @@
 @import "components/archive/archive-post-tile";
 @import "components/archive/tile-episode";
 
+@import "components/category/archive";
+
 @import "components/content/stream-cta";
 @import "components/content/discovery";
 @import "components/content/stnbarker";

@@ -204,11 +204,14 @@ class ContentDispatcher extends Component {
 			console.log(
 				`BACK - Canonical: ${lastCanonicalUrl} Current: ${window.location.href}`,
 			);
-
 			if (window.location.href.indexOf('#') === -1) {
-				this.loadPage(window.location.href, { suppressHistory: true });
+				if (window.location.href === lastCanonicalUrl) {
+					console.log(`Current Matched Canonical - Not Loading New Page`);
+				} else {
+					this.loadPage(window.location.href, { suppressHistory: true });
+				}
 			}
-		});
+		}, 0);
 	}
 
 	/**

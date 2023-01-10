@@ -59,19 +59,7 @@ class ListicleSelection extends \Bbgi\Module {
 		}
 
 		if( !empty( $attributes['syndication_name'] ) ) {
-			$meta_query_args = array(
-				'meta_key'    => 'syndication_old_name',
-				'meta_value'  => $attributes['syndication_name'],
-				'post_status' => 'any',
-				'post_type'   => 'listicle_cpt'
-			);
-
-			$existing = get_posts( $meta_query_args );
-
-			if ( !empty( $existing ) ) {
-				$existing_post = current( $existing );
-				$listicle_id = intval( $existing_post->ID );
-			}
+			$listicle_id = $this->check_embedded_id( 'listicle_cpt', $attributes['syndication_name'] );
 		}
 
 		if(empty($listicle_id) && !empty( $attributes['listicle_id'] ) && !empty( get_post( $attributes['listicle_id'] ) ) ) {

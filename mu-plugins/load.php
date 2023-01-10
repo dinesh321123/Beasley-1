@@ -28,10 +28,10 @@ include __DIR__ . '/advanced-custom-fields/acf.php';
 include __DIR__ . '/featured-videos/featured-video.php';
 
 // ElasticPress bulk indexing is called from CLI - Include Post Types We Need Indexed
-if ( class_exists( 'WP_CLI' ) ) {
+// if ( class_exists( 'WP_CLI' ) ) {
 	include __DIR__ . '/../plugins/affiliate-marketing-cpt/affiliate-marketing-cpt.php';
 	include __DIR__ . '/../plugins/cpt-listicle/listicle.php';
-}
+// }
 
 // This will force the item ordering by date instead of term relevancy
 include __DIR__ . '/elasticpress-customizations.php';
@@ -110,12 +110,18 @@ add_filter( 'ep_indexable_post_types', function() {
 	// Index all post types that are not excluded from search
 	// return get_post_types( array( 'exclude_from_search' => false ) );
 	$retval = get_post_types( array( 'exclude_from_search' => false ) );
+
+	// Remove attachment
+	unset( $retval['attachment'] );
+
+	/*
 	if ( class_exists( 'WP_CLI' ) ) {
 		WP_CLI::log('Indexable Post Types: ');
 		foreach ($retval as $epPostType) {
 			WP_CLI::log('    ' . $epPostType);
 		}
 	}
+	*/
 
 	return $retval;
 } );

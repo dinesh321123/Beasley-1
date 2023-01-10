@@ -58,19 +58,7 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 		}
 
 		if( !empty( $attributes['syndication_name'] ) ) {
-			$meta_query_args = array(
-				'meta_key'    => 'syndication_old_name',
-				'meta_value'  => $attributes['syndication_name'],
-				'post_status' => 'any',
-				'post_type'   => 'affiliate_marketing'
-			);
-
-			$existing = get_posts( $meta_query_args );
-
-			if ( !empty( $existing ) ) {
-				$existing_post = current( $existing );
-				$am_id = intval( $existing_post->ID );
-			}
+			$listicle_id = $this->check_embedded_id( 'affiliate_marketing', $attributes['syndication_name'] );
 		}
 
 		if(empty($am_id) && !empty( $attributes['am_id'] ) && !empty( get_post( $attributes['am_id'] ) ) ) {

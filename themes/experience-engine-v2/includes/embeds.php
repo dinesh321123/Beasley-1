@@ -168,5 +168,5 @@ function ee_responsive_oembed_html( $html, $url, $attr ) {
 
 	$classes = array_merge( $classes, $classes_all );
 
-	return '<div class="' . esc_attr( implode( $classes, ' ' ) ) . '">' . $html . '</div>';
+	return '<div class="' . esc_attr( implode( ' ', $classes) ) . '">' . $html . '</div>';
 }

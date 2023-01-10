@@ -59,19 +59,7 @@ class GallerySelection extends \Bbgi\Module {
 		}
 
 		if( !empty( $attributes['syndication_name'] ) ) {
-			$meta_query_args = array(
-				'meta_key'    => 'syndication_old_name',
-				'meta_value'  => $attributes['syndication_name'],
-				'post_status' => 'any',
-				'post_type'   => 'gmr_gallery'
-			);
-
-			$existing = get_posts( $meta_query_args );
-
-			if ( !empty( $existing ) ) {
-				$existing_post = current( $existing );
-				$gallery_id = intval( $existing_post->ID );
-			}
+			$listicle_id = $this->check_embedded_id( 'gmr_gallery', $attributes['syndication_name'] );
 		}
 
 		if(empty($gallery_id) && !empty( $attributes['gallery_id'] ) && !empty( get_post( $attributes['gallery_id'] ) ) ) {

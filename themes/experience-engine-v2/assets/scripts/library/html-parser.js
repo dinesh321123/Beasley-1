@@ -80,6 +80,7 @@ function getDatasetParams(...list) {
 function getLoadMoreParams(element) {
 	return {
 		link: element.getAttribute('href'),
+		autoload: element.getAttribute('autoload'),
 	};
 }
 
@@ -462,12 +463,6 @@ export function getStateFromContent(container, pageURL) {
 				'draftkingiframe',
 				'.draftking-iframe',
 				getDraftkingIframeParams,
-			),
-			...processEmbeds(
-				container,
-				'trackonomicsscript',
-				'.trackonomics-script',
-				getDatasetParams('postid', 'posttype', 'trackonomicsscript'),
 			),
 			...processEmbeds(
 				container,

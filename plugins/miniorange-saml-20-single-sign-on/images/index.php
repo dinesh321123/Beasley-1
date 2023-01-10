@@ -1,8 +1,8 @@
 <?php
 
 
-if (defined("\x57\x50\x49\x4e\103")) {
-    goto DC;
+if (defined("\127\x50\111\116\x43")) {
+    goto c8;
 }
 die;
-DC:
+c8:

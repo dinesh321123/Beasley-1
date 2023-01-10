@@ -23,9 +23,9 @@
 					}
 					if(GaLocation) {
 						console.log('GA send for URL', GaLocation);
-						ga('create', GaInfoForJacapps.google_analytics, 'auto');
-						ga('set', 'location', GaLocation);
-						ga('send', 'pageview');
+						window.beasleyanalytics.createAnalytics(GaInfoForJacapps.google_analytics, 'auto');
+						window.beasleyanalytics.setAnalytics('location', GaLocation);
+						window.beasleyanalytics.sendEvent('pageview');
 					}
 				}
 			}

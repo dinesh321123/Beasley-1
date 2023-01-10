@@ -36,7 +36,7 @@ class Google extends \Bbgi\Module {
 	/**
 	 * Google Analytics for jacapps and whiz.
 	 */
-	public function jacapps_enqueue_scripts() {
+	public static function jacapps_enqueue_scripts() {
 		$current_post_type	= get_post_type( get_queried_object_id() );
 		$postfix			= ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 		if ( function_exists( 'ee_is_common_mobile' ) && ee_is_common_mobile() && in_array( $current_post_type, Google::allow_posttype_list_for_common_mobile() ) ) {
@@ -63,7 +63,7 @@ class Google extends \Bbgi\Module {
 	 *
 	 * @return array
 	 */
-	public function allow_posttype_list_for_common_mobile() {
+	public static function allow_posttype_list_for_common_mobile() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'affiliate_marketing', 'gmr_gallery', 'listicle_cpt' )  );
 	}
 
@@ -106,7 +106,7 @@ class Google extends \Bbgi\Module {
 	 *
 	 * @return array
 	 */
-	public function get_analytics_data() {
+	public static function get_analytics_data() {
 		$google_analytics = trim( get_option( self::OPTION_UA ) );
 
 		if ( empty( $google_analytics ) ) {
@@ -114,7 +114,7 @@ class Google extends \Bbgi\Module {
 		}
 
 		$data = [
-			'google_analytics'        => trim( get_option( self  ::OPTION_UA ) ),
+			'google_analytics'        => trim( get_option( self::OPTION_UA ) ),
 			'google_uid_dimension'    => absint( get_option( self::OPTION_UA_UID ) ),
 			'google_author_dimension' => absint( get_option( self::OPTION_UA_AUTHOR ) ),
 			'title'                   => wp_title( '&raquo;', false ),
@@ -135,7 +135,7 @@ class Google extends \Bbgi\Module {
 
 			$data['shows'] = implode( ', ', wp_get_post_terms( $post->ID, '_shows', $args ) );
 			$data['category'] = implode( ', ', wp_get_post_terms( $post->ID, 'category', $args ) );
-			
+
 			$primary_author = get_field( 'primary_author_cpt', $post );
 			$primary_author = $primary_author ? $primary_author : $post->post_author;
 			$data['author'] = get_the_author_meta( 'login', $primary_author );
@@ -165,12 +165,12 @@ class Google extends \Bbgi\Module {
 				  data-contentgroup2="%s"
 				  data-dimensionkey="%s"
 				  data-dimensionvalue="%s"></div>',
-				  esc_attr( $data['title'] ),
-				  esc_attr( $data['url'] ),
-				  esc_attr( $data['shows'] ),
-				  esc_attr( $data['category'] ),
-				  esc_attr( sprintf( 'dimension%s', $data['google_author_dimension'] ) ),
-				  esc_attr( $data['author'] )
+			esc_attr( $data['title'] ),
+			esc_attr( $data['url'] ),
+			esc_attr( $data['shows'] ),
+			esc_attr( $data['category'] ),
+			esc_attr( sprintf( 'dimension%s', $data['google_author_dimension'] ) ),
+			esc_attr( $data['author'] )
 		);
 	}
 

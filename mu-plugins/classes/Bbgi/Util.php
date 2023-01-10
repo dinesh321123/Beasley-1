@@ -62,4 +62,44 @@ trait Util {
 	   	}
 	   	return false;
 	}	
+
+	/**
+	 * Checks if the embedded id exist.
+	 *
+	 * @param string $typenow Embed Post type.
+	 * @param string $syndication_name Syndicated Post name.
+	 *
+	 * @return integer embed id
+	 */
+	protected function check_embedded_id( $typenow, $syndication_name ) {
+		$post_types = array( 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery' );
+		if( !in_array($typenow, $post_types) ) {
+			return 0;
+		}
+
+		$meta_query_args_syn = array(
+			'meta_key'    => 'syndication_old_name',
+			'meta_value'  => trim( $syndication_name ),
+			'post_status' => 'any',
+			'post_type'   => $typenow
+		);
+		$existing_syn = get_posts( $meta_query_args_syn );
+
+		if ( !empty( $existing_syn ) ) {
+			return $existing_syn[0]->ID ? intval( $existing_syn[0]->ID ) : 0;
+		} else {
+			$meta_query_args_org = array(
+				'name'  => trim( $syndication_name ),
+				'post_status' => 'any',
+				'post_type'   => $typenow
+			);
+			$existing_org = get_posts( $meta_query_args_org );
+		
+			if ( !empty( $existing_org ) ) {
+				return $existing_org[0]->ID ? intval( $existing_org[0]->ID ) : 0;
+			}
+		}
+
+		return 0;
+	}
 }

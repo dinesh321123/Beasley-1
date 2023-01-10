@@ -3,8 +3,8 @@ Contributors: miniOrange
 Donate link: http://miniorange.com
 Tags: saml, single sign on, SSO, single sign on saml, sso saml, sso integration WordPress, sso using SAML, SAML 2.0 Service Provider, Wordpress SAML, SAML Single Sign-On, SSO using SAML, SAML 2.0, SAML 20, Wordpress Single Sign On, ADFS, Okta, Google Apps, Google for Work, Salesforce, Shibboleth, SimpleSAMLphp, OpenAM, Centrify, Ping, RSA, IBM, Oracle, OneLogin, Bitium, WSO2, NetIQ, Novell Access Manager
 Requires at least: 3.5
-Tested up to: 6.0
-Stable tag: 20.0.6
+Tested up to: 5.4.1
+Stable tag: 20.0.0
 License URI: http://miniorange.com/usecases/miniOrange_User_Agreement.pdf
 
 miniOrange SAML 2.0 Single Sign-On provides SSO to your Wordpress site with any SAML compliant Identity Provider. (ACTIVE SUPPORT for IdP config)
@@ -79,39 +79,6 @@ Visit Help & FAQ section in the plugin OR email us at info@miniorange.com or <a 
 3. Configure your IdP in your Wordpress site.
 
 == Changelog ==
-
-= 20.0.6 =
-Added Compatibility with WordPress 6.0
-Added IDP selector UI
-Added Add-ons tabs
-Added check for archived and deleted subsites for license verification
-Updated licensing plans
-Updated bootstrap version to 5.1.3
-Fixed Single Logout for different WordPress versions
-Fixed an issue with color picker for the Custom login button
-Fixed access restriction for the resource files
-
-= 20.0.5 =
-Compatibility fixes for WordPress 5.9
-
-= 20.0.4 =
-Compatibility with WordPress 5.8
-Minor UI fixes
-
-= 20.0.3 =
-Added new Certificate for Signing and Encryption
-Bug fixes
-
-=20.0.2 = 
-Compatible with PHP8
-Compatible with WordPress 5.7
-Import Metadata Fix
-Vulnerability fixes
-
-= 20.0.1 =
-Compatible with WordPress 5.5.4
-Added new certificates
-Vulnerability fixes
 
 = 20.0.0 =
 Vulnerability fixes
@@ -221,39 +188,6 @@ UI Improvements.
 * this is the first release.
 
 == Upgrade Notice ==
-
-= 20.0.6 =
-Added Compatibility with WordPress 6.0
-Added IDP selector UI
-Added Add-ons tabs
-Added check for archived and deleted subsites for license verification
-Updated licensing plans
-Updated bootstrap version to 5.1.3
-Fixed Single Logout for different WordPress versions
-Fixed an issue with color picker for the Custom login button
-Fixed access restriction for the resource files
-
-= 20.0.5 =
-Compatibility fixes for WordPress 5.9
-
-= 20.0.4 =
-Compatibility with WordPress 5.8
-Minor UI fixes
-
-= 20.0.3 =
-Added new Certificate for Signing and Encryption
-Bug fixes
-
-=20.0.2 = 
-Compatible with PHP8
-Compatible with WordPress 5.7
-Import Metadata Fix
-Vulnerability fixes
-
-= 20.0.1 =
-Compatible with WordPress 5.5.4
-Added new certificates
-Vulnerability fixes
 
 = 20.0.0 =
 Vulnerability fixes
