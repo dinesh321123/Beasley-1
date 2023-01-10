@@ -9,9 +9,11 @@ set -euo pipefail
 # activate and display the node version set in the .nvmrc file
 # nvm is very verbose so hide nvm use output
 set +x
+# themes needs to be updated to Node LTS version(currently 16)
+# using Node version 14 until that is done.
+nvm install 14
 nvm use
 set -x
-
 node --version
 
 # update composer to 2.x
