@@ -395,11 +395,15 @@ if ( ! function_exists( '_ee_the_lazy_image' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_lazy_image' ) ) :
-	function ee_the_lazy_image( $image_id, $echo = true, $remove_crop = false ) {
+	function ee_the_lazy_image( $image_id, $echo = true, $remove_crop = false , $postTitle = '' ) {
 		$html = '';
 		if ( ! empty( $image_id ) ) {
 			$alt = trim( strip_tags( get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) );
 			$attribution = get_post_meta( $image_id, 'gmr_image_attribution', true );
+
+			if(empty($alt)) {
+				$alt = $postTitle;
+			}
 
 			if ( ee_is_common_mobile() ) {
 				$width = 800;
@@ -435,7 +439,7 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 		if ( ! is_a( $post, '\WP_Post' ) ) {
 			return;
 		}
-
+		$postTitle = $post->post_title;
 		if ( ! empty( $post->picture ) ) {
 			$url = $post->picture['url'];
 			$parts = parse_url( $url );
@@ -450,7 +454,7 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 			$width = ! empty( $post->picture['width'] ) ? intval( $post->picture['width'] ) : 400;
 			$height = ! empty( $post->picture['height'] ) ? intval( $post->picture['height'] ) : 300;
 
-			echo _ee_the_lazy_image( $url, $width, $height );
+			echo _ee_the_lazy_image( $url, $width, $height, $postTitle );
 		} else {
 			$thumbnail_id = get_post_thumbnail_id( $post );
 			$thumbnail_id = apply_filters( 'ee_post_thumbnail_id', $thumbnail_id, $post );
@@ -467,7 +471,7 @@ if ( ! function_exists( 'ee_the_lazy_thumbnail' ) ) :
 				}
 			}
 
-			$html = ee_the_lazy_image( $thumbnail_id, false );
+			$html = ee_the_lazy_image( $thumbnail_id, false, false, $postTitle );
 
 			echo apply_filters( 'post_thumbnail_html', $html, $post->ID, $thumbnail_id );
 		}
