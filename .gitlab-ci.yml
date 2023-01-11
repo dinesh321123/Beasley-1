@@ -54,7 +54,6 @@ deploy_stage:
     - ssh beanstalk@34.195.141.227 'echo $(date +%s) > /var/www/html/wordpress/wp-content/themes/.version.php'
   only:
     - stage3
-    - feature/change-stage-ip
 
 deploy_preprod:
   stage: deploy
