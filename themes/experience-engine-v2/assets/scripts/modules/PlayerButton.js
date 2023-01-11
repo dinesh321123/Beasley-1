@@ -11,17 +11,24 @@ import ErrorBoundary from '../components/ErrorBoundary';
 
 import * as actions from '../redux/actions/player';
 import { STATUSES } from '../redux/actions/player';
+import { showSignInModal } from '../redux/actions/modal';
 
 class PlayerButton extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { online: window.navigator.onLine, forceSpinner: false };
+		this.state = {
+			online: window.navigator.onLine,
+			forceSpinner: false,
+			isPromptedForSignin: false,
+		};
 		this.container = document.getElementById('player-button-div');
 		this.onOnline = this.handleOnline.bind(this);
 		this.onOffline = this.handleOffline.bind(this);
 		this.handlePlay = this.handlePlay.bind(this);
-		this.turnOffForcedSpinner = this.turnOffForcedSpinner.bind(this);
+		this.turnOffForcedSpinnerAndMarkAsSigninPrompted = this.turnOffForcedSpinnerAndMarkAsSigninPrompted.bind(
+			this,
+		);
 	}
 
 	componentDidMount() {
@@ -52,16 +59,20 @@ class PlayerButton extends Component {
 		playStation(station);
 	}
 
-	turnOffForcedSpinner() {
-		this.setState({ forceSpinner: false });
+	turnOffForcedSpinnerAndMarkAsSigninPrompted() {
+		this.setState({ forceSpinner: false, isPromptedForSignin: true });
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
+		const { signedIn, showSignIn } = this.props;
 		if (
 			prevState.forceSpinner &&
 			prevProps.status === STATUSES.LIVE_CONNECTING
 		) {
-			this.turnOffForcedSpinner();
+			if (!signedIn && !prevState.isPromptedForSignin) {
+				showSignIn();
+			}
+			this.turnOffForcedSpinnerAndMarkAsSigninPrompted();
 		}
 	}
 
@@ -202,10 +213,12 @@ PlayerButton.propTypes = {
 	duration: PropTypes.number.isRequired,
 	player: PropTypes.shape({}),
 	playerType: PropTypes.string.isRequired,
+	signedIn: PropTypes.bool.isRequired,
+	showSignIn: PropTypes.number.isRequired,
 };
 
 export default connect(
-	({ player }) => ({
+	({ player, auth }) => ({
 		player: player.player,
 		playerType: player.playerType,
 		station: player.station,
@@ -214,10 +227,12 @@ export default connect(
 		gamAdPlayback: player.gamAdPlayback,
 		adSynced: player.adSynced,
 		duration: player.duration,
+		signedIn: !!auth.user,
 	}),
 	{
 		playStation: actions.playStation,
 		pause: actions.pause,
 		resume: actions.resume,
+		showSignIn: showSignInModal,
 	},
 )(PlayerButton);
