@@ -132,8 +132,8 @@ class PlayerButton extends Component {
 		const isIos = isIOS();
 		const gamPreroll = gamAdPlayback ? <GamPreroll /> : null;
 
-		if (gamAdPlayback) {
-			console.log('Live Player configured to render GAM preroll.');
+		if (gamPreroll) {
+			console.log('Showing GAM preroll.');
 		}
 
 		const buttonDiv = (
