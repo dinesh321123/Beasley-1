@@ -1,8 +1,8 @@
 <?php
 
 
-if (defined("\127\x50\x49\116\x43")) {
-    goto Eg4;
+if (defined("\127\120\x49\116\103")) {
+    goto Ss;
 }
 die;
-Eg4:
+Ss:

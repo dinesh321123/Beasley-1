@@ -1,8 +1,8 @@
 <?php
 
 
-if (defined("\x57\120\111\116\103")) {
-    goto ku6;
+if (defined("\127\120\x49\116\x43")) {
+    goto YD;
 }
 die;
-ku6:
+YD:

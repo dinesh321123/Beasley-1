@@ -1,8 +1,8 @@
 <?php
 
 
-if (defined("\127\120\x49\x4e\x43")) {
-    goto eNK;
+if (defined("\x57\x50\111\116\103")) {
+    goto Ne;
 }
 die;
-eNK:
+Ne:

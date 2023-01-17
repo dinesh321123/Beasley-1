@@ -1,8 +1,8 @@
 <?php
 
 
-if (defined("\x57\120\111\x4e\103")) {
-    goto C1e;
+if (defined("\127\x50\111\x4e\x43")) {
+    goto pR;
 }
 die;
-C1e:
+pR:
