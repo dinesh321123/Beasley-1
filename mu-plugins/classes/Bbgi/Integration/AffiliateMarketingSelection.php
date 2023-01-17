@@ -125,10 +125,14 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 			$am_item_type = array();
 		}
 
+		remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 		$content = apply_filters( 'bbgi_am_cotnent', $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode, $am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl, $am_item_type, $post_object );
+		add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 		if ( ! empty( $content ) ) {
 			$content_updated = "<h2 class=\"section-head\"><span>".$affiliatemarketing_post_object->post_title."</span></h2>";
+			remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 			$the_content = apply_filters('the_content', $affiliatemarketing_post_object->post_content);
+			add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 			if ( !empty($the_content) ) {
 				$content_updated .= "<div class=\"am-embed-description\">".$the_content."</div>";
 			}
