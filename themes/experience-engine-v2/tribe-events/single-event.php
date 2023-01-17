@@ -31,6 +31,8 @@ endif;
 			<?php tribe_the_notices(); ?>
 		</h1>
 
+		<?php ee_the_sponsored_by_div( get_the_id(), false ); ?>
+
 		<div class="event-date">
 			<?php echo tribe_events_event_schedule_details(); ?>
 		</div>
