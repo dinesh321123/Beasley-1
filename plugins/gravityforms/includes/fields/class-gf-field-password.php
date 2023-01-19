@@ -4,14 +4,25 @@ if ( ! class_exists( 'GFForms' ) ) {
 	die();
 }
 
-add_action( 'gform_after_submission', array( 'GF_Field_Password', 'delete_passwords' ), 100, 2 );
-
 class GF_Field_Password extends GF_Field {
 
 	public $type = 'password';
 
+	private static $passwords = array();
+
 	public function get_form_editor_field_title() {
 		return esc_attr__( 'Password', 'gravityforms' );
+	}
+
+	/**
+	 * Returns the field's form editor description.
+	 *
+	 * @since 2.5
+	 *
+	 * @return string
+	 */
+	public function get_form_editor_field_description() {
+		return esc_attr__( 'Allows the user to enter a password and confirm it.  The password will be masked with blobs or asterisks.', 'gravityforms' );
 	}
 
 	function get_form_editor_field_settings() {
@@ -33,12 +44,44 @@ class GF_Field_Password extends GF_Field {
 		);
 	}
 
+	/**
+	 * Returns the field's form editor icon.
+	 *
+	 * This could be an icon url or a gform-icon class.
+	 *
+	 * @since 2.5
+	 *
+	 * @return string
+	 */
+	public function get_form_editor_field_icon() {
+		return 'gform-icon--password';
+	}
+
 	public function get_form_editor_button() {
 		return array(); // this button is conditionally added in the form detail page
 	}
 
 	public function get_entry_inputs() {
 		return null;
+	}
+
+	/**
+	 * Returns the HTML tag for the field container.
+	 *
+	 * @since 2.5
+	 *
+	 * @param array $form The current Form object.
+	 *
+	 * @return string
+	 */
+	public function get_field_container_tag( $form ) {
+
+		if ( GFCommon::is_legacy_markup_enabled( $form ) || ! $this->is_confirm_input_enabled() ) {
+			return parent::get_field_container_tag( $form );
+		}
+
+		return 'fieldset';
+
 	}
 
 	public function validate( $value, $form ) {
@@ -48,21 +91,21 @@ class GF_Field_Password extends GF_Field {
 			$this->failed_validation  = true;
 			$this->validation_message = esc_html__( 'Your passwords do not match.', 'gravityforms' );
 		} elseif ( $this->passwordStrengthEnabled && ! empty( $this->minPasswordStrength ) && ! empty( $password ) ) {
-			
+
 			$strength = rgpost('input_' . $this->id . '_strength' );
-			
+
 			if ( empty( $strength ) ) {
 				$strength = $this->get_password_strength( $password );
 			}
 
 			$levels = array( 'short' => 1, 'bad' => 2, 'good' => 3, 'strong' => 4 );
-			if ( $levels[ $strength ] < $levels[ $this->minPasswordStrength ] ) {
+			if ( rgar( $levels, $strength, 0 ) < $levels[ $this->minPasswordStrength ] ) {
 				$this->failed_validation  = true;
 				$this->validation_message = empty( $this->errorMessage ) ? sprintf( esc_html__( 'Your password does not meet the required strength. %sHint: To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ %% ^ & ).', 'gravityforms' ), '<br />' ) : $this->errorMessage;
 			}
 		}
 	}
-	
+
 	/**
 	 * Calculate the password score using PHP when not passed by JS.
 	 *
@@ -134,6 +177,7 @@ class GF_Field_Password extends GF_Field {
 		$size         = $this->size;
 		$class_suffix = $is_entry_detail ? '_admin' : '';
 		$class        = $this->is_confirm_input_enabled() ? '' : $size . $class_suffix; // Size only applies when confirmation is disabled.
+		$class        = esc_attr( $class );
 
 		$form_sub_label_placement  = rgar( $form, 'subLabelPlacement' );
 		$field_sub_label_placement = $this->subLabelPlacement;
@@ -170,7 +214,7 @@ class GF_Field_Password extends GF_Field {
 
 		$confirm_password_label = rgar( $confirm_password_field_input, 'customLabel' ) != '' ? $confirm_password_field_input['customLabel'] : esc_html__( 'Confirm Password', 'gravityforms' );
 		$confirm_password_label = gf_apply_filters( array( 'gform_password_confirm', $form_id ), $confirm_password_label, $form_id );
-	
+
 		$required_attribute    = $this->isRequired ? 'aria-required="true"' : '';
 		$invalid_attribute     = $this->failed_validation ? 'aria-invalid="true"' : 'aria-invalid="false"';
 
@@ -178,8 +222,10 @@ class GF_Field_Password extends GF_Field {
 		$confirm_password_placeholder_attribute = GFCommon::get_input_placeholder_attribute( $confirm_password_field_input );
 
 		$visibility_toggle_style = ! $this->passwordVisibilityEnabled ? " style='display:none;'" : '';
-		$enter_password_toggle   = $this->passwordVisibilityEnabled || $is_admin ? "<button type='button' onclick='javascript:gformToggleShowPassword(\"{$field_id}\");' label='" . esc_attr__( 'Show Password', 'gravityforms' ) . "' data-label-show='" . esc_attr__( 'Show Password', 'gravityforms' ) . "' data-label-hide='" . esc_attr__( 'Hide Password', 'gravityforms' ) . "'{$visibility_toggle_style}><span class='dashicons dashicons-hidden' aria-hidden='true'></span></button>" : "";
-		$confirm_password_toggle = $this->passwordVisibilityEnabled || $is_admin ? "<button type='button' onclick='javascript:gformToggleShowPassword(\"{$field_id}_2\");' label='" . esc_attr__( 'Show Password', 'gravityforms' ) . "' data-label-show='" . esc_attr__( 'Show Password', 'gravityforms' ) . "' data-label-hide='" . esc_attr__( 'Hide Password', 'gravityforms' ) . "'{$visibility_toggle_style}><span class='dashicons dashicons-hidden' aria-hidden='true'></span></button>" : "";
+		$enter_password_toggle   = $this->passwordVisibilityEnabled || $is_admin ? "<button type='button' class='gform_show_password' onclick='javascript:gformToggleShowPassword(\"{$field_id}\");' label='" . esc_attr__( 'Show Password', 'gravityforms' ) . "' data-label-show='" . esc_attr__( 'Show Password', 'gravityforms' ) . "' data-label-hide='" . esc_attr__( 'Hide Password', 'gravityforms' ) . "'{$visibility_toggle_style}><span class='dashicons dashicons-hidden' aria-hidden='true'></span></button>" : "";
+		$confirm_password_toggle = $this->passwordVisibilityEnabled || $is_admin ? "<button type='button' class='gform_show_password' onclick='javascript:gformToggleShowPassword(\"{$field_id}_2\");' label='" . esc_attr__( 'Show Password', 'gravityforms' ) . "' data-label-show='" . esc_attr__( 'Show Password', 'gravityforms' ) . "' data-label-hide='" . esc_attr__( 'Hide Password', 'gravityforms' ) . "'{$visibility_toggle_style}><span class='dashicons dashicons-hidden' aria-hidden='true'></span></button>" : "";
+
+		$aria_describedby = $this->get_aria_describedby();
 
 		if ( $is_form_editor ) {
 			$confirm_style = $this->is_confirm_input_enabled() ? '' : "style='display:none;'";
@@ -188,26 +234,34 @@ class GF_Field_Password extends GF_Field {
 				return "<div class='ginput_complex$class_suffix ginput_container ginput_container_password' id='{$field_id}_container'>
 						<span id='{$field_id}_1_container' class='ginput_left'>
 							<label for='{$field_id}' {$sub_label_class_attribute} {$confirm_style}>{$enter_password_label}</label>
+							<span class='password_input_container'>
 							<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
 							{$enter_password_toggle}
+							</span>
 						</span>
 						<span id='{$field_id}_2_container' class='ginput_right' {$confirm_style}>
 							<label for='{$field_id}_2' {$sub_label_class_attribute}>{$confirm_password_label}</label>
+							<span class='password_input_container'>
 							<input type='password' name='input_{$id}_2' id='{$field_id}_2' {$onkeyup} {$onchange} value='{$confirmation_value}' {$last_tabindex} {$confirm_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
 							{$confirm_password_toggle}
+							</span>
 						</span>
 						<div class='gf_clear gf_clear_complex'></div>
 					</div>{$strength}";
 			} else {
 				return "<div class='ginput_complex$class_suffix ginput_container ginput_container_password' id='{$field_id}_container'>
 						<span id='{$field_id}_1_container' class='ginput_left'>
+							<span class='password_input_container'>
 							<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
 							{$enter_password_toggle}
+							</span>
 							<label for='{$field_id}' {$sub_label_class_attribute} {$confirm_style}>{$enter_password_label}</label>
 						</span>
 						<span id='{$field_id}_2_container' class='ginput_right' {$confirm_style}>
+							<span class='password_input_container'>
 							<input type='password' name='input_{$id}_2' id='{$field_id}_2' {$onkeyup} {$onchange} value='{$confirmation_value}' {$last_tabindex} {$confirm_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
 							{$confirm_password_toggle}
+							</span>
 							<label for='{$field_id}_2' {$sub_label_class_attribute}>{$confirm_password_label}</label>
 						</span>
 						<div class='gf_clear gf_clear_complex'></div>
@@ -221,26 +275,34 @@ class GF_Field_Password extends GF_Field {
 				return "<div class='ginput_complex$class_suffix ginput_container ginput_container_password' id='{$field_id}_container'>
 						<span id='{$field_id}_1_container' class='ginput_left'>
 							<label for='{$field_id}' {$sub_label_class_attribute}>{$enter_password_label}</label>
-							<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
+							<span class='password_input_container'>
+							<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} {$aria_describedby}/>
 							{$enter_password_toggle}
+							</span>
 						</span>
 						<span id='{$field_id}_2_container' class='ginput_right'>
 							<label for='{$field_id}_2' {$sub_label_class_attribute}>{$confirm_password_label}</label>
+							<span class='password_input_container'>
 							<input type='password' name='input_{$id}_2' id='{$field_id}_2' {$onkeyup} {$onchange} value='{$confirmation_value}' {$last_tabindex} {$confirm_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
 							{$confirm_password_toggle}
+							</span>
 						</span>
 						<div class='gf_clear gf_clear_complex'></div>
 					</div>{$strength}";
 			} else {
 				return "<div class='ginput_complex$class_suffix ginput_container ginput_container_password' id='{$field_id}_container'>
 						<span id='{$field_id}_1_container' class='ginput_left'>
-							<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
+							<span class='password_input_container'>
+							<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text} {$aria_describedby}/>
 							{$enter_password_toggle}
+							</span>
 							<label for='{$field_id}' {$sub_label_class_attribute}>{$enter_password_label}</label>
 						</span>
 						<span id='{$field_id}_2_container' class='ginput_right'>
+							<span class='password_input_container'>
 							<input type='password' name='input_{$id}_2' id='{$field_id}_2' {$onkeyup} {$onchange} value='{$confirmation_value}' {$last_tabindex} {$confirm_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
 							{$confirm_password_toggle}
+							</span>
 							<label for='{$field_id}_2' {$sub_label_class_attribute}>{$confirm_password_label}</label>
 						</span>
 						<div class='gf_clear gf_clear_complex'></div>
@@ -252,8 +314,10 @@ class GF_Field_Password extends GF_Field {
 
 			return "<div class='ginput_container ginput_container_password'>
 						<span id='{$field_id}_1_container' class='{$size}'>
+							<span class='password_input_container'>
 							<input type='password' name='input_{$id}' id='{$field_id}' {$onkeyup} {$onchange} value='{$password_value}' {$first_tabindex} {$enter_password_placeholder_attribute} {$required_attribute} {$invalid_attribute} {$disabled_text}/>
 							{$enter_password_toggle}
+							</span>
 						</span>
 						<div class='gf_clear gf_clear_complex'></div>
 					</div>{$strength}";
@@ -283,7 +347,12 @@ class GF_Field_Password extends GF_Field {
 		return $value;
 	}
 
-
+	/**
+	 * @deprecated 2.4.16
+	 *
+	 * @param $entry
+	 * @param $form
+	 */
 	public static function delete_passwords( $entry, $form ) {
 		$password_fields = GFAPI::get_fields_by_type( $form, array( 'password' ) );
 
@@ -314,14 +383,15 @@ class GF_Field_Password extends GF_Field {
 	 * Inputs are only allowed one label (a11y) and the inputs already have labels.
 	 *
 	 * @since  2.4
-	 * @access public
 	 *
 	 * @param array $form The Form Object currently being processed.
 	 *
 	 * @return string
 	 */
 	public function get_first_input_id( $form ) {
-		return '';
+
+		return $this->is_confirm_input_enabled() ? '' : parent::get_first_input_id( $form );
+
 	}
 
 	/**
@@ -338,6 +408,42 @@ class GF_Field_Password extends GF_Field {
 
 		return isset( $confirm_input['isHidden'] ) ? ! $confirm_input['isHidden'] : true;
 
+	}
+
+	/**
+	 * Passwords are not saved to the database and won't be available in the runtime $entry object unless we stash and
+	 * rehydrate them into the $entry object after it has been retrieved from the database.
+	 *
+	 * @since 2.4.16
+	 *
+	 * @param $form
+	 */
+	public static function stash_passwords( $form ) {
+		foreach( $form['fields'] as $field ) {
+			/* @var GF_Field $field */
+			if ( $field->get_input_type() == 'password' ) {
+				self::$passwords[ $field->id ] = $field->get_value_submission( rgpost( 'gform_field_values' ) );
+			}
+		}
+	}
+
+	/**
+	 * Hydrate the stashed passwords back into the runtime $entry object that has just been saved and retrieved from the
+	 * database.
+	 *
+	 * @since 2.4.16
+	 *
+	 * @param $entry
+	 *
+	 * @return array $entry
+	 */
+	public static function hydrate_passwords( $entry ) {
+		foreach( self::$passwords as $field_id => $password ) {
+			$entry[ $field_id ] = $password;
+		}
+		// Reset passwords so they are not available for the next submission in multi-submission requests (only possible via API).
+		self::$passwords = array();
+		return $entry;
 	}
 
 }
