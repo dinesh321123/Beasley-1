@@ -47,7 +47,6 @@ const adReset = {
 	adPlayback: false,
 	adSynced: false,
 	gamAdPlayback: false,
-	gamAdPlaybackStop: false,
 };
 
 // Default state object
@@ -212,7 +211,6 @@ function reducer(state = {}, action = {}) {
 			return {
 				...state,
 				gamAdPlayback: shouldPlayGAMPreroll,
-				gamAdPlaybackStop: !shouldPlayGAMPreroll,
 			};
 		}
 
@@ -224,7 +222,6 @@ function reducer(state = {}, action = {}) {
 				...state,
 				adPlayback: false,
 				gamAdPlayback: false,
-				gamAdPlaybackStop: true,
 			};
 		}
 
@@ -236,7 +233,6 @@ function reducer(state = {}, action = {}) {
 				...state,
 				adPlayback: false,
 				gamAdPlayback: false,
-				gamAdPlaybackStop: true,
 				lastAdPlaybackTime: nowDate.getTime(),
 			};
 		}

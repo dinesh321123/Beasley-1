@@ -46,7 +46,6 @@ the_post();
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/affiliatemarketingcpt' ); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/footer', 'description-am' ); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/footer', 'signupcode-am' ); ?>
-			<?php get_template_part( 'partials/footer/common', 'secondstreetwidget' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>

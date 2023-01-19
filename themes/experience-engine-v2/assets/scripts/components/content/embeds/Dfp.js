@@ -748,42 +748,6 @@ class Dfp extends PureComponent {
 						],
 					},
 				];
-			} else if (unitName === 'tall-right-rail') {
-				sizeMapping = googletag
-					.sizeMapping()
-					// does not display on small screens
-					.addSize([0, 0], [])
-
-					// rail comes in on larger screens
-					.addSize([1060, 0], [[300, 600]])
-
-					.build();
-
-				prebidSizeConfig = [
-					{ minViewPort: [0, 0], sizes: [] },
-					{
-						minViewPort: [1060, 0],
-						sizes: [[300, 600]],
-					},
-				];
-			} else if (unitName === 'short-right-rail') {
-				sizeMapping = googletag
-					.sizeMapping()
-					// does not display on small screens
-					.addSize([0, 0], [])
-
-					// rail comes in on larger screens
-					.addSize([1060, 0], [[300, 250]])
-
-					.build();
-
-				prebidSizeConfig = [
-					{ minViewPort: [0, 0], sizes: [] },
-					{
-						minViewPort: [1060, 0],
-						sizes: [[300, 250]],
-					},
-				];
 			} else if (unitName === 'in-content') {
 				sizeMapping = googletag
 					.sizeMapping()

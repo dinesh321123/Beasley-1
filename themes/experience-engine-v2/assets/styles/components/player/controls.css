@@ -459,7 +459,7 @@
 			border: none;
 			  margin: 0 0 1rem 1rem;
 			  padding: .25rem 0 .5rem 0;
-			  width: 2rem;
+			  width: 54px;
 			  font-size: .75rem;
 	  		  text-align: center;
 		  }
@@ -562,10 +562,6 @@
 	margin-bottom: 20px;
 }
 
-#player-button-div {
-	z-index: 101;
-}
-
 #player-button-div > div.controls > div > div > button > div {
 	display: flex;
 }
@@ -622,9 +618,9 @@
 	border: 0;
 	cursor: pointer;
 	display: flex;
-	height: 2rem;
+	height: 54px;
 	justify-content: center;
-	width: 2rem;
+	width: 54px;
 	opacity: var(--brand-play-opacity);
 
 	&:focus,

@@ -44,7 +44,6 @@ class PrimaryNav extends PureComponent {
 		this.handleScrollNavigation = this.handleScrollNavigation.bind(this);
 		this.closeMenus = this.closeMenus.bind(this);
 		this.handleSubMenuSize = this.handleSubMenuSize.bind(this);
-		this.setTwoColAdTopMargin = this.setTwoColAdTopMargin.bind(this);
 
 		removeChildren(navRoot);
 	}
@@ -186,7 +185,6 @@ class PrimaryNav extends PureComponent {
 
 	handleSubMenuSize() {
 		this.handlepaginationFix();
-		this.setTwoColAdTopMargin();
 		if (window.matchMedia('(min-width: 1301px)').matches) {
 			const adEle = document.getElementById('main-custom-logo');
 			let adEleStyleHeight = '';
@@ -299,28 +297,6 @@ class PrimaryNav extends PureComponent {
 		}
 	}
 
-	setTwoColAdTopMargin() {
-		const headerContainer = document.getElementsByClassName(
-			'header-and-news-container',
-		);
-		let headerStyleHeight = 0;
-		if (headerContainer[0]) {
-			const headerStyle = window.getComputedStyle(headerContainer[0]);
-			headerStyleHeight = headerStyle.height
-				? Math.ceil(parseFloat(headerStyle.height))
-				: 0;
-		}
-
-		if (headerStyleHeight) {
-			const twoColumnAd = document.getElementsByClassName(
-				'two-column-sticky-ad',
-			);
-			for (let i = 0; i < twoColumnAd.length; i++) {
-				twoColumnAd[i].style.top = `${headerStyleHeight}px`;
-			}
-		}
-	}
-
 	onResize() {
 		this.handleSubMenuSize();
 		this.setRightRailTopMargin();
@@ -406,7 +382,6 @@ class PrimaryNav extends PureComponent {
 		}
 		this.setState({ y: yOffset });
 		this.setRightRailTopMargin();
-		this.setTwoColAdTopMargin();
 	}
 
 	isPlayerButtonEvent(event) {

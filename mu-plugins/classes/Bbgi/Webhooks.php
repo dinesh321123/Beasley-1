@@ -141,7 +141,6 @@ class Webhooks extends \Bbgi\Module {
 					$pending_webhook['post_id'],
 					$pending_webhook['opts']
 				);
-				$this->log( 'doing web hook', [ 'publisher' => $pending_webhook['publisher'], 'post_id' => $pending_webhook['post_id'], 'opts' => $pending_webhook['opts'] ]  );
 			}
 
 			$this->pending = [];

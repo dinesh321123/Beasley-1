@@ -49,14 +49,10 @@ class Layout extends \Bbgi\Module {
 	 * @return string
 	 */
 	public function get_choice( $post_id ) {
-		$disabled = get_option( 'disable_feature_image_layout' );
 		$choice = get_post_meta( $post_id, 'post_feature_image_preference', true );
 
 		if ( empty( $choice ) ) {
 			$choice = 'inline';
-			if ($disabled) {
-				$choice = 'none';
-			}
 		} else if ( $choice === 'poster' ) {
 			$choice = 'inline';
 		}
