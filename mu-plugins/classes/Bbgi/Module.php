@@ -58,6 +58,7 @@ abstract class Module {
 			'redirects'         => new \Bbgi\Redirects(),
 			'page-endpoint'     => new \Bbgi\Endpoints\Page(),
 			'megamenu-recent-posts-endpoint'     => new \Bbgi\Endpoints\MegamenuRecentPosts(),
+			'last-updated-content-endpoint'		=> new \Bbgi\Endpoints\LastUpdatedPosts(),
 			'sponsorship'       => new \Bbgi\Integration\Sponsorship(),
 			'mapbox' 			=> new \Bbgi\Integration\Mapbox(),
 			'hsform'			=> new \Bbgi\Integration\HubspotForm(),

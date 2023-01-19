@@ -59,19 +59,7 @@ class ListicleSelection extends \Bbgi\Module {
 		}
 
 		if( !empty( $attributes['syndication_name'] ) ) {
-			$meta_query_args = array(
-				'meta_key'    => 'syndication_old_name',
-				'meta_value'  => $attributes['syndication_name'],
-				'post_status' => 'any',
-				'post_type'   => 'listicle_cpt'
-			);
-
-			$existing = get_posts( $meta_query_args );
-
-			if ( !empty( $existing ) ) {
-				$existing_post = current( $existing );
-				$listicle_id = intval( $existing_post->ID );
-			}
+			$listicle_id = $this->check_embedded_id( 'listicle_cpt', $attributes['syndication_name'] );
 		}
 
 		if(empty($listicle_id) && !empty( $attributes['listicle_id'] ) && !empty( get_post( $attributes['listicle_id'] ) ) ) {
@@ -101,11 +89,15 @@ class ListicleSelection extends \Bbgi\Module {
 			$cpt_item_type = array();
 		endif;
 
+		remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 		$content = apply_filters( 'bbgi_listicle_cotnent', $cpt_post_object, $cpt_item_name, $cpt_item_description, $cpt_item_order, $cpt_item_type, $post_object );
+		add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 		if ( ! empty( $content ) ) {
 			$content_updated = "<h2 class=\"section-head\"><span>".$cpt_post_object->post_title."</span></h2>";
 			if( !empty( $attributes['description'] ) &&  ($attributes['description'] == 'yes') ) {
+				remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 				$the_content = apply_filters('the_content', $cpt_post_object->post_content);
+				add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 				if ( !empty($the_content) ) {
 					$content_updated .= "<div class=\"listicle-embed-description\">".$the_content."</div>";
 				}

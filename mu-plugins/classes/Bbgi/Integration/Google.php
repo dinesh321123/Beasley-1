@@ -165,12 +165,12 @@ class Google extends \Bbgi\Module {
 				  data-contentgroup2="%s"
 				  data-dimensionkey="%s"
 				  data-dimensionvalue="%s"></div>',
-				  esc_attr( $data['title'] ),
-				  esc_attr( $data['url'] ),
-				  esc_attr( $data['shows'] ),
-				  esc_attr( $data['category'] ),
-				  esc_attr( sprintf( 'dimension%s', $data['google_author_dimension'] ) ),
-				  esc_attr( $data['author'] )
+			esc_attr( $data['title'] ),
+			esc_attr( $data['url'] ),
+			esc_attr( $data['shows'] ),
+			esc_attr( $data['category'] ),
+			esc_attr( sprintf( 'dimension%s', $data['google_author_dimension'] ) ),
+			esc_attr( $data['author'] )
 		);
 	}
 

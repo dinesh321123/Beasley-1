@@ -80,6 +80,7 @@ function getDatasetParams(...list) {
 function getLoadMoreParams(element) {
 	return {
 		link: element.getAttribute('href'),
+		autoload: element.getAttribute('autoload'),
 	};
 }
 
