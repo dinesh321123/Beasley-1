@@ -5,7 +5,10 @@
 
 namespace Bbgi\Integration;
 
+use Bbgi\Util;
+
 class ListicleSelection extends \Bbgi\Module {
+	use Util;
 
 	// track index of the app
 	private static $total_index = 0;
@@ -50,6 +53,11 @@ class ListicleSelection extends \Bbgi\Module {
 			'description' => ''
 		), $atts, 'select-listicle' );
 
+		$post_object = get_queried_object();
+		if ( $this->is_future_date($post_object->post_type) ) {
+			return;
+		}
+
 		if( !empty( $attributes['syndication_name'] ) ) {
 			$meta_query_args = array(
 				'meta_key'    => 'syndication_old_name',
@@ -74,7 +82,6 @@ class ListicleSelection extends \Bbgi\Module {
 			return;
 		}
 
-		$post_object = get_queried_object();
 
 		$cpt_post_object = $this->verify_post( $listicle_id, $attributes['syndication_name'] );
 		$cpt_item_name = $this->get_post_metadata_from_post( 'cpt_item_name', $cpt_post_object );

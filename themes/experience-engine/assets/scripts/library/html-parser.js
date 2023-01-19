@@ -417,12 +417,6 @@ export function getStateFromContent(container, pageURL) {
 				'.draftking-iframe',
 				getDraftkingIframeParams,
 			),
-			...processEmbeds(
-				container,
-				'trackonomicsscript',
-				'.trackonomics-script',
-				getDatasetParams('postid', 'posttype', 'trackonomicsscript'),
-			),
 		];
 
 		// extract <script> tags

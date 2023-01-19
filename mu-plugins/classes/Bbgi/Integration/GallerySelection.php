@@ -5,7 +5,10 @@
 
 namespace Bbgi\Integration;
 
+use Bbgi\Util;
+
 class GallerySelection extends \Bbgi\Module {
+	use Util;
 
 	// track index of the app
 	private static $total_index = 0;
@@ -50,6 +53,11 @@ class GallerySelection extends \Bbgi\Module {
 			'description' => ''
 		), $atts, 'select-gallery' );
 
+		$post = get_queried_object();
+		if ( $this->is_future_date($post->post_type) ) {
+			return;
+		}
+
 		if( !empty( $attributes['syndication_name'] ) ) {
 			$meta_query_args = array(
 				'meta_key'    => 'syndication_old_name',
@@ -76,7 +84,6 @@ class GallerySelection extends \Bbgi\Module {
 
 		$ids = $this->get_attachment_ids_for_post( $gallery_id, $attributes['syndication_name'] );
 
-		$post = get_queried_object();
 		$gallery_object = get_post( $gallery_id );
 		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids );
 		if ( ! empty( $content ) ) {

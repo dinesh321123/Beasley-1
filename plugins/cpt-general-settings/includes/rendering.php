@@ -12,6 +12,33 @@ class GeneralSettingsFrontRendering {
 
 		add_action( 'template_redirect', array( __CLASS__,'show_404_for_disabled_feeds' ) );
 		add_action('wp_head',  array( __CLASS__,'pushly_notification_script' ) );
+		add_filter( 'after_set_parsely_page', array( __CLASS__,'filter_parsely_metadata' ), 10, 3 );
+	}
+
+	public static function filter_parsely_metadata( $parsely_metadata, $post, $parsely_options ) {
+		// override primary author for parsely
+		$primary_author = get_field( 'primary_author_cpt', $post );
+		$primary_author = $primary_author ? $primary_author : $post->post_author;
+		$show_author = get_the_author_meta( 'display_name', $primary_author );
+		if( !empty( $show_author ) ) {
+			$parsely_metadata['creator'] = [
+				$show_author
+			];
+			$parsely_metadata['author'] = array(
+				(object) [
+					"@type" => "Person",
+					"name" => $show_author
+				]
+			);
+		}
+
+		// Make Shopping as primary section for Must haves
+		$has_post_category = has_category( "shopping", $post->ID );
+		if( $has_post_category && $post->post_type == 'affiliate_marketing' ) {
+			$parsely_metadata['articleSection'] = "Shopping";
+		}
+
+		return $parsely_metadata;
 	}
 
 	public static function  show_404_for_disabled_feeds() {
