@@ -23,8 +23,6 @@ if ( ! function_exists( 'ee_update_dfp_bbgiconfig' ) ) :
 			'in-list-gallery'    => array( array( 1, 1 ), array( 300, 250 ) ),
 			'player-sponsorship' => $fluid,
 			'right-rail'         => array( array( 300, 600 ), array( 300, 250 ) ),
-			'tall-right-rail'    => array( array( 300, 600 ) ),
-			'short-right-rail'   => array( array( 300, 250 ) ),
 			'in-content'         => array( array( 1, 1 ), array( 300, 250 ) ),
 			'countdown'          => array( array( 320, 50 ) ),
 			'adhesion'           => array( array( 970, 90 ), array( 728, 90 ) ),
@@ -184,11 +182,6 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 	function ee_dfp_slot( $slot, $deprecated = false, $targeting = array(), $echo = true ) {
 		$unit_id = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( $slot );
 
-		/* if no lookup and slot is a side ad, fallback to right rail */
-		if ( empty( $unit_id ) && strpos($slot, 'right-rail') !== false) {
-			$unit_id = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( 'right-rail' );
-		}
-
 		/* if no in-list-gallery config fallback to in-list */
 		if ( empty( $unit_id ) && $slot === 'in-list-gallery' ) {
 			$unit_id = \Bbgi\Module::get( 'experience-engine' )->get_ad_slot_unit_id( 'in-list' );
@@ -202,7 +195,7 @@ if ( ! function_exists( 'ee_dfp_slot' ) ) :
 			$targeting = array();
 		}
 
-		$remnant_slots = array( 'top-leaderboard', 'bottom-leaderboard', 'in-list', 'in-list-gallery', 'right-rail', 'tall-right-rail', 'short-right-rail', 'in-content' );
+		$remnant_slots = array( 'top-leaderboard', 'bottom-leaderboard', 'in-list', 'in-list-gallery', 'right-rail', 'in-content' );
 		if ( in_array( $slot, $remnant_slots ) ) {
 			$targeting[] = array( 'remnant', 'yes' );
 		}

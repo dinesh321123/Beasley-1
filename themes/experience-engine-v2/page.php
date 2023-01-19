@@ -8,7 +8,6 @@
 	<div class="entry-content content-wrap">
 		<?php get_template_part( 'partials/page/description' ); ?>
 		<?php get_template_part( 'partials/footer/common', 'description' ); ?>
-		<?php get_template_part( 'partials/footer/common', 'secondstreetwidget' ); ?>
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
 	</div>
 </div>

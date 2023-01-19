@@ -1,28 +1,19 @@
 export function pageview(title, location, targeting = null) {
-	const { beasleyanalytics } = window;
-	if (!beasleyanalytics) {
+	const { ga } = window;
+	if (!ga) {
 		return;
 	}
 
 	if (targeting) {
-		beasleyanalytics.setAnalytics(
-			'contentGroup1',
-			targeting.contentgroup1 || '',
-		);
-		beasleyanalytics.setAnalytics(
-			'contentGroup2',
-			targeting.contentgroup2 || '',
-		);
+		ga('set', 'contentGroup1', targeting.contentgroup1 || '');
+		ga('set', 'contentGroup2', targeting.contentgroup2 || '');
 
 		if (targeting.dimensionkey) {
-			beasleyanalytics.setAnalytics(
-				targeting.dimensionkey,
-				targeting.dimensionvalue,
-			);
+			ga('set', targeting.dimensionkey, targeting.dimensionvalue);
 		}
 	}
 
-	beasleyanalytics.sendEvent({ hitType: 'pageview', title, location });
+	ga('send', { hitType: 'pageview', title, location });
 }
 
 /**
@@ -31,12 +22,29 @@ export function pageview(title, location, targeting = null) {
  * @param opts The ga event opts
  */
 export function sendToGA(opts) {
-	const { beasleyanalytics } = window;
+	if (location.search.indexOf('gadebug=1') !== -1) {
+		window.console.log('sendToGA', opts);
+	}
 
-	if (beasleyanalytics) {
-		beasleyanalytics.sendEvent(opts);
+	const { ga } = window;
+
+	if (ga) {
+		ga('send', opts);
 	}
 }
+
+/**
+ * Sends a Live stream playing event to GA
+ */
+/* Disable GA Stats due to high usage
+export function sendLiveStreamPlaying() {
+	sendToGA({
+		hitType: 'event',
+		eventCategory: 'audio',
+		eventAction: 'Live stream playing',
+	});
+}
+*/
 
 /**
  * Sends a Inline audio playing event to GA

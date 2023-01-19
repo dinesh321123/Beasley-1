@@ -133,14 +133,15 @@ function reducer(state = {}, action = {}) {
 		}
 
 		case ACTION_SHOW_LISTEN_LIVE: {
-			if (state.isListenLiveShowing) {
-				return state;
-			}
-
+			const isAllowingListenLiveAutoClose =
+				!state.isListenLiveShowing && action.isTriggeredByStream;
+			console.log(
+				`isListenLiveShowing: ${state.isListenLiveShowing} isTriggeredByStream: ${action.isTriggeredByStream} isAllowingListenLiveAutoClose: ${isAllowingListenLiveAutoClose}`,
+			);
 			return {
 				...state,
 				isListenLiveShowing: true,
-				isAllowingListenLiveAutoClose: action.isTriggeredByStream,
+				isAllowingListenLiveAutoClose,
 			};
 		}
 

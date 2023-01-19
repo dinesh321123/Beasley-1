@@ -337,6 +337,23 @@ export const slotRenderEndedHandler = event => {
 							'hb_bidder',
 						)} - ${slot.getAdUnitPath()} - ${slot.getTargeting('hb_pb')}`,
 					);
+
+					/* Disable GA Stats due to high usage
+					try {
+						window.ga('send', {
+							hitType: 'event',
+							eventCategory: 'PrebidAdShown',
+							eventAction: `${slot.getTargeting('hb_bidder')}`,
+							eventLabel: `${slot.getAdUnitPath()}`,
+							eventValue: `${parseInt(
+								parseFloat(slot.getTargeting('hb_pb')) * 100,
+								10,
+							)}`,
+						});
+					} catch (ex) {
+						console.log(`ERROR Sending to Google Analytics: `, ex);
+					}
+					*/
 				}
 			}
 

@@ -177,10 +177,6 @@
 	}
   }
   & .listen-dropdown {
-	/* Extended Left Margin To Hold Player Button */
-	margin-left: -2.5rem;
-	padding-left: 2.5rem;
-	background: var(--brand-primary);
 	position: relative;
 	display: inline-block;
 	& > #listen-live-button {

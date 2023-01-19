@@ -11,7 +11,7 @@ class StnBarker extends PureComponent {
 
 	componentDidMount() {
 		console.log('mounted');
-		const { placeholder, fk, cid } = this.props;
+		const { placeholder, fk } = this.props;
 
 		const container = document.getElementById(placeholder);
 		if (!container) {
@@ -26,7 +26,7 @@ class StnBarker extends PureComponent {
 		stn_barker_script.setAttribute('type', 'text/javascript');
 		stn_barker_script.setAttribute(
 			'src',
-			`//embed.sendtonews.com/player2/embedcode.php?fk=${fk}&cid=${cid}&SIZE=400`,
+			`//embed.sendtonews.com/player2/embedcode.php?fk=${fk}&cid=10462&SIZE=400`,
 		);
 		stn_barker_script.setAttribute('data-type', 's2nScript');
 
@@ -42,10 +42,6 @@ class StnBarker extends PureComponent {
 StnBarker.propTypes = {
 	placeholder: PropTypes.string.isRequired,
 	fk: PropTypes.string.isRequired,
-	cid: PropTypes.string,
-};
-StnBarker.defaultProps = {
-	cid: '10462',
 };
 
 export default connect()(StnBarker);

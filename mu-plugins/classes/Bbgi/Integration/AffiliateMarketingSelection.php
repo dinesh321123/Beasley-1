@@ -58,7 +58,19 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 		}
 
 		if( !empty( $attributes['syndication_name'] ) ) {
-			$listicle_id = $this->check_embedded_id( 'affiliate_marketing', $attributes['syndication_name'] );
+			$meta_query_args = array(
+				'meta_key'    => 'syndication_old_name',
+				'meta_value'  => $attributes['syndication_name'],
+				'post_status' => 'any',
+				'post_type'   => 'affiliate_marketing'
+			);
+
+			$existing = get_posts( $meta_query_args );
+
+			if ( !empty( $existing ) ) {
+				$existing_post = current( $existing );
+				$am_id = intval( $existing_post->ID );
+			}
 		}
 
 		if(empty($am_id) && !empty( $attributes['am_id'] ) && !empty( get_post( $attributes['am_id'] ) ) ) {
@@ -125,14 +137,10 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 			$am_item_type = array();
 		}
 
-		remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 		$content = apply_filters( 'bbgi_am_cotnent', $affiliatemarketing_post_object, $am_item_name, $am_item_description, $am_item_photo, $am_item_imagetype, $am_item_imagecode, $am_item_order, $am_item_unique_order, $am_item_getitnowtext, $am_item_buttontext, $am_item_buttonurl, $am_item_getitnowfromname, $am_item_getitnowfromurl, $am_item_type, $post_object );
-		add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 		if ( ! empty( $content ) ) {
 			$content_updated = "<h2 class=\"section-head\"><span>".$affiliatemarketing_post_object->post_title."</span></h2>";
-			remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 			$the_content = apply_filters('the_content', $affiliatemarketing_post_object->post_content);
-			add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 			if ( !empty($the_content) ) {
 				$content_updated .= "<div class=\"am-embed-description\">".$the_content."</div>";
 			}
