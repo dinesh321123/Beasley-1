@@ -49,7 +49,6 @@ mu-plugins/post-finder/
 !/plugins/cpt-tag-category-import-export
 !/plugins/wp-multisite-user-sync
 !/plugins/vimeovideoselector
-!/plugins/duplicate-post
 !/plugins/affiliate-marketing-selection
 !/plugins/miniorange-saml-20-single-sign-on
 
