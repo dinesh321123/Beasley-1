@@ -151,6 +151,10 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 			array_unshift( $ids, $sponsored_image );
 		}
 
+		if ( empty( $ids ) ) {
+			return false;
+		}
+
 		$images = array_values( array_filter( array_map( 'get_post', array_values( $ids ) ) ) );
 		if ( empty( $images ) ) {
 			return false;
