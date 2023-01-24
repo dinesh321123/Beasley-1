@@ -65,7 +65,7 @@
 								<hr>
 							<?php endif; ?>
 						</div>
-						<button id='listen-live-button'>
+						<button id='listen-live-button' aria-label='Listen Live Details'>
 							&nbsp;<span class="listen-live-button-text"></span>
 						</button>
 
