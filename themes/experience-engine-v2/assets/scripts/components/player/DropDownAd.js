@@ -25,7 +25,6 @@ const DropDownAd = () => {
 		return false;
 	}
 
-	console.log('SHOWING DD AD');
 	const [pageURL] = document.location.href;
 	// this id is also compared in /assets/scripts/components/content/embeds/Dfp.js
 	const { unitId, unitName } = window.bbgiconfig.dfp.dropdown;
