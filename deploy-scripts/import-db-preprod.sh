@@ -7,5 +7,5 @@ set -x
 set -euo pipefail
 
 #ssh beanstalk@52.0.13.41 'rsync -vrxc /home/beanstalk/preprod_dbs preprod:/home/beanstalk/ --dry-run'
-ssh beanstalk@52.0.13.41
+ssh beanstalk@52.0.13.41 'pwd'
 set +x
