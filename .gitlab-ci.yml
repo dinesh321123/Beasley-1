@@ -76,9 +76,9 @@ sync_db_to_preprod:
   script:
     - bash ./deploy-scripts/import-db-preprod.sh
   only:
-    - feature/import_db_into_preprod
-  #when: manual
-  #allow_failure: false
+    - preprod
+  when: manual
+  allow_failure: false
 
 notify_slack:
   stage: test-and-build
