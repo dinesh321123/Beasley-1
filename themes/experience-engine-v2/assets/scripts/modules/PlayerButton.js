@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { isIOS, isAudioAdOnly } from '../library';
-
-import { ControlsV2, Offline, GamPreroll } from '../components/player';
-
+import { ControlsV2, GamPreroll, Offline } from '../components/player';
 import ErrorBoundary from '../components/ErrorBoundary';
-
 import * as actions from '../redux/actions/player';
 import { STATUSES } from '../redux/actions/player';
 import { showSignInModal } from '../redux/actions/modal';
@@ -16,6 +12,8 @@ import { showSignInModal } from '../redux/actions/modal';
 class PlayerButton extends Component {
 	constructor(props) {
 		super(props);
+
+		this.gamPrerollRef = React.createRef();
 
 		this.state = {
 			online: window.navigator.onLine,
@@ -55,24 +53,45 @@ class PlayerButton extends Component {
 	 */
 	handlePlay() {
 		const { station, playStation } = this.props;
-		this.setState({ forceSpinner: true });
 		playStation(station);
+		this.setState({ forceSpinner: true });
 	}
 
-	turnOffForcedSpinnerAndMarkAsSigninPrompted() {
+	turnOffForcedSpinnerAndMarkAsSigninPrompted(
+		isNotSignedIn,
+		wasNotAlreadyPromptedToSignIn,
+	) {
+		if (isNotSignedIn && wasNotAlreadyPromptedToSignIn) {
+			const { showSignIn } = this.props;
+			showSignIn();
+		}
 		this.setState({ forceSpinner: false, isPromptedForSignin: true });
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		const { signedIn, showSignIn } = this.props;
-		if (
-			prevState.forceSpinner &&
-			prevProps.status === STATUSES.LIVE_CONNECTING
-		) {
-			if (!signedIn && !prevState.isPromptedForSignin) {
-				showSignIn();
-			}
-			this.turnOffForcedSpinnerAndMarkAsSigninPrompted();
+		const { gamAdPlayback, gamAdPlaybackStop, status, signedIn } = this.props;
+		console.log(
+			`Player Button Updated: Current gamAdPlayback: ${
+				gamAdPlayback ? 'true' : 'false'
+			}, Previous gamAdPlayback: ${
+				prevProps.gamAdPlayback ? 'true' : 'false'
+			}, gamAdPlaybackStop: ${
+				gamAdPlaybackStop ? 'true' : 'false'
+			},  ${status}`,
+		);
+		if (this.state.forceSpinner && status === STATUSES.LIVE_CONNECTING) {
+			this.turnOffForcedSpinnerAndMarkAsSigninPrompted(
+				!signedIn,
+				!prevState.isPromptedForSignin,
+			);
+		} else if (gamAdPlayback && this.gamPrerollRef.current) {
+			this.gamPrerollRef.current.doPreroll();
+		} else if (gamAdPlaybackStop && this.state.forceSpinner) {
+			console.log('Player Button Triggering GamPreroll Finalize');
+			this.turnOffForcedSpinnerAndMarkAsSigninPrompted(
+				!signedIn,
+				!prevState.isPromptedForSignin,
+			);
 		}
 	}
 
@@ -86,7 +105,6 @@ class PlayerButton extends Component {
 		const {
 			status,
 			adPlayback,
-			gamAdPlayback,
 			adSynced,
 			pause,
 			resume,
@@ -95,14 +113,12 @@ class PlayerButton extends Component {
 			playerType,
 			inDropDown,
 			customTitle,
+			adPlaybackStop,
 		} = this.props;
 
 		const renderStatus = forceSpinner ? STATUSES.LIVE_CONNECTING : status;
 
-		let notification = false;
-		if (!online) {
-			notification = <Offline />;
-		}
+		const notification = online ? <></> : <Offline />;
 
 		const progressClass = !duration ? '-live' : '-podcast';
 		let { customColors } = this.container.dataset;
@@ -130,10 +146,11 @@ class PlayerButton extends Component {
 			customColors['--global-theme-secondary'];
 
 		const isIos = isIOS();
-		const gamPreroll = gamAdPlayback ? <GamPreroll /> : null;
-
-		if (gamPreroll) {
-			console.log('Showing GAM preroll.');
+		let gamPreroll = <></>;
+		if (forceSpinner) {
+			gamPreroll = (
+				<GamPreroll ref={this.gamPrerollRef} adPlaybackStop={adPlaybackStop} />
+			);
 		}
 
 		const buttonDiv = (
@@ -206,6 +223,7 @@ PlayerButton.propTypes = {
 	status: PropTypes.string.isRequired,
 	adPlayback: PropTypes.bool.isRequired,
 	gamAdPlayback: PropTypes.bool.isRequired,
+	gamAdPlaybackStop: PropTypes.bool.isRequired,
 	adSynced: PropTypes.bool.isRequired,
 	playStation: PropTypes.func.isRequired,
 	pause: PropTypes.func.isRequired,
@@ -214,17 +232,19 @@ PlayerButton.propTypes = {
 	player: PropTypes.shape({}),
 	playerType: PropTypes.string.isRequired,
 	signedIn: PropTypes.bool.isRequired,
-	showSignIn: PropTypes.number.isRequired,
+	showSignIn: PropTypes.func.isRequired,
+	adPlaybackStop: PropTypes.func.isRequired,
 };
 
 export default connect(
-	({ player, auth }) => ({
+	({ player, auth, screen }) => ({
 		player: player.player,
 		playerType: player.playerType,
 		station: player.station,
 		status: player.status,
 		adPlayback: player.adPlayback,
 		gamAdPlayback: player.gamAdPlayback,
+		gamAdPlaybackStop: player.gamAdPlaybackStop,
 		adSynced: player.adSynced,
 		duration: player.duration,
 		signedIn: !!auth.user,
@@ -234,5 +254,6 @@ export default connect(
 		pause: actions.pause,
 		resume: actions.resume,
 		showSignIn: showSignInModal,
+		adPlaybackStop: actions.adPlaybackStop,
 	},
 )(PlayerButton);
