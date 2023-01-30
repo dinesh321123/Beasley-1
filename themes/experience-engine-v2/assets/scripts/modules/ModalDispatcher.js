@@ -83,8 +83,9 @@ class ModalDispatcher extends Component {
 			COMPLETE_SIGNUP_MODAL !== modal &&
 			(!ref || !ref.contains(e.target))
 		) {
-			this.props.close();
-			this.handleMenuCurrentItem();
+			// TODO - This logic was for old theme - in V2 we no longer want to close modal on ClickOutside.
+			// this.props.close();
+			// this.handleMenuCurrentItem();
 		}
 	}
 
