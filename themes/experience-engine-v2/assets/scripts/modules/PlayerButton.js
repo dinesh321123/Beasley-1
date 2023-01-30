@@ -7,6 +7,7 @@ import { ControlsV2, GamPreroll, Offline } from '../components/player';
 import ErrorBoundary from '../components/ErrorBoundary';
 import * as actions from '../redux/actions/player';
 import { STATUSES } from '../redux/actions/player';
+import { showSignInModal } from '../redux/actions/modal';
 
 class PlayerButton extends Component {
 	constructor(props) {
@@ -14,12 +15,18 @@ class PlayerButton extends Component {
 
 		this.gamPrerollRef = React.createRef();
 
-		this.state = { online: window.navigator.onLine, forceSpinner: false };
+		this.state = {
+			online: window.navigator.onLine,
+			forceSpinner: false,
+			isPromptedForSignin: false,
+		};
 		this.container = document.getElementById('player-button-div');
 		this.onOnline = this.handleOnline.bind(this);
 		this.onOffline = this.handleOffline.bind(this);
 		this.handlePlay = this.handlePlay.bind(this);
-		this.turnOffForcedSpinner = this.turnOffForcedSpinner.bind(this);
+		this.turnOffForcedSpinnerAndMarkAsSigninPrompted = this.turnOffForcedSpinnerAndMarkAsSigninPrompted.bind(
+			this,
+		);
 	}
 
 	componentDidMount() {
@@ -50,12 +57,19 @@ class PlayerButton extends Component {
 		this.setState({ forceSpinner: true });
 	}
 
-	turnOffForcedSpinner() {
-		this.setState({ forceSpinner: false });
+	turnOffForcedSpinnerAndMarkAsSigninPrompted(
+		isNotSignedIn,
+		wasNotAlreadyPromptedToSignIn,
+	) {
+		if (isNotSignedIn && wasNotAlreadyPromptedToSignIn) {
+			const { showSignIn } = this.props;
+			showSignIn();
+		}
+		this.setState({ forceSpinner: false, isPromptedForSignin: true });
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		const { gamAdPlayback, gamAdPlaybackStop, status } = this.props;
+		const { gamAdPlayback, gamAdPlaybackStop, status, signedIn } = this.props;
 		console.log(
 			`Player Button Updated: Current gamAdPlayback: ${
 				gamAdPlayback ? 'true' : 'false'
@@ -66,12 +80,18 @@ class PlayerButton extends Component {
 			},  ${status}`,
 		);
 		if (this.state.forceSpinner && status === STATUSES.LIVE_CONNECTING) {
-			this.turnOffForcedSpinner();
+			this.turnOffForcedSpinnerAndMarkAsSigninPrompted(
+				!signedIn,
+				!prevState.isPromptedForSignin,
+			);
 		} else if (gamAdPlayback && this.gamPrerollRef.current) {
 			this.gamPrerollRef.current.doPreroll();
 		} else if (gamAdPlaybackStop && this.state.forceSpinner) {
 			console.log('Player Button Triggering GamPreroll Finalize');
-			this.turnOffForcedSpinner();
+			this.turnOffForcedSpinnerAndMarkAsSigninPrompted(
+				!signedIn,
+				!prevState.isPromptedForSignin,
+			);
 		}
 	}
 
@@ -211,11 +231,13 @@ PlayerButton.propTypes = {
 	duration: PropTypes.number.isRequired,
 	player: PropTypes.shape({}),
 	playerType: PropTypes.string.isRequired,
+	signedIn: PropTypes.bool.isRequired,
+	showSignIn: PropTypes.func.isRequired,
 	adPlaybackStop: PropTypes.func.isRequired,
 };
 
 export default connect(
-	({ player, screen }) => ({
+	({ player, auth, screen }) => ({
 		player: player.player,
 		playerType: player.playerType,
 		station: player.station,
@@ -225,11 +247,13 @@ export default connect(
 		gamAdPlaybackStop: player.gamAdPlaybackStop,
 		adSynced: player.adSynced,
 		duration: player.duration,
+		signedIn: !!auth.user,
 	}),
 	{
 		playStation: actions.playStation,
 		pause: actions.pause,
 		resume: actions.resume,
+		showSignIn: showSignInModal,
 		adPlaybackStop: actions.adPlaybackStop,
 	},
 )(PlayerButton);
