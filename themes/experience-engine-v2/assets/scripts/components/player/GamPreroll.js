@@ -265,6 +265,7 @@ class GamPreroll extends PureComponent {
 	}
 
 	doClaimVideoElement() {
+		console.log('Claiming Video Element For IOS');
 		const vidElement = document.getElementById('gamPrerollContentElement');
 		if (vidElement) {
 			(async () => {
