@@ -1,8 +1,8 @@
 #!/bin/bash
 WP_PATH="/var/www/html/wordpress"
 
-# Print commands to the screen
-set -x
+# Do not Print commands to the screen
+set +x
 
 # Catch Errors
 set -euo pipefail
@@ -24,14 +24,12 @@ ssh beanstalk@52.0.13.41 'rsync -vrxc preprod_backups preprod:~/'
 SITES=$(ssh beanstalk@34.230.103.178 'ls preprod_backups')
 for SITE in ${SITES};
 do
-  #ssh beanstalk@34.230.103.178 'wp db import ~/preprod_backups/${SITE} --path=${WP_PATH}
-  echo ${SITE}
+  ssh beanstalk@34.230.103.178 'wp db import ~/preprod_backups/${SITE} --path=${WP_PATH}
 done
 
-# SSH to preprod and run search-replace 
-#for run_sr in "${SEARCH_REPLACE[@]}"; do
-#  ssh beanstalk@34.230.103.178 "cd $WP_PATH && $run_sr"
-#done
+# SSH to preprod and run search-replace
+for run_sr in "${SEARCH_REPLACE[@]}"; do
+  ssh beanstalk@34.230.103.178 "cd $WP_PATH && $run_sr"
+done
 
-set +x
 
