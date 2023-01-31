@@ -18,7 +18,7 @@ SEARCH_REPLACE=(
 )
 
 # Sync .sql files from jobs to preprod
-ssh beanstalk@52.0.13.41 'rsync -vrxc preprod_backups preprod:~/'
+ssh beanstalk@52.0.13.41 'rsync --delete -vrxc preprod_backups preprod:~/'
 
 # Import .sql files into preprod
 SITES=$(ssh beanstalk@34.230.103.178 'ls preprod_backups')
