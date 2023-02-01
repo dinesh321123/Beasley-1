@@ -47,6 +47,20 @@ class ListicleSelection extends \Bbgi\Module {
 	 * @return string Shortcode markup.
 	 */
 	public function render_shortcode( $atts ) {
+		global $cpt_embed_flag, $cpt_embed_ids;
+		$post_id = get_the_ID();
+
+		// echo "<pre>", "FROM Listicle: Post ID: ".$post_id, "</pre>";
+		if( !empty($cpt_embed_flag) && $cpt_embed_flag[$post_id] ) {  // Check for the source post already have embed
+			// echo "<pre>", "This post is already have one embed", "</pre>";
+			return '';
+		}
+
+		if( !empty($cpt_embed_ids) && in_array($post_id, $cpt_embed_ids) ) {  // Check if the post is already embed in other post
+			// echo "<pre>", "This post is already embedded", "</pre>";
+			return '';
+		}
+
 		$attributes = shortcode_atts( array(
 			'listicle_id' => '',
 			'syndication_name' => '',
@@ -104,6 +118,8 @@ class ListicleSelection extends \Bbgi\Module {
 			}
 
 			$content_updated .= $this->stringify_selected_listicle($content);
+			// echo "<pre>", "Listicle updating embed flag", "</pre>";
+			$cpt_embed_flag[$post_id] = true;
 			return $content_updated;
 		}
 

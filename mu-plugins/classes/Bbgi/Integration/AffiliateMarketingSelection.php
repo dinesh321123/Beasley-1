@@ -47,11 +47,25 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 	 * @return string Shortcode markup.
 	 */
 	public function render_shortcode( $atts ) {
+		global $cpt_embed_flag, $cpt_embed_ids;
+		$post_id = get_the_ID();
+
+		// echo "<pre>", "FROM AM: Post ID: ".$post_id, "</pre>";
+		if( !empty($cpt_embed_flag) && $cpt_embed_flag[$post_id] ) {  // Check for the source post already have embed
+			// echo "<pre>", "This post is already have one embed", "</pre>";
+			return '';
+		}
+
+		if( !empty($cpt_embed_ids) && in_array($post_id, $cpt_embed_ids) ) {  // Check if the post is already embed in other post
+			// echo "<pre>", "This post is already embedded", "</pre>";
+			return '';
+		}
+
 		$attributes = shortcode_atts( array(
 			'am_id' => '',
 			'syndication_name' => ''
 		), $atts, 'select-am' );
-		
+
 		$post_object = get_queried_object();
 		if ( $this->is_future_date($post_object->post_type) ) {
 			return;
@@ -138,6 +152,8 @@ class AffiliateMarketingSelection extends \Bbgi\Module {
 			}
 			$content_updated .= $this->stringify_selected_musthave($content);
 			$content_updated .= "<p>&nbsp;</p><h6><em>Please note that items are in stock and prices are accurate at the time we published this list. Have an idea for a fun theme for a gift idea list you’d like us to create?&nbsp; Drop us a line at <a href=\"mailto:shopping@bbgi.com\" data-uri=\"98cfaf73989c872d3384892acc280543\">shopping@bbgi.com</a>.&nbsp;</em></h6>";
+			// echo "<pre>", "Affiliate Marketing updating embed flag", "</pre>";
+			$cpt_embed_flag[$post_id] = true;
 			return $content_updated;
 		}
 
