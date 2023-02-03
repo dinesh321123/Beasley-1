@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61be1d5184fa81efc52344fdb9cd70a9",
+    "content-hash": "e1623b11a9bf08351b08a76785e3d0b6",
     "packages": [
         {
             "name": "10up/post-finder",
@@ -161,16 +161,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.257.9",
+            "version": "3.258.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "97c41c42690e4fd7846915eae520e508d71c0baf"
+                "reference": "ed1bede7fe80a5e1528d6cff530341ad2018a128"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/97c41c42690e4fd7846915eae520e508d71c0baf",
-                "reference": "97c41c42690e4fd7846915eae520e508d71c0baf",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ed1bede7fe80a5e1528d6cff530341ad2018a128",
+                "reference": "ed1bede7fe80a5e1528d6cff530341ad2018a128",
                 "shasum": ""
             },
             "require": {
@@ -249,9 +249,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.257.9"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.258.2"
             },
-            "time": "2023-01-26T19:21:26+00:00"
+            "time": "2023-02-02T19:41:58+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -3497,15 +3497,15 @@
         },
         {
             "name": "wpackagist-plugin/query-monitor",
-            "version": "3.11.1",
+            "version": "3.10.1",
             "source": {
                 "type": "svn",
                 "url": "https://plugins.svn.wordpress.org/query-monitor/",
-                "reference": "tags/3.11.1"
+                "reference": "tags/3.10.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/query-monitor.3.11.1.zip"
+                "url": "https://downloads.wordpress.org/plugin/query-monitor.3.10.1.zip"
             },
             "require": {
                 "composer/installers": "^1.0 || ^2.0"
