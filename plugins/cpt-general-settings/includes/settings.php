@@ -16,7 +16,7 @@ class CommonSettings {
 	/**
 	 * Code to sticky publish box in admin side
 	 */
-	public function sticky_publish_box() { ?>
+	public static function sticky_publish_box() { ?>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			jQuery(window).scroll(function() {
