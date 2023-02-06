@@ -16,7 +16,10 @@ class CommonSettings {
 	/**
 	 * Code to sticky publish box in admin side
 	 */
-	public static function sticky_publish_box() { ?>
+	public static function sticky_publish_box() {
+		global $typenow, $pagenow;
+		if ( in_array( $typenow, CommonSettings::allow_sticky_posttype_list() ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+		?>
 		<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			jQuery(window).scroll(function() {
@@ -29,19 +32,26 @@ class CommonSettings {
 			    }
 			}); //missing );
 		});
-	</script>
-	<style type="text/css">
-		.sticky_publish div#submitdiv {
-		    position: fixed;
-		    min-width: 277px;
-		    z-index: 99999999;
-		    top:35px;
-		}
-		.sticky_publish div#submitdiv.closed {
-		    min-width: 277px;
-		}
-	</style>
-	<?php }
+		</script>
+		<style type="text/css">
+			.sticky_publish div#submitdiv {
+				position: fixed;
+				min-width: 277px;
+				z-index: 99999999;
+				top:35px;
+			}
+			.sticky_publish div#submitdiv.closed {
+				min-width: 277px;
+			}
+		</style>
+	<?php } //Close if condition
+	}
+	/**
+	 * Returns array of post type.
+	 */
+	public static function allow_sticky_posttype_list() {
+		return (array) apply_filters( 'allow-sticky-for-posttypes', array( 'post', 'page', 'tribe_events', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery', 'gmr_album', 'contest', 'show', 'podcast', 'episode', 'content-kit' ) );
+	}
 
 	public function required_alt_text() {
 		global $typenow, $pagenow;
