@@ -627,6 +627,11 @@
 	width: 2rem;
 	opacity: var(--brand-play-opacity);
 
+	& .episode-tile {
+	  height: 54px;
+	  width: 54px;
+    }
+
 	&:focus,
 	&:hover {
 		outline: 0;
