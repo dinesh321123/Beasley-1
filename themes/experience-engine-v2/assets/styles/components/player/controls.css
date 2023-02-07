@@ -688,7 +688,7 @@
 .drop-add .button-holder > div.status.LIVE_RECONNECTING > button.loading-btn,
 .drop-add .button-holder > div.status.STREAM_GEO_BLOCKED > button.play-btn,
 .drop-add .button-holder > div.status.STATION_NOT_FOUND > button.play-btn {
-	height: 2rem;
+	height: auto;
 	width: 100%;
 }
 
