@@ -52,6 +52,7 @@
 							)
 						);
 					?>
+					<?php get_template_part( 'partials/player-button' ); ?>
 					<div class="listen-dropdown">
 						<div id="my-listen-dropdown2">
 							<button onclick="document.getElementById('my-listen-dropdown2').style.display = 'none';">
@@ -64,8 +65,7 @@
 								<hr>
 							<?php endif; ?>
 						</div>
-						<button id='listen-live-button'>
-							<?php get_template_part( 'partials/player-button' ); ?>
+						<button id='listen-live-button' aria-label='Listen Live Details'>
 							&nbsp;<span class="listen-live-button-text"></span>
 						</button>
 
