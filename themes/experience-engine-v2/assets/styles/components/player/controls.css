@@ -622,15 +622,10 @@
 	border: 0;
 	cursor: pointer;
 	display: flex;
-	height: 2rem;
+	height: 54px;
 	justify-content: center;
-	width: 2rem;
+	width: 54px;
 	opacity: var(--brand-play-opacity);
-
-	& .episode-tile {
-	  height: 54px;
-	  width: 54px;
-    }
 
 	&:focus,
 	&:hover {
@@ -684,6 +679,19 @@
 	}
 }
 
+.drop-add .button-holder > div.status.LIVE_PAUSE > button.resume-btn,
+.drop-add .button-holder > div.status.LIVE_PLAYING > button.pause-btn,
+.drop-add .button-holder > div.status.LIVE_STOP > button.play-btn,
+.drop-add .button-holder > div.status.LIVE_FAILED > button.play-btn,
+.drop-add .button-holder > div.status.LIVE_BUFFERING > button.loading-btn,
+.drop-add .button-holder > div.status.LIVE_CONNECTING > button.loading-btn,
+.drop-add .button-holder > div.status.LIVE_RECONNECTING > button.loading-btn,
+.drop-add .button-holder > div.status.STREAM_GEO_BLOCKED > button.play-btn,
+.drop-add .button-holder > div.status.STATION_NOT_FOUND > button.play-btn {
+	height: 2rem;
+	width: 100%;
+}
+
 .button-holder > div.status.LIVE_PAUSE > button.resume-btn,
 .button-holder > div.status.LIVE_PLAYING > button.pause-btn,
 .button-holder > div.status.LIVE_STOP > button.play-btn,
@@ -695,6 +703,12 @@
 .button-holder > div.status.STATION_NOT_FOUND > button.play-btn
 {
 	opacity: 1;
+	height: 2rem;
+	width: 2rem;
+
+	& .drop-add {
+		width: 100%;
+    }
 
 	&:focus,
 	&:hover {
