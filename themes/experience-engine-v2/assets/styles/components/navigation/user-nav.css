@@ -86,6 +86,7 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 }
 
 /* Show/hide functionality when the user-nav is disabled */
+/*
 .hidden-user-nav {
 	& .user-nav {
 		border-top: none;
@@ -103,4 +104,4 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 	& .placeholder-favorites {
 		display: none;
 	}
-}
+} */
