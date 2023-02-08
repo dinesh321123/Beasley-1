@@ -23,7 +23,7 @@ class UserNav extends Component {
 		super(props);
 
 		this.state = {
-			// didLogin: false,
+			didLogin: false,
 			didRedirect: false,
 			loading: true,
 		};
@@ -66,10 +66,8 @@ class UserNav extends Component {
 		// TODO - when direction we are taking is clear, this class needs to be refactored.
 		//      - In particular loadAsNotLoggedIn() and finishLoading() seem awful similar...
 		this.loadAsNotLoggedIn();
-		/*
 		const { didLogin } = this.state;
 		const { resetUser } = this.props;
-
 		if (user) {
 			this.setState({ didLogin: true });
 			this.loadAsLoggedIn(user);
@@ -79,7 +77,6 @@ class UserNav extends Component {
 			resetUser();
 			this.finishLoading();
 		}
-		*/
 	}
 
 	/**
@@ -246,7 +243,7 @@ class UserNav extends Component {
 UserNav.propTypes = {
 	hideSplashScreen: PropTypes.func.isRequired,
 	fetchFeedsContent: PropTypes.func.isRequired,
-	// resetUser: PropTypes.func.isRequired,
+	resetUser: PropTypes.func.isRequired,
 	setUser: PropTypes.func.isRequired,
 	showCompleteSignup: PropTypes.func.isRequired,
 	showSignIn: PropTypes.func.isRequired,

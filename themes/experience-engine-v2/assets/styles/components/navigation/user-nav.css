@@ -11,14 +11,8 @@
 		flex-direction: column;
 	}
 
-	@media(--min-large-viewport) {
-		bottom: 74px;
-		margin-left: -1.1rem;
-		margin-right: -1.1rem;
-		max-width: 190px;
+	@media(--min-large-viewport) {		
 		padding: 1.1rem;
-		position: fixed;
-		width: 100%;
 	}
 
 	& .user-nav-image {
@@ -104,5 +98,14 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 
 	& .placeholder-favorites {
 		display: none;
+	}
+}
+
+.user-nav {
+    padding: 0 1rem;
+    background: none;
+    border: none;
+	& .user-nav-button{
+		margin-bottom: 0 !important;
 	}
 }

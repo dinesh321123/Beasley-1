@@ -415,3 +415,7 @@
 		}
 	}
 }
+
+.signin-modal, .signup-modal{
+	z-index: 10000;
+}
