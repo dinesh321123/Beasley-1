@@ -3,15 +3,18 @@
 	border-top: 1px solid var(--global-mercury);
 	display: flex;
 	justify-content: space-between;
-	padding: 1.1rem 0;
 	z-index: 10;
+	padding: 0 1rem;
+	background: none;
+	border: none;
+
 
 	& > div {
 		display: flex;
 		flex-direction: column;
 	}
 
-	@media(--min-large-viewport) {		
+	@media(--min-large-viewport) {
 		padding: 1.1rem;
 	}
 
@@ -44,6 +47,7 @@
 		font-size: .687rem;
 		padding: 0;
 		text-align: left;
+		margin-bottom: 0 !important;
 
 		&:hover,
 		&:focus {
@@ -98,14 +102,5 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 
 	& .placeholder-favorites {
 		display: none;
-	}
-}
-
-.user-nav {
-    padding: 0 1rem;
-    background: none;
-    border: none;
-	& .user-nav-button{
-		margin-bottom: 0 !important;
 	}
 }
