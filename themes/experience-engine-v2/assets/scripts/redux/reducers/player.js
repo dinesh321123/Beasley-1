@@ -218,9 +218,7 @@ function reducer(state = {}, action = {}) {
 
 		// Catches in Saga Middleware
 		case ACTION_AD_PLAYBACK_ERROR: {
-			console.log(
-				'ACTION_AD_PLAYBACK_ERROR - Preroll complete but unsuccesful',
-			);
+			console.log('Preroll complete but unsuccesful');
 
 			return {
 				...state,
