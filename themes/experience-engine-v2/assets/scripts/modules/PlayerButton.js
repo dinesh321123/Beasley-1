@@ -14,12 +14,11 @@ class PlayerButton extends Component {
 
 		this.gamPrerollRef = React.createRef();
 
-		this.state = { online: window.navigator.onLine, forceSpinner: false };
+		this.state = { online: window.navigator.onLine };
 		this.container = document.getElementById('player-button-div');
 		this.onOnline = this.handleOnline.bind(this);
 		this.onOffline = this.handleOffline.bind(this);
 		this.handlePlay = this.handlePlay.bind(this);
-		this.turnOffForcedSpinner = this.turnOffForcedSpinner.bind(this);
 	}
 
 	componentDidMount() {
@@ -47,11 +46,6 @@ class PlayerButton extends Component {
 	handlePlay() {
 		const { station, playStation } = this.props;
 		playStation(station);
-		this.setState({ forceSpinner: true });
-	}
-
-	turnOffForcedSpinner() {
-		this.setState({ forceSpinner: false });
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -65,13 +59,9 @@ class PlayerButton extends Component {
 				gamAdPlaybackStop ? 'true' : 'false'
 			},  ${status}`,
 		);
-		if (this.state.forceSpinner && status === STATUSES.LIVE_CONNECTING) {
-			this.turnOffForcedSpinner();
-		} else if (gamAdPlayback && this.gamPrerollRef.current) {
+
+		if (gamAdPlayback && this.gamPrerollRef.current) {
 			this.gamPrerollRef.current.doPreroll();
-		} else if (gamAdPlaybackStop && this.state.forceSpinner) {
-			console.log('Player Button Triggering GamPreroll Finalize');
-			this.turnOffForcedSpinner();
 		}
 	}
 
@@ -80,7 +70,7 @@ class PlayerButton extends Component {
 			return null;
 		}
 
-		const { online, forceSpinner } = this.state;
+		const { online } = this.state;
 
 		const {
 			status,
@@ -94,6 +84,7 @@ class PlayerButton extends Component {
 			inDropDown,
 			customTitle,
 			adPlaybackStop,
+			forceSpinner,
 		} = this.props;
 
 		const renderStatus = forceSpinner ? STATUSES.LIVE_CONNECTING : status;
@@ -217,6 +208,7 @@ PlayerButton.propTypes = {
 	player: PropTypes.shape({}),
 	playerType: PropTypes.string.isRequired,
 	adPlaybackStop: PropTypes.func.isRequired,
+	forceSpinner: PropTypes.bool.isRequired,
 };
 
 export default connect(
@@ -230,6 +222,7 @@ export default connect(
 		gamAdPlaybackStop: player.gamAdPlaybackStop,
 		adSynced: player.adSynced,
 		duration: player.duration,
+		forceSpinner: player.forceSpinner,
 	}),
 	{
 		playStation: actions.playStation,
