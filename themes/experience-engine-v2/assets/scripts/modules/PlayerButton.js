@@ -17,16 +17,12 @@ class PlayerButton extends Component {
 
 		this.state = {
 			online: window.navigator.onLine,
-			forceSpinner: false,
 			isPromptedForSignin: false,
 		};
 		this.container = document.getElementById('player-button-div');
 		this.onOnline = this.handleOnline.bind(this);
 		this.onOffline = this.handleOffline.bind(this);
 		this.handlePlay = this.handlePlay.bind(this);
-		this.turnOffForcedSpinnerAndMarkAsSigninPrompted = this.turnOffForcedSpinnerAndMarkAsSigninPrompted.bind(
-			this,
-		);
 	}
 
 	componentDidMount() {
@@ -54,18 +50,6 @@ class PlayerButton extends Component {
 	handlePlay() {
 		const { station, playStation } = this.props;
 		playStation(station);
-		this.setState({ forceSpinner: true });
-	}
-
-	turnOffForcedSpinnerAndMarkAsSigninPrompted(
-		isNotSignedIn,
-		wasNotAlreadyPromptedToSignIn,
-	) {
-		if (isNotSignedIn && wasNotAlreadyPromptedToSignIn) {
-			const { showSignIn } = this.props;
-			showSignIn();
-		}
-		this.setState({ forceSpinner: false, isPromptedForSignin: true });
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
@@ -100,7 +84,7 @@ class PlayerButton extends Component {
 			return null;
 		}
 
-		const { online, forceSpinner } = this.state;
+		const { online } = this.state;
 
 		const {
 			status,
@@ -114,6 +98,7 @@ class PlayerButton extends Component {
 			inDropDown,
 			customTitle,
 			adPlaybackStop,
+			forceSpinner,
 		} = this.props;
 
 		const renderStatus = forceSpinner ? STATUSES.LIVE_CONNECTING : status;
@@ -239,6 +224,7 @@ PlayerButton.propTypes = {
 	signedIn: PropTypes.bool.isRequired,
 	showSignIn: PropTypes.func.isRequired,
 	adPlaybackStop: PropTypes.func.isRequired,
+	forceSpinner: PropTypes.bool.isRequired,
 };
 
 export default connect(
@@ -253,6 +239,7 @@ export default connect(
 		adSynced: player.adSynced,
 		duration: player.duration,
 		signedIn: !!auth.user,
+		forceSpinner: player.forceSpinner,
 	}),
 	{
 		playStation: actions.playStation,
