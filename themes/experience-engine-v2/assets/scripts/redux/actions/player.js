@@ -372,6 +372,7 @@ export function initTdPlayer(station) {
 				 * ACTION_AD_PLAYBACK_ERROR type.
 				 * */
 				console.log('ad-playback-error EVENT from Triton');
+				/* FOR DEBUG - Disable any beforeStreamStart()
 				if (window.beforeStreamStart) {
 					window.beforeStreamStart(() =>
 						dispatch(adPlaybackStop(ACTION_AD_PLAYBACK_ERROR)),
@@ -380,7 +381,10 @@ export function initTdPlayer(station) {
 					console.log('Dispatching GAM Preroll Start');
 					const nowDate = new Date();
 					dispatch(gamAdPlaybackStart(nowDate.getTime()));
-				}
+				} */
+				console.log('Dispatching GAM Preroll Start');
+				const nowDate = new Date();
+				dispatch(gamAdPlaybackStart(nowDate.getTime()));
 			});
 
 			window.tdplayer.addEventListener('player-ready', () =>
