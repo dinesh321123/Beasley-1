@@ -342,6 +342,16 @@ class GamPreroll extends PureComponent {
 	}
 
 	render() {
+		// Ensure Only A Single Set Of GamPrerollWrapper Elements are rendered
+		const existingGamPrerollWrapper = document.getElementById(
+			'gamPrerollWrapper',
+		);
+		if (existingGamPrerollWrapper) {
+			console.log('RENDERING GAM PREROLL ELEMENTS');
+			return null;
+		}
+		console.log('NOT RENDERING GAM PREROLL ELEMENTS');
+
 		if (isIOS()) {
 			const width = window.document.body.clientWidth;
 			const height = (width / 640) * 480;
