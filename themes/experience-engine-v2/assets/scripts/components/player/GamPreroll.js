@@ -106,8 +106,7 @@ class GamPreroll extends PureComponent {
 		// Request video ads.
 		console.log('Requesting GAM Video Ad');
 		const adsRequest = new window.google.ima.AdsRequest();
-		// adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${adUnitID}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x480&cust_params=cdomain%3D${cdomain}&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
-		adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=%2F26918149%2Fstaging_wrif_preroll&description_url=[placeholder]&tfcd=0&npa=0&sz=640x480&cust_params=cdomain%3D${cdomain}&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
+		adsRequest.adTagUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${adUnitID}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x480&cust_params=cdomain%3D${cdomain}&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
 		this.adsLoader.requestAds(adsRequest);
 	}
 

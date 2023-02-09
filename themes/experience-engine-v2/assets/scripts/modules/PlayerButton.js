@@ -183,7 +183,12 @@ class PlayerButton extends Component {
 		);
 
 		if (inDropDown) {
-			return <ErrorBoundary>{buttonDiv}</ErrorBoundary>;
+			return (
+				<ErrorBoundary>
+					{gamPreroll}
+					{buttonDiv}
+				</ErrorBoundary>
+			);
 		}
 		return ReactDOM.createPortal(children, this.container);
 	}
