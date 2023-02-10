@@ -49,17 +49,7 @@ class PlayerButton extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		const { gamAdPlayback, gamAdPlaybackStop, status } = this.props;
-		console.log(
-			`Player Button Updated: Current gamAdPlayback: ${
-				gamAdPlayback ? 'true' : 'false'
-			}, Previous gamAdPlayback: ${
-				prevProps.gamAdPlayback ? 'true' : 'false'
-			}, gamAdPlaybackStop: ${
-				gamAdPlaybackStop ? 'true' : 'false'
-			},  ${status}`,
-		);
-
+		const { gamAdPlayback } = this.props;
 		if (gamAdPlayback && this.gamPrerollRef.current) {
 			this.gamPrerollRef.current.doPreroll();
 		}
@@ -117,12 +107,6 @@ class PlayerButton extends Component {
 			customColors['--global-theme-secondary'];
 
 		const isIos = isIOS();
-		let gamPreroll = <></>;
-		if (forceSpinner) {
-			gamPreroll = (
-				<GamPreroll ref={this.gamPrerollRef} adPlaybackStop={adPlaybackStop} />
-			);
-		}
 
 		const buttonDiv = (
 			<div className="controls" style={controlsStyle}>
@@ -144,6 +128,17 @@ class PlayerButton extends Component {
 				</div>
 			</div>
 		);
+
+		if (inDropDown) {
+			return <ErrorBoundary>{buttonDiv}</ErrorBoundary>;
+		}
+
+		let gamPreroll = <></>;
+		if (forceSpinner) {
+			gamPreroll = (
+				<GamPreroll ref={this.gamPrerollRef} adPlaybackStop={adPlaybackStop} />
+			);
+		}
 
 		const children = (
 			<ErrorBoundary>
@@ -173,14 +168,6 @@ class PlayerButton extends Component {
 			</ErrorBoundary>
 		);
 
-		if (inDropDown) {
-			return (
-				<ErrorBoundary>
-					{gamPreroll}
-					{buttonDiv}
-				</ErrorBoundary>
-			);
-		}
 		return ReactDOM.createPortal(children, this.container);
 	}
 }
@@ -199,7 +186,6 @@ PlayerButton.propTypes = {
 	status: PropTypes.string.isRequired,
 	adPlayback: PropTypes.bool.isRequired,
 	gamAdPlayback: PropTypes.bool.isRequired,
-	gamAdPlaybackStop: PropTypes.bool.isRequired,
 	adSynced: PropTypes.bool.isRequired,
 	playStation: PropTypes.func.isRequired,
 	pause: PropTypes.func.isRequired,
@@ -219,7 +205,6 @@ export default connect(
 		status: player.status,
 		adPlayback: player.adPlayback,
 		gamAdPlayback: player.gamAdPlayback,
-		gamAdPlaybackStop: player.gamAdPlaybackStop,
 		adSynced: player.adSynced,
 		duration: player.duration,
 		forceSpinner: player.forceSpinner,
