@@ -219,7 +219,12 @@ class UserNav extends Component {
 
 		const { loading } = this.state;
 		const { user } = this.props;
-		const container = document.getElementById('user-nav');
+		let container;
+		if (window.matchMedia('(min-width: 1301px)').matches) {
+			container = document.getElementById('user-nav');
+		} else {
+			container = document.getElementById('user-nav-mobile');
+		}
 
 		let component = false;
 		if (loading) {

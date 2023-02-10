@@ -1,4 +1,4 @@
-.user-nav {
+.user-nav, .user-nav-mobile {
 	background-color: var(--global-theme-secondary);
 	border-top: 1px solid var(--global-mercury);
 	display: flex;
@@ -105,3 +105,5 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 		display: none;
 	}
 } */
+
+
