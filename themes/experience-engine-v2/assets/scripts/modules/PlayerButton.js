@@ -109,12 +109,6 @@ class PlayerButton extends Component {
 			customColors['--global-theme-secondary'];
 
 		const isIos = isIOS();
-		let gamPreroll = <></>;
-		if (forceSpinner) {
-			gamPreroll = (
-				<GamPreroll ref={this.gamPrerollRef} adPlaybackStop={adPlaybackStop} />
-			);
-		}
 
 		const buttonDiv = (
 			<div className="controls" style={controlsStyle}>
@@ -136,6 +130,17 @@ class PlayerButton extends Component {
 				</div>
 			</div>
 		);
+
+		if (inDropDown) {
+			return <ErrorBoundary>{buttonDiv}</ErrorBoundary>;
+		}
+
+		let gamPreroll = <></>;
+		if (forceSpinner) {
+			gamPreroll = (
+				<GamPreroll ref={this.gamPrerollRef} adPlaybackStop={adPlaybackStop} />
+			);
+		}
 
 		const children = (
 			<ErrorBoundary>
@@ -165,14 +170,6 @@ class PlayerButton extends Component {
 			</ErrorBoundary>
 		);
 
-		if (inDropDown) {
-			return (
-				<ErrorBoundary>
-					{gamPreroll}
-					{buttonDiv}
-				</ErrorBoundary>
-			);
-		}
 		return ReactDOM.createPortal(children, this.container);
 	}
 }
