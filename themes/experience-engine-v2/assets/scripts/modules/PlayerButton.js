@@ -7,7 +7,6 @@ import { ControlsV2, GamPreroll, Offline } from '../components/player';
 import ErrorBoundary from '../components/ErrorBoundary';
 import * as actions from '../redux/actions/player';
 import { STATUSES } from '../redux/actions/player';
-import { showSignInModal } from '../redux/actions/modal';
 
 class PlayerButton extends Component {
 	constructor(props) {
@@ -17,16 +16,11 @@ class PlayerButton extends Component {
 
 		this.state = {
 			online: window.navigator.onLine,
-			forceSpinner: false,
-			isPromptedForSignin: false,
 		};
 		this.container = document.getElementById('player-button-div');
 		this.onOnline = this.handleOnline.bind(this);
 		this.onOffline = this.handleOffline.bind(this);
 		this.handlePlay = this.handlePlay.bind(this);
-		this.turnOffForcedSpinnerAndMarkAsSigninPrompted = this.turnOffForcedSpinnerAndMarkAsSigninPrompted.bind(
-			this,
-		);
 	}
 
 	componentDidMount() {
@@ -54,44 +48,12 @@ class PlayerButton extends Component {
 	handlePlay() {
 		const { station, playStation } = this.props;
 		playStation(station);
-		this.setState({ forceSpinner: true });
-	}
-
-	turnOffForcedSpinnerAndMarkAsSigninPrompted(
-		isNotSignedIn,
-		wasNotAlreadyPromptedToSignIn,
-	) {
-		if (isNotSignedIn && wasNotAlreadyPromptedToSignIn) {
-			const { showSignIn } = this.props;
-			showSignIn();
-		}
-		this.setState({ forceSpinner: false, isPromptedForSignin: true });
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		const { gamAdPlayback, gamAdPlaybackStop, status, signedIn } = this.props;
-		console.log(
-			`Player Button Updated: Current gamAdPlayback: ${
-				gamAdPlayback ? 'true' : 'false'
-			}, Previous gamAdPlayback: ${
-				prevProps.gamAdPlayback ? 'true' : 'false'
-			}, gamAdPlaybackStop: ${
-				gamAdPlaybackStop ? 'true' : 'false'
-			},  ${status}`,
-		);
-		if (this.state.forceSpinner && status === STATUSES.LIVE_CONNECTING) {
-			this.turnOffForcedSpinnerAndMarkAsSigninPrompted(
-				!signedIn,
-				!prevState.isPromptedForSignin,
-			);
-		} else if (gamAdPlayback && this.gamPrerollRef.current) {
+		const { gamAdPlayback } = this.props;
+		if (gamAdPlayback && this.gamPrerollRef.current) {
 			this.gamPrerollRef.current.doPreroll();
-		} else if (gamAdPlaybackStop && this.state.forceSpinner) {
-			console.log('Player Button Triggering GamPreroll Finalize');
-			this.turnOffForcedSpinnerAndMarkAsSigninPrompted(
-				!signedIn,
-				!prevState.isPromptedForSignin,
-			);
 		}
 	}
 
@@ -100,7 +62,7 @@ class PlayerButton extends Component {
 			return null;
 		}
 
-		const { online, forceSpinner } = this.state;
+		const { online } = this.state;
 
 		const {
 			status,
@@ -114,6 +76,7 @@ class PlayerButton extends Component {
 			inDropDown,
 			customTitle,
 			adPlaybackStop,
+			forceSpinner,
 		} = this.props;
 
 		const renderStatus = forceSpinner ? STATUSES.LIVE_CONNECTING : status;
@@ -228,7 +191,6 @@ PlayerButton.propTypes = {
 	status: PropTypes.string.isRequired,
 	adPlayback: PropTypes.bool.isRequired,
 	gamAdPlayback: PropTypes.bool.isRequired,
-	gamAdPlaybackStop: PropTypes.bool.isRequired,
 	adSynced: PropTypes.bool.isRequired,
 	playStation: PropTypes.func.isRequired,
 	pause: PropTypes.func.isRequired,
@@ -236,29 +198,26 @@ PlayerButton.propTypes = {
 	duration: PropTypes.number.isRequired,
 	player: PropTypes.shape({}),
 	playerType: PropTypes.string.isRequired,
-	signedIn: PropTypes.bool.isRequired,
-	showSignIn: PropTypes.func.isRequired,
 	adPlaybackStop: PropTypes.func.isRequired,
+	forceSpinner: PropTypes.bool.isRequired,
 };
 
 export default connect(
-	({ player, auth, screen }) => ({
+	({ player, auth, screen, modal }) => ({
 		player: player.player,
 		playerType: player.playerType,
 		station: player.station,
 		status: player.status,
 		adPlayback: player.adPlayback,
 		gamAdPlayback: player.gamAdPlayback,
-		gamAdPlaybackStop: player.gamAdPlaybackStop,
 		adSynced: player.adSynced,
 		duration: player.duration,
-		signedIn: !!auth.user,
+		forceSpinner: player.forceSpinner,
 	}),
 	{
 		playStation: actions.playStation,
 		pause: actions.pause,
 		resume: actions.resume,
-		showSignIn: showSignInModal,
 		adPlaybackStop: actions.adPlaybackStop,
 	},
 )(PlayerButton);

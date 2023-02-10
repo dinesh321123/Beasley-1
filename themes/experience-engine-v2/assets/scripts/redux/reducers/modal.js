@@ -3,11 +3,13 @@ import {
 	ACTION_SHOW_MODAL,
 	ACTION_HIDE_MODAL,
 	COMPLETE_SIGNUP_MODAL,
+	SIGNIN_MODAL,
 } from '../actions/modal';
 
 export const DEFAULT_STATE = {
 	modal: 'CLOSED',
 	payload: {},
+	signInWasShown: false,
 };
 
 function resizeWindow() {
@@ -38,6 +40,7 @@ function reducer(state = {}, action = {}) {
 				...state,
 				modal: action.modal,
 				payload: action.payload,
+				signInWasShown: state.signInWasShown || action.modal === SIGNIN_MODAL,
 			};
 		case ACTION_HIDE_MODAL:
 			document.documentElement.classList.remove('locked');
@@ -47,7 +50,10 @@ function reducer(state = {}, action = {}) {
 			});
 
 			resizeWindow();
-			return { ...DEFAULT_STATE };
+			return {
+				...DEFAULT_STATE,
+				signInWasShown: state.signInWasShown,
+			};
 		default:
 			// do nothing
 			break;

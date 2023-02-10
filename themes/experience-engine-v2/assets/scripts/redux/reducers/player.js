@@ -48,6 +48,7 @@ const adReset = {
 	adSynced: false,
 	gamAdPlayback: false,
 	gamAdPlaybackStop: false,
+	forceSpinner: false,
 };
 
 // Default state object
@@ -88,6 +89,7 @@ function reducer(state = {}, action = {}) {
 				station: '',
 				audio: '',
 				trackType: '',
+				forceSpinner: true,
 			};
 
 			if (state.playerType === 'tdplayer') {
@@ -218,7 +220,7 @@ function reducer(state = {}, action = {}) {
 
 		// Catches in Saga Middleware
 		case ACTION_AD_PLAYBACK_ERROR: {
-			console.log('Preroll complete but unsuccesful');
+			console.log('AD_PLAYBACK_ERROR - Preroll complete but unsuccesful');
 
 			return {
 				...state,
@@ -238,6 +240,7 @@ function reducer(state = {}, action = {}) {
 				gamAdPlayback: false,
 				gamAdPlaybackStop: true,
 				lastAdPlaybackTime: nowDate.getTime(),
+				forceSpinner: false,
 			};
 		}
 
