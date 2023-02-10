@@ -66,8 +66,11 @@ class ModalDispatcher extends Component {
 			previous.classList.add('current-menu-item');
 		} else {
 			// If Discovery was toggled by a non-menu item and a previous item doesn't appear, select 'Home'
+			// TODO - menu-item-home may be a legacy artifact and no longer relevant with new menu in V2. As time permits, consider discovery.
 			const homeButton = document.getElementById('menu-item-home');
-			homeButton.classList.add('current-menu-item');
+			if (homeButton) {
+				homeButton.classList.add('current-menu-item');
+			}
 		}
 
 		this.props.navigationRevert();
