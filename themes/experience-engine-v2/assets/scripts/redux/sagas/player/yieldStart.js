@@ -1,6 +1,7 @@
-import { call, takeLatest, select } from 'redux-saga/effects';
+import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { sendInlineAudioPlaying } from '../../../library/google-analytics';
 import { ACTION_PLAYER_START } from '../../actions/player';
+import { showSignInModal } from '../../actions/modal';
 
 /**
  * @function yieldStart
@@ -8,6 +9,12 @@ import { ACTION_PLAYER_START } from '../../actions/player';
  */
 function* yieldStart() {
 	const playerStore = yield select(({ player }) => player);
+	const authStore = yield select(({ auth }) => auth);
+	const modalStore = yield select(({ modal }) => modal);
+
+	if (!authStore.user && !modalStore.signInWasShown) {
+		yield put(showSignInModal());
+	}
 
 	// Get interval from global
 	const interval = window.bbgiconfig.intervals.live_streaming;
@@ -33,29 +40,6 @@ function* yieldStart() {
 			);
 		}
 	}
-	/* Disable GA Stats due to high usage
-	else if (playerStore.playerType === 'tdplayer') {
-		// Get liveStreamInterval from window, default null
-		let { liveStreamInterval = null } = window;
-
-		// If interval
-		if (interval && interval > 0) {
-			// Clear if set
-			if (liveStreamInterval) {
-				yield call([window, 'clearInterval'], liveStreamInterval);
-			}
-
-			// Set liveStreamInterval
-			liveStreamInterval = yield call(
-				[window, 'setInterval'],
-				() => {
-					sendLiveStreamPlaying();
-				},
-				interval * 60 * 1000,
-			);
-		}
-	}
-    */
 }
 
 /**
