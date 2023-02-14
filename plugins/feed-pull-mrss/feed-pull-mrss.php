@@ -765,7 +765,7 @@ function fpmrss_feed_pull() {
 	}
 }
 
-// add_action( 'fp_feed_pull', 'fpmrss_feed_pull', 1 );   // Test without MP Minion
+add_action( 'fp_feed_pull', 'fpmrss_feed_pull', 1 );
 
 /**
  * Processes feed pull on the jobs server.
@@ -775,4 +775,4 @@ function fp_async_feed_pull() {
 	do_action( 'fp_feed_pull' );
 }
 
-// add_action( 'fp_async_feed_pull', 'fp_async_feed_pull' );   // Test without MP Minion
+add_action( 'fp_async_feed_pull', 'fp_async_feed_pull' );
