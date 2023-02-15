@@ -134,54 +134,47 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		contentGroup2: 'primary_category',
 		dimension2: 'primary_author',
 	}
-	static cleanKeyValuePairs = {
-		title: '',
-		domain: '',
-		call_sign: '',
-		call_sign_id: '',
-		beasley_event_id: '',
-		primary_category: '',
-		primary_category_id: '',
-		show_name: '',
-		show_id: '',
-		tags: '',
-		content_type: '',
-		view_type: '',
-		embedded_content_title: '',
-		embedded_content_type: '',
-		embedded_content_path: '',
-		embedded_content_post_id: '',
-		embedded_content_wp_author: '',
-		embedded_content_primary_author: '',
-		embedded_content_secondary_author: '',
-		daypart: '',
-		post_id: '',
-		wp_author: '',
-		primary_author: '',
-		secondary_author: '',
-		ad_block_enabled: '',
-		ad_tags_enabled: '',
-		consent_cookie: '',
-		event_day_of_the_week: '',
-		event_hour_of_the_day: '',
-		prebid_enabled: '',
-		platform: '',
-		publish_date: '',
-		publish_day_of_the_week: '',
-		publish_hour_of_the_day: '',
-		publish_month: '',
-		publish_time_of_day: '',
-		publish_timestamp_local: '',
-		publish_timestamp_UTC: '',
-		publish_year: '',
-		section_name: '',
-		video_count: '',
-		word_count: '',
-		categories_stringified: '',
-		tags_stringified: '',
-		referrer: '',
-		UTM: '',
+	static mparticleEventNames = {
+		pageView: 'Page View',
+		linkClicked: 'Link Clicked',
+		searchedFor: 'Searched For',
+		searchedResultClicked: 'Searched Result Clicked',
+		formSubmitted: 'Form Submitted',
+		mediaSessionCreate: 'MediaSessionCreate',
+		mediaSessionStart: 'MediaSessionStart',
+		play: 'Play',
+		pause: 'Pause',
+		mediaContentEnd: 'MediaContentEnd',
+		mediaSessionEnd: 'MediaSessionEnd',
 	};
+
+	getCleanEventObject(eventName) {
+		const dataPoints = window.mParticleSchema?.version_document?.data_points;
+		if (dataPoints) {
+			const dataPoint = dataPoints.find( dp =>
+				(dp?.match?.type === 'screen_view' && dp?.match?.criteria?.screen_name === eventName) ||
+				(dp?.match?.criteria?.event_name === eventName) );
+			if (dataPoint) {
+				const dataPointProperties = dataPoint.validator?.definition?.properties?.data?.properties?.custom_attributes?.properties;
+				if (dataPointProperties) {
+					const kvArray = Object.keys(dataPointProperties).map(key => ({[key]: ''}));
+					return Object.assign(...kvArray); // Return an object with each field assigned to ''
+				}
+			}
+		}
+
+		console.log(`ERROR - Could not create Key Value Pairs for MParticle Event - '${eventName}'`);
+	};
+
+	getAllEventFieldsObject() {
+		let retval = {};
+		Object.keys(beasleyAnalyticsMParticleProvider.mparticleEventNames).forEach(eventName => {
+			const newEventFieldsObject = this.getCleanEventObject(beasleyAnalyticsMParticleProvider.mparticleEventNames[eventName]);
+			retval = {...retval, ...newEventFieldsObject};
+		});
+
+		return retval;
+	}
 
 	keyValuePairs;
 
@@ -206,7 +199,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 	}
 
 	clearKVPairs() {
-		this.keyValuePairs = {...beasleyAnalyticsMParticleProvider.cleanKeyValuePairs};
+		this.keyValuePairs = this.getAllEventFieldsObject();
 	}
 
 	createAnalytics() {
@@ -241,14 +234,19 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		super.sendEvent.apply(this, arguments);
 
 		if (arguments && arguments[0] && arguments[0].hitType === 'pageview') {
+			const emptyPageViewObject = this.getCleanEventObject(beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
+			const objectToSend = Object.keys(emptyPageViewObject)
+				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
+
 			window.mParticle.logPageView(
 				'Page View',
 				{page: window.location.toString()},
-				this.keyValuePairs
+				objectToSend,
 			);
 		} else {
 			console.log('NOT A PAGEVIEW');
 		}
+
 
 		this.clearKVPairs();
 	}

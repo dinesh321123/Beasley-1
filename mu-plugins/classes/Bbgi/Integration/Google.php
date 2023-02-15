@@ -49,9 +49,17 @@ class Google extends \Bbgi\Module {
 		);
 
 		wp_enqueue_script(
-			'ga_enqueue_scripts',
-			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ )
+			'mparticle_enqueue_scripts',
+			plugins_url( 'assets/js/mparticle-schema.js', __FILE__ )
 		);
+
+		wp_enqueue_script(
+			'ga_enqueue_scripts',
+			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
+			array( 'mparticle_enqueue_scripts' )
+		);
+
+
 	}
 
 	/**
