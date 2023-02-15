@@ -17,14 +17,14 @@ SEARCH_REPLACE=(
   "wp cache flush --network"
 )
 
-# Sync .sql files from jobs to preprod
-ssh beanstalk@52.0.13.41 'rsync --delete -vrxc preprod_backups preprod:~/'
+# Unzip the .sql.gz files on preprod
+ssh beanstalk@52.0.13.41 'gunzip /home/beanstalk/preprod_backups/*.sql.gz
 
 # Import .sql files into preprod
 SITES=$(ssh beanstalk@34.230.103.178 'ls preprod_backups')
 for SITE in ${SITES};
 do
-  ssh beanstalk@34.230.103.178 'wp db import ~/preprod_backups/${SITE} --path=${WP_PATH}
+  ssh beanstalk@34.230.103.178 'wp db import ~/preprod_backups/${SITE} --path=${WP_PATH} --url=https://${SITE}/
 done
 
 # SSH to preprod and run search-replace
