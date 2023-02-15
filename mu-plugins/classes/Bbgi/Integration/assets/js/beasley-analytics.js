@@ -185,10 +185,12 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		// and logLevel.
 		window.mParticle = {
 			config: {
-				appName: 'beasley_web',
-				appVersion: '1',
 				isDevelopmentMode: true,
 				logLevel: 'verbose',
+				dataPlan: {
+					planId: 'beasley_web',
+					planVersion: 1,
+				}
 			},
 		};
 		(
@@ -240,7 +242,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 
 			window.mParticle.logPageView(
 				'Page View',
-				{page: window.location.toString()},
+				{},
 				objectToSend,
 			);
 		} else {
