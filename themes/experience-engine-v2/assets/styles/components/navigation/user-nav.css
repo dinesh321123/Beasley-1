@@ -3,8 +3,27 @@
 	border-top: 1px solid var(--global-mercury);
 	display: flex;
 	justify-content: space-between;
-	padding: 1.1rem 0;
 	z-index: 10;
+	padding: 0 1rem;
+	background: none;
+	border: none;
+
+
+	& .dropdown-content {
+		  position: absolute;
+		  background-color: #f1f1f1;
+		  min-width: 160px;
+		  overflow: auto;
+		  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		  z-index: 1;
+
+	    & span	 {
+			  color: black;
+			  padding: 1px 1px;
+			  text-decoration: none;
+			  display: block;
+		  }
+	  }
 
 	& > div {
 		display: flex;
@@ -12,18 +31,13 @@
 	}
 
 	@media(--min-large-viewport) {
-		bottom: 74px;
-		margin-left: -1.1rem;
-		margin-right: -1.1rem;
-		max-width: 190px;
 		padding: 1.1rem;
-		position: fixed;
-		width: 100%;
 	}
 
 	& .user-nav-image {
 		align-self: center;
-
+		  position: relative;
+		  display: inline-block;
 		& img {
 			border-radius: 50%;
 			max-width: 30px;
@@ -50,6 +64,7 @@
 		font-size: .687rem;
 		padding: 0;
 		text-align: left;
+		margin-bottom: 0 !important;
 
 		&:hover,
 		&:focus {
@@ -88,6 +103,7 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 }
 
 /* Show/hide functionality when the user-nav is disabled */
+/*
 .hidden-user-nav {
 	& .user-nav {
 		border-top: none;
@@ -105,4 +121,6 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 	& .placeholder-favorites {
 		display: none;
 	}
-}
+} */
+
+

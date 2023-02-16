@@ -70,6 +70,7 @@
 						</button>
 
 					</div>
+					<div id="user-nav" class="user-nav"></div>
 				</div>
 			</div>
 			<div class="primary-sidebar-navigation-new">

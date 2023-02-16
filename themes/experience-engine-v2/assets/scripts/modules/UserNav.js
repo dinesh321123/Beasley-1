@@ -23,14 +23,15 @@ class UserNav extends Component {
 		super(props);
 
 		this.state = {
-			// didLogin: false,
+			didLogin: false,
 			didRedirect: false,
 			loading: true,
+			showResults: false,
 		};
 
 		this.onSignIn = this.handleSignIn.bind(this);
 		this.onSignOut = this.handleSignOut.bind(this);
-
+		this.onShowMenu = () => this.setState({ showResults: !this.showResults });
 		this.didAuthStateChange = this.didAuthStateChange.bind(this);
 		this.finishLoading = this.finishLoading.bind(this);
 	}
@@ -66,10 +67,8 @@ class UserNav extends Component {
 		// TODO - when direction we are taking is clear, this class needs to be refactored.
 		//      - In particular loadAsNotLoggedIn() and finishLoading() seem awful similar...
 		this.loadAsNotLoggedIn();
-		/*
 		const { didLogin } = this.state;
 		const { resetUser } = this.props;
-
 		if (user) {
 			this.setState({ didLogin: true });
 			this.loadAsLoggedIn(user);
@@ -79,7 +78,6 @@ class UserNav extends Component {
 			resetUser();
 			this.finishLoading();
 		}
-		*/
 	}
 
 	/**
@@ -172,23 +170,33 @@ class UserNav extends Component {
 		if (photo && photo.indexOf('gravatar.com') !== -1) {
 			photo += '&d=mp';
 		}
+		const Results = () => (
+			<div id="myDropdown" className="dropdown-content">
+				<span className="user-nav-name" data-uid={user.uid}>
+					{displayName}
+				</span>
+				<button type="button" className="user-nav-button">
+					My Account
+				</button>
+				<button
+					className="user-nav-button"
+					type="button"
+					onClick={this.onSignOut}
+				>
+					Log Out
+				</button>
+			</div>
+		);
 
 		return (
 			<>
-				<div className="user-nav-info">
-					<span className="user-nav-name" data-uid={user.uid}>
-						{displayName}
-					</span>
-					<button
-						className="user-nav-button"
-						type="button"
-						onClick={this.onSignOut}
-					>
-						Log Out
-					</button>
-				</div>
+				<div className="user-nav-info" />
 				<div className="user-nav-image">
-					<img src={photo} alt={displayName} />
+					{/* eslint-disable-next-line react/button-has-type */}
+					<button onClick={this.onShowMenu}>
+						<img src={photo} alt={displayName} />
+					</button>
+					{this.state.showResults ? <Results /> : null}
 				</div>
 			</>
 		);
@@ -204,11 +212,11 @@ class UserNav extends Component {
 					onClick={this.onSignIn}
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 563.43 563.43">
-						<title id="sign-in-button-title">Sign In</title>
+						<title id="sign-in-button-title">Login Now</title>
 						<desc id="sign-in-button-desc">User icon indicating entrance</desc>
 						<path d="M280.79 314.559c83.266 0 150.803-67.538 150.803-150.803S364.055 13.415 280.79 13.415 129.987 80.953 129.987 163.756s67.537 150.803 150.803 150.803zm0-261.824c61.061 0 111.021 49.959 111.021 111.021s-49.96 111.02-111.021 111.02-111.021-49.959-111.021-111.021 49.959-111.02 111.021-111.02zM19.891 550.015h523.648c11.102 0 19.891-8.789 19.891-19.891 0-104.082-84.653-189.198-189.198-189.198H189.198C85.116 340.926 0 425.579 0 530.124c0 11.102 8.789 19.891 19.891 19.891zm169.307-169.307h185.034c75.864 0 138.313 56.436 148.028 129.524H41.17c9.714-72.625 72.164-129.524 148.028-129.524z" />
 					</svg>
-					Sign In
+					Login Now
 				</button>
 			</div>
 		);
@@ -222,7 +230,12 @@ class UserNav extends Component {
 
 		const { loading } = this.state;
 		const { user } = this.props;
-		const container = document.getElementById('user-nav');
+		let container;
+		if (window.matchMedia('(min-width: 1301px)').matches) {
+			container = document.getElementById('user-nav');
+		} else {
+			container = document.getElementById('user-nav-mobile');
+		}
 
 		let component = false;
 		if (loading) {
@@ -246,7 +259,7 @@ class UserNav extends Component {
 UserNav.propTypes = {
 	hideSplashScreen: PropTypes.func.isRequired,
 	fetchFeedsContent: PropTypes.func.isRequired,
-	// resetUser: PropTypes.func.isRequired,
+	resetUser: PropTypes.func.isRequired,
 	setUser: PropTypes.func.isRequired,
 	showCompleteSignup: PropTypes.func.isRequired,
 	showSignIn: PropTypes.func.isRequired,
