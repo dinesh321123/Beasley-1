@@ -26,11 +26,12 @@ class UserNav extends Component {
 			didLogin: false,
 			didRedirect: false,
 			loading: true,
+			showResults: false,
 		};
 
 		this.onSignIn = this.handleSignIn.bind(this);
 		this.onSignOut = this.handleSignOut.bind(this);
-
+		this.onShowMenu = () => this.setState({ showResults: !this.showResults });
 		this.didAuthStateChange = this.didAuthStateChange.bind(this);
 		this.finishLoading = this.finishLoading.bind(this);
 	}
@@ -169,23 +170,33 @@ class UserNav extends Component {
 		if (photo && photo.indexOf('gravatar.com') !== -1) {
 			photo += '&d=mp';
 		}
+		const Results = () => (
+			<div id="myDropdown" className="dropdown-content">
+				<span className="user-nav-name" data-uid={user.uid}>
+					{displayName}
+				</span>
+				<button type="button" className="user-nav-button">
+					My Account
+				</button>
+				<button
+					className="user-nav-button"
+					type="button"
+					onClick={this.onSignOut}
+				>
+					Log Out
+				</button>
+			</div>
+		);
 
 		return (
 			<>
-				<div className="user-nav-info">
-					<span className="user-nav-name" data-uid={user.uid}>
-						{displayName}
-					</span>
-					<button
-						className="user-nav-button"
-						type="button"
-						onClick={this.onSignOut}
-					>
-						Log Out
-					</button>
-				</div>
+				<div className="user-nav-info" />
 				<div className="user-nav-image">
-					<img src={photo} alt={displayName} />
+					{/* eslint-disable-next-line react/button-has-type */}
+					<button onClick={this.onShowMenu}>
+						<img src={photo} alt={displayName} />
+					</button>
+					{this.state.showResults ? <Results /> : null}
 				</div>
 			</>
 		);
