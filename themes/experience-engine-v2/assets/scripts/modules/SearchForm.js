@@ -21,6 +21,11 @@ const SearchForm = ({ fetchPage }) => {
 		const formData = new FormData(target);
 		const search = formData.get('s');
 		if (search && search.length) {
+			window.beasleyanalytics.setAnalyticsForMParticle('search_term', search);
+			window.beasleyanalytics.sendMParticleEvent(
+				window.mparticleEventNames.searchedFor,
+			);
+
 			fetchPage(`${url}?s=${encodeURIComponent(search)}`);
 			target.querySelector('input[name="s"]').value = '';
 		}
