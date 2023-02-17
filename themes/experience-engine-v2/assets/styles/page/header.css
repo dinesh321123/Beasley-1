@@ -779,6 +779,9 @@
 		& .listen-dropdown {
 		  display: none;
 		  }
+	    & #player-button-div {
+		  display: none;
+		  }
 	}
 	& .top-primarynav{
 		@media(--min-x2large-viewport) {
