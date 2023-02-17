@@ -37,7 +37,7 @@ class CommonSettings {
 			.sticky_publish div#submitdiv {
 				position: fixed;
 				min-width: 277px;
-				z-index: 99999999;
+				z-index: 999;
 				top:35px;
 			}
 			.sticky_publish div#submitdiv.closed {
