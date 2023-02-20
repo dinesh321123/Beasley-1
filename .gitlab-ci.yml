@@ -68,6 +68,18 @@ deploy_preprod:
   only:
     - preprod
 
+sync_db_to_preprod:
+  stage: deploy
+  environment:
+    name: preprod
+    url: https://preprod.bbgistage.com/
+  script:
+    - bash ./deploy-scripts/import-db-preprod.sh
+  only:
+    - preprod
+  when: manual
+  allow_failure: false
+
 reset_preprod_branch:
   stage: deploy
   variables:
