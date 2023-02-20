@@ -15,5 +15,5 @@
 		<?php get_template_part( 'partials/page/description' ); ?>
 	</div>
 </div>
-
+<div class="accountCancellation"></div>
 <?php get_footer(); ?>

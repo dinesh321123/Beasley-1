@@ -31,7 +31,7 @@ class UserNav extends Component {
 
 		this.onSignIn = this.handleSignIn.bind(this);
 		this.onSignOut = this.handleSignOut.bind(this);
-		this.onShowMenu = () => this.setState({ showResults: !this.showResults });
+		this.onShowMenu = this.handleShowMenu.bind(this);
 		this.didAuthStateChange = this.didAuthStateChange.bind(this);
 		this.finishLoading = this.finishLoading.bind(this);
 	}
@@ -154,6 +154,11 @@ class UserNav extends Component {
 		}
 	}
 
+	handleShowMenu() {
+		const { showResults } = this.state;
+		this.setState({ showResults: !showResults });
+	}
+
 	renderLoadingState() {
 		return <div className="loading" />;
 	}
@@ -171,32 +176,51 @@ class UserNav extends Component {
 			photo += '&d=mp';
 		}
 		const Results = () => (
-			<div id="myDropdown" className="dropdown-content">
-				<span className="user-nav-name" data-uid={user.uid}>
-					{displayName}
-				</span>
-				<button type="button" className="user-nav-button">
-					My Account
-				</button>
-				<button
-					className="user-nav-button"
-					type="button"
-					onClick={this.onSignOut}
+			<ul
+				id="myDropdown"
+				className={
+					this.state.showResults
+						? 'select-user-button active'
+						: 'select-user-button'
+				}
+			>
+				<li
+					data-value="1"
+					className="select-user-list-item"
+					data-uid={user.uid}
 				>
-					Log Out
-				</button>
-			</div>
+					{displayName}
+				</li>
+				<li data-value="2" className="select-user-list-item">
+					<button type="button" className="user-nav-button">
+						My Account
+					</button>
+				</li>
+				<li data-value="3" className="select-user-list-item">
+					<button
+						className="user-nav-button"
+						type="button"
+						onClick={this.onSignOut}
+					>
+						Log Out
+					</button>
+				</li>
+			</ul>
 		);
 
 		return (
 			<>
-				<div className="user-nav-info" />
-				<div className="user-nav-image">
-					{/* eslint-disable-next-line react/button-has-type */}
-					<button onClick={this.onShowMenu}>
-						<img src={photo} alt={displayName} />
-					</button>
-					{this.state.showResults ? <Results /> : null}
+				<div className="user-nav-container">
+					<div className="select-user-dropdown">
+						<button
+							type="button"
+							className="select-user-button"
+							onClick={this.onShowMenu}
+						>
+							<img src={photo} alt={displayName} />
+						</button>
+						{this.state.showResults ? <Results /> : null}
+					</div>
 				</div>
 			</>
 		);

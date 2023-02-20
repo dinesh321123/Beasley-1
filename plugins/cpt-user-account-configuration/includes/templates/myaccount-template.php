@@ -1,4 +1,5 @@
 <?php
+echo 'in';exit;
 /**
  * Template Name:User Myaccount
  *
@@ -19,4 +20,5 @@ get_header(); ?>
 			</div>
 		</div>
 	</div>
+<div class="accountCancellation"></div>
 <?php get_footer(); ?>
