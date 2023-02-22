@@ -12,12 +12,10 @@ if( !empty($display_ca_archive_posts) && ( count($display_ca_archive_posts) > 0 
 					'cap_is_sponsored' 		=> $cap_is_sponsored,
 					'cap_show_icon' 		=> true
 				); ?>
-				<article <?php if($cap_is_sponsored) { echo 'class="bg-red'.($key < 3 ? ' bg-red-thumbnail' : '') .'"'; }?>>
+				<article <?php if($cap_is_sponsored) { echo 'class="bg-red bg-red-thumbnail"'; }?>>
 					<?php
 						set_query_var( 'category_archive_data', $category_archive_data );
-						if($key < 3) {
-							get_template_part( 'partials/tile/thumbnail', 'category' );
-						}
+						get_template_part( 'partials/tile/thumbnail', 'category' );
 						get_template_part( 'partials/tile/title', 'category' ); ?>
 				</article>
 				<?php
