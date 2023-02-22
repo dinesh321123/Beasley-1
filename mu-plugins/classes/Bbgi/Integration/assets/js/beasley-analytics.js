@@ -59,7 +59,7 @@ class beasleyAnalytics {
 		this.analyticsProviderArray.map(provider => provider.sendEvent.apply(provider, arguments));
 	}
 
-	sendMParticleEvent(eventName) {
+	sendMParticleEvent(eventName, eventUUID) {
 	const provider = this.analyticsProviderArray.find(provider => provider.analyticType === beasleyAnalyticsMParticleProvider.typeString);
 	if (provider) {
 		provider.sendEventByName.apply(provider, arguments);
@@ -156,6 +156,8 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		mediaSessionEnd: 'MediaSessionEnd',
 	};
 
+	eventUUIDsSent;
+
 	getCleanEventObject(eventName) {
 		const dataPoints = window.mParticleSchema?.version_document?.data_points;
 		if (dataPoints) {
@@ -241,6 +243,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		window.mparticleEventNames = beasleyAnalyticsMParticleProvider.mparticleEventNames;
 		this.keyValuePairs = this.getAllEventFieldsObjects();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
+		this.eventUUIDsSent = [];
 	}
 
 	createAnalytics() {
@@ -280,11 +283,17 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		}
 	}
 
-	sendEventByName(eventName) {
+	sendEventByName(eventName, eventUUID) {
 		super.sendEvent.apply(this, arguments);
+
+		// Protect Against Duplicate Events
+		if (eventUUID && this.eventUUIDsSent.includes(eventUUID)) {
+			return;
+		}
 
 		// If The Event Is A Page View
 		if (eventName === beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
+			this.eventUUIDsSent = [];
 			const emptyPageViewObject = this.getCleanEventObject(beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
 			const objectToSend = Object.keys(emptyPageViewObject)
 				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
