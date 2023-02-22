@@ -2,13 +2,14 @@
 
 get_header();
 
+global $wp_query;
 $search_query = get_search_query();
 
 if ( ee_is_first_page() ) :
 	get_template_part( 'partials/search/header' );
 
 	$random = substr(md5(mt_rand()), 0, 10);
-	$result_count = have_posts();
+	$result_count = $wp_query->found_posts;
 	if (! $result_count) {
 		$result_count = 0;
 	}
@@ -24,7 +25,11 @@ if ( ee_is_first_page() ) :
 					);
 					window.beasleyanalytics.setAnalyticsForMParticle(
 						\'call_sign\',
-						window.bbgiconfig.streams[0]
+						window.bbgiconfig.publisher.title
+					);
+					window.beasleyanalytics.setAnalyticsForMParticle(
+						\'call_sign_id\',
+						window.bbgiconfig.publisher.id
 					);
 					window.beasleyanalytics.setAnalyticsForMParticle(
 						\'title\',
@@ -49,8 +54,6 @@ if ( ee_is_first_page() ) :
 endif;
 
 if ( have_posts() ) :
-	global $wp_query;
-
 	$search_results = $wp_query->posts;
 	$page_num       = intval( get_query_var( 'paged' ) );
 
