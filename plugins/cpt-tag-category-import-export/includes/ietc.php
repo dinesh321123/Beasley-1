@@ -273,23 +273,23 @@ class ImportExportTagCategory {
 		exit;
    }
 
-	public function get_export_user_data_posttype_list() {
+	public static function get_export_user_data_posttype_list() {
 		$result	= (array) apply_filters( 'export-user-data-post-types', array( 'post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing' )  );
 		return $result;
 	}
 
-	public function get_user_posts_list($users) {
+	public static function get_user_posts_list($users) {
 		return "Return all posts from array";
 		exit;
 	}
 
-	public function get_user_list() {
+	public static function get_user_list() {
 		global $wpdb;
 		$result	= $wpdb->get_results(sprintf('SELECT * FROM '. $wpdb->prefix .'users'));
 		return $result;
 	}
 
-	public function ietc_export_users_posts() {
+	public static function ietc_export_users_posts() {
 		global $wpdb;
 		$blog_id		= 0;
 		$network_name	= 'All';
@@ -392,7 +392,7 @@ class ImportExportTagCategory {
 	}
 
 
-   public function ietc_export_users_station() {
+	public static function ietc_export_users_station() {
 	   global $wpdb;
 	   $blog_id			= 0;
 	   $network_name	= 'All';

@@ -27,8 +27,8 @@ class ListicleCPTMetaboxes {
 			wp_enqueue_script('jquery-ui-core');
         	wp_enqueue_script('jquery-ui-dialog');
         	wp_enqueue_style('jquery-style', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/smoothness/jquery-ui.css');
-			add_filter( 'wp_default_editor', create_function( '', 'return "html";' ) );
-			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+			add_filter( 'wp_default_editor', function() { return "html"; } );  
+			// $postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min'; 
 			wp_register_style('listicle-admin',LISTICLE_CPT_URL . "assets/css/listicle_admin.css", array(), LISTICLE_CPT_VERSION, 'all');
 			wp_enqueue_style('listicle-admin');
 			wp_enqueue_script( 'listicle-admin', LISTICLE_CPT_URL . "assets/js/listicle_admin.js", array('jquery', 'jquery-ui-dialog'), LISTICLE_CPT_VERSION, true);
@@ -128,7 +128,7 @@ class ListicleCPTMetaboxes {
 		</div>
 		<?php
 	}
-	function listicle_cpt_footer_description_save( $post_id ) {
+	public static function listicle_cpt_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_listicle_cpt_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_listicle_cpt_footer_description_nonce'], '_listicle_cpt_footer_description_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;
@@ -139,7 +139,7 @@ class ListicleCPTMetaboxes {
 		}
 	}
 
-	function listicle_cpt_save( $post_id ) {
+	public static function listicle_cpt_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['repeatable_editor_nonce'] ) || ! wp_verify_nonce( $_POST['repeatable_editor_nonce'], '_repeatable_editor_nonce' ) ) return;
 		if ( ! current_user_can( 'edit_post' ) ) return;
@@ -166,7 +166,7 @@ class ListicleCPTMetaboxes {
 		}
 	}
 
-	function clear_listicle_metadata_from_cache( $value, $post_id ) {
+	public static function clear_listicle_metadata_from_cache( $value, $post_id ) {
 		$key = 'listicle-store-' . $value . '-' . $post_id;
 
 		$field = wp_cache_get( $key );

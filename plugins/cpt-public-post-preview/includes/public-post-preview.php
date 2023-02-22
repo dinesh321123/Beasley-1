@@ -26,7 +26,7 @@ class BBGI_Public_Post_Preview {
 	/**
 	 * Registers BBGI Public Post Preview settings.
 	 */
-	public function ppp_register_settings( $group, $page ) {
+	public static function ppp_register_settings( $group, $page ) {
 		$section_id = 'beasley_ppp';
 
 		add_settings_section( $section_id, 'Public Post Preview', '__return_false', $page );
