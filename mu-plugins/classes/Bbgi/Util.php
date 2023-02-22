@@ -40,4 +40,26 @@ trait Util {
 			$parsed_home_url['host'] === $parsed_url['host']
 		);
 	}
+
+	/**
+	 * Checks if the date is future date or not.
+	 *
+	 * @param string $typenow Current queried post object.
+	 *
+	 * @return boolean
+	 */
+	protected function is_future_date($typenow) {
+		$post_types = array( 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery'  );
+
+		$today = new \DateTime();
+		$today = $today->format("Y-m-d");
+		$effective_date = new \DateTime("2022-12-06");
+		$effective_date = $effective_date->format("Y-m-d");
+
+	   	// If Current Date is Future Date
+	   	if (in_array( $typenow, $post_types ) && $today > $effective_date) {
+			return true;
+	   	}
+	   	return false;
+	}	
 }

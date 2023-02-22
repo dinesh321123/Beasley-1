@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { isIOS, isAudioAdOnly } from '../library';
-
-import { ControlsV2, Offline, GamPreroll } from '../components/player';
-
+import { ControlsV2, GamPreroll, Offline } from '../components/player';
 import ErrorBoundary from '../components/ErrorBoundary';
-
 import * as actions from '../redux/actions/player';
 import { STATUSES } from '../redux/actions/player';
 
 class PlayerButton extends Component {
 	constructor(props) {
 		super(props);
+
+		this.gamPrerollRef = React.createRef();
 
 		this.state = { online: window.navigator.onLine, forceSpinner: false };
 		this.container = document.getElementById('player-button-div');
@@ -48,8 +46,8 @@ class PlayerButton extends Component {
 	 */
 	handlePlay() {
 		const { station, playStation } = this.props;
-		this.setState({ forceSpinner: true });
 		playStation(station);
+		this.setState({ forceSpinner: true });
 	}
 
 	turnOffForcedSpinner() {
@@ -57,10 +55,22 @@ class PlayerButton extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (
-			prevState.forceSpinner &&
-			prevProps.status === STATUSES.LIVE_CONNECTING
-		) {
+		const { gamAdPlayback, gamAdPlaybackStop, status } = this.props;
+		console.log(
+			`Player Button Updated: Current gamAdPlayback: ${
+				gamAdPlayback ? 'true' : 'false'
+			}, Previous gamAdPlayback: ${
+				prevProps.gamAdPlayback ? 'true' : 'false'
+			}, gamAdPlaybackStop: ${
+				gamAdPlaybackStop ? 'true' : 'false'
+			},  ${status}`,
+		);
+		if (this.state.forceSpinner && status === STATUSES.LIVE_CONNECTING) {
+			this.turnOffForcedSpinner();
+		} else if (gamAdPlayback && this.gamPrerollRef.current) {
+			this.gamPrerollRef.current.doPreroll();
+		} else if (gamAdPlaybackStop && this.state.forceSpinner) {
+			console.log('Player Button Triggering GamPreroll Finalize');
 			this.turnOffForcedSpinner();
 		}
 	}
@@ -75,7 +85,6 @@ class PlayerButton extends Component {
 		const {
 			status,
 			adPlayback,
-			gamAdPlayback,
 			adSynced,
 			pause,
 			resume,
@@ -84,14 +93,12 @@ class PlayerButton extends Component {
 			playerType,
 			inDropDown,
 			customTitle,
+			adPlaybackStop,
 		} = this.props;
 
 		const renderStatus = forceSpinner ? STATUSES.LIVE_CONNECTING : status;
 
-		let notification = false;
-		if (!online) {
-			notification = <Offline />;
-		}
+		const notification = online ? <></> : <Offline />;
 
 		const progressClass = !duration ? '-live' : '-podcast';
 		let { customColors } = this.container.dataset;
@@ -119,10 +126,11 @@ class PlayerButton extends Component {
 			customColors['--global-theme-secondary'];
 
 		const isIos = isIOS();
-		const gamPreroll = gamAdPlayback ? <GamPreroll /> : null;
-
-		if (gamAdPlayback) {
-			console.log('Live Player configured to render GAM preroll.');
+		let gamPreroll = <></>;
+		if (forceSpinner) {
+			gamPreroll = (
+				<GamPreroll ref={this.gamPrerollRef} adPlaybackStop={adPlaybackStop} />
+			);
 		}
 
 		const buttonDiv = (
@@ -175,7 +183,12 @@ class PlayerButton extends Component {
 		);
 
 		if (inDropDown) {
-			return <ErrorBoundary>{buttonDiv}</ErrorBoundary>;
+			return (
+				<ErrorBoundary>
+					{gamPreroll}
+					{buttonDiv}
+				</ErrorBoundary>
+			);
 		}
 		return ReactDOM.createPortal(children, this.container);
 	}
@@ -195,6 +208,7 @@ PlayerButton.propTypes = {
 	status: PropTypes.string.isRequired,
 	adPlayback: PropTypes.bool.isRequired,
 	gamAdPlayback: PropTypes.bool.isRequired,
+	gamAdPlaybackStop: PropTypes.bool.isRequired,
 	adSynced: PropTypes.bool.isRequired,
 	playStation: PropTypes.func.isRequired,
 	pause: PropTypes.func.isRequired,
@@ -202,16 +216,18 @@ PlayerButton.propTypes = {
 	duration: PropTypes.number.isRequired,
 	player: PropTypes.shape({}),
 	playerType: PropTypes.string.isRequired,
+	adPlaybackStop: PropTypes.func.isRequired,
 };
 
 export default connect(
-	({ player }) => ({
+	({ player, screen }) => ({
 		player: player.player,
 		playerType: player.playerType,
 		station: player.station,
 		status: player.status,
 		adPlayback: player.adPlayback,
 		gamAdPlayback: player.gamAdPlayback,
+		gamAdPlaybackStop: player.gamAdPlaybackStop,
 		adSynced: player.adSynced,
 		duration: player.duration,
 	}),
@@ -219,5 +235,6 @@ export default connect(
 		playStation: actions.playStation,
 		pause: actions.pause,
 		resume: actions.resume,
+		adPlaybackStop: actions.adPlaybackStop,
 	},
 )(PlayerButton);

@@ -23,7 +23,7 @@ class FooterDescriptionSettings {
 		$common_footer_description = !empty($common_footer_description) ? $common_footer_description : '';
 		?>
 		<div class="cpt-form-group">
-			<label class="common_footer_description" for="common_footer_description"><?php _e( 'Common Footer Description', general_settings_textdomain ); ?></label>
+			<label class="common_footer_description" for="common_footer_description"><?php _e( 'Common Footer Description', GENERAL_SETTINGS_CPT_TEXT_DOMAIN ); ?></label>
 			<?php
 			wp_editor( $common_footer_description, 'common_footer_description', array('textarea_rows' => '5'));
 			?>

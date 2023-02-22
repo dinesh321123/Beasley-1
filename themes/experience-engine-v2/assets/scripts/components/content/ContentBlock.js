@@ -26,7 +26,6 @@ import SongArchive from './embeds/SongArchive';
 import RelatedPosts from './embeds/RelatedPosts';
 import MegamenuRecentPosts from './embeds/MegamenuRecentPosts';
 import DrimifyEmbed from './embeds/DrimifyEmbed';
-import TrackonomicsScript from './embeds/TrackonomicsScript';
 import GoogleAnalytics from './embeds/GoogleAnalytics';
 import Instagram from './embeds/Instagram';
 import MapBox from './embeds/MapBox';
@@ -36,6 +35,7 @@ import StnPlayer from './embeds/StnPlayer';
 import BrandedContent from './embeds/BrandedContent';
 import Dimers from './embeds/Dimers';
 import DraftkingEmbed from './embeds/DraftkingEmbed';
+import AudienceEmbed from './embeds/Audience';
 
 const mapping = {
 	audio: AudioEmbed,
@@ -55,7 +55,6 @@ const mapping = {
 	secondstreetsignup: SecondStreetSignupEmbed,
 	share: Share,
 	drimify: DrimifyEmbed,
-	trackonomicsscript: TrackonomicsScript,
 	draftkingiframe: DraftkingEmbed,
 	songarchive: SongArchive,
 	streamcta: StreamCta,
@@ -69,6 +68,7 @@ const mapping = {
 	hubspotform: HubspotForm,
 	dmlbranded: BrandedContent,
 	dimers: Dimers,
+	audience: AudienceEmbed,
 };
 
 /**

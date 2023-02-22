@@ -1296,6 +1296,50 @@ class BlogData {
 	}
 
 	/**
+	 * Get all terms of all taxonomies from the content site
+	 *
+	 * @return array
+	 */
+	public static function verifySourceSubscription( $source_site_id, $subscription_filter_terms_data, $enabled_filter_taxonomy, $current_blog_id ) {
+		global $switched;
+		global $wpdb;
+
+		$existingSubs = array();
+		switch_to_blog( self::$content_site_id );
+
+		$args = array();
+		if( isset( $subscription_filter_terms_data ) ) {
+			$args = array(
+					'meta_query' => array(
+							array(
+									'key' => 'subscription_filter_terms-'.$enabled_filter_taxonomy,
+									'value' => $subscription_filter_terms_data,
+							),
+							array(
+									'key' => 'subscription_source',	/*Rupesh Test this source side id data*/
+									'value' => $current_blog_id,		/*Here need to applied current blog id and its WMMR*/
+							)
+					)
+			);
+		}
+
+		$defaults = array(
+				'post_type'      => 'subscription',
+				'post_status'    => 'any',
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		$existingSubs = get_posts( $args );
+		// echo $wpdb->last_query; exit;
+		// echo "<pre>", print_r($existingSubs). '</pre>'; exit;
+
+		restore_current_blog();
+
+		return $existingSubs;
+	}
+
+	/**
 	 * Get all active subscription ordered by default post status
 	 * Defualt post status "Draft" has higher priority as it's less public
 	 *

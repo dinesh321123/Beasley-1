@@ -31,6 +31,18 @@
 								<svg xmlns="http://www.w3.org/2000/svg" fill="#000000" viewBox="0 0 24 24" width="25px" height="25px">    <path d="M 8 3 C 5.243 3 3 5.243 3 8 L 3 16 C 3 18.757 5.243 21 8 21 L 16 21 C 18.757 21 21 18.757 21 16 L 21 8 C 21 5.243 18.757 3 16 3 L 8 3 z M 8 5 L 16 5 C 17.654 5 19 6.346 19 8 L 19 16 C 19 17.654 17.654 19 16 19 L 8 19 C 6.346 19 5 17.654 5 16 L 5 8 C 5 6.346 6.346 5 8 5 z M 17 6 A 1 1 0 0 0 16 7 A 1 1 0 0 0 17 8 A 1 1 0 0 0 18 7 A 1 1 0 0 0 17 6 z M 12 7 C 9.243 7 7 9.243 7 12 C 7 14.757 9.243 17 12 17 C 14.757 17 17 14.757 17 12 C 17 9.243 14.757 7 12 7 z M 12 9 C 13.654 9 15 10.346 15 12 C 15 13.654 13.654 15 12 15 C 10.346 15 9 13.654 9 12 C 9 10.346 10.346 9 12 9 z"/></svg>
 							</a>
 						<?php endif; ?>
+						<?php if ( strpos(get_site_url(),"check") !== false ) : ?>
+						<?php if ( ee_has_publisher_information( 'youtube' ) ) : ?>
+							<a href="<?php echo esc_url( ee_get_publisher_information( 'youtube' ) ); ?>" aria-label="Go to station's Youtube page" target="_blank" rel="noopener">
+								<svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="25px" height="25px">    <path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,14.598V9.402c0-0.385,0.417-0.625,0.75-0.433l4.5,2.598c0.333,0.192,0.333,0.674,0,0.866l-4.5,2.598 C10.417,15.224,10,14.983,10,14.598z"/></svg>
+							</a>
+						<?php endif; ?>
+						<?php if ( ee_has_publisher_information( 'twitch' ) ) : ?>
+							<a href="<?php echo esc_url( ee_get_publisher_information( 'twitch' ) ); ?>" aria-label="Go to station's Twitch page" target="_blank" rel="noopener">
+								<svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 30 30" width="25px" height="25px">    <path d="M 6 4 L 4 8 L 4 24 L 9 24 L 9 27 L 13 27 L 16 24 L 20 24 L 26 18 L 26 4 L 6 4 z M 8 6 L 24 6 L 24 17 L 21 20 L 15 20 L 12 23 L 12 20 L 8 20 L 8 6 z M 13 9 L 13 16 L 15 16 L 15 9 L 13 9 z M 17 9 L 17 16 L 19 16 L 19 9 L 17 9 z"/></svg>
+							</a>
+						<?php endif; ?>
+						<?php endif; ?>
 					</div>
 					<?php
 						echo get_search_form(
@@ -40,6 +52,7 @@
 							)
 						);
 					?>
+					<?php get_template_part( 'partials/player-button' ); ?>
 					<div class="listen-dropdown">
 						<div id="my-listen-dropdown2">
 							<button onclick="document.getElementById('my-listen-dropdown2').style.display = 'none';">
@@ -52,8 +65,7 @@
 								<hr>
 							<?php endif; ?>
 						</div>
-						<button id='listen-live-button'>
-							<?php get_template_part( 'partials/player-button' ); ?>
+						<button id='listen-live-button' aria-label='Listen Live Details'>
 							&nbsp;<span class="listen-live-button-text"></span>
 						</button>
 

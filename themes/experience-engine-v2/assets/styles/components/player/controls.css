@@ -459,7 +459,7 @@
 			border: none;
 			  margin: 0 0 1rem 1rem;
 			  padding: .25rem 0 .5rem 0;
-			  width: 54px;
+			  width: 2rem;
 			  font-size: .75rem;
 	  		  text-align: center;
 		  }
@@ -560,6 +560,10 @@
 
 .top-progress-holder {
 	margin-bottom: 20px;
+}
+
+#player-button-div {
+	z-index: 101;
 }
 
 #player-button-div > div.controls > div > div > button > div {
@@ -675,6 +679,19 @@
 	}
 }
 
+.drop-add .button-holder > div.status.LIVE_PAUSE > button.resume-btn,
+.drop-add .button-holder > div.status.LIVE_PLAYING > button.pause-btn,
+.drop-add .button-holder > div.status.LIVE_STOP > button.play-btn,
+.drop-add .button-holder > div.status.LIVE_FAILED > button.play-btn,
+.drop-add .button-holder > div.status.LIVE_BUFFERING > button.loading-btn,
+.drop-add .button-holder > div.status.LIVE_CONNECTING > button.loading-btn,
+.drop-add .button-holder > div.status.LIVE_RECONNECTING > button.loading-btn,
+.drop-add .button-holder > div.status.STREAM_GEO_BLOCKED > button.play-btn,
+.drop-add .button-holder > div.status.STATION_NOT_FOUND > button.play-btn {
+	height: auto;
+	width: 100%;
+}
+
 .button-holder > div.status.LIVE_PAUSE > button.resume-btn,
 .button-holder > div.status.LIVE_PLAYING > button.pause-btn,
 .button-holder > div.status.LIVE_STOP > button.play-btn,
@@ -686,6 +703,12 @@
 .button-holder > div.status.STATION_NOT_FOUND > button.play-btn
 {
 	opacity: 1;
+	height: 2rem;
+	width: 2rem;
+
+	& .drop-add {
+		width: 100%;
+    }
 
 	&:focus,
 	&:hover {
