@@ -216,6 +216,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		return Object.fromEntries(entryArray);
 	}
 
+	keyValuePairsTemplate;
 	keyValuePairs;
 	customEventTypeLookupByName;
 
@@ -241,9 +242,18 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 			(bbgiAnalyticsConfig.mparticle_key);
 
 		window.mparticleEventNames = beasleyAnalyticsMParticleProvider.mparticleEventNames;
-		this.keyValuePairs = this.getAllEventFieldsObjects();
+		this.createKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
 		this.eventUUIDsSent = [];
+	}
+
+	createKeyValuePairs() {
+		this.keyValuePairsTemplate = this.getAllEventFieldsObjects();
+		this.clearKeyValuePairs();
+	}
+
+	clearKeyValuePairs() {
+		this.keyValuePairs = {...this.keyValuePairsTemplate};
 	}
 
 	createAnalytics() {
@@ -259,12 +269,12 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		super.setAnalytics.apply(this, arguments);
 
 		if (arguments && arguments.length === 2) {
-			if (Object.keys(this.keyValuePairs).includes(arguments[0])) {
-				this.keyValuePairs[arguments[0]] = arguments[1];
+			if (Object.keys(this.keyValuePairsTemplate).includes(arguments[0])) {
+				this.keyValuePairsTemplate[arguments[0]] = arguments[1];
 			} else if (beasleyAnalyticsMParticleProvider.GAtoMParticleFieldNameMap[arguments[0]]) {
 				const mparticleFieldName = beasleyAnalyticsMParticleProvider.GAtoMParticleFieldNameMap[arguments[0]];
 				console.log(`Mapped GA Field Name '${arguments[0]} To MParticle Field Name Of '${mparticleFieldName}'` );
-				this.keyValuePairs[mparticleFieldName] = arguments[1];
+				this.keyValuePairsTemplate[mparticleFieldName] = arguments[1];
 			} else {
 				console.log(`MParticle Params Ignoring ${arguments[0]} of ${arguments[1]}`);
 			}
@@ -286,17 +296,17 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 	sendEventByName(eventName, eventUUID) {
 		super.sendEvent.apply(this, arguments);
 
-		// Protect Against Duplicate Events
+		// Protect Against Duplicate Events During Current MParticle Application State
 		if (eventUUID && this.eventUUIDsSent.includes(eventUUID)) {
 			return;
 		}
+		this.eventUUIDsSent.push(eventUUID);
 
 		// If The Event Is A Page View
 		if (eventName === beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
-			this.eventUUIDsSent = [];
 			const emptyPageViewObject = this.getCleanEventObject(beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
 			const objectToSend = Object.keys(emptyPageViewObject)
-				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
+				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairsTemplate[key]}), {});
 
 			window.mParticle.logPageView(
 				'Page View',
@@ -306,7 +316,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		} else { // Event is a Custom Event
 			const emptyEventObject = this.getCleanEventObject(eventName);
 			const objectToSend = Object.keys(emptyEventObject)
-				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
+				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairsTemplate[key]}), {});
 			const customEventType = this.customEventTypeLookupByName[eventName];
 
 			window.mParticle.logEvent(
@@ -317,7 +327,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		}
 
 		// Re-initialize ALL MParticle Field Holders
-		this.keyValuePairs = this.getAllEventFieldsObjects();
+		this.clearKeyValuePairs();
 	}
 }
 
