@@ -470,6 +470,12 @@ export function getStateFromContent(container, pageURL) {
 				'.audience-embed',
 				getAudienceEmbedParams,
 			),
+			...processEmbeds(
+				container,
+				'cancelaccount',
+				'.accountCancellation',
+				getDatasetParams(),
+			),
 		];
 
 		// extract <script> tags
