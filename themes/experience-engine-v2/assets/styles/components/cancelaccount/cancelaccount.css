@@ -16,16 +16,16 @@
 	font-size: 14px;
 }
 
-.prompt button {
-	background-color: #000;
-	color: #fff;
+.prompt-container button {
+	background-color: #fcfcfc;
+	color: #202124;
 	padding: 10px 20px;
 	border-radius: 4px;
 	font-weight: bold;
 	font-size: 14px;
 }
 
-.prompt button:hover {
+.prompt-container button:hover {
 	background-color: #fff;
 	color: #000;
 	cursor: pointer;
@@ -36,7 +36,7 @@
 .prompt-container {
 	flex-direction: column;
 	position: fixed;
-	background-color: #f37736;
+	background-color: #2e2e2f;
 	width: 230px;
 	top: 75%;
 	left: 50%;
@@ -59,6 +59,10 @@
 	display: flex;
 	margin-top: auto;
 	justify-content: space-between;
+
+	& button {
+	cursor: pointer;
+	}
 }
 
 .confirmation-button, delete-button {

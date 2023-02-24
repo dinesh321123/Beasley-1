@@ -1,19 +1,14 @@
 <?php
-/**
- * Template Name: My Account
- */
-?>
 
-<?php get_header(); ?>
+get_header();
 
-<?php the_post(); ?>
+the_post();
 
-<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php get_template_part( 'partials/page/header' ); ?>
+echo '<div class="', join( ' ', get_post_class() ), '">';
+echo '<div class="content-wrap">';
+ee_the_subtitle('My Account Information');
+echo do_shortcode('[cancel_account]');
+echo '</div>';
+echo '</div>';
 
-	<div class="content-wrap">
-		<?php get_template_part( 'partials/page/description' ); ?>
-	</div>
-</div>
-<div class="accountCancellation"></div>
-<?php get_footer(); ?>
+get_footer();

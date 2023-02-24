@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
+import { deleteUser } from '../../../library/experience-engine';
 import { firebaseAuth } from '../../../library';
 
 class CancelAccount extends Component {
 	constructor(props) {
-		console.log('in');
 		super(props);
 		this.state = {
 			isLoggedIn: false,
 			showPrompt: false,
 		};
+		this.handleYes = this.handleYes.bind(this);
 	}
 
 	componentDidMount() {
@@ -34,26 +35,7 @@ class CancelAccount extends Component {
 	};
 
 	handleYes = () => {
-		// Get the user's authorization string
-		firebaseAuth.currentUser.getIdToken().then(function(idToken) {
-			// idToken is the user's authorization string
-			const authorizationString = idToken;
-			console.log(authorizationString);
-			const url = window.bbgiconfig.eeapi;
-			// Send delete request to the experience engine
-			fetch(`${url}user?authorization=${authorizationString}`, {
-				method: 'delete',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: null,
-			}).then(response => {
-				// Log user out
-				firebaseAuth.signOut();
-				this.setState({ showPrompt: false });
-			});
-		});
+		deleteUser().then(r => this.setState({ showPrompt: false }));
 	};
 
 	handleNo = () => {
