@@ -14,7 +14,6 @@
 				<nav id="js-primary-mega-nav" class="primary-nav top-primarynav" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
 					<?php get_template_part( 'partials/primary', 'navigation' ); ?>
 				</nav>
-				
 				<div class="top-right-menu">
 					<div class="head-social">
 						<?php if ( ee_has_publisher_information( 'facebook' ) ) : ?>
@@ -77,13 +76,11 @@
 			<div class="primary-sidebar-navigation-new">
 			</div>
 		</div>
-		
 		<div class="container">
 			<div class="additional-logos">
 				<?php ee_the_subheader_logo( 'mobile', 462, 88 ); ?>
 			</div>
 		</div>
-		
 	</header>
 	<?php do_action( 'show_breaking_news_banner' ); ?>
 </div>

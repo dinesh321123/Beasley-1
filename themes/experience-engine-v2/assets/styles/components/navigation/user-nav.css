@@ -2,12 +2,32 @@
 	background-color: var(--global-theme-secondary);
 	border-top: 1px solid var(--global-mercury);
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	z-index: 10;
 	padding: 0 1rem;
 	background: none;
 	border: none;
 
+	@media(--max-x2large-viewport) {
+		display:none !important;
+	}
+
+	& .dropdown-content {
+		  position: absolute;
+		  background-color: #f1f1f1;
+		  min-width: 160px;
+		  overflow: auto;
+		  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		  z-index: 1;
+
+	    & span	 {
+			  color: black;
+			  padding: 1px 1px;
+			  text-decoration: none;
+			  display: block;
+		  }
+	  }
 
 	& > div {
 		display: flex;
@@ -20,7 +40,8 @@
 
 	& .user-nav-image {
 		align-self: center;
-
+		  position: relative;
+		  display: inline-block;
 		& img {
 			border-radius: 50%;
 			max-width: 30px;
@@ -71,6 +92,56 @@
 	}
 }
 
+
+.user-nav-mobile {
+	& .user-nav-button {
+		  background: none;
+		  border: 0;
+		  box-shadow: none;
+		  cursor: pointer;
+		  color: var(--global-theme-font-primary);
+		  font-size: .687rem;
+		  padding: 0;
+		  text-align: left;
+		  margin-bottom: 0 !important;
+
+	&:hover,
+	&:focus {
+		 color: var(--brand-primary);
+		 outline: 0;
+	 }
+
+	&.-with-icon {
+		 display: inline-flex;
+		 font-size: 18px;
+		 font-weight: 600;
+		 text-transform: uppercase;
+		 align-items: center;
+		 margin-bottom: 0.8rem;
+
+	& svg {
+		  display: inline-block;
+		  fill: var(--global-theme-font-primary);
+		  height: 20px;
+		  margin-right: .5rem;
+		  width: 18px;
+	  }
+	}
+	}
+	& .user-nav-image {
+		  align-self: center;
+		  position: relative;
+		  display: inline-block;
+	& img {
+		  border-radius: 50%;
+		  max-width: 30px;
+	  }
+	}
+	@media(--min-x2large-viewport) {
+		display:none !important;
+	}
+}
+
 /* When a sponsor loads in the LivePlayer we can apply
 helpful tweaks to positioning and heights to account for it.
 also found in /assets/styles/components/navigation/primary-sidebar.css */
@@ -105,3 +176,89 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 		display: none;
 	}
 } */
+
+.user-nav-container {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+
+	@media(--max-x2large-viewport) {
+		justify-content: flex-start;
+		align-items: center;
+		padding-left: 15px;
+	}
+}
+.select-user-dropdown {
+	position: relative;
+	display: inline-block;
+	max-width: 100%;
+& .select-user-button {
+	  padding: 0;
+	  background-color: transparent;
+	  color: #616161;
+	  border: none;
+	  cursor: pointer;
+	  text-align: left;
+&::focus {
+	 outline: none;
+ }
+& .zmdi-chevron-down {
+	position: absolute;
+	right: 10px;
+	top: 12px;
+}
+& img {
+	  border-radius: 50%;
+	  max-width: 30px !important;
+  }
+}
+
+& .select-user-list{
+	 position: absolute;
+	 display: block;
+	 left: auto;
+	 right: 0;
+	 max-height: 300px;
+	 overflow: auto;
+	 margin: 0;
+	 padding: 0;
+	 list-style-type: none;
+	 opacity: 0;
+	 pointer-events: none;
+	 transform-origin: top left;
+	 transform: scale(1,0);
+	 transition: all ease-in-out .3s;
+	 z-index: 2;
+  	 width: 200px;
+
+	&.active {
+		 opacity: 1;
+		 pointer-events: auto;
+		 transform: scale(1,1);
+
+	 }
+
+	@media(--max-x2large-viewport) {
+		left: 0;
+		right: auto;
+	}
+}
+& .select-user-list-item {
+	  display: block;
+	  list-style-type: none;
+	  padding: 10px 15px;
+	  background: #202020;
+	  border-top: 1px solid rgb(255 255 255 / 7%);
+	  font-size: 14px;
+	  line-height: 1.4;
+	  cursor: pointer;
+	  color: #fff;
+	  transition: all ease-in-out .3s;
+	 & button{
+		font-size:14px;
+		padding:0;
+	   }
+ }
+}
+
