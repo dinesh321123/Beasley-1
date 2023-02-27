@@ -16,7 +16,7 @@ class 	MyAccount {
 		if ( !isset( $myaccount ) ) {
 			$myaccount_title	= 'My Account';							// Post title
 			$myaccount_content	= '';									// Post Description
-			$myaccount_template	= 'myaccount.php';			// Add template Name Here
+			$myaccount_template	= 'templates/myaccount.php';			// Add template Name Here
 			$myaccount_exist	= get_page_by_title( $myaccount_title );	// My Account Exist
 			$myaccount_array	= array(
 				'post_type'		=> 'page',
