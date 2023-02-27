@@ -48,6 +48,13 @@ class beasleyAnalytics {
 		this.analyticsProviderArray.map(provider => provider.setAnalytics.apply(provider, arguments));
 	}
 
+	initializeMParticle() {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === beasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			provider.initialize.apply(provider, arguments);
+		}
+	}
+
 	setAnalyticsForMParticle() {
 		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === beasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
@@ -195,12 +202,12 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 			if (dataPoint) {
 				const dataPointType = dataPoint.match?.criteria?.custom_event_type;
 				if (dataPointType) {
-					const mParticleEventType = Object.entries(mParticle.EventType).find( kvpair => kvpair[0].toLowerCase() === dataPointType.toLowerCase());
+					const mParticleEventType = Object.entries(window.mParticle.EventType).find( kvpair => kvpair[0].toLowerCase() === dataPointType.toLowerCase());
 					if (mParticleEventType) {
 						return mParticleEventType[1];
 					} else {
 						console.log(`ERROR - could not find an MParticle Custom Event Type matching text - '${dataPointType}'`);
-						return mParticle.EventType.Unknown;
+						return window.mParticle.EventType.Unknown;
 					}
 				}
 			}
@@ -216,14 +223,15 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		return Object.fromEntries(entryArray);
 	}
 
+	isInitialized = false;
+
 	keyValuePairsTemplate;
 	keyValuePairs;
 	customEventTypeLookupByName;
 
-	constructor(bbgiAnalyticsConfig) {
-		super(beasleyAnalyticsMParticleProvider.typeString, bbgiAnalyticsConfig.mparticle_key);
-
-		// Configures the SDK. Note the settings below for isDevelopmentMode
+	// When Running React We Use Use MParticle "Self Hosting" Within Bundle. For Mobile App Pages, we need to include via JS Snippet
+	includeMParticleSnippet() {
+// Configures the SDK. Note the settings below for isDevelopmentMode
 		// and logLevel.
 		window.mParticle = {
 			config: {
@@ -236,15 +244,87 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 			},
 		};
 		(
-			function(t){window.mParticle=window.mParticle||{};window.mParticle.EventType={Unknown:0,Navigation:1,Location:2,Search:3,Transaction:4,UserContent:5,UserPreference:6,Social:7,Other:8};window.mParticle.eCommerce={Cart:{}};window.mParticle.Identity={};window.mParticle.config=window.mParticle.config||{};window.mParticle.config.rq=[];window.mParticle.config.snippetVersion=2.3;window.mParticle.ready=function(t){window.mParticle.config.rq.push(t)};var e=["endSession","logError","logBaseEvent","logEvent","logForm","logLink","logPageView","setSessionAttribute","setAppName","setAppVersion","setOptOut","setPosition","startNewSession","startTrackingLocation","stopTrackingLocation"];var o=["setCurrencyCode","logCheckout"];var i=["identify","login","logout","modify"];e.forEach(function(t){window.mParticle[t]=n(t)});o.forEach(function(t){window.mParticle.eCommerce[t]=n(t,"eCommerce")});i.forEach(function(t){window.mParticle.Identity[t]=n(t,"Identity")});function n(e,o){return function(){if(o){e=o+"."+e}var t=Array.prototype.slice.call(arguments);t.unshift(e);window.mParticle.config.rq.push(t)}}var dpId,dpV,config=window.mParticle.config,env=config.isDevelopmentMode?1:0,dbUrl="?env="+env,dataPlan=window.mParticle.config.dataPlan;dataPlan&&(dpId=dataPlan.planId,dpV=dataPlan.planVersion,dpId&&(dpV&&(dpV<1||dpV>1e3)&&(dpV=null),dbUrl+="&plan_id="+dpId+(dpV?"&plan_version="+dpV:"")));var mp=document.createElement("script");mp.type="text/javascript";mp.async=true;mp.src=("https:"==document.location.protocol?"https://jssdkcdns":"http://jssdkcdn")+".mparticle.com/js/v2/"+t+"/mparticle.js" + dbUrl;var c=document.getElementsByTagName("script")[0];c.parentNode.insertBefore(mp,c)}
+			function (t) {
+				window.mParticle = window.mParticle || {};
+				window.mParticle.EventType = {
+					Unknown: 0,
+					Navigation: 1,
+					Location: 2,
+					Search: 3,
+					Transaction: 4,
+					UserContent: 5,
+					UserPreference: 6,
+					Social: 7,
+					Other: 8
+				};
+				window.mParticle.eCommerce = {Cart: {}};
+				window.mParticle.Identity = {};
+				window.mParticle.config = window.mParticle.config || {};
+				window.mParticle.config.rq = [];
+				window.mParticle.config.snippetVersion = 2.3;
+				window.mParticle.ready = function (t) {
+					window.mParticle.config.rq.push(t)
+				};
+				var e = ["endSession", "logError", "logBaseEvent", "logEvent", "logForm", "logLink", "logPageView", "setSessionAttribute", "setAppName", "setAppVersion", "setOptOut", "setPosition", "startNewSession", "startTrackingLocation", "stopTrackingLocation"];
+				var o = ["setCurrencyCode", "logCheckout"];
+				var i = ["identify", "login", "logout", "modify"];
+				e.forEach(function (t) {
+					window.mParticle[t] = n(t)
+				});
+				o.forEach(function (t) {
+					window.mParticle.eCommerce[t] = n(t, "eCommerce")
+				});
+				i.forEach(function (t) {
+					window.mParticle.Identity[t] = n(t, "Identity")
+				});
+
+				function n(e, o) {
+					return function () {
+						if (o) {
+							e = o + "." + e
+						}
+						var t = Array.prototype.slice.call(arguments);
+						t.unshift(e);
+						window.mParticle.config.rq.push(t)
+					}
+				}
+
+				var dpId, dpV, config = window.mParticle.config, env = config.isDevelopmentMode ? 1 : 0,
+					dbUrl = "?env=" + env, dataPlan = window.mParticle.config.dataPlan;
+				dataPlan && (dpId = dataPlan.planId, dpV = dataPlan.planVersion, dpId && (dpV && (dpV < 1 || dpV > 1e3) && (dpV = null), dbUrl += "&plan_id=" + dpId + (dpV ? "&plan_version=" + dpV : "")));
+				var mp = document.createElement("script");
+				mp.type = "text/javascript";
+				mp.async = true;
+				mp.src = ("https:" == document.location.protocol ? "https://jssdkcdns" : "http://jssdkcdn") + ".mparticle.com/js/v2/" + t + "/mparticle.js" + dbUrl;
+				var c = document.getElementsByTagName("script")[0];
+				c.parentNode.insertBefore(mp, c)
+			}
 		)
 			// Insert your API key below
 			(bbgiAnalyticsConfig.mparticle_key);
+	}
 
+	constructor(bbgiAnalyticsConfig) {
+		super(beasleyAnalyticsMParticleProvider.typeString, bbgiAnalyticsConfig.mparticle_key);
+
+		// For Mobile App Pages (ie Whiz) include MParticle via js
+		if (! document.getElementById('ee-app-js')) {
+			this.includeMParticleSnippet();
+		}
+
+		if (window.mParticle) {
+			this.initialize();
+		}
+	}
+
+	initialize() {
 		window.mparticleEventNames = beasleyAnalyticsMParticleProvider.mparticleEventNames;
 		this.createKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
 		this.eventUUIDsSent = [];
+
+		console.log('mParticle WAS INITIALIZED');
+		this.isInitialized = true;
 	}
 
 	createKeyValuePairs() {
@@ -267,6 +347,10 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 
 	setAnalytics() {
 		super.setAnalytics.apply(this, arguments);
+
+		if (! this.isInitialized) {
+			return;
+		}
 
 		if (arguments && arguments.length === 2) {
 			if (Object.keys(this.keyValuePairs).includes(arguments[0])) {
@@ -296,11 +380,17 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 	sendEventByName(eventName, eventUUID) {
 		super.sendEvent.apply(this, arguments);
 
+		if (! this.isInitialized) {
+			return;
+		}
+
 		// Protect Against Duplicate Events During Current MParticle Application State
 		if (eventUUID && this.eventUUIDsSent.includes(eventUUID)) {
 			return;
 		}
-		this.eventUUIDsSent.push(eventUUID);
+		if (eventUUID) {
+			this.eventUUIDsSent.push(eventUUID);
+		}
 
 		// If The Event Is A Page View
 		if (eventName === beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
