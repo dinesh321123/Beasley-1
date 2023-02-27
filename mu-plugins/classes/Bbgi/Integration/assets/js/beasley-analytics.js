@@ -230,8 +230,14 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 	customEventTypeLookupByName;
 
 	// When Running React We Use Use MParticle "Self Hosting" Within Bundle. For Mobile App Pages, we need to include via JS Snippet
-	includeMParticleSnippet() {
-// Configures the SDK. Note the settings below for isDevelopmentMode
+	includeMParticleSnippetIfMobileApp() {
+		if (! window.isWhiz()) {
+			console.log('NOT Including MParticle via js since using bundle.');
+			return;
+		}
+		console.log('Including MParticle via js since no bundle found. Likely a Whiz Page.');
+
+		// Configures the SDK. Note the settings below for isDevelopmentMode
 		// and logLevel.
 		window.mParticle = {
 			config: {
@@ -308,9 +314,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		super(beasleyAnalyticsMParticleProvider.typeString, bbgiAnalyticsConfig.mparticle_key);
 
 		// For Mobile App Pages (ie Whiz) include MParticle via js
-		if (! document.getElementById('ee-app-js')) {
-			this.includeMParticleSnippet();
-		}
+		this.includeMParticleSnippetIfMobileApp();
 
 		if (window.mParticle) {
 			this.initialize();
