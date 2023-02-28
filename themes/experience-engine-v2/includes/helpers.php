@@ -363,6 +363,7 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 
 			$barker_key = 'stn_video_barker_id';
 			$stn_video_barker_id = get_post_meta( $post->ID, $barker_key, true );
+			$mobile_ad_occurrence = get_post_meta( $post->ID, 'mobile_ad_occurrence', true );
 
 			$meta_key = 'category_featured_post_meta_box';
 			$featured_posts = get_post_meta( $post->ID, $meta_key, true );
@@ -378,6 +379,7 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 			$query = new \WP_Query( $args );
 
 			$response['stn_video_barker_id'] = $stn_video_barker_id;
+			$response['mobile_ad_occurrence'] = $mobile_ad_occurrence;
 			$response['exclude_posts'] = $ids;
 			$response['result'] = $query;
 			return $response;

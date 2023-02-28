@@ -182,7 +182,7 @@ class MagazineCPT {
 		) );
 
 		/*
-		* Create STN player settings metabox after title
+		* Create STN player settings metabox
 		*/
 		acf_add_local_field_group( array(
 			'key'                   => 'magazine_stn_player_settings',
@@ -210,6 +210,41 @@ class MagazineCPT {
 					'label'         => 'STN Video Barker ID',
 					'name'          => 'stn_video_barker_id',
 					'type' => 'text',
+					'placeholder' 	=> '',
+					'required'      => 0,
+				),
+			),
+		) );
+
+		/*
+		* Mobile Ad settings metabox
+		*/
+		acf_add_local_field_group( array(
+			'key'                   => 'magazine_mobile_ads_settings',
+			'title'                 => 'Mobile Ads Settings',
+			'menu_order'            => 2,
+			'position'              => 'acf_after_title',
+			'style'                 => 'default',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => 1,
+			'description'           => '',
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => self::MAGAZINE_POST_TYPE,
+					),
+				),
+			),
+			'fields'                => array(
+				array(
+					'key'           => 'field_mobile_ad_occurrence',
+					'label'         => 'Mobile Ads Occurrence',
+					'name'          => 'mobile_ad_occurrence',
+					'type' => 'number',
 					'placeholder' 	=> '',
 					'required'      => 0,
 				),
