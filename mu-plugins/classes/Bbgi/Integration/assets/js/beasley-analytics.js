@@ -308,6 +308,8 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		)
 			// Insert your API key below
 			(bbgiAnalyticsConfig.mparticle_key);
+
+		this.initialize();
 	}
 
 	constructor(bbgiAnalyticsConfig) {
@@ -315,19 +317,16 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 
 		// For Mobile App Pages (ie Whiz) include MParticle via js
 		this.includeMParticleSnippetIfMobileApp();
-
-		if (window.mParticle) {
-			this.initialize();
-		}
 	}
 
 	initialize() {
+		console.log('Initializing Beasley Analytics mParticle Variables.');
 		window.mparticleEventNames = beasleyAnalyticsMParticleProvider.mparticleEventNames;
 		this.createKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
 		this.eventUUIDsSent = [];
 
-		console.log('mParticle WAS INITIALIZED');
+		console.log('Beasley Analytics mParticle Variables Were Initialized');
 		this.isInitialized = true;
 	}
 
