@@ -13,6 +13,8 @@ $ca_query_category_values = $wp_query->query['category_name'];
 $category_archive_obj = get_queried_object();
 $ca_query_category_slug = $category_archive_obj->slug;
 $ca_stn_video_barker_id = "";
+$station_mobile_ad_occurance = get_option( 'mobile_ad_category_setting' ) ? get_option( 'mobile_ad_category_setting' ) : 6;
+$ca_mobile_ad_occurrence = 0;
 
 // if (str_contains($ca_query_category_values, ',')) {
 if (strpos($ca_query_category_values, ',') !== false) {
@@ -27,6 +29,7 @@ if (strpos($ca_query_category_values, ',') !== false) {
 	$total_ca_featured_curated = (!empty($ca_featured_curated_posts) ) ? count($ca_featured_curated_posts) : 0;
 	$category_archive_posts_exlcuded = $ca_featured_curated_posts_query['exclude_posts'];
 	$ca_stn_video_barker_id = $ca_featured_curated_posts_query['stn_video_barker_id'];
+	$ca_mobile_ad_occurrence = $ca_featured_curated_posts_query['mobile_ad_occurrence'];
 }
 
 // Getting Posts related to the category
@@ -97,13 +100,19 @@ while(count($category_archive_posts) > 0) {
 	}
 	$display_ca_archive_posts = array_slice($category_archive_posts, 0, $posts_fetch);
 	$category_archive_posts = array_slice($category_archive_posts, $posts_fetch);
-	set_query_var( 'display_ca_archive_posts', $display_ca_archive_posts );
+	$display_ca_archive_data = array(
+		'display_ca_archive_posts' 		=> $display_ca_archive_posts,
+		'station_mobile_ad_occurance' 	=> $station_mobile_ad_occurance,
+		'ca_mobile_ad_occurrence' 		=> $ca_mobile_ad_occurrence
+	);
+
+	set_query_var( 'display_ca_archive_data', $display_ca_archive_data );
 	get_template_part( 'partials/category/archive', $have_ad );
-	if( $current_ca_render_index % 2 !== 0 && !($current_ca_render_index == 1 && ee_is_first_page()) ) { ?>
-		<div class="ad -footer -centered">
-			<?php do_action( 'dfp_tag', 'bottom-leaderboard', false, array( array( 'pos', 2 ) ) ); ?>
-		</div>
-	<?php }
+	// if( $current_ca_render_index % 2 !== 0 && !($current_ca_render_index == 1 && ee_is_first_page()) ) { ?>
+		<!-- <div class="ad -footer -centered">
+			<?php // do_action( 'dfp_tag', 'bottom-leaderboard', false, array( array( 'pos', 2 ) ) ); ?>
+		</div> -->
+	<?php // }
 	$current_ca_render_index++;
 }
 ?>

@@ -171,6 +171,9 @@ class Settings extends \Bbgi\Module {
 		add_settings_field('play_hover_opacity_setting', 'Hover Opacity', 'bbgi_input_field', $this->_settings_page_hook, 'opacity_section', 'name=play_hover_opacity_setting&default=1');
 		add_settings_field('play_live_hover_opacity_setting', 'Live Play Hover Opacity', 'bbgi_input_field', $this->_settings_page_hook, 'opacity_section', 'name=play_live_hover_opacity_setting&default=0.8');
 
+		add_settings_section( 'category_settings_section', 'Category Page Settings', '__return_false', $this->_settings_page_hook );
+		add_settings_field('mobile_ad_category_setting', 'Mobile Ad occurrence after', 'bbgi_input_field', $this->_settings_page_hook, 'category_settings_section', 'name=mobile_ad_category_setting&default=6');
+
 		add_settings_section( 'ee_geotargetly', 'Geo Targetly', '__return_false', $this->_settings_page_hook );
 		add_settings_field( 'ee_geotargetly_enabled', 'Geo Targetly Enabled', 'bbgi_checkbox_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_enabled_args );
 		add_settings_field( 'ee_geotargetly_embed_code', 'Geo Targetly Embed Code', 'bbgi_textarea_field', $this->_settings_page_hook, 'ee_geotargetly', $ee_geotargetly_embed_code_args );
@@ -303,6 +306,8 @@ class Settings extends \Bbgi\Module {
 		register_setting(self::option_group, 'play_opacity_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'play_hover_opacity_setting', 'sanitize_text_field');
 		register_setting(self::option_group, 'play_live_hover_opacity_setting', 'sanitize_text_field');
+
+		register_setting(self::option_group, 'mobile_ad_category_setting', 'sanitize_text_field');
 
 		register_setting(self::option_group, 'contest_show_dates_setting', 'sanitize_text_field');
 
