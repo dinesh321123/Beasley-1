@@ -54,7 +54,98 @@ class DashboardActivity {
 				"side",
 				"high"
 			);
+			wp_add_dashboard_widget(
+				'dashboard_pending_activity_widget',
+				__( 'Pending Activity' ),
+				array( $this,'dashboard_pending_activity'),
+				"",
+				"",
+				"side",
+				"high"
+			);
 		}
+	}
+	public function dashboard_pending_activity() {
+		echo '<div id="recently_published_posts_activity-widget">';
+		$dashboard_pending_activity_result = $this->wp_dashboard_pending_activity(
+			array(
+				'max'    => 20,
+				'status' => 'pending',
+				'post_type' => array( 'post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing' ),
+				'order'  => 'DESC',
+				'title'  => __( 'Recently Pending' ),
+				'id'     => 'recently-pending-posts',
+			)
+		);
+		echo  $dashboard_pending_activity_result;
+		echo '</div>';
+	}
+
+	public function wp_dashboard_pending_activity( $args ) {
+		$html_result	= "";
+		$query_args = array(
+			'post_type'      => $args['post_type'],
+			'post_status'    => $args['status'],
+			'orderby'        => 'date',
+			'order'          => $args['order'],
+			'posts_per_page' => (int) $args['max'],
+			'no_found_rows'  => true,
+			'cache_results'  => false,
+			'perm'           => ( 'future' === $args['status'] ) ? 'editable' : 'readable',
+		);
+
+		$posts = new WP_Query( $query_args );
+
+		if ( $posts->have_posts() ) {
+
+			$html_result .= '<div id="' . $args['id'] . '" class="activity-block">';
+			$html_result .= '<h3>' . $args['title'] . '</h3>';
+			$html_result .= '<ul>';
+
+			$today    = current_time( 'Y-m-d' );
+			$tomorrow = current_datetime()->modify( '+1 day' )->format( 'Y-m-d' );
+			$year     = current_time( 'Y' );
+
+			while ( $posts->have_posts() ) {
+				$posts->the_post();
+
+				$time = get_the_time( 'U' );
+
+				if ( gmdate( 'Y-m-d', $time ) === $today ) {
+					$relative = __( 'Today' );
+				} elseif ( gmdate( 'Y-m-d', $time ) === $tomorrow ) {
+					$relative = __( 'Tomorrow' );
+				} elseif ( gmdate( 'Y', $time ) !== $year ) {
+					/* translators: Date and time format for recent posts on the dashboard, from a different calendar year, see https://www.php.net/manual/datetime.format.php */
+					$relative = date_i18n( __( 'M jS Y' ), $time );
+				} else {
+					/* translators: Date and time format for recent posts on the dashboard, see https://www.php.net/manual/datetime.format.php */
+					$relative = date_i18n( __( 'M jS' ), $time );
+				}
+
+				// Use the post edit link for those who can edit, the permalink otherwise.
+				$recent_post_link = current_user_can( 'edit_post', get_the_ID() ) ? get_edit_post_link() : get_permalink();
+
+				$draft_or_post_title = _draft_or_post_title();
+				$html_result .= sprintf(
+					'<li><span style="min-width: 150px; display: inline-block; margin-right: 5px;">%1$s</span> <a href="%2$s" aria-label="%3$s">%4$s</a> </li>',
+					/* translators: 1: Relative date, 2: Time. */
+					sprintf( _x( '%1$s, %2$s', 'dashboard' ), $relative, get_the_time() ),
+					$recent_post_link,
+					/* translators: %s: Post title. */
+					esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $draft_or_post_title ) ),
+					$draft_or_post_title,
+					/* author name display. */
+					esc_html( get_the_author_meta( 'display_name', $author_id ) )
+				);
+			}
+			$html_result .= '</ul>';
+			$html_result .= '</div>';
+		} else {
+			return $html_result;
+		}
+		wp_reset_postdata();
+		return $html_result;
 	}
 
 	public function wp_dashboard_site_recently_published_posts_activity() {
