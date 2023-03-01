@@ -18,6 +18,10 @@
 class BeasleyAnalytics {
 	analyticsProviderArray = [];
 
+	static confirmLoaded() {
+		console.log('Beasley Analytics Loaded');
+	}
+
 	constructor() {
 		console.log('Constructing BeasleyAnalytics');
 		this.loadBeasleyConfigData(window.bbgiAnalyticsConfig);
@@ -424,5 +428,5 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 }
 
-console.log('ga_enqueue_scripts loaded');
+BeasleyAnalytics.confirmLoaded();
 
