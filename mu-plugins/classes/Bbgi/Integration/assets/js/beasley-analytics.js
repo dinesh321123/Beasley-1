@@ -15,10 +15,11 @@
 */
 
 
-class beasleyAnalytics {
+class BeasleyAnalytics {
 	analyticsProviderArray = [];
 
 	constructor() {
+		console.log('Constructing BeasleyAnalytics');
 		this.loadBeasleyConfigData(window.bbgiAnalyticsConfig);
 	}
 
@@ -29,10 +30,10 @@ class beasleyAnalytics {
 		}
 
 		if (beasleyAnalyticsConfigData.google_analytics_v3_enabled && beasleyAnalyticsConfigData.google_analytics) {
-			this.analyticsProviderArray.push(new beasleyAnalyticsGaV3Provider(beasleyAnalyticsConfigData));
+			this.analyticsProviderArray.push(new BeasleyAnalyticsGaV3Provider(beasleyAnalyticsConfigData));
 		}
 		if (beasleyAnalyticsConfigData.mparticle_enabled && beasleyAnalyticsConfigData.mparticle_key) {
-			this.analyticsProviderArray.push(new beasleyAnalyticsMParticleProvider(beasleyAnalyticsConfigData));
+			this.analyticsProviderArray.push(new BeasleyAnalyticsMParticleProvider(beasleyAnalyticsConfigData));
 		}
 	}
 
@@ -49,14 +50,14 @@ class beasleyAnalytics {
 	}
 
 	initializeMParticle() {
-		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === beasleyAnalyticsMParticleProvider.typeString);
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
 			provider.initialize.apply(provider, arguments);
 		}
 	}
 
 	setAnalyticsForMParticle() {
-		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === beasleyAnalyticsMParticleProvider.typeString);
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
 			provider.setAnalytics.apply(provider, arguments);
 		}
@@ -67,7 +68,7 @@ class beasleyAnalytics {
 	}
 
 	sendMParticleEvent(eventName, eventUUID) {
-	const provider = this.analyticsProviderArray.find(provider => provider.analyticType === beasleyAnalyticsMParticleProvider.typeString);
+	const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 	if (provider) {
 		provider.sendEventByName.apply(provider, arguments);
 	}
@@ -75,7 +76,7 @@ class beasleyAnalytics {
 
 }
 
-class beasleyAnalyticsBaseProvider {
+class BeasleyAnalyticsBaseProvider {
 	constructor(typeString, idString) {
 		this.analyticType = typeString;
 		this.idString = idString;
@@ -106,11 +107,11 @@ class beasleyAnalyticsBaseProvider {
 	}
 }
 
-class beasleyAnalyticsGaV3Provider extends beasleyAnalyticsBaseProvider {
+class BeasleyAnalyticsGaV3Provider extends BeasleyAnalyticsBaseProvider {
 	static typeString = 'GA_V3';
 
 	constructor(bbgiAnalyticsConfig) {
-		super(beasleyAnalyticsGaV3Provider.typeString, bbgiAnalyticsConfig.google_analytics);
+		super(BeasleyAnalyticsGaV3Provider.typeString, bbgiAnalyticsConfig.google_analytics);
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 	}
 
@@ -141,7 +142,7 @@ class beasleyAnalyticsGaV3Provider extends beasleyAnalyticsBaseProvider {
 	}
 }
 
-class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
+class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	static typeString = 'MPARTICLE';
 
 	static GAtoMParticleFieldNameMap = {
@@ -186,8 +187,8 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 
 	getAllEventFieldsObjects() {
 		let retval = {};
-		Object.keys(beasleyAnalyticsMParticleProvider.mparticleEventNames).forEach(eventNameKey => {
-			const newEventFieldsObject = this.getCleanEventObject(beasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey]);
+		Object.keys(BeasleyAnalyticsMParticleProvider.mparticleEventNames).forEach(eventNameKey => {
+			const newEventFieldsObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey]);
 			retval = {...retval, ...newEventFieldsObject};
 		});
 
@@ -217,8 +218,8 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		return null;
 	}
 	getAllCustomEventTypeLookupObject() {
-		const entryArray = Object.keys(beasleyAnalyticsMParticleProvider.mparticleEventNames).map(eventNameKey => {
-			 return [beasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], this.getCustomEventTypeValueForEventName(beasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey])];
+		const entryArray = Object.keys(BeasleyAnalyticsMParticleProvider.mparticleEventNames).map(eventNameKey => {
+			 return [BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], this.getCustomEventTypeValueForEventName(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey])];
 		});
 		return Object.fromEntries(entryArray);
 	}
@@ -313,7 +314,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 	}
 
 	constructor(bbgiAnalyticsConfig) {
-		super(beasleyAnalyticsMParticleProvider.typeString, bbgiAnalyticsConfig.mparticle_key);
+		super(BeasleyAnalyticsMParticleProvider.typeString, bbgiAnalyticsConfig.mparticle_key);
 
 		// For Mobile App Pages (ie Whiz) include MParticle via js
 		this.includeMParticleSnippetIfMobileApp();
@@ -321,7 +322,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 
 	initialize() {
 		console.log('Initializing Beasley Analytics mParticle Variables.');
-		window.mparticleEventNames = beasleyAnalyticsMParticleProvider.mparticleEventNames;
+		window.mparticleEventNames = BeasleyAnalyticsMParticleProvider.mparticleEventNames;
 		this.createKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
 		this.eventUUIDsSent = [];
@@ -358,8 +359,8 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		if (arguments && arguments.length === 2) {
 			if (Object.keys(this.keyValuePairs).includes(arguments[0])) {
 				this.keyValuePairs[arguments[0]] = arguments[1];
-			} else if (beasleyAnalyticsMParticleProvider.GAtoMParticleFieldNameMap[arguments[0]]) {
-				const mparticleFieldName = beasleyAnalyticsMParticleProvider.GAtoMParticleFieldNameMap[arguments[0]];
+			} else if (BeasleyAnalyticsMParticleProvider.GAtoMParticleFieldNameMap[arguments[0]]) {
+				const mparticleFieldName = BeasleyAnalyticsMParticleProvider.GAtoMParticleFieldNameMap[arguments[0]];
 				console.log(`Mapped GA Field Name '${arguments[0]} To MParticle Field Name Of '${mparticleFieldName}'` );
 				this.keyValuePairs[mparticleFieldName] = arguments[1];
 			} else {
@@ -374,7 +375,7 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		super.sendEvent.apply(this, arguments);
 
 		if (arguments && arguments[0] && arguments[0].hitType === 'pageview') {
-			this.sendEventByName(beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
+			this.sendEventByName(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
 		} else {
 			console.log(`ATTEMPTED TO SEND A COMMON EVENT TO MPARTICLE WHICH IS NOT A PAGEVIEW - '${arguments[0]?.hitType}'`);
 		}
@@ -396,8 +397,8 @@ class beasleyAnalyticsMParticleProvider extends beasleyAnalyticsBaseProvider {
 		}
 
 		// If The Event Is A Page View
-		if (eventName === beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
-			const emptyPageViewObject = this.getCleanEventObject(beasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
+		if (eventName === BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
+			const emptyPageViewObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
 			const objectToSend = Object.keys(emptyPageViewObject)
 				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
 
