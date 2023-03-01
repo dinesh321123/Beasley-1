@@ -994,7 +994,7 @@
 	}
 	& .m-60{
 		@media(--max-xl2medium-viewport) {
-			flex: 0 1 calc(60% - 0px) !important;
+			flex: 0 1 calc(60% - 0px);
 		}
 		@media(--max-medium-viewport) {
 			flex: 0 1 calc(100% - 0px) !important;
@@ -1010,7 +1010,7 @@
 	}
 	& .m-40{
 		@media(--max-xl2medium-viewport) {
-			flex: 0 1 calc(40%) !important;
+			flex: 0 1 calc(40%);
 			padding-left: 30px;
 		}
 		@media(--max-medium-viewport) {
@@ -1021,5 +1021,12 @@
 	& .px-15 {
 		padding-left: 15px;
 		padding-right: 15px;
+	}
+	& .ad {
+		&.-sticky {
+			@media (--min-medium-viewport) {
+				display: block;
+			}
+		}
 	}
 }

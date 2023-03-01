@@ -755,7 +755,7 @@ class Dfp extends PureComponent {
 					.addSize([0, 0], [])
 
 					// rail comes in on larger screens
-					.addSize([1060, 0], [[300, 600]])
+					.addSize([768, 0], [[300, 600]])
 
 					.build();
 
