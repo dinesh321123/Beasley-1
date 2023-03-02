@@ -61,7 +61,8 @@ class Google extends \Bbgi\Module {
 		wp_enqueue_script(
 			'ga_enqueue_scripts',
 			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
-			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' )
+			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' ),
+			'2.0.0'
 		);
 
 
