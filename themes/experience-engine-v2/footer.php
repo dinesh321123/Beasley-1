@@ -3,7 +3,7 @@
 					get_template_part( 'partials/ads/footer' );
 
 				$mparticle_implementation = sprintf(
-			'<script class="mparticle_implementation">
+			'<script>
 						document.body.addEventListener(\'click\', (e) => {
 							const ev = window.event||e;
                         	if (ev.srcElement.tagName === \'A\') {
