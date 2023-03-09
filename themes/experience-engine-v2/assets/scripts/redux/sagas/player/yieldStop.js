@@ -2,6 +2,7 @@ import { select, takeLatest } from 'redux-saga/effects';
 import { ACTION_PLAYER_STOP } from '../../actions/player';
 
 function* yieldStop() {
+	console.log('Player Stop');
 	const { player, playerType } = yield select(store => store.player);
 
 	// If no player or type, abandon

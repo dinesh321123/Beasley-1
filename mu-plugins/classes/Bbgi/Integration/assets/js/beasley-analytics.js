@@ -68,10 +68,12 @@ class BeasleyAnalytics {
 	}
 
 	sendEvent() {
-		this.analyticsProviderArray.map(provider => provider.sendEvent.apply(provider, arguments));
+		// NO LONGER FORWARD EVENT TO MPARTICLE - MParticle Events Are Now Called Independently
+		this.analyticsProviderArray.filter(provider => provider.analyticType !== BeasleyAnalyticsMParticleProvider.typeString)
+			.map(provider => provider.sendEvent.apply(provider, arguments));
 	}
 
-	sendMParticleEvent(eventName, eventUUID) {
+	sendMParticleEvent(eventName) {
 	const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 	if (provider) {
 		provider.sendEventByName.apply(provider, arguments);
@@ -148,6 +150,8 @@ class BeasleyAnalyticsGaV3Provider extends BeasleyAnalyticsBaseProvider {
 
 class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	static typeString = 'MPARTICLE';
+	static settingsFuncName = 'SETTINGS_FUNC';
+	static eventFuncName = 'EVENT_FUNC';
 
 	static GAtoMParticleFieldNameMap = {
 		contentGroup1: 'show_name',
@@ -160,15 +164,16 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		searchedFor: 'Searched For',
 		searchedResultClicked: 'Searched Result Clicked',
 		formSubmitted: 'Form Submitted',
+		shared: 'Shared',
+		downloadedPodcast: 'Downloaded Podcast',
 		mediaSessionCreate: 'MediaSessionCreate',
-		mediaSessionStart: 'MediaSessionStart',
+		mediaSessionStart: 'Media Session Start',
 		play: 'Play',
 		pause: 'Pause',
-		mediaContentEnd: 'MediaContentEnd',
-		mediaSessionEnd: 'MediaSessionEnd',
+		mediaContentEnd: 'Media Content End',
+		mediaSessionEnd: 'Media Session End',
+		mediaSessionSummary: 'Media Session Summary',
 	};
-
-	eventUUIDsSent;
 
 	getCleanEventObject(eventName) {
 		const dataPoints = window.mParticleSchema?.version_document?.data_points;
@@ -228,6 +233,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		return Object.fromEntries(entryArray);
 	}
 
+	queuedArgs = [];
+
 	isInitialized = false;
 
 	keyValuePairsTemplate;
@@ -245,14 +252,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		// Configures the SDK. Note the settings below for isDevelopmentMode
 		// and logLevel.
 		window.mParticle = {
-			config: {
-				isDevelopmentMode: true,
-				logLevel: 'verbose',
-				dataPlan: {
-					planId: 'beasley_web',
-					planVersion: 1,
-				}
-			},
+			config: window.bbgiAnalyticsConfig.mParticleConfig,
 		};
 		(
 			function (t) {
@@ -329,10 +329,23 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		window.mparticleEventNames = BeasleyAnalyticsMParticleProvider.mparticleEventNames;
 		this.createKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
-		this.eventUUIDsSent = [];
 
 		console.log('Beasley Analytics mParticle Variables Were Initialized');
 		this.isInitialized = true;
+
+		this.setSessionKeys();
+
+		// Empty Any Queued Event Args
+		if (this.queuedArgs.length > 0) {
+			this.queuedArgs.forEach(eventArg => {
+				if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.settingsFuncName) {
+					this.setAnalytics.apply(this, eventArg.args);
+				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.eventFuncName) {
+					this.sendEventByName.apply(this, eventArg.args);
+				}
+			});
+			this.queuedArgs = [];
+		}
 	}
 
 	createKeyValuePairs() {
@@ -342,6 +355,11 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 	clearKeyValuePairs() {
 		this.keyValuePairs = {...this.keyValuePairsTemplate};
+	}
+
+	setSessionKeys() {
+		// Set Global Fields
+		this.setAnalytics('domain', window.location.hostname);
 	}
 
 	createAnalytics() {
@@ -356,7 +374,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	setAnalytics() {
 		super.setAnalytics.apply(this, arguments);
 
-		if (! this.isInitialized) {
+		if (!this.isInitialized) {
+			this.queuedArgs.push( {funcName: BeasleyAnalyticsMParticleProvider.settingsFuncName, args: arguments} );
 			return;
 		}
 
@@ -368,10 +387,10 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				console.log(`Mapped GA Field Name '${arguments[0]} To MParticle Field Name Of '${mparticleFieldName}'` );
 				this.keyValuePairs[mparticleFieldName] = arguments[1];
 			} else {
-				console.log(`MParticle Params Ignoring ${arguments[0]} of ${arguments[1]}`);
+				console.error(`MParticle Params Ignoring ${arguments[0]} of ${arguments[1]}`);
 			}
 		} else {
-			console.log('Attempt to set MParticle Key Value Pair With Arguments NOT Of Length 2');
+			console.error(`Attempt to set MParticle Key Value Pair With Arguments NOT Of Length 2 - '${arguments}'`, arguments);
 		}
 	}
 
@@ -385,21 +404,18 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		}
 	}
 
-	sendEventByName(eventName, eventUUID) {
+	sendEventByName(eventName) {
 		super.sendEvent.apply(this, arguments);
 
-		if (! this.isInitialized) {
+		if (!this.isInitialized) {
+			this.queuedArgs.push( {funcName: BeasleyAnalyticsMParticleProvider.eventFuncName, args: arguments} );
 			return;
 		}
 
-		// Protect Against Duplicate Events During Current MParticle Application State
-		if (eventUUID && this.eventUUIDsSent.includes(eventUUID)) {
-			return;
-		}
-		if (eventUUID) {
-			this.eventUUIDsSent.push(eventUUID);
-		}
+		this.doSendEventByName(eventName);
+	}
 
+	doSendEventByName(eventName) {
 		// If The Event Is A Page View
 		if (eventName === BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
 			const emptyPageViewObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
@@ -416,15 +432,13 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
 			const customEventType = this.customEventTypeLookupByName[eventName];
 
+			console.log(`Beasley Analytics is queueing '${customEventType}' Event`);
 			window.mParticle.logEvent(
 				eventName,
 				customEventType,
 				objectToSend,
 			);
 		}
-
-		// Re-initialize ALL MParticle Field Holders
-		this.clearKeyValuePairs();
 	}
 }
 

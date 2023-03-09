@@ -119,6 +119,32 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
 						do_action( 'dfp_tag', 'in-list-gallery' );
 					endif;
+
+				$mparticle_implementation = sprintf(
+					'<script class="mparticle_implementation">
+					window.beasleyanalytics.setAnalyticsForMParticle(\'view_type\' , \'%s\');
+    				window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_title\', \'%s\');
+					window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_type\', \'%s\');
+					window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_path\', \'%s\');
+					window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_post_id\', \'%s\');
+					window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_wp_author\', \'%s\');
+					window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_primary_author\', \'%s\');
+					window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_secondary_author\', \'%s\');
+					window.beasleyanalytics.sendMParticleEvent(
+                        BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView,
+					);
+				</script>',
+					'embedded_content', //view_type
+					$cpt_item_name_data,
+					'embedded_type?',
+					$urls[ $cpt_post_object->ID ],
+					$cpt_post_object->ID,
+					'embedded_content_wp_author?',
+					'embedded_content_primary_author?',
+					'embedded_content_secondary_author?'
+				);
+				echo $mparticle_implementation;
+
 				echo '</li>';
 			}
 		}

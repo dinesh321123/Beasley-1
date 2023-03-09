@@ -43,14 +43,19 @@ class Google extends \Bbgi\Module {
 	static public function ga_enqueue_scripts() {
 		$data = Google::get_analytics_data();
 		$jsonData = json_encode($data);
+		$jsonMParticleConfig = '{"isDevelopmentMode": true, "logLevel": "verbose", "dataPlan": {"planId": "beasley_web_alpha_3", "planVersion": 1}}';
 
 		echo sprintf(
-			'<script>window.bbgiAnalyticsConfig=JSON.parse(\'%s\');</script>', $jsonData
+			'<script>window.bbgiAnalyticsConfig=JSON.parse(\'%s\'); window.bbgiAnalyticsConfig.mParticleConfig=JSON.parse(\'%s\');</script>',
+			$jsonData,
+			$jsonMParticleConfig
 		);
 
 		wp_enqueue_script(
 			'mparticle_enqueue_scripts',
-			plugins_url( 'assets/js/mparticle-schema.js', __FILE__ )
+			plugins_url( 'assets/js/mparticle-schema.js', __FILE__ ),
+			null,
+			'2.0.2'
 		);
 
 		wp_enqueue_script(
@@ -62,10 +67,8 @@ class Google extends \Bbgi\Module {
 			'ga_enqueue_scripts',
 			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
 			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' ),
-			'2.0.0'
+			'2.0.2'
 		);
-
-
 	}
 
 	/**

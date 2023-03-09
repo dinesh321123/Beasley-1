@@ -8,46 +8,22 @@ $search_query = get_search_query();
 if ( ee_is_first_page() ) :
 	get_template_part( 'partials/search/header' );
 
-	$random = substr(md5(mt_rand()), 0, 10);
 	$result_count = $wp_query->found_posts;
 	if (! $result_count) {
 		$result_count = 0;
 	}
 
 	$mparticle_implementation = sprintf(
-		'<img id="MParticleSearchEvent" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" width="0" height="0" alt="" onload = "{
-                    console.log(\'Firing MParticle Search Event - \', \'%s\');
+		'<script class="mparticle_implementation">
 					window.beasleyanalytics.setAnalyticsForMParticle(\'search_term\', \'%s\');
 					window.beasleyanalytics.setAnalyticsForMParticle(\'search_num_results\', %d);
-					window.beasleyanalytics.setAnalyticsForMParticle(
-						\'page_url\',
-						window.location.href
-					);
-					window.beasleyanalytics.setAnalyticsForMParticle(
-						\'call_sign\',
-						window.bbgiconfig.publisher.title
-					);
-					window.beasleyanalytics.setAnalyticsForMParticle(
-						\'call_sign_id\',
-						window.bbgiconfig.publisher.id
-					);
-					window.beasleyanalytics.setAnalyticsForMParticle(
-						\'title\',
-						window.document.title
-					);
-					window.beasleyanalytics.setAnalyticsForMParticle(
-						\'domain\',
-						window.location.hostname
-					);
+
 					window.beasleyanalytics.sendMParticleEvent(
-						window.mparticleEventNames.searchedFor,
-						\'%s\',
+						BeasleyAnalyticsMParticleProvider.mparticleEventNames.searchedFor,
 					);
-				}"/>',
-		$random,
+				</script>',
 		$search_query,
 		$result_count,
-		$random,
 	);
 	echo $mparticle_implementation;
 

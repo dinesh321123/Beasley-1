@@ -22,15 +22,10 @@ if (window.bbgiAnalyticsConfig?.mparticle_key) {
 	console.log('Configuring mparticle in bundle');
 	// Configures the SDK. Note the settings below for isDevelopmentMode
 	// and logLevel.
-	const mParticleConfig = {
-		isDevelopmentMode: true,
-		logLevel: 'verbose',
-		dataPlan: {
-			planId: 'beasley_web',
-			planVersion: 1,
-		},
-	};
-	mParticle.init(window.bbgiAnalyticsConfig.mparticle_key, mParticleConfig);
+	mParticle.init(
+		window.bbgiAnalyticsConfig.mparticle_key,
+		window.bbgiAnalyticsConfig.mParticleConfig,
+	);
 	window.mParticle = mParticle;
 	console.log(
 		'Done configuring mparticle in bundle, now initializing Beasley Analytics',

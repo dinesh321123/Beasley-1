@@ -20,6 +20,7 @@ const getStreamByStation = station => ({ stream_call_letters }) =>
  * Generator runs whenever ACTION_PLAY_AUDIO is dispatched
  */
 function* yieldPlay(action) {
+	console.log('yieldPlay()');
 	const { source } = action.payload;
 
 	// Player store from state

@@ -32,6 +32,9 @@ function* yieldPause() {
 	) {
 		yield call(lyticsTrack, 'pause', cuePoint);
 	}
+
+	window.mediaSession.logMediaContentEnd();
+	window.mediaSession.logMediaSessionEnd();
 }
 
 /**
