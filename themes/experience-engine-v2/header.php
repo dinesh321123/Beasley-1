@@ -129,7 +129,7 @@ use Bbgi\Integration\Google;
 						window.beasleyanalytics.setAnalyticsForMParticle(\'consent_cookie\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'event_day_of_the_week\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'event_hour_of_the_day\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'prebid_enabled\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'prebid_enabled\', window.bbgiconfig?.prebid_enabled);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'platform\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'publish_date\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'publish_day_of_the_week\', \'%s\');
@@ -178,7 +178,6 @@ use Bbgi\Integration\Google;
 							'consent_cookie?',
 							'event_day_of_the_week?',
 							'event_hour_of_the_day?',
-							'prebid_enabled?',
 							'platform?',
 							'1970-01-01', 					// publish_date
 							'', 							// publish_day_of_the_week
