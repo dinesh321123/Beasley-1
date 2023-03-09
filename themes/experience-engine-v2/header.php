@@ -106,7 +106,7 @@ use Bbgi\Integration\Google;
 
 					$mparticle_implementation = sprintf(
 							'<script class="mparticle_implementation">
-    					console.log(\'Firing Page View\');
+    					console.log(\'Firing Page View - \' + window.location.href);
     					window.beasleyanalytics.setAnalyticsForMParticle(\'page_url\', window.location.href);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'title\', window.document.title);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'call_sign\', window.bbgiconfig?.publisher?.title);
