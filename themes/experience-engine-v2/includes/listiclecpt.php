@@ -135,7 +135,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 					);
 				</script>',
 					'embedded_content', //view_type
-					$cpt_item_name_data,
+					addslashes($cpt_item_name_data),
 					'embedded_type?',
 					$urls[ $cpt_post_object->ID ],
 					$cpt_post_object->ID,
