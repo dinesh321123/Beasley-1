@@ -244,10 +244,10 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	// When Running React We Use Use MParticle "Self Hosting" Within Bundle. For Mobile App Pages, we need to include via JS Snippet
 	includeMParticleSnippetIfMobileApp() {
 		if (! window.isWhiz()) {
-			console.log('NOT Including MParticle via js since using bundle.');
+			console.log(`NOT Including MParticle via js since no 'whiz' param found and assuming we are using bundle.`);
 			return;
 		}
-		console.log('Including MParticle via js since no bundle found. Likely a Whiz Page.');
+		console.log(`Including MParticle via js since 'whiz' param found and assuming we are not using bundle.`);
 
 		// Configures the SDK. Note the settings below for isDevelopmentMode
 		// and logLevel.
