@@ -100,7 +100,7 @@ class Google extends \Bbgi\Module {
 	 *
 	 * @return array
 	 */
-	public function allow_posttype_list_for_common_mobile() {
+	public static function allow_posttype_list_for_common_mobile() {
 		return (array) apply_filters( 'allow-font-awesome-for-posttypes', array( 'affiliate_marketing', 'gmr_gallery', 'listicle_cpt' )  );
 	}
 
