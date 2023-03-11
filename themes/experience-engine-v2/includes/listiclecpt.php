@@ -116,6 +116,28 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 						echo '</div>';
 					echo '</div>';
 
+					$mparticle_meta_tag = sprintf(
+						'<mparticle-meta
+						data-view-type = \'%s\'
+						data-embedded-content-title = \'%s\'
+						data-embedded-content-type = \'%s\'
+						data-embedded-content-path = \'%s\'
+						data-embedded-content-post-id = \'%s\'
+						data-embedded-content-wp-author = \'%s\'
+						data-embedded-content-primary-author = \'%s\'
+						data-embedded-content-secondary-author = \'%s\'
+						/>',
+						'embedded_content', //view_type
+						addslashes($cpt_item_name_data),
+						'embedded_type?',
+						$urls[ $cpt_post_object->ID ],
+						$cpt_post_object->ID,
+						'embedded_content_wp_author?',
+						'embedded_content_primary_author?',
+						'embedded_content_secondary_author?'
+					);
+					echo $mparticle_meta_tag;
+
 					if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
 						do_action( 'dfp_tag', 'in-list-gallery' );
 					endif;
@@ -123,6 +145,19 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 			}
 		}
 		echo '</ul>';
+
+		$mparticle_implementation = sprintf(
+	'<script class="mparticle_implementation">
+				document.addEventListener(\'DOMContentLoaded\', () => {
+					const listicleList = document.getElementsByClassName(\'listicle-main-ul-item\');
+					if (listicleList && listicleList.length > 0) {
+						window.beasleyanalytics.fireLazyMParticlePageViewsForElementsWithMeta(listicleList[0].getElementsByTagName(\'mparticle-meta\'));
+					}
+				});
+			</script>'
+		);
+		echo $mparticle_implementation;
+
 		return ob_get_clean();
 	}
 endif;

@@ -74,11 +74,18 @@ class BeasleyAnalytics {
 	}
 
 	sendMParticleEvent(eventName) {
-	const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
-	if (provider) {
-		provider.sendEventByName.apply(provider, arguments);
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			provider.sendEventByName.apply(provider, arguments);
+		}
 	}
-}
+
+	fireLazyMParticlePageViewsForElementsWithMeta(elementList) {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			provider.fireLazyPageViewsForElementsWithMeta.apply(provider, arguments);
+		}
+	}
 
 }
 
@@ -175,6 +182,13 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		mediaSessionSummary: 'Media Session Summary',
 	};
 
+	queuedArgs = [];
+	isInitialized = false;
+	keyValuePairsTemplate;
+	keyValuePairs;
+	customEventTypeLookupByName;
+	lazyPageEventObserver;
+
 	getCleanEventObject(eventName) {
 		const dataPoints = window.mParticleSchema?.version_document?.data_points;
 		if (dataPoints) {
@@ -228,18 +242,67 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 	getAllCustomEventTypeLookupObject() {
 		const entryArray = Object.keys(BeasleyAnalyticsMParticleProvider.mparticleEventNames).map(eventNameKey => {
-			 return [BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], this.getCustomEventTypeValueForEventName(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey])];
+			return [BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], this.getCustomEventTypeValueForEventName(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey])];
 		});
 		return Object.fromEntries(entryArray);
 	}
+	getCleanEventObject(eventName) {
+		const dataPoints = window.mParticleSchema?.version_document?.data_points;
+		if (dataPoints) {
+			const dataPoint = dataPoints.find( dp =>
+				(dp?.match?.type === 'screen_view' && dp?.match?.criteria?.screen_name === eventName) ||
+				(dp?.match?.criteria?.event_name === eventName) );
+			if (dataPoint) {
+				const dataPointProperties = dataPoint.validator?.definition?.properties?.data?.properties?.custom_attributes?.properties;
+				if (dataPointProperties) {
+					const kvArray = Object.keys(dataPointProperties).map(key => ({[key]: null}));
+					return Object.assign(...kvArray); // Return an object with each field assigned to ''
+				}
+			}
+		}
 
-	queuedArgs = [];
+		console.log(`ERROR - Could not create Key Value Pairs for MParticle Event - '${eventName}'`);
+		return null;
+	};
 
-	isInitialized = false;
+	getAllEventFieldsObjects() {
+		let retval = {};
+		Object.keys(BeasleyAnalyticsMParticleProvider.mparticleEventNames).forEach(eventNameKey => {
+			const newEventFieldsObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey]);
+			retval = {...retval, ...newEventFieldsObject};
+		});
 
-	keyValuePairsTemplate;
-	keyValuePairs;
-	customEventTypeLookupByName;
+		return retval;
+	}
+
+	getCustomEventTypeValueForEventName(eventName) {
+		const dataPoints = window.mParticleSchema?.version_document?.data_points;
+		if (dataPoints) {
+			const dataPoint = dataPoints.find( dp =>
+				(dp?.match?.type === 'custom_event' && dp?.match?.criteria?.event_name === eventName));
+			if (dataPoint) {
+				const dataPointType = dataPoint.match?.criteria?.custom_event_type;
+				if (dataPointType) {
+					const mParticleEventType = Object.entries(window.mParticle.EventType).find( kvpair => kvpair[0].toLowerCase() === dataPointType.toLowerCase());
+					if (mParticleEventType) {
+						return mParticleEventType[1];
+					} else {
+						console.log(`ERROR - could not find an MParticle Custom Event Type matching text - '${dataPointType}'`);
+						return window.mParticle.EventType.Unknown;
+					}
+				}
+			}
+		}
+
+		console.log(`Could not find Custom Event Type For MParticle Event - '${eventName}'`);
+		return null;
+	}
+	getAllCustomEventTypeLookupObject() {
+		const entryArray = Object.keys(BeasleyAnalyticsMParticleProvider.mparticleEventNames).map(eventNameKey => {
+			return [BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], this.getCustomEventTypeValueForEventName(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey])];
+		});
+		return Object.fromEntries(entryArray);
+	}
 
 	// When Running React We Use Use MParticle "Self Hosting" Within Bundle. For Mobile App Pages, we need to include via JS Snippet
 	includeMParticleSnippetIfMobileApp() {
@@ -325,12 +388,12 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 
 	initialize() {
-		console.log('Initializing Beasley Analytics mParticle Variables.');
+		super.debugLog('Initializing Beasley Analytics mParticle Variables.');
 		window.mparticleEventNames = BeasleyAnalyticsMParticleProvider.mparticleEventNames;
 		this.createKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
 
-		console.log('Beasley Analytics mParticle Variables Were Initialized');
+		super.debugLog('Beasley Analytics mParticle Variables Were Initialized');
 		this.isInitialized = true;
 
 		this.setSessionKeys();
@@ -432,12 +495,38 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
 			const customEventType = this.customEventTypeLookupByName[eventName];
 
-			console.log(`Beasley Analytics is queueing '${customEventType}' Event`);
+			super.debugLog(`Beasley Analytics is queueing '${customEventType}' Event`);
 			window.mParticle.logEvent(
 				eventName,
 				customEventType,
 				objectToSend,
 			);
+		}
+	}
+
+	fireLazyPageViewsForElementsWithMeta(elementList) {
+		const onIntersection = (entries) => {
+			for (const entry of entries) {
+				if (entry.isIntersecting) {
+					console.log(entry);
+					const mParticleParams = entry.target?.dataset;
+					for( const paramName in mParticleParams) {
+						this.setAnalytics(paramName, mParticleParams[mParticleParams]);
+					}
+					this.sendEventByName(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
+					this.lazyPageEventObserver.unobserve(entry.target);
+				}
+			}
+		};
+
+		if (this.lazyPageEventObserver) {
+			this.lazyPageEventObserver.disconnect();
+		} else {
+			this.lazyPageEventObserver = new IntersectionObserver(onIntersection);
+		}
+
+		if (elementList) {
+			Array.from(elementList).forEach(el => this.lazyPageEventObserver.observe(el));
 		}
 	}
 }
