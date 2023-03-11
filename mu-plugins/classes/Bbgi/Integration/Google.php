@@ -55,7 +55,7 @@ class Google extends \Bbgi\Module {
 			'mparticle_enqueue_scripts',
 			plugins_url( 'assets/js/mparticle-schema.js', __FILE__ ),
 			null,
-			'2.0.3'
+			'2.0.4'
 		);
 
 		wp_enqueue_script(
@@ -67,7 +67,7 @@ class Google extends \Bbgi\Module {
 			'ga_enqueue_scripts',
 			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
 			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' ),
-			'2.0.3'
+			'2.0.4'
 		);
 	}
 

@@ -508,10 +508,10 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		const onIntersection = (entries) => {
 			for (const entry of entries) {
 				if (entry.isIntersecting) {
-					console.log(entry);
+					super.debugLog(entry);
 					const mParticleParams = entry.target?.dataset;
 					for( const paramName in mParticleParams) {
-						this.setAnalytics(paramName, mParticleParams[mParticleParams]);
+						this.setAnalytics(paramName, mParticleParams[paramName]);
 					}
 					this.sendEventByName(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
 					this.lazyPageEventObserver.unobserve(entry.target);
