@@ -159,6 +159,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	static typeString = 'MPARTICLE';
 	static settingsFuncName = 'SETTINGS_FUNC';
 	static eventFuncName = 'EVENT_FUNC';
+	static fireLazyPageViewFuncName = 'FIRE_LAZY_PAGE_VIEW_FUNC';
 
 	static GAtoMParticleFieldNameMap = {
 		contentGroup1: 'show_name',
@@ -405,6 +406,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 					this.setAnalytics.apply(this, eventArg.args);
 				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.eventFuncName) {
 					this.sendEventByName.apply(this, eventArg.args);
+				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.fireLazyPageViewFuncName) {
+					this.fireLazyPageViewsForElementsWithMeta.apply(this, eventArg.args);
 				}
 			});
 			this.queuedArgs = [];
@@ -505,14 +508,21 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 
 	fireLazyPageViewsForElementsWithMeta(elementList) {
+		if (!this.isInitialized) {
+			this.queuedArgs.push( {funcName: BeasleyAnalyticsMParticleProvider.fireLazyPageViewFuncName, args: arguments} );
+			return;
+		}
+		this.doFireLazyPageViewsForElementsWithMeta(elementList);
+	}
+
+	doFireLazyPageViewsForElementsWithMeta(elementList) {
 		const onIntersection = (entries) => {
 			for (const entry of entries) {
 				if (entry.isIntersecting) {
 					super.debugLog(entry);
-					const mParticleParams = entry.target?.dataset;
-					for( const paramName in mParticleParams) {
-						this.setAnalytics(paramName, mParticleParams[paramName]);
-					}
+					Array.prototype.slice.call(entry.target.attributes).forEach((item) => {
+						this.setAnalytics(item.name.replace('data-', ''), item.value);
+					});
 					this.sendEventByName(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
 					this.lazyPageEventObserver.unobserve(entry.target);
 				}

@@ -118,14 +118,14 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 
 					$mparticle_meta_tag = sprintf(
 						'<mparticle-meta
-						data-view-type = \'%s\'
-						data-embedded-content-title = \'%s\'
-						data-embedded-content-type = \'%s\'
-						data-embedded-content-path = \'%s\'
-						data-embedded-content-post-id = \'%s\'
-						data-embedded-content-wp-author = \'%s\'
-						data-embedded-content-primary-author = \'%s\'
-						data-embedded-content-secondary-author = \'%s\'
+						data-view_type = \'%s\'
+						data-embedded_content_title = \'%s\'
+						data-embedded_content_type = \'%s\'
+						data-embedded_content_path = \'%s\'
+						data-embedded_content_post_id = \'%s\'
+						data-embedded_content_wp_author = \'%s\'
+						data-embedded_content_primary_author = \'%s\'
+						data-embedded_content_secondary_author = \'%s\'
 						/>',
 						'embedded_content', //view_type
 						addslashes($cpt_item_name_data),
@@ -148,12 +148,16 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 
 		$mparticle_implementation = sprintf(
 	'<script class="mparticle_implementation">
-				document.addEventListener(\'DOMContentLoaded\', () => {
+				setTimeout(() => {
+					console.log(\'Firing mparticle_implementation of Embeds \');
+
 					const listicleList = document.getElementsByClassName(\'listicle-main-ul-item\');
 					if (listicleList && listicleList.length > 0) {
+						console.log(\'Calling mparticle_implementation of Embeds \');
 						window.beasleyanalytics.fireLazyMParticlePageViewsForElementsWithMeta(listicleList[0].getElementsByTagName(\'mparticle-meta\'));
+						console.log(\'Called mparticle_implementation of Embeds \');
 					}
-				});
+                }, 2500);
 			</script>'
 		);
 		echo $mparticle_implementation;
