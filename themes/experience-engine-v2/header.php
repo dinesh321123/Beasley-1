@@ -111,7 +111,6 @@ use Bbgi\Integration\Google;
 						window.beasleyanalytics.setAnalyticsForMParticle(\'title\', window.document.title);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'call_sign\', window.bbgiconfig?.publisher?.title);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'call_sign_id\', window.bbgiconfig?.publisher?.id);
-						window.beasleyanalytics.setAnalyticsForMParticle(\'beasley_event_id\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_category\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_category_id\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'show_name\', \'%s\');
@@ -127,8 +126,6 @@ use Bbgi\Integration\Google;
 						window.beasleyanalytics.setAnalyticsForMParticle(\'ad_block_enabled\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'ad_tags_enabled\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'consent_cookie\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'event_day_of_the_week\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'event_hour_of_the_day\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'prebid_enabled\', window.bbgiconfig?.prebid_enabled);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'platform\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'publish_date\', \'%s\');
@@ -160,7 +157,6 @@ use Bbgi\Integration\Google;
 							BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView,
 						);
 					</script>',
-							'beasley_event_id?',
 							'primary_category?',
 							'primary_category_id?',
 							'show_name?',
@@ -176,8 +172,6 @@ use Bbgi\Integration\Google;
 							'ad_block_enabled?',
 							'ad_tags_enabled?',
 							'consent_cookie?',
-							'event_day_of_the_week?',
-							'event_hour_of_the_day?',
 							'platform?',
 							'1970-01-01', 					// publish_date
 							'', 							// publish_day_of_the_week

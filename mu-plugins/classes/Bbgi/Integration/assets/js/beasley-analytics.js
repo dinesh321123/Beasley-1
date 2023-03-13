@@ -397,7 +397,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		super.debugLog('Beasley Analytics mParticle Variables Were Initialized');
 		this.isInitialized = true;
 
-		this.setSessionKeys();
+		this.setPerSessionKeys();
 
 		// Empty Any Queued Event Args
 		if (this.queuedArgs.length > 0) {
@@ -423,9 +423,24 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.keyValuePairs = {...this.keyValuePairsTemplate};
 	}
 
-	setSessionKeys() {
+	setPerSessionKeys() {
 		// Set Global Fields
 		this.setAnalytics('domain', window.location.hostname);
+	}
+
+	setPerEventKeys() {
+		// createUUID() copied from https://www.arungudelli.com/tutorial/javascript/how-to-create-uuid-guid-in-javascript-with-examples/
+		// NOT WELL TESTED
+		const createUUID = () => {
+			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+				(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+			)
+		}
+
+		this.setAnalytics('beasley_event_id', createUUID()); // NOTE: predictable algorithm and only available in secure context
+		const currentDateTime = new Date();
+		this.setAnalytics('event_day_of_the_week', currentDateTime.getDay().toString());
+		this.setAnalytics('event_hour_of_the_day', currentDateTime.getHours().toString());
 	}
 
 	createAnalytics() {
@@ -482,6 +497,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 
 	doSendEventByName(eventName) {
+		this.setPerEventKeys();
+
 		// If The Event Is A Page View
 		if (eventName === BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
 			const emptyPageViewObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
