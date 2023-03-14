@@ -1,12 +1,6 @@
 window.mParticleSchema = {
-	"version_description"
-:
-	"", "version_document"
-:
-	{
-		"data_points"
-	:
-		[{
+	"version_description": "", "version_document": {
+		"data_points": [{
 			"description": "Logging Page/Screen Views via logPageView() or Screen",
 			"match": {"type": "screen_view", "criteria": {"screen_name": "Page View"}},
 			"validator": {
@@ -326,52 +320,6 @@ window.mParticleSchema = {
 			"description": "",
 			"match": {
 				"type": "custom_event",
-				"criteria": {"event_name": "MediaSessionCreate", "custom_event_type": "media"}
-			},
-			"validator": {
-				"type": "json_schema", "definition": {
-					"properties": {
-						"data": {
-							"additionalProperties": true, "properties": {
-								"custom_attributes": {
-									"additionalProperties": false, "description": "", "properties": {
-										"sdk": {"description": "", "type": ["string", "null"]},
-										"listener_daypart": {"description": "", "type": ["string", "null"]},
-										"content_title": {"description": "", "type": ["string", "null"]},
-										"content_duration": {"description": "", "type": ["string", "null"]},
-										"content_id": {"description": "", "type": ["string", "null"]},
-										"content_type": {"description": "", "type": ["string", "null"]},
-										"stream_type": {"description": "", "type": ["string", "null"]},
-										"media_session_id": {"description": "", "type": ["string", "null"]},
-										"content_asset_id": {"description": "", "type": ["string", "null"]},
-										"content_network": {"description": "", "type": ["string", "null"]},
-										"primary_category": {"description": "", "type": ["string", "null"]},
-										"primary_category_id": {"description": "", "type": ["string", "null"]},
-										"show_name": {"description": "", "type": ["string", "null"]},
-										"show_id": {"description": "", "type": ["string", "null"]},
-										"content_daypart": {"description": "", "type": ["string", "null"]},
-										"mediaID": {"description": "", "type": ["string", "null"]},
-										"mediaTitle": {"description": "", "type": ["string", "null"]},
-										"duration": {"description": "", "type": ["string", "null"]},
-										"contentType": {"description": "", "type": ["string", "null"]},
-										"streamType": {"description": "", "type": ["string", "null"]},
-										"pageEventToggle": {"description": "", "type": ["string", "null"]},
-										"mediaEventToggle": {"description": "", "type": ["string", "null"]},
-										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
-										"beasley_event_id": {"description": "", "type": ["string", "null"]}
-									}, "required": [], "type": "object"
-								}
-							}, "required": [], "type": "object"
-						}
-					}
-				}
-			}
-		}, {
-			"description": "",
-			"match": {
-				"type": "custom_event",
 				"criteria": {"event_name": "Media Session Start", "custom_event_type": "media"}
 			},
 			"validator": {
@@ -381,12 +329,30 @@ window.mParticleSchema = {
 							"additionalProperties": true, "properties": {
 								"custom_attributes": {
 									"additionalProperties": false, "description": "", "properties": {
-										"content_title": {"description": "", "type": ["string", "null"]},
-										"content_duration": {"description": "", "type": ["string", "null"]},
-										"content_id": {"description": "", "type": ["string", "null"]},
-										"content_type": {"description": "", "type": ["string", "null"]},
-										"stream_type": {"description": "", "type": ["string", "null"]},
-										"media_session_id": {"description": "", "type": ["string", "null"]},
+										"content_title": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_duration": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"stream_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
 										"content_asset_id": {"description": "", "type": ["string", "null"]},
 										"content_network": {"description": "", "type": ["string", "null"]},
 										"primary_category": {"description": "", "type": ["string", "null"]},
@@ -425,12 +391,30 @@ window.mParticleSchema = {
 										"currentPlayheadPosition": {"description": "", "type": ["string", "null"]},
 										"percentage_viewed": {"description": "", "type": ["string", "null"]},
 										"live_time_viewed": {"description": "", "type": ["string", "null"]},
-										"content_title": {"description": "", "type": ["string", "null"]},
-										"content_duration": {"description": "", "type": ["string", "null"]},
-										"content_id": {"description": "", "type": ["string", "null"]},
-										"content_type": {"description": "", "type": ["string", "null"]},
-										"stream_type": {"description": "", "type": ["string", "null"]},
-										"media_session_id": {"description": "", "type": ["string", "null"]},
+										"content_title": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_duration": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"stream_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
 										"content_asset_id": {"description": "", "type": ["string", "null"]},
 										"content_network": {"description": "", "type": ["string", "null"]},
 										"primary_category": {"description": "", "type": ["string", "null"]},
@@ -467,12 +451,30 @@ window.mParticleSchema = {
 								"custom_attributes": {
 									"additionalProperties": false, "description": "", "properties": {
 										"currentPlayheadPosition": {"description": "", "type": ["string", "null"]},
-										"content_title": {"description": "", "type": ["string", "null"]},
-										"content_duration": {"description": "", "type": ["string", "null"]},
-										"content_id": {"description": "", "type": ["string", "null"]},
-										"content_type": {"description": "", "type": ["string", "null"]},
-										"stream_type": {"description": "", "type": ["string", "null"]},
-										"media_session_id": {"description": "", "type": ["string", "null"]},
+										"content_title": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_duration": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"stream_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
 										"content_asset_id": {"description": "", "type": ["string", "null"]},
 										"content_network": {"description": "", "type": ["string", "null"]},
 										"primary_category": {"description": "", "type": ["string", "null"]},
@@ -512,12 +514,30 @@ window.mParticleSchema = {
 								"custom_attributes": {
 									"additionalProperties": false, "description": "", "properties": {
 										"currentPlayheadPosition": {"description": "", "type": ["string", "null"]},
-										"content_title": {"description": "", "type": ["string", "null"]},
-										"content_duration": {"description": "", "type": ["string", "null"]},
-										"content_id": {"description": "", "type": ["string", "null"]},
-										"content_type": {"description": "", "type": ["string", "null"]},
-										"stream_type": {"description": "", "type": ["string", "null"]},
-										"media_session_id": {"description": "", "type": ["string", "null"]},
+										"content_title": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_duration": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"stream_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
 										"content_asset_id": {"description": "", "type": ["string", "null"]},
 										"content_network": {"description": "", "type": ["string", "null"]},
 										"primary_category": {"description": "", "type": ["string", "null"]},
@@ -557,12 +577,30 @@ window.mParticleSchema = {
 								"custom_attributes": {
 									"additionalProperties": false, "description": "", "properties": {
 										"currentPlayheadPosition": {"description": "", "type": ["string", "null"]},
-										"content_title": {"description": "", "type": ["string", "null"]},
-										"content_duration": {"description": "", "type": ["string", "null"]},
-										"content_id": {"description": "", "type": ["string", "null"]},
-										"content_type": {"description": "", "type": ["string", "null"]},
-										"stream_type": {"description": "", "type": ["string", "null"]},
-										"media_session_id": {"description": "", "type": ["string", "null"]},
+										"content_title": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_duration": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"stream_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
 										"content_asset_id": {"description": "", "type": ["string", "null"]},
 										"content_network": {"description": "", "type": ["string", "null"]},
 										"primary_category": {"description": "", "type": ["string", "null"]},
@@ -601,21 +639,66 @@ window.mParticleSchema = {
 							"additionalProperties": true, "properties": {
 								"custom_attributes": {
 									"additionalProperties": false, "description": "", "properties": {
-										"media_session_start_time": {"description": "", "type": ["string", "null"]},
-										"media_session_end_time": {"description": "", "type": ["string", "null"]},
-										"media_time_spent": {"description": "", "type": ["string", "null"]},
-										"media_content_time_spent": {"description": "", "type": ["string", "null"]},
-										"media_content_complete": {"description": "", "type": ["string", "null"]},
-										"media_session_segment_total": {"description": "", "type": ["string", "null"]},
-										"media_total_ad_time_spent": {"description": "", "type": ["string", "null"]},
-										"media_ad_time_spent_rate": {"description": "", "type": ["string", "null"]},
-										"media_session_ad_total": {"description": "", "type": ["string", "null"]},
-										"content_title": {"description": "", "type": ["string", "null"]},
-										"content_duration": {"description": "", "type": ["string", "null"]},
-										"content_id": {"description": "", "type": ["string", "null"]},
-										"content_type": {"description": "", "type": ["string", "null"]},
-										"stream_type": {"description": "", "type": ["string", "null"]},
-										"media_session_id": {"description": "", "type": ["string", "null"]},
+										"media_session_start_time": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_end_time": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_time_spent": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_content_time_spent": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_content_complete": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_segment_total": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_total_ad_time_spent": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_ad_time_spent_rate": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_ad_total": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_title": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_duration": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"content_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"stream_type": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
+										"media_session_id": {
+											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
+											"type": ["string", "null"]
+										},
 										"content_asset_id": {"description": "", "type": ["string", "null"]},
 										"content_network": {"description": "", "type": ["string", "null"]},
 										"primary_category": {"description": "", "type": ["string", "null"]},

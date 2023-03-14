@@ -55,8 +55,19 @@ function* yieldStart() {
 		true, // Log Media Event Toggle (true/false)
 	);
 
-	window.mediaSession.logMediaSessionStart();
-	window.mediaSession.logPlay();
+	const sessionStartOptions = {};
+	sessionStartOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
+		window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
+			.mparticleEventNames.mediaSessionStart,
+	);
+	window.mediaSession.logMediaSessionStart(sessionStartOptions);
+
+	const playOptions = {};
+	playOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
+		window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
+			.mparticleEventNames.play,
+	);
+	window.mediaSession.logPlay(playOptions);
 }
 
 /**

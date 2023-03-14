@@ -32,9 +32,19 @@ function* yieldPause() {
 	) {
 		yield call(lyticsTrack, 'pause', cuePoint);
 	}
+	const contentEndOptions = {};
+	contentEndOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
+		window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
+			.mparticleEventNames.mediaContentEnd,
+	);
+	window.mediaSession.logMediaContentEnd(contentEndOptions);
 
-	window.mediaSession.logMediaContentEnd();
-	window.mediaSession.logMediaSessionEnd();
+	const sessionEndOptions = {};
+	sessionEndOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
+		window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
+			.mparticleEventNames.mediaSessionEnd,
+	);
+	window.mediaSession.logMediaSessionEnd(sessionEndOptions);
 }
 
 /**

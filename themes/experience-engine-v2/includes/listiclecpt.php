@@ -128,7 +128,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 						data-embedded_content_secondary_author = \'%s\'
 						/>',
 						'embedded_content', //view_type
-						addslashes($cpt_item_name_data),
+						esc_attr($cpt_item_name_data),
 						'embedded_type?',
 						$urls[ $cpt_post_object->ID ],
 						$cpt_post_object->ID,
