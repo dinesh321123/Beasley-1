@@ -14,8 +14,12 @@
 	</header>
 
 	<div class="entry-content content-wrap">
-		<?php get_template_part( 'partials/page/description' ); ?>
-		<?php echo do_shortcode('[cancel_account]'); ?>
+		<div class="description">
+			<?php the_content(); ?>
+		</div>
+		<div class="cancel_account">
+			<?php echo do_shortcode('[cancel_account]'); ?>
+		</div>
 		<?php get_template_part( 'partials/footer/common', 'description' ); ?>
 		<?php get_template_part( 'partials/ads/sidebar-sticky' ); ?>
 	</div>
