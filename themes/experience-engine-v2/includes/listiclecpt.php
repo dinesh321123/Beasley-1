@@ -60,6 +60,13 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 			}
 		}
 
+		$mParticle_post_id = $cpt_post_object->ID ? $cpt_post_object->ID : '';
+		$mParticle_author = $cpt_post_object->post_author ? get_the_author_meta( 'login', $cpt_post_object->post_author ) : '';
+		$mParticle_primary_author = get_field( 'primary_author_cpt', $cpt_post_object );
+		$mParticle_primary_author = $mParticle_primary_author ? get_the_author_meta( 'login', $mParticle_primary_author ) : '';
+		$mParticle_secondary_author = get_field( 'secondary_author_cpt', $cpt_post_object );
+		$mParticle_secondary_author = $mParticle_secondary_author ? get_the_author_meta( 'login', $mParticle_secondary_author ) : '';
+
 		echo '<ul class="listicle-main-ul-item">';
 
 		$segment_item_index = 0;
@@ -132,9 +139,9 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 						'embedded_type?',
 						$urls[ $cpt_post_object->ID ],
 						$cpt_post_object->ID,
-						'embedded_content_wp_author?',
-						'embedded_content_primary_author?',
-						'embedded_content_secondary_author?'
+						$mParticle_author,
+						$mParticle_primary_author,
+						$mParticle_secondary_author
 					);
 					echo $mparticle_meta_tag;
 

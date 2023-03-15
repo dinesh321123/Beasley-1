@@ -94,7 +94,7 @@ endif;
 if ( ! function_exists( 'ee_load_more_attributes' ) ) :
 	function ee_load_more_attributes() {
 		if (is_archive() && is_category()) {
-			return 'class="load-more" autoload="true"';	
+			return 'class="load-more" autoload="true"';
 		}
 		return 'class="load-more"';
 	}
@@ -345,7 +345,7 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 		if($category == null) {
 			return $response;
 		}
-		
+
 		$posts = get_posts([
 			'post_type'      => 'magazine_cpt',
 			'post_status'    => 'publish',
@@ -356,7 +356,7 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 				]
 			]
 		]);
-		
+
 		if( is_array( $posts ) && ! empty( $posts ) && ( count( $posts ) > 0 ) ) {
 			$limit = 5;
 			$post = $posts[0];
@@ -385,5 +385,39 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 			return $response;
 		}
 		return $response;
+	}
+endif;
+
+if ( ! function_exists( 'ee_get_primary_terms' ) ) :
+	function ee_get_primary_terms($post_id, $term='category', $return_all_categories=false){
+		$return = array();
+
+		if (class_exists('WPSEO_Primary_Term')){
+			// Show Primary category by Yoast if it is enabled & set
+			$wpseo_primary_term = new WPSEO_Primary_Term( $term, $post_id );
+			$primary_term = get_term($wpseo_primary_term->get_primary_term());
+
+			if (!is_wp_error($primary_term)){
+				$return['primary'] = $primary_term;
+			}
+		}
+
+		if (empty($return['primary']) || $return_all_categories){
+			$categories_list = get_the_terms($post_id, $term);
+
+			if (empty($return['primary']) && !empty($categories_list)){
+				$return['primary'] = $categories_list[0];  //get the first category
+			}
+			if ($return_all_categories){
+				$return['all'] = array();
+
+				if (!empty($categories_list)){
+					foreach($categories_list as &$category){
+						$return['all'][] = $category->name;
+					}
+				}
+			}
+		}
+		return $return;
 	}
 endif;

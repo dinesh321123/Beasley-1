@@ -5,6 +5,16 @@ use Bbgi\Integration\Google;
 
 	$headerCacheTag = [];
 	$mParticleContentType = '';
+	$mParticle_category = '';
+	$mParticle_categories = '';
+	$mParticle_show = '';
+	$mParticle_tags = '';
+	$mParticle_post_id = '';
+	$mParticle_author = '';
+	$mParticle_primary_author = '';
+	$mParticle_secondary_author = '';
+	$mParticle_publish_date = '';
+	$mParticle_word_count = null;
 
 	if (  is_front_page() ) {
 		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
@@ -35,6 +45,25 @@ use Bbgi\Integration\Google;
 			} else {
 				$mParticleContentType = $currentPostType;
 			}
+
+			$post_categories = ee_get_primary_terms($post->ID, 'category', true);
+			$mParticle_category = $post_categories['primary'];
+			$mParticle_categories = !empty($post_categories['all']) ? wp_json_encode($post_categories['all']) : '';
+			
+			$post_shows = ee_get_primary_terms($post->ID, '_shows', true);
+			$mParticle_show = $post_shows['primary'];
+
+			$post_tags = ee_get_primary_terms($post->ID, 'post_tag', true);
+			$mParticle_tags = !empty($post_tags['all']) ? wp_json_encode($post_tags['all']) : '';
+			
+			$mParticle_post_id = $post->ID ? $post->ID : '';
+			$mParticle_author = $post->post_author ? get_the_author_meta( 'login', $post->post_author ) : '';
+			$mParticle_primary_author = get_field( 'primary_author_cpt', $post );
+			$mParticle_primary_author = $mParticle_primary_author ? get_the_author_meta( 'login', $mParticle_primary_author ) : '';
+			$mParticle_secondary_author = get_field( 'secondary_author_cpt', $post );
+			$mParticle_secondary_author = $mParticle_secondary_author ? get_the_author_meta( 'login', $mParticle_secondary_author ) : '';
+			
+			$mParticle_word_count = $post->post_content ? str_word_count( strip_tags( $post->post_content ) ) : null;
 
 		endif;
 		if (  isset( $post->post_name ) && $post->post_name != "" ) :
@@ -157,35 +186,35 @@ use Bbgi\Integration\Google;
 							BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView,
 						);
 					</script>',
-							'primary_category?',
-							'primary_category_id?',
-							'show_name?',
-							'show_id?',
-							'tags?',
+							$mParticle_category ? $mParticle_category->name : 'null',
+							$mParticle_category ? $mParticle_category->term_id : 'null',
+							$mParticle_show ? $mParticle_show->name : 'null',
+							$mParticle_show ? $mParticle_show->term_id : 'null',
+							$mParticle_tags ? $mParticle_tags : 'null',
 							$mParticleContentType, 			// content_type
 							'primary',  					// view_type
 							'daypart?',
-							'post_id?',
-							'wp_author?',
-							'primary_author?',
-							'secondary_author?',
+							$mParticle_post_id ? $mParticle_post_id : 'null',
+							$mParticle_author ? $mParticle_author : 'null',
+							$mParticle_primary_author ? $mParticle_primary_author : 'null',
+							$mParticle_secondary_author ? $mParticle_secondary_author : 'null',
 							'ad_block_enabled?',
 							'ad_tags_enabled?',
 							'consent_cookie?',
 							'platform?',
-							'1970-01-01', 					// publish_date
-							'', 							// publish_day_of_the_week
-							'0', 							// publish_hour_of_the_day
-							'', 							// publish_month
-							'20:15:39-05:00', 				// publish_time_of_day
-							'1970-01-01T20:15:39-05:00', 	// publish_timestamp_local
-							'1970-01-01T20:20:39+00:00', 	// publish_timestamp_UTC
-							'1970', 						// publish_year
+							$mParticle_post_id ? get_the_date('Y-m-d', $mParticle_post_id) : 'null', 	// publish_date
+							$mParticle_post_id ? get_the_date('l', $mParticle_post_id) : 'null', 		// publish_day_of_the_week
+							$mParticle_post_id ? get_the_date('H', $mParticle_post_id) : 'null', 		// publish_hour_of_the_day
+							$mParticle_post_id ? get_the_date('F', $mParticle_post_id) : 'null', 		// publish_month
+							$mParticle_post_id ? get_the_date('H:i:sP', $mParticle_post_id) : 'null', 	//'20:15:39-05:00', // publish_time_of_day
+							$mParticle_post_id ? get_the_date('c', $mParticle_post_id) : 'null', 		// publish_timestamp_local
+							$mParticle_post_id ? ( get_the_date('c', $mParticle_post_id) ? get_gmt_from_date(get_the_date('c', $mParticle_post_id), 'Y-m-d\TH:i:sP') : 'null' ) : 'null', 		// publish_timestamp_UTC
+							$mParticle_post_id ? get_the_date('Y', $mParticle_post_id) : 'null', 		// publish_year
 							'section_name?',
-							'0', 							// video_count
-							'0', 							// word_count
-							'categories_stringified?',
-							'tags_stringified?',
+							'0',						// video_count
+							$mParticle_word_count,		// word_count
+							$mParticle_categories ? $mParticle_categories : 'null',
+							$mParticle_tags ? $mParticle_tags : 'null',
 							'UTM?'
 					);
 					echo $mparticle_implementation;
