@@ -21,7 +21,7 @@ class BbgiStationSettings {
 		add_action( 'admin_init', array( $this, 'bbgi_register_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
-	public function bbgi_settings_page_init() {
+	public static function bbgi_settings_page_init() {
 		// Register custom capability for Draft Kings On/Off Setting and Max mega menu
 		$roles = [ 'administrator' ];
 
