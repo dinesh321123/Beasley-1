@@ -259,6 +259,10 @@ also found in /assets/styles/components/navigation/primary-sidebar.css */
 		font-size:14px;
 		padding:0;
 	   }
+	   & a{
+		font-size:14px;
+		padding:0;
+	   }
  }
 }
 

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { deleteUser } from '../../../library/experience-engine';
 import { firebaseAuth } from '../../../library';
+import * as authActions from '../../../redux/actions/auth';
 
 class CancelAccount extends Component {
 	constructor(props) {
@@ -14,10 +17,12 @@ class CancelAccount extends Component {
 
 	componentDidMount() {
 		const { firebase: config } = window.bbgiconfig;
+		const { setUser } = this.props;
 		if (config.projectId) {
 			firebaseAuth.onAuthStateChanged(
 				function(user) {
 					if (user) {
+						setUser(user);
 						this.setState({ isLoggedIn: true });
 					} else {
 						this.setState({ isLoggedIn: false });
@@ -43,16 +48,25 @@ class CancelAccount extends Component {
 	};
 
 	render() {
+		const { user } = this.props;
 		return (
 			<div>
 				{this.state.isLoggedIn ? (
-					<button
-						type="button"
-						className="cancellation"
-						onClick={this.handleCancelAccount}
-					>
-						Cancel Account
-					</button>
+					<div className="user-account-info">
+						<h3>My Details</h3>
+						<p>
+							<strong>Email ID:</strong>
+							<span className="user-email-id"> {user.email}</span>
+						</p>
+
+						<button
+							type="button"
+							className="cancellation"
+							onClick={this.handleCancelAccount}
+						>
+							Cancel Account
+						</button>
+					</div>
 				) : null}
 				{this.state.showPrompt ? (
 					<div className="prompt-container">
@@ -74,4 +88,16 @@ class CancelAccount extends Component {
 	}
 }
 
-export default CancelAccount;
+CancelAccount.propTypes = {
+	setUser: PropTypes.func.isRequired,
+	user: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]).isRequired,
+};
+
+export default connect(
+	({ auth }) => ({
+		user: auth.user || false,
+	}),
+	{
+		setUser: authActions.setUser,
+	},
+)(CancelAccount);
