@@ -47,7 +47,7 @@ class BbgiStationSettings {
 	public function bbgi_register_settings() {
 		$ad_second_stream_enabled_args = array(
 			'name'     => 'ad_second_stream_enabled',
-			'selected' => get_option( 'ad_second_stream_enabled', 'off' ),
+			'selected' => get_option( 'ad_second_stream_enabled', 'on' ),
 		);
 
 		add_settings_section( 'ee_bbgi_site_settings', 'Second Stream Settings', '__return_false', $this->_bbgi_settings_page_hook );
