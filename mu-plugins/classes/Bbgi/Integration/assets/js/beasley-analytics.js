@@ -375,12 +375,45 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.keyValuePairs = {...this.keyValuePairsTemplate};
 	}
 
-	setPerSessionKeys() {
+	setPerSessionKeys = () => {
 		// Set Global Fields
 		this.setAnalytics('domain', window.location.hostname);
-	}
+		this.setAnalytics('platform', 'Web');
+	};
 
 	setPerEventKeys() {
+		const morning = 'Morning'; // 5 am to 10 am
+		const daytime = 'Daytime'; // 10am to 3pm
+		const afternoon = 'Afternoon'; // 3 pm to 7 pm
+		const nighttime = 'Nighttime'; // 7pm to 12pm
+		const overnight = 'Overnight'; // 12pm to 5a
+		const dayPartArray = [
+			overnight, // 0
+			overnight, // 1
+			overnight, // 2
+			overnight, // 3
+			overnight, // 4
+			morning, // 5
+			morning, // 6
+			morning, // 7
+			morning, // 8
+			morning, // 9
+			daytime, // 10
+			daytime, // 11
+			daytime, // 12
+			daytime, // 13
+			daytime, // 14
+			afternoon, // 15
+			afternoon, // 16
+			afternoon, // 17
+			afternoon, // 18
+			nighttime, // 19
+			nighttime, // 20
+			nighttime, // 21
+			nighttime, // 22
+			nighttime, // 23
+		];
+
 		// createUUID() copied from https://www.arungudelli.com/tutorial/javascript/how-to-create-uuid-guid-in-javascript-with-examples/
 		// NOT WELL TESTED
 		const createUUID = () => {
@@ -391,8 +424,10 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 		this.setAnalytics('beasley_event_id', createUUID()); // NOTE: predictable algorithm and only available in secure context
 		const currentDateTime = new Date();
+		const hourOfDay = currentDateTime.getHours() || 0;
 		this.setAnalytics('event_day_of_the_week', currentDateTime.getDay().toString());
-		this.setAnalytics('event_hour_of_the_day', currentDateTime.getHours().toString());
+		this.setAnalytics('event_hour_of_the_day', hourOfDay.toString());
+		this.setAnalytics('daypart', dayPartArray[hourOfDay]);
 	}
 
 	createAnalytics() {
@@ -437,16 +472,14 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		}
 	}
 
-	getEventObject(eventName) {
-		const emptyEventObject = this.getCleanEventObject(eventName, false);
+	getEventObject(eventName, isReturningMediaFieldsOnly = false) {
+		const emptyEventObject = this.getCleanEventObject(eventName, isReturningMediaFieldsOnly);
 		return Object.keys(emptyEventObject)
 			.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
 	}
 
 	getMediaEventObject(eventName) {
-		const emptyEventObject = this.getCleanEventObject(eventName, true);
-		return Object.keys(emptyEventObject)
-			.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
+		return this.getEventObject(eventName, true);
 	}
 
 	sendEventByName(eventName) {

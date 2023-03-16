@@ -1,6 +1,12 @@
 window.mParticleSchema = {
-	"version_description": "", "version_document": {
-		"data_points": [{
+	"version_description"
+:
+	"", "version_document"
+:
+	{
+		"data_points"
+	:
+		[{
 			"description": "Logging Page/Screen Views via logPageView() or Screen",
 			"match": {"type": "screen_view", "criteria": {"screen_name": "Page View"}},
 			"validator": {
@@ -18,7 +24,7 @@ window.mParticleSchema = {
 										"content_type": {
 											"description": "",
 											"type": ["string", "null"],
-											"enum": ["article", "listicle", "gallery", "null"]
+											"enum": ["article", "listicle", "gallery", "home", "event", "podcast", "episode", "contest", "show", "must_have", "null"]
 										},
 										"view_type": {
 											"description": "",
@@ -82,6 +88,7 @@ window.mParticleSchema = {
 										"referrer": {"description": "", "type": ["string", "null"]},
 										"UTM": {"description": "", "type": ["string", "null"]},
 										"page_url": {"description": "", "type": ["string", "null"]},
+										"seth_test_array": {"description": "", "type": ["string", "null"]},
 										"title": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"call_sign": {"description": "", "type": ["string", "null"]},
