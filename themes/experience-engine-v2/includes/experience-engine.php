@@ -78,10 +78,25 @@ if ( ! function_exists( 'ee_update_api_bbgiconfig' ) ) :
 		$config['streams'] = array();
 		$feeds = $ee->get_publisher_feeds_with_content();
 		$channels = wp_list_filter( $feeds, array( 'type' => 'stream' ) );
+		$isSecondStreamOn = get_option('ad_second_stream_enabled');
+		$enabledData = get_option('ss_enabled_days');
+		$enabledData = (array)json_decode($enabledData);
+		$i = 0;
+		$secondStreamTime = [];
 		foreach ( $channels as $channel ) {
 			foreach ( $channel['content'] as $stream ) {
-				$config['streams'][] = $stream;
+				$config['streams'][$i] = $stream;
 			}
+			if($isSecondStreamOn == 'off'){
+				break;
+			}
+			if($i > 0){
+				foreach($enabledData as $key => $val){
+					$secondStreamTime[$key] = $val;
+				}
+				$config['streams'][$i]['secondStreamTime'] = $secondStreamTime;
+			}
+			$i++;
 		}
 
 		return $config;
