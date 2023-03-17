@@ -1,3 +1,17 @@
+				<?php
+					$mparticle_register_embeds_in_observer = sprintf(
+					'<script class="mparticle_implementation">
+						setTimeout(() => {
+							const contentElement = document.getElementById(\'content\');
+							if (contentElement) {
+								console.log(\'Calling mparticle_implementation of Embeds \');
+								window.beasleyanalytics.fireLazyMParticlePageViewsForElementsWithMeta(contentElement.getElementsByTagName(\'mparticle-meta\'));
+							}
+						}, 2500);
+					</script>'
+					);
+					echo $mparticle_register_embeds_in_observer;
+				?>
 					</div>
 				<?php
 					get_template_part( 'partials/ads/footer' );

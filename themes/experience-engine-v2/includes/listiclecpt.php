@@ -152,23 +152,6 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 			}
 		}
 		echo '</ul>';
-
-		$mparticle_implementation = sprintf(
-	'<script class="mparticle_implementation">
-				setTimeout(() => {
-					console.log(\'Firing mparticle_implementation of Embeds \');
-
-					const listicleList = document.getElementsByClassName(\'listicle-main-ul-item\');
-					if (listicleList && listicleList.length > 0) {
-						console.log(\'Calling mparticle_implementation of Embeds \');
-						window.beasleyanalytics.fireLazyMParticlePageViewsForElementsWithMeta(listicleList[0].getElementsByTagName(\'mparticle-meta\'));
-						console.log(\'Called mparticle_implementation of Embeds \');
-					}
-                }, 2500);
-			</script>'
-		);
-		echo $mparticle_implementation;
-
 		return ob_get_clean();
 	}
 endif;
