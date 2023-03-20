@@ -73,31 +73,34 @@ class Stations extends Component {
 			.forEach(({ title, stream_call_letters, picture, secondStreamTime }) => {
 				const { large, original } = picture || {};
 				const { url } = large || original || {};
-				let { startTime, endTime } = '';
+
 				let logo = false;
 				if (url) {
 					logo = <img src={url} alt={title} />;
 				}
-				if (!(dayName in secondStreamTime)) {
-					return;
-				}
-				if (secondStreamTime[dayName].startTime) {
-					const temp = secondStreamTime[dayName].startTime.split(':');
-					startTime = dayjs
-						.tz()
-						.set('hour', temp[0])
-						.set('minute', temp[1]);
-				}
+				if (secondStreamTime) {
+					let { startTime, endTime } = '';
+					if (!(dayName in secondStreamTime)) {
+						return;
+					}
+					if (secondStreamTime[dayName].startTime) {
+						const temp = secondStreamTime[dayName].startTime.split(':');
+						startTime = dayjs
+							.tz()
+							.set('hour', temp[0])
+							.set('minute', temp[1]);
+					}
 
-				if (secondStreamTime[dayName].endTime) {
-					const temp = secondStreamTime[dayName].endTime.split(':');
-					endTime = dayjs
-						.tz()
-						.set('hour', temp[0])
-						.set('minute', temp[1]);
-				}
-				if (dayTime < startTime || dayTime > endTime) {
-					return;
+					if (secondStreamTime[dayName].endTime) {
+						const temp = secondStreamTime[dayName].endTime.split(':');
+						endTime = dayjs
+							.tz()
+							.set('hour', temp[0])
+							.set('minute', temp[1]);
+					}
+					if (dayTime < startTime || dayTime > endTime) {
+						return;
+					}
 				}
 
 				stations.push(

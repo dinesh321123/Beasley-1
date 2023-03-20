@@ -90,11 +90,14 @@ if ( ! function_exists( 'ee_update_api_bbgiconfig' ) ) :
 			if($isSecondStreamOn == 'off'){
 				break;
 			}
-			if($i > 0){
-				foreach($enabledData as $key => $val){
-					$secondStreamTime[$key] = $val;
+			if($isSecondStreamOn == 'on') {
+				if ($i > 0) {
+					foreach ($enabledData as $key => $val) {
+						$secondStreamTime[$key] = $val;
+					}
+					$config['streams'][$i]['isSecondStreamOn'] = $isSecondStreamOn;
+					$config['streams'][$i]['secondStreamTime'] = $secondStreamTime;
 				}
-				$config['streams'][$i]['secondStreamTime'] = $secondStreamTime;
 			}
 			$i++;
 		}
