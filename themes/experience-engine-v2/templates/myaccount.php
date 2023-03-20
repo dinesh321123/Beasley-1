@@ -14,11 +14,10 @@
 	</header>
 
 	<div class="entry-content content-wrap">
-		<div class="description">
+		<div class="description"><?php the_content(); ?>
 			<div class="cancel_account">
 				<?php echo do_shortcode('[cancel_account]'); ?>
 			</div>
-			<?php the_content(); ?>
 		</div>
 
 		<?php get_template_part( 'partials/footer/common', 'description' ); ?>
