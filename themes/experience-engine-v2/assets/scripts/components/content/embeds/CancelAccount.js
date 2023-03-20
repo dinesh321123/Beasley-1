@@ -53,7 +53,6 @@ class CancelAccount extends Component {
 			<div>
 				{this.state.isLoggedIn ? (
 					<div className="user-account-info">
-						<h3>My Details</h3>
 						<p>
 							<strong>Email ID:</strong>
 							<span className="user-email-id"> {user.email}</span>
