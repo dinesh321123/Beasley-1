@@ -67,16 +67,25 @@ class DashboardActivity {
 	}
 	public function dashboard_pending_activity() {
 		echo '<div id="recently_published_posts_activity-widget">';
-		$dashboard_pending_activity_result = $this->wp_dashboard_pending_activity(
-			array(
-				'max'    => 20,
-				'status' => 'pending',
-				'post_type' => array( 'post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing' ),
-				'order'  => 'DESC',
-				'title'  => __( 'Recently Pending' ),
-				'id'     => 'recently-pending-posts',
-			)
-		);
+		$dpa_found				 = false;
+		$dpa_key				 = md5('bbgi_dashboard_pending_activity');
+		$dashboard_pending_activity_result = wp_cache_get( $dpa_key, 'bbgi', false, $dpa_found );
+
+		if ( ! $dpa_found ) {
+			echo "<div style='display: none;'>Records from database.</div>";
+			$dashboard_pending_activity_result = $this->wp_dashboard_pending_activity(
+				array(
+					'max' => 20,
+					'status' => 'pending',
+					'post_type' => array('post', 'gmr_gallery', 'listicle_cpt', 'affiliate_marketing'),
+					'order' => 'DESC',
+					'title' => __('Recently Pending'),
+					'id' => 'recently-pending-posts',
+				)
+			);
+			// Set the cache to expire the data after 1800 seconds = 30 min
+			wp_cache_set( $dpa_key, $dashboard_pending_activity_result, 'bbgi', '60' );
+		}
 		echo  $dashboard_pending_activity_result;
 		echo '</div>';
 	}
