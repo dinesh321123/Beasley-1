@@ -52,7 +52,9 @@ class BeasleyAnalytics {
 	}
 
 	setAnalytics() {
-		this.analyticsProviderArray.map(provider => provider.setAnalytics.apply(provider, arguments));
+		this.analyticsProviderArray
+			.filter(provider => provider.analyticType !== BeasleyAnalyticsMParticleProvider.typeString) // No Longer Set MParticle - Google Analytics Only
+			.map(provider => provider.setAnalytics.apply(provider, arguments));
 	}
 
 	initializeMParticle() {
@@ -66,6 +68,13 @@ class BeasleyAnalytics {
 		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
 			provider.setAnalytics.apply(provider, arguments);
+		}
+	}
+
+	setMediaAnalyticsForMParticle() {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			provider.setMediaAnalytics.apply(provider, arguments);
 		}
 	}
 
@@ -167,6 +176,7 @@ class BeasleyAnalyticsGaV3Provider extends BeasleyAnalyticsBaseProvider {
 class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	static typeString = 'MPARTICLE';
 	static settingsFuncName = 'SETTINGS_FUNC';
+	static mediaSettingsFuncName = 'MEDIA_SETTINGS_FUNC';
 	static eventFuncName = 'EVENT_FUNC';
 	static fireLazyPageViewFuncName = 'FIRE_LAZY_PAGE_VIEW_FUNC';
 
@@ -194,11 +204,13 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	queuedArgs = [];
 	isInitialized = false;
 	keyValuePairsTemplate;
+	mediaSpecificKeyValuePairsTemplate;
 	keyValuePairs;
+	mediaSpecificKeyValuePairs;
 	customEventTypeLookupByName;
 	lazyPageEventObserver;
 
-	getCleanEventObject(eventName, isReturningMediaFieldsOnly) {
+	getCleanEventObject(eventName, isIgnoringBuiltInMparticleFields, isIncludingOnlyMediaSpecificFields) {
 		const dataPoints = window.mParticleSchema?.version_document?.data_points;
 		if (dataPoints) {
 			const dataPoint = dataPoints.find( dp =>
@@ -207,21 +219,25 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 			if (dataPoint) {
 				const dataPointProperties = dataPoint.validator?.definition?.properties?.data?.properties?.custom_attributes?.properties;
 				if (dataPointProperties) {
-					const filteredKeys = Object.keys(dataPointProperties).filter(key => (!isReturningMediaFieldsOnly) || dataPointProperties[key].description !== 'MPARTICLE-FIELD-DO-NOT-POPULATE');
-					const kvArray = filteredKeys.map(filteredKey => ({[filteredKey]: null}));
-					return Object.assign(...kvArray); // Return an object with each field assigned to ''
+					const filteredKeys = Object.keys(dataPointProperties).filter(key =>
+						((!isIgnoringBuiltInMparticleFields) || dataPointProperties[key].description !== 'MPARTICLE-FIELD-DO-NOT-POPULATE') &&
+						((!isIncludingOnlyMediaSpecificFields) || dataPointProperties[key].description === 'MEDIA-SPECIFIC'));
+					if ( filteredKeys && filteredKeys.length > 0) {
+						const kvArray = filteredKeys.map(filteredKey => ({[filteredKey]: null}));
+						return Object.assign(...kvArray); // Return an object with each field assigned to ''
+					}
 				}
 			}
 		}
 
-		console.log(`ERROR - Could not create Key Value Pairs for MParticle Event - '${eventName}'`);
+		console.log(`WARNING - Could not create Key Value Pairs for ${isIncludingOnlyMediaSpecificFields ? 'Media Specific' : ''} MParticle Event - '${eventName}'`);
 		return null;
 	};
 
-	getAllEventFieldsObjects() {
+	getAllEventFieldsObjects(isMediaSpecific) {
 		let retval = {};
 		Object.keys(BeasleyAnalyticsMParticleProvider.mparticleEventNames).forEach(eventNameKey => {
-			const newEventFieldsObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], false);
+			const newEventFieldsObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], isMediaSpecific, isMediaSpecific);
 			retval = {...retval, ...newEventFieldsObject};
 		});
 
@@ -344,6 +360,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		super.debugLog('Initializing Beasley Analytics mParticle Variables.');
 		window.mparticleEventNames = BeasleyAnalyticsMParticleProvider.mparticleEventNames;
 		this.createKeyValuePairs();
+		this.createMediaKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
 
 		super.debugLog('Beasley Analytics mParticle Variables Were Initialized');
@@ -356,7 +373,10 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 			this.queuedArgs.forEach(eventArg => {
 				if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.settingsFuncName) {
 					this.setAnalytics.apply(this, eventArg.args);
-				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.eventFuncName) {
+				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.mediaSettingsFuncName) {
+					this.setMediaAnalytics().apply(this, eventArg.args);
+				}
+				else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.eventFuncName) {
 					this.sendEventByName.apply(this, eventArg.args);
 				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.fireLazyPageViewFuncName) {
 					this.fireLazyPageViewsForElementsWithMeta.apply(this, eventArg.args);
@@ -367,12 +387,21 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 
 	createKeyValuePairs() {
-		this.keyValuePairsTemplate = this.getAllEventFieldsObjects();
+		this.keyValuePairsTemplate = this.getAllEventFieldsObjects(false);
 		this.clearKeyValuePairs();
 	}
 
 	clearKeyValuePairs() {
 		this.keyValuePairs = {...this.keyValuePairsTemplate};
+	}
+
+	createMediaKeyValuePairs() {
+		this.mediaSpecificKeyValuePairsTemplate = this.getAllEventFieldsObjects(true);
+		this.clearMediaKeyValuePairs();
+	}
+
+	clearMediaKeyValuePairs() {
+		this.mediaSpecificKeyValuePairs = {...this.mediaSpecificKeyValuePairsTemplate};
 	}
 
 	setPerSessionKeys = () => {
@@ -382,52 +411,12 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	};
 
 	setPerEventKeys() {
-		const morning = 'Morning'; // 5 am to 10 am
-		const daytime = 'Daytime'; // 10am to 3pm
-		const afternoon = 'Afternoon'; // 3 pm to 7 pm
-		const nighttime = 'Nighttime'; // 7pm to 12pm
-		const overnight = 'Overnight'; // 12pm to 5a
-		const dayPartArray = [
-			overnight, // 0
-			overnight, // 1
-			overnight, // 2
-			overnight, // 3
-			overnight, // 4
-			morning, // 5
-			morning, // 6
-			morning, // 7
-			morning, // 8
-			morning, // 9
-			daytime, // 10
-			daytime, // 11
-			daytime, // 12
-			daytime, // 13
-			daytime, // 14
-			afternoon, // 15
-			afternoon, // 16
-			afternoon, // 17
-			afternoon, // 18
-			nighttime, // 19
-			nighttime, // 20
-			nighttime, // 21
-			nighttime, // 22
-			nighttime, // 23
-		];
-
-		// createUUID() copied from https://www.arungudelli.com/tutorial/javascript/how-to-create-uuid-guid-in-javascript-with-examples/
-		// NOT WELL TESTED
-		const createUUID = () => {
-			return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-				(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-			)
-		}
-
-		this.setAnalytics('beasley_event_id', createUUID()); // NOTE: predictable algorithm and only available in secure context
+		this.setAnalytics('beasley_event_id', window.createUUID());
 		const currentDateTime = new Date();
 		const hourOfDay = currentDateTime.getHours() || 0;
 		this.setAnalytics('event_day_of_the_week', currentDateTime.getDay().toString());
 		this.setAnalytics('event_hour_of_the_day', hourOfDay.toString());
-		this.setAnalytics('daypart', dayPartArray[hourOfDay]);
+		this.setAnalytics('daypart', window.getDayPart(hourOfDay));
 	}
 
 	createAnalytics() {
@@ -450,15 +439,28 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		if (arguments && arguments.length === 2) {
 			if (Object.keys(this.keyValuePairs).includes(arguments[0])) {
 				this.keyValuePairs[arguments[0]] = arguments[1];
-			} else if (BeasleyAnalyticsMParticleProvider.GAtoMParticleFieldNameMap[arguments[0]]) {
-				const mparticleFieldName = BeasleyAnalyticsMParticleProvider.GAtoMParticleFieldNameMap[arguments[0]];
-				console.log(`Mapped GA Field Name '${arguments[0]} To MParticle Field Name Of '${mparticleFieldName}'` );
-				this.keyValuePairs[mparticleFieldName] = arguments[1];
 			} else {
 				console.error(`MParticle Params Ignoring ${arguments[0]} of ${arguments[1]}`);
 			}
 		} else {
 			console.error(`Attempt to set MParticle Key Value Pair With Arguments NOT Of Length 2 - '${arguments}'`, arguments);
+		}
+	}
+
+	setMediaAnalytics() {
+		if (!this.isInitialized) {
+			this.queuedArgs.push( {funcName: BeasleyAnalyticsMParticleProvider.mediaSettingsFuncName, args: arguments} );
+			return;
+		}
+
+		if (arguments && arguments.length === 2) {
+			if (Object.keys(this.mediaSpecificKeyValuePairs).includes(arguments[0])) {
+				this.mediaSpecificKeyValuePairs[arguments[0]] = arguments[1];
+			} else {
+				console.error(`MParticle Media Params Ignoring ${arguments[0]} of ${arguments[1]}`);
+			}
+		} else {
+			console.error(`Attempt to set MParticle Media Key Value Pair With Arguments NOT Of Length 2 - '${arguments}'`, arguments);
 		}
 	}
 
@@ -472,14 +474,17 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		}
 	}
 
-	getEventObject(eventName, isReturningMediaFieldsOnly = false) {
-		const emptyEventObject = this.getCleanEventObject(eventName, isReturningMediaFieldsOnly);
+	getEventObject(eventName, isIgnoringBuiltInMparticleFields = false, isIncludingOnlyMediaSpecificFields = false) {
+		const emptyEventObject = this.getCleanEventObject(eventName, isIgnoringBuiltInMparticleFields, isIncludingOnlyMediaSpecificFields);
 		return Object.keys(emptyEventObject)
 			.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
 	}
 
 	getMediaEventObject(eventName) {
-		return this.getEventObject(eventName, true);
+		const eventPopulatedWithCommonFields = this.getEventObject(eventName, true, false);
+		const mediaSpecificKeysArray = Object.keys(this.mediaSpecificKeyValuePairs);
+		return Object.keys(eventPopulatedWithCommonFields)
+			.reduce((a, key) => ({ ...a, [key]: mediaSpecificKeysArray.includes(key) ? this.mediaSpecificKeyValuePairs[key] : eventPopulatedWithCommonFields[key]}), {});
 	}
 
 	sendEventByName(eventName) {

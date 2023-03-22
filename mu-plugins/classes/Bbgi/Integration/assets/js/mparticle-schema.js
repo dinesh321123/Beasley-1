@@ -1,12 +1,6 @@
 window.mParticleSchema = {
-	"version_description"
-:
-	"", "version_document"
-:
-	{
-		"data_points"
-	:
-		[{
+	"version_description": "", "version_document": {
+		"data_points": [{
 			"description": "Logging Page/Screen Views via logPageView() or Screen",
 			"match": {"type": "screen_view", "criteria": {"screen_name": "Page View"}},
 			"validator": {
@@ -91,8 +85,8 @@ window.mParticleSchema = {
 										"seth_test_array": {"description": "", "type": ["string", "null"]},
 										"title": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -125,8 +119,8 @@ window.mParticleSchema = {
 										"screen_position": {"description": "", "type": ["string", "null"]},
 										"title": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									},
 									"required": [],
@@ -156,8 +150,8 @@ window.mParticleSchema = {
 										"page_url": {"description": "", "type": ["string", "null"], "format": "uri"},
 										"title": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									},
 									"required": [],
@@ -360,23 +354,44 @@ window.mParticleSchema = {
 											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
 											"type": ["string", "null"]
 										},
-										"content_asset_id": {"description": "", "type": ["string", "null"]},
-										"content_network": {"description": "", "type": ["string", "null"]},
-										"primary_category": {"description": "", "type": ["string", "null"]},
-										"primary_category_id": {"description": "", "type": ["string", "null"]},
-										"show_name": {"description": "", "type": ["string", "null"]},
-										"show_id": {"description": "", "type": ["string", "null"]},
-										"content_daypart": {"description": "", "type": ["string", "null"]},
-										"mediaID": {"description": "", "type": ["string", "null"]},
-										"mediaTitle": {"description": "", "type": ["string", "null"]},
-										"duration": {"description": "", "type": ["string", "null"]},
-										"contentType": {"description": "", "type": ["string", "null"]},
-										"streamType": {"description": "", "type": ["string", "null"]},
-										"pageEventToggle": {"description": "", "type": ["string", "null"]},
-										"mediaEventToggle": {"description": "", "type": ["string", "null"]},
+										"content_asset_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"content_network": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"show_name": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"show_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"content_daypart": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaID": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"mediaTitle": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"contentType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"streamType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"pageEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -422,23 +437,44 @@ window.mParticleSchema = {
 											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
 											"type": ["string", "null"]
 										},
-										"content_asset_id": {"description": "", "type": ["string", "null"]},
-										"content_network": {"description": "", "type": ["string", "null"]},
-										"primary_category": {"description": "", "type": ["string", "null"]},
-										"primary_category_id": {"description": "", "type": ["string", "null"]},
-										"show_name": {"description": "", "type": ["string", "null"]},
-										"show_id": {"description": "", "type": ["string", "null"]},
-										"content_daypart": {"description": "", "type": ["string", "null"]},
-										"mediaID": {"description": "", "type": ["string", "null"]},
-										"mediaTitle": {"description": "", "type": ["string", "null"]},
-										"duration": {"description": "", "type": ["string", "null"]},
-										"contentType": {"description": "", "type": ["string", "null"]},
-										"streamType": {"description": "", "type": ["string", "null"]},
-										"pageEventToggle": {"description": "", "type": ["string", "null"]},
-										"mediaEventToggle": {"description": "", "type": ["string", "null"]},
+										"content_asset_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"content_network": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"show_name": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"show_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"content_daypart": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaID": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"mediaTitle": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"contentType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"streamType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"pageEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -482,23 +518,44 @@ window.mParticleSchema = {
 											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
 											"type": ["string", "null"]
 										},
-										"content_asset_id": {"description": "", "type": ["string", "null"]},
-										"content_network": {"description": "", "type": ["string", "null"]},
-										"primary_category": {"description": "", "type": ["string", "null"]},
-										"primary_category_id": {"description": "", "type": ["string", "null"]},
-										"show_name": {"description": "", "type": ["string", "null"]},
-										"show_id": {"description": "", "type": ["string", "null"]},
-										"content_daypart": {"description": "", "type": ["string", "null"]},
-										"mediaID": {"description": "", "type": ["string", "null"]},
-										"mediaTitle": {"description": "", "type": ["string", "null"]},
-										"duration": {"description": "", "type": ["string", "null"]},
-										"contentType": {"description": "", "type": ["string", "null"]},
-										"streamType": {"description": "", "type": ["string", "null"]},
-										"pageEventToggle": {"description": "", "type": ["string", "null"]},
-										"mediaEventToggle": {"description": "", "type": ["string", "null"]},
+										"content_asset_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"content_network": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"show_name": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"show_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"content_daypart": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaID": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"mediaTitle": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"contentType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"streamType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"pageEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -545,23 +602,44 @@ window.mParticleSchema = {
 											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
 											"type": ["string", "null"]
 										},
-										"content_asset_id": {"description": "", "type": ["string", "null"]},
-										"content_network": {"description": "", "type": ["string", "null"]},
-										"primary_category": {"description": "", "type": ["string", "null"]},
-										"primary_category_id": {"description": "", "type": ["string", "null"]},
-										"show_name": {"description": "", "type": ["string", "null"]},
-										"show_id": {"description": "", "type": ["string", "null"]},
-										"content_daypart": {"description": "", "type": ["string", "null"]},
-										"mediaID": {"description": "", "type": ["string", "null"]},
-										"mediaTitle": {"description": "", "type": ["string", "null"]},
-										"duration": {"description": "", "type": ["string", "null"]},
-										"contentType": {"description": "", "type": ["string", "null"]},
-										"streamType": {"description": "", "type": ["string", "null"]},
-										"pageEventToggle": {"description": "", "type": ["string", "null"]},
-										"mediaEventToggle": {"description": "", "type": ["string", "null"]},
+										"content_asset_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"content_network": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"show_name": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"show_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"content_daypart": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaID": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"mediaTitle": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"contentType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"streamType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"pageEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -608,23 +686,44 @@ window.mParticleSchema = {
 											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
 											"type": ["string", "null"]
 										},
-										"content_asset_id": {"description": "", "type": ["string", "null"]},
-										"content_network": {"description": "", "type": ["string", "null"]},
-										"primary_category": {"description": "", "type": ["string", "null"]},
-										"primary_category_id": {"description": "", "type": ["string", "null"]},
-										"show_name": {"description": "", "type": ["string", "null"]},
-										"show_id": {"description": "", "type": ["string", "null"]},
-										"content_daypart": {"description": "", "type": ["string", "null"]},
-										"mediaID": {"description": "", "type": ["string", "null"]},
-										"mediaTitle": {"description": "", "type": ["string", "null"]},
-										"duration": {"description": "", "type": ["string", "null"]},
-										"contentType": {"description": "", "type": ["string", "null"]},
-										"streamType": {"description": "", "type": ["string", "null"]},
-										"pageEventToggle": {"description": "", "type": ["string", "null"]},
-										"mediaEventToggle": {"description": "", "type": ["string", "null"]},
+										"content_asset_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"content_network": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"show_name": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"show_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"content_daypart": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaID": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"mediaTitle": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"contentType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"streamType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"pageEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
@@ -706,23 +805,44 @@ window.mParticleSchema = {
 											"description": "MPARTICLE-FIELD-DO-NOT-POPULATE",
 											"type": ["string", "null"]
 										},
-										"content_asset_id": {"description": "", "type": ["string", "null"]},
-										"content_network": {"description": "", "type": ["string", "null"]},
-										"primary_category": {"description": "", "type": ["string", "null"]},
-										"primary_category_id": {"description": "", "type": ["string", "null"]},
-										"show_name": {"description": "", "type": ["string", "null"]},
-										"show_id": {"description": "", "type": ["string", "null"]},
-										"content_daypart": {"description": "", "type": ["string", "null"]},
-										"mediaID": {"description": "", "type": ["string", "null"]},
-										"mediaTitle": {"description": "", "type": ["string", "null"]},
-										"duration": {"description": "", "type": ["string", "null"]},
-										"contentType": {"description": "", "type": ["string", "null"]},
-										"streamType": {"description": "", "type": ["string", "null"]},
-										"pageEventToggle": {"description": "", "type": ["string", "null"]},
-										"mediaEventToggle": {"description": "", "type": ["string", "null"]},
+										"content_asset_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"content_network": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"primary_category_id": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"show_name": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"show_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"content_daypart": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaID": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"mediaTitle": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"contentType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"streamType": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"pageEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
+										"mediaEventToggle": {
+											"description": "MEDIA-SPECIFIC",
+											"type": ["string", "null"]
+										},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
-										"call_sign": {"description": "", "type": ["string", "null"]},
-										"call_sign_id": {"description": "", "type": ["string", "null"]},
+										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
+										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"beasley_event_id": {"description": "", "type": ["string", "null"]}
 									}, "required": [], "type": "object"
 								}
