@@ -33,7 +33,7 @@ popd || exit 1
 
 # Move plugins and theme to payload
 mkdir -p payload
-rsync -ravxc plugins mu-plugins themes vendor advanced-cache.php db.php object-cache.php payload/ --exclude-from=./deploy-scripts/rsync-excludes.txt
+rsync -ravxc plugins mu-plugins themes vendor advanced-cache.php db.php object-cache.php robots.txt payload/ --exclude-from=./deploy-scripts/rsync-excludes.txt
 
 # Stop printing commands to screen
 set +x
