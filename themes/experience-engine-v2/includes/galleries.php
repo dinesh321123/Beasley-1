@@ -107,6 +107,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 		if($is_common_mobile){
 			echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
 		}
+		$mparticle_gallery_author = ee_mparticle_get_author_data( $gallery );
 
 		echo '<div class="gallery-meta">';
 			echo '<div class="wrapper">';
@@ -148,12 +149,12 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 						/>',
 			'embedded_content', //view_type
 			$title,
-			'embedded_type?',
-			$image_full_url,
-			$image->ID,
-			'gallery-author',
-			'gallery_primary_author',
-			'gallery_secondary_author',
+			$gallery->post_type,
+			$tracking_url,
+			$gallery->ID,
+			$mparticle_gallery_author->author ?: '',
+			$mparticle_gallery_author->primary_author ?: '',
+			$mparticle_gallery_author->secondary_author ?: ''
 		);
 		echo $mparticle_meta_tag;
 

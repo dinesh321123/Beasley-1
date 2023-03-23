@@ -5,16 +5,27 @@ use Bbgi\Integration\Google;
 
 	$headerCacheTag = [];
 	$mParticleContentType = '';
-	$mParticle_category = '';
-	$mParticle_categories = '';
-	$mParticle_show = '';
-	$mParticle_tags = '';
-	$mParticle_post_id = '';
-	$mParticle_author = '';
-	$mParticle_primary_author = '';
-	$mParticle_secondary_author = '';
-	$mParticle_publish_date = '';
-	$mParticle_word_count = null;
+	$mparticle_pageview_event_data = [
+		'mParticleContentType'						=> '',
+		'mParticle_category'						=> '',
+		'mParticle_categories'						=> '',
+		'mParticle_show'							=> '',
+		'mParticle_tags'							=> '',
+		'mParticle_select_embed_title'				=> '',
+		'mParticle_select_embed_type'				=> '',
+		'mParticle_select_embed_path' 				=> '',
+		'mParticle_select_embed_post_id' 			=> '',
+		'mParticle_select_embed_author' 			=> '',
+		'mParticle_select_embed_primary_author' 	=> '',
+		'mParticle_select_embed_secondary_author' 	=> '',
+		'mParticle_post_id' 						=> '',
+		'mParticle_author' 							=> '',
+		'mParticle_primary_author' 					=> '',
+		'mParticle_secondary_author' 				=> '',
+		'mParticle_word_count' 						=> null
+	];
+	$mparticle_pageview_event_data_search_page = '';
+
 
 	if (  is_front_page() ) {
 		$headerCacheTag[] = $_SERVER['HTTP_HOST'].'-'.'home';
@@ -28,45 +39,36 @@ use Bbgi\Integration\Google;
 		if (isset($wp_query->query['post_type'])) {
 			$headerCacheTag[] = "archive-" . $wp_query->query['post_type'];
 			$headerCacheTag[] = $wp_query->query['post_type'];
-			$mParticleContentType = $wp_query->query['post_type'];;
+			$mparticle_pageview_event_data['mParticleContentType'] = $wp_query->query['post_type'];;
 		}
 
 	}  else {
 		global $post;
 		$currentPostType	= "";
 		$currentPostSlug	= "";
+
 		if ( get_post_type() ) :
 			$currentPostType = get_post_type();
 			$headerCacheTag[] = $currentPostType;
 
 			if ($currentPostType == "episode") {
 				$headerCacheTag[] = "podcast";
-				$mParticleContentType = "podcast";
-			} else {
-				$mParticleContentType = $currentPostType;
 			}
 
-			$post_categories = ee_get_primary_terms($post->ID, 'category', true);
-			$mParticle_category = $post_categories['primary'];
-			$mParticle_categories = !empty($post_categories['all']) ? wp_json_encode($post_categories['all']) : '';
-			$post_shows = ee_get_primary_terms($post->ID, '_shows', true);
-			$mParticle_show = $post_shows['primary'];
-			$post_tags = ee_get_primary_terms($post->ID, 'post_tag', true);
-			$mParticle_tags = !empty($post_tags['all']) ? wp_json_encode($post_tags['all']) : '';
-			$mParticle_post_id = $post->ID ? $post->ID : '';
-			$mParticle_author = $post->post_author ? get_the_author_meta( 'login', $post->post_author ) : '';
-			$mParticle_primary_author = get_field( 'primary_author_cpt', $post );
-			$mParticle_primary_author = $mParticle_primary_author ? get_the_author_meta( 'login', $mParticle_primary_author ) : '';
-			$mParticle_secondary_author = get_field( 'secondary_author_cpt', $post );
-			$mParticle_secondary_author = $mParticle_secondary_author ? get_the_author_meta( 'login', $mParticle_secondary_author ) : '';
-			$mParticle_word_count = $post->post_content ? str_word_count( strip_tags( $post->post_content ) ) : null;
-
+			$mparticle_pageview_event_data_search_page = $mparticle_pageview_event_data;
+			$mparticle_pageview_event_data = ee_mparticle_prepare_pageview_data( $post );
 		endif;
 		if (  isset( $post->post_name ) && $post->post_name != "" ) :
 			$currentPostSlug = "-".$post->post_name;
 		endif;
 
 		$headerCacheTag[] = $currentPostType.$currentPostSlug;
+	}
+
+	if ( is_search() && isset($_GET['s'] ) ) {
+		if( !empty($mparticle_pageview_event_data_search_page) ) {
+			$mparticle_pageview_event_data = $mparticle_pageview_event_data_search_page;
+		}
 	}
 
 	append_current_device_to_cache_tag($headerCacheTag);
@@ -118,17 +120,6 @@ use Bbgi\Integration\Google;
 				<div id="inner-content">
 				<?php
 
-					if (empty($mParticleContentType)) {
-						$mParticleContentType = 'null';
-					}
-					else if (strpos($mParticleContentType, 'listicle') !== false) {
-						$mParticleContentType = 'listicle';
-					} else if (strpos($mParticleContentType, 'gallery') !== false) {
-						$mParticleContentType = 'gallery';
-					} else {
-						$mParticleContentType = 'article';
-					}
-
 					$mparticle_implementation = sprintf(
 							'<script class="mparticle_implementation">
 
@@ -157,7 +148,13 @@ function randomLetterArrayGenerator() {
 						window.beasleyanalytics.setAnalyticsForMParticle(\'tags\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'content_type\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'view_type\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'daypart\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_title\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_type\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_path\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_post_id\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_wp_author\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_primary_author\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_secondary_author\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'post_id\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'wp_author\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_author\', \'%s\');
@@ -182,48 +179,46 @@ function randomLetterArrayGenerator() {
 						window.beasleyanalytics.setAnalyticsForMParticle(\'referrer\', window.document.referrer);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'UTM\', \'%s\');
 
-						// Clear Embedded Fields
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_title\', \'\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_type\', \'\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_path\', \'\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_post_id\', \'\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_wp_author\', \'\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_primary_author\', \'\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_secondary_author\', \'\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'seth_test_array\', seth);
 
 						window.beasleyanalytics.sendMParticleEvent(
 							BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView,
 						);
 					</script>',
-							$mParticle_category ? $mParticle_category->name : 'null',
-							$mParticle_category ? $mParticle_category->term_id : 'null',
-							$mParticle_show ? $mParticle_show->name : 'null',
-							$mParticle_show ? $mParticle_show->term_id : 'null',
-							$mParticle_tags ? $mParticle_tags : 'null',
-							$mParticleContentType, 			// content_type
-							'primary',  					// view_type
-							'daypart?',
-							$mParticle_post_id ? $mParticle_post_id : 'null',
-							$mParticle_author ? $mParticle_author : 'null',
-							$mParticle_primary_author ? $mParticle_primary_author : 'null',
-							$mParticle_secondary_author ? $mParticle_secondary_author : 'null',
+							$mparticle_pageview_event_data['mParticle_category'] ? $mparticle_pageview_event_data['mParticle_category']->name : 'null',
+							$mparticle_pageview_event_data['mParticle_category'] ? $mparticle_pageview_event_data['mParticle_category']->term_id : 'null',
+							$mparticle_pageview_event_data['mParticle_show'] ? $mparticle_pageview_event_data['mParticle_show']->name : 'null',
+							$mparticle_pageview_event_data['mParticle_show'] ? $mparticle_pageview_event_data['mParticle_show']->term_id : 'null',
+							$mparticle_pageview_event_data['mParticle_tags'] ?: 'null',
+							$mparticle_pageview_event_data['mParticleContentType'] ?: 'null',
+							'primary',
+							$mparticle_pageview_event_data['mParticle_select_embed_title'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_select_embed_type'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_select_embed_path'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_select_embed_post_id'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_select_embed_author'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_select_embed_primary_author'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_select_embed_secondary_author'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_post_id'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_author'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_primary_author'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_secondary_author'] ?: 'null',
 							'ad_block_enabled?',
 							'ad_tags_enabled?',
 							'consent_cookie?',
-							$mParticle_post_id ? "'" . get_the_date('Y-m-d', $mParticle_post_id) . "'" : 'null', 	// publish_date
-							$mParticle_post_id ? "'" . get_the_date('l', $mParticle_post_id) . "'" : 'null', 		// publish_day_of_the_week
-							$mParticle_post_id ? "'" . get_the_date('H', $mParticle_post_id) . "'" : 'null', 		// publish_hour_of_the_day
-							$mParticle_post_id ? "'" . get_the_date('F', $mParticle_post_id) . "'" : 'null', 		// publish_month
-							$mParticle_post_id ? "'" . get_the_date('H:i:sP', $mParticle_post_id) . "'" : 'null', 	//'20:15:39-05:00', // publish_time_of_day
-							$mParticle_post_id ? "'" . get_the_date('c', $mParticle_post_id) . "'" : 'null', 		// publish_timestamp_local
-							$mParticle_post_id ? "'" . ( get_the_date('c', $mParticle_post_id) ? get_gmt_from_date(get_the_date('c', $mParticle_post_id), 'Y-m-d\TH:i:sP') : 'null' ) . "'" : 'null', 		// publish_timestamp_UTC
-							$mParticle_post_id ? "'" . get_the_date('Y', $mParticle_post_id) . "'" : 'null', 		// publish_year
+							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('Y-m-d', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
+							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('l', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
+							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('H', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
+							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('F', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
+							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('H:i:sP', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
+							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('c', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
+							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . ( get_the_date('c', $mparticle_pageview_event_data['mParticle_post_id']) ? get_gmt_from_date(get_the_date('c', $mparticle_pageview_event_data['mParticle_post_id']), 'Y-m-d\TH:i:sP') : 'null' ) . "'" : 'null',
+							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('Y', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
 							'section_name?',
-							'0',						// video_count
-							$mParticle_word_count ? $mParticle_word_count : 0,		// word_count
-							$mParticle_categories ? $mParticle_categories : 'null',
-							$mParticle_tags ? $mParticle_tags : 'null',
+							'0', // video_count
+							$mparticle_pageview_event_data['mParticle_word_count'] ?: 0,
+							$mparticle_pageview_event_data['mParticle_categories'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_tags'] ?: 'null',
 							'UTM?'
 					);
 					echo $mparticle_implementation;

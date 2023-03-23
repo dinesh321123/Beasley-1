@@ -391,6 +391,7 @@ endif;
 if ( ! function_exists( 'ee_get_primary_terms' ) ) :
 	function ee_get_primary_terms($post_id, $term='category', $return_all_categories=false){
 		$return = array();
+		$categories_list = get_the_terms($post_id, $term);
 
 		if (class_exists('WPSEO_Primary_Term')){
 			// Show Primary category by Yoast if it is enabled & set
@@ -402,12 +403,10 @@ if ( ! function_exists( 'ee_get_primary_terms' ) ) :
 			}
 		}
 
-		if (empty($return['primary']) || $return_all_categories){
-			$categories_list = get_the_terms($post_id, $term);
+		if (empty($return['primary']) && !empty($categories_list)){
+			$return['primary'] = $categories_list[0];  //get the first category
+		}
 
-			if (empty($return['primary']) && !empty($categories_list)){
-				$return['primary'] = $categories_list[0];  //get the first category
-			}
 			if ($return_all_categories){
 				$return['all'] = array();
 
@@ -417,7 +416,107 @@ if ( ! function_exists( 'ee_get_primary_terms' ) ) :
 					}
 				}
 			}
-		}
+
 		return $return;
+	}
+endif;
+
+if ( ! function_exists( 'ee_mparticle_get_author_data' ) ) :
+	function ee_mparticle_get_author_data( $post ){
+		$response = array(
+			'author' => '',
+			'primary_author' => '',
+			'secondary_author' => ''
+		);
+
+		$response['author'] = $post->post_author ? get_the_author_meta( 'login', $post->post_author ) : '';
+		$primary_author = get_field( 'primary_author_cpt', $post );
+		$response['primary_author'] = $primary_author ? get_the_author_meta( 'login', $primary_author ) : '';
+		$secondary_author = get_field( 'secondary_author_cpt', $post );
+		$response['secondary_author'] = $secondary_author ? get_the_author_meta( 'login', $secondary_author ) : '';
+
+		return (object) $response;
+	}
+endif;
+
+if ( ! function_exists( 'ee_mparticle_prepare_pageview_data' ) ) :
+	function ee_mparticle_prepare_pageview_data( $post ){
+		$post_categories = ee_get_primary_terms($post->ID, 'category', true);
+		$post_shows = ee_get_primary_terms($post->ID, '_shows', true);
+		$post_tags = ee_get_primary_terms($post->ID, 'post_tag', true);
+
+		$mParticle_category = $post_categories['primary'];
+		$mParticle_categories = !empty($post_categories['all']) ? wp_json_encode($post_categories['all']) : '';
+		$mParticle_show = $post_shows['primary'];
+		$mParticle_tags = !empty($post_tags['all']) ? wp_json_encode($post_tags['all']) : '';
+
+		$mParticle_post_id = $post->ID ? $post->ID : '';
+
+		$author_details = ee_mparticle_get_author_data( $post );
+		$mParticle_author = $author_details->author ? $author_details->author : '';
+		$mParticle_primary_author = $author_details->primary_author ? $author_details->primary_author : '';
+		$mParticle_secondary_author = $author_details->secondary_author ? $author_details->secondary_author : '';
+
+		$mParticle_word_count = $post->post_content ? str_word_count( strip_tags( $post->post_content ) ) : null;
+
+		$mParticle_select_embed_post_id = get_post_meta( $post->ID, 'select_embed_post_id', true );
+		if( !empty($mParticle_select_embed_post_id) ) {
+			$mParticle_select_embed_post = get_post($mParticle_select_embed_post_id);
+			$mParticle_select_embed_title = $mParticle_select_embed_post->post_title;
+			$mParticle_select_embed_type = $mParticle_select_embed_post->post_type;
+			$mParticle_select_embed_path = trailingslashit( get_permalink( $mParticle_select_embed_post_id ) );
+
+			$select_embed_author_details = ee_mparticle_get_author_data( $mParticle_select_embed_post );
+			$mParticle_select_embed_author = $select_embed_author_details->author ? $select_embed_author_details->author : '';
+			$mParticle_select_embed_primary_author = $select_embed_author_details->primary_author ? $select_embed_author_details->primary_author : '';
+			$mParticle_select_embed_secondary_author = $select_embed_author_details->secondary_author ? $select_embed_author_details->secondary_author : '';
+		}
+
+		$mParticleContentType = get_post_type( $post );
+		if (empty($mParticleContentType)) {
+			$mParticleContentType = 'null';
+		} else {
+			if (strpos($mParticleContentType, 'listicle') !== false) {
+				$mParticleContentType = 'listicle';
+			} else if (strpos($mParticleContentType, 'gallery') !== false) {
+				$mParticleContentType = 'gallery';
+			} else if (strpos($mParticleContentType, 'affiliate_marketing') !== false) {
+				$mParticleContentType = 'must_have';
+			} else if (strpos($mParticleContentType, 'homepage') !== false) {
+				$mParticleContentType = 'home';
+			} else if (strpos($mParticleContentType, 'event') !== false) {
+				$mParticleContentType = 'event';
+			} else if (strpos($mParticleContentType, 'episode') !== false) {
+				$mParticleContentType = 'episode';
+			} else if (strpos($mParticleContentType, 'contest') !== false) {
+				$mParticleContentType = 'contest';
+			} else if (strpos($mParticleContentType, 'podcast') !== false) {
+				$mParticleContentType = 'podcast';
+			} else if (strpos($mParticleContentType, 'show') !== false) {
+				$mParticleContentType = 'show';
+			} else {
+				$mParticleContentType = 'article';
+			}
+		}
+
+		return [
+			'mParticleContentType'						=> $mParticleContentType,
+			'mParticle_category'						=> $mParticle_category ?: '',
+			'mParticle_categories'						=> $mParticle_categories ?: '',
+			'mParticle_show'							=> $mParticle_show ?: '',
+			'mParticle_tags'							=> $mParticle_tags ?: '',
+			'mParticle_select_embed_title'				=> $mParticle_select_embed_title ?: '',
+			'mParticle_select_embed_type'				=> $mParticle_select_embed_type ?: '',
+			'mParticle_select_embed_path' 				=> $mParticle_select_embed_path ?: '',
+			'mParticle_select_embed_post_id' 			=> $mParticle_select_embed_post_id ?: '',
+			'mParticle_select_embed_author' 			=> $mParticle_select_embed_author ?: '',
+			'mParticle_select_embed_primary_author' 	=> $mParticle_select_embed_primary_author ?: '',
+			'mParticle_select_embed_secondary_author' 	=> $mParticle_select_embed_secondary_author ?: '',
+			'mParticle_post_id' 						=> $mParticle_post_id ?: '',
+			'mParticle_author' 							=> $mParticle_author ?: '',
+			'mParticle_primary_author' 					=> $mParticle_primary_author ?: '',
+			'mParticle_secondary_author' 				=> $mParticle_secondary_author ?: '',
+			'mParticle_word_count' 						=> $mParticle_word_count ?:  null
+		];
 	}
 endif;
