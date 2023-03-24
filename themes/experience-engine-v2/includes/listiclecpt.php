@@ -6,7 +6,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 		$cpt_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($cpt_post_object);
 		$id_pretext = $from_embed ? "embed-listicle" : "listicle";
-		$embeddedParentSlug = "embedded_content_id?";
+		$embeddedParentSlug = $cpt_post_object->post_name ?: '';
 
 		$ads_interval = filter_var( get_field( 'images_per_ad', $cpt_post_object ), FILTER_VALIDATE_INT, array( 'options' => array(
 			'min_range' => 1,
@@ -135,7 +135,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 						esc_attr($cpt_item_name_data),
 						get_content_type_text($cpt_post_object->post_type),
 						$tracking_url,
-						$cpt_post_object->ID,
+						$embeddedParentSlug . '_' . $segment_item_index,
 						$mparticle_listiclecpt_author->author ?: '',
 						$mparticle_listiclecpt_author->primary_author ?: '',
 						$mparticle_listiclecpt_author->secondary_author ?: ''

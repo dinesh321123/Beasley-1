@@ -422,7 +422,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		const currentDateTime = new Date();
 		const hourOfDay = currentDateTime.getHours() || 0;
 		this.setAnalytics('event_day_of_the_week', currentDateTime.toLocaleDateString(undefined, { weekday: 'long' }));
-		this.setAnalytics('event_hour_of_the_day', hourOfDay.toString());
+		this.setAnalytics('event_hour_of_the_day', hourOfDay.toString().padStart(2, '0'));
 		this.setAnalytics('daypart', window.getDayPart(hourOfDay));
 	}
 

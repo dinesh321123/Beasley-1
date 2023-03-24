@@ -79,6 +79,7 @@ endif;
 if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false ) {
 		static $urls = array();
+		$embeddedParentSlug = $gallery->post_name ?: '';
 
 		if ( empty( $urls[ $gallery->ID ] ) ) {
 			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $gallery->ID ) );
@@ -139,19 +140,21 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 		$mparticle_meta_tag = sprintf(
 			'<mparticle-meta
 						data-view_type = \'%s\'
-						data-embedded_content_title = \'%s\'
-						data-embedded_content_type = \'%s\'
-						data-embedded_content_path = \'%s\'
-						data-embedded_content_post_id = \'%s\'
-						data-embedded_content_wp_author = \'%s\'
-						data-embedded_content_primary_author = \'%s\'
-						data-embedded_content_secondary_author = \'%s\'
+						data-embedded_content_id = \'%s\'
+						data-embedded_content_item_title = \'%s\'
+						data-embedded_content_item_type = \'%s\'
+						data-embedded_content_item_path = \'%s\'
+						data-embedded_content_item_post_id = \'%s\'
+						data-embedded_content_item_wp_author = \'%s\'
+						data-embedded_content_item_primary_author = \'%s\'
+						data-embedded_content_item_secondary_author = \'%s\'
 						/>',
 			'embedded_content', //view_type
+			$embeddedParentSlug,
 			$title,
 			get_content_type_text($gallery->post_type),
 			$tracking_url,
-			$gallery->ID,
+			$image->post_name,
 			$mparticle_gallery_author->author ?: '',
 			$mparticle_gallery_author->primary_author ?: '',
 			$mparticle_gallery_author->secondary_author ?: ''
