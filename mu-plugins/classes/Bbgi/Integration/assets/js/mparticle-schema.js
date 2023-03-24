@@ -15,27 +15,29 @@ window.mParticleSchema = {
 										"show_name": {"description": "", "type": ["string", "null"]},
 										"show_id": {"description": "", "type": ["string", "null"]},
 										"tags": {"description": "", "type": ["string", "null"]},
-										"content_type": {
-											"description": "",
-											"type": ["string", "null"],
-											"enum": ["Post", "Page", "Attachment", "Revision", "Navigation Menu Item", "Custom CSS", "Customize Changeset", "oEmbed Cache", "User Request", "WordPress Block", "WordPress Template", "WordPress Template Part", "WordPress Global Styles", "WordPress Navigation", "Gallery", "Album", "Listicle", "Episode", "Venue", "Organizer", "Event", "ACF Field Group", "ACF Field", "CMM Redirect", "Advertiser", "Subscription", "Content Kit", "Contest", "Live Stream", "Songs", "Show", "FP Feed", "Closure", "Redirect Rule", "Tribe EA Record", "Deleted Event", "Homepage", "Mobile Homepage", "Synonym", "Pointer", "Podcast", "Simplifi Pixel", "Live Link", "Must Have", "Unknown", "null"]
-										},
+										"content_type": {"description": "", "type": ["string", "null"]},
 										"view_type": {
 											"description": "",
 											"type": ["string", "null"],
 											"enum": ["primary", "embedded_content", "null"]
 										},
-										"embedded_container_id": {"description": "", "type": ["string", "null"]},
-										"embedded_content_title": {"description": "", "type": ["string", "null"]},
-										"embedded_content_type": {"description": "", "type": ["string", "null"]},
-										"embedded_content_path": {"description": "", "type": ["string", "null"]},
-										"embedded_content_post_id": {"description": "", "type": ["string", "null"]},
-										"embedded_content_wp_author": {"description": "", "type": ["string", "null"]},
-										"embedded_content_primary_author": {
+										"embedded_content_id": {"description": "", "type": ["string", "null"]},
+										"embedded_content_item_title": {"description": "", "type": ["string", "null"]},
+										"embedded_content_item_type": {"description": "", "type": ["string", "null"]},
+										"embedded_content_item_path": {"description": "", "type": ["string", "null"]},
+										"embedded_content_item_post_id": {
 											"description": "",
 											"type": ["string", "null"]
 										},
-										"embedded_content_secondary_author": {
+										"embedded_content_item_wp_author": {
+											"description": "",
+											"type": ["string", "null"]
+										},
+										"embedded_content_item_primary_author": {
+											"description": "",
+											"type": ["string", "null"]
+										},
+										"embedded_content_item_secondary_author": {
 											"description": "",
 											"type": ["string", "null"]
 										},

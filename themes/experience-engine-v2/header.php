@@ -11,6 +11,7 @@ use Bbgi\Integration\Google;
 		'mParticle_categories'						=> '',
 		'mParticle_show'							=> '',
 		'mParticle_tags'							=> '',
+		'mParticle_select_embed_parent_id'			=> '',
 		'mParticle_select_embed_title'				=> '',
 		'mParticle_select_embed_type'				=> '',
 		'mParticle_select_embed_path' 				=> '',
@@ -135,13 +136,14 @@ use Bbgi\Integration\Google;
 						window.beasleyanalytics.setAnalyticsForMParticle(\'tags\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'content_type\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'view_type\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_title\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_type\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_path\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_post_id\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_wp_author\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_primary_author\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_secondary_author\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_id\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_item_title\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_item_type\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_item_path\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_item_post_id\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_item_wp_author\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_item_primary_author\', \'%s\');
+						window.beasleyanalytics.setAnalyticsForMParticle(\'embedded_content_item_secondary_author\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'post_id\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'wp_author\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_author\', \'%s\');
@@ -176,6 +178,7 @@ use Bbgi\Integration\Google;
 							$mparticle_pageview_event_data['mParticle_tags'] ?: 'null',
 							$mparticle_pageview_event_data['mParticleContentType'] ?: 'null',
 							'primary',
+							$mparticle_pageview_event_data['mParticle_select_embed_parent_id'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_select_embed_title'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_select_embed_type'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_select_embed_path'] ?: 'null',

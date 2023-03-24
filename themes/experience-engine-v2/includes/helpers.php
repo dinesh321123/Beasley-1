@@ -531,6 +531,7 @@ if ( ! function_exists( 'ee_mparticle_prepare_pageview_data' ) ) :
 
 		$mParticle_select_embed_post_id = ee_mparticle_get_select_embed_id( $post );
 		if( !empty($mParticle_select_embed_post_id) ) {
+			$mParticle_select_embed_parent_id = $post -> slug;
 			$mParticle_select_embed_post = get_post($mParticle_select_embed_post_id);
 			$mParticle_select_embed_title = $mParticle_select_embed_post->post_title;
 			$mParticle_select_embed_type = $mParticle_select_embed_post->post_type;
@@ -551,6 +552,7 @@ if ( ! function_exists( 'ee_mparticle_prepare_pageview_data' ) ) :
 			'mParticle_categories'						=> $mParticle_categories ?: '',
 			'mParticle_show'							=> $mParticle_show ?: '',
 			'mParticle_tags'							=> $mParticle_tags ?: '',
+			'mParticle_select_embed_parent_id'			=> $mParticle_select_embed_parent_id ?: '',
 			'mParticle_select_embed_title'				=> $mParticle_select_embed_title ?: '',
 			'mParticle_select_embed_type'				=> $mParticle_select_embed_type ?: '',
 			'mParticle_select_embed_path' 				=> $mParticle_select_embed_path ?: '',
