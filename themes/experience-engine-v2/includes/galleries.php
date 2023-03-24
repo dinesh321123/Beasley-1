@@ -149,7 +149,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 						/>',
 			'embedded_content', //view_type
 			$title,
-			$gallery->post_type,
+			get_content_type_text($gallery->post_type),
 			$tracking_url,
 			$gallery->ID,
 			$mparticle_gallery_author->author ?: '',

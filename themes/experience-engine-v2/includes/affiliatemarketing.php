@@ -179,7 +179,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 						/>',
 						'embedded_content', //view_type
 						esc_attr($am_item_name_data),
-						$affiliatemarketing_post_object->post_type,
+						get_content_type_text($affiliatemarketing_post_object->post_type),
 						$tracking_url,
 						$affiliatemarketing_post_object->ID,
 						$mparticle_musthave_author->author ?: '',

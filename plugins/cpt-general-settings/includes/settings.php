@@ -11,7 +11,6 @@ class CommonSettings {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'admin_head', array( __CLASS__, 'required_alt_text' ) );	// Script for validate Alt text from Add media button
 		add_action('admin_footer', array( __CLASS__, 'sticky_publish_box' ) );	// Script to sticky/floating publish box
-		add_action( 'save_post',array( __CLASS__, 'select_embed_data_save') );
 	}
 
 	/**
@@ -201,91 +200,6 @@ class CommonSettings {
 					)
 			);
 		}
-	}
-
-	public static function select_embed_verify_post($attributes) {
-		if( empty($attributes['post_id']) || empty($attributes['post_type']) ) {
-			return '';
-		}
-
-		$post_id = '';
-
-		if ($attributes['syndication_name']) {
-			$meta_query_args = [
-				'meta_key'    => 'syndication_old_name',
-				'meta_value'  => $attributes['syndication_name'],
-				'post_status' => 'any',
-				'post_type'   => $attributes['post_type']
-			];
-
-			$existing = get_posts($meta_query_args);
-
-			if ($existing) {
-				$existing_post = current($existing);
-				$post_id = intval($existing_post->ID);
-			}
-		}
-
-		$post_id = $post_id ? $post_id : $attributes['post_id'];
-		$post = get_post($post_id);
-		if ($post->post_type !== $attributes['post_type'] || $post->post_name !== $attributes['syndication_name']) {
-			return '';
-		}
-
-		return $post_id;
-	}
-
-	public static function select_embed_data_save( $post_id ) {
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-		if ( ! current_user_can( 'edit_post' ) ) return;
-
-		$pattern = get_shortcode_regex();
-		$select_embed_post_id = '';
-		$select_embed_post_types = array( 'post', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery'  );
-
-		if ( $_POST['post_type'] && in_array( $_POST['post_type'], $select_embed_post_types ) ) {
-			if (   preg_match_all( '/'. $pattern .'/s', $_POST['post_content'].$_POST['common_footer_description'], $matches )
-				&& array_key_exists( 2, $matches )
-				&& (in_array( 'select-listicle', $matches[2] ) || in_array( 'select-gallery', $matches[2] ) || in_array( 'select-am', $matches[2] ))
-			) {
-				$select_embed_type = (count($matches[2]) > 0) ? $matches[2][0] : '';
-				$attributes =  (count($matches[0]) > 0) ? self::eri_shortcode_parse_atts(str_replace('\"', '"', $matches[0][0])) : '';
-
-				if ($select_embed_type == 'select-gallery') {
-					$attributes['post_id'] = $attributes['gallery_id'];
-					$attributes['post_type'] = 'gmr_gallery';
-				} else if ($select_embed_type == 'select-listicle') {
-					$attributes['post_id'] = $attributes['listicle_id'];
-					$attributes['post_type'] = 'listicle_cpt';
-				} else if ($select_embed_type == 'select-am') {
-					$attributes['post_id'] = $attributes['am_id'];
-					$attributes['post_type'] = 'affiliate_marketing';
-				}
-
-				$select_embed_post_id = self::select_embed_verify_post($attributes);
-			}
-
-			update_post_meta( $post_id, 'select_embed_post_id', !empty($select_embed_post_id) ? $select_embed_post_id : '' );
-		}
-	}
-
-	public static function eri_shortcode_parse_atts( $shortcode ) {
-		// Store the shortcode attributes in an array here
-		$attributes = [];
-
-		// Get all attributes
-		if (preg_match_all('/\w+\=\".*?\"/', $shortcode, $key_value_pairs)) {
-
-			// Now split up the key value pairs
-			foreach($key_value_pairs[0] as $kvp) {
-				$kvp = str_replace('"', '', $kvp);
-				$pair = explode('=', $kvp);
-				$attributes[$pair[0]] = $pair[1];
-			}
-		}
-
-		// Return the array
-		return $attributes;
 	}
 }
 

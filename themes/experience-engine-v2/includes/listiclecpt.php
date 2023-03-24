@@ -130,7 +130,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 						/>',
 						'embedded_content', //view_type
 						esc_attr($cpt_item_name_data),
-						$cpt_post_object->post_type,
+						get_content_type_text($cpt_post_object->post_type),
 						$tracking_url,
 						$cpt_post_object->ID,
 						$mparticle_listiclecpt_author->author ?: '',

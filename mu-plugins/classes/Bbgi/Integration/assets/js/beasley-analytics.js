@@ -363,27 +363,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.createMediaKeyValuePairs();
 		this.customEventTypeLookupByName = this.getAllCustomEventTypeLookupObject();
 
-		super.debugLog('Beasley Analytics mParticle Variables Were Initialized');
-		this.isInitialized = true;
-
-		this.setPerSessionKeys();
-
-		// Empty Any Queued Event Args
-		if (this.queuedArgs.length > 0) {
-			this.queuedArgs.forEach(eventArg => {
-				if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.settingsFuncName) {
-					this.setAnalytics.apply(this, eventArg.args);
-				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.mediaSettingsFuncName) {
-					this.setMediaAnalytics().apply(this, eventArg.args);
-				}
-				else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.eventFuncName) {
-					this.sendEventByName.apply(this, eventArg.args);
-				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.fireLazyPageViewFuncName) {
-					this.fireLazyPageViewsForElementsWithMeta.apply(this, eventArg.args);
-				}
-			});
-			this.queuedArgs = [];
-		}
+		this.CompleteInitializationAndSetPerSessionKeys();
 	}
 
 	createKeyValuePairs() {
@@ -404,17 +384,44 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.mediaSpecificKeyValuePairs = {...this.mediaSpecificKeyValuePairsTemplate};
 	}
 
-	setPerSessionKeys = () => {
-		// Set Global Fields
-		this.setAnalytics('domain', window.location.hostname);
-		this.setAnalytics('platform', 'Web');
+	CompleteInitializationAndSetPerSessionKeys = () => {
+		// Set Global Fields In Callback After Ad Blocker Detection Completes And Empty Process Queue
+		adblockDetect((isBlockingAds) => {
+			super.debugLog('Beasley Analytics mParticle Was Initialized. Now Processing...');
+			this.isInitialized = true;
+
+			this.setAnalytics('ad_block_enabled', isBlockingAds);
+			this.setAnalytics('domain', window.location.hostname);
+			this.setAnalytics('platform', 'Web');
+
+			this.processAnyQueuedCalls();
+		});
 	};
+
+	processAnyQueuedCalls() {
+		// Process Any Queued Event Args
+		if (this.queuedArgs.length > 0) {
+			this.queuedArgs.forEach(eventArg => {
+				if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.settingsFuncName) {
+					this.setAnalytics.apply(this, eventArg.args);
+				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.mediaSettingsFuncName) {
+					this.setMediaAnalytics().apply(this, eventArg.args);
+				}
+				else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.eventFuncName) {
+					this.sendEventByName.apply(this, eventArg.args);
+				} else if (eventArg.funcName === BeasleyAnalyticsMParticleProvider.fireLazyPageViewFuncName) {
+					this.fireLazyPageViewsForElementsWithMeta.apply(this, eventArg.args);
+				}
+			});
+			this.queuedArgs = [];
+		}
+	}
 
 	setPerEventKeys() {
 		this.setAnalytics('beasley_event_id', window.createUUID());
 		const currentDateTime = new Date();
 		const hourOfDay = currentDateTime.getHours() || 0;
-		this.setAnalytics('event_day_of_the_week', currentDateTime.getDay().toString());
+		this.setAnalytics('event_day_of_the_week', currentDateTime.toLocaleDateString(undefined, { weekday: 'long' }));
 		this.setAnalytics('event_hour_of_the_day', hourOfDay.toString());
 		this.setAnalytics('daypart', window.getDayPart(hourOfDay));
 	}

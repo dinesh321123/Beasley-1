@@ -18,13 +18,14 @@ window.mParticleSchema = {
 										"content_type": {
 											"description": "",
 											"type": ["string", "null"],
-											"enum": ["article", "listicle", "gallery", "home", "event", "podcast", "episode", "contest", "show", "must_have", "null"]
+											"enum": ["Post", "Page", "Attachment", "Revision", "Navigation Menu Item", "Custom CSS", "Customize Changeset", "oEmbed Cache", "User Request", "WordPress Block", "WordPress Template", "WordPress Template Part", "WordPress Global Styles", "WordPress Navigation", "Gallery", "Album", "Listicle", "Episode", "Venue", "Organizer", "Event", "ACF Field Group", "ACF Field", "CMM Redirect", "Advertiser", "Subscription", "Content Kit", "Contest", "Live Stream", "Songs", "Show", "FP Feed", "Closure", "Redirect Rule", "Tribe EA Record", "Deleted Event", "Homepage", "Mobile Homepage", "Synonym", "Pointer", "Podcast", "Simplifi Pixel", "Live Link", "Must Have", "Unknown", "null"]
 										},
 										"view_type": {
 											"description": "",
 											"type": ["string", "null"],
 											"enum": ["primary", "embedded_content", "null"]
 										},
+										"embedded_container_id": {"description": "", "type": ["string", "null"]},
 										"embedded_content_title": {"description": "", "type": ["string", "null"]},
 										"embedded_content_type": {"description": "", "type": ["string", "null"]},
 										"embedded_content_path": {"description": "", "type": ["string", "null"]},
@@ -82,7 +83,6 @@ window.mParticleSchema = {
 										"referrer": {"description": "", "type": ["string", "null"]},
 										"UTM": {"description": "", "type": ["string", "null"]},
 										"page_url": {"description": "", "type": ["string", "null"]},
-										"seth_test_array": {"description": "", "type": ["string", "null"]},
 										"title": {"description": "", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
