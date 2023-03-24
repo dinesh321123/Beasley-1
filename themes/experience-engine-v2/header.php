@@ -20,6 +20,7 @@ use Bbgi\Integration\Google;
 		'mParticle_select_embed_primary_author' 	=> '',
 		'mParticle_select_embed_secondary_author' 	=> '',
 		'mParticle_post_id' 						=> '',
+		'mParticle_post_slug' 						=> '',
 		'mParticle_author' 							=> '',
 		'mParticle_primary_author' 					=> '',
 		'mParticle_secondary_author' 				=> '',
