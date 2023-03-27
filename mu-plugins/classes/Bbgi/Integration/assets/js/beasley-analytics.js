@@ -386,16 +386,26 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 	CompleteInitializationAndSetPerSessionKeys = () => {
 		// Set Global Fields In Callback After Ad Blocker Detection Completes And Empty Process Queue
-		adblockDetect((isBlockingAds) => {
-			super.debugLog('Beasley Analytics mParticle Was Initialized. Now Processing...');
-			this.isInitialized = true;
 
-			this.setAnalytics('ad_block_enabled', isBlockingAds);
-			this.setAnalytics('domain', window.location.hostname);
-			this.setAnalytics('platform', 'Web');
+		const handleAdBlockFunc = () => {
+			adblockDetect((isBlockingAds) => {
+				super.debugLog('Beasley Analytics mParticle Was Initialized. Now Processing...');
+				this.isInitialized = true;
 
-			this.processAnyQueuedCalls();
-		});
+				this.setAnalytics('ad_block_enabled', isBlockingAds);
+				this.setAnalytics('domain', window.location.hostname);
+				this.setAnalytics('platform', 'Web');
+
+				this.processAnyQueuedCalls();
+				removeEventListener("DOMContentLoaded", handleAdBlockFunc);
+			});
+		};
+
+		if (window.isWhiz() && document.readyState !== 'complete') {
+			addEventListener("DOMContentLoaded", handleAdBlockFunc);
+		} else {
+			handleAdBlockFunc();
+		}
 	};
 
 	processAnyQueuedCalls() {

@@ -188,7 +188,7 @@ use Bbgi\Integration\Google;
 							$mparticle_pageview_event_data['mParticle_select_embed_author'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_select_embed_primary_author'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_select_embed_secondary_author'] ?: 'null',
-							$mparticle_pageview_event_data['mParticle_post_id'] ?: 'null',
+							$mparticle_pageview_event_data['mParticle_post_slug'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_author'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_primary_author'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_secondary_author'] ?: 'null',
