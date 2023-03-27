@@ -12,6 +12,19 @@ class DuplicateListicle {
 		add_filter( 'post_row_actions', array( $this, 'listicle_cpt_duplicate_post_link' ), 10, 2 );
 		add_action( 'admin_action_listicle_cpt_duplicate', array( $this, 'listicle_cpt_duplicate_function' ) );
 		add_action( 'admin_notices', array( $this, 'listicle_cpt_duplication_admin_notice' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'listicle_cpt_duplication_enqueue_scripts' ) );
+	}
+	public function listicle_cpt_duplication_enqueue_scripts() {
+		global $typenow, $pagenow;
+		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+		wp_register_script('duplicate-listicle-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/duplicate-listicle'. $postfix .'.js', array('jquery'), '1.0');
+		$data = array(
+			'ajax_url' => admin_url('admin-ajax.php'),
+			'post_type' => $typenow,
+			'currunt_page' => $pagenow,
+		);
+		wp_localize_script('duplicate-listicle-script', 'duplicateListicleData', $data);
+		wp_enqueue_script('duplicate-listicle-script');
 	}
 	// Add the duplicate link to action list for Listicle
 	public function listicle_cpt_duplicate_post_link ( $actions, $post ) {
