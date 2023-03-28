@@ -1,6 +1,6 @@
 <?php
 
-add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 3 );
+add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 4 );
 
 if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 	function ee_setup_gallery_view_metadata() {
@@ -77,12 +77,17 @@ if ( ! function_exists( 'ee_get_galleries_query' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
-	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false ) {
+	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false, $source_post_object = null ) {
 		static $urls = array();
 		$embeddedParentSlug = $gallery->post_name ?: '';
+		
+		$checkID = $gallery->ID;
+		if( !empty($source_post_object) && $source_post_object !== null ) {
+			$checkID = $source_post_object->ID;
+		}
 
 		if ( empty( $urls[ $gallery->ID ] ) ) {
-			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $gallery->ID ) );
+			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $checkID ) );
 		}
 
 		$image_full_url = $urls[ $gallery->ID ] . 'view/' . urlencode( $image->post_name ) . '/';
@@ -172,7 +177,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_html' ) ) :
-	function ee_get_gallery_html( $gallery, $ids, $from_embed = false ) {
+	function ee_get_gallery_html( $gallery, $ids, $source_post_object = null, $from_embed = false ) {
 		$sponsored_image = get_field( 'sponsored_image', $gallery );
 		$id_pretext = $from_embed ? "embed-gallery" : "gallery";
 		if ( ! empty( $sponsored_image ) ) {
@@ -230,7 +235,8 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 				$image,
 				$gallery,
 				$sponsored_image == $image->ID,
-				$index == 0
+				$index == 0,
+				$source_post_object
 			);
 
 			if ( ! empty( $html ) ) {
@@ -252,14 +258,13 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_update_incontent_gallery' ) ) :
-	function ee_update_incontent_gallery( $html, $gallery, $ids ) {
+	function ee_update_incontent_gallery( $html, $gallery, $ids, $source_post_object = null ) {
 		// do not render gallery if it has been called before <body> tag
 		if ( ! did_action( 'beasley_after_body' ) ) {
 			return '<!-- -->';
 		}
-
-		$html = ee_get_gallery_html( $gallery, $ids, true );
-
+		$html = ee_get_gallery_html( $gallery, $ids, $source_post_object, true );
+		
 		// we need to to inject embed code later
 		$placeholder = '<div><!-- gallery:' . sha1( $html ) . ' --></div>';
 		$replace_filter = function( $content ) use ( $placeholder, $html ) {
