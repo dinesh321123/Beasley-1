@@ -330,7 +330,6 @@ if ( ! function_exists( 'ee_get_category_posts_query' ) ) :
 			$category_archive_query_params['offset'] = $offset;
 			$category_archive_query_params['posts_per_page'] = $category_archive_per_page;
 		}
-		// echo "<pre>", print_r($category_archive_query_params), "</pre>";
 		return new \WP_Query( $category_archive_query_params );
 	}
 endif;
