@@ -16,7 +16,6 @@ $ca_stn_video_barker_id = "";
 $station_mobile_ad_occurance = get_option( 'mobile_ad_category_setting' ) ? get_option( 'mobile_ad_category_setting' ) : 6;
 $ca_mobile_ad_occurrence = 0;
 
-// if (str_contains($ca_query_category_values, ',')) {
 if (strpos($ca_query_category_values, ',') !== false) {
 	$ca_featured_curated_posts = array();
 	$total_ca_featured_curated = 0;
@@ -84,7 +83,7 @@ while(count($category_archive_posts) > 0) {
 					<h2 class="section-head">
 						<span class="bigger">More <?php echo $category_archive_obj->name; ?></span>
 					</h2>
-				</div>				
+				</div>
 			</div>
 		<?php
 	}
@@ -108,11 +107,6 @@ while(count($category_archive_posts) > 0) {
 
 	set_query_var( 'display_ca_archive_data', $display_ca_archive_data );
 	get_template_part( 'partials/category/archive', $have_ad );
-	// if( $current_ca_render_index % 2 !== 0 && !($current_ca_render_index == 1 && ee_is_first_page()) ) { ?>
-		<!-- <div class="ad -footer -centered">
-			<?php // do_action( 'dfp_tag', 'bottom-leaderboard', false, array( array( 'pos', 2 ) ) ); ?>
-		</div> -->
-	<?php // }
 	$current_ca_render_index++;
 }
 ?>

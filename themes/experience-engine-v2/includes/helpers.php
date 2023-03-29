@@ -94,7 +94,7 @@ endif;
 if ( ! function_exists( 'ee_load_more_attributes' ) ) :
 	function ee_load_more_attributes() {
 		if (is_archive() && is_category()) {
-			return 'class="load-more" autoload="true"';	
+			return 'class="load-more" autoload="true"';
 		}
 		return 'class="load-more"';
 	}
@@ -330,7 +330,6 @@ if ( ! function_exists( 'ee_get_category_posts_query' ) ) :
 			$category_archive_query_params['offset'] = $offset;
 			$category_archive_query_params['posts_per_page'] = $category_archive_per_page;
 		}
-		// echo "<pre>", print_r($category_archive_query_params), "</pre>";
 		return new \WP_Query( $category_archive_query_params );
 	}
 endif;
@@ -345,7 +344,7 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 		if($category == null) {
 			return $response;
 		}
-		
+
 		$posts = get_posts([
 			'post_type'      => 'magazine_cpt',
 			'post_status'    => 'publish',
@@ -356,7 +355,7 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 				]
 			]
 		]);
-		
+
 		if( is_array( $posts ) && ! empty( $posts ) && ( count( $posts ) > 0 ) ) {
 			$limit = 5;
 			$post = $posts[0];
