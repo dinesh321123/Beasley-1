@@ -16,6 +16,7 @@ if ( ee_is_first_page() ) :
 	$mparticle_implementation = sprintf(
 		'<script class="mparticle_implementation">
 					window.beasleyanalytics.setAnalyticsForMParticle(\'search_term\', \'%s\');
+					window.beasleyanalytics.setAnalyticsForMParticle(\'search_term_selected\', \'%s\');
 					window.beasleyanalytics.setAnalyticsForMParticle(\'search_num_results\', %d);
 
 					window.beasleyanalytics.sendMParticleEvent(
@@ -56,7 +57,7 @@ if ( have_posts() ) :
 		}
 
 
-		echo '<div class="archive-tiles -grid -small">';
+		echo '<div class="archive-tiles -grid -small search-results">';
 			while ( have_posts() ) :
 				the_post();
 				get_template_part( 'partials/tile', get_post_type() );

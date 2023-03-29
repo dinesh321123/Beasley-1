@@ -21,14 +21,7 @@
 						document.body.addEventListener(\'click\', (e) => {
 							const ev = window.event||e;
                         	if (ev.srcElement.tagName === \'A\') {
-                        		window.beasleyanalytics.setAnalyticsForMParticle(\'container_id\', \'%s\');
-                        		window.beasleyanalytics.setAnalyticsForMParticle(\'link_name\', ev.srcElement.ariaLabel);
-								window.beasleyanalytics.setAnalyticsForMParticle(\'link_text\', ev.srcElement.innerText);
-								window.beasleyanalytics.setAnalyticsForMParticle(\'link_url\', ev.srcElement.href);
-
-								window.beasleyanalytics.sendMParticleEvent(
-									BeasleyAnalyticsMParticleProvider.mparticleEventNames.linkClicked,
-								);
+								window.beasleyanalytics.sendMParticleLinkClickEvent(ev);
 							}
 						});
 					</script>',
