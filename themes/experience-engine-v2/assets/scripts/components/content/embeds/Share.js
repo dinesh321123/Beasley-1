@@ -39,6 +39,26 @@ class Share extends PureComponent {
 		return encodeURIComponent(title || document.title);
 	}
 
+	sendMParticleEvent(serviceName, fromPageUrl, contentName) {
+		window.beasleyanalytics.setAnalyticsForMParticle(
+			'shared_to_service',
+			serviceName,
+		);
+		window.beasleyanalytics.setAnalyticsForMParticle(
+			'from_page_url',
+			fromPageUrl,
+		);
+		window.beasleyanalytics.setAnalyticsForMParticle(
+			'content_name',
+			contentName,
+		);
+
+		window.beasleyanalytics.sendMParticleEvent(
+			window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
+				.mparticleEventNames.shared,
+		);
+	}
+
 	handleFacebookClick() {
 		const url = `https://www.facebook.com/sharer/sharer.php?u=${this.getUrl()}&t=${this.getTitle()}`;
 
@@ -47,6 +67,8 @@ class Share extends PureComponent {
 			'',
 			'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600',
 		);
+
+		this.sendMParticleEvent('Facebook', url, this.getTitle());
 	}
 
 	handleTwitterClick() {
@@ -57,6 +79,8 @@ class Share extends PureComponent {
 			'',
 			'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600',
 		);
+
+		this.sendMParticleEvent('Twitter', url, this.getTitle());
 	}
 
 	handleCopyUrlClick() {
@@ -70,6 +94,8 @@ class Share extends PureComponent {
 		setTimeout(() => {
 			ReactTooltip.hide(this.copyref.current);
 		}, 3000);
+
+		this.sendMParticleEvent('Copy Share Link', url, this.getTitle());
 	}
 
 	render() {
