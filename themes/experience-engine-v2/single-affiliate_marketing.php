@@ -6,6 +6,7 @@ get_header();
 ee_switch_to_article_blog();
 the_post();
 
+
 ?><div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php if ( bbgi_featured_image_layout_is( null, 'top' ) ) : ?>
 		<header class="post-info">
@@ -46,6 +47,7 @@ the_post();
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/affiliatemarketingcpt' ); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/footer', 'description-am' ); ?>
 			<?php get_template_part( 'partials/affiliate-marketing-cpt/footer', 'signupcode-am' ); ?>
+			<?php echo do_shortcode( ' [nsf-show] ' ); ?>
 			<?php get_template_part( 'partials/content/categories' ); ?>
 			<?php get_template_part( 'partials/content/tags' ); ?>
 		</div>
