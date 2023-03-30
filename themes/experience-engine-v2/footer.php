@@ -20,9 +20,7 @@
 			'<script>
 						document.body.addEventListener(\'click\', (e) => {
 							const ev = window.event||e;
-                        	if (ev.srcElement.tagName === \'A\') {
-								window.beasleyanalytics.sendMParticleLinkClickEvent(ev);
-							}
+                        	window.beasleyanalytics.sendMParticleLinkClickEvent(ev.target);
 						});
 					</script>',
 						'container_id?',
