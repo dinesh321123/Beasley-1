@@ -8,25 +8,23 @@
         
             var name = $(".nsf-first-name").val();
             var email = $(".nsf-email").val();
-            
-            $('.nsf-name-error').text('');
-            $('.nsf-email-error').text('');
 
             if (name == "") {
-                $('.nsf-name-error').text('required');
+                $(".nsf-first-name").focus();
                 return false;
             }
 
             if (email != "") {
                 var pattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
                 if (!pattern.test(email)) {
-                    $('.nsf-email-error').text('invalid email');
+                    $('.nsf-email-error-msg').text('invalid email');
+                    $(".nsf-email").focus();
                     $(this).val("");
                     $(this).focus();
                     return false;
                 }
             }else{
-                $('.nsf-email-error').text('required');
+                $(".nsf-email").focus();
                 return false;
             }
            

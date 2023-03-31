@@ -16,14 +16,17 @@ class NewsletterSignupForm {
 	public function nsf_register_scripts() {
 		//Script for front end
 		$postfix = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+
 		wp_register_style('nsf-style',GENERAL_SETTINGS_CPT_URL . "assets/css/newsletter-signup-form". $postfix .".css", array(), GENERAL_SETTINGS_CPT_VERSION, 'all');
 		wp_enqueue_style('nsf-style');
 
 		wp_register_script('nsf-script', GENERAL_SETTINGS_CPT_URL . 'assets/js/newsletter-signup-form'. $postfix .'.js', array('jquery'), '1.0');
+
         wp_enqueue_script('nsf-script');
 	}
 
 	public function nsf_function() {
+
 		$html = '';
 		$html .= '<div class="nsf-container" id="root">';
 			$html .= '<div class="nsf-image-container" >';
@@ -34,7 +37,7 @@ class NewsletterSignupForm {
 				$html .= '<h2 class="nsf-subheader">Get Our Latest Articles in Your Inbox</h2>';
 				$html .= '<form id="nsf-form" class="nsf-form" name="nsf_form" action="" method="POST">';
 					$html .= '<div class="nsf-input-container">';
-						$html .= '<div class="input-label"><label>First Name</label><span class="nsf-name-error"></span></div>';
+						$html .= '<div class="input-label"><label>First Name</label><span class="nsf-name-error">required</span></div>';
 						$html .= '<div class="input-field"><input type="text" name="nsf_first_name" class="nsf-first-name" /></div>';
 					$html .= '</div>';
 					$html .= '<div class="nsf-input-container">';
@@ -42,8 +45,8 @@ class NewsletterSignupForm {
 						$html .= '<div class="input-field"><input type="text" name="nsf_last_name" class="nsf-last-name" /></div>';
 					$html .= '</div>';
 					$html .= '<div class="nsf-input-container">';
-						$html .= '<div class="input-label"><label>Email</label><span class="nsf-email-error"></span></div>';
-						$html .= '<div class="input-field"><input type="text" name="nsf_email" class="nsf-email" /></div>';
+						$html .= '<div class="input-label"><label>Email</label><span class="nsf-email-error">required</span></div>';
+						$html .= '<div class="input-field"><input type="text" name="nsf_email" class="nsf-email" /><span class="nsf-email-error-msg"></span></div>';
 					$html .= '</div>';
 					$html .= '<div class="nsf-action-container">';
 						$html .= '<button class="nsf-form-submit" type="submit">Subscribe</button>';

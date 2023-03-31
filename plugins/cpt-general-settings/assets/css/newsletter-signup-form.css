@@ -5,7 +5,7 @@
     overflow: hidden;
     border-top: 6px solid;
     border-color: var(--brand-primary);
-    font-family: Muli;
+    font-family: inherit;
     position: relative;
     max-width: 700px;
     width:100%;
@@ -47,7 +47,7 @@
     color: var(--brand-text-color);
     display: block;
     max-width: 400px;
-    font: 14px sans-serif;
+    font: 14px inherit;
 }
 
 .nsf-container span.nsf-name-error,
@@ -55,7 +55,8 @@
     font-size: 11px;
     float: right;
     text-transform: capitalize;
-    line-height: 19px;
+    line-height: 30px;
+    color: var(--brand-text-color);
 }
 
 .nsf-container .input-field input {
@@ -65,14 +66,14 @@
     padding: 0 8px;
     border: 1px solid #ccc;
     font-size: 16px;
-    font-family: Muli;
+    font-family: inherit;
     display: block;
     width: 100%;
 }
 
 .nsf-container button.nsf-form-submit {
     border: 0;
-    margin: 6px 0 0;
+    margin: 6px 0 7px;
     padding: 0 12px;
     min-height: 32px;
     font: inherit;
@@ -89,7 +90,7 @@
     background-color: var(--brand-primary);
     color: var(--brand-text-color);
     font-size: 15px;
-    font-family: sans-serif;
+    font-family: inherit;
     font-weight: 500;
 }
 .nsf-container form#nsf-form {
@@ -98,6 +99,26 @@
 }
 .nsf-container form#nsf-form .nsf-input-container {
     padding-right: 5px;
+}
+.nsf-container form#nsf-form .nsf-input-container {
+    margin-bottom: 7px;
+    position: relative;
+}
+
+.nsf-container form#nsf-form .nsf-input-container span.nsf-email-error-msg {
+    position: absolute;
+    font-size: 12px;
+    text-transform: capitalize;
+    font-family: inherit;
+}
+
+.nsf-container .input-label label {
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.nsf-email-error-msg{
+    color: red;
 }
 
 @media (max-width:767px) {
