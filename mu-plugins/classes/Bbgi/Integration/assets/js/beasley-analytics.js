@@ -548,9 +548,10 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	}
 
 	sendClickEvent(targetElement) {
-		// Find the A tag for only Lazy Images or A tags themselves
+		// Find the A tag for only A tags, Lazy Images, SVG, or Path tags themselves
 		if (targetElement?.tagName !== 'A' &&
 			targetElement?.className !== 'lazy-image' &&
+			targetElement?.tagName !== 'svg' &&
 			targetElement?.tagName !== 'path') {
 			return;
 		}
