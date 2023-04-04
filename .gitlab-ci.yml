@@ -1,4 +1,4 @@
-image: docker.10up.com/10up-build/deploy-container:php-7.4
+image: docker.10up.com/10up-build/deploy-container:latest
 
 stages:
   - test-and-build
