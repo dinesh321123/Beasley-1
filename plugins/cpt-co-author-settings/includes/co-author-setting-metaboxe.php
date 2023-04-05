@@ -8,7 +8,7 @@ class CoAuthorSettingMetaboxes {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
-			add_action( 'init', array( __CLASS__, 'load_coauthor' ), 0 );
+			add_action( 'wp_loaded', array( __CLASS__, 'load_coauthor' ), 0 );
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
