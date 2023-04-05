@@ -130,10 +130,8 @@ class ListicleCPTMetaboxes {
 	}
 	public static function listicle_cpt_footer_description_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-		// echo "Start before nonce", print_r($_POST), " -- End before nonce";
-		// if ( ! isset( $_POST['_listicle_cpt_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_listicle_cpt_footer_description_nonce'], '_listicle_cpt_footer_description_nonce' ) ) return;
+		if ( ! isset( $_POST['_listicle_cpt_footer_description_nonce'] ) || ! wp_verify_nonce( $_POST['_listicle_cpt_footer_description_nonce'], '_listicle_cpt_footer_description_nonce' ) ) return;
 		// if ( ! current_user_can( 'edit_post' ) ) return;
-		// echo "Start After nonce", print_r($_POST), " -- End after nonce"; exit;
 
 		if ( isset( $_POST['listicle_cpt_footer_description'] ) ) {
 			$listicle_cpt_footer_description = $_POST['listicle_cpt_footer_description'];
