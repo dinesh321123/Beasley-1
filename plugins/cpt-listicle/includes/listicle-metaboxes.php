@@ -11,7 +11,7 @@ class ListicleCPTMetaboxes {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ) );
 		add_action( 'save_post',array( __CLASS__, 'listicle_cpt_save') );
-		add_action( 'save_post',array( __CLASS__, 'listicle_cpt_footer_description_save'), 10, 3 );
+		add_action( 'save_post',array( __CLASS__, 'listicle_cpt_footer_description_save') );
 	}
 
 	/**
