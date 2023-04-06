@@ -1,5 +1,11 @@
 image: docker.10up.com/10up-build/deploy-container:latest
 
+variables:
+  # This variable sets the WordPress Version that will be used by all `make`
+  # commands in the Project Template. Any other places setting this variable
+  # will be ignored.
+  COMPOSER_VERSION: "2"
+
 stages:
   - test-and-build
   - deploy

@@ -17,7 +17,7 @@ set -x
 node --version
 
 # update composer to 2.x
-composer self-update --2
+#composer self-update --2
 
 composer install --no-dev -o
 
