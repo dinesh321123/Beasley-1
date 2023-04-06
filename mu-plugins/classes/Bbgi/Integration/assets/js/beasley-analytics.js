@@ -547,6 +547,18 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		}
 	}
 
+	// We eventually need to compute fields for both Click Events and Form Submitted Events
+	// Currently this function is called only for Click Events with a parameter of an A Tag
+	populateMParticleModuleFields(domElement) {
+		this.setAnalytics('container_id', 'container_id?');
+		this.setAnalytics('module_type', 'module_type?');
+		this.setAnalytics('module_name', 'module_name?');
+		this.setAnalytics('module_position', 'module_position?');
+		this.setAnalytics('module_element_num', 'module_element_num?');
+		this.setAnalytics('screen_position', 'screen_position?'); // For Link Click Only
+		this.setAnalytics('module_screen_position', 'module_screen_position?'); // For Form Submitted Only
+	}
+
 	sendClickEvent(targetElement) {
 		// Find the A tag for only A tags, Lazy Images, SVG, or Path tags themselves
 		if (targetElement?.tagName !== 'A' &&
@@ -562,13 +574,12 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 			return;
 		}
 
-		this.setAnalytics('container_id', 'container_id?');
-		this.setAnalytics('link_name', targetElement.ariaLabel);
-		this.setAnalytics('link_text', targetElement.innerText);
-		this.setAnalytics('link_url', targetElement.href);
-
 		// Fire Link Clicked If Not A Search Result And Not A Podcast Download
 		if (!this.searchResultClick(targetElement) && !this.downloadPodcastClick(targetElement)) {
+			this.setAnalytics('link_name', targetElement.ariaLabel);
+			this.setAnalytics('link_text', targetElement.innerText);
+			this.setAnalytics('link_url', targetElement.href);
+			this.populateMParticleModuleFields(targetElement);
 			this.sendEventByName(
 				BeasleyAnalyticsMParticleProvider.mparticleEventNames.linkClicked,
 			);
@@ -578,15 +589,16 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	// Return non-Zero Index If targetElement is a Search Result
 	searchResultClick(targetElement) {
 		let searchElementIndex = 0;
+		let domElement = targetElement;
 
-		while (targetElement && !targetElement.classList.contains('search-result')) {
-			targetElement = targetElement.parentElement;
+		while (domElement && !domElement.classList.contains('search-result')) {
+			domElement = domElement.parentElement;
 		}
 
-		if (targetElement) {
-			searchElementIndex = Array.from( document.querySelectorAll('.search-result') ).indexOf(targetElement) + 1;
+		if (domElement) {
+			searchElementIndex = Array.from( document.querySelectorAll('.search-result') ).indexOf(domElement) + 1;
 			this.setAnalytics('search_term_position', searchElementIndex);
-			this.setAnalytics('search_term_selected', targetElement.attributes['data-search-result-slug']?.value);
+			this.setAnalytics('search_term_selected', domElement.attributes['data-search-result-slug']?.value);
 			this.sendEventByName(
 				BeasleyAnalyticsMParticleProvider.mparticleEventNames.searchedResultClicked,
 			);
@@ -598,11 +610,12 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	// Return whether targetElement is a Podcast Download link
 	downloadPodcastClick(targetElement) {
 		let retval = false;
+		let domElement = targetElement;
 
-		if (targetElement.classList.contains('is-podcast-download-link')) {
+		if (domElement.classList.contains('is-podcast-download-link')) {
 			retval = true;
-			this.setAnalytics('podcast_name', targetElement.attributes['data-podcast-name']?.value);
-			this.setAnalytics('episode_title', targetElement.attributes['data-episode-title']?.value);
+			this.setAnalytics('podcast_name', domElement.attributes['data-podcast-name']?.value);
+			this.setAnalytics('episode_title', domElement.attributes['data-episode-title']?.value);
 			this.sendEventByName(
 				BeasleyAnalyticsMParticleProvider.mparticleEventNames.downloadedPodcast,
 			);
