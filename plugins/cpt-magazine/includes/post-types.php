@@ -14,6 +14,8 @@ class MagazineCPT {
 	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'magazine_cpt' ), 0 );
+		add_action( 'wp_loaded', array( __CLASS__, 'acf_magazine_cpt' ), 0 );
+
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'save_post', array( __CLASS__, 'save_meta_data' ) );
 		add_action( 'wp_ajax_validate_magazine_feilds', array( __CLASS__, 'validate_magazine_feilds' ) );
@@ -126,7 +128,8 @@ class MagazineCPT {
 			'register_meta_box_cb' => array( __CLASS__, 'register_meta_boxes' ),
 		);
 		register_post_type( self::MAGAZINE_POST_TYPE, $args );
-
+	}
+	public static function acf_magazine_cpt(){
 		$categories = get_categories();
 		foreach ( $categories as $category ) {
 			$posts = get_posts([
