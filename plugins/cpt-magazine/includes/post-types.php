@@ -19,7 +19,7 @@ class MagazineCPT {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'save_post', array( __CLASS__, 'save_meta_data' ) );
 		add_action( 'wp_ajax_validate_magazine_feilds', array( __CLASS__, 'validate_magazine_feilds' ) );
-		
+
 		// Add the custom columns to the magazine post type:
 		add_action( 'manage_'.self::MAGAZINE_POST_TYPE.'_posts_columns', array( __CLASS__, 'set_custom_edit_magazine_columns' ) );
 		add_action( 'manage_'.self::MAGAZINE_POST_TYPE.'_posts_custom_column', array( __CLASS__, 'custom_magazine_column' ), 10, 2);
@@ -47,7 +47,7 @@ class MagazineCPT {
 					echo $category;
 				break;
 		}
-	
+
 	}
 
 	public static function validate_magazine_feilds() {
@@ -274,7 +274,7 @@ class MagazineCPT {
 	public static function render_source_meta_box( $magazine, $metabox ) {
 		global $post;
 		$selected_category = get_field( 'select_category_magazine_cpt', $post );
-		
+
 		$post_picker_args = array (
 			'show_numbers'            => true,
 			'show_icons'              => true,
@@ -285,13 +285,13 @@ class MagazineCPT {
 				'post_status' => 'publish',
 			),
 		);
-		
+
 		$post_ids = get_post_meta( absint( $magazine->ID ), sanitize_text_field( self::MAGAZINE_CPT_SLUG ), true );
 		$post_ids = implode( ',', array_slice( explode( ',', $post_ids ), 0, $post_picker_args['limit'] ) );
-	
+
 		self::render_post_picker( $metabox['args']['slug'], $post_ids, $post_picker_args );
 	}
-	
+
 	/**
 	 * Render a post picker field.
 	 *
@@ -324,8 +324,8 @@ class MagazineCPT {
 		if ( ! current_user_can( $post_type->cap->edit_post, $post_id ) ) {
 			return false;
 		}
-		
-		$value = filter_input( INPUT_POST, self::MAGAZINE_CPT_SLUG );		
+
+		$value = filter_input( INPUT_POST, self::MAGAZINE_CPT_SLUG );
 		delete_post_meta( absint( $post_id ), sanitize_text_field( self::MAGAZINE_CPT_SLUG ) );
 
 		// Save the preview or live meta data, depending on the situation.
@@ -363,7 +363,7 @@ class MagazineCPT {
 			wp_dequeue_style('select2');
 			wp_deregister_style('select2');
 			wp_enqueue_style('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css');
-			wp_enqueue_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', '', '', false);
+			wp_enqueue_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js', '', '', false);
 			wp_register_style('magazine-admin',MAGAZINE_CPT_URL . "assets/css/magazine_admin.css", array(), MAGAZINE_CPT_VERSION, 'all');
 			wp_enqueue_style('magazine-admin');
 			wp_enqueue_script( 'magazine-admin', MAGAZINE_CPT_URL . "assets/js/magazine_admin.js", array('jquery', 'jquery-ui-dialog'), MAGAZINE_CPT_VERSION, true);
