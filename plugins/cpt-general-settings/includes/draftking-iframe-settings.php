@@ -7,7 +7,7 @@ class DraftKingIframeSettings {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
-		add_action( 'init', array( __CLASS__, 'settings_cpt_init' ), 0 );
+		add_action( 'wp_loaded', array( __CLASS__, 'settings_cpt_init' ), 0 );
 	}
 
 	/**

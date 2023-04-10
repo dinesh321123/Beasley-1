@@ -8,7 +8,7 @@ class CoAuthorSettingMetaboxes {
 	 * Hook into the appropriate actions when the class is constructed.
 	 */
 	public static function init() {
-			add_action( 'init', array( __CLASS__, 'load_coauthor' ), 0 );
+			add_action( 'wp_loaded', array( __CLASS__, 'load_coauthor' ), 0 );
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 	}
 
@@ -22,14 +22,14 @@ class CoAuthorSettingMetaboxes {
 				$role_obj->add_cap( 'manage_co_author_setting', false );
 			}
 		}
-		
+
 		$location = array();
 		$currnet_author = isset($_GET['post']) ? (get_post($_GET['post']) ? get_post($_GET['post'])->post_author : 0) : 0;
 		$currnet_author = $currnet_author ? (int)trim($currnet_author) : get_current_user_id();
 		// $current_author_name = get_the_author_meta( 'display_name', $currnet_author ? $currnet_author : get_current_user_id() );
-		
+
 		$args = array( 'blog_id' => 0, 'fields' => array( 'ID', 'display_name' ) );
-		
+
 		$network_users = get_users( $args );
 
 		$user_choise = array();
@@ -110,9 +110,10 @@ class CoAuthorSettingMetaboxes {
 			wp_dequeue_style('select2');
 			wp_deregister_style('select2');
 			wp_enqueue_style('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css');
-			wp_enqueue_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', '', '', false);
+			// wp_enqueue_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js', '', '', false);
+			wp_enqueue_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js', '', '', false);
 			wp_register_style('coauthor-settings-admin', COAUTHOR_SETTINGS_URL . "assets/css/coauthor_settings.css", array(), COAUTHOR_SETTINGS_VERSION, 'all');
-			wp_enqueue_style('coauthor-settings-admin');  	
+			wp_enqueue_style('coauthor-settings-admin');
 			wp_enqueue_script( 'coauthor-settings-admin', COAUTHOR_SETTINGS_URL . "assets/js/coauthor_settings.js", array('jquery'), COAUTHOR_SETTINGS_VERSION, true);
 			wp_localize_script( 'coauthor-settings-admin', 'my_ajax_object', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
 		}
