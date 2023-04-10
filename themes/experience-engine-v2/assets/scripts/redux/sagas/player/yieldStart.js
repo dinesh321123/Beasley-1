@@ -2,7 +2,6 @@ import { call, put, takeLatest, select } from 'redux-saga/effects';
 import { sendInlineAudioPlaying } from '../../../library/google-analytics';
 import { ACTION_PLAYER_START } from '../../actions/player';
 import { showSignInModal } from '../../actions/modal';
-import { createMParticleMediaSession } from '../../utilities';
 
 /**
  * @function yieldStart
@@ -41,8 +40,6 @@ function* yieldStart() {
 				interval * 60 * 1000,
 			);
 		}
-
-		createMParticleMediaSession(playerStore.playerType, null);
 	}
 }
 

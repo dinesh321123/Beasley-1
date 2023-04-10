@@ -4,6 +4,7 @@ import {
 	livePlayerLocalStorage,
 } from '../../utilities';
 import { ACTION_PLAY } from '../../actions/player';
+import sendMParticlePlayMediaEvent from '../../utilities/player/sendMParticlePlayMediaEvent';
 
 /**
  * @function getStreamByStation
@@ -80,11 +81,18 @@ function* yieldPlay(action) {
 		) {
 			yield call([livePlayerLocalStorage, 'setItem'], 'station', source);
 		}
-
-		createMParticleMediaSession(playerStore.playerType, stream);
 	} else if (player && typeof player.play === 'function') {
 		yield call([player, 'play']);
 	}
+
+	yield call(
+		createMParticleMediaSession,
+		playerStore.playerType,
+		stream,
+		action.payload,
+	);
+
+	yield call(sendMParticlePlayMediaEvent);
 }
 
 /**

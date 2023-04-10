@@ -106,6 +106,13 @@ class BeasleyAnalytics {
 		}
 	}
 
+	getMParticleAllMediaFields() {
+		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
+		if (provider) {
+			return provider.getAllMediaFields.apply(provider, arguments);
+		}
+	}
+
 	fireLazyMParticlePageViewsForElementsWithMeta(elementList) {
 		const provider = this.analyticsProviderArray.find(provider => provider.analyticType === BeasleyAnalyticsMParticleProvider.typeString);
 		if (provider) {
@@ -510,6 +517,10 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		const mediaSpecificKeysArray = Object.keys(this.mediaSpecificKeyValuePairs);
 		return Object.keys(eventPopulatedWithCommonFields)
 			.reduce((a, key) => ({ ...a, [key]: mediaSpecificKeysArray.includes(key) ? this.mediaSpecificKeyValuePairs[key] : eventPopulatedWithCommonFields[key]}), {});
+	}
+
+	getAllMediaFields() {
+		return this.mediaSpecificKeyValuePairs;
 	}
 
 	sendEventByName(eventName) {

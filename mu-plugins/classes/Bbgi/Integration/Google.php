@@ -55,21 +55,21 @@ class Google extends \Bbgi\Module {
 			'mparticle_enqueue_scripts',
 			plugins_url( 'assets/js/mparticle-schema.js', __FILE__ ),
 			array(),
-			'2.0.23'
+			'2.0.25'
 		);
 
 		wp_enqueue_script(
 			'window_utils_enqueue_scripts',
 			plugins_url( 'assets/js/window-utils.js', __FILE__ ),
 			array(),
-			'2.0.23'
+			'2.0.25'
 		);
 
 		wp_enqueue_script(
 			'ga_enqueue_scripts',
 			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
 			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' ),
-			'2.0.23'
+			'2.0.25'
 		);
 	}
 

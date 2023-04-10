@@ -32,19 +32,6 @@ function* yieldPause() {
 	) {
 		yield call(lyticsTrack, 'pause', cuePoint);
 	}
-	const contentEndOptions = {};
-	contentEndOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
-		window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
-			.mparticleEventNames.mediaContentEnd,
-	);
-	window.mediaSession.logMediaContentEnd(contentEndOptions);
-
-	const sessionEndOptions = {};
-	sessionEndOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
-		window.beasleyanalytics.BeasleyAnalyticsMParticleProvider
-			.mparticleEventNames.mediaSessionEnd,
-	);
-	window.mediaSession.logMediaSessionEnd(sessionEndOptions);
 }
 
 /**
