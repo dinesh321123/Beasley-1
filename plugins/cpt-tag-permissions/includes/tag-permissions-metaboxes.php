@@ -10,7 +10,7 @@ class TagPermissionsMetaboxes {
 	public static function init() {
 			add_action( 'init', array( __CLASS__, 'tags_register_custom_cap' ) );
 			add_action( 'admin_menu', array( __CLASS__, 'tags_meta_box_remove' ) );
-			
+
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 			add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ) );
 			add_action( 'save_post',array( __CLASS__, 'tag_permissions_save') );
@@ -27,7 +27,7 @@ class TagPermissionsMetaboxes {
 			$tags_array = array();
 				foreach ( $tags as $tag ) :
 					$tags_array[] = $tag->name;
-				endforeach; 
+				endforeach;
 			$output['tag_array'] = $tags_array;
 		endif;
 		wp_send_json( $output );
@@ -54,15 +54,15 @@ class TagPermissionsMetaboxes {
 	public static function enqueue_scripts() {
 		global $typenow, $pagenow;
 		$post_types = self::tag_permissions_posttype_list();
-		if ( ! current_user_can( 'manage_tags_permission' ) ) {   
+		if ( ! current_user_can( 'manage_tags_permission' ) ) {
 			if ( in_array( $typenow, $post_types ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 	       		wp_register_style('tag-permissions-admin', TAG_PERMISSIONS_URL . "assets/css/tp_admin.css", array(), TAG_PERMISSIONS_VERSION, 'all');
-				wp_enqueue_style('tag-permissions-admin');  	
+				wp_enqueue_style('tag-permissions-admin');
 		   		wp_enqueue_script( 'tag-permissions-admin', TAG_PERMISSIONS_URL . "assets/js/tp_admin.js", array('jquery'), TAG_PERMISSIONS_VERSION, true);
 				wp_localize_script( 'tag-permissions-admin', 'my_ajax_object', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
 
 				wp_register_style('tag-permissions-autocomplete-admin', TAG_PERMISSIONS_URL . "assets/css/awesomplete.css", array(), TAG_PERMISSIONS_VERSION, 'all');
-				wp_enqueue_style('tag-permissions-autocomplete-admin');  	
+				wp_enqueue_style('tag-permissions-autocomplete-admin');
 		   		wp_enqueue_script( 'tag-permissions-autocomplete-admin', TAG_PERMISSIONS_URL . "assets/js/awesomplete.js", array('jquery'), TAG_PERMISSIONS_VERSION, true);
 				wp_localize_script( 'tag-permissions-autocomplete-admin', 'my_ajax_object', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
 		   }
@@ -111,7 +111,7 @@ class TagPermissionsMetaboxes {
 			$available_tag_html = array();
 			$available_tag_array = array();
 			$not_available_tag_array = array();
-			
+
 			if( !empty( $_POST['tags_data'] ) ){
 				$tags_array = explode( ",", $_POST['tags_data'] );
 				$prior_tags_array = explode( ",", $_POST['prior_tags_data'] );
@@ -188,13 +188,13 @@ class TagPermissionsMetaboxes {
 						</div>
 				</div>
 			</div>
-		<?php 
+		<?php
 	}
 
 	public static function tag_permissions_save( $post_id ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
 		if ( ! isset( $_POST['_tag_permissions_nonce'] ) || ! wp_verify_nonce( $_POST['_tag_permissions_nonce'], '_tag_permissions_nonce' ) ) return;
-		if ( ! current_user_can( 'edit_post' ) ) return;
+		// if ( ! current_user_can( 'edit_post' ) ) return;
 
 		if ( isset( $_POST['tag_permissions_post_tag'] ) ) {
 			$post_tag_array = explode( ',', $_POST['tag_permissions_post_tag'] );
