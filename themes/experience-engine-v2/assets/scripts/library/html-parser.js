@@ -481,6 +481,12 @@ export function getStateFromContent(
 				'.accountCancellation',
 				getDatasetParams(),
 			),
+			...processEmbeds(
+				container,
+				'preferencecenter',
+				'.preference_link',
+				getDatasetParams(),
+			),
 		];
 
 		// extract <script> tags

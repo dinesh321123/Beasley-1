@@ -375,6 +375,25 @@ export function deleteUser() {
 	});
 }
 
+export function getPreferenceLink(preferenceID) {
+	const params = {
+		method: 'get',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+		},
+		body: null,
+	};
+	return getToken().then(token => {
+		fetch(
+			__api`user/getPreferenceURL/?authorization=${token}&preferenceID=${preferenceID}`,
+			params,
+		).then(response => {
+			return response;
+		});
+	});
+}
+
 export default {
 	saveUser,
 	getUser,
