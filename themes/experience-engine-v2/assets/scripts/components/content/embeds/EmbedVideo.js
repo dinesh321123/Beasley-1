@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { loadVimeo } from '../../../redux/actions/player';
 
 class EmbedVideo extends PureComponent {
 	constructor(props) {
@@ -44,9 +47,7 @@ class EmbedVideo extends PureComponent {
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		if (window.loadVimeoPlayers) {
-			window.loadVimeoPlayers();
-		}
+		this.props.loadVimeo();
 	}
 
 	// Exclude autoplay=1 on Vimeo Video links because it causes autoplay
@@ -136,6 +137,15 @@ EmbedVideo.propTypes = {
 	html: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	thumbnail: PropTypes.string.isRequired,
+	loadVimeo: PropTypes.func.isRequired,
 };
 
-export default EmbedVideo;
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			loadVimeo,
+		},
+		dispatch,
+	);
+
+export default connect(mapDispatchToProps)(EmbedVideo);

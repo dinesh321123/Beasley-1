@@ -7,6 +7,7 @@ export const ACTION_CUEPOINT_CHANGE = 'PLAYER_CUEPOINT_CHANGE';
 export const ACTION_SET_VOLUME = 'PLAYER_SET_VOLUME';
 export const ACTION_PLAY = 'PLAYER_PLAY';
 export const ACTION_PLAY_OMNY = 'PLAYER_PLAY_OMNY';
+export const ACTION_LOAD_VIMEO = 'PLAYER_LOAD_VIMEO';
 export const ACTION_PAUSE = 'PLAYER_PAUSE';
 export const ACTION_RESUME = 'PLAYER_RESUME';
 export const ACTION_DURATION_CHANGE = 'PLAYER_DURATION_CHANGE';
@@ -578,12 +579,19 @@ export const playOmny = (
 ) => dispatch =>
 	play('omnyplayer', src, cueTitle, artistName, trackType)(dispatch);
 
+export function loadVimeo() {
+	return {
+		type: ACTION_LOAD_VIMEO,
+	};
+}
+
 export default {
 	setPlayer,
 	pause,
 	playAudio,
 	playOmny,
 	playStation,
+	loadVimeo,
 	resume,
 	seekPosition,
 	setVolume,
