@@ -43,11 +43,13 @@ class PreferenceCenter extends Component {
 	getPreferenceLink = () => {
 		const { site_braze_preference_id: preferenceId } = window.bbgiconfig;
 
-		getPreferenceLink(preferenceId).then(r => {
-			console.log(r);
-			// window.open(r.url, '_blank');
-		});
-		return false;
+		getPreferenceLink(preferenceId)
+			.then(response => response.json())
+			.then(result => {
+				if (result.Success) {
+					window.open(result.URL, '_blank');
+				}
+			});
 	};
 
 	render() {
@@ -55,10 +57,14 @@ class PreferenceCenter extends Component {
 			<div>
 				{this.state.isLoggedIn ? (
 					<div className="user-preference-info">
-						{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-						<a href="#" rel="noreferrer" onClick={this.getPreferenceLink}>
-							Preference Center
-						</a>
+						Click here to set your
+						<button
+							type="button"
+							className="preference-link-btn"
+							onClick={this.getPreferenceLink}
+						>
+							Preference
+						</button>
 					</div>
 				) : null}
 			</div>

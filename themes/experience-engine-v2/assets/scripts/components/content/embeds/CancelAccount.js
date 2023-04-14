@@ -49,15 +49,12 @@ class CancelAccount extends Component {
 
 	render() {
 		const { user } = this.props;
+		const container = document.querySelectorAll('.info_account')[0];
+		container.innerHTML = `<p><strong>Email ID:</strong> <span className="user-email-id">${user.email}</span></p>`;
 		return (
 			<div>
 				{this.state.isLoggedIn ? (
 					<div className="user-account-info">
-						<p>
-							<strong>Email ID:</strong>
-							<span className="user-email-id"> {user.email}</span>
-						</p>
-
 						<button
 							type="button"
 							className="cancellation"

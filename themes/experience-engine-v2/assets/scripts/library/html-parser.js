@@ -484,7 +484,7 @@ export function getStateFromContent(
 			...processEmbeds(
 				container,
 				'preferencecenter',
-				'.preference_link',
+				'.preference-section',
 				getDatasetParams(),
 			),
 		];

@@ -15,10 +15,12 @@
 
 	<div class="entry-content content-wrap">
 		<div class="description"><?php the_content(); ?>
+			<div class="info_account"></div>
+			<div class="preference-section"></div>
 			<div class="cancel_account">
 				<?php echo do_shortcode('[cancel_account]'); ?>
 			</div>
-			<div class="preference_link"></div>
+
 		</div>
 
 		<?php get_template_part( 'partials/footer/common', 'description' ); ?>

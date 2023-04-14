@@ -1,0 +1,16 @@
+.user-preference-info {
+		  margin-bottom: 20px;
+	   & p{
+			margin-bottom: 10px;
+		}
+		 & button.preference-link-btn{
+			  background: none!important;
+			  border: none;
+			  padding: 0!important;
+			  font-family: arial, sans-serif;
+			  color: #069;
+			  text-decoration: underline;
+			  cursor: pointer;
+			  margin-left: 5px;
+		  }
+	}
