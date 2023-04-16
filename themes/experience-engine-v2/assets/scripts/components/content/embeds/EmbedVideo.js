@@ -47,7 +47,10 @@ class EmbedVideo extends PureComponent {
 	};
 
 	componentDidUpdate(prevProps, prevState, snapshot) {
-		this.props.loadVimeo();
+		if (this.state.show === true && prevState.show !== this.state.show) {
+			const { appendVimeoControlList } = this.props;
+			appendVimeoControlList();
+		}
 	}
 
 	// Exclude autoplay=1 on Vimeo Video links because it causes autoplay
@@ -137,15 +140,15 @@ EmbedVideo.propTypes = {
 	html: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	thumbnail: PropTypes.string.isRequired,
-	loadVimeo: PropTypes.func.isRequired,
+	appendVimeoControlList: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
-			loadVimeo,
+			appendVimeoControlList: () => loadVimeo(true),
 		},
 		dispatch,
 	);
 
-export default connect(mapDispatchToProps)(EmbedVideo);
+export default connect(null, mapDispatchToProps)(EmbedVideo);

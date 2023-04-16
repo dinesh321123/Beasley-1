@@ -8,9 +8,10 @@ import { ACTION_LOAD_VIMEO } from '../../actions/player';
  *
  * Generator runs whenever ACTION_SET_PLAYER is dispatched
  */
-function* yieldLoadVimeo() {
+function* yieldLoadVimeo({ payload }) {
+	const { shouldKeepPriorVimeoPlayers } = payload;
 	// Call loadNowPlaying
-	yield call(initializeVimeo);
+	yield call(initializeVimeo, shouldKeepPriorVimeoPlayers);
 }
 
 /**

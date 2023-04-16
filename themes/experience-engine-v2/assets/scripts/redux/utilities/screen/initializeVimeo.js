@@ -1,7 +1,7 @@
-export default function initializeVimeo() {
+export default function initializeVimeo(shouldKeepPriorVimeoPlayers) {
 	if (window.loadVimeoPlayers) {
 		try {
-			window.loadVimeoPlayers();
+			window.loadVimeoPlayers(shouldKeepPriorVimeoPlayers);
 		} catch (err) {
 			console.log('Error while initializing Vimeo Prerolls ', err.message);
 		}

@@ -579,9 +579,12 @@ export const playOmny = (
 ) => dispatch =>
 	play('omnyplayer', src, cueTitle, artistName, trackType)(dispatch);
 
-export function loadVimeo() {
+export function loadVimeo(shouldKeepPriorVimeoPlayers) {
 	return {
 		type: ACTION_LOAD_VIMEO,
+		payload: {
+			shouldKeepPriorVimeoPlayers,
+		},
 	};
 }
 

@@ -7,8 +7,7 @@
 
 	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
 	var vimeoPlayerList;
-	window.loadVimeoPlayers = () => {
-		vimeoPlayerList = null;
+	window.loadVimeoPlayers = (shouldKeepPriorVimeoPlayers = false) => {
 		const { bbgiconfig } = window;
 
 		if (!bbgiconfig.prebid_enabled) {
@@ -21,14 +20,21 @@
 		const filteredList = iframeList.filter(
 			iframeElement => iframeElement.src &&
 			iframeElement.src.toLowerCase().indexOf('vimeo') > -1 &&
-			iframeElement.src.indexOf('?s=') === -1
+			iframeElement.src.indexOf('?s=') === -1 &&
+			(!iframeElement.parentElement?.classList.contains('beasley-vimeo'))
 		);
 
 		if (filteredList && filteredList.length > 0) {
 			loadIMALibrary();
-			vimeoPlayerList = filteredList.map(filteredEl => {
+			const filteredVimeoPlayerList = filteredList.map(filteredEl => {
 				return loadVimeoPlayer(filteredEl)
 			});
+
+			if (shouldKeepPriorVimeoPlayers) {
+				vimeoPlayerList.push(...filteredVimeoPlayerList);
+			} else {
+				vimeoPlayerList = filteredVimeoPlayerList;
+			}
 		}
 	}
 
@@ -166,11 +172,7 @@
 		// Add allow=autoplay to Vimeo IFrame so that play button can interact.
 		// Swap out with original - Chrome did not work when original was modified.
 		// Wrap copy in div which onmouseover inits IMA.
-		const newDivElement = document.createElement('div');
-		newDivElement.setAttribute(
-			'style',
-			'position: relative',
-		);
+		const iFrameParentElement = iFrameElement.parentElement;
 		const newIFrameElement = iFrameElement.cloneNode(true);
 		newIFrameElement.setAttribute('allow', 'autoplay; fullscreen');
 
@@ -178,9 +180,6 @@
 		const heightVal = newIFrameElement.getAttribute('height');
 		console.log(`Setting Vimeo IFrame Style Height: ${heightVal}`);
 		newIFrameElement.setAttribute('style', `height: ${heightVal ? heightVal : 0}px`);
-
-		newDivElement.appendChild(newIFrameElement);
-		iFrameElement.parentNode.replaceChild(newDivElement, iFrameElement);
 
 		// On IOS, IMA does not consider Vimeo Events as User Interaction.
 		// Create a button to use as a proxy click event.
@@ -190,7 +189,21 @@
 			'position: absolute; bottom: 0; left: 0; width: 25%; height: 50%;',
 		);
 
-		newDivElement.appendChild(trickIMAButton);
+		let newDivElement;
+		if (iFrameParentElement.classList?.contains('lazy-video')) {
+			iFrameParentElement.replaceChild(newIFrameElement, iFrameElement);
+			iFrameParentElement.appendChild(trickIMAButton);
+		} else {
+			newDivElement = document.createElement('div');
+			newDivElement.setAttribute(
+				'style',
+				'position: relative',
+			);
+			newDivElement.appendChild(newIFrameElement);
+			newDivElement.appendChild(trickIMAButton);
+			iFrameParentElement.replaceChild(newDivElement, iFrameElement);
+		}
+
 		const retval = new Vimeo.Player(newIFrameElement);
 
 		trickIMAButton.onclick = () => {
@@ -205,13 +218,16 @@
 	}
 
 	const loadVimeoPlayer = (iFrameElement) => {
-		// Add Class to parent for Full Screen
-	    iFrameElement.parentElement.classList.add('beasley-vimeo');
+		if (iFrameElement.parentElement.classList.contains('beasley-vimeo')) {
+			return;
+		}
+		const vimeoplayer = isIOS() ? getVimeoPlayerForIOS(iFrameElement) : new Vimeo.Player(iFrameElement);
+
+		// Mark parent element as processed
+		vimeoplayer.element.parentElement.classList.add('beasley-vimeo');
 
 		// Add Class to parent to avoid padding added by .responsive classed on some pages
-		iFrameElement.parentElement.classList.add('beasley');
-
-		const vimeoplayer = isIOS() ? getVimeoPlayerForIOS(iFrameElement) : new Vimeo.Player(iFrameElement);
+		vimeoplayer.element.parentElement.classList.add('beasley');
 
 		vimeoplayer.isPlayingPreroll = false;
 		vimeoplayer.finishedPlayingPreroll = false;
@@ -245,7 +261,7 @@
 				console.log('Paused and now Playing Preroll');
 				/* PREROLL CODE HERE */
 				if (! document.getElementById(VIMEOPREROLLWRAPPER)) {
-					renderHTML(iFrameElement);
+					renderHTML(vimeoplayer.element);
 					createIMADisplayContainer();
 				}
 				await getUrlFromPrebid(vimeoplayer);
