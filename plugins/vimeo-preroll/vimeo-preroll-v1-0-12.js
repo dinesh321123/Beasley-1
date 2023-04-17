@@ -267,7 +267,7 @@
 			vimeoplayer.thisVimeoPlayHandler();
 		});
 
-		vimeoplayer.on('pause', async function () {
+		vimeoplayer.on('pause', () => {
 			console.log('Paused the video');
 		});
 
