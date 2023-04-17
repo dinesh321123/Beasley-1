@@ -172,12 +172,12 @@
 		// Add allow=autoplay to Vimeo IFrame so that play button can interact.
 		// Swap out with original - Chrome did not work when original was modified.
 		// Wrap copy in div which onmouseover inits IMA.
+		const heightVal = iFrameElement.getAttribute('height');
 		const iFrameParentElement = iFrameElement.parentElement;
 		const newIFrameElement = iFrameElement.cloneNode(true);
 		newIFrameElement.setAttribute('allow', 'autoplay; fullscreen');
 
 		// .responsive class was causing 0 height style - override style with iframe height attribute
-		const heightVal = newIFrameElement.getAttribute('height');
 		console.log(`Setting Vimeo IFrame Style Height: ${heightVal}`);
 		newIFrameElement.setAttribute('style', `height: ${heightVal ? heightVal : 0}px`);
 
@@ -197,7 +197,7 @@
 			newDivElement = document.createElement('div');
 			newDivElement.setAttribute(
 				'style',
-				'position: relative',
+				`position: relative; height: ${heightVal ? heightVal : 0}px;`,
 			);
 			newDivElement.appendChild(newIFrameElement);
 			newDivElement.appendChild(trickIMAButton);
