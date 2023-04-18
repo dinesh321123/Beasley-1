@@ -11,7 +11,7 @@ class NewsletterSignupForm {
 	public function wp_init_nsf() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'nsf_register_scripts' ), 1 );
 		add_shortcode( 'nsf-show', array( $this, 'nsf_function' ) );
-
+		add_action( 'bbgi_register_settings', array( $this, 'nsf_register_settings' ) , 10, 2 );
 	}
 	public function nsf_register_scripts() {
 		//Script for front end
@@ -74,6 +74,25 @@ class NewsletterSignupForm {
 			}
 		}
 		return $html;
+	}
+
+	public function nsf_register_settings( $group, $page ) {
+		$section_id = 'beasley_newsletter_signup_form';
+
+		add_settings_section( $section_id, 'Newsletter signup forms', '__return_false', $page );
+		add_settings_field('nsf_label', 'Label', 'bbgi_input_field', $page, $section_id, 'name=nsf_label');
+		add_settings_field('nsf_subscription_attributes', 'Subscription Attributes', 'bbgi_input_field', $page, $section_id, 'name=nsf_subscription_attributes');
+		add_settings_field('nsf_subscription_ID', 'Subscription ID', 'bbgi_input_field', $page, $section_id, 'name=nsf_subscription_ID');
+		add_settings_field('nsf_mailing_list_name', 'Mailing list name', 'bbgi_input_field', $page, $section_id, 'name=nsf_mailing_list_name');
+		add_settings_field('nsf_mailing_list_description', 'Mailing list description', 'bbgi_textarea_field', $page, $section_id, 'name=nsf_mailing_list_description');
+		add_settings_field('nsf_template_token', 'Template token', 'bbgi_input_field', $page, $section_id, 'name=nsf_template_token');
+
+		register_setting( $group, 'nsf_label', 'sanitize_text_field' );
+		register_setting( $group, 'nsf_subscription_attributes', 'sanitize_text_field' );
+		register_setting( $group, 'nsf_subscription_ID', 'sanitize_text_field' );
+		register_setting( $group, 'nsf_mailing_list_name', 'sanitize_text_field' );
+		register_setting( $group, 'nsf_mailing_list_description', 'sanitize_text_field' );
+		register_setting( $group, 'nsf_template_token', 'sanitize_text_field' );
 	}
 
 }
