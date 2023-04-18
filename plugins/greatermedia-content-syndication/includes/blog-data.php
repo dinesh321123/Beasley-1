@@ -908,6 +908,12 @@ class BlogData {
 			}
 		}
 
+		// Index the newly created post in the destination site
+		if ( class_exists( '\ElasticPress\Indexables' ) ) {
+			error_log ( "Indexing Logs: Running index on document $post_id after syndication." );
+			\ElasticPress\Indexables::factory()->get( 'post' )->index( $post_id );
+		}
+
 		clean_post_cache( $post_id );
 
 		/**

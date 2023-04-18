@@ -42,6 +42,8 @@ class Shortcodes extends \Bbgi\Module {
 
 		$query = new WP_Query(
 				array(
+					'ignore_sticky_posts' => 1,
+					'post_type' => 'any',
 					'post_status' => 'publish',
 					'meta_query' => array(
 						array(

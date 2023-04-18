@@ -89,7 +89,9 @@ class GallerySelection extends \Bbgi\Module {
 		if ( ! empty( $content ) ) {
 			$content_updated = "<h2 class=\"section-head\"><span>".$gallery_object->post_title."</span></h2>";
 			if( !empty( $attributes['description'] ) &&  ($attributes['description'] == 'yes') ) {
+				remove_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 				$the_content = apply_filters('the_content', $gallery_object->post_content);
+				add_filter( 'the_content', 'ee_add_ads_to_content', 100 );
 				if ( !empty($the_content) ) {
 					$content_updated .= "<div class=\"gallery-embed-description\">".$the_content."</div>";
 				}
