@@ -23,15 +23,15 @@ class CommonSettings {
 							clickListenerContent = jQuery._data(buttonInsertContent[0], 'events').click[0];
 							buttonInsertContent.off('click');
 							jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert').click(function(e){
-								var altTextContent = jQuery('input#attachment-details-alt-text').val();
-								if ( altTextContent  || jQuery('input#attachment-details-alt-text').length == 0 )
+								var altTextContent = jQuery('#attachment-details-alt-text').val();
+								if ( altTextContent  || jQuery('#attachment-details-alt-text').length == 0 )
 								{
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-insert').unbind("click");
 									buttonInsertContent.click(clickListenerContent.handler);
 									buttonInsertContent.triggerHandler('click');
 								} else {
 									alert( 'ERROR: Please fill the Alt text.' );
-									jQuery('input#attachment-details-alt-text').focus();
+									jQuery('#attachment-details-alt-text').focus();
 									return false;
 								}
 							});
@@ -43,15 +43,15 @@ class CommonSettings {
 							clickListenerFeature = jQuery._data(buttonInsertFeature[0], 'events').click[0];
 							buttonInsertFeature.off('click');
 							jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').click(function(e){
-								var altTextFeature = jQuery('input#attachment-details-alt-text').val();
-								if ( altTextFeature  || jQuery('input#attachment-details-alt-text').length == 0 )
+								var altTextFeature = jQuery('#attachment-details-alt-text').val();
+								if ( altTextFeature  || jQuery('#attachment-details-alt-text').length == 0 )
 								{
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').unbind("click");
 									buttonInsertFeature.click(clickListenerFeature.handler);
 									buttonInsertFeature.triggerHandler('click');
 								} else {
 									alert( 'ERROR: Please fill the Alt text.' );
-									jQuery('input#attachment-details-alt-text').focus();
+									jQuery('#attachment-details-alt-text').focus();
 									return false;
 								}
 							});
@@ -76,15 +76,15 @@ class CommonSettings {
 									clickListenerFeatureAjax = jQuery._data(buttonInsertFeatureAjax[0], 'events').click[0];
 									buttonInsertFeatureAjax.off('click');
 									jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').click(function(e){
-										var altTextFeatureAjax = jQuery('input#attachment-details-alt-text').val();
-										if ( altTextFeatureAjax  || jQuery('input#attachment-details-alt-text').length == 0 )
+										var altTextFeatureAjax = jQuery('#attachment-details-alt-text').val();
+										if ( altTextFeatureAjax  || jQuery('#attachment-details-alt-text').length == 0 )
 										{
 											jQuery('.supports-drag-drop[style="position: relative;"] .media-button-select').unbind("click");
 											buttonInsertFeatureAjax.click(clickListenerFeatureAjax.handler);
 											buttonInsertFeatureAjax.triggerHandler('click');
 										} else {
 											alert( 'ERROR: Please fill the Alt text.' );
-											jQuery('input#attachment-details-alt-text').focus();
+											jQuery('#attachment-details-alt-text').focus();
 											return false;
 										}
 									});
