@@ -9,11 +9,11 @@ export default function sendMParticlePlayMediaEvent() {
 
 	window.mediaSession = new MediaSession(
 		mParticle, // mParticle SDK Instance
-		streamParams.mediaID, // Custom media ID, added as content_id for media events
-		streamParams.mediaTitle, // Custom media Title, added as content_title for media events
-		streamParams.duration, // Duration in milliseconds, added as content_duration for media events
-		streamParams.contentType, // Content Type (Video or Audio), added as content_type for media events
-		streamParams.streamType, // Stream Type (OnDemand or LiveStream), added as stream_type for media events
+		streamParams.content_id, // Custom media ID, added as content_id for media events
+		streamParams.content_title, // Custom media Title, added as content_title for media events
+		streamParams.content_duration, // Duration in milliseconds, added as content_duration for media events
+		streamParams.content_type, // Content Type (Video or Audio), added as content_type for media events
+		streamParams.stream_type, // Stream Type (OnDemand or LiveStream), added as stream_type for media events
 		true, // Log Page Event Toggle (true/false)
 		true, // Log Media Event Toggle (true/false)
 	);

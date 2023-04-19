@@ -236,7 +236,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				if (dataPointProperties) {
 					const filteredKeys = Object.keys(dataPointProperties).filter(key =>
 						((!isIgnoringBuiltInMparticleFields) || dataPointProperties[key].description !== 'MPARTICLE-FIELD-DO-NOT-POPULATE') &&
-						((!isIncludingOnlyMediaSpecificFields) || dataPointProperties[key].description === 'MEDIA-SPECIFIC'));
+						((!isIncludingOnlyMediaSpecificFields) || dataPointProperties[key].description === 'MEDIA-SPECIFIC' || dataPointProperties[key].description === 'MPARTICLE-FIELD-DO-NOT-POPULATE'));
 					if ( filteredKeys && filteredKeys.length > 0) {
 						const kvArray = filteredKeys.map(filteredKey => ({[filteredKey]: null}));
 						return Object.assign(...kvArray); // Return an object with each field assigned to ''
@@ -252,7 +252,7 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	getAllEventFieldsObjects(isMediaSpecific) {
 		let retval = {};
 		Object.keys(BeasleyAnalyticsMParticleProvider.mparticleEventNames).forEach(eventNameKey => {
-			const newEventFieldsObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], isMediaSpecific, isMediaSpecific);
+			const newEventFieldsObject = this.getCleanEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames[eventNameKey], false, isMediaSpecific);
 			retval = {...retval, ...newEventFieldsObject};
 		});
 
@@ -353,7 +353,8 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				var mp = document.createElement("script");
 				mp.type = "text/javascript";
 				mp.async = true;
-				mp.src = ("https:" == document.location.protocol ? "https://jssdkcdns" : "http://jssdkcdn") + ".mparticle.com/js/v2/" + t + "/mparticle.js" + dbUrl;
+				// mp.src = ("https:" == document.location.protocol ? "https://jssdkcdns" : "http://jssdkcdn") + ".mparticle.com/js/v2/" + t + "/mparticle.js" + dbUrl;
+				mp.src = "https://mparticle.bbgi.com/tags/JS/v2/" + t + "/mparticle.js" + dbUrl;
 				var c = document.getElementsByTagName("script")[0];
 				c.parentNode.insertBefore(mp, c)
 			}
@@ -410,6 +411,9 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 				this.setAnalytics('ad_block_enabled', isBlockingAds);
 				this.setAnalytics('domain', window.location.hostname);
 				this.setAnalytics('platform', 'Web');
+				this.setAnalytics('is_app', window.isWhiz());
+				this.setAnalytics('station_formats', window.bbgiconfig?.publisher?.genre?.join(', '));
+				this.setAnalytics('station_location', window.bbgiconfig?.publisher?.location);
 
 				this.processAnyQueuedCalls();
 				removeEventListener("DOMContentLoaded", handleAdBlockFunc);
@@ -508,15 +512,37 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 
 	getEventObject(eventName, isIgnoringBuiltInMparticleFields = false, isIncludingOnlyMediaSpecificFields = false) {
 		const emptyEventObject = this.getCleanEventObject(eventName, isIgnoringBuiltInMparticleFields, isIncludingOnlyMediaSpecificFields);
-		return Object.keys(emptyEventObject)
+		const populatedObj = Object.keys(emptyEventObject)
 			.reduce((a, key) => ({ ...a, [key]: this.keyValuePairs[key]}), {});
+		return this.stripPlaceholdersFromObject(populatedObj);
 	}
 
 	getMediaEventObject(eventName) {
 		const eventPopulatedWithCommonFields = this.getEventObject(eventName, true, false);
 		const mediaSpecificKeysArray = Object.keys(this.mediaSpecificKeyValuePairs);
-		return Object.keys(eventPopulatedWithCommonFields)
+		const populatedObj = Object.keys(eventPopulatedWithCommonFields)
 			.reduce((a, key) => ({ ...a, [key]: mediaSpecificKeysArray.includes(key) ? this.mediaSpecificKeyValuePairs[key] : eventPopulatedWithCommonFields[key]}), {});
+		return this.stripPlaceholdersFromObject(populatedObj);
+	}
+
+	stripPlaceholdersFromObject(objToStrip) {
+		return Object.keys(objToStrip)
+			.reduce((a, key) => {
+					const keyVal = objToStrip[key];
+					const keyValString = keyVal ? keyVal.toString() : '';
+					if ( keyVal === false ||
+						( keyVal &&
+						  keyValString.trim().toLowerCase() !== 'null' &&
+						  !(keyValString.startsWith('?') && keyValString.endsWith('?'))
+						)
+					){
+						return ({ ...a, [key]: keyVal})
+					} else {
+						return a;
+					}
+				},
+				{}
+			);
 	}
 
 	getAllMediaFields() {
@@ -540,6 +566,9 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		// If The Event Is A Page View
 		if (eventName === BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
 			const objectToSend = this.getEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
+			if ( objectToSend.view_type === 'embedded_content' ) {
+				objectToSend.embedded_content_is_nested = ( objectToSend.embedded_content_id === objectToSend.post_id );
+			}
 
 			window.mParticle.logPageView(
 				'Page View',
@@ -561,13 +590,13 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 	// We eventually need to compute fields for both Click Events and Form Submitted Events
 	// Currently this function is called only for Click Events with a parameter of an A Tag
 	populateMParticleModuleFields(domElement) {
-		this.setAnalytics('container_id', 'container_id?');
-		this.setAnalytics('module_type', 'module_type?');
-		this.setAnalytics('module_name', 'module_name?');
-		this.setAnalytics('module_position', 'module_position?');
-		this.setAnalytics('module_element_num', 'module_element_num?');
-		this.setAnalytics('screen_position', 'screen_position?'); // For Link Click Only
-		this.setAnalytics('module_screen_position', 'module_screen_position?'); // For Form Submitted Only
+		this.setAnalytics('container_id', '?container_id?');
+		this.setAnalytics('module_type', '?module_type?');
+		this.setAnalytics('module_name', '?module_name?');
+		this.setAnalytics('module_position', '?module_position?');
+		this.setAnalytics('module_element_num', '?module_element_num?');
+		this.setAnalytics('screen_position', '?screen_position?'); // For Link Click Only
+		this.setAnalytics('module_screen_position', '?module_screen_position?'); // For Form Submitted Only
 	}
 
 	sendClickEvent(targetElement) {

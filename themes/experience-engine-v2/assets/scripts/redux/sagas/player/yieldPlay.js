@@ -1,6 +1,6 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
 import {
-	createMParticleMediaSession,
+	createMParticleMediaFields,
 	livePlayerLocalStorage,
 } from '../../utilities';
 import { ACTION_PLAY } from '../../actions/player';
@@ -86,7 +86,7 @@ function* yieldPlay(action) {
 	}
 
 	yield call(
-		createMParticleMediaSession,
+		createMParticleMediaFields,
 		playerStore.playerType,
 		stream,
 		action.payload,

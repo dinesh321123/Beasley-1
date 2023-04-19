@@ -16,15 +16,12 @@
 				<?php
 					get_template_part( 'partials/ads/footer' );
 
-				$mparticle_implementation = sprintf(
-			'<script>
+				$mparticle_implementation = '<script>
 						document.body.addEventListener(\'click\', (e) => {
 							const ev = window.event||e;
                         	window.beasleyanalytics.sendMParticleLinkClickEvent(ev.target);
 						});
-					</script>',
-						'container_id?',
-				);
+					</script>';
 				echo $mparticle_implementation;
 				?>
 			</main><?php
