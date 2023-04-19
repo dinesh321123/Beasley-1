@@ -1,6 +1,6 @@
 <?php
 
-add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 3 );
+add_filter( 'bbgi_gallery_content', 'ee_update_incontent_gallery', 10, 3 );
 
 if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 	function ee_setup_gallery_view_metadata() {

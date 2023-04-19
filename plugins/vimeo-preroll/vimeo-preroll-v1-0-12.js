@@ -7,8 +7,7 @@
 
 	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
 	var vimeoPlayerList;
-	window.loadVimeoPlayers = () => {
-		vimeoPlayerList = null;
+	window.loadVimeoPlayers = (shouldKeepPriorVimeoPlayers = false) => {
 		const { bbgiconfig } = window;
 
 		if (!bbgiconfig.prebid_enabled) {
@@ -21,14 +20,21 @@
 		const filteredList = iframeList.filter(
 			iframeElement => iframeElement.src &&
 			iframeElement.src.toLowerCase().indexOf('vimeo') > -1 &&
-			iframeElement.src.indexOf('?s=') === -1
+			iframeElement.src.indexOf('?s=') === -1 &&
+			(!iframeElement.parentElement?.classList.contains('beasley-vimeo'))
 		);
 
 		if (filteredList && filteredList.length > 0) {
 			loadIMALibrary();
-			vimeoPlayerList = filteredList.map(filteredEl => {
+			const filteredVimeoPlayerList = filteredList.map(filteredEl => {
 				return loadVimeoPlayer(filteredEl)
 			});
+
+			if (shouldKeepPriorVimeoPlayers) {
+				vimeoPlayerList.push(...filteredVimeoPlayerList);
+			} else {
+				vimeoPlayerList = filteredVimeoPlayerList;
+			}
 		}
 	}
 
@@ -96,7 +102,12 @@
 
 	const renderVimeoPreroll = (iFrameElement) => {
 		const vimeoPTag = iFrameElement.parentElement;
-		vimeoPTag.style.position = 'relative';
+
+		// Do not make parent relative when Vimeo is in featured position
+		if (! vimeoPTag.classList.contains('lazy-video')) {
+			vimeoPTag.style.position = 'relative';
+		}
+
 		const wrapperDiv = document.createElement('div');
 		wrapperDiv.id = VIMEOPREROLLWRAPPER;
 		wrapperDiv.classList.add('preroll-wrapper');
@@ -161,21 +172,9 @@
 		// Add allow=autoplay to Vimeo IFrame so that play button can interact.
 		// Swap out with original - Chrome did not work when original was modified.
 		// Wrap copy in div which onmouseover inits IMA.
-		const newDivElement = document.createElement('div');
-		newDivElement.setAttribute(
-			'style',
-			'position: relative',
-		);
+		const iFrameParentElement = iFrameElement.parentElement;
 		const newIFrameElement = iFrameElement.cloneNode(true);
 		newIFrameElement.setAttribute('allow', 'autoplay; fullscreen');
-
-		// .responsive class was causing 0 height style - override style with iframe height attribute
-		const heightVal = newIFrameElement.getAttribute('height');
-		console.log(`Setting Vimeo IFrame Style Height: ${heightVal}`);
-		newIFrameElement.setAttribute('style', `height: ${heightVal ? heightVal : 0}px`);
-
-		newDivElement.appendChild(newIFrameElement);
-		iFrameElement.parentNode.replaceChild(newDivElement, iFrameElement);
 
 		// On IOS, IMA does not consider Vimeo Events as User Interaction.
 		// Create a button to use as a proxy click event.
@@ -185,7 +184,21 @@
 			'position: absolute; bottom: 0; left: 0; width: 25%; height: 50%;',
 		);
 
-		newDivElement.appendChild(trickIMAButton);
+		let newDivElement;
+		if (iFrameParentElement.classList?.contains('lazy-video')) {
+			iFrameParentElement.replaceChild(newIFrameElement, iFrameElement);
+			iFrameParentElement.appendChild(trickIMAButton);
+		} else {
+			newDivElement = document.createElement('div');
+			newDivElement.setAttribute(
+				'style',
+				'position: relative;',
+			);
+			newDivElement.appendChild(newIFrameElement);
+			newDivElement.appendChild(trickIMAButton);
+			iFrameParentElement.replaceChild(newDivElement, iFrameElement);
+		}
+
 		const retval = new Vimeo.Player(newIFrameElement);
 
 		trickIMAButton.onclick = () => {
@@ -200,13 +213,16 @@
 	}
 
 	const loadVimeoPlayer = (iFrameElement) => {
-		// Add Class to parent for Full Screen
-	    iFrameElement.parentElement.classList.add('beasley-vimeo');
+		if (iFrameElement.parentElement.classList.contains('beasley-vimeo')) {
+			return;
+		}
+		const vimeoplayer = isIOS() ? getVimeoPlayerForIOS(iFrameElement) : new Vimeo.Player(iFrameElement);
+
+		// Mark parent element as processed
+		vimeoplayer.element.parentElement.classList.add('beasley-vimeo');
 
 		// Add Class to parent to avoid padding added by .responsive classed on some pages
-		iFrameElement.parentElement.classList.add('beasley');
-
-		const vimeoplayer = isIOS() ? getVimeoPlayerForIOS(iFrameElement) : new Vimeo.Player(iFrameElement);
+		vimeoplayer.element.parentElement.classList.add('beasley');
 
 		vimeoplayer.isPlayingPreroll = false;
 		vimeoplayer.finishedPlayingPreroll = false;
@@ -240,7 +256,7 @@
 				console.log('Paused and now Playing Preroll');
 				/* PREROLL CODE HERE */
 				if (! document.getElementById(VIMEOPREROLLWRAPPER)) {
-					renderHTML(iFrameElement);
+					renderHTML(vimeoplayer.element);
 					createIMADisplayContainer();
 				}
 				await getUrlFromPrebid(vimeoplayer);
@@ -251,7 +267,7 @@
 			vimeoplayer.thisVimeoPlayHandler();
 		});
 
-		vimeoplayer.on('pause', async function () {
+		vimeoplayer.on('pause', () => {
 			console.log('Paused the video');
 		});
 
@@ -284,90 +300,6 @@
 			vimeoControl.prerollCallback();
 			return;
 		}
-
-		/* 01/05/2022 - Disable Reset Digital
-		const videoAdUnit = {
-			code: incontentpreroll.unitId,
-			mediaTypes: {
-				video: {
-					playerSize: [[640, 360]],
-					context: 'instream'
-				}
-			},
-			bids: [{
-				bidder: 'resetdigital',
-				params: {
-					pubId: '44',
-				},
-			}]
-		};
-
-		console.log('Setting Pointer To IMA Play Video Func');
-		const IMAPlayVimeoIMAAdsFunc = playVimeoIMAAds;
-
-		pbjs.que.push(function () {
-			console.log('Removing resetdigital Prebid Ad Unit');
-			pbjs.removeAdUnit(incontentpreroll.unitId);
-			console.log('Adding resetdigital Prebid Ad Unit');
-			pbjs.addAdUnits(videoAdUnit);
-			// Stub to set cache in event there are ever stutter problems
-			// pbjs.setConfig({
-			// cache: {
-			//		url: 'https://prebid.adnxs.com/pbc/v1/cache'
-			//	 }
-			// });
-
-			console.log('Requesting Vimeo Video Bids');
-			pbjs.requestBids({
-				timeout: 2000,
-				adUnitCodes: [incontentpreroll.unitId],
-				bidsBackHandler: async function (bids) {
-					console.log(`Preroll Bids Returned:`);
-					console.log(JSON.stringify(bids));
-
-					let videoUrl = '';
-					// NOTE: Bids Are Ignored. Change below to == in order to enable Prebid.
-					if (bids = {}) {
-						console.log('No Bids from Prebid');
-					} else {
-						console.log('Building URL in Prebid');
-						videoUrl = pbjs.adServers.dfp.buildVideoUrl({
-							adUnit: videoAdUnit,
-							params: {
-								iu: incontentpreroll.unitId
-							}
-						});
-						console.log(`URL Returned from Prebid: ${videoUrl}`);
-					}
-
-					// If No URL From Prebid, Default to our GAM Unit
-					if (!videoUrl) {
-						console.log('Using Default GAM Ad Unit for IMA');
-						const videoID = await vimeoControl.getVideoId();
-						console.log(`Video ID is ${videoID}`);
-
-						const partialCustParamsString = `&cust_params=VimeoVideoID%3D${videoID}`;
-						// global holds a 2 dimensional array like "global":[["cdomain","wmmr.com"],["cpage","home"],["ctest",""],["genre","rock"],["market","philadelphia, pa"]]
-						const mappedGlobalParamArray = global.map(innerArray => {
-							return `%26${innerArray[0]}%3D${innerArray[1]}`;
-						});
-						const mappedGlobalParamString = mappedGlobalParamArray ? mappedGlobalParamArray.join('') : '';
-						const fullCustParamsString = partialCustParamsString.concat(mappedGlobalParamString);
-						// videoUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${incontentpreroll.unitId}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360%7C640x480%7C920x508&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
-						videoUrl = `https://pubads.g.doubleclick.net/gampad/live/ads?iu=${incontentpreroll.unitId}&description_url=[placeholder]&tfcd=0&npa=0&sz=640x360${fullCustParamsString}&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator=`;
-					}
-
-					try {
-						IMAPlayVimeoIMAAdsFunc(videoUrl, vimeoControl);
-					} catch (err) {
-						console.log('Uncaught Error while playing preroll', err);
-						console.log('Attempting to mask error');
-						vimeoControl.prerollCallback();
-					}
-				}
-			});
-		});
-		*/
 
 		/* 01/05/2022 - Call Default GAM Ad Unit Since We Disabled Reset Digital Above */
 		const videoID = await vimeoControl.getVideoId();
