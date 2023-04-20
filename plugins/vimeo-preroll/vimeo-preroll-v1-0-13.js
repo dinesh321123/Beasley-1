@@ -6,7 +6,7 @@
 /* v1-0-7 - Add support for newer iPads running newer IOS versions */
 
 	const VIMEOPREROLLWRAPPER = 'vimeoPrerollWrapper';
-	var vimeoPlayerList;
+	var vimeoPlayerList = [];
 	window.loadVimeoPlayers = (shouldKeepPriorVimeoPlayers = false) => {
 		const { bbgiconfig } = window;
 
