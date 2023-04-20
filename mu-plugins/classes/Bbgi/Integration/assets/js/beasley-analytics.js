@@ -240,12 +240,21 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 					if ( filteredKeys && filteredKeys.length > 0) {
 						const kvArray = filteredKeys.map(filteredKey => ({[filteredKey]: null}));
 						return Object.assign(...kvArray); // Return an object with each field assigned to ''
+					} else {
+						if (!isIncludingOnlyMediaSpecificFields) {
+							console.log(`WARNING - No Matching DataPoint Properties in Schema File. Could not create MParticle Event - '${eventName}'`);
+						}
 					}
 				}
+			} else {
+				if (eventName !== 'Page View') {
+					console.log(`WARNING - No Matching DataPoint in Schema File. Could not create MParticle Event - '${eventName}'`);
+				}
 			}
+		} else {
+			console.log(`WARNING - No DataPoints in Schema File. Could not create MParticle Event - '${eventName}'`);
 		}
 
-		console.log(`WARNING - Could not create Key Value Pairs for ${isIncludingOnlyMediaSpecificFields ? 'Media Specific' : ''} MParticle Event - '${eventName}'`);
 		return null;
 	};
 
