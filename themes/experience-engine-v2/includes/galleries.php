@@ -1,6 +1,6 @@
 <?php
 
-add_filter( 'bbgi_gallery_cotnent', 'ee_update_incontent_gallery', 10, 4 );
+add_filter( 'bbgi_gallery_content', 'ee_update_incontent_gallery', 10, 3 );
 
 if ( ! function_exists( 'ee_setup_gallery_view_metadata' ) ) :
 	function ee_setup_gallery_view_metadata() {
@@ -80,7 +80,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false, $source_post_object = null ) {
 		static $urls = array();
 		$embeddedParentSlug = $gallery->post_name ?: '';
-		
+
 		$checkID = $gallery->ID;
 		if( !empty($source_post_object) && $source_post_object !== null ) {
 			$checkID = $source_post_object->ID;
@@ -264,7 +264,7 @@ if ( ! function_exists( 'ee_update_incontent_gallery' ) ) :
 			return '<!-- -->';
 		}
 		$html = ee_get_gallery_html( $gallery, $ids, $source_post_object, true );
-		
+
 		// we need to to inject embed code later
 		$placeholder = '<div><!-- gallery:' . sha1( $html ) . ' --></div>';
 		$replace_filter = function( $content ) use ( $placeholder, $html ) {

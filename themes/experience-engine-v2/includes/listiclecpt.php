@@ -1,5 +1,5 @@
 <?php
-add_filter( 'bbgi_listicle_cotnent', 'ee_update_incontent_listicle', 10, 6 );
+add_filter( 'bbgi_listicle_content', 'ee_update_incontent_listicle', 10, 6 );
 
 if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object = null, $from_embed = false ) {

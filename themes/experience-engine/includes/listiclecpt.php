@@ -1,5 +1,5 @@
 <?php
-add_filter( 'bbgi_listicle_cotnent', 'ee_update_incontent_listicle', 10, 6 );
+add_filter( 'bbgi_listicle_content', 'ee_update_incontent_listicle', 10, 6 );
 
 if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 	function ee_get_listiclecpt_html( $cpt_post_object, $cpt_item_name,	$cpt_item_description, $cpt_item_order, $cpt_item_type, $source_post_object = null, $from_embed = false ) {
@@ -25,7 +25,7 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 			if($segmentation_ordering_type == 'header') {
 				$header_items = array_keys( array_filter ($cpt_item_type, function ($var) { return ($var == "header"); } ) );
 				$total_segment_header = count ( $header_items );
-				
+
 				if($total_segment_header > 0) {
 					echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
 					$header_index = 1;
@@ -42,17 +42,17 @@ if ( ! function_exists( 'ee_get_listiclecpt_html' ) ) :
 				$total_segment = ceil( $segment_item_total / 10 );
 				$is_desc = ($segmentation_ordering_type != '' && $segmentation_ordering_type == 'desc') ? 1 : 0;
 				$start_index = $is_desc ? $total_segment : 1;
-	
+
 				if($total_segment > 0) {
 					echo '<div style="padding: 1rem 0 1rem 0; position: sticky; top: 0; background-color: white; z-index: 1;">';
 					for ($i=1; $i <= $total_segment; $i++) {
 						$diff = $segment_item_total - (( $i - 1 ) * 10);
 						$diff = ($diff % 10 == 0) ? $diff - 1 : $diff;
 						$scroll_to = $is_desc ? ( floor( $diff / 10 ) * 10 ) : ( ($i - 1) * 10 );
-		
+
 						$from_display = $is_desc ? ( $start_index * 10 ) : ( ( ($start_index - 1) * 10 ) + 1 );
 						$to_display =  $is_desc ? ( ( ($start_index - 1) * 10 ) + 1 ) : ( $start_index * 10 );
-		
+
 						echo '<button onclick=" scrollToSegmentation(\''.$id_pretext. '\', ' . ( $scroll_to + 1 ) .'); " class="btn" style="display: inline-block; color: white;margin-bottom: 0.5rem;margin-right: 1rem;">'. $from_display . ' - ' . $to_display . '</button>';
 						$start_index = $is_desc ? ($start_index - 1) : ($start_index + 1);
 					}

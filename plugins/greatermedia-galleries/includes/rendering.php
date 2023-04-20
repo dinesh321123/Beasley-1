@@ -88,7 +88,7 @@ class GreaterMediaGallery {
 	public static function get_attachment_ids_for_post( $post ) {
 		static $ids = array();
 		$key = 'gmr-gallery-store-' . $post->ID;
-		
+
 		$gallery_ids = wp_cache_get( $key );
 		if ( $gallery_ids === false ) {
 			$post = get_post( $post );
@@ -167,7 +167,7 @@ class GreaterMediaGallery {
 		}
 
 		$post = get_queried_object();
-		$content = apply_filters( 'bbgi_gallery_cotnent', false, $post, $ids );
+		$content = apply_filters( 'bbgi_gallery_content', false, $post, $ids );
 		if ( ! empty( $content ) ) {
 			return $content;
 		}
