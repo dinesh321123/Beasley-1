@@ -43,8 +43,8 @@ class Google extends \Bbgi\Module {
 	static public function ga_enqueue_scripts() {
 		$data = Google::get_analytics_data();
 		$jsonData = json_encode($data);
+		$jsonMParticleConfig = '{"isDevelopmentMode": true, "logLevel": "verbose", "dataPlan": {"planId": "beasley_web_beta", "planVersion": 1}}';
 		// For Prod $jsonMParticleConfig = '{"isDevelopmentMode": true,"logLevel": "verbose","dataPlan": {"planId": "beasley_web_beta","planVersion": 1},"v1SecureServiceUrl": "mparticle.bbgi.com/webevents/v1/JS/","v2SecureServiceUrl": "mparticle.bbgi.com/webevents/v2/JS/","v3SecureServiceUrl": "mparticle.bbgi.com/webevents/v3/JS/","configUrl": "mparticle.bbgi.com/tags/JS/v2/","identityUrl": "mparticle.bbgi.com/identity/v1/","aliasUrl": "mparticle.bbgi.com/webevents/v1/identity/"}';
-		$jsonMParticleConfig = '{"isDevelopmentMode": true,"logLevel": "verbose","dataPlan": {"planId": "beasley_web_beta","planVersion": 1},"v1SecureServiceUrl": "mparticle.bbgistage.com/webevents/v1/JS/","v2SecureServiceUrl": "mparticle.bbgistage.com/webevents/v2/JS/","v3SecureServiceUrl": "mparticle.bbgistage.com/webevents/v3/JS/","configUrl": "mparticle.bbgistage.com/tags/JS/v2/","identityUrl": "mparticle.bbgistage.com/identity/v1/","aliasUrl": "mparticle.bbgistage.com/webevents/v1/identity/"}';
 
 		echo sprintf(
 			'<script>window.bbgiAnalyticsConfig=JSON.parse(\'%s\'); window.bbgiAnalyticsConfig.mParticleConfig=JSON.parse(\'%s\');</script>',
@@ -56,21 +56,21 @@ class Google extends \Bbgi\Module {
 			'mparticle_enqueue_scripts',
 			plugins_url( 'assets/js/mparticle-schema.js', __FILE__ ),
 			array(),
-			'2.0.27'
+			'2.0.28'
 		);
 
 		wp_enqueue_script(
 			'window_utils_enqueue_scripts',
 			plugins_url( 'assets/js/window-utils.js', __FILE__ ),
 			array(),
-			'2.0.27'
+			'2.0.28'
 		);
 
 		wp_enqueue_script(
 			'ga_enqueue_scripts',
 			plugins_url( 'assets/js/beasley-analytics.js', __FILE__ ),
 			array( 'window_utils_enqueue_scripts', 'mparticle_enqueue_scripts' ),
-			'2.0.27'
+			'2.0.28'
 		);
 	}
 
