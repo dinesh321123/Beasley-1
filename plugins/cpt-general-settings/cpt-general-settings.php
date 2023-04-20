@@ -31,3 +31,5 @@ include __DIR__ . '/includes/whiz-changes.php' ;
 
 /** This should be removed after we confirm if logging the shutdown hook is successful */
 include __DIR__ . '/includes/shutdown-elasticsearch-log.php';
+
+include __DIR__ . '/includes/bbgi-station-settings.php';
