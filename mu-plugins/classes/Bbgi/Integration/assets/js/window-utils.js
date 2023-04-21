@@ -48,7 +48,6 @@ window.createUUID = () => {
 	)
 }
 
-
 // copied from https://github.com/dbrekalo/adblockdetect
 (function(root, factory) {
 

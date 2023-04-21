@@ -380,7 +380,6 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
-										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
@@ -451,7 +450,6 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
-										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
@@ -520,7 +518,6 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
-										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
@@ -592,7 +589,6 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
-										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
@@ -664,7 +660,6 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
-										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
@@ -771,7 +766,6 @@ window.mParticleSchema = {
 											"description": "MEDIA-SPECIFIC",
 											"type": ["string", "null"]
 										},
-										"duration": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"domain": {"description": "", "type": ["string", "null"], "format": "hostname"},
 										"call_sign": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},
 										"call_sign_id": {"description": "MEDIA-SPECIFIC", "type": ["string", "null"]},

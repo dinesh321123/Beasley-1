@@ -17,6 +17,7 @@ export default function sendMParticlePlayMediaEvent() {
 		true, // Log Page Event Toggle (true/false)
 		true, // Log Media Event Toggle (true/false)
 	);
+	window.mediaSession.isStopped = false;
 
 	const sessionStartOptions = {};
 	sessionStartOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(

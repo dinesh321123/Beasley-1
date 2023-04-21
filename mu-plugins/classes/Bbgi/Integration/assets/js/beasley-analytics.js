@@ -569,20 +569,34 @@ class BeasleyAnalyticsMParticleProvider extends BeasleyAnalyticsBaseProvider {
 		this.doSendEventByName(eventName);
 	}
 
+	// doSendPageEvent interrogates the DOM and must be called only after entire page is loaded
+	doSendPageEvent() {
+		// Set ad_tags_enabled
+		const adTagsEnabled = !!(
+			document.body.parentElement.innerHTML.includes('dfp-slot') ||
+			document.body.parentElement.innerHTML.includes('placeholder-dfp')
+		);
+		this.setAnalytics('ad_tags_enabled', adTagsEnabled);
+
+		const objectToSend = this.getEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
+
+		// Set embedded_content_is_nested
+		if ( objectToSend.view_type === 'embedded_content' ) {
+			objectToSend.embedded_content_is_nested = ( objectToSend.embedded_content_id === objectToSend.post_id );
+		}
+
+		window.mParticle.logPageView(
+			'Page View',
+			objectToSend,
+		);
+	}
+
 	doSendEventByName(eventName) {
 		this.setPerEventKeys();
 
 		// If The Event Is A Page View
 		if (eventName === BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView) {
-			const objectToSend = this.getEventObject(BeasleyAnalyticsMParticleProvider.mparticleEventNames.pageView);
-			if ( objectToSend.view_type === 'embedded_content' ) {
-				objectToSend.embedded_content_is_nested = ( objectToSend.embedded_content_id === objectToSend.post_id );
-			}
-
-			window.mParticle.logPageView(
-				'Page View',
-				objectToSend,
-			);
+			this.doSendPageEvent();
 		} else { // Event is a Custom Event
 			const objectToSend = this.getEventObject(eventName);
 			const customEventType = this.customEventTypeLookupByName[eventName];

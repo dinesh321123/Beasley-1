@@ -1,5 +1,6 @@
 export default function endMParticleMediaSession() {
-	if (window.mediaSession) {
+	if (!window.mediaSession?.isStopped) {
+		window.mediaSession.isStopped = true;
 		const contentEndOptions = {};
 		contentEndOptions.customAttributes = window.beasleyanalytics.getMParticleMediaEventObject(
 			window.beasleyanalytics.BeasleyAnalyticsMParticleProvider

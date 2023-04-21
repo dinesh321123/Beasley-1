@@ -150,7 +150,6 @@ use Bbgi\Integration\Google;
 						window.beasleyanalytics.setAnalyticsForMParticle(\'wp_author\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'primary_author\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'secondary_author\', \'%s\');
-						window.beasleyanalytics.setAnalyticsForMParticle(\'ad_tags_enabled\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'consent_cookie\', \'%s\');
 						window.beasleyanalytics.setAnalyticsForMParticle(\'prebid_enabled\', window.bbgiconfig?.prebid_enabled);
 						window.beasleyanalytics.setAnalyticsForMParticle(\'publish_date\', %s);
@@ -190,7 +189,6 @@ use Bbgi\Integration\Google;
 							$mparticle_pageview_event_data['mParticle_author'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_primary_author'] ?: 'null',
 							$mparticle_pageview_event_data['mParticle_secondary_author'] ?: 'null',
-							'?ad_tags_enabled?',
 							'?consent_cookie?',
 							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('Y-m-d', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
 							$mparticle_pageview_event_data['mParticle_post_id'] ? "'" . get_the_date('l', $mparticle_pageview_event_data['mParticle_post_id']) . "'" : 'null',
