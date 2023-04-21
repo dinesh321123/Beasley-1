@@ -57,6 +57,9 @@ function tvj_onThumbnailStartClick(event, ele) {
 	}
 	if(html) {
 		$lazyVideo.html(html);
+		if (window.loadVimeoPlayers) {
+			window.loadVimeoPlayers(true);
+		}
 	}
 }
 
