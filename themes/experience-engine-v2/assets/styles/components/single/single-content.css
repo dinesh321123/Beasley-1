@@ -147,6 +147,9 @@
 	color: var(--global-font-secondary);
 	font-size: .875rem;
 	margin: .5rem 0 0 0;
+	& .whiz {
+	  margin: 0;
+    }
 }
 
 .jacapps .entry-content, .whiz .entry-content {

@@ -111,11 +111,7 @@ function updateSize() {
 				wrapperHeightString.indexOf('px') > -1
 					? wrapperHeightString.replace('px', '')
 					: '0';
-
-			const searchParams = new URLSearchParams(window.location.search?.toLowerCase());
-			const isWhiz = searchParams.has('whiz');
-
-			const computedTop = isWhiz ? 0 : (parseInt(wrapperHeight, 10) - vimeoContainerHeight) / 2;
+			const computedTop = (parseInt(wrapperHeight, 10) - vimeoContainerHeight) / 2;
 			containerElement.style.paddingTop = `${computedTop && computedTop > 0 ? computedTop : 0}px`;
 
 			const computedLeft = (containerElement.clientWidth - vimeoContainerWidth) / 2;
