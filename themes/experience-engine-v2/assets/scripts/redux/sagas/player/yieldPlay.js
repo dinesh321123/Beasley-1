@@ -1,6 +1,10 @@
 import { call, takeLatest, select } from 'redux-saga/effects';
-import { livePlayerLocalStorage } from '../../utilities';
+import {
+	createMParticleMediaFields,
+	livePlayerLocalStorage,
+} from '../../utilities';
 import { ACTION_PLAY } from '../../actions/player';
+import sendMParticlePlayMediaEvent from '../../utilities/player/sendMParticlePlayMediaEvent';
 
 /**
  * @function getStreamByStation
@@ -25,10 +29,11 @@ function* yieldPlay(action) {
 	// Player store from state
 	const playerStore = yield select(({ player }) => player);
 	const { player, streams } = playerStore;
+	let stream;
 
 	if (playerStore.playerType === 'tdplayer') {
 		// Find matching stream
-		const stream = yield call([streams, 'find'], getStreamByStation(source));
+		stream = yield call([streams, 'find'], getStreamByStation(source));
 		// Destructure from window
 		const {
 			authwatcher, // Triton
@@ -79,6 +84,15 @@ function* yieldPlay(action) {
 	} else if (player && typeof player.play === 'function') {
 		yield call([player, 'play']);
 	}
+
+	yield call(
+		createMParticleMediaFields,
+		playerStore.playerType,
+		stream,
+		action.payload,
+	);
+
+	yield call(sendMParticlePlayMediaEvent);
 }
 
 /**

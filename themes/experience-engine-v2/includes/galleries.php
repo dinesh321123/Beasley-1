@@ -77,11 +77,17 @@ if ( ! function_exists( 'ee_get_galleries_query' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
-	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false ) {
+	function ee_get_gallery_image_html( $image, $gallery, $is_sponsored = false, $is_first = false, $source_post_object = null ) {
 		static $urls = array();
+		$embeddedParentSlug = $gallery->post_name ?: '';
+
+		$checkID = $gallery->ID;
+		if( !empty($source_post_object) && $source_post_object !== null ) {
+			$checkID = $source_post_object->ID;
+		}
 
 		if ( empty( $urls[ $gallery->ID ] ) ) {
-			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $gallery->ID ) );
+			$urls[ $gallery->ID ] = trailingslashit( get_permalink( $checkID ) );
 		}
 
 		$image_full_url = $urls[ $gallery->ID ] . 'view/' . urlencode( $image->post_name ) . '/';
@@ -107,6 +113,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 		if($is_common_mobile){
 			echo '<div class="common-mobile-ga-info track" data-location="' . esc_attr( $tracking_url ) . '"></div>';
 		}
+		$mparticle_gallery_author = ee_mparticle_get_author_data( $gallery );
 
 		echo '<div class="gallery-meta">';
 			echo '<div class="wrapper">';
@@ -135,7 +142,33 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 
 				echo '<p class="excerpt">', get_the_excerpt( $image ), '</p>';
 
-			echo '</div>';
+		$mparticle_meta_tag = sprintf(
+			'<mparticle-meta
+						data-view_type = \'%s\'
+						data-embedded_content_id = \'%s\'
+						data-embedded_content_item_title = \'%s\'
+						data-embedded_content_item_type = \'%s\'
+						data-embedded_content_item_path = \'%s\'
+						data-embedded_content_item_post_id = \'%s\'
+						data-embedded_content_item_wp_author = \'%s\'
+						data-embedded_content_item_primary_author = \'%s\'
+						data-embedded_content_item_secondary_author = \'%s\'
+						/>',
+			'embedded_content', //view_type
+			$embeddedParentSlug,
+			$title,
+			get_content_type_text($gallery->post_type),
+			$tracking_url,
+			$image->post_name,
+			$mparticle_gallery_author->author ?: '',
+			$mparticle_gallery_author->primary_author ?: '',
+			$mparticle_gallery_author->secondary_author ?: ''
+		);
+		echo $mparticle_meta_tag;
+
+
+
+		echo '</div>';
 
 		echo '</div>';
 
@@ -144,7 +177,7 @@ if ( ! function_exists( 'ee_get_gallery_image_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_get_gallery_html' ) ) :
-	function ee_get_gallery_html( $gallery, $ids, $from_embed = false ) {
+	function ee_get_gallery_html( $gallery, $ids, $source_post_object = null, $from_embed = false ) {
 		$sponsored_image = get_field( 'sponsored_image', $gallery );
 		$id_pretext = $from_embed ? "embed-gallery" : "gallery";
 		if ( ! empty( $sponsored_image ) ) {
@@ -202,7 +235,8 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 				$image,
 				$gallery,
 				$sponsored_image == $image->ID,
-				$index == 0
+				$index == 0,
+				$source_post_object
 			);
 
 			if ( ! empty( $html ) ) {
@@ -224,13 +258,12 @@ if ( ! function_exists( 'ee_get_gallery_html' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_update_incontent_gallery' ) ) :
-	function ee_update_incontent_gallery( $html, $gallery, $ids ) {
+	function ee_update_incontent_gallery( $html, $gallery, $ids, $source_post_object = null ) {
 		// do not render gallery if it has been called before <body> tag
 		if ( ! did_action( 'beasley_after_body' ) ) {
 			return '<!-- -->';
 		}
-
-		$html = ee_get_gallery_html( $gallery, $ids, true );
+		$html = ee_get_gallery_html( $gallery, $ids, $source_post_object, true );
 
 		// we need to to inject embed code later
 		$placeholder = '<div><!-- gallery:' . sha1( $html ) . ' --></div>';

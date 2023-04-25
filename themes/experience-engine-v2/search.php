@@ -2,14 +2,34 @@
 
 get_header();
 
+global $wp_query;
+$search_query = get_search_query();
+
 if ( ee_is_first_page() ) :
 	get_template_part( 'partials/search/header' );
+
+	$result_count = $wp_query->found_posts;
+	if (! $result_count) {
+		$result_count = 0;
+	}
+
+	$mparticle_implementation = sprintf(
+		'<script class="mparticle_implementation">
+					window.beasleyanalytics.setAnalyticsForMParticle(\'search_term\', \'%s\');
+					window.beasleyanalytics.setAnalyticsForMParticle(\'search_num_results\', %d);
+
+					window.beasleyanalytics.sendMParticleEvent(
+						BeasleyAnalyticsMParticleProvider.mparticleEventNames.searchedFor,
+					);
+				</script>',
+		$search_query,
+		$result_count,
+	);
+	echo $mparticle_implementation;
+
 endif;
 
 if ( have_posts() ) :
-	global $wp_query;
-
-	$search_query   = get_search_query();
 	$search_results = $wp_query->posts;
 	$page_num       = intval( get_query_var( 'paged' ) );
 
@@ -39,7 +59,9 @@ if ( have_posts() ) :
 		echo '<div class="archive-tiles -grid -small">';
 			while ( have_posts() ) :
 				the_post();
-				get_template_part( 'partials/tile', get_post_type() );
+				echo '<div class="search-result" data-search-result-slug="' . get_post_field( 'post_name', get_post() ) . '">';
+					get_template_part( 'partials/tile', get_post_type() );
+				echo '</div>';
 			endwhile;
 		echo '</div>';
 

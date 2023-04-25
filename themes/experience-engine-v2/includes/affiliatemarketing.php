@@ -6,6 +6,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 		$am_image_slug = get_query_var( 'view' );
 		$current_post_id = get_post_thumbnail_id ($affiliatemarketing_post_object);
 		$id_pretext = $from_embed ? "embed-am" : "am";
+		$embeddedParentSlug = $affiliatemarketing_post_object->post_name ?: '';
 
 		$ads_interval = filter_var( get_field( 'images_per_ad', $affiliatemarketing_post_object ), FILTER_VALIDATE_INT, array( 'options' => array(
 			'min_range' => 1,
@@ -59,6 +60,7 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 				}
 			}
 		}
+		$mparticle_musthave_author = ee_mparticle_get_author_data( $affiliatemarketing_post_object );
 
 		echo '<ul class="affiliate-marketingmeta">';
 
@@ -164,6 +166,30 @@ if ( ! function_exists( 'ee_get_affiliatemarketing_html' ) ) :
 							echo '</div>';
 						echo '</div>';
 					echo '</div>';
+
+					$mparticle_meta_tag = sprintf(
+						'<mparticle-meta
+						data-view_type = \'%s\'
+						data-embedded_content_id = \'%s\'
+						data-embedded_content_item_title = \'%s\'
+						data-embedded_content_item_type = \'%s\'
+						data-embedded_content_item_path = \'%s\'
+						data-embedded_content_item_post_id = \'%s\'
+						data-embedded_content_item_wp_author = \'%s\'
+						data-embedded_content_item_primary_author = \'%s\'
+						data-embedded_content_item_secondary_author = \'%s\'
+						/>',
+						'embedded_content', //view_type
+						$embeddedParentSlug,
+						esc_attr($am_item_name_data),
+						get_content_type_text($affiliatemarketing_post_object->post_type),
+						$tracking_url,
+						$embeddedParentSlug . '_' . $segment_item_index,
+						$mparticle_musthave_author->author ?: '',
+						$mparticle_musthave_author->primary_author ?: '',
+						$mparticle_musthave_author->secondary_author ?: ''
+					);
+					echo $mparticle_meta_tag;
 
 					/* if ( $index > 0 && ( $index + 1 ) % $ads_interval == 0 ) :
 						do_action( 'dfp_tag', 'in-list-affiliate-marketing' );
