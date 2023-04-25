@@ -386,3 +386,275 @@ if ( ! function_exists( 'ee_get_category_featured_posts' ) ) :
 		return $response;
 	}
 endif;
+
+if ( ! function_exists( 'ee_get_primary_terms' ) ) :
+	function ee_get_primary_terms($post_id, $term='category', $return_all_categories=false){
+		$return = array();
+		$categories_list = get_the_terms($post_id, $term);
+
+		if (class_exists('WPSEO_Primary_Term')){
+			// Show Primary category by Yoast if it is enabled & set
+			$wpseo_primary_term = new WPSEO_Primary_Term( $term, $post_id );
+			$primary_term = get_term($wpseo_primary_term->get_primary_term());
+
+			if (!is_wp_error($primary_term)){
+				$return['primary'] = $primary_term;
+			}
+		}
+
+		if (empty($return['primary']) && !empty($categories_list)){
+			$return['primary'] = $categories_list[0];  //get the first category
+		}
+
+		if ($return_all_categories){
+			$return['all'] = array();
+
+			if (!empty($categories_list)){
+				foreach($categories_list as &$category){
+					$return['all'][] = $category->name;
+				}
+			}
+		}
+
+		return $return;
+	}
+endif;
+
+
+/**
+ * Get the user-friendly name for the given content type.
+ *
+ * @param string|WP_Post $content_type The content type name or a WP_Post object.
+ *
+ * @return string The user-friendly name for the given content type. If the content type is not found in the table, return "Unknown".
+ */
+if (!function_exists('get_content_type_text')) :
+	function get_content_type_text($content_type): string
+	{
+		$content_types = array(
+			"post" => "post",
+			"page" => "page",
+			"attachment" => "attachment",
+			"revision" => "revision",
+			"nav_menu_item" => "navigation menu item",
+			"custom_css" => "custom css",
+			"customize_changeset" => "customize changeset",
+			"oembed_cache" => "oembed cache",
+			"user_request" => "user request",
+			"wp_block" => "wordpress block",
+			"wp_template" => "wordpress template",
+			"wp_template_part" => "wordpress template part",
+			"wp_global_styles" => "wordpress global styles",
+			"wp_navigation" => "wordpress navigation",
+			"gmr_gallery" => "gallery",
+			"gmr_album" => "album",
+			"listicle_cpt" => "listicle",
+			"episode" => "episode",
+			"tribe_venue" => "venue",
+			"tribe_organizer" => "organizer",
+			"tribe_events" => "event",
+			"acf-field-group" => "acf field group",
+			"acf-field" => "acf field",
+			"cmm-redirect" => "cmm redirect",
+			"advertiser" => "advertiser",
+			"subscription" => "subscription",
+			"content-kit" => "content kit",
+			"contest" => "contest",
+			"live-stream" => "live stream",
+			"songs" => "songs",
+			"show" => "show",
+			"fp_feed" => "fp feed",
+			"gmr_closure" => "closure",
+			"redirect_rule" => "redirect rule",
+			"tribe-ea-record" => "tribe ea record",
+			"deleted_event" => "deleted event",
+			"gmr_homepage" => "homepage",
+			"gmr_mobile_homepage" => "mobile homepage",
+			"ep-synonym" => "synonym",
+			"ep-pointer" => "pointer",
+			"podcast" => "podcast",
+			"simplifi_pixel" => "simplifi pixel",
+			"gmr-live-link" => "live link",
+			"affiliate_marketing" => "must have"
+		);
+		if (is_object($content_type)) {
+			$content_type = get_post_type($content_type);
+		}
+		if (isset($content_types[$content_type])) {
+			return $content_types[$content_type];
+		} else {
+			return "unknown";
+		}
+	}
+endif;
+
+
+
+if ( ! function_exists( 'ee_mparticle_get_author_data' ) ) :
+	function ee_mparticle_get_author_data( $post ){
+		$response = array(
+			'author' => '',
+			'primary_author' => '',
+			'secondary_author' => ''
+		);
+
+		$response['author'] = $post->post_author ? get_the_author_meta( 'login', $post->post_author ) : '';
+		$primary_author = get_field( 'primary_author_cpt', $post );
+		$response['primary_author'] = $primary_author ? get_the_author_meta( 'login', $primary_author ) : '';
+		$secondary_author = get_field( 'secondary_author_cpt', $post );
+		$response['secondary_author'] = $secondary_author ? get_the_author_meta( 'login', $secondary_author ) : '';
+
+		return (object) $response;
+	}
+endif;
+
+if ( ! function_exists( 'ee_mparticle_prepare_pageview_data' ) ) :
+	function ee_mparticle_prepare_pageview_data( $post ){
+		$post_categories = ee_get_primary_terms($post->ID, 'category', true);
+		$post_shows = ee_get_primary_terms($post->ID, '_shows', true);
+		$post_tags = ee_get_primary_terms($post->ID, 'post_tag', true);
+
+		$mParticle_category = $post_categories['primary'];
+		$mParticle_categories = !empty($post_categories['all']) ? wp_json_encode($post_categories['all']) : '';
+		$mParticle_show = $post_shows['primary'];
+		$mParticle_tags = !empty($post_tags['all']) ? wp_json_encode($post_tags['all']) : '';
+
+		$mParticle_post_id = $post->ID ? $post->ID : '';
+		$mParticle_post_slug = $post->post_name ?: '';
+
+		$author_details = ee_mparticle_get_author_data( $post );
+		$mParticle_author = $author_details->author ? $author_details->author : '';
+		$mParticle_primary_author = $author_details->primary_author ? $author_details->primary_author : '';
+		$mParticle_secondary_author = $author_details->secondary_author ? $author_details->secondary_author : '';
+
+		$mParticle_word_count = $post->post_content ? str_word_count( strip_tags( $post->post_content ) ) : null;
+
+		$mParticle_select_embed_post_id = ee_mparticle_get_select_embed_id( $post );
+		if( !empty($mParticle_select_embed_post_id) ) {
+			$mParticle_select_embed_post = get_post($mParticle_select_embed_post_id);
+			$mParticle_select_embed_slug = $mParticle_select_embed_post->post_name;
+			$mParticle_select_embed_title = $mParticle_select_embed_post->post_title;
+			$mParticle_select_embed_type = $mParticle_select_embed_post->post_type;
+			$mParticle_select_embed_path = trailingslashit( get_permalink( $mParticle_select_embed_post_id ) );
+
+			$select_embed_author_details = ee_mparticle_get_author_data( $mParticle_select_embed_post );
+			$mParticle_select_embed_author = $select_embed_author_details->author ? $select_embed_author_details->author : '';
+			$mParticle_select_embed_primary_author = $select_embed_author_details->primary_author ? $select_embed_author_details->primary_author : '';
+			$mParticle_select_embed_secondary_author = $select_embed_author_details->secondary_author ? $select_embed_author_details->secondary_author : '';
+		}
+
+		$mParticleContentType = get_post_type( $post );
+		$mParticleContentType = get_content_type_text($mParticleContentType);
+
+		return [
+			'mParticleContentType'						=> $mParticleContentType,
+			'mParticle_category'						=> $mParticle_category ?: '',
+			'mParticle_categories'						=> $mParticle_categories ?: '',
+			'mParticle_show'							=> $mParticle_show ?: '',
+			'mParticle_tags'							=> $mParticle_tags ?: '',
+			'mParticle_select_embed_parent_id'			=> $mParticle_post_slug ?: '',
+			'mParticle_select_embed_title'				=> $mParticle_select_embed_title ?: '',
+			'mParticle_select_embed_type'				=> $mParticle_select_embed_type ?: '',
+			'mParticle_select_embed_path' 				=> $mParticle_select_embed_path ?: '',
+			'mParticle_select_embed_post_id' 			=> $mParticle_select_embed_slug ?: '',
+			'mParticle_select_embed_author' 			=> $mParticle_select_embed_author ?: '',
+			'mParticle_select_embed_primary_author' 	=> $mParticle_select_embed_primary_author ?: '',
+			'mParticle_select_embed_secondary_author' 	=> $mParticle_select_embed_secondary_author ?: '',
+			'mParticle_post_id' 						=> $mParticle_post_id ?: '',
+			'mParticle_post_slug' 						=> $mParticle_post_slug ?: '',
+			'mParticle_author' 							=> $mParticle_author ?: '',
+			'mParticle_primary_author' 					=> $mParticle_primary_author ?: '',
+			'mParticle_secondary_author' 				=> $mParticle_secondary_author ?: '',
+			'mParticle_word_count' 						=> $mParticle_word_count ?:  null
+		];
+	}
+endif;
+
+if ( ! function_exists( 'ee_verify_mparticle_select_embed' ) ) :
+	function ee_verify_mparticle_select_embed($attributes) {
+		if( empty($attributes['post_id']) || empty($attributes['post_type']) ) {
+			return '';
+		}
+
+		$post_id = '';
+
+		if ($attributes['syndication_name']) {
+			$meta_query_args = [
+				'meta_key'    => 'syndication_old_name',
+				'meta_value'  => $attributes['syndication_name'],
+				'post_status' => 'any',
+				'post_type'   => $attributes['post_type']
+			];
+
+			$existing = get_posts($meta_query_args);
+
+			if ($existing) {
+				$existing_post = current($existing);
+				$post_id = intval($existing_post->ID);
+			}
+		}
+
+		$post_id = $post_id ? $post_id : $attributes['post_id'];
+		$post = get_post($post_id);
+		if ($post->post_type !== $attributes['post_type'] || $post->post_name !== $attributes['syndication_name']) {
+			return '';
+		}
+
+		return $post_id;
+	}
+endif;
+
+if ( ! function_exists( 'ee_mparticle_get_select_embed_id' ) ) :
+	function ee_mparticle_get_select_embed_id( $post ) {
+
+		$pattern = get_shortcode_regex();
+		$select_embed_post_id = '';
+		$select_embed_post_types = array( 'post', 'listicle_cpt', 'affiliate_marketing', 'gmr_gallery'  );
+
+		if ( $post->post_type && in_array( $post->post_type, $select_embed_post_types ) ) {
+			if ( preg_match_all( '/'. $pattern .'/s', $post->post_content.$post->common_footer_description, $matches )
+				&& array_key_exists( 2, $matches )
+				&& (in_array( 'select-listicle', $matches[2] ) || in_array( 'select-gallery', $matches[2] ) || in_array( 'select-am', $matches[2] ))
+			) {
+				$select_embed_type = (count($matches[2]) > 0) ? $matches[2][0] : '';
+				$attributes =  (count($matches[0]) > 0) ? ee_parse_shortcode_atts(str_replace('\"', '"', $matches[0][0])) : '';
+
+				if ($select_embed_type == 'select-gallery') {
+					$attributes['post_id'] = $attributes['gallery_id'];
+					$attributes['post_type'] = 'gmr_gallery';
+				} else if ($select_embed_type == 'select-listicle') {
+					$attributes['post_id'] = $attributes['listicle_id'];
+					$attributes['post_type'] = 'listicle_cpt';
+				} else if ($select_embed_type == 'select-am') {
+					$attributes['post_id'] = $attributes['am_id'];
+					$attributes['post_type'] = 'affiliate_marketing';
+				}
+
+				$select_embed_post_id = ee_verify_mparticle_select_embed($attributes);
+			}
+
+			return !empty($select_embed_post_id) ? $select_embed_post_id : '';
+		}
+	}
+endif;
+
+if ( ! function_exists( 'ee_parse_shortcode_atts' ) ) :
+	function ee_parse_shortcode_atts( $shortcode ) {
+		// Store the shortcode attributes in an array here
+		$attributes = [];
+
+		// Get all attributes
+		if (preg_match_all('/\w+\=\".*?\"/', $shortcode, $key_value_pairs)) {
+
+			// Now split up the key value pairs
+			foreach($key_value_pairs[0] as $kvp) {
+				$kvp = str_replace('"', '', $kvp);
+				$pair = explode('=', $kvp);
+				$attributes[$pair[0]] = $pair[1];
+			}
+		}
+
+		// Return the array
+		return $attributes;
+	}
+endif;

@@ -320,6 +320,16 @@ if ( ! function_exists( 'ee_the_bbgiconfig' ) ) :
 			json_encode( apply_filters( 'bbgiconfig', $config ) ),
 			$override_css_var
 		);
+
+		$implementation = sprintf('<script>
+			window.bbgiconfig = {};
+			try {
+				window.bbgiconfig = JSON.parse( document.getElementById( \'bbgiconfig\' ).innerHTML );
+			} catch( err ) {
+				// do nothing
+			}
+		</script>');
+		echo $implementation;
 	}
 endif;
 

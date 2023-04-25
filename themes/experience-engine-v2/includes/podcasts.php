@@ -264,10 +264,16 @@ if ( ! function_exists( 'ee_update_episode_thumbnail' ) ) :
 endif;
 
 if ( ! function_exists( 'ee_the_episode_download' ) ) :
-	function ee_the_episode_download( $classes = '' ) {
+	function ee_the_episode_download( $classes = '') {
 		$download = ee_get_episode_meta( null, 'download' );
 		if ( $download ) {
-			echo '<a class="btn -empty ', esc_attr( $classes ), '" href="', esc_url( $download ), '" target="_blank" rel="noopener">Download</a>';
+			$podcastName = '';
+			$episodeTitle = get_the_title();
+			$podcast_id = get_post_field( 'post_parent' );
+			if ($podcast_id > 0) {
+				$podcastName = esc_html( get_the_title( $podcast_id ) );
+			}
+			echo '<a class="is-podcast-download-link btn -empty ', esc_attr( $classes ), '" href="', esc_url( $download ), '" target="_blank" rel="noopener" data-podcast-name="', esc_attr( $podcastName ), '" data-episode-title="', esc_attr( $episodeTitle ), '">Download</a>';
 		}
 	}
 endif;

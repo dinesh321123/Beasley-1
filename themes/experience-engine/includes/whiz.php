@@ -78,13 +78,6 @@ if ( ! function_exists( 'ee_whiz_enqueue_scripts' ) ) :
  * we need access to.
  */
 $bbgiconfig = <<<EOL
-window.bbgiconfig = {};
-try {
-	window.bbgiconfig = JSON.parse( document.getElementById( 'bbgiconfig' ).innerHTML );
-} catch( err ) {
-	// do nothing
-}
-
 function scrollToSegmentation(type, item, heading_item = null) {
 	var gotoID = null;
 	if(item) {
